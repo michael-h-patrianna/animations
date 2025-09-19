@@ -1,0 +1,2124 @@
+{
+  "categories": [
+    {
+      "id": "dialogs",
+      "title": "Dialog & Modal Animations"
+    },
+    {
+      "id": "progress",
+      "title": "Progress & Loading Animations"
+    },
+    {
+      "id": "realtime",
+      "title": "Real-time Updates & Timers"
+    },
+    {
+      "id": "rewards",
+      "title": "Game Elements & Rewards"
+    },
+    {
+      "id": "navigation",
+      "title": "Navigation & Layout"
+    },
+    {
+      "id": "micro",
+      "title": "Micro-interactions"
+    },
+    {
+      "id": "data",
+      "title": "Data Visualization"
+    },
+    {
+      "id": "ambient",
+      "title": "Special Effects & Atmosphere"
+    }
+  ],
+  "animations": [
+    {
+      "id": "modal-base__scale-gentle-pop",
+      "title": "Gentle Scale Pop",
+      "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px→0px blur.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__scale-crisp",
+      "title": "Crisp Snap",
+      "description": "Scale entrance from 95% up to 100% settling at 100% with 64% overlay fade and 0px→0px blur.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__scale-hero",
+      "title": "Hero Bounce",
+      "description": "Scale entrance from 78% up to 108% settling at 100% with 76% overlay fade and 18px→0px blur.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__scale-lift",
+      "title": "Lift Arrival",
+      "description": "Scale entrance from 72% up to 103% settling at 100% with 72% overlay fade and 16px→0px blur.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__slide-up-soft",
+      "title": "Slide Up Soft",
+      "description": "Slides in from the up by 64px with 70% overlay fade and soft blur 8px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__slide-up-crisp",
+      "title": "Slide Up Crisp",
+      "description": "Slides in from the up by 72px with 62% overlay fade and soft blur 6px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__slide-down-soft",
+      "title": "Slide Down Welcome",
+      "description": "Slides in from the down by 60px with 68% overlay fade and soft blur 8px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__slide-down-hero",
+      "title": "Slide Down Hero Drop",
+      "description": "Slides in from the down by 92px with 72% overlay fade and soft blur 12px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__slide-left-drift",
+      "title": "Slide Left Drift",
+      "description": "Slides in from the right by 68px with 68% overlay fade and soft blur 7px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__slide-right-drift",
+      "title": "Slide Right Drift",
+      "description": "Slides in from the left by 68px with 68% overlay fade and soft blur 7px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__fade-soft",
+      "title": "Fade & Blur Soft",
+      "description": "Fade-in entrance with 72% overlay support and vertical shift 0px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__fade-glow",
+      "title": "Fade & Glow Sweep",
+      "description": "Fade-in entrance with 78% overlay support and vertical shift 0px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__fade-zoom",
+      "title": "Fade with Zoom",
+      "description": "Fade-in entrance with 68% overlay support and vertical shift 0px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__fade-shift",
+      "title": "Fade & Vertical Shift",
+      "description": "Fade-in entrance with 70% overlay support and vertical shift 32px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-content__buttons-stagger-2",
+      "title": "Button Stagger ×2",
+      "description": "Button cluster stagger with 2 actions.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__buttons-stagger-3",
+      "title": "Button Stagger ×3",
+      "description": "Button cluster stagger with 3 actions.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__buttons-stagger-4",
+      "title": "Button Stagger ×4",
+      "description": "Button cluster stagger with 4 actions.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__buttons-wave-4",
+      "title": "Button Wave 4",
+      "description": "Button wave oscillation across 4 actions.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__list-soft-stagger",
+      "title": "List Soft Stagger",
+      "description": "Sequential list reveal (5 items) using 60ms offsets.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__list-vertical-wipe",
+      "title": "List Vertical Wipe",
+      "description": "Vertical panel wipe across 4 list items for crisp onboarding.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__list-spotlight",
+      "title": "List Spotlight Sweep",
+      "description": "Content choreography inside the modal.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__form-field-left-reveal",
+      "title": "Form Fields From Left",
+      "description": "Form fields slide in from the left with gentle 420ms pacing.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__form-field-right-reveal",
+      "title": "Form Fields From Right",
+      "description": "Form fields slide in from the right with gentle 420ms pacing.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__form-field-gradient",
+      "title": "Form Gradient Sweep",
+      "description": "Gradient sweep across 3 fields emphasising focus and order.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__error-shake-gentle",
+      "title": "Error Shake Gentle",
+      "description": "Error shake amplitude 12px with 5 oscillations.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__error-shake-intent",
+      "title": "Error Shake Intentional",
+      "description": "Error shake amplitude 16px with 6 oscillations.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__success-bounce-soft",
+      "title": "Success Bounce Soft",
+      "description": "Success bounce with 12% overshoot for celebratory feedback.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-content__success-bounce-energetic",
+      "title": "Success Bounce Energetic",
+      "description": "Success bounce with 18% overshoot for celebratory feedback.",
+      "categoryId": "dialogs",
+      "groupId": "modal-content"
+    },
+    {
+      "id": "modal-dismiss__toast-slide-left",
+      "title": "Toast Slide Left",
+      "description": "Toast slides along the horizontal axis with auto-dismiss at 3800ms.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-dismiss__toast-slide-right",
+      "title": "Toast Slide Right",
+      "description": "Toast slides along the horizontal axis with auto-dismiss at 3800ms.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-dismiss__toast-drop",
+      "title": "Toast Drop Down",
+      "description": "Toast slides along the vertical axis with auto-dismiss at 3600ms.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-dismiss__toast-raise",
+      "title": "Toast Rise Up",
+      "description": "Toast slides along the vertical axis with auto-dismiss at 3600ms.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-dismiss__toast-fade-progress",
+      "title": "Toast Fade Progress",
+      "description": "Soft fade-to-dismiss with synchronized progress depletion.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-dismiss__snackbar-wipe",
+      "title": "Snackbar Wipe",
+      "description": "Snackbar wipes along the horizontal axis with progress tracking overlay.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-dismiss__snackbar-scale",
+      "title": "Snackbar Scale Pulse",
+      "description": "Dismiss pulse that scales and recedes while the timer empties.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-dismiss__notification-burst",
+      "title": "Notification Burst",
+      "description": "High-energy burst dismissal with spark highlight and timed exit.",
+      "categoryId": "dialogs",
+      "groupId": "modal-dismiss"
+    },
+    {
+      "id": "modal-orchestration__wizard-slide-stack",
+      "title": "Wizard Slide Stack",
+      "description": "Complex orchestrations pattern: Wizard Slide Stack",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__wizard-fade-cross",
+      "title": "Wizard Fade Cross",
+      "description": "Complex orchestrations pattern: Wizard Fade Cross",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__wizard-scale-rotate",
+      "title": "Wizard Scale Rotate",
+      "description": "Complex orchestrations pattern: Wizard Scale Rotate",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__tab-morph",
+      "title": "Tab Content Morph",
+      "description": "Complex orchestrations pattern: Tab Content Morph",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__selection-grid",
+      "title": "Selection Grid Cascade",
+      "description": "Complex orchestrations pattern: Selection Grid Cascade",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__multi-step-progressive",
+      "title": "Progressive Flow",
+      "description": "Complex orchestrations pattern: Progressive Flow",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__tab-slide",
+      "title": "Tab Slide Swap",
+      "description": "Complex orchestrations pattern: Tab Slide Swap",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__grid-highlight",
+      "title": "Highlight Sweep",
+      "description": "Complex orchestrations pattern: Highlight Sweep",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__comparison-morph",
+      "title": "Comparison Morph",
+      "description": "Complex orchestrations pattern: Comparison Morph",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__timeline-progress",
+      "title": "Timeline Progress",
+      "description": "Complex orchestrations pattern: Timeline Progress",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-celebrations__confetti-burst",
+      "title": "Confetti Burst",
+      "description": "Celebration effects pattern: Confetti Burst",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__confetti-fan",
+      "title": "Confetti Fan",
+      "description": "Celebration effects pattern: Confetti Fan",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__confetti-spiral",
+      "title": "Confetti Spiral",
+      "description": "Celebration effects pattern: Confetti Spiral",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__confetti-rain",
+      "title": "Confetti Rainfall",
+      "description": "Celebration effects pattern: Confetti Rainfall",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__coins-arc",
+      "title": "Coin Arc Fountain",
+      "description": "Celebration effects pattern: Coin Arc Fountain",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__coins-fountain",
+      "title": "Coin Fountain",
+      "description": "Celebration effects pattern: Coin Fountain",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__coins-swirl",
+      "title": "Coin Swirl",
+      "description": "Celebration effects pattern: Coin Swirl",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__fireworks-triple",
+      "title": "Fireworks Triple Burst",
+      "description": "Celebration effects pattern: Fireworks Triple Burst",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__fireworks-ring",
+      "title": "Fireworks Halo",
+      "description": "Celebration effects pattern: Fireworks Halo",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__reward-spotlight",
+      "title": "Reward Spotlight",
+      "description": "Celebration effects pattern: Reward Spotlight",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__jackpot-celebration",
+      "title": "Jackpot Celebration",
+      "description": "Celebration effects pattern: Jackpot Celebration",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "modal-celebrations__confetti-pulse",
+      "title": "Confetti Pulse Wave",
+      "description": "Celebration effects pattern: Confetti Pulse Wave",
+      "categoryId": "dialogs",
+      "groupId": "modal-celebrations"
+    },
+    {
+      "id": "progress-bars__progress-soft-fill",
+      "title": "Soft Fill",
+      "description": "Smooth easing fill with subtle light bloom at completion.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-striped",
+      "title": "Striped Flow",
+      "description": "Animated stripes communicate momentum during fill.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-pulse",
+      "title": "Pulse Update",
+      "description": "Momentum pulse on update emphasising change events.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-milestones",
+      "title": "Milestone Markers",
+      "description": "Milestone markers light up as progress crosses thresholds.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-segmented",
+      "title": "Segmented Sweep",
+      "description": "Segments fill sequentially for discrete progress feedback.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-gradient",
+      "title": "Gradient Glide",
+      "description": "Gradient sweep along the bar for premium polish.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-bounce",
+      "title": "Bounce Finish",
+      "description": "Elastic finish emphasises completion state.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-thick",
+      "title": "Thick Pulse",
+      "description": "High contrast thick bar with gentle pulse loop.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-thin",
+      "title": "Thin Glide",
+      "description": "Slim tracker for compact UI contexts.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-surge",
+      "title": "Surge Finale",
+      "description": "Acceleration surge with overshoot to draw attention.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-spark",
+      "title": "Spark Trail",
+      "description": "Spark trail glides along the bar to show live updates.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__progress-wave",
+      "title": "Wave Motion",
+      "description": "Wave pattern ripples across the filled area.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "loading-states__skeleton-horizontal",
+      "title": "Skeleton Horizontal",
+      "description": "Horizontal skeleton shimmer for content placeholders.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__skeleton-vertical",
+      "title": "Skeleton Vertical",
+      "description": "Vertical skeleton stack simulating cards.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__skeleton-tile",
+      "title": "Skeleton Tile Grid",
+      "description": "Grid skeleton effect for gallery loading.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__skeleton-card",
+      "title": "Skeleton Card",
+      "description": "Card skeleton with layered shimmer lines.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__spinner-dual-ring",
+      "title": "Spinner Dual Ring",
+      "description": "Dual ring spinner with consistent velocity.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__spinner-orbital",
+      "title": "Spinner Orbital",
+      "description": "Orbital spinner around centre mass.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__spinner-galaxy",
+      "title": "Spinner Galaxy",
+      "description": "Galaxy spinner with layered opacity twirls.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__dots-rise",
+      "title": "Dots Rise",
+      "description": "Three-dot rise cadence for subtle loading feedback.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__dots-wave",
+      "title": "Dots Wave",
+      "description": "Three-dot wave for rhythmic pacing.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__dots-portal",
+      "title": "Dots Portal",
+      "description": "Dots fold into portal centre to indicate processing.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__ring-progress",
+      "title": "Ring Progress",
+      "description": "Progress ring fills from 0 to 100%.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "loading-states__ring-multi",
+      "title": "Multi Ring",
+      "description": "Nested rings oscillate asynchronously.",
+      "categoryId": "progress",
+      "groupId": "loading-states"
+    },
+    {
+      "id": "progress-dynamic__xp-number-pop",
+      "title": "XP Number Pop",
+      "description": "XP gain count-up with pop easing and glow.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "progress-dynamic__xp-bar-flare",
+      "title": "XP Bar Flare",
+      "description": "Bar flares with additive highlight on level change.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "progress-dynamic__level-breakthrough",
+      "title": "Level Breakthrough",
+      "description": "Level breakthrough shakes frame with surge lines.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "progress-dynamic__level-meter",
+      "title": "Level Meter Spin",
+      "description": "Meter needle spins to new value with spring easing.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "progress-dynamic__level-banner",
+      "title": "Level Banner Rise",
+      "description": "Victory banner rises with confetti burst accent.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "progress-dynamic__achievement-ring",
+      "title": "Achievement Ring",
+      "description": "Achievement ring fills from 0 to 360 degrees.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "progress-dynamic__achievement-card",
+      "title": "Achievement Card",
+      "description": "Achievement card slides in with depth shadow.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "progress-dynamic__quest-chain",
+      "title": "Quest Chain",
+      "description": "Quest chain nodes glow sequentially to completion.",
+      "categoryId": "progress",
+      "groupId": "progress-dynamic"
+    },
+    {
+      "id": "milestone-celebrations__quest-burst",
+      "title": "Quest Burst",
+      "description": "Milestone celebration style: quest burst emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "milestone-celebrations__loyalty-tier",
+      "title": "Loyalty Tier Upgrade",
+      "description": "Milestone celebration style: loyalty tier emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "milestone-celebrations__level-breakthrough-flare",
+      "title": "Breakthrough Flare",
+      "description": "Milestone celebration style: level flare emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "milestone-celebrations__achievement-burst",
+      "title": "Achievement Burst",
+      "description": "Milestone celebration style: achievement burst emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "milestone-celebrations__milestone-banner",
+      "title": "Milestone Banner",
+      "description": "Milestone celebration style: milestone banner emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "milestone-celebrations__tier-up-lights",
+      "title": "Tier Up Lights",
+      "description": "Milestone celebration style: tier lights emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "milestone-celebrations__badge-glow",
+      "title": "Badge Glow",
+      "description": "Milestone celebration style: badge glow emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "milestone-celebrations__progress-fireworks",
+      "title": "Progress Fireworks",
+      "description": "Milestone celebration style: progress fireworks emphasising reward moments.",
+      "categoryId": "progress",
+      "groupId": "milestone-celebrations"
+    },
+    {
+      "id": "timer-effects__timer-color-shift",
+      "title": "Color Shift",
+      "description": "Countdown shifts colour from calm to urgency.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-pulse",
+      "title": "Pulse Urgency",
+      "description": "Last seconds pulse to draw focus.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-flash",
+      "title": "Flash Expire",
+      "description": "Flashing state at expiry to warn users.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-tick",
+      "title": "Clock Tick",
+      "description": "Analog clock tick translation on digits.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-underline",
+      "title": "Underline Sweep",
+      "description": "Underline sweeps as time elapses.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-arc",
+      "title": "Arc Sweep",
+      "description": "Circular arc traces remaining time.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-breathe",
+      "title": "Breathe Halo",
+      "description": "Breathing halo to keep timer alive in background.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-flip",
+      "title": "Flip Digits",
+      "description": "Mechanical flip digits animate per second.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-glow",
+      "title": "Glow Intensify",
+      "description": "Glow intensity increases as deadline nears.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "timer-effects__timer-pop",
+      "title": "Completion Pop",
+      "description": "Digits pop at the end to confirm completion.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects"
+    },
+    {
+      "id": "update-indicators__badge-pop",
+      "title": "Badge Pop",
+      "description": "Notification badge pops in with quick overshoot.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "update-indicators__badge-pulse",
+      "title": "Badge Pulse",
+      "description": "Badge pulsates to signal unseen content.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "update-indicators__live-ping",
+      "title": "Live Ping",
+      "description": "Live indicator ping loop for streams.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "update-indicators__notification-dot",
+      "title": "Notification Dot",
+      "description": "Dot ripple communicating unread state.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "update-indicators__counter-increment",
+      "title": "Counter Increment",
+      "description": "Numeric counter ticks upwards with scale.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "update-indicators__ticker-scroll",
+      "title": "Ticker Scroll",
+      "description": "Ticker text scrolls horizontally with mask.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "update-indicators__update-slide",
+      "title": "Update Slide",
+      "description": "Content preview slides into view.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "update-indicators__update-flip",
+      "title": "Update Flip",
+      "description": "Card flips to reveal updated data.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators"
+    },
+    {
+      "id": "complex-timers__circular-countdown",
+      "title": "Circular Countdown",
+      "description": "Complex timers pattern: Circular Countdown",
+      "categoryId": "realtime",
+      "groupId": "complex-timers"
+    },
+    {
+      "id": "complex-timers__mode-switch",
+      "title": "Mode Switch",
+      "description": "Complex timers pattern: Mode Switch",
+      "categoryId": "realtime",
+      "groupId": "complex-timers"
+    },
+    {
+      "id": "complex-timers__generator-fill",
+      "title": "Generator Fill",
+      "description": "Complex timers pattern: Generator Fill",
+      "categoryId": "realtime",
+      "groupId": "complex-timers"
+    },
+    {
+      "id": "complex-timers__tournament-timer",
+      "title": "Tournament Timer",
+      "description": "Complex timers pattern: Tournament Timer",
+      "categoryId": "realtime",
+      "groupId": "complex-timers"
+    },
+    {
+      "id": "complex-timers__countdown-flip",
+      "title": "Countdown Flip",
+      "description": "Complex timers pattern: Countdown Flip",
+      "categoryId": "realtime",
+      "groupId": "complex-timers"
+    },
+    {
+      "id": "realtime-data__leaderboard-shift",
+      "title": "Leaderboard Shift",
+      "description": "Real-time data pattern: Leaderboard Shift",
+      "categoryId": "realtime",
+      "groupId": "realtime-data"
+    },
+    {
+      "id": "realtime-data__live-score-update",
+      "title": "Live Score Update",
+      "description": "Real-time data pattern: Live Score Update",
+      "categoryId": "realtime",
+      "groupId": "realtime-data"
+    },
+    {
+      "id": "realtime-data__win-ticker",
+      "title": "Win Ticker",
+      "description": "Real-time data pattern: Win Ticker",
+      "categoryId": "realtime",
+      "groupId": "realtime-data"
+    },
+    {
+      "id": "realtime-data__currency-update",
+      "title": "Currency Update",
+      "description": "Real-time data pattern: Currency Update",
+      "categoryId": "realtime",
+      "groupId": "realtime-data"
+    },
+    {
+      "id": "realtime-data__stacked-realtime",
+      "title": "Stacked Pulse",
+      "description": "Real-time data pattern: Stacked Pulse",
+      "categoryId": "realtime",
+      "groupId": "realtime-data"
+    },
+    {
+      "id": "reward-basic__coin-spin-soft",
+      "title": "Coin Spin Soft",
+      "description": "Reward flourish: coin spin soft.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__coin-spin-fast",
+      "title": "Coin Spin Fast",
+      "description": "Reward flourish: coin spin fast.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__star-burst",
+      "title": "Star Burst",
+      "description": "Reward flourish: star burst.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__star-radiate",
+      "title": "Star Radiate",
+      "description": "Reward flourish: star radiate.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__glow-pulse",
+      "title": "Glow Pulse",
+      "description": "Reward flourish: glow pulse.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__glow-orbit",
+      "title": "Glow Orbit",
+      "description": "Reward flourish: glow orbit.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__bounce-soft",
+      "title": "Bounce Soft",
+      "description": "Reward flourish: bounce soft.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__bounce-energy",
+      "title": "Bounce Energetic",
+      "description": "Reward flourish: bounce energy.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__badge-glint",
+      "title": "Badge Glint",
+      "description": "Reward flourish: badge glint.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-basic__badge-sweep",
+      "title": "Badge Sweep",
+      "description": "Reward flourish: badge sweep.",
+      "categoryId": "rewards",
+      "groupId": "reward-basic"
+    },
+    {
+      "id": "reward-feedback__button-success-pop",
+      "title": "Button Success Pop",
+      "description": "Action feedback state: button success.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__button-success-spark",
+      "title": "Button Success Spark",
+      "description": "Action feedback state: button success spark.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__button-hover-tilt",
+      "title": "Button Hover Tilt",
+      "description": "Action feedback state: button hover tilt.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__button-hover-glow",
+      "title": "Button Hover Glow",
+      "description": "Action feedback state: button hover glow.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__focus-ring",
+      "title": "Focus Ring Pulse",
+      "description": "Action feedback state: focus ring.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__click-ripple-soft",
+      "title": "Click Ripple Soft",
+      "description": "Action feedback state: click ripple soft.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__click-ripple-strong",
+      "title": "Click Ripple Strong",
+      "description": "Action feedback state: click ripple strong.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__tile-activate",
+      "title": "Tile Activate",
+      "description": "Action feedback state: tile activate.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__tile-press",
+      "title": "Tile Press",
+      "description": "Action feedback state: tile press.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-feedback__glow-hover",
+      "title": "Glow Hover",
+      "description": "Action feedback state: glow hover.",
+      "categoryId": "rewards",
+      "groupId": "reward-feedback"
+    },
+    {
+      "id": "reward-mechanics__wheel-spin",
+      "title": "Wheel Spin",
+      "description": "Reward mechanics pattern: Wheel Spin",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__wheel-spin-fast",
+      "title": "Wheel Spin Fast Stop",
+      "description": "Reward mechanics pattern: Wheel Spin Fast Stop",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__chest-open",
+      "title": "Chest Opening",
+      "description": "Reward mechanics pattern: Chest Opening",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__chest-deluxe",
+      "title": "Deluxe Chest",
+      "description": "Reward mechanics pattern: Deluxe Chest",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__card-flip",
+      "title": "Card Flip",
+      "description": "Reward mechanics pattern: Card Flip",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__card-fan",
+      "title": "Card Fan",
+      "description": "Reward mechanics pattern: Card Fan",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__scratch-card",
+      "title": "Scratch Card",
+      "description": "Reward mechanics pattern: Scratch Card",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__slot-reels",
+      "title": "Slot Reels",
+      "description": "Reward mechanics pattern: Slot Reels",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__dice-roll",
+      "title": "Dice Roll",
+      "description": "Reward mechanics pattern: Dice Roll",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__mystery-box",
+      "title": "Mystery Box",
+      "description": "Reward mechanics pattern: Mystery Box",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__map-path",
+      "title": "Map Path",
+      "description": "Reward mechanics pattern: Map Path",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__collection-snap",
+      "title": "Collection Snap",
+      "description": "Reward mechanics pattern: Collection Snap",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__loot-drop",
+      "title": "Loot Drop",
+      "description": "Reward mechanics pattern: Loot Drop",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__jackpot-radiance",
+      "title": "Jackpot Radiance",
+      "description": "Reward mechanics pattern: Jackpot Radiance",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-mechanics__treasure-pulse",
+      "title": "Treasure Pulse",
+      "description": "Reward mechanics pattern: Treasure Pulse",
+      "categoryId": "rewards",
+      "groupId": "reward-mechanics"
+    },
+    {
+      "id": "reward-orchestrations__coin-trail",
+      "title": "Coin Trail",
+      "description": "Reward orchestrations pattern: Coin Trail",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__coin-cascade",
+      "title": "Coin Cascade",
+      "description": "Reward orchestrations pattern: Coin Cascade",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__multi-coin",
+      "title": "Multi Coin",
+      "description": "Reward orchestrations pattern: Multi Coin",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__treasure-particles",
+      "title": "Treasure Particles",
+      "description": "Reward orchestrations pattern: Treasure Particles",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__unlock-chain",
+      "title": "Unlock Chain",
+      "description": "Reward orchestrations pattern: Unlock Chain",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__unlock-cascade",
+      "title": "Unlock Cascade",
+      "description": "Reward orchestrations pattern: Unlock Cascade",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__reward-path",
+      "title": "Reward Path",
+      "description": "Reward orchestrations pattern: Reward Path",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__jackpot-beam",
+      "title": "Jackpot Beam",
+      "description": "Reward orchestrations pattern: Jackpot Beam",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__map-travel",
+      "title": "Map Travel",
+      "description": "Reward orchestrations pattern: Map Travel",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "reward-orchestrations__reward-celebration",
+      "title": "Reward Celebration",
+      "description": "Reward orchestrations pattern: Reward Celebration",
+      "categoryId": "rewards",
+      "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "menu-animations__menu-drawer-slide",
+      "title": "Drawer Slide",
+      "description": "Navigation treatment: drawer slide.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__menu-drawer-scale",
+      "title": "Drawer Scale",
+      "description": "Navigation treatment: drawer scale.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__menu-dropdown",
+      "title": "Dropdown Reveal",
+      "description": "Navigation treatment: dropdown.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__menu-dropdown-soft",
+      "title": "Dropdown Soft",
+      "description": "Navigation treatment: dropdown soft.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__menu-tab-ink",
+      "title": "Tab Ink",
+      "description": "Navigation treatment: tab ink.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__menu-tab-glide",
+      "title": "Tab Glide",
+      "description": "Navigation treatment: tab glide.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__mobile-menu-transform",
+      "title": "Mobile Transform",
+      "description": "Navigation treatment: mobile transform.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__breadcrumb-flare",
+      "title": "Breadcrumb Flare",
+      "description": "Navigation treatment: breadcrumb flare.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__breadcrumb-slide",
+      "title": "Breadcrumb Slide",
+      "description": "Navigation treatment: breadcrumb slide.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__sidebar-reveal",
+      "title": "Sidebar Reveal",
+      "description": "Navigation treatment: sidebar reveal.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__sidebar-floating",
+      "title": "Sidebar Floating",
+      "description": "Navigation treatment: sidebar floating.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "menu-animations__nav-hover",
+      "title": "Nav Hover Underline",
+      "description": "Navigation treatment: nav hover.",
+      "categoryId": "navigation",
+      "groupId": "menu-animations"
+    },
+    {
+      "id": "page-transitions__page-fade",
+      "title": "Page Fade",
+      "description": "Navigation treatment: page fade.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__page-slide-up",
+      "title": "Page Slide Up",
+      "description": "Navigation treatment: page slide up.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__page-slide-right",
+      "title": "Page Slide Right",
+      "description": "Navigation treatment: page slide right.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__page-scale",
+      "title": "Page Scale",
+      "description": "Navigation treatment: page scale.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__page-wipe",
+      "title": "Page Wipe",
+      "description": "Navigation treatment: page wipe.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__section-reveal",
+      "title": "Section Reveal",
+      "description": "Navigation treatment: section reveal.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__section-rise",
+      "title": "Section Rise",
+      "description": "Navigation treatment: section rise.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__lazy-entrance",
+      "title": "Lazy Entrance",
+      "description": "Navigation treatment: lazy entrance.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__lazy-fade",
+      "title": "Lazy Fade",
+      "description": "Navigation treatment: lazy fade.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__scroll-reveal-soft",
+      "title": "Scroll Reveal Soft",
+      "description": "Navigation treatment: scroll reveal soft.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__scroll-reveal-burst",
+      "title": "Scroll Reveal Burst",
+      "description": "Navigation treatment: scroll reveal burst.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "page-transitions__hero-parallax",
+      "title": "Hero Parallax",
+      "description": "Navigation treatment: hero parallax.",
+      "categoryId": "navigation",
+      "groupId": "page-transitions"
+    },
+    {
+      "id": "complex-navigation__nav-morph",
+      "title": "Nav Morph",
+      "description": "Advanced navigation pattern: Nav Morph",
+      "categoryId": "navigation",
+      "groupId": "complex-navigation"
+    },
+    {
+      "id": "complex-navigation__nav-gesture",
+      "title": "Gesture Menu",
+      "description": "Advanced navigation pattern: Gesture Menu",
+      "categoryId": "navigation",
+      "groupId": "complex-navigation"
+    },
+    {
+      "id": "complex-navigation__nav-parallax",
+      "title": "Nav Parallax",
+      "description": "Advanced navigation pattern: Nav Parallax",
+      "categoryId": "navigation",
+      "groupId": "complex-navigation"
+    },
+    {
+      "id": "complex-navigation__nav-sticky",
+      "title": "Sticky Transform",
+      "description": "Advanced navigation pattern: Sticky Transform",
+      "categoryId": "navigation",
+      "groupId": "complex-navigation"
+    },
+    {
+      "id": "complex-navigation__nav-spotlight",
+      "title": "Nav Spotlight",
+      "description": "Advanced navigation pattern: Nav Spotlight",
+      "categoryId": "navigation",
+      "groupId": "complex-navigation"
+    },
+    {
+      "id": "complex-navigation__nav-orbit",
+      "title": "Nav Orbit",
+      "description": "Advanced navigation pattern: Nav Orbit",
+      "categoryId": "navigation",
+      "groupId": "complex-navigation"
+    },
+    {
+      "id": "layout-shifts__grid-reflow",
+      "title": "Grid Reflow",
+      "description": "Layout shifts pattern: Grid Reflow",
+      "categoryId": "navigation",
+      "groupId": "layout-shifts"
+    },
+    {
+      "id": "layout-shifts__filter-flow",
+      "title": "Filter Flow",
+      "description": "Layout shifts pattern: Filter Flow",
+      "categoryId": "navigation",
+      "groupId": "layout-shifts"
+    },
+    {
+      "id": "layout-shifts__sort-transition",
+      "title": "Sort Transition",
+      "description": "Layout shifts pattern: Sort Transition",
+      "categoryId": "navigation",
+      "groupId": "layout-shifts"
+    },
+    {
+      "id": "layout-shifts__responsive-stack",
+      "title": "Responsive Stack",
+      "description": "Layout shifts pattern: Responsive Stack",
+      "categoryId": "navigation",
+      "groupId": "layout-shifts"
+    },
+    {
+      "id": "layout-shifts__layout-panels",
+      "title": "Layout Panels",
+      "description": "Layout shifts pattern: Layout Panels",
+      "categoryId": "navigation",
+      "groupId": "layout-shifts"
+    },
+    {
+      "id": "interactive-feedback__button-hover-glint",
+      "title": "button hover glint",
+      "description": "Micro-interaction style: button hover glint.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__button-hover-rise",
+      "title": "button hover rise",
+      "description": "Micro-interaction style: button hover rise.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__button-press",
+      "title": "button press",
+      "description": "Micro-interaction style: button press.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__link-underline-slide",
+      "title": "link underline slide",
+      "description": "Micro-interaction style: link underline slide.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__link-underline-fade",
+      "title": "link underline fade",
+      "description": "Micro-interaction style: link underline fade.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__input-focus-glow",
+      "title": "input focus glow",
+      "description": "Micro-interaction style: input focus glow.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__input-focus-slide",
+      "title": "input focus slide",
+      "description": "Micro-interaction style: input focus slide.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__checkbox-check",
+      "title": "checkbox check",
+      "description": "Micro-interaction style: checkbox check.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__checkbox-bounce",
+      "title": "checkbox bounce",
+      "description": "Micro-interaction style: checkbox bounce.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__radio-fill",
+      "title": "radio fill",
+      "description": "Micro-interaction style: radio fill.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__radio-bounce",
+      "title": "radio bounce",
+      "description": "Micro-interaction style: radio bounce.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__toggle-slide",
+      "title": "toggle slide",
+      "description": "Micro-interaction style: toggle slide.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__toggle-pulse",
+      "title": "toggle pulse",
+      "description": "Micro-interaction style: toggle pulse.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__tooltip-fade",
+      "title": "tooltip fade",
+      "description": "Micro-interaction style: tooltip fade.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__tooltip-pop",
+      "title": "tooltip pop",
+      "description": "Micro-interaction style: tooltip pop.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__badge-pulse",
+      "title": "badge pulse",
+      "description": "Micro-interaction style: badge pulse.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__badge-bounce",
+      "title": "badge bounce",
+      "description": "Micro-interaction style: badge bounce.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__icon-hover-tilt",
+      "title": "icon hover tilt",
+      "description": "Micro-interaction style: icon hover tilt.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__icon-hover-spin",
+      "title": "icon hover spin",
+      "description": "Micro-interaction style: icon hover spin.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "interactive-feedback__tab-hover",
+      "title": "tab hover",
+      "description": "Micro-interaction style: tab hover.",
+      "categoryId": "micro",
+      "groupId": "interactive-feedback"
+    },
+    {
+      "id": "state-changes__loading-to-loaded",
+      "title": "loading to loaded",
+      "description": "State choreography: loading to loaded.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__empty-to-populated",
+      "title": "empty to populated",
+      "description": "State choreography: empty to populated.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__error-to-success",
+      "title": "error to success",
+      "description": "State choreography: error to success.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__enable-disable",
+      "title": "enable disable",
+      "description": "State choreography: enable disable.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__selected-state",
+      "title": "selected state",
+      "description": "State choreography: selected state.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__validation-pass",
+      "title": "validation pass",
+      "description": "State choreography: validation pass.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__validation-fail",
+      "title": "validation fail",
+      "description": "State choreography: validation fail.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__tab-change",
+      "title": "tab change",
+      "description": "State choreography: tab change.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__card-hover",
+      "title": "card hover",
+      "description": "State choreography: card hover.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__card-select",
+      "title": "card select",
+      "description": "State choreography: card select.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__list-item-activate",
+      "title": "list item activate",
+      "description": "State choreography: list item activate.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__list-item-success",
+      "title": "list item success",
+      "description": "State choreography: list item success.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__chip-entry",
+      "title": "chip entry",
+      "description": "State choreography: chip entry.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__chip-exit",
+      "title": "chip exit",
+      "description": "State choreography: chip exit.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__pill-glow",
+      "title": "pill glow",
+      "description": "State choreography: pill glow.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__badge-complete",
+      "title": "badge complete",
+      "description": "State choreography: badge complete.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__list-sort",
+      "title": "list sort",
+      "description": "State choreography: list sort.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "state-changes__avatar-online",
+      "title": "avatar online",
+      "description": "State choreography: avatar online.",
+      "categoryId": "micro",
+      "groupId": "state-changes"
+    },
+    {
+      "id": "advanced-interactions__drag-card",
+      "title": "Drag Card Elastic",
+      "description": "Advanced interactions pattern: Drag Card Elastic",
+      "categoryId": "micro",
+      "groupId": "advanced-interactions"
+    },
+    {
+      "id": "advanced-interactions__drag-snap",
+      "title": "Drag Snap Slot",
+      "description": "Advanced interactions pattern: Drag Snap Slot",
+      "categoryId": "micro",
+      "groupId": "advanced-interactions"
+    },
+    {
+      "id": "advanced-interactions__swipe-dismiss",
+      "title": "Swipe Dismiss",
+      "description": "Advanced interactions pattern: Swipe Dismiss",
+      "categoryId": "micro",
+      "groupId": "advanced-interactions"
+    },
+    {
+      "id": "advanced-interactions__pull-to-refresh",
+      "title": "Pull To Refresh",
+      "description": "Advanced interactions pattern: Pull To Refresh",
+      "categoryId": "micro",
+      "groupId": "advanced-interactions"
+    },
+    {
+      "id": "advanced-interactions__long-press",
+      "title": "Long Press Ripple",
+      "description": "Advanced interactions pattern: Long Press Ripple",
+      "categoryId": "micro",
+      "groupId": "advanced-interactions"
+    },
+    {
+      "id": "advanced-interactions__pinch-zoom",
+      "title": "Pinch Zoom",
+      "description": "Advanced interactions pattern: Pinch Zoom",
+      "categoryId": "micro",
+      "groupId": "advanced-interactions"
+    },
+    {
+      "id": "advanced-interactions__magnetic-hover",
+      "title": "Magnetic Hover",
+      "description": "Advanced interactions pattern: Magnetic Hover",
+      "categoryId": "micro",
+      "groupId": "advanced-interactions"
+    },
+    {
+      "id": "basic-charts__bar-chart-rise",
+      "title": "bar chart rise",
+      "description": "Data viz: bar chart rise",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__bar-chart-stack",
+      "title": "bar chart stack",
+      "description": "Data viz: bar chart stack",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__line-chart-draw",
+      "title": "line chart draw",
+      "description": "Data viz: line chart draw",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__line-chart-dash",
+      "title": "line chart dash",
+      "description": "Data viz: line chart dash",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__pie-chart-slice",
+      "title": "pie chart slice",
+      "description": "Data viz: pie chart slice",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__pie-chart-rotate",
+      "title": "pie chart rotate",
+      "description": "Data viz: pie chart rotate",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__stat-count",
+      "title": "stat count",
+      "description": "Data viz: stat count",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__stat-flip",
+      "title": "stat flip",
+      "description": "Data viz: stat flip",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__delta-glow",
+      "title": "delta glow",
+      "description": "Data viz: delta glow",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__rank-slide",
+      "title": "rank slide",
+      "description": "Data viz: rank slide",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__trend-highlight",
+      "title": "trend highlight",
+      "description": "Data viz: trend highlight",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "basic-charts__gauge-sweep",
+      "title": "gauge sweep",
+      "description": "Data viz: gauge sweep",
+      "categoryId": "data",
+      "groupId": "basic-charts"
+    },
+    {
+      "id": "interactive-visuals__tournament-bracket",
+      "title": "Tournament Bracket",
+      "description": "Interactive visuals pattern: Tournament Bracket",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__heat-map",
+      "title": "Heat Map",
+      "description": "Interactive visuals pattern: Heat Map",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__network-graph",
+      "title": "Network Graph",
+      "description": "Interactive visuals pattern: Network Graph",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__comparison-charts",
+      "title": "Comparison Chart",
+      "description": "Interactive visuals pattern: Comparison Chart",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__live-stream",
+      "title": "Live Data Stream",
+      "description": "Interactive visuals pattern: Live Data Stream",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__radar-sweep",
+      "title": "Radar Sweep",
+      "description": "Interactive visuals pattern: Radar Sweep",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__bracket-highlight",
+      "title": "Bracket Highlight",
+      "description": "Interactive visuals pattern: Bracket Highlight",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__scoreboard-update",
+      "title": "Scoreboard Update",
+      "description": "Interactive visuals pattern: Scoreboard Update",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__payout-curve",
+      "title": "Payout Curve",
+      "description": "Interactive visuals pattern: Payout Curve",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__victory-flash",
+      "title": "Victory Flash",
+      "description": "Interactive visuals pattern: Victory Flash",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__combo-surge",
+      "title": "Combo Surge",
+      "description": "Interactive visuals pattern: Combo Surge",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__tier-ladder",
+      "title": "Tier Ladder",
+      "description": "Interactive visuals pattern: Tier Ladder",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "interactive-visuals__performance-loop",
+      "title": "Performance Loop",
+      "description": "Interactive visuals pattern: Performance Loop",
+      "categoryId": "data",
+      "groupId": "interactive-visuals"
+    },
+    {
+      "id": "ambient-effects__gradient-shift",
+      "title": "Gradient Shift",
+      "description": "Atmospheric effect: gradient shift.",
+      "categoryId": "ambient",
+      "groupId": "ambient-effects"
+    },
+    {
+      "id": "ambient-effects__floating-particles",
+      "title": "Floating Particles",
+      "description": "Atmospheric effect: floating particles.",
+      "categoryId": "ambient",
+      "groupId": "ambient-effects"
+    },
+    {
+      "id": "ambient-effects__parallax-layers",
+      "title": "Parallax Layers",
+      "description": "Atmospheric effect: parallax layers.",
+      "categoryId": "ambient",
+      "groupId": "ambient-effects"
+    },
+    {
+      "id": "ambient-effects__ken-burns",
+      "title": "Ken Burns",
+      "description": "Atmospheric effect: ken burns.",
+      "categoryId": "ambient",
+      "groupId": "ambient-effects"
+    },
+    {
+      "id": "ambient-effects__ambient-glow",
+      "title": "Ambient Glow",
+      "description": "Atmospheric effect: ambient glow.",
+      "categoryId": "ambient",
+      "groupId": "ambient-effects"
+    },
+    {
+      "id": "ambient-effects__ambient-aurora",
+      "title": "Ambient Aurora",
+      "description": "Atmospheric effect: ambient aurora.",
+      "categoryId": "ambient",
+      "groupId": "ambient-effects"
+    },
+    {
+      "id": "advanced-effects__confetti-loop",
+      "title": "Confetti Loop",
+      "description": "Advanced effects pattern: Confetti Loop",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__snowfall",
+      "title": "Snowfall",
+      "description": "Advanced effects pattern: Snowfall",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__rainfall",
+      "title": "Rainfall",
+      "description": "Advanced effects pattern: Rainfall",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__fireworks-grand",
+      "title": "Fireworks Grand",
+      "description": "Advanced effects pattern: Fireworks Grand",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__magic-sparkles",
+      "title": "Magic Sparkles",
+      "description": "Advanced effects pattern: Magic Sparkles",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__portal-rings",
+      "title": "Portal Rings",
+      "description": "Advanced effects pattern: Portal Rings",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__light-rays",
+      "title": "Light Rays",
+      "description": "Advanced effects pattern: Light Rays",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__smoke-plumes",
+      "title": "Smoke Plumes",
+      "description": "Advanced effects pattern: Smoke Plumes",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__water-ripples",
+      "title": "Water Ripples",
+      "description": "Advanced effects pattern: Water Ripples",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__fire-lift",
+      "title": "Fire Lift",
+      "description": "Advanced effects pattern: Fire Lift",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__spark-trail",
+      "title": "Spark Trail",
+      "description": "Advanced effects pattern: Spark Trail",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__nebula-swell",
+      "title": "Nebula Swell",
+      "description": "Advanced effects pattern: Nebula Swell",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__energy-orbit",
+      "title": "Energy Orbit",
+      "description": "Advanced effects pattern: Energy Orbit",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__stardust",
+      "title": "Stardust Cascade",
+      "description": "Advanced effects pattern: Stardust Cascade",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__aura-pulse",
+      "title": "Aura Pulse",
+      "description": "Advanced effects pattern: Aura Pulse",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    },
+    {
+      "id": "advanced-effects__galaxy-spiral",
+      "title": "Galaxy Spiral",
+      "description": "Advanced effects pattern: Galaxy Spiral",
+      "categoryId": "ambient",
+      "groupId": "advanced-effects"
+    }
+  ]
+}

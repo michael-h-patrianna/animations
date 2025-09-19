@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for the animation showcase */
+#root {
+  height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 32px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border-radius: var(--pf-radius-lg);
+  background: rgba(33, 15, 49, 0.82);
+  box-shadow: var(--pf-shadow-soft);
+  max-height: calc(100vh - 64px);
+  overflow: hidden;
+}
