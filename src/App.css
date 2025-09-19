@@ -2,12 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for the animation showcase */
 #root {
   height: 100vh;
 }
 
-.sidebar {
+.pf-main {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.pf-sidebar {
   position: sticky;
   top: 32px;
   align-self: start;
@@ -20,4 +26,82 @@
   box-shadow: var(--pf-shadow-soft);
   max-height: calc(100vh - 64px);
   overflow: hidden;
+}
+
+.pf-sidebar__intro {
+  display: grid;
+  gap: 6px;
+}
+
+.pf-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  gap: 18px;
+  padding-right: 4px;
+}
+
+.pf-sidebar__nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pf-sidebar__nav::-webkit-scrollbar-thumb {
+  background: rgba(236, 195, 255, 0.18);
+  border-radius: 999px;
+}
+
+.pf-sidebar__section {
+  display: grid;
+  gap: 10px;
+}
+
+.pf-sidebar__section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pf-text-tertiary);
+}
+
+.pf-sidebar__link {
+  padding: 10px 12px;
+  border-radius: var(--pf-radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--pf-transition-fast) ease,
+    border var(--pf-transition-fast) ease,
+    color var(--pf-transition-fast) ease;
+}
+
+.pf-sidebar__link:hover,
+.pf-sidebar__link.is-active {
+  background: rgba(196, 122, 229, 0.16);
+  border-color: rgba(236, 195, 255, 0.18);
+  color: var(--pf-base-60);
+}
+
+@media (max-width: 1220px) {
+  .pf-main {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-sidebar {
+    position: relative;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .pf-sidebar__nav {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+.pf-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
