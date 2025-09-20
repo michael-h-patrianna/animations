@@ -1,1 +1,101 @@
-/* Shared styles for the group animations */
+/* Shared styles for the timer effects group animations */
+
+.pf-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  position: relative;
+  font-family: system-ui, sans-serif;
+}
+
+.pf-timer__value {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--timer-color, #ecc3ff);
+  text-align: center;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.pf-timer__label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.pf-timer__underline {
+  width: 80px;
+  height: 3px;
+  background: rgba(236, 195, 255, 0.3);
+  border-radius: 2px;
+  transform-origin: left center;
+  transition: transform 0.1s ease;
+}
+
+.pf-timer__arc {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.pf-timer__arc svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.pf-timer__path {
+  fill: none;
+  stroke: var(--timer-color, #ecc3ff);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 97;
+  stroke-dashoffset: 97;
+  opacity: 0.6;
+}
+
+/* Timer glow variant */
+.pf-timer--glow .pf-timer__value {
+  text-shadow: 0 0 0 rgba(198, 255, 119, 0);
+  transition: text-shadow 0.3s ease;
+}
+
+/* Sweep gradient for underline animation */
+:root {
+  --pf-sweep-gradient: linear-gradient(
+    90deg,
+    rgba(198, 255, 119, 0.8) 0%,
+    rgba(236, 195, 255, 0.8) 50%,
+    rgba(198, 255, 119, 0.8) 100%
+  );
+}
+
+/* Animation keyframes */
+@keyframes timer-flash {
+  0%, 100% { background-color: rgba(255, 89, 129, 0.15); }
+  50% { background-color: rgba(221, 23, 23, 0.45); }
+}
+
+@keyframes timer-breathe-scale {
+  0%, 100% { transform: scale(1); letter-spacing: 0.08em; }
+  50% { transform: scale(1.08); letter-spacing: 0.24em; }
+}
+
+@keyframes timer-pulse-color {
+  0%, 100% { transform: scale(1); color: #ecc3ff; }
+  50% { transform: scale(1.12); color: #c6ff77; }
+}
+
+@keyframes timer-underline-sweep {
+  0%, 100% { background: rgba(236, 195, 255, 0.16); }
+  50% { background: var(--pf-sweep-gradient); }
+}

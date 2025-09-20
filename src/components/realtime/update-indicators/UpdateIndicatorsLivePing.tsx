@@ -1,5 +1,38 @@
+import React, { useEffect, useRef } from 'react';
 import './update-indicators.css';
 
 export function UpdateIndicatorsLivePing() {
-  return <div data-animation-id="update-indicators__live-ping">update-indicators__live-ping</div>;
+  const iconRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const startAnimation = () => {
+      const icon = iconRef.current;
+      if (!icon) return;
+
+      // Start ping animation
+      icon.style.animation = 'update-live-ping 1200ms ease-in-out infinite';
+      
+      // Auto-restart
+      timeoutId = setTimeout(startAnimation, 4000);
+    };
+
+    startAnimation();
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
+  return (
+    <div 
+      className="pf-update-indicator" 
+      data-animation-id="update-indicators__live-ping"
+    >
+      <div ref={iconRef} className="pf-update-indicator__icon"></div>
+      <div className="pf-update-indicator__copy">Content update arrived</div>
+      <div className="pf-update-indicator__badge">New</div>
+    </div>
+  );
 }

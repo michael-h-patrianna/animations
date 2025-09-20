@@ -330,20 +330,7 @@
       "categoryId": "dialogs",
       "groupId": "modal-content"
     },
-    {
-      "id": "modal-content__buttons-stagger-4",
-      "title": "Button Stagger \u00d74",
-      "description": "Button cluster stagger with 4 actions.",
-      "categoryId": "dialogs",
-      "groupId": "modal-content"
-    },
-    {
-      "id": "modal-content__buttons-wave-4",
-      "title": "Button Wave 4",
-      "description": "Button wave oscillation across 4 actions.",
-      "categoryId": "dialogs",
-      "groupId": "modal-content"
-    },
+
     {
       "id": "modal-content__list-soft-stagger",
       "title": "List Soft Stagger",

@@ -1,1 +1,111 @@
-/* Shared styles for the group animations */
+.pf-toast {
+  min-width: 240px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(78, 24, 124, 0.88);
+  color: #ecc3ff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(236, 195, 255, 0.16);
+  position: relative;
+}
+
+.pf-toast__title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.pf-toast__progress {
+  position: absolute;
+  inset-inline: 12px;
+  bottom: 10px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(236, 195, 255, 0.16);
+  overflow: hidden;
+}
+
+.pf-toast__progress-bar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-135deg, #1bee02 0.56%, #00ad45 100%);
+  transform-origin: left center;
+  border-radius: inherit;
+}
+
+.pf-toast__progress-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.pf-toast__progress-spark {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 60%, transparent 100%);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.65);
+  opacity: 0;
+}
+
+.pf-toast__burst-overlay {
+  position: absolute;
+  inset: -12px;
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.pf-toast__burst-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 128, 162, 0.55), rgba(255, 128, 162, 0));
+  transform: translate(-50%, -50%) scale(0.3);
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.pf-toast__burst-spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 99, 146, 0.65) 100%);
+  transform-origin: center 90%;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(255, 178, 208, 0.6));
+}
+
+.pf-toast__burst-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 235, 0.85), rgba(255, 214, 235, 0));
+  opacity: 0;
+  filter: blur(1px);
+}
+
+/* Preview container for components */
+.pf-toast-preview {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

@@ -1,1 +1,106 @@
-/* Shared styles for the group animations */
+/* Shared styles for the complex timers group animations */
+
+.pf-timer-complex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  font-family: system-ui, sans-serif;
+  position: relative;
+  min-height: 200px;
+}
+
+.pf-timer-complex__dial {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(68, 68, 68, 0.8) 0%, rgba(34, 34, 34, 0.9) 100%);
+  border: 2px solid var(--pf-timer-accent, #47fff4);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-timer-complex__pointer {
+  width: 3px;
+  height: 45px;
+  background: var(--pf-timer-accent, #47fff4);
+  position: absolute;
+  transform-origin: bottom center;
+  border-radius: 1.5px;
+  top: 25px;
+  transform: rotate(-120deg);
+  box-shadow: 0 0 8px var(--pf-timer-accent, #47fff4);
+}
+
+.pf-timer-complex__footer {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.pf-timer-complex__segments {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-timer-complex__segment {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--pf-timer-accent, #c6ff77);
+  border-radius: 50%;
+  top: 8px;
+  left: 50%;
+  transform-origin: 0 52px;
+  opacity: 0.1;
+  margin-left: -4px;
+}
+
+.pf-timer-complex__flaps {
+  display: flex;
+  gap: 4px;
+}
+
+.pf-timer-complex__flap {
+  width: 24px;
+  height: 32px;
+  background: #374151;
+  color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+  border-radius: 4px;
+  border: 1px solid #4b5563;
+}
+
+.pf-timer-complex__ranks {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pf-timer-complex__ranks span {
+  color: #d1d5db;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  background: rgba(55, 65, 81, 0.6);
+  border-radius: 4px;
+}
+
+/* Mode-specific styles */
+.pf-timer-complex[data-style="mode-switch"] {
+  background: rgba(78, 24, 124, 0.45);
+  border-radius: 12px;
+}
+
+.pf-timer-complex[data-style="tournament-timer"] .pf-timer-complex__dial {
+  background: radial-gradient(circle, rgba(196, 122, 229, 0.2) 0%, rgba(78, 24, 124, 0.4) 100%);
+}

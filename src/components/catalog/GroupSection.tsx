@@ -7,6 +7,36 @@ interface GroupSectionProps {
   elementId: string;
 }
 
+// Helper function to determine if an animation should run infinitely
+function isInfiniteAnimation(groupId: string, animationId: string): boolean {
+  // All loading states should be infinite
+  if (groupId === 'loading-states') return true;
+  
+  // Specific animations that should loop infinitely
+  const infiniteAnimations = [
+    // Timer effects that should continuously pulse/glow
+    'timer-effects__timer-pulse',
+    'timer-effects__timer-glow',
+    'timer-effects__timer-breathe',
+    
+    // Update indicators that should continuously show activity
+    'update-indicators__live-ping',
+    'update-indicators__badge-pulse',
+    'update-indicators__notification-dot',
+    
+    // Realtime data animations
+    'realtime-data__live-score-update',
+    'realtime-data__currency-update',
+    'realtime-data__win-ticker',
+    
+    // Complex timers
+    'complex-timers__circular-countdown',
+    'complex-timers__tournament-timer',
+  ];
+  
+  return infiniteAnimations.includes(animationId);
+}
+
 export function GroupSection({ group, elementId }: GroupSectionProps) {
   return (
     <article id={elementId} className="pf-group">
@@ -20,6 +50,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
         <div className="pf-card-grid">
           {group.animations.map((animation) => {
             const AnimationComponent = animationRegistry[animation.id];
+            const infiniteAnimation = isInfiniteAnimation(group.id, animation.id);
 
             return (
               <AnimationCard
@@ -27,6 +58,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 title={animation.title}
                 description={animation.description}
                 animationId={animation.id}
+                infiniteAnimation={infiniteAnimation}
               >
                 {AnimationComponent ? (
                   <AnimationComponent />
