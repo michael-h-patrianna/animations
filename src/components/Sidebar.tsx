@@ -33,7 +33,7 @@ export const Sidebar: FC<SidebarProps> = ({
                 {category.title}
               </button>
 
-              {isActive && category.groups.length > 0 && (
+              {category.groups.length > 0 && (
                 <div className="pf-sidebar__subnav">
                   {category.groups.map((group) => (
                     <button

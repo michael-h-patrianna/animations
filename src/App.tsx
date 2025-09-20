@@ -2,7 +2,7 @@ import { CategorySection } from '@/components/catalog';
 import { Sidebar } from '@/components/Sidebar';
 import { useAnimations } from '@/hooks/useAnimations';
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import './App.css';
 
 function App() {
@@ -11,6 +11,7 @@ function App() {
   const [previousCategoryId, setPreviousCategoryId] = useState<string>('');
   const [direction, setDirection] = useState<number>(0);
   const scrollToGroupRef = useRef<string | null>(null);
+  const dragControls = useDragControls();
 
   // Initialize the first category as current
   useEffect(() => {
@@ -99,6 +100,17 @@ function App() {
     return Math.abs(offset) * velocity;
   };
 
+  const handleDragStart = (event: PointerEvent) => {
+    const target = event.target as HTMLElement;
+    
+    // Don't start drag if the pointer is on an AnimationCard
+    const isOnAnimationCard = target.closest('.pf-card');
+    
+    if (!isOnAnimationCard) {
+      dragControls.start(event);
+    }
+  };
+
   return (
     <div className="min-h-screen p-8">
       <div className="pf-main">
@@ -129,8 +141,11 @@ function App() {
                     opacity: { duration: 0.2 },
                   }}
                   drag="x"
+                  dragControls={dragControls}
+                  dragListener={false}
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={1}
+                  onPointerDown={handleDragStart}
                   onDragEnd={(e, { offset, velocity }) => {
                     const swipe = swipePower(offset.x, velocity.x);
                     const currentIndex = categories.findIndex(c => c.id === currentCategoryId);
