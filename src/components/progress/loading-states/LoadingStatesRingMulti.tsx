@@ -8,18 +8,21 @@ export function LoadingStatesRingMulti() {
           width: '40px',
           height: '40px',
           borderColor: '#c47ae5',
+          borderTopColor: 'transparent',
           opacity: 0.8
         }}></span>
         <span className="pf-ring-multi__segment" style={{
           width: '50px',
           height: '50px',
           borderColor: '#c6ff77',
+          borderTopColor: 'transparent',
           opacity: 0.6
         }}></span>
         <span className="pf-ring-multi__segment" style={{
           width: '60px',
           height: '60px',
           borderColor: '#47fff4',
+          borderTopColor: 'transparent',
           opacity: 0.4
         }}></span>
       </div>

@@ -12,10 +12,8 @@ Quest Chain
 
 read README.md
 
-1. Add a new category "Base effects".
-2. The caegory is the first category.
-3. In the category add a group "Text effects".
-4. In the text effects category add as first animation the complete text reveal effect from the existing "Achievement Ring" animation - only the text not the ring and trophy animations.
+1. Add a new group "Icon effects" to the category "Base effects".
+2. Move into the "Icon effects" category the
 
 
 Remove Complex timers
@@ -24,11 +22,6 @@ Move the XP Number Pop and Level Breakthrough animation into the Text Effects gr
 
 
 read README.md
+Make sure that in the AnimationCard component it is possible to select the title and description text with the mouse cursor. currently it is not possible because the swiping of the whole category is catching the mouse in this case. any mouse interaction on an AnimationCard should not be used for the swiping/navigation between categories.
 
-at the moment we display all animations in one long list.
-
-instead:
-1. we only display one category at a time
-2. when changing categories there is a professional swipe transition
-3. the sidebar indicates the currently displayed category
-4. when selecting a group, the correct category is swiped in, and then the view scrolls the requested group into view
+Move the Timeline Progress animation into the Progress Bar group. Remove the card only leave the timeline milestones progress bar on top. Make sure you move all css needed for this to still work and look the same way it did before.
