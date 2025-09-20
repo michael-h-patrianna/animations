@@ -42,7 +42,6 @@ export const animationRegistry: AnimationComponentMap = {
   ...progressMilestoneCelebrationsAnimations,
   ...realtimeTimerEffectsAnimations,
   ...realtimeUpdateIndicatorsAnimations,
-  ...realtimeComplexTimersAnimations,
   ...realtimeRealtimeDataAnimations,
   ...rewardsRewardBasicAnimations,
   ...rewardsRewardFeedbackAnimations,
