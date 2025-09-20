@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  min-height: 100px;
+  min-height: 80px;
   padding: 20px;
 }
 
@@ -78,7 +78,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
+  min-height: 80px;
   padding: 20px;
   position: relative;
 }
@@ -276,8 +276,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
-  padding: 20px;
+  min-height: 80px;
+  padding: 0px;
   position: relative;
 }
 
@@ -494,11 +494,11 @@
 /* XP Number Pop Animation */
 .xp-pop-container {
   position: relative;
-  height: 120px;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Level Breakthrough Animation */
@@ -513,4 +513,6 @@
   inset: 0;
   opacity: 0;
 }
+
+
 

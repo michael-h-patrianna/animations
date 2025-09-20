@@ -6,17 +6,18 @@ const config = {
     customExportConditions: [''],
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+    // Handle CSS and asset imports (must come first to take precedence)
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'jest-transform-stub',
+    // Path aliases
+    '^@/assets/(.*)\\.(png|jpg|jpeg|gif|svg)$': 'jest-transform-stub',
     '^@/components/(.*)$': '<rootDir>/src/components/$1',
     '^@/animations/(.*)$': '<rootDir>/src/animations/$1',
     '^@/utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@/types/(.*)$': '<rootDir>/src/types/$1',
     '^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
-    '^@/assets/(.*)$': 'jest-transform-stub',
     '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
-    // Handle CSS and asset imports
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'jest-transform-stub',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',

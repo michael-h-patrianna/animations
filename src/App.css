@@ -101,7 +101,8 @@
 }
 
 .pf-sidebar__link:hover,
-.pf-sidebar__link.is-active {
+.pf-sidebar__link.is-active,
+.pf-sidebar__link--active {
   background: rgba(196, 122, 229, 0.16);
   border-color: rgba(236, 195, 255, 0.18);
   color: var(--pf-base-60);
@@ -235,9 +236,7 @@
   gap: 12px;
   padding: 18px;
   border-radius: var(--pf-radius-lg);
-
   background: rgba(33, 15, 49, 0.82);
-
   box-shadow: var(--pf-shadow-soft);
   border: 1px solid rgba(236, 195, 255, 0.1);
   position: relative;
