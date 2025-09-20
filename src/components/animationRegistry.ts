@@ -18,9 +18,7 @@ import { navigationLayoutShiftsAnimations } from '@/components/navigation/layout
 import { navigationMenuAnimationsAnimations } from '@/components/navigation/menu-animations';
 import { navigationPageTransitionsAnimations } from '@/components/navigation/page-transitions';
 import { progressLoadingStatesAnimations } from '@/components/progress/loading-states';
-import { progressMilestoneCelebrationsAnimations } from '@/components/progress/milestone-celebrations';
 import { progressProgressBarsAnimations } from '@/components/progress/progress-bars';
-import { progressProgressDynamicAnimations } from '@/components/progress/progress-dynamic';
 import { realtimeRealtimeDataAnimations } from '@/components/realtime/realtime-data';
 import { realtimeTimerEffectsAnimations } from '@/components/realtime/timer-effects';
 import { realtimeUpdateIndicatorsAnimations } from '@/components/realtime/update-indicators';
@@ -38,8 +36,6 @@ export const animationRegistry: AnimationComponentMap = {
   ...dialogsModalCelebrationsAnimations,
   ...progressProgressBarsAnimations,
   ...progressLoadingStatesAnimations,
-  ...progressProgressDynamicAnimations,
-  ...progressMilestoneCelebrationsAnimations,
   ...realtimeTimerEffectsAnimations,
   ...realtimeUpdateIndicatorsAnimations,
   ...realtimeRealtimeDataAnimations,

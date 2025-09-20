@@ -63,19 +63,8 @@
           "title": "Loading states",
           "tech": "css",
           "demo": "loader"
-        },
-        {
-          "id": "progress-dynamic",
-          "title": "Dynamic progress",
-          "tech": "framer",
-          "demo": "progressDynamic"
-        },
-        {
-          "id": "milestone-celebrations",
-          "title": "Milestone celebrations",
-          "tech": "framer",
-          "demo": "progressMilestone"
         }
+
       ]
     },
     {
@@ -355,13 +344,6 @@
       "id": "modal-base__fade-soft",
       "title": "Fade & Blur Soft",
       "description": "Fade-in entrance with 72% overlay support and vertical shift 0px.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__fade-glow",
-      "title": "Fade & Glow Sweep",
-      "description": "Fade-in entrance with 78% overlay support and vertical shift 0px.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -835,104 +817,6 @@
       "description": "Nested rings oscillate asynchronously.",
       "categoryId": "progress",
       "groupId": "loading-states"
-    },
-    {
-      "id": "progress-dynamic__xp-bar-flare",
-      "title": "XP Bar Flare",
-      "description": "Bar flares with additive highlight on level change.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
-      "id": "progress-dynamic__level-meter",
-      "title": "Level Meter Spin",
-      "description": "Meter needle spins to new value with spring easing.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
-      "id": "progress-dynamic__level-banner",
-      "title": "Level Banner Rise",
-      "description": "Victory banner rises with confetti burst accent.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
-      "id": "progress-dynamic__achievement-ring",
-      "title": "Achievement Ring",
-      "description": "Achievement ring fills from 0 to 360 degrees.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
-      "id": "progress-dynamic__achievement-card",
-      "title": "Achievement Card",
-      "description": "Achievement card slides in with depth shadow.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
-      "id": "progress-dynamic__quest-chain",
-      "title": "Quest Chain",
-      "description": "Quest chain nodes glow sequentially to completion.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
-      "id": "milestone-celebrations__quest-burst",
-      "title": "Quest Burst",
-      "description": "Milestone celebration style: quest burst emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
-    },
-    {
-      "id": "milestone-celebrations__loyalty-tier",
-      "title": "Loyalty Tier Upgrade",
-      "description": "Milestone celebration style: loyalty tier emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
-    },
-    {
-      "id": "milestone-celebrations__level-breakthrough-flare",
-      "title": "Breakthrough Flare",
-      "description": "Milestone celebration style: level flare emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
-    },
-    {
-      "id": "milestone-celebrations__achievement-burst",
-      "title": "Achievement Burst",
-      "description": "Milestone celebration style: achievement burst emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
-    },
-    {
-      "id": "milestone-celebrations__milestone-banner",
-      "title": "Milestone Banner",
-      "description": "Milestone celebration style: milestone banner emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
-    },
-    {
-      "id": "milestone-celebrations__tier-up-lights",
-      "title": "Tier Up Lights",
-      "description": "Milestone celebration style: tier lights emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
-    },
-    {
-      "id": "milestone-celebrations__badge-glow",
-      "title": "Badge Glow",
-      "description": "Milestone celebration style: badge glow emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
-    },
-    {
-      "id": "milestone-celebrations__progress-fireworks",
-      "title": "Progress Fireworks",
-      "description": "Milestone celebration style: progress fireworks emphasising reward moments.",
-      "categoryId": "progress",
-      "groupId": "milestone-celebrations"
     },
     {
       "id": "timer-effects__timer-color-shift",

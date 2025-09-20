@@ -310,23 +310,6 @@
   }
 }
 
-@keyframes pf-modal-fade-glow {
-  0% {
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    filter: blur(18px);
-  }
-  65% {
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    filter: blur(4px);
-  }
-  100% {
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    filter: blur(0);
-  }
-}
 
 @keyframes pf-modal-fade-zoom {
   0% {

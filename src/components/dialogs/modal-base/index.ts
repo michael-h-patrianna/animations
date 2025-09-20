@@ -1,6 +1,5 @@
 import type { AnimationComponentMap } from '@/types/animation';
 
-import { ModalBaseFadeGlow } from './ModalBaseFadeGlow';
 import { ModalBaseFadeShift } from './ModalBaseFadeShift';
 import { ModalBaseFadeSoft } from './ModalBaseFadeSoft';
 import { ModalBaseFadeZoom } from './ModalBaseFadeZoom';
@@ -15,7 +14,6 @@ import { ModalBaseSlideRightDrift } from './ModalBaseSlideRightDrift';
 import { ModalBaseSlideUpCrisp } from './ModalBaseSlideUpCrisp';
 import { ModalBaseSlideUpSoft } from './ModalBaseSlideUpSoft';
 
-export { ModalBaseFadeGlow } from './ModalBaseFadeGlow';
 export { ModalBaseFadeShift } from './ModalBaseFadeShift';
 export { ModalBaseFadeSoft } from './ModalBaseFadeSoft';
 export { ModalBaseFadeZoom } from './ModalBaseFadeZoom';
@@ -31,7 +29,6 @@ export { ModalBaseSlideUpCrisp } from './ModalBaseSlideUpCrisp';
 export { ModalBaseSlideUpSoft } from './ModalBaseSlideUpSoft';
 
 export const dialogsModalBaseAnimations: AnimationComponentMap = {
-  'modal-base__fade-glow': ModalBaseFadeGlow,
   'modal-base__fade-shift': ModalBaseFadeShift,
   'modal-base__fade-soft': ModalBaseFadeSoft,
   'modal-base__fade-zoom': ModalBaseFadeZoom,

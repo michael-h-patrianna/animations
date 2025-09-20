@@ -37,7 +37,29 @@
   --pf-transition-fast: 160ms;
   --pf-transition-base: 280ms;
   --pf-transition-slow: 440ms;
-  --pf-demo-height: 100px
+  --pf-demo-height: 100px;
+
+  /* Lighter modern theme for shadcn components */
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 262 80% 50.6%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 262 80% 50.6%;
+  --radius: 0.5rem;
 }
 
 html{
@@ -54,7 +76,7 @@ html{
     min-height: 100vh;
     height: auto;
     font-family: 'Lato', helvetica, arial, sans-serif;
-      background: radial-gradient(circle at 20% 20%, rgba(123, 70, 142, 0.45) 0%, rgba(29, 9, 47, 0.92) 52%, rgba(7, 2, 12, 0.98) 100%);
+    background: radial-gradient(circle at 20% 20%, rgba(123, 70, 142, 0.65) 0%, rgba(29, 9, 47, 0.65) 99%, rgba(7, 2, 12, 0.65) 100%);
     color: var(--pf-text-primary);
     -webkit-font-smoothing: antialiased;
   }

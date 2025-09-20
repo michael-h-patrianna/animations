@@ -25,10 +25,10 @@ Move the XP Number Pop and Level Breakthrough animation into the Text Effects gr
 
 read README.md
 
-In AnimationCard.tsx we display the description of an animation:
-<p className="pf-card__description">{description}</p>
+at the moment we display all animations in one long list.
 
-Change this to the follow behaviour (try to use Shadcn)
-1. The description is wrapped in an accordion.
-2. When the accordion is closed only one line of the description is displayed.
-3. Check if easily doable. Only if yes then: the caret icon right of the accordion element is disabled if the description is already fully visible. The accordion cannot be opened. This must work in a responsive environment where the cards can change in width and sometimes the description will be fully visible and on resize it will need the accordion to be fully readable.
+instead:
+1. we only display one category at a time
+2. when changing categories there is a professional swipe transition
+3. the sidebar indicates the currently displayed category
+4. when selecting a group, the correct category is swiped in, and then the view scrolls the requested group into view
