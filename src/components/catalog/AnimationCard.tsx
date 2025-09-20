@@ -1,5 +1,14 @@
 import type { PropsWithChildren } from 'react';
 import { useState, useEffect, useRef } from 'react';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 
 interface AnimationCardProps extends PropsWithChildren {
   title: string;
@@ -20,6 +29,7 @@ export function AnimationCard({
   const [replayKey, setReplayKey] = useState(0);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,39 +65,61 @@ export function AnimationCard({
     };
   }, [hasPlayed, infiniteAnimation]);
 
+
   const handleReplay = () => {
     setReplayKey((key) => key + 1);
     onReplay?.();
   };
 
   return (
-    <div className="pf-card" data-animation-id={animationId} ref={cardRef}>
-      <header className="pf-card__header">
-        <div>
-          <h3 className="pf-card__title">{title}</h3>
-        </div>
-      </header>
-
-      <p className="pf-card__description">{description}</p>
-
-      <div className="pf-demo-canvas">
-        <div key={replayKey} className="pf-demo-stage pf-demo-stage--top">
-          {isVisible || infiniteAnimation ? children : null}
-        </div>
-      </div>
-
-      <div className="pf-card__actions">
-        <div className="pf-card__controls">
+    <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
+      <CardHeader className="p-0 pb-3 space-y-0">
+        <CardTitle className="pf-card__title mb-2">{title}</CardTitle>
+        <div className="flex items-start gap-2">
+          <p 
+            className={`pf-card__description flex-1 m-0 transition-all duration-200 ${
+              !isExpanded ? 'line-clamp-1' : ''
+            }`}
+          >
+            {description}
+          </p>
           <button
-            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="shrink-0 p-0 bg-transparent border-none cursor-pointer focus:outline-none"
+            aria-label={isExpanded ? 'Collapse description' : 'Expand description'}
+            style={{ marginTop: '4px' }}
+          >
+            <ChevronDown 
+              className={`h-3 w-3 transition-transform duration-200 ${
+                isExpanded ? 'rotate-180' : ''
+              }`}
+              style={{ color: 'var(--pf-text-secondary)', opacity: 0.6 }}
+            />
+          </button>
+        </div>
+      </CardHeader>
+
+      <CardContent className="p-0 py-3">
+        <div className="pf-demo-canvas">
+          <div key={replayKey} className="pf-demo-stage pf-demo-stage--top">
+            {isVisible || infiniteAnimation ? children : null}
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="pf-card__actions p-0 pt-3">
+        <div className="pf-card__controls">
+          <Button
+            variant="outline"
+            size="sm"
             className="pf-card__replay"
             data-role="replay"
             onClick={handleReplay}
           >
             Replay
-          </button>
+          </Button>
         </div>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 }

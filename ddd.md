@@ -22,10 +22,12 @@ Remove Complex timers
 
 Move the XP Number Pop and Level Breakthrough animation into the Text Effects group. Pay extreme attention to maintaining the exact ui, look and animation behaviour. do not break them.
 
+
+read README.md
+
 In AnimationCard.tsx we display the description of an animation:
 <p className="pf-card__description">{description}</p>
 
-read README.md
 Change this to the follow behaviour (try to use Shadcn)
 1. The description is wrapped in an accordion.
 2. When the accordion is closed only one line of the description is displayed.

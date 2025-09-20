@@ -23,12 +23,15 @@ test('renders animation cards with replay controls', async ({ page }) => {
 
   const groupSection = page.locator('#group-modal-base');
   await expect(groupSection.getByRole('heading', { name: 'Base modal animations' })).toBeVisible();
-  await expect(groupSection.getByText('modal-base__scale-gentle-pop')).toBeVisible();
+  // Check that animation card exists (we no longer display the animation ID directly)
+  const animationCard = groupSection.locator('[data-animation-id="modal-base__scale-gentle-pop"]');
+  await expect(animationCard).toBeVisible();
   await expect(groupSection.getByRole('button', { name: 'Replay' }).first()).toBeVisible();
 
   // Ensure replay button remains functional
   await groupSection.getByRole('button', { name: 'Replay' }).first().click();
-  await expect(groupSection.getByText('modal-base__scale-gentle-pop')).toBeVisible();
+  // Animation card should still be visible after replay
+  await expect(animationCard).toBeVisible();
 });
 
 test('sidebar navigation scrolls to target group', async ({ page }) => {
