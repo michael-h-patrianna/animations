@@ -2,63 +2,247 @@
   "categories": [
     {
       "id": "dialogs",
-      "title": "Dialog & Modal Animations"
+      "title": "Dialog & Modal Animations",
+      "groups": [
+        {
+          "id": "modal-base",
+          "title": "Base modal animations",
+          "tech": "css",
+          "demo": "modalBase"
+        },
+        {
+          "id": "modal-content",
+          "title": "Content choreography",
+          "tech": "css",
+          "demo": "modalContent"
+        },
+        {
+          "id": "modal-dismiss",
+          "title": "Auto-dismiss patterns",
+          "tech": "css",
+          "demo": "toast"
+        },
+        {
+          "id": "modal-orchestration",
+          "title": "Complex orchestrations",
+          "tech": "framer",
+          "demo": "wizard"
+        },
+        {
+          "id": "modal-celebrations",
+          "title": "Celebration effects",
+          "tech": "framer",
+          "demo": "celebration"
+        }
+      ]
     },
     {
       "id": "progress",
-      "title": "Progress & Loading Animations"
+      "title": "Progress & Loading Animations",
+      "groups": [
+        {
+          "id": "progress-bars",
+          "title": "Progress bars",
+          "tech": "css",
+          "demo": "progressBar"
+        },
+        {
+          "id": "loading-states",
+          "title": "Loading states",
+          "tech": "css",
+          "demo": "loader"
+        },
+        {
+          "id": "progress-dynamic",
+          "title": "Dynamic progress",
+          "tech": "framer",
+          "demo": "progressDynamic"
+        },
+        {
+          "id": "milestone-celebrations",
+          "title": "Milestone celebrations",
+          "tech": "framer",
+          "demo": "progressMilestone"
+        }
+      ]
     },
     {
       "id": "realtime",
-      "title": "Real-time Updates & Timers"
+      "title": "Real-time Updates & Timers",
+      "groups": [
+        {
+          "id": "timer-effects",
+          "title": "Timer effects",
+          "tech": "css",
+          "demo": "timer"
+        },
+        {
+          "id": "update-indicators",
+          "title": "Update indicators",
+          "tech": "css",
+          "demo": "updateIndicator"
+        },
+        {
+          "id": "complex-timers",
+          "title": "Complex timers",
+          "tech": "framer",
+          "demo": "timerComplex"
+        },
+        {
+          "id": "realtime-data",
+          "title": "Real-time data",
+          "tech": "framer",
+          "demo": "realtimeData"
+        }
+      ]
     },
     {
       "id": "rewards",
-      "title": "Game Elements & Rewards"
+      "title": "Game Elements & Rewards",
+      "groups": [
+        {
+          "id": "reward-basic",
+          "title": "Basic rewards",
+          "tech": "css",
+          "demo": "rewardBasic"
+        },
+        {
+          "id": "reward-feedback",
+          "title": "UI feedback",
+          "tech": "css",
+          "demo": "rewardFeedback"
+        },
+        {
+          "id": "reward-mechanics",
+          "title": "Reward mechanics",
+          "tech": "framer",
+          "demo": "rewardMechanic"
+        },
+        {
+          "id": "reward-orchestrations",
+          "title": "Reward orchestrations",
+          "tech": "framer",
+          "demo": "rewardOrchestration"
+        }
+      ]
     },
     {
       "id": "navigation",
-      "title": "Navigation & Layout"
+      "title": "Navigation & Layout",
+      "groups": [
+        {
+          "id": "menu-animations",
+          "title": "Menu animations",
+          "tech": "css",
+          "demo": "navigationMenu"
+        },
+        {
+          "id": "page-transitions",
+          "title": "Page transitions",
+          "tech": "css",
+          "demo": "pageTransition"
+        },
+        {
+          "id": "complex-navigation",
+          "title": "Advanced navigation",
+          "tech": "framer",
+          "demo": "navigationComplex"
+        },
+        {
+          "id": "layout-shifts",
+          "title": "Layout shifts",
+          "tech": "framer",
+          "demo": "layoutShift"
+        }
+      ]
     },
     {
       "id": "micro",
-      "title": "Micro-interactions"
+      "title": "Micro-interactions",
+      "groups": [
+        {
+          "id": "interactive-feedback",
+          "title": "Interactive feedback",
+          "tech": "css",
+          "demo": "microInteractive"
+        },
+        {
+          "id": "state-changes",
+          "title": "State changes",
+          "tech": "css",
+          "demo": "microState"
+        },
+        {
+          "id": "advanced-interactions",
+          "title": "Advanced interactions",
+          "tech": "framer",
+          "demo": "microAdvanced"
+        }
+      ]
     },
     {
       "id": "data",
-      "title": "Data Visualization"
+      "title": "Data Visualization",
+      "groups": [
+        {
+          "id": "basic-charts",
+          "title": "Basic charts",
+          "tech": "css",
+          "demo": "dataBasic"
+        },
+        {
+          "id": "interactive-visuals",
+          "title": "Interactive visuals",
+          "tech": "framer",
+          "demo": "dataInteractive"
+        }
+      ]
     },
     {
       "id": "ambient",
-      "title": "Special Effects & Atmosphere"
+      "title": "Special Effects & Atmosphere",
+      "groups": [
+        {
+          "id": "ambient-effects",
+          "title": "Ambient effects",
+          "tech": "css",
+          "demo": "ambientBase"
+        },
+        {
+          "id": "advanced-effects",
+          "title": "Advanced effects",
+          "tech": "framer",
+          "demo": "ambientAdvanced"
+        }
+      ]
     }
   ],
   "animations": [
     {
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",
-      "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px→0px blur.",
+      "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px\u21920px blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
     {
       "id": "modal-base__scale-crisp",
       "title": "Crisp Snap",
-      "description": "Scale entrance from 95% up to 100% settling at 100% with 64% overlay fade and 0px→0px blur.",
+      "description": "Scale entrance from 95% up to 100% settling at 100% with 64% overlay fade and 0px\u21920px blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
     {
       "id": "modal-base__scale-hero",
       "title": "Hero Bounce",
-      "description": "Scale entrance from 78% up to 108% settling at 100% with 76% overlay fade and 18px→0px blur.",
+      "description": "Scale entrance from 78% up to 108% settling at 100% with 76% overlay fade and 18px\u21920px blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
     {
       "id": "modal-base__scale-lift",
       "title": "Lift Arrival",
-      "description": "Scale entrance from 72% up to 103% settling at 100% with 72% overlay fade and 16px→0px blur.",
+      "description": "Scale entrance from 72% up to 103% settling at 100% with 72% overlay fade and 16px\u21920px blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -134,21 +318,21 @@
     },
     {
       "id": "modal-content__buttons-stagger-2",
-      "title": "Button Stagger ×2",
+      "title": "Button Stagger \u00d72",
       "description": "Button cluster stagger with 2 actions.",
       "categoryId": "dialogs",
       "groupId": "modal-content"
     },
     {
       "id": "modal-content__buttons-stagger-3",
-      "title": "Button Stagger ×3",
+      "title": "Button Stagger \u00d73",
       "description": "Button cluster stagger with 3 actions.",
       "categoryId": "dialogs",
       "groupId": "modal-content"
     },
     {
       "id": "modal-content__buttons-stagger-4",
-      "title": "Button Stagger ×4",
+      "title": "Button Stagger \u00d74",
       "description": "Button cluster stagger with 4 actions.",
       "categoryId": "dialogs",
       "groupId": "modal-content"

@@ -1,15 +1,16 @@
+import { CategorySection } from '@/components/catalog';
 import { useAnimations } from '@/hooks/useAnimations';
 import './App.css';
 
+const scrollIntoView = (elementId: string) => {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
 function App() {
   const { categories, isLoading, error } = useAnimations();
-
-  const scrollToCategory = (categoryId: string) => {
-    const element = document.getElementById(categoryId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
 
   if (error) {
     return (
@@ -41,13 +42,25 @@ function App() {
               <div className="text-text-secondary">Loading categories...</div>
             ) : (
               categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => scrollToCategory(category.id)}
-                  className="pf-sidebar__link"
-                >
-                  {category.title}
-                </button>
+                <div key={category.id} className="pf-sidebar__section">
+                  <button
+                    onClick={() => scrollIntoView(`category-${category.id}`)}
+                    className="pf-sidebar__link pf-sidebar__link--category"
+                  >
+                    {category.title}
+                  </button>
+                  <div className="pf-sidebar__subnav">
+                    {category.groups.map((group) => (
+                      <button
+                        key={group.id}
+                        onClick={() => scrollIntoView(`group-${group.id}`)}
+                        className="pf-sidebar__link pf-sidebar__link--group"
+                      >
+                        {group.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))
             )}
           </div>
@@ -60,21 +73,11 @@ function App() {
             </div>
           ) : (
             categories.map((category) => (
-              <section key={category.id} id={category.id} className="mb-16">
-                <h1 className="text-text-primary font-display text-3xl mb-4">
-                  {category.title}
-                </h1>
-                <div className="text-text-secondary">
-                  {category.animations.length > 0 ? (
-                    <div>
-                      <p>{category.animations.length} animations available</p>
-                      {/* Animation components will be rendered here */}
-                    </div>
-                  ) : (
-                    <p>Animations will be displayed here</p>
-                  )}
-                </div>
-              </section>
+              <CategorySection
+                key={category.id}
+                category={category}
+                elementId={`category-${category.id}`}
+              />
             ))
           )}
         </main>

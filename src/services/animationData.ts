@@ -1,72 +1,101 @@
-import type { Animation, AnimationData, Category } from '@/types/animation';
+import structureData from '../../docs/structure.json';
+import type {
+  Animation,
+  Category,
+  CategoryMeta,
+  Group,
+  GroupMeta,
+  StructureData
+} from '@/types/animation';
 
-// Initial categories - can be extended or loaded from API
-const INITIAL_CATEGORIES = [
-  { id: "dialogs", title: "Dialog & Modal Animations" },
-  { id: "progress", title: "Progress & Loading Animations" },
-  { id: "realtime", title: "Real-time Updates & Timers" },
-  { id: "rewards", title: "Game Elements & Rewards" },
-  { id: "navigation", title: "Navigation & Layout" },
-  { id: "micro", title: "Micro-interactions" },
-  { id: "data", title: "Data Visualization" },
-  { id: "ambient", title: "Special Effects & Atmosphere" }
-];
+const STRUCTURE: StructureData = structureData;
 
-// Animation data service - easily replaceable with API calls
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const cloneAnimation = (animation: Animation): Animation => ({ ...animation });
+
+const buildGroups = (category: CategoryMeta, animations: Animation[]): Group[] => {
+  const groupsMeta: GroupMeta[] = category.groups ?? [];
+
+  return groupsMeta.map((groupMeta) => {
+    const groupAnimations = animations.filter(
+      (animation) =>
+        animation.categoryId === category.id && animation.groupId === groupMeta.id
+    );
+
+    return {
+      ...groupMeta,
+      animations: groupAnimations
+    };
+  });
+};
+
+const mapStructureToCatalog = (
+  structure: StructureData,
+  additionalAnimations: Animation[]
+): Category[] => {
+  const combinedAnimations = [
+    ...structure.animations.map(cloneAnimation),
+    ...additionalAnimations.map(cloneAnimation)
+  ];
+
+  return structure.categories.map((category) => ({
+    id: category.id,
+    title: category.title,
+    groups: buildGroups(category, combinedAnimations)
+  }));
+};
+
 class AnimationDataService {
-  private data: AnimationData = {
-    categories: INITIAL_CATEGORIES,
-    animations: [] // Will be populated as animations are added
-  };
+  private catalog: Category[] | null = null;
+  private readonly extraAnimations: Animation[] = [];
+
+  private async ensureCatalog(): Promise<Category[]> {
+    if (!this.catalog) {
+      this.catalog = mapStructureToCatalog(STRUCTURE, this.extraAnimations);
+    }
+
+    return this.catalog;
+  }
 
   async loadAnimations(): Promise<Category[]> {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 100));
-
-    // Group animations by category
-    const categoriesWithAnimations = this.data.categories.map(category => ({
-      ...category,
-      animations: this.data.animations.filter(animation =>
-        animation.categoryId === category.id
-      )
-    }));
-
-    return categoriesWithAnimations;
+    await delay(120);
+    return this.ensureCatalog();
   }
 
-  async addAnimation(animation: Omit<Animation, 'id'>): Promise<void> {
+  async refreshCatalog(): Promise<Category[]> {
+    await delay(60);
+    this.catalog = mapStructureToCatalog(STRUCTURE, this.extraAnimations);
+    return this.catalog;
+  }
+
+  async addAnimation(animation: Omit<Animation, 'id'>): Promise<Animation> {
     const newAnimation: Animation = {
       ...animation,
-      id: `${animation.categoryId}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      id: `${animation.groupId}__${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
     };
 
-    this.data.animations.push(newAnimation);
-  }
+    this.extraAnimations.push(newAnimation);
 
-  async getAnimationsByCategory(categoryId: string): Promise<Animation[]> {
-    return this.data.animations.filter(animation =>
-      animation.categoryId === categoryId
-    );
-  }
+    if (this.catalog) {
+      const category = this.catalog.find((entry) => entry.id === newAnimation.categoryId);
+      const group = category?.groups.find((entry) => entry.id === newAnimation.groupId);
 
-  // Method to replace data source (for future API integration)
-  async loadFromSource(source: 'local' | 'api' | 'file' = 'local'): Promise<AnimationData> {
-    switch (source) {
-      case 'api':
-        // Future: load from API
-        throw new Error('API integration not implemented yet');
-      case 'file':
-        // Future: load from external file
-        throw new Error('File loading not implemented yet');
-      case 'local':
-      default:
-        return this.data;
+      if (group) {
+        group.animations = [...group.animations, newAnimation];
+      }
     }
+
+    return newAnimation;
+  }
+
+  async getAnimationsByGroup(categoryId: string, groupId: string): Promise<Animation[]> {
+    const catalog = await this.ensureCatalog();
+    const category = catalog.find((entry) => entry.id === categoryId);
+    const group = category?.groups.find((entry) => entry.id === groupId);
+
+    return group ? [...group.animations] : [];
   }
 }
 
-// Export singleton instance
 export const animationDataService = new AnimationDataService();
-
-// Export type for component use
-export type { AnimationData };

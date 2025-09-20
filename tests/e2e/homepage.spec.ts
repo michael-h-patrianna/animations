@@ -1,47 +1,43 @@
 import { expect, test } from '@playwright/test';
 
-test('has title', async ({ page }) => {
+test('displays categories and groups in the sidebar', async ({ page }) => {
   await page.goto('/');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Vite \+ React/);
-});
-
-test('sidebar displays categories', async ({ page }) => {
-  await page.goto('/');
-
-  // Check sidebar title
+  await expect(page).toHaveTitle(/Vite \+ React \+ TS/);
   await expect(page.getByRole('heading', { name: 'Categories' })).toBeVisible();
 
-  // Check that categories are visible in sidebar
-  await expect(page.getByRole('button', { name: 'Transitions' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Loading' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Interactions' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Layout' })).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Dialog & Modal Animations' })
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Base modal animations' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Advanced effects' })).toBeVisible();
 });
 
-test('category sections display correctly', async ({ page }) => {
+test('renders animation cards with replay controls', async ({ page }) => {
   await page.goto('/');
 
-  // Check category headings are visible
-  await expect(page.getByRole('heading', { name: 'Transitions' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Loading' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Interactions' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Layout' })).toBeVisible();
+  const categoryHeading = page.getByRole('heading', {
+    name: /Dialog & Modal Animations/i
+  });
+  await expect(categoryHeading).toBeVisible();
 
-  // Check placeholder content
-  await expect(page.getByText('Animations will be displayed here').first()).toBeVisible();
+  const groupSection = page.locator('#group-modal-base');
+  await expect(groupSection.getByRole('heading', { name: 'Base modal animations' })).toBeVisible();
+  await expect(groupSection.getByText('modal-base__scale-gentle-pop')).toBeVisible();
+  await expect(groupSection.getByRole('button', { name: 'Replay' }).first()).toBeVisible();
+
+  // Ensure replay button remains functional
+  await groupSection.getByRole('button', { name: 'Replay' }).first().click();
+  await expect(groupSection.getByText('modal-base__scale-gentle-pop')).toBeVisible();
 });
 
-test('sidebar navigation scrolls to categories', async ({ page }) => {
+test('sidebar navigation scrolls to target group', async ({ page }) => {
   await page.goto('/');
 
-  // Click on Loading category in sidebar
-  await page.getByRole('button', { name: 'Loading' }).click();
+  const targetGroupButton = page.getByRole('button', { name: 'Advanced effects' });
+  await targetGroupButton.click();
 
-  // Wait a moment for smooth scroll
-  await page.waitForTimeout(500);
-
-  // Check that the Loading heading is visible (should be scrolled into view)
-  await expect(page.getByRole('heading', { name: 'Loading' })).toBeVisible();
+  const targetGroup = page.locator('#group-advanced-effects');
+  await targetGroup.waitFor();
+  await expect(targetGroup.getByRole('heading', { name: 'Advanced effects' })).toBeVisible();
 });
