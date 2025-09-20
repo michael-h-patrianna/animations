@@ -12,8 +12,8 @@ export function ModalContentFormFieldGradient() {
         field.style.animation = 'none';
         void field.offsetWidth; // Force reflow
         
-        // Apply gradient animation with staggered delay
-        const delay = 120 * index;
+        // Apply gradient animation with staggered delay + 300ms modal delay
+        const delay = 300 + (120 * index);
         field.style.animation = `form-field-gradient 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
         field.style.opacity = '0';
         field.style.transform = 'translateY(20px)';

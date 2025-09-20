@@ -39,3 +39,12 @@ Instead:
 2. The sidebar visually indicates the currently displayed group
 3. When clicking on a category in the sidebar, it navigates to the first group in the category
 4. Views nowhere show the title of the category
+
+Read README.md
+In the Content choreography group we have several animation previews that have elements in their content that have default styling using white background and dark text. They need to be adapted to our actual color scheme.
+
+All animations in the Content choreography group currently only animate content inside the mock modal container. But the purpose of these animations is to demonstrate how to chain animations of opening a modal and animating their content.
+
+For this:
+1. Add a good looking modal open animation to all of the mock modals. (these are not actual modals, just containers that look like modals).
+2. Make sure that the currently existing animations for the content in these modals are timed so that they create a good looking animation sequence. This means usually that the content animation start playing shortly before the modal is fully opened.

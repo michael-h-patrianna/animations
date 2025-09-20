@@ -3,14 +3,14 @@ import type { FC } from 'react';
 
 interface SidebarProps {
   categories: Category[];
-  currentCategoryId: string;
+  currentGroupId: string;
   onCategorySelect: (categoryId: string) => void;
-  onGroupSelect: (categoryId: string, groupId: string) => void;
+  onGroupSelect: (groupId: string) => void;
 }
 
 export const Sidebar: FC<SidebarProps> = ({
   categories,
-  currentCategoryId,
+  currentGroupId,
   onCategorySelect,
   onGroupSelect,
 }) => {
@@ -20,14 +20,15 @@ export const Sidebar: FC<SidebarProps> = ({
 
       <div className="pf-sidebar__nav">
         {categories.map((category) => {
-          const isActive = category.id === currentCategoryId;
+          // Check if any group in this category is currently active
+          const hasActiveGroup = category.groups.some(group => group.id === currentGroupId);
 
           return (
             <div key={category.id} className="pf-sidebar__section">
               <button
                 onClick={() => onCategorySelect(category.id)}
                 className={`pf-sidebar__link pf-sidebar__link--category ${
-                  isActive ? 'pf-sidebar__link--active' : ''
+                  hasActiveGroup ? 'pf-sidebar__link--active' : ''
                 }`}
               >
                 {category.title}
@@ -35,15 +36,21 @@ export const Sidebar: FC<SidebarProps> = ({
 
               {category.groups.length > 0 && (
                 <div className="pf-sidebar__subnav">
-                  {category.groups.map((group) => (
-                    <button
-                      key={group.id}
-                      onClick={() => onGroupSelect(category.id, group.id)}
-                      className="pf-sidebar__link pf-sidebar__link--group"
-                    >
-                      {group.title}
-                    </button>
-                  ))}
+                  {category.groups.map((group) => {
+                    const isActiveGroup = group.id === currentGroupId;
+                    
+                    return (
+                      <button
+                        key={group.id}
+                        onClick={() => onGroupSelect(group.id)}
+                        className={`pf-sidebar__link pf-sidebar__link--group ${
+                          isActiveGroup ? 'pf-sidebar__link--active' : ''
+                        }`}
+                      >
+                        {group.title}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
