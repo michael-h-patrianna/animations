@@ -316,6 +316,7 @@
 
 .pf-card__replay:hover {
   background: rgba(236, 195, 255, 0.16);
+  color: white;
 }
 
 .pf-demo-canvas {

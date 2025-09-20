@@ -82,7 +82,7 @@ export function ProgressBarsProgressSegmented() {
       segments.push(segment);
     }
 
-    const duration = 1600;
+    const duration = 3000;
 
     // Main fill animation
     const fillAnim = fill.animate([

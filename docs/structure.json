@@ -470,11 +470,11 @@
       "groupId": "modal-orchestration"
     },
     {
-      "id": "modal-orchestration__timeline-progress",
-      "title": "Timeline Progress",
-      "description": "Complex orchestrations pattern: Timeline Progress",
-      "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "id": "progress-bars__timeline-progress",
+      "title": "Timeline Progress", 
+      "description": "Timeline progress visualization showing sequential milestones with connected flow.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
     },
     {
       "id": "modal-celebrations__confetti-burst",
@@ -561,23 +561,9 @@
       "groupId": "modal-celebrations"
     },
     {
-      "id": "progress-bars__progress-soft-fill",
-      "title": "Soft Fill",
-      "description": "Smooth easing fill with subtle light bloom at completion.",
-      "categoryId": "progress",
-      "groupId": "progress-bars"
-    },
-    {
       "id": "progress-bars__progress-striped",
       "title": "Striped Flow",
       "description": "Animated stripes communicate momentum during fill.",
-      "categoryId": "progress",
-      "groupId": "progress-bars"
-    },
-    {
-      "id": "progress-bars__progress-pulse",
-      "title": "Pulse Update",
-      "description": "Momentum pulse on update emphasising change events.",
       "categoryId": "progress",
       "groupId": "progress-bars"
     },
@@ -610,13 +596,6 @@
       "groupId": "progress-bars"
     },
     {
-      "id": "progress-bars__progress-thick",
-      "title": "Thick Pulse",
-      "description": "High contrast thick bar with gentle pulse loop.",
-      "categoryId": "progress",
-      "groupId": "progress-bars"
-    },
-    {
       "id": "progress-bars__progress-thin",
       "title": "Thin Glide",
       "description": "Slim tracker for compact UI contexts.",
@@ -624,23 +603,9 @@
       "groupId": "progress-bars"
     },
     {
-      "id": "progress-bars__progress-surge",
-      "title": "Surge Finale",
-      "description": "Acceleration surge with overshoot to draw attention.",
-      "categoryId": "progress",
-      "groupId": "progress-bars"
-    },
-    {
       "id": "progress-bars__progress-spark",
       "title": "Spark Trail",
       "description": "Spark trail glides along the bar to show live updates.",
-      "categoryId": "progress",
-      "groupId": "progress-bars"
-    },
-    {
-      "id": "progress-bars__progress-wave",
-      "title": "Wave Motion",
-      "description": "Wave pattern ripples across the filled area.",
       "categoryId": "progress",
       "groupId": "progress-bars"
     },
@@ -697,13 +662,6 @@
       "id": "loading-states__dots-rise",
       "title": "Dots Rise",
       "description": "Three-dot rise cadence for subtle loading feedback.",
-      "categoryId": "progress",
-      "groupId": "loading-states"
-    },
-    {
-      "id": "loading-states__dots-wave",
-      "title": "Dots Wave",
-      "description": "Three-dot wave for rhythmic pacing.",
       "categoryId": "progress",
       "groupId": "loading-states"
     },
