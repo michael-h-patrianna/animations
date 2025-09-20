@@ -1,167 +1,183 @@
-import { useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React from 'react';
 import './milestone-celebrations.css';
+import arrowUpImg from '@/assets/milestone-celebrations/arrow-up.png';
 
 export function MilestoneCelebrationsTierUpLights() {
-  const glowControls = useAnimation();
-  const badgeControls = useAnimation();
-  const iconControls = useAnimation();
-  const headlineControls = useAnimation();
-  const captionControls = useAnimation();
-  const effectsRef = useRef<HTMLDivElement>(null);
+  // Generate step platforms (5 platforms at different heights)
+  const platforms = Array.from({ length: 5 }, (_, i) => ({
+    id: i,
+    x: -80 + i * 40, // Spread horizontally
+    y: 60 - i * 15, // Step up
+    delay: 0.3 + i * 0.15,
+    color: i < 2 ? '#00ffff' : i < 4 ? '#ff1493' : '#8a2be2'
+  }));
 
-  const accent = '#c6ff77';
+  // Generate light beams shooting up from platforms
+  const beams = platforms.map((platform, i) => ({
+    id: i,
+    x: platform.x,
+    delay: platform.delay + 0.2,
+    height: 30 + i * 8
+  }));
 
-  const createLightEffects = () => {
-    if (!effectsRef.current) return [];
-    
-    const effects = [];
-    const offsets = [-70, -25, 25, 70];
-    
-    // 4 vertical light beams
-    offsets.forEach((offset, index) => {
-      effects.push(
-        <motion.span
-          key={`light-${index}`}
-          className="pf-milestone__light"
-          style={{
-            left: `calc(50% + ${offset}px)`,
-          }}
-          initial={{ 
-            opacity: 0, 
-            transform: 'translate(-50%, 50px) scaleY(0.2)' 
-          }}
-          animate={{
-            opacity: [0, 0.9, 0],
-            transform: [
-              'translate(-50%, 50px) scaleY(0.2)',
-              'translate(-50%, 0) scaleY(1)',
-              'translate(-50%, -40px) scaleY(0.6)'
-            ]
-          }}
-          transition={{
-            duration: 1.2,
-            delay: index * 0.15,
-            times: [0, 0.55, 1],
-            ease: [0.215, 0.610, 0.355, 1.000]
-          }}
-        />
-      );
-    });
-    
-    return effects;
-  };
-
-  useEffect(() => {
-    const startAnimation = () => {
-      // Glow animation
-      glowControls.start({
-        opacity: [0, 0.9, 0],
-        scale: [0.7, 1.5, 2]
-      }, {
-        duration: 1.3,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
-
-      // Badge animation with box shadow
-      badgeControls.start({
-        boxShadow: [
-          '0 0 0 rgba(198,255,119,0)', 
-          '0 0 24px rgba(198,255,119,0.5)', 
-          '0 0 0 rgba(198,255,119,0)'
-        ]
-      }, {
-        duration: 1,
-        ease: [0.4, 0.0, 0.2, 1]
-      });
-
-      // Icon animation
-      iconControls.start({
-        translateY: [12, -6, 0],
-        scale: [0.9, 1.1, 1]
-      }, {
-        duration: 0.8,
-        ease: [0.68, -0.55, 0.265, 1.55]
-      });
-
-      // Headline animation
-      headlineControls.start({
-        opacity: [0, 1],
-        translateY: [10, 0]
-      }, {
-        duration: 0.7,
-        delay: 0.1,
-        ease: [0.215, 0.610, 0.355, 1.000]
-      });
-
-      // Caption animation
-      captionControls.start({
-        opacity: [0, 1],
-        translateY: [6, 0]
-      }, {
-        duration: 0.6,
-        delay: 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
-    };
-
-    startAnimation();
-  }, [glowControls, badgeControls, iconControls, headlineControls, captionControls]);
+  // Generate expanding pulse rings (3 rings)
+  const pulses = Array.from({ length: 3 }, (_, i) => ({
+    id: i,
+    delay: 1.5 + i * 0.3,
+    scale: 1 + i * 0.5
+  }));
 
   return (
     <div 
-      className="pf-milestone" 
+      className="pf-milestone pf-tier-lights" 
       data-animation-id="milestone-celebrations__tier-up-lights"
-      style={{ '--pf-milestone-accent': accent } as React.CSSProperties}
     >
-      <div className="pf-milestone__visuals">
-        <motion.div 
-          className="pf-milestone__glow"
+      {/* Step platforms lighting up sequentially */}
+      {platforms.map((platform) => (
+        <div
+          key={`platform-${platform.id}`}
+          className="pf-tier-lights__platform"
           style={{
-            background: `radial-gradient(circle, rgba(198, 255, 119, 0.55), rgba(236, 195, 255, 0))`
+            left: '50%',
+            top: '50%',
+            marginLeft: `${platform.x}px`,
+            marginTop: `${platform.y}px`,
+            background: `linear-gradient(90deg, ${platform.color}, ${platform.color}aa)`,
+            animation: `platformLight 2s ease-out ${platform.delay}s forwards`,
+            opacity: 0
           }}
-          animate={glowControls}
-          initial={{ opacity: 0, scale: 0.7 }}
         />
-        
-        <div className="pf-milestone__effects" ref={effectsRef}>
-          {createLightEffects()}
-        </div>
-        
-        <div className="pf-milestone__content">
-          <motion.div 
-            className="pf-milestone__badge"
-            animate={badgeControls}
-            initial={{ boxShadow: '0 0 0 rgba(198,255,119,0)' }}
-          >
-            Tier Lights
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__icon"
-            animate={iconControls}
-            initial={{ translateY: 12, scale: 0.9 }}
-          >
-            ⬆️
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__headline"
-            animate={headlineControls}
-            initial={{ opacity: 0, translateY: 10 }}
-          >
-            Tier Up Lights
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__caption"
-            animate={captionControls}
-            initial={{ opacity: 0, translateY: 6 }}
-          >
-            Streak bonus amplified.
-          </motion.div>
-        </div>
+      ))}
+      
+      {/* Light beams shooting up from platforms */}
+      {beams.map((beam) => (
+        <div
+          key={`beam-${beam.id}`}
+          className="pf-tier-lights__beam"
+          style={{
+            left: '50%',
+            top: '50%',
+            marginLeft: `${beam.x + 28}px`, // Center on platform
+            marginTop: `${60 - beam.id * 15 - beam.height}px`,
+            height: `${beam.height}px`,
+            animation: `beamShoot 1.5s ease-out ${beam.delay}s forwards`,
+            opacity: 0
+          }}
+        />
+      ))}
+      
+      {/* Progress bar filling at bottom */}
+      <div
+        className="pf-tier-lights__progress"
+        style={{
+          left: '50%',
+          marginLeft: '-100px'
+        }}
+      >
+        <div
+          className="pf-tier-lights__progress-fill"
+          style={{
+            animation: 'progressFill 2.5s ease-out 0.5s forwards',
+            width: '0%'
+          }}
+        />
       </div>
+      
+      {/* Tier Up Arrow */}
+      <div
+        className="pf-tier-lights__tier-arrow"
+        style={{
+          left: '50%',
+          top: '30%',
+          marginLeft: '-25px',
+          marginTop: '-25px',
+          animation: 'arrowRise 2s ease-out 2s forwards',
+          opacity: 0
+        }}
+      >
+        <img 
+          src={arrowUpImg} 
+          alt="Tier Up Arrow" 
+          style={{ 
+            width: '50px', 
+            height: '50px',
+            filter: 'drop-shadow(0 0 10px rgba(0, 255, 0, 0.8)) brightness(1.5)'
+          }} 
+        />
+      </div>
+
+      {/* Pulsing rings expanding from center */}
+      {pulses.map((pulse) => (
+        <div
+          key={`pulse-${pulse.id}`}
+          className="pf-tier-lights__pulse"
+          style={{
+            left: '50%',
+            top: '50%',
+            marginLeft: '-50px',
+            marginTop: '-50px',
+            animation: `pulseExpand 2s ease-out ${pulse.delay}s infinite`,
+            transform: `scale(${pulse.scale})`,
+            opacity: 0
+          }}
+        />
+      ))}
+
+      {/* Additional CSS for enhanced neon gaming effects */}
+      <style>{`
+        @keyframes arrowRise {
+          0% { 
+            transform: translateY(50px) scale(0.5); 
+            opacity: 0; 
+          }
+          50% { 
+            transform: translateY(-10px) scale(1.2); 
+            opacity: 1; 
+          }
+          100% { 
+            transform: translateY(-20px) scale(1); 
+            opacity: 1; 
+          }
+        }
+        
+        @keyframes beamShoot {
+          0% { 
+            transform: scaleY(0); 
+            opacity: 0; 
+          }
+          50% { 
+            transform: scaleY(1); 
+            opacity: 1; 
+          }
+          100% { 
+            transform: scaleY(0.7); 
+            opacity: 0.6; 
+          }
+        }
+        
+        @keyframes pulseExpand {
+          0% { 
+            transform: scale(0); 
+            opacity: 0; 
+          }
+          50% { 
+            opacity: 0.8; 
+          }
+          100% { 
+            transform: scale(1.5); 
+            opacity: 0; 
+          }
+        }
+        
+        .pf-tier-lights__platform {
+          border-radius: 4px;
+          box-shadow: 0 0 20px currentColor;
+        }
+        
+        .pf-tier-lights__beam {
+          transform-origin: bottom center;
+        }
+      `}</style>
     </div>
   );
 }

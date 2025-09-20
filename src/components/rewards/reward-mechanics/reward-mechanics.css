@@ -1,5 +1,161 @@
 /* Shared styles for the group animations */
 
+/* Jackpot Radiance Animation */
+.pf-reward-mechanic--jackpot-radiance {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pf-jackpot-radiance__stage {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.pf-jackpot-radiance__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, 
+    #ffd700,
+    #ffb347,
+    #ff8c00
+  );
+  box-shadow: 
+    0 0 40px rgba(255, 215, 0, 0.8),
+    0 0 80px rgba(255, 183, 71, 0.6),
+    0 0 120px rgba(255, 140, 0, 0.4);
+  transform: translate(-50%, -50%);
+}
+
+.pf-jackpot-radiance__ray {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 100px;
+  background: linear-gradient(to top,
+    transparent,
+    rgba(255, 215, 0, 0.8) 20%,
+    rgba(255, 223, 0, 0.9) 50%,
+    transparent
+  );
+  transform-origin: center bottom;
+  transform: translate(-50%, -100%);
+}
+
+.pf-jackpot-radiance__particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    #fff,
+    #ffd700
+  );
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* Treasure Pulse Animation */
+.pf-reward-mechanic--treasure-pulse {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pf-treasure-pulse__chest {
+  position: relative;
+  width: 100px;
+  height: 80px;
+}
+
+.pf-treasure-pulse__base {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(135deg,
+    #8b4513,
+    #a0522d,
+    #8b4513
+  );
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pf-treasure-pulse__lid {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(135deg,
+    #a0522d,
+    #cd853f,
+    #a0522d
+  );
+  border-radius: 8px 8px 4px 4px;
+  transform-origin: center bottom;
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pf-treasure-pulse__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 215, 0, 0.6),
+    rgba(255, 183, 71, 0.4),
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pf-treasure-pulse__coin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%,
+    #ffd700,
+    #ffb347,
+    #ff8c00
+  );
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.pf-treasure-pulse__sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
 /* Base reward mechanic container */
 .pf-reward-mechanic {
   display: flex;

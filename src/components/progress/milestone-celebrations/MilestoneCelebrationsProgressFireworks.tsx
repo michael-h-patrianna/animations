@@ -1,214 +1,170 @@
-import { useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React from 'react';
 import './milestone-celebrations.css';
+import sparkleImg from '@/assets/milestone-celebrations/sparkle.png';
+import star1Img from '@/assets/milestone-celebrations/star-1.png';
+import star2Img from '@/assets/milestone-celebrations/star-2.png';
 
 export function MilestoneCelebrationsProgressFireworks() {
-  const glowControls = useAnimation();
-  const badgeControls = useAnimation();
-  const iconControls = useAnimation();
-  const headlineControls = useAnimation();
-  const captionControls = useAnimation();
-  const effectsRef = useRef<HTMLDivElement>(null);
-
-  const accent = '#ff5981';
-  
-  const randBetween = (min: number, max: number) => {
-    return Math.random() * (max - min) + min;
-  };
-
-  const createFireworksEffects = () => {
-    if (!effectsRef.current) return [];
-    
-    const effects = [];
-    const colors = ['#ff5981', '#ffce1a', '#47fff4', '#c6ff77'];
-    const count = 18;
-    
-    // 18 confetti pieces with multi-colored burst
-    for (let i = 0; i < count; i++) {
-      const angle = (Math.PI * 2 * i) / count;
-      const distance = 90 + randBetween(-20, 30);
-      const tx = Math.cos(angle) * distance;
-      const ty = Math.sin(angle) * distance;
-      const rotate = randBetween(-120, 120);
-      const rotateExit = rotate * 1.2;
-      
-      effects.push(
-        <motion.span
-          key={`confetti-${i}`}
-          className="pf-milestone__confetti"
-          style={{
-            background: colors[i % colors.length],
-            left: '50%',
-            top: '45%',
-          }}
-          initial={{ 
-            opacity: 0, 
-            transform: 'translate(-50%, -50%) rotate(0deg) scale(0.5)' 
-          }}
-          animate={{
-            opacity: [0, 1, 0],
-            transform: [
-              'translate(-50%, -50%) rotate(0deg) scale(0.5)',
-              `translate(-50%, -50%) translate(${tx}px, ${ty}px) rotate(${rotate}deg)`,
-              `translate(-50%, -50%) translate(${tx * 1.15}px, ${ty * 1.15}px) rotate(${rotateExit}deg)`
-            ]
-          }}
-          transition={{
-            duration: 1.2,
-            delay: i * 0.04,
-            times: [0, 0.55, 1],
-            ease: [0.68, -0.55, 0.265, 1.55]
-          }}
-        />
-      );
-    }
-    
-    // 6 sparks
-    for (let i = 0; i < 6; i++) {
-      const angle = randBetween(0, Math.PI * 2);
-      const tx = Math.cos(angle) * 60;
-      const ty = Math.sin(angle) * 60;
-      
-      effects.push(
-        <motion.span
-          key={`spark-${i}`}
-          className="pf-milestone__spark"
-          style={{
-            background: '#ffd966',
-            left: '50%',
-            top: '40%',
-          }}
-          initial={{ 
-            opacity: 0, 
-            transform: 'translate(-50%, -50%) scale(0.4)' 
-          }}
-          animate={{
-            opacity: [0, 1, 0],
-            transform: [
-              'translate(-50%, -50%) scale(0.4)',
-              `translate(-50%, -50%) translate(${tx}px, ${ty}px) scale(1)`,
-              `translate(-50%, -50%) translate(${tx}px, ${ty}px) scale(0.4)`
-            ]
-          }}
-          transition={{
-            duration: 0.9,
-            delay: 0.3 + i * 0.08,
-            times: [0, 0.55, 1],
-            ease: [0.68, -0.55, 0.265, 1.55]
-          }}
-        />
-      );
-    }
-    
-    return effects;
-  };
-
-  useEffect(() => {
-    const startAnimation = () => {
-      // Glow animation
-      glowControls.start({
-        opacity: [0, 1, 0],
-        scale: [0.8, 1.9, 2.4]
-      }, {
-        duration: 1.2,
-        ease: [0.68, -0.55, 0.265, 1.55]
-      });
-
-      // Badge animation
-      badgeControls.start({
-        translateY: [-18, 0],
-        scale: [1.1, 1]
-      }, {
-        duration: 0.6,
-        ease: [0.68, -0.55, 0.265, 1.55]
-      });
-
-      // Icon animation
-      iconControls.start({
-        scale: [0.7, 1.25, 1],
-        rotate: [0, -16, 8, 0]
-      }, {
-        duration: 0.7,
-        ease: [0.68, -0.55, 0.265, 1.55]
-      });
-
-      // Headline animation
-      headlineControls.start({
-        opacity: [0, 1],
-        translateY: [10, 0]
-      }, {
-        duration: 0.7,
-        ease: [0.4, 0.0, 0.2, 1]
-      });
-
-      // Caption animation
-      captionControls.start({
-        opacity: [0, 1],
-        translateY: [12, 0]
-      }, {
-        duration: 0.6,
-        delay: 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
+  // Generate multiple rockets launching from bottom (5 rockets)
+  const rockets = Array.from({ length: 5 }, (_, i) => {
+    const x = -60 + i * 30; // Spread horizontally
+    const targetY = -80 - Math.random() * 40; // Different explosion heights
+    const launchDelay = 0.2 + i * 0.15;
+    const explodeDelay = launchDelay + 0.8;
+    return { 
+      id: i, 
+      x, 
+      targetY, 
+      launchDelay, 
+      explodeDelay,
+      color: ['#ff4500', '#ffd700', '#ff69b4', '#00ff00', '#9370db'][i]
     };
+  });
 
-    startAnimation();
-  }, [glowControls, badgeControls, iconControls, headlineControls, captionControls]);
+  // Generate explosion sparks for each rocket (12 sparks per explosion)
+  const explosions = rockets.map((rocket, rocketIndex) => 
+    Array.from({ length: 12 }, (_, sparkIndex) => {
+      const angle = (Math.PI * 2 * sparkIndex) / 12;
+      const distance = 40 + Math.random() * 30;
+      const sparkX = rocket.x + Math.cos(angle) * distance;
+      const sparkY = rocket.targetY + Math.sin(angle) * distance;
+      return {
+        id: `${rocketIndex}-${sparkIndex}`,
+        x: sparkX,
+        y: sparkY,
+        startX: rocket.x,
+        startY: rocket.targetY,
+        delay: rocket.explodeDelay,
+        color: rocket.color
+      };
+    })
+  ).flat();
 
   return (
     <div 
-      className="pf-milestone" 
+      className="pf-milestone pf-fireworks" 
       data-animation-id="milestone-celebrations__progress-fireworks"
-      style={{ '--pf-milestone-accent': accent } as React.CSSProperties}
     >
-      <div className="pf-milestone__visuals">
-        <motion.div 
-          className="pf-milestone__glow"
+      {/* Rockets launching from bottom */}
+      {rockets.map((rocket) => (
+        <div key={`rocket-${rocket.id}`}>
+          {/* Rocket body */}
+          <div
+            className="pf-fireworks__rocket"
+            style={{
+              left: '50%',
+              bottom: '10%',
+              marginLeft: `${rocket.x}px`,
+              backgroundColor: rocket.color,
+              animation: `rocketLaunch 1s ease-out ${rocket.launchDelay}s forwards`,
+              '--ty': `${rocket.targetY}px`,
+              opacity: 0
+            } as React.CSSProperties}
+          />
+          
+          {/* Rocket trail */}
+          <div
+            className="pf-fireworks__trail"
+            style={{
+              left: '50%',
+              bottom: '10%',
+              marginLeft: `${rocket.x + 1}px`,
+              animation: `trailFade 1.2s ease-out ${rocket.launchDelay}s forwards`,
+              opacity: 0
+            }}
+          />
+        </div>
+      ))}
+      
+      {/* Staggered explosions with colorful sparks */}
+      {explosions.map((explosion) => (
+        <div
+          key={`explosion-${explosion.id}`}
+          className="pf-fireworks__explosion"
           style={{
-            background: `radial-gradient(circle, rgba(255, 89, 129, 0.55), rgba(236, 195, 255, 0))`
+            left: '50%',
+            bottom: '10%',
+            marginLeft: `${explosion.startX}px`,
+            marginBottom: `${-explosion.startY}px`,
+            backgroundColor: explosion.color,
+            animation: `fireworkExplode 1.5s ease-out ${explosion.delay}s forwards`,
+            opacity: 0
           }}
-          animate={glowControls}
-          initial={{ opacity: 0, scale: 0.8 }}
         />
+      ))}
+      
+      {/* Individual sparks flying out from explosions */}
+      {explosions.map((explosion, index) => {
+        const sparkImages = [sparkleImg, star1Img, star2Img];
+        const selectedImg = sparkImages[index % sparkImages.length];
         
-        <div className="pf-milestone__effects" ref={effectsRef}>
-          {createFireworksEffects()}
-        </div>
+        return (
+          <div
+            key={`spark-${explosion.id}`}
+            className="pf-fireworks__spark"
+            style={{
+              left: '50%',
+              bottom: '10%',
+              marginLeft: `${explosion.startX}px`,
+              marginBottom: `${-explosion.startY}px`,
+              animation: `sparkFly 2s ease-out ${explosion.delay}s forwards`,
+              '--spark-x': `${explosion.x - explosion.startX}px`,
+              '--spark-y': `${explosion.y - explosion.startY}px`,
+              opacity: 0
+            } as React.CSSProperties}
+          >
+            <img 
+              src={selectedImg} 
+              alt="Firework Spark" 
+              style={{ 
+                width: '20px', 
+                height: '20px',
+                filter: `hue-rotate(${index * 60}deg) brightness(1.2)`
+              }} 
+            />
+          </div>
+        );
+      })}
+
+      {/* Additional CSS for grand finale fireworks */}
+      <style>{`
+        @keyframes trailFade {
+          0% { 
+            opacity: 1; 
+            transform: scaleY(0); 
+          }
+          50% { 
+            opacity: 0.8; 
+            transform: scaleY(1); 
+          }
+          100% { 
+            opacity: 0; 
+            transform: scaleY(0.3); 
+          }
+        }
         
-        <div className="pf-milestone__content">
-          <motion.div 
-            className="pf-milestone__badge"
-            animate={badgeControls}
-            initial={{ translateY: -18, scale: 1.1 }}
-          >
-            Grand Win
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__icon"
-            animate={iconControls}
-            initial={{ scale: 0.7, rotate: 0 }}
-          >
-            💥
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__headline"
-            animate={headlineControls}
-            initial={{ opacity: 0, translateY: 10 }}
-          >
-            Progress Fireworks
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__caption"
-            animate={captionControls}
-            initial={{ opacity: 0, translateY: 12 }}
-          >
-            Jackpot fireworks triggered.
-          </motion.div>
-        </div>
-      </div>
+        @keyframes sparkFly {
+          0% { 
+            transform: translate(0, 0) scale(1); 
+            opacity: 1; 
+          }
+          70% { 
+            opacity: 0.8; 
+          }
+          100% { 
+            transform: translate(var(--spark-x, 0), var(--spark-y, 0)) scale(0.3); 
+            opacity: 0; 
+          }
+        }
+        
+        .pf-fireworks__trail {
+          transform-origin: bottom center;
+        }
+        
+        .pf-fireworks__explosion {
+          border-radius: 50%;
+        }
+      `}</style>
     </div>
   );
 }

@@ -1,212 +1,193 @@
-import { useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 import './milestone-celebrations.css';
+import badgeImg from '@/assets/milestone-celebrations/badge.png';
 
 export function MilestoneCelebrationsBadgeGlow() {
-  const glowControls = useAnimation();
-  const badgeControls = useAnimation();
-  const iconControls = useAnimation();
-  const headlineControls = useAnimation();
-  const captionControls = useAnimation();
-  const effectsRef = useRef<HTMLDivElement>(null);
+  // Generate honor ribbon cascade
+  const honorRibbons = Array.from({ length: 6 }, (_, i) => ({
+    id: i,
+    delay: 0.8 + i * 0.1,
+    angle: (Math.PI * 2 * i) / 6,
+    distance: 80 + i * 10
+  }));
 
-  const accent = '#ecc3ff';
-  
-  const hexToRgba = (hex: string, alpha: number) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  };
+  // Generate medal gleam rays
+  const gleamRays = Array.from({ length: 12 }, (_, i) => ({
+    id: i,
+    angle: (Math.PI * 2 * i) / 12,
+    delay: 1.2 + i * 0.05
+  }));
 
-  const createHaloEffects = () => {
-    if (!effectsRef.current) return [];
-    
-    const effects = [];
-    
-    // 2 expanding halos
-    for (let i = 0; i < 2; i++) {
-      const size = 200 + i * 60;
-      effects.push(
-        <motion.span
-          key={`halo-${i}`}
-          className="pf-milestone__halo"
-          style={{
-            left: '50%',
-            top: '50%',
-            width: `${size}px`,
-            height: `${size}px`,
-            border: `2px solid ${hexToRgba(accent, 0.35)}`,
-          }}
-          initial={{ 
-            opacity: 0, 
-            transform: 'translate(-50%, -50%) scale(0.7)' 
-          }}
-          animate={{
-            opacity: [0, 0.45, 0],
-            transform: [
-              'translate(-50%, -50%) scale(0.7)',
-              'translate(-50%, -50%) scale(1)',
-              'translate(-50%, -50%) scale(1.2)'
-            ]
-          }}
-          transition={{
-            duration: 1.4,
-            delay: i * 0.2,
-            times: [0, 0.6, 1],
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
-        />
-      );
-    }
-    
-    // 6 sparks in circle pattern
-    for (let i = 0; i < 6; i++) {
-      const angle = (Math.PI * 2 * i) / 6;
-      const radius = 60;
-      const tx = Math.cos(angle) * radius;
-      const ty = Math.sin(angle) * radius;
-      
-      effects.push(
-        <motion.span
-          key={`spark-${i}`}
-          className="pf-milestone__spark"
-          style={{
-            background: hexToRgba(accent, 0.8),
-            left: '50%',
-            top: '50%',
-          }}
-          initial={{ 
-            opacity: 0, 
-            transform: 'translate(-50%, -50%) scale(0.4)' 
-          }}
-          animate={{
-            opacity: [0, 1, 0],
-            transform: [
-              'translate(-50%, -50%) scale(0.4)',
-              `translate(-50%, -50%) translate(${tx}px, ${ty}px) scale(1)`,
-              `translate(-50%, -50%) translate(${tx}px, ${ty}px) scale(0.4)`
-            ]
-          }}
-          transition={{
-            duration: 1.1,
-            delay: 0.2 + i * 0.1,
-            times: [0, 0.6, 1],
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
-        />
-      );
-    }
-    
-    return effects;
-  };
-
-  useEffect(() => {
-    const startAnimation = () => {
-      // Glow animation
-      glowControls.start({
-        opacity: [0, 0.8, 0.2],
-        scale: [0.5, 1.35, 1.7]
-      }, {
-        duration: 1.2,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
-
-      // Badge animation
-      badgeControls.start({
-        scale: [0.95, 1.12, 1],
-        filter: ['brightness(1)', 'brightness(1.25)', 'brightness(1)']
-      }, {
-        duration: 0.8,
-        ease: [0.4, 0.0, 0.2, 1]
-      });
-
-      // Icon animation
-      iconControls.start({
-        scale: [0.9, 1.18, 1],
-        rotate: [0, 8, -6, 0]
-      }, {
-        duration: 0.8,
-        ease: [0.68, -0.55, 0.265, 1.55]
-      });
-
-      // Headline animation
-      headlineControls.start({
-        opacity: [0, 1],
-        scale: [0.93, 1]
-      }, {
-        duration: 0.7,
-        ease: [0.215, 0.610, 0.355, 1.000]
-      });
-
-      // Caption animation
-      captionControls.start({
-        opacity: [0, 1],
-        translateY: [10, 0]
-      }, {
-        duration: 0.6,
-        delay: 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
+  // Generate floating commendation stars
+  const commendationStars = Array.from({ length: 8 }, (_, i) => {
+    const angle = (Math.PI * 2 * i) / 8;
+    const distance = 60 + Math.random() * 40;
+    return {
+      id: i,
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance,
+      delay: 1.8 + i * 0.08,
+      scale: 0.8 + Math.random() * 0.4
     };
-
-    startAnimation();
-  }, [glowControls, badgeControls, iconControls, headlineControls, captionControls]);
+  });
 
   return (
     <div 
-      className="pf-milestone" 
+      className="pf-milestone pf-badge-glow" 
       data-animation-id="milestone-celebrations__badge-glow"
-      style={{ '--pf-milestone-accent': accent } as React.CSSProperties}
     >
-      <div className="pf-milestone__visuals">
-        <motion.div 
-          className="pf-milestone__glow"
-          style={{
-            background: `radial-gradient(circle, rgba(236, 195, 255, 0.55), rgba(236, 195, 255, 0))`
-          }}
-          animate={glowControls}
-          initial={{ opacity: 0, scale: 0.5 }}
+      {/* Honor Aura */}
+      <motion.div
+        className="pf-badge-glow__honor-aura"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ 
+          scale: [0, 1.5, 1.2],
+          opacity: [0, 0.6, 0.4] 
+        }}
+        transition={{ 
+          duration: 1.8, 
+          delay: 0.5,
+          ease: "easeOut"
+        }}
+      />
+
+      {/* Premium Military Badge */}
+      <motion.div
+        className="pf-badge-glow__premium-badge"
+        initial={{ 
+          rotateY: -180, 
+          scale: 0.3, 
+          opacity: 0 
+        }}
+        animate={{ 
+          rotateY: [0, 360, 0], 
+          scale: [0.3, 1.1, 1], 
+          opacity: 1 
+        }}
+        transition={{ 
+          duration: 2.2, 
+          delay: 0.3,
+          ease: [0.68, -0.55, 0.265, 1.55]
+        }}
+      >
+        <img 
+          src={badgeImg} 
+          alt="Service Badge" 
+          className="pf-badge-glow__badge-image"
+          style={{ 
+            width: '100px', 
+            height: '100px',
+            filter: 'drop-shadow(0 0 15px rgba(255, 165, 0, 0.8))'
+          }} 
         />
         
-        <div className="pf-milestone__effects" ref={effectsRef}>
-          {createHaloEffects()}
-        </div>
-        
-        <div className="pf-milestone__content">
-          <motion.div 
-            className="pf-milestone__badge"
-            animate={badgeControls}
-            initial={{ scale: 0.95, filter: 'brightness(1)' }}
-          >
-            Badge Glow
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__icon"
-            animate={iconControls}
-            initial={{ scale: 0.9, rotate: 0 }}
-          >
-            🔰
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__headline"
-            animate={headlineControls}
-            initial={{ opacity: 0, scale: 0.93 }}
-          >
-            Badge Glow
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__caption"
-            animate={captionControls}
-            initial={{ opacity: 0, translateY: 10 }}
-          >
-            Badge prestige increased.
-          </motion.div>
-        </div>
-      </div>
+        {/* Holographic Shimmer */}
+        <motion.div
+          className="pf-badge-glow__holographic-shimmer"
+          initial={{ x: '-100%' }}
+          animate={{ x: '100%' }}
+          transition={{ 
+            duration: 1.5, 
+            delay: 2.0,
+            repeat: Infinity,
+            repeatDelay: 2.0
+          }}
+        />
+      </motion.div>
+
+      {/* Medal Gleam Rays */}
+      {gleamRays.map((ray) => (
+        <motion.div
+          key={`gleam-${ray.id}`}
+          className="pf-badge-glow__gleam-ray"
+          style={{
+            transform: `rotate(${ray.angle}rad)`,
+            transformOrigin: 'center bottom'
+          }}
+          initial={{ scaleY: 0, opacity: 0 }}
+          animate={{ 
+            scaleY: [0, 1, 0.7], 
+            opacity: [0, 0.8, 0.3] 
+          }}
+          transition={{ 
+            duration: 1.0, 
+            delay: ray.delay,
+            ease: "easeOut"
+          }}
+        />
+      ))}
+
+      {/* Honor Ribbon Cascade */}
+      {honorRibbons.map((ribbon) => (
+        <motion.div
+          key={`ribbon-${ribbon.id}`}
+          className="pf-badge-glow__floating-ribbon"
+          style={{
+            left: '50%',
+            top: '50%'
+          }}
+          initial={{
+            x: 0,
+            y: 0,
+            scale: 0,
+            rotate: 0,
+            opacity: 0
+          }}
+          animate={{
+            x: Math.cos(ribbon.angle) * ribbon.distance,
+            y: Math.sin(ribbon.angle) * ribbon.distance,
+            scale: [0, 1.2, 1],
+            rotate: [0, 180, 360],
+            opacity: [0, 1, 0.6]
+          }}
+          transition={{
+            duration: 1.5,
+            delay: ribbon.delay,
+            ease: "easeOut"
+          }}
+        />
+      ))}
+
+      {/* Commendation Stars */}
+      {commendationStars.map((star) => (
+        <motion.div
+          key={`commendation-${star.id}`}
+          className="pf-badge-glow__commendation-star"
+          style={{
+            left: '50%',
+            top: '50%'
+          }}
+          initial={{
+            x: 0,
+            y: 0,
+            scale: 0,
+            opacity: 0
+          }}
+          animate={{
+            x: star.x,
+            y: star.y,
+            scale: [0, star.scale * 1.2, star.scale],
+            opacity: [0, 1, 0.7]
+          }}
+          transition={{
+            duration: 1.2,
+            delay: star.delay,
+            ease: "easeOut"
+          }}
+        />
+      ))}
+
+      {/* Service Excellence Banner */}
+      <motion.div
+        className="pf-badge-glow__service-banner"
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={{ scaleX: 1, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 2.5 }}
+      >
+        <div className="pf-badge-glow__banner-medal"></div>
+        <div className="pf-badge-glow__banner-text">SERVICE EXCELLENCE</div>
+        <div className="pf-badge-glow__banner-medal"></div>
+      </motion.div>
     </div>
   );
 }

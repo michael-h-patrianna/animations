@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './modal-dismiss.css';
 
 export function ModalDismissSnackbarScale() {
@@ -82,13 +82,13 @@ export function ModalDismissSnackbarScale() {
 
   return (
     <div className="pf-toast-preview">
-      <div 
+      <div
         ref={toastRef}
         className="pf-toast"
         data-animation-id="modal-dismiss__snackbar-scale"
       >
         <div className="pf-toast__title">Action Complete</div>
-        <div>Your changes have been saved</div>
+        <div className="pf-toast__body">Your changes have been saved</div>
         <div className="pf-toast__progress">
           <div ref={progressRef} className="pf-toast__progress-bar"></div>
         </div>

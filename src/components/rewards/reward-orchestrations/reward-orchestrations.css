@@ -1,1 +1,289 @@
 /* Shared styles for the group animations */
+
+/* Base orchestration container */
+.pf-reward-orchestration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 120px;
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+/* Coin Trail Animation */
+.pf-coin-trail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-coin-trail__coin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  border: 2px solid #ffb300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: #b8860b;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.pf-coin-trail__coin::before {
+  content: '$';
+}
+
+/* Coin Cascade Animation */
+.pf-coin-cascade {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-coin-cascade__coin {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  border: 2px solid #ffb300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: bold;
+  color: #b8860b;
+  box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
+}
+
+.pf-coin-cascade__coin::before {
+  content: '💰';
+}
+
+/* Multi Coin Animation */
+.pf-multi-coin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-multi-coin__group {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+}
+
+.pf-multi-coin__coin {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  border: 1.5px solid #ffb300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: bold;
+  color: #b8860b;
+  box-shadow: 0 1px 4px rgba(255, 215, 0, 0.3);
+}
+
+.pf-multi-coin__coin::before {
+  content: '$';
+}
+
+/* Treasure Particles Animation */
+.pf-treasure-particles {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-treasure-particles__particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #ffd700, #ffb300);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+.pf-treasure-particles__gem {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
+/* Unlock Chain Animation */
+.pf-unlock-chain {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-unlock-chain__link {
+  position: absolute;
+  width: 20px;
+  height: 12px;
+  border: 3px solid #4ecdc4;
+  border-radius: 10px;
+  background: transparent;
+}
+
+.pf-unlock-chain__key {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(45deg, #ffd700, #ffb300);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+}
+
+/* Unlock Cascade Animation */
+.pf-unlock-cascade {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-unlock-cascade__lock {
+  position: absolute;
+  width: 18px;
+  height: 20px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 4px 4px 8px 8px;
+  border: 2px solid #4a5568;
+}
+
+.pf-unlock-cascade__lock::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 3px;
+  width: 8px;
+  height: 12px;
+  border: 3px solid #4a5568;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Reward Path Animation */
+.pf-reward-path {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-reward-path__dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #4ecdc4;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(78, 205, 196, 0.6);
+}
+
+.pf-reward-path__treasure {
+  position: absolute;
+  width: 24px;
+  height: 20px;
+  background: linear-gradient(45deg, #ffd700, #ffb300);
+  border-radius: 4px;
+  border: 2px solid #e6ac00;
+}
+
+.pf-reward-path__treasure::before {
+  content: '💎';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+}
+
+/* Jackpot Beam Animation */
+.pf-jackpot-beam {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-jackpot-beam__ray {
+  position: absolute;
+  width: 4px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, #ffd700, transparent);
+  border-radius: 2px;
+  transform-origin: bottom center;
+}
+
+.pf-jackpot-beam__core {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #ffd700, #ffb300);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+/* Map Travel Animation */
+.pf-map-travel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-map-travel__marker {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #ff6b6b;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.pf-map-travel__trail {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #4ecdc4;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(78, 205, 196, 0.6);
+}
+
+/* Reward Celebration Animation */
+.pf-reward-celebration {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-reward-celebration__firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.pf-reward-celebration__star {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ffd700;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}

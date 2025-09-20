@@ -1,16 +1,22 @@
 .pf-toast {
   min-width: 240px;
-  padding: 16px 18px;
-  border-radius: 12px;
-  background: rgba(78, 24, 124, 0.88);
-  color: #ecc3ff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(236, 195, 255, 0.16);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+  transform-origin: center;
+
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(236, 195, 255, 0.08);
+    border: 1px solid rgba(236, 195, 255, 0.12);
+    color: rgba(255, 255, 255, 0.76);
   position: relative;
 }
 
 .pf-toast__title {
   font-weight: 600;
   margin-bottom: 6px;
+}
+.pf-toast__body {
+  padding-bottom: 8px
 }
 
 .pf-toast__progress {
@@ -52,52 +58,12 @@
   opacity: 0;
 }
 
-.pf-toast__burst-overlay {
-  position: absolute;
-  inset: -12px;
-  border-radius: inherit;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: 0;
-}
 
-.pf-toast__burst-halo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 128, 162, 0.55), rgba(255, 128, 162, 0));
-  transform: translate(-50%, -50%) scale(0.3);
-  opacity: 0;
-  filter: blur(4px);
-}
 
-.pf-toast__burst-spark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 4px;
-  height: 32px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 99, 146, 0.65) 100%);
-  transform-origin: center 90%;
-  opacity: 0;
-  filter: drop-shadow(0 0 6px rgba(255, 178, 208, 0.6));
-}
 
-.pf-toast__burst-dot {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 214, 235, 0.85), rgba(255, 214, 235, 0));
-  opacity: 0;
-  filter: blur(1px);
-}
+
+
+
 
 /* Preview container for components */
 .pf-toast-preview {

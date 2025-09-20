@@ -3,7 +3,7 @@ import './modal-orchestration.css';
 
 export function ModalOrchestrationWizardSlideStack() {
   const steps = 3;
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,12 +15,12 @@ export function ModalOrchestrationWizardSlideStack() {
   };
 
   const stepVariants = {
-    initial: { 
-      scale: 0.9, 
-      opacity: 0.3 
+    initial: {
+      scale: 0.9,
+      opacity: 0.3
     },
-    animate: { 
-      scale: [0.9, 1.06, 1], 
+    animate: {
+      scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
@@ -30,14 +30,14 @@ export function ModalOrchestrationWizardSlideStack() {
   };
 
   const panelVariants = {
-    initial: { 
-      x: 48, 
-      scale: 0.94, 
-      opacity: 0 
+    initial: {
+      x: 48,
+      scale: 0.94,
+      opacity: 0
     },
-    animate: { 
-      x: 0, 
-      scale: 1, 
+    animate: {
+      x: 0,
+      scale: 1,
       opacity: 1,
       transition: {
         duration: 0.312, // 520ms * 0.6
@@ -47,29 +47,19 @@ export function ModalOrchestrationWizardSlideStack() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-wizard"
       variants={containerVariants}
       initial="initial"
       animate="animate"
       data-animation-id="modal-orchestration__wizard-slide-stack"
     >
-      <div className="pf-wizard__steps">
-        {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
-            className="pf-wizard__step"
-            variants={stepVariants}
-          >
-            Step {index + 1}
-          </motion.div>
-        ))}
-      </div>
-      
+
+
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className="pf-wizard__panel"
             variants={panelVariants}
           >

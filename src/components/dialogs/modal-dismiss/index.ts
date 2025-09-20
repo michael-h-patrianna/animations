@@ -1,6 +1,5 @@
 import type { AnimationComponentMap } from '@/types/animation';
 
-import { ModalDismissNotificationBurst } from './ModalDismissNotificationBurst';
 import { ModalDismissSnackbarScale } from './ModalDismissSnackbarScale';
 import { ModalDismissSnackbarWipe } from './ModalDismissSnackbarWipe';
 import { ModalDismissToastDrop } from './ModalDismissToastDrop';
@@ -9,7 +8,6 @@ import { ModalDismissToastRaise } from './ModalDismissToastRaise';
 import { ModalDismissToastSlideLeft } from './ModalDismissToastSlideLeft';
 import { ModalDismissToastSlideRight } from './ModalDismissToastSlideRight';
 
-export { ModalDismissNotificationBurst } from './ModalDismissNotificationBurst';
 export { ModalDismissSnackbarScale } from './ModalDismissSnackbarScale';
 export { ModalDismissSnackbarWipe } from './ModalDismissSnackbarWipe';
 export { ModalDismissToastDrop } from './ModalDismissToastDrop';
@@ -19,7 +17,6 @@ export { ModalDismissToastSlideLeft } from './ModalDismissToastSlideLeft';
 export { ModalDismissToastSlideRight } from './ModalDismissToastSlideRight';
 
 export const dialogsModalDismissAnimations: AnimationComponentMap = {
-  'modal-dismiss__notification-burst': ModalDismissNotificationBurst,
   'modal-dismiss__snackbar-scale': ModalDismissSnackbarScale,
   'modal-dismiss__snackbar-wipe': ModalDismissSnackbarWipe,
   'modal-dismiss__toast-drop': ModalDismissToastDrop,
