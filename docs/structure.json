@@ -233,7 +233,42 @@
     {
       "id": "text-effects__character-reveal",
       "title": "Character Reveal",
-      "description": "Text reveals character by character with scale animation and shadow effects.",
+      "description": "Premium text reveal with layered shadows and character scale animations for achievement moments.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__epic-win",
+      "title": "Epic Win",
+      "description": "Metallic 3D text with rotating entrance, layered shadows, and victory flare effect.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__wave-text",
+      "title": "Wave Text",
+      "description": "Smooth undulating wave motion through characters for fluid text animations.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__glitch-text",
+      "title": "Glitch Text",
+      "description": "Digital distortion with RGB channel separation and scanning line artifacts.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__typewriter",
+      "title": "Typewriter",
+      "description": "Classic terminal-style text typing with blinking cursor for system messages.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__combo-counter",
+      "title": "Combo Counter",
+      "description": "Dynamic counting animation with milestone particles and perfect combo celebration.",
       "categoryId": "base",
       "groupId": "text-effects"
     },
