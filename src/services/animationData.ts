@@ -1,4 +1,4 @@
-import type { AnimationData, Category, Animation } from '@/types/animation';
+import type { Animation, AnimationData, Category } from '@/types/animation';
 
 // Initial categories - can be extended or loaded from API
 const INITIAL_CATEGORIES = [
@@ -22,11 +22,11 @@ class AnimationDataService {
   async loadAnimations(): Promise<Category[]> {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 100));
-    
+
     // Group animations by category
     const categoriesWithAnimations = this.data.categories.map(category => ({
       ...category,
-      animations: this.data.animations.filter(animation => 
+      animations: this.data.animations.filter(animation =>
         animation.categoryId === category.id
       )
     }));
@@ -39,12 +39,12 @@ class AnimationDataService {
       ...animation,
       id: `${animation.categoryId}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     };
-    
+
     this.data.animations.push(newAnimation);
   }
 
   async getAnimationsByCategory(categoryId: string): Promise<Animation[]> {
-    return this.data.animations.filter(animation => 
+    return this.data.animations.filter(animation =>
       animation.categoryId === categoryId
     );
   }

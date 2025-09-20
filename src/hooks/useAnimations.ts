@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import { animationDataService } from '@/services/animationData';
 import type { Category, LoadingState } from '@/types/animation';
+import { useEffect, useState } from 'react';
 
 export function useAnimations() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -17,8 +17,8 @@ export function useAnimations() {
         setCategories(data);
         setLoadingState({ isLoading: false, error: null });
       } catch (error) {
-        setLoadingState({ 
-          isLoading: false, 
+        setLoadingState({
+          isLoading: false,
           error: error instanceof Error ? error.message : 'Failed to load animations'
         });
       }
@@ -35,8 +35,8 @@ export function useAnimations() {
         setCategories(data);
         setLoadingState({ isLoading: false, error: null });
       } catch (error) {
-        setLoadingState({ 
-          isLoading: false, 
+        setLoadingState({
+          isLoading: false,
           error: error instanceof Error ? error.message : 'Failed to load animations'
         });
       }
