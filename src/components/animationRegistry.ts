@@ -1,6 +1,7 @@
 import type { AnimationComponentMap } from '@/types/animation';
 
 import { AnimationComponentMap as baseTextEffectsAnimations } from '@/components/base/text-effects';
+import { baseStandardEffectsAnimations } from '@/components/base/standard-effects';
 import { dialogsModalBaseAnimations } from '@/components/dialogs/modal-base';
 import { dialogsModalCelebrationsAnimations } from '@/components/dialogs/modal-celebrations';
 import { dialogsModalContentAnimations } from '@/components/dialogs/modal-content';
@@ -18,6 +19,7 @@ import { rewardsRewardOrchestrationsAnimations } from '@/components/rewards/rewa
 
 export const animationRegistry: AnimationComponentMap = {
   ...baseTextEffectsAnimations,
+  ...baseStandardEffectsAnimations,
   ...dialogsModalBaseAnimations,
   ...dialogsModalContentAnimations,
   ...dialogsModalDismissAnimations,

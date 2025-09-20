@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import './modal-content.css';
+import './standard-effects.css';
 
-export function ModalContentSuccessBounceSoft() {
+export function StandardEffectsSuccessBounce() {
   const feedbackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
