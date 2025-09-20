@@ -1,5 +1,6 @@
 import type { AnimationComponentMap } from '@/types/animation';
 
+import { AnimationComponentMap as baseTextEffectsAnimations } from '@/components/base/text-effects';
 import { dialogsModalBaseAnimations } from '@/components/dialogs/modal-base';
 import { dialogsModalContentAnimations } from '@/components/dialogs/modal-content';
 import { dialogsModalDismissAnimations } from '@/components/dialogs/modal-dismiss';
@@ -30,6 +31,7 @@ import { ambientAmbientEffectsAnimations } from '@/components/ambient/ambient-ef
 import { ambientAdvancedEffectsAnimations } from '@/components/ambient/advanced-effects';
 
 export const animationRegistry: AnimationComponentMap = {
+  ...baseTextEffectsAnimations,
   ...dialogsModalBaseAnimations,
   ...dialogsModalContentAnimations,
   ...dialogsModalDismissAnimations,

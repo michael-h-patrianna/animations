@@ -80,13 +80,133 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  position: relative;
+  padding: 20px;
 }
 
-.achievement-text {
-  font-weight: bold;
-  color: #c47ae5;
-  opacity: 0;
+.achievement-ring-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievement-completion-glow {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 215, 0, 0.6) 0%,
+    rgba(255, 193, 7, 0.3) 30%,
+    rgba(255, 152, 0, 0.1) 60%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.achievement-svg-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  position: relative;
+  z-index: 1;
+}
+
+.achievement-trophy-container {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.achievement-trophy-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.trophy-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.achievement-text-container {
+  position: relative;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievement-shadow-text {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.achievement-shadow-char {
+  display: inline-block;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-text-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.achievement-char {
+  display: inline-block;
+  text-transform: uppercase;
+  background: linear-gradient(
+    135deg,
+    #FFD700 0%,
+    #FFED4E 25%,
+    #FFD700 50%,
+    #FFA500 75%,
+    #FFD700 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.achievement-unlocked {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: rgba(255, 193, 7, 0.8);
+  text-align: center;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
 /* Achievement Card */
