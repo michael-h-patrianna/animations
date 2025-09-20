@@ -94,12 +94,7 @@
           "tech": "css",
           "demo": "updateIndicator"
         },
-        {
-          "id": "complex-timers",
-          "title": "Complex timers",
-          "tech": "framer",
-          "demo": "timerComplex"
-        },
+
         {
           "id": "realtime-data",
           "title": "Real-time data",
@@ -1064,41 +1059,6 @@
       "description": "Card flips to reveal updated data.",
       "categoryId": "realtime",
       "groupId": "update-indicators"
-    },
-    {
-      "id": "complex-timers__circular-countdown",
-      "title": "Circular Countdown",
-      "description": "Complex timers pattern: Circular Countdown",
-      "categoryId": "realtime",
-      "groupId": "complex-timers"
-    },
-    {
-      "id": "complex-timers__mode-switch",
-      "title": "Mode Switch",
-      "description": "Complex timers pattern: Mode Switch",
-      "categoryId": "realtime",
-      "groupId": "complex-timers"
-    },
-    {
-      "id": "complex-timers__generator-fill",
-      "title": "Generator Fill",
-      "description": "Complex timers pattern: Generator Fill",
-      "categoryId": "realtime",
-      "groupId": "complex-timers"
-    },
-    {
-      "id": "complex-timers__tournament-timer",
-      "title": "Tournament Timer",
-      "description": "Complex timers pattern: Tournament Timer",
-      "categoryId": "realtime",
-      "groupId": "complex-timers"
-    },
-    {
-      "id": "complex-timers__countdown-flip",
-      "title": "Countdown Flip",
-      "description": "Complex timers pattern: Countdown Flip",
-      "categoryId": "realtime",
-      "groupId": "complex-timers"
     },
     {
       "id": "realtime-data__leaderboard-shift",

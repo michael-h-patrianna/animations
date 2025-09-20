@@ -11,29 +11,25 @@ interface GroupSectionProps {
 function isInfiniteAnimation(groupId: string, animationId: string): boolean {
   // All loading states should be infinite
   if (groupId === 'loading-states') return true;
-  
+
   // Specific animations that should loop infinitely
   const infiniteAnimations = [
     // Timer effects that should continuously pulse/glow
     'timer-effects__timer-pulse',
     'timer-effects__timer-glow',
     'timer-effects__timer-breathe',
-    
+
     // Update indicators that should continuously show activity
     'update-indicators__live-ping',
     'update-indicators__badge-pulse',
     'update-indicators__notification-dot',
-    
+
     // Realtime data animations
     'realtime-data__live-score-update',
     'realtime-data__currency-update',
     'realtime-data__win-ticker',
-    
-    // Complex timers
-    'complex-timers__circular-countdown',
-    'complex-timers__tournament-timer',
-  ];
-  
+      ];
+
   return infiniteAnimations.includes(animationId);
 }
 
