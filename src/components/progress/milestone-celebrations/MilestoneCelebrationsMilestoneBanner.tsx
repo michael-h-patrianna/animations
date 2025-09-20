@@ -1,228 +1,189 @@
-import { useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React from 'react';
 import './milestone-celebrations.css';
+import ribbonImg from '@/assets/milestone-celebrations/ribbon.png';
 
 export function MilestoneCelebrationsMilestoneBanner() {
-  const glowControls = useAnimation();
-  const badgeControls = useAnimation();
-  const iconControls = useAnimation();
-  const headlineControls = useAnimation();
-  const captionControls = useAnimation();
-  const effectsRef = useRef<HTMLDivElement>(null);
+  // Generate musical notes for trumpets (6 notes per trumpet)
+  const leftNotes = Array.from({ length: 6 }, (_, i) => ({
+    id: i,
+    delay: 1.2 + i * 0.1,
+    x: -20 - i * 8,
+    y: -10 - i * 5
+  }));
 
-  const accent = '#47fff4';
-  
-  const hexToRgba = (hex: string, alpha: number) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  };
+  const rightNotes = Array.from({ length: 6 }, (_, i) => ({
+    id: i,
+    delay: 1.2 + i * 0.1,
+    x: 20 + i * 8,
+    y: -10 - i * 5
+  }));
 
-  const randBetween = (min: number, max: number) => {
-    return Math.random() * (max - min) + min;
-  };
-
-  const createBannerEffects = () => {
-    if (!effectsRef.current) return [];
-    
-    const effects = [];
-    
-    // Left and right ribbons
-    effects.push(
-      <motion.span
-        key="ribbon-left"
-        className="pf-milestone__ribbon pf-milestone__ribbon--left"
-        style={{
-          left: '12%',
-          top: '62%',
-          background: `linear-gradient(135deg, ${hexToRgba(accent, 0.48)}, ${hexToRgba(accent, 0.12)})`,
-        }}
-        initial={{ 
-          opacity: 0, 
-          transform: 'translateX(-80px) rotate(-6deg)' 
-        }}
-        animate={{
-          opacity: [0, 1],
-          transform: ['translateX(-80px) rotate(-6deg)', 'translateX(0) rotate(0deg)']
-        }}
-        transition={{
-          duration: 0.6,
-          ease: [0.215, 0.610, 0.355, 1.000]
-        }}
-      />,
-      <motion.span
-        key="ribbon-right"
-        className="pf-milestone__ribbon pf-milestone__ribbon--right"
-        style={{
-          right: '12%',
-          top: '62%',
-          background: `linear-gradient(135deg, ${hexToRgba(accent, 0.48)}, ${hexToRgba(accent, 0.12)})`,
-        }}
-        initial={{ 
-          opacity: 0, 
-          transform: 'translateX(80px) rotate(6deg)' 
-        }}
-        animate={{
-          opacity: [0, 1],
-          transform: ['translateX(80px) rotate(6deg)', 'translateX(0) rotate(0deg)']
-        }}
-        transition={{
-          duration: 0.6,
-          ease: [0.215, 0.610, 0.355, 1.000]
-        }}
-      />
-    );
-    
-    // 10 confetti pieces
-    const confettiColors = [accent, '#ecc3ff', '#c83558', '#ffce1a'];
-    for (let i = 0; i < 10; i++) {
-      const angle = randBetween(-Math.PI / 2, Math.PI / 2);
-      const distance = 90 + randBetween(-20, 40);
-      const tx = Math.cos(angle) * distance;
-      const ty = Math.sin(angle) * distance;
-      const rotate = randBetween(-30, 30);
-      const rotateExit = randBetween(-60, 60);
-      
-      effects.push(
-        <motion.span
-          key={`confetti-${i}`}
-          className="pf-milestone__confetti"
-          style={{
-            background: confettiColors[i % confettiColors.length],
-            left: '50%',
-            top: '30%',
-          }}
-          initial={{ 
-            opacity: 0, 
-            transform: 'translate(-50%, -50%) rotate(0deg) scale(0.4)' 
-          }}
-          animate={{
-            opacity: [0, 1, 0],
-            transform: [
-              'translate(-50%, -50%) rotate(0deg) scale(0.4)',
-              `translate(-50%, -50%) translate(${tx}px, ${ty}px) rotate(${rotate}deg)`,
-              `translate(-50%, -50%) translate(${tx}px, ${ty + 40}px) rotate(${rotateExit}deg)`
-            ]
-          }}
-          transition={{
-            duration: 1.1,
-            delay: i * 0.06,
-            times: [0, 0.6, 1],
-            ease: [0.25, 0.46, 0.45, 0.94]
-          }}
-        />
-      );
-    }
-    
-    return effects;
-  };
-
-  useEffect(() => {
-    const startAnimation = () => {
-      // Glow animation
-      glowControls.start({
-        opacity: [0.2, 0.6, 0.2],
-        scale: [1, 1.08, 1]
-      }, {
-        duration: 1.5,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
-
-      // Badge animation
-      badgeControls.start({
-        translateY: [-40, 0],
-        opacity: [0, 1]
-      }, {
-        duration: 0.6,
-        ease: [0.215, 0.610, 0.355, 1.000]
-      });
-
-      // Icon animation
-      iconControls.start({
-        scale: [0.7, 1.2, 1],
-        rotate: [0, -8, 6, 0]
-      }, {
-        duration: 0.7,
-        ease: [0.68, -0.55, 0.265, 1.55]
-      });
-
-      // Headline animation with letter spacing
-      headlineControls.start({
-        letterSpacing: ['0.08em', '0.22em', '0.12em']
-      }, {
-        duration: 1.1,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
-
-      // Caption animation
-      captionControls.start({
-        opacity: [0, 1],
-        translateY: [12, 0]
-      }, {
-        duration: 0.6,
-        delay: 0.15,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      });
-    };
-
-    startAnimation();
-  }, [glowControls, badgeControls, iconControls, headlineControls, captionControls]);
+  // Generate crossing spotlight beams (4 beams)
+  const spotlights = Array.from({ length: 4 }, (_, i) => ({
+    id: i,
+    rotation: i * 90 + 45, // 45, 135, 225, 315 degrees
+    delay: 0.8 + i * 0.2
+  }));
 
   return (
     <div 
-      className="pf-milestone" 
+      className="pf-milestone pf-banner" 
       data-animation-id="milestone-celebrations__milestone-banner"
-      style={{ '--pf-milestone-accent': accent } as React.CSSProperties}
     >
-      <div className="pf-milestone__visuals">
-        <motion.div 
-          className="pf-milestone__glow"
+      {/* Crossing spotlight beams */}
+      {spotlights.map((spotlight) => (
+        <div
+          key={`spotlight-${spotlight.id}`}
+          className="pf-banner__spotlight"
           style={{
-            background: `radial-gradient(circle, rgba(71, 255, 244, 0.55), rgba(236, 195, 255, 0))`
+            left: '50%',
+            top: '0%',
+            marginLeft: '-40px',
+            transform: `rotate(${spotlight.rotation}deg)`,
+            transformOrigin: 'bottom center',
+            animation: `spotlightSweep 3s ease-out ${spotlight.delay}s infinite`,
+            opacity: 0
           }}
-          animate={glowControls}
-          initial={{ opacity: 0.2, scale: 1 }}
         />
-        
-        <div className="pf-milestone__effects" ref={effectsRef}>
-          {createBannerEffects()}
-        </div>
-        
-        <div className="pf-milestone__content">
-          <motion.div 
-            className="pf-milestone__badge"
-            animate={badgeControls}
-            initial={{ translateY: -40, opacity: 0 }}
-          >
-            Milestone
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__icon"
-            animate={iconControls}
-            initial={{ scale: 0.7, rotate: 0 }}
-          >
-            🎉
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__headline"
-            animate={headlineControls}
-            initial={{ letterSpacing: '0.08em' }}
-          >
-            Milestone Banner
-          </motion.div>
-          
-          <motion.div 
-            className="pf-milestone__caption"
-            animate={captionControls}
-            initial={{ opacity: 0, translateY: 12 }}
-          >
-            Community spotlight achieved.
-          </motion.div>
-        </div>
+      ))}
+      
+      {/* Royal banner dropping from top */}
+      <div
+        className="pf-banner__banner"
+        style={{
+          left: '50%',
+          top: '50%',
+          marginLeft: '-60px',
+          marginTop: '-35px',
+          animation: 'bannerDrop 2s ease-out 0.3s forwards',
+          transform: 'translateY(-200px) scaleY(0)',
+          opacity: 1
+        }}
+      >
+        <img 
+          src={ribbonImg} 
+          alt="Milestone Banner" 
+          style={{ 
+            width: '120px', 
+            height: '70px',
+            filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.6))'
+          }} 
+        />
       </div>
+      
+      {/* Left trumpet */}
+      <div
+        className="pf-banner__trumpet"
+        style={{
+          left: '15%',
+          top: '55%',
+          marginLeft: '-30px',
+          marginTop: '-20px',
+          animation: 'trumpetFanfare 1.5s ease-out 1s forwards',
+          opacity: 0
+        }}
+      />
+      
+      {/* Right trumpet (flipped) */}
+      <div
+        className="pf-banner__trumpet"
+        style={{
+          right: '15%',
+          top: '55%',
+          marginRight: '-30px',
+          marginTop: '-20px',
+          transform: 'scaleX(-1)',
+          animation: 'trumpetFanfare 1.5s ease-out 1.1s forwards',
+          opacity: 0
+        }}
+      />
+      
+      {/* Musical notes from left trumpet */}
+      {leftNotes.map((note) => (
+        <div
+          key={`left-note-${note.id}`}
+          className="pf-banner__note"
+          style={{
+            left: '15%',
+            top: '55%',
+            animation: `noteFloat 2s ease-out ${note.delay}s forwards`,
+            '--note-x': `${note.x}px`,
+            '--note-y': `${note.y}px`,
+            opacity: 0
+          } as React.CSSProperties}
+        >
+          ♪
+        </div>
+      ))}
+      
+      {/* Musical notes from right trumpet */}
+      {rightNotes.map((note) => (
+        <div
+          key={`right-note-${note.id}`}
+          className="pf-banner__note"
+          style={{
+            right: '15%',
+            top: '55%',
+            animation: `noteFloat 2s ease-out ${note.delay}s forwards`,
+            '--note-x': `${note.x}px`,
+            '--note-y': `${note.y}px`,
+            opacity: 0
+          } as React.CSSProperties}
+        >
+          ♫
+        </div>
+      ))}
+
+      {/* Additional CSS for enhanced effects */}
+      <style>{`
+        @keyframes trumpetFanfare {
+          0% { 
+            transform: scale(0.5) rotate(-10deg); 
+            opacity: 0; 
+          }
+          50% { 
+            transform: scale(1.1) rotate(2deg); 
+            opacity: 1; 
+          }
+          100% { 
+            transform: scale(1) rotate(0deg); 
+            opacity: 1; 
+          }
+        }
+        
+        @keyframes noteFloat {
+          0% { 
+            transform: translate(0, 0) scale(0.5); 
+            opacity: 0; 
+          }
+          30% { 
+            opacity: 1; 
+          }
+          100% { 
+            transform: translate(var(--note-x, 0), var(--note-y, 0)) scale(1.2); 
+            opacity: 0; 
+          }
+        }
+        
+        @keyframes spotlightSweep {
+          0% { 
+            opacity: 0; 
+            transform: rotate(var(--rotation, 0deg)) scaleY(0.3); 
+          }
+          30% { 
+            opacity: 0.6; 
+            transform: rotate(var(--rotation, 0deg)) scaleY(1); 
+          }
+          70% { 
+            opacity: 0.3; 
+            transform: rotate(var(--rotation, 0deg)) scaleY(0.8); 
+          }
+          100% { 
+            opacity: 0; 
+            transform: rotate(var(--rotation, 0deg)) scaleY(0.2); 
+          }
+        }
+      `}</style>
     </div>
   );
 }

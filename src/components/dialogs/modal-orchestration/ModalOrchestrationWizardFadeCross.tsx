@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import './modal-orchestration.css';
 
 export function ModalOrchestrationWizardFadeCross() {
-  const steps = 4;
-  
+  const steps = 3;
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,12 +15,12 @@ export function ModalOrchestrationWizardFadeCross() {
   };
 
   const stepVariants = {
-    initial: { 
-      scale: 0.9, 
-      opacity: 0.3 
+    initial: {
+      scale: 0.9,
+      opacity: 0.3
     },
-    animate: { 
-      scale: [0.9, 1.06, 1], 
+    animate: {
+      scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
@@ -30,12 +30,12 @@ export function ModalOrchestrationWizardFadeCross() {
   };
 
   const panelVariants = {
-    initial: { 
-      y: 16, 
-      opacity: 0 
+    initial: {
+      y: 16,
+      opacity: 0
     },
-    animate: { 
-      y: 0, 
+    animate: {
+      y: 0,
       opacity: 1,
       transition: {
         duration: 0.26, // 520ms * 0.5
@@ -45,29 +45,19 @@ export function ModalOrchestrationWizardFadeCross() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-wizard"
       variants={containerVariants}
       initial="initial"
       animate="animate"
       data-animation-id="modal-orchestration__wizard-fade-cross"
     >
-      <div className="pf-wizard__steps">
-        {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
-            className="pf-wizard__step"
-            variants={stepVariants}
-          >
-            Step {index + 1}
-          </motion.div>
-        ))}
-      </div>
-      
+
+
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className="pf-wizard__panel"
             variants={panelVariants}
           >

@@ -450,23 +450,17 @@
       "categoryId": "dialogs",
       "groupId": "modal-dismiss"
     },
-    {
-      "id": "modal-dismiss__notification-burst",
-      "title": "Notification Burst",
-      "description": "High-energy burst dismissal with spark highlight and timed exit.",
-      "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
-    },
+
     {
       "id": "modal-orchestration__wizard-slide-stack",
-      "title": "Wizard Slide Stack",
+      "title": "Slide Stack",
       "description": "Complex orchestrations pattern: Wizard Slide Stack",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
     },
     {
       "id": "modal-orchestration__wizard-fade-cross",
-      "title": "Wizard Fade Cross",
+      "title": "Fade Cross",
       "description": "Complex orchestrations pattern: Wizard Fade Cross",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
