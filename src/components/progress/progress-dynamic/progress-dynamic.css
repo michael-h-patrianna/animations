@@ -1,1 +1,175 @@
 /* Shared styles for the group animations */
+
+/* XP Number Pop */
+.xp-pop-container {
+  position: relative;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* XP Bar Flare */
+.pf-progress-dynamic__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pf-progress-dynamic__value {
+  color: #c47ae5;
+}
+
+.pf-progress-track {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pf-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transform-origin: left;
+}
+
+.pf-progress-flare {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Level Breakthrough */
+.pf-level-breakthrough {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.pf-surge-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+/* Level Meter */
+.pf-meter {
+  margin: 0 auto;
+}
+
+/* Level Banner */
+.pf-level-banner {
+  position: relative;
+  z-index: 2;
+}
+
+.pf-banner-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Achievement Ring */
+.achievement-ring-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.achievement-text {
+  font-weight: bold;
+  color: #c47ae5;
+  opacity: 0;
+}
+
+/* Achievement Card */
+.achievement-card {
+  background: linear-gradient(135deg, #c47ae5 0%, #8b5cf6 100%);
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(196, 122, 229, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: glow-pulse 2s infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0; }
+  50% { transform: rotate(180deg) scale(1.2); opacity: 1; }
+}
+
+.trophy-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.achievement-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.achievement-description {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Quest Chain */
+.quest-chain {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.quest-node {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(71, 255, 244, 0.2);
+  border: 2px solid #47fff4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #47fff4;
+  position: relative;
+  font-size: 16px;
+}
+
+.quest-connector {
+  width: 20px;
+  height: 2px;
+  background: rgba(71, 255, 244, 0.3);
+  position: relative;
+}
+
+.quest-node.active {
+  background: #47fff4;
+  border-color: #47fff4;
+  color: white;
+  box-shadow: 0 0 10px rgba(71, 255, 244, 0.6);
+}
+
+.quest-connector.active {
+  background: #47fff4;
+  box-shadow: 0 0 10px rgba(71, 255, 244, 0.3);
+}

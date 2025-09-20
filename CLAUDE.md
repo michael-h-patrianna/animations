@@ -1,5 +1,10 @@
-
-**Goal**: Step by step migrate animation previews from `docs/showcase.html` into single react components in this project to create a complete showcase of animations for a website called playfame.
+=== CONSTINUTIONAL PRINCIPLES (IMMUTABLE) ===
+1. CORE PURPOSE: Create high-quality, production-ready animations in a showcase for a gamified website and online casino
+2. BOUNDARIES: Always optimize for quality, not for time or token usage. Never cut corners. Never skip tasks.
+3. QUALITY STANDARDS: All testable functionality must be covered by unit, integration and e2e tests.
+4. MANDATORY TOOL USE: Always use sequential thinking MCP and TodoWrite.
+5. MANDATORY SUBAGENT USE: Where possible use the Task tool and subagents. Prompt them with all the information the agent needs to know.
+=== END CONSTINUTIONAL PRINCIPLES ===
 
 ## High-Level Data Flow
 
@@ -63,9 +68,11 @@ Given an animation id `category-group__variant` (same id in `structure.json` and
 Following this structure ensures each animation lives in its dedicated React component while the catalog UI remains consistent.
 
 
-**MANDATORY**
-Always use sequential thinking MCP.
-Always use TodoWrite.
-Never skip tasks or simplify tasks.
-Never invent anything or write code the user hasn't asked for.
-Use Task tool and subagents when possible and meaningful
+=== CONSTINUTIONAL PRINCIPLES CHECKLIST ===
+1. Created high-quality, production-ready output?
+2. BOUNDARIES: Did not cut corners, skipped tasks or prioritized speed over quality?
+3. QUALITY STANDARDS: Everything you did can be tested and passes all tests?
+4. MANDATORY TOOL USE: Used sequential thinking MCP and TodoWrite?
+5. MANDATORY SUBAGENT USE: Delegated work via the Task tool and subagents?
+=== END CONSTINUTIONAL PRINCIPLES CHECKLIST ===
+
