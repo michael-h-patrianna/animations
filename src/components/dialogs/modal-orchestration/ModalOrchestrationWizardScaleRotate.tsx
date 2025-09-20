@@ -58,7 +58,7 @@ export function ModalOrchestrationWizardScaleRotate() {
         {Array.from({ length: steps }, (_, index) => (
           <motion.div 
             key={index} 
-            className="pf-wizard__step"
+            className={`pf-wizard__step${index === 0 ? ' pf-wizard__step--highlighted' : ''}`}
             variants={stepVariants}
           >
             Step {index + 1}
@@ -70,7 +70,7 @@ export function ModalOrchestrationWizardScaleRotate() {
         {Array.from({ length: steps }, (_, index) => (
           <motion.div 
             key={index} 
-            className="pf-wizard__panel"
+            className={`pf-wizard__panel${index === 0 ? ' pf-wizard__panel--highlighted' : ''}`}
             variants={panelVariants}
           >
             <h5>Stage {index + 1}</h5>
