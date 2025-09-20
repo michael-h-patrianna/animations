@@ -13,6 +13,7 @@ import { ModalBaseSlideLeftDrift } from './ModalBaseSlideLeftDrift';
 import { ModalBaseSlideRightDrift } from './ModalBaseSlideRightDrift';
 import { ModalBaseSlideUpCrisp } from './ModalBaseSlideUpCrisp';
 import { ModalBaseSlideUpSoft } from './ModalBaseSlideUpSoft';
+import { ModalBaseSpringBounce } from './ModalBaseSpringBounce';
 
 export { ModalBaseFadeShift } from './ModalBaseFadeShift';
 export { ModalBaseFadeSoft } from './ModalBaseFadeSoft';
@@ -27,6 +28,7 @@ export { ModalBaseSlideLeftDrift } from './ModalBaseSlideLeftDrift';
 export { ModalBaseSlideRightDrift } from './ModalBaseSlideRightDrift';
 export { ModalBaseSlideUpCrisp } from './ModalBaseSlideUpCrisp';
 export { ModalBaseSlideUpSoft } from './ModalBaseSlideUpSoft';
+export { ModalBaseSpringBounce } from './ModalBaseSpringBounce';
 
 export const dialogsModalBaseAnimations: AnimationComponentMap = {
   'modal-base__fade-shift': ModalBaseFadeShift,
@@ -41,5 +43,6 @@ export const dialogsModalBaseAnimations: AnimationComponentMap = {
   'modal-base__slide-left-drift': ModalBaseSlideLeftDrift,
   'modal-base__slide-right-drift': ModalBaseSlideRightDrift,
   'modal-base__slide-up-crisp': ModalBaseSlideUpCrisp,
-  'modal-base__slide-up-soft': ModalBaseSlideUpSoft
+  'modal-base__slide-up-soft': ModalBaseSlideUpSoft,
+  'modal-base__spring-bounce': ModalBaseSpringBounce
 };

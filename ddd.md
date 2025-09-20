@@ -60,3 +60,6 @@ Modify the Tab Content Morph preview
 2. Animate the tab content swiping left right when navigating through the tabs
 3. Highlight the currently selected tab
 4. The first tab is selected by default
+
+Remove the animation previes: Spark Trail, Crisp Snap
+Remove the Blur from Fade with Zoom animation

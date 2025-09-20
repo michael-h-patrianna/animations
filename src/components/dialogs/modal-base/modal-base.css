@@ -315,17 +315,14 @@
   0% {
     transform: translate(-50%, -50%) scale(0.96);
     opacity: 0;
-    filter: blur(8px);
   }
   65% {
     transform: translate(-50%, -50%) scale(1.01);
     opacity: 1;
-    filter: blur(2px);
   }
   100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
-    filter: blur(0);
   }
 }
 
@@ -345,4 +342,12 @@
     opacity: 1;
     filter: blur(0);
   }
+}
+
+/* Spring animation specific modal positioning */
+.pf-modal--spring {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
 }

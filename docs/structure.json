@@ -187,6 +187,13 @@
       "groupId": "text-effects"
     },
     {
+      "id": "text-effects__counter-increment",
+      "title": "Counter Increment",
+      "description": "Numeric counter ticks upwards with scale.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
       "id": "standard-effects__error-shake",
       "title": "Error Shake",
       "description": "Error shake amplitude 12px with 5 oscillations.",
@@ -204,13 +211,6 @@
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",
       "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px\u21920px blur.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__scale-crisp",
-      "title": "Crisp Snap",
-      "description": "Scale entrance from 95% up to 100% settling at 100% with 64% overlay fade and 0px\u21920px blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -280,7 +280,7 @@
     {
       "id": "modal-base__fade-zoom",
       "title": "Fade with Zoom",
-      "description": "Fade-in entrance with 68% overlay support and vertical shift 0px.",
+      "description": "Fade-in entrance with subtle zoom effect, no blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -288,6 +288,13 @@
       "id": "modal-base__fade-shift",
       "title": "Fade & Vertical Shift",
       "description": "Fade-in entrance with 70% overlay support and vertical shift 32px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__spring-bounce",
+      "title": "Spring Bounce",
+      "description": "Elastic spring entrance with dynamic bounce physics and smooth overlay transition.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -441,6 +448,34 @@
       "groupId": "modal-orchestration"
     },
     {
+      "id": "modal-orchestration__stagger-inview",
+      "title": "Stagger In-View",
+      "description": "Grid tiles that animate progressively as they enter the viewport during scroll",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__spring-physics",
+      "title": "Spring Physics Tiles",
+      "description": "Elastic spring-based tile animations with gesture interactions and bounce effects",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__magnetic-hover",
+      "title": "Magnetic Hover Tiles",
+      "description": "Tiles that respond to cursor proximity with magnetic attraction and smooth following",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
+      "id": "modal-orchestration__flip-reveal",
+      "title": "3D Flip Reveal",
+      "description": "Tiles with 3D flip transitions revealing hidden content with perspective transforms",
+      "categoryId": "dialogs",
+      "groupId": "modal-orchestration"
+    },
+    {
       "id": "progress-bars__timeline-progress",
       "title": "Timeline Progress", 
       "description": "Timeline progress visualization showing sequential milestones with connected flow.",
@@ -574,13 +609,6 @@
       "groupId": "progress-bars"
     },
     {
-      "id": "progress-bars__progress-spark",
-      "title": "Spark Trail",
-      "description": "Spark trail glides along the bar to show live updates.",
-      "categoryId": "progress",
-      "groupId": "progress-bars"
-    },
-    {
       "id": "loading-states__skeleton-horizontal",
       "title": "Skeleton Horizontal",
       "description": "Horizontal skeleton shimmer for content placeholders.",
@@ -710,13 +738,6 @@
       "id": "update-indicators__live-ping",
       "title": "Live Ping",
       "description": "Live indicator ping loop for streams.",
-      "categoryId": "realtime",
-      "groupId": "update-indicators"
-    },
-    {
-      "id": "update-indicators__counter-increment",
-      "title": "Counter Increment",
-      "description": "Numeric counter ticks upwards with scale.",
       "categoryId": "realtime",
       "groupId": "update-indicators"
     },

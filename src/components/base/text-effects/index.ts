@@ -6,6 +6,7 @@ import { TextEffectsTypewriter } from './TextEffectsTypewriter';
 import { TextEffectsComboCounter } from './TextEffectsComboCounter';
 import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop';
 import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough';
+import { TextEffectsCounterIncrement } from './TextEffectsCounterIncrement';
 
 export const AnimationComponentMap = {
   'text-effects__character-reveal': TextEffectsCharacterReveal,
@@ -16,4 +17,5 @@ export const AnimationComponentMap = {
   'text-effects__combo-counter': TextEffectsComboCounter,
   'text-effects__xp-number-pop': TextEffectsXpNumberPop,
   'text-effects__level-breakthrough': TextEffectsLevelBreakthrough,
+  'text-effects__counter-increment': TextEffectsCounterIncrement,
 };
