@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  min-height: 150px;
+  min-height: 100px;
   padding: 20px;
 }
 
@@ -71,3 +71,423 @@
   text-align: center;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
+
+/* Epic Win Animation */
+.epic-win-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  padding: 20px;
+  position: relative;
+}
+
+.epic-text-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.epic-shadow-far {
+  position: absolute;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: rgba(0, 0, 0, 0.15);
+  filter: blur(6px);
+  z-index: 0;
+}
+
+.epic-shadow-mid {
+  position: absolute;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: rgba(0, 0, 0, 0.25);
+  filter: blur(2px);
+  z-index: 1;
+}
+
+.epic-main-text {
+  position: relative;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  z-index: 3;
+  perspective: 200px;
+}
+
+.epic-char {
+  display: inline-block;
+  transform-origin: center center;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.epic-char-inner {
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(
+    170deg,
+    #FFFFFF 0%,
+    #FFF8DC 10%,
+    #FFD700 30%,
+    #FFA500 50%,
+    #FF8C00 70%,
+    #FFD700 90%,
+    #FFF8DC 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter:
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.4))
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))
+    drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+.epic-char-glow {
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 215, 0, 0.4),
+    transparent 60%
+  );
+  border-radius: 50%;
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+
+/* Wave Text Animation */
+.wave-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+
+.wave-text-wrapper {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #3b82f6;
+  display: flex;
+}
+
+.wave-char {
+  display: inline-block;
+  transform-origin: center bottom;
+}
+
+/* Glitch Text Animation */
+.glitch-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+}
+
+.glitch-text-base {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  position: relative;
+}
+
+.glitch-text-layer {
+  position: absolute;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.glitch-layer-1 {
+  color: #00ffff;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+.glitch-layer-2 {
+  color: #ff00ff;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.glitch-bars {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  top: 45%;
+  left: 0;
+  box-shadow:
+    0 5px 0 rgba(255, 255, 255, 0.1),
+    0 -5px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Typewriter Animation */
+.typewriter-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+
+.typewriter-text {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  color: #10b981;
+}
+
+.typewriter-char {
+  display: inline-block;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  font-weight: 300;
+  color: #10b981;
+}
+
+/* Power Word Animation */
+
+/* Combo Counter Animation */
+.combo-counter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  padding: 20px;
+  position: relative;
+}
+
+.combo-main-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.combo-number-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 50px;
+  perspective: 200px;
+}
+
+.combo-ghost-number {
+  position: absolute;
+  font-size: 36px;
+  font-weight: 900;
+  color: rgba(239, 68, 68, 0.3);
+  z-index: 1;
+}
+
+.combo-current-number {
+  position: relative;
+  font-size: 36px;
+  font-weight: 900;
+  display: flex;
+  z-index: 2;
+}
+
+.combo-digit {
+  display: inline-block;
+  position: relative;
+  font-size: 36px;
+  font-weight: 900;
+  background: linear-gradient(
+    180deg,
+    #ef4444 0%,
+    #dc2626 50%,
+    #b91c1c 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transform-origin: center bottom;
+  min-width: 50px;
+  text-align: center;
+}
+
+
+.combo-text-wrapper {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  display: flex;
+}
+
+.combo-text-char {
+  display: inline-block;
+  color: #f59e0b;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(245, 158, 11, 0.5);
+  transform-origin: center;
+}
+
+.combo-digit-glow {
+  position: absolute;
+  inset: -10px;
+  background: radial-gradient(
+    circle,
+    rgba(239, 68, 68, 0.6),
+    transparent
+  );
+  border-radius: 50%;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.combo-number-shimmer {
+  position: absolute;
+  width: 100px;
+  height: 60px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(239, 68, 68, 0.1) 20%,
+    rgba(251, 191, 36, 0.15) 50%,
+    rgba(239, 68, 68, 0.1) 80%,
+    transparent 100%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.combo-digit-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  transform: skewX(-15deg);
+  mix-blend-mode: overlay;
+}
+
+.combo-number-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.combo-hit-marker {
+  font-size: 24px;
+  color: #f59e0b;
+  font-weight: 700;
+  margin-left: 2px;
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
+}
+
+.combo-bonus {
+  font-size: 14px;
+  font-weight: 700;
+  color: #10b981;
+  letter-spacing: 3px;
+  text-shadow:
+    0 0 10px rgba(16, 185, 129, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+  margin-top: 8px;
+}
+
+.combo-score-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.combo-score-particle {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fbbf24;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  top: 50%;
+  transform: translateX(-50%);
+}
+
+.combo-milestone-particle {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 700;
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.combo-milestone-particle[data-value="1"] {
+  color: #60a5fa;
+  text-shadow:
+    0 0 10px rgba(96, 165, 250, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.combo-milestone-particle[data-value="5"] {
+  color: #a78bfa;
+  text-shadow:
+    0 0 10px rgba(167, 139, 250, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.combo-milestone-particle[data-value="9"] {
+  color: #fbbf24;
+  text-shadow:
+    0 0 10px rgba(251, 191, 36, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.combo-milestone-particle[data-value="10"] {
+  background: linear-gradient(
+    135deg,
+    #FFD700 0%,
+    #FFA500 50%,
+    #FFD700 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 15px;
+  font-weight: 800;
+  text-shadow:
+    0 0 15px rgba(255, 215, 0, 0.9),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+}
+

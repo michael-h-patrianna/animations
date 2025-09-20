@@ -19,3 +19,5 @@ read README.md
 
 
 Remove Complex timers
+
+Move the XP Number Pop and Level Breakthrough animation into the Text Effects group. Pay extreme attention to maintaining the exact ui, look and animation behaviour. do not break them.
