@@ -299,6 +299,76 @@
       "groupId": "modal-base"
     },
     {
+      "id": "modal-base__flip-3d",
+      "title": "3D Card Flip",
+      "description": "Card game style 3D rotation reveal with perspective depth and overshoot.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__glitch-digital",
+      "title": "Digital Glitch",
+      "description": "Cyberpunk-inspired RGB channel separation with digital distortion artifacts.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__portal-swirl",
+      "title": "Portal Swirl",
+      "description": "Fantasy game vortex entrance with spiral rotation and morphing border radius.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__iris-wipe",
+      "title": "Iris Wipe",
+      "description": "Cinematic circular reveal expanding from center point, Star Wars inspired.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__tv-turn-on",
+      "title": "CRT TV Turn On",
+      "description": "Retro CRT monitor power-on effect with horizontal-to-vertical expansion.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__unfold-origami",
+      "title": "Origami Unfold",
+      "description": "Paper-style unfolding animation with sequential axis expansion.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__shatter-assemble",
+      "title": "Shatter Assembly",
+      "description": "Glass fragments coalesce into modal with blur and rotation effects.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__ripple-expand",
+      "title": "Material Ripple",
+      "description": "Material Design ripple expansion with radiating wave effect.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__morph-center",
+      "title": "Morph from Center",
+      "description": "Modern web morphing animation expanding from click origin with shape transformation.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
+      "id": "modal-base__zoom-elastic",
+      "title": "Elastic Zoom Bounce",
+      "description": "Mobile game style zoom with elastic bounce physics and overshoot.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base"
+    },
+    {
       "id": "modal-content__buttons-stagger-2",
       "title": "Button Stagger \u00d72",
       "description": "Button cluster stagger with 2 actions.",
