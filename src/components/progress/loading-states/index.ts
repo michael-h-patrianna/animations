@@ -2,7 +2,6 @@ import type { AnimationComponentMap } from '@/types/animation';
 
 import { LoadingStatesDotsPortal } from './LoadingStatesDotsPortal';
 import { LoadingStatesDotsRise } from './LoadingStatesDotsRise';
-import { LoadingStatesDotsWave } from './LoadingStatesDotsWave';
 import { LoadingStatesRingMulti } from './LoadingStatesRingMulti';
 import { LoadingStatesRingProgress } from './LoadingStatesRingProgress';
 import { LoadingStatesSkeletonCard } from './LoadingStatesSkeletonCard';
@@ -15,7 +14,6 @@ import { LoadingStatesSpinnerOrbital } from './LoadingStatesSpinnerOrbital';
 
 export { LoadingStatesDotsPortal } from './LoadingStatesDotsPortal';
 export { LoadingStatesDotsRise } from './LoadingStatesDotsRise';
-export { LoadingStatesDotsWave } from './LoadingStatesDotsWave';
 export { LoadingStatesRingMulti } from './LoadingStatesRingMulti';
 export { LoadingStatesRingProgress } from './LoadingStatesRingProgress';
 export { LoadingStatesSkeletonCard } from './LoadingStatesSkeletonCard';
@@ -29,7 +27,6 @@ export { LoadingStatesSpinnerOrbital } from './LoadingStatesSpinnerOrbital';
 export const progressLoadingStatesAnimations: AnimationComponentMap = {
   'loading-states__dots-portal': LoadingStatesDotsPortal,
   'loading-states__dots-rise': LoadingStatesDotsRise,
-  'loading-states__dots-wave': LoadingStatesDotsWave,
   'loading-states__ring-multi': LoadingStatesRingMulti,
   'loading-states__ring-progress': LoadingStatesRingProgress,
   'loading-states__skeleton-card': LoadingStatesSkeletonCard,

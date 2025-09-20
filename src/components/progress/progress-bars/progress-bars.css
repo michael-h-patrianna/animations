@@ -54,10 +54,6 @@
   100% { transform: scaleX(1); }
 }
 
-@keyframes pf-progress-pulse {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(1.15); }
-}
 
 @keyframes pf-progress-bounce {
   0% { transform: scaleX(0); }
@@ -65,16 +61,7 @@
   100% { transform: scaleX(1); }
 }
 
-@keyframes pf-progress-surge {
-  0% { transform: scaleX(0); }
-  70% { transform: scaleX(1.08); }
-  100% { transform: scaleX(1); }
-}
 
-@keyframes pf-progress-wave {
-  0% { background-position: 0% 0; }
-  100% { background-position: 200% 0; }
-}
 
 @keyframes pf-progress-striped-flow {
   0% { background-position: 0 0; }
@@ -106,31 +93,6 @@
 
 /* Variant-specific styles */
 
-/* Soft Fill */
-.pf-progress-soft .pf-progress-fill {
-  animation: pf-progress-fill var(--pf-progress-duration-lg) cubic-bezier(0.12, 0.75, 0.4, 1) forwards;
-}
-
-.pf-progress-soft .pf-progress-glow {
-  position: absolute;
-  inset: -20px;
-  background: radial-gradient(ellipse at right center, rgba(236,195,255,0) 0%, rgba(236,195,255,0) 60%, rgba(236,195,255,0.4) 80%, rgba(236,195,255,0) 100%);
-  opacity: 0;
-  pointer-events: none;
-  transform: scaleX(0);
-  transform-origin: left center;
-  filter: blur(8px);
-  animation: pf-progress-glow-bloom var(--pf-progress-duration-lg) cubic-bezier(0.12, 0.75, 0.4, 1) forwards;
-}
-
-.pf-progress-soft .pf-progress-highlight {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-  opacity: 0;
-  pointer-events: none;
-  animation: pf-progress-shimmer 1s ease-out 0.3s forwards;
-}
 
 /* Striped */
 .pf-progress-striped .pf-progress-fill {
@@ -152,14 +114,6 @@
   animation: pf-progress-striped-flow 2s linear infinite;
 }
 
-/* Pulse */
-.pf-progress-pulse .pf-progress-fill {
-  animation: pf-progress-fill var(--pf-progress-duration-md) cubic-bezier(0.34, 1.25, 0.64, 1) forwards;
-}
-
-.pf-progress-pulse .pf-progress-track {
-  animation: pf-progress-pulse 0.4s cubic-bezier(0.34, 1.25, 0.64, 1) 0.32s;
-}
 
 /* Milestones */
 .pf-progress-milestones .pf-progress-fill {
@@ -196,8 +150,7 @@
 .pf-progress-gradient .pf-progress-fill {
   background: linear-gradient(90deg, #4e187c 0%, #7a468e 25%, var(--pf-progress-primary) 50%, var(--pf-progress-secondary) 75%, var(--pf-progress-accent) 100%);
   background-size: 200% 100%;
-  animation: pf-progress-fill var(--pf-progress-duration-lg) cubic-bezier(0.4, 0, 0.2, 1) forwards,
-             pf-progress-wave 2s ease-in-out 0.2s forwards;
+  animation: pf-progress-fill var(--pf-progress-duration-lg) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Bounce */
@@ -205,18 +158,6 @@
   animation: pf-progress-bounce var(--pf-progress-duration-lg) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Thick */
-.pf-progress-thick .pf-progress-track {
-  height: 20px;
-}
-
-.pf-progress-thick .pf-progress-fill {
-  animation: pf-progress-fill var(--pf-progress-duration-md) cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.pf-progress-thick .pf-progress-track {
-  animation: pf-progress-pulse 2s ease-in-out infinite 0.32s;
-}
 
 /* Thin */
 .pf-progress-thin .pf-progress-track {
@@ -227,10 +168,6 @@
   animation: pf-progress-fill var(--pf-progress-duration-sm) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Surge */
-.pf-progress-surge .pf-progress-fill {
-  animation: pf-progress-surge var(--pf-progress-duration-lg) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
 
 /* Spark */
 .pf-progress-spark .pf-progress-fill {
@@ -251,13 +188,6 @@
   animation: pf-progress-spark-trail var(--pf-progress-duration-lg) ease-out forwards;
 }
 
-/* Wave */
-.pf-progress-wave .pf-progress-fill {
-  background: linear-gradient(90deg, var(--pf-progress-primary) 0%, var(--pf-progress-secondary) 50%, var(--pf-progress-primary) 100%);
-  background-size: 200% 100%;
-  animation: pf-progress-fill var(--pf-progress-duration-xl) cubic-bezier(0.4, 0, 0.2, 1) forwards,
-             pf-progress-wave var(--pf-progress-duration-xl) linear infinite;
-}
 
 /* Animation states */
 .pf-progress-demo.animate .pf-progress-fill {
@@ -274,4 +204,45 @@
 
 .pf-progress-demo.animate .pf-progress-spark-trail {
   animation-play-state: running;
+}
+
+/* Timeline Progress */
+.pf-timeline-progress {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+  position: relative;
+}
+
+.pf-timeline-progress__track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.pf-timeline-progress__step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(236, 195, 255, 0.1);
+  border: 2px solid rgba(236, 195, 255, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.76);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.pf-timeline-progress__connector {
+  flex: 1;
+  height: 2px;
+  background: rgba(236, 195, 255, 0.16);
+  border-radius: 1px;
 }
