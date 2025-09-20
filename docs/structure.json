@@ -42,15 +42,9 @@
         },
         {
           "id": "modal-orchestration",
-          "title": "Complex orchestrations",
+          "title": "Tile animations",
           "tech": "framer",
           "demo": "wizard"
-        },
-        {
-          "id": "modal-celebrations",
-          "title": "Celebration effects",
-          "tech": "framer",
-          "demo": "celebration"
         }
       ]
     },
@@ -125,6 +119,12 @@
           "title": "Reward orchestrations",
           "tech": "framer",
           "demo": "rewardOrchestration"
+        },
+        {
+          "id": "modal-celebrations",
+          "title": "Celebration effects",
+          "tech": "framer",
+          "demo": "celebration"
         }
       ]
     }
@@ -400,64 +400,43 @@
 
     {
       "id": "modal-orchestration__wizard-slide-stack",
-      "title": "Slide Stack",
-      "description": "Complex orchestrations pattern: Wizard Slide Stack",
+      "title": "Step Tiles Slide",
+      "description": "Multi-step wizard with sliding step tiles and panel transitions",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
     },
     {
       "id": "modal-orchestration__wizard-fade-cross",
-      "title": "Fade Cross",
-      "description": "Complex orchestrations pattern: Wizard Fade Cross",
+      "title": "Step Tiles Fade",
+      "description": "Multi-step wizard with cross-fading step tiles and content panels",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
     },
     {
       "id": "modal-orchestration__wizard-scale-rotate",
-      "title": "Wizard Scale Rotate",
-      "description": "Complex orchestrations pattern: Wizard Scale Rotate",
+      "title": "Step Tiles Scale",
+      "description": "Multi-step wizard with scaling step tiles and rotating content panels",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
     },
     {
       "id": "modal-orchestration__tab-morph",
-      "title": "Tab Content Morph",
-      "description": "Complex orchestrations pattern: Tab Content Morph",
+      "title": "Interactive Tab Tiles",
+      "description": "Clickable tab tiles with sliding content transitions and scale highlighting",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
     },
     {
       "id": "modal-orchestration__selection-grid",
-      "title": "Selection Grid Cascade",
-      "description": "Complex orchestrations pattern: Selection Grid Cascade",
-      "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
-    },
-    {
-      "id": "modal-orchestration__multi-step-progressive",
-      "title": "Progressive Flow",
-      "description": "Complex orchestrations pattern: Progressive Flow",
-      "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
-    },
-    {
-      "id": "modal-orchestration__tab-slide",
-      "title": "Tab Slide Swap",
-      "description": "Complex orchestrations pattern: Tab Slide Swap",
-      "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
-    },
-    {
-      "id": "modal-orchestration__grid-highlight",
-      "title": "Highlight Sweep",
-      "description": "Complex orchestrations pattern: Highlight Sweep",
+      "title": "Grid Tile Cascade",
+      "description": "Cascading animation across a grid of selection tiles",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
     },
     {
       "id": "modal-orchestration__comparison-morph",
-      "title": "Comparison Morph",
-      "description": "Complex orchestrations pattern: Comparison Morph",
+      "title": "Comparison Tiles",
+      "description": "Side-by-side comparison tiles with morphing transitions and content switching",
       "categoryId": "dialogs",
       "groupId": "modal-orchestration"
     },
@@ -472,84 +451,84 @@
       "id": "modal-celebrations__confetti-burst",
       "title": "Confetti Burst",
       "description": "Celebration effects pattern: Confetti Burst",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__confetti-fan",
       "title": "Confetti Fan",
       "description": "Celebration effects pattern: Confetti Fan",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__confetti-spiral",
       "title": "Confetti Spiral",
       "description": "Celebration effects pattern: Confetti Spiral",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__confetti-rain",
       "title": "Confetti Rainfall",
       "description": "Celebration effects pattern: Confetti Rainfall",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__coins-arc",
       "title": "Coin Arc Fountain",
       "description": "Celebration effects pattern: Coin Arc Fountain",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__coins-fountain",
       "title": "Coin Fountain",
       "description": "Celebration effects pattern: Coin Fountain",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__coins-swirl",
       "title": "Coin Swirl",
       "description": "Celebration effects pattern: Coin Swirl",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__fireworks-triple",
       "title": "Fireworks Triple Burst",
       "description": "Celebration effects pattern: Fireworks Triple Burst",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__fireworks-ring",
       "title": "Fireworks Halo",
       "description": "Celebration effects pattern: Fireworks Halo",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__reward-spotlight",
       "title": "Reward Spotlight",
       "description": "Celebration effects pattern: Reward Spotlight",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__jackpot-celebration",
       "title": "Jackpot Celebration",
       "description": "Celebration effects pattern: Jackpot Celebration",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {
       "id": "modal-celebrations__confetti-pulse",
       "title": "Confetti Pulse Wave",
       "description": "Celebration effects pattern: Confetti Pulse Wave",
-      "categoryId": "dialogs",
+      "categoryId": "rewards",
       "groupId": "modal-celebrations"
     },
     {

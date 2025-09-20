@@ -30,6 +30,13 @@
   color: rgba(255, 255, 255, 0.76);
 }
 
+.pf-wizard__step--highlighted {
+  background: rgba(236, 195, 255, 0.28);
+  border: 2px solid rgba(196, 122, 229, 0.85);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.45);
+}
+
 .pf-wizard__panel {
   position: relative;
   padding: 16px;
@@ -39,10 +46,18 @@
   color: rgba(255, 255, 255, 0.76);
 }
 
+.pf-wizard__panel--highlighted {
+  background: rgba(236, 195, 255, 0.25);
+  border: 2px solid rgba(196, 122, 229, 0.75);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.4);
+}
+
 /* Tab styles for tab-based animations */
 .pf-tabs {
   width: 100%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   min-height: 360px;
   position: relative;
@@ -57,15 +72,27 @@
 
 .pf-tabs__tab {
   flex: 1;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 8px 8px 0 0;
   background: rgba(236, 195, 255, 0.05);
   border: 1px solid rgba(236, 195, 255, 0.12);
   border-bottom: none;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   color: rgba(255, 255, 255, 0.76);
   cursor: pointer;
+  transition: all 0.2s ease;
+  transform: scale(1);
+}
+
+.pf-tabs__tab--active {
+  background: rgba(236, 195, 255, 0.2);
+  border: 1px solid rgba(196, 122, 229, 0.6);
+  border-bottom: none;
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.3);
+  transform: scale(1.05);
+  /* Force HMR update */
 }
 
 .pf-tabs__content {

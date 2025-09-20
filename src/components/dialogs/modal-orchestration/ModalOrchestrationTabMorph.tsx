@@ -1,8 +1,10 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './modal-orchestration.css';
 
 export function ModalOrchestrationTabMorph() {
   const tabs = 4;
+  const [activeTab, setActiveTab] = useState(0);
   
   const containerVariants = {
     initial: {},
@@ -31,17 +33,23 @@ export function ModalOrchestrationTabMorph() {
 
   const panelVariants = {
     initial: { 
-      rotate: -6,
-      scale: 0.82, 
+      x: 300,
       opacity: 0 
     },
     animate: { 
-      rotate: 0,
-      scale: 1, 
+      x: 0,
       opacity: 1,
       transition: {
-        duration: 0.252, // 420ms * 0.6
-        ease: [0.25, 0.46, 0.45, 0.94] // entrance easing
+        duration: 0.3,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    },
+    exit: {
+      x: -300,
+      opacity: 0,
+      transition: {
+        duration: 0.2,
+        ease: [0.25, 0.46, 0.45, 0.94]
       }
     }
   };
@@ -58,8 +66,9 @@ export function ModalOrchestrationTabMorph() {
         {Array.from({ length: tabs }, (_, index) => (
           <motion.div 
             key={index} 
-            className="pf-tabs__tab"
+            className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
             variants={tabVariants}
+            onClick={() => setActiveTab(index)}
           >
             Tab {index + 1}
           </motion.div>
@@ -67,16 +76,19 @@ export function ModalOrchestrationTabMorph() {
       </div>
       
       <div className="pf-tabs__content">
-        {Array.from({ length: tabs }, (_, index) => (
+        <AnimatePresence mode="wait">
           <motion.div 
-            key={index} 
+            key={activeTab}
             className="pf-tabs__panel"
             variants={panelVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
-            <h5>Content {index + 1}</h5>
-            <p>Tab morph content placeholder to illustrate morphing animation between tabs.</p>
+            <h5>Content {activeTab + 1}</h5>
+            <p>Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation between different content panels.</p>
           </motion.div>
-        ))}
+        </AnimatePresence>
       </div>
     </motion.div>
   );

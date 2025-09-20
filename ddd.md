@@ -48,3 +48,15 @@ All animations in the Content choreography group currently only animate content 
 For this:
 1. Add a good looking modal open animation to all of the mock modals. (these are not actual modals, just containers that look like modals).
 2. Make sure that the currently existing animations for the content in these modals are timed so that they create a good looking animation sequence. This means usually that the content animation start playing shortly before the modal is fully opened.
+
+Move the group "Celebration effects" together with all its animations into the Game Elements & Rewards category
+
+In the Wizard Scale Rotate animation preview, highlight the first Step as well as the first tile with a subtle but pleasing border color change.
+
+Remove the animation previews: Tab Tile Swap, Progressive Tile Flow, Tile Highlight Sweep
+
+Modify the Tab Content Morph preview
+1. Turn it into an actual working tab component
+2. Animate the tab content swiping left right when navigating through the tabs
+3. Highlight the currently selected tab
+4. The first tab is selected by default
