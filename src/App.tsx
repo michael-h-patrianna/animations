@@ -1,62 +1,45 @@
-import { CategorySection } from '@/components/catalog';
+import { GroupSection } from '@/components/catalog';
 import { Sidebar } from '@/components/Sidebar';
 import { useAnimations } from '@/hooks/useAnimations';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
+import type { Group } from '@/types/animation';
 import './App.css';
 
 function App() {
   const { categories, isLoading, error } = useAnimations();
-  const [currentCategoryId, setCurrentCategoryId] = useState<string>('');
-  const [previousCategoryId, setPreviousCategoryId] = useState<string>('');
+  const [currentGroupId, setCurrentGroupId] = useState<string>('');
+  const [previousGroupId, setPreviousGroupId] = useState<string>('');
   const [direction, setDirection] = useState<number>(0);
-  const scrollToGroupRef = useRef<string | null>(null);
   const dragControls = useDragControls();
 
-  // Initialize the first category as current
-  useEffect(() => {
-    if (categories.length > 0 && !currentCategoryId) {
-      setCurrentCategoryId(categories[0].id);
-    }
-  }, [categories, currentCategoryId]);
+  // Get all groups in order for navigation
+  const allGroups: Group[] = categories.flatMap(category => category.groups);
 
-  // Handle scrolling to group after category animation completes
+  // Initialize the first group as current
   useEffect(() => {
-    if (scrollToGroupRef.current) {
-      const timer = setTimeout(() => {
-        const element = document.getElementById(`group-${scrollToGroupRef.current}`);
-        if (element && element.scrollIntoView) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        scrollToGroupRef.current = null;
-      }, 500); // Wait for animation to complete
-      return () => clearTimeout(timer);
+    if (allGroups.length > 0 && !currentGroupId) {
+      setCurrentGroupId(allGroups[0].id);
     }
-  }, [currentCategoryId]);
+  }, [allGroups, currentGroupId]);
 
   const handleCategorySelect = (categoryId: string) => {
-    if (categoryId === currentCategoryId) return;
-    
-    const currentIndex = categories.findIndex(c => c.id === currentCategoryId);
-    const newIndex = categories.findIndex(c => c.id === categoryId);
-    
-    setPreviousCategoryId(currentCategoryId);
-    setDirection(newIndex > currentIndex ? 1 : -1);
-    setCurrentCategoryId(categoryId);
+    // Navigate to the first group in the selected category
+    const category = categories.find(c => c.id === categoryId);
+    if (category && category.groups.length > 0) {
+      handleGroupSelect(category.groups[0].id);
+    }
   };
 
-  const handleGroupSelect = (categoryId: string, groupId: string) => {
-    scrollToGroupRef.current = groupId;
+  const handleGroupSelect = (groupId: string) => {
+    if (groupId === currentGroupId) return;
     
-    if (categoryId !== currentCategoryId) {
-      handleCategorySelect(categoryId);
-    } else {
-      // Already in the right category, just scroll
-      const element = document.getElementById(`group-${groupId}`);
-      if (element && element.scrollIntoView) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+    const currentIndex = allGroups.findIndex(g => g.id === currentGroupId);
+    const newIndex = allGroups.findIndex(g => g.id === groupId);
+    
+    setPreviousGroupId(currentGroupId);
+    setDirection(newIndex > currentIndex ? 1 : -1);
+    setCurrentGroupId(groupId);
   };
 
   if (error) {
@@ -76,7 +59,7 @@ function App() {
     );
   }
 
-  const currentCategory = categories.find(c => c.id === currentCategoryId);
+  const currentGroup = allGroups.find(g => g.id === currentGroupId);
 
   const variants = {
     enter: (direction: number) => ({
@@ -116,7 +99,7 @@ function App() {
       <div className="pf-main">
         <Sidebar
           categories={categories}
-          currentCategoryId={currentCategoryId}
+          currentGroupId={currentGroupId}
           onCategorySelect={handleCategorySelect}
           onGroupSelect={handleGroupSelect}
         />
@@ -128,9 +111,9 @@ function App() {
             </div>
           ) : (
             <AnimatePresence initial={false} custom={direction} mode="wait">
-              {currentCategory && (
+              {currentGroup && (
                 <motion.div
-                  key={currentCategoryId}
+                  key={currentGroupId}
                   custom={direction}
                   variants={variants}
                   initial="enter"
@@ -148,25 +131,25 @@ function App() {
                   onPointerDown={handleDragStart}
                   onDragEnd={(e, { offset, velocity }) => {
                     const swipe = swipePower(offset.x, velocity.x);
-                    const currentIndex = categories.findIndex(c => c.id === currentCategoryId);
+                    const currentIndex = allGroups.findIndex(g => g.id === currentGroupId);
 
                     if (swipe < -swipeConfidenceThreshold) {
-                      // Swipe left - go to next category
-                      if (currentIndex < categories.length - 1) {
-                        handleCategorySelect(categories[currentIndex + 1].id);
+                      // Swipe left - go to next group
+                      if (currentIndex < allGroups.length - 1) {
+                        handleGroupSelect(allGroups[currentIndex + 1].id);
                       }
                     } else if (swipe > swipeConfidenceThreshold) {
-                      // Swipe right - go to previous category
+                      // Swipe right - go to previous group
                       if (currentIndex > 0) {
-                        handleCategorySelect(categories[currentIndex - 1].id);
+                        handleGroupSelect(allGroups[currentIndex - 1].id);
                       }
                     }
                   }}
                   style={{ width: '100%' }}
                 >
-                  <CategorySection
-                    category={currentCategory}
-                    elementId={`category-${currentCategory.id}`}
+                  <GroupSection
+                    group={currentGroup}
+                    elementId={`group-${currentGroup.id}`}
                   />
                 </motion.div>
               )}

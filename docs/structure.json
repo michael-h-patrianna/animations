@@ -763,13 +763,6 @@
       "groupId": "realtime-data"
     },
     {
-      "id": "realtime-data__currency-update",
-      "title": "Currency Update",
-      "description": "Real-time data pattern: Currency Update",
-      "categoryId": "realtime",
-      "groupId": "realtime-data"
-    },
-    {
       "id": "realtime-data__stacked-realtime",
       "title": "Stacked Pulse",
       "description": "Real-time data pattern: Stacked Pulse",

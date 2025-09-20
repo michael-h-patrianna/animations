@@ -12,8 +12,8 @@ export function ModalContentListSoftStagger() {
         item.style.animation = 'none';
         void item.offsetWidth; // Force reflow
         
-        // Apply staggered animation with 60ms base delay
-        const delay = 60 * index;
+        // Apply staggered animation with 60ms base delay + 300ms modal delay
+        const delay = 300 + (60 * index);
         item.style.animation = `list-soft-stagger 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards ${delay}ms`;
         item.style.opacity = '0';
         item.style.transform = 'translateY(16px)';

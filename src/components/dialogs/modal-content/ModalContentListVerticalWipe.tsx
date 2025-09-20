@@ -12,8 +12,8 @@ export function ModalContentListVerticalWipe() {
         item.style.animation = 'none';
         void item.offsetWidth; // Force reflow
         
-        // Apply vertical wipe animation with staggered delay
-        const delay = 80 * index;
+        // Apply vertical wipe animation with staggered delay + 300ms modal delay
+        const delay = 300 + (80 * index);
         item.style.animation = `list-vertical-wipe 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
         item.style.opacity = '0';
         item.style.transform = 'scaleY(0)';

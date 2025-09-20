@@ -12,8 +12,8 @@ export function ModalContentButtonsStagger3() {
         button.style.animation = 'none';
         void button.offsetWidth; // Force reflow
         
-        // Apply staggered animation with 70ms base delay
-        const delay = 70 * index;
+        // Apply staggered animation with 70ms base delay + 300ms modal delay
+        const delay = 300 + (70 * index);
         button.style.animation = `button-stagger 320ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
         button.style.opacity = '0';
         button.style.transform = 'translateY(20px) scale(0.94)';

@@ -12,8 +12,8 @@ export function ModalContentFormFieldLeftReveal() {
         field.style.animation = 'none';
         void field.offsetWidth; // Force reflow
         
-        // Apply left reveal animation with staggered delay
-        const delay = 90 * index;
+        // Apply left reveal animation with staggered delay + 300ms modal delay
+        const delay = 300 + (90 * index);
         field.style.animation = `form-field-left-reveal 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
         field.style.opacity = '0';
         field.style.transform = 'translateX(-32px)';

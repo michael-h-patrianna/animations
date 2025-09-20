@@ -13,19 +13,19 @@
 }
 
 .modal-content-modal {
-
   max-height: 90%;
   overflow: hidden;
-
-    width: clamp(280px, 80%, 400px);
+  width: clamp(280px, 80%, 400px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(236, 195, 255, 0.12);
   transform-origin: center;
-
-    padding: 16px;
-    border-radius: 12px;
-    background: rgba(236, 195, 255, 0.08);
-    border: 1px solid rgba(236, 195, 255, 0.12);
-    color: rgba(255, 255, 255, 0.76);
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+  
+  /* Modal opening animation */
+  animation: modal-open 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .modal-content-header {
@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(236, 195, 255, 0.16);
 }
 
 .modal-content-title {
@@ -110,10 +110,10 @@
 
 .modal-content-list-item {
   padding: 12px 16px;
-  background: #f8fafc;
+  background: rgba(236, 195, 255, 0.08);
   border-radius: 8px;
-  border-left: 4px solid #3b82f6;
-  color: #1f2937;
+  border-left: 4px solid #c47ae5;
+  color: rgba(255, 255, 255, 0.90);
   font-weight: 500;
 }
 
@@ -133,22 +133,24 @@
 
 .modal-content-field label {
   font-weight: 500;
-  color: #374151;
+  color: rgba(255, 255, 255, 0.76);
   font-size: 14px;
 }
 
 .modal-content-field input {
   padding: 10px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid rgba(236, 195, 255, 0.32);
   border-radius: 6px;
   font-size: 14px;
+  background: rgba(236, 195, 255, 0.05);
+  color: rgba(255, 255, 255, 0.90);
   transition: border-color 0.2s ease;
 }
 
 .modal-content-field input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #c47ae5;
+  box-shadow: 0 0 0 3px rgba(196, 122, 229, 0.1);
 }
 
 /* Feedback styles */
@@ -173,6 +175,25 @@
 }
 
 /* Animation Keyframes */
+
+/* Modal Open Animation */
+@keyframes modal-open {
+  0% {
+    transform: scale(0.88) translateY(-16px);
+    opacity: 0;
+    filter: blur(8px);
+  }
+  50% {
+    transform: scale(1.02) translateY(-4px);
+    opacity: 0.8;
+    filter: blur(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
 
 /* Button Stagger Animation */
 @keyframes button-stagger {
