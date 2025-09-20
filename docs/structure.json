@@ -1,6 +1,18 @@
 {
   "categories": [
     {
+      "id": "base",
+      "title": "Base effects",
+      "groups": [
+        {
+          "id": "text-effects",
+          "title": "Text effects",
+          "tech": "framer",
+          "demo": "textEffects"
+        }
+      ]
+    },
+    {
       "id": "dialogs",
       "title": "Dialog & Modal Animations",
       "groups": [
@@ -218,6 +230,13 @@
     }
   ],
   "animations": [
+    {
+      "id": "text-effects__character-reveal",
+      "title": "Character Reveal",
+      "description": "Text reveals character by character with scale animation and shadow effects.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
     {
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",

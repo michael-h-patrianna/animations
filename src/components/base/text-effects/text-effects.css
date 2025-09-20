@@ -1,0 +1,73 @@
+/* Text Effects Group Styles */
+
+/* Character Reveal Animation */
+.character-reveal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 150px;
+  padding: 20px;
+}
+
+.text-container {
+  position: relative;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shadow-text {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.shadow-char {
+  display: inline-block;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.text-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.text-char {
+  display: inline-block;
+  text-transform: uppercase;
+  background: linear-gradient(
+    135deg,
+    #FFD700 0%,
+    #FFED4E 25%,
+    #FFD700 50%,
+    #FFA500 75%,
+    #FFD700 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transform-origin: center bottom;
+  filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+}
+
+.subtitle-text {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: rgba(255, 193, 7, 0.8);
+  text-align: center;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
