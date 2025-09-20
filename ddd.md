@@ -63,3 +63,5 @@ Modify the Tab Content Morph preview
 
 Remove the animation previes: Spark Trail, Crisp Snap
 Remove the Blur from Fade with Zoom animation
+
+CRT TV Turn On and Origami Unfold look the same

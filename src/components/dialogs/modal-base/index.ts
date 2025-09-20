@@ -14,6 +14,16 @@ import { ModalBaseSlideRightDrift } from './ModalBaseSlideRightDrift';
 import { ModalBaseSlideUpCrisp } from './ModalBaseSlideUpCrisp';
 import { ModalBaseSlideUpSoft } from './ModalBaseSlideUpSoft';
 import { ModalBaseSpringBounce } from './ModalBaseSpringBounce';
+import { ModalBaseFlip3d } from './ModalBaseFlip3d';
+import { ModalBaseGlitchDigital } from './ModalBaseGlitchDigital';
+import { ModalBasePortalSwirl } from './ModalBasePortalSwirl';
+import { ModalBaseIrisWipe } from './ModalBaseIrisWipe';
+import { ModalBaseTvTurnOn } from './ModalBaseTvTurnOn';
+import { ModalBaseUnfoldOrigami } from './ModalBaseUnfoldOrigami';
+import { ModalBaseShatterAssemble } from './ModalBaseShatterAssemble';
+import { ModalBaseRippleExpand } from './ModalBaseRippleExpand';
+import { ModalBaseMorphCenter } from './ModalBaseMorphCenter';
+import { ModalBaseZoomElastic } from './ModalBaseZoomElastic';
 
 export { ModalBaseFadeShift } from './ModalBaseFadeShift';
 export { ModalBaseFadeSoft } from './ModalBaseFadeSoft';
@@ -29,6 +39,16 @@ export { ModalBaseSlideRightDrift } from './ModalBaseSlideRightDrift';
 export { ModalBaseSlideUpCrisp } from './ModalBaseSlideUpCrisp';
 export { ModalBaseSlideUpSoft } from './ModalBaseSlideUpSoft';
 export { ModalBaseSpringBounce } from './ModalBaseSpringBounce';
+export { ModalBaseFlip3d } from './ModalBaseFlip3d';
+export { ModalBaseGlitchDigital } from './ModalBaseGlitchDigital';
+export { ModalBasePortalSwirl } from './ModalBasePortalSwirl';
+export { ModalBaseIrisWipe } from './ModalBaseIrisWipe';
+export { ModalBaseTvTurnOn } from './ModalBaseTvTurnOn';
+export { ModalBaseUnfoldOrigami } from './ModalBaseUnfoldOrigami';
+export { ModalBaseShatterAssemble } from './ModalBaseShatterAssemble';
+export { ModalBaseRippleExpand } from './ModalBaseRippleExpand';
+export { ModalBaseMorphCenter } from './ModalBaseMorphCenter';
+export { ModalBaseZoomElastic } from './ModalBaseZoomElastic';
 
 export const dialogsModalBaseAnimations: AnimationComponentMap = {
   'modal-base__fade-shift': ModalBaseFadeShift,
@@ -44,5 +64,15 @@ export const dialogsModalBaseAnimations: AnimationComponentMap = {
   'modal-base__slide-right-drift': ModalBaseSlideRightDrift,
   'modal-base__slide-up-crisp': ModalBaseSlideUpCrisp,
   'modal-base__slide-up-soft': ModalBaseSlideUpSoft,
-  'modal-base__spring-bounce': ModalBaseSpringBounce
+  'modal-base__spring-bounce': ModalBaseSpringBounce,
+  'modal-base__flip-3d': ModalBaseFlip3d,
+  'modal-base__glitch-digital': ModalBaseGlitchDigital,
+  'modal-base__portal-swirl': ModalBasePortalSwirl,
+  'modal-base__iris-wipe': ModalBaseIrisWipe,
+  'modal-base__tv-turn-on': ModalBaseTvTurnOn,
+  'modal-base__unfold-origami': ModalBaseUnfoldOrigami,
+  'modal-base__shatter-assemble': ModalBaseShatterAssemble,
+  'modal-base__ripple-expand': ModalBaseRippleExpand,
+  'modal-base__morph-center': ModalBaseMorphCenter,
+  'modal-base__zoom-elastic': ModalBaseZoomElastic
 };
