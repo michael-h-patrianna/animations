@@ -29,3 +29,13 @@ remove the following animation previews completely: Soft Fill, Pulse Update, Thi
 
 C
 Move the following animation preve
+
+
+Read Readme.md
+
+At the moment we are showing in one view all animation previews for a category.
+Instead:
+1. In a single view show only the animations of a group
+2. The sidebar visually indicates the currently displayed group
+3. When clicking on a category in the sidebar, it navigates to the first group in the category
+4. Views nowhere show the title of the category

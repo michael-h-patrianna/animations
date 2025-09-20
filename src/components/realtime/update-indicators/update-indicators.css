@@ -50,10 +50,6 @@
   pointer-events: none;
 }
 
-.pf-update-indicator__ticker {
-  white-space: nowrap;
-  width: 100%;
-}
 
 /* Animation keyframes for update indicators */
 @keyframes update-badge-pop {
@@ -72,8 +68,3 @@
   50% { transform: scale(1.6); opacity: 0; }
 }
 
-@keyframes update-notification-dot {
-  0% { box-shadow: 0 0 0 rgba(198, 255, 119, 0.6); }
-  50% { box-shadow: 0 0 18px rgba(198, 255, 119, 0); }
-  100% { box-shadow: 0 0 0 rgba(198, 255, 119, 0); }
-}

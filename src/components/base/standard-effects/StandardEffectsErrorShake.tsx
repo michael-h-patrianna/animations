@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import './modal-content.css';
+import './standard-effects.css';
 
-export function ModalContentSuccessBounceEnergetic() {
+export function StandardEffectsErrorShake() {
   const feedbackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Trigger success bounce animation on mount
+    // Trigger error shake animation on mount
     if (feedbackRef.current) {
       const feedback = feedbackRef.current;
       
@@ -13,8 +13,8 @@ export function ModalContentSuccessBounceEnergetic() {
       feedback.style.animation = 'none';
       void feedback.offsetWidth; // Force reflow
       
-      // Apply success bounce animation
-      feedback.style.animation = 'success-bounce-energetic 620ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+      // Apply error shake animation
+      feedback.style.animation = 'error-shake-gentle 420ms cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
     }
   }, []);
 
@@ -30,9 +30,9 @@ export function ModalContentSuccessBounceEnergetic() {
           <p>Keep focus with 70ms cadence.</p>
           <div
             ref={feedbackRef}
-            className="modal-content-feedback success"
+            className="modal-content-feedback error"
           >
-            Profile saved successfully!
+            Incorrect token, try again.
           </div>
         </div>
         <div className="modal-content-footer">

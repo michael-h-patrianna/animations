@@ -9,6 +9,12 @@
           "title": "Text effects",
           "tech": "framer",
           "demo": "textEffects"
+        },
+        {
+          "id": "standard-effects",
+          "title": "Standard effects",
+          "tech": "framer",
+          "demo": "standardEffects"
         }
       ]
     },
@@ -181,6 +187,20 @@
       "groupId": "text-effects"
     },
     {
+      "id": "standard-effects__error-shake",
+      "title": "Error Shake",
+      "description": "Error shake amplitude 12px with 5 oscillations.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__success-bounce",
+      "title": "Success Bounce",
+      "description": "Success bounce with 12% overshoot for celebratory feedback.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",
       "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px\u21920px blur.",
@@ -325,34 +345,6 @@
       "id": "modal-content__form-field-gradient",
       "title": "Form Gradient Sweep",
       "description": "Gradient sweep across 3 fields emphasising focus and order.",
-      "categoryId": "dialogs",
-      "groupId": "modal-content"
-    },
-    {
-      "id": "modal-content__error-shake-gentle",
-      "title": "Error Shake Gentle",
-      "description": "Error shake amplitude 12px with 5 oscillations.",
-      "categoryId": "dialogs",
-      "groupId": "modal-content"
-    },
-    {
-      "id": "modal-content__error-shake-intent",
-      "title": "Error Shake Intentional",
-      "description": "Error shake amplitude 16px with 6 oscillations.",
-      "categoryId": "dialogs",
-      "groupId": "modal-content"
-    },
-    {
-      "id": "modal-content__success-bounce-soft",
-      "title": "Success Bounce Soft",
-      "description": "Success bounce with 12% overshoot for celebratory feedback.",
-      "categoryId": "dialogs",
-      "groupId": "modal-content"
-    },
-    {
-      "id": "modal-content__success-bounce-energetic",
-      "title": "Success Bounce Energetic",
-      "description": "Success bounce with 18% overshoot for celebratory feedback.",
       "categoryId": "dialogs",
       "groupId": "modal-content"
     },
@@ -708,30 +700,9 @@
       "groupId": "timer-effects"
     },
     {
-      "id": "timer-effects__timer-tick",
-      "title": "Clock Tick",
-      "description": "Analog clock tick translation on digits.",
-      "categoryId": "realtime",
-      "groupId": "timer-effects"
-    },
-    {
-      "id": "timer-effects__timer-underline",
-      "title": "Underline Sweep",
-      "description": "Underline sweeps as time elapses.",
-      "categoryId": "realtime",
-      "groupId": "timer-effects"
-    },
-    {
-      "id": "timer-effects__timer-arc",
-      "title": "Arc Sweep",
-      "description": "Circular arc traces remaining time.",
-      "categoryId": "realtime",
-      "groupId": "timer-effects"
-    },
-    {
-      "id": "timer-effects__timer-breathe",
-      "title": "Breathe Halo",
-      "description": "Breathing halo to keep timer alive in background.",
+      "id": "timer-effects__timer-flash-soft",
+      "title": "Flash Expire Soft",
+      "description": "Gentle periodic reminders without aggressive urgency.",
       "categoryId": "realtime",
       "groupId": "timer-effects"
     },
@@ -739,20 +710,6 @@
       "id": "timer-effects__timer-flip",
       "title": "Flip Digits",
       "description": "Mechanical flip digits animate per second.",
-      "categoryId": "realtime",
-      "groupId": "timer-effects"
-    },
-    {
-      "id": "timer-effects__timer-glow",
-      "title": "Glow Intensify",
-      "description": "Glow intensity increases as deadline nears.",
-      "categoryId": "realtime",
-      "groupId": "timer-effects"
-    },
-    {
-      "id": "timer-effects__timer-pop",
-      "title": "Completion Pop",
-      "description": "Digits pop at the end to confirm completion.",
       "categoryId": "realtime",
       "groupId": "timer-effects"
     },
@@ -778,37 +735,9 @@
       "groupId": "update-indicators"
     },
     {
-      "id": "update-indicators__notification-dot",
-      "title": "Notification Dot",
-      "description": "Dot ripple communicating unread state.",
-      "categoryId": "realtime",
-      "groupId": "update-indicators"
-    },
-    {
       "id": "update-indicators__counter-increment",
       "title": "Counter Increment",
       "description": "Numeric counter ticks upwards with scale.",
-      "categoryId": "realtime",
-      "groupId": "update-indicators"
-    },
-    {
-      "id": "update-indicators__ticker-scroll",
-      "title": "Ticker Scroll",
-      "description": "Ticker text scrolls horizontally with mask.",
-      "categoryId": "realtime",
-      "groupId": "update-indicators"
-    },
-    {
-      "id": "update-indicators__update-slide",
-      "title": "Update Slide",
-      "description": "Content preview slides into view.",
-      "categoryId": "realtime",
-      "groupId": "update-indicators"
-    },
-    {
-      "id": "update-indicators__update-flip",
-      "title": "Update Flip",
-      "description": "Card flips to reveal updated data.",
       "categoryId": "realtime",
       "groupId": "update-indicators"
     },
