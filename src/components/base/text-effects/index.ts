@@ -4,6 +4,8 @@ import { TextEffectsWaveText } from './TextEffectsWaveText';
 import { TextEffectsGlitchText } from './TextEffectsGlitchText';
 import { TextEffectsTypewriter } from './TextEffectsTypewriter';
 import { TextEffectsComboCounter } from './TextEffectsComboCounter';
+import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop';
+import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough';
 
 export const AnimationComponentMap = {
   'text-effects__character-reveal': TextEffectsCharacterReveal,
@@ -12,4 +14,6 @@ export const AnimationComponentMap = {
   'text-effects__glitch-text': TextEffectsGlitchText,
   'text-effects__typewriter': TextEffectsTypewriter,
   'text-effects__combo-counter': TextEffectsComboCounter,
+  'text-effects__xp-number-pop': TextEffectsXpNumberPop,
+  'text-effects__level-breakthrough': TextEffectsLevelBreakthrough,
 };

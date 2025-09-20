@@ -273,6 +273,20 @@
       "groupId": "text-effects"
     },
     {
+      "id": "text-effects__xp-number-pop",
+      "title": "XP Number Pop",
+      "description": "XP gain count-up with pop easing, glow orb, and particle effects.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__level-breakthrough",
+      "title": "Level Breakthrough",
+      "description": "Level breakthrough shakes frame with surge lines explosion effect.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",
       "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px\u21920px blur.",
@@ -828,23 +842,9 @@
       "groupId": "loading-states"
     },
     {
-      "id": "progress-dynamic__xp-number-pop",
-      "title": "XP Number Pop",
-      "description": "XP gain count-up with pop easing and glow.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
       "id": "progress-dynamic__xp-bar-flare",
       "title": "XP Bar Flare",
       "description": "Bar flares with additive highlight on level change.",
-      "categoryId": "progress",
-      "groupId": "progress-dynamic"
-    },
-    {
-      "id": "progress-dynamic__level-breakthrough",
-      "title": "Level Breakthrough",
-      "description": "Level breakthrough shakes frame with surge lines.",
       "categoryId": "progress",
       "groupId": "progress-dynamic"
     },

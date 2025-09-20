@@ -491,3 +491,26 @@
   filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
 }
 
+/* XP Number Pop Animation */
+.xp-pop-container {
+  position: relative;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Level Breakthrough Animation */
+.pf-level-breakthrough {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.pf-surge-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
