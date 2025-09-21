@@ -1,14 +1,14 @@
 import React from 'react';
-import './standard-effects.css';
+import './icon-animations.css';
 import shakeIcon from '@/assets/shake_icon.png';
 
-export function StandardEffectsShake() {
+export function IconAnimationsShake() {
   return (
-    <div className="standard-demo-container">
+    <div className="icon-demo-container">
       <img 
         src={shakeIcon} 
         alt="Shake animation" 
-        className="shake-element"
+        className="icon-shake-element"
         style={{ width: '120px', height: 'auto' }}
       />
     </div>

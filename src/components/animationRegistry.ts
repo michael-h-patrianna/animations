@@ -12,6 +12,7 @@ import { progressProgressBarsAnimations } from '@/components/progress/progress-b
 import { realtimeRealtimeDataAnimations } from '@/components/realtime/realtime-data';
 import { realtimeTimerEffectsAnimations } from '@/components/realtime/timer-effects';
 import { realtimeUpdateIndicatorsAnimations } from '@/components/realtime/update-indicators';
+import { iconAnimationsComponents } from '@/components/rewards/icon-animations';
 import { rewardsRewardBasicAnimations } from '@/components/rewards/reward-basic';
 import { rewardsRewardFeedbackAnimations } from '@/components/rewards/reward-feedback';
 import { rewardsRewardMechanicsAnimations } from '@/components/rewards/reward-mechanics';
@@ -30,6 +31,7 @@ export const animationRegistry: AnimationComponentMap = {
   ...realtimeTimerEffectsAnimations,
   ...realtimeUpdateIndicatorsAnimations,
   ...realtimeRealtimeDataAnimations,
+  ...iconAnimationsComponents,
   ...rewardsRewardBasicAnimations,
   ...rewardsRewardFeedbackAnimations,
   ...rewardsRewardMechanicsAnimations,
