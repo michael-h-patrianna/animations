@@ -106,8 +106,8 @@ export default {
       },
       // Font families
       fontFamily: {
-        'display': ['Days One', 'Lato', 'sans-serif'],
-        'body': ['Lato', 'helvetica', 'arial', 'sans-serif'],
+        'display': ['Lato', 'sans-serif'],
+        'body': ['Lato', 'sans-serif'],
       },
     },
   },

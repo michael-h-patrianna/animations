@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: 12px;
   padding: 24px;
-  font-family: system-ui, sans-serif;
+  font-family: 'Lato', sans-serif;
   background: rgba(17, 24, 39, 0.8);
   border-radius: 12px;
   border: 1px solid rgba(75, 85, 99, 0.3);

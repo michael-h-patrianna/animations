@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
 
 :root {
   --pf-base-0: #1d092f;
@@ -62,10 +61,7 @@
   --radius: 0.5rem;
 }
 
-html{
-
-
-}
+/* (removed empty html ruleset) */
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;
@@ -75,14 +71,14 @@ html{
     margin: 0;
     min-height: 100vh;
     height: auto;
-    font-family: 'Lato', helvetica, arial, sans-serif;
+  font-family: 'Lato', sans-serif;
     background: radial-gradient(circle at 20% 20%, rgba(123, 70, 142, 0.65) 0%, rgba(29, 9, 47, 0.65) 99%, rgba(7, 2, 12, 0.65) 100%);
     color: var(--pf-text-primary);
     -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4 {
-    font-family: 'Days One', 'Lato', sans-serif;
+    font-family: 'Lato', sans-serif;
     letter-spacing: 0.01em;
     margin: 0;
   }
