@@ -120,8 +120,35 @@
   width: 12px;
   height: 12px;
   background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  transform: rotate(0deg);
   box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
+/* Create diamond shape using border and transform instead of clip-path */
+.pf-treasure-particles__gem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 8px solid #ff6b6b;
+  transform: translateX(-50%);
+}
+
+.pf-treasure-particles__gem::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 4px solid #ee5a52;
+  transform: translateX(-50%);
 }
 
 /* Unlock Chain Animation */
@@ -285,5 +312,43 @@
   width: 12px;
   height: 12px;
   background: #ffd700;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  transform: rotate(0deg);
+}
+
+/* Create star shape using multiple pseudo-elements and borders */
+.pf-reward-celebration__star::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 8px solid #ffd700;
+  transform: translateX(-50%);
+}
+
+.pf-reward-celebration__star::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #ffd700;
+  transform: translateX(-50%) rotate(180deg);
+}
+
+/* Add cross shape for more star-like appearance */
+.pf-reward-celebration__star {
+  position: relative;
+}
+
+.pf-reward-celebration__star {
+  background: linear-gradient(45deg, transparent 40%, #ffd700 40%, #ffd700 60%, transparent 60%),
+              linear-gradient(-45deg, transparent 40%, #ffd700 40%, #ffd700 60%, transparent 60%);
+  border-radius: 2px;
 }

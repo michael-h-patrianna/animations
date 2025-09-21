@@ -11,22 +11,22 @@ export function RewardFeedbackButtonSuccessPop() {
     // Cancel any existing animations
     button.getAnimations().forEach((anim) => anim.cancel());
     button.style.transform = 'none';
-    button.style.filter = 'none';
+    button.style.opacity = '1';
 
     // Start the animation - plays once on mount
     const duration = 600; // 600ms as specified
     const animation = button.animate([
       { 
         transform: 'scale(1)', 
-        filter: 'brightness(1)' 
+        opacity: '0.9' 
       },
       { 
         transform: 'scale(1.08)', 
-        filter: 'brightness(1.2)' 
+        opacity: '1' 
       },
       { 
         transform: 'scale(1)', 
-        filter: 'brightness(1)' 
+        opacity: '1' 
       }
     ], {
       duration,

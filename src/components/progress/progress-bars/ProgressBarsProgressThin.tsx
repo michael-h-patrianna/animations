@@ -43,7 +43,7 @@ export function ProgressBarsProgressThin() {
     photonTrail.style.height = '1px';
     photonTrail.style.background = 'linear-gradient(90deg, rgba(198,255,119,0) 0%, rgba(198,255,119,0.6) 50%, rgba(198,255,119,1) 100%)';
     photonTrail.style.pointerEvents = 'none';
-    photonTrail.style.filter = 'blur(0.5px)';
+    // Simulate subtle blur with opacity gradient for RN compatibility
     photonTrail.style.opacity = '0';
     fill.appendChild(photonTrail);
 
@@ -74,7 +74,8 @@ export function ProgressBarsProgressThin() {
     halo.style.background = 'radial-gradient(ellipse at right center, rgba(198,255,119,0.2) 0%, transparent 70%)';
     halo.style.opacity = '0';
     halo.style.pointerEvents = 'none';
-    halo.style.filter = 'blur(6px)';
+    // Use larger gradient and scale for blur simulation in RN
+    halo.style.transform = 'scale(1.3)';
     trackContainer.insertBefore(halo, track);
 
     const duration = 1200;

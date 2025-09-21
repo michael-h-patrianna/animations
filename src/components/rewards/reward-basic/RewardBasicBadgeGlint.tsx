@@ -11,22 +11,22 @@ export function RewardBasicBadgeGlint() {
     // Cancel any existing animations
     icon.getAnimations().forEach((anim) => anim.cancel());
     icon.style.transform = 'none';
-    icon.style.filter = 'none';
+    icon.style.opacity = '1';
 
     // Start the animation - plays once on mount
     const duration = 420; // durations.lg from showcase.html
     const animation = icon.animate([
       { 
         transform: 'scale(0.94)', 
-        filter: 'brightness(0.85)' 
+        opacity: '0.85' 
       },
       { 
         transform: 'scale(1.06)', 
-        filter: 'brightness(1.4)' 
+        opacity: '1' 
       },
       { 
         transform: 'scale(1)', 
-        filter: 'brightness(1)' 
+        opacity: '1' 
       }
     ], {
       duration,

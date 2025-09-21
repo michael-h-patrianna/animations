@@ -17,7 +17,8 @@ export function ModalContentListSpotlight() {
         item.style.animation = `list-spotlight 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
         item.style.opacity = '0';
         item.style.transform = 'scale(0.95)';
-        item.style.filter = 'brightness(0.7)';
+        // Simulate brightness filter with opacity for RN compatibility
+        item.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
       }
     });
   }, []);

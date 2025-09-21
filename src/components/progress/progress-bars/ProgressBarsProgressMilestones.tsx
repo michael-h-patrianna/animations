@@ -64,7 +64,8 @@ export function ProgressBarsProgressMilestones() {
       innerGlow.style.background = 'rgba(255,255,255,0.9)';
       innerGlow.style.borderRadius = '50%';
       innerGlow.style.opacity = '0';
-      innerGlow.style.filter = 'blur(2px)';
+      // Simulate blur with radial gradient for RN compatibility
+      innerGlow.style.background = 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, transparent 100%)';
       innerGlow.style.transition = 'all 0.3s ease';
       markerContainer.appendChild(innerGlow);
 

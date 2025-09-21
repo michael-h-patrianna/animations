@@ -1,72 +1,109 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import './reward-orchestrations.css';
 
-export function RewardOrchestrationsCoinTrail() {
-  const containerRef = useRef<HTMLDivElement>(null);
+interface Coin {
+  id: number;
+  delay: number;
+}
+
+// Separate Coin component for better React Native translation
+const AnimatedCoin = ({ delay }: { delay: number }) => {
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    // Small delay to trigger animation after mount
+    const timer = setTimeout(() => setIsAnimating(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
 
-    // Clear any existing coins
-    container.innerHTML = '';
+  return (
+    <div
+      className="pf-coin-trail__coin"
+      style={{
+        position: 'absolute',
+        left: '10px',
+        top: '50px',
+        animation: isAnimating 
+          ? `coin-trail-motion 2.4s ${delay}ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards`
+          : 'none',
+        opacity: 0
+      }}
+    >
+      {/* Dollar sign replaced as actual element instead of ::before */}
+      <span 
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+          fontSize: '10px',
+          fontWeight: 'bold',
+          color: '#b8860b'
+        }}
+      >
+        $
+      </span>
+    </div>
+  );
+};
 
+export function RewardOrchestrationsCoinTrail() {
+  const [coins, setCoins] = useState<Coin[]>([]);
+
+  useEffect(() => {
+    // Create coins with staggered delays
     const coinCount = 8;
-    const animations: Animation[] = [];
+    const newCoins = Array.from({ length: coinCount }, (_, i) => ({
+      id: i,
+      delay: i * 100
+    }));
+    
+    setCoins(newCoins);
 
-    // Create coins and animate them along a curved trail
-    for (let i = 0; i < coinCount; i++) {
-      const coin = document.createElement('div');
-      coin.className = 'pf-coin-trail__coin';
-      
-      // Starting position (left side)
-      coin.style.left = '10px';
-      coin.style.top = '50px';
-      coin.style.opacity = '0';
-      
-      container.appendChild(coin);
-
-      // Animate each coin with a staggered delay
-      const delay = i * 100;
-      
-      // Trail animation: curved path from left to right
-      const trailAnimation = coin.animate([
-        { 
-          transform: 'translate(0px, 0px) scale(0.5) rotate(0deg)',
-          opacity: '0'
-        },
-        { 
-          transform: 'translate(50px, -20px) scale(0.8) rotate(180deg)',
-          opacity: '1',
-          offset: 0.3
-        },
-        { 
-          transform: 'translate(150px, -10px) scale(1) rotate(360deg)',
-          opacity: '1',
-          offset: 0.7
-        },
-        { 
-          transform: 'translate(250px, 5px) scale(0.6) rotate(540deg)',
-          opacity: '0'
-        }
-      ], {
-        duration: 2400,
-        delay,
-        easing: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
-        fill: 'forwards'
-      });
-
-      animations.push(trailAnimation);
-    }
+    // Clean up after animation completes
+    const cleanupTimeout = setTimeout(() => {
+      // Animation complete - could reset here if needed
+    }, 2400 + (coinCount * 100));
 
     return () => {
-      animations.forEach(anim => anim.cancel());
+      clearTimeout(cleanupTimeout);
     };
   }, []);
 
   return (
-    <div className="pf-reward-orchestration pf-reward-orchestration--coin-trail" ref={containerRef}>
-      <div className="pf-coin-trail"></div>
+    <div className="pf-reward-orchestration pf-reward-orchestration--coin-trail">
+      <div className="pf-coin-trail" style={{ position: 'relative', width: '100%', height: '100%' }}>
+        {coins.map(coin => (
+          <AnimatedCoin key={coin.id} delay={coin.delay} />
+        ))}
+      </div>
+      
+      <style>{`
+        @keyframes coin-trail-motion {
+          0% {
+            transform: translate(0px, 0px) scale(0.5) rotate(0deg);
+            opacity: 0;
+          }
+          30% {
+            transform: translate(50px, -20px) scale(0.8) rotate(180deg);
+            opacity: 1;
+          }
+          70% {
+            transform: translate(150px, -10px) scale(1) rotate(360deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(250px, 5px) scale(0.6) rotate(540deg);
+            opacity: 0;
+          }
+        }
+        
+        /* Override the pseudo-element since we're using a real element */
+        .pf-coin-trail__coin::before {
+          content: none;
+        }
+      `}</style>
     </div>
   );
 }
