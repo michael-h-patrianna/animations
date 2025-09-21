@@ -277,16 +277,58 @@
       "groupId": "standard-effects"
     },
     {
+      "id": "standard-effects__fade",
+      "title": "Fade",
+      "description": "Simple opacity transition from invisible to visible for smooth appearances.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__slide",
+      "title": "Slide",
+      "description": "Linear sliding motion from off-screen position for panel entrances.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__scale",
+      "title": "Scale",
+      "description": "Clean scale transformation from small to full size without bounce.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__blink",
+      "title": "Blink",
+      "description": "Rapid opacity flash for attention-grabbing notifications and alerts.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__squeeze",
+      "title": "Squeeze",
+      "description": "Compression effect that squashes element for tactile button feedback.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__tada",
+      "title": "Tada",
+      "description": "Celebration animation combining scale and rotation for success moments.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__heartbeat",
+      "title": "HeartBeat",
+      "description": "Double-pulse rhythm animation for likes and favorite interactions.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",
       "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px\u21920px blur.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__scale-hero",
-      "title": "Hero Bounce",
-      "description": "Scale entrance from 78% up to 108% settling at 100% with 76% overlay fade and 18px\u21920px blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -298,23 +340,9 @@
       "groupId": "modal-base"
     },
     {
-      "id": "modal-base__slide-up-crisp",
-      "title": "Slide Up Crisp",
-      "description": "Slides in from the up by 72px with 62% overlay fade and soft blur 6px.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
       "id": "modal-base__slide-down-soft",
       "title": "Slide Down Welcome",
       "description": "Slides in from the down by 60px with 68% overlay fade and soft blur 8px.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__slide-down-hero",
-      "title": "Slide Down Hero Drop",
-      "description": "Slides in from the down by 92px with 72% overlay fade and soft blur 12px.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -357,13 +385,6 @@
       "id": "modal-base__portal-swirl",
       "title": "Portal Swirl",
       "description": "Fantasy game vortex entrance with spiral rotation and morphing border radius.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__iris-wipe",
-      "title": "Iris Wipe",
-      "description": "Cinematic circular reveal expanding from center point, Star Wars inspired.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -669,13 +690,6 @@
       "description": "Celebration effects pattern: Confetti Pulse Wave",
       "categoryId": "rewards",
       "groupId": "modal-celebrations"
-    },
-    {
-      "id": "progress-bars__progress-striped",
-      "title": "Striped Flow",
-      "description": "Animated stripes communicate momentum during fill.",
-      "categoryId": "progress",
-      "groupId": "progress-bars"
     },
     {
       "id": "progress-bars__progress-milestones",
