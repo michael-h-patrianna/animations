@@ -4,8 +4,8 @@
  * RN parity: transforms/opacity only; recreate CSS keyframes in Reanimated as needed.
  */
 import React from 'react';
-import './TextEffectsVerbJump.css';
 import './TextEffectsCharIndexDelays.css';
+import './TextEffectsVerbJump.css';
 
 export function TextEffectsVerbJump() {
   const text = 'LOREM IPSUM DOLOR';

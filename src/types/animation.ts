@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { ComponentType } from 'react';
 
 export interface Animation {
   id: string;
@@ -42,7 +42,8 @@ export interface StructureData {
   animations: Animation[];
 }
 
-export type AnimationComponent = () => ReactElement;
+// Use ComponentType to allow function, class, and lazy components with no props
+export type AnimationComponent = ComponentType<unknown>;
 export type AnimationComponentMap = Record<string, AnimationComponent>;
 
 export interface LoadingState {

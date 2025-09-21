@@ -1,10 +1,12 @@
 import type { AnimationComponentMap } from '@/types/animation';
+import { lazy } from 'react';
 
-import { TimerEffectsTimerColorShift } from './TimerEffectsTimerColorShift';
-import { TimerEffectsTimerFlash } from './TimerEffectsTimerFlash';
-import { TimerEffectsTimerFlashSoft } from './TimerEffectsTimerFlashSoft';
-import { TimerEffectsTimerFlip } from './TimerEffectsTimerFlip';
-import { TimerEffectsTimerPulse } from './TimerEffectsTimerPulse';
+// Lazy-loaded variants to enable code-splitting per animation component
+const TimerEffectsTimerColorShift = lazy(() => import('./TimerEffectsTimerColorShift').then(m => ({ default: m.TimerEffectsTimerColorShift })));
+const TimerEffectsTimerFlash = lazy(() => import('./TimerEffectsTimerFlash').then(m => ({ default: m.TimerEffectsTimerFlash })));
+const TimerEffectsTimerFlashSoft = lazy(() => import('./TimerEffectsTimerFlashSoft').then(m => ({ default: m.TimerEffectsTimerFlashSoft })));
+const TimerEffectsTimerFlip = lazy(() => import('./TimerEffectsTimerFlip').then(m => ({ default: m.TimerEffectsTimerFlip })));
+const TimerEffectsTimerPulse = lazy(() => import('./TimerEffectsTimerPulse').then(m => ({ default: m.TimerEffectsTimerPulse })));
 
 export { TimerEffectsTimerColorShift } from './TimerEffectsTimerColorShift';
 export { TimerEffectsTimerFlash } from './TimerEffectsTimerFlash';
