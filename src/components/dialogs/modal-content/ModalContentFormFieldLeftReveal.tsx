@@ -49,21 +49,21 @@ export function ModalContentFormFieldLeftReveal() {
           <p>Keep focus with 70ms cadence.</p>
           <div className="modal-content-form">
             <div
-              ref={(el) => fieldRefs.current[0] = el}
+              ref={(el) => { fieldRefs.current[0] = el; }}
               className="modal-content-field"
             >
               <label>Field 1</label>
               <input type="text" defaultValue="Input" />
             </div>
             <div
-              ref={(el) => fieldRefs.current[1] = el}
+              ref={(el) => { fieldRefs.current[1] = el; }}
               className="modal-content-field"
             >
               <label>Field 2</label>
               <input type="text" defaultValue="Input" />
             </div>
             <div
-              ref={(el) => fieldRefs.current[2] = el}
+              ref={(el) => { fieldRefs.current[2] = el; }}
               className="modal-content-field"
             >
               <label>Field 3</label>
@@ -73,13 +73,13 @@ export function ModalContentFormFieldLeftReveal() {
         </div>
         <div className="modal-content-footer">
           <button
-            ref={(el) => buttonRefs.current[0] = el}
+            ref={(el) => { buttonRefs.current[0] = el; }}
             className="modal-content-button modal-content-button-primary"
           >
             Accept
           </button>
           <button
-            ref={(el) => buttonRefs.current[1] = el}
+            ref={(el) => { buttonRefs.current[1] = el; }}
             className="modal-content-button modal-content-button-secondary"
           >
             Later

@@ -1,4 +1,4 @@
-import React from 'react';
+// React import not required for JSX in React 17+
 import './icon-animations.css';
 import pulseScroll from '@/assets/pulse_scroll.png';
 

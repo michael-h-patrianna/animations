@@ -24,7 +24,7 @@ export function ModalOrchestrationSelectionGrid() {
       opacity: 1,
       transition: {
         duration: 0.21, // 420ms * 0.5 (grid-cascade uses default pattern)
-        ease: [0.25, 0.46, 0.45, 0.94] // entrance easing
+        ease: [0.25, 0.46, 0.45, 0.94] as const // entrance easing
       }
     }
   };

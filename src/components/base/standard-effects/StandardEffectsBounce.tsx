@@ -1,4 +1,3 @@
-import React from 'react';
 import './standard-effects.css';
 
 export function StandardEffectsBounce() {

@@ -1,5 +1,5 @@
 import { AnimationCard } from '@/components/catalog/AnimationCard';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useEffect } from 'react';
 
@@ -104,7 +104,7 @@ describe('AnimationCard', () => {
     expect(shortDescriptions.length).toBeGreaterThan(0);
     
     // No accordion should be present for short text
-    const accordionTrigger = document.querySelector('[data-state]');
+  document.querySelector('[data-state]');
     
     // The accordion might be disabled or not present for short descriptions
     // This is the expected behavior

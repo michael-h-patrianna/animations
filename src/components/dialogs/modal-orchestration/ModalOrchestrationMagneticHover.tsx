@@ -30,7 +30,7 @@ export function ModalOrchestrationMagneticHover() {
       rotateX: 0,
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: [0.25, 0.46, 0.45, 0.94] as const
       }
     }
   };
@@ -44,7 +44,7 @@ export function ModalOrchestrationMagneticHover() {
       data-animation-id="modal-orchestration__magnetic-hover"
     >
       <div className="pf-magnetic-grid">
-        {tiles.map((tile, index) => (
+  {tiles.map((tile) => (
           <motion.div
             key={tile.id}
             className="pf-magnetic-tile"

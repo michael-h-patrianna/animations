@@ -14,20 +14,7 @@ export function ModalOrchestrationWizardSlideStack() {
     }
   };
 
-  const stepVariants = {
-    initial: {
-      scale: 0.9,
-      opacity: 0.3
-    },
-    animate: {
-      scale: [0.9, 1.06, 1],
-      opacity: [0.3, 1, 1],
-      transition: {
-        duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] // pop easing
-      }
-    }
-  };
+  // Step variants were previously defined but unused in this demo
 
   const panelVariants = {
     initial: {
@@ -41,7 +28,7 @@ export function ModalOrchestrationWizardSlideStack() {
       opacity: 1,
       transition: {
         duration: 0.312, // 520ms * 0.6
-        ease: [0.25, 0.46, 0.45, 0.94] // entrance easing
+        ease: [0.25, 0.46, 0.45, 0.94] as const // entrance easing
       }
     }
   };

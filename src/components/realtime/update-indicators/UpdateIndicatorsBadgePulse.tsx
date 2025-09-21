@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import './update-indicators.css';
 
 export function UpdateIndicatorsBadgePulse() {
   const badgeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
     const startAnimation = () => {
       const badge = badgeRef.current;

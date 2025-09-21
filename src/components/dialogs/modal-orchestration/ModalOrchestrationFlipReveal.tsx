@@ -47,7 +47,7 @@ export function ModalOrchestrationFlipReveal() {
       rotateY: 0,
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: [0.25, 0.46, 0.45, 0.94] as const
       }
     }
   };
@@ -61,7 +61,7 @@ export function ModalOrchestrationFlipReveal() {
       data-animation-id="modal-orchestration__flip-reveal"
     >
       <div className="pf-flip-grid">
-        {tiles.map((tile, index) => {
+  {tiles.map((tile) => {
           const isFlipped = flippedTiles.has(tile.id);
           
           return (
@@ -79,7 +79,7 @@ export function ModalOrchestrationFlipReveal() {
               <motion.div
                 className="pf-flip-tile"
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {/* Front Face */}

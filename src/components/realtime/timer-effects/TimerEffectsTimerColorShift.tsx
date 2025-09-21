@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './timer-effects.css';
 
 export function TimerEffectsTimerColorShift() {
@@ -9,8 +9,8 @@ export function TimerEffectsTimerColorShift() {
   const pathRef = useRef<SVGPathElement>(null);
 
   useEffect(() => {
-    let animationId: number;
-    let timeoutId: NodeJS.Timeout;
+  let animationId: number;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
     const startAnimation = () => {
       if (isAnimating) return;

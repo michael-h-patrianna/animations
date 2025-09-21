@@ -24,7 +24,7 @@ export function ModalOrchestrationTabSlide() {
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] // pop easing
+        ease: [0.34, 1.56, 0.64, 1] as const // pop easing
       }
     }
   };
@@ -41,7 +41,7 @@ export function ModalOrchestrationTabSlide() {
       opacity: 1,
       transition: {
         duration: 0.252, // 420ms * 0.6 (slide-swap pattern)
-        ease: [0.25, 0.46, 0.45, 0.94] // standard easing
+        ease: [0.25, 0.46, 0.45, 0.94] as const // standard easing
       }
     }
   };

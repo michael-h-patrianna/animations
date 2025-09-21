@@ -14,20 +14,7 @@ export function ModalOrchestrationWizardFadeCross() {
     }
   };
 
-  const stepVariants = {
-    initial: {
-      scale: 0.9,
-      opacity: 0.3
-    },
-    animate: {
-      scale: [0.9, 1.06, 1],
-      opacity: [0.3, 1, 1],
-      transition: {
-        duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] // pop easing
-      }
-    }
-  };
+
 
   const panelVariants = {
     initial: {
@@ -39,7 +26,7 @@ export function ModalOrchestrationWizardFadeCross() {
       opacity: 1,
       transition: {
         duration: 0.26, // 520ms * 0.5
-        ease: [0.25, 0.46, 0.45, 0.94] // gentle easing
+        ease: [0.25, 0.46, 0.45, 0.94] as const // gentle easing
       }
     }
   };

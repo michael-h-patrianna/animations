@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import type { CSSProperties } from 'react';
 import './modal-base.css';
 
 export function ModalBaseSpringBounce() {
@@ -10,7 +11,7 @@ export function ModalBaseSpringBounce() {
       opacity: 1,
       transition: {
         duration: 0.3,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: [0.25, 0.46, 0.45, 0.94] as const
       }
     }
   };
@@ -26,7 +27,7 @@ export function ModalBaseSpringBounce() {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: 'spring' as const,
         stiffness: 280,
         damping: 20,
         mass: 0.8
@@ -40,9 +41,7 @@ export function ModalBaseSpringBounce() {
       variants={overlayVariants}
       initial="initial"
       animate="animate"
-      style={{
-        '--overlay-opacity': '0.72'
-      } as React.CSSProperties}
+      style={{ ['--overlay-opacity' as unknown as keyof CSSProperties]: '0.72' } as CSSProperties}
       data-animation-id="modal-base__spring-bounce"
     >
       <motion.div 

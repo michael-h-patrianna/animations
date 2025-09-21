@@ -34,13 +34,13 @@ export function ModalContentButtonsStagger2() {
         </div>
         <div className="modal-content-footer">
           <button
-            ref={(el) => buttonRefs.current[0] = el}
+            ref={(el) => { buttonRefs.current[0] = el; }}
             className="modal-content-button modal-content-button-primary"
           >
             Primary
           </button>
           <button
-            ref={(el) => buttonRefs.current[1] = el}
+            ref={(el) => { buttonRefs.current[1] = el; }}
             className="modal-content-button modal-content-button-secondary"
           >
             Secondary

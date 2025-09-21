@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './realtime-data.css';
 
@@ -12,7 +12,7 @@ export function RealtimeDataLeaderboardShift() {
   ]);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
     const startAnimation = () => {
       setIsAnimating(true);
@@ -74,7 +74,7 @@ export function RealtimeDataLeaderboardShift() {
               exit={{ y: 100, opacity: 0 }}
               transition={{
                 duration: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94]
+                ease: [0.25, 0.46, 0.45, 0.94] as const
               }}
             >
               <div className="pf-realtime-data__rank">#{player.rank}</div>

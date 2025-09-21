@@ -26,7 +26,7 @@ export function ModalOrchestrationGridHighlight() {
       scale: [0.9, 1.05, 1], // highlight-sweep adds a small scale bounce
       transition: {
         duration: 0.21, // 420ms * 0.5 (highlight-sweep uses default pattern)
-        ease: [0.25, 0.46, 0.45, 0.94] // entrance easing
+        ease: [0.25, 0.46, 0.45, 0.94] as const // entrance easing
       }
     }
   };

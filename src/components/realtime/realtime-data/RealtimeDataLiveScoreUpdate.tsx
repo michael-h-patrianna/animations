@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import './realtime-data.css';
 
 export function RealtimeDataLiveScoreUpdate() {
   const [scores, setScores] = useState([1450, 1320]);
-  const [isAnimating, setIsAnimating] = useState(false);
+  // Removed unused isAnimating state to satisfy noUnusedLocals
   const controls1 = useAnimation();
   const controls2 = useAnimation();
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
     const startAnimation = async () => {
-      setIsAnimating(true);
+  // start animation
       
       // Animate both scores
       const promises = [
@@ -49,7 +49,7 @@ export function RealtimeDataLiveScoreUpdate() {
       }, 40);
 
       await Promise.all(promises);
-      setIsAnimating(false);
+  // end animation
       
       // Reset after delay
       timeoutId = setTimeout(() => {
@@ -79,7 +79,7 @@ export function RealtimeDataLiveScoreUpdate() {
             animate={controls1}
             transition={{
               duration: 0.8,
-              ease: [0.25, 0.46, 0.45, 0.94]
+              ease: [0.25, 0.46, 0.45, 0.94] as const
             }}
           >
             {scores[0].toLocaleString()}
@@ -93,7 +93,7 @@ export function RealtimeDataLiveScoreUpdate() {
             animate={controls2}
             transition={{
               duration: 0.8,
-              ease: [0.25, 0.46, 0.45, 0.94],
+              ease: [0.25, 0.46, 0.45, 0.94] as const,
               delay: 0.1
             }}
           >

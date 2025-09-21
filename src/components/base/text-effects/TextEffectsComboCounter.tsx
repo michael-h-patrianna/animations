@@ -1,5 +1,5 @@
-import React from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
+import { useEffect } from 'react';
 import './text-effects.css';
 
 export function TextEffectsComboCounter() {
@@ -19,10 +19,10 @@ export function TextEffectsComboCounter() {
   const rounded = useTransform(count, (latest) => Math.round(latest));
   
   // Start counting animation on mount
-  React.useEffect(() => {
+  useEffect(() => {
     const controls = animate(count, finalValue, {
       duration: 1.2,
-      ease: [0.25, 0.1, 0.25, 1], // Custom easing - slow start, accelerate, slow finish
+      ease: [0.25, 0.1, 0.25, 1] as const, // Custom easing - slow start, accelerate, slow finish
       delay: 0.35
     });
     return controls.stop;
@@ -46,7 +46,7 @@ export function TextEffectsComboCounter() {
           transition={{
             duration: 0.5,
             times: [0, 0.4, 0.7, 1],
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94] as const
           }}
         >
           <div className="combo-number-container">
@@ -178,7 +178,7 @@ export function TextEffectsComboCounter() {
               transition={{
                 duration: 0.4,
                 delay: 0.2 + (index * 0.04),
-                ease: [0.25, 0.46, 0.45, 0.94]
+                ease: [0.25, 0.46, 0.45, 0.94] as const
               }}
             >
               {char}

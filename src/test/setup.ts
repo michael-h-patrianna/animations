@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 // Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
+globalThis.IntersectionObserver = class IntersectionObserver {
   callback: IntersectionObserverCallback;
   
   constructor(callback: IntersectionObserverCallback) {
@@ -30,8 +30,8 @@ global.IntersectionObserver = class IntersectionObserver {
 };
 
 // Mock ResizeObserver
-global.ResizeObserver = class ResizeObserver {
-  constructor(callback: ResizeObserverCallback) {}
+globalThis.ResizeObserver = class ResizeObserver {
+  constructor() {}
   observe() {
     return null;
   }

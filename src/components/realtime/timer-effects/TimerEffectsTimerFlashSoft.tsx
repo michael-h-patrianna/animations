@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './timer-effects.css';
 
 export function TimerEffectsTimerFlashSoft() {
@@ -8,8 +8,8 @@ export function TimerEffectsTimerFlashSoft() {
 
   useEffect(() => {
     let animationId: number;
-    let timeoutId: NodeJS.Timeout;
-    let reminderTimeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
+  let reminderTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
     const startAnimation = () => {
       if (isAnimating) return;

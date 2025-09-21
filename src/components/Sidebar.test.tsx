@@ -44,7 +44,7 @@ describe('Sidebar', () => {
     render(
       <Sidebar
         categories={mockCategories}
-        currentCategoryId="category-1"
+        currentGroupId="group-1"
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
@@ -54,29 +54,35 @@ describe('Sidebar', () => {
     expect(screen.getByText('Category 2')).toBeInTheDocument();
   });
 
-  it('shows groups only for the active category', () => {
+  it('shows all groups and highlights active category', () => {
     render(
       <Sidebar
         categories={mockCategories}
-        currentCategoryId="category-1"
+        currentGroupId="group-1"
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
     );
 
-    // Groups from active category should be visible
+    // All groups should be visible
     expect(screen.getByText('Group 1')).toBeInTheDocument();
     expect(screen.getByText('Group 2')).toBeInTheDocument();
-    
-    // Groups from inactive category should not be visible
-    expect(screen.queryByText('Group 3')).not.toBeInTheDocument();
+
+    // Inactive category's groups are also rendered
+    expect(screen.getByText('Group 3')).toBeInTheDocument();
+
+    // Active category should have active styling because it contains the current group
+    const activeCategory = screen.getByText('Category 1');
+    expect(activeCategory.className).toContain('pf-sidebar__link--active');
+    const inactiveCategory = screen.getByText('Category 2');
+    expect(inactiveCategory.className).not.toContain('pf-sidebar__link--active');
   });
 
   it('applies active styling to current category', () => {
     render(
       <Sidebar
         categories={mockCategories}
-        currentCategoryId="category-1"
+        currentGroupId="group-1"
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
@@ -93,7 +99,7 @@ describe('Sidebar', () => {
     render(
       <Sidebar
         categories={mockCategories}
-        currentCategoryId="category-1"
+        currentGroupId="group-1"
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
@@ -107,14 +113,14 @@ describe('Sidebar', () => {
     render(
       <Sidebar
         categories={mockCategories}
-        currentCategoryId="category-1"
+        currentGroupId="group-1"
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
     );
 
-    fireEvent.click(screen.getByText('Group 1'));
-    expect(mockOnGroupSelect).toHaveBeenCalledWith('category-1', 'group-1');
+  fireEvent.click(screen.getByText('Group 1'));
+  expect(mockOnGroupSelect).toHaveBeenCalledWith('group-1');
   });
 
   it('renders correctly when category has no groups', () => {
@@ -129,7 +135,7 @@ describe('Sidebar', () => {
     render(
       <Sidebar
         categories={categoriesWithoutGroups}
-        currentCategoryId="empty-category"
+        currentGroupId=""
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
@@ -140,32 +146,37 @@ describe('Sidebar', () => {
     expect(screen.queryByRole('button', { name: /Group/i })).not.toBeInTheDocument();
   });
 
-  it('updates groups when current category changes', () => {
+  it('updates active states when current group changes', () => {
     const { rerender } = render(
       <Sidebar
         categories={mockCategories}
-        currentCategoryId="category-1"
+        currentGroupId="group-1"
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
     );
 
-    // Initially shows groups from category-1
-    expect(screen.getByText('Group 1')).toBeInTheDocument();
-    expect(screen.queryByText('Group 3')).not.toBeInTheDocument();
+    // Initially, group-1 is active, so Category 1 should be active
+    const category1 = screen.getByText('Category 1');
+    const category2 = screen.getByText('Category 2');
+    expect(category1.className).toContain('pf-sidebar__link--active');
+    expect(category2.className).not.toContain('pf-sidebar__link--active');
+    const group1 = screen.getByText('Group 1');
+    expect(group1.className).toContain('pf-sidebar__link--active');
 
-    // Change to category-2
+    // Change to group-3 (in Category 2)
     rerender(
       <Sidebar
         categories={mockCategories}
-        currentCategoryId="category-2"
+        currentGroupId="group-3"
         onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
     );
 
-    // Now shows groups from category-2
-    expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
-    expect(screen.getByText('Group 3')).toBeInTheDocument();
+    // Now Category 2 should be active and Group 3 active
+    expect(screen.getByText('Category 2').className).toContain('pf-sidebar__link--active');
+    expect(screen.getByText('Category 1').className).not.toContain('pf-sidebar__link--active');
+    expect(screen.getByText('Group 3').className).toContain('pf-sidebar__link--active');
   });
 });
