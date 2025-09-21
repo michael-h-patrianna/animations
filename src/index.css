@@ -1,8 +1,9 @@
+/* Tailwind v4 base */
+/* Import Tailwind first (required by PostCSS), then load plugins and declare sources */
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
 @source "../index.html";
 @source "./**/*.{js,ts,jsx,tsx}";
-
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
 
 :root {
   --pf-base-0: #1d092f;

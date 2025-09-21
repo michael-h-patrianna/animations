@@ -1,11 +1,6 @@
 
-@plugin "tailwindcss-animate";
+/* Tailwind base and plugins are imported in src/index.css (v4) */
 
-@custom-variant dark (&:is(.dark *));
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 #root {
   min-height: 100vh;
@@ -26,7 +21,7 @@
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  border-radius: var(--pf-radius-lg);
+  border-radius: var(--pf-radius-xs);
   background: rgba(33, 15, 49, 0.82);
   box-shadow: var(--pf-shadow-soft);
   max-height: calc(100vh - 64px);
@@ -232,12 +227,21 @@
   gap: var(--pf-grid-gap);
 }
 
+/* Mobile: below 390px, stack cards vertically without enforcing min width */
+@media (max-width: 389px) {
+  .pf-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-grid-gap);
+  }
+}
+
 .pf-card {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 18px;
-  border-radius: var(--pf-radius-lg);
+  border-radius: var(--pf-radius-xs);
   background: rgba(33, 15, 49, 0.82);
   box-shadow: var(--pf-shadow-soft);
   border: 1px solid rgba(236, 195, 255, 0.1);
@@ -326,7 +330,7 @@
 .pf-demo-canvas {
   position: relative;
   overflow: visible;
-  border-radius: var(--pf-radius-md);
+  border-radius: var(--pf-radius-xs);
   border: 1px solid rgba(236, 195, 255, 0.12);
   min-height: var(--pf-demo-height, 220px);
   background: rgba(29, 9, 47, 0.76);
@@ -360,12 +364,138 @@
 
 @media (max-width: 768px) {
   .pf-category {
-    padding: 20px;
+    padding: 4px;
   }
 
   .pf-group {
-    padding: 18px;
+    padding: 4px;
   }
+}
+
+/* Hide inline sidebar inside grid below 1220px; drawer will be used */
+@media (max-width: 1219px) {
+  .pf-main > .pf-sidebar {
+    display: none;
+  }
+}
+
+/* Header housing the hamburger button — always visible & sticky */
+.pf-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: radial-gradient(circle at 20% 20%, rgba(123, 70, 142, 0.65) 0%, rgba(29, 9, 47, 0.65) 99%, rgba(7, 2, 12, 0.65) 100%);
+  padding: 8px 0;
+  margin-bottom: 12px;
+}
+
+/* Hamburger button */
+.pf-hamburger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--pf-radius-md, 8px);
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+/* Hide hamburger on desktop where the inline sidebar is visible */
+@media (min-width: 1220px) {
+  .pf-hamburger { display: none; }
+}
+
+.pf-hamburger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Mobile header title */
+.pf-mobile-header__title {
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--pf-text-primary);
+}
+
+/* Drawer and overlay */
+.pf-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+}
+
+.pf-drawer.is-open {
+  display: block;
+}
+
+.pf-drawer__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--pf-overlay);
+  opacity: 0;
+  transition: opacity var(--pf-transition-fast, 200ms) ease;
+}
+
+.pf-drawer.is-open .pf-drawer__overlay {
+  opacity: 1;
+  /* Leave the drawer area uncovered so the page background shows behind the Sidebar */
+  margin-left: min(86vw, 340px);
+}
+
+.pf-drawer__panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: min(86vw, 340px);
+  max-width: 100%;
+  transform: translateX(-100%);
+  transition: transform var(--pf-transition-fast, 200ms) ease;
+  overflow-y: auto;
+  /* Backdrop matches page gradient to support semi-transparent Sidebar */
+  background: radial-gradient(circle at 20% 20%, rgba(123, 70, 142, 0.65) 0%, rgba(29, 9, 47, 0.65) 99%, rgba(7, 2, 12, 0.65) 100%);
+  padding: 0;
+}
+
+.pf-drawer.is-open .pf-drawer__panel {
+  transform: translateX(0);
+}
+
+/* Drawer panel header (hosts the close X button) */
+.pf-drawer__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+/* On larger viewports, match drawer width to the desktop sidebar column */
+@media (min-width: 769px) {
+  .pf-drawer__panel {
+    width: 320px;
+  }
+  .pf-drawer.is-open .pf-drawer__overlay {
+    margin-left: 320px;
+  }
+}
+
+  /* Hide in-content group title on mobile; we show it in sticky header */
+  .pf-group__header {
+    display: none;
+  }
+
+/* Inside the drawer, make the Sidebar behave like a full-height panel */
+.pf-drawer__panel .pf-sidebar {
+  position: static;
+  top: auto;
 }
 
 @theme inline {

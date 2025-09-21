@@ -6,6 +6,7 @@ interface SidebarProps {
   currentGroupId: string;
   onCategorySelect: (categoryId: string) => void;
   onGroupSelect: (groupId: string) => void;
+  className?: string;
 }
 
 export const Sidebar: FC<SidebarProps> = ({
@@ -13,9 +14,10 @@ export const Sidebar: FC<SidebarProps> = ({
   currentGroupId,
   onCategorySelect,
   onGroupSelect,
+  className,
 }) => {
   return (
-    <aside className="pf-sidebar">
+    <aside className={`pf-sidebar${className ? ` ${className}` : ''}`}>
 
 
       <div className="pf-sidebar__nav">
@@ -38,7 +40,7 @@ export const Sidebar: FC<SidebarProps> = ({
                 <div className="pf-sidebar__subnav">
                   {category.groups.map((group) => {
                     const isActiveGroup = group.id === currentGroupId;
-                    
+
                     return (
                       <button
                         key={group.id}

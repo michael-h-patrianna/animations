@@ -877,8 +877,16 @@
 }
 
 /* Level Breakthrough Animation */
+.pf-breakthrough-container {
+  position: relative;
+}
+
 .pf-level-breakthrough {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffce1a;
   text-align: center;
+  padding: 20px;
   position: relative;
   z-index: 2;
 }
