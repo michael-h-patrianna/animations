@@ -76,7 +76,7 @@ export function AnimationCard({
   return (
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
       <CardHeader className="p-0 pb-3 space-y-0">
-        <CardTitle className="pf-card__title mb-2">{title}</CardTitle>
+        <CardTitle className="pf-card__title mb-1">{title}</CardTitle>
         <div className="flex items-start gap-2">
           <p
             className={`pf-card__description flex-1 m-0 transition-all duration-200 ${

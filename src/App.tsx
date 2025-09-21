@@ -10,6 +10,7 @@ function App() {
   const { categories, isLoading, error } = useAnimations();
   const [currentGroupId, setCurrentGroupId] = useState<string>('');
   const [direction, setDirection] = useState<number>(0);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const dragControls = useDragControls();
 
   // Get all groups in order for navigation
@@ -38,6 +39,37 @@ function App() {
 
     setDirection(newIndex > currentIndex ? 1 : -1);
     setCurrentGroupId(groupId);
+  };
+
+  // Close drawer on ESC
+  useEffect(() => {
+    if (!isDrawerOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsDrawerOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isDrawerOpen]);
+
+  // Prevent background scroll when drawer is open
+  useEffect(() => {
+    if (isDrawerOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [isDrawerOpen]);
+
+  // Wrapped selectors for mobile to close the drawer
+  const handleCategorySelectMobile = (categoryId: string) => {
+    handleCategorySelect(categoryId);
+    setIsDrawerOpen(false);
+  };
+  const handleGroupSelectMobile = (groupId: string) => {
+    handleGroupSelect(groupId);
+    setIsDrawerOpen(false);
   };
 
   // When the current group changes, scroll its section to the top
@@ -161,7 +193,30 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen">
+      {/* Mobile header */}
+      <div className="pf-mobile-header">
+        <button
+          type="button"
+          className="pf-hamburger"
+          aria-label="Open menu"
+          aria-haspopup="dialog"
+          aria-expanded={isDrawerOpen ? 'true' : 'false'}
+          aria-controls="pf-sidebar-drawer"
+          onClick={() => setIsDrawerOpen(true)}
+        >
+          {/* Simple hamburger icon using currentColor */}
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        {currentGroup && (
+          <span className="pf-mobile-header__title">{currentGroup.title} ({currentGroup.animations.length})</span>
+        )}
+      </div>
+
       <div className="pf-main">
         <Sidebar
           categories={categories}
@@ -226,6 +281,40 @@ function App() {
             </>
           )}
         </main>
+      </div>
+
+      {/* Drawer for mobile sidebar */}
+      <div
+        id="pf-sidebar-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={isDrawerOpen ? 'false' : 'true'}
+        hidden={!isDrawerOpen}
+        className={`pf-drawer ${isDrawerOpen ? 'is-open' : ''}`}
+      >
+        <div className="pf-drawer__overlay" onClick={() => setIsDrawerOpen(false)} />
+        <div className="pf-drawer__panel">
+          <div className="pf-drawer__panel-header">
+            <button
+              type="button"
+              className="pf-hamburger"
+              aria-label="Close menu"
+              onClick={() => setIsDrawerOpen(false)}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <Sidebar
+            categories={categories}
+            currentGroupId={currentGroupId}
+            onCategorySelect={handleCategorySelectMobile}
+            onGroupSelect={handleGroupSelectMobile}
+            className="pf-sidebar"
+          />
+        </div>
       </div>
     </div>
   );
