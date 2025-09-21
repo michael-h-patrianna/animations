@@ -5,7 +5,7 @@
   align-items: center;
   gap: 12px;
   padding: 16px;
-  font-family: system-ui, sans-serif;
+  font-family: 'Lato', sans-serif;
   position: relative;
   max-width: 300px;
 }

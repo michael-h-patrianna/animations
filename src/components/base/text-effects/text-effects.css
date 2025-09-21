@@ -41,7 +41,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: system-ui, sans-serif;
+  font-family: 'Lato', sans-serif;
   position: relative;
   min-height: 80px;
 }
