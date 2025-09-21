@@ -192,6 +192,13 @@
       "groupId": "text-effects"
     },
     {
+      "id": "text-effects__wave-reveal",
+      "title": "Wave Reveal",
+      "description": "Staggered wave animation where text appears from bottom with smooth easing.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
       "id": "standard-effects__shake",
       "title": "Shake",
       "description": "Horizontal shake with rotation wobble and scale compression for error feedback.",
