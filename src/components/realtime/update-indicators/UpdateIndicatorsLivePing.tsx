@@ -13,7 +13,7 @@ export function UpdateIndicatorsLivePing() {
 
       // Start ping animation
       icon.style.animation = 'update-live-ping 1200ms ease-in-out infinite';
-      
+
       // Auto-restart
       timeoutId = setTimeout(startAnimation, 4000);
     };
@@ -26,8 +26,8 @@ export function UpdateIndicatorsLivePing() {
   }, []);
 
   return (
-    <div 
-      className="pf-update-indicator" 
+    <div
+      className="pf-update-indicator"
       data-animation-id="update-indicators__live-ping"
     >
       <div ref={iconRef} className="pf-update-indicator__icon"></div>

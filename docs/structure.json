@@ -15,6 +15,12 @@
           "title": "Standard effects",
           "tech": "framer",
           "demo": "standardEffects"
+        },
+        {
+          "id": "button-effects",
+          "title": "Button effects",
+          "tech": "css",
+          "demo": "button"
         }
       ]
     },
@@ -114,6 +120,14 @@
     }
   ],
   "animations": [
+    {
+      "id": "button-effects__ripple",
+      "title": "Ripple Button",
+      "description": "Themed button with Material-style click ripple expansion.",
+      "categoryId": "base",
+      "groupId": "button-effects",
+      "disableReplay": true
+    },
     {
       "id": "text-effects__character-reveal",
       "title": "Character Reveal",

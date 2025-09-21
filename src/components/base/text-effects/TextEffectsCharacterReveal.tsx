@@ -6,7 +6,7 @@ export function TextEffectsCharacterReveal() {
   const subtitle = "UNLOCKED";
 
   return (
-    <div 
+    <div
       className="character-reveal-container"
       data-animation-id="text-effects__character-reveal"
     >
@@ -17,7 +17,7 @@ export function TextEffectsCharacterReveal() {
           className="shadow-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ 
+          transition={{
             delay: 0.2,
             duration: 0.6,
             ease: "easeOut"

@@ -4,10 +4,10 @@ import './modal-base.css';
 
 export function ModalBaseSpringBounce() {
   const overlayVariants = {
-    initial: { 
+    initial: {
       opacity: 0
     },
-    animate: { 
+    animate: {
       opacity: 1,
       transition: {
         duration: 0.3,
@@ -17,12 +17,12 @@ export function ModalBaseSpringBounce() {
   };
 
   const modalVariants = {
-    initial: { 
+    initial: {
       scale: 0.7,
       opacity: 0,
       y: -30
     },
-    animate: { 
+    animate: {
       scale: 1,
       opacity: 1,
       y: 0,
@@ -36,7 +36,7 @@ export function ModalBaseSpringBounce() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-modal-overlay"
       variants={overlayVariants}
       initial="initial"
@@ -44,7 +44,7 @@ export function ModalBaseSpringBounce() {
       style={{ ['--overlay-opacity' as unknown as keyof CSSProperties]: '0.72' } as CSSProperties}
       data-animation-id="modal-base__spring-bounce"
     >
-      <motion.div 
+      <motion.div
         className="pf-modal pf-modal--spring"
         variants={modalVariants}
       >

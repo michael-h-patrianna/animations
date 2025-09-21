@@ -4,7 +4,7 @@ import './modal-orchestration.css';
 
 export function ModalOrchestrationFlipReveal() {
   const [flippedTiles, setFlippedTiles] = useState<Set<number>>(new Set());
-  
+
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
     frontTitle: `Card ${index + 1}`,
@@ -36,12 +36,12 @@ export function ModalOrchestrationFlipReveal() {
   };
 
   const tileVariants = {
-    initial: { 
+    initial: {
       scale: 0,
       opacity: 0,
       rotateY: -180
     },
-    animate: { 
+    animate: {
       scale: 1,
       opacity: 1,
       rotateY: 0,
@@ -53,7 +53,7 @@ export function ModalOrchestrationFlipReveal() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-flip-container"
       variants={containerVariants}
       initial="initial"
@@ -63,14 +63,14 @@ export function ModalOrchestrationFlipReveal() {
       <div className="pf-flip-grid">
   {tiles.map((tile) => {
           const isFlipped = flippedTiles.has(tile.id);
-          
+
           return (
             <motion.div
               key={tile.id}
               className="pf-flip-tile-container"
               variants={tileVariants}
               onClick={() => toggleFlip(tile.id)}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 transition: { type: "spring", stiffness: 300, damping: 25 }
               }}

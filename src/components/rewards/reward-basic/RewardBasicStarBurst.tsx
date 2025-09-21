@@ -16,17 +16,17 @@ export function RewardBasicStarBurst() {
     // Start the animation - plays once on mount
     const duration = 320; // durations.md from showcase.html
     const animation = icon.animate([
-      { 
-        transform: 'scale(0.7)', 
-        opacity: '0.8' 
+      {
+        transform: 'scale(0.7)',
+        opacity: '0.8'
       },
-      { 
-        transform: 'scale(1.22)', 
-        opacity: '1' 
+      {
+        transform: 'scale(1.22)',
+        opacity: '1'
       },
-      { 
-        transform: 'scale(1)', 
-        opacity: '1' 
+      {
+        transform: 'scale(1)',
+        opacity: '1'
       }
     ], {
       duration,
@@ -40,8 +40,8 @@ export function RewardBasicStarBurst() {
   }, []); // Empty dependency array - only runs on mount
 
   return (
-    <div 
-      className="pf-reward-basic" 
+    <div
+      className="pf-reward-basic"
       data-animation-id="reward-basic__star-burst"
     >
       <div

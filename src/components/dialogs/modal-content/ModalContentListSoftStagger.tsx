@@ -12,7 +12,7 @@ export function ModalContentListSoftStagger() {
         // Reset any existing animation
         item.style.animation = 'none';
         void item.offsetWidth; // Force reflow
-        
+
         // Apply staggered animation with 60ms base delay + 300ms modal delay
         const delay = 300 + (60 * index);
         item.style.animation = `list-soft-stagger 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards ${delay}ms`;
@@ -26,7 +26,7 @@ export function ModalContentListSoftStagger() {
       if (button) {
         button.style.animation = 'none';
         void button.offsetWidth;
-        
+
         const buttonDelay = 550 + (70 * index);
         button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${buttonDelay}ms`;
         button.style.opacity = '0';
@@ -79,12 +79,12 @@ export function ModalContentListSoftStagger() {
           </div>
         </div>
         <div className="modal-content-footer">
-          <button 
+          <button
             ref={(el) => { buttonRefs.current[0] = el; }}
             className="modal-content-button modal-content-button-primary">
             Accept
           </button>
-          <button 
+          <button
             ref={(el) => { buttonRefs.current[1] = el; }}
             className="modal-content-button modal-content-button-secondary">
             Later

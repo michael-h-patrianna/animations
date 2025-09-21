@@ -3,7 +3,7 @@ import './modal-orchestration.css';
 
 export function ModalOrchestrationMultiStepProgressive() {
   const steps = 5;
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,12 +15,12 @@ export function ModalOrchestrationMultiStepProgressive() {
   };
 
   const stepVariants = {
-    initial: { 
-      scale: 0.9, 
-      opacity: 0.3 
+    initial: {
+      scale: 0.9,
+      opacity: 0.3
     },
-    animate: { 
-      scale: [0.9, 1.06, 1], 
+    animate: {
+      scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
@@ -30,12 +30,12 @@ export function ModalOrchestrationMultiStepProgressive() {
   };
 
   const panelVariants = {
-    initial: { 
-      y: 16, 
-      opacity: 0 
+    initial: {
+      y: 16,
+      opacity: 0
     },
-    animate: { 
-      y: 0, 
+    animate: {
+      y: 0,
       opacity: 1,
       transition: {
         duration: 0.34, // 680ms * 0.5 (progressive pattern)
@@ -45,7 +45,7 @@ export function ModalOrchestrationMultiStepProgressive() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-wizard"
       variants={containerVariants}
       initial="initial"
@@ -54,8 +54,8 @@ export function ModalOrchestrationMultiStepProgressive() {
     >
       <div className="pf-wizard__steps">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className="pf-wizard__step"
             variants={stepVariants}
           >
@@ -63,11 +63,11 @@ export function ModalOrchestrationMultiStepProgressive() {
           </motion.div>
         ))}
       </div>
-      
+
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className="pf-wizard__panel"
             variants={panelVariants}
           >

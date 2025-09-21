@@ -1,14 +1,14 @@
-import type { PropsWithChildren } from 'react';
-import { useState, useEffect, useRef } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { ChevronDown } from 'lucide-react';
+import type { PropsWithChildren } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface AnimationCardProps extends PropsWithChildren {
   title: string;
@@ -16,6 +16,7 @@ interface AnimationCardProps extends PropsWithChildren {
   animationId: string;
   onReplay?: () => void;
   infiniteAnimation?: boolean; // For animations that should loop indefinitely
+  disableReplay?: boolean; // When true, hide/disable the replay button
 }
 
 export function AnimationCard({
@@ -24,7 +25,8 @@ export function AnimationCard({
   animationId,
   children,
   onReplay,
-  infiniteAnimation = false
+  infiniteAnimation = false,
+  disableReplay = false
 }: AnimationCardProps) {
   const [replayKey, setReplayKey] = useState(0);
   const [hasPlayed, setHasPlayed] = useState(false);
@@ -76,7 +78,7 @@ export function AnimationCard({
       <CardHeader className="p-0 pb-3 space-y-0">
         <CardTitle className="pf-card__title mb-2">{title}</CardTitle>
         <div className="flex items-start gap-2">
-          <p 
+          <p
             className={`pf-card__description flex-1 m-0 transition-all duration-200 ${
               !isExpanded ? 'line-clamp-1' : ''
             }`}
@@ -89,7 +91,7 @@ export function AnimationCard({
             aria-label={isExpanded ? 'Collapse description' : 'Expand description'}
             style={{ marginTop: '4px' }}
           >
-            <ChevronDown 
+            <ChevronDown
               className={`h-3 w-3 transition-transform duration-200 ${
                 isExpanded ? 'rotate-180' : ''
               }`}
@@ -115,6 +117,8 @@ export function AnimationCard({
             className="pf-card__replay"
             data-role="replay"
             onClick={handleReplay}
+            disabled={disableReplay}
+            aria-disabled={disableReplay}
           >
             Replay
           </Button>

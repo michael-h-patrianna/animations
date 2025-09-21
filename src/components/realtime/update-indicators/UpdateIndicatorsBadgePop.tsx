@@ -14,13 +14,13 @@ export function UpdateIndicatorsBadgePop() {
       // Reset animation
       badge.style.animation = '';
       badge.style.transform = 'scale(0.6)';
-      
+
       // Trigger reflow
       badge.offsetHeight;
-      
+
       // Start pop animation
       badge.style.animation = 'update-badge-pop 400ms cubic-bezier(0.34, 1.25, 0.64, 1) forwards';
-      
+
       // Auto-restart after delay
       timeoutId = setTimeout(startAnimation, 2000);
     };
@@ -34,8 +34,8 @@ export function UpdateIndicatorsBadgePop() {
   }, []);
 
   return (
-    <div 
-      className="pf-update-indicator" 
+    <div
+      className="pf-update-indicator"
       data-animation-id="update-indicators__badge-pop"
     >
       <div className="pf-update-indicator__icon"></div>

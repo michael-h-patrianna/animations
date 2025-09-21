@@ -6,8 +6,8 @@ export function RealtimeDataWinTicker() {
   const tickerText = "Mega Win! +5,000 credits · Daily streak unlocked · Bonus wheel ready · ";
 
   return (
-    <div 
-      className="pf-realtime-data" 
+    <div
+      className="pf-realtime-data"
       data-animation-id="realtime-data__win-ticker"
     >
       <div className="pf-realtime-data__ticker">

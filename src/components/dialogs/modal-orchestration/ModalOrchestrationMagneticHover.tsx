@@ -19,12 +19,12 @@ export function ModalOrchestrationMagneticHover() {
   };
 
   const tileVariants = {
-    initial: { 
+    initial: {
       scale: 0,
       opacity: 0,
       rotateX: -90
     },
-    animate: { 
+    animate: {
       scale: 1,
       opacity: 1,
       rotateX: 0,
@@ -36,7 +36,7 @@ export function ModalOrchestrationMagneticHover() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-magnetic-container"
       variants={containerVariants}
       initial="initial"
@@ -49,24 +49,24 @@ export function ModalOrchestrationMagneticHover() {
             key={tile.id}
             className="pf-magnetic-tile"
             variants={tileVariants}
-            whileHover={{ 
+            whileHover={{
               scale: 1.1,
               y: -12,
               rotateY: 5,
               rotateX: 5,
               boxShadow: "0 20px 40px rgba(196, 122, 229, 0.3)",
-              transition: { 
-                type: "spring", 
-                stiffness: 300, 
-                damping: 20 
+              transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 20
               }
             }}
-            whileTap={{ 
+            whileTap={{
               scale: 0.95,
-              transition: { 
-                type: "spring", 
-                stiffness: 400, 
-                damping: 25 
+              transition: {
+                type: "spring",
+                stiffness: 400,
+                damping: 25
               }
             }}
           >

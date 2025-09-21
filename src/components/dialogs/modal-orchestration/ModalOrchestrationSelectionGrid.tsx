@@ -3,7 +3,7 @@ import './modal-orchestration.css';
 
 export function ModalOrchestrationSelectionGrid() {
   const items = 6;
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,12 +15,12 @@ export function ModalOrchestrationSelectionGrid() {
   };
 
   const itemVariants = {
-    initial: { 
-      y: 16, 
-      opacity: 0 
+    initial: {
+      y: 16,
+      opacity: 0
     },
-    animate: { 
-      y: 0, 
+    animate: {
+      y: 0,
       opacity: 1,
       transition: {
         duration: 0.21, // 420ms * 0.5 (grid-cascade uses default pattern)
@@ -30,7 +30,7 @@ export function ModalOrchestrationSelectionGrid() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-grid"
       variants={containerVariants}
       initial="initial"
@@ -38,8 +38,8 @@ export function ModalOrchestrationSelectionGrid() {
       data-animation-id="modal-orchestration__selection-grid"
     >
       {Array.from({ length: items }, (_, index) => (
-        <motion.div 
-          key={index} 
+        <motion.div
+          key={index}
           className="pf-grid__item"
           variants={itemVariants}
         >

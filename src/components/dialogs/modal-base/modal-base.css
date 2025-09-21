@@ -84,14 +84,37 @@
 }
 
 .pf-button-primary {
-  background: linear-gradient(160deg, #4e187c 0%, #c47ae5 52%, #d79af3 100%);
-  color: #ffffff;
-  box-shadow: 0 8px 24px rgba(200, 53, 88, 0.25);
+  /* New primary style */
+  border-radius: 50px;
+  background: linear-gradient(180deg, #ff5981, #c83558);
+  color: #fff;
+  border: 2px solid #ff7495;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+  padding: 6px 12px;
+}
+
+/* Hover and disabled states for primary */
+.pf-button-primary:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: linear-gradient(180deg, #ff6b8f, #d6456a);
+  border-color: #ff86a5;
+  filter: drop-shadow(0 2px 6px rgba(200, 53, 88, 0.35));
+}
+
+.pf-button-primary:disabled,
+.pf-button-primary[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(10%);
+  box-shadow: none;
 }
 
 .pf-button-secondary {
-  background: rgba(236, 195, 255, 0.08);
-  color: #ecc3ff;
+  /* Outline secondary */
+  color: #25ecff;
+  border: 2px solid #25ecff;
+  background: transparent;
+  border-radius: 50px;
+  padding: 6px 12px;
 }
 
 .pf-button-primary:active,
@@ -688,17 +711,17 @@
 }
 
 /* REACT NATIVE COMPATIBILITY - ALL ANIMATIONS NOW COMPATIBLE */
-/* 
+/*
  * ✅ ALL MODAL ANIMATIONS ARE NOW REACT NATIVE COMPATIBLE
  * Updated to use only transform, opacity, scale, and translate properties
  * All animations work with React Reanimated & Moti for React Native
- * 
+ *
  * SCALE ANIMATIONS - RN Compatible:
  * - scale-gentle-pop: Uses scale(0.85-1.05) + opacity transitions
  * - scale-crisp: Already compatible, no blur effects
  * - scale-hero: Uses scale(0.75-1.08) + opacity transitions (was blur 18px)
  * - scale-lift: Uses scale(0.70-1.03) + opacity transitions (was blur 16px)
- * 
+ *
  * SLIDE ANIMATIONS - RN Compatible:
  * - slide-up-soft: Uses translateY + scale(0.94-1.01) + opacity (was blur 8px)
  * - slide-up-crisp: Uses translateY + scale(0.96-1.01) + opacity (was blur 6px)
@@ -706,15 +729,15 @@
  * - slide-down-hero: Uses translateY + scale(0.92-1.02) + opacity (was blur 12px)
  * - slide-left-drift: Uses translateX + scale(0.95-1.01) + opacity (was blur 7px)
  * - slide-right-drift: Uses translateX + scale(0.95-1.01) + opacity (was blur 7px)
- * 
+ *
  * FADE ANIMATIONS - RN Compatible:
  * - fade-soft: Uses scale(0.88-1.03) + opacity (was blur 20px)
  * - fade-zoom: Already compatible, no blur effects
  * - fade-shift: Uses translateY + scale(0.92-1.02) + opacity (was blur 12px)
- * 
+ *
  * ADVANCED ANIMATIONS - RN Compatible:
  * - 3D Flip: rotateY + scale + opacity
- * - Zoom Elastic: scale + opacity  
+ * - Zoom Elastic: scale + opacity
  * - Unfold Origami: rotateX + scale + opacity
  * - Portal Swirl: rotate + scale + opacity (border-radius animates)
  * - Morph Center: scale + opacity (border-radius animates)

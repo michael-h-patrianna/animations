@@ -13,7 +13,7 @@ export function UpdateIndicatorsBadgePulse() {
 
       // Start pulse animation
       badge.style.animation = 'update-badge-pulse 1000ms ease-in-out infinite';
-      
+
       // Auto-restart (continuous for pulse)
       timeoutId = setTimeout(startAnimation, 3000);
     };
@@ -27,8 +27,8 @@ export function UpdateIndicatorsBadgePulse() {
   }, []);
 
   return (
-    <div 
-      className="pf-update-indicator" 
+    <div
+      className="pf-update-indicator"
       data-animation-id="update-indicators__badge-pulse"
     >
       <div className="pf-update-indicator__icon"></div>

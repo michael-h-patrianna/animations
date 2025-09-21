@@ -16,17 +16,17 @@ export function RewardBasicBadgeSweep() {
     // Start the animation - plays once on mount
     const duration = 420; // durations.lg from showcase.html
     const animation = icon.animate([
-      { 
-        transform: 'translateX(-6px)', 
-        boxShadow: '0 0 0 rgba(236,195,255,0)' 
+      {
+        transform: 'translateX(-6px)',
+        boxShadow: '0 0 0 rgba(236,195,255,0)'
       },
-      { 
-        transform: 'translateX(6px)', 
-        boxShadow: '0 0 20px rgba(236,195,255,0.35)' 
+      {
+        transform: 'translateX(6px)',
+        boxShadow: '0 0 20px rgba(236,195,255,0.35)'
       },
-      { 
-        transform: 'translateX(0px)', 
-        boxShadow: '0 0 0 rgba(236,195,255,0)' 
+      {
+        transform: 'translateX(0px)',
+        boxShadow: '0 0 0 rgba(236,195,255,0)'
       }
     ], {
       duration,
@@ -40,8 +40,8 @@ export function RewardBasicBadgeSweep() {
   }, []); // Empty dependency array - only runs on mount
 
   return (
-    <div 
-      className="pf-reward-basic" 
+    <div
+      className="pf-reward-basic"
       data-animation-id="reward-basic__badge-sweep"
     >
       <div

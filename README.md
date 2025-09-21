@@ -22,6 +22,11 @@ Read: `docs/REACT_NATIVE_REFACTORING_PATTERNS.md` how to ensure that all animati
 		- `<group-id>.css` – shared CSS for the group
 		- `*.tsx` – one React component per animation (PascalCase of animation id)
 
+Base effects groups include:
+- `text-effects` – animated text patterns
+- `standard-effects` – common micro-interactions
+- `button-effects` – button interactions (press, hover, ripples)
+
 Where to find something to edit
 
 1) Identify the animation’s id in `docs/structure.json` (format: `category-group__variant`).

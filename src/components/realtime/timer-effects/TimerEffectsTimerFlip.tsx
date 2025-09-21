@@ -10,17 +10,17 @@ export function TimerEffectsTimerFlip() {
   useEffect(() => {
     let animationId: number;
   let timeoutId: ReturnType<typeof setTimeout>;
-  let flipTimeouts: Array<ReturnType<typeof setTimeout>> = [];
+  const flipTimeouts: Array<ReturnType<typeof setTimeout>> = [];
 
     const startAnimation = () => {
       if (isAnimating) return;
-      
+
       setIsAnimating(true);
       setValue(10);
-      
+
       const valueEl = valueRef.current;
       const underline = underlineRef.current;
-      
+
       if (!valueEl || !underline) return;
 
       // Reset styles
@@ -39,31 +39,31 @@ export function TimerEffectsTimerFlip() {
           valueEl.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
           valueEl.style.transform = 'rotateX(-180deg)';
           valueEl.style.opacity = '0.6';
-          
+
           setTimeout(() => {
             valueEl.style.transform = 'rotateX(-360deg)';
             valueEl.style.opacity = '1';
           }, 250);
-          
+
           setTimeout(() => {
             valueEl.style.transform = 'rotateX(0deg)';
           }, 500);
         }, step * i);
-        
+
         flipTimeouts.push(flipTimeout);
       }
 
       const animate = () => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Update countdown value
         const currentValue = Math.max(0, Math.ceil(10 * (1 - progress)));
         setValue(currentValue);
-        
+
         // Update underline scale
         underline.style.transform = `scaleX(${1 - progress})`;
-        
+
         if (progress < 1) {
           animationId = requestAnimationFrame(animate);
         } else {
@@ -87,8 +87,8 @@ export function TimerEffectsTimerFlip() {
   }, []);
 
   return (
-    <div 
-      className="pf-timer" 
+    <div
+      className="pf-timer"
       data-animation-id="timer-effects__timer-flip"
     >
       <div ref={valueRef} className="pf-timer__value" style={{ transformStyle: 'preserve-3d' }}>{value}</div>

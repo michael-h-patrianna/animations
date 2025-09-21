@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Sidebar } from './Sidebar';
 import type { Category } from '@/types/animation';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { Sidebar } from './Sidebar';
 
 describe('Sidebar', () => {
   const mockCategories: Category[] = [
@@ -14,7 +14,7 @@ describe('Sidebar', () => {
           animations: []
         },
         {
-          id: 'group-2', 
+          id: 'group-2',
           title: 'Group 2',
           animations: []
         }
@@ -90,7 +90,7 @@ describe('Sidebar', () => {
 
     const activeCategory = screen.getByText('Category 1');
     expect(activeCategory.className).toContain('pf-sidebar__link--active');
-    
+
     const inactiveCategory = screen.getByText('Category 2');
     expect(inactiveCategory.className).not.toContain('pf-sidebar__link--active');
   });

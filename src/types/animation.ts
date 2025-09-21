@@ -7,6 +7,7 @@ export interface Animation {
   categoryId: string;
   groupId: string;
   tags?: string[];
+  disableReplay?: boolean; // when true, the AnimationCard should disable the replay button
 }
 
 export interface Group {

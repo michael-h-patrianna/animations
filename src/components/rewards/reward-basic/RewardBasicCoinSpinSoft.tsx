@@ -31,8 +31,8 @@ export function RewardBasicCoinSpinSoft() {
   }, []);
 
   return (
-    <div 
-      className="pf-reward-basic" 
+    <div
+      className="pf-reward-basic"
       data-animation-id="reward-basic__coin-spin-soft"
     >
       <div

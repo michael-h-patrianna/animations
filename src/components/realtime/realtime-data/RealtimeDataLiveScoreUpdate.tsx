@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import './realtime-data.css';
 
 export function RealtimeDataLiveScoreUpdate() {
@@ -13,7 +13,7 @@ export function RealtimeDataLiveScoreUpdate() {
 
     const startAnimation = async () => {
   // start animation
-      
+
       // Animate both scores
       const promises = [
         controls1.start({
@@ -31,17 +31,17 @@ export function RealtimeDataLiveScoreUpdate() {
       const increment = 120;
       let step = 0;
       const steps = 20;
-      
+
       const countInterval = setInterval(() => {
         step++;
         const progress = step / steps;
         const easeProgress = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-        
+
         setScores([
           Math.round(currentScores[0] + (increment * easeProgress)),
           Math.round(currentScores[1] + (increment * easeProgress))
         ]);
-        
+
         if (step >= steps) {
           clearInterval(countInterval);
           currentScores = [currentScores[0] + increment, currentScores[1] + increment];
@@ -50,7 +50,7 @@ export function RealtimeDataLiveScoreUpdate() {
 
       await Promise.all(promises);
   // end animation
-      
+
       // Reset after delay
       timeoutId = setTimeout(() => {
         setScores([1450, 1320]);
@@ -66,15 +66,15 @@ export function RealtimeDataLiveScoreUpdate() {
   }, [controls1, controls2]);
 
   return (
-    <div 
-      className="pf-realtime-data" 
+    <div
+      className="pf-realtime-data"
       data-animation-id="realtime-data__live-score-update"
     >
       <div className="pf-realtime-data__leaderboard">
         <div className="pf-realtime-data__row">
           <div className="pf-realtime-data__rank">#1</div>
           <div className="pf-realtime-data__player">Phoenix</div>
-          <motion.div 
+          <motion.div
             className="pf-realtime-data__score"
             animate={controls1}
             transition={{
@@ -88,7 +88,7 @@ export function RealtimeDataLiveScoreUpdate() {
         <div className="pf-realtime-data__row">
           <div className="pf-realtime-data__rank">#2</div>
           <div className="pf-realtime-data__player">Shadow</div>
-          <motion.div 
+          <motion.div
             className="pf-realtime-data__score"
             animate={controls2}
             transition={{

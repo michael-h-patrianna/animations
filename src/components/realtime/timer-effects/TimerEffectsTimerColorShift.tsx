@@ -14,14 +14,14 @@ export function TimerEffectsTimerColorShift() {
 
     const startAnimation = () => {
       if (isAnimating) return;
-      
+
       setIsAnimating(true);
       setValue(10);
-      
+
       const container = containerRef.current;
       const underline = underlineRef.current;
       const path = pathRef.current;
-      
+
       if (!container || !underline || !path) return;
 
       // Reset styles
@@ -35,18 +35,18 @@ export function TimerEffectsTimerColorShift() {
       const animate = () => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Update countdown value
         const currentValue = Math.max(0, Math.ceil(10 * (1 - progress)));
         setValue(currentValue);
-        
+
         // Update underline scale
         underline.style.transform = `scaleX(${1 - progress})`;
-        
+
         // Update arc progress
         const arcOffset = 97 * (1 - progress);
         path.style.strokeDashoffset = `${97 - arcOffset}`;
-        
+
         // Update color shift: #c6ff77 → #ffb300 → #fa114f
         let color: string;
         if (progress < 0.5) {
@@ -59,7 +59,7 @@ export function TimerEffectsTimerColorShift() {
           color = `hsl(${43 - t * 35}, ${86 + t * 14}%, ${50 - t * 15}%)`;
         }
         container.style.setProperty('--timer-color', color);
-        
+
         if (progress < 1) {
           animationId = requestAnimationFrame(animate);
         } else {
@@ -82,9 +82,9 @@ export function TimerEffectsTimerColorShift() {
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="pf-timer" 
+      className="pf-timer"
       data-animation-id="timer-effects__timer-color-shift"
     >
       <div className="pf-timer__value">{value}</div>
@@ -92,10 +92,10 @@ export function TimerEffectsTimerColorShift() {
       <div ref={underlineRef} className="pf-timer__underline"></div>
       <div className="pf-timer__arc">
         <svg viewBox="0 0 36 36">
-          <path 
+          <path
             ref={pathRef}
-            className="pf-timer__path" 
-            d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31" 
+            className="pf-timer__path"
+            d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31"
           />
         </svg>
       </div>

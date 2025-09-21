@@ -3,9 +3,9 @@ import './text-effects.css';
 
 export function TextEffectsWaveText() {
   const text = "WAVE MOTION";
-  
+
   return (
-    <div 
+    <div
       className="wave-text-container"
       data-animation-id="text-effects__wave-text"
     >
@@ -19,7 +19,7 @@ export function TextEffectsWaveText() {
       {/* Simplified energy field - using transform and opacity */}
       <motion.div
         className="wave-energy-field"
-        animate={{ 
+        animate={{
           opacity: [0.1, 0.25, 0.15, 0.3, 0.1],
           scale: [1, 1.05, 0.98, 1.03, 1],
         }}
@@ -37,7 +37,7 @@ export function TextEffectsWaveText() {
           const waveDelay = index * 0.05;
           const isSpace = char === " ";
           const wavePhase = index % 5;
-          
+
           return (
             <motion.span
               key={index}
@@ -67,7 +67,7 @@ export function TextEffectsWaveText() {
             >
               <span className="wave-char-inner">
                 {isSpace ? "\u00A0" : char}
-                
+
                 {/* Highlight that travels with the wave */}
                 {!isSpace && (
                   <motion.span
@@ -93,7 +93,7 @@ export function TextEffectsWaveText() {
       </div>
 
       {/* Ripple effects for depth */}
-      <motion.div 
+      <motion.div
         className="wave-ripple"
         animate={{
           scaleX: [1, 1.2, 1],
@@ -106,7 +106,7 @@ export function TextEffectsWaveText() {
           ease: "easeInOut",
         }}
       />
-      
+
       {/* Atmospheric glow */}
       <div className="wave-atmosphere" />
     </div>
