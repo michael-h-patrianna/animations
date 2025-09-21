@@ -100,14 +100,26 @@ Coin: /Users/Spare/Documents/graphics/adventure-game-3d-illustration-2024-09-06-
 Potion: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-05-12-38-utc/18 a.png
 Hammer: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-05-12-38-utc/13 a.png
 
-Copy this image of a gift box into our assets:
-/Users/Spare/Documents/graphics/Present box 3D PNG/present_box.png
-
-Use this image for the Bounce animation. Remove the text and the rectangle container from the animation, only animate the image. Do not rewrite anything from the animation or its keyframes itself
-
-
-in the Float animation, get rid of the text and rectangle container, instead use this image of a balloons for the animation:
-/Users/Spare/Documents/graphics/Present box 3D PNG/present_box_balloon.png
 
 cute
 /Users/Spare/Documents/graphics/baby%20animals%20and%20christmas/PNG/1.png
+
+
+/Users/Spare/Documents/graphics/3d-treasure-illustration-2024-01-27-00-38-40-utc/0007.png
+
+
+copy this image into our assets: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-04-49-50-utc/14 a.png
+
+Use this image for the Shake animation. Remove the text and the rectangle container from the animation, only animate the image. Do not rewrite anything from the animation or its keyframes itself
+
+In the Pulse animation, Remove the text and the rectangle container from the animation, only animate the image. Do not rewrite anything from the animation or its keyframes itself. Make the image larger (relative to height) to be in line with the image size we have in the Bounce animation. Make the glow area smaller as the image shows a scroll which leaves lot of empty transparent space left and right.
+
+in the Game Element & Rewards category add a new group "Icon animations". Make it the first group in this category.
+
+To the new group add exact copies of the Shake, Bounce, Float, Pulse animations. Make sure to create exact copies including all CSS, so the copy and original are independent of each other.
+
+In the Standard effects group, unify all animations in what they animate: a rectangle with only the name of the animation inside
+e.g.:
+<div class="standard-demo-element wiggle-element"><div class="demo-text">Shake</div></div>
+
+no image

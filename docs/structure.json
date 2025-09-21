@@ -97,6 +97,12 @@
       "title": "Game Elements & Rewards",
       "groups": [
         {
+          "id": "icon-animations",
+          "title": "Icon animations",
+          "tech": "css",
+          "demo": "iconAnimations"
+        },
+        {
           "id": "reward-basic",
           "title": "Basic rewards",
           "tech": "css",
@@ -1181,6 +1187,34 @@
       "description": "Reward orchestrations pattern: Reward Celebration",
       "categoryId": "rewards",
       "groupId": "reward-orchestrations"
+    },
+    {
+      "id": "icon-animations__shake",
+      "title": "Shake",
+      "description": "Horizontal shake with rotation wobble and scale compression for error feedback.",
+      "categoryId": "rewards",
+      "groupId": "icon-animations"
+    },
+    {
+      "id": "icon-animations__bounce",
+      "title": "Bounce",
+      "description": "Vertical bounce with squash-stretch deformation and tilt for playful feedback.",
+      "categoryId": "rewards",
+      "groupId": "icon-animations"
+    },
+    {
+      "id": "icon-animations__float",
+      "title": "Float",
+      "description": "Gentle Y-axis sine wave with subtle rotation and shadow distance changes.",
+      "categoryId": "rewards",
+      "groupId": "icon-animations"
+    },
+    {
+      "id": "icon-animations__pulse",
+      "title": "Pulse",
+      "description": "Scale pulse with opacity fade and expanding glow for heartbeat effect.",
+      "categoryId": "rewards",
+      "groupId": "icon-animations"
     }
 
   ]

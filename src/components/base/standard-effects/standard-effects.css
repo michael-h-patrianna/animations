@@ -248,22 +248,97 @@
   transform-origin: center bottom;
 }
 
-/* Pulse Animation - Primary: scale pulse, Secondary: opacity fade + glow */
+/* Pulse Animation - Primary: scale pulse, Secondary: rotation wobble, Tertiary: skew tilt */
 @keyframes pulse-animation {
-  0%, 100% {
-    transform: scale(1);
+  0% {
+    transform: scale(1) rotate(-2deg) skewY(0deg);
     opacity: 1;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+  5% {
+    transform: scale(1.01) rotate(-1.5deg) skewY(0.2deg);
+    opacity: 0.99;
+  }
+  10% {
+    transform: scale(1.015) rotate(-0.8deg) skewY(0.4deg);
+    opacity: 0.98;
+  }
+  15% {
+    transform: scale(1.02) rotate(0deg) skewY(0.6deg);
+    opacity: 0.97;
+  }
+  20% {
+    transform: scale(1.025) rotate(0.5deg) skewY(0.8deg);
+    opacity: 0.96;
+  }
+  25% {
+    transform: scale(1.03) rotate(1deg) skewY(1deg);
+    opacity: 0.95;
+  }
+  30% {
+    transform: scale(1.035) rotate(1.5deg) skewY(0.8deg);
+    opacity: 0.94;
+  }
+  35% {
+    transform: scale(1.04) rotate(2deg) skewY(0.4deg);
+    opacity: 0.93;
+  }
+  40% {
+    transform: scale(1.045) rotate(2.5deg) skewY(0deg);
+    opacity: 0.92;
+  }
+  45% {
+    transform: scale(1.048) rotate(2.8deg) skewY(-0.5deg);
+    opacity: 0.91;
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.05) rotate(3deg) skewY(-1deg);
     opacity: 0.9;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 40px rgba(236, 195, 255, 0.4);
+  }
+  55% {
+    transform: scale(1.048) rotate(2.8deg) skewY(-0.5deg);
+    opacity: 0.91;
+  }
+  60% {
+    transform: scale(1.045) rotate(2.5deg) skewY(0deg);
+    opacity: 0.92;
+  }
+  65% {
+    transform: scale(1.04) rotate(2deg) skewY(0.5deg);
+    opacity: 0.93;
+  }
+  70% {
+    transform: scale(1.035) rotate(1.5deg) skewY(1deg);
+    opacity: 0.94;
+  }
+  75% {
+    transform: scale(1.03) rotate(1deg) skewY(1.5deg);
+    opacity: 0.95;
+  }
+  80% {
+    transform: scale(1.025) rotate(0.5deg) skewY(1.2deg);
+    opacity: 0.96;
+  }
+  85% {
+    transform: scale(1.02) rotate(0deg) skewY(0.8deg);
+    opacity: 0.97;
+  }
+  90% {
+    transform: scale(1.015) rotate(-0.8deg) skewY(0.4deg);
+    opacity: 0.98;
+  }
+  95% {
+    transform: scale(1.01) rotate(-1.5deg) skewY(0.2deg);
+    opacity: 0.99;
+  }
+  100% {
+    transform: scale(1) rotate(-2deg) skewY(0deg);
+    opacity: 1;
   }
 }
 
 .pulse-element {
-  animation: pulse-animation 1.5s ease-in-out infinite;
+  animation: pulse-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: center center;
 }
 
 /* Rubber Band Animation - Primary: elastic stretch, Secondary: thickness variation */
