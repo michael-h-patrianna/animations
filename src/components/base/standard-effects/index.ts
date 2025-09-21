@@ -11,6 +11,13 @@ import { StandardEffectsWiggle } from './StandardEffectsWiggle';
 import { StandardEffectsFlip } from './StandardEffectsFlip';
 import { StandardEffectsSpin } from './StandardEffectsSpin';
 import { StandardEffectsFloat } from './StandardEffectsFloat';
+import { StandardEffectsFade } from './StandardEffectsFade';
+import { StandardEffectsSlide } from './StandardEffectsSlide';
+import { StandardEffectsScale } from './StandardEffectsScale';
+import { StandardEffectsBlink } from './StandardEffectsBlink';
+import { StandardEffectsSqueeze } from './StandardEffectsSqueeze';
+import { StandardEffectsTada } from './StandardEffectsTada';
+import { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat';
 
 export { StandardEffectsShake } from './StandardEffectsShake';
 export { StandardEffectsBounce } from './StandardEffectsBounce';
@@ -23,6 +30,13 @@ export { StandardEffectsWiggle } from './StandardEffectsWiggle';
 export { StandardEffectsFlip } from './StandardEffectsFlip';
 export { StandardEffectsSpin } from './StandardEffectsSpin';
 export { StandardEffectsFloat } from './StandardEffectsFloat';
+export { StandardEffectsFade } from './StandardEffectsFade';
+export { StandardEffectsSlide } from './StandardEffectsSlide';
+export { StandardEffectsScale } from './StandardEffectsScale';
+export { StandardEffectsBlink } from './StandardEffectsBlink';
+export { StandardEffectsSqueeze } from './StandardEffectsSqueeze';
+export { StandardEffectsTada } from './StandardEffectsTada';
+export { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat';
 
 export const baseStandardEffectsAnimations: AnimationComponentMap = {
   'standard-effects__shake': StandardEffectsShake,
@@ -35,5 +49,12 @@ export const baseStandardEffectsAnimations: AnimationComponentMap = {
   'standard-effects__wiggle': StandardEffectsWiggle,
   'standard-effects__flip': StandardEffectsFlip,
   'standard-effects__spin': StandardEffectsSpin,
-  'standard-effects__float': StandardEffectsFloat
+  'standard-effects__float': StandardEffectsFloat,
+  'standard-effects__fade': StandardEffectsFade,
+  'standard-effects__slide': StandardEffectsSlide,
+  'standard-effects__scale': StandardEffectsScale,
+  'standard-effects__blink': StandardEffectsBlink,
+  'standard-effects__squeeze': StandardEffectsSqueeze,
+  'standard-effects__tada': StandardEffectsTada,
+  'standard-effects__heartbeat': StandardEffectsHeartbeat
 };

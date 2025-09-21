@@ -123,3 +123,15 @@ e.g.:
 <div class="standard-demo-element wiggle-element"><div class="demo-text">Shake</div></div>
 
 no image
+
+Remove the following groups and all their animations: Basic Rewards, UI feedback
+
+Review the animations: Slide Up Soft, Slide Down Welcome, Slide Down Hero Drop, Slide Left Drift, 3D Card Flip, Slide Right Drift, Portal Swirl
+
+problem: they feel choppy / stuttery. they should look more fluid. are they using CSS keyframes? check if you can replace them with framer motion animations that do and look exactly the same. if not: check if you can use more keyframes and/or change the timing function to make the animations look more fluid.
+
+Remove the animation Material Ripple
+
+
+
+The Wave Text animation is very imperformant causing constant layout recalcs. Review and suggest solutions. Do not change code, just analyse the code and the problem and suggest solutions.

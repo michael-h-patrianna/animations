@@ -1,11 +1,11 @@
 import React from 'react';
 import './standard-effects.css';
 
-export function StandardEffectsFloat() {
+export function StandardEffectsFade() {
   return (
     <div className="standard-demo-container">
-      <div className="standard-demo-element float-element">
-        <div className="demo-text">Float</div>
+      <div className="standard-demo-element fade-element">
+        <div className="demo-text">Fade</div>
       </div>
     </div>
   );
