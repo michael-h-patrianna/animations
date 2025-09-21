@@ -16,18 +16,18 @@ export function RewardBasicGlowOrbit() {
     // Start the animation - plays once on mount
     const duration = 520; // durations.xl from showcase.html
     const animation = icon.animate([
-      { 
-        transform: 'rotate(0deg)', 
-        boxShadow: '0 0 0 rgba(198,255,119,0)' 
+      {
+        transform: 'rotate(0deg)',
+        boxShadow: '0 0 0 rgba(198,255,119,0)'
       },
-      { 
-        transform: 'rotate(180deg)', 
+      {
+        transform: 'rotate(180deg)',
         boxShadow: '0 0 20px rgba(198,255,119,0.45)',
-        offset: 0.5 
+        offset: 0.5
       },
-      { 
-        transform: 'rotate(360deg)', 
-        boxShadow: '0 0 0 rgba(198,255,119,0)' 
+      {
+        transform: 'rotate(360deg)',
+        boxShadow: '0 0 0 rgba(198,255,119,0)'
       }
     ], {
       duration,
@@ -41,8 +41,8 @@ export function RewardBasicGlowOrbit() {
   }, []); // Empty dependency array - only runs on mount
 
   return (
-    <div 
-      className="pf-reward-basic" 
+    <div
+      className="pf-reward-basic"
       data-animation-id="reward-basic__glow-orbit"
     >
       <div

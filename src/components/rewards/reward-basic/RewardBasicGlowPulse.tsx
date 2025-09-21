@@ -16,17 +16,17 @@ export function RewardBasicGlowPulse() {
     // Start the animation - plays once on mount
     const duration = 420; // durations.lg from showcase.html
     const animation = icon.animate([
-      { 
-        transform: 'scale(0.92)', 
-        boxShadow: '0 0 0 rgba(236,195,255,0)' 
+      {
+        transform: 'scale(0.92)',
+        boxShadow: '0 0 0 rgba(236,195,255,0)'
       },
-      { 
-        transform: 'scale(1.08)', 
-        boxShadow: '0 0 24px rgba(236,195,255,0.55)' 
+      {
+        transform: 'scale(1.08)',
+        boxShadow: '0 0 24px rgba(236,195,255,0.55)'
       },
-      { 
-        transform: 'scale(1)', 
-        boxShadow: '0 0 0 rgba(236,195,255,0)' 
+      {
+        transform: 'scale(1)',
+        boxShadow: '0 0 0 rgba(236,195,255,0)'
       }
     ], {
       duration,
@@ -40,8 +40,8 @@ export function RewardBasicGlowPulse() {
   }, []); // Empty dependency array - only runs on mount
 
   return (
-    <div 
-      className="pf-reward-basic" 
+    <div
+      className="pf-reward-basic"
       data-animation-id="reward-basic__glow-pulse"
     >
       <div

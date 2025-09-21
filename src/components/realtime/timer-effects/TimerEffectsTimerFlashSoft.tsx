@@ -13,10 +13,10 @@ export function TimerEffectsTimerFlashSoft() {
 
     const startAnimation = () => {
       if (isAnimating) return;
-      
+
       setIsAnimating(true);
       setSeconds(32);
-      
+
       const timer = timerRef.current;
       if (!timer) return;
 
@@ -28,40 +28,40 @@ export function TimerEffectsTimerFlashSoft() {
       const animate = () => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Calculate remaining seconds with higher precision
         const remainingSeconds = Math.max(0, 32 - (elapsed / 1000));
         const displaySeconds = Math.max(0, Math.ceil(remainingSeconds));
-        
+
         // Only update state when display value actually changes
         if (displaySeconds !== seconds) {
           setSeconds(displaySeconds);
         }
-        
+
         // Same color transition as original Flash Expire
         const urgencyLevel = remainingSeconds <= 30 ? (30 - remainingSeconds) / 30 : 0;
-        
+
         // Use easing function for smoother color transition
         const easeInOut = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
         const easedUrgency = easeInOut(urgencyLevel);
-        
+
         // Same colors as original: yellow to red
         const yellow = { r: 255, g: 193, b: 7 }; // #ffc107
         const red = { r: 220, g: 53, b: 69 }; // #dc3545
-        
+
         const r = Math.round(yellow.r + (red.r - yellow.r) * easedUrgency);
         const g = Math.round(yellow.g + (red.g - yellow.g) * easedUrgency);
         const b = Math.round(yellow.b + (red.b - yellow.b) * easedUrgency);
-        
+
         timer.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-        
+
         // Shake animation every 10 seconds
         if (elapsed - lastReminderTime >= reminderInterval) {
           lastReminderTime = elapsed;
-          
+
           // Trigger a gentle shake animation
           timer.style.animation = 'flash-soft-shake 600ms ease-out';
-          
+
           // Reset animation after it completes
           setTimeout(() => {
             if (timer) {
@@ -69,7 +69,7 @@ export function TimerEffectsTimerFlashSoft() {
             }
           }, 600);
         }
-        
+
         if (progress < 1) {
           animationId = requestAnimationFrame(animate);
         } else {
@@ -105,11 +105,11 @@ export function TimerEffectsTimerFlashSoft() {
   };
 
   return (
-    <div 
-      className="pf-timer-flash" 
+    <div
+      className="pf-timer-flash"
       data-animation-id="timer-effects__timer-flash-soft"
     >
-      <div 
+      <div
         ref={timerRef}
         className="pf-timer-flash__pill pf-timer-flash__pill--soft"
       >

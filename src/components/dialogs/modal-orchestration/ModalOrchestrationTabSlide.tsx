@@ -3,7 +3,7 @@ import './modal-orchestration.css';
 
 export function ModalOrchestrationTabSlide() {
   const tabs = 3;
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,12 +15,12 @@ export function ModalOrchestrationTabSlide() {
   };
 
   const tabVariants = {
-    initial: { 
-      scale: 0.9, 
-      opacity: 0.3 
+    initial: {
+      scale: 0.9,
+      opacity: 0.3
     },
-    animate: { 
-      scale: [0.9, 1.06, 1], 
+    animate: {
+      scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
@@ -30,14 +30,14 @@ export function ModalOrchestrationTabSlide() {
   };
 
   const panelVariants = {
-    initial: { 
-      x: 48, 
-      scale: 0.94, 
-      opacity: 0 
+    initial: {
+      x: 48,
+      scale: 0.94,
+      opacity: 0
     },
-    animate: { 
-      x: 0, 
-      scale: 1, 
+    animate: {
+      x: 0,
+      scale: 1,
       opacity: 1,
       transition: {
         duration: 0.252, // 420ms * 0.6 (slide-swap pattern)
@@ -47,7 +47,7 @@ export function ModalOrchestrationTabSlide() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-tabs"
       variants={containerVariants}
       initial="initial"
@@ -56,8 +56,8 @@ export function ModalOrchestrationTabSlide() {
     >
       <div className="pf-tabs__nav">
         {Array.from({ length: tabs }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className="pf-tabs__tab"
             variants={tabVariants}
           >
@@ -65,11 +65,11 @@ export function ModalOrchestrationTabSlide() {
           </motion.div>
         ))}
       </div>
-      
+
       <div className="pf-tabs__content">
         {Array.from({ length: tabs }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className="pf-tabs__panel"
             variants={panelVariants}
           >

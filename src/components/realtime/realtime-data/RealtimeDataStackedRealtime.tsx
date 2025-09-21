@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import './realtime-data.css';
 
 export function RealtimeDataStackedRealtime() {
   const [isAnimating, setIsAnimating] = useState(false);
-  
+
   const stackItems = [
     { label: 'Active Players', value: '1,247', active: true },
     { label: 'Total Wins', value: '856', active: false },
@@ -18,7 +18,7 @@ export function RealtimeDataStackedRealtime() {
 
     const startAnimation = () => {
       setIsAnimating(true);
-      
+
       // Reset and restart after animation completes
       timeoutId = setTimeout(() => {
         setIsAnimating(false);
@@ -34,8 +34,8 @@ export function RealtimeDataStackedRealtime() {
   }, []);
 
   return (
-    <div 
-      className="pf-realtime-data" 
+    <div
+      className="pf-realtime-data"
       data-animation-id="realtime-data__stacked-realtime"
     >
       <div className="pf-realtime-data__stack">
@@ -58,10 +58,10 @@ export function RealtimeDataStackedRealtime() {
             }}
           >
             <span className="pf-realtime-data__stack-label">{item.label}</span>
-            <motion.span 
+            <motion.span
               className="pf-realtime-data__stack-value"
               animate={{
-                color: isAnimating 
+                color: isAnimating
                   ? (item.active ? '#06b6d4' : '#9ca3af')
                   : '#06b6d4'
               }}

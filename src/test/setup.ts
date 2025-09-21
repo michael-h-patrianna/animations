@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 // Mock IntersectionObserver
 globalThis.IntersectionObserver = class IntersectionObserver {
   callback: IntersectionObserverCallback;
-  
+
   constructor(callback: IntersectionObserverCallback) {
     this.callback = callback;
     // Immediately call the callback to simulate intersection
@@ -11,7 +11,7 @@ globalThis.IntersectionObserver = class IntersectionObserver {
       callback([{ isIntersecting: true } as any], this);
     }, 0);
   }
-  
+
   observe() {
     return null;
   }

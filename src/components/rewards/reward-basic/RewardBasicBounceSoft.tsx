@@ -30,8 +30,8 @@ export function RewardBasicBounceSoft() {
   }, []); // Empty dependency array - only runs on mount
 
   return (
-    <div 
-      className="pf-reward-basic" 
+    <div
+      className="pf-reward-basic"
       data-animation-id="reward-basic__bounce-soft"
     >
       <div

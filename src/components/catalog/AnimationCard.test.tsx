@@ -31,11 +31,11 @@ describe('AnimationCard', () => {
     // Use getAllByText since there's a hidden element for measuring text
     const descriptions = screen.getAllByText('Example description');
     expect(descriptions.length).toBeGreaterThan(0);
-    
+
     // Check that the card has the correct data attribute
     const card = container.querySelector('[data-animation-id="sample__animation"]');
     expect(card).toBeInTheDocument();
-    
+
     // Wait for the animation to be rendered (IntersectionObserver is mocked to trigger immediately)
     await waitFor(() => {
       expect(screen.getByTestId('demo')).toBeInTheDocument();
@@ -67,17 +67,17 @@ describe('AnimationCard', () => {
     // The description should be visible (multiple instances due to hidden measurement element)
     const longDescriptions = screen.getAllByText(longDescription);
     expect(longDescriptions.length).toBeGreaterThan(0);
-    
+
     // For long text, there might be an accordion trigger (chevron icon)
     // This depends on the actual rendered width, so we check if accordion structure exists
-    const accordion = screen.queryByRole('button', { name: /expand/i }) || 
+    const accordion = screen.queryByRole('button', { name: /expand/i }) ||
                      document.querySelector('[data-state]');
-    
+
     if (accordion) {
       // If accordion exists, test expand/collapse
       const user = userEvent.setup();
       await user.click(accordion);
-      
+
       // Wait for any animation/state change
       await waitFor(() => {
         // The full description should still be visible after interaction
@@ -99,13 +99,13 @@ describe('AnimationCard', () => {
       </AnimationCard>
     );
 
-    // The description should be visible (multiple instances due to hidden measurement element) 
+    // The description should be visible (multiple instances due to hidden measurement element)
     const shortDescriptions = screen.getAllByText(shortDescription);
     expect(shortDescriptions.length).toBeGreaterThan(0);
-    
+
     // No accordion should be present for short text
   document.querySelector('[data-state]');
-    
+
     // The accordion might be disabled or not present for short descriptions
     // This is the expected behavior
   });
@@ -124,7 +124,7 @@ describe('AnimationCard', () => {
 
     // Content should be immediately visible for infinite animations
     expect(screen.getByTestId('infinite-content')).toBeInTheDocument();
-    
+
     // Card should have the correct data attribute
     const card = container.querySelector('[data-animation-id="infinite__animation"]');
     expect(card).toBeInTheDocument();

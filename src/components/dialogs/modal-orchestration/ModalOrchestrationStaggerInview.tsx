@@ -5,7 +5,7 @@ import './modal-orchestration.css';
 export function ModalOrchestrationStaggerInview() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
-  
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -17,12 +17,12 @@ export function ModalOrchestrationStaggerInview() {
   };
 
   const tileVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: 60,
       scale: 0.8
     },
-    visible: { 
+    visible: {
       opacity: 1,
       y: 0,
       scale: 1,
@@ -40,12 +40,12 @@ export function ModalOrchestrationStaggerInview() {
   }));
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="pf-stagger-container"
       data-animation-id="modal-orchestration__stagger-inview"
     >
-      <motion.div 
+      <motion.div
         className="pf-stagger-grid"
         variants={containerVariants}
         initial="hidden"

@@ -12,7 +12,7 @@ export function ModalContentFormFieldRightReveal() {
         // Reset any existing animation
         field.style.animation = 'none';
         void field.offsetWidth; // Force reflow
-        
+
         // Apply right reveal animation with staggered delay + 300ms modal delay
         const delay = 300 + (90 * index);
         field.style.animation = `form-field-right-reveal 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
@@ -27,7 +27,7 @@ export function ModalContentFormFieldRightReveal() {
         // Reset any existing animation
         button.style.animation = 'none';
         void button.offsetWidth; // Force reflow
-        
+
         // Apply staggered animation with 750ms base delay + 70ms stagger
         const delay = 750 + (70 * index);
         button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;

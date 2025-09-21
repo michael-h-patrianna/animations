@@ -19,12 +19,12 @@ export function ModalOrchestrationSpringPhysics() {
   };
 
   const tileVariants = {
-    initial: { 
+    initial: {
       scale: 0,
       y: -100,
       opacity: 0
     },
-    animate: { 
+    animate: {
       scale: 1,
       y: 0,
       opacity: 1,
@@ -38,7 +38,7 @@ export function ModalOrchestrationSpringPhysics() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-spring-container"
       variants={containerVariants}
       initial="initial"
@@ -51,22 +51,22 @@ export function ModalOrchestrationSpringPhysics() {
             key={tile.id}
             className="pf-spring-tile"
             variants={tileVariants}
-            whileHover={{ 
+            whileHover={{
               scale: 1.05,
               y: -8,
-              transition: { 
-                type: 'spring' as const, 
-                stiffness: 400, 
+              transition: {
+                type: 'spring' as const,
+                stiffness: 400,
                 damping: 20,
                 mass: 0.8
               }
             }}
-            whileTap={{ 
+            whileTap={{
               scale: 0.95,
-              transition: { 
-                type: 'spring' as const, 
-                stiffness: 600, 
-                damping: 25 
+              transition: {
+                type: 'spring' as const,
+                stiffness: 600,
+                damping: 25
               }
             }}
           >

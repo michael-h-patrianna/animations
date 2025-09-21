@@ -3,7 +3,7 @@ import './modal-orchestration.css';
 
 export function ModalOrchestrationGridHighlight() {
   const items = 5;
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,13 +15,13 @@ export function ModalOrchestrationGridHighlight() {
   };
 
   const itemVariants = {
-    initial: { 
-      y: 16, 
+    initial: {
+      y: 16,
       opacity: 0,
       scale: 0.9
     },
-    animate: { 
-      y: 0, 
+    animate: {
+      y: 0,
       opacity: 1,
       scale: [0.9, 1.05, 1], // highlight-sweep adds a small scale bounce
       transition: {
@@ -32,7 +32,7 @@ export function ModalOrchestrationGridHighlight() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-grid"
       variants={containerVariants}
       initial="initial"
@@ -41,8 +41,8 @@ export function ModalOrchestrationGridHighlight() {
       style={{ gridTemplateColumns: 'repeat(2, 1fr)' }} // 5 items in 2 columns
     >
       {Array.from({ length: items }, (_, index) => (
-        <motion.div 
-          key={index} 
+        <motion.div
+          key={index}
           className="pf-grid__item"
           variants={itemVariants}
           style={{

@@ -1,11 +1,11 @@
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import { useEffect } from 'react';
 import './text-effects.css';
 
 export function TextEffectsComboCounter() {
   const finalValue = 25;
   const comboText = "COMBO";
-  
+
   // Milestones: [triggerValue, particleValue]
   const milestones = [
     { trigger: 1, value: 1 },
@@ -17,7 +17,7 @@ export function TextEffectsComboCounter() {
   // Motion value for the counter
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
-  
+
   // Start counting animation on mount
   useEffect(() => {
     const controls = animate(count, finalValue, {
@@ -29,7 +29,7 @@ export function TextEffectsComboCounter() {
   }, [count, finalValue]);
 
   return (
-    <div 
+    <div
       className="combo-counter-container"
       data-animation-id="text-effects__combo-counter"
     >
@@ -50,10 +50,10 @@ export function TextEffectsComboCounter() {
           }}
         >
           <div className="combo-number-container">
-            
+
             {/* Counting number with proper styling */}
             <motion.div className="combo-current-number">
-              <motion.span 
+              <motion.span
                 className="combo-digit"
                 initial={{
                   opacity: 0,
@@ -96,18 +96,18 @@ export function TextEffectsComboCounter() {
               const distance = 70 + (i * 12);
               const xOffset = Math.cos(angle * Math.PI / 180) * distance;
               const yOffset = Math.sin(angle * Math.PI / 180) * distance;
-              
+
               // Calculate exact timing based on the easing curve
               // With our easing [0.25, 0.1, 0.25, 1], values accelerate in middle
               const triggerProgress = milestone.trigger / finalValue;
               const adjustedDelay = triggerProgress * 0.8; // Slightly compress timing
-              
+
               return (
                 <motion.div
                   key={i}
                   className="combo-milestone-particle"
                   data-value={milestone.value}
-                  initial={{ 
+                  initial={{
                     opacity: 0,
                     x: 0,
                     y: 0,

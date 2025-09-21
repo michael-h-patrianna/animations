@@ -3,14 +3,14 @@ import './text-effects.css';
 
 export function TextEffectsGlitchText() {
   const text = "SYSTEM ERROR";
-  
+
   return (
-    <div 
+    <div
       className="glitch-text-container"
       data-animation-id="text-effects__glitch-text"
     >
       {/* Main text with integrated RGB glitch effect */}
-      <motion.div 
+      <motion.div
         className="glitch-text-base"
         animate={{
           x: [0, -2, 0, 2, 0, -1, 0, 1, 0],

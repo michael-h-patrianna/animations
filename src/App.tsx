@@ -1,9 +1,9 @@
 import { GroupSection } from '@/components/catalog';
 import { Sidebar } from '@/components/Sidebar';
 import { useAnimations } from '@/hooks/useAnimations';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import type { Group } from '@/types/animation';
+import { AnimatePresence, motion, useDragControls } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -32,13 +32,80 @@ function App() {
 
   const handleGroupSelect = (groupId: string) => {
     if (groupId === currentGroupId) return;
-    
+
     const currentIndex = allGroups.findIndex(g => g.id === currentGroupId);
     const newIndex = allGroups.findIndex(g => g.id === groupId);
-    
+
     setDirection(newIndex > currentIndex ? 1 : -1);
     setCurrentGroupId(groupId);
   };
+
+  // When the current group changes, scroll its section to the top
+  useEffect(() => {
+    if (!currentGroupId) return;
+
+    let raf1 = 0;
+    let raf2 = 0;
+
+    // Wait for the DOM to update with the new group before scrolling
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        const targetId = `group-${currentGroupId}`;
+        const el = document.getElementById(targetId);
+
+        if (el) {
+          // Use options if supported, otherwise call without args
+          if (typeof el.scrollIntoView === 'function') {
+            try {
+              el.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+            } catch {
+              el.scrollIntoView();
+            }
+          }
+        } else if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+          window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+      });
+    });
+
+    return () => {
+      if (raf1) cancelAnimationFrame(raf1);
+      if (raf2) cancelAnimationFrame(raf2);
+    };
+  }, [currentGroupId]);
+
+  // When navigating between groups, scroll the new group into view at the top
+  useEffect(() => {
+    if (!currentGroupId) return;
+    const id = `group-${currentGroupId}`;
+
+    const attemptScroll = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      // Prefer options signature when available
+      try {
+        (el as HTMLElement).scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+      } catch {
+        // Fallback for environments or older browsers without options support
+        try {
+          (el as HTMLElement).scrollIntoView();
+        } catch {
+          /* no-op */
+        }
+      }
+    };
+
+    // Try on next frame to ensure the DOM for the new group is mounted
+    const raf = requestAnimationFrame(attemptScroll);
+    // Fallback after animation timing if needed
+    const timeout = setTimeout(attemptScroll, 360);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timeout);
+    };
+  }, [currentGroupId]);
 
   if (error) {
     return (
@@ -83,10 +150,10 @@ function App() {
 
   const handleDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement;
-    
+
     // Don't start drag if the pointer is on an AnimationCard
     const isOnAnimationCard = target.closest('.pf-card');
-    
+
     if (!isOnAnimationCard) {
       // Use the native event for DragControls
       dragControls.start(event.nativeEvent);
@@ -103,14 +170,17 @@ function App() {
           onGroupSelect={handleGroupSelect}
         />
 
-        <main className="pf-catalog" style={{ position: 'relative', overflow: 'hidden' }}>
+  <main className="pf-catalog">
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
               <div className="text-text-secondary">Loading animations...</div>
             </div>
           ) : (
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              {currentGroup && (
+            <>
+              {/* Category heading removed: previews start with group header/title */}
+
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                {currentGroup && (
                 <motion.div
                   key={currentGroupId}
                   custom={direction}
@@ -151,8 +221,9 @@ function App() {
                     elementId={`group-${currentGroup.id}`}
                   />
                 </motion.div>
-              )}
-            </AnimatePresence>
+                )}
+              </AnimatePresence>
+            </>
           )}
         </main>
       </div>

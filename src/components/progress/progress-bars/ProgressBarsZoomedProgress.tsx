@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './zoomed-progress.css';
 
 export function ProgressBarsZoomedProgress() {
@@ -10,11 +10,11 @@ export function ProgressBarsZoomedProgress() {
   useEffect(() => {
     let currentLevel = 1;
     let currentLevelPoints = [0, 0, 0];
-    
+
     const update = () => {
       // Calculate random points (1 to level-1, minimum 1)
       const rndPoints = Math.round(Math.random() * Math.max(currentLevel - 1, 0)) + 1;
-      
+
       if (currentLevel === 3) {
         // Reset after level 3
         setTimeout(() => {
@@ -28,16 +28,16 @@ export function ProgressBarsZoomedProgress() {
       } else {
         // Add points to current level
         currentLevelPoints[currentLevel - 1] = Math.min(
-          currentLevelPoints[currentLevel - 1] + rndPoints, 
+          currentLevelPoints[currentLevel - 1] + rndPoints,
           currentLevel * 3
         );
       }
-      
+
       // Check if level is complete (levelPoints >= 3 * level)
       if (currentLevelPoints[currentLevel - 1] >= 3 * currentLevel) {
         currentLevel += 1;
         setLevel(currentLevel);
-        
+
         // Update level reached states
         const newLevelReached = [false, false, false];
         for (let i = 0; i < currentLevel; i++) {
@@ -45,9 +45,9 @@ export function ProgressBarsZoomedProgress() {
         }
         setLevelReached(newLevelReached);
       }
-      
+
       setLevelPoints([...currentLevelPoints]);
-      
+
       // Continue animation
       animationRef.current = setTimeout(update, 1000);
     };
@@ -72,12 +72,12 @@ export function ProgressBarsZoomedProgress() {
   const progress2Width = (levelPoints[1] / 6) * 100;
 
   return (
-    <div 
+    <div
       className="pf-zoomed-progress"
       data-animation-id="progress-bars__zoomed-progress"
     >
       {/* Progress track with zoom and pan */}
-      <div 
+      <div
         className="pf-zoomed-progress__track"
         style={{
           left: `${getTrackPosition()}%`
@@ -85,7 +85,7 @@ export function ProgressBarsZoomedProgress() {
       >
         {/* First progress bar */}
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--1">
-          <div 
+          <div
             className="pf-zoomed-progress__fill"
             style={{ width: `${progress1Width}%` }}
           />
@@ -103,7 +103,7 @@ export function ProgressBarsZoomedProgress() {
 
         {/* Second progress bar */}
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--2">
-          <div 
+          <div
             className="pf-zoomed-progress__fill"
             style={{ width: `${progress2Width}%` }}
           />

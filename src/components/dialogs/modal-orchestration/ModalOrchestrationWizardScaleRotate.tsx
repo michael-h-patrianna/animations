@@ -3,7 +3,7 @@ import './modal-orchestration.css';
 
 export function ModalOrchestrationWizardScaleRotate() {
   const steps = 3;
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,12 +15,12 @@ export function ModalOrchestrationWizardScaleRotate() {
   };
 
   const stepVariants = {
-    initial: { 
-      scale: 0.9, 
-      opacity: 0.3 
+    initial: {
+      scale: 0.9,
+      opacity: 0.3
     },
-    animate: { 
-      scale: [0.9, 1.06, 1], 
+    animate: {
+      scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
@@ -30,14 +30,14 @@ export function ModalOrchestrationWizardScaleRotate() {
   };
 
   const panelVariants = {
-    initial: { 
+    initial: {
       rotate: -6,
-      scale: 0.82, 
-      opacity: 0 
+      scale: 0.82,
+      opacity: 0
     },
-    animate: { 
+    animate: {
       rotate: 0,
-      scale: 1, 
+      scale: 1,
       opacity: 1,
       transition: {
         duration: 0.312, // 520ms * 0.6
@@ -47,7 +47,7 @@ export function ModalOrchestrationWizardScaleRotate() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-wizard"
       variants={containerVariants}
       initial="initial"
@@ -56,8 +56,8 @@ export function ModalOrchestrationWizardScaleRotate() {
     >
       <div className="pf-wizard__steps">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className={`pf-wizard__step${index === 0 ? ' pf-wizard__step--highlighted' : ''}`}
             variants={stepVariants}
           >
@@ -65,11 +65,11 @@ export function ModalOrchestrationWizardScaleRotate() {
           </motion.div>
         ))}
       </div>
-      
+
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className={`pf-wizard__panel${index === 0 ? ' pf-wizard__panel--highlighted' : ''}`}
             variants={panelVariants}
           >

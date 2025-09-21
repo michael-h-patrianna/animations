@@ -79,18 +79,35 @@
 }
 
 .modal-content-button-primary {
-  background: linear-gradient(160deg, #4e187c 0%, #c47ae5 52%, #d79af3 100%);
-  color: #ffffff;
-  box-shadow: 0 8px 24px rgba(200, 53, 88, 0.25);
+  border-radius: 50px;
+  background: linear-gradient(180deg, #ff5981, #c83558);
+  color: #fff;
+  border: 2px solid #ff7495;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+  padding: 6px 12px;
 }
 
-.modal-content-button-primary:hover {
-  transform: translateY(1px) scale(0.99);
+.modal-content-button-primary:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: linear-gradient(180deg, #ff6b8f, #d6456a);
+  border-color: #ff86a5;
+  filter: drop-shadow(0 2px 6px rgba(200, 53, 88, 0.35));
+}
+
+.modal-content-button-primary:disabled,
+.modal-content-button-primary[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(10%);
+  box-shadow: none;
 }
 
 .modal-content-button-secondary {
-  background: rgba(236, 195, 255, 0.08);
-  color: #ecc3ff;
+  /* Outline secondary */
+  color: #25ecff;
+  border: 2px solid #25ecff;
+  background: transparent;
+  border-radius: 50px;
+  padding: 6px 12px;
 }
 
 .modal-content-button-secondary:hover {
@@ -185,34 +202,34 @@
 
 /* Shake Animation - Primary: horizontal shake, Secondary: rotation wobble + scale compression */
 @keyframes shake-animation {
-  0%, 100% { 
+  0%, 100% {
     transform: translateX(0) rotate(0deg) scaleX(1);
   }
-  10% { 
+  10% {
     transform: translateX(-10px) rotate(-1deg) scaleX(0.98);
   }
-  20% { 
+  20% {
     transform: translateX(10px) rotate(1deg) scaleX(0.98);
   }
-  30% { 
+  30% {
     transform: translateX(-8px) rotate(-0.8deg) scaleX(0.99);
   }
-  40% { 
+  40% {
     transform: translateX(8px) rotate(0.8deg) scaleX(0.99);
   }
-  50% { 
+  50% {
     transform: translateX(-6px) rotate(-0.6deg) scaleX(0.995);
   }
-  60% { 
+  60% {
     transform: translateX(6px) rotate(0.6deg) scaleX(0.995);
   }
-  70% { 
+  70% {
     transform: translateX(-4px) rotate(-0.4deg) scaleX(1);
   }
-  80% { 
+  80% {
     transform: translateX(4px) rotate(0.4deg) scaleX(1);
   }
-  90% { 
+  90% {
     transform: translateX(-2px) rotate(-0.2deg) scaleX(1);
   }
 }

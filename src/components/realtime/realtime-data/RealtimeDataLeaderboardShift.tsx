@@ -1,5 +1,5 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import './realtime-data.css';
 
 export function RealtimeDataLeaderboardShift() {
@@ -16,7 +16,7 @@ export function RealtimeDataLeaderboardShift() {
 
     const startAnimation = () => {
       setIsAnimating(true);
-      
+
       // After animation, reorganize leaderboard
       setTimeout(() => {
         const newLeaderboard = [...leaderboard];
@@ -24,15 +24,15 @@ export function RealtimeDataLeaderboardShift() {
         firstPlayer.rank = 4;
         firstPlayer.score -= 50;
         newLeaderboard.push(firstPlayer);
-        
+
         // Update ranks
         newLeaderboard.forEach((player, index) => {
           player.rank = index + 1;
         });
-        
+
         setLeaderboard(newLeaderboard);
         setIsAnimating(false);
-        
+
         // Reset after delay
         timeoutId = setTimeout(() => {
           setLeaderboard([
@@ -54,8 +54,8 @@ export function RealtimeDataLeaderboardShift() {
   }, []);
 
   return (
-    <div 
-      className="pf-realtime-data" 
+    <div
+      className="pf-realtime-data"
       data-animation-id="realtime-data__leaderboard-shift"
     >
       <div className="pf-realtime-data__leaderboard">

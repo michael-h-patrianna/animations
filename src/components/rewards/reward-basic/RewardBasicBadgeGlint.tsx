@@ -16,17 +16,17 @@ export function RewardBasicBadgeGlint() {
     // Start the animation - plays once on mount
     const duration = 420; // durations.lg from showcase.html
     const animation = icon.animate([
-      { 
-        transform: 'scale(0.94)', 
-        opacity: '0.85' 
+      {
+        transform: 'scale(0.94)',
+        opacity: '0.85'
       },
-      { 
-        transform: 'scale(1.06)', 
-        opacity: '1' 
+      {
+        transform: 'scale(1.06)',
+        opacity: '1'
       },
-      { 
-        transform: 'scale(1)', 
-        opacity: '1' 
+      {
+        transform: 'scale(1)',
+        opacity: '1'
       }
     ], {
       duration,
@@ -40,8 +40,8 @@ export function RewardBasicBadgeGlint() {
   }, []); // Empty dependency array - only runs on mount
 
   return (
-    <div 
-      className="pf-reward-basic" 
+    <div
+      className="pf-reward-basic"
       data-animation-id="reward-basic__badge-glint"
     >
       <div

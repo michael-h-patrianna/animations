@@ -55,6 +55,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 description={animation.description}
                 animationId={animation.id}
                 infiniteAnimation={infiniteAnimation}
+                disableReplay={animation.disableReplay}
               >
                 {AnimationComponent ? (
                   <AnimationComponent />

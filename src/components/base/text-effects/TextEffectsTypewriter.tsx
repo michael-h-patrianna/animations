@@ -4,9 +4,9 @@ import './text-effects.css';
 export function TextEffectsTypewriter() {
   const text = "LOADING SYSTEM...";
   const cursor = "|";
-  
+
   return (
-    <div 
+    <div
       className="typewriter-container"
       data-animation-id="text-effects__typewriter"
     >
@@ -31,7 +31,7 @@ export function TextEffectsTypewriter() {
             {char === " " ? "\u00A0" : char}
           </motion.span>
         ))}
-        
+
         {/* Blinking cursor */}
         <motion.span
           className="typewriter-cursor"

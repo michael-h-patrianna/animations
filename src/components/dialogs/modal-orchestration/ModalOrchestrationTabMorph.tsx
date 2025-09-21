@@ -1,11 +1,11 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import './modal-orchestration.css';
 
 export function ModalOrchestrationTabMorph() {
   const tabs = 4;
   const [activeTab, setActiveTab] = useState(0);
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -17,12 +17,12 @@ export function ModalOrchestrationTabMorph() {
   };
 
   const tabVariants = {
-    initial: { 
-      scale: 0.9, 
-      opacity: 0.3 
+    initial: {
+      scale: 0.9,
+      opacity: 0.3
     },
-    animate: { 
-      scale: [0.9, 1.06, 1], 
+    animate: {
+      scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
@@ -32,11 +32,11 @@ export function ModalOrchestrationTabMorph() {
   };
 
   const panelVariants = {
-    initial: { 
+    initial: {
       x: 300,
-      opacity: 0 
+      opacity: 0
     },
-    animate: { 
+    animate: {
       x: 0,
       opacity: 1,
       transition: {
@@ -55,7 +55,7 @@ export function ModalOrchestrationTabMorph() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-tabs"
       variants={containerVariants}
       initial="initial"
@@ -64,8 +64,8 @@ export function ModalOrchestrationTabMorph() {
     >
       <div className="pf-tabs__nav">
         {Array.from({ length: tabs }, (_, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={index}
             className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
             variants={tabVariants}
             onClick={() => setActiveTab(index)}
@@ -74,10 +74,10 @@ export function ModalOrchestrationTabMorph() {
           </motion.div>
         ))}
       </div>
-      
+
       <div className="pf-tabs__content">
         <AnimatePresence mode="wait">
-          <motion.div 
+          <motion.div
             key={activeTab}
             className="pf-tabs__panel"
             variants={panelVariants}

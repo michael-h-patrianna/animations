@@ -12,7 +12,7 @@ export function ModalContentListSpotlight() {
         // Reset any existing animation
         item.style.animation = 'none';
         void item.offsetWidth; // Force reflow
-        
+
         // Apply spotlight animation with staggered delay + 300ms modal delay
         const delay = 300 + (120 * index);
         item.style.animation = `list-spotlight 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
@@ -29,7 +29,7 @@ export function ModalContentListSpotlight() {
         // Reset any existing animation
         button.style.animation = 'none';
         void button.offsetWidth; // Force reflow
-        
+
         // Apply staggered animation with 650ms base delay + 70ms stagger
         const delay = 650 + (70 * index);
         button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
