@@ -29,25 +29,21 @@ export function RewardMechanicsJackpotRadiance() {
       const coreAnimation = core.animate([
         { 
           transform: 'translate(-50%, -50%) scale(0)',
-          opacity: 0,
-          filter: 'blur(0px)'
+          opacity: 0
         },
         { 
           transform: 'translate(-50%, -50%) scale(1.2)',
           opacity: 1,
-          filter: 'blur(0px)',
           offset: 0.3
         },
         { 
           transform: 'translate(-50%, -50%) scale(1)',
-          opacity: 0.9,
-          filter: 'blur(1px)',
+          opacity: 0.85,
           offset: 0.6
         },
         { 
           transform: 'translate(-50%, -50%) scale(1.1)',
-          opacity: 1,
-          filter: 'blur(0px)'
+          opacity: 1
         }
       ], {
         duration: 3000,

@@ -11,22 +11,22 @@ export function RewardBasicStarBurst() {
     // Cancel any existing animations
     icon.getAnimations().forEach((anim) => anim.cancel());
     icon.style.transform = 'none';
-    icon.style.filter = 'none';
+    icon.style.opacity = '1';
 
     // Start the animation - plays once on mount
     const duration = 320; // durations.md from showcase.html
     const animation = icon.animate([
       { 
         transform: 'scale(0.7)', 
-        filter: 'brightness(0.8)' 
+        opacity: '0.8' 
       },
       { 
         transform: 'scale(1.22)', 
-        filter: 'brightness(1.4)' 
+        opacity: '1' 
       },
       { 
         transform: 'scale(1)', 
-        filter: 'brightness(1)' 
+        opacity: '1' 
       }
     ], {
       duration,

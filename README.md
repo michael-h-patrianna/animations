@@ -8,6 +8,8 @@ Portability
 
 Animations are intentionally authored with transform/opacity‑driven patterns so they can be translated to React Native using React Reanimated and Moti with minimal rework. The catalog serves as a reference and source of truth for motion behaviors that teams can adopt on web today and migrate to native later without redesigning the animation logic.
 
+Read: `docs/REACT_NATIVE_REFACTORING_PATTERNS.md` how to ensure that all animations can easily be translated to our native react apps.
+
 ## Project structure
 
 - Source of truth for behaviors and grouping:

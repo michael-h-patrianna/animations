@@ -184,8 +184,17 @@
   background: linear-gradient(90deg, transparent 0%, var(--pf-progress-accent) 50%, transparent 100%);
   border-radius: 2px;
   opacity: 0;
-  filter: blur(1px);
   animation: pf-progress-spark-trail var(--pf-progress-duration-lg) ease-out forwards;
+}
+
+/* Add soft glow effect using pseudo-element instead of blur */
+.pf-progress-spark .pf-progress-spark-trail::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(198, 255, 119, 0.3) 50%, transparent 100%);
+  border-radius: 3px;
+  opacity: 0.7;
 }
 
 

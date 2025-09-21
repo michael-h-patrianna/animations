@@ -1,78 +1,130 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import './text-effects.css';
 import diamondPng from '@/assets/Diamonds.png';
 
+interface CounterIndicator {
+  id: number;
+  isAnimating: boolean;
+}
+
 export function TextEffectsCounterIncrement() {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const diamondRef = useRef<HTMLImageElement>(null);
+  const [isDiamondAnimating, setIsDiamondAnimating] = useState(false);
+  const [counters, setCounters] = useState<CounterIndicator[]>([]);
+  const [nextCounterId, setNextCounterId] = useState(0);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    const animationCycle = () => {
+      // Trigger diamond animation
+      setIsDiamondAnimating(true);
+      
+      // Add a new counter
+      setCounters([{ id: nextCounterId, isAnimating: true }]);
+      setNextCounterId(prev => prev + 1);
 
-    const startAnimation = () => {
-      const target = targetRef.current;
-      const diamond = diamondRef.current;
-      if (!target || !diamond) return;
+      // Reset diamond animation after 500ms
+      setTimeout(() => {
+        setIsDiamondAnimating(false);
+      }, 500);
 
-      // Clean up any existing counter elements
-      const existingCounters = target.querySelectorAll('.pf-update-indicator__counter');
-      existingCounters.forEach(el => el.remove());
-
-      // Create floating +1 element
-      const counter = document.createElement('span');
-      counter.className = 'pf-update-indicator__counter';
-      counter.textContent = '+1';
-      counter.style.transform = 'translateY(8px)';
-      counter.style.opacity = '0';
-
-      // Append counter to the target container (diamond wrapper)
-      target.appendChild(counter);
-
-      // Add pickup animation to diamond
-      diamond.style.animation = 'pf-diamond-pickup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-
-      // Animate the counter floating up
-      counter.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      requestAnimationFrame(() => {
-        counter.style.transform = 'translateY(-12px)';
-        counter.style.opacity = '1';
-
-        setTimeout(() => {
-          counter.style.opacity = '0';
-        }, 400);
-
-        setTimeout(() => {
-          if (counter.parentNode) {
-            counter.remove();
-          }
-        }, 800);
-
-        // Reset diamond animation
-        setTimeout(() => {
-          diamond.style.animation = '';
-        }, 500);
-      });
-
-      timeoutId = setTimeout(startAnimation, 2000);
+      // Remove counter after animation completes
+      setTimeout(() => {
+        setCounters([]);
+      }, 800);
     };
 
-    startAnimation();
+    // Start first animation
+    animationCycle();
+
+    // Set up repeating animation
+    const intervalId = setInterval(animationCycle, 2000);
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId);
+      clearInterval(intervalId);
+      setCounters([]);
     };
-  }, []);
+  }, [nextCounterId]);
 
   return (
     <div className="pf-counter-showcase" data-animation-id="text-effects__counter-increment">
-      <div ref={targetRef} className="pf-counter-showcase__target">
+      <div className="pf-counter-showcase__target">
         <img 
-          ref={diamondRef}
           src={diamondPng} 
           alt="Diamond" 
           className="pf-counter-showcase__diamond"
+          style={{
+            animation: isDiamondAnimating 
+              ? 'pf-diamond-pickup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+              : 'none'
+          }}
         />
+        
+        {/* Render counter indicators */}
+        {counters.map(counter => (
+          <span
+            key={counter.id}
+            className="pf-update-indicator__counter"
+            style={{
+              position: 'absolute',
+              right: '-8px',
+              top: '-8px',
+              color: '#c6ff77',
+              fontWeight: 600,
+              fontSize: '0.875rem',
+              pointerEvents: 'none',
+              animation: counter.isAnimating
+                ? 'counter-float-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+                : 'none'
+            }}
+          >
+            +1
+          </span>
+        ))}
       </div>
+      
+      <style>{`
+        @keyframes counter-float-up {
+          0% {
+            transform: translateY(8px);
+            opacity: 0;
+          }
+          20% {
+            transform: translateY(-4px);
+            opacity: 1;
+          }
+          50% {
+            transform: translateY(-12px);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-16px);
+            opacity: 0;
+          }
+        }
+        
+        /* Diamond pickup animation already defined in CSS */
+        @keyframes pf-diamond-pickup {
+          0% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+          }
+          25% {
+            transform: scale(1.25) rotate(8deg);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.05) rotate(-3deg);
+            opacity: 0.9;
+          }
+          75% {
+            transform: scale(1.15) rotate(2deg);
+            opacity: 0.95;
+          }
+          100% {
+            transform: scale(1.1) rotate(0deg);
+            opacity: 0.85;
+          }
+        }
+      `}</style>
     </div>
   );
 }

@@ -61,7 +61,8 @@ export function ProgressBarsProgressGradient() {
       rgba(198,255,119,0.2) 50%,
       rgba(198,255,119,0) 100%)`;
     aurora.style.opacity = '0';
-    aurora.style.filter = 'blur(10px)';
+    // Simulate blur with larger radial gradient for RN compatibility
+    aurora.style.transform = 'scale(1.2)';
     aurora.style.pointerEvents = 'none';
     trackContainer.appendChild(aurora);
 
