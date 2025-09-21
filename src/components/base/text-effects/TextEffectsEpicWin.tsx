@@ -76,7 +76,7 @@ export function TextEffectsEpicWin() {
               <motion.span
                 className="epic-char-inner"
               >
-                {char}
+                {char === " " ? "\u00A0" : char}
 
                 {/* Individual character glow burst on arrival */}
                 <motion.span

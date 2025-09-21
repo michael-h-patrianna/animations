@@ -343,10 +343,13 @@
   position: relative;
   width: 100%;
   min-height: var(--pf-demo-height, 220px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pf-demo-stage--top {
-  display: block;
+  display: flex;
 }
 
 .pf-card__placeholder {

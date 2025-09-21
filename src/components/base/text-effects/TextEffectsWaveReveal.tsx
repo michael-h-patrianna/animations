@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import './text-effects.css';
 
 export function TextEffectsWaveReveal() {
@@ -8,7 +8,7 @@ export function TextEffectsWaveReveal() {
     { text: "colors", color: "#FFD700" }   // Gold
   ];
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
@@ -19,7 +19,7 @@ export function TextEffectsWaveReveal() {
     }
   };
 
-  const lineVariants = {
+  const lineVariants: Variants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
@@ -29,7 +29,7 @@ export function TextEffectsWaveReveal() {
     }
   };
 
-  const letterVariants = {
+  const letterVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 80
@@ -38,9 +38,8 @@ export function TextEffectsWaveReveal() {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
+        type: 'tween',
+        ease: 'easeOut',
         duration: 0.5
       }
     }

@@ -46,54 +46,6 @@
   min-height: 80px;
 }
 
-.pf-counter-showcase__diamond {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 8px;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-@keyframes pf-diamond-pickup {
-  0% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-  25% {
-    transform: scale(1.25) rotate(8deg);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05) rotate(-3deg);
-    opacity: 0.9;
-  }
-  75% {
-    transform: scale(1.15) rotate(2deg);
-    opacity: 0.95;
-  }
-  100% {
-    transform: scale(1.1) rotate(0deg);
-    opacity: 0.85;
-  }
-}
-
-/* Add glow effect using pseudo-element instead of drop-shadow */
-.pf-counter-showcase__diamond::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  background: radial-gradient(circle, rgba(138, 43, 226, 0.3), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0;
-  animation: pf-diamond-glow 2s ease-in-out infinite;
-}
-
-@keyframes pf-diamond-glow {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
 
 .pf-counter-showcase__target {
   position: relative;
@@ -224,6 +176,8 @@
   align-items: center;
   justify-content: center;
   height: 40px;
+  /* Keep all layers on a single line */
+  white-space: nowrap;
 }
 
 .epic-shadow-far {
@@ -235,6 +189,7 @@
   z-index: 0;
   transform: scale(1.1);
   opacity: 0.5;
+  white-space: nowrap;
 }
 
 .epic-shadow-mid {
@@ -246,6 +201,7 @@
   z-index: 1;
   transform: scale(1.05);
   opacity: 0.7;
+  white-space: nowrap;
 }
 
 .epic-main-text {
@@ -255,6 +211,7 @@
   letter-spacing: 3px;
   z-index: 3;
   perspective: 200px;
+  white-space: nowrap;
 }
 
 .epic-char {
