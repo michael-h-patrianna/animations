@@ -183,6 +183,13 @@ export function ProgressBarsXpAccumulation() {
             triggerMilestone(zone.threshold, zone.trophy);
           }
         });
+
+        // Trigger completion milestone at 100%
+        if (!reachedMilestonesRef.current.has(100) && previous < 100 && latest >= 100) {
+          reachedMilestonesRef.current.add(100);
+          // Trophy string unused in UI; pass empty
+          triggerMilestone(100, '');
+        }
       }
 
       lastProgressRef.current = latest;
@@ -529,6 +536,113 @@ export function ProgressBarsXpAccumulation() {
                   transition={{ duration: 0.25, ease: 'easeOut' }}
                 >
                   x{zone.multiplier}
+                </motion.span>
+              </div>
+            );
+          })}
+
+          {/* Boundary milestones: start (0%) and end (100%) */}
+          {([0, 100] as const).map((boundary) => {
+            const isStart = boundary === 0;
+            const isActive = isStart ? true : progressPercent >= 99.8;
+            const milestoneAnim = milestoneAnimations.find((m) => m.threshold === boundary);
+            const indicatorColor = isActive ? zoneColor : 'rgba(255, 255, 255, 0.28)';
+
+            return (
+              <div
+                key={`boundary-${boundary}`}
+                style={{
+                  position: 'absolute',
+                  left: `${boundary}%`,
+                  top: '50%',
+                  height: '100%',
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 12,
+                }}
+              >
+                {/* Vertical indicator */}
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    width: '3px',
+                    height: '24px',
+                    borderRadius: '999px',
+                    background: `linear-gradient(180deg, rgba(255,255,255,0.15) 0%, ${indicatorColor} 100%)`,
+                    left: '50%',
+                    top: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    boxShadow: isActive ? `0 0 10px ${rgba(zoneColor, 0.45 + 0.25 * intensity)}` : 'none',
+                  }}
+                  animate={{
+                    opacity: isActive ? 1 : 0.38,
+                    scaleY: isActive ? 1 : 0.7,
+                  }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                />
+
+                {/* Circular marker */}
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    width: '14px',
+                    height: '14px',
+                    borderRadius: '50%',
+                    background: isActive
+                      ? `radial-gradient(circle, ${zoneColor} 0%, #00FFFF 60%, rgba(255,255,255,0.95) 100%)`
+                      : 'rgba(255, 255, 255, 0.25)',
+                    border: isActive ? `1px solid ${zoneColor}99` : '1px solid rgba(255,255,255,0.2)',
+                    left: 'calc(50% - 6px)',
+                    top: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                  animate={{
+                    scale: isActive ? 1 : 0.9,
+                    boxShadow: isActive ? `0 0 12px ${rgba(zoneColor, 0.5 + 0.3 * intensity)}` : 'none',
+                  }}
+                  transition={{ duration: 0.32, ease: 'easeOut' }}
+                />
+
+                <AnimatePresence>
+                  {milestoneAnim && (
+                    <motion.div
+                      key={`halo-boundary-${boundary}`}
+                      initial={{ scale: 0.55, opacity: 0.6 }}
+                      animate={{ scale: 1.3, opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.9, ease: 'easeOut' }}
+                      style={{
+                        position: 'absolute',
+                        width: '18px',
+                        height: '18px',
+                        borderRadius: '50%',
+                        border: `1px solid ${zoneColor}55`,
+                        boxShadow: `0 0 10px ${zoneColor}44`,
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                      }}
+                    />
+                  )}
+                </AnimatePresence>
+
+                {/* Boundary label */}
+                <motion.span
+                  style={{
+                    position: 'absolute',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    color: isActive ? '#F8FBFF' : 'rgba(255, 255, 255, 0.45)',
+                    letterSpacing: '0.6px',
+                    textShadow: isActive ? `0 0 6px ${rgba(zoneColor, 0.75)}` : 'none',
+                    top: '26px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    whiteSpace: 'nowrap',
+                  }}
+                  animate={{ opacity: isActive ? 1 : 0.42 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                >
+                  {isStart ? 'Start' : 'End'}
                 </motion.span>
               </div>
             );
