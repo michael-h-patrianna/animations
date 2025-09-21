@@ -9,27 +9,7 @@ export function TextEffectsWaveText() {
       className="wave-text-container"
       data-animation-id="text-effects__wave-text"
     >
-      {/* CSS-animated wave lines - more performant than Framer Motion */}
-      <div className="wave-lines">
-        <div className="wave-line wave-line-1" />
-        <div className="wave-line wave-line-2" />
-        <div className="wave-line wave-line-3" />
-      </div>
-
-      {/* Simplified energy field - using transform and opacity */}
-      <motion.div
-        className="wave-energy-field"
-        animate={{
-          opacity: [0.1, 0.25, 0.15, 0.3, 0.1],
-          scale: [1, 1.05, 0.98, 1.03, 1],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          repeatDelay: 1,
-          ease: "easeInOut",
-        }}
-      />
+      {/* Removed wave-lines and energy-field per request to eliminate blue glow and horizontal lines */}
 
       {/* Optimized wave text with individual character animations */}
       <div className="wave-text-wrapper">
@@ -92,23 +72,8 @@ export function TextEffectsWaveText() {
         })}
       </div>
 
-      {/* Ripple effects for depth */}
-      <motion.div
-        className="wave-ripple"
-        animate={{
-          scaleX: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          repeatDelay: 1,
-          ease: "easeInOut",
-        }}
-      />
-
-      {/* Atmospheric glow */}
-      <div className="wave-atmosphere" />
+      {/* Removed ripple effect per request to eliminate horizontal lines */}
+      {/* Removed atmospheric glow per request */}
     </div>
   );
 }
