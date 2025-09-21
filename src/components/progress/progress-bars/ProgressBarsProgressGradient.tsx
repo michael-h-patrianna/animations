@@ -57,12 +57,12 @@ export function ProgressBarsProgressGradient() {
     aurora.style.position = 'absolute';
     aurora.style.inset = '-10px';
     aurora.style.background = `radial-gradient(ellipse at center,
-      rgba(198,255,119,0) 0%,
-      rgba(198,255,119,0.2) 50%,
-      rgba(198,255,119,0) 100%)`;
+      rgba(198,98,179,0) 0%,
+      rgba(198,98,179,0.2) 50%,
+      rgba(198,98,179,0) 100%)`;
     aurora.style.opacity = '0';
     // Simulate blur with larger radial gradient for RN compatibility
-    aurora.style.transform = 'scale(1.2)';
+    aurora.style.transform = 'scale(0.9)';
     aurora.style.pointerEvents = 'none';
     trackContainer.appendChild(aurora);
 
@@ -101,12 +101,12 @@ export function ProgressBarsProgressGradient() {
       easing: 'linear'
     });
 
-    // Aurora glow animation
+// Aurora glow animation
     aurora.animate([
       { opacity: '0', transform: 'scale(0.8)' },
-      { opacity: '0', transform: 'scale(0.8)', offset: 0.4 },
-      { opacity: '1', transform: 'scale(1.1)', offset: 0.7 },
-      { opacity: '0', transform: 'scale(1)' }
+      { opacity: '0', transform: 'scale(0.8)', offset: 0.2 },
+      { opacity: '1', transform: 'scale(0.9)', offset: 0.4 },
+      { opacity: '0', transform: 'scale(0.9)' }
     ], {
       duration,
       fill: 'forwards',
@@ -121,12 +121,11 @@ export function ProgressBarsProgressGradient() {
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="pf-progress-demo pf-progress-gradient"
       data-animation-id="progress-bars__progress-gradient"
     >
-      <div className="pf-progress-demo__label">Level progress</div>
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
           <div className="pf-progress-fill"></div>

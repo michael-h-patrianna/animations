@@ -128,29 +128,29 @@ export function ProgressBarsProgressMilestones() {
     });
 
     // Track animation progress and activate milestones
-    let activatedMilestones = new Set();
+    const activatedMilestones = new Set();
     const checkMilestones = () => {
       const progress = fillAnim.currentTime! / duration;
       milestoneMarkers.forEach(({ marker, innerGlow, ring, position, label }, index) => {
         if (progress >= position && !activatedMilestones.has(index)) {
           activatedMilestones.add(index);
-          
+
           // Activate marker
           marker.style.transform = 'rotate(45deg) scale(1)';
           marker.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(236,195,255,1))';
           marker.style.borderColor = 'rgba(255,255,255,1)';
           marker.style.boxShadow = '0 0 25px rgba(255,255,255,0.9), 0 0 50px rgba(236,195,255,0.5)';
-          
+
           // Glow effect
           innerGlow.style.opacity = '1';
-          
+
           // Pulse ring
           ring.animate([
             { transform: 'scale(0.8)', opacity: '0' },
             { transform: 'scale(1.5)', opacity: '1', offset: 0.3 },
             { transform: 'scale(2)', opacity: '0' }
           ], { duration: 600, easing: 'ease-out' });
-          
+
           // Highlight label
           if (label) {
             label.style.opacity = '1';
@@ -159,7 +159,7 @@ export function ProgressBarsProgressMilestones() {
           }
         }
       });
-      
+
       if (fillAnim.playState === 'running') {
         requestAnimationFrame(checkMilestones);
       }
@@ -175,12 +175,11 @@ export function ProgressBarsProgressMilestones() {
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="pf-progress-demo pf-progress-milestones"
       data-animation-id="progress-bars__progress-milestones"
     >
-      <div className="pf-progress-demo__label">Level progress</div>
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
           <div className="pf-progress-fill"></div>

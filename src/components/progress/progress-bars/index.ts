@@ -1,27 +1,36 @@
 import type { AnimationComponentMap } from '@/types/animation';
 
+import { ProgressBarsBattlePassTiers } from './ProgressBarsBattlePassTiers';
+import { ProgressBarsMissionCheckpoints } from './ProgressBarsMissionCheckpoints';
 import { ProgressBarsProgressBounce } from './ProgressBarsProgressBounce';
 import { ProgressBarsProgressGradient } from './ProgressBarsProgressGradient';
 import { ProgressBarsProgressMilestones } from './ProgressBarsProgressMilestones';
 import { ProgressBarsProgressSegmented } from './ProgressBarsProgressSegmented';
-import { ProgressBarsProgressSpark } from './ProgressBarsProgressSpark';
 import { ProgressBarsProgressThin } from './ProgressBarsProgressThin';
 import { ProgressBarsTimelineProgress } from './ProgressBarsTimelineProgress';
+import { ProgressBarsXpAccumulation } from './ProgressBarsXpAccumulation';
+import { ProgressBarsZoomedProgress } from './ProgressBarsZoomedProgress';
 
+export { ProgressBarsBattlePassTiers } from './ProgressBarsBattlePassTiers';
+export { ProgressBarsMissionCheckpoints } from './ProgressBarsMissionCheckpoints';
 export { ProgressBarsProgressBounce } from './ProgressBarsProgressBounce';
 export { ProgressBarsProgressGradient } from './ProgressBarsProgressGradient';
 export { ProgressBarsProgressMilestones } from './ProgressBarsProgressMilestones';
 export { ProgressBarsProgressSegmented } from './ProgressBarsProgressSegmented';
-export { ProgressBarsProgressSpark } from './ProgressBarsProgressSpark';
 export { ProgressBarsProgressThin } from './ProgressBarsProgressThin';
 export { ProgressBarsTimelineProgress } from './ProgressBarsTimelineProgress';
+export { ProgressBarsXpAccumulation } from './ProgressBarsXpAccumulation';
+export { ProgressBarsZoomedProgress } from './ProgressBarsZoomedProgress';
 
 export const progressProgressBarsAnimations: AnimationComponentMap = {
+  'progress-bars__battle-pass-tiers': ProgressBarsBattlePassTiers,
+  'progress-bars__mission-checkpoints': ProgressBarsMissionCheckpoints,
   'progress-bars__progress-bounce': ProgressBarsProgressBounce,
   'progress-bars__progress-gradient': ProgressBarsProgressGradient,
   'progress-bars__progress-milestones': ProgressBarsProgressMilestones,
   'progress-bars__progress-segmented': ProgressBarsProgressSegmented,
-  'progress-bars__progress-spark': ProgressBarsProgressSpark,
   'progress-bars__progress-thin': ProgressBarsProgressThin,
-  'progress-bars__timeline-progress': ProgressBarsTimelineProgress
+  'progress-bars__timeline-progress': ProgressBarsTimelineProgress,
+  'progress-bars__xp-accumulation': ProgressBarsXpAccumulation,
+  'progress-bars__zoomed-progress': ProgressBarsZoomedProgress
 };

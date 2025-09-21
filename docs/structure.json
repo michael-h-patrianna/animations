@@ -102,30 +102,8 @@
           "tech": "css",
           "demo": "iconAnimations"
         },
-        {
-          "id": "reward-basic",
-          "title": "Basic rewards",
-          "tech": "css",
-          "demo": "rewardBasic"
-        },
-        {
-          "id": "reward-feedback",
-          "title": "UI feedback",
-          "tech": "css",
-          "demo": "rewardFeedback"
-        },
-        {
-          "id": "reward-mechanics",
-          "title": "Reward mechanics",
-          "tech": "framer",
-          "demo": "rewardMechanic"
-        },
-        {
-          "id": "reward-orchestrations",
-          "title": "Reward orchestrations",
-          "tech": "framer",
-          "demo": "rewardOrchestration"
-        },
+
+
         {
           "id": "modal-celebrations",
           "title": "Celebration effects",
@@ -602,7 +580,7 @@
     },
     {
       "id": "progress-bars__timeline-progress",
-      "title": "Timeline Progress", 
+      "title": "Timeline Progress",
       "description": "Timeline progress visualization showing sequential milestones with connected flow.",
       "categoryId": "progress",
       "groupId": "progress-bars"
@@ -723,6 +701,34 @@
       "id": "progress-bars__progress-thin",
       "title": "Thin Glide",
       "description": "Slim tracker for compact UI contexts.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__xp-accumulation",
+      "title": "XP Accumulation",
+      "description": "Visually satisfying XP point accumulation with multiplier zones, flowing orbs, floating +XP numbers, and electric blue/cyan glow effects.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__mission-checkpoints",
+      "title": "Mission Checkpoints",
+      "description": "Military/tactical themed progress bar with NATO phonetic alphabet checkpoints (Alpha, Bravo, Charlie, Delta, Echo), radio static effects, signal strength indicators, and mission completion celebration.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__battle-pass-tiers",
+      "title": "Battle Pass Tiers",
+      "description": "Battle pass season theme with tier rewards at Free (0%), Common (25%), Rare (50%), Epic (75%), Legendary (100%). Features tier unlock animations with flash effects, reward box opening, 'TIER UNLOCKED' banner, premium glow effects, and final legendary explosion.",
+      "categoryId": "progress",
+      "groupId": "progress-bars"
+    },
+    {
+      "id": "progress-bars__zoomed-progress",
+      "title": "Zoomed Progress",
+      "description": "Multi-level progress bar with zoomed viewport that shifts and scales as levels advance. Features numbered milestones, color transitions per level (blue to yellow to pink), radial gradient masking for zoom effect, and skewed progress fill animation.",
       "categoryId": "progress",
       "groupId": "progress-bars"
     },
@@ -1133,75 +1139,34 @@
       "groupId": "reward-mechanics"
     },
     {
-      "id": "reward-orchestrations__coin-trail",
+      "id": "modal-celebrations__coin-trail",
       "title": "Coin Trail",
-      "description": "Reward orchestrations pattern: Coin Trail",
+      "description": "Celebration effects pattern: Coin Trail",
       "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
+      "groupId": "modal-celebrations"
     },
     {
-      "id": "reward-orchestrations__coin-cascade",
+      "id": "modal-celebrations__coin-cascade",
       "title": "Coin Cascade",
-      "description": "Reward orchestrations pattern: Coin Cascade",
+      "description": "Celebration effects pattern: Coin Cascade",
       "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
+      "groupId": "modal-celebrations"
     },
     {
-      "id": "reward-orchestrations__multi-coin",
+      "id": "modal-celebrations__multi-coin",
       "title": "Multi Coin",
-      "description": "Reward orchestrations pattern: Multi Coin",
+      "description": "Celebration effects pattern: Multi Coin",
       "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
+      "groupId": "modal-celebrations"
     },
     {
-      "id": "reward-orchestrations__treasure-particles",
+      "id": "modal-celebrations__treasure-particles",
       "title": "Treasure Particles",
-      "description": "Reward orchestrations pattern: Treasure Particles",
+      "description": "Celebration effects pattern: Treasure Particles",
       "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
+      "groupId": "modal-celebrations"
     },
-    {
-      "id": "reward-orchestrations__unlock-chain",
-      "title": "Unlock Chain",
-      "description": "Reward orchestrations pattern: Unlock Chain",
-      "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
-    },
-    {
-      "id": "reward-orchestrations__unlock-cascade",
-      "title": "Unlock Cascade",
-      "description": "Reward orchestrations pattern: Unlock Cascade",
-      "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
-    },
-    {
-      "id": "reward-orchestrations__reward-path",
-      "title": "Reward Path",
-      "description": "Reward orchestrations pattern: Reward Path",
-      "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
-    },
-    {
-      "id": "reward-orchestrations__jackpot-beam",
-      "title": "Jackpot Beam",
-      "description": "Reward orchestrations pattern: Jackpot Beam",
-      "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
-    },
-    {
-      "id": "reward-orchestrations__map-travel",
-      "title": "Map Travel",
-      "description": "Reward orchestrations pattern: Map Travel",
-      "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
-    },
-    {
-      "id": "reward-orchestrations__reward-celebration",
-      "title": "Reward Celebration",
-      "description": "Reward orchestrations pattern: Reward Celebration",
-      "categoryId": "rewards",
-      "groupId": "reward-orchestrations"
-    },
+
     {
       "id": "icon-animations__shake",
       "title": "Shake",
