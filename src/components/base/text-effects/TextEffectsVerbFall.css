@@ -1,0 +1,24 @@
+/* Falling text effect (no background) */
+.verbFall { display: flex; align-items: center; justify-content: center; min-height: 80px; padding: 20px; --step: 0.05s; }
+.verbFall__line { display: inline-flex; gap: 0.02em; }
+.verbFall__char {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-block;
+  will-change: transform;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center bottom;
+  animation: vfall 1.6s ease-in-out 1 both;
+  animation-delay: calc(var(--i, 0) * var(--step, 0.05s));
+}
+
+/* using index-based delay; nth-child list removed */
+
+@keyframes vfall {
+  0% { transform: translateY(-12px) scaleY(0.96); opacity: 0.9; }
+  30% { transform: translateY(0) scaleY(1.02); }
+  60% { transform: translateY(4px) scaleY(0.98); }
+  100% { transform: translateY(0) scaleY(1); opacity: 1; }
+}

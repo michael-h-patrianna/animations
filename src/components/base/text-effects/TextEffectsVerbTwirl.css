@@ -1,0 +1,21 @@
+/* Twirling text effect (no background) */
+.verbTwirl { display: flex; align-items: center; justify-content: center; min-height: 80px; padding: 20px; }
+.verbTwirl__line { display: inline-flex; gap: 0.02em; }
+.verbTwirl__char {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-block;
+  will-change: transform;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+  animation: vtwirl 1.8s ease-in-out 1 both;
+}
+
+@keyframes vtwirl {
+  0%,100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.05); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(0.98); }
+}

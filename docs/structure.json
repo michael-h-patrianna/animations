@@ -251,6 +251,48 @@
       "groupId": "text-effects"
     },
     {
+      "id": "text-effects__verb-jumping",
+      "title": "Jumping",
+      "description": "Playful jump cadence with squash and stretch per letter.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__verb-floating",
+      "title": "Floating",
+      "description": "Gentle float up/down across letters with offset phases.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__verb-jogging",
+      "title": "Jogging",
+      "description": "Energetic jog rhythm alternating between letters.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__verb-flipping",
+      "title": "Flipping",
+      "description": "3D flip rotation with perspective for each character.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__verb-twirling",
+      "title": "Twirling",
+      "description": "Continuous twirl spin with subtle scale variance.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__verb-falling",
+      "title": "Falling",
+      "description": "Letters drop and settle with a soft bounce.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
       "id": "standard-effects__shake",
       "title": "Shake",
       "description": "Horizontal shake with rotation wobble and scale compression for error feedback.",
@@ -759,7 +801,7 @@
     },
     {
       "id": "progress-bars__progress-bounce",
-      "title": "Bounce Finish",
+      "title": "Grow up",
       "description": "Elastic finish emphasises completion state.",
       "categoryId": "progress",
       "groupId": "progress-bars"

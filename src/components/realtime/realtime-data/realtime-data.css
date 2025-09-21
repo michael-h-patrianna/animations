@@ -10,12 +10,15 @@
   border-radius: 12px;
   border: 1px solid rgba(75, 85, 99, 0.3);
   min-height: 180px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pf-realtime-data__leaderboard {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 }
 
 .pf-realtime-data__row {
@@ -26,6 +29,8 @@
   background: rgba(55, 65, 81, 0.4);
   border-radius: 6px;
   border: 1px solid rgba(75, 85, 99, 0.2);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pf-realtime-data__rank {
@@ -57,6 +62,8 @@
   height: 40px;
   display: flex;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pf-realtime-data__ticker-text {
@@ -74,6 +81,8 @@
   background: rgba(31, 41, 55, 0.6);
   border-radius: 8px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pf-realtime-data__currency-label {
@@ -98,6 +107,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
 }
 
 .pf-realtime-data__stack-row {
@@ -108,6 +118,8 @@
   background: rgba(55, 65, 81, 0.3);
   border-radius: 4px;
   border-left: 2px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pf-realtime-data__stack-row.active {
