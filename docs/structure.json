@@ -129,6 +129,37 @@
       "disableReplay": true
     },
     {
+      "id": "button-effects__jitter",
+      "title": "Button Jitter",
+      "description": "Playful button with continuous jittery animation and heartbeat on hover.",
+      "categoryId": "base",
+      "groupId": "button-effects"
+    },
+    {
+      "id": "button-effects__liquid-morph",
+      "title": "Liquid Morph",
+      "description": "Button liquifies and reshapes on click with elastic blob-like deformation.",
+      "categoryId": "base",
+      "groupId": "button-effects",
+      "disableReplay": true
+    },
+    {
+      "id": "button-effects__shockwave",
+      "title": "Shockwave",
+      "description": "Concentric rings expand outward with distortion effects.",
+      "categoryId": "base",
+      "groupId": "button-effects",
+      "disableReplay": true
+    },
+    {
+      "id": "button-effects__split-reveal",
+      "title": "Split Reveal",
+      "description": "Button splits open to reveal content/color underneath.",
+      "categoryId": "base",
+      "groupId": "button-effects",
+      "disableReplay": true
+    },
+    {
       "id": "text-effects__character-reveal",
       "title": "Character Reveal",
       "description": "Premium text reveal with layered shadows and character scale animations for achievement moments.",
@@ -195,6 +226,27 @@
       "id": "text-effects__wave-reveal",
       "title": "Wave Reveal",
       "description": "Staggered wave animation where text appears from bottom with smooth easing.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__light-sweep-draw",
+      "title": "Light Sweep Draw",
+      "description": "Left-to-right cinematic highlight that briefly brightens and deforms each letter with a gentle settle.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__metallic-specular-flash",
+      "title": "Metallic Specular Flash",
+      "description": "A crisp, narrow specular flash sweeps across the text with brief skew and stretch, then settles.",
+      "categoryId": "base",
+      "groupId": "text-effects"
+    },
+    {
+      "id": "text-effects__horizon-light-pass",
+      "title": "Horizon Light Pass",
+      "description": "A horizontal light band passes across the text, briefly brightening and stretching letters before settling.",
       "categoryId": "base",
       "groupId": "text-effects"
     },

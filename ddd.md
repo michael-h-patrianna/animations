@@ -160,3 +160,30 @@ in all animations in the Celebration effects group that use coin images:
 3. make sure to account for the size of the new image which is larger
 
 replace the image with /Users/Spare/Documents/graphics/Game Asset/PNG/Game Asset-02.png, just replace the image in src/assets folder
+
+
+  Click/Press Animations:
+  - Liquid morph - Button liquifies and reshapes on click, with elastic blob-like deformation
+  - Particle explosion - Click triggers particles bursting from the impact point
+  - Magnetic pull - Surrounding elements or particles get pulled toward the click point
+  - Shockwave - Concentric rings expand outward with distortion effects
+  - Split reveal - Button splits open to reveal content/color underneath
+  - 3D flip - Button rotates in 3D space to show a different face
+  - Elastic stretch - Button stretches toward click point then snaps back
+
+  Hover Animations:
+  - Gradient flow - Animated gradient that flows through the button continuously
+  - Border drawing - Animated border that draws around the button perimeter
+  - Glow pulse - Rhythmic glowing aura that emanates from the button
+  - Magnetic wobble - Button subtly follows cursor movement when nearby
+  - Text scramble - Text characters randomly scramble and unscramble
+  - Icon morph - Icon inside button morphs or rotates with fluid animation
+  - Wave distortion - Rippling wave effect across button surface
+
+  State Transitions:
+  - Success morph - Button transforms into checkmark with satisfying animation
+  - Loading spinner integration - Button seamlessly becomes a loader
+  - Progress fill - Button fills up with color/pattern to show progress
+  - Confetti burst - Celebration particles on successful action
+
+  The key is these animations feel responsive and intentional, not just decorative - they communicate state changes and provide satisfying feedback.

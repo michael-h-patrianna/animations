@@ -1,13 +1,16 @@
 import { TextEffectsCharacterReveal } from './TextEffectsCharacterReveal';
-import { TextEffectsEpicWin } from './TextEffectsEpicWin';
-import { TextEffectsWaveText } from './TextEffectsWaveText';
-import { TextEffectsGlitchText } from './TextEffectsGlitchText';
-import { TextEffectsTypewriter } from './TextEffectsTypewriter';
 import { TextEffectsComboCounter } from './TextEffectsComboCounter';
-import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop';
-import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough';
 import { TextEffectsCounterIncrement } from './TextEffectsCounterIncrement';
+import { TextEffectsEpicWin } from './TextEffectsEpicWin';
+import { TextEffectsGlitchText } from './TextEffectsGlitchText';
+import { TextEffectsHorizonLightPass } from './TextEffectsHorizonLightPass';
+import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough';
+import { TextEffectsLightSweepDraw } from './TextEffectsLightSweepDraw';
+import { TextEffectsMetallicSpecularFlash } from './TextEffectsMetallicSpecularFlash';
+import { TextEffectsTypewriter } from './TextEffectsTypewriter';
 import { TextEffectsWaveReveal } from './TextEffectsWaveReveal';
+import { TextEffectsWaveText } from './TextEffectsWaveText';
+import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop';
 
 export const AnimationComponentMap = {
   'text-effects__character-reveal': TextEffectsCharacterReveal,
@@ -20,4 +23,7 @@ export const AnimationComponentMap = {
   'text-effects__level-breakthrough': TextEffectsLevelBreakthrough,
   'text-effects__counter-increment': TextEffectsCounterIncrement,
   'text-effects__wave-reveal': TextEffectsWaveReveal,
+  'text-effects__light-sweep-draw': TextEffectsLightSweepDraw,
+  'text-effects__metallic-specular-flash': TextEffectsMetallicSpecularFlash,
+  'text-effects__horizon-light-pass': TextEffectsHorizonLightPass,
 };
