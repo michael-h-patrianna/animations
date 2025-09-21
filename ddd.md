@@ -65,3 +65,27 @@ Remove the animation previes: Spark Trail, Crisp Snap
 Remove the Blur from Fade with Zoom animation
 
 CRT TV Turn On and Origami Unfold look the same
+
+
+read README.md and docs/REACT_NATIVE_REFACTORING_PATTERNS.md to understand this project.
+
+the group Standard effects in the Base effects category is supposed to be a showcase of commonly used animation types in mobile games, triple aaa games and best-of-class websites and apps.
+
+1. research and prepare a list of animations that should be showcased (e.g. shake, wiggle, bounce, ripple effect on buttons, etc)
+2. enhance your plan to follow the disney animation principle that you have a main animation accompanied by 1 or 2 more subtle secondary animations do provide more depth to animations.
+3. then implement new previews for these animations in the Standard effects category.
+
+do not use particle effects.
+
+use these images for the Standard animations group
+Shake: /Users/Spare/Documents/graphics/casino-2023-11-27-05-09-50-utc/PNG/480px/unlucky_hires.png
+Bounce: /Users/Spare/Documents/graphics/casino-2023-11-27-05-09-50-utc/PNG/480px/win_hires.png
+Wiggle: /Users/Spare/Documents/graphics/casino-3d-icons-2025-01-22-15-24-15-utc/png/037-bell.png
+Spin: /Users/Spare/Documents/graphics/casino-gambling-3d-icon-2024-05-06-19-31-22-utc/34.png
+Float: /Users/Spare/Documents/graphics/baby animals and christmas/PNG/1.png
+Pulse: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-47-utc/Roll Paper.png
+/Users/Spare/Documents/graphics/casino-3d-icons-2025-01-22-15-21-14-utc/png/010-jackpot.png for
+
+remove the animation previews: Lift Arrival, Fade & Blur Soft, Fade & Vertical Shift, Fade with Zoom
+
+

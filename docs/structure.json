@@ -194,16 +194,79 @@
       "groupId": "text-effects"
     },
     {
-      "id": "standard-effects__error-shake",
-      "title": "Error Shake",
-      "description": "Error shake amplitude 12px with 5 oscillations.",
+      "id": "standard-effects__shake",
+      "title": "Shake",
+      "description": "Horizontal shake with rotation wobble and scale compression for error feedback.",
       "categoryId": "base",
       "groupId": "standard-effects"
     },
     {
-      "id": "standard-effects__success-bounce",
-      "title": "Success Bounce",
-      "description": "Success bounce with 12% overshoot for celebratory feedback.",
+      "id": "standard-effects__bounce",
+      "title": "Bounce",
+      "description": "Vertical bounce with squash-stretch deformation and tilt for playful feedback.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__pulse",
+      "title": "Pulse",
+      "description": "Scale pulse with opacity fade and expanding glow for heartbeat effect.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__rubber-band",
+      "title": "Rubber Band",
+      "description": "Elastic stretch with thickness variation and edge vibration for springy motion.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__swing",
+      "title": "Swing",
+      "description": "Pendulum arc swing with axis rotation and momentum lean for hanging elements.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__jello",
+      "title": "Jello",
+      "description": "Wobble deformation with ripple-through effect and bounce for gelatinous motion.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__pop",
+      "title": "Pop",
+      "description": "Scale overshoot entrance with rotation twist and motion blur for emphasis.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__wiggle",
+      "title": "Wiggle",
+      "description": "Rotation oscillation with scale breathing and position drift for attention.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__flip",
+      "title": "Flip",
+      "description": "Y-axis card flip with shadow perspective and scale change during rotation.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__spin",
+      "title": "Spin",
+      "description": "360-degree rotation with scale pulse at midpoint and motion blur trail.",
+      "categoryId": "base",
+      "groupId": "standard-effects"
+    },
+    {
+      "id": "standard-effects__float",
+      "title": "Float",
+      "description": "Gentle Y-axis sine wave with subtle rotation and shadow distance changes.",
       "categoryId": "base",
       "groupId": "standard-effects"
     },
@@ -218,13 +281,6 @@
       "id": "modal-base__scale-hero",
       "title": "Hero Bounce",
       "description": "Scale entrance from 78% up to 108% settling at 100% with 76% overlay fade and 18px\u21920px blur.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__scale-lift",
-      "title": "Lift Arrival",
-      "description": "Scale entrance from 72% up to 103% settling at 100% with 72% overlay fade and 16px\u21920px blur.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -267,27 +323,6 @@
       "id": "modal-base__slide-right-drift",
       "title": "Slide Right Drift",
       "description": "Slides in from the left by 68px with 68% overlay fade and soft blur 7px.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__fade-soft",
-      "title": "Fade & Blur Soft",
-      "description": "Fade-in entrance with 72% overlay support and vertical shift 0px.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__fade-zoom",
-      "title": "Fade with Zoom",
-      "description": "Fade-in entrance with subtle zoom effect, no blur.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__fade-shift",
-      "title": "Fade & Vertical Shift",
-      "description": "Fade-in entrance with 70% overlay support and vertical shift 32px.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },
@@ -351,13 +386,6 @@
       "id": "modal-base__ripple-expand",
       "title": "Material Ripple",
       "description": "Material Design ripple expansion with radiating wave effect.",
-      "categoryId": "dialogs",
-      "groupId": "modal-base"
-    },
-    {
-      "id": "modal-base__morph-center",
-      "title": "Morph from Center",
-      "description": "Modern web morphing animation expanding from click origin with shape transformation.",
       "categoryId": "dialogs",
       "groupId": "modal-base"
     },

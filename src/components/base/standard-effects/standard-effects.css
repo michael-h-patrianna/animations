@@ -141,3 +141,309 @@
   90% { transform: translateY(-10.5px); }
   100% { transform: translateY(0); }
 }
+
+/* Standard Demo Container */
+.standard-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+
+.standard-demo-element {
+  padding: 24px 32px;
+  background: linear-gradient(135deg, rgba(236, 195, 255, 0.12) 0%, rgba(198, 255, 119, 0.08) 100%);
+  border: 1px solid rgba(236, 195, 255, 0.24);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: visible;
+}
+
+.demo-icon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.demo-icon-image {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.demo-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+/* Shake Animation - Primary: horizontal shake, Secondary: rotation wobble + scale compression */
+@keyframes shake-animation {
+  0%, 100% { 
+    transform: translateX(0) rotate(0deg) scaleX(1);
+  }
+  10% { 
+    transform: translateX(-10px) rotate(-1deg) scaleX(0.98);
+  }
+  20% { 
+    transform: translateX(10px) rotate(1deg) scaleX(0.98);
+  }
+  30% { 
+    transform: translateX(-8px) rotate(-0.8deg) scaleX(0.99);
+  }
+  40% { 
+    transform: translateX(8px) rotate(0.8deg) scaleX(0.99);
+  }
+  50% { 
+    transform: translateX(-6px) rotate(-0.6deg) scaleX(0.995);
+  }
+  60% { 
+    transform: translateX(6px) rotate(0.6deg) scaleX(0.995);
+  }
+  70% { 
+    transform: translateX(-4px) rotate(-0.4deg) scaleX(1);
+  }
+  80% { 
+    transform: translateX(4px) rotate(0.4deg) scaleX(1);
+  }
+  90% { 
+    transform: translateX(-2px) rotate(-0.2deg) scaleX(1);
+  }
+}
+
+.shake-element {
+  animation: shake-animation 0.5s ease-in-out;
+}
+
+/* Bounce Animation - Primary: vertical bounce, Secondary: squash/stretch + tilt */
+@keyframes bounce-animation {
+  0%, 100% {
+    transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
+  }
+  20% {
+    transform: translateY(0) scaleY(0.8) scaleX(1.1) rotate(0deg);
+  }
+  40% {
+    transform: translateY(-30px) scaleY(1.1) scaleX(0.95) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-35px) scaleY(1.05) scaleX(0.98) rotate(1deg);
+  }
+  60% {
+    transform: translateY(-30px) scaleY(1.02) scaleX(0.99) rotate(-1deg);
+  }
+  80% {
+    transform: translateY(0) scaleY(0.95) scaleX(1.02) rotate(0deg);
+  }
+}
+
+.bounce-element {
+  animation: bounce-animation 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: center bottom;
+}
+
+/* Pulse Animation - Primary: scale pulse, Secondary: opacity fade + glow */
+@keyframes pulse-animation {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 40px rgba(236, 195, 255, 0.4);
+  }
+}
+
+.pulse-element {
+  animation: pulse-animation 1.5s ease-in-out infinite;
+}
+
+/* Rubber Band Animation - Primary: elastic stretch, Secondary: thickness variation */
+@keyframes rubber-band-animation {
+  0%, 100% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.25, 0.75);
+  }
+  40% {
+    transform: scale(0.75, 1.25);
+  }
+  50% {
+    transform: scale(1.15, 0.85);
+  }
+  65% {
+    transform: scale(0.95, 1.05);
+  }
+  75% {
+    transform: scale(1.05, 0.95);
+  }
+}
+
+.rubber-band-element {
+  animation: rubber-band-animation 1s ease-in-out;
+}
+
+/* Swing Animation - Primary: pendulum arc, Secondary: rotation + lean */
+@keyframes swing-animation {
+  0%, 100% {
+    transform: rotate(0deg) translateX(0);
+    transform-origin: center top;
+  }
+  20% {
+    transform: rotate(15deg) translateX(2px);
+  }
+  40% {
+    transform: rotate(-10deg) translateX(-1.5px);
+  }
+  60% {
+    transform: rotate(5deg) translateX(1px);
+  }
+  80% {
+    transform: rotate(-2deg) translateX(-0.5px);
+  }
+}
+
+.swing-element {
+  animation: swing-animation 1s ease-in-out;
+  transform-origin: center top;
+}
+
+/* Jello Animation - Primary: wobble deformation, Secondary: ripple effect */
+@keyframes jello-animation {
+  0%, 100% {
+    transform: skewX(0deg) skewY(0deg) scale(1);
+  }
+  30% {
+    transform: skewX(-12.5deg) skewY(-12.5deg) scale(1.05);
+  }
+  40% {
+    transform: skewX(6.25deg) skewY(6.25deg) scale(0.98);
+  }
+  50% {
+    transform: skewX(-3.125deg) skewY(-3.125deg) scale(1.02);
+  }
+  65% {
+    transform: skewX(1.5625deg) skewY(1.5625deg) scale(0.99);
+  }
+  75% {
+    transform: skewX(-0.78125deg) skewY(-0.78125deg) scale(1.01);
+  }
+}
+
+.jello-element {
+  animation: jello-animation 1s ease-in-out;
+}
+
+/* Pop Animation - Primary: scale overshoot, Secondary: rotation + shadow expansion */
+@keyframes pop-animation {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(236, 195, 255, 0);
+  }
+  50% {
+    transform: scale(1.2) rotate(5deg);
+    opacity: 0.8;
+    box-shadow: 0 0 30px rgba(236, 195, 255, 0.3);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.pop-element {
+  animation: pop-animation 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Wiggle Animation - Primary: rotation oscillation, Secondary: scale breathing */
+@keyframes wiggle-animation {
+  0%, 100% {
+    transform: rotate(0deg) scale(1) translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: rotate(-3deg) scale(1.02) translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: rotate(3deg) scale(0.98) translateX(2px);
+  }
+}
+
+.wiggle-element {
+  animation: wiggle-animation 1s ease-in-out;
+}
+
+/* Flip Animation - Primary: Y-axis rotation, Secondary: shadow + scale */
+@keyframes flip-animation {
+  0% {
+    transform: perspective(400px) rotateY(0) scale(1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+  40% {
+    transform: perspective(400px) rotateY(90deg) scale(0.95);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    transform: perspective(400px) rotateY(180deg) scale(1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.flip-element {
+  animation: flip-animation 0.8s ease-in-out;
+  backface-visibility: visible;
+}
+
+/* Spin Animation - Primary: 360° rotation, Secondary: scale pulse + opacity */
+@keyframes spin-animation {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.spin-element {
+  animation: spin-animation 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Float Animation - Primary: Y-axis sine wave, Secondary: rotation + shadow */
+@keyframes float-animation {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+  25% {
+    transform: translateY(-10px) rotate(1deg);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+  }
+  50% {
+    transform: translateY(-15px) rotate(0deg);
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1);
+  }
+  75% {
+    transform: translateY(-10px) rotate(-1deg);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.float-element {
+  animation: float-animation 3s ease-in-out infinite;
+}

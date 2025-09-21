@@ -3,6 +3,7 @@ import './modal-content.css';
 
 export function ModalContentListSoftStagger() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     // Trigger staggered animation on mount
@@ -17,6 +18,19 @@ export function ModalContentListSoftStagger() {
         item.style.animation = `list-soft-stagger 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards ${delay}ms`;
         item.style.opacity = '0';
         item.style.transform = 'translateY(16px)';
+      }
+    });
+
+    // Animate buttons after list items (last item finishes at ~600ms, so start buttons at 550ms)
+    buttonRefs.current.forEach((button, index) => {
+      if (button) {
+        button.style.animation = 'none';
+        void button.offsetWidth;
+        
+        const buttonDelay = 550 + (70 * index);
+        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${buttonDelay}ms`;
+        button.style.opacity = '0';
+        button.style.transform = 'translateY(16px) scale(0.94)';
       }
     });
   }, []);
@@ -65,10 +79,14 @@ export function ModalContentListSoftStagger() {
           </div>
         </div>
         <div className="modal-content-footer">
-          <button className="modal-content-button modal-content-button-primary">
+          <button 
+            ref={(el) => buttonRefs.current[0] = el}
+            className="modal-content-button modal-content-button-primary">
             Accept
           </button>
-          <button className="modal-content-button modal-content-button-secondary">
+          <button 
+            ref={(el) => buttonRefs.current[1] = el}
+            className="modal-content-button modal-content-button-secondary">
             Later
           </button>
         </div>
