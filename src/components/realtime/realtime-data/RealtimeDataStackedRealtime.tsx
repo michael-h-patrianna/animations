@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import './realtime-data.css';
 
@@ -14,7 +14,7 @@ export function RealtimeDataStackedRealtime() {
   ];
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
     const startAnimation = () => {
       setIsAnimating(true);

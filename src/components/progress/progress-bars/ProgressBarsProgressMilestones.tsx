@@ -34,7 +34,7 @@ export function ProgressBarsProgressMilestones() {
     }> = [];
 
     // Create milestone markers
-    milestonePositions.forEach((pos, index) => {
+  milestonePositions.forEach((pos) => {
       const markerContainer = document.createElement('div');
       markerContainer.className = 'animation-element';
       markerContainer.style.position = 'absolute';
@@ -130,7 +130,8 @@ export function ProgressBarsProgressMilestones() {
     // Track animation progress and activate milestones
     const activatedMilestones = new Set();
     const checkMilestones = () => {
-      const progress = fillAnim.currentTime! / duration;
+      const current = (typeof fillAnim.currentTime === 'number' ? fillAnim.currentTime : 0) ?? 0;
+      const progress = current / duration;
       milestoneMarkers.forEach(({ marker, innerGlow, ring, position, label }, index) => {
         if (progress >= position && !activatedMilestones.has(index)) {
           activatedMilestones.add(index);

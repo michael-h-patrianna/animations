@@ -47,31 +47,31 @@ export function ModalContentListSoftStagger() {
           <p>Keep focus with 70ms cadence.</p>
           <div className="modal-content-list">
             <div
-              ref={(el) => listItemRefs.current[0] = el}
+              ref={(el) => { listItemRefs.current[0] = el; }}
               className="modal-content-list-item"
             >
               Milestone 1
             </div>
             <div
-              ref={(el) => listItemRefs.current[1] = el}
+              ref={(el) => { listItemRefs.current[1] = el; }}
               className="modal-content-list-item"
             >
               Milestone 2
             </div>
             <div
-              ref={(el) => listItemRefs.current[2] = el}
+              ref={(el) => { listItemRefs.current[2] = el; }}
               className="modal-content-list-item"
             >
               Milestone 3
             </div>
             <div
-              ref={(el) => listItemRefs.current[3] = el}
+              ref={(el) => { listItemRefs.current[3] = el; }}
               className="modal-content-list-item"
             >
               Milestone 4
             </div>
             <div
-              ref={(el) => listItemRefs.current[4] = el}
+              ref={(el) => { listItemRefs.current[4] = el; }}
               className="modal-content-list-item"
             >
               Milestone 5
@@ -80,12 +80,12 @@ export function ModalContentListSoftStagger() {
         </div>
         <div className="modal-content-footer">
           <button 
-            ref={(el) => buttonRefs.current[0] = el}
+            ref={(el) => { buttonRefs.current[0] = el; }}
             className="modal-content-button modal-content-button-primary">
             Accept
           </button>
           <button 
-            ref={(el) => buttonRefs.current[1] = el}
+            ref={(el) => { buttonRefs.current[1] = el; }}
             className="modal-content-button modal-content-button-secondary">
             Later
           </button>

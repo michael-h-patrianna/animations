@@ -85,7 +85,7 @@ export function ProgressBarsProgressSegmented() {
     const duration = 3000;
 
     // Main fill animation
-    const fillAnim = fill.animate([
+    fill.animate([
       { transform: 'scaleX(0)' },
       { transform: 'scaleX(0.25)', offset: 0.25 },
       { transform: 'scaleX(0.5)', offset: 0.5 },

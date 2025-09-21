@@ -26,7 +26,7 @@ export function ModalOrchestrationTabMorph() {
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] // pop easing
+        ease: [0.34, 1.56, 0.64, 1] as const // pop easing
       }
     }
   };
@@ -41,7 +41,7 @@ export function ModalOrchestrationTabMorph() {
       opacity: 1,
       transition: {
         duration: 0.3,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: [0.25, 0.46, 0.45, 0.94] as const
       }
     },
     exit: {
@@ -49,7 +49,7 @@ export function ModalOrchestrationTabMorph() {
       opacity: 0,
       transition: {
         duration: 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        ease: [0.25, 0.46, 0.45, 0.94] as const
       }
     }
   };

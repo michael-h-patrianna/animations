@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './modal-dismiss.css';
 
 export function ModalDismissSnackbarWipe() {
   const toastRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const [key, setKey] = useState(0);
+  // Removed unused state
 
   useEffect(() => {
     const toast = toastRef.current;
@@ -35,7 +35,7 @@ export function ModalDismissSnackbarWipe() {
     });
 
     // Progress bar animation (scaleX from 1 to 0)
-    const progressAnimation = progress.animate(
+    progress.animate(
       [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
       {
         duration: autoDismissMs,
@@ -69,7 +69,7 @@ export function ModalDismissSnackbarWipe() {
       toast.getAnimations().forEach(anim => anim.cancel());
       progress.getAnimations().forEach(anim => anim.cancel());
     };
-  }, [key]);
+  }, []);
 
   return (
     <div className="pf-toast-preview">

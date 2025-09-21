@@ -29,7 +29,7 @@ export function ModalOrchestrationSpringPhysics() {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: 'spring' as const,
         stiffness: 200,
         damping: 15,
         mass: 1.2
@@ -46,7 +46,7 @@ export function ModalOrchestrationSpringPhysics() {
       data-animation-id="modal-orchestration__spring-physics"
     >
       <div className="pf-spring-grid">
-        {tiles.map((tile, index) => (
+  {tiles.map((tile) => (
           <motion.div
             key={tile.id}
             className="pf-spring-tile"
@@ -55,7 +55,7 @@ export function ModalOrchestrationSpringPhysics() {
               scale: 1.05,
               y: -8,
               transition: { 
-                type: "spring", 
+                type: 'spring' as const, 
                 stiffness: 400, 
                 damping: 20,
                 mass: 0.8
@@ -64,7 +64,7 @@ export function ModalOrchestrationSpringPhysics() {
             whileTap={{ 
               scale: 0.95,
               transition: { 
-                type: "spring", 
+                type: 'spring' as const, 
                 stiffness: 600, 
                 damping: 25 
               }

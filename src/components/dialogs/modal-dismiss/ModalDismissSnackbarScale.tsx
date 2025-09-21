@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './modal-dismiss.css';
 
 export function ModalDismissSnackbarScale() {
   const toastRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const [key, setKey] = useState(0);
+  // Removed unused state
 
   useEffect(() => {
     const toast = toastRef.current;
@@ -27,14 +27,14 @@ export function ModalDismissSnackbarScale() {
       { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' }
     ];
 
-    const enterAnimation = toast.animate(enterKeyframes, {
+    toast.animate(enterKeyframes, {
       duration: entryDuration,
       easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)', // pop easing for bounce effect
       fill: 'forwards'
     });
 
     // Progress bar animation (scaleX from 1 to 0)
-    const progressAnimation = progress.animate(
+    progress.animate(
       [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
       {
         duration: autoDismissMs,
@@ -44,7 +44,7 @@ export function ModalDismissSnackbarScale() {
     );
 
     // Scale pulse animation during auto-dismiss
-    const scalePulseAnimation = toast.animate(
+    toast.animate(
       [
         { transform: 'translate3d(0,0,0) scale(1)', filter: 'brightness(1)', opacity: '1' },
         { transform: 'translate3d(0,-4px,0) scale(1.05)', filter: 'brightness(1.12)', opacity: '1', offset: 0.18 },
@@ -78,7 +78,7 @@ export function ModalDismissSnackbarScale() {
       toast.getAnimations().forEach(anim => anim.cancel());
       progress.getAnimations().forEach(anim => anim.cancel());
     };
-  }, [key]);
+  }, []);
 
   return (
     <div className="pf-toast-preview">

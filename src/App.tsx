@@ -1,7 +1,7 @@
 import { GroupSection } from '@/components/catalog';
 import { Sidebar } from '@/components/Sidebar';
 import { useAnimations } from '@/hooks/useAnimations';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import type { Group } from '@/types/animation';
 import './App.css';
@@ -9,7 +9,6 @@ import './App.css';
 function App() {
   const { categories, isLoading, error } = useAnimations();
   const [currentGroupId, setCurrentGroupId] = useState<string>('');
-  const [previousGroupId, setPreviousGroupId] = useState<string>('');
   const [direction, setDirection] = useState<number>(0);
   const dragControls = useDragControls();
 
@@ -37,7 +36,6 @@ function App() {
     const currentIndex = allGroups.findIndex(g => g.id === currentGroupId);
     const newIndex = allGroups.findIndex(g => g.id === groupId);
     
-    setPreviousGroupId(currentGroupId);
     setDirection(newIndex > currentIndex ? 1 : -1);
     setCurrentGroupId(groupId);
   };
@@ -83,14 +81,15 @@ function App() {
     return Math.abs(offset) * velocity;
   };
 
-  const handleDragStart = (event: PointerEvent) => {
+  const handleDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement;
     
     // Don't start drag if the pointer is on an AnimationCard
     const isOnAnimationCard = target.closest('.pf-card');
     
     if (!isOnAnimationCard) {
-      dragControls.start(event);
+      // Use the native event for DragControls
+      dragControls.start(event.nativeEvent);
     }
   };
 
@@ -120,7 +119,7 @@ function App() {
                   animate="center"
                   exit="exit"
                   transition={{
-                    x: { type: 'spring', stiffness: 300, damping: 30 },
+                    x: { type: 'spring' as const, stiffness: 300, damping: 30 },
                     opacity: { duration: 0.2 },
                   }}
                   drag="x"
@@ -129,7 +128,7 @@ function App() {
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={1}
                   onPointerDown={handleDragStart}
-                  onDragEnd={(e, { offset, velocity }) => {
+                  onDragEnd={(_, { offset, velocity }) => {
                     const swipe = swipePower(offset.x, velocity.x);
                     const currentIndex = allGroups.findIndex(g => g.id === currentGroupId);
 

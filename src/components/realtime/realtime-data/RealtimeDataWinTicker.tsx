@@ -1,4 +1,4 @@
-import React from 'react';
+// React import not required for JSX in React 17+
 import { motion } from 'framer-motion';
 import './realtime-data.css';
 

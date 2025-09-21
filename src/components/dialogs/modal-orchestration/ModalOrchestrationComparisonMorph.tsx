@@ -26,7 +26,7 @@ export function ModalOrchestrationComparisonMorph() {
       opacity: 1,
       transition: {
         duration: 0.312, // 520ms * 0.6 (morph pattern)
-        ease: [0.68, -0.55, 0.265, 1.55] // vibrant easing
+        ease: [0.68, -0.55, 0.265, 1.55] as const // vibrant easing
       }
     }
   };

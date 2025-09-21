@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './modal-dismiss.css';
 
 export function ModalDismissToastDrop() {
   const toastRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const [key, setKey] = useState(0);
+  // Removed unused state
 
   useEffect(() => {
     const toast = toastRef.current;
@@ -27,14 +27,14 @@ export function ModalDismissToastDrop() {
       { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' }
     ];
 
-    const enterAnimation = toast.animate(enterKeyframes, {
+    toast.animate(enterKeyframes, {
       duration: entryDuration,
       easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', // entrance easing
       fill: 'forwards'
     });
 
     // Progress bar animation (scaleX from 1 to 0)
-    const progressAnimation = progress.animate(
+    progress.animate(
       [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
       {
         duration: autoDismissMs,
@@ -63,7 +63,7 @@ export function ModalDismissToastDrop() {
       toast.getAnimations().forEach(anim => anim.cancel());
       progress.getAnimations().forEach(anim => anim.cancel());
     };
-  }, [key]);
+  }, []);
 
   return (
     <div className="pf-toast-preview">

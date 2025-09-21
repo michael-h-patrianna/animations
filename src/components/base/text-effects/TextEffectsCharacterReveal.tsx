@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import './text-effects.css';
 
@@ -71,7 +70,7 @@ export function TextEffectsCharacterReveal() {
               transition={{
                 duration: 0.4,
                 delay: 0.6 + (index * 0.05),
-                ease: [0.25, 0.46, 0.45, 0.94]
+                ease: [0.25, 0.46, 0.45, 0.94] as const
               }}
             >
               {char}

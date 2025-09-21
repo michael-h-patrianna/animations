@@ -5,7 +5,7 @@ export function ProgressBarsZoomedProgress() {
   const [level, setLevel] = useState(1);
   const [levelPoints, setLevelPoints] = useState([0, 0, 0]);
   const [levelReached, setLevelReached] = useState([true, false, false]);
-  const animationRef = useRef<NodeJS.Timeout>();
+  const animationRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     let currentLevel = 1;
