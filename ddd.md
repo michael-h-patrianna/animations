@@ -89,3 +89,25 @@ Pulse: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-4
 remove the animation previews: Lift Arrival, Fade & Blur Soft, Fade & Vertical Shift, Fade with Zoom
 
 
+Treasure chest closed:
+Treasure chest opened:
+Ancient scroll: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-47-utc/Roll Paper.png
+Sack of gold: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-47-utc/Money Bag.png
+Magic book: adventure-game-3d-icon-2024-09-12-17-19-47-utc/Game Book.png
+Treasure map: /Users/Spare/Documents/graphics/adventure-3d-illustration-2024-08-19-16-09-40-utc/Adventure Map.png
+Key: /Users/Spare/Documents/graphics/adventure-game-3d-illustration-2024-09-06-23-38-24-utc/Key.png
+Coin: /Users/Spare/Documents/graphics/adventure-game-3d-illustration-2024-09-06-23-38-24-utc/Game Coins.png
+Potion: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-05-12-38-utc/18 a.png
+Hammer: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-05-12-38-utc/13 a.png
+
+Copy this image of a gift box into our assets:
+/Users/Spare/Documents/graphics/Present box 3D PNG/present_box.png
+
+Use this image for the Bounce animation. Remove the text and the rectangle container from the animation, only animate the image. Do not rewrite anything from the animation or its keyframes itself
+
+
+in the Float animation, get rid of the text and rectangle container, instead use this image of a balloons for the animation:
+/Users/Spare/Documents/graphics/Present box 3D PNG/present_box_balloon.png
+
+cute
+/Users/Spare/Documents/graphics/baby%20animals%20and%20christmas/PNG/1.png
