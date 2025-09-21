@@ -132,12 +132,11 @@ export function ProgressBarsProgressSegmented() {
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="pf-progress-demo pf-progress-segmented"
       data-animation-id="progress-bars__progress-segmented"
     >
-      <div className="pf-progress-demo__label">Level progress</div>
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
           <div className="pf-progress-fill"></div>

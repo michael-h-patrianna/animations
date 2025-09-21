@@ -3,7 +3,7 @@ import './progress-bars.css';
 
 export function ProgressBarsTimelineProgress() {
   const steps = 4;
-  
+
   const containerVariants = {
     initial: {},
     animate: {
@@ -15,12 +15,12 @@ export function ProgressBarsTimelineProgress() {
   };
 
   const stepVariants = {
-    initial: { 
-      scale: 0.9, 
-      opacity: 0.3 
+    initial: {
+      scale: 0.9,
+      opacity: 0.3
     },
-    animate: { 
-      scale: [0.9, 1.06, 1], 
+    animate: {
+      scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
@@ -30,11 +30,11 @@ export function ProgressBarsTimelineProgress() {
   };
 
   const connectorVariants = {
-    initial: { 
+    initial: {
       scaleX: 0,
       opacity: 0.3
     },
-    animate: { 
+    animate: {
       scaleX: 1,
       opacity: 1,
       transition: {
@@ -45,7 +45,7 @@ export function ProgressBarsTimelineProgress() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="pf-timeline-progress"
       variants={containerVariants}
       initial="initial"
@@ -55,7 +55,7 @@ export function ProgressBarsTimelineProgress() {
       <div className="pf-timeline-progress__track">
         {Array.from({ length: steps }, (_, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', flex: index === steps - 1 ? 'none' : '1' }}>
-            <motion.div 
+            <motion.div
               className="pf-timeline-progress__step"
               variants={stepVariants}
               style={{
@@ -67,10 +67,10 @@ export function ProgressBarsTimelineProgress() {
               {index + 1}
             </motion.div>
             {index < steps - 1 && (
-              <motion.div 
+              <motion.div
                 className="pf-timeline-progress__connector"
                 variants={connectorVariants}
-                style={{ 
+                style={{
                   background: 'linear-gradient(90deg, rgba(200, 53, 88, 0.4), rgba(236, 195, 255, 0.2))',
                   transformOrigin: 'left'
                 }}

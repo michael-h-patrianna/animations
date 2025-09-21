@@ -1,0 +1,399 @@
+/* Shared styles for modal-celebrations animations */
+
+.pf-celebration {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 0%, rgba(236, 195, 255, 0.18), rgba(29, 9, 47, 0.92));
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  overflow: hidden;
+}
+
+.pf-celebration__layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pf-celebration__confetti {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.pf-celebration__coin {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--coin-color, linear-gradient(135deg, #ffd966 0%, #ffb300 100%));
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pf-celebration__firework {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.pf-celebration__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px dashed rgba(236, 195, 255, 0.7);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.pf-celebration__beam {
+  position: absolute;
+  bottom: -20%;
+  width: 80px;
+  height: 240px;
+  background: linear-gradient(180deg, rgba(198, 255, 119, 0.5), rgba(198, 255, 119, 0));
+  transform-origin: bottom center;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.pf-celebration__stage {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  width: 140px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)),
+              radial-gradient(circle at 50% 100%, rgba(198, 255, 119, 0.28), rgba(198, 255, 119, 0));
+  transform: translate(-50%, 26px);
+  box-shadow: 0 22px 38px rgba(8, 0, 26, 0.5);
+  overflow: hidden;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.pf-celebration__stage::after {
+  content: '';
+  position: absolute;
+  inset: 18% 18% 36% 18%;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  opacity: 0.85;
+}
+
+.pf-celebration__stage-inner {
+  position: absolute;
+  inset: 28% 24% 42% 24%;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  filter: blur(2px);
+}
+
+.pf-celebration__stage-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 26%;
+  width: 124px;
+  height: 200px;
+  transform: translate(-50%, 24px);
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.pf-celebration__stage-glow--emerald {
+  background: radial-gradient(circle at 50% 0%, rgba(198, 255, 119, 0.9), rgba(198, 255, 119, 0));
+}
+
+.pf-celebration__stage-glow--gold {
+  background: radial-gradient(circle at 50% 0%, rgba(255, 206, 26, 0.92), rgba(255, 206, 26, 0));
+}
+
+.pf-celebration__sparkle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0));
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.pf-celebration__glow {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 206, 26, 0.5), rgba(255, 206, 26, 0));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pf-celebration__pulse {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(236, 195, 255, 0.6);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* CSS Keyframes for celebration animations */
+@keyframes celebration-confetti-burst {
+  0% { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(var(--tx, 0px), var(--ty, -160px)) scale(1) rotate(var(--rot, 0deg)); opacity: 0; }
+}
+
+@keyframes celebration-confetti-fan {
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(var(--tx, 0px), var(--ty, 160px)) scale(1) rotate(var(--rot, 0deg)); opacity: 0; }
+}
+
+@keyframes celebration-confetti-spiral {
+  0% { transform: rotate(var(--angle, 0deg)) translateX(0) scale(0.4); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: rotate(calc(var(--angle, 0deg) + var(--spin, 360deg))) translateX(var(--radius, 120px)) scale(1); opacity: 0; }
+}
+
+@keyframes celebration-confetti-rain {
+  0% { transform: translateY(-160px) translateX(var(--dx, 0px)); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(220px) translateX(calc(var(--dx, 0px) + var(--drift, 0px))); opacity: 0; }
+}
+
+@keyframes celebration-coin-arc {
+  0% { transform: translate(-50%, -50%) translate(0, 0) scale(0.6); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(var(--tx, 0px), var(--ty, -140px)) scale(1); opacity: 0; }
+}
+
+@keyframes celebration-coin-fountain {
+  0% { transform: translate(-50%, -50%) translate(0, 0) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  60% { transform: translate(-50%, -50%) translate(var(--tx, 0px), var(--ty, -160px)) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(calc(var(--tx, 0px) * 0.6), -20px) scale(0.7); opacity: 0; }
+}
+
+@keyframes celebration-coin-swirl {
+  0% { transform: translate(-50%, -50%) rotate(var(--start-angle, 0deg)) translateX(0) scale(0.5); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) rotate(calc(var(--start-angle, 0deg) + var(--spin, 360deg))) translateX(var(--radius, 90px)) scale(1); opacity: 0; }
+}
+
+@keyframes celebration-firework-pop {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(var(--scale, 1.6)); opacity: 0; }
+}
+
+@keyframes celebration-firework-ring {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+  20% { opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(var(--scale, 2.6)); opacity: 0; }
+}
+
+@keyframes celebration-spotlight {
+  0% { transform: rotate(var(--rotate, 0deg)) scaleY(0.2) translateY(36px); opacity: 0; }
+  35% { opacity: var(--beam-opacity, 0.95); }
+  70% { transform: rotate(calc(var(--rotate, 0deg) + var(--swing, 8deg))) scaleY(1.05) translateY(0); opacity: var(--beam-opacity, 0.95); }
+  100% { transform: rotate(calc(var(--rotate, 0deg) + var(--swing, 6deg))) scaleY(0.9) translateY(0); opacity: 0; }
+}
+
+@keyframes celebration-stage-rise {
+  0% { transform: translate(-50%, 30px) scale(0.6); opacity: 0; }
+  60% { transform: translate(-50%, 4px) scale(1.04); opacity: 1; }
+  100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+}
+
+@keyframes celebration-stage-glow {
+  0% { transform: translate(-50%, 24px) scale(0.7); opacity: 0; }
+  40% { opacity: 0.85; }
+  100% { transform: translate(-50%, 0) scale(1); opacity: 0.35; }
+}
+
+@keyframes celebration-sparkle-rise {
+  0% { transform: translate(-50%, -20%) scale(0.6); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translate(-50%, -80%) scale(1.3); opacity: 0; }
+}
+
+@keyframes celebration-sparkle-pop {
+  0% { transform: translate(-50%, -40%) scale(0.4); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(-50%, -120%) scale(1.4); opacity: 0; }
+}
+
+@keyframes celebration-jackpot-glow {
+  0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.8); }
+  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+  100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes celebration-pulse {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; }
+}
+
+/* Coin Trail Animation */
+.pf-coin-trail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-coin-trail__coin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  border: 2px solid #ffb300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: #b8860b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pf-coin-trail__coin::before {
+  content: '$';
+}
+
+/* Coin Cascade Animation */
+.pf-coin-cascade {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-coin-cascade__coin {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  border: 2px solid #ffb300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: bold;
+  color: #b8860b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pf-coin-cascade__coin::before {
+  content: '💰';
+}
+
+/* Multi Coin Animation */
+.pf-multi-coin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-multi-coin__group {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+}
+
+.pf-multi-coin__coin {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  border: 1.5px solid #ffb300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: bold;
+  color: #b8860b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pf-multi-coin__coin::before {
+  content: '$';
+}
+
+/* Treasure Particles Animation */
+.pf-treasure-particles {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pf-treasure-particles__particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #ffd700, #ffb300);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+.pf-treasure-particles__gem {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  transform: rotate(0deg);
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
+/* Create diamond shape using border and transform instead of clip-path */
+.pf-treasure-particles__gem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 8px solid #ff6b6b;
+  transform: translateX(-50%);
+}
+
+.pf-treasure-particles__gem::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 4px solid #ee5a52;
+  transform: translateX(-50%);
+}

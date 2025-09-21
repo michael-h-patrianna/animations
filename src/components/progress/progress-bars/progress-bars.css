@@ -169,35 +169,6 @@
 }
 
 
-/* Spark */
-.pf-progress-spark .pf-progress-fill {
-  animation: pf-progress-fill var(--pf-progress-duration-lg) cubic-bezier(0.34, 1.25, 0.64, 1) forwards;
-  overflow: visible;
-}
-
-.pf-progress-spark .pf-progress-spark-trail {
-  position: absolute;
-  top: -2px;
-  right: -4px;
-  width: 8px;
-  height: calc(100% + 4px);
-  background: linear-gradient(90deg, transparent 0%, var(--pf-progress-accent) 50%, transparent 100%);
-  border-radius: 2px;
-  opacity: 0;
-  animation: pf-progress-spark-trail var(--pf-progress-duration-lg) ease-out forwards;
-}
-
-/* Add soft glow effect using pseudo-element instead of blur */
-.pf-progress-spark .pf-progress-spark-trail::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(198, 255, 119, 0.3) 50%, transparent 100%);
-  border-radius: 3px;
-  opacity: 0.7;
-}
-
-
 /* Animation states */
 .pf-progress-demo.animate .pf-progress-fill {
   animation-play-state: running;
@@ -254,4 +225,2325 @@
   height: 2px;
   background: rgba(236, 195, 255, 0.16);
   border-radius: 1px;
+}
+
+/* Achievement Unlocked Progress */
+@keyframes pf-achievement-progress {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+.pf-achievement-unlocked .pf-progress-demo {
+  height: 100px;
+}
+
+.pf-achievement-container {
+  position: relative;
+  width: 100%;
+}
+
+.pf-achievement-badges {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  pointer-events: none;
+}
+
+.pf-achievement-badge-container {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pf-achievement-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 2px solid;
+  position: relative;
+  z-index: 2;
+}
+
+.pf-achievement-badge--bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #b8860b 100%);
+  border-color: #daa520;
+  box-shadow: 0 2px 8px rgba(205, 127, 50, 0.4);
+}
+
+.pf-achievement-badge--silver {
+  background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
+  border-color: #d3d3d3;
+  box-shadow: 0 2px 8px rgba(192, 192, 192, 0.4);
+}
+
+.pf-achievement-badge--gold {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  border-color: #fff700;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+}
+
+.pf-achievement-badge--platinum {
+  background: linear-gradient(135deg, #e5e4e2 0%, #b6b6b4 100%);
+  border-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(229, 228, 226, 0.6);
+}
+
+.pf-achievement-badge__icon {
+  display: block;
+  line-height: 1;
+}
+
+.pf-achievement-badge__label {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+/* Particle effects */
+.pf-achievement-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pf-achievement-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(198, 255, 119, 0.6) 100%);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.pf-achievement-particle-0 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+}
+
+.pf-achievement-particle-1 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) translateX(8px);
+}
+
+.pf-achievement-particle-2 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+}
+
+.pf-achievement-particle-3 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) translateX(-8px);
+}
+
+.pf-achievement-particle-4 {
+  top: 25%;
+  right: 25%;
+  transform: translateX(6px) translateY(-6px);
+}
+
+.pf-achievement-particle-5 {
+  bottom: 25%;
+  left: 25%;
+  transform: translateX(-6px) translateY(6px);
+}
+
+/* Level Progression Styles */
+.pf-level-progression .pf-progress-demo {
+  height: 140px;
+}
+
+.pf-level-xp-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.pf-level-xp-number {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pf-progress-accent);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+}
+
+.pf-level-current {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(196, 122, 229, 0.15);
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(196, 122, 229, 0.3);
+}
+
+.pf-level-container {
+  position: relative;
+  width: 100%;
+}
+
+.pf-level-progress-track {
+  height: 8px;
+  margin-bottom: 8px;
+}
+
+.pf-level-progress-fill {
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.pf-level-badges {
+  position: relative;
+  height: 60px;
+  width: 100%;
+}
+
+.pf-level-badge-container {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pf-level-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, rgba(68, 68, 68, 0.8) 0%, rgba(51, 51, 51, 0.9) 100%);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.pf-level-badge--active {
+  border-color: var(--pf-progress-accent);
+  background: linear-gradient(135deg, rgba(196, 122, 229, 0.9) 0%, rgba(215, 154, 243, 0.8) 100%);
+}
+
+.pf-level-badge__icon {
+  font-size: 12px;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+.pf-level-badge__number {
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1;
+}
+
+.pf-level-badge__label {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.pf-level-badge__xp {
+  font-size: 7px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  text-align: center;
+  margin-top: 1px;
+}
+
+/* Burst particle effects */
+.pf-level-burst-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pf-level-burst-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(198, 255, 119, 1) 0%, rgba(196, 122, 229, 0.8) 100%);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.pf-level-burst-particle-0 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-12px);
+}
+
+.pf-level-burst-particle-1 {
+  top: 25%;
+  right: 0;
+  transform: translateY(-50%) translateX(8px) translateY(-6px);
+}
+
+.pf-level-burst-particle-2 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) translateX(12px);
+}
+
+.pf-level-burst-particle-3 {
+  bottom: 25%;
+  right: 0;
+  transform: translateY(50%) translateX(8px) translateY(6px);
+}
+
+.pf-level-burst-particle-4 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+}
+
+.pf-level-burst-particle-5 {
+  bottom: 25%;
+  left: 0;
+  transform: translateY(50%) translateX(-8px) translateY(6px);
+}
+
+.pf-level-burst-particle-6 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) translateX(-12px);
+}
+
+.pf-level-burst-particle-7 {
+  top: 25%;
+  left: 0;
+  transform: translateY(-50%) translateX(-8px) translateY(-6px);
+}
+
+/* Keyframe animations for level progression */
+@keyframes pf-level-xp-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pf-level-badge-glow {
+  0% {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transform: scale(0.8);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(198, 255, 119, 0.4);
+    transform: scale(1.1);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(198, 255, 119, 0.3);
+    transform: scale(1);
+  }
+}
+
+@keyframes pf-level-burst-particle {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Quest Completion Styles */
+.pf-quest-completion .pf-progress-demo {
+  height: 140px;
+}
+
+.pf-quest-container {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-quest-path {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 60px;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.pf-quest-objectives {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.pf-quest-objective-container {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pf-quest-objective {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8B4513 0%, #CD853F 100%);
+  border: 3px solid #FFD700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+  position: relative;
+  z-index: 3;
+}
+
+.pf-quest-objective__icon {
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.pf-quest-objective__label {
+  font-size: 10px;
+  color: #FFD700;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  margin-top: 2px;
+}
+
+.pf-quest-objective__description {
+  font-size: 8px;
+  color: rgba(255, 215, 0, 0.8);
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+.pf-quest-treasure {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 4;
+}
+
+.pf-quest-treasure__icon {
+  font-size: 24px;
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.pf-quest-treasure__label {
+  font-size: 10px;
+  color: #FFD700;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.9) 0%, rgba(205, 133, 63, 0.8) 100%);
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  white-space: nowrap;
+}
+
+/* XP Accumulation Styles */
+:root {
+  --pf-xp-primary: #00CED1;
+  --pf-xp-secondary: #00FFFF;
+  --pf-xp-accent: #1E90FF;
+  --pf-xp-zone: rgba(0, 206, 209, 0.15);
+}
+
+.pf-xp-accumulation .pf-progress-demo {
+  height: 100px;
+}
+
+.pf-xp-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.pf-xp-number {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pf-xp-secondary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  display: inline-block;
+}
+
+.pf-xp-multiplier {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pf-xp-accent);
+  background: linear-gradient(135deg, rgba(30, 144, 255, 0.2) 0%, rgba(0, 255, 255, 0.15) 100%);
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(30, 144, 255, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(30, 144, 255, 0.3);
+}
+
+.pf-xp-container {
+  position: relative;
+  width: 100%;
+}
+
+.pf-xp-progress-track {
+  height: 14px;
+  background: rgba(0, 206, 209, 0.1);
+  border: 1px solid rgba(0, 206, 209, 0.2);
+  margin-bottom: 8px;
+}
+
+.pf-xp-progress-fill {
+  transform-origin: left center;
+  will-change: transform;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.pf-xp-zone {
+  position: absolute;
+  top: -8px;
+  transform: translateX(-50%);
+  width: 2px;
+  height: calc(100% + 16px);
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 255, 255, 0.6) 20%, rgba(0, 255, 255, 0.6) 80%, transparent 100%);
+  border-radius: 1px;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.pf-xp-zone--active {
+  opacity: 1;
+  background: linear-gradient(to bottom, transparent 0%, rgba(30, 144, 255, 0.8) 20%, rgba(30, 144, 255, 0.8) 80%, transparent 100%);
+  box-shadow: 0 0 8px rgba(30, 144, 255, 0.4);
+}
+
+.pf-xp-zone__label {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(0, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.pf-xp-zone--active .pf-xp-zone__label {
+  color: rgba(30, 144, 255, 1);
+  border-color: rgba(30, 144, 255, 0.5);
+  box-shadow: 0 2px 6px rgba(30, 144, 255, 0.3);
+}
+
+/* XP Orb Styles */
+.pf-xp-orb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pf-xp-orb__glow {
+  position: absolute;
+  inset: -4px;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.4) 0%, rgba(0, 206, 209, 0.2) 50%, transparent 100%);
+  border-radius: 50%;
+  animation: pf-xp-orb-pulse 0.8s ease-in-out infinite alternate;
+}
+
+.pf-xp-orb__core {
+  position: relative;
+  z-index: 2;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--pf-xp-primary) 0%, var(--pf-xp-secondary) 100%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 206, 209, 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Floating XP Styles */
+.pf-xp-floating {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pf-xp-accent);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 6px rgba(30, 144, 255, 0.4);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* XP Orb Pulse Animation */
+@keyframes pf-xp-orb-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+/* Trophy Collection Styles */
+.pf-trophy-collection .pf-progress-demo {
+  height: 140px;
+}
+
+.pf-trophy-container {
+  position: relative;
+  width: 100%;
+}
+
+.pf-trophy-progress-fill {
+  background: linear-gradient(90deg, #cd7f32 0%, #ffd700 25%, #c0c0c0 50%, #e5e4e2 75%, #b9f2ff 100%);
+}
+
+.pf-trophy-shelf {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+}
+
+.pf-trophy-slot {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pf-trophy-pedestal {
+  width: 20px;
+  height: 16px;
+  border-radius: 2px 2px 4px 4px;
+  position: relative;
+  transform-origin: bottom center;
+  will-change: transform;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pf-trophy-pedestal::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 3px;
+  background: inherit;
+  border-radius: 4px 4px 0 0;
+  filter: brightness(1.2);
+}
+
+.pf-trophy-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  will-change: transform;
+}
+
+.pf-trophy-icon {
+  font-size: 24px;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  will-change: transform;
+}
+
+.pf-trophy-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.6) 45%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 55%, transparent 100%);
+  border-radius: 50%;
+  animation: pf-trophy-shine 1.2s ease-out;
+  pointer-events: none;
+}
+
+.pf-trophy-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-top: 2px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.pf-trophy-confetti {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pf-trophy-confetti-piece {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  will-change: transform;
+}
+
+.pf-trophy-confetti-bronze { background: linear-gradient(45deg, #cd7f32, #b8860b); }
+.pf-trophy-confetti-silver { background: linear-gradient(45deg, #c0c0c0, #e6e6fa); }
+.pf-trophy-confetti-gold { background: linear-gradient(45deg, #ffd700, #ffed4e); }
+.pf-trophy-confetti-platinum { background: linear-gradient(45deg, #e5e4e2, #f0f8ff); }
+.pf-trophy-confetti-diamond { background: linear-gradient(45deg, #b9f2ff, #7dd3fc); }
+
+/* Trophy Collection Animations */
+@keyframes pf-trophy-progress {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes pf-trophy-shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Mission Checkpoints Styles */
+.pf-mission-checkpoints .pf-progress-demo {
+  height: 120px;
+}
+
+/* Track container layout for mission checkpoints */
+.pf-mission-checkpoints .track-container {
+  position: relative;
+  min-height: 80px;
+}
+
+.pf-mission-checkpoints .pf-progress-track {
+  margin-top: 20px;
+}
+
+.pf-mission-checkpoint-container {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pf-mission-checkpoint {
+  background: rgba(196, 122, 229, 0.85) !important;
+  border: 2px solid rgba(215, 154, 243, 0.6) !important;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.pf-mission-checkpoint-label {
+  font-family: 'Courier New', monospace !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.3s ease !important;
+}
+
+.pf-mission-status {
+  font-family: 'Courier New', monospace !important;
+  letter-spacing: 1px !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid rgba(215, 154, 243, 0.5) !important;
+  transition: all 0.3s ease !important;
+}
+
+.pf-mission-static {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    rgba(215, 154, 243, 0.06) 1px,
+    transparent 2px
+  ) !important;
+  animation: pf-mission-static-flicker 0.1s linear infinite !important;
+}
+
+/* Military checkpoint keyframes */
+@keyframes pf-mission-checkpoint-secure {
+  0% {
+    transform: rotate(45deg) scale(0.82);
+    background: rgba(196, 122, 229, 0.85);
+  }
+  50% {
+    transform: rotate(45deg) scale(1.16);
+    background: linear-gradient(135deg, var(--pf-progress-primary) 0%, var(--pf-progress-secondary) 100%);
+  }
+  100% {
+    transform: rotate(45deg) scale(1.06);
+    background: linear-gradient(135deg, var(--pf-progress-primary) 0%, var(--pf-progress-secondary) 100%);
+  }
+}
+
+@keyframes pf-mission-static-flicker {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes pf-mission-signal-activate {
+  0% {
+    background: rgba(196, 122, 229, 0.25);
+    box-shadow: none;
+  }
+  100% {
+    background: #d79af3;
+    box-shadow: 0 0 6px rgba(215, 154, 243, 0.6);
+  }
+}
+
+@keyframes pf-mission-status-pulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    background: rgba(0, 0, 0, 0.8);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+    background: rgba(198, 255, 119, 0.08);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    background: rgba(198, 255, 119, 0.08);
+  }
+}
+
+/* Skill Mastery Styles */
+:root {
+  --pf-skill-novice: #663399;
+  --pf-skill-apprentice: #8B4789;
+  --pf-skill-journeyman: #B8860B;
+  --pf-skill-master: #FFD700;
+  --pf-skill-particle: rgba(255, 215, 0, 0.8);
+}
+
+.pf-skill-mastery .pf-progress-demo {
+  height: 140px;
+}
+
+.pf-skill-mastery-container {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Skill Unlocked Notification */
+.pf-skill-unlocked-notification {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+}
+
+.pf-skill-unlocked-text {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pf-skill-master);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 8px rgba(255, 215, 0, 0.4);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.pf-skill-unlocked-tier {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(135deg, var(--pf-skill-novice) 0%, var(--pf-skill-master) 100%);
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Progress track with skill branches */
+.pf-skill-progress-track {
+  height: 16px;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, rgba(102, 51, 153, 0.1) 0%, rgba(255, 215, 0, 0.1) 100%);
+  border: 1px solid rgba(102, 51, 153, 0.2);
+}
+
+.pf-skill-progress-fill {
+  transform-origin: left center;
+  will-change: transform;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.1),
+    0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Skill tree branches */
+.pf-skill-branch {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 24px;
+  background: linear-gradient(to bottom,
+    rgba(255, 215, 0, 0.2) 0%,
+    rgba(255, 215, 0, 0.6) 50%,
+    rgba(255, 215, 0, 0.2) 100%
+  );
+  border-radius: 1px;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+/* Skill tiers container */
+.pf-skill-tiers {
+  position: relative;
+  width: 100%;
+  height: 80px;
+}
+
+.pf-skill-tier-container {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Skill tier marker */
+.pf-skill-tier {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(102, 51, 153, 0.3) 0%, rgba(139, 71, 137, 0.4) 100%);
+  border: 2px solid rgba(102, 51, 153, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pf-skill-tier--unlocked {
+  background: linear-gradient(135deg, var(--pf-skill-novice) 0%, var(--pf-skill-master) 100%);
+  border-color: var(--pf-skill-master);
+  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+}
+
+.pf-skill-tier-icon {
+  font-size: 20px;
+  line-height: 1;
+  margin-bottom: 2px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Star rating system */
+.pf-skill-stars {
+  display: flex;
+  gap: 1px;
+  margin-top: 2px;
+}
+
+.pf-skill-star {
+  font-size: 8px;
+  color: var(--pf-skill-master);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  line-height: 1;
+  transform-origin: center;
+}
+
+/* Skill tier labels */
+.pf-skill-tier-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 4px;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.pf-skill-tier-progress {
+  font-size: 8px;
+  color: rgba(255, 215, 0, 0.7);
+  font-weight: 500;
+  text-align: center;
+  margin-top: 1px;
+}
+
+/* Sparkle particles */
+.pf-skill-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pf-skill-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, var(--pf-skill-particle) 0%, rgba(255, 215, 0, 0.4) 100%);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.pf-skill-particle-0 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pf-skill-particle-1 {
+  top: 25%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.pf-skill-particle-2 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.pf-skill-particle-3 {
+  bottom: 25%;
+  right: 0;
+  transform: translateY(50%);
+}
+
+.pf-skill-particle-4 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pf-skill-particle-5 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Keyframe animations for skill mastery */
+@keyframes pf-skill-tier-unlock {
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 8px 24px rgba(255, 215, 0, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+  }
+}
+
+@keyframes pf-skill-star-sparkle {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.3) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes pf-skill-branch-glow {
+  0% {
+    box-shadow: none;
+    opacity: 0.3;
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    opacity: 1;
+  }
+}
+
+@keyframes pf-skill-particle-burst {
+  0% {
+    transform: scale(0) translateY(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1) translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) translateY(-40px);
+    opacity: 0;
+  }
+}
+
+/* Battle Pass Tiers Styles */
+:root {
+  --pf-battle-pass-gray: #6B7280;
+  --pf-battle-pass-blue: #3B82F6;
+  --pf-battle-pass-purple: #8B5CF6;
+  --pf-battle-pass-orange: #F97316;
+  --pf-battle-pass-gold: #F59E0B;
+  --pf-battle-pass-premium: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+}
+
+.pf-battle-pass-tiers .pf-progress-demo {
+  height: 160px;
+}
+
+.pf-battle-pass-container {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Premium track indicator */
+.pf-battle-pass-premium-container {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  margin-bottom: 8px;
+}
+
+.pf-battle-pass-premium-label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--pf-battle-pass-gold);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.pf-battle-pass-premium-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.2) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  transform-origin: left center;
+  will-change: transform;
+  transform: scaleX(0);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+/* Main battle pass track */
+.pf-battle-pass-track {
+  width: 100%;
+  height: 16px;
+  border-radius: 8px;
+  background: rgba(107, 114, 128, 0.2);
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.pf-battle-pass-fill {
+  height: 100%;
+  background: linear-gradient(90deg,
+    var(--pf-battle-pass-gray) 0%,
+    var(--pf-battle-pass-blue) 25%,
+    var(--pf-battle-pass-purple) 50%,
+    var(--pf-battle-pass-orange) 75%,
+    var(--pf-battle-pass-gold) 100%
+  );
+  border-radius: inherit;
+  transform-origin: left center;
+  position: relative;
+  transform: scaleX(0);
+  will-change: transform;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Tier unlocked banner */
+.pf-battle-pass-banner {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(139, 92, 246, 0.2) 100%);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 2px solid var(--pf-battle-pass-gold);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+}
+
+.pf-battle-pass-banner__text {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--pf-battle-pass-gold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: 1.5px;
+  margin-bottom: 2px;
+}
+
+.pf-battle-pass-banner__tier {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Tier rewards container */
+.pf-battle-pass-rewards {
+  position: relative;
+  width: 100%;
+  height: 80px;
+}
+
+.pf-battle-pass-tier-container {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Reward boxes */
+.pf-battle-pass-reward {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+  border: 3px solid;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.pf-battle-pass-reward--gray {
+  border-color: var(--pf-battle-pass-gray);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2);
+}
+
+.pf-battle-pass-reward--blue {
+  border-color: var(--pf-battle-pass-blue);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.pf-battle-pass-reward--purple {
+  border-color: var(--pf-battle-pass-purple);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.pf-battle-pass-reward--orange {
+  border-color: var(--pf-battle-pass-orange);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+}
+
+.pf-battle-pass-reward--gold {
+  border-color: var(--pf-battle-pass-gold);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.5);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.pf-battle-pass-reward__icon {
+  font-size: 20px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  will-change: transform;
+}
+
+/* Flash effects */
+.pf-battle-pass-flash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pf-battle-pass-flash--blue {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, transparent 70%);
+}
+
+.pf-battle-pass-flash--purple {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.6) 0%, transparent 70%);
+}
+
+.pf-battle-pass-flash--orange {
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.6) 0%, transparent 70%);
+}
+
+.pf-battle-pass-flash--gold {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.8) 0%, transparent 70%);
+}
+
+/* Tier labels */
+.pf-battle-pass-tier-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease;
+}
+
+.pf-battle-pass-tier-label--unlocked {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Legendary explosion particles */
+.pf-battle-pass-legendary-explosion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pf-battle-pass-explosion-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, var(--pf-battle-pass-gold) 0%, rgba(245, 158, 11, 0.4) 100%);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.pf-battle-pass-explosion-particle-0 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+}
+
+.pf-battle-pass-explosion-particle-1 {
+  top: 25%;
+  right: 0;
+  transform: translateY(-50%) translateX(14px) translateY(-14px);
+}
+
+.pf-battle-pass-explosion-particle-2 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) translateX(20px);
+}
+
+.pf-battle-pass-explosion-particle-3 {
+  bottom: 25%;
+  right: 0;
+  transform: translateY(50%) translateX(14px) translateY(14px);
+}
+
+.pf-battle-pass-explosion-particle-4 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+}
+
+.pf-battle-pass-explosion-particle-5 {
+  bottom: 25%;
+  left: 0;
+  transform: translateY(50%) translateX(-14px) translateY(14px);
+}
+
+.pf-battle-pass-explosion-particle-6 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) translateX(-20px);
+}
+
+.pf-battle-pass-explosion-particle-7 {
+  top: 25%;
+  left: 0;
+  transform: translateY(-50%) translateX(-14px) translateY(-14px);
+}
+
+/* Battle Pass Keyframe Animations */
+@keyframes pf-battle-pass-progress {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes pf-battle-pass-premium {
+  0% {
+    transform: scaleX(0);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+  }
+  100% {
+    transform: scaleX(1);
+    box-shadow: 0 0 16px rgba(255, 215, 0, 0.4);
+  }
+}
+
+/* Daily Streak Styles */
+:root {
+  --pf-streak-orange: #FF6B35;
+  --pf-streak-red: #FF4500;
+  --pf-streak-crimson: #DC143C;
+  --pf-streak-dark-red: #8B0000;
+  --pf-streak-gold: #FFD700;
+}
+
+.pf-daily-streak .pf-progress-demo {
+  height: 140px;
+}
+
+.pf-daily-streak-track {
+  height: 14px;
+  background: linear-gradient(90deg, rgba(255, 107, 53, 0.1) 0%, rgba(139, 0, 0, 0.1) 100%);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.pf-daily-streak-fill {
+  background: linear-gradient(90deg, var(--pf-streak-orange) 0%, var(--pf-streak-red) 25%, var(--pf-streak-crimson) 75%, var(--pf-streak-dark-red) 100%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1), 0 0 8px rgba(255, 107, 53, 0.3);
+}
+
+.pf-daily-streak-day-container {
+  transition: all 0.3s ease;
+}
+
+.pf-daily-streak-tile {
+    -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
+}
+
+.pf-daily-streak-checkmark {
+  will-change: transform, opacity;
+}
+
+.pf-daily-streak-fire-container {
+  transition: all 0.3s ease;
+}
+
+.pf-daily-streak-fire {
+  will-change: transform, filter;
+  animation: pf-daily-streak-fire-flicker 2s ease-in-out infinite alternate;
+}
+
+.pf-daily-streak-milestone {
+  transition: all 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.pf-daily-streak-particles {
+  pointer-events: none;
+}
+
+.pf-daily-streak-particle {
+  will-change: transform, opacity;
+}
+
+.pf-daily-streak-label {
+  transition: all 0.3s ease;
+}
+
+/* Daily Streak Keyframe Animations */
+@keyframes pf-daily-streak-progress {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes pf-daily-streak-fire-flicker {
+  0% {
+    filter: drop-shadow(0 2px 8px rgba(255, 69, 0, 0.6)) brightness(1);
+  }
+  50% {
+    filter: drop-shadow(0 2px 12px rgba(255, 107, 53, 0.8)) brightness(1.1);
+  }
+  100% {
+    filter: drop-shadow(0 2px 8px rgba(255, 69, 0, 0.6)) brightness(1);
+  }
+}
+
+@keyframes pf-daily-streak-tile-flip {
+  0% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotateY(90deg) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotateY(180deg) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes pf-daily-streak-checkmark-reveal {
+  0% {
+    transform: rotateY(180deg) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pf-daily-streak-milestone-popup {
+  0% {
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-50%) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pf-daily-streak-particle-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Boss Phases Styles */
+:root {
+  --pf-boss-health-green: #4ade80;
+  --pf-boss-health-yellow: #fbbf24;
+  --pf-boss-health-orange: #f97316;
+  --pf-boss-health-red: #ef4444;
+  --pf-boss-critical: #dc2626;
+  --pf-boss-defeat: #7c3aed;
+}
+
+.pf-boss-phases .pf-progress-demo {
+  height: 160px;
+}
+
+.pf-boss-container {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Boss Health Bar */
+.pf-boss-health-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.pf-boss-health-track {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid rgba(239, 68, 68, 0.2);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pf-boss-health-track--critical {
+  border-color: var(--pf-boss-critical);
+  animation: pf-boss-critical-pulse 0.5s ease-in-out infinite alternate;
+}
+
+.pf-boss-health-bar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    var(--pf-boss-health-green) 0%,
+    var(--pf-boss-health-green) 25%,
+    var(--pf-boss-health-yellow) 25%,
+    var(--pf-boss-health-yellow) 50%,
+    var(--pf-boss-health-orange) 50%,
+    var(--pf-boss-health-orange) 75%,
+    var(--pf-boss-health-red) 75%,
+    var(--pf-boss-health-red) 100%
+  );
+  border-radius: inherit;
+  transform-origin: left center;
+  will-change: transform, filter;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    0 0 8px rgba(239, 68, 68, 0.3);
+  position: relative;
+}
+
+.pf-boss-health-bar--critical {
+  background: linear-gradient(90deg, var(--pf-boss-critical) 0%, var(--pf-boss-health-red) 100%);
+  animation: pf-boss-critical-health-pulse 0.3s ease-in-out infinite alternate;
+}
+
+/* Health segments dividers */
+.pf-boss-health-segments {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.pf-boss-health-segment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+}
+
+/* Health text display */
+.pf-boss-health-text {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.pf-boss-health-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.pf-boss-health-label--critical {
+  color: var(--pf-boss-critical);
+  animation: pf-boss-critical-text-pulse 0.5s ease-in-out infinite alternate;
+}
+
+/* Phase banners */
+.pf-boss-phase-banner {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(239, 68, 68, 0.2) 100%);
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: 2px solid var(--pf-boss-health-red);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.5);
+}
+
+.pf-boss-phase-banner__text {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--pf-boss-health-red);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: 1.5px;
+  margin-bottom: 2px;
+}
+
+.pf-boss-phase-banner__phase {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Boss defeat banner */
+.pf-boss-defeat-banner {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(124, 58, 237, 0.3) 100%);
+  padding: 12px 24px;
+  border-radius: 16px;
+  border: 3px solid var(--pf-boss-defeat);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.6);
+}
+
+.pf-boss-defeat-banner__text {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--pf-boss-defeat);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.pf-boss-defeat-banner__explosion {
+  font-size: 20px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Phase indicators container */
+.pf-boss-phases-container {
+  position: relative;
+  width: 100%;
+  height: 80px;
+}
+
+.pf-boss-phase-container {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Phase icons */
+.pf-boss-phase-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.9) 100%);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  position: relative;
+  z-index: 3;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, border-color, background;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.pf-boss-phase-icon--shield {
+  border-color: var(--pf-boss-health-green);
+}
+
+.pf-boss-phase-icon--sword {
+  border-color: var(--pf-boss-health-yellow);
+}
+
+.pf-boss-phase-icon--fire {
+  border-color: var(--pf-boss-health-orange);
+}
+
+.pf-boss-phase-icon--final {
+  border-color: var(--pf-boss-health-red);
+}
+
+/* Phase labels */
+.pf-boss-phase-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease;
+}
+
+.pf-boss-phase-label--active {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Damage effect overlay */
+.pf-boss-damage-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.6) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Victory explosion particles */
+.pf-boss-victory-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pf-boss-victory-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, var(--pf-boss-defeat) 0%, rgba(124, 58, 237, 0.4) 100%);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+.pf-boss-victory-particle-0 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+}
+
+.pf-boss-victory-particle-1 {
+  top: 25%;
+  right: 0;
+  transform: translateY(-50%) translateX(14px) translateY(-14px);
+}
+
+.pf-boss-victory-particle-2 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%) translateX(20px);
+}
+
+.pf-boss-victory-particle-3 {
+  bottom: 25%;
+  right: 0;
+  transform: translateY(50%) translateX(14px) translateY(14px);
+}
+
+.pf-boss-victory-particle-4 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+}
+
+.pf-boss-victory-particle-5 {
+  bottom: 25%;
+  left: 0;
+  transform: translateY(50%) translateX(-14px) translateY(14px);
+}
+
+.pf-boss-victory-particle-6 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) translateX(-20px);
+}
+
+.pf-boss-victory-particle-7 {
+  top: 25%;
+  left: 0;
+  transform: translateY(-50%) translateX(-14px) translateY(-14px);
+}
+
+/* Boss Battle Keyframe Animations */
+@keyframes pf-boss-critical-pulse {
+  0% {
+    border-color: var(--pf-boss-critical);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 8px rgba(220, 38, 38, 0.4);
+  }
+  100% {
+    border-color: var(--pf-boss-health-red);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 16px rgba(220, 38, 38, 0.8);
+  }
+}
+
+@keyframes pf-boss-critical-health-pulse {
+  0% {
+    box-shadow:
+      inset 0 1px 2px rgba(255, 255, 255, 0.2),
+      0 0 8px rgba(239, 68, 68, 0.3);
+  }
+  100% {
+    box-shadow:
+      inset 0 1px 2px rgba(255, 255, 255, 0.2),
+      0 0 16px rgba(220, 38, 38, 0.8);
+  }
+}
+
+@keyframes pf-boss-critical-text-pulse {
+  0% {
+    color: var(--pf-boss-critical);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    color: var(--pf-boss-health-red);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 8px rgba(220, 38, 38, 0.6);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .pf-achievement-badge {
+    transition: opacity 0.2s ease;
+  }
+
+  .pf-achievement-particles {
+    display: none;
+  }
+
+  .pf-level-burst-particles {
+    display: none;
+  }
+
+  .pf-level-xp-number {
+    transition: none;
+  }
+
+  .pf-level-badge {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-quest-objective {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-quest-treasure {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .pf-xp-orb__glow {
+    animation: none;
+    opacity: 0.4;
+  }
+
+  .pf-xp-multiplier {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-xp-zone {
+    transition: opacity 0.2s ease;
+  }
+
+  .pf-mission-checkpoint-container {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-mission-checkpoint {
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+  }
+
+  .pf-mission-status {
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+  }
+
+  .pf-mission-static {
+    animation: none !important;
+    opacity: 0.2 !important;
+  }
+
+  /* Skill mastery reduced motion */
+  .pf-skill-particles {
+    display: none;
+  }
+
+  .pf-skill-tier {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-skill-branch {
+    transition: opacity 0.2s ease;
+  }
+
+  .pf-skill-unlocked-notification {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  /* Battle pass reduced motion */
+  .pf-battle-pass-legendary-explosion {
+    display: none;
+  }
+
+  .pf-battle-pass-flash {
+    display: none;
+  }
+
+  .pf-battle-pass-banner {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-battle-pass-reward {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-battle-pass-premium-track {
+    transition: transform 0.3s ease;
+  }
+
+  /* Daily streak reduced motion */
+  .pf-daily-streak-particles {
+    display: none;
+  }
+
+  .pf-daily-streak-fire {
+    animation: none;
+    filter: drop-shadow(0 2px 8px rgba(255, 69, 0, 0.6));
+  }
+
+  .pf-daily-streak-tile,
+  .pf-daily-streak-checkmark {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-daily-streak-milestone {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  /* Boss phases reduced motion */
+  .pf-boss-health-track--critical {
+    animation: none;
+    border-color: var(--pf-boss-critical);
+  }
+
+  .pf-boss-health-bar--critical {
+    animation: none;
+  }
+
+  .pf-boss-health-label--critical {
+    animation: none;
+    color: var(--pf-boss-critical);
+  }
+
+  .pf-boss-damage-overlay {
+    display: none;
+  }
+
+  .pf-boss-victory-particles {
+    display: none;
+  }
+
+  .pf-boss-phase-banner,
+  .pf-boss-defeat-banner {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pf-boss-phase-icon {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  @keyframes pf-achievement-progress {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+  }
+
+  @keyframes pf-level-xp-bounce {
+    0%, 100% { transform: scale(1); }
+  }
+
+  @keyframes pf-level-badge-glow {
+    0%, 100% {
+      box-shadow: 0 4px 12px rgba(198, 255, 119, 0.3);
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pf-skill-tier-unlock {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+    }
+  }
+
+  @keyframes pf-skill-star-sparkle {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pf-daily-streak-fire-flicker {
+    0%, 100% {
+      filter: drop-shadow(0 2px 8px rgba(255, 69, 0, 0.6));
+    }
+  }
+}
+
+
+/* Zoomed Progress Animation */
+.pf-zoomed-progress {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: background-color 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.pf-zoomed-progress.level-1 {
+  background-color: #00bbe8;
+}
+
+.pf-zoomed-progress.level-2 {
+  background-color: #C2B313;
+}
+
+.pf-zoomed-progress.level-3 {
+  background-color: #EC1865;
+}
+
+.pf-zoomed-progress__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pf-zoomed-progress__track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 75%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  transform-origin: center;
+  transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Progress bars */
+.pf-zoomed-progress__bar {
+  position: absolute;
+  height: 10px;
+  width: 35%;
+  background-color: #0f7b9a;
+  border: 3px solid white;
+  border-radius: 5px;
+  overflow: hidden;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.pf-zoomed-progress__bar--1 {
+  left: 8%;
+}
+
+.pf-zoomed-progress__bar--2 {
+  right: 8%;
+}
+
+.pf-zoomed-progress__fill {
+  height: 100%;
+  background-color: white;
+  transform: skew(-30deg);
+  transform-origin: left center;
+  transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Level markers */
+.pf-zoomed-progress__level {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  border: 3px solid white;
+  box-shadow: inset 0px 0px 0px 7px #0f7b9a;
+  color: #0f7b9a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  top: 50%;
+  transform: translateY(-50%) scale(1);
+  transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 2;
+}
+
+.pf-zoomed-progress__level--1 {
+  left: 0;
+}
+
+.pf-zoomed-progress__level--2 {
+  left: 47.5%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.pf-zoomed-progress__level--3 {
+  right: 0;
+}
+
+/* Level reached states */
+.pf-zoomed-progress__level--1.reached {
+  color: #00bbe8;
+  box-shadow: inset 0px 0px 0px 7px #00bbe8;
+  transform: translateY(-50%) scale(1.3);
+}
+
+.pf-zoomed-progress__level--2.reached {
+  color: #C2B313;
+  box-shadow: inset 0px 0px 0px 7px #C2B313;
+  transform: translateX(-50%) translateY(-50%) scale(1.3);
+}
+
+.pf-zoomed-progress__level--3.reached {
+  color: #EC1865;
+  box-shadow: inset 0px 0px 0px 7px #EC1865;
+  transform: translateY(-50%) scale(1.3);
+}
+
+/* Radial gradient mask for zoom effect */
+.pf-zoomed-progress__mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: background 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.pf-zoomed-progress.level-1 .pf-zoomed-progress__mask {
+  background: radial-gradient(ellipse at center, 
+    rgba(0, 187, 232, 0) 0%, 
+    rgba(0, 187, 232, 0.49) 41%, 
+    #00bbe8 50%, 
+    #00bbe8 94%);
+}
+
+.pf-zoomed-progress.level-2 .pf-zoomed-progress__mask {
+  background: radial-gradient(ellipse at center, 
+    rgba(194, 179, 19, 0) 0%, 
+    rgba(194, 179, 19, 0.49) 41%, 
+    #C2B313 50%, 
+    #C2B313 94%);
+}
+
+.pf-zoomed-progress.level-3 .pf-zoomed-progress__mask {
+  background: radial-gradient(ellipse at center, 
+    rgba(236, 24, 101, 0) 0%, 
+    rgba(236, 24, 101, 0.49) 41%, 
+    #EC1865 50%, 
+    #EC1865 94%);
+}
+
+/* Animation transitions */
+.pf-zoomed-progress.transitioning .pf-zoomed-progress__level {
+  animation: level-bounce 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes level-bounce {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.15);
+  }
 }

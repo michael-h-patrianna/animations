@@ -89,8 +89,8 @@ Pulse: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-4
 remove the animation previews: Lift Arrival, Fade & Blur Soft, Fade & Vertical Shift, Fade with Zoom
 
 
-Treasure chest closed:
-Treasure chest opened:
+Treasure chest closed: /Users/Spare/Documents/graphics/Treasure Chests/PNG/10/10-Closed.png
+Treasure chest opened: /Users/Spare/Documents/graphics/Treasure Chests/PNG/10/10-Filled.png
 Ancient scroll: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-47-utc/Roll Paper.png
 Sack of gold: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-47-utc/Money Bag.png
 Magic book: adventure-game-3d-icon-2024-09-12-17-19-47-utc/Game Book.png
@@ -135,3 +135,28 @@ Remove the animation Material Ripple
 
 
 The Wave Text animation is very imperformant causing constant layout recalcs. Review and suggest solutions. Do not change code, just analyse the code and the problem and suggest solutions.
+
+
+remove the animations: Quest Completion. Skill Mastery, Level Progression, Trophy Collection,Achievement Unlocked,Daily Streak,Boss Phases
+
+
+do not use emojis or draw your own images. search and copy for suitable png images from here: /Users/Spare/Documents/graphics/
+
+
+read README.md and docs/animation-short.md to understand this project and what guides it
+
+task: review and upgrade the animation: XP Accumulation
+
+it looks cheap and underwhelming.
+1. make sure any milestone animation is actually timed with when the progress bar reaches that milestone. exact, crips timing is key.
+2. make sure the ui looks pristine and sophisticated
+3. ensure every animated element is actually animated and their timings and delays are creating a pleasing visual narrative
+4. make sure you do not have giant milestones or pictures, small, focused and crip is always better.
+5. when using images, do not use emojis or draw your own images. search and copy for suitable png images from here: /Users/Spare/Documents/graphics/
+
+in all animations in the Celebration effects group that use coin images:
+1. copy this file of a coin image into the project src/asset folder
+2. replace the coins images used at the moment in those animations with the copied image (use vite's @/assets) alias
+3. make sure to account for the size of the new image which is larger
+
+replace the image with /Users/Spare/Documents/graphics/Game Asset/PNG/Game Asset-02.png, just replace the image in src/assets folder

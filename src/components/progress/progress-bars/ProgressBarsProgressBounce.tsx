@@ -123,7 +123,7 @@ export function ProgressBarsProgressBounce() {
         particle.style.borderRadius = '50%';
         particle.style.pointerEvents = 'none';
         trackContainer.appendChild(particle);
-        
+
         const angle = (i / 5) * Math.PI * 2;
         const distance = 30 + Math.random() * 20;
         const particleAnim = particle.animate([
@@ -138,7 +138,7 @@ export function ProgressBarsProgressBounce() {
             opacity: '0'
           }
         ], { duration: 600, easing: 'cubic-bezier(0.4, 0, 0.6, 1)' });
-        
+
         // Remove particle after animation
         particleAnim.finished.then(() => particle.remove());
       }
@@ -152,12 +152,11 @@ export function ProgressBarsProgressBounce() {
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="pf-progress-demo pf-progress-bounce"
       data-animation-id="progress-bars__progress-bounce"
     >
-      <div className="pf-progress-demo__label">Level progress</div>
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
           <div className="pf-progress-fill"></div>
