@@ -94,7 +94,8 @@ export function ProgressBarsProgressSegmented() {
     ], {
       duration,
       fill: 'forwards',
-      easing: 'cubic-bezier(0.4, 0, 0.6, 1)'
+      // Use linear to ensure segment thresholds are hit at exact times
+      easing: 'linear'
     });
 
     // Animate segment checkmarks as fill passes
