@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './text-effects.css';
 import diamondPng from '@/assets/Diamonds.png';
 
@@ -10,16 +10,17 @@ interface CounterIndicator {
 export function TextEffectsCounterIncrement() {
   const [isDiamondAnimating, setIsDiamondAnimating] = useState(false);
   const [counters, setCounters] = useState<CounterIndicator[]>([]);
-  const [nextCounterId, setNextCounterId] = useState(0);
+  const nextCounterIdRef = useRef(0);
 
   useEffect(() => {
     const animationCycle = () => {
       // Trigger diamond animation
       setIsDiamondAnimating(true);
       
-      // Add a new counter
-      setCounters([{ id: nextCounterId, isAnimating: true }]);
-      setNextCounterId(prev => prev + 1);
+      // Add a new counter with current id
+      const currentId = nextCounterIdRef.current;
+      setCounters([{ id: currentId, isAnimating: true }]);
+      nextCounterIdRef.current += 1;
 
       // Reset diamond animation after 500ms
       setTimeout(() => {
@@ -42,7 +43,7 @@ export function TextEffectsCounterIncrement() {
       clearInterval(intervalId);
       setCounters([]);
     };
-  }, [nextCounterId]);
+  }, []);
 
   return (
     <div className="pf-counter-showcase" data-animation-id="text-effects__counter-increment">

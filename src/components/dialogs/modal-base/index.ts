@@ -1,12 +1,8 @@
 import type { AnimationComponentMap } from '@/types/animation';
 
-import { ModalBaseFadeShift } from './ModalBaseFadeShift';
-import { ModalBaseFadeSoft } from './ModalBaseFadeSoft';
-import { ModalBaseFadeZoom } from './ModalBaseFadeZoom';
 import { ModalBaseScaleCrisp } from './ModalBaseScaleCrisp';
 import { ModalBaseScaleGentlePop } from './ModalBaseScaleGentlePop';
 import { ModalBaseScaleHero } from './ModalBaseScaleHero';
-import { ModalBaseScaleLift } from './ModalBaseScaleLift';
 import { ModalBaseSlideDownHero } from './ModalBaseSlideDownHero';
 import { ModalBaseSlideDownSoft } from './ModalBaseSlideDownSoft';
 import { ModalBaseSlideLeftDrift } from './ModalBaseSlideLeftDrift';
@@ -22,16 +18,11 @@ import { ModalBaseTvTurnOn } from './ModalBaseTvTurnOn';
 import { ModalBaseUnfoldOrigami } from './ModalBaseUnfoldOrigami';
 import { ModalBaseShatterAssemble } from './ModalBaseShatterAssemble';
 import { ModalBaseRippleExpand } from './ModalBaseRippleExpand';
-import { ModalBaseMorphCenter } from './ModalBaseMorphCenter';
 import { ModalBaseZoomElastic } from './ModalBaseZoomElastic';
 
-export { ModalBaseFadeShift } from './ModalBaseFadeShift';
-export { ModalBaseFadeSoft } from './ModalBaseFadeSoft';
-export { ModalBaseFadeZoom } from './ModalBaseFadeZoom';
 export { ModalBaseScaleCrisp } from './ModalBaseScaleCrisp';
 export { ModalBaseScaleGentlePop } from './ModalBaseScaleGentlePop';
 export { ModalBaseScaleHero } from './ModalBaseScaleHero';
-export { ModalBaseScaleLift } from './ModalBaseScaleLift';
 export { ModalBaseSlideDownHero } from './ModalBaseSlideDownHero';
 export { ModalBaseSlideDownSoft } from './ModalBaseSlideDownSoft';
 export { ModalBaseSlideLeftDrift } from './ModalBaseSlideLeftDrift';
@@ -47,17 +38,12 @@ export { ModalBaseTvTurnOn } from './ModalBaseTvTurnOn';
 export { ModalBaseUnfoldOrigami } from './ModalBaseUnfoldOrigami';
 export { ModalBaseShatterAssemble } from './ModalBaseShatterAssemble';
 export { ModalBaseRippleExpand } from './ModalBaseRippleExpand';
-export { ModalBaseMorphCenter } from './ModalBaseMorphCenter';
 export { ModalBaseZoomElastic } from './ModalBaseZoomElastic';
 
 export const dialogsModalBaseAnimations: AnimationComponentMap = {
-  'modal-base__fade-shift': ModalBaseFadeShift,
-  'modal-base__fade-soft': ModalBaseFadeSoft,
-  'modal-base__fade-zoom': ModalBaseFadeZoom,
   'modal-base__scale-crisp': ModalBaseScaleCrisp,
   'modal-base__scale-gentle-pop': ModalBaseScaleGentlePop,
   'modal-base__scale-hero': ModalBaseScaleHero,
-  'modal-base__scale-lift': ModalBaseScaleLift,
   'modal-base__slide-down-hero': ModalBaseSlideDownHero,
   'modal-base__slide-down-soft': ModalBaseSlideDownSoft,
   'modal-base__slide-left-drift': ModalBaseSlideLeftDrift,
@@ -73,6 +59,5 @@ export const dialogsModalBaseAnimations: AnimationComponentMap = {
   'modal-base__unfold-origami': ModalBaseUnfoldOrigami,
   'modal-base__shatter-assemble': ModalBaseShatterAssemble,
   'modal-base__ripple-expand': ModalBaseRippleExpand,
-  'modal-base__morph-center': ModalBaseMorphCenter,
   'modal-base__zoom-elastic': ModalBaseZoomElastic
 };

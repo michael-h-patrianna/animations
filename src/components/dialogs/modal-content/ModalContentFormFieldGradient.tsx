@@ -3,6 +3,7 @@ import './modal-content.css';
 
 export function ModalContentFormFieldGradient() {
   const fieldRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     // Trigger gradient animation on mount
@@ -17,6 +18,21 @@ export function ModalContentFormFieldGradient() {
         field.style.animation = `form-field-gradient 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
         field.style.opacity = '0';
         field.style.transform = 'translateY(20px)';
+      }
+    });
+
+    // Trigger button stagger animation after form fields complete
+    buttonRefs.current.forEach((button, index) => {
+      if (button) {
+        // Reset any existing animation
+        button.style.animation = 'none';
+        void button.offsetWidth; // Force reflow
+        
+        // Apply staggered animation with 750ms base delay + 70ms stagger
+        const delay = 750 + (70 * index);
+        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
+        button.style.opacity = '0';
+        button.style.transform = 'translateY(16px) scale(0.94)';
       }
     });
   }, []);
@@ -56,10 +72,16 @@ export function ModalContentFormFieldGradient() {
           </div>
         </div>
         <div className="modal-content-footer">
-          <button className="modal-content-button modal-content-button-primary">
+          <button
+            ref={(el) => buttonRefs.current[0] = el}
+            className="modal-content-button modal-content-button-primary"
+          >
             Accept
           </button>
-          <button className="modal-content-button modal-content-button-secondary">
+          <button
+            ref={(el) => buttonRefs.current[1] = el}
+            className="modal-content-button modal-content-button-secondary"
+          >
             Later
           </button>
         </div>

@@ -3,6 +3,7 @@ import './modal-content.css';
 
 export function ModalContentListSpotlight() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     // Trigger spotlight animation on mount
@@ -19,6 +20,21 @@ export function ModalContentListSpotlight() {
         item.style.transform = 'scale(0.95)';
         // Simulate brightness filter with opacity for RN compatibility
         item.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+      }
+    });
+
+    // Trigger button stagger animation after list items complete
+    buttonRefs.current.forEach((button, index) => {
+      if (button) {
+        // Reset any existing animation
+        button.style.animation = 'none';
+        void button.offsetWidth; // Force reflow
+        
+        // Apply staggered animation with 650ms base delay + 70ms stagger
+        const delay = 650 + (70 * index);
+        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`;
+        button.style.opacity = '0';
+        button.style.transform = 'translateY(16px) scale(0.94)';
       }
     });
   }, []);
@@ -55,10 +71,16 @@ export function ModalContentListSpotlight() {
           </div>
         </div>
         <div className="modal-content-footer">
-          <button className="modal-content-button modal-content-button-primary">
+          <button
+            ref={(el) => buttonRefs.current[0] = el}
+            className="modal-content-button modal-content-button-primary"
+          >
             Accept
           </button>
-          <button className="modal-content-button modal-content-button-secondary">
+          <button
+            ref={(el) => buttonRefs.current[1] = el}
+            className="modal-content-button modal-content-button-secondary"
+          >
             Later
           </button>
         </div>
