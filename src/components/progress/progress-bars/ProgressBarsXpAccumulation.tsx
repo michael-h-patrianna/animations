@@ -227,6 +227,11 @@ export function ProgressBarsXpAccumulation() {
       setDisplayXP(INITIAL_XP);
       setProgressDisplay((INITIAL_XP / MAX_XP) * 100);
       setCurrentMultiplier(getCurrentMultiplier(INITIAL_XP));
+
+      // Emit a subtle activation pulse for the Start marker
+      registerTimeout(() => {
+        triggerMilestone(0, '');
+      }, 120);
     };
 
     const startGainLoop = () => {
@@ -492,6 +497,30 @@ export function ProgressBarsXpAccumulation() {
                   transition={{ duration: 0.32, ease: 'easeOut' }}
                 />
 
+                {/* Activation pulse glow */}
+                <AnimatePresence>
+                  {milestoneAnim && (
+                    <motion.div
+                      key={`pulse-${zone.threshold}`}
+                      initial={{ scale: 0.8, opacity: 0.6 }}
+                      animate={{ scale: 1.6, opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      style={{
+                        position: 'absolute',
+                        width: '14px',
+                        height: '14px',
+                        borderRadius: '50%',
+                        background: `radial-gradient(circle, ${rgba(zoneColor, 0.35)} 0%, ${rgba(zoneColor, 0.2)} 50%, transparent 70%)`,
+                        left: 'calc(50% - 6px)',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        filter: 'blur(2px)'
+                      }}
+                    />
+                  )}
+                </AnimatePresence>
+
                 <AnimatePresence>
                   {milestoneAnim && (
                     <motion.div
@@ -601,6 +630,30 @@ export function ProgressBarsXpAccumulation() {
                   }}
                   transition={{ duration: 0.32, ease: 'easeOut' }}
                 />
+
+                {/* Activation pulse glow for boundary markers */}
+                <AnimatePresence>
+                  {milestoneAnim && (
+                    <motion.div
+                      key={`pulse-boundary-${boundary}`}
+                      initial={{ scale: 0.8, opacity: 0.6 }}
+                      animate={{ scale: 1.6, opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      style={{
+                        position: 'absolute',
+                        width: '22px',
+                        height: '22px',
+                        borderRadius: '50%',
+                        background: `radial-gradient(circle, ${rgba(zoneColor, 0.35)} 0%, ${rgba(zoneColor, 0.2)} 50%, transparent 70%)`,
+                        left: 'calc(50% - 6px)',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        filter: 'blur(2px)'
+                      }}
+                    />
+                  )}
+                </AnimatePresence>
 
                 <AnimatePresence>
                   {milestoneAnim && (
