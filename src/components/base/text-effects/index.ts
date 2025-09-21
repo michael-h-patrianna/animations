@@ -8,15 +8,15 @@ import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough';
 import { TextEffectsLightSweepDraw } from './TextEffectsLightSweepDraw';
 import { TextEffectsMetallicSpecularFlash } from './TextEffectsMetallicSpecularFlash';
 import { TextEffectsTypewriter } from './TextEffectsTypewriter';
+import { TextEffectsVerbFall } from './TextEffectsVerbFall';
+import { TextEffectsVerbFlip } from './TextEffectsVerbFlip';
+import { TextEffectsVerbFloat } from './TextEffectsVerbFloat';
+import { TextEffectsVerbJog } from './TextEffectsVerbJog';
+import { TextEffectsVerbJump } from './TextEffectsVerbJump';
+import { TextEffectsVerbTwirl } from './TextEffectsVerbTwirl';
 import { TextEffectsWaveReveal } from './TextEffectsWaveReveal';
 import { TextEffectsWaveText } from './TextEffectsWaveText';
 import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop';
-import { TextEffectsVerbJump } from './TextEffectsVerbJump';
-import { TextEffectsVerbFloat } from './TextEffectsVerbFloat';
-import { TextEffectsVerbJog } from './TextEffectsVerbJog';
-import { TextEffectsVerbFlip } from './TextEffectsVerbFlip';
-import { TextEffectsVerbTwirl } from './TextEffectsVerbTwirl';
-import { TextEffectsVerbFall } from './TextEffectsVerbFall';
 
 export const AnimationComponentMap = {
   'text-effects__character-reveal': TextEffectsCharacterReveal,

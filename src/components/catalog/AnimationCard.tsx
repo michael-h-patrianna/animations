@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { ChevronDown } from 'lucide-react';
 import type { PropsWithChildren } from 'react';

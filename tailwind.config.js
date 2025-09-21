@@ -38,7 +38,7 @@ export default {
         },
         overlay: 'var(--pf-overlay)',
         white: 'var(--pf-white)',
-        
+
         // Shadcn UI semantic colors - lighter modern theme
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

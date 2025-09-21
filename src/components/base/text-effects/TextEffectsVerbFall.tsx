@@ -2,8 +2,8 @@
  * Standalone: Copy this file and TextEffectsVerbFall.css into your app.
  */
 import React from 'react';
-import './TextEffectsVerbFall.css';
 import './TextEffectsCharIndexDelays.css';
+import './TextEffectsVerbFall.css';
 
 export function TextEffectsVerbFall() {
   const text = 'LOREM IPSUM DOLOR';

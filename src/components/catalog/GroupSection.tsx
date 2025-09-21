@@ -1,6 +1,7 @@
 import { animationRegistry } from '@/components/animationRegistry';
 import { AnimationCard } from '@/components/catalog/AnimationCard';
 import type { Group } from '@/types/animation';
+import { Suspense } from 'react';
 
 interface GroupSectionProps {
   group: Group;
@@ -58,7 +59,9 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 disableReplay={animation.disableReplay}
               >
                 {AnimationComponent ? (
-                  <AnimationComponent />
+                  <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
+                    <AnimationComponent />
+                  </Suspense>
                 ) : (
                   <div className="pf-card__placeholder">{animation.id}</div>
                 )}

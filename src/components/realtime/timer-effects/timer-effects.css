@@ -102,7 +102,7 @@
 }
 
 @keyframes flash-urgency-pulse {
-  0% { 
+  0% {
     transform: scale(1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
@@ -110,7 +110,7 @@
     transform: scale(calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.7));
     box-shadow: 0 5px 16px rgba(220, 53, 69, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
-  50% { 
+  50% {
     transform: scale(var(--pulse-scale, 1.1));
     box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
@@ -118,7 +118,7 @@
     transform: scale(calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.7));
     box-shadow: 0 5px 16px rgba(220, 53, 69, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
-  100% { 
+  100% {
     transform: scale(1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }

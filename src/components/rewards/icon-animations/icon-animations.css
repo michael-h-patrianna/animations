@@ -11,34 +11,34 @@
 
 /* Shake Animation - Horizontal shake with rotation wobble and scale compression */
 @keyframes icon-shake-animation {
-  0%, 100% { 
+  0%, 100% {
     transform: translateX(0) rotate(0deg) scaleX(1);
   }
-  10% { 
+  10% {
     transform: translateX(-10px) rotate(-1deg) scaleX(0.98);
   }
-  20% { 
+  20% {
     transform: translateX(10px) rotate(1deg) scaleX(0.98);
   }
-  30% { 
+  30% {
     transform: translateX(-8px) rotate(-0.8deg) scaleX(0.99);
   }
-  40% { 
+  40% {
     transform: translateX(8px) rotate(0.8deg) scaleX(0.99);
   }
-  50% { 
+  50% {
     transform: translateX(-6px) rotate(-0.6deg) scaleX(0.995);
   }
-  60% { 
+  60% {
     transform: translateX(6px) rotate(0.6deg) scaleX(0.995);
   }
-  70% { 
+  70% {
     transform: translateX(-4px) rotate(-0.4deg) scaleX(1);
   }
-  80% { 
+  80% {
     transform: translateX(4px) rotate(0.4deg) scaleX(1);
   }
-  90% { 
+  90% {
     transform: translateX(-2px) rotate(-0.2deg) scaleX(1);
   }
 }
@@ -73,7 +73,7 @@
 }
 
 .icon-bounce-element {
-  animation: icon-bounce-animation 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: icon-bounce-animation 0.8s ease-in-out;
   transform-origin: center bottom;
 }
 
@@ -164,15 +164,15 @@
     opacity: 0.98;
   }
   30% {
-    transform: scale(1.08) rotate(-0.5deg) skewY(-1.5deg);
+    transform: scale(1.08) rotate(0deg) skewY(-1.5deg);
     opacity: 0.96;
   }
   40% {
-    transform: scale(1.12) rotate(0deg) skewY(-2deg);
+    transform: scale(1.12) rotate(1deg) skewY(-2deg);
     opacity: 0.94;
   }
   50% {
-    transform: scale(1.15) rotate(0.5deg) skewY(-2.5deg);
+    transform: scale(1.15) rotate(2deg) skewY(-2.5deg);
     opacity: 0.92;
   }
   60% {
@@ -180,19 +180,19 @@
     opacity: 0.94;
   }
   70% {
-    transform: scale(1.08) rotate(1.5deg) skewY(-1.5deg);
+    transform: scale(1.08) rotate(0deg) skewY(-1.5deg);
     opacity: 0.96;
   }
   80% {
-    transform: scale(1.05) rotate(2deg) skewY(-1deg);
+    transform: scale(1.05) rotate(-0.5deg) skewY(-1deg);
     opacity: 0.98;
   }
   90% {
-    transform: scale(1.02) rotate(1.5deg) skewY(-0.5deg);
+    transform: scale(1.02) rotate(-1.5deg) skewY(-0.5deg);
     opacity: 1;
   }
   100% {
-    transform: scale(1) rotate(1deg) skewY(0deg);
+    transform: scale(1) rotate(-2deg) skewY(0deg);
     opacity: 1;
   }
 }

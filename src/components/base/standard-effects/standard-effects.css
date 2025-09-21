@@ -79,35 +79,18 @@
 }
 
 .modal-content-button-primary {
-  border-radius: 50px;
-  background: linear-gradient(180deg, #ff5981, #c83558);
-  color: #fff;
-  border: 2px solid #ff7495;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
-  padding: 6px 12px;
+  background: linear-gradient(160deg, #4e187c 0%, #c47ae5 52%, #d79af3 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(200, 53, 88, 0.25);
 }
 
-.modal-content-button-primary:hover:not(:disabled):not([aria-disabled="true"]) {
-  background: linear-gradient(180deg, #ff6b8f, #d6456a);
-  border-color: #ff86a5;
-  filter: drop-shadow(0 2px 6px rgba(200, 53, 88, 0.35));
-}
-
-.modal-content-button-primary:disabled,
-.modal-content-button-primary[aria-disabled="true"] {
-  opacity: 0.6;
-  cursor: not-allowed;
-  filter: grayscale(10%);
-  box-shadow: none;
+.modal-content-button-primary:hover {
+  transform: translateY(1px) scale(0.99);
 }
 
 .modal-content-button-secondary {
-  /* Outline secondary */
-  color: #25ecff;
-  border: 2px solid #25ecff;
-  background: transparent;
-  border-radius: 50px;
-  padding: 6px 12px;
+  background: rgba(236, 195, 255, 0.08);
+  color: #ecc3ff;
 }
 
 .modal-content-button-secondary:hover {
@@ -261,7 +244,7 @@
 }
 
 .bounce-element {
-  animation: bounce-animation 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: bounce-animation 0.8s ease-in-out;
   transform-origin: center bottom;
 }
 
