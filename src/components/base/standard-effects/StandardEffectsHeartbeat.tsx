@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsHeartbeat.css'
 
 export function StandardEffectsHeartbeat() {

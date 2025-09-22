@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsBlink.css'
 
 export function StandardEffectsBlink() {

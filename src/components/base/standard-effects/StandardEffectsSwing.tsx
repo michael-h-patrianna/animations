@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsSwing.css'
 
 export function StandardEffectsSwing() {

@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsBounce.css'
 
 export function StandardEffectsBounce() {

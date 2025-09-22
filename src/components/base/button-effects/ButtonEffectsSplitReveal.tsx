@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './ButtonEffectsSplitReveal.css'
+import './shared.css'
 
 export function ButtonEffectsSplitReveal() {
   const [isRevealing, setIsRevealing] = useState(false)
@@ -10,7 +11,7 @@ export function ButtonEffectsSplitReveal() {
   }
 
   return (
-    <div className="button-split-reveal-demo" data-animation-id="button-effects__split-reveal">
+    <div className="button-demo" data-animation-id="button-effects__split-reveal">
       <button
         className={`pf-btn pf-btn--primary pf-btn--split-reveal ${isRevealing ? 'split-revealing' : ''}`}
         onClick={handleClick}

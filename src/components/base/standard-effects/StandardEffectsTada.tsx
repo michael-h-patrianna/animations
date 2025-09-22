@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsTada.css'
 
 export function StandardEffectsTada() {

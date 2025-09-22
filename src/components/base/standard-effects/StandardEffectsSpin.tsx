@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsSpin.css'
 
 export function StandardEffectsSpin() {

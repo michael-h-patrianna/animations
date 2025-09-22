@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import './ButtonEffectsRipple.css'
+import './shared.css'
 
 interface Ripple {
   id: number
@@ -32,7 +33,7 @@ export function ButtonEffectsRipple() {
   }
 
   return (
-    <div className="button-ripple-demo" data-animation-id="button-effects__ripple">
+    <div className="button-demo" data-animation-id="button-effects__ripple">
       <button ref={btnRef} className="pf-btn pf-btn--primary pf-btn--ripple" onClick={handleClick}>
         Ripple Button
         <span className="pf-btn__ripples" aria-hidden>

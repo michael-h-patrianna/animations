@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsShake.css'
 
 export function StandardEffectsShake() {

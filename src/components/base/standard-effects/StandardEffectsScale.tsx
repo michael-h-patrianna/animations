@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsScale.css'
 
 export function StandardEffectsScale() {

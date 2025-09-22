@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsSlide.css'
 
 export function StandardEffectsSlide() {

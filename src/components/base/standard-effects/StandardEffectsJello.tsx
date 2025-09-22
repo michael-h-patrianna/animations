@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsJello.css'
 
 export function StandardEffectsJello() {

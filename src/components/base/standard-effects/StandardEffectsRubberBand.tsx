@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsRubberBand.css'
 
 export function StandardEffectsRubberBand() {

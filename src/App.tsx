@@ -1,5 +1,5 @@
+import { AppSidebar } from '@/components/ui/AppSidebar'
 import { GroupSection } from '@/components/ui/catalog'
-import { Sidebar } from '@/components/Sidebar'
 import { useAnimations } from '@/hooks/useAnimations'
 import type { Group } from '@/types/animation'
 import { AnimatePresence, motion, useDragControls } from 'framer-motion'
@@ -201,7 +201,6 @@ function App() {
           className="pf-hamburger"
           aria-label="Open menu"
           aria-haspopup="dialog"
-          aria-expanded={isDrawerOpen ? 'true' : 'false'}
           aria-controls="pf-sidebar-drawer"
           onClick={() => setIsDrawerOpen(true)}
         >
@@ -230,7 +229,7 @@ function App() {
       </div>
 
       <div className="pf-main">
-        <Sidebar
+        <AppSidebar
           categories={categories}
           currentGroupId={currentGroupId}
           onCategorySelect={handleCategorySelect}
@@ -297,7 +296,7 @@ function App() {
         id="pf-sidebar-drawer"
         role="dialog"
         aria-modal="true"
-        aria-hidden={isDrawerOpen ? 'false' : 'true'}
+        aria-hidden={!isDrawerOpen}
         hidden={!isDrawerOpen}
         className={`pf-drawer ${isDrawerOpen ? 'is-open' : ''}`}
       >
@@ -326,7 +325,7 @@ function App() {
               </svg>
             </button>
           </div>
-          <Sidebar
+          <AppSidebar
             categories={categories}
             currentGroupId={currentGroupId}
             onCategorySelect={handleCategorySelectMobile}

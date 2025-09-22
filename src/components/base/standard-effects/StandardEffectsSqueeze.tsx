@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsSqueeze.css'
 
 export function StandardEffectsSqueeze() {

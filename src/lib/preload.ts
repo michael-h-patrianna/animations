@@ -15,8 +15,11 @@ export function preloadImages(urls: string[]) {
       .filter(Boolean)
   )
 
+  // Track URLs added during this invocation to avoid duplicates within the provided array
+  const added = new Set<string>()
+
   urls.forEach((url) => {
-    if (!url || existing.has(url)) return
+    if (!url || existing.has(url) || added.has(url)) return
 
     const link = document.createElement('link')
     link.setAttribute('rel', 'preload')
@@ -27,6 +30,9 @@ export function preloadImages(urls: string[]) {
     link.setAttribute('data-preload', 'critical-image')
 
     head.appendChild(link)
+
+    // Mark as added to prevent duplicates within the same call
+    added.add(url)
 
     // Also kick off an Image() request to warm cache in browsers that don’t strictly use <link> for images
     // This is safe and won’t double-download because the URL will be cached.

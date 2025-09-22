@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsWiggle.css'
 
 export function StandardEffectsWiggle() {

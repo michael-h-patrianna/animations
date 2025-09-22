@@ -1,1 +1,2 @@
-export { AnimationCard } from './AnimationCard'
+export { AnimationCard } from './AnimationCard';
+

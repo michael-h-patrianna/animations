@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsFlip.css'
 
 export function StandardEffectsFlip() {
