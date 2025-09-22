@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './ButtonEffectsLiquidMorph.css'
+import './shared.css'
 
 export function ButtonEffectsLiquidMorph() {
   const [isAnimating, setIsAnimating] = useState(false)
@@ -10,7 +11,7 @@ export function ButtonEffectsLiquidMorph() {
   }
 
   return (
-    <div className="button-liquid-morph-demo" data-animation-id="button-effects__liquid-morph">
+    <div className="button-demo" data-animation-id="button-effects__liquid-morph">
       <button
         className={`pf-btn pf-btn--primary pf-btn--liquid-morph ${isAnimating ? 'liquid-morph-active' : ''}`}
         onClick={handleClick}

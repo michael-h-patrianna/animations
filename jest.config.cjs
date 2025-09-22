@@ -23,6 +23,7 @@ const config = {
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts',
+    '!src/types/**',
     '!src/main.tsx',
     '!src/vite-env.d.ts',
   ],
@@ -37,6 +38,14 @@ const config = {
   globals: {
     TextEncoder: TextEncoder,
     TextDecoder: TextDecoder,
+  },
+  coverageThreshold: {
+    global: {
+      statements: 40,
+      branches: 20,
+      functions: 30,
+      lines: 40,
+    },
   },
 }
 

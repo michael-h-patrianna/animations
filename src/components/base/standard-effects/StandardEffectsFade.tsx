@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsFade.css'
 
 export function StandardEffectsFade() {

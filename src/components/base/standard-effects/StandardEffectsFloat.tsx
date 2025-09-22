@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsFloat.css'
 
 export function StandardEffectsFloat() {

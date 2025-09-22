@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import './ButtonEffectsShockwave.css'
+import './shared.css'
 
 interface Shockwave {
   id: number
@@ -31,7 +32,7 @@ export function ButtonEffectsShockwave() {
   }
 
   return (
-    <div className="button-shockwave-demo" data-animation-id="button-effects__shockwave">
+    <div className="button-demo" data-animation-id="button-effects__shockwave">
       <button
         ref={btnRef}
         className="pf-btn pf-btn--primary pf-btn--shockwave"

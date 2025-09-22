@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
 import './ModalBaseSpringBounce.css'
+import './shared.css'
+import { MockModalContent } from './MockModalContent'
 
 export function ModalBaseSpringBounce() {
   const overlayVariants = {
@@ -46,17 +48,7 @@ export function ModalBaseSpringBounce() {
     >
       <div className="pf-modal-center">
         <motion.div className="pf-modal pf-modal--spring" variants={modalVariants}>
-          <div className="pf-modal__header">
-            <h3 className="pf-modal__title">Spring Entrance</h3>
-            <span className="pf-badge-tech">Modal</span>
-          </div>
-          <div className="pf-modal__body">
-            <p>Elastic spring animation with natural bounce physics.</p>
-          </div>
-          <div className="pf-modal__footer">
-            <button className="pf-button-primary">Accept</button>
-            <button className="pf-button-secondary">Later</button>
-          </div>
+          <MockModalContent />
         </motion.div>
       </div>
     </motion.div>

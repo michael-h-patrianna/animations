@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsPulse.css'
 
 export function StandardEffectsPulse() {

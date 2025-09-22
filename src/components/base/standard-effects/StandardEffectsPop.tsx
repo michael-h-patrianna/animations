@@ -1,3 +1,4 @@
+import './shared.css'
 import './StandardEffectsPop.css'
 
 export function StandardEffectsPop() {

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import './ModalBasePortalSwirl.css'
+import './shared.css'
+import { MockModalContent } from './MockModalContent'
 
 export function ModalBasePortalSwirl() {
   useEffect(() => {
@@ -23,17 +25,7 @@ export function ModalBasePortalSwirl() {
           animation: 'pf-modal-portal-swirl 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
         }}
       >
-        <div className="pf-modal__header">
-          <h3 className="pf-modal__title">New Creator Quest</h3>
-          <span className="pf-badge-tech">Modal</span>
-        </div>
-        <div className="pf-modal__body">
-          <p>Complete 3 live sessions to unlock rewards.</p>
-        </div>
-        <div className="pf-modal__footer">
-          <button className="pf-button-primary">Accept</button>
-          <button className="pf-button-secondary">Later</button>
-        </div>
+        <MockModalContent />
       </div>
     </div>
   )

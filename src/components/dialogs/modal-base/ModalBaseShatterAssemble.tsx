@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import './ModalBaseShatterAssemble.css'
+import './shared.css'
+import { MockModalContent } from './MockModalContent'
 
 export function ModalBaseShatterAssemble() {
   useEffect(() => {
@@ -23,17 +25,7 @@ export function ModalBaseShatterAssemble() {
           animation: 'pf-modal-shatter 850ms cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
         }}
       >
-        <div className="pf-modal__header">
-          <h3 className="pf-modal__title">New Creator Quest</h3>
-          <span className="pf-badge-tech">Modal</span>
-        </div>
-        <div className="pf-modal__body">
-          <p>Complete 3 live sessions to unlock rewards.</p>
-        </div>
-        <div className="pf-modal__footer">
-          <button className="pf-button-primary">Accept</button>
-          <button className="pf-button-secondary">Later</button>
-        </div>
+        <MockModalContent />
       </div>
     </div>
   )
