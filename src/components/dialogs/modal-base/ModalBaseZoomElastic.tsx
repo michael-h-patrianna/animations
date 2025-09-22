@@ -19,12 +19,7 @@ export function ModalBaseZoomElastic() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal"
-        style={{
-          animation: 'pf-modal-zoom-bounce 720ms cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
-        }}
-      >
+      <div className="pf-modal pf-modal--zoom-elastic">
         <MockModalContent />
       </div>
     </div>

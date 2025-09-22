@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { MockModalContent } from './MockModalContent'
 import './ModalBaseRippleExpand.css'
 import './shared.css'
-import { MockModalContent } from './MockModalContent'
 
 export function ModalBaseRippleExpand() {
   useEffect(() => {
@@ -19,12 +19,7 @@ export function ModalBaseRippleExpand() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal"
-        style={{
-          animation: 'pf-modal-ripple 550ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
-        }}
-      >
+      <div className="pf-modal pf-modal--ripple">
         <MockModalContent />
       </div>
     </div>

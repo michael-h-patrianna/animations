@@ -19,3 +19,8 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+/* Apply animation via class instead of inline style */
+.pf-modal--zoom-elastic {
+  animation: pf-modal-zoom-bounce 720ms cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}

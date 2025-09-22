@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
+import { MockModalContent } from './MockModalContent'
 import './ModalBaseSlideDownHero.css'
+import './shared.css'
 
 export function ModalBaseSlideDownHero() {
   useEffect(() => {
@@ -17,24 +19,8 @@ export function ModalBaseSlideDownHero() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal"
-        style={{
-          animation:
-            'pf-modal-slide-down-hero 520ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-        }}
-      >
-        <div className="pf-modal__header">
-          <h3 className="pf-modal__title">New Creator Quest</h3>
-          <span className="pf-badge-tech">Modal</span>
-        </div>
-        <div className="pf-modal__body">
-          <p>Complete 3 live sessions to unlock rewards.</p>
-        </div>
-        <div className="pf-modal__footer">
-          <button className="pf-button-primary">Accept</button>
-          <button className="pf-button-secondary">Later</button>
-        </div>
+      <div className="pf-modal pf-modal--slide-down-hero">
+        <MockModalContent />
       </div>
     </div>
   )

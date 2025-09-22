@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { MockModalContent } from './MockModalContent'
 import './ModalBasePortalSwirl.css'
 import './shared.css'
-import { MockModalContent } from './MockModalContent'
 
 export function ModalBasePortalSwirl() {
   useEffect(() => {
@@ -19,12 +19,7 @@ export function ModalBasePortalSwirl() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal"
-        style={{
-          animation: 'pf-modal-portal-swirl 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
-        }}
-      >
+      <div className="pf-modal pf-modal--portal-swirl">
         <MockModalContent />
       </div>
     </div>

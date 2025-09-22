@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { MockModalContent } from './MockModalContent'
 import './ModalBaseFlip3d.css'
 import './shared.css'
-import { MockModalContent } from './MockModalContent'
 
 export function ModalBaseFlip3d() {
   useEffect(() => {
@@ -19,12 +19,7 @@ export function ModalBaseFlip3d() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal pf-modal--flip-3d"
-        style={{
-          animation: 'pf-modal-flip-3d 800ms cubic-bezier(0.175, 0.885, 0.32, 1) forwards',
-        }}
-      >
+      <div className="pf-modal pf-modal--flip-3d">
         <MockModalContent />
       </div>
     </div>

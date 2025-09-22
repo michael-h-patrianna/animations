@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import './ModalDismissSnackbarWipe.css'
+import { MockContent } from './MockContent'
 
 export function ModalDismissSnackbarWipe() {
   const toastRef = useRef<HTMLDivElement>(null)
@@ -91,14 +91,10 @@ export function ModalDismissSnackbarWipe() {
   }, [])
 
   return (
-    <div className="pf-toast-preview">
-      <div ref={toastRef} className="pf-toast" data-animation-id="modal-dismiss__snackbar-wipe">
-        <div className="pf-toast__title">Action Complete</div>
-        <div className="pf-toast__body">Your changes have been saved</div>
-        <div className="pf-toast__progress">
-          <div ref={progressRef} className="pf-toast__progress-bar"></div>
-        </div>
-      </div>
-    </div>
+    <MockContent
+      toastRef={toastRef}
+      progressRef={progressRef}
+      animationId="modal-dismiss__snackbar-wipe"
+    />
   )
 }

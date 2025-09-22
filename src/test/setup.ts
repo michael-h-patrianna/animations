@@ -34,29 +34,10 @@ globalThis.IntersectionObserver = class IntersectionObserver {
 }
 
 // Minimal Web Animations API polyfill for jsdom tests
-type MockAnimation = {
-  cancel: () => void
-  finish: () => void
-  play: () => void
-  pause: () => void
-  reverse: () => void
-  addEventListener: () => void
-  removeEventListener: () => void
-  onfinish: null | (() => void)
-  currentTime: number
-  playState: 'idle' | 'running' | 'paused' | 'finished'
-  finished: Promise<void>
-}
-
-declare global {
-  interface Element {
-    animate?: (...args: unknown[]) => MockAnimation
-  }
-}
-
+// Do NOT augment DOM lib types here; just polyfill runtime methods if missing.
 if (!Element.prototype.animate) {
-  Element.prototype.animate = function (): MockAnimation {
-    return {
+  Element.prototype.animate = function (): Animation {
+    const anim: Partial<Animation> = {
       cancel() {},
       finish() {},
       play() {},
@@ -65,22 +46,19 @@ if (!Element.prototype.animate) {
       addEventListener() {},
       removeEventListener() {},
       onfinish: null,
-      currentTime: 0,
-      playState: 'finished',
-      finished: Promise.resolve(),
+  // currentTime is number | null, use null to indicate unknown time
+  currentTime: null,
+      playState: 'finished' as AnimationPlayState,
+      // finished should be a Promise<Animation> per spec; a resolved promise is fine for tests
+      finished: Promise.resolve() as unknown as Promise<Animation>,
     }
+    return anim as Animation
   }
 }
 
 // Minimal getAnimations stub used by some components to cancel animations on unmount
-declare global {
-  interface Element {
-    getAnimations?: () => Array<{ cancel: () => void }>
-  }
-}
-
 if (!Element.prototype.getAnimations) {
-  Element.prototype.getAnimations = function () {
+  Element.prototype.getAnimations = function (): Animation[] {
     return []
   }
 }

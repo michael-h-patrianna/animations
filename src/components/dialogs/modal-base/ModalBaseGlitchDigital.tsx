@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { MockModalContent } from './MockModalContent'
 import './ModalBaseGlitchDigital.css'
 import './shared.css'
-import { MockModalContent } from './MockModalContent'
 
 export function ModalBaseGlitchDigital() {
   useEffect(() => {
@@ -19,12 +19,7 @@ export function ModalBaseGlitchDigital() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal pf-modal-glitch"
-        style={{
-          animation: 'pf-modal-glitch 600ms ease-in-out forwards',
-        }}
-      >
+      <div className="pf-modal pf-modal--glitch">
         <MockModalContent />
       </div>
     </div>

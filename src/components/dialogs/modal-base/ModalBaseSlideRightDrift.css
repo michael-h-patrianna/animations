@@ -85,3 +85,8 @@
     opacity: 1;
   }
 }
+
+/* Apply animation via class */
+.pf-modal--slide-right-drift {
+  animation: pf-modal-slide-right-drift 420ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
