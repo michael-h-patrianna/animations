@@ -55,6 +55,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 title={animation.title}
                 description={animation.description}
                 animationId={animation.id}
+                tags={animation.tags}
                 infiniteAnimation={infiniteAnimation}
                 disableReplay={animation.disableReplay}
               >
