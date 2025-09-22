@@ -126,6 +126,7 @@
       "description": "Themed button with Material-style click ripple expansion.",
       "categoryId": "base",
       "groupId": "button-effects",
+      "tags": ["css", "js"],
       "disableReplay": true
     },
     {
@@ -133,7 +134,8 @@
       "title": "Button Jitter",
       "description": "Playful button with continuous jittery animation and heartbeat on hover.",
       "categoryId": "base",
-      "groupId": "button-effects"
+      "groupId": "button-effects",
+      "tags": ["css"]
     },
     {
       "id": "button-effects__liquid-morph",
@@ -141,6 +143,7 @@
       "description": "Button liquifies and reshapes on click with elastic blob-like deformation.",
       "categoryId": "base",
       "groupId": "button-effects",
+      "tags": ["css", "js"],
       "disableReplay": true
     },
     {
@@ -149,6 +152,7 @@
       "description": "Concentric rings expand outward with distortion effects.",
       "categoryId": "base",
       "groupId": "button-effects",
+      "tags": ["css"],
       "disableReplay": true
     },
     {
@@ -157,6 +161,7 @@
       "description": "Button splits open to reveal content/color underneath.",
       "categoryId": "base",
       "groupId": "button-effects",
+      "tags": ["css", "js"],
       "disableReplay": true
     },
     {
@@ -164,371 +169,424 @@
       "title": "Character Reveal",
       "description": "Premium text reveal with layered shadows and character scale animations for achievement moments.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__epic-win",
       "title": "Epic Win",
       "description": "Metallic 3D text with rotating entrance, layered shadows, and victory flare effect.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__wave-text",
       "title": "Wave Text",
       "description": "Smooth undulating wave motion through characters for fluid text animations.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__glitch-text",
       "title": "Glitch Text",
       "description": "Digital distortion with RGB channel separation and scanning line artifacts.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__typewriter",
       "title": "Typewriter",
       "description": "Classic terminal-style text typing with blinking cursor for system messages.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__combo-counter",
       "title": "Combo Counter",
       "description": "Dynamic counting animation with milestone particles and perfect combo celebration.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__xp-number-pop",
       "title": "XP Number Pop",
       "description": "XP gain count-up with pop easing, glow orb, and particle effects.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__level-breakthrough",
       "title": "Level Breakthrough",
       "description": "Level breakthrough shakes frame with surge lines explosion effect.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__counter-increment",
       "title": "Counter Increment",
       "description": "Numeric counter ticks upwards with scale.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__wave-reveal",
       "title": "Wave Reveal",
       "description": "Staggered wave animation where text appears from bottom with smooth easing.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__light-sweep-draw",
       "title": "Light Sweep Draw",
       "description": "Left-to-right cinematic highlight that briefly brightens and deforms each letter with a gentle settle.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__metallic-specular-flash",
       "title": "Metallic Specular Flash",
       "description": "A crisp, narrow specular flash sweeps across the text with brief skew and stretch, then settles.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__horizon-light-pass",
       "title": "Horizon Light Pass",
       "description": "A horizontal light band passes across the text, briefly brightening and stretching letters before settling.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["framer"]
     },
     {
       "id": "text-effects__verb-jumping",
       "title": "Jumping",
       "description": "Playful jump cadence with squash and stretch per letter.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["css"]
     },
     {
       "id": "text-effects__verb-floating",
       "title": "Floating",
       "description": "Gentle float up/down across letters with offset phases.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["css"]
     },
     {
       "id": "text-effects__verb-jogging",
       "title": "Jogging",
       "description": "Energetic jog rhythm alternating between letters.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["css"]
     },
     {
       "id": "text-effects__verb-flipping",
       "title": "Flipping",
       "description": "3D flip rotation with perspective for each character.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["css"]
     },
     {
       "id": "text-effects__verb-twirling",
       "title": "Twirling",
       "description": "Continuous twirl spin with subtle scale variance.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["css"]
     },
     {
       "id": "text-effects__verb-falling",
       "title": "Falling",
       "description": "Letters drop and settle with a soft bounce.",
       "categoryId": "base",
-      "groupId": "text-effects"
+      "groupId": "text-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__shake",
       "title": "Shake",
       "description": "Horizontal shake with rotation wobble and scale compression for error feedback.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__bounce",
       "title": "Bounce",
       "description": "Vertical bounce with squash-stretch deformation and tilt for playful feedback.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__pulse",
       "title": "Pulse",
       "description": "Scale pulse with opacity fade and expanding glow for heartbeat effect.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__rubber-band",
       "title": "Rubber Band",
       "description": "Elastic stretch with thickness variation and edge vibration for springy motion.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__swing",
       "title": "Swing",
       "description": "Pendulum arc swing with axis rotation and momentum lean for hanging elements.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__jello",
       "title": "Jello",
       "description": "Wobble deformation with ripple-through effect and bounce for gelatinous motion.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__pop",
       "title": "Pop",
       "description": "Scale overshoot entrance with rotation twist and motion blur for emphasis.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__wiggle",
       "title": "Wiggle",
       "description": "Rotation oscillation with scale breathing and position drift for attention.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__flip",
       "title": "Flip",
       "description": "Y-axis card flip with shadow perspective and scale change during rotation.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__spin",
       "title": "Spin",
       "description": "360-degree rotation with scale pulse at midpoint and motion blur trail.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__float",
       "title": "Float",
       "description": "Gentle Y-axis sine wave with subtle rotation and shadow distance changes.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__fade",
       "title": "Fade",
       "description": "Simple opacity transition from invisible to visible for smooth appearances.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__slide",
       "title": "Slide",
       "description": "Linear sliding motion from off-screen position for panel entrances.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__scale",
       "title": "Scale",
       "description": "Clean scale transformation from small to full size without bounce.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__blink",
       "title": "Blink",
       "description": "Rapid opacity flash for attention-grabbing notifications and alerts.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__squeeze",
       "title": "Squeeze",
       "description": "Compression effect that squashes element for tactile button feedback.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__tada",
       "title": "Tada",
       "description": "Celebration animation combining scale and rotation for success moments.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "standard-effects__heartbeat",
       "title": "HeartBeat",
       "description": "Double-pulse rhythm animation for likes and favorite interactions.",
       "categoryId": "base",
-      "groupId": "standard-effects"
+      "groupId": "standard-effects",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",
       "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px\u21920px blur.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__slide-up-soft",
       "title": "Slide Up Soft",
       "description": "Slides in from the up by 64px with 70% overlay fade and soft blur 8px.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__slide-down-soft",
       "title": "Slide Down Welcome",
       "description": "Slides in from the down by 60px with 68% overlay fade and soft blur 8px.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__slide-left-drift",
       "title": "Slide Left Drift",
       "description": "Slides in from the right by 68px with 68% overlay fade and soft blur 7px.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__slide-right-drift",
       "title": "Slide Right Drift",
       "description": "Slides in from the left by 68px with 68% overlay fade and soft blur 7px.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__spring-bounce",
       "title": "Spring Bounce",
       "description": "Elastic spring entrance with dynamic bounce physics and smooth overlay transition.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["framer"]
     },
     {
       "id": "modal-base__flip-3d",
       "title": "3D Card Flip",
       "description": "Card game style 3D rotation reveal with perspective depth and overshoot.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__glitch-digital",
       "title": "Digital Glitch",
       "description": "Cyberpunk-inspired RGB channel separation with digital distortion artifacts.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__portal-swirl",
       "title": "Portal Swirl",
       "description": "Fantasy game vortex entrance with spiral rotation and morphing border radius.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__tv-turn-on",
       "title": "CRT TV Turn On",
       "description": "Retro CRT monitor power-on effect with horizontal-to-vertical expansion.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__unfold-origami",
       "title": "Origami Unfold",
       "description": "Paper-style unfolding animation with sequential axis expansion.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__shatter-assemble",
       "title": "Shatter Assembly",
       "description": "Glass fragments coalesce into modal with blur and rotation effects.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__ripple-expand",
       "title": "Material Ripple",
       "description": "Material Design ripple expansion with radiating wave effect.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-base__zoom-elastic",
       "title": "Elastic Zoom Bounce",
       "description": "Mobile game style zoom with elastic bounce physics and overshoot.",
       "categoryId": "dialogs",
-      "groupId": "modal-base"
+      "groupId": "modal-base",
+      "tags": ["css"]
     },
     {
       "id": "modal-content__buttons-stagger-2",
       "title": "Button Stagger \u00d72",
       "description": "Button cluster stagger with 2 actions.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
     {
       "id": "modal-content__buttons-stagger-3",
       "title": "Button Stagger \u00d73",
       "description": "Button cluster stagger with 3 actions.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
 
     {
@@ -536,91 +594,104 @@
       "title": "List Soft Stagger",
       "description": "Sequential list reveal (5 items) using 60ms offsets.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
     {
       "id": "modal-content__list-vertical-wipe",
       "title": "List Vertical Wipe",
       "description": "Vertical panel wipe across 4 list items for crisp onboarding.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
     {
       "id": "modal-content__list-spotlight",
       "title": "List Spotlight Sweep",
       "description": "Content choreography inside the modal.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
     {
       "id": "modal-content__form-field-left-reveal",
       "title": "Form Fields From Left",
       "description": "Form fields slide in from the left with gentle 420ms pacing.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
     {
       "id": "modal-content__form-field-right-reveal",
       "title": "Form Fields From Right",
       "description": "Form fields slide in from the right with gentle 420ms pacing.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
     {
       "id": "modal-content__form-field-gradient",
       "title": "Form Gradient Sweep",
       "description": "Gradient sweep across 3 fields emphasising focus and order.",
       "categoryId": "dialogs",
-      "groupId": "modal-content"
+      "groupId": "modal-content",
+      "tags": ["css"]
     },
     {
       "id": "modal-dismiss__toast-slide-left",
       "title": "Toast Slide Left",
       "description": "Toast slides along the horizontal axis with auto-dismiss at 3800ms.",
       "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
+      "groupId": "modal-dismiss",
+      "tags": ["js", "css"]
     },
     {
       "id": "modal-dismiss__toast-slide-right",
       "title": "Toast Slide Right",
       "description": "Toast slides along the horizontal axis with auto-dismiss at 3800ms.",
       "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
+      "groupId": "modal-dismiss",
+      "tags": ["js", "css"]
     },
     {
       "id": "modal-dismiss__toast-drop",
       "title": "Toast Drop Down",
       "description": "Toast slides along the vertical axis with auto-dismiss at 3600ms.",
       "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
+      "groupId": "modal-dismiss",
+      "tags": ["js", "css"]
     },
     {
       "id": "modal-dismiss__toast-raise",
       "title": "Toast Rise Up",
       "description": "Toast slides along the vertical axis with auto-dismiss at 3600ms.",
       "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
+      "groupId": "modal-dismiss",
+      "tags": ["js", "css"]
     },
     {
       "id": "modal-dismiss__toast-fade-progress",
       "title": "Toast Fade Progress",
       "description": "Soft fade-to-dismiss with synchronized progress depletion.",
       "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
+      "groupId": "modal-dismiss",
+      "tags": ["js", "css"]
     },
     {
       "id": "modal-dismiss__snackbar-wipe",
       "title": "Snackbar Wipe",
       "description": "Snackbar wipes along the horizontal axis with progress tracking overlay.",
       "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
+      "groupId": "modal-dismiss",
+      "tags": ["js", "css"]
     },
     {
       "id": "modal-dismiss__snackbar-scale",
       "title": "Snackbar Scale Pulse",
       "description": "Dismiss pulse that scales and recedes while the timer empties.",
       "categoryId": "dialogs",
-      "groupId": "modal-dismiss"
+      "groupId": "modal-dismiss",
+      "tags": ["js", "css"]
     },
 
     {
@@ -628,84 +699,96 @@
       "title": "Step Tiles Slide",
       "description": "Multi-step wizard with sliding step tiles and panel transitions",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__wizard-fade-cross",
       "title": "Step Tiles Fade",
       "description": "Multi-step wizard with cross-fading step tiles and content panels",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__wizard-scale-rotate",
       "title": "Step Tiles Scale",
       "description": "Multi-step wizard with scaling step tiles and rotating content panels",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__tab-morph",
       "title": "Interactive Tab Tiles",
       "description": "Clickable tab tiles with sliding content transitions and scale highlighting",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__selection-grid",
       "title": "Grid Tile Cascade",
       "description": "Cascading animation across a grid of selection tiles",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__comparison-morph",
       "title": "Comparison Tiles",
       "description": "Side-by-side comparison tiles with morphing transitions and content switching",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__stagger-inview",
       "title": "Stagger In-View",
       "description": "Grid tiles that animate progressively as they enter the viewport during scroll",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__spring-physics",
       "title": "Spring Physics Tiles",
       "description": "Elastic spring-based tile animations with gesture interactions and bounce effects",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__magnetic-hover",
       "title": "Magnetic Hover Tiles",
       "description": "Tiles that respond to cursor proximity with magnetic attraction and smooth following",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "modal-orchestration__flip-reveal",
       "title": "3D Flip Reveal",
       "description": "Tiles with 3D flip transitions revealing hidden content with perspective transforms",
       "categoryId": "dialogs",
-      "groupId": "modal-orchestration"
+      "groupId": "modal-orchestration",
+      "tags": ["framer"]
     },
     {
       "id": "progress-bars__timeline-progress",
       "title": "Timeline Progress",
       "description": "Timeline progress visualization showing sequential milestones with connected flow.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["framer"]
     },
     {
       "id": "modal-celebrations__confetti-burst",
       "title": "Confetti Burst",
       "description": "Celebration effects pattern: Confetti Burst",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
 
     {
@@ -713,112 +796,128 @@
       "title": "Confetti Spiral",
       "description": "Celebration effects pattern: Confetti Spiral",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__confetti-rain",
       "title": "Confetti Rainfall",
       "description": "Celebration effects pattern: Confetti Rainfall",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__coins-arc",
       "title": "Coin Arc Fountain",
       "description": "Celebration effects pattern: Coin Arc Fountain",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__coins-fountain",
       "title": "Coin Fountain",
       "description": "Celebration effects pattern: Coin Fountain",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__coins-swirl",
       "title": "Coin Swirl",
       "description": "Celebration effects pattern: Coin Swirl",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__fireworks-triple",
       "title": "Fireworks Triple Burst",
       "description": "Celebration effects pattern: Fireworks Triple Burst",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__fireworks-ring",
       "title": "Fireworks Halo",
       "description": "Celebration effects pattern: Fireworks Halo",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__reward-spotlight",
       "title": "Reward Spotlight",
       "description": "Celebration effects pattern: Reward Spotlight",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__jackpot-celebration",
       "title": "Jackpot Celebration",
       "description": "Celebration effects pattern: Jackpot Celebration",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__confetti-pulse",
       "title": "Confetti Pulse Wave",
       "description": "Celebration effects pattern: Confetti Pulse Wave",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "progress-bars__progress-milestones",
       "title": "Milestone Markers",
       "description": "Milestone markers light up as progress crosses thresholds.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["js", "css"]
     },
     {
       "id": "progress-bars__progress-segmented",
       "title": "Segmented Sweep",
       "description": "Segments fill sequentially for discrete progress feedback.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["js", "css"]
     },
     {
       "id": "progress-bars__progress-gradient",
       "title": "Gradient Glide",
       "description": "Gradient sweep along the bar for premium polish.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["js", "css"]
     },
     {
       "id": "progress-bars__progress-bounce",
       "title": "Grow up",
       "description": "Elastic finish emphasises completion state.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["js", "css"]
     },
     {
       "id": "progress-bars__progress-thin",
       "title": "Thin Glide",
       "description": "Slim tracker for compact UI contexts.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["js", "css"]
     },
     {
       "id": "progress-bars__xp-accumulation",
       "title": "XP Accumulation",
       "description": "Visually satisfying XP point accumulation with multiplier zones, flowing orbs, floating +XP numbers, and electric blue/cyan glow effects.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["framer", "js"]
     },
 
 
@@ -827,175 +926,200 @@
       "title": "Zoomed Progress",
       "description": "Multi-level progress bar with zoomed viewport that shifts and scales as levels advance. Features numbered milestones, color transitions per level (blue to yellow to pink), radial gradient masking for zoom effect, and skewed progress fill animation.",
       "categoryId": "progress",
-      "groupId": "progress-bars"
+      "groupId": "progress-bars",
+      "tags": ["js", "css"]
     },
     {
       "id": "loading-states__skeleton-horizontal",
       "title": "Skeleton Horizontal",
       "description": "Horizontal skeleton shimmer for content placeholders.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__skeleton-vertical",
       "title": "Skeleton Vertical",
       "description": "Vertical skeleton stack simulating cards.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__skeleton-tile",
       "title": "Skeleton Tile Grid",
       "description": "Grid skeleton effect for gallery loading.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__skeleton-card",
       "title": "Skeleton Card",
       "description": "Card skeleton with layered shimmer lines.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__spinner-dual-ring",
       "title": "Spinner Dual Ring",
       "description": "Dual ring spinner with consistent velocity.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__spinner-orbital",
       "title": "Spinner Orbital",
       "description": "Orbital spinner around centre mass.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__spinner-galaxy",
       "title": "Spinner Galaxy",
       "description": "Galaxy spinner with layered opacity twirls.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__dots-rise",
       "title": "Dots Rise",
       "description": "Three-dot rise cadence for subtle loading feedback.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__dots-portal",
       "title": "Dots Portal",
       "description": "Dots fold into portal centre to indicate processing.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__ring-progress",
       "title": "Ring Progress",
       "description": "Progress ring fills from 0 to 100%.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "loading-states__ring-multi",
       "title": "Multi Ring",
       "description": "Nested rings oscillate asynchronously.",
       "categoryId": "progress",
-      "groupId": "loading-states"
+      "groupId": "loading-states",
+      "tags": ["css"]
     },
     {
       "id": "timer-effects__timer-color-shift",
       "title": "Color Shift",
       "description": "Countdown shifts colour from calm to urgency.",
       "categoryId": "realtime",
-      "groupId": "timer-effects"
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
     },
     {
       "id": "timer-effects__timer-pulse",
       "title": "Pulse Urgency",
       "description": "Last seconds pulse to draw focus.",
       "categoryId": "realtime",
-      "groupId": "timer-effects"
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
     },
     {
       "id": "timer-effects__timer-flash",
       "title": "Flash Expire",
       "description": "Flashing state at expiry to warn users.",
       "categoryId": "realtime",
-      "groupId": "timer-effects"
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
     },
     {
       "id": "timer-effects__timer-flash-soft",
       "title": "Flash Expire Soft",
       "description": "Gentle periodic reminders without aggressive urgency.",
       "categoryId": "realtime",
-      "groupId": "timer-effects"
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
     },
     {
       "id": "timer-effects__timer-flip",
       "title": "Flip Digits",
       "description": "Mechanical flip digits animate per second.",
       "categoryId": "realtime",
-      "groupId": "timer-effects"
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
     },
     {
       "id": "update-indicators__badge-pop",
       "title": "Badge Pop",
       "description": "Notification badge pops in with quick overshoot.",
       "categoryId": "realtime",
-      "groupId": "update-indicators"
+      "groupId": "update-indicators",
+      "tags": ["js", "css"]
     },
     {
       "id": "update-indicators__badge-pulse",
       "title": "Badge Pulse",
       "description": "Badge pulsates to signal unseen content.",
       "categoryId": "realtime",
-      "groupId": "update-indicators"
+      "groupId": "update-indicators",
+      "tags": ["js", "css"]
     },
     {
       "id": "update-indicators__live-ping",
       "title": "Live Ping",
       "description": "Live indicator ping loop for streams.",
       "categoryId": "realtime",
-      "groupId": "update-indicators"
+      "groupId": "update-indicators",
+      "tags": ["js", "css"]
     },
     {
       "id": "realtime-data__leaderboard-shift",
       "title": "Leaderboard Shift",
       "description": "Real-time data pattern: Leaderboard Shift",
       "categoryId": "realtime",
-      "groupId": "realtime-data"
+      "groupId": "realtime-data",
+      "tags": ["framer", "js"]
     },
     {
       "id": "realtime-data__live-score-update",
       "title": "Live Score Update",
       "description": "Real-time data pattern: Live Score Update",
       "categoryId": "realtime",
-      "groupId": "realtime-data"
+      "groupId": "realtime-data",
+      "tags": ["framer", "js"]
     },
     {
       "id": "realtime-data__win-ticker",
       "title": "Win Ticker",
       "description": "Real-time data pattern: Win Ticker",
       "categoryId": "realtime",
-      "groupId": "realtime-data"
+      "groupId": "realtime-data",
+      "tags": ["framer", "js"]
     },
     {
       "id": "realtime-data__stacked-realtime",
       "title": "Stacked Pulse",
       "description": "Real-time data pattern: Stacked Pulse",
       "categoryId": "realtime",
-      "groupId": "realtime-data"
+      "groupId": "realtime-data",
+      "tags": ["framer", "js"]
     },
     {
       "id": "reward-basic__coin-spin-soft",
       "title": "Coin Spin Soft",
       "description": "Reward flourish: coin spin soft.",
       "categoryId": "rewards",
-      "groupId": "reward-basic"
+      "groupId": "reward-basic",
+      "tags": ["css"]
     },
 
     {
@@ -1003,28 +1127,32 @@
       "title": "Coin Trail",
       "description": "Celebration effects pattern: Coin Trail",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__coin-cascade",
       "title": "Coin Cascade",
       "description": "Celebration effects pattern: Coin Cascade",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__multi-coin",
       "title": "Multi Coin",
       "description": "Celebration effects pattern: Multi Coin",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
     {
       "id": "modal-celebrations__treasure-particles",
       "title": "Treasure Particles",
       "description": "Celebration effects pattern: Treasure Particles",
       "categoryId": "rewards",
-      "groupId": "modal-celebrations"
+      "groupId": "modal-celebrations",
+      "tags": ["css"]
     },
 
     {
@@ -1032,28 +1160,32 @@
       "title": "Shake",
       "description": "Horizontal shake with rotation wobble and scale compression for error feedback.",
       "categoryId": "rewards",
-      "groupId": "icon-animations"
+      "groupId": "icon-animations",
+      "tags": ["css"]
     },
     {
       "id": "icon-animations__bounce",
       "title": "Bounce",
       "description": "Vertical bounce with squash-stretch deformation and tilt for playful feedback.",
       "categoryId": "rewards",
-      "groupId": "icon-animations"
+      "groupId": "icon-animations",
+      "tags": ["css"]
     },
     {
       "id": "icon-animations__float",
       "title": "Float",
       "description": "Gentle Y-axis sine wave with subtle rotation and shadow distance changes.",
       "categoryId": "rewards",
-      "groupId": "icon-animations"
+      "groupId": "icon-animations",
+      "tags": ["css"]
     },
     {
       "id": "icon-animations__pulse",
       "title": "Pulse",
       "description": "Scale pulse with opacity fade and expanding glow for heartbeat effect.",
       "categoryId": "rewards",
-      "groupId": "icon-animations"
+      "groupId": "icon-animations",
+      "tags": ["css"]
     }
 
   ]

@@ -279,6 +279,7 @@
 .pf-card__meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   font-size: 12px;
   color: var(--pf-text-tertiary);
@@ -300,7 +301,7 @@
 
 .pf-card__actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-top: auto;
 }

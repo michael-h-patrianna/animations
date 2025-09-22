@@ -14,6 +14,7 @@ interface AnimationCardProps extends PropsWithChildren {
   title: string;
   description: string;
   animationId: string;
+  tags?: string[];
   onReplay?: () => void;
   infiniteAnimation?: boolean; // For animations that should loop indefinitely
   disableReplay?: boolean; // When true, hide/disable the replay button
@@ -23,6 +24,7 @@ export function AnimationCard({
   title,
   description,
   animationId,
+  tags,
   children,
   onReplay,
   infiniteAnimation = false,
@@ -110,6 +112,14 @@ export function AnimationCard({
       </CardContent>
 
       <CardFooter className="pf-card__actions p-0 pt-3">
+        {/* Left: tags */}
+        <div className="pf-card__meta">
+          {tags?.map((tag) => (
+            <span key={tag}>{tag.toUpperCase()}</span>
+          ))}
+        </div>
+
+        {/* Right: controls */}
         <div className="pf-card__controls">
           <Button
             variant="outline"
