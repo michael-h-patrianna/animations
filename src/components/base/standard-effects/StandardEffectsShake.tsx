@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsShake.css'
 
 export function StandardEffectsShake() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsShake() {
         <div className="demo-text">Shake</div>
       </div>
     </div>
-  );
+  )
 }

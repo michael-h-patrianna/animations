@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsRubberBand.css'
 
 export function StandardEffectsRubberBand() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsRubberBand() {
         <div className="demo-text">RubberBand</div>
       </div>
     </div>
-  );
+  )
 }

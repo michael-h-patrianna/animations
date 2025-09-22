@@ -5,6 +5,7 @@
 Creating professional-quality particle effects that rival Unity3D or WebGL implementations using web technologies is challenging but achievable. This comprehensive playbook provides actionable strategies for building high-performance particle systems using CSS, Framer Motion, React Native Reanimated, and Moti, with seamless cross-platform translation capabilities.
 
 **Key Success Factors:**
+
 - Strategic use of `transform` and `opacity` properties for 60fps performance
 - Cross-platform animation patterns using Framer Motion → Moti translation
 - Advanced CSS techniques for realistic particle physics simulation
@@ -29,6 +30,7 @@ Creating professional-quality particle effects that rival Unity3D or WebGL imple
 ### What Makes Particle Effects Look Amateur
 
 **Common Amateur Mistakes:**
+
 - Linear, predictable movement patterns
 - Uniform particle sizes and behaviors
 - Poor timing and easing functions
@@ -41,6 +43,7 @@ Creating professional-quality particle effects that rival Unity3D or WebGL imple
 ### Professional Quality Characteristics
 
 **Unity3D/WebGL Quality Markers:**
+
 - **Natural Physics Simulation**: Particles follow realistic physics laws with appropriate gravity, friction, and momentum
 - **Variance and Randomness**: Subtle variations in size, speed, opacity, and behavior create organic feel
 - **Depth and Layering**: Multiple particle layers with proper z-indexing and depth cues
@@ -52,6 +55,7 @@ Creating professional-quality particle effects that rival Unity3D or WebGL imple
 ### Professional Design Principles
 
 **Visual Hierarchy:**
+
 ```css
 /* Professional particle layering */
 .particle-layer-background {
@@ -74,6 +78,7 @@ Creating professional-quality particle effects that rival Unity3D or WebGL imple
 ```
 
 **Natural Movement Patterns:**
+
 - Use spring physics instead of linear transitions
 - Implement subtle gravity and air resistance
 - Add random noise to prevent mechanical appearance
@@ -84,12 +89,14 @@ Creating professional-quality particle effects that rival Unity3D or WebGL imple
 ### Technology Stack Overview
 
 **Web Platform (Primary):**
+
 - **CSS**: Transform-based animations, keyframe sequences
 - **Framer Motion**: Declarative animation framework
 - **Web Animations API**: Native browser animation control
 - **Canvas/WebGL**: High-performance rendering fallbacks
 
 **Mobile Platform (React Native):**
+
 - **React Native Reanimated 3**: Native thread animations
 - **Moti**: Cross-platform animation abstraction
 - **Skia Integration**: Hardware-accelerated rendering
@@ -97,41 +104,43 @@ Creating professional-quality particle effects that rival Unity3D or WebGL imple
 ### Architecture Patterns
 
 **Component-Based Architecture:**
+
 ```typescript
 interface ParticleSystemConfig {
-  particleCount: number;
-  emissionRate: number;
-  lifetime: number;
-  physics: PhysicsConfig;
-  visual: VisualConfig;
-  performance: PerformanceConfig;
+  particleCount: number
+  emissionRate: number
+  lifetime: number
+  physics: PhysicsConfig
+  visual: VisualConfig
+  performance: PerformanceConfig
 }
 
 interface PhysicsConfig {
-  gravity: Vector3;
-  friction: number;
-  bounce: number;
-  wind: Vector3;
+  gravity: Vector3
+  friction: number
+  bounce: number
+  wind: Vector3
 }
 
 interface VisualConfig {
-  size: { min: number; max: number };
-  opacity: { start: number; end: number };
-  color: ColorRange;
-  blur: number;
+  size: { min: number; max: number }
+  opacity: { start: number; end: number }
+  color: ColorRange
+  blur: number
 }
 ```
 
 **Cross-Platform Abstraction Layer:**
+
 ```typescript
 // Universal particle interface
 interface UniversalParticle {
-  position: Vector3;
-  velocity: Vector3;
-  scale: number;
-  opacity: number;
-  rotation: number;
-  lifetime: number;
+  position: Vector3
+  velocity: Vector3
+  scale: number
+  opacity: number
+  rotation: number
+  lifetime: number
 }
 
 // Platform-specific implementations
@@ -153,6 +162,7 @@ class NativeParticleRenderer implements ParticleRenderer {
 ### Pure CSS Particle Systems
 
 **Advanced CSS Animation Patterns:**
+
 ```css
 /* Professional particle base class */
 .particle {
@@ -184,9 +194,10 @@ class NativeParticleRenderer implements ParticleRenderer {
   }
   10% {
     transform: translate(
-      calc(var(--start-x) + var(--velocity-x) * 0.1),
-      calc(var(--start-y) + var(--velocity-y) * 0.1 + var(--gravity) * 0.01)
-    ) scale(1);
+        calc(var(--start-x) + var(--velocity-x) * 0.1),
+        calc(var(--start-y) + var(--velocity-y) * 0.1 + var(--gravity) * 0.01)
+      )
+      scale(1);
   }
   100% {
     transform: translate(var(--end-x), var(--end-y)) scale(0.2);
@@ -194,21 +205,35 @@ class NativeParticleRenderer implements ParticleRenderer {
 }
 
 @keyframes particle-fade {
-  0%, 10% { opacity: 0; }
-  20% { opacity: var(--max-opacity, 0.8); }
-  80% { opacity: var(--max-opacity, 0.8); }
-  100% { opacity: 0; }
+  0%,
+  10% {
+    opacity: 0;
+  }
+  20% {
+    opacity: var(--max-opacity, 0.8);
+  }
+  80% {
+    opacity: var(--max-opacity, 0.8);
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes particle-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 ```
 
 **Advanced CSS Techniques:**
 
 1. **CSS Custom Properties for Dynamic Control:**
+
 ```css
 .particle-system {
   --wind-force: 0;
@@ -227,6 +252,7 @@ class NativeParticleRenderer implements ParticleRenderer {
 ```
 
 2. **Pseudo-element Particle Generation:**
+
 ```css
 .particle-emitter::before,
 .particle-emitter::after {
@@ -234,7 +260,7 @@ class NativeParticleRenderer implements ParticleRenderer {
   position: absolute;
   width: 4px;
   height: 4px;
-  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
   border-radius: 50%;
   animation: particle-burst 2s ease-out infinite;
 }
@@ -251,13 +277,10 @@ class NativeParticleRenderer implements ParticleRenderer {
 ```
 
 3. **CSS Filter Effects for Professional Look:**
+
 ```css
 .particle {
-  filter:
-    blur(0.5px)
-    drop-shadow(0 0 3px rgba(255,255,255,0.3))
-    saturate(1.2)
-    brightness(1.1);
+  filter: blur(0.5px) drop-shadow(0 0 3px rgba(255, 255, 255, 0.3)) saturate(1.2) brightness(1.1);
 }
 
 .particle-system {
@@ -269,71 +292,72 @@ class NativeParticleRenderer implements ParticleRenderer {
 ### Web Animations API Integration
 
 **Dynamic CSS Property Control:**
+
 ```javascript
 class AdvancedCSSParticleSystem {
   constructor(container, config) {
-    this.container = container;
-    this.config = config;
-    this.particles = [];
+    this.container = container
+    this.config = config
+    this.particles = []
   }
 
   createParticle(x, y) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
+    const particle = document.createElement('div')
+    particle.className = 'particle'
 
     // Calculate physics-based properties
-    const physics = this.calculatePhysics();
+    const physics = this.calculatePhysics()
 
     // Set CSS custom properties
-    particle.style.setProperty('--start-x', `${x}px`);
-    particle.style.setProperty('--start-y', `${y}px`);
-    particle.style.setProperty('--velocity-x', `${physics.velocityX}px`);
-    particle.style.setProperty('--velocity-y', `${physics.velocityY}px`);
-    particle.style.setProperty('--lifetime', `${physics.lifetime}s`);
-    particle.style.setProperty('--max-opacity', physics.opacity);
+    particle.style.setProperty('--start-x', `${x}px`)
+    particle.style.setProperty('--start-y', `${y}px`)
+    particle.style.setProperty('--velocity-x', `${physics.velocityX}px`)
+    particle.style.setProperty('--velocity-y', `${physics.velocityY}px`)
+    particle.style.setProperty('--lifetime', `${physics.lifetime}s`)
+    particle.style.setProperty('--max-opacity', physics.opacity)
 
     // Advanced visual properties
-    particle.style.setProperty('--hue', `${Math.random() * 360}deg`);
-    particle.style.setProperty('--size', `${physics.size}px`);
+    particle.style.setProperty('--hue', `${Math.random() * 360}deg`)
+    particle.style.setProperty('--size', `${physics.size}px`)
 
-    this.container.appendChild(particle);
+    this.container.appendChild(particle)
 
     // Remove particle after animation
     setTimeout(() => {
       if (particle.parentNode) {
-        particle.parentNode.removeChild(particle);
+        particle.parentNode.removeChild(particle)
       }
-    }, physics.lifetime * 1000);
+    }, physics.lifetime * 1000)
 
-    return particle;
+    return particle
   }
 
   calculatePhysics() {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = 50 + Math.random() * 100;
+    const angle = Math.random() * Math.PI * 2
+    const speed = 50 + Math.random() * 100
 
     return {
       velocityX: Math.cos(angle) * speed,
       velocityY: Math.sin(angle) * speed,
       lifetime: 2 + Math.random() * 3,
       opacity: 0.6 + Math.random() * 0.4,
-      size: 3 + Math.random() * 5
-    };
+      size: 3 + Math.random() * 5,
+    }
   }
 
   startEmission(rate = 10) {
     this.emissionInterval = setInterval(() => {
       for (let i = 0; i < rate; i++) {
-        const x = Math.random() * this.container.offsetWidth;
-        const y = Math.random() * this.container.offsetHeight;
-        this.createParticle(x, y);
+        const x = Math.random() * this.container.offsetWidth
+        const y = Math.random() * this.container.offsetHeight
+        this.createParticle(x, y)
       }
-    }, 1000 / 60); // 60fps emission
+    }, 1000 / 60) // 60fps emission
   }
 
   stopEmission() {
     if (this.emissionInterval) {
-      clearInterval(this.emissionInterval);
+      clearInterval(this.emissionInterval)
     }
   }
 }
@@ -344,6 +368,7 @@ class AdvancedCSSParticleSystem {
 ### Core Framer Motion Particle Architecture
 
 **Basic Particle Component:**
+
 ```typescript
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
@@ -454,6 +479,7 @@ const FramerParticleSystem: React.FC<ParticleSystemProps> = ({
 ### Advanced Framer Motion Patterns
 
 **1. Orchestrated Particle Animations:**
+
 ```typescript
 const particleVariants = {
   hidden: {
@@ -499,6 +525,7 @@ const OrchestratedParticle = ({ data, index }) => (
 ```
 
 **2. Interactive Particle Response:**
+
 ```typescript
 const InteractiveParticleSystem = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -560,6 +587,7 @@ const InteractiveParticleSystem = () => {
 ```
 
 **3. Performance-Optimized Particle Batching:**
+
 ```typescript
 const BatchedParticleSystem = () => {
   const [particleBatches, setParticleBatches] = useState<ParticleBatch[]>([]);
@@ -623,17 +651,18 @@ const BatchedParticleSystem = () => {
 
 **Core Animation Property Mapping:**
 
-| Framer Motion | React Native Reanimated | Moti | Notes |
-|---------------|-------------------------|------|-------|
-| `animate={{ x: 100 }}` | `useSharedValue(100)` | `animate={{ translateX: 100 }}` | Position translation |
+| Framer Motion                  | React Native Reanimated                 | Moti                              | Notes                 |
+| ------------------------------ | --------------------------------------- | --------------------------------- | --------------------- |
+| `animate={{ x: 100 }}`         | `useSharedValue(100)`                   | `animate={{ translateX: 100 }}`   | Position translation  |
 | `transition={{ duration: 2 }}` | `withTiming(value, { duration: 2000 })` | `transition={{ duration: 2000 }}` | Duration in ms for RN |
-| `initial={{ scale: 0 }}` | `useSharedValue(0)` | `from={{ scale: 0 }}` | Initial state |
-| `exit={{ opacity: 0 }}` | `withTiming(0)` | `exit={{ opacity: 0 }}` | Exit animations |
-| `whileHover={{ scale: 1.1 }}` | `onPress callback` | `whileHover={{ scale: 1.1 }}` | Gesture handling |
+| `initial={{ scale: 0 }}`       | `useSharedValue(0)`                     | `from={{ scale: 0 }}`             | Initial state         |
+| `exit={{ opacity: 0 }}`        | `withTiming(0)`                         | `exit={{ opacity: 0 }}`           | Exit animations       |
+| `whileHover={{ scale: 1.1 }}`  | `onPress callback`                      | `whileHover={{ scale: 1.1 }}`     | Gesture handling      |
 
 ### Universal Particle Interface
 
 **Cross-Platform Particle Definition:**
+
 ```typescript
 // Universal particle configuration
 interface UniversalParticleConfig {
@@ -722,6 +751,7 @@ class NativeParticleSystem {
 ### React Native Reanimated Implementation
 
 **Native Thread Particle System:**
+
 ```typescript
 import Animated, {
   useSharedValue,
@@ -799,6 +829,7 @@ const ReanimatedParticleSystem = () => {
 ### Moti Integration Patterns
 
 **Moti Particle Components:**
+
 ```typescript
 import { MotiView, AnimatePresence } from 'moti';
 import { Easing } from 'react-native-reanimated';
@@ -857,48 +888,51 @@ const MotiParticleSystem = () => {
 **Platform-Specific Optimizations:**
 
 1. **Web Optimizations:**
+
 ```typescript
 // Use CSS transforms for performance
 const webParticleStyle = {
   transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`,
   willChange: 'transform, opacity',
-  backfaceVisibility: 'hidden'
-};
+  backfaceVisibility: 'hidden',
+}
 ```
 
 2. **React Native Optimizations:**
+
 ```typescript
 // Use native driver for animations
 const nativeOptimizedConfig = {
   useNativeDriver: true,
-  isInteraction: false // Don't delay other interactions
-};
+  isInteraction: false, // Don't delay other interactions
+}
 ```
 
 3. **Universal Performance Patterns:**
+
 ```typescript
 // Shared optimization utilities
 const createOptimizedParticle = (platform: 'web' | 'native') => {
   const baseConfig = {
     duration: 2000,
     particles: 50,
-    emissionRate: 30
-  };
+    emissionRate: 30,
+  }
 
   if (platform === 'native') {
     return {
       ...baseConfig,
       useNativeDriver: true,
-      runOnUI: true
-    };
+      runOnUI: true,
+    }
   }
 
   return {
     ...baseConfig,
     willChange: 'transform, opacity',
-    transform3d: true
-  };
-};
+    transform3d: true,
+  }
+}
 ```
 
 ## 6. Performance Optimization Masterclass {#performance}
@@ -906,6 +940,7 @@ const createOptimizedParticle = (platform: 'web' | 'native') => {
 ### 60fps Performance Principles
 
 **Core Performance Rules:**
+
 1. **Transform-Only Animations**: Use only `transform` and `opacity` properties
 2. **Composite Layer Management**: Strategic use of `will-change` and `transform3d()`
 3. **Efficient Particle Lifecycle**: Proper creation, update, and cleanup cycles
@@ -915,166 +950,188 @@ const createOptimizedParticle = (platform: 'web' | 'native') => {
 ### Advanced Performance Techniques
 
 **1. Spatial Partitioning with Quadtrees:**
+
 ```typescript
 class QuadTree {
   constructor(bounds: Bounds, maxObjects = 10, maxLevels = 5, level = 0) {
-    this.bounds = bounds;
-    this.maxObjects = maxObjects;
-    this.maxLevels = maxLevels;
-    this.level = level;
-    this.objects = [];
-    this.nodes = [];
+    this.bounds = bounds
+    this.maxObjects = maxObjects
+    this.maxLevels = maxLevels
+    this.level = level
+    this.objects = []
+    this.nodes = []
   }
 
   insert(particle: Particle): void {
     if (this.nodes.length > 0) {
-      const index = this.getIndex(particle);
+      const index = this.getIndex(particle)
       if (index !== -1) {
-        this.nodes[index].insert(particle);
-        return;
+        this.nodes[index].insert(particle)
+        return
       }
     }
 
-    this.objects.push(particle);
+    this.objects.push(particle)
 
     if (this.objects.length > this.maxObjects && this.level < this.maxLevels) {
       if (this.nodes.length === 0) {
-        this.split();
+        this.split()
       }
 
-      let i = 0;
+      let i = 0
       while (i < this.objects.length) {
-        const index = this.getIndex(this.objects[i]);
+        const index = this.getIndex(this.objects[i])
         if (index !== -1) {
-          this.nodes[index].insert(this.objects.splice(i, 1)[0]);
+          this.nodes[index].insert(this.objects.splice(i, 1)[0])
         } else {
-          i++;
+          i++
         }
       }
     }
   }
 
   retrieve(bounds: Bounds): Particle[] {
-    const returnObjects = this.objects.slice();
+    const returnObjects = this.objects.slice()
 
     if (this.nodes.length > 0) {
-      const index = this.getIndex(bounds);
+      const index = this.getIndex(bounds)
       if (index !== -1) {
-        returnObjects.push(...this.nodes[index].retrieve(bounds));
+        returnObjects.push(...this.nodes[index].retrieve(bounds))
       } else {
-        this.nodes.forEach(node => {
-          returnObjects.push(...node.retrieve(bounds));
-        });
+        this.nodes.forEach((node) => {
+          returnObjects.push(...node.retrieve(bounds))
+        })
       }
     }
 
-    return returnObjects;
+    return returnObjects
   }
 
   private split(): void {
-    const subWidth = this.bounds.width / 2;
-    const subHeight = this.bounds.height / 2;
-    const x = this.bounds.x;
-    const y = this.bounds.y;
+    const subWidth = this.bounds.width / 2
+    const subHeight = this.bounds.height / 2
+    const x = this.bounds.x
+    const y = this.bounds.y
 
-    this.nodes[0] = new QuadTree({
-      x: x + subWidth,
-      y: y,
-      width: subWidth,
-      height: subHeight
-    }, this.maxObjects, this.maxLevels, this.level + 1);
+    this.nodes[0] = new QuadTree(
+      {
+        x: x + subWidth,
+        y: y,
+        width: subWidth,
+        height: subHeight,
+      },
+      this.maxObjects,
+      this.maxLevels,
+      this.level + 1
+    )
 
-    this.nodes[1] = new QuadTree({
-      x: x,
-      y: y,
-      width: subWidth,
-      height: subHeight
-    }, this.maxObjects, this.maxLevels, this.level + 1);
+    this.nodes[1] = new QuadTree(
+      {
+        x: x,
+        y: y,
+        width: subWidth,
+        height: subHeight,
+      },
+      this.maxObjects,
+      this.maxLevels,
+      this.level + 1
+    )
 
-    this.nodes[2] = new QuadTree({
-      x: x,
-      y: y + subHeight,
-      width: subWidth,
-      height: subHeight
-    }, this.maxObjects, this.maxLevels, this.level + 1);
+    this.nodes[2] = new QuadTree(
+      {
+        x: x,
+        y: y + subHeight,
+        width: subWidth,
+        height: subHeight,
+      },
+      this.maxObjects,
+      this.maxLevels,
+      this.level + 1
+    )
 
-    this.nodes[3] = new QuadTree({
-      x: x + subWidth,
-      y: y + subHeight,
-      width: subWidth,
-      height: subHeight
-    }, this.maxObjects, this.maxLevels, this.level + 1);
+    this.nodes[3] = new QuadTree(
+      {
+        x: x + subWidth,
+        y: y + subHeight,
+        width: subWidth,
+        height: subHeight,
+      },
+      this.maxObjects,
+      this.maxLevels,
+      this.level + 1
+    )
   }
 }
 
 // Usage in particle system
 class OptimizedParticleSystem {
-  private quadTree: QuadTree;
-  private particles: Particle[] = [];
+  private quadTree: QuadTree
+  private particles: Particle[] = []
 
   updateParticles(): void {
     // Rebuild quadtree each frame
-    this.quadTree = new QuadTree(this.screenBounds);
+    this.quadTree = new QuadTree(this.screenBounds)
 
     // Insert all particles
-    this.particles.forEach(particle => {
-      this.quadTree.insert(particle);
-    });
+    this.particles.forEach((particle) => {
+      this.quadTree.insert(particle)
+    })
 
     // Update only nearby particles
-    this.particles.forEach(particle => {
+    this.particles.forEach((particle) => {
       const nearby = this.quadTree.retrieve({
         x: particle.x - 50,
         y: particle.y - 50,
         width: 100,
-        height: 100
-      });
+        height: 100,
+      })
 
-      this.updateParticleWithNeighbors(particle, nearby);
-    });
+      this.updateParticleWithNeighbors(particle, nearby)
+    })
   }
 }
 ```
 
 **2. Object Pooling for Memory Efficiency:**
+
 ```typescript
 class ParticlePool {
-  private availableParticles: Particle[] = [];
-  private activeParticles: Particle[] = [];
+  private availableParticles: Particle[] = []
+  private activeParticles: Particle[] = []
 
   constructor(private maxParticles: number = 1000) {
     // Pre-allocate particle objects
     for (let i = 0; i < maxParticles; i++) {
-      this.availableParticles.push(new Particle());
+      this.availableParticles.push(new Particle())
     }
   }
 
   getParticle(): Particle | null {
     if (this.availableParticles.length === 0) {
-      return null; // Pool exhausted
+      return null // Pool exhausted
     }
 
-    const particle = this.availableParticles.pop()!;
-    this.activeParticles.push(particle);
-    return particle;
+    const particle = this.availableParticles.pop()!
+    this.activeParticles.push(particle)
+    return particle
   }
 
   releaseParticle(particle: Particle): void {
-    const index = this.activeParticles.indexOf(particle);
+    const index = this.activeParticles.indexOf(particle)
     if (index !== -1) {
-      this.activeParticles.splice(index, 1);
-      particle.reset(); // Reset particle state
-      this.availableParticles.push(particle);
+      this.activeParticles.splice(index, 1)
+      particle.reset() // Reset particle state
+      this.availableParticles.push(particle)
     }
   }
 
   update(): void {
     for (let i = this.activeParticles.length - 1; i >= 0; i--) {
-      const particle = this.activeParticles[i];
-      particle.update();
+      const particle = this.activeParticles[i]
+      particle.update()
 
       if (!particle.isAlive()) {
-        this.releaseParticle(particle);
+        this.releaseParticle(particle)
       }
     }
   }
@@ -1082,50 +1139,55 @@ class ParticlePool {
 ```
 
 **3. Performance Monitoring and Optimization:**
+
 ```typescript
 class PerformanceMonitor {
-  private frameCount = 0;
-  private lastTime = performance.now();
-  private fps = 60;
-  private particleCount = 0;
+  private frameCount = 0
+  private lastTime = performance.now()
+  private fps = 60
+  private particleCount = 0
 
   update(currentParticleCount: number): void {
-    this.frameCount++;
-    this.particleCount = currentParticleCount;
+    this.frameCount++
+    this.particleCount = currentParticleCount
 
-    const currentTime = performance.now();
-    const deltaTime = currentTime - this.lastTime;
+    const currentTime = performance.now()
+    const deltaTime = currentTime - this.lastTime
 
-    if (deltaTime >= 1000) { // Update every second
-      this.fps = Math.round((this.frameCount * 1000) / deltaTime);
-      this.frameCount = 0;
-      this.lastTime = currentTime;
+    if (deltaTime >= 1000) {
+      // Update every second
+      this.fps = Math.round((this.frameCount * 1000) / deltaTime)
+      this.frameCount = 0
+      this.lastTime = currentTime
 
-      this.adjustPerformance();
+      this.adjustPerformance()
     }
   }
 
   private adjustPerformance(): void {
     if (this.fps < 55) {
       // Performance is dropping, reduce particle count
-      this.adjustParticleCount(-10);
-      console.log(`Performance drop detected. FPS: ${this.fps}, Reducing particles`);
+      this.adjustParticleCount(-10)
+      console.log(`Performance drop detected. FPS: ${this.fps}, Reducing particles`)
     } else if (this.fps > 58 && this.particleCount < 200) {
       // Performance is good, can increase particle count
-      this.adjustParticleCount(5);
+      this.adjustParticleCount(5)
     }
   }
 
   private adjustParticleCount(delta: number): void {
     // Emit event to adjust particle system
-    document.dispatchEvent(new CustomEvent('adjustParticleCount', {
-      detail: { delta, currentFPS: this.fps }
-    }));
+    document.dispatchEvent(
+      new CustomEvent('adjustParticleCount', {
+        detail: { delta, currentFPS: this.fps },
+      })
+    )
   }
 }
 ```
 
 **4. GPU Acceleration Techniques:**
+
 ```css
 /* Force GPU acceleration */
 .particle {
@@ -1151,70 +1213,74 @@ class PerformanceMonitor {
 ### Platform-Specific Performance Optimizations
 
 **Web Performance:**
+
 ```typescript
 // Use requestAnimationFrame for smooth animations
 class WebParticleEngine {
-  private animationFrame: number = 0;
+  private animationFrame: number = 0
 
   start(): void {
     const animate = (timestamp: number) => {
-      this.update(timestamp);
-      this.render();
-      this.animationFrame = requestAnimationFrame(animate);
-    };
+      this.update(timestamp)
+      this.render()
+      this.animationFrame = requestAnimationFrame(animate)
+    }
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animate)
   }
 
   stop(): void {
     if (this.animationFrame) {
-      cancelAnimationFrame(this.animationFrame);
+      cancelAnimationFrame(this.animationFrame)
     }
   }
 
   // Use Web Workers for physics calculations
   private startPhysicsWorker(): void {
-    const worker = new Worker('physics-worker.js');
+    const worker = new Worker('physics-worker.js')
 
     worker.postMessage({
-      particles: this.particles.map(p => p.serialize()),
-      deltaTime: this.deltaTime
-    });
+      particles: this.particles.map((p) => p.serialize()),
+      deltaTime: this.deltaTime,
+    })
 
     worker.onmessage = (event) => {
-      this.updateParticlesFromWorker(event.data);
-    };
+      this.updateParticlesFromWorker(event.data)
+    }
   }
 }
 ```
 
 **React Native Performance:**
+
 ```typescript
 // Use runOnUI for smooth animations
 const nativeParticleUpdate = useCallback(() => {
-  'worklet';
+  'worklet'
 
-  particles.value = particles.value.map(particle => {
-    const newParticle = {
-      ...particle,
-      x: particle.x + particle.vx,
-      y: particle.y + particle.vy,
-      life: particle.life + 1
-    };
+  particles.value = particles.value
+    .map((particle) => {
+      const newParticle = {
+        ...particle,
+        x: particle.x + particle.vx,
+        y: particle.y + particle.vy,
+        life: particle.life + 1,
+      }
 
-    return newParticle;
-  }).filter(particle => particle.life < particle.maxLife);
-}, []);
+      return newParticle
+    })
+    .filter((particle) => particle.life < particle.maxLife)
+}, [])
 
 // Use InteractionManager for non-critical updates
 useEffect(() => {
   const interaction = InteractionManager.runAfterInteractions(() => {
     // Perform heavy particle system initialization
-    initializeParticleSystem();
-  });
+    initializeParticleSystem()
+  })
 
-  return () => interaction.cancel();
-}, []);
+  return () => interaction.cancel()
+}, [])
 ```
 
 ## 7. Visual Quality Enhancement {#visual-quality}
@@ -1222,6 +1288,7 @@ useEffect(() => {
 ### Professional Visual Design Principles
 
 **1. Depth and Layering:**
+
 ```css
 .particle-layer-1 {
   z-index: 1;
@@ -1243,6 +1310,7 @@ useEffect(() => {
 ```
 
 **2. Advanced Visual Effects:**
+
 ```css
 .particle {
   /* Glow effect */
@@ -1270,46 +1338,45 @@ useEffect(() => {
 ```
 
 **3. Color Theory and Harmony:**
+
 ```typescript
 class ColorSystem {
   static generateHarmoniousColors(baseHue: number): string[] {
     const analogous = [
       `hsl(${baseHue}, 70%, 60%)`,
       `hsl(${(baseHue + 30) % 360}, 70%, 60%)`,
-      `hsl(${(baseHue - 30 + 360) % 360}, 70%, 60%)`
-    ];
+      `hsl(${(baseHue - 30 + 360) % 360}, 70%, 60%)`,
+    ]
 
-    const complementary = [
-      `hsl(${baseHue}, 70%, 60%)`,
-      `hsl(${(baseHue + 180) % 360}, 70%, 60%)`
-    ];
+    const complementary = [`hsl(${baseHue}, 70%, 60%)`, `hsl(${(baseHue + 180) % 360}, 70%, 60%)`]
 
     const triadic = [
       `hsl(${baseHue}, 70%, 60%)`,
       `hsl(${(baseHue + 120) % 360}, 70%, 60%)`,
-      `hsl(${(baseHue + 240) % 360}, 70%, 60%)`
-    ];
+      `hsl(${(baseHue + 240) % 360}, 70%, 60%)`,
+    ]
 
-    return analogous; // or complementary, triadic based on design
+    return analogous // or complementary, triadic based on design
   }
 
   static createDynamicColor(particle: Particle): string {
-    const lifetime = particle.age / particle.maxAge;
-    const hue = particle.baseHue + (lifetime * 60); // Color shift over time
-    const saturation = 70 - (lifetime * 20); // Desaturate over time
-    const lightness = 60 - (lifetime * 40); // Darken over time
+    const lifetime = particle.age / particle.maxAge
+    const hue = particle.baseHue + lifetime * 60 // Color shift over time
+    const saturation = 70 - lifetime * 20 // Desaturate over time
+    const lightness = 60 - lifetime * 40 // Darken over time
 
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`
   }
 }
 ```
 
 **4. Physics-Based Visual Behaviors:**
+
 ```typescript
 class VisualPhysics {
   static calculateMotionBlur(velocity: Vector2): CSSProperties {
-    const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-    const angle = Math.atan2(velocity.y, velocity.x);
+    const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)
+    const angle = Math.atan2(velocity.y, velocity.x)
 
     if (speed > 5) {
       return {
@@ -1318,29 +1385,29 @@ class VisualPhysics {
           scaleX(${1 + speed * 0.02})
           scaleY(${Math.max(0.5, 1 - speed * 0.01)})
           rotate(${angle}rad)
-        `
-      };
+        `,
+      }
     }
 
-    return {};
+    return {}
   }
 
   static calculateGlow(energy: number): CSSProperties {
-    const glowIntensity = Math.min(energy * 0.1, 1);
-    const glowSize = 5 + (energy * 0.5);
+    const glowIntensity = Math.min(energy * 0.1, 1)
+    const glowSize = 5 + energy * 0.5
 
     return {
       boxShadow: `
         0 0 ${glowSize}px rgba(255, 255, 255, ${glowIntensity * 0.8}),
         0 0 ${glowSize * 2}px rgba(255, 255, 255, ${glowIntensity * 0.4}),
         0 0 ${glowSize * 3}px rgba(255, 255, 255, ${glowIntensity * 0.2})
-      `
-    };
+      `,
+    }
   }
 
   static calculateParallax(layer: number, scrollY: number): number {
-    const parallaxFactor = 1 - (layer * 0.2);
-    return scrollY * parallaxFactor;
+    const parallaxFactor = 1 - layer * 0.2
+    return scrollY * parallaxFactor
   }
 }
 ```
@@ -1348,6 +1415,7 @@ class VisualPhysics {
 ### Advanced Visual Techniques
 
 **1. Particle Interconnection System:**
+
 ```typescript
 class ParticleConnectionSystem {
   private connections: Connection[] = [];
@@ -1393,48 +1461,49 @@ class ParticleConnectionSystem {
 ```
 
 **2. Environmental Interaction Effects:**
+
 ```typescript
 class EnvironmentalEffects {
   static createWindEffect(particles: Particle[], windForce: Vector2): void {
-    particles.forEach(particle => {
-      const distance = this.calculateDistanceFromWindSource(particle);
-      const windEffect = this.calculateWindInfluence(distance);
+    particles.forEach((particle) => {
+      const distance = this.calculateDistanceFromWindSource(particle)
+      const windEffect = this.calculateWindInfluence(distance)
 
-      particle.velocity.x += windForce.x * windEffect;
-      particle.velocity.y += windForce.y * windEffect;
-    });
+      particle.velocity.x += windForce.x * windEffect
+      particle.velocity.y += windForce.y * windEffect
+    })
   }
 
   static createGravityWell(particles: Particle[], gravity: GravityWell): void {
-    particles.forEach(particle => {
-      const distance = this.calculateDistance(particle.position, gravity.position);
-      const force = gravity.strength / (distance * distance);
+    particles.forEach((particle) => {
+      const distance = this.calculateDistance(particle.position, gravity.position)
+      const force = gravity.strength / (distance * distance)
       const angle = Math.atan2(
         gravity.position.y - particle.position.y,
         gravity.position.x - particle.position.x
-      );
+      )
 
-      particle.velocity.x += Math.cos(angle) * force;
-      particle.velocity.y += Math.sin(angle) * force;
-    });
+      particle.velocity.x += Math.cos(angle) * force
+      particle.velocity.y += Math.sin(angle) * force
+    })
   }
 
   static createTurbulence(particles: Particle[], turbulence: TurbulenceField): void {
-    particles.forEach(particle => {
+    particles.forEach((particle) => {
       const noiseX = this.perlinNoise(
         particle.position.x * 0.01,
         particle.position.y * 0.01,
         Date.now() * 0.001
-      );
+      )
       const noiseY = this.perlinNoise(
         particle.position.x * 0.01 + 100,
         particle.position.y * 0.01 + 100,
         Date.now() * 0.001
-      );
+      )
 
-      particle.velocity.x += noiseX * turbulence.strength;
-      particle.velocity.y += noiseY * turbulence.strength;
-    });
+      particle.velocity.x += noiseX * turbulence.strength
+      particle.velocity.y += noiseY * turbulence.strength
+    })
   }
 }
 ```
@@ -1444,6 +1513,7 @@ class EnvironmentalEffects {
 ### Example 1: Interactive Hero Background
 
 **Web Implementation (Framer Motion):**
+
 ```typescript
 const HeroParticleBackground: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -1570,6 +1640,7 @@ const HeroParticleBackground: React.FC = () => {
 ```
 
 **React Native Implementation (Moti):**
+
 ```typescript
 const HeroParticleBackgroundNative: React.FC = () => {
   const [particles, setParticles] = useState<NativeParticle[]>([]);
@@ -1642,6 +1713,7 @@ const styles = StyleSheet.create({
 ### Example 2: Loading Animation Particles
 
 **Professional Loading Spinner:**
+
 ```typescript
 const ParticleLoadingSpinner: React.FC<{ progress: number }> = ({ progress }) => {
   const [orbitParticles, setOrbitParticles] = useState<OrbitParticle[]>([]);
@@ -1750,6 +1822,7 @@ const ParticleLoadingSpinner: React.FC<{ progress: number }> = ({ progress }) =>
 ### Example 3: Celebration/Success Particles
 
 **Confetti Burst Effect:**
+
 ```typescript
 const ConfettiParticleSystem: React.FC<{ trigger: boolean }> = ({ trigger }) => {
   const [confettiParticles, setConfettiParticles] = useState<ConfettiParticle[]>([]);
@@ -1844,83 +1917,87 @@ const ConfettiParticleSystem: React.FC<{ trigger: boolean }> = ({ trigger }) => 
 ### Performance Debugging
 
 **1. Frame Rate Monitoring:**
+
 ```typescript
 class FrameRateMonitor {
-  private frames: number[] = [];
-  private lastFrameTime = performance.now();
+  private frames: number[] = []
+  private lastFrameTime = performance.now()
 
   update(): number {
-    const currentTime = performance.now();
-    const deltaTime = currentTime - this.lastFrameTime;
-    this.lastFrameTime = currentTime;
+    const currentTime = performance.now()
+    const deltaTime = currentTime - this.lastFrameTime
+    this.lastFrameTime = currentTime
 
-    const fps = 1000 / deltaTime;
-    this.frames.push(fps);
+    const fps = 1000 / deltaTime
+    this.frames.push(fps)
 
     // Keep only last 60 frames
     if (this.frames.length > 60) {
-      this.frames.shift();
+      this.frames.shift()
     }
 
-    return this.getAverageFPS();
+    return this.getAverageFPS()
   }
 
   getAverageFPS(): number {
-    if (this.frames.length === 0) return 0;
-    return this.frames.reduce((sum, fps) => sum + fps, 0) / this.frames.length;
+    if (this.frames.length === 0) return 0
+    return this.frames.reduce((sum, fps) => sum + fps, 0) / this.frames.length
   }
 
   isPerformanceGood(): boolean {
-    return this.getAverageFPS() > 55;
+    return this.getAverageFPS() > 55
   }
 }
 ```
 
 **2. Memory Usage Tracking:**
+
 ```typescript
 class MemoryMonitor {
-  private static instance: MemoryMonitor;
-  private memoryLog: number[] = [];
+  private static instance: MemoryMonitor
+  private memoryLog: number[] = []
 
   static getInstance(): MemoryMonitor {
     if (!MemoryMonitor.instance) {
-      MemoryMonitor.instance = new MemoryMonitor();
+      MemoryMonitor.instance = new MemoryMonitor()
     }
-    return MemoryMonitor.instance;
+    return MemoryMonitor.instance
   }
 
   checkMemoryUsage(): MemoryInfo | null {
     if ('memory' in performance) {
-      const memory = (performance as any).memory;
-      const usagePercent = (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100;
+      const memory = (performance as any).memory
+      const usagePercent = (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100
 
-      this.memoryLog.push(usagePercent);
+      this.memoryLog.push(usagePercent)
 
       if (this.memoryLog.length > 100) {
-        this.memoryLog.shift();
+        this.memoryLog.shift()
       }
 
       if (usagePercent > 80) {
-        console.warn(`High memory usage detected: ${usagePercent.toFixed(2)}%`);
-        this.triggerGarbageCollection();
+        console.warn(`High memory usage detected: ${usagePercent.toFixed(2)}%`)
+        this.triggerGarbageCollection()
       }
 
       return {
         used: memory.usedJSHeapSize,
         total: memory.totalJSHeapSize,
         limit: memory.jsHeapSizeLimit,
-        percentage: usagePercent
-      };
+        percentage: usagePercent,
+      }
     }
 
-    return null;
+    return null
   }
 
   private triggerGarbageCollection(): void {
     // Suggest reducing particle count or cleanup
-    document.dispatchEvent(new CustomEvent('memoryPressure', {
-      detail: { recommendation: 'reduce_particles' }
-    }));
+    document.dispatchEvent(
+      new CustomEvent('memoryPressure', {
+        detail: { recommendation: 'reduce_particles' },
+      })
+    )
   }
 }
 ```
@@ -1928,54 +2005,59 @@ class MemoryMonitor {
 ### Common Issues and Solutions
 
 **1. Particle Flickering:**
+
 ```typescript
 // Problem: Particles flicker due to rapid creation/destruction
 // Solution: Use object pooling and smooth transitions
 
 class SmoothParticleSystem {
-  private fadeOutDuration = 500; // ms
+  private fadeOutDuration = 500 // ms
 
   removeParticle(particle: Particle): void {
     // Instead of immediate removal, fade out first
-    particle.element.style.transition = `opacity ${this.fadeOutDuration}ms ease-out`;
-    particle.element.style.opacity = '0';
+    particle.element.style.transition = `opacity ${this.fadeOutDuration}ms ease-out`
+    particle.element.style.opacity = '0'
 
     setTimeout(() => {
-      this.returnToPool(particle);
-    }, this.fadeOutDuration);
+      this.returnToPool(particle)
+    }, this.fadeOutDuration)
   }
 }
 ```
 
 **2. Performance Drops on Mobile:**
+
 ```typescript
 // Problem: Too many particles on mobile devices
 // Solution: Adaptive particle count based on device capabilities
 
 class AdaptiveParticleSystem {
   private getOptimalParticleCount(): number {
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isLowEnd = navigator.hardwareConcurrency <= 4;
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+    const isLowEnd = navigator.hardwareConcurrency <= 4
 
-    if (isMobile && isLowEnd) return 20;
-    if (isMobile) return 40;
-    return 100;
+    if (isMobile && isLowEnd) return 20
+    if (isMobile) return 40
+    return 100
   }
 
   private adjustForDeviceCapabilities(): void {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl');
+    const canvas = document.createElement('canvas')
+    const gl = canvas.getContext('webgl')
 
     if (!gl) {
       // Fallback to CSS-only animations
-      this.useCSOnlyMode = true;
-      this.maxParticles = 15;
+      this.useCSOnlyMode = true
+      this.maxParticles = 15
     }
   }
 }
 ```
 
 **3. Cross-Platform Inconsistencies:**
+
 ```typescript
 // Problem: Animations look different on web vs mobile
 // Solution: Platform-specific configuration
@@ -1986,54 +2068,55 @@ const getPlatformConfig = (): ParticleConfig => {
       maxParticles: 100,
       emissionRate: 60,
       useBlur: true,
-      useBoxShadow: true
-    };
+      useBoxShadow: true,
+    }
   }
 
   return {
     maxParticles: 50,
     emissionRate: 30,
     useBlur: false, // Expensive on mobile
-    useBoxShadow: false
-  };
-};
+    useBoxShadow: false,
+  }
+}
 ```
 
 **4. Animation Lag Issues:**
+
 ```typescript
 // Problem: Animations lag behind user input
 // Solution: Optimize animation pipeline
 
 class OptimizedAnimationPipeline {
-  private animationQueue: AnimationFrame[] = [];
-  private isProcessing = false;
+  private animationQueue: AnimationFrame[] = []
+  private isProcessing = false
 
   queueAnimation(animation: AnimationFrame): void {
-    this.animationQueue.push(animation);
+    this.animationQueue.push(animation)
 
     if (!this.isProcessing) {
-      this.processQueue();
+      this.processQueue()
     }
   }
 
   private processQueue(): void {
-    this.isProcessing = true;
+    this.isProcessing = true
 
     const processFrame = () => {
-      const batch = this.animationQueue.splice(0, 10); // Process in batches
+      const batch = this.animationQueue.splice(0, 10) // Process in batches
 
-      batch.forEach(animation => {
-        this.executeAnimation(animation);
-      });
+      batch.forEach((animation) => {
+        this.executeAnimation(animation)
+      })
 
       if (this.animationQueue.length > 0) {
-        requestAnimationFrame(processFrame);
+        requestAnimationFrame(processFrame)
       } else {
-        this.isProcessing = false;
+        this.isProcessing = false
       }
-    };
+    }
 
-    requestAnimationFrame(processFrame);
+    requestAnimationFrame(processFrame)
   }
 }
 ```
@@ -2041,6 +2124,7 @@ class OptimizedAnimationPipeline {
 ### Debugging Tools and Techniques
 
 **1. Visual Debugging Overlay:**
+
 ```typescript
 const ParticleDebugOverlay: React.FC<{ particles: Particle[] }> = ({ particles }) => {
   const [showDebug, setShowDebug] = useState(false);
@@ -2102,35 +2186,36 @@ const ParticleDebugOverlay: React.FC<{ particles: Particle[] }> = ({ particles }
 ### Emerging Technologies
 
 **1. WebGPU Integration:**
+
 ```typescript
 // Preparing for WebGPU support
 class WebGPUParticleSystem {
-  private device: GPUDevice | null = null;
-  private pipeline: GPURenderPipeline | null = null;
+  private device: GPUDevice | null = null
+  private pipeline: GPURenderPipeline | null = null
 
   async initialize(): Promise<boolean> {
     if (!navigator.gpu) {
-      console.log('WebGPU not supported, falling back to WebGL/CSS');
-      return false;
+      console.log('WebGPU not supported, falling back to WebGL/CSS')
+      return false
     }
 
     try {
-      const adapter = await navigator.gpu.requestAdapter();
-      this.device = await adapter?.requestDevice() || null;
+      const adapter = await navigator.gpu.requestAdapter()
+      this.device = (await adapter?.requestDevice()) || null
 
       if (this.device) {
-        await this.createRenderPipeline();
-        return true;
+        await this.createRenderPipeline()
+        return true
       }
     } catch (error) {
-      console.warn('WebGPU initialization failed:', error);
+      console.warn('WebGPU initialization failed:', error)
     }
 
-    return false;
+    return false
   }
 
   private async createRenderPipeline(): Promise<void> {
-    if (!this.device) return;
+    if (!this.device) return
 
     const shaderModule = this.device.createShaderModule({
       code: `
@@ -2143,41 +2228,44 @@ class WebGPUParticleSystem {
         fn fs_main() -> @location(0) vec4<f32> {
           // Fragment shader for particles
         }
-      `
-    });
+      `,
+    })
 
     this.pipeline = this.device.createRenderPipeline({
       layout: 'auto',
       vertex: {
         module: shaderModule,
-        entryPoint: 'vs_main'
+        entryPoint: 'vs_main',
       },
       fragment: {
         module: shaderModule,
         entryPoint: 'fs_main',
-        targets: [{
-          format: 'bgra8unorm'
-        }]
+        targets: [
+          {
+            format: 'bgra8unorm',
+          },
+        ],
       },
       primitive: {
-        topology: 'triangle-list'
-      }
-    });
+        topology: 'triangle-list',
+      },
+    })
   }
 }
 ```
 
 **2. AI-Driven Particle Behaviors:**
+
 ```typescript
 class AIParticleSystem {
-  private neuralNetwork: NeuralNetwork;
+  private neuralNetwork: NeuralNetwork
 
   constructor() {
     // Simple neural network for particle behavior
     this.neuralNetwork = new NeuralNetwork([
       { inputs: 6, outputs: 4 }, // position, velocity -> force, color
-      { inputs: 4, outputs: 2 }  // forces -> final velocity
-    ]);
+      { inputs: 4, outputs: 2 }, // forces -> final velocity
+    ])
   }
 
   updateParticleWithAI(particle: Particle, neighbors: Particle[]): void {
@@ -2188,73 +2276,74 @@ class AIParticleSystem {
       particle.velocity.x / 100,
       particle.velocity.y / 100,
       neighbors.length / 10,
-      this.calculateNeighborDensity(particle, neighbors)
-    ];
+      this.calculateNeighborDensity(particle, neighbors),
+    ]
 
     // AI determines behavior
-    const output = this.neuralNetwork.predict(inputs);
+    const output = this.neuralNetwork.predict(inputs)
 
     // Apply AI-determined forces
-    particle.velocity.x += output[0] * 10;
-    particle.velocity.y += output[1] * 10;
-    particle.color = this.interpolateColor(particle.color, output[2]);
-    particle.size *= (1 + output[3] * 0.1);
+    particle.velocity.x += output[0] * 10
+    particle.velocity.y += output[1] * 10
+    particle.color = this.interpolateColor(particle.color, output[2])
+    particle.size *= 1 + output[3] * 0.1
   }
 
   trainOnUserInteraction(interactions: InteractionData[]): void {
     // Train the neural network based on user interactions
-    const trainingData = interactions.map(interaction => ({
+    const trainingData = interactions.map((interaction) => ({
       input: this.extractFeatures(interaction),
-      output: this.extractDesiredBehavior(interaction)
-    }));
+      output: this.extractDesiredBehavior(interaction),
+    }))
 
-    this.neuralNetwork.train(trainingData);
+    this.neuralNetwork.train(trainingData)
   }
 }
 ```
 
 **3. VR/AR Integration Patterns:**
+
 ```typescript
 class ImmersiveParticleSystem {
-  private vrDisplay: VRDisplay | null = null;
-  private arSession: XRSession | null = null;
+  private vrDisplay: VRDisplay | null = null
+  private arSession: XRSession | null = null
 
   async initializeVR(): Promise<void> {
     if ('getVRDisplays' in navigator) {
-      const displays = await navigator.getVRDisplays();
-      this.vrDisplay = displays[0] || null;
+      const displays = await navigator.getVRDisplays()
+      this.vrDisplay = displays[0] || null
     }
   }
 
   async initializeAR(): Promise<void> {
     if ('xr' in navigator && navigator.xr) {
       try {
-        this.arSession = await navigator.xr.requestSession('immersive-ar');
+        this.arSession = await navigator.xr.requestSession('immersive-ar')
       } catch (error) {
-        console.log('AR not available');
+        console.log('AR not available')
       }
     }
   }
 
   render3DParticles(frame: XRFrame): void {
-    if (!this.arSession) return;
+    if (!this.arSession) return
 
-    const referenceSpace = this.arSession.referenceSpace;
-    const pose = frame.getViewerPose(referenceSpace);
+    const referenceSpace = this.arSession.referenceSpace
+    const pose = frame.getViewerPose(referenceSpace)
 
     if (pose) {
-      pose.views.forEach(view => {
-        this.renderParticlesForView(view);
-      });
+      pose.views.forEach((view) => {
+        this.renderParticlesForView(view)
+      })
     }
   }
 
   private renderParticlesForView(view: XRView): void {
     // Render particles in 3D space for VR/AR
-    this.particles.forEach(particle => {
-      const worldPosition = this.calculateWorldPosition(particle, view);
-      this.renderParticleAt3DPosition(particle, worldPosition);
-    });
+    this.particles.forEach((particle) => {
+      const worldPosition = this.calculateWorldPosition(particle, view)
+      this.renderParticleAt3DPosition(particle, worldPosition)
+    })
   }
 }
 ```
@@ -2262,42 +2351,43 @@ class ImmersiveParticleSystem {
 ### Scalability Considerations
 
 **1. Modular Architecture:**
+
 ```typescript
 interface ParticleModule {
-  name: string;
-  version: string;
-  initialize(system: ParticleSystem): void;
-  update(deltaTime: number): void;
-  cleanup(): void;
+  name: string
+  version: string
+  initialize(system: ParticleSystem): void
+  update(deltaTime: number): void
+  cleanup(): void
 }
 
 class ParticleSystem {
-  private modules: Map<string, ParticleModule> = new Map();
+  private modules: Map<string, ParticleModule> = new Map()
 
   addModule(module: ParticleModule): void {
-    this.modules.set(module.name, module);
-    module.initialize(this);
+    this.modules.set(module.name, module)
+    module.initialize(this)
   }
 
   removeModule(name: string): void {
-    const module = this.modules.get(name);
+    const module = this.modules.get(name)
     if (module) {
-      module.cleanup();
-      this.modules.delete(name);
+      module.cleanup()
+      this.modules.delete(name)
     }
   }
 
   update(deltaTime: number): void {
-    this.modules.forEach(module => {
-      module.update(deltaTime);
-    });
+    this.modules.forEach((module) => {
+      module.update(deltaTime)
+    })
   }
 }
 
 // Example modules
 class PhysicsModule implements ParticleModule {
-  name = 'physics';
-  version = '1.0.0';
+  name = 'physics'
+  version = '1.0.0'
 
   initialize(system: ParticleSystem): void {
     // Setup physics engine
@@ -2313,46 +2403,47 @@ class PhysicsModule implements ParticleModule {
 }
 
 class RenderModule implements ParticleModule {
-  name = 'render';
-  version = '1.0.0';
+  name = 'render'
+  version = '1.0.0'
 
   // Implementation...
 }
 ```
 
 **2. Performance Scaling:**
+
 ```typescript
 class ScalableParticleSystem {
   private performanceTiers = [
     { name: 'ultra', particles: 500, effects: 'all' },
     { name: 'high', particles: 200, effects: 'most' },
     { name: 'medium', particles: 100, effects: 'some' },
-    { name: 'low', particles: 50, effects: 'minimal' }
-  ];
+    { name: 'low', particles: 50, effects: 'minimal' },
+  ]
 
-  private currentTier = 'high';
+  private currentTier = 'high'
 
   autoAdjustPerformance(fps: number): void {
     if (fps < 45 && this.canDowngrade()) {
-      this.downgradeTier();
+      this.downgradeTier()
     } else if (fps > 58 && this.canUpgrade()) {
-      this.upgradeTier();
+      this.upgradeTier()
     }
   }
 
   private downgradeTier(): void {
-    const currentIndex = this.performanceTiers.findIndex(t => t.name === this.currentTier);
+    const currentIndex = this.performanceTiers.findIndex((t) => t.name === this.currentTier)
     if (currentIndex < this.performanceTiers.length - 1) {
-      this.currentTier = this.performanceTiers[currentIndex + 1].name;
-      this.applyTierSettings();
+      this.currentTier = this.performanceTiers[currentIndex + 1].name
+      this.applyTierSettings()
     }
   }
 
   private upgradeTier(): void {
-    const currentIndex = this.performanceTiers.findIndex(t => t.name === this.currentTier);
+    const currentIndex = this.performanceTiers.findIndex((t) => t.name === this.currentTier)
     if (currentIndex > 0) {
-      this.currentTier = this.performanceTiers[currentIndex - 1].name;
-      this.applyTierSettings();
+      this.currentTier = this.performanceTiers[currentIndex - 1].name
+      this.applyTierSettings()
     }
   }
 }
@@ -2363,6 +2454,7 @@ class ScalableParticleSystem {
 Creating professional-quality particle effects that rival Unity3D or WebGL implementations using web technologies requires a strategic combination of advanced CSS techniques, performance optimization, and thoughtful cross-platform architecture. The key differentiators between amateur and professional implementations lie in the attention to physics-based behaviors, visual design principles, and performance considerations.
 
 **Success Factors Recap:**
+
 1. **Performance First**: Always prioritize 60fps through transform-only animations and efficient particle lifecycle management
 2. **Visual Polish**: Use depth, layering, color theory, and physics-based visual effects to create professional appearance
 3. **Cross-Platform Thinking**: Design with universal patterns that translate seamlessly from Framer Motion to React Native
@@ -2372,6 +2464,7 @@ Creating professional-quality particle effects that rival Unity3D or WebGL imple
 The techniques and patterns outlined in this playbook provide a foundation for creating sophisticated particle effects that enhance user experience while maintaining optimal performance across web and mobile platforms. As web technologies continue to evolve with WebGPU, AI integration, and immersive computing, the principles and architectures presented here will continue to serve as a solid foundation for future innovations.
 
 **Implementation Priority:**
+
 1. Start with basic CSS/Framer Motion particle systems
 2. Implement performance monitoring and optimization
 3. Add cross-platform React Native support

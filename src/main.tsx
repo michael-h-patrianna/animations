@@ -11,5 +11,5 @@ preloadImages(CRITICAL_ICON_IMAGES)
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )

@@ -1,0 +1,67 @@
+/* Styles scoped for ButtonEffectsLiquidMorph */
+.button-liquid-morph-demo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--pf-demo-height);
+}
+.pf-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: var(--pf-radius-pill);
+  border: 0;
+  color: var(--pf-white);
+  background: var(--pf-brand-gradient);
+  box-shadow: var(--pf-shadow-soft), var(--pf-shadow-inner);
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  transition:
+    transform var(--pf-transition-fast) ease,
+    box-shadow var(--pf-transition-fast) ease;
+}
+.pf-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--pf-shadow-inner);
+}
+.pf-btn--primary {
+  border-radius: 50px;
+  background: linear-gradient(180deg, #ff5981, #c83558);
+  color: #fff;
+  border: 2px solid #ff7495;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  padding: 6px 12px;
+  box-shadow: var(--pf-shadow-soft);
+}
+.pf-btn--liquid-morph {
+  transition: transform 0.3s ease;
+}
+.pf-btn--liquid-morph.liquid-morph-active {
+  animation: liquidMorph 0.6s ease-out;
+}
+@keyframes liquidMorph {
+  0% {
+    transform: scale(1) rotate(0deg);
+    border-radius: 50px;
+  }
+  25% {
+    transform: scale(0.95, 1.05) rotate(-2deg);
+    border-radius: 50px 40px 50px 60px;
+  }
+  50% {
+    transform: scale(1.08, 0.92) rotate(3deg);
+    border-radius: 60px 50px 40px 50px;
+  }
+  75% {
+    transform: scale(0.96, 1.04) rotate(-1deg);
+    border-radius: 45px 55px 50px 45px;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    border-radius: 50px;
+  }
+}

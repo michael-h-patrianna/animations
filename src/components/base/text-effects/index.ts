@@ -1,22 +1,22 @@
-import { TextEffectsCharacterReveal } from './TextEffectsCharacterReveal';
-import { TextEffectsComboCounter } from './TextEffectsComboCounter';
-import { TextEffectsCounterIncrement } from './TextEffectsCounterIncrement';
-import { TextEffectsEpicWin } from './TextEffectsEpicWin';
-import { TextEffectsGlitchText } from './TextEffectsGlitchText';
-import { TextEffectsHorizonLightPass } from './TextEffectsHorizonLightPass';
-import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough';
-import { TextEffectsLightSweepDraw } from './TextEffectsLightSweepDraw';
-import { TextEffectsMetallicSpecularFlash } from './TextEffectsMetallicSpecularFlash';
-import { TextEffectsTypewriter } from './TextEffectsTypewriter';
-import { TextEffectsVerbFall } from './TextEffectsVerbFall';
-import { TextEffectsVerbFlip } from './TextEffectsVerbFlip';
-import { TextEffectsVerbFloat } from './TextEffectsVerbFloat';
-import { TextEffectsVerbJog } from './TextEffectsVerbJog';
-import { TextEffectsVerbJump } from './TextEffectsVerbJump';
-import { TextEffectsVerbTwirl } from './TextEffectsVerbTwirl';
-import { TextEffectsWaveReveal } from './TextEffectsWaveReveal';
-import { TextEffectsWaveText } from './TextEffectsWaveText';
-import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop';
+import { TextEffectsCharacterReveal } from './TextEffectsCharacterReveal'
+import { TextEffectsComboCounter } from './TextEffectsComboCounter'
+import { TextEffectsCounterIncrement } from './TextEffectsCounterIncrement'
+import { TextEffectsEpicWin } from './TextEffectsEpicWin'
+import { TextEffectsGlitchText } from './TextEffectsGlitchText'
+import { TextEffectsHorizonLightPass } from './TextEffectsHorizonLightPass'
+import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough'
+import { TextEffectsLightSweepDraw } from './TextEffectsLightSweepDraw'
+import { TextEffectsMetallicSpecularFlash } from './TextEffectsMetallicSpecularFlash'
+import { TextEffectsTypewriter } from './TextEffectsTypewriter'
+import { TextEffectsVerbFall } from './TextEffectsVerbFall'
+import { TextEffectsVerbFlip } from './TextEffectsVerbFlip'
+import { TextEffectsVerbFloat } from './TextEffectsVerbFloat'
+import { TextEffectsVerbJog } from './TextEffectsVerbJog'
+import { TextEffectsVerbJump } from './TextEffectsVerbJump'
+import { TextEffectsVerbTwirl } from './TextEffectsVerbTwirl'
+import { TextEffectsWaveReveal } from './TextEffectsWaveReveal'
+import { TextEffectsWaveText } from './TextEffectsWaveText'
+import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop'
 
 export const AnimationComponentMap = {
   'text-effects__character-reveal': TextEffectsCharacterReveal,
@@ -38,4 +38,4 @@ export const AnimationComponentMap = {
   'text-effects__verb-flipping': TextEffectsVerbFlip,
   'text-effects__verb-twirling': TextEffectsVerbTwirl,
   'text-effects__verb-falling': TextEffectsVerbFall,
-};
+}

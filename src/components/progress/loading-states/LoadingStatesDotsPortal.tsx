@@ -1,4 +1,4 @@
-import './loading-states.css';
+import './LoadingStatesDotsPortal.css'
 
 export function LoadingStatesDotsPortal() {
   return (
@@ -9,5 +9,5 @@ export function LoadingStatesDotsPortal() {
         <span></span>
       </div>
     </div>
-  );
+  )
 }

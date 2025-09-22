@@ -1,0 +1,42 @@
+/* Styles scoped for ModalCelebrationsCoinsSwirl */
+.pf-celebration {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 0%, rgba(236, 195, 255, 0.18), rgba(29, 9, 47, 0.92));
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  overflow: hidden;
+}
+.pf-celebration__layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.pf-celebration__coin {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--coin-color, linear-gradient(135deg, #ffd966 0%, #ffb300 100%));
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes celebration-coin-swirl {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--start-angle, 0deg)) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(calc(var(--start-angle, 0deg) + var(--spin, 360deg)))
+      translateX(var(--radius, 90px)) scale(1);
+    opacity: 0;
+  }
+}

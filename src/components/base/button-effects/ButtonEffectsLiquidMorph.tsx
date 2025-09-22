@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import './button-effects.css';
+import { useState } from 'react'
+import './ButtonEffectsLiquidMorph.css'
 
 export function ButtonEffectsLiquidMorph() {
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false)
 
   const handleClick = () => {
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 600);
-  };
+    setIsAnimating(true)
+    setTimeout(() => setIsAnimating(false), 600)
+  }
 
   return (
     <div className="button-liquid-morph-demo" data-animation-id="button-effects__liquid-morph">
@@ -18,5 +18,5 @@ export function ButtonEffectsLiquidMorph() {
         Click Me!
       </button>
     </div>
-  );
+  )
 }

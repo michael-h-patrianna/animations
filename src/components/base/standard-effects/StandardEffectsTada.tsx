@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsTada.css'
 
 export function StandardEffectsTada() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsTada() {
         <div className="demo-text">Tada</div>
       </div>
     </div>
-  );
+  )
 }

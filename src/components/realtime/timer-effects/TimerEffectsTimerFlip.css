@@ -1,0 +1,38 @@
+/* Styles specific to TimerEffectsTimerFlip */
+
+.pf-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  position: relative;
+  font-family: 'Lato', sans-serif;
+}
+
+.pf-timer__value {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--timer-color, #ecc3ff);
+  text-align: center;
+  line-height: 1;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.pf-timer__label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* Underline base used by flip animation */
+.pf-timer__underline {
+  width: 160px;
+  height: 3px;
+  background: rgba(236, 195, 255, 0.16);
+  border-radius: 4px;
+  transform-origin: left center;
+}

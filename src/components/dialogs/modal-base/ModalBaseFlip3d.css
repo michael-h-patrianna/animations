@@ -1,0 +1,185 @@
+/* Styles scoped for ModalBaseFlip3d */
+
+.pf-modal-overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+}
+.pf-modal-overlay--flip-3d {
+  perspective: 1200px;
+}
+
+.pf-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(280px, 80%, 320px);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+  transform-origin: center;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+}
+.pf-modal--flip-3d {
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
+.pf-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.pf-modal__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+.pf-modal__body {
+  margin: 16px 0;
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.pf-modal__body p {
+  margin: 0;
+}
+.pf-modal__footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.pf-badge-tech {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(198, 255, 119, 0.16);
+  color: #c6ff77;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pf-button-primary,
+.pf-button-secondary {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 195, 255, 0.32);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+.pf-button-primary {
+  border-radius: 50px;
+  background: linear-gradient(180deg, #ff5981, #c83558);
+  color: #fff;
+  border: 2px solid #ff7495;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  padding: 6px 12px;
+}
+.pf-button-primary:hover:not(:disabled):not([aria-disabled='true']) {
+  background: linear-gradient(180deg, #ff6b8f, #d6456a);
+  border-color: #ff86a5;
+  filter: drop-shadow(0 2px 6px rgba(200, 53, 88, 0.35));
+}
+.pf-button-primary:disabled,
+.pf-button-primary[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(10%);
+  box-shadow: none;
+}
+.pf-button-secondary {
+  color: #25ecff;
+  border: 2px solid #25ecff;
+  background: transparent;
+  border-radius: 50px;
+  padding: 6px 12px;
+}
+.pf-button-primary:active,
+.pf-button-secondary:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+@keyframes pf-modal-flip-3d {
+  0% {
+    transform: translate(-50%, -50%) rotateY(180deg) scale(0.65);
+    opacity: 0;
+  }
+  5% {
+    transform: translate(-50%, -50%) rotateY(180deg) scale(0.68);
+    opacity: 0.12;
+  }
+  10% {
+    transform: translate(-50%, -50%) rotateY(180deg) scale(0.73);
+    opacity: 0.3;
+  }
+  15% {
+    transform: translate(-50%, -50%) rotateY(180deg) scale(0.8);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(-50%, -50%) rotateY(165deg) scale(0.88);
+    opacity: 0.7;
+  }
+  30% {
+    transform: translate(-50%, -50%) rotateY(155deg) scale(0.92);
+    opacity: 0.75;
+  }
+  35% {
+    transform: translate(-50%, -50%) rotateY(145deg) scale(0.96);
+    opacity: 0.8;
+  }
+  45% {
+    transform: translate(-50%, -50%) rotateY(110deg) scale(1.02);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotateY(90deg) scale(1.05);
+    opacity: 0.9;
+  }
+  55% {
+    transform: translate(-50%, -50%) rotateY(70deg) scale(1.06);
+    opacity: 0.92;
+  }
+  65% {
+    transform: translate(-50%, -50%) rotateY(45deg) scale(1.04);
+    opacity: 0.95;
+  }
+  70% {
+    transform: translate(-50%, -50%) rotateY(35deg) scale(1.03);
+    opacity: 0.97;
+  }
+  75% {
+    transform: translate(-50%, -50%) rotateY(25deg) scale(1.02);
+    opacity: 1;
+  }
+  85% {
+    transform: translate(-50%, -50%) rotateY(5deg) scale(1.005);
+    opacity: 1;
+  }
+  90% {
+    transform: translate(-50%, -50%) rotateY(-5deg) scale(1);
+    opacity: 1;
+  }
+  95% {
+    transform: translate(-50%, -50%) rotateY(-2deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}

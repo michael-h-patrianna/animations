@@ -1,4 +1,4 @@
-import './loading-states.css';
+import './LoadingStatesSkeletonHorizontal.css'
 
 export function LoadingStatesSkeletonHorizontal() {
   return (
@@ -12,5 +12,5 @@ export function LoadingStatesSkeletonHorizontal() {
         <div className="pf-skeleton__line"></div>
       </div>
     </div>
-  );
+  )
 }

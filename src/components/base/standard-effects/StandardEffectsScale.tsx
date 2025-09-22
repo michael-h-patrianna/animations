@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsScale.css'
 
 export function StandardEffectsScale() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsScale() {
         <div className="demo-text">Scale</div>
       </div>
     </div>
-  );
+  )
 }

@@ -2,7 +2,6 @@ read README.md
 task:
 the Achievement Ring animation is broken, does not display what it is supposed to show check its name and description. plan and create a high class, production- and game-ready animation.
 
-
 use /Users/Spare/Documents/graphics/image_manifest.json and /Users/Spare/Documents/graphics/ for getting high quality image assets
 
 Level Meter Spin
@@ -11,30 +10,26 @@ Achievement Card
 Quest Chain
 
 read README.md
+
 1. Add a new group "Standard effects" to the category "Base effects".
 2. Move into the "Standard effects" category the animation previews: Error Shake Gentle, and Success Bounce Soft
 3. Rename Error Shake Gentle to Error Shake, Success Bounce Soft to Success Bounce
 4. Remove the animation previews Error Shake Intentional and Success Bounce Energetic
 
-
 5. Add a new group "Icon effects" to the category "Base effects".
-
-
 
 Move the Timeline Progress animation into the Progress Bar group. Remove the card only leave the timeline milestones progress bar on top. Make sure you move all css needed for this to still work and look the same way it did before.
 
-
 remove the following animation previews completely: Soft Fill, Pulse Update, Thick Pulse, Surge Final, Wave Motion
-
 
 C
 Move the following animation preve
-
 
 Read Readme.md
 
 At the moment we are showing in one view all animation previews for a category.
 Instead:
+
 1. In a single view show only the animations of a group
 2. The sidebar visually indicates the currently displayed group
 3. When clicking on a category in the sidebar, it navigates to the first group in the category
@@ -46,6 +41,7 @@ In the Content choreography group we have several animation previews that have e
 All animations in the Content choreography group currently only animate content inside the mock modal container. But the purpose of these animations is to demonstrate how to chain animations of opening a modal and animating their content.
 
 For this:
+
 1. Add a good looking modal open animation to all of the mock modals. (these are not actual modals, just containers that look like modals).
 2. Make sure that the currently existing animations for the content in these modals are timed so that they create a good looking animation sequence. This means usually that the content animation start playing shortly before the modal is fully opened.
 
@@ -56,6 +52,7 @@ In the Wizard Scale Rotate animation preview, highlight the first Step as well a
 Remove the animation previews: Tab Tile Swap, Progressive Tile Flow, Tile Highlight Sweep
 
 Modify the Tab Content Morph preview
+
 1. Turn it into an actual working tab component
 2. Animate the tab content swiping left right when navigating through the tabs
 3. Highlight the currently selected tab
@@ -65,7 +62,6 @@ Remove the animation previes: Spark Trail, Crisp Snap
 Remove the Blur from Fade with Zoom animation
 
 CRT TV Turn On and Origami Unfold look the same
-
 
 read README.md and docs/REACT_NATIVE_REFACTORING_PATTERNS.md to understand this project.
 
@@ -88,7 +84,6 @@ Pulse: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-4
 
 remove the animation previews: Lift Arrival, Fade & Blur Soft, Fade & Vertical Shift, Fade with Zoom
 
-
 Treasure chest closed: /Users/Spare/Documents/graphics/Treasure Chests/PNG/10/10-Closed.png
 Treasure chest opened: /Users/Spare/Documents/graphics/Treasure Chests/PNG/10/10-Filled.png
 Ancient scroll: /Users/Spare/Documents/graphics/adventure-game-3d-icon-2024-09-12-17-19-47-utc/Roll Paper.png
@@ -100,13 +95,10 @@ Coin: /Users/Spare/Documents/graphics/adventure-game-3d-illustration-2024-09-06-
 Potion: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-05-12-38-utc/18 a.png
 Hammer: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-05-12-38-utc/13 a.png
 
-
 cute
 /Users/Spare/Documents/graphics/baby%20animals%20and%20christmas/PNG/1.png
 
-
 /Users/Spare/Documents/graphics/3d-treasure-illustration-2024-01-27-00-38-40-utc/0007.png
-
 
 copy this image into our assets: /Users/Spare/Documents/graphics/game-assets-3d-illustration-2023-11-27-04-49-50-utc/14 a.png
 
@@ -120,6 +112,7 @@ To the new group add exact copies of the Shake, Bounce, Float, Pulse animations.
 
 In the Standard effects group, unify all animations in what they animate: a rectangle with only the name of the animation inside
 e.g.:
+
 <div class="standard-demo-element wiggle-element"><div class="demo-text">Shake</div></div>
 
 no image
@@ -132,22 +125,18 @@ problem: they feel choppy / stuttery. they should look more fluid. are they usin
 
 Remove the animation Material Ripple
 
-
-
 The Wave Text animation is very imperformant causing constant layout recalcs. Review and suggest solutions. Do not change code, just analyse the code and the problem and suggest solutions.
-
 
 remove the animations: Quest Completion. Skill Mastery, Level Progression, Trophy Collection,Achievement Unlocked,Daily Streak,Boss Phases
 
-
 do not use emojis or draw your own images. search and copy for suitable png images from here: /Users/Spare/Documents/graphics/
-
 
 read README.md and docs/animation-short.md to understand this project and what guides it
 
 task: review and upgrade the animation: XP Accumulation
 
 it looks cheap and underwhelming.
+
 1. make sure any milestone animation is actually timed with when the progress bar reaches that milestone. exact, crips timing is key.
 2. make sure the ui looks pristine and sophisticated
 3. ensure every animated element is actually animated and their timings and delays are creating a pleasing visual narrative
@@ -155,35 +144,38 @@ it looks cheap and underwhelming.
 5. when using images, do not use emojis or draw your own images. search and copy for suitable png images from here: /Users/Spare/Documents/graphics/
 
 in all animations in the Celebration effects group that use coin images:
+
 1. copy this file of a coin image into the project src/asset folder
 2. replace the coins images used at the moment in those animations with the copied image (use vite's @/assets) alias
 3. make sure to account for the size of the new image which is larger
 
 replace the image with /Users/Spare/Documents/graphics/Game Asset/PNG/Game Asset-02.png, just replace the image in src/assets folder
 
+Click/Press Animations:
 
-  Click/Press Animations:
-  - Liquid morph - Button liquifies and reshapes on click, with elastic blob-like deformation
-  - Particle explosion - Click triggers particles bursting from the impact point
-  - Magnetic pull - Surrounding elements or particles get pulled toward the click point
-  - Shockwave - Concentric rings expand outward with distortion effects
-  - Split reveal - Button splits open to reveal content/color underneath
-  - 3D flip - Button rotates in 3D space to show a different face
-  - Elastic stretch - Button stretches toward click point then snaps back
+- Liquid morph - Button liquifies and reshapes on click, with elastic blob-like deformation
+- Particle explosion - Click triggers particles bursting from the impact point
+- Magnetic pull - Surrounding elements or particles get pulled toward the click point
+- Shockwave - Concentric rings expand outward with distortion effects
+- Split reveal - Button splits open to reveal content/color underneath
+- 3D flip - Button rotates in 3D space to show a different face
+- Elastic stretch - Button stretches toward click point then snaps back
 
-  Hover Animations:
-  - Gradient flow - Animated gradient that flows through the button continuously
-  - Border drawing - Animated border that draws around the button perimeter
-  - Glow pulse - Rhythmic glowing aura that emanates from the button
-  - Magnetic wobble - Button subtly follows cursor movement when nearby
-  - Text scramble - Text characters randomly scramble and unscramble
-  - Icon morph - Icon inside button morphs or rotates with fluid animation
-  - Wave distortion - Rippling wave effect across button surface
+Hover Animations:
 
-  State Transitions:
-  - Success morph - Button transforms into checkmark with satisfying animation
-  - Loading spinner integration - Button seamlessly becomes a loader
-  - Progress fill - Button fills up with color/pattern to show progress
-  - Confetti burst - Celebration particles on successful action
+- Gradient flow - Animated gradient that flows through the button continuously
+- Border drawing - Animated border that draws around the button perimeter
+- Glow pulse - Rhythmic glowing aura that emanates from the button
+- Magnetic wobble - Button subtly follows cursor movement when nearby
+- Text scramble - Text characters randomly scramble and unscramble
+- Icon morph - Icon inside button morphs or rotates with fluid animation
+- Wave distortion - Rippling wave effect across button surface
 
-  The key is these animations feel responsive and intentional, not just decorative - they communicate state changes and provide satisfying feedback.
+State Transitions:
+
+- Success morph - Button transforms into checkmark with satisfying animation
+- Loading spinner integration - Button seamlessly becomes a loader
+- Progress fill - Button fills up with color/pattern to show progress
+- Confetti burst - Celebration particles on successful action
+
+The key is these animations feel responsive and intentional, not just decorative - they communicate state changes and provide satisfying feedback.

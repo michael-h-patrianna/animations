@@ -1,33 +1,33 @@
-import { motion } from 'framer-motion';
-import './modal-orchestration.css';
+import { motion } from 'framer-motion'
+import './ModalOrchestrationSelectionGrid.css'
 
 export function ModalOrchestrationSelectionGrid() {
-  const items = 6;
+  const items = 6
 
   const containerVariants = {
     initial: {},
     animate: {
       transition: {
         staggerChildren: 0.26,
-        delayChildren: 0
-      }
-    }
-  };
+        delayChildren: 0,
+      },
+    },
+  }
 
   const itemVariants = {
     initial: {
       y: 16,
-      opacity: 0
+      opacity: 0,
     },
     animate: {
       y: 0,
       opacity: 1,
       transition: {
         duration: 0.21, // 420ms * 0.5 (grid-cascade uses default pattern)
-        ease: [0.25, 0.46, 0.45, 0.94] as const // entrance easing
-      }
-    }
-  };
+        ease: [0.25, 0.46, 0.45, 0.94] as const, // entrance easing
+      },
+    },
+  }
 
   return (
     <motion.div
@@ -38,17 +38,14 @@ export function ModalOrchestrationSelectionGrid() {
       data-animation-id="modal-orchestration__selection-grid"
     >
       {Array.from({ length: items }, (_, index) => (
-        <motion.div
-          key={index}
-          className="pf-grid__item"
-          variants={itemVariants}
-        >
+        <motion.div key={index} className="pf-grid__item" variants={itemVariants}>
           <div>
-            <strong>Option {index + 1}</strong><br />
+            <strong>Option {index + 1}</strong>
+            <br />
             Select item
           </div>
         </motion.div>
       ))}
     </motion.div>
-  );
+  )
 }

@@ -1,0 +1,52 @@
+/* Styles scoped for TextEffectsGlitchText */
+.glitch-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+}
+
+.glitch-text-base {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  position: relative;
+}
+
+.glitch-text-layer {
+  position: absolute;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.glitch-layer-1 {
+  color: #00ffff;
+  z-index: 2;
+  opacity: 0.7;
+}
+.glitch-layer-2 {
+  color: #ff00ff;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.glitch-bars {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  top: 45%;
+  left: 0;
+  box-shadow:
+    0 5px 0 rgba(255, 255, 255, 0.1),
+    0 -5px 0 rgba(255, 255, 255, 0.1);
+}

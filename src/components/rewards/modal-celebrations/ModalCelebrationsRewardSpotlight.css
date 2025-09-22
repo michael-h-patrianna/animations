@@ -1,0 +1,156 @@
+/* Styles scoped for ModalCelebrationsRewardSpotlight */
+.pf-celebration {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 0%, rgba(236, 195, 255, 0.18), rgba(29, 9, 47, 0.92));
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  overflow: hidden;
+}
+.pf-celebration__layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.pf-celebration__beam {
+  position: absolute;
+  bottom: -20%;
+  width: 80px;
+  height: 240px;
+  background: linear-gradient(180deg, rgba(198, 255, 119, 0.5), rgba(198, 255, 119, 0));
+  transform-origin: bottom center;
+  filter: blur(1px);
+  pointer-events: none;
+}
+.pf-celebration__stage {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  width: 140px;
+  height: 44px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)),
+    radial-gradient(circle at 50% 100%, rgba(198, 255, 119, 0.28), rgba(198, 255, 119, 0));
+  transform: translate(-50%, 26px);
+  box-shadow: 0 22px 38px rgba(8, 0, 26, 0.5);
+  overflow: hidden;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.pf-celebration__stage-inner {
+  position: absolute;
+  inset: 28% 24% 42% 24%;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  filter: blur(2px);
+}
+.pf-celebration__stage-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 26%;
+  width: 124px;
+  height: 200px;
+  transform: translate(-50%, 24px);
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.pf-celebration__stage-glow--emerald {
+  background: radial-gradient(circle at 50% 0%, rgba(198, 255, 119, 0.9), rgba(198, 255, 119, 0));
+}
+.pf-celebration__sparkle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0));
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.pf-celebration__pulse {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(236, 195, 255, 0.6);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+@keyframes celebration-spotlight {
+  0% {
+    transform: rotate(var(--rotate, 0deg)) scaleY(0.2) translateY(36px);
+    opacity: 0;
+  }
+  35% {
+    opacity: var(--beam-opacity, 0.95);
+  }
+  70% {
+    transform: rotate(calc(var(--rotate, 0deg) + var(--swing, 8deg))) scaleY(1.05) translateY(0);
+    opacity: var(--beam-opacity, 0.95);
+  }
+  100% {
+    transform: rotate(calc(var(--rotate, 0deg) + var(--swing, 6deg))) scaleY(0.9) translateY(0);
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-stage-rise {
+  0% {
+    transform: translate(-50%, 30px) scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-50%, 4px) scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes celebration-stage-glow {
+  0% {
+    transform: translate(-50%, 24px) scale(0.7);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 0.35;
+  }
+}
+
+@keyframes celebration-sparkle-rise {
+  0% {
+    transform: translate(-50%, -20%) scale(0.6);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -80%) scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.8);
+    opacity: 0;
+  }
+}

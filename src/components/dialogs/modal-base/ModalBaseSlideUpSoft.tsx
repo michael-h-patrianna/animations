@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBaseSlideUpSoft.css'
 
 export function ModalBaseSlideUpSoft() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay"
-      style={{
-        '--animation-duration': '420ms',
-        '--animation-easing': 'cubic-bezier(0.22, 0.61, 0.36, 1)',
-        '--overlay-opacity': '0.7'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '420ms',
+          '--animation-easing': 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+          '--overlay-opacity': '0.7',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal"
         style={{
-          animation: 'pf-modal-slide-up-soft 420ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards'
+          animation: 'pf-modal-slide-up-soft 420ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +36,5 @@ export function ModalBaseSlideUpSoft() {
         </div>
       </div>
     </div>
-  );
+  )
 }

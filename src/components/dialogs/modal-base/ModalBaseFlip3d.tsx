@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBaseFlip3d.css'
 
 export function ModalBaseFlip3d() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay pf-modal-overlay--flip-3d"
-      style={{
-        '--animation-duration': '800ms',
-        '--animation-easing': 'cubic-bezier(0.175, 0.885, 0.32, 1)',
-        '--overlay-opacity': '0.76'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '800ms',
+          '--animation-easing': 'cubic-bezier(0.175, 0.885, 0.32, 1)',
+          '--overlay-opacity': '0.76',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal pf-modal--flip-3d"
         style={{
-          animation: 'pf-modal-flip-3d 800ms cubic-bezier(0.175, 0.885, 0.32, 1) forwards'
+          animation: 'pf-modal-flip-3d 800ms cubic-bezier(0.175, 0.885, 0.32, 1) forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +36,5 @@ export function ModalBaseFlip3d() {
         </div>
       </div>
     </div>
-  );
+  )
 }

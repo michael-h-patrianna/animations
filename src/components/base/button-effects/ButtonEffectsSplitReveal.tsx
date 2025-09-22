@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import './button-effects.css';
+import { useState } from 'react'
+import './ButtonEffectsSplitReveal.css'
 
 export function ButtonEffectsSplitReveal() {
-  const [isRevealing, setIsRevealing] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false)
 
   const handleClick = () => {
-    setIsRevealing(true);
-    setTimeout(() => setIsRevealing(false), 800);
-  };
+    setIsRevealing(true)
+    setTimeout(() => setIsRevealing(false), 800)
+  }
 
   return (
     <div className="button-split-reveal-demo" data-animation-id="button-effects__split-reveal">
@@ -20,5 +20,5 @@ export function ButtonEffectsSplitReveal() {
         <span className="pf-btn__split-reveal-content">✨</span>
       </button>
     </div>
-  );
+  )
 }

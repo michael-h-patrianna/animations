@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBaseScaleHero.css'
 
 export function ModalBaseScaleHero() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay"
-      style={{
-        '--animation-duration': '520ms',
-        '--animation-easing': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-        '--overlay-opacity': '0.76'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '520ms',
+          '--animation-easing': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          '--overlay-opacity': '0.76',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal"
         style={{
-          animation: 'pf-modal-scale-hero 520ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+          animation: 'pf-modal-scale-hero 520ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +36,5 @@ export function ModalBaseScaleHero() {
         </div>
       </div>
     </div>
-  );
+  )
 }

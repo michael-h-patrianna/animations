@@ -1,28 +1,28 @@
-import { motion } from 'framer-motion';
-import './modal-orchestration.css';
+import { motion } from 'framer-motion'
+import './ModalOrchestrationSpringPhysics.css'
 
 export function ModalOrchestrationSpringPhysics() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
     title: `Elastic ${index + 1}`,
-    content: `Spring bounce effect`
-  }));
+    content: `Spring bounce effect`,
+  }))
 
   const containerVariants = {
     initial: {},
     animate: {
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
+        delayChildren: 0.2,
+      },
+    },
+  }
 
   const tileVariants = {
     initial: {
       scale: 0,
       y: -100,
-      opacity: 0
+      opacity: 0,
     },
     animate: {
       scale: 1,
@@ -32,10 +32,10 @@ export function ModalOrchestrationSpringPhysics() {
         type: 'spring' as const,
         stiffness: 200,
         damping: 15,
-        mass: 1.2
-      }
-    }
-  };
+        mass: 1.2,
+      },
+    },
+  }
 
   return (
     <motion.div
@@ -46,7 +46,7 @@ export function ModalOrchestrationSpringPhysics() {
       data-animation-id="modal-orchestration__spring-physics"
     >
       <div className="pf-spring-grid">
-  {tiles.map((tile) => (
+        {tiles.map((tile) => (
           <motion.div
             key={tile.id}
             className="pf-spring-tile"
@@ -58,16 +58,16 @@ export function ModalOrchestrationSpringPhysics() {
                 type: 'spring' as const,
                 stiffness: 400,
                 damping: 20,
-                mass: 0.8
-              }
+                mass: 0.8,
+              },
             }}
             whileTap={{
               scale: 0.95,
               transition: {
                 type: 'spring' as const,
                 stiffness: 600,
-                damping: 25
-              }
+                damping: 25,
+              },
             }}
           >
             <h5>{tile.title}</h5>
@@ -77,5 +77,5 @@ export function ModalOrchestrationSpringPhysics() {
         ))}
       </div>
     </motion.div>
-  );
+  )
 }

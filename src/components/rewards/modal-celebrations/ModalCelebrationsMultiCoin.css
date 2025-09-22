@@ -1,0 +1,11 @@
+/* Styles scoped for ModalCelebrationsMultiCoin */
+.pf-multi-coin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.pf-multi-coin__group {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+}

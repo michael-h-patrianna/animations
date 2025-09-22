@@ -1,0 +1,50 @@
+/* Styles scoped for StandardEffectsSwing */
+.standard-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+.standard-demo-element {
+  padding: 24px 32px;
+  background: linear-gradient(135deg, rgba(236, 195, 255, 0.12) 0%, rgba(198, 255, 119, 0.08) 100%);
+  border: 1px solid rgba(236, 195, 255, 0.24);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: visible;
+}
+.demo-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+@keyframes swing-animation {
+  0%,
+  100% {
+    transform: rotate(0deg) translateX(0);
+    transform-origin: center top;
+  }
+  20% {
+    transform: rotate(15deg) translateX(2px);
+  }
+  40% {
+    transform: rotate(-10deg) translateX(-1.5px);
+  }
+  60% {
+    transform: rotate(5deg) translateX(1px);
+  }
+  80% {
+    transform: rotate(-2deg) translateX(-0.5px);
+  }
+}
+.swing-element {
+  animation: swing-animation 1s ease-in-out;
+  transform-origin: center top;
+}

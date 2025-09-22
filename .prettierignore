@@ -1,0 +1,10 @@
+# Build outputs
+/dist
+/playwright-report
+/test-results
+
+# Package managers
+pnpm-lock.yaml
+
+# Misc
+.DS_Store

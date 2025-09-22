@@ -1,12 +1,12 @@
 /**
  * Standalone: Copy this file and TextEffectsVerbJog.css into your app.
  */
-import React from 'react';
-import './TextEffectsVerbJog.css';
+import React from 'react'
+import './TextEffectsVerbJog.css'
 
 export function TextEffectsVerbJog() {
-  const text = 'LOREM IPSUM DOLOR';
-  const letters = React.useMemo(() => Array.from(text), [text]);
+  const text = 'LOREM IPSUM DOLOR'
+  const letters = React.useMemo(() => Array.from(text), [text])
   return (
     <div className="verbJog" data-animation-id="text-effects__verb-jogging" aria-label={text}>
       <div className="verbJog__line" aria-hidden="true">
@@ -17,7 +17,7 @@ export function TextEffectsVerbJog() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default TextEffectsVerbJog;
+export default TextEffectsVerbJog

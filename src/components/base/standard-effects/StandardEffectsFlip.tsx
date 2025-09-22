@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsFlip.css'
 
 export function StandardEffectsFlip() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsFlip() {
         <div className="demo-text">Flip</div>
       </div>
     </div>
-  );
+  )
 }

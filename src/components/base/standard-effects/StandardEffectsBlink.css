@@ -1,0 +1,117 @@
+/* Styles scoped for StandardEffectsBlink */
+.standard-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+.standard-demo-element {
+  padding: 24px 32px;
+  background: linear-gradient(135deg, rgba(236, 195, 255, 0.12) 0%, rgba(198, 255, 119, 0.08) 100%);
+  border: 1px solid rgba(236, 195, 255, 0.24);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: visible;
+}
+.demo-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+@keyframes blink-animation {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(0px);
+  }
+  5% {
+    opacity: 0.85;
+    transform: scale(0.99) translateX(-0.5px);
+  }
+  10% {
+    opacity: 0.5;
+    transform: scale(0.97) translateX(-1px);
+  }
+  15% {
+    opacity: 0.15;
+    transform: scale(0.96) translateX(-1.5px);
+  }
+  20% {
+    opacity: 0;
+    transform: scale(0.95) translateX(-2px);
+  }
+  25% {
+    opacity: 0.2;
+    transform: scale(0.97) translateX(-1px);
+  }
+  30% {
+    opacity: 0.6;
+    transform: scale(1.02) translateX(0px);
+  }
+  35% {
+    opacity: 0.9;
+    transform: scale(1.06) translateX(0.5px);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.1) translateX(1px);
+  }
+  45% {
+    opacity: 0.95;
+    transform: scale(1.08) translateX(1.2px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.04) translateX(1.5px);
+  }
+  55% {
+    opacity: 0.4;
+    transform: scale(1.01) translateX(1.8px);
+  }
+  60% {
+    opacity: 0.2;
+    transform: scale(0.98) translateX(2px);
+  }
+  65% {
+    opacity: 0.35;
+    transform: scale(0.99) translateX(1.5px);
+  }
+  70% {
+    opacity: 0.6;
+    transform: scale(1.01) translateX(0.5px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: scale(1.03) translateX(-0.5px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.05) translateX(-1px);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1.04) translateX(-0.8px);
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1.02) translateX(-0.4px);
+  }
+  95% {
+    opacity: 1;
+    transform: scale(1.01) translateX(-0.2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0px);
+  }
+}
+.blink-element {
+  animation: blink-animation 1s ease-in-out;
+  transform-origin: center center;
+}

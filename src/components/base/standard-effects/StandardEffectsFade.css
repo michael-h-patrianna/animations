@@ -1,0 +1,77 @@
+/* Styles scoped for StandardEffectsFade */
+.standard-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+.standard-demo-element {
+  padding: 24px 32px;
+  background: linear-gradient(135deg, rgba(236, 195, 255, 0.12) 0%, rgba(198, 255, 119, 0.08) 100%);
+  border: 1px solid rgba(236, 195, 255, 0.24);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: visible;
+}
+.demo-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+@keyframes fade-animation {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) rotate(-1deg);
+  }
+  10% {
+    opacity: 0.15;
+    transform: scale(0.96) rotate(-0.8deg);
+  }
+  20% {
+    opacity: 0.3;
+    transform: scale(0.97) rotate(-0.6deg);
+  }
+  30% {
+    opacity: 0.45;
+    transform: scale(0.98) rotate(-0.4deg);
+  }
+  40% {
+    opacity: 0.6;
+    transform: scale(0.99) rotate(-0.2deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.01) rotate(0deg);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1.015) rotate(0.2deg);
+  }
+  70% {
+    opacity: 0.88;
+    transform: scale(1.02) rotate(0.3deg);
+  }
+  80% {
+    opacity: 0.94;
+    transform: scale(1.015) rotate(0.2deg);
+  }
+  90% {
+    opacity: 0.98;
+    transform: scale(1.005) rotate(0.1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+.fade-element {
+  animation: fade-animation 0.8s ease-out;
+  transform-origin: center center;
+}

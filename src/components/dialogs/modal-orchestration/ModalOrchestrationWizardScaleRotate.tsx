@@ -1,39 +1,39 @@
-import { motion } from 'framer-motion';
-import './modal-orchestration.css';
+import { motion } from 'framer-motion'
+import './ModalOrchestrationWizardScaleRotate.css'
 
 export function ModalOrchestrationWizardScaleRotate() {
-  const steps = 3;
+  const steps = 3
 
   const containerVariants = {
     initial: {},
     animate: {
       transition: {
         staggerChildren: 0.26,
-        delayChildren: 0
-      }
-    }
-  };
+        delayChildren: 0,
+      },
+    },
+  }
 
   const stepVariants = {
     initial: {
       scale: 0.9,
-      opacity: 0.3
+      opacity: 0.3,
     },
     animate: {
       scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
         duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] as const // pop easing
-      }
-    }
-  };
+        ease: [0.34, 1.56, 0.64, 1] as const, // pop easing
+      },
+    },
+  }
 
   const panelVariants = {
     initial: {
       rotate: -6,
       scale: 0.82,
-      opacity: 0
+      opacity: 0,
     },
     animate: {
       rotate: 0,
@@ -41,10 +41,10 @@ export function ModalOrchestrationWizardScaleRotate() {
       opacity: 1,
       transition: {
         duration: 0.312, // 520ms * 0.6
-        ease: [0.68, -0.55, 0.265, 1.55] as const // vibrant easing
-      }
-    }
-  };
+        ease: [0.68, -0.55, 0.265, 1.55] as const, // vibrant easing
+      },
+    },
+  }
 
   return (
     <motion.div
@@ -79,5 +79,5 @@ export function ModalOrchestrationWizardScaleRotate() {
         ))}
       </div>
     </motion.div>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsHeartbeat.css'
 
 export function StandardEffectsHeartbeat() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsHeartbeat() {
         <div className="demo-text">HeartBeat</div>
       </div>
     </div>
-  );
+  )
 }

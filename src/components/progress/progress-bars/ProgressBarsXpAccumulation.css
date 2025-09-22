@@ -1,0 +1,267 @@
+/* Base styles for XP Accumulation */
+.pf-progress-demo.pf-xp-accumulation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  height: 100px; /* override */
+  justify-content: center;
+}
+
+/* Variable plumbing */
+.pf-xp-accumulation {
+  /* Defaults */
+  --zone-rgb: 30, 144, 255; /* #1E90FF */
+  --glow-alpha: 0.5;
+  --fill-glow-blur: 20px;
+  --track-glow-blur: 15px;
+  --zone-color: rgb(var(--zone-rgb));
+  --glow-color: rgba(var(--zone-rgb), var(--glow-alpha));
+}
+
+/* Zones (based on progress percent thresholds) */
+.pf-xp-accumulation.zone-0 {
+  --zone-rgb: 47, 107, 149;
+} /* #2F6B95 */
+.pf-xp-accumulation.zone-1 {
+  --zone-rgb: 32, 178, 170;
+} /* #20B2AA */
+.pf-xp-accumulation.zone-2 {
+  --zone-rgb: 0, 208, 199;
+} /* #00D0C7 */
+.pf-xp-accumulation.zone-3 {
+  --zone-rgb: 25, 217, 255;
+} /* #19D9FF */
+.pf-xp-accumulation.zone-4 {
+  --zone-rgb: 30, 144, 255;
+} /* #1E90FF */
+
+/* Levels (approximate intensity buckets) */
+.pf-xp-accumulation.level-0 {
+  --glow-alpha: 0.35;
+  --fill-glow-blur: 16px;
+  --track-glow-blur: 12px;
+}
+.pf-xp-accumulation.level-1 {
+  --glow-alpha: 0.47;
+  --fill-glow-blur: 18px;
+  --track-glow-blur: 13px;
+}
+.pf-xp-accumulation.level-2 {
+  --glow-alpha: 0.59;
+  --fill-glow-blur: 20px;
+  --track-glow-blur: 15px;
+}
+.pf-xp-accumulation.level-3 {
+  --glow-alpha: 0.72;
+  --fill-glow-blur: 24px;
+  --track-glow-blur: 19px;
+}
+.pf-xp-accumulation.level-4 {
+  --glow-alpha: 0.85;
+  --fill-glow-blur: 28px;
+  --track-glow-blur: 22px;
+}
+
+/* Counter row */
+.pf-xp-accumulation .pf-xp-counter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  justify-content: center;
+}
+
+.pf-xp-accumulation .pf-xp-counter__value {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--zone-color, #1e90ff);
+  text-shadow: 0 0 12px var(--glow-color, rgba(0, 255, 255, 0.5));
+}
+
+.pf-xp-accumulation .pf-xp-multiplier {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.65);
+  letter-spacing: 1px;
+}
+
+.pf-xp-accumulation .pf-progress-track {
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(10, 18, 25, 0.65) 0%, rgba(34, 49, 63, 0.35) 100%);
+  overflow: visible;
+  position: absolute;
+  top: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.35),
+    0 0 var(--track-glow-blur, 12px) var(--glow-color, rgba(0, 255, 255, 0.5));
+}
+
+.pf-xp-accumulation .pf-progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transform-origin: left center;
+  position: relative;
+  transform: scaleX(0);
+  will-change: transform;
+  overflow: visible;
+  background: linear-gradient(
+    90deg,
+    var(--zone-color, #1e90ff) 0%,
+    #00ffff 55%,
+    var(--zone-color, #1e90ff) 100%
+  );
+  box-shadow:
+    0 0 var(--fill-glow-blur, 16px) var(--glow-color, rgba(0, 255, 255, 0.5)),
+    inset 0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+/* Container for the progress track */
+.pf-xp-accumulation .pf-xp-container {
+  position: relative;
+  height: 60px;
+}
+
+/* Marker positioning */
+.pf-xp-accumulation .pf-marker {
+  position: absolute;
+  top: 50%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+}
+.pf-xp-accumulation .pf-marker--t0 {
+  left: 0%;
+}
+.pf-xp-accumulation .pf-marker--t20 {
+  left: 20%;
+}
+.pf-xp-accumulation .pf-marker--t40 {
+  left: 40%;
+}
+.pf-xp-accumulation .pf-marker--t60 {
+  left: 60%;
+}
+.pf-xp-accumulation .pf-marker--t80 {
+  left: 80%;
+}
+.pf-xp-accumulation .pf-marker--t100 {
+  left: 100%;
+}
+
+/* Marker visuals */
+.pf-xp-accumulation .pf-marker__indicator {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    var(--zone-color, rgba(255, 255, 255, 0.28)) 100%
+  );
+  box-shadow: none;
+}
+
+.pf-xp-accumulation .pf-marker--active .pf-marker__indicator {
+  box-shadow: 0 0 10px var(--glow-color, rgba(0, 255, 255, 0.6));
+}
+
+.pf-xp-accumulation .pf-marker__dot {
+  position: absolute;
+  left: calc(50% - 6px);
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.pf-xp-accumulation .pf-marker--active .pf-marker__dot {
+  /* approximate mix with alpha */
+  border-color: rgba(var(--zone-rgb), 0.6);
+  background: radial-gradient(
+    circle,
+    var(--zone-color) 0%,
+    #00ffff 60%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  box-shadow: 0 0 12px var(--glow-color, rgba(0, 255, 255, 0.5));
+}
+
+.pf-xp-accumulation .pf-marker__pulse,
+.pf-xp-accumulation .pf-marker__pulse--boundary {
+  position: absolute;
+  left: calc(50% - 6px);
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(var(--zone-rgb), 0.35) 0%,
+    rgba(var(--zone-rgb), 0.2) 50%,
+    transparent 70%
+  );
+  filter: blur(2px);
+}
+
+.pf-xp-accumulation .pf-marker__pulse--boundary {
+  width: 22px;
+  height: 22px;
+}
+
+.pf-xp-accumulation .pf-marker__halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(var(--zone-rgb), 0.33);
+  box-shadow: 0 0 10px rgba(var(--zone-rgb), 0.27);
+}
+
+.pf-xp-accumulation .pf-marker__label {
+  position: absolute;
+  left: 50%;
+  top: 26px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.pf-xp-accumulation .pf-marker--active .pf-marker__label {
+  color: #f8fbff;
+  text-shadow: 0 0 6px var(--glow-color, rgba(0, 255, 255, 0.75));
+}
+
+/* Floating XP */
+.pf-xp-accumulation .pf-floating-xp {
+  position: absolute;
+  top: 18px;
+  pointer-events: none;
+  z-index: 15;
+  font-size: 12px;
+  font-weight: 700;
+  color: #00ffff;
+  text-shadow:
+    0 0 8px rgba(0, 255, 255, 0.85),
+    0 0 4px rgba(0, 255, 255, 0.55);
+  transform: translateX(-50%);
+}

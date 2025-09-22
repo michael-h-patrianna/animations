@@ -1,28 +1,28 @@
-import { motion } from 'framer-motion';
-import './modal-orchestration.css';
+import { motion } from 'framer-motion'
+import './ModalOrchestrationMagneticHover.css'
 
 export function ModalOrchestrationMagneticHover() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
     title: `Hover ${index + 1}`,
-    content: `Smooth hover effects`
-  }));
+    content: `Smooth hover effects`,
+  }))
 
   const containerVariants = {
     initial: {},
     animate: {
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
+        delayChildren: 0.2,
+      },
+    },
+  }
 
   const tileVariants = {
     initial: {
       scale: 0,
       opacity: 0,
-      rotateX: -90
+      rotateX: -90,
     },
     animate: {
       scale: 1,
@@ -30,10 +30,10 @@ export function ModalOrchestrationMagneticHover() {
       rotateX: 0,
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94] as const
-      }
-    }
-  };
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
+      },
+    },
+  }
 
   return (
     <motion.div
@@ -44,7 +44,7 @@ export function ModalOrchestrationMagneticHover() {
       data-animation-id="modal-orchestration__magnetic-hover"
     >
       <div className="pf-magnetic-grid">
-  {tiles.map((tile) => (
+        {tiles.map((tile) => (
           <motion.div
             key={tile.id}
             className="pf-magnetic-tile"
@@ -54,20 +54,20 @@ export function ModalOrchestrationMagneticHover() {
               y: -12,
               rotateY: 5,
               rotateX: 5,
-              boxShadow: "0 20px 40px rgba(196, 122, 229, 0.3)",
+              boxShadow: '0 20px 40px rgba(196, 122, 229, 0.3)',
               transition: {
-                type: "spring",
+                type: 'spring',
                 stiffness: 300,
-                damping: 20
-              }
+                damping: 20,
+              },
             }}
             whileTap={{
               scale: 0.95,
               transition: {
-                type: "spring",
+                type: 'spring',
                 stiffness: 400,
-                damping: 25
-              }
+                damping: 25,
+              },
             }}
           >
             <h5>{tile.title}</h5>
@@ -77,5 +77,5 @@ export function ModalOrchestrationMagneticHover() {
         ))}
       </div>
     </motion.div>
-  );
+  )
 }

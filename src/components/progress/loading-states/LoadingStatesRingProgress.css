@@ -1,0 +1,37 @@
+/* Styles for LoadingStatesRingProgress */
+
+.pf-loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+}
+.pf-ring-progress {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.pf-ring-progress svg {
+  transform: rotate(-90deg);
+}
+.pf-ring-progress circle.base {
+  stroke: rgba(236, 195, 255, 0.2);
+}
+.pf-ring-progress circle.pf-progress-ring {
+  stroke: #c47ae5;
+  animation: ring-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes ring-progress {
+  0% {
+    stroke-dashoffset: 157.08;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 157.08;
+  }
+}

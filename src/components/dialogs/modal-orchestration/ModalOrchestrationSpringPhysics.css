@@ -1,0 +1,37 @@
+/* Styles scoped for ModalOrchestrationSpringPhysics */
+.pf-spring-container {
+  width: 100%;
+  min-height: 360px;
+  position: relative;
+}
+.pf-spring-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.pf-spring-tile {
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+  text-align: center;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.pf-spring-tile:active {
+  cursor: grabbing;
+}
+.pf-spring-tile h5 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+.pf-spring-tile p {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+}
+.pf-spring-indicator {
+  font-size: 16px;
+}

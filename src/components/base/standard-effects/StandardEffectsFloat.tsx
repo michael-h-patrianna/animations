@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsFloat.css'
 
 export function StandardEffectsFloat() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsFloat() {
         <div className="demo-text">Float</div>
       </div>
     </div>
-  );
+  )
 }

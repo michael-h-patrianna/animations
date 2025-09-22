@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsSqueeze.css'
 
 export function StandardEffectsSqueeze() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsSqueeze() {
         <div className="demo-text">Squeeze</div>
       </div>
     </div>
-  );
+  )
 }

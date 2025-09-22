@@ -1,6 +1,4 @@
-
 /* Tailwind base and plugins are imported in src/index.css (v4) */
-
 
 #root {
   min-height: 100vh;
@@ -70,7 +68,8 @@
   color: var(--pf-text-secondary);
   cursor: pointer;
   text-align: left;
-  transition: background var(--pf-transition-fast) ease,
+  transition:
+    background var(--pf-transition-fast) ease,
     border var(--pf-transition-fast) ease,
     color var(--pf-transition-fast) ease;
 }
@@ -168,7 +167,6 @@
   padding: 24px;
   display: grid;
   gap: 18px;
-
 }
 
 .pf-group__header {
@@ -319,7 +317,10 @@
   border-radius: 50px;
   padding: 6px 12px;
   cursor: pointer;
-  transition: background var(--pf-transition-fast) ease, color var(--pf-transition-fast) ease, border-color var(--pf-transition-fast) ease;
+  transition:
+    background var(--pf-transition-fast) ease,
+    color var(--pf-transition-fast) ease,
+    border-color var(--pf-transition-fast) ease;
 }
 
 .pf-card__replay:hover {
@@ -341,7 +342,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .pf-demo-stage {
@@ -388,7 +388,12 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: radial-gradient(circle at 20% 20%, rgba(123, 70, 142, 0.65) 0%, rgba(29, 9, 47, 0.65) 99%, rgba(7, 2, 12, 0.65) 100%);
+  background: radial-gradient(
+    circle at 20% 20%,
+    rgba(123, 70, 142, 0.65) 0%,
+    rgba(29, 9, 47, 0.65) 99%,
+    rgba(7, 2, 12, 0.65) 100%
+  );
   padding: 8px 0;
   margin-bottom: 12px;
 }
@@ -409,7 +414,9 @@
 
 /* Hide hamburger on desktop where the inline sidebar is visible */
 @media (min-width: 1220px) {
-  .pf-hamburger { display: none; }
+  .pf-hamburger {
+    display: none;
+  }
 }
 
 .pf-hamburger:focus-visible {
@@ -462,7 +469,12 @@
   transition: transform var(--pf-transition-fast, 200ms) ease;
   overflow-y: auto;
   /* Backdrop matches page gradient to support semi-transparent Sidebar */
-  background: radial-gradient(circle at 20% 20%, rgba(123, 70, 142, 0.65) 0%, rgba(29, 9, 47, 0.65) 99%, rgba(7, 2, 12, 0.65) 100%);
+  background: radial-gradient(
+    circle at 20% 20%,
+    rgba(123, 70, 142, 0.65) 0%,
+    rgba(29, 9, 47, 0.65) 99%,
+    rgba(7, 2, 12, 0.65) 100%
+  );
   padding: 0;
 }
 
@@ -488,10 +500,10 @@
   }
 }
 
-  /* Hide in-content group title on mobile; we show it in sticky header */
-  .pf-group__header {
-    display: none;
-  }
+/* Hide in-content group title on mobile; we show it in sticky header */
+.pf-group__header {
+  display: none;
+}
 
 /* Inside the drawer, make the Sidebar behave like a full-height panel */
 .pf-drawer__panel .pf-sidebar {

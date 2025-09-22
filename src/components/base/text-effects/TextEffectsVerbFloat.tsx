@@ -2,12 +2,12 @@
  * Standalone: Copy this file and TextEffectsVerbFloat.css into your app.
  * Runtime deps: react (no external splitting lib)
  */
-import React from 'react';
-import './TextEffectsVerbFloat.css';
+import React from 'react'
+import './TextEffectsVerbFloat.css'
 
 export function TextEffectsVerbFloat() {
-  const text = 'LOREM IPSUM DOLOR';
-  const letters = React.useMemo(() => Array.from(text), [text]);
+  const text = 'LOREM IPSUM DOLOR'
+  const letters = React.useMemo(() => Array.from(text), [text])
 
   return (
     <div className="verbFloat" data-animation-id="text-effects__verb-floating" aria-label={text}>
@@ -19,7 +19,7 @@ export function TextEffectsVerbFloat() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default TextEffectsVerbFloat;
+export default TextEffectsVerbFloat

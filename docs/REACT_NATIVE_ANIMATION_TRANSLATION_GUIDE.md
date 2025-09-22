@@ -3,6 +3,7 @@
 ## Available Libraries in Your React Native App
 
 Your React Native app has these animation libraries installed:
+
 - **react-native-reanimated** - Core animation engine
 - **moti** - Declarative animations (built on Reanimated)
 - **@react-native-community/blur** - iOS/Android blur effects
@@ -15,56 +16,58 @@ Your React Native app has these animation libraries installed:
 ### 1. Blur Effects (`filter: blur()`)
 
 **CSS Animation (Web):**
+
 ```css
 @keyframes fadeBlur {
-  0% { filter: blur(10px); opacity: 0; }
-  100% { filter: blur(0); opacity: 1; }
+  0% {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  100% {
+    filter: blur(0);
+    opacity: 1;
+  }
 }
 ```
 
 **React Native Translation:**
+
 ```tsx
 // Option 1: Animated blur with @react-native-community/blur
-import { BlurView } from '@react-native-community/blur';
-import Animated, { useAnimatedProps, withTiming } from 'react-native-reanimated';
+import { BlurView } from '@react-native-community/blur'
+import Animated, { useAnimatedProps, withTiming } from 'react-native-reanimated'
 
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 
 function AnimatedModal() {
-  const blurAmount = useSharedValue(10);
-  
+  const blurAmount = useSharedValue(10)
+
   const animatedProps = useAnimatedProps(() => ({
     blurAmount: blurAmount.value,
-  }));
+  }))
 
   useEffect(() => {
-    blurAmount.value = withTiming(0, { duration: 400 });
-  }, []);
+    blurAmount.value = withTiming(0, { duration: 400 })
+  }, [])
 
-  return (
-    <AnimatedBlurView 
-      animatedProps={animatedProps}
-      blurType="light"
-    />
-  );
+  return <AnimatedBlurView animatedProps={animatedProps} blurType="light" />
 }
 
 // Option 2: Simulated blur with scale + opacity (better performance)
-import { MotiView } from 'moti';
-
-<MotiView
-  from={{ 
-    scale: 0.9, 
-    opacity: 0 
+import { MotiView } from 'moti'
+;<MotiView
+  from={{
+    scale: 0.9,
+    opacity: 0,
   }}
-  animate={{ 
-    scale: 1, 
-    opacity: 1 
+  animate={{
+    scale: 1,
+    opacity: 1,
   }}
   transition={{
     type: 'timing',
     duration: 400,
-    easing: Easing.out(Easing.quad)
+    easing: Easing.out(Easing.quad),
   }}
 >
   {/* Content */}
@@ -72,17 +75,20 @@ import { MotiView } from 'moti';
 ```
 
 **When to use each:**
+
 - Use `BlurView` for static background blurs (modal overlays, frosted glass)
 - Use scale + opacity simulation for animated focus effects (better performance)
 
 ### 2. Drop Shadow Effects (`filter: drop-shadow()`)
 
 **CSS (Web):**
+
 ```css
 filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
 ```
 
 **React Native Translation:**
+
 ```tsx
 // For iOS - use shadow properties
 const styles = StyleSheet.create({
@@ -91,19 +97,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
     shadowRadius: 10,
-  }
-});
+  },
+})
 
 // For Android - use elevation + custom solution
-import { MotiView } from 'moti';
+import { MotiView } from 'moti'
 
 // Animated glow effect
-<MotiView
-  from={{ 
+;<MotiView
+  from={{
     shadowOpacity: 0,
     shadowRadius: 0,
   }}
-  animate={{ 
+  animate={{
     shadowOpacity: 0.5,
     shadowRadius: 10,
   }}
@@ -122,22 +128,30 @@ import { MotiView } from 'moti';
 ### 3. Text Animations
 
 **CSS (Web):**
+
 ```css
 /* Glitch text, typewriter, etc. */
 @keyframes glitch {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-2px); }
-  40% { transform: translateX(2px); }
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
 }
 ```
 
 **React Native with react-native-animateable-text:**
+
 ```tsx
-import AnimateableText from 'react-native-animateable-text';
+import AnimateableText from 'react-native-animateable-text'
 
 // Glitch Effect
 const GlitchText = () => {
-  const translateX = useSharedValue(0);
+  const translateX = useSharedValue(0)
 
   useEffect(() => {
     translateX.value = withRepeat(
@@ -148,80 +162,65 @@ const GlitchText = () => {
       ),
       -1,
       true
-    );
-  }, []);
+    )
+  }, [])
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }]
-  }));
+    transform: [{ translateX: translateX.value }],
+  }))
 
-  return (
-    <AnimateableText 
-      text="GLITCH TEXT" 
-      animatedProps={animatedStyle}
-    />
-  );
-};
+  return <AnimateableText text="GLITCH TEXT" animatedProps={animatedStyle} />
+}
 
 // Typewriter Effect
 const TypewriterText = ({ text }) => {
-  const [displayText, setDisplayText] = useState('');
-  
-  useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      setDisplayText(text.slice(0, index));
-      index++;
-      if (index > text.length) clearInterval(timer);
-    }, 50);
-    return () => clearInterval(timer);
-  }, [text]);
+  const [displayText, setDisplayText] = useState('')
 
-  return <AnimateableText text={displayText} />;
-};
+  useEffect(() => {
+    let index = 0
+    const timer = setInterval(() => {
+      setDisplayText(text.slice(0, index))
+      index++
+      if (index > text.length) clearInterval(timer)
+    }, 50)
+    return () => clearInterval(timer)
+  }, [text])
+
+  return <AnimateableText text={displayText} />
+}
 ```
 
 ### 4. Gradient Animations
 
 **CSS (Web):**
+
 ```css
 background: linear-gradient(90deg, #ff0000, #00ff00);
 ```
 
 **React Native with react-native-linear-gradient:**
-```tsx
-import LinearGradient from 'react-native-linear-gradient';
-import Animated, { useAnimatedProps, interpolateColor } from 'react-native-reanimated';
 
-const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
+```tsx
+import LinearGradient from 'react-native-linear-gradient'
+import Animated, { useAnimatedProps, interpolateColor } from 'react-native-reanimated'
+
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 
 function AnimatedGradientBackground() {
-  const progress = useSharedValue(0);
+  const progress = useSharedValue(0)
 
   const animatedProps = useAnimatedProps(() => {
-    const color1 = interpolateColor(
-      progress.value,
-      [0, 1],
-      ['#FF0000', '#00FF00']
-    );
-    const color2 = interpolateColor(
-      progress.value,
-      [0, 1],
-      ['#00FF00', '#0000FF']
-    );
-    
+    const color1 = interpolateColor(progress.value, [0, 1], ['#FF0000', '#00FF00'])
+    const color2 = interpolateColor(progress.value, [0, 1], ['#00FF00', '#0000FF'])
+
     return {
       colors: [color1, color2],
-    };
-  });
+    }
+  })
 
   useEffect(() => {
-    progress.value = withRepeat(
-      withTiming(1, { duration: 2000 }),
-      -1,
-      true
-    );
-  }, []);
+    progress.value = withRepeat(withTiming(1, { duration: 2000 }), -1, true)
+  }, [])
 
   return (
     <AnimatedLinearGradient
@@ -230,66 +229,60 @@ function AnimatedGradientBackground() {
       end={{ x: 1, y: 0 }}
       style={styles.gradient}
     />
-  );
+  )
 }
 ```
 
 ### 5. Complex Shapes & Paths (`clip-path`)
 
 **CSS (Web):**
+
 ```css
 clip-path: circle(50% at 50% 50%);
 ```
 
 **React Native with react-native-svg:**
-```tsx
-import Svg, { Defs, ClipPath, Circle, Image } from 'react-native-svg';
-import Animated, { useAnimatedProps } from 'react-native-reanimated';
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+```tsx
+import Svg, { Defs, ClipPath, Circle, Image } from 'react-native-svg'
+import Animated, { useAnimatedProps } from 'react-native-reanimated'
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
 function IrisWipeEffect() {
-  const radius = useSharedValue(0);
+  const radius = useSharedValue(0)
 
   const animatedProps = useAnimatedProps(() => ({
     r: radius.value,
-  }));
+  }))
 
   useEffect(() => {
-    radius.value = withTiming(100, { duration: 700 });
-  }, []);
+    radius.value = withTiming(100, { duration: 700 })
+  }, [])
 
   return (
     <Svg>
       <Defs>
         <ClipPath id="iris">
-          <AnimatedCircle 
-            animatedProps={animatedProps}
-            cx="50%" 
-            cy="50%" 
-          />
+          <AnimatedCircle animatedProps={animatedProps} cx="50%" cy="50%" />
         </ClipPath>
       </Defs>
-      <Image
-        href={require('./modal.png')}
-        clipPath="url(#iris)"
-        width="100%"
-        height="100%"
-      />
+      <Image href={require('./modal.png')} clipPath="url(#iris)" width="100%" height="100%" />
     </Svg>
-  );
+  )
 }
 ```
 
 ### 6. Particle Effects & Complex Animations
 
 **React Native with Moti + SVG:**
+
 ```tsx
-import { MotiView } from 'moti';
-import Svg, { Circle } from 'react-native-svg';
+import { MotiView } from 'moti'
+import Svg, { Circle } from 'react-native-svg'
 
 const ParticleEffect = () => {
-  const particles = Array.from({ length: 20 });
+  const particles = Array.from({ length: 20 })
 
   return (
     <>
@@ -317,71 +310,75 @@ const ParticleEffect = () => {
         />
       ))}
     </>
-  );
-};
+  )
+}
 ```
 
 ## Animation-by-Animation Translation Guide
 
 ### Modal Animations
 
-| CSS Animation | React Native Implementation |
-|--------------|----------------------------|
-| **scale-gentle-pop** | Moti with scale + opacity |
-| **3d-flip** | Reanimated with rotateY transform |
-| **glitch-digital** | Multiple MotiViews with offsets + AnimateableText |
-| **iris-wipe** | react-native-svg with animated ClipPath |
-| **portal-swirl** | Reanimated with rotate + scale |
-| **tv-turn-on** | Reanimated with scaleX/scaleY sequence |
+| CSS Animation        | React Native Implementation                       |
+| -------------------- | ------------------------------------------------- |
+| **scale-gentle-pop** | Moti with scale + opacity                         |
+| **3d-flip**          | Reanimated with rotateY transform                 |
+| **glitch-digital**   | Multiple MotiViews with offsets + AnimateableText |
+| **iris-wipe**        | react-native-svg with animated ClipPath           |
+| **portal-swirl**     | Reanimated with rotate + scale                    |
+| **tv-turn-on**       | Reanimated with scaleX/scaleY sequence            |
 
 ### Text Effects
 
-| CSS Animation | React Native Implementation |
-|--------------|----------------------------|
-| **typewriter** | AnimateableText with progressive reveal |
-| **glitch-text** | AnimateableText with transform offsets |
-| **character-reveal** | Individual AnimateableText chars with delays |
-| **counter-increment** | Reanimated with interpolated values |
+| CSS Animation         | React Native Implementation                  |
+| --------------------- | -------------------------------------------- |
+| **typewriter**        | AnimateableText with progressive reveal      |
+| **glitch-text**       | AnimateableText with transform offsets       |
+| **character-reveal**  | Individual AnimateableText chars with delays |
+| **counter-increment** | Reanimated with interpolated values          |
 
 ### Progress Animations
 
-| CSS Animation | React Native Implementation |
-|--------------|----------------------------|
-| **progress-bar** | MotiView with animated width |
-| **gradient-progress** | AnimatedLinearGradient |
+| CSS Animation          | React Native Implementation    |
+| ---------------------- | ------------------------------ |
+| **progress-bar**       | MotiView with animated width   |
+| **gradient-progress**  | AnimatedLinearGradient         |
 | **segmented-progress** | Multiple MotiViews with delays |
 
 ### Reward Animations
 
-| CSS Animation | React Native Implementation |
-|--------------|----------------------------|
+| CSS Animation    | React Native Implementation     |
+| ---------------- | ------------------------------- |
 | **coin-cascade** | Multiple MotiViews with physics |
-| **confetti** | react-native-svg particles |
-| **glow-effects** | Animated shadow properties |
+| **confetti**     | react-native-svg particles      |
+| **glow-effects** | Animated shadow properties      |
 
 ## Performance Optimization Tips
 
 ### 1. Use Native Driver
+
 ```tsx
 // Always enable native driver when possible
 useNativeDriver: true // for transforms and opacity
 ```
 
 ### 2. Batch Animations
+
 ```tsx
 // Run multiple animations in parallel
 Animated.parallel([
   Animated.timing(animation1, config),
   Animated.timing(animation2, config),
-]).start();
+]).start()
 ```
 
 ### 3. Optimize Blur Usage
+
 - Static blurs: Use `BlurView` component
 - Animated blurs: Use scale + opacity simulation
 - Heavy blur effects: Consider pre-rendered images
 
 ### 4. Shadow Performance
+
 ```tsx
 // iOS: Use shadow properties
 shadowColor: '#000',
@@ -398,22 +395,17 @@ elevation: 5,
 ## Implementation Examples
 
 ### Complete Modal Animation (Moti)
+
 ```tsx
-import { MotiView } from 'moti';
-import { BlurView } from '@react-native-community/blur';
+import { MotiView } from 'moti'
+import { BlurView } from '@react-native-community/blur'
 
 export function GameModal({ visible, children }) {
   return (
     <>
       {/* Background blur overlay */}
-      {visible && (
-        <BlurView
-          style={StyleSheet.absoluteFill}
-          blurType="dark"
-          blurAmount={10}
-        />
-      )}
-      
+      {visible && <BlurView style={StyleSheet.absoluteFill} blurType="dark" blurAmount={10} />}
+
       {/* Animated modal */}
       <MotiView
         from={{
@@ -436,35 +428,31 @@ export function GameModal({ visible, children }) {
         {children}
       </MotiView>
     </>
-  );
+  )
 }
 ```
 
 ### Text Effect with AnimateableText
+
 ```tsx
-import AnimateableText from 'react-native-animateable-text';
-import { useSharedValue, withSpring } from 'react-native-reanimated';
+import AnimateableText from 'react-native-animateable-text'
+import { useSharedValue, withSpring } from 'react-native-reanimated'
 
 export function XPCounter({ value }) {
-  const animatedValue = useSharedValue(0);
-  
+  const animatedValue = useSharedValue(0)
+
   useEffect(() => {
     animatedValue.value = withSpring(value, {
       damping: 15,
       stiffness: 150,
-    });
-  }, [value]);
+    })
+  }, [value])
 
   const animatedProps = useAnimatedProps(() => ({
     text: `+${Math.round(animatedValue.value)} XP`,
-  }));
+  }))
 
-  return (
-    <AnimateableText 
-      animatedProps={animatedProps}
-      style={styles.xpText}
-    />
-  );
+  return <AnimateableText animatedProps={animatedProps} style={styles.xpText} />
 }
 ```
 

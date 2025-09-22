@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBasePortalSwirl.css'
 
 export function ModalBasePortalSwirl() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay"
-      style={{
-        '--animation-duration': '800ms',
-        '--animation-easing': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        '--overlay-opacity': '0.68'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '800ms',
+          '--animation-easing': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          '--overlay-opacity': '0.68',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal"
         style={{
-          animation: 'pf-modal-portal-swirl 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+          animation: 'pf-modal-portal-swirl 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +36,5 @@ export function ModalBasePortalSwirl() {
         </div>
       </div>
     </div>
-  );
+  )
 }

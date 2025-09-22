@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsBounce.css'
 
 export function StandardEffectsBounce() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsBounce() {
         <div className="demo-text">Bounce</div>
       </div>
     </div>
-  );
+  )
 }

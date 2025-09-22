@@ -4,16 +4,16 @@
  * No shared utils; all helpers are inlined here.
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import React from 'react';
-import './TextEffectsLightSweepDraw.css';
+import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import React from 'react'
+import './TextEffectsLightSweepDraw.css'
 
 export function TextEffectsLightSweepDraw() {
-  const text = 'LOREM IPSUM DOLOR';
-  const shouldReduceMotion = useReducedMotion();
+  const text = 'LOREM IPSUM DOLOR'
+  const shouldReduceMotion = useReducedMotion()
 
   // Simple grapheme split that is SSR-safe for most Latin text.
-  const letters = React.useMemo(() => Array.from(text), [text]);
+  const letters = React.useMemo(() => Array.from(text), [text])
 
   // Container variants handle anticipation and final settle.
   const containerVariants: Variants = shouldReduceMotion
@@ -46,7 +46,7 @@ export function TextEffectsLightSweepDraw() {
           scale: [1, 1.02, 1],
           transition: { duration: 0.6, ease: [0.2, 0, 0, 1], delay: 0.95 },
         },
-      };
+      }
 
   // Per-letter highlight: brief color lift + subtle skew/scale, then return to base.
   const letterVariants: Variants = shouldReduceMotion
@@ -60,7 +60,11 @@ export function TextEffectsLightSweepDraw() {
           opacity: [0, 1, 1] as number[],
           y: [6, 0, 0] as number[],
           // Use CSS vars for colors for easy theming; animate the color inline.
-          color: ['var(--lsd-baseColor)', 'var(--lsd-highlightColor)', 'var(--lsd-baseColor)'] as string[],
+          color: [
+            'var(--lsd-baseColor)',
+            'var(--lsd-highlightColor)',
+            'var(--lsd-baseColor)',
+          ] as string[],
           skewX: [0, 1.5, 0] as number[],
           scale: [1, 1.04, 1] as number[],
           transition: {
@@ -69,7 +73,7 @@ export function TextEffectsLightSweepDraw() {
             times: [0, 0.45, 1],
           },
         },
-      };
+      }
 
   return (
     <motion.div
@@ -92,7 +96,7 @@ export function TextEffectsLightSweepDraw() {
         ))}
       </div>
     </motion.div>
-  );
+  )
 }
 
-export default TextEffectsLightSweepDraw;
+export default TextEffectsLightSweepDraw

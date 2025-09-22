@@ -1,24 +1,27 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBaseSlideDownHero.css'
 
 export function ModalBaseSlideDownHero() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay"
-      style={{
-        '--animation-duration': '520ms',
-        '--animation-easing': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        '--overlay-opacity': '0.72'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '520ms',
+          '--animation-easing': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+          '--overlay-opacity': '0.72',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal"
         style={{
-          animation: 'pf-modal-slide-down-hero 520ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+          animation:
+            'pf-modal-slide-down-hero 520ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +37,5 @@ export function ModalBaseSlideDownHero() {
         </div>
       </div>
     </div>
-  );
+  )
 }

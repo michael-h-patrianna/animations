@@ -3,15 +3,15 @@
  * Runtime deps: react, framer-motion
  * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
  */
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import React from 'react';
-import './TextEffectsHorizonLightPass.css';
+import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import React from 'react'
+import './TextEffectsHorizonLightPass.css'
 
 export function TextEffectsHorizonLightPass() {
-  const text = 'LOREM IPSUM DOLOR';
-  const shouldReduceMotion = useReducedMotion();
+  const text = 'LOREM IPSUM DOLOR'
+  const shouldReduceMotion = useReducedMotion()
 
-  const letters = React.useMemo(() => Array.from(text), [text]);
+  const letters = React.useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = shouldReduceMotion
     ? {
@@ -36,7 +36,7 @@ export function TextEffectsHorizonLightPass() {
           scale: [1, 1.008, 1],
           transition: { duration: 0.28, ease: [0.2, 0, 0, 1], delay: 0.85 },
         },
-      };
+      }
 
   // Horizon band: broad, slower pass with horizontal stretch and vertical compression.
   // Distinct from Metallic Specular Flash (which is a quick, skewed glint):
@@ -52,10 +52,10 @@ export function TextEffectsHorizonLightPass() {
         hidden: { opacity: 0 },
         show: (i: number) => {
           // Right-to-left delay: later indices lead, earlier lag
-          const delayPer = 0.03;
-          const count = letters.length;
-          const rtlIndex = count - 1 - i;
-          const delay = rtlIndex * delayPer;
+          const delayPer = 0.03
+          const count = letters.length
+          const rtlIndex = count - 1 - i
+          const delay = rtlIndex * delayPer
           return {
             opacity: [0, 1, 1, 1, 1] as number[],
             // Strong highlight with extended plateau, then return to base
@@ -75,9 +75,9 @@ export function TextEffectsHorizonLightPass() {
               times: [0, 0.2, 0.55, 0.85, 1],
               delay,
             },
-          };
+          }
         },
-      };
+      }
 
   return (
     <motion.div
@@ -101,7 +101,7 @@ export function TextEffectsHorizonLightPass() {
         ))}
       </div>
     </motion.div>
-  );
+  )
 }
 
-export default TextEffectsHorizonLightPass;
+export default TextEffectsHorizonLightPass

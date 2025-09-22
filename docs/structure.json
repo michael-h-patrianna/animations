@@ -70,7 +70,6 @@
           "tech": "css",
           "demo": "loader"
         }
-
       ]
     },
     {
@@ -108,7 +107,6 @@
           "tech": "css",
           "demo": "iconAnimations"
         },
-
 
         {
           "id": "modal-celebrations",
@@ -920,7 +918,6 @@
       "tags": ["framer", "js"]
     },
 
-
     {
       "id": "progress-bars__zoomed-progress",
       "title": "Zoomed Progress",
@@ -1187,6 +1184,5 @@
       "groupId": "icon-animations",
       "tags": ["css"]
     }
-
   ]
 }
