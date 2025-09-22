@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBaseScaleCrisp.css'
 
 export function ModalBaseScaleCrisp() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay"
-      style={{
-        '--animation-duration': '240ms',
-        '--animation-easing': 'cubic-bezier(0.16, 1, 0.3, 1)',
-        '--overlay-opacity': '0.64'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '240ms',
+          '--animation-easing': 'cubic-bezier(0.16, 1, 0.3, 1)',
+          '--overlay-opacity': '0.64',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal"
         style={{
-          animation: 'pf-modal-scale-crisp 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards'
+          animation: 'pf-modal-scale-crisp 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +36,5 @@ export function ModalBaseScaleCrisp() {
         </div>
       </div>
     </div>
-  );
+  )
 }

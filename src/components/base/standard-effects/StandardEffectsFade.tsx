@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsFade.css'
 
 export function StandardEffectsFade() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsFade() {
         <div className="demo-text">Fade</div>
       </div>
     </div>
-  );
+  )
 }

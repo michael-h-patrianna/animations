@@ -1,0 +1,51 @@
+/* Styles scoped for StandardEffectsRubberBand */
+.standard-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+.standard-demo-element {
+  padding: 24px 32px;
+  background: linear-gradient(135deg, rgba(236, 195, 255, 0.12) 0%, rgba(198, 255, 119, 0.08) 100%);
+  border: 1px solid rgba(236, 195, 255, 0.24);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: visible;
+}
+.demo-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+@keyframes rubber-band-animation {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.25, 0.75);
+  }
+  40% {
+    transform: scale(0.75, 1.25);
+  }
+  50% {
+    transform: scale(1.15, 0.85);
+  }
+  65% {
+    transform: scale(0.95, 1.05);
+  }
+  75% {
+    transform: scale(1.05, 0.95);
+  }
+}
+.rubber-band-element {
+  animation: rubber-band-animation 1s ease-in-out;
+}

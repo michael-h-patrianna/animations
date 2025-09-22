@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsPop.css'
 
 export function StandardEffectsPop() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsPop() {
         <div className="demo-text">Pop</div>
       </div>
     </div>
-  );
+  )
 }

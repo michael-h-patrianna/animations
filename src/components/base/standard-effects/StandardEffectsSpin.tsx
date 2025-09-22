@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsSpin.css'
 
 export function StandardEffectsSpin() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsSpin() {
         <div className="demo-text">Spin</div>
       </div>
     </div>
-  );
+  )
 }

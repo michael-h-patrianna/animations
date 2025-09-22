@@ -1,0 +1,144 @@
+/* Styles scoped for TextEffectsWaveText */
+.wave-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+  transform: translateZ(0);
+  will-change: contents;
+}
+.wave-text-wrapper {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  display: flex;
+  position: relative;
+  z-index: 2;
+}
+.wave-char {
+  display: inline-block;
+  transform-origin: center bottom;
+  position: relative;
+  will-change: transform;
+  transform: translateZ(0);
+  color: var(--wave-color, #3b82f6);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: color 0.2s ease;
+}
+.wave-char::before {
+  content: attr(data-char);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: transparent;
+  text-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(96, 165, 250, 0.4);
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  animation: wave-shadow 2s ease-in-out infinite;
+  animation-delay: inherit;
+}
+.wave-char::after {
+  content: attr(data-char);
+  position: absolute;
+  top: -2px;
+  left: 0;
+  color: #93c5fd;
+  opacity: 0;
+  z-index: -2;
+  pointer-events: none;
+  animation: wave-glow 2s ease-in-out infinite;
+  animation-delay: inherit;
+  filter: blur(6px);
+}
+.wave-phase-0 {
+  --wave-color: #3b82f6;
+  animation-delay: 0s;
+}
+.wave-phase-1 {
+  --wave-color: #60a5fa;
+  animation-delay: 0.05s;
+}
+.wave-phase-2 {
+  --wave-color: #3b82f6;
+  animation-delay: 0.1s;
+}
+.wave-phase-3 {
+  --wave-color: #2563eb;
+  animation-delay: 0.15s;
+}
+.wave-phase-4 {
+  --wave-color: #3b82f6;
+  animation-delay: 0.2s;
+}
+.wave-char {
+  animation: wave-color-shift 2s ease-in-out infinite;
+  animation-delay: inherit;
+}
+@keyframes wave-color-shift {
+  0%,
+  100% {
+    --wave-color: #3b82f6;
+  }
+  25% {
+    --wave-color: #60a5fa;
+  }
+  50% {
+    --wave-color: #3b82f6;
+  }
+  75% {
+    --wave-color: #2563eb;
+  }
+}
+.wave-char-inner {
+  display: inline-block;
+  position: relative;
+}
+.wave-highlight {
+  position: absolute;
+  inset: -20% -10%;
+  background: linear-gradient(180deg, rgba(147, 197, 253, 0.4), transparent);
+  border-radius: 50% 50% 0 0;
+  pointer-events: none;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+@keyframes wave-glow {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  25% {
+    opacity: 0.5;
+    transform: translateY(-2px);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  75% {
+    opacity: 0.1;
+    transform: translateY(1px);
+  }
+}
+@keyframes wave-shadow {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  75% {
+    opacity: 0.1;
+  }
+}

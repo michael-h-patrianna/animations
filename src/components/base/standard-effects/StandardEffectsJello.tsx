@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsJello.css'
 
 export function StandardEffectsJello() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsJello() {
         <div className="demo-text">Jello</div>
       </div>
     </div>
-  );
+  )
 }

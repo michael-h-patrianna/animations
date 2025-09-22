@@ -1,68 +1,65 @@
-import { useEffect, useRef } from 'react';
-import './modal-dismiss.css';
+import { useEffect, useRef } from 'react'
+import './ModalDismissToastFadeProgress.css'
 
 export function ModalDismissToastFadeProgress() {
-  const toastRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+  const toastRef = useRef<HTMLDivElement>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
   // Removed unused state
 
   useEffect(() => {
-    const toast = toastRef.current;
-    const progress = progressRef.current;
-    if (!toast || !progress) return;
+    const toast = toastRef.current
+    const progress = progressRef.current
+    if (!toast || !progress) return
 
     // Set initial state
-    toast.style.opacity = '0';
-    toast.style.transform = 'translate3d(0, 18px, 0) scale(0.94)';
-    progress.style.transform = 'scaleX(1)';
+    toast.style.opacity = '0'
+    toast.style.transform = 'translate3d(0, 18px, 0) scale(0.94)'
+    progress.style.transform = 'scaleX(1)'
 
-    const entryDuration = 420;
-    const autoDismissMs = 4600;
-    const exitDuration = Math.min(360, Math.max(220, Math.round(entryDuration * 0.75)));
+    const entryDuration = 420
+    const autoDismissMs = 4600
+    const exitDuration = Math.min(360, Math.max(220, Math.round(entryDuration * 0.75)))
 
     // Entrance animation (fade with scale from 0.94 to 1)
     const enterKeyframes = [
       { transform: 'translate3d(0, 18px, 0) scale(0.94)', opacity: '0' },
-      { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' }
-    ];
+      { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
+    ]
 
     toast.animate(enterKeyframes, {
       duration: entryDuration,
       easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', // gentle easing
-      fill: 'forwards'
-    });
+      fill: 'forwards',
+    })
 
     // Progress bar animation (scaleX from 1 to 0)
-    progress.animate(
-      [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
-      {
-        duration: autoDismissMs,
-        easing: 'linear',
-        fill: 'forwards'
-      }
-    );
+    progress.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }], {
+      duration: autoDismissMs,
+      easing: 'linear',
+      fill: 'forwards',
+    })
 
     // Schedule exit animation
     const exitTimer = setTimeout(() => {
       const exitKeyframes = [
         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
         { transform: 'translate3d(0, 12px, 0) scale(0.92)', opacity: '0.4', offset: 0.6 },
-        { transform: 'translate3d(0, 24px, 0) scale(0.88)', opacity: '0' }
-      ];
+        { transform: 'translate3d(0, 24px, 0) scale(0.88)', opacity: '0' },
+      ]
 
       toast.animate(exitKeyframes, {
         duration: exitDuration,
         easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        fill: 'forwards'
-      });
-    }, autoDismissMs);
+        fill: 'forwards',
+      })
+    }, autoDismissMs)
 
     return () => {
-      clearTimeout(exitTimer);
-      toast.getAnimations().forEach(anim => anim.cancel());
-      progress.getAnimations().forEach(anim => anim.cancel());
-    };
-  }, []);
+      clearTimeout(exitTimer)
+      toast.getAnimations().forEach((anim) => anim.cancel())
+      progress.getAnimations().forEach((anim) => anim.cancel())
+    }
+  }, [])
 
   return (
     <div className="pf-toast-preview">
@@ -78,5 +75,5 @@ export function ModalDismissToastFadeProgress() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import './loading-states.css';
+import './LoadingStatesSkeletonCard.css'
 
 export function LoadingStatesSkeletonCard() {
   return (
@@ -10,5 +10,5 @@ export function LoadingStatesSkeletonCard() {
         <div className="pf-skeleton__line"></div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,0 +1,9 @@
+/* Styles scoped for TextEffectsXpNumberPop */
+.xp-pop-container {
+  position: relative;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}

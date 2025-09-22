@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsSlide.css'
 
 export function StandardEffectsSlide() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsSlide() {
         <div className="demo-text">Slide</div>
       </div>
     </div>
-  );
+  )
 }

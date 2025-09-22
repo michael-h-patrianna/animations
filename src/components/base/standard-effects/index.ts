@@ -1,42 +1,42 @@
-import type { AnimationComponentMap } from '@/types/animation';
+import type { AnimationComponentMap } from '@/types/animation'
 
-import { StandardEffectsBlink } from './StandardEffectsBlink';
-import { StandardEffectsBounce } from './StandardEffectsBounce';
-import { StandardEffectsFade } from './StandardEffectsFade';
-import { StandardEffectsFlip } from './StandardEffectsFlip';
-import { StandardEffectsFloat } from './StandardEffectsFloat';
-import { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat';
-import { StandardEffectsJello } from './StandardEffectsJello';
-import { StandardEffectsPop } from './StandardEffectsPop';
-import { StandardEffectsPulse } from './StandardEffectsPulse';
-import { StandardEffectsRubberBand } from './StandardEffectsRubberBand';
-import { StandardEffectsScale } from './StandardEffectsScale';
-import { StandardEffectsShake } from './StandardEffectsShake';
-import { StandardEffectsSlide } from './StandardEffectsSlide';
-import { StandardEffectsSpin } from './StandardEffectsSpin';
-import { StandardEffectsSqueeze } from './StandardEffectsSqueeze';
-import { StandardEffectsSwing } from './StandardEffectsSwing';
-import { StandardEffectsTada } from './StandardEffectsTada';
-import { StandardEffectsWiggle } from './StandardEffectsWiggle';
+import { StandardEffectsBlink } from './StandardEffectsBlink'
+import { StandardEffectsBounce } from './StandardEffectsBounce'
+import { StandardEffectsFade } from './StandardEffectsFade'
+import { StandardEffectsFlip } from './StandardEffectsFlip'
+import { StandardEffectsFloat } from './StandardEffectsFloat'
+import { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat'
+import { StandardEffectsJello } from './StandardEffectsJello'
+import { StandardEffectsPop } from './StandardEffectsPop'
+import { StandardEffectsPulse } from './StandardEffectsPulse'
+import { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
+import { StandardEffectsScale } from './StandardEffectsScale'
+import { StandardEffectsShake } from './StandardEffectsShake'
+import { StandardEffectsSlide } from './StandardEffectsSlide'
+import { StandardEffectsSpin } from './StandardEffectsSpin'
+import { StandardEffectsSqueeze } from './StandardEffectsSqueeze'
+import { StandardEffectsSwing } from './StandardEffectsSwing'
+import { StandardEffectsTada } from './StandardEffectsTada'
+import { StandardEffectsWiggle } from './StandardEffectsWiggle'
 
-export { StandardEffectsBlink } from './StandardEffectsBlink';
-export { StandardEffectsBounce } from './StandardEffectsBounce';
-export { StandardEffectsFade } from './StandardEffectsFade';
-export { StandardEffectsFlip } from './StandardEffectsFlip';
-export { StandardEffectsFloat } from './StandardEffectsFloat';
-export { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat';
-export { StandardEffectsJello } from './StandardEffectsJello';
-export { StandardEffectsPop } from './StandardEffectsPop';
-export { StandardEffectsPulse } from './StandardEffectsPulse';
-export { StandardEffectsRubberBand } from './StandardEffectsRubberBand';
-export { StandardEffectsScale } from './StandardEffectsScale';
-export { StandardEffectsShake } from './StandardEffectsShake';
-export { StandardEffectsSlide } from './StandardEffectsSlide';
-export { StandardEffectsSpin } from './StandardEffectsSpin';
-export { StandardEffectsSqueeze } from './StandardEffectsSqueeze';
-export { StandardEffectsSwing } from './StandardEffectsSwing';
-export { StandardEffectsTada } from './StandardEffectsTada';
-export { StandardEffectsWiggle } from './StandardEffectsWiggle';
+export { StandardEffectsBlink } from './StandardEffectsBlink'
+export { StandardEffectsBounce } from './StandardEffectsBounce'
+export { StandardEffectsFade } from './StandardEffectsFade'
+export { StandardEffectsFlip } from './StandardEffectsFlip'
+export { StandardEffectsFloat } from './StandardEffectsFloat'
+export { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat'
+export { StandardEffectsJello } from './StandardEffectsJello'
+export { StandardEffectsPop } from './StandardEffectsPop'
+export { StandardEffectsPulse } from './StandardEffectsPulse'
+export { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
+export { StandardEffectsScale } from './StandardEffectsScale'
+export { StandardEffectsShake } from './StandardEffectsShake'
+export { StandardEffectsSlide } from './StandardEffectsSlide'
+export { StandardEffectsSpin } from './StandardEffectsSpin'
+export { StandardEffectsSqueeze } from './StandardEffectsSqueeze'
+export { StandardEffectsSwing } from './StandardEffectsSwing'
+export { StandardEffectsTada } from './StandardEffectsTada'
+export { StandardEffectsWiggle } from './StandardEffectsWiggle'
 
 export const baseStandardEffectsAnimations: AnimationComponentMap = {
   'standard-effects__shake': StandardEffectsShake,
@@ -56,5 +56,5 @@ export const baseStandardEffectsAnimations: AnimationComponentMap = {
   'standard-effects__blink': StandardEffectsBlink,
   'standard-effects__squeeze': StandardEffectsSqueeze,
   'standard-effects__tada': StandardEffectsTada,
-  'standard-effects__heartbeat': StandardEffectsHeartbeat
-};
+  'standard-effects__heartbeat': StandardEffectsHeartbeat,
+}

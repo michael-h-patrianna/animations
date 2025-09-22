@@ -1,0 +1,16 @@
+/* Styles scoped for ModalOrchestrationComparisonMorph */
+.pf-comparison {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  min-height: 360px;
+  position: relative;
+}
+.pf-comparison__pane {
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+}

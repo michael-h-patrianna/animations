@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsSwing.css'
 
 export function StandardEffectsSwing() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsSwing() {
         <div className="demo-text">Swing</div>
       </div>
     </div>
-  );
+  )
 }

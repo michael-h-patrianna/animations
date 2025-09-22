@@ -1,0 +1,52 @@
+/* Styles for RewardBasicGlowOrbit */
+
+.pf-reward-basic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+.pf-reward-basic__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  transform-origin: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.pf-reward-basic__label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+[data-animation-id='reward-basic__glow-orbit'] .pf-reward-basic__icon {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(198, 255, 119, 0.85) 0%,
+    rgba(29, 9, 47, 0.4) 70%
+  );
+  color: #1d092f;
+  animation: rb-glow-orbit 520ms linear both;
+}
+
+@keyframes rb-glow-orbit {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: 0 0 0 rgba(198, 255, 119, 0);
+  }
+  50% {
+    transform: rotate(180deg);
+    box-shadow: 0 0 20px rgba(198, 255, 119, 0.45);
+  }
+  100% {
+    transform: rotate(360deg);
+    box-shadow: 0 0 0 rgba(198, 255, 119, 0);
+  }
+}

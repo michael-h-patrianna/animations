@@ -1,6 +1,15 @@
 /* Floating text effect (no background) */
-.verbFloat { display: flex; align-items: center; justify-content: center; min-height: 80px; padding: 20px; }
-.verbFloat__line { display: inline-flex; gap: 0.02em; }
+.verbFloat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+.verbFloat__line {
+  display: inline-flex;
+  gap: 0.02em;
+}
 .verbFloat__char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
@@ -12,11 +21,24 @@
   transform-origin: center;
   animation: vfloat 3s ease-in-out 1 both;
 }
-.verbFloat__char:nth-child(odd){ animation-delay: 0.15s; }
+.verbFloat__char:nth-child(odd) {
+  animation-delay: 0.15s;
+}
 
 @keyframes vfloat {
-  0%,100% { transform: translateY(0); opacity: 1; }
-  25% { transform: translateY(-6px); }
-  50% { transform: translateY(0); opacity: 0.95; }
-  75% { transform: translateY(4px); }
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-6px);
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
+  75% {
+    transform: translateY(4px);
+  }
 }

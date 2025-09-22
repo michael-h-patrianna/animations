@@ -1,4 +1,4 @@
-import './loading-states.css';
+import './LoadingStatesSkeletonTile.css'
 
 export function LoadingStatesSkeletonTile() {
   return (
@@ -12,5 +12,5 @@ export function LoadingStatesSkeletonTile() {
         <div className="pf-skeleton__tile"></div>
       </div>
     </div>
-  );
+  )
 }

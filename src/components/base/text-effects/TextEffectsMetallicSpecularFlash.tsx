@@ -3,15 +3,15 @@
  * Runtime deps: react, framer-motion
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import React from 'react';
-import './TextEffectsMetallicSpecularFlash.css';
+import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import React from 'react'
+import './TextEffectsMetallicSpecularFlash.css'
 
 export function TextEffectsMetallicSpecularFlash() {
-  const text = 'LORUM IPSUM DOLOR';
-  const shouldReduceMotion = useReducedMotion();
+  const text = 'LORUM IPSUM DOLOR'
+  const shouldReduceMotion = useReducedMotion()
 
-  const letters = React.useMemo(() => Array.from(text), [text]);
+  const letters = React.useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = shouldReduceMotion
     ? {
@@ -36,7 +36,7 @@ export function TextEffectsMetallicSpecularFlash() {
           scale: [1, 1.01, 1],
           transition: { duration: 0.32, ease: [0.2, 0, 0, 1], delay: 0.55 },
         },
-      };
+      }
 
   // Narrow, sharp specular sweep: brief color highlight then shadow, with scaleX + skewX
   const letterVariants: Variants = shouldReduceMotion
@@ -64,7 +64,7 @@ export function TextEffectsMetallicSpecularFlash() {
             times: [0, 0.25, 0.55, 1],
           },
         },
-      };
+      }
 
   return (
     <motion.div
@@ -87,7 +87,7 @@ export function TextEffectsMetallicSpecularFlash() {
         ))}
       </div>
     </motion.div>
-  );
+  )
 }
 
-export default TextEffectsMetallicSpecularFlash;
+export default TextEffectsMetallicSpecularFlash

@@ -1,12 +1,12 @@
-import type { Category } from '@/types/animation';
-import type { FC } from 'react';
+import type { Category } from '@/types/animation'
+import type { FC } from 'react'
 
 interface SidebarProps {
-  categories: Category[];
-  currentGroupId: string;
-  onCategorySelect: (categoryId: string) => void;
-  onGroupSelect: (groupId: string) => void;
-  className?: string;
+  categories: Category[]
+  currentGroupId: string
+  onCategorySelect: (categoryId: string) => void
+  onGroupSelect: (groupId: string) => void
+  className?: string
 }
 
 export const Sidebar: FC<SidebarProps> = ({
@@ -18,12 +18,10 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   return (
     <aside className={`pf-sidebar${className ? ` ${className}` : ''}`}>
-
-
       <div className="pf-sidebar__nav">
         {categories.map((category) => {
           // Check if any group in this category is currently active
-          const hasActiveGroup = category.groups.some(group => group.id === currentGroupId);
+          const hasActiveGroup = category.groups.some((group) => group.id === currentGroupId)
 
           return (
             <div key={category.id} className="pf-sidebar__section">
@@ -39,7 +37,7 @@ export const Sidebar: FC<SidebarProps> = ({
               {category.groups.length > 0 && (
                 <div className="pf-sidebar__subnav">
                   {category.groups.map((group) => {
-                    const isActiveGroup = group.id === currentGroupId;
+                    const isActiveGroup = group.id === currentGroupId
 
                     return (
                       <button
@@ -51,14 +49,14 @@ export const Sidebar: FC<SidebarProps> = ({
                       >
                         {group.title}
                       </button>
-                    );
+                    )
                   })}
                 </div>
               )}
             </div>
-          );
+          )
         })}
       </div>
     </aside>
-  );
-};
+  )
+}

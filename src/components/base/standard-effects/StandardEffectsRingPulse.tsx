@@ -1,1 +1,3 @@
-export function StandardEffectsRingPulse() { return null; }
+export function StandardEffectsRingPulse() {
+  return null
+}

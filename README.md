@@ -13,38 +13,34 @@ Read: `docs/REACT_NATIVE_REFACTORING_PATTERNS.md` how to ensure that all animati
 ## Project structure
 
 - Source of truth for behaviors and grouping:
-	- `docs/structure.json` – category → group → animations metadata
+  - `docs/structure.json` – category → group → animations metadata
 - Data → UI wiring:
-	- `src/services/animationData.ts` – reads `structure.json` and exposes catalog
-	- `src/components/animationRegistry.ts` – maps animation ids to React components
+  - `src/services/animationData.ts` – reads `structure.json` and exposes catalog
+  - `src/components/animationRegistry.ts` – maps animation ids to React components
 - Components (implementation):
-	- `src/components/<category-id>/<group-id>/` – all animations for a group
-		- `<group-id>.css` – shared CSS for the group
-		- `*.tsx` – one React component per animation (PascalCase of animation id)
-
-Base effects groups include:
-- `text-effects` – animated text patterns
-- `standard-effects` – common micro-interactions
-- `button-effects` – button interactions (press, hover, ripples)
+  - `src/components/<category-id>/<group-id>/` – all animations for a group
+    - `*.tsx` – one React component per animation (PascalCase of animation id)
+    - `*.css` – a co-located CSS file per animation component with all styles needed for that component (no shared/group CSS)
+  - Catalog UI (showcase scaffolding): `src/components/ui/` (AnimationCard, GroupSection, CategorySection)
 
 Where to find something to edit
 
-1) Identify the animation’s id in `docs/structure.json` (format: `category-group__variant`).
-2) Open `src/components/<category-id>/<group-id>/` and edit the corresponding `PascalCase` component file.
-3) Shared styles live in `<group-id>.css` in the same folder.
+1. Identify the animation’s id in `docs/structure.json` (format: `category-group__variant`).
+2. Open `src/components/<category-id>/<group-id>/` and edit the corresponding `PascalCase` component file.
+3. Styles live next to the component in a co-located `.css` file. Avoid globals and shared CSS.
 
 ## How to add an animation
 
-1) Define it in `docs/structure.json` under the correct category/group with fields: `id`, `title`, `description`, `categoryId`, `groupId`.
-2) Create a new component file in `src/components/<category-id>/<group-id>/` named after the animation id in PascalCase (e.g., `ModalBaseScaleGentlePop.tsx`). Implement using CSS and/or Framer Motion.
-3) Add or update group-level styles in `src/components/<category-id>/<group-id>/<group-id>.css` as needed (scoped selectors only).
-4) Register the component id → component in `src/components/animationRegistry.ts` so it renders in the catalog.
-5) Run tests and verify the card renders; ensure replay works via remount.
+1. Define it in `docs/structure.json` under the correct category/group with fields: `id`, `title`, `description`, `categoryId`, `groupId`.
+2. Create a new component file in `src/components/<category-id>/<group-id>/` named after the animation id in PascalCase (e.g., `ModalBaseScaleGentlePop.tsx`). Implement using CSS and/or Framer Motion.
+3. Create a co-located CSS file next to your component (same base name with `.css`) and scope all selectors to the component’s root to avoid leaks.
+4. Register the component id → component in `src/components/animationRegistry.ts` so it renders in the catalog.
+5. Run tests and verify the card renders; ensure replay works via remount.
 
 ## How to remove an animation
 
-1) Remove its entry from `docs/structure.json` under the relevant group.
-2) Remove the component mapping from `src/components/animationRegistry.ts`.
-3) Delete the component file from `src/components/<category-id>/<group-id>/`.
-4) Clean up any now-unused CSS in `<group-id>.css` (only if nothing else references it).
-5) Run tests to ensure the catalog and groups render without the removed item.
+1. Remove its entry from `docs/structure.json` under the relevant group.
+2. Remove the component mapping from `src/components/animationRegistry.ts`.
+3. Delete the component file from `src/components/<category-id>/<group-id>/`.
+4. Delete its co-located `.css` file if present.
+5. Run tests to ensure the catalog and groups render without the removed item.

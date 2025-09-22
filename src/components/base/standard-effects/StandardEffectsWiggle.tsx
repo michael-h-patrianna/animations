@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsWiggle.css'
 
 export function StandardEffectsWiggle() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsWiggle() {
         <div className="demo-text">Wiggle</div>
       </div>
     </div>
-  );
+  )
 }

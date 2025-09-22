@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBaseGlitchDigital.css'
 
 export function ModalBaseGlitchDigital() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay"
-      style={{
-        '--animation-duration': '600ms',
-        '--animation-easing': 'ease-in-out',
-        '--overlay-opacity': '0.68'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '600ms',
+          '--animation-easing': 'ease-in-out',
+          '--overlay-opacity': '0.68',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal pf-modal-glitch"
         style={{
-          animation: 'pf-modal-glitch 600ms ease-in-out forwards'
+          animation: 'pf-modal-glitch 600ms ease-in-out forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +36,5 @@ export function ModalBaseGlitchDigital() {
         </div>
       </div>
     </div>
-  );
+  )
 }

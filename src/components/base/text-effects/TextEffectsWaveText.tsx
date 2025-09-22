@@ -1,22 +1,17 @@
-import { motion } from 'framer-motion';
-import './text-effects.css';
+import { motion } from 'framer-motion'
+import './TextEffectsWaveText.css'
 
 export function TextEffectsWaveText() {
-  const text = "WAVE MOTION";
+  const text = 'WAVE MOTION'
 
   return (
-    <div
-      className="wave-text-container"
-      data-animation-id="text-effects__wave-text"
-    >
-      {/* Removed wave-lines and energy-field per request to eliminate blue glow and horizontal lines */}
+    <div className="wave-text-container" data-animation-id="text-effects__wave-text">
 
-      {/* Optimized wave text with individual character animations */}
       <div className="wave-text-wrapper">
-        {text.split("").map((char, index) => {
-          const waveDelay = index * 0.05;
-          const isSpace = char === " ";
-          const wavePhase = index % 5;
+        {text.split('').map((char, index) => {
+          const waveDelay = index * 0.05
+          const isSpace = char === ' '
+          const wavePhase = index % 5
 
           return (
             <motion.span
@@ -46,7 +41,7 @@ export function TextEffectsWaveText() {
               }}
             >
               <span className="wave-char-inner">
-                {isSpace ? "\u00A0" : char}
+                {isSpace ? '\u00A0' : char}
 
                 {/* Highlight that travels with the wave */}
                 {!isSpace && (
@@ -61,19 +56,16 @@ export function TextEffectsWaveText() {
                       delay: waveDelay,
                       repeat: Infinity,
                       repeatDelay: 1,
-                      ease: "easeInOut",
+                      ease: 'easeInOut',
                       times: [0, 0.25, 0.5, 0.75, 1],
                     }}
                   />
                 )}
               </span>
             </motion.span>
-          );
+          )
         })}
       </div>
-
-      {/* Removed ripple effect per request to eliminate horizontal lines */}
-      {/* Removed atmospheric glow per request */}
     </div>
-  );
+  )
 }

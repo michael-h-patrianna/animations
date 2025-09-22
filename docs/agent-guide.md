@@ -17,12 +17,11 @@ This project renders the animation catalog from structured data rather than hard
 ```
 src/
 ├─ components/
-│  ├─ catalog/                // Shared catalog UI (CategorySection, GroupSection, AnimationCard)
+│  ├─ ui/                     // Catalog UI (CategorySection, GroupSection, AnimationCard)
 │  ├─ <category-id>/          // One folder per category id from structure.json
 │  │  └─ <group-id>/          // One folder per group id within that category
-│  │     ├─ <group-id>.css    // Shared CSS imported by every animation in the group
 │  │     ├─ *.tsx             // Animation components (PascalCase name derived from animation id)
-│  │     └─ index.ts          // Exports components and AnimationComponentMap for the group
+│  │     └─ *.css             // Co-located CSS per component (no shared group CSS)
 ├─ hooks/useAnimations.ts     // Loads catalog data for the app
 ├─ types/animation.ts         // Core types (Category, Group, Animation, registry types)
 ```
@@ -35,30 +34,30 @@ Given an animation id `category-group__variant` (same id in `structure.json` and
    - Category id → folder name under `src/components/` (e.g. `modal-base__scale-gentle-pop` ⇒ category `dialogs`).
    - Group id → folder inside the category (e.g. `modal-base`).
 2. Inside `src/components/<category>/<group>/`, open the component whose filename is the PascalCase version of the animation id (e.g. `ModalBaseScaleGentlePop.tsx`).
-3. Each component currently returns a placeholder `<div data-animation-id="…">…</div>` and imports the group CSS. Replace the placeholder markup with the React implementation of the animation.
+3. Each component owns its styles via a co-located `.css` file. Replace any placeholder markup with the React implementation and keep styles scoped to the component root.
 
 ## Migrating from `docs/showcase.html`
 
 1. Search the showcase file for the animation key (e.g. `scaleGentlePop`). The variant generator will show the relevant HTML/CSS.
 2. Recreate the animation using React/TypeScript inside the target component. Keep the container element returned by the component self-contained; the `AnimationCard` already provides the outer frame and replay behaviour.
-3. Place shared styles in the group CSS (`<group-id>.css`). Prefer CSS classes scoped to the group to avoid collisions.
+3. Place styles in a co-located `.css` file next to the component. Prefer selectors scoped to the component root to avoid collisions.
 4. If the animation needs assets or utilities, add them under `src/assets` or `src/utils` as needed and import them from the component.
 
 ## Rendering Context
 
-- Components render as children of `<AnimationCard>` inside `GroupSection`. The card supplies the title, description, replay button, and `.pf-demo-canvas` wrapper. Do not duplicate those wrappers inside the animation component.
+- Components render as children of `<AnimationCard>` inside `GroupSection` (in `src/components/ui`). The card supplies the title, description, replay button, and `.pf-demo-canvas` wrapper. Do not duplicate those wrappers inside the animation component.
 - Components should render deterministic DOM and handle a replay by restarting animations when remounted. The replay button remounts the child by toggling a key.
 
 ## Testing & Verification
 
-- Unit tests live alongside the catalog (`src/components/catalog/AnimationCard.test.tsx`, `src/App.test.tsx`). Add new tests if the animation logic requires helpers.
+- Unit tests live under `src/` (e.g., `src/components/ui/AnimationCard.test.tsx`, `src/App.test.tsx`). Add new tests if the animation logic requires helpers.
 - E2E coverage (`tests/e2e/homepage.spec.ts`) ensures cards and replay controls appear. After migrating animations, validate styling/functionality manually or extend Playwright specs if behaviour changes.
 
 ## Summary Checklist
 
 1. Identify `categoryId`, `groupId`, and animation id from `docs/showcase.html` / `structure.json`.
 2. Edit the matching component in `src/components/<category>/<group>/`.
-3. Update group CSS to host shared styles.
+3. Add or update the component’s co-located CSS file; do not introduce shared/group CSS.
 4. Verify the catalog renders (run `npm run dev`) and tests pass (`npm run test`).
 
 Following this structure ensures each animation lives in its dedicated React component while the catalog UI remains consistent.

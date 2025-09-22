@@ -1,143 +1,143 @@
-import { GroupSection } from '@/components/catalog';
-import { Sidebar } from '@/components/Sidebar';
-import { useAnimations } from '@/hooks/useAnimations';
-import type { Group } from '@/types/animation';
-import { AnimatePresence, motion, useDragControls } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import './App.css';
+import { GroupSection } from '@/components/ui/catalog'
+import { Sidebar } from '@/components/Sidebar'
+import { useAnimations } from '@/hooks/useAnimations'
+import type { Group } from '@/types/animation'
+import { AnimatePresence, motion, useDragControls } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import './App.css'
 
 function App() {
-  const { categories, isLoading, error } = useAnimations();
-  const [currentGroupId, setCurrentGroupId] = useState<string>('');
-  const [direction, setDirection] = useState<number>(0);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const dragControls = useDragControls();
+  const { categories, isLoading, error } = useAnimations()
+  const [currentGroupId, setCurrentGroupId] = useState<string>('')
+  const [direction, setDirection] = useState<number>(0)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const dragControls = useDragControls()
 
   // Get all groups in order for navigation
-  const allGroups: Group[] = categories.flatMap(category => category.groups);
+  const allGroups: Group[] = categories.flatMap((category) => category.groups)
 
   // Initialize the first group as current
   useEffect(() => {
     if (allGroups.length > 0 && !currentGroupId) {
-      setCurrentGroupId(allGroups[0].id);
+      setCurrentGroupId(allGroups[0].id)
     }
-  }, [allGroups, currentGroupId]);
+  }, [allGroups, currentGroupId])
 
   const handleCategorySelect = (categoryId: string) => {
     // Navigate to the first group in the selected category
-    const category = categories.find(c => c.id === categoryId);
+    const category = categories.find((c) => c.id === categoryId)
     if (category && category.groups.length > 0) {
-      handleGroupSelect(category.groups[0].id);
+      handleGroupSelect(category.groups[0].id)
     }
-  };
+  }
 
   const handleGroupSelect = (groupId: string) => {
-    if (groupId === currentGroupId) return;
+    if (groupId === currentGroupId) return
 
-    const currentIndex = allGroups.findIndex(g => g.id === currentGroupId);
-    const newIndex = allGroups.findIndex(g => g.id === groupId);
+    const currentIndex = allGroups.findIndex((g) => g.id === currentGroupId)
+    const newIndex = allGroups.findIndex((g) => g.id === groupId)
 
-    setDirection(newIndex > currentIndex ? 1 : -1);
-    setCurrentGroupId(groupId);
-  };
+    setDirection(newIndex > currentIndex ? 1 : -1)
+    setCurrentGroupId(groupId)
+  }
 
   // Close drawer on ESC
   useEffect(() => {
-    if (!isDrawerOpen) return;
+    if (!isDrawerOpen) return
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsDrawerOpen(false);
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isDrawerOpen]);
+      if (e.key === 'Escape') setIsDrawerOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isDrawerOpen])
 
   // Prevent background scroll when drawer is open
   useEffect(() => {
     if (isDrawerOpen) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
+      const prev = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
       return () => {
-        document.body.style.overflow = prev;
-      };
+        document.body.style.overflow = prev
+      }
     }
-  }, [isDrawerOpen]);
+  }, [isDrawerOpen])
 
   // Wrapped selectors for mobile to close the drawer
   const handleCategorySelectMobile = (categoryId: string) => {
-    handleCategorySelect(categoryId);
-    setIsDrawerOpen(false);
-  };
+    handleCategorySelect(categoryId)
+    setIsDrawerOpen(false)
+  }
   const handleGroupSelectMobile = (groupId: string) => {
-    handleGroupSelect(groupId);
-    setIsDrawerOpen(false);
-  };
+    handleGroupSelect(groupId)
+    setIsDrawerOpen(false)
+  }
 
   // When the current group changes, scroll its section to the top
   useEffect(() => {
-    if (!currentGroupId) return;
+    if (!currentGroupId) return
 
-    let raf1 = 0;
-    let raf2 = 0;
+    let raf1 = 0
+    let raf2 = 0
 
     // Wait for the DOM to update with the new group before scrolling
     raf1 = requestAnimationFrame(() => {
       raf2 = requestAnimationFrame(() => {
-        const targetId = `group-${currentGroupId}`;
-        const el = document.getElementById(targetId);
+        const targetId = `group-${currentGroupId}`
+        const el = document.getElementById(targetId)
 
         if (el) {
           // Use options if supported, otherwise call without args
           if (typeof el.scrollIntoView === 'function') {
             try {
-              el.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+              el.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' })
             } catch {
-              el.scrollIntoView();
+              el.scrollIntoView()
             }
           }
         } else if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-          window.scrollTo({ top: 0, behavior: 'auto' });
+          window.scrollTo({ top: 0, behavior: 'auto' })
         }
-      });
-    });
+      })
+    })
 
     return () => {
-      if (raf1) cancelAnimationFrame(raf1);
-      if (raf2) cancelAnimationFrame(raf2);
-    };
-  }, [currentGroupId]);
+      if (raf1) cancelAnimationFrame(raf1)
+      if (raf2) cancelAnimationFrame(raf2)
+    }
+  }, [currentGroupId])
 
   // When navigating between groups, scroll the new group into view at the top
   useEffect(() => {
-    if (!currentGroupId) return;
-    const id = `group-${currentGroupId}`;
+    if (!currentGroupId) return
+    const id = `group-${currentGroupId}`
 
     const attemptScroll = () => {
-      const el = document.getElementById(id);
-      if (!el) return;
+      const el = document.getElementById(id)
+      if (!el) return
 
       // Prefer options signature when available
       try {
-        (el as HTMLElement).scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+        ;(el as HTMLElement).scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' })
       } catch {
         // Fallback for environments or older browsers without options support
         try {
-          (el as HTMLElement).scrollIntoView();
+          ;(el as HTMLElement).scrollIntoView()
         } catch {
           /* no-op */
         }
       }
-    };
+    }
 
     // Try on next frame to ensure the DOM for the new group is mounted
-    const raf = requestAnimationFrame(attemptScroll);
+    const raf = requestAnimationFrame(attemptScroll)
     // Fallback after animation timing if needed
-    const timeout = setTimeout(attemptScroll, 360);
+    const timeout = setTimeout(attemptScroll, 360)
 
     return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(timeout);
-    };
-  }, [currentGroupId]);
+      cancelAnimationFrame(raf)
+      clearTimeout(timeout)
+    }
+  }, [currentGroupId])
 
   if (error) {
     return (
@@ -153,10 +153,10 @@ function App() {
           </button>
         </div>
       </div>
-    );
+    )
   }
 
-  const currentGroup = allGroups.find(g => g.id === currentGroupId);
+  const currentGroup = allGroups.find((g) => g.id === currentGroupId)
 
   const variants = {
     enter: (direction: number) => ({
@@ -173,24 +173,24 @@ function App() {
       x: direction < 0 ? 1000 : -1000,
       opacity: 0,
     }),
-  };
+  }
 
-  const swipeConfidenceThreshold = 10000;
+  const swipeConfidenceThreshold = 10000
   const swipePower = (offset: number, velocity: number) => {
-    return Math.abs(offset) * velocity;
-  };
+    return Math.abs(offset) * velocity
+  }
 
   const handleDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLElement;
+    const target = event.target as HTMLElement
 
     // Don't start drag if the pointer is on an AnimationCard
-    const isOnAnimationCard = target.closest('.pf-card');
+    const isOnAnimationCard = target.closest('.pf-card')
 
     if (!isOnAnimationCard) {
       // Use the native event for DragControls
-      dragControls.start(event.nativeEvent);
+      dragControls.start(event.nativeEvent)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen">
@@ -206,14 +206,26 @@ function App() {
           onClick={() => setIsDrawerOpen(true)}
         >
           {/* Simple hamburger icon using currentColor */}
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="3" y1="18" x2="21" y2="18" />
           </svg>
         </button>
         {currentGroup && (
-          <span className="pf-mobile-header__title">{currentGroup.title} ({currentGroup.animations.length})</span>
+          <span className="pf-mobile-header__title">
+            {currentGroup.title} ({currentGroup.animations.length})
+          </span>
         )}
       </div>
 
@@ -225,7 +237,7 @@ function App() {
           onGroupSelect={handleGroupSelect}
         />
 
-  <main className="pf-catalog">
+        <main className="pf-catalog">
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
               <div className="text-text-secondary">Loading animations...</div>
@@ -236,46 +248,43 @@ function App() {
 
               <AnimatePresence initial={false} custom={direction} mode="wait">
                 {currentGroup && (
-                <motion.div
-                  key={currentGroupId}
-                  custom={direction}
-                  variants={variants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: 'spring' as const, stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.2 },
-                  }}
-                  drag="x"
-                  dragControls={dragControls}
-                  dragListener={false}
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={1}
-                  onPointerDown={handleDragStart}
-                  onDragEnd={(_, { offset, velocity }) => {
-                    const swipe = swipePower(offset.x, velocity.x);
-                    const currentIndex = allGroups.findIndex(g => g.id === currentGroupId);
+                  <motion.div
+                    key={currentGroupId}
+                    custom={direction}
+                    variants={variants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: 'spring' as const, stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.2 },
+                    }}
+                    drag="x"
+                    dragControls={dragControls}
+                    dragListener={false}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={1}
+                    onPointerDown={handleDragStart}
+                    onDragEnd={(_, { offset, velocity }) => {
+                      const swipe = swipePower(offset.x, velocity.x)
+                      const currentIndex = allGroups.findIndex((g) => g.id === currentGroupId)
 
-                    if (swipe < -swipeConfidenceThreshold) {
-                      // Swipe left - go to next group
-                      if (currentIndex < allGroups.length - 1) {
-                        handleGroupSelect(allGroups[currentIndex + 1].id);
+                      if (swipe < -swipeConfidenceThreshold) {
+                        // Swipe left - go to next group
+                        if (currentIndex < allGroups.length - 1) {
+                          handleGroupSelect(allGroups[currentIndex + 1].id)
+                        }
+                      } else if (swipe > swipeConfidenceThreshold) {
+                        // Swipe right - go to previous group
+                        if (currentIndex > 0) {
+                          handleGroupSelect(allGroups[currentIndex - 1].id)
+                        }
                       }
-                    } else if (swipe > swipeConfidenceThreshold) {
-                      // Swipe right - go to previous group
-                      if (currentIndex > 0) {
-                        handleGroupSelect(allGroups[currentIndex - 1].id);
-                      }
-                    }
-                  }}
-                  style={{ width: '100%' }}
-                >
-                  <GroupSection
-                    group={currentGroup}
-                    elementId={`group-${currentGroup.id}`}
-                  />
-                </motion.div>
+                    }}
+                    style={{ width: '100%' }}
+                  >
+                    <GroupSection group={currentGroup} elementId={`group-${currentGroup.id}`} />
+                  </motion.div>
                 )}
               </AnimatePresence>
             </>
@@ -301,7 +310,17 @@ function App() {
               aria-label="Close menu"
               onClick={() => setIsDrawerOpen(false)}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -317,7 +336,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

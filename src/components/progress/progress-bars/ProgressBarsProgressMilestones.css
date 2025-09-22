@@ -1,0 +1,28 @@
+/* Base styles for Progress Milestones */
+.pf-progress-milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  height: 80px;
+  justify-content: center;
+}
+
+.pf-progress-milestones .pf-progress-track {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(236, 195, 255, 0.12);
+  overflow: hidden;
+  position: relative;
+}
+
+.pf-progress-milestones .pf-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c47ae5 0%, #d79af3 100%);
+  border-radius: inherit;
+  transform-origin: left center;
+  position: relative;
+  transform: scaleX(0);
+  will-change: transform;
+}

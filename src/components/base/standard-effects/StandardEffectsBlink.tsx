@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsBlink.css'
 
 export function StandardEffectsBlink() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsBlink() {
         <div className="demo-text">Blink</div>
       </div>
     </div>
-  );
+  )
 }

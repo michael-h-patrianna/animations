@@ -1,0 +1,41 @@
+/* Styles for IconAnimationsBounce */
+
+.icon-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+
+@keyframes icon-bounce-animation {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
+  }
+  20% {
+    transform: translateY(0) scaleY(0.8) scaleX(1.1) rotate(0deg);
+  }
+  40% {
+    transform: translateY(-30px) scaleY(1.1) scaleX(0.9) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-40px) scaleY(1) scaleX(1) rotate(-1deg);
+  }
+  60% {
+    transform: translateY(-30px) scaleY(0.95) scaleX(1.02) rotate(1deg);
+  }
+  80% {
+    transform: translateY(0) scaleY(0.9) scaleX(1.05) rotate(0deg);
+  }
+  90% {
+    transform: translateY(0) scaleY(0.95) scaleX(1.02) rotate(0deg);
+  }
+}
+
+.icon-bounce-element {
+  animation: icon-bounce-animation 0.8s ease-in-out;
+  transform-origin: center bottom;
+  width: 120px;
+  height: auto;
+}

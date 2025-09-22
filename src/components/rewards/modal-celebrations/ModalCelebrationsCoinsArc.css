@@ -1,0 +1,41 @@
+/* Styles scoped for ModalCelebrationsCoinsArc */
+.pf-celebration {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 0%, rgba(236, 195, 255, 0.18), rgba(29, 9, 47, 0.92));
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  overflow: hidden;
+}
+.pf-celebration__layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.pf-celebration__coin {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--coin-color, linear-gradient(135deg, #ffd966 0%, #ffb300 100%));
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes celebration-coin-arc {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(var(--tx, 0px), var(--ty, -140px)) scale(1);
+    opacity: 0;
+  }
+}

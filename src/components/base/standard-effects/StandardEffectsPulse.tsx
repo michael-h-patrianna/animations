@@ -1,4 +1,4 @@
-import './standard-effects.css';
+import './StandardEffectsPulse.css'
 
 export function StandardEffectsPulse() {
   return (
@@ -7,5 +7,5 @@ export function StandardEffectsPulse() {
         <div className="demo-text">Pulse</div>
       </div>
     </div>
-  );
+  )
 }

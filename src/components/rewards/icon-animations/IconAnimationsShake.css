@@ -1,0 +1,49 @@
+/* Styles for IconAnimationsShake */
+
+.icon-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+
+@keyframes icon-shake-animation {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg) scaleX(1);
+  }
+  10% {
+    transform: translateX(-10px) rotate(-1deg) scaleX(0.98);
+  }
+  20% {
+    transform: translateX(10px) rotate(1deg) scaleX(0.98);
+  }
+  30% {
+    transform: translateX(-8px) rotate(-0.8deg) scaleX(0.99);
+  }
+  40% {
+    transform: translateX(8px) rotate(0.8deg) scaleX(0.99);
+  }
+  50% {
+    transform: translateX(-6px) rotate(-0.6deg) scaleX(0.995);
+  }
+  60% {
+    transform: translateX(6px) rotate(0.6deg) scaleX(0.995);
+  }
+  70% {
+    transform: translateX(-4px) rotate(-0.4deg) scaleX(1);
+  }
+  80% {
+    transform: translateX(4px) rotate(0.4deg) scaleX(1);
+  }
+  90% {
+    transform: translateX(-2px) rotate(-0.2deg) scaleX(1);
+  }
+}
+
+.icon-shake-element {
+  animation: icon-shake-animation 0.5s ease-in-out;
+  width: 120px;
+  height: auto;
+}

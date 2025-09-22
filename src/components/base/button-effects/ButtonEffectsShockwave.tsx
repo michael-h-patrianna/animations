@@ -1,34 +1,34 @@
-import React, { useState, useRef } from 'react';
-import './button-effects.css';
+import React, { useRef, useState } from 'react'
+import './ButtonEffectsShockwave.css'
 
 interface Shockwave {
-  id: number;
-  x: number;
-  y: number;
+  id: number
+  x: number
+  y: number
 }
 
 export function ButtonEffectsShockwave() {
-  const [shockwaves, setShockwaves] = useState<Shockwave[]>([]);
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const nextId = useRef(0);
+  const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
+  const btnRef = useRef<HTMLButtonElement>(null)
+  const nextId = useRef(0)
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = btnRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const id = nextId.current++;
-    
+    const rect = btnRef.current?.getBoundingClientRect()
+    if (!rect) return
+
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const id = nextId.current++
+
     // Create multiple concentric rings
-    const newWave = { id, x, y };
-    setShockwaves(prev => [...prev, newWave]);
-    
+    const newWave = { id, x, y }
+    setShockwaves((prev) => [...prev, newWave])
+
     // Clean up after animation
     setTimeout(() => {
-      setShockwaves(prev => prev.filter(w => w.id !== id));
-    }, 1000);
-  };
+      setShockwaves((prev) => prev.filter((w) => w.id !== id))
+    }, 1000)
+  }
 
   return (
     <div className="button-shockwave-demo" data-animation-id="button-effects__shockwave">
@@ -58,5 +58,5 @@ export function ButtonEffectsShockwave() {
         </span>
       </button>
     </div>
-  );
+  )
 }

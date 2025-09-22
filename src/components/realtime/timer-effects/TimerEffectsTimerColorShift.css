@@ -1,0 +1,80 @@
+/* Styles specific to TimerEffectsTimerColorShift */
+
+.pf-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  position: relative;
+  font-family: 'Lato', sans-serif;
+  /* Default arc sizing (tweakable) */
+  --pf-timer-arc-size: 64px;
+  --pf-timer-arc-stroke: 3;
+}
+
+.pf-timer__value {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--timer-color, #ecc3ff);
+  text-align: center;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.pf-timer__value-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-timer__label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.pf-timer__underline {
+  width: 160px;
+  height: 3px;
+  background: rgba(236, 195, 255, 0.16);
+  border-radius: 4px;
+  transform-origin: left center;
+}
+
+.pf-timer__arc {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: var(--pf-timer-arc-size);
+  height: var(--pf-timer-arc-size);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pf-timer__value {
+  position: relative;
+  z-index: 1;
+}
+
+.pf-timer__arc svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.pf-timer__path {
+  fill: none;
+  stroke: var(--timer-color, #ecc3ff);
+  stroke-width: var(--pf-timer-arc-stroke);
+  stroke-linecap: round;
+  stroke-dasharray: 97;
+  stroke-dashoffset: 97;
+  /* subtle glow to better match original */
+  filter: drop-shadow(0 0 2px rgba(236, 195, 255, 0.5))
+    drop-shadow(0 0 6px rgba(236, 195, 255, 0.25));
+}

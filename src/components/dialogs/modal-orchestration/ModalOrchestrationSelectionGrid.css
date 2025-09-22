@@ -1,0 +1,21 @@
+/* Styles scoped for ModalOrchestrationSelectionGrid */
+.pf-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  min-height: 360px;
+  position: relative;
+}
+.pf-grid__item {
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}

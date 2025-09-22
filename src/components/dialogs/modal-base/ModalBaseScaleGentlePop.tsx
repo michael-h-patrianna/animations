@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
-import './modal-base.css';
+import React, { useEffect } from 'react'
+import './ModalBaseScaleGentlePop.css'
 
 export function ModalBaseScaleGentlePop() {
   useEffect(() => {
     // Trigger animation on mount
-  }, []);
+  }, [])
 
   return (
-    <div 
+    <div
       className="pf-modal-overlay"
-      style={{
-        '--animation-duration': '420ms',
-        '--animation-easing': 'cubic-bezier(0.12, 0.75, 0.4, 1)',
-        '--overlay-opacity': '0.72'
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-duration': '420ms',
+          '--animation-easing': 'cubic-bezier(0.12, 0.75, 0.4, 1)',
+          '--overlay-opacity': '0.72',
+        } as React.CSSProperties
+      }
     >
-      <div 
+      <div
         className="pf-modal"
         style={{
-          animation: 'pf-modal-scale-gentle-pop 420ms cubic-bezier(0.12, 0.75, 0.4, 1) forwards'
+          animation: 'pf-modal-scale-gentle-pop 420ms cubic-bezier(0.12, 0.75, 0.4, 1) forwards',
         }}
       >
         <div className="pf-modal__header">
@@ -34,5 +36,5 @@ export function ModalBaseScaleGentlePop() {
         </div>
       </div>
     </div>
-  );
+  )
 }

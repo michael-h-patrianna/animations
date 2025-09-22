@@ -78,32 +78,32 @@ export default {
       },
       // Border radius using your design tokens
       borderRadius: {
-        'xs': 'var(--pf-radius-xs)',
-        'sm': 'var(--pf-radius-sm)',
-        'md': 'var(--pf-radius-md)',
-        'lg': 'var(--pf-radius-lg)',
-        'pill': 'var(--pf-radius-pill)',
+        xs: 'var(--pf-radius-xs)',
+        sm: 'var(--pf-radius-sm)',
+        md: 'var(--pf-radius-md)',
+        lg: 'var(--pf-radius-lg)',
+        pill: 'var(--pf-radius-pill)',
       },
       // Transition durations
       transitionDuration: {
-        'fast': 'var(--pf-transition-fast)',
-        'base': 'var(--pf-transition-base)',
-        'slow': 'var(--pf-transition-slow)',
+        fast: 'var(--pf-transition-fast)',
+        base: 'var(--pf-transition-base)',
+        slow: 'var(--pf-transition-slow)',
       },
       // Spacing
       spacing: {
-        'grid': 'var(--pf-grid-gap)',
+        grid: 'var(--pf-grid-gap)',
       },
       // Box shadows
       boxShadow: {
-        'elevated': 'var(--pf-shadow-elevated)',
-        'soft': 'var(--pf-shadow-soft)',
-        'inner': 'var(--pf-shadow-inner)',
+        elevated: 'var(--pf-shadow-elevated)',
+        soft: 'var(--pf-shadow-soft)',
+        inner: 'var(--pf-shadow-inner)',
       },
       // Font families
       fontFamily: {
-        'display': ['Lato', 'sans-serif'],
-        'body': ['Lato', 'sans-serif'],
+        display: ['Lato', 'sans-serif'],
+        body: ['Lato', 'sans-serif'],
       },
     },
   },
