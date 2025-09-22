@@ -7,6 +7,7 @@
 .pf-modal--flip-3d {
   transform-style: preserve-3d;
   backface-visibility: visible;
+  animation: pf-modal-flip-3d 800ms cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
 }
 
 @keyframes pf-modal-flip-3d {

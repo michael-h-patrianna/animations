@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { MockModalContent } from './MockModalContent'
 import './ModalBaseSlideUpSoft.css'
 import './shared.css'
-import { MockModalContent } from './MockModalContent'
 
 export function ModalBaseSlideUpSoft() {
   useEffect(() => {
@@ -19,12 +19,7 @@ export function ModalBaseSlideUpSoft() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal"
-        style={{
-          animation: 'pf-modal-slide-up-soft 420ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards',
-        }}
-      >
+      <div className="pf-modal pf-modal--slide-up-soft">
         <MockModalContent />
       </div>
     </div>

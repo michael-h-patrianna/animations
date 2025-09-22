@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { MockModalContent } from './MockModalContent'
 import './ModalBaseTvTurnOn.css'
 import './shared.css'
-import { MockModalContent } from './MockModalContent'
 
 export function ModalBaseTvTurnOn() {
   useEffect(() => {
@@ -19,12 +19,7 @@ export function ModalBaseTvTurnOn() {
         } as React.CSSProperties
       }
     >
-      <div
-        className="pf-modal"
-        style={{
-          animation: 'pf-modal-tv-on 650ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-        }}
-      >
+      <div className="pf-modal pf-modal--tv-on">
         <MockModalContent />
       </div>
     </div>

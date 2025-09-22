@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react'
-import './ModalDismissToastSlideLeft.css'
+import { MockContent } from './MockContent'
 
 export function ModalDismissToastSlideLeft() {
   const toastRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
-  // Removed unused state
 
   useEffect(() => {
     const toast = toastRef.current
@@ -63,14 +62,10 @@ export function ModalDismissToastSlideLeft() {
   }, [])
 
   return (
-    <div className="pf-toast-preview">
-      <div ref={toastRef} className="pf-toast" data-animation-id="modal-dismiss__toast-slide-left">
-        <div className="pf-toast__title">Action Complete</div>
-        <div className="pf-toast__body">Your changes have been saved</div>
-        <div className="pf-toast__progress">
-          <div ref={progressRef} className="pf-toast__progress-bar"></div>
-        </div>
-      </div>
-    </div>
+    <MockContent
+      toastRef={toastRef}
+      progressRef={progressRef}
+      animationId="modal-dismiss__toast-slide-left"
+    />
   )
 }
