@@ -1,0 +1,139 @@
+.misc-osc {
+  position: relative;
+  width: 180px;
+  height: 120px;
+  display: grid;
+  align-content: center;
+  gap: 10px;
+}
+.misc-osc .row {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Animate vertical oscillation + color lightness */
+.misc-osc .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  --l: 65%;
+  background-color: hsl(calc(280deg + (var(--row, 0) + var(--col, 0)) * 6deg), 85%, var(--l));
+  animation:
+    misc-osc 1.6s ease-in-out infinite,
+    misc-osc-l 1.6s ease-in-out infinite;
+}
+.misc-osc .row.r-0 .dot:nth-child(n) {
+  animation-delay: calc(0ms + (var(--i, 0) * 20ms));
+}
+.misc-osc .row.r-1 .dot:nth-child(n) {
+  animation-delay: calc(200ms + (var(--i, 0) * 20ms));
+}
+.misc-osc .row.r-2 .dot:nth-child(n) {
+  animation-delay: calc(400ms + (var(--i, 0) * 20ms));
+}
+.misc-osc .row.r-3 .dot:nth-child(n) {
+  animation-delay: calc(600ms + (var(--i, 0) * 20ms));
+}
+.misc-osc .row.r-4 .dot:nth-child(n) {
+  animation-delay: calc(800ms + (var(--i, 0) * 20ms));
+}
+@keyframes misc-osc {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Register the custom property to allow smooth animation of lightness */
+@property --l {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 65%;
+}
+@keyframes misc-osc-l {
+  0%,
+  100% {
+    --l: 63%;
+  }
+  50% {
+    --l: 80%;
+  }
+}
+
+/* Row indices */
+.misc-osc .row.r-0 {
+  --row: 0;
+}
+.misc-osc .row.r-1 {
+  --row: 1;
+}
+.misc-osc .row.r-2 {
+  --row: 2;
+}
+.misc-osc .row.r-3 {
+  --row: 3;
+}
+.misc-osc .row.r-4 {
+  --row: 4;
+}
+
+/* Column indices (0..17) to compute diagonal gradient hue */
+.misc-osc .dot.i-0 {
+  --col: 0;
+}
+.misc-osc .dot.i-1 {
+  --col: 1;
+}
+.misc-osc .dot.i-2 {
+  --col: 2;
+}
+.misc-osc .dot.i-3 {
+  --col: 3;
+}
+.misc-osc .dot.i-4 {
+  --col: 4;
+}
+.misc-osc .dot.i-5 {
+  --col: 5;
+}
+.misc-osc .dot.i-6 {
+  --col: 6;
+}
+.misc-osc .dot.i-7 {
+  --col: 7;
+}
+.misc-osc .dot.i-8 {
+  --col: 8;
+}
+.misc-osc .dot.i-9 {
+  --col: 9;
+}
+.misc-osc .dot.i-10 {
+  --col: 10;
+}
+.misc-osc .dot.i-11 {
+  --col: 11;
+}
+.misc-osc .dot.i-12 {
+  --col: 12;
+}
+.misc-osc .dot.i-13 {
+  --col: 13;
+}
+.misc-osc .dot.i-14 {
+  --col: 14;
+}
+.misc-osc .dot.i-15 {
+  --col: 15;
+}
+.misc-osc .dot.i-16 {
+  --col: 16;
+}
+.misc-osc .dot.i-17 {
+  --col: 17;
+}

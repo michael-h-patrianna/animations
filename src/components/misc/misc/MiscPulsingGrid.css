@@ -1,0 +1,106 @@
+.misc-grid {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: grid;
+  place-items: center;
+}
+.misc-grid .row {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 14px;
+}
+.misc-grid .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(236, 195, 255, 0.9);
+  box-shadow: 0 0 6px rgba(236, 195, 255, 0.25);
+  animation: misc-grid-pulse 1.8s ease-in-out infinite;
+}
+.misc-grid .row.r-0 .dot.c-0 {
+  animation-delay: 0ms;
+}
+.misc-grid .row.r-0 .dot.c-1 {
+  animation-delay: 60ms;
+}
+.misc-grid .row.r-0 .dot.c-2 {
+  animation-delay: 120ms;
+}
+.misc-grid .row.r-0 .dot.c-3 {
+  animation-delay: 180ms;
+}
+.misc-grid .row.r-0 .dot.c-4 {
+  animation-delay: 240ms;
+}
+.misc-grid .row.r-1 .dot.c-0 {
+  animation-delay: 60ms;
+}
+.misc-grid .row.r-1 .dot.c-1 {
+  animation-delay: 120ms;
+}
+.misc-grid .row.r-1 .dot.c-2 {
+  animation-delay: 180ms;
+}
+.misc-grid .row.r-1 .dot.c-3 {
+  animation-delay: 240ms;
+}
+.misc-grid .row.r-1 .dot.c-4 {
+  animation-delay: 300ms;
+}
+.misc-grid .row.r-2 .dot.c-0 {
+  animation-delay: 120ms;
+}
+.misc-grid .row.r-2 .dot.c-1 {
+  animation-delay: 180ms;
+}
+.misc-grid .row.r-2 .dot.c-2 {
+  animation-delay: 240ms;
+}
+.misc-grid .row.r-2 .dot.c-3 {
+  animation-delay: 300ms;
+}
+.misc-grid .row.r-2 .dot.c-4 {
+  animation-delay: 360ms;
+}
+.misc-grid .row.r-3 .dot.c-0 {
+  animation-delay: 180ms;
+}
+.misc-grid .row.r-3 .dot.c-1 {
+  animation-delay: 240ms;
+}
+.misc-grid .row.r-3 .dot.c-2 {
+  animation-delay: 300ms;
+}
+.misc-grid .row.r-3 .dot.c-3 {
+  animation-delay: 360ms;
+}
+.misc-grid .row.r-3 .dot.c-4 {
+  animation-delay: 420ms;
+}
+.misc-grid .row.r-4 .dot.c-0 {
+  animation-delay: 240ms;
+}
+.misc-grid .row.r-4 .dot.c-1 {
+  animation-delay: 300ms;
+}
+.misc-grid .row.r-4 .dot.c-2 {
+  animation-delay: 360ms;
+}
+.misc-grid .row.r-4 .dot.c-3 {
+  animation-delay: 420ms;
+}
+.misc-grid .row.r-4 .dot.c-4 {
+  animation-delay: 480ms;
+}
+@keyframes misc-grid-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 1;
+  }
+}

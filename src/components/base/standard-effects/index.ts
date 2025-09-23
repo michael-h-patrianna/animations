@@ -9,6 +9,9 @@ import { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat'
 import { StandardEffectsJello } from './StandardEffectsJello'
 import { StandardEffectsPop } from './StandardEffectsPop'
 import { StandardEffectsPulse } from './StandardEffectsPulse'
+import { StandardEffectsPulseCircle } from './StandardEffectsPulseCircle'
+import { StandardEffectsPulseWave } from './StandardEffectsPulseWave'
+import { StandardEffectsRadialPulse } from './StandardEffectsRadialPulse'
 import { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
 import { StandardEffectsScale } from './StandardEffectsScale'
 import { StandardEffectsShake } from './StandardEffectsShake'
@@ -28,6 +31,9 @@ export { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat'
 export { StandardEffectsJello } from './StandardEffectsJello'
 export { StandardEffectsPop } from './StandardEffectsPop'
 export { StandardEffectsPulse } from './StandardEffectsPulse'
+export { StandardEffectsPulseCircle } from './StandardEffectsPulseCircle'
+export { StandardEffectsPulseWave } from './StandardEffectsPulseWave'
+export { StandardEffectsRadialPulse } from './StandardEffectsRadialPulse'
 export { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
 export { StandardEffectsScale } from './StandardEffectsScale'
 export { StandardEffectsShake } from './StandardEffectsShake'
@@ -42,6 +48,8 @@ export const baseStandardEffectsAnimations: AnimationComponentMap = {
   'standard-effects__shake': StandardEffectsShake,
   'standard-effects__bounce': StandardEffectsBounce,
   'standard-effects__pulse': StandardEffectsPulse,
+  'standard-effects__radial-pulse': StandardEffectsRadialPulse,
+  'standard-effects__pulse-wave': StandardEffectsPulseWave,
   'standard-effects__rubber-band': StandardEffectsRubberBand,
   'standard-effects__swing': StandardEffectsSwing,
   'standard-effects__jello': StandardEffectsJello,
@@ -57,4 +65,6 @@ export const baseStandardEffectsAnimations: AnimationComponentMap = {
   'standard-effects__squeeze': StandardEffectsSqueeze,
   'standard-effects__tada': StandardEffectsTada,
   'standard-effects__heartbeat': StandardEffectsHeartbeat,
+  // New animation placed at the end of the group
+  'standard-effects__pulse-circle': StandardEffectsPulseCircle,
 }

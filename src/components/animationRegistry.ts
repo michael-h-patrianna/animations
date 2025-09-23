@@ -8,6 +8,7 @@ import { dialogsModalBaseFramerAnimations } from '@/components/dialogs/modal-bas
 import { dialogsModalContentAnimations } from '@/components/dialogs/modal-content'
 import { dialogsModalDismissAnimations } from '@/components/dialogs/modal-dismiss'
 import { dialogsModalOrchestrationAnimations } from '@/components/dialogs/modal-orchestration'
+import { miscMiscAnimations } from '@/components/misc/misc'
 import { progressLoadingStatesAnimations } from '@/components/progress/loading-states'
 import { progressProgressBarsAnimations } from '@/components/progress/progress-bars'
 import { realtimeRealtimeDataAnimations } from '@/components/realtime/realtime-data'
@@ -34,4 +35,5 @@ export const animationRegistry: AnimationComponentMap = {
   ...realtimeRealtimeDataAnimations,
   ...iconAnimationsComponents,
   ...rewardsRewardBasicAnimations,
+  ...miscMiscAnimations,
 }
