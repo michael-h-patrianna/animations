@@ -1,0 +1,55 @@
+/* Medium intensity: heartbeat + ring */
+.pf-pill-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  font-family: 'Lato', sans-serif;
+}
+
+.pf-pill-timer__pill {
+  --pill-bg: #42f5a4;
+  min-width: 112px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 6px 22px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* repurpose blip as a subtle color/brightness emphasis on the pill */
+@keyframes pill-led-blip {
+  0% {
+    filter: brightness(1) saturate(1);
+  }
+  45% {
+    filter: brightness(1.12) saturate(1.1);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+.pf-pill-timer__time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.86);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.28);
+}
+
+.pf-pill-timer__label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}

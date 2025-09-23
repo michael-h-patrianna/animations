@@ -1,0 +1,39 @@
+/* Shared overrides for framer-based modal demos so we can animate without translate(-50%, -50%) hacks */
+
+[data-animation-id^='modal-base-framer__'] .pf-modal-center {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+[data-animation-id^='modal-base-framer__'] .pf-modal {
+  position: relative; /* neutralize absolute centering from shared.css */
+  top: auto;
+  left: auto;
+  transform: none; /* let Framer control transforms */
+}
+
+/* Perspective wrappers for 3D effects */
+[data-animation-id='modal-base-framer__flip-3d'] .pf-perspective,
+[data-animation-id='modal-base-framer__unfold-origami'] .pf-perspective {
+  perspective: 1200px;
+}
+[data-animation-id='modal-base-framer__unfold-origami'] .pf-perspective {
+  perspective: 1000px;
+}
+
+/* Glitch ghost layers */
+[data-animation-id='modal-base-framer__glitch-digital'] .pf-modal--ghost {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+[data-animation-id='modal-base-framer__glitch-digital'] .pf-modal--ghost-green {
+  background: rgba(198, 255, 119, 0.1);
+}
+[data-animation-id='modal-base-framer__glitch-digital'] .pf-modal--ghost-pink {
+  background: rgba(255, 119, 198, 0.1);
+}

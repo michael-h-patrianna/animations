@@ -2,6 +2,10 @@ import { GroupSection } from '@/components/ui/GroupSection'
 import { animationDataService } from '@/services/animationData'
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 
+function escapeRegExp(literal: string) {
+  return literal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 describe('Group demo grid smoke', () => {
   it(
     'renders each group grid, verifies cards and replay remount behavior',
@@ -22,7 +26,7 @@ describe('Group demo grid smoke', () => {
         // Group header shows title and count
         const heading = await screen.findByRole('heading', {
           level: 2,
-          name: new RegExp(`${group.title} \\(${group.animations.length}\\)`),
+          name: new RegExp(`${escapeRegExp(group.title)} \\(${group.animations.length}\\)`),
         })
         expect(heading).toBeInTheDocument()
 

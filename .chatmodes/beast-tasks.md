@@ -1,22 +1,23 @@
-Phase plan
+Phase plan and task tracker
 
-- Phase 1: Understand & Plan
-  - [✓] Diagnose build and test failures
-  - [✓] Identify coverage gaps and failing specs
-- Phase 2: Implement Solution
-  - [✓] Fix flaky ProgressBarsZoomedProgress test
-  - [✓] Fix XP Accumulation test selector issue
-  - [✓] Add all-animations smoke test to execute all components
-  - [ ] Add App smoke coverage test with mocked hook
-- Phase 3: Validate & Iterate
-  - [ ] Run unit tests + coverage to verify ≥100%
-  - [ ] Address any remaining gaps and re-run (up to 3 iterations)
+PHASE 1: UNDERSTAND & PLAN
+- [✓] Analyze request and repo context
+- [✓] Identify missing parity (spring-bounce framer entry)
+- [✓] Plan implementation tasks and validation
 
-Tasks
+PHASE 2: IMPLEMENT SOLUTION
+- [ ] Create ModalFramerSpringBounce component mirroring ModalBaseSpringBounce
+- [ ] Wire into dialogs modal-base-framer index map and exports
+- [ ] Add catalog entry to docs/structure.json for modal-base-framer__spring-bounce
+- [ ] Run lint and build
+- [ ] Run unit tests via tasks; inspect output and fix issues if any
 
-- [✓] Update tsconfig to avoid test polyfills leaking into build
-- [✓] Provide DOM Web Animations ambient types for TS
-- [✓] Stabilize zoomed progress test timing
-- [✓] Use non-ambiguous selector for x2 multiplier
-- [ ] Create app smoke coverage test
-- [ ] Run coverage and iterate to 100%
+PHASE 3: VALIDATE & ITERATE
+- [ ] Registry coverage: ensure all modal-base-framer IDs in structure.json are registered
+- [ ] Visual parity assumptions documented (overlay opacity, spring params)
+- [ ] Quality gates: Lint PASS, Build PASS, Tests PASS (or analyze failures and iterate up to 3x)
+- [ ] Decide DONE or iterate
+
+Notes
+- Keep data-animation-id consistent with structure.json IDs.
+- Use existing framer-shared.css and modal shared.css to avoid transform conflicts.

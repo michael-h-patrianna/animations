@@ -35,6 +35,12 @@
           "demo": "modalBase"
         },
         {
+          "id": "modal-base-framer",
+          "title": "Base modals (framer)",
+          "tech": "framer",
+          "demo": "modalBaseFramer"
+        },
+        {
           "id": "modal-content",
           "title": "Content choreography",
           "tech": "css",
@@ -467,12 +473,28 @@
       "tags": ["css"]
     },
     {
+      "id": "modal-base-framer__scale-gentle-pop",
+      "title": "Gentle Scale Pop",
+      "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px→0px blur.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
+    },
+    {
       "id": "modal-base__slide-up-soft",
       "title": "Slide Up Soft",
       "description": "Slides in from the up by 64px with 70% overlay fade and soft blur 8px.",
       "categoryId": "dialogs",
       "groupId": "modal-base",
       "tags": ["css"]
+    },
+    {
+      "id": "modal-base-framer__slide-up-soft",
+      "title": "Slide Up Soft",
+      "description": "Slides in from the up by 64px with 70% overlay fade and soft blur 8px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
     },
     {
       "id": "modal-base__slide-down-soft",
@@ -483,12 +505,28 @@
       "tags": ["css"]
     },
     {
+      "id": "modal-base-framer__slide-down-soft",
+      "title": "Slide Down Welcome",
+      "description": "Slides in from the down by 60px with 68% overlay fade and soft blur 8px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
+    },
+    {
       "id": "modal-base__slide-left-drift",
       "title": "Slide Left Drift",
       "description": "Slides in from the right by 68px with 68% overlay fade and soft blur 7px.",
       "categoryId": "dialogs",
       "groupId": "modal-base",
       "tags": ["css"]
+    },
+    {
+      "id": "modal-base-framer__slide-left-drift",
+      "title": "Slide Left Drift",
+      "description": "Slides in from the right by 68px with 68% overlay fade and soft blur 7px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
     },
     {
       "id": "modal-base__slide-right-drift",
@@ -499,11 +537,27 @@
       "tags": ["css"]
     },
     {
+      "id": "modal-base-framer__slide-right-drift",
+      "title": "Slide Right Drift",
+      "description": "Slides in from the left by 68px with 68% overlay fade and soft blur 7px.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
+    },
+    {
       "id": "modal-base__spring-bounce",
       "title": "Spring Bounce",
       "description": "Elastic spring entrance with dynamic bounce physics and smooth overlay transition.",
       "categoryId": "dialogs",
       "groupId": "modal-base",
+      "tags": ["framer"]
+    },
+    {
+      "id": "modal-base-framer__spring-bounce",
+      "title": "Spring Bounce",
+      "description": "Elastic spring entrance with dynamic bounce physics and smooth overlay transition.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
       "tags": ["framer"]
     },
     {
@@ -515,12 +569,28 @@
       "tags": ["css"]
     },
     {
+      "id": "modal-base-framer__flip-3d",
+      "title": "3D Card Flip",
+      "description": "Card game style 3D rotation reveal with perspective depth and overshoot.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
+    },
+    {
       "id": "modal-base__glitch-digital",
       "title": "Digital Glitch",
       "description": "Cyberpunk-inspired RGB channel separation with digital distortion artifacts.",
       "categoryId": "dialogs",
       "groupId": "modal-base",
       "tags": ["css"]
+    },
+    {
+      "id": "modal-base-framer__glitch-digital",
+      "title": "Digital Glitch",
+      "description": "Cyberpunk-inspired RGB channel separation with digital distortion artifacts.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
     },
     {
       "id": "modal-base__portal-swirl",
@@ -531,12 +601,28 @@
       "tags": ["css"]
     },
     {
+      "id": "modal-base-framer__portal-swirl",
+      "title": "Portal Swirl",
+      "description": "Fantasy game vortex entrance with spiral rotation and morphing border radius.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
+    },
+    {
       "id": "modal-base__tv-turn-on",
       "title": "CRT TV Turn On",
       "description": "Retro CRT monitor power-on effect with horizontal-to-vertical expansion.",
       "categoryId": "dialogs",
       "groupId": "modal-base",
       "tags": ["css"]
+    },
+    {
+      "id": "modal-base-framer__tv-turn-on",
+      "title": "CRT TV Turn On",
+      "description": "Retro CRT monitor power-on effect with horizontal-to-vertical expansion.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
     },
     {
       "id": "modal-base__unfold-origami",
@@ -547,12 +633,28 @@
       "tags": ["css"]
     },
     {
+      "id": "modal-base-framer__unfold-origami",
+      "title": "Origami Unfold",
+      "description": "Paper-style unfolding animation with sequential axis expansion.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
+    },
+    {
       "id": "modal-base__shatter-assemble",
       "title": "Shatter Assembly",
       "description": "Glass fragments coalesce into modal with blur and rotation effects.",
       "categoryId": "dialogs",
       "groupId": "modal-base",
       "tags": ["css"]
+    },
+    {
+      "id": "modal-base-framer__shatter-assemble",
+      "title": "Shatter Assembly",
+      "description": "Glass fragments coalesce into modal with blur and rotation effects.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
     },
     {
       "id": "modal-base__ripple-expand",
@@ -563,12 +665,28 @@
       "tags": ["css"]
     },
     {
+      "id": "modal-base-framer__ripple-expand",
+      "title": "Material Ripple",
+      "description": "Material Design ripple expansion with radiating wave effect.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
+    },
+    {
       "id": "modal-base__zoom-elastic",
       "title": "Elastic Zoom Bounce",
       "description": "Mobile game style zoom with elastic bounce physics and overshoot.",
       "categoryId": "dialogs",
       "groupId": "modal-base",
       "tags": ["css"]
+    },
+    {
+      "id": "modal-base-framer__zoom-elastic",
+      "title": "Elastic Zoom Bounce",
+      "description": "Mobile game style zoom with elastic bounce physics and overshoot.",
+      "categoryId": "dialogs",
+      "groupId": "modal-base-framer",
+      "tags": ["framer"]
     },
     {
       "id": "modal-content__buttons-stagger-2",
@@ -1050,6 +1168,38 @@
       "id": "timer-effects__timer-flip",
       "title": "Flip Digits",
       "description": "Mechanical flip digits animate per second.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
+    },
+    {
+      "id": "timer-effects__pill-countdown-strong",
+      "title": "Pill Countdown — Strong Double Tap",
+      "description": "Starts at 60s with an immediate snap. Mechanical snaps at 55/50/45/40/35/30/25/20 (caution at 30). Under 15s: single snaps at 15 & 12. Under 10s: targeted double‑taps on 9/7/5/3/1. Pill‑only; stops at 00:00 awaiting replay.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
+    },
+    {
+      "id": "timer-effects__pill-countdown-extreme",
+      "title": "Pill Countdown — Extreme Buzz & Flash",
+      "description": "Starts at 60s with a subtle buzz. Color bands: calm >30, warning 30–11, danger ≤10. Buzz cues at 60/50/40; every 5s from 30–15; every second under 10; brightness flash at 00:00. Pill‑only; stops at 00:00 awaiting replay.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
+    },
+    {
+      "id": "timer-effects__pill-countdown-glitch",
+      "title": "Pill Countdown — Threshold Glitch",
+      "description": "60s timer with discrete glitch pulses at 50/40/30/20/10s thresholds. Colors shift from purple to red. Continuous glitching only in final 10s. Ends with red glow pulse at 00:00.",
+      "categoryId": "realtime",
+      "groupId": "timer-effects",
+      "tags": ["js", "css"]
+    },
+    {
+      "id": "timer-effects__pill-countdown-heartbeat",
+      "title": "Pill Countdown — Threshold Pulse",
+      "description": "60s timer with discrete heartbeat pulses at 50/40/30/20/10s thresholds. Pulse intensity increases with urgency. Continuous heartbeat only in final 10s. Ends with red glow pulse at 00:00.",
       "categoryId": "realtime",
       "groupId": "timer-effects",
       "tags": ["js", "css"]
