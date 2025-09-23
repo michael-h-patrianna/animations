@@ -24,7 +24,7 @@ jest.mock('framer-motion', () => {
   }
 })
 
-import { ProgressBarsXpAccumulation } from '@/components/progress/progress-bars/ProgressBarsXpAccumulation'
+import { ProgressBarsXpAccumulation } from '@/components/progress/progress-bars'
 
 describe('ProgressBarsXpAccumulation', () => {
   const REAL_RANDOM = Math.random
@@ -81,8 +81,10 @@ describe('ProgressBarsXpAccumulation', () => {
       jest.advanceTimersByTime(420) // impact
     })
 
-    // Multiplier x2 should become visible once >= 20%
-    expect(screen.getByText(/x2/i)).toBeInTheDocument()
+  // Multiplier x2 should become visible once >= 20%; scope to the multiplier badge
+  const multiplierBadges = document.querySelectorAll('.pf-xp-multiplier')
+  const hasX2 = Array.from(multiplierBadges).some((el) => /x\s*2/i.test(el.textContent || ''))
+  expect(hasX2).toBe(true)
 
     // Floating XP should eventually be cleaned up after lifetime (~1650ms post-impact)
     await act(async () => {

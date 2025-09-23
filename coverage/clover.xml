@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1758569229901" clover="3.2.0">
-  <project timestamp="1758569229901" name="All files">
-    <metrics statements="2314" coveredstatements="2119" conditionals="623" coveredconditionals="428" methods="682" coveredmethods="590" elements="3619" coveredelements="3137" complexity="0" loc="2314" ncloc="2314" packages="22" files="184" classes="184"/>
+<coverage generated="1758618927525" clover="3.2.0">
+  <project timestamp="1758618927525" name="All files">
+    <metrics statements="2316" coveredstatements="2117" conditionals="623" coveredconditionals="427" methods="684" coveredmethods="589" elements="3623" coveredelements="3133" complexity="0" loc="2316" ncloc="2316" packages="22" files="186" classes="186"/>
     <package name="src">
       <metrics statements="97" coveredstatements="58" conditionals="60" coveredconditionals="31" methods="33" coveredmethods="19"/>
       <file name="App.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/App.tsx">
@@ -259,7 +259,7 @@
       </file>
     </package>
     <package name="src.components.base.text-effects">
-      <metrics statements="174" coveredstatements="169" conditionals="66" coveredconditionals="44" methods="67" coveredmethods="64"/>
+      <metrics statements="174" coveredstatements="167" conditionals="66" coveredconditionals="43" methods="67" coveredmethods="63"/>
       <file name="TextEffectsCharacterReveal.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/base/text-effects/TextEffectsCharacterReveal.tsx">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="5" count="7" type="stmt"/>
@@ -302,9 +302,9 @@
         <line num="23" count="7" type="stmt"/>
         <line num="26" count="7" type="stmt"/>
         <line num="29" count="7" type="stmt"/>
-        <line num="30" count="5" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
         <line num="34" count="7" type="stmt"/>
-        <line num="35" count="3" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
         <line num="40" count="7" type="stmt"/>
         <line num="43" count="7" type="stmt"/>
         <line num="45" count="7" type="stmt"/>
@@ -340,7 +340,7 @@
         <line num="93" count="119" type="stmt"/>
       </file>
       <file name="TextEffectsLevelBreakthrough.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/base/text-effects/TextEffectsLevelBreakthrough.tsx">
-        <metrics statements="35" coveredstatements="31" conditionals="12" coveredconditionals="4" methods="6" coveredmethods="5"/>
+        <metrics statements="35" coveredstatements="29" conditionals="12" coveredconditionals="3" methods="6" coveredmethods="4"/>
         <line num="6" count="7" type="stmt"/>
         <line num="7" count="7" type="stmt"/>
         <line num="8" count="7" type="stmt"/>
@@ -360,8 +360,8 @@
         <line num="40" count="7" type="cond" truecount="1" falsecount="1"/>
         <line num="41" count="7" type="stmt"/>
         <line num="53" count="7" type="stmt"/>
-        <line num="55" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="56" count="1" type="stmt"/>
+        <line num="55" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="56" count="0" type="stmt"/>
         <line num="69" count="7" type="stmt"/>
         <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="72" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -471,7 +471,7 @@
         <line num="23" count="7" type="stmt"/>
         <line num="24" count="7" type="stmt"/>
         <line num="27" count="7" type="stmt"/>
-        <line num="28" count="29" type="stmt"/>
+        <line num="28" count="25" type="stmt"/>
         <line num="30" count="7" type="stmt"/>
         <line num="31" count="7" type="stmt"/>
         <line num="33" count="7" type="stmt"/>
@@ -496,97 +496,101 @@
       </file>
     </package>
     <package name="src.components.dialogs.modal-base">
-      <metrics statements="38" coveredstatements="32" conditionals="0" coveredconditionals="0" methods="35" coveredmethods="29"/>
+      <metrics statements="39" coveredstatements="31" conditionals="0" coveredconditionals="0" methods="36" coveredmethods="28"/>
+      <file name="MockModalContent.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/MockModalContent.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="42" type="stmt"/>
+      </file>
       <file name="ModalBaseFlip3d.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseFlip3d.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseGlitchDigital.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseGlitchDigital.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBasePortalSwirl.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBasePortalSwirl.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseRippleExpand.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseRippleExpand.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseScaleCrisp.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseScaleCrisp.tsx">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
       </file>
       <file name="ModalBaseScaleGentlePop.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseScaleGentlePop.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseScaleHero.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseScaleHero.tsx">
-        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
       </file>
       <file name="ModalBaseShatterAssemble.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseShatterAssemble.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseSlideDownHero.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseSlideDownHero.tsx">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
       </file>
       <file name="ModalBaseSlideDownSoft.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseSlideDownSoft.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseSlideLeftDrift.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseSlideLeftDrift.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseSlideRightDrift.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseSlideRightDrift.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseSlideUpCrisp.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseSlideUpCrisp.tsx">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
       </file>
       <file name="ModalBaseSlideUpSoft.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseSlideUpSoft.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseSpringBounce.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseSpringBounce.tsx">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="6" count="3" type="stmt"/>
-        <line num="19" count="3" type="stmt"/>
-        <line num="38" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="21" count="3" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseTvTurnOn.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseTvTurnOn.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseUnfoldOrigami.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseUnfoldOrigami.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="ModalBaseZoomElastic.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/ModalBaseZoomElastic.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
       </file>
       <file name="index.ts" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-base/index.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -808,7 +812,11 @@
       </file>
     </package>
     <package name="src.components.dialogs.modal-dismiss">
-      <metrics statements="166" coveredstatements="153" conditionals="28" coveredconditionals="21" methods="43" coveredmethods="22"/>
+      <metrics statements="167" coveredstatements="154" conditionals="28" coveredconditionals="21" methods="44" coveredmethods="23"/>
+      <file name="MockContent.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-dismiss/MockContent.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="11" count="23" type="stmt"/>
+      </file>
       <file name="ModalDismissSnackbarScale.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-dismiss/ModalDismissSnackbarScale.tsx">
         <metrics statements="24" coveredstatements="22" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="3"/>
         <line num="5" count="3" type="stmt"/>
@@ -869,27 +877,27 @@
         <metrics statements="23" coveredstatements="21" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="3"/>
         <line num="5" count="3" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
         <line num="10" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="11" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="14" count="3" type="stmt"/>
         <line num="15" count="3" type="stmt"/>
         <line num="16" count="3" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
         <line num="19" count="3" type="stmt"/>
         <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="44" count="3" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
         <line num="58" count="3" type="stmt"/>
         <line num="59" count="3" type="stmt"/>
         <line num="60" count="3" type="stmt"/>
-        <line num="61" count="3" type="stmt"/>
-        <line num="65" count="3" type="stmt"/>
+        <line num="64" count="3" type="stmt"/>
       </file>
       <file name="ModalDismissToastFadeProgress.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-dismiss/ModalDismissToastFadeProgress.tsx">
         <metrics statements="23" coveredstatements="21" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="3"/>
@@ -947,53 +955,53 @@
         <metrics statements="23" coveredstatements="21" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="3"/>
         <line num="5" count="3" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
         <line num="10" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="11" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="14" count="3" type="stmt"/>
         <line num="15" count="3" type="stmt"/>
         <line num="16" count="3" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
         <line num="19" count="3" type="stmt"/>
         <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="44" count="3" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
         <line num="58" count="3" type="stmt"/>
         <line num="59" count="3" type="stmt"/>
         <line num="60" count="3" type="stmt"/>
-        <line num="61" count="3" type="stmt"/>
-        <line num="65" count="3" type="stmt"/>
+        <line num="64" count="3" type="stmt"/>
       </file>
       <file name="ModalDismissToastSlideRight.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-dismiss/ModalDismissToastSlideRight.tsx">
         <metrics statements="23" coveredstatements="21" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="3"/>
         <line num="5" count="3" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
         <line num="10" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="11" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="14" count="3" type="stmt"/>
         <line num="15" count="3" type="stmt"/>
         <line num="16" count="3" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
         <line num="19" count="3" type="stmt"/>
         <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="44" count="3" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
         <line num="58" count="3" type="stmt"/>
         <line num="59" count="3" type="stmt"/>
         <line num="60" count="3" type="stmt"/>
-        <line num="61" count="3" type="stmt"/>
-        <line num="65" count="3" type="stmt"/>
+        <line num="64" count="3" type="stmt"/>
       </file>
       <file name="index.ts" path="/Users/Spare/Documents/code/monetisation/animations/src/components/dialogs/modal-dismiss/index.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -1642,7 +1650,7 @@
         <line num="102" count="3" type="stmt"/>
         <line num="118" count="3" type="stmt"/>
         <line num="119" count="9" type="stmt"/>
-        <line num="121" count="3" type="stmt"/>
+        <line num="121" count="2" type="stmt"/>
         <line num="135" count="3" type="stmt"/>
         <line num="151" count="3" type="stmt"/>
         <line num="152" count="3" type="stmt"/>
@@ -1937,11 +1945,11 @@
         <line num="36" count="3" type="stmt"/>
         <line num="37" count="3" type="stmt"/>
         <line num="39" count="3" type="stmt"/>
-        <line num="40" count="10" type="stmt"/>
-        <line num="41" count="10" type="stmt"/>
-        <line num="42" count="10" type="stmt"/>
-        <line num="44" count="10" type="stmt"/>
-        <line num="49" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="40" count="8" type="stmt"/>
+        <line num="41" count="8" type="stmt"/>
+        <line num="42" count="8" type="stmt"/>
+        <line num="44" count="8" type="stmt"/>
+        <line num="49" count="8" type="cond" truecount="1" falsecount="1"/>
         <line num="50" count="0" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
         <line num="55" count="3" type="stmt"/>
@@ -2179,13 +2187,13 @@
         <line num="33" count="3" type="stmt"/>
         <line num="36" count="3" type="stmt"/>
         <line num="37" count="30" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
         <line num="53" count="30" type="stmt"/>
         <line num="56" count="3" type="stmt"/>
@@ -2680,15 +2688,15 @@
       <metrics statements="112" coveredstatements="111" conditionals="52" coveredconditionals="44" methods="42" coveredmethods="40"/>
       <file name="AnimationCard.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/ui/AnimationCard.tsx">
         <metrics statements="25" coveredstatements="25" conditionals="22" coveredconditionals="20" methods="9" coveredmethods="9"/>
-        <line num="27" count="902" type="stmt"/>
-        <line num="28" count="902" type="stmt"/>
-        <line num="29" count="902" type="stmt"/>
-        <line num="30" count="902" type="stmt"/>
-        <line num="31" count="902" type="stmt"/>
-        <line num="33" count="902" type="stmt"/>
-        <line num="34" count="728" type="cond" truecount="2" falsecount="0"/>
-        <line num="36" count="34" type="stmt"/>
-        <line num="37" count="34" type="stmt"/>
+        <line num="27" count="899" type="stmt"/>
+        <line num="28" count="899" type="stmt"/>
+        <line num="29" count="899" type="stmt"/>
+        <line num="30" count="899" type="stmt"/>
+        <line num="31" count="899" type="stmt"/>
+        <line num="33" count="899" type="stmt"/>
+        <line num="34" count="727" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="33" type="stmt"/>
+        <line num="37" count="33" type="stmt"/>
         <line num="40" count="694" type="stmt"/>
         <line num="41" count="694" type="stmt"/>
         <line num="43" count="669" type="cond" truecount="4" falsecount="0"/>
@@ -2699,10 +2707,10 @@
         <line num="57" count="694" type="stmt"/>
         <line num="60" count="694" type="stmt"/>
         <line num="61" count="694" type="cond" truecount="1" falsecount="1"/>
-        <line num="65" count="902" type="stmt"/>
-        <line num="66" count="134" type="stmt"/>
-        <line num="67" count="134" type="stmt"/>
-        <line num="70" count="902" type="stmt"/>
+        <line num="65" count="899" type="stmt"/>
+        <line num="66" count="133" type="stmt"/>
+        <line num="67" count="133" type="stmt"/>
+        <line num="70" count="899" type="stmt"/>
         <line num="83" count="1" type="stmt"/>
         <line num="108" count="663" type="stmt"/>
       </file>
@@ -2752,35 +2760,35 @@
       </file>
       <file name="button-variants.ts" path="/Users/Spare/Documents/code/monetisation/animations/src/components/ui/button-variants.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="3" count="14" type="stmt"/>
+        <line num="3" count="13" type="stmt"/>
       </file>
       <file name="button.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/ui/button.tsx">
         <metrics statements="4" coveredstatements="4" conditionals="3" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="16" count="14" type="stmt"/>
-        <line num="18" count="902" type="cond" truecount="1" falsecount="1"/>
-        <line num="19" count="902" type="stmt"/>
-        <line num="24" count="14" type="stmt"/>
+        <line num="16" count="13" type="stmt"/>
+        <line num="18" count="899" type="cond" truecount="1" falsecount="1"/>
+        <line num="19" count="899" type="stmt"/>
+        <line num="24" count="13" type="stmt"/>
       </file>
       <file name="card.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/components/ui/card.tsx">
         <metrics statements="18" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="5"/>
-        <line num="5" count="14" type="stmt"/>
-        <line num="7" count="902" type="stmt"/>
-        <line num="14" count="14" type="stmt"/>
-        <line num="16" count="14" type="stmt"/>
-        <line num="18" count="902" type="stmt"/>
-        <line num="21" count="14" type="stmt"/>
-        <line num="23" count="14" type="stmt"/>
-        <line num="25" count="902" type="stmt"/>
-        <line num="32" count="14" type="stmt"/>
-        <line num="34" count="14" type="stmt"/>
+        <line num="5" count="13" type="stmt"/>
+        <line num="7" count="899" type="stmt"/>
+        <line num="14" count="13" type="stmt"/>
+        <line num="16" count="13" type="stmt"/>
+        <line num="18" count="899" type="stmt"/>
+        <line num="21" count="13" type="stmt"/>
+        <line num="23" count="13" type="stmt"/>
+        <line num="25" count="899" type="stmt"/>
+        <line num="32" count="13" type="stmt"/>
+        <line num="34" count="13" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="39" count="14" type="stmt"/>
-        <line num="41" count="14" type="stmt"/>
-        <line num="43" count="902" type="stmt"/>
-        <line num="46" count="14" type="stmt"/>
-        <line num="48" count="14" type="stmt"/>
-        <line num="50" count="902" type="stmt"/>
-        <line num="53" count="14" type="stmt"/>
+        <line num="39" count="13" type="stmt"/>
+        <line num="41" count="13" type="stmt"/>
+        <line num="43" count="899" type="stmt"/>
+        <line num="46" count="13" type="stmt"/>
+        <line num="48" count="13" type="stmt"/>
+        <line num="50" count="899" type="stmt"/>
+        <line num="53" count="13" type="stmt"/>
       </file>
       <file name="catalog.ts" path="/Users/Spare/Documents/code/monetisation/animations/src/components/ui/catalog.ts">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -2878,7 +2886,7 @@
       </file>
       <file name="utils.ts" path="/Users/Spare/Documents/code/monetisation/animations/src/lib/utils.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="5" count="5425" type="stmt"/>
+        <line num="5" count="5407" type="stmt"/>
       </file>
     </package>
     <package name="src.services">
@@ -2926,8 +2934,8 @@
       <metrics statements="6" coveredstatements="6" conditionals="9" coveredconditionals="9" methods="4" coveredmethods="4"/>
       <file name="animationTestUtils.tsx" path="/Users/Spare/Documents/code/monetisation/animations/src/test/utils/animationTestUtils.tsx">
         <metrics statements="6" coveredstatements="6" conditionals="9" coveredconditionals="9" methods="4" coveredmethods="4"/>
-        <line num="13" count="17" type="cond" truecount="2" falsecount="0"/>
-        <line num="14" count="17" type="stmt"/>
+        <line num="13" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="16" type="stmt"/>
         <line num="29" count="2" type="stmt"/>
         <line num="30" count="2" type="stmt"/>
         <line num="35" count="6" type="cond" truecount="2" falsecount="0"/>

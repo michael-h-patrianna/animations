@@ -179,3 +179,8 @@ State Transitions:
 - Confetti burst - Celebration particles on successful action
 
 The key is these animations feel responsive and intentional, not just decorative - they communicate state changes and provide satisfying feedback.
+
+
+  Retool
+  1. Details view Figma Simple List > List Header Image URL is still mandatory, despite not being used
+  2.

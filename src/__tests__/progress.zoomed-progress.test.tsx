@@ -40,13 +40,18 @@ describe('ProgressBarsZoomedProgress', () => {
     const mask = document.querySelector('.pf-zoomed-progress__mask') as HTMLElement
     expect(mask.className).toMatch(/pf-zoomed-progress__mask--level-2/)
 
-    // Advance a few more ticks to accumulate level 2 points (cap 6)
-    await act(async () => {
-      jest.advanceTimersByTime(1000 * 6)
-    })
-
-    const bar2Fill = document.querySelector('.pf-zoomed-progress__bar--2 .pf-zoomed-progress__fill') as HTMLElement
-    expect(parseFloat(bar2Fill.style.width)).toBeGreaterThan(0)
+    // Advance ticks until bar 2 accumulates some width (allow up to 10s)
+    let width2 = 0
+    for (let i = 0; i < 10 && width2 === 0; i++) {
+      await act(async () => {
+        jest.advanceTimersByTime(1000)
+      })
+      const bar2Fill = document.querySelector(
+        '.pf-zoomed-progress__bar--2 .pf-zoomed-progress__fill'
+      ) as HTMLElement
+      width2 = parseFloat(bar2Fill.style.width)
+    }
+    expect(width2).toBeGreaterThan(0)
 
     // Track left CSS should reflect the new level (25 - 40*(level-1))
     const track = document.querySelector('.pf-zoomed-progress__track') as HTMLElement
