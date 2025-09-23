@@ -16,6 +16,7 @@ import { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
 import { StandardEffectsScale } from './StandardEffectsScale'
 import { StandardEffectsShake } from './StandardEffectsShake'
 import { StandardEffectsSlide } from './StandardEffectsSlide'
+import { StandardEffectsSoftPulse } from './StandardEffectsSoftPulse'
 import { StandardEffectsSpin } from './StandardEffectsSpin'
 import { StandardEffectsSqueeze } from './StandardEffectsSqueeze'
 import { StandardEffectsSwing } from './StandardEffectsSwing'
@@ -38,6 +39,7 @@ export { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
 export { StandardEffectsScale } from './StandardEffectsScale'
 export { StandardEffectsShake } from './StandardEffectsShake'
 export { StandardEffectsSlide } from './StandardEffectsSlide'
+export { StandardEffectsSoftPulse } from './StandardEffectsSoftPulse'
 export { StandardEffectsSpin } from './StandardEffectsSpin'
 export { StandardEffectsSqueeze } from './StandardEffectsSqueeze'
 export { StandardEffectsSwing } from './StandardEffectsSwing'
@@ -67,4 +69,5 @@ export const baseStandardEffectsAnimations: AnimationComponentMap = {
   'standard-effects__heartbeat': StandardEffectsHeartbeat,
   // New animation placed at the end of the group
   'standard-effects__pulse-circle': StandardEffectsPulseCircle,
+  'standard-effects__soft-pulse': StandardEffectsSoftPulse,
 }

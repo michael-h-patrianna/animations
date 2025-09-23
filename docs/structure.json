@@ -485,6 +485,14 @@
       "tags": ["css"]
     },
     {
+      "id": "standard-effects__soft-pulse",
+      "title": "Soft Pulse",
+      "description": "Gentle breathing pulse with a soft glow aura.",
+      "categoryId": "base",
+      "groupId": "standard-effects",
+      "tags": ["css"]
+    },
+    {
       "id": "modal-base__scale-gentle-pop",
       "title": "Gentle Scale Pop",
       "description": "Scale entrance from 88% up to 105% settling at 100% with 72% overlay fade and 12px\u21920px blur.",
@@ -1247,6 +1255,38 @@
       "categoryId": "realtime",
       "groupId": "update-indicators",
       "tags": ["js", "css"]
+    },
+    {
+      "id": "update-indicators__home-icon-dot-pulse",
+      "title": "Home Icon • Dot Pulse",
+      "description": "Top-right dot with gentle breathing pulse and soft glow ripple to indicate unseen updates.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators",
+      "tags": ["css"]
+    },
+    {
+      "id": "update-indicators__home-icon-dot-bounce",
+      "title": "Home Icon • Dot Bounce",
+      "description": "Dot pops in with elastic overshoot and occasional bob for lively attention per follow-through principle.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators",
+      "tags": ["css"]
+    },
+    {
+      "id": "update-indicators__home-icon-dot-radar",
+      "title": "Home Icon • Radar Rings",
+      "description": "Subtle radar rings emanate from the dot using staggered arcs to signal ongoing freshness.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators",
+      "tags": ["css"]
+    },
+    {
+      "id": "update-indicators__home-icon-dot-sweep",
+      "title": "Home Icon • Comet Sweep",
+      "description": "A small comet trail sweeps a short arc around the corner dot, staging attention without noise.",
+      "categoryId": "realtime",
+      "groupId": "update-indicators",
+      "tags": ["css"]
     },
     {
       "id": "realtime-data__leaderboard-shift",

@@ -27,7 +27,7 @@
   border: 2px solid rgba(236, 195, 255, 0.32);
   transform: scale(0.1);
   opacity: 0.8;
-  animation: standard-radial-ripple 2.4s ease-out infinite;
+  animation: standard-radial-ripple 2.4s ease-out;
 }
 
 .standard-radial-pulse .ring-2 {
