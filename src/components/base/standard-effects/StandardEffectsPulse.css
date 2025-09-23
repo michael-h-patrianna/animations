@@ -18,7 +18,7 @@
   }
 }
 .pulse-element {
-  animation: pulse-animation 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse-animation 1.5s cubic-bezier(0.4, 0, 0.6, 1);
   transform-origin: center center;
   position: relative;
 }
@@ -32,7 +32,7 @@
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(198, 255, 119, 0.3) 0%, transparent 70%);
   border-radius: inherit;
-  animation: pulse-glow 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse-glow 1.5s cubic-bezier(0.4, 0, 0.6, 1) forwards;
   pointer-events: none;
   z-index: -1;
 }

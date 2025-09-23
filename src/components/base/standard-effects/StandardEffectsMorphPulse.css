@@ -1,0 +1,119 @@
+/* Morph Pulse – single element adaptation of CodePen "Smooth Pulse"
+   Key differences to previous version:
+   - Use a small circular dot (not an organic blob)
+   - Create soft, expanding pulse rings via box-shadow spread (like the SCSS mixin approach)
+   - Dual, staggered rings to simulate continuous pulses (replacing multiple dots)
+*/
+
+.morph-pulse-wrapper {
+  width: 160px;
+  height: 160px;
+  display: grid;
+  place-items: center;
+}
+
+.morph-pulse {
+  /* Tunables for cadence and color */
+  --morph-duration: 1.6s;
+  --morph-color: hsl(160 100% 60%);
+  --morph-color-soft: hsl(160 100% 60% / 0.55);
+  /* Dot size approximating the CodePen's $w:20px */
+  width: 24px;
+  height: 24px;
+  position: relative;
+  border-radius: 50%;
+  /* Core fill with a subtle specular highlight */
+  background:
+    radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 40%),
+    radial-gradient(circle at 68% 70%, hsl(160 100% 58% / 0.95), hsl(160 100% 46% / 0.95) 62%);
+  /* Subtle depth similar to the pen's glossy feel */
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.25);
+  animation: morph-core-breathe var(--morph-duration) ease-in-out infinite;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Two staggered pulse rings to emulate multiple dots pulsing in sequence */
+.morph-pulse::before,
+.morph-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* First ring */
+.morph-pulse::before {
+  /* Visible ring via border; glow via layered box-shadows */
+  border: 2px solid var(--morph-color);
+  box-shadow:
+    0 0 10px 2px var(--morph-color-soft),
+    0 0 22px 8px hsl(160 100% 60% / 0.25);
+  transform-origin: center;
+  backface-visibility: hidden;
+  animation: morph-pulse-ring var(--morph-duration) ease-out infinite;
+}
+
+/* Second ring (delayed) maintains a smooth cadence */
+.morph-pulse::after {
+  border: 2px solid var(--morph-color);
+  box-shadow:
+    0 0 10px 2px var(--morph-color-soft),
+    0 0 22px 8px hsl(160 100% 60% / 0.25);
+  transform-origin: center;
+  backface-visibility: hidden;
+  animation: morph-pulse-ring var(--morph-duration) ease-out infinite;
+  animation-delay: calc(var(--morph-duration) / 2); /* half-cycle */
+}
+
+@keyframes morph-core-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Ring emits as a circle, then stretches toward a rounded rectangle while fading */
+@keyframes morph-pulse-ring {
+  0% {
+    transform: scale(1) translateZ(0);
+    border-radius: 50%;
+    opacity: 0.9;
+    box-shadow:
+      0 0 10px 2px hsl(160 100% 60% / 0.55),
+      0 0 22px 8px hsl(160 100% 60% / 0.25);
+  }
+  40% {
+    transform: scaleX(1.6) scaleY(1.2) translateZ(0);
+    border-radius: 18px;
+    opacity: 0.45;
+    box-shadow:
+      0 0 14px 6px hsl(160 100% 60% / 0.35),
+      0 0 28px 12px hsl(160 100% 60% / 0.18);
+  }
+  100% {
+    transform: scaleX(2.6) scaleY(1.4) translateZ(0);
+    border-radius: 22px;
+    opacity: 0;
+    box-shadow:
+      0 0 0 0 hsl(160 100% 60% / 0),
+      0 0 0 0 hsl(160 100% 60% / 0);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .morph-pulse {
+    animation: none;
+  }
+  .morph-pulse::before,
+  .morph-pulse::after {
+    animation: none;
+  }
+}

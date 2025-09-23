@@ -10,10 +10,9 @@
   height: 56px;
   border-radius: 50%;
   background: var(--pf-base-20);
-  animation: standard-pulse 2s ease-in-out infinite;
+  animation: standard-pulse 2s ease-in-out;
 }
 
-/* Inspired by CodePen: AI listening animation (hougasian), adapted to project colors */
 @keyframes standard-pulse {
   0% {
     box-shadow:
