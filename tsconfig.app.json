@@ -24,6 +24,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+  "forceConsistentCasingInFileNames": true,
 
     /* Path aliases for better imports */
     "baseUrl": ".",
