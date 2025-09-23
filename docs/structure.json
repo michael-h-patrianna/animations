@@ -121,6 +121,18 @@
           "demo": "celebration"
         }
       ]
+    },
+    {
+      "id": "misc",
+      "title": "Misc",
+      "groups": [
+        {
+          "id": "misc",
+          "title": "Misc",
+          "tech": "css",
+          "demo": "misc"
+        }
+      ]
     }
   ],
   "animations": [
@@ -460,6 +472,14 @@
       "id": "standard-effects__heartbeat",
       "title": "HeartBeat",
       "description": "Double-pulse rhythm animation for likes and favorite interactions.",
+      "categoryId": "base",
+      "groupId": "standard-effects",
+      "tags": ["css"]
+    },
+    {
+      "id": "standard-effects__pulse-circle",
+      "title": "Pulse Circle",
+      "description": "Breathing core with staggered outward ripple rings (no text on the circle).",
       "categoryId": "base",
       "groupId": "standard-effects",
       "tags": ["css"]
@@ -1332,6 +1352,78 @@
       "description": "Scale pulse with opacity fade and expanding glow for heartbeat effect.",
       "categoryId": "rewards",
       "groupId": "icon-animations",
+      "tags": ["css"]
+    },
+    {
+      "id": "standard-effects__radial-pulse",
+      "title": "Radial Pulse",
+      "description": "Concentric ripple pulses expanding from the center using CSS transforms and opacity.",
+      "categoryId": "base",
+      "groupId": "standard-effects",
+      "tags": ["css"]
+    },
+    {
+      "id": "misc__orbital-pulse",
+      "title": "Orbital Pulse",
+      "description": "Rings of orbiting dots with gentle pulsing motion.",
+      "categoryId": "misc",
+      "groupId": "misc",
+      "tags": ["css"]
+    },
+    {
+      "id": "misc__pendulum-wave",
+      "title": "Pendulum Wave",
+      "description": "Row of pendulums swinging in wave-like motion with phase offsets.",
+      "categoryId": "misc",
+      "groupId": "misc",
+      "tags": ["css"]
+    },
+    {
+      "id": "standard-effects__pulse-wave",
+      "title": "Pulse Wave",
+      "description": "Listening pulse with filled core and expanding ring glow.",
+      "categoryId": "base",
+      "groupId": "standard-effects",
+      "tags": ["css"]
+    },
+    {
+      "id": "misc__concentric-rings",
+      "title": "Concentric Rings",
+      "description": "Multiple rings of dots that slowly rotate and breathe.",
+      "categoryId": "misc",
+      "groupId": "misc",
+      "tags": ["css"]
+    },
+    {
+      "id": "misc__sequential-pulse",
+      "title": "Sequential Pulse",
+      "description": "Dots around a circle pulse in sequence with connecting motion.",
+      "categoryId": "misc",
+      "groupId": "misc",
+      "tags": ["css"]
+    },
+    {
+      "id": "misc__oscillating-dots",
+      "title": "Oscillating Dots",
+      "description": "Rows of dots oscillate vertically with staggered phases.",
+      "categoryId": "misc",
+      "groupId": "misc",
+      "tags": ["css"]
+    },
+    {
+      "id": "misc__pulsing-grid",
+      "title": "Pulsing Grid",
+      "description": "Grid of dots breathing and pulsing with radial delay.",
+      "categoryId": "misc",
+      "groupId": "misc",
+      "tags": ["css"]
+    },
+    {
+      "id": "misc__spiral-galaxy",
+      "title": "Spiral Galaxy",
+      "description": "Spiral arrangement of dots slowly rotating with subtle twinkle.",
+      "categoryId": "misc",
+      "groupId": "misc",
       "tags": ["css"]
     }
   ]

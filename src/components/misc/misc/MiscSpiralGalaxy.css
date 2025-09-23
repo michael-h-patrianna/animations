@@ -1,0 +1,133 @@
+.misc-spiral {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.misc-spiral .dot-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--pf-base-60);
+}
+.misc-spiral .wheel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  animation: misc-spiral-rotate 18s linear infinite;
+}
+.misc-spiral .dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px;
+  border-radius: 50%;
+  background: rgba(236, 195, 255, 0.95);
+  box-shadow: 0 0 6px rgba(196, 122, 229, 0.35);
+  transform-origin: 0 0;
+  opacity: 0.6;
+}
+/* map first 30 indices explicitly for angle/radius; remaining will cluster near center */
+.misc-spiral .dot.i-0 {
+  transform: rotate(0deg) translateX(8px);
+}
+.misc-spiral .dot.i-1 {
+  transform: rotate(12deg) translateX(9.2px);
+}
+.misc-spiral .dot.i-2 {
+  transform: rotate(24deg) translateX(10.4px);
+}
+.misc-spiral .dot.i-3 {
+  transform: rotate(36deg) translateX(11.6px);
+}
+.misc-spiral .dot.i-4 {
+  transform: rotate(48deg) translateX(12.8px);
+}
+.misc-spiral .dot.i-5 {
+  transform: rotate(60deg) translateX(14px);
+}
+.misc-spiral .dot.i-6 {
+  transform: rotate(72deg) translateX(15.2px);
+}
+.misc-spiral .dot.i-7 {
+  transform: rotate(84deg) translateX(16.4px);
+}
+.misc-spiral .dot.i-8 {
+  transform: rotate(96deg) translateX(17.6px);
+}
+.misc-spiral .dot.i-9 {
+  transform: rotate(108deg) translateX(18.8px);
+}
+.misc-spiral .dot.i-10 {
+  transform: rotate(120deg) translateX(20px);
+}
+.misc-spiral .dot.i-11 {
+  transform: rotate(132deg) translateX(21.2px);
+}
+.misc-spiral .dot.i-12 {
+  transform: rotate(144deg) translateX(22.4px);
+}
+.misc-spiral .dot.i-13 {
+  transform: rotate(156deg) translateX(23.6px);
+}
+.misc-spiral .dot.i-14 {
+  transform: rotate(168deg) translateX(24.8px);
+}
+.misc-spiral .dot.i-15 {
+  transform: rotate(180deg) translateX(26px);
+}
+.misc-spiral .dot.i-16 {
+  transform: rotate(192deg) translateX(27.2px);
+}
+.misc-spiral .dot.i-17 {
+  transform: rotate(204deg) translateX(28.4px);
+}
+.misc-spiral .dot.i-18 {
+  transform: rotate(216deg) translateX(29.6px);
+}
+.misc-spiral .dot.i-19 {
+  transform: rotate(228deg) translateX(30.8px);
+}
+.misc-spiral .dot.i-20 {
+  transform: rotate(240deg) translateX(32px);
+}
+.misc-spiral .dot.i-21 {
+  transform: rotate(252deg) translateX(33.2px);
+}
+.misc-spiral .dot.i-22 {
+  transform: rotate(264deg) translateX(34.4px);
+}
+.misc-spiral .dot.i-23 {
+  transform: rotate(276deg) translateX(35.6px);
+}
+.misc-spiral .dot.i-24 {
+  transform: rotate(288deg) translateX(36.8px);
+}
+.misc-spiral .dot.i-25 {
+  transform: rotate(300deg) translateX(38px);
+}
+.misc-spiral .dot.i-26 {
+  transform: rotate(312deg) translateX(39.2px);
+}
+.misc-spiral .dot.i-27 {
+  transform: rotate(324deg) translateX(40.4px);
+}
+.misc-spiral .dot.i-28 {
+  transform: rotate(336deg) translateX(41.6px);
+}
+.misc-spiral .dot.i-29 {
+  transform: rotate(348deg) translateX(42.8px);
+}
+@keyframes misc-spiral-rotate {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

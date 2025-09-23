@@ -1,0 +1,96 @@
+.misc-concentric {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.misc-concentric .dot-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--pf-base-60);
+}
+.misc-concentric .ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: misc-rotate 14s linear infinite;
+  animation-direction: alternate;
+}
+.misc-concentric .ring.ring-0 {
+  width: 50px;
+  height: 50px;
+}
+.misc-concentric .ring.ring-1 {
+  width: 68px;
+  height: 68px;
+}
+.misc-concentric .ring.ring-2 {
+  width: 86px;
+  height: 86px;
+}
+.misc-concentric .ring.ring-3 {
+  width: 104px;
+  height: 104px;
+}
+.misc-concentric .ring.ring-4 {
+  width: 122px;
+  height: 122px;
+}
+.misc-concentric .ring:nth-child(even) {
+  animation-direction: reverse;
+}
+.misc-concentric .dot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 50%;
+  background: rgba(236, 195, 255, 0.9);
+  box-shadow: 0 0 6px rgba(236, 195, 255, 0.25);
+  animation: misc-pulse-soft 2.4s ease-in-out infinite;
+}
+.misc-concentric .ring .dot:nth-child(1) {
+  transform: rotate(0deg) translateY(0);
+  animation-delay: 0ms;
+}
+.misc-concentric .ring .dot:nth-child(2) {
+  transform: rotate(18deg) translateY(0);
+  animation-delay: 40ms;
+}
+.misc-concentric .ring .dot:nth-child(3) {
+  transform: rotate(36deg) translateY(0);
+  animation-delay: 80ms;
+}
+.misc-concentric .ring .dot:nth-child(4) {
+  transform: rotate(54deg) translateY(0);
+  animation-delay: 120ms;
+}
+.misc-concentric .ring .dot:nth-child(5) {
+  transform: rotate(72deg) translateY(0);
+  animation-delay: 160ms;
+}
+/* Additional nth-child rules will apply implicitly as more dots exist; the transform repeats visually. */
+@keyframes misc-rotate {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@keyframes misc-pulse-soft {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}

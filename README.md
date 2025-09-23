@@ -23,6 +23,10 @@ Read: `docs/REACT_NATIVE_REFACTORING_PATTERNS.md` how to ensure that all animati
     - `*.css` – a co-located CSS file per animation component with all styles needed for that component (no shared/group CSS)
   - Catalog UI (showcase scaffolding): `src/components/ui/` (AnimationCard, GroupSection, CategorySection)
 
+New categories and groups
+
+- Added category `Misc` with a group `Misc` hosting small CSS-only dot/circle animations adapted to the project's color scheme and without backgrounds.
+
 Where to find something to edit
 
 1. Identify the animation’s id in `docs/structure.json` (format: `category-group__variant`).
@@ -36,6 +40,10 @@ Where to find something to edit
 3. Create a co-located CSS file next to your component (same base name with `.css`) and scope all selectors to the component’s root to avoid leaks.
 4. Register the component id → component in `src/components/animationRegistry.ts` so it renders in the catalog.
 5. Run tests and verify the card renders; ensure replay works via remount.
+
+Notes for RN-friendly animations
+
+- Avoid SVG/Canvas and prefer pure CSS or Framer Motion transforms that translate to Reanimated/Moti.
 
 ## How to remove an animation
 
