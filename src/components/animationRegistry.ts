@@ -4,6 +4,7 @@ import { baseButtonEffectsAnimations } from '@/components/base/button-effects'
 import { baseStandardEffectsAnimations } from '@/components/base/standard-effects'
 import { AnimationComponentMap as baseTextEffectsAnimations } from '@/components/base/text-effects'
 import { dialogsModalBaseAnimations } from '@/components/dialogs/modal-base'
+import { dialogsModalBaseFramerAnimations } from '@/components/dialogs/modal-base-framer'
 import { dialogsModalContentAnimations } from '@/components/dialogs/modal-content'
 import { dialogsModalDismissAnimations } from '@/components/dialogs/modal-dismiss'
 import { dialogsModalOrchestrationAnimations } from '@/components/dialogs/modal-orchestration'
@@ -21,6 +22,7 @@ export const animationRegistry: AnimationComponentMap = {
   ...baseStandardEffectsAnimations,
   ...baseButtonEffectsAnimations,
   ...dialogsModalBaseAnimations,
+  ...dialogsModalBaseFramerAnimations,
   ...dialogsModalContentAnimations,
   ...dialogsModalDismissAnimations,
   ...dialogsModalOrchestrationAnimations,

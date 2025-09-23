@@ -1,5 +1,5 @@
-import { ProgressBarsZoomedProgress } from '@/components/progress/progress-bars/ProgressBarsZoomedProgress'
 import { act, render, screen } from '@testing-library/react'
+import { ProgressBarsZoomedProgress } from '../components/progress/progress-bars/ProgressBarsZoomedProgress'
 
 describe('ProgressBarsZoomedProgress', () => {
   const REAL_RANDOM = Math.random
