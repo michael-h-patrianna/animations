@@ -45,7 +45,6 @@ export function TextEffectsXpNumberPop() {
         scale: [0.3, 1.15, 1],
         y: [20, -5, 0],
         opacity: [0, 1, 1],
-        filter: ['blur(10px)', 'blur(0px)', 'blur(0px)'],
         transition: {
           duration: 1.6,
           ease: [0.25, 0.46, 0.45, 0.94],
@@ -134,43 +133,13 @@ export function TextEffectsXpNumberPop() {
       </AnimatePresence>
 
       {/* Main number with XP label */}
-      <motion.div
-        className="number-wrapper"
-        animate={numberControls}
-        style={{
-          display: 'flex',
-          alignItems: 'baseline',
-          position: 'relative',
-          zIndex: 2,
-        }}
-      >
+      <motion.div className="number-wrapper xp-pop-number-wrapper" animate={numberControls}>
         <motion.span
-          style={{
-            fontSize: '56px',
-            fontWeight: '900',
-            background: 'linear-gradient(135deg, #c6ff77, #a8ff3e)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            textShadow: `
-              0 0 30px rgba(198, 255, 119, 0.8),
-              0 0 60px rgba(198, 255, 119, 0.5),
-              0 2px 4px rgba(0, 0, 0, 0.3)
-            `,
-            letterSpacing: '2px',
-          }}
+          className="xp-pop-number-value"
         >
           {displayValue}
         </motion.span>
-        <span
-          style={{
-            fontSize: '24px',
-            marginLeft: '8px',
-            fontWeight: '700',
-            opacity: '0.8',
-            color: '#a8ff3e',
-          }}
-        >
+        <span className="xp-pop-label">
           XP
         </span>
       </motion.div>

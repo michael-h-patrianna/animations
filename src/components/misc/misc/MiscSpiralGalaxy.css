@@ -31,7 +31,7 @@
   margin: -1.5px;
   border-radius: 50%;
   background: rgba(236, 195, 255, 0.95);
-  box-shadow: 0 0 6px rgba(196, 122, 229, 0.35);
+  /* Removed glow shadow for RN parity; rely on opacity */
   transform-origin: 0 0;
   opacity: 0.6;
 }

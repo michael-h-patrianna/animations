@@ -35,7 +35,7 @@
     rgba(114, 255, 169, 0.1) 38%,
     rgba(255, 255, 255, 0) 72%
   );
-  filter: blur(2px);
+  /* RN-friendly: avoid blur; rely on gradient + opacity */
   animation: soft-pulse-glow 2.4s ease-in-out forwards;
 }
 
@@ -49,7 +49,7 @@
     rgba(236, 195, 255, 0.18) 74%,
     rgba(236, 195, 255, 0) 84%
   );
-  filter: blur(4px);
+  /* Avoid blur; keep soft edges via gradient stops */
   opacity: 0.85;
   animation: soft-pulse-ring 2.4s ease-out;
 }
@@ -73,17 +73,14 @@
   0% {
     transform: scale(0.9);
     opacity: 0;
-    filter: blur(0px);
   }
   50% {
     transform: scale(1.35);
     opacity: 0.55;
-    filter: blur(6px);
   }
   100% {
     transform: scale(1.9);
     opacity: 0;
-    filter: blur(10px);
   }
 }
 

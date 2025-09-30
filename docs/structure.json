@@ -119,6 +119,12 @@
           "title": "Celebration effects",
           "tech": "framer",
           "demo": "celebration"
+        },
+        {
+          "id": "lights",
+          "title": "Lights",
+          "tech": "css",
+          "demo": "lights"
         }
       ]
     },
@@ -1392,6 +1398,70 @@
       "description": "Scale pulse with opacity fade and expanding glow for heartbeat effect.",
       "categoryId": "rewards",
       "groupId": "icon-animations",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-1",
+      "title": "Alternating Carnival",
+      "description": "Classic carnival pattern with even/odd bulbs alternating on and off with realistic glow and fadeout.",
+      "categoryId": "rewards",
+      "groupId": "lights",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-2",
+      "title": "Sequential Chase",
+      "description": "Single lit bulb chases around the circle creating a smooth rotating motion effect.",
+      "categoryId": "rewards",
+      "groupId": "lights",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-3",
+      "title": "Accelerating Spin",
+      "description": "Wheel of fortune spin: starts slow, accelerates to blur, decelerates, and settles on winner with celebration.",
+      "categoryId": "rewards",
+      "groupId": "lights",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-4",
+      "title": "Reverse Chase Pulse",
+      "description": "Counter-clockwise chase followed by faster clockwise motion, then synchronized pulses before revealing the winner.",
+      "categoryId": "rewards",
+      "groupId": "lights",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-5",
+      "title": "Random Sparkle",
+      "description": "Unpredictable twinkling creates excitement and anticipation like stars in the night sky.",
+      "categoryId": "rewards",
+      "groupId": "lights",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-6",
+      "title": "Carnival Waltz",
+      "description": "Musical waltz pattern with groups of 3 bulbs following strong-weak-weak rhythm, like carnival organ music.",
+      "categoryId": "rewards",
+      "groupId": "lights",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-7",
+      "title": "Comet Trail",
+      "description": "A bright head with a long trailing fadeout creates a comet-like effect around the circle.",
+      "categoryId": "rewards",
+      "groupId": "lights",
+      "tags": ["css"]
+    },
+    {
+      "id": "lights__circle-static-8",
+      "title": "Dual Convergence",
+      "description": "Two lights chase from opposite sides, meeting with a dramatic collision flash.",
+      "categoryId": "rewards",
+      "groupId": "lights",
       "tags": ["css"]
     },
     {

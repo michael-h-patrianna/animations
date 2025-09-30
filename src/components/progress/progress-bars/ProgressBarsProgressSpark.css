@@ -24,6 +24,12 @@
   position: relative;
 }
 
+/* Container for spark variant */
+.track-container--spark {
+  position: relative;
+  overflow: visible;
+}
+
 .pf-progress-spark .pf-progress-fill {
   height: 100%;
   background: linear-gradient(90deg, #c47ae5 0%, #d79af3 100%);
@@ -33,6 +39,123 @@
   transform: scaleX(0);
   will-change: transform;
 }
+
+/* Animation toggles mapped from TSX */
+.spark-fill-anim {
+  animation: spark-fill 2.5s cubic-bezier(0.34, 1.25, 0.64, 1) forwards;
+}
+
+.spark-trail-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(196, 122, 229, 0.2) 20%,
+    rgba(215, 154, 243, 0.4) 40%,
+    rgba(198, 255, 119, 0.6) 60%,
+    rgba(198, 255, 119, 0.8) 80%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+.spark-trail-anim {
+  animation: spark-trail 2.5s ease-out forwards;
+}
+
+.spark-leader {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.spark-leader-anim {
+  animation: spark-leader 2.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+.spark-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.spark-core-anim {
+  animation: spark-core-pulse 0.2s ease-in-out infinite;
+}
+.spark-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, rgba(198, 255, 119, 0.6) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1.2);
+  opacity: 0.7;
+}
+.spark-halo-anim {
+  animation: spark-halo-pulse 0.3s ease-in-out infinite;
+}
+.trailing-particles {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.spark-particle {
+  position: absolute;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  background: rgba(198, 255, 119, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+.spark-particle-anim {
+  animation: spark-particle-fade 0.8s ease-out forwards;
+}
+.spark-particle[data-left-percent] {
+  left: calc(attr(data-left-percent percentage));
+}
+.spark-final-burst {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  transform: translate(50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.spark-final-burst-visible {
+  opacity: 1;
+}
+.spark-burst-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: #c6ff77;
+  border-radius: 50%;
+  animation: spark-burst 0.6s ease-out forwards;
+  animation-delay: 2.2s;
+}
+.spark-burst-dot.dot-0 { transform: translate(-50%, -50%) rotate(0deg) translateX(15px); }
+.spark-burst-dot.dot-1 { transform: translate(-50%, -50%) rotate(60deg) translateX(15px); }
+.spark-burst-dot.dot-2 { transform: translate(-50%, -50%) rotate(120deg) translateX(15px); }
+.spark-burst-dot.dot-3 { transform: translate(-50%, -50%) rotate(180deg) translateX(15px); }
+.spark-burst-dot.dot-4 { transform: translate(-50%, -50%) rotate(240deg) translateX(15px); }
+.spark-burst-dot.dot-5 { transform: translate(-50%, -50%) rotate(300deg) translateX(15px); }
 
 /* Keyframes used by the Spark component */
 @keyframes spark-fill {

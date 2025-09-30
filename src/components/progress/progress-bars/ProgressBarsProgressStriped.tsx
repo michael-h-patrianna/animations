@@ -24,21 +24,32 @@ export function ProgressBarsProgressStriped() {
     fill.style.position = 'relative'
     fill.style.overflow = 'hidden'
 
-    // Create high-quality animated stripes
+    // RN-friendly stripes: build slanted stripe elements we can animate via transform
     const stripesContainer = document.createElement('div')
     stripesContainer.className = 'animation-element'
     stripesContainer.style.position = 'absolute'
     stripesContainer.style.inset = '0'
-    stripesContainer.style.background = `repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 8px,
-      rgba(255,255,255,0.08) 8px,
-      rgba(255,255,255,0.08) 16px
-    )`
-    stripesContainer.style.backgroundSize = '32px 32px'
-    stripesContainer.style.willChange = 'background-position'
+    stripesContainer.style.overflow = 'hidden'
+    stripesContainer.style.willChange = 'transform'
     fill.appendChild(stripesContainer)
+
+    const stripeWidth = 16
+    const stripeGap = 16
+    const stripeColor = 'rgba(255,255,255,0.08)'
+    const diagonal = Math.hypot(track.offsetWidth, track.offsetHeight)
+    const stripeCount = Math.ceil((track.offsetWidth + track.offsetHeight) / (stripeWidth + stripeGap)) + 2
+
+    for (let i = 0; i < stripeCount; i++) {
+      const stripe = document.createElement('div')
+      stripe.style.position = 'absolute'
+      stripe.style.top = `${-diagonal * 0.2}px`
+      stripe.style.left = `${i * (stripeWidth + stripeGap) - 100}px`
+      stripe.style.width = `${stripeWidth}px`
+      stripe.style.height = `${diagonal * 1.4}px`
+      stripe.style.background = stripeColor
+      stripe.style.transform = 'rotate(-45deg)'
+      stripesContainer.appendChild(stripe)
+    }
 
     // Add shimmer overlay for extra polish
     const shimmer = document.createElement('div')
@@ -61,21 +72,16 @@ export function ProgressBarsProgressStriped() {
       easing: 'cubic-bezier(0.4, 0, 0.6, 1)',
     })
 
-    // Animate stripes with acceleration
-    let stripeSpeed = 0
+    // Animate stripes by translating the container
+    let stripeOffset = 0
+    let raf = 0
     const animateStripes = () => {
-      if (fillAnim.playState === 'finished') {
-        stripeSpeed = Math.max(0, stripeSpeed - 0.5)
-      } else {
-        stripeSpeed = Math.min(20, stripeSpeed + 0.3)
-      }
-      if (stripeSpeed > 0) {
-        const currentPos = parseFloat(stripesContainer.style.backgroundPositionX || '0')
-        stripesContainer.style.backgroundPosition = `${currentPos + stripeSpeed}px 0`
-        requestAnimationFrame(animateStripes)
-      }
+      const speed = fillAnim.playState === 'finished' ? 1.5 : 6
+      stripeOffset += speed
+      stripesContainer.style.transform = `translateX(${stripeOffset}px)`
+      raf = requestAnimationFrame(animateStripes)
     }
-    animateStripes()
+    raf = requestAnimationFrame(animateStripes)
 
     // Shimmer effect during fill
     shimmer.animate(
@@ -97,6 +103,7 @@ export function ProgressBarsProgressStriped() {
     return () => {
       const elements = container.querySelectorAll('.animation-element')
       elements.forEach((el) => el.remove())
+      cancelAnimationFrame(raf)
     }
   }, [])
 
@@ -107,7 +114,7 @@ export function ProgressBarsProgressStriped() {
       data-animation-id="progress-bars__progress-striped"
     >
       <div className="pf-progress-demo__label">Level progress</div>
-      <div className="track-container" style={{ position: 'relative' }}>
+  <div className="track-container">
         <div className="pf-progress-track">
           <div className="pf-progress-fill"></div>
         </div>

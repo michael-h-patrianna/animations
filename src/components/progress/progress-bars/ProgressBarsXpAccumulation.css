@@ -214,7 +214,7 @@
     rgba(var(--zone-rgb), 0.2) 50%,
     transparent 70%
   );
-  filter: blur(2px);
+  /* RN-friendly: avoid blur; use larger gradient or opacity */
 }
 
 .pf-xp-accumulation .pf-marker__pulse--boundary {

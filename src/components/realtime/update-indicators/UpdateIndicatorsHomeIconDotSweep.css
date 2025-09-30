@@ -38,7 +38,7 @@
   border: 2px solid rgba(255, 73, 103, 0.55);
   opacity: 0;
   pointer-events: none;
-  filter: drop-shadow(0 0 8px rgba(255, 73, 103, 0.35));
+  /* RN-friendly: avoid drop-shadow */
 }
 
 /* driven by JS trigger: dot fill flash then settle */

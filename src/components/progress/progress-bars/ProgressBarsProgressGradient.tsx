@@ -48,7 +48,7 @@ export function ProgressBarsProgressGradient() {
     shimmerLayer.style.backgroundSize = '200% 100%'
     shimmerLayer.style.backgroundPosition = '-100% 0'
     shimmerLayer.style.opacity = '0'
-    shimmerLayer.style.mixBlendMode = 'overlay'
+  // RN-friendly: avoid blend modes; rely on opacity-only shimmer
     shimmerLayer.style.pointerEvents = 'none'
     fill.appendChild(shimmerLayer)
 

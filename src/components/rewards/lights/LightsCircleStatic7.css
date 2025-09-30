@@ -1,0 +1,119 @@
+.lights-circle-static-7 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
+}
+
+.lights-circle-static-7__container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lights-circle-static-7__bulb-wrapper {
+  position: absolute;
+}
+
+.lights-circle-static-7__glow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, var(--bulb-on-glow60) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: comet-glow 3s linear infinite;
+  animation-delay: calc(var(--bulb-index) * var(--delay-per-bulb));
+}
+
+.lights-circle-static-7__bulb {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--bulb-off);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: comet-bulb 3s linear infinite;
+  animation-delay: calc(var(--bulb-index) * var(--delay-per-bulb));
+}
+
+/* Comet trail: Long gradual fade creates trailing effect */
+@keyframes comet-bulb {
+  0%, 70% {
+    background-color: var(--bulb-off);
+    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  }
+  /* Quick bright flash (comet head) */
+  1% {
+    background-color: var(--bulb-on);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 18px var(--bulb-on-glow80);
+  }
+  /* Long trailing fadeout (comet tail) */
+  5% {
+    background-color: var(--bulb-on);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70);
+  }
+  10% {
+    background-color: color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--bulb-on) 75%, transparent), 0 0 12px color-mix(in srgb, var(--bulb-on) 55%, transparent);
+  }
+  15% {
+    background-color: var(--bulb-blend70);
+    box-shadow: 0 0 6px var(--bulb-on-glow60), 0 0 9px color-mix(in srgb, var(--bulb-on) 40%, transparent);
+  }
+  20% {
+    background-color: var(--bulb-blend40);
+    box-shadow: 0 0 4px var(--bulb-on-glow45);
+  }
+  25% {
+    background-color: var(--bulb-blend30);
+    box-shadow: 0 0 3px var(--bulb-on-glow30);
+  }
+  30% {
+    background-color: color-mix(in srgb, var(--bulb-off) 90%, var(--bulb-on) 10%);
+    box-shadow: 0 0 2px var(--bulb-off-glow35);
+  }
+  35%, 100% {
+    background-color: var(--bulb-off);
+    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  }
+}
+
+@keyframes comet-glow {
+  0%, 70% {
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  5% {
+    opacity: 0.9;
+  }
+  10% {
+    opacity: 0.75;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  20% {
+    opacity: 0.45;
+  }
+  25% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 0.15;
+  }
+  35%, 100% {
+    opacity: 0;
+  }
+}

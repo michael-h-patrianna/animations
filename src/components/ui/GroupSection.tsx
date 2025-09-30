@@ -50,6 +50,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
           {group.animations.map((animation) => {
             const AnimationComponent = animationRegistry[animation.id]
             const infiniteAnimation = isInfiniteAnimation(group.id, animation.id)
+            const isLightsAnimation = animation.id.startsWith('lights__')
 
             return (
               <AnimationCard
@@ -61,12 +62,14 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 infiniteAnimation={infiniteAnimation}
                 disableReplay={animation.disableReplay}
               >
-                {AnimationComponent ? (
-                  <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
-                    <AnimationComponent />
-                  </Suspense>
-                ) : (
-                  <div className="pf-card__placeholder">{animation.id}</div>
+                {({ bulbCount, onColor }) => (
+                  AnimationComponent ? (
+                    <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
+                      <AnimationComponent {...(isLightsAnimation ? { numBulbs: bulbCount, onColor } : {})} />
+                    </Suspense>
+                  ) : (
+                    <div className="pf-card__placeholder">{animation.id}</div>
+                  )
                 )}
               </AnimationCard>
             )

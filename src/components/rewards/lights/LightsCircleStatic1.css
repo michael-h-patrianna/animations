@@ -1,0 +1,238 @@
+.lights-circle-static-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
+}
+
+.lights-circle-static-1__container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lights-circle-static-1__bulb-wrapper {
+  position: absolute;
+}
+
+.lights-circle-static-1__glow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, var(--bulb-on-glow60) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.lights-circle-static-1__bulb {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--bulb-off);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out;
+}
+
+/* Primary animation: Carnival alternating lights */
+.lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__bulb {
+  animation: carnival-bulb-even 1.2s ease-in-out infinite;
+}
+
+.lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__glow {
+  animation: carnival-glow-even 1.2s ease-in-out infinite;
+}
+
+.lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__bulb {
+  animation: carnival-bulb-odd 1.2s ease-in-out infinite;
+}
+
+.lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__glow {
+  animation: carnival-glow-odd 1.2s ease-in-out infinite;
+}
+
+/* Keyframes for even bulbs (on first, off second) */
+@keyframes carnival-bulb-even {
+  0% {
+    background-color: var(--bulb-on);
+    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  }
+  42% {
+    background-color: var(--bulb-on);
+    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  }
+  45% {
+    background-color: var(--bulb-blend90);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 9px var(--bulb-on-glow45);
+  }
+  48% {
+    background-color: var(--bulb-blend60);
+    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
+  }
+  50% {
+    background-color: var(--bulb-off-tint30);
+    box-shadow: 0 0 2px var(--bulb-off-glow35);
+  }
+  52% {
+    background-color: var(--bulb-off);
+    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  }
+  92% {
+    background-color: var(--bulb-off);
+    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  }
+  95% {
+    background-color: var(--bulb-off-tint30);
+    box-shadow: 0 0 2px var(--bulb-off-glow35);
+  }
+  97% {
+    background-color: var(--bulb-blend60);
+    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
+  }
+  100% {
+    background-color: var(--bulb-on);
+    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  }
+}
+
+@keyframes carnival-glow-even {
+  0% {
+    opacity: 0.8;
+  }
+  42% {
+    opacity: 0.8;
+  }
+  45% {
+    opacity: 0.6;
+  }
+  48% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  52% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0.2;
+  }
+  97% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Keyframes for odd bulbs (off first, on second) */
+@keyframes carnival-bulb-odd {
+  0% {
+    background-color: var(--bulb-off);
+    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  }
+  42% {
+    background-color: var(--bulb-off);
+    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  }
+  45% {
+    background-color: var(--bulb-off-tint30);
+    box-shadow: 0 0 2px var(--bulb-off-glow35);
+  }
+  48% {
+    background-color: var(--bulb-blend60);
+    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
+  }
+  50% {
+    background-color: var(--bulb-blend90);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 9px var(--bulb-on-glow45);
+  }
+  52% {
+    background-color: var(--bulb-on);
+    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  }
+  92% {
+    background-color: var(--bulb-on);
+    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  }
+  95% {
+    background-color: var(--bulb-blend90);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 9px var(--bulb-on-glow45);
+  }
+  97% {
+    background-color: var(--bulb-blend60);
+    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
+  }
+  100% {
+    background-color: var(--bulb-off);
+    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  }
+}
+
+@keyframes carnival-glow-odd {
+  0% {
+    opacity: 0;
+  }
+  42% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 0.2;
+  }
+  48% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  52% {
+    opacity: 0.8;
+  }
+  92% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.6;
+  }
+  97% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Secondary animation 1: Subtle rotation wiggle (follow-through) */
+@keyframes lights-circle-wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+}
+
+/* Secondary animation 2: Gentle breathing scale (appeal) */
+@keyframes lights-circle-breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}

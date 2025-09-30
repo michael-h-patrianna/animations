@@ -74,7 +74,5 @@
   stroke-linecap: round;
   stroke-dasharray: 97;
   stroke-dashoffset: 97;
-  /* subtle glow to better match original */
-  filter: drop-shadow(0 0 2px rgba(236, 195, 255, 0.5))
-    drop-shadow(0 0 6px rgba(236, 195, 255, 0.25));
+  /* RN-friendly: avoid drop-shadow; use a faint secondary stroke if needed */
 }

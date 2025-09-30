@@ -6,3 +6,6 @@ Add 4 new animations to the Timer effects group with the following specs:
 3. The closer the timer gets to 0, the more the timer visually alerts the user and creates a visual sense of urgency
 4. The 4 animations are distinct at various levels of intensity
 5. Every animation follows the principles in docs/animation-short.md, for example layering the main animation with 1 or more subtle secondary animations to create a more professional, pleasing fidelity
+
+questline template 520 - Group 6 - Mystery Quest - Monday
+random reward template 406 - Candy Wheel - Group 2

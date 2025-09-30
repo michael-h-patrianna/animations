@@ -108,7 +108,7 @@
 .modal-content-button-primary:hover:not(:disabled):not([aria-disabled='true']) {
   background: linear-gradient(180deg, #ff6b8f, #d6456a);
   border-color: #ff86a5;
-  filter: drop-shadow(0 2px 6px rgba(200, 53, 88, 0.35));
+  /* RN-friendly: avoid drop-shadow */
 }
 .modal-content-button-primary:disabled,
 .modal-content-button-primary[aria-disabled='true'] {
