@@ -52,9 +52,17 @@ export function addTransparency(color: string, alpha: number): string {
  */
 export function calculateBulbColors(onColor: string) {
   // Derive off color by darkening the on color to 20% brightness with 70% opacity
-  const r = Math.round(parseInt(onColor.slice(1, 3), 16) * 0.2);
-  const g = Math.round(parseInt(onColor.slice(3, 5), 16) * 0.2);
-  const b = Math.round(parseInt(onColor.slice(5, 7), 16) * 0.2);
+  let r = Math.round(parseInt(onColor.slice(1, 3), 16) * 0.2);
+  let g = Math.round(parseInt(onColor.slice(3, 5), 16) * 0.2);
+  let b = Math.round(parseInt(onColor.slice(5, 7), 16) * 0.2);
+
+  // Desaturate by moving RGB values closer to their average
+  const avg = (r + g + b) / 3;
+  const desaturationFactor = 0.6; // 60% closer to gray
+  r = Math.round(r + (avg - r) * desaturationFactor);
+  g = Math.round(g + (avg - g) * desaturationFactor);
+  b = Math.round(b + (avg - b) * desaturationFactor);
+
   const offColor = `rgba(${r}, ${g}, ${b}, 0.7)`;
 
   return {
