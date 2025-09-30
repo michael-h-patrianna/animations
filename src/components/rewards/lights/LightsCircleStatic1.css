@@ -4,6 +4,8 @@
   align-items: center;
   height: 200px;
   width: 200px;
+  /* Containment for performance */
+  contain: layout style paint;
 }
 
 .lights-circle-static-1__container {
@@ -17,222 +19,209 @@
 
 .lights-circle-static-1__bulb-wrapper {
   position: absolute;
+  /* GPU acceleration */
+  will-change: transform;
+  /* Default z-index for stacking */
+  z-index: 1;
 }
 
-.lights-circle-static-1__glow {
+/* Outer glow - reduced size to prevent overlap with adjacent bulbs */
+.lights-circle-static-1__glow-outer {
   position: absolute;
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, var(--bulb-on-glow60) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--bulb-on-glow50) 0%, transparent 70%);
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
 }
 
-.lights-circle-static-1__bulb {
+/* Inner glow - brightest */
+.lights-circle-static-1__glow-inner {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  background-color: var(--bulb-off);
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, var(--bulb-on-glow70) 0%, transparent 70%);
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: transform 0.15s ease-out;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
 }
 
-/* Primary animation: Carnival alternating lights */
+/* Main bulb with enhanced styling */
+.lights-circle-static-1__bulb {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  /* Flat color - gradient applied in animation for ON state only */
+  background-color: var(--bulb-off);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  /* GPU acceleration for transform and background */
+  will-change: transform, background-color, box-shadow;
+}
+
+/* Inner filament - small bright core */
+.lights-circle-static-1__filament {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* Glass shine overlay - static for performance */
+.lights-circle-static-1__glass-shine {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, transparent 50%);
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Animations for even bulbs */
+.lights-circle-static-1__bulb-wrapper.even {
+  animation: carnival-wrapper-even 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+}
+
 .lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__bulb {
-  animation: carnival-bulb-even 1.2s ease-in-out infinite;
+  animation: carnival-bulb-even 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 
-.lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__glow {
-  animation: carnival-glow-even 1.2s ease-in-out infinite;
+.lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__filament {
+  animation: carnival-filament-even 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+}
+
+.lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__glow-outer {
+  animation: carnival-glow-outer-even 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+}
+
+.lights-circle-static-1__bulb-wrapper.even .lights-circle-static-1__glow-inner {
+  animation: carnival-glow-inner-even 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+}
+
+/* Animations for odd bulbs */
+.lights-circle-static-1__bulb-wrapper.odd {
+  animation: carnival-wrapper-odd 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 
 .lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__bulb {
-  animation: carnival-bulb-odd 1.2s ease-in-out infinite;
+  animation: carnival-bulb-odd 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 
-.lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__glow {
-  animation: carnival-glow-odd 1.2s ease-in-out infinite;
+.lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__filament {
+  animation: carnival-filament-odd 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
 }
 
-/* Keyframes for even bulbs (on first, off second) */
+.lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__glow-outer {
+  animation: carnival-glow-outer-odd 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+}
+
+.lights-circle-static-1__bulb-wrapper.odd .lights-circle-static-1__glow-inner {
+  animation: carnival-glow-inner-odd 1.2s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+}
+
+/* Keyframes for even bulbs - instant OFF transition */
 @keyframes carnival-bulb-even {
-  0% {
-    background-color: var(--bulb-on);
-    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  0%, 42% {
+    background: radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
+    box-shadow: 0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50);
+    transform: translate(-50%, -50%) scale(1.12) rotate(1.5deg);
+    border-color: rgba(255, 255, 255, 0.35);
   }
-  42% {
-    background-color: var(--bulb-on);
-    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  43%, 92% {
+    background: var(--bulb-off);
+    box-shadow: none;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    border-color: rgba(255, 255, 255, 0.1);
   }
-  45% {
-    background-color: var(--bulb-blend90);
-    box-shadow: 0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 9px var(--bulb-on-glow45);
-  }
-  48% {
-    background-color: var(--bulb-blend60);
-    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
-  }
-  50% {
-    background-color: var(--bulb-off-tint30);
-    box-shadow: 0 0 2px var(--bulb-off-glow35);
-  }
-  52% {
-    background-color: var(--bulb-off);
-    box-shadow: 0 0 2px var(--bulb-off-glow30);
-  }
-  92% {
-    background-color: var(--bulb-off);
-    box-shadow: 0 0 2px var(--bulb-off-glow30);
-  }
-  95% {
-    background-color: var(--bulb-off-tint30);
-    box-shadow: 0 0 2px var(--bulb-off-glow35);
-  }
-  97% {
-    background-color: var(--bulb-blend60);
-    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
-  }
-  100% {
-    background-color: var(--bulb-on);
-    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
+  93%, 100% {
+    background: radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
+    box-shadow: 0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50);
+    transform: translate(-50%, -50%) scale(1.12) rotate(1.5deg);
+    border-color: rgba(255, 255, 255, 0.35);
   }
 }
 
-@keyframes carnival-glow-even {
-  0% {
-    opacity: 0.8;
-  }
-  42% {
-    opacity: 0.8;
-  }
-  45% {
-    opacity: 0.6;
-  }
-  48% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.1;
-  }
-  52% {
-    opacity: 0;
-  }
-  92% {
-    opacity: 0;
-  }
-  95% {
-    opacity: 0.2;
-  }
-  97% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.8;
-  }
+/* Filament animation for even - turns off before, turns on after bulb transitions */
+@keyframes carnival-filament-even {
+  0%, 41.9% { opacity: 0.85; }
+  42%, 92.9% { opacity: 0; }
+  93%, 100% { opacity: 0.85; }
 }
 
-/* Keyframes for odd bulbs (off first, on second) */
+/* Outer glow for even - turns off before, turns on after bulb transitions */
+@keyframes carnival-glow-outer-even {
+  0%, 41.9% { opacity: 0.65; }
+  42%, 92.9% { opacity: 0; }
+  93%, 100% { opacity: 0.65; }
+}
+
+/* Inner glow for even - turns off before, turns on after bulb transitions */
+@keyframes carnival-glow-inner-even {
+  0%, 41.9% { opacity: 0.8; }
+  42%, 92.9% { opacity: 0; }
+  93%, 100% { opacity: 0.8; }
+}
+
+/* Keyframes for odd bulbs - instant OFF transition */
 @keyframes carnival-bulb-odd {
-  0% {
-    background-color: var(--bulb-off);
-    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  0%, 42% {
+    background: var(--bulb-off);
+    box-shadow: none;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    border-color: rgba(255, 255, 255, 0.1);
   }
-  42% {
-    background-color: var(--bulb-off);
-    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  43%, 92% {
+    background: radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
+    box-shadow: 0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50);
+    transform: translate(-50%, -50%) scale(1.12) rotate(1.5deg);
+    border-color: rgba(255, 255, 255, 0.35);
   }
-  45% {
-    background-color: var(--bulb-off-tint30);
-    box-shadow: 0 0 2px var(--bulb-off-glow35);
-  }
-  48% {
-    background-color: var(--bulb-blend60);
-    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
-  }
-  50% {
-    background-color: var(--bulb-blend90);
-    box-shadow: 0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 9px var(--bulb-on-glow45);
-  }
-  52% {
-    background-color: var(--bulb-on);
-    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
-  }
-  92% {
-    background-color: var(--bulb-on);
-    box-shadow: 0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60);
-  }
-  95% {
-    background-color: var(--bulb-blend90);
-    box-shadow: 0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 9px var(--bulb-on-glow45);
-  }
-  97% {
-    background-color: var(--bulb-blend60);
-    box-shadow: 0 0 4px var(--bulb-on-glow50), 0 0 6px var(--bulb-on-glow30);
-  }
-  100% {
-    background-color: var(--bulb-off);
-    box-shadow: 0 0 2px var(--bulb-off-glow30);
+  93%, 100% {
+    background: var(--bulb-off);
+    box-shadow: none;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 }
 
-@keyframes carnival-glow-odd {
-  0% {
-    opacity: 0;
-  }
-  42% {
-    opacity: 0;
-  }
-  45% {
-    opacity: 0.2;
-  }
-  48% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  52% {
-    opacity: 0.8;
-  }
-  92% {
-    opacity: 0.8;
-  }
-  95% {
-    opacity: 0.6;
-  }
-  97% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0;
-  }
+/* Filament animation for odd - turns on after, turns off before bulb transitions */
+@keyframes carnival-filament-odd {
+  0%, 42.9% { opacity: 0; }
+  43%, 91.9% { opacity: 0.85; }
+  92%, 100% { opacity: 0; }
 }
 
-/* Secondary animation 1: Subtle rotation wiggle (follow-through) */
-@keyframes lights-circle-wiggle {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(1deg);
-  }
-  75% {
-    transform: rotate(-1deg);
-  }
+/* Outer glow for odd - turns on after, turns off before bulb transitions */
+@keyframes carnival-glow-outer-odd {
+  0%, 42.9% { opacity: 0; }
+  43%, 91.9% { opacity: 0.65; }
+  92%, 100% { opacity: 0; }
 }
 
-/* Secondary animation 2: Gentle breathing scale (appeal) */
-@keyframes lights-circle-breathe {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
+/* Inner glow for odd - turns on after, turns off before bulb transitions */
+@keyframes carnival-glow-inner-odd {
+  0%, 42.9% { opacity: 0; }
+  43%, 91.9% { opacity: 0.8; }
+  92%, 100% { opacity: 0; }
 }
