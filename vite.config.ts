@@ -20,7 +20,10 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined
-          if (id.includes('/react/') || id.includes('react-dom')) return 'react-vendor'
+          // Keep all React-related packages together to avoid context errors
+          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+            return 'react-vendor'
+          }
           if (id.includes('framer-motion')) return 'motion'
           if (id.includes('@radix-ui')) return 'radix'
           if (id.includes('lucide-react')) return 'icons'
