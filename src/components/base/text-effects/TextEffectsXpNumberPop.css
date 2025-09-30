@@ -7,3 +7,32 @@
   justify-content: center;
   overflow: visible;
 }
+
+.xp-pop-number-wrapper {
+  display: flex;
+  align-items: baseline;
+  position: relative;
+  z-index: 2;
+}
+
+.xp-pop-number-value {
+  font-size: 56px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #c6ff77, #a8ff3e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow:
+    0 0 30px rgba(198, 255, 119, 0.8),
+    0 0 60px rgba(198, 255, 119, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.xp-pop-label {
+  font-size: 24px;
+  margin-left: 8px;
+  font-weight: 700;
+  opacity: 0.8;
+  color: #a8ff3e;
+}

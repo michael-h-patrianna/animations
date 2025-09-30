@@ -24,6 +24,10 @@
   position: relative;
 }
 
+.pf-progress-striped .track-container {
+  position: relative;
+}
+
 .pf-progress-striped .pf-progress-fill {
   height: 100%;
   background: linear-gradient(90deg, #c47ae5 0%, #d79af3 100%);

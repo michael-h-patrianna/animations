@@ -4,10 +4,13 @@ import { useAnimations } from '@/hooks/useAnimations'
 import type { Group } from '@/types/animation'
 import { AnimatePresence, motion, useDragControls } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import './App.css'
 
 function App() {
   const { categories, isLoading, error } = useAnimations()
+  const { groupId } = useParams<{ groupId?: string }>()
+  const navigate = useNavigate()
   const [currentGroupId, setCurrentGroupId] = useState<string>('')
   const [direction, setDirection] = useState<number>(0)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -16,12 +19,20 @@ function App() {
   // Get all groups in order for navigation
   const allGroups: Group[] = categories.flatMap((category) => category.groups)
 
-  // Initialize the first group as current
+  // Initialize from URL param or default to first group
   useEffect(() => {
-    if (allGroups.length > 0 && !currentGroupId) {
-      setCurrentGroupId(allGroups[0].id)
+    if (allGroups.length === 0) return
+
+    if (groupId && allGroups.some((g) => g.id === groupId)) {
+      // URL has a valid groupId
+      setCurrentGroupId(groupId)
+    } else if (!currentGroupId) {
+      // No URL param or invalid, default to first group
+      const firstGroupId = allGroups[0].id
+      setCurrentGroupId(firstGroupId)
+      navigate(`/${firstGroupId}`, { replace: true })
     }
-  }, [allGroups, currentGroupId])
+  }, [allGroups, groupId, currentGroupId, navigate])
 
   const handleCategorySelect = (categoryId: string) => {
     // Navigate to the first group in the selected category
@@ -39,6 +50,7 @@ function App() {
 
     setDirection(newIndex > currentIndex ? 1 : -1)
     setCurrentGroupId(groupId)
+    navigate(`/${groupId}`)
   }
 
   // Close drawer on ESC

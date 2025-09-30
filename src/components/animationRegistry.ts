@@ -17,6 +17,7 @@ import { realtimeUpdateIndicatorsAnimations } from '@/components/realtime/update
 import { iconAnimationsComponents } from '@/components/rewards/icon-animations'
 import { dialogsModalCelebrationsAnimations } from '@/components/rewards/modal-celebrations'
 import { rewardsRewardBasicAnimations } from '@/components/rewards/reward-basic'
+import { rewardsLightsAnimations } from '@/components/rewards/lights'
 
 export const animationRegistry: AnimationComponentMap = {
   ...baseTextEffectsAnimations,
@@ -35,5 +36,6 @@ export const animationRegistry: AnimationComponentMap = {
   ...realtimeRealtimeDataAnimations,
   ...iconAnimationsComponents,
   ...rewardsRewardBasicAnimations,
+  ...rewardsLightsAnimations,
   ...miscMiscAnimations,
 }

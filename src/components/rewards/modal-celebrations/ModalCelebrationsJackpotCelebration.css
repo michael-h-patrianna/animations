@@ -54,7 +54,7 @@
   height: 240px;
   background: linear-gradient(180deg, rgba(198, 255, 119, 0.5), rgba(198, 255, 119, 0));
   transform-origin: bottom center;
-  filter: blur(1px);
+  /* RN-friendly: avoid blur; use larger soft gradients instead */
   pointer-events: none;
 }
 .pf-celebration__stage {
@@ -70,7 +70,7 @@
   transform: translate(-50%, 26px);
   box-shadow: 0 22px 38px rgba(8, 0, 26, 0.5);
   overflow: hidden;
-  mix-blend-mode: screen;
+  /* RN-friendly: avoid blend modes */
   pointer-events: none;
 }
 .pf-celebration__stage-inner {
@@ -78,7 +78,7 @@
   inset: 28% 24% 42% 24%;
   border-radius: inherit;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
-  filter: blur(2px);
+  /* Avoid blur in RN translation */
 }
 .pf-celebration__stage-glow {
   position: absolute;
@@ -88,8 +88,7 @@
   height: 200px;
   transform: translate(-50%, 24px);
   background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-  filter: blur(14px);
-  mix-blend-mode: screen;
+  /* Avoid heavy blur and blend modes */
   pointer-events: none;
 }
 .pf-celebration__stage-glow--gold {
@@ -102,7 +101,7 @@
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0));
   transform: translate(-50%, -50%);
-  mix-blend-mode: screen;
+  /* Avoid blend modes */
   pointer-events: none;
 }
 .pf-celebration__glow {

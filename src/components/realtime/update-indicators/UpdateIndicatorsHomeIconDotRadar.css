@@ -40,8 +40,7 @@
   border: 2px solid rgba(255, 73, 103, 0.5);
   transform-origin: center;
   opacity: 0;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 5px rgba(255, 73, 103, 0.3));
+  /* RN-friendly: avoid blend modes and drop-shadow; simulate glow with extra ring layers */
 }
 
 /* animations triggered via JS every 10s */

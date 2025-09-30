@@ -4,7 +4,7 @@ import { ChevronDown } from 'lucide-react'
 import type { PropsWithChildren } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-interface AnimationCardProps extends PropsWithChildren {
+interface AnimationCardProps {
   title: string
   description: string
   animationId: string
@@ -12,6 +12,7 @@ interface AnimationCardProps extends PropsWithChildren {
   onReplay?: () => void
   infiniteAnimation?: boolean // For animations that should loop indefinitely
   disableReplay?: boolean // When true, hide/disable the replay button
+  children: React.ReactNode | ((props: { bulbCount: number; onColor: string }) => React.ReactNode)
 }
 
 export function AnimationCard({
@@ -28,7 +29,11 @@ export function AnimationCard({
   const [hasPlayed, setHasPlayed] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [bulbCount, setBulbCount] = useState(16)
+  const [onColor, setOnColor] = useState('#ffd700') // Gold/yellow for lit bulbs
   const cardRef = useRef<HTMLDivElement>(null)
+
+  const isLightsAnimation = animationId.startsWith('lights__')
 
   useEffect(() => {
     if (infiniteAnimation) {
@@ -67,6 +72,19 @@ export function AnimationCard({
     onReplay?.()
   }
 
+  const handleBulbCountChange = (value: number) => {
+    const newCount = Math.max(4, Math.min(22, value))
+    setBulbCount(newCount)
+    // Trigger replay when bulb count changes
+    setReplayKey((key) => key + 1)
+  }
+
+  const handleColorChange = (color: string) => {
+    setOnColor(color)
+    // Trigger replay when color changes
+    setReplayKey((key) => key + 1)
+  }
+
   return (
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
       <CardHeader className="p-0 pb-3 space-y-0">
@@ -96,7 +114,11 @@ export function AnimationCard({
       <CardContent className="p-0 py-3">
         <div className="pf-demo-canvas">
           <div key={replayKey} className="pf-demo-stage pf-demo-stage--top">
-            {isVisible || infiniteAnimation ? children : null}
+            {isVisible || infiniteAnimation
+              ? typeof children === 'function'
+                ? children({ bulbCount, onColor })
+                : children
+              : null}
           </div>
         </div>
       </CardContent>
@@ -108,6 +130,52 @@ export function AnimationCard({
             <span key={tag}>{tag.toUpperCase()}</span>
           ))}
         </div>
+
+        {/* Center: bulb count and color controls (for lights animations) */}
+        {isLightsAnimation && (
+          <div className="flex items-center gap-2">
+            {/* Bulb count controls */}
+            <div className="flex items-center">
+              <button
+                onClick={() => handleBulbCountChange(bulbCount - 1)}
+                disabled={bulbCount <= 4}
+                className="w-8 h-8 text-sm font-medium border border-r-0 rounded-l disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent cursor-pointer"
+                aria-label="Decrease bulb count"
+              >
+                −
+              </button>
+              <input
+                type="number"
+                value={bulbCount}
+                onChange={(e) => handleBulbCountChange(parseInt(e.target.value) || 4)}
+                min={4}
+                max={22}
+                className="w-12 h-8 text-sm text-center border [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                aria-label="Number of bulbs"
+              />
+              <button
+                onClick={() => handleBulbCountChange(bulbCount + 1)}
+                disabled={bulbCount >= 22}
+                className="w-8 h-8 text-sm font-medium border border-l-0 rounded-r disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent cursor-pointer"
+                aria-label="Increase bulb count"
+              >
+                +
+              </button>
+            </div>
+
+            {/* Color picker */}
+            <div className="flex items-center gap-1">
+              <input
+                type="color"
+                value={onColor}
+                onChange={(e) => handleColorChange(e.target.value)}
+                className="w-8 h-8 border rounded cursor-pointer"
+                title="Bulb color"
+                aria-label="Bulb color"
+              />
+            </div>
+          </div>
+        )}
 
         {/* Right: controls */}
         <div className="pf-card__controls">

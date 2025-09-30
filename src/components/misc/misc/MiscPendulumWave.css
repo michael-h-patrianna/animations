@@ -91,7 +91,7 @@
   margin-left: -4px;
   border-radius: 50%;
   background: var(--pf-base-50);
-  box-shadow: 0 0 6px rgba(196, 122, 229, 0.35);
+  /* Removed glow shadow for RN parity */
 }
 @keyframes misc-swing {
   0% {

@@ -8,6 +8,7 @@
   padding: 24px;
   position: relative;
   font-family: 'Lato', sans-serif;
+  perspective: 600px; /* RN parity for 3D rotateX */
 }
 
 .pf-timer__value {
@@ -18,6 +19,7 @@
   line-height: 1;
   transition: all 0.3s ease;
   transform-style: preserve-3d;
+  backface-visibility: hidden; /* prevent mirrored sides during flip */
 }
 
 .pf-timer__label {
