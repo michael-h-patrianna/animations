@@ -29,8 +29,17 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
           transform: `translate(${x}px, ${y}px)`,
         }}
       >
-        <div className="lights-circle-static-1__glow" />
-        <div className="lights-circle-static-1__bulb" />
+        {/* Reduced to 2 glow layers for performance */}
+        <div className="lights-circle-static-1__glow-outer" />
+        <div className="lights-circle-static-1__glow-inner" />
+
+        {/* Main bulb with radial gradient */}
+        <div className="lights-circle-static-1__bulb">
+          {/* Inner filament */}
+          <div className="lights-circle-static-1__filament" />
+          {/* Glass shine overlay */}
+          <div className="lights-circle-static-1__glass-shine" />
+        </div>
       </div>
     );
   });
