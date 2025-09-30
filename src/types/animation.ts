@@ -42,8 +42,8 @@ export interface StructureData {
   animations: Animation[]
 }
 
-// Use ComponentType to allow function, class, and lazy components with no props
-export type AnimationComponent = ComponentType<unknown>
+// Use ComponentType to allow function, class, and lazy components with any props
+export type AnimationComponent = ComponentType<any>
 export type AnimationComponentMap = Record<string, AnimationComponent>
 
 export interface LoadingState {
