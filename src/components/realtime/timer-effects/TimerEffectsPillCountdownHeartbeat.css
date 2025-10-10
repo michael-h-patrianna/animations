@@ -8,18 +8,21 @@
 /* Timer expired state */
 .timer-expired {
   background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
+  --glow-color: rgba(255, 0, 0, 0.55);
+  --glow-opacity: 0.45;
+  --glow-scale: 1;
   animation: final-glow-pulse 0.6s ease-out;
 }
 
 @keyframes final-glow-pulse {
-  0% {
-    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
+  0%,
+  100% {
+    --glow-opacity: 0.45;
+    --glow-scale: 1;
   }
   50% {
-    box-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 60px rgba(255, 0, 0, 0.6);
-  }
-  100% {
-    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
+    --glow-opacity: 0.85;
+    --glow-scale: 1.12;
   }
 }
 
@@ -36,11 +39,26 @@
   font-family: 'Lato', sans-serif;
   min-width: 60px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  --glow-opacity: 0.35;
+  --glow-scale: 1;
+  --glow-color: rgba(102, 126, 234, 0.3);
   transition: background 0.5s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.pill-countdown-heartbeat::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 12px;
+  background: var(--glow-color);
+  opacity: var(--glow-opacity);
+  transform: scale(var(--glow-scale, 1));
+  transition: opacity 0.4s ease, transform 0.4s ease, background 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* 60s - Normal state */
@@ -50,118 +68,150 @@
 
 /* 50s threshold - calm heartbeat */
 .heartbeat-calm {
+  --glow-color: rgba(102, 126, 234, 0.4);
   animation: heartbeat-pulse-calm 0.5s ease-out;
 }
 
 /* 40s threshold - mild heartbeat */
 .heartbeat-mild {
+  --glow-color: rgba(102, 126, 234, 0.45);
   animation: heartbeat-pulse-mild 0.5s ease-out;
 }
 
 /* 30s threshold - elevated heartbeat */
 .heartbeat-elevated {
   background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
+  --glow-color: rgba(255, 169, 77, 0.45);
   animation: heartbeat-pulse-elevated 0.5s ease-out;
 }
 
 /* 20s threshold - rapid heartbeat */
 .heartbeat-rapid {
   background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+  --glow-color: rgba(255, 107, 107, 0.55);
   animation: heartbeat-pulse-rapid 0.5s ease-out;
 }
 
 /* 10s threshold - critical heartbeat with continuous pulse */
 .heartbeat-critical {
   background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
+  --glow-color: rgba(255, 0, 0, 0.6);
   animation: heartbeat-pulse-critical 0.3s ease-out, heartbeat-continuous 0.6s ease-in-out infinite;
 }
 
 /* Threshold pulse animations */
 @keyframes heartbeat-pulse-calm {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    --glow-opacity: 0.35;
+    --glow-scale: 1;
   }
   50% {
     transform: scale(1.03);
-    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+    --glow-opacity: 0.5;
+    --glow-scale: 1.08;
   }
 }
 
 @keyframes heartbeat-pulse-mild {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    --glow-opacity: 0.4;
+    --glow-scale: 1;
   }
   30% {
     transform: scale(1.04);
-    box-shadow: 0 2px 12px rgba(102, 126, 234, 0.5);
+    --glow-opacity: 0.6;
+    --glow-scale: 1.1;
   }
   60% {
     transform: scale(1.02);
+    --glow-opacity: 0.45;
+    --glow-scale: 1.05;
   }
 }
 
 @keyframes heartbeat-pulse-elevated {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow: 0 2px 8px rgba(255, 169, 77, 0.3);
+    --glow-opacity: 0.4;
+    --glow-scale: 1;
   }
   25% {
     transform: scale(1.05);
-    box-shadow: 0 2px 14px rgba(255, 169, 77, 0.6);
+    --glow-opacity: 0.65;
+    --glow-scale: 1.12;
   }
   40% {
     transform: scale(1);
+    --glow-opacity: 0.45;
+    --glow-scale: 1.02;
   }
   55% {
     transform: scale(1.03);
-    box-shadow: 0 2px 12px rgba(255, 169, 77, 0.5);
+    --glow-opacity: 0.55;
+    --glow-scale: 1.08;
   }
 }
 
 @keyframes heartbeat-pulse-rapid {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+    --glow-opacity: 0.45;
+    --glow-scale: 1;
   }
   20% {
     transform: scale(1.06);
-    box-shadow: 0 2px 16px rgba(255, 107, 107, 0.7);
+    --glow-opacity: 0.75;
+    --glow-scale: 1.15;
   }
   35% {
     transform: scale(1);
+    --glow-opacity: 0.5;
+    --glow-scale: 1.05;
   }
   50% {
     transform: scale(1.04);
-    box-shadow: 0 2px 14px rgba(255, 107, 107, 0.6);
+    --glow-opacity: 0.65;
+    --glow-scale: 1.1;
   }
   65% {
     transform: scale(1);
+    --glow-opacity: 0.5;
+    --glow-scale: 1.04;
   }
 }
 
 @keyframes heartbeat-pulse-critical {
-  0% {
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
+    --glow-opacity: 0.5;
+    --glow-scale: 1;
   }
   25% {
     transform: scale(1.08);
-    box-shadow: 0 2px 20px rgba(255, 0, 0, 0.8);
+    --glow-opacity: 0.85;
+    --glow-scale: 1.18;
   }
   40% {
     transform: scale(1);
+    --glow-opacity: 0.6;
+    --glow-scale: 1.05;
   }
   55% {
     transform: scale(1.05);
-    box-shadow: 0 2px 16px rgba(255, 0, 0, 0.7);
+    --glow-opacity: 0.75;
+    --glow-scale: 1.12;
   }
   70% {
     transform: scale(1);
-  }
-  100% {
-    transform: scale(1);
+    --glow-opacity: 0.6;
+    --glow-scale: 1.04;
   }
 }
 

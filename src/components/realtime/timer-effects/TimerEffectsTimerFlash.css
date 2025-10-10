@@ -17,12 +17,28 @@
   border-radius: 50px;
   background-color: #ffc107;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   min-width: 60px;
-  transition: background-color 0.1s ease-out;
-  will-change: transform, background-color, box-shadow;
+  min-height: 30px;
+  transition: background-color 0.1s ease-out, transform 0.1s ease-out;
+  will-change: transform, background-color;
+  position: relative;
+  --pulse-scale: 1.1;
+  --pill-glow-opacity: 0.25;
+  --pill-glow-scale: 1;
+  --pill-glow-color: rgba(220, 53, 69, 0.45);
+}
+
+.pf-timer-flash__pill::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background-color: var(--pill-glow-color);
+  opacity: var(--pill-glow-opacity);
+  transform: scale(var(--pill-glow-scale, 1));
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .pf-timer-flash__time {
@@ -42,34 +58,21 @@
 }
 
 @keyframes flash-urgency-pulse {
-  0% {
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    --pill-glow-opacity: 0.25;
+    --pill-glow-scale: 1;
   }
-  25% {
+  25%,
+  75% {
     transform: scale(calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.7));
-    box-shadow:
-      0 5px 16px rgba(220, 53, 69, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    --pill-glow-opacity: 0.45;
+    --pill-glow-scale: calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.5);
   }
   50% {
     transform: scale(var(--pulse-scale, 1.1));
-    box-shadow:
-      0 6px 20px rgba(220, 53, 69, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  }
-  75% {
-    transform: scale(calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.7));
-    box-shadow:
-      0 5px 16px rgba(220, 53, 69, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    --pill-glow-opacity: 0.7;
+    --pill-glow-scale: calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.9);
   }
 }

@@ -8,11 +8,16 @@ test.describe('Animation Rendering', () => {
 
   test('renders at least one animation from Base effects category', async ({ page }) => {
     // Navigate to Text effects group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Character Reveal animation
-    const card = page.locator('[data-animation-id="text-effects__character-reveal"]')
+    const card = page
+      .locator('.pf-card[data-animation-id="text-effects__character-reveal"]')
+      .first()
     await expect(card).toBeVisible()
 
     // Verify the animation component renders (not just placeholder)
@@ -27,11 +32,16 @@ test.describe('Animation Rendering', () => {
 
   test('renders at least one animation from Dialog & Modal category', async ({ page }) => {
     // Navigate to Base modals (framer) group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Base modals (framer)")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Base modals (framer)")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Gentle Scale Pop animation
-    const card = page.locator('[data-animation-id="modal-base-framer__scale-gentle-pop"]')
+    const card = page
+      .locator('.pf-card[data-animation-id="modal-base-framer__scale-gentle-pop"]')
+      .first()
     await expect(card).toBeVisible()
 
     // Verify the animation component renders
@@ -45,11 +55,16 @@ test.describe('Animation Rendering', () => {
 
   test('renders at least one animation from Progress & Loading category', async ({ page }) => {
     // Navigate to Progress bars group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Progress bars")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Progress bars")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Timeline Progress animation
-    const card = page.locator('[data-animation-id="progress-bars__timeline-progress"]')
+    const card = page
+      .locator('.pf-card[data-animation-id="progress-bars__timeline-progress"]')
+      .first()
     await expect(card).toBeVisible()
 
     // Verify the animation component renders
@@ -62,11 +77,16 @@ test.describe('Animation Rendering', () => {
 
   test('renders at least one animation from Real-time Updates category', async ({ page }) => {
     // Navigate to Timer effects group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Timer effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Timer effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Color Shift timer
-    const card = page.locator('[data-animation-id="timer-effects__timer-color-shift"]')
+    const card = page
+      .locator('.pf-card[data-animation-id="timer-effects__timer-color-shift"]')
+      .first()
     await expect(card).toBeVisible()
 
     // Verify the animation component renders
@@ -79,11 +99,14 @@ test.describe('Animation Rendering', () => {
 
   test('renders at least one animation from Game Elements & Rewards category', async ({ page }) => {
     // Navigate to Icon animations group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Icon animations")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Icon animations")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Shake icon animation
-    const card = page.locator('[data-animation-id="icon-animations__shake"]')
+    const card = page.locator('.pf-card[data-animation-id="icon-animations__shake"]').first()
     await expect(card).toBeVisible()
 
     // Verify the animation component renders
@@ -96,11 +119,14 @@ test.describe('Animation Rendering', () => {
 
   test('renders at least one animation from Misc category', async ({ page }) => {
     // Navigate to Misc group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Misc")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Misc")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Orbital Pulse animation
-    const card = page.locator('[data-animation-id="misc__orbital-pulse"]')
+    const card = page.locator('.pf-card[data-animation-id="misc__orbital-pulse"]').first()
     await expect(card).toBeVisible()
 
     // Verify the animation component renders
@@ -113,11 +139,14 @@ test.describe('Animation Rendering', () => {
 
   test('animation components have proper CSS classes', async ({ page }) => {
     // Navigate to Standard effects
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Standard effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Check Shake animation
-    const card = page.locator('[data-animation-id="standard-effects__shake"]')
+    const card = page.locator('.pf-card[data-animation-id="standard-effects__shake"]').first()
     await expect(card).toBeVisible()
 
     // Verify pf-demo-stage class exists
@@ -134,11 +163,14 @@ test.describe('Animation Rendering', () => {
 
   test('Framer Motion animations render with motion elements', async ({ page }) => {
     // Navigate to Text effects (uses Framer Motion)
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Wave Text animation (uses Framer Motion)
-    const card = page.locator('[data-animation-id="text-effects__wave-text"]')
+    const card = page.locator('.pf-card[data-animation-id="text-effects__wave-text"]').first()
     await expect(card).toBeVisible()
 
     // Wait for animation to render
@@ -154,11 +186,14 @@ test.describe('Animation Rendering', () => {
 
   test('CSS animations render with proper keyframe elements', async ({ page }) => {
     // Navigate to Button effects (uses CSS)
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Button effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Button effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Jitter button animation
-    const card = page.locator('[data-animation-id="button-effects__jitter"]')
+    const card = page.locator('.pf-card[data-animation-id="button-effects__jitter"]').first()
     await expect(card).toBeVisible()
 
     // Verify content renders
@@ -171,11 +206,14 @@ test.describe('Animation Rendering', () => {
 
   test('replay button triggers animation remount with visible DOM change', async ({ page }) => {
     // Navigate to Standard effects
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Standard effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Bounce animation
-    const card = page.locator('[data-animation-id="standard-effects__bounce"]')
+    const card = page.locator('.pf-card[data-animation-id="standard-effects__bounce"]').first()
     await expect(card).toBeVisible()
 
     const stage = card.locator('.pf-demo-stage')
@@ -198,15 +236,18 @@ test.describe('Animation Rendering', () => {
 
     // Child count should be the same (remounted with same structure)
     const afterReplayChildCount = await stage.evaluate((el) => el.children.length)
-    expect(afterReplayChildCount).toBeGreaterThan(0)
+    expect(afterReplayChildCount).toBe(initialChildCount)
   })
 
   test('multiple replays work correctly', async ({ page }) => {
     // Navigate to Standard effects
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Standard effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
-    const card = page.locator('[data-animation-id="standard-effects__shake"]')
+    const card = page.locator('.pf-card[data-animation-id="standard-effects__shake"]').first()
     await expect(card).toBeVisible()
 
     const replayButton = card.locator('[data-role="replay"]')
@@ -228,11 +269,16 @@ test.describe('Animation Rendering', () => {
 
   test('infinite animations render immediately without waiting for viewport', async ({ page }) => {
     // Navigate to Loading states group (has infinite animations)
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Loading states")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Loading states")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find a loading spinner (infinite animation)
-    const card = page.locator('[data-animation-id="loading-states__spinner-dual-ring"]')
+    const card = page
+      .locator('.pf-card[data-animation-id="loading-states__spinner-dual-ring"]')
+      .first()
     await expect(card).toBeVisible()
 
     // Should render immediately without intersection observer delay
@@ -246,11 +292,16 @@ test.describe('Animation Rendering', () => {
 
   test('animations with complex structures render all child elements', async ({ page }) => {
     // Navigate to Celebration effects
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Celebration effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Celebration effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Confetti Burst (has many child particles)
-    const card = page.locator('[data-animation-id="modal-celebrations__confetti-burst"]')
+    const card = page
+      .locator('.pf-card[data-animation-id="modal-celebrations__confetti-burst"]')
+      .first()
     await expect(card).toBeVisible()
 
     const stage = card.locator('.pf-demo-stage')
@@ -269,11 +320,14 @@ test.describe('Animation Rendering', () => {
 
   test('text-based animations render text content', async ({ page }) => {
     // Navigate to Text effects
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find Typewriter animation
-    const card = page.locator('[data-animation-id="text-effects__typewriter"]')
+    const card = page.locator('.pf-card[data-animation-id="text-effects__typewriter"]').first()
     await expect(card).toBeVisible()
 
     const stage = card.locator('.pf-demo-stage')
@@ -288,11 +342,16 @@ test.describe('Animation Rendering', () => {
 
   test('modal animations render with overlay and content', async ({ page }) => {
     // Navigate to Base modals
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Base modals (framer)")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Base modals (framer)")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find a modal animation
-    const card = page.locator('[data-animation-id="modal-base-framer__slide-up-soft"]')
+    const card = page
+      .locator('.pf-card[data-animation-id="modal-base-framer__slide-up-soft"]')
+      .first()
     await expect(card).toBeVisible()
 
     const stage = card.locator('.pf-demo-stage')
@@ -307,11 +366,14 @@ test.describe('Animation Rendering', () => {
 
   test('lights animations render with configurable bulb count', async ({ page }) => {
     // Navigate to Lights group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Lights")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Lights")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Find a lights animation
-    const card = page.locator('[data-animation-id="lights__circle-static-1"]')
+    const card = page.locator('.pf-card[data-animation-id="lights__circle-static-1"]').first()
     await expect(card).toBeVisible()
 
     // Should have bulb count controls
@@ -329,10 +391,13 @@ test.describe('Animation Rendering', () => {
 
   test('changing lights animation parameters triggers re-render', async ({ page }) => {
     // Navigate to Lights group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Lights")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Lights")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
-    const card = page.locator('[data-animation-id="lights__circle-static-1"]')
+    const card = page.locator('.pf-card[data-animation-id="lights__circle-static-1"]').first()
     await expect(card).toBeVisible()
 
     const bulbCountInput = card.locator('input[type="number"][aria-label="Number of bulbs"]')
@@ -358,11 +423,14 @@ test.describe('Animation Rendering', () => {
     // We'll check the registry to see if there are any missing animations
 
     // Navigate to any group
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Get all animation cards
-    const cards = page.locator('[data-animation-id]')
+    const cards = page.locator('.pf-card[data-animation-id]')
     const count = await cards.count()
 
     // Check each card
@@ -394,11 +462,16 @@ test.describe('Animation Performance and Visibility', () => {
 
   test('animations lazy load when scrolled into view', async ({ page }) => {
     // Navigate to a group with many animations
-    await page.locator('.pf-main .pf-sidebar').locator('.pf-sidebar__link--group:has-text("Standard effects")').click()
+    await page
+      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
+      .first()
+      .click()
     await page.waitForTimeout(500)
 
     // Scroll to bottom card
-    const lastCard = page.locator('[data-animation-id="standard-effects__heartbeat"]')
+    const lastCard = page
+      .locator('.pf-card[data-animation-id="standard-effects__heartbeat"]')
+      .first()
 
     // Scroll it into view
     await lastCard.scrollIntoViewIfNeeded()
@@ -415,7 +488,7 @@ test.describe('Animation Performance and Visibility', () => {
     const groups = ['Text effects', 'Standard effects', 'Button effects']
 
     for (const groupName of groups) {
-      await page.locator(`.pf-sidebar__link--group:has-text("${groupName}")`).click()
+      await page.locator(`.pf-sidebar__link--group:has-text("${groupName}")`).first().click()
       await page.waitForTimeout(200) // Short delay
     }
 
@@ -424,7 +497,7 @@ test.describe('Animation Performance and Visibility', () => {
     await expect(finalGroup).toBeVisible()
 
     // Check that animations rendered
-    const cards = page.locator('[data-animation-id^="button-effects__"]')
+    const cards = page.locator('.pf-card[data-animation-id^="button-effects__"]')
     const count = await cards.count()
     expect(count).toBeGreaterThan(0)
   })

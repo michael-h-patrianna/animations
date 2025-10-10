@@ -10,28 +10,43 @@
 
 .pf-pill-timer__pill {
   --pill-bg: #ffb300;
+  --pill-flash: #ffd447;
   min-width: 96px;
   height: 30px;
   padding: 0 12px;
   border-radius: 999px;
-  background: var(--pill-bg);
+  background-color: var(--pill-bg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
   border: 2px solid rgba(255, 255, 255, 0.26);
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 .pf-pill-timer__pill.is-warning {
   --pill-bg: #ff7a00;
+  --pill-flash: #ffb347;
 }
 .pf-pill-timer__pill.is-danger {
   --pill-bg: #dc3545;
+  --pill-flash: #ff6478;
 }
 .pf-pill-timer__pill.is-flash {
   animation: pill-extreme-flash 220ms ease-out;
+}
+
+.pf-pill-timer__pill::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.25);
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.pf-pill-timer__pill.is-flash::after {
+  animation: pill-extreme-ring 220ms ease-out;
 }
 
 @keyframes pill-buzz {
@@ -53,14 +68,24 @@
 }
 
 @keyframes pill-extreme-flash {
-  0% {
-    filter: brightness(1);
+  0%,
+  100% {
+    background-color: var(--pill-bg);
   }
   50% {
-    filter: brightness(1.25);
+    background-color: var(--pill-flash);
   }
+}
+
+@keyframes pill-extreme-ring {
+  0%,
   100% {
-    filter: brightness(1);
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
   }
 }
 

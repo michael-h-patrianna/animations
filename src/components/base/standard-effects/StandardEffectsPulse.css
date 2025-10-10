@@ -4,17 +4,14 @@
   0% {
     transform: scale(1);
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(198, 255, 119, 0.7);
   }
   50% {
     transform: scale(1.25);
     opacity: 0.8;
-    box-shadow: 0 0 20px 10px rgba(198, 255, 119, 0);
   }
   100% {
     transform: scale(1);
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(198, 255, 119, 0);
   }
 }
 .pulse-element {

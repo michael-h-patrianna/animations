@@ -10,31 +10,46 @@
 
 .pf-pill-timer__pill {
   --pill-bg: #42f5a4;
+  --pill-highlight: #66ffbf;
+  --pill-glow-opacity: 0;
+  --pill-glow-scale: 0.9;
   min-width: 112px;
   height: 38px;
   padding: 0 16px;
   border-radius: 999px;
-  background: var(--pill-bg);
+  background-color: var(--pill-bg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
   border: 2px solid rgba(255, 255, 255, 0.22);
-  box-shadow:
-    0 6px 22px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.pf-pill-timer__pill::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 2px solid rgba(102, 255, 191, 0.45);
+  opacity: var(--pill-glow-opacity);
+  transform: scale(var(--pill-glow-scale, 0.9));
+  pointer-events: none;
 }
 
 /* repurpose blip as a subtle color/brightness emphasis on the pill */
 @keyframes pill-led-blip {
-  0% {
-    filter: brightness(1) saturate(1);
+  0%,
+  100% {
+    transform: scale(1);
+    background-color: var(--pill-bg);
+    --pill-glow-opacity: 0;
+    --pill-glow-scale: 0.9;
   }
   45% {
-    filter: brightness(1.12) saturate(1.1);
-  }
-  100% {
-    filter: brightness(1) saturate(1);
+    transform: scale(1.05);
+    background-color: var(--pill-highlight);
+    --pill-glow-opacity: 0.55;
+    --pill-glow-scale: 1.1;
   }
 }
 
