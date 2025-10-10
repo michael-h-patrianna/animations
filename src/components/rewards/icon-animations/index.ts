@@ -1,14 +1,23 @@
-import { IconAnimationsShake } from './IconAnimationsShake'
-import { IconAnimationsBounce } from './IconAnimationsBounce'
-import { IconAnimationsFloat } from './IconAnimationsFloat'
-import { IconAnimationsPulse } from './IconAnimationsPulse'
-import type { AnimationComponentMap } from '@/types/animation'
+import { IconAnimationsShake, metadata as shakeMetadata } from './IconAnimationsShake'
+import { IconAnimationsBounce, metadata as bounceMetadata } from './IconAnimationsBounce'
+import { IconAnimationsFloat, metadata as floatMetadata } from './IconAnimationsFloat'
+import { IconAnimationsPulse, metadata as pulseMetadata } from './IconAnimationsPulse'
+import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-export { IconAnimationsShake, IconAnimationsBounce, IconAnimationsFloat, IconAnimationsPulse }
 
-export const iconAnimationsComponents: AnimationComponentMap = {
-  'icon-animations__shake': IconAnimationsShake,
-  'icon-animations__bounce': IconAnimationsBounce,
-  'icon-animations__float': IconAnimationsFloat,
-  'icon-animations__pulse': IconAnimationsPulse,
+export const groupMetadata: GroupMetadata = {
+  id: 'icon-animations',
+  title: 'Icon animations',
+  tech: 'css',
+  demo: 'iconAnimations',
+}
+
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'icon-animations__shake': { component: IconAnimationsShake, metadata: shakeMetadata },
+    'icon-animations__bounce': { component: IconAnimationsBounce, metadata: bounceMetadata },
+    'icon-animations__float': { component: IconAnimationsFloat, metadata: floatMetadata },
+    'icon-animations__pulse': { component: IconAnimationsPulse, metadata: pulseMetadata },
+  },
 }

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './ButtonEffectsRipple.css'
 import './shared.css'
 
@@ -51,4 +52,12 @@ export function ButtonEffectsRipple() {
       </button>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'button-effects__ripple',
+  title: 'Ripple Button',
+  description: 'Themed button with Material-style click ripple expansion.',
+  tags: ['css', 'js'],
+  disableReplay: true,
 }

@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesSkeletonCard.css'
 
 export function LoadingStatesSkeletonCard() {
@@ -12,3 +13,10 @@ export function LoadingStatesSkeletonCard() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'loading-states__skeleton-card',
+  title: 'Skeleton Card',
+  description: 'Card skeleton with layered shimmer lines.',
+  tags: ['css']
+} satisfies AnimationMetadata

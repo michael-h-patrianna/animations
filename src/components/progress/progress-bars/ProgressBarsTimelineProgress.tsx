@@ -1,5 +1,13 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsTimelineProgress.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'progress-bars__timeline-progress',
+  title: 'Timeline Progress',
+  description: 'Timeline progress visualization showing sequential milestones with connected flow.',
+  tags: ['framer'],
+}
 
 export function ProgressBarsTimelineProgress() {
   const steps = 4

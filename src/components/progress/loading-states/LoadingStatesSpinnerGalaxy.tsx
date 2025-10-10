@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesSpinnerGalaxy.css'
 
 export function LoadingStatesSpinnerGalaxy() {
@@ -7,3 +8,10 @@ export function LoadingStatesSpinnerGalaxy() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'loading-states__spinner-galaxy',
+  title: 'Spinner Galaxy',
+  description: 'Galaxy spinner with layered opacity twirls.',
+  tags: ['css']
+} satisfies AnimationMetadata

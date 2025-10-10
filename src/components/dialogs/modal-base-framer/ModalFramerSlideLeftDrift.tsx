@@ -1,8 +1,16 @@
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import { MockModalContent } from '../modal-base/MockModalContent'
 import '../modal-base/shared.css'
 import './framer-shared.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-base-framer__slide-left-drift',
+  title: 'Slide Left Drift',
+  description: 'Slides in from the right by 68px with 68% overlay fade and soft blur 7px.',
+  tags: ['framer'],
+}
 
 export function ModalFramerSlideLeftDrift() {
   return (

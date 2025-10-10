@@ -1,5 +1,13 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationWizardFadeCross.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-orchestration__wizard-fade-cross',
+  title: 'Step Tiles Fade',
+  description: 'Multi-step wizard with cross-fading step tiles and content panels',
+  tags: ['framer'],
+}
 
 export function ModalOrchestrationWizardFadeCross() {
   const steps = 3

@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsRewardSpotlight.css'
 
 // Utility function to generate random number between min and max
@@ -203,4 +204,11 @@ export function ModalCelebrationsRewardSpotlight() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__reward-spotlight',
+  title: 'Reward Spotlight',
+  description: 'Celebration effects pattern: Reward Spotlight',
+  tags: ['css'],
 }

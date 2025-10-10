@@ -5,6 +5,7 @@
  */
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import React from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsMetallicSpecularFlash.css'
 
 export function TextEffectsMetallicSpecularFlash() {
@@ -88,6 +89,13 @@ export function TextEffectsMetallicSpecularFlash() {
       </div>
     </motion.div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'text-effects__metallic-specular-flash',
+  title: 'Metallic Specular Flash',
+  description: 'A crisp, narrow specular flash sweeps across the text with brief skew and stretch, then settles.',
+  tags: ['framer']
 }
 
 export default TextEffectsMetallicSpecularFlash

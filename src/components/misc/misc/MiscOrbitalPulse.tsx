@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './MiscOrbitalPulse.css'
 
 export function MiscOrbitalPulse() {
@@ -14,3 +15,10 @@ export function MiscOrbitalPulse() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'misc__orbital-pulse',
+  title: 'Orbital Pulse',
+  description: 'Rings of orbiting dots with gentle pulsing motion.',
+  tags: ['css']
+} satisfies AnimationMetadata

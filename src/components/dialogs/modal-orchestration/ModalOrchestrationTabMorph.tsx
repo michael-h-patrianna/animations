@@ -1,6 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
+import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationTabMorph.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-orchestration__tab-morph',
+  title: 'Interactive Tab Tiles',
+  description: 'Clickable tab tiles with sliding content transitions and scale highlighting',
+  tags: ['framer'],
+}
 
 export function ModalOrchestrationTabMorph() {
   const tabs = 4

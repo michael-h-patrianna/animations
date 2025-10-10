@@ -1,6 +1,14 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationStaggerInview.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-orchestration__stagger-inview',
+  title: 'Stagger In-View',
+  description: 'Grid tiles that animate progressively as they enter the viewport during scroll',
+  tags: ['framer'],
+}
 
 export function ModalOrchestrationStaggerInview() {
   const containerRef = useRef(null)

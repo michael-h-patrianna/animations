@@ -1,30 +1,85 @@
-import type { AnimationComponentMap } from '@/types/animation'
+import type {
+  GroupMetadata,
+  GroupExport
+} from '@/types/animation'
 
-import { ModalContentButtonsStagger2 } from './ModalContentButtonsStagger2'
-import { ModalContentButtonsStagger3 } from './ModalContentButtonsStagger3'
-import { ModalContentFormFieldGradient } from './ModalContentFormFieldGradient'
-import { ModalContentFormFieldLeftReveal } from './ModalContentFormFieldLeftReveal'
-import { ModalContentFormFieldRightReveal } from './ModalContentFormFieldRightReveal'
-import { ModalContentListSoftStagger } from './ModalContentListSoftStagger'
-import { ModalContentListSpotlight } from './ModalContentListSpotlight'
-import { ModalContentListVerticalWipe } from './ModalContentListVerticalWipe'
+import {
+  ModalContentButtonsStagger2,
+  metadata as metadataButtonsStagger2
+} from './ModalContentButtonsStagger2'
+import {
+  ModalContentButtonsStagger3,
+  metadata as metadataButtonsStagger3
+} from './ModalContentButtonsStagger3'
+import {
+  ModalContentFormFieldGradient,
+  metadata as metadataFormFieldGradient
+} from './ModalContentFormFieldGradient'
+import {
+  ModalContentFormFieldLeftReveal,
+  metadata as metadataFormFieldLeftReveal
+} from './ModalContentFormFieldLeftReveal'
+import {
+  ModalContentFormFieldRightReveal,
+  metadata as metadataFormFieldRightReveal
+} from './ModalContentFormFieldRightReveal'
+import {
+  ModalContentListSoftStagger,
+  metadata as metadataListSoftStagger
+} from './ModalContentListSoftStagger'
+import {
+  ModalContentListSpotlight,
+  metadata as metadataListSpotlight
+} from './ModalContentListSpotlight'
+import {
+  ModalContentListVerticalWipe,
+  metadata as metadataListVerticalWipe
+} from './ModalContentListVerticalWipe'
 
-export { ModalContentButtonsStagger2 } from './ModalContentButtonsStagger2'
-export { ModalContentButtonsStagger3 } from './ModalContentButtonsStagger3'
-export { ModalContentFormFieldGradient } from './ModalContentFormFieldGradient'
-export { ModalContentFormFieldLeftReveal } from './ModalContentFormFieldLeftReveal'
-export { ModalContentFormFieldRightReveal } from './ModalContentFormFieldRightReveal'
-export { ModalContentListSoftStagger } from './ModalContentListSoftStagger'
-export { ModalContentListSpotlight } from './ModalContentListSpotlight'
-export { ModalContentListVerticalWipe } from './ModalContentListVerticalWipe'
-
-export const dialogsModalContentAnimations: AnimationComponentMap = {
-  'modal-content__buttons-stagger-2': ModalContentButtonsStagger2,
-  'modal-content__buttons-stagger-3': ModalContentButtonsStagger3,
-  'modal-content__form-field-gradient': ModalContentFormFieldGradient,
-  'modal-content__form-field-left-reveal': ModalContentFormFieldLeftReveal,
-  'modal-content__form-field-right-reveal': ModalContentFormFieldRightReveal,
-  'modal-content__list-soft-stagger': ModalContentListSoftStagger,
-  'modal-content__list-spotlight': ModalContentListSpotlight,
-  'modal-content__list-vertical-wipe': ModalContentListVerticalWipe,
+// Group metadata
+export const groupMetadata: GroupMetadata = {
+  id: 'modal-content',
+  title: 'Content choreography',
+  tech: 'css',
+  demo: 'modalContent'
 }
+
+// Group export with co-located metadata
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'modal-content__buttons-stagger-2': {
+      component: ModalContentButtonsStagger2,
+      metadata: metadataButtonsStagger2
+    },
+    'modal-content__buttons-stagger-3': {
+      component: ModalContentButtonsStagger3,
+      metadata: metadataButtonsStagger3
+    },
+    'modal-content__form-field-gradient': {
+      component: ModalContentFormFieldGradient,
+      metadata: metadataFormFieldGradient
+    },
+    'modal-content__form-field-left-reveal': {
+      component: ModalContentFormFieldLeftReveal,
+      metadata: metadataFormFieldLeftReveal
+    },
+    'modal-content__form-field-right-reveal': {
+      component: ModalContentFormFieldRightReveal,
+      metadata: metadataFormFieldRightReveal
+    },
+    'modal-content__list-soft-stagger': {
+      component: ModalContentListSoftStagger,
+      metadata: metadataListSoftStagger
+    },
+    'modal-content__list-spotlight': {
+      component: ModalContentListSpotlight,
+      metadata: metadataListSpotlight
+    },
+    'modal-content__list-vertical-wipe': {
+      component: ModalContentListVerticalWipe,
+      metadata: metadataListVerticalWipe
+    }
+  }
+}
+

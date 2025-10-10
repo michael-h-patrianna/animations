@@ -1,21 +1,52 @@
-import { MiscConcentricRings } from './MiscConcentricRings'
-import { MiscOrbitalPulse } from './MiscOrbitalPulse'
-import { MiscOscillatingDots } from './MiscOscillatingDots'
-import { MiscPendulumWave } from './MiscPendulumWave'
-// moved to standard-effects: MiscPulseWave
-import { MiscPulsingGrid } from './MiscPulsingGrid'
-// moved to standard-effects: MiscRadialPulse
-import { MiscSequentialPulse } from './MiscSequentialPulse'
-import { MiscSpiralGalaxy } from './MiscSpiralGalaxy'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 
-export const miscMiscAnimations = {
-  // moved to standard-effects: 'misc__radial-pulse'
-  'misc__orbital-pulse': MiscOrbitalPulse,
-  'misc__pendulum-wave': MiscPendulumWave,
-  // moved to standard-effects: 'misc__pulse-wave'
-  'misc__concentric-rings': MiscConcentricRings,
-  'misc__sequential-pulse': MiscSequentialPulse,
-  'misc__oscillating-dots': MiscOscillatingDots,
-  'misc__pulsing-grid': MiscPulsingGrid,
-  'misc__spiral-galaxy': MiscSpiralGalaxy,
+import { MiscConcentricRings, metadata as concentricRingsMeta } from './MiscConcentricRings'
+import { MiscOrbitalPulse, metadata as orbitalPulseMeta } from './MiscOrbitalPulse'
+import { MiscOscillatingDots, metadata as oscillatingDotsMeta } from './MiscOscillatingDots'
+import { MiscPendulumWave, metadata as pendulumWaveMeta } from './MiscPendulumWave'
+// moved to standard-effects: MiscPulseWave
+import { MiscPulsingGrid, metadata as pulsingGridMeta } from './MiscPulsingGrid'
+// moved to standard-effects: MiscRadialPulse
+import { MiscSequentialPulse, metadata as sequentialPulseMeta } from './MiscSequentialPulse'
+import { MiscSpiralGalaxy, metadata as spiralGalaxyMeta } from './MiscSpiralGalaxy'
+
+export const groupMetadata: GroupMetadata = {
+  id: 'misc',
+  title: 'Misc',
+  tech: 'css',
+  demo: 'misc'
+}
+
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'misc__orbital-pulse': {
+      component: MiscOrbitalPulse,
+      metadata: orbitalPulseMeta
+    },
+    'misc__pendulum-wave': {
+      component: MiscPendulumWave,
+      metadata: pendulumWaveMeta
+    },
+    'misc__concentric-rings': {
+      component: MiscConcentricRings,
+      metadata: concentricRingsMeta
+    },
+    'misc__sequential-pulse': {
+      component: MiscSequentialPulse,
+      metadata: sequentialPulseMeta
+    },
+    'misc__oscillating-dots': {
+      component: MiscOscillatingDots,
+      metadata: oscillatingDotsMeta
+    },
+    'misc__pulsing-grid': {
+      component: MiscPulsingGrid,
+      metadata: pulsingGridMeta
+    },
+    'misc__spiral-galaxy': {
+      component: MiscSpiralGalaxy,
+      metadata: spiralGalaxyMeta
+    }
+  }
 }

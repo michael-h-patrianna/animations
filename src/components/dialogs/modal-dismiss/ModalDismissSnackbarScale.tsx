@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
+import type { AnimationMetadata } from '../../../types/animation'
 import { MockContent } from './MockContent'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-dismiss__snackbar-scale',
+  title: 'Snackbar Scale Pulse',
+  description: 'Dismiss pulse that scales and recedes while the timer empties.',
+  tags: ['js', 'css']
+}
 
 export function ModalDismissSnackbarScale() {
   const toastRef = useRef<HTMLDivElement>(null)

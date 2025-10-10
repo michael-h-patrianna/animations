@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesRingMulti.css'
 
 export function LoadingStatesRingMulti() {
@@ -11,3 +12,10 @@ export function LoadingStatesRingMulti() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'loading-states__ring-multi',
+  title: 'Multi Ring',
+  description: 'Nested rings oscillate asynchronously.',
+  tags: ['css']
+} satisfies AnimationMetadata

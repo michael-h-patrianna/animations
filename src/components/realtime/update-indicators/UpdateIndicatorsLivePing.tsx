@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsLivePing.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'update-indicators__live-ping',
+  title: 'Live Ping',
+  description: 'Live indicator ping loop for streams.',
+  tags: ['js', 'css']
+}
 
 export function UpdateIndicatorsLivePing() {
   const iconRef = useRef<HTMLDivElement>(null)

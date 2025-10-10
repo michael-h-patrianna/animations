@@ -1,4 +1,4 @@
-import type { AnimationComponentMap } from '@/types/animation'
+import type { GroupMetadata, GroupExport } from '@/types/animation'
 import { lazy } from 'react'
 
 // Lazy-loaded variants to enable code-splitting per animation component
@@ -40,24 +40,63 @@ const TimerEffectsPillCountdownHeartbeat = lazy(() =>
   }))
 )
 
-export { TimerEffectsPillCountdownExtreme } from './TimerEffectsPillCountdownExtreme'
-export { TimerEffectsPillCountdownGlitch } from './TimerEffectsPillCountdownGlitch'
-export { TimerEffectsPillCountdownHeartbeat } from './TimerEffectsPillCountdownHeartbeat'
-export { TimerEffectsPillCountdownStrong } from './TimerEffectsPillCountdownStrong'
-export { TimerEffectsTimerColorShift } from './TimerEffectsTimerColorShift'
-export { TimerEffectsTimerFlash } from './TimerEffectsTimerFlash'
-export { TimerEffectsTimerFlashSoft } from './TimerEffectsTimerFlashSoft'
-export { TimerEffectsTimerFlip } from './TimerEffectsTimerFlip'
-export { TimerEffectsTimerPulse } from './TimerEffectsTimerPulse'
+// Import metadata directly (not lazy-loaded since metadata is needed immediately)
+import { timerEffectsTimerColorShiftMetadata } from './TimerEffectsTimerColorShift.metadata'
+import { timerEffectsTimerFlashMetadata } from './TimerEffectsTimerFlash.metadata'
+import { timerEffectsTimerFlashSoftMetadata } from './TimerEffectsTimerFlashSoft.metadata'
+import { timerEffectsTimerFlipMetadata } from './TimerEffectsTimerFlip.metadata'
+import { timerEffectsTimerPulseMetadata } from './TimerEffectsTimerPulse.metadata'
+import { timerEffectsPillCountdownStrongMetadata } from './TimerEffectsPillCountdownStrong.metadata'
+import { timerEffectsPillCountdownExtremeMetadata } from './TimerEffectsPillCountdownExtreme.metadata'
+import { timerEffectsPillCountdownGlitchMetadata } from './TimerEffectsPillCountdownGlitch.metadata'
+import { timerEffectsPillCountdownHeartbeatMetadata } from './TimerEffectsPillCountdownHeartbeat.metadata'
 
-export const realtimeTimerEffectsAnimations: AnimationComponentMap = {
-  'timer-effects__timer-color-shift': TimerEffectsTimerColorShift,
-  'timer-effects__timer-flash': TimerEffectsTimerFlash,
-  'timer-effects__timer-flash-soft': TimerEffectsTimerFlashSoft,
-  'timer-effects__timer-flip': TimerEffectsTimerFlip,
-  'timer-effects__timer-pulse': TimerEffectsTimerPulse,
-  'timer-effects__pill-countdown-strong': TimerEffectsPillCountdownStrong,
-  'timer-effects__pill-countdown-extreme': TimerEffectsPillCountdownExtreme,
-  'timer-effects__pill-countdown-glitch': TimerEffectsPillCountdownGlitch,
-  'timer-effects__pill-countdown-heartbeat': TimerEffectsPillCountdownHeartbeat,
+export const groupMetadata: GroupMetadata = {
+  id: 'timer-effects',
+  title: 'Timer effects',
+  tech: 'framer',
+  demo: 'timer',
 }
+
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'timer-effects__timer-color-shift': {
+      component: TimerEffectsTimerColorShift,
+      metadata: timerEffectsTimerColorShiftMetadata
+    },
+    'timer-effects__timer-pulse': {
+      component: TimerEffectsTimerPulse,
+      metadata: timerEffectsTimerPulseMetadata
+    },
+    'timer-effects__timer-flash': {
+      component: TimerEffectsTimerFlash,
+      metadata: timerEffectsTimerFlashMetadata
+    },
+    'timer-effects__timer-flash-soft': {
+      component: TimerEffectsTimerFlashSoft,
+      metadata: timerEffectsTimerFlashSoftMetadata
+    },
+    'timer-effects__timer-flip': {
+      component: TimerEffectsTimerFlip,
+      metadata: timerEffectsTimerFlipMetadata
+    },
+    'timer-effects__pill-countdown-strong': {
+      component: TimerEffectsPillCountdownStrong,
+      metadata: timerEffectsPillCountdownStrongMetadata
+    },
+    'timer-effects__pill-countdown-extreme': {
+      component: TimerEffectsPillCountdownExtreme,
+      metadata: timerEffectsPillCountdownExtremeMetadata
+    },
+    'timer-effects__pill-countdown-glitch': {
+      component: TimerEffectsPillCountdownGlitch,
+      metadata: timerEffectsPillCountdownGlitchMetadata
+    },
+    'timer-effects__pill-countdown-heartbeat': {
+      component: TimerEffectsPillCountdownHeartbeat,
+      metadata: timerEffectsPillCountdownHeartbeatMetadata
+    }
+  }
+}
+

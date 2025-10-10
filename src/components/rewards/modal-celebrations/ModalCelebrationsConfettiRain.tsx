@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsConfettiRain.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
@@ -53,4 +54,11 @@ export function ModalCelebrationsConfettiRain() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__confetti-rain',
+  title: 'Confetti Rainfall',
+  description: 'Celebration effects pattern: Confetti Rainfall',
+  tags: ['css'],
 }

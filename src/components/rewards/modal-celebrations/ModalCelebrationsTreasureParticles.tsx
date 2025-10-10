@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalCelebrationsTreasureParticles.css'
 
@@ -141,4 +142,11 @@ export function ModalCelebrationsTreasureParticles() {
       <div className="pf-treasure-particles"></div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__treasure-particles',
+  title: 'Treasure Particles',
+  description: 'Celebration effects pattern: Treasure Particles',
+  tags: ['css'],
 }

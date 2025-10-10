@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsCounterIncrement.css'
 
 interface CounterIndicator {
@@ -69,4 +70,12 @@ export function TextEffectsCounterIncrement() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'text-effects__counter-increment',
+  title: 'Counter Increment',
+  description: 'Numeric counter ticks upwards with scale.',
+  tags: ['framer'],
+  disableReplay: false
 }

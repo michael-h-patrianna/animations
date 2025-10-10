@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsWaveText.css'
 
 export function TextEffectsWaveText() {
@@ -68,4 +69,12 @@ export function TextEffectsWaveText() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'text-effects__wave-text',
+  title: 'Wave Text',
+  description: 'Smooth undulating wave motion through characters for fluid text animations.',
+  tags: ['framer'],
+  disableReplay: false
 }

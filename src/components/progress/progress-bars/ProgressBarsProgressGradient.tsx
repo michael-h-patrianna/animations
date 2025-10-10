@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsProgressGradient.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'progress-bars__progress-gradient',
+  title: 'Gradient Glide',
+  description: 'Gradient sweep along the bar for premium polish.',
+  tags: ['js', 'css'],
+}
 
 export function ProgressBarsProgressGradient() {
   const containerRef = useRef<HTMLDivElement>(null)

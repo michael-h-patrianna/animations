@@ -12,16 +12,25 @@ Read: `docs/REACT_NATIVE_REFACTORING_PATTERNS.md` how to ensure that all animati
 
 ## Project structure
 
-- Source of truth for behaviors and grouping:
-  - `docs/structure.json` – category → group → animations metadata
-- Data → UI wiring:
-  - `src/services/animationData.ts` – reads `structure.json` and exposes catalog
-  - `src/components/animationRegistry.ts` – maps animation ids to React components
-- Components (implementation):
+**Co-located Metadata System** - The project uses component-based metadata.
+
+- **Source of truth**: Folder structure + component metadata exports
+  - `src/components/<category>/` – Each category folder contains groups
+  - `src/components/<category>/<group>/` – Each group folder contains animations
+  - Each animation exports its metadata: `export const metadata: AnimationMetadata = { ... }`
+  - Each group's `index.ts` aggregates animations
+  - Each category's `index.ts` aggregates groups
+
+- **Data → UI wiring**:
+  - `src/services/animationData.ts` – builds catalog from component exports
+  - `src/components/animationRegistry.ts` – provides hierarchical access
+  - See `ARCHITECTURE.md` for detailed documentation
+
+- **Components (implementation)**:
   - `src/components/<category-id>/<group-id>/` – all animations for a group
-    - `*.tsx` – one React component per animation (PascalCase of animation id)
-    - `*.css` – a co-located CSS file per animation component with all styles needed for that component (no shared/group CSS)
-  - Catalog UI (showcase scaffolding): `src/components/ui/` (AnimationCard, GroupSection, CategorySection)
+    - `*.tsx` – one React component per animation + metadata export
+    - `*.css` – co-located CSS file per component with all styles
+  - Catalog UI: `src/components/ui/` (AnimationCard, GroupSection, CategorySection)
 
 New categories and groups
 
@@ -29,26 +38,46 @@ New categories and groups
 
 Where to find something to edit
 
-1. Identify the animation’s id in `docs/structure.json` (format: `category-group__variant`).
-2. Open `src/components/<category-id>/<group-id>/` and edit the corresponding `PascalCase` component file.
-3. Styles live next to the component in a co-located `.css` file. Avoid globals and shared CSS.
+1. Navigate to `src/components/<category-id>/<group-id>/` and find the PascalCase component file
+2. The component contains both the animation logic AND metadata export
+3. Styles live next to the component in a co-located `.css` file
 
 ## How to add an animation
 
-1. Define it in `docs/structure.json` under the correct category/group with fields: `id`, `title`, `description`, `categoryId`, `groupId`.
-2. Create a new component file in `src/components/<category-id>/<group-id>/` named after the animation id in PascalCase (e.g., `ModalBaseScaleGentlePop.tsx`). Implement using CSS and/or Framer Motion.
-3. Create a co-located CSS file next to your component (same base name with `.css`) and scope all selectors to the component’s root to avoid leaks.
-4. Register the component id → component in `src/components/animationRegistry.ts` so it renders in the catalog.
-5. Run tests and verify the card renders; ensure replay works via remount.
+1. **Create component** in `src/components/<category-id>/<group-id>/YourAnimation.tsx`:
+   ```typescript
+   import type { AnimationMetadata } from '@/types/animation'
+
+   export function YourAnimation() {
+     return <div>...</div>
+   }
+
+   export const metadata: AnimationMetadata = {
+     id: 'group-id__your-animation',
+     title: 'Your Animation',
+     description: 'What it does',
+     tags: ['css'], // or ['framer'], ['js', 'css'], etc.
+   }
+   ```
+
+2. **Add to group index** (`src/components/<category>/<group>/index.ts`):
+   - Import component + metadata
+   - Add to `groupExport.animations` object
+
+3. **Create CSS file** (if needed) next to your component
+
+4. **Run tests**: `npm run build && npm run test`
+
+See `ARCHITECTURE.md` for complete details.
 
 Notes for RN-friendly animations
 
-- Avoid SVG/Canvas and prefer pure CSS or Framer Motion transforms that translate to Reanimated/Moti.
+- Avoid SVG/Canvas and prefer pure CSS or Framer Motion transforms that translate to Reanimated/Moti
+- Use transform/opacity-driven patterns for portability
 
 ## How to remove an animation
 
-1. Remove its entry from `docs/structure.json` under the relevant group.
-2. Remove the component mapping from `src/components/animationRegistry.ts`.
-3. Delete the component file from `src/components/<category-id>/<group-id>/`.
-4. Delete its co-located `.css` file if present.
-5. Run tests to ensure the catalog and groups render without the removed item.
+1. Delete the component file from `src/components/<category-id>/<group-id>/`
+2. Delete its co-located `.css` file if present
+3. Remove from group's `index.ts` (groupExport.animations)
+4. Run tests to ensure the catalog renders correctly

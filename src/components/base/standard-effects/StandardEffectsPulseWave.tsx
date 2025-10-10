@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './shared.css'
 import './StandardEffectsPulseWave.css'
 
@@ -9,4 +10,11 @@ export function StandardEffectsPulseWave() {
         </div>
 
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'standard-effects__pulse-wave',
+  title: 'Pulse Wave',
+  description: 'Listening pulse with filled core and expanding ring glow.',
+  tags: ['css'],
 }

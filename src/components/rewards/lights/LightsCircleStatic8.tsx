@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic8.css';
 import { calculateBulbColors } from '@/utils/colors';
 
@@ -76,3 +77,10 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
 };
 
 export default LightsCircleStatic8;
+
+export const metadata: AnimationMetadata = {
+  id: 'lights__circle-static-8',
+  title: 'Dual Convergence',
+  description: 'Two lights chase from opposite sides, meeting with a dramatic collision flash.',
+  tags: ['css'],
+};

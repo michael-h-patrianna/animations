@@ -1,6 +1,14 @@
 import { motion, useAnimation } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './RealtimeDataLiveScoreUpdate.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'realtime-data__live-score-update',
+  title: 'Live Score Update',
+  description: 'Real-time data pattern: Live Score Update',
+  tags: ['framer', 'js']
+}
 
 export function RealtimeDataLiveScoreUpdate() {
   const [scores, setScores] = useState([1450, 1320])

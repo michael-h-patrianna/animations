@@ -1,7 +1,7 @@
 === CONSTITUTIONAL PRINCIPLES (IMMUTABLE) ===
 
 1. CORE PURPOSE: Build high-quality, production-ready React (TypeScript) animation components using CSS and/or Framer Motion that can be cleanly translated to React Native using React Reanimated and Moti.
-2. SCOPE & BOUNDARIES: Work only within the requested task and existing repository context (e.g., `docs/structure.json`, current code). Do NOT invent features, assets, requirements, or architectural changes that weren't explicitly asked for.
+2. SCOPE & BOUNDARIES: Work only within the requested task and existing repository context. Do NOT invent features, assets, requirements, or architectural changes that weren't explicitly asked for.
 3. QUALITY STANDARDS: All testable behaviours must be covered by appropriate unit, integration, and e2e tests. Prefer deterministic outputs, structured steps, and minimal diffs. If information is missing, state "Information not available" or ask, rather than guessing.
 4. MANDATORY PROCESS TOOLS: Always use Sequential Thinking MCP and TodoWrite. Start by creating a TodoWrite plan with exactly one in-progress item. After each step, update TodoWrite (complete current item before starting the next). Do not proceed without a plan.
 5. MANDATORY SUBAGENT USE: Where helpful, use the Task tool and subagents. Provide them only the necessary, factual context from the repo/user request—no speculation.
@@ -10,12 +10,34 @@
 
 ## High-Level Data Flow
 
-1. `docs/structure.json` defines the hierarchy. Each entry supplies:
-   - `category.id` / `category.title`
-   - `group.id`, `group.title`, `tech`, `demo`
-   - `animations[]` with `id`, `title`, `description`, `categoryId`, `groupId`
-2. `src/services/animationData.ts` reads `structure.json`, builds the category → group → animation catalog, and exposes it through `animationDataService`.
-3. `src/components/animationRegistry.ts` maps every animation id to its React component. `GroupSection` consults this registry and renders each animation inside an `AnimationCard`.
+**Co-located Metadata System** - The project uses component-based metadata where folder structure IS the single source of truth:
+
+1. **Component Level**: Each animation component exports its own metadata:
+   - `export const metadata: AnimationMetadata = { id, title, description, tags }`
+   - Metadata lives next to implementation (no external config files)
+
+2. **Group Aggregation**: Each group's `index.ts` aggregates all animations:
+   - Imports all animation components + their metadata exports
+   - Exports `groupMetadata: GroupMetadata` (id, title, tech, demo)
+   - Exports `groupExport: GroupExport` combining group metadata with animations
+
+3. **Category Aggregation**: Each category's `index.ts` aggregates all groups:
+   - Imports all group exports
+   - Exports `categoryMetadata: CategoryMetadata` (id, title)
+   - Exports `categoryExport: CategoryExport` combining category metadata with groups
+
+4. **Central Registry** (`src/components/animationRegistry.ts`):
+   - Imports all category exports
+   - Exports `categories: Record<string, CategoryExport>` (hierarchical registry)
+   - Provides `buildRegistryFromCategories()` helper (flattens to id→component map)
+   - Provides `getAnimationMetadata(id)` helper (retrieves metadata by id)
+
+5. **Data Service** (`src/services/animationData.ts`):
+   - Builds catalog from category exports (not external JSON)
+   - Transforms hierarchical registry into UI-friendly Category[] structure
+   - Exposes through `animationDataService` for hooks/components
+
+6. **UI Consumption**: `GroupSection` uses `buildRegistryFromCategories()` to get flat id→component mapping and renders each animation inside `AnimationCard`.
 
 ## File/Folder Layout
 
@@ -23,12 +45,16 @@
 src/
 ├─ components/
 │  ├─ ui/                     // Catalog UI (CategorySection, GroupSection, AnimationCard)
-│  ├─ <category-id>/          // One folder per category id from structure.json
-│  │  └─ <group-id>/          // One folder per group id within that category
-│  │     ├─ *.tsx             // Animation components (PascalCase name derived from animation id)
-│  │     └─ *.css             // Co-located CSS per component (no shared group CSS)
+│  ├─ <category-id>/          // One folder per category (folder structure defines hierarchy)
+│  │  ├─ index.ts             // Category aggregation (exports categoryExport)
+│  │  └─ <group-id>/          // One folder per group within that category
+│  │     ├─ index.ts          // Group aggregation (exports groupExport)
+│  │     ├─ *.tsx             // Animation components with metadata exports
+│  │     └─ *.css             // Co-located CSS per component
+│  ├─ animationRegistry.ts    // Central registry (exports categories + helpers)
+├─ services/animationData.ts  // Builds catalog from component exports
 ├─ hooks/useAnimations.ts     // Loads catalog data for the app
-├─ types/animation.ts         // Core types (Category, Group, Animation, registry types)
+├─ types/animation.ts         // Core types (metadata types, export types)
 ```
 
 ## Locating an Animation Component
@@ -81,13 +107,15 @@ Quality gates (apply before finalizing):
 ## Summary Checklist
 
 1. Create or edit the matching component in `src/components/<category>/<group>/`.
-2. Update group CSS to host shared styles.
-3. Verify the catalog renders (run `npm run dev`) and tests pass (`npm run test`).
-4. Portability: The implementation uses CSS/Framer Motion patterns that translate to RN Reanimated + Moti (transforms/opacity preferred; no web-only features unless requested).
-5. No invention: Confirm all added behaviour/features exist in the source (showcase/structure) or the explicit request.
-6. Process: A TodoWrite plan was created first; steps were executed with only one in-progress item at a time and updated after completion.
+2. Export metadata from the component: `export const metadata: AnimationMetadata = { ... }`.
+3. Update group's `index.ts` to include the new animation in `groupExport.animations`.
+4. Update group CSS to host shared styles (if needed).
+5. Verify the catalog renders (run `npm run dev`) and tests pass (`npm run test`).
+6. Portability: The implementation uses CSS/Framer Motion patterns that translate to RN Reanimated + Moti (transforms/opacity preferred; no web-only features unless requested).
+7. No invention: Confirm all added behaviour/features exist in the explicit request or existing codebase.
+8. Process: A TodoWrite plan was created first; steps were executed with only one in-progress item at a time and updated after completion.
 
-Following this structure ensures each animation lives in its dedicated React component while the catalog UI remains consistent, portable, and delivered via a reliable, planned workflow.
+Following this structure ensures each animation lives in its dedicated React component with co-located metadata, while the catalog UI remains consistent, portable, and delivered via a reliable, planned workflow.
 
 === CONSTITUTIONAL PRINCIPLES CHECKLIST ===
 

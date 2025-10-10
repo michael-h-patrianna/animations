@@ -1,4 +1,5 @@
 import { motion, type Variants } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsWaveReveal.css'
 
 export function TextEffectsWaveReveal() {
@@ -74,4 +75,12 @@ export function TextEffectsWaveReveal() {
       </motion.div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'text-effects__wave-reveal',
+  title: 'Wave Reveal',
+  description: 'Staggered wave animation where text appears from bottom with smooth easing.',
+  tags: ['framer'],
+  disableReplay: false
 }

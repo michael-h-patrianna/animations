@@ -1,73 +1,59 @@
-import type { AnimationComponentMap } from '@/types/animation'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 
-import { StandardEffectsBlink } from './StandardEffectsBlink'
-import { StandardEffectsBounce } from './StandardEffectsBounce'
-import { StandardEffectsFade } from './StandardEffectsFade'
-import { StandardEffectsFlip } from './StandardEffectsFlip'
-import { StandardEffectsFloat } from './StandardEffectsFloat'
-import { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat'
-import { StandardEffectsJello } from './StandardEffectsJello'
-import { StandardEffectsPop } from './StandardEffectsPop'
-import { StandardEffectsPulse } from './StandardEffectsPulse'
-import { StandardEffectsPulseCircle } from './StandardEffectsPulseCircle'
-import { StandardEffectsPulseWave } from './StandardEffectsPulseWave'
-import { StandardEffectsRadialPulse } from './StandardEffectsRadialPulse'
-import { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
-import { StandardEffectsScale } from './StandardEffectsScale'
-import { StandardEffectsShake } from './StandardEffectsShake'
-import { StandardEffectsSlide } from './StandardEffectsSlide'
-import { StandardEffectsSoftPulse } from './StandardEffectsSoftPulse'
-import { StandardEffectsSpin } from './StandardEffectsSpin'
-import { StandardEffectsSqueeze } from './StandardEffectsSqueeze'
-import { StandardEffectsSwing } from './StandardEffectsSwing'
-import { StandardEffectsTada } from './StandardEffectsTada'
-import { StandardEffectsWiggle } from './StandardEffectsWiggle'
+import { StandardEffectsBlink, metadata as blinkMeta } from './StandardEffectsBlink'
+import { StandardEffectsBounce, metadata as bounceMeta } from './StandardEffectsBounce'
+import { StandardEffectsFade, metadata as fadeMeta } from './StandardEffectsFade'
+import { StandardEffectsFlip, metadata as flipMeta } from './StandardEffectsFlip'
+import { StandardEffectsFloat, metadata as floatMeta } from './StandardEffectsFloat'
+import { StandardEffectsHeartbeat, metadata as heartbeatMeta } from './StandardEffectsHeartbeat'
+import { StandardEffectsJello, metadata as jelloMeta } from './StandardEffectsJello'
+import { StandardEffectsPop, metadata as popMeta } from './StandardEffectsPop'
+import { StandardEffectsPulse, metadata as pulseMeta } from './StandardEffectsPulse'
+import { StandardEffectsPulseCircle, metadata as pulseCircleMeta } from './StandardEffectsPulseCircle'
+import { StandardEffectsPulseWave, metadata as pulseWaveMeta } from './StandardEffectsPulseWave'
+import { StandardEffectsRadialPulse, metadata as radialPulseMeta } from './StandardEffectsRadialPulse'
+import { StandardEffectsRubberBand, metadata as rubberBandMeta } from './StandardEffectsRubberBand'
+import { StandardEffectsScale, metadata as scaleMeta } from './StandardEffectsScale'
+import { StandardEffectsShake, metadata as shakeMeta } from './StandardEffectsShake'
+import { StandardEffectsSlide, metadata as slideMeta } from './StandardEffectsSlide'
+import { StandardEffectsSoftPulse, metadata as softPulseMeta } from './StandardEffectsSoftPulse'
+import { StandardEffectsSpin, metadata as spinMeta } from './StandardEffectsSpin'
+import { StandardEffectsSqueeze, metadata as squeezeMeta } from './StandardEffectsSqueeze'
+import { StandardEffectsSwing, metadata as swingMeta } from './StandardEffectsSwing'
+import { StandardEffectsTada, metadata as tadaMeta } from './StandardEffectsTada'
+import { StandardEffectsWiggle, metadata as wiggleMeta } from './StandardEffectsWiggle'
 
-export { StandardEffectsBlink } from './StandardEffectsBlink'
-export { StandardEffectsBounce } from './StandardEffectsBounce'
-export { StandardEffectsFade } from './StandardEffectsFade'
-export { StandardEffectsFlip } from './StandardEffectsFlip'
-export { StandardEffectsFloat } from './StandardEffectsFloat'
-export { StandardEffectsHeartbeat } from './StandardEffectsHeartbeat'
-export { StandardEffectsJello } from './StandardEffectsJello'
-export { StandardEffectsPop } from './StandardEffectsPop'
-export { StandardEffectsPulse } from './StandardEffectsPulse'
-export { StandardEffectsPulseCircle } from './StandardEffectsPulseCircle'
-export { StandardEffectsPulseWave } from './StandardEffectsPulseWave'
-export { StandardEffectsRadialPulse } from './StandardEffectsRadialPulse'
-export { StandardEffectsRubberBand } from './StandardEffectsRubberBand'
-export { StandardEffectsScale } from './StandardEffectsScale'
-export { StandardEffectsShake } from './StandardEffectsShake'
-export { StandardEffectsSlide } from './StandardEffectsSlide'
-export { StandardEffectsSoftPulse } from './StandardEffectsSoftPulse'
-export { StandardEffectsSpin } from './StandardEffectsSpin'
-export { StandardEffectsSqueeze } from './StandardEffectsSqueeze'
-export { StandardEffectsSwing } from './StandardEffectsSwing'
-export { StandardEffectsTada } from './StandardEffectsTada'
-export { StandardEffectsWiggle } from './StandardEffectsWiggle'
+export const groupMetadata: GroupMetadata = {
+  id: 'standard-effects',
+  title: 'Standard effects',
+  tech: 'framer',
+  demo: 'standardEffects',
+}
 
-export const baseStandardEffectsAnimations: AnimationComponentMap = {
-  'standard-effects__shake': StandardEffectsShake,
-  'standard-effects__bounce': StandardEffectsBounce,
-  'standard-effects__pulse': StandardEffectsPulse,
-  'standard-effects__radial-pulse': StandardEffectsRadialPulse,
-  'standard-effects__pulse-wave': StandardEffectsPulseWave,
-  'standard-effects__rubber-band': StandardEffectsRubberBand,
-  'standard-effects__swing': StandardEffectsSwing,
-  'standard-effects__jello': StandardEffectsJello,
-  'standard-effects__pop': StandardEffectsPop,
-  'standard-effects__wiggle': StandardEffectsWiggle,
-  'standard-effects__flip': StandardEffectsFlip,
-  'standard-effects__spin': StandardEffectsSpin,
-  'standard-effects__float': StandardEffectsFloat,
-  'standard-effects__fade': StandardEffectsFade,
-  'standard-effects__slide': StandardEffectsSlide,
-  'standard-effects__scale': StandardEffectsScale,
-  'standard-effects__blink': StandardEffectsBlink,
-  'standard-effects__squeeze': StandardEffectsSqueeze,
-  'standard-effects__tada': StandardEffectsTada,
-  'standard-effects__heartbeat': StandardEffectsHeartbeat,
-  // New animation placed at the end of the group
-  'standard-effects__pulse-circle': StandardEffectsPulseCircle,
-  'standard-effects__soft-pulse': StandardEffectsSoftPulse,
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'standard-effects__shake': { component: StandardEffectsShake, metadata: shakeMeta },
+    'standard-effects__bounce': { component: StandardEffectsBounce, metadata: bounceMeta },
+    'standard-effects__pulse': { component: StandardEffectsPulse, metadata: pulseMeta },
+    'standard-effects__radial-pulse': { component: StandardEffectsRadialPulse, metadata: radialPulseMeta },
+    'standard-effects__pulse-wave': { component: StandardEffectsPulseWave, metadata: pulseWaveMeta },
+    'standard-effects__rubber-band': { component: StandardEffectsRubberBand, metadata: rubberBandMeta },
+    'standard-effects__swing': { component: StandardEffectsSwing, metadata: swingMeta },
+    'standard-effects__jello': { component: StandardEffectsJello, metadata: jelloMeta },
+    'standard-effects__pop': { component: StandardEffectsPop, metadata: popMeta },
+    'standard-effects__wiggle': { component: StandardEffectsWiggle, metadata: wiggleMeta },
+    'standard-effects__flip': { component: StandardEffectsFlip, metadata: flipMeta },
+    'standard-effects__spin': { component: StandardEffectsSpin, metadata: spinMeta },
+    'standard-effects__float': { component: StandardEffectsFloat, metadata: floatMeta },
+    'standard-effects__fade': { component: StandardEffectsFade, metadata: fadeMeta },
+    'standard-effects__slide': { component: StandardEffectsSlide, metadata: slideMeta },
+    'standard-effects__scale': { component: StandardEffectsScale, metadata: scaleMeta },
+    'standard-effects__blink': { component: StandardEffectsBlink, metadata: blinkMeta },
+    'standard-effects__squeeze': { component: StandardEffectsSqueeze, metadata: squeezeMeta },
+    'standard-effects__tada': { component: StandardEffectsTada, metadata: tadaMeta },
+    'standard-effects__heartbeat': { component: StandardEffectsHeartbeat, metadata: heartbeatMeta },
+    'standard-effects__pulse-circle': { component: StandardEffectsPulseCircle, metadata: pulseCircleMeta },
+    'standard-effects__soft-pulse': { component: StandardEffectsSoftPulse, metadata: softPulseMeta },
+  },
 }

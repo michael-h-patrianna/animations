@@ -1,41 +1,52 @@
-import { TextEffectsCharacterReveal } from './TextEffectsCharacterReveal'
-import { TextEffectsComboCounter } from './TextEffectsComboCounter'
-import { TextEffectsCounterIncrement } from './TextEffectsCounterIncrement'
-import { TextEffectsEpicWin } from './TextEffectsEpicWin'
-import { TextEffectsGlitchText } from './TextEffectsGlitchText'
-import { TextEffectsHorizonLightPass } from './TextEffectsHorizonLightPass'
-import { TextEffectsLevelBreakthrough } from './TextEffectsLevelBreakthrough'
-import { TextEffectsLightSweepDraw } from './TextEffectsLightSweepDraw'
-import { TextEffectsMetallicSpecularFlash } from './TextEffectsMetallicSpecularFlash'
-import { TextEffectsTypewriter } from './TextEffectsTypewriter'
-import { TextEffectsVerbFall } from './TextEffectsVerbFall'
-import { TextEffectsVerbFlip } from './TextEffectsVerbFlip'
-import { TextEffectsVerbFloat } from './TextEffectsVerbFloat'
-import { TextEffectsVerbJog } from './TextEffectsVerbJog'
-import { TextEffectsVerbJump } from './TextEffectsVerbJump'
-import { TextEffectsVerbTwirl } from './TextEffectsVerbTwirl'
-import { TextEffectsWaveReveal } from './TextEffectsWaveReveal'
-import { TextEffectsWaveText } from './TextEffectsWaveText'
-import { TextEffectsXpNumberPop } from './TextEffectsXpNumberPop'
+import { TextEffectsCharacterReveal, metadata as characterRevealMeta } from './TextEffectsCharacterReveal'
+import { TextEffectsComboCounter, metadata as comboCounterMeta } from './TextEffectsComboCounter'
+import { TextEffectsCounterIncrement, metadata as counterIncrementMeta } from './TextEffectsCounterIncrement'
+import { TextEffectsEpicWin, metadata as epicWinMeta } from './TextEffectsEpicWin'
+import { TextEffectsGlitchText, metadata as glitchTextMeta } from './TextEffectsGlitchText'
+import { TextEffectsHorizonLightPass, metadata as horizonLightPassMeta } from './TextEffectsHorizonLightPass'
+import { TextEffectsLevelBreakthrough, metadata as levelBreakthroughMeta } from './TextEffectsLevelBreakthrough'
+import { TextEffectsLightSweepDraw, metadata as lightSweepDrawMeta } from './TextEffectsLightSweepDraw'
+import { TextEffectsMetallicSpecularFlash, metadata as metallicSpecularFlashMeta } from './TextEffectsMetallicSpecularFlash'
+import { TextEffectsTypewriter, metadata as typewriterMeta } from './TextEffectsTypewriter'
+import { TextEffectsVerbFall, metadata as verbFallMeta } from './TextEffectsVerbFall'
+import { TextEffectsVerbFlip, metadata as verbFlipMeta } from './TextEffectsVerbFlip'
+import { TextEffectsVerbFloat, metadata as verbFloatMeta } from './TextEffectsVerbFloat'
+import { TextEffectsVerbJog, metadata as verbJogMeta } from './TextEffectsVerbJog'
+import { TextEffectsVerbJump, metadata as verbJumpMeta } from './TextEffectsVerbJump'
+import { TextEffectsVerbTwirl, metadata as verbTwirlMeta } from './TextEffectsVerbTwirl'
+import { TextEffectsWaveReveal, metadata as waveRevealMeta } from './TextEffectsWaveReveal'
+import { TextEffectsWaveText, metadata as waveTextMeta } from './TextEffectsWaveText'
+import { TextEffectsXpNumberPop, metadata as xpNumberPopMeta } from './TextEffectsXpNumberPop'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 
-export const AnimationComponentMap = {
-  'text-effects__character-reveal': TextEffectsCharacterReveal,
-  'text-effects__epic-win': TextEffectsEpicWin,
-  'text-effects__wave-text': TextEffectsWaveText,
-  'text-effects__glitch-text': TextEffectsGlitchText,
-  'text-effects__typewriter': TextEffectsTypewriter,
-  'text-effects__combo-counter': TextEffectsComboCounter,
-  'text-effects__xp-number-pop': TextEffectsXpNumberPop,
-  'text-effects__level-breakthrough': TextEffectsLevelBreakthrough,
-  'text-effects__counter-increment': TextEffectsCounterIncrement,
-  'text-effects__wave-reveal': TextEffectsWaveReveal,
-  'text-effects__light-sweep-draw': TextEffectsLightSweepDraw,
-  'text-effects__metallic-specular-flash': TextEffectsMetallicSpecularFlash,
-  'text-effects__horizon-light-pass': TextEffectsHorizonLightPass,
-  'text-effects__verb-jumping': TextEffectsVerbJump,
-  'text-effects__verb-floating': TextEffectsVerbFloat,
-  'text-effects__verb-jogging': TextEffectsVerbJog,
-  'text-effects__verb-flipping': TextEffectsVerbFlip,
-  'text-effects__verb-twirling': TextEffectsVerbTwirl,
-  'text-effects__verb-falling': TextEffectsVerbFall,
+export const groupMetadata: GroupMetadata = {
+  id: 'text-effects',
+  title: 'Text effects',
+  tech: 'framer',
+  demo: 'textEffects'
+}
+
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'text-effects__character-reveal': { component: TextEffectsCharacterReveal, metadata: characterRevealMeta },
+    'text-effects__epic-win': { component: TextEffectsEpicWin, metadata: epicWinMeta },
+    'text-effects__wave-text': { component: TextEffectsWaveText, metadata: waveTextMeta },
+    'text-effects__glitch-text': { component: TextEffectsGlitchText, metadata: glitchTextMeta },
+    'text-effects__typewriter': { component: TextEffectsTypewriter, metadata: typewriterMeta },
+    'text-effects__combo-counter': { component: TextEffectsComboCounter, metadata: comboCounterMeta },
+    'text-effects__xp-number-pop': { component: TextEffectsXpNumberPop, metadata: xpNumberPopMeta },
+    'text-effects__level-breakthrough': { component: TextEffectsLevelBreakthrough, metadata: levelBreakthroughMeta },
+    'text-effects__counter-increment': { component: TextEffectsCounterIncrement, metadata: counterIncrementMeta },
+    'text-effects__wave-reveal': { component: TextEffectsWaveReveal, metadata: waveRevealMeta },
+    'text-effects__light-sweep-draw': { component: TextEffectsLightSweepDraw, metadata: lightSweepDrawMeta },
+    'text-effects__metallic-specular-flash': { component: TextEffectsMetallicSpecularFlash, metadata: metallicSpecularFlashMeta },
+    'text-effects__horizon-light-pass': { component: TextEffectsHorizonLightPass, metadata: horizonLightPassMeta },
+    'text-effects__verb-jumping': { component: TextEffectsVerbJump, metadata: verbJumpMeta },
+    'text-effects__verb-floating': { component: TextEffectsVerbFloat, metadata: verbFloatMeta },
+    'text-effects__verb-jogging': { component: TextEffectsVerbJog, metadata: verbJogMeta },
+    'text-effects__verb-flipping': { component: TextEffectsVerbFlip, metadata: verbFlipMeta },
+    'text-effects__verb-twirling': { component: TextEffectsVerbTwirl, metadata: verbTwirlMeta },
+    'text-effects__verb-falling': { component: TextEffectsVerbFall, metadata: verbFallMeta },
+  }
 }

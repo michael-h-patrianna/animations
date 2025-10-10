@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import coinImage from '@/assets/coin.png'
 import { useEffect, useState } from 'react'
 import './ModalCelebrationsCoinTrail.css'
@@ -86,4 +87,11 @@ export function ModalCelebrationsCoinTrail() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__coin-trail',
+  title: 'Coin Trail',
+  description: 'Celebration effects pattern: Coin Trail',
+  tags: ['css'],
 }

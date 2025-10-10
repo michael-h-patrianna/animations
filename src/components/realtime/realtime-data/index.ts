@@ -1,18 +1,36 @@
-import type { AnimationComponentMap } from '@/types/animation'
+import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { RealtimeDataLeaderboardShift } from './RealtimeDataLeaderboardShift'
-import { RealtimeDataLiveScoreUpdate } from './RealtimeDataLiveScoreUpdate'
-import { RealtimeDataStackedRealtime } from './RealtimeDataStackedRealtime'
-import { RealtimeDataWinTicker } from './RealtimeDataWinTicker'
+import { RealtimeDataLeaderboardShift, metadata as leaderboardMetadata } from './RealtimeDataLeaderboardShift'
+import { RealtimeDataLiveScoreUpdate, metadata as liveScoreMetadata } from './RealtimeDataLiveScoreUpdate'
+import { RealtimeDataStackedRealtime, metadata as stackedMetadata } from './RealtimeDataStackedRealtime'
+import { RealtimeDataWinTicker, metadata as winTickerMetadata } from './RealtimeDataWinTicker'
 
-export { RealtimeDataLeaderboardShift } from './RealtimeDataLeaderboardShift'
-export { RealtimeDataLiveScoreUpdate } from './RealtimeDataLiveScoreUpdate'
-export { RealtimeDataStackedRealtime } from './RealtimeDataStackedRealtime'
-export { RealtimeDataWinTicker } from './RealtimeDataWinTicker'
-
-export const realtimeRealtimeDataAnimations: AnimationComponentMap = {
-  'realtime-data__leaderboard-shift': RealtimeDataLeaderboardShift,
-  'realtime-data__live-score-update': RealtimeDataLiveScoreUpdate,
-  'realtime-data__stacked-realtime': RealtimeDataStackedRealtime,
-  'realtime-data__win-ticker': RealtimeDataWinTicker,
+export const groupMetadata: GroupMetadata = {
+  id: 'realtime-data',
+  title: 'Realtime data',
+  tech: 'css',
+  demo: 'realtimeData',
 }
+
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'realtime-data__leaderboard-shift': {
+      component: RealtimeDataLeaderboardShift,
+      metadata: leaderboardMetadata
+    },
+    'realtime-data__live-score-update': {
+      component: RealtimeDataLiveScoreUpdate,
+      metadata: liveScoreMetadata
+    },
+    'realtime-data__win-ticker': {
+      component: RealtimeDataWinTicker,
+      metadata: winTickerMetadata
+    },
+    'realtime-data__stacked-realtime': {
+      component: RealtimeDataStackedRealtime,
+      metadata: stackedMetadata
+    }
+  }
+}
+

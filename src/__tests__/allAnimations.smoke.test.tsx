@@ -1,9 +1,12 @@
 import { render } from '@testing-library/react'
-import { animationRegistry } from '../components/animationRegistry'
-import type { AnimationComponent } from '../types/animation'
+import { buildRegistryFromCategories } from '../components/animationRegistry'
+import type React from 'react'
+
+type AnimationComponent = React.ComponentType<Record<string, unknown>>
 
 describe('animationRegistry smoke', () => {
   it('renders all registered animation components without throwing', () => {
+    const animationRegistry = buildRegistryFromCategories()
     // Render each component once to exercise mount effects
     const entries = Object.entries(animationRegistry) as [string, AnimationComponent][]
     for (const [key, Component] of entries) {

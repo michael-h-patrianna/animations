@@ -1,36 +1,92 @@
-import type { AnimationComponentMap } from '@/types/animation'
+import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { ModalOrchestrationComparisonMorph } from './ModalOrchestrationComparisonMorph'
-import { ModalOrchestrationSelectionGrid } from './ModalOrchestrationSelectionGrid'
-import { ModalOrchestrationTabMorph } from './ModalOrchestrationTabMorph'
-import { ModalOrchestrationWizardFadeCross } from './ModalOrchestrationWizardFadeCross'
-import { ModalOrchestrationWizardScaleRotate } from './ModalOrchestrationWizardScaleRotate'
-import { ModalOrchestrationWizardSlideStack } from './ModalOrchestrationWizardSlideStack'
-import { ModalOrchestrationStaggerInview } from './ModalOrchestrationStaggerInview'
-import { ModalOrchestrationSpringPhysics } from './ModalOrchestrationSpringPhysics'
-import { ModalOrchestrationMagneticHover } from './ModalOrchestrationMagneticHover'
-import { ModalOrchestrationFlipReveal } from './ModalOrchestrationFlipReveal'
+import {
+  ModalOrchestrationComparisonMorph,
+  metadata as comparisonMorphMetadata,
+} from './ModalOrchestrationComparisonMorph'
+import {
+  ModalOrchestrationSelectionGrid,
+  metadata as selectionGridMetadata,
+} from './ModalOrchestrationSelectionGrid'
+import { ModalOrchestrationTabMorph, metadata as tabMorphMetadata } from './ModalOrchestrationTabMorph'
+import {
+  ModalOrchestrationWizardFadeCross,
+  metadata as wizardFadeCrossMetadata,
+} from './ModalOrchestrationWizardFadeCross'
+import {
+  ModalOrchestrationWizardScaleRotate,
+  metadata as wizardScaleRotateMetadata,
+} from './ModalOrchestrationWizardScaleRotate'
+import {
+  ModalOrchestrationWizardSlideStack,
+  metadata as wizardSlideStackMetadata,
+} from './ModalOrchestrationWizardSlideStack'
+import {
+  ModalOrchestrationStaggerInview,
+  metadata as staggerInviewMetadata,
+} from './ModalOrchestrationStaggerInview'
+import {
+  ModalOrchestrationSpringPhysics,
+  metadata as springPhysicsMetadata,
+} from './ModalOrchestrationSpringPhysics'
+import {
+  ModalOrchestrationMagneticHover,
+  metadata as magneticHoverMetadata,
+} from './ModalOrchestrationMagneticHover'
+import {
+  ModalOrchestrationFlipReveal,
+  metadata as flipRevealMetadata,
+} from './ModalOrchestrationFlipReveal'
 
-export { ModalOrchestrationComparisonMorph } from './ModalOrchestrationComparisonMorph'
-export { ModalOrchestrationSelectionGrid } from './ModalOrchestrationSelectionGrid'
-export { ModalOrchestrationTabMorph } from './ModalOrchestrationTabMorph'
-export { ModalOrchestrationWizardFadeCross } from './ModalOrchestrationWizardFadeCross'
-export { ModalOrchestrationWizardScaleRotate } from './ModalOrchestrationWizardScaleRotate'
-export { ModalOrchestrationWizardSlideStack } from './ModalOrchestrationWizardSlideStack'
-export { ModalOrchestrationStaggerInview } from './ModalOrchestrationStaggerInview'
-export { ModalOrchestrationSpringPhysics } from './ModalOrchestrationSpringPhysics'
-export { ModalOrchestrationMagneticHover } from './ModalOrchestrationMagneticHover'
-export { ModalOrchestrationFlipReveal } from './ModalOrchestrationFlipReveal'
+export const groupMetadata: GroupMetadata = {
+  id: 'modal-orchestration',
+  title: 'Tile animations',
+  tech: 'framer',
+  demo: 'wizard',
+}
 
-export const dialogsModalOrchestrationAnimations: AnimationComponentMap = {
-  'modal-orchestration__comparison-morph': ModalOrchestrationComparisonMorph,
-  'modal-orchestration__selection-grid': ModalOrchestrationSelectionGrid,
-  'modal-orchestration__tab-morph': ModalOrchestrationTabMorph,
-  'modal-orchestration__wizard-fade-cross': ModalOrchestrationWizardFadeCross,
-  'modal-orchestration__wizard-scale-rotate': ModalOrchestrationWizardScaleRotate,
-  'modal-orchestration__wizard-slide-stack': ModalOrchestrationWizardSlideStack,
-  'modal-orchestration__stagger-inview': ModalOrchestrationStaggerInview,
-  'modal-orchestration__spring-physics': ModalOrchestrationSpringPhysics,
-  'modal-orchestration__magnetic-hover': ModalOrchestrationMagneticHover,
-  'modal-orchestration__flip-reveal': ModalOrchestrationFlipReveal,
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'modal-orchestration__wizard-slide-stack': {
+      component: ModalOrchestrationWizardSlideStack,
+      metadata: wizardSlideStackMetadata,
+    },
+    'modal-orchestration__wizard-fade-cross': {
+      component: ModalOrchestrationWizardFadeCross,
+      metadata: wizardFadeCrossMetadata,
+    },
+    'modal-orchestration__wizard-scale-rotate': {
+      component: ModalOrchestrationWizardScaleRotate,
+      metadata: wizardScaleRotateMetadata,
+    },
+    'modal-orchestration__tab-morph': {
+      component: ModalOrchestrationTabMorph,
+      metadata: tabMorphMetadata,
+    },
+    'modal-orchestration__selection-grid': {
+      component: ModalOrchestrationSelectionGrid,
+      metadata: selectionGridMetadata,
+    },
+    'modal-orchestration__comparison-morph': {
+      component: ModalOrchestrationComparisonMorph,
+      metadata: comparisonMorphMetadata,
+    },
+    'modal-orchestration__stagger-inview': {
+      component: ModalOrchestrationStaggerInview,
+      metadata: staggerInviewMetadata,
+    },
+    'modal-orchestration__spring-physics': {
+      component: ModalOrchestrationSpringPhysics,
+      metadata: springPhysicsMetadata,
+    },
+    'modal-orchestration__magnetic-hover': {
+      component: ModalOrchestrationMagneticHover,
+      metadata: magneticHoverMetadata,
+    },
+    'modal-orchestration__flip-reveal': {
+      component: ModalOrchestrationFlipReveal,
+      metadata: flipRevealMetadata,
+    },
+  },
 }

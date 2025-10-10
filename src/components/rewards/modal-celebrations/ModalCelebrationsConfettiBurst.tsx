@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsConfettiBurst.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
@@ -51,4 +52,11 @@ export function ModalCelebrationsConfettiBurst() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__confetti-burst',
+  title: 'Confetti Burst',
+  description: 'Celebration effects pattern: Confetti Burst',
+  tags: ['css'],
 }

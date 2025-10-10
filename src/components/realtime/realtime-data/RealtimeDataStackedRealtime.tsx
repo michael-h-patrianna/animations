@@ -1,6 +1,14 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './RealtimeDataStackedRealtime.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'realtime-data__stacked-realtime',
+  title: 'Stacked Pulse',
+  description: 'Real-time data pattern: Stacked Pulse',
+  tags: ['framer', 'js']
+}
 
 export function RealtimeDataStackedRealtime() {
   const [isAnimating, setIsAnimating] = useState(false)

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic1.css';
 import { calculateBulbColors } from '@/utils/colors';
 
@@ -77,3 +78,10 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
 };
 
 export default LightsCircleStatic1;
+
+export const metadata: AnimationMetadata = {
+  id: 'lights__circle-static-1',
+  title: 'Alternating Carnival',
+  description: 'Classic carnival pattern with even/odd bulbs alternating on and off with realistic glow and fadeout.',
+  tags: ['css'],
+};

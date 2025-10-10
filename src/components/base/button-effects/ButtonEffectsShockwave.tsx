@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './ButtonEffectsShockwave.css'
 import './shared.css'
 
@@ -60,4 +61,12 @@ export function ButtonEffectsShockwave() {
       </button>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'button-effects__shockwave',
+  title: 'Shockwave',
+  description: 'Concentric rings expand outward with distortion effects.',
+  tags: ['css'],
+  disableReplay: true,
 }

@@ -1,5 +1,13 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationMagneticHover.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-orchestration__magnetic-hover',
+  title: 'Magnetic Hover Tiles',
+  description: 'Tiles that respond to cursor proximity with magnetic attraction and smooth following',
+  tags: ['framer'],
+}
 
 export function ModalOrchestrationMagneticHover() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({

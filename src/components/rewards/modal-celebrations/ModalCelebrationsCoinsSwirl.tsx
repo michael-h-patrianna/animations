@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import coinImage from '@/assets/coin.png'
 import './ModalCelebrationsCoinsSwirl.css'
 
@@ -51,4 +52,11 @@ export function ModalCelebrationsCoinsSwirl() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__coins-swirl',
+  title: 'Coin Swirl',
+  description: 'Celebration effects pattern: Coin Swirl',
+  tags: ['css'],
 }

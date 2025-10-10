@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesDotsPortal.css'
 
 export function LoadingStatesDotsPortal() {
@@ -11,3 +12,10 @@ export function LoadingStatesDotsPortal() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'loading-states__dots-portal',
+  title: 'Dots Portal',
+  description: 'Dots fold into portal centre to indicate processing.',
+  tags: ['css']
+} satisfies AnimationMetadata

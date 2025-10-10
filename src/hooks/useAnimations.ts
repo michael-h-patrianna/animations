@@ -1,6 +1,11 @@
 import { animationDataService } from '@/services/animationData'
-import type { Category, LoadingState } from '@/types/animation'
+import type { Category } from '@/types/animation'
 import { useCallback, useEffect, useState } from 'react'
+
+interface LoadingState {
+  isLoading: boolean
+  error: string | null
+}
 
 export function useAnimations() {
   const [categories, setCategories] = useState<Category[]>([])

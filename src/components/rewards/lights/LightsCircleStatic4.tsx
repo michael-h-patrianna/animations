@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic4.css';
 import { calculateBulbColors } from '@/utils/colors';
 
@@ -71,3 +72,10 @@ const LightsCircleStatic4: React.FC<LightsCircleStatic4Props> = ({
 };
 
 export default LightsCircleStatic4;
+
+export const metadata: AnimationMetadata = {
+  id: 'lights__circle-static-4',
+  title: 'Reverse Chase Pulse',
+  description: 'Counter-clockwise chase followed by faster clockwise motion, then synchronized pulses before revealing the winner.',
+  tags: ['css'],
+};

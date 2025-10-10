@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesDotsRise.css'
 
 export function LoadingStatesDotsRise() {
@@ -11,3 +12,10 @@ export function LoadingStatesDotsRise() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'loading-states__dots-rise',
+  title: 'Dots Rise',
+  description: 'Three-dot rise cadence for subtle loading feedback.',
+  tags: ['css']
+} satisfies AnimationMetadata

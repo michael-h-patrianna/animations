@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsGlitchText.css'
 
 export function TextEffectsGlitchText() {
@@ -39,4 +40,12 @@ export function TextEffectsGlitchText() {
       />
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'text-effects__glitch-text',
+  title: 'Glitch Text',
+  description: 'Digital distortion with RGB channel separation and scanning line artifacts.',
+  tags: ['framer'],
+  disableReplay: false
 }

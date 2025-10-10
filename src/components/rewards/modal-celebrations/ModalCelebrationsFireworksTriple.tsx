@@ -1,4 +1,5 @@
 import './ModalCelebrationsFireworksTriple.css'
+import type { AnimationMetadata } from '@/types/animation'
 
 const fireworkColors = ['#ffce1a', '#ff5981', '#47fff4', '#c6ff77']
 
@@ -33,4 +34,11 @@ export function ModalCelebrationsFireworksTriple() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__fireworks-triple',
+  title: 'Fireworks Triple Burst',
+  description: 'Celebration effects pattern: Fireworks Triple Burst',
+  tags: ['css'],
 }

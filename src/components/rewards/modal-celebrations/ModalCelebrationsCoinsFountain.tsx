@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import coinImage from '@/assets/coin.png'
 import './ModalCelebrationsCoinsFountain.css'
 
@@ -48,4 +49,11 @@ export function ModalCelebrationsCoinsFountain() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__coins-fountain',
+  title: 'Coin Fountain',
+  description: 'Celebration effects pattern: Coin Fountain',
+  tags: ['css'],
 }

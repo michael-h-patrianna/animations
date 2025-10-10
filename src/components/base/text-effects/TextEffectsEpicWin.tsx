@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsEpicWin.css'
 
 export function TextEffectsEpicWin() {
@@ -98,4 +99,12 @@ export function TextEffectsEpicWin() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'text-effects__epic-win',
+  title: 'Epic Win',
+  description: 'Metallic 3D text with rotating entrance, layered shadows, and victory flare effect.',
+  tags: ['framer'],
+  disableReplay: false
 }

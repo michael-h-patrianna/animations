@@ -1,6 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './RealtimeDataLeaderboardShift.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'realtime-data__leaderboard-shift',
+  title: 'Leaderboard Shift',
+  description: 'Real-time data pattern: Leaderboard Shift',
+  tags: ['framer', 'js']
+}
 
 export function RealtimeDataLeaderboardShift() {
   const [isAnimating, setIsAnimating] = useState(false)

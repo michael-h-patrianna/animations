@@ -1,27 +1,51 @@
-import type { AnimationComponentMap } from '@/types/animation'
+import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { UpdateIndicatorsBadgePop } from './UpdateIndicatorsBadgePop'
-import { UpdateIndicatorsBadgePulse } from './UpdateIndicatorsBadgePulse'
-import { UpdateIndicatorsHomeIconDotBounce } from './UpdateIndicatorsHomeIconDotBounce'
-import { UpdateIndicatorsHomeIconDotPulse } from './UpdateIndicatorsHomeIconDotPulse'
-import { UpdateIndicatorsHomeIconDotRadar } from './UpdateIndicatorsHomeIconDotRadar'
-import { UpdateIndicatorsHomeIconDotSweep } from './UpdateIndicatorsHomeIconDotSweep'
-import { UpdateIndicatorsLivePing } from './UpdateIndicatorsLivePing'
+import { UpdateIndicatorsBadgePop, metadata as badgePopMetadata } from './UpdateIndicatorsBadgePop'
+import { UpdateIndicatorsBadgePulse, metadata as badgePulseMetadata } from './UpdateIndicatorsBadgePulse'
+import { UpdateIndicatorsHomeIconDotBounce, metadata as dotBounceMetadata } from './UpdateIndicatorsHomeIconDotBounce'
+import { UpdateIndicatorsHomeIconDotPulse, metadata as dotPulseMetadata } from './UpdateIndicatorsHomeIconDotPulse'
+import { UpdateIndicatorsHomeIconDotRadar, metadata as dotRadarMetadata } from './UpdateIndicatorsHomeIconDotRadar'
+import { UpdateIndicatorsHomeIconDotSweep, metadata as dotSweepMetadata } from './UpdateIndicatorsHomeIconDotSweep'
+import { UpdateIndicatorsLivePing, metadata as livePingMetadata } from './UpdateIndicatorsLivePing'
 
-export { UpdateIndicatorsBadgePop } from './UpdateIndicatorsBadgePop'
-export { UpdateIndicatorsBadgePulse } from './UpdateIndicatorsBadgePulse'
-export { UpdateIndicatorsHomeIconDotBounce } from './UpdateIndicatorsHomeIconDotBounce'
-export { UpdateIndicatorsHomeIconDotPulse } from './UpdateIndicatorsHomeIconDotPulse'
-export { UpdateIndicatorsHomeIconDotRadar } from './UpdateIndicatorsHomeIconDotRadar'
-export { UpdateIndicatorsHomeIconDotSweep } from './UpdateIndicatorsHomeIconDotSweep'
-export { UpdateIndicatorsLivePing } from './UpdateIndicatorsLivePing'
-
-export const realtimeUpdateIndicatorsAnimations: AnimationComponentMap = {
-  'update-indicators__badge-pop': UpdateIndicatorsBadgePop,
-  'update-indicators__badge-pulse': UpdateIndicatorsBadgePulse,
-  'update-indicators__live-ping': UpdateIndicatorsLivePing,
-  'update-indicators__home-icon-dot-pulse': UpdateIndicatorsHomeIconDotPulse,
-  'update-indicators__home-icon-dot-bounce': UpdateIndicatorsHomeIconDotBounce,
-  'update-indicators__home-icon-dot-radar': UpdateIndicatorsHomeIconDotRadar,
-  'update-indicators__home-icon-dot-sweep': UpdateIndicatorsHomeIconDotSweep,
+export const groupMetadata: GroupMetadata = {
+  id: 'update-indicators',
+  title: 'Update indicators',
+  tech: 'css',
+  demo: 'updateIndicators',
 }
+
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'update-indicators__badge-pop': {
+      component: UpdateIndicatorsBadgePop,
+      metadata: badgePopMetadata
+    },
+    'update-indicators__badge-pulse': {
+      component: UpdateIndicatorsBadgePulse,
+      metadata: badgePulseMetadata
+    },
+    'update-indicators__live-ping': {
+      component: UpdateIndicatorsLivePing,
+      metadata: livePingMetadata
+    },
+    'update-indicators__home-icon-dot-pulse': {
+      component: UpdateIndicatorsHomeIconDotPulse,
+      metadata: dotPulseMetadata
+    },
+    'update-indicators__home-icon-dot-bounce': {
+      component: UpdateIndicatorsHomeIconDotBounce,
+      metadata: dotBounceMetadata
+    },
+    'update-indicators__home-icon-dot-radar': {
+      component: UpdateIndicatorsHomeIconDotRadar,
+      metadata: dotRadarMetadata
+    },
+    'update-indicators__home-icon-dot-sweep': {
+      component: UpdateIndicatorsHomeIconDotSweep,
+      metadata: dotSweepMetadata
+    }
+  }
+}
+

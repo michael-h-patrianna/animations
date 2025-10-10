@@ -1,4 +1,4 @@
-/* Flipping text effect (no background) */
+/* Flipping text effect (no background) - Framer Motion version */
 .verbFlip {
   display: flex;
   align-items: center;
@@ -9,33 +9,14 @@
 .verbFlip__line {
   display: inline-flex;
   gap: 0.02em;
-  perspective: 600px;
 }
 .verbFlip__char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
-  will-change: transform;
   color: var(--lsd-baseColor);
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;
-  animation: vflip 1.8s cubic-bezier(0.2, 0.6, 0.2, 1) 1 both;
   backface-visibility: hidden;
-}
-.verbFlip__char:nth-child(odd) {
-  animation-delay: 0.1s;
-}
-
-@keyframes vflip {
-  0%,
-  100% {
-    transform: rotateY(0deg);
-  }
-  30% {
-    transform: rotateY(180deg);
-  }
-  60% {
-    transform: rotateY(360deg);
-  }
 }

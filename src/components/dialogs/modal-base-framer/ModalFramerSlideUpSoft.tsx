@@ -1,8 +1,16 @@
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import { MockModalContent } from '../modal-base/MockModalContent'
 import '../modal-base/shared.css'
 import './framer-shared.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-base-framer__slide-up-soft',
+  title: 'Slide Up Soft',
+  description: 'Slides in from the up by 64px with 70% overlay fade and soft blur 8px.',
+  tags: ['framer'],
+}
 
 export function ModalFramerSlideUpSoft() {
   return (

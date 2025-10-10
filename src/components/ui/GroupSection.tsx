@@ -1,4 +1,4 @@
-import { animationRegistry } from '@/components/animationRegistry'
+import { buildRegistryFromCategories } from '@/components/animationRegistry'
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import type { Group } from '@/types/animation'
 import { Suspense } from 'react'
@@ -33,6 +33,8 @@ function isInfiniteAnimation(groupId: string, animationId: string): boolean {
 
   return infiniteAnimations.includes(animationId)
 }
+
+const animationRegistry = buildRegistryFromCategories()
 
 export function GroupSection({ group, elementId }: GroupSectionProps) {
   return (

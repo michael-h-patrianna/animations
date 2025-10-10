@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './MiscPulsingGrid.css'
 
 export function MiscPulsingGrid() {
@@ -14,3 +15,10 @@ export function MiscPulsingGrid() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'misc__pulsing-grid',
+  title: 'Pulsing Grid',
+  description: 'Grid of dots breathing and pulsing with radial delay.',
+  tags: ['css']
+} satisfies AnimationMetadata

@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesSkeletonTile.css'
 
 export function LoadingStatesSkeletonTile() {
@@ -14,3 +15,10 @@ export function LoadingStatesSkeletonTile() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'loading-states__skeleton-tile',
+  title: 'Skeleton Tile Grid',
+  description: 'Grid skeleton effect for gallery loading.',
+  tags: ['css']
+} satisfies AnimationMetadata

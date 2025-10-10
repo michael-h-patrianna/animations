@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic3.css';
 import { calculateBulbColors } from '@/utils/colors';
 
@@ -71,3 +72,10 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
 };
 
 export default LightsCircleStatic3;
+
+export const metadata: AnimationMetadata = {
+  id: 'lights__circle-static-3',
+  title: 'Accelerating Spin',
+  description: 'Wheel of fortune spin: starts slow, accelerates to blur, decelerates, and settles on winner with celebration.',
+  tags: ['css'],
+};

@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsFireworksRing.css'
 
 export function ModalCelebrationsFireworksRing() {
@@ -25,4 +26,11 @@ export function ModalCelebrationsFireworksRing() {
       </div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-celebrations__fireworks-ring',
+  title: 'Fireworks Halo',
+  description: 'Celebration effects pattern: Fireworks Halo',
+  tags: ['css'],
 }

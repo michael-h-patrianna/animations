@@ -1,3 +1,4 @@
+import type { AnimationMetadata } from '@/types/animation'
 import './MiscConcentricRings.css'
 
 export function MiscConcentricRings() {
@@ -17,3 +18,10 @@ export function MiscConcentricRings() {
     </div>
   )
 }
+
+export const metadata = {
+  id: 'misc__concentric-rings',
+  title: 'Concentric Rings',
+  description: 'Multiple rings of dots that slowly rotate and breathe.',
+  tags: ['css']
+} satisfies AnimationMetadata

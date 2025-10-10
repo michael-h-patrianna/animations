@@ -1,5 +1,5 @@
 import { animationDataService } from '@/services/animationData'
-import type { Category } from '@/types/animation'
+import type { Category, Animation } from '@/types/animation'
 
 describe('services • animationData', () => {
   beforeEach(() => {
@@ -9,42 +9,644 @@ describe('services • animationData', () => {
     jest.useRealTimers()
   })
 
-  it('loads, refreshes, and can add animations', async () => {
-    // Initial load
-    let catalog: Category[] = []
-    await (async () => {
-      const p = animationDataService.loadAnimations()
-      jest.advanceTimersByTime(130)
-      catalog = await p
-    })()
-    expect(catalog.length).toBeGreaterThan(0)
+  describe('loadAnimations', () => {
+    it('loads and returns non-empty catalog', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
 
-    // Add animation updates in-memory catalog
-    const newAnim = await animationDataService.addAnimation({
-      title: 'Extra',
-      description: 'Injected',
-      categoryId: catalog[0].id,
-      groupId: catalog[0].groups[0].id,
+      expect(catalog).toBeDefined()
+      expect(Array.isArray(catalog)).toBe(true)
+      expect(catalog.length).toBeGreaterThan(0)
     })
-    expect(newAnim.id).toMatch(`${catalog[0].groups[0].id}__`)
 
-    // getAnimationsByGroup returns new item after ensureCatalog
-    const groupAnims = await animationDataService.getAnimationsByGroup(
-      catalog[0].id,
-      catalog[0].groups[0].id
-    )
-    expect(groupAnims.find((a) => a.id === newAnim.id)).toBeTruthy()
+    it('returns catalog with correct structure', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
 
-    // Refresh rebuilds catalog; still contains extra animation
-    await (async () => {
-      const p = animationDataService.refreshCatalog()
-      jest.advanceTimersByTime(70)
-      await p
-    })()
-    const after = await animationDataService.getAnimationsByGroup(
-      catalog[0].id,
-      catalog[0].groups[0].id
-    )
-    expect(after.find((a) => a.id === newAnim.id)).toBeTruthy()
+      catalog.forEach(category => {
+        expect(category).toMatchObject({
+          id: expect.any(String),
+          title: expect.any(String),
+          groups: expect.any(Array),
+        })
+        expect(category.id).toBeTruthy()
+        expect(category.title).toBeTruthy()
+        expect(category.groups.length).toBeGreaterThan(0)
+      })
+    })
+
+    it('returns catalog with groups containing animations', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      catalog.forEach(category => {
+        category.groups.forEach(group => {
+          expect(group).toMatchObject({
+            id: expect.any(String),
+            title: expect.any(String),
+            animations: expect.any(Array),
+          })
+          expect(group.id).toBeTruthy()
+          expect(group.title).toBeTruthy()
+          expect(group.animations.length).toBeGreaterThan(0)
+        })
+      })
+    })
+
+    it('returns catalog with animations containing required fields', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      catalog.forEach(category => {
+        category.groups.forEach(group => {
+          group.animations.forEach(animation => {
+            expect(animation).toMatchObject({
+              id: expect.any(String),
+              title: expect.any(String),
+              description: expect.any(String),
+              categoryId: expect.any(String),
+              groupId: expect.any(String),
+            })
+            expect(animation.id).toBeTruthy()
+            expect(animation.title).toBeTruthy()
+            expect(animation.description).toBeTruthy()
+            expect(animation.categoryId).toBe(category.id)
+            expect(animation.groupId).toBe(group.id)
+          })
+        })
+      })
+    })
+
+    it('caches catalog on subsequent calls', async () => {
+      let catalog1: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog1 = await p
+      })()
+
+      let catalog2: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog2 = await p
+      })()
+
+      // Should return the same reference (cached)
+      expect(catalog1).toBe(catalog2)
+    })
+  })
+
+  describe('refreshCatalog', () => {
+    it('rebuilds catalog with correct structure', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.refreshCatalog()
+        jest.advanceTimersByTime(70)
+        catalog = await p
+      })()
+
+      expect(catalog).toBeDefined()
+      expect(Array.isArray(catalog)).toBe(true)
+      expect(catalog.length).toBeGreaterThan(0)
+
+      catalog.forEach(category => {
+        expect(category).toMatchObject({
+          id: expect.any(String),
+          title: expect.any(String),
+          groups: expect.any(Array),
+        })
+      })
+    })
+
+    it('returns fresh catalog instance on refresh', async () => {
+      let catalog1: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog1 = await p
+      })()
+
+      let catalog2: Category[] = []
+      await (async () => {
+        const p = animationDataService.refreshCatalog()
+        jest.advanceTimersByTime(70)
+        catalog2 = await p
+      })()
+
+      // Should be different instances after refresh
+      expect(catalog1).not.toBe(catalog2)
+      expect(catalog1.length).toBe(catalog2.length)
+    })
+
+    it('preserves added animations after refresh', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'Extra',
+        description: 'Injected',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      await (async () => {
+        const p = animationDataService.refreshCatalog()
+        jest.advanceTimersByTime(70)
+        await p
+      })()
+
+      const groupAnims = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+      expect(groupAnims.find((a) => a.id === newAnim.id)).toBeTruthy()
+    })
+  })
+
+  describe('addAnimation', () => {
+    it('creates new animation with generated ID', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'Test Animation',
+        description: 'Test Description',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      expect(newAnim).toBeDefined()
+      expect(newAnim.id).toBeTruthy()
+      expect(newAnim.id).toMatch(`${catalog[0].groups[0].id}__`)
+      expect(newAnim.title).toBe('Test Animation')
+      expect(newAnim.description).toBe('Test Description')
+      expect(newAnim.categoryId).toBe(catalog[0].id)
+      expect(newAnim.groupId).toBe(catalog[0].groups[0].id)
+    })
+
+    it('generates unique IDs for multiple animations', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const anim1 = await animationDataService.addAnimation({
+        title: 'Animation 1',
+        description: 'Description 1',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      const anim2 = await animationDataService.addAnimation({
+        title: 'Animation 2',
+        description: 'Description 2',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      expect(anim1.id).not.toBe(anim2.id)
+    })
+
+    it('updates in-memory catalog with new animation', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const originalCount = catalog[0].groups[0].animations.length
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'Extra',
+        description: 'Injected',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      const groupAnims = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+
+      expect(groupAnims.length).toBe(originalCount + 1)
+      expect(groupAnims.find((a) => a.id === newAnim.id)).toBeTruthy()
+    })
+
+    it('supports adding animations with tags', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'Tagged Animation',
+        description: 'Has tags',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+        tags: ['test', 'custom'],
+      })
+
+      expect(newAnim.tags).toEqual(['test', 'custom'])
+    })
+
+    it('supports adding animations with disableReplay flag', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'No Replay',
+        description: 'Replay disabled',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+        disableReplay: true,
+      })
+
+      expect(newAnim.disableReplay).toBe(true)
+    })
+  })
+
+  describe('getAnimationsByGroup', () => {
+    it('returns animations for valid category and group', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const groupAnims = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+
+      expect(groupAnims).toBeDefined()
+      expect(Array.isArray(groupAnims)).toBe(true)
+      expect(groupAnims.length).toBeGreaterThan(0)
+
+      groupAnims.forEach(animation => {
+        expect(animation.categoryId).toBe(catalog[0].id)
+        expect(animation.groupId).toBe(catalog[0].groups[0].id)
+      })
+    })
+
+    it('returns empty array for non-existent category', async () => {
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        await p
+      })()
+
+      const groupAnims = await animationDataService.getAnimationsByGroup(
+        'non-existent-category',
+        'non-existent-group'
+      )
+
+      expect(groupAnims).toEqual([])
+    })
+
+    it('returns empty array for non-existent group', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const groupAnims = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        'non-existent-group'
+      )
+
+      expect(groupAnims).toEqual([])
+    })
+
+    it('returns copy of animations array', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const groupAnims1 = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+
+      const groupAnims2 = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+
+      // Should be different array instances (copies)
+      expect(groupAnims1).not.toBe(groupAnims2)
+      expect(groupAnims1.length).toBe(groupAnims2.length)
+    })
+
+    it('includes added animations', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const originalAnims = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'Extra',
+        description: 'Injected',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      const updatedAnims = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+
+      expect(updatedAnims.length).toBe(originalAnims.length + 1)
+      expect(updatedAnims.find(a => a.id === newAnim.id)).toBeTruthy()
+    })
+  })
+
+  describe('integration tests', () => {
+    it('loads, refreshes, and can add animations', async () => {
+      // Initial load
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+      expect(catalog.length).toBeGreaterThan(0)
+
+      // Add animation updates in-memory catalog
+      const newAnim = await animationDataService.addAnimation({
+        title: 'Extra',
+        description: 'Injected',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+      expect(newAnim.id).toMatch(`${catalog[0].groups[0].id}__`)
+
+      // getAnimationsByGroup returns new item after ensureCatalog
+      const groupAnims = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+      expect(groupAnims.find((a) => a.id === newAnim.id)).toBeTruthy()
+
+      // Refresh rebuilds catalog; still contains extra animation
+      await (async () => {
+        const p = animationDataService.refreshCatalog()
+        jest.advanceTimersByTime(70)
+        await p
+      })()
+      const after = await animationDataService.getAnimationsByGroup(
+        catalog[0].id,
+        catalog[0].groups[0].id
+      )
+      expect(after.find((a) => a.id === newAnim.id)).toBeTruthy()
+    })
+
+    it('handles multiple animations added to different groups', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      // Add animation to first group
+      const anim1 = await animationDataService.addAnimation({
+        title: 'Animation 1',
+        description: 'First animation',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      // Add animation to second group (if exists)
+      if (catalog[0].groups.length > 1) {
+        const anim2 = await animationDataService.addAnimation({
+          title: 'Animation 2',
+          description: 'Second animation',
+          categoryId: catalog[0].id,
+          groupId: catalog[0].groups[1].id,
+        })
+
+        // Verify each group has only its own animation
+        const group1Anims = await animationDataService.getAnimationsByGroup(
+          catalog[0].id,
+          catalog[0].groups[0].id
+        )
+        const group2Anims = await animationDataService.getAnimationsByGroup(
+          catalog[0].id,
+          catalog[0].groups[1].id
+        )
+
+        expect(group1Anims.find(a => a.id === anim1.id)).toBeTruthy()
+        expect(group1Anims.find(a => a.id === anim2.id)).toBeFalsy()
+        expect(group2Anims.find(a => a.id === anim2.id)).toBeTruthy()
+        expect(group2Anims.find(a => a.id === anim1.id)).toBeFalsy()
+      }
+    })
+  })
+
+  describe('edge cases', () => {
+    it('handles empty tags array', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'No Tags',
+        description: 'Animation without tags',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+        tags: [],
+      })
+
+      expect(newAnim.tags).toEqual([])
+    })
+
+    it('handles long animation titles and descriptions', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const longTitle = 'A'.repeat(200)
+      const longDescription = 'B'.repeat(500)
+
+      const newAnim = await animationDataService.addAnimation({
+        title: longTitle,
+        description: longDescription,
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+      })
+
+      expect(newAnim.title).toBe(longTitle)
+      expect(newAnim.description).toBe(longDescription)
+    })
+
+    it('handles special characters in animation metadata', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const newAnim = await animationDataService.addAnimation({
+        title: 'Special: <>&"\'',
+        description: 'Contains special chars: <>&"\'',
+        categoryId: catalog[0].id,
+        groupId: catalog[0].groups[0].id,
+        tags: ['special', 'chars: <>&"\''],
+      })
+
+      expect(newAnim.title).toBe('Special: <>&"\'')
+      expect(newAnim.description).toBe('Contains special chars: <>&"\'')
+      expect(newAnim.tags).toContain('chars: <>&"\'')
+    })
+
+    it('returns consistent results on multiple catalog loads', async () => {
+      let catalog1: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog1 = await p
+      })()
+
+      let catalog2: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog2 = await p
+      })()
+
+      expect(catalog1.length).toBe(catalog2.length)
+      expect(catalog1[0].groups.length).toBe(catalog2[0].groups.length)
+      expect(catalog1[0].groups[0].animations.length).toBe(catalog2[0].groups[0].animations.length)
+    })
+  })
+
+  describe('buildCatalogFromCategories coverage', () => {
+    it('returns catalog with all expected categories', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      const expectedCategories = ['base', 'dialogs', 'misc', 'progress', 'realtime', 'rewards']
+      const actualCategories = catalog.map(cat => cat.id).sort()
+
+      expectedCategories.forEach(expectedId => {
+        expect(actualCategories).toContain(expectedId)
+      })
+    })
+
+    it('ensures all animations have categoryId and groupId matching their parent', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      catalog.forEach(category => {
+        category.groups.forEach(group => {
+          group.animations.forEach(animation => {
+            expect(animation.categoryId).toBe(category.id)
+            expect(animation.groupId).toBe(group.id)
+          })
+        })
+      })
+    })
+
+    it('ensures all groups have tech field when present in metadata', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      catalog.forEach(category => {
+        category.groups.forEach(group => {
+          if (group.tech) {
+            expect(['css', 'framer', 'js']).toContain(group.tech)
+          }
+        })
+      })
+    })
+
+    it('ensures all animations have valid tags array', async () => {
+      let catalog: Category[] = []
+      await (async () => {
+        const p = animationDataService.loadAnimations()
+        jest.advanceTimersByTime(130)
+        catalog = await p
+      })()
+
+      catalog.forEach(category => {
+        category.groups.forEach(group => {
+          group.animations.forEach(animation => {
+            // Tags can be an array or undefined (optional field)
+            if (animation.tags !== undefined) {
+              expect(Array.isArray(animation.tags)).toBe(true)
+              animation.tags.forEach(tag => {
+                expect(typeof tag).toBe('string')
+              })
+            }
+          })
+        })
+      })
+    })
   })
 })

@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsBadgePulse.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'update-indicators__badge-pulse',
+  title: 'Badge Pulse',
+  description: 'Badge pulsates to signal unseen content.',
+  tags: ['js', 'css']
+}
 
 export function UpdateIndicatorsBadgePulse() {
   const badgeRef = useRef<HTMLDivElement>(null)

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic7.css';
 import { calculateBulbColors } from '@/utils/colors';
 
@@ -71,3 +72,10 @@ const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({
 };
 
 export default LightsCircleStatic7;
+
+export const metadata: AnimationMetadata = {
+  id: 'lights__circle-static-7',
+  title: 'Comet Trail',
+  description: 'A bright head with a long trailing fadeout creates a comet-like effect around the circle.',
+  tags: ['css'],
+};

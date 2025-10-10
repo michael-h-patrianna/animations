@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './ButtonEffectsSplitReveal.css'
 import './shared.css'
 
@@ -22,4 +23,12 @@ export function ButtonEffectsSplitReveal() {
       </button>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'button-effects__split-reveal',
+  title: 'Split Reveal',
+  description: 'Button splits open to reveal content/color underneath.',
+  tags: ['css', 'js'],
+  disableReplay: true,
 }

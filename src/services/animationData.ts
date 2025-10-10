@@ -1,48 +1,67 @@
-import structureData from '../../docs/structure.json'
+import { categories } from '@/components/animationRegistry'
 import type {
   Animation,
   Category,
-  CategoryMeta,
-  Group,
-  GroupMeta,
-  StructureData,
 } from '@/types/animation'
-
-const STRUCTURE: StructureData = structureData
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-const cloneAnimation = (animation: Animation): Animation => ({ ...animation })
-
-const buildGroups = (category: CategoryMeta, animations: Animation[]): Group[] => {
-  const groupsMeta: GroupMeta[] = category.groups ?? []
-
-  return groupsMeta.map((groupMeta) => {
-    const groupAnimations = animations.filter(
-      (animation) => animation.categoryId === category.id && animation.groupId === groupMeta.id
-    )
-
-    return {
-      ...groupMeta,
-      animations: groupAnimations,
-    }
-  })
+/**
+ * Builds catalog from category exports.
+ * This is the primary data source, reading from component-based metadata.
+ */
+const buildCatalogFromCategories = (): Category[] => {
+  return Object.values(categories).map(cat => ({
+    id: cat.metadata.id,
+    title: cat.metadata.title,
+    groups: Object.values(cat.groups).map(group => ({
+      id: group.metadata.id,
+      title: group.metadata.title,
+      tech: group.metadata.tech,
+      demo: group.metadata.demo,
+      animations: Object.values(group.animations).map(anim => ({
+        id: anim.metadata.id,
+        title: anim.metadata.title,
+        description: anim.metadata.description,
+        categoryId: cat.metadata.id,
+        groupId: group.metadata.id,
+        tags: anim.metadata.tags,
+        disableReplay: anim.metadata.disableReplay,
+      })),
+    })),
+  }))
 }
 
-const mapStructureToCatalog = (
-  structure: StructureData,
-  additionalAnimations: Animation[]
-): Category[] => {
-  const combinedAnimations = [
-    ...structure.animations.map(cloneAnimation),
-    ...additionalAnimations.map(cloneAnimation),
-  ]
+/**
+ * Builds catalog with additional animations merged in.
+ */
+const buildCatalogWithExtras = (additionalAnimations: Animation[]): Category[] => {
+  const baseCatalog = buildCatalogFromCategories()
 
-  return structure.categories.map((category) => ({
-    id: category.id,
-    title: category.title,
-    groups: buildGroups(category, combinedAnimations),
-  }))
+  // Merge with additional animations if any
+  if (additionalAnimations.length > 0) {
+    const catalogCopy = baseCatalog.map(cat => ({
+      ...cat,
+      groups: cat.groups.map(grp => ({
+        ...grp,
+        animations: [...grp.animations]
+      }))
+    }))
+
+    additionalAnimations.forEach(anim => {
+      const category = catalogCopy.find(c => c.id === anim.categoryId)
+      if (category) {
+        const group = category.groups.find(g => g.id === anim.groupId)
+        if (group) {
+          group.animations.push(anim)
+        }
+      }
+    })
+
+    return catalogCopy
+  }
+
+  return baseCatalog
 }
 
 class AnimationDataService {
@@ -51,7 +70,7 @@ class AnimationDataService {
 
   private async ensureCatalog(): Promise<Category[]> {
     if (!this.catalog) {
-      this.catalog = mapStructureToCatalog(STRUCTURE, this.extraAnimations)
+      this.catalog = buildCatalogWithExtras(this.extraAnimations)
     }
 
     return this.catalog
@@ -64,7 +83,7 @@ class AnimationDataService {
 
   async refreshCatalog(): Promise<Category[]> {
     await delay(60)
-    this.catalog = mapStructureToCatalog(STRUCTURE, this.extraAnimations)
+    this.catalog = buildCatalogWithExtras(this.extraAnimations)
     return this.catalog
   }
 

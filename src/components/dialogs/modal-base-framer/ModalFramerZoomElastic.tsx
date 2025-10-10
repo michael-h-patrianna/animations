@@ -1,8 +1,16 @@
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import { MockModalContent } from '../modal-base/MockModalContent'
 import '../modal-base/shared.css'
 import './framer-shared.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-base-framer__zoom-elastic',
+  title: 'Elastic Zoom Bounce',
+  description: 'Mobile game style zoom with elastic bounce physics and overshoot.',
+  tags: ['framer'],
+}
 
 export function ModalFramerZoomElastic() {
   return (

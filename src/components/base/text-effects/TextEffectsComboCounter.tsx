@@ -1,5 +1,6 @@
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
 import { useEffect } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsComboCounter.css'
 
 export function TextEffectsComboCounter() {
@@ -202,4 +203,12 @@ export function TextEffectsComboCounter() {
       </motion.div>
     </div>
   )
+}
+
+export const metadata: AnimationMetadata = {
+  id: 'text-effects__combo-counter',
+  title: 'Combo Counter',
+  description: 'Dynamic counting animation with milestone particles and perfect combo celebration.',
+  tags: ['framer'],
+  disableReplay: false
 }

@@ -1,50 +1,86 @@
-import type { AnimationComponentMap } from '@/types/animation'
+import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { ModalFramerFlip3d } from './ModalFramerFlip3d'
-import { ModalFramerGlitchDigital } from './ModalFramerGlitchDigital'
-import { ModalFramerPortalSwirl } from './ModalFramerPortalSwirl'
-import { ModalFramerRippleExpand } from './ModalFramerRippleExpand'
-import { ModalFramerScaleGentlePop } from './ModalFramerScaleGentlePop'
-import { ModalFramerShatterAssemble } from './ModalFramerShatterAssemble'
-import { ModalFramerSlideDownSoft } from './ModalFramerSlideDownSoft'
-import { ModalFramerSlideLeftDrift } from './ModalFramerSlideLeftDrift'
-import { ModalFramerSlideRightDrift } from './ModalFramerSlideRightDrift'
-import { ModalFramerSlideUpSoft } from './ModalFramerSlideUpSoft'
-import { ModalFramerSpringBounce } from './ModalFramerSpringBounce'
-import { ModalFramerTvTurnOn } from './ModalFramerTvTurnOn'
-import { ModalFramerUnfoldOrigami } from './ModalFramerUnfoldOrigami'
-import { ModalFramerZoomElastic } from './ModalFramerZoomElastic'
+import { ModalFramerFlip3d, metadata as flip3dMetadata } from './ModalFramerFlip3d'
+import { ModalFramerGlitchDigital, metadata as glitchDigitalMetadata } from './ModalFramerGlitchDigital'
+import { ModalFramerPortalSwirl, metadata as portalSwirlMetadata } from './ModalFramerPortalSwirl'
+import { ModalFramerRippleExpand, metadata as rippleExpandMetadata } from './ModalFramerRippleExpand'
+import { ModalFramerScaleGentlePop, metadata as scaleGentlePopMetadata } from './ModalFramerScaleGentlePop'
+import { ModalFramerShatterAssemble, metadata as shatterAssembleMetadata } from './ModalFramerShatterAssemble'
+import { ModalFramerSlideDownSoft, metadata as slideDownSoftMetadata } from './ModalFramerSlideDownSoft'
+import { ModalFramerSlideLeftDrift, metadata as slideLeftDriftMetadata } from './ModalFramerSlideLeftDrift'
+import { ModalFramerSlideRightDrift, metadata as slideRightDriftMetadata } from './ModalFramerSlideRightDrift'
+import { ModalFramerSlideUpSoft, metadata as slideUpSoftMetadata } from './ModalFramerSlideUpSoft'
+import { ModalFramerSpringBounce, metadata as springBounceMetadata } from './ModalFramerSpringBounce'
+import { ModalFramerTvTurnOn, metadata as tvTurnOnMetadata } from './ModalFramerTvTurnOn'
+import { ModalFramerUnfoldOrigami, metadata as unfoldOrigamiMetadata } from './ModalFramerUnfoldOrigami'
+import { ModalFramerZoomElastic, metadata as zoomElasticMetadata } from './ModalFramerZoomElastic'
 
-export {
-  ModalFramerFlip3d,
-  ModalFramerGlitchDigital,
-  ModalFramerPortalSwirl,
-  ModalFramerRippleExpand,
-  ModalFramerScaleGentlePop,
-  ModalFramerShatterAssemble,
-  ModalFramerSlideDownSoft,
-  ModalFramerSlideLeftDrift,
-  ModalFramerSlideRightDrift,
-  ModalFramerSlideUpSoft,
-  ModalFramerSpringBounce,
-  ModalFramerTvTurnOn,
-  ModalFramerUnfoldOrigami,
-  ModalFramerZoomElastic,
+export const groupMetadata: GroupMetadata = {
+  id: 'modal-base-framer',
+  title: 'Base modals (framer)',
+  tech: 'framer',
+  demo: 'modalBaseFramer',
 }
 
-export const dialogsModalBaseFramerAnimations: AnimationComponentMap = {
-  'modal-base-framer__scale-gentle-pop': ModalFramerScaleGentlePop,
-  'modal-base-framer__slide-up-soft': ModalFramerSlideUpSoft,
-  'modal-base-framer__slide-down-soft': ModalFramerSlideDownSoft,
-  'modal-base-framer__slide-left-drift': ModalFramerSlideLeftDrift,
-  'modal-base-framer__slide-right-drift': ModalFramerSlideRightDrift,
-  'modal-base-framer__flip-3d': ModalFramerFlip3d,
-  'modal-base-framer__glitch-digital': ModalFramerGlitchDigital,
-  'modal-base-framer__portal-swirl': ModalFramerPortalSwirl,
-  'modal-base-framer__tv-turn-on': ModalFramerTvTurnOn,
-  'modal-base-framer__unfold-origami': ModalFramerUnfoldOrigami,
-  'modal-base-framer__shatter-assemble': ModalFramerShatterAssemble,
-  'modal-base-framer__ripple-expand': ModalFramerRippleExpand,
-  'modal-base-framer__zoom-elastic': ModalFramerZoomElastic,
-  'modal-base-framer__spring-bounce': ModalFramerSpringBounce,
+export const groupExport: GroupExport = {
+  metadata: groupMetadata,
+  animations: {
+    'modal-base-framer__scale-gentle-pop': {
+      component: ModalFramerScaleGentlePop,
+      metadata: scaleGentlePopMetadata,
+    },
+    'modal-base-framer__slide-up-soft': {
+      component: ModalFramerSlideUpSoft,
+      metadata: slideUpSoftMetadata,
+    },
+    'modal-base-framer__slide-down-soft': {
+      component: ModalFramerSlideDownSoft,
+      metadata: slideDownSoftMetadata,
+    },
+    'modal-base-framer__slide-left-drift': {
+      component: ModalFramerSlideLeftDrift,
+      metadata: slideLeftDriftMetadata,
+    },
+    'modal-base-framer__slide-right-drift': {
+      component: ModalFramerSlideRightDrift,
+      metadata: slideRightDriftMetadata,
+    },
+    'modal-base-framer__spring-bounce': {
+      component: ModalFramerSpringBounce,
+      metadata: springBounceMetadata,
+    },
+    'modal-base-framer__flip-3d': {
+      component: ModalFramerFlip3d,
+      metadata: flip3dMetadata,
+    },
+    'modal-base-framer__glitch-digital': {
+      component: ModalFramerGlitchDigital,
+      metadata: glitchDigitalMetadata,
+    },
+    'modal-base-framer__portal-swirl': {
+      component: ModalFramerPortalSwirl,
+      metadata: portalSwirlMetadata,
+    },
+    'modal-base-framer__tv-turn-on': {
+      component: ModalFramerTvTurnOn,
+      metadata: tvTurnOnMetadata,
+    },
+    'modal-base-framer__unfold-origami': {
+      component: ModalFramerUnfoldOrigami,
+      metadata: unfoldOrigamiMetadata,
+    },
+    'modal-base-framer__shatter-assemble': {
+      component: ModalFramerShatterAssemble,
+      metadata: shatterAssembleMetadata,
+    },
+    'modal-base-framer__ripple-expand': {
+      component: ModalFramerRippleExpand,
+      metadata: rippleExpandMetadata,
+    },
+    'modal-base-framer__zoom-elastic': {
+      component: ModalFramerZoomElastic,
+      metadata: zoomElasticMetadata,
+    },
+  },
 }
+

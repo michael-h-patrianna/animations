@@ -1,27 +1,26 @@
-import { animationRegistry } from '@/components/animationRegistry'
+import { buildRegistryFromCategories, categories } from '@/components/animationRegistry'
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { act, render } from '@testing-library/react'
-import structure from '../../docs/structure.json'
 
-// Narrow type for structure JSON
-type Anim = {
-  id: string
-  title: string
-  description: string
-  categoryId: string
-  groupId: string
-  tags?: string[]
-  disableReplay?: boolean
-}
+describe('Registry consistency with metadata exports', () => {
+  const animationRegistry = buildRegistryFromCategories()
 
-describe('Registry consistency with docs/structure.json', () => {
-  const structureIds = new Set((structure.animations as Anim[]).map((a) => a.id))
+  // Build set of all animation IDs from category exports
+  const metadataIds = new Set<string>()
+  Object.values(categories).forEach(cat => {
+    Object.values(cat.groups).forEach(group => {
+      Object.keys(group.animations).forEach(id => {
+        metadataIds.add(id)
+      })
+    })
+  })
+
   const registryIds = new Set(Object.keys(animationRegistry))
 
-  it('every structure animation id exists in animationRegistry and mounts within AnimationCard', async () => {
+  it('every animation with metadata exists in animationRegistry and mounts within AnimationCard', async () => {
     const missingInRegistry: string[] = []
 
-    for (const id of structureIds) {
+    for (const id of metadataIds) {
       const Comp = animationRegistry[id]
       if (!Comp) {
         missingInRegistry.push(id)
@@ -54,27 +53,27 @@ describe('Registry consistency with docs/structure.json', () => {
         .sort()
         .map(
           (id) =>
-            `- ${id} (note: remove outdated entry from docs/structure.json if no related component)`
+            `- ${id} (add metadata export to component and update group index)`
         )
         .join('\n')
       throw new Error(
-        `The following animation ids are defined in docs/structure.json but missing from animationRegistry:\n${details}`
+        `The following animation ids have metadata but are missing from animationRegistry:\n${details}`
       )
     }
   })
 
-  it('no registered components exist that are not represented in docs/structure.json', () => {
+  it('no registered components exist that lack metadata exports', () => {
     const extras: string[] = []
     for (const id of registryIds) {
-      if (!structureIds.has(id)) extras.push(id)
+      if (!metadataIds.has(id)) extras.push(id)
     }
 
     if (extras.length > 0) {
       const details = extras
         .sort()
-        .map((id) => `- ${id} (remove from registry or add to docs/structure.json)`) // guidance either way
+        .map((id) => `- ${id} (add metadata export to component)`)
         .join('\n')
-      const message = `animationRegistry contains components not represented in docs/structure.json:\n${details}`
+      const message = `animationRegistry contains components without metadata exports:\n${details}`
 
       // In strict mode, enforce as a hard failure. Otherwise log a warning to surface actionable items
       const g = globalThis as unknown as { process?: { env?: Record<string, string> } }
@@ -82,5 +81,20 @@ describe('Registry consistency with docs/structure.json', () => {
       if (strict) throw new Error(message)
       console.warn(message)
     }
+  })
+
+  it('all animations have valid metadata structure', () => {
+    Object.values(categories).forEach(cat => {
+      Object.values(cat.groups).forEach(group => {
+        Object.entries(group.animations).forEach(([id, anim]) => {
+          expect(anim.metadata).toBeDefined()
+          expect(anim.metadata.id).toBe(id)
+          expect(anim.metadata.title).toBeTruthy()
+          expect(anim.metadata.description).toBeTruthy()
+          expect(Array.isArray(anim.metadata.tags)).toBe(true)
+          expect(anim.component).toBeDefined()
+        })
+      })
+    })
   })
 })

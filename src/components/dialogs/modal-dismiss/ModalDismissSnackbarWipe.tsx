@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
+import type { AnimationMetadata } from '../../../types/animation'
 import { MockContent } from './MockContent'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-dismiss__snackbar-wipe',
+  title: 'Snackbar Wipe',
+  description: 'Snackbar wipes along the horizontal axis with progress tracking overlay.',
+  tags: ['js', 'css']
+}
 
 export function ModalDismissSnackbarWipe() {
   const toastRef = useRef<HTMLDivElement>(null)

@@ -1,8 +1,16 @@
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import { MockModalContent } from '../modal-base/MockModalContent'
 import '../modal-base/shared.css'
 import './framer-shared.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-base-framer__shatter-assemble',
+  title: 'Shatter Assembly',
+  description: 'Glass fragments coalesce into modal with blur and rotation effects.',
+  tags: ['framer'],
+}
 
 export function ModalFramerShatterAssemble() {
   const duration = 0.85

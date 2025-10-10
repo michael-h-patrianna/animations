@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsProgressSegmented.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'progress-bars__progress-segmented',
+  title: 'Segmented Sweep',
+  description: 'Segments fill sequentially for discrete progress feedback.',
+  tags: ['js', 'css'],
+}
 
 export function ProgressBarsProgressSegmented() {
   const containerRef = useRef<HTMLDivElement>(null)

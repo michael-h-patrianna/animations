@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsProgressThin.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'progress-bars__progress-thin',
+  title: 'Thin Glide',
+  description: 'Slim tracker for compact UI contexts.',
+  tags: ['js', 'css'],
+}
 
 export function ProgressBarsProgressThin() {
   const containerRef = useRef<HTMLDivElement>(null)
