@@ -35,10 +35,6 @@ const config = {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
-  globals: {
-    TextEncoder: TextEncoder,
-    TextDecoder: TextDecoder,
-  },
   coverageThreshold: {
     global: {
       statements: 40,

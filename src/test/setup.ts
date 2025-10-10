@@ -1,5 +1,10 @@
 import '@testing-library/jest-dom'
 import { act } from '@testing-library/react'
+import { TextEncoder, TextDecoder } from 'util'
+
+// Polyfill for react-router-dom v7 in Jest environment
+global.TextEncoder = TextEncoder as any
+global.TextDecoder = TextDecoder as any
 
 // Mock IntersectionObserver
 globalThis.IntersectionObserver = class IntersectionObserver {

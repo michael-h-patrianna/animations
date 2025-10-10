@@ -1,9 +1,9 @@
-## 2. Animation Principles in Digital Design
+## Animation Principles in Digital Design
 
 Follow these principles:
 
-**Principle 1: Squash and Stretch**
-_Interface Application:_ Elastic feedback animations that communicate interaction responsiveness.
+**Principle 1: Use Squash and Stretch**
+Use elastic feedback animations that communicate interaction responsiveness.
 
 **Implementation Examples:**
 
@@ -11,8 +11,8 @@ _Interface Application:_ Elastic feedback animations that communicate interactio
 - Form field highlights that expand and contract to show focus states
 - Loading indicators that demonstrate system activity through rhythmic scaling
 
-**Principle 2: Anticipation**
-_Interface Application:_ Preparatory animations that signal upcoming state changes.
+**Principle 2: Create Anticipation**
+Use preparatory animations that signal upcoming state changes.
 
 **Implementation Examples:**
 
@@ -20,8 +20,8 @@ _Interface Application:_ Preparatory animations that signal upcoming state chang
 - Form submit buttons that briefly compress before processing state
 - Card hover previews that lift slightly before expanding
 
-**Principle 3: Staging**
-_Interface Application:_ Clear visual hierarchy through animated sequences.
+**Principle 3: Use Sequences for Staging**
+Make the visual hierarchy easy to understand through animated sequences.
 
 **Implementation Examples:**
 
@@ -29,14 +29,14 @@ _Interface Application:_ Clear visual hierarchy through animated sequences.
 - Staggered card animations during content loading
 - Progressive disclosure of navigation options
 
-**Principle 4: Straight Ahead vs. Pose-to-Pose**
-_Interface Application:_ Choosing between fluid motion and keyframe-based transitions.
+**Principle 4: Decide - Straight Ahead or Pose-to-Pose**
+Decide between fluid motion and keyframe-based transitions.
 
 **Straight Ahead (Fluid):** Continuous scrolling animations, particle effects
 **Pose-to-Pose (Keyframe):** State transitions, modal appearances, navigation changes
 
-**Principle 5: Follow Through and Overlapping Action**
-_Interface Application:_ Elements that continue moving after the primary action, creating natural, believable motion.
+**Principle 5: Follow Through and Overlap Actions**
+Let elements continue moving after the primary action to create natural, believable motion.
 
 **Implementation Examples:**
 
@@ -47,8 +47,8 @@ _Interface Application:_ Elements that continue moving after the primary action,
 
 **User Experience Impact:** Follow-through animations feel significantly more natural to users and increase perceived interface quality
 
-**Principle 7: Arcs**
-_Interface Application:_ Motion that follows natural curved paths rather than rigid straight lines.
+**Principle 6: Use Arcs instead of Lines**
+Let motion follows natural curved paths rather than rigid straight lines. Also for many other animation types, prefer curved value paths over linear value paths.
 
 **Implementation Examples:**
 
@@ -57,10 +57,10 @@ _Interface Application:_ Motion that follows natural curved paths rather than ri
 - Drag-and-drop interactions that use parabolic motion curves
 - Page transitions that follow curved motion paths for spatial continuity
 
-**Technical Implementation:** CSS animations using curved bezier paths or JavaScript-calculated arc trajectories
+**Principle 7: Add Secondary and Tertiary Action**
+Add secondary and tertiary animations that enhance the primary interaction without competing for attention.
 
-**Principle 8: Secondary and Tertiary Action**
-_Interface Application:_ Supporting animations that enhance the primary interaction without competing for attention.
+Secondary and Tertiary actions should be significantly less prominent than primary animations to maintain hierarchy
 
 **Implementation Examples:**
 
@@ -69,16 +69,32 @@ _Interface Application:_ Supporting animations that enhance the primary interact
 - Loading spinner accompaniment during form submissions
 - Contextual tooltip appearances during hover states
 
-**Design Principle:** Secondary and Tertiary actions should be significantly less prominent than primary animations to maintain hierarchy
 
-**Principle 12: Appeal**
-_Interface Application:_ Creating animations that are pleasant, engaging, and emotionally resonant with users.
+**Principle 8: Make it Look Good**
+Create animations that are pleasant, engaging, and emotionally resonant with users.
 
-**Implementation Examples:**
+**Principle 9: Keep Web and Native Close Together**
 
-- Personality-driven micro-interactions that reflect brand character
-- Delightful easter eggs in empty states or error messages
-- Smooth, organic motion that feels alive rather than mechanical
-- Thoughtful timing that creates moments of surprise and delight
+This is a **React web project** with future React Native portability as a requirement. Write web code that avoids RN-incompatible features.
 
-**Business Impact:** Appealing animations measurably increase brand affinity scores and user engagement
+### Current Stack
+- **Web**: Framer Motion, CSS, React (current implementation)
+
+### Future Compatibility
+- **React Native**: Will use Moti, Reanimated, react-native-linear-gradient
+- Web code must avoid features that don't translate to React Native
+
+**✅ ALLOWED** (cross-platform safe):
+- Transforms: `translateX`, `translateY`, `scale`, `rotate`
+- Opacity animations
+- **Linear gradients ONLY** (via react-native-linear-gradient)
+- Color transitions
+- Layout animations (position, size)
+
+**❌ FORBIDDEN** (web-only, breaks React Native):
+- Blur animations or CSS filters
+- Radial/conic gradients
+- Box shadows, text shadows
+- backdrop-filter, clip-path
+- CSS pseudo-elements (:before, :after)
+- Complex CSS selectors
