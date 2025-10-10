@@ -1,21 +1,9 @@
 import pulseScroll from '@/assets/pulse_scroll.png'
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './IconAnimationsPulse.css'
 
 export function IconAnimationsPulse() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="icon-demo-container">
-        <div className="icon-pulse-element">
-          <img src={pulseScroll} alt="Pulsing scroll" className="icon-pulse-element__image" />
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="icon-demo-container">
       <motion.div

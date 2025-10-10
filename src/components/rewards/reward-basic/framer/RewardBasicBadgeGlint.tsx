@@ -1,19 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './RewardBasicBadgeGlint.css'
 
 export function RewardBasicBadgeGlint() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-reward-basic">
-        <div className="pf-reward-basic__icon" style={{ background: 'linear-gradient(135deg, #ff5981 0%, #ffce1a 100%)', color: '#1d092f' }}>★</div>
-        <span className="pf-reward-basic__label">Badge Glint</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-reward-basic">
       <motion.div

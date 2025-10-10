@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownExtreme.css'
 
@@ -17,9 +17,7 @@ export function TimerEffectsPillCountdownExtreme() {
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [buzzKey, setBuzzKey] = useState(0)
   const [colorClass, setColorClass] = useState('')
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -41,7 +39,7 @@ export function TimerEffectsPillCountdownExtreme() {
         }
 
         // Buzz animations at specific thresholds
-        if (!shouldReduceMotion) {
+  {
           if (display === 60 || display === 50 || display === 40) {
             setBuzzKey((prev) => prev + 1)
           }
@@ -70,12 +68,12 @@ export function TimerEffectsPillCountdownExtreme() {
     }, 100)
 
     // Subtle initial cue at start
-    if (!shouldReduceMotion) {
+  {
       setBuzzKey((prev) => prev + 1)
     }
 
     return () => clearInterval(intervalId)
-  }, [shouldReduceMotion])
+  }, [])
 
   const format = (total: number) => {
     const m = Math.floor(total / 60)
@@ -100,19 +98,6 @@ export function TimerEffectsPillCountdownExtreme() {
       transition: { duration: 0.18, ease: easeOut },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-extreme">
-        <div className={`pf-pill-timer__pill pf-pill-timer__pill--extreme ${colorClass}`}>
-          <span className="pf-pill-timer__glow" aria-hidden="true" />
-          <div className="pf-pill-timer__time">{format(seconds)}</div>
-        </div>
-        <span className="pf-pill-timer__label">Pill Countdown — Extreme</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-extreme">
       <motion.div

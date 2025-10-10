@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import './ProgressBarsProgressStriped.css'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -11,26 +11,6 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ProgressBarsProgressStriped() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-progress-demo pf-progress-striped"
-        data-animation-id="progress-bars__progress-striped"
-      >
-        <div className="pf-progress-demo__label">Level progress</div>
-        <div className="track-container">
-          <div className="pf-progress-track">
-            <div className="pf-progress-fill" style={{ transform: 'scaleX(1)', transformOrigin: 'left center' }}>
-              <div className="stripes-container" />
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   // Generate stripe elements
   const stripeCount = 20
   const stripes = Array.from({ length: stripeCount }, (_, i) => i)

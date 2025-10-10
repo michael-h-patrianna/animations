@@ -1,12 +1,10 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsTreasureParticles.css'
 
 export function ModalCelebrationsTreasureParticles() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const particles = useMemo(() => {
+const particles = useMemo(() => {
     const particleCount = 20
     const startRadius = 20
 
@@ -49,39 +47,6 @@ export function ModalCelebrationsTreasureParticles() {
       }
     })
   }, [])
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-modal-celebration pf-modal-celebration--treasure-particles">
-        <div className="pf-treasure-particles">
-          {particles.slice(0, 5).map((p) => (
-            <div
-              key={p.id}
-              className="pf-treasure-particles__particle"
-              style={{
-                transform: `translate(${p.startX}px, ${p.startY}px)`,
-                opacity: 0.6,
-              }}
-            />
-          ))}
-          {gems.slice(0, 2).map((gem) => (
-            <div
-              key={gem.id}
-              className="pf-treasure-particles__gem"
-              style={{
-                transform: `translate(${gem.x}px, ${gem.y}px)`,
-                opacity: 0.6,
-              }}
-            >
-              <span className="pf-treasure-particles__gem-top" />
-              <span className="pf-treasure-particles__gem-bottom" />
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-modal-celebration pf-modal-celebration--treasure-particles">
       <div className="pf-treasure-particles">

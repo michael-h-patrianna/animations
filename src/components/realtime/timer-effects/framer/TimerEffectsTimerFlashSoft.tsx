@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlashSoft.css'
 
@@ -15,9 +15,7 @@ export function TimerEffectsTimerFlashSoft() {
   const [seconds, setSeconds] = useState(32)
   const [bgColor, setBgColor] = useState('#ffc107')
   const [shakeKey, setShakeKey] = useState(0)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const duration = 32000
     const startTime = Date.now()
     let lastDisplayed = 32
@@ -66,7 +64,7 @@ export function TimerEffectsTimerFlashSoft() {
     }, 100)
 
     return () => clearInterval(intervalId)
-  }, [shouldReduceMotion])
+  }, [])
 
   const formatTime = (totalSeconds: number) => {
     const minutes = Math.floor(totalSeconds / 60)
@@ -91,19 +89,6 @@ export function TimerEffectsTimerFlashSoft() {
       transition: { duration: 0.6, ease: easeOut },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash-soft">
-        <div className="pf-timer-flash__pill pf-timer-flash__pill--soft" style={{ backgroundColor: bgColor }}>
-          <span className="pf-timer-flash__glow" aria-hidden="true" />
-          <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
-        </div>
-        <span className="pf-timer-flash__label">Flash Expire Soft</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash-soft">
       <motion.div

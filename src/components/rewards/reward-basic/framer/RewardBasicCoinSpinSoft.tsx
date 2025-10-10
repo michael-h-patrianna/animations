@@ -1,19 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './RewardBasicCoinSpinSoft.css'
 
 export function RewardBasicCoinSpinSoft() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-reward-basic">
-        <div className="pf-reward-basic__icon" style={{ background: 'linear-gradient(135deg, #ffd966 0%, #ffb300 100%)', color: '#1d092f' }}>◎</div>
-        <span className="pf-reward-basic__label">Soft Coin Spin</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-reward-basic">
       <motion.div

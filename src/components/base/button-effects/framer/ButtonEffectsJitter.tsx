@@ -1,12 +1,11 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsJitter.css'
 
 export function ButtonEffectsJitter() {
-  const shouldReduceMotion = useReducedMotion()
-  const [isHovered, setIsHovered] = useState(false)
+const [isHovered, setIsHovered] = useState(false)
 
   const jitterVariants = {
     animate: {
@@ -31,15 +30,6 @@ export function ButtonEffectsJitter() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="button-demo" data-animation-id="button-effects__jitter">
-        <button className="pf-btn pf-btn--primary pf-btn--jitter">Click Me!</button>
-      </div>
-    )
-  }
-
   return (
     <div className="button-demo" data-animation-id="button-effects__jitter">
       <motion.button

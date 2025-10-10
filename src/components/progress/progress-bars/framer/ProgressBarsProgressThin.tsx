@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import './ProgressBarsProgressThin.css'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -11,24 +11,6 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ProgressBarsProgressThin() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-progress-demo pf-progress-thin"
-        data-animation-id="progress-bars__progress-thin"
-      >
-        <div className="pf-progress-demo__label">Level progress</div>
-        <div className="track-container" style={{ position: 'relative' }}>
-          <div className="pf-progress-track" style={{ height: '2px' }}>
-            <div className="pf-progress-fill" style={{ transform: 'scaleX(1)', transformOrigin: 'left center' }} />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const duration = 1.2
 
   const fillVariants = {

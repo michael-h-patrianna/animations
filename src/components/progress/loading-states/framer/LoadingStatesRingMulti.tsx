@@ -1,20 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './LoadingStatesRingMulti.css'
 
 export function LoadingStatesRingMulti() {
-  const shouldReduceMotion = useReducedMotion()
-  if (shouldReduceMotion) {
-    return (
-      <div data-animation-id="loading-states__ring-multi" className="pf-loading-container">
-        <div className="pf-ring-multi">
-          <span className="pf-ring-multi__segment"></span>
-          <span className="pf-ring-multi__segment"></span>
-          <span className="pf-ring-multi__segment"></span>
-        </div>
-      </div>
-    )
-  }
   return (
     <div data-animation-id="loading-states__ring-multi" className="pf-loading-container">
       <div className="pf-ring-multi">

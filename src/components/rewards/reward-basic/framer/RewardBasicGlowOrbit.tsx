@@ -1,24 +1,12 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './RewardBasicGlowOrbit.css'
 
 export function RewardBasicGlowOrbit() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const bgStyle = {
+const bgStyle = {
     background: 'radial-gradient(circle at 50% 50%, rgba(198, 255, 119, 0.85) 0%, rgba(29, 9, 47, 0.4) 70%)',
     color: '#1d092f',
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-reward-basic">
-        <div className="pf-reward-basic__icon" style={bgStyle}>◎</div>
-        <span className="pf-reward-basic__label">Glow Orbit</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-reward-basic">
       <motion.div

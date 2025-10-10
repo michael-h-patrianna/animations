@@ -1,12 +1,10 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsFlip.css'
 
 export function StandardEffectsFlip() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const flipVariants = {
+const flipVariants = {
     animate: {
       rotateY: [0, 90, 180],
       scale: [1, 0.95, 1],
@@ -17,17 +15,6 @@ export function StandardEffectsFlip() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="standard-demo-container">
-        <div className="standard-demo-element flip-element">
-          <div className="demo-text">Flip</div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="standard-demo-container">
       <motion.div

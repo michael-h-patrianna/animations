@@ -1,19 +1,9 @@
 import balloonImage from '@/assets/present_box_balloon.png'
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import './IconAnimationsFloat.css'
 
 export function IconAnimationsFloat() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="icon-demo-container">
-        <img src={balloonImage} alt="Floating balloon" style={{ width: 120 }} />
-      </div>
-    )
-  }
-
   return (
     <div className="icon-demo-container">
       <motion.img

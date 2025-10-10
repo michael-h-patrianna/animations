@@ -1,11 +1,9 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, easeOut, motion } from 'framer-motion'
 import './StandardEffectsMorphPulse.css'
 
 export function StandardEffectsMorphPulse() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const coreVariants = {
+const coreVariants = {
     animate: {
       scale: [1, 1.08, 1],
       transition: {
@@ -44,18 +42,6 @@ export function StandardEffectsMorphPulse() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="morph-pulse-wrapper">
-        <div className="morph-pulse" role="img" aria-label="Morph pulse blob">
-          <span className="morph-pulse__ring" aria-hidden="true" />
-          <span className="morph-pulse__ring morph-pulse__ring--delayed" aria-hidden="true" />
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="morph-pulse-wrapper">
       <motion.div

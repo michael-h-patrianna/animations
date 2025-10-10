@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsConfettiSpiral.css'
 
@@ -11,9 +11,7 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsConfettiSpiral() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const particles = useMemo(
+const particles = useMemo(
     () =>
       Array.from({ length: 26 }, (_, i) => {
         const angle = randBetween(0, 360)
@@ -41,28 +39,6 @@ export function ModalCelebrationsConfettiSpiral() {
       }),
     []
   )
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-celebration">
-        <div className="pf-celebration__layer">
-          {particles.slice(0, 5).map((particle) => (
-            <span
-              key={particle.id}
-              className="pf-celebration__confetti"
-              style={{
-                left: '50%',
-                top: '50%',
-                background: particle.color,
-                opacity: 0.6,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-celebration">
       <div className="pf-celebration__layer">

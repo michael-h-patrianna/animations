@@ -1,19 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './RewardBasicBadgeSweep.css'
 
 export function RewardBasicBadgeSweep() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-reward-basic">
-        <div className="pf-reward-basic__icon" style={{ background: 'linear-gradient(135deg, #4e187c 0%, #c47ae5 100%)', color: '#ffffff' }}>★</div>
-        <span className="pf-reward-basic__label">Badge Sweep</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-reward-basic">
       <motion.div

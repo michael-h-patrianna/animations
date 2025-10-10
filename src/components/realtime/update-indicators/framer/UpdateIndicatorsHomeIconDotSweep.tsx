@@ -1,6 +1,6 @@
 import homeIcon2 from '@/assets/home-icon2.png'
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotSweep.css'
 
@@ -14,30 +14,12 @@ export const metadata: AnimationMetadata = {
 
 export function UpdateIndicatorsHomeIconDotSweep() {
   const [key, setKey] = useState(0)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 10000)
     return () => clearInterval(interval)
   }, [])
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-update-indicator pf-update-indicator--icon"
-        data-animation-id="update-indicators__home-icon-dot-sweep"
-      >
-        <div className="pf-update-indicator__icon-wrap">
-          <img className="pf-update-indicator__img" src={homeIcon2} alt="Home" />
-          <span className="pf-update-indicator__dot pf-update-indicator__dot--fill" />
-          <span className="pf-update-indicator__halo" />
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div
       className="pf-update-indicator pf-update-indicator--icon"

@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressBounce.css'
 
@@ -12,8 +12,7 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ProgressBarsProgressBounce() {
-  const shouldReduceMotion = useReducedMotion()
-  const [showParticles, setShowParticles] = useState(false)
+const [showParticles, setShowParticles] = useState(false)
 
   useEffect(() => {
     // Trigger particles after fill animation completes
@@ -23,29 +22,6 @@ export function ProgressBarsProgressBounce() {
 
     return () => clearTimeout(timer)
   }, [])
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-progress-demo pf-progress-bounce"
-        data-animation-id="progress-bars__progress-bounce"
-      >
-        <div className="track-container" style={{ position: 'relative' }}>
-          <div className="pf-progress-track" style={{ transform: 'scaleY(1)' }}>
-            <div
-              className="pf-progress-fill"
-              style={{
-                transform: 'scaleX(1) scaleY(1)',
-                transformOrigin: 'left center',
-                background: 'linear-gradient(90deg, #c47ae5 0%, #d79af3 100%)',
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   // Main fill animation with anticipation and overshoot
   const fillVariants = {
     initial: { scaleX: 0, scaleY: 1 },

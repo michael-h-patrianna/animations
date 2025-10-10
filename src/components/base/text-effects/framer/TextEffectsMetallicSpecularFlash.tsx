@@ -4,23 +4,15 @@
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, easeOut, motion, useReducedMotion, type Variants } from 'framer-motion'
+import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
 import React from 'react'
 import './TextEffectsMetallicSpecularFlash.css'
 
 export function TextEffectsMetallicSpecularFlash() {
   const text = 'LORUM IPSUM DOLOR'
-  const shouldReduceMotion = useReducedMotion()
+const letters = React.useMemo(() => Array.from(text), [text])
 
-  const letters = React.useMemo(() => Array.from(text), [text])
-
-  const containerVariants: Variants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { duration: 0.2 } },
-        settle: { opacity: 1, transition: { duration: 0.001 } },
-      }
-    : {
+  const containerVariants: Variants = {
         hidden: { opacity: 0, scaleX: 0.995 },
         show: {
           opacity: 1,
@@ -40,12 +32,7 @@ export function TextEffectsMetallicSpecularFlash() {
       }
 
   // Narrow, sharp specular sweep: brief color highlight then shadow, with scaleX + skewX
-  const letterVariants: Variants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { duration: 0.14 } },
-      }
-    : {
+  const letterVariants: Variants =  {
         hidden: { opacity: 0 },
         show: {
           opacity: [0, 1, 1, 1] as number[],
@@ -74,7 +61,7 @@ export function TextEffectsMetallicSpecularFlash() {
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
-      animate={shouldReduceMotion ? 'show' : ['show', 'settle']}
+      animate={['show', 'settle']}
     >
       <div className="studioLogo-MetallicSpecularFlash__line" aria-hidden="true">
         {letters.map((ch, i) => (

@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import './UpdateIndicatorsBadgePulse.css'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -11,18 +11,6 @@ export const metadata: AnimationMetadata = {
 }
 
 export function UpdateIndicatorsBadgePulse() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
-        <div className="pf-update-indicator__icon"></div>
-        <div className="pf-update-indicator__copy">Content update arrived</div>
-        <div className="pf-update-indicator__badge">New</div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
       <div className="pf-update-indicator__icon"></div>

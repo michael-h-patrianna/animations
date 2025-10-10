@@ -5,31 +5,17 @@
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, easeOut, motion, useReducedMotion, type Variants } from 'framer-motion'
+import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
 import React from 'react'
 import './TextEffectsLightSweepDraw.css'
 
 export function TextEffectsLightSweepDraw() {
   const text = 'LOREM IPSUM DOLOR'
-  const shouldReduceMotion = useReducedMotion()
-
-  // Simple grapheme split that is SSR-safe for most Latin text.
+// Simple grapheme split that is SSR-safe for most Latin text.
   const letters = React.useMemo(() => Array.from(text), [text])
 
   // Container variants handle anticipation and final settle.
-  const containerVariants: Variants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        show: {
-          opacity: 1,
-          transition: { duration: 0.2 },
-        },
-        settle: {
-          opacity: 1,
-          transition: { duration: 0.001 },
-        },
-      }
-    : {
+  const containerVariants: Variants =  {
         hidden: { opacity: 0, scaleY: 0.98 },
         show: {
           opacity: 1,
@@ -50,12 +36,7 @@ export function TextEffectsLightSweepDraw() {
       }
 
   // Per-letter highlight: brief color lift + subtle skew/scale, then return to base.
-  const letterVariants: Variants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { duration: 0.2 } },
-      }
-    : {
+  const letterVariants: Variants =  {
         hidden: { opacity: 0, y: 6 },
         show: {
           opacity: [0, 1, 1] as number[],
@@ -83,7 +64,7 @@ export function TextEffectsLightSweepDraw() {
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
-      animate={shouldReduceMotion ? 'show' : ['show', 'settle']}
+      animate={ ['show', 'settle']}
     >
       <div className="studioLogo-LightSweepDraw__line" aria-hidden="true">
         {letters.map((ch, i) => (

@@ -1,6 +1,6 @@
 import type { AnimationMetadata } from '@/types/animation';
 import { calculateBulbColors } from '@/utils/colors';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import './LightsCircleStatic1.css';
 
@@ -14,7 +14,7 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-  const shouldReduceMotion = useReducedMotion();
+;
   const radius = 80;
 
   const bulbs = Array.from({ length: numBulbs }, (_, i) => {
@@ -23,22 +23,6 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     const isEven = i % 2 === 0;
-
-    if (shouldReduceMotion) {
-      return (
-        <div
-          key={i}
-          className="lights-circle-static-1__bulb-wrapper"
-          style={{
-            transform: `translate(${x}px, ${y}px)`,
-          }}
-        >
-          <div className="lights-circle-static-1__glow" />
-          <div className="lights-circle-static-1__bulb" />
-        </div>
-      );
-    }
-
     // Animation variants for even/odd bulbs
     const glowVariant = isEven ? {
       opacity: [0.9, 0.4, 0, 0, 0.4, 0.9],

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -11,8 +11,7 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ModalDismissSnackbarWipe() {
-  const shouldReduceMotion = useReducedMotion()
-  const [showProgress, setShowProgress] = useState(true)
+const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.42
   const autoDismissMs = 4200
@@ -25,21 +24,6 @@ export function ModalDismissSnackbarWipe() {
 
     return () => clearTimeout(exitTimer)
   }, [autoDismissMs])
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-toast-preview">
-        <div className="pf-toast" data-animation-id="modal-dismiss__snackbar-wipe">
-          <div className="pf-toast__title">Action Complete</div>
-          <div className="pf-toast__body">Your changes have been saved</div>
-          <div className="pf-toast__progress">
-            <div className="pf-toast__progress-bar" />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const toastVariants = {
     hidden: {
       y: 24,

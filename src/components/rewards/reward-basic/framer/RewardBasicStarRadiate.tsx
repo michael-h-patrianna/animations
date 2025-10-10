@@ -1,19 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './RewardBasicStarRadiate.css'
 
 export function RewardBasicStarRadiate() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-reward-basic">
-        <div className="pf-reward-basic__icon" style={{ background: 'linear-gradient(135deg, #47fff4 0%, #0586ae 100%)', color: '#0b1b23' }}>✹</div>
-        <span className="pf-reward-basic__label">Star Radiate</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-reward-basic">
       <motion.div

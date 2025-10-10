@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownMedium.css'
 
@@ -16,9 +16,7 @@ export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [blipKey, setBlipKey] = useState(0)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -31,7 +29,7 @@ export function TimerEffectsPillCountdownMedium() {
         setSeconds(display)
 
         // Blip animations at specific thresholds
-        if (!shouldReduceMotion) {
+  {
           if (display > 12) {
             if (display % 6 === 0 && display > 0) {
               setBlipKey((prev) => prev + 1)
@@ -52,12 +50,12 @@ export function TimerEffectsPillCountdownMedium() {
     }, 100)
 
     // Immediate emphasis on mount
-    if (!shouldReduceMotion) {
+  {
       setBlipKey((prev) => prev + 1)
     }
 
     return () => clearInterval(intervalId)
-  }, [shouldReduceMotion])
+  }, [])
 
   const format = (total: number) => {
     const m = Math.floor(total / 60)
@@ -82,19 +80,6 @@ export function TimerEffectsPillCountdownMedium() {
       transition: { duration: 0.32, ease: easeOut },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-medium">
-        <div className="pf-pill-timer__pill pf-pill-timer__pill--medium">
-          <span className="pf-pill-timer__glow" aria-hidden="true" />
-          <div className="pf-pill-timer__time">{format(seconds)}</div>
-        </div>
-        <span className="pf-pill-timer__label">Pill Countdown — Medium</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-medium">
       <motion.div

@@ -1,6 +1,6 @@
 import type { AnimationMetadata } from '@/types/animation';
 import { calculateBulbColors } from '@/utils/colors';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import './LightsCircleStatic6.css';
 
@@ -14,7 +14,7 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-  const shouldReduceMotion = useReducedMotion();
+;
   const radius = 80;
   const animationDuration = 4.8; // seconds - divisible by 3 for waltz timing
 
@@ -34,22 +34,6 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
     const baseDelay = groupIndex * delayPerGroup;
     const beatDelay = positionInGroup * 0.15; // Stagger beats within group
     const totalDelay = baseDelay + beatDelay;
-
-    if (shouldReduceMotion) {
-      return (
-        <div
-          key={i}
-          className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
-          style={{
-            transform: `translate(${x}px, ${y}px)`,
-          }}
-        >
-          <div className="lights-circle-static-6__glow" />
-          <div className="lights-circle-static-6__bulb" />
-        </div>
-      );
-    }
-
     // Strong beat (position 0)
     if (positionInGroup === 0) {
       return (

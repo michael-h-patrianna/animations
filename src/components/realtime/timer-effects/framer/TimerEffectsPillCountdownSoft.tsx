@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownSoft.css'
 
@@ -16,9 +16,7 @@ export function TimerEffectsPillCountdownSoft() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [pulseKey, setPulseKey] = useState(0)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -50,12 +48,12 @@ export function TimerEffectsPillCountdownSoft() {
     }, 100)
 
     // Trigger initial pulse
-    if (!shouldReduceMotion) {
+  {
       setPulseKey((prev) => prev + 1)
     }
 
     return () => clearInterval(intervalId)
-  }, [shouldReduceMotion])
+  }, [])
 
   const format = (total: number) => {
     const m = Math.floor(total / 60)
@@ -71,18 +69,6 @@ export function TimerEffectsPillCountdownSoft() {
       transition: { duration: 0.24, ease: easeOut },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-soft">
-        <div className="pf-pill-timer__pill pf-pill-timer__pill--soft">
-          <div className="pf-pill-timer__time">{format(seconds)}</div>
-        </div>
-        <span className="pf-pill-timer__label">Pill Countdown — Soft</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-soft">
       <motion.div

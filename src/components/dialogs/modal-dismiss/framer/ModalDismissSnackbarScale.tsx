@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import '../shared.css'
 
@@ -12,8 +12,7 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ModalDismissSnackbarScale() {
-  const shouldReduceMotion = useReducedMotion()
-  const [showProgress, setShowProgress] = useState(true)
+const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.32
   const autoDismissMs = 4000
@@ -26,21 +25,6 @@ export function ModalDismissSnackbarScale() {
 
     return () => clearTimeout(exitTimer)
   }, [autoDismissMs])
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-toast-preview">
-        <div className="pf-toast" data-animation-id="modal-dismiss__snackbar-scale">
-          <div className="pf-toast__title">Action Complete</div>
-          <div className="pf-toast__body">Your changes have been saved</div>
-          <div className="pf-toast__progress">
-            <div className="pf-toast__progress-bar" />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const toastVariants = {
     hidden: {
       y: 16,

@@ -1,29 +1,16 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsFireworksRing.css'
 
 export function ModalCelebrationsFireworksRing() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const rings = useMemo(
+const rings = useMemo(
     () => [
       { id: 0, scale: 3.2, delay: 0 },
       { id: 1, scale: 2.2, delay: 0.12 },
     ],
     []
   )
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-celebration">
-        <div className="pf-celebration__layer">
-          <span className="pf-celebration__ring" style={{ opacity: 0.5, transform: 'translate(-50%, -50%) scale(2)' }} />
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-celebration">
       <div className="pf-celebration__layer">

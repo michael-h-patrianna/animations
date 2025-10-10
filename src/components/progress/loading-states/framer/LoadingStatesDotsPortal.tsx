@@ -1,22 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './LoadingStatesDotsPortal.css'
 
 export function LoadingStatesDotsPortal() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div data-animation-id="loading-states__dots-portal" className="pf-loading-container">
-        <div className="pf-dots pf-dots-portal">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div data-animation-id="loading-states__dots-portal" className="pf-loading-container">
       <div className="pf-dots pf-dots-portal">

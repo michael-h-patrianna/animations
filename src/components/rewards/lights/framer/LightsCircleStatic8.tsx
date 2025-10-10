@@ -1,6 +1,6 @@
 import type { AnimationMetadata } from '@/types/animation';
 import { calculateBulbColors } from '@/utils/colors';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import './LightsCircleStatic8.css';
 
@@ -14,7 +14,7 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-  const shouldReduceMotion = useReducedMotion();
+;
   const radius = 80;
   const animationDuration = 4; // seconds
   const halfBulbs = Math.floor(numBulbs / 2);
@@ -33,22 +33,6 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
 
     // Check if this is a collision bulb (where they meet)
     const isCollisionBulb = (isFirstHalf && i === halfBulbs - 1) || (!isFirstHalf && i === halfBulbs);
-
-    if (shouldReduceMotion) {
-      return (
-        <div
-          key={i}
-          className={`lights-circle-static-8__bulb-wrapper ${isFirstHalf ? 'first-half' : 'second-half'}`}
-          style={{
-            transform: `translate(${x}px, ${y}px)`,
-          }}
-        >
-          <div className="lights-circle-static-8__glow" />
-          <div className="lights-circle-static-8__bulb" />
-        </div>
-      );
-    }
-
     // Collision bulbs get special animation
     if (isCollisionBulb) {
       return (

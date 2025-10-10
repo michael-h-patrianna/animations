@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import './ProgressBarsZoomedProgress.css'
 
@@ -13,8 +13,7 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ProgressBarsZoomedProgress() {
-  const shouldReduceMotion = useReducedMotion()
-  const [level, setLevel] = useState(1)
+const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])
   const [levelReached, setLevelReached] = useState([true, false, false])
   const animationRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -112,9 +111,9 @@ export function ProgressBarsZoomedProgress() {
         {/* Level 1 marker */}
         <motion.div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--1 ${levelReached[0] ? 'reached' : ''}`}
-          variants={shouldReduceMotion ? {} : levelBounceVariants}
+          variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[0] && !shouldReduceMotion ? 'animate' : 'initial'}
+          animate={levelReached[0] &&  'animate'}
           style={{ translateY: '-50%' }}
         >
           <span>1</span>
@@ -123,9 +122,9 @@ export function ProgressBarsZoomedProgress() {
         {/* Level 2 marker */}
         <motion.div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--2 ${levelReached[1] ? 'reached' : ''}`}
-          variants={shouldReduceMotion ? {} : levelBounceVariants}
+          variants={ levelBounceVariants}
           initial="initial"
-          animate={levelReached[1] && !shouldReduceMotion ? 'animate' : 'initial'}
+          animate={levelReached[1] &&  'animate'}
           style={{ translateX: '-50%', translateY: '-50%' }}
         >
           <span>2</span>
@@ -139,9 +138,9 @@ export function ProgressBarsZoomedProgress() {
         {/* Level 3 marker */}
         <motion.div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--3 ${levelReached[2] ? 'reached' : ''}`}
-          variants={shouldReduceMotion ? {} : levelBounceVariants}
+          variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[2] && !shouldReduceMotion ? 'animate' : 'initial'}
+          animate={levelReached[2] &&  'animate' }
           style={{ translateY: '-50%' }}
         >
           <span>3</span>

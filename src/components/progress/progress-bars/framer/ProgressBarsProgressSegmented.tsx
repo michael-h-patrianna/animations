@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressSegmented.css'
 
@@ -12,8 +12,7 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ProgressBarsProgressSegmented() {
-  const shouldReduceMotion = useReducedMotion()
-  const [activeSegments, setActiveSegments] = useState<number[]>([])
+const [activeSegments, setActiveSegments] = useState<number[]>([])
   const segmentCount = 4
   const segmentGap = 4
   const duration = 3
@@ -29,30 +28,6 @@ export function ProgressBarsProgressSegmented() {
 
     return () => timers.forEach(clearTimeout)
   }, [])
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-progress-demo pf-progress-segmented"
-        data-animation-id="progress-bars__progress-segmented"
-      >
-        <div className="track-container" style={{ position: 'relative' }}>
-          <div className="pf-progress-track">
-            <div
-              className="pf-progress-fill"
-              style={{
-                transform: 'scaleX(1)',
-                transformOrigin: 'left center',
-                background: 'linear-gradient(90deg, #c47ae5 0%, #e8b4ff 100%)',
-                borderRadius: '8px 0 0 8px',
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   // Main fill animation
   const fillVariants = {
     initial: { scaleX: 0 },

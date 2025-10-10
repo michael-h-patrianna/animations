@@ -1,19 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './LoadingStatesSpinnerOrbital.css'
 
 export function LoadingStatesSpinnerOrbital() {
-  const shouldReduceMotion = useReducedMotion()
-  if (shouldReduceMotion) {
-    return (
-      <div data-animation-id="loading-states__spinner-orbital" className="pf-loading-container">
-        <div className="pf-spinner-orbital">
-          <span className="pf-spinner-orbital__satellite" />
-          <span className="pf-spinner-orbital__ring" />
-        </div>
-      </div>
-    )
-  }
   return (
     <div data-animation-id="loading-states__spinner-orbital" className="pf-loading-container">
       <div className="pf-spinner-orbital">

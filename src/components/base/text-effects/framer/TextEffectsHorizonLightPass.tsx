@@ -4,23 +4,17 @@
  * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
  */
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, easeOut, motion, useReducedMotion, type Variants } from 'framer-motion'
+import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
 import React from 'react'
 import './TextEffectsHorizonLightPass.css'
 
 export function TextEffectsHorizonLightPass() {
   const text = 'LOREM IPSUM DOLOR'
-  const shouldReduceMotion = useReducedMotion()
+
 
   const letters = React.useMemo(() => Array.from(text), [text])
 
-  const containerVariants: Variants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { duration: 0.2 } },
-        settle: { opacity: 1, transition: { duration: 0.001 } },
-      }
-    : {
+  const containerVariants: Variants = {
         hidden: { opacity: 0, scaleY: 0.995 },
         show: {
           opacity: 1,
@@ -44,12 +38,7 @@ export function TextEffectsHorizonLightPass() {
   // - No skew, no vertical translation
   // - Longer duration with plateau
   // - Right-to-left sweep via index-based delays
-  const letterVariants: Variants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { duration: 0.18 } },
-      }
-    : {
+  const letterVariants: Variants = {
         hidden: { opacity: 0 },
         show: (i: number) => {
           // Right-to-left delay: later indices lead, earlier lag
@@ -87,7 +76,7 @@ export function TextEffectsHorizonLightPass() {
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
-      animate={shouldReduceMotion ? 'show' : ['show', 'settle']}
+      animate={['show', 'settle']}
     >
       <div className="studioLogo-HorizonLightPass__line" aria-hidden="true">
         {letters.map((ch, i) => (

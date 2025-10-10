@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownHeartbeat.css'
 
@@ -14,9 +14,7 @@ export const metadata: AnimationMetadata = {
 export function TimerEffectsPillCountdownHeartbeat() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     if (!isRunning || seconds <= 0) return
 
     const interval = setInterval(() => {
@@ -97,18 +95,6 @@ export function TimerEffectsPillCountdownHeartbeat() {
       transition: { duration: 2, repeat: Infinity, ease: easeInOut },
     }
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pill-countdown-heartbeat-container">
-        <div className={`pill-countdown-heartbeat ${getHeartbeatClass()}`}>
-          <span className="pill-countdown-heartbeat__glow" aria-hidden="true" />
-          <span className="pill-countdown-heartbeat__text">{formatTime(seconds)}</span>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pill-countdown-heartbeat-container">
       <motion.div className={`pill-countdown-heartbeat ${getHeartbeatClass()}`}>

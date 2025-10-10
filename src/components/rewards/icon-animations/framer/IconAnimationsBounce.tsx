@@ -1,19 +1,9 @@
 import giftBoxImage from '@/assets/present_box.png'
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import './IconAnimationsBounce.css'
 
 export function IconAnimationsBounce() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="icon-demo-container">
-        <img src={giftBoxImage} alt="Bouncing gift box" style={{ width: 120 }} />
-      </div>
-    )
-  }
-
   return (
     <div className="icon-demo-container">
       <motion.img

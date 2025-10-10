@@ -1,6 +1,6 @@
 import type { AnimationMetadata } from '@/types/animation';
 import { calculateBulbColors } from '@/utils/colors';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import './LightsCircleStatic5.css';
 
@@ -14,7 +14,7 @@ const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-  const shouldReduceMotion = useReducedMotion();
+;
   const radius = 80;
   const animationDuration = 4; // seconds
   // Use prime number for pseudo-random sparkle pattern
@@ -26,22 +26,6 @@ const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     const delay = i * delayPerBulb;
-
-    if (shouldReduceMotion) {
-      return (
-        <div
-          key={i}
-          className="lights-circle-static-5__bulb-wrapper"
-          style={{
-            transform: `translate(${x}px, ${y}px)`,
-          }}
-        >
-          <div className="lights-circle-static-5__glow" />
-          <div className="lights-circle-static-5__bulb" />
-        </div>
-      );
-    }
-
     return (
       <div
         key={i}

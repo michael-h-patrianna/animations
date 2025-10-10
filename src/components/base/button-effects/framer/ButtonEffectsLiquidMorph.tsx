@@ -1,15 +1,13 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsLiquidMorph.css'
 
 export function ButtonEffectsLiquidMorph() {
-  const shouldReduceMotion = useReducedMotion()
-  const [isAnimating, setIsAnimating] = useState(false)
+const [isAnimating, setIsAnimating] = useState(false)
 
   const handleClick = () => {
-    if (shouldReduceMotion) return
     setIsAnimating(true)
     setTimeout(() => setIsAnimating(false), 600)
   }
@@ -31,17 +29,6 @@ export function ButtonEffectsLiquidMorph() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="button-demo" data-animation-id="button-effects__liquid-morph">
-        <button className="pf-btn pf-btn--primary pf-btn--liquid-morph" onClick={handleClick}>
-          Click Me!
-        </button>
-      </div>
-    )
-  }
-
   return (
     <div className="button-demo" data-animation-id="button-effects__liquid-morph">
       <motion.button

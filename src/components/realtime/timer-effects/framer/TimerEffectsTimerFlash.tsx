@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlash.css'
 
@@ -15,9 +15,7 @@ export function TimerEffectsTimerFlash() {
   const [seconds, setSeconds] = useState(32)
   const [bgColor, setBgColor] = useState('#ffc107')
   const [pulseSpeed, setPulseSpeed] = useState(1000)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const duration = 32000
     const startTime = Date.now()
     let lastDisplayed = 32
@@ -71,19 +69,6 @@ export function TimerEffectsTimerFlash() {
     const secs = totalSeconds % 60
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
-        <div className="pf-timer-flash__pill" style={{ backgroundColor: bgColor }}>
-          <span className="pf-timer-flash__glow" aria-hidden="true" />
-          <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
-        </div>
-        <span className="pf-timer-flash__label">Flash Expire</span>
-      </div>
-    )
-  }
-
   const getGlowAnimation = () => {
     if (seconds > 30) {
       return { scale: 0.95, opacity: 0 }

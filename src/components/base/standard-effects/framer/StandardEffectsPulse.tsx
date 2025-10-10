@@ -1,17 +1,14 @@
 import { motionDurations, motionEasings } from '@/motion/tokens'
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPulse.css'
 
 export function StandardEffectsPulse() {
-  const shouldReduceMotion = useReducedMotion()
-  const keyframeTimes = [0, 0.5, 1]
+const keyframeTimes = [0, 0.5, 1]
 
   // Provide a static fallback when users request reduced motion preferences.
-  const elementAnimation = shouldReduceMotion
-    ? { scale: 1, opacity: 1 }
-    : {
+  const elementAnimation = {
         scale: [1, 1.25, 1],
         opacity: [1, 0.8, 1],
         transition: {
@@ -20,10 +17,7 @@ export function StandardEffectsPulse() {
           times: keyframeTimes,
         },
       }
-
-  const glowAnimation = shouldReduceMotion
-    ? { scale: 1.1, opacity: 0.3 }
-    : {
+  const glowAnimation = {
         scale: [0.8, 1.5, 2],
         opacity: [0, 0.6, 0],
         transition: {

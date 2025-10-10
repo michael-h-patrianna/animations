@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import './TextEffectsCounterIncrement.css'
 
@@ -9,8 +9,7 @@ interface CounterIndicator {
 }
 
 export function TextEffectsCounterIncrement() {
-  const shouldReduceMotion = useReducedMotion()
-  const [isValueAnimating, setIsValueAnimating] = useState(false)
+const [isValueAnimating, setIsValueAnimating] = useState(false)
   const [count, setCount] = useState(0)
   const [counters, setCounters] = useState<CounterIndicator[]>([])
   const nextCounterIdRef = useRef(0)
@@ -84,25 +83,6 @@ export function TextEffectsCounterIncrement() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-counter-showcase" data-animation-id="text-effects__counter-increment">
-        <div className="pf-counter-showcase__target">
-          <span className="pf-counter-showcase__value">
-            <span className="pf-counter-showcase__value-glow" aria-hidden="true" />
-            <span className="pf-counter-showcase__value-text">{count}</span>
-          </span>
-          {counters.map((counter) => (
-            <span key={counter.id} className="pf-update-indicator__counter">
-              +1
-            </span>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-counter-showcase" data-animation-id="text-effects__counter-increment">
       <div className="pf-counter-showcase__target">

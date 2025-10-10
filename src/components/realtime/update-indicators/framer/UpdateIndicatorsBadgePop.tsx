@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsBadgePop.css'
 
@@ -13,25 +13,12 @@ export const metadata: AnimationMetadata = {
 
 export function UpdateIndicatorsBadgePop() {
   const [key, setKey] = useState(0)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 2000)
     return () => clearInterval(interval)
   }, [])
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pop">
-        <div className="pf-update-indicator__icon"></div>
-        <div className="pf-update-indicator__copy">Content update arrived</div>
-        <div className="pf-update-indicator__badge">New</div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pop">
       <div className="pf-update-indicator__icon"></div>

@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerPulse.css'
 
@@ -13,9 +13,7 @@ export const metadata: AnimationMetadata = {
 
 export function TimerEffectsTimerPulse() {
   const [value, setValue] = useState(10)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const duration = 2000
     const startTime = Date.now()
 
@@ -59,20 +57,6 @@ export function TimerEffectsTimerPulse() {
   }
 
   const progress = (10 - value) / 10
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-timer" data-animation-id="timer-effects__timer-pulse">
-        <div className="pf-timer__value">{value}</div>
-        <span className="pf-timer__label">Seconds left</span>
-        <div
-          className="pf-timer__underline"
-          style={{ transformOrigin: 'left center', transform: `scaleX(${1 - progress})` }}
-        />
-      </div>
-    )
-  }
-
   return (
     <div className="pf-timer" data-animation-id="timer-effects__timer-pulse">
       <motion.div className="pf-timer__value" variants={pulseVariants} animate="pulse">

@@ -1,11 +1,9 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, easeOut, motion } from 'framer-motion'
 import './StandardEffectsSoftPulse.css'
 
 export function StandardEffectsSoftPulse() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const coreVariants = {
+const coreVariants = {
     animate: {
       scale: [1, 1.06, 1],
       transition: {
@@ -52,19 +50,6 @@ export function StandardEffectsSoftPulse() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="soft-pulse-wrapper">
-        <div className="soft-pulse" role="img" aria-label="Soft pulse circle">
-          <span className="soft-pulse__glow" aria-hidden="true" />
-          <span className="soft-pulse__ring" aria-hidden="true" />
-          <span className="soft-pulse__ring soft-pulse__ring--delayed" aria-hidden="true" />
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="soft-pulse-wrapper">
       <motion.div

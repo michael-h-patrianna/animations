@@ -1,18 +1,8 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './LoadingStatesSpinnerDualRing.css'
 
 export function LoadingStatesSpinnerDualRing() {
-  const shouldReduceMotion = useReducedMotion()
-  if (shouldReduceMotion) {
-    return (
-      <div data-animation-id="loading-states__spinner-dual-ring" className="pf-loading-container">
-        <div className="pf-spinner-dual-ring">
-          <span className="pf-spinner-dual-ring__outer" /><span className="pf-spinner-dual-ring__inner" />
-        </div>
-      </div>
-    )
-  }
   return (
     <div data-animation-id="loading-states__spinner-dual-ring" className="pf-loading-container">
       <div className="pf-spinner-dual-ring">

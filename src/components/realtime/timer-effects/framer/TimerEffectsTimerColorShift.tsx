@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerColorShift.css'
 
@@ -15,9 +15,7 @@ export function TimerEffectsTimerColorShift() {
   const [value, setValue] = useState(10)
   const [timerColor, setTimerColor] = useState('#c6ff77')
   const [arcProgress, setArcProgress] = useState(0)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const duration = 3000
     const startTime = Date.now()
 
@@ -57,35 +55,6 @@ export function TimerEffectsTimerColorShift() {
   }, [])
 
   const progress = (10 - value) / 10
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-timer"
-        data-animation-id="timer-effects__timer-color-shift"
-        style={{ '--timer-color': timerColor } as React.CSSProperties}
-      >
-        <div className="pf-timer__value-wrap">
-          <div className="pf-timer__value">{value}</div>
-          <div className="pf-timer__arc">
-            <svg viewBox="0 0 36 36">
-              <path
-                className="pf-timer__path"
-                d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31"
-                style={{ strokeDashoffset: 98 * progress }}
-              />
-            </svg>
-          </div>
-        </div>
-        <span className="pf-timer__label">Seconds left</span>
-        <div
-          className="pf-timer__underline"
-          style={{ transformOrigin: 'left center', transform: `scaleX(${1 - progress})` }}
-        />
-      </div>
-    )
-  }
-
   return (
     <div
       className="pf-timer"

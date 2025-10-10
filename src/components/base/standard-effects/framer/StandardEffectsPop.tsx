@@ -1,12 +1,10 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPop.css'
 
 export function StandardEffectsPop() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const popVariants = {
+const popVariants = {
     animate: {
       scale: [0, 1.2, 1],
       rotate: [0, 5, 0],
@@ -18,17 +16,6 @@ export function StandardEffectsPop() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="standard-demo-container">
-        <div className="standard-demo-element pop-element">
-          <div className="demo-text">Pop</div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="standard-demo-container">
       <motion.div

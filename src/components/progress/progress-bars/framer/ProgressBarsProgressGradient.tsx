@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import './ProgressBarsProgressGradient.css'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -11,33 +11,6 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ProgressBarsProgressGradient() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-progress-demo pf-progress-gradient"
-        data-animation-id="progress-bars__progress-gradient"
-      >
-        <div className="track-container" style={{ position: 'relative' }}>
-          <div className="pf-progress-track">
-            <div
-              className="pf-progress-fill"
-              style={{
-                transform: 'scaleX(1)',
-                transformOrigin: 'left center',
-                position: 'relative',
-                overflow: 'visible',
-                background:
-                  'linear-gradient(90deg, #4e187c 0%, #7a468e 25%, #c47ae5 50%, #d79af3 75%, #c6ff77 100%)',
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   // Main fill animation
   const fillVariants = {
     initial: { scaleX: 0 },

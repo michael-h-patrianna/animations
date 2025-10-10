@@ -1,14 +1,12 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsFireworksTriple.css'
 
 const fireworkColors = ['#ffce1a', '#ff5981', '#47fff4', '#c6ff77']
 
 export function ModalCelebrationsFireworksTriple() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const fireworks = useMemo(
+const fireworks = useMemo(
     () =>
       fireworkColors.map((color, index) => ({
         id: index,
@@ -19,27 +17,6 @@ export function ModalCelebrationsFireworksTriple() {
       })),
     []
   )
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-celebration">
-        <div className="pf-celebration__layer">
-          {fireworks.slice(0, 2).map((firework) => (
-            <span
-              key={firework.id}
-              className="pf-celebration__firework"
-              style={{
-                borderColor: firework.color,
-                opacity: 0.5,
-                transform: 'translate(-50%, -50%) scale(1.5)',
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-celebration">
       <div className="pf-celebration__layer">

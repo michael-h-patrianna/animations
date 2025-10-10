@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownGlitch.css'
 
@@ -14,9 +14,7 @@ export const metadata: AnimationMetadata = {
 export function TimerEffectsPillCountdownGlitch() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     if (!isRunning || seconds <= 0) return
 
     const interval = setInterval(() => {
@@ -97,24 +95,6 @@ export function TimerEffectsPillCountdownGlitch() {
       transition: { duration: 2, repeat: Infinity, ease: easeInOut },
     }
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pill-countdown-glitch-container">
-        <div className={`pill-countdown-glitch ${getGlitchClass()}`}>
-          <span className="pill-countdown-glitch__glow" aria-hidden="true" />
-          <span className="pill-countdown-glitch__text">{formatTime(seconds)}</span>
-          <span aria-hidden="true" className="pill-countdown-glitch__copy pill-countdown-glitch__copy--before">
-            {formatTime(seconds)}
-          </span>
-          <span aria-hidden="true" className="pill-countdown-glitch__copy pill-countdown-glitch__copy--after">
-            {formatTime(seconds)}
-          </span>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pill-countdown-glitch-container">
       <motion.div className={`pill-countdown-glitch ${getGlitchClass()}`}>

@@ -1,11 +1,9 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './LoadingStatesSkeletonHorizontal.css'
 
 export function LoadingStatesSkeletonHorizontal() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const shimmerVariants = {
+const shimmerVariants = {
     animate: {
       backgroundPosition: ['200% 0', '-200% 0'],
       transition: {
@@ -15,22 +13,6 @@ export function LoadingStatesSkeletonHorizontal() {
       },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div data-animation-id="loading-states__skeleton-horizontal" className="pf-loading-container">
-        <div className="pf-skeleton pf-skeleton-horizontal">
-          <div className="pf-skeleton__line"></div>
-          <div className="pf-skeleton__line"></div>
-          <div className="pf-skeleton__line"></div>
-          <div className="pf-skeleton__line"></div>
-          <div className="pf-skeleton__line"></div>
-          <div className="pf-skeleton__line"></div>
-        </div>
-      </div>
-    )
-  }
-
   const delays = [0, 0.08, 0.16, 0.24, 0.32, 0.4]
 
   return (

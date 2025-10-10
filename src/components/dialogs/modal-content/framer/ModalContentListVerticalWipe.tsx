@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import '../shared.css'
 import './ModalContentListVerticalWipe.css'
 
@@ -12,32 +12,7 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ModalContentListVerticalWipe() {
-  const shouldReduceMotion = useReducedMotion()
-  const items = ['Introduction complete', 'Profile configured', 'Preferences set', 'Ready to begin']
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="modal-content-overlay">
-        <div className="modal-content-modal">
-          <div className="modal-content-header">
-            <h4 className="modal-content-title">Setup Complete</h4>
-            <span className="modal-content-badge">Modal</span>
-          </div>
-          <div className="modal-content-body">
-            <div className="modal-content-list">
-              {items.map((item, i) => (
-                <div key={i} className="modal-content-list-item">{item}</div>
-              ))}
-            </div>
-          </div>
-          <div className="modal-content-footer">
-            <button className="modal-content-button modal-content-button-primary">Continue</button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
+const items = ['Introduction complete', 'Profile configured', 'Preferences set', 'Ready to begin']
   return (
     <div className="modal-content-overlay">
       <motion.div className="modal-content-modal" initial={{ scale: 0.88, y: -16, opacity: 0 }} animate={{ scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }} transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}>

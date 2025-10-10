@@ -1,33 +1,15 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsSplitReveal.css'
 
 export function ButtonEffectsSplitReveal() {
   const [isRevealing, setIsRevealing] = useState(false)
-  const shouldReduceMotion = useReducedMotion()
-
-  const handleClick = () => {
+const handleClick = () => {
     setIsRevealing(true)
     setTimeout(() => setIsRevealing(false), 800)
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="button-demo" data-animation-id="button-effects__split-reveal">
-        <button
-          className="pf-btn pf-btn--primary pf-btn--split-reveal"
-          onClick={handleClick}
-        >
-          <span className="pf-btn__split-top">Click</span>
-          <span className="pf-btn__split-bottom">Me!</span>
-          <span className="pf-btn__split-reveal-content">✨</span>
-        </button>
-      </div>
-    )
-  }
-
   return (
     <div className="button-demo" data-animation-id="button-effects__split-reveal">
       <button

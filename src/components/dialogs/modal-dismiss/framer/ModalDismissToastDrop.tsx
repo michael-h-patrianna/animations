@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import { MockContent } from '../MockContent'
 import '../shared.css'
@@ -13,8 +13,7 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ModalDismissToastDrop() {
-  const shouldReduceMotion = useReducedMotion()
-  const [showProgress, setShowProgress] = useState(true)
+const [showProgress, setShowProgress] = useState(true)
   const toastRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
 
@@ -29,11 +28,6 @@ export function ModalDismissToastDrop() {
 
     return () => clearTimeout(exitTimer)
   }, [autoDismissMs])
-
-  if (shouldReduceMotion) {
-    return <MockContent toastRef={toastRef} progressRef={progressRef} animationId="modal-dismiss__toast-drop" />
-  }
-
   const toastVariants = {
     hidden: {
       y: '-120%',

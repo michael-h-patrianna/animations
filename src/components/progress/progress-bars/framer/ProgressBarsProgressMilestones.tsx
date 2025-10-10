@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressMilestones.css'
 
@@ -12,15 +12,12 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ProgressBarsProgressMilestones() {
-  const shouldReduceMotion = useReducedMotion()
-  const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
+const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
 
   const milestonePositions = [0, 0.25, 0.5, 0.75, 1]
   const milestoneLabels = ['Start', '25%', '50%', '75%', '100%']
 
   useEffect(() => {
-    if (shouldReduceMotion) return
-
     const duration = 4000
     const startTime = Date.now()
 
@@ -45,35 +42,7 @@ export function ProgressBarsProgressMilestones() {
     return () => {
       clearInterval(intervalId)
     }
-  }, [shouldReduceMotion])
-
-  if (shouldReduceMotion) {
-    return (
-      <div
-        className="pf-progress-demo pf-progress-milestones"
-        data-animation-id="progress-bars__progress-milestones"
-      >
-        <div className="track-container" style={{ position: 'relative' }}>
-          <div className="pf-progress-track">
-            <div className="pf-progress-fill" style={{ transform: 'scaleX(1)', transformOrigin: 'left center' }} />
-          </div>
-          {milestonePositions.map((pos, i) => (
-            <div
-              key={i}
-              className="milestone-marker"
-              style={{
-                position: 'absolute',
-                left: `${pos * 100}%`,
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
+  }, [])
   const fillVariants = {
     hidden: { scaleX: 0 },
     visible: {

@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import './ModalCelebrationsConfettiBurst.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
@@ -10,9 +10,7 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsConfettiBurst() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const particles = Array.from({ length: 32 }, (_, i) => {
+const particles = Array.from({ length: 32 }, (_, i) => {
     const tx = randBetween(-160, 160)
     const ty = randBetween(-210, -80)
     const rot = randBetween(-260, 260)
@@ -29,27 +27,6 @@ export function ModalCelebrationsConfettiBurst() {
       duration,
     }
   })
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-celebration">
-        <div className="pf-celebration__layer">
-          {particles.slice(0, 8).map((particle) => (
-            <span
-              key={particle.id}
-              className="pf-celebration__confetti"
-              style={{
-                left: '50%',
-                top: '60%',
-                background: particle.color,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-celebration">
       <div className="pf-celebration__layer">

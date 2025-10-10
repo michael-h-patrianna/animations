@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion, useReducedMotion } from 'framer-motion'
+import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlip.css'
 
@@ -14,9 +14,7 @@ export const metadata: AnimationMetadata = {
 export function TimerEffectsTimerFlip() {
   const [value, setValue] = useState(10)
   const [flipKey, setFlipKey] = useState(0)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const duration = 3000
     const startTime = Date.now()
     let lastValue = 10
@@ -28,7 +26,7 @@ export function TimerEffectsTimerFlip() {
 
       if (currentValue !== lastValue) {
         setValue(currentValue)
-        if (!shouldReduceMotion) {
+  {
           setFlipKey((prev) => prev + 1)
         }
         lastValue = currentValue
@@ -45,7 +43,7 @@ export function TimerEffectsTimerFlip() {
     }, 100)
 
     return () => clearInterval(intervalId)
-  }, [shouldReduceMotion])
+  }, [])
 
   const flipVariants = {
     initial: { rotateX: 0, opacity: 1 },
@@ -67,17 +65,6 @@ export function TimerEffectsTimerFlip() {
       transition: { duration: 0.3, ease: 'linear' as const },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-timer" data-animation-id="timer-effects__timer-flip">
-        <div className="pf-timer__value">{value}</div>
-        <span className="pf-timer__label">Seconds left</span>
-        <div className="pf-timer__underline" style={{ transformOrigin: 'left center', transform: `scaleX(${value / 10})` }} />
-      </div>
-    )
-  }
-
   return (
     <div className="pf-timer" data-animation-id="timer-effects__timer-flip">
       <motion.div

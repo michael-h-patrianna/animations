@@ -1,12 +1,10 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsRadialPulse.css'
 
 export function StandardEffectsRadialPulse() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const ringVariants = (delay: number) => ({
+const ringVariants = (delay: number) => ({
     animate: {
       scale: [0.1, 7.5],
       opacity: [0.8, 0.12, 0],
@@ -18,18 +16,6 @@ export function StandardEffectsRadialPulse() {
       },
     },
   })
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="standard-radial-pulse" role="img" aria-label="Radial pulse">
-        {[0, 1, 2].map((i) => (
-          <span key={i} className={`ring ring-${i + 1}`} />
-        ))}
-        <span className="dot-center" />
-      </div>
-    )
-  }
-
   return (
     <div className="standard-radial-pulse" role="img" aria-label="Radial pulse">
       {[0, 1, 2].map((i) => (

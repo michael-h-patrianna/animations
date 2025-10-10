@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import '../shared.css'
 import './ModalContentFormFieldLeftReveal.css'
 
@@ -12,43 +12,6 @@ export const metadata: AnimationMetadata = {
 }
 
 export function ModalContentFormFieldLeftReveal() {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="modal-content-overlay">
-        <div className="modal-content-modal">
-          <div className="modal-content-header">
-            <h4 className="modal-content-title">Sequence Control</h4>
-            <span className="modal-content-badge">Modal</span>
-          </div>
-          <div className="modal-content-body">
-            <p>Build trust by sequencing content reveals.</p>
-            <p>Keep focus with 70ms cadence.</p>
-            <div className="modal-content-form">
-              <div className="modal-content-field">
-                <label>Field 1</label>
-                <input type="text" defaultValue="Input" />
-              </div>
-              <div className="modal-content-field">
-                <label>Field 2</label>
-                <input type="text" defaultValue="Input" />
-              </div>
-              <div className="modal-content-field">
-                <label>Field 3</label>
-                <input type="text" defaultValue="Input" />
-              </div>
-            </div>
-          </div>
-          <div className="modal-content-footer">
-            <button className="modal-content-button modal-content-button-primary">Accept</button>
-            <button className="modal-content-button modal-content-button-secondary">Later</button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="modal-content-overlay">
       <motion.div

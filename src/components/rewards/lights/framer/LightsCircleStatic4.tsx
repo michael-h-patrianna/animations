@@ -1,6 +1,6 @@
 import type { AnimationMetadata } from '@/types/animation';
 import { calculateBulbColors } from '@/utils/colors';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import './LightsCircleStatic4.css';
 
@@ -14,7 +14,7 @@ const LightsCircleStatic4: React.FC<LightsCircleStatic4Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-  const shouldReduceMotion = useReducedMotion();
+;
   const radius = 80;
   const animationDuration = 7; // seconds
   const delayPerBulb = animationDuration / numBulbs * 0.12;
@@ -26,22 +26,6 @@ const LightsCircleStatic4: React.FC<LightsCircleStatic4Props> = ({
     const y = radius * Math.sin(angleRad);
     const delay = i * delayPerBulb;
     const isWinner = i === 0;
-
-    if (shouldReduceMotion) {
-      return (
-        <div
-          key={i}
-          className="lights-circle-static-4__bulb-wrapper"
-          style={{
-            transform: `translate(${x}px, ${y}px)`,
-          }}
-        >
-          <div className="lights-circle-static-4__glow" />
-          <div className="lights-circle-static-4__bulb" />
-        </div>
-      );
-    }
-
     // Winner animation
     if (isWinner) {
       return (

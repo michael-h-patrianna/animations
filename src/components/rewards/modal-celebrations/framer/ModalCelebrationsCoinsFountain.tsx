@@ -1,6 +1,6 @@
 import coinImage from '@/assets/coin.png'
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsCoinsFountain.css'
 
@@ -10,9 +10,7 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsCoinsFountain() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const coins = useMemo(
+const coins = useMemo(
     () =>
       Array.from({ length: 12 }, (_, i) => {
         const tx = randBetween(-80, 80)
@@ -30,33 +28,6 @@ export function ModalCelebrationsCoinsFountain() {
       }),
     []
   )
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-celebration">
-        <div className="pf-celebration__layer">
-          {coins.slice(0, 3).map((coin) => (
-            <img
-              key={coin.id}
-              src={coinImage}
-              alt="coin"
-              className="pf-celebration__coin"
-              style={{
-                width: '24px',
-                height: '24px',
-                position: 'absolute',
-                left: '50%',
-                top: '60%',
-                transform: 'translate(-50%, -50%)',
-                opacity: 0.8,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-celebration">
       <div className="pf-celebration__layer">

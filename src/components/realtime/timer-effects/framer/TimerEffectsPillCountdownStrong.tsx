@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownStrong.css'
 
@@ -17,9 +17,7 @@ export function TimerEffectsPillCountdownStrong() {
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [snapKey, setSnapKey] = useState(0)
   const [colorClass, setColorClass] = useState('')
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
+useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -39,7 +37,7 @@ export function TimerEffectsPillCountdownStrong() {
         }
 
         // Snap animations at specific thresholds
-        if (!shouldReduceMotion) {
+  {
           if ([55, 50, 45, 40, 35, 30, 25, 20].includes(display)) {
             setSnapKey((prev) => prev + 1)
           } else if ([15, 12].includes(display)) {
@@ -60,12 +58,12 @@ export function TimerEffectsPillCountdownStrong() {
     }, 100)
 
     // Initial snap
-    if (!shouldReduceMotion) {
+  {
       setSnapKey((prev) => prev + 1)
     }
 
     return () => clearInterval(intervalId)
-  }, [shouldReduceMotion])
+  }, [])
 
   const format = (total: number) => {
     const m = Math.floor(total / 60)
@@ -90,19 +88,6 @@ export function TimerEffectsPillCountdownStrong() {
       transition: { duration: 0.16, ease: easeOut },
     },
   }
-
-  if (shouldReduceMotion) {
-    return (
-      <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-strong">
-        <div className={`pf-pill-timer__pill pf-pill-timer__pill--strong ${colorClass}`}>
-          <span className="pf-pill-timer__glow" aria-hidden="true" />
-          <div className="pf-pill-timer__time">{format(seconds)}</div>
-        </div>
-        <span className="pf-pill-timer__label">Pill Countdown — Strong</span>
-      </div>
-    )
-  }
-
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-strong">
       <motion.div
