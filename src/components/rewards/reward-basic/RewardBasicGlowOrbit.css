@@ -26,24 +26,3 @@
   text-align: center;
 }
 
-[data-animation-id='reward-basic__glow-orbit'] .pf-reward-basic__icon {
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(198, 255, 119, 0.85) 0%,
-    rgba(29, 9, 47, 0.4) 70%
-  );
-  color: #1d092f;
-  animation: rb-glow-orbit 520ms linear both;
-}
-
-@keyframes rb-glow-orbit {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}

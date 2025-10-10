@@ -4,7 +4,6 @@ import type { CategoryExport } from '@/types/animation'
 // Import category exports for metadata-based access
 import { categoryExport as baseCategory } from '@/components/base'
 import { categoryExport as dialogsCategory } from '@/components/dialogs'
-import { categoryExport as miscCategory } from '@/components/misc'
 import { categoryExport as progressCategory } from '@/components/progress'
 import { categoryExport as realtimeCategory } from '@/components/realtime'
 import { categoryExport as rewardsCategory } from '@/components/rewards'
@@ -20,7 +19,6 @@ import { categoryExport as rewardsCategory } from '@/components/rewards'
 export const categories: Record<string, CategoryExport> = {
   'base': baseCategory,
   'dialogs': dialogsCategory,
-  'misc': miscCategory,
   'progress': progressCategory,
   'realtime': realtimeCategory,
   'rewards': rewardsCategory,

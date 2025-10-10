@@ -1,23 +1,50 @@
-import type { GroupMetadata, GroupExport } from '@/types/animation'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 
 import { ModalFramerFlip3d, metadata as flip3dMetadata } from './ModalFramerFlip3d'
-import { ModalFramerGlitchDigital, metadata as glitchDigitalMetadata } from './ModalFramerGlitchDigital'
+import {
+  ModalFramerGlitchDigital,
+  metadata as glitchDigitalMetadata,
+} from './ModalFramerGlitchDigital'
 import { ModalFramerPortalSwirl, metadata as portalSwirlMetadata } from './ModalFramerPortalSwirl'
-import { ModalFramerRippleExpand, metadata as rippleExpandMetadata } from './ModalFramerRippleExpand'
-import { ModalFramerScaleGentlePop, metadata as scaleGentlePopMetadata } from './ModalFramerScaleGentlePop'
-import { ModalFramerShatterAssemble, metadata as shatterAssembleMetadata } from './ModalFramerShatterAssemble'
-import { ModalFramerSlideDownSoft, metadata as slideDownSoftMetadata } from './ModalFramerSlideDownSoft'
-import { ModalFramerSlideLeftDrift, metadata as slideLeftDriftMetadata } from './ModalFramerSlideLeftDrift'
-import { ModalFramerSlideRightDrift, metadata as slideRightDriftMetadata } from './ModalFramerSlideRightDrift'
+import {
+  ModalFramerRippleExpand,
+  metadata as rippleExpandMetadata,
+} from './ModalFramerRippleExpand'
+import {
+  ModalFramerScaleGentlePop,
+  metadata as scaleGentlePopMetadata,
+} from './ModalFramerScaleGentlePop'
+import {
+  ModalFramerShatterAssemble,
+  metadata as shatterAssembleMetadata,
+} from './ModalFramerShatterAssemble'
+import {
+  ModalFramerSlideDownSoft,
+  metadata as slideDownSoftMetadata,
+} from './ModalFramerSlideDownSoft'
+import {
+  ModalFramerSlideLeftDrift,
+  metadata as slideLeftDriftMetadata,
+} from './ModalFramerSlideLeftDrift'
+import {
+  ModalFramerSlideRightDrift,
+  metadata as slideRightDriftMetadata,
+} from './ModalFramerSlideRightDrift'
 import { ModalFramerSlideUpSoft, metadata as slideUpSoftMetadata } from './ModalFramerSlideUpSoft'
-import { ModalFramerSpringBounce, metadata as springBounceMetadata } from './ModalFramerSpringBounce'
+import {
+  ModalFramerSpringBounce,
+  metadata as springBounceMetadata,
+} from './ModalFramerSpringBounce'
 import { ModalFramerTvTurnOn, metadata as tvTurnOnMetadata } from './ModalFramerTvTurnOn'
-import { ModalFramerUnfoldOrigami, metadata as unfoldOrigamiMetadata } from './ModalFramerUnfoldOrigami'
+import {
+  ModalFramerUnfoldOrigami,
+  metadata as unfoldOrigamiMetadata,
+} from './ModalFramerUnfoldOrigami'
 import { ModalFramerZoomElastic, metadata as zoomElasticMetadata } from './ModalFramerZoomElastic'
 
 export const groupMetadata: GroupMetadata = {
   id: 'modal-base-framer',
-  title: 'Base modals (framer)',
+  title: 'Base modal animations',
   tech: 'framer',
   demo: 'modalBaseFramer',
 }
@@ -83,4 +110,3 @@ export const groupExport: GroupExport = {
     },
   },
 }
-

@@ -26,20 +26,3 @@
   text-align: center;
 }
 
-[data-animation-id='reward-basic__badge-sweep'] .pf-reward-basic__icon {
-  background: linear-gradient(135deg, #4e187c 0%, #c47ae5 100%);
-  color: #ffffff;
-  animation: rb-badge-sweep 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
-}
-
-@keyframes rb-badge-sweep {
-  0% {
-    transform: translateX(-6px);
-  }
-  50% {
-    transform: translateX(6px);
-  }
-  100% {
-    transform: translateX(0px);
-  }
-}

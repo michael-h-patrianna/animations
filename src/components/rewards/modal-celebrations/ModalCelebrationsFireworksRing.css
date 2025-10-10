@@ -25,16 +25,3 @@
   transform: translate(-50%, -50%);
 }
 
-@keyframes celebration-firework-ring {
-  0% {
-    transform: translate(-50%, -50%) scale(0.4);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(var(--scale, 2.6));
-    opacity: 0;
-  }
-}

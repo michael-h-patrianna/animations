@@ -29,9 +29,7 @@
   --pill-glow-scale: 1;
   --pill-glow-color: rgba(220, 53, 69, 0.45);
 }
-
-.pf-timer-flash__pill::before {
-  content: '';
+.pf-timer-flash__glow {
   position: absolute;
   inset: -6px;
   border-radius: 999px;
@@ -61,22 +59,3 @@
   font-weight: 500;
 }
 
-@keyframes flash-urgency-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    --pill-glow-opacity: 0.25;
-    --pill-glow-scale: 1;
-  }
-  25%,
-  75% {
-    transform: scale(calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.7));
-    --pill-glow-opacity: 0.45;
-    --pill-glow-scale: calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.5);
-  }
-  50% {
-    transform: scale(var(--pulse-scale, 1.1));
-    --pill-glow-opacity: 0.7;
-    --pill-glow-scale: calc(1 + (var(--pulse-scale, 1.1) - 1) * 0.9);
-  }
-}

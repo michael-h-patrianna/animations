@@ -1,8 +1,20 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './shared.css'
 
 export function StandardEffectsFloat() {
+  const shouldReduceMotion = useReducedMotion()
+
+  if (shouldReduceMotion) {
+    return (
+      <div className="standard-demo-container">
+        <div className="standard-demo-element">
+          <div className="demo-text">Float</div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -17,7 +29,6 @@ export function StandardEffectsFloat() {
         transition={{
           duration: 6,
           ease: 'easeInOut',
-          repeat: Infinity,
         }}
       >
         <div className="demo-text">Float</div>

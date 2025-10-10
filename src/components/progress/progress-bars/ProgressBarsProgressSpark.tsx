@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsProgressSpark.css'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const metadata: AnimationMetadata = {
+  id: 'progress-bars__progress-spark',
+  title: 'Progress Spark',
+  description: 'Progress bar with spark trail and particle effects.',
+  tags: ['framer'],
+}
 
 interface Particle {
   id: number

@@ -30,63 +30,18 @@
   --pill-bg: #dc3545;
   --pill-flash: #ff6478;
 }
-.pf-pill-timer__pill.is-flash {
-  animation: pill-extreme-flash 220ms ease-out;
-}
 
-.pf-pill-timer__pill::after {
-  content: '';
+.pf-pill-timer__pill .pf-pill-timer__glow {
   position: absolute;
-  inset: -6px;
   border-radius: 999px;
-  background-color: rgba(255, 255, 255, 0.25);
-  opacity: 0;
-  transform: scale(0.9);
   pointer-events: none;
 }
 
-.pf-pill-timer__pill.is-flash::after {
-  animation: pill-extreme-ring 220ms ease-out;
-}
-
-@keyframes pill-buzz {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-2px);
-  }
-  50% {
-    transform: translateX(2px);
-  }
-  75% {
-    transform: translateX(-1px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes pill-extreme-flash {
-  0%,
-  100% {
-    background-color: var(--pill-bg);
-  }
-  50% {
-    background-color: var(--pill-flash);
-  }
-}
-
-@keyframes pill-extreme-ring {
-  0%,
-  100% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
+.pf-pill-timer__pill--extreme .pf-pill-timer__glow {
+  inset: -6px;
+  background-color: rgba(255, 255, 255, 0.25);
+  opacity: 0;
+  transform: scale(0.9);
 }
 
 .pf-pill-timer__time {

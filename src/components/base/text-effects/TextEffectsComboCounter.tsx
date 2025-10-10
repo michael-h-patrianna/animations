@@ -1,6 +1,6 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
 import { useEffect } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsComboCounter.css'
 
 export function TextEffectsComboCounter() {
@@ -122,7 +122,12 @@ export function TextEffectsComboCounter() {
                     ease: 'easeOut',
                   }}
                 >
-                  +{milestone.value}
+                  <span className="combo-milestone-particle__text">+{milestone.value}</span>
+                  {milestone.value === 10 && (
+                    <span aria-hidden="true" className="combo-milestone-particle__glow">
+                      +{milestone.value}
+                    </span>
+                  )}
                 </motion.div>
               )
             })}
@@ -205,10 +210,11 @@ export function TextEffectsComboCounter() {
   )
 }
 
-export const metadata: AnimationMetadata = {
+// eslint-disable-next-line react-refresh/only-export-components
+export const metadata = {
   id: 'text-effects__combo-counter',
   title: 'Combo Counter',
   description: 'Dynamic counting animation with milestone particles and perfect combo celebration.',
   tags: ['framer'],
   disableReplay: false
-}
+} satisfies AnimationMetadata

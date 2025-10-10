@@ -17,14 +17,4 @@
   );
   transform: scale(0.2);
   opacity: 0.6;
-  animation: pf-ripple 520ms ease-out forwards;
-}
-@keyframes pf-ripple {
-  60% {
-    opacity: 0.45;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
 }

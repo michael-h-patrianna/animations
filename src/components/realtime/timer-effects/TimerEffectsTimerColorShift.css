@@ -73,6 +73,6 @@
   stroke-width: var(--pf-timer-arc-stroke);
   stroke-linecap: round;
   stroke-dasharray: 97;
-  stroke-dashoffset: 97;
+  /* strokeDashoffset animated by Framer Motion */
   /* RN-friendly: avoid drop-shadow; use a faint secondary stroke if needed */
 }

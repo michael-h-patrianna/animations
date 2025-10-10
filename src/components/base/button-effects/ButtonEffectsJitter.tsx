@@ -1,18 +1,64 @@
 import type { AnimationMetadata } from '@/types/animation'
+import { motion, useReducedMotion } from 'framer-motion'
+import { useState } from 'react'
 import './ButtonEffectsJitter.css'
 import './shared.css'
 
 export function ButtonEffectsJitter() {
+  const shouldReduceMotion = useReducedMotion()
+  const [isHovered, setIsHovered] = useState(false)
+
+  const jitterVariants = {
+    animate: {
+      scale: [1, 0.9, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1],
+      rotate: [0, 0, 0, -5, 5, -3, 2, 0, 0, 0],
+      transition: {
+        duration: 4,
+        ease: 'linear',
+        repeat: Infinity,
+        times: [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 1],
+      },
+    },
+  }
+
+  const heartbeatVariants = {
+    animate: {
+      scale: [1, 1.05, 1],
+      transition: {
+        duration: 0.2,
+        ease: 'linear',
+        repeat: Infinity,
+      },
+    },
+  }
+
+  if (shouldReduceMotion) {
+    return (
+      <div className="button-demo" data-animation-id="button-effects__jitter">
+        <button className="pf-btn pf-btn--primary pf-btn--jitter">Click Me!</button>
+      </div>
+    )
+  }
+
   return (
     <div className="button-demo" data-animation-id="button-effects__jitter">
-      <button className="pf-btn pf-btn--primary pf-btn--jitter">Click Me!</button>
+      <motion.button
+        className="pf-btn pf-btn--primary pf-btn--jitter"
+        variants={isHovered ? heartbeatVariants : jitterVariants}
+        animate="animate"
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+      >
+        Click Me!
+      </motion.button>
     </div>
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'button-effects__jitter',
   title: 'Button Jitter',
   description: 'Playful button with continuous jittery animation and heartbeat on hover.',
-  tags: ['css'],
+  tags: ['framer'],
 }

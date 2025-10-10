@@ -36,14 +36,3 @@
   transform-origin: left center;
 }
 
-@keyframes timer-pulse-color {
-  0%,
-  100% {
-    transform: scale(1);
-    color: #ecc3ff;
-  }
-  50% {
-    transform: scale(1.12);
-    color: #c6ff77;
-  }
-}

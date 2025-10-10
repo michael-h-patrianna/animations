@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic1.css';
 import { calculateBulbColors } from '@/utils/colors';
@@ -13,6 +14,7 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
+  const shouldReduceMotion = useReducedMotion();
   const radius = 80;
 
   const bulbs = Array.from({ length: numBulbs }, (_, i) => {
@@ -22,25 +24,102 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
     const y = radius * Math.sin(angleRad);
     const isEven = i % 2 === 0;
 
+    if (shouldReduceMotion) {
+      return (
+        <div
+          key={i}
+          className="lights-circle-static-1__bulb-wrapper"
+          style={{
+            transform: `translate(${x}px, ${y}px)`,
+          }}
+        >
+          <div className="lights-circle-static-1__glow" />
+          <div className="lights-circle-static-1__bulb" />
+        </div>
+      );
+    }
+
+    // Animation variants for even/odd bulbs
+    const glowVariant = isEven ? {
+      opacity: [0.9, 0.4, 0, 0, 0.4, 0.9],
+      transition: {
+        duration: 1.2,
+        times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+        repeat: Infinity,
+        ease: [0.42, 0, 0.58, 1] as const
+      }
+    } : {
+      opacity: [0, 0.4, 0.9, 0.9, 0.4, 0],
+      transition: {
+        duration: 1.2,
+        times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+        repeat: Infinity,
+        ease: [0.42, 0, 0.58, 1] as const
+      }
+    };
+
     return (
       <div
         key={i}
-        className={`lights-circle-static-1__bulb-wrapper ${isEven ? 'even' : 'odd'}`}
+        className="lights-circle-static-1__bulb-wrapper"
         style={{
           transform: `translate(${x}px, ${y}px)`,
         }}
       >
-        {/* Reduced to 2 glow layers for performance */}
-        <div className="lights-circle-static-1__glow-outer" />
-        <div className="lights-circle-static-1__glow-inner" />
-
-        {/* Main bulb with radial gradient */}
-        <div className="lights-circle-static-1__bulb">
-          {/* Inner filament */}
-          <div className="lights-circle-static-1__filament" />
-          {/* Glass shine overlay */}
-          <div className="lights-circle-static-1__glass-shine" />
-        </div>
+        <motion.div
+          className="lights-circle-static-1__glow"
+          animate={glowVariant}
+        />
+        <motion.div
+          className="lights-circle-static-1__bulb"
+          animate={isEven ? {
+            backgroundColor: [
+              `var(--bulb-on)`,
+              `var(--bulb-blend70)`,
+              `var(--bulb-off)`,
+              `var(--bulb-off)`,
+              `var(--bulb-blend70)`,
+              `var(--bulb-on)`
+            ],
+            boxShadow: [
+              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+              `0 0 2px var(--bulb-on-glow50)`,
+              `0 0 2px var(--bulb-off-glow30)`,
+              `0 0 2px var(--bulb-off-glow30)`,
+              `0 0 2px var(--bulb-on-glow50)`,
+              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`
+            ],
+            transition: {
+              duration: 1.2,
+              times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1] as const
+            }
+          } : {
+            backgroundColor: [
+              `var(--bulb-off)`,
+              `var(--bulb-blend70)`,
+              `var(--bulb-on)`,
+              `var(--bulb-on)`,
+              `var(--bulb-blend70)`,
+              `var(--bulb-off)`
+            ],
+            boxShadow: [
+              `0 0 2px var(--bulb-off-glow30)`,
+              `0 0 2px var(--bulb-on-glow50)`,
+              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+              `0 0 2px var(--bulb-on-glow50)`,
+              `0 0 2px var(--bulb-off-glow30)`
+            ],
+            transition: {
+              duration: 1.2,
+              times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1] as const
+            }
+          }}
+        />
       </div>
     );
   });
@@ -83,5 +162,5 @@ export const metadata: AnimationMetadata = {
   id: 'lights__circle-static-1',
   title: 'Alternating Carnival',
   description: 'Classic carnival pattern with even/odd bulbs alternating on and off with realistic glow and fadeout.',
-  tags: ['css'],
+  tags: ['framer'],
 };

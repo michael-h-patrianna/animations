@@ -1,14 +1,21 @@
 import App from '@/App'
+import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
-describe('App', () => {
-  it('renders only the current category and its content', async () => {
-    render(
+const renderApp = () => {
+  return render(
+    <CodeModeProvider>
       <MemoryRouter>
         <App />
       </MemoryRouter>
-    )
+    </CodeModeProvider>
+  )
+}
+
+describe('App', () => {
+  it('renders only the current category and its content', async () => {
+    renderApp()
 
     // Should show first group (from first category) by default
     const groupHeading = await screen.findByRole('heading', {
@@ -24,11 +31,7 @@ describe('App', () => {
   })
 
   it('renders groups and animation cards for current category', async () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    )
+    renderApp()
 
     const groupHeading = await screen.findByRole('heading', {
       level: 2,
@@ -46,11 +49,7 @@ describe('App', () => {
   })
 
   it('switches categories when sidebar category is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    )
+    renderApp()
 
     // Wait for initial load
     await screen.findByRole('heading', { level: 2, name: /Text effects/i })
@@ -72,11 +71,7 @@ describe('App', () => {
   })
 
   it('navigates to group when sidebar group is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    )
+    renderApp()
 
     // Wait for initial load
     await screen.findByRole('heading', { level: 2, name: /Text effects/i })
@@ -101,11 +96,7 @@ describe('App', () => {
   })
 
   it('shows active state for current category in sidebar', async () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    )
+    renderApp()
 
     // Wait for initial load
     await screen.findByRole('heading', { level: 2, name: /Text effects/i })
@@ -126,11 +117,7 @@ describe('App', () => {
   })
 
   it('handles category switching to show different groups', async () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    )
+    renderApp()
 
     // Wait for initial category
     await screen.findByRole('heading', { level: 2, name: /Text effects/i })

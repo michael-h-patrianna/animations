@@ -42,19 +42,3 @@
   opacity: 0;
   /* RN-friendly: avoid blend modes and drop-shadow; simulate glow with extra ring layers */
 }
-
-/* animations triggered via JS every 10s */
-
-@keyframes pf-ui-ring-expand {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.9;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.9);
-    opacity: 0;
-  }
-}

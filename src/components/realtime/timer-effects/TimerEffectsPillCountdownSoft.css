@@ -43,14 +43,3 @@
   font-weight: 500;
 }
 
-@keyframes pill-soft-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    background-color: var(--pill-bg);
-  }
-  50% {
-    transform: scale(1.03);
-    background-color: var(--pill-highlight);
-  }
-}

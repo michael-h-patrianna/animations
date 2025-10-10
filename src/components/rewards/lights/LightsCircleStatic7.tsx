@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic7.css';
 import { calculateBulbColors } from '@/utils/colors';
@@ -13,6 +14,7 @@ const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
+  const shouldReduceMotion = useReducedMotion();
   const radius = 80;
   const animationDuration = 3; // seconds
   const delayPerBulb = animationDuration / numBulbs;
@@ -22,6 +24,22 @@ const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({
     const angleRad = (angle * Math.PI) / 180;
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
+    const delay = i * delayPerBulb;
+
+    if (shouldReduceMotion) {
+      return (
+        <div
+          key={i}
+          className="lights-circle-static-7__bulb-wrapper"
+          style={{
+            transform: `translate(${x}px, ${y}px)`,
+          }}
+        >
+          <div className="lights-circle-static-7__glow" />
+          <div className="lights-circle-static-7__bulb" />
+        </div>
+      );
+    }
 
     return (
       <div
@@ -29,12 +47,57 @@ const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({
         className="lights-circle-static-7__bulb-wrapper"
         style={{
           transform: `translate(${x}px, ${y}px)`,
-          '--bulb-index': i,
-          '--delay-per-bulb': `${delayPerBulb}s`,
-        } as React.CSSProperties}
+        }}
       >
-        <div className="lights-circle-static-7__glow" />
-        <div className="lights-circle-static-7__bulb" />
+        <motion.div
+          className="lights-circle-static-7__glow"
+          animate={{
+            opacity: [0, 1, 0.9, 0.75, 0.6, 0.45, 0.3, 0.15, 0, 0],
+          }}
+          transition={{
+            duration: animationDuration,
+            times: [0, 0.01, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 1],
+            repeat: Infinity,
+            ease: 'linear',
+            delay,
+          }}
+        />
+        <motion.div
+          className="lights-circle-static-7__bulb"
+          animate={{
+            backgroundColor: [
+              colors.off,
+              colors.on,
+              colors.on,
+              `color-mix(in srgb, ${colors.on} 95%, ${colors.off} 5%)`,
+              colors.blend70,
+              colors.blend40,
+              colors.blend30,
+              `color-mix(in srgb, ${colors.off} 90%, ${colors.on} 10%)`,
+              colors.off,
+              colors.off
+            ],
+            boxShadow: [
+              `0 0 2px ${colors.offGlow30}`,
+              `0 0 12px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 18px ${colors.onGlow80}`,
+              `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 15px ${colors.onGlow70}`,
+              `0 0 8px color-mix(in srgb, ${colors.on} 75%, transparent), 0 0 12px color-mix(in srgb, ${colors.on} 55%, transparent)`,
+              `0 0 6px ${colors.onGlow60}, 0 0 9px color-mix(in srgb, ${colors.on} 40%, transparent)`,
+              `0 0 4px ${colors.onGlow45}`,
+              `0 0 3px ${colors.onGlow30}`,
+              `0 0 2px ${colors.offGlow35}`,
+              `0 0 2px ${colors.offGlow30}`,
+              `0 0 2px ${colors.offGlow30}`
+            ],
+          }}
+          transition={{
+            duration: animationDuration,
+            times: [0, 0.01, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 1],
+            repeat: Infinity,
+            ease: 'linear',
+            delay,
+          }}
+        />
       </div>
     );
   });
@@ -77,5 +140,5 @@ export const metadata: AnimationMetadata = {
   id: 'lights__circle-static-7',
   title: 'Comet Trail',
   description: 'A bright head with a long trailing fadeout creates a comet-like effect around the circle.',
-  tags: ['css'],
+  tags: ['framer'],
 };

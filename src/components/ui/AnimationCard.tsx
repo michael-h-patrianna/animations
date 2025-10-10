@@ -86,6 +86,7 @@ export function AnimationCard({
 
   return (
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
+      <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeader className="p-0 pb-3 space-y-0">
         <CardTitle className="pf-card__title mb-1">{title}</CardTitle>
         <div className="flex items-start gap-2">

@@ -1,159 +1,200 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsProgressSegmented.css'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'progress-bars__progress-segmented',
   title: 'Segmented Sweep',
   description: 'Segments fill sequentially for discrete progress feedback.',
-  tags: ['js', 'css'],
+  tags: ['framer'],
 }
 
 export function ProgressBarsProgressSegmented() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
+  const [activeSegments, setActiveSegments] = useState<number[]>([])
+  const segmentCount = 4
+  const segmentGap = 4
+  const duration = 3
 
   useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-
-    const trackContainer = container.querySelector('.track-container') as HTMLElement
-    const track = container.querySelector('.pf-progress-track') as HTMLElement
-    const fill = container.querySelector('.pf-progress-fill') as HTMLElement
-    if (!trackContainer || !track || !fill) return
-
-    // Clean up any existing animations
-    const existingElements = container.querySelectorAll('.animation-element')
-    existingElements.forEach((el) => el.remove())
-
-    // Reset fill
-    fill.style.transform = 'scaleX(0)'
-    fill.style.transformOrigin = 'left center'
-    fill.style.background = 'linear-gradient(90deg, #c47ae5 0%, #e8b4ff 100%)'
-    fill.style.borderRadius = '8px 0 0 8px'
-    fill.style.overflow = 'hidden'
-
-    // Create gaps ABOVE the fill as static overlays
-    const segmentCount = 4
-    const segmentGap = 4
-
-    // Create gap overlays that sit on top of the fill
-    const gapOverlay = document.createElement('div')
-    gapOverlay.className = 'animation-element'
-    gapOverlay.style.position = 'absolute'
-    gapOverlay.style.inset = '0'
-    gapOverlay.style.pointerEvents = 'none'
-    gapOverlay.style.zIndex = '10'
-    trackContainer.appendChild(gapOverlay)
-
-    // Add vertical gap bars
-    for (let i = 1; i < segmentCount; i++) {
-      const gap = document.createElement('div')
-      gap.style.position = 'absolute'
-      gap.style.width = `${segmentGap}px`
-      gap.style.top = '0'
-      gap.style.bottom = '0'
-      gap.style.left = `calc(${(i * 100) / segmentCount}% - ${segmentGap / 2}px)`
-      gap.style.background = track.style.background || '#2a1040'
-      gapOverlay.appendChild(gap)
-    }
-
-    // Create segment overlay for animations
-    const segmentOverlay = document.createElement('div')
-    segmentOverlay.className = 'animation-element'
-    segmentOverlay.style.position = 'absolute'
-    segmentOverlay.style.inset = '0'
-    segmentOverlay.style.display = 'flex'
-    segmentOverlay.style.gap = `${segmentGap}px`
-    segmentOverlay.style.pointerEvents = 'none'
-    segmentOverlay.style.borderRadius = 'inherit'
-    segmentOverlay.style.zIndex = '5'
-    trackContainer.appendChild(segmentOverlay)
-
-    // Create visual segments for animation purposes
-    const segments = []
-    for (let i = 0; i < segmentCount; i++) {
-      const segment = document.createElement('div')
-      segment.style.flex = '1'
-      segment.style.position = 'relative'
-      // First and last segments get special border radius
-      if (i === 0) {
-        segment.style.borderRadius = '8px 2px 2px 8px'
-      } else if (i === segmentCount - 1) {
-        segment.style.borderRadius = '2px 8px 8px 2px'
-      } else {
-        segment.style.borderRadius = '2px'
-      }
-      segment.style.border = '1px solid rgba(196,122,229,0.3)'
-      segment.style.background = 'rgba(78,24,124,0.1)'
-      segment.style.overflow = 'hidden'
-      segmentOverlay.appendChild(segment)
-      segments.push(segment)
-    }
-
-    const duration = 3000
-
-    // Main fill animation
-    fill.animate(
-      [
-        { transform: 'scaleX(0)' },
-        { transform: 'scaleX(0.25)', offset: 0.25 },
-        { transform: 'scaleX(0.5)', offset: 0.5 },
-        { transform: 'scaleX(0.75)', offset: 0.75 },
-        { transform: 'scaleX(1)' },
-      ],
-      {
-        duration,
-        fill: 'forwards',
-        // Use linear to ensure segment thresholds are hit at exact times
-        easing: 'linear',
-      }
-    )
-
-    // Animate segment checkmarks as fill passes
-    segments.forEach((segment, index) => {
-      const threshold = (index + 1) / segmentCount
-      setTimeout(() => {
-        // Create glow effect
-        const glow = document.createElement('div')
-        glow.style.position = 'absolute'
-        glow.style.inset = '0'
-        glow.style.background = 'rgba(198,255,119,0.3)'
-        glow.style.opacity = '0'
-        segment.appendChild(glow)
-
-        glow.animate([{ opacity: '0' }, { opacity: '1', offset: 0.3 }, { opacity: '0' }], {
-          duration: 400,
-          easing: 'ease-out',
-        })
-
-        // Pulse the segment
-        segment.animate(
-          [
-            { transform: 'scale(1)', boxShadow: 'none' },
-            { transform: 'scale(1.1)', boxShadow: '0 0 20px rgba(198,255,119,0.5)', offset: 0.3 },
-            { transform: 'scale(1)', boxShadow: 'none' },
-          ],
-          { duration: 400, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)' }
-        )
-      }, duration * threshold)
+    // Trigger segment animations at specific thresholds
+    const timers = [0, 1, 2, 3].map((index) => {
+      const threshold = ((index + 1) / segmentCount) * duration * 1000
+      return setTimeout(() => {
+        setActiveSegments((prev) => [...prev, index])
+      }, threshold)
     })
 
-    // Cleanup function
-    return () => {
-      const elements = container.querySelectorAll('.animation-element')
-      elements.forEach((el) => el.remove())
-    }
+    return () => timers.forEach(clearTimeout)
   }, [])
+
+  if (shouldReduceMotion) {
+    return (
+      <div
+        className="pf-progress-demo pf-progress-segmented"
+        data-animation-id="progress-bars__progress-segmented"
+      >
+        <div className="track-container" style={{ position: 'relative' }}>
+          <div className="pf-progress-track">
+            <div
+              className="pf-progress-fill"
+              style={{
+                transform: 'scaleX(1)',
+                transformOrigin: 'left center',
+                background: 'linear-gradient(90deg, #c47ae5 0%, #e8b4ff 100%)',
+                borderRadius: '8px 0 0 8px',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Main fill animation
+  const fillVariants = {
+    initial: { scaleX: 0 },
+    animate: {
+      scaleX: [0, 0.25, 0.5, 0.75, 1],
+      transition: {
+        duration,
+        times: [0, 0.25, 0.5, 0.75, 1],
+        ease: 'linear',
+      },
+    },
+  }
+
+  // Segment animation
+  const segmentVariants = (isActive: boolean) => ({
+    initial: { scale: 1, boxShadow: 'none' },
+    animate: isActive
+      ? {
+          scale: [1, 1.1, 1],
+          boxShadow: [
+            'none',
+            '0 0 20px rgba(198,255,119,0.5)',
+            'none',
+          ],
+          transition: {
+            duration: 0.4,
+            times: [0, 0.3, 1],
+            ease: [0.68, -0.55, 0.265, 1.55],
+          },
+        }
+      : {},
+  })
+
+  // Segment glow animation
+  const glowVariants = (isActive: boolean) => ({
+    initial: { opacity: 0 },
+    animate: isActive
+      ? {
+          opacity: [0, 1, 0],
+          transition: {
+            duration: 0.4,
+            times: [0, 0.3, 1],
+            ease: 'easeOut',
+          },
+        }
+      : {},
+  })
 
   return (
     <div
-      ref={containerRef}
       className="pf-progress-demo pf-progress-segmented"
       data-animation-id="progress-bars__progress-segmented"
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <div className="pf-progress-fill"></div>
+          <motion.div
+            className="pf-progress-fill"
+            style={{
+              transformOrigin: 'left center',
+              background: 'linear-gradient(90deg, #c47ae5 0%, #e8b4ff 100%)',
+              borderRadius: '8px 0 0 8px',
+              overflow: 'hidden',
+            }}
+            variants={fillVariants}
+            initial="initial"
+            animate="animate"
+          />
+        </div>
+
+        {/* Gap overlays */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            zIndex: 10,
+          }}
+        >
+          {Array.from({ length: segmentCount - 1 }).map((_, i) => (
+            <div
+              key={`gap-${i}`}
+              style={{
+                position: 'absolute',
+                width: segmentGap,
+                top: 0,
+                bottom: 0,
+                left: `calc(${((i + 1) * 100) / segmentCount}% - ${segmentGap / 2}px)`,
+                background: '#2a1040',
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Segment overlays for animations */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            gap: segmentGap,
+            pointerEvents: 'none',
+            zIndex: 5,
+          }}
+        >
+          {Array.from({ length: segmentCount }).map((_, i) => {
+            const isActive = activeSegments.includes(i)
+            const isFirst = i === 0
+            const isLast = i === segmentCount - 1
+
+            return (
+              <motion.div
+                key={`segment-${i}`}
+                style={{
+                  flex: 1,
+                  position: 'relative',
+                  borderRadius: isFirst
+                    ? '8px 2px 2px 8px'
+                    : isLast
+                      ? '2px 8px 8px 2px'
+                      : '2px',
+                  border: '1px solid rgba(196,122,229,0.3)',
+                  background: 'rgba(78,24,124,0.1)',
+                  overflow: 'hidden',
+                }}
+                variants={segmentVariants(isActive)}
+                initial="initial"
+                animate="animate"
+              >
+                {/* Glow effect */}
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'rgba(198,255,119,0.3)',
+                  }}
+                  variants={glowVariants(isActive)}
+                  initial="initial"
+                  animate="animate"
+                />
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </div>

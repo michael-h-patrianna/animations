@@ -27,8 +27,11 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: color 0.2s ease;
 }
-.wave-char::before {
-  content: attr(data-char);
+.wave-char__text {
+  display: inline-block;
+  position: relative;
+}
+.wave-char__shadow {
   position: absolute;
   top: 0;
   left: 0;
@@ -39,11 +42,8 @@
   opacity: 0;
   z-index: -1;
   pointer-events: none;
-  animation: wave-shadow 2s ease-in-out infinite;
-  animation-delay: inherit;
 }
-.wave-char::after {
-  content: attr(data-char);
+.wave-char__glow {
   position: absolute;
   top: -2px;
   left: 0;
@@ -51,52 +51,21 @@
   opacity: 0;
   z-index: -2;
   pointer-events: none;
-  animation: wave-glow 2s ease-in-out infinite;
-  animation-delay: inherit;
-  /* Avoid blur for RN parity; keep glow via color + opacity */
 }
 .wave-phase-0 {
   --wave-color: #3b82f6;
-  animation-delay: 0s;
 }
 .wave-phase-1 {
   --wave-color: #60a5fa;
-  animation-delay: 0.05s;
 }
 .wave-phase-2 {
   --wave-color: #3b82f6;
-  animation-delay: 0.1s;
 }
 .wave-phase-3 {
   --wave-color: #2563eb;
-  animation-delay: 0.15s;
 }
 .wave-phase-4 {
   --wave-color: #3b82f6;
-  animation-delay: 0.2s;
-}
-.wave-char {
-  animation: wave-color-shift 2s ease-in-out infinite;
-  animation-delay: inherit;
-}
-@keyframes wave-color-shift {
-  0%,
-  100% {
-    --wave-color: #3b82f6;
-  }
-  25% {
-    --wave-color: #60a5fa;
-  }
-  50% {
-    --wave-color: #3b82f6;
-  }
-  75% {
-    --wave-color: #2563eb;
-  }
-}
-.wave-char-inner {
-  display: inline-block;
-  position: relative;
 }
 .wave-highlight {
   position: absolute;
@@ -107,38 +76,4 @@
   transform-origin: center bottom;
   will-change: transform, opacity;
   transform: translateZ(0);
-}
-@keyframes wave-glow {
-  0%,
-  100% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-  25% {
-    opacity: 0.5;
-    transform: translateY(-2px);
-  }
-  50% {
-    opacity: 0.3;
-    transform: translateY(0);
-  }
-  75% {
-    opacity: 0.1;
-    transform: translateY(1px);
-  }
-}
-@keyframes wave-shadow {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  75% {
-    opacity: 0.1;
-  }
 }

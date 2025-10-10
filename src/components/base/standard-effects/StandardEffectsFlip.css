@@ -1,17 +1,5 @@
 /* Styles scoped for StandardEffectsFlip */
 
-@keyframes flip-animation {
-  0% {
-    transform: perspective(400px) rotateY(0) scale(1);
-  }
-  40% {
-    transform: perspective(400px) rotateY(90deg) scale(0.95);
-  }
-  100% {
-    transform: perspective(400px) rotateY(180deg) scale(1);
-  }
-}
 .flip-element {
-  animation: flip-animation 0.8s ease-in-out;
   backface-visibility: visible;
 }

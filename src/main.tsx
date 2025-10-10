@@ -1,3 +1,4 @@
+import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { preloadImages } from '@/lib/preload'
 import { CRITICAL_ICON_IMAGES } from '@/lib/preload-manifest'
 import { StrictMode } from 'react'
@@ -11,11 +12,13 @@ preloadImages(CRITICAL_ICON_IMAGES)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/:groupId" element={<App />} />
-      </Routes>
-    </BrowserRouter>
+    <CodeModeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/:groupId" element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    </CodeModeProvider>
   </StrictMode>
 )

@@ -13,7 +13,7 @@ describe('animationRegistry', () => {
     })
 
     it('should have all expected category IDs', () => {
-      const expectedCategories = ['base', 'dialogs', 'misc', 'progress', 'realtime', 'rewards']
+      const expectedCategories = ['base', 'dialogs', 'progress', 'realtime', 'rewards']
       const actualCategories = Object.keys(categories).sort()
       expect(actualCategories).toEqual(expectedCategories.sort())
     })

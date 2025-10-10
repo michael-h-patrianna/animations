@@ -37,16 +37,18 @@ describe('Rewards • Basic', () => {
 
   it('renders remaining basic variants', async () => {
     const cases = [
-      ['reward-basic__bounce-energy', <RewardBasicBounceEnergy />],
-      ['reward-basic__bounce-soft', <RewardBasicBounceSoft />],
-      ['reward-basic__coin-spin-fast', <RewardBasicCoinSpinFast />],
-      ['reward-basic__glow-pulse', <RewardBasicGlowPulse />],
-      ['reward-basic__star-burst', <RewardBasicStarBurst />],
-      ['reward-basic__star-radiate', <RewardBasicStarRadiate />],
+      ['reward-basic__bounce-energy', <RewardBasicBounceEnergy />, 'Bounce Energy'],
+      ['reward-basic__bounce-soft', <RewardBasicBounceSoft />, 'Bounce Soft'],
+      ['reward-basic__coin-spin-fast', <RewardBasicCoinSpinFast />, 'Coin Spin'],
+      ['reward-basic__glow-pulse', <RewardBasicGlowPulse />, 'Glow Pulse'],
+      ['reward-basic__star-burst', <RewardBasicStarBurst />, 'Star Burst'],
+      ['reward-basic__star-radiate', <RewardBasicStarRadiate />, 'Star Radiate'],
     ] as const
 
-    for (const [id, node] of cases) {
-      const { container, unmount } = render(withAnimationCard(node))
+    for (const [id, node, title] of cases) {
+      const { container, unmount } = render(
+        withAnimationCard(node, { id, title, description: 'Test', infinite: true })
+      )
       expect(container.querySelector(`[data-animation-id="${id}"]`)).toBeInTheDocument()
       unmount()
     }

@@ -39,15 +39,3 @@
   letter-spacing: 0.025em;
   flex-shrink: 0;
 }
-
-@keyframes update-live-ping {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}

@@ -1,198 +1,232 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import { motion, useReducedMotion, useAnimationControls } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsProgressMilestones.css'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'progress-bars__progress-milestones',
   title: 'Milestone Markers',
   description: 'Milestone markers light up as progress crosses thresholds.',
-  tags: ['js', 'css'],
+  tags: ['framer'],
 }
 
 export function ProgressBarsProgressMilestones() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
+  const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
+  const fillControls = useAnimationControls()
+
+  const milestonePositions = [0, 0.25, 0.5, 0.75, 1]
+  const milestoneLabels = ['Start', '25%', '50%', '75%', '100%']
 
   useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
+    if (shouldReduceMotion) return
 
-    const trackContainer = container.querySelector('.track-container') as HTMLElement
-    const track = container.querySelector('.pf-progress-track') as HTMLElement
-    const fill = container.querySelector('.pf-progress-fill') as HTMLElement
-    if (!trackContainer || !track || !fill) return
+    const duration = 4000
+    const startTime = Date.now()
 
-    // Clean up any existing animations
-    const existingElements = container.querySelectorAll('.animation-element')
-    existingElements.forEach((el) => el.remove())
+    const intervalId = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      const progress = Math.min(elapsed / duration, 1)
 
-    // Reset fill
-    fill.style.transform = 'scaleX(0)'
-    fill.style.transformOrigin = 'left center'
-    fill.style.background = 'linear-gradient(90deg, #c47ae5 0%, #d79af3 100%)'
-
-    // Create milestone positions
-    const milestonePositions = [0, 0.25, 0.5, 0.75, 1]
-    const milestoneMarkers: Array<{
-      container: HTMLElement
-      marker: HTMLElement
-      innerGlow: HTMLElement
-      ring: HTMLElement
-      position: number
-      label?: HTMLElement
-    }> = []
-
-    // Create milestone markers
-    milestonePositions.forEach((pos) => {
-      const markerContainer = document.createElement('div')
-      markerContainer.className = 'animation-element'
-      markerContainer.style.position = 'absolute'
-      markerContainer.style.left = `${pos * 100}%`
-      markerContainer.style.top = '50%'
-      markerContainer.style.transform = 'translate(-50%, -50%)'
-      markerContainer.style.width = '20px'
-      markerContainer.style.height = '20px'
-      markerContainer.style.pointerEvents = 'none'
-      trackContainer.appendChild(markerContainer)
-
-      // Diamond shape marker
-      const marker = document.createElement('div')
-      marker.style.position = 'absolute'
-      marker.style.inset = '0'
-      marker.style.background = 'rgba(78,24,124,0.8)'
-      marker.style.border = '2px solid rgba(255,255,255,0.2)'
-      marker.style.borderRadius = '50%'
-      marker.style.transform = 'rotate(45deg) scale(0.5)'
-      marker.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
-      markerContainer.appendChild(marker)
-
-      // Inner glow
-      const innerGlow = document.createElement('div')
-      innerGlow.style.position = 'absolute'
-      innerGlow.style.inset = '20%'
-      innerGlow.style.background = 'rgba(255,255,255,0.9)'
-      innerGlow.style.borderRadius = '50%'
-      innerGlow.style.opacity = '0'
-      // Simulate blur with radial gradient for RN compatibility
-      innerGlow.style.background =
-        'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, transparent 100%)'
-      innerGlow.style.transition = 'all 0.3s ease'
-      markerContainer.appendChild(innerGlow)
-
-      // Outer ring pulse
-      const ring = document.createElement('div')
-      ring.style.position = 'absolute'
-      ring.style.inset = '-10px'
-      ring.style.border = '2px solid rgba(255,255,255,0.8)'
-      ring.style.borderRadius = '50%'
-      ring.style.opacity = '0'
-      ring.style.pointerEvents = 'none'
-      markerContainer.appendChild(ring)
-
-      milestoneMarkers.push({
-        container: markerContainer,
-        marker,
-        innerGlow,
-        ring,
-        position: pos,
-      })
-    })
-
-    // Add milestone labels
-    const labelContainer = document.createElement('div')
-    labelContainer.className = 'animation-element'
-    labelContainer.style.position = 'absolute'
-    labelContainer.style.inset = '0'
-    labelContainer.style.top = '100%'
-    labelContainer.style.marginTop = '8px'
-    labelContainer.style.display = 'flex'
-    labelContainer.style.justifyContent = 'space-between'
-    labelContainer.style.fontSize = '10px'
-    labelContainer.style.color = 'rgba(236,195,255,0.5)'
-    labelContainer.style.pointerEvents = 'none'
-    trackContainer.appendChild(labelContainer)
-    ;['Start', '25%', '50%', '75%', '100%'].forEach((label, i) => {
-      const span = document.createElement('span')
-      span.textContent = label
-      span.style.position = 'absolute'
-      span.style.left = `${milestonePositions[i] * 100}%`
-      span.style.transform = 'translateX(-50%)'
-      span.style.opacity = '0.5'
-      span.style.transition = 'all 0.3s ease'
-      labelContainer.appendChild(span)
-      if (milestoneMarkers[i]) {
-        milestoneMarkers[i].label = span
-      }
-    })
-
-    // Main fill animation
-    const duration = 4000 // Fixed 4 seconds duration
-    const fillAnim = fill.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], {
-      duration,
-      fill: 'forwards',
-      easing: 'linear', // Use linear for predictable milestone timing
-    })
-
-    // Track animation progress and activate milestones
-    const activatedMilestones = new Set()
-    const checkMilestones = () => {
-      const current = (typeof fillAnim.currentTime === 'number' ? fillAnim.currentTime : 0) ?? 0
-      const progress = current / duration
-      milestoneMarkers.forEach(({ marker, innerGlow, ring, position, label }, index) => {
-        if (progress >= position && !activatedMilestones.has(index)) {
-          activatedMilestones.add(index)
-
-          // Activate marker
-          marker.style.transform = 'rotate(45deg) scale(1)'
-          marker.style.background =
-            'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(236,195,255,1))'
-          marker.style.borderColor = 'rgba(255,255,255,1)'
-          marker.style.boxShadow = '0 0 25px rgba(255,255,255,0.9), 0 0 50px rgba(236,195,255,0.5)'
-
-          // Glow effect
-          innerGlow.style.opacity = '1'
-
-          // Pulse ring
-          ring.animate(
-            [
-              { transform: 'scale(0.8)', opacity: '0' },
-              { transform: 'scale(1.5)', opacity: '1', offset: 0.3 },
-              { transform: 'scale(2)', opacity: '0' },
-            ],
-            { duration: 600, easing: 'ease-out' }
-          )
-
-          // Highlight label
-          if (label) {
-            label.style.opacity = '1'
-            label.style.color = 'rgba(255,255,255,1)'
-            label.style.fontWeight = '600'
-          }
+      const newActivated = new Set(activatedMilestones)
+      milestonePositions.forEach((pos, index) => {
+        if (progress >= pos && !newActivated.has(index)) {
+          newActivated.add(index)
         }
       })
 
-      if (fillAnim.playState === 'running') {
-        requestAnimationFrame(checkMilestones)
-      }
-    }
-    requestAnimationFrame(checkMilestones)
+      setActivatedMilestones(newActivated)
 
-    // Cleanup function
+      if (progress >= 1) {
+        clearInterval(intervalId)
+      }
+    }, 100)
+
     return () => {
-      const elements = container.querySelectorAll('.animation-element')
-      elements.forEach((el) => el.remove())
-      activatedMilestones.clear()
+      clearInterval(intervalId)
     }
-  }, [])
+  }, [shouldReduceMotion])
+
+  if (shouldReduceMotion) {
+    return (
+      <div
+        className="pf-progress-demo pf-progress-milestones"
+        data-animation-id="progress-bars__progress-milestones"
+      >
+        <div className="track-container" style={{ position: 'relative' }}>
+          <div className="pf-progress-track">
+            <div className="pf-progress-fill" style={{ transform: 'scaleX(1)', transformOrigin: 'left center' }} />
+          </div>
+          {milestonePositions.map((pos, i) => (
+            <div
+              key={i}
+              className="milestone-marker"
+              style={{
+                position: 'absolute',
+                left: `${pos * 100}%`,
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  const fillVariants = {
+    hidden: { scaleX: 0 },
+    visible: {
+      scaleX: 1,
+      transition: { duration: 4, ease: 'linear' },
+    },
+  }
+
+  const markerVariants = (index: number) => ({
+    inactive: {
+      scale: 0.5,
+      opacity: 0.6,
+      background: 'rgba(78,24,124,0.8)',
+    },
+    active: {
+      scale: 1,
+      opacity: 1,
+      background: ['rgba(78,24,124,0.8)', 'rgba(255,255,255,0.9)'],
+      transition: {
+        duration: 0.4,
+        ease: [0.34, 1.56, 0.64, 1],
+      },
+    },
+  })
+
+  const ringVariants = {
+    inactive: { scale: 0.8, opacity: 0 },
+    active: {
+      scale: [0.8, 1.5, 2],
+      opacity: [0, 1, 0],
+      transition: {
+        duration: 0.6,
+        times: [0, 0.3, 1],
+        ease: 'easeOut',
+      },
+    },
+  }
+
+  const labelVariants = {
+    inactive: { opacity: 0.5, color: 'rgba(236,195,255,0.5)' },
+    active: {
+      opacity: 1,
+      color: 'rgba(255,255,255,1)',
+      transition: { duration: 0.3, ease: 'easeOut' },
+    },
+  }
 
   return (
     <div
-      ref={containerRef}
       className="pf-progress-demo pf-progress-milestones"
       data-animation-id="progress-bars__progress-milestones"
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <div className="pf-progress-fill"></div>
+          <motion.div
+            className="pf-progress-fill"
+            variants={fillVariants}
+            initial="hidden"
+            animate="visible"
+            style={{ transformOrigin: 'left center' }}
+          />
+        </div>
+
+        {/* Milestone markers */}
+        {milestonePositions.map((pos, i) => (
+          <div
+            key={i}
+            className="milestone-container"
+            style={{
+              position: 'absolute',
+              left: `${pos * 100}%`,
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '20px',
+              height: '20px',
+            }}
+          >
+            {/* Diamond marker */}
+            <motion.div
+              className="milestone-marker"
+              variants={markerVariants(i)}
+              initial="inactive"
+              animate={activatedMilestones.has(i) ? 'active' : 'inactive'}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                border: '2px solid rgba(255,255,255,0.2)',
+                borderRadius: '50%',
+                transform: 'rotate(45deg)',
+              }}
+            >
+              {/* Inner glow */}
+              <motion.div
+                style={{
+                  position: 'absolute',
+                  inset: '20%',
+                  background:
+                    'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+                  borderRadius: '50%',
+                  opacity: activatedMilestones.has(i) ? 1 : 0,
+                  transition: 'opacity 0.3s ease',
+                }}
+              />
+            </motion.div>
+
+            {/* Outer ring pulse */}
+            {activatedMilestones.has(i) && (
+              <motion.div
+                variants={ringVariants}
+                initial="inactive"
+                animate="active"
+                style={{
+                  position: 'absolute',
+                  inset: '-10px',
+                  border: '2px solid rgba(255,255,255,0.8)',
+                  borderRadius: '50%',
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
+          </div>
+        ))}
+
+        {/* Milestone labels */}
+        <div
+          className="label-container"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            top: '100%',
+            marginTop: '8px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            fontSize: '10px',
+            pointerEvents: 'none',
+          }}
+        >
+          {milestoneLabels.map((label, i) => (
+            <motion.span
+              key={i}
+              variants={labelVariants}
+              initial="inactive"
+              animate={activatedMilestones.has(i) ? 'active' : 'inactive'}
+              style={{
+                position: 'absolute',
+                left: `${milestonePositions[i] * 100}%`,
+                transform: 'translateX(-50%)',
+              }}
+            >
+              {label}
+            </motion.span>
+          ))}
         </div>
       </div>
     </div>

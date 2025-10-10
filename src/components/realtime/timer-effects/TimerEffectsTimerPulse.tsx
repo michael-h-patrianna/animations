@@ -1,84 +1,91 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './TimerEffectsTimerPulse.css'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const metadata: AnimationMetadata = {
+  id: 'timer-effects__timer-pulse',
+  title: 'Timer Pulse',
+  description: 'Timer with continuous pulse animation.',
+  tags: ['framer'],
+}
 
 export function TimerEffectsTimerPulse() {
   const [value, setValue] = useState(10)
-  const isAnimatingRef = useRef(false)
-  const valueRef = useRef<HTMLDivElement>(null)
-  const underlineRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
-    let animationId: number
-    let timeoutId: ReturnType<typeof setTimeout>
-    const cleanupNode = valueRef.current
+    const duration = 2000
+    const startTime = Date.now()
 
-    const startAnimation = () => {
-      if (isAnimatingRef.current) return
+    const intervalId = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const currentValue = Math.max(0, Math.ceil(10 * (1 - progress)))
 
-      isAnimatingRef.current = true
-      setValue(10)
+      setValue(currentValue)
 
-      const valueEl = valueRef.current
-      const underline = underlineRef.current
-
-      if (!valueEl || !underline) return
-
-      // Reset styles
-      underline.style.transform = 'scaleX(1)'
-      valueEl.style.transform = 'scale(1)'
-      valueEl.style.color = '#ecc3ff'
-
-      const duration = 2000 // 2 seconds for shorter pulse effect
-      const startTime = Date.now()
-
-      const animate = () => {
-        const elapsed = Date.now() - startTime
-        const progress = Math.min(elapsed / duration, 1)
-
-        // Update countdown value
-        const currentValue = Math.max(0, Math.ceil(10 * (1 - progress)))
-        setValue(currentValue)
-
-        // Update underline scale
-        underline.style.transform = `scaleX(${1 - progress})`
-
-        if (progress < 1) {
-          animationId = requestAnimationFrame(animate)
-        } else {
-          isAnimatingRef.current = false
-          // Auto-restart after a brief pause
-          timeoutId = setTimeout(startAnimation, 1000)
-        }
+      if (progress >= 1) {
+        clearInterval(intervalId)
+        // Auto-restart after a brief pause
+        setTimeout(() => {
+          setValue(10)
+        }, 1000)
       }
+    }, 100)
 
-      // Start pulse animation on the value element
-      valueEl.style.animation = 'timer-pulse-color 800ms infinite ease-in-out'
-
-      animationId = requestAnimationFrame(animate)
-    }
-
-    // Start animation immediately
-    startAnimation()
-
-    return () => {
-      const node = cleanupNode
-      if (animationId) cancelAnimationFrame(animationId)
-      if (timeoutId) clearTimeout(timeoutId)
-      // Ensure flag resets during StrictMode re-mounts so second effect run can start
-      isAnimatingRef.current = false
-      if (node) {
-        node.style.animation = ''
-      }
-    }
+    return () => clearInterval(intervalId)
   }, [])
+
+  const pulseVariants = {
+    pulse: {
+      scale: [1, 1.1, 1],
+      opacity: [1, 0.8, 1],
+      transition: {
+        duration: 0.8,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      },
+    },
+  }
+
+  const underlineVariants = {
+    full: { scaleX: 1 },
+    depleting: (progress: number) => ({
+      scaleX: 1 - progress,
+      transition: { duration: 0.1, ease: 'linear' },
+    }),
+  }
+
+  const progress = (10 - value) / 10
+
+  if (shouldReduceMotion) {
+    return (
+      <div className="pf-timer" data-animation-id="timer-effects__timer-pulse">
+        <div className="pf-timer__value">{value}</div>
+        <span className="pf-timer__label">Seconds left</span>
+        <div
+          className="pf-timer__underline"
+          style={{ transformOrigin: 'left center', transform: `scaleX(${1 - progress})` }}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="pf-timer" data-animation-id="timer-effects__timer-pulse">
-      <div ref={valueRef} className="pf-timer__value">
+      <motion.div className="pf-timer__value" variants={pulseVariants} animate="pulse">
         {value}
-      </div>
+      </motion.div>
       <span className="pf-timer__label">Seconds left</span>
-      <div ref={underlineRef} className="pf-timer__underline"></div>
+      <motion.div
+        className="pf-timer__underline"
+        variants={underlineVariants}
+        custom={progress}
+        animate="depleting"
+        style={{ transformOrigin: 'left center' }}
+      />
     </div>
   )
 }

@@ -1,41 +1,43 @@
-import { useEffect, useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsLivePing.css'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'update-indicators__live-ping',
   title: 'Live Ping',
   description: 'Live indicator ping loop for streams.',
-  tags: ['js', 'css']
+  tags: ['framer']
 }
 
 export function UpdateIndicatorsLivePing() {
-  const iconRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
-
-    const startAnimation = () => {
-      const icon = iconRef.current
-      if (!icon) return
-
-      // Start ping animation
-      icon.style.animation = 'update-live-ping 1200ms ease-in-out infinite'
-
-      // Auto-restart
-      timeoutId = setTimeout(startAnimation, 4000)
-    }
-
-    startAnimation()
-
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId)
-    }
-  }, [])
+  if (shouldReduceMotion) {
+    return (
+      <div className="pf-update-indicator" data-animation-id="update-indicators__live-ping">
+        <div className="pf-update-indicator__icon"></div>
+        <div className="pf-update-indicator__copy">Content update arrived</div>
+        <div className="pf-update-indicator__badge">New</div>
+      </div>
+    )
+  }
 
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__live-ping">
-      <div ref={iconRef} className="pf-update-indicator__icon"></div>
+      <motion.div
+        className="pf-update-indicator__icon"
+        animate={{
+          scale: [1, 1.6, 1],
+          opacity: [1, 0, 1]
+        }}
+        transition={{
+          duration: 1.2,
+          ease: 'easeInOut',
+          repeat: Infinity,
+          repeatType: 'loop'
+        }}
+      />
       <div className="pf-update-indicator__copy">Content update arrived</div>
       <div className="pf-update-indicator__badge">New</div>
     </div>

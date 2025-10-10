@@ -13,25 +13,11 @@
   pointer-events: none;
 }
 .pf-btn__shockwave--1 {
-  animation: shockwave 1s ease-out forwards;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 .pf-btn__shockwave--2 {
-  animation: shockwave 1s ease-out 0.1s forwards;
   border-color: rgba(255, 89, 129, 0.4);
 }
 .pf-btn__shockwave--3 {
-  animation: shockwave 1s ease-out 0.2s forwards;
   border-color: rgba(255, 206, 26, 0.3);
-}
-@keyframes shockwave {
-  0% {
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  100% {
-    width: 150px;
-    height: 150px;
-    opacity: 0;
-  }
 }

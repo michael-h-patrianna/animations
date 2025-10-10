@@ -1,120 +1,60 @@
-import { useEffect, useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalContentListSoftStagger.css'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'modal-content__list-soft-stagger',
   title: 'List Soft Stagger',
   description: 'Sequential list reveal (5 items) using 60ms offsets.',
-  tags: ['css']
+  tags: ['framer']
 }
 
 export function ModalContentListSoftStagger() {
-  const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
-  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const shouldReduceMotion = useReducedMotion()
+  const items = ['Privacy settings updated', 'Two-factor authentication enabled', 'Email notifications configured', 'Profile picture updated', 'Timezone set to UTC']
 
-  useEffect(() => {
-    // Trigger staggered animation on mount
-    listItemRefs.current.forEach((item, index) => {
-      if (item) {
-        // Reset any existing animation
-        item.style.animation = 'none'
-        void item.offsetWidth // Force reflow
-
-        // Apply staggered animation with 60ms base delay + 300ms modal delay
-        const delay = 300 + 60 * index
-        item.style.animation = `list-soft-stagger 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards ${delay}ms`
-        item.style.opacity = '0'
-        item.style.transform = 'translateY(16px)'
-      }
-    })
-
-    // Animate buttons after list items (last item finishes at ~600ms, so start buttons at 550ms)
-    buttonRefs.current.forEach((button, index) => {
-      if (button) {
-        button.style.animation = 'none'
-        void button.offsetWidth
-
-        const buttonDelay = 550 + 70 * index
-        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${buttonDelay}ms`
-        button.style.opacity = '0'
-        button.style.transform = 'translateY(16px) scale(0.94)'
-      }
-    })
-  }, [])
+  if (shouldReduceMotion) {
+    return (
+      <div className="modal-content-overlay">
+        <div className="modal-content-modal">
+          <div className="modal-content-header">
+            <h4 className="modal-content-title">Recent Changes</h4>
+            <span className="modal-content-badge">Modal</span>
+          </div>
+          <div className="modal-content-body">
+            <div className="modal-content-list">
+              {items.map((item, i) => (
+                <div key={i} className="modal-content-list-item">{item}</div>
+              ))}
+            </div>
+          </div>
+          <div className="modal-content-footer">
+            <button className="modal-content-button modal-content-button-primary">Got it</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="modal-content-overlay">
-      <div className="modal-content-modal">
+      <motion.div className="modal-content-modal" initial={{ scale: 0.88, y: -16, opacity: 0 }} animate={{ scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }} transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1], times: [0, 0.5, 1] }}>
         <div className="modal-content-header">
-          <h4 className="modal-content-title">Sequence Control</h4>
+          <h4 className="modal-content-title">Recent Changes</h4>
           <span className="modal-content-badge">Modal</span>
         </div>
         <div className="modal-content-body">
-          <p>Build trust by sequencing content reveals.</p>
-          <p>Keep focus with 70ms cadence.</p>
           <div className="modal-content-list">
-            <div
-              ref={(el) => {
-                listItemRefs.current[0] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 1
-            </div>
-            <div
-              ref={(el) => {
-                listItemRefs.current[1] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 2
-            </div>
-            <div
-              ref={(el) => {
-                listItemRefs.current[2] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 3
-            </div>
-            <div
-              ref={(el) => {
-                listItemRefs.current[3] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 4
-            </div>
-            <div
-              ref={(el) => {
-                listItemRefs.current[4] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 5
-            </div>
+            {items.map((item, index) => (
+              <motion.div key={index} className="modal-content-list-item" initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.4, delay: 0.3 + 0.06 * index, ease: [0.4, 0, 0.2, 1] }}>{item}</motion.div>
+            ))}
           </div>
         </div>
         <div className="modal-content-footer">
-          <button
-            ref={(el) => {
-              buttonRefs.current[0] = el
-            }}
-            className="modal-content-button modal-content-button-primary"
-          >
-            Accept
-          </button>
-          <button
-            ref={(el) => {
-              buttonRefs.current[1] = el
-            }}
-            className="modal-content-button modal-content-button-secondary"
-          >
-            Later
-          </button>
+          <motion.button className="modal-content-button modal-content-button-primary" initial={{ y: 16, scale: 0.94, opacity: 0 }} animate={{ y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }} transition={{ duration: 0.3, delay: 0.6, ease: [0.4, 0, 0.2, 1], times: [0, 0.6, 1] }}>Got it</motion.button>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

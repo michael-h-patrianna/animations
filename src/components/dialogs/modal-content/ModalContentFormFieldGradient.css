@@ -22,7 +22,6 @@
   background: rgba(236, 195, 255, 0.08);
   border: 1px solid rgba(236, 195, 255, 0.12);
   color: rgba(255, 255, 255, 0.76);
-  animation: modal-open 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .modal-content-header {
   display: flex;
@@ -126,57 +125,4 @@
 }
 .modal-content-button-secondary:hover {
   transform: translateY(1px) scale(0.99);
-}
-@keyframes modal-open {
-  0% {
-    transform: scale(0.88) translateY(-16px);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.02) translateY(-4px);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
-@keyframes button-stagger {
-  0% {
-    transform: translateY(16px) scale(0.94);
-    opacity: 0;
-  }
-  60% {
-    transform: translateY(-6px) scale(1.06);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
-@keyframes form-field-gradient {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(59, 130, 246, 0.1) 50%,
-      transparent 100%
-    );
-  }
-  50% {
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(59, 130, 246, 0.2) 50%,
-      transparent 100%
-    );
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-    background: transparent;
-  }
 }

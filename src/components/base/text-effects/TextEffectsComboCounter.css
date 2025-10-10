@@ -155,6 +155,22 @@
   pointer-events: none;
   transform-origin: center;
 }
+.combo-milestone-particle__text {
+  position: relative;
+  display: inline-block;
+}
+.combo-milestone-particle__glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 50%, #ffd700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  z-index: -1;
+  pointer-events: none;
+}
 .combo-milestone-particle[data-value='1'] {
   color: #60a5fa;
   text-shadow:
@@ -185,15 +201,9 @@
     0 1px 3px rgba(0, 0, 0, 0.3);
   position: relative;
 }
-.combo-milestone-particle[data-value='10']::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
+.combo-milestone-particle[data-value='10'] .combo-milestone-particle__glow {
   background: radial-gradient(circle, rgba(255, 215, 0, 0.6), transparent 70%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  z-index: -1;
-  transform: scale(1.1);
 }

@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
+import { motion } from 'framer-motion'
 import './TextEffectsCharacterReveal.css'
 
 export function TextEffectsCharacterReveal() {
@@ -71,7 +71,10 @@ export function TextEffectsCharacterReveal() {
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
               }}
             >
-              {char}
+              <span className="text-char__main">{char}</span>
+              <span aria-hidden="true" className="text-char__glow">
+                {char}
+              </span>
             </motion.span>
           ))}
         </motion.div>
@@ -94,16 +97,20 @@ export function TextEffectsCharacterReveal() {
           ease: 'easeOut',
         }}
       >
-        {subtitle}
+        <span className="subtitle-text__main">{subtitle}</span>
+        <span aria-hidden="true" className="subtitle-text__shadow">
+          {subtitle}
+        </span>
       </motion.div>
     </div>
   )
 }
 
-export const metadata: AnimationMetadata = {
+// eslint-disable-next-line react-refresh/only-export-components
+export const metadata = {
   id: 'text-effects__character-reveal',
   title: 'Character Reveal',
   description: 'Premium text reveal with layered shadows and character scale animations for achievement moments.',
   tags: ['framer'],
   disableReplay: false
-}
+} satisfies AnimationMetadata

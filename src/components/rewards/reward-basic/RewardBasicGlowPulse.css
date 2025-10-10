@@ -26,20 +26,3 @@
   text-align: center;
 }
 
-[data-animation-id='reward-basic__glow-pulse'] .pf-reward-basic__icon {
-  background: linear-gradient(135deg, #c47ae5 0%, #ecc3ff 100%);
-  color: #1d092f;
-  animation: rb-glow-pulse 420ms cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-@keyframes rb-glow-pulse {
-  0% {
-    transform: scale(0.92);
-  }
-  50% {
-    transform: scale(1.08);
-  }
-  100% {
-    transform: scale(1);
-  }
-}

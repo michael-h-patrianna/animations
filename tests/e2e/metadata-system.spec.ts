@@ -16,7 +16,6 @@ test.describe('Metadata System - Navigation and UI', () => {
     await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Progress & Loading Animations")')).toBeVisible()
     await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Real-time Updates & Timers")')).toBeVisible()
     await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Game Elements & Rewards")')).toBeVisible()
-    await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Misc")')).toBeVisible()
   })
 
   test('displays groups within each category', async ({ page }) => {
@@ -38,7 +37,7 @@ test.describe('Metadata System - Navigation and UI', () => {
   test('clicking category navigates to first group in that category', async ({ page }) => {
     // Click on "Progress & Loading Animations" category
     const sidebar = page.locator('.pf-main .pf-sidebar')
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--category:has-text("Progress & Loading Animations")').click()
+    await sidebar.locator('.pf-sidebar__link--category:has-text("Progress & Loading Animations")').click()
 
     // Should navigate to first group in that category (Progress bars)
     await page.waitForTimeout(500) // Wait for navigation animation
@@ -52,7 +51,7 @@ test.describe('Metadata System - Navigation and UI', () => {
   test('clicking group navigates to that specific group', async ({ page }) => {
     // Click on "Content choreography" group
     const sidebar = page.locator('.pf-main .pf-sidebar')
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Content choreography")').click()
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Content choreography")').click()
 
     // Wait for navigation
     await page.waitForTimeout(500)
@@ -66,7 +65,7 @@ test.describe('Metadata System - Navigation and UI', () => {
   test('active group is highlighted in sidebar', async ({ page }) => {
     // Navigate to a specific group
     const sidebar = page.locator('.pf-main .pf-sidebar')
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
     await page.waitForTimeout(500)
 
     // Verify the group link has active class
@@ -81,7 +80,7 @@ test.describe('Metadata System - Navigation and UI', () => {
   test('category with active group is highlighted in sidebar', async ({ page }) => {
     // Navigate to a group in "Dialog & Modal Animations"
     const sidebar = page.locator('.pf-main .pf-sidebar')
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Base modals (framer)")').click()
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Base modals (framer)")').click()
     await page.waitForTimeout(500)
 
     // Verify the parent category has active class
@@ -95,7 +94,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('animation cards render with correct title and description', async ({ page }) => {
     // Navigate to Text effects group
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
     await page.waitForTimeout(500)
 
     // Find a specific animation card (Character Reveal)
@@ -111,7 +111,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('animation cards display tags', async ({ page }) => {
     // Navigate to Text effects group
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
     await page.waitForTimeout(500)
 
     // Find an animation with tags
@@ -124,7 +125,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('animations with disableReplay have disabled replay button', async ({ page }) => {
     // Navigate to Button effects group which has animations with disableReplay
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Button effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Button effects")').click()
     await page.waitForTimeout(500)
 
     // Find Ripple Button which has disableReplay: true
@@ -138,7 +140,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('animations without disableReplay have enabled replay button', async ({ page }) => {
     // Navigate to Text effects
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
     await page.waitForTimeout(500)
 
     // Find an animation without disableReplay
@@ -152,7 +155,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('replay button triggers animation remount', async ({ page }) => {
     // Navigate to Standard effects
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Standard effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Standard effects")').click()
     await page.waitForTimeout(500)
 
     // Find Shake animation
@@ -181,7 +185,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('group displays correct animation count', async ({ page }) => {
     // Navigate to Text effects
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
     await page.waitForTimeout(500)
 
     // Check the group header shows count
@@ -195,7 +200,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('expandable description toggles on click', async ({ page }) => {
     // Navigate to Text effects
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
     await page.waitForTimeout(500)
 
     // Find a card with a long description
@@ -223,6 +229,7 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('keyboard navigation works in sidebar', async ({ page }) => {
     // Focus on first category button
+    const sidebar = page.locator('.pf-main .pf-sidebar')
     const firstCategory = sidebar.locator('.pf-sidebar__link--category').first()
     await firstCategory.focus()
 
@@ -274,7 +281,8 @@ test.describe('Metadata System - Navigation and UI', () => {
 
   test('animation cards have unique data-animation-id attributes', async ({ page }) => {
     // Navigate to Text effects
-    const sidebar = page.locator('.pf-main .pf-sidebar'); await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
+    const sidebar = page.locator('.pf-main .pf-sidebar')
+    await sidebar.locator('.pf-sidebar__link--group:has-text("Text effects")').click()
     await page.waitForTimeout(500)
 
     // Get all animation cards

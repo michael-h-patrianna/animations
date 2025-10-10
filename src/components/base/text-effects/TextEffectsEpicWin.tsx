@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
+import { motion } from 'framer-motion'
 import './TextEffectsEpicWin.css'
 
 export function TextEffectsEpicWin() {
@@ -72,7 +72,13 @@ export function TextEffectsEpicWin() {
               }}
             >
               <motion.span className="epic-char-inner">
-                {char === ' ' ? '\u00A0' : char}
+                <span className="epic-char-inner__text">{char === ' ' ? '\u00A0' : char}</span>
+                <span aria-hidden="true" className="epic-char-inner__highlight">
+                  {char === ' ' ? '\u00A0' : char}
+                </span>
+                <span aria-hidden="true" className="epic-char-inner__shadow">
+                  {char === ' ' ? '\u00A0' : char}
+                </span>
 
                 {/* Individual character glow burst on arrival */}
                 <motion.span
@@ -101,10 +107,11 @@ export function TextEffectsEpicWin() {
   )
 }
 
-export const metadata: AnimationMetadata = {
+// eslint-disable-next-line react-refresh/only-export-components
+export const metadata = {
   id: 'text-effects__epic-win',
   title: 'Epic Win',
   description: 'Metallic 3D text with rotating entrance, layered shadows, and victory flare effect.',
   tags: ['framer'],
   disableReplay: false
-}
+} satisfies AnimationMetadata

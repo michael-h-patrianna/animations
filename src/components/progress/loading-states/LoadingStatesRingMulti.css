@@ -19,7 +19,6 @@
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   border-top-color: transparent;
 }
 
@@ -30,7 +29,6 @@
   /* Keep one side transparent so rotation is visible */
   border-top-color: transparent;
   opacity: 0.8;
-  animation: ring-multi-normal 1.2s linear infinite;
 }
 .pf-ring-multi__segment:nth-child(2) {
   width: 50px;
@@ -39,7 +37,6 @@
   /* Keep one side transparent so rotation is visible */
   border-top-color: transparent;
   opacity: 0.6;
-  animation: ring-multi-reverse 1.4s linear infinite;
 }
 .pf-ring-multi__segment:nth-child(3) {
   width: 60px;
@@ -48,22 +45,5 @@
   /* Keep one side transparent so rotation is visible */
   border-top-color: transparent;
   opacity: 0.4;
-  animation: ring-multi-normal 1.6s linear infinite;
 }
 
-@keyframes ring-multi-normal {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-@keyframes ring-multi-reverse {
-  0% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-}

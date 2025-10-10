@@ -2,10 +2,25 @@ import { render } from '@testing-library/react'
 import { ProgressBarsProgressStriped } from '../components/progress/progress-bars/ProgressBarsProgressStriped'
 
 describe('ProgressBarsProgressStriped', () => {
-  it('creates stripes and shimmer overlays on mount', () => {
+  it('renders progress bar with stripes and shimmer using Framer Motion', () => {
     const { container, unmount } = render(<ProgressBarsProgressStriped />)
-    const overlays = container.querySelectorAll('.animation-element')
-    expect(overlays.length).toBeGreaterThanOrEqual(2)
+
+    // Should render progress bar components
+    const progressBar = container.querySelector('.pf-progress-fill')
+    expect(progressBar).toBeTruthy()
+
+    // Should have stripes container
+    const stripesContainer = container.querySelector('.stripes-container')
+    expect(stripesContainer).toBeTruthy()
+
+    // Should have shimmer overlay
+    const shimmer = container.querySelector('.shimmer')
+    expect(shimmer).toBeTruthy()
+
+    // Should have stripe elements
+    const stripes = container.querySelectorAll('.stripe')
+    expect(stripes.length).toBeGreaterThan(0)
+
     unmount()
   })
 })

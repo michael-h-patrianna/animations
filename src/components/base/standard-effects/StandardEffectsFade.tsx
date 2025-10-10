@@ -1,12 +1,12 @@
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
+import { motion } from 'framer-motion'
 import './shared.css'
 
 export function StandardEffectsFade() {
   return (
     <div className="standard-demo-container">
       <motion.div
-        className="standard-demo-element"
+        className="standard-demo-element fade-element"
         initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{
@@ -20,6 +20,7 @@ export function StandardEffectsFade() {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'standard-effects__fade',
   title: 'Fade',

@@ -28,10 +28,6 @@ import {
   metadata as metadataListSoftStagger
 } from './ModalContentListSoftStagger'
 import {
-  ModalContentListSpotlight,
-  metadata as metadataListSpotlight
-} from './ModalContentListSpotlight'
-import {
   ModalContentListVerticalWipe,
   metadata as metadataListVerticalWipe
 } from './ModalContentListVerticalWipe'
@@ -71,10 +67,6 @@ export const groupExport: GroupExport = {
     'modal-content__list-soft-stagger': {
       component: ModalContentListSoftStagger,
       metadata: metadataListSoftStagger
-    },
-    'modal-content__list-spotlight': {
-      component: ModalContentListSpotlight,
-      metadata: metadataListSpotlight
     },
     'modal-content__list-vertical-wipe': {
       component: ModalContentListVerticalWipe,

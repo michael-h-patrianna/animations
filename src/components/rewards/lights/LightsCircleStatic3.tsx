@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic3.css';
 import { calculateBulbColors } from '@/utils/colors';
@@ -13,6 +14,7 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
+  const shouldReduceMotion = useReducedMotion();
   const radius = 80;
   const animationDuration = 5; // seconds
   const delayPerBulb = animationDuration / numBulbs * 0.08;
@@ -23,18 +25,108 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
 
+    if (shouldReduceMotion) {
+      return (
+        <div
+          key={i}
+          className="lights-circle-static-3__bulb-wrapper"
+          style={{
+            transform: `translate(${x}px, ${y}px)`,
+          }}
+        >
+          <div className="lights-circle-static-3__glow" />
+          <div className="lights-circle-static-3__bulb" />
+        </div>
+      );
+    }
+
+    const delay = i * delayPerBulb;
+    const isWinner = i === 0;
+
     return (
       <div
         key={i}
         className="lights-circle-static-3__bulb-wrapper"
         style={{
           transform: `translate(${x}px, ${y}px)`,
-          '--bulb-index': i,
-          '--delay-per-bulb': `${delayPerBulb}s`,
-        } as React.CSSProperties}
+        }}
       >
-        <div className="lights-circle-static-3__glow" />
-        <div className="lights-circle-static-3__bulb" />
+        <motion.div
+          className="lights-circle-static-3__glow"
+          animate={isWinner ? {
+            opacity: [0, 0, 1, 0.95],
+            transition: {
+              duration: animationDuration,
+              times: [0, 0.79, 0.80, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+              delay
+            }
+          } : {
+            opacity: [0, 0.8, 0.8, 0.4, 0, 1, 0.8, 0.4, 0],
+            transition: {
+              duration: animationDuration,
+              times: [0, 0.01, 0.04, 0.06, 0.08, 0.30, 0.55, 0.57, 0.59],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+              delay
+            }
+          }}
+        />
+        <motion.div
+          className="lights-circle-static-3__bulb"
+          animate={isWinner ? {
+            backgroundColor: [
+              `var(--bulb-off)`,
+              `var(--bulb-off)`,
+              `var(--bulb-on)`,
+              `var(--bulb-on)`
+            ],
+            boxShadow: [
+              `0 0 2px var(--bulb-off-glow30)`,
+              `0 0 2px var(--bulb-off-glow30)`,
+              `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 25px var(--bulb-on-glow80)`,
+              `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 25px var(--bulb-on-glow80)`
+            ],
+            transition: {
+              duration: animationDuration,
+              times: [0, 0.79, 0.80, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+              delay
+            }
+          } : {
+            backgroundColor: [
+              `var(--bulb-off)`,
+              `var(--bulb-on)`,
+              `var(--bulb-on)`,
+              `var(--bulb-blend70)`,
+              `var(--bulb-off)`,
+              `var(--bulb-on)`,
+              `var(--bulb-on)`,
+              `var(--bulb-blend70)`,
+              `var(--bulb-off)`
+            ],
+            boxShadow: [
+              `0 0 2px var(--bulb-off-glow30)`,
+              `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+              `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+              `0 0 4px var(--bulb-on-glow50)`,
+              `0 0 2px var(--bulb-off-glow30)`,
+              `0 0 12px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 18px var(--bulb-on-glow80)`,
+              `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+              `0 0 4px var(--bulb-on-glow50)`,
+              `0 0 2px var(--bulb-off-glow30)`
+            ],
+            transition: {
+              duration: animationDuration,
+              times: [0, 0.01, 0.04, 0.06, 0.08, 0.30, 0.55, 0.57, 0.59],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+              delay
+            }
+          }}
+        />
       </div>
     );
   });
@@ -77,5 +169,5 @@ export const metadata: AnimationMetadata = {
   id: 'lights__circle-static-3',
   title: 'Accelerating Spin',
   description: 'Wheel of fortune spin: starts slow, accelerates to blur, decelerates, and settles on winner with celebration.',
-  tags: ['css'],
+  tags: ['framer'],
 };

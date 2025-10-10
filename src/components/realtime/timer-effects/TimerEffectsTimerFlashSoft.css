@@ -28,9 +28,7 @@
   --pill-glow-scale: 1;
   --pill-glow-color: rgba(255, 193, 7, 0.35);
 }
-
-.pf-timer-flash__pill::before {
-  content: '';
+.pf-timer-flash__glow {
   position: absolute;
   inset: -6px;
   border-radius: 999px;
@@ -65,38 +63,4 @@
 }
 
 /* Gentle horizontal shake */
-@keyframes flash-soft-shake {
-  0% {
-    transform: translateX(0);
-  }
-  10% {
-    transform: translateX(-3px);
-  }
-  20% {
-    transform: translateX(3px);
-  }
-  30% {
-    transform: translateX(-3px);
-  }
-  40% {
-    transform: translateX(3px);
-  }
-  50% {
-    transform: translateX(-2px);
-  }
-  60% {
-    transform: translateX(2px);
-  }
-  70% {
-    transform: translateX(-1px);
-  }
-  80% {
-    transform: translateX(1px);
-  }
-  90% {
-    transform: translateX(-0.5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
+

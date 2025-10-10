@@ -583,7 +583,7 @@ describe('services • animationData', () => {
         catalog = await p
       })()
 
-      const expectedCategories = ['base', 'dialogs', 'misc', 'progress', 'realtime', 'rewards']
+      const expectedCategories = ['base', 'dialogs', 'progress', 'realtime', 'rewards']
       const actualCategories = catalog.map(cat => cat.id).sort()
 
       expectedCategories.forEach(expectedId => {

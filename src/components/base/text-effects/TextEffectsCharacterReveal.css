@@ -41,6 +41,11 @@
 .text-char {
   display: inline-block;
   text-transform: uppercase;
+  transform-origin: center bottom;
+  position: relative;
+}
+.text-char__main {
+  display: inline-block;
   background: linear-gradient(
     135deg,
     #ffd700 0%,
@@ -52,19 +57,14 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  transform-origin: center bottom;
-  position: relative;
 }
-.text-char::after {
-  content: attr(data-char);
+.text-char__glow {
   position: absolute;
   top: 2px;
   left: 0;
   color: rgba(255, 215, 0, 0.3);
   z-index: -1;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: unset;
-  background-clip: unset;
+  pointer-events: none;
 }
 .subtitle-text {
   font-size: 13px;
@@ -75,11 +75,15 @@
   text-align: center;
   position: relative;
 }
-.subtitle-text::after {
-  content: attr(data-text);
+.subtitle-text__main {
+  position: relative;
+  display: inline-block;
+}
+.subtitle-text__shadow {
   position: absolute;
   top: 1px;
   left: 0;
   color: rgba(0, 0, 0, 0.2);
   z-index: -1;
+  pointer-events: none;
 }

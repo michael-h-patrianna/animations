@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic4.css';
 import { calculateBulbColors } from '@/utils/colors';
@@ -13,6 +14,7 @@ const LightsCircleStatic4: React.FC<LightsCircleStatic4Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
+  const shouldReduceMotion = useReducedMotion();
   const radius = 80;
   const animationDuration = 7; // seconds
   const delayPerBulb = animationDuration / numBulbs * 0.12;
@@ -22,19 +24,121 @@ const LightsCircleStatic4: React.FC<LightsCircleStatic4Props> = ({
     const angleRad = (angle * Math.PI) / 180;
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
+    const delay = i * delayPerBulb;
+    const isWinner = i === 0;
 
+    if (shouldReduceMotion) {
+      return (
+        <div
+          key={i}
+          className="lights-circle-static-4__bulb-wrapper"
+          style={{
+            transform: `translate(${x}px, ${y}px)`,
+          }}
+        >
+          <div className="lights-circle-static-4__glow" />
+          <div className="lights-circle-static-4__bulb" />
+        </div>
+      );
+    }
+
+    // Winner animation
+    if (isWinner) {
+      return (
+        <div
+          key={i}
+          className="lights-circle-static-4__bulb-wrapper"
+          style={{
+            transform: `translate(${x}px, ${y}px)`,
+          }}
+        >
+          <motion.div
+            className="lights-circle-static-4__glow"
+            animate={{
+              opacity: [0, 0, 1, 1],
+            }}
+            transition={{
+              duration: animationDuration,
+              times: [0, 0.86, 0.87, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+            }}
+          />
+          <motion.div
+            className="lights-circle-static-4__bulb"
+            animate={{
+              backgroundColor: [
+                colors.off,
+                colors.off,
+                colors.on,
+                colors.on
+              ],
+              boxShadow: [
+                `0 0 2px ${colors.offGlow30}`,
+                `0 0 2px ${colors.offGlow30}`,
+                `0 0 20px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 30px color-mix(in srgb, ${colors.on} 95%, transparent)`,
+                `0 0 20px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 30px color-mix(in srgb, ${colors.on} 95%, transparent)`
+              ],
+            }}
+            transition={{
+              duration: animationDuration,
+              times: [0, 0.86, 0.87, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+            }}
+          />
+        </div>
+      );
+    }
+
+    // Regular bulb animation
     return (
       <div
         key={i}
         className="lights-circle-static-4__bulb-wrapper"
         style={{
           transform: `translate(${x}px, ${y}px)`,
-          '--bulb-index': i,
-          '--delay-per-bulb': `${delayPerBulb}s`,
-        } as React.CSSProperties}
+        }}
       >
-        <div className="lights-circle-static-4__glow" />
-        <div className="lights-circle-static-4__bulb" />
+        <motion.div
+          className="lights-circle-static-4__glow"
+          animate={{
+            opacity: [
+              0, 0, 0.85, 0.85, 0.4, 0, // Phase 1: Counter-clockwise
+              0, 0.85, 0.85, 0.4, 0, // Phase 2: Clockwise
+              0, 0.9, 0.9, 0, 0.9, 0.9, 0, 0.9, 0.9, 0 // Phase 3: Pulse
+            ],
+          }}
+          transition={{
+            duration: animationDuration,
+            times: [0, 0.02, 0.06, 0.06, 0.08, 0.35, 0.42, 0.46, 0.46, 0.47, 0.65, 0.68, 0.70, 0.70, 0.71, 0.75, 0.77, 0.77, 0.78, 0.82, 0.84, 0.84, 1],
+            repeat: Infinity,
+            ease: [0.42, 0, 0.58, 1],
+            delay,
+          }}
+        />
+        <motion.div
+          className="lights-circle-static-4__bulb"
+          animate={{
+            backgroundColor: [
+              colors.off, colors.off, colors.on, colors.on, colors.blend70, colors.off, // Phase 1
+              colors.off, colors.on, colors.on, colors.blend70, colors.off, // Phase 2
+              colors.off, colors.on, colors.on, colors.off, colors.on, colors.on, colors.off, colors.on, colors.on, colors.off // Phase 3
+            ],
+            boxShadow: [
+              `0 0 2px ${colors.offGlow30}`, `0 0 2px ${colors.offGlow30}`, `0 0 9px color-mix(in srgb, ${colors.on} 85%, transparent), 0 0 14px color-mix(in srgb, ${colors.on} 65%, transparent)`, `0 0 9px color-mix(in srgb, ${colors.on} 85%, transparent), 0 0 14px color-mix(in srgb, ${colors.on} 65%, transparent)`, `0 0 5px color-mix(in srgb, ${colors.on} 55%, transparent)`, `0 0 2px ${colors.offGlow30}`,
+              `0 0 2px ${colors.offGlow30}`, `0 0 9px color-mix(in srgb, ${colors.on} 85%, transparent), 0 0 14px color-mix(in srgb, ${colors.on} 65%, transparent)`, `0 0 9px color-mix(in srgb, ${colors.on} 85%, transparent), 0 0 14px color-mix(in srgb, ${colors.on} 65%, transparent)`, `0 0 5px color-mix(in srgb, ${colors.on} 55%, transparent)`, `0 0 2px ${colors.offGlow30}`,
+              `0 0 2px ${colors.offGlow30}`, `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 16px ${colors.onGlow70}`, `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 16px ${colors.onGlow70}`, `0 0 2px ${colors.offGlow30}`, `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 16px ${colors.onGlow70}`, `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 16px ${colors.onGlow70}`, `0 0 2px ${colors.offGlow30}`, `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 16px ${colors.onGlow70}`, `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 16px ${colors.onGlow70}`, `0 0 2px ${colors.offGlow30}`
+            ],
+          }}
+          transition={{
+            duration: animationDuration,
+            times: [0, 0.02, 0.06, 0.06, 0.08, 0.35, 0.42, 0.46, 0.46, 0.47, 0.65, 0.68, 0.70, 0.70, 0.71, 0.75, 0.77, 0.77, 0.78, 0.82, 0.84, 0.84, 1],
+            repeat: Infinity,
+            ease: [0.42, 0, 0.58, 1],
+            delay,
+          }}
+        />
       </div>
     );
   });
@@ -77,5 +181,5 @@ export const metadata: AnimationMetadata = {
   id: 'lights__circle-static-4',
   title: 'Reverse Chase Pulse',
   description: 'Counter-clockwise chase followed by faster clockwise motion, then synchronized pulses before revealing the winner.',
-  tags: ['css'],
+  tags: ['framer'],
 };

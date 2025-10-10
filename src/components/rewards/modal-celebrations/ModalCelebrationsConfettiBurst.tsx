@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsConfettiBurst.css'
 
@@ -9,12 +10,14 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsConfettiBurst() {
+  const shouldReduceMotion = useReducedMotion()
+
   const particles = Array.from({ length: 32 }, (_, i) => {
     const tx = randBetween(-160, 160)
     const ty = randBetween(-210, -80)
     const rot = randBetween(-260, 260)
-    const delay = i * 12
-    const duration = randBetween(600, 900)
+    const delay = i * 0.012
+    const duration = randBetween(0.6, 0.9)
 
     return {
       id: i,
@@ -27,26 +30,58 @@ export function ModalCelebrationsConfettiBurst() {
     }
   })
 
+  if (shouldReduceMotion) {
+    return (
+      <div className="pf-celebration">
+        <div className="pf-celebration__layer">
+          {particles.slice(0, 8).map((particle) => (
+            <span
+              key={particle.id}
+              className="pf-celebration__confetti"
+              style={{
+                left: '50%',
+                top: '60%',
+                background: particle.color,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="pf-celebration">
       <div className="pf-celebration__layer">
         {particles.map((particle) => (
-          <span
+          <motion.span
             key={particle.id}
             className="pf-celebration__confetti"
-            style={
-              {
-                left: '50%',
-                top: '60%',
-                '--tx': `${particle.tx}px`,
-                '--ty': `${particle.ty}px`,
-                '--rot': `${particle.rot}deg`,
-                '--delay': `${particle.delay}ms`,
-                '--duration': `${particle.duration}ms`,
-                background: particle.color,
-                animation: `celebration-confetti-burst var(--duration) ease-out var(--delay) forwards`,
-              } as React.CSSProperties
-            }
+            style={{
+              left: '50%',
+              top: '60%',
+              background: particle.color,
+            }}
+            initial={{
+              x: 0,
+              y: 0,
+              scale: 0.6,
+              rotate: 0,
+              opacity: 0,
+            }}
+            animate={{
+              x: particle.tx,
+              y: particle.ty,
+              scale: 1,
+              rotate: particle.rot,
+              opacity: [0, 1, 1, 0],
+            }}
+            transition={{
+              duration: particle.duration,
+              delay: particle.delay,
+              ease: 'easeOut',
+              times: [0, 0.2, 0.8, 1],
+            }}
           />
         ))}
       </div>
@@ -54,9 +89,10 @@ export function ModalCelebrationsConfettiBurst() {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'modal-celebrations__confetti-burst',
   title: 'Confetti Burst',
   description: 'Celebration effects pattern: Confetti Burst',
-  tags: ['css'],
+  tags: ['framer'],
 }

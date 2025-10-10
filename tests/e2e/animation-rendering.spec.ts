@@ -118,26 +118,6 @@ test.describe('Animation Rendering', () => {
     expect(stageContent.trim().length).toBeGreaterThan(0)
   })
 
-  test('renders at least one animation from Misc category', async ({ page }) => {
-    // Navigate to Misc group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Misc")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Orbital Pulse animation
-    const card = page.locator('.pf-card[data-animation-id="misc__orbital-pulse"]').first()
-    await expect(card).toBeVisible()
-
-    // Verify the animation component renders
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    const stageContent = await stage.innerHTML()
-    expect(stageContent.trim().length).toBeGreaterThan(0)
-  })
-
   test('animation components have proper CSS classes', async ({ page }) => {
     // Navigate to Standard effects
     await page

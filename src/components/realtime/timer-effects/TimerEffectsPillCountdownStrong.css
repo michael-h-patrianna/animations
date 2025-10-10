@@ -26,15 +26,17 @@
   border: 2px solid rgba(255, 255, 255, 0.22);
 }
 
-.pf-pill-timer__pill::after {
-  content: '';
+.pf-pill-timer__pill .pf-pill-timer__glow {
   position: absolute;
-  inset: -5px;
   border-radius: 999px;
+  pointer-events: none;
+}
+
+.pf-pill-timer__pill--strong .pf-pill-timer__glow {
+  inset: -5px;
   border: 2px solid var(--pill-glow-color);
   opacity: var(--pill-glow-opacity);
   transform: scale(var(--pill-glow-scale, 0.92));
-  pointer-events: none;
 }
 
 .pf-pill-timer__pill--strong.is-caution {
@@ -54,24 +56,6 @@
   font-size: 13px;
   color: rgba(0, 0, 0, 0.9);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.22);
-}
-
-/* removed segmented bar */
-
-@keyframes pill-snap {
-  0%,
-  100% {
-    transform: scale(1) skewX(0deg);
-    background-color: var(--pill-bg);
-    --pill-glow-opacity: 0;
-    --pill-glow-scale: 0.92;
-  }
-  50% {
-    transform: scale(0.97) skewX(-1.2deg);
-    background-color: var(--pill-highlight);
-    --pill-glow-opacity: 0.55;
-    --pill-glow-scale: 1.08;
-  }
 }
 
 .pf-pill-timer__label {

@@ -1,3 +1,4 @@
+import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import type { Category } from '@/types/animation'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { AppSidebar } from './AppSidebar'
@@ -22,33 +23,32 @@ describe('AppSidebar', () => {
   const mockOnCategorySelect = jest.fn()
   const mockOnGroupSelect = jest.fn()
 
+  const renderSidebar = (categories: Category[], currentGroupId: string) => {
+    return render(
+      <CodeModeProvider>
+        <AppSidebar
+          categories={categories}
+          currentGroupId={currentGroupId}
+          onCategorySelect={mockOnCategorySelect}
+          onGroupSelect={mockOnGroupSelect}
+        />
+      </CodeModeProvider>
+    )
+  }
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('renders all categories', () => {
-    render(
-      <AppSidebar
-        categories={mockCategories}
-        currentGroupId="group-1"
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
-    )
+    renderSidebar(mockCategories, 'group-1')
 
     expect(screen.getByText('Category 1')).toBeInTheDocument()
     expect(screen.getByText('Category 2')).toBeInTheDocument()
   })
 
   it('shows all groups and highlights active category', () => {
-    render(
-      <AppSidebar
-        categories={mockCategories}
-        currentGroupId="group-1"
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
-    )
+    renderSidebar(mockCategories, 'group-1')
 
     // All groups should be visible
     expect(screen.getByText('Group 1')).toBeInTheDocument()
@@ -65,14 +65,7 @@ describe('AppSidebar', () => {
   })
 
   it('applies active styling to current category', () => {
-    render(
-      <AppSidebar
-        categories={mockCategories}
-        currentGroupId="group-1"
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
-    )
+    renderSidebar(mockCategories, 'group-1')
 
     const activeCategory = screen.getByText('Category 1')
     expect(activeCategory.className).toContain('pf-sidebar__link--active')
@@ -82,28 +75,14 @@ describe('AppSidebar', () => {
   })
 
   it('calls onCategorySelect when a category is clicked', () => {
-    render(
-      <AppSidebar
-        categories={mockCategories}
-        currentGroupId="group-1"
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
-    )
+    renderSidebar(mockCategories, 'group-1')
 
     fireEvent.click(screen.getByText('Category 2'))
     expect(mockOnCategorySelect).toHaveBeenCalledWith('category-2')
   })
 
   it('calls onGroupSelect when a group is clicked', () => {
-    render(
-      <AppSidebar
-        categories={mockCategories}
-        currentGroupId="group-1"
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
-    )
+    renderSidebar(mockCategories, 'group-1')
 
     fireEvent.click(screen.getByText('Group 1'))
     expect(mockOnGroupSelect).toHaveBeenCalledWith('group-1')
@@ -114,14 +93,7 @@ describe('AppSidebar', () => {
       { id: 'empty-category', title: 'Empty Category', groups: [] },
     ]
 
-    render(
-      <AppSidebar
-        categories={categoriesWithoutGroups}
-        currentGroupId=""
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
-    )
+    renderSidebar(categoriesWithoutGroups, '')
 
     expect(screen.getByText('Empty Category')).toBeInTheDocument()
     // Should not render subnav when there are no groups
@@ -129,14 +101,7 @@ describe('AppSidebar', () => {
   })
 
   it('updates active states when current group changes', () => {
-    const { rerender } = render(
-      <AppSidebar
-        categories={mockCategories}
-        currentGroupId="group-1"
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
-    )
+    const { rerender } = renderSidebar(mockCategories, 'group-1')
 
     // Initially, group-1 is active, so Category 1 should be active
     const category1 = screen.getByText('Category 1')
@@ -148,12 +113,14 @@ describe('AppSidebar', () => {
 
     // Change to group-3 (in Category 2)
     rerender(
-      <AppSidebar
-        categories={mockCategories}
-        currentGroupId="group-3"
-        onCategorySelect={mockOnCategorySelect}
-        onGroupSelect={mockOnGroupSelect}
-      />
+      <CodeModeProvider>
+        <AppSidebar
+          categories={mockCategories}
+          currentGroupId="group-3"
+          onCategorySelect={mockOnCategorySelect}
+          onGroupSelect={mockOnGroupSelect}
+        />
+      </CodeModeProvider>
     )
 
     // Now Category 2 should be active and Group 3 active

@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
+import { motion } from 'framer-motion'
 import './TextEffectsWaveText.css'
 
 export function TextEffectsWaveText() {
@@ -18,7 +18,6 @@ export function TextEffectsWaveText() {
             <motion.span
               key={index}
               className={`wave-char wave-phase-${wavePhase}`}
-              data-char={char}
               initial={{
                 y: 0,
                 scale: 1,
@@ -41,7 +40,7 @@ export function TextEffectsWaveText() {
                 times: [0, 0.25, 0.5, 0.75, 1],
               }}
             >
-              <span className="wave-char-inner">
+              <span className="wave-char__text">
                 {isSpace ? '\u00A0' : char}
 
                 {/* Highlight that travels with the wave */}
@@ -63,6 +62,16 @@ export function TextEffectsWaveText() {
                   />
                 )}
               </span>
+              {!isSpace && (
+                <>
+                  <span aria-hidden="true" className="wave-char__shadow">
+                    {char}
+                  </span>
+                  <span aria-hidden="true" className="wave-char__glow">
+                    {char}
+                  </span>
+                </>
+              )}
             </motion.span>
           )
         })}
@@ -71,10 +80,11 @@ export function TextEffectsWaveText() {
   )
 }
 
-export const metadata: AnimationMetadata = {
+// eslint-disable-next-line react-refresh/only-export-components
+export const metadata = {
   id: 'text-effects__wave-text',
   title: 'Wave Text',
   description: 'Smooth undulating wave motion through characters for fluid text animations.',
   tags: ['framer'],
   disableReplay: false
-}
+} satisfies AnimationMetadata

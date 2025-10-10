@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { motion, useReducedMotion } from 'framer-motion'
 import './ButtonEffectsRipple.css'
 import './shared.css'
 
@@ -11,11 +12,13 @@ interface Ripple {
 }
 
 export function ButtonEffectsRipple() {
+  const shouldReduceMotion = useReducedMotion()
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    if (shouldReduceMotion) return
     const rect = btnRef.current?.getBoundingClientRect()
     if (!rect) return
     const x = e.clientX - rect.left
@@ -33,6 +36,22 @@ export function ButtonEffectsRipple() {
     }, 520)
   }
 
+  const rippleVariants = {
+    initial: {
+      scale: 0.2,
+      opacity: 0.6,
+    },
+    animate: {
+      scale: 1,
+      opacity: [0.6, 0.45, 0],
+      transition: {
+        duration: 0.52,
+        ease: 'easeOut',
+        times: [0, 0.6, 1],
+      },
+    },
+  }
+
   return (
     <div className="button-demo" data-animation-id="button-effects__ripple">
       <button ref={btnRef} className="pf-btn pf-btn--primary pf-btn--ripple" onClick={handleClick}>
@@ -40,11 +59,20 @@ export function ButtonEffectsRipple() {
         <span className="pf-btn__ripples" aria-hidden>
           {ripples.map((r) => {
             const half = r.size / 2
-            return (
+            return shouldReduceMotion ? (
               <span
                 key={r.id}
                 className="pf-btn__ripple"
                 style={{ left: r.x - half, top: r.y - half, width: r.size, height: r.size }}
+              />
+            ) : (
+              <motion.span
+                key={r.id}
+                className="pf-btn__ripple"
+                style={{ left: r.x - half, top: r.y - half, width: r.size, height: r.size }}
+                variants={rippleVariants}
+                initial="initial"
+                animate="animate"
               />
             )
           })}
@@ -54,10 +82,11 @@ export function ButtonEffectsRipple() {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'button-effects__ripple',
   title: 'Ripple Button',
   description: 'Themed button with Material-style click ripple expansion.',
-  tags: ['css', 'js'],
+  tags: ['framer'],
   disableReplay: true,
 }

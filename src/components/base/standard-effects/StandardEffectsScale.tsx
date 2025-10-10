@@ -1,12 +1,12 @@
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
+import { motion } from 'framer-motion'
 import './shared.css'
 
 export function StandardEffectsScale() {
   return (
     <div className="standard-demo-container">
       <motion.div
-        className="standard-demo-element"
+        className="standard-demo-element scale-element"
         initial={{ scale: 0, rotate: 0, skewY: 0, opacity: 0 }}
         animate={{
           scale: [0, 0.2, 0.4, 0.6, 0.75, 0.9, 1.05, 1.08, 1.05, 1.02, 1],
@@ -26,6 +26,7 @@ export function StandardEffectsScale() {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'standard-effects__scale',
   title: 'Scale',

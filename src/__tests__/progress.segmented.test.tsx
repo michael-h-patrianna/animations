@@ -2,34 +2,32 @@ import { act, render } from '@testing-library/react'
 import { ProgressBarsProgressSegmented } from '../components/progress/progress-bars/ProgressBarsProgressSegmented'
 
 describe('ProgressBarsProgressSegmented', () => {
-  it('creates gap overlays and triggers segment pulses at thresholds', async () => {
+  it('renders segmented progress bar with Framer Motion', async () => {
     jest.useFakeTimers()
     const { container, unmount } = render(<ProgressBarsProgressSegmented />)
 
-    const gapOverlays = container.querySelectorAll('.animation-element')
-    expect(gapOverlays.length).toBeGreaterThan(0)
+    // Should render progress bar
+    const progressBar = container.querySelector('.pf-progress-fill')
+    expect(progressBar).toBeTruthy()
 
     const trackContainer = container.querySelector('.track-container') as HTMLElement
     expect(trackContainer).toBeTruthy()
 
-    // Should have gap bars appended to gap overlay (segmentCount - 1 = 3)
-    const gapOverlay = trackContainer.querySelector('.animation-element') as HTMLElement
-    expect(gapOverlay).toBeTruthy()
-    expect(gapOverlay.children.length).toBeGreaterThan(0)
+    // Should have gap overlays (3 gaps for 4 segments)
+    const gapOverlays = container.querySelectorAll('[style*="position: absolute"][style*="background: rgb(42, 16, 64)"]')
+    expect(gapOverlays.length).toBe(3)
 
-    // Advance to duration (3000ms) so threshold setTimeouts fire
+    // Should have segment overlays (4 segments)
+    const segmentOverlays = container.querySelectorAll('[style*="flex: 1"]')
+    expect(segmentOverlays.length).toBe(4)
+
+    // Advance to duration (3000ms) so animations complete
     await act(async () => {
       jest.advanceTimersByTime(3000)
     })
 
-    // Each segment should have a glow child appended at some point
-    const segments = (trackContainer.querySelector('.animation-element')?.nextSibling as HTMLElement)
-      ?.children
-    if (segments && segments.length > 0) {
-      // Check at least one segment contains a child (glow) after time advance
-      const hasGlow = Array.from(segments).some((seg) => (seg as HTMLElement).children.length > 0)
-      expect(hasGlow).toBe(true)
-    }
+    // Should still have progress bar after animation
+    expect(container.querySelector('.pf-progress-fill')).toBeTruthy()
 
     unmount()
   })

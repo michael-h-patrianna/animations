@@ -1,5 +1,6 @@
 import type { Category } from '@/types/animation'
 import type { FC } from 'react'
+import { CodeModeSwitch } from './CodeModeSwitch'
 
 interface AppSidebarProps {
   categories: Category[]
@@ -18,6 +19,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
 }) => {
   return (
     <aside className={`pf-sidebar${className ? ` ${className}` : ''}`}>
+      <CodeModeSwitch />
       <div className="pf-sidebar__nav">
         {categories.map((category) => {
           // Check if any group in this category is currently active

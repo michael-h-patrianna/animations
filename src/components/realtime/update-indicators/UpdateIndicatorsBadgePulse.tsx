@@ -1,46 +1,50 @@
-import { useEffect, useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsBadgePulse.css'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'update-indicators__badge-pulse',
   title: 'Badge Pulse',
   description: 'Badge pulsates to signal unseen content.',
-  tags: ['js', 'css']
+  tags: ['framer']
 }
 
 export function UpdateIndicatorsBadgePulse() {
-  const badgeRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
-
-    const startAnimation = () => {
-      const badge = badgeRef.current
-      if (!badge) return
-
-      // Start pulse animation
-      badge.style.animation = 'update-badge-pulse 1000ms ease-in-out infinite'
-
-      // Auto-restart (continuous for pulse)
-      timeoutId = setTimeout(startAnimation, 3000)
-    }
-
-    // Start animation immediately
-    startAnimation()
-
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId)
-    }
-  }, [])
+  if (shouldReduceMotion) {
+    return (
+      <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
+        <div className="pf-update-indicator__icon"></div>
+        <div className="pf-update-indicator__copy">Content update arrived</div>
+        <div className="pf-update-indicator__badge">New</div>
+      </div>
+    )
+  }
 
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
       <div className="pf-update-indicator__icon"></div>
       <div className="pf-update-indicator__copy">Content update arrived</div>
-      <div ref={badgeRef} className="pf-update-indicator__badge">
+      <motion.div
+        className="pf-update-indicator__badge"
+        animate={{
+          boxShadow: [
+            '0 0 0 rgba(236, 195, 255, 0)',
+            '0 0 18px rgba(236, 195, 255, 0.4)',
+            '0 0 0 rgba(236, 195, 255, 0)'
+          ]
+        }}
+        transition={{
+          duration: 1,
+          ease: 'easeInOut',
+          repeat: Infinity,
+          repeatType: 'loop'
+        }}
+      >
         New
-      </div>
+      </motion.div>
     </div>
   )
 }

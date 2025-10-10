@@ -1,122 +1,130 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './TimerEffectsTimerFlash.css'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const metadata: AnimationMetadata = {
+  id: 'timer-effects__timer-flash',
+  title: 'Flash Expire',
+  description: 'Timer with color transition from yellow to red and increasing pulse urgency.',
+  tags: ['framer'],
+}
 
 export function TimerEffectsTimerFlash() {
   const [seconds, setSeconds] = useState(32)
-  const timerRef = useRef<HTMLDivElement>(null)
-  const lastStyleUpdateRef = useRef({ color: '', animation: '' })
-  const isAnimatingRef = useRef(false)
-  const lastDisplayedRef = useRef<number>(seconds)
+  const [bgColor, setBgColor] = useState('#ffc107')
+  const [pulseSpeed, setPulseSpeed] = useState(1000)
+  const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
-    let animationId: number
-    let timeoutId: ReturnType<typeof setTimeout>
-    const node = timerRef.current
+    const duration = 32000
+    const startTime = Date.now()
+    let lastDisplayed = 32
 
-    const startAnimation = () => {
-      if (isAnimatingRef.current) return
+    const intervalId = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const remainingSeconds = Math.max(0, 32 - elapsed / 1000)
+      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
 
-      isAnimatingRef.current = true
-      setSeconds(32)
-
-      if (!node) return
-
-      const duration = 32000 // 32 seconds total
-      const startTime = Date.now()
-
-      const animate = () => {
-        const elapsed = Date.now() - startTime
-        const progress = Math.min(elapsed / duration, 1)
-
-        // Calculate remaining seconds with higher precision
-        const remainingSeconds = Math.max(0, 32 - elapsed / 1000)
-        const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
-
-        // Only update state when display value actually changes to avoid unnecessary re-renders
-        if (displaySeconds !== lastDisplayedRef.current) {
-          setSeconds(displaySeconds)
-          lastDisplayedRef.current = displaySeconds
-        }
-
-        // Apply urgency effects based on precise time left (not display seconds)
-        const urgencyLevel = remainingSeconds <= 30 ? (30 - remainingSeconds) / 30 : 0
-
-        // Smoother color transition: yellow to red
-        const yellow = { r: 255, g: 193, b: 7 } // #ffc107
-        const red = { r: 220, g: 53, b: 69 } // #dc3545
-
-        // Use easing function for smoother color transition
-        const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t)
-        const easedUrgency = easeInOut(urgencyLevel)
-
-        const r = Math.round(yellow.r + (red.r - yellow.r) * easedUrgency)
-        const g = Math.round(yellow.g + (red.g - yellow.g) * easedUrgency)
-        const b = Math.round(yellow.b + (red.b - yellow.b) * easedUrgency)
-
-        const newColor = `rgb(${r}, ${g}, ${b})`
-
-        // Only update background color if it has changed
-        if (newColor !== lastStyleUpdateRef.current.color) {
-          node.style.backgroundColor = newColor
-          lastStyleUpdateRef.current.color = newColor
-        }
-
-        // Smoother pulsing intensity based on urgency
-        let newAnimation = 'none'
-        if (remainingSeconds <= 30) {
-          const pulseSpeed = Math.max(300, 1000 - urgencyLevel * 700) // 1000ms to 300ms (slower transition)
-          const pulseScale = 1 + urgencyLevel * 0.15 // up to 1.15x scale (less aggressive)
-
-          newAnimation = `flash-urgency-pulse ${pulseSpeed}ms infinite ease-in-out`
-          node.style.setProperty('--pulse-scale', pulseScale.toString())
-        }
-
-        // Only update animation if it has changed
-        if (newAnimation !== lastStyleUpdateRef.current.animation) {
-          node.style.animation = newAnimation
-          lastStyleUpdateRef.current.animation = newAnimation
-        }
-
-        if (progress < 1) {
-          animationId = requestAnimationFrame(animate)
-        } else {
-          isAnimatingRef.current = false
-          node.style.animation = 'none'
-          // Auto-restart after a brief pause
-          timeoutId = setTimeout(startAnimation, 2000)
-        }
+      if (displaySeconds !== lastDisplayed) {
+        setSeconds(displaySeconds)
+        lastDisplayed = displaySeconds
       }
 
-      animationId = requestAnimationFrame(animate)
-    }
+      // Color transition from yellow (#ffc107) to red (#dc3545)
+      const urgencyLevel = remainingSeconds <= 30 ? (30 - remainingSeconds) / 30 : 0
+      const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t)
+      const easedUrgency = easeInOut(urgencyLevel)
 
-    // Start animation immediately
-    startAnimation()
+      const yellow = { r: 255, g: 193, b: 7 }
+      const red = { r: 220, g: 53, b: 69 }
 
-    return () => {
-      if (animationId) cancelAnimationFrame(animationId)
-      if (timeoutId) clearTimeout(timeoutId)
-      if (node) {
-        node.style.animation = 'none'
-        node.style.backgroundColor = ''
+      const r = Math.round(yellow.r + (red.r - yellow.r) * easedUrgency)
+      const g = Math.round(yellow.g + (red.g - yellow.g) * easedUrgency)
+      const b = Math.round(yellow.b + (red.b - yellow.b) * easedUrgency)
+
+      setBgColor(`rgb(${r}, ${g}, ${b})`)
+
+      if (remainingSeconds <= 30) {
+        const speed = Math.max(300, 1000 - urgencyLevel * 700)
+        setPulseSpeed(speed)
       }
-      // Allow a subsequent mount (e.g., StrictMode double-invoke) to start again
-      isAnimatingRef.current = false
-    }
+
+      if (progress >= 1) {
+        clearInterval(intervalId)
+        // Auto-restart after a brief pause
+        setTimeout(() => {
+          setSeconds(32)
+          setBgColor('#ffc107')
+          setPulseSpeed(1000)
+        }, 2000)
+      }
+    }, 100)
+
+    return () => clearInterval(intervalId)
   }, [])
 
-  // Format time as MM:SS
   const formatTime = (totalSeconds: number) => {
     const minutes = Math.floor(totalSeconds / 60)
     const secs = totalSeconds % 60
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
+  if (shouldReduceMotion) {
+    return (
+      <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
+        <div className="pf-timer-flash__pill" style={{ backgroundColor: bgColor }}>
+          <span className="pf-timer-flash__glow" aria-hidden="true" />
+          <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
+        </div>
+        <span className="pf-timer-flash__label">Flash Expire</span>
+      </div>
+    )
+  }
+
+  const getGlowAnimation = () => {
+    if (seconds > 30) {
+      return { scale: 0.95, opacity: 0 }
+    }
+    const intensity = (30 - seconds) / 30
+    return {
+      scale: [0.95, 0.95 + intensity * 0.5, 0.95],
+      opacity: [0, 0.4 + intensity * 0.4, 0],
+    }
+  }
+
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
-      <div ref={timerRef} className="pf-timer-flash__pill">
+      <motion.div
+        className="pf-timer-flash__pill"
+        style={{ backgroundColor: bgColor }}
+        animate={
+          seconds <= 30
+            ? {
+                scale: [1, 1 + (30 - seconds) / 200, 1],
+              }
+            : {}
+        }
+        transition={{
+          duration: pulseSpeed / 1000,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      >
+        <motion.span
+          className="pf-timer-flash__glow"
+          aria-hidden="true"
+          animate={getGlowAnimation()}
+          transition={{
+            duration: pulseSpeed / 1000,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
         <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
-      </div>
+      </motion.div>
       <span className="pf-timer-flash__label">Flash Expire</span>
     </div>
   )

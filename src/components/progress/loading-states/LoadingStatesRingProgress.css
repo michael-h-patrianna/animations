@@ -21,17 +21,5 @@
 }
 .pf-ring-progress circle.pf-progress-ring {
   stroke: #c47ae5;
-  animation: ring-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes ring-progress {
-  0% {
-    stroke-dashoffset: 157.08;
-  }
-  50% {
-    stroke-dashoffset: 0;
-  }
-  100% {
-    stroke-dashoffset: 157.08;
-  }
-}

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic6.css';
 import { calculateBulbColors } from '@/utils/colors';
@@ -13,6 +14,7 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
+  const shouldReduceMotion = useReducedMotion();
   const radius = 80;
   const animationDuration = 4.8; // seconds - divisible by 3 for waltz timing
 
@@ -29,20 +31,138 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
 
     const groupIndex = Math.floor(i / groupSize);
     const positionInGroup = i % groupSize; // 0 = strong beat, 1-2 = weak beats
+    const baseDelay = groupIndex * delayPerGroup;
+    const beatDelay = positionInGroup * 0.15; // Stagger beats within group
+    const totalDelay = baseDelay + beatDelay;
 
+    if (shouldReduceMotion) {
+      return (
+        <div
+          key={i}
+          className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
+          style={{
+            transform: `translate(${x}px, ${y}px)`,
+          }}
+        >
+          <div className="lights-circle-static-6__glow" />
+          <div className="lights-circle-static-6__bulb" />
+        </div>
+      );
+    }
+
+    // Strong beat (position 0)
+    if (positionInGroup === 0) {
+      return (
+        <div
+          key={i}
+          className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
+          style={{
+            transform: `translate(${x}px, ${y}px)`,
+          }}
+        >
+          <motion.div
+            className="lights-circle-static-6__glow"
+            animate={{
+              opacity: [0, 0.4, 1, 1, 0.7, 0.3, 0, 0],
+            }}
+            transition={{
+              duration: animationDuration,
+              times: [0, 0.01, 0.03, 0.08, 0.10, 0.12, 0.14, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+              delay: totalDelay,
+            }}
+          />
+          <motion.div
+            className="lights-circle-static-6__bulb"
+            animate={{
+              backgroundColor: [
+                colors.off,
+                colors.offTint30,
+                colors.on,
+                colors.on,
+                `color-mix(in srgb, ${colors.on} 95%, ${colors.off} 5%)`,
+                colors.offTint30,
+                colors.off,
+                colors.off
+              ],
+              boxShadow: [
+                `none`,
+                `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
+                `0 0 12px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 18px ${colors.onGlow80}`,
+                `0 0 12px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 18px ${colors.onGlow80}`,
+                `0 0 8px ${colors.onGlow70}`,
+                `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
+                `none`,
+                `none`
+              ],
+            }}
+            transition={{
+              duration: animationDuration,
+              times: [0, 0.01, 0.03, 0.08, 0.10, 0.12, 0.14, 1],
+              repeat: Infinity,
+              ease: [0.42, 0, 0.58, 1],
+              delay: totalDelay,
+            }}
+          />
+        </div>
+      );
+    }
+
+    // Weak beats (positions 1 and 2)
     return (
       <div
         key={i}
         className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
         style={{
           transform: `translate(${x}px, ${y}px)`,
-          '--group-index': groupIndex,
-          '--delay-per-group': `${delayPerGroup}s`,
-          '--position-in-group': positionInGroup,
-        } as React.CSSProperties}
+        }}
       >
-        <div className="lights-circle-static-6__glow" />
-        <div className="lights-circle-static-6__bulb" />
+        <motion.div
+          className="lights-circle-static-6__glow"
+          animate={{
+            opacity: [0, 0.2, 0.7, 0.7, 0.4, 0.15, 0, 0],
+          }}
+          transition={{
+            duration: animationDuration,
+            times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
+            repeat: Infinity,
+            ease: [0.42, 0, 0.58, 1],
+            delay: totalDelay,
+          }}
+        />
+        <motion.div
+          className="lights-circle-static-6__bulb"
+          animate={{
+            backgroundColor: [
+              colors.off,
+              colors.offTint20,
+              colors.blend70,
+              colors.blend70,
+              colors.blend40,
+              colors.offTint20,
+              colors.off,
+              colors.off
+            ],
+            boxShadow: [
+              `none`,
+              `0 0 3px ${colors.offGlow35}`,
+              `0 0 7px ${colors.onGlow70}, 0 0 10px ${colors.onGlow50}`,
+              `0 0 7px ${colors.onGlow70}, 0 0 10px ${colors.onGlow50}`,
+              `0 0 5px ${colors.onGlow50}`,
+              `0 0 3px ${colors.offGlow35}`,
+              `none`,
+              `none`
+            ],
+          }}
+          transition={{
+            duration: animationDuration,
+            times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
+            repeat: Infinity,
+            ease: [0.42, 0, 0.58, 1],
+            delay: totalDelay,
+          }}
+        />
       </div>
     );
   });
@@ -85,5 +205,5 @@ export const metadata: AnimationMetadata = {
   id: 'lights__circle-static-6',
   title: 'Carnival Waltz',
   description: 'Musical waltz pattern with groups of 3 bulbs following strong-weak-weak rhythm, like carnival organ music.',
-  tags: ['css'],
+  tags: ['framer'],
 };
