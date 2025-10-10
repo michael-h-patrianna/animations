@@ -19,7 +19,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'modal-celebrations__confetti-burst': {
       component: ModalCelebrationsConfettiBurst,
       metadata: confettiBurstMetadata,
@@ -53,4 +53,5 @@ export const groupExport: GroupExport = {
       metadata: treasureParticlesMetadata,
     },
   },
+  css: {},
 }

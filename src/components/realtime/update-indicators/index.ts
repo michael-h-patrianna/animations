@@ -17,7 +17,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'update-indicators__badge-pop': {
       component: UpdateIndicatorsBadgePop,
       metadata: badgePopMetadata
@@ -46,6 +46,7 @@ export const groupExport: GroupExport = {
       component: UpdateIndicatorsHomeIconDotSweep,
       metadata: dotSweepMetadata
     }
-  }
+  },
+  css: {},
 }
 

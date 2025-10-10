@@ -60,7 +60,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'modal-base__scale-gentle-pop': {
       component: ModalBaseScaleGentlePop,
       metadata: scaleGentlePopMetadata,
@@ -118,4 +118,5 @@ export const groupExport: GroupExport = {
       metadata: zoomElasticMetadata,
     },
   },
+  css: {},
 }

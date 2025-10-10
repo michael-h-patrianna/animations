@@ -160,16 +160,18 @@ export interface AnimationExport {
 /**
  * Represents a complete group export from a group index file.
  * Combines group metadata with all animations in the group.
+ * Separates framer and css animations to support code mode switching.
  *
  * @example
  * ```typescript
  * // In src/components/dialogs/modal-base/index.ts
  * export const groupExport: GroupExport = {
  *   metadata: { id: 'modal-base', title: 'Modal Animations', ... },
- *   animations: {
+ *   framer: {
  *     'modal-base__scale-gentle-pop': { component: ..., metadata: ... },
  *     'modal-base__slide-up-soft': { component: ..., metadata: ... }
- *   }
+ *   },
+ *   css: {}
  * };
  * ```
  */
@@ -177,8 +179,11 @@ export interface GroupExport {
   /** Metadata describing the group */
   metadata: GroupMetadata
 
-  /** Map of animation IDs to their complete exports */
-  animations: Record<string, AnimationExport>
+  /** Map of animation IDs to their complete exports (Framer Motion) */
+  framer: Record<string, AnimationExport>
+
+  /** Map of animation IDs to their complete exports (CSS) */
+  css: Record<string, AnimationExport>
 }
 
 /**

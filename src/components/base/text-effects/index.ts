@@ -28,7 +28,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'text-effects__character-reveal': { component: TextEffectsCharacterReveal, metadata: characterRevealMeta },
     'text-effects__epic-win': { component: TextEffectsEpicWin, metadata: epicWinMeta },
     'text-effects__wave-text': { component: TextEffectsWaveText, metadata: waveTextMeta },
@@ -48,5 +48,6 @@ export const groupExport: GroupExport = {
     'text-effects__verb-flipping': { component: TextEffectsVerbFlip, metadata: verbFlipMeta },
     'text-effects__verb-twirling': { component: TextEffectsVerbTwirl, metadata: verbTwirlMeta },
     'text-effects__verb-falling': { component: TextEffectsVerbFall, metadata: verbFallMeta },
-  }
+  },
+  css: {},
 }

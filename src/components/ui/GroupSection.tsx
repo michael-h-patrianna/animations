@@ -1,7 +1,8 @@
 import { buildRegistryFromCategories } from '@/components/animationRegistry'
 import { AnimationCard } from '@/components/ui/AnimationCard'
+import { useCodeMode } from '@/contexts/CodeModeContext'
 import type { Group } from '@/types/animation'
-import { Suspense } from 'react'
+import { Suspense, useMemo } from 'react'
 
 interface GroupSectionProps {
   group: Group
@@ -34,9 +35,9 @@ function isInfiniteAnimation(groupId: string, animationId: string): boolean {
   return infiniteAnimations.includes(animationId)
 }
 
-const animationRegistry = buildRegistryFromCategories()
-
 export function GroupSection({ group, elementId }: GroupSectionProps) {
+  const { codeMode } = useCodeMode()
+  const animationRegistry = useMemo(() => buildRegistryFromCategories(codeMode), [codeMode])
   return (
     <article id={elementId} className="pf-group">
       <header className="pf-group__header">

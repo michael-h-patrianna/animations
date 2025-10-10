@@ -60,7 +60,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'timer-effects__timer-color-shift': {
       component: TimerEffectsTimerColorShift,
       metadata: timerEffectsTimerColorShiftMetadata,
@@ -98,4 +98,5 @@ export const groupExport: GroupExport = {
       metadata: timerEffectsPillCountdownHeartbeatMetadata,
     },
   },
+  css: {},
 }

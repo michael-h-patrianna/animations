@@ -18,7 +18,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'lights__circle-static-1': { component: LightsCircleStatic1, metadata: metadata1 },
     'lights__circle-static-2': { component: LightsCircleStatic2, metadata: metadata2 },
     'lights__circle-static-3': { component: LightsCircleStatic3, metadata: metadata3 },
@@ -28,4 +28,5 @@ export const groupExport: GroupExport = {
     'lights__circle-static-7': { component: LightsCircleStatic7, metadata: metadata7 },
     'lights__circle-static-8': { component: LightsCircleStatic8, metadata: metadata8 },
   },
+  css: {},
 }

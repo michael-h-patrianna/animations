@@ -15,11 +15,12 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'button-effects__ripple': { component: ButtonEffectsRipple, metadata: rippleMeta },
     'button-effects__jitter': { component: ButtonEffectsJitter, metadata: jitterMeta },
     'button-effects__liquid-morph': { component: ButtonEffectsLiquidMorph, metadata: liquidMorphMeta },
     'button-effects__shockwave': { component: ButtonEffectsShockwave, metadata: shockwaveMeta },
     'button-effects__split-reveal': { component: ButtonEffectsSplitReveal, metadata: splitRevealMeta },
   },
+  css: {},
 }

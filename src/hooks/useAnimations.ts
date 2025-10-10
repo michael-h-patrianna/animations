@@ -1,4 +1,5 @@
 import { animationDataService } from '@/services/animationData'
+import { useCodeMode } from '@/contexts/CodeModeContext'
 import type { Category } from '@/types/animation'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -8,6 +9,7 @@ interface LoadingState {
 }
 
 export function useAnimations() {
+  const { codeMode } = useCodeMode()
   const [categories, setCategories] = useState<Category[]>([])
   const [loadingState, setLoadingState] = useState<LoadingState>({
     isLoading: true,
@@ -17,7 +19,7 @@ export function useAnimations() {
   const loadCatalog = useCallback(async () => {
     try {
       setLoadingState({ isLoading: true, error: null })
-      const data = await animationDataService.loadAnimations()
+      const data = await animationDataService.loadAnimations(codeMode)
       setCategories(data)
       setLoadingState({ isLoading: false, error: null })
     } catch (error) {
@@ -26,7 +28,7 @@ export function useAnimations() {
         error: error instanceof Error ? error.message : 'Failed to load animations',
       })
     }
-  }, [])
+  }, [codeMode])
 
   useEffect(() => {
     loadCatalog()
@@ -35,7 +37,7 @@ export function useAnimations() {
   const refreshAnimations = async () => {
     try {
       setLoadingState({ isLoading: true, error: null })
-      const data = await animationDataService.refreshCatalog()
+      const data = await animationDataService.refreshCatalog(codeMode)
       setCategories(data)
       setLoadingState({ isLoading: false, error: null })
     } catch (error) {

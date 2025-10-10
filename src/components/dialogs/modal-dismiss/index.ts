@@ -43,7 +43,7 @@ export const groupMetadata: GroupMetadata = {
 // Group export with co-located metadata
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'modal-dismiss__toast-slide-left': {
       component: ModalDismissToastSlideLeft,
       metadata: metadataToastSlideLeft
@@ -72,6 +72,7 @@ export const groupExport: GroupExport = {
       component: ModalDismissSnackbarScale,
       metadata: metadataSnackbarScale
     }
-  }
+  },
+  css: {},
 }
 

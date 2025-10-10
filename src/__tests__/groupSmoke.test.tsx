@@ -1,5 +1,6 @@
 import { GroupSection } from '@/components/ui/GroupSection'
 import { animationDataService } from '@/services/animationData'
+import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 
 function escapeRegExp(literal: string) {
@@ -16,7 +17,11 @@ describe('Group demo grid smoke', () => {
       for (const group of category.groups) {
         const elementId = `${category.id}__${group.id}`
 
-        const { container, unmount } = render(<GroupSection group={group} elementId={elementId} />)
+        const { container, unmount } = render(
+          <CodeModeProvider>
+            <GroupSection group={group} elementId={elementId} />
+          </CodeModeProvider>
+        )
 
         // Allow initial timeouts to fire (e.g., small mount delays) wrapped in act
         await act(async () => {

@@ -43,7 +43,7 @@ export const groupMetadata: GroupMetadata = {
 // Group export with co-located metadata
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'modal-content__buttons-stagger-2': {
       component: ModalContentButtonsStagger2,
       metadata: metadataButtonsStagger2
@@ -72,6 +72,7 @@ export const groupExport: GroupExport = {
       component: ModalContentListVerticalWipe,
       metadata: metadataListVerticalWipe
     }
-  }
+  },
+  css: {},
 }
 

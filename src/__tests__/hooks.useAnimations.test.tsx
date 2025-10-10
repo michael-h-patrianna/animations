@@ -1,5 +1,6 @@
 import { useAnimations } from '@/hooks/useAnimations'
 import { animationDataService } from '@/services/animationData'
+import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { act, renderHook } from '@testing-library/react'
 
 describe('hooks • useAnimations', () => {
@@ -11,7 +12,9 @@ describe('hooks • useAnimations', () => {
   })
 
   it('loads categories on mount and exposes refresh', async () => {
-    const { result } = renderHook(() => useAnimations())
+    const { result } = renderHook(() => useAnimations(), {
+      wrapper: CodeModeProvider
+    })
 
     // Initial loading true
     expect(result.current.isLoading).toBe(true)
@@ -37,7 +40,9 @@ describe('hooks • useAnimations', () => {
 
   it('sets error on failure', async () => {
     const spy = jest.spyOn(animationDataService, 'loadAnimations').mockRejectedValueOnce(new Error('boom'))
-    const { result } = renderHook(() => useAnimations())
+    const { result } = renderHook(() => useAnimations(), {
+      wrapper: CodeModeProvider
+    })
     await act(async () => {
       jest.advanceTimersByTime(130)
       await Promise.resolve()

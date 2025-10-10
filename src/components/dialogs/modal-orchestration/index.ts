@@ -47,7 +47,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'modal-orchestration__wizard-slide-stack': {
       component: ModalOrchestrationWizardSlideStack,
       metadata: wizardSlideStackMetadata,
@@ -89,4 +89,5 @@ export const groupExport: GroupExport = {
       metadata: flipRevealMetadata,
     },
   },
+  css: {},
 }

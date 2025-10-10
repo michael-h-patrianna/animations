@@ -11,7 +11,8 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'reward-basic__coin-spin-soft': { component: RewardBasicCoinSpinSoft, metadata: coinSpinSoftMetadata },
   },
+  css: {},
 }

@@ -32,7 +32,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'standard-effects__shake': { component: StandardEffectsShake, metadata: shakeMeta },
     'standard-effects__bounce': { component: StandardEffectsBounce, metadata: bounceMeta },
     'standard-effects__pulse': { component: StandardEffectsPulse, metadata: pulseMeta },
@@ -56,4 +56,5 @@ export const groupExport: GroupExport = {
     'standard-effects__pulse-circle': { component: StandardEffectsPulseCircle, metadata: pulseCircleMeta },
     'standard-effects__soft-pulse': { component: StandardEffectsSoftPulse, metadata: softPulseMeta },
   },
+  css: {},
 }

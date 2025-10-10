@@ -65,8 +65,10 @@ describe('animationRegistry', () => {
           expect(group.metadata.id).toBe(groupId)
           expect(group.metadata.title).toBeTruthy()
           expect(typeof group.metadata.title).toBe('string')
-          expect(group.animations).toBeDefined()
-          expect(typeof group.animations).toBe('object')
+          expect(group.framer).toBeDefined()
+          expect(typeof group.framer).toBe('object')
+          expect(group.css).toBeDefined()
+          expect(typeof group.css).toBe('object')
         })
       })
     })
@@ -123,7 +125,17 @@ describe('animationRegistry', () => {
     it('should have each animation conform to AnimationExport type', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.entries(group.animations).forEach(([animId, animation]) => {
+          // Check framer animations
+          Object.entries(group.framer).forEach(([animId, animation]) => {
+            expect(animation).toBeDefined()
+            expect(animation.component).toBeDefined()
+            // Component can be a function or an object (lazy-loaded React component)
+            expect(['function', 'object']).toContain(typeof animation.component)
+            expect(animation.metadata).toBeDefined()
+            expect(animation.metadata.id).toBe(animId)
+          })
+          // Check css animations
+          Object.entries(group.css).forEach(([animId, animation]) => {
             expect(animation).toBeDefined()
             expect(animation.component).toBeDefined()
             // Component can be a function or an object (lazy-loaded React component)
@@ -138,7 +150,26 @@ describe('animationRegistry', () => {
     it('should have correct metadata structure for each animation', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.values(group.animations).forEach(animation => {
+          // Check framer animations
+          Object.values(group.framer).forEach(animation => {
+            expect(animation.metadata).toMatchObject({
+              id: expect.any(String),
+              title: expect.any(String),
+              description: expect.any(String),
+              tags: expect.any(Array),
+            })
+            expect(animation.metadata.id).toBeTruthy()
+            expect(animation.metadata.title).toBeTruthy()
+            expect(animation.metadata.description).toBeTruthy()
+            expect(Array.isArray(animation.metadata.tags)).toBe(true)
+
+            // Optional field
+            if (animation.metadata.disableReplay !== undefined) {
+              expect(typeof animation.metadata.disableReplay).toBe('boolean')
+            }
+          })
+          // Check css animations
+          Object.values(group.css).forEach(animation => {
             expect(animation.metadata).toMatchObject({
               id: expect.any(String),
               title: expect.any(String),
@@ -162,8 +193,10 @@ describe('animationRegistry', () => {
     it('should have at least one animation per group', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          const animCount = Object.keys(group.animations).length
-          expect(animCount).toBeGreaterThan(0)
+          const framerCount = Object.keys(group.framer).length
+          const cssCount = Object.keys(group.css).length
+          const totalCount = framerCount + cssCount
+          expect(totalCount).toBeGreaterThan(0)
         })
       })
     })
@@ -172,7 +205,10 @@ describe('animationRegistry', () => {
       const allAnimationIds: string[] = []
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.values(group.animations).forEach(animation => {
+          Object.values(group.framer).forEach(animation => {
+            allAnimationIds.push(animation.metadata.id)
+          })
+          Object.values(group.css).forEach(animation => {
             allAnimationIds.push(animation.metadata.id)
           })
         })
@@ -200,7 +236,10 @@ describe('animationRegistry', () => {
     it('should have animation IDs matching their keys', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.entries(group.animations).forEach(([key, animation]) => {
+          Object.entries(group.framer).forEach(([key, animation]) => {
+            expect(animation.metadata.id).toBe(key)
+          })
+          Object.entries(group.css).forEach(([key, animation]) => {
             expect(animation.metadata.id).toBe(key)
           })
         })
@@ -210,7 +249,13 @@ describe('animationRegistry', () => {
     it('should have all tags as strings', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.values(group.animations).forEach(animation => {
+          Object.values(group.framer).forEach(animation => {
+            animation.metadata.tags.forEach(tag => {
+              expect(typeof tag).toBe('string')
+              expect(tag).toBeTruthy()
+            })
+          })
+          Object.values(group.css).forEach(animation => {
             animation.metadata.tags.forEach(tag => {
               expect(typeof tag).toBe('string')
               expect(tag).toBeTruthy()
@@ -246,7 +291,10 @@ describe('animationRegistry', () => {
 
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.keys(group.animations).forEach(animId => {
+          Object.keys(group.framer).forEach(animId => {
+            expect(registryIds.has(animId)).toBe(true)
+          })
+          Object.keys(group.css).forEach(animId => {
             expect(registryIds.has(animId)).toBe(true)
           })
         })
@@ -259,7 +307,8 @@ describe('animationRegistry', () => {
       let expectedCount = 0
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          expectedCount += Object.keys(group.animations).length
+          expectedCount += Object.keys(group.framer).length
+          expectedCount += Object.keys(group.css).length
         })
       })
 
@@ -271,7 +320,10 @@ describe('animationRegistry', () => {
 
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.entries(group.animations).forEach(([animId, animation]) => {
+          Object.entries(group.framer).forEach(([animId, animation]) => {
+            expect(registry[animId]).toBe(animation.component)
+          })
+          Object.entries(group.css).forEach(([animId, animation]) => {
             expect(registry[animId]).toBe(animation.component)
           })
         })
@@ -295,7 +347,7 @@ describe('animationRegistry', () => {
       // Get a valid animation ID from the first available animation
       const firstCategory = Object.values(categories)[0]
       const firstGroup = Object.values(firstCategory.groups)[0]
-      const firstAnimationId = Object.keys(firstGroup.animations)[0]
+      const firstAnimationId = Object.keys(firstGroup.framer)[0] || Object.keys(firstGroup.css)[0]
 
       const metadata = getAnimationMetadata(firstAnimationId)
       expect(metadata).toBeDefined()
@@ -316,7 +368,11 @@ describe('animationRegistry', () => {
     it('should return correct metadata for all animations', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.entries(group.animations).forEach(([animId, animation]) => {
+          Object.entries(group.framer).forEach(([animId, animation]) => {
+            const metadata = getAnimationMetadata(animId)
+            expect(metadata).toEqual(animation.metadata)
+          })
+          Object.entries(group.css).forEach(([animId, animation]) => {
             const metadata = getAnimationMetadata(animId)
             expect(metadata).toEqual(animation.metadata)
           })
@@ -327,7 +383,7 @@ describe('animationRegistry', () => {
     it('should return metadata with all required fields', () => {
       const firstCategory = Object.values(categories)[0]
       const firstGroup = Object.values(firstCategory.groups)[0]
-      const firstAnimationId = Object.keys(firstGroup.animations)[0]
+      const firstAnimationId = Object.keys(firstGroup.framer)[0] || Object.keys(firstGroup.css)[0]
 
       const metadata = getAnimationMetadata(firstAnimationId)
       expect(metadata).toMatchObject({
@@ -341,7 +397,7 @@ describe('animationRegistry', () => {
     it('should handle case-sensitive lookup', () => {
       const firstCategory = Object.values(categories)[0]
       const firstGroup = Object.values(firstCategory.groups)[0]
-      const firstAnimationId = Object.keys(firstGroup.animations)[0]
+      const firstAnimationId = Object.keys(firstGroup.framer)[0] || Object.keys(firstGroup.css)[0]
 
       const metadata = getAnimationMetadata(firstAnimationId.toUpperCase())
       expect(metadata).toBeNull()
@@ -379,7 +435,21 @@ describe('animationRegistry', () => {
     it('should have all animations with required metadata fields', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.values(group.animations).forEach(animation => {
+          Object.values(group.framer).forEach(animation => {
+            const metadata = animation.metadata
+            expect(metadata.id).toBeDefined()
+            expect(metadata.title).toBeDefined()
+            expect(metadata.description).toBeDefined()
+            expect(metadata.tags).toBeDefined()
+            expect(typeof metadata.id).toBe('string')
+            expect(typeof metadata.title).toBe('string')
+            expect(typeof metadata.description).toBe('string')
+            expect(Array.isArray(metadata.tags)).toBe(true)
+            expect(metadata.id.length).toBeGreaterThan(0)
+            expect(metadata.title.length).toBeGreaterThan(0)
+            expect(metadata.description.length).toBeGreaterThan(0)
+          })
+          Object.values(group.css).forEach(animation => {
             const metadata = animation.metadata
             expect(metadata.id).toBeDefined()
             expect(metadata.title).toBeDefined()
@@ -400,7 +470,11 @@ describe('animationRegistry', () => {
     it('should not have any null or undefined components', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          Object.values(group.animations).forEach(animation => {
+          Object.values(group.framer).forEach(animation => {
+            expect(animation.component).toBeDefined()
+            expect(animation.component).not.toBeNull()
+          })
+          Object.values(group.css).forEach(animation => {
             expect(animation.component).toBeDefined()
             expect(animation.component).not.toBeNull()
           })
@@ -411,8 +485,10 @@ describe('animationRegistry', () => {
     it('should not have any empty animation collections', () => {
       Object.values(categories).forEach(category => {
         Object.values(category.groups).forEach(group => {
-          const animCount = Object.keys(group.animations).length
-          expect(animCount).toBeGreaterThan(0)
+          const framerCount = Object.keys(group.framer).length
+          const cssCount = Object.keys(group.css).length
+          const totalCount = framerCount + cssCount
+          expect(totalCount).toBeGreaterThan(0)
         })
       })
     })
@@ -447,7 +523,7 @@ describe('animationRegistry', () => {
     it('should not mutate the categories object when getting metadata', () => {
       const firstCategory = Object.values(categories)[0]
       const firstGroup = Object.values(firstCategory.groups)[0]
-      const firstAnimationId = Object.keys(firstGroup.animations)[0]
+      const firstAnimationId = Object.keys(firstGroup.framer)[0] || Object.keys(firstGroup.css)[0]
 
       const categoriesBefore = JSON.stringify(categories)
       getAnimationMetadata(firstAnimationId)

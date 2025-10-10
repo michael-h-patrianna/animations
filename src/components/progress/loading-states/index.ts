@@ -22,7 +22,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'loading-states__skeleton-horizontal': {
       component: LoadingStatesSkeletonHorizontal,
       metadata: skeletonHorizontalMeta
@@ -67,5 +67,6 @@ export const groupExport: GroupExport = {
       component: LoadingStatesRingMulti,
       metadata: ringMultiMeta
     }
-  }
+  },
+  css: {},
 }

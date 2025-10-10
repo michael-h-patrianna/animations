@@ -14,10 +14,11 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'icon-animations__shake': { component: IconAnimationsShake, metadata: shakeMetadata },
     'icon-animations__bounce': { component: IconAnimationsBounce, metadata: bounceMetadata },
     'icon-animations__float': { component: IconAnimationsFloat, metadata: floatMetadata },
     'icon-animations__pulse': { component: IconAnimationsPulse, metadata: pulseMetadata },
   },
+  css: {},
 }

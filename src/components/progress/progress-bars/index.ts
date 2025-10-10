@@ -43,7 +43,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'progress-bars__timeline-progress': {
       component: ProgressBarsTimelineProgress,
       metadata: timelineProgressMetadata,
@@ -77,4 +77,5 @@ export const groupExport: GroupExport = {
       metadata: zoomedProgressMetadata,
     },
   },
+  css: {},
 }

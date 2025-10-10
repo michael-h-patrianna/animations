@@ -14,7 +14,7 @@ export const groupMetadata: GroupMetadata = {
 
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
-  animations: {
+  framer: {
     'realtime-data__leaderboard-shift': {
       component: RealtimeDataLeaderboardShift,
       metadata: leaderboardMetadata
@@ -31,6 +31,7 @@ export const groupExport: GroupExport = {
       component: RealtimeDataStackedRealtime,
       metadata: stackedMetadata
     }
-  }
+  },
+  css: {},
 }
 

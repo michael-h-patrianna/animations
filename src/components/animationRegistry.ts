@@ -1,4 +1,5 @@
 import type { CategoryExport } from '@/types/animation'
+import type { CodeMode } from '@/contexts/CodeModeContext'
 import type React from 'react'
 
 // Import category exports for metadata-based access
@@ -27,13 +28,16 @@ export const categories: Record<string, CategoryExport> = {
 /**
  * Builds a flat animation registry from the category hierarchy.
  *
+ * @param codeMode - The code mode to filter animations by ('Framer' or 'CSS')
  * @returns A map of animation IDs to their React components
  */
-export function buildRegistryFromCategories() {
+export function buildRegistryFromCategories(codeMode: CodeMode = 'Framer') {
   const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
+  const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
+
   Object.values(categories).forEach((cat) => {
     Object.values(cat.groups).forEach((group) => {
-      Object.entries(group.animations).forEach(([id, anim]) => {
+      Object.entries(group[animationSource]).forEach(([id, anim]) => {
         registry[id] = anim.component
       })
     })
@@ -45,13 +49,16 @@ export function buildRegistryFromCategories() {
  * Retrieves metadata for a specific animation by its ID.
  *
  * @param animationId - The unique animation ID (e.g., 'modal-base__scale-gentle-pop')
+ * @param codeMode - The code mode to search in ('Framer' or 'CSS')
  * @returns The animation's metadata, or null if not found
  */
-export function getAnimationMetadata(animationId: string) {
+export function getAnimationMetadata(animationId: string, codeMode: CodeMode = 'Framer') {
+  const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
+
   for (const cat of Object.values(categories)) {
     for (const group of Object.values(cat.groups)) {
-      if (group.animations[animationId]) {
-        return group.animations[animationId].metadata
+      if (group[animationSource][animationId]) {
+        return group[animationSource][animationId].metadata
       }
     }
   }

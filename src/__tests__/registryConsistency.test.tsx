@@ -9,7 +9,10 @@ describe('Registry consistency with metadata exports', () => {
   const metadataIds = new Set<string>()
   Object.values(categories).forEach(cat => {
     Object.values(cat.groups).forEach(group => {
-      Object.keys(group.animations).forEach(id => {
+      Object.keys(group.framer).forEach(id => {
+        metadataIds.add(id)
+      })
+      Object.keys(group.css).forEach(id => {
         metadataIds.add(id)
       })
     })
@@ -86,7 +89,17 @@ describe('Registry consistency with metadata exports', () => {
   it('all animations have valid metadata structure', () => {
     Object.values(categories).forEach(cat => {
       Object.values(cat.groups).forEach(group => {
-        Object.entries(group.animations).forEach(([id, anim]) => {
+        // Check framer animations
+        Object.entries(group.framer).forEach(([id, anim]) => {
+          expect(anim.metadata).toBeDefined()
+          expect(anim.metadata.id).toBe(id)
+          expect(anim.metadata.title).toBeTruthy()
+          expect(anim.metadata.description).toBeTruthy()
+          expect(Array.isArray(anim.metadata.tags)).toBe(true)
+          expect(anim.component).toBeDefined()
+        })
+        // Check css animations
+        Object.entries(group.css).forEach(([id, anim]) => {
           expect(anim.metadata).toBeDefined()
           expect(anim.metadata.id).toBe(id)
           expect(anim.metadata.title).toBeTruthy()

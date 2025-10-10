@@ -1,4 +1,5 @@
 import { categories } from '@/components/animationRegistry'
+import type { CodeMode } from '@/contexts/CodeModeContext'
 import type {
   Animation,
   Category,
@@ -9,8 +10,12 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 /**
  * Builds catalog from category exports.
  * This is the primary data source, reading from component-based metadata.
+ *
+ * @param codeMode - The code mode to filter animations by ('Framer' or 'CSS')
  */
-const buildCatalogFromCategories = (): Category[] => {
+const buildCatalogFromCategories = (codeMode: CodeMode = 'Framer'): Category[] => {
+  const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
+
   return Object.values(categories).map(cat => ({
     id: cat.metadata.id,
     title: cat.metadata.title,
@@ -19,7 +24,7 @@ const buildCatalogFromCategories = (): Category[] => {
       title: group.metadata.title,
       tech: group.metadata.tech,
       demo: group.metadata.demo,
-      animations: Object.values(group.animations).map(anim => ({
+      animations: Object.values(group[animationSource]).map(anim => ({
         id: anim.metadata.id,
         title: anim.metadata.title,
         description: anim.metadata.description,
@@ -34,9 +39,12 @@ const buildCatalogFromCategories = (): Category[] => {
 
 /**
  * Builds catalog with additional animations merged in.
+ *
+ * @param additionalAnimations - Additional animations to merge
+ * @param codeMode - The code mode to filter animations by ('Framer' or 'CSS')
  */
-const buildCatalogWithExtras = (additionalAnimations: Animation[]): Category[] => {
-  const baseCatalog = buildCatalogFromCategories()
+const buildCatalogWithExtras = (additionalAnimations: Animation[], codeMode: CodeMode = 'Framer'): Category[] => {
+  const baseCatalog = buildCatalogFromCategories(codeMode)
 
   // Merge with additional animations if any
   if (additionalAnimations.length > 0) {
@@ -67,23 +75,30 @@ const buildCatalogWithExtras = (additionalAnimations: Animation[]): Category[] =
 class AnimationDataService {
   private catalog: Category[] | null = null
   private readonly extraAnimations: Animation[] = []
+  private currentCodeMode: CodeMode = 'Framer'
 
-  private async ensureCatalog(): Promise<Category[]> {
-    if (!this.catalog) {
-      this.catalog = buildCatalogWithExtras(this.extraAnimations)
+  private async ensureCatalog(codeMode?: CodeMode): Promise<Category[]> {
+    const mode = codeMode ?? this.currentCodeMode
+
+    // Rebuild catalog if code mode changed or catalog doesn't exist
+    if (!this.catalog || mode !== this.currentCodeMode) {
+      this.currentCodeMode = mode
+      this.catalog = buildCatalogWithExtras(this.extraAnimations, mode)
     }
 
     return this.catalog
   }
 
-  async loadAnimations(): Promise<Category[]> {
+  async loadAnimations(codeMode?: CodeMode): Promise<Category[]> {
     await delay(120)
-    return this.ensureCatalog()
+    return this.ensureCatalog(codeMode)
   }
 
-  async refreshCatalog(): Promise<Category[]> {
+  async refreshCatalog(codeMode?: CodeMode): Promise<Category[]> {
     await delay(60)
-    this.catalog = buildCatalogWithExtras(this.extraAnimations)
+    const mode = codeMode ?? this.currentCodeMode
+    this.currentCodeMode = mode
+    this.catalog = buildCatalogWithExtras(this.extraAnimations, mode)
     return this.catalog
   }
 
