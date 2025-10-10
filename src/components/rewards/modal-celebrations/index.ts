@@ -1,13 +1,13 @@
 import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { ModalCelebrationsCoinsArc, metadata as coinsArcMetadata } from './ModalCelebrationsCoinsArc'
-import { ModalCelebrationsCoinsFountain, metadata as coinsFountainMetadata } from './ModalCelebrationsCoinsFountain'
-import { ModalCelebrationsConfettiBurst, metadata as confettiBurstMetadata } from './ModalCelebrationsConfettiBurst'
-import { ModalCelebrationsConfettiRain, metadata as confettiRainMetadata } from './ModalCelebrationsConfettiRain'
-import { ModalCelebrationsConfettiSpiral, metadata as confettiSpiralMetadata } from './ModalCelebrationsConfettiSpiral'
-import { ModalCelebrationsFireworksRing, metadata as fireworksRingMetadata } from './ModalCelebrationsFireworksRing'
-import { ModalCelebrationsFireworksTriple, metadata as fireworksTripleMetadata } from './ModalCelebrationsFireworksTriple'
-import { ModalCelebrationsTreasureParticles, metadata as treasureParticlesMetadata } from './ModalCelebrationsTreasureParticles'
+import { ModalCelebrationsCoinsArc, metadata as coinsArcMetadata } from './framer/ModalCelebrationsCoinsArc'
+import { ModalCelebrationsCoinsFountain, metadata as coinsFountainMetadata } from './framer/ModalCelebrationsCoinsFountain'
+import { ModalCelebrationsConfettiBurst, metadata as confettiBurstMetadata } from './framer/ModalCelebrationsConfettiBurst'
+import { ModalCelebrationsConfettiRain, metadata as confettiRainMetadata } from './framer/ModalCelebrationsConfettiRain'
+import { ModalCelebrationsConfettiSpiral, metadata as confettiSpiralMetadata } from './framer/ModalCelebrationsConfettiSpiral'
+import { ModalCelebrationsFireworksRing, metadata as fireworksRingMetadata } from './framer/ModalCelebrationsFireworksRing'
+import { ModalCelebrationsFireworksTriple, metadata as fireworksTripleMetadata } from './framer/ModalCelebrationsFireworksTriple'
+import { ModalCelebrationsTreasureParticles, metadata as treasureParticlesMetadata } from './framer/ModalCelebrationsTreasureParticles'
 
 
 export const groupMetadata: GroupMetadata = {

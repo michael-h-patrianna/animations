@@ -6,31 +6,31 @@ import type {
 import {
   ModalDismissSnackbarScale,
   metadata as metadataSnackbarScale
-} from './ModalDismissSnackbarScale'
+} from './framer/ModalDismissSnackbarScale'
 import {
   ModalDismissSnackbarWipe,
   metadata as metadataSnackbarWipe
-} from './ModalDismissSnackbarWipe'
+} from './framer/ModalDismissSnackbarWipe'
 import {
   ModalDismissToastDrop,
   metadata as metadataToastDrop
-} from './ModalDismissToastDrop'
+} from './framer/ModalDismissToastDrop'
 import {
   ModalDismissToastFadeProgress,
   metadata as metadataToastFadeProgress
-} from './ModalDismissToastFadeProgress'
+} from './framer/ModalDismissToastFadeProgress'
 import {
   ModalDismissToastRaise,
   metadata as metadataToastRaise
-} from './ModalDismissToastRaise'
+} from './framer/ModalDismissToastRaise'
 import {
   ModalDismissToastSlideLeft,
   metadata as metadataToastSlideLeft
-} from './ModalDismissToastSlideLeft'
+} from './framer/ModalDismissToastSlideLeft'
 import {
   ModalDismissToastSlideRight,
   metadata as metadataToastSlideRight
-} from './ModalDismissToastSlideRight'
+} from './framer/ModalDismissToastSlideRight'
 
 // Group metadata
 export const groupMetadata: GroupMetadata = {

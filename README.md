@@ -24,12 +24,13 @@ Read: `docs/REACT_NATIVE_REFACTORING_PATTERNS.md` how to ensure that all animati
 - **Data → UI wiring**:
   - `src/services/animationData.ts` – builds catalog from component exports
   - `src/components/animationRegistry.ts` – provides hierarchical access
-  - See `ARCHITECTURE.md` for detailed documentation
+  - See `docs/architecture.md` for detailed documentation
 
 - **Components (implementation)**:
   - `src/components/<category-id>/<group-id>/` – all animations for a group
-    - `*.tsx` – one React component per animation + metadata export
-    - `*.css` – co-located CSS file per component with all styles
+    - `framer/` – Framer Motion implementations (`*.tsx`) and metadata exports
+    - `css/` – CSS animation entry points (`*.tsx`) paired with their styles
+    - `shared.css` or other shared assets stay at the group root when needed
   - Catalog UI: `src/components/ui/` (AnimationCard, GroupSection, CategorySection)
 
 New categories and groups
@@ -38,13 +39,13 @@ New categories and groups
 
 Where to find something to edit
 
-1. Navigate to `src/components/<category-id>/<group-id>/` and find the PascalCase component file
-2. The component contains both the animation logic AND metadata export
-3. Styles live next to the component in a co-located `.css` file
+1. Navigate to `src/components/<category-id>/<group-id>/framer/` for motion-based components or `css/` for CSS animations and find the PascalCase component file
+2. The component contains both the animation logic and metadata export
+3. Styles live next to the component under `css/` or in a shared stylesheet at the group root when reused
 
 ## How to add an animation
 
-1. **Create component** in `src/components/<category-id>/<group-id>/YourAnimation.tsx`:
+1. **Create component** under the appropriate technology folder, e.g. `src/components/<category-id>/<group-id>/framer/YourAnimation.tsx` for Framer Motion:
    ```typescript
    import type { AnimationMetadata } from '@/types/animation'
 
@@ -60,15 +61,17 @@ Where to find something to edit
    }
    ```
 
+   For CSS-only animations, place the component in the group's `css/` folder and keep the implementation purely CSS-driven.
+
 2. **Add to group index** (`src/components/<category>/<group>/index.ts`):
    - Import component + metadata
    - Add to `groupExport.animations` object
 
-3. **Create CSS file** (if needed) next to your component
+3. **Create CSS file** (if needed) inside the group's `css/` folder and import it from the component
 
 4. **Run tests**: `npm run build && npm run test`
 
-See `ARCHITECTURE.md` for complete details.
+See `docs/architecture.md` for complete details.
 
 Notes for RN-friendly animations
 

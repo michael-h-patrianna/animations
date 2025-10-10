@@ -12,8 +12,11 @@ The folder structure directly defines the category → group → animation hiera
 src/components/
 ├─ base/                    # Category: "Base effects"
 │  ├─ text-effects/         # Group: "Text effects"
-│  │  ├─ TextEffectsWaveText.tsx
-│  │  ├─ TextEffectsGlitchText.tsx
+│  │  ├─ framer/
+│  │  │  ├─ TextEffectsWaveText.tsx
+│  │  │  └─ TextEffectsGlitchText.tsx
+│  │  ├─ css/
+│  │  │  └─ TextEffectsWaveText.css
 │  │  └─ index.ts           # Aggregates all text-effects animations
 │  ├─ standard-effects/
 │  └─ button-effects/
@@ -25,13 +28,20 @@ src/components/
 └─ misc/                    # Category: "Misc"
 ```
 
+Each group now separates animations by implementation technology:
+
+- `framer/` holds Framer Motion components and their metadata exports.
+- `css/` holds CSS-driven components plus their stylesheets.
+- Shared assets that multiple animations rely on (for example `shared.css`) remain at the group root alongside `index.ts`.
+
 ## Component-Level Metadata
 
 Each animation component exports its metadata:
 
 ```typescript
-// src/components/base/text-effects/TextEffectsWaveText.tsx
+// src/components/base/text-effects/framer/TextEffectsWaveText.tsx
 import type { AnimationMetadata } from '@/types/animation'
+import '../css/TextEffectsWaveText.css'
 
 export function TextEffectsWaveText() {
   return <div>...</div>
@@ -48,13 +58,13 @@ export const metadata: AnimationMetadata = {
 
 ## Group-Level Aggregation
 
-Each group's `index.ts` aggregates all animations in that group:
+Each group's `index.ts` aggregates all animations in that group while referencing the technology-specific subfolders:
 
 ```typescript
 // src/components/base/text-effects/index.ts
 import type { GroupExport, GroupMetadata } from '@/types/animation'
-import { TextEffectsWaveText, metadata as waveTextMeta } from './TextEffectsWaveText'
-import { TextEffectsGlitchText, metadata as glitchTextMeta } from './TextEffectsGlitchText'
+import { TextEffectsWaveText, metadata as waveTextMeta } from './framer/TextEffectsWaveText'
+import { TextEffectsGlitchText, metadata as glitchTextMeta } from './framer/TextEffectsGlitchText'
 
 export const groupMetadata: GroupMetadata = {
   id: 'text-effects',

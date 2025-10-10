@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react'
-import { ProgressBarsProgressSegmented } from '../components/progress/progress-bars/ProgressBarsProgressSegmented'
+import { ProgressBarsProgressSegmented } from '../components/progress/progress-bars/framer/ProgressBarsProgressSegmented'
 
 describe('ProgressBarsProgressSegmented', () => {
   it('renders segmented progress bar with Framer Motion', async () => {

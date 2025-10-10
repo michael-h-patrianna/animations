@@ -76,8 +76,9 @@ src/
 │  │  ├─ index.ts             // Category aggregation (exports categoryExport)
 │  │  └─ <group-id>/          // One folder per group within that category
 │  │     ├─ index.ts          // Group aggregation (exports groupExport)
-│  │     ├─ *.tsx             // Animation components with metadata exports
-│  │     └─ *.css             // Co-located CSS per component
+│  │     ├─ framer/           // Framer Motion components + metadata exports
+│  │     ├─ css/              // CSS-animation components and styles
+│  │     └─ shared assets     // Shared CSS/TS utilities that remain at group root
 │  ├─ animationRegistry.ts    // Central registry (exports categories + helpers)
 ├─ services/animationData.ts  // Builds catalog from component exports
 ├─ hooks/useAnimations.ts     // Loads catalog data for the app
@@ -91,8 +92,8 @@ Given an animation id `category-group__variant` :
 1. Split the id into parts:
    - Category id → folder name under `src/components/` (e.g. `modal-base__scale-gentle-pop` ⇒ category `dialogs`).
    - Group id → folder inside the category (e.g. `modal-base`).
-2. Inside `src/components/<category>/<group>/`, open the component whose filename is the PascalCase version of the animation id (e.g. `ModalBaseScaleGentlePop.tsx`).
-3. Each component should include only the DOM necessary for the animation and import its own co-located CSS. Avoid shared or global CSS.
+2. Inside `src/components/<category>/<group>/framer/` or `css/`, open the component whose filename is the PascalCase version of the animation id (e.g. `ModalBaseScaleGentlePop.tsx`).
+3. Each component should include only the DOM necessary for the animation and import its own stylesheet from the group's `css/` folder (or shared CSS at the root when reused). Avoid shared or global CSS.
 
 ## Rendering Context
 

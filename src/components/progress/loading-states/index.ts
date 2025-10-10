@@ -1,16 +1,16 @@
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 
-import { LoadingStatesDotsPortal, metadata as dotsPortalMeta } from './LoadingStatesDotsPortal'
-import { LoadingStatesDotsRise, metadata as dotsRiseMeta } from './LoadingStatesDotsRise'
-import { LoadingStatesRingMulti, metadata as ringMultiMeta } from './LoadingStatesRingMulti'
-import { LoadingStatesRingProgress, metadata as ringProgressMeta } from './LoadingStatesRingProgress'
-import { LoadingStatesSkeletonCard, metadata as skeletonCardMeta } from './LoadingStatesSkeletonCard'
-import { LoadingStatesSkeletonHorizontal, metadata as skeletonHorizontalMeta } from './LoadingStatesSkeletonHorizontal'
-import { LoadingStatesSkeletonTile, metadata as skeletonTileMeta } from './LoadingStatesSkeletonTile'
-import { LoadingStatesSkeletonVertical, metadata as skeletonVerticalMeta } from './LoadingStatesSkeletonVertical'
-import { LoadingStatesSpinnerDualRing, metadata as spinnerDualRingMeta } from './LoadingStatesSpinnerDualRing'
-import { LoadingStatesSpinnerGalaxy, metadata as spinnerGalaxyMeta } from './LoadingStatesSpinnerGalaxy'
-import { LoadingStatesSpinnerOrbital, metadata as spinnerOrbitalMeta } from './LoadingStatesSpinnerOrbital'
+import { LoadingStatesDotsPortal, metadata as dotsPortalMeta } from './framer/LoadingStatesDotsPortal'
+import { LoadingStatesDotsRise, metadata as dotsRiseMeta } from './framer/LoadingStatesDotsRise'
+import { LoadingStatesRingMulti, metadata as ringMultiMeta } from './framer/LoadingStatesRingMulti'
+import { LoadingStatesRingProgress, metadata as ringProgressMeta } from './framer/LoadingStatesRingProgress'
+import { LoadingStatesSkeletonCard, metadata as skeletonCardMeta } from './framer/LoadingStatesSkeletonCard'
+import { LoadingStatesSkeletonHorizontal, metadata as skeletonHorizontalMeta } from './framer/LoadingStatesSkeletonHorizontal'
+import { LoadingStatesSkeletonTile, metadata as skeletonTileMeta } from './framer/LoadingStatesSkeletonTile'
+import { LoadingStatesSkeletonVertical, metadata as skeletonVerticalMeta } from './framer/LoadingStatesSkeletonVertical'
+import { LoadingStatesSpinnerDualRing, metadata as spinnerDualRingMeta } from './framer/LoadingStatesSpinnerDualRing'
+import { LoadingStatesSpinnerGalaxy, metadata as spinnerGalaxyMeta } from './framer/LoadingStatesSpinnerGalaxy'
+import { LoadingStatesSpinnerOrbital, metadata as spinnerOrbitalMeta } from './framer/LoadingStatesSpinnerOrbital'
 
 
 export const groupMetadata: GroupMetadata = {

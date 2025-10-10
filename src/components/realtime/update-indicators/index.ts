@@ -1,12 +1,12 @@
 import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { UpdateIndicatorsBadgePop, metadata as badgePopMetadata } from './UpdateIndicatorsBadgePop'
-import { UpdateIndicatorsBadgePulse, metadata as badgePulseMetadata } from './UpdateIndicatorsBadgePulse'
-import { UpdateIndicatorsHomeIconDotBounce, metadata as dotBounceMetadata } from './UpdateIndicatorsHomeIconDotBounce'
-import { UpdateIndicatorsHomeIconDotPulse, metadata as dotPulseMetadata } from './UpdateIndicatorsHomeIconDotPulse'
-import { UpdateIndicatorsHomeIconDotRadar, metadata as dotRadarMetadata } from './UpdateIndicatorsHomeIconDotRadar'
-import { UpdateIndicatorsHomeIconDotSweep, metadata as dotSweepMetadata } from './UpdateIndicatorsHomeIconDotSweep'
-import { UpdateIndicatorsLivePing, metadata as livePingMetadata } from './UpdateIndicatorsLivePing'
+import { UpdateIndicatorsBadgePop, metadata as badgePopMetadata } from './framer/UpdateIndicatorsBadgePop'
+import { UpdateIndicatorsBadgePulse, metadata as badgePulseMetadata } from './framer/UpdateIndicatorsBadgePulse'
+import { UpdateIndicatorsHomeIconDotBounce, metadata as dotBounceMetadata } from './framer/UpdateIndicatorsHomeIconDotBounce'
+import { UpdateIndicatorsHomeIconDotPulse, metadata as dotPulseMetadata } from './framer/UpdateIndicatorsHomeIconDotPulse'
+import { UpdateIndicatorsHomeIconDotRadar, metadata as dotRadarMetadata } from './framer/UpdateIndicatorsHomeIconDotRadar'
+import { UpdateIndicatorsHomeIconDotSweep, metadata as dotSweepMetadata } from './framer/UpdateIndicatorsHomeIconDotSweep'
+import { UpdateIndicatorsLivePing, metadata as livePingMetadata } from './framer/UpdateIndicatorsLivePing'
 
 export const groupMetadata: GroupMetadata = {
   id: 'update-indicators',

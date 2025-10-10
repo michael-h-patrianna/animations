@@ -1,4 +1,4 @@
-import { ModalDismissToastRaise } from '@/components/dialogs/modal-dismiss/ModalDismissToastRaise'
+import { ModalDismissToastRaise } from '@/components/dialogs/modal-dismiss/framer/ModalDismissToastRaise'
 import { advanceRaf, withAnimationCard } from '@/test/utils/animationTestUtils'
 import { act, render } from '@testing-library/react'
 

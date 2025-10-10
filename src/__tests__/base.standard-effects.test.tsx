@@ -1,5 +1,5 @@
-import { StandardEffectsFade } from '@/components/base/standard-effects/StandardEffectsFade'
-import { StandardEffectsScale } from '@/components/base/standard-effects/StandardEffectsScale'
+import { StandardEffectsFade } from '@/components/base/standard-effects/framer/StandardEffectsFade'
+import { StandardEffectsScale } from '@/components/base/standard-effects/framer/StandardEffectsScale'
 import { queryStage, withAnimationCard } from '@/test/utils/animationTestUtils'
 import { act, render, screen } from '@testing-library/react'
 

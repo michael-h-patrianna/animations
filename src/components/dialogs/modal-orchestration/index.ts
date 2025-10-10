@@ -3,40 +3,40 @@ import type { GroupMetadata, GroupExport } from '@/types/animation'
 import {
   ModalOrchestrationComparisonMorph,
   metadata as comparisonMorphMetadata,
-} from './ModalOrchestrationComparisonMorph'
+} from './framer/ModalOrchestrationComparisonMorph'
 import {
   ModalOrchestrationSelectionGrid,
   metadata as selectionGridMetadata,
-} from './ModalOrchestrationSelectionGrid'
-import { ModalOrchestrationTabMorph, metadata as tabMorphMetadata } from './ModalOrchestrationTabMorph'
+} from './framer/ModalOrchestrationSelectionGrid'
+import { ModalOrchestrationTabMorph, metadata as tabMorphMetadata } from './framer/ModalOrchestrationTabMorph'
 import {
   ModalOrchestrationWizardFadeCross,
   metadata as wizardFadeCrossMetadata,
-} from './ModalOrchestrationWizardFadeCross'
+} from './framer/ModalOrchestrationWizardFadeCross'
 import {
   ModalOrchestrationWizardScaleRotate,
   metadata as wizardScaleRotateMetadata,
-} from './ModalOrchestrationWizardScaleRotate'
+} from './framer/ModalOrchestrationWizardScaleRotate'
 import {
   ModalOrchestrationWizardSlideStack,
   metadata as wizardSlideStackMetadata,
-} from './ModalOrchestrationWizardSlideStack'
+} from './framer/ModalOrchestrationWizardSlideStack'
 import {
   ModalOrchestrationStaggerInview,
   metadata as staggerInviewMetadata,
-} from './ModalOrchestrationStaggerInview'
+} from './framer/ModalOrchestrationStaggerInview'
 import {
   ModalOrchestrationSpringPhysics,
   metadata as springPhysicsMetadata,
-} from './ModalOrchestrationSpringPhysics'
+} from './framer/ModalOrchestrationSpringPhysics'
 import {
   ModalOrchestrationMagneticHover,
   metadata as magneticHoverMetadata,
-} from './ModalOrchestrationMagneticHover'
+} from './framer/ModalOrchestrationMagneticHover'
 import {
   ModalOrchestrationFlipReveal,
   metadata as flipRevealMetadata,
-} from './ModalOrchestrationFlipReveal'
+} from './framer/ModalOrchestrationFlipReveal'
 
 export const groupMetadata: GroupMetadata = {
   id: 'modal-orchestration',

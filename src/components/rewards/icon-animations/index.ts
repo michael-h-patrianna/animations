@@ -1,7 +1,7 @@
-import { IconAnimationsShake, metadata as shakeMetadata } from './IconAnimationsShake'
-import { IconAnimationsBounce, metadata as bounceMetadata } from './IconAnimationsBounce'
-import { IconAnimationsFloat, metadata as floatMetadata } from './IconAnimationsFloat'
-import { IconAnimationsPulse, metadata as pulseMetadata } from './IconAnimationsPulse'
+import { IconAnimationsShake, metadata as shakeMetadata } from './framer/IconAnimationsShake'
+import { IconAnimationsBounce, metadata as bounceMetadata } from './framer/IconAnimationsBounce'
+import { IconAnimationsFloat, metadata as floatMetadata } from './framer/IconAnimationsFloat'
+import { IconAnimationsPulse, metadata as pulseMetadata } from './framer/IconAnimationsPulse'
 import type { GroupMetadata, GroupExport } from '@/types/animation'
 
 

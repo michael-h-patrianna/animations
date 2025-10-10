@@ -1,13 +1,9 @@
-import { useCodeMode, type CodeMode } from '@/contexts/CodeModeContext'
+import { useCodeMode } from '@/contexts/CodeModeContext'
 import type { FC } from 'react'
 import './CodeModeSwitch.css'
 
 export const CodeModeSwitch: FC = () => {
   const { codeMode, setCodeMode } = useCodeMode()
-
-  const handleToggle = () => {
-    setCodeMode(codeMode === 'Framer' ? 'CSS' : 'Framer')
-  }
 
   return (
     <div className="pf-code-mode-switch">

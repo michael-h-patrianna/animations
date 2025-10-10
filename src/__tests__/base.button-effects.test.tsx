@@ -1,4 +1,4 @@
-import { ButtonEffectsRipple } from '@/components/base/button-effects/ButtonEffectsRipple'
+import { ButtonEffectsRipple } from '@/components/base/button-effects/framer/ButtonEffectsRipple'
 import { advanceRaf, queryStage, withAnimationCard } from '@/test/utils/animationTestUtils'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 

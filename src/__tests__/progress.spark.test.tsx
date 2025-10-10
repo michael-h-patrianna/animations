@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react'
-import { ProgressBarsProgressSpark } from '../components/progress/progress-bars/ProgressBarsProgressSpark'
+import { ProgressBarsProgressSpark } from '../components/progress/progress-bars/framer/ProgressBarsProgressSpark'
 
 describe('ProgressBarsProgressSpark', () => {
   beforeEach(() => {

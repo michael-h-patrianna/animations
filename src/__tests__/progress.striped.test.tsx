@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { ProgressBarsProgressStriped } from '../components/progress/progress-bars/ProgressBarsProgressStriped'
+import { ProgressBarsProgressStriped } from '../components/progress/progress-bars/framer/ProgressBarsProgressStriped'
 
 describe('ProgressBarsProgressStriped', () => {
   it('renders progress bar with stripes and shimmer using Framer Motion', () => {

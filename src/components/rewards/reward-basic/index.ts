@@ -1,6 +1,6 @@
 import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { RewardBasicCoinSpinSoft, metadata as coinSpinSoftMetadata } from './RewardBasicCoinSpinSoft'
+import { RewardBasicCoinSpinSoft, metadata as coinSpinSoftMetadata } from './framer/RewardBasicCoinSpinSoft'
 
 
 export const groupMetadata: GroupMetadata = {

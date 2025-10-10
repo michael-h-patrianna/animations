@@ -24,7 +24,7 @@ jest.mock('framer-motion', () => {
   }
 })
 
-import { ProgressBarsXpAccumulation } from '../components/progress/progress-bars/ProgressBarsXpAccumulation'
+import { ProgressBarsXpAccumulation } from '../components/progress/progress-bars/framer/ProgressBarsXpAccumulation'
 
 describe('ProgressBarsXpAccumulation', () => {
   const REAL_RANDOM = Math.random

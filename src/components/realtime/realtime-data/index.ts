@@ -1,9 +1,9 @@
 import type { GroupMetadata, GroupExport } from '@/types/animation'
 
-import { RealtimeDataLeaderboardShift, metadata as leaderboardMetadata } from './RealtimeDataLeaderboardShift'
-import { RealtimeDataLiveScoreUpdate, metadata as liveScoreMetadata } from './RealtimeDataLiveScoreUpdate'
-import { RealtimeDataStackedRealtime, metadata as stackedMetadata } from './RealtimeDataStackedRealtime'
-import { RealtimeDataWinTicker, metadata as winTickerMetadata } from './RealtimeDataWinTicker'
+import { RealtimeDataLeaderboardShift, metadata as leaderboardMetadata } from './framer/RealtimeDataLeaderboardShift'
+import { RealtimeDataLiveScoreUpdate, metadata as liveScoreMetadata } from './framer/RealtimeDataLiveScoreUpdate'
+import { RealtimeDataStackedRealtime, metadata as stackedMetadata } from './framer/RealtimeDataStackedRealtime'
+import { RealtimeDataWinTicker, metadata as winTickerMetadata } from './framer/RealtimeDataWinTicker'
 
 export const groupMetadata: GroupMetadata = {
   id: 'realtime-data',

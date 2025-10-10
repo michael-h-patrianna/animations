@@ -6,31 +6,31 @@ import type {
 import {
   ModalContentButtonsStagger2,
   metadata as metadataButtonsStagger2
-} from './ModalContentButtonsStagger2'
+} from './framer/ModalContentButtonsStagger2'
 import {
   ModalContentButtonsStagger3,
   metadata as metadataButtonsStagger3
-} from './ModalContentButtonsStagger3'
+} from './framer/ModalContentButtonsStagger3'
 import {
   ModalContentFormFieldGradient,
   metadata as metadataFormFieldGradient
-} from './ModalContentFormFieldGradient'
+} from './framer/ModalContentFormFieldGradient'
 import {
   ModalContentFormFieldLeftReveal,
   metadata as metadataFormFieldLeftReveal
-} from './ModalContentFormFieldLeftReveal'
+} from './framer/ModalContentFormFieldLeftReveal'
 import {
   ModalContentFormFieldRightReveal,
   metadata as metadataFormFieldRightReveal
-} from './ModalContentFormFieldRightReveal'
+} from './framer/ModalContentFormFieldRightReveal'
 import {
   ModalContentListSoftStagger,
   metadata as metadataListSoftStagger
-} from './ModalContentListSoftStagger'
+} from './framer/ModalContentListSoftStagger'
 import {
   ModalContentListVerticalWipe,
   metadata as metadataListVerticalWipe
-} from './ModalContentListVerticalWipe'
+} from './framer/ModalContentListVerticalWipe'
 
 // Group metadata
 export const groupMetadata: GroupMetadata = {

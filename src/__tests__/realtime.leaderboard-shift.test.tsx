@@ -1,5 +1,5 @@
 import { act, render, screen } from '@testing-library/react'
-import { RealtimeDataLeaderboardShift } from '../components/realtime/realtime-data/RealtimeDataLeaderboardShift'
+import { RealtimeDataLeaderboardShift } from '../components/realtime/realtime-data/framer/RealtimeDataLeaderboardShift'
 
 describe('RealtimeDataLeaderboardShift', () => {
   beforeEach(() => {

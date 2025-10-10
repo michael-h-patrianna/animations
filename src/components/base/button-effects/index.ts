@@ -1,10 +1,10 @@
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 
-import { ButtonEffectsRipple, metadata as rippleMeta } from './ButtonEffectsRipple'
-import { ButtonEffectsJitter, metadata as jitterMeta } from './ButtonEffectsJitter'
-import { ButtonEffectsLiquidMorph, metadata as liquidMorphMeta } from './ButtonEffectsLiquidMorph'
-import { ButtonEffectsShockwave, metadata as shockwaveMeta } from './ButtonEffectsShockwave'
-import { ButtonEffectsSplitReveal, metadata as splitRevealMeta } from './ButtonEffectsSplitReveal'
+import { ButtonEffectsRipple, metadata as rippleMeta } from './framer/ButtonEffectsRipple'
+import { ButtonEffectsJitter, metadata as jitterMeta } from './framer/ButtonEffectsJitter'
+import { ButtonEffectsLiquidMorph, metadata as liquidMorphMeta } from './framer/ButtonEffectsLiquidMorph'
+import { ButtonEffectsShockwave, metadata as shockwaveMeta } from './framer/ButtonEffectsShockwave'
+import { ButtonEffectsSplitReveal, metadata as splitRevealMeta } from './framer/ButtonEffectsSplitReveal'
 
 export const groupMetadata: GroupMetadata = {
   id: 'button-effects',

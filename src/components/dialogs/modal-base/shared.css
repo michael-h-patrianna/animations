@@ -47,6 +47,7 @@
   display: flex;
   gap: 10px;
   margin-top: 20px;
+  justify-content: flex-end;
 }
 .pf-badge-tech {
   font-size: 12px;
@@ -99,4 +100,41 @@
 .pf-button-primary:active,
 .pf-button-secondary:active {
   transform: translateY(1px) scale(0.99);
+}
+
+.pf-modal-center {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+.pf-modal {
+  position: relative; /* neutralize absolute centering from shared.css */
+  top: auto;
+  left: auto;
+  transform: none; /* let Framer control transforms */
+}
+
+/* Perspective wrappers for 3D effects */
+.pf-perspective,
+.pf-perspective {
+  perspective: 1200px;
+}
+.pf-perspective {
+  perspective: 1000px;
+}
+
+/* Glitch ghost layers */
+.pf-modal--ghost {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.pf-modal--ghost-green {
+  background: rgba(198, 255, 119, 0.1);
+}
+.pf-modal--ghost-pink {
+  background: rgba(255, 119, 198, 0.1);
 }

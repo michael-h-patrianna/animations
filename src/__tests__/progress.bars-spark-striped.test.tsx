@@ -1,5 +1,5 @@
-import { ProgressBarsProgressSpark } from '@/components/progress/progress-bars/ProgressBarsProgressSpark'
-import { ProgressBarsProgressStriped } from '@/components/progress/progress-bars/ProgressBarsProgressStriped'
+import { ProgressBarsProgressSpark } from '@/components/progress/progress-bars/framer/ProgressBarsProgressSpark'
+import { ProgressBarsProgressStriped } from '@/components/progress/progress-bars/framer/ProgressBarsProgressStriped'
 import { withAnimationCard } from '@/test/utils/animationTestUtils'
 import { render } from '@testing-library/react'
 

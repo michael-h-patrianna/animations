@@ -3,35 +3,35 @@ import type { GroupMetadata, GroupExport } from '@/types/animation'
 import {
   ProgressBarsProgressBounce,
   metadata as progressBounceMetadata,
-} from './ProgressBarsProgressBounce'
+} from './framer/ProgressBarsProgressBounce'
 import {
   ProgressBarsProgressGradient,
   metadata as progressGradientMetadata,
-} from './ProgressBarsProgressGradient'
+} from './framer/ProgressBarsProgressGradient'
 import {
   ProgressBarsProgressMilestones,
   metadata as progressMilestonesMetadata,
-} from './ProgressBarsProgressMilestones'
+} from './framer/ProgressBarsProgressMilestones'
 import {
   ProgressBarsProgressSegmented,
   metadata as progressSegmentedMetadata,
-} from './ProgressBarsProgressSegmented'
+} from './framer/ProgressBarsProgressSegmented'
 import {
   ProgressBarsProgressThin,
   metadata as progressThinMetadata,
-} from './ProgressBarsProgressThin'
+} from './framer/ProgressBarsProgressThin'
 import {
   ProgressBarsTimelineProgress,
   metadata as timelineProgressMetadata,
-} from './ProgressBarsTimelineProgress'
+} from './framer/ProgressBarsTimelineProgress'
 import {
   ProgressBarsXpAccumulation,
   metadata as xpAccumulationMetadata,
-} from './ProgressBarsXpAccumulation'
+} from './framer/ProgressBarsXpAccumulation'
 import {
   ProgressBarsZoomedProgress,
   metadata as zoomedProgressMetadata,
-} from './ProgressBarsZoomedProgress'
+} from './framer/ProgressBarsZoomedProgress'
 
 
 export const groupMetadata: GroupMetadata = {

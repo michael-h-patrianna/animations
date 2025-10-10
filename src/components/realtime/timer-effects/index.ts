@@ -3,53 +3,53 @@ import { lazy } from 'react'
 
 // Lazy-loaded variants to enable code-splitting per animation component
 const TimerEffectsTimerColorShift = lazy(() =>
-  import('./TimerEffectsTimerColorShift').then((m) => ({ default: m.TimerEffectsTimerColorShift }))
+  import('./framer/TimerEffectsTimerColorShift').then((m) => ({ default: m.TimerEffectsTimerColorShift }))
 )
 const TimerEffectsTimerFlash = lazy(() =>
-  import('./TimerEffectsTimerFlash').then((m) => ({ default: m.TimerEffectsTimerFlash }))
+  import('./framer/TimerEffectsTimerFlash').then((m) => ({ default: m.TimerEffectsTimerFlash }))
 )
 const TimerEffectsTimerFlashSoft = lazy(() =>
-  import('./TimerEffectsTimerFlashSoft').then((m) => ({ default: m.TimerEffectsTimerFlashSoft }))
+  import('./framer/TimerEffectsTimerFlashSoft').then((m) => ({ default: m.TimerEffectsTimerFlashSoft }))
 )
 const TimerEffectsTimerFlip = lazy(() =>
-  import('./TimerEffectsTimerFlip').then((m) => ({ default: m.TimerEffectsTimerFlip }))
+  import('./framer/TimerEffectsTimerFlip').then((m) => ({ default: m.TimerEffectsTimerFlip }))
 )
 const TimerEffectsTimerPulse = lazy(() =>
-  import('./TimerEffectsTimerPulse').then((m) => ({ default: m.TimerEffectsTimerPulse }))
+  import('./framer/TimerEffectsTimerPulse').then((m) => ({ default: m.TimerEffectsTimerPulse }))
 )
 
 // New pill countdown family (escalating intensity)
 const TimerEffectsPillCountdownStrong = lazy(() =>
-  import('./TimerEffectsPillCountdownStrong').then((m) => ({
+  import('./framer/TimerEffectsPillCountdownStrong').then((m) => ({
     default: m.TimerEffectsPillCountdownStrong,
   }))
 )
 const TimerEffectsPillCountdownExtreme = lazy(() =>
-  import('./TimerEffectsPillCountdownExtreme').then((m) => ({
+  import('./framer/TimerEffectsPillCountdownExtreme').then((m) => ({
     default: m.TimerEffectsPillCountdownExtreme,
   }))
 )
 const TimerEffectsPillCountdownGlitch = lazy(() =>
-  import('./TimerEffectsPillCountdownGlitch').then((m) => ({
+  import('./framer/TimerEffectsPillCountdownGlitch').then((m) => ({
     default: m.TimerEffectsPillCountdownGlitch,
   }))
 )
 const TimerEffectsPillCountdownHeartbeat = lazy(() =>
-  import('./TimerEffectsPillCountdownHeartbeat').then((m) => ({
+  import('./framer/TimerEffectsPillCountdownHeartbeat').then((m) => ({
     default: m.TimerEffectsPillCountdownHeartbeat,
   }))
 )
 
 // Import metadata directly (not lazy-loaded since metadata is needed immediately)
-import { timerEffectsPillCountdownExtremeMetadata } from './TimerEffectsPillCountdownExtreme.metadata'
-import { timerEffectsPillCountdownGlitchMetadata } from './TimerEffectsPillCountdownGlitch.metadata'
-import { timerEffectsPillCountdownHeartbeatMetadata } from './TimerEffectsPillCountdownHeartbeat.metadata'
-import { timerEffectsPillCountdownStrongMetadata } from './TimerEffectsPillCountdownStrong.metadata'
-import { timerEffectsTimerColorShiftMetadata } from './TimerEffectsTimerColorShift.metadata'
-import { timerEffectsTimerFlashMetadata } from './TimerEffectsTimerFlash.metadata'
-import { timerEffectsTimerFlashSoftMetadata } from './TimerEffectsTimerFlashSoft.metadata'
-import { timerEffectsTimerFlipMetadata } from './TimerEffectsTimerFlip.metadata'
-import { timerEffectsTimerPulseMetadata } from './TimerEffectsTimerPulse.metadata'
+import { timerEffectsPillCountdownExtremeMetadata } from './framer/TimerEffectsPillCountdownExtreme.metadata'
+import { timerEffectsPillCountdownGlitchMetadata } from './framer/TimerEffectsPillCountdownGlitch.metadata'
+import { timerEffectsPillCountdownHeartbeatMetadata } from './framer/TimerEffectsPillCountdownHeartbeat.metadata'
+import { timerEffectsPillCountdownStrongMetadata } from './framer/TimerEffectsPillCountdownStrong.metadata'
+import { timerEffectsTimerColorShiftMetadata } from './framer/TimerEffectsTimerColorShift.metadata'
+import { timerEffectsTimerFlashMetadata } from './framer/TimerEffectsTimerFlash.metadata'
+import { timerEffectsTimerFlashSoftMetadata } from './framer/TimerEffectsTimerFlashSoft.metadata'
+import { timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.metadata'
+import { timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.metadata'
 
 export const groupMetadata: GroupMetadata = {
   id: 'timer-effects',

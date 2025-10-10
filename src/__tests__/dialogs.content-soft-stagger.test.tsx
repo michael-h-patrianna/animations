@@ -1,4 +1,4 @@
-import { ModalContentListSoftStagger } from '@/components/dialogs/modal-content/ModalContentListSoftStagger'
+import { ModalContentListSoftStagger } from '@/components/dialogs/modal-content/framer/ModalContentListSoftStagger'
 import { withAnimationCard } from '@/test/utils/animationTestUtils'
 import { act, render } from '@testing-library/react'
 
