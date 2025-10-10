@@ -3,7 +3,7 @@ import { GroupSection } from '@/components/ui/catalog'
 import { useAnimations } from '@/hooks/useAnimations'
 import type { Group } from '@/types/animation'
 import { AnimatePresence, motion, useDragControls } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import './App.css'
 
@@ -15,6 +15,7 @@ function App() {
   const [direction, setDirection] = useState<number>(0)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const dragControls = useDragControls()
+  const appBarRef = useRef<HTMLDivElement | null>(null)
 
   // Get all groups in order for navigation
   const allGroups: Group[] = categories.flatMap((category) => category.groups)
@@ -84,70 +85,41 @@ function App() {
     setIsDrawerOpen(false)
   }
 
-  // When the current group changes, scroll its section to the top
+  // When navigating between groups, scroll the new group into view but keep the app bar visible
   useEffect(() => {
-    if (!currentGroupId) return
+    if (!currentGroupId || typeof window === 'undefined') return
 
-    let raf1 = 0
-    let raf2 = 0
-
-    // Wait for the DOM to update with the new group before scrolling
-    raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => {
-        const targetId = `group-${currentGroupId}`
-        const el = document.getElementById(targetId)
-
-        if (el) {
-          // Use options if supported, otherwise call without args
-          if (typeof el.scrollIntoView === 'function') {
-            try {
-              el.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' })
-            } catch {
-              el.scrollIntoView()
-            }
-          }
-        } else if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-          window.scrollTo({ top: 0, behavior: 'auto' })
-        }
-      })
-    })
-
-    return () => {
-      if (raf1) cancelAnimationFrame(raf1)
-      if (raf2) cancelAnimationFrame(raf2)
-    }
-  }, [currentGroupId])
-
-  // When navigating between groups, scroll the new group into view at the top
-  useEffect(() => {
-    if (!currentGroupId) return
     const id = `group-${currentGroupId}`
+    const EXTRA_OFFSET = 16
+    let raf = 0
+    let timeout: ReturnType<typeof setTimeout> | undefined
+
+    const scrollGroupIntoView = () => {
+      const el = document.getElementById(id)
+      if (!el) return false
+
+      const appBar = appBarRef.current ?? document.querySelector<HTMLElement>('[data-app-shell="bar"]')
+      const appBarHeight = appBar?.getBoundingClientRect().height ?? 0
+      const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - appBarHeight - EXTRA_OFFSET)
+
+      if (Math.abs(window.scrollY - targetY) > 1) {
+        window.scrollTo({ top: targetY, behavior: 'auto' })
+      }
+
+      return true
+    }
 
     const attemptScroll = () => {
-      const el = document.getElementById(id)
-      if (!el) return
-
-      // Prefer options signature when available
-      try {
-        ;(el as HTMLElement).scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' })
-      } catch {
-        // Fallback for environments or older browsers without options support
-        try {
-          ;(el as HTMLElement).scrollIntoView()
-        } catch {
-          /* no-op */
-        }
+      if (!scrollGroupIntoView()) {
+        timeout = setTimeout(scrollGroupIntoView, 360)
       }
     }
 
-    // Try on next frame to ensure the DOM for the new group is mounted
-    const raf = requestAnimationFrame(attemptScroll)
-    // Fallback after animation timing if needed
-    const timeout = setTimeout(attemptScroll, 360)
+    raf = requestAnimationFrame(attemptScroll)
 
     return () => {
       cancelAnimationFrame(raf)
-      clearTimeout(timeout)
+      if (timeout) clearTimeout(timeout)
     }
   }, [currentGroupId])
 
@@ -207,7 +179,7 @@ function App() {
   return (
     <div className="min-h-screen">
       {/* Mobile header */}
-      <div className="pf-mobile-header">
+      <div className="pf-mobile-header" data-app-shell="bar" ref={appBarRef}>
         <button
           type="button"
           className="pf-hamburger"
