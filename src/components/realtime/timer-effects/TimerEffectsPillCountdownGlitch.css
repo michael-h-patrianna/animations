@@ -42,7 +42,11 @@
   --glow-opacity: 0.35;
   --glow-scale: 1;
   --glow-color: rgba(102, 126, 234, 0.3);
-  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    opacity 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +60,10 @@
   background: var(--glow-color);
   opacity: var(--glow-opacity);
   transform: scale(var(--glow-scale, 1));
-  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    background 0.3s ease;
   pointer-events: none;
   z-index: -1;
 }
@@ -101,7 +108,9 @@
 .glitch-severe {
   background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
   --glow-color: rgba(255, 0, 0, 0.5);
-  animation: glitch-pulse-severe 0.3s ease-out, glitch-rapid 0.5s infinite;
+  animation:
+    glitch-pulse-severe 0.3s ease-out,
+    glitch-rapid 0.5s infinite;
 }
 
 .glitch-severe::before,
@@ -129,7 +138,8 @@
 
 /* Threshold pulse animations */
 @keyframes glitch-pulse-minimal {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   50% {
@@ -138,7 +148,8 @@
 }
 
 @keyframes glitch-pulse-subtle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   25% {
@@ -150,7 +161,8 @@
 }
 
 @keyframes glitch-pulse-mild {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0) scaleX(1);
   }
   25% {
@@ -165,7 +177,8 @@
 }
 
 @keyframes glitch-pulse-moderate {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0) scaleX(1);
   }
   20% {
@@ -202,7 +215,8 @@
 
 /* Rapid continuous glitch for final 10s */
 @keyframes glitch-rapid {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   10% {
@@ -223,20 +237,24 @@
 }
 
 @keyframes glitch-text-severe-1 {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
   }
-  5%, 10% {
+  5%,
+  10% {
     opacity: 0.5;
     transform: translate(1px, 0);
   }
 }
 
 @keyframes glitch-text-severe-2 {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
   }
-  15%, 20% {
+  15%,
+  20% {
     opacity: 0.5;
     transform: translate(-1px, 0);
   }

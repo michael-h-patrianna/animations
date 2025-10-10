@@ -56,7 +56,10 @@
   background: var(--glow-color);
   opacity: var(--glow-opacity);
   transform: scale(var(--glow-scale, 1));
-  transition: opacity 0.4s ease, transform 0.4s ease, background 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    background 0.4s ease;
   pointer-events: none;
   z-index: -1;
 }
@@ -96,7 +99,9 @@
 .heartbeat-critical {
   background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
   --glow-color: rgba(255, 0, 0, 0.6);
-  animation: heartbeat-pulse-critical 0.3s ease-out, heartbeat-continuous 0.6s ease-in-out infinite;
+  animation:
+    heartbeat-pulse-critical 0.3s ease-out,
+    heartbeat-continuous 0.6s ease-in-out infinite;
 }
 
 /* Threshold pulse animations */
@@ -217,7 +222,8 @@
 
 /* Continuous heartbeat for final 10s */
 @keyframes heartbeat-continuous {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   14% {

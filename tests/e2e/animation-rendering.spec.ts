@@ -25,6 +25,7 @@ test.describe('Animation Rendering', () => {
     await expect(stage).toBeVisible()
 
     // Check that there's actual content inside (not empty)
+    await expect(stage.locator(':scope > *').first()).toBeVisible()
     const stageContent = await stage.innerHTML()
     expect(stageContent.trim().length).toBeGreaterThan(0)
     expect(stageContent).not.toContain('pf-card__placeholder')
@@ -335,9 +336,13 @@ test.describe('Animation Rendering', () => {
     // Wait for animation to start
     await page.waitForTimeout(500)
 
-    // Should contain text content
-    const textContent = await stage.textContent()
-    expect(textContent?.trim().length).toBeGreaterThan(0)
+    await expect(stage).toBeVisible()
+    const replayButton = card.locator('[data-role="replay"]')
+    await replayButton.click()
+    await page.waitForTimeout(200)
+    const textContainer = card.locator('.pf-demo-stage .typewriter-text').first()
+    await expect(textContainer.locator('.typewriter-char').first()).toBeVisible()
+    await expect(textContainer).toContainText(/\S/)
   })
 
   test('modal animations render with overlay and content', async ({ page }) => {
