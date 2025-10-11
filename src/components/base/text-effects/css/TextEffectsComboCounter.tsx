@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef, useState } from 'react'
 import './TextEffectsComboCounter.css'
 
 export function TextEffectsComboCounter() {
@@ -12,6 +12,7 @@ export function TextEffectsComboCounter() {
   const perfectRef = useRef<HTMLDivElement>(null)
   const lettersRef = useRef<HTMLSpanElement[]>([])
   const particlesRef = useRef<HTMLDivElement[]>([])
+  const digitRef = useRef<HTMLSpanElement>(null)
 
   // Milestones: [triggerValue, particleValue]
   const milestones = [
@@ -62,6 +63,21 @@ export function TextEffectsComboCounter() {
         {
           duration: 500,
           easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          fill: 'forwards',
+        }
+      )
+    }
+
+    // Digit fade in animation
+    if (digitRef.current) {
+      digitRef.current.animate(
+        [
+          { opacity: 0 },
+          { opacity: 1 },
+        ],
+        {
+          duration: 200,
+          delay: 250,
           fill: 'forwards',
         }
       )
@@ -170,7 +186,7 @@ export function TextEffectsComboCounter() {
         <div ref={numberWrapperRef} className="combo-number-wrapper" style={{ opacity: 0 }}>
           <div className="combo-number-container">
             <div className="combo-current-number">
-              <span className="combo-digit" style={{ opacity: 0 }}>
+              <span ref={digitRef} className="combo-digit" style={{ opacity: 0 }}>
                 <span>{count}</span>
               </span>
             </div>

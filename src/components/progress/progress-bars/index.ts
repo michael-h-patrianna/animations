@@ -1,4 +1,4 @@
-import type { GroupMetadata, GroupExport } from '@/types/animation'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 
 // CSS animations
 import {
@@ -18,6 +18,10 @@ import {
   metadata as progressSegmentedCssMetadata,
 } from './css/ProgressBarsProgressSegmented'
 import {
+  ProgressBarsProgressStriped as CssProgressBarsProgressStriped,
+  metadata as progressStripedCssMetadata,
+} from './css/ProgressBarsProgressStriped'
+import {
   ProgressBarsProgressThin as CssProgressBarsProgressThin,
   metadata as progressThinCssMetadata,
 } from './css/ProgressBarsProgressThin'
@@ -33,14 +37,6 @@ import {
   ProgressBarsZoomedProgress as CssProgressBarsZoomedProgress,
   metadata as zoomedProgressCssMetadata,
 } from './css/ProgressBarsZoomedProgress'
-import {
-  ProgressBarsProgressSpark as CssProgressBarsProgressSpark,
-  metadata as progressSparkCssMetadata,
-} from './css/ProgressBarsProgressSpark'
-import {
-  ProgressBarsProgressStriped as CssProgressBarsProgressStriped,
-  metadata as progressStripedCssMetadata,
-} from './css/ProgressBarsProgressStriped'
 
 import {
   ProgressBarsProgressBounce,
@@ -74,15 +70,11 @@ import {
   ProgressBarsZoomedProgress,
   metadata as zoomedProgressMetadata,
 } from './framer/ProgressBarsZoomedProgress'
-import {
-  ProgressBarsProgressSpark,
-  metadata as progressSparkMetadata,
-} from './framer/ProgressBarsProgressSpark'
+
 import {
   ProgressBarsProgressStriped,
   metadata as progressStripedMetadata,
 } from './framer/ProgressBarsProgressStriped'
-
 
 export const groupMetadata: GroupMetadata = {
   id: 'progress-bars',
@@ -126,10 +118,7 @@ export const groupExport: GroupExport = {
       component: ProgressBarsZoomedProgress,
       metadata: zoomedProgressMetadata,
     },
-    'progress-bars__progress-spark': {
-      component: ProgressBarsProgressSpark,
-      metadata: progressSparkMetadata,
-    },
+
     'progress-bars__progress-striped': {
       component: ProgressBarsProgressStriped,
       metadata: progressStripedMetadata,
@@ -168,10 +157,7 @@ export const groupExport: GroupExport = {
       component: CssProgressBarsZoomedProgress,
       metadata: zoomedProgressCssMetadata,
     },
-    'progress-bars__progress-spark': {
-      component: CssProgressBarsProgressSpark,
-      metadata: progressSparkCssMetadata,
-    },
+
     'progress-bars__progress-striped': {
       component: CssProgressBarsProgressStriped,
       metadata: progressStripedCssMetadata,

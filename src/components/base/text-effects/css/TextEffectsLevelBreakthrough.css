@@ -18,15 +18,11 @@
   will-change: transform, opacity;
 }
 
-/* Create ring effect with border instead of radial gradient (RN compatible) */
+/* Create ring effect with radial gradients matching the Framer version */
 .pf-surge-lines-outer {
-  border: 6px solid #ffce1a;
-  border-radius: 50%;
-  box-sizing: border-box;
+  background: radial-gradient(circle, transparent 75%, #ffce1a 76%, transparent 82%);
 }
 
 .pf-surge-lines-inner {
-  border: 5px solid #ffce1a;
-  border-radius: 50%;
-  box-sizing: border-box;
+  background: radial-gradient(circle, transparent 65%, #ffce1a 66%, transparent 72%);
 }

@@ -1,4 +1,4 @@
-import type { GroupMetadata, GroupExport } from '@/types/animation'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 
 import {
   ModalOrchestrationComparisonMorph,
@@ -8,7 +8,10 @@ import {
   ModalOrchestrationSelectionGrid,
   metadata as selectionGridMetadata,
 } from './framer/ModalOrchestrationSelectionGrid'
-import { ModalOrchestrationTabMorph, metadata as tabMorphMetadata } from './framer/ModalOrchestrationTabMorph'
+import {
+  ModalOrchestrationTabMorph,
+  metadata as tabMorphMetadata,
+} from './framer/ModalOrchestrationTabMorph'
 
 // CSS animations
 import {
@@ -19,6 +22,10 @@ import {
   ModalOrchestrationFlipReveal as CssModalOrchestrationFlipReveal,
   metadata as flipRevealCssMetadata,
 } from './css/ModalOrchestrationFlipReveal'
+import {
+  ModalOrchestrationGridHighlight as CssModalOrchestrationGridHighlight,
+  metadata as gridHighlightCssMetadata,
+} from './css/ModalOrchestrationGridHighlight'
 import {
   ModalOrchestrationMagneticHover as CssModalOrchestrationMagneticHover,
   metadata as magneticHoverCssMetadata,
@@ -51,18 +58,27 @@ import {
   ModalOrchestrationWizardSlideStack as CssModalOrchestrationWizardSlideStack,
   metadata as wizardSlideStackCssMetadata,
 } from './css/ModalOrchestrationWizardSlideStack'
+
 import {
-  ModalOrchestrationGridHighlight as CssModalOrchestrationGridHighlight,
-  metadata as gridHighlightCssMetadata,
-} from './css/ModalOrchestrationGridHighlight'
+  ModalOrchestrationFlipReveal,
+  metadata as flipRevealMetadata,
+} from './framer/ModalOrchestrationFlipReveal'
 import {
-  ModalOrchestrationMultiStepProgressive as CssModalOrchestrationMultiStepProgressive,
-  metadata as multiStepProgressiveCssMetadata,
-} from './css/ModalOrchestrationMultiStepProgressive'
+  ModalOrchestrationGridHighlight,
+  metadata as gridHighlightMetadata,
+} from './framer/ModalOrchestrationGridHighlight'
 import {
-  ModalOrchestrationTabSlide as CssModalOrchestrationTabSlide,
-  metadata as tabSlideCssMetadata,
-} from './css/ModalOrchestrationTabSlide'
+  ModalOrchestrationMagneticHover,
+  metadata as magneticHoverMetadata,
+} from './framer/ModalOrchestrationMagneticHover'
+import {
+  ModalOrchestrationSpringPhysics,
+  metadata as springPhysicsMetadata,
+} from './framer/ModalOrchestrationSpringPhysics'
+import {
+  ModalOrchestrationStaggerInview,
+  metadata as staggerInviewMetadata,
+} from './framer/ModalOrchestrationStaggerInview'
 import {
   ModalOrchestrationWizardFadeCross,
   metadata as wizardFadeCrossMetadata,
@@ -75,34 +91,6 @@ import {
   ModalOrchestrationWizardSlideStack,
   metadata as wizardSlideStackMetadata,
 } from './framer/ModalOrchestrationWizardSlideStack'
-import {
-  ModalOrchestrationStaggerInview,
-  metadata as staggerInviewMetadata,
-} from './framer/ModalOrchestrationStaggerInview'
-import {
-  ModalOrchestrationSpringPhysics,
-  metadata as springPhysicsMetadata,
-} from './framer/ModalOrchestrationSpringPhysics'
-import {
-  ModalOrchestrationMagneticHover,
-  metadata as magneticHoverMetadata,
-} from './framer/ModalOrchestrationMagneticHover'
-import {
-  ModalOrchestrationFlipReveal,
-  metadata as flipRevealMetadata,
-} from './framer/ModalOrchestrationFlipReveal'
-import {
-  ModalOrchestrationGridHighlight,
-  metadata as gridHighlightMetadata,
-} from './framer/ModalOrchestrationGridHighlight'
-import {
-  ModalOrchestrationMultiStepProgressive,
-  metadata as multiStepProgressiveMetadata,
-} from './framer/ModalOrchestrationMultiStepProgressive'
-import {
-  ModalOrchestrationTabSlide,
-  metadata as tabSlideMetadata,
-} from './framer/ModalOrchestrationTabSlide'
 
 export const groupMetadata: GroupMetadata = {
   id: 'modal-orchestration',
@@ -158,14 +146,6 @@ export const groupExport: GroupExport = {
       component: ModalOrchestrationGridHighlight,
       metadata: gridHighlightMetadata,
     },
-    'modal-orchestration__multi-step-progressive': {
-      component: ModalOrchestrationMultiStepProgressive,
-      metadata: multiStepProgressiveMetadata,
-    },
-    'modal-orchestration__tab-slide': {
-      component: ModalOrchestrationTabSlide,
-      metadata: tabSlideMetadata,
-    },
   },
   css: {
     'modal-orchestration__wizard-slide-stack': {
@@ -211,14 +191,6 @@ export const groupExport: GroupExport = {
     'modal-orchestration__grid-highlight': {
       component: CssModalOrchestrationGridHighlight,
       metadata: gridHighlightCssMetadata,
-    },
-    'modal-orchestration__multi-step-progressive': {
-      component: CssModalOrchestrationMultiStepProgressive,
-      metadata: multiStepProgressiveCssMetadata,
-    },
-    'modal-orchestration__tab-slide': {
-      component: CssModalOrchestrationTabSlide,
-      metadata: tabSlideCssMetadata,
     },
   },
 }
