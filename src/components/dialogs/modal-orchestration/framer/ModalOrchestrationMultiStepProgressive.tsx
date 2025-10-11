@@ -1,5 +1,13 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './ModalOrchestrationMultiStepProgressive.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-orchestration__multi-step-progressive',
+  title: 'Multi-Step Progressive',
+  description: 'Progressive multi-step flow with staggered entrance',
+  tags: ['wizard', 'multi-step', 'progressive', 'stagger'],
+}
 
 export function ModalOrchestrationMultiStepProgressive() {
   const steps = 5

@@ -1,0 +1,125 @@
+/* Base styles for Progress Striped */
+.pf-progress-striped {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  height: 80px;
+  justify-content: center;
+}
+
+.pf-progress-striped .pf-progress-demo__label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.76);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.pf-progress-striped .pf-progress-track {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(236, 195, 255, 0.12);
+  overflow: hidden;
+  position: relative;
+}
+
+.pf-progress-striped .track-container {
+  position: relative;
+}
+
+.pf-progress-striped .pf-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c47ae5 0%, #d79af3 100%);
+  border-radius: inherit;
+  transform-origin: left center;
+  position: relative;
+  transform: scaleX(0);
+  will-change: transform;
+  overflow: hidden;
+  animation: striped-fill-grow 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Stripes container */
+.stripes-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: transform;
+  animation: stripes-slide 2s linear infinite;
+}
+
+/* Individual stripe */
+.stripe {
+  position: absolute;
+  left: calc(var(--stripe-index) * 32px - 100px);
+  top: -20%;
+  width: 16px;
+  height: 140%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(-45deg);
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Shimmer overlay */
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-position: -100% 0;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: shimmer-sweep 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ===== KEYFRAMES ===== */
+/* GPU-accelerated transforms only: translateX, translateY, scale, rotate, opacity */
+
+@keyframes striped-fill-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes stripes-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100px);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  30% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translateX(0);
+  }
+  70% {
+    opacity: 0.4;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(200%);
+  }
+}

@@ -6,7 +6,7 @@ export const metadata: AnimationMetadata = {
   id: 'progress-bars__progress-gradient',
   title: 'Gradient Glide',
   description: 'Gradient sweep along the bar for premium polish.',
-  tags: ['js', 'css'],
+  tags: ['css'],
 }
 
 export function ProgressBarsProgressGradient() {

@@ -1,10 +1,9 @@
 /**
  * Standalone: Copy this file into your app.
- * Runtime deps: react, framer-motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * Runtime deps: react
+ * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbTwirl.css'
 
@@ -16,22 +15,12 @@ export function TextEffectsVerbTwirl() {
     <div className="verbTwirl" data-animation-id="text-effects__verb-twirling" aria-label={text}>
       <div className="verbTwirl__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <span
             key={i}
             className="verbTwirl__char"
-            initial={{ rotate: 0, scale: 1 }}
-            animate={{
-              rotate: [0, 90, 180, 270, 360],
-              scale: [1, 1.05, 1, 0.98, 1]
-            }}
-            transition={{
-              duration: 1.8,
-              ease: 'easeInOut',
-              times: [0, 0.25, 0.5, 0.75, 1],
-            }}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </span>
         ))}
       </div>
     </div>
@@ -42,7 +31,7 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__verb-twirling',
   title: 'Twirling',
   description: 'Continuous twirl spin with subtle scale variance.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }
 

@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './RealtimeDataLeaderboardShift.css'
@@ -7,11 +6,10 @@ export const metadata: AnimationMetadata = {
   id: 'realtime-data__leaderboard-shift',
   title: 'Leaderboard Shift',
   description: 'Real-time data pattern: Leaderboard Shift',
-  tags: ['framer', 'js']
+  tags: ['css']
 }
 
 export function RealtimeDataLeaderboardShift() {
-  const [isAnimating, setIsAnimating] = useState(false)
   const [leaderboard, setLeaderboard] = useState([
     { rank: 1, player: 'Phoenix', score: 2450 },
     { rank: 2, player: 'Shadow', score: 2380 },
@@ -19,6 +17,8 @@ export function RealtimeDataLeaderboardShift() {
     { rank: 4, player: 'Apex', score: 2290 },
   ])
   const leaderboardRef = useRef(leaderboard)
+  const rowRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+
   useEffect(() => {
     leaderboardRef.current = leaderboard
   }, [leaderboard])
@@ -27,7 +27,21 @@ export function RealtimeDataLeaderboardShift() {
     let timeoutId: ReturnType<typeof setTimeout>
 
     const startAnimation = () => {
-      setIsAnimating(true)
+      // Animate the first player out
+      const firstPlayerElement = rowRefs.current.get('Phoenix')
+      if (firstPlayerElement) {
+        firstPlayerElement.animate(
+          [
+            { transform: 'translateY(0)', opacity: 1 },
+            { transform: 'translateY(100px)', opacity: 0 },
+          ],
+          {
+            duration: 800,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            fill: 'forwards',
+          }
+        )
+      }
 
       // After animation, reorganize leaderboard
       setTimeout(() => {
@@ -43,7 +57,6 @@ export function RealtimeDataLeaderboardShift() {
         })
 
         setLeaderboard(newLeaderboard)
-        setIsAnimating(false)
 
         // Reset after delay
         timeoutId = setTimeout(() => {
@@ -68,26 +81,19 @@ export function RealtimeDataLeaderboardShift() {
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__leaderboard-shift">
       <div className="pf-realtime-data__leaderboard">
-        <AnimatePresence mode="popLayout">
-          {leaderboard.map((player, index) => (
-            <motion.div
-              key={player.player}
-              className="pf-realtime-data__row"
-              layout
-              initial={index === 0 && isAnimating ? { y: 0, opacity: 1 } : false}
-              animate={index === 0 && isAnimating ? { y: 100, opacity: 0 } : { y: 0, opacity: 1 }}
-              exit={{ y: 100, opacity: 0 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94] as const,
-              }}
-            >
-              <div className="pf-realtime-data__rank">#{player.rank}</div>
-              <div className="pf-realtime-data__player">{player.player}</div>
-              <div className="pf-realtime-data__score">{player.score.toLocaleString()}</div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+        {leaderboard.map((player) => (
+          <div
+            key={player.player}
+            ref={(el) => {
+              if (el) rowRefs.current.set(player.player, el)
+            }}
+            className="pf-realtime-data__row"
+          >
+            <div className="pf-realtime-data__rank">#{player.rank}</div>
+            <div className="pf-realtime-data__player">{player.player}</div>
+            <div className="pf-realtime-data__score">{player.score.toLocaleString()}</div>
+          </div>
+        ))}
       </div>
     </div>
   )

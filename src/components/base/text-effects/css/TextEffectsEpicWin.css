@@ -95,10 +95,11 @@
 .epic-char-glow {
   position: absolute;
   inset: -8px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent 60%);
+  background: rgba(255, 215, 0, 0.2);
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
   opacity: 0.8;
   transform: scale(1.1);
+  will-change: transform, opacity;
 }

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationWizardFadeCross.css'
 
@@ -6,53 +6,38 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__wizard-fade-cross',
   title: 'Step Tiles Fade',
   description: 'Multi-step wizard with cross-fading step tiles and content panels',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationWizardFadeCross() {
   const steps = 3
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
-      },
-    },
-  }
-
-  const panelVariants = {
-    initial: {
-      y: 16,
-      opacity: 0,
-    },
-    animate: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.26, // 520ms * 0.5
-        ease: [0.25, 0.46, 0.45, 0.94] as const, // gentle easing
-      },
-    },
-  }
+  // Stagger panel animations on mount
+  useEffect(() => {
+    const panelElements = panelRefs.current.filter(Boolean)
+    panelElements.forEach((panel, index) => {
+      if (panel) {
+        panel.style.animationDelay = `${index * 0.26}s`
+        panel.classList.add('pf-wizard__panel--animated')
+      }
+    })
+  }, [])
 
   return (
-    <motion.div
-      className="pf-wizard"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      data-animation-id="modal-orchestration__wizard-fade-cross"
-    >
+    <div className="pf-wizard" data-animation-id="modal-orchestration__wizard-fade-cross">
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div key={index} className="pf-wizard__panel" variants={panelVariants}>
+          <div
+            key={index}
+            ref={(el) => (panelRefs.current[index] = el)}
+            className="pf-wizard__panel"
+          >
             <h5>Stage {index + 1}</h5>
             <p>Cross-fade content placeholder to illustrate flow animation.</p>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

@@ -1,0 +1,60 @@
+import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useState } from 'react'
+import './TimerEffectsTimerFlash.css'
+
+export function TimerEffectsTimerFlash() {
+  const [seconds, setSeconds] = useState(32)
+  const [animationKey, setAnimationKey] = useState(0)
+
+  useEffect(() => {
+    const duration = 32000
+    const startTime = Date.now()
+    let lastDisplayed = 32
+
+    const intervalId = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const remainingSeconds = Math.max(0, 32 - elapsed / 1000)
+      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
+
+      if (displaySeconds !== lastDisplayed) {
+        setSeconds(displaySeconds)
+        lastDisplayed = displaySeconds
+      }
+
+      if (progress >= 1) {
+        clearInterval(intervalId)
+        // Auto-restart after a brief pause
+        setTimeout(() => {
+          setSeconds(32)
+          setAnimationKey((prev) => prev + 1)
+        }, 2000)
+      }
+    }, 100)
+
+    return () => clearInterval(intervalId)
+  }, [animationKey])
+
+  const formatTime = (totalSeconds: number) => {
+    const minutes = Math.floor(totalSeconds / 60)
+    const secs = totalSeconds % 60
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }
+
+  return (
+    <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
+      <div className="pf-timer-flash__pill">
+        <span className="pf-timer-flash__glow" aria-hidden="true" />
+        <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
+      </div>
+      <span className="pf-timer-flash__label">Flash Expire</span>
+    </div>
+  )
+}
+
+export const metadata = {
+  id: 'timer-effects__timer-flash',
+  title: 'Flash Expire',
+  description: 'Timer with color transition from yellow to red and increasing pulse urgency.',
+  tags: ['css'],
+} satisfies AnimationMetadata

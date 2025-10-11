@@ -1,10 +1,9 @@
 /**
  * Standalone: Copy this file into your app.
- * Runtime deps: react, framer-motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * Runtime deps: react
+ * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbJump.css'
 
@@ -18,23 +17,13 @@ export function TextEffectsVerbJump() {
     <div className="verbJump" data-animation-id="text-effects__verb-jumping" aria-label={text}>
       <div className="verbJump__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <span
             key={i}
             className="verbJump__char"
-            initial={{ y: 0, scaleY: 1 }}
-            animate={{
-              y: [0, -10, 0, -4, 0],
-              scaleY: [1, 0.96, 1.02, 0.98, 1]
-            }}
-            transition={{
-              duration: 1.6,
-              delay: i * STEP_DELAY,
-              ease: 'easeInOut',
-              times: [0, 0.2, 0.4, 0.6, 1],
-            }}
+            style={{ animationDelay: `${i * STEP_DELAY}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </span>
         ))}
       </div>
     </div>
@@ -45,7 +34,7 @@ export const metadata = {
   id: 'text-effects__verb-jumping',
   title: 'Jumping',
   description: 'Playful jump cadence with squash and stretch per letter.',
-  tags: ['framer']
+  tags: ['css']
 } satisfies AnimationMetadata
 
 export default TextEffectsVerbJump

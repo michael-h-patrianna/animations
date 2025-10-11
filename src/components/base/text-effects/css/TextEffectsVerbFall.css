@@ -1,4 +1,4 @@
-/* Falling text effect (no background) - Framer Motion version */
+/* Falling text effect - Pure CSS version */
 .verbFall {
   display: flex;
   align-items: center;
@@ -18,4 +18,24 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center bottom;
+  animation: verbFall 1.6s ease-in-out both;
+}
+
+@keyframes verbFall {
+  0% {
+    transform: translateY(-12px) scaleY(0.96);
+    opacity: 0.9;
+  }
+  30% {
+    transform: translateY(0) scaleY(1.02);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(4px) scaleY(0.98);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
 }

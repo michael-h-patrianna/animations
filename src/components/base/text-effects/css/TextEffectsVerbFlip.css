@@ -1,10 +1,11 @@
-/* Flipping text effect (no background) - Framer Motion version */
+/* Flipping text effect - Pure CSS version */
 .verbFlip {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
   padding: 20px;
+  perspective: 600px;
 }
 .verbFlip__line {
   display: inline-flex;
@@ -19,4 +20,20 @@
   letter-spacing: 0.02em;
   transform-origin: center;
   backface-visibility: hidden;
+  animation: verbFlip 1.8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+.verbFlip__char--delayed {
+  animation-delay: 0.1s;
+}
+
+@keyframes verbFlip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  30% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
 }

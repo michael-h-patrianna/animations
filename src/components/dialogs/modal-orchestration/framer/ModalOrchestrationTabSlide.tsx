@@ -1,5 +1,13 @@
 import { motion } from 'framer-motion'
+import type { AnimationMetadata } from '@/types/animation'
 import './ModalOrchestrationTabSlide.css'
+
+export const metadata: AnimationMetadata = {
+  id: 'modal-orchestration__tab-slide',
+  title: 'Tab Slide',
+  description: 'Tab navigation with sliding panel transitions',
+  tags: ['tabs', 'slide', 'navigation', 'panel'],
+}
 
 export function ModalOrchestrationTabSlide() {
   const tabs = 3

@@ -1,4 +1,3 @@
-import { motion, type Variants } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsWaveReveal.css'
 
@@ -9,70 +8,32 @@ export function TextEffectsWaveReveal() {
     { text: 'colors', color: '#FFD700' }, // Gold
   ]
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.4, // Increased to stagger lines more
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const lineVariants: Variants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  }
-
-  const letterVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 80,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'tween',
-        ease: 'easeOut',
-        duration: 0.5,
-      },
-    },
-  }
-
   return (
     <div className="wave-reveal-container" data-animation-id="text-effects__wave-reveal">
-      <motion.div
-        className="wave-reveal-wrapper"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      <div className="wave-reveal-wrapper">
         {lines.map((line, lineIndex) => (
-          <motion.div
+          <div
             key={lineIndex}
             className="wave-reveal-line"
-            style={{ color: line.color }}
-            variants={lineVariants}
+            style={{
+              color: line.color,
+              animationDelay: `${0.2 + lineIndex * 0.4}s`
+            }}
           >
             {line.text.split('').map((char, charIndex) => (
-              <motion.span
+              <span
                 key={`${lineIndex}-${charIndex}`}
                 className="wave-reveal-char"
-                variants={letterVariants}
+                style={{
+                  animationDelay: `${0.2 + lineIndex * 0.4 + charIndex * 0.05}s`
+                }}
               >
                 {char === ' ' ? '\u00A0' : char}
-              </motion.span>
+              </span>
             ))}
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -81,6 +42,6 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__wave-reveal',
   title: 'Wave Reveal',
   description: 'Staggered wave animation where text appears from bottom with smooth easing.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }

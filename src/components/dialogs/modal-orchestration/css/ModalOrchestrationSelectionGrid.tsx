@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationSelectionGrid.css'
 
@@ -6,54 +6,35 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__selection-grid',
   title: 'Grid Tile Cascade',
   description: 'Cascading animation across a grid of selection tiles',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationSelectionGrid() {
   const items = 6
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
-      },
-    },
-  }
-
-  const itemVariants = {
-    initial: {
-      y: 16,
-      opacity: 0,
-    },
-    animate: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.21, // 420ms * 0.5 (grid-cascade uses default pattern)
-        ease: [0.25, 0.46, 0.45, 0.94] as const, // entrance easing
-      },
-    },
-  }
+  // Stagger item animations on mount
+  useEffect(() => {
+    const itemElements = itemRefs.current.filter(Boolean)
+    itemElements.forEach((item, index) => {
+      if (item) {
+        item.style.animationDelay = `${index * 0.26}s`
+        item.classList.add('pf-grid__item--animated')
+      }
+    })
+  }, [])
 
   return (
-    <motion.div
-      className="pf-grid"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      data-animation-id="modal-orchestration__selection-grid"
-    >
+    <div className="pf-grid" data-animation-id="modal-orchestration__selection-grid">
       {Array.from({ length: items }, (_, index) => (
-        <motion.div key={index} className="pf-grid__item" variants={itemVariants}>
+        <div key={index} ref={(el) => (itemRefs.current[index] = el)} className="pf-grid__item">
           <div>
             <strong>Option {index + 1}</strong>
             <br />
             Select item
           </div>
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   )
 }

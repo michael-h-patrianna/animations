@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationWizardScaleRotate.css'
 
@@ -6,86 +6,61 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__wizard-scale-rotate',
   title: 'Step Tiles Scale',
   description: 'Multi-step wizard with scaling step tiles and rotating content panels',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationWizardScaleRotate() {
   const steps = 3
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([])
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
-      },
-    },
-  }
+  // Stagger animations on mount
+  useEffect(() => {
+    // Animate steps
+    const stepElements = stepRefs.current.filter(Boolean)
+    stepElements.forEach((step, index) => {
+      if (step) {
+        step.style.animationDelay = `${index * 0.26}s`
+        step.classList.add('pf-wizard__step--animated')
+      }
+    })
 
-  const stepVariants = {
-    initial: {
-      scale: 0.9,
-      opacity: 0.3,
-    },
-    animate: {
-      scale: [0.9, 1.06, 1],
-      opacity: [0.3, 1, 1],
-      transition: {
-        duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] as const, // pop easing
-      },
-    },
-  }
-
-  const panelVariants = {
-    initial: {
-      rotate: -6,
-      scale: 0.82,
-      opacity: 0,
-    },
-    animate: {
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.312, // 520ms * 0.6
-        ease: [0.68, -0.55, 0.265, 1.55] as const, // vibrant easing
-      },
-    },
-  }
+    // Animate panels
+    const panelElements = panelRefs.current.filter(Boolean)
+    panelElements.forEach((panel, index) => {
+      if (panel) {
+        panel.style.animationDelay = `${index * 0.26}s`
+        panel.classList.add('pf-wizard__panel--animated')
+      }
+    })
+  }, [])
 
   return (
-    <motion.div
-      className="pf-wizard"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      data-animation-id="modal-orchestration__wizard-scale-rotate"
-    >
+    <div className="pf-wizard" data-animation-id="modal-orchestration__wizard-scale-rotate">
       <div className="pf-wizard__steps">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div
+          <div
             key={index}
+            ref={(el) => (stepRefs.current[index] = el)}
             className={`pf-wizard__step${index === 0 ? ' pf-wizard__step--highlighted' : ''}`}
-            variants={stepVariants}
           >
             Step {index + 1}
-          </motion.div>
+          </div>
         ))}
       </div>
 
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div
+          <div
             key={index}
+            ref={(el) => (panelRefs.current[index] = el)}
             className={`pf-wizard__panel${index === 0 ? ' pf-wizard__panel--highlighted' : ''}`}
-            variants={panelVariants}
           >
             <h5>Stage {index + 1}</h5>
             <p>Scale-rotate content placeholder to illustrate flow animation.</p>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-/* Styles scoped for TextEffectsTypewriter */
+/* Typewriter text effect - Pure CSS version */
 .typewriter-container {
   display: flex;
   align-items: center;
@@ -17,10 +17,28 @@
 
 .typewriter-char {
   display: inline-block;
+  opacity: 0;
+  animation: typewriterReveal 0s forwards;
 }
 
 .typewriter-cursor {
   display: inline-block;
   font-weight: 300;
   color: #10b981;
+  animation: cursorBlink 1s linear infinite;
+}
+
+@keyframes typewriterReveal {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  50.01%, 100% {
+    opacity: 0;
+  }
 }

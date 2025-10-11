@@ -1,4 +1,4 @@
-/* Floating text effect (no background) - Framer Motion version */
+/* Floating text effect - Pure CSS version */
 .verbFloat {
   display: flex;
   align-items: center;
@@ -18,4 +18,31 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;
+  animation: verbFloat 3s ease-in-out infinite;
+}
+.verbFloat__char--delayed {
+  animation-delay: 0.15s;
+}
+
+@keyframes verbFloat {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
+  75% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

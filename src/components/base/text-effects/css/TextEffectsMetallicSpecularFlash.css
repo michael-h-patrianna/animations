@@ -1,10 +1,11 @@
-/* Standalone CSS for TextEffectsMetallicSpecularFlash */
+/* Metallic Specular Flash - Pure CSS version */
 .studioLogo-MetallicSpecularFlash {
   --msf-baseColor: #e8e4da;
   --msf-highlightColor: #ffffff;
   --msf-shadowColor: #b6b1a6;
   display: inline-flex;
   align-items: baseline;
+  animation: metallicContainer 1s cubic-bezier(0.2, 0, 0, 1) both;
 }
 
 .studioLogo-MetallicSpecularFlash__line {
@@ -19,4 +20,47 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;
+  animation: metallicLetter 0.42s ease-in-out both;
+}
+
+@keyframes metallicContainer {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.995);
+  }
+  14% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  55% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes metallicLetter {
+  0% {
+    opacity: 0;
+    color: var(--msf-baseColor);
+    transform: skewX(0deg) scaleX(1);
+  }
+  25% {
+    opacity: 1;
+    color: var(--msf-highlightColor);
+    transform: skewX(4deg) scaleX(1.08);
+  }
+  55% {
+    color: var(--msf-shadowColor);
+    transform: skewX(-1deg) scaleX(0.995);
+  }
+  100% {
+    opacity: 1;
+    color: var(--msf-baseColor);
+    transform: skewX(0deg) scaleX(1);
+  }
 }

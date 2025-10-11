@@ -15,4 +15,18 @@
   position: absolute;
   inset: 0;
   opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Create ring effect with border instead of radial gradient (RN compatible) */
+.pf-surge-lines-outer {
+  border: 6px solid #ffce1a;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.pf-surge-lines-inner {
+  border: 5px solid #ffce1a;
+  border-radius: 50%;
+  box-sizing: border-box;
 }

@@ -1,4 +1,4 @@
-/* Jogging text effect (no background) - Framer Motion version */
+/* Jogging text effect - Pure CSS version */
 .verbJog {
   display: flex;
   align-items: center;
@@ -18,4 +18,26 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center bottom;
+  animation: verbJog 1.2s ease-in-out infinite;
+}
+.verbJog__char--delayed {
+  animation-delay: 0.15s;
+}
+
+@keyframes verbJog {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-6px) rotate(-4deg);
+  }
+  40% {
+    transform: translateY(0) rotate(2deg);
+  }
+  60% {
+    transform: translateY(-2px) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
 }

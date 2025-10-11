@@ -30,6 +30,7 @@
   border-left: 2px solid transparent;
   width: 100%;
   box-sizing: border-box;
+  will-change: transform, opacity;
 }
 .pf-realtime-data__stack-row.active {
   border-left-color: #06b6d4;
@@ -44,4 +45,5 @@
   color: #06b6d4;
   font-weight: 600;
   font-size: 0.875rem;
+  will-change: color;
 }

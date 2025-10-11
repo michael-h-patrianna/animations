@@ -1,4 +1,4 @@
-/* Twirling text effect (no background) - Framer Motion version */
+/* Twirling text effect - Pure CSS version */
 .verbTwirl {
   display: flex;
   align-items: center;
@@ -18,4 +18,23 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;
+  animation: verbTwirl 1.8s ease-in-out both;
+}
+
+@keyframes verbTwirl {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+  }
+  75% {
+    transform: rotate(270deg) scale(0.98);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
 }

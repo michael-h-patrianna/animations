@@ -39,12 +39,24 @@ const TimerEffectsPillCountdownHeartbeat = lazy(() =>
     default: m.TimerEffectsPillCountdownHeartbeat,
   }))
 )
+const TimerEffectsPillCountdownMedium = lazy(() =>
+  import('./framer/TimerEffectsPillCountdownMedium').then((m) => ({
+    default: m.TimerEffectsPillCountdownMedium,
+  }))
+)
+const TimerEffectsPillCountdownSoft = lazy(() =>
+  import('./framer/TimerEffectsPillCountdownSoft').then((m) => ({
+    default: m.TimerEffectsPillCountdownSoft,
+  }))
+)
 
 // Import metadata directly (not lazy-loaded since metadata is needed immediately)
 import { timerEffectsPillCountdownExtremeMetadata } from './framer/TimerEffectsPillCountdownExtreme.metadata'
 import { timerEffectsPillCountdownGlitchMetadata } from './framer/TimerEffectsPillCountdownGlitch.metadata'
 import { timerEffectsPillCountdownHeartbeatMetadata } from './framer/TimerEffectsPillCountdownHeartbeat.metadata'
 import { timerEffectsPillCountdownStrongMetadata } from './framer/TimerEffectsPillCountdownStrong.metadata'
+import { metadata as timerEffectsPillCountdownMediumMetadata } from './framer/TimerEffectsPillCountdownMedium'
+import { metadata as timerEffectsPillCountdownSoftMetadata } from './framer/TimerEffectsPillCountdownSoft'
 import { timerEffectsTimerColorShiftMetadata } from './framer/TimerEffectsTimerColorShift.metadata'
 import { timerEffectsTimerFlashMetadata } from './framer/TimerEffectsTimerFlash.metadata'
 import { timerEffectsTimerFlashSoftMetadata } from './framer/TimerEffectsTimerFlashSoft.metadata'
@@ -52,6 +64,50 @@ import { timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.me
 import { timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.metadata'
 
 // CSS animations
+import {
+  TimerEffectsTimerColorShift as CssTimerEffectsTimerColorShift,
+  metadata as timerColorShiftCssMetadata,
+} from './css/TimerEffectsTimerColorShift'
+import {
+  TimerEffectsTimerFlash as CssTimerEffectsTimerFlash,
+  metadata as timerFlashCssMetadata,
+} from './css/TimerEffectsTimerFlash'
+import {
+  TimerEffectsTimerFlashSoft as CssTimerEffectsTimerFlashSoft,
+  metadata as timerFlashSoftCssMetadata,
+} from './css/TimerEffectsTimerFlashSoft'
+import {
+  TimerEffectsTimerFlip as CssTimerEffectsTimerFlip,
+  metadata as timerFlipCssMetadata,
+} from './css/TimerEffectsTimerFlip'
+import {
+  TimerEffectsTimerPulse as CssTimerEffectsTimerPulse,
+  metadata as timerPulseCssMetadata,
+} from './css/TimerEffectsTimerPulse'
+import {
+  TimerEffectsPillCountdownStrong as CssTimerEffectsPillCountdownStrong,
+  metadata as pillCountdownStrongCssMetadata,
+} from './css/TimerEffectsPillCountdownStrong'
+import {
+  TimerEffectsPillCountdownExtreme as CssTimerEffectsPillCountdownExtreme,
+  metadata as pillCountdownExtremeCssMetadata,
+} from './css/TimerEffectsPillCountdownExtreme'
+import {
+  TimerEffectsPillCountdownGlitch as CssTimerEffectsPillCountdownGlitch,
+  metadata as pillCountdownGlitchCssMetadata,
+} from './css/TimerEffectsPillCountdownGlitch'
+import {
+  TimerEffectsPillCountdownHeartbeat as CssTimerEffectsPillCountdownHeartbeat,
+  metadata as pillCountdownHeartbeatCssMetadata,
+} from './css/TimerEffectsPillCountdownHeartbeat'
+import {
+  TimerEffectsPillCountdownMedium as CssTimerEffectsPillCountdownMedium,
+  metadata as pillCountdownMediumCssMetadata,
+} from './css/TimerEffectsPillCountdownMedium'
+import {
+  TimerEffectsPillCountdownSoft as CssTimerEffectsPillCountdownSoft,
+  metadata as pillCountdownSoftCssMetadata,
+} from './css/TimerEffectsPillCountdownSoft'
 
 export const groupMetadata: GroupMetadata = {
   id: 'timer-effects',
@@ -99,6 +155,59 @@ export const groupExport: GroupExport = {
       component: TimerEffectsPillCountdownHeartbeat,
       metadata: timerEffectsPillCountdownHeartbeatMetadata,
     },
+    'timer-effects__pill-countdown-soft': {
+      component: TimerEffectsPillCountdownSoft,
+      metadata: timerEffectsPillCountdownSoftMetadata,
+    },
+    'timer-effects__pill-countdown-medium': {
+      component: TimerEffectsPillCountdownMedium,
+      metadata: timerEffectsPillCountdownMediumMetadata,
+    },
   },
-  css: {},
+  css: {
+    'timer-effects__timer-color-shift': {
+      component: CssTimerEffectsTimerColorShift,
+      metadata: timerColorShiftCssMetadata,
+    },
+    'timer-effects__timer-pulse': {
+      component: CssTimerEffectsTimerPulse,
+      metadata: timerPulseCssMetadata,
+    },
+    'timer-effects__timer-flash': {
+      component: CssTimerEffectsTimerFlash,
+      metadata: timerFlashCssMetadata,
+    },
+    'timer-effects__timer-flash-soft': {
+      component: CssTimerEffectsTimerFlashSoft,
+      metadata: timerFlashSoftCssMetadata,
+    },
+    'timer-effects__timer-flip': {
+      component: CssTimerEffectsTimerFlip,
+      metadata: timerFlipCssMetadata,
+    },
+    'timer-effects__pill-countdown-soft': {
+      component: CssTimerEffectsPillCountdownSoft,
+      metadata: pillCountdownSoftCssMetadata,
+    },
+    'timer-effects__pill-countdown-medium': {
+      component: CssTimerEffectsPillCountdownMedium,
+      metadata: pillCountdownMediumCssMetadata,
+    },
+    'timer-effects__pill-countdown-strong': {
+      component: CssTimerEffectsPillCountdownStrong,
+      metadata: pillCountdownStrongCssMetadata,
+    },
+    'timer-effects__pill-countdown-extreme': {
+      component: CssTimerEffectsPillCountdownExtreme,
+      metadata: pillCountdownExtremeCssMetadata,
+    },
+    'timer-effects__pill-countdown-glitch': {
+      component: CssTimerEffectsPillCountdownGlitch,
+      metadata: pillCountdownGlitchCssMetadata,
+    },
+    'timer-effects__pill-countdown-heartbeat': {
+      component: CssTimerEffectsPillCountdownHeartbeat,
+      metadata: pillCountdownHeartbeatCssMetadata,
+    },
+  },
 }

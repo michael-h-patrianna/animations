@@ -1,10 +1,9 @@
 /**
  * Standalone: Copy this file into your app.
- * Runtime deps: react, framer-motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * Runtime deps: react
+ * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbJog.css'
 
@@ -16,23 +15,12 @@ export function TextEffectsVerbJog() {
     <div className="verbJog" data-animation-id="text-effects__verb-jogging" aria-label={text}>
       <div className="verbJog__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <span
             key={i}
-            className="verbJog__char"
-            initial={{ y: 0, rotate: 0 }}
-            animate={{
-              y: [0, -6, 0, -2, 0],
-              rotate: [0, -4, 2, -2, 0]
-            }}
-            transition={{
-              duration: 1.2,
-              delay: i % 2 === 0 ? 0.15 : 0, // even indices get delay (alternating legs)
-              ease: 'easeInOut',
-              times: [0, 0.2, 0.4, 0.6, 1],
-            }}
+            className={`verbJog__char ${i % 2 === 0 ? 'verbJog__char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </span>
         ))}
       </div>
     </div>
@@ -43,7 +31,7 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__verb-jogging',
   title: 'Jogging',
   description: 'Energetic jog rhythm alternating between letters.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }
 

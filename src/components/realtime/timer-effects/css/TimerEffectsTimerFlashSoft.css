@@ -1,0 +1,110 @@
+/* CSS-only Timer Flash Soft Animation */
+
+.pf-timer-flash-soft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  font-family: 'Lato', sans-serif;
+}
+
+.pf-timer-flash-soft__pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 50px;
+  background-color: #ffc107;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  min-width: 60px;
+  min-height: 30px;
+  position: relative;
+  will-change: transform, background-color;
+  animation: timer-flash-soft-pill 32s linear forwards, timer-flash-soft-shake 0.6s ease-out;
+}
+
+.pf-timer-flash-soft__glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background-color: rgba(255, 193, 7, 0.35);
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  z-index: -1;
+  animation: timer-flash-soft-glow 0.6s ease-out;
+}
+
+.pf-timer-flash-soft__time {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.8);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.pf-timer-flash-soft__label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* Background color transition from yellow to red */
+@keyframes timer-flash-soft-pill {
+  0% {
+    background-color: #ffc107;
+  }
+  6.25% {
+    background-color: #ffc107;
+  }
+  100% {
+    background-color: #dc3545;
+  }
+}
+
+/* Shake animation (triggered every 10 seconds via key change) */
+@keyframes timer-flash-soft-shake {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  12.5% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  25% {
+    transform: translateX(4px) rotate(1deg);
+  }
+  37.5% {
+    transform: translateX(-3px) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateX(3px) rotate(0.5deg);
+  }
+  62.5% {
+    transform: translateX(-2px) rotate(0deg);
+  }
+  75% {
+    transform: translateX(2px) rotate(0deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+/* Glow pulse animation (synced with shake) */
+@keyframes timer-flash-soft-glow {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}

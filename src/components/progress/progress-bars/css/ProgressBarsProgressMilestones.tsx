@@ -6,7 +6,7 @@ export const metadata: AnimationMetadata = {
   id: 'progress-bars__progress-milestones',
   title: 'Milestone Markers',
   description: 'Milestone markers light up as progress crosses thresholds.',
-  tags: ['js', 'css'],
+  tags: ['css'],
 }
 
 export function ProgressBarsProgressMilestones() {

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationSpringPhysics.css'
 
@@ -6,7 +6,7 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__spring-physics',
   title: 'Spring Physics Tiles',
   description: 'Elastic spring-based tile animations with gesture interactions and bounce effects',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationSpringPhysics() {
@@ -16,74 +16,39 @@ export function ModalOrchestrationSpringPhysics() {
     content: `Spring bounce effect`,
   }))
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
+  const containerRef = useRef<HTMLDivElement>(null)
+  const tileRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const tileVariants = {
-    initial: {
-      scale: 0,
-      y: -100,
-      opacity: 0,
-    },
-    animate: {
-      scale: 1,
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring' as const,
-        stiffness: 200,
-        damping: 15,
-        mass: 1.2,
-      },
-    },
-  }
+  // Stagger tile animations on mount
+  useEffect(() => {
+    const tileElements = tileRefs.current.filter(Boolean)
+    tileElements.forEach((tile, index) => {
+      if (tile) {
+        tile.style.animationDelay = `${0.2 + index * 0.1}s`
+        tile.classList.add('pf-spring-tile--animated')
+      }
+    })
+  }, [])
 
   return (
-    <motion.div
+    <div
+      ref={containerRef}
       className="pf-spring-container"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
       data-animation-id="modal-orchestration__spring-physics"
     >
       <div className="pf-spring-grid">
         {tiles.map((tile) => (
-          <motion.div
+          <div
             key={tile.id}
+            ref={(el) => (tileRefs.current[tile.id] = el)}
             className="pf-spring-tile"
-            variants={tileVariants}
-            whileHover={{
-              scale: 1.05,
-              y: -8,
-              transition: {
-                type: 'spring' as const,
-                stiffness: 400,
-                damping: 20,
-                mass: 0.8,
-              },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: {
-                type: 'spring' as const,
-                stiffness: 600,
-                damping: 25,
-              },
-            }}
           >
             <h5>{tile.title}</h5>
             <p>{tile.content}</p>
             <div className="pf-spring-indicator">⚡</div>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

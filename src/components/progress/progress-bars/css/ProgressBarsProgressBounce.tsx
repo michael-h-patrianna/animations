@@ -6,7 +6,7 @@ export const metadata: AnimationMetadata = {
   id: 'progress-bars__progress-bounce',
   title: 'Grow up',
   description: 'Elastic finish emphasises completion state.',
-  tags: ['js', 'css'],
+  tags: ['css'],
 }
 
 export function ProgressBarsProgressBounce() {

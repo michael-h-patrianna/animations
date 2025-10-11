@@ -51,6 +51,76 @@ import {
   metadata as zoomElasticMetadata,
 } from './framer/ModalBaseZoomElastic'
 
+import {
+  ModalBaseShatterAssemble as ModalBaseShatterAssembleCSS,
+  metadata as shatterAssembleCSSMetadata,
+} from './css/ModalBaseShatterAssemble'
+
+import {
+  ModalBaseSlideDownSoft as ModalBaseSlideDownSoftCSS,
+  metadata as slideDownSoftCSSMetadata,
+} from './css/ModalBaseSlideDownSoft'
+
+import {
+  ModalBaseSlideLeftDrift as ModalBaseSlideLeftDriftCSS,
+  metadata as slideLeftDriftCSSMetadata,
+} from './css/ModalBaseSlideLeftDrift'
+
+import {
+  ModalBaseSlideRightDrift as ModalBaseSlideRightDriftCSS,
+  metadata as slideRightDriftCSSMetadata,
+} from './css/ModalBaseSlideRightDrift'
+
+import {
+  ModalBaseScaleGentlePop as ModalBaseScaleGentlePopCSS,
+  metadata as scaleGentlePopCSSMetadata,
+} from './css/ModalBaseScaleGentlePop'
+
+import {
+  ModalBaseSlideUpSoft as ModalBaseSlideUpSoftCSS,
+  metadata as slideUpSoftCSSMetadata,
+} from './css/ModalBaseSlideUpSoft'
+
+import {
+  ModalBaseFlip3d as ModalBaseFlip3dCSS,
+  metadata as flip3dCSSMetadata,
+} from './css/ModalBaseFlip3d'
+
+import {
+  ModalBaseGlitchDigital as ModalBaseGlitchDigitalCSS,
+  metadata as glitchDigitalCSSMetadata,
+} from './css/ModalBaseGlitchDigital'
+
+import {
+  ModalBasePortalSwirl as ModalBasePortalSwirlCSS,
+  metadata as portalSwirlCSSMetadata,
+} from './css/ModalBasePortalSwirl'
+
+import {
+  ModalBaseTvTurnOn as ModalBaseTvTurnOnCSS,
+  metadata as tvTurnOnCSSMetadata,
+} from './css/ModalBaseTvTurnOn'
+
+import {
+  ModalBaseUnfoldOrigami as ModalBaseUnfoldOrigamiCSS,
+  metadata as unfoldOrigamiCSSMetadata,
+} from './css/ModalBaseUnfoldOrigami'
+
+import {
+  ModalBaseRippleExpand as ModalBaseRippleExpandCSS,
+  metadata as rippleExpandCSSMetadata,
+} from './css/ModalBaseRippleExpand'
+
+import {
+  ModalBaseZoomElastic as ModalBaseZoomElasticCSS,
+  metadata as zoomElasticCSSMetadata,
+} from './css/ModalBaseZoomElastic'
+
+import {
+  ModalBaseSpringBounce as ModalBaseSpringBounceCSS,
+  metadata as springBounceCSSMetadata,
+} from './css/ModalBaseSpringBounce'
+
 export const groupMetadata: GroupMetadata = {
   id: 'modal-base',
   title: 'Base modal animations',
@@ -118,5 +188,62 @@ export const groupExport: GroupExport = {
       metadata: zoomElasticMetadata,
     },
   },
-  css: {},
+  css: {
+    'modal-base__shatter-assemble': {
+      component: ModalBaseShatterAssembleCSS,
+      metadata: shatterAssembleCSSMetadata,
+    },
+    'modal-base__slide-down-soft': {
+      component: ModalBaseSlideDownSoftCSS,
+      metadata: slideDownSoftCSSMetadata,
+    },
+    'modal-base__slide-left-drift': {
+      component: ModalBaseSlideLeftDriftCSS,
+      metadata: slideLeftDriftCSSMetadata,
+    },
+    'modal-base__slide-right-drift': {
+      component: ModalBaseSlideRightDriftCSS,
+      metadata: slideRightDriftCSSMetadata,
+    },
+    'modal-base__scale-gentle-pop': {
+      component: ModalBaseScaleGentlePopCSS,
+      metadata: scaleGentlePopCSSMetadata,
+    },
+    'modal-base__slide-up-soft': {
+      component: ModalBaseSlideUpSoftCSS,
+      metadata: slideUpSoftCSSMetadata,
+    },
+    'modal-base__flip-3d': {
+      component: ModalBaseFlip3dCSS,
+      metadata: flip3dCSSMetadata,
+    },
+    'modal-base__glitch-digital': {
+      component: ModalBaseGlitchDigitalCSS,
+      metadata: glitchDigitalCSSMetadata,
+    },
+    'modal-base__portal-swirl': {
+      component: ModalBasePortalSwirlCSS,
+      metadata: portalSwirlCSSMetadata,
+    },
+    'modal-base__tv-turn-on': {
+      component: ModalBaseTvTurnOnCSS,
+      metadata: tvTurnOnCSSMetadata,
+    },
+    'modal-base__unfold-origami': {
+      component: ModalBaseUnfoldOrigamiCSS,
+      metadata: unfoldOrigamiCSSMetadata,
+    },
+    'modal-base__ripple-expand': {
+      component: ModalBaseRippleExpandCSS,
+      metadata: rippleExpandCSSMetadata,
+    },
+    'modal-base__zoom-elastic': {
+      component: ModalBaseZoomElasticCSS,
+      metadata: zoomElasticCSSMetadata,
+    },
+    'modal-base__spring-bounce': {
+      component: ModalBaseSpringBounceCSS,
+      metadata: springBounceCSSMetadata,
+    },
+  },
 }

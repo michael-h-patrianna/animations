@@ -52,6 +52,18 @@ import {
   metadata as wizardSlideStackCssMetadata,
 } from './css/ModalOrchestrationWizardSlideStack'
 import {
+  ModalOrchestrationGridHighlight as CssModalOrchestrationGridHighlight,
+  metadata as gridHighlightCssMetadata,
+} from './css/ModalOrchestrationGridHighlight'
+import {
+  ModalOrchestrationMultiStepProgressive as CssModalOrchestrationMultiStepProgressive,
+  metadata as multiStepProgressiveCssMetadata,
+} from './css/ModalOrchestrationMultiStepProgressive'
+import {
+  ModalOrchestrationTabSlide as CssModalOrchestrationTabSlide,
+  metadata as tabSlideCssMetadata,
+} from './css/ModalOrchestrationTabSlide'
+import {
   ModalOrchestrationWizardFadeCross,
   metadata as wizardFadeCrossMetadata,
 } from './framer/ModalOrchestrationWizardFadeCross'
@@ -79,6 +91,18 @@ import {
   ModalOrchestrationFlipReveal,
   metadata as flipRevealMetadata,
 } from './framer/ModalOrchestrationFlipReveal'
+import {
+  ModalOrchestrationGridHighlight,
+  metadata as gridHighlightMetadata,
+} from './framer/ModalOrchestrationGridHighlight'
+import {
+  ModalOrchestrationMultiStepProgressive,
+  metadata as multiStepProgressiveMetadata,
+} from './framer/ModalOrchestrationMultiStepProgressive'
+import {
+  ModalOrchestrationTabSlide,
+  metadata as tabSlideMetadata,
+} from './framer/ModalOrchestrationTabSlide'
 
 export const groupMetadata: GroupMetadata = {
   id: 'modal-orchestration',
@@ -130,6 +154,18 @@ export const groupExport: GroupExport = {
       component: ModalOrchestrationFlipReveal,
       metadata: flipRevealMetadata,
     },
+    'modal-orchestration__grid-highlight': {
+      component: ModalOrchestrationGridHighlight,
+      metadata: gridHighlightMetadata,
+    },
+    'modal-orchestration__multi-step-progressive': {
+      component: ModalOrchestrationMultiStepProgressive,
+      metadata: multiStepProgressiveMetadata,
+    },
+    'modal-orchestration__tab-slide': {
+      component: ModalOrchestrationTabSlide,
+      metadata: tabSlideMetadata,
+    },
   },
   css: {
     'modal-orchestration__wizard-slide-stack': {
@@ -171,6 +207,18 @@ export const groupExport: GroupExport = {
     'modal-orchestration__flip-reveal': {
       component: CssModalOrchestrationFlipReveal,
       metadata: flipRevealCssMetadata,
+    },
+    'modal-orchestration__grid-highlight': {
+      component: CssModalOrchestrationGridHighlight,
+      metadata: gridHighlightCssMetadata,
+    },
+    'modal-orchestration__multi-step-progressive': {
+      component: CssModalOrchestrationMultiStepProgressive,
+      metadata: multiStepProgressiveCssMetadata,
+    },
+    'modal-orchestration__tab-slide': {
+      component: CssModalOrchestrationTabSlide,
+      metadata: tabSlideCssMetadata,
     },
   },
 }

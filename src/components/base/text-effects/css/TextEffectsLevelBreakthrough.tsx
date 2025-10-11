@@ -1,125 +1,105 @@
-import { motion, useAnimation } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsLevelBreakthrough.css'
 
 export function TextEffectsLevelBreakthrough() {
-  const levelControls = useAnimation()
-  const surge1Controls = useAnimation()
-  const surge2Controls = useAnimation()
   const levelRef = useRef<HTMLDivElement>(null)
-  const mountedRef = useRef(true)
-  const timersRef = useRef<Array<ReturnType<typeof setTimeout>>>([])
+  const surge1Ref = useRef<HTMLDivElement>(null)
+  const surge2Ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    mountedRef.current = true
-    const animateBreakthrough = async () => {
-      // Reset initial state
-      if (levelRef.current) {
-        levelRef.current.textContent = 'LEVEL 1'
-        levelRef.current.style.textShadow = ''
+    const level = levelRef.current
+    const surge1 = surge1Ref.current
+    const surge2 = surge2Ref.current
+
+    if (!level || !surge1 || !surge2) return
+
+    // Reset initial state
+    level.textContent = 'LEVEL 1'
+    level.style.textShadow = ''
+
+    // Level shake and breakthrough animation
+    const levelAnimation = level.animate(
+      [
+        { transform: 'scale(1) rotate(0deg)' },
+        { transform: 'scale(0.9) rotate(-2deg)' },
+        { transform: 'scale(0.9) rotate(2deg)' },
+        { transform: 'scale(0.9) rotate(-2deg)' },
+        { transform: 'scale(1.5) rotate(0deg)' },
+        { transform: 'scale(1) rotate(0deg)' },
+      ],
+      {
+        duration: 1000,
+        easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        fill: 'forwards',
       }
+    )
 
-      // Reset surge controls to initial state
-      surge1Controls.set({ opacity: 0, scale: 0.5 })
-      surge2Controls.set({ opacity: 0, scale: 0.5 })
-
-      // Shake and breakthrough effect - faster timing
-      if (mountedRef.current) {
-        levelControls.start({
-          scale: [1, 0.9, 0.9, 0.9, 1.5, 1],
-          rotate: [0, -2, 2, -2, 0, 0],
-          transition: {
-            duration: 1,
-            ease: [0.68, -0.55, 0.265, 1.55],
-            times: [0, 0.1, 0.2, 0.3, 0.5, 1],
-          },
-        })
+    // First surge ring animation
+    const surge1Animation = surge1.animate(
+      [
+        { opacity: 0, transform: 'scale(0.5)' },
+        { opacity: 1, transform: 'scale(1.5)' },
+        { opacity: 0, transform: 'scale(2)' },
+      ],
+      {
+        duration: 800,
+        easing: 'ease-out',
+        fill: 'forwards',
       }
+    )
 
-      // First surge ring - immediate start (single pulse)
-      if (mountedRef.current) {
-        surge1Controls.start({
-          opacity: [0, 1, 0],
-          scale: [0.5, 1.5, 2],
-          transition: {
-            duration: 0.8,
-            ease: 'easeOut',
-            times: [0, 0.5, 1],
-          },
-        })
+    // Second surge ring animation with slight delay
+    const surge2Animation = surge2.animate(
+      [
+        { opacity: 0, transform: 'scale(0.5)' },
+        { opacity: 1, transform: 'scale(1.5)' },
+        { opacity: 0, transform: 'scale(2)' },
+      ],
+      {
+        duration: 800,
+        delay: 100,
+        easing: 'ease-out',
+        fill: 'forwards',
       }
+    )
 
-      // Second surge ring - short staggered delay (single pulse)
-      timersRef.current.push(
-        setTimeout(() => {
-          if (!mountedRef.current) return
-          surge2Controls.start({
-            opacity: [0, 1, 0],
-            scale: [0.5, 1.5, 2],
-            transition: {
-              duration: 0.8,
-              ease: 'easeOut',
-              times: [0, 0.5, 1],
-            },
-          })
-        }, 100)
-      ) // Shorter stagger - just 100ms
-
-      // Change level text and add glow - after breakthrough peaks
-      timersRef.current.push(
-        setTimeout(() => {
-          if (!mountedRef.current) return
-          if (levelRef.current) {
-            levelRef.current.textContent = 'LEVEL 2'
-            levelRef.current.style.textShadow = '0 0 30px rgba(255, 206, 26, 0.8)'
-          }
-        }, 600)
-      ) // After the visual climax at 500ms
-    }
-
-    animateBreakthrough()
+    // Change level text and add glow after breakthrough peaks
+    const changeTextTimer = setTimeout(() => {
+      if (level) {
+        level.textContent = 'LEVEL 2'
+        level.style.textShadow = '0 0 30px rgba(255, 206, 26, 0.8)'
+      }
+    }, 600)
 
     return () => {
-      mountedRef.current = false
-      timersRef.current.forEach(clearTimeout)
-      timersRef.current = []
-      levelControls.stop()
-      surge1Controls.stop()
-      surge2Controls.stop()
+      clearTimeout(changeTextTimer)
+      levelAnimation.cancel()
+      surge1Animation.cancel()
+      surge2Animation.cancel()
     }
-  }, [levelControls, surge1Controls, surge2Controls])
+  }, [])
 
   return (
     <div className="pf-breakthrough-container" data-animation-id="text-effects__level-breakthrough">
       {/* First surge ring - outer ring with 4-6px thick bands */}
-      <motion.div
-        className="pf-surge-lines"
-        animate={surge1Controls}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(circle, transparent 75%, #ffce1a 76%, transparent 82%)',
-          opacity: 0,
-        }}
+      <div
+        ref={surge1Ref}
+        className="pf-surge-lines pf-surge-lines-outer"
+        style={{ opacity: 0 }}
       />
 
       {/* Second surge ring - inner ring with 4-6px thick bands */}
-      <motion.div
-        className="pf-surge-lines"
-        animate={surge2Controls}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(circle, transparent 65%, #ffce1a 66%, transparent 72%)',
-          opacity: 0,
-        }}
+      <div
+        ref={surge2Ref}
+        className="pf-surge-lines pf-surge-lines-inner"
+        style={{ opacity: 0 }}
       />
 
       {/* Level display */}
-      <motion.div ref={levelRef} className="pf-level-breakthrough" animate={levelControls}>
+      <div ref={levelRef} className="pf-level-breakthrough">
         LEVEL 1
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -128,6 +108,6 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__level-breakthrough',
   title: 'Level Breakthrough',
   description: 'Level breakthrough shakes frame with surge lines explosion effect.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }

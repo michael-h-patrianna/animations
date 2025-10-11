@@ -47,4 +47,5 @@
   color: #10b981;
   font-weight: 600;
   font-size: 0.875rem;
+  will-change: transform, color;
 }

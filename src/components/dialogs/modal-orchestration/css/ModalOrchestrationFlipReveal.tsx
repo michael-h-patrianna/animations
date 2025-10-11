@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationFlipReveal.css'
 
@@ -7,11 +6,12 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__flip-reveal',
   title: '3D Flip Reveal',
   description: 'Tiles with 3D flip transitions revealing hidden content with perspective transforms',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationFlipReveal() {
   const [flippedTiles, setFlippedTiles] = useState<Set<number>>(new Set())
+  const tileRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
@@ -33,63 +33,31 @@ export function ModalOrchestrationFlipReveal() {
     })
   }
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const tileVariants = {
-    initial: {
-      scale: 0,
-      opacity: 0,
-      rotateY: -180,
-    },
-    animate: {
-      scale: 1,
-      opacity: 1,
-      rotateY: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-      },
-    },
-  }
+  // Stagger tile entrance animations on mount
+  useEffect(() => {
+    const tileElements = tileRefs.current.filter(Boolean)
+    tileElements.forEach((tile, index) => {
+      if (tile) {
+        tile.style.animationDelay = `${0.2 + index * 0.1}s`
+        tile.classList.add('pf-flip-tile-container--animated')
+      }
+    })
+  }, [])
 
   return (
-    <motion.div
-      className="pf-flip-container"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      data-animation-id="modal-orchestration__flip-reveal"
-    >
+    <div className="pf-flip-container" data-animation-id="modal-orchestration__flip-reveal">
       <div className="pf-flip-grid">
         {tiles.map((tile) => {
           const isFlipped = flippedTiles.has(tile.id)
 
           return (
-            <motion.div
+            <div
               key={tile.id}
+              ref={(el) => (tileRefs.current[tile.id] = el)}
               className="pf-flip-tile-container"
-              variants={tileVariants}
               onClick={() => toggleFlip(tile.id)}
-              whileHover={{
-                scale: 1.05,
-                transition: { type: 'spring', stiffness: 300, damping: 25 },
-              }}
-              whileTap={{ scale: 0.95 }}
             >
-              <motion.div
-                className="pf-flip-tile"
-                animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
-                style={{ transformStyle: 'preserve-3d' }}
-              >
+              <div className={`pf-flip-tile${isFlipped ? ' pf-flip-tile--flipped' : ''}`}>
                 {/* Front Face */}
                 <div className="pf-flip-face pf-flip-front">
                   <h5>{tile.frontTitle}</h5>
@@ -103,11 +71,11 @@ export function ModalOrchestrationFlipReveal() {
                   <p>{tile.backContent}</p>
                   <div className="pf-flip-indicator">✓</div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           )
         })}
       </div>
-    </motion.div>
+    </div>
   )
 }

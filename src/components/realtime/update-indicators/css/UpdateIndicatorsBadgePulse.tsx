@@ -6,7 +6,7 @@ export const metadata: AnimationMetadata = {
   id: 'update-indicators__badge-pulse',
   title: 'Badge Pulse',
   description: 'Badge pulsates to signal unseen content.',
-  tags: ['js', 'css']
+  tags: ['css']
 }
 
 export function UpdateIndicatorsBadgePulse() {

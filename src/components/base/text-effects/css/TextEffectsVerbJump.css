@@ -1,4 +1,4 @@
-/* Jumping text effect (no background) - Framer Motion version */
+/* Jumping text effect - Pure CSS version */
 .verbJump {
   display: flex;
   align-items: center;
@@ -19,4 +19,23 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center bottom;
+  animation: verbJump 1.6s ease-in-out both;
+}
+
+@keyframes verbJump {
+  0% {
+    transform: translateY(0) scaleY(1);
+  }
+  20% {
+    transform: translateY(-10px) scaleY(0.96);
+  }
+  40% {
+    transform: translateY(0) scaleY(1.02);
+  }
+  60% {
+    transform: translateY(-4px) scaleY(0.98);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
 }

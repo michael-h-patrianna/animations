@@ -13,4 +13,31 @@
   background: rgba(236, 195, 255, 0.08);
   border: 1px solid rgba(236, 195, 255, 0.12);
   color: rgba(255, 255, 255, 0.76);
+  transform: rotate(-6deg) scale(0.82);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Pane morph entrance animation */
+@keyframes paneMorph {
+  from {
+    transform: rotate(-6deg) scale(0.82);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.pf-comparison__pane--animated {
+  animation: paneMorph 0.312s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.pf-comparison__badge {
+  margin-top: 16px;
+  padding: 8px 12px;
+  background: rgba(236, 195, 255, 0.1);
+  border-radius: 6px;
+  font-size: 12px;
 }

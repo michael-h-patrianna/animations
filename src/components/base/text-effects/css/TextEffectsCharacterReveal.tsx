@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsCharacterReveal.css'
 
@@ -6,96 +6,136 @@ export function TextEffectsCharacterReveal() {
   const text = 'ACHIEVEMENT'
   const subtitle = 'UNLOCKED'
 
+  const shadowTextRef = useRef<HTMLDivElement>(null)
+  const mainTextRef = useRef<HTMLDivElement>(null)
+  const subtitleRef = useRef<HTMLDivElement>(null)
+  const shadowCharsRef = useRef<HTMLSpanElement[]>([])
+  const mainCharsRef = useRef<HTMLSpanElement[]>([])
+
+  useEffect(() => {
+    // Shadow text container fade in
+    if (shadowTextRef.current) {
+      shadowTextRef.current.animate(
+        [
+          { opacity: 0 },
+          { opacity: 1 },
+        ],
+        {
+          delay: 200,
+          duration: 600,
+          easing: 'ease-out',
+          fill: 'forwards',
+        }
+      )
+    }
+
+    // Shadow characters - fade in with reduced opacity (blur replaced with opacity)
+    shadowCharsRef.current.forEach((char, index) => {
+      if (!char) return
+      char.animate(
+        [
+          { opacity: 0 },
+          { opacity: 0.5 }, // Reduced opacity instead of blur
+        ],
+        {
+          duration: 300,
+          delay: 300 + index * 30,
+          easing: 'ease-out',
+          fill: 'forwards',
+        }
+      )
+    })
+
+    // Main text wrapper fade in
+    if (mainTextRef.current) {
+      mainTextRef.current.animate(
+        [
+          { opacity: 0 },
+          { opacity: 1 },
+        ],
+        {
+          delay: 500,
+          duration: 300,
+          fill: 'forwards',
+        }
+      )
+    }
+
+    // Main characters animation
+    mainCharsRef.current.forEach((char, index) => {
+      if (!char) return
+      char.animate(
+        [
+          { opacity: 0, transform: 'translateY(20px) scale(0)' },
+          { opacity: 1, transform: 'translateY(0) scale(1.2)' },
+          { opacity: 1, transform: 'translateY(0) scale(1)' },
+        ],
+        {
+          duration: 400,
+          delay: 600 + index * 50,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          fill: 'forwards',
+        }
+      )
+    })
+
+    // Subtitle animation
+    if (subtitleRef.current) {
+      subtitleRef.current.animate(
+        [
+          { opacity: 0, transform: 'translateY(10px)' },
+          { opacity: 1, transform: 'translateY(0)' },
+        ],
+        {
+          duration: 500,
+          delay: 1200,
+          easing: 'ease-out',
+          fill: 'forwards',
+        }
+      )
+    }
+  }, [])
+
   return (
     <div className="character-reveal-container" data-animation-id="text-effects__character-reveal">
-      {/* Text container */}
       <div className="text-container">
-        {/* Dark shadow text that appears first */}
-        <motion.div
-          className="shadow-text"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            delay: 0.2,
-            duration: 0.6,
-            ease: 'easeOut',
-          }}
-        >
+        {/* Dark shadow text that appears first - no blur, just opacity */}
+        <div ref={shadowTextRef} className="shadow-text" style={{ opacity: 0 }}>
           {text.split('').map((char, index) => (
-            <motion.span
+            <span
               key={`shadow-${index}`}
+              ref={(el) => {
+                if (el) shadowCharsRef.current[index] = el
+              }}
               className="shadow-char"
-              initial={{
-                opacity: 0,
-                filter: 'blur(8px)',
-              }}
-              animate={{
-                opacity: 1,
-                filter: 'blur(4px)',
-              }}
-              transition={{
-                duration: 0.3,
-                delay: 0.3 + index * 0.03,
-                ease: 'easeOut',
-              }}
+              style={{ opacity: 0 }}
             >
               {char}
-            </motion.span>
+            </span>
           ))}
-        </motion.div>
+        </div>
 
         {/* Golden text that animates on top */}
-        <motion.div
-          className="text-wrapper"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-        >
+        <div ref={mainTextRef} className="text-wrapper" style={{ opacity: 0 }}>
           {text.split('').map((char, index) => (
-            <motion.span
+            <span
               key={index}
+              ref={(el) => {
+                if (el) mainCharsRef.current[index] = el
+              }}
               className="text-char"
-              initial={{
-                opacity: 0,
-                y: 20,
-                scale: 0,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                scale: [0, 1.2, 1],
-              }}
-              transition={{
-                duration: 0.4,
-                delay: 0.6 + index * 0.05,
-                ease: [0.25, 0.46, 0.45, 0.94] as const,
-              }}
+              style={{ opacity: 0 }}
             >
               {char}
-            </motion.span>
+            </span>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Subtitle text */}
-      <motion.div
-        className="subtitle-text"
-        initial={{
-          opacity: 0,
-          y: 10,
-        }}
-        animate={{
-          opacity: [0, 1],
-          y: [10, 0],
-        }}
-        transition={{
-          duration: 0.5,
-          delay: 1.2,
-          ease: 'easeOut',
-        }}
-      >
+      <div ref={subtitleRef} className="subtitle-text" style={{ opacity: 0 }}>
         {subtitle}
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -104,6 +144,6 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__character-reveal',
   title: 'Character Reveal',
   description: 'Premium text reveal with layered shadows and character scale animations for achievement moments.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }

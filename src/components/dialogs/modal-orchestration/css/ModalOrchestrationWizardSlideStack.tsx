@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationWizardSlideStack.css'
 
@@ -6,57 +6,38 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__wizard-slide-stack',
   title: 'Step Tiles Slide',
   description: 'Multi-step wizard with sliding step tiles and panel transitions',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationWizardSlideStack() {
   const steps = 3
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
-      },
-    },
-  }
-
-  // Step variants were previously defined but unused in this demo
-
-  const panelVariants = {
-    initial: {
-      x: 48,
-      scale: 0.94,
-      opacity: 0,
-    },
-    animate: {
-      x: 0,
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.312, // 520ms * 0.6
-        ease: [0.25, 0.46, 0.45, 0.94] as const, // entrance easing
-      },
-    },
-  }
+  // Stagger panel animations on mount
+  useEffect(() => {
+    const panelElements = panelRefs.current.filter(Boolean)
+    panelElements.forEach((panel, index) => {
+      if (panel) {
+        panel.style.animationDelay = `${index * 0.26}s`
+        panel.classList.add('pf-wizard__panel--animated')
+      }
+    })
+  }, [])
 
   return (
-    <motion.div
-      className="pf-wizard"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      data-animation-id="modal-orchestration__wizard-slide-stack"
-    >
+    <div className="pf-wizard" data-animation-id="modal-orchestration__wizard-slide-stack">
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div key={index} className="pf-wizard__panel" variants={panelVariants}>
+          <div
+            key={index}
+            ref={(el) => (panelRefs.current[index] = el)}
+            className="pf-wizard__panel"
+          >
             <h5>Stage {index + 1}</h5>
             <p>Guided content placeholder to illustrate flow animation.</p>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

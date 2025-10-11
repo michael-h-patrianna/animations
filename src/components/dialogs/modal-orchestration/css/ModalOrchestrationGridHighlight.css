@@ -1,0 +1,57 @@
+/* Styles scoped for ModalOrchestrationGridHighlight (CSS-only version) */
+.pf-grid-highlight {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  min-height: 360px;
+  position: relative;
+}
+
+.pf-grid-highlight__item {
+  padding: 16px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.76);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  animation: pf-grid-highlight-sweep 0.21s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+  will-change: transform, opacity;
+}
+
+.pf-grid-highlight__item--0 {
+  animation-delay: 0s;
+}
+
+.pf-grid-highlight__item--1 {
+  animation-delay: 0.26s;
+}
+
+.pf-grid-highlight__item--2 {
+  animation-delay: 0.52s;
+}
+
+.pf-grid-highlight__item--3 {
+  animation-delay: 0.78s;
+}
+
+.pf-grid-highlight__item--4 {
+  animation-delay: 1.04s;
+}
+
+@keyframes pf-grid-highlight-sweep {
+  0% {
+    transform: translateY(16px) scale(0.9);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}

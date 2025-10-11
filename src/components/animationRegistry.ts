@@ -52,17 +52,34 @@ export function buildRegistryFromCategories(codeMode: CodeMode = 'Framer') {
  * Retrieves metadata for a specific animation by its ID.
  *
  * @param animationId - The unique animation ID (e.g., 'modal-base__scale-gentle-pop')
- * @param codeMode - The code mode to search in ('Framer' or 'CSS')
+ * @param codeMode - Optional code mode to search in ('Framer' or 'CSS'). If not specified, searches both.
  * @returns The animation's metadata, or null if not found
  */
-export function getAnimationMetadata(animationId: string, codeMode: CodeMode = 'Framer') {
-  const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
+export function getAnimationMetadata(animationId: string, codeMode?: CodeMode) {
+  // If codeMode is specified, only search that mode
+  if (codeMode) {
+    const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
+    for (const cat of Object.values(categories)) {
+      for (const group of Object.values(cat.groups)) {
+        const animations = group[animationSource]
+        if (animations && animations[animationId]) {
+          return animations[animationId].metadata
+        }
+      }
+    }
+    return null
+  }
 
+  // If no codeMode specified, search both framer and css
   for (const cat of Object.values(categories)) {
     for (const group of Object.values(cat.groups)) {
-      const animations = group[animationSource]
-      if (animations && animations[animationId]) {
-        return animations[animationId].metadata
+      // Try framer first
+      if (group.framer && group.framer[animationId]) {
+        return group.framer[animationId].metadata
+      }
+      // Then try css
+      if (group.css && group.css[animationId]) {
+        return group.css[animationId].metadata
       }
     }
   }

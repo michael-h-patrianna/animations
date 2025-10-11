@@ -1,0 +1,40 @@
+/* CSS-only Shake Animation */
+.standard-effects-shake-element {
+  animation: shake-effect 0.5s ease-in-out;
+}
+
+@keyframes shake-effect {
+  0% {
+    transform: translateX(0) rotate(0deg) scaleX(1);
+  }
+  9% {
+    transform: translateX(-10px) rotate(-1deg) scaleX(0.98);
+  }
+  18% {
+    transform: translateX(10px) rotate(1deg) scaleX(0.98);
+  }
+  27% {
+    transform: translateX(-8px) rotate(-0.8deg) scaleX(0.99);
+  }
+  36% {
+    transform: translateX(8px) rotate(0.8deg) scaleX(0.99);
+  }
+  45% {
+    transform: translateX(-6px) rotate(-0.6deg) scaleX(0.995);
+  }
+  55% {
+    transform: translateX(6px) rotate(0.6deg) scaleX(0.995);
+  }
+  64% {
+    transform: translateX(-4px) rotate(-0.4deg) scaleX(1);
+  }
+  73% {
+    transform: translateX(4px) rotate(0.4deg) scaleX(1);
+  }
+  82% {
+    transform: translateX(-2px) rotate(-0.2deg) scaleX(1);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg) scaleX(1);
+  }
+}

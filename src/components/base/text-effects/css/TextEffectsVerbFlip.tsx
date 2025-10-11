@@ -1,11 +1,10 @@
 /**
  * Standalone: Copy this file into your app.
- * Runtime deps: react, framer-motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * Runtime deps: react
+ * RN parity: Pure CSS animations - port keyframes to Reanimated.
  * Note: In RN, perspective should be applied inline on the animated element.
  */
 import React from 'react'
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbFlip.css'
 
@@ -17,23 +16,12 @@ export function TextEffectsVerbFlip() {
     <div className="verbFlip" data-animation-id="text-effects__verb-flipping" aria-label={text}>
       <div className="verbFlip__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <span
             key={i}
-            className="verbFlip__char"
-            style={{ perspective: 600 }}
-            initial={{ rotateY: 0 }}
-            animate={{
-              rotateY: [0, 180, 360]
-            }}
-            transition={{
-              duration: 1.8,
-              delay: i % 2 === 1 ? 0.1 : 0, // odd indices get delay
-              ease: [0.2, 0.6, 0.2, 1],
-              times: [0, 0.3, 1],
-            }}
+            className={`verbFlip__char ${i % 2 === 1 ? 'verbFlip__char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </span>
         ))}
       </div>
     </div>
@@ -44,7 +32,7 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__verb-flipping',
   title: 'Flipping',
   description: '3D flip rotation with perspective for each character.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }
 

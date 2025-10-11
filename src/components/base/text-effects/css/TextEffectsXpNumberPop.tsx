@@ -1,12 +1,4 @@
-import {
-  animate,
-  AnimatePresence,
-  motion,
-  useAnimation,
-  useMotionValue,
-  useTransform,
-} from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsXpNumberPop.css'
 
@@ -20,130 +12,139 @@ interface Particle {
 }
 
 export function TextEffectsXpNumberPop() {
-  const glowControls = useAnimation()
-  const numberControls = useAnimation()
+  const [count, setCount] = useState(0)
   const [particles, setParticles] = useState<Particle[]>([])
-
-  // Motion value for smooth counting
-  const count = useMotionValue(0)
-  const displayValue = useTransform(count, (latest) => `+${Math.round(latest)}`)
+  const numberWrapperRef = useRef<HTMLDivElement>(null)
+  const particleRefs = useRef<Map<number, HTMLDivElement>>(new Map())
 
   useEffect(() => {
-    const animateXP = async () => {
-      // Start glow orb animation - burst and fade completely
-      glowControls.start({
-        opacity: [0, 0.8, 0.4, 0],
-        scale: [0.5, 1.2, 1, 0.8],
-        transition: {
-          duration: 2.8,
-          ease: 'easeOut',
-          times: [0, 0.3, 0.6, 1],
-        },
-      })
+    // Start counting animation
+    const startTime = performance.now()
+    const duration = 2500
+    const delay = 0
 
-      // Number pop animation
-      numberControls.start({
-        scale: [0.3, 1.15, 1],
-        y: [20, -5, 0],
-        opacity: [0, 1, 1],
-        transition: {
-          duration: 1.6,
-          ease: [0.25, 0.46, 0.45, 0.94],
-          times: [0, 0.6, 1],
-        },
-      })
+    const animateCount = (currentTime: number) => {
+      const elapsed = currentTime - startTime - delay
+      if (elapsed < 0) {
+        requestAnimationFrame(animateCount)
+        return
+      }
 
-      // Animate counting with cubic ease-out
-      animate(count, 240, {
-        duration: 2.5,
-        ease: [0, 0.65, 0.35, 1],
-      })
+      const progress = Math.min(elapsed / duration, 1)
+      // Cubic ease-out [0, 0.65, 0.35, 1]
+      const eased = 1 - Math.pow(1 - progress, 3)
 
-      // Create particles after delay
-      setTimeout(() => {
-        const newParticles: Particle[] = []
+      const newCount = Math.round(eased * 240)
+      setCount(newCount)
 
-        // Create multiple layers of particles
-        for (let layer = 0; layer < 2; layer++) {
-          for (let i = 0; i < 5; i++) {
-            const angle = (i / 5) * Math.PI * 2
-            const radius = 60 + layer * 20
-
-            newParticles.push({
-              id: layer * 5 + i,
-              x: Math.cos(angle) * radius,
-              y: Math.sin(angle) * radius,
-              value: Math.round(10 + Math.random() * 30),
-              layer,
-              delay: layer * 0.1 + i * 0.05,
-            })
-          }
-        }
-
-        setParticles(newParticles)
-
-        // Clear particles after animation
-        setTimeout(() => setParticles([]), 3000)
-      }, 400)
+      if (progress < 1) {
+        requestAnimationFrame(animateCount)
+      }
     }
 
-    animateXP()
-  }, [glowControls, numberControls, count])
+    requestAnimationFrame(animateCount)
+
+    // Number pop animation
+    if (numberWrapperRef.current) {
+      numberWrapperRef.current.animate(
+        [
+          { transform: 'scale(0.3) translateY(20px)', opacity: 0 },
+          { transform: 'scale(1.15) translateY(-5px)', opacity: 1 },
+          { transform: 'scale(1) translateY(0)', opacity: 1 },
+        ],
+        {
+          duration: 1600,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          fill: 'forwards',
+        }
+      )
+    }
+
+    // Create particles after delay
+    setTimeout(() => {
+      const newParticles: Particle[] = []
+
+      // Create multiple layers of particles
+      for (let layer = 0; layer < 2; layer++) {
+        for (let i = 0; i < 5; i++) {
+          const angle = (i / 5) * Math.PI * 2
+          const radius = 60 + layer * 20
+
+          newParticles.push({
+            id: layer * 5 + i,
+            x: Math.cos(angle) * radius,
+            y: Math.sin(angle) * radius,
+            value: Math.round(10 + Math.random() * 30),
+            layer,
+            delay: layer * 0.1 + i * 0.05,
+          })
+        }
+      }
+
+      setParticles(newParticles)
+
+      // Animate particles
+      setTimeout(() => {
+        newParticles.forEach((particle) => {
+          const el = particleRefs.current.get(particle.id)
+          if (!el) return
+
+          el.animate(
+            [
+              { opacity: 0, transform: 'translate(0, 0) scale(0)' },
+              { opacity: 1, transform: `translate(${particle.x}px, ${particle.y}px) scale(1)` },
+              { opacity: 0, transform: `translate(${particle.x * 1.5}px, ${particle.y * 1.5 - 40}px) scale(0.7)` },
+            ],
+            {
+              duration: 2600,
+              delay: particle.delay * 1000,
+              easing: 'ease-out',
+              fill: 'forwards',
+            }
+          )
+        })
+      }, 10)
+
+      // Clear particles after animation
+      setTimeout(() => setParticles([]), 3000)
+    }, 400)
+  }, [])
 
   return (
     <div className="xp-pop-container" data-animation-id="text-effects__xp-number-pop">
       {/* Floating particles */}
-      <AnimatePresence>
-        {particles.map((particle) => (
-          <motion.div
-            key={particle.id}
-            initial={{
-              opacity: 0,
-              scale: 0,
-              x: 0,
-              y: 0,
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0.7],
-              x: [0, particle.x, particle.x * 1.5],
-              y: [0, particle.y, particle.y * 1.5 - 40],
-            }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: 2.6,
-              delay: particle.delay,
-              ease: 'easeOut',
-              times: [0, 0.4, 1],
-            }}
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              fontSize: particle.layer === 0 ? '18px' : '14px',
-              fontWeight: '700',
-              color: particle.layer === 0 ? '#c6ff77' : '#a8ff3e',
-              textShadow: '0 0 10px currentColor',
-              pointerEvents: 'none',
-              zIndex: 3,
-            }}
-          >
-            +{particle.value}
-          </motion.div>
-        ))}
-      </AnimatePresence>
+      {particles.map((particle) => (
+        <div
+          key={particle.id}
+          ref={(el) => {
+            if (el) particleRefs.current.set(particle.id, el)
+          }}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            fontSize: particle.layer === 0 ? '18px' : '14px',
+            fontWeight: '700',
+            color: particle.layer === 0 ? '#c6ff77' : '#a8ff3e',
+            textShadow: '0 0 10px currentColor',
+            pointerEvents: 'none',
+            zIndex: 3,
+            opacity: 0,
+          }}
+        >
+          +{particle.value}
+        </div>
+      ))}
 
       {/* Main number with XP label */}
-      <motion.div className="number-wrapper xp-pop-number-wrapper" animate={numberControls}>
-        <motion.span
-          className="xp-pop-number-value"
-        >
-          {displayValue}
-        </motion.span>
+      <div ref={numberWrapperRef} className="number-wrapper xp-pop-number-wrapper" style={{ opacity: 0 }}>
+        <span className="xp-pop-number-value">
+          +{count}
+        </span>
         <span className="xp-pop-label">
           XP
         </span>
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -152,6 +153,6 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__xp-number-pop',
   title: 'XP Number Pop',
   description: 'XP gain count-up with pop easing, glow orb, and particle effects.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }

@@ -1,5 +1,4 @@
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationStaggerInview.css'
 
@@ -7,39 +6,13 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__stagger-inview',
   title: 'Stagger In-View',
   description: 'Grid tiles that animate progressively as they enter the viewport during scroll',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationStaggerInview() {
-  const containerRef = useRef(null)
-  const isInView = useInView(containerRef, { once: true, margin: '-100px' })
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const tileVariants = {
-    hidden: {
-      opacity: 0,
-      y: 60,
-      scale: 0.8,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-      },
-    },
-  }
+  const containerRef = useRef<HTMLDivElement>(null)
+  const tileRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [isInView, setIsInView] = useState(false)
 
   const tiles = Array.from({ length: 12 }, (_, index) => ({
     id: index,
@@ -47,25 +20,55 @@ export function ModalOrchestrationStaggerInview() {
     content: `Content for tile ${index + 1}`,
   }))
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isInView) {
+            setIsInView(true)
+            // Stagger tile animations
+            const tileElements = tileRefs.current.filter(Boolean)
+            tileElements.forEach((tile, index) => {
+              if (tile) {
+                tile.style.animationDelay = `${0.2 + index * 0.1}s`
+                tile.classList.add('pf-stagger-tile--visible')
+              }
+            })
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '-100px' }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current)
+      }
+    }
+  }, [isInView])
+
   return (
     <div
       ref={containerRef}
       className="pf-stagger-container"
       data-animation-id="modal-orchestration__stagger-inview"
     >
-      <motion.div
-        className="pf-stagger-grid"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-      >
+      <div className="pf-stagger-grid">
         {tiles.map((tile) => (
-          <motion.div key={tile.id} className="pf-stagger-tile" variants={tileVariants}>
+          <div
+            key={tile.id}
+            ref={(el) => (tileRefs.current[tile.id] = el)}
+            className="pf-stagger-tile"
+          >
             <h5>{tile.title}</h5>
             <p>{tile.content}</p>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }

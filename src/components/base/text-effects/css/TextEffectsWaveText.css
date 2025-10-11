@@ -1,4 +1,4 @@
-/* Styles scoped for TextEffectsWaveText */
+/* Wave text effect - Pure CSS version */
 .wave-text-container {
   display: flex;
   align-items: center;
@@ -23,77 +23,11 @@
   position: relative;
   will-change: transform;
   transform: translateZ(0);
-  color: var(--wave-color, #3b82f6);
+  color: #3b82f6;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  transition: color 0.2s ease;
+  animation: waveChar 2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
-.wave-char::before {
-  content: attr(data-char);
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: transparent;
-  text-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.25),
-    0 0 20px rgba(96, 165, 250, 0.4);
-  opacity: 0;
-  z-index: -1;
-  pointer-events: none;
-  animation: wave-shadow 2s ease-in-out infinite;
-  animation-delay: inherit;
-}
-.wave-char::after {
-  content: attr(data-char);
-  position: absolute;
-  top: -2px;
-  left: 0;
-  color: #93c5fd;
-  opacity: 0;
-  z-index: -2;
-  pointer-events: none;
-  animation: wave-glow 2s ease-in-out infinite;
-  animation-delay: inherit;
-  /* Avoid blur for RN parity; keep glow via color + opacity */
-}
-.wave-phase-0 {
-  --wave-color: #3b82f6;
-  animation-delay: 0s;
-}
-.wave-phase-1 {
-  --wave-color: #60a5fa;
-  animation-delay: 0.05s;
-}
-.wave-phase-2 {
-  --wave-color: #3b82f6;
-  animation-delay: 0.1s;
-}
-.wave-phase-3 {
-  --wave-color: #2563eb;
-  animation-delay: 0.15s;
-}
-.wave-phase-4 {
-  --wave-color: #3b82f6;
-  animation-delay: 0.2s;
-}
-.wave-char {
-  animation: wave-color-shift 2s ease-in-out infinite;
-  animation-delay: inherit;
-}
-@keyframes wave-color-shift {
-  0%,
-  100% {
-    --wave-color: #3b82f6;
-  }
-  25% {
-    --wave-color: #60a5fa;
-  }
-  50% {
-    --wave-color: #3b82f6;
-  }
-  75% {
-    --wave-color: #2563eb;
-  }
-}
+
 .wave-char-inner {
   display: inline-block;
   position: relative;
@@ -107,38 +41,46 @@
   transform-origin: center bottom;
   will-change: transform, opacity;
   transform: translateZ(0);
+  animation: waveHighlight 2s ease-in-out infinite;
 }
-@keyframes wave-glow {
-  0%,
-  100% {
-    opacity: 0;
-    transform: translateY(0);
+
+@keyframes waveChar {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
   }
   25% {
-    opacity: 0.5;
-    transform: translateY(-2px);
+    transform: translateY(-20px) scale(1.15) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  75% {
+    transform: translateY(5px) scale(0.95) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes waveHighlight {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+  25% {
+    opacity: 0.6;
+    transform: scaleY(1.2);
   }
   50% {
     opacity: 0.3;
-    transform: translateY(0);
+    transform: scaleY(1);
   }
   75% {
-    opacity: 0.1;
-    transform: translateY(1px);
+    opacity: 0;
+    transform: scaleY(0.9);
   }
-}
-@keyframes wave-shadow {
-  0%,
   100% {
     opacity: 0;
-  }
-  25% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  75% {
-    opacity: 0.1;
+    transform: scaleY(0.8);
   }
 }

@@ -6,7 +6,7 @@ export const metadata: AnimationMetadata = {
   id: 'modal-dismiss__toast-raise',
   title: 'Toast Rise Up',
   description: 'Toast slides along the vertical axis with auto-dismiss at 3600ms.',
-  tags: ['js', 'css']
+  tags: ['css']
 }
 
 export function ModalDismissToastRaise() {

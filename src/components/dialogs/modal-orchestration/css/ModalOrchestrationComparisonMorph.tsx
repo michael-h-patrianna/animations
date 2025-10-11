@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationComparisonMorph.css'
 
@@ -6,68 +6,43 @@ export const metadata: AnimationMetadata = {
   id: 'modal-orchestration__comparison-morph',
   title: 'Comparison Tiles',
   description: 'Side-by-side comparison tiles with morphing transitions and content switching',
-  tags: ['framer'],
+  tags: ['css', 'js'],
 }
 
 export function ModalOrchestrationComparisonMorph() {
   const panes = 2
+  const paneRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
-      },
-    },
-  }
-
-  const paneVariants = {
-    initial: {
-      rotate: -6,
-      scale: 0.82,
-      opacity: 0,
-    },
-    animate: {
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.312, // 520ms * 0.6 (morph pattern)
-        ease: [0.68, -0.55, 0.265, 1.55] as const, // vibrant easing
-      },
-    },
-  }
+  // Stagger pane animations on mount
+  useEffect(() => {
+    const paneElements = paneRefs.current.filter(Boolean)
+    paneElements.forEach((pane, index) => {
+      if (pane) {
+        pane.style.animationDelay = `${index * 0.26}s`
+        pane.classList.add('pf-comparison__pane--animated')
+      }
+    })
+  }, [])
 
   return (
-    <motion.div
-      className="pf-comparison"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      data-animation-id="modal-orchestration__comparison-morph"
-    >
+    <div className="pf-comparison" data-animation-id="modal-orchestration__comparison-morph">
       {Array.from({ length: panes }, (_, index) => (
-        <motion.div key={index} className="pf-comparison__pane" variants={paneVariants}>
+        <div
+          key={index}
+          ref={(el) => (paneRefs.current[index] = el)}
+          className="pf-comparison__pane"
+        >
           <h5>{index === 0 ? 'Option A' : 'Option B'}</h5>
           <p>
             {index === 0
               ? 'Comparison pane showcasing the first option with detailed information and benefits.'
               : 'Alternative pane demonstrating the second option with different features and advantages.'}
           </p>
-          <div
-            style={{
-              marginTop: '16px',
-              padding: '8px 12px',
-              background: 'rgba(236, 195, 255, 0.1)',
-              borderRadius: '6px',
-              fontSize: '12px',
-            }}
-          >
+          <div className="pf-comparison__badge">
             {index === 0 ? 'Primary choice' : 'Alternative choice'}
           </div>
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   )
 }

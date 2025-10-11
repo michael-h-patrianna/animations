@@ -1,10 +1,9 @@
 /**
  * Standalone: Copy this file into your app.
- * Runtime deps: react, framer-motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * Runtime deps: react
+ * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbFloat.css'
 
@@ -16,23 +15,12 @@ export function TextEffectsVerbFloat() {
     <div className="verbFloat" data-animation-id="text-effects__verb-floating" aria-label={text}>
       <div className="verbFloat__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <span
             key={i}
-            className="verbFloat__char"
-            initial={{ y: 0, opacity: 1 }}
-            animate={{
-              y: [0, -6, 0, 4, 0],
-              opacity: [1, 1, 0.95, 1, 1]
-            }}
-            transition={{
-              duration: 3,
-              delay: i % 2 === 1 ? 0.15 : 0, // odd indices get delay
-              ease: 'easeInOut',
-              times: [0, 0.25, 0.5, 0.75, 1],
-            }}
+            className={`verbFloat__char ${i % 2 === 1 ? 'verbFloat__char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </span>
         ))}
       </div>
     </div>
@@ -43,7 +31,7 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__verb-floating',
   title: 'Floating',
   description: 'Gentle float up/down across letters with offset phases.',
-  tags: ['framer'],
+  tags: ['css'],
   disableReplay: false
 }
 

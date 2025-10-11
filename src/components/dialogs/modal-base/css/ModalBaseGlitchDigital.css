@@ -1,0 +1,122 @@
+/* GPU-accelerated glitch animation using transforms and opacity only */
+
+.modal-base-glitch-digital {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  animation: modal-base-glitch-overlay-fade 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+}
+
+.modal-base-glitch-digital__center {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-base-glitch-digital__ghost {
+  position: absolute;
+  width: clamp(280px, 80%, 320px);
+  height: auto;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.modal-base-glitch-digital__ghost--green {
+  background: rgba(198, 255, 119, 0.1);
+  animation: modal-base-glitch-ghost-green 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  animation-delay: 0.05s;
+}
+
+.modal-base-glitch-digital__ghost--pink {
+  background: rgba(255, 119, 198, 0.1);
+  animation: modal-base-glitch-ghost-pink 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  animation-delay: 0.1s;
+}
+
+.modal-base-glitch-digital__modal {
+  position: relative;
+  width: clamp(280px, 80%, 320px);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+  transform-origin: center;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+  z-index: 1;
+  will-change: transform, opacity;
+  animation: modal-base-glitch-main 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+}
+
+/* Overlay fade-in animation */
+@keyframes modal-base-glitch-overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Green ghost layer animation - starts at offset with opacity, converges to center and fades */
+@keyframes modal-base-glitch-ghost-green {
+  from {
+    transform: translate3d(3px, 2px, 0);
+    opacity: 0.4;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+}
+
+/* Pink ghost layer animation - starts at opposite offset, converges to center and fades */
+@keyframes modal-base-glitch-ghost-pink {
+  from {
+    transform: translate3d(-2px, -3px, 0);
+    opacity: 0.3;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+}
+
+/* Main modal animation - digital glitch effect with skew and opacity variations */
+@keyframes modal-base-glitch-main {
+  0% {
+    transform: skewX(0deg);
+    opacity: 0;
+  }
+  25% {
+    transform: skewX(2deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: skewX(-2deg);
+    opacity: 0.8;
+  }
+  75% {
+    transform: skewX(1deg);
+    opacity: 0.95;
+  }
+  100% {
+    transform: skewX(0deg);
+    opacity: 1;
+  }
+}
