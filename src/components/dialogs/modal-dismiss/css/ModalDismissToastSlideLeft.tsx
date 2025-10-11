@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import { MockContent } from './MockContent'
 
 export const metadata: AnimationMetadata = {

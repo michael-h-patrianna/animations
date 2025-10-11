@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalContentListSoftStagger.css'
 
 export const metadata: AnimationMetadata = {

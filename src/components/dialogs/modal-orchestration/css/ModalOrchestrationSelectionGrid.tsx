@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationSelectionGrid.css'
 
 export const metadata: AnimationMetadata = {
@@ -27,7 +27,7 @@ export function ModalOrchestrationSelectionGrid() {
   return (
     <div className="pf-grid" data-animation-id="modal-orchestration__selection-grid">
       {Array.from({ length: items }, (_, index) => (
-        <div key={index} ref={(el) => (itemRefs.current[index] = el)} className="pf-grid__item">
+        <div key={index} ref={(el) => { itemRefs.current[index] = el }} className="pf-grid__item">
           <div>
             <strong>Option {index + 1}</strong>
             <br />

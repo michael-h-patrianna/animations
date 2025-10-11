@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef, useState } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationTabMorph.css'
 
 export const metadata: AnimationMetadata = {
@@ -59,7 +59,7 @@ export function ModalOrchestrationTabMorph() {
         {Array.from({ length: tabs }, (_, index) => (
           <div
             key={index}
-            ref={(el) => (tabRefs.current[index] = el)}
+            ref={(el) => { tabRefs.current[index] = el }}
             className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
             onClick={() => setActiveTab(index)}
           >

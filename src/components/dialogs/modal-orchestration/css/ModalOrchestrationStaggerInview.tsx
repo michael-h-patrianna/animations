@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef, useState } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationStaggerInview.css'
 
 export const metadata: AnimationMetadata = {
@@ -61,7 +61,7 @@ export function ModalOrchestrationStaggerInview() {
         {tiles.map((tile) => (
           <div
             key={tile.id}
-            ref={(el) => (tileRefs.current[tile.id] = el)}
+            ref={(el) => { tileRefs.current[tile.id] = el }}
             className="pf-stagger-tile"
           >
             <h5>{tile.title}</h5>

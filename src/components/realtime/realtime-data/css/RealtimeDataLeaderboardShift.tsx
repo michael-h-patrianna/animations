@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
 export const metadata: AnimationMetadata = {
@@ -47,16 +47,21 @@ export function RealtimeDataLeaderboardShift() {
       setTimeout(() => {
         const newLeaderboard = [...leaderboardRef.current]
         const firstPlayer = newLeaderboard.shift()!
-        firstPlayer.rank = 4
-        firstPlayer.score -= 50
-        newLeaderboard.push(firstPlayer)
 
-        // Update ranks
-        newLeaderboard.forEach((player, index) => {
-          player.rank = index + 1
+        // Create new objects to force React re-render with updated ranks
+        const updatedLeaderboard = newLeaderboard.map((player, index) => ({
+          ...player,
+          rank: index + 1
+        }))
+
+        // Add Phoenix at the end with new rank and score
+        updatedLeaderboard.push({
+          ...firstPlayer,
+          rank: 4,
+          score: firstPlayer.score - 50
         })
 
-        setLeaderboard(newLeaderboard)
+        setLeaderboard(updatedLeaderboard)
 
         // Use FLIP technique: After state update, animate from old position to new
         requestAnimationFrame(() => {
@@ -68,7 +73,7 @@ export function RealtimeDataLeaderboardShift() {
             if (playerElement) {
               // Set initial position (where they were before the DOM update)
               playerElement.style.transform = `translateY(${rowHeight}px)`
-              
+
               // Animate to final position in next frame
               requestAnimationFrame(() => {
                 playerElement.animate(
@@ -89,10 +94,30 @@ export function RealtimeDataLeaderboardShift() {
             }
           })
 
-          // Clean up Phoenix's inline styles
-          if (firstPlayerElement) {
-            firstPlayerElement.style.transform = ''
-            firstPlayerElement.style.opacity = ''
+          // Animate Phoenix entering at the bottom
+          const phoenixElement = rowRefs.current.get('Phoenix')
+          if (phoenixElement) {
+            // Reset Phoenix's styles and animate it back in
+            phoenixElement.style.opacity = '0'
+            phoenixElement.style.transform = 'translateY(-20px)'
+
+            requestAnimationFrame(() => {
+              phoenixElement.animate(
+                [
+                  { transform: 'translateY(-20px)', opacity: 0 },
+                  { transform: 'translateY(0)', opacity: 1 },
+                ],
+                {
+                  duration: 600,
+                  easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  fill: 'forwards',
+                }
+              ).onfinish = () => {
+                // Clean up inline styles after animation
+                phoenixElement.style.transform = ''
+                phoenixElement.style.opacity = ''
+              }
+            })
           }
         })
 

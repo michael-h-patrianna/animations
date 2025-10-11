@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationWizardScaleRotate.css'
 
 export const metadata: AnimationMetadata = {
@@ -41,7 +41,7 @@ export function ModalOrchestrationWizardScaleRotate() {
         {Array.from({ length: steps }, (_, index) => (
           <div
             key={index}
-            ref={(el) => (stepRefs.current[index] = el)}
+            ref={(el) => { stepRefs.current[index] = el }}
             className={`pf-wizard__step${index === 0 ? ' pf-wizard__step--highlighted' : ''}`}
           >
             Step {index + 1}
@@ -53,7 +53,7 @@ export function ModalOrchestrationWizardScaleRotate() {
         {Array.from({ length: steps }, (_, index) => (
           <div
             key={index}
-            ref={(el) => (panelRefs.current[index] = el)}
+            ref={(el) => { panelRefs.current[index] = el }}
             className={`pf-wizard__panel${index === 0 ? ' pf-wizard__panel--highlighted' : ''}`}
           >
             <h5>Stage {index + 1}</h5>

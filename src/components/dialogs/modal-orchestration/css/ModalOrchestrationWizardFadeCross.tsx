@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationWizardFadeCross.css'
 
 export const metadata: AnimationMetadata = {
@@ -30,7 +30,7 @@ export function ModalOrchestrationWizardFadeCross() {
         {Array.from({ length: steps }, (_, index) => (
           <div
             key={index}
-            ref={(el) => (panelRefs.current[index] = el)}
+            ref={(el) => { panelRefs.current[index] = el }}
             className="pf-wizard__panel"
           >
             <h5>Stage {index + 1}</h5>

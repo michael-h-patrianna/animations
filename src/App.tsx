@@ -1,3 +1,4 @@
+import githubIcon from '@/assets/github.svg'
 import { AppSidebar } from '@/components/ui/AppSidebar'
 import { GroupSection } from '@/components/ui/catalog'
 import { useAnimations } from '@/hooks/useAnimations'
@@ -210,6 +211,15 @@ function App() {
             {currentGroup.title} ({currentGroup.animations.length})
           </span>
         )}
+        <a
+          href="https://github.com/michael-h-patrianna/animations"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pf-github-link"
+          aria-label="View source on GitHub"
+        >
+          <img src={githubIcon} alt="GitHub" className="pf-github-icon" />
+        </a>
       </div>
 
       <div className="pf-main">

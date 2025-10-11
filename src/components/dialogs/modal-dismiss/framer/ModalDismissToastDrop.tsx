@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
-import { MockContent } from '../MockContent'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import '../shared.css'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -14,8 +13,6 @@ export const metadata: AnimationMetadata = {
 
 export function ModalDismissToastDrop() {
 const [showProgress, setShowProgress] = useState(true)
-  const toastRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef<HTMLDivElement>(null)
 
   const entryDuration = 0.42
   const autoDismissMs = 3600

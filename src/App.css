@@ -428,6 +428,44 @@
   font-size: 18px;
   font-weight: 600;
   color: var(--pf-text-primary);
+  flex: 1;
+}
+
+/* GitHub link in header */
+.pf-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--pf-radius-md, 8px);
+  background: transparent;
+  border: 1px solid var(--border);
+  margin-right: 8px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.pf-github-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.pf-github-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.pf-github-icon {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1);
+  transition: filter 0.2s ease;
+}
+
+.pf-github-link:hover .pf-github-icon {
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
 }
 
 /* Drawer and overlay */

@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 import type { AnimationMetadata } from '@/types/animation'
-import { MockContent } from '../MockContent'
+import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import '../shared.css'
 
 // eslint-disable-next-line react-refresh/only-export-components

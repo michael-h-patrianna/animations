@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationComparisonMorph.css'
 
 export const metadata: AnimationMetadata = {
@@ -29,7 +29,7 @@ export function ModalOrchestrationComparisonMorph() {
       {Array.from({ length: panes }, (_, index) => (
         <div
           key={index}
-          ref={(el) => (paneRefs.current[index] = el)}
+          ref={(el) => { paneRefs.current[index] = el }}
           className="pf-comparison__pane"
         >
           <h5>{index === 0 ? 'Option A' : 'Option B'}</h5>

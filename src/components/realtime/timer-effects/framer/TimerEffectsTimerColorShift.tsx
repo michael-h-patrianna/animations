@@ -54,7 +54,6 @@ useEffect(() => {
     return () => clearInterval(intervalId)
   }, [])
 
-  const progress = (10 - value) / 10
   return (
     <div
       className="pf-timer"

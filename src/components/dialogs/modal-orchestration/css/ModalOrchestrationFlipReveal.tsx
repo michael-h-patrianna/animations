@@ -1,5 +1,5 @@
+import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef, useState } from 'react'
-import type { AnimationMetadata } from '../../../types/animation'
 import './ModalOrchestrationFlipReveal.css'
 
 export const metadata: AnimationMetadata = {
@@ -53,7 +53,7 @@ export function ModalOrchestrationFlipReveal() {
           return (
             <div
               key={tile.id}
-              ref={(el) => (tileRefs.current[tile.id] = el)}
+              ref={(el) => { tileRefs.current[tile.id] = el }}
               className="pf-flip-tile-container"
               onClick={() => toggleFlip(tile.id)}
             >
