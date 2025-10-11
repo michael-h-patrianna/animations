@@ -43,7 +43,7 @@ export function RealtimeDataLeaderboardShift() {
         )
       }
 
-      // After animation, reorganize leaderboard
+      // After Phoenix exits, reorganize leaderboard and animate the shift
       setTimeout(() => {
         const newLeaderboard = [...leaderboardRef.current]
         const firstPlayer = newLeaderboard.shift()!
@@ -58,6 +58,44 @@ export function RealtimeDataLeaderboardShift() {
 
         setLeaderboard(newLeaderboard)
 
+        // Use FLIP technique: After state update, animate from old position to new
+        requestAnimationFrame(() => {
+          const playersToShift = ['Shadow', 'Nova', 'Apex']
+          const rowHeight = 48 // row height (~32px) + gap (8px) + padding
+
+          playersToShift.forEach((playerName) => {
+            const playerElement = rowRefs.current.get(playerName)
+            if (playerElement) {
+              // Set initial position (where they were before the DOM update)
+              playerElement.style.transform = `translateY(${rowHeight}px)`
+              
+              // Animate to final position in next frame
+              requestAnimationFrame(() => {
+                playerElement.animate(
+                  [
+                    { transform: `translateY(${rowHeight}px)` },
+                    { transform: 'translateY(0)' },
+                  ],
+                  {
+                    duration: 800,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                    fill: 'forwards',
+                  }
+                ).onfinish = () => {
+                  // Clean up inline styles after animation
+                  playerElement.style.transform = ''
+                }
+              })
+            }
+          })
+
+          // Clean up Phoenix's inline styles
+          if (firstPlayerElement) {
+            firstPlayerElement.style.transform = ''
+            firstPlayerElement.style.opacity = ''
+          }
+        })
+
         // Reset after delay
         timeoutId = setTimeout(() => {
           setLeaderboard([
@@ -68,7 +106,7 @@ export function RealtimeDataLeaderboardShift() {
           ])
           setTimeout(startAnimation, 1000)
         }, 2000)
-      }, 1000)
+      }, 800)
     }
 
     startAnimation()

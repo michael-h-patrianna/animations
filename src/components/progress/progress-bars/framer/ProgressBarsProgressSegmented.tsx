@@ -87,7 +87,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
-              background: 'linear-gradient(90deg, #c47ae5 0%, #e8b4ff 100%)',
+              background: 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)',
               borderRadius: '8px 0 0 8px',
               overflow: 'hidden',
             }}

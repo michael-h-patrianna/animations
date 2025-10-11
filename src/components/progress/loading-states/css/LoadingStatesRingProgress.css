@@ -32,6 +32,6 @@
     stroke-dashoffset: 0;
   }
   100% {
-    stroke-dashoffset: 157.08;
+    stroke-dashoffset: -157.08;
   }
 }

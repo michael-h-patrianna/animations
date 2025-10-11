@@ -104,7 +104,7 @@ export function ProgressBarsProgressGradient() {
                 position: 'absolute',
                 inset: 0,
                 background:
-                  'linear-gradient(90deg, #4e187c 0%, #7a468e 25%, #c47ae5 50%, #d79af3 75%, #c6ff77 100%)',
+                  'linear-gradient(90deg, #7a9148 0%, #95b85c 25%, #a8e65c 50%, #c6ff77 75%, #d4ff9f 100%)',
                 backgroundSize: '300% 100%',
                 borderRadius: 'inherit',
               }}

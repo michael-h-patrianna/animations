@@ -55,12 +55,12 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
     inactive: {
       scale: 0.5,
       opacity: 0.6,
-      background: 'rgba(78,24,124,0.8)',
+      background: 'rgba(0,180,160,0.3)',
     },
     active: {
       scale: 1,
       opacity: 1,
-      background: ['rgba(78,24,124,0.8)', 'rgba(255,255,255,0.9)'],
+      background: ['rgba(0,180,160,0.3)', 'rgba(0,255,255,0.9)'],
       transition: {
         duration: 0.4,
         ease: [0.34, 1.56, 0.64, 1] as const,
@@ -82,10 +82,10 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
   }
 
   const labelVariants = {
-    inactive: { opacity: 0.5, color: 'rgba(236,195,255,0.5)' },
+    inactive: { opacity: 0.5, color: 'rgba(0,200,180,0.6)' },
     active: {
       opacity: 1,
-      color: 'rgba(255,255,255,1)',
+      color: 'rgba(0,255,255,1)',
       transition: { duration: 0.3, ease: easeOut },
     },
   }
@@ -129,7 +129,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
               style={{
                 position: 'absolute',
                 inset: 0,
-                border: '2px solid rgba(255,255,255,0.2)',
+                border: activatedMilestones.has(i) ? '2px solid rgba(0,255,255,0.8)' : '2px solid rgba(0,200,180,0.5)',
                 borderRadius: '50%',
                 transform: 'rotate(45deg)',
               }}
@@ -140,7 +140,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
                   position: 'absolute',
                   inset: '20%',
                   background:
-                    'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+                    'radial-gradient(circle, rgba(0,255,255,0.9) 0%, rgba(0,255,255,0.3) 50%, transparent 100%)',
                   borderRadius: '50%',
                   opacity: activatedMilestones.has(i) ? 1 : 0,
                   transition: 'opacity 0.3s ease',
@@ -157,7 +157,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
                 style={{
                   position: 'absolute',
                   inset: '-10px',
-                  border: '2px solid rgba(255,255,255,0.8)',
+                  border: '2px solid rgba(0,255,255,0.8)',
                   borderRadius: '50%',
                   pointerEvents: 'none',
                 }}

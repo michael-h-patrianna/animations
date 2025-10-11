@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressBounce.css'
 
 export const metadata: AnimationMetadata = {
@@ -28,7 +28,7 @@ export function ProgressBarsProgressBounce() {
     // Reset fill
     fill.style.transform = 'scaleX(0) scaleY(1)'
     fill.style.transformOrigin = 'left center'
-    fill.style.background = 'linear-gradient(90deg, #c47ae5 0%, #d79af3 100%)'
+    fill.style.background = 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)'
 
     // Create squash and stretch container
     const bounceContainer = document.createElement('div')
@@ -45,10 +45,9 @@ export function ProgressBarsProgressBounce() {
       wave.className = 'animation-element'
       wave.style.position = 'absolute'
       wave.style.right = '0'
-      wave.style.top = '50%'
-      wave.style.transform = 'translateY(-50%)'
+      wave.style.top = '0'
+      wave.style.bottom = '0'
       wave.style.width = '4px'
-      wave.style.height = '100%'
       wave.style.background = `rgba(198,255,119,${0.6 - i * 0.2})`
       wave.style.opacity = '0'
       wave.style.pointerEvents = 'none'
@@ -109,13 +108,13 @@ export function ProgressBarsProgressBounce() {
         setTimeout(() => {
           wave.animate(
             [
-              { transform: 'translateY(-50%) translateX(0) scaleX(1)', opacity: '0' },
+              { transform: 'translateX(0) scaleX(1)', opacity: '0' },
               {
-                transform: 'translateY(-50%) translateX(-10px) scaleX(2)',
+                transform: 'translateX(-10px) scaleX(2)',
                 opacity: '1',
                 offset: 0.2,
               },
-              { transform: 'translateY(-50%) translateX(-30px) scaleX(0.5)', opacity: '0' },
+              { transform: 'translateX(-30px) scaleX(0.5)', opacity: '0' },
             ],
             { duration: 400, easing: 'ease-out' }
           )
@@ -144,7 +143,7 @@ export function ProgressBarsProgressBounce() {
         particle.style.top = '50%'
         particle.style.width = '4px'
         particle.style.height = '4px'
-        particle.style.background = i % 2 === 0 ? '#c6ff77' : '#c47ae5'
+        particle.style.background = i % 2 === 0 ? '#c6ff77' : '#a8e65c'
         particle.style.borderRadius = '50%'
         particle.style.pointerEvents = 'none'
         trackContainer.appendChild(particle)
@@ -153,14 +152,14 @@ export function ProgressBarsProgressBounce() {
         const distance = 30 + Math.random() * 20
         const particleAnim = particle.animate(
           [
-            { transform: 'translate(0, -50%) scale(0)', opacity: '1' },
+            { transform: 'translateY(-50%) translate(0px, 0px) scale(0)', opacity: '1' },
             {
-              transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance - 50}%) scale(1)`,
+              transform: `translateY(-50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1)`,
               opacity: '1',
               offset: 0.5,
             },
             {
-              transform: `translate(${Math.cos(angle) * distance * 1.5}px, ${Math.sin(angle) * distance * 1.5 - 50}%) scale(0)`,
+              transform: `translateY(-50%) translate(${Math.cos(angle) * distance * 1.5}px, ${Math.sin(angle) * distance * 1.5}px) scale(0)`,
               opacity: '0',
             },
           ],

@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressSegmented.css'
 
 export const metadata: AnimationMetadata = {
@@ -28,7 +28,7 @@ export function ProgressBarsProgressSegmented() {
     // Reset fill
     fill.style.transform = 'scaleX(0)'
     fill.style.transformOrigin = 'left center'
-    fill.style.background = 'linear-gradient(90deg, #c47ae5 0%, #e8b4ff 100%)'
+    fill.style.background = 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)'
     fill.style.borderRadius = '8px 0 0 8px'
     fill.style.overflow = 'hidden'
 

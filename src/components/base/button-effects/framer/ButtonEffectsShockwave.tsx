@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import React, { useRef, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsShockwave.css'
@@ -14,7 +14,6 @@ export function ButtonEffectsShockwave() {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
   const nextId = useRef(0)
-  const shouldReduceMotion = useReducedMotion()
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = btnRef.current?.getBoundingClientRect()
@@ -59,22 +58,6 @@ export function ButtonEffectsShockwave() {
         <span className="pf-btn__shockwaves" aria-hidden>
           {shockwaves.map((wave) => (
             <React.Fragment key={wave.id}>
-              {shouldReduceMotion ? (
-                <>
-                  <span
-                    className="pf-btn__shockwave pf-btn__shockwave--1"
-                    style={{ left: wave.x, top: wave.y }}
-                  />
-                  <span
-                    className="pf-btn__shockwave pf-btn__shockwave--2"
-                    style={{ left: wave.x, top: wave.y }}
-                  />
-                  <span
-                    className="pf-btn__shockwave pf-btn__shockwave--3"
-                    style={{ left: wave.x, top: wave.y }}
-                  />
-                </>
-              ) : (
                 <>
                   <motion.span
                     className="pf-btn__shockwave pf-btn__shockwave--1"
@@ -98,7 +81,6 @@ export function ButtonEffectsShockwave() {
                     animate="animate"
                   />
                 </>
-              )}
             </React.Fragment>
           ))}
         </span>

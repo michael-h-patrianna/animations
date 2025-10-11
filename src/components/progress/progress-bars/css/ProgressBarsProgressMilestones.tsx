@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressMilestones.css'
 
 export const metadata: AnimationMetadata = {
@@ -28,7 +28,7 @@ export function ProgressBarsProgressMilestones() {
     // Reset fill
     fill.style.transform = 'scaleX(0)'
     fill.style.transformOrigin = 'left center'
-    fill.style.background = 'linear-gradient(90deg, #c47ae5 0%, #d79af3 100%)'
+    fill.style.background = 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)'
 
     // Create milestone positions
     const milestonePositions = [0, 0.25, 0.5, 0.75, 1]
@@ -58,8 +58,8 @@ export function ProgressBarsProgressMilestones() {
       const marker = document.createElement('div')
       marker.style.position = 'absolute'
       marker.style.inset = '0'
-      marker.style.background = 'rgba(78,24,124,0.8)'
-      marker.style.border = '2px solid rgba(255,255,255,0.2)'
+      marker.style.background = 'rgba(0,180,160,0.3)'
+      marker.style.border = '2px solid rgba(0,200,180,0.5)'
       marker.style.borderRadius = '50%'
       marker.style.transform = 'rotate(45deg) scale(0.5)'
       marker.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
@@ -69,12 +69,12 @@ export function ProgressBarsProgressMilestones() {
       const innerGlow = document.createElement('div')
       innerGlow.style.position = 'absolute'
       innerGlow.style.inset = '20%'
-      innerGlow.style.background = 'rgba(255,255,255,0.9)'
+      innerGlow.style.background = 'rgba(0,255,255,0.9)'
       innerGlow.style.borderRadius = '50%'
       innerGlow.style.opacity = '0'
       // Simulate blur with radial gradient for RN compatibility
       innerGlow.style.background =
-        'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, transparent 100%)'
+        'radial-gradient(circle, rgba(0,255,255,0.9) 0%, rgba(0,255,255,0.3) 50%, transparent 100%)'
       innerGlow.style.transition = 'all 0.3s ease'
       markerContainer.appendChild(innerGlow)
 
@@ -82,7 +82,7 @@ export function ProgressBarsProgressMilestones() {
       const ring = document.createElement('div')
       ring.style.position = 'absolute'
       ring.style.inset = '-10px'
-      ring.style.border = '2px solid rgba(255,255,255,0.8)'
+      ring.style.border = '2px solid rgba(0,255,255,0.8)'
       ring.style.borderRadius = '50%'
       ring.style.opacity = '0'
       ring.style.pointerEvents = 'none'
@@ -107,7 +107,7 @@ export function ProgressBarsProgressMilestones() {
     labelContainer.style.display = 'flex'
     labelContainer.style.justifyContent = 'space-between'
     labelContainer.style.fontSize = '10px'
-    labelContainer.style.color = 'rgba(236,195,255,0.5)'
+    labelContainer.style.color = 'rgba(0,200,180,0.6)'
     labelContainer.style.pointerEvents = 'none'
     trackContainer.appendChild(labelContainer)
     ;['Start', '25%', '50%', '75%', '100%'].forEach((label, i) => {
@@ -144,9 +144,9 @@ export function ProgressBarsProgressMilestones() {
           // Activate marker
           marker.style.transform = 'rotate(45deg) scale(1)'
           marker.style.background =
-            'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(236,195,255,1))'
-          marker.style.borderColor = 'rgba(255,255,255,1)'
-          marker.style.boxShadow = '0 0 25px rgba(255,255,255,0.9), 0 0 50px rgba(236,195,255,0.5)'
+            'linear-gradient(135deg, rgba(0,255,255,0.9), rgba(198,255,119,1))'
+          marker.style.borderColor = 'rgba(0,255,255,1)'
+          marker.style.boxShadow = '0 0 25px rgba(0,255,255,0.9), 0 0 50px rgba(198,255,119,0.5)'
 
           // Glow effect
           innerGlow.style.opacity = '1'
@@ -164,7 +164,7 @@ export function ProgressBarsProgressMilestones() {
           // Highlight label
           if (label) {
             label.style.opacity = '1'
-            label.style.color = 'rgba(255,255,255,1)'
+            label.style.color = 'rgba(0,255,255,1)'
             label.style.fontWeight = '600'
           }
         }

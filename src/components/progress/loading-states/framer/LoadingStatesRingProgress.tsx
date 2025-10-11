@@ -19,8 +19,8 @@ export function LoadingStatesRingProgress() {
             strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={`${circumference}`}
-            animate={{ strokeDashoffset: [circumference, -circumference] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' as const }}
+            animate={{ strokeDashoffset: [circumference, 0, -circumference] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'linear' as const, times: [0, 0.5, 1] }}
           />
         </svg>
       </div>

@@ -21,8 +21,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(236, 195, 255, 0.1);
-  border: 2px solid rgba(236, 195, 255, 0.16);
+  background: rgba(30, 144, 255, 0.1);
+  border: 2px solid rgba(30, 144, 255, 0.16);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,6 +35,6 @@
 .pf-timeline-progress__connector {
   flex: 1;
   height: 2px;
-  background: rgba(236, 195, 255, 0.16);
+  background: rgba(30, 144, 255, 0.16);
   border-radius: 1px;
 }

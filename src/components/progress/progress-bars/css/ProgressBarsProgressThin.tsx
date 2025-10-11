@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressThin.css'
 
 export const metadata: AnimationMetadata = {
@@ -36,7 +36,7 @@ export function ProgressBarsProgressThin() {
     fill.style.transform = 'scaleX(0)'
     fill.style.transformOrigin = 'left center'
     fill.style.height = '100%'
-    fill.style.background = 'linear-gradient(90deg, #c47ae5 0%, #d79af3 60%, #c6ff77 100%)'
+    fill.style.background = 'linear-gradient(90deg, #a8e65c 0%, #c6ff77 60%, #d4ff9f 100%)'
     fill.style.borderRadius = 'inherit'
     fill.style.position = 'relative'
     fill.style.overflow = 'visible'

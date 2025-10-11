@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion, useReducedMotion } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsRipple.css'
@@ -15,7 +15,7 @@ export function ButtonEffectsRipple() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
-  const shouldReduceMotion = useReducedMotion()
+
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const rect = btnRef.current?.getBoundingClientRect()
@@ -58,13 +58,7 @@ export function ButtonEffectsRipple() {
         <span className="pf-btn__ripples" aria-hidden>
           {ripples.map((r) => {
             const half = r.size / 2
-            return shouldReduceMotion ? (
-              <span
-                key={r.id}
-                className="pf-btn__ripple"
-                style={{ left: r.x - half, top: r.y - half, width: r.size, height: r.size }}
-              />
-            ) : (
+            return  (
               <motion.span
                 key={r.id}
                 className="pf-btn__ripple"

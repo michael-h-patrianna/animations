@@ -48,7 +48,7 @@ useEffect(() => {
       setBgColor(`rgb(${r}, ${g}, ${b})`)
 
       // Shake animation every 10 seconds
-      if (!shouldReduceMotion && elapsed - lastReminderTime >= reminderInterval) {
+      if (elapsed - lastReminderTime >= reminderInterval) {
         lastReminderTime = elapsed
         setShakeKey((prev) => prev + 1)
       }

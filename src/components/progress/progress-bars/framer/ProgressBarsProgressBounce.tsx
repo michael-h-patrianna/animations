@@ -110,7 +110,7 @@ const [showParticles, setShowParticles] = useState(false)
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
-              background: 'linear-gradient(90deg, #c47ae5 0%, #d79af3 100%)',
+              background: 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)',
               position: 'relative',
             }}
             variants={fillVariants}
@@ -167,7 +167,7 @@ const [showParticles, setShowParticles] = useState(false)
                   top: '50%',
                   width: 4,
                   height: 4,
-                  background: i % 2 === 0 ? '#c6ff77' : '#c47ae5',
+                  background: i % 2 === 0 ? '#c6ff77' : '#a8e65c',
                   borderRadius: '50%',
                   pointerEvents: 'none',
                 }}

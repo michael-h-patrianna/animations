@@ -74,8 +74,8 @@ export function ProgressBarsTimelineProgress() {
               className="pf-timeline-progress__step"
               variants={stepVariants}
               style={{
-                background: 'rgba(200, 53, 88, 0.2)',
-                borderColor: 'rgba(200, 53, 88, 0.4)',
+                background: 'rgba(30, 144, 255, 0.2)',
+                borderColor: 'rgba(30, 144, 255, 0.4)',
                 color: '#ffffff',
               }}
             >
@@ -87,7 +87,7 @@ export function ProgressBarsTimelineProgress() {
                 variants={connectorVariants}
                 style={{
                   background:
-                    'linear-gradient(90deg, rgba(200, 53, 88, 0.4), rgba(236, 195, 255, 0.2))',
+                    'linear-gradient(90deg, rgba(30, 144, 255, 0.4), rgba(0, 255, 255, 0.2))',
                   transformOrigin: 'left',
                 }}
               />

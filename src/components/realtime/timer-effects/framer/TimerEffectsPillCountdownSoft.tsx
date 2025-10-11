@@ -35,7 +35,7 @@ useEffect(() => {
       if (display !== lastDisplay) {
         setSeconds(display)
 
-        if (shouldPulse(display) && !shouldReduceMotion) {
+        if (shouldPulse(display)) {
           setPulseKey((prev) => prev + 1)
         }
 

@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressGradient.css'
 
 export const metadata: AnimationMetadata = {
@@ -38,7 +38,7 @@ export function ProgressBarsProgressGradient() {
     gradientBase.style.position = 'absolute'
     gradientBase.style.inset = '0'
     gradientBase.style.background =
-      'linear-gradient(90deg, #4e187c 0%, #7a468e 25%, #c47ae5 50%, #d79af3 75%, #c6ff77 100%)'
+      'linear-gradient(90deg, #7a9148 0%, #95b85c 25%, #a8e65c 50%, #c6ff77 75%, #d4ff9f 100%)'
     gradientBase.style.backgroundSize = '300% 100%'
     gradientBase.style.backgroundPosition = '100% 0'
     gradientBase.style.borderRadius = 'inherit'

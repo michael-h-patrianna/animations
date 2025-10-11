@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef } from 'react'
 import './ProgressBarsTimelineProgress.css'
 
 export const metadata: AnimationMetadata = {
@@ -89,12 +89,13 @@ export function ProgressBarsTimelineProgress() {
               }}
               className="pf-timeline-progress__step"
               style={{
-                background: 'rgba(200, 53, 88, 0.2)',
-                borderColor: 'rgba(200, 53, 88, 0.4)',
+                background: 'rgba(30, 144, 255, 0.2)',
+                borderColor: 'rgba(30, 144, 255, 0.4)',
                 color: '#ffffff',
                 transform: 'scale(0.9)',
                 opacity: 0.3,
                 willChange: 'transform, opacity',
+                filter: 'drop-shadow(0 0 8px rgba(30, 144, 255, 0.4))',
               }}
             >
               {index + 1}
@@ -107,11 +108,12 @@ export function ProgressBarsTimelineProgress() {
                 className="pf-timeline-progress__connector"
                 style={{
                   background:
-                    'linear-gradient(90deg, rgba(200, 53, 88, 0.4), rgba(236, 195, 255, 0.2))',
+                    'linear-gradient(90deg, rgba(30, 144, 255, 0.4), rgba(0, 255, 255, 0.2))',
                   transformOrigin: 'left',
                   transform: 'scaleX(0)',
                   opacity: 0.3,
                   willChange: 'transform, opacity',
+                  filter: 'drop-shadow(0 0 6px rgba(30, 144, 255, 0.3))',
                 }}
               />
             )}

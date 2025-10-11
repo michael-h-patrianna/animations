@@ -27,7 +27,7 @@
   position: absolute;
   height: 10px;
   width: 45%;
-  background: rgba(196, 122, 229, 0.15);
+  background: rgba(78, 24, 124, 0.15);
   border: 4px solid rgba(255, 255, 255, 0.9);
   border-radius: 5px;
   overflow: hidden;
@@ -44,7 +44,7 @@
 
 .pf-zoomed-progress__fill {
   height: 100%;
-  background: linear-gradient(90deg, #c47ae5 0%, #d79af3 100%);
+  background: linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%);
   transform: skew(-30deg);
   transform-origin: left center;
   transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -58,8 +58,8 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.95);
   border: 3px solid rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0px 0px 0px 7px rgba(196, 122, 229, 0.3);
-  color: rgba(196, 122, 229, 0.5);
+  box-shadow: inset 0px 0px 0px 7px rgba(78, 24, 124, 0.3);
+  color: rgba(78, 24, 124, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,16 +87,16 @@
 }
 
 .pf-zoomed-progress__level--1.reached {
-  color: #c47ae5;
-  box-shadow: inset 0px 0px 0px 7px #c47ae5;
+  color: #a8e65c;
+  box-shadow: inset 0px 0px 0px 7px #a8e65c;
 }
 .pf-zoomed-progress__level--2.reached {
-  color: #d79af3;
-  box-shadow: inset 0px 0px 0px 7px #d79af3;
-}
-.pf-zoomed-progress__level--3.reached {
   color: #c6ff77;
   box-shadow: inset 0px 0px 0px 7px #c6ff77;
+}
+.pf-zoomed-progress__level--3.reached {
+  color: #d4ff9f;
+  box-shadow: inset 0px 0px 0px 7px #d4ff9f;
 }
 
 .pf-zoomed-progress__mask {
@@ -115,20 +115,11 @@
     ellipse at center,
     transparent 0%,
     transparent 45%,
-    rgba(196, 122, 229, 0.02) 50%,
-    rgba(196, 122, 229, 0.04) 94%
+    rgba(168, 230, 92, 0.02) 50%,
+    rgba(168, 230, 92, 0.04) 94%
   );
 }
 .pf-zoomed-progress__mask--level-2 {
-  background: radial-gradient(
-    ellipse at center,
-    transparent 0%,
-    transparent 45%,
-    rgba(215, 154, 243, 0.02) 50%,
-    rgba(215, 154, 243, 0.04) 94%
-  );
-}
-.pf-zoomed-progress__mask--level-3 {
   background: radial-gradient(
     ellipse at center,
     transparent 0%,
@@ -137,4 +128,12 @@
     rgba(198, 255, 119, 0.04) 94%
   );
 }
-
+.pf-zoomed-progress__mask--level-3 {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 45%,
+    rgba(212, 255, 159, 0.02) 50%,
+    rgba(212, 255, 159, 0.04) 94%
+  );
+}
