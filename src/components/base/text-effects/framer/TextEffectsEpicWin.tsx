@@ -88,7 +88,7 @@ export function TextEffectsEpicWin() {
                     scale: 0.8,
                   }}
                   animate={{
-                    opacity: [0, 1, 0.3],
+                    opacity: [0, 1, 0],
                     scale: [0.8, 1.4, 1],
                   }}
                   transition={{

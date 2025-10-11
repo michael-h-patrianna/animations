@@ -1,4 +1,4 @@
-/* Styles scoped for TextEffectsWaveText */
+/* Styles scoped for TextEffectsWaveText - Framer Motion version */
 .wave-text-container {
   display: flex;
   align-items: center;
@@ -9,6 +9,7 @@
   transform: translateZ(0);
   will-change: contents;
 }
+
 .wave-text-wrapper {
   font-size: 24px;
   font-weight: 800;
@@ -17,56 +18,22 @@
   position: relative;
   z-index: 2;
 }
+
 .wave-char {
   display: inline-block;
   transform-origin: center bottom;
   position: relative;
   will-change: transform;
   transform: translateZ(0);
-  color: var(--wave-color, #3b82f6);
+  color: #3b82f6;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  transition: color 0.2s ease;
 }
-.wave-char__text {
+
+.wave-char-inner {
   display: inline-block;
   position: relative;
 }
-.wave-char__shadow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: transparent;
-  text-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.25),
-    0 0 20px rgba(96, 165, 250, 0.4);
-  opacity: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-.wave-char__glow {
-  position: absolute;
-  top: -2px;
-  left: 0;
-  color: #93c5fd;
-  opacity: 0;
-  z-index: -2;
-  pointer-events: none;
-}
-.wave-phase-0 {
-  --wave-color: #3b82f6;
-}
-.wave-phase-1 {
-  --wave-color: #60a5fa;
-}
-.wave-phase-2 {
-  --wave-color: #3b82f6;
-}
-.wave-phase-3 {
-  --wave-color: #2563eb;
-}
-.wave-phase-4 {
-  --wave-color: #3b82f6;
-}
+
 .wave-highlight {
   position: absolute;
   inset: -20% -10%;

@@ -1,80 +1,72 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeInOut, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './TextEffectsWaveText.css'
+
+const waveKeyframes = {
+  y: [0, -20, 0, 5, 0, 0],
+  scale: [1, 1.15, 1, 0.95, 1, 1],
+  rotateZ: [0, -5, 0, 3, 0, 0]
+}
+
+const waveTimes = [0, 0.25, 0.5, 0.75, 1, 1]
+const waveDuration = 2
+const waveEase = 'linear'
+
+const highlightKeyframes = {
+  opacity: [0, 0.6, 0.3, 0, 0, 0],
+  scaleY: [0.8, 1.2, 1, 0.9, 0.8, 0.8]
+}
+
+function WaveCharacter({ char, index }: { char: string; index: number }) {
+  const isSpace = char === ' '
+  const waveDelay = -(index * 0.05) // Negative delay to offset phase
+  const wavePhase = index % 5
+
+  return (
+    <motion.span
+      className={`wave-char wave-phase-${wavePhase}`}
+      data-char={char}
+      animate={waveKeyframes}
+      transition={{
+        duration: waveDuration,
+        ease: waveEase,
+        times: waveTimes,
+        repeat: Infinity,
+        repeatType: 'loop',
+        delay: waveDelay
+      }}
+    >
+      <span className="wave-char-inner">
+        {isSpace ? '\u00A0' : char}
+
+        {!isSpace && (
+          <motion.span
+            className="wave-highlight"
+            animate={highlightKeyframes}
+            transition={{
+              duration: waveDuration,
+              ease: waveEase,
+              times: waveTimes,
+              repeat: Infinity,
+              repeatType: 'loop',
+              delay: waveDelay
+            }}
+          />
+        )}
+      </span>
+    </motion.span>
+  )
+}
 
 export function TextEffectsWaveText() {
   const text = 'WAVE MOTION'
 
   return (
     <div className="wave-text-container" data-animation-id="text-effects__wave-text">
-
       <div className="wave-text-wrapper">
-        {text.split('').map((char, index) => {
-          const waveDelay = index * 0.05
-          const isSpace = char === ' '
-          const wavePhase = index % 5
-
-          return (
-            <motion.span
-              key={index}
-              className={`wave-char wave-phase-${wavePhase}`}
-              initial={{
-                y: 0,
-                scale: 1,
-                rotateZ: 0,
-              }}
-              animate={{
-                // Vertical wave motion
-                y: [0, -20, 0, 5, 0],
-                // Scale pulsing as wave peaks
-                scale: [1, 1.15, 1, 0.95, 1],
-                // Subtle rotation for fluidity
-                rotateZ: [0, -5, 0, 3, 0],
-              }}
-              transition={{
-                duration: 2,
-                delay: waveDelay,
-                repeat: Infinity,
-                repeatDelay: 1,
-                ease: [0.45, 0, 0.55, 1] as const, // Custom wave easing
-                times: [0, 0.25, 0.5, 0.75, 1],
-              }}
-            >
-              <span className="wave-char__text">
-                {isSpace ? '\u00A0' : char}
-
-                {/* Highlight that travels with the wave */}
-                {!isSpace && (
-                  <motion.span
-                    className="wave-highlight"
-                    animate={{
-                      opacity: [0, 0.6, 0.3, 0, 0],
-                      scaleY: [0.8, 1.2, 1, 0.9, 0.8],
-                    }}
-                    transition={{
-                      duration: 2,
-                      delay: waveDelay,
-                      repeat: Infinity,
-                      repeatDelay: 1,
-                      ease: easeInOut,
-                      times: [0, 0.25, 0.5, 0.75, 1],
-                    }}
-                  />
-                )}
-              </span>
-              {!isSpace && (
-                <>
-                  <span aria-hidden="true" className="wave-char__shadow">
-                    {char}
-                  </span>
-                  <span aria-hidden="true" className="wave-char__glow">
-                    {char}
-                  </span>
-                </>
-              )}
-            </motion.span>
-          )
-        })}
+        {text.split('').map((char, index) => (
+          <WaveCharacter key={index} char={char} index={index} />
+        ))}
       </div>
     </div>
   )

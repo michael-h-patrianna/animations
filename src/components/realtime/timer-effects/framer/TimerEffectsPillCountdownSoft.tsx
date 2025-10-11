@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownSoft.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-soft',
-  title: 'Pill Countdown — Soft',
-  description: 'Quiet thresholds: mostly static. Brief pulse only at 60s, 30s, 10s and last 5s.',
-  tags: ['framer'],
-}
 
 // Quiet thresholds: mostly static. Brief pulse only at 60s, 30s, 10s and last 5s.
 export function TimerEffectsPillCountdownSoft() {

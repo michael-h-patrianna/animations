@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
+import { useEffect, useRef } from 'react'
 import './TextEffectsEpicWin.css'
 
 export function TextEffectsEpicWin() {
@@ -81,7 +81,7 @@ export function TextEffectsEpicWin() {
         [
           { opacity: 0, transform: 'scale(0.8)' },
           { opacity: 1, transform: 'scale(1.4)' },
-          { opacity: 0.3, transform: 'scale(1)' },
+          { opacity: 0, transform: 'scale(1)' },
         ],
         {
           duration: 600,
@@ -136,6 +136,7 @@ export function TextEffectsEpicWin() {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: AnimationMetadata = {
   id: 'text-effects__epic-win',
   title: 'Epic Win',

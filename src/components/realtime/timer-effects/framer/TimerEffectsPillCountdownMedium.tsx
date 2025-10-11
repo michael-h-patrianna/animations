@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownMedium.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-medium',
-  title: 'Pill Countdown — Medium',
-  description: 'Periodic blip: LED corner blink every 10s; subtle perimeter arc progress.',
-  tags: ['framer'],
-}
 
 // Periodic blip: LED corner blink every 10s; subtle perimeter arc progress.
 export function TimerEffectsPillCountdownMedium() {
