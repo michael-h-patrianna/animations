@@ -1,0 +1,49 @@
+/* Styles for LoadingStatesSpinnerGalaxy */
+
+.pf-loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+}
+.pf-spinner-galaxy {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  background: radial-gradient(circle, rgba(236, 195, 255, 0.1) 0%, transparent 70%);
+  border: 2px solid rgba(236, 195, 255, 0.16);
+  border-top-color: #c47ae5;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(196, 122, 229, 0.3);
+  animation: spinner-rotate 2s linear infinite;
+}
+.pf-spinner-galaxy::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #c6ff77;
+  border-radius: 50%;
+  top: 8px;
+  left: 8px;
+}
+.pf-spinner-galaxy::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #47fff4;
+  border-radius: 50%;
+  bottom: 10px;
+  right: 10px;
+}
+
+@keyframes spinner-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

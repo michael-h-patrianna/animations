@@ -37,9 +37,12 @@ export function buildRegistryFromCategories(codeMode: CodeMode = 'Framer') {
 
   Object.values(categories).forEach((cat) => {
     Object.values(cat.groups).forEach((group) => {
-      Object.entries(group[animationSource]).forEach(([id, anim]) => {
-        registry[id] = anim.component
-      })
+      const animations = group[animationSource]
+      if (animations) {
+        Object.entries(animations).forEach(([id, anim]) => {
+          registry[id] = anim.component
+        })
+      }
     })
   })
   return registry
@@ -57,8 +60,9 @@ export function getAnimationMetadata(animationId: string, codeMode: CodeMode = '
 
   for (const cat of Object.values(categories)) {
     for (const group of Object.values(cat.groups)) {
-      if (group[animationSource][animationId]) {
-        return group[animationSource][animationId].metadata
+      const animations = group[animationSource]
+      if (animations && animations[animationId]) {
+        return animations[animationId].metadata
       }
     }
   }

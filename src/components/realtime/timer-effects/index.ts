@@ -51,6 +51,8 @@ import { timerEffectsTimerFlashSoftMetadata } from './framer/TimerEffectsTimerFl
 import { timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.metadata'
 import { timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.metadata'
 
+// CSS animations
+
 export const groupMetadata: GroupMetadata = {
   id: 'timer-effects',
   title: 'Timer effects',

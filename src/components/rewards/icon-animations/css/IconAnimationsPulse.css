@@ -1,0 +1,94 @@
+/* Styles for IconAnimationsPulse */
+
+.icon-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+
+@keyframes icon-pulse-animation {
+  0% {
+    transform: scale(1) rotate(-2deg) skewY(0deg);
+    opacity: 1;
+  }
+  10% {
+    transform: scale(1.02) rotate(-1.5deg) skewY(-0.5deg);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1.05) rotate(-1deg) skewY(-1deg);
+    opacity: 0.98;
+  }
+  30% {
+    transform: scale(1.08) rotate(0deg) skewY(-1.5deg);
+    opacity: 0.96;
+  }
+  40% {
+    transform: scale(1.12) rotate(1deg) skewY(-2deg);
+    opacity: 0.94;
+  }
+  50% {
+    transform: scale(1.15) rotate(2deg) skewY(-2.5deg);
+    opacity: 0.92;
+  }
+  60% {
+    transform: scale(1.12) rotate(1deg) skewY(-2deg);
+    opacity: 0.94;
+  }
+  70% {
+    transform: scale(1.08) rotate(0deg) skewY(-1.5deg);
+    opacity: 0.96;
+  }
+  80% {
+    transform: scale(1.05) rotate(-0.5deg) skewY(-1deg);
+    opacity: 0.98;
+  }
+  90% {
+    transform: scale(1.02) rotate(-1.5deg) skewY(-0.5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-2deg) skewY(0deg);
+    opacity: 1;
+  }
+}
+
+.icon-pulse-element {
+  position: relative;
+  animation: icon-pulse-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: center center;
+  width: 140px;
+  height: auto;
+}
+
+.icon-pulse-element::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(198, 255, 119, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: icon-pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes icon-pulse-glow {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}

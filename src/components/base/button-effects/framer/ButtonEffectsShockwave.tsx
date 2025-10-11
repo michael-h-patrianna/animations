@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion } from 'framer-motion'
+import { easeOut, motion, useReducedMotion } from 'framer-motion'
 import React, { useRef, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsShockwave.css'
@@ -11,9 +11,10 @@ interface Shockwave {
 }
 
 export function ButtonEffectsShockwave() {
-const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
+  const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
   const nextId = useRef(0)
+  const shouldReduceMotion = useReducedMotion()
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = btnRef.current?.getBoundingClientRect()

@@ -6,6 +6,13 @@ import { ButtonEffectsLiquidMorph, metadata as liquidMorphMeta } from './framer/
 import { ButtonEffectsShockwave, metadata as shockwaveMeta } from './framer/ButtonEffectsShockwave'
 import { ButtonEffectsSplitReveal, metadata as splitRevealMeta } from './framer/ButtonEffectsSplitReveal'
 
+// CSS animations
+import { ButtonEffectsRipple as CssButtonEffectsRipple, metadata as rippleCssMeta } from './css/ButtonEffectsRipple'
+import { ButtonEffectsJitter as CssButtonEffectsJitter, metadata as jitterCssMeta } from './css/ButtonEffectsJitter'
+import { ButtonEffectsLiquidMorph as CssButtonEffectsLiquidMorph, metadata as liquidMorphCssMeta } from './css/ButtonEffectsLiquidMorph'
+import { ButtonEffectsShockwave as CssButtonEffectsShockwave, metadata as shockwaveCssMeta } from './css/ButtonEffectsShockwave'
+import { ButtonEffectsSplitReveal as CssButtonEffectsSplitReveal, metadata as splitRevealCssMeta } from './css/ButtonEffectsSplitReveal'
+
 export const groupMetadata: GroupMetadata = {
   id: 'button-effects',
   title: 'Button effects',
@@ -22,5 +29,11 @@ export const groupExport: GroupExport = {
     'button-effects__shockwave': { component: ButtonEffectsShockwave, metadata: shockwaveMeta },
     'button-effects__split-reveal': { component: ButtonEffectsSplitReveal, metadata: splitRevealMeta },
   },
-  css: {},
+  css: {
+    'button-effects__ripple': { component: CssButtonEffectsRipple, metadata: rippleCssMeta },
+    'button-effects__jitter': { component: CssButtonEffectsJitter, metadata: jitterCssMeta },
+    'button-effects__liquid-morph': { component: CssButtonEffectsLiquidMorph, metadata: liquidMorphCssMeta },
+    'button-effects__shockwave': { component: CssButtonEffectsShockwave, metadata: shockwaveCssMeta },
+    'button-effects__split-reveal': { component: CssButtonEffectsSplitReveal, metadata: splitRevealCssMeta },
+  },
 }

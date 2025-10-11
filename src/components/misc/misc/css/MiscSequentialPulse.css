@@ -1,0 +1,141 @@
+.misc-seq {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.misc-seq .dot-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--pf-base-60);
+}
+.misc-seq .dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+}
+.misc-seq .dot .blip {
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  border-radius: 50%;
+  background: rgba(236, 195, 255, 0.95);
+  animation: misc-seq-pulse 1.6s ease-in-out infinite;
+}
+.misc-seq .dot:nth-child(1) {
+  transform: rotate(0deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(2) {
+  transform: rotate(22.5deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(3) {
+  transform: rotate(45deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(4) {
+  transform: rotate(67.5deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(5) {
+  transform: rotate(90deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(6) {
+  transform: rotate(112.5deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(7) {
+  transform: rotate(135deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(8) {
+  transform: rotate(157.5deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(9) {
+  transform: rotate(180deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(10) {
+  transform: rotate(202.5deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(11) {
+  transform: rotate(225deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(12) {
+  transform: rotate(247.5deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(13) {
+  transform: rotate(270deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(14) {
+  transform: rotate(292.5deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(15) {
+  transform: rotate(315deg) translateX(70px);
+}
+.misc-seq .dot:nth-child(16) {
+  transform: rotate(337.5deg) translateX(70px);
+}
+/* stagger using the index-based class names on the inner blip */
+.misc-seq .dot.i-0 .blip {
+  animation-delay: 0ms;
+}
+.misc-seq .dot.i-1 .blip {
+  animation-delay: 60ms;
+}
+.misc-seq .dot.i-2 .blip {
+  animation-delay: 120ms;
+}
+.misc-seq .dot.i-3 .blip {
+  animation-delay: 180ms;
+}
+.misc-seq .dot.i-4 .blip {
+  animation-delay: 240ms;
+}
+.misc-seq .dot.i-5 .blip {
+  animation-delay: 300ms;
+}
+.misc-seq .dot.i-6 .blip {
+  animation-delay: 360ms;
+}
+.misc-seq .dot.i-7 .blip {
+  animation-delay: 420ms;
+}
+.misc-seq .dot.i-8 .blip {
+  animation-delay: 480ms;
+}
+.misc-seq .dot.i-9 .blip {
+  animation-delay: 540ms;
+}
+.misc-seq .dot.i-10 .blip {
+  animation-delay: 600ms;
+}
+.misc-seq .dot.i-11 .blip {
+  animation-delay: 660ms;
+}
+.misc-seq .dot.i-12 .blip {
+  animation-delay: 720ms;
+}
+.misc-seq .dot.i-13 .blip {
+  animation-delay: 780ms;
+}
+.misc-seq .dot.i-14 .blip {
+  animation-delay: 840ms;
+}
+.misc-seq .dot.i-15 .blip {
+  animation-delay: 900ms;
+}
+
+@keyframes misc-seq-pulse {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(5px) scale(1.8);
+    opacity: 1;
+  }
+}

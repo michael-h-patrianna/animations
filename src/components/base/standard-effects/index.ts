@@ -23,6 +23,15 @@ import { StandardEffectsSwing, metadata as swingMeta } from './framer/StandardEf
 import { StandardEffectsTada, metadata as tadaMeta } from './framer/StandardEffectsTada'
 import { StandardEffectsWiggle, metadata as wiggleMeta } from './framer/StandardEffectsWiggle'
 
+// CSS animations
+import { StandardEffectsFlip as CssStandardEffectsFlip, metadata as flipCssMeta } from './css/StandardEffectsFlip'
+import { StandardEffectsPop as CssStandardEffectsPop, metadata as popCssMeta } from './css/StandardEffectsPop'
+import { StandardEffectsPulse as CssStandardEffectsPulse, metadata as pulseCssMeta } from './css/StandardEffectsPulse'
+import { StandardEffectsPulseCircle as CssStandardEffectsPulseCircle, metadata as pulseCircleCssMeta } from './css/StandardEffectsPulseCircle'
+import { StandardEffectsPulseWave as CssStandardEffectsPulseWave, metadata as pulseWaveCssMeta } from './css/StandardEffectsPulseWave'
+import { StandardEffectsRadialPulse as CssStandardEffectsRadialPulse, metadata as radialPulseCssMeta } from './css/StandardEffectsRadialPulse'
+import { StandardEffectsSoftPulse as CssStandardEffectsSoftPulse, metadata as softPulseCssMeta } from './css/StandardEffectsSoftPulse'
+
 export const groupMetadata: GroupMetadata = {
   id: 'standard-effects',
   title: 'Standard effects',
@@ -56,5 +65,13 @@ export const groupExport: GroupExport = {
     'standard-effects__pulse-circle': { component: StandardEffectsPulseCircle, metadata: pulseCircleMeta },
     'standard-effects__soft-pulse': { component: StandardEffectsSoftPulse, metadata: softPulseMeta },
   },
-  css: {},
+  css: {
+    'standard-effects__flip': { component: CssStandardEffectsFlip, metadata: flipCssMeta },
+    'standard-effects__pop': { component: CssStandardEffectsPop, metadata: popCssMeta },
+    'standard-effects__pulse': { component: CssStandardEffectsPulse, metadata: pulseCssMeta },
+    'standard-effects__pulse-circle': { component: CssStandardEffectsPulseCircle, metadata: pulseCircleCssMeta },
+    'standard-effects__pulse-wave': { component: CssStandardEffectsPulseWave, metadata: pulseWaveCssMeta },
+    'standard-effects__radial-pulse': { component: CssStandardEffectsRadialPulse, metadata: radialPulseCssMeta },
+    'standard-effects__soft-pulse': { component: CssStandardEffectsSoftPulse, metadata: softPulseCssMeta },
+  },
 }

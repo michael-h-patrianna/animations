@@ -1,0 +1,141 @@
+.misc-orbital-pulse {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.misc-orbital-pulse .dot-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--pf-base-60);
+}
+.misc-orbital-pulse .orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: misc-orbit 8s linear infinite;
+}
+.misc-orbital-pulse .orbit:nth-child(1) {
+  width: 40px;
+  height: 40px;
+}
+.misc-orbital-pulse .orbit:nth-child(2) {
+  width: 70px;
+  height: 70px;
+  animation-duration: 10s;
+}
+.misc-orbital-pulse .orbit:nth-child(3) {
+  width: 100px;
+  height: 100px;
+  animation-duration: 12s;
+}
+.misc-orbital-pulse .orbit:nth-child(4) {
+  width: 130px;
+  height: 130px;
+  animation-duration: 14s;
+}
+.misc-orbital-pulse .orbit:nth-child(5) {
+  width: 150px;
+  height: 150px;
+  animation-duration: 16s;
+}
+.misc-orbital-pulse .dot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: rgba(236, 195, 255, 0.85);
+  box-shadow: 0 0 6px rgba(196, 122, 229, 0.35);
+}
+/* Place dots evenly using CSS var index via nth-child */
+.misc-orbital-pulse .orbit .dot {
+  --count: 16;
+}
+.misc-orbital-pulse .orbit:nth-child(1) .dot {
+  --count: 12;
+}
+.misc-orbital-pulse .orbit:nth-child(2) .dot {
+  --count: 16;
+}
+.misc-orbital-pulse .orbit:nth-child(3) .dot {
+  --count: 20;
+}
+.misc-orbital-pulse .orbit:nth-child(4) .dot {
+  --count: 24;
+}
+.misc-orbital-pulse .orbit:nth-child(5) .dot {
+  --count: 28;
+}
+.misc-orbital-pulse .orbit .dot {
+  counter-reset: i var(--i);
+}
+.misc-orbital-pulse .orbit .dot {
+  animation: misc-pulse 2.4s ease-in-out infinite;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(n) {
+  --i: calc(var(--n));
+}
+.misc-orbital-pulse .orbit .dot {
+  transform: rotate(calc(var(--idx, 0) * 1deg)) translateY(0);
+}
+/* Use nth-child to set angle */
+.misc-orbital-pulse .orbit .dot:nth-child(1) {
+  --idx: 0;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(2) {
+  --idx: 12;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(3) {
+  --idx: 24;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(4) {
+  --idx: 36;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(5) {
+  --idx: 48;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(6) {
+  --idx: 60;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(7) {
+  --idx: 72;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(8) {
+  --idx: 84;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(9) {
+  --idx: 96;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(10) {
+  --idx: 108;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(11) {
+  --idx: 120;
+}
+.misc-orbital-pulse .orbit .dot:nth-child(12) {
+  --idx: 132;
+}
+/* Keyframes */
+@keyframes misc-orbit {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@keyframes misc-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}

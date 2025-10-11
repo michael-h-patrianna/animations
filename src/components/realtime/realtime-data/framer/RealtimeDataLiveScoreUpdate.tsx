@@ -22,8 +22,11 @@ export function RealtimeDataLiveScoreUpdate() {
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
+    let countInterval: ReturnType<typeof setInterval>
+    let isMounted = true
 
     const startAnimation = async () => {
+      if (!isMounted) return
       // start animation
 
       // Animate both scores
@@ -44,7 +47,11 @@ export function RealtimeDataLiveScoreUpdate() {
       let step = 0
       const steps = 20
 
-      const countInterval = setInterval(() => {
+      countInterval = setInterval(() => {
+        if (!isMounted) {
+          clearInterval(countInterval)
+          return
+        }
         step++
         const progress = step / steps
         const easeProgress = 1 - Math.pow(1 - progress, 3) // ease-out cubic
@@ -63,17 +70,28 @@ export function RealtimeDataLiveScoreUpdate() {
       await Promise.all(promises)
       // end animation
 
+      if (!isMounted) return
+
       // Reset after delay
       timeoutId = setTimeout(() => {
+        if (!isMounted) return
         setScores([1450, 1320])
-        setTimeout(startAnimation, 1000)
+        setTimeout(() => {
+          if (isMounted) startAnimation()
+        }, 1000)
       }, 2000)
     }
 
-    startAnimation()
+    // Small delay to ensure component is fully mounted
+    const mountTimer = setTimeout(() => {
+      if (isMounted) startAnimation()
+    }, 100)
 
     return () => {
+      isMounted = false
+      clearTimeout(mountTimer)
       if (timeoutId) clearTimeout(timeoutId)
+      if (countInterval) clearInterval(countInterval)
     }
   }, [controls1, controls2])
 

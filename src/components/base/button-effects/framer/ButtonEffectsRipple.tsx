@@ -1,5 +1,5 @@
 import type { AnimationMetadata } from '@/types/animation'
-import { easeOut, motion } from 'framer-motion'
+import { easeOut, motion, useReducedMotion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsRipple.css'
@@ -12,9 +12,10 @@ interface Ripple {
 }
 
 export function ButtonEffectsRipple() {
-const btnRef = useRef<HTMLButtonElement>(null)
+  const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
+  const shouldReduceMotion = useReducedMotion()
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const rect = btnRef.current?.getBoundingClientRect()

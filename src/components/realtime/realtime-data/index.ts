@@ -5,6 +5,12 @@ import { RealtimeDataLiveScoreUpdate, metadata as liveScoreMetadata } from './fr
 import { RealtimeDataStackedRealtime, metadata as stackedMetadata } from './framer/RealtimeDataStackedRealtime'
 import { RealtimeDataWinTicker, metadata as winTickerMetadata } from './framer/RealtimeDataWinTicker'
 
+// CSS animations
+import { RealtimeDataLeaderboardShift as CssRealtimeDataLeaderboardShift, metadata as leaderboardCssMetadata } from './css/RealtimeDataLeaderboardShift'
+import { RealtimeDataLiveScoreUpdate as CssRealtimeDataLiveScoreUpdate, metadata as liveScoreCssMetadata } from './css/RealtimeDataLiveScoreUpdate'
+import { RealtimeDataStackedRealtime as CssRealtimeDataStackedRealtime, metadata as stackedCssMetadata } from './css/RealtimeDataStackedRealtime'
+import { RealtimeDataWinTicker as CssRealtimeDataWinTicker, metadata as winTickerCssMetadata } from './css/RealtimeDataWinTicker'
+
 export const groupMetadata: GroupMetadata = {
   id: 'realtime-data',
   title: 'Realtime data',
@@ -32,6 +38,23 @@ export const groupExport: GroupExport = {
       metadata: stackedMetadata
     }
   },
-  css: {},
+  css: {
+    'realtime-data__leaderboard-shift': {
+      component: CssRealtimeDataLeaderboardShift,
+      metadata: leaderboardCssMetadata
+    },
+    'realtime-data__live-score-update': {
+      component: CssRealtimeDataLiveScoreUpdate,
+      metadata: liveScoreCssMetadata
+    },
+    'realtime-data__win-ticker': {
+      component: CssRealtimeDataWinTicker,
+      metadata: winTickerCssMetadata
+    },
+    'realtime-data__stacked-realtime': {
+      component: CssRealtimeDataStackedRealtime,
+      metadata: stackedCssMetadata
+    }
+  },
 }
 

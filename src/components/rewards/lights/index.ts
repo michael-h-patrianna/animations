@@ -6,6 +6,16 @@ import LightsCircleStatic5, { metadata as metadata5 } from './framer/LightsCircl
 import LightsCircleStatic6, { metadata as metadata6 } from './framer/LightsCircleStatic6'
 import LightsCircleStatic7, { metadata as metadata7 } from './framer/LightsCircleStatic7'
 import LightsCircleStatic8, { metadata as metadata8 } from './framer/LightsCircleStatic8'
+
+// CSS animations
+import CssLightsCircleStatic1, { metadata as cssMetadata1 } from './css/LightsCircleStatic1'
+import CssLightsCircleStatic2, { metadata as cssMetadata2 } from './css/LightsCircleStatic2'
+import CssLightsCircleStatic3, { metadata as cssMetadata3 } from './css/LightsCircleStatic3'
+import CssLightsCircleStatic4, { metadata as cssMetadata4 } from './css/LightsCircleStatic4'
+import CssLightsCircleStatic5, { metadata as cssMetadata5 } from './css/LightsCircleStatic5'
+import CssLightsCircleStatic6, { metadata as cssMetadata6 } from './css/LightsCircleStatic6'
+import CssLightsCircleStatic7, { metadata as cssMetadata7 } from './css/LightsCircleStatic7'
+import CssLightsCircleStatic8, { metadata as cssMetadata8 } from './css/LightsCircleStatic8'
 import type { GroupMetadata, GroupExport } from '@/types/animation'
 
 
@@ -28,5 +38,14 @@ export const groupExport: GroupExport = {
     'lights__circle-static-7': { component: LightsCircleStatic7, metadata: metadata7 },
     'lights__circle-static-8': { component: LightsCircleStatic8, metadata: metadata8 },
   },
-  css: {},
+  css: {
+    'lights__circle-static-1': { component: CssLightsCircleStatic1, metadata: cssMetadata1 },
+    'lights__circle-static-2': { component: CssLightsCircleStatic2, metadata: cssMetadata2 },
+    'lights__circle-static-3': { component: CssLightsCircleStatic3, metadata: cssMetadata3 },
+    'lights__circle-static-4': { component: CssLightsCircleStatic4, metadata: cssMetadata4 },
+    'lights__circle-static-5': { component: CssLightsCircleStatic5, metadata: cssMetadata5 },
+    'lights__circle-static-6': { component: CssLightsCircleStatic6, metadata: cssMetadata6 },
+    'lights__circle-static-7': { component: CssLightsCircleStatic7, metadata: cssMetadata7 },
+    'lights__circle-static-8': { component: CssLightsCircleStatic8, metadata: cssMetadata8 },
+  },
 }

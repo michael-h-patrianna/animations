@@ -32,6 +32,40 @@ import {
   metadata as metadataListVerticalWipe
 } from './framer/ModalContentListVerticalWipe'
 
+// CSS animations
+import {
+  ModalContentButtonsStagger2 as CssModalContentButtonsStagger2,
+  metadata as metadataButtonsStagger2Css
+} from './css/ModalContentButtonsStagger2'
+import {
+  ModalContentButtonsStagger3 as CssModalContentButtonsStagger3,
+  metadata as metadataButtonsStagger3Css
+} from './css/ModalContentButtonsStagger3'
+import {
+  ModalContentFormFieldGradient as CssModalContentFormFieldGradient,
+  metadata as metadataFormFieldGradientCss
+} from './css/ModalContentFormFieldGradient'
+import {
+  ModalContentFormFieldLeftReveal as CssModalContentFormFieldLeftReveal,
+  metadata as metadataFormFieldLeftRevealCss
+} from './css/ModalContentFormFieldLeftReveal'
+import {
+  ModalContentFormFieldRightReveal as CssModalContentFormFieldRightReveal,
+  metadata as metadataFormFieldRightRevealCss
+} from './css/ModalContentFormFieldRightReveal'
+import {
+  ModalContentListSoftStagger as CssModalContentListSoftStagger,
+  metadata as metadataListSoftStaggerCss
+} from './css/ModalContentListSoftStagger'
+import {
+  ModalContentListSpotlight as CssModalContentListSpotlight,
+  metadata as metadataListSpotlightCss
+} from './css/ModalContentListSpotlight'
+import {
+  ModalContentListVerticalWipe as CssModalContentListVerticalWipe,
+  metadata as metadataListVerticalWipeCss
+} from './css/ModalContentListVerticalWipe'
+
 // Group metadata
 export const groupMetadata: GroupMetadata = {
   id: 'modal-content',
@@ -73,6 +107,39 @@ export const groupExport: GroupExport = {
       metadata: metadataListVerticalWipe
     }
   },
-  css: {},
+  css: {
+    'modal-content__buttons-stagger-2': {
+      component: CssModalContentButtonsStagger2,
+      metadata: metadataButtonsStagger2Css
+    },
+    'modal-content__buttons-stagger-3': {
+      component: CssModalContentButtonsStagger3,
+      metadata: metadataButtonsStagger3Css
+    },
+    'modal-content__form-field-gradient': {
+      component: CssModalContentFormFieldGradient,
+      metadata: metadataFormFieldGradientCss
+    },
+    'modal-content__form-field-left-reveal': {
+      component: CssModalContentFormFieldLeftReveal,
+      metadata: metadataFormFieldLeftRevealCss
+    },
+    'modal-content__form-field-right-reveal': {
+      component: CssModalContentFormFieldRightReveal,
+      metadata: metadataFormFieldRightRevealCss
+    },
+    'modal-content__list-soft-stagger': {
+      component: CssModalContentListSoftStagger,
+      metadata: metadataListSoftStaggerCss
+    },
+    'modal-content__list-spotlight': {
+      component: CssModalContentListSpotlight,
+      metadata: metadataListSpotlightCss
+    },
+    'modal-content__list-vertical-wipe': {
+      component: CssModalContentListVerticalWipe,
+      metadata: metadataListVerticalWipeCss
+    }
+  },
 }
 

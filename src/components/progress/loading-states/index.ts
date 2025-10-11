@@ -12,6 +12,19 @@ import { LoadingStatesSpinnerDualRing, metadata as spinnerDualRingMeta } from '.
 import { LoadingStatesSpinnerGalaxy, metadata as spinnerGalaxyMeta } from './framer/LoadingStatesSpinnerGalaxy'
 import { LoadingStatesSpinnerOrbital, metadata as spinnerOrbitalMeta } from './framer/LoadingStatesSpinnerOrbital'
 
+// CSS animations
+import { LoadingStatesDotsPortal as CssLoadingStatesDotsPortal, metadata as dotsPortalCssMeta } from './css/LoadingStatesDotsPortal'
+import { LoadingStatesDotsRise as CssLoadingStatesDotsRise, metadata as dotsRiseCssMeta } from './css/LoadingStatesDotsRise'
+import { LoadingStatesRingMulti as CssLoadingStatesRingMulti, metadata as ringMultiCssMeta } from './css/LoadingStatesRingMulti'
+import { LoadingStatesRingProgress as CssLoadingStatesRingProgress, metadata as ringProgressCssMeta } from './css/LoadingStatesRingProgress'
+import { LoadingStatesSkeletonCard as CssLoadingStatesSkeletonCard, metadata as skeletonCardCssMeta } from './css/LoadingStatesSkeletonCard'
+import { LoadingStatesSkeletonHorizontal as CssLoadingStatesSkeletonHorizontal, metadata as skeletonHorizontalCssMeta } from './css/LoadingStatesSkeletonHorizontal'
+import { LoadingStatesSkeletonTile as CssLoadingStatesSkeletonTile, metadata as skeletonTileCssMeta } from './css/LoadingStatesSkeletonTile'
+import { LoadingStatesSkeletonVertical as CssLoadingStatesSkeletonVertical, metadata as skeletonVerticalCssMeta } from './css/LoadingStatesSkeletonVertical'
+import { LoadingStatesSpinnerDualRing as CssLoadingStatesSpinnerDualRing, metadata as spinnerDualRingCssMeta } from './css/LoadingStatesSpinnerDualRing'
+import { LoadingStatesSpinnerGalaxy as CssLoadingStatesSpinnerGalaxy, metadata as spinnerGalaxyCssMeta } from './css/LoadingStatesSpinnerGalaxy'
+import { LoadingStatesSpinnerOrbital as CssLoadingStatesSpinnerOrbital, metadata as spinnerOrbitalCssMeta } from './css/LoadingStatesSpinnerOrbital'
+
 
 export const groupMetadata: GroupMetadata = {
   id: 'loading-states',
@@ -68,5 +81,50 @@ export const groupExport: GroupExport = {
       metadata: ringMultiMeta
     }
   },
-  css: {},
+  css: {
+    'loading-states__skeleton-horizontal': {
+      component: CssLoadingStatesSkeletonHorizontal,
+      metadata: skeletonHorizontalCssMeta
+    },
+    'loading-states__skeleton-vertical': {
+      component: CssLoadingStatesSkeletonVertical,
+      metadata: skeletonVerticalCssMeta
+    },
+    'loading-states__skeleton-tile': {
+      component: CssLoadingStatesSkeletonTile,
+      metadata: skeletonTileCssMeta
+    },
+    'loading-states__skeleton-card': {
+      component: CssLoadingStatesSkeletonCard,
+      metadata: skeletonCardCssMeta
+    },
+    'loading-states__spinner-dual-ring': {
+      component: CssLoadingStatesSpinnerDualRing,
+      metadata: spinnerDualRingCssMeta
+    },
+    'loading-states__spinner-orbital': {
+      component: CssLoadingStatesSpinnerOrbital,
+      metadata: spinnerOrbitalCssMeta
+    },
+    'loading-states__spinner-galaxy': {
+      component: CssLoadingStatesSpinnerGalaxy,
+      metadata: spinnerGalaxyCssMeta
+    },
+    'loading-states__dots-rise': {
+      component: CssLoadingStatesDotsRise,
+      metadata: dotsRiseCssMeta
+    },
+    'loading-states__dots-portal': {
+      component: CssLoadingStatesDotsPortal,
+      metadata: dotsPortalCssMeta
+    },
+    'loading-states__ring-progress': {
+      component: CssLoadingStatesRingProgress,
+      metadata: ringProgressCssMeta
+    },
+    'loading-states__ring-multi': {
+      component: CssLoadingStatesRingMulti,
+      metadata: ringMultiCssMeta
+    }
+  },
 }

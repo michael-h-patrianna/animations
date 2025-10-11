@@ -1,0 +1,23 @@
+import type { AnimationMetadata } from '@/types/animation'
+import './MiscOscillatingDots.css'
+
+export function MiscOscillatingDots() {
+  return (
+    <div className="misc-osc" role="img" aria-label="Oscillating dots">
+      {Array.from({ length: 5 }).map((_, row) => (
+        <div key={row} className={`row r-${row}`}>
+          {Array.from({ length: 18 }).map((_, i) => (
+            <span key={i} className={`dot i-${i}`} />
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export const metadata = {
+  id: 'misc__oscillating-dots',
+  title: 'Oscillating Dots',
+  description: 'Rows of dots oscillate vertically with staggered phases.',
+  tags: ['css']
+} satisfies AnimationMetadata

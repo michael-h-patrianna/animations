@@ -1,0 +1,47 @@
+/* Styles scoped for ModalOrchestrationWizardScaleRotate */
+.pf-wizard {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+  min-height: 360px;
+  position: relative;
+}
+.pf-wizard__steps {
+  display: flex;
+  gap: 8px;
+}
+.pf-wizard__step {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(236, 195, 255, 0.1);
+  border: 1px solid rgba(236, 195, 255, 0.16);
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.76);
+}
+.pf-wizard__step--highlighted {
+  background: rgba(236, 195, 255, 0.28);
+  border: 2px solid rgba(196, 122, 229, 0.85);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.45);
+}
+.pf-wizard__panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pf-wizard__panel {
+  position: relative;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+}
+.pf-wizard__panel--highlighted {
+  background: rgba(236, 195, 255, 0.25);
+  border: 2px solid rgba(196, 122, 229, 0.75);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.4);
+}

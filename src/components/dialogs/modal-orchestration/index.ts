@@ -9,6 +9,48 @@ import {
   metadata as selectionGridMetadata,
 } from './framer/ModalOrchestrationSelectionGrid'
 import { ModalOrchestrationTabMorph, metadata as tabMorphMetadata } from './framer/ModalOrchestrationTabMorph'
+
+// CSS animations
+import {
+  ModalOrchestrationComparisonMorph as CssModalOrchestrationComparisonMorph,
+  metadata as comparisonMorphCssMetadata,
+} from './css/ModalOrchestrationComparisonMorph'
+import {
+  ModalOrchestrationFlipReveal as CssModalOrchestrationFlipReveal,
+  metadata as flipRevealCssMetadata,
+} from './css/ModalOrchestrationFlipReveal'
+import {
+  ModalOrchestrationMagneticHover as CssModalOrchestrationMagneticHover,
+  metadata as magneticHoverCssMetadata,
+} from './css/ModalOrchestrationMagneticHover'
+import {
+  ModalOrchestrationSelectionGrid as CssModalOrchestrationSelectionGrid,
+  metadata as selectionGridCssMetadata,
+} from './css/ModalOrchestrationSelectionGrid'
+import {
+  ModalOrchestrationSpringPhysics as CssModalOrchestrationSpringPhysics,
+  metadata as springPhysicsCssMetadata,
+} from './css/ModalOrchestrationSpringPhysics'
+import {
+  ModalOrchestrationStaggerInview as CssModalOrchestrationStaggerInview,
+  metadata as staggerInviewCssMetadata,
+} from './css/ModalOrchestrationStaggerInview'
+import {
+  ModalOrchestrationTabMorph as CssModalOrchestrationTabMorph,
+  metadata as tabMorphCssMetadata,
+} from './css/ModalOrchestrationTabMorph'
+import {
+  ModalOrchestrationWizardFadeCross as CssModalOrchestrationWizardFadeCross,
+  metadata as wizardFadeCrossCssMetadata,
+} from './css/ModalOrchestrationWizardFadeCross'
+import {
+  ModalOrchestrationWizardScaleRotate as CssModalOrchestrationWizardScaleRotate,
+  metadata as wizardScaleRotateCssMetadata,
+} from './css/ModalOrchestrationWizardScaleRotate'
+import {
+  ModalOrchestrationWizardSlideStack as CssModalOrchestrationWizardSlideStack,
+  metadata as wizardSlideStackCssMetadata,
+} from './css/ModalOrchestrationWizardSlideStack'
 import {
   ModalOrchestrationWizardFadeCross,
   metadata as wizardFadeCrossMetadata,
@@ -89,5 +131,46 @@ export const groupExport: GroupExport = {
       metadata: flipRevealMetadata,
     },
   },
-  css: {},
+  css: {
+    'modal-orchestration__wizard-slide-stack': {
+      component: CssModalOrchestrationWizardSlideStack,
+      metadata: wizardSlideStackCssMetadata,
+    },
+    'modal-orchestration__wizard-fade-cross': {
+      component: CssModalOrchestrationWizardFadeCross,
+      metadata: wizardFadeCrossCssMetadata,
+    },
+    'modal-orchestration__wizard-scale-rotate': {
+      component: CssModalOrchestrationWizardScaleRotate,
+      metadata: wizardScaleRotateCssMetadata,
+    },
+    'modal-orchestration__tab-morph': {
+      component: CssModalOrchestrationTabMorph,
+      metadata: tabMorphCssMetadata,
+    },
+    'modal-orchestration__selection-grid': {
+      component: CssModalOrchestrationSelectionGrid,
+      metadata: selectionGridCssMetadata,
+    },
+    'modal-orchestration__comparison-morph': {
+      component: CssModalOrchestrationComparisonMorph,
+      metadata: comparisonMorphCssMetadata,
+    },
+    'modal-orchestration__stagger-inview': {
+      component: CssModalOrchestrationStaggerInview,
+      metadata: staggerInviewCssMetadata,
+    },
+    'modal-orchestration__spring-physics': {
+      component: CssModalOrchestrationSpringPhysics,
+      metadata: springPhysicsCssMetadata,
+    },
+    'modal-orchestration__magnetic-hover': {
+      component: CssModalOrchestrationMagneticHover,
+      metadata: magneticHoverCssMetadata,
+    },
+    'modal-orchestration__flip-reveal': {
+      component: CssModalOrchestrationFlipReveal,
+      metadata: flipRevealCssMetadata,
+    },
+  },
 }
