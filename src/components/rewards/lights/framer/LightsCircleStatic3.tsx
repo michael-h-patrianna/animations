@@ -9,22 +9,126 @@ interface LightsCircleStatic3Props {
   onColor?: string;
 }
 
+const animationDuration = 5;
+
+// Container variant with staggerChildren for accelerating spin effect
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: (animationDuration / 16) * 0.08, // Small stagger for sequential effect
+    }
+  }
+};
+
+// Winner bulb glow variant (first bulb - celebration)
+const glowVariantsWinner = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0, 1, 0.95],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.79, 0.80, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Winner bulb variant with big celebration glow
+const bulbVariantsWinner = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-off)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 25px var(--bulb-on-glow80)`,
+      `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 25px var(--bulb-on-glow80)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.79, 0.80, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Regular bulb glow variant (all other bulbs)
+const glowVariantsRegular = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.8, 0.8, 0.4, 0, 1, 0.8, 0.4, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.04, 0.06, 0.08, 0.30, 0.55, 0.57, 0.59],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Regular bulb variant with multi-phase animation
+// Phase 1: Sequential chase → Phase 2: All bulbs ON (blur) → Phase 3: Sequential again
+const bulbVariantsRegular = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on)`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-off)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on)`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+      `0 0 4px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 12px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 18px var(--bulb-on-glow80)`,
+      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+      `0 0 4px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-off-glow30)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.04, 0.06, 0.08, 0.30, 0.55, 0.57, 0.59],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
 const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
   numBulbs = 16,
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-;
   const radius = 80;
-  const animationDuration = 5; // seconds
-  const delayPerBulb = animationDuration / numBulbs * 0.08;
 
   const bulbs = Array.from({ length: numBulbs }, (_, i) => {
     const angle = (i * 360) / numBulbs - 90;
     const angleRad = (angle * Math.PI) / 180;
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
-    const delay = i * delayPerBulb;
     const isWinner = i === 0;
 
     return (
@@ -37,79 +141,11 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
       >
         <motion.div
           className="lights-circle-static-3__glow"
-          animate={isWinner ? {
-            opacity: [0, 0, 1, 0.95],
-            transition: {
-              duration: animationDuration,
-              times: [0, 0.79, 0.80, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay
-            }
-          } : {
-            opacity: [0, 0.8, 0.8, 0.4, 0, 1, 0.8, 0.4, 0],
-            transition: {
-              duration: animationDuration,
-              times: [0, 0.01, 0.04, 0.06, 0.08, 0.30, 0.55, 0.57, 0.59],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay
-            }
-          }}
+          variants={isWinner ? glowVariantsWinner : glowVariantsRegular}
         />
         <motion.div
           className="lights-circle-static-3__bulb"
-          animate={isWinner ? {
-            backgroundColor: [
-              `var(--bulb-off)`,
-              `var(--bulb-off)`,
-              `var(--bulb-on)`,
-              `var(--bulb-on)`
-            ],
-            boxShadow: [
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 25px var(--bulb-on-glow80)`,
-              `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 25px var(--bulb-on-glow80)`
-            ],
-            transition: {
-              duration: animationDuration,
-              times: [0, 0.79, 0.80, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay
-            }
-          } : {
-            backgroundColor: [
-              `var(--bulb-off)`,
-              `var(--bulb-on)`,
-              `var(--bulb-on)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-off)`,
-              `var(--bulb-on)`,
-              `var(--bulb-on)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-off)`
-            ],
-            boxShadow: [
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
-              `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
-              `0 0 4px var(--bulb-on-glow50)`,
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 12px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 18px var(--bulb-on-glow80)`,
-              `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
-              `0 0 4px var(--bulb-on-glow50)`,
-              `0 0 2px var(--bulb-off-glow30)`
-            ],
-            transition: {
-              duration: animationDuration,
-              times: [0, 0.01, 0.04, 0.06, 0.08, 0.30, 0.55, 0.57, 0.59],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay
-            }
-          }}
+          variants={isWinner ? bulbVariantsWinner : bulbVariantsRegular}
         />
       </div>
     );
@@ -142,7 +178,14 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <div className="lights-circle-static-3__container">{bulbs}</div>
+      <motion.div
+        className="lights-circle-static-3__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {bulbs}
+      </motion.div>
     </div>
   );
 };

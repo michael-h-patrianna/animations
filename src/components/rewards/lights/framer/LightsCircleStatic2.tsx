@@ -9,23 +9,91 @@ interface LightsCircleStatic2Props {
   onColor?: string;
 }
 
+const animationDuration = 1.6;
+
+// Container variant with staggerChildren for sequential chase
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: animationDuration / 16, // Stagger evenly across all bulbs
+    }
+  }
+};
+
+// Glow variant for chase effect
+const glowVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.1, 0.25, 0.45, 0.7, 0.9, 0.9, 0.75, 0.6, 0.4, 0.2, 0.08, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938, 0.1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Bulb variant for chase effect with smooth ramp up/down
+const bulbVariants = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `color-mix(in srgb, var(--bulb-off) 90%, var(--bulb-on) 10%)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-blend40)`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on)`,
+      `color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%)`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-blend40)`,
+      `var(--bulb-off-tint30)`,
+      `color-mix(in srgb, var(--bulb-off) 90%, var(--bulb-on) 10%)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow35)`,
+      `0 0 3px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 5px var(--bulb-on-glow50), 0 0 8px var(--bulb-on-glow35)`,
+      `0 0 7px var(--bulb-on-glow70), 0 0 11px var(--bulb-on-glow50)`,
+      `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70)`,
+      `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70)`,
+      `0 0 8px var(--bulb-on-glow80), 0 0 13px var(--bulb-on-glow60)`,
+      `0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 10px var(--bulb-on-glow45)`,
+      `0 0 4px var(--bulb-on-glow50)`,
+      `0 0 3px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 2px var(--bulb-off-glow35)`,
+      `0 0 2px var(--bulb-off-glow30)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938, 0.1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
 const LightsCircleStatic2: React.FC<LightsCircleStatic2Props> = ({
   numBulbs = 16,
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-;
   const radius = 80;
-
-  const animationDuration = 1.6; // seconds
-  const delayPerBulb = animationDuration / numBulbs;
 
   const bulbs = Array.from({ length: numBulbs }, (_, i) => {
     const angle = (i * 360) / numBulbs - 90;
     const angleRad = (angle * Math.PI) / 180;
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
-    const delay = i * delayPerBulb;
 
     return (
       <div
@@ -37,58 +105,11 @@ const LightsCircleStatic2: React.FC<LightsCircleStatic2Props> = ({
       >
         <motion.div
           className="lights-circle-static-2__glow"
-          animate={{
-            opacity: [0, 0.1, 0.25, 0.45, 0.7, 0.9, 0.9, 0.75, 0.6, 0.4, 0.2, 0.08, 0],
-            transition: {
-              duration: animationDuration,
-              times: [0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938, 0.1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay
-            }
-          }}
+          variants={glowVariants}
         />
         <motion.div
           className="lights-circle-static-2__bulb"
-          animate={{
-            backgroundColor: [
-              `var(--bulb-off)`,
-              `color-mix(in srgb, var(--bulb-off) 90%, var(--bulb-on) 10%)`,
-              `var(--bulb-off-tint30)`,
-              `var(--bulb-blend40)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-on)`,
-              `var(--bulb-on)`,
-              `color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-blend40)`,
-              `var(--bulb-off-tint30)`,
-              `color-mix(in srgb, var(--bulb-off) 90%, var(--bulb-on) 10%)`,
-              `var(--bulb-off)`
-            ],
-            boxShadow: [
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 2px var(--bulb-off-glow35)`,
-              `0 0 3px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
-              `0 0 5px var(--bulb-on-glow50), 0 0 8px var(--bulb-on-glow35)`,
-              `0 0 7px var(--bulb-on-glow70), 0 0 11px var(--bulb-on-glow50)`,
-              `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70)`,
-              `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70)`,
-              `0 0 8px var(--bulb-on-glow80), 0 0 13px var(--bulb-on-glow60)`,
-              `0 0 6px color-mix(in srgb, var(--bulb-on) 65%, transparent), 0 0 10px var(--bulb-on-glow45)`,
-              `0 0 4px var(--bulb-on-glow50)`,
-              `0 0 3px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
-              `0 0 2px var(--bulb-off-glow35)`,
-              `0 0 2px var(--bulb-off-glow30)`
-            ],
-            transition: {
-              duration: animationDuration,
-              times: [0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938, 0.1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay
-            }
-          }}
+          variants={bulbVariants}
         />
       </div>
     );
@@ -121,7 +142,14 @@ const LightsCircleStatic2: React.FC<LightsCircleStatic2Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <div className="lights-circle-static-2__container">{bulbs}</div>
+      <motion.div
+        className="lights-circle-static-2__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {bulbs}
+      </motion.div>
     </div>
   );
 };

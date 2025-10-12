@@ -9,12 +9,202 @@ interface LightsCircleStatic1Props {
   onColor?: string;
 }
 
+const animationDuration = 1.2;
+
+// Container variant with staggerChildren
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0, // No stagger for alternating pattern
+    }
+  }
+};
+
+// Define variants for even bulbs with multi-layer glow effects
+const glowOuterVariantsEven = {
+  hidden: { opacity: 0.65 },
+  show: {
+    opacity: [0.65, 0.3, 0, 0, 0.3, 0.65],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+const glowInnerVariantsEven = {
+  hidden: { opacity: 0.8 },
+  show: {
+    opacity: [0.8, 0.4, 0, 0, 0.4, 0.8],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+const filamentVariantsEven = {
+  hidden: { opacity: 0.85 },
+  show: {
+    opacity: [0.85, 0.4, 0, 0, 0.4, 0.85],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+const bulbVariantsEven = {
+  hidden: {
+    background: `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
+    boxShadow: `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+    transform: `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
+    borderColor: `rgba(255, 255, 255, 0.35)`
+  },
+  show: {
+    background: [
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`,
+      `var(--bulb-blend70)`,
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`
+    ],
+    boxShadow: [
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `none`,
+      `none`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`
+    ],
+    transform: [
+      `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
+      `translate(-50%, -50%) scale(1.06) rotate(0.75deg)`,
+      `translate(-50%, -50%) scale(1) rotate(0deg)`,
+      `translate(-50%, -50%) scale(1) rotate(0deg)`,
+      `translate(-50%, -50%) scale(1.06) rotate(0.75deg)`,
+      `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`
+    ],
+    borderColor: [
+      `rgba(255, 255, 255, 0.35)`,
+      `rgba(255, 255, 255, 0.22)`,
+      `rgba(255, 255, 255, 0.1)`,
+      `rgba(255, 255, 255, 0.1)`,
+      `rgba(255, 255, 255, 0.22)`,
+      `rgba(255, 255, 255, 0.35)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Define variants for odd bulbs with multi-layer glow effects
+const glowOuterVariantsOdd = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.3, 0.65, 0.65, 0.3, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+const glowInnerVariantsOdd = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.4, 0.8, 0.8, 0.4, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+const filamentVariantsOdd = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.4, 0.85, 0.85, 0.4, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+const bulbVariantsOdd = {
+  hidden: {
+    background: `var(--bulb-off)`,
+    boxShadow: `none`,
+    transform: `translate(-50%, -50%) scale(1) rotate(0deg)`,
+    borderColor: `rgba(255, 255, 255, 0.1)`
+  },
+  show: {
+    background: [
+      `var(--bulb-off)`,
+      `var(--bulb-blend70)`,
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `none`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `none`
+    ],
+    transform: [
+      `translate(-50%, -50%) scale(1) rotate(0deg)`,
+      `translate(-50%, -50%) scale(1.06) rotate(0.75deg)`,
+      `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
+      `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
+      `translate(-50%, -50%) scale(1.06) rotate(0.75deg)`,
+      `translate(-50%, -50%) scale(1) rotate(0deg)`
+    ],
+    borderColor: [
+      `rgba(255, 255, 255, 0.1)`,
+      `rgba(255, 255, 255, 0.22)`,
+      `rgba(255, 255, 255, 0.35)`,
+      `rgba(255, 255, 255, 0.35)`,
+      `rgba(255, 255, 255, 0.22)`,
+      `rgba(255, 255, 255, 0.1)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.358, 0.367, 0.767, 0.775, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
 const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
   numBulbs = 16,
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-;
   const radius = 80;
 
   const bulbs = Array.from({ length: numBulbs }, (_, i) => {
@@ -23,24 +213,6 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
     const isEven = i % 2 === 0;
-    // Animation variants for even/odd bulbs
-    const glowVariant = isEven ? {
-      opacity: [0.9, 0.4, 0, 0, 0.4, 0.9],
-      transition: {
-        duration: 1.2,
-        times: [0, 0.358, 0.367, 0.767, 0.775, 1],
-        repeat: Infinity,
-        ease: [0.42, 0, 0.58, 1] as const
-      }
-    } : {
-      opacity: [0, 0.4, 0.9, 0.9, 0.4, 0],
-      transition: {
-        duration: 1.2,
-        times: [0, 0.358, 0.367, 0.767, 0.775, 1],
-        repeat: Infinity,
-        ease: [0.42, 0, 0.58, 1] as const
-      }
-    };
 
     return (
       <div
@@ -50,59 +222,28 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
           transform: `translate(${x}px, ${y}px)`,
         }}
       >
+        {/* Outer glow layer */}
         <motion.div
-          className="lights-circle-static-1__glow"
-          animate={glowVariant}
+          className="lights-circle-static-1__glow-outer"
+          variants={isEven ? glowOuterVariantsEven : glowOuterVariantsOdd}
         />
+        {/* Inner glow layer */}
+        <motion.div
+          className="lights-circle-static-1__glow-inner"
+          variants={isEven ? glowInnerVariantsEven : glowInnerVariantsOdd}
+        />
+        {/* Main bulb */}
         <motion.div
           className="lights-circle-static-1__bulb"
-          animate={isEven ? {
-            backgroundColor: [
-              `var(--bulb-on)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-off)`,
-              `var(--bulb-off)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-on)`
-            ],
-            boxShadow: [
-              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
-              `0 0 2px var(--bulb-on-glow50)`,
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 2px var(--bulb-on-glow50)`,
-              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`
-            ],
-            transition: {
-              duration: 1.2,
-              times: [0, 0.358, 0.367, 0.767, 0.775, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const
-            }
-          } : {
-            backgroundColor: [
-              `var(--bulb-off)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-on)`,
-              `var(--bulb-on)`,
-              `var(--bulb-blend70)`,
-              `var(--bulb-off)`
-            ],
-            boxShadow: [
-              `0 0 2px var(--bulb-off-glow30)`,
-              `0 0 2px var(--bulb-on-glow50)`,
-              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
-              `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
-              `0 0 2px var(--bulb-on-glow50)`,
-              `0 0 2px var(--bulb-off-glow30)`
-            ],
-            transition: {
-              duration: 1.2,
-              times: [0, 0.358, 0.367, 0.767, 0.775, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const
-            }
-          }}
+          variants={isEven ? bulbVariantsEven : bulbVariantsOdd}
+        >
+          {/* Glass shine overlay */}
+          <div className="lights-circle-static-1__glass-shine" />
+        </motion.div>
+        {/* Filament (bright core) */}
+        <motion.div
+          className="lights-circle-static-1__filament"
+          variants={isEven ? filamentVariantsEven : filamentVariantsOdd}
         />
       </div>
     );
@@ -135,7 +276,14 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <div className="lights-circle-static-1__container">{bulbs}</div>
+      <motion.div
+        className="lights-circle-static-1__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {bulbs}
+      </motion.div>
     </div>
   );
 };

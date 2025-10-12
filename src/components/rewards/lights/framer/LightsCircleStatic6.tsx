@@ -9,17 +9,129 @@ interface LightsCircleStatic6Props {
   onColor?: string;
 }
 
+const animationDuration = 4.8; // Divisible by 3 for waltz timing
+const groupSize = 3;
+
+// Container variant with staggerChildren for waltz group pattern
+// Note: We cannot use staggerChildren for the waltz pattern because each group member
+// needs a different animation AND a different delay offset within the group.
+// The parent container will not stagger, but we'll handle timing via custom delays.
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0, // No stagger at container level
+    }
+  }
+};
+
+// Strong beat glow variant (1st in group) - brightest and longest
+const glowVariantsStrong = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.4, 1, 1, 0.7, 0.3, 0, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.03, 0.08, 0.10, 0.12, 0.14, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Strong beat bulb variant (1st in group)
+const bulbVariantsStrong = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on)`,
+      `color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 12px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 18px var(--bulb-on-glow80)`,
+      `0 0 12px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 18px var(--bulb-on-glow80)`,
+      `0 0 8px var(--bulb-on-glow70)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.03, 0.08, 0.10, 0.12, 0.14, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Weak beat glow variant (2nd and 3rd in group) - dimmer and shorter
+const glowVariantsWeak = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.2, 0.7, 0.7, 0.4, 0.15, 0, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Weak beat bulb variant (2nd and 3rd in group)
+const bulbVariantsWeak = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-off-tint20)`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-blend40)`,
+      `var(--bulb-off-tint20)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 3px var(--bulb-off-glow35)`,
+      `0 0 7px var(--bulb-on-glow70), 0 0 10px var(--bulb-on-glow50)`,
+      `0 0 7px var(--bulb-on-glow70), 0 0 10px var(--bulb-on-glow50)`,
+      `0 0 5px var(--bulb-on-glow50)`,
+      `0 0 3px var(--bulb-off-glow35)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
 const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
   numBulbs = 16,
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-;
   const radius = 80;
-  const animationDuration = 4.8; // seconds - divisible by 3 for waltz timing
-
-  // Waltz pattern: groups of 3 bulbs
-  const groupSize = 3;
   const numGroups = Math.ceil(numBulbs / groupSize);
   const delayPerGroup = animationDuration / numGroups;
 
@@ -34,66 +146,32 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
     const baseDelay = groupIndex * delayPerGroup;
     const beatDelay = positionInGroup * 0.15; // Stagger beats within group
     const totalDelay = baseDelay + beatDelay;
-    // Strong beat (position 0)
-    if (positionInGroup === 0) {
-      return (
-        <div
-          key={i}
-          className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
-          style={{
-            transform: `translate(${x}px, ${y}px)`,
-          }}
-        >
-          <motion.div
-            className="lights-circle-static-6__glow"
-            animate={{
-              opacity: [0, 0.4, 1, 1, 0.7, 0.3, 0, 0],
-            }}
-            transition={{
-              duration: animationDuration,
-              times: [0, 0.01, 0.03, 0.08, 0.10, 0.12, 0.14, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay: totalDelay,
-            }}
-          />
-          <motion.div
-            className="lights-circle-static-6__bulb"
-            animate={{
-              backgroundColor: [
-                colors.off,
-                colors.offTint30,
-                colors.on,
-                colors.on,
-                `color-mix(in srgb, ${colors.on} 95%, ${colors.off} 5%)`,
-                colors.offTint30,
-                colors.off,
-                colors.off
-              ],
-              boxShadow: [
-                `none`,
-                `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-                `0 0 12px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 18px ${colors.onGlow80}`,
-                `0 0 12px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 18px ${colors.onGlow80}`,
-                `0 0 8px ${colors.onGlow70}`,
-                `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-                `none`,
-                `none`
-              ],
-            }}
-            transition={{
-              duration: animationDuration,
-              times: [0, 0.01, 0.03, 0.08, 0.10, 0.12, 0.14, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay: totalDelay,
-            }}
-          />
-        </div>
-      );
-    }
 
-    // Weak beats (positions 1 and 2)
+    const isStrongBeat = positionInGroup === 0;
+
+    // Create custom transition with delay for this specific bulb
+    const customGlowVariants = {
+      hidden: { opacity: 0 },
+      show: {
+        ...((isStrongBeat ? glowVariantsStrong : glowVariantsWeak).show as any),
+        transition: {
+          ...((isStrongBeat ? glowVariantsStrong : glowVariantsWeak).show as any).transition,
+          delay: totalDelay,
+        }
+      }
+    };
+
+    const customBulbVariants = {
+      hidden: (isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).hidden,
+      show: {
+        ...((isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).show as any),
+        transition: {
+          ...((isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).show as any).transition,
+          delay: totalDelay,
+        }
+      }
+    };
+
     return (
       <div
         key={i}
@@ -104,48 +182,11 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
       >
         <motion.div
           className="lights-circle-static-6__glow"
-          animate={{
-            opacity: [0, 0.2, 0.7, 0.7, 0.4, 0.15, 0, 0],
-          }}
-          transition={{
-            duration: animationDuration,
-            times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
-            repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1] as const,
-            delay: totalDelay,
-          }}
+          variants={customGlowVariants}
         />
         <motion.div
           className="lights-circle-static-6__bulb"
-          animate={{
-            backgroundColor: [
-              colors.off,
-              colors.offTint20,
-              colors.blend70,
-              colors.blend70,
-              colors.blend40,
-              colors.offTint20,
-              colors.off,
-              colors.off
-            ],
-            boxShadow: [
-              `none`,
-              `0 0 3px ${colors.offGlow35}`,
-              `0 0 7px ${colors.onGlow70}, 0 0 10px ${colors.onGlow50}`,
-              `0 0 7px ${colors.onGlow70}, 0 0 10px ${colors.onGlow50}`,
-              `0 0 5px ${colors.onGlow50}`,
-              `0 0 3px ${colors.offGlow35}`,
-              `none`,
-              `none`
-            ],
-          }}
-          transition={{
-            duration: animationDuration,
-            times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
-            repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1] as const,
-            delay: totalDelay,
-          }}
+          variants={customBulbVariants}
         />
       </div>
     );
@@ -178,7 +219,14 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <div className="lights-circle-static-6__container">{bulbs}</div>
+      <motion.div
+        className="lights-circle-static-6__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {bulbs}
+      </motion.div>
     </div>
   );
 };

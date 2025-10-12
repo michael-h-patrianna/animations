@@ -9,23 +9,80 @@ interface LightsCircleStatic5Props {
   onColor?: string;
 }
 
+const animationDuration = 4;
+
+// Container variant with staggerChildren using prime number for pseudo-random effect
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: (animationDuration * 0.37) / 16, // Prime number multiplier for pseudo-random
+    }
+  }
+};
+
+// Glow variant for sparkle effect
+const glowVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.3, 1, 0.6, 0.2, 0, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Bulb variant for quick flash sparkle
+const bulbVariants = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-on)`,
+      `color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 12px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 18px var(--bulb-on-glow80)`,
+      `0 0 8px var(--bulb-on-glow70)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
 const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({
   numBulbs = 16,
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-;
   const radius = 80;
-  const animationDuration = 4; // seconds
-  // Use prime number for pseudo-random sparkle pattern
-  const delayPerBulb = (animationDuration * 0.37) / numBulbs;
 
   const bulbs = Array.from({ length: numBulbs }, (_, i) => {
     const angle = (i * 360) / numBulbs - 90;
     const angleRad = (angle * Math.PI) / 180;
     const x = radius * Math.cos(angleRad);
     const y = radius * Math.sin(angleRad);
-    const delay = i * delayPerBulb;
+
     return (
       <div
         key={i}
@@ -36,46 +93,11 @@ const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({
       >
         <motion.div
           className="lights-circle-static-5__glow"
-          animate={{
-            opacity: [0, 0.3, 1, 0.6, 0.2, 0, 0],
-          }}
-          transition={{
-            duration: animationDuration,
-            times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 1],
-            repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1] as const,
-            delay,
-          }}
+          variants={glowVariants}
         />
         <motion.div
           className="lights-circle-static-5__bulb"
-          animate={{
-            backgroundColor: [
-              colors.off,
-              colors.offTint30,
-              colors.on,
-              `color-mix(in srgb, ${colors.on} 95%, ${colors.off} 5%)`,
-              colors.offTint30,
-              colors.off,
-              colors.off
-            ],
-            boxShadow: [
-              `0 0 2px ${colors.offGlow30}`,
-              `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-              `0 0 12px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 18px ${colors.onGlow80}`,
-              `0 0 8px ${colors.onGlow70}`,
-              `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-              `0 0 2px ${colors.offGlow30}`,
-              `0 0 2px ${colors.offGlow30}`
-            ],
-          }}
-          transition={{
-            duration: animationDuration,
-            times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 1],
-            repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1] as const,
-            delay,
-          }}
+          variants={bulbVariants}
         />
       </div>
     );
@@ -108,7 +130,14 @@ const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <div className="lights-circle-static-5__container">{bulbs}</div>
+      <motion.div
+        className="lights-circle-static-5__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {bulbs}
+      </motion.div>
     </div>
   );
 };

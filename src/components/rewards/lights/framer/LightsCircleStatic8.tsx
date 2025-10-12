@@ -9,14 +9,128 @@ interface LightsCircleStatic8Props {
   onColor?: string;
 }
 
+const animationDuration = 4;
+
+// Container variant - we'll handle stagger timing manually because first half
+// and second half need different chase directions
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0, // No stagger at container level - we handle it manually
+    }
+  }
+};
+
+// Regular bulb glow variant
+const glowVariantsRegular = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.3, 0.9, 0.9, 0.6, 0.2, 0, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.08, 0.10, 0.12, 0.14, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Regular bulb variant
+const bulbVariantsRegular = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on)`,
+      `color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70)`,
+      `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70)`,
+      `0 0 7px var(--bulb-on-glow70)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.08, 0.10, 0.12, 0.14, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Collision bulb glow variant (where they meet with white flash)
+const glowVariantsCollision = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: [0, 0.4, 1, 1, 1, 0.7, 0.3, 0, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
+// Collision bulb variant with white flash at collision point
+const bulbVariantsCollision = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-on)`,
+      `#fff`,
+      `var(--bulb-on)`,
+      `color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`
+    ],
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 22px color-mix(in srgb, var(--bulb-on) 90%, transparent)`,
+      `0 0 20px color-mix(in srgb, #fff 100%, transparent), 0 0 30px color-mix(in srgb, var(--bulb-on) 100%, transparent)`,
+      `0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 22px color-mix(in srgb, var(--bulb-on) 90%, transparent)`,
+      `0 0 10px var(--bulb-on-glow80)`,
+      `0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`
+    ],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const
+    }
+  }
+};
+
 const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
   numBulbs = 16,
   onColor = '#ffd700'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
-;
   const radius = 80;
-  const animationDuration = 4; // seconds
   const halfBulbs = Math.floor(numBulbs / 2);
   const delayPerBulb = animationDuration / halfBulbs;
 
@@ -33,68 +147,30 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
 
     // Check if this is a collision bulb (where they meet)
     const isCollisionBulb = (isFirstHalf && i === halfBulbs - 1) || (!isFirstHalf && i === halfBulbs);
-    // Collision bulbs get special animation
-    if (isCollisionBulb) {
-      return (
-        <div
-          key={i}
-          className={`lights-circle-static-8__bulb-wrapper ${isFirstHalf ? 'first-half' : 'second-half'}`}
-          style={{
-            transform: `translate(${x}px, ${y}px)`,
-          }}
-        >
-          <motion.div
-            className="lights-circle-static-8__glow"
-            animate={{
-              opacity: [0, 0.4, 1, 1, 1, 0.7, 0.3, 0, 0],
-            }}
-            transition={{
-              duration: animationDuration,
-              times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay,
-            }}
-          />
-          <motion.div
-            className="lights-circle-static-8__bulb"
-            animate={{
-              backgroundColor: [
-                colors.off,
-                colors.offTint30,
-                colors.on,
-                '#fff',
-                colors.on,
-                `color-mix(in srgb, ${colors.on} 95%, ${colors.off} 5%)`,
-                colors.offTint30,
-                colors.off,
-                colors.off
-              ],
-              boxShadow: [
-                `none`,
-                `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-                `0 0 15px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 22px color-mix(in srgb, ${colors.on} 90%, transparent)`,
-                `0 0 20px color-mix(in srgb, #fff 100%, transparent), 0 0 30px color-mix(in srgb, ${colors.on} 100%, transparent)`,
-                `0 0 15px color-mix(in srgb, ${colors.on} 100%, transparent), 0 0 22px color-mix(in srgb, ${colors.on} 90%, transparent)`,
-                `0 0 10px ${colors.onGlow80}`,
-                `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-                `none`,
-                `none`
-              ],
-            }}
-            transition={{
-              duration: animationDuration,
-              times: [0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 1],
-              repeat: Infinity,
-              ease: [0.42, 0, 0.58, 1] as const,
-              delay,
-            }}
-          />
-        </div>
-      );
-    }
 
-    // Regular bulbs
+    // Create custom variants with delay
+    const customGlowVariants = {
+      hidden: { opacity: 0 },
+      show: {
+        ...((isCollisionBulb ? glowVariantsCollision : glowVariantsRegular).show as any),
+        transition: {
+          ...((isCollisionBulb ? glowVariantsCollision : glowVariantsRegular).show as any).transition,
+          delay,
+        }
+      }
+    };
+
+    const customBulbVariants = {
+      hidden: (isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).hidden,
+      show: {
+        ...((isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).show as any),
+        transition: {
+          ...((isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).show as any).transition,
+          delay,
+        }
+      }
+    };
+
     return (
       <div
         key={i}
@@ -105,48 +181,11 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
       >
         <motion.div
           className="lights-circle-static-8__glow"
-          animate={{
-            opacity: [0, 0.3, 0.9, 0.9, 0.6, 0.2, 0, 0],
-          }}
-          transition={{
-            duration: animationDuration,
-            times: [0, 0.02, 0.04, 0.08, 0.10, 0.12, 0.14, 1],
-            repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1] as const,
-            delay,
-          }}
+          variants={customGlowVariants}
         />
         <motion.div
           className="lights-circle-static-8__bulb"
-          animate={{
-            backgroundColor: [
-              colors.off,
-              colors.offTint30,
-              colors.on,
-              colors.on,
-              `color-mix(in srgb, ${colors.on} 95%, ${colors.off} 5%)`,
-              colors.offTint30,
-              colors.off,
-              colors.off
-            ],
-            boxShadow: [
-              `none`,
-              `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-              `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 15px ${colors.onGlow70}`,
-              `0 0 10px color-mix(in srgb, ${colors.on} 90%, transparent), 0 0 15px ${colors.onGlow70}`,
-              `0 0 7px ${colors.onGlow70}`,
-              `0 0 4px color-mix(in srgb, ${colors.off} 40%, transparent)`,
-              `none`,
-              `none`
-            ],
-          }}
-          transition={{
-            duration: animationDuration,
-            times: [0, 0.02, 0.04, 0.08, 0.10, 0.12, 0.14, 1],
-            repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1] as const,
-            delay,
-          }}
+          variants={customBulbVariants}
         />
       </div>
     );
@@ -179,7 +218,14 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <div className="lights-circle-static-8__container">{bulbs}</div>
+      <motion.div
+        className="lights-circle-static-8__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {bulbs}
+      </motion.div>
     </div>
   );
 };
