@@ -28,6 +28,17 @@ function App() {
     if (groupId && allGroups.some((g) => g.id === groupId)) {
       // URL has a valid groupId
       setCurrentGroupId(groupId)
+    } else if (groupId && !groupId.endsWith('-framer') && !groupId.endsWith('-css')) {
+      // URL has a group name without -framer or -css suffix, redirect to -framer
+      const framerGroupId = `${groupId}-framer`
+      if (allGroups.some((g) => g.id === framerGroupId)) {
+        window.location.href = `/${framerGroupId}`
+      } else if (!currentGroupId) {
+        // Framer version doesn't exist, default to first group
+        const firstGroupId = allGroups[0].id
+        setCurrentGroupId(firstGroupId)
+        window.location.href = `/${firstGroupId}`
+      }
     } else if (!currentGroupId) {
       // No URL param or invalid, default to first group
       const firstGroupId = allGroups[0].id
