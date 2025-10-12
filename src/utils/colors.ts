@@ -1,26 +1,46 @@
 /**
- * Blends two hex colors together at a given percentage
+ * Parses a color string (hex or rgba) and returns RGB values
+ */
+function parseColor(color: string): { r: number; g: number; b: number } {
+  // Handle rgba format: rgba(r, g, b, a)
+  if (color.startsWith('rgba(')) {
+    const match = color.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*[\d.]+\)/);
+    if (match) {
+      return {
+        r: parseInt(match[1], 10),
+        g: parseInt(match[2], 10),
+        b: parseInt(match[3], 10),
+      };
+    }
+  }
+
+  // Handle hex format: #rrggbb
+  return {
+    r: parseInt(color.slice(1, 3), 16),
+    g: parseInt(color.slice(3, 5), 16),
+    b: parseInt(color.slice(5, 7), 16),
+  };
+}
+
+/**
+ * Blends two colors together at a given percentage
  * Works in both web and React Native environments
+ * Supports both hex (#rrggbb) and rgba (rgba(r,g,b,a)) formats
  *
- * @param color1 - First hex color (e.g., '#ffd700')
- * @param color2 - Second hex color (e.g., '#666666')
+ * @param color1 - First color (e.g., '#ffd700' or 'rgba(255, 215, 0, 0.7)')
+ * @param color2 - Second color (e.g., '#666666' or 'rgba(102, 102, 102, 0.5)')
  * @param percentage - Percentage of color1 to use (0-100)
  * @returns Blended hex color
  */
 export function blendColors(color1: string, color2: string, percentage: number): string {
-  // Parse hex colors
-  const r1 = parseInt(color1.slice(1, 3), 16);
-  const g1 = parseInt(color1.slice(3, 5), 16);
-  const b1 = parseInt(color1.slice(5, 7), 16);
-
-  const r2 = parseInt(color2.slice(1, 3), 16);
-  const g2 = parseInt(color2.slice(3, 5), 16);
-  const b2 = parseInt(color2.slice(5, 7), 16);
+  // Parse colors
+  const c1 = parseColor(color1);
+  const c2 = parseColor(color2);
 
   // Blend
-  const r = Math.round(r1 * (percentage / 100) + r2 * (1 - percentage / 100));
-  const g = Math.round(g1 * (percentage / 100) + g2 * (1 - percentage / 100));
-  const b = Math.round(b1 * (percentage / 100) + b2 * (1 - percentage / 100));
+  const r = Math.round(c1.r * (percentage / 100) + c2.r * (1 - percentage / 100));
+  const g = Math.round(c1.g * (percentage / 100) + c2.g * (1 - percentage / 100));
+  const b = Math.round(c1.b * (percentage / 100) + c2.b * (1 - percentage / 100));
 
   // Return hex
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
@@ -101,6 +121,14 @@ export function calculateBulbColors(onColor: string) {
   const coolOffColor = shiftColorTemperature(offColorBase, -10);
   const offColor = `rgba(${parseInt(coolOffColor.slice(1, 3), 16)}, ${parseInt(coolOffColor.slice(3, 5), 16)}, ${parseInt(coolOffColor.slice(5, 7), 16)}, 0.7)`;
 
+  // Pre-calculate radial gradient color for animations (replaces color-mix())
+  const onGradientColor = blendColors(warmOnColor, '#000000', 85);
+
+  // Additional color-mix replacements for animations
+  const offBlend10On = blendColors(offColor, warmOnColor, 90);  // 90% off + 10% on
+  const onBlend5Off = blendColors(warmOnColor, offColor, 95);    // 95% on + 5% off
+  const onBlend10Off = blendColors(warmOnColor, offColor, 90);   // 90% on + 10% off
+
   return {
     // Base colors with temperature shifts
     on: warmOnColor,
@@ -120,15 +148,34 @@ export function calculateBulbColors(onColor: string) {
     offTint30: blendColors(offColor, warmOnColor, 70),
     offTint20: blendColors(offColor, warmOnColor, 80),
 
+    // Additional blends for specific animation patterns
+    offBlend10On,   // 90% off + 10% on
+    onBlend5Off,    // 95% on + 5% off
+    onBlend10Off,   // 90% on + 10% off
+
+    // Radial gradient color (85% of on color blended with transparent)
+    onGradient: onGradientColor,
+
     // Transparency variations for glows and shadows (use warm color)
+    onGlow100: addTransparency(warmOnColor, 100),
+    onGlow95: addTransparency(warmOnColor, 95),
+    onGlow90: addTransparency(warmOnColor, 90),
     onGlow80: addTransparency(warmOnColor, 80),
+    onGlow75: addTransparency(warmOnColor, 75),
     onGlow70: addTransparency(warmOnColor, 70),
+    onGlow65: addTransparency(warmOnColor, 65),
     onGlow60: addTransparency(warmOnColor, 60),
+    onGlow55: addTransparency(warmOnColor, 55),
     onGlow50: addTransparency(warmOnColor, 50),
     onGlow45: addTransparency(warmOnColor, 45),
+    onGlow40: addTransparency(warmOnColor, 40),
     onGlow35: addTransparency(warmOnColor, 35),
     onGlow30: addTransparency(warmOnColor, 30),
 
+    // White glow for special effects (#fff transparency)
+    whiteGlow100: 'rgba(255, 255, 255, 1)',
+
+    offGlow40: addTransparency(offColor, 40),
     offGlow35: addTransparency(offColor, 35),
     offGlow30: addTransparency(offColor, 30),
   };

@@ -64,19 +64,19 @@ const filamentVariantsEven = {
 
 const bulbVariantsEven = {
   hidden: {
-    background: `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
+    background: `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
     boxShadow: `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
     transform: `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
     borderColor: `rgba(255, 255, 255, 0.35)`
   },
   show: {
     background: [
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
       `var(--bulb-blend70)`,
       `var(--bulb-off)`,
       `var(--bulb-off)`,
       `var(--bulb-blend70)`,
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`
     ],
     boxShadow: [
       `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
@@ -162,8 +162,8 @@ const bulbVariantsOdd = {
     background: [
       `var(--bulb-off)`,
       `var(--bulb-blend70)`,
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent))`,
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
       `var(--bulb-blend70)`,
       `var(--bulb-off)`
     ],
@@ -265,6 +265,19 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
         '--bulb-blend10': colors.blend10,
         '--bulb-off-tint30': colors.offTint30,
         '--bulb-off-tint20': colors.offTint20,
+        '--bulb-on-gradient': colors.onGradient,
+        '--bulb-off-blend-10on': colors.offBlend10On,
+        '--bulb-on-blend-5off': colors.onBlend5Off,
+        '--bulb-on-blend-10off': colors.onBlend10Off,
+        '--bulb-on-glow90': colors.onGlow90,
+        '--bulb-on-glow100': colors.onGlow100,
+        '--bulb-on-glow95': colors.onGlow95,
+        '--bulb-on-glow75': colors.onGlow75,
+        '--bulb-on-glow55': colors.onGlow55,
+        '--bulb-white-glow100': colors.whiteGlow100,
+        '--bulb-on-glow65': colors.onGlow65,
+        '--bulb-on-glow40': colors.onGlow40,
+        '--bulb-off-glow40': colors.offGlow40,
         '--bulb-on-glow80': colors.onGlow80,
         '--bulb-on-glow70': colors.onGlow70,
         '--bulb-on-glow60': colors.onGlow60,

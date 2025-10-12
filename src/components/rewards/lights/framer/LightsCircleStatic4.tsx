@@ -52,8 +52,8 @@ const bulbVariantsWinner = {
     boxShadow: [
       `0 0 2px var(--bulb-off-glow30)`,
       `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 20px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 30px color-mix(in srgb, var(--bulb-on) 95%, transparent)`,
-      `0 0 20px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 30px color-mix(in srgb, var(--bulb-on) 95%, transparent)`
+      `0 0 20px var(--bulb-on-glow100), 0 0 30px var(--bulb-on-glow95)`,
+      `0 0 20px var(--bulb-on-glow100), 0 0 30px var(--bulb-on-glow95)`
     ],
     transition: {
       duration: animationDuration,
@@ -96,9 +96,9 @@ const bulbVariantsRegular = {
       `var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`, `var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`, `var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`, `var(--bulb-off)` // Phase 3
     ],
     boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`, `0 0 2px var(--bulb-off-glow30)`, `0 0 9px color-mix(in srgb, var(--bulb-on) 85%, transparent), 0 0 14px color-mix(in srgb, var(--bulb-on) 65%, transparent)`, `0 0 9px color-mix(in srgb, var(--bulb-on) 85%, transparent), 0 0 14px color-mix(in srgb, var(--bulb-on) 65%, transparent)`, `0 0 5px color-mix(in srgb, var(--bulb-on) 55%, transparent)`, `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`, `0 0 9px color-mix(in srgb, var(--bulb-on) 85%, transparent), 0 0 14px color-mix(in srgb, var(--bulb-on) 65%, transparent)`, `0 0 9px color-mix(in srgb, var(--bulb-on) 85%, transparent), 0 0 14px color-mix(in srgb, var(--bulb-on) 65%, transparent)`, `0 0 5px color-mix(in srgb, var(--bulb-on) 55%, transparent)`, `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`, `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 16px var(--bulb-on-glow70)`, `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 16px var(--bulb-on-glow70)`, `0 0 2px var(--bulb-off-glow30)`, `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 16px var(--bulb-on-glow70)`, `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 16px var(--bulb-on-glow70)`, `0 0 2px var(--bulb-off-glow30)`, `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 16px var(--bulb-on-glow70)`, `0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 16px var(--bulb-on-glow70)`, `0 0 2px var(--bulb-off-glow30)`
+      `0 0 2px var(--bulb-off-glow30)`, `0 0 2px var(--bulb-off-glow30)`, `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`, `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`, `0 0 5px var(--bulb-on-glow55)`, `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`, `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`, `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`, `0 0 5px var(--bulb-on-glow55)`, `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`, `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`, `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`, `0 0 2px var(--bulb-off-glow30)`, `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`, `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`, `0 0 2px var(--bulb-off-glow30)`, `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`, `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`, `0 0 2px var(--bulb-off-glow30)`
     ],
     transition: {
       duration: animationDuration,
@@ -159,6 +159,19 @@ const LightsCircleStatic4: React.FC<LightsCircleStatic4Props> = ({
         '--bulb-blend10': colors.blend10,
         '--bulb-off-tint30': colors.offTint30,
         '--bulb-off-tint20': colors.offTint20,
+        '--bulb-on-gradient': colors.onGradient,
+        '--bulb-off-blend-10on': colors.offBlend10On,
+        '--bulb-on-blend-5off': colors.onBlend5Off,
+        '--bulb-on-blend-10off': colors.onBlend10Off,
+        '--bulb-on-glow90': colors.onGlow90,
+        '--bulb-on-glow100': colors.onGlow100,
+        '--bulb-on-glow95': colors.onGlow95,
+        '--bulb-on-glow75': colors.onGlow75,
+        '--bulb-on-glow55': colors.onGlow55,
+        '--bulb-white-glow100': colors.whiteGlow100,
+        '--bulb-on-glow65': colors.onGlow65,
+        '--bulb-on-glow40': colors.onGlow40,
+        '--bulb-off-glow40': colors.offGlow40,
         '--bulb-on-glow80': colors.onGlow80,
         '--bulb-on-glow70': colors.onGlow70,
         '--bulb-on-glow60': colors.onGlow60,
