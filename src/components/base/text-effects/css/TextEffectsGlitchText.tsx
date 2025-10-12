@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsGlitchText.css'
 
 export function TextEffectsGlitchText() {

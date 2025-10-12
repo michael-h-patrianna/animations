@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsConfettiRain.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']

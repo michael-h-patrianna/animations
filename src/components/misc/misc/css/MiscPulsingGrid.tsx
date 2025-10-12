@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './MiscPulsingGrid.css'
 
 export function MiscPulsingGrid() {

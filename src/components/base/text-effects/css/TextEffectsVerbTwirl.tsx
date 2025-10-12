@@ -4,7 +4,6 @@
  * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbTwirl.css'
 
 export function TextEffectsVerbTwirl() {

@@ -5,7 +5,6 @@
  * Note: In RN, perspective should be applied inline on the animated element.
  */
 import React from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbFlip.css'
 
 export function TextEffectsVerbFlip() {

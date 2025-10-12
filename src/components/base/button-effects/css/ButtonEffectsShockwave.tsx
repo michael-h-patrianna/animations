@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './ButtonEffectsShockwave.css'
 import '../shared.css'
 

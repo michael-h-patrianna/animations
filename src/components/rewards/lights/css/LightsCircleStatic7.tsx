@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import type { AnimationMetadata } from '@/types/animation';
 import './LightsCircleStatic7.css';
 import { calculateBulbColors } from '@/utils/colors';
 

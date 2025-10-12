@@ -4,7 +4,6 @@
  * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
  */
 import React, { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsHorizonLightPass.css'
 
 export function TextEffectsHorizonLightPass() {

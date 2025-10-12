@@ -35,8 +35,7 @@ function isInfiniteAnimation(groupId: string, animationId: string): boolean {
 }
 
 export function GroupSection({ group, elementId }: GroupSectionProps) {
-  // Determine if this is a Framer or CSS group based on the group ID suffix
-  const isFramerGroup = group.id.endsWith('-framer')
+  // Determine if this is a CSS group based on the group ID suffix
   const isCssGroup = group.id.endsWith('-css')
 
   // Extract the base group ID (without -framer or -css suffix)

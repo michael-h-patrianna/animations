@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './ButtonEffectsLiquidMorph.css'
 import '../shared.css'
 

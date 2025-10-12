@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 

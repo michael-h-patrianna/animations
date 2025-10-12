@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlash.css'
 

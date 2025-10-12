@@ -1,5 +1,4 @@
 import './ModalCelebrationsFireworksTriple.css'
-import type { AnimationMetadata } from '@/types/animation'
 
 const fireworkColors = ['#ffce1a', '#ff5981', '#47fff4', '#c6ff77']
 

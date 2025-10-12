@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesRingProgress.css'
 
 export function LoadingStatesRingProgress() {

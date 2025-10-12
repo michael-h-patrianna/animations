@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsFireworksRing.css'
 
 export function ModalCelebrationsFireworksRing() {

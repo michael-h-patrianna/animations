@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import type { GroupExport, GroupMetadata, AnimationMetadata } from '@/types/animation'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 
 // Import metadata only (not components) to avoid loading CSS
 import { metadata as characterRevealMeta } from './framer/TextEffectsCharacterReveal.meta'

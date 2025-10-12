@@ -1,6 +1,5 @@
 // React import not required for JSX in React 17+
 import giftBoxImage from '@/assets/present_box.png'
-import type { AnimationMetadata } from '@/types/animation'
 import './IconAnimationsBounce.css'
 
 export function IconAnimationsBounce() {

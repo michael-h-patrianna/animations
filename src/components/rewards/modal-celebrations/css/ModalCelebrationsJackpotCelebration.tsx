@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './ModalCelebrationsJackpotCelebration.css'
 
 // Utility function to generate random number between min and max

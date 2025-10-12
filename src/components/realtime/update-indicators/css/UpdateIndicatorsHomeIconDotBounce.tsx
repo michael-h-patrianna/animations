@@ -1,6 +1,5 @@
 import homeIcon2 from '@/assets/home-icon2.png'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsHomeIconDotBounce.css'
 
 

@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsTypewriter.css'
 
 export function TextEffectsTypewriter() {

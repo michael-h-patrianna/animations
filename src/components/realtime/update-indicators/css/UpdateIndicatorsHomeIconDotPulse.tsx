@@ -1,6 +1,5 @@
 import homeIcon1 from '@/assets/home-icon1.png'
 import { useEffect, useRef } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsHomeIconDotPulse.css'
 
 

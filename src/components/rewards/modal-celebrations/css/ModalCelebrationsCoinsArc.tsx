@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import coinImage from '@/assets/coin.png'
 import './ModalCelebrationsCoinsArc.css'
 

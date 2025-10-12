@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesSpinnerGalaxy.css'
 
 export function LoadingStatesSpinnerGalaxy() {

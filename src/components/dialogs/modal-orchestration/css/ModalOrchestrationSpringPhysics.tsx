@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationSpringPhysics.css'
 

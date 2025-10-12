@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import coinImage from '@/assets/coin.png'
 import { useEffect, useRef } from 'react'
 import './ModalCelebrationsCoinCascade.css'

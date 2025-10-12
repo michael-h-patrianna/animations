@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesDotsRise.css'
 
 export function LoadingStatesDotsRise() {

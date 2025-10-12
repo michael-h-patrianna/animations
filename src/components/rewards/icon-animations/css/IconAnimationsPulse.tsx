@@ -1,6 +1,5 @@
 // React import not required for JSX in React 17+
 import pulseScroll from '@/assets/pulse_scroll.png'
-import type { AnimationMetadata } from '@/types/animation'
 import './IconAnimationsPulse.css'
 
 export function IconAnimationsPulse() {

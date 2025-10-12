@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import './LoadingStatesSkeletonHorizontal.css'
 
 export function LoadingStatesSkeletonHorizontal() {

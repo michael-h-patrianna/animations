@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsXpNumberPop.css'
 
 interface Particle {

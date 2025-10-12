@@ -4,7 +4,6 @@
  * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsVerbJump.css'
 
 export function TextEffectsVerbJump() {

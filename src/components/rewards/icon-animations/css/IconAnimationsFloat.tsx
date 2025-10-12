@@ -1,6 +1,5 @@
 // React import not required for JSX in React 17+
 import balloonImage from '@/assets/present_box_balloon.png'
-import type { AnimationMetadata } from '@/types/animation'
 import './IconAnimationsFloat.css'
 
 export function IconAnimationsFloat() {

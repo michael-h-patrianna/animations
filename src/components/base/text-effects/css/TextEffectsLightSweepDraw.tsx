@@ -4,7 +4,6 @@
  * RN parity: transforms/opacity/color only; pure CSS animations.
  */
 import React from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './TextEffectsLightSweepDraw.css'
 
 export function TextEffectsLightSweepDraw() {

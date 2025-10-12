@@ -13,7 +13,7 @@ function App() {
   const { groupId } = useParams<{ groupId?: string }>()
   const navigate = useNavigate()
   const [currentGroupId, setCurrentGroupId] = useState<string>('')
-  const [direction, setDirection] = useState<number>(0)
+  const direction = 0
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const dragControls = useDragControls()
   const appBarRef = useRef<HTMLDivElement | null>(null)

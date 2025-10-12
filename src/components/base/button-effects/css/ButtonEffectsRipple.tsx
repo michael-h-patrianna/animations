@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react'
-import type { AnimationMetadata } from '@/types/animation'
 import './ButtonEffectsRipple.css'
 import '../shared.css'
 

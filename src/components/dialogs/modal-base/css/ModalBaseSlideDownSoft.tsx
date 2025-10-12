@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseSlideDownSoft.css'
