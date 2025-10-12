@@ -1,30 +1,57 @@
 import type { GroupExport, GroupMetadata } from '@/types/animation'
+import { lazy } from 'react'
 
-import { LoadingStatesDotsPortal, metadata as dotsPortalMeta } from './framer/LoadingStatesDotsPortal'
-import { LoadingStatesDotsRise, metadata as dotsRiseMeta } from './framer/LoadingStatesDotsRise'
-import { LoadingStatesRingMulti, metadata as ringMultiMeta } from './framer/LoadingStatesRingMulti'
-import { LoadingStatesRingProgress, metadata as ringProgressMeta } from './framer/LoadingStatesRingProgress'
-import { LoadingStatesSkeletonCard, metadata as skeletonCardMeta } from './framer/LoadingStatesSkeletonCard'
-import { LoadingStatesSkeletonHorizontal, metadata as skeletonHorizontalMeta } from './framer/LoadingStatesSkeletonHorizontal'
-import { LoadingStatesSkeletonTile, metadata as skeletonTileMeta } from './framer/LoadingStatesSkeletonTile'
-import { LoadingStatesSkeletonVertical, metadata as skeletonVerticalMeta } from './framer/LoadingStatesSkeletonVertical'
-import { LoadingStatesSpinnerDualRing, metadata as spinnerDualRingMeta } from './framer/LoadingStatesSpinnerDualRing'
-import { LoadingStatesSpinnerGalaxy, metadata as spinnerGalaxyMeta } from './framer/LoadingStatesSpinnerGalaxy'
-import { LoadingStatesSpinnerOrbital, metadata as spinnerOrbitalMeta } from './framer/LoadingStatesSpinnerOrbital'
+// Framer Motion - Import metadata only
+import { metadata as dotsPortalMeta } from './framer/LoadingStatesDotsPortal.meta'
+import { metadata as dotsRiseMeta } from './framer/LoadingStatesDotsRise.meta'
+import { metadata as ringMultiMeta } from './framer/LoadingStatesRingMulti.meta'
+import { metadata as ringProgressMeta } from './framer/LoadingStatesRingProgress.meta'
+import { metadata as skeletonCardMeta } from './framer/LoadingStatesSkeletonCard.meta'
+import { metadata as skeletonHorizontalMeta } from './framer/LoadingStatesSkeletonHorizontal.meta'
+import { metadata as skeletonTileMeta } from './framer/LoadingStatesSkeletonTile.meta'
+import { metadata as skeletonVerticalMeta } from './framer/LoadingStatesSkeletonVertical.meta'
+import { metadata as spinnerDualRingMeta } from './framer/LoadingStatesSpinnerDualRing.meta'
+import { metadata as spinnerGalaxyMeta } from './framer/LoadingStatesSpinnerGalaxy.meta'
+import { metadata as spinnerOrbitalMeta } from './framer/LoadingStatesSpinnerOrbital.meta'
 
-// CSS animations
-import { LoadingStatesDotsPortal as CssLoadingStatesDotsPortal, metadata as dotsPortalCssMeta } from './css/LoadingStatesDotsPortal'
-import { LoadingStatesDotsRise as CssLoadingStatesDotsRise, metadata as dotsRiseCssMeta } from './css/LoadingStatesDotsRise'
-import { LoadingStatesRingMulti as CssLoadingStatesRingMulti, metadata as ringMultiCssMeta } from './css/LoadingStatesRingMulti'
-import { LoadingStatesRingProgress as CssLoadingStatesRingProgress, metadata as ringProgressCssMeta } from './css/LoadingStatesRingProgress'
-import { LoadingStatesSkeletonCard as CssLoadingStatesSkeletonCard, metadata as skeletonCardCssMeta } from './css/LoadingStatesSkeletonCard'
-import { LoadingStatesSkeletonHorizontal as CssLoadingStatesSkeletonHorizontal, metadata as skeletonHorizontalCssMeta } from './css/LoadingStatesSkeletonHorizontal'
-import { LoadingStatesSkeletonTile as CssLoadingStatesSkeletonTile, metadata as skeletonTileCssMeta } from './css/LoadingStatesSkeletonTile'
-import { LoadingStatesSkeletonVertical as CssLoadingStatesSkeletonVertical, metadata as skeletonVerticalCssMeta } from './css/LoadingStatesSkeletonVertical'
-import { LoadingStatesSpinnerDualRing as CssLoadingStatesSpinnerDualRing, metadata as spinnerDualRingCssMeta } from './css/LoadingStatesSpinnerDualRing'
-import { LoadingStatesSpinnerGalaxy as CssLoadingStatesSpinnerGalaxy, metadata as spinnerGalaxyCssMeta } from './css/LoadingStatesSpinnerGalaxy'
-import { LoadingStatesSpinnerOrbital as CssLoadingStatesSpinnerOrbital, metadata as spinnerOrbitalCssMeta } from './css/LoadingStatesSpinnerOrbital'
+// CSS - Import metadata only
+import { metadata as dotsPortalCssMeta } from './css/LoadingStatesDotsPortal.meta'
+import { metadata as dotsRiseCssMeta } from './css/LoadingStatesDotsRise.meta'
+import { metadata as ringMultiCssMeta } from './css/LoadingStatesRingMulti.meta'
+import { metadata as ringProgressCssMeta } from './css/LoadingStatesRingProgress.meta'
+import { metadata as skeletonCardCssMeta } from './css/LoadingStatesSkeletonCard.meta'
+import { metadata as skeletonHorizontalCssMeta } from './css/LoadingStatesSkeletonHorizontal.meta'
+import { metadata as skeletonTileCssMeta } from './css/LoadingStatesSkeletonTile.meta'
+import { metadata as skeletonVerticalCssMeta } from './css/LoadingStatesSkeletonVertical.meta'
+import { metadata as spinnerDualRingCssMeta } from './css/LoadingStatesSpinnerDualRing.meta'
+import { metadata as spinnerGalaxyCssMeta } from './css/LoadingStatesSpinnerGalaxy.meta'
+import { metadata as spinnerOrbitalCssMeta } from './css/LoadingStatesSpinnerOrbital.meta'
 
+// Framer Motion - Lazy load components
+const LoadingStatesDotsPortal = lazy(() => import('./framer/LoadingStatesDotsPortal').then(m => ({ default: m.LoadingStatesDotsPortal })))
+const LoadingStatesDotsRise = lazy(() => import('./framer/LoadingStatesDotsRise').then(m => ({ default: m.LoadingStatesDotsRise })))
+const LoadingStatesRingMulti = lazy(() => import('./framer/LoadingStatesRingMulti').then(m => ({ default: m.LoadingStatesRingMulti })))
+const LoadingStatesRingProgress = lazy(() => import('./framer/LoadingStatesRingProgress').then(m => ({ default: m.LoadingStatesRingProgress })))
+const LoadingStatesSkeletonCard = lazy(() => import('./framer/LoadingStatesSkeletonCard').then(m => ({ default: m.LoadingStatesSkeletonCard })))
+const LoadingStatesSkeletonHorizontal = lazy(() => import('./framer/LoadingStatesSkeletonHorizontal').then(m => ({ default: m.LoadingStatesSkeletonHorizontal })))
+const LoadingStatesSkeletonTile = lazy(() => import('./framer/LoadingStatesSkeletonTile').then(m => ({ default: m.LoadingStatesSkeletonTile })))
+const LoadingStatesSkeletonVertical = lazy(() => import('./framer/LoadingStatesSkeletonVertical').then(m => ({ default: m.LoadingStatesSkeletonVertical })))
+const LoadingStatesSpinnerDualRing = lazy(() => import('./framer/LoadingStatesSpinnerDualRing').then(m => ({ default: m.LoadingStatesSpinnerDualRing })))
+const LoadingStatesSpinnerGalaxy = lazy(() => import('./framer/LoadingStatesSpinnerGalaxy').then(m => ({ default: m.LoadingStatesSpinnerGalaxy })))
+const LoadingStatesSpinnerOrbital = lazy(() => import('./framer/LoadingStatesSpinnerOrbital').then(m => ({ default: m.LoadingStatesSpinnerOrbital })))
+
+// CSS - Lazy load components
+const CssLoadingStatesDotsPortal = lazy(() => import('./css/LoadingStatesDotsPortal').then(m => ({ default: m.LoadingStatesDotsPortal })))
+const CssLoadingStatesDotsRise = lazy(() => import('./css/LoadingStatesDotsRise').then(m => ({ default: m.LoadingStatesDotsRise })))
+const CssLoadingStatesRingMulti = lazy(() => import('./css/LoadingStatesRingMulti').then(m => ({ default: m.LoadingStatesRingMulti })))
+const CssLoadingStatesRingProgress = lazy(() => import('./css/LoadingStatesRingProgress').then(m => ({ default: m.LoadingStatesRingProgress })))
+const CssLoadingStatesSkeletonCard = lazy(() => import('./css/LoadingStatesSkeletonCard').then(m => ({ default: m.LoadingStatesSkeletonCard })))
+const CssLoadingStatesSkeletonHorizontal = lazy(() => import('./css/LoadingStatesSkeletonHorizontal').then(m => ({ default: m.LoadingStatesSkeletonHorizontal })))
+const CssLoadingStatesSkeletonTile = lazy(() => import('./css/LoadingStatesSkeletonTile').then(m => ({ default: m.LoadingStatesSkeletonTile })))
+const CssLoadingStatesSkeletonVertical = lazy(() => import('./css/LoadingStatesSkeletonVertical').then(m => ({ default: m.LoadingStatesSkeletonVertical })))
+const CssLoadingStatesSpinnerDualRing = lazy(() => import('./css/LoadingStatesSpinnerDualRing').then(m => ({ default: m.LoadingStatesSpinnerDualRing })))
+const CssLoadingStatesSpinnerGalaxy = lazy(() => import('./css/LoadingStatesSpinnerGalaxy').then(m => ({ default: m.LoadingStatesSpinnerGalaxy })))
+const CssLoadingStatesSpinnerOrbital = lazy(() => import('./css/LoadingStatesSpinnerOrbital').then(m => ({ default: m.LoadingStatesSpinnerOrbital })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'loading-states',

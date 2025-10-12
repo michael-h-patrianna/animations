@@ -29,9 +29,3 @@ export function ModalOrchestrationGridHighlight() {
   )
 }
 
-export const metadata = {
-  id: 'modal-orchestration__grid-highlight',
-  title: 'Grid Highlight Sweep',
-  description: 'Grid tiles that animate with staggered highlight sweep effect',
-  tags: ['css'],
-} satisfies AnimationMetadata

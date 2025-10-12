@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownExtreme.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-extreme',
-  title: 'Pill Countdown — Extreme',
-  description: 'Extreme: quiet until last 10s. Stepwise color; 3-2-1 buzz; flash on zero.',
-  tags: ['css'],
-}
 
 export function TimerEffectsPillCountdownExtreme() {
   const START_SECONDS = 60
@@ -89,3 +83,4 @@ export function TimerEffectsPillCountdownExtreme() {
     </div>
   )
 }
+

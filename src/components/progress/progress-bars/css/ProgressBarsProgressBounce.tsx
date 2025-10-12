@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressBounce.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-bounce',
-  title: 'Grow up',
-  description: 'Elastic finish emphasises completion state.',
-  tags: ['css'],
-}
 
 export function ProgressBarsProgressBounce() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -192,3 +186,4 @@ export function ProgressBarsProgressBounce() {
     </div>
   )
 }
+

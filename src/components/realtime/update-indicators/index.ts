@@ -1,21 +1,41 @@
 import type { GroupMetadata, GroupExport } from '@/types/animation'
+import { lazy } from 'react'
 
-import { UpdateIndicatorsBadgePop, metadata as badgePopMetadata } from './framer/UpdateIndicatorsBadgePop'
-import { UpdateIndicatorsBadgePulse, metadata as badgePulseMetadata } from './framer/UpdateIndicatorsBadgePulse'
-import { UpdateIndicatorsHomeIconDotBounce, metadata as dotBounceMetadata } from './framer/UpdateIndicatorsHomeIconDotBounce'
-import { UpdateIndicatorsHomeIconDotPulse, metadata as dotPulseMetadata } from './framer/UpdateIndicatorsHomeIconDotPulse'
-import { UpdateIndicatorsHomeIconDotRadar, metadata as dotRadarMetadata } from './framer/UpdateIndicatorsHomeIconDotRadar'
-import { UpdateIndicatorsHomeIconDotSweep, metadata as dotSweepMetadata } from './framer/UpdateIndicatorsHomeIconDotSweep'
-import { UpdateIndicatorsLivePing, metadata as livePingMetadata } from './framer/UpdateIndicatorsLivePing'
+// Framer Motion - Import metadata only
+import { metadata as badgePopMetadata } from './framer/UpdateIndicatorsBadgePop.meta'
+import { metadata as badgePulseMetadata } from './framer/UpdateIndicatorsBadgePulse.meta'
+import { metadata as dotBounceMetadata } from './framer/UpdateIndicatorsHomeIconDotBounce.meta'
+import { metadata as dotPulseMetadata } from './framer/UpdateIndicatorsHomeIconDotPulse.meta'
+import { metadata as dotRadarMetadata } from './framer/UpdateIndicatorsHomeIconDotRadar.meta'
+import { metadata as dotSweepMetadata } from './framer/UpdateIndicatorsHomeIconDotSweep.meta'
+import { metadata as livePingMetadata } from './framer/UpdateIndicatorsLivePing.meta'
 
-// CSS animations
-import { UpdateIndicatorsBadgePop as CssUpdateIndicatorsBadgePop, metadata as badgePopCssMetadata } from './css/UpdateIndicatorsBadgePop'
-import { UpdateIndicatorsBadgePulse as CssUpdateIndicatorsBadgePulse, metadata as badgePulseCssMetadata } from './css/UpdateIndicatorsBadgePulse'
-import { UpdateIndicatorsHomeIconDotBounce as CssUpdateIndicatorsHomeIconDotBounce, metadata as dotBounceCssMetadata } from './css/UpdateIndicatorsHomeIconDotBounce'
-import { UpdateIndicatorsHomeIconDotPulse as CssUpdateIndicatorsHomeIconDotPulse, metadata as dotPulseCssMetadata } from './css/UpdateIndicatorsHomeIconDotPulse'
-import { UpdateIndicatorsHomeIconDotRadar as CssUpdateIndicatorsHomeIconDotRadar, metadata as dotRadarCssMetadata } from './css/UpdateIndicatorsHomeIconDotRadar'
-import { UpdateIndicatorsHomeIconDotSweep as CssUpdateIndicatorsHomeIconDotSweep, metadata as dotSweepCssMetadata } from './css/UpdateIndicatorsHomeIconDotSweep'
-import { UpdateIndicatorsLivePing as CssUpdateIndicatorsLivePing, metadata as livePingCssMetadata } from './css/UpdateIndicatorsLivePing'
+// CSS - Import metadata only
+import { metadata as badgePopCssMetadata } from './css/UpdateIndicatorsBadgePop.meta'
+import { metadata as badgePulseCssMetadata } from './css/UpdateIndicatorsBadgePulse.meta'
+import { metadata as dotBounceCssMetadata } from './css/UpdateIndicatorsHomeIconDotBounce.meta'
+import { metadata as dotPulseCssMetadata } from './css/UpdateIndicatorsHomeIconDotPulse.meta'
+import { metadata as dotRadarCssMetadata } from './css/UpdateIndicatorsHomeIconDotRadar.meta'
+import { metadata as dotSweepCssMetadata } from './css/UpdateIndicatorsHomeIconDotSweep.meta'
+import { metadata as livePingCssMetadata } from './css/UpdateIndicatorsLivePing.meta'
+
+// Framer Motion - Lazy load components
+const UpdateIndicatorsBadgePop = lazy(() => import('./framer/UpdateIndicatorsBadgePop').then(m => ({ default: m.UpdateIndicatorsBadgePop })))
+const UpdateIndicatorsBadgePulse = lazy(() => import('./framer/UpdateIndicatorsBadgePulse').then(m => ({ default: m.UpdateIndicatorsBadgePulse })))
+const UpdateIndicatorsHomeIconDotBounce = lazy(() => import('./framer/UpdateIndicatorsHomeIconDotBounce').then(m => ({ default: m.UpdateIndicatorsHomeIconDotBounce })))
+const UpdateIndicatorsHomeIconDotPulse = lazy(() => import('./framer/UpdateIndicatorsHomeIconDotPulse').then(m => ({ default: m.UpdateIndicatorsHomeIconDotPulse })))
+const UpdateIndicatorsHomeIconDotRadar = lazy(() => import('./framer/UpdateIndicatorsHomeIconDotRadar').then(m => ({ default: m.UpdateIndicatorsHomeIconDotRadar })))
+const UpdateIndicatorsHomeIconDotSweep = lazy(() => import('./framer/UpdateIndicatorsHomeIconDotSweep').then(m => ({ default: m.UpdateIndicatorsHomeIconDotSweep })))
+const UpdateIndicatorsLivePing = lazy(() => import('./framer/UpdateIndicatorsLivePing').then(m => ({ default: m.UpdateIndicatorsLivePing })))
+
+// CSS - Lazy load components
+const CssUpdateIndicatorsBadgePop = lazy(() => import('./css/UpdateIndicatorsBadgePop').then(m => ({ default: m.UpdateIndicatorsBadgePop })))
+const CssUpdateIndicatorsBadgePulse = lazy(() => import('./css/UpdateIndicatorsBadgePulse').then(m => ({ default: m.UpdateIndicatorsBadgePulse })))
+const CssUpdateIndicatorsHomeIconDotBounce = lazy(() => import('./css/UpdateIndicatorsHomeIconDotBounce').then(m => ({ default: m.UpdateIndicatorsHomeIconDotBounce })))
+const CssUpdateIndicatorsHomeIconDotPulse = lazy(() => import('./css/UpdateIndicatorsHomeIconDotPulse').then(m => ({ default: m.UpdateIndicatorsHomeIconDotPulse })))
+const CssUpdateIndicatorsHomeIconDotRadar = lazy(() => import('./css/UpdateIndicatorsHomeIconDotRadar').then(m => ({ default: m.UpdateIndicatorsHomeIconDotRadar })))
+const CssUpdateIndicatorsHomeIconDotSweep = lazy(() => import('./css/UpdateIndicatorsHomeIconDotSweep').then(m => ({ default: m.UpdateIndicatorsHomeIconDotSweep })))
+const CssUpdateIndicatorsLivePing = lazy(() => import('./css/UpdateIndicatorsLivePing').then(m => ({ default: m.UpdateIndicatorsLivePing })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'update-indicators',
@@ -87,4 +107,3 @@ export const groupExport: GroupExport = {
     }
   },
 }
-

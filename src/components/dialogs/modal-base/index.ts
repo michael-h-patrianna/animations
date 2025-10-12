@@ -1,125 +1,69 @@
 import type { GroupExport, GroupMetadata } from '@/types/animation'
+import { lazy } from 'react'
 
-import { ModalBaseFlip3d, metadata as flip3dMetadata } from './framer/ModalBaseFlip3d'
-import {
-  ModalBaseGlitchDigital,
-  metadata as glitchDigitalMetadata,
-} from './framer/ModalBaseGlitchDigital'
-import {
-  ModalBasePortalSwirl,
-  metadata as portalSwirlMetadata,
-} from './framer/ModalBasePortalSwirl'
-import {
-  ModalBaseRippleExpand,
-  metadata as rippleExpandMetadata,
-} from './framer/ModalBaseRippleExpand'
-import {
-  ModalBaseScaleGentlePop,
-  metadata as scaleGentlePopMetadata,
-} from './framer/ModalBaseScaleGentlePop'
-import {
-  ModalBaseShatterAssemble,
-  metadata as shatterAssembleMetadata,
-} from './framer/ModalBaseShatterAssemble'
-import {
-  ModalBaseSlideDownSoft,
-  metadata as slideDownSoftMetadata,
-} from './framer/ModalBaseSlideDownSoft'
-import {
-  ModalBaseSlideLeftDrift,
-  metadata as slideLeftDriftMetadata,
-} from './framer/ModalBaseSlideLeftDrift'
-import {
-  ModalBaseSlideRightDrift,
-  metadata as slideRightDriftMetadata,
-} from './framer/ModalBaseSlideRightDrift'
-import {
-  ModalBaseSlideUpSoft,
-  metadata as slideUpSoftMetadata,
-} from './framer/ModalBaseSlideUpSoft'
-import {
-  ModalBaseSpringBounce,
-  metadata as springBounceMetadata,
-} from './framer/ModalBaseSpringBounce'
-import { ModalBaseTvTurnOn, metadata as tvTurnOnMetadata } from './framer/ModalBaseTvTurnOn'
-import {
-  ModalBaseUnfoldOrigami,
-  metadata as unfoldOrigamiMetadata,
-} from './framer/ModalBaseUnfoldOrigami'
-import {
-  ModalBaseZoomElastic,
-  metadata as zoomElasticMetadata,
-} from './framer/ModalBaseZoomElastic'
+// Framer Motion - Import metadata only
+import { metadata as flip3dMetadata } from './framer/ModalBaseFlip3d.meta'
+import { metadata as glitchDigitalMetadata } from './framer/ModalBaseGlitchDigital.meta'
+import { metadata as portalSwirlMetadata } from './framer/ModalBasePortalSwirl.meta'
+import { metadata as rippleExpandMetadata } from './framer/ModalBaseRippleExpand.meta'
+import { metadata as scaleGentlePopMetadata } from './framer/ModalBaseScaleGentlePop.meta'
+import { metadata as shatterAssembleMetadata } from './framer/ModalBaseShatterAssemble.meta'
+import { metadata as slideDownSoftMetadata } from './framer/ModalBaseSlideDownSoft.meta'
+import { metadata as slideLeftDriftMetadata } from './framer/ModalBaseSlideLeftDrift.meta'
+import { metadata as slideRightDriftMetadata } from './framer/ModalBaseSlideRightDrift.meta'
+import { metadata as slideUpSoftMetadata } from './framer/ModalBaseSlideUpSoft.meta'
+import { metadata as springBounceMetadata } from './framer/ModalBaseSpringBounce.meta'
+import { metadata as tvTurnOnMetadata } from './framer/ModalBaseTvTurnOn.meta'
+import { metadata as unfoldOrigamiMetadata } from './framer/ModalBaseUnfoldOrigami.meta'
+import { metadata as zoomElasticMetadata } from './framer/ModalBaseZoomElastic.meta'
 
-import {
-  ModalBaseShatterAssemble as ModalBaseShatterAssembleCSS,
-  metadata as shatterAssembleCSSMetadata,
-} from './css/ModalBaseShatterAssemble'
+// CSS - Import metadata only
+import { metadata as shatterAssembleCSSMetadata } from './css/ModalBaseShatterAssemble.meta'
+import { metadata as slideDownSoftCSSMetadata } from './css/ModalBaseSlideDownSoft.meta'
+import { metadata as slideLeftDriftCSSMetadata } from './css/ModalBaseSlideLeftDrift.meta'
+import { metadata as slideRightDriftCSSMetadata } from './css/ModalBaseSlideRightDrift.meta'
+import { metadata as scaleGentlePopCSSMetadata } from './css/ModalBaseScaleGentlePop.meta'
+import { metadata as slideUpSoftCSSMetadata } from './css/ModalBaseSlideUpSoft.meta'
+import { metadata as flip3dCSSMetadata } from './css/ModalBaseFlip3d.meta'
+import { metadata as glitchDigitalCSSMetadata } from './css/ModalBaseGlitchDigital.meta'
+import { metadata as portalSwirlCSSMetadata } from './css/ModalBasePortalSwirl.meta'
+import { metadata as tvTurnOnCSSMetadata } from './css/ModalBaseTvTurnOn.meta'
+import { metadata as unfoldOrigamiCSSMetadata } from './css/ModalBaseUnfoldOrigami.meta'
+import { metadata as rippleExpandCSSMetadata } from './css/ModalBaseRippleExpand.meta'
+import { metadata as zoomElasticCSSMetadata } from './css/ModalBaseZoomElastic.meta'
+import { metadata as springBounceCSSMetadata } from './css/ModalBaseSpringBounce.meta'
 
-import {
-  ModalBaseSlideDownSoft as ModalBaseSlideDownSoftCSS,
-  metadata as slideDownSoftCSSMetadata,
-} from './css/ModalBaseSlideDownSoft'
+// Framer Motion - Lazy load components
+const ModalBaseFlip3d = lazy(() => import('./framer/ModalBaseFlip3d').then(m => ({ default: m.ModalBaseFlip3d })))
+const ModalBaseGlitchDigital = lazy(() => import('./framer/ModalBaseGlitchDigital').then(m => ({ default: m.ModalBaseGlitchDigital })))
+const ModalBasePortalSwirl = lazy(() => import('./framer/ModalBasePortalSwirl').then(m => ({ default: m.ModalBasePortalSwirl })))
+const ModalBaseRippleExpand = lazy(() => import('./framer/ModalBaseRippleExpand').then(m => ({ default: m.ModalBaseRippleExpand })))
+const ModalBaseScaleGentlePop = lazy(() => import('./framer/ModalBaseScaleGentlePop').then(m => ({ default: m.ModalBaseScaleGentlePop })))
+const ModalBaseShatterAssemble = lazy(() => import('./framer/ModalBaseShatterAssemble').then(m => ({ default: m.ModalBaseShatterAssemble })))
+const ModalBaseSlideDownSoft = lazy(() => import('./framer/ModalBaseSlideDownSoft').then(m => ({ default: m.ModalBaseSlideDownSoft })))
+const ModalBaseSlideLeftDrift = lazy(() => import('./framer/ModalBaseSlideLeftDrift').then(m => ({ default: m.ModalBaseSlideLeftDrift })))
+const ModalBaseSlideRightDrift = lazy(() => import('./framer/ModalBaseSlideRightDrift').then(m => ({ default: m.ModalBaseSlideRightDrift })))
+const ModalBaseSlideUpSoft = lazy(() => import('./framer/ModalBaseSlideUpSoft').then(m => ({ default: m.ModalBaseSlideUpSoft })))
+const ModalBaseSpringBounce = lazy(() => import('./framer/ModalBaseSpringBounce').then(m => ({ default: m.ModalBaseSpringBounce })))
+const ModalBaseTvTurnOn = lazy(() => import('./framer/ModalBaseTvTurnOn').then(m => ({ default: m.ModalBaseTvTurnOn })))
+const ModalBaseUnfoldOrigami = lazy(() => import('./framer/ModalBaseUnfoldOrigami').then(m => ({ default: m.ModalBaseUnfoldOrigami })))
+const ModalBaseZoomElastic = lazy(() => import('./framer/ModalBaseZoomElastic').then(m => ({ default: m.ModalBaseZoomElastic })))
 
-import {
-  ModalBaseSlideLeftDrift as ModalBaseSlideLeftDriftCSS,
-  metadata as slideLeftDriftCSSMetadata,
-} from './css/ModalBaseSlideLeftDrift'
-
-import {
-  ModalBaseSlideRightDrift as ModalBaseSlideRightDriftCSS,
-  metadata as slideRightDriftCSSMetadata,
-} from './css/ModalBaseSlideRightDrift'
-
-import {
-  ModalBaseScaleGentlePop as ModalBaseScaleGentlePopCSS,
-  metadata as scaleGentlePopCSSMetadata,
-} from './css/ModalBaseScaleGentlePop'
-
-import {
-  ModalBaseSlideUpSoft as ModalBaseSlideUpSoftCSS,
-  metadata as slideUpSoftCSSMetadata,
-} from './css/ModalBaseSlideUpSoft'
-
-import {
-  ModalBaseFlip3d as ModalBaseFlip3dCSS,
-  metadata as flip3dCSSMetadata,
-} from './css/ModalBaseFlip3d'
-
-import {
-  ModalBaseGlitchDigital as ModalBaseGlitchDigitalCSS,
-  metadata as glitchDigitalCSSMetadata,
-} from './css/ModalBaseGlitchDigital'
-
-import {
-  ModalBasePortalSwirl as ModalBasePortalSwirlCSS,
-  metadata as portalSwirlCSSMetadata,
-} from './css/ModalBasePortalSwirl'
-
-import {
-  ModalBaseTvTurnOn as ModalBaseTvTurnOnCSS,
-  metadata as tvTurnOnCSSMetadata,
-} from './css/ModalBaseTvTurnOn'
-
-import {
-  ModalBaseUnfoldOrigami as ModalBaseUnfoldOrigamiCSS,
-  metadata as unfoldOrigamiCSSMetadata,
-} from './css/ModalBaseUnfoldOrigami'
-
-import {
-  ModalBaseRippleExpand as ModalBaseRippleExpandCSS,
-  metadata as rippleExpandCSSMetadata,
-} from './css/ModalBaseRippleExpand'
-
-import {
-  ModalBaseZoomElastic as ModalBaseZoomElasticCSS,
-  metadata as zoomElasticCSSMetadata,
-} from './css/ModalBaseZoomElastic'
-
-import {
-  ModalBaseSpringBounce as ModalBaseSpringBounceCSS,
-  metadata as springBounceCSSMetadata,
-} from './css/ModalBaseSpringBounce'
+// CSS - Lazy load components
+const ModalBaseShatterAssembleCSS = lazy(() => import('./css/ModalBaseShatterAssemble').then(m => ({ default: m.ModalBaseShatterAssemble })))
+const ModalBaseSlideDownSoftCSS = lazy(() => import('./css/ModalBaseSlideDownSoft').then(m => ({ default: m.ModalBaseSlideDownSoft })))
+const ModalBaseSlideLeftDriftCSS = lazy(() => import('./css/ModalBaseSlideLeftDrift').then(m => ({ default: m.ModalBaseSlideLeftDrift })))
+const ModalBaseSlideRightDriftCSS = lazy(() => import('./css/ModalBaseSlideRightDrift').then(m => ({ default: m.ModalBaseSlideRightDrift })))
+const ModalBaseScaleGentlePopCSS = lazy(() => import('./css/ModalBaseScaleGentlePop').then(m => ({ default: m.ModalBaseScaleGentlePop })))
+const ModalBaseSlideUpSoftCSS = lazy(() => import('./css/ModalBaseSlideUpSoft').then(m => ({ default: m.ModalBaseSlideUpSoft })))
+const ModalBaseFlip3dCSS = lazy(() => import('./css/ModalBaseFlip3d').then(m => ({ default: m.ModalBaseFlip3d })))
+const ModalBaseGlitchDigitalCSS = lazy(() => import('./css/ModalBaseGlitchDigital').then(m => ({ default: m.ModalBaseGlitchDigital })))
+const ModalBasePortalSwirlCSS = lazy(() => import('./css/ModalBasePortalSwirl').then(m => ({ default: m.ModalBasePortalSwirl })))
+const ModalBaseTvTurnOnCSS = lazy(() => import('./css/ModalBaseTvTurnOn').then(m => ({ default: m.ModalBaseTvTurnOn })))
+const ModalBaseUnfoldOrigamiCSS = lazy(() => import('./css/ModalBaseUnfoldOrigami').then(m => ({ default: m.ModalBaseUnfoldOrigami })))
+const ModalBaseRippleExpandCSS = lazy(() => import('./css/ModalBaseRippleExpand').then(m => ({ default: m.ModalBaseRippleExpand })))
+const ModalBaseZoomElasticCSS = lazy(() => import('./css/ModalBaseZoomElastic').then(m => ({ default: m.ModalBaseZoomElastic })))
+const ModalBaseSpringBounceCSS = lazy(() => import('./css/ModalBaseSpringBounce').then(m => ({ default: m.ModalBaseSpringBounce })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'modal-base',

@@ -2,12 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsXpAccumulation.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__xp-accumulation',
-  title: 'XP Accumulation',
-  description: 'Visually satisfying XP point accumulation with multiplier zones, flowing orbs, floating +XP numbers, and electric blue/cyan glow effects.',
-  tags: ['css', 'js'],
-}
 
 // Local type for milestone halo animation entries
 // Local type for milestone halo animation entries
@@ -744,3 +738,4 @@ export function ProgressBarsXpAccumulation() {
     </div>
   )
 }
+

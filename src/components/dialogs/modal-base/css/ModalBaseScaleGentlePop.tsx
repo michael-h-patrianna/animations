@@ -3,13 +3,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseScaleGentlePop.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__scale-gentle-pop',
-  title: 'Gentle Scale Pop',
-  description:
-    'Scale entrance from 85% with fade-in using CSS keyframes. GPU-accelerated with transform and opacity.',
-  tags: ['css'],
-}
 
 export function ModalBaseScaleGentlePop() {
   return (
@@ -25,3 +18,4 @@ export function ModalBaseScaleGentlePop() {
     </div>
   )
 }
+

@@ -1,15 +1,29 @@
-import { IconAnimationsShake, metadata as shakeMetadata } from './framer/IconAnimationsShake'
-import { IconAnimationsBounce, metadata as bounceMetadata } from './framer/IconAnimationsBounce'
-import { IconAnimationsFloat, metadata as floatMetadata } from './framer/IconAnimationsFloat'
-import { IconAnimationsPulse, metadata as pulseMetadata } from './framer/IconAnimationsPulse'
-
-// CSS animations
-import { IconAnimationsBounce as CssIconAnimationsBounce, metadata as bounceCssMetadata } from './css/IconAnimationsBounce'
-import { IconAnimationsFloat as CssIconAnimationsFloat, metadata as floatCssMetadata } from './css/IconAnimationsFloat'
-import { IconAnimationsPulse as CssIconAnimationsPulse, metadata as pulseCssMetadata } from './css/IconAnimationsPulse'
-import { IconAnimationsShake as CssIconAnimationsShake, metadata as shakeCssMetadata } from './css/IconAnimationsShake'
 import type { GroupMetadata, GroupExport } from '@/types/animation'
+import { lazy } from 'react'
 
+// Framer Motion - Import metadata only
+import { metadata as shakeMetadata } from './framer/IconAnimationsShake.meta'
+import { metadata as bounceMetadata } from './framer/IconAnimationsBounce.meta'
+import { metadata as floatMetadata } from './framer/IconAnimationsFloat.meta'
+import { metadata as pulseMetadata } from './framer/IconAnimationsPulse.meta'
+
+// CSS - Import metadata only
+import { metadata as bounceCssMetadata } from './css/IconAnimationsBounce.meta'
+import { metadata as floatCssMetadata } from './css/IconAnimationsFloat.meta'
+import { metadata as pulseCssMetadata } from './css/IconAnimationsPulse.meta'
+import { metadata as shakeCssMetadata } from './css/IconAnimationsShake.meta'
+
+// Framer Motion - Lazy load components
+const IconAnimationsShake = lazy(() => import('./framer/IconAnimationsShake').then(m => ({ default: m.IconAnimationsShake })))
+const IconAnimationsBounce = lazy(() => import('./framer/IconAnimationsBounce').then(m => ({ default: m.IconAnimationsBounce })))
+const IconAnimationsFloat = lazy(() => import('./framer/IconAnimationsFloat').then(m => ({ default: m.IconAnimationsFloat })))
+const IconAnimationsPulse = lazy(() => import('./framer/IconAnimationsPulse').then(m => ({ default: m.IconAnimationsPulse })))
+
+// CSS - Lazy load components
+const CssIconAnimationsBounce = lazy(() => import('./css/IconAnimationsBounce').then(m => ({ default: m.IconAnimationsBounce })))
+const CssIconAnimationsFloat = lazy(() => import('./css/IconAnimationsFloat').then(m => ({ default: m.IconAnimationsFloat })))
+const CssIconAnimationsPulse = lazy(() => import('./css/IconAnimationsPulse').then(m => ({ default: m.IconAnimationsPulse })))
+const CssIconAnimationsShake = lazy(() => import('./css/IconAnimationsShake').then(m => ({ default: m.IconAnimationsShake })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'icon-animations',

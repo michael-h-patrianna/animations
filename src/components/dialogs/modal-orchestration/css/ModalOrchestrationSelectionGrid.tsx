@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationSelectionGrid.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__selection-grid',
-  title: 'Grid Tile Cascade',
-  description: 'Cascading animation across a grid of selection tiles',
-  tags: ['css', 'js'],
-}
 
 export function ModalOrchestrationSelectionGrid() {
   const items = 6
@@ -38,3 +32,4 @@ export function ModalOrchestrationSelectionGrid() {
     </div>
   )
 }
+

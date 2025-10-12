@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalContentButtonsStagger3.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__buttons-stagger-3',
-  title: 'Button Stagger ×3',
-  description: 'Button cluster stagger with 3 actions.',
-  tags: ['css']
-}
 
 export function ModalContentButtonsStagger3() {
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -70,3 +64,4 @@ export function ModalContentButtonsStagger3() {
     </div>
   )
 }
+

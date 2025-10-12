@@ -1,5 +1,4 @@
 import type { CategoryExport } from '@/types/animation'
-import type { CodeMode } from '@/contexts/CodeModeContext'
 import type React from 'react'
 
 // Import category exports for metadata-based access
@@ -27,19 +26,25 @@ export const categories: Record<string, CategoryExport> = {
 
 /**
  * Builds a flat animation registry from the category hierarchy.
+ * Includes both Framer and CSS animations in the registry.
  *
- * @param codeMode - The code mode to filter animations by ('Framer' or 'CSS')
  * @returns A map of animation IDs to their React components
  */
-export function buildRegistryFromCategories(codeMode: CodeMode = 'Framer') {
+export function buildRegistryFromCategories() {
   const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
-  const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
 
   Object.values(categories).forEach((cat) => {
     Object.values(cat.groups).forEach((group) => {
-      const animations = group[animationSource]
-      if (animations) {
-        Object.entries(animations).forEach(([id, anim]) => {
+      // Add Framer animations
+      if (group.framer) {
+        Object.entries(group.framer).forEach(([id, anim]) => {
+          registry[id] = anim.component
+        })
+      }
+
+      // Add CSS animations
+      if (group.css) {
+        Object.entries(group.css).forEach(([id, anim]) => {
           registry[id] = anim.component
         })
       }
@@ -50,27 +55,12 @@ export function buildRegistryFromCategories(codeMode: CodeMode = 'Framer') {
 
 /**
  * Retrieves metadata for a specific animation by its ID.
+ * Searches both Framer and CSS animations.
  *
  * @param animationId - The unique animation ID (e.g., 'modal-base__scale-gentle-pop')
- * @param codeMode - Optional code mode to search in ('Framer' or 'CSS'). If not specified, searches both.
  * @returns The animation's metadata, or null if not found
  */
-export function getAnimationMetadata(animationId: string, codeMode?: CodeMode) {
-  // If codeMode is specified, only search that mode
-  if (codeMode) {
-    const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
-    for (const cat of Object.values(categories)) {
-      for (const group of Object.values(cat.groups)) {
-        const animations = group[animationSource]
-        if (animations && animations[animationId]) {
-          return animations[animationId].metadata
-        }
-      }
-    }
-    return null
-  }
-
-  // If no codeMode specified, search both framer and css
+export function getAnimationMetadata(animationId: string) {
   for (const cat of Object.values(categories)) {
     for (const group of Object.values(cat.groups)) {
       // Try framer first

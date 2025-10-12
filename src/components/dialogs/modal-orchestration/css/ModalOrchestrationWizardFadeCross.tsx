@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardFadeCross.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__wizard-fade-cross',
-  title: 'Step Tiles Fade',
-  description: 'Multi-step wizard with cross-fading step tiles and content panels',
-  tags: ['css', 'js'],
-}
 
 export function ModalOrchestrationWizardFadeCross() {
   const steps = 3
@@ -41,3 +35,4 @@ export function ModalOrchestrationWizardFadeCross() {
     </div>
   )
 }
+

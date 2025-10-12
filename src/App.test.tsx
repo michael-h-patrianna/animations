@@ -77,11 +77,12 @@ describe('App', () => {
     await screen.findByRole('heading', { level: 2, name: /Text effects/i })
 
     // Category should be active and show its groups
-    const textEffectsGroup = await screen.findByRole('button', {
+    // Now there are multiple "Text effects" buttons (Framer and CSS), so get all and click the first
+    const textEffectsGroups = await screen.findAllByRole('button', {
       name: /Text effects/i,
     })
 
-    fireEvent.click(textEffectsGroup)
+    fireEvent.click(textEffectsGroups[0])
 
     // Should scroll the group into view (we can't test actual scrolling in jsdom)
     // But we can verify the group heading exists
@@ -135,9 +136,10 @@ describe('App', () => {
     })
 
     // Groups from new category should be in sidebar
-    const progressGroups = screen.getByRole('button', {
+    // Now there are multiple "Progress bars" buttons (Framer and CSS), so get all
+    const progressGroups = screen.getAllByRole('button', {
       name: /Progress bars/i,
     })
-    expect(progressGroups).toBeInTheDocument()
+    expect(progressGroups.length).toBeGreaterThan(0)
   })
 })

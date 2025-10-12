@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownSoft.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-soft',
-  title: 'Pill Countdown — Soft',
-  description: 'Quiet thresholds: mostly static. Brief pulse only at 60s, 30s, 10s and last 5s.',
-  tags: ['css'],
-}
 
 export function TimerEffectsPillCountdownSoft() {
   const START_SECONDS = 60
@@ -70,3 +64,4 @@ export function TimerEffectsPillCountdownSoft() {
     </div>
   )
 }
+

@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownMedium.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-medium',
-  title: 'Pill Countdown — Medium',
-  description: 'Periodic blip: LED corner blink every 10s; subtle perimeter arc progress.',
-  tags: ['css'],
-}
 
 export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
@@ -71,3 +65,4 @@ export function TimerEffectsPillCountdownMedium() {
     </div>
   )
 }
+

@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardScaleRotate.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__wizard-scale-rotate',
-  title: 'Step Tiles Scale',
-  description: 'Multi-step wizard with scaling step tiles and rotating content panels',
-  tags: ['css', 'js'],
-}
 
 export function ModalOrchestrationWizardScaleRotate() {
   const steps = 3
@@ -64,3 +58,4 @@ export function ModalOrchestrationWizardScaleRotate() {
     </div>
   )
 }
+

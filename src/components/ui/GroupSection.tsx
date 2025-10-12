@@ -1,8 +1,7 @@
-import { buildRegistryFromCategories } from '@/components/animationRegistry'
+import { categories } from '@/components/animationRegistry'
 import { AnimationCard } from '@/components/ui/AnimationCard'
-import { useCodeMode } from '@/contexts/CodeModeContext'
 import type { Group } from '@/types/animation'
-import { Suspense, useMemo } from 'react'
+import React, { Suspense, useMemo } from 'react'
 
 interface GroupSectionProps {
   group: Group
@@ -12,7 +11,7 @@ interface GroupSectionProps {
 // Helper function to determine if an animation should run infinitely
 function isInfiniteAnimation(groupId: string, animationId: string): boolean {
   // All loading states should be infinite
-  if (groupId === 'loading-states') return true
+  if (groupId === 'loading-states-framer' || groupId === 'loading-states-css') return true
 
   // Specific animations that should loop infinitely
   const infiniteAnimations = [
@@ -36,8 +35,32 @@ function isInfiniteAnimation(groupId: string, animationId: string): boolean {
 }
 
 export function GroupSection({ group, elementId }: GroupSectionProps) {
-  const { codeMode } = useCodeMode()
-  const animationRegistry = useMemo(() => buildRegistryFromCategories(codeMode), [codeMode])
+  // Determine if this is a Framer or CSS group based on the group ID suffix
+  const isFramerGroup = group.id.endsWith('-framer')
+  const isCssGroup = group.id.endsWith('-css')
+
+  // Extract the base group ID (without -framer or -css suffix)
+  const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
+
+  // Build a registry for this specific group by looking up components from categories
+  const animationRegistry = useMemo(() => {
+    const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
+
+    // Find the category and group in the categories export
+    for (const category of Object.values(categories)) {
+      const groupExport = category.groups[baseGroupId]
+      if (groupExport) {
+        // Get components from the correct source (framer or css)
+        const animationSource = isCssGroup ? groupExport.css : groupExport.framer
+        Object.entries(animationSource).forEach(([id, anim]) => {
+          registry[id] = anim.component
+        })
+        break
+      }
+    }
+
+    return registry
+  }, [baseGroupId, isCssGroup])
   return (
     <article id={elementId} className="pf-group">
       <header className="pf-group__header">

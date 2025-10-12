@@ -3,12 +3,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseShatterAssemble.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__shatter-assemble',
-  title: 'Shatter Assembly',
-  description: 'Glass fragments coalesce into modal with rotation effects.',
-  tags: ['css'],
-}
 
 export function ModalBaseShatterAssemble() {
   return (
@@ -21,3 +15,4 @@ export function ModalBaseShatterAssemble() {
     </div>
   )
 }
+

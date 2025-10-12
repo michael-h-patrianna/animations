@@ -1,15 +1,29 @@
 import type { GroupMetadata, GroupExport } from '@/types/animation'
+import { lazy } from 'react'
 
-import { RealtimeDataLeaderboardShift, metadata as leaderboardMetadata } from './framer/RealtimeDataLeaderboardShift'
-import { RealtimeDataLiveScoreUpdate, metadata as liveScoreMetadata } from './framer/RealtimeDataLiveScoreUpdate'
-import { RealtimeDataStackedRealtime, metadata as stackedMetadata } from './framer/RealtimeDataStackedRealtime'
-import { RealtimeDataWinTicker, metadata as winTickerMetadata } from './framer/RealtimeDataWinTicker'
+// Framer Motion - Import metadata only
+import { metadata as leaderboardMetadata } from './framer/RealtimeDataLeaderboardShift.meta'
+import { metadata as liveScoreMetadata } from './framer/RealtimeDataLiveScoreUpdate.meta'
+import { metadata as stackedMetadata } from './framer/RealtimeDataStackedRealtime.meta'
+import { metadata as winTickerMetadata } from './framer/RealtimeDataWinTicker.meta'
 
-// CSS animations
-import { RealtimeDataLeaderboardShift as CssRealtimeDataLeaderboardShift, metadata as leaderboardCssMetadata } from './css/RealtimeDataLeaderboardShift'
-import { RealtimeDataLiveScoreUpdate as CssRealtimeDataLiveScoreUpdate, metadata as liveScoreCssMetadata } from './css/RealtimeDataLiveScoreUpdate'
-import { RealtimeDataStackedRealtime as CssRealtimeDataStackedRealtime, metadata as stackedCssMetadata } from './css/RealtimeDataStackedRealtime'
-import { RealtimeDataWinTicker as CssRealtimeDataWinTicker, metadata as winTickerCssMetadata } from './css/RealtimeDataWinTicker'
+// CSS - Import metadata only
+import { metadata as leaderboardCssMetadata } from './css/RealtimeDataLeaderboardShift.meta'
+import { metadata as liveScoreCssMetadata } from './css/RealtimeDataLiveScoreUpdate.meta'
+import { metadata as stackedCssMetadata } from './css/RealtimeDataStackedRealtime.meta'
+import { metadata as winTickerCssMetadata } from './css/RealtimeDataWinTicker.meta'
+
+// Framer Motion - Lazy load components
+const RealtimeDataLeaderboardShift = lazy(() => import('./framer/RealtimeDataLeaderboardShift').then(m => ({ default: m.RealtimeDataLeaderboardShift })))
+const RealtimeDataLiveScoreUpdate = lazy(() => import('./framer/RealtimeDataLiveScoreUpdate').then(m => ({ default: m.RealtimeDataLiveScoreUpdate })))
+const RealtimeDataStackedRealtime = lazy(() => import('./framer/RealtimeDataStackedRealtime').then(m => ({ default: m.RealtimeDataStackedRealtime })))
+const RealtimeDataWinTicker = lazy(() => import('./framer/RealtimeDataWinTicker').then(m => ({ default: m.RealtimeDataWinTicker })))
+
+// CSS - Lazy load components
+const CssRealtimeDataLeaderboardShift = lazy(() => import('./css/RealtimeDataLeaderboardShift').then(m => ({ default: m.RealtimeDataLeaderboardShift })))
+const CssRealtimeDataLiveScoreUpdate = lazy(() => import('./css/RealtimeDataLiveScoreUpdate').then(m => ({ default: m.RealtimeDataLiveScoreUpdate })))
+const CssRealtimeDataStackedRealtime = lazy(() => import('./css/RealtimeDataStackedRealtime').then(m => ({ default: m.RealtimeDataStackedRealtime })))
+const CssRealtimeDataWinTicker = lazy(() => import('./css/RealtimeDataWinTicker').then(m => ({ default: m.RealtimeDataWinTicker })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'realtime-data',
@@ -57,4 +71,3 @@ export const groupExport: GroupExport = {
     }
   },
 }
-

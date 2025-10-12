@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import { MockContent } from './MockContent'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-dismiss__toast-fade-progress',
-  title: 'Toast Fade Progress',
-  description: 'Soft fade-to-dismiss with synchronized progress depletion.',
-  tags: ['css']
-}
 
 export function ModalDismissToastFadeProgress() {
   const toastRef = useRef<HTMLDivElement>(null)
@@ -77,3 +71,4 @@ export function ModalDismissToastFadeProgress() {
     />
   )
 }
+

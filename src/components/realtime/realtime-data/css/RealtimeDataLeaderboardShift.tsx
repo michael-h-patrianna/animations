@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'realtime-data__leaderboard-shift',
-  title: 'Leaderboard Shift',
-  description: 'Real-time data pattern: Leaderboard Shift',
-  tags: ['css']
-}
 
 export function RealtimeDataLeaderboardShift() {
   const [leaderboard, setLeaderboard] = useState([
@@ -161,3 +155,4 @@ export function RealtimeDataLeaderboardShift() {
     </div>
   )
 }
+

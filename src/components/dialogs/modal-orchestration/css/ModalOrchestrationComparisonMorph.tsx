@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationComparisonMorph.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__comparison-morph',
-  title: 'Comparison Tiles',
-  description: 'Side-by-side comparison tiles with morphing transitions and content switching',
-  tags: ['css', 'js'],
-}
 
 export function ModalOrchestrationComparisonMorph() {
   const panes = 2
@@ -46,3 +40,4 @@ export function ModalOrchestrationComparisonMorph() {
     </div>
   )
 }
+

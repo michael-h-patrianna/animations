@@ -86,9 +86,3 @@ export function ModalCelebrationsCoinCascade() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-celebrations__coin-cascade',
-  title: 'Coin Cascade',
-  description: 'Celebration effects pattern: Coin Cascade',
-  tags: ['css'],
-}

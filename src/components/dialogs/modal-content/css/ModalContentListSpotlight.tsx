@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalContentListSpotlight.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__list-spotlight',
-  title: 'List Spotlight Sweep',
-  description: 'Content choreography inside the modal.',
-  tags: ['css']
-}
 
 export function ModalContentListSpotlight() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -106,3 +100,4 @@ export function ModalContentListSpotlight() {
     </div>
   )
 }
+

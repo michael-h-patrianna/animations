@@ -89,9 +89,3 @@ export function ModalCelebrationsCoinTrail() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-celebrations__coin-trail',
-  title: 'Coin Trail',
-  description: 'Celebration effects pattern: Coin Trail',
-  tags: ['css'],
-}

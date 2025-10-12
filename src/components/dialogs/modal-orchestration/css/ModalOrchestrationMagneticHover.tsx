@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationMagneticHover.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__magnetic-hover',
-  title: 'Magnetic Hover Tiles',
-  description: 'Tiles that respond to cursor proximity with magnetic attraction and smooth following',
-  tags: ['css', 'js'],
-}
 
 export function ModalOrchestrationMagneticHover() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
@@ -52,3 +46,4 @@ export function ModalOrchestrationMagneticHover() {
     </div>
   )
 }
+

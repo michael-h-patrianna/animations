@@ -28,12 +28,6 @@ export function TextEffectsVerbFlip() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__verb-flipping',
-  title: 'Flipping',
-  description: '3D flip rotation with perspective for each character.',
-  tags: ['css'],
-  disableReplay: false
-}
 
 export default TextEffectsVerbFlip
+

@@ -28,9 +28,3 @@ export function ModalCelebrationsFireworksRing() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-celebrations__fireworks-ring',
-  title: 'Fireworks Halo',
-  description: 'Celebration effects pattern: Fireworks Halo',
-  tags: ['css'],
-}

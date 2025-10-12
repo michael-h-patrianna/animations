@@ -2,65 +2,43 @@ import type {
   GroupMetadata,
   GroupExport
 } from '@/types/animation'
+import { lazy } from 'react'
 
-import {
-  ModalDismissSnackbarScale,
-  metadata as metadataSnackbarScale
-} from './framer/ModalDismissSnackbarScale'
-import {
-  ModalDismissSnackbarWipe,
-  metadata as metadataSnackbarWipe
-} from './framer/ModalDismissSnackbarWipe'
-import {
-  ModalDismissToastDrop,
-  metadata as metadataToastDrop
-} from './framer/ModalDismissToastDrop'
-import {
-  ModalDismissToastFadeProgress,
-  metadata as metadataToastFadeProgress
-} from './framer/ModalDismissToastFadeProgress'
-import {
-  ModalDismissToastRaise,
-  metadata as metadataToastRaise
-} from './framer/ModalDismissToastRaise'
-import {
-  ModalDismissToastSlideLeft,
-  metadata as metadataToastSlideLeft
-} from './framer/ModalDismissToastSlideLeft'
-import {
-  ModalDismissToastSlideRight,
-  metadata as metadataToastSlideRight
-} from './framer/ModalDismissToastSlideRight'
+// Framer Motion - Import metadata only
+import { metadata as metadataSnackbarScale } from './framer/ModalDismissSnackbarScale.meta'
+import { metadata as metadataSnackbarWipe } from './framer/ModalDismissSnackbarWipe.meta'
+import { metadata as metadataToastDrop } from './framer/ModalDismissToastDrop.meta'
+import { metadata as metadataToastFadeProgress } from './framer/ModalDismissToastFadeProgress.meta'
+import { metadata as metadataToastRaise } from './framer/ModalDismissToastRaise.meta'
+import { metadata as metadataToastSlideLeft } from './framer/ModalDismissToastSlideLeft.meta'
+import { metadata as metadataToastSlideRight } from './framer/ModalDismissToastSlideRight.meta'
 
-// CSS animations
-import {
-  ModalDismissSnackbarScale as CssModalDismissSnackbarScale,
-  metadata as metadataSnackbarScaleCss
-} from './css/ModalDismissSnackbarScale'
-import {
-  ModalDismissSnackbarWipe as CssModalDismissSnackbarWipe,
-  metadata as metadataSnackbarWipeCss
-} from './css/ModalDismissSnackbarWipe'
-import {
-  ModalDismissToastDrop as CssModalDismissToastDrop,
-  metadata as metadataToastDropCss
-} from './css/ModalDismissToastDrop'
-import {
-  ModalDismissToastFadeProgress as CssModalDismissToastFadeProgress,
-  metadata as metadataToastFadeProgressCss
-} from './css/ModalDismissToastFadeProgress'
-import {
-  ModalDismissToastRaise as CssModalDismissToastRaise,
-  metadata as metadataToastRaiseCss
-} from './css/ModalDismissToastRaise'
-import {
-  ModalDismissToastSlideLeft as CssModalDismissToastSlideLeft,
-  metadata as metadataToastSlideLeftCss
-} from './css/ModalDismissToastSlideLeft'
-import {
-  ModalDismissToastSlideRight as CssModalDismissToastSlideRight,
-  metadata as metadataToastSlideRightCss
-} from './css/ModalDismissToastSlideRight'
+// CSS - Import metadata only
+import { metadata as metadataSnackbarScaleCss } from './css/ModalDismissSnackbarScale.meta'
+import { metadata as metadataSnackbarWipeCss } from './css/ModalDismissSnackbarWipe.meta'
+import { metadata as metadataToastDropCss } from './css/ModalDismissToastDrop.meta'
+import { metadata as metadataToastFadeProgressCss } from './css/ModalDismissToastFadeProgress.meta'
+import { metadata as metadataToastRaiseCss } from './css/ModalDismissToastRaise.meta'
+import { metadata as metadataToastSlideLeftCss } from './css/ModalDismissToastSlideLeft.meta'
+import { metadata as metadataToastSlideRightCss } from './css/ModalDismissToastSlideRight.meta'
+
+// Framer Motion - Lazy load components
+const ModalDismissSnackbarScale = lazy(() => import('./framer/ModalDismissSnackbarScale').then(m => ({ default: m.ModalDismissSnackbarScale })))
+const ModalDismissSnackbarWipe = lazy(() => import('./framer/ModalDismissSnackbarWipe').then(m => ({ default: m.ModalDismissSnackbarWipe })))
+const ModalDismissToastDrop = lazy(() => import('./framer/ModalDismissToastDrop').then(m => ({ default: m.ModalDismissToastDrop })))
+const ModalDismissToastFadeProgress = lazy(() => import('./framer/ModalDismissToastFadeProgress').then(m => ({ default: m.ModalDismissToastFadeProgress })))
+const ModalDismissToastRaise = lazy(() => import('./framer/ModalDismissToastRaise').then(m => ({ default: m.ModalDismissToastRaise })))
+const ModalDismissToastSlideLeft = lazy(() => import('./framer/ModalDismissToastSlideLeft').then(m => ({ default: m.ModalDismissToastSlideLeft })))
+const ModalDismissToastSlideRight = lazy(() => import('./framer/ModalDismissToastSlideRight').then(m => ({ default: m.ModalDismissToastSlideRight })))
+
+// CSS - Lazy load components
+const CssModalDismissSnackbarScale = lazy(() => import('./css/ModalDismissSnackbarScale').then(m => ({ default: m.ModalDismissSnackbarScale })))
+const CssModalDismissSnackbarWipe = lazy(() => import('./css/ModalDismissSnackbarWipe').then(m => ({ default: m.ModalDismissSnackbarWipe })))
+const CssModalDismissToastDrop = lazy(() => import('./css/ModalDismissToastDrop').then(m => ({ default: m.ModalDismissToastDrop })))
+const CssModalDismissToastFadeProgress = lazy(() => import('./css/ModalDismissToastFadeProgress').then(m => ({ default: m.ModalDismissToastFadeProgress })))
+const CssModalDismissToastRaise = lazy(() => import('./css/ModalDismissToastRaise').then(m => ({ default: m.ModalDismissToastRaise })))
+const CssModalDismissToastSlideLeft = lazy(() => import('./css/ModalDismissToastSlideLeft').then(m => ({ default: m.ModalDismissToastSlideLeft })))
+const CssModalDismissToastSlideRight = lazy(() => import('./css/ModalDismissToastSlideRight').then(m => ({ default: m.ModalDismissToastSlideRight })))
 
 // Group metadata
 export const groupMetadata: GroupMetadata = {
@@ -134,4 +112,3 @@ export const groupExport: GroupExport = {
     }
   },
 }
-

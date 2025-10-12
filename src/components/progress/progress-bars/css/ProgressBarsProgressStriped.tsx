@@ -2,12 +2,6 @@ import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './ProgressBarsProgressStriped.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-striped',
-  title: 'Progress Striped',
-  description: 'Progress bar with animated diagonal stripes and shimmer effect.',
-  tags: ['css'],
-}
 
 export function ProgressBarsProgressStriped() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -67,3 +61,4 @@ export function ProgressBarsProgressStriped() {
     </div>
   )
 }
+

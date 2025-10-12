@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalContentListVerticalWipe.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__list-vertical-wipe',
-  title: 'List Vertical Wipe',
-  description: 'Vertical panel wipe across 4 list items for crisp onboarding.',
-  tags: ['css']
-}
 
 export function ModalContentListVerticalWipe() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -113,3 +107,4 @@ export function ModalContentListVerticalWipe() {
     </div>
   )
 }
+

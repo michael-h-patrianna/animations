@@ -13,9 +13,3 @@ export function LoadingStatesRingMulti() {
   )
 }
 
-export const metadata = {
-  id: 'loading-states__ring-multi',
-  title: 'Multi Ring',
-  description: 'Nested rings oscillate asynchronously.',
-  tags: ['css']
-} satisfies AnimationMetadata

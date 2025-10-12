@@ -39,75 +39,77 @@ const TimerEffectsPillCountdownHeartbeat = lazy(() =>
     default: m.TimerEffectsPillCountdownHeartbeat,
   }))
 )
-const TimerEffectsPillCountdownMedium = lazy(() =>
-  import('./framer/TimerEffectsPillCountdownMedium').then((m) => ({
+
+// Import metadata directly (not lazy-loaded since metadata is needed immediately)
+import { metadata as timerEffectsPillCountdownExtremeMetadata } from './framer/TimerEffectsPillCountdownExtreme.meta'
+import { metadata as timerEffectsPillCountdownGlitchMetadata } from './framer/TimerEffectsPillCountdownGlitch.meta'
+import { metadata as timerEffectsPillCountdownHeartbeatMetadata } from './framer/TimerEffectsPillCountdownHeartbeat.meta'
+import { metadata as timerEffectsPillCountdownStrongMetadata } from './framer/TimerEffectsPillCountdownStrong.meta'
+import { metadata as timerEffectsTimerColorShiftMetadata } from './framer/TimerEffectsTimerColorShift.meta'
+import { metadata as timerEffectsTimerFlashMetadata } from './framer/TimerEffectsTimerFlash.meta'
+import { metadata as timerEffectsTimerFlashSoftMetadata } from './framer/TimerEffectsTimerFlashSoft.meta'
+import { metadata as timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.meta'
+import { metadata as timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.meta'
+
+// CSS metadata imports (not lazy-loaded since metadata is needed immediately)
+import { metadata as timerColorShiftCssMetadata } from './css/TimerEffectsTimerColorShift.meta'
+import { metadata as timerFlashCssMetadata } from './css/TimerEffectsTimerFlash.meta'
+import { metadata as timerFlashSoftCssMetadata } from './css/TimerEffectsTimerFlashSoft.meta'
+import { metadata as timerFlipCssMetadata } from './css/TimerEffectsTimerFlip.meta'
+import { metadata as timerPulseCssMetadata } from './css/TimerEffectsTimerPulse.meta'
+import { metadata as pillCountdownStrongCssMetadata } from './css/TimerEffectsPillCountdownStrong.meta'
+import { metadata as pillCountdownExtremeCssMetadata } from './css/TimerEffectsPillCountdownExtreme.meta'
+import { metadata as pillCountdownGlitchCssMetadata } from './css/TimerEffectsPillCountdownGlitch.meta'
+import { metadata as pillCountdownHeartbeatCssMetadata } from './css/TimerEffectsPillCountdownHeartbeat.meta'
+import { metadata as pillCountdownMediumCssMetadata } from './css/TimerEffectsPillCountdownMedium.meta'
+import { metadata as pillCountdownSoftCssMetadata } from './css/TimerEffectsPillCountdownSoft.meta'
+
+// CSS animations - Lazy load components
+const CssTimerEffectsTimerColorShift = lazy(() =>
+  import('./css/TimerEffectsTimerColorShift').then((m) => ({ default: m.TimerEffectsTimerColorShift }))
+)
+const CssTimerEffectsTimerFlash = lazy(() =>
+  import('./css/TimerEffectsTimerFlash').then((m) => ({ default: m.TimerEffectsTimerFlash }))
+)
+const CssTimerEffectsTimerFlashSoft = lazy(() =>
+  import('./css/TimerEffectsTimerFlashSoft').then((m) => ({ default: m.TimerEffectsTimerFlashSoft }))
+)
+const CssTimerEffectsTimerFlip = lazy(() =>
+  import('./css/TimerEffectsTimerFlip').then((m) => ({ default: m.TimerEffectsTimerFlip }))
+)
+const CssTimerEffectsTimerPulse = lazy(() =>
+  import('./css/TimerEffectsTimerPulse').then((m) => ({ default: m.TimerEffectsTimerPulse }))
+)
+const CssTimerEffectsPillCountdownStrong = lazy(() =>
+  import('./css/TimerEffectsPillCountdownStrong').then((m) => ({
+    default: m.TimerEffectsPillCountdownStrong,
+  }))
+)
+const CssTimerEffectsPillCountdownExtreme = lazy(() =>
+  import('./css/TimerEffectsPillCountdownExtreme').then((m) => ({
+    default: m.TimerEffectsPillCountdownExtreme,
+  }))
+)
+const CssTimerEffectsPillCountdownGlitch = lazy(() =>
+  import('./css/TimerEffectsPillCountdownGlitch').then((m) => ({
+    default: m.TimerEffectsPillCountdownGlitch,
+  }))
+)
+const CssTimerEffectsPillCountdownHeartbeat = lazy(() =>
+  import('./css/TimerEffectsPillCountdownHeartbeat').then((m) => ({
+    default: m.TimerEffectsPillCountdownHeartbeat,
+  }))
+)
+const CssTimerEffectsPillCountdownMedium = lazy(() =>
+  import('./css/TimerEffectsPillCountdownMedium').then((m) => ({
     default: m.TimerEffectsPillCountdownMedium,
   }))
 )
-const TimerEffectsPillCountdownSoft = lazy(() =>
-  import('./framer/TimerEffectsPillCountdownSoft').then((m) => ({
+const CssTimerEffectsPillCountdownSoft = lazy(() =>
+  import('./css/TimerEffectsPillCountdownSoft').then((m) => ({
     default: m.TimerEffectsPillCountdownSoft,
   }))
 )
-
-// Import metadata directly (not lazy-loaded since metadata is needed immediately)
-import { timerEffectsPillCountdownExtremeMetadata } from './framer/TimerEffectsPillCountdownExtreme.metadata'
-import { timerEffectsPillCountdownGlitchMetadata } from './framer/TimerEffectsPillCountdownGlitch.metadata'
-import { timerEffectsPillCountdownHeartbeatMetadata } from './framer/TimerEffectsPillCountdownHeartbeat.metadata'
-import { timerEffectsPillCountdownMediumMetadata } from './framer/TimerEffectsPillCountdownMedium.metadata'
-import { timerEffectsPillCountdownSoftMetadata } from './framer/TimerEffectsPillCountdownSoft.metadata'
-import { timerEffectsPillCountdownStrongMetadata } from './framer/TimerEffectsPillCountdownStrong.metadata'
-import { timerEffectsTimerColorShiftMetadata } from './framer/TimerEffectsTimerColorShift.metadata'
-import { timerEffectsTimerFlashMetadata } from './framer/TimerEffectsTimerFlash.metadata'
-import { timerEffectsTimerFlashSoftMetadata } from './framer/TimerEffectsTimerFlashSoft.metadata'
-import { timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.metadata'
-import { timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.metadata'
-
-// CSS animations
-import {
-  TimerEffectsTimerColorShift as CssTimerEffectsTimerColorShift,
-  metadata as timerColorShiftCssMetadata,
-} from './css/TimerEffectsTimerColorShift'
-import {
-  TimerEffectsTimerFlash as CssTimerEffectsTimerFlash,
-  metadata as timerFlashCssMetadata,
-} from './css/TimerEffectsTimerFlash'
-import {
-  TimerEffectsTimerFlashSoft as CssTimerEffectsTimerFlashSoft,
-  metadata as timerFlashSoftCssMetadata,
-} from './css/TimerEffectsTimerFlashSoft'
-import {
-  TimerEffectsTimerFlip as CssTimerEffectsTimerFlip,
-  metadata as timerFlipCssMetadata,
-} from './css/TimerEffectsTimerFlip'
-import {
-  TimerEffectsTimerPulse as CssTimerEffectsTimerPulse,
-  metadata as timerPulseCssMetadata,
-} from './css/TimerEffectsTimerPulse'
-import {
-  TimerEffectsPillCountdownStrong as CssTimerEffectsPillCountdownStrong,
-  metadata as pillCountdownStrongCssMetadata,
-} from './css/TimerEffectsPillCountdownStrong'
-import {
-  TimerEffectsPillCountdownExtreme as CssTimerEffectsPillCountdownExtreme,
-  metadata as pillCountdownExtremeCssMetadata,
-} from './css/TimerEffectsPillCountdownExtreme'
-import {
-  TimerEffectsPillCountdownGlitch as CssTimerEffectsPillCountdownGlitch,
-  metadata as pillCountdownGlitchCssMetadata,
-} from './css/TimerEffectsPillCountdownGlitch'
-import {
-  TimerEffectsPillCountdownHeartbeat as CssTimerEffectsPillCountdownHeartbeat,
-  metadata as pillCountdownHeartbeatCssMetadata,
-} from './css/TimerEffectsPillCountdownHeartbeat'
-import {
-  TimerEffectsPillCountdownMedium as CssTimerEffectsPillCountdownMedium,
-  metadata as pillCountdownMediumCssMetadata,
-} from './css/TimerEffectsPillCountdownMedium'
-import {
-  TimerEffectsPillCountdownSoft as CssTimerEffectsPillCountdownSoft,
-  metadata as pillCountdownSoftCssMetadata,
-} from './css/TimerEffectsPillCountdownSoft'
 
 export const groupMetadata: GroupMetadata = {
   id: 'timer-effects',
@@ -154,14 +156,6 @@ export const groupExport: GroupExport = {
     'timer-effects__pill-countdown-heartbeat': {
       component: TimerEffectsPillCountdownHeartbeat,
       metadata: timerEffectsPillCountdownHeartbeatMetadata,
-    },
-    'timer-effects__pill-countdown-soft': {
-      component: TimerEffectsPillCountdownSoft,
-      metadata: timerEffectsPillCountdownSoftMetadata,
-    },
-    'timer-effects__pill-countdown-medium': {
-      component: TimerEffectsPillCountdownMedium,
-      metadata: timerEffectsPillCountdownMediumMetadata,
     },
   },
   css: {

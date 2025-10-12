@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ModalContentListSoftStagger.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__list-soft-stagger',
-  title: 'List Soft Stagger',
-  description: 'Sequential list reveal (5 items) using 60ms offsets.',
-  tags: ['css']
-}
 
 export function ModalContentListSoftStagger() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -118,3 +112,4 @@ export function ModalContentListSoftStagger() {
     </div>
   )
 }
+

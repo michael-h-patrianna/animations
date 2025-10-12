@@ -3,13 +3,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseSpringBounce.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__spring-bounce',
-  title: 'Spring Bounce',
-  description:
-    'Elastic spring entrance with dynamic bounce physics and smooth overlay transition. GPU-accelerated CSS keyframes.',
-  tags: ['css'],
-}
 
 export function ModalBaseSpringBounce() {
   return (
@@ -25,3 +18,4 @@ export function ModalBaseSpringBounce() {
     </div>
   )
 }
+

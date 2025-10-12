@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__stagger-inview',
-  title: 'Stagger In-View',
-  description: 'Grid tiles that animate progressively as they enter the viewport during scroll',
-  tags: ['css', 'js'],
-}
 
 export function ModalOrchestrationStaggerInview() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -72,3 +66,4 @@ export function ModalOrchestrationStaggerInview() {
     </div>
   )
 }
+

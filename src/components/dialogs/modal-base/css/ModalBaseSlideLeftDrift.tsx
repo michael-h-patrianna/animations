@@ -3,12 +3,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseSlideLeftDrift.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__slide-left-drift',
-  title: 'Slide Left Drift',
-  description: 'Slides in from the right by 68px with 68% overlay fade and soft scale.',
-  tags: ['css'],
-}
 
 export function ModalBaseSlideLeftDrift() {
   return (
@@ -24,3 +18,4 @@ export function ModalBaseSlideLeftDrift() {
     </div>
   )
 }
+

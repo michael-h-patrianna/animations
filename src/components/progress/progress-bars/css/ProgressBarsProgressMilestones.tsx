@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressMilestones.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-milestones',
-  title: 'Milestone Markers',
-  description: 'Milestone markers light up as progress crosses thresholds.',
-  tags: ['css'],
-}
 
 export function ProgressBarsProgressMilestones() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -198,3 +192,4 @@ export function ProgressBarsProgressMilestones() {
     </div>
   )
 }
+

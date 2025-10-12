@@ -12,9 +12,3 @@ export function StandardEffectsWiggle() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__wiggle',
-  title: 'Wiggle',
-  description: 'Rotation oscillation with scale breathing and position drift for attention.',
-  tags: ['css'],
-}

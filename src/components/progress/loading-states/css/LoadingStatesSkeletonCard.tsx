@@ -14,9 +14,3 @@ export function LoadingStatesSkeletonCard() {
   )
 }
 
-export const metadata = {
-  id: 'loading-states__skeleton-card',
-  title: 'Skeleton Card',
-  description: 'Card skeleton with layered shimmer lines.',
-  tags: ['css']
-} satisfies AnimationMetadata

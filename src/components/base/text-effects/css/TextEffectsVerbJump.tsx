@@ -30,11 +30,6 @@ export function TextEffectsVerbJump() {
   )
 }
 
-export const metadata = {
-  id: 'text-effects__verb-jumping',
-  title: 'Jumping',
-  description: 'Playful jump cadence with squash and stretch per letter.',
-  tags: ['css']
-} satisfies AnimationMetadata
 
 export default TextEffectsVerbJump
+

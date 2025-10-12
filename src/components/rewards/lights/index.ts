@@ -1,23 +1,45 @@
-import LightsCircleStatic1, { metadata as metadata1 } from './framer/LightsCircleStatic1'
-import LightsCircleStatic2, { metadata as metadata2 } from './framer/LightsCircleStatic2'
-import LightsCircleStatic3, { metadata as metadata3 } from './framer/LightsCircleStatic3'
-import LightsCircleStatic4, { metadata as metadata4 } from './framer/LightsCircleStatic4'
-import LightsCircleStatic5, { metadata as metadata5 } from './framer/LightsCircleStatic5'
-import LightsCircleStatic6, { metadata as metadata6 } from './framer/LightsCircleStatic6'
-import LightsCircleStatic7, { metadata as metadata7 } from './framer/LightsCircleStatic7'
-import LightsCircleStatic8, { metadata as metadata8 } from './framer/LightsCircleStatic8'
-
-// CSS animations
-import CssLightsCircleStatic1, { metadata as cssMetadata1 } from './css/LightsCircleStatic1'
-import CssLightsCircleStatic2, { metadata as cssMetadata2 } from './css/LightsCircleStatic2'
-import CssLightsCircleStatic3, { metadata as cssMetadata3 } from './css/LightsCircleStatic3'
-import CssLightsCircleStatic4, { metadata as cssMetadata4 } from './css/LightsCircleStatic4'
-import CssLightsCircleStatic5, { metadata as cssMetadata5 } from './css/LightsCircleStatic5'
-import CssLightsCircleStatic6, { metadata as cssMetadata6 } from './css/LightsCircleStatic6'
-import CssLightsCircleStatic7, { metadata as cssMetadata7 } from './css/LightsCircleStatic7'
-import CssLightsCircleStatic8, { metadata as cssMetadata8 } from './css/LightsCircleStatic8'
 import type { GroupMetadata, GroupExport } from '@/types/animation'
+import { lazy } from 'react'
 
+// Framer Motion - Import metadata only
+import { metadata as metadata1 } from './framer/LightsCircleStatic1.meta'
+import { metadata as metadata2 } from './framer/LightsCircleStatic2.meta'
+import { metadata as metadata3 } from './framer/LightsCircleStatic3.meta'
+import { metadata as metadata4 } from './framer/LightsCircleStatic4.meta'
+import { metadata as metadata5 } from './framer/LightsCircleStatic5.meta'
+import { metadata as metadata6 } from './framer/LightsCircleStatic6.meta'
+import { metadata as metadata7 } from './framer/LightsCircleStatic7.meta'
+import { metadata as metadata8 } from './framer/LightsCircleStatic8.meta'
+
+// CSS - Import metadata only
+import { metadata as cssMetadata1 } from './css/LightsCircleStatic1.meta'
+import { metadata as cssMetadata2 } from './css/LightsCircleStatic2.meta'
+import { metadata as cssMetadata3 } from './css/LightsCircleStatic3.meta'
+import { metadata as cssMetadata4 } from './css/LightsCircleStatic4.meta'
+import { metadata as cssMetadata5 } from './css/LightsCircleStatic5.meta'
+import { metadata as cssMetadata6 } from './css/LightsCircleStatic6.meta'
+import { metadata as cssMetadata7 } from './css/LightsCircleStatic7.meta'
+import { metadata as cssMetadata8 } from './css/LightsCircleStatic8.meta'
+
+// Framer Motion - Lazy load components
+const LightsCircleStatic1 = lazy(() => import('./framer/LightsCircleStatic1').then(m => ({ default: m.default })))
+const LightsCircleStatic2 = lazy(() => import('./framer/LightsCircleStatic2').then(m => ({ default: m.default })))
+const LightsCircleStatic3 = lazy(() => import('./framer/LightsCircleStatic3').then(m => ({ default: m.default })))
+const LightsCircleStatic4 = lazy(() => import('./framer/LightsCircleStatic4').then(m => ({ default: m.default })))
+const LightsCircleStatic5 = lazy(() => import('./framer/LightsCircleStatic5').then(m => ({ default: m.default })))
+const LightsCircleStatic6 = lazy(() => import('./framer/LightsCircleStatic6').then(m => ({ default: m.default })))
+const LightsCircleStatic7 = lazy(() => import('./framer/LightsCircleStatic7').then(m => ({ default: m.default })))
+const LightsCircleStatic8 = lazy(() => import('./framer/LightsCircleStatic8').then(m => ({ default: m.default })))
+
+// CSS - Lazy load components
+const CssLightsCircleStatic1 = lazy(() => import('./css/LightsCircleStatic1').then(m => ({ default: m.default })))
+const CssLightsCircleStatic2 = lazy(() => import('./css/LightsCircleStatic2').then(m => ({ default: m.default })))
+const CssLightsCircleStatic3 = lazy(() => import('./css/LightsCircleStatic3').then(m => ({ default: m.default })))
+const CssLightsCircleStatic4 = lazy(() => import('./css/LightsCircleStatic4').then(m => ({ default: m.default })))
+const CssLightsCircleStatic5 = lazy(() => import('./css/LightsCircleStatic5').then(m => ({ default: m.default })))
+const CssLightsCircleStatic6 = lazy(() => import('./css/LightsCircleStatic6').then(m => ({ default: m.default })))
+const CssLightsCircleStatic7 = lazy(() => import('./css/LightsCircleStatic7').then(m => ({ default: m.default })))
+const CssLightsCircleStatic8 = lazy(() => import('./css/LightsCircleStatic8').then(m => ({ default: m.default })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'lights',

@@ -15,9 +15,3 @@ export function MiscOscillatingDots() {
   )
 }
 
-export const metadata = {
-  id: 'misc__oscillating-dots',
-  title: 'Oscillating Dots',
-  description: 'Rows of dots oscillate vertically with staggered phases.',
-  tags: ['css']
-} satisfies AnimationMetadata

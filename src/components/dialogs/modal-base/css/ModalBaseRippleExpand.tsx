@@ -3,12 +3,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseRippleExpand.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__ripple-expand',
-  title: 'Material Ripple',
-  description: 'Material Design ripple expansion with radiating wave effect.',
-  tags: ['css'],
-}
 
 export function ModalBaseRippleExpand() {
   return (
@@ -20,3 +14,4 @@ export function ModalBaseRippleExpand() {
     </div>
   )
 }
+

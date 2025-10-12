@@ -12,9 +12,3 @@ export function StandardEffectsScale() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__scale',
-  title: 'Scale',
-  description: 'Clean scale transformation from small to full size without bounce.',
-  tags: ['css'],
-}

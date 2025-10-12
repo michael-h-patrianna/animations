@@ -2,12 +2,6 @@ import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './RealtimeDataStackedRealtime.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'realtime-data__stacked-realtime',
-  title: 'Stacked Pulse',
-  description: 'Real-time data pattern: Stacked Pulse',
-  tags: ['css']
-}
 
 export function RealtimeDataStackedRealtime() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -120,3 +114,4 @@ export function RealtimeDataStackedRealtime() {
     </div>
   )
 }
+

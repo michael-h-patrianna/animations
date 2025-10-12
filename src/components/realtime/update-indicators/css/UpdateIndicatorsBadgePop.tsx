@@ -2,12 +2,6 @@ import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsBadgePop.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__badge-pop',
-  title: 'Badge Pop',
-  description: 'Notification badge pops in with quick overshoot.',
-  tags: ['css']
-}
 
 export function UpdateIndicatorsBadgePop() {
   const badgeRef = useRef<HTMLDivElement>(null)
@@ -51,3 +45,4 @@ export function UpdateIndicatorsBadgePop() {
     </div>
   )
 }
+

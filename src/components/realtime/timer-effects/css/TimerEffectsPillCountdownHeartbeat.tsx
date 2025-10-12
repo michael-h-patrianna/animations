@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownHeartbeat.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-heartbeat',
-  title: 'Pill Countdown — Heartbeat',
-  description: 'Countdown with heartbeat animation that intensifies as time runs out.',
-  tags: ['css'],
-}
 
 export function TimerEffectsPillCountdownHeartbeat() {
   const [seconds, setSeconds] = useState(60)
@@ -55,3 +49,4 @@ export function TimerEffectsPillCountdownHeartbeat() {
     </div>
   )
 }
+

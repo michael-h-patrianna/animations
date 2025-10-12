@@ -1,5 +1,4 @@
 import { categories } from '@/components/animationRegistry'
-import type { CodeMode } from '@/contexts/CodeModeContext'
 import type {
   Animation,
   Category,
@@ -9,31 +8,57 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
  * Builds catalog from category exports.
- * This is the primary data source, reading from component-based metadata.
- *
- * @param codeMode - The code mode to filter animations by ('Framer' or 'CSS')
+ * Creates TWO separate groups for each logical group: one for Framer, one for CSS.
  */
-const buildCatalogFromCategories = (codeMode: CodeMode = 'Framer'): Category[] => {
-  const animationSource = codeMode === 'CSS' ? 'css' : 'framer'
-
+const buildCatalogFromCategories = (): Category[] => {
   return Object.values(categories).map(cat => ({
     id: cat.metadata.id,
     title: cat.metadata.title,
-    groups: Object.values(cat.groups).map(group => ({
-      id: group.metadata.id,
-      title: group.metadata.title,
-      tech: group.metadata.tech,
-      demo: group.metadata.demo,
-      animations: Object.values(group[animationSource]).map(anim => ({
-        id: anim.metadata.id,
-        title: anim.metadata.title,
-        description: anim.metadata.description,
-        categoryId: cat.metadata.id,
-        groupId: group.metadata.id,
-        tags: anim.metadata.tags,
-        disableReplay: anim.metadata.disableReplay,
-      })),
-    })),
+    groups: Object.values(cat.groups).flatMap(group => {
+      const framerAnimations = Object.values(group.framer)
+      const cssAnimations = Object.values(group.css)
+      const result = []
+
+      // Add Framer group if it has animations
+      if (framerAnimations.length > 0) {
+        result.push({
+          id: `${group.metadata.id}-framer`,
+          title: `${group.metadata.title} (Framer)`,
+          tech: group.metadata.tech,
+          demo: group.metadata.demo,
+          animations: framerAnimations.map(anim => ({
+            id: anim.metadata.id,
+            title: anim.metadata.title,
+            description: anim.metadata.description,
+            categoryId: cat.metadata.id,
+            groupId: `${group.metadata.id}-framer`,
+            tags: anim.metadata.tags,
+            disableReplay: anim.metadata.disableReplay,
+          })),
+        })
+      }
+
+      // Add CSS group if it has animations
+      if (cssAnimations.length > 0) {
+        result.push({
+          id: `${group.metadata.id}-css`,
+          title: `${group.metadata.title} (CSS)`,
+          tech: group.metadata.tech,
+          demo: group.metadata.demo,
+          animations: cssAnimations.map(anim => ({
+            id: anim.metadata.id,
+            title: anim.metadata.title,
+            description: anim.metadata.description,
+            categoryId: cat.metadata.id,
+            groupId: `${group.metadata.id}-css`,
+            tags: anim.metadata.tags,
+            disableReplay: anim.metadata.disableReplay,
+          })),
+        })
+      }
+
+      return result
+    }),
   }))
 }
 
@@ -41,10 +66,9 @@ const buildCatalogFromCategories = (codeMode: CodeMode = 'Framer'): Category[] =
  * Builds catalog with additional animations merged in.
  *
  * @param additionalAnimations - Additional animations to merge
- * @param codeMode - The code mode to filter animations by ('Framer' or 'CSS')
  */
-const buildCatalogWithExtras = (additionalAnimations: Animation[], codeMode: CodeMode = 'Framer'): Category[] => {
-  const baseCatalog = buildCatalogFromCategories(codeMode)
+const buildCatalogWithExtras = (additionalAnimations: Animation[]): Category[] => {
+  const baseCatalog = buildCatalogFromCategories()
 
   // Merge with additional animations if any
   if (additionalAnimations.length > 0) {
@@ -75,30 +99,24 @@ const buildCatalogWithExtras = (additionalAnimations: Animation[], codeMode: Cod
 class AnimationDataService {
   private catalog: Category[] | null = null
   private readonly extraAnimations: Animation[] = []
-  private currentCodeMode: CodeMode = 'Framer'
 
-  private async ensureCatalog(codeMode?: CodeMode): Promise<Category[]> {
-    const mode = codeMode ?? this.currentCodeMode
-
-    // Rebuild catalog if code mode changed or catalog doesn't exist
-    if (!this.catalog || mode !== this.currentCodeMode) {
-      this.currentCodeMode = mode
-      this.catalog = buildCatalogWithExtras(this.extraAnimations, mode)
+  private async ensureCatalog(): Promise<Category[]> {
+    // Build catalog if it doesn't exist
+    if (!this.catalog) {
+      this.catalog = buildCatalogWithExtras(this.extraAnimations)
     }
 
     return this.catalog
   }
 
-  async loadAnimations(codeMode?: CodeMode): Promise<Category[]> {
+  async loadAnimations(): Promise<Category[]> {
     await delay(120)
-    return this.ensureCatalog(codeMode)
+    return this.ensureCatalog()
   }
 
-  async refreshCatalog(codeMode?: CodeMode): Promise<Category[]> {
+  async refreshCatalog(): Promise<Category[]> {
     await delay(60)
-    const mode = codeMode ?? this.currentCodeMode
-    this.currentCodeMode = mode
-    this.catalog = buildCatalogWithExtras(this.extraAnimations, mode)
+    this.catalog = buildCatalogWithExtras(this.extraAnimations)
     return this.catalog
   }
 

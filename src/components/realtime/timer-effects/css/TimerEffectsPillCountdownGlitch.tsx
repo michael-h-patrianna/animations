@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownGlitch.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-glitch',
-  title: 'Pill Countdown — Glitch',
-  description: 'Countdown with glitch effects that intensify as time runs out.',
-  tags: ['css'],
-}
 
 export function TimerEffectsPillCountdownGlitch() {
   const [seconds, setSeconds] = useState(60)
@@ -61,3 +55,4 @@ export function TimerEffectsPillCountdownGlitch() {
     </div>
   )
 }
+

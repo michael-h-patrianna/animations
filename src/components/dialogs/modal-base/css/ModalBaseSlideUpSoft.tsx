@@ -3,13 +3,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseSlideUpSoft.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__slide-up-soft',
-  title: 'Slide Up Soft',
-  description:
-    'Slides up from 64px with 92% scale and fade-in using CSS keyframes. GPU-accelerated with transform and opacity.',
-  tags: ['css'],
-}
 
 export function ModalBaseSlideUpSoft() {
   return (
@@ -25,3 +18,4 @@ export function ModalBaseSlideUpSoft() {
     </div>
   )
 }
+

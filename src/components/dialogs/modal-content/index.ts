@@ -2,69 +2,45 @@ import type {
   GroupMetadata,
   GroupExport
 } from '@/types/animation'
+import { lazy } from 'react'
 
-import {
-  ModalContentButtonsStagger2,
-  metadata as metadataButtonsStagger2
-} from './framer/ModalContentButtonsStagger2'
-import {
-  ModalContentButtonsStagger3,
-  metadata as metadataButtonsStagger3
-} from './framer/ModalContentButtonsStagger3'
-import {
-  ModalContentFormFieldGradient,
-  metadata as metadataFormFieldGradient
-} from './framer/ModalContentFormFieldGradient'
-import {
-  ModalContentFormFieldLeftReveal,
-  metadata as metadataFormFieldLeftReveal
-} from './framer/ModalContentFormFieldLeftReveal'
-import {
-  ModalContentFormFieldRightReveal,
-  metadata as metadataFormFieldRightReveal
-} from './framer/ModalContentFormFieldRightReveal'
-import {
-  ModalContentListSoftStagger,
-  metadata as metadataListSoftStagger
-} from './framer/ModalContentListSoftStagger'
-import {
-  ModalContentListVerticalWipe,
-  metadata as metadataListVerticalWipe
-} from './framer/ModalContentListVerticalWipe'
+// Framer Motion - Import metadata only
+import { metadata as metadataButtonsStagger2 } from './framer/ModalContentButtonsStagger2.meta'
+import { metadata as metadataButtonsStagger3 } from './framer/ModalContentButtonsStagger3.meta'
+import { metadata as metadataFormFieldGradient } from './framer/ModalContentFormFieldGradient.meta'
+import { metadata as metadataFormFieldLeftReveal } from './framer/ModalContentFormFieldLeftReveal.meta'
+import { metadata as metadataFormFieldRightReveal } from './framer/ModalContentFormFieldRightReveal.meta'
+import { metadata as metadataListSoftStagger } from './framer/ModalContentListSoftStagger.meta'
+import { metadata as metadataListVerticalWipe } from './framer/ModalContentListVerticalWipe.meta'
 
-// CSS animations
-import {
-  ModalContentButtonsStagger2 as CssModalContentButtonsStagger2,
-  metadata as metadataButtonsStagger2Css
-} from './css/ModalContentButtonsStagger2'
-import {
-  ModalContentButtonsStagger3 as CssModalContentButtonsStagger3,
-  metadata as metadataButtonsStagger3Css
-} from './css/ModalContentButtonsStagger3'
-import {
-  ModalContentFormFieldGradient as CssModalContentFormFieldGradient,
-  metadata as metadataFormFieldGradientCss
-} from './css/ModalContentFormFieldGradient'
-import {
-  ModalContentFormFieldLeftReveal as CssModalContentFormFieldLeftReveal,
-  metadata as metadataFormFieldLeftRevealCss
-} from './css/ModalContentFormFieldLeftReveal'
-import {
-  ModalContentFormFieldRightReveal as CssModalContentFormFieldRightReveal,
-  metadata as metadataFormFieldRightRevealCss
-} from './css/ModalContentFormFieldRightReveal'
-import {
-  ModalContentListSoftStagger as CssModalContentListSoftStagger,
-  metadata as metadataListSoftStaggerCss
-} from './css/ModalContentListSoftStagger'
-import {
-  ModalContentListSpotlight as CssModalContentListSpotlight,
-  metadata as metadataListSpotlightCss
-} from './css/ModalContentListSpotlight'
-import {
-  ModalContentListVerticalWipe as CssModalContentListVerticalWipe,
-  metadata as metadataListVerticalWipeCss
-} from './css/ModalContentListVerticalWipe'
+// CSS - Import metadata only
+import { metadata as metadataButtonsStagger2Css } from './css/ModalContentButtonsStagger2.meta'
+import { metadata as metadataButtonsStagger3Css } from './css/ModalContentButtonsStagger3.meta'
+import { metadata as metadataFormFieldGradientCss } from './css/ModalContentFormFieldGradient.meta'
+import { metadata as metadataFormFieldLeftRevealCss } from './css/ModalContentFormFieldLeftReveal.meta'
+import { metadata as metadataFormFieldRightRevealCss } from './css/ModalContentFormFieldRightReveal.meta'
+import { metadata as metadataListSoftStaggerCss } from './css/ModalContentListSoftStagger.meta'
+import { metadata as metadataListSpotlightCss } from './css/ModalContentListSpotlight.meta'
+import { metadata as metadataListVerticalWipeCss } from './css/ModalContentListVerticalWipe.meta'
+
+// Framer Motion - Lazy load components
+const ModalContentButtonsStagger2 = lazy(() => import('./framer/ModalContentButtonsStagger2').then(m => ({ default: m.ModalContentButtonsStagger2 })))
+const ModalContentButtonsStagger3 = lazy(() => import('./framer/ModalContentButtonsStagger3').then(m => ({ default: m.ModalContentButtonsStagger3 })))
+const ModalContentFormFieldGradient = lazy(() => import('./framer/ModalContentFormFieldGradient').then(m => ({ default: m.ModalContentFormFieldGradient })))
+const ModalContentFormFieldLeftReveal = lazy(() => import('./framer/ModalContentFormFieldLeftReveal').then(m => ({ default: m.ModalContentFormFieldLeftReveal })))
+const ModalContentFormFieldRightReveal = lazy(() => import('./framer/ModalContentFormFieldRightReveal').then(m => ({ default: m.ModalContentFormFieldRightReveal })))
+const ModalContentListSoftStagger = lazy(() => import('./framer/ModalContentListSoftStagger').then(m => ({ default: m.ModalContentListSoftStagger })))
+const ModalContentListVerticalWipe = lazy(() => import('./framer/ModalContentListVerticalWipe').then(m => ({ default: m.ModalContentListVerticalWipe })))
+
+// CSS - Lazy load components
+const CssModalContentButtonsStagger2 = lazy(() => import('./css/ModalContentButtonsStagger2').then(m => ({ default: m.ModalContentButtonsStagger2 })))
+const CssModalContentButtonsStagger3 = lazy(() => import('./css/ModalContentButtonsStagger3').then(m => ({ default: m.ModalContentButtonsStagger3 })))
+const CssModalContentFormFieldGradient = lazy(() => import('./css/ModalContentFormFieldGradient').then(m => ({ default: m.ModalContentFormFieldGradient })))
+const CssModalContentFormFieldLeftReveal = lazy(() => import('./css/ModalContentFormFieldLeftReveal').then(m => ({ default: m.ModalContentFormFieldLeftReveal })))
+const CssModalContentFormFieldRightReveal = lazy(() => import('./css/ModalContentFormFieldRightReveal').then(m => ({ default: m.ModalContentFormFieldRightReveal })))
+const CssModalContentListSoftStagger = lazy(() => import('./css/ModalContentListSoftStagger').then(m => ({ default: m.ModalContentListSoftStagger })))
+const CssModalContentListSpotlight = lazy(() => import('./css/ModalContentListSpotlight').then(m => ({ default: m.ModalContentListSpotlight })))
+const CssModalContentListVerticalWipe = lazy(() => import('./css/ModalContentListVerticalWipe').then(m => ({ default: m.ModalContentListVerticalWipe })))
 
 // Group metadata
 export const groupMetadata: GroupMetadata = {
@@ -142,4 +118,3 @@ export const groupExport: GroupExport = {
     }
   },
 }
-

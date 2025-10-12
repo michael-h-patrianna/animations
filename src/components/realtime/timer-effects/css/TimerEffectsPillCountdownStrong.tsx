@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownStrong.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-strong',
-  title: 'Pill Countdown — Strong',
-  description: 'Strong: segmented bar + brief snap ticks under 15s. No continuous looping.',
-  tags: ['css'],
-}
 
 export function TimerEffectsPillCountdownStrong() {
   const START_SECONDS = 60
@@ -79,3 +73,4 @@ export function TimerEffectsPillCountdownStrong() {
     </div>
   )
 }
+

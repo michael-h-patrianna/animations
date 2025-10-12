@@ -1,50 +1,99 @@
 import type { GroupExport, GroupMetadata } from '@/types/animation'
+import { lazy } from 'react'
 
-import { StandardEffectsBlink, metadata as blinkMeta } from './framer/StandardEffectsBlink'
-import { StandardEffectsBounce, metadata as bounceMeta } from './framer/StandardEffectsBounce'
-import { StandardEffectsFade, metadata as fadeMeta } from './framer/StandardEffectsFade'
-import { StandardEffectsFlip, metadata as flipMeta } from './framer/StandardEffectsFlip'
-import { StandardEffectsFloat, metadata as floatMeta } from './framer/StandardEffectsFloat'
-import { StandardEffectsHeartbeat, metadata as heartbeatMeta } from './framer/StandardEffectsHeartbeat'
-import { StandardEffectsJello, metadata as jelloMeta } from './framer/StandardEffectsJello'
-import { StandardEffectsPop, metadata as popMeta } from './framer/StandardEffectsPop'
-import { StandardEffectsPulse, metadata as pulseMeta } from './framer/StandardEffectsPulse'
-import { StandardEffectsPulseCircle, metadata as pulseCircleMeta } from './framer/StandardEffectsPulseCircle'
-import { StandardEffectsPulseWave, metadata as pulseWaveMeta } from './framer/StandardEffectsPulseWave'
-import { StandardEffectsRadialPulse, metadata as radialPulseMeta } from './framer/StandardEffectsRadialPulse'
-import { StandardEffectsRubberBand, metadata as rubberBandMeta } from './framer/StandardEffectsRubberBand'
-import { StandardEffectsScale, metadata as scaleMeta } from './framer/StandardEffectsScale'
-import { StandardEffectsShake, metadata as shakeMeta } from './framer/StandardEffectsShake'
-import { StandardEffectsSlide, metadata as slideMeta } from './framer/StandardEffectsSlide'
-import { StandardEffectsSoftPulse, metadata as softPulseMeta } from './framer/StandardEffectsSoftPulse'
-import { StandardEffectsSpin, metadata as spinMeta } from './framer/StandardEffectsSpin'
-import { StandardEffectsSqueeze, metadata as squeezeMeta } from './framer/StandardEffectsSqueeze'
-import { StandardEffectsSwing, metadata as swingMeta } from './framer/StandardEffectsSwing'
-import { StandardEffectsTada, metadata as tadaMeta } from './framer/StandardEffectsTada'
-import { StandardEffectsWiggle, metadata as wiggleMeta } from './framer/StandardEffectsWiggle'
+// Framer Motion - Import metadata only
+import { metadata as blinkMeta } from './framer/StandardEffectsBlink.meta'
+import { metadata as bounceMeta } from './framer/StandardEffectsBounce.meta'
+import { metadata as fadeMeta } from './framer/StandardEffectsFade.meta'
+import { metadata as flipMeta } from './framer/StandardEffectsFlip.meta'
+import { metadata as floatMeta } from './framer/StandardEffectsFloat.meta'
+import { metadata as heartbeatMeta } from './framer/StandardEffectsHeartbeat.meta'
+import { metadata as jelloMeta } from './framer/StandardEffectsJello.meta'
+import { metadata as popMeta } from './framer/StandardEffectsPop.meta'
+import { metadata as pulseMeta } from './framer/StandardEffectsPulse.meta'
+import { metadata as pulseCircleMeta } from './framer/StandardEffectsPulseCircle.meta'
+import { metadata as pulseWaveMeta } from './framer/StandardEffectsPulseWave.meta'
+import { metadata as radialPulseMeta } from './framer/StandardEffectsRadialPulse.meta'
+import { metadata as rubberBandMeta } from './framer/StandardEffectsRubberBand.meta'
+import { metadata as scaleMeta } from './framer/StandardEffectsScale.meta'
+import { metadata as shakeMeta } from './framer/StandardEffectsShake.meta'
+import { metadata as slideMeta } from './framer/StandardEffectsSlide.meta'
+import { metadata as softPulseMeta } from './framer/StandardEffectsSoftPulse.meta'
+import { metadata as spinMeta } from './framer/StandardEffectsSpin.meta'
+import { metadata as squeezeMeta } from './framer/StandardEffectsSqueeze.meta'
+import { metadata as swingMeta } from './framer/StandardEffectsSwing.meta'
+import { metadata as tadaMeta } from './framer/StandardEffectsTada.meta'
+import { metadata as wiggleMeta } from './framer/StandardEffectsWiggle.meta'
 
-// CSS animations
-import { StandardEffectsBlink as CssStandardEffectsBlink, metadata as blinkCssMeta } from './css/StandardEffectsBlink'
-import { StandardEffectsBounce as CssStandardEffectsBounce, metadata as bounceCssMeta } from './css/StandardEffectsBounce'
-import { StandardEffectsFade as CssStandardEffectsFade, metadata as fadeCssMeta } from './css/StandardEffectsFade'
-import { StandardEffectsFlip as CssStandardEffectsFlip, metadata as flipCssMeta } from './css/StandardEffectsFlip'
-import { StandardEffectsHeartbeat as CssStandardEffectsHeartbeat, metadata as heartbeatCssMeta } from './css/StandardEffectsHeartbeat'
-import { StandardEffectsJello as CssStandardEffectsJello, metadata as jelloCssMeta } from './css/StandardEffectsJello'
-import { StandardEffectsPop as CssStandardEffectsPop, metadata as popCssMeta } from './css/StandardEffectsPop'
-import { StandardEffectsPulse as CssStandardEffectsPulse, metadata as pulseCssMeta } from './css/StandardEffectsPulse'
-import { StandardEffectsPulseCircle as CssStandardEffectsPulseCircle, metadata as pulseCircleCssMeta } from './css/StandardEffectsPulseCircle'
-import { StandardEffectsPulseWave as CssStandardEffectsPulseWave, metadata as pulseWaveCssMeta } from './css/StandardEffectsPulseWave'
-import { StandardEffectsRadialPulse as CssStandardEffectsRadialPulse, metadata as radialPulseCssMeta } from './css/StandardEffectsRadialPulse'
-import { StandardEffectsRubberBand as CssStandardEffectsRubberBand, metadata as rubberBandCssMeta } from './css/StandardEffectsRubberBand'
-import { StandardEffectsShake as CssStandardEffectsShake, metadata as shakeCssMeta } from './css/StandardEffectsShake'
-import { StandardEffectsSoftPulse as CssStandardEffectsSoftPulse, metadata as softPulseCssMeta } from './css/StandardEffectsSoftPulse'
-import { StandardEffectsSwing as CssStandardEffectsSwing, metadata as swingCssMeta } from './css/StandardEffectsSwing'
-import { StandardEffectsSpin as CssStandardEffectsSpin, metadata as spinCssMeta } from './css/StandardEffectsSpin'
-import { StandardEffectsSqueeze as CssStandardEffectsSqueeze, metadata as squeezeCssMeta } from './css/StandardEffectsSqueeze'
-import { StandardEffectsScale as CssStandardEffectsScale, metadata as scaleCssMeta } from './css/StandardEffectsScale'
-import { StandardEffectsSlide as CssStandardEffectsSlide, metadata as slideCssMeta } from './css/StandardEffectsSlide'
-import { StandardEffectsWiggle as CssStandardEffectsWiggle, metadata as wiggleCssMeta } from './css/StandardEffectsWiggle'
-import { StandardEffectsTada as CssStandardEffectsTada, metadata as tadaCssMeta } from './css/StandardEffectsTada'
+// CSS - Import metadata only
+import { metadata as blinkCssMeta } from './css/StandardEffectsBlink.meta'
+import { metadata as bounceCssMeta } from './css/StandardEffectsBounce.meta'
+import { metadata as fadeCssMeta } from './css/StandardEffectsFade.meta'
+import { metadata as flipCssMeta } from './css/StandardEffectsFlip.meta'
+import { metadata as heartbeatCssMeta } from './css/StandardEffectsHeartbeat.meta'
+import { metadata as jelloCssMeta } from './css/StandardEffectsJello.meta'
+import { metadata as popCssMeta } from './css/StandardEffectsPop.meta'
+import { metadata as pulseCssMeta } from './css/StandardEffectsPulse.meta'
+import { metadata as pulseCircleCssMeta } from './css/StandardEffectsPulseCircle.meta'
+import { metadata as pulseWaveCssMeta } from './css/StandardEffectsPulseWave.meta'
+import { metadata as radialPulseCssMeta } from './css/StandardEffectsRadialPulse.meta'
+import { metadata as rubberBandCssMeta } from './css/StandardEffectsRubberBand.meta'
+import { metadata as shakeCssMeta } from './css/StandardEffectsShake.meta'
+import { metadata as softPulseCssMeta } from './css/StandardEffectsSoftPulse.meta'
+import { metadata as swingCssMeta } from './css/StandardEffectsSwing.meta'
+import { metadata as spinCssMeta } from './css/StandardEffectsSpin.meta'
+import { metadata as squeezeCssMeta } from './css/StandardEffectsSqueeze.meta'
+import { metadata as scaleCssMeta } from './css/StandardEffectsScale.meta'
+import { metadata as slideCssMeta } from './css/StandardEffectsSlide.meta'
+import { metadata as wiggleCssMeta } from './css/StandardEffectsWiggle.meta'
+import { metadata as tadaCssMeta } from './css/StandardEffectsTada.meta'
+
+// Framer Motion - Lazy load components
+const StandardEffectsBlink = lazy(() => import('./framer/StandardEffectsBlink').then(m => ({ default: m.StandardEffectsBlink })))
+const StandardEffectsBounce = lazy(() => import('./framer/StandardEffectsBounce').then(m => ({ default: m.StandardEffectsBounce })))
+const StandardEffectsFade = lazy(() => import('./framer/StandardEffectsFade').then(m => ({ default: m.StandardEffectsFade })))
+const StandardEffectsFlip = lazy(() => import('./framer/StandardEffectsFlip').then(m => ({ default: m.StandardEffectsFlip })))
+const StandardEffectsFloat = lazy(() => import('./framer/StandardEffectsFloat').then(m => ({ default: m.StandardEffectsFloat })))
+const StandardEffectsHeartbeat = lazy(() => import('./framer/StandardEffectsHeartbeat').then(m => ({ default: m.StandardEffectsHeartbeat })))
+const StandardEffectsJello = lazy(() => import('./framer/StandardEffectsJello').then(m => ({ default: m.StandardEffectsJello })))
+const StandardEffectsPop = lazy(() => import('./framer/StandardEffectsPop').then(m => ({ default: m.StandardEffectsPop })))
+const StandardEffectsPulse = lazy(() => import('./framer/StandardEffectsPulse').then(m => ({ default: m.StandardEffectsPulse })))
+const StandardEffectsPulseCircle = lazy(() => import('./framer/StandardEffectsPulseCircle').then(m => ({ default: m.StandardEffectsPulseCircle })))
+const StandardEffectsPulseWave = lazy(() => import('./framer/StandardEffectsPulseWave').then(m => ({ default: m.StandardEffectsPulseWave })))
+const StandardEffectsRadialPulse = lazy(() => import('./framer/StandardEffectsRadialPulse').then(m => ({ default: m.StandardEffectsRadialPulse })))
+const StandardEffectsRubberBand = lazy(() => import('./framer/StandardEffectsRubberBand').then(m => ({ default: m.StandardEffectsRubberBand })))
+const StandardEffectsScale = lazy(() => import('./framer/StandardEffectsScale').then(m => ({ default: m.StandardEffectsScale })))
+const StandardEffectsShake = lazy(() => import('./framer/StandardEffectsShake').then(m => ({ default: m.StandardEffectsShake })))
+const StandardEffectsSlide = lazy(() => import('./framer/StandardEffectsSlide').then(m => ({ default: m.StandardEffectsSlide })))
+const StandardEffectsSoftPulse = lazy(() => import('./framer/StandardEffectsSoftPulse').then(m => ({ default: m.StandardEffectsSoftPulse })))
+const StandardEffectsSpin = lazy(() => import('./framer/StandardEffectsSpin').then(m => ({ default: m.StandardEffectsSpin })))
+const StandardEffectsSqueeze = lazy(() => import('./framer/StandardEffectsSqueeze').then(m => ({ default: m.StandardEffectsSqueeze })))
+const StandardEffectsSwing = lazy(() => import('./framer/StandardEffectsSwing').then(m => ({ default: m.StandardEffectsSwing })))
+const StandardEffectsTada = lazy(() => import('./framer/StandardEffectsTada').then(m => ({ default: m.StandardEffectsTada })))
+const StandardEffectsWiggle = lazy(() => import('./framer/StandardEffectsWiggle').then(m => ({ default: m.StandardEffectsWiggle })))
+
+// CSS - Lazy load components
+const CssStandardEffectsBlink = lazy(() => import('./css/StandardEffectsBlink').then(m => ({ default: m.StandardEffectsBlink })))
+const CssStandardEffectsBounce = lazy(() => import('./css/StandardEffectsBounce').then(m => ({ default: m.StandardEffectsBounce })))
+const CssStandardEffectsFade = lazy(() => import('./css/StandardEffectsFade').then(m => ({ default: m.StandardEffectsFade })))
+const CssStandardEffectsFlip = lazy(() => import('./css/StandardEffectsFlip').then(m => ({ default: m.StandardEffectsFlip })))
+const CssStandardEffectsHeartbeat = lazy(() => import('./css/StandardEffectsHeartbeat').then(m => ({ default: m.StandardEffectsHeartbeat })))
+const CssStandardEffectsJello = lazy(() => import('./css/StandardEffectsJello').then(m => ({ default: m.StandardEffectsJello })))
+const CssStandardEffectsPop = lazy(() => import('./css/StandardEffectsPop').then(m => ({ default: m.StandardEffectsPop })))
+const CssStandardEffectsPulse = lazy(() => import('./css/StandardEffectsPulse').then(m => ({ default: m.StandardEffectsPulse })))
+const CssStandardEffectsPulseCircle = lazy(() => import('./css/StandardEffectsPulseCircle').then(m => ({ default: m.StandardEffectsPulseCircle })))
+const CssStandardEffectsPulseWave = lazy(() => import('./css/StandardEffectsPulseWave').then(m => ({ default: m.StandardEffectsPulseWave })))
+const CssStandardEffectsRadialPulse = lazy(() => import('./css/StandardEffectsRadialPulse').then(m => ({ default: m.StandardEffectsRadialPulse })))
+const CssStandardEffectsRubberBand = lazy(() => import('./css/StandardEffectsRubberBand').then(m => ({ default: m.StandardEffectsRubberBand })))
+const CssStandardEffectsShake = lazy(() => import('./css/StandardEffectsShake').then(m => ({ default: m.StandardEffectsShake })))
+const CssStandardEffectsSoftPulse = lazy(() => import('./css/StandardEffectsSoftPulse').then(m => ({ default: m.StandardEffectsSoftPulse })))
+const CssStandardEffectsSwing = lazy(() => import('./css/StandardEffectsSwing').then(m => ({ default: m.StandardEffectsSwing })))
+const CssStandardEffectsSpin = lazy(() => import('./css/StandardEffectsSpin').then(m => ({ default: m.StandardEffectsSpin })))
+const CssStandardEffectsSqueeze = lazy(() => import('./css/StandardEffectsSqueeze').then(m => ({ default: m.StandardEffectsSqueeze })))
+const CssStandardEffectsScale = lazy(() => import('./css/StandardEffectsScale').then(m => ({ default: m.StandardEffectsScale })))
+const CssStandardEffectsSlide = lazy(() => import('./css/StandardEffectsSlide').then(m => ({ default: m.StandardEffectsSlide })))
+const CssStandardEffectsWiggle = lazy(() => import('./css/StandardEffectsWiggle').then(m => ({ default: m.StandardEffectsWiggle })))
+const CssStandardEffectsTada = lazy(() => import('./css/StandardEffectsTada').then(m => ({ default: m.StandardEffectsTada })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'standard-effects',

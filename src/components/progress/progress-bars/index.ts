@@ -1,80 +1,49 @@
 import type { GroupExport, GroupMetadata } from '@/types/animation'
+import { lazy } from 'react'
 
-// CSS animations
-import {
-  ProgressBarsProgressBounce as CssProgressBarsProgressBounce,
-  metadata as progressBounceCssMetadata,
-} from './css/ProgressBarsProgressBounce'
-import {
-  ProgressBarsProgressGradient as CssProgressBarsProgressGradient,
-  metadata as progressGradientCssMetadata,
-} from './css/ProgressBarsProgressGradient'
-import {
-  ProgressBarsProgressMilestones as CssProgressBarsProgressMilestones,
-  metadata as progressMilestonesCssMetadata,
-} from './css/ProgressBarsProgressMilestones'
-import {
-  ProgressBarsProgressSegmented as CssProgressBarsProgressSegmented,
-  metadata as progressSegmentedCssMetadata,
-} from './css/ProgressBarsProgressSegmented'
-import {
-  ProgressBarsProgressStriped as CssProgressBarsProgressStriped,
-  metadata as progressStripedCssMetadata,
-} from './css/ProgressBarsProgressStriped'
-import {
-  ProgressBarsProgressThin as CssProgressBarsProgressThin,
-  metadata as progressThinCssMetadata,
-} from './css/ProgressBarsProgressThin'
-import {
-  ProgressBarsTimelineProgress as CssProgressBarsTimelineProgress,
-  metadata as timelineProgressCssMetadata,
-} from './css/ProgressBarsTimelineProgress'
-import {
-  ProgressBarsXpAccumulation as CssProgressBarsXpAccumulation,
-  metadata as xpAccumulationCssMetadata,
-} from './css/ProgressBarsXpAccumulation'
-import {
-  ProgressBarsZoomedProgress as CssProgressBarsZoomedProgress,
-  metadata as zoomedProgressCssMetadata,
-} from './css/ProgressBarsZoomedProgress'
+// Framer Motion - Import metadata only
+import { metadata as progressBounceMetadata } from './framer/ProgressBarsProgressBounce.meta'
+import { metadata as progressGradientMetadata } from './framer/ProgressBarsProgressGradient.meta'
+import { metadata as progressMilestonesMetadata } from './framer/ProgressBarsProgressMilestones.meta'
+import { metadata as progressSegmentedMetadata } from './framer/ProgressBarsProgressSegmented.meta'
+import { metadata as progressThinMetadata } from './framer/ProgressBarsProgressThin.meta'
+import { metadata as timelineProgressMetadata } from './framer/ProgressBarsTimelineProgress.meta'
+import { metadata as xpAccumulationMetadata } from './framer/ProgressBarsXpAccumulation.meta'
+import { metadata as zoomedProgressMetadata } from './framer/ProgressBarsZoomedProgress.meta'
+import { metadata as progressStripedMetadata } from './framer/ProgressBarsProgressStriped.meta'
 
-import {
-  ProgressBarsProgressBounce,
-  metadata as progressBounceMetadata,
-} from './framer/ProgressBarsProgressBounce'
-import {
-  ProgressBarsProgressGradient,
-  metadata as progressGradientMetadata,
-} from './framer/ProgressBarsProgressGradient'
-import {
-  ProgressBarsProgressMilestones,
-  metadata as progressMilestonesMetadata,
-} from './framer/ProgressBarsProgressMilestones'
-import {
-  ProgressBarsProgressSegmented,
-  metadata as progressSegmentedMetadata,
-} from './framer/ProgressBarsProgressSegmented'
-import {
-  ProgressBarsProgressThin,
-  metadata as progressThinMetadata,
-} from './framer/ProgressBarsProgressThin'
-import {
-  ProgressBarsTimelineProgress,
-  metadata as timelineProgressMetadata,
-} from './framer/ProgressBarsTimelineProgress'
-import {
-  ProgressBarsXpAccumulation,
-  metadata as xpAccumulationMetadata,
-} from './framer/ProgressBarsXpAccumulation'
-import {
-  ProgressBarsZoomedProgress,
-  metadata as zoomedProgressMetadata,
-} from './framer/ProgressBarsZoomedProgress'
+// CSS - Import metadata only
+import { metadata as progressBounceCssMetadata } from './css/ProgressBarsProgressBounce.meta'
+import { metadata as progressGradientCssMetadata } from './css/ProgressBarsProgressGradient.meta'
+import { metadata as progressMilestonesCssMetadata } from './css/ProgressBarsProgressMilestones.meta'
+import { metadata as progressSegmentedCssMetadata } from './css/ProgressBarsProgressSegmented.meta'
+import { metadata as progressStripedCssMetadata } from './css/ProgressBarsProgressStriped.meta'
+import { metadata as progressThinCssMetadata } from './css/ProgressBarsProgressThin.meta'
+import { metadata as timelineProgressCssMetadata } from './css/ProgressBarsTimelineProgress.meta'
+import { metadata as xpAccumulationCssMetadata } from './css/ProgressBarsXpAccumulation.meta'
+import { metadata as zoomedProgressCssMetadata } from './css/ProgressBarsZoomedProgress.meta'
 
-import {
-  ProgressBarsProgressStriped,
-  metadata as progressStripedMetadata,
-} from './framer/ProgressBarsProgressStriped'
+// Framer Motion - Lazy load components
+const ProgressBarsProgressBounce = lazy(() => import('./framer/ProgressBarsProgressBounce').then(m => ({ default: m.ProgressBarsProgressBounce })))
+const ProgressBarsProgressGradient = lazy(() => import('./framer/ProgressBarsProgressGradient').then(m => ({ default: m.ProgressBarsProgressGradient })))
+const ProgressBarsProgressMilestones = lazy(() => import('./framer/ProgressBarsProgressMilestones').then(m => ({ default: m.ProgressBarsProgressMilestones })))
+const ProgressBarsProgressSegmented = lazy(() => import('./framer/ProgressBarsProgressSegmented').then(m => ({ default: m.ProgressBarsProgressSegmented })))
+const ProgressBarsProgressThin = lazy(() => import('./framer/ProgressBarsProgressThin').then(m => ({ default: m.ProgressBarsProgressThin })))
+const ProgressBarsTimelineProgress = lazy(() => import('./framer/ProgressBarsTimelineProgress').then(m => ({ default: m.ProgressBarsTimelineProgress })))
+const ProgressBarsXpAccumulation = lazy(() => import('./framer/ProgressBarsXpAccumulation').then(m => ({ default: m.ProgressBarsXpAccumulation })))
+const ProgressBarsZoomedProgress = lazy(() => import('./framer/ProgressBarsZoomedProgress').then(m => ({ default: m.ProgressBarsZoomedProgress })))
+const ProgressBarsProgressStriped = lazy(() => import('./framer/ProgressBarsProgressStriped').then(m => ({ default: m.ProgressBarsProgressStriped })))
+
+// CSS - Lazy load components
+const CssProgressBarsProgressBounce = lazy(() => import('./css/ProgressBarsProgressBounce').then(m => ({ default: m.ProgressBarsProgressBounce })))
+const CssProgressBarsProgressGradient = lazy(() => import('./css/ProgressBarsProgressGradient').then(m => ({ default: m.ProgressBarsProgressGradient })))
+const CssProgressBarsProgressMilestones = lazy(() => import('./css/ProgressBarsProgressMilestones').then(m => ({ default: m.ProgressBarsProgressMilestones })))
+const CssProgressBarsProgressSegmented = lazy(() => import('./css/ProgressBarsProgressSegmented').then(m => ({ default: m.ProgressBarsProgressSegmented })))
+const CssProgressBarsProgressStriped = lazy(() => import('./css/ProgressBarsProgressStriped').then(m => ({ default: m.ProgressBarsProgressStriped })))
+const CssProgressBarsProgressThin = lazy(() => import('./css/ProgressBarsProgressThin').then(m => ({ default: m.ProgressBarsProgressThin })))
+const CssProgressBarsTimelineProgress = lazy(() => import('./css/ProgressBarsTimelineProgress').then(m => ({ default: m.ProgressBarsTimelineProgress })))
+const CssProgressBarsXpAccumulation = lazy(() => import('./css/ProgressBarsXpAccumulation').then(m => ({ default: m.ProgressBarsXpAccumulation })))
+const CssProgressBarsZoomedProgress = lazy(() => import('./css/ProgressBarsZoomedProgress').then(m => ({ default: m.ProgressBarsZoomedProgress })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'progress-bars',

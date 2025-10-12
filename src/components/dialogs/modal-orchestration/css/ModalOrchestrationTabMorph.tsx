@@ -2,12 +2,6 @@ import type { AnimationMetadata } from '@/types/animation'
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationTabMorph.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__tab-morph',
-  title: 'Interactive Tab Tiles',
-  description: 'Clickable tab tiles with sliding content transitions and scale highlighting',
-  tags: ['css', 'js'],
-}
 
 export function ModalOrchestrationTabMorph() {
   const tabs = 4
@@ -80,3 +74,4 @@ export function ModalOrchestrationTabMorph() {
     </div>
   )
 }
+

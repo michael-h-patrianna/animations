@@ -32,7 +32,7 @@ function App() {
       // No URL param or invalid, default to first group
       const firstGroupId = allGroups[0].id
       setCurrentGroupId(firstGroupId)
-      navigate(`/${firstGroupId}`, { replace: true })
+      window.location.href = `/${firstGroupId}`
     }
   }, [allGroups, groupId, currentGroupId, navigate])
 
@@ -47,12 +47,7 @@ function App() {
   const handleGroupSelect = (groupId: string) => {
     if (groupId === currentGroupId) return
 
-    const currentIndex = allGroups.findIndex((g) => g.id === currentGroupId)
-    const newIndex = allGroups.findIndex((g) => g.id === groupId)
-
-    setDirection(newIndex > currentIndex ? 1 : -1)
-    setCurrentGroupId(groupId)
-    navigate(`/${groupId}`)
+    window.location.href = `/${groupId}`
   }
 
   // Close drawer on ESC

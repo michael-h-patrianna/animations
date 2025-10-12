@@ -3,12 +3,6 @@ import { useEffect, useRef } from 'react'
 import type { AnimationMetadata } from '@/types/animation'
 import './UpdateIndicatorsHomeIconDotRadar.css'
 
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__home-icon-dot-radar',
-  title: 'Home Icon • Radar Rings',
-  description: 'Subtle radar rings emanate from the dot using staggered arcs to signal ongoing freshness.',
-  tags: ['css']
-}
 
 export function UpdateIndicatorsHomeIconDotRadar() {
   const r1Ref = useRef<HTMLSpanElement>(null)
@@ -44,3 +38,4 @@ export function UpdateIndicatorsHomeIconDotRadar() {
     </div>
   )
 }
+
