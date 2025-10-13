@@ -1,15 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__flip-3d',
-  title: '3D Card Flip',
-  description: 'Card game style 3D rotation reveal with perspective depth and overshoot.',
-  tags: ['framer'],
-}
 
 export function ModalBaseFlip3d() {
   const duration = 0.8

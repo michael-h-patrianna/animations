@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion } from 'framer-motion'
 import './ModalCelebrationsConfettiBurst.css'
+import '../shared.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
 
@@ -67,9 +68,4 @@ const particles = Array.from({ length: 32 }, (_, i) => {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-celebrations__confetti-burst',
-  title: 'Confetti Burst',
-  description: 'Celebration effects pattern: Confetti Burst',
-  tags: ['framer'],
-}
+

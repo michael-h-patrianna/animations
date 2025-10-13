@@ -1,5 +1,4 @@
 import { motionDurations, motionEasings } from '@/motion/tokens'
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPulseWave.css'
@@ -47,10 +46,3 @@ export function StandardEffectsPulseWave() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'standard-effects__pulse-wave',
-  title: 'Pulse Wave',
-  description: 'Listening pulse with filled core and expanding ring glow.',
-  tags: ['framer'],
-} satisfies AnimationMetadata

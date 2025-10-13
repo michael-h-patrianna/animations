@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import '../shared.css'
@@ -61,10 +60,3 @@ const handleClick = () => {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'button-effects__split-reveal',
-  title: 'Split Reveal',
-  description: 'Button splits open to reveal content/color underneath.',
-  tags: ['framer'],
-  disableReplay: true,
-}

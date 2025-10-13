@@ -1,4 +1,4 @@
-import type { GroupMetadata, GroupExport } from '@/types/animation'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 
 // Framer Motion - Import metadata only
@@ -29,31 +29,121 @@ import { metadata as rewardSpotlightCssMetadata } from './css/ModalCelebrationsR
 import { metadata as treasureParticlesCssMetadata } from './css/ModalCelebrationsTreasureParticles.meta'
 
 // Framer Motion - Lazy load components
-const ModalCelebrationsCoinsArc = lazy(() => import('./framer/ModalCelebrationsCoinsArc').then(m => ({ default: m.ModalCelebrationsCoinsArc })))
-const ModalCelebrationsCoinsFountain = lazy(() => import('./framer/ModalCelebrationsCoinsFountain').then(m => ({ default: m.ModalCelebrationsCoinsFountain })))
-const ModalCelebrationsConfettiBurst = lazy(() => import('./framer/ModalCelebrationsConfettiBurst').then(m => ({ default: m.ModalCelebrationsConfettiBurst })))
-const ModalCelebrationsConfettiRain = lazy(() => import('./framer/ModalCelebrationsConfettiRain').then(m => ({ default: m.ModalCelebrationsConfettiRain })))
-const ModalCelebrationsConfettiSpiral = lazy(() => import('./framer/ModalCelebrationsConfettiSpiral').then(m => ({ default: m.ModalCelebrationsConfettiSpiral })))
-const ModalCelebrationsFireworksRing = lazy(() => import('./framer/ModalCelebrationsFireworksRing').then(m => ({ default: m.ModalCelebrationsFireworksRing })))
-const ModalCelebrationsFireworksTriple = lazy(() => import('./framer/ModalCelebrationsFireworksTriple').then(m => ({ default: m.ModalCelebrationsFireworksTriple })))
-const ModalCelebrationsTreasureParticles = lazy(() => import('./framer/ModalCelebrationsTreasureParticles').then(m => ({ default: m.ModalCelebrationsTreasureParticles })))
+const ModalCelebrationsCoinsArc = lazy(() =>
+  import('./framer/ModalCelebrationsCoinsArc').then((m) => ({
+    default: m.ModalCelebrationsCoinsArc,
+  }))
+)
+const ModalCelebrationsCoinsFountain = lazy(() =>
+  import('./framer/ModalCelebrationsCoinsFountain').then((m) => ({
+    default: m.ModalCelebrationsCoinsFountain,
+  }))
+)
+const ModalCelebrationsConfettiBurst = lazy(() =>
+  import('./framer/ModalCelebrationsConfettiBurst').then((m) => ({
+    default: m.ModalCelebrationsConfettiBurst,
+  }))
+)
+const ModalCelebrationsConfettiRain = lazy(() =>
+  import('./framer/ModalCelebrationsConfettiRain').then((m) => ({
+    default: m.ModalCelebrationsConfettiRain,
+  }))
+)
+const ModalCelebrationsConfettiSpiral = lazy(() =>
+  import('./framer/ModalCelebrationsConfettiSpiral').then((m) => ({
+    default: m.ModalCelebrationsConfettiSpiral,
+  }))
+)
+const ModalCelebrationsFireworksRing = lazy(() =>
+  import('./framer/ModalCelebrationsFireworksRing').then((m) => ({
+    default: m.ModalCelebrationsFireworksRing,
+  }))
+)
+const ModalCelebrationsFireworksTriple = lazy(() =>
+  import('./framer/ModalCelebrationsFireworksTriple').then((m) => ({
+    default: m.ModalCelebrationsFireworksTriple,
+  }))
+)
+const ModalCelebrationsTreasureParticles = lazy(() =>
+  import('./framer/ModalCelebrationsTreasureParticles').then((m) => ({
+    default: m.ModalCelebrationsTreasureParticles,
+  }))
+)
 
 // CSS - Lazy load components
-const CssModalCelebrationsCoinCascade = lazy(() => import('./css/ModalCelebrationsCoinCascade').then(m => ({ default: m.ModalCelebrationsCoinCascade })))
-const CssModalCelebrationsCoinsArc = lazy(() => import('./css/ModalCelebrationsCoinsArc').then(m => ({ default: m.ModalCelebrationsCoinsArc })))
-const CssModalCelebrationsCoinsFountain = lazy(() => import('./css/ModalCelebrationsCoinsFountain').then(m => ({ default: m.ModalCelebrationsCoinsFountain })))
-const CssModalCelebrationsCoinsSwirl = lazy(() => import('./css/ModalCelebrationsCoinsSwirl').then(m => ({ default: m.ModalCelebrationsCoinsSwirl })))
-const CssModalCelebrationsCoinTrail = lazy(() => import('./css/ModalCelebrationsCoinTrail').then(m => ({ default: m.ModalCelebrationsCoinTrail })))
-const CssModalCelebrationsConfettiBurst = lazy(() => import('./css/ModalCelebrationsConfettiBurst').then(m => ({ default: m.ModalCelebrationsConfettiBurst })))
-const CssModalCelebrationsConfettiPulse = lazy(() => import('./css/ModalCelebrationsConfettiPulse').then(m => ({ default: m.ModalCelebrationsConfettiPulse })))
-const CssModalCelebrationsConfettiRain = lazy(() => import('./css/ModalCelebrationsConfettiRain').then(m => ({ default: m.ModalCelebrationsConfettiRain })))
-const CssModalCelebrationsConfettiSpiral = lazy(() => import('./css/ModalCelebrationsConfettiSpiral').then(m => ({ default: m.ModalCelebrationsConfettiSpiral })))
-const CssModalCelebrationsFireworksRing = lazy(() => import('./css/ModalCelebrationsFireworksRing').then(m => ({ default: m.ModalCelebrationsFireworksRing })))
-const CssModalCelebrationsFireworksTriple = lazy(() => import('./css/ModalCelebrationsFireworksTriple').then(m => ({ default: m.ModalCelebrationsFireworksTriple })))
-const CssModalCelebrationsJackpotCelebration = lazy(() => import('./css/ModalCelebrationsJackpotCelebration').then(m => ({ default: m.ModalCelebrationsJackpotCelebration })))
-const CssModalCelebrationsMultiCoin = lazy(() => import('./css/ModalCelebrationsMultiCoin').then(m => ({ default: m.ModalCelebrationsMultiCoin })))
-const CssModalCelebrationsRewardSpotlight = lazy(() => import('./css/ModalCelebrationsRewardSpotlight').then(m => ({ default: m.ModalCelebrationsRewardSpotlight })))
-const CssModalCelebrationsTreasureParticles = lazy(() => import('./css/ModalCelebrationsTreasureParticles').then(m => ({ default: m.ModalCelebrationsTreasureParticles })))
+const CssModalCelebrationsCoinCascade = lazy(() =>
+  import('./css/ModalCelebrationsCoinCascade').then((m) => ({
+    default: m.ModalCelebrationsCoinCascade,
+  }))
+)
+const CssModalCelebrationsCoinsArc = lazy(() =>
+  import('./css/ModalCelebrationsCoinsArc').then((m) => ({ default: m.ModalCelebrationsCoinsArc }))
+)
+const CssModalCelebrationsCoinsFountain = lazy(() =>
+  import('./css/ModalCelebrationsCoinsFountain').then((m) => ({
+    default: m.ModalCelebrationsCoinsFountain,
+  }))
+)
+const CssModalCelebrationsCoinsSwirl = lazy(() =>
+  import('./css/ModalCelebrationsCoinsSwirl').then((m) => ({
+    default: m.ModalCelebrationsCoinsSwirl,
+  }))
+)
+const CssModalCelebrationsCoinTrail = lazy(() =>
+  import('./css/ModalCelebrationsCoinTrail').then((m) => ({
+    default: m.ModalCelebrationsCoinTrail,
+  }))
+)
+const CssModalCelebrationsConfettiBurst = lazy(() =>
+  import('./css/ModalCelebrationsConfettiBurst').then((m) => ({
+    default: m.ModalCelebrationsConfettiBurst,
+  }))
+)
+const CssModalCelebrationsConfettiPulse = lazy(() =>
+  import('./css/ModalCelebrationsConfettiPulse').then((m) => ({
+    default: m.ModalCelebrationsConfettiPulse,
+  }))
+)
+const CssModalCelebrationsConfettiRain = lazy(() =>
+  import('./css/ModalCelebrationsConfettiRain').then((m) => ({
+    default: m.ModalCelebrationsConfettiRain,
+  }))
+)
+const CssModalCelebrationsConfettiSpiral = lazy(() =>
+  import('./css/ModalCelebrationsConfettiSpiral').then((m) => ({
+    default: m.ModalCelebrationsConfettiSpiral,
+  }))
+)
+const CssModalCelebrationsFireworksRing = lazy(() =>
+  import('./css/ModalCelebrationsFireworksRing').then((m) => ({
+    default: m.ModalCelebrationsFireworksRing,
+  }))
+)
+const CssModalCelebrationsFireworksTriple = lazy(() =>
+  import('./css/ModalCelebrationsFireworksTriple').then((m) => ({
+    default: m.ModalCelebrationsFireworksTriple,
+  }))
+)
+const CssModalCelebrationsJackpotCelebration = lazy(() =>
+  import('./css/ModalCelebrationsJackpotCelebration').then((m) => ({
+    default: m.ModalCelebrationsJackpotCelebration,
+  }))
+)
+const CssModalCelebrationsMultiCoin = lazy(() =>
+  import('./css/ModalCelebrationsMultiCoin').then((m) => ({
+    default: m.ModalCelebrationsMultiCoin,
+  }))
+)
+const CssModalCelebrationsRewardSpotlight = lazy(() =>
+  import('./css/ModalCelebrationsRewardSpotlight').then((m) => ({
+    default: m.ModalCelebrationsRewardSpotlight,
+  }))
+)
+const CssModalCelebrationsTreasureParticles = lazy(() =>
+  import('./css/ModalCelebrationsTreasureParticles').then((m) => ({
+    default: m.ModalCelebrationsTreasureParticles,
+  }))
+)
 
 export const groupMetadata: GroupMetadata = {
   id: 'modal-celebrations',

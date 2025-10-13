@@ -1,5 +1,4 @@
 import { motionDurations, motionEasings } from '@/motion/tokens'
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPulseCircle.css'
@@ -53,10 +52,3 @@ export function StandardEffectsPulseCircle() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'standard-effects__pulse-circle',
-  title: 'Pulse Circle',
-  description: 'Breathing core with staggered outward ripple rings (no text on the circle).',
-  tags: ['framer'],
-} satisfies AnimationMetadata

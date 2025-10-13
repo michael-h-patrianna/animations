@@ -1,15 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__glitch-digital',
-  title: 'Digital Glitch',
-  description: 'Cyberpunk-inspired RGB channel separation with digital distortion artifacts.',
-  tags: ['framer'],
-}
 
 export function ModalBaseGlitchDigital() {
   const duration = 0.6

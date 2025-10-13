@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPop.css'
@@ -29,10 +28,3 @@ const popVariants = {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__pop',
-  title: 'Pop',
-  description: 'Scale overshoot entrance with rotation twist and motion blur for emphasis.',
-  tags: ['framer'],
-}

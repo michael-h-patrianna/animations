@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesSpinnerDualRing.css'
+import '../shared.css'
 
 export function LoadingStatesSpinnerDualRing() {
   return (
@@ -13,10 +14,4 @@ export function LoadingStatesSpinnerDualRing() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__spinner-dual-ring',
-  title: 'Spinner Dual Ring',
-  description: 'Dual ring spinner with consistent velocity.',
-  tags: ['framer']
-} satisfies AnimationMetadata
+

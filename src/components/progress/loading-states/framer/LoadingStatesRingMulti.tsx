@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesRingMulti.css'
+import '../shared.css'
 
 export function LoadingStatesRingMulti() {
   return (
@@ -28,11 +29,3 @@ export function LoadingStatesRingMulti() {
     </div>
   )
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__ring-multi',
-  title: 'Multi Ring',
-  description: 'Nested rings oscillate asynchronously.',
-  tags: ['framer']
-} satisfies AnimationMetadata

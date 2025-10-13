@@ -1,5 +1,4 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
 import '../shared.css'
 
 export function StandardEffectsFloat() {
@@ -25,9 +24,3 @@ export function StandardEffectsFloat() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__float',
-  title: 'Float',
-  description: 'Gentle Y-axis sine wave with subtle rotation and shadow distance changes.',
-  tags: ['framer'],
-}

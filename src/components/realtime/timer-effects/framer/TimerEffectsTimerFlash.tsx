@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlash.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__timer-flash',
-  title: 'Flash Expire',
-  description: 'Timer with color transition from yellow to red and increasing pulse urgency.',
-  tags: ['framer'],
-}
 
 export function TimerEffectsTimerFlash() {
   const [seconds, setSeconds] = useState(32)

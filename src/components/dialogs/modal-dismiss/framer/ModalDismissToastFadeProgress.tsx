@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import '../shared.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-dismiss__toast-fade-progress',
-  title: 'Toast Fade Progress',
-  description: 'Soft fade-to-dismiss with synchronized progress depletion.',
-  tags: ['framer'],
-}
 
 export function ModalDismissToastFadeProgress() {
 const [showProgress, setShowProgress] = useState(true)

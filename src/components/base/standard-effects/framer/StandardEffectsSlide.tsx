@@ -1,5 +1,5 @@
-import { motion, easeOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeOut, motion } from 'framer-motion'
+
 import '../shared.css'
 
 export function StandardEffectsSlide() {
@@ -21,9 +21,3 @@ export function StandardEffectsSlide() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__slide',
-  title: 'Slide',
-  description: 'Linear sliding motion from off-screen position for panel entrances.',
-  tags: ['framer'],
-}

@@ -1,15 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__portal-swirl',
-  title: 'Portal Swirl',
-  description: 'Fantasy game vortex entrance with spiral rotation and morphing border radius.',
-  tags: ['framer'],
-}
 
 export function ModalBasePortalSwirl() {
   return (

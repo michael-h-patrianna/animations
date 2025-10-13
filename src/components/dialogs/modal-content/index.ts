@@ -1,7 +1,4 @@
-import type {
-  GroupMetadata,
-  GroupExport
-} from '@/types/animation'
+import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 
 // Framer Motion - Import metadata only
@@ -24,30 +21,88 @@ import { metadata as metadataListSpotlightCss } from './css/ModalContentListSpot
 import { metadata as metadataListVerticalWipeCss } from './css/ModalContentListVerticalWipe.meta'
 
 // Framer Motion - Lazy load components
-const ModalContentButtonsStagger2 = lazy(() => import('./framer/ModalContentButtonsStagger2').then(m => ({ default: m.ModalContentButtonsStagger2 })))
-const ModalContentButtonsStagger3 = lazy(() => import('./framer/ModalContentButtonsStagger3').then(m => ({ default: m.ModalContentButtonsStagger3 })))
-const ModalContentFormFieldGradient = lazy(() => import('./framer/ModalContentFormFieldGradient').then(m => ({ default: m.ModalContentFormFieldGradient })))
-const ModalContentFormFieldLeftReveal = lazy(() => import('./framer/ModalContentFormFieldLeftReveal').then(m => ({ default: m.ModalContentFormFieldLeftReveal })))
-const ModalContentFormFieldRightReveal = lazy(() => import('./framer/ModalContentFormFieldRightReveal').then(m => ({ default: m.ModalContentFormFieldRightReveal })))
-const ModalContentListSoftStagger = lazy(() => import('./framer/ModalContentListSoftStagger').then(m => ({ default: m.ModalContentListSoftStagger })))
-const ModalContentListVerticalWipe = lazy(() => import('./framer/ModalContentListVerticalWipe').then(m => ({ default: m.ModalContentListVerticalWipe })))
+const ModalContentButtonsStagger2 = lazy(() =>
+  import('./framer/ModalContentButtonsStagger2').then((m) => ({
+    default: m.ModalContentButtonsStagger2,
+  }))
+)
+const ModalContentButtonsStagger3 = lazy(() =>
+  import('./framer/ModalContentButtonsStagger3').then((m) => ({
+    default: m.ModalContentButtonsStagger3,
+  }))
+)
+const ModalContentFormFieldGradient = lazy(() =>
+  import('./framer/ModalContentFormFieldGradient').then((m) => ({
+    default: m.ModalContentFormFieldGradient,
+  }))
+)
+const ModalContentFormFieldLeftReveal = lazy(() =>
+  import('./framer/ModalContentFormFieldLeftReveal').then((m) => ({
+    default: m.ModalContentFormFieldLeftReveal,
+  }))
+)
+const ModalContentFormFieldRightReveal = lazy(() =>
+  import('./framer/ModalContentFormFieldRightReveal').then((m) => ({
+    default: m.ModalContentFormFieldRightReveal,
+  }))
+)
+const ModalContentListSoftStagger = lazy(() =>
+  import('./framer/ModalContentListSoftStagger').then((m) => ({
+    default: m.ModalContentListSoftStagger,
+  }))
+)
+const ModalContentListVerticalWipe = lazy(() =>
+  import('./framer/ModalContentListVerticalWipe').then((m) => ({
+    default: m.ModalContentListVerticalWipe,
+  }))
+)
 
 // CSS - Lazy load components
-const CssModalContentButtonsStagger2 = lazy(() => import('./css/ModalContentButtonsStagger2').then(m => ({ default: m.ModalContentButtonsStagger2 })))
-const CssModalContentButtonsStagger3 = lazy(() => import('./css/ModalContentButtonsStagger3').then(m => ({ default: m.ModalContentButtonsStagger3 })))
-const CssModalContentFormFieldGradient = lazy(() => import('./css/ModalContentFormFieldGradient').then(m => ({ default: m.ModalContentFormFieldGradient })))
-const CssModalContentFormFieldLeftReveal = lazy(() => import('./css/ModalContentFormFieldLeftReveal').then(m => ({ default: m.ModalContentFormFieldLeftReveal })))
-const CssModalContentFormFieldRightReveal = lazy(() => import('./css/ModalContentFormFieldRightReveal').then(m => ({ default: m.ModalContentFormFieldRightReveal })))
-const CssModalContentListSoftStagger = lazy(() => import('./css/ModalContentListSoftStagger').then(m => ({ default: m.ModalContentListSoftStagger })))
-const CssModalContentListSpotlight = lazy(() => import('./css/ModalContentListSpotlight').then(m => ({ default: m.ModalContentListSpotlight })))
-const CssModalContentListVerticalWipe = lazy(() => import('./css/ModalContentListVerticalWipe').then(m => ({ default: m.ModalContentListVerticalWipe })))
+const CssModalContentButtonsStagger2 = lazy(() =>
+  import('./css/ModalContentButtonsStagger2').then((m) => ({
+    default: m.ModalContentButtonsStagger2,
+  }))
+)
+const CssModalContentButtonsStagger3 = lazy(() =>
+  import('./css/ModalContentButtonsStagger3').then((m) => ({
+    default: m.ModalContentButtonsStagger3,
+  }))
+)
+const CssModalContentFormFieldGradient = lazy(() =>
+  import('./css/ModalContentFormFieldGradient').then((m) => ({
+    default: m.ModalContentFormFieldGradient,
+  }))
+)
+const CssModalContentFormFieldLeftReveal = lazy(() =>
+  import('./css/ModalContentFormFieldLeftReveal').then((m) => ({
+    default: m.ModalContentFormFieldLeftReveal,
+  }))
+)
+const CssModalContentFormFieldRightReveal = lazy(() =>
+  import('./css/ModalContentFormFieldRightReveal').then((m) => ({
+    default: m.ModalContentFormFieldRightReveal,
+  }))
+)
+const CssModalContentListSoftStagger = lazy(() =>
+  import('./css/ModalContentListSoftStagger').then((m) => ({
+    default: m.ModalContentListSoftStagger,
+  }))
+)
+const CssModalContentListSpotlight = lazy(() =>
+  import('./css/ModalContentListSpotlight').then((m) => ({ default: m.ModalContentListSpotlight }))
+)
+const CssModalContentListVerticalWipe = lazy(() =>
+  import('./css/ModalContentListVerticalWipe').then((m) => ({
+    default: m.ModalContentListVerticalWipe,
+  }))
+)
 
 // Group metadata
 export const groupMetadata: GroupMetadata = {
   id: 'modal-content',
   title: 'Content choreography',
   tech: 'css',
-  demo: 'modalContent'
+  demo: 'modalContent',
 }
 
 // Group export with co-located metadata
@@ -56,65 +111,65 @@ export const groupExport: GroupExport = {
   framer: {
     'modal-content__buttons-stagger-2': {
       component: ModalContentButtonsStagger2,
-      metadata: metadataButtonsStagger2
+      metadata: metadataButtonsStagger2,
     },
     'modal-content__buttons-stagger-3': {
       component: ModalContentButtonsStagger3,
-      metadata: metadataButtonsStagger3
+      metadata: metadataButtonsStagger3,
     },
     'modal-content__form-field-gradient': {
       component: ModalContentFormFieldGradient,
-      metadata: metadataFormFieldGradient
+      metadata: metadataFormFieldGradient,
     },
     'modal-content__form-field-left-reveal': {
       component: ModalContentFormFieldLeftReveal,
-      metadata: metadataFormFieldLeftReveal
+      metadata: metadataFormFieldLeftReveal,
     },
     'modal-content__form-field-right-reveal': {
       component: ModalContentFormFieldRightReveal,
-      metadata: metadataFormFieldRightReveal
+      metadata: metadataFormFieldRightReveal,
     },
     'modal-content__list-soft-stagger': {
       component: ModalContentListSoftStagger,
-      metadata: metadataListSoftStagger
+      metadata: metadataListSoftStagger,
     },
     'modal-content__list-vertical-wipe': {
       component: ModalContentListVerticalWipe,
-      metadata: metadataListVerticalWipe
-    }
+      metadata: metadataListVerticalWipe,
+    },
   },
   css: {
     'modal-content__buttons-stagger-2': {
       component: CssModalContentButtonsStagger2,
-      metadata: metadataButtonsStagger2Css
+      metadata: metadataButtonsStagger2Css,
     },
     'modal-content__buttons-stagger-3': {
       component: CssModalContentButtonsStagger3,
-      metadata: metadataButtonsStagger3Css
+      metadata: metadataButtonsStagger3Css,
     },
     'modal-content__form-field-gradient': {
       component: CssModalContentFormFieldGradient,
-      metadata: metadataFormFieldGradientCss
+      metadata: metadataFormFieldGradientCss,
     },
     'modal-content__form-field-left-reveal': {
       component: CssModalContentFormFieldLeftReveal,
-      metadata: metadataFormFieldLeftRevealCss
+      metadata: metadataFormFieldLeftRevealCss,
     },
     'modal-content__form-field-right-reveal': {
       component: CssModalContentFormFieldRightReveal,
-      metadata: metadataFormFieldRightRevealCss
+      metadata: metadataFormFieldRightRevealCss,
     },
     'modal-content__list-soft-stagger': {
       component: CssModalContentListSoftStagger,
-      metadata: metadataListSoftStaggerCss
+      metadata: metadataListSoftStaggerCss,
     },
     'modal-content__list-spotlight': {
       component: CssModalContentListSpotlight,
-      metadata: metadataListSpotlightCss
+      metadata: metadataListSpotlightCss,
     },
     'modal-content__list-vertical-wipe': {
       component: CssModalContentListVerticalWipe,
-      metadata: metadataListVerticalWipeCss
-    }
+      metadata: metadataListVerticalWipeCss,
+    },
   },
 }

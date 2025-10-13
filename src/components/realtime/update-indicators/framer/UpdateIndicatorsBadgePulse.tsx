@@ -1,14 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import './UpdateIndicatorsBadgePulse.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__badge-pulse',
-  title: 'Badge Pulse',
-  description: 'Badge pulsates to signal unseen content.',
-  tags: ['framer']
-}
 
 export function UpdateIndicatorsBadgePulse() {
   return (

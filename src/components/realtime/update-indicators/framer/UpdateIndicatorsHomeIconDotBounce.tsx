@@ -1,16 +1,7 @@
 import homeIcon2 from '@/assets/home-icon2.png'
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotBounce.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__home-icon-dot-bounce',
-  title: 'Home Icon • Dot Bounce',
-  description: 'Dot pops in with elastic overshoot and occasional bob for lively attention per follow-through principle.',
-  tags: ['framer']
-}
 
 export function UpdateIndicatorsHomeIconDotBounce() {
   const [key, setKey] = useState(0)

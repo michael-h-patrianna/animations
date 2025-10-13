@@ -1,15 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__ripple-expand',
-  title: 'Material Ripple',
-  description: 'Material Design ripple expansion with radiating wave effect.',
-  tags: ['framer'],
-}
 
 export function ModalBaseRippleExpand() {
   return (

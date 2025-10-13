@@ -4,10 +4,11 @@
  * No shared utils; all helpers are inlined here.
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
 import React from 'react'
 import './TextEffectsLightSweepDraw.css'
+import '../shared.css'
 
 export function TextEffectsLightSweepDraw() {
   const text = 'LOREM IPSUM DOLOR'
@@ -81,12 +82,6 @@ export function TextEffectsLightSweepDraw() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__light-sweep-draw',
-  title: 'Light Sweep Draw',
-  description: 'Left-to-right cinematic highlight that briefly brightens and deforms each letter with a gentle settle.',
-  tags: ['framer'],
-  disableReplay: false
-}
+
 
 export default TextEffectsLightSweepDraw

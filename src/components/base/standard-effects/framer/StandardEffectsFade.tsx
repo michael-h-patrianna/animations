@@ -1,5 +1,4 @@
-import type { AnimationMetadata } from '@/types/animation'
-import { motion, easeOut } from 'framer-motion'
+import { easeOut, motion } from 'framer-motion'
 import '../shared.css'
 
 export function StandardEffectsFade() {
@@ -18,12 +17,4 @@ export function StandardEffectsFade() {
       </motion.div>
     </div>
   )
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__fade',
-  title: 'Fade',
-  description: 'Simple opacity transition from invisible to visible for smooth appearances.',
-  tags: ['framer'],
 }

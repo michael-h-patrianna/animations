@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownGlitch.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-glitch',
-  title: 'Pill Countdown — Glitch',
-  description: 'Countdown with glitch effects that intensify as time runs out.',
-  tags: ['framer'],
-}
 
 export function TimerEffectsPillCountdownGlitch() {
   const [seconds, setSeconds] = useState(60)

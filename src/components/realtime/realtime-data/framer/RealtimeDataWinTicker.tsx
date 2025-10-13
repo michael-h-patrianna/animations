@@ -1,14 +1,6 @@
 // React import not required for JSX in React 17+
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import './RealtimeDataWinTicker.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'realtime-data__win-ticker',
-  title: 'Win Ticker',
-  description: 'Real-time data pattern: Win Ticker',
-  tags: ['framer', 'js']
-}
 
 export function RealtimeDataWinTicker() {
   const tickerText = 'Mega Win! +5,000 credits · Daily streak unlocked · Bonus wheel ready · '

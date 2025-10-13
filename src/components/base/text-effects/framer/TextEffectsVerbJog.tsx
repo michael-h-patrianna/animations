@@ -3,10 +3,11 @@
  * Runtime deps: react, framer-motion
  * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
  */
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, motion } from 'framer-motion'
 import React from 'react'
 import './TextEffectsVerbJog.css'
+import '../shared.css'
 
 export function TextEffectsVerbJog() {
   const text = 'LOREM IPSUM DOLOR'
@@ -39,12 +40,6 @@ export function TextEffectsVerbJog() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__verb-jogging',
-  title: 'Jogging',
-  description: 'Energetic jog rhythm alternating between letters.',
-  tags: ['framer'],
-  disableReplay: false
-}
+
 
 export default TextEffectsVerbJog

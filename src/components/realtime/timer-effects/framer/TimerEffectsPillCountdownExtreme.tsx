@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownExtreme.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-extreme',
-  title: 'Pill Countdown — Extreme',
-  description: 'Extreme: quiet until last 10s. Stepwise color; 3-2-1 buzz; flash on zero.',
-  tags: ['framer'],
-}
 
 // Extreme: quiet until last 10s. Stepwise color; 3-2-1 buzz; flash on zero.
 export function TimerEffectsPillCountdownExtreme() {

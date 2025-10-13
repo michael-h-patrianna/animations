@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation';
 import { calculateBulbColors } from '@/utils/colors';
 import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
@@ -246,9 +245,3 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
 
 export default LightsCircleStatic6;
 
-export const metadata: AnimationMetadata = {
-  id: 'lights__circle-static-6',
-  title: 'Carnival Waltz',
-  description: 'Musical waltz pattern with groups of 3 bulbs following strong-weak-weak rhythm, like carnival organ music.',
-  tags: ['framer'],
-};

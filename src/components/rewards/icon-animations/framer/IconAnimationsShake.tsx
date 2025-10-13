@@ -1,5 +1,6 @@
 import shakeIcon from '@/assets/shake_icon.png'
-import type { AnimationMetadata } from '@/types/animation'
+import '../shared.css'
+
 import { easeInOut, motion } from 'framer-motion'
 import './IconAnimationsShake.css'
 
@@ -25,10 +26,4 @@ export function IconAnimationsShake() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'icon-animations__shake',
-  title: 'Shake',
-  description: 'Horizontal shake with rotation wobble and scale compression for error feedback.',
-  tags: ['framer'],
-}
+

@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './ModalContentFormFieldGradient.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__form-field-gradient',
-  title: 'Form Gradient Sweep',
-  description: 'Gradient sweep across 3 fields emphasising focus and order.',
-  tags: ['framer']
-}
 
 export function ModalContentFormFieldGradient() {
   return (

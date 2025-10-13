@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import '../shared.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-dismiss__toast-slide-right',
-  title: 'Toast Slide Right',
-  description: 'Toast slides along the horizontal axis with auto-dismiss at 3800ms.',
-  tags: ['framer'],
-}
 
 export function ModalDismissToastSlideRight() {
 const [showProgress, setShowProgress] = useState(true)

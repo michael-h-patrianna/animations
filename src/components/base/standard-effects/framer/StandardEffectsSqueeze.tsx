@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+
 import '../shared.css'
 
 export function StandardEffectsSqueeze() {
@@ -23,11 +23,4 @@ export function StandardEffectsSqueeze() {
       </motion.div>
     </div>
   )
-}
-
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__squeeze',
-  title: 'Squeeze',
-  description: 'Compression effect that squashes element for tactile button feedback.',
-  tags: ['framer'],
 }

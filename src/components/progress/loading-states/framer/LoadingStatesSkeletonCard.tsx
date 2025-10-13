@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesSkeletonCard.css'
+import '../shared.css'
 
 export function LoadingStatesSkeletonCard() {
 const shimmerVariants = {
@@ -44,10 +45,3 @@ const shimmerVariants = {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__skeleton-card',
-  title: 'Skeleton Card',
-  description: 'Card skeleton with layered shimmer lines.',
-  tags: ['framer'],
-} satisfies AnimationMetadata

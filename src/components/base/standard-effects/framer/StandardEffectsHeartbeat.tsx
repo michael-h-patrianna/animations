@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
 import '../shared.css'
 
 export function StandardEffectsHeartbeat() {
@@ -23,11 +22,4 @@ export function StandardEffectsHeartbeat() {
       </motion.div>
     </div>
   )
-}
-
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__heartbeat',
-  title: 'HeartBeat',
-  description: 'Double-pulse rhythm animation for likes and favorite interactions.',
-  tags: ['framer'],
 }

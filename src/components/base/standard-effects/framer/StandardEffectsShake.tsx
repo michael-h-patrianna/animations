@@ -1,5 +1,5 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
+
 import '../shared.css'
 
 export function StandardEffectsShake() {
@@ -23,9 +23,4 @@ export function StandardEffectsShake() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__shake',
-  title: 'Shake',
-  description: 'Horizontal shake with rotation wobble and scale compression for error feedback.',
-  tags: ['framer'],
-}
+

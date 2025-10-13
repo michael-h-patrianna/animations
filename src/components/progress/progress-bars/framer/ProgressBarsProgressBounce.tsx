@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressBounce.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-bounce',
-  title: 'Grow up',
-  description: 'Elastic finish emphasises completion state.',
-  tags: ['framer'],
-}
 
 export function ProgressBarsProgressBounce() {
 const [showParticles, setShowParticles] = useState(false)

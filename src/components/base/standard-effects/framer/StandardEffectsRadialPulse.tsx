@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsRadialPulse.css'
@@ -31,10 +30,3 @@ const ringVariants = (delay: number) => ({
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__radial-pulse',
-  title: 'Radial Pulse',
-  description: 'Concentric ripple pulses expanding from the center using Framer Motion transforms and opacity.',
-  tags: ['framer'],
-}

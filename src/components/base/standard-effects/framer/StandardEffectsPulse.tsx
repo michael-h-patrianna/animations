@@ -1,5 +1,4 @@
 import { motionDurations, motionEasings } from '@/motion/tokens'
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPulse.css'
@@ -46,10 +45,3 @@ const keyframeTimes = [0, 0.5, 1]
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'standard-effects__pulse',
-  title: 'Pulse',
-  description: 'Scale pulse with opacity fade and expanding glow for heartbeat effect.',
-  tags: ['framer'],
-} satisfies AnimationMetadata

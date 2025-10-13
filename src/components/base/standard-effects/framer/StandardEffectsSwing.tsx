@@ -1,5 +1,5 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
+
 import '../shared.css'
 
 export function StandardEffectsSwing() {
@@ -24,9 +24,3 @@ export function StandardEffectsSwing() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__swing',
-  title: 'Swing',
-  description: 'Pendulum arc swing with axis rotation and momentum lean for hanging elements.',
-  tags: ['framer'],
-}

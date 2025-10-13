@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsBadgePop.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__badge-pop',
-  title: 'Badge Pop',
-  description: 'Notification badge pops in with quick overshoot.',
-  tags: ['framer']
-}
 
 export function UpdateIndicatorsBadgePop() {
   const [key, setKey] = useState(0)

@@ -3,13 +3,17 @@ import { lazy } from 'react'
 
 // Lazy-loaded variants to enable code-splitting per animation component
 const TimerEffectsTimerColorShift = lazy(() =>
-  import('./framer/TimerEffectsTimerColorShift').then((m) => ({ default: m.TimerEffectsTimerColorShift }))
+  import('./framer/TimerEffectsTimerColorShift').then((m) => ({
+    default: m.TimerEffectsTimerColorShift,
+  }))
 )
 const TimerEffectsTimerFlash = lazy(() =>
   import('./framer/TimerEffectsTimerFlash').then((m) => ({ default: m.TimerEffectsTimerFlash }))
 )
 const TimerEffectsTimerFlashSoft = lazy(() =>
-  import('./framer/TimerEffectsTimerFlashSoft').then((m) => ({ default: m.TimerEffectsTimerFlashSoft }))
+  import('./framer/TimerEffectsTimerFlashSoft').then((m) => ({
+    default: m.TimerEffectsTimerFlashSoft,
+  }))
 )
 const TimerEffectsTimerFlip = lazy(() =>
   import('./framer/TimerEffectsTimerFlip').then((m) => ({ default: m.TimerEffectsTimerFlip }))
@@ -52,27 +56,31 @@ import { metadata as timerEffectsTimerFlipMetadata } from './framer/TimerEffects
 import { metadata as timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.meta'
 
 // CSS metadata imports (not lazy-loaded since metadata is needed immediately)
-import { metadata as timerColorShiftCssMetadata } from './css/TimerEffectsTimerColorShift.meta'
-import { metadata as timerFlashCssMetadata } from './css/TimerEffectsTimerFlash.meta'
-import { metadata as timerFlashSoftCssMetadata } from './css/TimerEffectsTimerFlashSoft.meta'
-import { metadata as timerFlipCssMetadata } from './css/TimerEffectsTimerFlip.meta'
-import { metadata as timerPulseCssMetadata } from './css/TimerEffectsTimerPulse.meta'
-import { metadata as pillCountdownStrongCssMetadata } from './css/TimerEffectsPillCountdownStrong.meta'
 import { metadata as pillCountdownExtremeCssMetadata } from './css/TimerEffectsPillCountdownExtreme.meta'
 import { metadata as pillCountdownGlitchCssMetadata } from './css/TimerEffectsPillCountdownGlitch.meta'
 import { metadata as pillCountdownHeartbeatCssMetadata } from './css/TimerEffectsPillCountdownHeartbeat.meta'
 import { metadata as pillCountdownMediumCssMetadata } from './css/TimerEffectsPillCountdownMedium.meta'
 import { metadata as pillCountdownSoftCssMetadata } from './css/TimerEffectsPillCountdownSoft.meta'
+import { metadata as pillCountdownStrongCssMetadata } from './css/TimerEffectsPillCountdownStrong.meta'
+import { metadata as timerColorShiftCssMetadata } from './css/TimerEffectsTimerColorShift.meta'
+import { metadata as timerFlashCssMetadata } from './css/TimerEffectsTimerFlash.meta'
+import { metadata as timerFlashSoftCssMetadata } from './css/TimerEffectsTimerFlashSoft.meta'
+import { metadata as timerFlipCssMetadata } from './css/TimerEffectsTimerFlip.meta'
+import { metadata as timerPulseCssMetadata } from './css/TimerEffectsTimerPulse.meta'
 
 // CSS animations - Lazy load components
 const CssTimerEffectsTimerColorShift = lazy(() =>
-  import('./css/TimerEffectsTimerColorShift').then((m) => ({ default: m.TimerEffectsTimerColorShift }))
+  import('./css/TimerEffectsTimerColorShift').then((m) => ({
+    default: m.TimerEffectsTimerColorShift,
+  }))
 )
 const CssTimerEffectsTimerFlash = lazy(() =>
   import('./css/TimerEffectsTimerFlash').then((m) => ({ default: m.TimerEffectsTimerFlash }))
 )
 const CssTimerEffectsTimerFlashSoft = lazy(() =>
-  import('./css/TimerEffectsTimerFlashSoft').then((m) => ({ default: m.TimerEffectsTimerFlashSoft }))
+  import('./css/TimerEffectsTimerFlashSoft').then((m) => ({
+    default: m.TimerEffectsTimerFlashSoft,
+  }))
 )
 const CssTimerEffectsTimerFlip = lazy(() =>
   import('./css/TimerEffectsTimerFlip').then((m) => ({ default: m.TimerEffectsTimerFlip }))

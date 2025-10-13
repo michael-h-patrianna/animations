@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './TextEffectsTypewriter.css'
+import '../shared.css'
 
 export function TextEffectsTypewriter() {
   const text = 'LOADING SYSTEM...'
@@ -52,10 +53,4 @@ export function TextEffectsTypewriter() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__typewriter',
-  title: 'Typewriter',
-  description: 'Classic terminal-style text typing with blinking cursor for system messages.',
-  tags: ['framer'],
-  disableReplay: false
-}
+

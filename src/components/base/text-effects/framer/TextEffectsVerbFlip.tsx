@@ -4,10 +4,11 @@
  * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
  * Note: In RN, perspective should be applied inline on the animated element.
  */
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import React from 'react'
 import './TextEffectsVerbFlip.css'
+import '../shared.css'
 
 export function TextEffectsVerbFlip() {
   const text = 'LOREM IPSUM DOLOR'
@@ -40,12 +41,6 @@ export function TextEffectsVerbFlip() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__verb-flipping',
-  title: 'Flipping',
-  description: '3D flip rotation with perspective for each character.',
-  tags: ['framer'],
-  disableReplay: false
-}
+
 
 export default TextEffectsVerbFlip

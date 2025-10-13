@@ -1,15 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__tv-turn-on',
-  title: 'CRT TV Turn On',
-  description: 'Retro CRT monitor power-on effect with horizontal-to-vertical expansion.',
-  tags: ['framer'],
-}
 
 export function ModalBaseTvTurnOn() {
   return (

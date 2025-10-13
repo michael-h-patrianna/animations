@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './TextEffectsGlitchText.css'
+import '../shared.css'
 
 export function TextEffectsGlitchText() {
   const text = 'SYSTEM ERROR'
@@ -42,10 +43,4 @@ export function TextEffectsGlitchText() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__glitch-text',
-  title: 'Glitch Text',
-  description: 'Digital distortion with RGB channel separation and scanning line artifacts.',
-  tags: ['framer'],
-  disableReplay: false
-}
+

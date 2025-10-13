@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { animate, AnimatePresence, easeOut, motion, useAnimation, useMotionValue, useTransform } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TextEffectsXpNumberPop.css'
+import '../shared.css'
 
 interface Particle {
   id: number
@@ -141,10 +142,4 @@ export function TextEffectsXpNumberPop() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__xp-number-pop',
-  title: 'XP Number Pop',
-  description: 'XP gain count-up with pop easing, glow orb, and particle effects.',
-  tags: ['framer'],
-  disableReplay: false
-}
+

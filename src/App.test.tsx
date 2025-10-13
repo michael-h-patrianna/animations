@@ -1,6 +1,6 @@
 import App from '@/App'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
 const renderApp = () => {
@@ -14,86 +14,35 @@ const renderApp = () => {
 }
 
 describe('App', () => {
-  it('renders only the current category and its content', async () => {
+  it('renders the current group with animation cards', async () => {
     renderApp()
 
-    // Should show first group (from first category) by default
+    // Should show first group (text-effects-framer) by default
     const groupHeading = await screen.findByRole('heading', {
       level: 2,
       name: /Text effects/i,
     })
     expect(groupHeading).toBeInTheDocument()
 
+    // Should have animation cards with replay buttons
+    const replayButtons = await screen.findAllByRole('button', { name: /replay/i })
+    expect(replayButtons.length).toBeGreaterThan(0)
+  })
+
+  it('shows only the current group, not other groups', async () => {
+    renderApp()
+
+    // Wait for initial load
+    await screen.findByRole('heading', { level: 2, name: /Text effects/i })
+
     // Should not show groups from other categories in main content
+    // (App shows one group at a time now)
     expect(
       screen.queryByRole('heading', { level: 2, name: /Base modal animations/i })
     ).not.toBeInTheDocument()
-  })
-
-  it('renders groups and animation cards for current category', async () => {
-    renderApp()
-
-    const groupHeading = await screen.findByRole('heading', {
-      level: 2,
-      name: /Text effects/i,
-    })
-    const groupSection = groupHeading.closest('article')
-    expect(groupSection).not.toBeNull()
-
-    const groupQueries = within(groupSection!)
-
-    // Check for at least one animation card
     expect(
-      (await groupQueries.findAllByRole('button', { name: /replay/i })).length
-    ).toBeGreaterThan(0)
-  })
-
-  it('switches categories when sidebar category is clicked', async () => {
-    renderApp()
-
-    // Wait for initial load
-    await screen.findByRole('heading', { level: 2, name: /Text effects/i })
-
-    // Click on a different category in sidebar
-    const dialogCategoryLink = screen.getByRole('button', {
-      name: /Dialog & Modal Animations/i,
-    })
-    fireEvent.click(dialogCategoryLink)
-
-    // Wait for category switch - assert via mobile header title which reflects current group
-    const mobileHeader = document.querySelector('.pf-mobile-header') as HTMLElement
-    await waitFor(() => {
-      expect(within(mobileHeader).getByText(/Base modal animations/i)).toBeInTheDocument()
-    })
-
-    // Note: We don't assert the previous group's heading is removed because
-    // exit animations may keep the element in the DOM during tests.
-  })
-
-  it('navigates to group when sidebar group is clicked', async () => {
-    renderApp()
-
-    // Wait for initial load
-    await screen.findByRole('heading', { level: 2, name: /Text effects/i })
-
-    // Category should be active and show its groups
-    // Now there are multiple "Text effects" buttons (Framer and CSS), so get all and click the first
-    const textEffectsGroups = await screen.findAllByRole('button', {
-      name: /Text effects/i,
-    })
-
-    fireEvent.click(textEffectsGroups[0])
-
-    // Should scroll the group into view (we can't test actual scrolling in jsdom)
-    // But we can verify the group heading exists
-    await waitFor(() => {
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: /Text effects/i,
-        })
-      ).toBeInTheDocument()
-    })
+      screen.queryByRole('heading', { level: 2, name: /Progress bars/i })
+    ).not.toBeInTheDocument()
   })
 
   it('shows active state for current category in sidebar', async () => {
@@ -117,29 +66,14 @@ describe('App', () => {
     expect(dialogsButton.className).not.toContain('pf-sidebar__link--active')
   })
 
-  it('handles category switching to show different groups', async () => {
+  it('displays current group title in mobile header', async () => {
     renderApp()
 
-    // Wait for initial category
+    // Wait for initial load
     await screen.findByRole('heading', { level: 2, name: /Text effects/i })
 
-    // Switch to a different category
-    const progressCategory = screen.getByRole('button', {
-      name: /Progress & Loading Animations/i,
-    })
-    fireEvent.click(progressCategory)
-
-    // Wait for new category's first group ("Progress bars") to appear
+    // Mobile header should show current group title
     const mobileHeader = document.querySelector('.pf-mobile-header') as HTMLElement
-    await waitFor(() => {
-      expect(within(mobileHeader).getByText(/Progress bars/i)).toBeInTheDocument()
-    })
-
-    // Groups from new category should be in sidebar
-    // Now there are multiple "Progress bars" buttons (Framer and CSS), so get all
-    const progressGroups = screen.getAllByRole('button', {
-      name: /Progress bars/i,
-    })
-    expect(progressGroups.length).toBeGreaterThan(0)
+    expect(within(mobileHeader).getByText(/Text effects/i)).toBeInTheDocument()
   })
 })

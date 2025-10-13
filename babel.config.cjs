@@ -1,7 +1,1 @@
-module.exports = {
-  presets: [
-    ['@babel/preset-env', { targets: { node: 'current' } }],
-    ['@babel/preset-react', { runtime: 'automatic' }],
-    '@babel/preset-typescript',
-  ],
-}
+// Babel configuration removed after migrating tests to Vitest.

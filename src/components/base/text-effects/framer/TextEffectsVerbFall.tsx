@@ -3,10 +3,11 @@
  * Runtime deps: react, framer-motion
  * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
  */
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, motion } from 'framer-motion'
 import React from 'react'
 import './TextEffectsVerbFall.css'
+import '../shared.css'
 
 export function TextEffectsVerbFall() {
   const text = 'LOREM IPSUM DOLOR'
@@ -42,12 +43,6 @@ export function TextEffectsVerbFall() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__verb-falling',
-  title: 'Falling',
-  description: 'Letters drop and settle with a soft bounce.',
-  tags: ['framer'],
-  disableReplay: false
-}
+
 
 export default TextEffectsVerbFall

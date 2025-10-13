@@ -1,5 +1,5 @@
-import { motion, easeOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeOut, motion } from 'framer-motion'
+
 import '../shared.css'
 
 export function StandardEffectsSpin() {
@@ -23,9 +23,3 @@ export function StandardEffectsSpin() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__spin',
-  title: 'Spin',
-  description: '360-degree rotation with scale pulse at midpoint and motion blur trail.',
-  tags: ['framer'],
-}

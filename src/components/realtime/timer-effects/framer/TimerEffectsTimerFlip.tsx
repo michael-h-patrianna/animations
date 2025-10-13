@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlip.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__timer-flip',
-  title: 'Timer Flip',
-  description: 'Timer with flip animation on value changes.',
-  tags: ['framer'],
-}
 
 export function TimerEffectsTimerFlip() {
   const [value, setValue] = useState(10)

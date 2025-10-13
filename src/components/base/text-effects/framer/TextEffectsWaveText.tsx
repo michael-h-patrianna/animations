@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './TextEffectsWaveText.css'
+import '../shared.css'
 
 const waveKeyframes = {
   y: [0, -20, 0, 5, 0, 0],
@@ -71,12 +72,3 @@ export function TextEffectsWaveText() {
     </div>
   )
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'text-effects__wave-text',
-  title: 'Wave Text',
-  description: 'Smooth undulating wave motion through characters for fluid text animations.',
-  tags: ['framer'],
-  disableReplay: false
-} satisfies AnimationMetadata

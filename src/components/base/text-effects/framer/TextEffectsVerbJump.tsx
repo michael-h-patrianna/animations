@@ -3,10 +3,11 @@
  * Runtime deps: react, framer-motion
  * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
  */
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, motion } from 'framer-motion'
 import React from 'react'
 import './TextEffectsVerbJump.css'
+import '../shared.css'
 
 export function TextEffectsVerbJump() {
   const text = 'LOREM IPSUM DOLOR'
@@ -41,11 +42,4 @@ export function TextEffectsVerbJump() {
   )
 }
 
-export const metadata = {
-  id: 'text-effects__verb-jumping',
-  title: 'Jumping',
-  description: 'Playful jump cadence with squash and stretch per letter.',
-  tags: ['framer']
-} satisfies AnimationMetadata
 
-export default TextEffectsVerbJump

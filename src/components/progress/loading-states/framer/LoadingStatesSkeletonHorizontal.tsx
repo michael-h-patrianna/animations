@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesSkeletonHorizontal.css'
+import '../shared.css'
 
 export function LoadingStatesSkeletonHorizontal() {
 const shimmerVariants = {
@@ -32,10 +33,4 @@ const shimmerVariants = {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__skeleton-horizontal',
-  title: 'Skeleton Horizontal',
-  description: 'Horizontal skeleton shimmer for content placeholders.',
-  tags: ['framer'],
-} satisfies AnimationMetadata
+

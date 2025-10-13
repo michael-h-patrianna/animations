@@ -1,5 +1,4 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
 import '../shared.css'
 
 export function StandardEffectsBlink() {
@@ -22,11 +21,4 @@ export function StandardEffectsBlink() {
       </motion.div>
     </div>
   )
-}
-
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__blink',
-  title: 'Blink',
-  description: 'Rapid opacity flash for attention-grabbing notifications and alerts.',
-  tags: ['framer'],
 }

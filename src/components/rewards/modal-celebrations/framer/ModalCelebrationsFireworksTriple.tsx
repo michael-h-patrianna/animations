@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsFireworksTriple.css'
+import '../shared.css'
 
 const fireworkColors = ['#ffce1a', '#ff5981', '#47fff4', '#c6ff77']
 
@@ -43,10 +44,3 @@ const fireworks = useMemo(
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'modal-celebrations__fireworks-triple',
-  title: 'Fireworks Triple Burst',
-  description: 'Celebration effects pattern: Fireworks Triple Burst',
-  tags: ['framer'],
-} satisfies AnimationMetadata

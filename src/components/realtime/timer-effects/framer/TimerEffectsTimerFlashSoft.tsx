@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlashSoft.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__timer-flash-soft',
-  title: 'Flash Expire Soft',
-  description: 'Softer version with shake reminder every 10 seconds.',
-  tags: ['framer'],
-}
 
 export function TimerEffectsTimerFlashSoft() {
   const [seconds, setSeconds] = useState(32)

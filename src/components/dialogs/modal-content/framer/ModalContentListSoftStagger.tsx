@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './ModalContentListSoftStagger.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__list-soft-stagger',
-  title: 'List Soft Stagger',
-  description: 'Sequential list reveal (5 items) using 60ms offsets.',
-  tags: ['framer']
-}
 
 export function ModalContentListSoftStagger() {
 const items = ['Privacy settings updated', 'Two-factor authentication enabled', 'Email notifications configured', 'Profile picture updated', 'Timezone set to UTC']

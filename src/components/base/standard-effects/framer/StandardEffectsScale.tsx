@@ -1,5 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
-import { motion, easeOut } from 'framer-motion'
+
+import { easeOut, motion } from 'framer-motion'
 import '../shared.css'
 
 export function StandardEffectsScale() {
@@ -26,10 +26,4 @@ export function StandardEffectsScale() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__scale',
-  title: 'Scale',
-  description: 'Clean scale transformation from small to full size without bounce.',
-  tags: ['framer'],
-}
+

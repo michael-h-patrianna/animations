@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './ModalContentFormFieldRightReveal.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__form-field-right-reveal',
-  title: 'Form Fields From Right',
-  description: 'Form fields slide in from the right with gentle 420ms pacing.',
-  tags: ['framer']
-}
 
 export function ModalContentFormFieldRightReveal() {
   return (

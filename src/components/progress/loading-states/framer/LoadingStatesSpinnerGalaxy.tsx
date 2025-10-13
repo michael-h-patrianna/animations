@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, motion } from 'framer-motion'
 import './LoadingStatesSpinnerGalaxy.css'
+import '../shared.css'
 
 export function LoadingStatesSpinnerGalaxy() {
   return (
@@ -25,10 +26,3 @@ export function LoadingStatesSpinnerGalaxy() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__spinner-galaxy',
-  title: 'Spinner Galaxy',
-  description: 'Galaxy spinner with layered opacity twirls.',
-  tags: ['framer']
-} satisfies AnimationMetadata

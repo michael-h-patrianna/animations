@@ -1,5 +1,6 @@
 import coinImage from '@/assets/coin.png'
-import type { AnimationMetadata } from '@/types/animation'
+import '../shared.css'
+
 import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsCoinsFountain.css'
@@ -71,10 +72,4 @@ const coins = useMemo(
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'modal-celebrations__coins-fountain',
-  title: 'Coin Fountain',
-  description: 'Celebration effects pattern: Coin Fountain',
-  tags: ['framer'],
-} satisfies AnimationMetadata
+

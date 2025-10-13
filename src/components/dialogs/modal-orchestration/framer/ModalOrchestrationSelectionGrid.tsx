@@ -1,13 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import './ModalOrchestrationSelectionGrid.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__selection-grid',
-  title: 'Grid Tile Cascade',
-  description: 'Cascading animation across a grid of selection tiles',
-  tags: ['framer'],
-}
 
 export function ModalOrchestrationSelectionGrid() {
   const items = 6

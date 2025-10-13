@@ -1,15 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-base__unfold-origami',
-  title: 'Origami Unfold',
-  description: 'Paper-style unfolding animation with sequential axis expansion.',
-  tags: ['framer'],
-}
 
 export function ModalBaseUnfoldOrigami() {
   const duration = 0.9

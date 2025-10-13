@@ -1,5 +1,6 @@
 import balloonImage from '@/assets/present_box_balloon.png'
-import type { AnimationMetadata } from '@/types/animation'
+import '../shared.css'
+
 import { easeInOut, motion } from 'framer-motion'
 import './IconAnimationsFloat.css'
 
@@ -27,10 +28,3 @@ export function IconAnimationsFloat() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'icon-animations__float',
-  title: 'Float',
-  description: 'Gentle Y-axis sine wave with subtle rotation and shadow distance changes.',
-  tags: ['framer'],
-}

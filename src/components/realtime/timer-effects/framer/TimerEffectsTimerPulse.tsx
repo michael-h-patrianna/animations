@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerPulse.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__timer-pulse',
-  title: 'Timer Pulse',
-  description: 'Timer with continuous pulse animation.',
-  tags: ['framer'],
-}
 
 export function TimerEffectsTimerPulse() {
   const [value, setValue] = useState(10)

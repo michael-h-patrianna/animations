@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './ModalContentListVerticalWipe.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__list-vertical-wipe',
-  title: 'List Vertical Wipe',
-  description: 'Vertical panel wipe across 4 list items for crisp onboarding.',
-  tags: ['framer']
-}
 
 export function ModalContentListVerticalWipe() {
 const items = ['Introduction complete', 'Profile configured', 'Preferences set', 'Ready to begin']

@@ -1,14 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import './ProgressBarsProgressStriped.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-striped',
-  title: 'Progress Striped',
-  description: 'Progress bar with animated diagonal stripes and shimmer effect.',
-  tags: ['framer'],
-}
 
 export function ProgressBarsProgressStriped() {
   // Generate stripe elements

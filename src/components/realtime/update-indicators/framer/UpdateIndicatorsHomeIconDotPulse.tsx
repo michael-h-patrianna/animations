@@ -1,16 +1,7 @@
 import homeIcon1 from '@/assets/home-icon1.png'
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotPulse.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__home-icon-dot-pulse',
-  title: 'Home Icon • Dot Pulse',
-  description: 'Top-right dot with gentle breathing pulse and soft glow ripple to indicate unseen updates.',
-  tags: ['framer']
-}
 
 export function UpdateIndicatorsHomeIconDotPulse() {
   const [key, setKey] = useState(0)

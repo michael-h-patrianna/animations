@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import './TextEffectsCounterIncrement.css'
+import '../shared.css'
 
 interface CounterIndicator {
   id: number
@@ -113,11 +114,4 @@ const [isValueAnimating, setIsValueAnimating] = useState(false)
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'text-effects__counter-increment',
-  title: 'Counter Increment',
-  description: 'Numeric counter ticks upwards with scale.',
-  tags: ['framer'],
-  disableReplay: false
-} satisfies AnimationMetadata
+

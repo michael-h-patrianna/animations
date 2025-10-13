@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion, useAnimation } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import './TextEffectsLevelBreakthrough.css'
+import '../shared.css'
 
 export function TextEffectsLevelBreakthrough() {
   const levelControls = useAnimation()
@@ -124,10 +125,4 @@ export function TextEffectsLevelBreakthrough() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__level-breakthrough',
-  title: 'Level Breakthrough',
-  description: 'Level breakthrough shakes frame with surge lines explosion effect.',
-  tags: ['framer'],
-  disableReplay: false
-}
+

@@ -1,14 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import './ProgressBarsProgressGradient.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-gradient',
-  title: 'Gradient Glide',
-  description: 'Gradient sweep along the bar for premium polish.',
-  tags: ['framer'],
-}
 
 export function ProgressBarsProgressGradient() {
   // Main fill animation

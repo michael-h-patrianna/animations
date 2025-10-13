@@ -3,10 +3,11 @@
  * Runtime deps: react, framer-motion
  * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
  */
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, motion } from 'framer-motion'
 import React from 'react'
 import './TextEffectsVerbTwirl.css'
+import '../shared.css'
 
 export function TextEffectsVerbTwirl() {
   const text = 'LOREM IPSUM DOLOR'
@@ -38,12 +39,6 @@ export function TextEffectsVerbTwirl() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__verb-twirling',
-  title: 'Twirling',
-  description: 'Continuous twirl spin with subtle scale variance.',
-  tags: ['framer'],
-  disableReplay: false
-}
+
 
 export default TextEffectsVerbTwirl

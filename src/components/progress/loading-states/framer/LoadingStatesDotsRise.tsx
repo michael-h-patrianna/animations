@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesDotsRise.css'
+import '../shared.css'
 
 export function LoadingStatesDotsRise() {
   return (
@@ -14,10 +15,3 @@ export function LoadingStatesDotsRise() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__dots-rise',
-  title: 'Dots Rise',
-  description: 'Three-dot rise cadence for subtle loading feedback.',
-  tags: ['framer']
-} satisfies AnimationMetadata

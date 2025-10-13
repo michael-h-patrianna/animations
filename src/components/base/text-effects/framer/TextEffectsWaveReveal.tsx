@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion, type Variants } from 'framer-motion'
 import './TextEffectsWaveReveal.css'
+import '../shared.css'
 
 export function TextEffectsWaveReveal() {
   const lines = [
@@ -77,10 +78,4 @@ export function TextEffectsWaveReveal() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__wave-reveal',
-  title: 'Wave Reveal',
-  description: 'Staggered wave animation where text appears from bottom with smooth easing.',
-  tags: ['framer'],
-  disableReplay: false
-}
+

@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesDotsPortal.css'
+import '../shared.css'
 
 export function LoadingStatesDotsPortal() {
   return (
@@ -14,10 +15,3 @@ export function LoadingStatesDotsPortal() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__dots-portal',
-  title: 'Dots Portal',
-  description: 'Dots fold into portal centre to indicate processing.',
-  tags: ['framer']
-} satisfies AnimationMetadata

@@ -1,16 +1,7 @@
 import homeIcon1 from '@/assets/home-icon1.png'
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotRadar.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__home-icon-dot-radar',
-  title: 'Home Icon • Radar Rings',
-  description: 'Subtle radar rings emanate from the dot using staggered arcs to signal ongoing freshness.',
-  tags: ['framer']
-}
 
 export function UpdateIndicatorsHomeIconDotRadar() {
   const [key, setKey] = useState(0)

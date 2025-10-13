@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressSegmented.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-segmented',
-  title: 'Segmented Sweep',
-  description: 'Segments fill sequentially for discrete progress feedback.',
-  tags: ['framer'],
-}
 
 export function ProgressBarsProgressSegmented() {
 const [activeSegments, setActiveSegments] = useState<number[]>([])

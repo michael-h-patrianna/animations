@@ -1,16 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import './ProgressBarsZoomedProgress.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__zoomed-progress',
-  title: 'Zoomed Progress',
-  description:
-    'Multi-level progress bar with zoomed viewport that shifts and scales as levels advance. Features numbered milestones, color transitions per level (blue to yellow to pink), radial gradient masking for zoom effect, and skewed progress fill animation.',
-  tags: ['framer'],
-}
 
 export function ProgressBarsZoomedProgress() {
 const [level, setLevel] = useState(1)

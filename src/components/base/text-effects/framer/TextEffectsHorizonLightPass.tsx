@@ -3,10 +3,11 @@
  * Runtime deps: react, framer-motion
  * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
  */
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
 import React from 'react'
 import './TextEffectsHorizonLightPass.css'
+import '../shared.css'
 
 export function TextEffectsHorizonLightPass() {
   const text = 'LOREM IPSUM DOLOR'
@@ -94,12 +95,6 @@ export function TextEffectsHorizonLightPass() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'text-effects__horizon-light-pass',
-  title: 'Horizon Light Pass',
-  description: 'A horizontal light band passes across the text, briefly brightening and stretching letters before settling.',
-  tags: ['framer'],
-  disableReplay: false
-}
+
 
 export default TextEffectsHorizonLightPass

@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeInOut, easeOut, motion } from 'framer-motion'
 import './StandardEffectsSoftPulse.css'
+import '../shared.css'
 
 export function StandardEffectsSoftPulse() {
 const coreVariants = {
@@ -82,10 +83,3 @@ const coreVariants = {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'standard-effects__soft-pulse',
-  title: 'Soft Pulse',
-  description: 'Gentle breathing pulse with a soft glow aura.',
-  tags: ['framer'],
-} satisfies AnimationMetadata

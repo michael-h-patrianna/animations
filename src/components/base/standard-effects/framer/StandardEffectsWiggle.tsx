@@ -1,5 +1,5 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
+
 import '../shared.css'
 
 export function StandardEffectsWiggle() {
@@ -23,9 +23,4 @@ export function StandardEffectsWiggle() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__wiggle',
-  title: 'Wiggle',
-  description: 'Rotation oscillation with scale breathing and position drift for attention.',
-  tags: ['framer'],
-}
+

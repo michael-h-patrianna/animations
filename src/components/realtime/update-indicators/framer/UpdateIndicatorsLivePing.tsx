@@ -1,14 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import './UpdateIndicatorsLivePing.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__live-ping',
-  title: 'Live Ping',
-  description: 'Live indicator ping loop for streams.',
-  tags: ['framer']
-}
 
 export function UpdateIndicatorsLivePing() {
   return (

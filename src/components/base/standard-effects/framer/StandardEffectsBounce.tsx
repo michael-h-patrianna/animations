@@ -1,5 +1,4 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
 import '../shared.css'
 
 export function StandardEffectsBounce() {
@@ -26,9 +25,3 @@ export function StandardEffectsBounce() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__bounce',
-  title: 'Bounce',
-  description: 'Vertical bounce with squash-stretch deformation and tilt for playful feedback.',
-  tags: ['framer'],
-}

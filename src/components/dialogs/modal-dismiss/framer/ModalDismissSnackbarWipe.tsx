@@ -1,14 +1,5 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-dismiss__snackbar-wipe',
-  title: 'Snackbar Wipe',
-  description: 'Snackbar wipes along the horizontal axis with progress tracking overlay.',
-  tags: ['framer'],
-}
 
 export function ModalDismissSnackbarWipe() {
 const [showProgress, setShowProgress] = useState(true)

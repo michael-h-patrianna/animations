@@ -1,5 +1,6 @@
 import giftBoxImage from '@/assets/present_box.png'
-import type { AnimationMetadata } from '@/types/animation'
+import '../shared.css'
+
 import { easeInOut, motion } from 'framer-motion'
 import './IconAnimationsBounce.css'
 
@@ -24,12 +25,4 @@ export function IconAnimationsBounce() {
       />
     </div>
   )
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'icon-animations__bounce',
-  title: 'Bounce',
-  description: 'Vertical bounce with squash-stretch deformation and tilt for playful feedback.',
-  tags: ['framer'],
 }

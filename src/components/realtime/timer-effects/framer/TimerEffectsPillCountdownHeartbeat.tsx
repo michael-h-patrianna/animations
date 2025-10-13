@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownHeartbeat.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-heartbeat',
-  title: 'Pill Countdown — Heartbeat',
-  description: 'Countdown with heartbeat animation that intensifies as time runs out.',
-  tags: ['framer'],
-}
 
 export function TimerEffectsPillCountdownHeartbeat() {
   const [seconds, setSeconds] = useState(60)

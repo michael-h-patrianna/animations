@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion } from 'framer-motion'
 import './TextEffectsEpicWin.css'
+import '../shared.css'
 
 export function TextEffectsEpicWin() {
   const mainText = 'EPIC WIN'
@@ -106,12 +107,3 @@ export function TextEffectsEpicWin() {
     </div>
   )
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'text-effects__epic-win',
-  title: 'Epic Win',
-  description: 'Metallic 3D text with rotating entrance, layered shadows, and victory flare effect.',
-  tags: ['framer'],
-  disableReplay: false
-} satisfies AnimationMetadata

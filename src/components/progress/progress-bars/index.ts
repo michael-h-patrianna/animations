@@ -6,11 +6,11 @@ import { metadata as progressBounceMetadata } from './framer/ProgressBarsProgres
 import { metadata as progressGradientMetadata } from './framer/ProgressBarsProgressGradient.meta'
 import { metadata as progressMilestonesMetadata } from './framer/ProgressBarsProgressMilestones.meta'
 import { metadata as progressSegmentedMetadata } from './framer/ProgressBarsProgressSegmented.meta'
+import { metadata as progressStripedMetadata } from './framer/ProgressBarsProgressStriped.meta'
 import { metadata as progressThinMetadata } from './framer/ProgressBarsProgressThin.meta'
 import { metadata as timelineProgressMetadata } from './framer/ProgressBarsTimelineProgress.meta'
 import { metadata as xpAccumulationMetadata } from './framer/ProgressBarsXpAccumulation.meta'
 import { metadata as zoomedProgressMetadata } from './framer/ProgressBarsZoomedProgress.meta'
-import { metadata as progressStripedMetadata } from './framer/ProgressBarsProgressStriped.meta'
 
 // CSS - Import metadata only
 import { metadata as progressBounceCssMetadata } from './css/ProgressBarsProgressBounce.meta'
@@ -24,26 +24,94 @@ import { metadata as xpAccumulationCssMetadata } from './css/ProgressBarsXpAccum
 import { metadata as zoomedProgressCssMetadata } from './css/ProgressBarsZoomedProgress.meta'
 
 // Framer Motion - Lazy load components
-const ProgressBarsProgressBounce = lazy(() => import('./framer/ProgressBarsProgressBounce').then(m => ({ default: m.ProgressBarsProgressBounce })))
-const ProgressBarsProgressGradient = lazy(() => import('./framer/ProgressBarsProgressGradient').then(m => ({ default: m.ProgressBarsProgressGradient })))
-const ProgressBarsProgressMilestones = lazy(() => import('./framer/ProgressBarsProgressMilestones').then(m => ({ default: m.ProgressBarsProgressMilestones })))
-const ProgressBarsProgressSegmented = lazy(() => import('./framer/ProgressBarsProgressSegmented').then(m => ({ default: m.ProgressBarsProgressSegmented })))
-const ProgressBarsProgressThin = lazy(() => import('./framer/ProgressBarsProgressThin').then(m => ({ default: m.ProgressBarsProgressThin })))
-const ProgressBarsTimelineProgress = lazy(() => import('./framer/ProgressBarsTimelineProgress').then(m => ({ default: m.ProgressBarsTimelineProgress })))
-const ProgressBarsXpAccumulation = lazy(() => import('./framer/ProgressBarsXpAccumulation').then(m => ({ default: m.ProgressBarsXpAccumulation })))
-const ProgressBarsZoomedProgress = lazy(() => import('./framer/ProgressBarsZoomedProgress').then(m => ({ default: m.ProgressBarsZoomedProgress })))
-const ProgressBarsProgressStriped = lazy(() => import('./framer/ProgressBarsProgressStriped').then(m => ({ default: m.ProgressBarsProgressStriped })))
+const ProgressBarsProgressBounce = lazy(() =>
+  import('./framer/ProgressBarsProgressBounce').then((m) => ({
+    default: m.ProgressBarsProgressBounce,
+  }))
+)
+const ProgressBarsProgressGradient = lazy(() =>
+  import('./framer/ProgressBarsProgressGradient').then((m) => ({
+    default: m.ProgressBarsProgressGradient,
+  }))
+)
+const ProgressBarsProgressMilestones = lazy(() =>
+  import('./framer/ProgressBarsProgressMilestones').then((m) => ({
+    default: m.ProgressBarsProgressMilestones,
+  }))
+)
+const ProgressBarsProgressSegmented = lazy(() =>
+  import('./framer/ProgressBarsProgressSegmented').then((m) => ({
+    default: m.ProgressBarsProgressSegmented,
+  }))
+)
+const ProgressBarsProgressThin = lazy(() =>
+  import('./framer/ProgressBarsProgressThin').then((m) => ({ default: m.ProgressBarsProgressThin }))
+)
+const ProgressBarsTimelineProgress = lazy(() =>
+  import('./framer/ProgressBarsTimelineProgress').then((m) => ({
+    default: m.ProgressBarsTimelineProgress,
+  }))
+)
+const ProgressBarsXpAccumulation = lazy(() =>
+  import('./framer/ProgressBarsXpAccumulation').then((m) => ({
+    default: m.ProgressBarsXpAccumulation,
+  }))
+)
+const ProgressBarsZoomedProgress = lazy(() =>
+  import('./framer/ProgressBarsZoomedProgress').then((m) => ({
+    default: m.ProgressBarsZoomedProgress,
+  }))
+)
+const ProgressBarsProgressStriped = lazy(() =>
+  import('./framer/ProgressBarsProgressStriped').then((m) => ({
+    default: m.ProgressBarsProgressStriped,
+  }))
+)
 
 // CSS - Lazy load components
-const CssProgressBarsProgressBounce = lazy(() => import('./css/ProgressBarsProgressBounce').then(m => ({ default: m.ProgressBarsProgressBounce })))
-const CssProgressBarsProgressGradient = lazy(() => import('./css/ProgressBarsProgressGradient').then(m => ({ default: m.ProgressBarsProgressGradient })))
-const CssProgressBarsProgressMilestones = lazy(() => import('./css/ProgressBarsProgressMilestones').then(m => ({ default: m.ProgressBarsProgressMilestones })))
-const CssProgressBarsProgressSegmented = lazy(() => import('./css/ProgressBarsProgressSegmented').then(m => ({ default: m.ProgressBarsProgressSegmented })))
-const CssProgressBarsProgressStriped = lazy(() => import('./css/ProgressBarsProgressStriped').then(m => ({ default: m.ProgressBarsProgressStriped })))
-const CssProgressBarsProgressThin = lazy(() => import('./css/ProgressBarsProgressThin').then(m => ({ default: m.ProgressBarsProgressThin })))
-const CssProgressBarsTimelineProgress = lazy(() => import('./css/ProgressBarsTimelineProgress').then(m => ({ default: m.ProgressBarsTimelineProgress })))
-const CssProgressBarsXpAccumulation = lazy(() => import('./css/ProgressBarsXpAccumulation').then(m => ({ default: m.ProgressBarsXpAccumulation })))
-const CssProgressBarsZoomedProgress = lazy(() => import('./css/ProgressBarsZoomedProgress').then(m => ({ default: m.ProgressBarsZoomedProgress })))
+const CssProgressBarsProgressBounce = lazy(() =>
+  import('./css/ProgressBarsProgressBounce').then((m) => ({
+    default: m.ProgressBarsProgressBounce,
+  }))
+)
+const CssProgressBarsProgressGradient = lazy(() =>
+  import('./css/ProgressBarsProgressGradient').then((m) => ({
+    default: m.ProgressBarsProgressGradient,
+  }))
+)
+const CssProgressBarsProgressMilestones = lazy(() =>
+  import('./css/ProgressBarsProgressMilestones').then((m) => ({
+    default: m.ProgressBarsProgressMilestones,
+  }))
+)
+const CssProgressBarsProgressSegmented = lazy(() =>
+  import('./css/ProgressBarsProgressSegmented').then((m) => ({
+    default: m.ProgressBarsProgressSegmented,
+  }))
+)
+const CssProgressBarsProgressStriped = lazy(() =>
+  import('./css/ProgressBarsProgressStriped').then((m) => ({
+    default: m.ProgressBarsProgressStriped,
+  }))
+)
+const CssProgressBarsProgressThin = lazy(() =>
+  import('./css/ProgressBarsProgressThin').then((m) => ({ default: m.ProgressBarsProgressThin }))
+)
+const CssProgressBarsTimelineProgress = lazy(() =>
+  import('./css/ProgressBarsTimelineProgress').then((m) => ({
+    default: m.ProgressBarsTimelineProgress,
+  }))
+)
+const CssProgressBarsXpAccumulation = lazy(() =>
+  import('./css/ProgressBarsXpAccumulation').then((m) => ({
+    default: m.ProgressBarsXpAccumulation,
+  }))
+)
+const CssProgressBarsZoomedProgress = lazy(() =>
+  import('./css/ProgressBarsZoomedProgress').then((m) => ({
+    default: m.ProgressBarsZoomedProgress,
+  }))
+)
 
 export const groupMetadata: GroupMetadata = {
   id: 'progress-bars',

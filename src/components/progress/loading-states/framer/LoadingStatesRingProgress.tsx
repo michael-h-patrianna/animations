@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesRingProgress.css'
+import '../shared.css'
 
 export function LoadingStatesRingProgress() {
   const circumference = 2 * Math.PI * 25
@@ -28,10 +29,4 @@ export function LoadingStatesRingProgress() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__ring-progress',
-  title: 'Ring Progress',
-  description: 'Progress ring fills from 0 to 100%.',
-  tags: ['framer']
-} satisfies AnimationMetadata
+

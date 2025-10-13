@@ -1,14 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import './ProgressBarsProgressThin.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-thin',
-  title: 'Thin Glide',
-  description: 'Slim tracker for compact UI contexts.',
-  tags: ['framer'],
-}
 
 export function ProgressBarsProgressThin() {
   const duration = 1.2

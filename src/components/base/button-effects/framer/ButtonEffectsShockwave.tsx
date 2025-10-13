@@ -1,4 +1,3 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import React, { useRef, useState } from 'react'
 import '../shared.css'
@@ -89,11 +88,3 @@ export function ButtonEffectsShockwave() {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'button-effects__shockwave',
-  title: 'Shockwave',
-  description: 'Concentric rings expand outward with distortion effects.',
-  tags: ['framer'],
-  disableReplay: true,
-}

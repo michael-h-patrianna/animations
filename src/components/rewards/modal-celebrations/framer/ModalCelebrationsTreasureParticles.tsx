@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsTreasureParticles.css'
+import '../shared.css'
 
 export function ModalCelebrationsTreasureParticles() {
 const particles = useMemo(() => {
@@ -95,10 +96,3 @@ const particles = useMemo(() => {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'modal-celebrations__treasure-particles',
-  title: 'Treasure Particles',
-  description: 'Celebration effects pattern: Treasure Particles',
-  tags: ['framer'],
-} satisfies AnimationMetadata

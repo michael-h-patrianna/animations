@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownStrong.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__pill-countdown-strong',
-  title: 'Pill Countdown — Strong',
-  description: 'Strong: segmented bar + brief snap ticks under 15s. No continuous looping.',
-  tags: ['framer'],
-}
 
 // Strong: segmented bar + brief snap ticks under 15s. No continuous looping.
 export function TimerEffectsPillCountdownStrong() {

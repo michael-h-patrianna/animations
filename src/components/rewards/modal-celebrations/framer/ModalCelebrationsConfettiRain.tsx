@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsConfettiRain.css'
+import '../shared.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
 
@@ -63,10 +64,3 @@ const particles = useMemo(
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'modal-celebrations__confetti-rain',
-  title: 'Confetti Rainfall',
-  description: 'Celebration effects pattern: Confetti Rainfall',
-  tags: ['framer'],
-} satisfies AnimationMetadata

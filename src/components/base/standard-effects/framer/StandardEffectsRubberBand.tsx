@@ -1,5 +1,5 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
+
 import '../shared.css'
 
 export function StandardEffectsRubberBand() {
@@ -23,9 +23,3 @@ export function StandardEffectsRubberBand() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__rubber-band',
-  title: 'Rubber Band',
-  description: 'Elastic stretch with thickness variation and edge vibration for springy motion.',
-  tags: ['framer'],
-}

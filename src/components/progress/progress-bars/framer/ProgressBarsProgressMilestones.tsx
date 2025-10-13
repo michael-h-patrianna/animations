@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { easeOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressMilestones.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'progress-bars__progress-milestones',
-  title: 'Milestone Markers',
-  description: 'Milestone markers light up as progress crosses thresholds.',
-  tags: ['framer'],
-}
 
 export function ProgressBarsProgressMilestones() {
 const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())

@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsConfettiSpiral.css'
+import '../shared.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
 
@@ -78,10 +79,4 @@ const particles = useMemo(
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'modal-celebrations__confetti-spiral',
-  title: 'Confetti Spiral',
-  description: 'Celebration effects pattern: Confetti Spiral',
-  tags: ['framer'],
-} satisfies AnimationMetadata
+

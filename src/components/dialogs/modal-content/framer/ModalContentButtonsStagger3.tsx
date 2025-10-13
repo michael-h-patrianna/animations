@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './ModalContentButtonsStagger3.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'modal-content__buttons-stagger-3',
-  title: 'Button Stagger ×3',
-  description: 'Button cluster stagger with 3 actions.',
-  tags: ['framer']
-}
 
 export function ModalContentButtonsStagger3() {
   return (

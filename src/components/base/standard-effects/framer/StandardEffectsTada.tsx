@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+
 import '../shared.css'
 
 export function StandardEffectsTada() {
@@ -25,9 +25,3 @@ export function StandardEffectsTada() {
   )
 }
 
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__tada',
-  title: 'Tada',
-  description: 'Celebration animation combining scale and rotation for success moments.',
-  tags: ['framer'],
-}

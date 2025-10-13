@@ -1,7 +1,8 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { easeOut, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import './ModalCelebrationsFireworksRing.css'
+import '../shared.css'
 
 export function ModalCelebrationsFireworksRing() {
 const rings = useMemo(
@@ -36,10 +37,4 @@ const rings = useMemo(
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'modal-celebrations__fireworks-ring',
-  title: 'Fireworks Halo',
-  description: 'Celebration effects pattern: Fireworks Halo',
-  tags: ['framer'],
-} satisfies AnimationMetadata
+

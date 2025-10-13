@@ -1,5 +1,5 @@
-import { motion, easeInOut } from 'framer-motion'
-import type { AnimationMetadata } from '@/types/animation'
+import { easeInOut, motion } from 'framer-motion'
+
 import '../shared.css'
 
 export function StandardEffectsJello() {
@@ -22,11 +22,4 @@ export function StandardEffectsJello() {
       </motion.div>
     </div>
   )
-}
-
-export const metadata: AnimationMetadata = {
-  id: 'standard-effects__jello',
-  title: 'Jello',
-  description: 'Wobble deformation with ripple-through effect and bounce for gelatinous motion.',
-  tags: ['framer'],
 }

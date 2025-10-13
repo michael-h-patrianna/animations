@@ -1,15 +1,6 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerColorShift.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'timer-effects__timer-color-shift',
-  title: 'Timer Color Shift',
-  description: 'Timer with color shifting from green to yellow to red as time runs out.',
-  tags: ['framer'],
-}
 
 export function TimerEffectsTimerColorShift() {
   const [value, setValue] = useState(10)

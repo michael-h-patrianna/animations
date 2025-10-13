@@ -1,6 +1,7 @@
-import type { AnimationMetadata } from '@/types/animation'
+
 import { motion } from 'framer-motion'
 import './LoadingStatesSkeletonTile.css'
+import '../shared.css'
 
 export function LoadingStatesSkeletonTile() {
 const shimmerVariants = {
@@ -32,10 +33,4 @@ const shimmerVariants = {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata = {
-  id: 'loading-states__skeleton-tile',
-  title: 'Skeleton Tile Grid',
-  description: 'Grid skeleton effect for gallery loading.',
-  tags: ['framer'],
-} satisfies AnimationMetadata
+

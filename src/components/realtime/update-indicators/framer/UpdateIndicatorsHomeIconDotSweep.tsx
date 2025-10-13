@@ -1,16 +1,7 @@
 import homeIcon2 from '@/assets/home-icon2.png'
-import type { AnimationMetadata } from '@/types/animation'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotSweep.css'
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const metadata: AnimationMetadata = {
-  id: 'update-indicators__home-icon-dot-sweep',
-  title: 'Home Icon • Comet Sweep',
-  description: 'A small comet trail sweeps a short arc around the corner dot, staging attention without noise.',
-  tags: ['framer']
-}
 
 export function UpdateIndicatorsHomeIconDotSweep() {
   const [key, setKey] = useState(0)

@@ -1,13 +1,5 @@
-import type { AnimationMetadata } from '@/types/animation'
 import { motion } from 'framer-motion'
 import './ModalOrchestrationSpringPhysics.css'
-
-export const metadata: AnimationMetadata = {
-  id: 'modal-orchestration__spring-physics',
-  title: 'Spring Physics Tiles',
-  description: 'Elastic spring-based tile animations with gesture interactions and bounce effects',
-  tags: ['framer'],
-}
 
 export function ModalOrchestrationSpringPhysics() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
