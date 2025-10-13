@@ -25,9 +25,7 @@ dist-ssr
 *.sw?
 
 # Local AI assistant artifacts
-.claude/*
 .playwright-mcp
 playwright-report
 test-results
-.github/*
 ddd.md
