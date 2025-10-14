@@ -9,6 +9,7 @@
   place-items: center;
   background: transparent;
   animation: modal-flip3d-overlay-fade-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
+  will-change: opacity;
 }
 
 .modal-base-flip3d__center {
@@ -36,6 +37,7 @@
   color: rgba(255, 255, 255, 0.76);
   transform-style: preserve-3d;
   animation: modal-flip3d-card-flip 0.8s cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
+  will-change: transform, opacity;
 }
 
 /* GPU-accelerated keyframes - transforms and opacity only */

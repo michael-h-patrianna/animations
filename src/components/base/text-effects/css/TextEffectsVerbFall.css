@@ -19,6 +19,7 @@
   letter-spacing: 0.02em;
   transform-origin: center bottom;
   animation: verbFall 1.6s ease-in-out both;
+  will-change: transform, opacity;
 }
 
 @keyframes verbFall {

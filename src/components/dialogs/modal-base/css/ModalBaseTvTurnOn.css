@@ -4,12 +4,14 @@
 .pf-modal-overlay--tv-turn-on {
   animation: tv-turn-on-overlay 650ms cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
   --overlay-opacity: 0.68;
+  will-change: opacity;
 }
 
 /* Modal expansion animation - starts as horizontal line, expands vertically */
 .pf-modal--tv-turn-on {
   animation: tv-turn-on-modal 650ms cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
   transform-origin: center;
+  will-change: transform, opacity;
 }
 
 /* Keyframes - GPU-accelerated with transform and opacity only */

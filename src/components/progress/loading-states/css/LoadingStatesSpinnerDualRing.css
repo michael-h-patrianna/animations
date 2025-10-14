@@ -23,6 +23,7 @@
   border-top-color: #ecc3ff;
   border-radius: 50%;
   animation: spinner-dual-ring 1s linear infinite;
+  will-change: transform;
 }
 .pf-spinner-dual-ring::after {
   content: '';
@@ -35,6 +36,7 @@
   border-bottom-color: #c6ff77;
   border-radius: 50%;
   animation: spinner-dual-ring-reverse 1.2s linear infinite;
+  will-change: transform;
 }
 
 @keyframes spinner-dual-ring {

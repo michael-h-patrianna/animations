@@ -46,4 +46,5 @@
   animation: icon-shake-animation 0.5s ease-in-out;
   width: 120px;
   height: auto;
+  will-change: transform;
 }

@@ -19,6 +19,7 @@
   letter-spacing: 0.02em;
   transform-origin: center;
   animation: verbFloat 3s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 .verbFloat__char--delayed {
   animation-delay: 0.15s;

@@ -19,6 +19,7 @@
   letter-spacing: 0.02em;
   transform-origin: center bottom;
   animation: verbJog 1.2s ease-in-out infinite;
+  will-change: transform;
 }
 .verbJog__char--delayed {
   animation-delay: 0.15s;

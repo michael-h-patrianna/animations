@@ -4,11 +4,13 @@
   animation: shatter-overlay-fade 850ms linear forwards;
   opacity: 0;
   --overlay-opacity: 0.68;
+  will-change: opacity;
 }
 
 .pf-modal-shatter {
   animation: shatter-assemble 850ms cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   opacity: 0;
+  will-change: transform, opacity;
 }
 
 /* Overlay fade-in animation */

@@ -38,4 +38,5 @@
   transform-origin: center bottom;
   width: 120px;
   height: auto;
+  will-change: transform;
 }

@@ -31,6 +31,7 @@
   border-top-color: transparent;
   opacity: 0.8;
   animation: ring-multi-normal 1.2s linear infinite;
+  will-change: transform;
 }
 .pf-ring-multi__segment:nth-child(2) {
   width: 50px;
@@ -40,6 +41,7 @@
   border-top-color: transparent;
   opacity: 0.6;
   animation: ring-multi-reverse 1.4s linear infinite;
+  will-change: transform;
 }
 .pf-ring-multi__segment:nth-child(3) {
   width: 60px;
@@ -49,6 +51,7 @@
   border-top-color: transparent;
   opacity: 0.4;
   animation: ring-multi-normal 1.6s linear infinite;
+  will-change: transform;
 }
 
 @keyframes ring-multi-normal {

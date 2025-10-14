@@ -21,6 +21,7 @@
   transform-origin: center;
   backface-visibility: hidden;
   animation: verbFlip 1.8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  will-change: transform;
 }
 .verbFlip__char--delayed {
   animation-delay: 0.1s;

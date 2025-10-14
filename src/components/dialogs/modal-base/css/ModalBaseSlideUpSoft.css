@@ -4,11 +4,13 @@
 .pf-modal-overlay--slide-up-soft {
   animation: modal-overlay-fade-in-soft 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   --overlay-opacity: 0.7;
+  will-change: opacity;
 }
 
 /* Modal slide up + scale + fade-in animation */
 .pf-modal--slide-up-soft {
   animation: modal-slide-up-soft 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  will-change: transform, opacity;
 }
 
 /* Keyframes for overlay fade-in */

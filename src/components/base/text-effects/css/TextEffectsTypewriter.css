@@ -26,6 +26,7 @@
   font-weight: 300;
   color: #10b981;
   animation: cursorBlink 1s linear infinite;
+  will-change: opacity;
 }
 
 @keyframes typewriterReveal {
@@ -35,10 +36,12 @@
 }
 
 @keyframes cursorBlink {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
   }
-  50.01%, 100% {
+  50.01%,
+  100% {
     opacity: 0;
   }
 }

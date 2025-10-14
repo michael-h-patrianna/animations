@@ -26,6 +26,7 @@
   box-shadow: 0 0 10px rgba(196, 122, 229, 0.8);
   animation: spinner-orbital 1s linear infinite;
   transform-origin: 6px 26px;
+  will-change: transform;
 }
 .pf-spinner-orbital::after {
   content: '';

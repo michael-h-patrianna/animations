@@ -2,6 +2,7 @@
 
 .pf-btn--jitter {
   animation: jittery 4s infinite;
+  will-change: transform;
 }
 .pf-btn--jitter:hover {
   animation: heartbeat 0.2s infinite;

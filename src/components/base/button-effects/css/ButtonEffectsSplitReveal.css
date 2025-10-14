@@ -8,6 +8,7 @@
 .pf-btn__split-bottom {
   display: inline-block;
   transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  will-change: transform;
 }
 .pf-btn__split-reveal-content {
   position: absolute;
@@ -16,6 +17,7 @@
   transform: translate(-50%, -50%) scale(0);
   font-size: 24px;
   transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  will-change: transform;
 }
 .pf-btn--split-reveal.split-revealing .pf-btn__split-top {
   transform: translateY(-15px) rotate(-5deg);

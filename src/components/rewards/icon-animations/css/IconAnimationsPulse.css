@@ -61,6 +61,7 @@
   transform-origin: center center;
   width: 140px;
   height: auto;
+  will-change: transform, opacity;
 }
 
 .icon-pulse-element::before {
@@ -76,6 +77,7 @@
   animation: icon-pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   pointer-events: none;
   z-index: -1;
+  will-change: transform, opacity;
 }
 
 @keyframes icon-pulse-glow {

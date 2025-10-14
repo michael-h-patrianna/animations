@@ -17,6 +17,7 @@
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(196, 122, 229, 0.3);
   animation: spinner-rotate 2s linear infinite;
+  will-change: transform;
 }
 .pf-spinner-galaxy::before {
   content: '';

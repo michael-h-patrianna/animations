@@ -9,6 +9,7 @@
   place-items: center;
   background: transparent;
   animation: modal-base-glitch-overlay-fade 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  will-change: opacity;
 }
 
 .modal-base-glitch-digital__center {

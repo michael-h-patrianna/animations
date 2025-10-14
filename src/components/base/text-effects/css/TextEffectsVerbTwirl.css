@@ -19,6 +19,7 @@
   letter-spacing: 0.02em;
   transform-origin: center;
   animation: verbTwirl 1.8s ease-in-out both;
+  will-change: transform;
 }
 
 @keyframes verbTwirl {
