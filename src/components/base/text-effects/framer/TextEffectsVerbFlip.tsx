@@ -5,7 +5,8 @@
  * Note: In RN, perspective should be applied inline on the animated element.
  */
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import React from 'react'
 import { memo } from 'react'
 import './TextEffectsVerbFlip.css'
@@ -19,7 +20,7 @@ function TextEffectsVerbFlipComponent() {
     <div className="verbFlip" data-animation-id="text-effects__verb-flipping" aria-label={text}>
       <div className="verbFlip__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <m.span
             key={i}
             className="verbFlip__char"
             style={{ perspective: 600 }}
@@ -35,7 +36,7 @@ function TextEffectsVerbFlipComponent() {
             }}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </m.span>
         ))}
       </div>
     </div>

@@ -1,13 +1,14 @@
 import giftBoxImage from '@/assets/present_box.png'
 import '../shared.css'
 
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import './IconAnimationsBounce.css'
 
 export function IconAnimationsBounce() {
   return (
     <div className="icon-demo-container">
-      <motion.img
+      <m.img
         src={giftBoxImage}
         alt="Bouncing gift box"
         style={{ width: 120, transformOrigin: 'center bottom' }}

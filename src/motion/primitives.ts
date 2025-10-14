@@ -1,4 +1,4 @@
-import type { Transition } from 'framer-motion'
+import type { Transition } from 'motion/react'
 import type { CSSProperties } from 'react'
 import { motionDurations, motionEasings, overlayOpacity } from './tokens'
 

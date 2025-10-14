@@ -1,11 +1,12 @@
 import { memo } from 'react'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import '../shared.css'
 
 function StandardEffectsHeartbeatComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           scale: [1, 1.3, 1, 1.3, 1.05, 1, 0.98],
@@ -20,7 +21,7 @@ function StandardEffectsHeartbeatComponent() {
         }}
       >
         <div className="demo-text">HeartBeat</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

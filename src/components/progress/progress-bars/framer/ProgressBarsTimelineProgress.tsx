@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ProgressBarsTimelineProgress.css'
 
 export function ProgressBarsTimelineProgress() {
@@ -45,7 +46,7 @@ export function ProgressBarsTimelineProgress() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-timeline-progress"
       variants={containerVariants}
       initial="initial"
@@ -62,7 +63,7 @@ export function ProgressBarsTimelineProgress() {
               flex: index === steps - 1 ? 'none' : '1',
             }}
           >
-            <motion.div
+            <m.div
               className="pf-timeline-progress__step"
               variants={stepVariants}
               style={{
@@ -72,9 +73,9 @@ export function ProgressBarsTimelineProgress() {
               }}
             >
               {index + 1}
-            </motion.div>
+            </m.div>
             {index < steps - 1 && (
-              <motion.div
+              <m.div
                 className="pf-timeline-progress__connector"
                 variants={connectorVariants}
                 style={{
@@ -87,6 +88,6 @@ export function ProgressBarsTimelineProgress() {
           </div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }

@@ -4,7 +4,8 @@
  * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
  */
 
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
 import './TextEffectsVerbFloat.css'
@@ -18,7 +19,7 @@ function TextEffectsVerbFloatComponent() {
     <div className="verbFloat" data-animation-id="text-effects__verb-floating" aria-label={text}>
       <div className="verbFloat__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <m.span
             key={i}
             className="verbFloat__char"
             initial={{ y: 0, opacity: 1 }}
@@ -34,7 +35,7 @@ function TextEffectsVerbFloatComponent() {
             }}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </m.span>
         ))}
       </div>
     </div>

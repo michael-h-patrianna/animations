@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 
 export function ModalDismissSnackbarWipe() {
 const [showProgress, setShowProgress] = useState(true)
@@ -59,7 +60,7 @@ const [showProgress, setShowProgress] = useState(true)
 
   return (
     <div className="pf-toast-preview">
-      <motion.div
+      <m.div
         className="pf-toast"
         data-animation-id="modal-dismiss__snackbar-wipe"
         variants={toastVariants}
@@ -69,7 +70,7 @@ const [showProgress, setShowProgress] = useState(true)
         <div className="pf-toast__title">Action Complete</div>
         <div className="pf-toast__body">Your changes have been saved</div>
         <div className="pf-toast__progress">
-          <motion.div
+          <m.div
             className="pf-toast__progress-bar"
             variants={progressVariants}
             initial="full"
@@ -77,7 +78,7 @@ const [showProgress, setShowProgress] = useState(true)
             style={{ transformOrigin: 'left center' }}
           />
         </div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

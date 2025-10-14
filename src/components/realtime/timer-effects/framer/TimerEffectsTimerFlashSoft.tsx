@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlashSoft.css'
 
@@ -82,7 +83,7 @@ useEffect(() => {
   }
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash-soft">
-      <motion.div
+      <m.div
         key={shakeKey}
         className="pf-timer-flash__pill pf-timer-flash__pill--soft"
         style={{ backgroundColor: bgColor }}
@@ -90,7 +91,7 @@ useEffect(() => {
         initial="idle"
         animate="shake"
       >
-        <motion.span
+        <m.span
           className="pf-timer-flash__glow"
           aria-hidden="true"
           variants={glowVariants}
@@ -98,7 +99,7 @@ useEffect(() => {
           animate="shake"
         />
         <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
-      </motion.div>
+      </m.div>
       <span className="pf-timer-flash__label">Flash Expire Soft</span>
     </div>
   )

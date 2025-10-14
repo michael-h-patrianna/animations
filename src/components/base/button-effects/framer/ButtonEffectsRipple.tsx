@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useRef, useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsRipple.css'
@@ -58,7 +59,7 @@ function ButtonEffectsRippleComponent() {
           {ripples.map((r) => {
             const half = r.size / 2
             return  (
-              <motion.span
+              <m.span
                 key={r.id}
                 className="pf-btn__ripple"
                 style={{ left: r.x - half, top: r.y - half, width: r.size, height: r.size }}

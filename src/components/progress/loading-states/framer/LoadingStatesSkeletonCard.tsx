@@ -1,5 +1,6 @@
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './LoadingStatesSkeletonCard.css'
 import '../shared.css'
 
@@ -17,24 +18,24 @@ const shimmerVariants = {
   return (
     <div data-animation-id="loading-states__skeleton-card" className="pf-loading-container">
       <div className="pf-skeleton pf-skeleton-card">
-        <motion.div
+        <m.div
           className="pf-skeleton__line pf-skeleton__title"
           variants={shimmerVariants}
           animate="animate"
         />
-        <motion.div
+        <m.div
           className="pf-skeleton__line"
           variants={shimmerVariants}
           animate="animate"
           transition={{ delay: 0.08, duration: 1.5, ease: 'linear' as const, repeat: Infinity }}
         />
-        <motion.div
+        <m.div
           className="pf-skeleton__line"
           variants={shimmerVariants}
           animate="animate"
           transition={{ delay: 0.16, duration: 1.5, ease: 'linear' as const, repeat: Infinity }}
         />
-        <motion.div
+        <m.div
           className="pf-skeleton__line"
           variants={shimmerVariants}
           animate="animate"

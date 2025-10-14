@@ -1,5 +1,6 @@
 import homeIcon2 from '@/assets/home-icon2.png'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotBounce.css'
 
@@ -18,7 +19,7 @@ useEffect(() => {
     >
       <div className="pf-update-indicator__icon-wrap">
         <img className="pf-update-indicator__img" src={homeIcon2} alt="Home" />
-        <motion.span
+        <m.span
           key={key}
           className="pf-update-indicator__dot pf-update-indicator__dot--bounce"
           initial={{ scale: 0, opacity: 0, x: 4, y: -4 }}

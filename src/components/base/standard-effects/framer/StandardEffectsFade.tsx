@@ -1,11 +1,12 @@
 import { memo } from 'react'
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import '../shared.css'
 
 function StandardEffectsFadeComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element fade-element"
         initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -15,7 +16,7 @@ function StandardEffectsFadeComponent() {
         }}
       >
         <div className="demo-text">Fade</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

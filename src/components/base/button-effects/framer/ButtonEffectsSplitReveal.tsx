@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsSplitReveal.css'
@@ -15,7 +16,7 @@ const handleClick = () => {
         className="pf-btn pf-btn--primary pf-btn--split-reveal"
         onClick={handleClick}
       >
-        <motion.span
+        <m.span
           className="pf-btn__split-top"
           animate={isRevealing ? {
             y: -15,
@@ -28,8 +29,8 @@ const handleClick = () => {
           }}
         >
           Click
-        </motion.span>
-        <motion.span
+        </m.span>
+        <m.span
           className="pf-btn__split-bottom"
           animate={isRevealing ? {
             y: 15,
@@ -42,8 +43,8 @@ const handleClick = () => {
           }}
         >
           Me!
-        </motion.span>
-        <motion.span
+        </m.span>
+        <m.span
           className="pf-btn__split-reveal-content"
           animate={isRevealing ? {
             scale: 1.2,
@@ -54,7 +55,7 @@ const handleClick = () => {
           }}
         >
           ✨
-        </motion.span>
+        </m.span>
       </button>
     </div>
   )

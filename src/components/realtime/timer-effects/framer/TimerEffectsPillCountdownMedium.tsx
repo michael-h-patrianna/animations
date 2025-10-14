@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownMedium.css'
 
@@ -73,14 +74,14 @@ useEffect(() => {
   }
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-medium">
-      <motion.div
+      <m.div
         key={blipKey}
         className="pf-pill-timer__pill pf-pill-timer__pill--medium"
         variants={blipVariants}
         initial="idle"
         animate="blip"
       >
-        <motion.span
+        <m.span
           className="pf-pill-timer__glow"
           aria-hidden="true"
           variants={glowVariants}
@@ -88,7 +89,7 @@ useEffect(() => {
           animate="blip"
         />
         <div className="pf-pill-timer__time">{format(seconds)}</div>
-      </motion.div>
+      </m.div>
       <span className="pf-pill-timer__label">Pill Countdown — Medium</span>
     </div>
   )

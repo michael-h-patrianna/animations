@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationComparisonMorph.css'
 
 export function ModalOrchestrationComparisonMorph() {
@@ -32,7 +33,7 @@ export function ModalOrchestrationComparisonMorph() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-comparison"
       variants={containerVariants}
       initial="initial"
@@ -40,7 +41,7 @@ export function ModalOrchestrationComparisonMorph() {
       data-animation-id="modal-orchestration__comparison-morph"
     >
       {Array.from({ length: panes }, (_, index) => (
-        <motion.div key={index} className="pf-comparison__pane" variants={paneVariants}>
+        <m.div key={index} className="pf-comparison__pane" variants={paneVariants}>
           <h5>{index === 0 ? 'Option A' : 'Option B'}</h5>
           <p>
             {index === 0
@@ -58,8 +59,8 @@ export function ModalOrchestrationComparisonMorph() {
           >
             {index === 0 ? 'Primary choice' : 'Alternative choice'}
           </div>
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   )
 }

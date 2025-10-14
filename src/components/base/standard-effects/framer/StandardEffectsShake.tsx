@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 
 import '../shared.css'
 
 function StandardEffectsShakeComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           x: [0, -10, 10, -8, 8, -6, 6, -4, 4, -2, 0],
@@ -19,7 +20,7 @@ function StandardEffectsShakeComponent() {
         }}
       >
         <div className="demo-text">Shake</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

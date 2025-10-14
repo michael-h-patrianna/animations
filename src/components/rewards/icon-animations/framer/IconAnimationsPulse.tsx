@@ -1,13 +1,14 @@
 import pulseScroll from '@/assets/pulse_scroll.png'
 import '../shared.css'
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './IconAnimationsPulse.css'
 
 export function IconAnimationsPulse() {
   return (
     <div className="icon-demo-container">
-      <motion.div
+      <m.div
         className="icon-pulse-element"
         animate={{
           scale: [1, 1.02, 1.05, 1.08, 1.12, 1.15, 1.12, 1.08, 1.05, 1.02, 1],
@@ -23,7 +24,7 @@ export function IconAnimationsPulse() {
         }}
       >
         <img src={pulseScroll} alt="Pulsing scroll" className="icon-pulse-element__image" />
-        <motion.span
+        <m.span
           className="icon-pulse-element__glow"
           aria-hidden="true"
           animate={{
@@ -37,7 +38,7 @@ export function IconAnimationsPulse() {
             times: [0, 0.5, 1],
           }}
         />
-      </motion.div>
+      </m.div>
     </div>
   )
 }

@@ -1,13 +1,14 @@
 import shakeIcon from '@/assets/shake_icon.png'
 import '../shared.css'
 
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import './IconAnimationsShake.css'
 
 export function IconAnimationsShake() {
   return (
     <div className="icon-demo-container">
-      <motion.img
+      <m.img
         src={shakeIcon}
         alt="Shake animation"
         style={{ width: 120 }}

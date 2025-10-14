@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressBounce.css'
 
@@ -91,13 +92,13 @@ const [showParticles, setShowParticles] = useState(false)
       data-animation-id="progress-bars__progress-bounce"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <motion.div
+        <m.div
           className="pf-progress-track"
           variants={trackVariants}
           initial="initial"
           animate="animate"
         >
-          <motion.div
+          <m.div
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
@@ -109,7 +110,7 @@ const [showParticles, setShowParticles] = useState(false)
             animate="animate"
           >
             {/* Elastic deformation overlay */}
-            <motion.div
+            <m.div
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -121,12 +122,12 @@ const [showParticles, setShowParticles] = useState(false)
               initial="initial"
               animate="animate"
             />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         {/* Impact waves */}
         {[0, 1, 2].map((i) => (
-          <motion.div
+          <m.div
             key={`wave-${i}`}
             style={{
               position: 'absolute',
@@ -150,7 +151,7 @@ const [showParticles, setShowParticles] = useState(false)
             const angle = (i / 5) * Math.PI * 2
             const distance = 30 + Math.random() * 20
             return (
-              <motion.div
+              <m.div
                 key={`particle-${i}`}
                 style={{
                   position: 'absolute',

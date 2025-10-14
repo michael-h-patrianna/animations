@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import './TextEffectsEpicWin.css'
 import '../shared.css'
 
@@ -11,7 +12,7 @@ function TextEffectsEpicWinComponent() {
     <div className="epic-win-container" data-animation-id="text-effects__epic-win">
       <div className="epic-text-container">
         {/* Multiple shadow layers for premium depth */}
-        <motion.div
+        <m.div
           className="epic-shadow-far"
           initial={{ opacity: 0, scale: 1.2, y: 10 }}
           animate={{
@@ -25,9 +26,9 @@ function TextEffectsEpicWinComponent() {
           }}
         >
           {mainText}
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="epic-shadow-mid"
           initial={{ opacity: 0, scale: 1.1, y: 5 }}
           animate={{
@@ -42,17 +43,17 @@ function TextEffectsEpicWinComponent() {
           }}
         >
           {mainText}
-        </motion.div>
+        </m.div>
 
         {/* Main metallic text */}
-        <motion.div
+        <m.div
           className="epic-main-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
         >
           {mainText.split('').map((char, index) => (
-            <motion.span
+            <m.span
               key={index}
               className="epic-char"
               initial={{
@@ -73,7 +74,7 @@ function TextEffectsEpicWinComponent() {
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
               }}
             >
-              <motion.span className="epic-char-inner">
+              <m.span className="epic-char-inner">
                 <span className="epic-char-inner__text">{char === ' ' ? '\u00A0' : char}</span>
                 <span aria-hidden="true" className="epic-char-inner__highlight">
                   {char === ' ' ? '\u00A0' : char}
@@ -83,7 +84,7 @@ function TextEffectsEpicWinComponent() {
                 </span>
 
                 {/* Individual character glow burst on arrival */}
-                <motion.span
+                <m.span
                   className="epic-char-glow"
                   initial={{
                     opacity: 0,
@@ -100,10 +101,10 @@ function TextEffectsEpicWinComponent() {
                     ease: easeOut,
                   }}
                 />
-              </motion.span>
-            </motion.span>
+              </m.span>
+            </m.span>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </div>
   )

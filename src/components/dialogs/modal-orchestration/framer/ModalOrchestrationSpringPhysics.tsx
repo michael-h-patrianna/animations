@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationSpringPhysics.css'
 
 export function ModalOrchestrationSpringPhysics() {
@@ -38,7 +39,7 @@ export function ModalOrchestrationSpringPhysics() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-spring-container"
       variants={containerVariants}
       initial="initial"
@@ -47,7 +48,7 @@ export function ModalOrchestrationSpringPhysics() {
     >
       <div className="pf-spring-grid">
         {tiles.map((tile) => (
-          <motion.div
+          <m.div
             key={tile.id}
             className="pf-spring-tile"
             variants={tileVariants}
@@ -73,9 +74,9 @@ export function ModalOrchestrationSpringPhysics() {
             <h5>{tile.title}</h5>
             <p>{tile.content}</p>
             <div className="pf-spring-indicator">⚡</div>
-          </motion.div>
+          </m.div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }

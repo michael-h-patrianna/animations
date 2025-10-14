@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useState } from 'react'
 import './ModalOrchestrationFlipReveal.css'
 
@@ -53,7 +54,7 @@ export function ModalOrchestrationFlipReveal() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-flip-container"
       variants={containerVariants}
       initial="initial"
@@ -65,7 +66,7 @@ export function ModalOrchestrationFlipReveal() {
           const isFlipped = flippedTiles.has(tile.id)
 
           return (
-            <motion.div
+            <m.div
               key={tile.id}
               className="pf-flip-tile-container"
               variants={tileVariants}
@@ -76,7 +77,7 @@ export function ModalOrchestrationFlipReveal() {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              <motion.div
+              <m.div
                 className="pf-flip-tile"
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
@@ -95,11 +96,11 @@ export function ModalOrchestrationFlipReveal() {
                   <p>{tile.backContent}</p>
                   <div className="pf-flip-indicator">✓</div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           )
         })}
       </div>
-    </motion.div>
+    </m.div>
   )
 }

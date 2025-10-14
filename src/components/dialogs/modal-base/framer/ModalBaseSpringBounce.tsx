@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
@@ -23,7 +24,7 @@ export function ModalBaseSpringBounce() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-modal-overlay"
       variants={overlayVariants}
       initial="initial"
@@ -32,10 +33,10 @@ export function ModalBaseSpringBounce() {
       data-animation-id="modal-base__spring-bounce"
     >
       <div className="pf-modal-center">
-        <motion.div className="pf-modal pf-modal--spring" variants={modalVariants}>
+        <m.div className="pf-modal pf-modal--spring" variants={modalVariants}>
           <MockModalContent />
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

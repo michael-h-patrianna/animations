@@ -1,6 +1,6 @@
-import { calculateBulbColors } from '@/utils/colors';
-import { motion } from 'framer-motion';
-import React, { useMemo } from 'react';
+import { calculateBulbColors } from '@/utils/colors'
+import * as m from 'motion/react-m'
+import React, { useMemo } from 'react'
 import './LightsCircleStatic1.css';
 
 interface LightsCircleStatic1Props {
@@ -222,25 +222,25 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
         }}
       >
         {/* Outer glow layer */}
-        <motion.div
+        <m.div
           className="lights-circle-static-1__glow-outer"
           variants={isEven ? glowOuterVariantsEven : glowOuterVariantsOdd}
         />
         {/* Inner glow layer */}
-        <motion.div
+        <m.div
           className="lights-circle-static-1__glow-inner"
           variants={isEven ? glowInnerVariantsEven : glowInnerVariantsOdd}
         />
         {/* Main bulb */}
-        <motion.div
+        <m.div
           className="lights-circle-static-1__bulb"
           variants={isEven ? bulbVariantsEven : bulbVariantsOdd}
         >
           {/* Glass shine overlay */}
           <div className="lights-circle-static-1__glass-shine" />
-        </motion.div>
+        </m.div>
         {/* Filament (bright core) */}
-        <motion.div
+        <m.div
           className="lights-circle-static-1__filament"
           variants={isEven ? filamentVariantsEven : filamentVariantsOdd}
         />
@@ -288,14 +288,14 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <motion.div
+      <m.div
         className="lights-circle-static-1__container"
         variants={containerVariants}
         initial="hidden"
         animate="show"
       >
         {bulbs}
-      </motion.div>
+      </m.div>
     </div>
   );
 };

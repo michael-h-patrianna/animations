@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressMilestones.css'
 
@@ -88,7 +89,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <motion.div
+          <m.div
             className="pf-progress-fill"
             variants={fillVariants}
             initial="hidden"
@@ -112,7 +113,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
             }}
           >
             {/* Diamond marker */}
-            <motion.div
+            <m.div
               className="milestone-marker"
               variants={markerVariants()}
               initial="inactive"
@@ -126,7 +127,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
               }}
             >
               {/* Inner glow */}
-              <motion.div
+              <m.div
                 style={{
                   position: 'absolute',
                   inset: '20%',
@@ -137,11 +138,11 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
                   transition: 'opacity 0.3s ease',
                 }}
               />
-            </motion.div>
+            </m.div>
 
             {/* Outer ring pulse */}
             {activatedMilestones.has(i) && (
-              <motion.div
+              <m.div
                 variants={ringVariants}
                 initial="inactive"
                 animate="active"
@@ -172,7 +173,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
           }}
         >
           {milestoneLabels.map((label, i) => (
-            <motion.span
+            <m.span
               key={i}
               variants={labelVariants}
               initial="inactive"
@@ -184,7 +185,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
               }}
             >
               {label}
-            </motion.span>
+            </m.span>
           ))}
         </div>
       </div>

@@ -4,7 +4,8 @@
  * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
  */
 
-import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
 import './TextEffectsHorizonLightPass.css'
@@ -72,7 +73,7 @@ function TextEffectsHorizonLightPassComponent() {
       }
 
   return (
-    <motion.div
+    <m.div
       className="studioLogo-HorizonLightPass"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
@@ -82,17 +83,17 @@ function TextEffectsHorizonLightPassComponent() {
     >
       <div className="studioLogo-HorizonLightPass__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <m.span
             key={i}
             className="studioLogo-HorizonLightPass__letter"
             variants={letterVariants}
             custom={i}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </m.span>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }
 

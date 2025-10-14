@@ -1,5 +1,6 @@
 import homeIcon1 from '@/assets/home-icon1.png'
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotRadar.css'
 
@@ -19,7 +20,7 @@ useEffect(() => {
       <div className="pf-update-indicator__icon-wrap">
         <img className="pf-update-indicator__img" src={homeIcon1} alt="Home" />
         <span className="pf-update-indicator__dot pf-update-indicator__dot--radar" />
-        <motion.span
+        <m.span
           key={`${key}-1`}
           className="pf-update-indicator__ring pf-update-indicator__ring--1"
           initial={{ scale: 0.9, opacity: 0 }}
@@ -33,7 +34,7 @@ useEffect(() => {
             times: [0, 0.5, 1]
           }}
         />
-        <motion.span
+        <m.span
           key={`${key}-2`}
           className="pf-update-indicator__ring pf-update-indicator__ring--2"
           initial={{ scale: 0.9, opacity: 0 }}

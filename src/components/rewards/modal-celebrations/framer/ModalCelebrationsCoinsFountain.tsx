@@ -1,7 +1,8 @@
 import coinImage from '@/assets/coin.png'
 import '../shared.css'
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
 import './ModalCelebrationsCoinsFountain.css'
 
@@ -33,7 +34,7 @@ const coins = useMemo(
     <div className="pf-celebration">
       <div className="pf-celebration__layer">
         {coins.map((coin) => (
-          <motion.img
+          <m.img
             key={coin.id}
             src={coinImage}
             alt="coin"

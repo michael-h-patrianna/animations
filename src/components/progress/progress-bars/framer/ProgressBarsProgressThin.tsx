@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import './ProgressBarsProgressThin.css'
 
 export function ProgressBarsProgressThin() {
@@ -76,14 +77,14 @@ export function ProgressBarsProgressThin() {
       data-animation-id="progress-bars__progress-thin"
     >
       <div className="pf-progress-demo__label">Level progress</div>
-      <motion.div
+      <m.div
         className="track-container"
         style={{ position: 'relative' }}
         initial="hidden"
         animate="visible"
       >
         {/* Halo */}
-        <motion.div
+        <m.div
           variants={haloVariants}
           style={{
             position: 'absolute',
@@ -95,7 +96,7 @@ export function ProgressBarsProgressThin() {
         />
 
         <div className="pf-progress-track" style={{ height: '2px' }}>
-          <motion.div
+          <m.div
             className="pf-progress-fill"
             variants={fillVariants}
             style={{
@@ -105,7 +106,7 @@ export function ProgressBarsProgressThin() {
             }}
           >
             {/* Photon trail */}
-            <motion.div
+            <m.div
               variants={photonVariants}
               style={{
                 position: 'absolute',
@@ -119,12 +120,12 @@ export function ProgressBarsProgressThin() {
                 pointerEvents: 'none',
               }}
             />
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Pulse dots */}
         {[0, 1, 2].map((i) => (
-          <motion.div
+          <m.div
             key={i}
             variants={dotVariants(i * 0.1)}
             style={{
@@ -142,7 +143,7 @@ export function ProgressBarsProgressThin() {
         ))}
 
         {/* Completion flash */}
-        <motion.div
+        <m.div
           variants={flashVariants}
           style={{
             position: 'absolute',
@@ -151,7 +152,7 @@ export function ProgressBarsProgressThin() {
             pointerEvents: 'none',
           }}
         />
-      </motion.div>
+      </m.div>
     </div>
   )
 }

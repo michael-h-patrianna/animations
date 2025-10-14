@@ -1,5 +1,6 @@
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useMemo } from 'react'
 import './ModalCelebrationsTreasureParticles.css'
 import '../shared.css'
@@ -52,7 +53,7 @@ const particles = useMemo(() => {
     <div className="pf-modal-celebration pf-modal-celebration--treasure-particles">
       <div className="pf-treasure-particles">
         {particles.map((p) => (
-          <motion.div
+          <m.div
             key={p.id}
             className="pf-treasure-particles__particle"
             initial={{ x: p.startX, y: p.startY, scale: 0.1, opacity: 0 }}
@@ -71,7 +72,7 @@ const particles = useMemo(() => {
           />
         ))}
         {gems.map((gem) => (
-          <motion.div
+          <m.div
             key={gem.id}
             className="pf-treasure-particles__gem"
             initial={{ x: gem.x, y: gem.y, scale: 0.1, rotate: 0, opacity: 0 }}
@@ -89,7 +90,7 @@ const particles = useMemo(() => {
           >
             <span className="pf-treasure-particles__gem-top" />
             <span className="pf-treasure-particles__gem-bottom" />
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </div>

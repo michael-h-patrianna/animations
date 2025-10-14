@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationWizardFadeCross.css'
 
 export function ModalOrchestrationWizardFadeCross() {
@@ -30,7 +31,7 @@ export function ModalOrchestrationWizardFadeCross() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-wizard"
       variants={containerVariants}
       initial="initial"
@@ -39,12 +40,12 @@ export function ModalOrchestrationWizardFadeCross() {
     >
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div key={index} className="pf-wizard__panel" variants={panelVariants}>
+          <m.div key={index} className="pf-wizard__panel" variants={panelVariants}>
             <h5>Stage {index + 1}</h5>
             <p>Cross-fade content placeholder to illustrate flow animation.</p>
-          </motion.div>
+          </m.div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }

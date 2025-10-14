@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 
 import '../shared.css'
 
 function StandardEffectsSlideComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         style={{ transformOrigin: 'center left' }}
         initial={{ x: '-100%', scale: 0.8, rotate: -5, opacity: 0 }}
@@ -17,7 +18,7 @@ function StandardEffectsSlideComponent() {
         }}
       >
         <div className="demo-text">Slide</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

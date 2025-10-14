@@ -1,4 +1,5 @@
-import { AnimatePresence, animate, easeOut, motion, useMotionValue, useTransform, type AnimationPlaybackControls } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { AnimatePresence, animate, easeOut, useMotionValue, useTransform, type AnimationPlaybackControls } from 'motion/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './ProgressBarsXpAccumulation.css'
 
@@ -372,7 +373,7 @@ export function ProgressBarsXpAccumulation() {
         </span>
         <AnimatePresence>
           {currentMultiplier > 1 && (
-            <motion.span
+            <m.span
               initial={{ scale: 0.4, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.7, opacity: 0 }}
@@ -380,14 +381,14 @@ export function ProgressBarsXpAccumulation() {
               className="pf-xp-multiplier"
             >
               x{currentMultiplier}
-            </motion.span>
+            </m.span>
           )}
         </AnimatePresence>
       </div>
 
       <div className="pf-xp-container">
         <div className="pf-progress-track">
-          <motion.div className="pf-progress-fill" style={{ scaleX: progressScale }} />
+          <m.div className="pf-progress-fill" style={{ scaleX: progressScale }} />
 
           {multiplierZones.map((zone) => {
             const isActive = progressPercent >= zone.threshold - 0.2
@@ -397,19 +398,19 @@ export function ProgressBarsXpAccumulation() {
                 key={zone.threshold}
                 className={`pf-marker pf-marker--t${zone.threshold} ${isActive ? 'pf-marker--active' : ''}`}
               >
-                <motion.div
+                <m.div
                   className="pf-marker__indicator"
                   animate={{ opacity: isActive ? 1 : 0.38, scaleY: isActive ? 1 : 0.7 }}
                   transition={{ duration: 0.3, ease: easeOut }}
                 />
-                <motion.div
+                <m.div
                   className="pf-marker__dot"
                   animate={{ scale: isActive ? 1 : 0.9 }}
                   transition={{ duration: 0.32, ease: easeOut }}
                 />
                 <AnimatePresence>
                   {milestoneAnim && (
-                    <motion.div
+                    <m.div
                       key={`pulse-${zone.threshold}`}
                       initial={{ scale: 0.8, opacity: 0.6 }}
                       animate={{ scale: 1.6, opacity: 0 }}
@@ -421,7 +422,7 @@ export function ProgressBarsXpAccumulation() {
                 </AnimatePresence>
                 <AnimatePresence>
                   {milestoneAnim && (
-                    <motion.div
+                    <m.div
                       key={`halo-${zone.threshold}`}
                       initial={{ scale: 0.55, opacity: 0.6 }}
                       animate={{ scale: 1.3, opacity: 0 }}
@@ -432,13 +433,13 @@ export function ProgressBarsXpAccumulation() {
                   )}
                 </AnimatePresence>
                 <AnimatePresence>{/* Trophy animation removed */}</AnimatePresence>
-                <motion.span
+                <m.span
                   className="pf-marker__label"
                   animate={{ opacity: isActive ? 1 : 0.42 }}
                   transition={{ duration: 0.25, ease: easeOut }}
                 >
                   x{zone.multiplier}
-                </motion.span>
+                </m.span>
               </div>
             )
           })}
@@ -452,19 +453,19 @@ export function ProgressBarsXpAccumulation() {
                 key={`boundary-${boundary}`}
                 className={`pf-marker pf-marker--t${boundary} ${isActive ? 'pf-marker--active' : ''}`}
               >
-                <motion.div
+                <m.div
                   className="pf-marker__indicator"
                   animate={{ opacity: isActive ? 1 : 0.38, scaleY: isActive ? 1 : 0.7 }}
                   transition={{ duration: 0.3, ease: easeOut }}
                 />
-                <motion.div
+                <m.div
                   className="pf-marker__dot"
                   animate={{ scale: isActive ? 1 : 0.9 }}
                   transition={{ duration: 0.32, ease: easeOut }}
                 />
                 <AnimatePresence>
                   {milestoneAnim && (
-                    <motion.div
+                    <m.div
                       key={`pulse-boundary-${boundary}`}
                       initial={{ scale: 0.8, opacity: 0.6 }}
                       animate={{ scale: 1.6, opacity: 0 }}
@@ -476,7 +477,7 @@ export function ProgressBarsXpAccumulation() {
                 </AnimatePresence>
                 <AnimatePresence>
                   {milestoneAnim && (
-                    <motion.div
+                    <m.div
                       key={`halo-boundary-${boundary}`}
                       initial={{ scale: 0.55, opacity: 0.6 }}
                       animate={{ scale: 1.3, opacity: 0 }}
@@ -486,13 +487,13 @@ export function ProgressBarsXpAccumulation() {
                     />
                   )}
                 </AnimatePresence>
-                <motion.span
+                <m.span
                   className="pf-marker__label"
                   animate={{ opacity: isActive ? 1 : 0.42 }}
                   transition={{ duration: 0.25, ease: easeOut }}
                 >
                   {isStart ? 'Start' : 'End'}
-                </motion.span>
+                </m.span>
               </div>
             )
           })}
@@ -500,7 +501,7 @@ export function ProgressBarsXpAccumulation() {
 
         <AnimatePresence>
           {floatingXP.map((floating) => (
-            <motion.div
+            <m.div
               key={floating.id}
               initial={{ opacity: 0, y: 0, scale: 0.6 }}
               animate={{
@@ -514,7 +515,7 @@ export function ProgressBarsXpAccumulation() {
               style={{ left: `calc(${Math.min(floating.percent, 100)}% + ${floating.offset}px)` }}
             >
               +{Math.round(floating.value)} XP
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
       </div>

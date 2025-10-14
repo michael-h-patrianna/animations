@@ -5,7 +5,8 @@
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
 
-import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
 import './TextEffectsLightSweepDraw.css'
@@ -60,7 +61,7 @@ function TextEffectsLightSweepDrawComponent() {
       }
 
   return (
-    <motion.div
+    <m.div
       className="studioLogo-LightSweepDraw"
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
@@ -70,16 +71,16 @@ function TextEffectsLightSweepDrawComponent() {
     >
       <div className="studioLogo-LightSweepDraw__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <m.span
             key={i}
             className="studioLogo-LightSweepDraw__letter"
             variants={letterVariants}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </m.span>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }
 

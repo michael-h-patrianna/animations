@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
@@ -7,7 +8,7 @@ export function ModalBaseShatterAssemble() {
   const duration = 0.85
   const ease = [0.68, -0.55, 0.265, 1.55] as const
   return (
-    <motion.div
+    <m.div
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -16,7 +17,7 @@ export function ModalBaseShatterAssemble() {
       data-animation-id="modal-base__shatter-assemble"
     >
       <div className="pf-modal-center">
-        <motion.div
+        <m.div
           className="pf-modal"
           initial={{ rotate: 0, x: 0, y: 0, opacity: 0 }}
           animate={{
@@ -28,8 +29,8 @@ export function ModalBaseShatterAssemble() {
           transition={{ duration, ease }}
         >
           <MockModalContent />
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

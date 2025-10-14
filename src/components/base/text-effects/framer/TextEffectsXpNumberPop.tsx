@@ -1,5 +1,6 @@
 
-import { animate, AnimatePresence, easeOut, motion, useAnimation, useMotionValue, useTransform } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { animate, AnimatePresence, easeOut, useAnimation, useMotionValue, useTransform } from 'motion/react'
 import { useEffect, useState, memo } from 'react'
 import './TextEffectsXpNumberPop.css'
 import '../shared.css'
@@ -89,7 +90,7 @@ function TextEffectsXpNumberPopComponent() {
       {/* Floating particles */}
       <AnimatePresence>
         {particles.map((particle) => (
-          <motion.div
+          <m.div
             key={particle.id}
             initial={{
               opacity: 0,
@@ -123,21 +124,21 @@ function TextEffectsXpNumberPopComponent() {
             }}
           >
             +{particle.value}
-          </motion.div>
+          </m.div>
         ))}
       </AnimatePresence>
 
       {/* Main number with XP label */}
-      <motion.div className="number-wrapper xp-pop-number-wrapper" animate={numberControls}>
-        <motion.span
+      <m.div className="number-wrapper xp-pop-number-wrapper" animate={numberControls}>
+        <m.span
           className="xp-pop-number-value"
         >
           {displayValue}
-        </motion.span>
+        </m.span>
         <span className="xp-pop-label">
           XP
         </span>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationSelectionGrid.css'
 
 export function ModalOrchestrationSelectionGrid() {
@@ -30,7 +31,7 @@ export function ModalOrchestrationSelectionGrid() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-grid"
       variants={containerVariants}
       initial="initial"
@@ -38,14 +39,14 @@ export function ModalOrchestrationSelectionGrid() {
       data-animation-id="modal-orchestration__selection-grid"
     >
       {Array.from({ length: items }, (_, index) => (
-        <motion.div key={index} className="pf-grid__item" variants={itemVariants}>
+        <m.div key={index} className="pf-grid__item" variants={itemVariants}>
           <div>
             <strong>Option {index + 1}</strong>
             <br />
             Select item
           </div>
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   )
 }

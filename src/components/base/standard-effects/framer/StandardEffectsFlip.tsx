@@ -1,5 +1,6 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import '../shared.css'
 import './StandardEffectsFlip.css'
 
@@ -17,14 +18,14 @@ const flipVariants = {
   }
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element flip-element"
         variants={flipVariants}
         animate="animate"
         style={{ perspective: 400 }}
       >
         <div className="demo-text">Flip</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

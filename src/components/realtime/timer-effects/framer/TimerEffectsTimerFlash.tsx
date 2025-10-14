@@ -1,4 +1,5 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlash.css'
 
@@ -73,7 +74,7 @@ useEffect(() => {
 
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
-      <motion.div
+      <m.div
         className="pf-timer-flash__pill"
         style={{ backgroundColor: bgColor }}
         animate={
@@ -89,7 +90,7 @@ useEffect(() => {
           ease: easeInOut,
         }}
       >
-        <motion.span
+        <m.span
           className="pf-timer-flash__glow"
           aria-hidden="true"
           animate={getGlowAnimation()}
@@ -100,7 +101,7 @@ useEffect(() => {
           }}
         />
         <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
-      </motion.div>
+      </m.div>
       <span className="pf-timer-flash__label">Flash Expire</span>
     </div>
   )

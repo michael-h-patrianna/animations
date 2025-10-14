@@ -1,5 +1,6 @@
 import homeIcon2 from '@/assets/home-icon2.png'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotSweep.css'
 
@@ -18,7 +19,7 @@ useEffect(() => {
     >
       <div className="pf-update-indicator__icon-wrap">
         <img className="pf-update-indicator__img" src={homeIcon2} alt="Home" />
-        <motion.span
+        <m.span
           key={`${key}-dot`}
           className="pf-update-indicator__dot pf-update-indicator__dot--fill"
           animate={{
@@ -36,7 +37,7 @@ useEffect(() => {
             times: [0, 0.3, 1]
           }}
         />
-        <motion.span
+        <m.span
           key={`${key}-halo`}
           className="pf-update-indicator__halo"
           initial={{ scale: 0.75, opacity: 0 }}

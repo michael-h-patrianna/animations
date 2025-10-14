@@ -1,4 +1,5 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerPulse.css'
 
@@ -50,11 +51,11 @@ useEffect(() => {
   const progress = (10 - value) / 10
   return (
     <div className="pf-timer" data-animation-id="timer-effects__timer-pulse">
-      <motion.div className="pf-timer__value" variants={pulseVariants} animate="pulse">
+      <m.div className="pf-timer__value" variants={pulseVariants} animate="pulse">
         {value}
-      </motion.div>
+      </m.div>
       <span className="pf-timer__label">Seconds left</span>
-      <motion.div
+      <m.div
         className="pf-timer__underline"
         variants={underlineVariants}
         custom={progress}

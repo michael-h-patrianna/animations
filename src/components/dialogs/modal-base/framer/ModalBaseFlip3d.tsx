@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
@@ -7,7 +8,7 @@ export function ModalBaseFlip3d() {
   const duration = 0.8
   const ease = [0.175, 0.885, 0.32, 1] as const
   return (
-    <motion.div
+    <m.div
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -16,7 +17,7 @@ export function ModalBaseFlip3d() {
       data-animation-id="modal-base__flip-3d"
     >
       <div className="pf-modal-center pf-perspective">
-        <motion.div
+        <m.div
           className="pf-modal"
           style={{ transformStyle: 'preserve-3d' }}
           initial={{ rotateY: 180, scale: 0.65, opacity: 0 }}
@@ -24,8 +25,8 @@ export function ModalBaseFlip3d() {
           transition={{ duration, ease }}
         >
           <MockModalContent />
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsJitter.css'
@@ -31,7 +32,7 @@ const [isHovered, setIsHovered] = useState(false)
   }
   return (
     <div className="button-demo" data-animation-id="button-effects__jitter">
-      <motion.button
+      <m.button
         className="pf-btn pf-btn--primary pf-btn--jitter"
         variants={isHovered ? heartbeatVariants : jitterVariants}
         animate="animate"
@@ -39,7 +40,7 @@ const [isHovered, setIsHovered] = useState(false)
         onHoverEnd={() => setIsHovered(false)}
       >
         Click Me!
-      </motion.button>
+      </m.button>
     </div>
   )
 }

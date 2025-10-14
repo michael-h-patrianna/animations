@@ -1,5 +1,6 @@
 
-import { animate, easeInOut, easeOut, motion, useMotionValue, useTransform } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { animate, easeInOut, easeOut, useMotionValue, useTransform } from 'motion/react'
 import { useEffect, memo } from 'react'
 import './TextEffectsComboCounter.css'
 import '../shared.css'
@@ -35,7 +36,7 @@ function TextEffectsComboCounterComponent() {
       {/* Main combo container */}
       <div className="combo-main-container">
         {/* Number counter with × */}
-        <motion.div
+        <m.div
           className="combo-number-wrapper"
           initial={{ scale: 0, rotate: -180 }}
           animate={{
@@ -50,8 +51,8 @@ function TextEffectsComboCounterComponent() {
         >
           <div className="combo-number-container">
             {/* Counting number with proper styling */}
-            <motion.div className="combo-current-number">
-              <motion.span
+            <m.div className="combo-current-number">
+              <m.span
                 className="combo-digit"
                 initial={{
                   opacity: 0,
@@ -68,7 +69,7 @@ function TextEffectsComboCounterComponent() {
                   position: 'relative',
                 }}
               >
-                <motion.span
+                <m.span
                   animate={{
                     textShadow: [
                       '0 2px 4px rgba(0, 0, 0, 0.3)',
@@ -84,9 +85,9 @@ function TextEffectsComboCounterComponent() {
                   }}
                 >
                   {rounded}
-                </motion.span>
-              </motion.span>
-            </motion.div>
+                </m.span>
+              </m.span>
+            </m.div>
 
             {/* Milestone particles emitting from the number */}
             {milestones.map((milestone, i) => {
@@ -101,7 +102,7 @@ function TextEffectsComboCounterComponent() {
               const adjustedDelay = triggerProgress * 0.8 // Slightly compress timing
 
               return (
-                <motion.div
+                <m.div
                   key={i}
                   className="combo-milestone-particle"
                   data-value={milestone.value}
@@ -129,13 +130,13 @@ function TextEffectsComboCounterComponent() {
                       +{milestone.value}
                     </span>
                   )}
-                </motion.div>
+                </m.div>
               )
             })}
           </div>
 
           {/* Hit multiplier marker */}
-          <motion.div
+          <m.div
             className="combo-hit-marker"
             initial={{ scale: 0, opacity: 0 }}
             animate={{
@@ -149,11 +150,11 @@ function TextEffectsComboCounterComponent() {
             }}
           >
             ×
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         {/* Combo text with stagger animation */}
-        <motion.div
+        <m.div
           className="combo-text-wrapper"
           initial={{ opacity: 0 }}
           animate={{
@@ -165,7 +166,7 @@ function TextEffectsComboCounterComponent() {
           }}
         >
           {comboText.split('').map((char, index) => (
-            <motion.span
+            <m.span
               key={index}
               className="combo-text-char"
               initial={{
@@ -185,13 +186,13 @@ function TextEffectsComboCounterComponent() {
               }}
             >
               {char}
-            </motion.span>
+            </m.span>
           ))}
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Perfect text */}
-      <motion.div
+      <m.div
         className="combo-bonus"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{
@@ -206,7 +207,7 @@ function TextEffectsComboCounterComponent() {
         }}
       >
         PERFECT!
-      </motion.div>
+      </m.div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import React, { useRef, useState } from 'react'
 import { memo } from 'react'
 import '../shared.css'
@@ -59,21 +60,21 @@ function ButtonEffectsShockwaveComponent() {
           {shockwaves.map((wave) => (
             <React.Fragment key={wave.id}>
                 <>
-                  <motion.span
+                  <m.span
                     className="pf-btn__shockwave pf-btn__shockwave--1"
                     style={{ left: wave.x, top: wave.y }}
                     variants={shockwaveVariants(0)}
                     initial="initial"
                     animate="animate"
                   />
-                  <motion.span
+                  <m.span
                     className="pf-btn__shockwave pf-btn__shockwave--2"
                     style={{ left: wave.x, top: wave.y }}
                     variants={shockwaveVariants(0.1)}
                     initial="initial"
                     animate="animate"
                   />
-                  <motion.span
+                  <m.span
                     className="pf-btn__shockwave pf-btn__shockwave--3"
                     style={{ left: wave.x, top: wave.y }}
                     variants={shockwaveVariants(0.2)}

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationGridHighlight.css'
 
 export function ModalOrchestrationGridHighlight() {
@@ -32,7 +33,7 @@ export function ModalOrchestrationGridHighlight() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-grid"
       variants={containerVariants}
       initial="initial"
@@ -41,7 +42,7 @@ export function ModalOrchestrationGridHighlight() {
       style={{ gridTemplateColumns: 'repeat(2, 1fr)' }} // 5 items in 2 columns
     >
       {Array.from({ length: items }, (_, index) => (
-        <motion.div
+        <m.div
           key={index}
           className="pf-grid__item"
           variants={itemVariants}
@@ -55,8 +56,8 @@ export function ModalOrchestrationGridHighlight() {
             <br />
             Highlight sweep
           </div>
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   )
 }

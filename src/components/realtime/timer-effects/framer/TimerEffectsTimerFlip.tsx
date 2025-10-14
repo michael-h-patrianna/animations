@@ -1,4 +1,5 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlip.css'
 
@@ -58,7 +59,7 @@ useEffect(() => {
   }
   return (
     <div className="pf-timer" data-animation-id="timer-effects__timer-flip">
-      <motion.div
+      <m.div
         key={flipKey}
         className="pf-timer__value"
         variants={flipVariants}
@@ -66,9 +67,9 @@ useEffect(() => {
         animate="flip"
       >
         {value}
-      </motion.div>
+      </m.div>
       <span className="pf-timer__label">Seconds left</span>
-      <motion.div
+      <m.div
         className="pf-timer__underline"
         variants={underlineVariants}
         initial="full"

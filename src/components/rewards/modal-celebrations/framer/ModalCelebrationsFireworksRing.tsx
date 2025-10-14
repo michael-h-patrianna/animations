@@ -1,5 +1,6 @@
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
 import './ModalCelebrationsFireworksRing.css'
 import '../shared.css'
@@ -16,7 +17,7 @@ const rings = useMemo(
     <div className="pf-celebration">
       <div className="pf-celebration__layer">
         {rings.map((ring) => (
-          <motion.span
+          <m.span
             key={ring.id}
             className="pf-celebration__ring"
             initial={{ scale: 0.4, opacity: 0 }}

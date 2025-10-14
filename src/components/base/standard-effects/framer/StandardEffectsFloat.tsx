@@ -1,11 +1,12 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import '../shared.css'
 
 function StandardEffectsFloatComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         style={{ transformOrigin: 'center 20%' }}
         animate={{
@@ -20,7 +21,7 @@ function StandardEffectsFloatComponent() {
         }}
       >
         <div className="demo-text">Float</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

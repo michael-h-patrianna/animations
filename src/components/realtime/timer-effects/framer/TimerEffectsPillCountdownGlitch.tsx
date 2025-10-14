@@ -1,4 +1,5 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownGlitch.css'
 
@@ -88,8 +89,8 @@ useEffect(() => {
   }
   return (
     <div className="pill-countdown-glitch-container">
-      <motion.div className={`pill-countdown-glitch ${getGlitchClass()}`}>
-        <motion.span
+      <m.div className={`pill-countdown-glitch ${getGlitchClass()}`}>
+        <m.span
           className="pill-countdown-glitch__glow"
           aria-hidden="true"
           animate={getGlowAnimation()}
@@ -101,7 +102,7 @@ useEffect(() => {
         <span aria-hidden="true" className="pill-countdown-glitch__copy pill-countdown-glitch__copy--after">
           {formatTime(seconds)}
         </span>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

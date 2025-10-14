@@ -1,4 +1,5 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import './UpdateIndicatorsBadgePulse.css'
 
 export function UpdateIndicatorsBadgePulse() {
@@ -6,7 +7,7 @@ export function UpdateIndicatorsBadgePulse() {
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
       <div className="pf-update-indicator__icon"></div>
       <div className="pf-update-indicator__copy">Content update arrived</div>
-      <motion.div
+      <m.div
         className="pf-update-indicator__badge"
         animate={{
           boxShadow: [
@@ -23,7 +24,7 @@ export function UpdateIndicatorsBadgePulse() {
         }}
       >
         New
-      </motion.div>
+      </m.div>
     </div>
   )
 }

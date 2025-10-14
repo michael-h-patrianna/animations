@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import '../shared.css'
 import './StandardEffectsPulseCircle.css'
 
@@ -29,26 +30,26 @@ function StandardEffectsPulseCircleComponent() {
 
   return (
     <div className="pulse-circle-wrapper">
-      <motion.div
+      <m.div
         className="pulse-circle"
         role="img"
         aria-label="Pulse circle"
         initial={{ scale: 1 }}
         animate={coreAnimation}
       >
-        <motion.span
+        <m.span
           className="pulse-circle__ring"
           aria-hidden="true"
           initial={{ scale: 1, opacity: 0.7 }}
           animate={ringAnimation}
         />
-        <motion.span
+        <m.span
           className="pulse-circle__ring pulse-circle__ring--delayed"
           aria-hidden="true"
           initial={{ scale: 1, opacity: 0.6 }}
           animate={delayedRingAnimation}
         />
-      </motion.div>
+      </m.div>
     </div>
   )
 }

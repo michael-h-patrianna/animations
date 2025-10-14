@@ -1,12 +1,13 @@
 import { memo } from 'react'
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import '../shared.css'
 
 function StandardEffectsScaleComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element scale-element"
         initial={{ scale: 0, rotate: 0, skewY: 0, opacity: 0 }}
         animate={{
@@ -22,7 +23,7 @@ function StandardEffectsScaleComponent() {
         }}
       >
         <div className="demo-text">Scale</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

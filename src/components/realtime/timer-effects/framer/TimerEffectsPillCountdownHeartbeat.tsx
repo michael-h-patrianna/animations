@@ -1,4 +1,5 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownHeartbeat.css'
 
@@ -88,14 +89,14 @@ useEffect(() => {
   }
   return (
     <div className="pill-countdown-heartbeat-container">
-      <motion.div className={`pill-countdown-heartbeat ${getHeartbeatClass()}`}>
-        <motion.span
+      <m.div className={`pill-countdown-heartbeat ${getHeartbeatClass()}`}>
+        <m.span
           className="pill-countdown-heartbeat__glow"
           aria-hidden="true"
           animate={getGlowAnimation()}
         />
         <span className="pill-countdown-heartbeat__text">{formatTime(seconds)}</span>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

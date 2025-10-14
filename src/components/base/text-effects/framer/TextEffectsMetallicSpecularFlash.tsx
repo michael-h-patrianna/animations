@@ -4,7 +4,8 @@
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
 
-import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
 import './TextEffectsMetallicSpecularFlash.css'
@@ -57,7 +58,7 @@ const letters = React.useMemo(() => Array.from(text), [text])
       }
 
   return (
-    <motion.div
+    <m.div
       className="studioLogo-MetallicSpecularFlash"
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
@@ -67,16 +68,16 @@ const letters = React.useMemo(() => Array.from(text), [text])
     >
       <div className="studioLogo-MetallicSpecularFlash__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <motion.span
+          <m.span
             key={i}
             className="studioLogo-MetallicSpecularFlash__letter"
             variants={letterVariants}
           >
             {ch === ' ' ? '\u00A0' : ch}
-          </motion.span>
+          </m.span>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }
 

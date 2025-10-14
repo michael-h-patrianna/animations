@@ -7,7 +7,8 @@ import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut'
 import { useScrollLock } from '@/hooks/useScrollLock'
 import { useScrollToGroup } from '@/hooks/useScrollToGroup'
 import type { Group } from '@/types/animation'
-import { AnimatePresence, motion, useDragControls } from 'framer-motion'
+import { AnimatePresence, LazyMotion } from 'motion/react'
+import * as m from 'motion/react-m'
 import { useCallback, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './App.css'
@@ -18,7 +19,6 @@ function App() {
   const [currentGroupId, setCurrentGroupId] = useState<string>('')
   const direction = 0
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const dragControls = useDragControls()
   const appBarRef = useRef<HTMLDivElement | null>(null)
 
   // Get all groups in order for navigation
@@ -117,26 +117,14 @@ function App() {
     }),
   }
 
-  const swipeConfidenceThreshold = 10000
-  const swipePower = (offset: number, velocity: number) => {
-    return Math.abs(offset) * velocity
-  }
 
-  const handleDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLElement
-
-    // Don't start drag if the pointer is on an AnimationCard
-    const isOnAnimationCard = target.closest('.pf-card')
-
-    if (!isOnAnimationCard) {
-      // Use the native event for DragControls
-      dragControls.start(event.nativeEvent)
-    }
-  }
+  // Lazy load motion features
+  const loadFeatures = () => import('./features').then((res) => res.default)
 
   return (
-    <div className="min-h-screen">
-      {/* Mobile header */}
+    <LazyMotion features={loadFeatures} strict>
+      <div className="min-h-screen">
+        {/* Mobile header */}
       <div className="pf-mobile-header" data-app-shell="bar" ref={appBarRef}>
         <button
           type="button"
@@ -198,7 +186,7 @@ function App() {
 
               <AnimatePresence initial={false} custom={direction} mode="wait">
                 {currentGroup && (
-                  <motion.div
+                  <m.div
                     key={currentGroupId}
                     custom={direction}
                     variants={variants}
@@ -209,32 +197,10 @@ function App() {
                       x: { type: 'spring' as const, stiffness: 300, damping: 30 },
                       opacity: { duration: 0.2 },
                     }}
-                    drag="x"
-                    dragControls={dragControls}
-                    dragListener={false}
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={1}
-                    onPointerDown={handleDragStart}
-                    onDragEnd={(_, { offset, velocity }) => {
-                      const swipe = swipePower(offset.x, velocity.x)
-                      const currentIndex = allGroups.findIndex((g) => g.id === currentGroupId)
-
-                      if (swipe < -swipeConfidenceThreshold) {
-                        // Swipe left - go to next group
-                        if (currentIndex < allGroups.length - 1) {
-                          handleGroupSelect(allGroups[currentIndex + 1].id)
-                        }
-                      } else if (swipe > swipeConfidenceThreshold) {
-                        // Swipe right - go to previous group
-                        if (currentIndex > 0) {
-                          handleGroupSelect(allGroups[currentIndex - 1].id)
-                        }
-                      }
-                    }}
                     style={{ width: '100%' }}
                   >
                     <GroupSection group={currentGroup} elementId={`group-${currentGroup.id}`} />
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </>
@@ -286,6 +252,7 @@ function App() {
         </div>
       </div>
     </div>
+    </LazyMotion>
   )
 }
 

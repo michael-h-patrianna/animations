@@ -1,10 +1,11 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import './UpdateIndicatorsLivePing.css'
 
 export function UpdateIndicatorsLivePing() {
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__live-ping">
-      <motion.div
+      <m.div
         className="pf-update-indicator__icon"
         animate={{
           scale: [1, 1.6, 1],

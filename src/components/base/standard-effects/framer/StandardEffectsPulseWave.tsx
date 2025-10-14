@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import '../shared.css'
 import './StandardEffectsPulseWave.css'
 
@@ -29,20 +30,20 @@ function StandardEffectsPulseWaveComponent() {
 
   return (
     <div className="standard-pulse-wave" role="img" aria-label="Pulse wave">
-      <motion.div className="core" initial={{ scale: 1 }} animate={coreAnimation}>
-        <motion.span
+      <m.div className="core" initial={{ scale: 1 }} animate={coreAnimation}>
+        <m.span
           className="core__ring"
           aria-hidden="true"
           initial={{ scale: 1, opacity: 0.6 }}
           animate={ringAnimation}
         />
-        <motion.span
+        <m.span
           className="core__ring core__ring--delayed"
           aria-hidden="true"
           initial={{ scale: 1, opacity: 0.4 }}
           animate={delayedRingAnimation}
         />
-      </motion.div>
+      </m.div>
     </div>
   )
 }

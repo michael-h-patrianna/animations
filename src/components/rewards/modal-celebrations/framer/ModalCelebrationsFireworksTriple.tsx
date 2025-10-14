@@ -1,5 +1,6 @@
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
 import './ModalCelebrationsFireworksTriple.css'
 import '../shared.css'
@@ -22,7 +23,7 @@ const fireworks = useMemo(
     <div className="pf-celebration">
       <div className="pf-celebration__layer">
         {fireworks.map((firework) => (
-          <motion.span
+          <m.span
             key={firework.id}
             className="pf-celebration__firework"
             style={{ borderColor: firework.color }}

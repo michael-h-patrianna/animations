@@ -1,11 +1,12 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import '../shared.css'
 
 function StandardEffectsBlinkComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           opacity: [1, 0.85, 0.5, 0.15, 0, 0.2, 0.6, 0.9, 1, 0.95, 0.7, 0.4, 0.2, 0.35, 0.6, 0.85, 1, 1, 1, 1, 1],
@@ -19,7 +20,7 @@ function StandardEffectsBlinkComponent() {
         }}
       >
         <div className="demo-text">Blink</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

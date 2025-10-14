@@ -1,11 +1,12 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import '../shared.css'
 import './ModalContentButtonsStagger3.css'
 
 export function ModalContentButtonsStagger3() {
   return (
     <div className="modal-content-overlay">
-      <motion.div
+      <m.div
         className="modal-content-modal"
         initial={{ scale: 0.88, y: -16, opacity: 0 }}
         animate={{
@@ -28,7 +29,7 @@ export function ModalContentButtonsStagger3() {
           <p>Keep focus with 70ms cadence.</p>
         </div>
         <div className="modal-content-footer">
-          <motion.button
+          <m.button
             className="modal-content-button modal-content-button-primary"
             initial={{ y: 20, scale: 0.94, opacity: 0 }}
             animate={{
@@ -44,8 +45,8 @@ export function ModalContentButtonsStagger3() {
             }}
           >
             Primary
-          </motion.button>
-          <motion.button
+          </m.button>
+          <m.button
             className="modal-content-button modal-content-button-secondary"
             initial={{ y: 20, scale: 0.94, opacity: 0 }}
             animate={{
@@ -61,8 +62,8 @@ export function ModalContentButtonsStagger3() {
             }}
           >
             Secondary
-          </motion.button>
-          <motion.button
+          </m.button>
+          <m.button
             className="modal-content-button modal-content-button-secondary"
             initial={{ y: 20, scale: 0.94, opacity: 0 }}
             animate={{
@@ -78,9 +79,9 @@ export function ModalContentButtonsStagger3() {
             }}
           >
             Tertiary
-          </motion.button>
+          </m.button>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

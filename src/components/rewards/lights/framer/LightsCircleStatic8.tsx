@@ -1,5 +1,6 @@
 import { calculateBulbColors } from '@/utils/colors';
-import { motion } from 'framer-motion';
+import * as m from 'motion/react-m'
+;
 import React, { useMemo } from 'react';
 import './LightsCircleStatic8.css';
 
@@ -178,11 +179,11 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
           transform: `translate(${x}px, ${y}px)`,
         }}
       >
-        <motion.div
+        <m.div
           className="lights-circle-static-8__glow"
           variants={customGlowVariants}
         />
-        <motion.div
+        <m.div
           className="lights-circle-static-8__bulb"
           variants={customBulbVariants}
         />
@@ -230,14 +231,14 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <motion.div
+      <m.div
         className="lights-circle-static-8__container"
         variants={containerVariants}
         initial="hidden"
         animate="show"
       >
         {bulbs}
-      </motion.div>
+      </m.div>
     </div>
   );
 };

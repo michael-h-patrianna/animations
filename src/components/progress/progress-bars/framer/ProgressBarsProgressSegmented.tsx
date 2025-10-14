@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressSegmented.css'
 
@@ -74,7 +75,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <motion.div
+          <m.div
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
@@ -129,7 +130,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
             const isLast = i === segmentCount - 1
 
             return (
-              <motion.div
+              <m.div
                 key={`segment-${i}`}
                 style={{
                   flex: 1,
@@ -148,7 +149,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
                 animate="animate"
               >
                 {/* Glow effect */}
-                <motion.div
+                <m.div
                   style={{
                     position: 'absolute',
                     inset: 0,
@@ -158,7 +159,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
                   initial="initial"
                   animate="animate"
                 />
-              </motion.div>
+              </m.div>
             )
           })}
         </div>

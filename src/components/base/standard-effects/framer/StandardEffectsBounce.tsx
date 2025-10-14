@@ -1,11 +1,12 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import '../shared.css'
 
 function StandardEffectsBounceComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         style={{ transformOrigin: 'center bottom' }}
         animate={{
@@ -21,7 +22,7 @@ function StandardEffectsBounceComponent() {
         }}
       >
         <div className="demo-text">Bounce</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

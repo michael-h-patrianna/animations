@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useEffect, useState } from 'react'
 import '../shared.css'
 
@@ -57,7 +58,7 @@ const [showProgress, setShowProgress] = useState(true)
 
   return (
     <div className="pf-toast-preview">
-      <motion.div
+      <m.div
         className="pf-toast"
         data-animation-id="modal-dismiss__toast-slide-right"
         variants={toastVariants}
@@ -67,7 +68,7 @@ const [showProgress, setShowProgress] = useState(true)
         <div className="pf-toast__title">Action Complete</div>
         <div className="pf-toast__body">Your changes have been saved</div>
         <div className="pf-toast__progress">
-          <motion.div
+          <m.div
             className="pf-toast__progress-bar"
             variants={progressVariants}
             initial="full"
@@ -75,7 +76,7 @@ const [showProgress, setShowProgress] = useState(true)
             style={{ transformOrigin: 'left center' }}
           />
         </div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
-import { motion, useAnimation } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { useAnimation } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLiveScoreUpdate.css'
 
@@ -93,7 +94,7 @@ export function RealtimeDataLiveScoreUpdate() {
         <div className="pf-realtime-data__row">
           <div className="pf-realtime-data__rank">#1</div>
           <div className="pf-realtime-data__player">Phoenix</div>
-          <motion.div
+          <m.div
             className="pf-realtime-data__score"
             animate={controls1}
             transition={{
@@ -102,12 +103,12 @@ export function RealtimeDataLiveScoreUpdate() {
             }}
           >
             {scores[0].toLocaleString()}
-          </motion.div>
+          </m.div>
         </div>
         <div className="pf-realtime-data__row">
           <div className="pf-realtime-data__rank">#2</div>
           <div className="pf-realtime-data__player">Shadow</div>
-          <motion.div
+          <m.div
             className="pf-realtime-data__score"
             animate={controls2}
             transition={{
@@ -117,7 +118,7 @@ export function RealtimeDataLiveScoreUpdate() {
             }}
           >
             {scores[1].toLocaleString()}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </div>

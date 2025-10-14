@@ -1,5 +1,6 @@
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './LoadingStatesSkeletonVertical.css'
 import '../shared.css'
 
@@ -27,7 +28,7 @@ const shimmerVariants = {
     <div data-animation-id="loading-states__skeleton-vertical" className="pf-loading-container">
       <div className="pf-skeleton pf-skeleton-vertical">
         {config.map((item, i) => (
-          <motion.div
+          <m.div
             key={i}
             className={`pf-skeleton__line pf-skeleton-vertical-line-${i + 1}`}
             style={{ width: item.width }}

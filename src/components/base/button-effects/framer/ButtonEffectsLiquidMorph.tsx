@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsLiquidMorph.css'
@@ -30,7 +31,7 @@ const [isAnimating, setIsAnimating] = useState(false)
   }
   return (
     <div className="button-demo" data-animation-id="button-effects__liquid-morph">
-      <motion.button
+      <m.button
         className="pf-btn pf-btn--primary pf-btn--liquid-morph"
         onClick={handleClick}
         variants={liquidMorphVariants}
@@ -38,7 +39,7 @@ const [isAnimating, setIsAnimating] = useState(false)
         animate={isAnimating ? 'animate' : 'initial'}
       >
         Click Me!
-      </motion.button>
+      </m.button>
     </div>
   )
 }

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationMagneticHover.css'
 
 export function ModalOrchestrationMagneticHover() {
@@ -36,7 +37,7 @@ export function ModalOrchestrationMagneticHover() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-magnetic-container"
       variants={containerVariants}
       initial="initial"
@@ -45,7 +46,7 @@ export function ModalOrchestrationMagneticHover() {
     >
       <div className="pf-magnetic-grid">
         {tiles.map((tile) => (
-          <motion.div
+          <m.div
             key={tile.id}
             className="pf-magnetic-tile"
             variants={tileVariants}
@@ -73,9 +74,9 @@ export function ModalOrchestrationMagneticHover() {
             <h5>{tile.title}</h5>
             <p>{tile.content}</p>
             <div className="pf-magnetic-indicator">✨</div>
-          </motion.div>
+          </m.div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }

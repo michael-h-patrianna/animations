@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import '../shared.css'
 import './StandardEffectsPulse.css'
 
@@ -29,19 +30,19 @@ const keyframeTimes = [0, 0.5, 1]
 
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element pulse-element"
         initial={{ scale: 1, opacity: 1 }}
         animate={elementAnimation}
       >
-        <motion.span
+        <m.span
           className="pulse-element__glow"
           aria-hidden="true"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={glowAnimation}
         />
         <div className="demo-text">Pulse</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

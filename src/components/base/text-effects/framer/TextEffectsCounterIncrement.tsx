@@ -1,5 +1,6 @@
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useEffect, useRef, useState, memo } from 'react'
 import './TextEffectsCounterIncrement.css'
 import '../shared.css'
@@ -87,7 +88,7 @@ const [isValueAnimating, setIsValueAnimating] = useState(false)
   return (
     <div className="pf-counter-showcase" data-animation-id="text-effects__counter-increment">
       <div className="pf-counter-showcase__target">
-        <motion.span
+        <m.span
           className="pf-counter-showcase__value"
           variants={numberPopVariants}
           initial="initial"
@@ -95,11 +96,11 @@ const [isValueAnimating, setIsValueAnimating] = useState(false)
         >
           <span className="pf-counter-showcase__value-glow" aria-hidden="true" />
           <span className="pf-counter-showcase__value-text">{count}</span>
-        </motion.span>
+        </m.span>
 
         {/* Render counter indicators */}
         {counters.map((counter) => (
-          <motion.span
+          <m.span
             key={counter.id}
             className="pf-update-indicator__counter"
             variants={counterFloatVariants}
@@ -107,7 +108,7 @@ const [isValueAnimating, setIsValueAnimating] = useState(false)
             animate={counter.isAnimating ? 'animate' : 'initial'}
           >
             +1
-          </motion.span>
+          </m.span>
         ))}
       </div>
     </div>

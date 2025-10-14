@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationWizardSlideStack.css'
 
 export function ModalOrchestrationWizardSlideStack() {
@@ -34,7 +35,7 @@ export function ModalOrchestrationWizardSlideStack() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-wizard"
       variants={containerVariants}
       initial="initial"
@@ -43,12 +44,12 @@ export function ModalOrchestrationWizardSlideStack() {
     >
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div key={index} className="pf-wizard__panel" variants={panelVariants}>
+          <m.div key={index} className="pf-wizard__panel" variants={panelVariants}>
             <h5>Stage {index + 1}</h5>
             <p>Guided content placeholder to illustrate flow animation.</p>
-          </motion.div>
+          </m.div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }

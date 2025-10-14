@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 
 import '../shared.css'
 
 function StandardEffectsTadaComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           scale: [1, 0.9, 0.9, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1],
@@ -21,7 +22,7 @@ function StandardEffectsTadaComponent() {
         }}
       >
         <div className="demo-text">Tada</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

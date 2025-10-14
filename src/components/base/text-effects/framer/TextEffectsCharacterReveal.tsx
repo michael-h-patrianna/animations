@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import './TextEffectsCharacterReveal.css'
 import '../shared.css'
 
@@ -13,7 +14,7 @@ function TextEffectsCharacterRevealComponent() {
       {/* Text container */}
       <div className="text-container">
         {/* Dark shadow text that appears first */}
-        <motion.div
+        <m.div
           className="shadow-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -24,7 +25,7 @@ function TextEffectsCharacterRevealComponent() {
           }}
         >
           {text.split('').map((char, index) => (
-            <motion.span
+            <m.span
               key={`shadow-${index}`}
               className="shadow-char"
               initial={{
@@ -42,19 +43,19 @@ function TextEffectsCharacterRevealComponent() {
               }}
             >
               {char}
-            </motion.span>
+            </m.span>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Golden text that animates on top */}
-        <motion.div
+        <m.div
           className="text-wrapper"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.3 }}
         >
           {text.split('').map((char, index) => (
-            <motion.span
+            <m.span
               key={index}
               className="text-char"
               initial={{
@@ -77,13 +78,13 @@ function TextEffectsCharacterRevealComponent() {
               <span aria-hidden="true" className="text-char__glow">
                 {char}
               </span>
-            </motion.span>
+            </m.span>
           ))}
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Subtitle text */}
-      <motion.div
+      <m.div
         className="subtitle-text"
         initial={{
           opacity: 0,
@@ -103,7 +104,7 @@ function TextEffectsCharacterRevealComponent() {
         <span aria-hidden="true" className="subtitle-text__shadow">
           {subtitle}
         </span>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

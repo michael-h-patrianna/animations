@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 
 import '../shared.css'
 
 function StandardEffectsRubberBandComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           scaleX: [1, 1.25, 0.75, 1.15, 0.95, 1.05, 1],
@@ -19,7 +20,7 @@ function StandardEffectsRubberBandComponent() {
         }}
       >
         <div className="demo-text">RubberBand</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

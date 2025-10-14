@@ -1,4 +1,5 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { AnimatePresence } from 'motion/react'
 import { useState } from 'react'
 import './ModalOrchestrationTabMorph.css'
 
@@ -55,7 +56,7 @@ export function ModalOrchestrationTabMorph() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-tabs"
       variants={containerVariants}
       initial="initial"
@@ -64,20 +65,20 @@ export function ModalOrchestrationTabMorph() {
     >
       <div className="pf-tabs__nav">
         {Array.from({ length: tabs }, (_, index) => (
-          <motion.div
+          <m.div
             key={index}
             className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
             variants={tabVariants}
             onClick={() => setActiveTab(index)}
           >
             Tab {index + 1}
-          </motion.div>
+          </m.div>
         ))}
       </div>
 
       <div className="pf-tabs__content">
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={activeTab}
             className="pf-tabs__panel"
             variants={panelVariants}
@@ -90,9 +91,9 @@ export function ModalOrchestrationTabMorph() {
               Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation
               between different content panels.
             </p>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

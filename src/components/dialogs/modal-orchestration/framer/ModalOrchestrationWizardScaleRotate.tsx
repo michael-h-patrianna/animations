@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './ModalOrchestrationWizardScaleRotate.css'
 
 export function ModalOrchestrationWizardScaleRotate() {
@@ -47,7 +48,7 @@ export function ModalOrchestrationWizardScaleRotate() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-wizard"
       variants={containerVariants}
       initial="initial"
@@ -56,28 +57,28 @@ export function ModalOrchestrationWizardScaleRotate() {
     >
       <div className="pf-wizard__steps">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div
+          <m.div
             key={index}
             className={`pf-wizard__step${index === 0 ? ' pf-wizard__step--highlighted' : ''}`}
             variants={stepVariants}
           >
             Step {index + 1}
-          </motion.div>
+          </m.div>
         ))}
       </div>
 
       <div className="pf-wizard__panels">
         {Array.from({ length: steps }, (_, index) => (
-          <motion.div
+          <m.div
             key={index}
             className={`pf-wizard__panel${index === 0 ? ' pf-wizard__panel--highlighted' : ''}`}
             variants={panelVariants}
           >
             <h5>Stage {index + 1}</h5>
             <p>Scale-rotate content placeholder to illustrate flow animation.</p>
-          </motion.div>
+          </m.div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }

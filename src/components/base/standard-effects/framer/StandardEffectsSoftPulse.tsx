@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
-import { easeInOut, easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut, easeOut } from 'motion/react'
 import './StandardEffectsSoftPulse.css'
 import '../shared.css'
 
@@ -54,32 +55,32 @@ const coreVariants = {
   }
   return (
     <div className="soft-pulse-wrapper">
-      <motion.div
+      <m.div
         className="soft-pulse"
         role="img"
         aria-label="Soft pulse circle"
         variants={coreVariants}
         animate="animate"
       >
-        <motion.span
+        <m.span
           className="soft-pulse__glow"
           aria-hidden="true"
           variants={glowVariants}
           animate="animate"
         />
-        <motion.span
+        <m.span
           className="soft-pulse__ring"
           aria-hidden="true"
           variants={ringVariants}
           animate="animate"
         />
-        <motion.span
+        <m.span
           className="soft-pulse__ring soft-pulse__ring--delayed"
           aria-hidden="true"
           variants={ringDelayedVariants}
           animate="animate"
         />
-      </motion.div>
+      </m.div>
     </div>
   )
 }

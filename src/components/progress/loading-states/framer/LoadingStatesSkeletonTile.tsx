@@ -1,5 +1,6 @@
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './LoadingStatesSkeletonTile.css'
 import '../shared.css'
 
@@ -20,7 +21,7 @@ const shimmerVariants = {
     <div data-animation-id="loading-states__skeleton-tile" className="pf-loading-container">
       <div className="pf-skeleton-tile">
         {delays.map((delay, i) => (
-          <motion.div
+          <m.div
             key={i}
             className="pf-skeleton__tile"
             variants={shimmerVariants}

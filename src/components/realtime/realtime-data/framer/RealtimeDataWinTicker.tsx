@@ -1,5 +1,6 @@
 // React import not required for JSX in React 17+
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './RealtimeDataWinTicker.css'
 
 export function RealtimeDataWinTicker() {
@@ -8,7 +9,7 @@ export function RealtimeDataWinTicker() {
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__win-ticker">
       <div className="pf-realtime-data__ticker">
-        <motion.div
+        <m.div
           className="pf-realtime-data__ticker-text"
           initial={{ x: '100%' }}
           animate={{ x: '-100%' }}
@@ -20,7 +21,7 @@ export function RealtimeDataWinTicker() {
           }}
         >
           {tickerText.repeat(3)} {/* Repeat to ensure continuous scrolling */}
-        </motion.div>
+        </m.div>
       </div>
     </div>
   )

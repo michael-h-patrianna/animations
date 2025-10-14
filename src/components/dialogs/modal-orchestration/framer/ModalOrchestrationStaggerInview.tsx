@@ -1,4 +1,5 @@
-import { motion, useInView } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { useInView } from 'motion/react'
 import { useRef } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 
@@ -45,19 +46,19 @@ export function ModalOrchestrationStaggerInview() {
       className="pf-stagger-container"
       data-animation-id="modal-orchestration__stagger-inview"
     >
-      <motion.div
+      <m.div
         className="pf-stagger-grid"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
         {tiles.map((tile) => (
-          <motion.div key={tile.id} className="pf-stagger-tile" variants={tileVariants}>
+          <m.div key={tile.id} className="pf-stagger-tile" variants={tileVariants}>
             <h5>{tile.title}</h5>
             <p>{tile.content}</p>
-          </motion.div>
+          </m.div>
         ))}
-      </motion.div>
+      </m.div>
     </div>
   )
 }

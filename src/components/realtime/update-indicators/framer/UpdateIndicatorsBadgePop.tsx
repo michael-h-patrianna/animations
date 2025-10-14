@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsBadgePop.css'
 
@@ -14,7 +15,7 @@ useEffect(() => {
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pop">
       <div className="pf-update-indicator__icon"></div>
       <div className="pf-update-indicator__copy">Content update arrived</div>
-      <motion.div
+      <m.div
         key={key}
         className="pf-update-indicator__badge"
         initial={{ scale: 0.6 }}
@@ -26,7 +27,7 @@ useEffect(() => {
         }}
       >
         New
-      </motion.div>
+      </m.div>
     </div>
   )
 }

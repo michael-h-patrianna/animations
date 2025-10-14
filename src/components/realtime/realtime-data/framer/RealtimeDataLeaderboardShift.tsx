@@ -1,4 +1,5 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { AnimatePresence } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
@@ -62,7 +63,7 @@ export function RealtimeDataLeaderboardShift() {
       <div className="pf-realtime-data__leaderboard">
         <AnimatePresence mode="popLayout">
           {leaderboard.map((player, index) => (
-            <motion.div
+            <m.div
               key={player.player}
               className="pf-realtime-data__row"
               layout
@@ -77,7 +78,7 @@ export function RealtimeDataLeaderboardShift() {
               <div className="pf-realtime-data__rank">#{player.rank}</div>
               <div className="pf-realtime-data__player">{player.player}</div>
               <div className="pf-realtime-data__score">{player.score.toLocaleString()}</div>
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
       </div>

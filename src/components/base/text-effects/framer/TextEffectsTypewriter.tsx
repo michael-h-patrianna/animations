@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './TextEffectsTypewriter.css'
 import '../shared.css'
 
@@ -12,7 +13,7 @@ function TextEffectsTypewriterComponent() {
     <div className="typewriter-container" data-animation-id="text-effects__typewriter">
       <div className="typewriter-text">
         {text.split('').map((char, index) => (
-          <motion.span
+          <m.span
             key={index}
             className="typewriter-char"
             initial={{
@@ -29,11 +30,11 @@ function TextEffectsTypewriterComponent() {
             }}
           >
             {char === ' ' ? '\u00A0' : char}
-          </motion.span>
+          </m.span>
         ))}
 
         {/* Blinking cursor */}
-        <motion.span
+        <m.span
           className="typewriter-cursor"
           initial={{ opacity: 1 }}
           animate={{
@@ -48,7 +49,7 @@ function TextEffectsTypewriterComponent() {
           }}
         >
           {cursor}
-        </motion.span>
+        </m.span>
       </div>
     </div>
   )

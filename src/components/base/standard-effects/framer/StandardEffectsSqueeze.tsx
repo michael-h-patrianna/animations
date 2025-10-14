@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 
 import '../shared.css'
 
 function StandardEffectsSqueezeComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           scaleX: [1, 1.1, 1.25, 0.75, 1.15, 0.95, 1.05, 0.98, 1],
@@ -21,7 +22,7 @@ function StandardEffectsSqueezeComponent() {
         }}
       >
         <div className="demo-text">Squeeze</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

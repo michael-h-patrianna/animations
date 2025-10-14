@@ -1,5 +1,6 @@
 import { memo } from 'react'
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import '../shared.css'
 import './StandardEffectsRadialPulse.css'
 
@@ -19,7 +20,7 @@ const ringVariants = (delay: number) => ({
   return (
     <div className="standard-radial-pulse" role="img" aria-label="Radial pulse">
       {[0, 1, 2].map((i) => (
-        <motion.span
+        <m.span
           key={i}
           className={`ring ring-${i + 1}`}
           variants={ringVariants(i * 0.6)}

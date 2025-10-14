@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import './ProgressBarsProgressGradient.css'
 
 export function ProgressBarsProgressGradient() {
@@ -61,7 +62,7 @@ export function ProgressBarsProgressGradient() {
     >
       <div className="track-container" style={{ position: 'relative' }}>
         {/* Aurora effect overlay */}
-        <motion.div
+        <m.div
           style={{
             position: 'absolute',
             inset: -10,
@@ -77,7 +78,7 @@ export function ProgressBarsProgressGradient() {
         />
 
         <div className="pf-progress-track">
-          <motion.div
+          <m.div
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
@@ -90,7 +91,7 @@ export function ProgressBarsProgressGradient() {
             animate="animate"
           >
             {/* Multi-layer gradient system */}
-            <motion.div
+            <m.div
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -105,7 +106,7 @@ export function ProgressBarsProgressGradient() {
             />
 
             {/* Shimmer layer */}
-            <motion.div
+            <m.div
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -120,7 +121,7 @@ export function ProgressBarsProgressGradient() {
               initial="initial"
               animate="animate"
             />
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </div>

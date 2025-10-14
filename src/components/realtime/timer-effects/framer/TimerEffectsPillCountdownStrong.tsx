@@ -1,4 +1,5 @@
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownStrong.css'
 
@@ -81,14 +82,14 @@ useEffect(() => {
   }
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-strong">
-      <motion.div
+      <m.div
         key={snapKey}
         className={`pf-pill-timer__pill pf-pill-timer__pill--strong ${colorClass}`}
         variants={snapVariants}
         initial="idle"
         animate="snap"
       >
-        <motion.span
+        <m.span
           className="pf-pill-timer__glow"
           aria-hidden="true"
           variants={glowVariants}
@@ -96,7 +97,7 @@ useEffect(() => {
           animate="snap"
         />
         <div className="pf-pill-timer__time">{format(seconds)}</div>
-      </motion.div>
+      </m.div>
       <span className="pf-pill-timer__label">Pill Countdown — Strong</span>
     </div>
   )

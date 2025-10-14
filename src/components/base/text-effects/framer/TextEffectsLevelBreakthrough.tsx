@@ -1,5 +1,6 @@
 
-import { easeOut, motion, useAnimation } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut, useAnimation } from 'motion/react'
 import { useEffect, useRef, memo } from 'react'
 import './TextEffectsLevelBreakthrough.css'
 import '../shared.css'
@@ -94,7 +95,7 @@ function TextEffectsLevelBreakthroughComponent() {
   return (
     <div className="pf-breakthrough-container" data-animation-id="text-effects__level-breakthrough">
       {/* First surge ring - outer ring with 4-6px thick bands */}
-      <motion.div
+      <m.div
         className="pf-surge-lines"
         animate={surge1Controls}
         style={{
@@ -106,7 +107,7 @@ function TextEffectsLevelBreakthroughComponent() {
       />
 
       {/* Second surge ring - inner ring with 4-6px thick bands */}
-      <motion.div
+      <m.div
         className="pf-surge-lines"
         animate={surge2Controls}
         style={{
@@ -118,9 +119,9 @@ function TextEffectsLevelBreakthroughComponent() {
       />
 
       {/* Level display */}
-      <motion.div ref={levelRef} className="pf-level-breakthrough" animate={levelControls}>
+      <m.div ref={levelRef} className="pf-level-breakthrough" animate={levelControls}>
         LEVEL 1
-      </motion.div>
+      </m.div>
     </div>
   )
 }

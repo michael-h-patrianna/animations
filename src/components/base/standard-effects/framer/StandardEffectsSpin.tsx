@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 
 import '../shared.css'
 
 function StandardEffectsSpinComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           rotate: [0, 90, 180, 270, 360],
@@ -19,7 +20,7 @@ function StandardEffectsSpinComponent() {
         }}
       >
         <div className="demo-text">Spin</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

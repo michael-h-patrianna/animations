@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
-import { easeOut, motion, type Variants } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut, type Variants } from 'motion/react'
 import './TextEffectsWaveReveal.css'
 import '../shared.css'
 
@@ -50,31 +51,31 @@ function TextEffectsWaveRevealComponent() {
 
   return (
     <div className="wave-reveal-container" data-animation-id="text-effects__wave-reveal">
-      <motion.div
+      <m.div
         className="wave-reveal-wrapper"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {lines.map((line, lineIndex) => (
-          <motion.div
+          <m.div
             key={lineIndex}
             className="wave-reveal-line"
             style={{ color: line.color }}
             variants={lineVariants}
           >
             {line.text.split('').map((char, charIndex) => (
-              <motion.span
+              <m.span
                 key={`${lineIndex}-${charIndex}`}
                 className="wave-reveal-char"
                 variants={letterVariants}
               >
                 {char === ' ' ? '\u00A0' : char}
-              </motion.span>
+              </m.span>
             ))}
-          </motion.div>
+          </m.div>
         ))}
-      </motion.div>
+      </m.div>
     </div>
   )
 }

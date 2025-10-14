@@ -1,11 +1,12 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
 
 export function ModalBasePortalSwirl() {
   return (
-    <motion.div
+    <m.div
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -14,15 +15,15 @@ export function ModalBasePortalSwirl() {
       data-animation-id="modal-base__portal-swirl"
     >
       <div className="pf-modal-center">
-        <motion.div
+        <m.div
           className="pf-modal"
           initial={{ rotate: 720, scale: 0, opacity: 0, borderRadius: '50%' }}
           animate={{ rotate: 0, scale: 1, opacity: 1, borderRadius: '12px' }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <MockModalContent />
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

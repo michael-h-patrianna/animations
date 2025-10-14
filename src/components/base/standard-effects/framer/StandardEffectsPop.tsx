@@ -1,5 +1,6 @@
 import { memo } from 'react'
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import '../shared.css'
 import './StandardEffectsPop.css'
 
@@ -18,13 +19,13 @@ const popVariants = {
   }
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element pop-element"
         variants={popVariants}
         animate="animate"
       >
         <div className="demo-text">Pop</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

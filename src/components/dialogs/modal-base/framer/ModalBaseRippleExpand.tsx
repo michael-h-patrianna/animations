@@ -1,11 +1,12 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
 
 export function ModalBaseRippleExpand() {
   return (
-    <motion.div
+    <m.div
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -14,7 +15,7 @@ export function ModalBaseRippleExpand() {
       data-animation-id="modal-base__ripple-expand"
     >
       <div className="pf-modal-center">
-        <motion.div
+        <m.div
           className="pf-modal"
           initial={{ scale: 0, opacity: 0 }}
           animate={{
@@ -24,8 +25,8 @@ export function ModalBaseRippleExpand() {
           transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <MockModalContent />
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

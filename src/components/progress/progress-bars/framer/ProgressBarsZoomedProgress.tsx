@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useEffect, useRef, useState } from 'react'
 import './ProgressBarsZoomedProgress.css'
 
@@ -99,7 +100,7 @@ const [level, setLevel] = useState(1)
         </div>
 
         {/* Level 1 marker */}
-        <motion.div
+        <m.div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--1 ${levelReached[0] ? 'reached' : ''}`}
           variants={levelBounceVariants}
           initial="initial"
@@ -107,10 +108,10 @@ const [level, setLevel] = useState(1)
           style={{ translateY: '-50%' }}
         >
           <span>1</span>
-        </motion.div>
+        </m.div>
 
         {/* Level 2 marker */}
-        <motion.div
+        <m.div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--2 ${levelReached[1] ? 'reached' : ''}`}
           variants={ levelBounceVariants}
           initial="initial"
@@ -118,7 +119,7 @@ const [level, setLevel] = useState(1)
           style={{ translateX: '-50%', translateY: '-50%' }}
         >
           <span>2</span>
-        </motion.div>
+        </m.div>
 
         {/* Second progress bar */}
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--2">
@@ -126,7 +127,7 @@ const [level, setLevel] = useState(1)
         </div>
 
         {/* Level 3 marker */}
-        <motion.div
+        <m.div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--3 ${levelReached[2] ? 'reached' : ''}`}
           variants={levelBounceVariants}
           initial="initial"
@@ -134,7 +135,7 @@ const [level, setLevel] = useState(1)
           style={{ translateY: '-50%' }}
         >
           <span>3</span>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Radial gradient mask for zoom effect */}

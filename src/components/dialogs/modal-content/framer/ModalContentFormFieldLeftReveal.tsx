@@ -1,11 +1,12 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import '../shared.css'
 import './ModalContentFormFieldLeftReveal.css'
 
 export function ModalContentFormFieldLeftReveal() {
   return (
     <div className="modal-content-overlay">
-      <motion.div
+      <m.div
         className="modal-content-modal"
         initial={{ scale: 0.88, y: -16, opacity: 0 }}
         animate={{
@@ -28,7 +29,7 @@ export function ModalContentFormFieldLeftReveal() {
           <p>Keep focus with 70ms cadence.</p>
           <div className="modal-content-form">
             {[0, 1, 2].map((index) => (
-              <motion.div
+              <m.div
                 key={index}
                 className="modal-content-field"
                 initial={{ x: -32, opacity: 0 }}
@@ -41,12 +42,12 @@ export function ModalContentFormFieldLeftReveal() {
               >
                 <label>Field {index + 1}</label>
                 <input type="text" defaultValue="Input" />
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
         <div className="modal-content-footer">
-          <motion.button
+          <m.button
             className="modal-content-button modal-content-button-primary"
             initial={{ y: 16, scale: 0.94, opacity: 0 }}
             animate={{
@@ -62,8 +63,8 @@ export function ModalContentFormFieldLeftReveal() {
             }}
           >
             Accept
-          </motion.button>
-          <motion.button
+          </m.button>
+          <m.button
             className="modal-content-button modal-content-button-secondary"
             initial={{ y: 16, scale: 0.94, opacity: 0 }}
             animate={{
@@ -79,9 +80,9 @@ export function ModalContentFormFieldLeftReveal() {
             }}
           >
             Later
-          </motion.button>
+          </m.button>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

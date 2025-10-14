@@ -1,5 +1,6 @@
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './LoadingStatesRingProgress.css'
 import '../shared.css'
 
@@ -10,7 +11,7 @@ export function LoadingStatesRingProgress() {
       <div className="pf-ring-progress">
         <svg viewBox="0 0 60 60" width="60" height="60">
           <circle cx="30" cy="30" r="25" fill="none" className="base" strokeWidth="4" />
-          <motion.circle
+          <m.circle
             className="pf-progress-ring"
             cx="30"
             cy="30"

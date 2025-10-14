@@ -1,5 +1,6 @@
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
 import './ModalCelebrationsConfettiSpiral.css'
 import '../shared.css'
@@ -44,7 +45,7 @@ const particles = useMemo(
     <div className="pf-celebration">
       <div className="pf-celebration__layer">
         {particles.map((particle) => (
-          <motion.span
+          <m.span
             key={particle.id}
             className="pf-celebration__confetti"
             style={{

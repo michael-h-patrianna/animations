@@ -1,5 +1,6 @@
 
-import { easeOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeOut } from 'motion/react'
 import './ModalCelebrationsConfettiBurst.css'
 import '../shared.css'
 
@@ -32,7 +33,7 @@ const particles = Array.from({ length: 32 }, (_, i) => {
     <div className="pf-celebration">
       <div className="pf-celebration__layer">
         {particles.map((particle) => (
-          <motion.span
+          <m.span
             key={particle.id}
             className="pf-celebration__confetti"
             style={{

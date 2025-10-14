@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerColorShift.css'
 
@@ -55,7 +56,7 @@ useEffect(() => {
         <div className="pf-timer__value">{value}</div>
         <div className="pf-timer__arc">
           <svg viewBox="0 0 36 36">
-            <motion.path
+            <m.path
               className="pf-timer__path"
               d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31"
               initial={{ strokeDashoffset: 0 }}
@@ -68,7 +69,7 @@ useEffect(() => {
         </div>
       </div>
       <span className="pf-timer__label">Seconds left</span>
-      <motion.div
+      <m.div
         className="pf-timer__underline"
         animate={{
           scaleX: 1 - arcProgress,

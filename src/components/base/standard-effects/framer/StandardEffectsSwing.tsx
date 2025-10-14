@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 
 import '../shared.css'
 
 function StandardEffectsSwingComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         style={{ transformOrigin: 'center top' }}
         animate={{
@@ -20,7 +21,7 @@ function StandardEffectsSwingComponent() {
         }}
       >
         <div className="demo-text">Swing</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

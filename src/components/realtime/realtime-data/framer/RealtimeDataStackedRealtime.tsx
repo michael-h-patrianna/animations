@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { useEffect, useState } from 'react'
 import './RealtimeDataStackedRealtime.css'
 
@@ -37,7 +38,7 @@ export function RealtimeDataStackedRealtime() {
     <div className="pf-realtime-data" data-animation-id="realtime-data__stacked-realtime">
       <div className="pf-realtime-data__stack">
         {stackItems.map((item, index) => (
-          <motion.div
+          <m.div
             key={item.label}
             className={`pf-realtime-data__stack-row ${item.active ? 'active' : ''}`}
             initial={{
@@ -55,7 +56,7 @@ export function RealtimeDataStackedRealtime() {
             }}
           >
             <span className="pf-realtime-data__stack-label">{item.label}</span>
-            <motion.span
+            <m.span
               className="pf-realtime-data__stack-value"
               animate={{
                 color: isAnimating ? (item.active ? '#06b6d4' : '#9ca3af') : '#06b6d4',
@@ -66,8 +67,8 @@ export function RealtimeDataStackedRealtime() {
               }}
             >
               {item.value}
-            </motion.span>
-          </motion.div>
+            </m.span>
+          </m.div>
         ))}
       </div>
     </div>

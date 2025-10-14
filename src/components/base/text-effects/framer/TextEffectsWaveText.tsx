@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import './TextEffectsWaveText.css'
 import '../shared.css'
 
@@ -25,7 +26,7 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
   const wavePhase = index % 5
 
   return (
-    <motion.span
+    <m.span
       className={`wave-char wave-phase-${wavePhase}`}
       data-char={char}
       animate={waveKeyframes}
@@ -42,7 +43,7 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
         {isSpace ? '\u00A0' : char}
 
         {!isSpace && (
-          <motion.span
+          <m.span
             className="wave-highlight"
             animate={highlightKeyframes}
             transition={{
@@ -56,7 +57,7 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
           />
         )}
       </span>
-    </motion.span>
+    </m.span>
   )
 }
 

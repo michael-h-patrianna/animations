@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 
 import '../shared.css'
 
 function StandardEffectsWiggleComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           rotate: [0, -3, 3, -3, 3, -3, 3, -3, 3, -3, 3, 0],
@@ -19,7 +20,7 @@ function StandardEffectsWiggleComponent() {
         }}
       >
         <div className="demo-text">Wiggle</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

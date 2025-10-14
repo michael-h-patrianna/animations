@@ -1,13 +1,14 @@
 import balloonImage from '@/assets/present_box_balloon.png'
 import '../shared.css'
 
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import './IconAnimationsFloat.css'
 
 export function IconAnimationsFloat() {
   return (
     <div className="icon-demo-container">
-      <motion.img
+      <m.img
         src={balloonImage}
         alt="Floating balloon"
         style={{ width: 120, transformOrigin: 'center 20%' }}

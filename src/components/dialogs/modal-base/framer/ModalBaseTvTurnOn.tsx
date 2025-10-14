@@ -1,11 +1,12 @@
-import { motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
 
 export function ModalBaseTvTurnOn() {
   return (
-    <motion.div
+    <m.div
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -14,15 +15,15 @@ export function ModalBaseTvTurnOn() {
       data-animation-id="modal-base__tv-turn-on"
     >
       <div className="pf-modal-center">
-        <motion.div
+        <m.div
           className="pf-modal"
           initial={{ scaleX: 2, scaleY: 0, opacity: 0 }}
           animate={{ scaleX: 1, scaleY: 1, opacity: 1 }}
           transition={{ duration: 0.65, ease: [0.34, 1.56, 0.64, 1] }}
         >
           <MockModalContent />
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

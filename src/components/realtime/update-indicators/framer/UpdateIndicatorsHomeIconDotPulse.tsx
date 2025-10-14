@@ -1,5 +1,6 @@
 import homeIcon1 from '@/assets/home-icon1.png'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import './UpdateIndicatorsHomeIconDotPulse.css'
 
@@ -18,7 +19,7 @@ useEffect(() => {
     >
       <div className="pf-update-indicator__icon-wrap">
         <img className="pf-update-indicator__img" src={homeIcon1} alt="Home" />
-        <motion.span
+        <m.span
           key={key}
           className="pf-update-indicator__dot pf-update-indicator__dot--pulse"
           animate={{

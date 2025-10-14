@@ -1,5 +1,6 @@
 import { calculateBulbColors } from '@/utils/colors';
-import { motion } from 'framer-motion';
+import * as m from 'motion/react-m'
+;
 import React, { useMemo } from 'react';
 import './LightsCircleStatic3.css';
 
@@ -138,11 +139,11 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
           transform: `translate(${x}px, ${y}px)`,
         }}
       >
-        <motion.div
+        <m.div
           className="lights-circle-static-3__glow"
           variants={isWinner ? glowVariantsWinner : glowVariantsRegular}
         />
-        <motion.div
+        <m.div
           className="lights-circle-static-3__bulb"
           variants={isWinner ? bulbVariantsWinner : bulbVariantsRegular}
         />
@@ -190,14 +191,14 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
         '--bulb-off-glow30': colors.offGlow30,
       } as React.CSSProperties}
     >
-      <motion.div
+      <m.div
         className="lights-circle-static-3__container"
         variants={containerVariants}
         initial="hidden"
         animate="show"
       >
         {bulbs}
-      </motion.div>
+      </m.div>
     </div>
   );
 };

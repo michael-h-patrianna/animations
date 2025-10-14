@@ -1,12 +1,13 @@
 import { memo } from 'react'
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 
 import '../shared.css'
 
 function StandardEffectsJelloComponent() {
   return (
     <div className="standard-demo-container">
-      <motion.div
+      <m.div
         className="standard-demo-element"
         animate={{
           skewX: [0, -12.5, 6.25, -3.125, 1.5625, -0.78125, 0],
@@ -20,7 +21,7 @@ function StandardEffectsJelloComponent() {
         }}
       >
         <div className="demo-text">Jello</div>
-      </motion.div>
+      </m.div>
     </div>
   )
 }

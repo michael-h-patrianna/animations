@@ -1,4 +1,5 @@
-import { easeInOut, motion } from 'framer-motion'
+import * as m from 'motion/react-m'
+import { easeInOut } from 'motion/react'
 import './ProgressBarsProgressStriped.css'
 
 export function ProgressBarsProgressStriped() {
@@ -49,7 +50,7 @@ export function ProgressBarsProgressStriped() {
   }
 
   return (
-    <motion.div
+    <m.div
       className="pf-progress-demo pf-progress-striped"
       data-animation-id="progress-bars__progress-striped"
       variants={containerVariants}
@@ -59,13 +60,13 @@ export function ProgressBarsProgressStriped() {
       <div className="pf-progress-demo__label">Level progress</div>
       <div className="track-container">
         <div className="pf-progress-track">
-          <motion.div
+          <m.div
             className="pf-progress-fill"
             variants={fillVariants}
             style={{ transformOrigin: 'left center' }}
           >
             {/* Animated stripes */}
-            <motion.div
+            <m.div
               className="stripes-container"
               variants={stripesContainerVariants}
             >
@@ -84,10 +85,10 @@ export function ProgressBarsProgressStriped() {
                   }}
                 />
               ))}
-            </motion.div>
+            </m.div>
 
             {/* Shimmer overlay */}
-            <motion.div
+            <m.div
               className="shimmer"
               variants={shimmerVariants}
               style={{
@@ -99,9 +100,9 @@ export function ProgressBarsProgressStriped() {
                 pointerEvents: 'none',
               }}
             />
-          </motion.div>
+          </m.div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }
