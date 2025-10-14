@@ -1,11 +1,10 @@
-import * as m from 'motion/react-m'
 import { AnimatePresence, animate, easeOut, useMotionValue, useTransform, type AnimationPlaybackControls } from 'motion/react'
+import * as m from 'motion/react-m'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './ProgressBarsXpAccumulation.css'
 
 // Local type for milestone halo animation entries
-// Local type for milestone halo animation entries
-type MilestoneAnimation = { id: number; threshold: number; trophy: string }
+type MilestoneAnimation = { id: number; threshold: number }
 
 interface FloatingXP {
   id: number
@@ -26,13 +25,11 @@ const RESET_DELAY_MS = 2600
 const PROGRESS_EASE: [number, number, number, number] = [0.18, 0.85, 0.25, 1]
 
 const MULTIPLIER_ZONES = [
-  { threshold: 20, multiplier: 2, trophy: '01_Trophy.png' },
-  { threshold: 40, multiplier: 3, trophy: '02_Trophy.png' },
-  { threshold: 60, multiplier: 4, trophy: '03_Trophy.png' },
-  { threshold: 80, multiplier: 5, trophy: '04_Trophy.png' },
+  { threshold: 20, multiplier: 2 },
+  { threshold: 40, multiplier: 3 },
+  { threshold: 60, multiplier: 4 },
+  { threshold: 80, multiplier: 5 },
 ] as const
-
-const STAR_IMAGES = ['01_Star.png', '03_Star.png', '05_Star.png', '07_Star.png'] as const
 
 const XP_SEQUENCE_RANGES: Array<[number, number]> = [
   [150, 165],
@@ -88,7 +85,6 @@ export function ProgressBarsXpAccumulation() {
   const sequenceIndexRef = useRef(0)
 
   const multiplierZones = useMemo(() => [...MULTIPLIER_ZONES], [])
-  const starImages = useMemo(() => [...STAR_IMAGES], [])
 
   const registerTimeout = useCallback((callback: () => void, delay: number) => {
     const handle = setTimeout(() => {
@@ -112,11 +108,6 @@ export function ProgressBarsXpAccumulation() {
     animationControlsRef.current = []
   }, [])
 
-  const getRandomStar = useCallback(() => {
-    const index = Math.floor(Math.random() * starImages.length)
-    return starImages[index]
-  }, [starImages])
-
   const getCurrentMultiplier = useCallback(
     (xp: number) => {
       const progressPercent = (xp / MAX_XP) * 100
@@ -129,9 +120,9 @@ export function ProgressBarsXpAccumulation() {
   )
 
   const triggerMilestone = useCallback(
-    (threshold: number, trophy: string) => {
+    (threshold: number) => {
       const milestoneId = animationRef.current.milestoneId++
-      setMilestoneAnimations((prev) => [...prev, { id: milestoneId, threshold, trophy }])
+      setMilestoneAnimations((prev) => [...prev, { id: milestoneId, threshold }])
 
       registerTimeout(() => {
         setMilestoneAnimations((prev) => prev.filter((m) => m.id !== milestoneId))
@@ -171,15 +162,14 @@ export function ProgressBarsXpAccumulation() {
             latest >= zone.threshold
           ) {
             reachedMilestonesRef.current.add(zone.threshold)
-            triggerMilestone(zone.threshold, zone.trophy)
+            triggerMilestone(zone.threshold)
           }
         })
 
         // Trigger completion milestone at 100%
         if (!reachedMilestonesRef.current.has(100) && previous < 100 && latest >= 100) {
           reachedMilestonesRef.current.add(100)
-          // Trophy string unused in UI; pass empty
-          triggerMilestone(100, '')
+          triggerMilestone(100)
         }
       }
 
@@ -221,7 +211,7 @@ export function ProgressBarsXpAccumulation() {
 
       // Emit a subtle activation pulse for the Start marker
       registerTimeout(() => {
-        triggerMilestone(0, '')
+        triggerMilestone(0)
       }, 120)
     }
 
@@ -328,7 +318,6 @@ export function ProgressBarsXpAccumulation() {
   }, [
     clearScheduledWork,
     getCurrentMultiplier,
-    getRandomStar,
     progressValue,
     registerAnimation,
     registerTimeout,

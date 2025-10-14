@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -35,7 +35,6 @@ export default defineConfig({
           }
           if (id.includes('framer-motion') || id.includes('motion')) return 'motion'
           if (id.includes('@radix-ui')) return 'radix'
-          if (id.includes('lucide-react')) return 'icons'
           return 'vendor'
         },
       },

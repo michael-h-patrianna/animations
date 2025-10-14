@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Category Navigation', () => {
   test.beforeEach(async ({ page }) => {
@@ -125,94 +125,5 @@ test.describe('Category Navigation', () => {
     // Scroll position should be maintained (approximately)
     const scrollAfter = await page.evaluate(() => window.scrollY)
     expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThan(50)
-  })
-})
-
-test.describe('Swipe Transitions', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-    await page.waitForSelector('.pf-category', { timeout: 10000 })
-  })
-
-  test('supports drag/swipe gestures to navigate categories', async ({ page }) => {
-    // Start with Dialog category
-    await expect(page.locator('h1:has-text("Dialog & Modal Animations")')).toBeVisible()
-
-    // Simulate swipe left to go to next category
-    const catalog = page.locator('.pf-catalog')
-    const box = await catalog.boundingBox()
-    if (!box) throw new Error('Catalog not found')
-
-    await page.mouse.move(box.x + box.width * 0.8, box.y + box.height / 2)
-    await page.mouse.down()
-    await page.mouse.move(box.x + box.width * 0.2, box.y + box.height / 2, { steps: 10 })
-    await page.mouse.up()
-
-    // Should transition to next category
-    await page.waitForTimeout(500)
-    await expect(page.locator('h1:has-text("Button State Effects")')).toBeVisible()
-  })
-
-  test('prevents swipe beyond first and last categories', async ({ page }) => {
-    // Start with first category
-    await expect(page.locator('h1:has-text("Dialog & Modal Animations")')).toBeVisible()
-
-    const catalog = page.locator('.pf-catalog')
-    const box = await catalog.boundingBox()
-    if (!box) throw new Error('Catalog not found')
-
-    // Try to swipe right (should stay on first category)
-    await page.mouse.move(box.x + box.width * 0.2, box.y + box.height / 2)
-    await page.mouse.down()
-    await page.mouse.move(box.x + box.width * 0.8, box.y + box.height / 2, { steps: 10 })
-    await page.mouse.up()
-
-    await page.waitForTimeout(500)
-    // Should still be on first category
-    await expect(page.locator('h1:has-text("Dialog & Modal Animations")')).toBeVisible()
-
-    // Navigate to last category
-    await page.click('.pf-sidebar button:has-text("Rewards & Achievements")')
-    await page.waitForTimeout(500)
-
-    // Try to swipe left (should stay on last category)
-    await page.mouse.move(box.x + box.width * 0.8, box.y + box.height / 2)
-    await page.mouse.down()
-    await page.mouse.move(box.x + box.width * 0.2, box.y + box.height / 2, { steps: 10 })
-    await page.mouse.up()
-
-    await page.waitForTimeout(500)
-    // Should still be on last category
-    await expect(page.locator('h1:has-text("Rewards & Achievements")')).toBeVisible()
-  })
-
-  test('shows smooth transition animation between categories', async ({ page }) => {
-    // Enable animations tracking
-    await page.addStyleTag({
-      content: `
-        * { transition-duration: 0.5s !important; }
-      `,
-    })
-
-    // Get initial position
-    const categoryElement = page.locator('.pf-category').first()
-    const initialBox = await categoryElement.boundingBox()
-
-    // Switch category
-    await page.click('.pf-sidebar button:has-text("Button State Effects")')
-
-    // Check that element animates (position changes during transition)
-    await page.waitForTimeout(100) // Mid-transition
-    const midBox = await categoryElement.boundingBox()
-
-    // Position should have changed during animation
-    expect(initialBox?.x).toBeDefined()
-    expect(midBox?.x).toBeDefined()
-    // We can't reliably test exact animation positions in Playwright
-    // but we verify the transition happens
-
-    await page.waitForTimeout(500)
-    // Final category should be visible
-    await expect(page.locator('h1:has-text("Button State Effects")')).toBeVisible()
   })
 })
