@@ -1,11 +1,17 @@
+import { memo } from 'react'
 import './ButtonEffectsJitter.css'
 import '../shared.css'
 
-export function ButtonEffectsJitter() {
+function ButtonEffectsJitterComponent() {
   return (
     <div className="button-demo" data-animation-id="button-effects__jitter">
       <button className="pf-btn pf-btn--primary pf-btn--jitter">Click Me!</button>
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsJitter to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsJitter = memo(ButtonEffectsJitterComponent)
 

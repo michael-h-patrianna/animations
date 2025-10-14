@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 import '../shared.css'
 
-export function StandardEffectsBlink() {
+function StandardEffectsBlinkComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -22,3 +23,8 @@ export function StandardEffectsBlink() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsBlink to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsBlink = memo(StandardEffectsBlinkComponent)

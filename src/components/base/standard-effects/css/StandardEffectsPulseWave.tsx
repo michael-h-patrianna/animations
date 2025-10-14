@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsPulseWave.css'
 
-export function StandardEffectsPulseWave() {
+function StandardEffectsPulseWaveComponent() {
   return (
 
         <div className="standard-pulse-wave" role="img" aria-label="Pulse wave">
@@ -10,4 +11,9 @@ export function StandardEffectsPulseWave() {
 
   )
 }
+
+/**
+ * Memoized StandardEffectsPulseWave to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsPulseWave = memo(StandardEffectsPulseWaveComponent)
 

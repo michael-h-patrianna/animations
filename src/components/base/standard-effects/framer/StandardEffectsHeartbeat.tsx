@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 import '../shared.css'
 
-export function StandardEffectsHeartbeat() {
+function StandardEffectsHeartbeatComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -23,3 +24,8 @@ export function StandardEffectsHeartbeat() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsHeartbeat to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsHeartbeat = memo(StandardEffectsHeartbeatComponent)

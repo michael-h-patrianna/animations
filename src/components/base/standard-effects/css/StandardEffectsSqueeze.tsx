@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsSqueeze.css'
 
-export function StandardEffectsSqueeze() {
+function StandardEffectsSqueezeComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element standard-effects-squeeze-element">
@@ -10,4 +11,9 @@ export function StandardEffectsSqueeze() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsSqueeze to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsSqueeze = memo(StandardEffectsSqueezeComponent)
 

@@ -1,9 +1,10 @@
+import { memo } from 'react'
 
 import { easeOut, motion, type Variants } from 'framer-motion'
 import './TextEffectsWaveReveal.css'
 import '../shared.css'
 
-export function TextEffectsWaveReveal() {
+function TextEffectsWaveRevealComponent() {
   const lines = [
     { text: 'Look at', color: '#60a5fa' }, // Blue
     { text: 'these', color: '#c6ff77' }, // Green
@@ -77,5 +78,10 @@ export function TextEffectsWaveReveal() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsWaveReveal to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsWaveReveal = memo(TextEffectsWaveRevealComponent)
 
 

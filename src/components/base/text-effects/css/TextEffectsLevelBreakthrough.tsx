@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import './TextEffectsLevelBreakthrough.css'
 
-export function TextEffectsLevelBreakthrough() {
+function TextEffectsLevelBreakthroughComponent() {
   const levelRef = useRef<HTMLDivElement>(null)
   const surge1Ref = useRef<HTMLDivElement>(null)
   const surge2Ref = useRef<HTMLDivElement>(null)
@@ -102,4 +102,9 @@ export function TextEffectsLevelBreakthrough() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsLevelBreakthrough to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsLevelBreakthrough = memo(TextEffectsLevelBreakthroughComponent)
 

@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import './TextEffectsCharacterReveal.css'
 
-export function TextEffectsCharacterReveal() {
+function TextEffectsCharacterRevealComponent() {
   const text = 'ACHIEVEMENT'
   const subtitle = 'UNLOCKED'
 
@@ -138,4 +138,9 @@ export function TextEffectsCharacterReveal() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsCharacterReveal to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsCharacterReveal = memo(TextEffectsCharacterRevealComponent)
 

@@ -6,10 +6,11 @@
 
 import { easeInOut, motion } from 'framer-motion'
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsVerbFall.css'
 import '../shared.css'
 
-export function TextEffectsVerbFall() {
+function TextEffectsVerbFallComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -42,6 +43,11 @@ export function TextEffectsVerbFall() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsVerbFall to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsVerbFall = memo(TextEffectsVerbFallComponent)
 
 
 

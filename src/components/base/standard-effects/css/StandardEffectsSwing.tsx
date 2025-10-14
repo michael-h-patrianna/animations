@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsSwing.css'
 
-export function StandardEffectsSwing() {
+function StandardEffectsSwingComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element standard-effects-swing-element">
@@ -10,4 +11,9 @@ export function StandardEffectsSwing() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsSwing to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsSwing = memo(StandardEffectsSwingComponent)
 

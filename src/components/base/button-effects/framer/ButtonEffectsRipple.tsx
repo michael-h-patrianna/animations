@@ -1,5 +1,5 @@
 import { easeOut, motion } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef, useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsRipple.css'
 
@@ -10,7 +10,7 @@ interface Ripple {
   size: number // diameter to cover the button
 }
 
-export function ButtonEffectsRipple() {
+function ButtonEffectsRippleComponent() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
@@ -73,4 +73,9 @@ export function ButtonEffectsRipple() {
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsRipple to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsRipple = memo(ButtonEffectsRippleComponent)
 

@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsScale.css'
 
-export function StandardEffectsScale() {
+function StandardEffectsScaleComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element standard-effects-scale-element">
@@ -10,4 +11,9 @@ export function StandardEffectsScale() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsScale to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsScale = memo(StandardEffectsScaleComponent)
 

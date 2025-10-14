@@ -1,8 +1,9 @@
+import { memo } from 'react'
 
 import { easeOut, motion } from 'framer-motion'
 import '../shared.css'
 
-export function StandardEffectsScale() {
+function StandardEffectsScaleComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -25,5 +26,10 @@ export function StandardEffectsScale() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsScale to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsScale = memo(StandardEffectsScaleComponent)
 
 

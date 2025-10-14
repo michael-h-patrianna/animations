@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPop.css'
 
-export function StandardEffectsPop() {
+function StandardEffectsPopComponent() {
 const popVariants = {
     animate: {
       scale: [0, 1.2, 1],
@@ -27,4 +28,9 @@ const popVariants = {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsPop to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsPop = memo(StandardEffectsPopComponent)
 

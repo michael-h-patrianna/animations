@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 
 import '../shared.css'
 
-export function StandardEffectsWiggle() {
+function StandardEffectsWiggleComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -22,5 +23,10 @@ export function StandardEffectsWiggle() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsWiggle to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsWiggle = memo(StandardEffectsWiggleComponent)
 
 

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 
 import { motion } from 'framer-motion'
 import './TextEffectsWaveText.css'
@@ -59,7 +60,7 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
   )
 }
 
-export function TextEffectsWaveText() {
+function TextEffectsWaveTextComponent() {
   const text = 'WAVE MOTION'
 
   return (
@@ -72,3 +73,8 @@ export function TextEffectsWaveText() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsWaveText to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsWaveText = memo(TextEffectsWaveTextComponent)

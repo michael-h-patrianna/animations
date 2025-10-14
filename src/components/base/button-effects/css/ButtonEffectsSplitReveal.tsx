@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import './ButtonEffectsSplitReveal.css'
 import '../shared.css'
 
-export function ButtonEffectsSplitReveal() {
+function ButtonEffectsSplitRevealComponent() {
   const [isRevealing, setIsRevealing] = useState(false)
 
   const handleClick = () => {
@@ -23,4 +23,9 @@ export function ButtonEffectsSplitReveal() {
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsSplitReveal to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsSplitReveal = memo(ButtonEffectsSplitRevealComponent)
 

@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsFade.css'
 
-export function StandardEffectsFade() {
+function StandardEffectsFadeComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element fade-element css-fade-animation">
@@ -10,4 +11,9 @@ export function StandardEffectsFade() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsFade to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsFade = memo(StandardEffectsFadeComponent)
 

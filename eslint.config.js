@@ -21,5 +21,17 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // TODO: Install eslint-plugin-jsdoc and enable JSDoc linting
+      // 'jsdoc/require-jsdoc': ['warn', {
+      //   publicOnly: true,
+      //   require: {
+      //     FunctionDeclaration: true,
+      //     ClassDeclaration: true,
+      //   }
+      // }],
+      // 'jsdoc/require-param': 'warn',
+      // 'jsdoc/require-returns': 'warn',
+    },
   },
 ])

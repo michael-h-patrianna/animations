@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { easeOut, motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsRadialPulse.css'
 
-export function StandardEffectsRadialPulse() {
+function StandardEffectsRadialPulseComponent() {
 const ringVariants = (delay: number) => ({
     animate: {
       scale: [0.1, 7.5],
@@ -29,4 +30,9 @@ const ringVariants = (delay: number) => ({
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsRadialPulse to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsRadialPulse = memo(StandardEffectsRadialPulseComponent)
 

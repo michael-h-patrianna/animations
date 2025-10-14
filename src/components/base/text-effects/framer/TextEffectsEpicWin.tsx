@@ -1,9 +1,10 @@
+import { memo } from 'react'
 
 import { easeOut, motion } from 'framer-motion'
 import './TextEffectsEpicWin.css'
 import '../shared.css'
 
-export function TextEffectsEpicWin() {
+function TextEffectsEpicWinComponent() {
   const mainText = 'EPIC WIN'
 
   return (
@@ -107,3 +108,8 @@ export function TextEffectsEpicWin() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsEpicWin to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsEpicWin = memo(TextEffectsEpicWinComponent)

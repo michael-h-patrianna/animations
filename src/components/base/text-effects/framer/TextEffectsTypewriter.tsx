@@ -1,9 +1,10 @@
+import { memo } from 'react'
 
 import { motion } from 'framer-motion'
 import './TextEffectsTypewriter.css'
 import '../shared.css'
 
-export function TextEffectsTypewriter() {
+function TextEffectsTypewriterComponent() {
   const text = 'LOADING SYSTEM...'
   const cursor = '|'
 
@@ -52,5 +53,10 @@ export function TextEffectsTypewriter() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsTypewriter to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsTypewriter = memo(TextEffectsTypewriterComponent)
 
 

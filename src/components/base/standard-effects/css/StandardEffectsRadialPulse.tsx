@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsRadialPulse.css'
 
-export function StandardEffectsRadialPulse() {
+function StandardEffectsRadialPulseComponent() {
   return (
 
         <div className="standard-radial-pulse" role="img" aria-label="Radial pulse">
@@ -13,4 +14,9 @@ export function StandardEffectsRadialPulse() {
 
   )
 }
+
+/**
+ * Memoized StandardEffectsRadialPulse to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsRadialPulse = memo(StandardEffectsRadialPulseComponent)
 

@@ -7,10 +7,11 @@
 
 import { easeInOut, easeOut, motion, type Variants } from 'framer-motion'
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsLightSweepDraw.css'
 import '../shared.css'
 
-export function TextEffectsLightSweepDraw() {
+function TextEffectsLightSweepDrawComponent() {
   const text = 'LOREM IPSUM DOLOR'
 // Simple grapheme split that is SSR-safe for most Latin text.
   const letters = React.useMemo(() => Array.from(text), [text])
@@ -81,6 +82,11 @@ export function TextEffectsLightSweepDraw() {
     </motion.div>
   )
 }
+
+/**
+ * Memoized TextEffectsLightSweepDraw to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsLightSweepDraw = memo(TextEffectsLightSweepDrawComponent)
 
 
 

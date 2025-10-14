@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsJitter.css'
 
-export function ButtonEffectsJitter() {
+function ButtonEffectsJitterComponent() {
 const [isHovered, setIsHovered] = useState(false)
 
   const jitterVariants = {
@@ -43,3 +43,8 @@ const [isHovered, setIsHovered] = useState(false)
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsJitter to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsJitter = memo(ButtonEffectsJitterComponent)

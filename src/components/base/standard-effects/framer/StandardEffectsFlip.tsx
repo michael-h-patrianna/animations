@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsFlip.css'
 
-export function StandardEffectsFlip() {
+function StandardEffectsFlipComponent() {
 const flipVariants = {
     animate: {
       rotateY: [0, 90, 180],
@@ -27,4 +28,9 @@ const flipVariants = {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsFlip to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsFlip = memo(StandardEffectsFlipComponent)
 

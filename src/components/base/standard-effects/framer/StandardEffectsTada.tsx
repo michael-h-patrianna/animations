@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 
 import '../shared.css'
 
-export function StandardEffectsTada() {
+function StandardEffectsTadaComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -24,4 +25,9 @@ export function StandardEffectsTada() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsTada to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsTada = memo(StandardEffectsTadaComponent)
 

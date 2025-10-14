@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsBounce.css'
 
-export function StandardEffectsBounce() {
+function StandardEffectsBounceComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element standard-effects-bounce-element">
@@ -10,4 +11,9 @@ export function StandardEffectsBounce() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsBounce to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsBounce = memo(StandardEffectsBounceComponent)
 

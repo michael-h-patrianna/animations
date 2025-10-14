@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
+import { overlayStyles } from '@/motion/primitives'
 
 export function ModalBaseSpringBounce() {
   const overlayVariants = {
@@ -28,7 +28,7 @@ export function ModalBaseSpringBounce() {
       variants={overlayVariants}
       initial="initial"
       animate="animate"
-      style={{ ['--overlay-opacity' as unknown as keyof CSSProperties]: '0.72' } as CSSProperties}
+      style={overlayStyles.standard}
       data-animation-id="modal-base__spring-bounce"
     >
       <div className="pf-modal-center">

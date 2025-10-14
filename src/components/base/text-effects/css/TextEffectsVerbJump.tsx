@@ -4,9 +4,10 @@
  * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsVerbJump.css'
 
-export function TextEffectsVerbJump() {
+function TextEffectsVerbJumpComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -28,6 +29,11 @@ export function TextEffectsVerbJump() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsVerbJump to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsVerbJump = memo(TextEffectsVerbJumpComponent)
 
 
 export default TextEffectsVerbJump

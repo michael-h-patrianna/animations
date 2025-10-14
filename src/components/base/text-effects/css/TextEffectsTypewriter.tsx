@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import './TextEffectsTypewriter.css'
 
-export function TextEffectsTypewriter() {
+function TextEffectsTypewriterComponent() {
   const text = 'LOADING SYSTEM...'
   const cursor = '|'
 
@@ -28,4 +29,9 @@ export function TextEffectsTypewriter() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsTypewriter to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsTypewriter = memo(TextEffectsTypewriterComponent)
 

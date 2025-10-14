@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import './TextEffectsEpicWin.css'
 
-export function TextEffectsEpicWin() {
+function TextEffectsEpicWinComponent() {
   const mainText = 'EPIC WIN'
 
   const shadowFarRef = useRef<HTMLDivElement>(null)
@@ -134,4 +134,9 @@ export function TextEffectsEpicWin() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsEpicWin to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsEpicWin = memo(TextEffectsEpicWinComponent)
 

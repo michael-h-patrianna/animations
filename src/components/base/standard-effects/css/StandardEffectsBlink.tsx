@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsBlink.css'
 
-export function StandardEffectsBlink() {
+function StandardEffectsBlinkComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element blink-element">
@@ -10,4 +11,9 @@ export function StandardEffectsBlink() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsBlink to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsBlink = memo(StandardEffectsBlinkComponent)
 

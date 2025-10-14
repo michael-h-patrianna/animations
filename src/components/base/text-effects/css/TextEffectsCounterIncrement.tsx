@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 import './TextEffectsCounterIncrement.css'
 
 interface CounterIndicator {
@@ -6,7 +6,7 @@ interface CounterIndicator {
   isAnimating: boolean
 }
 
-export function TextEffectsCounterIncrement() {
+function TextEffectsCounterIncrementComponent() {
   const [isValueAnimating, setIsValueAnimating] = useState(false)
   const [count, setCount] = useState(0)
   const [counters, setCounters] = useState<CounterIndicator[]>([])
@@ -70,4 +70,9 @@ export function TextEffectsCounterIncrement() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsCounterIncrement to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsCounterIncrement = memo(TextEffectsCounterIncrementComponent)
 

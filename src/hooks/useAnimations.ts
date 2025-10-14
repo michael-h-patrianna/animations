@@ -7,6 +7,43 @@ interface LoadingState {
   error: string | null
 }
 
+/**
+ * Hook for loading and managing the animation catalog.
+ *
+ * Loads the complete animation catalog from the animation data service on mount,
+ * with support for refreshing the catalog on demand. The hook manages loading state
+ * and error handling internally, providing a simple interface for consuming components.
+ *
+ * @returns {Object} Animation catalog state and controls
+ * @returns {Category[]} categories - Array of animation categories, each containing groups and animations
+ * @returns {boolean} isLoading - True while animations are being loaded or refreshed
+ * @returns {string | null} error - Error message if loading failed, null otherwise
+ * @returns {() => Promise<void>} refreshAnimations - Function to manually refresh the catalog
+ *
+ * @example
+ * ```tsx
+ * function AnimationCatalog() {
+ *   const { categories, isLoading, error, refreshAnimations } = useAnimations();
+ *
+ *   if (isLoading) return <LoadingSpinner />;
+ *   if (error) return <ErrorMessage message={error} onRetry={refreshAnimations} />;
+ *
+ *   return (
+ *     <div>
+ *       {categories.map(category => (
+ *         <CategorySection key={category.id} category={category} />
+ *       ))}
+ *     </div>
+ *   );
+ * }
+ * ```
+ *
+ * @remarks
+ * - Automatically loads animations on mount
+ * - Uses animationDataService for data loading with caching
+ * - Error handling includes user-friendly error messages
+ * - Refresh mechanism clears cache and reloads data
+ */
 export function useAnimations() {
   const [categories, setCategories] = useState<Category[]>([])
   const [loadingState, setLoadingState] = useState<LoadingState>({

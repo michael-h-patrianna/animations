@@ -1,9 +1,10 @@
+import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPulse.css'
 
-export function StandardEffectsPulse() {
+function StandardEffectsPulseComponent() {
 const keyframeTimes = [0, 0.5, 1]
 
   // Provide a static fallback when users request reduced motion preferences.
@@ -44,4 +45,9 @@ const keyframeTimes = [0, 0.5, 1]
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsPulse to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsPulse = memo(StandardEffectsPulseComponent)
 

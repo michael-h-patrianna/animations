@@ -1,9 +1,10 @@
+import { memo } from 'react'
 
 import { motion } from 'framer-motion'
 import './TextEffectsGlitchText.css'
 import '../shared.css'
 
-export function TextEffectsGlitchText() {
+function TextEffectsGlitchTextComponent() {
   const text = 'SYSTEM ERROR'
 
   return (
@@ -42,5 +43,10 @@ export function TextEffectsGlitchText() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsGlitchText to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsGlitchText = memo(TextEffectsGlitchTextComponent)
 
 

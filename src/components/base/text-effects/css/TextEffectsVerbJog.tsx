@@ -4,9 +4,10 @@
  * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsVerbJog.css'
 
-export function TextEffectsVerbJog() {
+function TextEffectsVerbJogComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -25,6 +26,11 @@ export function TextEffectsVerbJog() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsVerbJog to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsVerbJog = memo(TextEffectsVerbJogComponent)
 
 
 export default TextEffectsVerbJog

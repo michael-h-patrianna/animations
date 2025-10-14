@@ -8,7 +8,22 @@ interface GroupSectionProps {
   elementId: string
 }
 
-// Helper function to determine if an animation should run infinitely
+/**
+ * Helper function to determine if an animation should run infinitely.
+ *
+ * Applies infinite loop behavior to loading states and specific realtime/indicator
+ * animations that represent continuous activity.
+ *
+ * @param {string} groupId - The group identifier (e.g., 'loading-states-framer')
+ * @param {string} animationId - The animation identifier (e.g., 'timer-effects__timer-pulse')
+ * @returns {boolean} True if animation should loop infinitely
+ *
+ * @example
+ * ```tsx
+ * isInfiniteAnimation('loading-states-framer', 'spinner') // true
+ * isInfiniteAnimation('button-effects', 'click-ripple') // false
+ * ```
+ */
 function isInfiniteAnimation(groupId: string, animationId: string): boolean {
   // All loading states should be infinite
   if (groupId === 'loading-states-framer' || groupId === 'loading-states-css') return true
@@ -34,6 +49,40 @@ function isInfiniteAnimation(groupId: string, animationId: string): boolean {
   return infiniteAnimations.includes(animationId)
 }
 
+/**
+ * Section component displaying a group of related animations in a card grid layout.
+ *
+ * Dynamically loads animation components from the registry based on the group ID,
+ * automatically detecting whether to render Framer Motion or CSS implementations.
+ * Supports infinite animations, lights controls, and lazy loading with Suspense.
+ *
+ * @component
+ * @param {GroupSectionProps} props - Component props
+ * @param {Group} props.group - Group metadata containing animations, title, and ID
+ * @param {string} props.elementId - HTML ID for scroll-to-section navigation
+ *
+ * @returns {JSX.Element} Group section with header and animation card grid
+ *
+ * @example
+ * ```tsx
+ * <GroupSection
+ *   group={{
+ *     id: 'button-effects-framer',
+ *     title: 'Button Effects',
+ *     animations: [{ id: 'click-ripple', title: 'Click Ripple', ... }]
+ *   }}
+ *   elementId="button-effects"
+ * />
+ * ```
+ *
+ * @remarks
+ * - Automatically detects Framer vs CSS groups via ID suffix (-framer/-css)
+ * - Builds animation registry from animationRegistry exports
+ * - Applies infinite loop behavior via isInfiniteAnimation() helper
+ * - Passes bulbCount/onColor props only to lights animations
+ * - Uses Suspense boundaries for lazy-loaded animation components
+ * - Shows "Animations coming soon" for empty groups
+ */
 export function GroupSection({ group, elementId }: GroupSectionProps) {
   // Determine if this is a CSS group based on the group ID suffix
   const isCssGroup = group.id.endsWith('-css')

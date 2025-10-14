@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsFlip.css'
 
-export function StandardEffectsFlip() {
+function StandardEffectsFlipComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element flip-element">
@@ -10,4 +11,9 @@ export function StandardEffectsFlip() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsFlip to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsFlip = memo(StandardEffectsFlipComponent)
 

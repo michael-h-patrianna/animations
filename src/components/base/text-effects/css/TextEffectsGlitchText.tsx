@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import './TextEffectsGlitchText.css'
 
-export function TextEffectsGlitchText() {
+function TextEffectsGlitchTextComponent() {
   const text = 'SYSTEM ERROR'
 
   return (
@@ -23,4 +24,9 @@ export function TextEffectsGlitchText() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsGlitchText to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsGlitchText = memo(TextEffectsGlitchTextComponent)
 

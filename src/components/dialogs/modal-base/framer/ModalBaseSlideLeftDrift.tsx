@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import type { CSSProperties } from 'react'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
+import { overlayStyles } from '@/motion/primitives'
 
 export function ModalBaseSlideLeftDrift() {
   return (
@@ -10,7 +10,7 @@ export function ModalBaseSlideLeftDrift() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.42, ease: [0.22, 0.61, 0.36, 1] }}
-      style={{ ['--overlay-opacity' as unknown as keyof CSSProperties]: '0.68' } as CSSProperties}
+      style={overlayStyles.standard}
       data-animation-id="modal-base__slide-left-drift"
     >
       <div className="pf-modal-center">

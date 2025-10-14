@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 
 import '../shared.css'
 
-export function StandardEffectsSwing() {
+function StandardEffectsSwingComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -23,4 +24,9 @@ export function StandardEffectsSwing() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsSwing to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsSwing = memo(StandardEffectsSwingComponent)
 

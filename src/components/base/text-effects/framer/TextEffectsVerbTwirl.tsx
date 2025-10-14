@@ -6,10 +6,11 @@
 
 import { easeInOut, motion } from 'framer-motion'
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsVerbTwirl.css'
 import '../shared.css'
 
-export function TextEffectsVerbTwirl() {
+function TextEffectsVerbTwirlComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -38,6 +39,11 @@ export function TextEffectsVerbTwirl() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsVerbTwirl to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsVerbTwirl = memo(TextEffectsVerbTwirlComponent)
 
 
 

@@ -160,8 +160,177 @@ import {
 - **Insufficient testing depth:** Smoke tests alone miss race conditions. Add deterministic unit tests for domain logic, integration tests for state transitions, and targeted E2E coverage for critical user journeys.
 - **Opaque error handling:** Silent failures or generic alerts erode trust. Provide actionable user feedback and structured logs with context so on-call engineers can diagnose quickly.
 
+## Documentation Standards
+
+### JSDoc Template for Components
+
+All exported components and hooks should include comprehensive JSDoc documentation:
+
+```tsx
+/**
+ * Brief one-line description of the component's purpose.
+ *
+ * Detailed description explaining:
+ * - What the component does
+ * - Key features or behaviors
+ * - Important implementation details
+ * - Performance characteristics (if relevant)
+ *
+ * @param props - Component props
+ * @param props.propName - Description of each prop
+ *
+ * @returns Brief description of what the component renders
+ *
+ * @example
+ * ```tsx
+ * <MyComponent
+ *   propName="value"
+ *   onEvent={() => console.log('event')}
+ * />
+ * ```
+ *
+ * @example
+ * Complex usage with multiple scenarios:
+ * ```tsx
+ * <MyComponent
+ *   propName="advanced"
+ *   config={{ option: true }}
+ * >
+ *   <ChildComponent />
+ * </MyComponent>
+ * ```
+ *
+ * @remarks
+ * - Additional notes about edge cases
+ * - Dependencies on external systems
+ * - Performance considerations
+ * - Migration notes (if replacing legacy component)
+ *
+ * @see {@link RelatedComponent} for similar functionality
+ * @see {@link https://docs.example.com} for external documentation
+ */
+export function MyComponent({ propName, onEvent }: MyComponentProps) {
+  // Implementation
+}
+```
+
+### JSDoc Template for Hooks
+
+```tsx
+/**
+ * Brief one-line description of the hook's purpose.
+ *
+ * Detailed explanation of:
+ * - What problem the hook solves
+ * - Side effects (API calls, subscriptions, timers)
+ * - State management approach
+ * - Performance characteristics
+ *
+ * @param config - Hook configuration object
+ * @param config.option - Description of each config property
+ *
+ * @returns Hook return value description
+ * @returns {Object} returnValue - Return value object
+ * @returns {Type} returnValue.property - Each returned property
+ *
+ * @example
+ * ```tsx
+ * function MyComponent() {
+ *   const { data, loading, error } = useMyHook({
+ *     option: 'value'
+ *   })
+ *
+ *   if (loading) return <Spinner />
+ *   if (error) return <Error message={error} />
+ *
+ *   return <div>{data}</div>
+ * }
+ * ```
+ *
+ * @remarks
+ * - Cleanup is handled automatically
+ * - Uses internal caching for performance
+ * - Requires XProvider in component tree
+ *
+ * @throws {Error} When used outside of provider context
+ */
+export function useMyHook(config: HookConfig) {
+  // Implementation
+}
+```
+
+### JSDoc Template for Utility Functions
+
+```tsx
+/**
+ * Brief one-line description of the function's purpose.
+ *
+ * Detailed explanation of:
+ * - Algorithm or approach used
+ * - Edge cases handled
+ * - Performance characteristics (O(n), etc.)
+ *
+ * @param input - Description of parameter
+ * @param options - Optional configuration object
+ * @returns Description of return value
+ *
+ * @example
+ * ```tsx
+ * const result = myUtility('input', { option: true })
+ * console.log(result) // Expected output
+ * ```
+ *
+ * @throws {TypeError} When input is invalid
+ * @throws {RangeError} When value out of bounds
+ */
+export function myUtility(input: string, options?: Options): Result {
+  // Implementation
+}
+```
+
+### Documentation Coverage Goals
+
+- **Exported Components**: 100% JSDoc coverage required
+- **Exported Hooks**: 100% JSDoc coverage required
+- **Public APIs**: 100% JSDoc coverage required
+- **Utility Functions**: 80%+ JSDoc coverage recommended
+- **Internal/Private**: JSDoc optional but encouraged for complex logic
+
+### ESLint Enforcement
+
+Configure ESLint to require JSDoc for exported declarations:
+
+```json
+{
+  "rules": {
+    "jsdoc/require-jsdoc": ["warn", {
+      "publicOnly": true,
+      "require": {
+        "FunctionDeclaration": true,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": false,
+        "FunctionExpression": false
+      }
+    }],
+    "jsdoc/require-param": "warn",
+    "jsdoc/require-returns": "warn",
+    "jsdoc/require-example": "off"
+  }
+}
+```
+
+### Documentation Best Practices
+
+1. **Be Specific**: Avoid vague descriptions like "handles data" - explain what data and how
+2. **Include Examples**: Show real-world usage, not trivial examples
+3. **Document Side Effects**: API calls, subscriptions, timers, DOM manipulation
+4. **Explain "Why"**: If implementation is non-obvious, explain the reasoning
+5. **Keep Updated**: Update JSDoc when changing component behavior
+6. **Link Related Docs**: Use `@see` tags to connect related components/docs
+
 ## Continuous Improvement
 
 - Periodically prune legacy compatibility code (e.g., older signatures in hooks) once consumers migrate.
 - Revisit custom infrastructure (reset orchestration, animation drivers) to ensure they still outperform off-the-shelf solutions.
 - Encourage engineers to add small quality-of-life improvements (better typing, helper utilities) as part of feature work.
+- **Document as you go**: Add JSDoc when creating new components, not as cleanup work

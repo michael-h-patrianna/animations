@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, memo } from 'react'
 import './ButtonEffectsRipple.css'
 import '../shared.css'
 
@@ -9,7 +9,7 @@ interface Ripple {
   size: number // diameter to cover the button
 }
 
-export function ButtonEffectsRipple() {
+function ButtonEffectsRippleComponent() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
@@ -52,4 +52,9 @@ export function ButtonEffectsRipple() {
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsRipple to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsRipple = memo(ButtonEffectsRippleComponent)
 

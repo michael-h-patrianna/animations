@@ -7,10 +7,11 @@
 
 import { motion } from 'framer-motion'
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsVerbFlip.css'
 import '../shared.css'
 
-export function TextEffectsVerbFlip() {
+function TextEffectsVerbFlipComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -40,6 +41,11 @@ export function TextEffectsVerbFlip() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsVerbFlip to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsVerbFlip = memo(TextEffectsVerbFlipComponent)
 
 
 

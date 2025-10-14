@@ -1,10 +1,10 @@
 
 import { easeOut, motion, useAnimation } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import './TextEffectsLevelBreakthrough.css'
 import '../shared.css'
 
-export function TextEffectsLevelBreakthrough() {
+function TextEffectsLevelBreakthroughComponent() {
   const levelControls = useAnimation()
   const surge1Controls = useAnimation()
   const surge2Controls = useAnimation()
@@ -124,5 +124,10 @@ export function TextEffectsLevelBreakthrough() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsLevelBreakthrough to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsLevelBreakthrough = memo(TextEffectsLevelBreakthroughComponent)
 
 

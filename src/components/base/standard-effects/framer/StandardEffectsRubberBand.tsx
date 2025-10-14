@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 
 import '../shared.css'
 
-export function StandardEffectsRubberBand() {
+function StandardEffectsRubberBandComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -22,4 +23,9 @@ export function StandardEffectsRubberBand() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsRubberBand to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsRubberBand = memo(StandardEffectsRubberBandComponent)
 

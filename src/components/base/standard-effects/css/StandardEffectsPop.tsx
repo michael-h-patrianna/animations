@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsPop.css'
 
-export function StandardEffectsPop() {
+function StandardEffectsPopComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element pop-element">
@@ -10,4 +11,9 @@ export function StandardEffectsPop() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsPop to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsPop = memo(StandardEffectsPopComponent)
 

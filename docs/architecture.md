@@ -182,6 +182,282 @@ const buildCatalogFromCategories = (): Category[] => {
 - Smaller bundle sizes
 - Faster builds
 
+## Animation Registration Pipeline
+
+The registration pipeline transforms the folder structure into a queryable catalog:
+
+### 1. Component Definition
+Each animation component exports itself and its metadata:
+```tsx
+export function ButtonBounce() { /* ... */ }
+export const metadata: AnimationMetadata = { /* ... */ }
+```
+
+### 2. Group Aggregation
+Group-level `index.ts` collects all animations in that group:
+```tsx
+export const groupExport: GroupExport = {
+  metadata: { id: 'button-effects', title: 'Button Effects', tech: 'framer' },
+  animations: {
+    'button-effects__bounce': { component: ButtonBounce, metadata: bounceMeta },
+    // ... more animations
+  }
+}
+```
+
+### 3. Category Aggregation
+Category-level `index.ts` collects all groups:
+```tsx
+export const categoryExport: CategoryExport = {
+  metadata: { id: 'base', title: 'Base Effects' },
+  groups: {
+    'button-effects': buttonEffectsGroup,
+    'text-effects': textEffectsGroup,
+    // ... more groups
+  }
+}
+```
+
+### 4. Registry Consolidation
+`animationRegistry.ts` provides the complete catalog:
+```tsx
+export const categories: Record<string, CategoryExport> = {
+  'base': baseCategory,
+  'dialogs': dialogsCategory,
+  // ... all categories
+}
+```
+
+### 5. Data Service Layer
+`animationDataService` builds the hierarchical structure:
+- Flattens category → group → animation hierarchy
+- Enriches metadata with computed properties
+- Provides caching for performance
+- Handles refresh/reload operations
+
+**Flow Diagram:**
+```
+Component Files → Group Index → Category Index → Registry → Data Service → UI
+    (TSX)           (index.ts)     (index.ts)    (registry)  (service)   (App)
+```
+
+## Preload Strategy
+
+Critical animation assets are preloaded at application startup to ensure smooth initial render.
+
+### Implementation
+
+**Manifest (`src/lib/preload-manifest.ts`):**
+```tsx
+export const CRITICAL_ICON_IMAGES = [
+  '/images/star/star-1.png',
+  '/images/star/star-2.png',
+  '/images/trophy/trophy-gold.png',
+  // ... essential images
+]
+```
+
+**Preload Service (`src/lib/preload.ts`):**
+```tsx
+export function preloadImages(urls: string[]): void {
+  urls.forEach(url => {
+    const img = new Image()
+    img.src = url
+  })
+}
+```
+
+**Application Entry (`src/main.tsx`):**
+```tsx
+preloadImages(CRITICAL_ICON_IMAGES) // Preload ASAP at startup
+```
+
+### Rationale
+
+1. **First Paint Performance**: Icon animations render immediately without image fetch delays
+2. **Perceived Performance**: Users see complete animations on first load
+3. **Reduced Layout Shift**: Images available before render prevents CLS
+4. **Critical Path Optimization**: Only preload truly critical assets (~10-20 images)
+
+### Best Practices
+
+- ✅ Preload images used in above-the-fold animations
+- ✅ Keep manifest small (<100KB total)
+- ✅ Use modern image formats (WebP with PNG fallback)
+- ❌ Don't preload all assets (defeats lazy loading)
+- ❌ Avoid preloading group-specific images (load on demand)
+
+## AnimationCard Lifecycle
+
+The `AnimationCard` component manages animation playback with visibility detection and replay functionality.
+
+### Component States
+
+```tsx
+interface CardState {
+  replayKey: number        // Triggers re-mount for replay
+  hasPlayed: boolean       // Tracks first play
+  isVisible: boolean       // Intersection observer state
+  isExpanded: boolean      // Description expansion
+  bulbCount: number        // For lights animations
+  onColor: string          // For lights animations
+}
+```
+
+### Lifecycle Flow
+
+1. **Mount**: Component mounts, IntersectionObserver attached
+2. **Visibility Detection**: Observer fires when card enters viewport
+3. **First Play**: Animation plays automatically on first visibility
+4. **Idle**: Animation completes, card shows replay button
+5. **Replay**: User clicks replay → `replayKey` increments → child re-mounts
+6. **Unmount**: Observer cleanup on component unmount
+
+**State Diagram:**
+```
+[Mount] → [Observing] → [Visible & !hasPlayed] → [Playing] → [Idle]
+                                                       ↑           ↓
+                                                       └─[Replay]──┘
+```
+
+### IntersectionObserver Usage
+
+```tsx
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting && !hasPlayed) {
+        setIsVisible(true)
+        setHasPlayed(true)
+        setReplayKey(key => key + 1) // Trigger animation
+      }
+    },
+    { threshold: 0.1 } // 10% visible triggers play
+  )
+
+  if (cardRef.current) observer.observe(cardRef.current)
+
+  return () => observer.disconnect()
+}, [hasPlayed])
+```
+
+### Replay Mechanism
+
+Replay works by incrementing `replayKey`, which is passed as `key` prop to the animation child:
+
+```tsx
+<div key={replayKey}>
+  {typeof children === 'function'
+    ? children({ bulbCount, onColor })
+    : children
+  }
+</div>
+```
+
+React treats different `key` values as different components, forcing a re-mount and resetting animation state.
+
+### Performance Considerations
+
+- ✅ AnimationCard is memoized with `React.memo`
+- ✅ IntersectionObserver prevents off-screen animations from running
+- ✅ `hasPlayed` flag prevents re-triggering on scroll
+- ✅ Only one observer instance per card
+- ✅ Cleanup prevents memory leaks
+
+## Group Navigation Flow
+
+The app supports URL-based navigation to specific animation groups with automatic scrolling and state synchronization.
+
+### URL Structure
+
+```
+/                          → Default (first group)
+/:groupId                  → Specific group (e.g., /button-effects-framer)
+```
+
+### Navigation Components
+
+1. **URL Parameter**: React Router captures `:groupId` from URL
+2. **State Management**: `currentGroupId` state tracks active group
+3. **Sidebar**: `AppSidebar` highlights active category/group
+4. **Content**: `GroupSection` renders active group's animations
+5. **Scroll**: Automatic scroll to group section on navigation
+
+### Navigation Flow
+
+```
+User clicks group → navigate(groupId) → URL updates → useEffect detects change
+→ setCurrentGroupId → Sidebar updates → Content scrolls → Group visible
+```
+
+### Implementation Details
+
+**URL Sync (App.tsx):**
+```tsx
+useEffect(() => {
+  if (allGroups.length === 0) return
+
+  if (groupId && allGroups.some(g => g.id === groupId)) {
+    setCurrentGroupId(groupId)
+  } else if (!groupId) {
+    const firstGroupId = allGroups[0].id
+    setCurrentGroupId(firstGroupId)
+    window.location.href = `/${firstGroupId}` // Update URL
+  }
+}, [allGroups, groupId])
+```
+
+**Scroll-to-View:**
+```tsx
+useEffect(() => {
+  if (!currentGroupId) return
+
+  const id = `group-${currentGroupId}`
+  const element = document.getElementById(id)
+
+  requestAnimationFrame(() => {
+    element?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  })
+}, [currentGroupId])
+```
+
+**Handler (App.tsx):**
+```tsx
+const handleGroupSelect = useCallback((groupId: string) => {
+  if (groupId === currentGroupId) return
+  window.location.href = `/${groupId}` // Full page navigation for URL update
+}, [currentGroupId])
+```
+
+### State Persistence
+
+- URL is the source of truth for current group
+- Browser back/forward buttons work correctly
+- Deep linking to specific groups supported
+- Refresh preserves current group
+
+### Mobile Drawer
+
+On mobile, group selection also closes the drawer:
+
+```tsx
+const handleGroupSelectMobile = useCallback((groupId: string) => {
+  handleGroupSelect(groupId)
+  setIsDrawerOpen(false) // Close drawer after selection
+}, [handleGroupSelect])
+```
+
+## Architecture Decision Records
+
+For detailed context on major architectural decisions, see:
+
+- [ADR-001: Framer Motion Selection](./adr/ADR-001-framer-motion.md)
+- [ADR-002: Co-located Metadata System](./adr/ADR-002-colocated-metadata.md)
+- [ADR-003: Test Infrastructure](./adr/ADR-003-test-infrastructure.md)
+
 ## Testing
 
 Comprehensive test coverage ensures:

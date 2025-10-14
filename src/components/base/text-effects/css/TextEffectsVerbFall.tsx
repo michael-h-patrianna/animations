@@ -4,9 +4,10 @@
  * RN parity: Pure CSS animations - port keyframes to Reanimated.
  */
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsVerbFall.css'
 
-export function TextEffectsVerbFall() {
+function TextEffectsVerbFallComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -28,6 +29,11 @@ export function TextEffectsVerbFall() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsVerbFall to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsVerbFall = memo(TextEffectsVerbFallComponent)
 
 
 export default TextEffectsVerbFall

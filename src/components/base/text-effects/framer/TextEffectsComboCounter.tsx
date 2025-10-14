@@ -1,10 +1,10 @@
 
 import { animate, easeInOut, easeOut, motion, useMotionValue, useTransform } from 'framer-motion'
-import { useEffect } from 'react'
+import { useEffect, memo } from 'react'
 import './TextEffectsComboCounter.css'
 import '../shared.css'
 
-export function TextEffectsComboCounter() {
+function TextEffectsComboCounterComponent() {
   const finalValue = 25
   const comboText = 'COMBO'
 
@@ -210,5 +210,10 @@ export function TextEffectsComboCounter() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsComboCounter to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsComboCounter = memo(TextEffectsComboCounterComponent)
 
 

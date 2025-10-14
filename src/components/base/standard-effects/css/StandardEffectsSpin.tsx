@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsSpin.css'
 
-export function StandardEffectsSpin() {
+function StandardEffectsSpinComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element spin-element">
@@ -10,4 +11,9 @@ export function StandardEffectsSpin() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsSpin to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsSpin = memo(StandardEffectsSpinComponent)
 

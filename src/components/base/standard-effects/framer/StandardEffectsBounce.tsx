@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 import '../shared.css'
 
-export function StandardEffectsBounce() {
+function StandardEffectsBounceComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -24,4 +25,9 @@ export function StandardEffectsBounce() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsBounce to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsBounce = memo(StandardEffectsBounceComponent)
 

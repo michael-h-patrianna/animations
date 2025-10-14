@@ -1,9 +1,9 @@
 import { easeOut, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsLiquidMorph.css'
 
-export function ButtonEffectsLiquidMorph() {
+function ButtonEffectsLiquidMorphComponent() {
 const [isAnimating, setIsAnimating] = useState(false)
 
   const handleClick = () => {
@@ -42,4 +42,9 @@ const [isAnimating, setIsAnimating] = useState(false)
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsLiquidMorph to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsLiquidMorph = memo(ButtonEffectsLiquidMorphComponent)
 

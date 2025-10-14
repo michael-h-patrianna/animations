@@ -1,20 +1,75 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChevronDown } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
+/**
+ * Props for the AnimationCard component
+ */
 interface AnimationCardProps {
+  /** Display title of the animation */
   title: string
+  /** Short description of the animation effect */
   description: string
+  /** Unique identifier for the animation */
   animationId: string
+  /** Optional array of searchable tags */
   tags?: string[]
+  /** Optional callback fired when replay button is clicked */
   onReplay?: () => void
-  infiniteAnimation?: boolean // For animations that should loop indefinitely
-  disableReplay?: boolean // When true, hide/disable the replay button
+  /** When true, animation loops indefinitely without replay button */
+  infiniteAnimation?: boolean
+  /** When true, hides/disables the replay button */
+  disableReplay?: boolean
+  /** Animation component or render function receiving bulbCount and onColor */
   children: React.ReactNode | ((props: { bulbCount: number; onColor: string }) => React.ReactNode)
 }
 
-export function AnimationCard({
+/**
+ * AnimationCard component displays an animation with metadata, description, and replay controls.
+ *
+ * Features:
+ * - **Automatic playback**: Uses IntersectionObserver to trigger animation when card enters viewport
+ * - **Replay functionality**: Remounts child component via key prop to reset animation state
+ * - **Lights controls**: For lights animations, provides bulb count and color controls
+ * - **Expandable description**: Collapsible description section with chevron indicator
+ * - **Performance optimized**: Memoized to prevent unnecessary re-renders in grid layouts
+ *
+ * @param props - AnimationCard props
+ *
+ * @example
+ * ```tsx
+ * <AnimationCard
+ *   title="Button Bounce"
+ *   description="Bouncy button effect on click"
+ *   animationId="button-effects__bounce"
+ *   tags={['button', 'bounce', 'click']}
+ * >
+ *   <ButtonBounce />
+ * </AnimationCard>
+ * ```
+ *
+ * @example
+ * With render function for lights animation:
+ * ```tsx
+ * <AnimationCard
+ *   title="Holiday Lights"
+ *   description="Twinkling holiday lights effect"
+ *   animationId="lights__holiday"
+ * >
+ *   {({ bulbCount, onColor }) => (
+ *     <HolidayLights count={bulbCount} color={onColor} />
+ *   )}
+ * </AnimationCard>
+ * ```
+ *
+ * @remarks
+ * - Uses IntersectionObserver with 10% threshold for visibility detection
+ * - Replay increments `replayKey` state to force child re-mount
+ * - Lights animations get special controls for customization
+ * - Component is memoized for performance in grid layouts
+ */
+const AnimationCardComponent = ({
   title,
   description,
   animationId,
@@ -23,7 +78,7 @@ export function AnimationCard({
   onReplay,
   infiniteAnimation = false,
   disableReplay = false,
-}: AnimationCardProps) {
+}: AnimationCardProps) => {
   const [replayKey, setReplayKey] = useState(0)
   const [hasPlayed, setHasPlayed] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
@@ -195,3 +250,9 @@ export function AnimationCard({
     </Card>
   )
 }
+
+/**
+ * Memoized AnimationCard component to prevent unnecessary re-renders.
+ * Used in grid layouts where parent re-renders should not trigger child re-renders.
+ */
+export const AnimationCard = memo(AnimationCardComponent)

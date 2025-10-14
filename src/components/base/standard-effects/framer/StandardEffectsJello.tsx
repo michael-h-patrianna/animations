@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 
 import '../shared.css'
 
-export function StandardEffectsJello() {
+function StandardEffectsJelloComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -23,3 +24,8 @@ export function StandardEffectsJello() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsJello to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsJello = memo(StandardEffectsJelloComponent)

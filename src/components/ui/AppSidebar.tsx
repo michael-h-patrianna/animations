@@ -9,6 +9,40 @@ interface AppSidebarProps {
   className?: string
 }
 
+/**
+ * Navigation sidebar component displaying hierarchical category and group structure.
+ *
+ * Renders a collapsible accordion-style navigation with categories as top-level items
+ * and their associated groups as nested subitems. Highlights the currently active
+ * group and its parent category.
+ *
+ * @component
+ * @param {AppSidebarProps} props - Component props
+ * @param {Category[]} props.categories - Array of animation categories with nested groups
+ * @param {string} props.currentGroupId - ID of the currently selected group for highlighting
+ * @param {(categoryId: string) => void} props.onCategorySelect - Callback when category header clicked
+ * @param {(groupId: string) => void} props.onGroupSelect - Callback when group item clicked
+ * @param {string} [props.className] - Optional CSS class name for custom styling
+ *
+ * @returns {JSX.Element} Sidebar navigation component
+ *
+ * @example
+ * ```tsx
+ * <AppSidebar
+ *   categories={animationCategories}
+ *   currentGroupId="button-effects"
+ *   onCategorySelect={(id) => console.log('Category:', id)}
+ *   onGroupSelect={(id) => navigateToGroup(id)}
+ *   className="custom-sidebar"
+ * />
+ * ```
+ *
+ * @remarks
+ * - Categories show active state when any of their groups is selected
+ * - Groups show active state when they match currentGroupId
+ * - Categories without groups only display the category header
+ * - Uses BEM naming convention for CSS classes (pf-sidebar)
+ */
 export const AppSidebar: FC<AppSidebarProps> = ({
   categories,
   currentGroupId,

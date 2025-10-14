@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 import './TextEffectsComboCounter.css'
 
-export function TextEffectsComboCounter() {
+function TextEffectsComboCounterComponent() {
   const finalValue = 25
   const comboText = 'COMBO'
   const [count, setCount] = useState(0)
@@ -238,4 +238,9 @@ export function TextEffectsComboCounter() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsComboCounter to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsComboCounter = memo(TextEffectsComboCounterComponent)
 

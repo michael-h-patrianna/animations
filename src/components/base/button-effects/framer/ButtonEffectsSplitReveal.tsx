@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import '../shared.css'
 import './ButtonEffectsSplitReveal.css'
 
-export function ButtonEffectsSplitReveal() {
+function ButtonEffectsSplitRevealComponent() {
   const [isRevealing, setIsRevealing] = useState(false)
 const handleClick = () => {
     setIsRevealing(true)
@@ -59,4 +59,9 @@ const handleClick = () => {
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsSplitReveal to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsSplitReveal = memo(ButtonEffectsSplitRevealComponent)
 

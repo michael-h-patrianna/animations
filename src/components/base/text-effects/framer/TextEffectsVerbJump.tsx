@@ -6,10 +6,11 @@
 
 import { easeInOut, motion } from 'framer-motion'
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsVerbJump.css'
 import '../shared.css'
 
-export function TextEffectsVerbJump() {
+function TextEffectsVerbJumpComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -41,5 +42,10 @@ export function TextEffectsVerbJump() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsVerbJump to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsVerbJump = memo(TextEffectsVerbJumpComponent)
 
 

@@ -4,9 +4,10 @@
  * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
  */
 import React, { useEffect, useRef } from 'react'
+import { memo } from 'react'
 import './TextEffectsHorizonLightPass.css'
 
-export function TextEffectsHorizonLightPass() {
+function TextEffectsHorizonLightPassComponent() {
   const text = 'LOREM IPSUM DOLOR'
   const containerRef = useRef<HTMLDivElement>(null)
   const lettersRef = useRef<HTMLSpanElement[]>([])
@@ -88,6 +89,11 @@ export function TextEffectsHorizonLightPass() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsHorizonLightPass to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)
 
 
 export default TextEffectsHorizonLightPass

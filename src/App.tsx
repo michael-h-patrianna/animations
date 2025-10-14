@@ -2,16 +2,19 @@ import githubIcon from '@/assets/github.svg'
 import { AppSidebar } from '@/components/ui/AppSidebar'
 import { GroupSection } from '@/components/ui/catalog'
 import { useAnimations } from '@/hooks/useAnimations'
+import { useGroupInitialization } from '@/hooks/useGroupInitialization'
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut'
+import { useScrollLock } from '@/hooks/useScrollLock'
+import { useScrollToGroup } from '@/hooks/useScrollToGroup'
 import type { Group } from '@/types/animation'
 import { AnimatePresence, motion, useDragControls } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useCallback, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import './App.css'
 
 function App() {
   const { categories, isLoading, error } = useAnimations()
   const { groupId } = useParams<{ groupId?: string }>()
-  const navigate = useNavigate()
   const [currentGroupId, setCurrentGroupId] = useState<string>('')
   const direction = 0
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -22,113 +25,61 @@ function App() {
   const allGroups: Group[] = categories.flatMap((category) => category.groups)
 
   // Initialize from URL param or default to first group
-  useEffect(() => {
-    if (allGroups.length === 0) return
+  useGroupInitialization({
+    allGroups,
+    groupId,
+    currentGroupId,
+    setCurrentGroupId,
+  })
 
-    if (groupId && allGroups.some((g) => g.id === groupId)) {
-      // URL has a valid groupId
-      setCurrentGroupId(groupId)
-    } else if (groupId && !groupId.endsWith('-framer') && !groupId.endsWith('-css')) {
-      // URL has a group name without -framer or -css suffix, redirect to -framer
-      const framerGroupId = `${groupId}-framer`
-      if (allGroups.some((g) => g.id === framerGroupId)) {
-        window.location.href = `/${framerGroupId}`
-      } else if (!currentGroupId) {
-        // Framer version doesn't exist, default to first group
-        const firstGroupId = allGroups[0].id
-        setCurrentGroupId(firstGroupId)
-        window.location.href = `/${firstGroupId}`
+  const handleGroupSelect = useCallback(
+    (groupId: string) => {
+      if (groupId === currentGroupId) return
+
+      window.location.href = `/${groupId}`
+    },
+    [currentGroupId]
+  )
+
+  const handleCategorySelect = useCallback(
+    (categoryId: string) => {
+      // Navigate to the first group in the selected category
+      const category = categories.find((c) => c.id === categoryId)
+      if (category && category.groups.length > 0) {
+        handleGroupSelect(category.groups[0].id)
       }
-    } else if (!currentGroupId) {
-      // No URL param or invalid, default to first group
-      const firstGroupId = allGroups[0].id
-      setCurrentGroupId(firstGroupId)
-      window.location.href = `/${firstGroupId}`
-    }
-  }, [allGroups, groupId, currentGroupId, navigate])
-
-  const handleCategorySelect = (categoryId: string) => {
-    // Navigate to the first group in the selected category
-    const category = categories.find((c) => c.id === categoryId)
-    if (category && category.groups.length > 0) {
-      handleGroupSelect(category.groups[0].id)
-    }
-  }
-
-  const handleGroupSelect = (groupId: string) => {
-    if (groupId === currentGroupId) return
-
-    window.location.href = `/${groupId}`
-  }
+    },
+    [categories, handleGroupSelect]
+  )
 
   // Close drawer on ESC
-  useEffect(() => {
-    if (!isDrawerOpen) return
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsDrawerOpen(false)
-    }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [isDrawerOpen])
+  useKeyboardShortcut({
+    isOpen: isDrawerOpen,
+    onClose: () => setIsDrawerOpen(false),
+  })
 
   // Prevent background scroll when drawer is open
-  useEffect(() => {
-    if (isDrawerOpen) {
-      const prev = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      return () => {
-        document.body.style.overflow = prev
-      }
-    }
-  }, [isDrawerOpen])
+  useScrollLock(isDrawerOpen)
 
   // Wrapped selectors for mobile to close the drawer
-  const handleCategorySelectMobile = (categoryId: string) => {
-    handleCategorySelect(categoryId)
-    setIsDrawerOpen(false)
-  }
-  const handleGroupSelectMobile = (groupId: string) => {
-    handleGroupSelect(groupId)
-    setIsDrawerOpen(false)
-  }
+  const handleCategorySelectMobile = useCallback(
+    (categoryId: string) => {
+      handleCategorySelect(categoryId)
+      setIsDrawerOpen(false)
+    },
+    [handleCategorySelect]
+  )
+
+  const handleGroupSelectMobile = useCallback(
+    (groupId: string) => {
+      handleGroupSelect(groupId)
+      setIsDrawerOpen(false)
+    },
+    [handleGroupSelect]
+  )
 
   // When navigating between groups, scroll the new group into view but keep the app bar visible
-  useEffect(() => {
-    if (!currentGroupId || typeof window === 'undefined') return
-
-    const id = `group-${currentGroupId}`
-    const EXTRA_OFFSET = 16
-    let raf = 0
-    let timeout: ReturnType<typeof setTimeout> | undefined
-
-    const scrollGroupIntoView = () => {
-      const el = document.getElementById(id)
-      if (!el) return false
-
-      const appBar = appBarRef.current ?? document.querySelector<HTMLElement>('[data-app-shell="bar"]')
-      const appBarHeight = appBar?.getBoundingClientRect().height ?? 0
-      const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - appBarHeight - EXTRA_OFFSET)
-
-      if (Math.abs(window.scrollY - targetY) > 1) {
-        window.scrollTo({ top: targetY, behavior: 'auto' })
-      }
-
-      return true
-    }
-
-    const attemptScroll = () => {
-      if (!scrollGroupIntoView()) {
-        timeout = setTimeout(scrollGroupIntoView, 360)
-      }
-    }
-
-    raf = requestAnimationFrame(attemptScroll)
-
-    return () => {
-      cancelAnimationFrame(raf)
-      if (timeout) clearTimeout(timeout)
-    }
-  }, [currentGroupId])
+  useScrollToGroup({ currentGroupId, appBarRef })
 
   if (error) {
     return (

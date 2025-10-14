@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { memo } from 'react'
 import './ButtonEffectsShockwave.css'
 import '../shared.css'
 
@@ -8,7 +9,7 @@ interface Shockwave {
   y: number
 }
 
-export function ButtonEffectsShockwave() {
+function ButtonEffectsShockwaveComponent() {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
   const nextId = useRef(0)
@@ -61,4 +62,9 @@ export function ButtonEffectsShockwave() {
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsShockwave to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsShockwave = memo(ButtonEffectsShockwaveComponent)
 

@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsPulseCircle.css'
 
-export function StandardEffectsPulseCircle() {
+function StandardEffectsPulseCircleComponent() {
   return (
 
         <div className="pulse-circle-wrapper">
@@ -10,4 +11,9 @@ export function StandardEffectsPulseCircle() {
 
   )
 }
+
+/**
+ * Memoized StandardEffectsPulseCircle to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsPulseCircle = memo(StandardEffectsPulseCircleComponent)
 

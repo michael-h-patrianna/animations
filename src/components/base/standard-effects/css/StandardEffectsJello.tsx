@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsJello.css'
 
-export function StandardEffectsJello() {
+function StandardEffectsJelloComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element jello-element">
@@ -10,4 +11,9 @@ export function StandardEffectsJello() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsJello to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsJello = memo(StandardEffectsJelloComponent)
 

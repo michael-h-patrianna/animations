@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 import './TextEffectsXpNumberPop.css'
 
 interface Particle {
@@ -10,7 +10,7 @@ interface Particle {
   delay: number
 }
 
-export function TextEffectsXpNumberPop() {
+function TextEffectsXpNumberPopComponent() {
   const [count, setCount] = useState(0)
   const [particles, setParticles] = useState<Particle[]>([])
   const numberWrapperRef = useRef<HTMLDivElement>(null)
@@ -147,4 +147,9 @@ export function TextEffectsXpNumberPop() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsXpNumberPop to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
 

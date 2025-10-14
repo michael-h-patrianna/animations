@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import './ButtonEffectsLiquidMorph.css'
 import '../shared.css'
 
-export function ButtonEffectsLiquidMorph() {
+function ButtonEffectsLiquidMorphComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
   const handleClick = () => {
@@ -21,4 +21,9 @@ export function ButtonEffectsLiquidMorph() {
     </div>
   )
 }
+
+/**
+ * Memoized ButtonEffectsLiquidMorph to prevent unnecessary re-renders in grid layouts.
+ */
+export const ButtonEffectsLiquidMorph = memo(ButtonEffectsLiquidMorphComponent)
 

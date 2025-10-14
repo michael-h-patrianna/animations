@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsShake.css'
 
-export function StandardEffectsShake() {
+function StandardEffectsShakeComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element standard-effects-shake-element">
@@ -10,4 +11,9 @@ export function StandardEffectsShake() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsShake to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsShake = memo(StandardEffectsShakeComponent)
 

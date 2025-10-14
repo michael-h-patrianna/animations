@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 
 import '../shared.css'
 
-export function StandardEffectsSqueeze() {
+function StandardEffectsSqueezeComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -24,3 +25,8 @@ export function StandardEffectsSqueeze() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsSqueeze to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsSqueeze = memo(StandardEffectsSqueezeComponent)

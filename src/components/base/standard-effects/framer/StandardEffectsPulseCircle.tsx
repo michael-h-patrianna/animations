@@ -1,9 +1,10 @@
+import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPulseCircle.css'
 
-export function StandardEffectsPulseCircle() {
+function StandardEffectsPulseCircleComponent() {
 
   const duration = motionDurations.pulseCircle
   const ringTimes = [0, 0.7, 1]
@@ -51,4 +52,9 @@ export function StandardEffectsPulseCircle() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsPulseCircle to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsPulseCircle = memo(StandardEffectsPulseCircleComponent)
 

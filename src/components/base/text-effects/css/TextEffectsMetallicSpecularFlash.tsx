@@ -4,9 +4,10 @@
  * RN parity: transforms/opacity/color only; pure CSS animations.
  */
 import React from 'react'
+import { memo } from 'react'
 import './TextEffectsMetallicSpecularFlash.css'
 
-export function TextEffectsMetallicSpecularFlash() {
+function TextEffectsMetallicSpecularFlashComponent() {
   const text = 'LORUM IPSUM DOLOR'
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -30,6 +31,11 @@ export function TextEffectsMetallicSpecularFlash() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsMetallicSpecularFlash to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsMetallicSpecularFlash = memo(TextEffectsMetallicSpecularFlashComponent)
 
 
 export default TextEffectsMetallicSpecularFlash

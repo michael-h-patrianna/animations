@@ -1,9 +1,10 @@
+import { memo } from 'react'
 
 import { easeOut, motion } from 'framer-motion'
 import './TextEffectsCharacterReveal.css'
 import '../shared.css'
 
-export function TextEffectsCharacterReveal() {
+function TextEffectsCharacterRevealComponent() {
   const text = 'ACHIEVEMENT'
   const subtitle = 'UNLOCKED'
 
@@ -106,4 +107,9 @@ export function TextEffectsCharacterReveal() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsCharacterReveal to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsCharacterReveal = memo(TextEffectsCharacterRevealComponent)
 

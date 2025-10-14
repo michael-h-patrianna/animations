@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { easeOut, motion } from 'framer-motion'
 import '../shared.css'
 
-export function StandardEffectsFade() {
+function StandardEffectsFadeComponent() {
   return (
     <div className="standard-demo-container">
       <motion.div
@@ -18,3 +19,8 @@ export function StandardEffectsFade() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsFade to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsFade = memo(StandardEffectsFadeComponent)

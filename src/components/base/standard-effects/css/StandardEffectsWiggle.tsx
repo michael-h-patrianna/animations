@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsWiggle.css'
 
-export function StandardEffectsWiggle() {
+function StandardEffectsWiggleComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element standard-effects-wiggle-element">
@@ -10,4 +11,9 @@ export function StandardEffectsWiggle() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsWiggle to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsWiggle = memo(StandardEffectsWiggleComponent)
 

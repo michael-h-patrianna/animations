@@ -1,9 +1,10 @@
+import { memo } from 'react'
 
 import { easeInOut, easeOut, motion } from 'framer-motion'
 import './StandardEffectsSoftPulse.css'
 import '../shared.css'
 
-export function StandardEffectsSoftPulse() {
+function StandardEffectsSoftPulseComponent() {
 const coreVariants = {
     animate: {
       scale: [1, 1.06, 1],
@@ -82,4 +83,9 @@ const coreVariants = {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsSoftPulse to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsSoftPulse = memo(StandardEffectsSoftPulseComponent)
 

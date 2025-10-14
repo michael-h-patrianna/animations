@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import '../shared.css'
 import './StandardEffectsHeartbeat.css'
 
-export function StandardEffectsHeartbeat() {
+function StandardEffectsHeartbeatComponent() {
   return (
     <div className="standard-demo-container">
       <div className="standard-demo-element standard-effects-heartbeat">
@@ -10,4 +11,9 @@ export function StandardEffectsHeartbeat() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsHeartbeat to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsHeartbeat = memo(StandardEffectsHeartbeatComponent)
 

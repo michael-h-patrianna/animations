@@ -1,6 +1,6 @@
 
 import { animate, AnimatePresence, easeOut, motion, useAnimation, useMotionValue, useTransform } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import './TextEffectsXpNumberPop.css'
 import '../shared.css'
 
@@ -13,7 +13,7 @@ interface Particle {
   delay: number
 }
 
-export function TextEffectsXpNumberPop() {
+function TextEffectsXpNumberPopComponent() {
   const glowControls = useAnimation()
   const numberControls = useAnimation()
   const [particles, setParticles] = useState<Particle[]>([])
@@ -141,5 +141,10 @@ export function TextEffectsXpNumberPop() {
     </div>
   )
 }
+
+/**
+ * Memoized TextEffectsXpNumberPop to prevent unnecessary re-renders in grid layouts.
+ */
+export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
 
 

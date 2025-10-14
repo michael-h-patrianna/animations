@@ -1,9 +1,10 @@
+import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
 import { motion } from 'framer-motion'
 import '../shared.css'
 import './StandardEffectsPulseWave.css'
 
-export function StandardEffectsPulseWave() {
+function StandardEffectsPulseWaveComponent() {
   const duration = motionDurations.pulseWave
   const ringTimes = [0, 0.7, 1]
 
@@ -45,4 +46,9 @@ export function StandardEffectsPulseWave() {
     </div>
   )
 }
+
+/**
+ * Memoized StandardEffectsPulseWave to prevent unnecessary re-renders in grid layouts.
+ */
+export const StandardEffectsPulseWave = memo(StandardEffectsPulseWaveComponent)
 
