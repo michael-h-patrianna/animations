@@ -14,4 +14,5 @@
 .flip-element {
   animation: flip-animation 0.8s ease-in-out;
   backface-visibility: visible;
+  will-change: transform;
 }

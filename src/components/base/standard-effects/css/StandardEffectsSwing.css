@@ -1,7 +1,8 @@
 /* CSS-only Swing Animation */
-.standard-effects-swing-element {
+.swing-element {
   transform-origin: center top;
   animation: swing-effect 1s ease-in-out;
+  will-change: transform;
 }
 
 @keyframes swing-effect {

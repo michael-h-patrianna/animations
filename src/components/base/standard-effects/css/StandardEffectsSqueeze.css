@@ -1,7 +1,8 @@
 /* CSS-only Squeeze Animation */
-.standard-effects-squeeze-element {
+.squeeze-element {
   transform-origin: center center;
   animation: squeeze-effect 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  will-change: transform, opacity;
 }
 
 @keyframes squeeze-effect {

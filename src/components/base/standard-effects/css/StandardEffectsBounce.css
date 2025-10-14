@@ -1,7 +1,8 @@
 /* CSS-only Bounce Animation */
-.standard-effects-bounce-element {
+.bounce-element {
   transform-origin: center bottom;
   animation: bounce-effect 0.8s ease-in-out;
+  will-change: transform;
 }
 
 @keyframes bounce-effect {

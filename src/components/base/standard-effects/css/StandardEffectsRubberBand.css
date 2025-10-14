@@ -1,7 +1,8 @@
 /* CSS-only Rubber Band Animation */
-.standard-effects-rubber-band-element {
+.rubber-band-element {
   transform-origin: center center;
   animation: rubber-band-effect 1s ease-in-out;
+  will-change: transform;
 }
 
 @keyframes rubber-band-effect {

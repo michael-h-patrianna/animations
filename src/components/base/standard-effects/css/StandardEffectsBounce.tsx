@@ -5,7 +5,7 @@ import './StandardEffectsBounce.css'
 function StandardEffectsBounceComponent() {
   return (
     <div className="standard-demo-container">
-      <div className="standard-demo-element standard-effects-bounce-element">
+      <div className="standard-demo-element bounce-element">
         <div className="demo-text">Bounce</div>
       </div>
     </div>

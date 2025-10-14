@@ -18,6 +18,7 @@
   animation: pulse-animation 1.5s cubic-bezier(0.4, 0, 0.6, 1);
   transform-origin: center center;
   position: relative;
+  will-change: transform, opacity;
 }
 .pulse-element::before {
   content: '';

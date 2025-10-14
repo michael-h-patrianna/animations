@@ -5,7 +5,7 @@ import './StandardEffectsRubberBand.css'
 function StandardEffectsRubberBandComponent() {
   return (
     <div className="standard-demo-container">
-      <div className="standard-demo-element standard-effects-rubber-band-element">
+      <div className="standard-demo-element rubber-band-element">
         <div className="demo-text">RubberBand</div>
       </div>
     </div>

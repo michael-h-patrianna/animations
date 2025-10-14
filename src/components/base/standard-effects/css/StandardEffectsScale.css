@@ -1,7 +1,8 @@
 /* CSS-only Scale Animation */
-.standard-effects-scale-element {
+.scale-element {
   transform-origin: center center;
   animation: scale-effect 0.6s ease-out;
+  will-change: transform, opacity;
 }
 
 @keyframes scale-effect {

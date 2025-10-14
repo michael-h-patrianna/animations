@@ -12,6 +12,7 @@
   background: var(--pf-base-20);
   position: relative;
   animation: pulse-core-breathe 2s ease-in-out infinite;
+  will-change: transform;
 }
 
 .standard-pulse-wave .core::before,
@@ -24,6 +25,7 @@
   opacity: 0.6;
   transform: scale(1);
   animation: pulse-wave-ring 2s ease-out infinite;
+  will-change: transform, opacity;
 }
 
 .standard-pulse-wave .core::after {

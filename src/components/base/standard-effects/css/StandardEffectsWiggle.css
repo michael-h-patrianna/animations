@@ -1,5 +1,5 @@
 /* CSS-only Wiggle Animation */
-.standard-effects-wiggle-element {
+.wiggle-element {
   animation: wiggle-effect 1s ease-in-out;
   will-change: transform;
 }

@@ -1,6 +1,8 @@
 /* CSS-only Shake Animation */
-.standard-effects-shake-element {
+.shake-element {
   animation: shake-effect 0.5s ease-in-out;
+  will-change: transform;
+  transform-origin: center center;
 }
 
 @keyframes shake-effect {

@@ -5,7 +5,7 @@ import './StandardEffectsSqueeze.css'
 function StandardEffectsSqueezeComponent() {
   return (
     <div className="standard-demo-container">
-      <div className="standard-demo-element standard-effects-squeeze-element">
+      <div className="standard-demo-element squeeze-element">
         <div className="demo-text">Squeeze</div>
       </div>
     </div>
