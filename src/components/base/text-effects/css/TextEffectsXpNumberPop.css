@@ -1,5 +1,5 @@
-/* Styles scoped for TextEffectsXpNumberPop */
-.xp-pop-container {
+/* Container */
+.txnp-container {
   position: relative;
   min-height: 80px;
   display: flex;
@@ -8,14 +8,25 @@
   overflow: visible;
 }
 
-.xp-pop-number-wrapper {
+/* Number Wrapper - GPU Optimized */
+.txnp-number-wrapper {
   display: flex;
   align-items: baseline;
   position: relative;
   z-index: 2;
+
+  /* GPU acceleration */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-origin: center;
+
+  /* Animation */
+  animation: txnp-number-entrance 1600ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
 }
 
-.xp-pop-number-value {
+/* Number Value */
+.txnp-number-value {
   font-size: 56px;
   font-weight: 900;
   background: linear-gradient(135deg, #c6ff77, #a8ff3e);
@@ -27,12 +38,150 @@
     0 0 60px rgba(198, 255, 119, 0.5),
     0 2px 4px rgba(0, 0, 0, 0.3);
   letter-spacing: 2px;
+
+  /* GPU acceleration */
+  will-change: opacity;
+  backface-visibility: hidden;
 }
 
-.xp-pop-label {
+/* XP Label */
+.txnp-label {
   font-size: 24px;
   margin-left: 8px;
   font-weight: 700;
-  opacity: 0.8;
   color: #a8ff3e;
+
+  /* GPU acceleration */
+  will-change: opacity;
+  backface-visibility: hidden;
+
+  /* Animation */
+  animation: txnp-label-fade 400ms 400ms ease-out forwards;
+  opacity: 0;
+}
+
+/* ============================================================================
+   Floating Particles
+   ========================================================================== */
+
+.txnp-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-weight: 700;
+  pointer-events: none;
+  z-index: 3;
+
+  /* GPU acceleration */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-origin: center;
+
+  /* Animation - delay set via inline style for timing sync */
+  animation: txnp-particle-burst 2600ms ease-out forwards;
+  opacity: 0;
+
+  /* Initial position */
+  transform: translate3d(-50%, -50%, 0);
+}
+
+/* Particle Sizes - Inner layer larger, outer layer smaller */
+.txnp-particle:nth-child(-n + 5) {
+  font-size: 18px;
+}
+
+.txnp-particle:nth-child(n + 6) {
+  font-size: 14px;
+}
+
+/* Particle Colors - Gradient from bright green to lime */
+.txnp-particle:nth-child(1),
+.txnp-particle:nth-child(6) {
+  color: #c6ff77;
+  text-shadow: 0 0 15px rgba(198, 255, 119, 0.9);
+}
+
+.txnp-particle:nth-child(2),
+.txnp-particle:nth-child(7) {
+  color: #b8ff5e;
+  text-shadow: 0 0 15px rgba(184, 255, 94, 0.9);
+}
+
+.txnp-particle:nth-child(3),
+.txnp-particle:nth-child(8) {
+  color: #a8ff3e;
+  text-shadow: 0 0 15px rgba(168, 255, 62, 0.9);
+}
+
+.txnp-particle:nth-child(4),
+.txnp-particle:nth-child(9) {
+  color: #9bff28;
+  text-shadow: 0 0 15px rgba(155, 255, 40, 0.9);
+}
+
+.txnp-particle:nth-child(5),
+.txnp-particle:nth-child(10) {
+  color: #8eff10;
+  text-shadow: 0 0 15px rgba(142, 255, 16, 0.9);
+}
+
+/* ============================================================================
+   Keyframe Animations
+   ========================================================================== */
+
+/* Number entrance with pop effect */
+@keyframes txnp-number-entrance {
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 1) translate3d(0, 20px, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale3d(1.15, 1.15, 1) translate3d(0, -5px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+  }
+}
+
+/* Label fade-in */
+@keyframes txnp-label-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Particle burst - Uses CSS variables for dynamic positioning */
+@keyframes txnp-particle-burst {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1);
+  }
+  20% {
+    opacity: 1;
+    transform: translate3d(calc(-50% + var(--particle-x)), calc(-50% + var(--particle-y)), 0)
+      scale3d(1, 1, 1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(
+        calc(-50% + var(--particle-x) * 1.2),
+        calc(-50% + var(--particle-y) * 1.2 - 20px),
+        0
+      )
+      scale3d(1, 1, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(
+        calc(-50% + var(--particle-x) * 1.5),
+        calc(-50% + var(--particle-y) * 1.5 - 40px),
+        0
+      )
+      scale3d(0.7, 0.7, 1);
+  }
 }

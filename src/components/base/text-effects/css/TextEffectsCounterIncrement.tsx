@@ -34,7 +34,9 @@ interface IncrementStep {
 function roundToNiceNumber(num: number): number {
   if (num === 0) return 0
 
-  const magnitude = Math.pow(10, Math.floor(Math.log10(num)))
+  // Find magnitude using string length (faster than log10)
+  const numStr = Math.abs(num).toString()
+  const magnitude = 10 ** (numStr.length - 1)
   const normalized = num / magnitude
 
   // Round to 1, 2, 2.5, or 5 * magnitude
@@ -62,7 +64,7 @@ function calculateIncrementSteps(
   // Ease-in cubic curve: y = x^3
   // This makes values start slow and accelerate (small increments → large increments)
   const easeInCubic = (t: number): number => {
-    return Math.pow(t, 3)
+    return t * t * t
   }
 
   for (let i = 0; i < numSteps; i++) {
