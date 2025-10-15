@@ -1,5 +1,50 @@
+/* Keyframe animations for TextEffectsCharacterReveal */
+@keyframes char-reveal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes char-reveal-shadow-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes char-reveal-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(0) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes char-reveal-subtitle-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Styles scoped for TextEffectsCharacterReveal */
-.character-reveal-container {
+.char-reveal-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,16 +52,20 @@
   gap: 12px;
   min-height: 80px;
   padding: 20px;
+  contain: layout style; /* Isolate from grid layout thrashing */
 }
 
-.text-container {
+.char-reveal-text-container {
   position: relative;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.shadow-text {
+
+/* Common styles for text layers */
+.char-reveal-shadow-text,
+.char-reveal-main-text {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -24,21 +73,26 @@
   font-weight: 900;
   letter-spacing: 3px;
 }
-.shadow-char {
+
+.char-reveal-shadow-text {
+  animation: char-reveal-fade-in 600ms ease-out 200ms both;
+}
+
+.char-reveal-shadow-char {
   display: inline-block;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.4);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: char-reveal-shadow-fade 300ms ease-out both;
+  will-change: opacity; /* Pre-composite for smoother staggered animation */
 }
-.text-wrapper {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: 3px;
+
+.char-reveal-main-text {
+  animation: char-reveal-fade-in 300ms linear 500ms both;
 }
-.text-char {
+
+.char-reveal-main-char {
   display: inline-block;
   text-transform: uppercase;
   background: linear-gradient(
@@ -53,33 +107,19 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   transform-origin: center bottom;
-  position: relative;
+  opacity: 0;
+  animation: char-reveal-pop 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  will-change: opacity, transform; /* Pre-composite for complex gradient text + transform */
 }
-.text-char::after {
-  content: attr(data-char);
-  position: absolute;
-  top: 2px;
-  left: 0;
-  color: rgba(255, 215, 0, 0.3);
-  z-index: -1;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: unset;
-  background-clip: unset;
-}
-.subtitle-text {
+
+.char-reveal-subtitle {
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 4px;
   color: rgba(255, 193, 7, 0.8);
   text-align: center;
-  position: relative;
-}
-.subtitle-text::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 1px;
-  left: 0;
-  color: rgba(0, 0, 0, 0.2);
-  z-index: -1;
+  opacity: 0;
+  animation: char-reveal-subtitle-up 500ms ease-out 1200ms both;
+  will-change: opacity, transform; /* Pre-composite for smooth slide-up */
 }
