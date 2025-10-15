@@ -1,23 +1,32 @@
-/**
- * Standalone: Copy this file into your app.
- * Runtime deps: react
- * RN parity: Pure CSS animations - port keyframes to Reanimated.
- */
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import './TextEffectsVerbJog.css'
 
-function TextEffectsVerbJogComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbJogProps {
+  /** The text to animate. Supports any length and whitespace characters.
+   * @default "LOREM IPSUM DOLOR"
+   */
+  text?: string
+}
+
+/**
+ * Jogging text animation with bouncy up-down motion and subtle rotation.
+ * Characters bounce with alternating delays creating a rhythmic jogging effect.
+ *
+ * @example
+ * <TextEffectsVerbJog />
+ * <TextEffectsVerbJog text="RUN FAST" />
+ * <TextEffectsVerbJog text="Quick Brown Fox" />
+ */
+function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbJogProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbJog" data-animation-id="text-effects__verb-jogging" aria-label={text}>
-      <div className="verbJog__line" aria-hidden="true">
+    <div className="tev-jog-container" data-animation-id="text-effects__verb-jogging" aria-label={text}>
+      <div className="tev-jog-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`verbJog__char ${i % 2 === 0 ? 'verbJog__char--delayed' : ''}`}
+            className={`tev-jog-char ${i % 2 === 0 ? 'tev-jog-char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
@@ -31,7 +40,6 @@ function TextEffectsVerbJogComponent() {
  * Memoized TextEffectsVerbJog to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbJog = memo(TextEffectsVerbJogComponent)
-
 
 export default TextEffectsVerbJog
 

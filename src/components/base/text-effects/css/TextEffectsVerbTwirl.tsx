@@ -1,23 +1,32 @@
-/**
- * Standalone: Copy this file into your app.
- * Runtime deps: react
- * RN parity: Pure CSS animations - port keyframes to Reanimated.
- */
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import './TextEffectsVerbTwirl.css'
 
-function TextEffectsVerbTwirlComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbTwirlProps {
+  /** The text to animate. Supports any length and whitespace characters.
+   * @default "LOREM IPSUM DOLOR"
+   */
+  text?: string
+}
+
+/**
+ * Twirling text animation with smooth 360-degree rotation and scale effect.
+ * Characters rotate continuously with subtle scale variations for dynamic motion.
+ *
+ * @example
+ * <TextEffectsVerbTwirl />
+ * <TextEffectsVerbTwirl text="SPIN AROUND" />
+ * <TextEffectsVerbTwirl text="Twirl & Dance" />
+ */
+function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbTwirlProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbTwirl" data-animation-id="text-effects__verb-twirling" aria-label={text}>
-      <div className="verbTwirl__line" aria-hidden="true">
+    <div className="tev-twirl-container" data-animation-id="text-effects__verb-twirling" aria-label={text}>
+      <div className="tev-twirl-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className="verbTwirl__char"
+            className="tev-twirl-char"
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
@@ -31,7 +40,6 @@ function TextEffectsVerbTwirlComponent() {
  * Memoized TextEffectsVerbTwirl to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbTwirl = memo(TextEffectsVerbTwirlComponent)
-
 
 export default TextEffectsVerbTwirl
 

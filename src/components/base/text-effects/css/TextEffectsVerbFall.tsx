@@ -1,26 +1,40 @@
-/**
- * Standalone: Copy this file into your app.
- * Runtime deps: react
- * RN parity: Pure CSS animations - port keyframes to Reanimated.
- */
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import './TextEffectsVerbFall.css'
 
-function TextEffectsVerbFallComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbFallProps {
+  /** The text to animate. Supports any length and whitespace characters.
+   * @default "LOREM IPSUM DOLOR"
+   */
+  text?: string
+  /** Delay between each character's animation start in seconds.
+   * @default 0.05
+   */
+  stepDelay?: number
+}
 
-  const STEP_DELAY = 0.05 // 50ms stagger per character
+/**
+ * Falling text animation with sequential drop effect and elastic landing.
+ * Characters fall into place one after another with bounce and fade-in.
+ *
+ * @example
+ * <TextEffectsVerbFall />
+ * <TextEffectsVerbFall text="DROP DOWN" />
+ * <TextEffectsVerbFall text="Falling Leaves" stepDelay={0.08} />
+ */
+function TextEffectsVerbFallComponent({
+  text = 'LOREM IPSUM DOLOR',
+  stepDelay = 0.05
+}: TextEffectsVerbFallProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbFall" data-animation-id="text-effects__verb-falling" aria-label={text}>
-      <div className="verbFall__line" aria-hidden="true">
+    <div className="tev-fall-container" data-animation-id="text-effects__verb-falling" aria-label={text}>
+      <div className="tev-fall-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className="verbFall__char"
-            style={{ animationDelay: `${i * STEP_DELAY}s` }}
+            className="tev-fall-char"
+            style={{ animationDelay: `${i * stepDelay}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
@@ -34,7 +48,6 @@ function TextEffectsVerbFallComponent() {
  * Memoized TextEffectsVerbFall to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFall = memo(TextEffectsVerbFallComponent)
-
 
 export default TextEffectsVerbFall
 

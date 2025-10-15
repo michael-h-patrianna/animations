@@ -1,23 +1,32 @@
-/**
- * Standalone: Copy this file into your app.
- * Runtime deps: react
- * RN parity: Pure CSS animations - port keyframes to Reanimated.
- */
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import './TextEffectsVerbFloat.css'
 
-function TextEffectsVerbFloatComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbFloatProps {
+  /** The text to animate. Supports any length and whitespace characters.
+   * @default "LOREM IPSUM DOLOR"
+   */
+  text?: string
+}
+
+/**
+ * Floating text animation with smooth up-and-down wave motion.
+ * Each character floats independently with alternating delays for a wave effect.
+ *
+ * @example
+ * <TextEffectsVerbFloat />
+ * <TextEffectsVerbFloat text="HELLO WORLD" />
+ * <TextEffectsVerbFloat text="A B C" />
+ */
+function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbFloatProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbFloat" data-animation-id="text-effects__verb-floating" aria-label={text}>
-      <div className="verbFloat__line" aria-hidden="true">
+    <div className="tev-float-container" data-animation-id="text-effects__verb-floating" aria-label={text}>
+      <div className="tev-float-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`verbFloat__char ${i % 2 === 1 ? 'verbFloat__char--delayed' : ''}`}
+            className={`tev-float-char ${i % 2 === 1 ? 'tev-float-char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
@@ -31,7 +40,6 @@ function TextEffectsVerbFloatComponent() {
  * Memoized TextEffectsVerbFloat to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFloat = memo(TextEffectsVerbFloatComponent)
-
 
 export default TextEffectsVerbFloat
 

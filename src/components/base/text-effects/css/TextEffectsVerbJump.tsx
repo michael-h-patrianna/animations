@@ -1,26 +1,40 @@
-/**
- * Standalone: Copy this file into your app.
- * Runtime deps: react
- * RN parity: Pure CSS animations - port keyframes to Reanimated.
- */
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import './TextEffectsVerbJump.css'
 
-function TextEffectsVerbJumpComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbJumpProps {
+  /** The text to animate. Supports any length and whitespace characters.
+   * @default "LOREM IPSUM DOLOR"
+   */
+  text?: string
+  /** Delay between each character's animation start in seconds.
+   * @default 0.06
+   */
+  stepDelay?: number
+}
 
-  const STEP_DELAY = 0.06 // 60ms stagger per character
+/**
+ * Jumping text animation with sequential bounce effect and squash-and-stretch.
+ * Characters jump one after another with elastic landing for dynamic motion.
+ *
+ * @example
+ * <TextEffectsVerbJump />
+ * <TextEffectsVerbJump text="BOUNCE!" />
+ * <TextEffectsVerbJump text="Jump High" stepDelay={0.08} />
+ */
+function TextEffectsVerbJumpComponent({
+  text = 'LOREM IPSUM DOLOR',
+  stepDelay = 0.06
+}: TextEffectsVerbJumpProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbJump" data-animation-id="text-effects__verb-jumping" aria-label={text}>
-      <div className="verbJump__line" aria-hidden="true">
+    <div className="tev-jump-container" data-animation-id="text-effects__verb-jumping" aria-label={text}>
+      <div className="tev-jump-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className="verbJump__char"
-            style={{ animationDelay: `${i * STEP_DELAY}s` }}
+            className="tev-jump-char"
+            style={{ animationDelay: `${i * stepDelay}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
@@ -34,7 +48,6 @@ function TextEffectsVerbJumpComponent() {
  * Memoized TextEffectsVerbJump to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbJump = memo(TextEffectsVerbJumpComponent)
-
 
 export default TextEffectsVerbJump
 

@@ -1,16 +1,17 @@
-/* Floating text effect - Pure CSS version */
-.verbFloat {
+.tev-float-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
   padding: 20px;
 }
-.verbFloat__line {
+
+.tev-float-line {
   display: inline-flex;
   gap: 0.02em;
 }
-.verbFloat__char {
+
+.tev-float-char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
@@ -18,32 +19,34 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;
-  animation: verbFloat 3s ease-in-out infinite;
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: tev-float-animation 3s ease-in-out infinite;
 }
-.verbFloat__char--delayed {
+
+.tev-float-char--delayed {
   animation-delay: 0.15s;
 }
 
-@keyframes verbFloat {
+@keyframes tev-float-animation {
   0% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
   25% {
-    transform: translateY(-6px);
+    transform: translate3d(0, -6px, 0);
     opacity: 1;
   }
   50% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: 0.95;
   }
   75% {
-    transform: translateY(4px);
+    transform: translate3d(0, 4px, 0);
     opacity: 1;
   }
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }

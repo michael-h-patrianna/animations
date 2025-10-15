@@ -1,5 +1,4 @@
-/* Jumping text effect - Pure CSS version */
-.verbJump {
+.tev-jump-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,11 +6,12 @@
   padding: 20px;
 }
 
-.verbJump__line {
+.tev-jump-line {
   display: inline-flex;
   gap: 0.02em;
 }
-.verbJump__char {
+
+.tev-jump-char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
@@ -19,24 +19,25 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center bottom;
-  animation: verbJump 1.6s ease-in-out both;
   will-change: transform;
+  backface-visibility: hidden;
+  animation: tev-jump-animation 1.6s ease-in-out both;
 }
 
-@keyframes verbJump {
+@keyframes tev-jump-animation {
   0% {
-    transform: translateY(0) scaleY(1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
   20% {
-    transform: translateY(-10px) scaleY(0.96);
+    transform: translate3d(0, -10px, 0) scale3d(1, 0.96, 1);
   }
   40% {
-    transform: translateY(0) scaleY(1.02);
+    transform: translate3d(0, 0, 0) scale3d(1, 1.02, 1);
   }
   60% {
-    transform: translateY(-4px) scaleY(0.98);
+    transform: translate3d(0, -4px, 0) scale3d(1, 0.98, 1);
   }
   100% {
-    transform: translateY(0) scaleY(1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
 }
