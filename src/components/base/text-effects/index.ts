@@ -26,6 +26,7 @@ import { metadata as xpNumberPopMeta } from './framer/TextEffectsXpNumberPop.met
 import { metadata as characterRevealCssMeta } from './css/TextEffectsCharacterReveal.meta'
 import { metadata as comboCounterCssMeta } from './css/TextEffectsComboCounter.meta'
 import { metadata as counterIncrementCssMeta } from './css/TextEffectsCounterIncrement.meta'
+import { metadata as counterIncrement9999CssMeta } from './css/TextEffectsCounterIncrement9999.meta'
 import { metadata as epicWinCssMeta } from './css/TextEffectsEpicWin.meta'
 import { metadata as glitchTextCssMeta } from './css/TextEffectsGlitchText.meta'
 import { metadata as horizonLightPassCssMeta } from './css/TextEffectsHorizonLightPass.meta'
@@ -126,6 +127,11 @@ const CssTextEffectsComboCounter = lazy(() =>
 const CssTextEffectsCounterIncrement = lazy(() =>
   import('./css/TextEffectsCounterIncrement').then((m) => ({
     default: m.TextEffectsCounterIncrement,
+  }))
+)
+const CssTextEffectsCounterIncrement9999 = lazy(() =>
+  import('./css/TextEffectsCounterIncrement').then((m) => ({
+    default: m.TextEffectsCounterIncrement9999,
   }))
 )
 const CssTextEffectsEpicWin = lazy(() =>
@@ -264,6 +270,10 @@ export const groupExport: GroupExport = {
     'text-effects__counter-increment': {
       component: CssTextEffectsCounterIncrement,
       metadata: counterIncrementCssMeta,
+    },
+    'text-effects__counter-increment-9999': {
+      component: CssTextEffectsCounterIncrement9999,
+      metadata: counterIncrement9999CssMeta,
     },
     'text-effects__wave-reveal': {
       component: CssTextEffectsWaveReveal,

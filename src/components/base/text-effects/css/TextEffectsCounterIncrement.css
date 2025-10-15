@@ -1,59 +1,36 @@
-/* Styles scoped for TextEffectsCounterIncrement */
-.pf-counter-showcase {
+/* ============================================================================
+   TextEffectsCounterIncrement - Counter with floating increment particles
+   Prefix: teci- (text-effects-counter-increment)
+   ========================================================================== */
+
+/* Container */
+.teci-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: 'Lato', sans-serif;
   position: relative;
   min-height: 80px;
 }
-.pf-counter-showcase__target {
+
+/* Value Wrapper - Contains number and particles */
+.teci-value-wrapper {
   position: relative;
-  width: 40px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 60px;
+  min-height: 50px;
 }
-.pf-update-indicator__counter {
-  position: absolute;
-  right: -8px;
-  top: -8px;
-  color: #c6ff77;
-  font-weight: 600;
-  font-size: 0.875rem;
-  pointer-events: none;
-}
-.pf-update-indicator__counter--animating {
-  animation: counter-float-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-@keyframes counter-float-up {
-  0% {
-    transform: translateY(8px);
-    opacity: 0;
-  }
-  20% {
-    transform: translateY(-4px);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-12px);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-16px);
-    opacity: 0;
-  }
-}
-.pf-counter-showcase__value {
+
+/* Counter Value - Main number display */
+.teci-value {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 40px;
-  padding: 0 6px;
+  padding: 0 8px;
   font-size: 28px;
   line-height: 1;
   font-weight: 900;
@@ -72,39 +49,111 @@
   text-shadow:
     0 2px 0 rgba(0, 0, 0, 0.25),
     0 0 8px rgba(255, 215, 0, 0.35);
-  transform-origin: center bottom;
+  transform-origin: center;
+
+  /* GPU acceleration */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
-.pf-counter-showcase__value::after {
+
+/* Glow effect behind number */
+.teci-value::after {
   content: '';
   position: absolute;
-  inset: -6px;
+  inset: -8px;
   background: radial-gradient(circle, rgba(255, 215, 0, 0.22), transparent 60%);
   border-radius: 50%;
   z-index: -1;
   pointer-events: none;
 }
-.pf-counter-showcase__value--popping {
-  animation: pf-number-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+/* Pop animation on value change */
+.teci-value--popping {
+  animation: teci-value-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
-@keyframes pf-number-pop {
+
+/* Increment Particles - Float up and fade */
+.teci-particle {
+  position: absolute;
+  left: 100%;
+  top: -10px;
+  margin-left: 4px;
+  color: #c6ff77;
+  font-weight: 600;
+  font-size: 0.875rem;
+  pointer-events: none;
+  transform-origin: left center;
+  white-space: nowrap;
+
+  /* GPU acceleration */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+
+  /* Animation */
+  animation: teci-particle-float 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Particle color variations for visual interest */
+.teci-particle:nth-child(2n) {
+  color: #93f77b;
+}
+
+.teci-particle:nth-child(3n) {
+  color: #b8ff9a;
+}
+
+.teci-particle:nth-child(4n) {
+  color: #d4ffb8;
+}
+
+/* ============================================================================
+   Keyframe Animations
+   ========================================================================== */
+
+/**
+ * Value pop animation - Bouncy scale with subtle rotation
+ */
+@keyframes teci-value-pop {
   0% {
-    transform: scale(1) rotate(0deg);
+    transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 0deg);
     opacity: 1;
   }
   25% {
-    transform: scale(1.2) rotate(2deg);
+    transform: scale3d(1.2, 1.2, 1) rotate3d(0, 0, 1, 2deg);
     opacity: 1;
   }
   50% {
-    transform: scale(0.98) rotate(-2deg);
+    transform: scale3d(0.98, 0.98, 1) rotate3d(0, 0, 1, -2deg);
     opacity: 0.92;
   }
   75% {
-    transform: scale(1.08) rotate(1deg);
+    transform: scale3d(1.08, 1.08, 1) rotate3d(0, 0, 1, 1deg);
     opacity: 1;
   }
   100% {
-    transform: scale(1) rotate(0deg);
+    transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 0deg);
     opacity: 1;
+  }
+}
+
+/**
+ * Particle float animation - Rises up and fades out
+ */
+@keyframes teci-particle-float {
+  0% {
+    transform: translate3d(0, 8px, 0) scale3d(0.8, 0.8, 1);
+    opacity: 0;
+  }
+  20% {
+    transform: translate3d(0, -4px, 0) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -20px, 0) scale3d(0.9, 0.9, 1);
+    opacity: 0;
   }
 }
