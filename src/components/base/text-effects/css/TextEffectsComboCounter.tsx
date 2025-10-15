@@ -1,28 +1,70 @@
-import { useEffect, useRef, useState, memo } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import './TextEffectsComboCounter.css'
 
-function TextEffectsComboCounterComponent() {
-  const finalValue = 25
+interface Milestone {
+  trigger: number
+  value: number
+}
+
+interface TextEffectsComboCounterProps {
+  /** @default 25 */
+  finalValue?: number
+  /** @default 4 */
+  maxParticles?: number
+}
+
+/**
+ * Calculates evenly distributed milestone particles.
+ * Limits particle count for small numbers to avoid +1 spam.
+ */
+function calculateMilestones(finalValue: number, maxParticles: number): Milestone[] {
+  // Don't show more particles than makes sense (avoid +1, +1, +1...)
+  const numParticles = Math.min(
+    maxParticles,
+    Math.max(1, Math.floor(finalValue / 2))
+  )
+
+  const milestones: Milestone[] = []
+
+  for (let i = 0; i < numParticles; i++) {
+    const progress = (i + 1) / numParticles
+    const triggerValue = Math.round(finalValue * progress)
+
+    // Calculate increment since last milestone
+    const lastValue = i > 0 ? milestones[i - 1].trigger : 0
+    const increment = triggerValue - lastValue
+
+    milestones.push({
+      trigger: triggerValue,
+      value: increment
+    })
+  }
+
+  return milestones
+}
+
+/**
+ * Combo counter animation that counts from 0 to a target value with milestone particles.
+ *
+ * @example
+ * <TextEffectsComboCounter />
+ * <TextEffectsComboCounter finalValue={100} maxParticles={6} />
+ */
+function TextEffectsComboCounterComponent({
+  finalValue = 25,
+  maxParticles = 4
+}: TextEffectsComboCounterProps = {}) {
   const comboText = 'COMBO'
   const [count, setCount] = useState(0)
-  const numberWrapperRef = useRef<HTMLDivElement>(null)
-  const hitMarkerRef = useRef<HTMLDivElement>(null)
-  const comboTextRef = useRef<HTMLDivElement>(null)
-  const perfectRef = useRef<HTMLDivElement>(null)
-  const lettersRef = useRef<HTMLSpanElement[]>([])
-  const particlesRef = useRef<HTMLDivElement[]>([])
-  const digitRef = useRef<HTMLSpanElement>(null)
 
-  // Milestones: [triggerValue, particleValue]
-  const milestones = [
-    { trigger: 1, value: 1 },
-    { trigger: 6, value: 5 },
-    { trigger: 15, value: 9 },
-    { trigger: 25, value: 10 },
-  ]
+  // Calculate milestones dynamically based on finalValue
+  const milestones = useMemo(
+    () => calculateMilestones(finalValue, maxParticles),
+    [finalValue, maxParticles]
+  )
 
   useEffect(() => {
-    // Start counting animation
+    // Counter animation - only essential JavaScript
     const startTime = performance.now()
     const duration = 1200
     const delay = 350
@@ -35,7 +77,7 @@ function TextEffectsComboCounterComponent() {
       }
 
       const progress = Math.min(elapsed / duration, 1)
-      // Custom easing [0.25, 0.1, 0.25, 1] approximation
+      // Custom easing approximation
       const eased = progress < 0.5
         ? 2 * progress * progress
         : 1 - Math.pow(-2 * progress + 2, 2) / 2
@@ -49,143 +91,21 @@ function TextEffectsComboCounterComponent() {
     }
 
     requestAnimationFrame(animateCount)
-
-    // Number wrapper animation
-    if (numberWrapperRef.current) {
-      numberWrapperRef.current.animate(
-        [
-          { transform: 'scale(0) rotate(-180deg)', opacity: 1 },
-          { transform: 'scale(1.2) rotate(10deg)', opacity: 1 },
-          { transform: 'scale(0.95) rotate(-5deg)', opacity: 1 },
-          { transform: 'scale(1) rotate(0deg)', opacity: 1 },
-        ],
-        {
-          duration: 500,
-          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          fill: 'forwards',
-        }
-      )
-    }
-
-    // Digit fade in animation
-    if (digitRef.current) {
-      digitRef.current.animate(
-        [
-          { opacity: 0 },
-          { opacity: 1 },
-        ],
-        {
-          duration: 200,
-          delay: 250,
-          fill: 'forwards',
-        }
-      )
-    }
-
-    // Hit marker animation
-    if (hitMarkerRef.current) {
-      hitMarkerRef.current.animate(
-        [
-          { transform: 'scale(0)', opacity: 0 },
-          { transform: 'scale(1.3)', opacity: 1 },
-          { transform: 'scale(1)', opacity: 0.9 },
-        ],
-        {
-          duration: 300,
-          delay: 150,
-          easing: 'ease-out',
-          fill: 'forwards',
-        }
-      )
-    }
-
-    // Combo text wrapper fade
-    if (comboTextRef.current) {
-      comboTextRef.current.animate(
-        [
-          { opacity: 0 },
-          { opacity: 1 },
-        ],
-        {
-          duration: 200,
-          delay: 100,
-          fill: 'forwards',
-        }
-      )
-    }
-
-    // Combo text letters animation
-    lettersRef.current.forEach((letter, index) => {
-      if (!letter) return
-      letter.animate(
-        [
-          { opacity: 0, transform: 'scale(0) rotate(180deg)' },
-          { opacity: 1, transform: 'scale(1.2) rotate(-10deg)' },
-          { opacity: 1, transform: 'scale(1) rotate(0deg)' },
-        ],
-        {
-          duration: 400,
-          delay: 200 + index * 40,
-          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          fill: 'forwards',
-        }
-      )
-    })
-
-    // Milestone particles
-    particlesRef.current.forEach((particle, i) => {
-      if (!particle) return
-
-      const milestone = milestones[i]
-      const angle = -90 + i * 30 - 45
-      const distance = 70 + i * 12
-      const xOffset = Math.cos((angle * Math.PI) / 180) * distance
-      const yOffset = Math.sin((angle * Math.PI) / 180) * distance
-
-      const triggerProgress = milestone.trigger / finalValue
-      const adjustedDelay = 350 + triggerProgress * 800
-
-      particle.animate(
-        [
-          { opacity: 0, transform: 'translate(0, 0) scale(0)' },
-          { opacity: 1, transform: `translate(${xOffset}px, ${yOffset}px) scale(1.4)` },
-          { opacity: 1, transform: `translate(${xOffset}px, ${yOffset}px) scale(1)` },
-          { opacity: 0, transform: `translate(${xOffset}px, ${yOffset}px) scale(0.5)` },
-        ],
-        {
-          duration: 1000,
-          delay: adjustedDelay,
-          easing: 'ease-out',
-          fill: 'forwards',
-        }
-      )
-    })
-
-    // Perfect text animation
-    if (perfectRef.current) {
-      perfectRef.current.animate(
-        [
-          { opacity: 0, transform: 'scale(0.5)' },
-          { opacity: 1, transform: 'scale(1.1)' },
-          { opacity: 1, transform: 'scale(1)' },
-        ],
-        {
-          duration: 400,
-          delay: 1600,
-          easing: 'ease-out',
-          fill: 'forwards',
-        }
-      )
-    }
   }, [finalValue])
 
+  // Calculate animation delay for each particle based on when counter reaches trigger
+  const getParticleDelay = (triggerValue: number): number => {
+    const triggerProgress = triggerValue / finalValue
+    return 350 + triggerProgress * 1200 // delay + (progress * duration)
+  }
+
   return (
-    <div className="combo-counter-container" data-animation-id="text-effects__combo-counter">
-      <div className="combo-main-container">
-        <div ref={numberWrapperRef} className="combo-number-wrapper" style={{ opacity: 0 }}>
-          <div className="combo-number-container">
-            <div className="combo-current-number">
-              <span ref={digitRef} className="combo-digit" style={{ opacity: 0 }}>
+    <div className="tec-combo-container" data-animation-id="text-effects__combo-counter">
+      <div className="tec-combo-main">
+        <div className="tec-combo-number-wrapper">
+          <div className="tec-combo-number-container">
+            <div className="tec-combo-current-number">
+              <span className="tec-combo-digit">
                 <span>{count}</span>
               </span>
             </div>
@@ -193,17 +113,9 @@ function TextEffectsComboCounterComponent() {
             {milestones.map((milestone, i) => (
               <div
                 key={i}
-                ref={(el) => {
-                  if (el) particlesRef.current[i] = el
-                }}
-                className="combo-milestone-particle"
-                data-value={milestone.value}
+                className="tec-combo-particle"
                 style={{
-                  opacity: 0,
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)',
+                  animationDelay: `${getParticleDelay(milestone.trigger)}ms`
                 }}
               >
                 +{milestone.value}
@@ -211,20 +123,16 @@ function TextEffectsComboCounterComponent() {
             ))}
           </div>
 
-          <div ref={hitMarkerRef} className="combo-hit-marker" style={{ opacity: 0 }}>
+          <div className="tec-combo-hit-marker">
             ×
           </div>
         </div>
 
-        <div ref={comboTextRef} className="combo-text-wrapper" style={{ opacity: 0 }}>
+        <div className="tec-combo-text-wrapper">
           {comboText.split('').map((char, index) => (
             <span
               key={index}
-              ref={(el) => {
-                if (el) lettersRef.current[index] = el
-              }}
-              className="combo-text-char"
-              style={{ opacity: 0 }}
+              className="tec-combo-letter"
             >
               {char}
             </span>
@@ -232,7 +140,7 @@ function TextEffectsComboCounterComponent() {
         </div>
       </div>
 
-      <div ref={perfectRef} className="combo-bonus" style={{ opacity: 0 }}>
+      <div className="tec-combo-bonus">
         PERFECT!
       </div>
     </div>
