@@ -1,86 +1,84 @@
-/* Wave text effect - Pure CSS version */
-.wave-text-container {
+/* Wave text effect - GPU-accelerated continuous animation */
+.tfx-wave-text-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
   padding: 20px;
-  position: relative;
   transform: translateZ(0);
   will-change: contents;
 }
-.wave-text-wrapper {
+
+.tfx-wave-text-wrapper {
+  display: flex;
   font-size: 24px;
   font-weight: 800;
   letter-spacing: 2px;
-  display: flex;
-  position: relative;
-  z-index: 2;
-}
-.wave-char {
-  display: inline-block;
-  transform-origin: center bottom;
-  position: relative;
-  will-change: transform;
-  transform: translateZ(0);
-  color: #3b82f6;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  animation: waveChar 2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
-.wave-char-inner {
+.tfx-wave-char {
   display: inline-block;
   position: relative;
+  color: #3b82f6;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform-origin: center bottom;
+  transform: translateZ(0);
+  will-change: transform;
+  animation: tfx-wave-char 2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
-.wave-highlight {
+
+/* Highlight effect using pseudo-element to minimize DOM nodes */
+.tfx-wave-char--highlight::before {
+  content: '';
   position: absolute;
   inset: -20% -10%;
   background: linear-gradient(180deg, rgba(147, 197, 253, 0.4), transparent);
   border-radius: 50% 50% 0 0;
   pointer-events: none;
   transform-origin: center bottom;
-  will-change: transform, opacity;
   transform: translateZ(0);
-  animation: waveHighlight 2s ease-in-out infinite;
+  will-change: transform, opacity;
+  animation: tfx-wave-highlight 2s ease-in-out infinite;
+  animation-delay: inherit;
 }
 
-@keyframes waveChar {
+@keyframes tfx-wave-char {
   0% {
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1) rotate(0deg) translateZ(0);
   }
   25% {
-    transform: translateY(-20px) scale(1.15) rotate(-5deg);
+    transform: translateY(-20px) scale(1.15) rotate(-5deg) translateZ(0);
   }
   50% {
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1) rotate(0deg) translateZ(0);
   }
   75% {
-    transform: translateY(5px) scale(0.95) rotate(3deg);
+    transform: translateY(5px) scale(0.95) rotate(3deg) translateZ(0);
   }
   100% {
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1) rotate(0deg) translateZ(0);
   }
 }
 
-@keyframes waveHighlight {
+@keyframes tfx-wave-highlight {
   0% {
     opacity: 0;
-    transform: scaleY(0.8);
+    transform: scaleY(0.8) translateZ(0);
   }
   25% {
     opacity: 0.6;
-    transform: scaleY(1.2);
+    transform: scaleY(1.2) translateZ(0);
   }
   50% {
     opacity: 0.3;
-    transform: scaleY(1);
+    transform: scaleY(1) translateZ(0);
   }
   75% {
     opacity: 0;
-    transform: scaleY(0.9);
+    transform: scaleY(0.9) translateZ(0);
   }
   100% {
     opacity: 0;
-    transform: scaleY(0.8);
+    transform: scaleY(0.8) translateZ(0);
   }
 }

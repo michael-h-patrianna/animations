@@ -1,22 +1,23 @@
-/* Wave reveal text effect - Pure CSS version */
-.wave-reveal-container {
+/* Wave reveal text effect - GPU-accelerated CSS animation */
+.tfx-wave-reveal-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 120px;
-  font-weight: 700;
   padding: 40px;
-  transform: rotate(-5deg);
+  font-weight: 700;
+  transform: rotate(-5deg) translateZ(0);
+  will-change: contents;
 }
 
-.wave-reveal-wrapper {
+.tfx-wave-reveal-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
 }
 
-.wave-reveal-line {
+.tfx-wave-reveal-line {
   display: flex;
   font-size: 2rem;
   line-height: 1.2;
@@ -27,17 +28,17 @@
     0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
-.wave-reveal-char {
+.tfx-wave-reveal-char {
   display: inline-block;
-  will-change: transform, opacity;
   opacity: 0;
-  transform: translateY(80px);
-  animation: waveRevealChar 0.5s ease-out forwards;
+  transform: translateY(80px) translateZ(0);
+  will-change: transform, opacity;
+  animation: tfx-wave-reveal-char 0.5s ease-out forwards;
 }
 
-@keyframes waveRevealChar {
+@keyframes tfx-wave-reveal-char {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
   }
 }
