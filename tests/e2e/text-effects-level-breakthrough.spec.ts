@@ -20,7 +20,9 @@ test.describe('TextEffectsLevelBreakthrough - Visual Rendering', () => {
     await page.waitForTimeout(500)
 
     // Verify the animation container is present
-    const animationContainer = page.locator('[data-animation-id="text-effects__level-breakthrough"]')
+    const animationContainer = page.locator(
+      '[data-animation-id="text-effects__level-breakthrough"]'
+    )
     await expect(animationContainer).toBeVisible()
 
     // Verify namespaced CSS classes are applied
@@ -69,7 +71,9 @@ test.describe('TextEffectsLevelBreakthrough - Visual Rendering', () => {
     await page.waitForTimeout(500)
 
     // Verify the CSS-based animation is loaded
-    const animationContainer = page.locator('[data-animation-id="text-effects__level-breakthrough"]')
+    const animationContainer = page.locator(
+      '[data-animation-id="text-effects__level-breakthrough"]'
+    )
     await expect(animationContainer).toBeVisible()
 
     // Verify namespaced classes (CSS version should use tfx-breakthrough- prefix)
@@ -101,7 +105,8 @@ test.describe('TextEffectsLevelBreakthrough - Visual Rendering', () => {
     await expect(oldPfSurge).toHaveCount(0)
 
     // Check that no generic classes exist that could conflict
-    const genericBreakthrough = page.locator('[class*="breakthrough-container"]')
+    const genericBreakthrough = page
+      .locator('[class*="breakthrough-container"]')
       .and(page.locator(':not([class*="tfx-breakthrough"])'))
       .first()
     const count = await genericBreakthrough.count()
@@ -118,7 +123,9 @@ test.describe('TextEffectsLevelBreakthrough - Visual Rendering', () => {
     await page.waitForTimeout(500)
 
     // Verify initial animation
-    const animationContainer = page.locator('[data-animation-id="text-effects__level-breakthrough"]')
+    const animationContainer = page.locator(
+      '[data-animation-id="text-effects__level-breakthrough"]'
+    )
     await expect(animationContainer).toBeVisible()
 
     // Wait for animation to complete
@@ -237,13 +244,15 @@ test.describe('TextEffectsLevelBreakthrough - Visual Rendering', () => {
     await page.click('text=Level Breakthrough')
     await page.waitForTimeout(500)
 
-    const animationContainer = page.locator('[data-animation-id="text-effects__level-breakthrough"]')
+    const animationContainer = page.locator(
+      '[data-animation-id="text-effects__level-breakthrough"]'
+    )
     await expect(animationContainer).toBeVisible()
 
     // Verify the default texts work (tested as baseline)
     const startText = page.locator('.tfx-breakthrough-text-start')
     const endText = page.locator('.tfx-breakthrough-text-end')
-    
+
     await expect(startText).toBeVisible()
     await expect(endText).toHaveCount(1)
 

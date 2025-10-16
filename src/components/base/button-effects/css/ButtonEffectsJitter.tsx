@@ -1,17 +1,19 @@
 import { memo } from 'react'
-import './ButtonEffectsJitter.css'
 import '../shared.css'
+import './ButtonEffectsJitter.css'
 
+/**
+ * CSS-driven jitter animation that triggers on idle.
+ *
+ * @returns Button with jitter animation
+ */
 function ButtonEffectsJitterComponent() {
   return (
     <div className="button-demo" data-animation-id="button-effects__jitter">
-      <button className="pf-btn pf-btn--primary pf-btn--jitter">Click Me!</button>
+      <button className="pf-btn pf-btn--primary bfx-jitter">Click Me!</button>
     </div>
   )
 }
 
-/**
- * Memoized ButtonEffectsJitter to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsJitter = memo(ButtonEffectsJitterComponent)
 

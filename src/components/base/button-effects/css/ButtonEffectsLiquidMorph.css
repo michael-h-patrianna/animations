@@ -1,13 +1,18 @@
-/* Styles scoped for ButtonEffectsLiquidMorph */
+/**
+ * Liquid morph effect with blob-like deformation and rotation.
+ * GPU-accelerated using transform and border-radius.
+ */
 
-.pf-btn--liquid-morph {
+.bfx-liquid-morph {
   transition: transform 0.3s ease;
 }
-.pf-btn--liquid-morph.liquid-morph-active {
-  animation: liquidMorph 0.6s ease-out;
+
+.bfx-liquid-morph--active {
+  animation: bfx-liquid-morph 0.6s ease-out;
   will-change: transform;
 }
-@keyframes liquidMorph {
+
+@keyframes bfx-liquid-morph {
   0% {
     transform: scale(1) rotate(0deg);
     border-radius: 50px;

@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react'
-import { memo } from 'react'
-import './ButtonEffectsShockwave.css'
+import { memo, useRef, useState } from 'react'
 import '../shared.css'
+import './ButtonEffectsShockwave.css'
 
 interface Shockwave {
   id: number
@@ -9,6 +8,12 @@ interface Shockwave {
   y: number
 }
 
+/**
+ * Concentric ring shockwave effect emanating from click position.
+ * Creates three staggered waves with different colors for depth effect.
+ *
+ * @returns Button with click-positioned shockwave animations
+ */
 function ButtonEffectsShockwaveComponent() {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
@@ -22,11 +27,8 @@ function ButtonEffectsShockwaveComponent() {
     const y = e.clientY - rect.top
     const id = nextId.current++
 
-    // Create multiple concentric rings
-    const newWave = { id, x, y }
-    setShockwaves((prev) => [...prev, newWave])
+    setShockwaves((prev) => [...prev, { id, x, y }])
 
-    // Clean up after animation
     setTimeout(() => {
       setShockwaves((prev) => prev.filter((w) => w.id !== id))
     }, 1000)
@@ -36,26 +38,26 @@ function ButtonEffectsShockwaveComponent() {
     <div className="button-demo" data-animation-id="button-effects__shockwave">
       <button
         ref={btnRef}
-        className="pf-btn pf-btn--primary pf-btn--shockwave"
+        className="pf-btn pf-btn--primary bfx-shockwave"
         onClick={handleClick}
       >
         Click Me!
-        <span className="pf-btn__shockwaves" aria-hidden>
+        <span className="bfx-shockwave__container" aria-hidden>
           {shockwaves.map((wave) => (
-            <React.Fragment key={wave.id}>
+            <span key={wave.id} className="bfx-shockwave__group">
               <span
-                className="pf-btn__shockwave pf-btn__shockwave--1"
+                className="bfx-shockwave__ring bfx-shockwave__ring--1"
                 style={{ left: wave.x, top: wave.y }}
               />
               <span
-                className="pf-btn__shockwave pf-btn__shockwave--2"
+                className="bfx-shockwave__ring bfx-shockwave__ring--2"
                 style={{ left: wave.x, top: wave.y }}
               />
               <span
-                className="pf-btn__shockwave pf-btn__shockwave--3"
+                className="bfx-shockwave__ring bfx-shockwave__ring--3"
                 style={{ left: wave.x, top: wave.y }}
               />
-            </React.Fragment>
+            </span>
           ))}
         </span>
       </button>
@@ -63,8 +65,5 @@ function ButtonEffectsShockwaveComponent() {
   )
 }
 
-/**
- * Memoized ButtonEffectsShockwave to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsShockwave = memo(ButtonEffectsShockwaveComponent)
 

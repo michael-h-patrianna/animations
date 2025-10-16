@@ -1,7 +1,12 @@
-import { useState, memo } from 'react'
-import './ButtonEffectsSplitReveal.css'
+import { memo, useState } from 'react'
 import '../shared.css'
+import './ButtonEffectsSplitReveal.css'
 
+/**
+ * Split reveal effect where button text separates to reveal hidden content.
+ *
+ * @returns Button with click-triggered split and reveal animation
+ */
 function ButtonEffectsSplitRevealComponent() {
   const [isRevealing, setIsRevealing] = useState(false)
 
@@ -13,19 +18,16 @@ function ButtonEffectsSplitRevealComponent() {
   return (
     <div className="button-demo" data-animation-id="button-effects__split-reveal">
       <button
-        className={`pf-btn pf-btn--primary pf-btn--split-reveal ${isRevealing ? 'split-revealing' : ''}`}
+        className={`pf-btn pf-btn--primary bfx-split-reveal ${isRevealing ? 'bfx-split-reveal--active' : ''}`}
         onClick={handleClick}
       >
-        <span className="pf-btn__split-top">Click</span>
-        <span className="pf-btn__split-bottom">Me!</span>
-        <span className="pf-btn__split-reveal-content">✨</span>
+        <span className="bfx-split-reveal__top">Click</span>
+        <span className="bfx-split-reveal__bottom">Me!</span>
+        <span className="bfx-split-reveal__content">✨</span>
       </button>
     </div>
   )
 }
 
-/**
- * Memoized ButtonEffectsSplitReveal to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsSplitReveal = memo(ButtonEffectsSplitRevealComponent)
 

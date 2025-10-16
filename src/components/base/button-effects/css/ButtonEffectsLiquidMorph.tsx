@@ -1,7 +1,12 @@
-import { useState, memo } from 'react'
-import './ButtonEffectsLiquidMorph.css'
+import { memo, useState } from 'react'
 import '../shared.css'
+import './ButtonEffectsLiquidMorph.css'
 
+/**
+ * Liquid morph effect triggered on click with blob-like deformation.
+ *
+ * @returns Button with click-triggered liquid morph animation
+ */
 function ButtonEffectsLiquidMorphComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -13,7 +18,7 @@ function ButtonEffectsLiquidMorphComponent() {
   return (
     <div className="button-demo" data-animation-id="button-effects__liquid-morph">
       <button
-        className={`pf-btn pf-btn--primary pf-btn--liquid-morph ${isAnimating ? 'liquid-morph-active' : ''}`}
+        className={`pf-btn pf-btn--primary bfx-liquid-morph ${isAnimating ? 'bfx-liquid-morph--active' : ''}`}
         onClick={handleClick}
       >
         Click Me!
@@ -22,8 +27,5 @@ function ButtonEffectsLiquidMorphComponent() {
   )
 }
 
-/**
- * Memoized ButtonEffectsLiquidMorph to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsLiquidMorph = memo(ButtonEffectsLiquidMorphComponent)
 

@@ -1,11 +1,19 @@
-/* Styles scoped for ButtonEffectsShockwave */
+/**
+ * Shockwave effect with three concentric rings expanding from click point.
+ * GPU-accelerated using transform and opacity.
+ */
 
-.pf-btn__shockwaves {
+.bfx-shockwave__container {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-.pf-btn__shockwave {
+
+.bfx-shockwave__group {
+  display: contents;
+}
+
+.bfx-shockwave__ring {
   position: absolute;
   width: 150px;
   height: 150px;
@@ -13,22 +21,25 @@
   border-radius: 50%;
   pointer-events: none;
   will-change: transform, opacity;
-  /* Move the element so its center (not top-left) is at left/top position */
   margin-left: -75px;
   margin-top: -75px;
 }
-.pf-btn__shockwave--1 {
-  animation: shockwave 1s ease-out forwards;
+
+.bfx-shockwave__ring--1 {
+  animation: bfx-shockwave 1s ease-out forwards;
 }
-.pf-btn__shockwave--2 {
-  animation: shockwave 1s ease-out 0.1s forwards;
+
+.bfx-shockwave__ring--2 {
+  animation: bfx-shockwave 1s ease-out 0.1s forwards;
   border-color: rgba(255, 89, 129, 0.4);
 }
-.pf-btn__shockwave--3 {
-  animation: shockwave 1s ease-out 0.2s forwards;
+
+.bfx-shockwave__ring--3 {
+  animation: bfx-shockwave 1s ease-out 0.2s forwards;
   border-color: rgba(255, 206, 26, 0.3);
 }
-@keyframes shockwave {
+
+@keyframes bfx-shockwave {
   0% {
     transform: scale(0);
     opacity: 1;

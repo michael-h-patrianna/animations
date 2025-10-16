@@ -1,16 +1,21 @@
-/* Styles scoped for ButtonEffectsSplitReveal */
+/**
+ * Split reveal effect with text separation and center content reveal.
+ * GPU-accelerated using transform only.
+ */
 
-.pf-btn--split-reveal {
+.bfx-split-reveal {
   position: relative;
   overflow: visible;
 }
-.pf-btn__split-top,
-.pf-btn__split-bottom {
+
+.bfx-split-reveal__top,
+.bfx-split-reveal__bottom {
   display: inline-block;
   transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   will-change: transform;
 }
-.pf-btn__split-reveal-content {
+
+.bfx-split-reveal__content {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -19,12 +24,15 @@
   transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   will-change: transform;
 }
-.pf-btn--split-reveal.split-revealing .pf-btn__split-top {
+
+.bfx-split-reveal--active .bfx-split-reveal__top {
   transform: translateY(-15px) rotate(-5deg);
 }
-.pf-btn--split-reveal.split-revealing .pf-btn__split-bottom {
+
+.bfx-split-reveal--active .bfx-split-reveal__bottom {
   transform: translateY(15px) rotate(5deg);
 }
-.pf-btn--split-reveal.split-revealing .pf-btn__split-reveal-content {
+
+.bfx-split-reveal--active .bfx-split-reveal__content {
   transform: translate(-50%, -50%) scale(1.2);
 }

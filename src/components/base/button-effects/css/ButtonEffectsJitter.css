@@ -1,13 +1,14 @@
-/* Styles scoped for ButtonEffectsJitter */
+/**
+ * Jitter button effect with periodic scale/rotation and hover heartbeat.
+ * GPU-accelerated using transform only.
+ */
 
-.pf-btn--jitter {
-  animation: jittery 4s infinite;
+.bfx-jitter {
+  animation: bfx-jittery 4s infinite;
   will-change: transform;
 }
-.pf-btn--jitter:hover {
-  animation: heartbeat 0.2s infinite;
-}
-@keyframes jittery {
+
+@keyframes bfx-jittery {
   5%,
   50% {
     transform: scale(1);
@@ -32,16 +33,5 @@
   }
   40% {
     transform: scale(1.15) rotate(0);
-  }
-}
-@keyframes heartbeat {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
   }
 }
