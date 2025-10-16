@@ -1,6 +1,5 @@
 import { calculateBulbColors } from '@/utils/colors';
-import * as m from 'motion/react-m'
-;
+import * as m from 'motion/react-m';
 import React, { useMemo } from 'react';
 import './LightsCircleStatic6.css';
 
@@ -150,23 +149,25 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
     const isStrongBeat = positionInGroup === 0;
 
     // Create custom transition with delay for this specific bulb
+    const baseGlowShow = (isStrongBeat ? glowVariantsStrong : glowVariantsWeak).show;
     const customGlowVariants = {
       hidden: { opacity: 0 },
       show: {
-        ...((isStrongBeat ? glowVariantsStrong : glowVariantsWeak).show as any),
+        ...baseGlowShow,
         transition: {
-          ...((isStrongBeat ? glowVariantsStrong : glowVariantsWeak).show as any).transition,
+          ...(typeof baseGlowShow === 'object' && 'transition' in baseGlowShow ? baseGlowShow.transition : {}),
           delay: totalDelay,
         }
       }
     };
 
+    const baseBulbShow = (isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).show;
     const customBulbVariants = {
       hidden: (isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).hidden,
       show: {
-        ...((isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).show as any),
+        ...baseBulbShow,
         transition: {
-          ...((isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).show as any).transition,
+          ...(typeof baseBulbShow === 'object' && 'transition' in baseBulbShow ? baseBulbShow.transition : {}),
           delay: totalDelay,
         }
       }

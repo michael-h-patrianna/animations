@@ -205,7 +205,7 @@ export const groupExport: GroupExport = {
     },
     'text-effects__epic-win': { component: TextEffectsEpicWin, metadata: epicWinMeta },
     'text-effects__wave-text': { component: TextEffectsWaveText, metadata: waveTextMeta },
-    'text-effects__glitch-text': { component: TextEffectsGlitchText, metadata: glitchTextMeta },
+    'text-effects__tfx-glitchtext': { component: TextEffectsGlitchText, metadata: glitchTextMeta },
     'text-effects__typewriter': { component: TextEffectsTypewriter, metadata: typewriterMeta },
     'text-effects__combo-counter': {
       component: TextEffectsComboCounter,
@@ -247,7 +247,7 @@ export const groupExport: GroupExport = {
     },
     'text-effects__epic-win': { component: CssTextEffectsEpicWin, metadata: epicWinCssMeta },
     'text-effects__wave-text': { component: CssTextEffectsWaveText, metadata: waveTextCssMeta },
-    'text-effects__glitch-text': {
+    'text-effects__tfx-glitchtext': {
       component: CssTextEffectsGlitchText,
       metadata: glitchTextCssMeta,
     },

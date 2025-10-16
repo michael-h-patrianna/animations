@@ -1,8 +1,9 @@
 /* TimerEffectsPillCountdownGlitch - CSS animations */
 
 /* Glow animation keyframes for different intensities */
-@keyframes glitch-glow-minimal {
-  0%, 100% {
+@keyframes tfx-glitchglow-minimal {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.1;
   }
@@ -12,8 +13,9 @@
   }
 }
 
-@keyframes glitch-glow-subtle {
-  0%, 100% {
+@keyframes tfx-glitchglow-subtle {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.15;
   }
@@ -23,8 +25,9 @@
   }
 }
 
-@keyframes glitch-glow-mild {
-  0%, 100% {
+@keyframes tfx-glitchglow-mild {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.25;
   }
@@ -34,8 +37,9 @@
   }
 }
 
-@keyframes glitch-glow-moderate {
-  0%, 100% {
+@keyframes tfx-glitchglow-moderate {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.3;
   }
@@ -45,8 +49,9 @@
   }
 }
 
-@keyframes glitch-glow-severe {
-  0%, 100% {
+@keyframes tfx-glitchglow-severe {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.35;
   }
@@ -56,8 +61,9 @@
   }
 }
 
-@keyframes glitch-glow-expired {
-  0%, 100% {
+@keyframes tfx-glitchglow-expired {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.45;
   }
@@ -74,53 +80,53 @@
 }
 
 .timer-expired .pill-countdown-glitch__glow {
-  animation: glitch-glow-expired 400ms ease-in-out infinite;
+  animation: tfx-glitchglow-expired 400ms ease-in-out infinite;
 }
 
 /* 50s threshold - minimal glitch */
-.glitch-minimal .pill-countdown-glitch__glow {
-  animation: glitch-glow-minimal 2000ms ease-in-out infinite;
+.tfx-glitchminimal .pill-countdown-glitch__glow {
+  animation: tfx-glitchglow-minimal 2000ms ease-in-out infinite;
 }
 
 /* 40s threshold - subtle glitch */
-.glitch-subtle .pill-countdown-glitch__glow {
-  animation: glitch-glow-subtle 1700ms ease-in-out infinite;
+.tfx-glitchsubtle .pill-countdown-glitch__glow {
+  animation: tfx-glitchglow-subtle 1700ms ease-in-out infinite;
 }
 
 /* 30s threshold - mild glitch */
-.glitch-mild {
+.tfx-glitchmild {
   background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
   --glow-color: rgba(253, 126, 20, 0.35);
 }
 
-.glitch-mild .pill-countdown-glitch__glow {
-  animation: glitch-glow-mild 1100ms ease-in-out infinite;
+.tfx-glitchmild .pill-countdown-glitch__glow {
+  animation: tfx-glitchglow-mild 1100ms ease-in-out infinite;
 }
 
 /* 20s threshold - moderate glitch */
-.glitch-moderate {
+.tfx-glitchmoderate {
   background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
   --glow-color: rgba(255, 107, 107, 0.4);
 }
 
-.glitch-moderate .pill-countdown-glitch__glow {
-  animation: glitch-glow-moderate 800ms ease-in-out infinite;
+.tfx-glitchmoderate .pill-countdown-glitch__glow {
+  animation: tfx-glitchglow-moderate 800ms ease-in-out infinite;
 }
 
 /* 10s threshold - severe glitch with rapid pulsing */
-.glitch-severe {
+.tfx-glitchsevere {
   background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
   --glow-color: rgba(255, 0, 0, 0.5);
 }
 
-.glitch-severe .pill-countdown-glitch__glow {
-  animation: glitch-glow-severe 500ms ease-in-out infinite;
+.tfx-glitchsevere .pill-countdown-glitch__glow {
+  animation: tfx-glitchglow-severe 500ms ease-in-out infinite;
 }
 
-.glitch-severe .pill-countdown-glitch__copy--before {
+.tfx-glitchsevere .pill-countdown-glitch__copy--before {
   color: #00ff00;
 }
 
-.glitch-severe .pill-countdown-glitch__copy--after {
+.tfx-glitchsevere .pill-countdown-glitch__copy--after {
   color: #ff00ff;
 }

@@ -1,8 +1,8 @@
 
-import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import './ModalCelebrationsConfettiBurst.css'
+import * as m from 'motion/react-m'
 import '../shared.css'
+import './ModalCelebrationsConfettiBurst.css'
 
 const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
 
@@ -67,6 +67,3 @@ const particles = Array.from({ length: 32 }, (_, i) => {
     </div>
   )
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-

@@ -1,4 +1,4 @@
-.pill-countdown-glitch-container {
+.pill-countdown-tfx-glitchcontainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,44 +71,43 @@
 }
 
 /* 50s threshold - minimal glitch */
-.glitch-minimal {
+.tfx-glitchminimal {
 }
 
 /* 40s threshold - subtle glitch */
-.glitch-subtle {
+.tfx-glitchsubtle {
 }
 
 /* 30s threshold - mild glitch */
-.glitch-mild {
+.tfx-glitchmild {
   background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
   --glow-color: rgba(253, 126, 20, 0.35);
 }
 
 /* 20s threshold - moderate glitch */
-.glitch-moderate {
+.tfx-glitchmoderate {
   background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
   --glow-color: rgba(255, 107, 107, 0.4);
 }
 
-.glitch-moderate .pill-countdown-glitch__copy {
+.tfx-glitchmoderate .pill-countdown-glitch__copy {
   opacity: 0;
 }
 
 /* 10s threshold - severe glitch with rapid pulsing */
-.glitch-severe {
+.tfx-glitchsevere {
   background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
   --glow-color: rgba(255, 0, 0, 0.5);
 }
 
-.glitch-severe .pill-countdown-glitch__copy--before {
+.tfx-glitchsevere .pill-countdown-glitch__copy--before {
   color: #00ff00;
 }
 
-.glitch-severe .pill-countdown-glitch__copy--after {
+.tfx-glitchsevere .pill-countdown-glitch__copy--after {
   color: #ff00ff;
 }
 
 /* Threshold pulse animations */
 
 /* Rapid continuous glitch for final 10s */
-

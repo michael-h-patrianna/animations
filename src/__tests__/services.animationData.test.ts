@@ -1,5 +1,5 @@
 import { animationDataService } from '@/services/animationData'
-import type { Category, Animation } from '@/types/animation'
+import type { Category } from '@/types/animation'
 
 describe('services • animationData', () => {
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('services • animationData', () => {
         catalog = await p
       })()
 
-      catalog.forEach(category => {
+      catalog.forEach((category) => {
         expect(category).toMatchObject({
           id: expect.any(String),
           title: expect.any(String),
@@ -51,8 +51,8 @@ describe('services • animationData', () => {
         catalog = await p
       })()
 
-      catalog.forEach(category => {
-        category.groups.forEach(group => {
+      catalog.forEach((category) => {
+        category.groups.forEach((group) => {
           expect(group).toMatchObject({
             id: expect.any(String),
             title: expect.any(String),
@@ -73,9 +73,9 @@ describe('services • animationData', () => {
         catalog = await p
       })()
 
-      catalog.forEach(category => {
-        category.groups.forEach(group => {
-          group.animations.forEach(animation => {
+      catalog.forEach((category) => {
+        category.groups.forEach((group) => {
+          group.animations.forEach((animation) => {
             expect(animation).toMatchObject({
               id: expect.any(String),
               title: expect.any(String),
@@ -126,7 +126,7 @@ describe('services • animationData', () => {
       expect(Array.isArray(catalog)).toBe(true)
       expect(catalog.length).toBeGreaterThan(0)
 
-      catalog.forEach(category => {
+      catalog.forEach((category) => {
         expect(category).toMatchObject({
           id: expect.any(String),
           title: expect.any(String),
@@ -317,7 +317,7 @@ describe('services • animationData', () => {
       expect(Array.isArray(groupAnims)).toBe(true)
       expect(groupAnims.length).toBeGreaterThan(0)
 
-      groupAnims.forEach(animation => {
+      groupAnims.forEach((animation) => {
         expect(animation.categoryId).toBe(catalog[0].id)
         expect(animation.groupId).toBe(catalog[0].groups[0].id)
       })
@@ -403,7 +403,7 @@ describe('services • animationData', () => {
       )
 
       expect(updatedAnims.length).toBe(originalAnims.length + 1)
-      expect(updatedAnims.find(a => a.id === newAnim.id)).toBeTruthy()
+      expect(updatedAnims.find((a) => a.id === newAnim.id)).toBeTruthy()
     })
   })
 
@@ -482,10 +482,10 @@ describe('services • animationData', () => {
           catalog[0].groups[1].id
         )
 
-        expect(group1Anims.find(a => a.id === anim1.id)).toBeTruthy()
-        expect(group1Anims.find(a => a.id === anim2.id)).toBeFalsy()
-        expect(group2Anims.find(a => a.id === anim2.id)).toBeTruthy()
-        expect(group2Anims.find(a => a.id === anim1.id)).toBeFalsy()
+        expect(group1Anims.find((a) => a.id === anim1.id)).toBeTruthy()
+        expect(group1Anims.find((a) => a.id === anim2.id)).toBeFalsy()
+        expect(group2Anims.find((a) => a.id === anim2.id)).toBeTruthy()
+        expect(group2Anims.find((a) => a.id === anim1.id)).toBeFalsy()
       }
     })
   })
@@ -584,9 +584,9 @@ describe('services • animationData', () => {
       })()
 
       const expectedCategories = ['base', 'dialogs', 'progress', 'realtime', 'rewards']
-      const actualCategories = catalog.map(cat => cat.id).sort()
+      const actualCategories = catalog.map((cat) => cat.id).sort()
 
-      expectedCategories.forEach(expectedId => {
+      expectedCategories.forEach((expectedId) => {
         expect(actualCategories).toContain(expectedId)
       })
     })
@@ -599,9 +599,9 @@ describe('services • animationData', () => {
         catalog = await p
       })()
 
-      catalog.forEach(category => {
-        category.groups.forEach(group => {
-          group.animations.forEach(animation => {
+      catalog.forEach((category) => {
+        category.groups.forEach((group) => {
+          group.animations.forEach((animation) => {
             expect(animation.categoryId).toBe(category.id)
             expect(animation.groupId).toBe(group.id)
           })
@@ -617,8 +617,8 @@ describe('services • animationData', () => {
         catalog = await p
       })()
 
-      catalog.forEach(category => {
-        category.groups.forEach(group => {
+      catalog.forEach((category) => {
+        category.groups.forEach((group) => {
           if (group.tech) {
             expect(['css', 'framer', 'js']).toContain(group.tech)
           }
@@ -634,13 +634,13 @@ describe('services • animationData', () => {
         catalog = await p
       })()
 
-      catalog.forEach(category => {
-        category.groups.forEach(group => {
-          group.animations.forEach(animation => {
+      catalog.forEach((category) => {
+        category.groups.forEach((group) => {
+          group.animations.forEach((animation) => {
             // Tags can be an array or undefined (optional field)
             if (animation.tags !== undefined) {
               expect(Array.isArray(animation.tags)).toBe(true)
-              animation.tags.forEach(tag => {
+              animation.tags.forEach((tag) => {
                 expect(typeof tag).toBe('string')
               })
             }

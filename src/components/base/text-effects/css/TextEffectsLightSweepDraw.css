@@ -1,27 +1,28 @@
 /* Light Sweep Draw - Pure CSS version */
-.studioLogo-LightSweepDraw {
-  --lsd-baseColor: #e8e4da;
-  --lsd-highlightColor: #ffffff;
+.tfx-light-sweep-draw {
+  --tfx-lsd-base-color: #e8e4da;
+  --tfx-lsd-highlight-color: #ffffff;
   display: inline-flex;
   align-items: baseline;
-  animation: lightSweepContainer 1.75s cubic-bezier(0.2, 0, 0, 1) both;
+  contain: layout style;
+  animation: tfx-light-sweep-container 1.75s cubic-bezier(0.2, 0, 0, 1) both;
 }
 
-.studioLogo-LightSweepDraw__line {
+.tfx-light-sweep-draw__line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.studioLogo-LightSweepDraw__letter {
+.tfx-light-sweep-draw__letter {
   display: inline-block;
-  will-change: transform;
-  color: var(--lsd-baseColor);
+  will-change: opacity, transform, color;
+  color: var(--tfx-lsd-base-color);
   font-weight: 700;
   letter-spacing: 0.02em;
-  animation: lightSweepLetter 0.6s ease-in-out both;
+  animation: tfx-light-sweep-letter 0.6s ease-in-out both;
 }
 
-@keyframes lightSweepContainer {
+@keyframes tfx-light-sweep-container {
   0% {
     opacity: 0;
     transform: scaleY(0.98);
@@ -41,20 +42,20 @@
   }
 }
 
-@keyframes lightSweepLetter {
+@keyframes tfx-light-sweep-letter {
   0% {
     opacity: 0;
     transform: translateY(6px) skewX(0deg) scale(1);
-    color: var(--lsd-baseColor);
+    color: var(--tfx-lsd-base-color);
   }
   45% {
     opacity: 1;
     transform: translateY(0) skewX(1.5deg) scale(1.04);
-    color: var(--lsd-highlightColor);
+    color: var(--tfx-lsd-highlight-color);
   }
   100% {
     opacity: 1;
     transform: translateY(0) skewX(0deg) scale(1);
-    color: var(--lsd-baseColor);
+    color: var(--tfx-lsd-base-color);
   }
 }

@@ -1,8 +1,8 @@
 import * as m from 'motion/react-m'
 
+import { overlayStyles } from '@/motion/primitives'
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
-import { overlayStyles } from '@/motion/primitives'
 
 export function ModalBaseGlitchDigital() {
   const duration = 0.6
@@ -14,7 +14,7 @@ export function ModalBaseGlitchDigital() {
       animate={{ opacity: 1 }}
       transition={{ duration, ease }}
       style={overlayStyles.standard}
-      data-animation-id="modal-base__glitch-digital"
+      data-animation-id="modal-base__tfx-glitchdigital"
     >
       <div className="pf-modal-center">
         {/* Ghost layers behind the modal */}

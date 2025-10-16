@@ -77,7 +77,7 @@ export const groupExport: GroupExport = {
   metadata: groupMetadata,
   animations: {
     'text-effects__wave-text': { component: TextEffectsWaveText, metadata: waveTextMeta },
-    'text-effects__glitch-text': { component: TextEffectsGlitchText, metadata: glitchTextMeta },
+    'text-effects__tfx-glitchtext': { component: TextEffectsGlitchText, metadata: glitchTextMeta },
   }
 }
 ```

@@ -1,6 +1,5 @@
 import { calculateBulbColors } from '@/utils/colors';
-import * as m from 'motion/react-m'
-;
+import * as m from 'motion/react-m';
 import React, { useMemo } from 'react';
 import './LightsCircleStatic8.css';
 
@@ -149,23 +148,25 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
     const isCollisionBulb = (isFirstHalf && i === halfBulbs - 1) || (!isFirstHalf && i === halfBulbs);
 
     // Create custom variants with delay
+    const baseGlowShow = (isCollisionBulb ? glowVariantsCollision : glowVariantsRegular).show;
     const customGlowVariants = {
       hidden: { opacity: 0 },
       show: {
-        ...((isCollisionBulb ? glowVariantsCollision : glowVariantsRegular).show as any),
+        ...baseGlowShow,
         transition: {
-          ...((isCollisionBulb ? glowVariantsCollision : glowVariantsRegular).show as any).transition,
+          ...(typeof baseGlowShow === 'object' && 'transition' in baseGlowShow ? baseGlowShow.transition : {}),
           delay,
         }
       }
     };
 
+    const baseBulbShow = (isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).show;
     const customBulbVariants = {
       hidden: (isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).hidden,
       show: {
-        ...((isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).show as any),
+        ...baseBulbShow,
         transition: {
-          ...((isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).show as any).transition,
+          ...(typeof baseBulbShow === 'object' && 'transition' in baseBulbShow ? baseBulbShow.transition : {}),
           delay,
         }
       }

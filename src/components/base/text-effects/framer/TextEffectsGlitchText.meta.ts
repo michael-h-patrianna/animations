@@ -1,9 +1,9 @@
 import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
-  id: 'text-effects__glitch-text',
+  id: 'text-effects__tfx-glitchtext',
   title: 'Glitch Text',
   description: 'Digital distortion with RGB channel separation and scanning line artifacts.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 }

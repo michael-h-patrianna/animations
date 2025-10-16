@@ -1,5 +1,5 @@
-import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
+import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
 import './TimerEffectsPillCountdownGlitch.css'
 
@@ -30,11 +30,11 @@ useEffect(() => {
 
   const getGlitchClass = () => {
     if (seconds === 0) return 'timer-expired'
-    if (seconds <= 10) return 'glitch-severe'
-    if (seconds <= 20) return 'glitch-moderate'
-    if (seconds <= 30) return 'glitch-mild'
-    if (seconds <= 40) return 'glitch-subtle'
-    if (seconds <= 50) return 'glitch-minimal'
+    if (seconds <= 10) return 'tfx-glitchsevere'
+    if (seconds <= 20) return 'tfx-glitchmoderate'
+    if (seconds <= 30) return 'tfx-glitchmild'
+    if (seconds <= 40) return 'tfx-glitchsubtle'
+    if (seconds <= 50) return 'tfx-glitchminimal'
     return ''
   }
 
@@ -88,7 +88,7 @@ useEffect(() => {
     }
   }
   return (
-    <div className="pill-countdown-glitch-container">
+    <div className="pill-countdown-tfx-glitchcontainer">
       <m.div className={`pill-countdown-glitch ${getGlitchClass()}`}>
         <m.span
           className="pill-countdown-glitch__glow"

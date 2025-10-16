@@ -11,33 +11,67 @@ test.describe('Metadata System - Navigation and UI', () => {
     // Verify all categories from structure.json are visible
     // Use .pf-main to avoid matching the mobile drawer sidebar
     const sidebar = page.locator('.pf-main .pf-sidebar')
-    await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Base effects")')).toBeVisible()
-    await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Dialog & Modal Animations")')).toBeVisible()
-    await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Progress & Loading Animations")')).toBeVisible()
-    await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Real-time Updates & Timers")')).toBeVisible()
-    await expect(sidebar.locator('.pf-sidebar__link--category:has-text("Game Elements & Rewards")')).toBeVisible()
+    await expect(
+      sidebar.locator('.pf-sidebar__link--category:has-text("Base effects")')
+    ).toBeVisible()
+    await expect(
+      sidebar.locator('.pf-sidebar__link--category:has-text("Dialog & Modal Animations")')
+    ).toBeVisible()
+    await expect(
+      sidebar.locator('.pf-sidebar__link--category:has-text("Progress & Loading Animations")')
+    ).toBeVisible()
+    await expect(
+      sidebar.locator('.pf-sidebar__link--category:has-text("Real-time Updates & Timers")')
+    ).toBeVisible()
+    await expect(
+      sidebar.locator('.pf-sidebar__link--category:has-text("Game Elements & Rewards")')
+    ).toBeVisible()
   })
 
   test('displays groups within each category', async ({ page }) => {
     // Check Base effects category groups
     const sidebar = page.locator('.pf-main .pf-sidebar')
-    const baseCategory = sidebar.locator('.pf-sidebar__section', { has: sidebar.locator('.pf-sidebar__link--category:has-text("Base effects")') }).first()
-    await expect(baseCategory.locator('.pf-sidebar__link--group:has-text("Text effects")')).toBeVisible()
-    await expect(baseCategory.locator('.pf-sidebar__link--group:has-text("Standard effects")')).toBeVisible()
-    await expect(baseCategory.locator('.pf-sidebar__link--group:has-text("Button effects")')).toBeVisible()
+    const baseCategory = sidebar
+      .locator('.pf-sidebar__section', {
+        has: sidebar.locator('.pf-sidebar__link--category:has-text("Base effects")'),
+      })
+      .first()
+    await expect(
+      baseCategory.locator('.pf-sidebar__link--group:has-text("Text effects")')
+    ).toBeVisible()
+    await expect(
+      baseCategory.locator('.pf-sidebar__link--group:has-text("Standard effects")')
+    ).toBeVisible()
+    await expect(
+      baseCategory.locator('.pf-sidebar__link--group:has-text("Button effects")')
+    ).toBeVisible()
 
     // Check Dialog & Modal Animations category groups
-    const dialogCategory = sidebar.locator('.pf-sidebar__section', { has: sidebar.locator('.pf-sidebar__link--category:has-text("Dialog & Modal Animations")') }).first()
-    await expect(dialogCategory.locator('.pf-sidebar__link--group:has-text("Base modals (framer)")')).toBeVisible()
-    await expect(dialogCategory.locator('.pf-sidebar__link--group:has-text("Content choreography")')).toBeVisible()
-    await expect(dialogCategory.locator('.pf-sidebar__link--group:has-text("Auto-dismiss patterns")')).toBeVisible()
-    await expect(dialogCategory.locator('.pf-sidebar__link--group:has-text("Tile animations")')).toBeVisible()
+    const dialogCategory = sidebar
+      .locator('.pf-sidebar__section', {
+        has: sidebar.locator('.pf-sidebar__link--category:has-text("Dialog & Modal Animations")'),
+      })
+      .first()
+    await expect(
+      dialogCategory.locator('.pf-sidebar__link--group:has-text("Base modals (framer)")')
+    ).toBeVisible()
+    await expect(
+      dialogCategory.locator('.pf-sidebar__link--group:has-text("Content choreography")')
+    ).toBeVisible()
+    await expect(
+      dialogCategory.locator('.pf-sidebar__link--group:has-text("Auto-dismiss patterns")')
+    ).toBeVisible()
+    await expect(
+      dialogCategory.locator('.pf-sidebar__link--group:has-text("Tile animations")')
+    ).toBeVisible()
   })
 
   test('clicking category navigates to first group in that category', async ({ page }) => {
     // Click on "Progress & Loading Animations" category
     const sidebar = page.locator('.pf-main .pf-sidebar')
-    await sidebar.locator('.pf-sidebar__link--category:has-text("Progress & Loading Animations")').click()
+    await sidebar
+      .locator('.pf-sidebar__link--category:has-text("Progress & Loading Animations")')
+      .click()
 
     // Should navigate to first group in that category (Progress bars)
     await page.waitForTimeout(500) // Wait for navigation animation
@@ -59,7 +93,9 @@ test.describe('Metadata System - Navigation and UI', () => {
     // Verify the group section is visible
     const groupSection = page.locator('#group-modal-content')
     await expect(groupSection).toBeVisible()
-    await expect(groupSection.locator('.pf-group__title:has-text("Content choreography")')).toBeVisible()
+    await expect(
+      groupSection.locator('.pf-group__title:has-text("Content choreography")')
+    ).toBeVisible()
   })
 
   test('active group is highlighted in sidebar', async ({ page }) => {
@@ -73,7 +109,9 @@ test.describe('Metadata System - Navigation and UI', () => {
     await expect(textEffectsLink).toHaveClass(/pf-sidebar__link--active/)
 
     // Other groups should not be active
-    const standardEffectsLink = sidebar.locator('.pf-sidebar__link--group:has-text("Standard effects")')
+    const standardEffectsLink = sidebar.locator(
+      '.pf-sidebar__link--group:has-text("Standard effects")'
+    )
     await expect(standardEffectsLink).not.toHaveClass(/pf-sidebar__link--active/)
   })
 
@@ -84,7 +122,9 @@ test.describe('Metadata System - Navigation and UI', () => {
     await page.waitForTimeout(500)
 
     // Verify the parent category has active class
-    const dialogCategory = sidebar.locator('.pf-sidebar__link--category:has-text("Dialog & Modal Animations")')
+    const dialogCategory = sidebar.locator(
+      '.pf-sidebar__link--category:has-text("Dialog & Modal Animations")'
+    )
     await expect(dialogCategory).toHaveClass(/pf-sidebar__link--active/)
 
     // Other categories should not be active
@@ -166,18 +206,12 @@ test.describe('Metadata System - Navigation and UI', () => {
     // Get the animation stage element
     const stage = card.locator('.pf-demo-stage')
 
-    // Get the initial key attribute (React uses key for remounting)
-    const initialContent = await stage.innerHTML()
-
     // Click replay button
     const replayButton = card.locator('[data-role="replay"]')
     await replayButton.click()
 
     // Wait a bit for remount
     await page.waitForTimeout(100)
-
-    // The content should have changed (key changed, causing remount)
-    const afterReplayContent = await stage.innerHTML()
 
     // We can't easily check the key directly, but we can verify the stage still exists
     await expect(stage).toBeVisible()

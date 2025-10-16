@@ -1,8 +1,4 @@
-import {
-  categories,
-  buildRegistryFromCategories,
-  getAnimationMetadata,
-} from './animationRegistry'
+import { buildRegistryFromCategories, categories, getAnimationMetadata } from './animationRegistry'
 
 describe('animationRegistry', () => {
   describe('categories export structure', () => {
@@ -33,7 +29,7 @@ describe('animationRegistry', () => {
 
   describe('category metadata validation', () => {
     it('should have correct metadata for each category', () => {
-      Object.values(categories).forEach(category => {
+      Object.values(categories).forEach((category) => {
         expect(category.metadata).toMatchObject({
           id: expect.any(String),
           title: expect.any(String),
@@ -44,7 +40,7 @@ describe('animationRegistry', () => {
     })
 
     it('should have unique category IDs', () => {
-      const ids = Object.values(categories).map(cat => cat.metadata.id)
+      const ids = Object.values(categories).map((cat) => cat.metadata.id)
       const uniqueIds = new Set(ids)
       expect(ids.length).toBe(uniqueIds.size)
     })
@@ -58,7 +54,7 @@ describe('animationRegistry', () => {
 
   describe('group metadata validation', () => {
     it('should have each group conform to GroupExport type', () => {
-      Object.values(categories).forEach(category => {
+      Object.values(categories).forEach((category) => {
         Object.entries(category.groups).forEach(([groupId, group]) => {
           expect(group).toBeDefined()
           expect(group.metadata).toBeDefined()
@@ -74,8 +70,8 @@ describe('animationRegistry', () => {
     })
 
     it('should have correct metadata for each group', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
           expect(group.metadata).toMatchObject({
             id: expect.any(String),
             title: expect.any(String),
@@ -98,22 +94,22 @@ describe('animationRegistry', () => {
     })
 
     it('should have at least one group per category', () => {
-      Object.values(categories).forEach(category => {
+      Object.values(categories).forEach((category) => {
         const groupCount = Object.keys(category.groups).length
         expect(groupCount).toBeGreaterThan(0)
       })
     })
 
     it('should have unique group IDs within each category', () => {
-      Object.values(categories).forEach(category => {
-        const groupIds = Object.values(category.groups).map(g => g.metadata.id)
+      Object.values(categories).forEach((category) => {
+        const groupIds = Object.values(category.groups).map((g) => g.metadata.id)
         const uniqueIds = new Set(groupIds)
         expect(groupIds.length).toBe(uniqueIds.size)
       })
     })
 
     it('should have group IDs matching their keys', () => {
-      Object.values(categories).forEach(category => {
+      Object.values(categories).forEach((category) => {
         Object.entries(category.groups).forEach(([key, group]) => {
           expect(group.metadata.id).toBe(key)
         })
@@ -123,8 +119,8 @@ describe('animationRegistry', () => {
 
   describe('animation metadata validation', () => {
     it('should have each animation conform to AnimationExport type', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
           // Check framer animations
           Object.entries(group.framer).forEach(([animId, animation]) => {
             expect(animation).toBeDefined()
@@ -148,10 +144,10 @@ describe('animationRegistry', () => {
     })
 
     it('should have correct metadata structure for each animation', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
           // Check framer animations
-          Object.values(group.framer).forEach(animation => {
+          Object.values(group.framer).forEach((animation) => {
             expect(animation.metadata).toMatchObject({
               id: expect.any(String),
               title: expect.any(String),
@@ -169,7 +165,7 @@ describe('animationRegistry', () => {
             }
           })
           // Check css animations
-          Object.values(group.css).forEach(animation => {
+          Object.values(group.css).forEach((animation) => {
             expect(animation.metadata).toMatchObject({
               id: expect.any(String),
               title: expect.any(String),
@@ -191,8 +187,8 @@ describe('animationRegistry', () => {
     })
 
     it('should have at least one animation per group', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
           const framerCount = Object.keys(group.framer).length
           const cssCount = Object.keys(group.css).length
           const totalCount = framerCount + cssCount
@@ -204,9 +200,9 @@ describe('animationRegistry', () => {
     it('should have unique animation IDs within each code mode (framer and css separately)', () => {
       // Check framer animations for uniqueness
       const framerAnimationIds: string[] = []
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.values(group.framer).forEach(animation => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.values(group.framer).forEach((animation) => {
             framerAnimationIds.push(animation.metadata.id)
           })
         })
@@ -215,16 +211,16 @@ describe('animationRegistry', () => {
       const uniqueFramerIds = new Set(framerAnimationIds)
       if (framerAnimationIds.length !== uniqueFramerIds.size) {
         const duplicates: Record<string, number> = {}
-        framerAnimationIds.forEach(id => {
+        framerAnimationIds.forEach((id) => {
           duplicates[id] = (duplicates[id] || 0) + 1
         })
         const dupes = Object.entries(duplicates)
-          .filter(([_, count]) => count > 1)
+          .filter(([, count]) => count > 1)
           .map(([id]) => id)
 
         throw new Error(
           `Duplicate Framer animation IDs found: ${dupes.join(', ')}\n` +
-          'Each Framer animation ID must be unique.'
+            'Each Framer animation ID must be unique.'
         )
       }
 
@@ -232,9 +228,9 @@ describe('animationRegistry', () => {
 
       // Check CSS animations for uniqueness
       const cssAnimationIds: string[] = []
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.values(group.css).forEach(animation => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.values(group.css).forEach((animation) => {
             cssAnimationIds.push(animation.metadata.id)
           })
         })
@@ -243,16 +239,16 @@ describe('animationRegistry', () => {
       const uniqueCssIds = new Set(cssAnimationIds)
       if (cssAnimationIds.length !== uniqueCssIds.size) {
         const duplicates: Record<string, number> = {}
-        cssAnimationIds.forEach(id => {
+        cssAnimationIds.forEach((id) => {
           duplicates[id] = (duplicates[id] || 0) + 1
         })
         const dupes = Object.entries(duplicates)
-          .filter(([_, count]) => count > 1)
+          .filter(([, count]) => count > 1)
           .map(([id]) => id)
 
         throw new Error(
           `Duplicate CSS animation IDs found: ${dupes.join(', ')}\n` +
-          'Each CSS animation ID must be unique.'
+            'Each CSS animation ID must be unique.'
         )
       }
 
@@ -260,8 +256,8 @@ describe('animationRegistry', () => {
     })
 
     it('should have animation IDs matching their keys', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
           Object.entries(group.framer).forEach(([key, animation]) => {
             expect(animation.metadata.id).toBe(key)
           })
@@ -273,16 +269,16 @@ describe('animationRegistry', () => {
     })
 
     it('should have all tags as strings', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.values(group.framer).forEach(animation => {
-            animation.metadata.tags.forEach(tag => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.values(group.framer).forEach((animation) => {
+            animation.metadata.tags.forEach((tag) => {
               expect(typeof tag).toBe('string')
               expect(tag).toBeTruthy()
             })
           })
-          Object.values(group.css).forEach(animation => {
-            animation.metadata.tags.forEach(tag => {
+          Object.values(group.css).forEach((animation) => {
+            animation.metadata.tags.forEach((tag) => {
               expect(typeof tag).toBe('string')
               expect(tag).toBeTruthy()
             })
@@ -315,12 +311,12 @@ describe('animationRegistry', () => {
       const registry = buildRegistryFromCategories()
       const registryIds = new Set(Object.keys(registry))
 
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.keys(group.framer).forEach(animId => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.keys(group.framer).forEach((animId) => {
             expect(registryIds.has(animId)).toBe(true)
           })
-          Object.keys(group.css).forEach(animId => {
+          Object.keys(group.css).forEach((animId) => {
             expect(registryIds.has(animId)).toBe(true)
           })
         })
@@ -332,10 +328,10 @@ describe('animationRegistry', () => {
       // Note: Framer and CSS animations may share IDs, so the registry size
       // will be less than or equal to the sum of both collections
       const uniqueIds = new Set<string>()
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.keys(group.framer).forEach(id => uniqueIds.add(id))
-          Object.keys(group.css).forEach(id => uniqueIds.add(id))
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.keys(group.framer).forEach((id) => uniqueIds.add(id))
+          Object.keys(group.css).forEach((id) => uniqueIds.add(id))
         })
       })
       // Registry should contain animations (though some IDs may collide)
@@ -359,7 +355,7 @@ describe('animationRegistry', () => {
 
       expect(Object.keys(registry1).sort()).toEqual(Object.keys(registry2).sort())
 
-      Object.keys(registry1).forEach(id => {
+      Object.keys(registry1).forEach((id) => {
         expect(registry1[id]).toBe(registry2[id])
       })
     })
@@ -391,14 +387,14 @@ describe('animationRegistry', () => {
     it('should return metadata for animations (may return either framer or css when IDs collide)', () => {
       // When framer and css share the same ID, getAnimationMetadata returns one of them
       // We just verify that we can retrieve metadata for valid animation IDs
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.keys(group.framer).forEach(animId => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.keys(group.framer).forEach((animId) => {
             const metadata = getAnimationMetadata(animId)
             expect(metadata).not.toBeNull()
             expect(metadata?.id).toBe(animId)
           })
-          Object.keys(group.css).forEach(animId => {
+          Object.keys(group.css).forEach((animId) => {
             const metadata = getAnimationMetadata(animId)
             expect(metadata).not.toBeNull()
             expect(metadata?.id).toBe(animId)
@@ -431,10 +427,9 @@ describe('animationRegistry', () => {
     })
   })
 
-
   describe('type safety and validation', () => {
     it('should have all categories with required metadata fields', () => {
-      Object.values(categories).forEach(category => {
+      Object.values(categories).forEach((category) => {
         const metadata = category.metadata
         expect(metadata.id).toBeDefined()
         expect(metadata.title).toBeDefined()
@@ -446,8 +441,8 @@ describe('animationRegistry', () => {
     })
 
     it('should have all groups with required metadata fields', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
           const metadata = group.metadata
           expect(metadata.id).toBeDefined()
           expect(metadata.title).toBeDefined()
@@ -460,9 +455,9 @@ describe('animationRegistry', () => {
     })
 
     it('should have all animations with required metadata fields', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.values(group.framer).forEach(animation => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.values(group.framer).forEach((animation) => {
             const metadata = animation.metadata
             expect(metadata.id).toBeDefined()
             expect(metadata.title).toBeDefined()
@@ -476,7 +471,7 @@ describe('animationRegistry', () => {
             expect(metadata.title.length).toBeGreaterThan(0)
             expect(metadata.description.length).toBeGreaterThan(0)
           })
-          Object.values(group.css).forEach(animation => {
+          Object.values(group.css).forEach((animation) => {
             const metadata = animation.metadata
             expect(metadata.id).toBeDefined()
             expect(metadata.title).toBeDefined()
@@ -495,13 +490,13 @@ describe('animationRegistry', () => {
     })
 
     it('should not have any null or undefined components', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
-          Object.values(group.framer).forEach(animation => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
+          Object.values(group.framer).forEach((animation) => {
             expect(animation.component).toBeDefined()
             expect(animation.component).not.toBeNull()
           })
-          Object.values(group.css).forEach(animation => {
+          Object.values(group.css).forEach((animation) => {
             expect(animation.component).toBeDefined()
             expect(animation.component).not.toBeNull()
           })
@@ -510,8 +505,8 @@ describe('animationRegistry', () => {
     })
 
     it('should not have any empty animation collections', () => {
-      Object.values(categories).forEach(category => {
-        Object.values(category.groups).forEach(group => {
+      Object.values(categories).forEach((category) => {
+        Object.values(category.groups).forEach((group) => {
           const framerCount = Object.keys(group.framer).length
           const cssCount = Object.keys(group.css).length
           const totalCount = framerCount + cssCount

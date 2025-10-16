@@ -1,5 +1,5 @@
-import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
+import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
 import './ProgressBarsProgressMilestones.css'
 
@@ -34,6 +34,7 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
     return () => {
       clearInterval(intervalId)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const fillVariants = {
     hidden: { scaleX: 0 },

@@ -40,7 +40,7 @@ export function ModalOrchestrationTabMorph() {
     setPrevTab(activeTab)
 
     return () => clearTimeout(exitTimeout)
-  }, [activeTab])
+  }, [activeTab, prevTab])
 
   return (
     <div

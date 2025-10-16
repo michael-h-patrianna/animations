@@ -1,29 +1,30 @@
 /* Metallic Specular Flash - Pure CSS version */
-.studioLogo-MetallicSpecularFlash {
-  --msf-baseColor: #e8e4da;
-  --msf-highlightColor: #ffffff;
-  --msf-shadowColor: #b6b1a6;
+.tfx-metallic-specular-flash {
+  --tfx-msf-base-color: #e8e4da;
+  --tfx-msf-highlight-color: #ffffff;
+  --tfx-msf-shadow-color: #b6b1a6;
   display: inline-flex;
   align-items: baseline;
-  animation: metallicContainer 1s cubic-bezier(0.2, 0, 0, 1) both;
+  contain: layout style;
+  animation: tfx-metallic-container 1s cubic-bezier(0.2, 0, 0, 1) both;
 }
 
-.studioLogo-MetallicSpecularFlash__line {
+.tfx-metallic-specular-flash__line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.studioLogo-MetallicSpecularFlash__letter {
+.tfx-metallic-specular-flash__letter {
   display: inline-block;
-  will-change: transform;
-  color: var(--msf-baseColor);
+  will-change: opacity, transform, color;
+  color: var(--tfx-msf-base-color);
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;
-  animation: metallicLetter 0.42s ease-in-out both;
+  animation: tfx-metallic-letter 0.42s ease-in-out both;
 }
 
-@keyframes metallicContainer {
+@keyframes tfx-metallic-container {
   0% {
     opacity: 0;
     transform: scaleX(0.995);
@@ -43,24 +44,24 @@
   }
 }
 
-@keyframes metallicLetter {
+@keyframes tfx-metallic-letter {
   0% {
     opacity: 0;
-    color: var(--msf-baseColor);
+    color: var(--tfx-msf-base-color);
     transform: skewX(0deg) scaleX(1);
   }
   25% {
     opacity: 1;
-    color: var(--msf-highlightColor);
+    color: var(--tfx-msf-highlight-color);
     transform: skewX(4deg) scaleX(1.08);
   }
   55% {
-    color: var(--msf-shadowColor);
+    color: var(--tfx-msf-shadow-color);
     transform: skewX(-1deg) scaleX(0.995);
   }
   100% {
     opacity: 1;
-    color: var(--msf-baseColor);
+    color: var(--tfx-msf-base-color);
     transform: skewX(0deg) scaleX(1);
   }
 }

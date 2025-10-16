@@ -1,14 +1,47 @@
-/**
- * Standalone: Copy this file and TextEffectsHorizonLightPass.css into your app.
- * Runtime deps: react only
- * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
- */
-import React, { useEffect, useRef } from 'react'
-import { memo } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import './TextEffectsHorizonLightPass.css'
 
-function TextEffectsHorizonLightPassComponent() {
-  const text = 'LOREM IPSUM DOLOR'
+/**
+ * Props for TextEffectsHorizonLightPass component.
+ */
+interface TextEffectsHorizonLightPassProps {
+  /** Text content to animate. Supports any length including whitespace. */
+  text?: string
+}
+
+/**
+ * Animated text effect with horizontal light pass and right-to-left cascade.
+ *
+ * Uses Web Animations API for GPU-accelerated transforms and opacity changes.
+ * Each letter scales and changes color in sequence from right to left, creating
+ * a sweeping highlight effect. Container fades in and scales simultaneously.
+ *
+ * @param props - Component props
+ * @param props.text - Text to animate (default: 'LOREM IPSUM DOLOR')
+ *
+ * @returns Animated text element with individual letter animations
+ *
+ * @example
+ * ```tsx
+ * <TextEffectsHorizonLightPass text="HELLO WORLD" />
+ * ```
+ *
+ * @example
+ * With default text:
+ * ```tsx
+ * <TextEffectsHorizonLightPass />
+ * ```
+ *
+ * @remarks
+ * - Animations start automatically on mount
+ * - Uses 30ms delay between letters for cascade effect
+ * - GPU-accelerated with will-change hints
+ * - Customize colors via CSS custom properties: --tfx-hlp-base-color, --tfx-hlp-highlight-color
+ * - Animations are cancelled on unmount to prevent memory leaks
+ *
+ * @see TextEffectsHorizonLightPass.css for styling and performance optimizations
+ */
+function TextEffectsHorizonLightPassComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsHorizonLightPassProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const lettersRef = useRef<HTMLSpanElement[]>([])
 
@@ -45,11 +78,11 @@ function TextEffectsHorizonLightPassComponent() {
 
       return letter.animate(
         [
-          { opacity: 0, color: 'var(--hlp-baseColor)', transform: 'scaleX(1) scaleY(1)' },
-          { opacity: 1, color: 'var(--hlp-highlightColor)', transform: 'scaleX(1.2) scaleY(0.94)' },
-          { opacity: 1, color: 'var(--hlp-highlightColor)', transform: 'scaleX(1.22) scaleY(0.96)' },
-          { opacity: 1, color: 'var(--hlp-highlightColor)', transform: 'scaleX(1.06) scaleY(0.99)' },
-          { opacity: 1, color: 'var(--hlp-baseColor)', transform: 'scaleX(1) scaleY(1)' },
+          { opacity: 0, color: 'var(--tfx-hlp-base-color)', transform: 'scaleX(1) scaleY(1)' },
+          { opacity: 1, color: 'var(--tfx-hlp-highlight-color)', transform: 'scaleX(1.2) scaleY(0.94)' },
+          { opacity: 1, color: 'var(--tfx-hlp-highlight-color)', transform: 'scaleX(1.22) scaleY(0.96)' },
+          { opacity: 1, color: 'var(--tfx-hlp-highlight-color)', transform: 'scaleX(1.06) scaleY(0.99)' },
+          { opacity: 1, color: 'var(--tfx-hlp-base-color)', transform: 'scaleX(1) scaleY(1)' },
         ],
         {
           duration: 1250,
@@ -69,18 +102,18 @@ function TextEffectsHorizonLightPassComponent() {
   return (
     <div
       ref={containerRef}
-      className="studioLogo-HorizonLightPass"
+      className="tfx-horizon-light-pass"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
     >
-      <div className="studioLogo-HorizonLightPass__line" aria-hidden="true">
+      <div className="tfx-horizon-light-pass__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
             ref={(el) => {
               if (el) lettersRef.current[i] = el
             }}
-            className="studioLogo-HorizonLightPass__letter"
+            className="tfx-horizon-light-pass__letter"
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
@@ -91,10 +124,10 @@ function TextEffectsHorizonLightPassComponent() {
 }
 
 /**
- * Memoized TextEffectsHorizonLightPass to prevent unnecessary re-renders in grid layouts.
+ * Memoized version to prevent unnecessary re-renders in grid layouts.
+ * Component only re-renders when text prop changes.
  */
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)
-
 
 export default TextEffectsHorizonLightPass
 
