@@ -1,28 +1,142 @@
-/* Styles scoped for TextEffectsLevelBreakthrough */
-.pf-breakthrough-container {
+/**
+ * TextEffectsLevelBreakthrough - GPU-optimized breakthrough animation
+ *
+ * All animations use transform/opacity for GPU compositing.
+ * Keyframes prefixed with tfx- to avoid global namespace conflicts.
+ */
+
+/* Container - relative positioning for absolute surge rings */
+.tfx-breakthrough-container {
   position: relative;
+  display: inline-block;
 }
-.pf-level-breakthrough {
+
+/* Text wrapper - holds both start and end text layers */
+.tfx-breakthrough-text-wrapper {
+  position: relative;
+  z-index: 2;
+  will-change: transform;
+  animation: tfx-breakthrough-shake 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Base text styling shared by both start and end text */
+.tfx-breakthrough-text {
   font-size: 36px;
   font-weight: bold;
   color: #ffce1a;
   text-align: center;
   padding: 20px;
-  position: relative;
-  z-index: 2;
+  will-change: opacity, text-shadow;
 }
-.pf-surge-lines {
+
+/* Start text - fades out at breakthrough peak */
+.tfx-breakthrough-text-start {
+  animation: tfx-breakthrough-fade-out 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* End text - positioned absolutely over start text, fades in at breakthrough peak */
+.tfx-breakthrough-text-end {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: tfx-breakthrough-fade-in 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Surge ring base - absolute positioned behind text */
+.tfx-breakthrough-surge {
   position: absolute;
   inset: 0;
   opacity: 0;
   will-change: transform, opacity;
+  pointer-events: none;
+  animation: tfx-breakthrough-surge 0.8s ease-out forwards;
 }
 
-/* Create ring effect with radial gradients matching the Framer version */
-.pf-surge-lines-outer {
+/* Outer surge ring - 6px thick band at 75-82% radius */
+.tfx-breakthrough-surge-outer {
   background: radial-gradient(circle, transparent 75%, #ffce1a 76%, transparent 82%);
 }
 
-.pf-surge-lines-inner {
+/* Inner surge ring - 6px thick band at 65-72% radius, delayed start */
+.tfx-breakthrough-surge-inner {
   background: radial-gradient(circle, transparent 65%, #ffce1a 66%, transparent 72%);
+  animation-delay: 0.1s;
+}
+
+/* Text shake and breakthrough animation - applied to wrapper */
+@keyframes tfx-breakthrough-shake {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  15% {
+    transform: scale(0.9) rotate(-2deg);
+  }
+  30% {
+    transform: scale(0.9) rotate(2deg);
+  }
+  45% {
+    transform: scale(0.9) rotate(-2deg);
+  }
+  60% {
+    transform: scale(1.5) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Start text fade out - disappears at breakthrough peak */
+@keyframes tfx-breakthrough-fade-out {
+  0% {
+    opacity: 1;
+    text-shadow: none;
+  }
+  55% {
+    opacity: 1;
+    text-shadow: none;
+  }
+  65% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  100% {
+    opacity: 0;
+    text-shadow: none;
+  }
+}
+
+/* End text fade in - appears at breakthrough peak with glow */
+@keyframes tfx-breakthrough-fade-in {
+  0% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  55% {
+    opacity: 0;
+    text-shadow: none;
+  }
+  65% {
+    opacity: 1;
+    text-shadow: 0 0 30px rgba(255, 206, 26, 0.8);
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 30px rgba(255, 206, 26, 0.8);
+  }
+}
+
+/* Surge ring expansion animation */
+@keyframes tfx-breakthrough-surge {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
 }

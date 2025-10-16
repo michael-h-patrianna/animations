@@ -1,110 +1,84 @@
-import { useEffect, useRef, memo } from 'react'
+import { memo } from 'react'
 import './TextEffectsLevelBreakthrough.css'
 
-function TextEffectsLevelBreakthroughComponent() {
-  const levelRef = useRef<HTMLDivElement>(null)
-  const surge1Ref = useRef<HTMLDivElement>(null)
-  const surge2Ref = useRef<HTMLDivElement>(null)
+/**
+ * @param props.startText - Initial text before breakthrough
+ * @param props.endText - Final text after breakthrough
+ * @param props.className - Optional additional CSS class names
+ */
+interface TextEffectsLevelBreakthroughProps {
+  startText?: string
+  endText?: string
+  className?: string
+}
 
-  useEffect(() => {
-    const level = levelRef.current
-    const surge1 = surge1Ref.current
-    const surge2 = surge2Ref.current
-
-    if (!level || !surge1 || !surge2) return
-
-    // Reset initial state
-    level.textContent = 'LEVEL 1'
-    level.style.textShadow = ''
-
-    // Level shake and breakthrough animation
-    const levelAnimation = level.animate(
-      [
-        { transform: 'scale(1) rotate(0deg)' },
-        { transform: 'scale(0.9) rotate(-2deg)' },
-        { transform: 'scale(0.9) rotate(2deg)' },
-        { transform: 'scale(0.9) rotate(-2deg)' },
-        { transform: 'scale(1.5) rotate(0deg)' },
-        { transform: 'scale(1) rotate(0deg)' },
-      ],
-      {
-        duration: 1000,
-        easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-        fill: 'forwards',
-      }
-    )
-
-    // First surge ring animation
-    const surge1Animation = surge1.animate(
-      [
-        { opacity: 0, transform: 'scale(0.5)' },
-        { opacity: 1, transform: 'scale(1.5)' },
-        { opacity: 0, transform: 'scale(2)' },
-      ],
-      {
-        duration: 800,
-        easing: 'ease-out',
-        fill: 'forwards',
-      }
-    )
-
-    // Second surge ring animation with slight delay
-    const surge2Animation = surge2.animate(
-      [
-        { opacity: 0, transform: 'scale(0.5)' },
-        { opacity: 1, transform: 'scale(1.5)' },
-        { opacity: 0, transform: 'scale(2)' },
-      ],
-      {
-        duration: 800,
-        delay: 100,
-        easing: 'ease-out',
-        fill: 'forwards',
-      }
-    )
-
-    // Change level text and add glow after breakthrough peaks
-    const changeTextTimer = setTimeout(() => {
-      if (level) {
-        level.textContent = 'LEVEL 2'
-        level.style.textShadow = '0 0 30px rgba(255, 206, 26, 0.8)'
-      }
-    }, 600)
-
-    return () => {
-      clearTimeout(changeTextTimer)
-      levelAnimation.cancel()
-      surge1Animation.cancel()
-      surge2Animation.cancel()
-    }
-  }, [])
-
+/**
+ * Level breakthrough text effect with expanding surge rings and text transition.
+ *
+ * @param props - Component props
+ * @param props.startText - Initial text shown before breakthrough (defaults to "LEVEL 1")
+ * @param props.endText - Final text shown after breakthrough (defaults to "LEVEL 2")
+ * @param props.className - Optional CSS class to merge with base styles
+ *
+ * @returns Animated breakthrough effect container with text transition
+ *
+ * @example
+ * Basic usage with default text:
+ * ```tsx
+ * <TextEffectsLevelBreakthrough />
+ * ```
+ *
+ * @example
+ * Custom level transition:
+ * ```tsx
+ * <TextEffectsLevelBreakthrough
+ *   startText="LEVEL 5"
+ *   endText="LEVEL 6"
+ * />
+ * ```
+ *
+ * @example
+ * Custom text with whitespace:
+ * ```tsx
+ * <TextEffectsLevelBreakthrough
+ *   startText="STAGE 1"
+ *   endText="STAGE 2"
+ * />
+ * ```
+ *
+ * @example
+ * With custom styling:
+ * ```tsx
+ * <TextEffectsLevelBreakthrough
+ *   startText="BRONZE"
+ *   endText="SILVER"
+ *   className="custom-size"
+ * />
+ * ```
+ */
+function TextEffectsLevelBreakthroughComponent({
+  startText = 'LEVEL 1',
+  endText = 'LEVEL 2',
+  className = '',
+}: TextEffectsLevelBreakthroughProps) {
   return (
-    <div className="pf-breakthrough-container" data-animation-id="text-effects__level-breakthrough">
-      {/* First surge ring - outer ring with 4-6px thick bands */}
-      <div
-        ref={surge1Ref}
-        className="pf-surge-lines pf-surge-lines-outer"
-        style={{ opacity: 0 }}
-      />
-
-      {/* Second surge ring - inner ring with 4-6px thick bands */}
-      <div
-        ref={surge2Ref}
-        className="pf-surge-lines pf-surge-lines-inner"
-        style={{ opacity: 0 }}
-      />
-
-      {/* Level display */}
-      <div ref={levelRef} className="pf-level-breakthrough">
-        LEVEL 1
+    <div
+      className={`tfx-breakthrough-container ${className}`.trim()}
+      data-animation-id="text-effects__level-breakthrough"
+    >
+      <div className="tfx-breakthrough-surge tfx-breakthrough-surge-outer" />
+      <div className="tfx-breakthrough-surge tfx-breakthrough-surge-inner" />
+      <div className="tfx-breakthrough-text-wrapper">
+        <div className="tfx-breakthrough-text tfx-breakthrough-text-start">
+          {startText}
+        </div>
+        <div className="tfx-breakthrough-text tfx-breakthrough-text-end">
+          {endText}
+        </div>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized TextEffectsLevelBreakthrough to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsLevelBreakthrough = memo(TextEffectsLevelBreakthroughComponent)
 
