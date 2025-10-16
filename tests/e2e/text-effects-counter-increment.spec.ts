@@ -25,15 +25,15 @@ test.describe('Text Effects - Counter Increment', () => {
     await expect(stage).toBeVisible()
 
     // Check for the counter container
-    const container = stage.locator('.teci-container')
+    const container = stage.locator('.tfx-cinc-container')
     await expect(container).toBeVisible()
 
     // Verify the counter value wrapper exists
-    const valueWrapper = container.locator('.teci-value-wrapper')
+    const valueWrapper = container.locator('.tfx-cinc-value-wrapper')
     await expect(valueWrapper).toBeVisible()
 
     // Verify the counter value element exists
-    const value = valueWrapper.locator('.teci-value')
+    const value = valueWrapper.locator('.tfx-cinc-value')
     await expect(value).toBeVisible()
   })
 
@@ -43,7 +43,7 @@ test.describe('Text Effects - Counter Increment', () => {
       .first()
     await expect(card).toBeVisible()
 
-    const value = card.locator('.teci-value')
+    const value = card.locator('.tfx-cinc-value')
     await expect(value).toBeVisible()
 
     // Get initial value
@@ -71,7 +71,7 @@ test.describe('Text Effects - Counter Increment', () => {
     await page.waitForTimeout(500)
 
     // Check for particle elements
-    const particles = card.locator('.teci-particle')
+    const particles = card.locator('.tfx-cinc-particle')
 
     // Wait for particles to appear (they appear with the first increment)
     await page.waitForTimeout(500)
@@ -93,15 +93,15 @@ test.describe('Text Effects - Counter Increment', () => {
     await expect(stage).toBeVisible()
 
     // Check for the counter container
-    const container = stage.locator('.teci-container')
+    const container = stage.locator('.tfx-cinc-container')
     await expect(container).toBeVisible()
 
     // Verify the counter value wrapper exists
-    const valueWrapper = container.locator('.teci-value-wrapper')
+    const valueWrapper = container.locator('.tfx-cinc-value-wrapper')
     await expect(valueWrapper).toBeVisible()
 
     // Verify the counter value element exists
-    const value = valueWrapper.locator('.teci-value')
+    const value = valueWrapper.locator('.tfx-cinc-value')
     await expect(value).toBeVisible()
   })
 
@@ -111,7 +111,7 @@ test.describe('Text Effects - Counter Increment', () => {
       .first()
     await expect(card).toBeVisible()
 
-    const value = card.locator('.teci-value')
+    const value = card.locator('.tfx-cinc-value')
     await expect(value).toBeVisible()
 
     // Initial value should be 0 or a small number
@@ -147,7 +147,7 @@ test.describe('Text Effects - Counter Increment', () => {
     await page.waitForTimeout(1000)
 
     // Check for particle elements - should show larger increments like +250
-    const particles = card.locator('.teci-particle')
+    const particles = card.locator('.tfx-cinc-particle')
     const particleCount = await particles.count()
 
     // With faster timing (500ms) and multiple increments, we should see particles
@@ -167,7 +167,7 @@ test.describe('Text Effects - Counter Increment', () => {
       .first()
     await expect(card).toBeVisible()
 
-    const value = card.locator('.teci-value')
+    const value = card.locator('.tfx-cinc-value')
 
     // Wait long enough for the animation to complete
     // 9999 / 250 = ~40 increments * 500ms = 20 seconds + buffer
@@ -198,7 +198,7 @@ test.describe('Text Effects - Counter Increment', () => {
 
     // Note: The component itself uses 'text-effects__counter-increment' as data-animation-id
     // but the card uses the correct metadata ID
-    const targetContainer = targetCard.locator('.teci-container')
+    const targetContainer = targetCard.locator('.tfx-cinc-container')
     await expect(targetContainer).toBeVisible()
   })
 
@@ -208,10 +208,10 @@ test.describe('Text Effects - Counter Increment', () => {
       .first()
     await expect(card).toBeVisible()
 
-    const value = card.locator('.teci-value')
+    const value = card.locator('.tfx-cinc-value')
     await expect(value).toBeVisible()
 
     // Check that the value has the popping class
-    await expect(value).toHaveClass(/teci-value--popping/)
+    await expect(value).toHaveClass(/tfx-cinc-value--popping/)
   })
 })

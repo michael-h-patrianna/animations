@@ -28,12 +28,12 @@ function TextEffectsVerbJumpComponent({
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tev-jump-container" data-animation-id="text-effects__verb-jumping" aria-label={text}>
-      <div className="tev-jump-line" aria-hidden="true">
+    <div className="tfx-jump-container" data-animation-id="text-effects__verb-jumping" aria-label={text}>
+      <div className="tfx-jump-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className="tev-jump-char"
+            className="tfx-jump-char"
             style={{ animationDelay: `${i * stepDelay}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

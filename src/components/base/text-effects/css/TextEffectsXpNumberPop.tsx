@@ -105,12 +105,12 @@ function TextEffectsXpNumberPopComponent({
   }, [finalValue])
 
   return (
-    <div className="txnp-container" data-animation-id="text-effects__xp-number-pop">
+    <div className="tfx-xp-container" data-animation-id="text-effects__xp-number-pop">
       {/* Floating particles with calculated positions and delays */}
       {particles.map((particle, i) => (
         <div
           key={i}
-          className="txnp-particle"
+          className="tfx-xp-particle"
           style={{
             '--particle-x': `${particle.x}px`,
             '--particle-y': `${particle.y}px`,
@@ -122,11 +122,11 @@ function TextEffectsXpNumberPopComponent({
       ))}
 
       {/* Main number with XP label */}
-      <div className="txnp-number-wrapper">
-        <span className="txnp-number-value">
+      <div className="tfx-xp-number-wrapper">
+        <span className="tfx-xp-number-value">
           +{count}
         </span>
-        <span className="txnp-label">
+        <span className="tfx-xp-label">
           XP
         </span>
       </div>

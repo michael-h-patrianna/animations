@@ -1,4 +1,4 @@
-.tev-flip-container {
+.tfx-flip-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,12 +7,12 @@
   perspective: 600px;
 }
 
-.tev-flip-line {
+.tfx-flip-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tev-flip-char {
+.tfx-flip-char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
@@ -22,14 +22,14 @@
   transform-origin: center;
   will-change: transform;
   backface-visibility: hidden;
-  animation: tev-flip-animation 1.8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  animation: tfx-flip-animation 1.8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
 }
 
-.tev-flip-char--delayed {
+.tfx-flip-char--delayed {
   animation-delay: 0.1s;
 }
 
-@keyframes tev-flip-animation {
+@keyframes tfx-flip-animation {
   0% {
     transform: rotate3d(0, 1, 0, 0deg);
   }

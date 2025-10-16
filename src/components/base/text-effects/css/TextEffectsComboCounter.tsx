@@ -100,12 +100,12 @@ function TextEffectsComboCounterComponent({
   }
 
   return (
-    <div className="tec-combo-container" data-animation-id="text-effects__combo-counter">
-      <div className="tec-combo-main">
-        <div className="tec-combo-number-wrapper">
-          <div className="tec-combo-number-container">
-            <div className="tec-combo-current-number">
-              <span className="tec-combo-digit">
+    <div className="tfx-combo-container" data-animation-id="text-effects__combo-counter">
+      <div className="tfx-combo-main">
+        <div className="tfx-combo-number-wrapper">
+          <div className="tfx-combo-number-container">
+            <div className="tfx-combo-current-number">
+              <span className="tfx-combo-digit">
                 <span>{count}</span>
               </span>
             </div>
@@ -113,7 +113,7 @@ function TextEffectsComboCounterComponent({
             {milestones.map((milestone, i) => (
               <div
                 key={i}
-                className="tec-combo-particle"
+                className="tfx-combo-particle"
                 style={{
                   animationDelay: `${getParticleDelay(milestone.trigger)}ms`
                 }}
@@ -123,16 +123,16 @@ function TextEffectsComboCounterComponent({
             ))}
           </div>
 
-          <div className="tec-combo-hit-marker">
+          <div className="tfx-combo-hit-marker">
             ×
           </div>
         </div>
 
-        <div className="tec-combo-text-wrapper">
+        <div className="tfx-combo-text-wrapper">
           {comboText.split('').map((char, index) => (
             <span
               key={index}
-              className="tec-combo-letter"
+              className="tfx-combo-letter"
             >
               {char}
             </span>
@@ -140,7 +140,7 @@ function TextEffectsComboCounterComponent({
         </div>
       </div>
 
-      <div className="tec-combo-bonus">
+      <div className="tfx-combo-bonus">
         PERFECT!
       </div>
     </div>

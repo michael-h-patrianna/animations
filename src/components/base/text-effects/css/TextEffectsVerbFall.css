@@ -1,4 +1,4 @@
-.tev-fall-container {
+.tfx-fall-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,12 +6,12 @@
   padding: 20px;
 }
 
-.tev-fall-line {
+.tfx-fall-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tev-fall-char {
+.tfx-fall-char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
@@ -21,10 +21,10 @@
   transform-origin: center bottom;
   will-change: transform, opacity;
   backface-visibility: hidden;
-  animation: tev-fall-animation 1.6s ease-in-out both;
+  animation: tfx-fall-animation 1.6s ease-in-out both;
 }
 
-@keyframes tev-fall-animation {
+@keyframes tfx-fall-animation {
   0% {
     transform: translate3d(0, -12px, 0) scale3d(1, 0.96, 1);
     opacity: 0.9;

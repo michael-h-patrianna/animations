@@ -1,4 +1,4 @@
-.tev-jump-container {
+.tfx-jump-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,12 +6,12 @@
   padding: 20px;
 }
 
-.tev-jump-line {
+.tfx-jump-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tev-jump-char {
+.tfx-jump-char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
@@ -21,10 +21,10 @@
   transform-origin: center bottom;
   will-change: transform;
   backface-visibility: hidden;
-  animation: tev-jump-animation 1.6s ease-in-out both;
+  animation: tfx-jump-animation 1.6s ease-in-out both;
 }
 
-@keyframes tev-jump-animation {
+@keyframes tfx-jump-animation {
   0% {
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }

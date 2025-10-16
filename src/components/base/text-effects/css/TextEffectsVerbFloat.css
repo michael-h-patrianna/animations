@@ -1,4 +1,4 @@
-.tev-float-container {
+.tfx-float-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,12 +6,12 @@
   padding: 20px;
 }
 
-.tev-float-line {
+.tfx-float-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tev-float-char {
+.tfx-float-char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
@@ -21,14 +21,14 @@
   transform-origin: center;
   will-change: transform, opacity;
   backface-visibility: hidden;
-  animation: tev-float-animation 3s ease-in-out infinite;
+  animation: tfx-float-animation 3s ease-in-out infinite;
 }
 
-.tev-float-char--delayed {
+.tfx-float-char--delayed {
   animation-delay: 0.15s;
 }
 
-@keyframes tev-float-animation {
+@keyframes tfx-float-animation {
   0% {
     transform: translate3d(0, 0, 0);
     opacity: 1;

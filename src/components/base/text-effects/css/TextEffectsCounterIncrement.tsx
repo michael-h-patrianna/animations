@@ -244,13 +244,13 @@ function TextEffectsCounterIncrementComponent({
 
   return (
     <div
-      className="teci-container"
+      className="tfx-cinc-container"
       data-animation-id={animationId}
     >
-      <div className="teci-value-wrapper">
+      <div className="tfx-cinc-value-wrapper">
         <span
           key={popAnimationKeyRef.current}
-          className="teci-value teci-value--popping"
+          className="tfx-cinc-value tfx-cinc-value--popping"
         >
           {count.toLocaleString()}
         </span>
@@ -258,7 +258,7 @@ function TextEffectsCounterIncrementComponent({
         {particles.map(particle => (
           <span
             key={particle.id}
-            className="teci-particle"
+            className="tfx-cinc-particle"
             onAnimationEnd={() => handleParticleAnimationEnd(particle.id)}
           >
             +{particle.value.toLocaleString()}

@@ -28,12 +28,12 @@ function TextEffectsVerbFallComponent({
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tev-fall-container" data-animation-id="text-effects__verb-falling" aria-label={text}>
-      <div className="tev-fall-line" aria-hidden="true">
+    <div className="tfx-fall-container" data-animation-id="text-effects__verb-falling" aria-label={text}>
+      <div className="tfx-fall-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className="tev-fall-char"
+            className="tfx-fall-char"
             style={{ animationDelay: `${i * stepDelay}s` }}
           >
             {ch === ' ' ? '\u00A0' : ch}

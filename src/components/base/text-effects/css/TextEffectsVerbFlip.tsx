@@ -21,12 +21,12 @@ function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffect
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tev-flip-container" data-animation-id="text-effects__verb-flipping" aria-label={text}>
-      <div className="tev-flip-line" aria-hidden="true">
+    <div className="tfx-flip-container" data-animation-id="text-effects__verb-flipping" aria-label={text}>
+      <div className="tfx-flip-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`tev-flip-char ${i % 2 === 1 ? 'tev-flip-char--delayed' : ''}`}
+            className={`tfx-flip-char ${i % 2 === 1 ? 'tfx-flip-char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>

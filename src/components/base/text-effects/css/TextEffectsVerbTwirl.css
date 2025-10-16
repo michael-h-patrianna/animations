@@ -1,4 +1,4 @@
-.tev-twirl-container {
+.tfx-twirl-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,12 +6,12 @@
   padding: 20px;
 }
 
-.tev-twirl-line {
+.tfx-twirl-line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.tev-twirl-char {
+.tfx-twirl-char {
   --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #ffffff;
   display: inline-block;
@@ -21,10 +21,10 @@
   transform-origin: center;
   will-change: transform;
   backface-visibility: hidden;
-  animation: tev-twirl-animation 1.8s ease-in-out both;
+  animation: tfx-twirl-animation 1.8s ease-in-out both;
 }
 
-@keyframes tev-twirl-animation {
+@keyframes tfx-twirl-animation {
   0% {
     transform: rotate3d(0, 0, 1, 0deg) scale3d(1, 1, 1);
   }

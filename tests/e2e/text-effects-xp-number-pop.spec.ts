@@ -20,19 +20,19 @@ test.describe('Text Effects - XP Number Pop', () => {
     await expect(stage).toBeVisible()
 
     // Check for the container
-    const container = stage.locator('.txnp-container')
+    const container = stage.locator('.tfx-xp-container')
     await expect(container).toBeVisible()
 
     // Verify the number wrapper exists
-    const numberWrapper = container.locator('.txnp-number-wrapper')
+    const numberWrapper = container.locator('.tfx-xp-number-wrapper')
     await expect(numberWrapper).toBeVisible()
 
     // Check for the number value
-    const numberValue = numberWrapper.locator('.txnp-number-value')
+    const numberValue = numberWrapper.locator('.tfx-xp-number-value')
     await expect(numberValue).toBeVisible()
 
     // Check for the XP label
-    const label = numberWrapper.locator('.txnp-label')
+    const label = numberWrapper.locator('.tfx-xp-label')
     await expect(label).toBeVisible()
     await expect(label).toHaveText('XP')
   })
@@ -41,7 +41,7 @@ test.describe('Text Effects - XP Number Pop', () => {
     const card = page.locator('.pf-card[data-animation-id="text-effects__xp-number-pop"]').first()
     await expect(card).toBeVisible()
 
-    const numberValue = card.locator('.txnp-number-value')
+    const numberValue = card.locator('.tfx-xp-number-value')
     await expect(numberValue).toBeVisible()
 
     // Wait for animation to complete
@@ -65,7 +65,7 @@ test.describe('Text Effects - XP Number Pop', () => {
     await page.waitForTimeout(800)
 
     // Check that particles exist
-    const particles = card.locator('.txnp-particle')
+    const particles = card.locator('.tfx-xp-particle')
     const particleCount = await particles.count()
 
     // Should have at least 1 particle (default maxParticles is 10, but depends on finalValue)
@@ -87,7 +87,7 @@ test.describe('Text Effects - XP Number Pop', () => {
     // Wait for particles to render
     await page.waitForTimeout(500)
 
-    const particles = card.locator('.txnp-particle')
+    const particles = card.locator('.tfx-xp-particle')
     const particleCount = await particles.count()
 
     if (particleCount > 0) {

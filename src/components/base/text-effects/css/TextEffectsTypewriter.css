@@ -1,5 +1,9 @@
-/* Typewriter text effect - Pure CSS version */
-.typewriter-container {
+/**
+ * Typewriter Text Effect
+ */
+
+/* Container - Centers content and provides spacing */
+.text-effects-typewriter-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,40 +11,63 @@
   padding: 20px;
 }
 
-.typewriter-text {
+/* Text wrapper - Monospace font with tracking for typewriter aesthetic */
+.text-effects-typewriter-text {
+  font-family: 'Courier New', Courier, monospace;
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Courier New', monospace;
   letter-spacing: 1px;
   color: #10b981;
+  white-space: pre; /* Preserves whitespace naturally */
 }
 
-.typewriter-char {
+/**
+ * Individual character spans
+ * Starts invisible and fades in via animation.
+ * Uses inline-block to prevent layout shifts during reveal.
+ * Animation delay is set via inline style for each character.
+ */
+.text-effects-typewriter-char {
   display: inline-block;
   opacity: 0;
-  animation: typewriterReveal 0s forwards;
+  animation: text-effects-typewriter-reveal 0s forwards;
 }
 
-.typewriter-cursor {
+/**
+ * Blinking cursor
+ * Appears after all text is typed and blinks continuously.
+ * Uses step-based opacity animation for crisp on/off effect.
+ */
+.text-effects-typewriter-cursor {
   display: inline-block;
   font-weight: 300;
   color: #10b981;
-  animation: cursorBlink 1s linear infinite;
-  will-change: opacity;
+  animation: text-effects-typewriter-cursor-blink 1s step-end infinite;
+  will-change: opacity; /* Hint for continuous animation optimization */
 }
 
-@keyframes typewriterReveal {
+/**
+ * Character reveal animation
+ * Instantly sets opacity to 1 at the end of the delay.
+ * Delay is controlled per-character via inline styles.
+ */
+@keyframes text-effects-typewriter-reveal {
   to {
     opacity: 1;
   }
 }
 
-@keyframes cursorBlink {
+/**
+ * Cursor blink animation
+ * Creates a 50/50 on/off cycle using step-end timing.
+ * This produces a sharp blink rather than a fade.
+ */
+@keyframes text-effects-typewriter-cursor-blink {
   0%,
-  50% {
+  49.99% {
     opacity: 1;
   }
-  50.01%,
+  50%,
   100% {
     opacity: 0;
   }

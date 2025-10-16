@@ -1,5 +1,14 @@
-/* Styles scoped for TextEffectsEpicWin */
-.epic-win-container {
+/**
+ * Epic Win Text Effect - GPU-Optimized CSS Animations
+ *
+ * Namespaced with `tfe-epic-win-` to prevent conflicts.
+ * All animations use GPU-accelerated properties (transform, opacity) only.
+ * Character stagger timing calculated via CSS custom property --char-index.
+ */
+
+/* === Container & Layout === */
+
+.tfe-epic-win {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,7 +17,8 @@
   padding: 20px;
   position: relative;
 }
-.epic-text-container {
+
+.tfe-epic-win__text-container {
   position: relative;
   display: flex;
   align-items: center;
@@ -16,46 +26,66 @@
   height: 40px;
   white-space: nowrap;
 }
-.epic-shadow-far {
+
+/* === Shadow Layers === */
+
+.tfe-epic-win__shadow-far {
   position: absolute;
   font-size: 32px;
   font-weight: 900;
   letter-spacing: 3px;
   color: rgba(0, 0, 0, 0.08);
-  z-index: 0;
-  transform: scale(1.1);
-  opacity: 0.5;
   white-space: nowrap;
+  z-index: 0;
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: translate3d(0, 10px, 0) scale(1.2);
+  will-change: transform, opacity;
 }
-.epic-shadow-mid {
+
+.tfe-epic-win__shadow-mid {
   position: absolute;
   font-size: 32px;
   font-weight: 900;
   letter-spacing: 3px;
   color: rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  transform: scale(1.05);
-  opacity: 0.7;
   white-space: nowrap;
+  z-index: 1;
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: translate3d(0, 5px, 0) scale(1.1);
+  will-change: transform, opacity;
 }
-.epic-main-text {
+
+/* === Main Text === */
+
+.tfe-epic-win__main-text {
   position: relative;
   font-size: 32px;
   font-weight: 900;
   letter-spacing: 3px;
-  z-index: 3;
-  perspective: 200px;
   white-space: nowrap;
+  perspective: 200px;
+  z-index: 3;
 }
-.epic-char {
+
+/* === Character Elements === */
+
+.tfe-epic-win__char {
   display: inline-block;
+  position: relative;
   transform-origin: center center;
-  position: relative;
   transform-style: preserve-3d;
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: translate3d(0, 30px, 0) scale(0.5) rotateY(-90deg);
+  will-change: transform, opacity;
 }
-.epic-char-inner {
+
+.tfe-epic-win__char-inner {
   display: inline-block;
   position: relative;
+  /* Metallic gold gradient */
   background: linear-gradient(
     170deg,
     #ffffff 0%,
@@ -70,36 +100,90 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.epic-char-inner::before {
-  content: attr(data-char);
-  position: absolute;
-  top: 1px;
-  left: 0;
-  color: rgba(255, 255, 255, 0.4);
-  z-index: -1;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: unset;
-  background-clip: unset;
-}
-.epic-char-inner::after {
-  content: attr(data-char);
-  position: absolute;
-  top: 2px;
-  left: 0;
-  color: rgba(0, 0, 0, 0.3);
-  z-index: -2;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: unset;
-  background-clip: unset;
-}
-.epic-char-glow {
+
+/* === Character Glow Burst === */
+
+.tfe-epic-win__char-glow {
   position: absolute;
   inset: -8px;
   background: rgba(255, 215, 0, 0.2);
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.8;
-  transform: scale(1.1);
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: scale(0.8);
   will-change: transform, opacity;
+}
+
+/* === Animation Keyframes === */
+
+@keyframes tfeEpicWinShadowFar {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(1.2);
+  }
+  to {
+    opacity: 0.2;
+    transform: translate3d(0, 6px, 0) scale(1);
+  }
+}
+
+@keyframes tfeEpicWinShadowMid {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 5px, 0) scale(1.1);
+  }
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, 3px, 0) scale(1);
+  }
+}
+
+@keyframes tfeEpicWinCharEntrance {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0) scale(0.5) rotateY(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
+  }
+}
+
+@keyframes tfeEpicWinGlowBurst {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* === Animation Application === */
+
+.tfe-epic-win--animate .tfe-epic-win__shadow-far {
+  animation: tfeEpicWinShadowFar 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.tfe-epic-win--animate .tfe-epic-win__shadow-mid {
+  animation: tfeEpicWinShadowMid 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 50ms both;
+}
+
+.tfe-epic-win--animate .tfe-epic-win__char {
+  animation: tfeEpicWinCharEntrance 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  /* Stagger delay: 100ms base + (index * 40ms) */
+  animation-delay: calc(100ms + (var(--char-index) * 40ms));
+}
+
+.tfe-epic-win--animate .tfe-epic-win__char-glow {
+  animation: tfeEpicWinGlowBurst 600ms ease-out both;
+  /* Stagger delay: 500ms base + (index * 40ms) */
+  animation-delay: calc(500ms + (var(--char-index) * 40ms));
 }

@@ -21,12 +21,12 @@ function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffects
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tev-jog-container" data-animation-id="text-effects__verb-jogging" aria-label={text}>
-      <div className="tev-jog-line" aria-hidden="true">
+    <div className="tfx-jog-container" data-animation-id="text-effects__verb-jogging" aria-label={text}>
+      <div className="tfx-jog-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`tev-jog-char ${i % 2 === 0 ? 'tev-jog-char--delayed' : ''}`}
+            className={`tfx-jog-char ${i % 2 === 0 ? 'tfx-jog-char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>

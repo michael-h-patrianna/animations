@@ -1,5 +1,5 @@
 /* Container */
-.tec-combo-container {
+.tfx-combo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,7 +9,7 @@
   position: relative;
 }
 
-.tec-combo-main {
+.tfx-combo-main {
   position: relative;
   display: flex;
   align-items: center;
@@ -17,7 +17,7 @@
 }
 
 /* Number Container */
-.tec-combo-number-container {
+.tfx-combo-number-container {
   position: relative;
   display: flex;
   align-items: center;
@@ -27,7 +27,7 @@
   perspective: 200px;
 }
 
-.tec-combo-current-number {
+.tfx-combo-current-number {
   position: relative;
   font-size: 36px;
   font-weight: 900;
@@ -36,7 +36,7 @@
 }
 
 /* Number Digit - GPU Optimized */
-.tec-combo-digit {
+.tfx-combo-digit {
   display: inline-block;
   position: relative;
   font-size: 36px;
@@ -55,12 +55,12 @@
   backface-visibility: hidden;
 
   /* Animation */
-  animation: tec-combo-digit-fade-in 200ms 250ms ease-out forwards;
+  animation: tfx-combo-digit-fade-in 200ms 250ms ease-out forwards;
   opacity: 0;
 }
 
 /* Number Wrapper with entrance animation */
-.tec-combo-number-wrapper {
+.tfx-combo-number-wrapper {
   display: flex;
   align-items: center;
   position: relative;
@@ -71,11 +71,11 @@
   transform-origin: center;
 
   /* Animation */
-  animation: tec-combo-wrapper-entrance 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: tfx-combo-wrapper-entrance 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 /* Hit Marker */
-.tec-combo-hit-marker {
+.tfx-combo-hit-marker {
   font-size: 24px;
   color: #f59e0b;
   font-weight: 700;
@@ -88,24 +88,24 @@
   transform-origin: center;
 
   /* Animation */
-  animation: tec-combo-hit-marker-pop 300ms 150ms ease-out forwards;
+  animation: tfx-combo-hit-marker-pop 300ms 150ms ease-out forwards;
   opacity: 0;
 }
 
 /* Combo Text Wrapper */
-.tec-combo-text-wrapper {
+.tfx-combo-text-wrapper {
   font-size: 20px;
   font-weight: 800;
   letter-spacing: 2px;
   display: flex;
 
   /* Animation */
-  animation: tec-combo-text-fade-in 200ms 100ms ease-out forwards;
+  animation: tfx-combo-text-fade-in 200ms 100ms ease-out forwards;
   opacity: 0;
 }
 
 /* Individual Letters - Staggered Animation */
-.tec-combo-letter {
+.tfx-combo-letter {
   display: inline-block;
   color: #f59e0b;
   text-shadow:
@@ -118,28 +118,28 @@
   backface-visibility: hidden;
 
   /* Animation with staggered delays */
-  animation: tec-combo-letter-bounce 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: tfx-combo-letter-bounce 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   opacity: 0;
 }
 
-.tec-combo-letter:nth-child(1) {
+.tfx-combo-letter:nth-child(1) {
   animation-delay: 200ms;
 }
-.tec-combo-letter:nth-child(2) {
+.tfx-combo-letter:nth-child(2) {
   animation-delay: 240ms;
 }
-.tec-combo-letter:nth-child(3) {
+.tfx-combo-letter:nth-child(3) {
   animation-delay: 280ms;
 }
-.tec-combo-letter:nth-child(4) {
+.tfx-combo-letter:nth-child(4) {
   animation-delay: 320ms;
 }
-.tec-combo-letter:nth-child(5) {
+.tfx-combo-letter:nth-child(5) {
   animation-delay: 360ms;
 }
 
 /* Perfect Bonus Text */
-.tec-combo-bonus {
+.tfx-combo-bonus {
   font-size: 14px;
   font-weight: 700;
   color: #10b981;
@@ -155,7 +155,7 @@
   transform-origin: center;
 
   /* Animation */
-  animation: tec-combo-perfect-pop 400ms 1600ms ease-out forwards;
+  animation: tfx-combo-perfect-pop 400ms 1600ms ease-out forwards;
   opacity: 0;
 }
 
@@ -163,7 +163,7 @@
    Milestone Particles
    ========================================================================== */
 
-.tec-combo-particle {
+.tfx-combo-particle {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -177,7 +177,7 @@
   backface-visibility: hidden;
 
   /* Animation - delay set via inline style for timing sync */
-  animation: tec-combo-particle-burst 1000ms ease-out forwards;
+  animation: tfx-combo-particle-burst 1000ms ease-out forwards;
   opacity: 0;
 
   /* Initial position */
@@ -185,61 +185,61 @@
 }
 
 /* Particle Positions - Pre-calculated for GPU optimization */
-.tec-combo-particle:nth-child(1) {
+.tfx-combo-particle:nth-child(1) {
   --particle-x: -18px;
   --particle-y: -68px;
 }
 
-.tec-combo-particle:nth-child(2) {
+.tfx-combo-particle:nth-child(2) {
   --particle-x: 21px;
   --particle-y: -79px;
 }
 
-.tec-combo-particle:nth-child(3) {
+.tfx-combo-particle:nth-child(3) {
   --particle-x: 66px;
   --particle-y: -66px;
 }
 
-.tec-combo-particle:nth-child(4) {
+.tfx-combo-particle:nth-child(4) {
   --particle-x: 102px;
   --particle-y: -27px;
 }
 
-.tec-combo-particle:nth-child(5) {
+.tfx-combo-particle:nth-child(5) {
   --particle-x: 114px;
   --particle-y: 31px;
 }
 
-.tec-combo-particle:nth-child(6) {
+.tfx-combo-particle:nth-child(6) {
   --particle-x: 92px;
   --particle-y: 92px;
 }
 
 /* Particle Colors - Gradient from first to last */
-.tec-combo-particle:nth-child(1) {
+.tfx-combo-particle:nth-child(1) {
   color: #60a5fa;
   text-shadow:
     0 0 10px rgba(96, 165, 250, 0.8),
     0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.tec-combo-particle:nth-child(2) {
+.tfx-combo-particle:nth-child(2) {
   color: #a78bfa;
   text-shadow:
     0 0 10px rgba(167, 139, 250, 0.8),
     0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.tec-combo-particle:nth-child(3) {
+.tfx-combo-particle:nth-child(3) {
   color: #fbbf24;
   text-shadow:
     0 0 10px rgba(251, 191, 36, 0.8),
     0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.tec-combo-particle:nth-child(4),
-.tec-combo-particle:nth-child(5),
-.tec-combo-particle:nth-child(6) {
+.tfx-combo-particle:nth-child(4),
+.tfx-combo-particle:nth-child(5),
+.tfx-combo-particle:nth-child(6) {
   background: linear-gradient(135deg, #ffd700 0%, #ffa500 50%, #ffd700 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -256,7 +256,7 @@
    ========================================================================== */
 
 /* Number wrapper entrance with rotation */
-@keyframes tec-combo-wrapper-entrance {
+@keyframes tfx-combo-wrapper-entrance {
   0% {
     transform: scale3d(0, 0, 1) rotate3d(0, 0, 1, -180deg);
     opacity: 1;
@@ -276,7 +276,7 @@
 }
 
 /* Digit fade in */
-@keyframes tec-combo-digit-fade-in {
+@keyframes tfx-combo-digit-fade-in {
   0% {
     opacity: 0;
   }
@@ -286,7 +286,7 @@
 }
 
 /* Hit marker pop */
-@keyframes tec-combo-hit-marker-pop {
+@keyframes tfx-combo-hit-marker-pop {
   0% {
     transform: scale3d(0, 0, 1);
     opacity: 0;
@@ -302,7 +302,7 @@
 }
 
 /* Text wrapper fade */
-@keyframes tec-combo-text-fade-in {
+@keyframes tfx-combo-text-fade-in {
   0% {
     opacity: 0;
   }
@@ -312,7 +312,7 @@
 }
 
 /* Letter bounce animation */
-@keyframes tec-combo-letter-bounce {
+@keyframes tfx-combo-letter-bounce {
   0% {
     opacity: 0;
     transform: scale3d(0, 0, 1) rotate3d(0, 0, 1, 180deg);
@@ -328,7 +328,7 @@
 }
 
 /* Particle burst - Uses CSS variables for dynamic positioning */
-@keyframes tec-combo-particle-burst {
+@keyframes tfx-combo-particle-burst {
   0% {
     opacity: 0;
     transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1);
@@ -351,7 +351,7 @@
 }
 
 /* Perfect text pop */
-@keyframes tec-combo-perfect-pop {
+@keyframes tfx-combo-perfect-pop {
   0% {
     opacity: 0;
     transform: scale3d(0.5, 0.5, 1);

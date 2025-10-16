@@ -21,12 +21,12 @@ function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tev-float-container" data-animation-id="text-effects__verb-floating" aria-label={text}>
-      <div className="tev-float-line" aria-hidden="true">
+    <div className="tfx-float-container" data-animation-id="text-effects__verb-floating" aria-label={text}>
+      <div className="tfx-float-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`tev-float-char ${i % 2 === 1 ? 'tev-float-char--delayed' : ''}`}
+            className={`tfx-float-char ${i % 2 === 1 ? 'tfx-float-char--delayed' : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>

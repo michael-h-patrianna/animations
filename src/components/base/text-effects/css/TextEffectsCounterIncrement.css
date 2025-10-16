@@ -1,10 +1,10 @@
 /* ============================================================================
    TextEffectsCounterIncrement - Counter with floating increment particles
-   Prefix: teci- (text-effects-counter-increment)
+   Prefix: tfx-cinc- (text-effects-counter-increment)
    ========================================================================== */
 
 /* Container */
-.teci-container {
+.tfx-cinc-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,7 +14,7 @@
 }
 
 /* Value Wrapper - Contains number and particles */
-.teci-value-wrapper {
+.tfx-cinc-value-wrapper {
   position: relative;
   display: flex;
   align-items: center;
@@ -24,7 +24,7 @@
 }
 
 /* Counter Value - Main number display */
-.teci-value {
+.tfx-cinc-value {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -56,24 +56,13 @@
   backface-visibility: hidden;
 }
 
-/* Glow effect behind number */
-.teci-value::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.22), transparent 60%);
-  border-radius: 50%;
-  z-index: -1;
-  pointer-events: none;
-}
-
 /* Pop animation on value change */
-.teci-value--popping {
-  animation: teci-value-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.tfx-cinc-value--popping {
+  animation: tfx-cinc-value-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* Increment Particles - Float up and fade */
-.teci-particle {
+.tfx-cinc-particle {
   position: absolute;
   left: 100%;
   top: -10px;
@@ -90,19 +79,19 @@
   backface-visibility: hidden;
 
   /* Animation */
-  animation: teci-particle-float 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: tfx-cinc-particle-float 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 /* Particle color variations for visual interest */
-.teci-particle:nth-child(2n) {
+.tfx-cinc-particle:nth-child(2n) {
   color: #93f77b;
 }
 
-.teci-particle:nth-child(3n) {
+.tfx-cinc-particle:nth-child(3n) {
   color: #b8ff9a;
 }
 
-.teci-particle:nth-child(4n) {
+.tfx-cinc-particle:nth-child(4n) {
   color: #d4ffb8;
 }
 
@@ -113,7 +102,7 @@
 /**
  * Value pop animation - Bouncy scale with subtle rotation
  */
-@keyframes teci-value-pop {
+@keyframes tfx-cinc-value-pop {
   0% {
     transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 0deg);
     opacity: 1;
@@ -139,7 +128,7 @@
 /**
  * Particle float animation - Rises up and fades out
  */
-@keyframes teci-particle-float {
+@keyframes tfx-cinc-particle-float {
   0% {
     transform: translate3d(0, 8px, 0) scale3d(0.8, 0.8, 1);
     opacity: 0;
