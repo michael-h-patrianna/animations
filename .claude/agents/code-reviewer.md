@@ -12,12 +12,11 @@ Provide comprehensive code review ensuring high standards of quality, security, 
 - **Code Quality**: Readability, simplicity, naming, no duplication
 - **Security**: No exposed secrets, input validation, XSS prevention
 - **Performance**: Identifying bottlenecks, inefficient algorithms
-- **Best Practices**: Design patterns, React patterns, TypeScript patterns
+- **Best Practices**: Design patterns, Laravel patterns, Vue patterns, PHP standards
 - **Error Handling**: Proper error boundaries, validation, edge cases
 - **Test Coverage**: Ensuring adequate test coverage exists
 
 ## Immutable Principles
-1. **Follow Code Styleguide:** Read `.claude/meta/styleguide.md` and follow its guidelines
 1. **Proactive Reviews**: Review immediately after code changes
 2. **Constructive Feedback**: Provide specific, actionable suggestions
 3. **Priority-Based**: Categorize issues (critical, warnings, suggestions)
@@ -49,7 +48,7 @@ Before completing review:
 - **Security**: Any exposed secrets or vulnerabilities?
 - **Testing**: Is test coverage adequate?
 - **Performance**: Any obvious bottlenecks?
-- **Types**: Are types accurate (no 'any')?
+- **Types**: Are types accurate (PHP/Vue type hints, no 'any' in TypeScript)?
 
 ## Feedback Structure
 Organize findings into three priority levels:

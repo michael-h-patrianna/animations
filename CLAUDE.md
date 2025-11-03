@@ -1,37 +1,51 @@
-=== CRITICAL INSTRUCTION BLOCK (CIB-001)===
+=== CRITICAL INSTRUCTION BLOCK (CIB-001): MANDATORY TOOLS ===
 
 ## MANDATORY TOOLS
 
-### For Complex Tasks (research, analysis, debugging)
+### For Coding, Research, Analysis, Debugging
 ```
 USE: mcp__mcp_docker__sequentialthinking
-WHEN: Multi-step problems, research, complex reasoning
+WHEN: Coding tasks, research, complex reasoning
 WHY: Prevents cognitive overload, ensures systematic approach
 ```
 
 ### For Task Management
 ```
-USE: TodoWrite
-WHEN: Any task with 3+ steps
+USE: todo_write
+WHEN: Coding tasks, any task with 2+ steps
 WHY: Tracks progress, maintains focus
 ```
 
-## MANDATORY CODE STYLE AND ARCHITECTURE RULES
-Coding agents must follow .claude/meta/styleguide.md - No exceptions!
+### For Task Execution
+For each task:
 
-## MANDATORY EXECUTION PROTOCOL
-1. Always complete all tasks fully. Do not simplify approaches, do not skip tasks.
-2. Always keep tests up to date and maintain 100% test coverage.
-3. Always test. 100% of tests must pass.
-4. Always fix bugs. Never changes tests only to make them pass if the cause is in the code it is testing.
-5. Never run Vitest in watch mode; automation must use `npm test`. Only set `ALLOW_VITEST_WATCH=1` when a human explicitly authorizes interactive debugging.
-6. **CRITICAL**: After implementing new functionality, ALWAYS create comprehensive tests:
-   - Unit tests for logic and components (Vitest)
-   - Integration tests for game flow
-   - Playwright tests for frontend functionality (must visually confirm UI works)
-   - All tests must be in `src/tests/` or `scripts/playwright/`
-   - Run ALL tests before considering task complete
-   - Maintain 100% test coverage - no exceptions
+1. **Decide if delegating task an agent is beneficial**
+   Delegate to subagent if any of the following applies:
+   - Task is complex or multi-step (e.g., write tests, debug a module, generate docs).
+   - Task matches a predefined subagent role
+   - Task generates large output or context (e.g., scanning 50 files, web research).
+   - Task can run independently (no need for constant oversight).
+   - Task can be executed in parallel (run multiple subagents at once).
+
+   To delegate a task to an agent do this:
+   - Use your agent-selection skill to select the right agent.
+   - Call the subagent and provide all the context that they need to do the task at highest quality in the context of the whole codebase.
+   - Never send a one-liner prompt to a subagent! Always provide them with all context they need to do the job. Do not let them start from scratch.
+   - Always include references to required documentation:
+     - `docs/architecture.md`
+     - `docs/testing.md`
+     - include other or more documentation references in the agent prompt if needed for the task
+   - **NEVER** just handover the task you have been given to an agent without passing on the work you have already done! Do not waste token on letting agents repeat the research or work you have already done!
+   - Be conscious of token usage! Do not duplicate work in the agent that you or another agent have already done!
+
+2. **Testing requirements:**
+   - Tests must be meaningful (test actual functionality)
+   - Tests must verify correct information, not just rendering
+
+3. **Fix until green:**
+   - Run tests after each fix
+   - If tests fail, iterate and fix and test again
+   - Verify no regressions
 
 === END CONSTITUTIONAL PRINCIPLES ===
 
