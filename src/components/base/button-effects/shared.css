@@ -19,14 +19,8 @@
   cursor: pointer;
   overflow: hidden;
   outline: none;
-  transition:
-    transform var(--pf-transition-fast) ease,
-    box-shadow var(--pf-transition-fast) ease;
 }
-.pf-btn:active {
-  transform: translateY(1px) scale(0.98);
-  box-shadow: var(--pf-shadow-inner);
-}
+
 .pf-btn--primary {
   border-radius: 50px;
   background: linear-gradient(180deg, #ff5981, #c83558);

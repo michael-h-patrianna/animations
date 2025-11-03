@@ -4,6 +4,7 @@ import { lazy } from 'react'
 // Import metadata only (not components) to avoid loading CSS
 import { metadata as jitterMeta } from './framer/ButtonEffectsJitter.meta'
 import { metadata as liquidMorphMeta } from './framer/ButtonEffectsLiquidMorph.meta'
+import { metadata as pressSquashMeta } from './framer/ButtonEffectsPressSquash.meta'
 import { metadata as rewardReadyPulseMeta } from './framer/ButtonEffectsRewardReadyPulse.meta'
 import { metadata as rippleMeta } from './framer/ButtonEffectsRipple.meta'
 import { metadata as shockwaveMeta } from './framer/ButtonEffectsShockwave.meta'
@@ -13,6 +14,7 @@ import { metadata as shakeGentleMetadata } from './framer/ButtonFeedbackShakeGen
 // Import CSS metadata only
 import { metadata as jitterCssMeta } from './css/ButtonEffectsJitter.meta'
 import { metadata as liquidMorphCssMeta } from './css/ButtonEffectsLiquidMorph.meta'
+import { metadata as pressSquashCssMeta } from './css/ButtonEffectsPressSquash.meta'
 import { metadata as rewardReadyPulseCssMeta } from './css/ButtonEffectsRewardReadyPulse.meta'
 import { metadata as rippleCssMeta } from './css/ButtonEffectsRipple.meta'
 import { metadata as shockwaveCssMeta } from './css/ButtonEffectsShockwave.meta'
@@ -45,6 +47,11 @@ const ButtonFeedbackShakeGentle = lazy(() =>
     default: m.ButtonFeedbackShakeGentle,
   }))
 )
+const ButtonEffectsPressSquash = lazy(() =>
+  import('./framer/ButtonEffectsPressSquash').then((m) => ({
+    default: m.ButtonEffectsPressSquash,
+  }))
+)
 // Lazy load CSS components
 const CssButtonEffectsRipple = lazy(() =>
   import('./css/ButtonEffectsRipple').then((m) => ({ default: m.ButtonEffectsRipple }))
@@ -71,6 +78,11 @@ const CssButtonFeedbackShakeGentle = lazy(() =>
     default: m.ButtonFeedbackShakeGentle,
   }))
 )
+const CssButtonEffectsPressSquash = lazy(() =>
+  import('./css/ButtonEffectsPressSquash').then((m) => ({
+    default: m.ButtonEffectsPressSquash,
+  }))
+)
 
 export const groupMetadata: GroupMetadata = {
   id: 'button-effects',
@@ -87,6 +99,10 @@ export const groupExport: GroupExport = {
     'button-effects__liquid-morph': {
       component: ButtonEffectsLiquidMorph,
       metadata: liquidMorphMeta,
+    },
+    'button-effects__press-squash': {
+      component: ButtonEffectsPressSquash,
+      metadata: pressSquashMeta,
     },
     'button-effects__shockwave': { component: ButtonEffectsShockwave, metadata: shockwaveMeta },
     'button-effects__split-reveal': {
@@ -108,6 +124,10 @@ export const groupExport: GroupExport = {
     'button-effects__liquid-morph': {
       component: CssButtonEffectsLiquidMorph,
       metadata: liquidMorphCssMeta,
+    },
+    'button-effects__press-squash': {
+      component: CssButtonEffectsPressSquash,
+      metadata: pressSquashCssMeta,
     },
     'button-effects__shockwave': {
       component: CssButtonEffectsShockwave,
