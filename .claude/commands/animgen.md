@@ -340,8 +340,8 @@ Animation [Round N] COMPLETE:
 **Mark round complete in TodoWrite.**
 
 **Next round decision:**
-- IF user hasn't stopped → Start Step A for next animation
-- IF no viable ideas remain → STOP → Session complete
+- Start Step A for next animation
+- Do not stop session. Keep repeating the workflow autonomously.
 
 **Deliverable:** Complete, integrated animation ready for use.
 
@@ -375,68 +375,6 @@ Animation [Round N] COMPLETE:
 
 ---
 
-## Animation Idea Generation Guidelines
-
-**High-value animation types for social casino/gamified UI:**
-
-**Celebrations (wins, achievements):**
-- Coin burst/scatter effects
-- Level-up animations
-- Badge unlock reveals
-- Jackpot announces
-- Streak milestone celebrations
-- Victory flourishes
-
-**Progress & Feedback:**
-- XP bar fills with juice
-- Progress ring animations
-- Loading spinners (exciting, not boring)
-- Countdown timers (with urgency)
-- Completion checkmarks with celebration
-
-**Reveals & Discoveries:**
-- Card flip reveals
-- Chest/box opening
-- Prize wheel spins
-- Mystery item unveils
-- Reward cascades
-
-**Interactive Feedback:**
-- Button press effects (satisfying clicks)
-- Chip/coin collect animations
-- Drag feedback (chips, cards)
-- Tap ripples (slot machine style)
-- Hover effects (excitement preview)
-
-**Transitions:**
-- Modal entrances (dramatic, attention-grabbing)
-- Page transitions (smooth, directional)
-- Tab switches (seamless)
-- Collapse/expand (smooth accordion)
-- Slide-in panels
-
-**Loss Mitigation (important!):**
-- Gentle loss feedback (not punishing)
-- "Almost won" near-miss effects
-- Encouraging retry animations
-- Soft rejection feedback
-
-**Engagement Loops:**
-- Daily bonus arrival
-- Notification badges (with attention grab)
-- Reminder pulses (gentle, not annoying)
-- Streak flame animations
-- Time-limited offer urgency
-
-**Performance Priorities:**
-1. Transform (translate, scale, rotate) - GPU accelerated ✅
-2. Opacity - GPU accelerated ✅
-3. Background-color - Acceptable for small elements
-4. Box-shadow - Use sparingly
-5. Filter, clip-path - ❌ Avoid (performance issues)
-
----
-
 ## No Token or Time Limit
 
 **Important:**
@@ -452,8 +390,7 @@ Animation [Round N] COMPLETE:
 
 **Session ends when:**
 1. User manually stops (CTRL+C or stop command)
-2. Maximum rounds reached (default 10)
-3. No viable animation ideas remain (exhausted opportunities)
+2. No viable animation ideas remain (exhausted opportunities)
 
 **Final session summary (update TodoWrite):**
 ```

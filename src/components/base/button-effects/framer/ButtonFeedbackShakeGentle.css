@@ -1,0 +1,12 @@
+/* Button Feedback Shake Gentle - Framer Motion Variant */
+/* Uses shared pf-btn and pf-btn--primary styles */
+/* Animation handled by Framer Motion */
+
+.button-demo button {
+  will-change: transform, opacity;
+}
+
+.bxf-feedback-shake-button.pf-btn:active {
+  transform: scale(1);
+  box-shadow: var(--pf-shadow-soft), var(--pf-shadow-inner);
+}

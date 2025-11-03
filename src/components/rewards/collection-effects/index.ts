@@ -4,10 +4,12 @@ import { lazy } from 'react'
 // Framer Motion - Import metadata only
 import { metadata as coinMagnetMetadata } from './framer/CollectionEffectsCoinMagnet.meta'
 import { metadata as coinBurstMetadata } from './framer/CollectionEffectsCoinBurst.meta'
+import { metadata as coinCollectPathMetadata } from './framer/CollectionEffectsCoinCollectPath.meta'
 
 // CSS - Import metadata only
 import { metadata as coinMagnetCssMetadata } from './css/CollectionEffectsCoinMagnet.meta'
 import { metadata as coinBurstCssMetadata } from './css/CollectionEffectsCoinBurst.meta'
+import { metadata as coinCollectPathCssMetadata } from './css/CollectionEffectsCoinCollectPath.meta'
 
 // Framer Motion - Lazy load components
 const CollectionEffectsCoinMagnet = lazy(() =>
@@ -22,6 +24,12 @@ const CollectionEffectsCoinBurst = lazy(() =>
   }))
 )
 
+const CollectionEffectsCoinCollectPath = lazy(() =>
+  import('./framer/CollectionEffectsCoinCollectPath').then((m) => ({
+    default: m.CollectionEffectsCoinCollectPath,
+  }))
+)
+
 // CSS - Lazy load components
 const CssCollectionEffectsCoinMagnet = lazy(() =>
   import('./css/CollectionEffectsCoinMagnet').then((m) => ({
@@ -32,6 +40,12 @@ const CssCollectionEffectsCoinMagnet = lazy(() =>
 const CssCollectionEffectsCoinBurst = lazy(() =>
   import('./css/CollectionEffectsCoinBurst').then((m) => ({
     default: m.CollectionEffectsCoinBurst,
+  }))
+)
+
+const CssCollectionEffectsCoinCollectPath = lazy(() =>
+  import('./css/CollectionEffectsCoinCollectPath').then((m) => ({
+    default: m.CollectionEffectsCoinCollectPath,
   }))
 )
 
@@ -53,6 +67,10 @@ export const groupExport: GroupExport = {
       component: CollectionEffectsCoinBurst,
       metadata: coinBurstMetadata,
     },
+    'collection-effects__coin-collect-path': {
+      component: CollectionEffectsCoinCollectPath,
+      metadata: coinCollectPathMetadata,
+    },
   },
   css: {
     'collection-effects__coin-magnet': {
@@ -62,6 +80,10 @@ export const groupExport: GroupExport = {
     'collection-effects__coin-burst': {
       component: CssCollectionEffectsCoinBurst,
       metadata: coinBurstCssMetadata,
+    },
+    'collection-effects__coin-collect-path': {
+      component: CssCollectionEffectsCoinCollectPath,
+      metadata: coinCollectPathCssMetadata,
     },
   },
 }

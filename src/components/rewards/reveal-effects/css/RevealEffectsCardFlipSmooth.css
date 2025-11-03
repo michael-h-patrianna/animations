@@ -1,0 +1,192 @@
+/* Card Flip Reveal Animation - CSS Variant */
+
+.card-flip-container {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.card-flip-card {
+  position: relative;
+  width: 200px;
+  height: 280px;
+  transform-style: preserve-3d;
+  transition: none;
+}
+
+.card-flip-card--flipped {
+  /* Anticipation animation followed by flip animation */
+  animation:
+    card-flip-anticipation 80ms cubic-bezier(0.4, 0.0, 0.6, 1) forwards,
+    card-flip-rotate 600ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 80ms forwards;
+}
+
+/* Anticipation phase: slight scale down */
+@keyframes card-flip-anticipation {
+  0% {
+    transform: scale(1) rotateY(0deg);
+  }
+  100% {
+    transform: scale(0.98) rotateY(0deg);
+  }
+}
+
+/* Flip phase: rotate with scale bounce */
+@keyframes card-flip-rotate {
+  0% {
+    transform: scale(0.98) rotateY(0deg);
+  }
+  50% {
+    /* Mid-flip with scale bounce */
+    transform: scale(1.05) rotateY(90deg);
+  }
+  100% {
+    transform: scale(1) rotateY(180deg);
+  }
+}
+
+.card-flip-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-flip-face--front {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  opacity: 1;
+  transition: opacity 50ms ease-out;
+}
+
+.card-flip-card--flipped .card-flip-face--front {
+  /* Fade out at mid-flip (340ms = 80ms anticipation + 260ms to mid-flip) */
+  animation: card-flip-front-fade 50ms ease-out 340ms forwards;
+}
+
+@keyframes card-flip-front-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.card-flip-face--back {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+
+.card-flip-card--flipped .card-flip-face--back {
+  /* Fade in at mid-flip (340ms = 80ms anticipation + 260ms to mid-flip) */
+  animation: card-flip-back-fade 50ms ease-in 340ms forwards;
+}
+
+@keyframes card-flip-back-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.card-flip-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: white;
+  text-align: center;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.card-flip-mystery-icon {
+  font-size: 64px;
+  font-weight: bold;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-flip-mystery-text {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.9;
+}
+
+.card-flip-reward-icon {
+  font-size: 72px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-flip-reward-text {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+
+.card-flip-reward-label {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.9;
+}
+
+/* Reduced motion: instant reveal with opacity crossfade only */
+@media (prefers-reduced-motion: reduce) {
+  .card-flip-container {
+    perspective: none;
+  }
+
+  .card-flip-card {
+    transform-style: flat;
+  }
+
+  .card-flip-card--flipped {
+    animation: none;
+    transform: none;
+  }
+
+  .card-flip-card--flipped .card-flip-face--front {
+    animation: card-flip-reduced-front 200ms ease-out forwards;
+  }
+
+  .card-flip-card--flipped .card-flip-face--back {
+    animation: card-flip-reduced-back 200ms ease-in forwards;
+    transform: none;
+  }
+
+  @keyframes card-flip-reduced-front {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes card-flip-reduced-back {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}

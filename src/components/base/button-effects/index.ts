@@ -4,16 +4,20 @@ import { lazy } from 'react'
 // Import metadata only (not components) to avoid loading CSS
 import { metadata as jitterMeta } from './framer/ButtonEffectsJitter.meta'
 import { metadata as liquidMorphMeta } from './framer/ButtonEffectsLiquidMorph.meta'
+import { metadata as rewardReadyPulseMeta } from './framer/ButtonEffectsRewardReadyPulse.meta'
 import { metadata as rippleMeta } from './framer/ButtonEffectsRipple.meta'
 import { metadata as shockwaveMeta } from './framer/ButtonEffectsShockwave.meta'
 import { metadata as splitRevealMeta } from './framer/ButtonEffectsSplitReveal.meta'
+import { metadata as shakeGentleMetadata } from './framer/ButtonFeedbackShakeGentle.meta'
 
 // Import CSS metadata only
 import { metadata as jitterCssMeta } from './css/ButtonEffectsJitter.meta'
 import { metadata as liquidMorphCssMeta } from './css/ButtonEffectsLiquidMorph.meta'
+import { metadata as rewardReadyPulseCssMeta } from './css/ButtonEffectsRewardReadyPulse.meta'
 import { metadata as rippleCssMeta } from './css/ButtonEffectsRipple.meta'
 import { metadata as shockwaveCssMeta } from './css/ButtonEffectsShockwave.meta'
 import { metadata as splitRevealCssMeta } from './css/ButtonEffectsSplitReveal.meta'
+import { metadata as shakeGentleCssMetadata } from './css/ButtonFeedbackShakeGentle.meta'
 
 // Lazy load components
 const ButtonEffectsRipple = lazy(() =>
@@ -31,7 +35,16 @@ const ButtonEffectsShockwave = lazy(() =>
 const ButtonEffectsSplitReveal = lazy(() =>
   import('./framer/ButtonEffectsSplitReveal').then((m) => ({ default: m.ButtonEffectsSplitReveal }))
 )
-
+const ButtonEffectsRewardReadyPulse = lazy(() =>
+  import('./framer/ButtonEffectsRewardReadyPulse').then((m) => ({
+    default: m.ButtonEffectsRewardReadyPulse,
+  }))
+)
+const ButtonFeedbackShakeGentle = lazy(() =>
+  import('./framer/ButtonFeedbackShakeGentle').then((m) => ({
+    default: m.ButtonFeedbackShakeGentle,
+  }))
+)
 // Lazy load CSS components
 const CssButtonEffectsRipple = lazy(() =>
   import('./css/ButtonEffectsRipple').then((m) => ({ default: m.ButtonEffectsRipple }))
@@ -47,6 +60,16 @@ const CssButtonEffectsShockwave = lazy(() =>
 )
 const CssButtonEffectsSplitReveal = lazy(() =>
   import('./css/ButtonEffectsSplitReveal').then((m) => ({ default: m.ButtonEffectsSplitReveal }))
+)
+const CssButtonEffectsRewardReadyPulse = lazy(() =>
+  import('./css/ButtonEffectsRewardReadyPulse').then((m) => ({
+    default: m.ButtonEffectsRewardReadyPulse,
+  }))
+)
+const CssButtonFeedbackShakeGentle = lazy(() =>
+  import('./css/ButtonFeedbackShakeGentle').then((m) => ({
+    default: m.ButtonFeedbackShakeGentle,
+  }))
 )
 
 export const groupMetadata: GroupMetadata = {
@@ -70,6 +93,14 @@ export const groupExport: GroupExport = {
       component: ButtonEffectsSplitReveal,
       metadata: splitRevealMeta,
     },
+    'button-effects__reward-ready-pulse': {
+      component: ButtonEffectsRewardReadyPulse,
+      metadata: rewardReadyPulseMeta,
+    },
+    'bxf-feedback__shake-gentle': {
+      component: ButtonFeedbackShakeGentle,
+      metadata: shakeGentleMetadata,
+    },
   },
   css: {
     'button-effects__ripple': { component: CssButtonEffectsRipple, metadata: rippleCssMeta },
@@ -85,6 +116,14 @@ export const groupExport: GroupExport = {
     'button-effects__split-reveal': {
       component: CssButtonEffectsSplitReveal,
       metadata: splitRevealCssMeta,
+    },
+    'button-effects__reward-ready-pulse': {
+      component: CssButtonEffectsRewardReadyPulse,
+      metadata: rewardReadyPulseCssMeta,
+    },
+    'bxf-feedback__shake-gentle': {
+      component: CssButtonFeedbackShakeGentle,
+      metadata: shakeGentleCssMetadata,
     },
   },
 }

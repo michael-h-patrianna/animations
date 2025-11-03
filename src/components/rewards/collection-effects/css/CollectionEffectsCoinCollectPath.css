@@ -1,0 +1,121 @@
+/* Coin Collect Path Animation - CSS Variant */
+
+.coin-collect-path-container {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-collect-path-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Destination indicator (balance counter) */
+.coin-collect-path-destination {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 80px;
+  height: 50px;
+  border: 2px dashed rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.coin-collect-path-destination__inner {
+  color: rgba(255, 215, 0, 0.5);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: system-ui, -apple-system, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Flying coin */
+.coin-collect-path-coin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  pointer-events: none;
+  /* Combined transform animation + separate opacity fade */
+  animation:
+    coinCollectPath 700ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards,
+    coinCollectPathFade 70ms linear 630ms forwards;
+}
+
+.coin-collect-path-coin__inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  border: 2px solid #DAA520;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+/* Combined transform animation (path + scale + rotate) */
+@keyframes coinCollectPath {
+  0% {
+    transform: translate(-50%, -50%) translateX(0px) translateY(0px) scale(1.0) rotate(0deg);
+  }
+  23% {
+    transform: translate(-50%, -50%) translateX(60px) translateY(-30px) scale(0.9) rotate(82.8deg);
+  }
+  51% {
+    transform: translate(-50%, -50%) translateX(140px) translateY(-70px) scale(0.7) rotate(183.6deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateX(230px) translateY(-110px) scale(0.3) rotate(360deg);
+  }
+}
+
+/* Opacity fade at the end */
+@keyframes coinCollectPathFade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: simple horizontal movement with fade */
+@media (prefers-reduced-motion: reduce) {
+  .coin-collect-path-coin {
+    animation: coinCollectPathReduced 400ms ease-out forwards;
+  }
+
+  @keyframes coinCollectPathReduced {
+    0% {
+      transform: translate(-50%, -50%) translateX(0);
+      opacity: 1;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) translateX(230px);
+      opacity: 0;
+    }
+  }
+}

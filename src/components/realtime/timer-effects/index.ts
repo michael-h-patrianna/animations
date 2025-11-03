@@ -43,6 +43,11 @@ const TimerEffectsPillCountdownHeartbeat = lazy(() =>
     default: m.TimerEffectsPillCountdownHeartbeat,
   }))
 )
+const TimerEffectsUrgentPulse = lazy(() =>
+  import('./framer/TimerEffectsUrgentPulse').then((m) => ({
+    default: m.TimerEffectsUrgentPulse,
+  }))
+)
 
 // Import metadata directly (not lazy-loaded since metadata is needed immediately)
 import { metadata as timerEffectsPillCountdownExtremeMetadata } from './framer/TimerEffectsPillCountdownExtreme.meta'
@@ -54,6 +59,7 @@ import { metadata as timerEffectsTimerFlashMetadata } from './framer/TimerEffect
 import { metadata as timerEffectsTimerFlashSoftMetadata } from './framer/TimerEffectsTimerFlashSoft.meta'
 import { metadata as timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.meta'
 import { metadata as timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.meta'
+import { metadata as timerEffectsUrgentPulseMetadata } from './framer/TimerEffectsUrgentPulse.meta'
 
 // CSS metadata imports (not lazy-loaded since metadata is needed immediately)
 import { metadata as pillCountdownExtremeCssMetadata } from './css/TimerEffectsPillCountdownExtreme.meta'
@@ -67,6 +73,7 @@ import { metadata as timerFlashCssMetadata } from './css/TimerEffectsTimerFlash.
 import { metadata as timerFlashSoftCssMetadata } from './css/TimerEffectsTimerFlashSoft.meta'
 import { metadata as timerFlipCssMetadata } from './css/TimerEffectsTimerFlip.meta'
 import { metadata as timerPulseCssMetadata } from './css/TimerEffectsTimerPulse.meta'
+import { metadata as urgentPulseCssMetadata } from './css/TimerEffectsUrgentPulse.meta'
 
 // CSS animations - Lazy load components
 const CssTimerEffectsTimerColorShift = lazy(() =>
@@ -118,6 +125,11 @@ const CssTimerEffectsPillCountdownSoft = lazy(() =>
     default: m.TimerEffectsPillCountdownSoft,
   }))
 )
+const CssTimerEffectsUrgentPulse = lazy(() =>
+  import('./css/TimerEffectsUrgentPulse').then((m) => ({
+    default: m.TimerEffectsUrgentPulse,
+  }))
+)
 
 export const groupMetadata: GroupMetadata = {
   id: 'timer-effects',
@@ -165,6 +177,10 @@ export const groupExport: GroupExport = {
       component: TimerEffectsPillCountdownHeartbeat,
       metadata: timerEffectsPillCountdownHeartbeatMetadata,
     },
+    'timer-effects__urgent-pulse': {
+      component: TimerEffectsUrgentPulse,
+      metadata: timerEffectsUrgentPulseMetadata,
+    },
   },
   css: {
     'timer-effects__timer-color-shift': {
@@ -210,6 +226,10 @@ export const groupExport: GroupExport = {
     'timer-effects__pill-countdown-heartbeat': {
       component: CssTimerEffectsPillCountdownHeartbeat,
       metadata: pillCountdownHeartbeatCssMetadata,
+    },
+    'timer-effects__urgent-pulse': {
+      component: CssTimerEffectsUrgentPulse,
+      metadata: urgentPulseCssMetadata,
     },
   },
 }
