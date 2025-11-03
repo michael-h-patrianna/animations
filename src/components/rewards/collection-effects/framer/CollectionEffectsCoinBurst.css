@@ -1,0 +1,48 @@
+/* Coin Burst Collection Animation - Framer Motion Variant */
+
+.coin-burst-container-framer {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-burst-stage-framer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-burst-coin-framer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* Coin visual styles */
+.coin-burst-coin__inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  border: 2px solid #DAA520;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: bold;
+  font-family: system-ui, -apple-system, sans-serif;
+}

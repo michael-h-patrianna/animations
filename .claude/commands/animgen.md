@@ -1,10 +1,10 @@
 ---
-description: Autonomous animation generation loop with design, development, and testing
+description: Autonomous animation generation loop with desig and development
 ---
 
 # Autonomous Animation Generation Loop
 
-**Purpose:** Autonomously generate, design, develop, and test new animations for gamified/social casino UI contexts.
+**Purpose:** Autonomously generate, design, and develop new animations for gamified/social casino UI contexts.
 
 **When to use:**
 - Building out animation library systematically
@@ -14,13 +14,10 @@ description: Autonomous animation generation loop with design, development, and 
 
 **What this creates:**
 - New animation components (both CSS and Framer Motion variants)
-- Tests for each animation
 - Registry integration
-- Documentation updates
 
 **Important:** This command runs autonomously. It will continue until:
 - User stops it manually
-- Maximum rounds completed (default: 10)
 - No viable animation ideas remain
 
 ---
@@ -91,8 +88,6 @@ cat docs/animation-short.md
 # Project structure and registry pattern
 cat CLAUDE.md | grep -A 50 "High-Level Data Flow"
 
-# Testing strategy (if exists)
-cat docs/testing.md 2>/dev/null || echo "No testing doc found"
 ```
 
 **Deliverable:** Complete understanding of existing animations, gaps, and design principles.
@@ -133,7 +128,6 @@ Use mcp__mcp_docker__sequentialthinking to analyze and generate:
 - ✅ CSS properties only (no SVG paths, no canvas drawing)
 - ✅ Reusable across multiple use cases
 - ✅ GPU-accelerated (transform/opacity preferred)
-- ✅ Accessibility-friendly (prefers-reduced-motion support)
 - ❌ NO complex illustrations or drawings
 - ❌ NO SVG path animations requiring drawing
 - ❌ NO image generation requirements
@@ -190,7 +184,6 @@ Requirements:
 - Design for BOTH CSS-only and Framer Motion implementations
 - Motion-based only (no drawing/illustration)
 - GPU-accelerated properties (transform, opacity)
-- Accessible (prefers-reduced-motion alternative)
 - Performance target: 60fps
 - React Native compatible (no VH/VW, DOM-only APIs)
 
@@ -240,9 +233,8 @@ Requirements:
 3. Export metadata from each component
 4. Update group index.ts to include new animations
 5. Update category index.ts if new group
-6. Ensure prefers-reduced-motion support in both variants
-7. Follow existing naming patterns
-8. Add shared styles to group root if needed
+6. Follow existing naming patterns
+7. Add shared styles to group root if needed
 
 Reference existing animation in same category:
 [Provide file path to similar component as example]
@@ -276,7 +268,7 @@ grep "export const metadata" src/components/[category-id]/[group-id]/framer/[Com
 
 ### Step D: Code Review (code-reviewer agent)
 
-**MANDATORY: Review implementation before testing.**
+**MANDATORY: Review implementation**
 
 Call code-reviewer agent with:
 - Paths to both variant files
@@ -287,7 +279,6 @@ Call code-reviewer agent with:
 **Review focus areas:**
 - Code quality and maintainability
 - Performance (GPU-accelerated properties)
-- Accessibility (prefers-reduced-motion)
 - Registry integration correctness
 - Naming consistency
 - No global CSS pollution
@@ -303,84 +294,7 @@ Call code-reviewer agent with:
 - [ ] Accessibility verified
 - [ ] Registry integration correct
 
-### Step E: Tests (testing-architect agent)
-
-**MANDATORY: Write meaningful tests for both variants.**
-
-Call testing-architect agent with:
-- Paths to both variant files
-- Animation behavior description
-- Testing strategy from `docs/testing.md` (if exists)
-- Existing test patterns (sample from similar animation)
-
-**Prompt template for agent:**
-```
-Write tests for these animation components:
-
-CSS variant: [file path]
-Framer Motion variant: [file path]
-
-Animation behavior: [description from ANIMATION_SPEC]
-
-Requirements:
-1. Tests must be meaningful (test actual functionality, not just rendering)
-2. Tests must verify correct animation behavior
-3. Tests must be deterministic (no flaky timing issues)
-4. Test accessibility (prefers-reduced-motion behavior)
-5. Follow existing test patterns in this project
-6. Use appropriate testing framework (Vitest/Playwright)
-
-Reference existing test:
-[Provide path to similar animation test as example]
-
-Write tests that verify:
-- Component renders correctly
-- Animation triggers as expected
-- Accessibility behavior (reduced motion)
-- Performance (no layout thrashing)
-- Metadata export is correct
-```
-
-**Validation:**
-- [ ] Tests written for both variants
-- [ ] Tests are meaningful (not just smoke tests)
-- [ ] Tests verify animation behavior
-- [ ] Tests check accessibility
-- [ ] Tests are deterministic
-
-**FORBIDDEN:**
-- ❌ Tests that only check rendering
-- ❌ Tests with arbitrary delays (use condition polling)
-- ❌ Tests that don't verify actual functionality
-
-### Step F: Run Tests & Fix
-
-**MANDATORY: Tests must pass before proceeding.**
-
-**Run tests:**
-```bash
-# Run all tests
-npm run test
-
-# Or run specific test file
-npm run test -- [test-file-path]
-```
-
-**If tests fail:**
-1. Analyze failure output
-2. Use sequential thinking to diagnose root cause
-3. Fix implementation or tests
-4. Re-run tests
-5. Iterate until green
-
-**Validation:**
-- [ ] All tests pass (0 failures)
-- [ ] No test warnings
-- [ ] No flaky behavior (run 3x to confirm)
-
-**RED FLAG:** If tests fail after 3 fix attempts → STOP → Use debugging workflow or ask for help.
-
-### Step G: Registry & Documentation
+### Step E: Registry & Documentation
 
 **MANDATORY: Ensure animation is discoverable and documented.**
 
@@ -394,49 +308,19 @@ grep -r "[animation-id]" src/components/animationRegistry.ts
 grep -r "export const metadata" src/components/[category-id]/[group-id]/
 ```
 
-**Update documentation (following CIB-003):**
-
-```
-STOP - Do not touch any .md file yet
-
-1. Check: "Is this file in the canonical documentation registry?"
-   - docs/architecture.md
-   - docs/animation-short.md
-   - docs/testing.md
-
-   IF YES → Proceed to update it
-   IF NO → Skip documentation update (catalog is self-documenting via metadata)
-
-2. Check: "Does this involve dated/summary/status content?"
-   IF YES → STOP → Don't create summary docs
-```
-
-**For this command:**
-- Animation catalog is self-documenting (metadata exports)
-- No summary docs needed
-- Only update canonical docs if animation introduces new pattern
-
-**Validation:**
-- [ ] Animation registered correctly
-- [ ] Metadata exports present
-- [ ] No summary/report documents created
-
-### Step H: Full Review & Next Round
+### Step F: Full Review & Next Round
 
 **MANDATORY: Review all changes before claiming complete.**
 
 **Review checklist:**
 1. **Files created:**
    - [ ] CSS variant at correct path
-   - [ ] Framer Motion variant at correct path
-   - [ ] Tests written and passing
+   - [ ] Motion variant at correct path
    - [ ] Registry updated
 
 2. **Quality checks:**
    - [ ] Both variants work correctly
-   - [ ] Accessibility implemented (prefers-reduced-motion)
    - [ ] Performance targets met (60fps)
-   - [ ] Tests are meaningful
    - [ ] Code review passed
 
 3. **Integration checks:**
@@ -450,18 +334,16 @@ STOP - Do not touch any .md file yet
 Animation [Round N] COMPLETE:
 - ID: [category-group__variant]
 - Files: [list paths]
-- Tests: PASS
 - Integration: ✓
 ```
 
 **Mark round complete in TodoWrite.**
 
 **Next round decision:**
-- IF round < 10 AND user hasn't stopped → Start Step A for next animation
-- IF round >= 10 → STOP → Session complete
+- IF user hasn't stopped → Start Step A for next animation
 - IF no viable ideas remain → STOP → Session complete
 
-**Deliverable:** Complete, tested, integrated animation ready for use.
+**Deliverable:** Complete, integrated animation ready for use.
 
 ---
 
@@ -478,15 +360,12 @@ Animation [Round N] COMPLETE:
 2. **Never ask user for permission** (autonomous mode)
 
 3. **STOP and ask if:**
-   - About to create new category (significant structural change)
    - Animation idea requires breaking existing patterns
    - Unsure if animation fits social casino context
-   - Tests consistently fail with no clear solution
    - About to modify core registry structure
 
 4. **Parallel work where safe:**
    - Can design next spec while implementing current (if confident in direction)
-   - Can write tests while code review runs (if low risk)
    - BUT: Never skip validation gates
 
 5. **Quality over quantity:**
@@ -583,11 +462,9 @@ ANIMGEN Session Complete:
 - Animations created: [N]
 - Categories touched: [list]
 - Groups added/enhanced: [list]
-- Tests written: [N]
-- All tests passing: ✓
 ```
 
 **Final statement:**
-"Animation generation session complete. Created [N] animations across [N] rounds. All animations tested and integrated. Catalog updated."
+"Animation generation session complete. Created [N] animations across [N] rounds. All animations integrated. Catalog updated."
 
 Remember: Quality animations that enhance user experience. Evidence before claims. Always.
