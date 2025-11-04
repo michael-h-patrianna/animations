@@ -1,0 +1,57 @@
+.pf-charge-surge {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px 0;
+}
+
+.pf-charge-surge .pf-progress-track {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 6px;
+  overflow: visible;
+}
+
+.pf-charge-surge .pf-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.pf-charge-surge .pf-progress-fill--base {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.6), rgba(59, 130, 246, 0.8));
+  z-index: 1;
+}
+
+.pf-charge-surge .pf-progress-fill--glow {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.pf-charge-surge .glow-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(147, 197, 253, 0.6),
+    rgba(96, 165, 250, 0.8),
+    rgba(147, 197, 253, 0.6)
+  );
+  border-radius: 6px;
+}
+
+.pf-charge-surge .milestone-container {
+  z-index: 3;
+}
+
+.pf-charge-surge .milestone-marker {
+  will-change: transform, background-color;
+}
+
+.pf-charge-surge .surge-wave {
+  will-change: transform, opacity;
+}

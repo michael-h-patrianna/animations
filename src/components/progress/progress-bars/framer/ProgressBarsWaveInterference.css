@@ -1,0 +1,83 @@
+.progress-bars-wave-interference {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pb-wi-container {
+  position: relative;
+  width: 300px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.pb-wi-track {
+  position: absolute;
+  width: 100%;
+  height: 8px;
+  background: var(--color-gray-200);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pb-wi-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--color-blue-500);
+  border-radius: 4px;
+}
+
+/* Wave segments */
+.pb-wi-waves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.pb-wi-segment {
+  position: absolute;
+  width: 2px;
+  height: 24px;
+  background: var(--color-blue-400);
+  border-radius: 1px;
+  top: 50%;
+  transform-origin: center center;
+  will-change: transform;
+  opacity: 0.6;
+}
+
+/* Interference nodes */
+.pb-wi-nodes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.pb-wi-interference-node {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border: 2px solid var(--color-blue-500);
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: pb-wi-node-pulse 0.8s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes pb-wi-node-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}

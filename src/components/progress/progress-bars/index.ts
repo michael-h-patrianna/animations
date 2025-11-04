@@ -2,6 +2,9 @@ import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 
 // Framer Motion - Import metadata only
+import { metadata as celebrationBurstMetadata } from './framer/ProgressBarsCelebrationBurst.meta'
+import { metadata as chargeSurgeMetadata } from './framer/ProgressBarsChargeSurge.meta'
+import { metadata as orbitRingMetadata } from './framer/ProgressBarsOrbitRing.meta'
 import { metadata as progressBounceMetadata } from './framer/ProgressBarsProgressBounce.meta'
 import { metadata as progressGradientMetadata } from './framer/ProgressBarsProgressGradient.meta'
 import { metadata as progressMilestonesMetadata } from './framer/ProgressBarsProgressMilestones.meta'
@@ -13,6 +16,9 @@ import { metadata as xpAccumulationMetadata } from './framer/ProgressBarsXpAccum
 import { metadata as zoomedProgressMetadata } from './framer/ProgressBarsZoomedProgress.meta'
 
 // CSS - Import metadata only
+import { metadata as celebrationBurstCssMetadata } from './css/ProgressBarsCelebrationBurst.meta'
+import { metadata as chargeSurgeCssMetadata } from './css/ProgressBarsChargeSurge.meta'
+import { metadata as orbitRingCssMetadata } from './css/ProgressBarsOrbitRing.meta'
 import { metadata as progressBounceCssMetadata } from './css/ProgressBarsProgressBounce.meta'
 import { metadata as progressGradientCssMetadata } from './css/ProgressBarsProgressGradient.meta'
 import { metadata as progressMilestonesCssMetadata } from './css/ProgressBarsProgressMilestones.meta'
@@ -24,6 +30,21 @@ import { metadata as xpAccumulationCssMetadata } from './css/ProgressBarsXpAccum
 import { metadata as zoomedProgressCssMetadata } from './css/ProgressBarsZoomedProgress.meta'
 
 // Framer Motion - Lazy load components
+const ProgressBarsCelebrationBurst = lazy(() =>
+  import('./framer/ProgressBarsCelebrationBurst').then((m) => ({
+    default: m.ProgressBarsCelebrationBurst,
+  }))
+)
+const ProgressBarsChargeSurge = lazy(() =>
+  import('./framer/ProgressBarsChargeSurge').then((m) => ({
+    default: m.ProgressBarsChargeSurge,
+  }))
+)
+const ProgressBarsOrbitRing = lazy(() =>
+  import('./framer/ProgressBarsOrbitRing').then((m) => ({
+    default: m.ProgressBarsOrbitRing,
+  }))
+)
 const ProgressBarsProgressBounce = lazy(() =>
   import('./framer/ProgressBarsProgressBounce').then((m) => ({
     default: m.ProgressBarsProgressBounce,
@@ -69,6 +90,21 @@ const ProgressBarsProgressStriped = lazy(() =>
 )
 
 // CSS - Lazy load components
+const CssProgressBarsCelebrationBurst = lazy(() =>
+  import('./css/ProgressBarsCelebrationBurst').then((m) => ({
+    default: m.ProgressBarsCelebrationBurst,
+  }))
+)
+const CssProgressBarsChargeSurge = lazy(() =>
+  import('./css/ProgressBarsChargeSurge').then((m) => ({
+    default: m.ProgressBarsChargeSurge,
+  }))
+)
+const CssProgressBarsOrbitRing = lazy(() =>
+  import('./css/ProgressBarsOrbitRing').then((m) => ({
+    default: m.ProgressBarsOrbitRing,
+  }))
+)
 const CssProgressBarsProgressBounce = lazy(() =>
   import('./css/ProgressBarsProgressBounce').then((m) => ({
     default: m.ProgressBarsProgressBounce,
@@ -123,6 +159,18 @@ export const groupMetadata: GroupMetadata = {
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
   framer: {
+    'progress-bars__celebration-burst': {
+      component: ProgressBarsCelebrationBurst,
+      metadata: celebrationBurstMetadata,
+    },
+    'progress-bars__charge-surge': {
+      component: ProgressBarsChargeSurge,
+      metadata: chargeSurgeMetadata,
+    },
+    'progress-bars__orbit-ring': {
+      component: ProgressBarsOrbitRing,
+      metadata: orbitRingMetadata,
+    },
     'progress-bars__timeline-progress': {
       component: ProgressBarsTimelineProgress,
       metadata: timelineProgressMetadata,
@@ -162,6 +210,18 @@ export const groupExport: GroupExport = {
     },
   },
   css: {
+    'progress-bars__celebration-burst': {
+      component: CssProgressBarsCelebrationBurst,
+      metadata: celebrationBurstCssMetadata,
+    },
+    'progress-bars__charge-surge': {
+      component: CssProgressBarsChargeSurge,
+      metadata: chargeSurgeCssMetadata,
+    },
+    'progress-bars__orbit-ring': {
+      component: CssProgressBarsOrbitRing,
+      metadata: orbitRingCssMetadata,
+    },
     'progress-bars__timeline-progress': {
       component: CssProgressBarsTimelineProgress,
       metadata: timelineProgressCssMetadata,

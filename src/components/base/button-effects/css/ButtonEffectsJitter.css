@@ -8,6 +8,16 @@
   will-change: transform;
 }
 
+.bfx-jitter {
+  transition:
+    transform var(--pf-transition-fast) ease,
+    box-shadow var(--pf-transition-fast) ease;
+}
+.bfx-jitter:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--pf-shadow-inner);
+}
+
 @keyframes bfx-jittery {
   5%,
   50% {

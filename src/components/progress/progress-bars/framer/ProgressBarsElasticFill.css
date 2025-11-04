@@ -1,0 +1,31 @@
+/* ProgressBarsElasticFill.css - Elastic Fill Progress Bar (Framer Motion) */
+
+.pf-progress-elastic-fill {
+  width: 100%;
+  max-width: 28rem;
+  padding: 1rem;
+}
+
+.pf-progress-elastic-fill .track-container {
+  position: relative;
+  width: 100%;
+}
+
+.pf-progress-elastic-fill .pf-progress-track {
+  position: relative;
+  width: 100%;
+  height: 1.5rem;
+  background: #e0e0e0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.pf-progress-elastic-fill .pf-progress-fill {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #82d616 0%, #2dd4bf 100%);
+  border-radius: inherit;
+  transform-origin: left center;
+  will-change: transform;
+}
