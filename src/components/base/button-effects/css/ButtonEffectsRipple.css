@@ -9,6 +9,17 @@
   pointer-events: none;
 }
 
+.bfx-ripple {
+  transition:
+    transform var(--pf-transition-fast) ease,
+    box-shadow var(--pf-transition-fast) ease;
+}
+
+.bfx-ripple:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--pf-shadow-inner);
+}
+
 .bfx-ripple__wave {
   position: absolute;
   border-radius: 50%;
