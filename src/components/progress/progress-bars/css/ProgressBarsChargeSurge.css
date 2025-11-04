@@ -70,6 +70,8 @@
 
 .pf-charge-surge-css .milestone-marker.charged {
   background-color: rgba(59, 130, 246, 1);
+  animation: none;
+  transform: scale(1);
 }
 
 .pf-charge-surge-css .surge-wave {
