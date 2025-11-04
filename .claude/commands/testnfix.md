@@ -643,7 +643,7 @@ Feature fully tested and working. Evidence:
 - [List workflows validated]
 
 **Fixes Applied:**
-- [file:line] - [Brief description]
+- `<file:line>` - [Brief description]
 
 **Verification:**
 - All test suites pass
