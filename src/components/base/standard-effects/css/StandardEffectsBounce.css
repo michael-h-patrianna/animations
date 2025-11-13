@@ -1,7 +1,7 @@
 /* CSS-only Bounce Animation */
 .bounce-element {
   transform-origin: center bottom;
-  animation: bounce-effect 0.8s ease-in-out;
+  animation: bounce-effect 0.8s ease-in-out infinite;
   will-change: transform;
 }
 
@@ -28,3 +28,6 @@
     transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
   }
 }
+
+
+.BackgroungImage_cover__ZAkC9
