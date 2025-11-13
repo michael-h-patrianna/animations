@@ -4,12 +4,16 @@
  */
 
 .bfx-liquid-morph {
-  transition: transform 0.3s ease;
+  transition:
+    transform var(--pf-transition-fast) ease,
+    box-shadow var(--pf-transition-fast) ease;
+  will-change: transform, box-shadow;
 }
 
 .bfx-liquid-morph--active {
   animation: bfx-liquid-morph 0.6s ease-out;
-  will-change: transform;
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--pf-shadow-inner);
 }
 
 @keyframes bfx-liquid-morph {
