@@ -1,0 +1,58 @@
+.boss-health-container {
+  width: 100%;
+  padding: 20px;
+  background: #1c1917;
+  color: #fff;
+  font-family: serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boss-health-frame {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.boss-skull {
+  font-size: 24px;
+  color: #ef4444;
+}
+
+.boss-health-track {
+  flex: 1;
+  height: 30px;
+  background: #44403c;
+  border: 3px solid #78716c;
+  position: relative;
+  border-radius: 4px;
+}
+
+.boss-health-fill {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.boss-health-fill.delay {
+  background: #fcd34d; /* Yellow/White for damage delay */
+  z-index: 1;
+}
+
+.boss-health-fill.current {
+  background: #dc2626;
+  z-index: 2;
+  /* Gradient sheen forbidden by simple rules? Linear gradient allowed. */
+  background: linear-gradient(to bottom, #ef4444, #991b1b);
+}
+
+.boss-name {
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 18px;
+}

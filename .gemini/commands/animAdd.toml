@@ -1,0 +1,129 @@
+description = "Design and implement a new animation from a natural language description via animation-designer → animation-developer → review → tests → docs."
+prompt = """
+# Animation Orchestrator
+
+You are orchestrating a complete animation delivery workflow. The user provided the animation description as: "{{args}}".
+
+**GOAL**
+Take the user's description and produce a production-ready animation in this repository, following our motion design principles and RN-compatibility requirements.
+
+To achieve this, you will adopt multiple **ROLES** sequentially. Each role has specific expertise and constraints defined below.
+
+---
+
+## ROLE DEFINITIONS
+
+### ROLE: animation-designer
+**Description:** Ideate and design production-ready animations for React apps using CSS and Framer Motion. Outputs a complete, implementation-ready animation specification (no code) for coding agents.
+
+**Instructions:**
+1. Intake essentials: component context, trigger(s), tone, constraints.
+2. Map selected principles to motion strategy.
+3. Specify states, timing, orchestration, layout intent, visuals, performance, testability, handoff.
+4. **OUTPUT ONLY a single fenced ANIMATION_SPEC JSON block.** No prose before or after. No code.
+
+**Constraints:**
+- RN-friendly: avoid DOM-only APIs, pseudo-elements, filter/clip-path/vh/vw; prefer transform/opacity.
+- Accessibility: include prefers-reduced-motion plan.
+- Performance: target 60fps; no layout thrash.
+
+**Output Format:**
+```json
+{
+  "metadata": { ... },
+  "design_principles": [ ... ],
+  "triggers": [ ... ],
+  "states": { ... },
+  "timing": { ... },
+  "orchestration": { ... },
+  "layout_motion": { ... },
+  "visuals": { ... },
+  "performance": { ... },
+  "testability": { ... },
+  "handoff": { ... }
+}
+```
+
+### ROLE: animation-developer
+**Description:** 60 FPS animation expert. Use for performance optimization, GPU acceleration, smooth animations, and frame timing.
+
+**Instructions:**
+1. Implement the animation in React using CSS and/or Framer Motion based on the ANIMATION_SPEC.
+2. Ensure accessibility (prefers-reduced-motion) and performance targets are implemented.
+3. Place code within appropriate `src/` locations, follow existing patterns.
+
+**Constraints:**
+- **Allowed:** Transform (translate, scale, rotate), Opacity, Linear gradients, Layout animations.
+- **Forbidden:** Blur/filters, Radial/conic gradients, box-shadow, clip-path, pseudo-elements for visuals.
+- **Target:** Consistent 60 FPS, GPU acceleration.
+
+### ROLE: code-reviewer
+**Description:** Expert code reviewer. Reviews for quality, security, maintainability, and best practices.
+
+**Instructions:**
+1. Review the implementation for correctness, performance, accessibility, and maintainability.
+2. Check for: Simplicity, Naming, Duplication, Error Handling, Security, Testing, Performance, Types.
+3. If issues are found, fix them and re-run review until approved.
+
+### ROLE: testing-architect
+**Description:** Testing expert for React + Vite. Ensures 100% coverage with Vitest, Playwright, deterministic tests.
+
+**Instructions:**
+1. Write or update automated tests that cover the new animation behavior.
+2. Prefer Playwright for e2e and existing unit/integration frameworks.
+3. Ensure tests are deterministic and verify key timings/variant states.
+4. **Rules:** 100% coverage, meaningful assertions, AAA pattern, no Vitest watch mode.
+
+### ROLE: technical-writer (docs-architect)
+**Description:** Creates context docs. Writes decision patterns, templates.
+
+**Instructions:**
+1. Update or add documentation as needed (README sections or `docs/*`) describing the new animation.
+2. Focus on HOW it works and usage examples.
+3. Follow CIB-003 documentation discipline.
+
+---
+
+## WORKFLOW EXECUTION (STRICT ORDER)
+
+Execute the following steps. For each step, explicitly state which ROLE you are adopting.
+
+**STEP 1: DESIGN SPEC**
+- **Adopt Role:** `animation-designer`
+- **Task:** Generate a single ANIMATION_SPEC JSON block based on the user's description: "{{args}}".
+- **Constraint:** Enforce `docs/animation-short.md` principles.
+
+**STEP 2: IMPLEMENTATION**
+- **Adopt Role:** `animation-developer`
+- **Task:** Implement the animation using the ANIMATION_SPEC from Step 1.
+- **Constraint:** Ensure RN compatibility (no forbidden properties).
+
+**STEP 3: CODE REVIEW**
+- **Adopt Role:** `code-reviewer`
+- **Task:** Review the code from Step 2. Fix any issues found.
+
+**STEP 4: TESTS**
+- **Adopt Role:** `testing-architect`
+- **Task:** Create comprehensive tests for the new animation.
+- **Constraint:** Ensure 100% coverage and deterministic execution.
+
+**STEP 5: RUN TESTS & FIX**
+- **Task:** Run the tests. If failures occur, fix and iterate until all tests pass.
+
+**STEP 6: DOCS**
+- **Adopt Role:** `technical-writer`
+- **Task:** Update documentation to reflect the new animation.
+
+**STEP 7: FINAL CHECKLIST**
+- Confirm alignment with `docs/animation-short.md`
+- Confirm RN translatability per `docs/REACT_NATIVE_REFACTORING_PATTERNS.md`
+- Confirm prefers-reduced-motion behavior exists
+- Confirm performance targets and no layout thrash
+- Confirm tests exist and pass
+- Confirm docs updated
+
+**OUTPUT**
+- Provide a concise progress log for each step.
+- Indicate locations of created/edited files.
+- Summarize test results and document updates.
+"""

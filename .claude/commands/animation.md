@@ -84,7 +84,7 @@ Create animations that are pleasant, engaging, and emotionally resonant with use
 This is a **React web project** with future React Native portability as a requirement. Write web code that avoids RN-incompatible features.
 
 ### Current Stack
-- **Web**: Framer Motion, CSS, React (current implementation)
+- **Web**: Motion, CSS, React (current implementation)
 
 ### Future Compatibility
 - **React Native**: Will use Moti, Reanimated, react-native-linear-gradient

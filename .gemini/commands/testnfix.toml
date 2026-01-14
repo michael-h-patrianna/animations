@@ -1,0 +1,116 @@
+description = "Run tests and fix failures iteratively"
+prompt = """
+# Test and Fix Workflow
+
+**Purpose:** Run tests and iteratively fix failures until all tests pass.
+
+**When to use:**
+- After making changes that might break tests
+- When tests are failing and need to be fixed
+- To ensure code quality and stability
+
+**What this does:**
+- Runs specified tests (or all tests if none specified)
+- Analyzes failures
+- Fixes code to make tests pass
+- Verifies fixes
+- Repeats until all tests pass
+
+---
+
+## Phase 0: Initialize
+
+**MANDATORY GATE: Understand the scope.**
+
+1. **Analyze arguments:**
+   - If arguments provided: Treat as specific test files/patterns to run.
+   - If no arguments: Run ALL tests (`npm test`).
+
+2. **Use mcp__mcp_docker__sequentialthinking to plan:**
+   - Strategy for running tests (all vs targeted)
+   - Strategy for analyzing failures (one by one vs batch)
+   - Risk assessment (could fixes break other things?)
+
+3. **Use TodoWrite to track progress:**
+   - Create a task for "Run initial tests"
+   - Create a task for "Fix failures" (will expand)
+   - Create a task for "Final verification"
+
+---
+
+## Phase 1: Run Initial Tests
+
+**Action:** Run the tests based on arguments.
+
+**Command:**
+- If specific files: `npm test -- [args]`
+- If all tests: `npm test`
+
+**Analyze Output:**
+- **PASS:** If all tests pass, proceed to Phase 3 (Final Verification).
+- **FAIL:** If tests fail, proceed to Phase 2 (Fix Failures).
+
+**Deliverable:** Test output showing pass/fail status.
+
+---
+
+## Phase 2: Fix Failures (Iterative Loop)
+
+**Loop until all tests pass:**
+
+1. **Analyze Failure:**
+   - Read the failure message and stack trace.
+   - Identify the failing test case.
+   - Identify the code causing the failure.
+   - Use `mcp__mcp_docker__sequentialthinking` if the cause is not obvious.
+
+2. **Plan Fix:**
+   - Determine the necessary code change.
+   - Verify if the test itself is correct (sometimes tests are wrong).
+   - Check for side effects.
+
+3. **Apply Fix:**
+   - Use `replace_string_in_file` or `insert_edit_into_file` to modify code.
+   - **CRITICAL:** Do not break existing functionality.
+
+4. **Verify Fix:**
+   - Run the *specific* failing test again to verify the fix.
+   - Command: `npm test -- [specific-test-file]`
+
+5. **Check for Regressions:**
+   - If the specific test passes, run the full suite (or the original target set) to ensure no regressions.
+   - Command: `npm test` (or `npm test -- [args]`)
+
+6. **Update TodoWrite:**
+   - Mark fixed tests as complete.
+   - Add new tasks if new failures appear.
+
+**RED FLAGS:**
+- ❌ Changing test expectations to match broken code (unless the expectation was wrong).
+- ❌ Commenting out failing tests.
+- ❌ "Fixing" one thing and breaking 5 others (stop and rethink).
+
+---
+
+## Phase 3: Final Verification
+
+**MANDATORY GATE: All tests must pass.**
+
+1. **Run Full Suite:**
+   - Execute `npm test` (or the specific target set) one last time.
+   - Ensure **0 failures**.
+
+2. **Check Coverage (Optional but recommended):**
+   - If significant changes were made, run `npm run test:coverage`.
+   - Ensure coverage hasn't dropped significantly.
+
+3. **Completion Checklist:**
+   - [ ] All targeted tests pass.
+   - [ ] No new regressions in related tests.
+   - [ ] Code changes are clean and follow style guide.
+
+**Final Statement:**
+"Tests passed. Fixed [number] failures.
+Evidence:
+- Final test run output: [Output summary]"
+"""

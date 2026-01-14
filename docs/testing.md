@@ -1,617 +1,282 @@
 # Testing Guide for LLM Coding Agents
 
-**Purpose**: This document teaches you how to write and run tests in the animations project.
+**Purpose**: Instructions for writing and running tests in this animation library.
 
-**Tech Stack**: Vitest 3 (unit/component tests) + Playwright (E2E tests) + Testing Library + jsdom
+**Tech Stack**: Vitest 3 (unit/component) + Playwright (E2E) + Testing Library + jsdom
 
 ---
 
-## Testing Principles
+## Running Tests
 
-### 1. 100% Test Coverage Required
-**Rule**: All new features must have comprehensive test coverage. Tests are not optional.
-
-**Coverage Requirements**:
-- Unit tests for all utilities, services, hooks
-- Component tests for UI components
-- Smoke tests for all animation components
-- E2E tests for critical user journeys
-
-### 2. Tests Must Be Meaningful
-**Rule**: Tests should verify actual functionality, not just rendering.
-
-❌ **Bad Test**: Only checks if component renders
-```typescript
-it('renders', () => {
-  render(<Component />)
-  expect(screen.getByRole('button')).toBeInTheDocument()
-})
-```
-
-✅ **Good Test**: Verifies behavior and logic
-```typescript
-it('triggers animation replay when replay button clicked', async () => {
-  render(<AnimationCard {...props} />)
-  const replayButton = screen.getByRole('button', { name: /replay/i })
-
-  await user.click(replayButton)
-
-  expect(screen.getByTestId('animation')).toHaveAttribute('key', '1')
-})
-```
-
-### 3. Test Safety (Critical)
-**Rule**: Never run tests in watch mode in automated workflows. Watch mode is only for interactive debugging.
-
-**Pattern**:
 ```bash
-# ✅ Correct: CI/automation
-npm test  # Runs once and exits
+# Unit tests (fast, use this most often)
+npm test                    # Single run, exits when done
+npm run test:coverage       # With coverage report
 
-# ❌ Wrong: CI/automation
-npm run test:watch  # Hangs forever
-
-# ✅ Correct: Local development (with explicit permission)
+# Watch mode (ONLY for interactive debugging)
 ALLOW_VITEST_WATCH=1 npm run test:watch
+
+# E2E tests (slower, requires browser)
+npm run test:e2e            # Headless
+npm run test:e2e:headed     # Visible browser
+npm run test:e2e:report     # View HTML report
 ```
+
+**CRITICAL**: Never use watch mode in automated workflows. Always use `npm test`.
 
 ---
 
-## Unit Testing (Vitest)
+## Where to Put Tests
 
-### File Locations
 ```
 src/
-├─ __tests__/                      # Domain/feature tests
-│  ├─ allAnimations.smoke.test.tsx # Smoke tests
-│  ├─ registryConsistency.test.tsx # Registry validation
-│  ├─ hooks.useAnimations.test.tsx # Hook tests
-│  └─ ui.animation-card.test.tsx   # UI component tests
-└─ components/
-   └─ ui/
-      └─ AnimationCard.test.tsx    # Co-located component tests
+├── __tests__/                        # PUT feature/domain tests HERE
+│   ├── allAnimations.smoke.test.tsx  # Smoke tests for all animations
+│   ├── registryConsistency.test.tsx  # Registry validation
+│   ├── hooks.useAnimations.test.tsx  # Hook tests
+│   └── ui.animation-card.test.tsx    # UI component tests
+└── components/
+    └── ui/
+        └── AnimationCard.test.tsx    # Co-located component tests (alternative)
+
+tests/
+└── e2e/                              # PUT Playwright E2E tests HERE
+    └── animation-rendering.spec.ts
 ```
 
-**Pattern**: Use `__tests__/` for feature tests, co-locate with components for component-specific tests.
+**Decision tree**:
+- Testing a specific component? → Co-locate as `Component.test.tsx`
+- Testing a feature/domain? → Put in `src/__tests__/`
+- Testing user journeys in browser? → Put in `tests/e2e/`
 
-### Test File Naming
-- Pattern: `{feature}.test.tsx` or `{component}.test.tsx`
-- Use descriptive names: `registryConsistency.test.tsx`, not `test1.tsx`
+---
 
-### Unit Test Template
+## How to Write an Animation Test
+
+### Smoke Test (Verify Rendering)
+
+**Template** (`src/__tests__/<group>.smoke.test.tsx`):
 ```typescript
+import { render } from '@testing-library/react'
+import { Suspense } from 'react'
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { groupExport } from '@/components/<category>/<group>'
 
-describe('ComponentName', () => {
-  it('should [describe expected behavior]', async () => {
-    // Arrange: Set up test data and render
-    const user = userEvent.setup()
-    const props = { /* test props */ }
-    render(<ComponentName {...props} />)
+describe('<GroupName> Smoke Tests', () => {
+  Object.entries(groupExport.framer).forEach(([id, { component: Component }]) => {
+    it(`renders ${id} without crashing`, async () => {
+      const { container } = render(
+        <Suspense fallback={<div>Loading...</div>}>
+          <Component />
+        </Suspense>
+      )
 
-    // Act: Perform user interaction
-    await user.click(screen.getByRole('button'))
+      // Wait for lazy component
+      await new Promise((r) => setTimeout(r, 100))
 
-    // Assert: Verify outcome
-    expect(screen.getByText('Expected Text')).toBeInTheDocument()
+      expect(container.querySelector(`[data-animation-id="${id}"]`)).toBeInTheDocument()
+    })
   })
 })
 ```
 
-### Hook Testing Pattern
+### Component Behavior Test
+
+**Template** (testing AnimationCard with animation):
+```typescript
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { withAnimationCard, queryStage, advanceRaf } from '@/test/utils/animationTestUtils'
+import { ComponentName } from '@/components/<category>/<group>/framer/ComponentName'
+
+describe('<ComponentName>', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
+  it('triggers animation on render', () => {
+    render(withAnimationCard(<ComponentName />, { id: 'group__variant' }))
+
+    const stage = queryStage()
+    expect(stage).toBeTruthy()
+    expect(stage!.querySelector('[data-animation-id]')).toBeInTheDocument()
+  })
+
+  it('replays animation when replay button clicked', async () => {
+    render(withAnimationCard(<ComponentName />, { id: 'group__variant' }))
+
+    const prevStage = queryStage()!
+    screen.getByRole('button', { name: /replay/i }).click()
+
+    const newStage = queryStage()
+    expect(newStage).not.toBe(prevStage) // Component remounted
+  })
+})
+```
+
+### Hook Test
+
+**Template**:
 ```typescript
 import { renderHook, waitFor } from '@testing-library/react'
+import { describe, it, expect } from 'vitest'
+import { useAnimations } from '@/hooks/useAnimations'
 
 describe('useAnimations', () => {
-  it('should load categories', async () => {
+  it('loads categories from registry', async () => {
     const { result } = renderHook(() => useAnimations())
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false)
     })
 
-    expect(result.current.categories).toHaveLength(5)
-    expect(result.current.categories[0].id).toBe('base')
+    expect(result.current.categories).toBeDefined()
+    expect(result.current.categories.length).toBeGreaterThan(0)
   })
 })
 ```
 
-### Service Testing Pattern
+### Registry Consistency Test
+
+**Template**:
 ```typescript
-import { animationDataService } from '@/services/animationData'
+import { describe, it, expect } from 'vitest'
+import { categories, buildRegistryFromCategories } from '@/components/animationRegistry'
 
-describe('animationDataService', () => {
-  it('should load all animations', async () => {
-    const catalog = await animationDataService.loadAnimations()
-
-    expect(catalog).toBeInstanceOf(Array)
-    expect(catalog.length).toBeGreaterThan(0)
-    expect(catalog[0]).toHaveProperty('id')
-    expect(catalog[0]).toHaveProperty('title')
-  })
-})
-```
-
-### Smoke Test Pattern
-**Purpose**: Verify all animations render without throwing errors.
-
-```typescript
-import { act, render } from '@testing-library/react'
-import { buildRegistryFromCategories } from '@/components/animationRegistry'
-
-describe('Animation Smoke Tests', () => {
-  it('renders all animations without errors', async () => {
+describe('Animation Registry', () => {
+  it('has unique animation IDs', () => {
     const registry = buildRegistryFromCategories()
+    const ids = Object.keys(registry)
+    const uniqueIds = new Set(ids)
 
-    for (const [id, Component] of Object.entries(registry)) {
-      try {
-        await act(async () => {
-          const { unmount } = render(<Component />)
-          await Promise.resolve()  // Flush microtasks
-          unmount()
+    expect(ids.length).toBe(uniqueIds.size)
+  })
+
+  it('all animations have required metadata', () => {
+    Object.values(categories).forEach((cat) => {
+      Object.values(cat.groups).forEach((group) => {
+        Object.entries(group.framer).forEach(([id, { metadata }]) => {
+          expect(metadata.id).toBe(id)
+          expect(metadata.title).toBeTruthy()
+          expect(metadata.description).toBeTruthy()
+          expect(Array.isArray(metadata.tags)).toBe(true)
         })
-      } catch (e) {
-        throw new Error(`Animation "${id}" failed: ${(e as Error).message}`)
-      }
-    }
+      })
+    })
   })
 })
 ```
 
 ---
 
-## Component Testing (Vitest + Testing Library)
+## How to Write E2E Tests
 
-### Component Test Template
-```typescript
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-
-describe('AnimationCard', () => {
-  const defaultProps = {
-    animation: {
-      id: 'test__animation',
-      title: 'Test Animation',
-      description: 'Test description',
-      categoryId: 'base',
-      groupId: 'test',
-      tags: ['test'],
-    },
-    Component: () => <div data-testid="animation">Test</div>,
-  }
-
-  it('displays animation title and description', () => {
-    render(<AnimationCard {...defaultProps} />)
-
-    expect(screen.getByText('Test Animation')).toBeInTheDocument()
-    expect(screen.getByText('Test description')).toBeInTheDocument()
-  })
-
-  it('replays animation when replay button clicked', async () => {
-    const user = userEvent.setup()
-    render(<AnimationCard {...defaultProps} />)
-
-    const replayButton = screen.getByRole('button', { name: /replay/i })
-    await user.click(replayButton)
-
-    // Verify replay behavior
-    expect(screen.getByTestId('animation')).toBeInTheDocument()
-  })
-})
-```
-
-### Testing Async Behavior
-```typescript
-it('loads data asynchronously', async () => {
-  render(<Component />)
-
-  // Wait for loading state to finish
-  await waitFor(() => {
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument()
-  })
-
-  // Verify loaded data
-  expect(screen.getByText('Loaded Data')).toBeInTheDocument()
-})
-```
-
-### Testing User Interactions
-```typescript
-it('handles user input', async () => {
-  const user = userEvent.setup()
-  const onSubmit = vi.fn()
-
-  render(<Form onSubmit={onSubmit} />)
-
-  await user.type(screen.getByRole('textbox'), 'test input')
-  await user.click(screen.getByRole('button', { name: /submit/i }))
-
-  expect(onSubmit).toHaveBeenCalledWith({ value: 'test input' })
-})
-```
-
----
-
-## E2E Testing (Playwright)
-
-### File Locations
-```
-tests/
-└─ e2e/
-   ├─ homepage.spec.ts                  # Homepage tests
-   ├─ category-navigation.spec.ts       # Navigation tests
-   ├─ animation-rendering.spec.ts       # Animation rendering
-   ├─ search-and-filter.spec.ts         # Search functionality
-   └─ modal-base-slide-down-soft-css.spec.ts  # Specific animation
-```
-
-**Pattern**: Name tests after features or specific animations being tested.
-
-### E2E Test Template
+**Template** (`tests/e2e/<feature>.spec.ts`):
 ```typescript
 import { test, expect } from '@playwright/test'
 
-test('feature name', async ({ page }) => {
-  // Navigate to page
-  await page.goto('/')
+test.describe('Animation Gallery', () => {
+  test('displays categories and animations', async ({ page }) => {
+    await page.goto('/')
 
-  // Wait for critical element
-  await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
+    // Wait for content
+    await expect(page.locator('[data-animation-id]').first()).toBeVisible()
 
-  // Interact with page
-  await page.click('.pf-sidebar__link--group:first-child')
+    // Verify category exists
+    await expect(page.getByText('Dialog & Modal Animations')).toBeVisible()
+  })
 
-  // Assert outcome
-  await expect(page.locator('.pf-card').first()).toBeVisible()
-})
-```
+  test('replays animation when clicking replay', async ({ page }) => {
+    await page.goto('/')
 
-### Testing Animations Visually
-```typescript
-test('animation renders correctly', async ({ page }) => {
-  await page.goto('/')
-  await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
+    const card = page.locator('[data-animation-id="modal-base__scale-gentle-pop"]').first()
+    await card.scrollIntoViewIfNeeded()
 
-  // Find animation by data attribute
-  const animation = page.locator('[data-animation-id="modal-base__scale-gentle-pop"]')
-  await expect(animation).toBeVisible()
+    const replayButton = page.locator('[data-role="replay"]').first()
+    await replayButton.click()
 
-  // Click replay button
-  const replayButton = animation.locator('[data-role="replay"]')
-  await replayButton.click()
-
-  // Verify animation still visible after replay
-  await expect(animation).toBeVisible()
-})
-```
-
-### Testing Navigation
-```typescript
-test('sidebar navigation scrolls to group', async ({ page }) => {
-  await page.goto('/')
-  await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
-
-  // Click second group in sidebar
-  const groupLinks = page.locator('.pf-sidebar__link--group')
-  await groupLinks.nth(1).click()
-
-  // Wait for scroll animation
-  await page.waitForTimeout(500)
-
-  // Verify content changed
-  const cards = page.locator('.pf-card[data-animation-id]')
-  await expect(cards.first()).toBeVisible()
-})
-```
-
-### Testing Search/Filter
-```typescript
-test('search filters animations', async ({ page }) => {
-  await page.goto('/')
-  await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
-
-  // Type in search box
-  const searchBox = page.getByRole('textbox', { name: /search/i })
-  await searchBox.fill('modal')
-
-  // Verify filtered results
-  const cards = page.locator('.pf-card[data-animation-id]')
-  await expect(cards).toHaveCount(10)  // Adjust expected count
-})
-```
-
-### Debugging E2E Tests
-```typescript
-// Run test in headed mode (see browser)
-npm run test:e2e:headed
-
-// Take screenshot on failure
-test('feature', async ({ page }) => {
-  try {
-    // test code
-  } catch (error) {
-    await page.screenshot({ path: 'failure.png' })
-    throw error
-  }
-})
-
-// Use test.only for focused debugging
-test.only('specific test', async ({ page }) => {
-  // only this test runs
+    // Animation should replay (component remounts)
+    await expect(card).toBeVisible()
+  })
 })
 ```
 
 ---
 
-## Running Tests
+## Test Utilities
 
-### Unit/Component Tests (Vitest)
-```bash
-# Run all tests once
-npm test
+Use the provided test utilities from `@/test/utils/animationTestUtils`:
 
-# Run with coverage
-npm run test:coverage
+```typescript
+import { withAnimationCard, queryStage, advanceRaf } from '@/test/utils/animationTestUtils'
 
-# Watch mode (LOCAL DEV ONLY, requires ALLOW_VITEST_WATCH=1)
-ALLOW_VITEST_WATCH=1 npm run test:watch
+// Wrap animation in AnimationCard
+withAnimationCard(<Component />, { id: 'test-id', title: 'Test', description: 'Desc' })
 
-# Cleanup before tests (automatic with pretest script)
-npm run pretest
-```
+// Query the .pf-demo-stage element
+const stage = queryStage()
 
-### E2E Tests (Playwright)
-```bash
-# Run all E2E tests
-npm run test:e2e
-
-# Run in headed mode (see browser)
-npm run test:e2e:headed
-
-# View test report
-npm run test:e2e:report
-```
-
-### Full Test Suite
-```bash
-# Run both unit and E2E tests
-npm test && npm run test:e2e
+// Advance fake timers for animation testing
+await advanceRaf(600) // Advance 600ms
 ```
 
 ---
 
-## Test Configuration
+## Memory Safety Rules
 
-### Vitest Config
-```typescript
-// vitest.config.ts
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
-    css: true,
-    exclude: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/tests/e2e/**',  // Exclude Playwright tests
-    ],
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'lcov', 'html'],
-      exclude: [
-        'src/setupTests.ts',
-        '**/*.test.{ts,tsx}',
-        'scripts/**',
-      ],
-    },
-  },
-})
-```
+**CRITICAL**: Max 4 test workers in parallel. Do NOT change `maxWorkers` in vitest.config.ts.
 
-### Playwright Config
-```typescript
-// playwright.config.ts
-export default defineConfig({
-  testDir: './tests/e2e',
-  timeout: 30000,
-  use: {
-    baseURL: 'http://localhost:5173',
-    trace: 'on-first-retry',
-  },
-  webServer: {
-    command: 'npm run dev',
-    port: 5173,
-    reuseExistingServer: true,
-  },
-})
-```
+**DO**:
+- Use `pool: 'threads'` (memory-efficient)
+- Call `cleanup()` from @testing-library/react in afterEach
+- Process data in batches if > 100 items
+
+**DON'T**:
+- Generate 1000+ data points in single test
+- Forget to cleanup timers/listeners
+- Run tests in watch mode in CI
 
 ---
 
-## Common Testing Patterns
+## Test Naming Conventions
 
-### Pattern: Testing Registry Consistency
-```typescript
-it('ensures all animations have unique IDs', () => {
-  const registry = buildRegistryFromCategories()
-  const ids = Object.keys(registry)
-  const uniqueIds = new Set(ids)
-
-  expect(ids.length).toBe(uniqueIds.size)
-})
-
-it('ensures all animation IDs follow naming convention', () => {
-  const registry = buildRegistryFromCategories()
-
-  for (const id of Object.keys(registry)) {
-    // Should be: group__variant-name
-    expect(id).toMatch(/^[a-z-]+__[a-z-]+(-[a-z]+)*$/)
-  }
-})
-```
-
-### Pattern: Testing Data Transformations
-```typescript
-it('transforms category exports to UI format', () => {
-  const catalog = buildCatalogFromCategories()
-
-  expect(catalog).toBeInstanceOf(Array)
-  expect(catalog[0]).toHaveProperty('id')
-  expect(catalog[0]).toHaveProperty('title')
-  expect(catalog[0]).toHaveProperty('groups')
-  expect(catalog[0].groups[0]).toHaveProperty('animations')
-})
-```
-
-### Pattern: Testing Error Boundaries
-```typescript
-it('catches errors in animation components', () => {
-  const ThrowError = () => {
-    throw new Error('Test error')
-  }
-
-  render(
-    <ErrorBoundary fallback={<div>Error caught</div>}>
-      <ThrowError />
-    </ErrorBoundary>
-  )
-
-  expect(screen.getByText('Error caught')).toBeInTheDocument()
-})
-```
-
----
-
-## Test Coverage Targets
-
-### Required Coverage
-- **Utilities**: 100%
-- **Services**: 100%
-- **Hooks**: 100%
-- **UI Components**: 90%+
-- **Animation Components**: Smoke test coverage (renders without error)
-
-### Checking Coverage
-```bash
-npm run test:coverage
-
-# View coverage report
-open coverage/index.html
-```
+| Type | File Pattern | Example |
+|------|--------------|---------|
+| Smoke tests | `<group>.smoke.test.tsx` | `modal-base.smoke.test.tsx` |
+| Component tests | `<Component>.test.tsx` | `AnimationCard.test.tsx` |
+| Feature tests | `<feature>.test.tsx` | `registryConsistency.test.tsx` |
+| Hook tests | `hooks.<hookName>.test.tsx` | `hooks.useAnimations.test.tsx` |
+| E2E tests | `<feature>.spec.ts` | `animation-rendering.spec.ts` |
 
 ---
 
 ## Common Mistakes
 
-❌ **Don't**: Run `npm run test:watch` in CI/automation
-✅ **Do**: Use `npm test` for automated workflows
+❌ **Don't**: Test animation frame values (too brittle, changes with timing)
+✅ **Do**: Test start state, end state, or just "renders without crashing"
 
-❌ **Don't**: Test only that component renders
-✅ **Do**: Test actual behavior and user interactions
+❌ **Don't**: Use relative imports in tests
+✅ **Do**: Use `@/` alias: `import X from '@/components/X'`
 
-❌ **Don't**: Use arbitrary timeouts
-✅ **Do**: Use `waitFor` and proper assertions
+❌ **Don't**: Write tests that only check default values exist
+✅ **Do**: Write tests that verify actual functionality and behavior
 
-❌ **Don't**: Test implementation details
-✅ **Do**: Test user-visible behavior
+❌ **Don't**: Run `npm run test:watch` in automated workflows
+✅ **Do**: Run `npm test` for single-run execution
 
-❌ **Don't**: Skip E2E tests for animations
-✅ **Do**: Verify animations render visually in Playwright
+❌ **Don't**: Mock everything - test real integrations where possible
+✅ **Do**: Mock browser APIs (IntersectionObserver, ResizeObserver) that don't exist in jsdom
 
-❌ **Don't**: Use `test.skip` to ignore failing tests
-✅ **Do**: Fix the root cause or remove the test
+❌ **Don't**: Skip the `Suspense` wrapper for lazy-loaded components
+✅ **Do**: Wrap lazy components in `<Suspense>` with fallback
 
-❌ **Don't**: Write flaky tests with race conditions
-✅ **Do**: Use proper async handling and `waitFor`
+❌ **Don't**: Forget to call `jest.useRealTimers()` in afterEach
+✅ **Do**: Always cleanup fake timers to prevent test pollution
 
----
-
-## Debugging Tests
-
-### Vitest Debugging
-```bash
-# Run single test file
-npm test -- AnimationCard.test.tsx
-
-# Run tests matching pattern
-npm test -- --grep "animation replay"
-
-# Show detailed error output
-npm test -- --reporter=verbose
-```
-
-### Playwright Debugging
-```bash
-# Run in headed mode (see browser)
-npm run test:e2e:headed
-
-# Run single test file
-npx playwright test tests/e2e/homepage.spec.ts
-
-# Debug mode with browser DevTools
-npx playwright test --debug
-
-# View trace
-npx playwright show-trace trace.zip
-```
-
-### Common Issues
-
-**Issue**: Tests hang forever
-**Solution**: Check for missing `await` or `waitFor`
-
-**Issue**: "Element not found"
-**Solution**: Add proper wait conditions (`waitForSelector`)
-
-**Issue**: Flaky tests
-**Solution**: Use `waitFor` instead of fixed timeouts
-
-**Issue**: Mock not working
-**Solution**: Ensure mock is setup before import
-
----
-
-## Quick Reference
-
-### Vitest Commands
-| Command | Description |
-|---------|-------------|
-| `npm test` | Run all unit tests once |
-| `npm run test:coverage` | Run with coverage report |
-| `npm run pretest` | Cleanup before tests |
-
-### Playwright Commands
-| Command | Description |
-|---------|-------------|
-| `npm run test:e2e` | Run all E2E tests |
-| `npm run test:e2e:headed` | Run with visible browser |
-| `npm run test:e2e:report` | View test report |
-
-### Testing Library Queries (Priority Order)
-1. `getByRole` - Accessible queries (preferred)
-2. `getByLabelText` - Form elements
-3. `getByPlaceholderText` - Form inputs
-4. `getByText` - Non-interactive text
-5. `getByTestId` - Last resort
-
-### Vitest Assertions
-```typescript
-expect(value).toBe(expected)            // Strict equality
-expect(value).toEqual(expected)         // Deep equality
-expect(value).toBeTruthy()              // Truthy check
-expect(value).toHaveLength(5)           // Array/string length
-expect(fn).toHaveBeenCalled()           // Mock called
-expect(fn).toHaveBeenCalledWith(args)   // Mock called with args
-```
-
-### Playwright Assertions
-```typescript
-await expect(locator).toBeVisible()
-await expect(locator).toHaveText('text')
-await expect(locator).toHaveAttribute('attr', 'value')
-await expect(page).toHaveURL('url')
-await expect(page).toHaveTitle('title')
-```
+❌ **Don't**: Assert on implementation details (internal state, private methods)
+✅ **Do**: Assert on observable behavior (DOM output, returned values)

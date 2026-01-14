@@ -1,4 +1,4 @@
-/* Card Flip Reveal Animation - Framer Motion Variant */
+/* Card Flip Reveal Animation - Framer Variant (Styles for Framer component) */
 
 .card-flip-container-framer {
   position: relative;
@@ -14,7 +14,7 @@
   position: relative;
   width: 200px;
   height: 280px;
-  transform-style: preserve-3d;
+  /* transform-style: preserve-3d is handled inline by motion */
 }
 
 .card-flip-face-framer {
@@ -25,18 +25,47 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 .card-flip-face--front-framer {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: 3px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-flip-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.5;
 }
 
 .card-flip-face--back-framer {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  border: 4px solid #fff;
+}
+
+.card-flip-shine {
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    to right, 
+    transparent 0%, 
+    rgba(255,255,255,0.05) 35%, 
+    rgba(255,255,255,0.3) 50%, 
+    rgba(255,255,255,0.05) 65%, 
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
 }
 
 .card-flip-content {
@@ -46,52 +75,34 @@
   justify-content: center;
   gap: 12px;
   color: white;
-  text-align: center;
-  font-family: system-ui, -apple-system, sans-serif;
+  z-index: 2;
 }
 
-.card-flip-mystery-icon {
-  font-size: 64px;
-  font-weight: bold;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+.card-flip-mystery-mark {
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.2);
 }
 
-.card-flip-mystery-text {
-  font-size: 20px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  opacity: 0.9;
-}
-
-.card-flip-reward-icon {
-  font-size: 72px;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+.card-flip-reward-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
 
 .card-flip-reward-text {
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
+  font-size: 42px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  line-height: 1;
 }
 
 .card-flip-reward-label {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  opacity: 0.9;
-}
-
-/* Reduced motion: disable 3D transforms */
-@media (prefers-reduced-motion: reduce) {
-  .card-flip-container-framer {
-    perspective: none;
-  }
-
-  .card-flip-card-framer {
-    transform-style: flat;
-  }
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.9);
 }

@@ -1,0 +1,122 @@
+description = "Perform a vibe check on the codebase or specific files"
+prompt = """
+# Vibe Check
+
+**Purpose:** Perform a high-level quality and "vibe" assessment of the codebase or specific files.
+
+**When to use:**
+- When entering a new area of the codebase
+- To assess code quality, readability, and consistency
+- To identify "smells" that static analysis might miss
+- To ensure code "feels" right (idiomatic, modern, clean)
+
+**What this does:**
+- Reads specified files (or samples of the codebase)
+- Analyzes against best practices and project style
+- Identifies improvements (refactoring, renaming, comments)
+- Provides a "Vibe Report"
+
+---
+
+## Phase 0: Initialize
+
+**MANDATORY GATE: Define the scope.**
+
+1. **Analyze arguments:**
+   - If arguments provided: Focus on those files/directories.
+   - If no arguments: Perform a general sampling of `src/`.
+
+2. **Use mcp__mcp_docker__sequentialthinking to plan:**
+   - What are we looking for? (Complexity, naming, structure, comments)
+   - What is the "ideal vibe" for this project? (See `docs/meta/styleguide.md`)
+
+3. **Use TodoWrite:**
+   - Task: "Read files"
+   - Task: "Analyze quality"
+   - Task: "Generate Report"
+
+---
+
+## Phase 1: Gather Context
+
+1. **Read Style Guide:**
+   - Read `docs/meta/styleguide.md` to establish the baseline.
+
+2. **Read Target Code:**
+   - Use `read_file` to read the specified files.
+   - If general check, sample key files (e.g., `App.tsx`, a few components, a hook, a utility).
+
+---
+
+## Phase 2: Analyze "Vibes"
+
+**Assess the following dimensions:**
+
+1. **Readability:**
+   - Is the code easy to understand?
+   - Are variable/function names descriptive?
+   - Is the logic flow clear?
+
+2. **Modernity:**
+   - Does it use modern React/TS patterns? (Hooks, functional components, strict types)
+   - Are there legacy patterns? (Class components, `any`, `var`)
+
+3. **Structure:**
+   - Is the file organization logical?
+   - Are components too large?
+   - Is there good separation of concerns?
+
+4. **Consistency:**
+   - Does it match the rest of the project?
+   - Are imports ordered?
+   - Is formatting consistent?
+
+5. **"Smells":**
+   - Magic numbers?
+   - Deep nesting?
+   - Duplicate code?
+   - Over-engineering?
+
+---
+
+## Phase 3: Generate Vibe Report
+
+**Deliverable:** A markdown report summarizing findings.
+
+**Report Structure:**
+
+```markdown
+# Vibe Check Report
+
+**Target:** [Files/Directories checked]
+**Overall Vibe:** [Excellent / Good / Needs Work / Chaos]
+
+## Highlights (The Good)
+- [Positive point 1]
+- [Positive point 2]
+
+## Lowlights (The Bad)
+- [Negative point 1]
+- [Negative point 2]
+
+## Suggestions
+1. [Specific actionable suggestion]
+2. [Specific actionable suggestion]
+
+## "Vibe" Score: [1-10]/10
+```
+
+**Action:**
+- Print the report to the user.
+- **Do NOT** automatically apply changes unless asked. This is an assessment tool.
+
+---
+
+## Phase 4: Optional - Fix Vibes
+
+**If user asks to fix issues:**
+
+1. **Plan:** Select top 3 highest impact fixes.
+2. **Execute:** Apply changes using `replace_string_in_file`.
+3. **Verify:** Ensure code still compiles and tests pass.
+"""
