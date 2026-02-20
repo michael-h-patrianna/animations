@@ -2,28 +2,20 @@
 
 .pill-countdown-heartbeat-container {
 
-  --timer-effects-pill-countdown-heartbeat-bg-1: #667e;
   --timer-effects-pill-countdown-heartbeat-bg-1-00: #667e00;
   --timer-effects-pill-countdown-heartbeat-bg-1-ea: #667eea;
-  --timer-effects-pill-countdown-heartbeat-bg-2: #764b;
   --timer-effects-pill-countdown-heartbeat-bg-2-00: #764b00;
   --timer-effects-pill-countdown-heartbeat-bg-2-a2: #764ba2;
-  --timer-effects-pill-countdown-heartbeat-bg-3: #ffa9;
   --timer-effects-pill-countdown-heartbeat-bg-3-4d: #ffa94d;
   --timer-effects-pill-countdown-heartbeat-bg-3-ea: #ffa9ea;
-  --timer-effects-pill-countdown-heartbeat-bg-4: #fd7e;
   --timer-effects-pill-countdown-heartbeat-bg-4-14: #fd7e14;
   --timer-effects-pill-countdown-heartbeat-bg-4-a2: #fd7ea2;
-  --timer-effects-pill-countdown-heartbeat-bg-5: #ff6b;
   --timer-effects-pill-countdown-heartbeat-bg-5-4d: #ff6b4d;
   --timer-effects-pill-countdown-heartbeat-bg-5-6b: #ff6b6b;
-  --timer-effects-pill-countdown-heartbeat-bg-6: #c92a;
   --timer-effects-pill-countdown-heartbeat-bg-6-14: #c92a14;
   --timer-effects-pill-countdown-heartbeat-bg-6-2a: #c92a2a;
-  --timer-effects-pill-countdown-heartbeat-bg-7: #ff00;
   --timer-effects-pill-countdown-heartbeat-bg-7-00: #ff0000;
   --timer-effects-pill-countdown-heartbeat-bg-7-6b: #ff006b;
-  --timer-effects-pill-countdown-heartbeat-bg-8: #8b00;
   --timer-effects-pill-countdown-heartbeat-bg-8-00: #8b0000;
   --timer-effects-pill-countdown-heartbeat-bg-8-2a: #8b002a;
   display: flex;

@@ -388,6 +388,21 @@ export default defineConfig([
       ],
       'jsdoc/require-param': 'off',
       'jsdoc/require-returns': 'off',
+      '@typescript-eslint/no-restricted-types': [
+        'error',
+        {
+          types: {
+            'NodeJS.Timeout': {
+              message: 'Use ReturnType<typeof setTimeout> instead — NodeJS namespace is unavailable in browser builds.',
+              suggest: ['ReturnType<typeof setTimeout>'],
+            },
+            'NodeJS.Timer': {
+              message: 'Use ReturnType<typeof setTimeout> instead — NodeJS namespace is unavailable in browser builds.',
+              suggest: ['ReturnType<typeof setTimeout>'],
+            },
+          },
+        },
+      ],
       'animation-rules/no-hardcoded-colors': 'error',
       'animation-rules/no-direct-image-imports': 'error',
       'animation-rules/no-blur-animation': 'error',

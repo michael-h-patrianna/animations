@@ -4,13 +4,9 @@
   --progress-bars-milestone-unlock-bg-2: #e2e8f0;
   --progress-bars-milestone-unlock-bg-3: #3b82f6;
   --progress-bars-milestone-unlock-bg-4: #fff;
-  --progress-bars-milestone-unlock-border: #cbd5;
-  --progress-bars-milestone-unlock-border-0b: #cbd50b;
   --progress-bars-milestone-unlock-border-e1: #cbd5e1;
   --progress-bars-milestone-unlock-bg-5: #fcd34d;
-  --progress-bars-milestone-unlock-border: #f59e;
   --progress-bars-milestone-unlock-border-0b: #f59e0b;
-  --progress-bars-milestone-unlock-border-e1: #f59ee1;
   padding: 40px;
   background: var(--progress-bars-milestone-unlock-bg-1);
   border-radius: 12px;

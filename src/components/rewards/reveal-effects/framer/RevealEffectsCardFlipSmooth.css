@@ -3,17 +3,13 @@
 .card-flip-container-framer {
 
   --reveal-effects-card-flip-smooth-shadow: rgb(0 0 0 / 20%);
-  --reveal-effects-card-flip-smooth-bg-1: #1e3c;
   --reveal-effects-card-flip-smooth-bg-1-72: #1e3c72;
   --reveal-effects-card-flip-smooth-bg-1-ea: #1e3cea;
-  --reveal-effects-card-flip-smooth-bg-2: #2a52;
   --reveal-effects-card-flip-smooth-bg-2-98: #2a5298;
   --reveal-effects-card-flip-smooth-bg-2-a2: #2a52a2;
   --reveal-effects-card-flip-smooth-border-1: rgb(255 255 255 / 10%);
-  --reveal-effects-card-flip-smooth-bg-3: #43e9;
   --reveal-effects-card-flip-smooth-bg-3-00: #43e900;
   --reveal-effects-card-flip-smooth-bg-3-7b: #43e97b;
-  --reveal-effects-card-flip-smooth-bg-4: #38f9;
   --reveal-effects-card-flip-smooth-bg-4-00: #38f900;
   --reveal-effects-card-flip-smooth-bg-4-d7: #38f9d7;
   --reveal-effects-card-flip-smooth-border-2: #fff;

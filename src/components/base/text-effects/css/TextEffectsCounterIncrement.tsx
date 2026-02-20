@@ -191,7 +191,7 @@ function TextEffectsCounterIncrementComponent({
     nextParticleIdRef.current = 0
     popAnimationKeyRef.current = 0
 
-    const timeouts: NodeJS.Timeout[] = []
+    const timeouts: ReturnType<typeof setTimeout>[] = []
 
     steps.forEach((step: IncrementStep) => {
       const timeoutId = setTimeout(() => {

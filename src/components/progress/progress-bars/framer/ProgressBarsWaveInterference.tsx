@@ -49,7 +49,7 @@ export function ProgressBarsWaveInterference() {
       { position: 1.0, delay: 3700 },
     ]
 
-    const timeouts: NodeJS.Timeout[] = []
+    const timeouts: ReturnType<typeof setTimeout>[] = []
     nodeTimes.forEach(({ position, delay }) => {
       const timeout = setTimeout(() => createInterferenceNode(position, 0), delay)
       timeouts.push(timeout)

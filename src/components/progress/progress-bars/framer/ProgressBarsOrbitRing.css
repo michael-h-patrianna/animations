@@ -1,17 +1,9 @@
 .pf-orbit-ring .track-container {
 
-  --progress-bars-orbit-ring-bg-1: #e5e7;
   --progress-bars-orbit-ring-bg-1-eb: #e5e7eb;
-  --progress-bars-orbit-ring-bg-1-f6: #e5e7f6;
-  --progress-bars-orbit-ring-bg-1: #3b82;
-  --progress-bars-orbit-ring-bg-1-eb: #3b82eb;
   --progress-bars-orbit-ring-bg-1-f6: #3b82f6;
-  --progress-bars-orbit-ring-bg-2: #06b6;
-  --progress-bars-orbit-ring-bg-2-af: #06b6af;
-  --progress-bars-orbit-ring-bg-2-d4: #06b6d4;
-  --progress-bars-orbit-ring-bg-2: #9ca3;
   --progress-bars-orbit-ring-bg-2-af: #9ca3af;
-  --progress-bars-orbit-ring-bg-2-d4: #9ca3d4;
+  --progress-bars-orbit-ring-bg-2-d4: #06b6d4;
   --progress-bars-orbit-ring-bg-3: #60a5fa;
   --progress-bars-orbit-ring-shadow: rgb(96 165 250 / 60%);
   position: relative;

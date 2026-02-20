@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom/vitest'
 import { act } from '@testing-library/react'
-import { TextDecoder, TextEncoder } from 'util'
 import { vi } from 'vitest'
 
 type GlobalWithJest = typeof globalThis & {
@@ -17,8 +16,8 @@ globalWithJest.fail = (message?: string): never => {
   throw new Error(message || 'Test failed')
 }
 
-globalWithJest.TextEncoder = TextEncoder as typeof globalThis.TextEncoder
-globalWithJest.TextDecoder = TextDecoder as typeof globalThis.TextDecoder
+globalWithJest.TextEncoder = globalThis.TextEncoder
+globalWithJest.TextDecoder = globalThis.TextDecoder
 
 globalThis.IntersectionObserver = class IntersectionObserver {
   callback: IntersectionObserverCallback
