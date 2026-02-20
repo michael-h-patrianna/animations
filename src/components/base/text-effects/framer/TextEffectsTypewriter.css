@@ -1,5 +1,7 @@
 /* Styles scoped for TextEffectsTypewriter */
 .typewriter-container {
+
+  --text-effects-typewriter-color-1: #10b981;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +14,7 @@
   font-weight: 600;
   font-family: 'Courier New', monospace;
   letter-spacing: 1px;
-  color: #10b981;
+  color: var(--text-effects-typewriter-color-1);
 }
 
 .typewriter-char {
@@ -22,5 +24,5 @@
 .typewriter-cursor {
   display: inline-block;
   font-weight: 300;
-  color: #10b981;
+  color: var(--text-effects-typewriter-color-1);
 }

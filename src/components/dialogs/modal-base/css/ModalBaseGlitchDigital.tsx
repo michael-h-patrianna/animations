@@ -3,6 +3,9 @@ import '../shared.css'
 import './ModalBaseGlitchDigital.css'
 
 
+/**
+ *
+ */
 export function ModalBaseGlitchDigital() {
   return (
     <div

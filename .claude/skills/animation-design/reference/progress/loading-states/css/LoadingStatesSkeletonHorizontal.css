@@ -1,0 +1,61 @@
+/* Styles for LoadingStatesSkeletonHorizontal */
+
+.pf-loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+}
+.pf-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.pf-skeleton__line {
+  display: block;
+  width: 100%;
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(236, 195, 255, 0.05) 0%,
+    rgba(236, 195, 255, 0.18) 40%,
+    rgba(236, 195, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.pf-skeleton-horizontal {
+  width: 200px;
+}
+.pf-skeleton-horizontal .pf-skeleton__line:nth-child(1) {
+  animation-delay: 0s;
+}
+.pf-skeleton-horizontal .pf-skeleton__line:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.pf-skeleton-horizontal .pf-skeleton__line:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.pf-skeleton-horizontal .pf-skeleton__line:nth-child(4) {
+  animation-delay: 0.24s;
+}
+.pf-skeleton-horizontal .pf-skeleton__line:nth-child(5) {
+  animation-delay: 0.32s;
+}
+.pf-skeleton-horizontal .pf-skeleton__line:nth-child(6) {
+  animation-delay: 0.4s;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

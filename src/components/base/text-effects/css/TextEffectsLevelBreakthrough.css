@@ -7,6 +7,9 @@
 
 /* Container - relative positioning for absolute surge rings */
 .tfx-breakthrough-container {
+
+  --text-effects-level-breakthrough-color: #ffce1a;
+  --text-effects-level-breakthrough-text-shadow-1: rgb(255 206 26 / 80%);
   position: relative;
   display: inline-block;
 }
@@ -23,7 +26,7 @@
 .tfx-breakthrough-text {
   font-size: 36px;
   font-weight: bold;
-  color: #ffce1a;
+  color: var(--text-effects-level-breakthrough-color);
   text-align: center;
   padding: 20px;
   will-change: opacity, text-shadow;
@@ -54,12 +57,12 @@
 
 /* Outer surge ring - 6px thick band at 75-82% radius */
 .tfx-breakthrough-surge-outer {
-  background: radial-gradient(circle, transparent 75%, #ffce1a 76%, transparent 82%);
+  background: radial-gradient(circle, transparent 75%, var(--text-effects-level-breakthrough-color) 76%, transparent 82%);
 }
 
 /* Inner surge ring - 6px thick band at 65-72% radius, delayed start */
 .tfx-breakthrough-surge-inner {
-  background: radial-gradient(circle, transparent 65%, #ffce1a 66%, transparent 72%);
+  background: radial-gradient(circle, transparent 65%, var(--text-effects-level-breakthrough-color) 66%, transparent 72%);
   animation-delay: 0.1s;
 }
 
@@ -117,11 +120,11 @@
   }
   65% {
     opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 206, 26, 0.8);
+    text-shadow: 0 0 30px var(--text-effects-level-breakthrough-text-shadow-1);
   }
   100% {
     opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 206, 26, 0.8);
+    text-shadow: 0 0 30px var(--text-effects-level-breakthrough-text-shadow-1);
   }
 }
 

@@ -36,8 +36,8 @@ interface TextEffectsWaveRevealProps {
  * ```tsx
  * <TextEffectsWaveReveal
  *   lines={[
- *     { text: 'Hello', color: '#60a5fa' },
- *     { text: 'World', color: '#FFD700' }
+ *     { text: 'Hello', color: 'var(--pf-anim-blue)' },
+ *     { text: 'World', color: 'var(--pf-anim-gold)' }
  *   ]}
  *   charDelay={0.03}
  *   lineDelay={0.5}
@@ -51,9 +51,9 @@ interface TextEffectsWaveRevealProps {
  */
 function TextEffectsWaveRevealComponent({
   lines = [
-    { text: 'Look at', color: '#60a5fa' },
-    { text: 'these', color: '#c6ff77' },
-    { text: 'colors', color: '#FFD700' },
+    { text: 'Look at', color: 'var(--pf-anim-blue)' },
+    { text: 'these', color: 'var(--pf-anim-green)' },
+    { text: 'colors', color: 'var(--pf-anim-gold)' },
   ],
   charDelay = 0.05,
   lineDelay = 0.4,

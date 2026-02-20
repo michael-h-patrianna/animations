@@ -1,0 +1,148 @@
+/* ============================================================================
+   TextEffectsCounterIncrement - Counter with floating increment particles
+   Prefix: tfx-cinc- (text-effects-counter-increment)
+   ========================================================================== */
+
+/* Container */
+.tfx-cinc-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  min-height: 80px;
+}
+
+/* Value Wrapper - Contains number and particles */
+.tfx-cinc-value-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  min-height: 50px;
+}
+
+/* Counter Value - Main number display */
+.tfx-cinc-value {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 0 8px;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 1px;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fff8dc 12%,
+    #ffd700 38%,
+    #ffa500 68%,
+    #ff8c00 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.25),
+    0 0 8px rgba(255, 215, 0, 0.35);
+  transform-origin: center;
+
+  /* GPU acceleration */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Pop animation on value change */
+.tfx-cinc-value--popping {
+  animation: tfx-cinc-value-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Increment Particles - Float up and fade */
+.tfx-cinc-particle {
+  position: absolute;
+  left: 100%;
+  top: -10px;
+  margin-left: 4px;
+  color: #c6ff77;
+  font-weight: 600;
+  font-size: 0.875rem;
+  pointer-events: none;
+  transform-origin: left center;
+  white-space: nowrap;
+
+  /* GPU acceleration */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+
+  /* Animation */
+  animation: tfx-cinc-particle-float 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Particle color variations for visual interest */
+.tfx-cinc-particle:nth-child(2n) {
+  color: #93f77b;
+}
+
+.tfx-cinc-particle:nth-child(3n) {
+  color: #b8ff9a;
+}
+
+.tfx-cinc-particle:nth-child(4n) {
+  color: #d4ffb8;
+}
+
+/* ============================================================================
+   Keyframe Animations
+   ========================================================================== */
+
+/**
+ * Value pop animation - Bouncy scale with subtle rotation
+ */
+@keyframes tfx-cinc-value-pop {
+  0% {
+    transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: scale3d(1.2, 1.2, 1) rotate3d(0, 0, 1, 2deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale3d(0.98, 0.98, 1) rotate3d(0, 0, 1, -2deg);
+    opacity: 0.92;
+  }
+  75% {
+    transform: scale3d(1.08, 1.08, 1) rotate3d(0, 0, 1, 1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 0deg);
+    opacity: 1;
+  }
+}
+
+/**
+ * Particle float animation - Rises up and fades out
+ */
+@keyframes tfx-cinc-particle-float {
+  0% {
+    transform: translate3d(0, 8px, 0) scale3d(0.8, 0.8, 1);
+    opacity: 0;
+  }
+  20% {
+    transform: translate3d(0, -4px, 0) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -20px, 0) scale3d(0.9, 0.9, 1);
+    opacity: 0;
+  }
+}

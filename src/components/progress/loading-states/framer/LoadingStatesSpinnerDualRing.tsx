@@ -1,9 +1,9 @@
 
 import * as m from 'motion/react-m'
 
-import './LoadingStatesSpinnerDualRing.css'
-import '../shared.css'
-
+/**
+ *
+ */
 export function LoadingStatesSpinnerDualRing() {
   return (
     <div data-animation-id="loading-states__spinner-dual-ring" className="pf-loading-container">
@@ -14,5 +14,4 @@ export function LoadingStatesSpinnerDualRing() {
     </div>
   )
 }
-
 

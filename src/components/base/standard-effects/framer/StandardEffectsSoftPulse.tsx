@@ -2,8 +2,6 @@ import { memo } from 'react'
 
 import * as m from 'motion/react-m'
 import { easeInOut, easeOut } from 'motion/react'
-import './StandardEffectsSoftPulse.css'
-import '../shared.css'
 
 function StandardEffectsSoftPulseComponent() {
 const coreVariants = {

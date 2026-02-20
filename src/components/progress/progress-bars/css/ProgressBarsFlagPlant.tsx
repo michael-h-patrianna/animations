@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsFlagPlant.css'
 
+/**
+ *
+ */
 export function ProgressBarsFlagPlant() {
   const [progress, setProgress] = useState(0)
 

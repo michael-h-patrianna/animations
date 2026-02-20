@@ -1,43 +1,49 @@
 .glitch-bar-container {
-  background: #000;
+
+  --progress-bars-glitch-bg-1: #000;
+  --progress-bars-glitch-bg-2: #333;
+  --progress-bars-glitch-bg-3: #fff;
+  --progress-bars-glitch-bg-4: #ff0000;
+  --progress-bars-glitch-bg-5: #00ffff;
+  background: var(--progress-bars-glitch-bg-1);
   padding: 30px;
   font-family: monospace;
 }
 
 .glitch-bar-track {
   height: 24px;
-  background: #333;
+  background: var(--progress-bars-glitch-bg-2);
   position: relative;
   overflow: hidden;
 }
 
 .glitch-bar-fill {
   height: 100%;
-  background: #fff;
+  background: var(--progress-bars-glitch-bg-3);
   position: absolute;
   top: 0;
   left: 0;
 }
 
 .glitch-bar-fill.main {
-  background: #fff;
+  background: var(--progress-bars-glitch-bg-3);
   z-index: 2;
 }
 
 .glitch-bar-fill.glitch-red {
-  background: #ff0000;
+  background: var(--progress-bars-glitch-bg-4);
   z-index: 1;
   mix-blend-mode: screen;
 }
 
 .glitch-bar-fill.glitch-blue {
-  background: #00ffff;
+  background: var(--progress-bars-glitch-bg-5);
   z-index: 1;
   mix-blend-mode: screen;
 }
 
 .glitch-text {
-  color: #fff;
+  color: var(--progress-bars-glitch-bg-3);
   margin-top: 10px;
   font-size: 12px;
 }

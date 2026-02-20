@@ -1,5 +1,21 @@
 /* Base styles for XP Accumulation */
 .pf-progress-demo.pf-xp-accumulation {
+
+  --progress-bars-xp-accumulation-color-1: #ffd700;
+  --progress-bars-xp-accumulation-text-shadow: rgb(255 215 0 / 65%);
+  --progress-bars-xp-accumulation-bg-1: rgb(10 18 25 / 65%);
+  --progress-bars-xp-accumulation-bg-2: rgb(34 49 63 / 35%);
+  --progress-bars-xp-accumulation-border-1: rgb(255 255 255 / 8%);
+  --progress-bars-xp-accumulation-border-2: rgb(255 255 255 / 20%);
+  --progress-bars-xp-accumulation-bg-3: rgb(255 255 255 / 25%);
+  --progress-bars-xp-accumulation-color-2: rgb(255 255 255 / 45%);
+  --progress-bars-xp-accumulation-color-3: #f8fbff;
+  --progress-bars-xp-accumulation-color-4: #00ffff;
+  --progress-bars-xp-accumulation-shadow-100: rgb(0 255 255 / 50%);
+  --progress-bars-xp-accumulation-bg-101: #1e90ff;
+  --progress-bars-xp-accumulation-bg-102: rgb(var(--zone-rgb));
+  --progress-bars-xp-accumulation-text-shadow-103: rgb(0 255 255 / 85%);
+  --progress-bars-xp-accumulation-text-shadow-104: rgb(0 255 255 / 55%);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -16,7 +32,7 @@
   --fill-glow-blur: 20px;
   --track-glow-blur: 15px;
   --zone-color: rgb(var(--zone-rgb));
-  --glow-color: rgba(var(--zone-rgb), var(--glow-alpha));
+  --glow-color: rgb(var(--zone-rgb), var(--glow-alpha));
 }
 
 /* Zones (based on progress percent thresholds) */
@@ -77,14 +93,14 @@
   font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--zone-color, #1e90ff);
-  text-shadow: 0 0 12px var(--glow-color, rgba(0, 255, 255, 0.5));
+  text-shadow: 0 0 12px var(--glow-color, rgb(0 255 255 / 50%));
 }
 
 .pf-xp-accumulation .pf-xp-multiplier {
   font-size: 14px;
   font-weight: 800;
-  color: #ffd700;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.65);
+  color: var(--progress-bars-xp-accumulation-color-1);
+  text-shadow: 0 0 8px var(--progress-bars-xp-accumulation-text-shadow);
   letter-spacing: 1px;
 }
 
@@ -92,14 +108,14 @@
   width: 100%;
   height: 12px;
   border-radius: 6px;
-  background: linear-gradient(180deg, rgba(10, 18, 25, 0.65) 0%, rgba(34, 49, 63, 0.35) 100%);
+  background: linear-gradient(180deg, var(--progress-bars-xp-accumulation-bg-1) 0%, var(--progress-bars-xp-accumulation-bg-2) 100%);
   overflow: visible;
   position: absolute;
   top: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--progress-bars-xp-accumulation-border-1);
   box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.35),
-    0 0 var(--track-glow-blur, 12px) var(--glow-color, rgba(0, 255, 255, 0.5));
+    inset 0 2px 4px rgb(0 0 0 / 35%),
+    0 0 var(--track-glow-blur, 12px) var(--glow-color, var(--progress-bars-xp-accumulation-shadow-100));
 }
 
 .pf-xp-accumulation .pf-progress-fill {
@@ -112,13 +128,13 @@
   overflow: visible;
   background: linear-gradient(
     90deg,
-    var(--zone-color, #1e90ff) 0%,
-    #00ffff 55%,
-    var(--zone-color, #1e90ff) 100%
+    var(--zone-color, var(--progress-bars-xp-accumulation-bg-101)) 0%,
+    var(--progress-bars-xp-accumulation-color-4) 55%,
+    var(--zone-color, var(--progress-bars-xp-accumulation-bg-101)) 100%
   );
   box-shadow:
-    0 0 var(--fill-glow-blur, 16px) var(--glow-color, rgba(0, 255, 255, 0.5)),
-    inset 0 1px 2px rgba(255, 255, 255, 0.25);
+    0 0 var(--fill-glow-blur, 16px) var(--glow-color, rgb(0 255 255 / 50%)),
+    inset 0 1px 2px var(--progress-bars-xp-accumulation-bg-3);
 }
 
 /* Container for the progress track */
@@ -165,14 +181,14 @@
   border-radius: 999px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    var(--zone-color, rgba(255, 255, 255, 0.28)) 100%
+    rgb(255 255 255 / 15%) 0%,
+    var(--zone-color, rgb(255 255 255 / 28%)) 100%
   );
   box-shadow: none;
 }
 
 .pf-xp-accumulation .pf-marker--active .pf-marker__indicator {
-  box-shadow: 0 0 10px var(--glow-color, rgba(0, 255, 255, 0.6));
+  box-shadow: 0 0 10px var(--glow-color, rgb(0 255 255 / 60%));
 }
 
 .pf-xp-accumulation .pf-marker__dot {
@@ -183,20 +199,20 @@
   height: 14px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--progress-bars-xp-accumulation-border-2);
+  background: var(--progress-bars-xp-accumulation-bg-3);
 }
 
 .pf-xp-accumulation .pf-marker--active .pf-marker__dot {
   /* approximate mix with alpha */
-  border-color: rgba(var(--zone-rgb), 0.6);
+  border-color: rgb(var(--zone-rgb), 0.6);
   background: radial-gradient(
     circle,
     var(--zone-color) 0%,
-    #00ffff 60%,
-    rgba(255, 255, 255, 0.95) 100%
+    var(--progress-bars-xp-accumulation-color-4) 60%,
+    rgb(255 255 255 / 95%) 100%
   );
-  box-shadow: 0 0 12px var(--glow-color, rgba(0, 255, 255, 0.5));
+  box-shadow: 0 0 12px var(--glow-color, rgb(0 255 255 / 50%));
 }
 
 .pf-xp-accumulation .pf-marker__pulse,
@@ -230,8 +246,8 @@
   height: 18px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid rgba(var(--zone-rgb), 0.33);
-  box-shadow: 0 0 10px rgba(var(--zone-rgb), 0.27);
+  border: 1px solid rgb(var(--zone-rgb), 0.33);
+  box-shadow: 0 0 10px rgb(var(--zone-rgb), 0.27);
 }
 
 .pf-xp-accumulation .pf-marker__label {
@@ -243,12 +259,12 @@
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.6px;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--progress-bars-xp-accumulation-color-2);
 }
 
 .pf-xp-accumulation .pf-marker--active .pf-marker__label {
-  color: #f8fbff;
-  text-shadow: 0 0 6px var(--glow-color, rgba(0, 255, 255, 0.75));
+  color: var(--progress-bars-xp-accumulation-color-3);
+  text-shadow: 0 0 6px var(--glow-color, rgb(0 255 255 / 75%));
 }
 
 /* Floating XP */
@@ -259,9 +275,9 @@
   z-index: 15;
   font-size: 12px;
   font-weight: 700;
-  color: #00ffff;
+  color: var(--progress-bars-xp-accumulation-color-4);
   text-shadow:
-    0 0 8px rgba(0, 255, 255, 0.85),
-    0 0 4px rgba(0, 255, 255, 0.55);
+    0 0 8px var(--progress-bars-xp-accumulation-text-shadow-103),
+    0 0 4px var(--progress-bars-xp-accumulation-text-shadow-104);
   transform: translateX(-50%);
 }

@@ -2,9 +2,6 @@ import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './StandardEffectsPulse.css'
-
 function StandardEffectsPulseComponent() {
 const keyframeTimes = [0, 0.5, 1]
 

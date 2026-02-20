@@ -1,7 +1,9 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import './ProgressBarsProgressStriped.css'
 
+/**
+ *
+ */
 export function ProgressBarsProgressStriped() {
   // Generate stripe elements
   const stripeCount = 20
@@ -80,7 +82,7 @@ export function ProgressBarsProgressStriped() {
                     top: '-20%',
                     width: '16px',
                     height: '140%',
-                    background: 'rgba(255,255,255,0.08)',
+                    background: 'var(--pf-anim-white-08)',
                     transform: 'rotate(-45deg)',
                   }}
                 />
@@ -95,7 +97,7 @@ export function ProgressBarsProgressStriped() {
                 position: 'absolute',
                 inset: 0,
                 background:
-                  'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
+                  'linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.2) 50%, transparent 100%)',
                 backgroundSize: '200% 100%',
                 pointerEvents: 'none',
               }}

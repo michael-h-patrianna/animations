@@ -5,6 +5,9 @@ const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
+/**
+ *
+ */
 export function ModalCelebrationsRewardSpotlight() {
   const beamConfigs = [
     {
@@ -13,7 +16,7 @@ export function ModalCelebrationsRewardSpotlight() {
       width: '90px',
       height: '260px',
       gradient:
-        'linear-gradient(180deg, rgba(198,255,119,0.05) 0%, rgba(198,255,119,0.82) 32%, rgba(198,255,119,0))',
+        'linear-gradient(180deg, rgba(var(--pf-anim-green-rgb, 198,255,119),0.05) 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.82) 32%, rgba(var(--pf-anim-green-rgb, 198,255,119),0))',
       opacity: 0.9,
       swing: '14deg',
       blur: '1.2px',
@@ -35,7 +38,7 @@ export function ModalCelebrationsRewardSpotlight() {
       width: '132px',
       height: '300px',
       gradient:
-        'linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(198,255,119,0.9) 35%, rgba(71,255,244,0.75) 65%, rgba(255,255,255,0))',
+        'linear-gradient(180deg, rgb(255 255 255 / 0.16) 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.9) 35%, rgba(71,255,244,0.75) 65%, rgba(255,255,255,0))',
       opacity: 0.96,
       swing: '0deg',
       origin: 'bottom center',
@@ -58,7 +61,7 @@ export function ModalCelebrationsRewardSpotlight() {
       width: '90px',
       height: '260px',
       gradient:
-        'linear-gradient(180deg, rgba(198,255,119,0.05) 0%, rgba(198,255,119,0.82) 32%, rgba(198,255,119,0))',
+        'linear-gradient(180deg, rgba(var(--pf-anim-green-rgb, 198,255,119),0.05) 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.82) 32%, rgba(var(--pf-anim-green-rgb, 198,255,119),0))',
       opacity: 0.86,
       swing: '-14deg',
       blur: '1.2px',
@@ -71,7 +74,7 @@ export function ModalCelebrationsRewardSpotlight() {
     top: randBetween(18, 52),
     delay: i * 90,
     size: randBetween(6, 11),
-    color: 'rgba(255, 255, 255, 0.95)',
+    color: 'var(--pf-white)',
   }))
 
   const topSparkles = Array.from({ length: 6 }, (_, i) => ({
@@ -80,7 +83,7 @@ export function ModalCelebrationsRewardSpotlight() {
     top: randBetween(8, 18),
     delay: 400 + i * 120,
     size: randBetween(8, 14),
-    color: 'rgba(198, 255, 249, 0.95)',
+    color: 'var(--pf-anim-firework-cyan)',
   }))
 
   return (
@@ -93,9 +96,10 @@ export function ModalCelebrationsRewardSpotlight() {
             {
               '--stage-width': '152px',
               '--stage-height': '48px',
-              '--stage-color': 'rgba(198, 255, 119, 0.36)',
+              '--stage-color': 'var(--pf-anim-green)',
               background:
-                'radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), radial-gradient(circle at 50% 100%, rgba(198, 255, 119, 0.28), rgba(198, 255, 119, 0))',
+                // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                'radial-gradient(circle at 50% 28%, rgb(255 255 255 / 0.75), rgba(255, 255, 255, 0)), radial-gradient(circle at 50% 100%, rgba(198, 255, 119, 0.28), rgba(198, 255, 119, 0))',
               animation: 'celebration-stage-rise 1800ms ease-out forwards',
             } as React.CSSProperties
           }
@@ -120,9 +124,9 @@ export function ModalCelebrationsRewardSpotlight() {
           style={
             {
               '--delay': '0ms',
-              '--color': 'rgba(198,255,119,0.55)',
+              '--color': 'var(--pf-anim-green)',
               '--duration': '1600ms',
-              borderColor: 'rgba(198,255,119,0.55)',
+              borderColor: 'var(--pf-anim-green)',
               animation: 'celebration-pulse var(--duration) ease-out var(--delay) forwards',
             } as React.CSSProperties
           }
@@ -132,9 +136,9 @@ export function ModalCelebrationsRewardSpotlight() {
           style={
             {
               '--delay': '260ms',
-              '--color': 'rgba(71,255,244,0.45)',
+              '--color': 'var(--pf-anim-firework-cyan)',
               '--duration': '1800ms',
-              borderColor: 'rgba(71,255,244,0.45)',
+              borderColor: 'var(--pf-anim-firework-cyan)',
               animation: 'celebration-pulse var(--duration) ease-out var(--delay) forwards',
             } as React.CSSProperties
           }
@@ -155,7 +159,7 @@ export function ModalCelebrationsRewardSpotlight() {
                 width: config.width,
                 height: config.height,
                 background: config.gradient,
-                filter: `blur(${config.blur})`,
+                opacity: 0.7,
                 transformOrigin: config.origin || 'bottom center',
                 animation: `celebration-spotlight 1800ms ease-out var(--delay) forwards`,
               } as React.CSSProperties
@@ -175,6 +179,7 @@ export function ModalCelebrationsRewardSpotlight() {
                 '--delay': `${sparkle.delay}ms`,
                 '--size': `${sparkle.size}px`,
                 '--sparkle-color': sparkle.color,
+                // eslint-disable-next-line animation-rules/no-hardcoded-colors, animation-rules/no-radial-angular-gradient -- dynamic color computation, radial effect required for visual design
                 background: `radial-gradient(circle, ${sparkle.color} 0%, rgba(255, 255, 255, 0))`,
                 animation: `celebration-sparkle-rise 1200ms ease-out var(--delay) forwards`,
               } as React.CSSProperties
@@ -194,6 +199,7 @@ export function ModalCelebrationsRewardSpotlight() {
                 '--delay': `${sparkle.delay}ms`,
                 '--size': `${sparkle.size}px`,
                 '--sparkle-color': sparkle.color,
+                // eslint-disable-next-line animation-rules/no-hardcoded-colors, animation-rules/no-radial-angular-gradient -- dynamic color computation, radial effect required for visual design
                 background: `radial-gradient(circle, ${sparkle.color} 0%, rgba(255, 255, 255, 0))`,
                 animation: `celebration-sparkle-rise 1200ms ease-out var(--delay) forwards`,
               } as React.CSSProperties

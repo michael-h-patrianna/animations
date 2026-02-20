@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalContentFormFieldLeftReveal.css'
 
 
+/**
+ *
+ */
 export function ModalContentFormFieldLeftReveal() {
   const fieldRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])

@@ -1,5 +1,8 @@
 import * as m from 'motion/react-m'
 
+/**
+ *
+ */
 export function AchievementRevealsBadgeScaleShine() {
   return (
     <div
@@ -21,6 +24,7 @@ export function AchievementRevealsBadgeScaleShine() {
           width: '80px',
           height: '80px',
           borderRadius: '50%',
+          // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
           background: 'radial-gradient(circle at 30% 30%, #ffd700, #ffaa00)',
           border: '3px solid rgba(255, 215, 0, 0.6)',
           display: 'flex',

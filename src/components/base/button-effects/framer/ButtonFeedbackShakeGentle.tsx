@@ -1,6 +1,5 @@
 import { memo, useState } from 'react'
 import * as m from 'motion/react-m'
-import './ButtonFeedbackShakeGentle.css'
 
 function ButtonFeedbackShakeGentleComponent() {
   const [isAnimating, setIsAnimating] = useState(false)

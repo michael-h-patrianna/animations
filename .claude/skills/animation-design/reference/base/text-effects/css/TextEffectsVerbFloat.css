@@ -1,0 +1,52 @@
+.tfx-float-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+
+.tfx-float-line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+
+.tfx-float-char {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-block;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: tfx-float-animation 3s ease-in-out infinite;
+}
+
+.tfx-float-char--delayed {
+  animation-delay: 0.15s;
+}
+
+@keyframes tfx-float-animation {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  25% {
+    transform: translate3d(0, -6px, 0);
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.95;
+  }
+  75% {
+    transform: translate3d(0, 4px, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}

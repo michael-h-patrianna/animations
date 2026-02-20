@@ -1,0 +1,132 @@
+/* CSS-only Timer Flash Animation */
+
+.pf-timer-flash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  font-family: 'Lato', sans-serif;
+}
+
+.pf-timer-flash__pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 50px;
+  background-color: #ffc107;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  min-width: 60px;
+  min-height: 30px;
+  position: relative;
+  will-change: transform, background-color;
+  animation: timer-flash-pill 32s linear forwards, timer-flash-pulse 1s ease-in-out infinite;
+}
+
+.pf-timer-flash__glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background-color: rgba(220, 53, 69, 0.45);
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  z-index: -1;
+  animation: timer-flash-glow 32s linear forwards, timer-flash-glow-pulse 1s ease-in-out infinite;
+}
+
+.pf-timer-flash__time {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.8);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.pf-timer-flash__label {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* Background color transition from yellow to red */
+@keyframes timer-flash-pill {
+  0% {
+    background-color: #ffc107;
+  }
+  6.25% {
+    background-color: #ffc107;
+  }
+  100% {
+    background-color: #dc3545;
+  }
+}
+
+/* Pulse animation that intensifies over time */
+@keyframes timer-flash-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Glow opacity increase over time */
+@keyframes timer-flash-glow {
+  0% {
+    opacity: 0;
+  }
+  6.25% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Glow pulse animation */
+@keyframes timer-flash-glow-pulse {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.45);
+  }
+  100% {
+    transform: scale(0.95);
+  }
+}
+
+/* Accelerate pulse animation over time using animation-duration change simulation */
+.pf-timer-flash__pill {
+  animation-duration: 32s, 1s;
+}
+
+/* After 30% of the timeline, speed up the pulse (approximation via CSS) */
+@media (prefers-reduced-motion: no-preference) {
+  .pf-timer-flash__pill {
+    animation-duration: 32s, 1s, 0.3s;
+    animation-name: timer-flash-pill, timer-flash-pulse, timer-flash-pulse-fast;
+    animation-delay: 0s, 0s, 2s;
+    animation-iteration-count: 1, infinite, infinite;
+  }
+}
+
+@keyframes timer-flash-pulse-fast {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

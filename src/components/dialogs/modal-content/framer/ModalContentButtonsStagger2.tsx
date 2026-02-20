@@ -1,8 +1,8 @@
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './ModalContentButtonsStagger2.css'
-
+/**
+ *
+ */
 export function ModalContentButtonsStagger2() {
   return (
     <div className="modal-content-overlay">

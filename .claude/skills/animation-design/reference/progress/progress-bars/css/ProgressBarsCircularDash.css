@@ -1,0 +1,42 @@
+.circular-dash-container-css {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.circular-dash-wrapper-css {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.circular-dash-segment-container-css {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 10px;
+  height: 100%;
+  transform-origin: center center;
+  margin-left: -5px; 
+  pointer-events: none;
+}
+
+.circular-dash-pill-css {
+  width: 6px;
+  height: 16px;
+  border-radius: 3px;
+  background: #94a3b8;
+  margin: 0 auto; 
+  transition: opacity 0.1s, background-color 0.1s;
+}
+
+.circular-dash-center-css {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #334155;
+}

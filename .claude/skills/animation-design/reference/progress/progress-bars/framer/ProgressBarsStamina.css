@@ -1,0 +1,33 @@
+.stamina-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(0,0,0,0.8);
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.stamina-icon {
+  font-size: 24px;
+  color: #fcd34d;
+}
+
+.stamina-track {
+  width: 200px;
+  height: 16px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transform: skewX(-15deg);
+}
+
+.stamina-fill {
+  height: 100%;
+  background: #22c55e;
+  border-radius: 8px;
+}
+
+.stamina-fill.low {
+  background: #ef4444;
+}

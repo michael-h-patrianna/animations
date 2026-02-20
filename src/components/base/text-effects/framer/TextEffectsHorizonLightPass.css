@@ -1,7 +1,7 @@
 /* Standalone CSS for TextEffectsHorizonLightPass */
 .studioLogo-HorizonLightPass {
   --hlp-baseColor: #e8e4da;
-  --hlp-highlightColor: #ffffff;
+  --hlp-highlightColor: #fff;
   display: inline-flex;
   align-items: baseline;
 }

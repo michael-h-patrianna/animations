@@ -1,5 +1,12 @@
 .neon-pulse-container {
-  background: #000;
+
+  --progress-bars-neon-pulse-bg-1: #000;
+  --progress-bars-neon-pulse-bg-2: #1a1a1a;
+  --progress-bars-neon-pulse-bg-3: #ff00ff;
+  --progress-bars-neon-pulse-bg-4: rgb(255 255 255 / 50%);
+  --progress-bars-neon-pulse-bg-5: rgb(255 0 255 / 40%);
+  --progress-bars-neon-pulse-bg-6: rgb(255 0 255 / 20%);
+  background: var(--progress-bars-neon-pulse-bg-1);
   padding: 40px;
   border-radius: 8px;
   display: flex;
@@ -11,14 +18,14 @@
 .neon-pulse-track {
   width: 100%;
   height: 10px;
-  background: #1a1a1a;
+  background: var(--progress-bars-neon-pulse-bg-2);
   position: relative;
   border-radius: 5px;
 }
 
 .neon-pulse-fill {
   height: 100%;
-  background: #ff00ff;
+  background: var(--progress-bars-neon-pulse-bg-3);
   border-radius: 5px;
   position: relative;
   z-index: 2;
@@ -30,31 +37,28 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--progress-bars-neon-pulse-bg-4);
   border-radius: 5px;
 }
 
 .neon-pulse-glow {
   position: absolute;
-  top: -5px;
   left: 0;
-  height: 20px;
-  background: rgba(255, 0, 255, 0.4);
   filter: blur(4px); /* Warning: Blur is forbidden by prompt. I must remove it. */
   /* opacity is safer for glow simulation without blur */
   border-radius: 10px;
   z-index: 1;
   /* Fallback for no-blur: just a wider, transparent bar */
-  background: rgba(255, 0, 255, 0.2); 
+  background: var(--progress-bars-neon-pulse-bg-6); 
   /* Resetting properties to be safe */
   top: -2px;
   height: 14px;
 }
 
 .neon-pulse-label {
-  color: #ff00ff;
+  color: var(--progress-bars-neon-pulse-bg-3);
   font-family: 'Courier New', monospace;
-  text-shadow: 0 0 5px #ff00ff; /* Text shadow forbidden. Remove. */
+  text-shadow: 0 0 5px var(--progress-bars-neon-pulse-bg-3); /* Text shadow forbidden. Remove. */
   font-weight: bold;
   letter-spacing: 2px;
   /* Safe fallback */

@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsTimerFlip.css'
 
+/**
+ *
+ */
 export function TimerEffectsTimerFlip() {
   const [value, setValue] = useState(10)
   const [flipKey, setFlipKey] = useState(0)

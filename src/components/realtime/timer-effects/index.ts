@@ -1,3 +1,18 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/TimerEffectsPillCountdownExtreme.css'
+import './framer/TimerEffectsPillCountdownGlitch.css'
+import './framer/TimerEffectsPillCountdownHeartbeat.css'
+import './framer/TimerEffectsPillCountdownMedium.css'
+import './framer/TimerEffectsPillCountdownSoft.css'
+import './framer/TimerEffectsPillCountdownStrong.css'
+import './framer/TimerEffectsTimerColorShift.css'
+import './framer/TimerEffectsTimerFlash.css'
+import './framer/TimerEffectsTimerFlashSoft.css'
+import './framer/TimerEffectsTimerFlip.css'
+import './framer/TimerEffectsTimerPulse.css'
+import './framer/TimerEffectsUrgentPulse.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

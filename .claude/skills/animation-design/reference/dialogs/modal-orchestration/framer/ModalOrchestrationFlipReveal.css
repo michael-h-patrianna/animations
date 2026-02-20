@@ -1,0 +1,57 @@
+/* Styles scoped for ModalOrchestrationFlipReveal */
+.pf-flip-container {
+  width: 100%;
+  min-height: 360px;
+  position: relative;
+  perspective: 1000px;
+}
+.pf-flip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.pf-flip-tile-container {
+  cursor: pointer;
+  height: 140px;
+}
+.pf-flip-tile {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.pf-flip-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+  text-align: center;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.pf-flip-front {
+  background: rgba(236, 195, 255, 0.08);
+}
+.pf-flip-back {
+  background: rgba(196, 122, 229, 0.15);
+  transform: rotateY(180deg);
+}
+.pf-flip-face h5 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+.pf-flip-face p {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  text-align: center;
+}
+.pf-flip-indicator {
+  font-size: 16px;
+}

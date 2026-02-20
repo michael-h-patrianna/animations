@@ -1,7 +1,8 @@
 import * as m from 'motion/react-m'
 
-import './ModalOrchestrationSelectionGrid.css'
-
+/**
+ *
+ */
 export function ModalOrchestrationSelectionGrid() {
   const items = 6
 

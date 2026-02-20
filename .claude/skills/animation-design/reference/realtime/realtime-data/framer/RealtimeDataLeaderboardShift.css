@@ -1,0 +1,52 @@
+/* Styles specific to RealtimeDataLeaderboardShift */
+
+.pf-realtime-data {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  font-family: 'Lato', sans-serif;
+  background: rgba(17, 24, 39, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(75, 85, 99, 0.3);
+  min-height: 180px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pf-realtime-data__leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.pf-realtime-data__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(55, 65, 81, 0.4);
+  border-radius: 6px;
+  border: 1px solid rgba(75, 85, 99, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pf-realtime-data__rank {
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 0.875rem;
+  width: 24px;
+}
+.pf-realtime-data__player {
+  color: #f3f4f6;
+  font-weight: 500;
+  flex: 1;
+  margin-left: 8px;
+}
+.pf-realtime-data__score {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 0.875rem;
+}

@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 import './ModalCelebrationsTreasureParticles.css'
 
+/**
+ *
+ */
 export function ModalCelebrationsTreasureParticles() {
   const containerRef = useRef<HTMLDivElement>(null)
 

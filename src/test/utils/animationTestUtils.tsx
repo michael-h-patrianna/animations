@@ -2,6 +2,9 @@ import { AnimationCard } from '@/components/ui/AnimationCard'
 import { act } from '@testing-library/react'
 import React from 'react'
 
+/**
+ *
+ */
 export function withAnimationCard(children: React.ReactNode, opts?: {
   id?: string
   title?: string
@@ -24,6 +27,9 @@ export function withAnimationCard(children: React.ReactNode, opts?: {
   )
 }
 
+/**
+ *
+ */
 export async function advanceRaf(ms: number) {
   // Use fake timers from tests to advance timers and animation frames
   await act(async () => {
@@ -31,6 +37,9 @@ export async function advanceRaf(ms: number) {
   })
 }
 
+/**
+ *
+ */
 export function queryStage(container?: HTMLElement | null) {
   const root = container ?? document.body
   return root.querySelector('.pf-demo-stage') as HTMLElement | null

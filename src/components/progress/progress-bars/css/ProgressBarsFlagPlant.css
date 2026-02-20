@@ -1,6 +1,12 @@
 .flag-plant-container-css {
-  padding: 50px 20px 20px 20px;
-  background: #fff7ed;
+
+  --progress-bars-flag-plant-bg-1: #fff7ed;
+  --progress-bars-flag-plant-bg-2: #fed7aa;
+  --progress-bars-flag-plant-bg-3: #ea580c;
+  --progress-bars-flag-plant-bg-4: #9a3412;
+  --progress-bars-flag-plant-bg-5: #431407;
+  padding: 50px 20px 20px;
+  background: var(--progress-bars-flag-plant-bg-1);
   border-radius: 8px;
   width: 100%;
 }
@@ -8,13 +14,13 @@
 .flag-track-css {
   position: relative;
   height: 12px;
-  background: #fed7aa;
+  background: var(--progress-bars-flag-plant-bg-2);
   border-radius: 6px;
 }
 
 .flag-fill-css {
   height: 100%;
-  background: #ea580c;
+  background: var(--progress-bars-flag-plant-bg-3);
   border-radius: 6px;
   transition: width 0.05s linear;
 }
@@ -34,7 +40,7 @@
   left: -3px;
   width: 8px;
   height: 4px;
-  background: #9a3412;
+  background: var(--progress-bars-flag-plant-bg-4);
   border-radius: 2px;
 }
 
@@ -44,7 +50,7 @@
   left: 0;
   width: 2px;
   height: 30px;
-  background: #431407;
+  background: var(--progress-bars-flag-plant-bg-5);
   transform-origin: bottom center;
   transform: scaleY(0);
   opacity: 0;

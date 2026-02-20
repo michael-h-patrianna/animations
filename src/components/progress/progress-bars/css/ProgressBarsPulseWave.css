@@ -1,6 +1,10 @@
 /* ProgressBarsPulseWave.css - Pulse Wave Progress Bar */
 
 .pf-progress-pulse-wave {
+
+  --progress-bars-pulse-wave-bg-1: #e0e0e0;
+  --progress-bars-pulse-wave-bg-2: #f4d738;
+  --progress-bars-pulse-wave-bg-3: #82d616;
   width: 100%;
   max-width: 28rem;
   padding: 1rem;
@@ -15,7 +19,7 @@
   position: relative;
   width: 100%;
   height: 1.5rem;
-  background: #e0e0e0;
+  background: var(--progress-bars-pulse-wave-bg-1);
   border-radius: 0.75rem;
   overflow: hidden;
 }
@@ -24,7 +28,7 @@
   position: relative;
   width: 70%;
   height: 100%;
-  background: linear-gradient(90deg, #f4d738 0%, #82d616 100%);
+  background: linear-gradient(90deg, var(--progress-bars-pulse-wave-bg-2) 0%, var(--progress-bars-pulse-wave-bg-3) 100%);
   border-radius: inherit;
   overflow: hidden;
 }
@@ -36,7 +40,7 @@
   left: 0;
   width: 20%;
   height: 100%;
-  background: linear-gradient(90deg, #f4d738 0%, #82d616 100%);
+  background: linear-gradient(90deg, var(--progress-bars-pulse-wave-bg-2) 0%, var(--progress-bars-pulse-wave-bg-3) 100%);
   will-change: transform, opacity;
   pointer-events: none;
 }

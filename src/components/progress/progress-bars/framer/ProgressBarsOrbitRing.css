@@ -1,4 +1,19 @@
 .pf-orbit-ring .track-container {
+
+  --progress-bars-orbit-ring-bg-1: #e5e7;
+  --progress-bars-orbit-ring-bg-1-eb: #e5e7eb;
+  --progress-bars-orbit-ring-bg-1-f6: #e5e7f6;
+  --progress-bars-orbit-ring-bg-1: #3b82;
+  --progress-bars-orbit-ring-bg-1-eb: #3b82eb;
+  --progress-bars-orbit-ring-bg-1-f6: #3b82f6;
+  --progress-bars-orbit-ring-bg-2: #06b6;
+  --progress-bars-orbit-ring-bg-2-af: #06b6af;
+  --progress-bars-orbit-ring-bg-2-d4: #06b6d4;
+  --progress-bars-orbit-ring-bg-2: #9ca3;
+  --progress-bars-orbit-ring-bg-2-af: #9ca3af;
+  --progress-bars-orbit-ring-bg-2-d4: #9ca3d4;
+  --progress-bars-orbit-ring-bg-3: #60a5fa;
+  --progress-bars-orbit-ring-shadow: rgb(96 165 250 / 60%);
   position: relative;
   padding: 60px 0;
 }
@@ -6,7 +21,7 @@
 .pf-orbit-ring .pf-progress-track {
   position: relative;
   height: 8px;
-  background-color: #e5e7eb;
+  background-color: var(--progress-bars-orbit-ring-bg-1-eb);
   border-radius: 4px;
   overflow: visible;
 }
@@ -16,7 +31,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  background: linear-gradient(90deg, var(--progress-bars-orbit-ring-bg-1-f6), var(--progress-bars-orbit-ring-bg-2-d4));
   border-radius: 4px;
 }
 
@@ -31,7 +46,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background-color: #9ca3af;
+  background-color: var(--progress-bars-orbit-ring-bg-2-af);
   border-radius: 50%;
   left: 50%;
   top: 50%;
@@ -40,7 +55,7 @@
 }
 
 .pf-orbit-ring .milestone-marker.active {
-  background-color: #3b82f6;
+  background-color: var(--progress-bars-orbit-ring-bg-1-f6);
 }
 
 .pf-orbit-ring .orbit-system {
@@ -62,8 +77,8 @@
   position: absolute;
   width: 4px;
   height: 4px;
-  background-color: #60a5fa;
+  background-color: var(--progress-bars-orbit-ring-bg-3);
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(96, 165, 250, 0.6);
+  box-shadow: 0 0 4px var(--progress-bars-orbit-ring-shadow);
   transform-origin: center;
 }

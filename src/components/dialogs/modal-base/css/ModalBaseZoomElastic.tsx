@@ -3,6 +3,9 @@ import '../shared.css'
 import './ModalBaseZoomElastic.css'
 
 
+/**
+ *
+ */
 export function ModalBaseZoomElastic() {
   return (
     <div

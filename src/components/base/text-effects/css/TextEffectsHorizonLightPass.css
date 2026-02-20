@@ -1,7 +1,7 @@
 /* Standalone CSS for TextEffectsHorizonLightPass */
 .tfx-horizon-light-pass {
   --tfx-hlp-base-color: #e8e4da;
-  --tfx-hlp-highlight-color: #ffffff;
+  --tfx-hlp-highlight-color: #fff;
   display: inline-flex;
   align-items: baseline;
   contain: layout style;

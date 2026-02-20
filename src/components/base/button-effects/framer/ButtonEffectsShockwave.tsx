@@ -2,8 +2,6 @@ import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import React, { useRef, useState } from 'react'
 import { memo } from 'react'
-import '../shared.css'
-import './ButtonEffectsShockwave.css'
 
 interface Shockwave {
   id: number

@@ -1,5 +1,9 @@
 /* Styles scoped for ModalOrchestrationSelectionGrid */
 .pf-grid {
+
+  --modal-orchestration-selection-grid-bg: rgb(236 195 255 / 8%);
+  --modal-orchestration-selection-grid-border: rgb(236 195 255 / 12%);
+  --modal-orchestration-selection-grid-color: rgb(255 255 255 / 76%);
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -10,9 +14,9 @@
 .pf-grid__item {
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-orchestration-selection-grid-bg);
+  border: 1px solid var(--modal-orchestration-selection-grid-border);
+  color: var(--modal-orchestration-selection-grid-color);
   text-align: center;
   display: flex;
   align-items: center;

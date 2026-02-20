@@ -1,0 +1,97 @@
+.pf-card-interactions--spotlight {
+
+  --card-interactions-spotlight-bg-1: #020617;
+
+  --card-interactions-spotlight-bg-100: rgb(99 102 241 / 15%);
+
+  --card-interactions-spotlight-bg-101: rgb(255 255 255 / 60%);
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--card-interactions-spotlight-bg-1);
+  /* Hexagon pattern background - hidden by default */
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0L20 5V15L10 20L0 15V5L10 0Z' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 20px 20px;
+}
+
+/* 1. Volumetric Glow & Texture Reveal Mask */
+.pf-spotlight-beam {
+  pointer-events: none;
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--card-interactions-spotlight-bg-100), 
+    transparent 50%
+  );
+  mix-blend-mode: color-dodge;
+  opacity: 0;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+/* 2. Border Highlight Simulation */
+.pf-spotlight-border {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 1px; /* Border width */
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--card-interactions-spotlight-bg-101),
+    transparent 50%
+  );
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  z-index: 20;
+  transition: opacity 0.3s ease;
+}
+
+/* Hover State - Turn on lights and start moving */
+.pf-card-interactions--spotlight:hover .pf-spotlight-beam,
+.pf-card-interactions--spotlight:hover .pf-spotlight-border {
+  opacity: 1;
+  animation: pf-spotlight-search 6s infinite ease-in-out;
+}
+
+/* Synchronized movement for both layers to simulate a single light source */
+@keyframes pf-spotlight-search {
+  0% { transform: translate(0%, 0%); }
+  25% { transform: translate(15%, 10%); }
+  50% { transform: translate(-5%, 20%); }
+  75% { transform: translate(-15%, -10%); }
+  100% { transform: translate(0%, 0%); }
+}
+
+/* Since border is absolute inset 0, we move the BACKGROUND position instead of transform */
+.pf-card-interactions--spotlight:hover .pf-spotlight-border {
+  animation: pf-spotlight-border-search 6s infinite ease-in-out;
+  background-size: 200% 200%; /* Make gradient larger than box to allow movement */
+}
+
+@keyframes pf-spotlight-border-search {
+  0% { background-position: 50% 50%; }
+  25% { background-position: 65% 60%; }
+  50% { background-position: 45% 70%; }
+  75% { background-position: 35% 40%; }
+  100% { background-position: 50% 50%; }
+}
+
+.pf-spotlight-content {
+  position: relative;
+  z-index: 5;
+  background: var(--card-interactions-spotlight-bg-1); /* Cover the base texture where light isn't hitting? No, transparency needed. */
+  /* Actually, PremiumCard has bg-slate-950. We need to let the texture show through. 
+     Framer uses a mask on a texture div. 
+     Here we put the texture on the container, and use the beam to light it up.
+     But the content covers it.
+  */
+}

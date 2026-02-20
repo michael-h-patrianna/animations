@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { AnimatePresence } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import './RealtimeDataLeaderboardShift.css'
 
+/**
+ *
+ */
 export function RealtimeDataLeaderboardShift() {
   const [isAnimating, setIsAnimating] = useState(false)
   const [leaderboard, setLeaderboard] = useState([

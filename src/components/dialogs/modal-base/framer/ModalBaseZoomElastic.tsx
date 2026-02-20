@@ -2,8 +2,10 @@ import { overlayStyles } from '@/motion/primitives'
 import * as m from 'motion/react-m'
 
 import { MockModalContent } from '../MockModalContent'
-import '../shared.css'
 
+/**
+ *
+ */
 export function ModalBaseZoomElastic() {
   return (
     <m.div

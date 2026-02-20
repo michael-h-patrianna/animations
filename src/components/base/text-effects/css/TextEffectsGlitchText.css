@@ -15,12 +15,13 @@
 
   /* Colors */
   --tfx-glitchtext-color: #fff;
-  --tfx-glitchtext-cyan: #00ffff;
-  --tfx-glitchtext-magenta: #ff00ff;
-  --tfx-glitchtext-bar-color: rgba(255, 255, 255, 0.2);
+  --tfx-glitchtext-cyan: #0ff;
+  --tfx-glitchtext-magenta: #f0f;
+  --tfx-glitchtext-bar-color: rgb(255 255 255 / 20%);
 
   /* Animation timing */
   --tfx-glitchtext-duration: 4s;
+  --text-effects-glitch-text-shadow-100: rgb(255 255 255 / 10%);
 
   /* Layout */
   display: flex;
@@ -80,8 +81,8 @@
   height: 2px;
   background: var(--tfx-glitchtext-bar-color);
   box-shadow:
-    0 5px 0 rgba(255, 255, 255, 0.1),
-    0 -5px 0 rgba(255, 255, 255, 0.1);
+    0 5px 0 var(--text-effects-glitch-text-shadow-100),
+    0 -5px 0 var(--text-effects-glitch-text-shadow-100);
   animation: tfx-glitchtext-bars-anim var(--tfx-glitchtext-duration) linear infinite;
   will-change: transform, opacity;
 }

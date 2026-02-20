@@ -1,6 +1,10 @@
 /* Styles for ModalBasePortalSwirl */
 
 .pf-modal-portal-swirl-overlay {
+
+  --modal-base-portal-swirl-bg: rgb(236 195 255 / 8%);
+  --modal-base-portal-swirl-border: rgb(236 195 255 / 12%);
+  --modal-base-portal-swirl-color: rgb(255 255 255 / 76%);
   position: relative;
   width: 100%;
   height: 100%;
@@ -25,12 +29,12 @@
   width: clamp(280px, 80%, 320px);
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-base-portal-swirl-bg);
+  border: 1px solid var(--modal-base-portal-swirl-border);
+  color: var(--modal-base-portal-swirl-color);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+    0 18px 40px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px var(--modal-base-portal-swirl-border);
   transform-origin: center;
   animation: portal-swirl-entrance 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: transform, opacity;

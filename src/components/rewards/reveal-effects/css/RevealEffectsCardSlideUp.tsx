@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './RevealEffectsCardSlideUp.css'
 
+/**
+ *
+ */
 export function RevealEffectsCardSlideUp() {
   const [isVisible, setIsVisible] = useState(false)
 

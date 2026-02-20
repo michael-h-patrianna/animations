@@ -1,8 +1,13 @@
-import homeIcon1 from '@/assets/home-icon1.png'
 import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsHomeIconDotRadar.css'
 
-
+/**
+ *
+ */
+import { homeIcon1 } from '@/assets'
+/**
+ *
+ */
 export function UpdateIndicatorsHomeIconDotRadar() {
   const r1Ref = useRef<HTMLSpanElement>(null)
   const r2Ref = useRef<HTMLSpanElement>(null)

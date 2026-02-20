@@ -1,5 +1,12 @@
 /* Base styles for Progress Striped */
 .pf-progress-striped {
+
+  --progress-bars-progress-striped-color: rgb(255 255 255 / 76%);
+  --progress-bars-progress-striped-bg-1: rgb(78 24 124 / 12%);
+  --progress-bars-progress-striped-bg-2: #c6ff77;
+  --progress-bars-progress-striped-bg-3: #d4ff9f;
+  --progress-bars-progress-striped-bg-4: rgb(255 255 255 / 8%);
+  --progress-bars-progress-striped-bg-100: rgb(255 255 255 / 20%);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -10,7 +17,7 @@
 
 .pf-progress-striped .pf-progress-demo__label {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--progress-bars-progress-striped-color);
   font-weight: 500;
   margin-bottom: 4px;
 }
@@ -19,7 +26,7 @@
   width: 100%;
   height: 12px;
   border-radius: 999px;
-  background: rgba(78, 24, 124, 0.12);
+  background: var(--progress-bars-progress-striped-bg-1);
   overflow: hidden;
   position: relative;
 }
@@ -30,7 +37,7 @@
 
 .pf-progress-striped .pf-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%);
+  background: linear-gradient(90deg, var(--progress-bars-progress-striped-bg-2) 0%, var(--progress-bars-progress-striped-bg-3) 100%);
   border-radius: inherit;
   transform-origin: left center;
   position: relative;
@@ -56,7 +63,7 @@
   top: -20%;
   width: 16px;
   height: 140%;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--progress-bars-progress-striped-bg-4);
   transform: rotate(-45deg);
   transform-origin: center;
   will-change: transform;
@@ -69,7 +76,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.2) 50%,
+    var(--progress-bars-progress-striped-bg-100) 50%,
     transparent 100%
   );
   background-size: 200% 100%;

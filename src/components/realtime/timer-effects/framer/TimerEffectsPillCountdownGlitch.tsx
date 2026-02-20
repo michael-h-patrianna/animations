@@ -1,8 +1,10 @@
 import { easeInOut } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './TimerEffectsPillCountdownGlitch.css'
 
+/**
+ *
+ */
 export function TimerEffectsPillCountdownGlitch() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)

@@ -1,7 +1,9 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import './ProgressBarsProgressThin.css'
 
+/**
+ *
+ */
 export function ProgressBarsProgressThin() {
   const duration = 1.2
 
@@ -89,7 +91,8 @@ export function ProgressBarsProgressThin() {
           style={{
             position: 'absolute',
             inset: '-8px',
-            background: 'radial-gradient(ellipse at right center, rgba(198,255,119,0.2) 0%, transparent 70%)',
+            // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+            background: 'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.2) 0%, transparent 70%)',
             pointerEvents: 'none',
             transform: 'scale(1.3)',
           }}
@@ -116,7 +119,7 @@ export function ProgressBarsProgressThin() {
                 width: '60px',
                 height: '1px',
                 background:
-                  'linear-gradient(90deg, rgba(198,255,119,0) 0%, rgba(198,255,119,0.6) 50%, rgba(198,255,119,1) 100%)',
+                  'linear-gradient(90deg, rgba(var(--pf-anim-green-rgb, 198,255,119),0) 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.6) 50%, rgba(var(--pf-anim-green-rgb, 198,255,119),1) 100%)',
                 pointerEvents: 'none',
               }}
             />
@@ -135,7 +138,7 @@ export function ProgressBarsProgressThin() {
               transform: 'translate(-50%, -50%)',
               width: '4px',
               height: '4px',
-              background: 'rgba(198,255,119,0.8)',
+              background: 'var(--pf-anim-green)',
               borderRadius: '50%',
               pointerEvents: 'none',
             }}
@@ -148,7 +151,7 @@ export function ProgressBarsProgressThin() {
           style={{
             position: 'absolute',
             inset: '-4px',
-            background: 'linear-gradient(90deg, transparent 0%, rgba(198,255,119,0.4) 100%)',
+            background: 'linear-gradient(90deg, transparent 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.4) 100%)',
             pointerEvents: 'none',
           }}
         />

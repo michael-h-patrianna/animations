@@ -1,7 +1,9 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import './ProgressBarsShimmerSweep.css'
 
+/**
+ *
+ */
 export function ProgressBarsShimmerSweep() {
   const shouldReduceMotion = useReducedMotion()
 

@@ -1,0 +1,31 @@
+/* Styles for LoadingStatesDotsPortal */
+
+.pf-loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+}
+
+.pf-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.pf-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c47ae5;
+  display: inline-block;
+}
+
+
+.pf-dots-portal span:nth-child(1) {
+}
+.pf-dots-portal span:nth-child(2) {
+}
+.pf-dots-portal span:nth-child(3) {
+}

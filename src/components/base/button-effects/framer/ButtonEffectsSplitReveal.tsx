@@ -1,8 +1,6 @@
 import * as m from 'motion/react-m'
 
 import { useState, memo } from 'react'
-import '../shared.css'
-import './ButtonEffectsSplitReveal.css'
 
 function ButtonEffectsSplitRevealComponent() {
   const [isRevealing, setIsRevealing] = useState(false)

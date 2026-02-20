@@ -1,3 +1,13 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/ModalContentButtonsStagger2.css'
+import './framer/ModalContentButtonsStagger3.css'
+import './framer/ModalContentFormFieldGradient.css'
+import './framer/ModalContentFormFieldLeftReveal.css'
+import './framer/ModalContentFormFieldRightReveal.css'
+import './framer/ModalContentListSoftStagger.css'
+import './framer/ModalContentListVerticalWipe.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

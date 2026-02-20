@@ -1,11 +1,14 @@
 /* Tailwind v4 base */
 /* Import Tailwind first (required by PostCSS), then load plugins and declare sources */
 @import 'tailwindcss';
+
 @plugin "tailwindcss-animate";
+
 @source "../index.html";
 @source "./**/*.{js,ts,jsx,tsx}";
 
 :root {
+  --index-bg: rgb(236 195 255 / 18%);
   --pf-base-0: #1d092f;
   --pf-base-5: #3a125d;
   --pf-base-10: #4e187c;
@@ -16,21 +19,21 @@
   --pf-base-60: #efd7fa;
   --pf-base-70: #ceb6d8;
   --pf-base-95: #f2f2f2;
-  --pf-white: #ffffff;
+  --pf-white: #fff;
   --pf-brand-accent-primary: #c83558;
   --pf-brand-accent-secondary: #c6ff77;
   --pf-brand-gradient: linear-gradient(160deg, #4e187c 0%, #c47ae5 52%, #d79af3 100%);
   --pf-sweep-gradient: linear-gradient(-135deg, #1bee02 0.56%, #00ad45 100%);
   --pf-gold-gradient: linear-gradient(-135deg, #ffb300 4.17%, #f57c00 96.87%);
-  --pf-surface: rgba(58, 18, 93, 0.65);
-  --pf-surface-strong: rgba(33, 15, 49, 0.86);
-  --pf-overlay: rgba(29, 9, 47, 0.8);
-  --pf-shadow-elevated: 0 24px 64px rgba(0, 0, 0, 0.55);
-  --pf-shadow-soft: 0 12px 28px rgba(0, 0, 0, 0.38);
-  --pf-shadow-inner: inset 0 0 0 1px rgba(236, 195, 255, 0.08);
+  --pf-surface: rgb(58 18 93 / 65%);
+  --pf-surface-strong: rgb(33 15 49 / 86%);
+  --pf-overlay: rgb(29 9 47 / 80%);
+  --pf-shadow-elevated: 0 24px 64px rgb(0 0 0 / 55%);
+  --pf-shadow-soft: 0 12px 28px rgb(0 0 0 / 38%);
+  --pf-shadow-inner: inset 0 0 0 1px rgb(236 195 255 / 8%);
   --pf-text-primary: var(--pf-base-50);
-  --pf-text-secondary: rgba(255, 255, 255, 0.76);
-  --pf-text-tertiary: rgba(255, 255, 255, 0.54);
+  --pf-text-secondary: rgb(255 255 255 / 76%);
+  --pf-text-tertiary: rgb(255 255 255 / 54%);
   --pf-radius-xs: 6px;
   --pf-radius-sm: 10px;
   --pf-radius-md: 12px;
@@ -42,27 +45,76 @@
   --pf-transition-slow: 440ms;
   --pf-demo-height: 100px;
 
-  /* Lighter modern theme for shadcn components */
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 262 80% 50.6%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 262 80% 50.6%;
-  --radius: 0.5rem;
+  /* Animation palette */
+  --pf-anim-blue: #60a5fa;
+  --pf-anim-blue-dark: #3b82f6;
+  --pf-anim-green: #c6ff77;
+  --pf-anim-green-dark: #a8e65c;
+  --pf-anim-green-bright: #a8ff3e;
+  --pf-anim-gold: #FFD700;
+  --pf-anim-purple: rgb(168 85 247);
+  --pf-anim-purple-dark: rgb(147 51 234);
+  --pf-anim-red: #ef4444;
+  --pf-anim-red-dark: #dc2626;
+  --pf-anim-slate: #94a3b8;
+  --pf-anim-amber: #f59e0b;
+  --pf-anim-emerald: #10b981;
+  --pf-anim-teal: #14b8a6;
+  --pf-anim-orange: #f97316;
+  --pf-anim-sky: #38bdf8;
+  --pf-anim-coin-gold: #fbbf24;
+  --pf-anim-coin-dark: #d97706;
+  --pf-anim-coin-light: #fde68a;
+  --pf-anim-surface-light: #f8f9fa;
+  --pf-anim-surface-hover: #e2e8f0;
+  --pf-anim-error: #dc3545;
+  --pf-anim-muted: #6c757d;
+  --pf-anim-link: #007bff;
+  --pf-anim-link-hover: #0056b3;
+  --pf-anim-highlight: rgb(236 195 255 / 0.08);
+  --pf-anim-highlight-border: rgb(236 195 255 / 0.16);
+  --pf-anim-highlight-accent: rgb(200 53 88 / 0.12);
+  --pf-anim-overlay-light: rgb(0 0 0 / 0.15);
+  --pf-anim-glare: rgb(255 255 255 / 0.4);
+  --pf-anim-white-20: rgb(255 255 255 / 0.2);
+  --pf-anim-white-60: rgb(255 255 255 / 0.6);
+  --pf-anim-white-80: rgb(255 255 255 / 0.8);
+  --pf-anim-white-35: rgb(255 255 255 / 0.35);
+  --pf-anim-white-22: rgb(255 255 255 / 0.22);
+  --pf-anim-white-10: rgb(255 255 255 / 0.10);
+  --pf-anim-white-08: rgb(255 255 255 / 0.08);
+  --pf-anim-white-45: rgb(255 255 255 / 0.45);
+  --pf-anim-black-15: rgb(0 0 0 / 0.15);
+  --pf-anim-cyan: #06b6d4;
+  --pf-anim-cyan-light: #0ff;
+  --pf-anim-cyan-muted: rgb(0 200 180 / 0.6);
+  --pf-anim-cyan-soft: rgb(0 180 160 / 0.3);
+  --pf-anim-gray-400: #9ca3af;
+  --pf-anim-gray-700: #374151;
+  --pf-anim-green-400: #4ade80;
+  --pf-anim-green-900: #14532d;
+  --pf-anim-violet: #8b5cf6;
+  --pf-anim-violet-dark: rgb(78 24 124 / 0.1);
+  --pf-anim-gray-200: #e5e7eb;
+  --pf-anim-deep-purple: #2a1040;
+  --pf-anim-dodger-blue: rgb(30 144 255);
+  --pf-anim-dodger-blue-20: rgb(30 144 255 / 0.2);
+  --pf-anim-dodger-blue-40: rgb(30 144 255 / 0.4);
+  --pf-anim-rose: #ff4967;
+  --pf-anim-rose-dark: #ff0a4d;
+  --pf-anim-yellow-warm: #ffc107;
+  --pf-anim-firework-gold: #ffce1a;
+  --pf-anim-firework-pink: #ff5981;
+  --pf-anim-firework-cyan: #47fff4;
+  --pf-anim-confetti-red: #ff6b6b;
+  --pf-anim-confetti-yellow: #ffd93d;
+  --pf-anim-confetti-green: #6bcb77;
+  --pf-anim-confetti-purple: #4d96ff;
+  --pf-anim-confetti-pink: #ff85a1;
+
+  --index-bg-100: rgb(123 70 142 / 65%);
+  --index-bg-101: rgb(29 9 47 / 65%);
+  --index-bg-102: rgb(7 2 12 / 65%);
 }
 
 /* (removed empty html ruleset) */
@@ -77,12 +129,12 @@
     margin: 0;
     min-height: 100vh;
     height: auto;
-    font-family: 'Lato', sans-serif;
+    font-family: Lato, sans-serif;
     background: radial-gradient(
       circle at 20% 20%,
-      rgba(123, 70, 142, 0.65) 0%,
-      rgba(29, 9, 47, 0.65) 99%,
-      rgba(7, 2, 12, 0.65) 100%
+      var(--index-bg-100) 0%,
+      var(--index-bg-101) 99%,
+      var(--index-bg-102) 100%
     );
     color: var(--pf-text-primary);
     -webkit-font-smoothing: antialiased;
@@ -92,7 +144,7 @@
   h2,
   h3,
   h4 {
-    font-family: 'Lato', sans-serif;
+    font-family: Lato, sans-serif;
     letter-spacing: 0.01em;
     margin: 0;
   }
@@ -115,6 +167,6 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgba(236, 195, 255, 0.18);
+  background: var(--index-bg);
   border-radius: 999px;
 }

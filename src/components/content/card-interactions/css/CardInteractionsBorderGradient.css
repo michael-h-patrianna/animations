@@ -1,0 +1,44 @@
+.pf-card-interactions--border-gradient {
+
+  --card-interactions-border-gradient-bg-1: #020617;
+  --card-interactions-border-gradient-bg-2: #6366f1;
+  --card-interactions-border-gradient-bg-3: #a855f7;
+  --card-interactions-border-gradient-bg-4: #ec4899;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 1px;
+  background: var(--card-interactions-border-gradient-bg-1);
+}
+
+.pf-border-gradient-bg,
+.pf-border-gradient-blur {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--card-interactions-border-gradient-bg-2) 90deg, var(--card-interactions-border-gradient-bg-3) 180deg, var(--card-interactions-border-gradient-bg-4) 270deg, transparent 360deg);
+  animation: pf-spin 4s linear infinite;
+  z-index: 0;
+}
+
+.pf-border-gradient-blur {
+  filter: blur(20px);
+  opacity: 0.5;
+}
+
+.pf-border-gradient-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: var(--card-interactions-border-gradient-bg-1);
+  border-radius: 0.9rem; /* Slightly smaller than container */
+  overflow: hidden;
+  z-index: 10;
+}
+
+@keyframes pf-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

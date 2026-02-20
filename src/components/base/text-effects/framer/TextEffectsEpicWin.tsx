@@ -2,8 +2,6 @@ import { memo } from 'react'
 
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import './TextEffectsEpicWin.css'
-import '../shared.css'
 
 function TextEffectsEpicWinComponent() {
   const mainText = 'EPIC WIN'

@@ -1,4 +1,10 @@
 .reveal-gift-box-container {
+
+  --reveal-effects-gift-box-unwrap-bg-1: #ff5252;
+  --reveal-effects-gift-box-unwrap-shadow-1: rgb(0 0 0 / 10%);
+  --reveal-effects-gift-box-unwrap-bg-2: #ffd700;
+  --reveal-effects-gift-box-unwrap-bg-3: #ff1744;
+  --reveal-effects-gift-box-unwrap-shadow-2: rgb(0 0 0 / 20%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,9 +24,9 @@
   bottom: 0;
   width: 100%;
   height: 80px;
-  background: #ff5252;
+  background: var(--reveal-effects-gift-box-unwrap-bg-1);
   border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px var(--reveal-effects-gift-box-unwrap-shadow-1);
   overflow: hidden;
   z-index: 5;
 }
@@ -30,7 +36,7 @@
   left: 40%;
   width: 20%;
   height: 100%;
-  background: #ffd700;
+  background: var(--reveal-effects-gift-box-unwrap-bg-2);
   transform-origin: bottom;
 }
 
@@ -39,7 +45,7 @@
   top: 40%;
   height: 20%;
   width: 100%;
-  background: #ffd700;
+  background: var(--reveal-effects-gift-box-unwrap-bg-2);
 }
 
 .reveal-gift-box-lid {
@@ -54,9 +60,9 @@
 .reveal-gift-box-lid-shape {
     width: 100%;
     height: 100%;
-    background: #ff1744;
+    background: var(--reveal-effects-gift-box-unwrap-bg-3);
     border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px var(--reveal-effects-gift-box-unwrap-shadow-2);
 }
 
 .reveal-gift-box-bow {
@@ -66,7 +72,7 @@
     transform: translateX(-50%);
     width: 30px;
     height: 15px;
-    background: #ffd700;
+    background: var(--reveal-effects-gift-box-unwrap-bg-2);
     border-radius: 10px;
 }
 

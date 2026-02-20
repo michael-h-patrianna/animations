@@ -1,5 +1,9 @@
 /* Styles specific to Timeline Progress */
 .pf-timeline-progress {
+
+  --progress-bars-timeline-progress-bg-1: rgb(30 144 255 / 10%);
+  --progress-bars-timeline-progress-border: rgb(30 144 255 / 16%);
+  --progress-bars-timeline-progress-color: rgb(255 255 255 / 76%);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -21,13 +25,13 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(30, 144, 255, 0.1);
-  border: 2px solid rgba(30, 144, 255, 0.16);
+  background: var(--progress-bars-timeline-progress-bg-1);
+  border: 2px solid var(--progress-bars-timeline-progress-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--progress-bars-timeline-progress-color);
   font-weight: 600;
   flex-shrink: 0;
 }
@@ -35,6 +39,6 @@
 .pf-timeline-progress__connector {
   flex: 1;
   height: 2px;
-  background: rgba(30, 144, 255, 0.16);
+  background: var(--progress-bars-timeline-progress-border);
   border-radius: 1px;
 }

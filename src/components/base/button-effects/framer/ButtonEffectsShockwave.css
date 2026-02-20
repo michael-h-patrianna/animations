@@ -1,23 +1,27 @@
 /* Styles scoped for ButtonEffectsShockwave */
 
 .pf-btn__shockwaves {
+
+  --button-effects-shockwave-border: rgb(255 255 255 / 50%);
+  --button-effects-shockwave-border-1: rgb(255 89 129 / 40%);
+  --button-effects-shockwave-border-2: rgb(255 206 26 / 30%);
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 .pf-btn__shockwave {
   position: absolute;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid var(--button-effects-shockwave-border);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
 .pf-btn__shockwave--1 {
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: var(--button-effects-shockwave-border);
 }
 .pf-btn__shockwave--2 {
-  border-color: rgba(255, 89, 129, 0.4);
+  border-color: var(--button-effects-shockwave-border-1);
 }
 .pf-btn__shockwave--3 {
-  border-color: rgba(255, 206, 26, 0.3);
+  border-color: var(--button-effects-shockwave-border-2);
 }

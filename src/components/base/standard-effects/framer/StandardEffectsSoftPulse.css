@@ -1,6 +1,12 @@
 /* Styles scoped for StandardEffectsSoftPulse (circle only, no text) */
 
 .soft-pulse-wrapper {
+  --standard-effects-soft-pulse-bg-100: rgb(198 255 119 / 18%);
+  --standard-effects-soft-pulse-bg-101: rgb(114 255 169 / 10%);
+  --standard-effects-soft-pulse-bg-102: rgb(255 255 255 / 0%);
+  --standard-effects-soft-pulse-bg-103: rgb(236 195 255 / 0%);
+  --standard-effects-soft-pulse-bg-104: rgb(236 195 255 / 45%);
+  --standard-effects-soft-pulse-bg-105: rgb(236 195 255 / 18%);
   width: 160px;
   height: 160px;
   display: grid;
@@ -28,9 +34,9 @@
 .soft-pulse__glow {
   background: radial-gradient(
     circle,
-    rgba(198, 255, 119, 0.18) 0%,
-    rgba(114, 255, 169, 0.1) 38%,
-    rgba(255, 255, 255, 0) 72%
+    var(--standard-effects-soft-pulse-bg-100) 0%,
+    var(--standard-effects-soft-pulse-bg-101) 38%,
+    var(--standard-effects-soft-pulse-bg-102) 72%
   );
   /* RN-friendly: avoid blur; rely on gradient + opacity */
 }
@@ -39,10 +45,10 @@
   /* Soft blended ring using a radial gradient instead of a hard stroke */
   background: radial-gradient(
     closest-side,
-    rgba(236, 195, 255, 0) 58%,
-    rgba(236, 195, 255, 0.45) 66%,
-    rgba(236, 195, 255, 0.18) 74%,
-    rgba(236, 195, 255, 0) 84%
+    var(--standard-effects-soft-pulse-bg-103) 58%,
+    var(--standard-effects-soft-pulse-bg-104) 66%,
+    var(--standard-effects-soft-pulse-bg-105) 74%,
+    var(--standard-effects-soft-pulse-bg-103) 84%
   );
   /* Avoid blur; keep soft edges via gradient stops */
   opacity: 0.85;

@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
-import diamondImg from '@/assets/Diamonds.png'
-import './RevealEffectsPrizeRays.css'
 
+/**
+ *
+ */
+import { diamondImage as diamondImg } from '@/assets'
+/**
+ *
+ */
 export function RevealEffectsPrizeRays() {
   const [isVisible, setIsVisible] = useState(false)
 

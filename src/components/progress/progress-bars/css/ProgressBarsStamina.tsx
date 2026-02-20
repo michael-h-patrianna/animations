@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsStamina.css'
 
+/**
+ *
+ */
 export function ProgressBarsStamina() {
   const [stamina, setStamina] = useState(100)
   const [isDraining, setIsDraining] = useState(true)

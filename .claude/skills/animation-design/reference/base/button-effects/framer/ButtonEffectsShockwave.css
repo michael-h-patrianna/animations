@@ -1,0 +1,23 @@
+/* Styles scoped for ButtonEffectsShockwave */
+
+.pf-btn__shockwaves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.pf-btn__shockwave {
+  position: absolute;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.pf-btn__shockwave--1 {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.pf-btn__shockwave--2 {
+  border-color: rgba(255, 89, 129, 0.4);
+}
+.pf-btn__shockwave--3 {
+  border-color: rgba(255, 206, 26, 0.3);
+}

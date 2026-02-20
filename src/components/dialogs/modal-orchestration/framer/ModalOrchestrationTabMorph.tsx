@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { AnimatePresence } from 'motion/react'
 import { useState } from 'react'
-import './ModalOrchestrationTabMorph.css'
 
+/**
+ *
+ */
 export function ModalOrchestrationTabMorph() {
   const tabs = 4
   const [activeTab, setActiveTab] = useState(0)

@@ -84,7 +84,7 @@ const AnimationCardComponent = ({
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const [bulbCount, setBulbCount] = useState(16)
-  const [onColor, setOnColor] = useState('#ffd700') // Gold/yellow for lit bulbs
+  const [onColor, setOnColor] = useState('var(--pf-anim-gold)') // Gold/yellow for lit bulbs
   const cardRef = useRef<HTMLDivElement>(null)
 
   const isLightsAnimation = animationId.startsWith('lights__')

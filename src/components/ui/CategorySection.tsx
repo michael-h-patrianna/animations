@@ -6,6 +6,9 @@ interface CategorySectionProps {
   elementId: string
 }
 
+/**
+ *
+ */
 export function CategorySection({ category, elementId }: CategorySectionProps) {
   const animationCount = category.groups.reduce(
     (total, group) => total + group.animations.length,

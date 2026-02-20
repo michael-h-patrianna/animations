@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalContentListSpotlight.css'
 
 
+/**
+ *
+ */
 export function ModalContentListSpotlight() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -20,7 +23,7 @@ export function ModalContentListSpotlight() {
         item.style.opacity = '0'
         item.style.transform = 'scale(0.95)'
         // Simulate brightness filter with opacity for RN compatibility
-        item.style.backgroundColor = 'rgba(0, 0, 0, 0.15)'
+        item.style.backgroundColor = 'var(--pf-anim-black-15)'
       }
     })
 

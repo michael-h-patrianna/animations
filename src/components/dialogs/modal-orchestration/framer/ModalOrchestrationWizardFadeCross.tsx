@@ -1,7 +1,8 @@
 import * as m from 'motion/react-m'
 
-import './ModalOrchestrationWizardFadeCross.css'
-
+/**
+ *
+ */
 export function ModalOrchestrationWizardFadeCross() {
   const steps = 3
 

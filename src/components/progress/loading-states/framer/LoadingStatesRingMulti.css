@@ -1,6 +1,10 @@
 /* Styles for LoadingStatesRingMulti */
 
 .pf-loading-container {
+
+  --loading-states-ring-multi-border-1: #c47ae5;
+  --loading-states-ring-multi-border-2: #c6ff77;
+  --loading-states-ring-multi-border-3: #47fff4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +29,7 @@
 .pf-ring-multi__segment:nth-child(1) {
   width: 40px;
   height: 40px;
-  border-color: #c47ae5;
+  border-color: var(--loading-states-ring-multi-border-1);
   /* Keep one side transparent so rotation is visible */
   border-top-color: transparent;
   opacity: 0.8;
@@ -33,7 +37,7 @@
 .pf-ring-multi__segment:nth-child(2) {
   width: 50px;
   height: 50px;
-  border-color: #c6ff77;
+  border-color: var(--loading-states-ring-multi-border-2);
   /* Keep one side transparent so rotation is visible */
   border-top-color: transparent;
   opacity: 0.6;
@@ -41,7 +45,7 @@
 .pf-ring-multi__segment:nth-child(3) {
   width: 60px;
   height: 60px;
-  border-color: #47fff4;
+  border-color: var(--loading-states-ring-multi-border-3);
   /* Keep one side transparent so rotation is visible */
   border-top-color: transparent;
   opacity: 0.4;

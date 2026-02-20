@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './RevealEffectsChestLidOpen.css'
 
+/**
+ *
+ */
 export function RevealEffectsChestLidOpen() {
   const [isOpen, setIsOpen] = useState(false)
 

@@ -1,6 +1,9 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 
+/**
+ *
+ */
 export function IconAnimationsBadgePopRotate() {
   const shouldReduceMotion = useReducedMotion()
 
@@ -21,6 +24,7 @@ export function IconAnimationsBadgePopRotate() {
             position: 'absolute',
             width: 120,
             height: 120,
+            // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
             background: 'radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%)',
             borderRadius: '50%',
             zIndex: 0,

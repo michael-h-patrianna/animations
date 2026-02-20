@@ -1,3 +1,14 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/LightsCircleStatic1.css'
+import './framer/LightsCircleStatic2.css'
+import './framer/LightsCircleStatic3.css'
+import './framer/LightsCircleStatic4.css'
+import './framer/LightsCircleStatic5.css'
+import './framer/LightsCircleStatic6.css'
+import './framer/LightsCircleStatic7.css'
+import './framer/LightsCircleStatic8.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

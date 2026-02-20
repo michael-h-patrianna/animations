@@ -1,0 +1,25 @@
+.pf-card-interactions--scale-click {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pf-card-interactions--scale-click:hover {
+  transform: scale(1.02);
+}
+
+.pf-card-interactions--scale-click:active {
+  transform: scale(0.95) rotate(-1deg);
+}
+
+.pf-click-overlay {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  transition: opacity 0.1s ease;
+}
+
+.pf-card-interactions--scale-click:active .pf-click-overlay {
+  opacity: 0.1;
+}

@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressSegmented.css'
 
 
+/**
+ *
+ */
 export function ProgressBarsProgressSegmented() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -46,7 +49,7 @@ export function ProgressBarsProgressSegmented() {
       gap.style.top = '0'
       gap.style.bottom = '0'
       gap.style.left = `calc(${(i * 100) / segmentCount}% - ${segmentGap / 2}px)`
-      gap.style.background = track.style.background || '#2a1040'
+      gap.style.background = track.style.background || 'var(--pf-anim-deep-purple)'
       gapOverlay.appendChild(gap)
     }
 
@@ -77,7 +80,7 @@ export function ProgressBarsProgressSegmented() {
         segment.style.borderRadius = '2px'
       }
       segment.style.border = '1px solid rgba(196,122,229,0.3)'
-      segment.style.background = 'rgba(78,24,124,0.1)'
+      segment.style.background = 'var(--pf-anim-violet-dark)'
       segment.style.overflow = 'hidden'
       segmentOverlay.appendChild(segment)
       segments.push(segment)
@@ -110,7 +113,7 @@ export function ProgressBarsProgressSegmented() {
         const glow = document.createElement('div')
         glow.style.position = 'absolute'
         glow.style.inset = '0'
-        glow.style.background = 'rgba(198,255,119,0.3)'
+        glow.style.background = 'var(--pf-anim-green)'
         glow.style.opacity = '0'
         segment.appendChild(glow)
 
@@ -123,7 +126,7 @@ export function ProgressBarsProgressSegmented() {
         segment.animate(
           [
             { transform: 'scale(1)', boxShadow: 'none' },
-            { transform: 'scale(1.1)', boxShadow: '0 0 20px rgba(198,255,119,0.5)', offset: 0.3 },
+            { transform: 'scale(1.1)', boxShadow: '0 0 20px rgba(var(--pf-anim-green-rgb, 198,255,119),0.5)', offset: 0.3 },
             { transform: 'scale(1)', boxShadow: 'none' },
           ],
           { duration: 400, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)' }

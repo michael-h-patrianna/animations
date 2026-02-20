@@ -1,7 +1,10 @@
 import './ModalCelebrationsFireworksTriple.css'
 
-const fireworkColors = ['#ffce1a', '#ff5981', '#47fff4', '#c6ff77']
+const fireworkColors = ['var(--pf-anim-firework-gold)', 'var(--pf-anim-firework-pink)', 'var(--pf-anim-firework-cyan)', 'var(--pf-anim-green)']
 
+/**
+ *
+ */
 export function ModalCelebrationsFireworksTriple() {
   const fireworks = fireworkColors.map((color, index) => ({
     id: index,

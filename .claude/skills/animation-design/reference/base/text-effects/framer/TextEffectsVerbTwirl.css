@@ -1,0 +1,21 @@
+/* Twirling text effect (no background) - Framer Motion version */
+.verbTwirl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+.verbTwirl__line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+.verbTwirl__char {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-block;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+}

@@ -1,7 +1,9 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import './ProgressBarsProgressGradient.css'
 
+/**
+ *
+ */
 export function ProgressBarsProgressGradient() {
   // Main fill animation
   const fillVariants = {
@@ -66,6 +68,7 @@ export function ProgressBarsProgressGradient() {
           style={{
             position: 'absolute',
             inset: -10,
+            // eslint-disable-next-line animation-rules/no-hardcoded-colors, animation-rules/no-radial-angular-gradient -- gradient with opacity stops, radial effect required for visual design
             background: `radial-gradient(ellipse at center,
               rgba(198,98,179,0) 0%,
               rgba(198,98,179,0.2) 50%,
@@ -110,9 +113,10 @@ export function ProgressBarsProgressGradient() {
               style={{
                 position: 'absolute',
                 inset: 0,
+                // eslint-disable-next-line animation-rules/no-hardcoded-colors -- gradient with opacity stops
                 background: `linear-gradient(105deg,
                   transparent 40%,
-                  rgba(255,255,255,0.7) 50%,
+                  rgb(255 255 255 / 0.7) 50%,
                   transparent 60%)`,
                 backgroundSize: '200% 100%',
                 pointerEvents: 'none',

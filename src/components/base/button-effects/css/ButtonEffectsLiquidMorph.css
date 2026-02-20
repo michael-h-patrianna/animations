@@ -27,7 +27,7 @@
   }
   50% {
     transform: scale(1.08, 0.92) rotate(3deg);
-    border-radius: 60px 50px 40px 50px;
+    border-radius: 60px 50px 40px;
   }
   75% {
     transform: scale(0.96, 1.04) rotate(-1deg);

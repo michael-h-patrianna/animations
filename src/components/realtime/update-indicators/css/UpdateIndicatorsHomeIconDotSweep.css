@@ -1,5 +1,11 @@
 /* Home icon with color fill accent and subtle secondary halo */
 .pf-update-indicator--icon {
+
+  --update-indicators-home-icon-dot-sweep-bg-1: #ff4967;
+  --update-indicators-home-icon-dot-sweep-border: rgb(255 73 103 / 55%);
+  --update-indicators-home-icon-dot-sweep-shadow-1: rgb(255 73 103 / 0%);
+  --update-indicators-home-icon-dot-sweep-bg-2: #ff0a4d;
+  --update-indicators-home-icon-dot-sweep-shadow-2: rgb(255 73 103 / 22%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24,7 +30,7 @@
   width: 14px;
   height: 14px;
   border-radius: 9999px;
-  background: #ff4967;
+  background: var(--update-indicators-home-icon-dot-sweep-bg-1);
   transform-origin: center;
 }
 
@@ -35,7 +41,7 @@
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  border: 2px solid rgba(255, 73, 103, 0.55);
+  border: 2px solid var(--update-indicators-home-icon-dot-sweep-border);
   opacity: 0;
   pointer-events: none;
   /* RN-friendly: avoid drop-shadow */
@@ -44,19 +50,19 @@
 /* driven by JS trigger: dot fill flash then settle */
 @keyframes pf-ui-dot-fill {
   0% {
-    background: #ff4967;
+    background: var(--update-indicators-home-icon-dot-sweep-bg-1);
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 73, 103, 0);
+    box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-sweep-shadow-1);
   }
   30% {
-    background: #ff0a4d;
+    background: var(--update-indicators-home-icon-dot-sweep-bg-2);
     transform: scale(1.16);
-    box-shadow: 0 0 0 10px rgba(255, 73, 103, 0.22);
+    box-shadow: 0 0 0 10px var(--update-indicators-home-icon-dot-sweep-shadow-2);
   }
   100% {
-    background: #ff4967;
+    background: var(--update-indicators-home-icon-dot-sweep-bg-1);
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 73, 103, 0);
+    box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-sweep-shadow-1);
   }
 }
 

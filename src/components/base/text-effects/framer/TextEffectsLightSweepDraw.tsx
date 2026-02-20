@@ -9,8 +9,6 @@ import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
-import './TextEffectsLightSweepDraw.css'
-import '../shared.css'
 
 function TextEffectsLightSweepDrawComponent() {
   const text = 'LOREM IPSUM DOLOR'
@@ -88,7 +86,5 @@ function TextEffectsLightSweepDrawComponent() {
  * Memoized TextEffectsLightSweepDraw to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsLightSweepDraw = memo(TextEffectsLightSweepDrawComponent)
-
-
 
 export default TextEffectsLightSweepDraw

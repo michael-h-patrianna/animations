@@ -1,20 +1,25 @@
 /* Styles specific to RealtimeDataWinTicker */
 
 .pf-realtime-data {
+
+  --realtime-data-win-ticker-bg-1: rgb(17 24 39 / 80%);
+  --realtime-data-win-ticker-border: rgb(75 85 99 / 30%);
+  --realtime-data-win-ticker-bg-2: rgb(31 41 55 / 80%);
+  --realtime-data-win-ticker-color: #f59e0b;
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 24px;
-  font-family: 'Lato', sans-serif;
-  background: rgba(17, 24, 39, 0.8);
+  font-family: Lato, sans-serif;
+  background: var(--realtime-data-win-ticker-bg-1);
   border-radius: 12px;
-  border: 1px solid rgba(75, 85, 99, 0.3);
+  border: 1px solid var(--realtime-data-win-ticker-border);
   width: 100%;
   box-sizing: border-box;
 }
 
 .pf-realtime-data__ticker {
-  background: rgba(31, 41, 55, 0.8);
+  background: var(--realtime-data-win-ticker-bg-2);
   border-radius: 8px;
   padding: 12px;
   overflow: hidden;
@@ -27,7 +32,7 @@
 }
 
 .pf-realtime-data__ticker-text {
-  color: #f59e0b;
+  color: var(--realtime-data-win-ticker-color);
   font-weight: 600;
   white-space: nowrap;
   position: absolute;

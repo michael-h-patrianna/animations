@@ -9,7 +9,7 @@
   /* Keyframe 0: Initial state */
   0% {
     opacity: 1;
-    transform: translateX(0px) scale(1);
+    transform: translateX(0) scale(1);
   }
 
   /* Keyframe 1: 5% */
@@ -45,7 +45,7 @@
   /* Keyframe 6: 30% */
   30% {
     opacity: 0.6;
-    transform: translateX(0px) scale(1.02);
+    transform: translateX(0) scale(1.02);
   }
 
   /* Keyframe 7: 35% */
@@ -129,6 +129,6 @@
   /* Keyframe 20: 100% - Final state */
   100% {
     opacity: 1;
-    transform: translateX(0px) scale(1);
+    transform: translateX(0) scale(1);
   }
 }

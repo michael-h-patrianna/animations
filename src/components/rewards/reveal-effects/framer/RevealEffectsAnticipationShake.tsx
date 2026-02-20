@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import * as m from 'motion/react-m'
-import './RevealEffectsAnticipationShake.css'
 
+/**
+ *
+ */
 export function RevealEffectsAnticipationShake() {
   const [isAnimating, setIsAnimating] = useState(false)
 

@@ -1,5 +1,19 @@
 /* Container */
 .tfx-xp-container {
+
+  --text-effects-xp-number-pop-bg-1: #c6ff77;
+  --text-effects-xp-number-pop-bg-2: #a8ff3e;
+  --text-effects-xp-number-pop-text-shadow-1: rgb(198 255 119 / 90%);
+  --text-effects-xp-number-pop-color-1: #b8ff5e;
+  --text-effects-xp-number-pop-text-shadow-2: rgb(184 255 94 / 90%);
+  --text-effects-xp-number-pop-text-shadow-3: rgb(168 255 62 / 90%);
+  --text-effects-xp-number-pop-color-2: #9bff28;
+  --text-effects-xp-number-pop-text-shadow-4: rgb(155 255 40 / 90%);
+  --text-effects-xp-number-pop-color-3: #8eff10;
+  --text-effects-xp-number-pop-text-shadow-5: rgb(142 255 16 / 90%);
+  --text-effects-xp-number-pop-text-shadow-100: rgb(198 255 119 / 80%);
+  --text-effects-xp-number-pop-text-shadow-101: rgb(198 255 119 / 50%);
+  --text-effects-xp-number-pop-text-shadow-102: rgb(0 0 0 / 30%);
   position: relative;
   min-height: 80px;
   display: flex;
@@ -29,14 +43,13 @@
 .tfx-xp-number-value {
   font-size: 56px;
   font-weight: 900;
-  background: linear-gradient(135deg, #c6ff77, #a8ff3e);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, var(--text-effects-xp-number-pop-bg-1), var(--text-effects-xp-number-pop-bg-2));
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow:
-    0 0 30px rgba(198, 255, 119, 0.8),
-    0 0 60px rgba(198, 255, 119, 0.5),
-    0 2px 4px rgba(0, 0, 0, 0.3);
+    0 0 30px var(--text-effects-xp-number-pop-text-shadow-100),
+    0 0 60px var(--text-effects-xp-number-pop-text-shadow-101),
+    0 2px 4px var(--text-effects-xp-number-pop-text-shadow-102);
   letter-spacing: 2px;
 
   /* GPU acceleration */
@@ -49,7 +62,7 @@
   font-size: 24px;
   margin-left: 8px;
   font-weight: 700;
-  color: #a8ff3e;
+  color: var(--text-effects-xp-number-pop-bg-2);
 
   /* GPU acceleration */
   will-change: opacity;
@@ -97,32 +110,32 @@
 /* Particle Colors - Gradient from bright green to lime */
 .tfx-xp-particle:nth-child(1),
 .tfx-xp-particle:nth-child(6) {
-  color: #c6ff77;
-  text-shadow: 0 0 15px rgba(198, 255, 119, 0.9);
+  color: var(--text-effects-xp-number-pop-bg-1);
+  text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-1);
 }
 
 .tfx-xp-particle:nth-child(2),
 .tfx-xp-particle:nth-child(7) {
-  color: #b8ff5e;
-  text-shadow: 0 0 15px rgba(184, 255, 94, 0.9);
+  color: var(--text-effects-xp-number-pop-color-1);
+  text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-2);
 }
 
 .tfx-xp-particle:nth-child(3),
 .tfx-xp-particle:nth-child(8) {
-  color: #a8ff3e;
-  text-shadow: 0 0 15px rgba(168, 255, 62, 0.9);
+  color: var(--text-effects-xp-number-pop-bg-2);
+  text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-3);
 }
 
 .tfx-xp-particle:nth-child(4),
 .tfx-xp-particle:nth-child(9) {
-  color: #9bff28;
-  text-shadow: 0 0 15px rgba(155, 255, 40, 0.9);
+  color: var(--text-effects-xp-number-pop-color-2);
+  text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-4);
 }
 
 .tfx-xp-particle:nth-child(5),
 .tfx-xp-particle:nth-child(10) {
-  color: #8eff10;
-  text-shadow: 0 0 15px rgba(142, 255, 16, 0.9);
+  color: var(--text-effects-xp-number-pop-color-3);
+  text-shadow: 0 0 15px var(--text-effects-xp-number-pop-text-shadow-5);
 }
 
 /* ============================================================================

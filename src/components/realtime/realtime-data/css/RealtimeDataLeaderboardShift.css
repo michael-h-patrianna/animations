@@ -1,14 +1,22 @@
 /* Styles specific to RealtimeDataLeaderboardShift */
 
 .pf-realtime-data {
+
+  --realtime-data-leaderboard-shift-bg-1: rgb(17 24 39 / 80%);
+  --realtime-data-leaderboard-shift-border-1: rgb(75 85 99 / 30%);
+  --realtime-data-leaderboard-shift-bg-2: rgb(55 65 81 / 40%);
+  --realtime-data-leaderboard-shift-border-2: rgb(75 85 99 / 20%);
+  --realtime-data-leaderboard-shift-color-1: #9ca3af;
+  --realtime-data-leaderboard-shift-color-2: #f3f4f6;
+  --realtime-data-leaderboard-shift-color-3: #10b981;
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 24px;
-  font-family: 'Lato', sans-serif;
-  background: rgba(17, 24, 39, 0.8);
+  font-family: Lato, sans-serif;
+  background: var(--realtime-data-leaderboard-shift-bg-1);
   border-radius: 12px;
-  border: 1px solid rgba(75, 85, 99, 0.3);
+  border: 1px solid var(--realtime-data-leaderboard-shift-border-1);
   min-height: 180px;
   width: 100%;
   box-sizing: border-box;
@@ -26,28 +34,28 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  background: rgba(55, 65, 81, 0.4);
+  background: var(--realtime-data-leaderboard-shift-bg-2);
   border-radius: 6px;
-  border: 1px solid rgba(75, 85, 99, 0.2);
+  border: 1px solid var(--realtime-data-leaderboard-shift-border-2);
   width: 100%;
   box-sizing: border-box;
   will-change: transform, opacity;
 }
 
 .pf-realtime-data__rank {
-  color: #9ca3af;
+  color: var(--realtime-data-leaderboard-shift-color-1);
   font-weight: 600;
   font-size: 0.875rem;
   width: 24px;
 }
 .pf-realtime-data__player {
-  color: #f3f4f6;
+  color: var(--realtime-data-leaderboard-shift-color-2);
   font-weight: 500;
   flex: 1;
   margin-left: 8px;
 }
 .pf-realtime-data__score {
-  color: #10b981;
+  color: var(--realtime-data-leaderboard-shift-color-3);
   font-weight: 600;
   font-size: 0.875rem;
 }

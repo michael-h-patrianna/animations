@@ -1,9 +1,11 @@
 import * as m from 'motion/react-m'
 
 import { MockModalContent } from '../MockModalContent'
-import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
 
+/**
+ *
+ */
 export function ModalBaseShatterAssemble() {
   const duration = 0.85
   const ease = [0.68, -0.55, 0.265, 1.55] as const

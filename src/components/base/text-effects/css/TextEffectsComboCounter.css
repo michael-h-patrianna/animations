@@ -1,5 +1,31 @@
 /* Container */
 .tfx-combo-container {
+
+  --text-effects-combo-counter-bg-1: #ef4444;
+  --text-effects-combo-counter-bg-2: #dc2626;
+  --text-effects-combo-counter-bg-3: #b91c1c;
+  --text-effects-combo-counter-text-shadow-1: rgb(0 0 0 / 30%);
+  --text-effects-combo-counter-color-1: #f59e0b;
+  --text-effects-combo-counter-text-shadow-2: rgb(245 158 11 / 80%);
+  --text-effects-combo-counter-color-2: #10b9;
+  --text-effects-combo-counter-color-2-0b: #10b90b;
+  --text-effects-combo-counter-color-2-81: #10b981;
+  --text-effects-combo-counter-color-3: #60a5;
+  --text-effects-combo-counter-color-3-81: #60a581;
+  --text-effects-combo-counter-color-3-fa: #60a5fa;
+  --text-effects-combo-counter-color-4: #a78b;
+  --text-effects-combo-counter-color-4-24: #a78b24;
+  --text-effects-combo-counter-color-4-fa: #a78bfa;
+  --text-effects-combo-counter-color-5: #fbbf;
+  --text-effects-combo-counter-color-5-24: #fbbf24;
+  --text-effects-combo-counter-color-5-fa: #fbbffa;
+  --text-effects-combo-counter-bg-4: #ffd700;
+  --text-effects-combo-counter-bg-5: #ffa500;
+  --text-effects-combo-counter-text-shadow-100: rgb(0 0 0 / 40%);
+  --text-effects-combo-counter-text-shadow-101: rgb(245 158 11 / 50%);
+  --text-effects-combo-counter-text-shadow-102: rgb(96 165 250 / 80%);
+  --text-effects-combo-counter-text-shadow-103: rgb(167 139 250 / 80%);
+  --text-effects-combo-counter-text-shadow-104: rgb(251 191 36 / 80%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,11 +67,10 @@
   position: relative;
   font-size: 36px;
   font-weight: 900;
-  background: linear-gradient(180deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(180deg, var(--text-effects-combo-counter-bg-1) 0%, var(--text-effects-combo-counter-bg-2) 50%, var(--text-effects-combo-counter-bg-3) 100%);
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px var(--text-effects-combo-counter-text-shadow-1);
   transform-origin: center bottom;
   min-width: 50px;
   text-align: center;
@@ -77,10 +102,10 @@
 /* Hit Marker */
 .tfx-combo-hit-marker {
   font-size: 24px;
-  color: #f59e0b;
+  color: var(--text-effects-combo-counter-color-1);
   font-weight: 700;
   margin-left: 2px;
-  text-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
+  text-shadow: 0 0 8px var(--text-effects-combo-counter-text-shadow-2);
 
   /* GPU acceleration */
   will-change: transform, opacity;
@@ -107,10 +132,10 @@
 /* Individual Letters - Staggered Animation */
 .tfx-combo-letter {
   display: inline-block;
-  color: #f59e0b;
+  color: var(--text-effects-combo-counter-color-1);
   text-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    0 0 8px rgba(245, 158, 11, 0.5);
+    0 2px 4px var(--text-effects-combo-counter-text-shadow-100),
+    0 0 8px var(--text-effects-combo-counter-text-shadow-101);
   transform-origin: center;
 
   /* GPU acceleration */
@@ -142,11 +167,11 @@
 .tfx-combo-bonus {
   font-size: 14px;
   font-weight: 700;
-  color: #10b981;
+  color: var(--text-effects-combo-counter-color-2-81);
   letter-spacing: 3px;
   text-shadow:
-    0 0 10px rgba(16, 185, 129, 0.6),
-    0 1px 3px rgba(0, 0, 0, 0.3);
+    0 0 10px rgb(16 185 129 / 60%),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
   margin-top: 8px;
 
   /* GPU acceleration */
@@ -217,38 +242,37 @@
 
 /* Particle Colors - Gradient from first to last */
 .tfx-combo-particle:nth-child(1) {
-  color: #60a5fa;
+  color: var(--text-effects-combo-counter-color-3-fa);
   text-shadow:
-    0 0 10px rgba(96, 165, 250, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+    0 0 10px var(--text-effects-combo-counter-text-shadow-102),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
 }
 
 .tfx-combo-particle:nth-child(2) {
-  color: #a78bfa;
+  color: var(--text-effects-combo-counter-color-4-fa);
   text-shadow:
-    0 0 10px rgba(167, 139, 250, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+    0 0 10px var(--text-effects-combo-counter-text-shadow-103),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
 }
 
 .tfx-combo-particle:nth-child(3) {
-  color: #fbbf24;
+  color: var(--text-effects-combo-counter-color-5-24);
   text-shadow:
-    0 0 10px rgba(251, 191, 36, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+    0 0 10px var(--text-effects-combo-counter-text-shadow-104),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
 }
 
 .tfx-combo-particle:nth-child(4),
 .tfx-combo-particle:nth-child(5),
 .tfx-combo-particle:nth-child(6) {
-  background: linear-gradient(135deg, #ffd700 0%, #ffa500 50%, #ffd700 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, var(--text-effects-combo-counter-bg-4) 0%, var(--text-effects-combo-counter-bg-5) 50%, var(--text-effects-combo-counter-bg-4) 100%);
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: 15px;
   font-weight: 800;
   text-shadow:
-    0 0 15px rgba(255, 215, 0, 0.9),
-    0 1px 3px rgba(0, 0, 0, 0.3);
+    0 0 15px rgb(255 215 0 / 90%),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
 }
 
 /* ============================================================================

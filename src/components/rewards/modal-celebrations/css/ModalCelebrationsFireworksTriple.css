@@ -1,11 +1,15 @@
 /* Styles scoped for ModalCelebrationsFireworksTriple */
 .pf-celebration {
+
+  --modal-celebrations-fireworks-triple-bg-1: rgb(236 195 255 / 18%);
+  --modal-celebrations-fireworks-triple-bg-2: rgb(29 9 47 / 92%);
+  --modal-celebrations-fireworks-triple-border: rgb(236 195 255 / 12%);
   position: relative;
   width: 100%;
   height: 240px;
   border-radius: 12px;
-  background: radial-gradient(circle at 50% 0%, rgba(236, 195, 255, 0.18), rgba(29, 9, 47, 0.92));
-  border: 1px solid rgba(236, 195, 255, 0.12);
+  background: radial-gradient(circle at 50% 0%, var(--modal-celebrations-fireworks-triple-bg-1), var(--modal-celebrations-fireworks-triple-bg-2));
+  border: 1px solid var(--modal-celebrations-fireworks-triple-border);
   overflow: hidden;
 }
 .pf-celebration__layer {

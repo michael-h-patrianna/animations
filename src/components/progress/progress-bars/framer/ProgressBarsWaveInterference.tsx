@@ -1,12 +1,14 @@
 import * as m from 'motion/react-m'
 import { useEffect, useRef } from 'react'
-import './ProgressBarsWaveInterference.css'
 
 interface WaveSegment {
   index: number
   position: number // 0-1 position along bar
 }
 
+/**
+ *
+ */
 export function ProgressBarsWaveInterference() {
   const nodesContainerRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<{ cleanup: () => void }>({ cleanup: () => {} })

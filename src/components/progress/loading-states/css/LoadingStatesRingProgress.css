@@ -1,6 +1,9 @@
 /* Styles for LoadingStatesRingProgress */
 
 .pf-loading-container {
+
+  --loading-states-ring-progress-stroke-1: rgb(236 195 255 / 20%);
+  --loading-states-ring-progress-stroke-2: #c47ae5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,10 +20,10 @@
   transform: rotate(-90deg);
 }
 .pf-ring-progress circle.base {
-  stroke: rgba(236, 195, 255, 0.2);
+  stroke: var(--loading-states-ring-progress-stroke-1);
 }
 .pf-ring-progress circle.pf-progress-ring {
-  stroke: #c47ae5;
+  stroke: var(--loading-states-ring-progress-stroke-2);
   animation: ring-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 

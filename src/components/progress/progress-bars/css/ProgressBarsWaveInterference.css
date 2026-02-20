@@ -88,31 +88,31 @@
 /* Wave oscillation - sine wave motion */
 @keyframes pb-wi-wave-oscillate-css {
   0% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   12.5% {
     transform: translateY(-8px);
   }
   25% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   37.5% {
     transform: translateY(8px);
   }
   50% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   62.5% {
     transform: translateY(-8px);
   }
   75% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   87.5% {
     transform: translateY(8px);
   }
   100% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 }
 

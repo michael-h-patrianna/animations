@@ -1,0 +1,42 @@
+.tfx-flip-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  perspective: 600px;
+}
+
+.tfx-flip-line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+
+.tfx-flip-char {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-block;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: tfx-flip-animation 1.8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+
+.tfx-flip-char--delayed {
+  animation-delay: 0.1s;
+}
+
+@keyframes tfx-flip-animation {
+  0% {
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+  30% {
+    transform: rotate3d(0, 1, 0, 180deg);
+  }
+  100% {
+    transform: rotate3d(0, 1, 0, 360deg);
+  }
+}

@@ -1,5 +1,11 @@
 /* Styles scoped for StandardEffectsBlink */
 .standard-demo-container {
+
+  --standard-effects-bg-1: rgb(236 195 255 / 12%);
+  --standard-effects-bg-2: rgb(198 255 119 / 8%);
+  --standard-effects-border: rgb(236 195 255 / 24%);
+  --standard-effects-shadow: rgb(0 0 0 / 12%);
+  --standard-effects-color: rgb(255 255 255 / 90%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,10 +14,10 @@
 }
 .standard-demo-element {
   padding: 24px 32px;
-  background: linear-gradient(135deg, rgba(236, 195, 255, 0.12) 0%, rgba(198, 255, 119, 0.08) 100%);
-  border: 1px solid rgba(236, 195, 255, 0.24);
+  background: linear-gradient(135deg, var(--standard-effects-bg-1) 0%, var(--standard-effects-bg-2) 100%);
+  border: 1px solid var(--standard-effects-border);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 32px var(--standard-effects-shadow);
   position: relative;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -19,6 +25,6 @@
 .demo-text {
   font-size: 16px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--standard-effects-color);
   text-align: center;
 }

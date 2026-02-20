@@ -1,0 +1,41 @@
+/* TimerEffectsPillCountdownMedium - CSS animations */
+
+/* Blip animation for pill */
+@keyframes medium-blip-pill {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Glow animation synchronized with blip */
+@keyframes medium-blip-glow {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.pf-pill-timer__pill--medium {
+  animation: medium-blip-pill 320ms ease-out;
+}
+
+.pf-pill-timer__pill--medium .pf-pill-timer__glow {
+  animation: medium-blip-glow 320ms ease-out;
+}

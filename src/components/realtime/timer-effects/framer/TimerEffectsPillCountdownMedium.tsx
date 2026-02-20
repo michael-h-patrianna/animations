@@ -1,9 +1,11 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsPillCountdownMedium.css'
 
 // Periodic blip: LED corner blink every 10s; subtle perimeter arc progress.
+/**
+ *
+ */
 export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)

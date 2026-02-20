@@ -1,5 +1,8 @@
 import './ProgressBarsPulseWave.css'
 
+/**
+ *
+ */
 export function ProgressBarsPulseWave() {
   return (
     <div

@@ -1,5 +1,7 @@
 /* Styles scoped for ModalOrchestrationGridHighlight (CSS-only version) */
 .pf-grid-highlight {
+
+  --modal-orchestration-grid-highlight-color: rgb(255 255 255 / 76%);
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -11,7 +13,7 @@
 .pf-grid-highlight__item {
   padding: 16px;
   border-radius: 12px;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--modal-orchestration-grid-highlight-color);
   text-align: center;
   display: flex;
   align-items: center;

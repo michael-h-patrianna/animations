@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
-import coinImg from '@/assets/coin.png'
 import './RevealEffectsCardShimmer.css'
 
+/**
+ *
+ */
+import { coinImage as coinImg } from '@/assets'
+/**
+ *
+ */
 export function RevealEffectsCardShimmer() {
   const [isRevealed, setIsRevealed] = useState(false)
 

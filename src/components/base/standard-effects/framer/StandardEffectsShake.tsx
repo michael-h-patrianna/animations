@@ -2,8 +2,6 @@ import { memo } from 'react'
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 
-import '../shared.css'
-
 function StandardEffectsShakeComponent() {
   return (
     <div className="standard-demo-container">
@@ -29,5 +27,4 @@ function StandardEffectsShakeComponent() {
  * Memoized StandardEffectsShake to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsShake = memo(StandardEffectsShakeComponent)
-
 

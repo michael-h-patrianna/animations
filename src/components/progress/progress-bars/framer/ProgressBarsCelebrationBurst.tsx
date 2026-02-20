@@ -1,7 +1,6 @@
-import { animate } from 'motion/react'
+import { animate, type AnimationPlaybackControls } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import './ProgressBarsCelebrationBurst.css'
 
 interface Particle {
   id: number
@@ -14,6 +13,9 @@ interface MilestoneAnimation {
   index: number
 }
 
+/**
+ *
+ */
 export function ProgressBarsCelebrationBurst() {
   const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
   const [particles, setParticles] = useState<Particle[]>([])
@@ -27,7 +29,7 @@ export function ProgressBarsCelebrationBurst() {
   const reachedMilestonesRef = useRef<Set<number>>(new Set())
   const lastProgressRef = useRef(0)
   const timeoutHandlesRef = useRef<Array<ReturnType<typeof setTimeout>>>([])
-  const animationControlsRef = useRef<any[]>([])
+  const animationControlsRef = useRef<AnimationPlaybackControls[]>([])
 
   const registerTimeout = useCallback((callback: () => void, delay: number) => {
     const handle = setTimeout(() => {
@@ -38,7 +40,7 @@ export function ProgressBarsCelebrationBurst() {
     return handle
   }, [])
 
-  const registerAnimation = useCallback((control: any) => {
+  const registerAnimation = useCallback((control: AnimationPlaybackControls) => {
     animationControlsRef.current.push(control)
     return control
   }, [])
@@ -170,7 +172,7 @@ export function ProgressBarsCelebrationBurst() {
   const markerVariants = (isActive: boolean) => ({
     scale: isActive ? 1 : 0.6,
     opacity: isActive ? 1 : 0.6,
-    backgroundColor: isActive ? 'rgba(168, 85, 247, 1)' : 'rgba(147, 51, 234, 0.3)',
+    backgroundColor: isActive ? 'var(--pf-anim-purple)' : 'var(--pf-anim-purple-dark)',
     transition: {
       duration: 0.25,
       ease: 'easeOut' as const,
@@ -258,7 +260,7 @@ export function ProgressBarsCelebrationBurst() {
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  border: '2px solid rgba(168, 85, 247, 0.8)',
+                  border: '2px solid rgb(168 85 247 / 0.8)',
                   borderRadius: '50%',
                 }}
               />
@@ -274,7 +276,7 @@ export function ProgressBarsCelebrationBurst() {
                     style={{
                       position: 'absolute',
                       inset: '-4px',
-                      border: '2px solid rgba(168, 85, 247, 0.8)',
+                      border: '2px solid rgb(168 85 247 / 0.8)',
                       borderRadius: '50%',
                       pointerEvents: 'none',
                     }}
@@ -287,7 +289,7 @@ export function ProgressBarsCelebrationBurst() {
                     style={{
                       position: 'absolute',
                       inset: '-4px',
-                      border: '2px solid rgba(168, 85, 247, 0.6)',
+                      border: '2px solid rgb(168 85 247 / 0.6)',
                       borderRadius: '50%',
                       pointerEvents: 'none',
                     }}
@@ -314,7 +316,7 @@ export function ProgressBarsCelebrationBurst() {
                       marginLeft: '-3px',
                       marginTop: '-3px',
                       borderRadius: '50%',
-                      backgroundColor: 'rgba(168, 85, 247, 1)',
+                      backgroundColor: 'var(--pf-anim-purple)',
                       pointerEvents: 'none',
                     }}
                   />

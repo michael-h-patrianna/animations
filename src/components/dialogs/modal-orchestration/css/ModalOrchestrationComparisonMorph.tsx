@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalOrchestrationComparisonMorph.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationComparisonMorph() {
   const panes = 2
   const paneRefs = useRef<(HTMLDivElement | null)[]>([])

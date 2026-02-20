@@ -1,10 +1,14 @@
-import giftBoxImage from '@/assets/present_box.png'
-import '../shared.css'
 
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import './IconAnimationsBounce.css'
 
+/**
+ *
+ */
+import { presentBox as giftBoxImage } from '@/assets'
+/**
+ *
+ */
 export function IconAnimationsBounce() {
   return (
     <div className="icon-demo-container">

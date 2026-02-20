@@ -1,13 +1,16 @@
 /* Styles specific to TimerEffectsTimerColorShift */
 
 .pf-timer {
+
+  --timer-effects-timer-color-shift-color: #9ca3af;
+  --timer-effects-timer-color-shift-bg: rgb(236 195 255 / 16%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   padding: 24px;
   position: relative;
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
   /* Default arc sizing (tweakable) */
   --pf-timer-arc-size: 64px;
   --pf-timer-arc-stroke: 3;
@@ -31,7 +34,7 @@
 
 .pf-timer__label {
   font-size: 0.875rem;
-  color: #9ca3af;
+  color: var(--timer-effects-timer-color-shift-color);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;
@@ -40,7 +43,7 @@
 .pf-timer__underline {
   width: 160px;
   height: 3px;
-  background: rgba(236, 195, 255, 0.16);
+  background: var(--timer-effects-timer-color-shift-bg);
   border-radius: 4px;
   transform-origin: left center;
 }

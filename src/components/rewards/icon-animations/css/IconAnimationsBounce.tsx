@@ -1,7 +1,13 @@
 // React import not required for JSX in React 17+
-import giftBoxImage from '@/assets/present_box.png'
 import './IconAnimationsBounce.css'
 
+/**
+ *
+ */
+import { presentBox as giftBoxImage } from '@/assets'
+/**
+ *
+ */
 export function IconAnimationsBounce() {
   return (
     <div className="icon-demo-container">

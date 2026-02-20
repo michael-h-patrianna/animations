@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
-import './RevealEffectsGiftBoxUnwrap.css'
 
-export const metadata = {
-  id: 'rewards-reveal-effects__gift-box-unwrap',
-  title: 'Gift Box Unwrap',
-  description: 'Gift box lid lifts up and ribbon fades away.',
-  tags: ['gift', 'box', 'unwrap', 'reveal'],
-}
-
+/**
+ *
+ */
 export function RevealEffectsGiftBoxUnwrap() {
   const [isOpen, setIsOpen] = useState(false)
 

@@ -1,8 +1,10 @@
 import { easeOut } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsProgressMilestones.css'
 
+/**
+ *
+ */
 export function ProgressBarsProgressMilestones() {
 const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
 
@@ -48,12 +50,12 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
     inactive: {
       scale: 0.5,
       opacity: 0.6,
-      background: 'rgba(0,180,160,0.3)',
+      background: 'var(--pf-anim-cyan-soft)',
     },
     active: {
       scale: 1,
       opacity: 1,
-      background: ['rgba(0,180,160,0.3)', 'rgba(0,255,255,0.9)'],
+      background: ['var(--pf-anim-cyan-soft)', 'var(--pf-anim-cyan-light)'],
       transition: {
         duration: 0.4,
         ease: [0.34, 1.56, 0.64, 1] as const,
@@ -75,10 +77,10 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
   }
 
   const labelVariants = {
-    inactive: { opacity: 0.5, color: 'rgba(0,200,180,0.6)' },
+    inactive: { opacity: 0.5, color: 'var(--pf-anim-cyan-muted)' },
     active: {
       opacity: 1,
-      color: 'rgba(0,255,255,1)',
+      color: 'var(--pf-anim-cyan-light)',
       transition: { duration: 0.3, ease: easeOut },
     },
   }
@@ -133,7 +135,8 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
                   position: 'absolute',
                   inset: '20%',
                   background:
-                    'radial-gradient(circle, rgba(0,255,255,0.9) 0%, rgba(0,255,255,0.3) 50%, transparent 100%)',
+                    // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                    'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, rgba(0,255,255,0.3) 50%, transparent 100%)',
                   borderRadius: '50%',
                   opacity: activatedMilestones.has(i) ? 1 : 0,
                   transition: 'opacity 0.3s ease',

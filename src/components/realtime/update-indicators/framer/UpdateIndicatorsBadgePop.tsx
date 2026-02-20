@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 
 import { useEffect, useState } from 'react'
-import './UpdateIndicatorsBadgePop.css'
 
+/**
+ *
+ */
 export function UpdateIndicatorsBadgePop() {
   const [key, setKey] = useState(0)
 useEffect(() => {

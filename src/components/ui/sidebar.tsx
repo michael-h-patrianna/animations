@@ -25,6 +25,9 @@ const SidebarContext = React.createContext<SidebarContextValue>({
   setExpanded: () => {},
 })
 
+/**
+ *
+ */
 export interface SidebarProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof sidebarVariants> {

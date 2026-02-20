@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
-import boxImg from '@/assets/present_box.png'
-import diamondImg from '@/assets/Diamonds.png'
 import './RevealEffectsChestGlowOpen.css'
 
+/**
+ *
+ */
+import { diamondImage as diamondImg, presentBox as boxImg } from '@/assets'
+/**
+ *
+ */
 export function RevealEffectsChestGlowOpen() {
   const [phase, setPhase] = useState<'idle' | 'shake' | 'flash' | 'reveal'>('idle')
 

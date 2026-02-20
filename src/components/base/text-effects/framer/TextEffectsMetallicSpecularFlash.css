@@ -1,7 +1,7 @@
 /* Standalone CSS for TextEffectsMetallicSpecularFlash */
 .studioLogo-MetallicSpecularFlash {
   --msf-baseColor: #e8e4da;
-  --msf-highlightColor: #ffffff;
+  --msf-highlightColor: #fff;
   --msf-shadowColor: #b6b1a6;
   display: inline-flex;
   align-items: baseline;

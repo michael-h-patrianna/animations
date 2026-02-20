@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import * as m from 'motion/react-m'
-import coinImage from '@/assets/coin.png'
-import './CollectionEffectsCoinMagnet.css'
 
+import { coinImage } from '@/assets'
 interface Coin {
   id: number
   startX: number
@@ -11,6 +10,9 @@ interface Coin {
   delay: number
 }
 
+/**
+ *
+ */
 export function CollectionEffectsCoinMagnet() {
   const [coins, setCoins] = useState<Coin[]>([])
   const containerRef = useRef<HTMLDivElement>(null)

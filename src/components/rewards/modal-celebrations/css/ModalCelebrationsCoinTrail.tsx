@@ -1,7 +1,7 @@
-import coinImage from '@/assets/coin.png'
 import { useEffect, useState } from 'react'
 import './ModalCelebrationsCoinTrail.css'
 
+import { coinImage } from '@/assets'
 interface Coin {
   id: number
   delay: number
@@ -45,6 +45,9 @@ const AnimatedCoin = ({ delay }: { delay: number }) => {
   )
 }
 
+/**
+ *
+ */
 export function ModalCelebrationsCoinTrail() {
   const [coins, setCoins] = useState<Coin[]>([])
 

@@ -1,8 +1,6 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useRef, useState, memo } from 'react'
-import '../shared.css'
-import './ButtonEffectsRipple.css'
 
 interface Ripple {
   id: number
@@ -15,7 +13,6 @@ function ButtonEffectsRippleComponent() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
-
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const rect = btnRef.current?.getBoundingClientRect()

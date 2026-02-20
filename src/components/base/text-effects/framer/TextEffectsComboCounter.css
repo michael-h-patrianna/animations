@@ -1,11 +1,38 @@
 /* Styles scoped for TextEffectsComboCounter */
 .combo-counter-container {
+
+  --text-effects-combo-counter-color-1: rgb(239 68 68 / 30%);
+  --text-effects-combo-counter-bg-1: #ef4444;
+  --text-effects-combo-counter-bg-2: #dc2626;
+  --text-effects-combo-counter-bg-3: #b91c1c;
+  --text-effects-combo-counter-text-shadow-1: rgb(0 0 0 / 30%);
+  --text-effects-combo-counter-color-2: #f59e;
+  --text-effects-combo-counter-color-2-0b: #f59e0b;
+  --text-effects-combo-counter-color-2-81: #f59e81;
+  --text-effects-combo-counter-text-shadow-2: rgb(245 158 11 / 80%);
+  --text-effects-combo-counter-color-3: #10b9;
+  --text-effects-combo-counter-color-3-81: #10b981;
+  --text-effects-combo-counter-color-3-fa: #10b9fa;
+  --text-effects-combo-counter-color-4: #fbbf;
+  --text-effects-combo-counter-color-4-24: #fbbf24;
+  --text-effects-combo-counter-color-4-fa: #fbbffa;
+  --text-effects-combo-counter-text-shadow-3: rgb(0 0 0 / 40%);
+  --text-effects-combo-counter-bg-4: #ffd700;
+  --text-effects-combo-counter-bg-5: #ffa500;
+  --text-effects-combo-counter-color-5: #60a5;
+  --text-effects-combo-counter-color-5-24: #60a524;
+  --text-effects-combo-counter-color-5-fa: #60a5fa;
+  --text-effects-combo-counter-color-6: #a78bfa;
+  --text-effects-combo-counter-bg-6: rgb(255 215 0 / 60%);
+  --text-effects-combo-counter-bg-100: rgb(239 68 68 / 5%);
+  --text-effects-combo-counter-bg-101: rgb(251 191 36 / 8%);
+  --text-effects-combo-counter-bg-102: rgb(255 255 255 / 40%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 80px;
-  padding: 0px;
+  padding: 0;
   position: relative;
 }
 .combo-main-container {
@@ -27,7 +54,7 @@
   position: absolute;
   font-size: 36px;
   font-weight: 900;
-  color: rgba(239, 68, 68, 0.3);
+  color: var(--text-effects-combo-counter-color-1);
   z-index: 1;
 }
 .combo-current-number {
@@ -42,11 +69,10 @@
   position: relative;
   font-size: 36px;
   font-weight: 900;
-  background: linear-gradient(180deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(180deg, var(--text-effects-combo-counter-bg-1) 0%, var(--text-effects-combo-counter-bg-2) 50%, var(--text-effects-combo-counter-bg-3) 100%);
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px var(--text-effects-combo-counter-text-shadow-1);
   transform-origin: center bottom;
   min-width: 50px;
   text-align: center;
@@ -59,16 +85,16 @@
 }
 .combo-text-char {
   display: inline-block;
-  color: #f59e0b;
+  color: var(--text-effects-combo-counter-color-2-0b);
   text-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    0 0 8px rgba(245, 158, 11, 0.5);
+    0 2px 4px var(--text-effects-combo-counter-text-shadow-3),
+    0 0 8px rgb(245 158 11 / 50%);
   transform-origin: center;
 }
 .combo-digit-glow {
   position: absolute;
   inset: -10px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.3), transparent);
+  background: radial-gradient(circle, var(--text-effects-combo-counter-color-1), transparent);
   border-radius: 50%;
   pointer-events: none;
   opacity: 0.8;
@@ -80,13 +106,12 @@
   height: 60px;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(239, 68, 68, 0.05) 20%,
-    rgba(251, 191, 36, 0.08) 50%,
-    rgba(239, 68, 68, 0.05) 80%,
+    var(--text-effects-combo-counter-bg-100) 20%,
+    var(--text-effects-combo-counter-bg-101) 50%,
+    var(--text-effects-combo-counter-bg-100) 80%,
     transparent 100%
   );
   pointer-events: none;
@@ -103,7 +128,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.4) 50%,
+    var(--text-effects-combo-counter-bg-102) 50%,
     transparent 100%
   );
   pointer-events: none;
@@ -117,19 +142,19 @@
 }
 .combo-hit-marker {
   font-size: 24px;
-  color: #f59e0b;
+  color: var(--text-effects-combo-counter-color-2-0b);
   font-weight: 700;
   margin-left: 2px;
-  text-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
+  text-shadow: 0 0 8px var(--text-effects-combo-counter-text-shadow-2);
 }
 .combo-bonus {
   font-size: 14px;
   font-weight: 700;
-  color: #10b981;
+  color: var(--text-effects-combo-counter-color-3-81);
   letter-spacing: 3px;
   text-shadow:
-    0 0 10px rgba(16, 185, 129, 0.6),
-    0 1px 3px rgba(0, 0, 0, 0.3);
+    0 0 10px rgb(16 185 129 / 60%),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
   margin-top: 8px;
 }
 .combo-score-particles {
@@ -142,8 +167,8 @@
   position: absolute;
   font-size: 13px;
   font-weight: 600;
-  color: #fbbf24;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  color: var(--text-effects-combo-counter-color-4-24);
+  text-shadow: 0 1px 2px var(--text-effects-combo-counter-text-shadow-3);
   pointer-events: none;
   top: 50%;
   transform: translateX(-50%);
@@ -164,46 +189,43 @@
   top: 0;
   left: 0;
   transform: scale(1.1);
-  background: linear-gradient(135deg, #ffd700 0%, #ffa500 50%, #ffd700 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, var(--text-effects-combo-counter-bg-4) 0%, var(--text-effects-combo-counter-bg-5) 50%, var(--text-effects-combo-counter-bg-4) 100%);
   -webkit-text-fill-color: transparent;
   background-clip: text;
   z-index: -1;
   pointer-events: none;
 }
 .combo-milestone-particle[data-value='1'] {
-  color: #60a5fa;
+  color: var(--text-effects-combo-counter-color-5-fa);
   text-shadow:
-    0 0 10px rgba(96, 165, 250, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+    0 0 10px rgb(96 165 250 / 80%),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
 }
 .combo-milestone-particle[data-value='5'] {
-  color: #a78bfa;
+  color: var(--text-effects-combo-counter-color-6);
   text-shadow:
-    0 0 10px rgba(167, 139, 250, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+    0 0 10px rgb(167 139 250 / 80%),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
 }
 .combo-milestone-particle[data-value='9'] {
-  color: #fbbf24;
+  color: var(--text-effects-combo-counter-color-4-24);
   text-shadow:
-    0 0 10px rgba(251, 191, 36, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.4);
+    0 0 10px rgb(251 191 36 / 80%),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
 }
 .combo-milestone-particle[data-value='10'] {
-  background: linear-gradient(135deg, #ffd700 0%, #ffa500 50%, #ffd700 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, var(--text-effects-combo-counter-bg-4) 0%, var(--text-effects-combo-counter-bg-5) 50%, var(--text-effects-combo-counter-bg-4) 100%);
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: 15px;
   font-weight: 800;
   text-shadow:
-    0 0 15px rgba(255, 215, 0, 0.9),
-    0 1px 3px rgba(0, 0, 0, 0.3);
+    0 0 15px rgb(255 215 0 / 90%),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
   position: relative;
 }
 .combo-milestone-particle[data-value='10'] .combo-milestone-particle__glow {
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.6), transparent 70%);
-  -webkit-background-clip: text;
+  background: radial-gradient(circle, var(--text-effects-combo-counter-bg-6), transparent 70%);
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }

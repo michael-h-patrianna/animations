@@ -1,6 +1,8 @@
 /* Styles scoped for StandardEffectsPulse */
 
 .pulse-element {
+
+  --standard-effects-pulse-bg: rgb(198 255 119 / 30%);
   transform-origin: center center;
   position: relative;
 }
@@ -10,7 +12,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(198, 255, 119, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--standard-effects-pulse-bg) 0%, transparent 70%);
   border-radius: inherit;
   pointer-events: none;
   z-index: -1;

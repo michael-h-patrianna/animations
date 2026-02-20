@@ -1,3 +1,13 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/UpdateIndicatorsBadgePop.css'
+import './framer/UpdateIndicatorsBadgePulse.css'
+import './framer/UpdateIndicatorsHomeIconDotBounce.css'
+import './framer/UpdateIndicatorsHomeIconDotPulse.css'
+import './framer/UpdateIndicatorsHomeIconDotRadar.css'
+import './framer/UpdateIndicatorsHomeIconDotSweep.css'
+import './framer/UpdateIndicatorsLivePing.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

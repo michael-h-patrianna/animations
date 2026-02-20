@@ -1,0 +1,125 @@
+/* Keyframe animations for TextEffectsCharacterReveal */
+@keyframes tfx-char-reveal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tfx-char-reveal-shadow-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes tfx-char-reveal-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(0) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tfx-char-reveal-subtitle-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Styles scoped for TextEffectsCharacterReveal */
+.tfx-char-reveal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 80px;
+  padding: 20px;
+  contain: layout style; /* Isolate from grid layout thrashing */
+}
+
+.tfx-char-reveal-text-container {
+  position: relative;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Common styles for text layers */
+.tfx-char-reveal-shadow-text,
+.tfx-char-reveal-main-text {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.tfx-char-reveal-shadow-text {
+  animation: tfx-char-reveal-fade-in 600ms ease-out 200ms both;
+}
+
+.tfx-char-reveal-shadow-char {
+  display: inline-block;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: tfx-char-reveal-shadow-fade 300ms ease-out both;
+  will-change: opacity; /* Pre-composite for smoother staggered animation */
+}
+
+.tfx-char-reveal-main-text {
+  animation: tfx-char-reveal-fade-in 300ms linear 500ms both;
+}
+
+.tfx-char-reveal-main-char {
+  display: inline-block;
+  text-transform: uppercase;
+  background: linear-gradient(
+    135deg,
+    #ffd700 0%,
+    #ffed4e 25%,
+    #ffd700 50%,
+    #ffa500 75%,
+    #ffd700 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transform-origin: center bottom;
+  opacity: 0;
+  animation: tfx-char-reveal-pop 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  will-change: opacity, transform; /* Pre-composite for complex gradient text + transform */
+}
+
+.tfx-char-reveal-subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: rgba(255, 193, 7, 0.8);
+  text-align: center;
+  opacity: 0;
+  animation: tfx-char-reveal-subtitle-up 500ms ease-out 1200ms both;
+  will-change: opacity, transform; /* Pre-composite for smooth slide-up */
+}

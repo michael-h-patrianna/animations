@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsCircularDash.css'
 
+/**
+ *
+ */
 export function ProgressBarsCircularDash() {
   const [progress, setProgress] = useState(0)
 
@@ -30,7 +33,7 @@ export function ProgressBarsCircularDash() {
                  className="circular-dash-pill-css"
                  style={{ 
                     opacity: i < activeSegments ? 1 : 0.2,
-                    backgroundColor: i < activeSegments ? '#3b82f6' : '#94a3b8'
+                    backgroundColor: i < activeSegments ? 'var(--pf-anim-blue-dark)' : 'var(--pf-anim-slate)'
                  }}
                />
              </div>

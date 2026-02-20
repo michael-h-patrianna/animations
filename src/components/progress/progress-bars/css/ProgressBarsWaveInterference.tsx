@@ -1,6 +1,9 @@
 import './ProgressBarsWaveInterference.css'
 import { useEffect, useRef } from 'react'
 
+/**
+ *
+ */
 export function ProgressBarsWaveInterference() {
   const nodesContainerRef = useRef<HTMLDivElement>(null)
 

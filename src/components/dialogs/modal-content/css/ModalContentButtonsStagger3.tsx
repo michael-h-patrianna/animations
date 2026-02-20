@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalContentButtonsStagger3.css'
 
 
+/**
+ *
+ */
 export function ModalContentButtonsStagger3() {
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
 

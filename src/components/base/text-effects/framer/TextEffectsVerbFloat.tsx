@@ -8,8 +8,6 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
-import './TextEffectsVerbFloat.css'
-import '../shared.css'
 
 function TextEffectsVerbFloatComponent() {
   const text = 'LOREM IPSUM DOLOR'
@@ -46,7 +44,5 @@ function TextEffectsVerbFloatComponent() {
  * Memoized TextEffectsVerbFloat to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFloat = memo(TextEffectsVerbFloatComponent)
-
-
 
 export default TextEffectsVerbFloat

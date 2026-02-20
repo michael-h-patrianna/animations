@@ -1,5 +1,8 @@
 import './LoadingStatesSkeletonTile.css'
 
+/**
+ *
+ */
 export function LoadingStatesSkeletonTile() {
   return (
     <div data-animation-id="loading-states__skeleton-tile" className="pf-loading-container">

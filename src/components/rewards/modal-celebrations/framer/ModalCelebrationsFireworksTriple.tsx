@@ -2,11 +2,12 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
-import './ModalCelebrationsFireworksTriple.css'
-import '../shared.css'
 
-const fireworkColors = ['#ffce1a', '#ff5981', '#47fff4', '#c6ff77']
+const fireworkColors = ['var(--pf-anim-firework-gold)', 'var(--pf-anim-firework-pink)', 'var(--pf-anim-firework-cyan)', 'var(--pf-anim-green)']
 
+/**
+ *
+ */
 export function ModalCelebrationsFireworksTriple() {
 const fireworks = useMemo(
     () =>

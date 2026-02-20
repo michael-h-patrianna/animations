@@ -1,13 +1,19 @@
 /* CSS-only Timer Color Shift Animation */
 
 .pf-timer-color-shift {
+
+  --timer-effects-timer-color-shift-color-1: #c6ff77;
+  --timer-effects-timer-color-shift-color-2: #9ca3af;
+  --timer-effects-timer-color-shift-bg: rgb(236 195 255 / 16%);
+  --timer-effects-timer-color-shift-color-3: #ffb300;
+  --timer-effects-timer-color-shift-color-4: #fa114f;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   padding: 24px;
   position: relative;
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
   --pf-timer-arc-size: 64px;
   --pf-timer-arc-stroke: 3;
 }
@@ -22,7 +28,7 @@
 .pf-timer-color-shift__value {
   font-size: 2.5rem;
   font-weight: 600;
-  color: #c6ff77;
+  color: var(--timer-effects-timer-color-shift-color-1);
   text-align: center;
   line-height: 1;
   position: relative;
@@ -32,7 +38,7 @@
 
 .pf-timer-color-shift__label {
   font-size: 0.875rem;
-  color: #9ca3af;
+  color: var(--timer-effects-timer-color-shift-color-2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;
@@ -41,7 +47,7 @@
 .pf-timer-color-shift__underline {
   width: 160px;
   height: 3px;
-  background: rgba(236, 195, 255, 0.16);
+  background: var(--timer-effects-timer-color-shift-bg);
   border-radius: 4px;
   transform-origin: left center;
   animation: timer-color-shift-underline 3s linear forwards;
@@ -67,7 +73,7 @@
 
 .pf-timer-color-shift__path {
   fill: none;
-  stroke: #c6ff77;
+  stroke: var(--timer-effects-timer-color-shift-color-1);
   stroke-width: var(--pf-timer-arc-stroke);
   stroke-linecap: round;
   stroke-dasharray: 97;
@@ -78,28 +84,28 @@
 /* Color shift animation: green -> yellow -> red */
 @keyframes timer-color-shift-value {
   0% {
-    color: #c6ff77;
+    color: var(--timer-effects-timer-color-shift-color-1);
   }
   50% {
-    color: #ffb300;
+    color: var(--timer-effects-timer-color-shift-color-3);
   }
   100% {
-    color: #fa114f;
+    color: var(--timer-effects-timer-color-shift-color-4);
   }
 }
 
 /* Arc progress and color shift */
 @keyframes timer-color-shift-arc {
   0% {
-    stroke: #c6ff77;
+    stroke: var(--timer-effects-timer-color-shift-color-1);
     stroke-dashoffset: 0;
   }
   50% {
-    stroke: #ffb300;
+    stroke: var(--timer-effects-timer-color-shift-color-3);
     stroke-dashoffset: 48.5;
   }
   100% {
-    stroke: #fa114f;
+    stroke: var(--timer-effects-timer-color-shift-color-4);
     stroke-dashoffset: 98;
   }
 }

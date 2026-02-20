@@ -3,6 +3,9 @@ import '../shared.css'
 import './ModalBaseSlideUpSoft.css'
 
 
+/**
+ *
+ */
 export function ModalBaseSlideUpSoft() {
   return (
     <div

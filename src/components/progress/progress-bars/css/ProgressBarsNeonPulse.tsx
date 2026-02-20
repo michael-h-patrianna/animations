@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsNeonPulse.css'
 
+/**
+ *
+ */
 export function ProgressBarsNeonPulse() {
   const [progress, setProgress] = useState(0)
 

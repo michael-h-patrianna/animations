@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsJourneyMap.css'
 
+/**
+ *
+ */
 export function ProgressBarsJourneyMap() {
   const [progress, setProgress] = useState(0)
 

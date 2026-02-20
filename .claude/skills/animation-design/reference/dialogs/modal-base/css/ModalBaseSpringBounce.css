@@ -1,0 +1,45 @@
+/* Styles scoped for ModalBaseSpringBounce */
+
+/* Overlay fade-in animation */
+.pf-modal-overlay--spring-bounce {
+  animation: modal-overlay-spring-fade-in 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  --overlay-opacity: 0.72;
+  will-change: opacity;
+}
+
+/* Modal spring bounce animation */
+.pf-modal--spring-bounce {
+  animation: modal-spring-bounce 0.82s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Keyframes for overlay fade-in */
+@keyframes modal-overlay-spring-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Keyframes for modal spring bounce with elastic overshoot */
+@keyframes modal-spring-bounce {
+  0% {
+    transform: translateY(-30px) scale(0.7);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(0) scale(1.05);
+  }
+  85% {
+    transform: translateY(0) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}

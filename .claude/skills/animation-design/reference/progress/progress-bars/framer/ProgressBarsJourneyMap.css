@@ -1,0 +1,98 @@
+.journey-map-container {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #f3f4f6;
+}
+
+.journey-map-track-bg {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, #e5e7eb 0, #e5e7eb 10px, transparent 10px, transparent 20px);
+}
+
+.journey-map-track-fill {
+  position: absolute;
+  left: 20px;
+  height: 4px;
+  background: #8b5cf6;
+  max-width: calc(100% - 40px);
+}
+
+.journey-node {
+  position: absolute;
+  transform: translateX(-50%);
+  top: 50%;
+  margin-top: -6px; /* Center 12px dot */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.journey-node-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #f3f4f6; /* Simulating ring without actual box-shadow property if stricter rules applied, but box-shadow is allowed on web generally if not overly complex. */
+}
+
+.journey-node.active .journey-node-dot {
+  background: #8b5cf6;
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #c4b5fd;
+}
+
+.journey-node-label {
+  margin-top: 12px;
+  font-size: 10px;
+  color: #8b5cf6;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  width: 60px;
+  text-align: center;
+}
+
+.journey-avatar {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-left: 20px; /* Offset for padding */
+  /* To clamp inside: calculate width correctly in TSX or use simple constraints */
+  max-width: calc(100% - 40px);
+}
+
+.journey-avatar-inner {
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  border: 2px solid #8b5cf6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 10;
+}
+
+.journey-avatar-tooltip {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}

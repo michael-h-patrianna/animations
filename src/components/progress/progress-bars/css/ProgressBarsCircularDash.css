@@ -1,4 +1,7 @@
 .circular-dash-container-css {
+
+  --progress-bars-circular-dash-bg: #94a3b8;
+  --progress-bars-circular-dash-color: #334155;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +29,7 @@
   width: 6px;
   height: 16px;
   border-radius: 3px;
-  background: #94a3b8;
+  background: var(--progress-bars-circular-dash-bg);
   margin: 0 auto; 
   transition: opacity 0.1s, background-color 0.1s;
 }
@@ -38,5 +41,5 @@
   transform: translate(-50%, -50%);
   font-family: sans-serif;
   font-weight: bold;
-  color: #334155;
+  color: var(--progress-bars-circular-dash-color);
 }

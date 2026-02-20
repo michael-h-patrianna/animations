@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsLiquidTube.css'
 
-export const metadata = {
-  id: 'progress-bars__liquid-tube',
-  title: 'Liquid Tube',
-  description: 'Fluid filling animation with bubbles',
-  tags: ['liquid', 'water', 'fun', 'loading'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsLiquidTube() {
   const [progress, setProgress] = useState(30)
 

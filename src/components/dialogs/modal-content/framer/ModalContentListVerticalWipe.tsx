@@ -1,8 +1,8 @@
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './ModalContentListVerticalWipe.css'
-
+/**
+ *
+ */
 export function ModalContentListVerticalWipe() {
 const items = ['Introduction complete', 'Profile configured', 'Preferences set', 'Ready to begin']
   return (

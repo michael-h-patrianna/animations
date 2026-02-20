@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-
+/**
+ *
+ */
 export function ModalDismissSnackbarScale() {
 const [showProgress, setShowProgress] = useState(true)
 

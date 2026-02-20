@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsMilestoneUnlock.css'
 
+/**
+ *
+ */
 export function ProgressBarsMilestoneUnlock() {
   const [progress, setProgress] = useState(0)
 

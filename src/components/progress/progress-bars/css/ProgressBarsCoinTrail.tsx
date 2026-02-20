@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsCoinTrail.css'
 
+/**
+ *
+ */
 export function ProgressBarsCoinTrail() {
   const [progress, setProgress] = useState(0)
   const [score, setScore] = useState(0)

@@ -1,7 +1,13 @@
-import coinImage from '@/assets/coin.png'
 import { useEffect, useRef } from 'react'
 import './ModalCelebrationsCoinCascade.css'
 
+/**
+ *
+ */
+import { coinImage } from '@/assets'
+/**
+ *
+ */
 export function ModalCelebrationsCoinCascade() {
   const containerRef = useRef<HTMLDivElement>(null)
 

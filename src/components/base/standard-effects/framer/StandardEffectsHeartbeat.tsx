@@ -1,8 +1,6 @@
 import { memo } from 'react'
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-
 function StandardEffectsHeartbeatComponent() {
   return (
     <div className="standard-demo-container">

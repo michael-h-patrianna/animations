@@ -3,6 +3,9 @@ import '../shared.css'
 import './ModalBaseShatterAssemble.css'
 
 
+/**
+ *
+ */
 export function ModalBaseShatterAssemble() {
   return (
     <div className="pf-modal-overlay pf-modal-shatter-overlay" data-animation-id="modal-base__shatter-assemble">

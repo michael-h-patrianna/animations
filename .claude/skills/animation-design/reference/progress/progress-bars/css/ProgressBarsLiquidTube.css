@@ -1,0 +1,79 @@
+.liquid-tube-container-css {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.liquid-tube-glass-css {
+  width: 60px;
+  height: 150px;
+  border: 4px solid #e2e8f0;
+  border-radius: 30px;
+  background: #f8fafc;
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-tube-fill-css {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #3b82f6;
+  border-radius: 0 0 24px 24px;
+  transition: height 0.05s linear;
+}
+
+.liquid-tube-surface-css {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 200%;
+  height: 20px;
+  overflow: hidden;
+}
+
+.liquid-wave-css {
+  width: 100%;
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: liquid-wave 2s linear infinite;
+}
+
+@keyframes liquid-wave {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.liquid-bubble-css {
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+}
+
+.bubble-1 {
+  left: 20%;
+  animation: liquid-bubble 3s ease-in infinite;
+}
+
+.bubble-2 {
+  left: 50%;
+  animation: liquid-bubble 4s ease-in 1s infinite;
+}
+
+.bubble-3 {
+  left: 80%;
+  animation: liquid-bubble 2.5s ease-in 0.5s infinite;
+}
+
+@keyframes liquid-bubble {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-100px); opacity: 0; }
+}

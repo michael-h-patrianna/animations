@@ -1,6 +1,10 @@
 /* Anticipation Shake - CSS Variant */
 
 .anticipation-shake-container {
+
+  --reveal-effects-anticipation-shake-bg-1: #667eea;
+  --reveal-effects-anticipation-shake-bg-2: #764ba2;
+  --reveal-effects-anticipation-shake-color: rgb(255 255 255 / 95%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,7 +17,7 @@
   position: relative;
   width: 160px;
   height: 160px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--reveal-effects-anticipation-shake-bg-1) 0%, var(--reveal-effects-anticipation-shake-bg-2) 100%);
   border-radius: 16px;
   /* Note: box-shadow removed for React Native compatibility. Add platform-specific shadow when porting to RN. */
   will-change: transform;
@@ -34,7 +38,7 @@
 .anticipation-shake-icon {
   font-size: 64px;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--reveal-effects-anticipation-shake-color);
   user-select: none;
   /* Note: text-shadow removed for React Native compatibility. */
 }

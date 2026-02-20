@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './RevealEffectsAnticipationShake.css'
 
+/**
+ *
+ */
 export function RevealEffectsAnticipationShake() {
   const [isAnimating, setIsAnimating] = useState(false)
 

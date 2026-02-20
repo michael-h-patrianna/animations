@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './RevealEffectsCardFan.css'
 
+/**
+ *
+ */
 export function RevealEffectsCardFan() {
   const [isOpen, setIsOpen] = useState(false)
 

@@ -1,0 +1,46 @@
+.reveal-prize-rays-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(20,20,40,0.05) 0%, rgba(0,0,0,0) 70%);
+}
+
+.reveal-prize-rays-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    background: repeating-conic-gradient(
+        from 0deg, 
+        rgba(255, 180, 0, 0.15) 0deg 15deg, 
+        transparent 15deg 30deg
+    );
+    mask-image: radial-gradient(circle, black 20%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.reveal-prize-rays-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255, 220, 100, 0.8) 0%, rgba(255, 220, 100, 0) 70%);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.reveal-prize-rays-item {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  z-index: 5;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
+}

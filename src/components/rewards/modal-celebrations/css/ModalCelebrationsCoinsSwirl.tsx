@@ -1,11 +1,14 @@
-import coinImage from '@/assets/coin.png'
 import './ModalCelebrationsCoinsSwirl.css'
 
 // Utility function to generate random number between min and max
+import { coinImage } from '@/assets'
 const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
+/**
+ *
+ */
 export function ModalCelebrationsCoinsSwirl() {
   const coins = Array.from({ length: 10 }, (_, i) => {
     const startAngle = randBetween(0, 360)

@@ -1,4 +1,22 @@
 .pf-modal-overlay {
+
+  --modal-base-bg-1: rgb(236 195 255 / 8%);
+  --modal-base-border-1: rgb(236 195 255 / 12%);
+  --modal-base-color-1: rgb(255 255 255 / 76%);
+  --modal-base-bg-2: rgb(198 255 119 / 16%);
+  --modal-base-color-2: #c6ff77;
+  --modal-base-border-2: rgb(236 195 255 / 32%);
+  --modal-base-bg-3: #ff5981;
+  --modal-base-bg-4: #c83558;
+  --modal-base-color-3: #fff;
+  --modal-base-border-3: #ff7495;
+  --modal-base-text-shadow: rgb(0 0 0 / 50%);
+  --modal-base-bg-5: #ff6b8f;
+  --modal-base-bg-6: #d6456a;
+  --modal-base-border: #ff86a5;
+  --modal-base-color-4: #25ecff;
+  --modal-base-bg-7: rgb(198 255 119 / 10%);
+  --modal-base-bg-8: rgb(255 119 198 / 10%);
   position: relative;
   width: 100%;
   height: 100%;
@@ -13,14 +31,14 @@
   left: 50%;
   width: clamp(280px, 80%, 320px);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+    0 18px 40px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px var(--modal-base-border-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-base-bg-1);
+  border: 1px solid var(--modal-base-border-1);
+  color: var(--modal-base-color-1);
 }
 .pf-modal__header {
   display: flex;
@@ -53,8 +71,8 @@
   font-size: 12px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(198, 255, 119, 0.16);
-  color: #c6ff77;
+  background: var(--modal-base-bg-2);
+  color: var(--modal-base-color-2);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -62,7 +80,7 @@
 .pf-button-secondary {
   padding: 10px 18px;
   border-radius: 999px;
-  border: 1px solid rgba(236, 195, 255, 0.32);
+  border: 1px solid var(--modal-base-border-2);
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -72,15 +90,15 @@
 }
 .pf-button-primary {
   border-radius: 50px;
-  background: linear-gradient(180deg, #ff5981, #c83558);
-  color: #fff;
-  border: 2px solid #ff7495;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, var(--modal-base-bg-3), var(--modal-base-bg-4));
+  color: var(--modal-base-color-3);
+  border: 2px solid var(--modal-base-border-3);
+  text-shadow: 0 1px 1px var(--modal-base-text-shadow);
   padding: 6px 12px;
 }
-.pf-button-primary:hover:not(:disabled):not([aria-disabled='true']) {
-  background: linear-gradient(180deg, #ff6b8f, #d6456a);
-  border-color: #ff86a5;
+.pf-button-primary:hover:not(:disabled, [aria-disabled='true']) {
+  background: linear-gradient(180deg, var(--modal-base-bg-5), var(--modal-base-bg-6));
+  border-color: var(--modal-base-border);
   /* RN-friendly: avoid drop-shadow; simulate with extra gradient/glow layer if needed */
 }
 .pf-button-primary:disabled,
@@ -91,8 +109,8 @@
   box-shadow: none;
 }
 .pf-button-secondary {
-  color: #25ecff;
-  border: 2px solid #25ecff;
+  color: var(--modal-base-color-4);
+  border: 2px solid var(--modal-base-color-4);
   background: transparent;
   border-radius: 50px;
   padding: 6px 12px;
@@ -133,8 +151,8 @@
   pointer-events: none;
 }
 .pf-modal--ghost-green {
-  background: rgba(198, 255, 119, 0.1);
+  background: var(--modal-base-bg-7);
 }
 .pf-modal--ghost-pink {
-  background: rgba(255, 119, 198, 0.1);
+  background: var(--modal-base-bg-8);
 }

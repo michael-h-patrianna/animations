@@ -1,8 +1,8 @@
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './ModalContentListSoftStagger.css'
-
+/**
+ *
+ */
 export function ModalContentListSoftStagger() {
 const items = ['Privacy settings updated', 'Two-factor authentication enabled', 'Email notifications configured', 'Profile picture updated', 'Timezone set to UTC']
   return (

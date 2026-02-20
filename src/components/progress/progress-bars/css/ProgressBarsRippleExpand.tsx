@@ -1,5 +1,8 @@
 import './ProgressBarsRippleExpand.css'
 
+/**
+ *
+ */
 export function ProgressBarsRippleExpand() {
   return (
     <div

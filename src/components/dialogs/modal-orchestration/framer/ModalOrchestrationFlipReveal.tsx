@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 
 import { useState } from 'react'
-import './ModalOrchestrationFlipReveal.css'
 
+/**
+ *
+ */
 export function ModalOrchestrationFlipReveal() {
   const [flippedTiles, setFlippedTiles] = useState<Set<number>>(new Set())
 

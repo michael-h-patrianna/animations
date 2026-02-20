@@ -1,6 +1,5 @@
 import * as m from 'motion/react-m'
 import { memo } from 'react'
-import './TimerEffectsUrgentPulse.css'
 
 export const TimerEffectsUrgentPulse = memo(function TimerEffectsUrgentPulse() {
   // Check for reduced motion preference

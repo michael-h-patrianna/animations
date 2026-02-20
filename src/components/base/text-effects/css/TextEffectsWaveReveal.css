@@ -1,5 +1,7 @@
 /* Wave reveal text effect - GPU-accelerated CSS animation */
 .tfx-wave-reveal-container {
+  --text-effects-wave-reveal-text-shadow-100: rgb(0 0 0 / 15%);
+  --text-effects-wave-reveal-text-shadow-101: rgb(0 0 0 / 8%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,9 +25,9 @@
   line-height: 1.2;
   text-transform: uppercase;
   text-shadow:
-    2px 2px 6px rgba(0, 0, 0, 0.15),
-    0 0 20px currentColor,
-    0 4px 8px rgba(0, 0, 0, 0.08);
+    2px 2px 6px var(--text-effects-wave-reveal-text-shadow-100),
+    0 0 20px currentcolor,
+    0 4px 8px var(--text-effects-wave-reveal-text-shadow-101);
 }
 
 .tfx-wave-reveal-char {

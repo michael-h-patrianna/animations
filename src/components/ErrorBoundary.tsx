@@ -96,16 +96,16 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             minHeight: '100vh',
             padding: '2rem',
             textAlign: 'center',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--pf-anim-surface-light)',
           }}
         >
           <div
             style={{
               maxWidth: '600px',
               padding: '2rem',
-              backgroundColor: 'white',
+              backgroundColor: 'var(--pf-white)',
               borderRadius: '8px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+              boxShadow: '0 2px 8px rgb(0 0 0 / 0.1)',
             }}
           >
             <h1
@@ -113,7 +113,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
                 marginBottom: '1rem',
-                color: '#dc3545',
+                color: 'var(--pf-anim-error)',
               }}
             >
               Something went wrong
@@ -121,7 +121,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             <p
               style={{
                 marginBottom: '1rem',
-                color: '#6c757d',
+                color: 'var(--pf-anim-muted)',
               }}
             >
               We're sorry, but something unexpected happened. The error has been logged
@@ -133,7 +133,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                   marginBottom: '1.5rem',
                   textAlign: 'left',
                   padding: '1rem',
-                  backgroundColor: '#f8f9fa',
+                  backgroundColor: 'var(--pf-anim-surface-light)',
                   borderRadius: '4px',
                   fontSize: '0.875rem',
                 }}
@@ -159,18 +159,18 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 padding: '0.75rem 1.5rem',
                 fontSize: '1rem',
                 fontWeight: 'bold',
-                color: 'white',
-                backgroundColor: '#007bff',
+                color: 'var(--pf-white)',
+                backgroundColor: 'var(--pf-anim-link)',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 transition: 'background-color 0.2s',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#0056b3';
+                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link-hover)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#007bff';
+                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link)';
               }}
             >
               Try Again

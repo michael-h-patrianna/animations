@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './RevealEffectsCardSpin3D.css'
 
+/**
+ *
+ */
 export function RevealEffectsCardSpin3D() {
   const [isRevealed, setIsRevealed] = useState(false)
 

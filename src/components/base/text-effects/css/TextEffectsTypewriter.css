@@ -4,6 +4,8 @@
 
 /* Container - Centers content and provides spacing */
 .text-effects-typewriter-container {
+
+  --text-effects-typewriter-color-1: #10b981;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +19,7 @@
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: #10b981;
+  color: var(--text-effects-typewriter-color-1);
   white-space: pre; /* Preserves whitespace naturally */
 }
 
@@ -41,7 +43,7 @@
 .text-effects-typewriter-cursor {
   display: inline-block;
   font-weight: 300;
-  color: #10b981;
+  color: var(--text-effects-typewriter-color-1);
   animation: text-effects-typewriter-cursor-blink 1s step-end infinite;
   will-change: opacity; /* Hint for continuous animation optimization */
 }

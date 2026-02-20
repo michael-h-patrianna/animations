@@ -1,0 +1,59 @@
+.boss-health-container-css {
+  width: 100%;
+  padding: 20px;
+  background: #1c1917;
+  color: #fff;
+  font-family: serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boss-health-frame-css {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.boss-skull-css {
+  font-size: 24px;
+  color: #ef4444;
+}
+
+.boss-health-track-css {
+  flex: 1;
+  height: 30px;
+  background: #44403c;
+  border: 3px solid #78716c;
+  position: relative;
+  border-radius: 4px;
+}
+
+.boss-health-fill-css {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.boss-health-fill-css.delay {
+  background: #fcd34d; 
+  z-index: 1;
+  transition: width 0.5s ease-out;
+}
+
+.boss-health-fill-css.current {
+  background: #dc2626;
+  z-index: 2;
+  background: linear-gradient(to bottom, #ef4444, #991b1b);
+  transition: width 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy spring-like css transition */
+}
+
+.boss-name-css {
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 18px;
+}

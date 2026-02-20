@@ -2,6 +2,31 @@
 
 /* Glow animation keyframes for different heartbeat intensities */
 @keyframes heartbeat-glow-normal {
+
+  --timer-effects-pill-countdown-heartbeat-bg-1: #667e;
+  --timer-effects-pill-countdown-heartbeat-bg-1-00: #667e00;
+  --timer-effects-pill-countdown-heartbeat-bg-1-ea: #667eea;
+  --timer-effects-pill-countdown-heartbeat-bg-2: #764b;
+  --timer-effects-pill-countdown-heartbeat-bg-2-00: #764b00;
+  --timer-effects-pill-countdown-heartbeat-bg-2-a2: #764ba2;
+  --timer-effects-pill-countdown-heartbeat-bg-3: #ffa9;
+  --timer-effects-pill-countdown-heartbeat-bg-3-4d: #ffa94d;
+  --timer-effects-pill-countdown-heartbeat-bg-3-ea: #ffa9ea;
+  --timer-effects-pill-countdown-heartbeat-bg-4: #fd7e;
+  --timer-effects-pill-countdown-heartbeat-bg-4-14: #fd7e14;
+  --timer-effects-pill-countdown-heartbeat-bg-4-a2: #fd7ea2;
+  --timer-effects-pill-countdown-heartbeat-bg-5: #ff6b;
+  --timer-effects-pill-countdown-heartbeat-bg-5-4d: #ff6b4d;
+  --timer-effects-pill-countdown-heartbeat-bg-5-6b: #ff6b6b;
+  --timer-effects-pill-countdown-heartbeat-bg-6: #c92a;
+  --timer-effects-pill-countdown-heartbeat-bg-6-14: #c92a14;
+  --timer-effects-pill-countdown-heartbeat-bg-6-2a: #c92a2a;
+  --timer-effects-pill-countdown-heartbeat-bg-7: #ff00;
+  --timer-effects-pill-countdown-heartbeat-bg-7-00: #ff0000;
+  --timer-effects-pill-countdown-heartbeat-bg-7-6b: #ff006b;
+  --timer-effects-pill-countdown-heartbeat-bg-8: #8b00;
+  --timer-effects-pill-countdown-heartbeat-bg-8-00: #8b0000;
+  --timer-effects-pill-countdown-heartbeat-bg-8-2a: #8b002a;
   0%, 100% {
     transform: scale(1);
     opacity: 0.15;
@@ -80,7 +105,7 @@
 
 /* 60s - Normal state */
 .heartbeat-normal {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-1-ea) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-2-a2) 100%);
 }
 
 .heartbeat-normal .pill-countdown-heartbeat__glow {
@@ -89,7 +114,7 @@
 
 /* 50s threshold - calm heartbeat */
 .heartbeat-calm {
-  --glow-color: rgba(102, 126, 234, 0.4);
+  --glow-color: rgb(102 126 234 / 40%);
 }
 
 .heartbeat-calm .pill-countdown-heartbeat__glow {
@@ -98,7 +123,7 @@
 
 /* 40s threshold - mild heartbeat */
 .heartbeat-mild {
-  --glow-color: rgba(102, 126, 234, 0.45);
+  --glow-color: rgb(102 126 234 / 45%);
 }
 
 .heartbeat-mild .pill-countdown-heartbeat__glow {
@@ -107,8 +132,8 @@
 
 /* 30s threshold - elevated heartbeat */
 .heartbeat-elevated {
-  background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
-  --glow-color: rgba(255, 169, 77, 0.45);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-3-4d) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-4-14) 100%);
+  --glow-color: rgb(255 169 77 / 45%);
 }
 
 .heartbeat-elevated .pill-countdown-heartbeat__glow {
@@ -117,8 +142,8 @@
 
 /* 20s threshold - rapid heartbeat */
 .heartbeat-rapid {
-  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-  --glow-color: rgba(255, 107, 107, 0.55);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-5-6b) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-6-2a) 100%);
+  --glow-color: rgb(255 107 107 / 55%);
 }
 
 .heartbeat-rapid .pill-countdown-heartbeat__glow {
@@ -127,8 +152,8 @@
 
 /* 10s threshold - critical heartbeat with continuous pulse */
 .heartbeat-critical {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.6);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%);
+  --glow-color: rgb(255 0 0 / 60%);
 }
 
 .heartbeat-critical .pill-countdown-heartbeat__glow {
@@ -137,8 +162,8 @@
 
 /* Timer expired state */
 .timer-expired {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.55);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%);
+  --glow-color: rgb(255 0 0 / 55%);
   --glow-opacity: 0.45;
   --glow-scale: 1;
 }

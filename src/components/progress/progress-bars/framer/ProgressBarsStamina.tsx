@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsStamina.css'
 
-export const metadata = {
-  id: 'progress-bars__stamina',
-  title: 'Stamina Bar',
-  description: 'Dynamic stamina bar that warns when low',
-  tags: ['stamina', 'energy', 'game', 'hud'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsStamina() {
   const [stamina, setStamina] = useState(100)
   const [isDraining, setIsDraining] = useState(true)

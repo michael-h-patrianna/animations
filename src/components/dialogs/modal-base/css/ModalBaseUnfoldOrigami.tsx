@@ -2,6 +2,9 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseUnfoldOrigami.css'
 
+/**
+ *
+ */
 export function ModalBaseUnfoldOrigami() {
   return (
     <div className="modal-base-unfold-origami" data-animation-id="modal-base__unfold-origami">

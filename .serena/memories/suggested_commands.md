@@ -1,0 +1,15 @@
+# Suggested commands
+- Install deps: `npm install`
+- Dev server: `npm run dev`
+- Typecheck only: `npm run type-check`
+- Lint (eslint + stylelint): `npm run lint`
+- Lint CSS only: `npm run lint:css`
+- Auto-fix lint: `npm run lint:fix`
+- Build (tsc + vite): `npm run build`
+- Build without tsc gate: `npx vite build`
+- Unit tests: `npm test`
+- Coverage: `npm run test:coverage`
+- E2E: `npm run test:e2e`
+- E2E headed: `npm run test:e2e:headed`
+- Fast repo search: `rg <pattern>`
+- Find files: `rg --files`

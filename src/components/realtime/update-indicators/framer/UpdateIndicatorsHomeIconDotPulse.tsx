@@ -1,9 +1,14 @@
-import homeIcon1 from '@/assets/home-icon1.png'
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './UpdateIndicatorsHomeIconDotPulse.css'
 
+/**
+ *
+ */
+import { homeIcon1 } from '@/assets'
+/**
+ *
+ */
 export function UpdateIndicatorsHomeIconDotPulse() {
   const [key, setKey] = useState(0)
 useEffect(() => {

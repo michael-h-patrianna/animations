@@ -2,8 +2,6 @@
 import * as m from 'motion/react-m'
 import { easeOut, useAnimation } from 'motion/react'
 import { useEffect, useRef, memo } from 'react'
-import './TextEffectsLevelBreakthrough.css'
-import '../shared.css'
 
 function TextEffectsLevelBreakthroughComponent() {
   const levelControls = useAnimation()
@@ -101,6 +99,7 @@ function TextEffectsLevelBreakthroughComponent() {
         style={{
           position: 'absolute',
           inset: 0,
+          // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
           background: 'radial-gradient(circle, transparent 75%, #ffce1a 76%, transparent 82%)',
           opacity: 0,
         }}
@@ -113,6 +112,7 @@ function TextEffectsLevelBreakthroughComponent() {
         style={{
           position: 'absolute',
           inset: 0,
+          // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
           background: 'radial-gradient(circle, transparent 65%, #ffce1a 66%, transparent 72%)',
           opacity: 0,
         }}
@@ -130,5 +130,4 @@ function TextEffectsLevelBreakthroughComponent() {
  * Memoized TextEffectsLevelBreakthrough to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsLevelBreakthrough = memo(TextEffectsLevelBreakthroughComponent)
-
 

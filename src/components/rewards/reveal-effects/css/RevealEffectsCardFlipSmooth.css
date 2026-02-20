@@ -1,6 +1,23 @@
 /* Card Flip Reveal Animation - CSS Variant */
 
 .card-flip-container {
+
+  --reveal-effects-card-flip-smooth-bg-1: #667e;
+  --reveal-effects-card-flip-smooth-bg-1-72: #667e72;
+  --reveal-effects-card-flip-smooth-bg-1-ea: #667eea;
+  --reveal-effects-card-flip-smooth-bg-2: #764b;
+  --reveal-effects-card-flip-smooth-bg-2-98: #764b98;
+  --reveal-effects-card-flip-smooth-bg-2-a2: #764ba2;
+  --reveal-effects-card-flip-smooth-border-1: rgb(255 255 255 / 20%);
+  --reveal-effects-card-flip-smooth-bg-3: #FFD7;
+  --reveal-effects-card-flip-smooth-bg-3-00: #FFD700;
+  --reveal-effects-card-flip-smooth-bg-3-7b: #FFD77b;
+  --reveal-effects-card-flip-smooth-bg-4: #FFA5;
+  --reveal-effects-card-flip-smooth-bg-4-00: #FFA500;
+  --reveal-effects-card-flip-smooth-bg-4-d7: #FFA5d7;
+  --reveal-effects-card-flip-smooth-border-2: rgb(255 255 255 / 30%);
+  --reveal-effects-card-flip-smooth-text-shadow-1: rgb(0 0 0 / 30%);
+  --reveal-effects-card-flip-smooth-color: rgb(255 255 255 / 95%);
   position: relative;
   width: 100%;
   min-height: 300px;
@@ -61,8 +78,8 @@
 }
 
 .card-flip-face--front {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: 3px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--reveal-effects-card-flip-smooth-bg-1-ea) 0%, var(--reveal-effects-card-flip-smooth-bg-2-a2) 100%);
+  border: 3px solid var(--reveal-effects-card-flip-smooth-border-1);
   opacity: 1;
   transition: opacity 50ms ease-out;
 }
@@ -82,8 +99,8 @@
 }
 
 .card-flip-face--back {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, var(--reveal-effects-card-flip-smooth-bg-3-00) 0%, var(--reveal-effects-card-flip-smooth-bg-4-00) 100%);
+  border: 3px solid var(--reveal-effects-card-flip-smooth-border-2);
   transform: rotateY(180deg);
   opacity: 0;
 }
@@ -116,7 +133,7 @@
 .card-flip-mystery-icon {
   font-size: 64px;
   font-weight: bold;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 8px var(--reveal-effects-card-flip-smooth-text-shadow-1);
 }
 
 .card-flip-mystery-text {
@@ -130,8 +147,8 @@
 .card-flip-reward-icon {
   font-size: 72px;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: var(--reveal-effects-card-flip-smooth-color);
+  text-shadow: 0 2px 8px var(--reveal-effects-card-flip-smooth-text-shadow-1);
 }
 
 .card-flip-reward-text {

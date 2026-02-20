@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 
 import { useEffect, useState } from 'react'
-import './RealtimeDataStackedRealtime.css'
 
+/**
+ *
+ */
 export function RealtimeDataStackedRealtime() {
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -59,7 +61,7 @@ export function RealtimeDataStackedRealtime() {
             <m.span
               className="pf-realtime-data__stack-value"
               animate={{
-                color: isAnimating ? (item.active ? '#06b6d4' : '#9ca3af') : '#06b6d4',
+                color: isAnimating ? (item.active ? 'var(--pf-anim-cyan)' : 'var(--pf-anim-gray-400)') : 'var(--pf-anim-cyan)',
               }}
               transition={{
                 duration: 0.4,

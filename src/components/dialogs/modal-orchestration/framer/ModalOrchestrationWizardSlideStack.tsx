@@ -1,7 +1,8 @@
 import * as m from 'motion/react-m'
 
-import './ModalOrchestrationWizardSlideStack.css'
-
+/**
+ *
+ */
 export function ModalOrchestrationWizardSlideStack() {
   const steps = 3
 

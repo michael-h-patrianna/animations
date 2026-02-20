@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { useInView } from 'motion/react'
 import { useRef } from 'react'
-import './ModalOrchestrationStaggerInview.css'
 
+/**
+ *
+ */
 export function ModalOrchestrationStaggerInview() {
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: true, margin: '-100px' })

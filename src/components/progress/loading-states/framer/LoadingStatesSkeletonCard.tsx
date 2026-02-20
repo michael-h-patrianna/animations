@@ -1,9 +1,9 @@
 
 import * as m from 'motion/react-m'
 
-import './LoadingStatesSkeletonCard.css'
-import '../shared.css'
-
+/**
+ *
+ */
 export function LoadingStatesSkeletonCard() {
 const shimmerVariants = {
     animate: {

@@ -7,7 +7,7 @@
 
 @keyframes coin-trail-motion {
   0% {
-    transform: translate(0px, 0px) scale(0.5) rotate(0deg);
+    transform: translate(0, 0) scale(0.5) rotate(0deg);
     opacity: 0;
   }
   30% {

@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationStaggerInview() {
   const containerRef = useRef<HTMLDivElement>(null)
   const tileRefs = useRef<(HTMLDivElement | null)[]>([])

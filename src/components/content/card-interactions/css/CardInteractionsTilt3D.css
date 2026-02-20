@@ -1,0 +1,40 @@
+.pf-card-interactions--tilt-3d {
+
+  --card-interactions-tilt3-d-bg-1: rgb(255 255 255 / 0%);
+  --card-interactions-tilt3-d-bg-2: rgb(255 255 255 / 20%);
+  perspective: 1200px;
+}
+
+.pf-tilt-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.pf-card-interactions--tilt-3d:hover .pf-tilt-inner {
+  transform: rotateX(10deg) rotateY(-10deg) scale(1.05);
+}
+
+.pf-tilt-glare {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, var(--card-interactions-tilt3-d-bg-1) 40%, var(--card-interactions-tilt3-d-bg-2) 50%, var(--card-interactions-tilt3-d-bg-1) 60%);
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background-size: 200% 200%;
+}
+
+.pf-card-interactions--tilt-3d:hover .pf-tilt-glare {
+  opacity: 1;
+  animation: pf-glare-move 0.6s ease-out forwards;
+}
+
+@keyframes pf-glare-move {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}

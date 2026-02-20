@@ -3,6 +3,9 @@ import '../shared.css'
 import './ModalBaseSlideLeftDrift.css'
 
 
+/**
+ *
+ */
 export function ModalBaseSlideLeftDrift() {
   return (
     <div

@@ -1,6 +1,5 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsChargeSurge.css'
 
 type MilestoneState = 'inactive' | 'anticipating' | 'charged'
 
@@ -9,6 +8,9 @@ interface SurgeWave {
   milestoneIndex: number
 }
 
+/**
+ *
+ */
 export function ProgressBarsChargeSurge() {
   const [progress, setProgress] = useState(0)
   const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>([
@@ -96,7 +98,7 @@ export function ProgressBarsChargeSurge() {
     if (state === 'anticipating') {
       return {
         scale: [1, 1.1, 1],
-        backgroundColor: 'rgba(59, 130, 246, 0.6)',
+        backgroundColor: 'var(--pf-anim-blue-dark)',
         transition: {
           scale: {
             duration: 0.8,
@@ -108,7 +110,7 @@ export function ProgressBarsChargeSurge() {
     } else if (state === 'charged') {
       return {
         scale: 1,
-        backgroundColor: 'rgba(59, 130, 246, 1)',
+        backgroundColor: 'var(--pf-anim-blue-dark)',
         transition: {
           backgroundColor: { duration: 0.2 },
         },
@@ -116,7 +118,7 @@ export function ProgressBarsChargeSurge() {
     }
     return {
       scale: 1,
-      backgroundColor: 'rgba(59, 130, 246, 0.3)',
+      backgroundColor: 'var(--pf-anim-blue-dark)',
     }
   }
 

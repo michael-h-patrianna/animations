@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsJourneyMap.css'
 
-export const metadata = {
-  id: 'progress-bars__journey-map',
-  title: 'Journey Map',
-  description: 'Avatar travels along a path activating nodes',
-  tags: ['journey', 'map', 'avatar', 'path'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsJourneyMap() {
   const [progress, setProgress] = useState(0)
 
@@ -37,7 +32,7 @@ export function ProgressBarsJourneyMap() {
         >
           <m.div 
              className="journey-node-dot"
-             animate={progress >= pos ? { scale: [1, 1.3, 1], backgroundColor: '#8b5cf6' } : { scale: 1, backgroundColor: '#e5e7eb' }}
+             animate={progress >= pos ? { scale: [1, 1.3, 1], backgroundColor: 'var(--pf-anim-violet)' } : { scale: 1, backgroundColor: 'var(--pf-anim-gray-200)' }}
           />
           {progress >= pos && (
              <div className="journey-node-label">Map {nodes.indexOf(pos) + 1}</div>

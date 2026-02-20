@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationFlipReveal.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationFlipReveal() {
   const [flippedTiles, setFlippedTiles] = useState<Set<number>>(new Set())
   const tileRefs = useRef<(HTMLDivElement | null)[]>([])

@@ -1,10 +1,13 @@
-import pulseScroll from '@/assets/pulse_scroll.png'
-import '../shared.css'
 
 import * as m from 'motion/react-m'
 
-import './IconAnimationsPulse.css'
-
+/**
+ *
+ */
+import { pulseScroll } from '@/assets'
+/**
+ *
+ */
 export function IconAnimationsPulse() {
   return (
     <div className="icon-demo-container">

@@ -2,9 +2,6 @@ import { memo } from 'react'
 import { motionDurations, motionEasings } from '@/motion/tokens'
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './StandardEffectsPulseWave.css'
-
 function StandardEffectsPulseWaveComponent() {
   const duration = motionDurations.pulseWave
   const ringTimes = [0, 0.7, 1]

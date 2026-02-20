@@ -2,12 +2,19 @@
 
 /* Container for urgent pulse demo */
 .timer-urgent-pulse-demo {
+
+  --timer-effects-urgent-pulse-border: rgb(255 255 255 / 30%);
+  --timer-effects-urgent-pulse-bg-1: #ffa500;
+  --timer-effects-urgent-pulse-bg-2: #ff8c00;
+  --timer-effects-urgent-pulse-bg-3: #ff6b35;
+  --timer-effects-urgent-pulse-bg-4: #ff4444;
+  --timer-effects-urgent-pulse-color: #9ca3af;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
   padding: 20px;
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
 }
 
 /* Urgent pulse timer pill container */
@@ -20,7 +27,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--timer-effects-urgent-pulse-border);
   will-change: transform;
 }
 
@@ -28,7 +35,7 @@
 .timer-urgent-pulse__gradient-base {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+  background: linear-gradient(135deg, var(--timer-effects-urgent-pulse-bg-1) 0%, var(--timer-effects-urgent-pulse-bg-2) 100%);
   border-radius: inherit;
   z-index: 1;
 }
@@ -37,7 +44,7 @@
 .timer-urgent-pulse__gradient-top {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #ff6b35 0%, #ff4444 100%);
+  background: linear-gradient(135deg, var(--timer-effects-urgent-pulse-bg-3) 0%, var(--timer-effects-urgent-pulse-bg-4) 100%);
   border-radius: inherit;
   z-index: 2;
   will-change: opacity;
@@ -57,7 +64,7 @@
 /* Label below timer */
 .timer-urgent-pulse__label {
   font-size: 0.8rem;
-  color: #9ca3af;
+  color: var(--timer-effects-urgent-pulse-color);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;

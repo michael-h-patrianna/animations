@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardSlideStack.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationWizardSlideStack() {
   const steps = 3
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])

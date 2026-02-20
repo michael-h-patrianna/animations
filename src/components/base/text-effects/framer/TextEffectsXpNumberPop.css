@@ -1,5 +1,11 @@
 /* Styles scoped for TextEffectsXpNumberPop */
 .xp-pop-container {
+
+  --text-effects-xp-number-pop-bg-1: #c6ff77;
+  --text-effects-xp-number-pop-bg-2: #a8ff3e;
+  --text-effects-xp-number-pop-text-shadow-100: rgb(198 255 119 / 80%);
+  --text-effects-xp-number-pop-text-shadow-101: rgb(198 255 119 / 50%);
+  --text-effects-xp-number-pop-text-shadow-102: rgb(0 0 0 / 30%);
   position: relative;
   min-height: 80px;
   display: flex;
@@ -18,14 +24,13 @@
 .xp-pop-number-value {
   font-size: 56px;
   font-weight: 900;
-  background: linear-gradient(135deg, #c6ff77, #a8ff3e);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, var(--text-effects-xp-number-pop-bg-1), var(--text-effects-xp-number-pop-bg-2));
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow:
-    0 0 30px rgba(198, 255, 119, 0.8),
-    0 0 60px rgba(198, 255, 119, 0.5),
-    0 2px 4px rgba(0, 0, 0, 0.3);
+    0 0 30px var(--text-effects-xp-number-pop-text-shadow-100),
+    0 0 60px var(--text-effects-xp-number-pop-text-shadow-101),
+    0 2px 4px var(--text-effects-xp-number-pop-text-shadow-102);
   letter-spacing: 2px;
 }
 
@@ -34,5 +39,5 @@
   margin-left: 8px;
   font-weight: 700;
   opacity: 0.8;
-  color: #a8ff3e;
+  color: var(--text-effects-xp-number-pop-bg-2);
 }

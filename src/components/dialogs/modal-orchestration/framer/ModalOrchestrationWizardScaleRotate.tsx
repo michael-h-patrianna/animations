@@ -1,7 +1,8 @@
 import * as m from 'motion/react-m'
 
-import './ModalOrchestrationWizardScaleRotate.css'
-
+/**
+ *
+ */
 export function ModalOrchestrationWizardScaleRotate() {
   const steps = 3
 

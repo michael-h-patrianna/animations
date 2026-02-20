@@ -1,6 +1,11 @@
 /* Coin Burst Collection Animation - CSS Variant */
 
 .coin-burst-container {
+
+  --collection-effects-coin-burst-bg-1: #FFD700;
+  --collection-effects-coin-burst-bg-2: #FFA500;
+  --collection-effects-coin-burst-border: #DAA520;
+  --collection-effects-coin-burst-color: rgb(255 255 255 / 90%);
   position: relative;
   width: 100%;
   min-height: 300px;
@@ -49,13 +54,13 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  border: 2px solid #DAA520;
+  background: linear-gradient(135deg, var(--collection-effects-coin-burst-bg-1) 0%, var(--collection-effects-coin-burst-bg-2) 100%);
+  border: 2px solid var(--collection-effects-coin-burst-border);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--collection-effects-coin-burst-color);
   font-size: 16px;
   font-weight: bold;
   font-family: system-ui, -apple-system, sans-serif;

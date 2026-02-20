@@ -1,9 +1,11 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsPillCountdownSoft.css'
 
 // Quiet thresholds: mostly static. Brief pulse only at 60s, 30s, 10s and last 5s.
+/**
+ *
+ */
 export function TimerEffectsPillCountdownSoft() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)

@@ -1,0 +1,59 @@
+.standard-pulse-wave {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: grid;
+  place-items: center;
+}
+.standard-pulse-wave .core {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--pf-base-20);
+  position: relative;
+  animation: pulse-core-breathe 2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.standard-pulse-wave .core::before,
+.standard-pulse-wave .core::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(236, 195, 255, 0.6);
+  opacity: 0.6;
+  transform: scale(1);
+  animation: pulse-wave-ring 2s ease-out infinite;
+  will-change: transform, opacity;
+}
+
+.standard-pulse-wave .core::after {
+  animation-delay: 1s;
+  opacity: 0.4;
+}
+
+@keyframes pulse-wave-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-core-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}

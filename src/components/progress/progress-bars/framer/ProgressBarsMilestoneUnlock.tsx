@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsMilestoneUnlock.css'
 
-export const metadata = {
-  id: 'progress-bars__milestone-unlock',
-  title: 'Milestone Unlock',
-  description: 'Icons unlock and animate as progress passes them',
-  tags: ['milestone', 'unlock', 'reward', 'gamification'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsMilestoneUnlock() {
   const [progress, setProgress] = useState(0)
 

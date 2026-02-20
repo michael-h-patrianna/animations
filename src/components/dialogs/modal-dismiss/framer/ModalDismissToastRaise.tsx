@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 
 import { useEffect, useRef, useState } from 'react'
-import '../shared.css'
 
+/**
+ *
+ */
 export function ModalDismissToastRaise() {
 const [showProgress, setShowProgress] = useState(true)
   const toastRef = useRef<HTMLDivElement>(null)

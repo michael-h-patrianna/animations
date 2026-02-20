@@ -2,7 +2,6 @@ import { calculateBulbColors } from '@/utils/colors';
 import * as m from 'motion/react-m'
 ;
 import React, { useMemo } from 'react';
-import './LightsCircleStatic4.css';
 
 interface LightsCircleStatic4Props {
   numBulbs?: number;
@@ -111,7 +110,7 @@ const bulbVariantsRegular = {
 
 const LightsCircleStatic4: React.FC<LightsCircleStatic4Props> = ({
   numBulbs = 16,
-  onColor = '#ffd700'
+  onColor = 'var(--pf-anim-gold)'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
   const radius = 80;

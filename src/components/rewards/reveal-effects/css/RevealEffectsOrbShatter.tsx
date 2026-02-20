@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import diamondImg from '@/assets/Diamonds.png'
 import './RevealEffectsOrbShatter.css'
 
 // Generate random particle trajectories
+import { diamondImage as diamondImg } from '@/assets'
 const particles = Array.from({ length: 12 }).map((_, i) => {
   const angle = (i / 12) * 360 * (Math.PI / 180)
   const dist = 100 + Math.random() * 50
@@ -13,6 +13,9 @@ const particles = Array.from({ length: 12 }).map((_, i) => {
   }
 })
 
+/**
+ *
+ */
 export function RevealEffectsOrbShatter() {
   const [isShattered, setIsShattered] = useState(false)
 

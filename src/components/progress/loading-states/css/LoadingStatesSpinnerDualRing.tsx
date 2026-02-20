@@ -1,5 +1,8 @@
 import './LoadingStatesSpinnerDualRing.css'
 
+/**
+ *
+ */
 export function LoadingStatesSpinnerDualRing() {
   return (
     <div data-animation-id="loading-states__spinner-dual-ring" className="pf-loading-container">

@@ -1,5 +1,8 @@
 import './IconAnimationsBadgePopRotate.css'
 
+/**
+ *
+ */
 export function IconAnimationsBadgePopRotate() {
   return (
     <div className="icon-demo-container">

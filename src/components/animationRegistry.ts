@@ -7,6 +7,7 @@ import { categoryExport as dialogsCategory } from '@/components/dialogs'
 import { categoryExport as progressCategory } from '@/components/progress'
 import { categoryExport as realtimeCategory } from '@/components/realtime'
 import { categoryExport as rewardsCategory } from '@/components/rewards'
+import { categoryExport as contentCategory } from '@/components/content'
 
 // ============================================================================
 // Category-based Registry
@@ -22,6 +23,7 @@ export const categories: Record<string, CategoryExport> = {
   progress: progressCategory,
   realtime: realtimeCategory,
   rewards: rewardsCategory,
+  content: contentCategory,
 }
 
 /**

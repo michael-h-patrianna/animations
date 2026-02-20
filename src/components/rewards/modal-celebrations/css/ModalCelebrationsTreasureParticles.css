@@ -1,5 +1,12 @@
 /* Styles scoped for ModalCelebrationsTreasureParticles */
 .pf-treasure-particles {
+
+  --modal-celebrations-treasure-particles-bg-1: #ffd700;
+  --modal-celebrations-treasure-particles-bg-2: #ffb300;
+  --modal-celebrations-treasure-particles-shadow-1: rgb(255 215 0 / 60%);
+  --modal-celebrations-treasure-particles-bg-3: #ff6b6b;
+  --modal-celebrations-treasure-particles-bg-4: #ee5a52;
+  --modal-celebrations-treasure-particles-shadow-2: rgb(255 107 107 / 40%);
   position: relative;
   width: 100%;
   height: 100%;
@@ -8,17 +15,17 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background: radial-gradient(circle, #ffd700, #ffb300);
+  background: radial-gradient(circle, var(--modal-celebrations-treasure-particles-bg-1), var(--modal-celebrations-treasure-particles-bg-2));
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 6px var(--modal-celebrations-treasure-particles-shadow-1);
 }
 .pf-treasure-particles__gem {
   position: absolute;
   width: 12px;
   height: 12px;
-  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  background: linear-gradient(45deg, var(--modal-celebrations-treasure-particles-bg-3), var(--modal-celebrations-treasure-particles-bg-4));
   transform: rotate(0deg);
-  box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 0 8px var(--modal-celebrations-treasure-particles-shadow-2);
 }
 .pf-treasure-particles__gem::before {
   content: '';
@@ -29,7 +36,7 @@
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 8px solid #ff6b6b;
+  border-bottom: 8px solid var(--modal-celebrations-treasure-particles-bg-3);
   transform: translateX(-50%);
 }
 .pf-treasure-particles__gem::after {
@@ -41,6 +48,6 @@
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 4px solid #ee5a52;
+  border-top: 4px solid var(--modal-celebrations-treasure-particles-bg-4);
   transform: translateX(-50%);
 }

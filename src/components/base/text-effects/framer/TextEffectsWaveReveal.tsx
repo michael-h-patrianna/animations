@@ -2,14 +2,12 @@ import { memo } from 'react'
 
 import * as m from 'motion/react-m'
 import { easeOut, type Variants } from 'motion/react'
-import './TextEffectsWaveReveal.css'
-import '../shared.css'
 
 function TextEffectsWaveRevealComponent() {
   const lines = [
-    { text: 'Look at', color: '#60a5fa' }, // Blue
-    { text: 'these', color: '#c6ff77' }, // Green
-    { text: 'colors', color: '#FFD700' }, // Gold
+    { text: 'Look at', color: 'var(--pf-anim-blue)' }, // Blue
+    { text: 'these', color: 'var(--pf-anim-green)' }, // Green
+    { text: 'colors', color: 'var(--pf-anim-gold)' }, // Gold
   ]
 
   const containerVariants: Variants = {
@@ -84,5 +82,4 @@ function TextEffectsWaveRevealComponent() {
  * Memoized TextEffectsWaveReveal to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsWaveReveal = memo(TextEffectsWaveRevealComponent)
-
 

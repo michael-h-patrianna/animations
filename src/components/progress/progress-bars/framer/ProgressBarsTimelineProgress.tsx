@@ -1,7 +1,8 @@
 import * as m from 'motion/react-m'
 
-import './ProgressBarsTimelineProgress.css'
-
+/**
+ *
+ */
 export function ProgressBarsTimelineProgress() {
   const steps = 4
 
@@ -67,9 +68,9 @@ export function ProgressBarsTimelineProgress() {
               className="pf-timeline-progress__step"
               variants={stepVariants}
               style={{
-                background: 'rgba(30, 144, 255, 0.2)',
-                borderColor: 'rgba(30, 144, 255, 0.4)',
-                color: '#ffffff',
+                background: 'var(--pf-anim-dodger-blue-20)',
+                borderColor: 'var(--pf-anim-dodger-blue-40)',
+                color: 'var(--pf-white)',
               }}
             >
               {index + 1}
@@ -80,7 +81,7 @@ export function ProgressBarsTimelineProgress() {
                 variants={connectorVariants}
                 style={{
                   background:
-                    'linear-gradient(90deg, rgba(30, 144, 255, 0.4), rgba(0, 255, 255, 0.2))',
+                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), rgba(0, 255, 255, 0.2))',
                   transformOrigin: 'left',
                 }}
               />

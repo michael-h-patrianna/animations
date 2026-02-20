@@ -2,8 +2,6 @@
 import * as m from 'motion/react-m'
 import { animate, AnimatePresence, easeOut, useAnimation, useMotionValue, useTransform } from 'motion/react'
 import { useEffect, useState, memo } from 'react'
-import './TextEffectsXpNumberPop.css'
-import '../shared.css'
 
 interface Particle {
   id: number
@@ -117,7 +115,7 @@ function TextEffectsXpNumberPopComponent() {
               top: '50%',
               fontSize: particle.layer === 0 ? '18px' : '14px',
               fontWeight: '700',
-              color: particle.layer === 0 ? '#c6ff77' : '#a8ff3e',
+              color: particle.layer === 0 ? 'var(--pf-anim-green)' : 'var(--pf-anim-green-bright)',
               textShadow: '0 0 10px currentColor',
               pointerEvents: 'none',
               zIndex: 3,
@@ -147,5 +145,4 @@ function TextEffectsXpNumberPopComponent() {
  * Memoized TextEffectsXpNumberPop to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
-
 

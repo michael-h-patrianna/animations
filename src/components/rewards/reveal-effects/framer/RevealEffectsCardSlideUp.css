@@ -1,4 +1,9 @@
 .reveal-card-slide-up-container {
+
+  --reveal-effects-card-slide-up-bg-1: #f093fb;
+  --reveal-effects-card-slide-up-bg-2: #f5576c;
+  --reveal-effects-card-slide-up-shadow: rgb(0 0 0 / 30%);
+  --reveal-effects-card-slide-up-text-shadow: rgb(0 0 0 / 20%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,19 +17,19 @@
   height: 320px;
   overflow: hidden; /* Masks the card initially */
   position: relative;
-  border-bottom: 4px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 4px solid rgb(255 255 255 / 10%);
   border-radius: 0 0 16px 16px;
 }
 
 .reveal-card-common {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, var(--reveal-effects-card-slide-up-bg-1) 0%, var(--reveal-effects-card-slide-up-bg-2) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px -5px var(--reveal-effects-card-slide-up-shadow);
 }
 
 .reveal-card-content {
@@ -42,5 +47,5 @@
 .reveal-card-text {
   font-size: 24px;
   font-weight: bold;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  text-shadow: 0 2px 4px var(--reveal-effects-card-slide-up-text-shadow);
 }

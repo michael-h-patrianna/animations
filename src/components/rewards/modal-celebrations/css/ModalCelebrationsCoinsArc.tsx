@@ -1,11 +1,14 @@
-import coinImage from '@/assets/coin.png'
 import './ModalCelebrationsCoinsArc.css'
 
 // Utility function to generate random number between min and max
+import { coinImage } from '@/assets'
 const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
+/**
+ *
+ */
 export function ModalCelebrationsCoinsArc() {
   const coins = Array.from({ length: 14 }, (_, i) => {
     const tx = randBetween(-120, 120)

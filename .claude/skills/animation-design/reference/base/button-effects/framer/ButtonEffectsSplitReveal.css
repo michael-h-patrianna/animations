@@ -1,0 +1,28 @@
+/* Styles scoped for ButtonEffectsSplitReveal */
+
+.pf-btn--split-reveal {
+  position: relative;
+  overflow: visible;
+}
+.pf-btn__split-top,
+.pf-btn__split-bottom {
+  display: inline-block;
+  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.pf-btn__split-reveal-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 24px;
+  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.pf-btn--split-reveal.split-revealing .pf-btn__split-top {
+  transform: translateY(-15px) rotate(-5deg);
+}
+.pf-btn--split-reveal.split-revealing .pf-btn__split-bottom {
+  transform: translateY(15px) rotate(5deg);
+}
+.pf-btn--split-reveal.split-revealing .pf-btn__split-reveal-content {
+  transform: translate(-50%, -50%) scale(1.2);
+}

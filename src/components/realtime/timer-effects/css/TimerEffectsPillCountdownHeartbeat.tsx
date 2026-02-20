@@ -3,6 +3,9 @@ import './shared.css'
 import './TimerEffectsPillCountdownHeartbeat.css'
 
 
+/**
+ *
+ */
 export function TimerEffectsPillCountdownHeartbeat() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)

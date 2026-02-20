@@ -1,6 +1,5 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsOrbitRing.css'
 
 interface OrbitRing {
   radius: number
@@ -14,6 +13,9 @@ interface Milestone {
   rings: OrbitRing[]
 }
 
+/**
+ *
+ */
 export function ProgressBarsOrbitRing() {
   const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
   const milestonePositions = [0, 0.25, 0.5, 0.75, 1]

@@ -1,7 +1,8 @@
 import * as m from 'motion/react-m'
 
-import './ModalOrchestrationComparisonMorph.css'
-
+/**
+ *
+ */
 export function ModalOrchestrationComparisonMorph() {
   const panes = 2
 
@@ -52,7 +53,7 @@ export function ModalOrchestrationComparisonMorph() {
             style={{
               marginTop: '16px',
               padding: '8px 12px',
-              background: 'rgba(236, 195, 255, 0.1)',
+              background: 'var(--pf-anim-highlight)',
               borderRadius: '6px',
               fontSize: '12px',
             }}

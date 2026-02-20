@@ -3,6 +3,9 @@ import '../shared.css'
 import './ModalBaseScaleGentlePop.css'
 
 
+/**
+ *
+ */
 export function ModalBaseScaleGentlePop() {
   return (
     <div

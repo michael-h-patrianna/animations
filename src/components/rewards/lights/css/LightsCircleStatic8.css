@@ -1,4 +1,6 @@
 .lights-circle-static-8 {
+
+  --lights-circle-static8-bg: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,8 +101,8 @@
     box-shadow: 0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 22px color-mix(in srgb, var(--bulb-on) 90%, transparent);
   }
   6% {
-    background-color: #fff;
-    box-shadow: 0 0 20px color-mix(in srgb, #fff 100%, transparent), 0 0 30px color-mix(in srgb, var(--bulb-on) 100%, transparent);
+    background-color: var(--lights-circle-static8-bg);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--lights-circle-static8-bg) 100%, transparent), 0 0 30px color-mix(in srgb, var(--bulb-on) 100%, transparent);
   }
   8% {
     background-color: var(--bulb-on);

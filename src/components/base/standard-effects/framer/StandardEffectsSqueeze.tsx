@@ -1,9 +1,6 @@
 import { memo } from 'react'
 import * as m from 'motion/react-m'
 
-
-import '../shared.css'
-
 function StandardEffectsSqueezeComponent() {
   return (
     <div className="standard-demo-container">

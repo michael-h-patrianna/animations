@@ -1,3 +1,17 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/ModalOrchestrationComparisonMorph.css'
+import './framer/ModalOrchestrationFlipReveal.css'
+import './framer/ModalOrchestrationGridHighlight.css'
+import './framer/ModalOrchestrationMagneticHover.css'
+import './framer/ModalOrchestrationSelectionGrid.css'
+import './framer/ModalOrchestrationSpringPhysics.css'
+import './framer/ModalOrchestrationStaggerInview.css'
+import './framer/ModalOrchestrationTabMorph.css'
+import './framer/ModalOrchestrationWizardFadeCross.css'
+import './framer/ModalOrchestrationWizardScaleRotate.css'
+import './framer/ModalOrchestrationWizardSlideStack.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

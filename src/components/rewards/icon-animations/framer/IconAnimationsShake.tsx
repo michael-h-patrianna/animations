@@ -1,10 +1,14 @@
-import shakeIcon from '@/assets/shake_icon.png'
-import '../shared.css'
 
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import './IconAnimationsShake.css'
 
+/**
+ *
+ */
+import { shakeIcon } from '@/assets'
+/**
+ *
+ */
 export function IconAnimationsShake() {
   return (
     <div className="icon-demo-container">
@@ -26,5 +30,4 @@ export function IconAnimationsShake() {
     </div>
   )
 }
-
 

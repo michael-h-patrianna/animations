@@ -9,7 +9,7 @@ interface LightsCircleStatic6Props {
 
 const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
   numBulbs = 16,
-  onColor = '#ffd700'
+  onColor = 'var(--pf-anim-gold)'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
   const radius = 80;

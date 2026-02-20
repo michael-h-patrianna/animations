@@ -1,0 +1,21 @@
+/* Standalone CSS for TextEffectsHorizonLightPass */
+.studioLogo-HorizonLightPass {
+  --hlp-baseColor: #e8e4da;
+  --hlp-highlightColor: #ffffff;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.studioLogo-HorizonLightPass__line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+
+.studioLogo-HorizonLightPass__letter {
+  display: inline-block;
+  will-change: transform;
+  color: var(--hlp-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+}

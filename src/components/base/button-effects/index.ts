@@ -1,3 +1,13 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/ButtonEffectsJitter.css'
+import './framer/ButtonEffectsLiquidMorph.css'
+import './framer/ButtonEffectsRewardReadyPulse.css'
+import './framer/ButtonEffectsRipple.css'
+import './framer/ButtonEffectsShockwave.css'
+import './framer/ButtonEffectsSplitReveal.css'
+import './framer/ButtonFeedbackShakeGentle.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

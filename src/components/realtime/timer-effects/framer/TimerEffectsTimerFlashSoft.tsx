@@ -1,11 +1,13 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsTimerFlashSoft.css'
 
+/**
+ *
+ */
 export function TimerEffectsTimerFlashSoft() {
   const [seconds, setSeconds] = useState(32)
-  const [bgColor, setBgColor] = useState('#ffc107')
+  const [bgColor, setBgColor] = useState('var(--pf-anim-yellow-warm)')
   const [shakeKey, setShakeKey] = useState(0)
 useEffect(() => {
     const duration = 32000
@@ -37,6 +39,7 @@ useEffect(() => {
       const g = Math.round(yellow.g + (red.g - yellow.g) * easedUrgency)
       const b = Math.round(yellow.b + (red.b - yellow.b) * easedUrgency)
 
+      // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic color computation
       setBgColor(`rgb(${r}, ${g}, ${b})`)
 
       // Shake animation every 10 seconds
@@ -50,7 +53,7 @@ useEffect(() => {
         // Auto-restart after a brief pause
         setTimeout(() => {
           setSeconds(32)
-          setBgColor('#ffc107')
+          setBgColor('var(--pf-anim-yellow-warm)')
         }, 2000)
       }
     }, 100)

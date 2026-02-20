@@ -1,8 +1,6 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useState, memo } from 'react'
-import '../shared.css'
-import './ButtonEffectsLiquidMorph.css'
 
 function ButtonEffectsLiquidMorphComponent() {
 const [isAnimating, setIsAnimating] = useState(false)

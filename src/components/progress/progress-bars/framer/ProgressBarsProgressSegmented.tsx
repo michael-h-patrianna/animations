@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './ProgressBarsProgressSegmented.css'
 
+/**
+ *
+ */
 export function ProgressBarsProgressSegmented() {
 const [activeSegments, setActiveSegments] = useState<number[]>([])
   const segmentCount = 4
@@ -41,7 +43,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
           scale: [1, 1.1, 1],
           boxShadow: [
             'none',
-            '0 0 20px rgba(198,255,119,0.5)',
+            '0 0 20px rgba(var(--pf-anim-green-rgb, 198,255,119),0.5)',
             'none',
           ],
           transition: {
@@ -107,7 +109,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
                 top: 0,
                 bottom: 0,
                 left: `calc(${((i + 1) * 100) / segmentCount}% - ${segmentGap / 2}px)`,
-                background: '#2a1040',
+                background: 'var(--pf-anim-deep-purple)',
               }}
             />
           ))}
@@ -141,7 +143,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
                       ? '2px 8px 8px 2px'
                       : '2px',
                   border: '1px solid rgba(196,122,229,0.3)',
-                  background: 'rgba(78,24,124,0.1)',
+                  background: 'var(--pf-anim-violet-dark)',
                   overflow: 'hidden',
                 }}
                 variants={segmentVariants(isActive)}
@@ -153,7 +155,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    background: 'rgba(198,255,119,0.3)',
+                    background: 'var(--pf-anim-green)',
                   }}
                   variants={glowVariants(isActive)}
                   initial="initial"

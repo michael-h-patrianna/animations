@@ -1,5 +1,14 @@
 /* Styles scoped for ModalOrchestrationTabMorph */
 .pf-tabs {
+
+  --modal-orchestration-tab-morph-bg-1: rgb(236 195 255 / 5%);
+  --modal-orchestration-tab-morph-border-1: rgb(236 195 255 / 12%);
+  --modal-orchestration-tab-morph-color-1: rgb(255 255 255 / 76%);
+  --modal-orchestration-tab-morph-bg-2: rgb(236 195 255 / 20%);
+  --modal-orchestration-tab-morph-border-2: rgb(196 122 229 / 60%);
+  --modal-orchestration-tab-morph-color-2: rgb(255 255 255 / 95%);
+  --modal-orchestration-tab-morph-shadow: rgb(196 122 229 / 30%);
+  --modal-orchestration-tab-morph-bg-3: rgb(236 195 255 / 8%);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -10,19 +19,19 @@
 .pf-tabs__nav {
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid rgba(236, 195, 255, 0.12);
+  border-bottom: 1px solid var(--modal-orchestration-tab-morph-border-1);
   padding-bottom: 8px;
 }
 .pf-tabs__tab {
   flex: 1;
   padding: 6px 12px;
   border-radius: 8px 8px 0 0;
-  background: rgba(236, 195, 255, 0.05);
-  border: 1px solid rgba(236, 195, 255, 0.12);
+  background: var(--modal-orchestration-tab-morph-bg-1);
+  border: 1px solid var(--modal-orchestration-tab-morph-border-1);
   border-bottom: none;
   text-align: center;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--modal-orchestration-tab-morph-color-1);
   cursor: pointer;
   transition: all 0.2s ease;
   transform: scale(1);
@@ -51,11 +60,11 @@
 }
 
 .pf-tabs__tab--active {
-  background: rgba(236, 195, 255, 0.2);
-  border: 1px solid rgba(196, 122, 229, 0.6);
+  background: var(--modal-orchestration-tab-morph-bg-2);
+  border: 1px solid var(--modal-orchestration-tab-morph-border-2);
   border-bottom: none;
-  color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.3);
+  color: var(--modal-orchestration-tab-morph-color-2);
+  box-shadow: 0 0 0 1px var(--modal-orchestration-tab-morph-shadow);
   transform: scale(1.05);
   opacity: 1;
 }
@@ -72,9 +81,9 @@
   right: 0;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-orchestration-tab-morph-bg-3);
+  border: 1px solid var(--modal-orchestration-tab-morph-border-1);
+  color: var(--modal-orchestration-tab-morph-color-1);
   will-change: transform, opacity;
 }
 

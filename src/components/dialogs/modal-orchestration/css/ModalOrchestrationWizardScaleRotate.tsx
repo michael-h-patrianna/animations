@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardScaleRotate.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationWizardScaleRotate() {
   const steps = 3
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])

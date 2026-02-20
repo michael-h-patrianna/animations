@@ -1,5 +1,8 @@
 import './AchievementRevealsBadgeScaleShine.css'
 
+/**
+ *
+ */
 export function AchievementRevealsBadgeScaleShine() {
   return (
     <div

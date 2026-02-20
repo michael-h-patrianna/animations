@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressMilestones.css'
 
 
+/**
+ *
+ */
 export function ProgressBarsProgressMilestones() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -51,7 +54,7 @@ export function ProgressBarsProgressMilestones() {
       const marker = document.createElement('div')
       marker.style.position = 'absolute'
       marker.style.inset = '0'
-      marker.style.background = 'rgba(0,180,160,0.3)'
+      marker.style.background = 'var(--pf-anim-cyan-soft)'
       marker.style.border = '2px solid rgba(0,200,180,0.5)'
       marker.style.borderRadius = '50%'
       marker.style.transform = 'rotate(45deg) scale(0.5)'
@@ -62,12 +65,13 @@ export function ProgressBarsProgressMilestones() {
       const innerGlow = document.createElement('div')
       innerGlow.style.position = 'absolute'
       innerGlow.style.inset = '20%'
-      innerGlow.style.background = 'rgba(0,255,255,0.9)'
+      innerGlow.style.background = 'var(--pf-anim-cyan-light)'
       innerGlow.style.borderRadius = '50%'
       innerGlow.style.opacity = '0'
       // Simulate blur with radial gradient for RN compatibility
       innerGlow.style.background =
-        'radial-gradient(circle, rgba(0,255,255,0.9) 0%, rgba(0,255,255,0.3) 50%, transparent 100%)'
+        // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+        'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, rgba(0,255,255,0.3) 50%, transparent 100%)'
       innerGlow.style.transition = 'all 0.3s ease'
       markerContainer.appendChild(innerGlow)
 
@@ -100,7 +104,7 @@ export function ProgressBarsProgressMilestones() {
     labelContainer.style.display = 'flex'
     labelContainer.style.justifyContent = 'space-between'
     labelContainer.style.fontSize = '10px'
-    labelContainer.style.color = 'rgba(0,200,180,0.6)'
+    labelContainer.style.color = 'var(--pf-anim-cyan-muted)'
     labelContainer.style.pointerEvents = 'none'
     trackContainer.appendChild(labelContainer)
     ;['Start', '25%', '50%', '75%', '100%'].forEach((label, i) => {
@@ -137,9 +141,9 @@ export function ProgressBarsProgressMilestones() {
           // Activate marker
           marker.style.transform = 'rotate(45deg) scale(1)'
           marker.style.background =
-            'linear-gradient(135deg, rgba(0,255,255,0.9), rgba(198,255,119,1))'
-          marker.style.borderColor = 'rgba(0,255,255,1)'
-          marker.style.boxShadow = '0 0 25px rgba(0,255,255,0.9), 0 0 50px rgba(198,255,119,0.5)'
+            'linear-gradient(135deg, var(--pf-anim-cyan-light), rgba(var(--pf-anim-green-rgb, 198,255,119),1))'
+          marker.style.borderColor = 'var(--pf-anim-cyan-light)'
+          marker.style.boxShadow = '0 0 25px var(--pf-anim-cyan-light), 0 0 50px rgba(var(--pf-anim-green-rgb, 198,255,119),0.5)'
 
           // Glow effect
           innerGlow.style.opacity = '1'
@@ -157,7 +161,7 @@ export function ProgressBarsProgressMilestones() {
           // Highlight label
           if (label) {
             label.style.opacity = '1'
-            label.style.color = 'rgba(0,255,255,1)'
+            label.style.color = 'var(--pf-anim-cyan-light)'
             label.style.fontWeight = '600'
           }
         }

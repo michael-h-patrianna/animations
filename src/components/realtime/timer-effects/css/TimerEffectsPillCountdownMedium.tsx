@@ -3,6 +3,9 @@ import './shared.css'
 import './TimerEffectsPillCountdownMedium.css'
 
 
+/**
+ *
+ */
 export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)

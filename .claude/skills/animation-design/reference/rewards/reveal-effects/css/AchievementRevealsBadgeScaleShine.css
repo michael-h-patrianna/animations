@@ -1,0 +1,106 @@
+/* Badge Scale Shine Animation - CSS Variant */
+
+.badge-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+
+.badge-icon {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffd700, #ffaa00);
+  border: 3px solid rgba(255, 215, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation: badge-scale-shine 800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.badge-content {
+  font-size: 48px;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.badge-shine-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  animation: shine-swipe 400ms linear 400ms forwards;
+  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes badge-scale-shine {
+  0% {
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  12.5% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  37.5% {
+    transform: scale(1.2) rotate(2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes shine-swipe {
+  0% {
+    transform: translateX(-150%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(-100%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(150%);
+    opacity: 0;
+  }
+}
+
+/* Accessibility: Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .badge-icon {
+    animation: badge-simple-fade 300ms ease-in-out forwards;
+  }
+
+  .badge-shine-overlay {
+    animation: none;
+    display: none;
+  }
+}
+
+@keyframes badge-simple-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

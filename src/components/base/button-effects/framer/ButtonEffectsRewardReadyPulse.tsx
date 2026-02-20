@@ -1,7 +1,5 @@
 import * as m from 'motion/react-m'
 import { memo, useState } from 'react'
-import '../shared.css'
-import './ButtonEffectsRewardReadyPulse.css'
 
 /**
  * Framer Motion-driven reward ready pulse animation.

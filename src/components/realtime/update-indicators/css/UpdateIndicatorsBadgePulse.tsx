@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsBadgePulse.css'
 
 
+/**
+ *
+ */
 export function UpdateIndicatorsBadgePulse() {
   const badgeRef = useRef<HTMLDivElement>(null)
 

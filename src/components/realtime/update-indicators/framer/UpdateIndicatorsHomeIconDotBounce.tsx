@@ -1,9 +1,14 @@
-import homeIcon2 from '@/assets/home-icon2.png'
 import * as m from 'motion/react-m'
 
 import { useEffect, useState } from 'react'
-import './UpdateIndicatorsHomeIconDotBounce.css'
 
+/**
+ *
+ */
+import { homeIcon2 } from '@/assets'
+/**
+ *
+ */
 export function UpdateIndicatorsHomeIconDotBounce() {
   const [key, setKey] = useState(0)
 useEffect(() => {

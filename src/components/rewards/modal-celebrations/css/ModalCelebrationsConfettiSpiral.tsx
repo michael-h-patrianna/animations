@@ -1,12 +1,15 @@
 import './ModalCelebrationsConfettiSpiral.css'
 
-const confettiColors = ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ecc3ff']
+const confettiColors = ['var(--pf-anim-firework-pink)', 'var(--pf-anim-green)', 'var(--pf-anim-firework-cyan)', 'var(--pf-anim-firework-gold)', 'var(--pf-base-50)']
 
 // Utility function to generate random number between min and max
 const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
+/**
+ *
+ */
 export function ModalCelebrationsConfettiSpiral() {
   const particles = Array.from({ length: 26 }, (_, i) => {
     const angle = randBetween(0, 360)

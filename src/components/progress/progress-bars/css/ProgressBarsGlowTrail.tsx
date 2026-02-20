@@ -1,5 +1,8 @@
 import './ProgressBarsGlowTrail.css'
 
+/**
+ *
+ */
 export function ProgressBarsGlowTrail() {
   return (
     <div

@@ -1,7 +1,7 @@
 /* Metallic Specular Flash - Pure CSS version */
 .tfx-metallic-specular-flash {
   --tfx-msf-base-color: #e8e4da;
-  --tfx-msf-highlight-color: #ffffff;
+  --tfx-msf-highlight-color: #fff;
   --tfx-msf-shadow-color: #b6b1a6;
   display: inline-flex;
   align-items: baseline;

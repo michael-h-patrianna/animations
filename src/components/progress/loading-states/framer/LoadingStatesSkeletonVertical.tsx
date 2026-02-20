@@ -1,9 +1,9 @@
 
 import * as m from 'motion/react-m'
 
-import './LoadingStatesSkeletonVertical.css'
-import '../shared.css'
-
+/**
+ *
+ */
 export function LoadingStatesSkeletonVertical() {
 const shimmerVariants = {
     animate: {

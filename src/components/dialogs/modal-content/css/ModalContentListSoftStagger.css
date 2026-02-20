@@ -1,5 +1,22 @@
 /* Styles for ModalContentListSoftStagger */
 .modal-content-overlay {
+
+  --modal-content-list-soft-stagger-bg-1: rgb(236 195 255 / 8%);
+  --modal-content-list-soft-stagger-border-1: rgb(236 195 255 / 12%);
+  --modal-content-list-soft-stagger-color-1: rgb(255 255 255 / 76%);
+  --modal-content-list-soft-stagger-bg-2: rgb(198 255 119 / 16%);
+  --modal-content-list-soft-stagger-color-2: #c6ff77;
+  --modal-content-list-soft-stagger-border-2: rgb(236 195 255 / 32%);
+  --modal-content-list-soft-stagger-bg-3: #ff5981;
+  --modal-content-list-soft-stagger-bg-4: #c83558;
+  --modal-content-list-soft-stagger-color-3: #fff;
+  --modal-content-list-soft-stagger-border-3: #ff7495;
+  --modal-content-list-soft-stagger-text-shadow: rgb(0 0 0 / 50%);
+  --modal-content-list-soft-stagger-bg-5: #ff6b8f;
+  --modal-content-list-soft-stagger-bg-6: #d6456a;
+  --modal-content-list-soft-stagger-border: #ff86a5;
+  --modal-content-list-soft-stagger-color-4: #25ecff;
+  --modal-content-list-soft-stagger-color-5: rgb(255 255 255 / 90%);
   position: relative;
   width: 100%;
   height: 100%;
@@ -14,14 +31,14 @@
   overflow: hidden;
   width: clamp(280px, 80%, 400px);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+    0 18px 40px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px var(--modal-content-list-soft-stagger-border-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-content-list-soft-stagger-bg-1);
+  border: 1px solid var(--modal-content-list-soft-stagger-border-1);
+  color: var(--modal-content-list-soft-stagger-color-1);
   animation: modal-open 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .modal-content-header {
@@ -29,7 +46,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 16px;
-  border-bottom: 1px solid rgba(236, 195, 255, 0.16);
+  border-bottom: 1px solid rgb(236 195 255 / 16%);
 }
 .modal-content-title {
   font-size: 18px;
@@ -40,8 +57,8 @@
   font-size: 12px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(198, 255, 119, 0.16);
-  color: #c6ff77;
+  background: var(--modal-content-list-soft-stagger-bg-2);
+  color: var(--modal-content-list-soft-stagger-color-2);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -50,7 +67,7 @@
   min-height: 120px;
 }
 .modal-content-body p {
-  margin: 0 0 12px 0;
+  margin: 0 0 12px;
   line-height: 1.5;
 }
 .modal-content-footer {
@@ -63,7 +80,7 @@
 .modal-content-button {
   padding: 10px 18px;
   border-radius: 999px;
-  border: 1px solid rgba(236, 195, 255, 0.32);
+  border: 1px solid var(--modal-content-list-soft-stagger-border-2);
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -73,15 +90,15 @@
 }
 .modal-content-button-primary {
   border-radius: 50px;
-  background: linear-gradient(180deg, #ff5981, #c83558);
-  color: #fff;
-  border: 2px solid #ff7495;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, var(--modal-content-list-soft-stagger-bg-3), var(--modal-content-list-soft-stagger-bg-4));
+  color: var(--modal-content-list-soft-stagger-color-3);
+  border: 2px solid var(--modal-content-list-soft-stagger-border-3);
+  text-shadow: 0 1px 1px var(--modal-content-list-soft-stagger-text-shadow);
   padding: 6px 12px;
 }
-.modal-content-button-primary:hover:not(:disabled):not([aria-disabled='true']) {
-  background: linear-gradient(180deg, #ff6b8f, #d6456a);
-  border-color: #ff86a5;
+.modal-content-button-primary:hover:not(:disabled, [aria-disabled='true']) {
+  background: linear-gradient(180deg, var(--modal-content-list-soft-stagger-bg-5), var(--modal-content-list-soft-stagger-bg-6));
+  border-color: var(--modal-content-list-soft-stagger-border);
   /* RN-friendly: avoid drop-shadow */
 }
 .modal-content-button-primary:disabled,
@@ -92,8 +109,8 @@
   box-shadow: none;
 }
 .modal-content-button-secondary {
-  color: #25ecff;
-  border: 2px solid #25ecff;
+  color: var(--modal-content-list-soft-stagger-color-4);
+  border: 2px solid var(--modal-content-list-soft-stagger-color-4);
   background: transparent;
   border-radius: 50px;
   padding: 6px 12px;
@@ -109,12 +126,13 @@
 }
 .modal-content-list-item {
   padding: 12px 16px;
-  background: rgba(236, 195, 255, 0.08);
+  background: var(--modal-content-list-soft-stagger-bg-1);
   border-radius: 8px;
   border-left: 4px solid #c47ae5;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--modal-content-list-soft-stagger-color-5);
   font-weight: 500;
 }
+
 @keyframes modal-open {
   0% {
     transform: scale(0.88) translateY(-16px);
@@ -129,6 +147,7 @@
     opacity: 1;
   }
 }
+
 @keyframes button-stagger {
   0% {
     transform: translateY(16px) scale(0.94);
@@ -143,6 +162,7 @@
     opacity: 1;
   }
 }
+
 @keyframes list-soft-stagger {
   0% {
     transform: translateY(16px);

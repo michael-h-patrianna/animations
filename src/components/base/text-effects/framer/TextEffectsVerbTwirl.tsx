@@ -8,8 +8,6 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
-import './TextEffectsVerbTwirl.css'
-import '../shared.css'
 
 function TextEffectsVerbTwirlComponent() {
   const text = 'LOREM IPSUM DOLOR'
@@ -45,7 +43,5 @@ function TextEffectsVerbTwirlComponent() {
  * Memoized TextEffectsVerbTwirl to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbTwirl = memo(TextEffectsVerbTwirlComponent)
-
-
 
 export default TextEffectsVerbTwirl

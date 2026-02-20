@@ -1,9 +1,9 @@
 
 import * as m from 'motion/react-m'
 
-import './LoadingStatesDotsRise.css'
-import '../shared.css'
-
+/**
+ *
+ */
 export function LoadingStatesDotsRise() {
   return (
     <div data-animation-id="loading-states__dots-rise" className="pf-loading-container">

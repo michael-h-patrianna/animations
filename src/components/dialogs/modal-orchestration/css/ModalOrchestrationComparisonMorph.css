@@ -1,5 +1,10 @@
 /* Styles scoped for ModalOrchestrationComparisonMorph */
 .pf-comparison {
+
+  --modal-orchestration-comparison-morph-bg-1: rgb(236 195 255 / 8%);
+  --modal-orchestration-comparison-morph-border: rgb(236 195 255 / 12%);
+  --modal-orchestration-comparison-morph-color: rgb(255 255 255 / 76%);
+  --modal-orchestration-comparison-morph-bg-2: rgb(236 195 255 / 10%);
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -10,9 +15,9 @@
 .pf-comparison__pane {
   padding: 20px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-orchestration-comparison-morph-bg-1);
+  border: 1px solid var(--modal-orchestration-comparison-morph-border);
+  color: var(--modal-orchestration-comparison-morph-color);
   transform: rotate(-6deg) scale(0.82);
   opacity: 0;
   will-change: transform, opacity;
@@ -37,7 +42,7 @@
 .pf-comparison__badge {
   margin-top: 16px;
   padding: 8px 12px;
-  background: rgba(236, 195, 255, 0.1);
+  background: var(--modal-orchestration-comparison-morph-bg-2);
   border-radius: 6px;
   font-size: 12px;
 }

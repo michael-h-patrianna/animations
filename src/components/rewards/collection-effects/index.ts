@@ -1,3 +1,7 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './framer/CollectionEffectsCoinBurst.css'
+import './framer/CollectionEffectsCoinMagnet.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

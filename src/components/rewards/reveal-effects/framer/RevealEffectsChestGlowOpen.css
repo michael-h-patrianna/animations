@@ -1,4 +1,9 @@
 .reveal-chest-glow-container {
+
+  --reveal-effects-chest-glow-open-bg-1: rgb(100 200 255 / 40%);
+  --reveal-effects-chest-glow-open-bg-2: rgb(100 200 255 / 0%);
+  --reveal-effects-chest-glow-open-bg-3: rgb(255 255 255 / 100%);
+  --reveal-effects-chest-glow-open-bg-4: rgb(255 255 255 / 0%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,7 +32,7 @@
 
     height: 250px;
 
-    background: radial-gradient(circle, rgba(100, 200, 255, 0.4) 0%, rgba(100, 200, 255, 0) 70%);
+    background: radial-gradient(circle, var(--reveal-effects-chest-glow-open-bg-1) 0%, var(--reveal-effects-chest-glow-open-bg-2) 70%);
 
     border-radius: 50%;
 
@@ -67,7 +72,7 @@
 
     z-index: 11;
 
-    filter: drop-shadow(0 0 15px rgba(100, 200, 255, 0.6));
+    filter: drop-shadow(0 0 15px rgb(100 200 255 / 60%));
 
 }
 
@@ -85,7 +90,7 @@
 
     height: 400px;
 
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 60%);
+    background: radial-gradient(circle, var(--reveal-effects-chest-glow-open-bg-3) 0%, var(--reveal-effects-chest-glow-open-bg-4) 60%);
 
     z-index: 20;
 

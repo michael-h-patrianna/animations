@@ -1,0 +1,56 @@
+.flag-plant-container {
+  padding: 50px 20px 20px 20px; /* Space on top for flags */
+  background: #fff7ed;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.flag-track {
+  position: relative;
+  height: 12px;
+  background: #fed7aa;
+  border-radius: 6px;
+}
+
+.flag-fill {
+  height: 100%;
+  background: #ea580c;
+  border-radius: 6px;
+}
+
+.flag-marker {
+  position: absolute;
+  top: 0; /* Top of track */
+  width: 2px;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.flag-pole-base {
+  position: absolute;
+  bottom: -4px;
+  left: -3px;
+  width: 8px;
+  height: 4px;
+  background: #9a3412;
+  border-radius: 2px;
+}
+
+.flag-pole {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  width: 2px;
+  height: 30px;
+  background: #431407;
+}
+
+.flag-cloth {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  font-size: 20px;
+  line-height: 1;
+  transform-origin: left center;
+}

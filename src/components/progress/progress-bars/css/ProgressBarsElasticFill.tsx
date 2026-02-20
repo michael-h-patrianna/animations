@@ -1,5 +1,8 @@
 import './ProgressBarsElasticFill.css'
 
+/**
+ *
+ */
 export function ProgressBarsElasticFill() {
   return (
     <div

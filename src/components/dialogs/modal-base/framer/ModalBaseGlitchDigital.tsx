@@ -2,8 +2,10 @@ import * as m from 'motion/react-m'
 
 import { overlayStyles } from '@/motion/primitives'
 import { MockModalContent } from '../MockModalContent'
-import '../shared.css'
 
+/**
+ *
+ */
 export function ModalBaseGlitchDigital() {
   const duration = 0.6
   const ease = 'easeInOut'

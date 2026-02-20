@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
-import './RevealEffectsChestBounceOpen.css'
 
-export const metadata = {
-  id: 'rewards-reveal-effects__chest-bounce-open',
-  title: 'Chest Bounce Open',
-  description: 'Chest bounces with anticipation before opening.',
-  tags: ['chest', 'bounce', 'anticipation', 'reveal'],
-}
-
+/**
+ *
+ */
 export function RevealEffectsChestBounceOpen() {
   const [isOpen, setIsOpen] = useState(false)
 

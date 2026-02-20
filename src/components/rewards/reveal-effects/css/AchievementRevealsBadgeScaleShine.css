@@ -1,6 +1,11 @@
 /* Badge Scale Shine Animation - CSS Variant */
 
 .badge-container {
+
+  --achievement-reveals-badge-scale-shine-bg-1: #ffd700;
+  --achievement-reveals-badge-scale-shine-bg-2: #ffaa00;
+  --achievement-reveals-badge-scale-shine-border: rgb(255 215 0 / 60%);
+  --achievement-reveals-badge-scale-shine-bg-100: rgb(255 255 255 / 60%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,8 +18,8 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ffd700, #ffaa00);
-  border: 3px solid rgba(255, 215, 0, 0.6);
+  background: radial-gradient(circle at 30% 30%, var(--achievement-reveals-badge-scale-shine-bg-1), var(--achievement-reveals-badge-scale-shine-bg-2));
+  border: 3px solid var(--achievement-reveals-badge-scale-shine-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,7 +44,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.6) 50%,
+    var(--achievement-reveals-badge-scale-shine-bg-100) 50%,
     transparent 100%
   );
   animation: shine-swipe 400ms linear 400ms forwards;

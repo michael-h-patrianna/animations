@@ -3,6 +3,9 @@ import './shared.css'
 import './TimerEffectsPillCountdownGlitch.css'
 
 
+/**
+ *
+ */
 export function TimerEffectsPillCountdownGlitch() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)

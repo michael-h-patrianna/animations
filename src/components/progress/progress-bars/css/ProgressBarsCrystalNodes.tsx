@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsCrystalNodes.css'
 
+/**
+ *
+ */
 export function ProgressBarsCrystalNodes() {
   const [progress, setProgress] = useState(0)
 

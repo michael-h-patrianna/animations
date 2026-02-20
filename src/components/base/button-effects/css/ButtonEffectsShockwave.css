@@ -4,6 +4,10 @@
  */
 
 .bfx-shockwave__container {
+
+  --button-effects-shockwave-border: rgb(255 255 255 / 50%);
+  --button-effects-shockwave-border-1: rgb(255 89 129 / 40%);
+  --button-effects-shockwave-border-2: rgb(255 206 26 / 30%);
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -28,7 +32,7 @@
   position: absolute;
   width: 150px;
   height: 150px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid var(--button-effects-shockwave-border);
   border-radius: 50%;
   pointer-events: none;
   will-change: transform, opacity;
@@ -42,12 +46,12 @@
 
 .bfx-shockwave__ring--2 {
   animation: bfx-shockwave 1s ease-out 0.1s forwards;
-  border-color: rgba(255, 89, 129, 0.4);
+  border-color: var(--button-effects-shockwave-border-1);
 }
 
 .bfx-shockwave__ring--3 {
   animation: bfx-shockwave 1s ease-out 0.2s forwards;
-  border-color: rgba(255, 206, 26, 0.3);
+  border-color: var(--button-effects-shockwave-border-2);
 }
 
 @keyframes bfx-shockwave {

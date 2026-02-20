@@ -1,6 +1,10 @@
 /* GPU-accelerated origami unfold animation - 60fps optimized */
 
 .modal-base-unfold-origami {
+
+  --modal-base-unfold-origami-bg: rgb(236 195 255 / 8%);
+  --modal-base-unfold-origami-border: rgb(236 195 255 / 12%);
+  --modal-base-unfold-origami-color: rgb(255 255 255 / 76%);
   position: relative;
   width: 100%;
   height: 100%;
@@ -27,14 +31,14 @@
   left: auto;
   width: clamp(280px, 80%, 320px);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+    0 18px 40px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px var(--modal-base-unfold-origami-border);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-base-unfold-origami-bg);
+  border: 1px solid var(--modal-base-unfold-origami-border);
+  color: var(--modal-base-unfold-origami-color);
   transform-style: preserve-3d;
   animation: modal-unfold-origami-card-unfold 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: transform, opacity;

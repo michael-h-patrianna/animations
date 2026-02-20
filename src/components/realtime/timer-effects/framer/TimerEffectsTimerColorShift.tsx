@@ -1,11 +1,13 @@
 import * as m from 'motion/react-m'
 
 import { useEffect, useState } from 'react'
-import './TimerEffectsTimerColorShift.css'
 
+/**
+ *
+ */
 export function TimerEffectsTimerColorShift() {
   const [value, setValue] = useState(10)
-  const [timerColor, setTimerColor] = useState('#c6ff77')
+  const [timerColor, setTimerColor] = useState('var(--pf-anim-green)')
   const [arcProgress, setArcProgress] = useState(0)
 useEffect(() => {
     const duration = 3000
@@ -24,10 +26,12 @@ useEffect(() => {
       if (progress < 0.5) {
         // First half: #c6ff77 to #ffb300
         const t = progress * 2
+        // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic color computation
         color = `hsl(${79 - t * 36}, ${100 - t * 14}%, ${66 - t * 16}%)`
       } else {
         // Second half: #ffb300 to #fa114f
         const t = (progress - 0.5) * 2
+        // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic color computation
         color = `hsl(${43 - t * 35}, ${86 + t * 14}%, ${50 - t * 15}%)`
       }
       setTimerColor(color)
@@ -37,7 +41,7 @@ useEffect(() => {
         // Auto-restart after a brief pause
         setTimeout(() => {
           setValue(10)
-          setTimerColor('#c6ff77')
+          setTimerColor('var(--pf-anim-green)')
           setArcProgress(0)
         }, 1000)
       }

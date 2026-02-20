@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalOrchestrationMagneticHover.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationMagneticHover() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,

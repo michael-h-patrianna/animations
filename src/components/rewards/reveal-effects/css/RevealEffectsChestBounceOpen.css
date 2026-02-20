@@ -1,4 +1,11 @@
 .reveal-chest-bounce-container-css {
+
+  --reveal-effects-chest-bounce-open-bg-1: #553311;
+  --reveal-effects-chest-bounce-open-border-1: #3E2207;
+  --reveal-effects-chest-bounce-open-shadow: rgb(0 0 0 / 20%);
+  --reveal-effects-chest-bounce-open-bg-2: #6D4118;
+  --reveal-effects-chest-bounce-open-bg-3: #FFD700;
+  --reveal-effects-chest-bounce-open-border-2: #DAA520;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,10 +38,10 @@
   bottom: 0;
   width: 100%;
   height: 70px;
-  background: #553311;
+  background: var(--reveal-effects-chest-bounce-open-bg-1);
   border-radius: 0 0 12px 12px;
-  border: 3px solid #3E2207;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  border: 3px solid var(--reveal-effects-chest-bounce-open-border-1);
+  box-shadow: 0 10px 20px var(--reveal-effects-chest-bounce-open-shadow);
 }
 
 .reveal-chest-bounce-lid-css {
@@ -57,9 +64,9 @@
 .reveal-chest-bounce-lid-top-css {
     width: 100%;
     height: 100%;
-    background: #6D4118;
+    background: var(--reveal-effects-chest-bounce-open-bg-2);
     border-radius: 12px 12px 0 0;
-    border: 3px solid #3E2207;
+    border: 3px solid var(--reveal-effects-chest-bounce-open-border-1);
     border-bottom: none;
 }
 
@@ -70,9 +77,9 @@
     transform: translateX(-50%);
     width: 24px;
     height: 16px;
-    background: #FFD700;
+    background: var(--reveal-effects-chest-bounce-open-bg-3);
     border-radius: 6px;
-    border: 2px solid #DAA520;
+    border: 2px solid var(--reveal-effects-chest-bounce-open-border-2);
 }
 
 .reveal-chest-bounce-content-css {
@@ -97,5 +104,5 @@
 
 .reveal-chest-bounce-icon-css {
     font-size: 56px;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 4px 8px rgb(0 0 0 / 30%));
 }

@@ -1,0 +1,126 @@
+import * as m from 'motion/react-m'
+import { useAnimation } from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
+import './RealtimeDataLiveScoreUpdate.css'
+
+export function RealtimeDataLiveScoreUpdate() {
+  const [scores, setScores] = useState([1450, 1320])
+  // Removed unused isAnimating state to satisfy noUnusedLocals
+  const controls1 = useAnimation()
+  const controls2 = useAnimation()
+  const scoresRef = useRef(scores)
+  useEffect(() => {
+    scoresRef.current = scores
+  }, [scores])
+
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>
+    let countInterval: ReturnType<typeof setInterval>
+    let isMounted = true
+
+    const startAnimation = async () => {
+      if (!isMounted) return
+      // start animation
+
+      // Animate both scores
+      const promises = [
+        controls1.start({
+          scale: [1, 1.2, 1],
+          color: ['#ecc3ff', '#c6ff77', '#ecc3ff'],
+        }),
+        controls2.start({
+          scale: [1, 1.2, 1],
+          color: ['#ecc3ff', '#c6ff77', '#ecc3ff'],
+        }),
+      ]
+
+      // Count up the numbers
+      let currentScores = [...scoresRef.current]
+      const increment = 120
+      let step = 0
+      const steps = 20
+
+      countInterval = setInterval(() => {
+        if (!isMounted) {
+          clearInterval(countInterval)
+          return
+        }
+        step++
+        const progress = step / steps
+        const easeProgress = 1 - Math.pow(1 - progress, 3) // ease-out cubic
+
+        setScores([
+          Math.round(currentScores[0] + increment * easeProgress),
+          Math.round(currentScores[1] + increment * easeProgress),
+        ])
+
+        if (step >= steps) {
+          clearInterval(countInterval)
+          currentScores = [currentScores[0] + increment, currentScores[1] + increment]
+        }
+      }, 40)
+
+      await Promise.all(promises)
+      // end animation
+
+      if (!isMounted) return
+
+      // Reset after delay
+      timeoutId = setTimeout(() => {
+        if (!isMounted) return
+        setScores([1450, 1320])
+        setTimeout(() => {
+          if (isMounted) startAnimation()
+        }, 1000)
+      }, 2000)
+    }
+
+    // Small delay to ensure component is fully mounted
+    const mountTimer = setTimeout(() => {
+      if (isMounted) startAnimation()
+    }, 100)
+
+    return () => {
+      isMounted = false
+      clearTimeout(mountTimer)
+      if (timeoutId) clearTimeout(timeoutId)
+      if (countInterval) clearInterval(countInterval)
+    }
+  }, [controls1, controls2])
+
+  return (
+    <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
+      <div className="pf-realtime-data__leaderboard">
+        <div className="pf-realtime-data__row">
+          <div className="pf-realtime-data__rank">#1</div>
+          <div className="pf-realtime-data__player">Phoenix</div>
+          <m.div
+            className="pf-realtime-data__score"
+            animate={controls1}
+            transition={{
+              duration: 0.8,
+              ease: [0.25, 0.46, 0.45, 0.94] as const,
+            }}
+          >
+            {scores[0].toLocaleString()}
+          </m.div>
+        </div>
+        <div className="pf-realtime-data__row">
+          <div className="pf-realtime-data__rank">#2</div>
+          <div className="pf-realtime-data__player">Shadow</div>
+          <m.div
+            className="pf-realtime-data__score"
+            animate={controls2}
+            transition={{
+              duration: 0.8,
+              ease: [0.25, 0.46, 0.45, 0.94] as const,
+              delay: 0.1,
+            }}
+          >
+            {scores[1].toLocaleString()}
+          </m.div>
+        </div>
+      </div>
+    </div>
+  )
+}

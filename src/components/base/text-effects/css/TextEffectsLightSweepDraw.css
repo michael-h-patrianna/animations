@@ -1,7 +1,7 @@
 /* Light Sweep Draw - Pure CSS version */
 .tfx-light-sweep-draw {
   --tfx-lsd-base-color: #e8e4da;
-  --tfx-lsd-highlight-color: #ffffff;
+  --tfx-lsd-highlight-color: #fff;
   display: inline-flex;
   align-items: baseline;
   contain: layout style;

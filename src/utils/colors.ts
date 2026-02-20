@@ -1,3 +1,5 @@
+/* eslint-disable animation-rules/no-hardcoded-colors -- Color utility requires raw color manipulation */
+
 /**
  * Parses a color string (hex or rgba) and returns RGB values
  */
@@ -181,4 +183,7 @@ export function calculateBulbColors(onColor: string) {
   };
 }
 
+/**
+ *
+ */
 export type BulbColors = ReturnType<typeof calculateBulbColors>;

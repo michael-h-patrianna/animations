@@ -1,0 +1,21 @@
+/* Falling text effect (no background) - Framer Motion version */
+.verbFall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+.verbFall__line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+.verbFall__char {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-block;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center bottom;
+}

@@ -1,0 +1,102 @@
+.pf-charge-surge-css {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px 0;
+}
+
+.pf-charge-surge-css .pf-progress-track {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 6px;
+  overflow: visible;
+}
+
+.pf-charge-surge-css .pf-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.pf-charge-surge-css .pf-progress-fill--base {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.6), rgba(59, 130, 246, 0.8));
+  z-index: 1;
+}
+
+.pf-charge-surge-css .pf-progress-fill--glow {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.pf-charge-surge-css .glow-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(147, 197, 253, 0.6),
+    rgba(96, 165, 250, 0.8),
+    rgba(147, 197, 253, 0.6)
+  );
+  border-radius: 6px;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+  will-change: opacity;
+}
+
+.pf-charge-surge-css .glow-overlay.flash {
+  opacity: 0.8;
+}
+
+.pf-charge-surge-css .milestone-container {
+  z-index: 3;
+}
+
+.pf-charge-surge-css .milestone-marker {
+  will-change: transform, background-color;
+  background-color: rgba(59, 130, 246, 0.3);
+  transition: background-color 0.2s;
+}
+
+.pf-charge-surge-css .milestone-marker.anticipating {
+  background-color: rgba(59, 130, 246, 0.6);
+  animation: anticipation-pulse 0.8s ease-in-out infinite;
+}
+
+.pf-charge-surge-css .milestone-marker.charged {
+  background-color: rgba(59, 130, 246, 1);
+  animation: none;
+  transform: scale(1);
+}
+
+.pf-charge-surge-css .surge-wave {
+  will-change: transform, opacity;
+  animation: surge-wave 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Keyframe Animations */
+@keyframes anticipation-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes surge-wave {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}

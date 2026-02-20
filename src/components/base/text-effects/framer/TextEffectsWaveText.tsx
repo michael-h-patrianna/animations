@@ -2,9 +2,6 @@ import { memo } from 'react'
 
 import * as m from 'motion/react-m'
 
-import './TextEffectsWaveText.css'
-import '../shared.css'
-
 const waveKeyframes = {
   y: [0, -20, 0, 5, 0, 0],
   scale: [1, 1.15, 1, 0.95, 1, 1],

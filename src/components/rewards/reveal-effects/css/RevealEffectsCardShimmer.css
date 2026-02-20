@@ -1,4 +1,12 @@
 .reveal-card-shimmer-container-css {
+
+  --reveal-effects-card-shimmer-bg-1: #2a2a3e;
+  --reveal-effects-card-shimmer-bg-2: #1a1a2e;
+  --reveal-effects-card-shimmer-shadow: rgb(0 0 0 / 50%);
+  --reveal-effects-card-shimmer-border: rgb(255 255 255 / 10%);
+  --reveal-effects-card-shimmer-color: #fff;
+  --reveal-effects-card-shimmer-bg-100: rgb(255 255 255 / 0%);
+  --reveal-effects-card-shimmer-bg-101: rgb(255 255 255 / 20%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,15 +17,15 @@
 .reveal-card-shimmer-item-css {
   width: 220px;
   height: 300px;
-  background: linear-gradient(180deg, #2a2a3e 0%, #1a1a2e 100%);
+  background: linear-gradient(180deg, var(--reveal-effects-card-shimmer-bg-1) 0%, var(--reveal-effects-card-shimmer-bg-2) 100%);
   border-radius: 20px;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 10px 30px var(--reveal-effects-card-shimmer-shadow);
+  border: 1px solid var(--reveal-effects-card-shimmer-border);
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -40,11 +48,11 @@
     width: 100px;
     height: 100px;
     object-fit: contain;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 5px 10px rgb(0 0 0 / 30%));
 }
 
 .reveal-card-shimmer-label-css {
-    color: #fff;
+    color: var(--reveal-effects-card-shimmer-color);
     font-weight: 700;
     font-size: 22px;
     letter-spacing: 0.5px;
@@ -59,11 +67,11 @@
   height: 100%;
   background: linear-gradient(
     105deg, 
-    rgba(255,255,255,0) 0%, 
-    rgba(255,255,255,0) 40%, 
-    rgba(255,255,255,0.2) 50%, 
-    rgba(255,255,255,0) 60%,
-    rgba(255,255,255,0) 100%
+    var(--reveal-effects-card-shimmer-bg-100) 0%, 
+    var(--reveal-effects-card-shimmer-bg-100) 40%, 
+    var(--reveal-effects-card-shimmer-bg-101) 50%, 
+    var(--reveal-effects-card-shimmer-bg-100) 60%,
+    var(--reveal-effects-card-shimmer-bg-100) 100%
   );
   z-index: 3;
   pointer-events: none;

@@ -1,5 +1,8 @@
 import './ProgressBarsShimmerSweep.css'
 
+/**
+ *
+ */
 export function ProgressBarsShimmerSweep() {
   return (
     <div

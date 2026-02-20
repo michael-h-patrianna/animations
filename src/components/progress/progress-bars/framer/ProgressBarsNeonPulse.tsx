@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsNeonPulse.css'
 
-export const metadata = {
-  id: 'progress-bars__neon-pulse',
-  title: 'Neon Pulse',
-  description: 'Cyberpunk style flickering neon bar',
-  tags: ['neon', 'cyberpunk', 'glow', 'flicker'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsNeonPulse() {
   const [progress, setProgress] = useState(0)
 

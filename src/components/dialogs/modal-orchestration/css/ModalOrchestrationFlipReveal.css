@@ -1,5 +1,11 @@
 /* Styles scoped for ModalOrchestrationFlipReveal */
 .pf-flip-container {
+
+  --modal-orchestration-flip-reveal-border: rgb(236 195 255 / 12%);
+  --modal-orchestration-flip-reveal-color-1: rgb(255 255 255 / 76%);
+  --modal-orchestration-flip-reveal-bg-1: rgb(236 195 255 / 8%);
+  --modal-orchestration-flip-reveal-bg-2: rgb(196 122 229 / 15%);
+  --modal-orchestration-flip-reveal-color-2: rgb(255 255 255 / 92%);
   width: 100%;
   min-height: 360px;
   position: relative;
@@ -65,8 +71,8 @@
   height: 100%;
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  border: 1px solid var(--modal-orchestration-flip-reveal-border);
+  color: var(--modal-orchestration-flip-reveal-color-1);
   text-align: center;
   backface-visibility: hidden;
   display: flex;
@@ -75,19 +81,19 @@
   align-items: center;
 }
 .pf-flip-front {
-  background: rgba(236, 195, 255, 0.08);
+  background: var(--modal-orchestration-flip-reveal-bg-1);
 }
 .pf-flip-back {
-  background: rgba(196, 122, 229, 0.15);
+  background: var(--modal-orchestration-flip-reveal-bg-2);
   transform: rotateY(180deg);
 }
 .pf-flip-face h5 {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--modal-orchestration-flip-reveal-color-2);
 }
 .pf-flip-face p {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 12px;
   text-align: center;
 }

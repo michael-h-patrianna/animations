@@ -1,7 +1,9 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import './ProgressBarsElasticFill.css'
 
+/**
+ *
+ */
 export function ProgressBarsElasticFill() {
   const shouldReduceMotion = useReducedMotion()
 

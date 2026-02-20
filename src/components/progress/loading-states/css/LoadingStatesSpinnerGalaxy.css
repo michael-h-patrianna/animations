@@ -1,6 +1,13 @@
 /* Styles for LoadingStatesSpinnerGalaxy */
 
 .pf-loading-container {
+
+  --loading-states-spinner-galaxy-bg-1: rgb(236 195 255 / 10%);
+  --loading-states-spinner-galaxy-border: rgb(236 195 255 / 16%);
+  --loading-states-spinner-galaxy-border-top: #c47ae5;
+  --loading-states-spinner-galaxy-shadow: rgb(196 122 229 / 30%);
+  --loading-states-spinner-galaxy-bg-2: #c6ff77;
+  --loading-states-spinner-galaxy-bg-3: #47fff4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,11 +18,11 @@
   position: relative;
   width: 48px;
   height: 48px;
-  background: radial-gradient(circle, rgba(236, 195, 255, 0.1) 0%, transparent 70%);
-  border: 2px solid rgba(236, 195, 255, 0.16);
-  border-top-color: #c47ae5;
+  background: radial-gradient(circle, var(--loading-states-spinner-galaxy-bg-1) 0%, transparent 70%);
+  border: 2px solid var(--loading-states-spinner-galaxy-border);
+  border-top-color: var(--loading-states-spinner-galaxy-border-top);
   border-radius: 50%;
-  box-shadow: 0 0 20px rgba(196, 122, 229, 0.3);
+  box-shadow: 0 0 20px var(--loading-states-spinner-galaxy-shadow);
   animation: spinner-rotate 2s linear infinite;
   will-change: transform;
 }
@@ -24,7 +31,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background: #c6ff77;
+  background: var(--loading-states-spinner-galaxy-bg-2);
   border-radius: 50%;
   top: 8px;
   left: 8px;
@@ -34,7 +41,7 @@
   position: absolute;
   width: 6px;
   height: 6px;
-  background: #47fff4;
+  background: var(--loading-states-spinner-galaxy-bg-3);
   border-radius: 50%;
   bottom: 10px;
   right: 10px;

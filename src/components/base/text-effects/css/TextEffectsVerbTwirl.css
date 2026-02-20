@@ -13,7 +13,7 @@
 
 .tfx-twirl-char {
   --lsd-baseColor: #e8e4da;
-  --lsd-highlightColor: #ffffff;
+  --lsd-highlightColor: #fff;
   display: inline-block;
   color: var(--lsd-baseColor);
   font-weight: 700;

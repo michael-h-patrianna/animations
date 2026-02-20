@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 
 import { useEffect, useState } from 'react'
-import '../shared.css'
 
+/**
+ *
+ */
 export function ModalDismissToastSlideRight() {
 const [showProgress, setShowProgress] = useState(true)
 

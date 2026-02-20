@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './RevealEffectsGiftBoxUnwrap.css'
 
+/**
+ *
+ */
 export function RevealEffectsGiftBoxUnwrap() {
   const [isOpen, setIsOpen] = useState(false)
 

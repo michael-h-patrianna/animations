@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsGlitch.css'
 
-export const metadata = {
-  id: 'progress-bars__glitch',
-  title: 'Glitch Bar',
-  description: 'Unstable distorted progress bar',
-  tags: ['glitch', 'error', 'cyber', 'loading'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsGlitch() {
   const [progress, setProgress] = useState(0)
 

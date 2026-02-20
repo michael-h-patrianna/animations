@@ -1,0 +1,22 @@
+/* Standalone CSS for TextEffectsHorizonLightPass */
+.tfx-horizon-light-pass {
+  --tfx-hlp-base-color: #e8e4da;
+  --tfx-hlp-highlight-color: #ffffff;
+  display: inline-flex;
+  align-items: baseline;
+  contain: layout style;
+}
+
+.tfx-horizon-light-pass__line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+
+.tfx-horizon-light-pass__letter {
+  display: inline-block;
+  will-change: opacity, transform, color;
+  color: var(--tfx-hlp-base-color);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+}

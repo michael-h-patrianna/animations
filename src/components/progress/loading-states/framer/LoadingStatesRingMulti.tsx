@@ -1,9 +1,9 @@
 
 import * as m from 'motion/react-m'
 
-import './LoadingStatesRingMulti.css'
-import '../shared.css'
-
+/**
+ *
+ */
 export function LoadingStatesRingMulti() {
   return (
     <div data-animation-id="loading-states__ring-multi" className="pf-loading-container">

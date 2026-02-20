@@ -1,3 +1,17 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/LoadingStatesDotsPortal.css'
+import './framer/LoadingStatesDotsRise.css'
+import './framer/LoadingStatesRingMulti.css'
+import './framer/LoadingStatesRingProgress.css'
+import './framer/LoadingStatesSkeletonCard.css'
+import './framer/LoadingStatesSkeletonHorizontal.css'
+import './framer/LoadingStatesSkeletonTile.css'
+import './framer/LoadingStatesSkeletonVertical.css'
+import './framer/LoadingStatesSpinnerDualRing.css'
+import './framer/LoadingStatesSpinnerGalaxy.css'
+import './framer/LoadingStatesSpinnerOrbital.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

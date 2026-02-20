@@ -5,12 +5,15 @@ const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
-const fireworkColors = ['#ffce1a', '#ff5981', '#47fff4', '#c6ff77']
+const fireworkColors = ['var(--pf-anim-firework-gold)', 'var(--pf-anim-firework-pink)', 'var(--pf-anim-firework-cyan)', 'var(--pf-anim-green)']
 const coinGradients = [
   'linear-gradient(135deg, #ffd966 0%, #ffb300 100%)',
   'linear-gradient(135deg, #ffe066 0%, #f59e00 100%)',
 ]
 
+/**
+ *
+ */
 export function ModalCelebrationsJackpotCelebration() {
   const beamConfigs = [
     {
@@ -41,7 +44,7 @@ export function ModalCelebrationsJackpotCelebration() {
       width: '140px',
       height: '320px',
       gradient:
-        'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,206,26,0.92) 38%, rgba(255,149,0,0.78) 58%, rgba(255,255,255,0))',
+        'linear-gradient(180deg, rgb(255 255 255 / 0.18) 0%, rgba(255,206,26,0.92) 38%, rgba(255,149,0,0.78) 58%, rgba(255,255,255,0))',
       opacity: 0.97,
       swing: '3deg',
       origin: 'bottom center',
@@ -95,7 +98,7 @@ export function ModalCelebrationsJackpotCelebration() {
     top: randBetween(14, 54),
     delay: i * 70,
     size: randBetween(6, 12),
-    color: 'rgba(255, 236, 179, 0.95)',
+    color: 'var(--pf-anim-firework-gold)',
   }))
 
   return (
@@ -108,9 +111,10 @@ export function ModalCelebrationsJackpotCelebration() {
             {
               '--stage-width': '180px',
               '--stage-height': '56px',
-              '--stage-color': 'rgba(255, 206, 26, 0.52)',
+              '--stage-color': 'var(--pf-anim-firework-gold)',
               background:
-                'radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), radial-gradient(circle at 50% 100%, rgba(255, 206, 26, 0.52), rgba(255, 206, 26, 0))',
+                // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                'radial-gradient(circle at 50% 28%, rgb(255 255 255 / 0.75), rgba(255, 255, 255, 0)), radial-gradient(circle at 50% 100%, rgba(255, 206, 26, 0.52), rgba(255, 206, 26, 0))',
               animation: 'celebration-stage-rise 2000ms ease-out forwards',
             } as React.CSSProperties
           }
@@ -136,7 +140,7 @@ export function ModalCelebrationsJackpotCelebration() {
             {
               '--delay': '0ms',
               '--duration': '1700ms',
-              borderColor: 'rgba(255,206,26,0.6)',
+              borderColor: 'var(--pf-anim-firework-gold)',
               animation: 'celebration-pulse var(--duration) ease-out var(--delay) forwards',
             } as React.CSSProperties
           }
@@ -147,7 +151,7 @@ export function ModalCelebrationsJackpotCelebration() {
             {
               '--delay': '220ms',
               '--duration': '1900ms',
-              borderColor: 'rgba(255,143,69,0.5)',
+              borderColor: 'var(--pf-anim-orange)',
               animation: 'celebration-pulse var(--duration) ease-out var(--delay) forwards',
             } as React.CSSProperties
           }
@@ -158,7 +162,7 @@ export function ModalCelebrationsJackpotCelebration() {
             {
               '--delay': '520ms',
               '--duration': '2100ms',
-              borderColor: 'rgba(255,255,255,0.45)',
+              borderColor: 'var(--pf-anim-white-45)',
               animation: 'celebration-pulse var(--duration) ease-out var(--delay) forwards',
             } as React.CSSProperties
           }
@@ -229,7 +233,7 @@ export function ModalCelebrationsJackpotCelebration() {
                 width: config.width,
                 height: config.height,
                 background: config.gradient,
-                filter: `blur(${config.blur})`,
+                opacity: 0.7,
                 transformOrigin: config.origin || 'bottom center',
                 animation: `celebration-spotlight 2000ms ease-out var(--delay) forwards`,
               } as React.CSSProperties
@@ -285,6 +289,7 @@ export function ModalCelebrationsJackpotCelebration() {
                 '--delay': `${sparkle.delay}ms`,
                 '--size': `${sparkle.size}px`,
                 '--sparkle-color': sparkle.color,
+                // eslint-disable-next-line animation-rules/no-hardcoded-colors, animation-rules/no-radial-angular-gradient -- dynamic color computation, radial effect required for visual design
                 background: `radial-gradient(circle, ${sparkle.color} 0%, rgba(255, 255, 255, 0))`,
                 animation: `celebration-sparkle-pop 1200ms ease-out var(--delay) forwards`,
               } as React.CSSProperties

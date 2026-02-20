@@ -3,7 +3,7 @@
 
 .studioLogo-LightSweepDraw {
   --lsd-baseColor: #e8e4da;
-  --lsd-highlightColor: #ffffff;
+  --lsd-highlightColor: #fff;
   display: inline-flex;
   align-items: baseline;
 }

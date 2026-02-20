@@ -1,11 +1,29 @@
 /* Styles scoped for ModalCelebrationsJackpotCelebration */
 .pf-celebration {
+
+  --modal-celebrations-jackpot-celebration-bg-1: rgb(236 195 255 / 18%);
+  --modal-celebrations-jackpot-celebration-bg-2: rgb(29 9 47 / 92%);
+  --modal-celebrations-jackpot-celebration-border-1: rgb(236 195 255 / 12%);
+  --modal-celebrations-jackpot-celebration-border-2: rgb(236 195 255 / 70%);
+  --modal-celebrations-jackpot-celebration-bg-3: rgb(198 255 119 / 50%);
+  --modal-celebrations-jackpot-celebration-bg-4: rgb(198 255 119 / 0%);
+  --modal-celebrations-jackpot-celebration-shadow: rgb(8 0 26 / 50%);
+  --modal-celebrations-jackpot-celebration-bg-5: rgb(255 255 255 / 60%);
+  --modal-celebrations-jackpot-celebration-bg-6: rgb(255 255 255 / 0%);
+  --modal-celebrations-jackpot-celebration-bg-7: rgb(255 255 255 / 80%);
+  --modal-celebrations-jackpot-celebration-bg-8: rgb(255 206 26 / 92%);
+  --modal-celebrations-jackpot-celebration-bg-9: rgb(255 206 26 / 0%);
+  --modal-celebrations-jackpot-celebration-bg-10: rgb(255 255 255 / 95%);
+  --modal-celebrations-jackpot-celebration-bg-11: rgb(255 206 26 / 50%);
+  --modal-celebrations-jackpot-celebration-border-3: rgb(236 195 255 / 60%);
+  --modal-celebrations-jackpot-celebration-bg-100: #ffb300;
+  --modal-celebrations-jackpot-celebration-bg-101: rgb(255 206 26 / 52%);
   position: relative;
   width: 100%;
   height: 240px;
   border-radius: 12px;
-  background: radial-gradient(circle at 50% 0%, rgba(236, 195, 255, 0.18), rgba(29, 9, 47, 0.92));
-  border: 1px solid rgba(236, 195, 255, 0.12);
+  background: radial-gradient(circle at 50% 0%, var(--modal-celebrations-jackpot-celebration-bg-1), var(--modal-celebrations-jackpot-celebration-bg-2));
+  border: 1px solid var(--modal-celebrations-jackpot-celebration-border-1);
   overflow: hidden;
 }
 .pf-celebration__layer {
@@ -20,7 +38,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--coin-color, linear-gradient(135deg, #ffd966 0%, #ffb300 100%));
+  background: var(--coin-color, linear-gradient(135deg, #ffd966 0%, var(--modal-celebrations-jackpot-celebration-bg-100) 100%));
   transform: translate(-50%, -50%);
   opacity: 0;
   pointer-events: none;
@@ -43,7 +61,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px dashed rgba(236, 195, 255, 0.7);
+  border: 2px dashed var(--modal-celebrations-jackpot-celebration-border-2);
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
@@ -52,7 +70,7 @@
   bottom: -20%;
   width: 80px;
   height: 240px;
-  background: linear-gradient(180deg, rgba(198, 255, 119, 0.5), rgba(198, 255, 119, 0));
+  background: linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-3), var(--modal-celebrations-jackpot-celebration-bg-4));
   transform-origin: bottom center;
   /* RN-friendly: avoid blur; use larger soft gradients instead */
   pointer-events: none;
@@ -65,19 +83,19 @@
   height: 44px;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)),
-    radial-gradient(circle at 50% 100%, rgba(255, 206, 26, 0.52), rgba(255, 206, 26, 0));
+    radial-gradient(circle at 50% 28%, rgb(255 255 255 / 75%), var(--modal-celebrations-jackpot-celebration-bg-6)),
+    radial-gradient(circle at 50% 100%, var(--modal-celebrations-jackpot-celebration-bg-101), var(--modal-celebrations-jackpot-celebration-bg-9));
   transform: translate(-50%, 26px);
-  box-shadow: 0 22px 38px rgba(8, 0, 26, 0.5);
+  box-shadow: 0 22px 38px var(--modal-celebrations-jackpot-celebration-shadow);
   overflow: hidden;
   /* RN-friendly: avoid blend modes */
   pointer-events: none;
 }
 .pf-celebration__stage-inner {
   position: absolute;
-  inset: 28% 24% 42% 24%;
+  inset: 28% 24% 42%;
   border-radius: inherit;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  background: radial-gradient(circle, var(--modal-celebrations-jackpot-celebration-bg-5), var(--modal-celebrations-jackpot-celebration-bg-6));
   /* Avoid blur in RN translation */
 }
 .pf-celebration__stage-glow {
@@ -87,19 +105,19 @@
   width: 124px;
   height: 200px;
   transform: translate(-50%, 24px);
-  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  background: radial-gradient(circle at 50% 0%, var(--modal-celebrations-jackpot-celebration-bg-7), var(--modal-celebrations-jackpot-celebration-bg-6));
   /* Avoid heavy blur and blend modes */
   pointer-events: none;
 }
 .pf-celebration__stage-glow--gold {
-  background: radial-gradient(circle at 50% 0%, rgba(255, 206, 26, 0.92), rgba(255, 206, 26, 0));
+  background: radial-gradient(circle at 50% 0%, var(--modal-celebrations-jackpot-celebration-bg-8), var(--modal-celebrations-jackpot-celebration-bg-9));
 }
 .pf-celebration__sparkle {
   position: absolute;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0));
+  background: radial-gradient(circle, var(--modal-celebrations-jackpot-celebration-bg-10) 0%, var(--modal-celebrations-jackpot-celebration-bg-6));
   transform: translate(-50%, -50%);
   /* Avoid blend modes */
   pointer-events: none;
@@ -111,7 +129,7 @@
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 206, 26, 0.5), rgba(255, 206, 26, 0));
+  background: radial-gradient(circle, var(--modal-celebrations-jackpot-celebration-bg-11), var(--modal-celebrations-jackpot-celebration-bg-9));
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -122,7 +140,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid rgba(236, 195, 255, 0.6);
+  border: 2px solid var(--modal-celebrations-jackpot-celebration-border-3);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -136,7 +154,7 @@
     opacity: 1;
   }
   60% {
-    transform: translate(-50%, -50%) translate(var(--tx, 0px), var(--ty, -160px)) scale(1);
+    transform: translate(-50%, -50%) translate(var(--tx, 0), var(--ty, -160px)) scale(1);
     opacity: 1;
   }
   100% {

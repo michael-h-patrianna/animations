@@ -1,9 +1,9 @@
 
 import * as m from 'motion/react-m'
 
-import './LoadingStatesRingProgress.css'
-import '../shared.css'
-
+/**
+ *
+ */
 export function LoadingStatesRingProgress() {
   const circumference = 2 * Math.PI * 25
   return (
@@ -17,7 +17,7 @@ export function LoadingStatesRingProgress() {
             cy="30"
             r="25"
             fill="none"
-            stroke="#c47ae5"
+            stroke="var(--pf-base-30)"
             strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={`${circumference}`}
@@ -29,5 +29,4 @@ export function LoadingStatesRingProgress() {
     </div>
   )
 }
-
 

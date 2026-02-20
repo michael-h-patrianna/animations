@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ProgressBarsTimelineProgress.css'
 
 
+/**
+ *
+ */
 export function ProgressBarsTimelineProgress() {
   const steps = 4
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -82,13 +85,13 @@ export function ProgressBarsTimelineProgress() {
               }}
               className="pf-timeline-progress__step"
               style={{
-                background: 'rgba(30, 144, 255, 0.2)',
-                borderColor: 'rgba(30, 144, 255, 0.4)',
-                color: '#ffffff',
+                background: 'var(--pf-anim-dodger-blue-20)',
+                borderColor: 'var(--pf-anim-dodger-blue-40)',
+                color: 'var(--pf-white)',
                 transform: 'scale(0.9)',
                 opacity: 0.3,
                 willChange: 'transform, opacity',
-                filter: 'drop-shadow(0 0 8px rgba(30, 144, 255, 0.4))',
+                filter: 'drop-shadow(0 0 8px var(--pf-anim-dodger-blue-40))',
               }}
             >
               {index + 1}
@@ -101,7 +104,7 @@ export function ProgressBarsTimelineProgress() {
                 className="pf-timeline-progress__connector"
                 style={{
                   background:
-                    'linear-gradient(90deg, rgba(30, 144, 255, 0.4), rgba(0, 255, 255, 0.2))',
+                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), rgba(0, 255, 255, 0.2))',
                   transformOrigin: 'left',
                   transform: 'scaleX(0)',
                   opacity: 0.3,

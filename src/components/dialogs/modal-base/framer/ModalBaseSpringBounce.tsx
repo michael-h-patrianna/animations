@@ -1,9 +1,11 @@
 import * as m from 'motion/react-m'
 
 import { MockModalContent } from '../MockModalContent'
-import '../shared.css'
 import { overlayStyles } from '@/motion/primitives'
 
+/**
+ *
+ */
 export function ModalBaseSpringBounce() {
   const overlayVariants = {
     initial: { opacity: 0 },

@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsBossHealth.css'
 
-export const metadata = {
-  id: 'progress-bars__boss-health',
-  title: 'Boss Health',
-  description: 'Video game health bar with damage delay effect',
-  tags: ['game', 'health', 'boss', 'damage'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsBossHealth() {
   const [health, setHealth] = useState(100)
   const [delayedHealth, setDelayedHealth] = useState(100)

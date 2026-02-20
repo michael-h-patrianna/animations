@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsRetroBit.css'
 
+/**
+ *
+ */
 export function ProgressBarsRetroBit() {
   const [progress, setProgress] = useState(0)
   
@@ -22,7 +25,7 @@ export function ProgressBarsRetroBit() {
             className="retro-bit-segment-css"
             style={{ 
               opacity: (i + 1) * 10 <= progress ? 1 : 0.1,
-              backgroundColor: (i + 1) * 10 <= progress ? '#4ade80' : '#14532d' 
+              backgroundColor: (i + 1) * 10 <= progress ? 'var(--pf-anim-green-400)' : 'var(--pf-anim-green-900)' 
             }}
           />
         ))}

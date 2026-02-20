@@ -1,6 +1,29 @@
 /* Tailwind base and plugins are imported in src/index.css (v4) */
 
 #root {
+
+  --app-bg-1: rgb(33 15 49 / 82%);
+  --app-bg-2: rgb(236 195 255 / 18%);
+  --app-bg-3: rgb(236 195 255 / 4%);
+  --app-bg-4: rgb(196 122 229 / 16%);
+  --app-bg-5: rgb(236 195 255 / 8%);
+  --app-border-1: rgb(236 195 255 / 10%);
+  --app-bg-6: rgb(200 53 88 / 15%);
+  --app-bg-7: rgb(198 255 119 / 12%);
+  --app-bg-8: rgb(236 195 255 / 12%);
+  --app-color-1: #25ecff;
+  --app-bg-9: rgb(37 236 255 / 8%);
+  --app-border-3: #5af1ff;
+  --app-color-2: #aef8ff;
+  --app-bg-10: rgb(29 9 47 / 76%);
+  --app-bg-11: rgb(236 195 255 / 25%);
+  --app-bg-12: rgb(29 9 47 / 92%);
+  --app-shadow: rgb(255 255 255 / 4%);
+  --app-bg-13: rgb(255 255 255 / 10%);
+  --app-border-2: rgb(255 255 255 / 30%);
+  --app-bg-100: rgb(123 70 142 / 65%);
+  --app-bg-101: rgb(29 9 47 / 65%);
+  --app-bg-102: rgb(7 2 12 / 65%);
   min-height: 100vh;
 }
 
@@ -20,7 +43,7 @@
   gap: 20px;
   padding: 20px;
   border-radius: var(--pf-radius-xs);
-  background: rgba(33, 15, 49, 0.82);
+  background: var(--app-bg-1);
   box-shadow: var(--pf-shadow-soft);
   max-height: calc(100vh - 64px);
   overflow: hidden;
@@ -44,7 +67,7 @@
 }
 
 .pf-sidebar__nav::-webkit-scrollbar-thumb {
-  background: rgba(236, 195, 255, 0.18);
+  background: var(--app-bg-2);
   border-radius: 999px;
 }
 
@@ -84,25 +107,25 @@
   gap: 8px;
   padding-left: 14px;
   margin-top: 6px;
-  border-left: 1px solid rgba(236, 195, 255, 0.18);
+  border-left: 1px solid var(--app-bg-2);
 }
 
 .pf-sidebar__link--group {
   font-size: 14px;
   padding: 8px 12px;
   color: var(--pf-text-secondary);
-  background: rgba(236, 195, 255, 0.04);
+  background: var(--app-bg-3);
 }
 
 .pf-sidebar__link:hover,
 .pf-sidebar__link.is-active,
 .pf-sidebar__link--active {
-  background: rgba(196, 122, 229, 0.16);
-  border-color: rgba(236, 195, 255, 0.18);
+  background: var(--app-bg-4);
+  border-color: var(--app-bg-2);
   color: var(--pf-base-60);
 }
 
-@media (max-width: 1220px) {
+@media (width <= 1220px) {
   .pf-main {
     grid-template-columns: 1fr;
   }
@@ -195,8 +218,8 @@
   gap: 6px;
   padding: 4px 10px;
   border-radius: var(--pf-radius-pill);
-  border: 1px solid rgba(236, 195, 255, 0.18);
-  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid var(--app-bg-2);
+  background: var(--app-bg-5);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -226,7 +249,7 @@
 }
 
 /* Mobile: below 390px, stack cards vertically without enforcing min width */
-@media (max-width: 389px) {
+@media (width <= 389px) {
   .pf-card-grid {
     display: flex;
     flex-direction: column;
@@ -240,9 +263,9 @@
   gap: 12px;
   padding: 18px;
   border-radius: var(--pf-radius-xs);
-  background: rgba(33, 15, 49, 0.82);
+  background: var(--app-bg-1);
   box-shadow: var(--pf-shadow-soft);
-  border: 1px solid rgba(236, 195, 255, 0.1);
+  border: 1px solid var(--app-border-1);
   position: relative;
 }
 .pf-card__overlay {
@@ -250,7 +273,7 @@
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(140deg, rgba(200, 53, 88, 0.15) 0%, rgba(198, 255, 119, 0.12) 100%);
+  background: linear-gradient(140deg, var(--app-bg-6) 0%, var(--app-bg-7) 100%);
   opacity: 0;
   transition: opacity var(--pf-transition-base) ease;
 }
@@ -285,8 +308,8 @@
 .pf-card__meta span {
   padding: 4px 10px;
   border-radius: var(--pf-radius-pill);
-  background: rgba(236, 195, 255, 0.12);
-  border: 1px solid rgba(236, 195, 255, 0.18);
+  background: var(--app-bg-8);
+  border: 1px solid var(--app-bg-2);
 }
 
 .pf-card__description {
@@ -309,8 +332,8 @@
 
 .pf-card__replay {
   /* Outline style to match secondary/tertiary */
-  color: #25ecff;
-  border: 2px solid #25ecff;
+  color: var(--app-color-1);
+  border: 2px solid var(--app-color-1);
   background: transparent;
   border-radius: 50px;
   padding: 6px 12px;
@@ -322,20 +345,20 @@
 }
 
 .pf-card__replay:hover {
-  background: rgba(37, 236, 255, 0.08);
-  border-color: #5af1ff;
-  color: #aef8ff;
+  background: var(--app-bg-9);
+  border-color: var(--app-border-3);
+  color: var(--app-color-2);
 }
 
 .pf-demo-canvas {
   position: relative;
   overflow: visible;
   border-radius: var(--pf-radius-xs);
-  border: 1px solid rgba(236, 195, 255, 0.12);
+  border: 1px solid var(--app-bg-8);
   min-height: var(--pf-demo-height, 220px);
-  background: rgba(29, 9, 47, 0.76);
-  background: radial-gradient(circle at 50% 0%, rgba(236, 195, 255, 0.25), rgba(29, 9, 47, 0.92));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  background: var(--app-bg-10);
+  background: radial-gradient(circle at 50% 0%, var(--app-bg-11), var(--app-bg-12));
+  box-shadow: inset 0 0 0 1px var(--app-shadow);
   padding: 24px;
   display: flex;
   align-items: center;
@@ -361,7 +384,7 @@
   text-align: center;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .pf-category {
     padding: 4px;
   }
@@ -372,7 +395,7 @@
 }
 
 /* Hide inline sidebar inside grid below 1220px; drawer will be used */
-@media (max-width: 1219px) {
+@media (width <= 1219px) {
   .pf-main > .pf-sidebar {
     display: none;
   }
@@ -388,9 +411,9 @@
   z-index: 40;
   background: radial-gradient(
     circle at 20% 20%,
-    rgba(123, 70, 142, 0.65) 0%,
-    rgba(29, 9, 47, 0.65) 99%,
-    rgba(7, 2, 12, 0.65) 100%
+    var(--app-bg-100) 0%,
+    var(--app-bg-101) 99%,
+    var(--app-bg-102) 100%
   );
   padding: 8px 0;
   margin-bottom: 12px;
@@ -411,7 +434,7 @@
 }
 
 /* Hide hamburger on desktop where the inline sidebar is visible */
-@media (min-width: 1220px) {
+@media (width >= 1220px) {
   .pf-hamburger {
     display: none;
   }
@@ -448,8 +471,8 @@
 }
 
 .pf-github-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--app-bg-13);
+  border-color: var(--app-border-2);
 }
 
 .pf-github-link:focus-visible {
@@ -465,7 +488,7 @@
 }
 
 .pf-github-link:hover .pf-github-icon {
-  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgb(255 255 255 / 50%));
 }
 
 /* Drawer and overlay */
@@ -507,9 +530,9 @@
   /* Backdrop matches page gradient to support semi-transparent Sidebar */
   background: radial-gradient(
     circle at 20% 20%,
-    rgba(123, 70, 142, 0.65) 0%,
-    rgba(29, 9, 47, 0.65) 99%,
-    rgba(7, 2, 12, 0.65) 100%
+    var(--app-bg-100) 0%,
+    var(--app-bg-101) 99%,
+    var(--app-bg-102) 100%
   );
   padding: 0;
 }
@@ -527,7 +550,7 @@
 }
 
 /* On larger viewports, match drawer width to the desktop sidebar column */
-@media (min-width: 769px) {
+@media (width >= 769px) {
   .pf-drawer__panel {
     width: 320px;
   }
@@ -587,78 +610,35 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+  --background: oklch(14.5% 0 0deg);
+  --foreground: oklch(98.5% 0 0deg);
+  --card: oklch(20.5% 0 0deg);
+  --card-foreground: oklch(98.5% 0 0deg);
+  --popover: oklch(20.5% 0 0deg);
+  --popover-foreground: oklch(98.5% 0 0deg);
+  --primary: oklch(92.2% 0 0deg);
+  --primary-foreground: oklch(20.5% 0 0deg);
+  --secondary: oklch(26.9% 0 0deg);
+  --secondary-foreground: oklch(98.5% 0 0deg);
+  --muted: oklch(26.9% 0 0deg);
+  --muted-foreground: oklch(70.8% 0 0deg);
+  --accent: oklch(26.9% 0 0deg);
+  --accent-foreground: oklch(98.5% 0 0deg);
+  --destructive: oklch(70.4% 0.191 22.216deg);
+  --border: oklch(100% 0 0deg / 10%);
+  --input: oklch(100% 0 0deg / 15%);
+  --ring: oklch(55.6% 0 0deg);
+  --chart-1: oklch(48.8% 0.243 264.376deg);
+  --chart-2: oklch(69.6% 0.17 162.48deg);
+  --chart-3: oklch(76.9% 0.188 70.08deg);
+  --chart-4: oklch(62.7% 0.265 303.9deg);
+  --chart-5: oklch(64.5% 0.246 16.439deg);
+  --sidebar: oklch(20.5% 0 0deg);
+  --sidebar-foreground: oklch(98.5% 0 0deg);
+  --sidebar-primary: oklch(48.8% 0.243 264.376deg);
+  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
+  --sidebar-accent: oklch(26.9% 0 0deg);
+  --sidebar-accent-foreground: oklch(98.5% 0 0deg);
+  --sidebar-border: oklch(100% 0 0deg / 10%);
+  --sidebar-ring: oklch(55.6% 0 0deg);
 }

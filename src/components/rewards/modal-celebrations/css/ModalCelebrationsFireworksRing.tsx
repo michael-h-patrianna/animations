@@ -1,5 +1,8 @@
 import './ModalCelebrationsFireworksRing.css'
 
+/**
+ *
+ */
 export function ModalCelebrationsFireworksRing() {
   const rings = [
     { id: 0, scale: '3.2', delay: 0 },

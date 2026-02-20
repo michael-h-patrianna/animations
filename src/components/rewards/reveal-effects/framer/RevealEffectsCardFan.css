@@ -1,4 +1,7 @@
 .reveal-card-fan-container {
+
+  --reveal-effects-card-fan-shadow: rgb(0 0 0 / 20%);
+  --reveal-effects-card-fan-border: rgb(255 255 255 / 40%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,8 +18,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  border: 2px solid rgba(255,255,255,0.4);
+  box-shadow: 0 4px 15px var(--reveal-effects-card-fan-shadow);
+  border: 2px solid var(--reveal-effects-card-fan-border);
 }
 
 .reveal-card-fan-icon {

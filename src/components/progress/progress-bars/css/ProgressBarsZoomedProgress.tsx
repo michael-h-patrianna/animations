@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import './ProgressBarsZoomedProgress.css'
 
 
+/**
+ *
+ */
 export function ProgressBarsZoomedProgress() {
   const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])

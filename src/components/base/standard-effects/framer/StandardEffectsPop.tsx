@@ -1,9 +1,6 @@
 import { memo } from 'react'
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './StandardEffectsPop.css'
-
 function StandardEffectsPopComponent() {
 const popVariants = {
     animate: {

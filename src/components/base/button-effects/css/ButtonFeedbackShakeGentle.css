@@ -16,7 +16,7 @@
 /* Horizontal shake animation */
 @keyframes feedbackShake {
   0% {
-    transform: translateX(0px);
+    transform: translateX(0);
   }
   25% {
     transform: translateX(-8px);
@@ -28,7 +28,7 @@
     transform: translateX(-3px);
   }
   100% {
-    transform: translateX(0px);
+    transform: translateX(0);
   }
 }
 
@@ -54,7 +54,7 @@
 /* Scale compression animation (subtle) */
 @keyframes feedbackShakeScale {
   0% {
-    transform: scale(1) translateX(0px);
+    transform: scale(1) translateX(0);
   }
   25% {
     transform: scale(1) translateX(-8px);
@@ -66,7 +66,7 @@
     transform: scale(1) translateX(-3px);
   }
   100% {
-    transform: scale(1) translateX(0px);
+    transform: scale(1) translateX(0);
   }
 }
 

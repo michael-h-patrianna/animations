@@ -1,0 +1,39 @@
+.pf-card-interactions--border-gradient {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 1px;
+  background: #020617;
+}
+
+.pf-border-gradient-bg,
+.pf-border-gradient-blur {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0deg, #6366f1 90deg, #a855f7 180deg, #ec4899 270deg, transparent 360deg);
+  animation: pf-spin 4s linear infinite;
+  z-index: 0;
+}
+
+.pf-border-gradient-blur {
+  filter: blur(20px);
+  opacity: 0.5;
+}
+
+.pf-border-gradient-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: #020617;
+  border-radius: 0.9rem; /* Slightly smaller than container */
+  overflow: hidden;
+  z-index: 10;
+}
+
+@keyframes pf-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

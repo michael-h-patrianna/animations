@@ -1,3 +1,13 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/StandardEffectsFlip.css'
+import './framer/StandardEffectsPop.css'
+import './framer/StandardEffectsPulse.css'
+import './framer/StandardEffectsPulseCircle.css'
+import './framer/StandardEffectsPulseWave.css'
+import './framer/StandardEffectsRadialPulse.css'
+import './framer/StandardEffectsSoftPulse.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 
@@ -30,6 +40,7 @@ import { metadata as blinkCssMeta } from './css/StandardEffectsBlink.meta'
 import { metadata as bounceCssMeta } from './css/StandardEffectsBounce.meta'
 import { metadata as fadeCssMeta } from './css/StandardEffectsFade.meta'
 import { metadata as flipCssMeta } from './css/StandardEffectsFlip.meta'
+import { metadata as floatCssMeta } from './css/StandardEffectsFloat.meta'
 import { metadata as heartbeatCssMeta } from './css/StandardEffectsHeartbeat.meta'
 import { metadata as jelloCssMeta } from './css/StandardEffectsJello.meta'
 import { metadata as popCssMeta } from './css/StandardEffectsPop.meta'
@@ -134,6 +145,9 @@ const CssStandardEffectsFade = lazy(() =>
 )
 const CssStandardEffectsFlip = lazy(() =>
   import('./css/StandardEffectsFlip').then((m) => ({ default: m.StandardEffectsFlip }))
+)
+const CssStandardEffectsFloat = lazy(() =>
+  import('./css/StandardEffectsFloat').then((m) => ({ default: m.StandardEffectsFloat }))
 )
 const CssStandardEffectsHeartbeat = lazy(() =>
   import('./css/StandardEffectsHeartbeat').then((m) => ({ default: m.StandardEffectsHeartbeat }))
@@ -244,6 +258,7 @@ export const groupExport: GroupExport = {
     'standard-effects__bounce': { component: CssStandardEffectsBounce, metadata: bounceCssMeta },
     'standard-effects__fade': { component: CssStandardEffectsFade, metadata: fadeCssMeta },
     'standard-effects__flip': { component: CssStandardEffectsFlip, metadata: flipCssMeta },
+    'standard-effects__float': { component: CssStandardEffectsFloat, metadata: floatCssMeta },
     'standard-effects__heartbeat': {
       component: CssStandardEffectsHeartbeat,
       metadata: heartbeatCssMeta,

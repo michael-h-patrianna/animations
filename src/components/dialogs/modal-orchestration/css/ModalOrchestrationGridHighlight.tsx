@@ -1,5 +1,8 @@
 import './ModalOrchestrationGridHighlight.css'
 
+/**
+ *
+ */
 export function ModalOrchestrationGridHighlight() {
   const items = 5
 
@@ -13,8 +16,8 @@ export function ModalOrchestrationGridHighlight() {
           key={index}
           className={`pf-grid-highlight__item pf-grid-highlight__item--${index}`}
           style={{
-            background: `linear-gradient(135deg, rgba(236, 195, 255, 0.08), rgba(200, 53, 88, 0.12))`,
-            border: `1px solid rgba(236, 195, 255, 0.16)`,
+            background: `linear-gradient(135deg, var(--pf-anim-highlight), var(--pf-anim-highlight-accent))`,
+            border: `1px solid var(--pf-anim-highlight-border)`,
           }}
         >
           <div>

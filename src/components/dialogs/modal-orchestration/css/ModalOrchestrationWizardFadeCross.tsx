@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardFadeCross.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationWizardFadeCross() {
   const steps = 3
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])

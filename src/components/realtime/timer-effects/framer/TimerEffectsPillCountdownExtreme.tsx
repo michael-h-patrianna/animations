@@ -1,9 +1,11 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsPillCountdownExtreme.css'
 
 // Extreme: quiet until last 10s. Stepwise color; 3-2-1 buzz; flash on zero.
+/**
+ *
+ */
 export function TimerEffectsPillCountdownExtreme() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)

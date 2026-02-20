@@ -2,9 +2,10 @@
 import * as m from 'motion/react-m'
 
 import { useMemo } from 'react'
-import './ModalCelebrationsTreasureParticles.css'
-import '../shared.css'
 
+/**
+ *
+ */
 export function ModalCelebrationsTreasureParticles() {
 const particles = useMemo(() => {
     const particleCount = 20

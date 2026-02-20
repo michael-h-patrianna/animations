@@ -1,0 +1,8 @@
+/**
+ * Framer Motion variant styles for Reward Ready Pulse
+ *
+ * Cross-platform compatible:
+ * - Linear gradient only (no radial/conic gradients)
+ * - NO box-shadow (React Native incompatible)
+ * - NO text-shadow (React Native incompatible)
+ */

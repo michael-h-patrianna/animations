@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsCoinTrail.css'
 
-export const metadata = {
-  id: 'progress-bars__coin-trail',
-  title: 'Coin Trail',
-  description: 'Coins are collected as progress bar fills',
-  tags: ['coin', 'collect', 'money', 'reward'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsCoinTrail() {
   const [progress, setProgress] = useState(0)
   const [score, setScore] = useState(0)

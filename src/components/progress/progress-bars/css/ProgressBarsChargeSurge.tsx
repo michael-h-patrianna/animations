@@ -8,6 +8,9 @@ interface SurgeWave {
   milestoneIndex: number
 }
 
+/**
+ *
+ */
 export function ProgressBarsChargeSurge() {
   const [progress, setProgress] = useState(0)
   const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>([

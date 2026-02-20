@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './ProgressBarsProgressBounce.css'
 
+/**
+ *
+ */
 export function ProgressBarsProgressBounce() {
 const [showParticles, setShowParticles] = useState(false)
 
@@ -115,7 +117,8 @@ const [showParticles, setShowParticles] = useState(false)
                 position: 'absolute',
                 inset: 0,
                 background:
-                  'radial-gradient(ellipse at right center, rgba(198,255,119,0.3) 0%, transparent 50%)',
+                  // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                  'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.3) 0%, transparent 50%)',
                 pointerEvents: 'none',
               }}
               variants={elasticOverlayVariants}
@@ -136,7 +139,8 @@ const [showParticles, setShowParticles] = useState(false)
               y: '-50%',
               width: 4,
               height: '100%',
-              background: `rgba(198,255,119,${0.6 - i * 0.2})`,
+              // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic color computation
+              background: `rgba(var(--pf-anim-green-rgb, 198,255,119),${0.6 - i * 0.2})`,
               pointerEvents: 'none',
             }}
             variants={waveVariants(i * 0.05)}
@@ -159,7 +163,7 @@ const [showParticles, setShowParticles] = useState(false)
                   top: '50%',
                   width: 4,
                   height: 4,
-                  background: i % 2 === 0 ? '#c6ff77' : '#a8e65c',
+                  background: i % 2 === 0 ? 'var(--pf-anim-green)' : 'var(--pf-anim-green-dark)',
                   borderRadius: '50%',
                   pointerEvents: 'none',
                 }}

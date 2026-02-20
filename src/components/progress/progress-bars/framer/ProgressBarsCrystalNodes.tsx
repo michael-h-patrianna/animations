@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsCrystalNodes.css'
 
-export const metadata = {
-  id: 'progress-bars__crystal-nodes',
-  title: 'Crystal Nodes',
-  description: 'Crystals charge up with energy as progress flows',
-  tags: ['crystal', 'magic', 'charge', 'milestone'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsCrystalNodes() {
   const [progress, setProgress] = useState(0)
 
@@ -41,11 +36,11 @@ export function ProgressBarsCrystalNodes() {
                <m.div 
                  className={`crystal-shape ${isActive ? 'charged' : ''}`}
                  animate={isActive ? { 
-                    backgroundColor: '#06b6d4',
+                    backgroundColor: 'var(--pf-anim-cyan)',
                     scale: [1, 1.2, 1],
                     boxShadow: '0 0 15px #06b6d4'
                  } : { 
-                    backgroundColor: '#374151',
+                    backgroundColor: 'var(--pf-anim-gray-700)',
                     scale: 1,
                     boxShadow: 'none'
                  }}

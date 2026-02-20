@@ -1,6 +1,12 @@
 .crystal-nodes-container {
+
+  --progress-bars-crystal-nodes-bg-1: #111827;
+  --progress-bars-crystal-nodes-bg-2: #374151;
+  --progress-bars-crystal-nodes-bg-3: #22d3ee;
+  --progress-bars-crystal-nodes-shadow: #0891b2;
+  --progress-bars-crystal-nodes-border-1: #1f2937;
   padding: 40px;
-  background: #111827;
+  background: var(--progress-bars-crystal-nodes-bg-1);
   border-radius: 8px;
   width: 100%;
 }
@@ -8,15 +14,15 @@
 .crystal-track {
   position: relative;
   height: 6px;
-  background: #374151;
+  background: var(--progress-bars-crystal-nodes-bg-2);
   border-radius: 3px;
 }
 
 .crystal-track-fill {
   height: 100%;
-  background: #22d3ee;
+  background: var(--progress-bars-crystal-nodes-bg-3);
   border-radius: 3px;
-  box-shadow: 0 0 10px #0891b2; /* Glow allowed in CSS but limited in RN. Standard CSS glow. */
+  box-shadow: 0 0 10px var(--progress-bars-crystal-nodes-shadow); /* Glow allowed in CSS but limited in RN. Standard CSS glow. */
 }
 
 .crystal-wrapper {
@@ -32,16 +38,16 @@
 .crystal-shape {
   width: 16px;
   height: 16px;
-  background: #374151;
+  background: var(--progress-bars-crystal-nodes-bg-2);
   transform: rotate(45deg); /* Diamond shape */
-  border: 1px solid #1f2937;
+  border: 1px solid var(--progress-bars-crystal-nodes-border-1);
 }
 
 .crystal-burst {
   position: absolute;
   width: 16px;
   height: 16px;
-  border: 1px solid #22d3ee;
+  border: 1px solid var(--progress-bars-crystal-nodes-bg-3);
   transform: rotate(45deg);
   pointer-events: none;
 }

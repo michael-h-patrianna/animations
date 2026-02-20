@@ -2,8 +2,6 @@ import { memo } from 'react'
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 
-import '../shared.css'
-
 function StandardEffectsRubberBandComponent() {
   return (
     <div className="standard-demo-container">

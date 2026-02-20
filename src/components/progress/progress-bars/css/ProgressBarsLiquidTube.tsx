@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsLiquidTube.css'
 
+/**
+ *
+ */
 export function ProgressBarsLiquidTube() {
   const [progress, setProgress] = useState(30)
 

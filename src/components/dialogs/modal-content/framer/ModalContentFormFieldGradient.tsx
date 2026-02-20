@@ -1,8 +1,8 @@
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './ModalContentFormFieldGradient.css'
-
+/**
+ *
+ */
 export function ModalContentFormFieldGradient() {
   return (
     <div className="modal-content-overlay">

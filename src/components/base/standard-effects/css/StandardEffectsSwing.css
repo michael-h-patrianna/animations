@@ -7,7 +7,7 @@
 
 @keyframes swing-effect {
   0% {
-    transform: translateX(0px) rotate(0deg);
+    transform: translateX(0) rotate(0deg);
   }
   20% {
     transform: translateX(2px) rotate(15deg);
@@ -22,6 +22,6 @@
     transform: translateX(-0.5px) rotate(-2deg);
   }
   100% {
-    transform: translateX(0px) rotate(0deg);
+    transform: translateX(0) rotate(0deg);
   }
 }

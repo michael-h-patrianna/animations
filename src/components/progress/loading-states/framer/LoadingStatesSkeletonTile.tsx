@@ -1,9 +1,9 @@
 
 import * as m from 'motion/react-m'
 
-import './LoadingStatesSkeletonTile.css'
-import '../shared.css'
-
+/**
+ *
+ */
 export function LoadingStatesSkeletonTile() {
 const shimmerVariants = {
     animate: {
@@ -33,5 +33,4 @@ const shimmerVariants = {
     </div>
   )
 }
-
 

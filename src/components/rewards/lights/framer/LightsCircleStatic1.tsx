@@ -1,7 +1,6 @@
 import { calculateBulbColors } from '@/utils/colors'
 import * as m from 'motion/react-m'
 import React, { useMemo } from 'react'
-import './LightsCircleStatic1.css';
 
 interface LightsCircleStatic1Props {
   numBulbs?: number;
@@ -63,18 +62,21 @@ const filamentVariantsEven = {
 
 const bulbVariantsEven = {
   hidden: {
+    // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
     background: `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
     boxShadow: `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
     transform: `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
-    borderColor: `rgba(255, 255, 255, 0.35)`
+    borderColor: `var(--pf-anim-white-35)`
   },
   show: {
     background: [
+      // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
       `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
       `var(--bulb-blend70)`,
       `var(--bulb-off)`,
       `var(--bulb-off)`,
       `var(--bulb-blend70)`,
+      // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
       `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`
     ],
     boxShadow: [
@@ -94,12 +96,12 @@ const bulbVariantsEven = {
       `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`
     ],
     borderColor: [
-      `rgba(255, 255, 255, 0.35)`,
-      `rgba(255, 255, 255, 0.22)`,
-      `rgba(255, 255, 255, 0.1)`,
-      `rgba(255, 255, 255, 0.1)`,
-      `rgba(255, 255, 255, 0.22)`,
-      `rgba(255, 255, 255, 0.35)`
+      `var(--pf-anim-white-35)`,
+      `var(--pf-anim-white-22)`,
+      `var(--pf-anim-white-10)`,
+      `var(--pf-anim-white-10)`,
+      `var(--pf-anim-white-22)`,
+      `var(--pf-anim-white-35)`
     ],
     transition: {
       duration: animationDuration,
@@ -155,13 +157,15 @@ const bulbVariantsOdd = {
     background: `var(--bulb-off)`,
     boxShadow: `none`,
     transform: `translate(-50%, -50%) scale(1) rotate(0deg)`,
-    borderColor: `rgba(255, 255, 255, 0.1)`
+    borderColor: `var(--pf-anim-white-10)`
   },
   show: {
     background: [
       `var(--bulb-off)`,
       `var(--bulb-blend70)`,
+      // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
       `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
+      // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
       `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
       `var(--bulb-blend70)`,
       `var(--bulb-off)`
@@ -183,12 +187,12 @@ const bulbVariantsOdd = {
       `translate(-50%, -50%) scale(1) rotate(0deg)`
     ],
     borderColor: [
-      `rgba(255, 255, 255, 0.1)`,
-      `rgba(255, 255, 255, 0.22)`,
-      `rgba(255, 255, 255, 0.35)`,
-      `rgba(255, 255, 255, 0.35)`,
-      `rgba(255, 255, 255, 0.22)`,
-      `rgba(255, 255, 255, 0.1)`
+      `var(--pf-anim-white-10)`,
+      `var(--pf-anim-white-22)`,
+      `var(--pf-anim-white-35)`,
+      `var(--pf-anim-white-35)`,
+      `var(--pf-anim-white-22)`,
+      `var(--pf-anim-white-10)`
     ],
     transition: {
       duration: animationDuration,
@@ -201,7 +205,7 @@ const bulbVariantsOdd = {
 
 const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
   numBulbs = 16,
-  onColor = '#ffd700'
+  onColor = 'var(--pf-anim-gold)'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
   const radius = 80;

@@ -1,4 +1,9 @@
 .reveal-chest-glow-container-css {
+
+  --reveal-effects-chest-glow-open-bg-1: rgb(100 200 255 / 40%);
+  --reveal-effects-chest-glow-open-bg-2: rgb(100 200 255 / 0%);
+  --reveal-effects-chest-glow-open-bg-3: rgb(255 255 255 / 100%);
+  --reveal-effects-chest-glow-open-bg-4: rgb(255 255 255 / 0%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,7 +26,7 @@
     left: 50%;
     width: 250px;
     height: 250px;
-    background: radial-gradient(circle, rgba(100, 200, 255, 0.4) 0%, rgba(100, 200, 255, 0) 70%);
+    background: radial-gradient(circle, var(--reveal-effects-chest-glow-open-bg-1) 0%, var(--reveal-effects-chest-glow-open-bg-2) 70%);
     transform: translate(-50%, -50%) scale(0);
     border-radius: 50%;
     z-index: 0;
@@ -72,7 +77,7 @@
     height: 120px;
     object-fit: contain;
     z-index: 11;
-    filter: drop-shadow(0 0 15px rgba(100, 200, 255, 0.6));
+    filter: drop-shadow(0 0 15px rgb(100 200 255 / 60%));
     transform: scale(0);
     opacity: 0;
     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s;
@@ -90,7 +95,7 @@
     left: 50%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 60%);
+    background: radial-gradient(circle, var(--reveal-effects-chest-glow-open-bg-3) 0%, var(--reveal-effects-chest-glow-open-bg-4) 60%);
     transform: translate(-50%, -50%);
     z-index: 20;
     pointer-events: none;

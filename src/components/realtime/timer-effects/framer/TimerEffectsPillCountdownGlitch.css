@@ -1,4 +1,24 @@
 .pill-countdown-tfx-glitchcontainer {
+
+  --timer-effects-pill-countdown-glitch-bg-1: #ff00;
+  --timer-effects-pill-countdown-glitch-bg-1-00: #ff0000;
+  --timer-effects-pill-countdown-glitch-bg-1-ff: #ff00ff;
+  --timer-effects-pill-countdown-glitch-bg-2: #8b0000;
+  --timer-effects-pill-countdown-glitch-bg-3: #667e;
+  --timer-effects-pill-countdown-glitch-bg-3-4d: #667e4d;
+  --timer-effects-pill-countdown-glitch-bg-3-ea: #667eea;
+  --timer-effects-pill-countdown-glitch-bg-4: #764b;
+  --timer-effects-pill-countdown-glitch-bg-4-14: #764b14;
+  --timer-effects-pill-countdown-glitch-bg-4-a2: #764ba2;
+  --timer-effects-pill-countdown-glitch-bg-5: #ffa9;
+  --timer-effects-pill-countdown-glitch-bg-5-4d: #ffa94d;
+  --timer-effects-pill-countdown-glitch-bg-5-6b: #ffa96b;
+  --timer-effects-pill-countdown-glitch-bg-6: #fd7e;
+  --timer-effects-pill-countdown-glitch-bg-6-14: #fd7e14;
+  --timer-effects-pill-countdown-glitch-bg-6-2a: #fd7e2a;
+  --timer-effects-pill-countdown-glitch-bg-7: #ff6b6b;
+  --timer-effects-pill-countdown-glitch-bg-8: #c92a2a;
+  --timer-effects-pill-countdown-glitch-color-1: #00ff00;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,15 +27,15 @@
 
 /* Timer expired state */
 .timer-expired {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.55);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%, var(--timer-effects-pill-countdown-glitch-bg-2) 100%);
+  --glow-color: rgb(255 0 0 / 55%);
   --glow-opacity: 0.45;
   --glow-scale: 1;
 }
 
 .pill-countdown-glitch {
   position: relative;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-3-ea) 0%, var(--timer-effects-pill-countdown-glitch-bg-4-a2) 100%);
   color: white;
   padding: 1px 16px;
   height: 20px;
@@ -23,12 +43,12 @@
   border-radius: 10px;
   font-size: 12px;
   font-weight: 600;
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
   min-width: 60px;
   text-align: center;
   --glow-opacity: 0.35;
   --glow-scale: 1;
-  --glow-color: rgba(102, 126, 234, 0.3);
+  --glow-color: rgb(102 126 234 / 30%);
   transition:
     transform 0.3s ease,
     background 0.3s ease,
@@ -80,14 +100,14 @@
 
 /* 30s threshold - mild glitch */
 .tfx-glitchmild {
-  background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
-  --glow-color: rgba(253, 126, 20, 0.35);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-5-4d) 0%, var(--timer-effects-pill-countdown-glitch-bg-6-14) 100%);
+  --glow-color: rgb(253 126 20 / 35%);
 }
 
 /* 20s threshold - moderate glitch */
 .tfx-glitchmoderate {
-  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-  --glow-color: rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-7) 0%, var(--timer-effects-pill-countdown-glitch-bg-8) 100%);
+  --glow-color: rgb(255 107 107 / 40%);
 }
 
 .tfx-glitchmoderate .pill-countdown-glitch__copy {
@@ -96,16 +116,16 @@
 
 /* 10s threshold - severe glitch with rapid pulsing */
 .tfx-glitchsevere {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.5);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%, var(--timer-effects-pill-countdown-glitch-bg-2) 100%);
+  --glow-color: rgb(255 0 0 / 50%);
 }
 
 .tfx-glitchsevere .pill-countdown-glitch__copy--before {
-  color: #00ff00;
+  color: var(--timer-effects-pill-countdown-glitch-color-1);
 }
 
 .tfx-glitchsevere .pill-countdown-glitch__copy--after {
-  color: #ff00ff;
+  color: var(--timer-effects-pill-countdown-glitch-bg-1-ff);
 }
 
 /* Threshold pulse animations */

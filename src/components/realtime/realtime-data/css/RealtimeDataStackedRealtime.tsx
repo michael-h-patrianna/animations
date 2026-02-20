@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './RealtimeDataStackedRealtime.css'
 
 
+/**
+ *
+ */
 export function RealtimeDataStackedRealtime() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([])
   const valueRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -40,9 +43,9 @@ export function RealtimeDataStackedRealtime() {
         }
 
         if (valueElement) {
-          const targetColor = item.active ? '#06b6d4' : '#9ca3af'
+          const targetColor = item.active ? 'var(--pf-anim-cyan)' : 'var(--pf-anim-gray-400)'
           valueElement.animate(
-            [{ color: '#06b6d4' }, { color: targetColor }],
+            [{ color: 'var(--pf-anim-cyan)' }, { color: targetColor }],
             {
               duration: 400,
               delay: index * 80 + 200,
@@ -104,7 +107,7 @@ export function RealtimeDataStackedRealtime() {
                 valueRefs.current[index] = el
               }}
               className="pf-realtime-data__stack-value"
-              style={{ color: '#06b6d4' }}
+              style={{ color: 'var(--pf-anim-cyan)' }}
             >
               {item.value}
             </span>

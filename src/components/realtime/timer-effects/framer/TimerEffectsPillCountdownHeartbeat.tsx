@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsPillCountdownHeartbeat.css'
 
+/**
+ *
+ */
 export function TimerEffectsPillCountdownHeartbeat() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)

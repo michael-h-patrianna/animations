@@ -1,5 +1,9 @@
 /* Home icon with radar rings from top-right dot */
 .pf-update-indicator--icon {
+
+  --update-indicators-home-icon-dot-radar-bg: #ff4967;
+  --update-indicators-home-icon-dot-radar-shadow: rgb(255 73 103 / 0%);
+  --update-indicators-home-icon-dot-radar-border: rgb(255 73 103 / 50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24,10 +28,10 @@
   width: 14px;
   height: 14px;
   border-radius: 9999px;
-  background: #ff4967;
+  background: var(--update-indicators-home-icon-dot-radar-bg);
 }
 .pf-update-indicator__dot--radar {
-  box-shadow: 0 0 0 0 rgba(255, 73, 103, 0);
+  box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-radar-shadow);
 }
 
 .pf-update-indicator__ring {
@@ -37,7 +41,7 @@
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  border: 2px solid rgba(255, 73, 103, 0.5);
+  border: 2px solid var(--update-indicators-home-icon-dot-radar-border);
   transform-origin: center;
   opacity: 0;
   /* RN-friendly: avoid blend modes and drop-shadow; simulate glow with extra ring layers */

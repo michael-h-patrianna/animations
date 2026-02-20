@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalOrchestrationSelectionGrid.css'
 
 
+/**
+ *
+ */
 export function ModalOrchestrationSelectionGrid() {
   const items = 6
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])

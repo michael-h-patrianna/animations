@@ -1,5 +1,20 @@
 /* Zoomed Progress Animation Styles */
 .pf-zoomed-progress {
+
+  --progress-bars-zoomed-progress-bg-1: rgb(78 24 124 / 15%);
+  --progress-bars-zoomed-progress-border-1: rgb(255 255 255 / 90%);
+  --progress-bars-zoomed-progress-bg-2: #c6ff77;
+  --progress-bars-zoomed-progress-bg-3: #d4ff9f;
+  --progress-bars-zoomed-progress-bg-4: rgb(255 255 255 / 95%);
+  --progress-bars-zoomed-progress-shadow-1: rgb(78 24 124 / 30%);
+  --progress-bars-zoomed-progress-color-1: rgb(78 24 124 / 50%);
+  --progress-bars-zoomed-progress-color-2: #a8e65c;
+  --progress-bars-zoomed-progress-bg-100: rgb(168 230 92 / 2%);
+  --progress-bars-zoomed-progress-bg-101: rgb(168 230 92 / 4%);
+  --progress-bars-zoomed-progress-bg-102: rgb(198 255 119 / 2%);
+  --progress-bars-zoomed-progress-bg-103: rgb(198 255 119 / 4%);
+  --progress-bars-zoomed-progress-bg-104: rgb(212 255 159 / 2%);
+  --progress-bars-zoomed-progress-bg-105: rgb(212 255 159 / 4%);
   position: relative;
   width: 100%;
   min-height: 180px;
@@ -27,8 +42,8 @@
   position: absolute;
   height: 10px;
   width: 45%;
-  background: rgba(78, 24, 124, 0.15);
-  border: 4px solid rgba(255, 255, 255, 0.9);
+  background: var(--progress-bars-zoomed-progress-bg-1);
+  border: 4px solid var(--progress-bars-zoomed-progress-border-1);
   border-radius: 5px;
   overflow: hidden;
   top: 50%;
@@ -44,7 +59,7 @@
 
 .pf-zoomed-progress__fill {
   height: 100%;
-  background: linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%);
+  background: linear-gradient(90deg, var(--progress-bars-zoomed-progress-bg-2) 0%, var(--progress-bars-zoomed-progress-bg-3) 100%);
   transform: skew(-30deg);
   transform-origin: left center;
   transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -56,10 +71,10 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0px 0px 0px 7px rgba(78, 24, 124, 0.3);
-  color: rgba(78, 24, 124, 0.5);
+  background: var(--progress-bars-zoomed-progress-bg-4);
+  border: 3px solid var(--progress-bars-zoomed-progress-border-1);
+  box-shadow: inset 0 0 0 7px var(--progress-bars-zoomed-progress-shadow-1);
+  color: var(--progress-bars-zoomed-progress-color-1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,16 +102,16 @@
 }
 
 .pf-zoomed-progress__level--1.reached {
-  color: #a8e65c;
-  box-shadow: inset 0px 0px 0px 7px #a8e65c;
+  color: var(--progress-bars-zoomed-progress-color-2);
+  box-shadow: inset 0 0 0 7px var(--progress-bars-zoomed-progress-color-2);
 }
 .pf-zoomed-progress__level--2.reached {
-  color: #c6ff77;
-  box-shadow: inset 0px 0px 0px 7px #c6ff77;
+  color: var(--progress-bars-zoomed-progress-bg-2);
+  box-shadow: inset 0 0 0 7px var(--progress-bars-zoomed-progress-bg-2);
 }
 .pf-zoomed-progress__level--3.reached {
-  color: #d4ff9f;
-  box-shadow: inset 0px 0px 0px 7px #d4ff9f;
+  color: var(--progress-bars-zoomed-progress-bg-3);
+  box-shadow: inset 0 0 0 7px var(--progress-bars-zoomed-progress-bg-3);
 }
 
 .pf-zoomed-progress__mask {
@@ -115,8 +130,8 @@
     ellipse at center,
     transparent 0%,
     transparent 45%,
-    rgba(168, 230, 92, 0.02) 50%,
-    rgba(168, 230, 92, 0.04) 94%
+    var(--progress-bars-zoomed-progress-bg-100) 50%,
+    var(--progress-bars-zoomed-progress-bg-101) 94%
   );
 }
 .pf-zoomed-progress__mask--level-2 {
@@ -124,8 +139,8 @@
     ellipse at center,
     transparent 0%,
     transparent 45%,
-    rgba(198, 255, 119, 0.02) 50%,
-    rgba(198, 255, 119, 0.04) 94%
+    var(--progress-bars-zoomed-progress-bg-102) 50%,
+    var(--progress-bars-zoomed-progress-bg-103) 94%
   );
 }
 .pf-zoomed-progress__mask--level-3 {
@@ -133,7 +148,7 @@
     ellipse at center,
     transparent 0%,
     transparent 45%,
-    rgba(212, 255, 159, 0.02) 50%,
-    rgba(212, 255, 159, 0.04) 94%
+    var(--progress-bars-zoomed-progress-bg-104) 50%,
+    var(--progress-bars-zoomed-progress-bg-105) 94%
   );
 }

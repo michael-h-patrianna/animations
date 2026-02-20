@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsSciFiLoader.css'
 
-export const metadata = {
-  id: 'progress-bars__sci-fi-loader',
-  title: 'Sci-Fi Loader',
-  description: 'Futuristic, angled progress bar with data accents',
-  tags: ['scifi', 'future', 'tech', 'loading'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsSciFiLoader() {
   const [progress, setProgress] = useState(0)
 

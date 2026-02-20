@@ -1,5 +1,9 @@
 /* Styles scoped for ModalOrchestrationWizardSlideStack */
 .pf-wizard {
+
+  --modal-orchestration-wizard-slide-stack-bg: rgb(236 195 255 / 8%);
+  --modal-orchestration-wizard-slide-stack-border: rgb(236 195 255 / 12%);
+  --modal-orchestration-wizard-slide-stack-color: rgb(255 255 255 / 76%);
   width: 100%;
   display: grid;
   gap: 12px;
@@ -15,7 +19,7 @@
   position: relative;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-orchestration-wizard-slide-stack-bg);
+  border: 1px solid var(--modal-orchestration-wizard-slide-stack-border);
+  color: var(--modal-orchestration-wizard-slide-stack-color);
 }

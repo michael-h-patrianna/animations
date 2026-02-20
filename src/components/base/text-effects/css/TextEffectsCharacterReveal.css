@@ -1,6 +1,13 @@
 /* Keyframe animations for TextEffectsCharacterReveal */
 @keyframes tfx-char-reveal-fade-in {
+
+  --text-effects-character-reveal-color-1: rgb(0 0 0 / 40%);
+  --text-effects-character-reveal-text-shadow: rgb(0 0 0 / 30%);
+  --text-effects-character-reveal-color-2: rgb(255 193 7 / 80%);
   from {
+    --text-effects-character-reveal-bg-100: #ffd700;
+    --text-effects-character-reveal-bg-101: #ffed4e;
+    --text-effects-character-reveal-bg-102: #ffa500;
     opacity: 0;
   }
   to {
@@ -81,8 +88,8 @@
 .tfx-char-reveal-shadow-char {
   display: inline-block;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.4);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: var(--text-effects-character-reveal-color-1);
+  text-shadow: 0 2px 8px var(--text-effects-character-reveal-text-shadow);
   opacity: 0;
   animation: tfx-char-reveal-shadow-fade 300ms ease-out both;
   will-change: opacity; /* Pre-composite for smoother staggered animation */
@@ -97,13 +104,12 @@
   text-transform: uppercase;
   background: linear-gradient(
     135deg,
-    #ffd700 0%,
-    #ffed4e 25%,
-    #ffd700 50%,
-    #ffa500 75%,
-    #ffd700 100%
+    var(--text-effects-character-reveal-bg-100) 0%,
+    var(--text-effects-character-reveal-bg-101) 25%,
+    var(--text-effects-character-reveal-bg-100) 50%,
+    var(--text-effects-character-reveal-bg-102) 75%,
+    var(--text-effects-character-reveal-bg-100) 100%
   );
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   transform-origin: center bottom;
@@ -117,7 +123,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 4px;
-  color: rgba(255, 193, 7, 0.8);
+  color: var(--text-effects-character-reveal-color-2);
   text-align: center;
   opacity: 0;
   animation: tfx-char-reveal-subtitle-up 500ms ease-out 1200ms both;

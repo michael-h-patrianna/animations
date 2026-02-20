@@ -1,3 +1,14 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './shared.css'
+import './framer/ModalCelebrationsCoinsArc.css'
+import './framer/ModalCelebrationsCoinsFountain.css'
+import './framer/ModalCelebrationsConfettiBurst.css'
+import './framer/ModalCelebrationsConfettiRain.css'
+import './framer/ModalCelebrationsConfettiSpiral.css'
+import './framer/ModalCelebrationsFireworksRing.css'
+import './framer/ModalCelebrationsFireworksTriple.css'
+import './framer/ModalCelebrationsTreasureParticles.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

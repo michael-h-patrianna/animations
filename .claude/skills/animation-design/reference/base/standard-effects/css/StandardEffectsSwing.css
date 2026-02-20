@@ -1,0 +1,27 @@
+/* CSS-only Swing Animation */
+.swing-element {
+  transform-origin: center top;
+  animation: swing-effect 1s ease-in-out;
+  will-change: transform;
+}
+
+@keyframes swing-effect {
+  0% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  20% {
+    transform: translateX(2px) rotate(15deg);
+  }
+  40% {
+    transform: translateX(-1.5px) rotate(-10deg);
+  }
+  60% {
+    transform: translateX(1px) rotate(5deg);
+  }
+  80% {
+    transform: translateX(-0.5px) rotate(-2deg);
+  }
+  100% {
+    transform: translateX(0px) rotate(0deg);
+  }
+}

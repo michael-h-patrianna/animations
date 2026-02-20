@@ -1,5 +1,18 @@
 /* Styles scoped for ModalOrchestrationWizardScaleRotate */
 .pf-wizard {
+
+  --modal-orchestration-wizard-scale-rotate-bg-1: rgb(236 195 255 / 10%);
+  --modal-orchestration-wizard-scale-rotate-border-1: rgb(236 195 255 / 16%);
+  --modal-orchestration-wizard-scale-rotate-color-1: rgb(255 255 255 / 76%);
+  --modal-orchestration-wizard-scale-rotate-bg-2: rgb(236 195 255 / 28%);
+  --modal-orchestration-wizard-scale-rotate-border-2: rgb(196 122 229 / 85%);
+  --modal-orchestration-wizard-scale-rotate-color-2: rgb(255 255 255 / 95%);
+  --modal-orchestration-wizard-scale-rotate-shadow-1: rgb(196 122 229 / 45%);
+  --modal-orchestration-wizard-scale-rotate-bg-3: rgb(236 195 255 / 8%);
+  --modal-orchestration-wizard-scale-rotate-border-3: rgb(236 195 255 / 12%);
+  --modal-orchestration-wizard-scale-rotate-bg-4: rgb(236 195 255 / 25%);
+  --modal-orchestration-wizard-scale-rotate-border-4: rgb(196 122 229 / 75%);
+  --modal-orchestration-wizard-scale-rotate-shadow-2: rgb(196 122 229 / 40%);
   width: 100%;
   display: grid;
   gap: 12px;
@@ -14,17 +27,17 @@
   flex: 1;
   padding: 8px 12px;
   border-radius: 999px;
-  background: rgba(236, 195, 255, 0.1);
-  border: 1px solid rgba(236, 195, 255, 0.16);
+  background: var(--modal-orchestration-wizard-scale-rotate-bg-1);
+  border: 1px solid var(--modal-orchestration-wizard-scale-rotate-border-1);
   text-align: center;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--modal-orchestration-wizard-scale-rotate-color-1);
 }
 .pf-wizard__step--highlighted {
-  background: rgba(236, 195, 255, 0.28);
-  border: 2px solid rgba(196, 122, 229, 0.85);
-  color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.45);
+  background: var(--modal-orchestration-wizard-scale-rotate-bg-2);
+  border: 2px solid var(--modal-orchestration-wizard-scale-rotate-border-2);
+  color: var(--modal-orchestration-wizard-scale-rotate-color-2);
+  box-shadow: 0 0 0 1px var(--modal-orchestration-wizard-scale-rotate-shadow-1);
 }
 .pf-wizard__panels {
   display: flex;
@@ -35,13 +48,13 @@
   position: relative;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-orchestration-wizard-scale-rotate-bg-3);
+  border: 1px solid var(--modal-orchestration-wizard-scale-rotate-border-3);
+  color: var(--modal-orchestration-wizard-scale-rotate-color-1);
 }
 .pf-wizard__panel--highlighted {
-  background: rgba(236, 195, 255, 0.25);
-  border: 2px solid rgba(196, 122, 229, 0.75);
-  color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.4);
+  background: var(--modal-orchestration-wizard-scale-rotate-bg-4);
+  border: 2px solid var(--modal-orchestration-wizard-scale-rotate-border-4);
+  color: var(--modal-orchestration-wizard-scale-rotate-color-2);
+  box-shadow: 0 0 0 1px var(--modal-orchestration-wizard-scale-rotate-shadow-2);
 }

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './RevealEffectsPrizeFloatLand.css'
 
+/**
+ *
+ */
 export function RevealEffectsPrizeFloatLand() {
   const [isVisible, setIsVisible] = useState(false)
 

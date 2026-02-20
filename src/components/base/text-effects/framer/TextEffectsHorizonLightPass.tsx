@@ -8,12 +8,9 @@ import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
-import './TextEffectsHorizonLightPass.css'
-import '../shared.css'
 
 function TextEffectsHorizonLightPassComponent() {
   const text = 'LOREM IPSUM DOLOR'
-
 
   const letters = React.useMemo(() => Array.from(text), [text])
 
@@ -101,7 +98,5 @@ function TextEffectsHorizonLightPassComponent() {
  * Memoized TextEffectsHorizonLightPass to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)
-
-
 
 export default TextEffectsHorizonLightPass

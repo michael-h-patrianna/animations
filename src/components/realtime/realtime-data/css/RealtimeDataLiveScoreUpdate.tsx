@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLiveScoreUpdate.css'
 
 
+/**
+ *
+ */
 export function RealtimeDataLiveScoreUpdate() {
   const [scores, setScores] = useState([1450, 1320])
   const scoresRef = useRef(scores)
@@ -21,9 +24,9 @@ export function RealtimeDataLiveScoreUpdate() {
       if (score1Ref.current) {
         score1Ref.current.animate(
           [
-            { transform: 'scale(1)', color: '#ecc3ff' },
-            { transform: 'scale(1.2)', color: '#c6ff77' },
-            { transform: 'scale(1)', color: '#ecc3ff' },
+            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
+            { transform: 'scale(1.2)', color: 'var(--pf-anim-green)' },
+            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
           ],
           {
             duration: 800,
@@ -35,9 +38,9 @@ export function RealtimeDataLiveScoreUpdate() {
       if (score2Ref.current) {
         score2Ref.current.animate(
           [
-            { transform: 'scale(1)', color: '#ecc3ff' },
-            { transform: 'scale(1.2)', color: '#c6ff77' },
-            { transform: 'scale(1)', color: '#ecc3ff' },
+            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
+            { transform: 'scale(1.2)', color: 'var(--pf-anim-green)' },
+            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
           ],
           {
             duration: 800,

@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import '../shared.css'
 
 function StandardEffectsFadeComponent() {
   return (

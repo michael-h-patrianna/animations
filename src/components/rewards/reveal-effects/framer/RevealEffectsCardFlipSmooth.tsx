@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
-import diamondImg from '@/assets/Diamonds.png'
-import './RevealEffectsCardFlipSmooth.css'
 
+/**
+ *
+ */
+import { diamondImage as diamondImg } from '@/assets'
+/**
+ *
+ */
 export function RevealEffectsCardFlipSmooth() {
   const [isFlipped, setIsFlipped] = useState(false)
 

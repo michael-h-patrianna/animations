@@ -1,6 +1,8 @@
 /* Styles scoped for StandardEffectsPulse */
 
 @keyframes pulse-animation {
+
+  --standard-effects-pulse-bg: rgb(198 255 119 / 30%);
   0% {
     transform: scale(1);
     opacity: 1;
@@ -28,12 +30,13 @@
   width: 100%;
   height: 100%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(198, 255, 119, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--standard-effects-pulse-bg) 0%, transparent 70%);
   border-radius: inherit;
   animation: pulse-glow 1.5s cubic-bezier(0.4, 0, 0.6, 1) forwards;
   pointer-events: none;
   z-index: -1;
 }
+
 @keyframes pulse-glow {
   0% {
     transform: translate(-50%, -50%) scale(0.8);

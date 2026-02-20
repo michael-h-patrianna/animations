@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsFlagPlant.css'
 
-export const metadata = {
-  id: 'progress-bars__flag-plant',
-  title: 'Flag Plant',
-  description: 'Flags are planted at specific milestones',
-  tags: ['flag', 'milestone', 'achievement', 'animation'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsFlagPlant() {
   const [progress, setProgress] = useState(0)
 

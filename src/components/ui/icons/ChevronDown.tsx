@@ -2,6 +2,9 @@ interface ChevronDownProps {
   className?: string
 }
 
+/**
+ *
+ */
 export function ChevronDown({ className }: ChevronDownProps) {
   return (
     <svg

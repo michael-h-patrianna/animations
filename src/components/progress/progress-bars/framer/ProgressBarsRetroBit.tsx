@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
-import './ProgressBarsRetroBit.css'
 
-export const metadata = {
-  id: 'progress-bars__retro-bit',
-  title: 'Retro Bit',
-  description: '8-bit style segmented progress bar',
-  tags: ['retro', 'pixel', 'game', 'segmented'],
-}
-
+/**
+ *
+ */
 export function ProgressBarsRetroBit() {
   const [progress, setProgress] = useState(0)
   
@@ -32,7 +27,7 @@ export function ProgressBarsRetroBit() {
             initial={{ opacity: 0.1 }}
             animate={{ 
               opacity: (i + 1) * 10 <= progress ? 1 : 0.1,
-              backgroundColor: (i + 1) * 10 <= progress ? '#4ade80' : '#14532d' 
+              backgroundColor: (i + 1) * 10 <= progress ? 'var(--pf-anim-green-400)' : 'var(--pf-anim-green-900)' 
             }}
             transition={{ duration: 0 }}
           />

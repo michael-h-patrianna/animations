@@ -1,4 +1,10 @@
 .button-demo {
+
+  --button-effects-bg-1: #ff5981;
+  --button-effects-bg-2: #c83558;
+  --button-effects-color: #fff;
+  --button-effects-border: #ff7495;
+  --button-effects-text-shadow: rgb(0 0 0 / 50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,10 +29,10 @@
 
 .pf-btn--primary {
   border-radius: 50px;
-  background: linear-gradient(180deg, #ff5981, #c83558);
-  color: #fff;
-  border: 2px solid #ff7495;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, var(--button-effects-bg-1), var(--button-effects-bg-2));
+  color: var(--button-effects-color);
+  border: 2px solid var(--button-effects-border);
+  text-shadow: 0 1px 1px var(--button-effects-text-shadow);
   padding: 6px 12px;
   box-shadow: var(--pf-shadow-soft);
 }

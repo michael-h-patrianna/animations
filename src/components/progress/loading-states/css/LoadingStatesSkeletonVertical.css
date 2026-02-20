@@ -1,6 +1,8 @@
 /* Styles for LoadingStatesSkeletonVertical */
 
 .pf-loading-container {
+  --loading-states-skeleton-vertical-bg-100: rgb(236 195 255 / 5%);
+  --loading-states-skeleton-vertical-bg-101: rgb(236 195 255 / 18%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,9 +22,9 @@
   border-radius: 4px;
   background: linear-gradient(
     90deg,
-    rgba(236, 195, 255, 0.05) 0%,
-    rgba(236, 195, 255, 0.18) 40%,
-    rgba(236, 195, 255, 0.05) 100%
+    var(--loading-states-skeleton-vertical-bg-100) 0%,
+    var(--loading-states-skeleton-vertical-bg-101) 40%,
+    var(--loading-states-skeleton-vertical-bg-100) 100%
   );
   background-size: 200% 100%;
   background-position: 200% 0;

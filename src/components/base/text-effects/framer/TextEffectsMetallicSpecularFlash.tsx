@@ -8,8 +8,6 @@ import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
-import './TextEffectsMetallicSpecularFlash.css'
-import '../shared.css'
 
 function TextEffectsMetallicSpecularFlashComponent() {
   const text = 'LORUM IPSUM DOLOR'
@@ -85,7 +83,5 @@ const letters = React.useMemo(() => Array.from(text), [text])
  * Memoized TextEffectsMetallicSpecularFlash to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsMetallicSpecularFlash = memo(TextEffectsMetallicSpecularFlashComponent)
-
-
 
 export default TextEffectsMetallicSpecularFlash

@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressThin.css'
 
 
+/**
+ *
+ */
 export function ProgressBarsProgressThin() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -21,7 +24,7 @@ export function ProgressBarsProgressThin() {
     // Style thin track
     track.style.height = '2px'
     track.style.background =
-      'linear-gradient(90deg, rgba(78,24,124,0.2) 0%, rgba(78,24,124,0.1) 100%)'
+      'linear-gradient(90deg, rgba(78,24,124,0.2) 0%, var(--pf-anim-violet-dark) 100%)'
     track.style.overflow = 'visible'
     track.style.borderRadius = '1px'
 
@@ -44,7 +47,7 @@ export function ProgressBarsProgressThin() {
     photonTrail.style.width = '60px'
     photonTrail.style.height = '1px'
     photonTrail.style.background =
-      'linear-gradient(90deg, rgba(198,255,119,0) 0%, rgba(198,255,119,0.6) 50%, rgba(198,255,119,1) 100%)'
+      'linear-gradient(90deg, rgba(var(--pf-anim-green-rgb, 198,255,119),0) 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.6) 50%, rgba(var(--pf-anim-green-rgb, 198,255,119),1) 100%)'
     photonTrail.style.pointerEvents = 'none'
     // Simulate subtle blur with opacity gradient for RN compatibility
     photonTrail.style.opacity = '0'
@@ -61,7 +64,7 @@ export function ProgressBarsProgressThin() {
       dot.style.transform = 'translate(-50%, -50%)'
       dot.style.width = '4px'
       dot.style.height = '4px'
-      dot.style.background = 'rgba(198,255,119,0.8)'
+      dot.style.background = 'var(--pf-anim-green)'
       dot.style.borderRadius = '50%'
       dot.style.opacity = '0'
       dot.style.pointerEvents = 'none'
@@ -75,7 +78,8 @@ export function ProgressBarsProgressThin() {
     halo.style.position = 'absolute'
     halo.style.inset = '-8px'
     halo.style.background =
-      'radial-gradient(ellipse at right center, rgba(198,255,119,0.2) 0%, transparent 70%)'
+      // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.2) 0%, transparent 70%)'
     halo.style.opacity = '0'
     halo.style.pointerEvents = 'none'
     // Use larger gradient and scale for blur simulation in RN
@@ -154,7 +158,7 @@ export function ProgressBarsProgressThin() {
       flash.className = 'animation-element'
       flash.style.position = 'absolute'
       flash.style.inset = '-4px'
-      flash.style.background = 'linear-gradient(90deg, transparent 0%, rgba(198,255,119,0.4) 100%)'
+      flash.style.background = 'linear-gradient(90deg, transparent 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.4) 100%)'
       flash.style.pointerEvents = 'none'
       trackContainer.appendChild(flash)
 

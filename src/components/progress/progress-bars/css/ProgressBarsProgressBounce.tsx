@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressBounce.css'
 
 
+/**
+ *
+ */
 export function ProgressBarsProgressBounce() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -41,7 +44,8 @@ export function ProgressBarsProgressBounce() {
       wave.style.top = '0'
       wave.style.bottom = '0'
       wave.style.width = '4px'
-      wave.style.background = `rgba(198,255,119,${0.6 - i * 0.2})`
+      // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic color computation
+      wave.style.background = `rgba(var(--pf-anim-green-rgb, 198,255,119),${0.6 - i * 0.2})`
       wave.style.opacity = '0'
       wave.style.pointerEvents = 'none'
       trackContainer.appendChild(wave)
@@ -54,7 +58,8 @@ export function ProgressBarsProgressBounce() {
     elasticOverlay.style.position = 'absolute'
     elasticOverlay.style.inset = '0'
     elasticOverlay.style.background =
-      'radial-gradient(ellipse at right center, rgba(198,255,119,0.3) 0%, transparent 50%)'
+      // eslint-disable-next-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.3) 0%, transparent 50%)'
     elasticOverlay.style.opacity = '0'
     elasticOverlay.style.pointerEvents = 'none'
     fill.appendChild(elasticOverlay)
@@ -136,7 +141,7 @@ export function ProgressBarsProgressBounce() {
         particle.style.top = '50%'
         particle.style.width = '4px'
         particle.style.height = '4px'
-        particle.style.background = i % 2 === 0 ? '#c6ff77' : '#a8e65c'
+        particle.style.background = i % 2 === 0 ? 'var(--pf-anim-green)' : 'var(--pf-anim-green-dark)'
         particle.style.borderRadius = '50%'
         particle.style.pointerEvents = 'none'
         trackContainer.appendChild(particle)

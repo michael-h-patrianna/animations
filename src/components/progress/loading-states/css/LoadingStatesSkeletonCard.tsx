@@ -1,5 +1,8 @@
 import './LoadingStatesSkeletonCard.css'
 
+/**
+ *
+ */
 export function LoadingStatesSkeletonCard() {
   return (
     <div data-animation-id="loading-states__skeleton-card" className="pf-loading-container">

@@ -1,8 +1,6 @@
 import * as m from 'motion/react-m'
 
 import { useState, memo } from 'react'
-import '../shared.css'
-import './ButtonEffectsJitter.css'
 
 function ButtonEffectsJitterComponent() {
 const [isHovered, setIsHovered] = useState(false)

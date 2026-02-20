@@ -1,6 +1,5 @@
 import { memo, useState } from 'react'
 import * as m from 'motion/react-m'
-import '../shared.css'
 
 /**
  * Framer Motion press squash animation that triggers on click.

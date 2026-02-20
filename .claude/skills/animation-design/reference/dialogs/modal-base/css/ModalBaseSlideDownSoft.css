@@ -1,0 +1,35 @@
+/* GPU-accelerated CSS animation for ModalBaseSlideDownSoft */
+/* Cross-platform compatible: uses translate3d, scale, opacity only */
+/* No blur effects (not RN-compatible) */
+
+@keyframes modal-base-slide-down-soft-overlay-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.68;
+  }
+}
+
+@keyframes modal-base-slide-down-soft-modal-enter {
+  0% {
+    transform: translate3d(0, -60px, 0) scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-base-slide-down-soft-overlay {
+  animation: modal-base-slide-down-soft-overlay-fade 420ms cubic-bezier(0.12, 0.75, 0.4, 1) forwards;
+  will-change: opacity;
+  opacity: 0;
+}
+
+.modal-base-slide-down-soft-modal {
+  animation: modal-base-slide-down-soft-modal-enter 420ms cubic-bezier(0.12, 0.75, 0.4, 1) forwards;
+  will-change: transform, opacity;
+  opacity: 0;
+}

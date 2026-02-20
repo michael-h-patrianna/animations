@@ -1,9 +1,11 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsPillCountdownStrong.css'
 
 // Strong: segmented bar + brief snap ticks under 15s. No continuous looping.
+/**
+ *
+ */
 export function TimerEffectsPillCountdownStrong() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)

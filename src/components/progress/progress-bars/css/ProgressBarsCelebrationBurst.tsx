@@ -6,6 +6,9 @@ interface MilestoneAnimation {
   index: number
 }
 
+/**
+ *
+ */
 export function ProgressBarsCelebrationBurst() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [, setMilestoneAnimations] = useState<MilestoneAnimation[]>([])
@@ -46,7 +49,7 @@ export function ProgressBarsCelebrationBurst() {
 
       // Activate marker with scale animation
       marker.style.transform = 'scale(1.3)'
-      marker.style.backgroundColor = 'rgba(168, 85, 247, 1)'
+      marker.style.backgroundColor = 'var(--pf-anim-purple)'
       marker.style.opacity = '1'
 
       registerTimeout(() => {
@@ -59,6 +62,7 @@ export function ProgressBarsCelebrationBurst() {
         ring.className = 'burst-ring'
         ring.style.position = 'absolute'
         ring.style.inset = '-4px'
+        // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic color computation
         ring.style.border = `2px solid rgba(168, 85, 247, ${0.8 - i * 0.2})`
         ring.style.borderRadius = '50%'
         ring.style.pointerEvents = 'none'
@@ -95,7 +99,7 @@ export function ProgressBarsCelebrationBurst() {
         particle.style.marginLeft = '-3px'
         particle.style.marginTop = '-3px'
         particle.style.borderRadius = '50%'
-        particle.style.backgroundColor = 'rgba(168, 85, 247, 1)'
+        particle.style.backgroundColor = 'var(--pf-anim-purple)'
         particle.style.pointerEvents = 'none'
         markerContainer.appendChild(particle)
 
@@ -282,8 +286,8 @@ export function ProgressBarsCelebrationBurst() {
         marker.className = 'milestone-marker'
         marker.style.position = 'absolute'
         marker.style.inset = '0'
-        marker.style.backgroundColor = 'rgba(147, 51, 234, 0.3)'
-        marker.style.border = '2px solid rgba(168, 85, 247, 0.8)'
+        marker.style.backgroundColor = 'var(--pf-anim-purple-dark)'
+        marker.style.border = '2px solid rgb(168 85 247 / 0.8)'
         marker.style.borderRadius = '50%'
         marker.style.transform = 'scale(0.6)'
         marker.style.opacity = '0.6'

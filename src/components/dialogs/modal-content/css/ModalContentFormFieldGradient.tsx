@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalContentFormFieldGradient.css'
 
 
+/**
+ *
+ */
 export function ModalContentFormFieldGradient() {
   const fieldRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])

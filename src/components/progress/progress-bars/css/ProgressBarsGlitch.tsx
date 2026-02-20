@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsGlitch.css'
 
+/**
+ *
+ */
 export function ProgressBarsGlitch() {
   const [progress, setProgress] = useState(0)
 

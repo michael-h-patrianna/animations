@@ -1,9 +1,14 @@
-import homeIcon2 from '@/assets/home-icon2.png'
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './UpdateIndicatorsHomeIconDotSweep.css'
 
+/**
+ *
+ */
+import { homeIcon2 } from '@/assets'
+/**
+ *
+ */
 export function UpdateIndicatorsHomeIconDotSweep() {
   const [key, setKey] = useState(0)
 useEffect(() => {
@@ -23,7 +28,7 @@ useEffect(() => {
           key={`${key}-dot`}
           className="pf-update-indicator__dot pf-update-indicator__dot--fill"
           animate={{
-            background: ['#ff4967', '#ff0a4d', '#ff4967'],
+            background: ['var(--pf-anim-rose)', 'var(--pf-anim-rose-dark)', 'var(--pf-anim-rose)'],
             scale: [1, 1.16, 1],
             boxShadow: [
               '0 0 0 0 rgba(255, 73, 103, 0)',

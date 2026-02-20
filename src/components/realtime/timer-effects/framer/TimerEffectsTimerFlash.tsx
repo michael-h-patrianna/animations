@@ -1,11 +1,13 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-import './TimerEffectsTimerFlash.css'
 
+/**
+ *
+ */
 export function TimerEffectsTimerFlash() {
   const [seconds, setSeconds] = useState(32)
-  const [bgColor, setBgColor] = useState('#ffc107')
+  const [bgColor, setBgColor] = useState('var(--pf-anim-yellow-warm)')
   const [pulseSpeed, setPulseSpeed] = useState(1000)
 useEffect(() => {
     const duration = 32000
@@ -35,6 +37,7 @@ useEffect(() => {
       const g = Math.round(yellow.g + (red.g - yellow.g) * easedUrgency)
       const b = Math.round(yellow.b + (red.b - yellow.b) * easedUrgency)
 
+      // eslint-disable-next-line animation-rules/no-hardcoded-colors -- dynamic color computation
       setBgColor(`rgb(${r}, ${g}, ${b})`)
 
       if (remainingSeconds <= 30) {
@@ -47,7 +50,7 @@ useEffect(() => {
         // Auto-restart after a brief pause
         setTimeout(() => {
           setSeconds(32)
-          setBgColor('#ffc107')
+          setBgColor('var(--pf-anim-yellow-warm)')
           setPulseSpeed(1000)
         }, 2000)
       }

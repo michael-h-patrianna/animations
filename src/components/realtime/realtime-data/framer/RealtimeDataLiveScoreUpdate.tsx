@@ -1,8 +1,10 @@
 import * as m from 'motion/react-m'
 import { useAnimation } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import './RealtimeDataLiveScoreUpdate.css'
 
+/**
+ *
+ */
 export function RealtimeDataLiveScoreUpdate() {
   const [scores, setScores] = useState([1450, 1320])
   // Removed unused isAnimating state to satisfy noUnusedLocals
@@ -26,11 +28,11 @@ export function RealtimeDataLiveScoreUpdate() {
       const promises = [
         controls1.start({
           scale: [1, 1.2, 1],
-          color: ['#ecc3ff', '#c6ff77', '#ecc3ff'],
+          color: ['var(--pf-base-50)', 'var(--pf-anim-green)', 'var(--pf-base-50)'],
         }),
         controls2.start({
           scale: [1, 1.2, 1],
-          color: ['#ecc3ff', '#c6ff77', '#ecc3ff'],
+          color: ['var(--pf-base-50)', 'var(--pf-anim-green)', 'var(--pf-base-50)'],
         }),
       ]
 

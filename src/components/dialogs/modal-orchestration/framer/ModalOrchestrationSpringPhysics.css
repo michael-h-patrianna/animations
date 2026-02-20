@@ -1,5 +1,10 @@
 /* Styles scoped for ModalOrchestrationSpringPhysics */
 .pf-spring-container {
+
+  --modal-orchestration-spring-physics-bg: rgb(236 195 255 / 8%);
+  --modal-orchestration-spring-physics-border: rgb(236 195 255 / 12%);
+  --modal-orchestration-spring-physics-color-1: rgb(255 255 255 / 76%);
+  --modal-orchestration-spring-physics-color-2: rgb(255 255 255 / 92%);
   width: 100%;
   min-height: 360px;
   position: relative;
@@ -12,24 +17,23 @@
 .pf-spring-tile {
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-orchestration-spring-physics-bg);
+  border: 1px solid var(--modal-orchestration-spring-physics-border);
+  color: var(--modal-orchestration-spring-physics-color-1);
   text-align: center;
   cursor: grab;
-  -webkit-user-select: none;
   user-select: none;
 }
 .pf-spring-tile:active {
   cursor: grabbing;
 }
 .pf-spring-tile h5 {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--modal-orchestration-spring-physics-color-2);
 }
 .pf-spring-tile p {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 12px;
 }
 .pf-spring-indicator {

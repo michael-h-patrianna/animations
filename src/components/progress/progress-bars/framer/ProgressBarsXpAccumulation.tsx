@@ -1,7 +1,6 @@
 import { AnimatePresence, animate, easeOut, useMotionValue, useTransform, type AnimationPlaybackControls } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import './ProgressBarsXpAccumulation.css'
 
 // Local type for milestone halo animation entries
 type MilestoneAnimation = { id: number; threshold: number }
@@ -58,6 +57,9 @@ function createXpSequence() {
   })
 }
 
+/**
+ *
+ */
 export function ProgressBarsXpAccumulation() {
   const containerRef = useRef<HTMLDivElement>(null)
 

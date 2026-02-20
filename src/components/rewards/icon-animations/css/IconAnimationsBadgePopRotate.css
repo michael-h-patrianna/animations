@@ -1,4 +1,6 @@
 .icon-demo-container {
+
+  --icon-animations-badge-pop-rotate-bg: rgb(255 215 0 / 60%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,7 +56,7 @@
   position: absolute;
   width: 120px;
   height: 120px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--icon-animations-badge-pop-rotate-bg) 0%, transparent 70%);
   border-radius: 50%;
   z-index: 0;
   animation: icon-badge-glow-pulse 600ms ease-out;

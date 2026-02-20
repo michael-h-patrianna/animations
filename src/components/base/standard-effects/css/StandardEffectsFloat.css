@@ -1,0 +1,24 @@
+/* CSS-only Float Animation */
+.float-element {
+  transform-origin: center 20%;
+  animation: float-effect 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes float-effect {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-7px) translateX(5.5px) rotate(-4deg) scale(1.01);
+  }
+  50% {
+    transform: translateY(-14px) translateX(0) rotate(0deg) scale(1.02);
+  }
+  75% {
+    transform: translateY(-7px) translateX(-5.5px) rotate(4deg) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+}

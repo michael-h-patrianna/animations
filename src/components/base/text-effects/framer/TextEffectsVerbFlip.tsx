@@ -9,8 +9,6 @@ import * as m from 'motion/react-m'
 
 import React from 'react'
 import { memo } from 'react'
-import './TextEffectsVerbFlip.css'
-import '../shared.css'
 
 function TextEffectsVerbFlipComponent() {
   const text = 'LOREM IPSUM DOLOR'
@@ -47,7 +45,5 @@ function TextEffectsVerbFlipComponent() {
  * Memoized TextEffectsVerbFlip to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFlip = memo(TextEffectsVerbFlipComponent)
-
-
 
 export default TextEffectsVerbFlip

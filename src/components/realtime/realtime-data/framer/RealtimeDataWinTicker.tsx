@@ -1,8 +1,9 @@
 // React import not required for JSX in React 17+
 import * as m from 'motion/react-m'
 
-import './RealtimeDataWinTicker.css'
-
+/**
+ *
+ */
 export function RealtimeDataWinTicker() {
   const tickerText = 'Mega Win! +5,000 credits · Daily streak unlocked · Bonus wheel ready · '
 

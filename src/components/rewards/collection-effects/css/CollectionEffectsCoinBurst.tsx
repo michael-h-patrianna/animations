@@ -9,6 +9,9 @@ interface Coin {
   delay: number
 }
 
+/**
+ *
+ */
 export function CollectionEffectsCoinBurst() {
   const [coins, setCoins] = useState<Coin[]>([])
 

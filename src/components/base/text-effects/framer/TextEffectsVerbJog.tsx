@@ -8,8 +8,6 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import React from 'react'
 import { memo } from 'react'
-import './TextEffectsVerbJog.css'
-import '../shared.css'
 
 function TextEffectsVerbJogComponent() {
   const text = 'LOREM IPSUM DOLOR'
@@ -46,7 +44,5 @@ function TextEffectsVerbJogComponent() {
  * Memoized TextEffectsVerbJog to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbJog = memo(TextEffectsVerbJogComponent)
-
-
 
 export default TextEffectsVerbJog

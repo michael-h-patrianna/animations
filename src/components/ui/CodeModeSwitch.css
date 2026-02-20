@@ -1,10 +1,16 @@
 .pf-code-mode-switch {
+
+  --code-mode-switch-bg-1: rgb(236 195 255 / 4%);
+  --code-mode-switch-border-1: rgb(236 195 255 / 12%);
+  --code-mode-switch-bg-2: rgb(236 195 255 / 8%);
+  --code-mode-switch-bg-3: rgb(196 122 229 / 16%);
+  --code-mode-switch-border-2: rgb(236 195 255 / 18%);
   display: flex;
   gap: 4px;
   padding: 4px;
   border-radius: var(--pf-radius-md);
-  background: rgba(236, 195, 255, 0.04);
-  border: 1px solid rgba(236, 195, 255, 0.12);
+  background: var(--code-mode-switch-bg-1);
+  border: 1px solid var(--code-mode-switch-border-1);
 }
 
 .pf-code-mode-switch__option {
@@ -25,12 +31,12 @@
 }
 
 .pf-code-mode-switch__option:hover {
-  background: rgba(236, 195, 255, 0.08);
+  background: var(--code-mode-switch-bg-2);
   color: var(--pf-text-primary);
 }
 
 .pf-code-mode-switch__option.is-active {
-  background: rgba(196, 122, 229, 0.16);
+  background: var(--code-mode-switch-bg-3);
   color: var(--pf-base-60);
-  border: 1px solid rgba(236, 195, 255, 0.18);
+  border: 1px solid var(--code-mode-switch-border-2);
 }

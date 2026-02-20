@@ -1,5 +1,8 @@
 /* Home icon with color fill accent and subtle secondary halo */
 .pf-update-indicator--icon {
+
+  --update-indicators-home-icon-dot-sweep-bg: #ff4967;
+  --update-indicators-home-icon-dot-sweep-border: rgb(255 73 103 / 55%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24,7 +27,7 @@
   width: 14px;
   height: 14px;
   border-radius: 9999px;
-  background: #ff4967;
+  background: var(--update-indicators-home-icon-dot-sweep-bg);
   transform-origin: center;
 }
 
@@ -35,7 +38,7 @@
   width: 20px;
   height: 20px;
   border-radius: 9999px;
-  border: 2px solid rgba(255, 73, 103, 0.55);
+  border: 2px solid var(--update-indicators-home-icon-dot-sweep-border);
   opacity: 0;
   pointer-events: none;
   /* RN-friendly: avoid drop-shadow */

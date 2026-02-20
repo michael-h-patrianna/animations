@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ModalContentListSoftStagger.css'
 
 
+/**
+ *
+ */
 export function ModalContentListSoftStagger() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])

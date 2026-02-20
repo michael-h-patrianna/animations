@@ -1,7 +1,6 @@
 import { calculateBulbColors } from '@/utils/colors';
 import * as m from 'motion/react-m';
 import React, { useMemo } from 'react';
-import './LightsCircleStatic8.css';
 
 interface LightsCircleStatic8Props {
   numBulbs?: number;
@@ -97,7 +96,7 @@ const bulbVariantsCollision = {
       `var(--bulb-off)`,
       `var(--bulb-off-tint30)`,
       `var(--bulb-on)`,
-      `#fff`,
+      `var(--pf-white)`,
       `var(--bulb-on)`,
       `var(--bulb-on-blend-5off)`,
       `var(--bulb-off-tint30)`,
@@ -126,7 +125,7 @@ const bulbVariantsCollision = {
 
 const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
   numBulbs = 16,
-  onColor = '#ffd700'
+  onColor = 'var(--pf-anim-gold)'
 }) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor]);
   const radius = 80;

@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
-import './RevealEffectsCardSlideUp.css'
 
-export const metadata = {
-  id: 'rewards-reveal-effects__card-slide-up',
-  title: 'Card Slide Up',
-  description: 'Card slides up from a hidden slot with a spring bounce.',
-  tags: ['card', 'slide', 'up', 'reveal'],
-}
-
+/**
+ *
+ */
 export function RevealEffectsCardSlideUp() {
   const [isVisible, setIsVisible] = useState(false)
 

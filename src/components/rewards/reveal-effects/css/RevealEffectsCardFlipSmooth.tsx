@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './RevealEffectsCardFlipSmooth.css'
 
+/**
+ *
+ */
 export function RevealEffectsCardFlipSmooth() {
   const [isFlipped, setIsFlipped] = useState(false)
 

@@ -1,5 +1,8 @@
 import './LoadingStatesSkeletonVertical.css'
 
+/**
+ *
+ */
 export function LoadingStatesSkeletonVertical() {
   return (
     <div data-animation-id="loading-states__skeleton-vertical" className="pf-loading-container">

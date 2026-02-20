@@ -1,8 +1,8 @@
 import * as m from 'motion/react-m'
 
-import '../shared.css'
-import './ModalContentFormFieldLeftReveal.css'
-
+/**
+ *
+ */
 export function ModalContentFormFieldLeftReveal() {
   return (
     <div className="modal-content-overlay">

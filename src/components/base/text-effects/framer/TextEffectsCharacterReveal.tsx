@@ -2,8 +2,6 @@ import { memo } from 'react'
 
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import './TextEffectsCharacterReveal.css'
-import '../shared.css'
 
 function TextEffectsCharacterRevealComponent() {
   const text = 'ACHIEVEMENT'
@@ -30,11 +28,11 @@ function TextEffectsCharacterRevealComponent() {
               className="shadow-char"
               initial={{
                 opacity: 0,
-                filter: 'blur(8px)',
+                scale: 0.8,
               }}
               animate={{
-                opacity: 1,
-                filter: 'blur(4px)',
+                opacity: 0.5,
+                scale: 1,
               }}
               transition={{
                 duration: 0.3,

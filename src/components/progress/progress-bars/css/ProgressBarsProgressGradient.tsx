@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressGradient.css'
 
 
+/**
+ *
+ */
 export function ProgressBarsProgressGradient() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -42,9 +45,10 @@ export function ProgressBarsProgressGradient() {
     shimmerLayer.className = 'animation-element'
     shimmerLayer.style.position = 'absolute'
     shimmerLayer.style.inset = '0'
+    // eslint-disable-next-line animation-rules/no-hardcoded-colors -- gradient with opacity stops
     shimmerLayer.style.background = `linear-gradient(105deg,
       transparent 40%,
-      rgba(255,255,255,0.7) 50%,
+      rgb(255 255 255 / 0.7) 50%,
       transparent 60%)`
     shimmerLayer.style.backgroundSize = '200% 100%'
     shimmerLayer.style.backgroundPosition = '-100% 0'
@@ -58,6 +62,7 @@ export function ProgressBarsProgressGradient() {
     aurora.className = 'animation-element'
     aurora.style.position = 'absolute'
     aurora.style.inset = '-10px'
+    // eslint-disable-next-line animation-rules/no-hardcoded-colors, animation-rules/no-radial-angular-gradient -- gradient with opacity stops, radial effect required for visual design
     aurora.style.background = `radial-gradient(ellipse at center,
       rgba(198,98,179,0) 0%,
       rgba(198,98,179,0.2) 50%,

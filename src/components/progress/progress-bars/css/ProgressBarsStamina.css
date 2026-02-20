@@ -1,22 +1,28 @@
 .stamina-container-css {
+
+  --progress-bars-stamina-bg-1: rgb(0 0 0 / 80%);
+  --progress-bars-stamina-color: #fcd34d;
+  --progress-bars-stamina-bg-2: rgb(255 255 255 / 10%);
+  --progress-bars-stamina-bg-3: #22c55e;
+  --progress-bars-stamina-bg-4: #ef4444;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 20px;
-  background: rgba(0,0,0,0.8);
+  background: var(--progress-bars-stamina-bg-1);
   border-radius: 20px;
   width: fit-content;
 }
 
 .stamina-icon-css {
   font-size: 24px;
-  color: #fcd34d;
+  color: var(--progress-bars-stamina-color);
 }
 
 .stamina-track-css {
   width: 200px;
   height: 16px;
-  background: rgba(255,255,255,0.1);
+  background: var(--progress-bars-stamina-bg-2);
   border-radius: 8px;
   overflow: hidden;
   transform: skewX(-15deg);
@@ -24,13 +30,13 @@
 
 .stamina-fill-css {
   height: 100%;
-  background: #22c55e;
+  background: var(--progress-bars-stamina-bg-3);
   border-radius: 8px;
   transition: width 0.05s linear;
 }
 
 .stamina-fill-css.low {
-  background: #ef4444;
+  background: var(--progress-bars-stamina-bg-4);
   animation: stamina-low-pulse 0.2s infinite;
 }
 

@@ -1,20 +1,24 @@
 /* CSS-only Timer Flip Animation */
 
 .pf-timer-flip {
+
+  --timer-effects-timer-flip-color-1: #ecc3ff;
+  --timer-effects-timer-flip-color-2: #9ca3af;
+  --timer-effects-timer-flip-bg: rgb(236 195 255 / 16%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   padding: 24px;
   position: relative;
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
   perspective: 600px;
 }
 
 .pf-timer-flip__value {
   font-size: 2.5rem;
   font-weight: 600;
-  color: #ecc3ff;
+  color: var(--timer-effects-timer-flip-color-1);
   text-align: center;
   line-height: 1;
   transform-style: preserve-3d;
@@ -24,7 +28,7 @@
 
 .pf-timer-flip__label {
   font-size: 0.875rem;
-  color: #9ca3af;
+  color: var(--timer-effects-timer-flip-color-2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;
@@ -33,7 +37,7 @@
 .pf-timer-flip__underline {
   width: 160px;
   height: 3px;
-  background: rgba(236, 195, 255, 0.16);
+  background: var(--timer-effects-timer-flip-bg);
   border-radius: 4px;
   transform-origin: left center;
   transform: scaleX(var(--value, 1));

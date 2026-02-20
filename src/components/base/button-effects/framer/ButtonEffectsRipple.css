@@ -1,6 +1,10 @@
 /* Styles scoped for ButtonEffectsRipple */
 
 .pf-btn__ripples {
+  --button-effects-ripple-bg-100: rgb(255 255 255 / 60%);
+  --button-effects-ripple-bg-101: rgb(255 255 255 / 35%);
+  --button-effects-ripple-bg-102: rgb(255 255 255 / 20%);
+  --button-effects-ripple-bg-103: rgb(255 255 255 / 0%);
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -10,10 +14,10 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.35) 40%,
-    rgba(255, 255, 255, 0.2) 60%,
-    rgba(255, 255, 255, 0) 70%
+    var(--button-effects-ripple-bg-100) 0%,
+    var(--button-effects-ripple-bg-101) 40%,
+    var(--button-effects-ripple-bg-102) 60%,
+    var(--button-effects-ripple-bg-103) 70%
   );
   transform: scale(0.2);
   opacity: 0.6;

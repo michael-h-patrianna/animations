@@ -1,0 +1,215 @@
+/**
+ * Glitch Text Effect - Pure CSS Implementation
+ *
+ * GPU-accelerated digital glitch effect with RGB chromatic aberration.
+ * Uses transform and opacity properties exclusively for 60fps performance.
+ * Namespaced with tfx-glitchtext__ prefix to prevent style conflicts.
+ */
+
+/* CSS Custom Properties for easy customization */
+.tfx-glitchtext__container {
+  /* Typography */
+  --tfx-glitchtext-size: 24px;
+  --tfx-glitchtext-weight: 900;
+  --tfx-glitchtext-spacing: 3px;
+
+  /* Colors */
+  --tfx-glitchtext-color: #fff;
+  --tfx-glitchtext-cyan: #00ffff;
+  --tfx-glitchtext-magenta: #ff00ff;
+  --tfx-glitchtext-bar-color: rgba(255, 255, 255, 0.2);
+
+  /* Animation timing */
+  --tfx-glitchtext-duration: 4s;
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+}
+
+/* Base text layer - primary white text with horizontal glitches */
+.tfx-glitchtext__base {
+  font-size: var(--tfx-glitchtext-size);
+  font-weight: var(--tfx-glitchtext-weight);
+  letter-spacing: var(--tfx-glitchtext-spacing);
+  color: var(--tfx-glitchtext-color);
+  position: relative;
+  z-index: 3;
+  animation: tfx-glitchtext-base-anim var(--tfx-glitchtext-duration) linear infinite;
+  will-change: transform;
+}
+
+/* Shared styles for RGB offset layers */
+.tfx-glitchtext__layer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: var(--tfx-glitchtext-size);
+  font-weight: var(--tfx-glitchtext-weight);
+  letter-spacing: var(--tfx-glitchtext-spacing);
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+
+/* Cyan layer - creates blue/cyan RGB offset */
+.tfx-glitchtext__layer--cyan {
+  color: var(--tfx-glitchtext-cyan);
+  z-index: 2;
+  opacity: 0.7;
+  animation: tfx-glitchtext-layer1-anim var(--tfx-glitchtext-duration) linear infinite;
+}
+
+/* Magenta layer - creates red/pink RGB offset */
+.tfx-glitchtext__layer--magenta {
+  color: var(--tfx-glitchtext-magenta);
+  z-index: 1;
+  opacity: 0.7;
+  animation: tfx-glitchtext-layer2-anim var(--tfx-glitchtext-duration) linear infinite;
+}
+
+/* Horizontal scan line distortion bars */
+.tfx-glitchtext__bars {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--tfx-glitchtext-bar-color);
+  box-shadow:
+    0 5px 0 rgba(255, 255, 255, 0.1),
+    0 -5px 0 rgba(255, 255, 255, 0.1);
+  animation: tfx-glitchtext-bars-anim var(--tfx-glitchtext-duration) linear infinite;
+  will-change: transform, opacity;
+}
+
+/**
+ * Base text animation - horizontal shifts and scale distortions
+ * Creates the primary "digital corruption" effect with subtle movements
+ */
+@keyframes tfx-glitchtext-base-anim {
+  0%,
+  50%,
+  100% {
+    transform: translateX(0) scaleX(1);
+  }
+  1.25% {
+    transform: translateX(-2px) scaleX(1);
+  }
+  2.5% {
+    transform: translateX(0) scaleX(1.02);
+  }
+  3.75% {
+    transform: translateX(2px) scaleX(1);
+  }
+  5% {
+    transform: translateX(0) scaleX(0.98);
+  }
+  6.25% {
+    transform: translateX(-1px) scaleX(1);
+  }
+  7.5% {
+    transform: translateX(0) scaleX(1.01);
+  }
+  8.75% {
+    transform: translateX(1px) scaleX(1);
+  }
+}
+
+/**
+ * Cyan layer animation - offset positioning with skew distortion
+ * Creates chromatic aberration effect on one RGB channel
+ */
+@keyframes tfx-glitchtext-layer1-anim {
+  0%,
+  50%,
+  100% {
+    transform: translate(-50%, -50%) skewX(0deg);
+    opacity: 0.6;
+  }
+  1.25% {
+    transform: translate(calc(-50% - 1px), -50%) skewX(0deg);
+    opacity: 0.8;
+  }
+  2.5% {
+    transform: translate(-50%, -50%) skewX(3deg);
+    opacity: 0.4;
+  }
+  3.75% {
+    transform: translate(calc(-50% + 1px), -50%) skewX(0deg);
+    opacity: 0.7;
+  }
+  5% {
+    transform: translate(-50%, -50%) skewX(-2deg);
+    opacity: 0.6;
+  }
+}
+
+/**
+ * Magenta layer animation - opposite offset pattern from cyan layer
+ * Creates the second RGB channel for full chromatic aberration
+ */
+@keyframes tfx-glitchtext-layer2-anim {
+  0%,
+  50%,
+  100% {
+    transform: translate(-50%, -50%) skewX(0deg);
+    opacity: 0.6;
+  }
+  1.25% {
+    transform: translate(calc(-50% + 1px), -50%) skewX(0deg);
+    opacity: 0.7;
+  }
+  2.5% {
+    transform: translate(-50%, -50%) skewX(-2deg);
+    opacity: 0.5;
+  }
+  3.75% {
+    transform: translate(calc(-50% - 1px), -50%) skewX(0deg);
+    opacity: 0.8;
+  }
+  5% {
+    transform: translate(-50%, -50%) skewX(3deg);
+    opacity: 0.6;
+  }
+}
+
+/**
+ * Distortion bars animation - scan line effect
+ * Creates horizontal interference lines that pulse and scale
+ */
+@keyframes tfx-glitchtext-bars-anim {
+  0%,
+  50%,
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+  1.25% {
+    opacity: 0.8;
+    transform: scaleY(1.5);
+  }
+  2.5% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+  3.75% {
+    opacity: 0.9;
+    transform: scaleY(2);
+  }
+  5% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+  6.25% {
+    opacity: 0.6;
+    transform: scaleY(1.2);
+  }
+  7.5% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}

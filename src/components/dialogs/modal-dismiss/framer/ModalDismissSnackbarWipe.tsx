@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
 
 
+/**
+ *
+ */
 export function ModalDismissSnackbarWipe() {
 const [showProgress, setShowProgress] = useState(true)
 

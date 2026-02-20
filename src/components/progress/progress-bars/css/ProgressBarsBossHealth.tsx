@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsBossHealth.css'
 
+/**
+ *
+ */
 export function ProgressBarsBossHealth() {
   const [health, setHealth] = useState(100)
   const [delayedHealth, setDelayedHealth] = useState(100)

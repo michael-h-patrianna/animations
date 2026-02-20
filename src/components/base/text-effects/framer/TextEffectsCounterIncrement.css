@@ -1,11 +1,21 @@
 /* Styles scoped for TextEffectsCounterIncrement */
 .pf-counter-showcase {
+
+  --text-effects-counter-increment-color: #c6ff77;
+  --text-effects-counter-increment-bg: rgb(255 215 0 / 22%);
+  --text-effects-counter-increment-text-shadow-100: rgb(0 0 0 / 25%);
+  --text-effects-counter-increment-text-shadow-101: rgb(255 215 0 / 35%);
+  --text-effects-counter-increment-bg-102: #fff8dc;
+  --text-effects-counter-increment-bg-103: #fff8dc;
+  --text-effects-counter-increment-bg-104: #ffd700;
+  --text-effects-counter-increment-bg-105: #ffa500;
+  --text-effects-counter-increment-bg-106: #ff8c00;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
   position: relative;
   min-height: 80px;
 }
@@ -21,7 +31,7 @@
   position: absolute;
   right: -8px;
   top: -8px;
-  color: #c6ff77;
+  color: var(--text-effects-counter-increment-color);
   font-weight: 600;
   font-size: 0.875rem;
   pointer-events: none;
@@ -41,27 +51,26 @@
   font-weight: 900;
   letter-spacing: 1px;
   text-shadow:
-    0 2px 0 rgba(0, 0, 0, 0.25),
-    0 0 8px rgba(255, 215, 0, 0.35);
+    0 2px 0 var(--text-effects-counter-increment-text-shadow-100),
+    0 0 8px var(--text-effects-counter-increment-text-shadow-101);
   transform-origin: center bottom;
 }
 .pf-counter-showcase__value-text {
   background: linear-gradient(
     180deg,
-    #ffffff 0%,
-    #fff8dc 12%,
-    #ffd700 38%,
-    #ffa500 68%,
-    #ff8c00 100%
+    var(--text-effects-counter-increment-bg-102) 0%,
+    var(--text-effects-counter-increment-bg-102) 12%,
+    var(--text-effects-counter-increment-bg-104) 38%,
+    var(--text-effects-counter-increment-bg-105) 68%,
+    var(--text-effects-counter-increment-bg-106) 100%
   );
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .pf-counter-showcase__value-glow {
   position: absolute;
   inset: -6px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.22), transparent 60%);
+  background: radial-gradient(circle, var(--text-effects-counter-increment-bg), transparent 60%);
   border-radius: 50%;
   z-index: -1;
   pointer-events: none;

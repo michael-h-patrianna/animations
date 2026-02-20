@@ -1,4 +1,3 @@
-import githubIcon from '@/assets/github.svg'
 import { AppSidebar } from '@/components/ui/AppSidebar'
 import { GroupSection } from '@/components/ui/catalog'
 import { useAnimations } from '@/hooks/useAnimations'
@@ -13,6 +12,13 @@ import { useCallback, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './App.css'
 
+/**
+ *
+ */
+import { githubIcon } from '@/assets'
+/**
+ *
+ */
 function App() {
   const { categories, isLoading, error } = useAnimations()
   const { groupId } = useParams<{ groupId?: string }>()
@@ -117,7 +123,6 @@ function App() {
     }),
   }
 
-
   // Lazy load motion features
   const loadFeatures = () => import('./features').then((res) => res.default)
 
@@ -157,7 +162,7 @@ function App() {
           </span>
         )}
         <a
-          href="https://github.com/michael-h-patrianna/animations"
+          href="https://github.com/michael-haufschild-gib/animations"
           target="_blank"
           rel="noopener noreferrer"
           className="pf-github-link"

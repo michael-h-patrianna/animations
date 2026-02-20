@@ -1,16 +1,17 @@
-import coinImage from '@/assets/coin.png'
-import '../shared.css'
 
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
-import './ModalCelebrationsCoinsArc.css'
 
 // Utility function to generate random number between min and max
+import { coinImage } from '@/assets'
 const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
+/**
+ *
+ */
 export function ModalCelebrationsCoinsArc() {
 const coins = useMemo(
     () =>
@@ -72,5 +73,4 @@ const coins = useMemo(
     </div>
   )
 }
-
 

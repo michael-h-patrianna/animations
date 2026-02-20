@@ -1,3 +1,19 @@
+// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
+import './framer/RevealEffectsAnticipationShake.css'
+import './framer/RevealEffectsCardFan.css'
+import './framer/RevealEffectsCardFlipSmooth.css'
+import './framer/RevealEffectsCardShimmer.css'
+import './framer/RevealEffectsCardSlideUp.css'
+import './framer/RevealEffectsCardSpin3D.css'
+import './framer/RevealEffectsChestBounceOpen.css'
+import './framer/RevealEffectsChestGlowOpen.css'
+import './framer/RevealEffectsChestLidOpen.css'
+import './framer/RevealEffectsGiftBoxUnwrap.css'
+import './framer/RevealEffectsOrbShatter.css'
+import './framer/RevealEffectsPrizeFloatLand.css'
+import './framer/RevealEffectsPrizePop.css'
+import './framer/RevealEffectsPrizeRays.css'
+
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 

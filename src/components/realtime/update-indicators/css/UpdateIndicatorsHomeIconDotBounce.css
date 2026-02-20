@@ -1,5 +1,9 @@
 /* Home icon with bouncing dot: overshoot on appear + occasional bob */
 .pf-update-indicator--icon {
+
+  --update-indicators-home-icon-dot-bounce-bg: #ff4967;
+  --update-indicators-home-icon-dot-bounce-shadow-1: rgb(255 73 103 / 0%);
+  --update-indicators-home-icon-dot-bounce-shadow-2: rgb(255 73 103 / 18%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24,7 +28,7 @@
   width: 14px;
   height: 14px;
   border-radius: 9999px;
-  background: #ff4967;
+  background: var(--update-indicators-home-icon-dot-bounce-bg);
   transform-origin: center;
 }
 
@@ -47,10 +51,10 @@
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 73, 103, 0);
+    box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-bounce-shadow-1);
   }
   50% {
     transform: scale(1.06);
-    box-shadow: 0 0 0 6px rgba(255, 73, 103, 0.18);
+    box-shadow: 0 0 0 6px var(--update-indicators-home-icon-dot-bounce-shadow-2);
   }
 }

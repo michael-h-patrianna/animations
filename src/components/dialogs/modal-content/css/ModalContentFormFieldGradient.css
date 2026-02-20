@@ -1,5 +1,27 @@
 /* Styles for ModalContentFormFieldGradient */
 .modal-content-overlay {
+
+  --modal-content-form-field-gradient-bg-1: rgb(236 195 255 / 8%);
+  --modal-content-form-field-gradient-border-1: rgb(236 195 255 / 12%);
+  --modal-content-form-field-gradient-color-1: rgb(255 255 255 / 76%);
+  --modal-content-form-field-gradient-bg-2: rgb(198 255 119 / 16%);
+  --modal-content-form-field-gradient-color-2: #c6ff77;
+  --modal-content-form-field-gradient-border-2: rgb(236 195 255 / 32%);
+  --modal-content-form-field-gradient-bg-3: rgb(236 195 255 / 5%);
+  --modal-content-form-field-gradient-color-3: rgb(255 255 255 / 90%);
+  --modal-content-form-field-gradient-border-1: #c47ae5;
+  --modal-content-form-field-gradient-shadow: rgb(196 122 229 / 10%);
+  --modal-content-form-field-gradient-bg-4: #ff5981;
+  --modal-content-form-field-gradient-bg-5: #c83558;
+  --modal-content-form-field-gradient-color-4: #fff;
+  --modal-content-form-field-gradient-border-3: #ff7495;
+  --modal-content-form-field-gradient-text-shadow: rgb(0 0 0 / 50%);
+  --modal-content-form-field-gradient-bg-6: #ff6b8f;
+  --modal-content-form-field-gradient-bg-7: #d6456a;
+  --modal-content-form-field-gradient-border-2: #ff86a5;
+  --modal-content-form-field-gradient-color-5: #25ecff;
+  --modal-content-form-field-gradient-bg-100: rgb(59 130 246 / 10%);
+  --modal-content-form-field-gradient-bg-101: rgb(59 130 246 / 20%);
   position: relative;
   width: 100%;
   height: 100%;
@@ -14,14 +36,14 @@
   overflow: hidden;
   width: clamp(280px, 80%, 400px);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(236, 195, 255, 0.12);
+    0 18px 40px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px var(--modal-content-form-field-gradient-border-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;
-  background: rgba(236, 195, 255, 0.08);
-  border: 1px solid rgba(236, 195, 255, 0.12);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--modal-content-form-field-gradient-bg-1);
+  border: 1px solid var(--modal-content-form-field-gradient-border-1);
+  color: var(--modal-content-form-field-gradient-color-1);
   animation: modal-open 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .modal-content-header {
@@ -29,7 +51,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 16px;
-  border-bottom: 1px solid rgba(236, 195, 255, 0.16);
+  border-bottom: 1px solid rgb(236 195 255 / 16%);
 }
 .modal-content-title {
   font-size: 18px;
@@ -40,8 +62,8 @@
   font-size: 12px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(198, 255, 119, 0.16);
-  color: #c6ff77;
+  background: var(--modal-content-form-field-gradient-bg-2);
+  color: var(--modal-content-form-field-gradient-color-2);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -62,22 +84,22 @@
 }
 .modal-content-field label {
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--modal-content-form-field-gradient-color-1);
   font-size: 14px;
 }
 .modal-content-field input {
   padding: 10px 12px;
-  border: 1px solid rgba(236, 195, 255, 0.32);
+  border: 1px solid var(--modal-content-form-field-gradient-border-2);
   border-radius: 6px;
   font-size: 14px;
-  background: rgba(236, 195, 255, 0.05);
-  color: rgba(255, 255, 255, 0.9);
+  background: var(--modal-content-form-field-gradient-bg-3);
+  color: var(--modal-content-form-field-gradient-color-3);
   transition: border-color 0.2s ease;
 }
 .modal-content-field input:focus {
   outline: none;
-  border-color: #c47ae5;
-  box-shadow: 0 0 0 3px rgba(196, 122, 229, 0.1);
+  border-color: var(--modal-content-form-field-gradient-border-1);
+  box-shadow: 0 0 0 3px var(--modal-content-form-field-gradient-shadow);
 }
 .modal-content-footer {
   display: flex;
@@ -89,7 +111,7 @@
 .modal-content-button {
   padding: 10px 18px;
   border-radius: 999px;
-  border: 1px solid rgba(236, 195, 255, 0.32);
+  border: 1px solid var(--modal-content-form-field-gradient-border-2);
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -99,15 +121,15 @@
 }
 .modal-content-button-primary {
   border-radius: 50px;
-  background: linear-gradient(180deg, #ff5981, #c83558);
-  color: #fff;
-  border: 2px solid #ff7495;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, var(--modal-content-form-field-gradient-bg-4), var(--modal-content-form-field-gradient-bg-5));
+  color: var(--modal-content-form-field-gradient-color-4);
+  border: 2px solid var(--modal-content-form-field-gradient-border-3);
+  text-shadow: 0 1px 1px var(--modal-content-form-field-gradient-text-shadow);
   padding: 6px 12px;
 }
-.modal-content-button-primary:hover:not(:disabled):not([aria-disabled='true']) {
-  background: linear-gradient(180deg, #ff6b8f, #d6456a);
-  border-color: #ff86a5;
+.modal-content-button-primary:hover:not(:disabled, [aria-disabled='true']) {
+  background: linear-gradient(180deg, var(--modal-content-form-field-gradient-bg-6), var(--modal-content-form-field-gradient-bg-7));
+  border-color: var(--modal-content-form-field-gradient-border-2);
   /* RN-friendly: avoid drop-shadow */
 }
 .modal-content-button-primary:disabled,
@@ -118,8 +140,8 @@
   box-shadow: none;
 }
 .modal-content-button-secondary {
-  color: #25ecff;
-  border: 2px solid #25ecff;
+  color: var(--modal-content-form-field-gradient-color-5);
+  border: 2px solid var(--modal-content-form-field-gradient-color-5);
   background: transparent;
   border-radius: 50px;
   padding: 6px 12px;
@@ -127,6 +149,7 @@
 .modal-content-button-secondary:hover {
   transform: translateY(1px) scale(0.99);
 }
+
 @keyframes modal-open {
   0% {
     transform: scale(0.88) translateY(-16px);
@@ -141,6 +164,7 @@
     opacity: 1;
   }
 }
+
 @keyframes button-stagger {
   0% {
     transform: translateY(16px) scale(0.94);
@@ -155,6 +179,7 @@
     opacity: 1;
   }
 }
+
 @keyframes form-field-gradient {
   0% {
     transform: translateY(20px);
@@ -162,7 +187,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(59, 130, 246, 0.1) 50%,
+      var(--modal-content-form-field-gradient-bg-100) 50%,
       transparent 100%
     );
   }
@@ -170,7 +195,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(59, 130, 246, 0.2) 50%,
+      var(--modal-content-form-field-gradient-bg-101) 50%,
       transparent 100%
     );
   }

@@ -1,7 +1,9 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import './UpdateIndicatorsBadgePulse.css'
 
+/**
+ *
+ */
 export function UpdateIndicatorsBadgePulse() {
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">

@@ -2,6 +2,24 @@
 
 /* Glow animation keyframes for different intensities */
 @keyframes tfx-glitchglow-minimal {
+
+  --timer-effects-pill-countdown-glitch-bg-1: #ff00;
+  --timer-effects-pill-countdown-glitch-bg-1-00: #ff0000;
+  --timer-effects-pill-countdown-glitch-bg-1-ff: #ff00ff;
+  --timer-effects-pill-countdown-glitch-bg-2: #8b0000;
+  --timer-effects-pill-countdown-glitch-bg-3: #ffa9;
+  --timer-effects-pill-countdown-glitch-bg-3-4d: #ffa94d;
+  --timer-effects-pill-countdown-glitch-bg-3-ea: #ffa9ea;
+  --timer-effects-pill-countdown-glitch-bg-4: #fd7e;
+  --timer-effects-pill-countdown-glitch-bg-4-14: #fd7e14;
+  --timer-effects-pill-countdown-glitch-bg-4-a2: #fd7ea2;
+  --timer-effects-pill-countdown-glitch-bg-5: #ff6b;
+  --timer-effects-pill-countdown-glitch-bg-5-4d: #ff6b4d;
+  --timer-effects-pill-countdown-glitch-bg-5-6b: #ff6b6b;
+  --timer-effects-pill-countdown-glitch-bg-6: #c92a;
+  --timer-effects-pill-countdown-glitch-bg-6-14: #c92a14;
+  --timer-effects-pill-countdown-glitch-bg-6-2a: #c92a2a;
+  --timer-effects-pill-countdown-glitch-color-1: #00ff00;
   0%,
   100% {
     transform: scale(1);
@@ -75,8 +93,8 @@
 
 /* Timer expired state */
 .timer-expired {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.55);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%, var(--timer-effects-pill-countdown-glitch-bg-2) 100%);
+  --glow-color: rgb(255 0 0 / 55%);
 }
 
 .timer-expired .pill-countdown-glitch__glow {
@@ -95,8 +113,8 @@
 
 /* 30s threshold - mild glitch */
 .tfx-glitchmild {
-  background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
-  --glow-color: rgba(253, 126, 20, 0.35);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-3-4d) 0%, var(--timer-effects-pill-countdown-glitch-bg-4-14) 100%);
+  --glow-color: rgb(253 126 20 / 35%);
 }
 
 .tfx-glitchmild .pill-countdown-glitch__glow {
@@ -105,8 +123,8 @@
 
 /* 20s threshold - moderate glitch */
 .tfx-glitchmoderate {
-  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-  --glow-color: rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-5-6b) 0%, var(--timer-effects-pill-countdown-glitch-bg-6-2a) 100%);
+  --glow-color: rgb(255 107 107 / 40%);
 }
 
 .tfx-glitchmoderate .pill-countdown-glitch__glow {
@@ -115,8 +133,8 @@
 
 /* 10s threshold - severe glitch with rapid pulsing */
 .tfx-glitchsevere {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.5);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%, var(--timer-effects-pill-countdown-glitch-bg-2) 100%);
+  --glow-color: rgb(255 0 0 / 50%);
 }
 
 .tfx-glitchsevere .pill-countdown-glitch__glow {
@@ -124,9 +142,9 @@
 }
 
 .tfx-glitchsevere .pill-countdown-glitch__copy--before {
-  color: #00ff00;
+  color: var(--timer-effects-pill-countdown-glitch-color-1);
 }
 
 .tfx-glitchsevere .pill-countdown-glitch__copy--after {
-  color: #ff00ff;
+  color: var(--timer-effects-pill-countdown-glitch-bg-1-ff);
 }

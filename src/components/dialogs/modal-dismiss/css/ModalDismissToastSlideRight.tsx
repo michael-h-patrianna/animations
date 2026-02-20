@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react'
 import { MockContent } from './MockContent'
 
 
+/**
+ *
+ */
 export function ModalDismissToastSlideRight() {
   const toastRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)

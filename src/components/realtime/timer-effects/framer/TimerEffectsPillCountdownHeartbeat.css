@@ -1,4 +1,29 @@
 .pill-countdown-heartbeat-container {
+
+  --timer-effects-pill-countdown-heartbeat-bg-1: #ff00;
+  --timer-effects-pill-countdown-heartbeat-bg-1-00: #ff0000;
+  --timer-effects-pill-countdown-heartbeat-bg-1-ea: #ff00ea;
+  --timer-effects-pill-countdown-heartbeat-bg-2: #8b00;
+  --timer-effects-pill-countdown-heartbeat-bg-2-00: #8b0000;
+  --timer-effects-pill-countdown-heartbeat-bg-2-a2: #8b00a2;
+  --timer-effects-pill-countdown-heartbeat-bg-3: #667e;
+  --timer-effects-pill-countdown-heartbeat-bg-3-4d: #667e4d;
+  --timer-effects-pill-countdown-heartbeat-bg-3-ea: #667eea;
+  --timer-effects-pill-countdown-heartbeat-bg-4: #764b;
+  --timer-effects-pill-countdown-heartbeat-bg-4-14: #764b14;
+  --timer-effects-pill-countdown-heartbeat-bg-4-a2: #764ba2;
+  --timer-effects-pill-countdown-heartbeat-bg-5: #ffa9;
+  --timer-effects-pill-countdown-heartbeat-bg-5-4d: #ffa94d;
+  --timer-effects-pill-countdown-heartbeat-bg-5-6b: #ffa96b;
+  --timer-effects-pill-countdown-heartbeat-bg-6: #fd7e;
+  --timer-effects-pill-countdown-heartbeat-bg-6-14: #fd7e14;
+  --timer-effects-pill-countdown-heartbeat-bg-6-2a: #fd7e2a;
+  --timer-effects-pill-countdown-heartbeat-bg-7: #ff6b;
+  --timer-effects-pill-countdown-heartbeat-bg-7-00: #ff6b00;
+  --timer-effects-pill-countdown-heartbeat-bg-7-6b: #ff6b6b;
+  --timer-effects-pill-countdown-heartbeat-bg-8: #c92a;
+  --timer-effects-pill-countdown-heartbeat-bg-8-00: #c92a00;
+  --timer-effects-pill-countdown-heartbeat-bg-8-2a: #c92a2a;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,15 +32,15 @@
 
 /* Timer expired state */
 .timer-expired {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.55);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-1-00) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-2-00) 100%);
+  --glow-color: rgb(255 0 0 / 55%);
   --glow-opacity: 0.45;
   --glow-scale: 1;
 }
 
 .pill-countdown-heartbeat {
   position: relative;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-3-ea) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-4-a2) 100%);
   color: white;
   padding: 1px 16px;
   height: 20px;
@@ -23,12 +48,12 @@
   border-radius: 10px;
   font-size: 12px;
   font-weight: 600;
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
   min-width: 60px;
   text-align: center;
   --glow-opacity: 0.35;
   --glow-scale: 1;
-  --glow-color: rgba(102, 126, 234, 0.3);
+  --glow-color: rgb(102 126 234 / 30%);
   transition: background 0.5s ease;
   display: flex;
   align-items: center;
@@ -56,35 +81,35 @@
 
 /* 60s - Normal state */
 .heartbeat-normal {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-3-ea) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-4-a2) 100%);
 }
 
 /* 50s threshold - calm heartbeat */
 .heartbeat-calm {
-  --glow-color: rgba(102, 126, 234, 0.4);
+  --glow-color: rgb(102 126 234 / 40%);
 }
 
 /* 40s threshold - mild heartbeat */
 .heartbeat-mild {
-  --glow-color: rgba(102, 126, 234, 0.45);
+  --glow-color: rgb(102 126 234 / 45%);
 }
 
 /* 30s threshold - elevated heartbeat */
 .heartbeat-elevated {
-  background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
-  --glow-color: rgba(255, 169, 77, 0.45);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-5-4d) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-6-14) 100%);
+  --glow-color: rgb(255 169 77 / 45%);
 }
 
 /* 20s threshold - rapid heartbeat */
 .heartbeat-rapid {
-  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-  --glow-color: rgba(255, 107, 107, 0.55);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-7-6b) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-8-2a) 100%);
+  --glow-color: rgb(255 107 107 / 55%);
 }
 
 /* 10s threshold - critical heartbeat with continuous pulse */
 .heartbeat-critical {
-  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
-  --glow-color: rgba(255, 0, 0, 0.6);
+  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-1-00) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-2-00) 100%);
+  --glow-color: rgb(255 0 0 / 60%);
 }
 
 /* Threshold pulse animations */

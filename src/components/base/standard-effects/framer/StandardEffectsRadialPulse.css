@@ -1,4 +1,7 @@
 .standard-radial-pulse {
+
+  --standard-effects-radial-pulse-shadow: rgb(236 195 255 / 15%);
+  --standard-effects-radial-pulse-border: rgb(236 195 255 / 32%);
   position: relative;
   width: 160px;
   height: 160px;
@@ -13,7 +16,7 @@
   margin: -4px 0 0 -4px;
   border-radius: 50%;
   background: var(--pf-base-60);
-  box-shadow: 0 0 0 2px rgba(236, 195, 255, 0.15);
+  box-shadow: 0 0 0 2px var(--standard-effects-radial-pulse-shadow);
 }
 
 .standard-radial-pulse .ring {
@@ -24,7 +27,7 @@
   height: 10px;
   margin: -5px 0 0 -5px;
   border-radius: 50%;
-  border: 2px solid rgba(236, 195, 255, 0.32);
+  border: 2px solid var(--standard-effects-radial-pulse-border);
   transform: scale(0.1);
   opacity: 0.8;
 }

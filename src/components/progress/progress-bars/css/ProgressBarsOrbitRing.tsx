@@ -13,6 +13,9 @@ interface Milestone {
   rings: OrbitRing[]
 }
 
+/**
+ *
+ */
 export function ProgressBarsOrbitRing() {
   const containerRef = useRef<HTMLDivElement>(null)
   const animationsRef = useRef<Animation[]>([])

@@ -1,5 +1,11 @@
 .neon-pulse-container-css {
-  background: #000;
+
+  --progress-bars-neon-pulse-bg-1: #000;
+  --progress-bars-neon-pulse-bg-2: #1a1a1a;
+  --progress-bars-neon-pulse-bg-3: #ff00ff;
+  --progress-bars-neon-pulse-bg-4: rgb(255 255 255 / 50%);
+  --progress-bars-neon-pulse-bg-5: rgb(255 0 255 / 20%);
+  background: var(--progress-bars-neon-pulse-bg-1);
   padding: 40px;
   border-radius: 8px;
   display: flex;
@@ -11,14 +17,14 @@
 .neon-pulse-track-css {
   width: 100%;
   height: 10px;
-  background: #1a1a1a;
+  background: var(--progress-bars-neon-pulse-bg-2);
   position: relative;
   border-radius: 5px;
 }
 
 .neon-pulse-fill-css {
   height: 100%;
-  background: #ff00ff;
+  background: var(--progress-bars-neon-pulse-bg-3);
   border-radius: 5px;
   position: relative;
   z-index: 2;
@@ -31,7 +37,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--progress-bars-neon-pulse-bg-4);
   border-radius: 5px;
   animation: neon-flicker 0.4s linear infinite;
 }
@@ -51,14 +57,14 @@
   top: -2px;
   left: 0;
   height: 14px;
-  background: rgba(255, 0, 255, 0.2);
+  background: var(--progress-bars-neon-pulse-bg-5);
   border-radius: 10px;
   z-index: 1;
   transition: width 0.03s linear;
 }
 
 .neon-pulse-label-css {
-  color: #ff00ff;
+  color: var(--progress-bars-neon-pulse-bg-3);
   font-family: 'Courier New', monospace;
   font-weight: bold;
   letter-spacing: 2px;

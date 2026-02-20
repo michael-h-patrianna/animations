@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
-import './RevealEffectsCardFan.css'
 
-export const metadata = {
-  id: 'rewards-reveal-effects__card-fan-reveal',
-  title: 'Card Fan Reveal',
-  description: 'Three cards fan out from a central stack.',
-  tags: ['card', 'fan', 'multiple', 'reveal'],
-}
-
+/**
+ *
+ */
 export function RevealEffectsCardFan() {
   const [isOpen, setIsOpen] = useState(false)
 

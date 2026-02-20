@@ -1,5 +1,9 @@
 /* Wave text effect - GPU-accelerated continuous animation */
 .tfx-wave-text-container {
+
+  --text-effects-wave-text-color: #3b82f6;
+  --text-effects-wave-text-text-shadow: rgb(0 0 0 / 15%);
+  --text-effects-wave-text-bg: rgb(147 197 253 / 40%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,8 +23,8 @@
 .tfx-wave-char {
   display: inline-block;
   position: relative;
-  color: #3b82f6;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: var(--text-effects-wave-text-color);
+  text-shadow: 0 2px 4px var(--text-effects-wave-text-text-shadow);
   transform-origin: center bottom;
   transform: translateZ(0);
   will-change: transform;
@@ -32,7 +36,7 @@
   content: '';
   position: absolute;
   inset: -20% -10%;
-  background: linear-gradient(180deg, rgba(147, 197, 253, 0.4), transparent);
+  background: linear-gradient(180deg, var(--text-effects-wave-text-bg), transparent);
   border-radius: 50% 50% 0 0;
   pointer-events: none;
   transform-origin: center bottom;

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ProgressBarsSciFiLoader.css'
 
+/**
+ *
+ */
 export function ProgressBarsSciFiLoader() {
   const [progress, setProgress] = useState(0)
 

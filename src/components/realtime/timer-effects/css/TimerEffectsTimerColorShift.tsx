@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerColorShift.css'
 
+/**
+ *
+ */
 export function TimerEffectsTimerColorShift() {
   const [value, setValue] = useState(10)
   const [animationKey, setAnimationKey] = useState(0)

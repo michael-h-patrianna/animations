@@ -1,11 +1,13 @@
 /* Styles scoped for TextEffectsLevelBreakthrough */
 .pf-breakthrough-container {
+
+  --text-effects-level-breakthrough-color: #ffce1a;
   position: relative;
 }
 .pf-level-breakthrough {
   font-size: 36px;
   font-weight: bold;
-  color: #ffce1a;
+  color: var(--text-effects-level-breakthrough-color);
   text-align: center;
   padding: 20px;
   position: relative;

@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test';
 const BASE_URL = 'http://localhost:5173';
 
 // List of all progress bar animations we expect to find
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const EXPECTED_ANIMATIONS = [
   'celebration-burst',
   'charge-surge',

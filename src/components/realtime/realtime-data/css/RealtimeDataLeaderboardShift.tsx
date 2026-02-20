@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
 
+/**
+ *
+ */
 export function RealtimeDataLeaderboardShift() {
   const [leaderboard, setLeaderboard] = useState([
     { rank: 1, player: 'Phoenix', score: 2450 },
