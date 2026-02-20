@@ -54,8 +54,9 @@ const SKIP_VALUES = new Set([
   'none',
 ])
 
-// Patterns to match color values
-const HEX_RE = /#(?:[0-9a-fA-F]{3,4}){1,2}/g
+// Patterns to match color values.
+// Important: match full CSS hex colors (3/4/6/8 digits) without truncating 6-digit colors to 4-digit prefixes.
+const HEX_RE = /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?![0-9a-fA-F])/g
 const RGB_RE = /rgba?\s*\([^)]+\)/gi
 const HSL_RE = /hsla?\s*\([^)]+\)/gi
 
@@ -217,21 +218,31 @@ function processFile(filePath) {
     newContent = newLines.join('\n')
   }
 
-  // Find the first rule's opening brace to insert custom properties
-  const firstBraceIndex = newContent.indexOf('{')
-  if (firstBraceIndex === -1) return null
+  // Find the first style rule selector line (not @keyframes/@media/etc.) to insert custom properties.
+  const insertionLines = newContent.split('\n')
+  let selectorLineIndex = -1
+  for (let i = 0; i < insertionLines.length; i++) {
+    const trimmed = insertionLines[i].trim()
+    if (!trimmed || trimmed.startsWith('/*') || trimmed.startsWith('*') || trimmed.startsWith('//')) continue
+    if (!trimmed.endsWith('{')) continue
+    if (trimmed.startsWith('@')) continue
+    selectorLineIndex = i
+    break
+  }
+  if (selectorLineIndex === -1) return null
 
-  // Find the next line after the opening brace
-  const afterBrace = newContent.indexOf('\n', firstBraceIndex)
-  if (afterBrace === -1) return null
+  // Check if custom properties are already declared right after the selector line.
+  let hasExistingVars = false
+  for (let i = selectorLineIndex + 1; i < insertionLines.length; i++) {
+    const trimmed = insertionLines[i].trim()
+    if (!trimmed) continue
+    hasExistingVars = trimmed.startsWith('--') || trimmed.startsWith('  --')
+    break
+  }
 
-  // Check if there are already custom property declarations right after the brace
-  const nextContent = newContent.slice(afterBrace + 1).trimStart()
-  const hasExistingVars = nextContent.startsWith('  --')
-
-  // Insert our variable declarations
-  const insertion = (hasExistingVars ? '' : '\n') + varDecls.join('\n') + '\n'
-  newContent = newContent.slice(0, afterBrace + 1) + insertion + newContent.slice(afterBrace + 1)
+  const insertion = (hasExistingVars ? '' : '\n') + varDecls.join('\n')
+  insertionLines.splice(selectorLineIndex + 1, 0, insertion)
+  newContent = insertionLines.join('\n')
 
   return { original: content, transformed: newContent, colorCount: colorToVar.size, declCount: colorDecls.length }
 }

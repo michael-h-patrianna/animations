@@ -1,7 +1,6 @@
 /* TimerEffectsPillCountdownGlitch - CSS animations */
 
-/* Glow animation keyframes for different intensities */
-@keyframes tfx-glitchglow-minimal {
+.pill-countdown-tfx-glitchcontainer {
 
   --timer-effects-pill-countdown-glitch-bg-1: #ff00;
   --timer-effects-pill-countdown-glitch-bg-1-00: #ff0000;
@@ -20,6 +19,14 @@
   --timer-effects-pill-countdown-glitch-bg-6-14: #c92a14;
   --timer-effects-pill-countdown-glitch-bg-6-2a: #c92a2a;
   --timer-effects-pill-countdown-glitch-color-1: #00ff00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+/* Glow animation keyframes for different intensities */
+@keyframes tfx-glitchglow-minimal {
   0%,
   100% {
     transform: scale(1);

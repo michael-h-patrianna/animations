@@ -30,3 +30,23 @@ coverage
 playwright-report
 test-results
 ddd.md
+dd.md
+
+# AI/tool caches
+.serena
+.chatmodes
+.gemini
+
+# Environment & secrets
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build & cache
+.cache
+.parcel-cache
+.turbo
+*.tsbuildinfo

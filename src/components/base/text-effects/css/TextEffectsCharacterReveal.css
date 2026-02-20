@@ -1,13 +1,6 @@
 /* Keyframe animations for TextEffectsCharacterReveal */
 @keyframes tfx-char-reveal-fade-in {
-
-  --text-effects-character-reveal-color-1: rgb(0 0 0 / 40%);
-  --text-effects-character-reveal-text-shadow: rgb(0 0 0 / 30%);
-  --text-effects-character-reveal-color-2: rgb(255 193 7 / 80%);
   from {
-    --text-effects-character-reveal-bg-100: #ffd700;
-    --text-effects-character-reveal-bg-101: #ffed4e;
-    --text-effects-character-reveal-bg-102: #ffa500;
     opacity: 0;
   }
   to {
@@ -52,6 +45,12 @@
 
 /* Styles scoped for TextEffectsCharacterReveal */
 .tfx-char-reveal-container {
+  --text-effects-character-reveal-color-1: rgb(0 0 0 / 40%);
+  --text-effects-character-reveal-text-shadow: rgb(0 0 0 / 30%);
+  --text-effects-character-reveal-color-2: rgb(255 193 7 / 80%);
+  --text-effects-character-reveal-bg-100: #ffd700;
+  --text-effects-character-reveal-bg-101: #ffed4e;
+  --text-effects-character-reveal-bg-102: #ffa500;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,8 +1,6 @@
 /* Styles scoped for StandardEffectsPulse */
 
 @keyframes pulse-animation {
-
-  --standard-effects-pulse-bg: rgb(198 255 119 / 30%);
   0% {
     transform: scale(1);
     opacity: 1;
@@ -17,6 +15,7 @@
   }
 }
 .pulse-element {
+  --standard-effects-pulse-bg: rgb(198 255 119 / 30%);
   animation: pulse-animation 1.5s cubic-bezier(0.4, 0, 0.6, 1);
   transform-origin: center center;
   position: relative;

@@ -1,7 +1,6 @@
 /* TimerEffectsPillCountdownHeartbeat - CSS animations */
 
-/* Glow animation keyframes for different heartbeat intensities */
-@keyframes heartbeat-glow-normal {
+.pill-countdown-heartbeat-container {
 
   --timer-effects-pill-countdown-heartbeat-bg-1: #667e;
   --timer-effects-pill-countdown-heartbeat-bg-1-00: #667e00;
@@ -27,6 +26,14 @@
   --timer-effects-pill-countdown-heartbeat-bg-8: #8b00;
   --timer-effects-pill-countdown-heartbeat-bg-8-00: #8b0000;
   --timer-effects-pill-countdown-heartbeat-bg-8-2a: #8b002a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+/* Glow animation keyframes for different heartbeat intensities */
+@keyframes heartbeat-glow-normal {
   0%, 100% {
     transform: scale(1);
     opacity: 0.15;

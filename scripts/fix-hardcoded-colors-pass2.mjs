@@ -20,7 +20,8 @@ const COLOR_PROPS = new Set([
   'column-rule-color', 'caret-color', 'accent-color',
 ])
 
-const HEX_RE = /#(?:[0-9a-fA-F]{3,4}){1,2}(?!\w)/g
+// Match complete CSS hex colors (3/4/6/8 digits) without truncating 6-digit colors.
+const HEX_RE = /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?![0-9a-fA-F])/g
 const RGB_RE = /\brgba?\s*\([^)]+\)/gi
 const HSL_RE = /\bhsla?\s*\([^)]+\)/gi
 
@@ -73,10 +74,20 @@ for (const file of files) {
     const root = postcss.parse(css, { from: file })
     const prefix = getPrefix(file)
 
-    // Find the first rule to inject variables into
+    // Find the first style rule to inject variables into (skip keyframe step rules).
     let firstRule = null
     root.walk((node) => {
-      if (!firstRule && node.type === 'rule') firstRule = node
+      if (firstRule || node.type !== 'rule') return
+      const parent = node.parent
+      if (
+        parent &&
+        parent.type === 'atrule' &&
+        typeof parent.name === 'string' &&
+        parent.name.toLowerCase().includes('keyframes')
+      ) {
+        return
+      }
+      firstRule = node
     })
     if (!firstRule) { console.log(`  SKIP ${file} (no rules found)`); continue }
 
