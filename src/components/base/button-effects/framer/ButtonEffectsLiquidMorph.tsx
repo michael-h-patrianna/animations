@@ -1,13 +1,18 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useState, memo } from 'react'
+import { useEffect, useState, memo } from 'react'
 
 function ButtonEffectsLiquidMorphComponent() {
-const [isAnimating, setIsAnimating] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  useEffect(() => {
+    if (!isAnimating) return
+    const timer = setTimeout(() => setIsAnimating(false), 600)
+    return () => clearTimeout(timer)
+  }, [isAnimating])
 
   const handleClick = () => {
     setIsAnimating(true)
-    setTimeout(() => setIsAnimating(false), 600)
   }
 
   const liquidMorphVariants = {

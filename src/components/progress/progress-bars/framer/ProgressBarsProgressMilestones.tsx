@@ -15,18 +15,24 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
     const duration = 4000
     const startTime = Date.now()
 
+    // Track activated milestones inside the closure to avoid stale reads
+    const localActivated = new Set<number>()
+
     const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime
       const progress = Math.min(elapsed / duration, 1)
 
-      const newActivated = new Set(activatedMilestones)
+      let changed = false
       milestonePositions.forEach((pos, index) => {
-        if (progress >= pos && !newActivated.has(index)) {
-          newActivated.add(index)
+        if (progress >= pos && !localActivated.has(index)) {
+          localActivated.add(index)
+          changed = true
         }
       })
 
-      setActivatedMilestones(newActivated)
+      if (changed) {
+        setActivatedMilestones(new Set(localActivated))
+      }
 
       if (progress >= 1) {
         clearInterval(intervalId)
@@ -36,7 +42,6 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
     return () => {
       clearInterval(intervalId)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const fillVariants = {
     hidden: { scaleX: 0 },

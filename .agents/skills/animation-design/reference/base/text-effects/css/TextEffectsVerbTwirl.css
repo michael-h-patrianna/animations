@@ -1,0 +1,43 @@
+.tfx-twirl-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+
+.tfx-twirl-line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+
+.tfx-twirl-char {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-block;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: tfx-twirl-animation 1.8s ease-in-out both;
+}
+
+@keyframes tfx-twirl-animation {
+  0% {
+    transform: rotate3d(0, 0, 1, 0deg) scale3d(1, 1, 1);
+  }
+  25% {
+    transform: rotate3d(0, 0, 1, 90deg) scale3d(1.05, 1.05, 1);
+  }
+  50% {
+    transform: rotate3d(0, 0, 1, 180deg) scale3d(1, 1, 1);
+  }
+  75% {
+    transform: rotate3d(0, 0, 1, 270deg) scale3d(0.98, 0.98, 1);
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, 360deg) scale3d(1, 1, 1);
+  }
+}

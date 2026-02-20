@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsSplitReveal.css'
 
@@ -10,9 +10,14 @@ import './ButtonEffectsSplitReveal.css'
 function ButtonEffectsSplitRevealComponent() {
   const [isRevealing, setIsRevealing] = useState(false)
 
+  useEffect(() => {
+    if (!isRevealing) return
+    const timer = setTimeout(() => setIsRevealing(false), 800)
+    return () => clearTimeout(timer)
+  }, [isRevealing])
+
   const handleClick = () => {
     setIsRevealing(true)
-    setTimeout(() => setIsRevealing(false), 800)
   }
 
   return (

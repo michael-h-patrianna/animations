@@ -1,0 +1,51 @@
+import * as m from 'motion/react-m'
+
+import './ModalOrchestrationWizardFadeCross.css'
+
+export function ModalOrchestrationWizardFadeCross() {
+  const steps = 3
+
+  const containerVariants = {
+    initial: {},
+    animate: {
+      transition: {
+        staggerChildren: 0.26,
+        delayChildren: 0,
+      },
+    },
+  }
+
+  const panelVariants = {
+    initial: {
+      y: 16,
+      opacity: 0,
+    },
+    animate: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.26, // 520ms * 0.5
+        ease: [0.25, 0.46, 0.45, 0.94] as const, // gentle easing
+      },
+    },
+  }
+
+  return (
+    <m.div
+      className="pf-wizard"
+      variants={containerVariants}
+      initial="initial"
+      animate="animate"
+      data-animation-id="modal-orchestration__wizard-fade-cross"
+    >
+      <div className="pf-wizard__panels">
+        {Array.from({ length: steps }, (_, index) => (
+          <m.div key={index} className="pf-wizard__panel" variants={panelVariants}>
+            <h5>Stage {index + 1}</h5>
+            <p>Cross-fade content placeholder to illustrate flow animation.</p>
+          </m.div>
+        ))}
+      </div>
+    </m.div>
+  )
+}

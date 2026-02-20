@@ -1,0 +1,38 @@
+.reveal-card-spin-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+  perspective: 1200px;
+}
+
+.reveal-card-spin-card {
+  width: 200px;
+  height: 280px;
+  background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  border: 4px solid rgba(255,255,255,0.5);
+}
+
+.reveal-card-spin-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.reveal-card-spin-icon {
+  font-size: 64px;
+}
+
+.reveal-card-spin-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}

@@ -1,0 +1,61 @@
+.lights-circle-static-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
+}
+
+.lights-circle-static-4__container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lights-circle-static-4__bulb-wrapper {
+  position: absolute;
+}
+
+.lights-circle-static-4__glow {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, var(--bulb-on-glow60) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.lights-circle-static-4__bulb {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--bulb-off);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Winner spotlight for first bulb */
+.lights-circle-static-4__bulb-wrapper:first-child .lights-circle-static-4__bulb {
+}
+
+.lights-circle-static-4__bulb-wrapper:first-child .lights-circle-static-4__glow {
+}
+
+/* Reverse chase pattern: Counter-clockwise → clockwise → pulse → winner */
+/* Phase 1 (0-35%): Counter-clockwise chase (3 complete rounds) */
+/* Phase 2 (35-65%): Clockwise chase faster (2 complete rounds) */
+/* Phase 3 (65-85%): All bulbs pulse together (thinking pattern) */
+/* Phase 4 (85-100%): Settle on winner */
+
+/* Winner celebration */
+
+/* Secondary animation: Reverse sway matching the pattern changes */
+

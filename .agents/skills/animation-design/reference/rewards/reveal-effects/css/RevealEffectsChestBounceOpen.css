@@ -1,0 +1,101 @@
+.reveal-chest-bounce-container-css {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+  perspective: 600px;
+}
+
+.reveal-chest-bounce-wrapper-css {
+  position: relative;
+  width: 130px;
+  height: 110px;
+  transform-style: preserve-3d;
+}
+
+.reveal-chest-bounce-wrapper-css.bouncing {
+  animation: chest-bounce-anticipation 0.6s ease-in-out forwards;
+}
+
+@keyframes chest-bounce-anticipation {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  60% { transform: scale(0.9); }
+  80% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.reveal-chest-bounce-base-css {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  background: #553311;
+  border-radius: 0 0 12px 12px;
+  border: 3px solid #3E2207;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.reveal-chest-bounce-lid-css {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  transform-origin: bottom center;
+  z-index: 10;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-delay: 0.1s;
+}
+
+.reveal-chest-bounce-lid-css.open {
+  transform: rotateX(-120deg);
+}
+
+.reveal-chest-bounce-lid-top-css {
+    width: 100%;
+    height: 100%;
+    background: #6D4118;
+    border-radius: 12px 12px 0 0;
+    border: 3px solid #3E2207;
+    border-bottom: none;
+}
+
+.reveal-chest-bounce-lock-css {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 16px;
+    background: #FFD700;
+    border-radius: 6px;
+    border: 2px solid #DAA520;
+}
+
+.reveal-chest-bounce-content-css {
+    position: absolute;
+    bottom: 35px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.5);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+    transition-delay: 0.2s;
+}
+
+.reveal-chest-bounce-content-css.visible {
+    transform: translateY(-50px) scale(1.2);
+    opacity: 1;
+}
+
+.reveal-chest-bounce-icon-css {
+    font-size: 56px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}

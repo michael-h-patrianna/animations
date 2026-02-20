@@ -1,0 +1,47 @@
+.reveal-prize-pop-container-css {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  width: 100%;
+  position: relative;
+}
+
+.reveal-prize-pop-item-css {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  z-index: 10;
+  filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); /* Spring ease */
+}
+
+.reveal-prize-pop-item-css.visible {
+  transform: scale(1);
+}
+
+.reveal-prize-pop-ripple-css {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid #FFD700;
+  background: transparent;
+  z-index: 1;
+  transform: scale(0);
+  opacity: 0.5;
+}
+
+.reveal-prize-pop-ripple-css.active.ripple-1 {
+  animation: pop-ripple 0.8s ease-out forwards;
+}
+
+.reveal-prize-pop-ripple-css.active.ripple-2 {
+  animation: pop-ripple 0.8s ease-out 0.15s forwards;
+}
+
+@keyframes pop-ripple {
+  0% { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
+}

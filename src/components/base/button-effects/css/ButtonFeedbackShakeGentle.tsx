@@ -1,12 +1,17 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import './ButtonFeedbackShakeGentle.css'
 
 function ButtonFeedbackShakeGentleComponent() {
-const [isAnimating, setIsAnimating] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  useEffect(() => {
+    if (!isAnimating) return
+    const timer = setTimeout(() => setIsAnimating(false), 600)
+    return () => clearTimeout(timer)
+  }, [isAnimating])
 
   const handleClick = () => {
     setIsAnimating(true)
-    setTimeout(() => setIsAnimating(false), 600)
   }
 
   return (

@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsPressSquash.css'
 
@@ -11,9 +11,14 @@ import './ButtonEffectsPressSquash.css'
 function ButtonEffectsPressSquashComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
+  useEffect(() => {
+    if (!isAnimating) return
+    const timer = setTimeout(() => setIsAnimating(false), 300)
+    return () => clearTimeout(timer)
+  }, [isAnimating])
+
   const handleClick = () => {
     setIsAnimating(true)
-    setTimeout(() => setIsAnimating(false), 300)
   }
 
   return (

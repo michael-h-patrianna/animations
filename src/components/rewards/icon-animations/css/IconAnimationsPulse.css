@@ -2,7 +2,6 @@
 
 .icon-demo-container {
 
-  --icon-animations-pulse-bg: rgb(198 255 119 / 30%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,33 +65,3 @@
   will-change: transform, opacity;
 }
 
-.icon-pulse-element::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, var(--icon-animations-pulse-bg) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: icon-pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  pointer-events: none;
-  z-index: -1;
-  will-change: transform, opacity;
-}
-
-@keyframes icon-pulse-glow {
-  0% {
-    transform: translate(-50%, -50%) scale(0.8);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0.6;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
-  }
-}

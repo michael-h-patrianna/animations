@@ -1,0 +1,22 @@
+/* Standalone CSS for TextEffectsLightSweepDraw
+   Copy with TextEffectsLightSweepDraw.tsx into your app. */
+
+.studioLogo-LightSweepDraw {
+  --lsd-baseColor: #e8e4da;
+  --lsd-highlightColor: #ffffff;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.studioLogo-LightSweepDraw__line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+
+.studioLogo-LightSweepDraw__letter {
+  display: inline-block;
+  will-change: transform;
+  color: var(--lsd-baseColor);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

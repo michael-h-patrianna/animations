@@ -1,0 +1,37 @@
+/* Styles for IconAnimationsPulse */
+
+.icon-demo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+
+.icon-pulse-element {
+  position: relative;
+  width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+.icon-pulse-element__image {
+  width: 140px;
+  height: auto;
+  display: block;
+}
+
+.icon-pulse-element__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(198, 255, 119, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}

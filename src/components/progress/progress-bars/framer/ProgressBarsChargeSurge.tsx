@@ -30,60 +30,59 @@ export function ProgressBarsChargeSurge() {
     const duration = 4000
     const startTime = Date.now()
     let waveIdCounter = 0
+    const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
+
+    // Track states inside the closure to avoid stale reads
+    const localStates: MilestoneState[] = ['inactive', 'inactive', 'inactive', 'inactive', 'inactive']
 
     const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime
       const currentProgress = Math.min(elapsed / duration, 1)
       setProgress(currentProgress)
 
-      // Update milestone states
-      const newStates = [...milestoneStates]
       let stateChanged = false
 
       milestonePositions.forEach((pos, index) => {
         const isNearMilestone = currentProgress >= pos - ANTICIPATION_THRESHOLD
         const hasReachedMilestone = currentProgress >= pos
 
-        if (hasReachedMilestone && newStates[index] !== 'charged') {
-          // Activation
-          newStates[index] = 'charged'
+        if (hasReachedMilestone && localStates[index] !== 'charged') {
+          localStates[index] = 'charged'
           stateChanged = true
 
-          // Create surge wave
           const newWave: SurgeWave = {
             id: waveIdCounter++,
             milestoneIndex: index,
           }
           setSurgeWaves((prev) => [...prev, newWave])
 
-          // Trigger glow flash
           setGlowFlash(true)
-          setTimeout(() => setGlowFlash(false), 200)
+          pendingTimeouts.push(setTimeout(() => setGlowFlash(false), 200))
 
-          // Remove surge wave after animation
-          setTimeout(() => {
-            setSurgeWaves((prev) => prev.filter((w) => w.id !== newWave.id))
-          }, 700)
-        } else if (isNearMilestone && !hasReachedMilestone && newStates[index] === 'inactive') {
-          // Anticipation
-          newStates[index] = 'anticipating'
+          pendingTimeouts.push(
+            setTimeout(() => {
+              setSurgeWaves((prev) => prev.filter((w) => w.id !== newWave.id))
+            }, 700)
+          )
+        } else if (isNearMilestone && !hasReachedMilestone && localStates[index] === 'inactive') {
+          localStates[index] = 'anticipating'
           stateChanged = true
         }
       })
 
       if (stateChanged) {
-        setMilestoneStates(newStates)
+        setMilestoneStates([...localStates])
       }
 
       if (currentProgress >= 1) {
         clearInterval(intervalId)
       }
-    }, 16) // ~60fps
+    }, 16)
 
     return () => {
       clearInterval(intervalId)
+      pendingTimeouts.forEach(clearTimeout)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fillVariants = {

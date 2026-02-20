@@ -63,6 +63,16 @@ const TimerEffectsUrgentPulse = lazy(() =>
     default: m.TimerEffectsUrgentPulse,
   }))
 )
+const TimerEffectsPillCountdownMedium = lazy(() =>
+  import('./framer/TimerEffectsPillCountdownMedium').then((m) => ({
+    default: m.TimerEffectsPillCountdownMedium,
+  }))
+)
+const TimerEffectsPillCountdownSoft = lazy(() =>
+  import('./framer/TimerEffectsPillCountdownSoft').then((m) => ({
+    default: m.TimerEffectsPillCountdownSoft,
+  }))
+)
 
 // Import metadata directly (not lazy-loaded since metadata is needed immediately)
 import { metadata as timerEffectsPillCountdownExtremeMetadata } from './framer/TimerEffectsPillCountdownExtreme.meta'
@@ -75,6 +85,8 @@ import { metadata as timerEffectsTimerFlashSoftMetadata } from './framer/TimerEf
 import { metadata as timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.meta'
 import { metadata as timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.meta'
 import { metadata as timerEffectsUrgentPulseMetadata } from './framer/TimerEffectsUrgentPulse.meta'
+import { metadata as timerEffectsPillCountdownMediumMetadata } from './framer/TimerEffectsPillCountdownMedium.meta'
+import { metadata as timerEffectsPillCountdownSoftMetadata } from './framer/TimerEffectsPillCountdownSoft.meta'
 
 // CSS metadata imports (not lazy-loaded since metadata is needed immediately)
 import { metadata as pillCountdownExtremeCssMetadata } from './css/TimerEffectsPillCountdownExtreme.meta'
@@ -195,6 +207,14 @@ export const groupExport: GroupExport = {
     'timer-effects__urgent-pulse': {
       component: TimerEffectsUrgentPulse,
       metadata: timerEffectsUrgentPulseMetadata,
+    },
+    'timer-effects__pill-countdown-medium': {
+      component: TimerEffectsPillCountdownMedium,
+      metadata: timerEffectsPillCountdownMediumMetadata,
+    },
+    'timer-effects__pill-countdown-soft': {
+      component: TimerEffectsPillCountdownSoft,
+      metadata: timerEffectsPillCountdownSoftMetadata,
     },
   },
   css: {

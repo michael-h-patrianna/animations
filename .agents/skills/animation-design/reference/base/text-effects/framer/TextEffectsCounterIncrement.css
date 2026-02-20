@@ -1,0 +1,71 @@
+/* Styles scoped for TextEffectsCounterIncrement */
+.pf-counter-showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Lato', sans-serif;
+  position: relative;
+  min-height: 80px;
+}
+.pf-counter-showcase__target {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pf-update-indicator__counter {
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  color: #c6ff77;
+  font-weight: 600;
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+.pf-update-indicator__counter--animating {
+  /* Animation handled by Framer Motion */
+}
+.pf-counter-showcase__value {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 0 6px;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.25),
+    0 0 8px rgba(255, 215, 0, 0.35);
+  transform-origin: center bottom;
+}
+.pf-counter-showcase__value-text {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fff8dc 12%,
+    #ffd700 38%,
+    #ffa500 68%,
+    #ff8c00 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.pf-counter-showcase__value-glow {
+  position: absolute;
+  inset: -6px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.22), transparent 60%);
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+}
+.pf-counter-showcase__value--popping {
+  /* Animation handled by Framer Motion */
+}

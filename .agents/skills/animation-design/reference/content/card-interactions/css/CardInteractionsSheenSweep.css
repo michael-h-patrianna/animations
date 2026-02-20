@@ -1,0 +1,36 @@
+.pf-card-interactions--sheen-sweep {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.pf-sheen-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  width: 150%;
+  background: linear-gradient(
+    60deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(236, 72, 153, 0.2) 30%,
+    rgba(99, 102, 241, 0.2) 35%,
+    rgba(255, 255, 255, 0.4) 40%,
+    transparent 45%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 20;
+}
+
+.pf-card-interactions--sheen-sweep:hover .pf-sheen-layer {
+  animation: pf-iridescent-sweep 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes pf-iridescent-sweep {
+  0% { left: -100%; opacity: 0; }
+  1% { opacity: 1; }
+  100% { left: 100%; opacity: 1; }
+}

@@ -1,12 +1,18 @@
 import * as m from 'motion/react-m'
 
-import { useState, memo } from 'react'
+import { useEffect, useState, memo } from 'react'
 
 function ButtonEffectsSplitRevealComponent() {
   const [isRevealing, setIsRevealing] = useState(false)
-const handleClick = () => {
+
+  useEffect(() => {
+    if (!isRevealing) return
+    const timer = setTimeout(() => setIsRevealing(false), 800)
+    return () => clearTimeout(timer)
+  }, [isRevealing])
+
+  const handleClick = () => {
     setIsRevealing(true)
-    setTimeout(() => setIsRevealing(false), 800)
   }
   return (
     <div className="button-demo" data-animation-id="button-effects__split-reveal">

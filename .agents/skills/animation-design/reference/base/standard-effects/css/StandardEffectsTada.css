@@ -1,0 +1,53 @@
+/* Styles scoped for StandardEffectsTada */
+
+@keyframes tada-animation {
+  0% {
+    transform: scale(1) rotate(0deg) skewX(0deg);
+    opacity: 1;
+  }
+  10% {
+    transform: scale(0.9) rotate(-3deg) skewX(-2deg);
+    opacity: 0.95;
+  }
+  20% {
+    transform: scale(0.9) rotate(-3deg) skewX(-2deg);
+    opacity: 0.95;
+  }
+  30% {
+    transform: scale(1.1) rotate(3deg) skewX(1deg);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.1) rotate(-3deg) skewX(-1deg);
+    opacity: 0.98;
+  }
+  50% {
+    transform: scale(1.1) rotate(3deg) skewX(1deg);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.1) rotate(-3deg) skewX(-1deg);
+    opacity: 0.98;
+  }
+  70% {
+    transform: scale(1.1) rotate(3deg) skewX(1deg);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(1.1) rotate(-3deg) skewX(-1deg);
+    opacity: 0.98;
+  }
+  90% {
+    transform: scale(1.1) rotate(3deg) skewX(1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg) skewX(0deg);
+    opacity: 1;
+  }
+}
+
+.tada-element {
+  animation: tada-animation 1s cubic-bezier(0.4, 0, 0.6, 1);
+  will-change: transform, opacity;
+}

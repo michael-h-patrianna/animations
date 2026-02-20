@@ -1,0 +1,189 @@
+/**
+ * Epic Win Text Effect - GPU-Optimized CSS Animations
+ *
+ * Namespaced with `tfe-epic-win-` to prevent conflicts.
+ * All animations use GPU-accelerated properties (transform, opacity) only.
+ * Character stagger timing calculated via CSS custom property --char-index.
+ */
+
+/* === Container & Layout === */
+
+.tfe-epic-win {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+}
+
+.tfe-epic-win__text-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  white-space: nowrap;
+}
+
+/* === Shadow Layers === */
+
+.tfe-epic-win__shadow-far {
+  position: absolute;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+  z-index: 0;
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: translate3d(0, 10px, 0) scale(1.2);
+  will-change: transform, opacity;
+}
+
+.tfe-epic-win__shadow-mid {
+  position: absolute;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  z-index: 1;
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: translate3d(0, 5px, 0) scale(1.1);
+  will-change: transform, opacity;
+}
+
+/* === Main Text === */
+
+.tfe-epic-win__main-text {
+  position: relative;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  perspective: 200px;
+  z-index: 3;
+}
+
+/* === Character Elements === */
+
+.tfe-epic-win__char {
+  display: inline-block;
+  position: relative;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: translate3d(0, 30px, 0) scale(0.5) rotateY(-90deg);
+  will-change: transform, opacity;
+}
+
+.tfe-epic-win__char-inner {
+  display: inline-block;
+  position: relative;
+  /* Metallic gold gradient */
+  background: linear-gradient(
+    170deg,
+    #ffffff 0%,
+    #fff8dc 10%,
+    #ffd700 30%,
+    #ffa500 50%,
+    #ff8c00 70%,
+    #ffd700 90%,
+    #fff8dc 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === Character Glow Burst === */
+
+.tfe-epic-win__char-glow {
+  position: absolute;
+  inset: -8px;
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  /* Initial state - animation will override */
+  opacity: 0;
+  transform: scale(0.8);
+  will-change: transform, opacity;
+}
+
+/* === Animation Keyframes === */
+
+@keyframes tfeEpicWinShadowFar {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(1.2);
+  }
+  to {
+    opacity: 0.2;
+    transform: translate3d(0, 6px, 0) scale(1);
+  }
+}
+
+@keyframes tfeEpicWinShadowMid {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 5px, 0) scale(1.1);
+  }
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, 3px, 0) scale(1);
+  }
+}
+
+@keyframes tfeEpicWinCharEntrance {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0) scale(0.5) rotateY(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
+  }
+}
+
+@keyframes tfeEpicWinGlowBurst {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* === Animation Application === */
+
+.tfe-epic-win--animate .tfe-epic-win__shadow-far {
+  animation: tfeEpicWinShadowFar 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.tfe-epic-win--animate .tfe-epic-win__shadow-mid {
+  animation: tfeEpicWinShadowMid 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 50ms both;
+}
+
+.tfe-epic-win--animate .tfe-epic-win__char {
+  animation: tfeEpicWinCharEntrance 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  /* Stagger delay: 100ms base + (index * 40ms) */
+  animation-delay: calc(100ms + (var(--char-index) * 40ms));
+}
+
+.tfe-epic-win--animate .tfe-epic-win__char-glow {
+  animation: tfeEpicWinGlowBurst 600ms ease-out both;
+  /* Stagger delay: 500ms base + (index * 40ms) */
+  animation-delay: calc(500ms + (var(--char-index) * 40ms));
+}

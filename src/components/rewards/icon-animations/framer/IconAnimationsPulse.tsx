@@ -27,20 +27,6 @@ export function IconAnimationsPulse() {
         }}
       >
         <img src={pulseScroll} alt="Pulsing scroll" className="icon-pulse-element__image" />
-        <m.span
-          className="icon-pulse-element__glow"
-          aria-hidden="true"
-          animate={{
-            scale: [0.8, 1.5, 2],
-            opacity: [0, 0.6, 0],
-          }}
-          transition={{
-            duration: 2,
-            ease: [0.4, 0, 0.6, 1] as const,
-            repeat: Infinity,
-            times: [0, 0.5, 1],
-          }}
-        />
       </m.div>
     </div>
   )

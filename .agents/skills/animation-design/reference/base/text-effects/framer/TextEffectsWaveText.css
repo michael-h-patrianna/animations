@@ -1,0 +1,46 @@
+/* Styles scoped for TextEffectsWaveText - Framer Motion version */
+.wave-text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+  position: relative;
+  transform: translateZ(0);
+  will-change: contents;
+}
+
+.wave-text-wrapper {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  display: flex;
+  position: relative;
+  z-index: 2;
+}
+
+.wave-char {
+  display: inline-block;
+  transform-origin: center bottom;
+  position: relative;
+  will-change: transform;
+  transform: translateZ(0);
+  color: #3b82f6;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.wave-char-inner {
+  display: inline-block;
+  position: relative;
+}
+
+.wave-highlight {
+  position: absolute;
+  inset: -20% -10%;
+  background: linear-gradient(180deg, rgba(147, 197, 253, 0.4), transparent);
+  border-radius: 50% 50% 0 0;
+  pointer-events: none;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}

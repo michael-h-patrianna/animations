@@ -1,0 +1,47 @@
+/**
+ * Material Design ripple effect with radial gradient fade.
+ * GPU-accelerated using transform and opacity.
+ */
+
+.bfx-ripple__container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bfx-ripple {
+  transition:
+    transform var(--pf-transition-fast) ease,
+    box-shadow var(--pf-transition-fast) ease;
+}
+
+.bfx-ripple:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--pf-shadow-inner);
+}
+
+.bfx-ripple__wave {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.35) 40%,
+    rgba(255, 255, 255, 0.2) 60%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0.2);
+  opacity: 0.6;
+  animation: bfx-ripple 520ms ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes bfx-ripple {
+  60% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}

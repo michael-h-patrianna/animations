@@ -19,6 +19,7 @@ import { metadata as metadataFormFieldLeftReveal } from './framer/ModalContentFo
 import { metadata as metadataFormFieldRightReveal } from './framer/ModalContentFormFieldRightReveal.meta'
 import { metadata as metadataListSoftStagger } from './framer/ModalContentListSoftStagger.meta'
 import { metadata as metadataListVerticalWipe } from './framer/ModalContentListVerticalWipe.meta'
+import { metadata as metadataListSpotlight } from './framer/ModalContentListSpotlight.meta'
 
 // CSS - Import metadata only
 import { metadata as metadataButtonsStagger2Css } from './css/ModalContentButtonsStagger2.meta'
@@ -64,6 +65,11 @@ const ModalContentListSoftStagger = lazy(() =>
 const ModalContentListVerticalWipe = lazy(() =>
   import('./framer/ModalContentListVerticalWipe').then((m) => ({
     default: m.ModalContentListVerticalWipe,
+  }))
+)
+const ModalContentListSpotlight = lazy(() =>
+  import('./framer/ModalContentListSpotlight').then((m) => ({
+    default: m.ModalContentListSpotlight,
   }))
 )
 
@@ -146,6 +152,10 @@ export const groupExport: GroupExport = {
     'modal-content__list-vertical-wipe': {
       component: ModalContentListVerticalWipe,
       metadata: metadataListVerticalWipe,
+    },
+    'modal-content__list-spotlight': {
+      component: ModalContentListSpotlight,
+      metadata: metadataListSpotlight,
     },
   },
   css: {

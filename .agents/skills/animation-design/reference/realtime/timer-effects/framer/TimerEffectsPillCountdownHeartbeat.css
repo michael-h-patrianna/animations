@@ -1,0 +1,93 @@
+.pill-countdown-heartbeat-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+/* Timer expired state */
+.timer-expired {
+  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
+  --glow-color: rgba(255, 0, 0, 0.55);
+  --glow-opacity: 0.45;
+  --glow-scale: 1;
+}
+
+.pill-countdown-heartbeat {
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1px 16px;
+  height: 20px;
+  line-height: 18px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Lato', sans-serif;
+  min-width: 60px;
+  text-align: center;
+  --glow-opacity: 0.35;
+  --glow-scale: 1;
+  --glow-color: rgba(102, 126, 234, 0.3);
+  transition: background 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pill-countdown-heartbeat__text {
+  position: relative;
+  z-index: 1;
+}
+
+.pill-countdown-heartbeat__glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 12px;
+  background: var(--glow-color);
+  opacity: var(--glow-opacity);
+  transform: scale(var(--glow-scale, 1));
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    background 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 60s - Normal state */
+.heartbeat-normal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* 50s threshold - calm heartbeat */
+.heartbeat-calm {
+  --glow-color: rgba(102, 126, 234, 0.4);
+}
+
+/* 40s threshold - mild heartbeat */
+.heartbeat-mild {
+  --glow-color: rgba(102, 126, 234, 0.45);
+}
+
+/* 30s threshold - elevated heartbeat */
+.heartbeat-elevated {
+  background: linear-gradient(135deg, #ffa94d 0%, #fd7e14 100%);
+  --glow-color: rgba(255, 169, 77, 0.45);
+}
+
+/* 20s threshold - rapid heartbeat */
+.heartbeat-rapid {
+  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+  --glow-color: rgba(255, 107, 107, 0.55);
+}
+
+/* 10s threshold - critical heartbeat with continuous pulse */
+.heartbeat-critical {
+  background: linear-gradient(135deg, #ff0000 0%, #8b0000 100%);
+  --glow-color: rgba(255, 0, 0, 0.6);
+}
+
+/* Threshold pulse animations */
+
+/* Continuous heartbeat for final 10s */
+

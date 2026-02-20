@@ -1,0 +1,93 @@
+/* Styles scoped for ModalOrchestrationWizardScaleRotate */
+.pf-wizard {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+  min-height: 360px;
+  position: relative;
+}
+.pf-wizard__steps {
+  display: flex;
+  gap: 8px;
+}
+.pf-wizard__step {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(236, 195, 255, 0.1);
+  border: 1px solid rgba(236, 195, 255, 0.16);
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.76);
+  transform: scale(0.9);
+  opacity: 0.3;
+  will-change: transform, opacity;
+}
+
+/* Step scale pop animation */
+@keyframes stepScalePop {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pf-wizard__step--animated {
+  animation: stepScalePop 0.46s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.pf-wizard__step--highlighted {
+  background: rgba(236, 195, 255, 0.28);
+  border: 2px solid rgba(196, 122, 229, 0.85);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.45);
+}
+
+.pf-wizard__panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pf-wizard__panel {
+  position: relative;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(236, 195, 255, 0.08);
+  border: 1px solid rgba(236, 195, 255, 0.12);
+  color: rgba(255, 255, 255, 0.76);
+  transform: rotate(-6deg) scale(0.82);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Panel rotate morph animation */
+@keyframes panelRotateMorph {
+  from {
+    transform: rotate(-6deg) scale(0.82);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.pf-wizard__panel--animated {
+  animation: panelRotateMorph 0.312s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.pf-wizard__panel--highlighted {
+  background: rgba(236, 195, 255, 0.25);
+  border: 2px solid rgba(196, 122, 229, 0.75);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(196, 122, 229, 0.4);
+}

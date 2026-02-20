@@ -1,0 +1,35 @@
+/* Anticipation Shake - Framer Motion Variant */
+
+.anticipation-shake-container-framer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 280px;
+  padding: 20px;
+}
+
+.anticipation-shake-box-framer {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  /* Note: box-shadow removed for React Native compatibility. Add platform-specific shadow when porting to RN. */
+}
+
+.anticipation-shake-content-framer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.anticipation-shake-icon-framer {
+  font-size: 64px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.95);
+  user-select: none;
+  /* Note: text-shadow removed for React Native compatibility. */
+}

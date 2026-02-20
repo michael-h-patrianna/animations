@@ -1,0 +1,35 @@
+.pf-card-interactions--neon-glow {
+  position: relative;
+  /* Ensure containment for absolute blobs */
+  isolation: isolate;
+}
+
+.pf-aurora-blob {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  filter: blur(40px);
+  mix-blend-mode: screen;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.pf-aurora-1 {
+  background: #3b82f6; /* blue-500 */
+  animation: pf-aurora-move-1 8s ease-in-out infinite;
+}
+
+.pf-aurora-2 {
+  background: #a855f7; /* purple-500 */
+  animation: pf-aurora-move-2 7s ease-in-out infinite reverse;
+}
+
+@keyframes pf-aurora-move-1 {
+  0%, 100% { transform: translate(-10px, -5px) scale(0.9); }
+  50% { transform: translate(10px, 5px) scale(1.1); }
+}
+
+@keyframes pf-aurora-move-2 {
+  0%, 100% { transform: translate(10px, 5px) scale(1.1); }
+  50% { transform: translate(-10px, -5px) scale(0.9); }
+}

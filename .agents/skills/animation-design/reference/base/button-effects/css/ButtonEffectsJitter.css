@@ -1,0 +1,47 @@
+/**
+ * Jitter button effect with periodic scale/rotation and hover heartbeat.
+ * GPU-accelerated using transform only.
+ */
+
+.bfx-jitter {
+  animation: bfx-jittery 4s infinite;
+  will-change: transform;
+}
+
+.bfx-jitter {
+  transition:
+    transform var(--pf-transition-fast) ease,
+    box-shadow var(--pf-transition-fast) ease;
+}
+.bfx-jitter:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--pf-shadow-inner);
+}
+
+@keyframes bfx-jittery {
+  5%,
+  50% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(0.9);
+  }
+  15% {
+    transform: scale(1.15);
+  }
+  20% {
+    transform: scale(1.15) rotate(-5deg);
+  }
+  25% {
+    transform: scale(1.15) rotate(5deg);
+  }
+  30% {
+    transform: scale(1.15) rotate(-3deg);
+  }
+  35% {
+    transform: scale(1.15) rotate(2deg);
+  }
+  40% {
+    transform: scale(1.15) rotate(0);
+  }
+}

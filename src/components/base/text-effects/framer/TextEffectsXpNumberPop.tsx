@@ -22,37 +22,39 @@ function TextEffectsXpNumberPopComponent() {
   const displayValue = useTransform(count, (latest) => `+${Math.round(latest)}`)
 
   useEffect(() => {
-    const animateXP = async () => {
-      // Start glow orb animation - burst and fade completely
-      glowControls.start({
-        opacity: [0, 0.8, 0.4, 0],
-        scale: [0.5, 1.2, 1, 0.8],
-        transition: {
-          duration: 2.8,
-          ease: easeOut,
-          times: [0, 0.3, 0.6, 1],
-        },
-      })
+    const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
 
-      // Number pop animation
-      numberControls.start({
-        scale: [0.3, 1.15, 1],
-        y: [20, -5, 0],
-        opacity: [0, 1, 1],
-        transition: {
-          duration: 1.6,
-          ease: [0.25, 0.46, 0.45, 0.94] as const,
-          times: [0, 0.6, 1],
-        },
-      })
+    // Start glow orb animation - burst and fade completely
+    glowControls.start({
+      opacity: [0, 0.8, 0.4, 0],
+      scale: [0.5, 1.2, 1, 0.8],
+      transition: {
+        duration: 2.8,
+        ease: easeOut,
+        times: [0, 0.3, 0.6, 1],
+      },
+    })
 
-      // Animate counting with cubic ease-out
-      animate(count, 240, {
-        duration: 2.5,
-        ease: [0, 0.65, 0.35, 1] as const,
-      })
+    // Number pop animation
+    numberControls.start({
+      scale: [0.3, 1.15, 1],
+      y: [20, -5, 0],
+      opacity: [0, 1, 1],
+      transition: {
+        duration: 1.6,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
+        times: [0, 0.6, 1],
+      },
+    })
 
-      // Create particles after delay
+    // Animate counting with cubic ease-out
+    animate(count, 240, {
+      duration: 2.5,
+      ease: [0, 0.65, 0.35, 1] as const,
+    })
+
+    // Create particles after delay
+    pendingTimeouts.push(
       setTimeout(() => {
         const newParticles: Particle[] = []
 
@@ -76,11 +78,11 @@ function TextEffectsXpNumberPopComponent() {
         setParticles(newParticles)
 
         // Clear particles after animation
-        setTimeout(() => setParticles([]), 3000)
+        pendingTimeouts.push(setTimeout(() => setParticles([]), 3000))
       }, 400)
-    }
+    )
 
-    animateXP()
+    return () => pendingTimeouts.forEach(clearTimeout)
   }, [glowControls, numberControls, count])
 
   return (

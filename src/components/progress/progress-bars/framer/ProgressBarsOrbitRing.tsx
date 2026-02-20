@@ -68,18 +68,24 @@ export function ProgressBarsOrbitRing() {
     const startTime = Date.now()
     const totalDuration = duration * 1000
 
+    // Track activated milestones inside the closure to avoid stale reads
+    const localActivated = new Set<number>()
+
     const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime
       const currentProgress = Math.min(elapsed / totalDuration, 1)
 
-      const newActivated = new Set(activatedMilestones)
+      let changed = false
       milestonePositions.forEach((pos, index) => {
-        if (currentProgress >= pos && !newActivated.has(index)) {
-          newActivated.add(index)
+        if (currentProgress >= pos && !localActivated.has(index)) {
+          localActivated.add(index)
+          changed = true
         }
       })
 
-      setActivatedMilestones(newActivated)
+      if (changed) {
+        setActivatedMilestones(new Set(localActivated))
+      }
 
       if (currentProgress >= 1) {
         clearInterval(intervalId)
@@ -87,7 +93,6 @@ export function ProgressBarsOrbitRing() {
     }, 16) // ~60fps
 
     return () => clearInterval(intervalId)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Fill bar animation

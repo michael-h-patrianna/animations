@@ -1,0 +1,70 @@
+/**
+ * Reward Ready Pulse Effect
+ *
+ * Combines scale pulsing (1.0 → 1.08 → 1.0) with vertical bobbing (0 → -4px → 0)
+ * to create a "breathing" effect indicating an element is ready/available.
+ *
+ * Cross-platform compatible:
+ * - GPU-accelerated using transform only (scale + translateY)
+ * - NO box-shadow (React Native incompatible)
+ * - NO text-shadow (React Native incompatible)
+ * - Linear gradient only
+ *
+ * Performance:
+ * - will-change: transform
+ * - animation-iteration-count: infinite
+ * - Respects prefers-reduced-motion
+ */
+
+.bfx-reward-ready-pulse {
+  animation: bfx-reward-pulse 2000ms cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  will-change: transform, box-shadow;
+  transition:
+    transform var(--pf-transition-fast) ease,
+    box-shadow var(--pf-transition-fast) ease;
+}
+
+.bfx-reward-ready-pulse:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--pf-shadow-inner);
+}
+
+@keyframes bfx-reward-pulse {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.08) translateY(-4px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Hover state: scale up and pause pulse */
+.bfx-reward-ready-pulse:hover {
+  animation-play-state: paused;
+  transform: scale(1.12) translateY(0);
+}
+
+/* Press state: scale down */
+.bfx-reward-ready-pulse:active {
+  transform: scale(0.95) translateY(0);
+}
+
+/* Reduced motion: very subtle pulse or static */
+@media (prefers-reduced-motion: reduce) {
+  .bfx-reward-ready-pulse {
+    animation: bfx-reward-pulse-reduced 3000ms ease-in-out infinite;
+  }
+
+  @keyframes bfx-reward-pulse-reduced {
+    0%,
+    100% {
+      transform: scale(1) translateY(0);
+    }
+    50% {
+      transform: scale(1.02) translateY(0);
+    }
+  }
+}

@@ -61,6 +61,12 @@ import { metadata as journeyMapMetadata } from './framer/ProgressBarsJourneyMap.
 import { metadata as crystalNodesMetadata } from './framer/ProgressBarsCrystalNodes.meta'
 import { metadata as flagPlantMetadata } from './framer/ProgressBarsFlagPlant.meta'
 import { metadata as coinTrailMetadata } from './framer/ProgressBarsCoinTrail.meta'
+import { metadata as waveInterferenceMetadata } from './framer/ProgressBarsWaveInterference.meta'
+import { metadata as shimmerSweepMetadata } from './framer/ProgressBarsShimmerSweep.meta'
+import { metadata as elasticFillMetadata } from './framer/ProgressBarsElasticFill.meta'
+import { metadata as pulseWaveMetadata } from './framer/ProgressBarsPulseWave.meta'
+import { metadata as rippleExpandMetadata } from './framer/ProgressBarsRippleExpand.meta'
+import { metadata as glowTrailMetadata } from './framer/ProgressBarsGlowTrail.meta'
 
 // CSS - Import metadata only
 import { metadata as celebrationBurstCssMetadata } from './css/ProgressBarsCelebrationBurst.meta'
@@ -88,6 +94,12 @@ import { metadata as journeyMapCssMetadata } from './css/ProgressBarsJourneyMap.
 import { metadata as crystalNodesCssMetadata } from './css/ProgressBarsCrystalNodes.meta'
 import { metadata as flagPlantCssMetadata } from './css/ProgressBarsFlagPlant.meta'
 import { metadata as coinTrailCssMetadata } from './css/ProgressBarsCoinTrail.meta'
+import { metadata as waveInterferenceCssMetadata } from './css/ProgressBarsWaveInterference.meta'
+import { metadata as shimmerSweepCssMetadata } from './css/ProgressBarsShimmerSweep.meta'
+import { metadata as elasticFillCssMetadata } from './css/ProgressBarsElasticFill.meta'
+import { metadata as pulseWaveCssMetadata } from './css/ProgressBarsPulseWave.meta'
+import { metadata as rippleExpandCssMetadata } from './css/ProgressBarsRippleExpand.meta'
+import { metadata as glowTrailCssMetadata } from './css/ProgressBarsGlowTrail.meta'
 
 // Framer Motion - Lazy load components
 const ProgressBarsCelebrationBurst = lazy(() =>
@@ -161,7 +173,12 @@ const ProgressBarsJourneyMap = lazy(() => import('./framer/ProgressBarsJourneyMa
 const ProgressBarsCrystalNodes = lazy(() => import('./framer/ProgressBarsCrystalNodes').then(m => ({ default: m.ProgressBarsCrystalNodes })))
 const ProgressBarsFlagPlant = lazy(() => import('./framer/ProgressBarsFlagPlant').then(m => ({ default: m.ProgressBarsFlagPlant })))
 const ProgressBarsCoinTrail = lazy(() => import('./framer/ProgressBarsCoinTrail').then(m => ({ default: m.ProgressBarsCoinTrail })))
-
+const ProgressBarsWaveInterference = lazy(() => import('./framer/ProgressBarsWaveInterference').then(m => ({ default: m.ProgressBarsWaveInterference })))
+const ProgressBarsShimmerSweep = lazy(() => import('./framer/ProgressBarsShimmerSweep').then(m => ({ default: m.ProgressBarsShimmerSweep })))
+const ProgressBarsElasticFill = lazy(() => import('./framer/ProgressBarsElasticFill').then(m => ({ default: m.ProgressBarsElasticFill })))
+const ProgressBarsPulseWave = lazy(() => import('./framer/ProgressBarsPulseWave').then(m => ({ default: m.ProgressBarsPulseWave })))
+const ProgressBarsRippleExpand = lazy(() => import('./framer/ProgressBarsRippleExpand').then(m => ({ default: m.ProgressBarsRippleExpand })))
+const ProgressBarsGlowTrail = lazy(() => import('./framer/ProgressBarsGlowTrail').then(m => ({ default: m.ProgressBarsGlowTrail })))
 
 // CSS - Lazy load components
 const CssProgressBarsCelebrationBurst = lazy(() =>
@@ -235,6 +252,12 @@ const CssProgressBarsJourneyMap = lazy(() => import('./css/ProgressBarsJourneyMa
 const CssProgressBarsCrystalNodes = lazy(() => import('./css/ProgressBarsCrystalNodes').then(m => ({ default: m.ProgressBarsCrystalNodes })))
 const CssProgressBarsFlagPlant = lazy(() => import('./css/ProgressBarsFlagPlant').then(m => ({ default: m.ProgressBarsFlagPlant })))
 const CssProgressBarsCoinTrail = lazy(() => import('./css/ProgressBarsCoinTrail').then(m => ({ default: m.ProgressBarsCoinTrail })))
+const CssProgressBarsWaveInterference = lazy(() => import('./css/ProgressBarsWaveInterference').then(m => ({ default: m.ProgressBarsWaveInterference })))
+const CssProgressBarsShimmerSweep = lazy(() => import('./css/ProgressBarsShimmerSweep').then(m => ({ default: m.ProgressBarsShimmerSweep })))
+const CssProgressBarsElasticFill = lazy(() => import('./css/ProgressBarsElasticFill').then(m => ({ default: m.ProgressBarsElasticFill })))
+const CssProgressBarsPulseWave = lazy(() => import('./css/ProgressBarsPulseWave').then(m => ({ default: m.ProgressBarsPulseWave })))
+const CssProgressBarsRippleExpand = lazy(() => import('./css/ProgressBarsRippleExpand').then(m => ({ default: m.ProgressBarsRippleExpand })))
+const CssProgressBarsGlowTrail = lazy(() => import('./css/ProgressBarsGlowTrail').then(m => ({ default: m.ProgressBarsGlowTrail })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'progress-bars',
@@ -308,6 +331,12 @@ export const groupExport: GroupExport = {
     'progress-bars__crystal-nodes': { component: ProgressBarsCrystalNodes, metadata: crystalNodesMetadata },
     'progress-bars__flag-plant': { component: ProgressBarsFlagPlant, metadata: flagPlantMetadata },
     'progress-bars__coin-trail': { component: ProgressBarsCoinTrail, metadata: coinTrailMetadata },
+    'progress-bars__wave-interference': { component: ProgressBarsWaveInterference, metadata: waveInterferenceMetadata },
+    'progress-bars__shimmer-sweep': { component: ProgressBarsShimmerSweep, metadata: shimmerSweepMetadata },
+    'progress-bars__elastic-fill': { component: ProgressBarsElasticFill, metadata: elasticFillMetadata },
+    'progress-bars__pulse-wave': { component: ProgressBarsPulseWave, metadata: pulseWaveMetadata },
+    'progress-bars__ripple-expand': { component: ProgressBarsRippleExpand, metadata: rippleExpandMetadata },
+    'progress-bars__glow-trail': { component: ProgressBarsGlowTrail, metadata: glowTrailMetadata },
   },
   css: {
     'progress-bars__celebration-burst': {
@@ -372,5 +401,11 @@ export const groupExport: GroupExport = {
     'progress-bars__crystal-nodes': { component: CssProgressBarsCrystalNodes, metadata: crystalNodesCssMetadata },
     'progress-bars__flag-plant': { component: CssProgressBarsFlagPlant, metadata: flagPlantCssMetadata },
     'progress-bars__coin-trail': { component: CssProgressBarsCoinTrail, metadata: coinTrailCssMetadata },
+    'progress-bars__wave-interference': { component: CssProgressBarsWaveInterference, metadata: waveInterferenceCssMetadata },
+    'progress-bars__shimmer-sweep': { component: CssProgressBarsShimmerSweep, metadata: shimmerSweepCssMetadata },
+    'progress-bars__elastic-fill': { component: CssProgressBarsElasticFill, metadata: elasticFillCssMetadata },
+    'progress-bars__pulse-wave': { component: CssProgressBarsPulseWave, metadata: pulseWaveCssMetadata },
+    'progress-bars__ripple-expand': { component: CssProgressBarsRippleExpand, metadata: rippleExpandCssMetadata },
+    'progress-bars__glow-trail': { component: CssProgressBarsGlowTrail, metadata: glowTrailCssMetadata },
   },
 }

@@ -21,6 +21,13 @@ import { metadata as confettiSpiralMetadata } from './framer/ModalCelebrationsCo
 import { metadata as fireworksRingMetadata } from './framer/ModalCelebrationsFireworksRing.meta'
 import { metadata as fireworksTripleMetadata } from './framer/ModalCelebrationsFireworksTriple.meta'
 import { metadata as treasureParticlesMetadata } from './framer/ModalCelebrationsTreasureParticles.meta'
+import { metadata as coinCascadeMetadata } from './framer/ModalCelebrationsCoinCascade.meta'
+import { metadata as coinTrailMetadata } from './framer/ModalCelebrationsCoinTrail.meta'
+import { metadata as coinsSwirlMetadata } from './framer/ModalCelebrationsCoinsSwirl.meta'
+import { metadata as confettiPulseMetadata } from './framer/ModalCelebrationsConfettiPulse.meta'
+import { metadata as jackpotCelebrationMetadata } from './framer/ModalCelebrationsJackpotCelebration.meta'
+import { metadata as multiCoinMetadata } from './framer/ModalCelebrationsMultiCoin.meta'
+import { metadata as rewardSpotlightMetadata } from './framer/ModalCelebrationsRewardSpotlight.meta'
 
 // CSS - Import metadata only
 import { metadata as coinCascadeCssMetadata } from './css/ModalCelebrationsCoinCascade.meta'
@@ -78,6 +85,41 @@ const ModalCelebrationsFireworksTriple = lazy(() =>
 const ModalCelebrationsTreasureParticles = lazy(() =>
   import('./framer/ModalCelebrationsTreasureParticles').then((m) => ({
     default: m.ModalCelebrationsTreasureParticles,
+  }))
+)
+const ModalCelebrationsCoinCascade = lazy(() =>
+  import('./framer/ModalCelebrationsCoinCascade').then((m) => ({
+    default: m.ModalCelebrationsCoinCascade,
+  }))
+)
+const ModalCelebrationsCoinTrail = lazy(() =>
+  import('./framer/ModalCelebrationsCoinTrail').then((m) => ({
+    default: m.ModalCelebrationsCoinTrail,
+  }))
+)
+const ModalCelebrationsCoinsSwirl = lazy(() =>
+  import('./framer/ModalCelebrationsCoinsSwirl').then((m) => ({
+    default: m.ModalCelebrationsCoinsSwirl,
+  }))
+)
+const ModalCelebrationsConfettiPulse = lazy(() =>
+  import('./framer/ModalCelebrationsConfettiPulse').then((m) => ({
+    default: m.ModalCelebrationsConfettiPulse,
+  }))
+)
+const ModalCelebrationsJackpotCelebration = lazy(() =>
+  import('./framer/ModalCelebrationsJackpotCelebration').then((m) => ({
+    default: m.ModalCelebrationsJackpotCelebration,
+  }))
+)
+const ModalCelebrationsMultiCoin = lazy(() =>
+  import('./framer/ModalCelebrationsMultiCoin').then((m) => ({
+    default: m.ModalCelebrationsMultiCoin,
+  }))
+)
+const ModalCelebrationsRewardSpotlight = lazy(() =>
+  import('./framer/ModalCelebrationsRewardSpotlight').then((m) => ({
+    default: m.ModalCelebrationsRewardSpotlight,
   }))
 )
 
@@ -197,6 +239,34 @@ export const groupExport: GroupExport = {
     'modal-celebrations__treasure-particles': {
       component: ModalCelebrationsTreasureParticles,
       metadata: treasureParticlesMetadata,
+    },
+    'modal-celebrations__coin-cascade': {
+      component: ModalCelebrationsCoinCascade,
+      metadata: coinCascadeMetadata,
+    },
+    'modal-celebrations__coin-trail': {
+      component: ModalCelebrationsCoinTrail,
+      metadata: coinTrailMetadata,
+    },
+    'modal-celebrations__coins-swirl': {
+      component: ModalCelebrationsCoinsSwirl,
+      metadata: coinsSwirlMetadata,
+    },
+    'modal-celebrations__confetti-pulse': {
+      component: ModalCelebrationsConfettiPulse,
+      metadata: confettiPulseMetadata,
+    },
+    'modal-celebrations__jackpot-celebration': {
+      component: ModalCelebrationsJackpotCelebration,
+      metadata: jackpotCelebrationMetadata,
+    },
+    'modal-celebrations__multi-coin': {
+      component: ModalCelebrationsMultiCoin,
+      metadata: multiCoinMetadata,
+    },
+    'modal-celebrations__reward-spotlight': {
+      component: ModalCelebrationsRewardSpotlight,
+      metadata: rewardSpotlightMetadata,
     },
   },
   css: {
