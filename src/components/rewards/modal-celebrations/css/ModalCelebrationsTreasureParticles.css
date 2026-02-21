@@ -15,7 +15,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background: radial-gradient(circle, var(--modal-celebrations-treasure-particles-bg-1), var(--modal-celebrations-treasure-particles-bg-2));
+  background: linear-gradient(180deg, var(--modal-celebrations-treasure-particles-bg-1), var(--modal-celebrations-treasure-particles-bg-2));
   border-radius: 50%;
   box-shadow: 0 0 6px var(--modal-celebrations-treasure-particles-shadow-1);
 }

@@ -25,7 +25,7 @@ export interface Animation {
 export interface Group {
   id: string
   title: string
-  tech?: string
+  tech?: GroupMetadata['tech']
   demo?: string
   animations: Animation[]
 }

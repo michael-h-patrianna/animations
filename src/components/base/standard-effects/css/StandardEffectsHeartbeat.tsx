@@ -4,7 +4,7 @@ import './StandardEffectsHeartbeat.css'
 
 function StandardEffectsHeartbeatComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__heartbeat">
       <div className="standard-demo-element heartbeat-element">
         <div className="demo-text">HeartBeat</div>
       </div>

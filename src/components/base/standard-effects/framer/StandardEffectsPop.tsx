@@ -15,7 +15,7 @@ const popVariants = {
     },
   }
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__pop">
       <m.div
         className="standard-demo-element pop-element"
         variants={popVariants}

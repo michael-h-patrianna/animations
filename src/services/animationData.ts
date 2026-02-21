@@ -2,6 +2,7 @@ import { categories } from '@/components/animationRegistry'
 import type {
   Animation,
   Category,
+  Group,
 } from '@/types/animation'
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -17,14 +18,14 @@ const buildCatalogFromCategories = (): Category[] => {
     groups: Object.values(cat.groups).flatMap(group => {
       const framerAnimations = Object.values(group.framer)
       const cssAnimations = Object.values(group.css)
-      const result = []
+      const result: Group[] = []
 
       // Add Framer group if it has animations
       if (framerAnimations.length > 0) {
         result.push({
           id: `${group.metadata.id}-framer`,
           title: `${group.metadata.title} (Framer)`,
-          tech: group.metadata.tech,
+          tech: 'framer',
           demo: group.metadata.demo,
           animations: framerAnimations.map(anim => ({
             id: anim.metadata.id,
@@ -43,7 +44,7 @@ const buildCatalogFromCategories = (): Category[] => {
         result.push({
           id: `${group.metadata.id}-css`,
           title: `${group.metadata.title} (CSS)`,
-          tech: group.metadata.tech,
+          tech: 'css',
           demo: group.metadata.demo,
           animations: cssAnimations.map(anim => ({
             id: anim.metadata.id,
@@ -121,21 +122,24 @@ class AnimationDataService {
   }
 
   async addAnimation(animation: Omit<Animation, 'id'>): Promise<Animation> {
+    const catalog = await this.ensureCatalog()
+    const category = catalog.find((entry) => entry.id === animation.categoryId)
+    if (!category) {
+      throw new Error(`Category not found: ${animation.categoryId}`)
+    }
+
+    const group = category.groups.find((entry) => entry.id === animation.groupId)
+    if (!group) {
+      throw new Error(`Group not found: ${animation.groupId} in category ${animation.categoryId}`)
+    }
+
     const newAnimation: Animation = {
       ...animation,
       id: `${animation.groupId}__${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
     }
 
     this.extraAnimations.push(newAnimation)
-
-    if (this.catalog) {
-      const category = this.catalog.find((entry) => entry.id === newAnimation.categoryId)
-      const group = category?.groups.find((entry) => entry.id === newAnimation.groupId)
-
-      if (group) {
-        group.animations = [...group.animations, newAnimation]
-      }
-    }
+    group.animations = [...group.animations, newAnimation]
 
     return newAnimation
   }

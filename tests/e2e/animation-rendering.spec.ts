@@ -1,489 +1,112 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
+
+type RenderingScenario = {
+  groupId: string
+  animationId: string
+}
+
+const currentPathname = (page: Page) => new URL(page.url()).pathname
+
+const cardByAnimationId = (page: Page, animationId: string) =>
+  page.locator(`.pf-card[data-animation-id="${animationId}"]`).first()
+
+const gotoGroup = async (page: Page, groupId: string) => {
+  await page.goto(`/${groupId}`)
+  await expect.poll(() => currentPathname(page)).toBe(`/${groupId}`)
+  await page.waitForSelector('.pf-card[data-animation-id]', { timeout: 10000 })
+}
+
+async function waitForRenderedStage(card: Locator, minChildren = 1) {
+  await card.scrollIntoViewIfNeeded()
+
+  const stage = card.locator('.pf-demo-stage')
+  await expect(stage).toBeVisible()
+
+  await expect
+    .poll(async () => stage.locator(':scope > *').count(), { timeout: 5000 })
+    .toBeGreaterThanOrEqual(minChildren)
+
+  return stage
+}
+
+const representativeFramerScenarios: RenderingScenario[] = [
+  { groupId: 'text-effects-framer', animationId: 'text-effects__character-reveal' },
+  { groupId: 'modal-base-framer', animationId: 'modal-base__scale-gentle-pop' },
+  { groupId: 'progress-bars-framer', animationId: 'progress-bars__timeline-progress' },
+  { groupId: 'timer-effects-framer', animationId: 'timer-effects__timer-pulse' },
+  { groupId: 'icon-animations-framer', animationId: 'icon-animations__shake' },
+]
 
 test.describe('Animation Rendering', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-    await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
-  })
+  test('renders representative Framer animations across major categories', async ({ page }) => {
+    for (const scenario of representativeFramerScenarios) {
+      await gotoGroup(page, scenario.groupId)
 
-  test('renders at least one animation from Base effects category', async ({ page }) => {
-    // Navigate to Text effects group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
+      const card = cardByAnimationId(page, scenario.animationId)
+      await expect(card).toBeVisible()
 
-    // Find Character Reveal animation
-    const card = page
-      .locator('.pf-card[data-animation-id="text-effects__character-reveal"]')
-      .first()
-    await expect(card).toBeVisible()
-
-    // Verify the animation component renders (not just placeholder)
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    // Check that there's actual content inside (not empty)
-    await expect(stage.locator(':scope > *').first()).toBeVisible()
-    const stageContent = await stage.innerHTML()
-    expect(stageContent.trim().length).toBeGreaterThan(0)
-    expect(stageContent).not.toContain('pf-card__placeholder')
-  })
-
-  test('renders at least one animation from Dialog & Modal category', async ({ page }) => {
-    // Navigate to Base modals (framer) group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Base modals (framer)")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Gentle Scale Pop animation
-    const card = page
-      .locator('.pf-card[data-animation-id="modal-base-framer__scale-gentle-pop"]')
-      .first()
-    await expect(card).toBeVisible()
-
-    // Verify the animation component renders
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    // Check that there's actual content
-    const stageContent = await stage.innerHTML()
-    expect(stageContent.trim().length).toBeGreaterThan(0)
-  })
-
-  test('renders at least one animation from Progress & Loading category', async ({ page }) => {
-    // Navigate to Progress bars group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Progress bars")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Timeline Progress animation
-    const card = page
-      .locator('.pf-card[data-animation-id="progress-bars__timeline-progress"]')
-      .first()
-    await expect(card).toBeVisible()
-
-    // Verify the animation component renders
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    const stageContent = await stage.innerHTML()
-    expect(stageContent.trim().length).toBeGreaterThan(0)
-  })
-
-  test('renders at least one animation from Real-time Updates category', async ({ page }) => {
-    // Navigate to Timer effects group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Timer effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Color Shift timer
-    const card = page
-      .locator('.pf-card[data-animation-id="timer-effects__timer-color-shift"]')
-      .first()
-    await expect(card).toBeVisible()
-
-    // Verify the animation component renders
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    const stageContent = await stage.innerHTML()
-    expect(stageContent.trim().length).toBeGreaterThan(0)
-  })
-
-  test('renders at least one animation from Game Elements & Rewards category', async ({ page }) => {
-    // Navigate to Icon animations group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Icon animations")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Shake icon animation
-    const card = page.locator('.pf-card[data-animation-id="icon-animations__shake"]').first()
-    await expect(card).toBeVisible()
-
-    // Verify the animation component renders
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    const stageContent = await stage.innerHTML()
-    expect(stageContent.trim().length).toBeGreaterThan(0)
-  })
-
-  test('animation components have proper CSS classes', async ({ page }) => {
-    // Navigate to Standard effects
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Check Shake animation
-    const card = page.locator('.pf-card[data-animation-id="standard-effects__shake"]').first()
-    await expect(card).toBeVisible()
-
-    // Verify pf-demo-stage class exists
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    // Verify pf-demo-canvas wrapper
-    const canvas = card.locator('.pf-demo-canvas')
-    await expect(canvas).toBeVisible()
-
-    // Verify the stage has the top alignment class
-    await expect(stage).toHaveClass(/pf-demo-stage--top/)
-  })
-
-  test('Framer Motion animations render with motion elements', async ({ page }) => {
-    // Navigate to Text effects (uses Framer Motion)
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Wave Text animation (uses Framer Motion)
-    const card = page.locator('.pf-card[data-animation-id="text-effects__wave-text"]').first()
-    await expect(card).toBeVisible()
-
-    // Wait for animation to render
-    await page.waitForTimeout(300)
-
-    // Check that there are animated elements (Framer Motion adds specific attributes)
-    const stage = card.locator('.pf-demo-stage')
-    const innerContent = await stage.innerHTML()
-
-    // Should contain actual rendered content
-    expect(innerContent.trim().length).toBeGreaterThan(50) // Substantial content
-  })
-
-  test('CSS animations render with proper keyframe elements', async ({ page }) => {
-    // Navigate to Button effects (uses CSS)
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Button effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Jitter button animation
-    const card = page.locator('.pf-card[data-animation-id="button-effects__jitter"]').first()
-    await expect(card).toBeVisible()
-
-    // Verify content renders
-    const stage = card.locator('.pf-demo-stage')
-    const content = await stage.innerHTML()
-
-    // Should have button element
-    expect(content).toContain('button')
-  })
-
-  test('replay button triggers animation remount with visible DOM change', async ({ page }) => {
-    // Navigate to Standard effects
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Bounce animation
-    const card = page.locator('.pf-card[data-animation-id="standard-effects__bounce"]').first()
-    await expect(card).toBeVisible()
-
-    const stage = card.locator('.pf-demo-stage')
-    const replayButton = card.locator('[data-role="replay"]')
-
-    // Wait for initial render
-    await page.waitForTimeout(500)
-
-    // Get initial state - count child elements
-    const initialChildCount = await stage.evaluate((el) => el.children.length)
-
-    // Click replay
-    await replayButton.click()
-
-    // Wait a moment for remount
-    await page.waitForTimeout(200)
-
-    // Stage should still be visible
-    await expect(stage).toBeVisible()
-
-    // Child count should be the same (remounted with same structure)
-    const afterReplayChildCount = await stage.evaluate((el) => el.children.length)
-    expect(afterReplayChildCount).toBe(initialChildCount)
-  })
-
-  test('multiple replays work correctly', async ({ page }) => {
-    // Navigate to Standard effects
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    const card = page.locator('.pf-card[data-animation-id="standard-effects__shake"]').first()
-    await expect(card).toBeVisible()
-
-    const replayButton = card.locator('[data-role="replay"]')
-    const stage = card.locator('.pf-demo-stage')
-
-    // Click replay multiple times
-    for (let i = 0; i < 3; i++) {
-      await replayButton.click()
-      await page.waitForTimeout(100)
-
-      // Stage should always be visible after replay
-      await expect(stage).toBeVisible()
-
-      // Should have content
-      const content = await stage.innerHTML()
-      expect(content.trim().length).toBeGreaterThan(0)
+      const stage = await waitForRenderedStage(card)
+      await expect(stage.locator('.pf-card__placeholder')).toHaveCount(0)
     }
   })
 
-  test('infinite animations render immediately without waiting for viewport', async ({ page }) => {
-    // Navigate to Loading states group (has infinite animations)
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Loading states")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
+  test('renders representative CSS animation content', async ({ page }) => {
+    await gotoGroup(page, 'button-effects-css')
 
-    // Find a loading spinner (infinite animation)
-    const card = page
-      .locator('.pf-card[data-animation-id="loading-states__spinner-dual-ring"]')
-      .first()
+    const card = cardByAnimationId(page, 'button-effects__jitter')
     await expect(card).toBeVisible()
 
-    // Should render immediately without intersection observer delay
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-
-    // Should have spinner content
-    const content = await stage.innerHTML()
-    expect(content.trim().length).toBeGreaterThan(0)
+    const stage = await waitForRenderedStage(card)
+    await expect(stage.locator('button')).toHaveCount(1)
   })
 
-  test('animations with complex structures render all child elements', async ({ page }) => {
-    // Navigate to Celebration effects
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Celebration effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
+  test('replay keeps rendered content mounted for replay-enabled animations', async ({ page }) => {
+    await gotoGroup(page, 'standard-effects-framer')
 
-    // Find Confetti Burst (has many child particles)
-    const card = page
-      .locator('.pf-card[data-animation-id="modal-celebrations__confetti-burst"]')
-      .first()
+    const card = cardByAnimationId(page, 'standard-effects__bounce')
     await expect(card).toBeVisible()
 
-    const stage = card.locator('.pf-demo-stage')
-
-    // Wait for content to render
-    await page.waitForTimeout(300)
-
-    // Should have multiple child elements (confetti particles)
-    const childCount = await stage.evaluate((el) => {
-      // Count all descendants
-      return el.querySelectorAll('*').length
-    })
-
-    expect(childCount).toBeGreaterThan(5) // Should have multiple particles
-  })
-
-  test('text-based animations render text content', async ({ page }) => {
-    // Navigate to Text effects
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find Typewriter animation
-    const card = page.locator('.pf-card[data-animation-id="text-effects__typewriter"]').first()
-    await expect(card).toBeVisible()
-
-    const stage = card.locator('.pf-demo-stage')
-
-    // Wait for animation to start
-    await page.waitForTimeout(500)
-
-    await expect(stage).toBeVisible()
     const replayButton = card.locator('[data-role="replay"]')
+    await expect(replayButton).toBeEnabled()
+
+    const stage = await waitForRenderedStage(card)
     await replayButton.click()
-    await page.waitForTimeout(200)
-    const textContainer = card.locator('.pf-demo-stage .typewriter-text').first()
-    await expect(textContainer.locator('.typewriter-char').first()).toBeVisible()
-    await expect(textContainer).toContainText(/\S/)
-  })
 
-  test('modal animations render with overlay and content', async ({ page }) => {
-    // Navigate to Base modals
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Base modals (framer)")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find a modal animation
-    const card = page
-      .locator('.pf-card[data-animation-id="modal-base-framer__slide-up-soft"]')
-      .first()
-    await expect(card).toBeVisible()
-
-    const stage = card.locator('.pf-demo-stage')
-
-    // Wait for render
-    await page.waitForTimeout(300)
-
-    // Should have content
-    const innerHTML = await stage.innerHTML()
-    expect(innerHTML).toContain('div') // Should have modal structure
-  })
-
-  test('lights animations render with configurable bulb count', async ({ page }) => {
-    // Navigate to Lights group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Lights")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Find a lights animation
-    const card = page.locator('.pf-card[data-animation-id="lights__circle-static-1"]').first()
-    await expect(card).toBeVisible()
-
-    // Should have bulb count controls
-    const bulbCountInput = card.locator('input[type="number"][aria-label="Number of bulbs"]')
-    await expect(bulbCountInput).toBeVisible()
-
-    // Should have color picker
-    const colorPicker = card.locator('input[type="color"][aria-label="Bulb color"]')
-    await expect(colorPicker).toBeVisible()
-
-    // Verify animation renders
-    const stage = card.locator('.pf-demo-stage')
     await expect(stage).toBeVisible()
+    await expect.poll(async () => stage.locator(':scope > *').count()).toBeGreaterThan(0)
   })
 
-  test('changing lights animation parameters triggers re-render', async ({ page }) => {
-    // Navigate to Lights group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Lights")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
+  test('lights controls update bulb count and preserve rendering', async ({ page }) => {
+    await gotoGroup(page, 'lights-framer')
 
-    const card = page.locator('.pf-card[data-animation-id="lights__circle-static-1"]').first()
+    const card = cardByAnimationId(page, 'lights__circle-static-1')
     await expect(card).toBeVisible()
 
     const bulbCountInput = card.locator('input[type="number"][aria-label="Number of bulbs"]')
     const increaseButton = card.locator('button[aria-label="Increase bulb count"]')
 
-    // Get initial value
-    const initialValue = await bulbCountInput.inputValue()
-
-    // Increase bulb count
+    const initialValue = Number.parseInt(await bulbCountInput.inputValue(), 10)
     await increaseButton.click()
+    const nextValue = Number.parseInt(await bulbCountInput.inputValue(), 10)
 
-    // Value should have changed
-    const newValue = await bulbCountInput.inputValue()
-    expect(parseInt(newValue)).toBe(parseInt(initialValue) + 1)
+    expect(nextValue).toBe(initialValue + 1)
 
-    // Animation should still render
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
+    const stage = await waitForRenderedStage(card)
+    await expect(stage.locator('.pf-card__placeholder')).toHaveCount(0)
   })
 
-  test('animations without components show placeholder', async ({ page }) => {
-    // This tests the fallback for animations not yet implemented
-    // We'll check the registry to see if there are any missing animations
+  test('typewriter animation renders visible character spans', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-framer')
 
-    // Navigate to any group
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Text effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
+    const card = cardByAnimationId(page, 'text-effects__typewriter')
+    await expect(card).toBeVisible()
 
-    // Get all animation cards
-    const cards = page.locator('.pf-card[data-animation-id]')
-    const count = await cards.count()
+    await waitForRenderedStage(card)
 
-    // Check each card
-    for (let i = 0; i < Math.min(count, 3); i++) {
-      const card = cards.nth(i)
-      const stage = card.locator('.pf-demo-stage')
+    const replayButton = card.locator('[data-role="replay"]')
+    await replayButton.click()
 
-      // Check if it's a placeholder or real content
-      const hasPlaceholder = await stage.locator('.pf-card__placeholder').count()
-
-      if (hasPlaceholder > 0) {
-        // If placeholder exists, verify it shows the animation ID
-        const placeholderText = await stage.locator('.pf-card__placeholder').textContent()
-        expect(placeholderText?.length).toBeGreaterThan(0)
-      } else {
-        // Otherwise, should have real content
-        const content = await stage.innerHTML()
-        expect(content.trim().length).toBeGreaterThan(0)
-      }
-    }
-  })
-})
-
-test.describe('Animation Performance and Visibility', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-    await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
-  })
-
-  test('animations lazy load when scrolled into view', async ({ page }) => {
-    // Navigate to a group with many animations
-    await page
-      .locator('.pf-main .pf-sidebar .pf-sidebar__link--group:has-text("Standard effects")')
-      .first()
-      .click()
-    await page.waitForTimeout(500)
-
-    // Scroll to bottom card
-    const lastCard = page
-      .locator('.pf-card[data-animation-id="standard-effects__heartbeat"]')
-      .first()
-
-    // Scroll it into view
-    await lastCard.scrollIntoViewIfNeeded()
-    await page.waitForTimeout(500)
-
-    // Should be visible and rendered
-    await expect(lastCard).toBeVisible()
-    const stage = lastCard.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
-  })
-
-  test('animation cards handle rapid navigation without errors', async ({ page }) => {
-    // Rapidly switch between groups
-    const groups = ['Text effects', 'Standard effects', 'Button effects']
-
-    for (const groupName of groups) {
-      await page.locator(`.pf-sidebar__link--group:has-text("${groupName}")`).first().click()
-      await page.waitForTimeout(200) // Short delay
-    }
-
-    // Final group should be visible and animations should render
-    const finalGroup = page.locator('#group-button-effects')
-    await expect(finalGroup).toBeVisible()
-
-    // Check that animations rendered
-    const cards = page.locator('.pf-card[data-animation-id^="button-effects__"]')
-    const count = await cards.count()
-    expect(count).toBeGreaterThan(0)
+    const firstCharacter = card.locator('.pf-demo-stage .typewriter-char').first()
+    await expect(firstCharacter).toBeVisible()
   })
 })

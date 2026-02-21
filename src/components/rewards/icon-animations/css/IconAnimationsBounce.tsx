@@ -10,9 +10,8 @@ import { presentBox as giftBoxImage } from '@/assets'
  */
 export function IconAnimationsBounce() {
   return (
-    <div className="icon-demo-container">
+    <div className="icon-demo-container" data-animation-id="icon-animations__bounce">
       <img src={giftBoxImage} alt="Bouncing gift box" className="icon-bounce-element" />
     </div>
   )
 }
-

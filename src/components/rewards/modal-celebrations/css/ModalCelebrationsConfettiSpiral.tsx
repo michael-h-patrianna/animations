@@ -30,7 +30,7 @@ export function ModalCelebrationsConfettiSpiral() {
   })
 
   return (
-    <div className="pf-celebration">
+    <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">
       <div className="pf-celebration__layer">
         {particles.map((particle) => (
           <span

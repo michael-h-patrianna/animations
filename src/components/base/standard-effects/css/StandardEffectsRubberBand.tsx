@@ -4,7 +4,7 @@ import './StandardEffectsRubberBand.css'
 
 function StandardEffectsRubberBandComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__rubber-band">
       <div className="standard-demo-element rubber-band-element">
         <div className="demo-text">RubberBand</div>
       </div>

@@ -17,19 +17,27 @@ export function ModalOrchestrationStaggerInview() {
   }))
 
   useEffect(() => {
+    const revealTiles = () => {
+      setIsInView(true)
+      const tileElements = tileRefs.current.filter(Boolean)
+      tileElements.forEach((tile, index) => {
+        if (tile) {
+          tile.style.animationDelay = `${0.2 + index * 0.1}s`
+          tile.classList.add('pf-stagger-tile--visible')
+        }
+      })
+    }
+
+    if (typeof IntersectionObserver !== 'function') {
+      if (!isInView) revealTiles()
+      return
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !isInView) {
-            setIsInView(true)
-            // Stagger tile animations
-            const tileElements = tileRefs.current.filter(Boolean)
-            tileElements.forEach((tile, index) => {
-              if (tile) {
-                tile.style.animationDelay = `${0.2 + index * 0.1}s`
-                tile.classList.add('pf-stagger-tile--visible')
-              }
-            })
+            revealTiles()
           }
         })
       },
@@ -69,4 +77,3 @@ export function ModalOrchestrationStaggerInview() {
     </div>
   )
 }
-

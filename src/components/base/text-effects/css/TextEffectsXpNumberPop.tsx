@@ -81,11 +81,15 @@ function TextEffectsXpNumberPopComponent({
     const startTime = performance.now()
     const duration = 2500
     const delay = 0
+    let isActive = true
+    let frameId = 0
 
     const animateCount = (currentTime: number) => {
+      if (!isActive) return
+
       const elapsed = currentTime - startTime - delay
       if (elapsed < 0) {
-        requestAnimationFrame(animateCount)
+        frameId = requestAnimationFrame(animateCount)
         return
       }
 
@@ -97,11 +101,16 @@ function TextEffectsXpNumberPopComponent({
       setCount(newCount)
 
       if (progress < 1) {
-        requestAnimationFrame(animateCount)
+        frameId = requestAnimationFrame(animateCount)
       }
     }
 
-    requestAnimationFrame(animateCount)
+    frameId = requestAnimationFrame(animateCount)
+
+    return () => {
+      isActive = false
+      cancelAnimationFrame(frameId)
+    }
   }, [finalValue])
 
   return (
@@ -138,4 +147,3 @@ function TextEffectsXpNumberPopComponent({
  * Memoized TextEffectsXpNumberPop to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
-

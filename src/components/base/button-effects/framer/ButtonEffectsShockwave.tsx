@@ -1,7 +1,7 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import React, { useRef, useState } from 'react'
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 
 interface Shockwave {
   id: number
@@ -13,6 +13,15 @@ function ButtonEffectsShockwaveComponent() {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
   const nextId = useRef(0)
+  const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+
+  useEffect(() => {
+    const timeoutIds = timeoutIdsRef.current
+    return () => {
+      timeoutIds.forEach(clearTimeout)
+      timeoutIds.clear()
+    }
+  }, [])
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = btnRef.current?.getBoundingClientRect()
@@ -27,9 +36,11 @@ function ButtonEffectsShockwaveComponent() {
     setShockwaves((prev) => [...prev, newWave])
 
     // Clean up after animation
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
+      timeoutIdsRef.current.delete(timeoutId)
       setShockwaves((prev) => prev.filter((w) => w.id !== id))
     }, 1200)
+    timeoutIdsRef.current.add(timeoutId)
   }
 
   const shockwaveVariants = (delay: number) => ({
@@ -52,34 +63,16 @@ function ButtonEffectsShockwaveComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__shockwave">
-      <button ref={btnRef} className="pf-btn pf-btn--primary pf-btn--shockwave" onClick={handleClick}>
+      <button type="button" ref={btnRef} className="pf-btn pf-btn--primary pf-btn--shockwave" onClick={handleClick}>
         Click Me!
         <span className="pf-btn__shockwaves" aria-hidden>
           {shockwaves.map((wave) => (
             <React.Fragment key={wave.id}>
-                <>
-                  <m.span
-                    className="pf-btn__shockwave pf-btn__shockwave--1"
-                    style={{ left: wave.x, top: wave.y }}
-                    variants={shockwaveVariants(0)}
-                    initial="initial"
-                    animate="animate"
-                  />
-                  <m.span
-                    className="pf-btn__shockwave pf-btn__shockwave--2"
-                    style={{ left: wave.x, top: wave.y }}
-                    variants={shockwaveVariants(0.1)}
-                    initial="initial"
-                    animate="animate"
-                  />
-                  <m.span
-                    className="pf-btn__shockwave pf-btn__shockwave--3"
-                    style={{ left: wave.x, top: wave.y }}
-                    variants={shockwaveVariants(0.2)}
-                    initial="initial"
-                    animate="animate"
-                  />
-                </>
+              <>
+                <m.span className="pf-btn__shockwave pf-btn__shockwave--1" style={{ left: wave.x, top: wave.y }} variants={shockwaveVariants(0)} initial="initial" animate="animate" />
+                <m.span className="pf-btn__shockwave pf-btn__shockwave--2" style={{ left: wave.x, top: wave.y }} variants={shockwaveVariants(0.1)} initial="initial" animate="animate" />
+                <m.span className="pf-btn__shockwave pf-btn__shockwave--3" style={{ left: wave.x, top: wave.y }} variants={shockwaveVariants(0.2)} initial="initial" animate="animate" />
+              </>
             </React.Fragment>
           ))}
         </span>
@@ -92,4 +85,3 @@ function ButtonEffectsShockwaveComponent() {
  * Memoized ButtonEffectsShockwave to prevent unnecessary re-renders in grid layouts.
  */
 export const ButtonEffectsShockwave = memo(ButtonEffectsShockwaveComponent)
-

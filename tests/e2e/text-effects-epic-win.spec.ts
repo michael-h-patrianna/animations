@@ -1,172 +1,91 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
+
+const animationId = 'text-effects__epic-win'
+
+const currentPathname = (page: Page) => new URL(page.url()).pathname
+
+const epicWinCard = (page: Page) => page.locator(`.pf-card[data-animation-id="${animationId}"]`).first()
+
+const stageForCard = (card: Locator) => card.locator('.pf-demo-stage')
+
+const gotoGroup = async (page: Page, groupId: string) => {
+  await page.goto(`/${groupId}`)
+  await expect.poll(() => currentPathname(page)).toBe(`/${groupId}`)
+  await page.waitForSelector(`.pf-card[data-animation-id="${animationId}"]`, { timeout: 10000 })
+}
+
+const waitForRenderedStage = async (card: Locator) => {
+  await card.scrollIntoViewIfNeeded()
+
+  const stage = stageForCard(card)
+  await expect(stage).toBeVisible()
+  await expect.poll(async () => stage.locator(':scope > *').count(), { timeout: 5000 }).toBeGreaterThan(0)
+
+  return stage
+}
 
 test.describe('TextEffectsEpicWin - Visual Rendering', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-  })
+  test('renders framer variant with layered text structure', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-framer')
 
-  test('should display and animate Epic Win text effect', async ({ page }) => {
-    // Navigate to Text Effects category
-    await page.click('text=Text Effects')
-    await page.waitForTimeout(300)
+    const card = epicWinCard(page)
+    const stage = await waitForRenderedStage(card)
 
-    // Find and click the Epic Win animation
-    const epicWinButton = page.locator('button:has-text("Epic Win")')
-    await expect(epicWinButton).toBeVisible()
-    await epicWinButton.click()
-
-    // Wait for animation to load
-    await page.waitForTimeout(500)
-
-    // Verify the animation container is present
-    const animationContainer = page.locator('[data-animation-id="text-effects__epic-win"]')
-    await expect(animationContainer).toBeVisible()
-
-    // Verify namespaced CSS classes are applied
-    const mainText = page.locator('.tfe-epic-win__main-text')
-    await expect(mainText).toBeVisible()
-
-    // Verify text content is rendered
-    await expect(mainText).toContainText('EPIC WIN')
-
-    // Verify shadow layers exist
-    const shadowFar = page.locator('.tfe-epic-win__shadow-far')
-    const shadowMid = page.locator('.tfe-epic-win__shadow-mid')
-    await expect(shadowFar).toBeVisible()
-    await expect(shadowMid).toBeVisible()
-
-    // Verify animation class is applied
-    await expect(animationContainer).toHaveClass(/tfe-epic-win--animate/)
-
-    // Verify individual characters are rendered
-    const characters = page.locator('.tfe-epic-win__char')
-    const characterCount = await characters.count()
-    expect(characterCount).toBe(8) // "EPIC WIN" = 8 characters including space
-
-    // Verify character glows are present
-    const glows = page.locator('.tfe-epic-win__char-glow')
-    const glowCount = await glows.count()
-    expect(glowCount).toBe(8)
-
-    // Wait for animation to complete
-    await page.waitForTimeout(2000)
-
-    // Verify final animation state - characters should be visible
-    const firstChar = characters.first()
-    await expect(firstChar).toBeVisible()
-  })
-
-  test('should render with CSS mode selected', async ({ page }) => {
-    // Ensure CSS mode is selected
-    const cssModeButton = page.locator('button:has-text("CSS")')
-    if (await cssModeButton.isVisible()) {
-      await cssModeButton.click()
-      await page.waitForTimeout(200)
-    }
-
-    // Navigate to Text Effects category
-    await page.click('text=Text Effects')
-    await page.waitForTimeout(300)
-
-    // Find and click the Epic Win animation
-    const epicWinButton = page.locator('button:has-text("Epic Win")')
-    await epicWinButton.click()
-    await page.waitForTimeout(500)
-
-    // Verify the CSS-based animation is loaded
-    const animationContainer = page.locator('[data-animation-id="text-effects__epic-win"]')
-    await expect(animationContainer).toBeVisible()
-
-    // Verify namespaced classes (CSS version should use tfe-epic-win- prefix)
-    const mainText = page.locator('.tfe-epic-win__main-text')
-    await expect(mainText).toBeVisible()
-  })
-
-  test('should not have conflicting class names with other animations', async ({ page }) => {
-    // Navigate to Text Effects
-    await page.click('text=Text Effects')
-    await page.waitForTimeout(300)
-
-    // Click Epic Win
-    await page.click('text=Epic Win')
-    await page.waitForTimeout(500)
-
-    // Verify all classes are properly namespaced
-    const container = page.locator('.tfe-epic-win')
+    const container = stage.locator('.epic-win-container')
     await expect(container).toBeVisible()
-
-    // Check that no generic classes exist that could conflict
-    const genericEpicClasses = page.locator('[class*="epic-win-container"]')
-    await expect(genericEpicClasses).toHaveCount(0)
-
-    const genericCharClasses = page
-      .locator('[class*="epic-char"]')
-      .and(page.locator(':not([class*="tfe-epic-win"])'))
-      .first()
-    // Should not find any generic epic-char classes
-    const count = await genericCharClasses.count()
-    expect(count).toBe(0)
+    await expect(container.locator('.epic-main-text')).toContainText('EPIC WIN')
+    await expect(container.locator('.epic-char')).toHaveCount(8)
+    await expect(container.locator('.epic-char-glow')).toHaveCount(8)
   })
 
-  test('should handle replay correctly', async ({ page }) => {
-    // Navigate to Text Effects
-    await page.click('text=Text Effects')
-    await page.waitForTimeout(300)
+  test('renders css variant with namespaced epic-win classes', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-css')
 
-    // Click Epic Win
-    await page.click('text=Epic Win')
-    await page.waitForTimeout(500)
+    const card = epicWinCard(page)
+    const stage = await waitForRenderedStage(card)
 
-    // Verify initial animation
-    const animationContainer = page.locator('[data-animation-id="text-effects__epic-win"]')
-    await expect(animationContainer).toBeVisible()
+    const container = stage.locator('.tfe-epic-win')
+    await expect(container).toBeVisible()
+    await expect(container).toHaveClass(/tfe-epic-win--animate/)
+    await expect(container.locator('.tfe-epic-win__main-text')).toContainText('EPIC WIN')
+    await expect(container.locator('.tfe-epic-win__char')).toHaveCount(8)
+    await expect(container.locator('.tfe-epic-win__char-glow')).toHaveCount(8)
+  })
 
-    // Wait for animation to complete
-    await page.waitForTimeout(2000)
+  test('replay keeps epic-win rendering mounted in both variants', async ({ page }) => {
+    const variants = [
+      { groupId: 'text-effects-framer', rootSelector: '.epic-win-container' },
+      { groupId: 'text-effects-css', rootSelector: '.tfe-epic-win' },
+    ] as const
 
-    // Find and click replay button
-    const replayButton = page.locator('button:has-text("Replay")')
-    if (await replayButton.isVisible()) {
+    for (const variant of variants) {
+      await gotoGroup(page, variant.groupId)
+
+      const card = epicWinCard(page)
+      const stage = await waitForRenderedStage(card)
+      const replayButton = card.locator('[data-role="replay"]')
+
+      await expect(replayButton).toBeEnabled()
       await replayButton.click()
-      await page.waitForTimeout(100)
 
-      // Animation should still be visible and replay
-      await expect(animationContainer).toBeVisible()
-
-      // Wait for replay to complete
-      await page.waitForTimeout(2000)
-
-      // Verify animation is still visible
-      await expect(animationContainer).toBeVisible()
+      await expect(stage).toBeVisible()
+      await expect(stage.locator(variant.rootSelector)).toBeVisible()
     }
   })
 
-  test('should apply GPU-accelerated CSS animations', async ({ page }) => {
-    // Navigate to Text Effects
-    await page.click('text=Text Effects')
-    await page.waitForTimeout(300)
+  test('css variant exposes GPU-friendly character style hints', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-css')
 
-    // Click Epic Win
-    await page.click('text=Epic Win')
-    await page.waitForTimeout(500)
+    const card = epicWinCard(page)
+    const stage = await waitForRenderedStage(card)
+    const firstChar = stage.locator('.tfe-epic-win__char').first()
 
-    // Get computed styles to verify GPU-accelerated properties
-    const firstChar = page.locator('.tfe-epic-win__char').first()
     await expect(firstChar).toBeVisible()
 
-    // Verify will-change is set (for GPU acceleration hint)
-    const willChange = await firstChar.evaluate((el) => {
-      return window.getComputedStyle(el).willChange
-    })
+    const transformStyle = await firstChar.evaluate((element) => window.getComputedStyle(element).transformStyle)
+    const willChange = await firstChar.evaluate((element) => window.getComputedStyle(element).willChange)
 
-    // Should have will-change set for GPU acceleration
-    expect(willChange).toBeTruthy()
-
-    // Verify transform style is preserved for 3D
-    const transformStyle = await firstChar.evaluate((el) => {
-      return window.getComputedStyle(el).transformStyle
-    })
     expect(transformStyle).toBe('preserve-3d')
+    expect(willChange).toContain('transform')
   })
 })

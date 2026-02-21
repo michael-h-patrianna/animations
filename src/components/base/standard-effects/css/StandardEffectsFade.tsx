@@ -4,7 +4,7 @@ import './StandardEffectsFade.css'
 
 function StandardEffectsFadeComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__fade">
       <div className="standard-demo-element fade-element">
         <div className="demo-text">Fade</div>
       </div>

@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsRipple.css'
 
@@ -19,6 +19,15 @@ function ButtonEffectsRippleComponent() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
+  const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+
+  useEffect(() => {
+    const timeoutIds = timeoutIdsRef.current
+    return () => {
+      timeoutIds.forEach(clearTimeout)
+      timeoutIds.clear()
+    }
+  }, [])
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const rect = btnRef.current?.getBoundingClientRect()
@@ -33,14 +42,16 @@ function ButtonEffectsRippleComponent() {
     const id = nextId.current++
     setRipples((prev) => [...prev, { id, x, y, size }])
 
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
+      timeoutIdsRef.current.delete(timeoutId)
       setRipples((prev) => prev.filter((r) => r.id !== id))
     }, 520)
+    timeoutIdsRef.current.add(timeoutId)
   }
 
   return (
     <div className="button-demo" data-animation-id="button-effects__ripple">
-      <button ref={btnRef} className="pf-btn pf-btn--primary bfx-ripple" onClick={handleClick}>
+      <button type="button" ref={btnRef} className="pf-btn pf-btn--primary bfx-ripple" onClick={handleClick}>
         Click Me!
         <span className="bfx-ripple__container" aria-hidden>
           {ripples.map((r) => {
@@ -60,4 +71,3 @@ function ButtonEffectsRippleComponent() {
 }
 
 export const ButtonEffectsRipple = memo(ButtonEffectsRippleComponent)
-

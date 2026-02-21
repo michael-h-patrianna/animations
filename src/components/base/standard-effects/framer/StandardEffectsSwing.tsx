@@ -4,7 +4,7 @@ import { easeInOut } from 'motion/react'
 
 function StandardEffectsSwingComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__swing">
       <m.div
         className="standard-demo-element"
         style={{ transformOrigin: 'center top' }}

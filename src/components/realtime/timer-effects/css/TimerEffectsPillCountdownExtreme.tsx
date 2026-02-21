@@ -15,6 +15,16 @@ export function TimerEffectsPillCountdownExtreme() {
   useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
+    const timeoutIds = new Set<ReturnType<typeof setTimeout>>()
+
+    const scheduleTimeout = (callback: () => void, delay: number) => {
+      const timeoutId = setTimeout(() => {
+        timeoutIds.delete(timeoutId)
+        callback()
+      }, delay)
+      timeoutIds.add(timeoutId)
+      return timeoutId
+    }
 
     const intervalId = setInterval(() => {
       const elapsed = (Date.now() - startTime) / 1000
@@ -49,7 +59,7 @@ export function TimerEffectsPillCountdownExtreme() {
         // Flash on zero
         if (display === 0) {
           setColorClass('is-flash')
-          setTimeout(() => setColorClass(''), 220)
+          scheduleTimeout(() => setColorClass(''), 220)
         }
 
         lastDisplay = display
@@ -63,7 +73,11 @@ export function TimerEffectsPillCountdownExtreme() {
     // Initial cue at start
     setAnimationKey((prev) => prev + 1)
 
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+      timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId))
+      timeoutIds.clear()
+    }
   }, [])
 
   const format = (total: number) => {
@@ -85,4 +99,3 @@ export function TimerEffectsPillCountdownExtreme() {
     </div>
   )
 }
-

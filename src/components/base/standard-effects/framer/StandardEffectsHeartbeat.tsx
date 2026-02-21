@@ -3,7 +3,7 @@ import * as m from 'motion/react-m'
 
 function StandardEffectsHeartbeatComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__heartbeat">
       <m.div
         className="standard-demo-element"
         animate={{

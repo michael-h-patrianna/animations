@@ -31,7 +31,7 @@ const particles = Array.from({ length: 32 }, (_, i) => {
     }
   })
   return (
-    <div className="pf-celebration">
+    <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst">
       <div className="pf-celebration__layer">
         {particles.map((particle) => (
           <m.span

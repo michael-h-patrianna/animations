@@ -26,7 +26,7 @@ function StandardEffectsPulseCircleComponent() {
       }
 
   return (
-    <div className="pulse-circle-wrapper">
+    <div className="pulse-circle-wrapper" data-animation-id="standard-effects__pulse-circle">
       <m.div
         className="pulse-circle"
         role="img"

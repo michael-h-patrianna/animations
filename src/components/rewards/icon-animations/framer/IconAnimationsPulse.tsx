@@ -10,7 +10,7 @@ import { pulseScroll } from '@/assets'
  */
 export function IconAnimationsPulse() {
   return (
-    <div className="icon-demo-container">
+    <div className="icon-demo-container" data-animation-id="icon-animations__pulse">
       <m.div
         className="icon-pulse-element"
         animate={{
@@ -31,4 +31,3 @@ export function IconAnimationsPulse() {
     </div>
   )
 }
-

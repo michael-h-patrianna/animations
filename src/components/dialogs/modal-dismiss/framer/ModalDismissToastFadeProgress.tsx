@@ -10,7 +10,7 @@ const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.42
   const autoDismissMs = 4600
-  const exitDuration = 0.36
+  const exitDuration = Math.min(0.36, Math.max(0.22, Math.round(entryDuration * 750) / 1000))
 
   useEffect(() => {
     const exitTimer = setTimeout(() => {

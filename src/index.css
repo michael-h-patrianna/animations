@@ -71,35 +71,35 @@
   --pf-anim-muted: #6c757d;
   --pf-anim-link: #007bff;
   --pf-anim-link-hover: #0056b3;
-  --pf-anim-highlight: rgb(236 195 255 / 0.08);
-  --pf-anim-highlight-border: rgb(236 195 255 / 0.16);
-  --pf-anim-highlight-accent: rgb(200 53 88 / 0.12);
-  --pf-anim-overlay-light: rgb(0 0 0 / 0.15);
-  --pf-anim-glare: rgb(255 255 255 / 0.4);
-  --pf-anim-white-20: rgb(255 255 255 / 0.2);
-  --pf-anim-white-60: rgb(255 255 255 / 0.6);
-  --pf-anim-white-80: rgb(255 255 255 / 0.8);
-  --pf-anim-white-35: rgb(255 255 255 / 0.35);
-  --pf-anim-white-22: rgb(255 255 255 / 0.22);
-  --pf-anim-white-10: rgb(255 255 255 / 0.10);
-  --pf-anim-white-08: rgb(255 255 255 / 0.08);
-  --pf-anim-white-45: rgb(255 255 255 / 0.45);
-  --pf-anim-black-15: rgb(0 0 0 / 0.15);
+  --pf-anim-highlight: rgb(236 195 255 / 8%);
+  --pf-anim-highlight-border: rgb(236 195 255 / 16%);
+  --pf-anim-highlight-accent: rgb(200 53 88 / 12%);
+  --pf-anim-overlay-light: rgb(0 0 0 / 15%);
+  --pf-anim-glare: rgb(255 255 255 / 40%);
+  --pf-anim-white-20: rgb(255 255 255 / 20%);
+  --pf-anim-white-60: rgb(255 255 255 / 60%);
+  --pf-anim-white-80: rgb(255 255 255 / 80%);
+  --pf-anim-white-35: rgb(255 255 255 / 35%);
+  --pf-anim-white-22: rgb(255 255 255 / 22%);
+  --pf-anim-white-10: rgb(255 255 255 / 10%);
+  --pf-anim-white-08: rgb(255 255 255 / 8%);
+  --pf-anim-white-45: rgb(255 255 255 / 45%);
+  --pf-anim-black-15: rgb(0 0 0 / 15%);
   --pf-anim-cyan: #06b6d4;
   --pf-anim-cyan-light: #0ff;
-  --pf-anim-cyan-muted: rgb(0 200 180 / 0.6);
-  --pf-anim-cyan-soft: rgb(0 180 160 / 0.3);
+  --pf-anim-cyan-muted: rgb(0 200 180 / 60%);
+  --pf-anim-cyan-soft: rgb(0 180 160 / 30%);
   --pf-anim-gray-400: #9ca3af;
   --pf-anim-gray-700: #374151;
   --pf-anim-green-400: #4ade80;
   --pf-anim-green-900: #14532d;
   --pf-anim-violet: #8b5cf6;
-  --pf-anim-violet-dark: rgb(78 24 124 / 0.1);
+  --pf-anim-violet-dark: rgb(78 24 124 / 10%);
   --pf-anim-gray-200: #e5e7eb;
   --pf-anim-deep-purple: #2a1040;
   --pf-anim-dodger-blue: rgb(30 144 255);
-  --pf-anim-dodger-blue-20: rgb(30 144 255 / 0.2);
-  --pf-anim-dodger-blue-40: rgb(30 144 255 / 0.4);
+  --pf-anim-dodger-blue-20: rgb(30 144 255 / 20%);
+  --pf-anim-dodger-blue-40: rgb(30 144 255 / 40%);
   --pf-anim-rose: #ff4967;
   --pf-anim-rose-dark: #ff0a4d;
   --pf-anim-yellow-warm: #ffc107;
@@ -130,8 +130,8 @@
     min-height: 100vh;
     height: auto;
     font-family: Lato, sans-serif;
-    background: radial-gradient(
-      circle at 20% 20%,
+    background: linear-gradient(
+      160deg,
       var(--index-bg-100) 0%,
       var(--index-bg-101) 99%,
       var(--index-bg-102) 100%

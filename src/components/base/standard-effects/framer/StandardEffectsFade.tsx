@@ -4,7 +4,7 @@ import { easeOut } from 'motion/react'
 
 function StandardEffectsFadeComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__fade">
       <m.div
         className="standard-demo-element fade-element"
         initial={{ opacity: 0, scale: 0.95, rotate: -1 }}

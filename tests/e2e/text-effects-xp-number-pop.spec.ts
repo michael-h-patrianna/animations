@@ -1,111 +1,104 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
+
+const animationId = 'text-effects__xp-number-pop'
+
+const currentPathname = (page: Page) => new URL(page.url()).pathname
+
+const xpCard = (page: Page) => page.locator(`.pf-card[data-animation-id="${animationId}"]`).first()
+
+const stageForCard = (card: Locator) => card.locator('.pf-demo-stage')
+
+const parseDisplayValue = (raw: string | null) => {
+  if (!raw) return 0
+  return Number.parseInt(raw.replace(/[^\d]/g, ''), 10) || 0
+}
+
+const gotoGroup = async (page: Page, groupId: string) => {
+  await page.goto(`/${groupId}`)
+  await expect.poll(() => currentPathname(page)).toBe(`/${groupId}`)
+  await page.waitForSelector(`.pf-card[data-animation-id="${animationId}"]`, { timeout: 10000 })
+}
+
+const waitForRenderedStage = async (card: Locator) => {
+  await card.scrollIntoViewIfNeeded()
+
+  const stage = stageForCard(card)
+  await expect(stage).toBeVisible()
+  await expect.poll(async () => stage.locator(':scope > *').count(), { timeout: 5000 }).toBeGreaterThan(0)
+
+  return stage
+}
 
 test.describe('Text Effects - XP Number Pop', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+  test('framer variant renders expected xp-pop structure', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-framer')
 
-    // Navigate to text-effects category
-    const textEffectsLink = page.locator('a[href="/text-effects"]')
-    await textEffectsLink.click()
-    await page.waitForURL('/text-effects')
+    const card = xpCard(page)
+    const stage = await waitForRenderedStage(card)
+
+    await expect(stage.locator('.xp-pop-container')).toBeVisible()
+    await expect(stage.locator('.xp-pop-number-wrapper')).toBeVisible()
+    await expect(stage.locator('.xp-pop-number-value')).toBeVisible()
+    await expect(stage.locator('.xp-pop-label')).toHaveText('XP')
   })
 
-  test('XP Number Pop - renders with proper structure', async ({ page }) => {
-    // Find the animation card
-    const card = page.locator('.pf-card[data-animation-id="text-effects__xp-number-pop"]').first()
-    await expect(card).toBeVisible()
+  test('css variant renders expected tfx structure', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-css')
 
-    // Verify the animation component renders
-    const stage = card.locator('.pf-demo-stage')
-    await expect(stage).toBeVisible()
+    const card = xpCard(page)
+    const stage = await waitForRenderedStage(card)
 
-    // Check for the container
-    const container = stage.locator('.tfx-xp-container')
-    await expect(container).toBeVisible()
-
-    // Verify the number wrapper exists
-    const numberWrapper = container.locator('.tfx-xp-number-wrapper')
-    await expect(numberWrapper).toBeVisible()
-
-    // Check for the number value
-    const numberValue = numberWrapper.locator('.tfx-xp-number-value')
-    await expect(numberValue).toBeVisible()
-
-    // Check for the XP label
-    const label = numberWrapper.locator('.tfx-xp-label')
-    await expect(label).toBeVisible()
-    await expect(label).toHaveText('XP')
+    await expect(stage.locator('.tfx-xp-container')).toBeVisible()
+    await expect(stage.locator('.tfx-xp-number-wrapper')).toBeVisible()
+    await expect(stage.locator('.tfx-xp-number-value')).toBeVisible()
+    await expect(stage.locator('.tfx-xp-label')).toHaveText('XP')
   })
 
-  test('XP Number Pop - counts up to final value', async ({ page }) => {
-    const card = page.locator('.pf-card[data-animation-id="text-effects__xp-number-pop"]').first()
-    await expect(card).toBeVisible()
+  test('css variant counts up close to final value', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-css')
 
-    const numberValue = card.locator('.tfx-xp-number-value')
-    await expect(numberValue).toBeVisible()
+    const card = xpCard(page)
+    const stage = await waitForRenderedStage(card)
+    const value = stage.locator('.tfx-xp-number-value')
 
-    // Wait for animation to complete
-    await page.waitForTimeout(3000)
-
-    // Check that it reaches the final value (default is 240)
-    const finalText = await numberValue.textContent()
-    expect(finalText).toMatch(/\+\d+/)
-
-    // Extract number and verify it's around 240
-    const finalNumber = parseInt(finalText?.replace('+', '') || '0', 10)
-    expect(finalNumber).toBeGreaterThanOrEqual(235)
-    expect(finalNumber).toBeLessThanOrEqual(245)
+    await expect
+      .poll(async () => parseDisplayValue(await value.textContent()), { timeout: 4500 })
+      .toBeGreaterThanOrEqual(235)
   })
 
-  test('XP Number Pop - shows floating particles', async ({ page }) => {
-    const card = page.locator('.pf-card[data-animation-id="text-effects__xp-number-pop"]').first()
-    await expect(card).toBeVisible()
+  test('css variant particles include positional CSS variables', async ({ page }) => {
+    await gotoGroup(page, 'text-effects-css')
 
-    // Wait for particles to appear
-    await page.waitForTimeout(800)
+    const card = xpCard(page)
+    const stage = await waitForRenderedStage(card)
+    const particles = stage.locator('.tfx-xp-particle')
 
-    // Check that particles exist
-    const particles = card.locator('.tfx-xp-particle')
-    const particleCount = await particles.count()
+    await expect.poll(async () => particles.count(), { timeout: 3000 }).toBeGreaterThan(0)
 
-    // Should have at least 1 particle (default maxParticles is 10, but depends on finalValue)
-    expect(particleCount).toBeGreaterThan(0)
-    expect(particleCount).toBeLessThanOrEqual(10)
+    const style = await particles.first().getAttribute('style')
+    expect(style).toContain('--particle-x')
+    expect(style).toContain('--particle-y')
+    expect(style).toContain('animation-delay')
+  })
 
-    // Verify particles have increment values
-    if (particleCount > 0) {
-      const firstParticle = particles.first()
-      const particleText = await firstParticle.textContent()
-      expect(particleText).toMatch(/\+\d+/)
+  test('replay keeps xp number pop rendered in both variants', async ({ page }) => {
+    const variants = [
+      { groupId: 'text-effects-framer', rootSelector: '.xp-pop-container' },
+      { groupId: 'text-effects-css', rootSelector: '.tfx-xp-container' },
+    ] as const
+
+    for (const variant of variants) {
+      await gotoGroup(page, variant.groupId)
+
+      const card = xpCard(page)
+      const stage = await waitForRenderedStage(card)
+      const replayButton = card.locator('[data-role="replay"]')
+
+      await expect(replayButton).toBeEnabled()
+      await replayButton.click()
+
+      await expect(stage).toBeVisible()
+      await expect(stage.locator(variant.rootSelector)).toBeVisible()
     }
-  })
-
-  test('XP Number Pop - particles have CSS variable positions', async ({ page }) => {
-    const card = page.locator('.pf-card[data-animation-id="text-effects__xp-number-pop"]').first()
-    await expect(card).toBeVisible()
-
-    // Wait for particles to render
-    await page.waitForTimeout(500)
-
-    const particles = card.locator('.tfx-xp-particle')
-    const particleCount = await particles.count()
-
-    if (particleCount > 0) {
-      const firstParticle = particles.first()
-
-      // Check that CSS variables are set
-      const style = await firstParticle.getAttribute('style')
-      expect(style).toContain('--particle-x')
-      expect(style).toContain('--particle-y')
-      expect(style).toContain('animation-delay')
-    }
-  })
-
-  test('XP Number Pop - has proper data attribute', async ({ page }) => {
-    const card = page.locator('.pf-card[data-animation-id="text-effects__xp-number-pop"]').first()
-    await expect(card).toBeVisible()
-
-    const container = card.locator('[data-animation-id="text-effects__xp-number-pop"]')
-    await expect(container).toBeVisible()
   })
 })

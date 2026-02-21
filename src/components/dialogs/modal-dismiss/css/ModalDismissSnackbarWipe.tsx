@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { MockContent } from './MockContent'
 
-
 /**
  *
  */
@@ -94,12 +93,5 @@ export function ModalDismissSnackbarWipe() {
     }
   }, [])
 
-  return (
-    <MockContent
-      toastRef={toastRef}
-      progressRef={progressRef}
-      animationId="modal-dismiss__snackbar-wipe"
-    />
-  )
+  return <MockContent toastRef={toastRef} progressRef={progressRef} animationId="modal-dismiss__snackbar-wipe" />
 }
-

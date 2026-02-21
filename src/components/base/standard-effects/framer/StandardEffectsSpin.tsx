@@ -4,7 +4,7 @@ import { easeOut } from 'motion/react'
 
 function StandardEffectsSpinComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__spin">
       <m.div
         className="standard-demo-element"
         animate={{

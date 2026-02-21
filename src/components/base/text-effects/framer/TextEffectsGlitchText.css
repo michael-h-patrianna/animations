@@ -2,8 +2,8 @@
 .tfx-glitchtext-container {
 
   --text-effects-glitch-text-color-1: #fff;
-  --text-effects-glitch-text-color-2: #00ffff;
-  --text-effects-glitch-text-color-3: #ff00ff;
+  --text-effects-glitch-text-color-2: #0ff;
+  --text-effects-glitch-text-color-3: #f0f;
   --text-effects-glitch-text-bg: rgb(255 255 255 / 20%);
   --text-effects-glitch-text-shadow-100: rgb(255 255 255 / 10%);
   display: flex;

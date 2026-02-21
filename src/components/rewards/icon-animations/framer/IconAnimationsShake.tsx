@@ -11,7 +11,7 @@ import { shakeIcon } from '@/assets'
  */
 export function IconAnimationsShake() {
   return (
-    <div className="icon-demo-container">
+    <div className="icon-demo-container" data-animation-id="icon-animations__shake">
       <m.img
         src={shakeIcon}
         alt="Shake animation"
@@ -30,4 +30,3 @@ export function IconAnimationsShake() {
     </div>
   )
 }
-

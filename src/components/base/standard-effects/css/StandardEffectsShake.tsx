@@ -4,7 +4,7 @@ import './StandardEffectsShake.css'
 
 function StandardEffectsShakeComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__shake">
       <div className="standard-demo-element shake-element">
         <div className="demo-text">Shake</div>
       </div>

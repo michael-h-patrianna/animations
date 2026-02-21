@@ -11,7 +11,7 @@ import { presentBoxBalloon as balloonImage } from '@/assets'
  */
 export function IconAnimationsFloat() {
   return (
-    <div className="icon-demo-container">
+    <div className="icon-demo-container" data-animation-id="icon-animations__float">
       <m.img
         src={balloonImage}
         alt="Floating balloon"
@@ -32,4 +32,3 @@ export function IconAnimationsFloat() {
     </div>
   )
 }
-

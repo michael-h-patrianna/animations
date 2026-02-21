@@ -4,7 +4,7 @@ import './StandardEffectsFlip.css'
 
 function StandardEffectsFlipComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__flip">
       <div className="standard-demo-element flip-element">
         <div className="demo-text">Flip</div>
       </div>

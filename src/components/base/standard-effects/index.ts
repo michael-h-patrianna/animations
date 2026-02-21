@@ -6,7 +6,6 @@ import './framer/StandardEffectsPulse.css'
 import './framer/StandardEffectsPulseCircle.css'
 import './framer/StandardEffectsPulseWave.css'
 import './framer/StandardEffectsRadialPulse.css'
-import './framer/StandardEffectsSoftPulse.css'
 
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
@@ -28,7 +27,6 @@ import { metadata as rubberBandMeta } from './framer/StandardEffectsRubberBand.m
 import { metadata as scaleMeta } from './framer/StandardEffectsScale.meta'
 import { metadata as shakeMeta } from './framer/StandardEffectsShake.meta'
 import { metadata as slideMeta } from './framer/StandardEffectsSlide.meta'
-import { metadata as softPulseMeta } from './framer/StandardEffectsSoftPulse.meta'
 import { metadata as spinMeta } from './framer/StandardEffectsSpin.meta'
 import { metadata as squeezeMeta } from './framer/StandardEffectsSqueeze.meta'
 import { metadata as swingMeta } from './framer/StandardEffectsSwing.meta'
@@ -52,7 +50,6 @@ import { metadata as rubberBandCssMeta } from './css/StandardEffectsRubberBand.m
 import { metadata as scaleCssMeta } from './css/StandardEffectsScale.meta'
 import { metadata as shakeCssMeta } from './css/StandardEffectsShake.meta'
 import { metadata as slideCssMeta } from './css/StandardEffectsSlide.meta'
-import { metadata as softPulseCssMeta } from './css/StandardEffectsSoftPulse.meta'
 import { metadata as spinCssMeta } from './css/StandardEffectsSpin.meta'
 import { metadata as squeezeCssMeta } from './css/StandardEffectsSqueeze.meta'
 import { metadata as swingCssMeta } from './css/StandardEffectsSwing.meta'
@@ -113,9 +110,6 @@ const StandardEffectsShake = lazy(() =>
 )
 const StandardEffectsSlide = lazy(() =>
   import('./framer/StandardEffectsSlide').then((m) => ({ default: m.StandardEffectsSlide }))
-)
-const StandardEffectsSoftPulse = lazy(() =>
-  import('./framer/StandardEffectsSoftPulse').then((m) => ({ default: m.StandardEffectsSoftPulse }))
 )
 const StandardEffectsSpin = lazy(() =>
   import('./framer/StandardEffectsSpin').then((m) => ({ default: m.StandardEffectsSpin }))
@@ -179,9 +173,6 @@ const CssStandardEffectsRubberBand = lazy(() =>
 )
 const CssStandardEffectsShake = lazy(() =>
   import('./css/StandardEffectsShake').then((m) => ({ default: m.StandardEffectsShake }))
-)
-const CssStandardEffectsSoftPulse = lazy(() =>
-  import('./css/StandardEffectsSoftPulse').then((m) => ({ default: m.StandardEffectsSoftPulse }))
 )
 const CssStandardEffectsSwing = lazy(() =>
   import('./css/StandardEffectsSwing').then((m) => ({ default: m.StandardEffectsSwing }))
@@ -248,10 +239,6 @@ export const groupExport: GroupExport = {
       component: StandardEffectsPulseCircle,
       metadata: pulseCircleMeta,
     },
-    'standard-effects__soft-pulse': {
-      component: StandardEffectsSoftPulse,
-      metadata: softPulseMeta,
-    },
   },
   css: {
     'standard-effects__blink': { component: CssStandardEffectsBlink, metadata: blinkCssMeta },
@@ -283,10 +270,6 @@ export const groupExport: GroupExport = {
       metadata: rubberBandCssMeta,
     },
     'standard-effects__shake': { component: CssStandardEffectsShake, metadata: shakeCssMeta },
-    'standard-effects__soft-pulse': {
-      component: CssStandardEffectsSoftPulse,
-      metadata: softPulseCssMeta,
-    },
     'standard-effects__swing': { component: CssStandardEffectsSwing, metadata: swingCssMeta },
     'standard-effects__spin': { component: CssStandardEffectsSpin, metadata: spinCssMeta },
     'standard-effects__squeeze': { component: CssStandardEffectsSqueeze, metadata: squeezeCssMeta },

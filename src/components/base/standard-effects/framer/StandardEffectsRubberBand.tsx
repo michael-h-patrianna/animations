@@ -4,7 +4,7 @@ import { easeInOut } from 'motion/react'
 
 function StandardEffectsRubberBandComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__rubber-band">
       <m.div
         className="standard-demo-element"
         animate={{

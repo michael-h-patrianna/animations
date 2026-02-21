@@ -25,9 +25,4 @@
 }
 
 
-.pf-dots-portal span:nth-child(1) {
-}
-.pf-dots-portal span:nth-child(2) {
-}
-.pf-dots-portal span:nth-child(3) {
-}
+/* Framer variants control per-dot motion timing for the portal effect. */

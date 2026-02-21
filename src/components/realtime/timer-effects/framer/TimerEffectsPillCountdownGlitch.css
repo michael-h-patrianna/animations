@@ -1,7 +1,7 @@
 .pill-countdown-tfx-glitchcontainer {
 
-  --timer-effects-pill-countdown-glitch-bg-1-00: #ff0000;
-  --timer-effects-pill-countdown-glitch-bg-1-ff: #ff00ff;
+  --timer-effects-pill-countdown-glitch-bg-1-00: #f00;
+  --timer-effects-pill-countdown-glitch-bg-1-ff: #f0f;
   --timer-effects-pill-countdown-glitch-bg-2: #8b0000;
   --timer-effects-pill-countdown-glitch-bg-3-4d: #667e4d;
   --timer-effects-pill-countdown-glitch-bg-3-ea: #667eea;
@@ -13,7 +13,7 @@
   --timer-effects-pill-countdown-glitch-bg-6-2a: #fd7e2a;
   --timer-effects-pill-countdown-glitch-bg-7: #ff6b6b;
   --timer-effects-pill-countdown-glitch-bg-8: #c92a2a;
-  --timer-effects-pill-countdown-glitch-color-1: #00ff00;
+  --timer-effects-pill-countdown-glitch-color-1: #0f0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,13 +85,7 @@
   z-index: -1;
 }
 
-/* 50s threshold - minimal glitch */
-.tfx-glitchminimal {
-}
-
-/* 40s threshold - subtle glitch */
-.tfx-glitchsubtle {
-}
+/* 50s and 40s thresholds inherit baseline styles in Framer mode */
 
 /* 30s threshold - mild glitch */
 .tfx-glitchmild {

@@ -14,59 +14,83 @@ import { useEffect } from 'react'
  * @param {string | undefined} params.groupId - Group ID from URL params
  * @param {string} params.currentGroupId - Currently selected group ID
  * @param {(groupId: string) => void} params.setCurrentGroupId - State setter for current group
+ * @param {(groupId: string, options?: { replace?: boolean }) => void} params.navigateToGroup - Router navigation callback
  *
  * @example
  * ```tsx
  * const [currentGroupId, setCurrentGroupId] = useState('')
  * const { groupId } = useParams()
  * const allGroups = categories.flatMap((c) => c.groups)
+ * const navigate = useNavigate()
  *
  * useGroupInitialization({
  *   allGroups,
  *   groupId,
  *   currentGroupId,
- *   setCurrentGroupId
+ *   setCurrentGroupId,
+ *   navigateToGroup: (id, options) => navigate(`/${id}`, options)
  * })
  * ```
  *
  * @remarks
- * - Uses window.location.href for redirects to ensure clean URL updates
- * - Automatically appends '-framer' suffix for base group names
- * - Falls back to first group if requested group doesn't exist
+ * - Uses router navigation callback for canonical redirects (no hard reload)
+ * - Canonicalizes base group names to '-framer', then '-css', then first group
+ * - Falls back to first group for invalid/missing route params
  */
 export function useGroupInitialization({
   allGroups,
   groupId,
   currentGroupId,
   setCurrentGroupId,
+  navigateToGroup,
 }: {
   allGroups: Group[]
   groupId: string | undefined
   currentGroupId: string
   setCurrentGroupId: (groupId: string) => void
+  navigateToGroup: (groupId: string, options?: { replace?: boolean }) => void
 }) {
   useEffect(() => {
     if (allGroups.length === 0) return
 
-    if (groupId && allGroups.some((g) => g.id === groupId)) {
+    const hasGroup = (candidateId: string) => allGroups.some((g) => g.id === candidateId)
+    const firstGroupId = allGroups[0].id
+
+    if (groupId && hasGroup(groupId)) {
       // URL has a valid groupId
-      setCurrentGroupId(groupId)
-    } else if (groupId && !groupId.endsWith('-framer') && !groupId.endsWith('-css')) {
-      // URL has a group name without -framer or -css suffix, redirect to -framer
-      const framerGroupId = `${groupId}-framer`
-      if (allGroups.some((g) => g.id === framerGroupId)) {
-        window.location.href = `/${framerGroupId}`
-      } else if (!currentGroupId) {
-        // Framer version doesn't exist, default to first group
-        const firstGroupId = allGroups[0].id
-        setCurrentGroupId(firstGroupId)
-        window.location.href = `/${firstGroupId}`
+      if (currentGroupId !== groupId) {
+        setCurrentGroupId(groupId)
       }
-    } else if (!currentGroupId) {
-      // No URL param or invalid, default to first group
-      const firstGroupId = allGroups[0].id
-      setCurrentGroupId(firstGroupId)
-      window.location.href = `/${firstGroupId}`
+      return
     }
-  }, [allGroups, groupId, currentGroupId, setCurrentGroupId])
+
+    if (groupId && !groupId.endsWith('-framer') && !groupId.endsWith('-css')) {
+      // URL has a group name without -framer or -css suffix, canonicalize to framer, css, or first
+      const framerGroupId = `${groupId}-framer`
+      const cssGroupId = `${groupId}-css`
+      const canonicalGroupId = hasGroup(framerGroupId)
+        ? framerGroupId
+        : hasGroup(cssGroupId)
+          ? cssGroupId
+          : firstGroupId
+
+      if (currentGroupId !== canonicalGroupId) {
+        setCurrentGroupId(canonicalGroupId)
+      }
+
+      if (groupId !== canonicalGroupId) {
+        navigateToGroup(canonicalGroupId, { replace: true })
+      }
+
+      return
+    }
+
+    // No URL param or invalid, default to first group and canonicalize route
+    if (currentGroupId !== firstGroupId) {
+      setCurrentGroupId(firstGroupId)
+    }
+    if (groupId !== firstGroupId) {
+      navigateToGroup(firstGroupId, { replace: true })
+    }
+  }, [allGroups, groupId, currentGroupId, setCurrentGroupId, navigateToGroup])
 }

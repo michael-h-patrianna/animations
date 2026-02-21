@@ -16,7 +16,7 @@ const ringVariants = (delay: number) => ({
     },
   })
   return (
-    <div className="standard-radial-pulse" role="img" aria-label="Radial pulse">
+    <div className="standard-radial-pulse" data-animation-id="standard-effects__radial-pulse" role="img" aria-label="Radial pulse">
       {[0, 1, 2].map((i) => (
         <m.span
           key={i}

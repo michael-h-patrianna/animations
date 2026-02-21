@@ -5,7 +5,7 @@ import { easeOut } from 'motion/react'
 
 function StandardEffectsScaleComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__scale">
       <m.div
         className="standard-demo-element scale-element"
         initial={{ scale: 0, rotate: 0, skewY: 0, opacity: 0 }}

@@ -22,7 +22,7 @@ function ButtonEffectsSplitRevealComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__split-reveal">
-      <button
+      <button type="button"
         className={`pf-btn pf-btn--primary bfx-split-reveal ${isRevealing ? 'bfx-split-reveal--active' : ''}`}
         onClick={handleClick}
       >

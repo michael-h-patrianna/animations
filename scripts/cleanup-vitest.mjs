@@ -5,32 +5,56 @@
  */
 import { execSync } from 'node:child_process'
 
+const WORKSPACE_ROOT = process.cwd()
+
 function listProcesses() {
   try {
-    const output = execSync('ps -A -o pid=,command=', { encoding: 'utf8' })
+    const output = execSync('ps -A -o pid=,ppid=,command=', { encoding: 'utf8' })
     return output
       .split('\n')
       .map((line) => line.trim())
       .filter(Boolean)
       .map((line) => {
-        const spaceIndex = line.indexOf(' ')
-        const pid = line.slice(0, spaceIndex).trim()
-        const command = line.slice(spaceIndex + 1).trim()
-        return { pid: Number(pid), command }
+        const match = line.match(/^(\d+)\s+(\d+)\s+(.*)$/)
+        if (!match) return null
+        const [, pid, ppid, command] = match
+        return { pid: Number(pid), ppid: Number(ppid), command: command.trim() }
       })
+      .filter(Boolean)
   } catch (error) {
     console.warn('[cleanup-vitest] Unable to read process list:', error.message)
     return []
   }
 }
 
+function belongsToCurrentWorkspace(processInfo, processByPid) {
+  let current = processInfo
+  const visited = new Set()
+
+  while (current && !visited.has(current.pid)) {
+    visited.add(current.pid)
+    if (current.command.includes(WORKSPACE_ROOT)) {
+      return true
+    }
+    if (!current.ppid || current.ppid === current.pid) {
+      return false
+    }
+    current = processByPid.get(current.ppid)
+  }
+
+  return false
+}
+
 ;(async function main() {
   const processes = listProcesses()
-  const vitestMatches = processes.filter(({ command }) => {
+  const processByPid = new Map(processes.map((processInfo) => [processInfo.pid, processInfo]))
+  const vitestMatches = processes.filter((processInfo) => {
+    const { command } = processInfo
     if (command.includes('/bin/zsh') || command.includes('/bin/bash')) return false
     if (command.includes('scripts/cleanup-vitest.mjs')) return false
     if (command.includes('claude/shell-snapshots')) return false
     if (command.includes('grep')) return false
+    if (!belongsToCurrentWorkspace(processInfo, processByPid)) return false
     if (/vitest(?!\s+run)/.test(command)) return true
     if (/node.*vitest.*worker/i.test(command)) return true
     if (/vitest.*--pool/i.test(command)) return true

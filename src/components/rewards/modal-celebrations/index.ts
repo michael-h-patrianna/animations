@@ -26,8 +26,6 @@ import { metadata as coinTrailMetadata } from './framer/ModalCelebrationsCoinTra
 import { metadata as coinsSwirlMetadata } from './framer/ModalCelebrationsCoinsSwirl.meta'
 import { metadata as confettiPulseMetadata } from './framer/ModalCelebrationsConfettiPulse.meta'
 import { metadata as jackpotCelebrationMetadata } from './framer/ModalCelebrationsJackpotCelebration.meta'
-import { metadata as multiCoinMetadata } from './framer/ModalCelebrationsMultiCoin.meta'
-import { metadata as rewardSpotlightMetadata } from './framer/ModalCelebrationsRewardSpotlight.meta'
 
 // CSS - Import metadata only
 import { metadata as coinCascadeCssMetadata } from './css/ModalCelebrationsCoinCascade.meta'
@@ -42,8 +40,6 @@ import { metadata as confettiSpiralCssMetadata } from './css/ModalCelebrationsCo
 import { metadata as fireworksRingCssMetadata } from './css/ModalCelebrationsFireworksRing.meta'
 import { metadata as fireworksTripleCssMetadata } from './css/ModalCelebrationsFireworksTriple.meta'
 import { metadata as jackpotCelebrationCssMetadata } from './css/ModalCelebrationsJackpotCelebration.meta'
-import { metadata as multiCoinCssMetadata } from './css/ModalCelebrationsMultiCoin.meta'
-import { metadata as rewardSpotlightCssMetadata } from './css/ModalCelebrationsRewardSpotlight.meta'
 import { metadata as treasureParticlesCssMetadata } from './css/ModalCelebrationsTreasureParticles.meta'
 
 // Framer Motion - Lazy load components
@@ -112,16 +108,6 @@ const ModalCelebrationsJackpotCelebration = lazy(() =>
     default: m.ModalCelebrationsJackpotCelebration,
   }))
 )
-const ModalCelebrationsMultiCoin = lazy(() =>
-  import('./framer/ModalCelebrationsMultiCoin').then((m) => ({
-    default: m.ModalCelebrationsMultiCoin,
-  }))
-)
-const ModalCelebrationsRewardSpotlight = lazy(() =>
-  import('./framer/ModalCelebrationsRewardSpotlight').then((m) => ({
-    default: m.ModalCelebrationsRewardSpotlight,
-  }))
-)
 
 // CSS - Lazy load components
 const CssModalCelebrationsCoinCascade = lazy(() =>
@@ -180,16 +166,6 @@ const CssModalCelebrationsFireworksTriple = lazy(() =>
 const CssModalCelebrationsJackpotCelebration = lazy(() =>
   import('./css/ModalCelebrationsJackpotCelebration').then((m) => ({
     default: m.ModalCelebrationsJackpotCelebration,
-  }))
-)
-const CssModalCelebrationsMultiCoin = lazy(() =>
-  import('./css/ModalCelebrationsMultiCoin').then((m) => ({
-    default: m.ModalCelebrationsMultiCoin,
-  }))
-)
-const CssModalCelebrationsRewardSpotlight = lazy(() =>
-  import('./css/ModalCelebrationsRewardSpotlight').then((m) => ({
-    default: m.ModalCelebrationsRewardSpotlight,
   }))
 )
 const CssModalCelebrationsTreasureParticles = lazy(() =>
@@ -260,14 +236,6 @@ export const groupExport: GroupExport = {
       component: ModalCelebrationsJackpotCelebration,
       metadata: jackpotCelebrationMetadata,
     },
-    'modal-celebrations__multi-coin': {
-      component: ModalCelebrationsMultiCoin,
-      metadata: multiCoinMetadata,
-    },
-    'modal-celebrations__reward-spotlight': {
-      component: ModalCelebrationsRewardSpotlight,
-      metadata: rewardSpotlightMetadata,
-    },
   },
   css: {
     'modal-celebrations__confetti-burst': {
@@ -321,14 +289,6 @@ export const groupExport: GroupExport = {
     'modal-celebrations__jackpot-celebration': {
       component: CssModalCelebrationsJackpotCelebration,
       metadata: jackpotCelebrationCssMetadata,
-    },
-    'modal-celebrations__multi-coin': {
-      component: CssModalCelebrationsMultiCoin,
-      metadata: multiCoinCssMetadata,
-    },
-    'modal-celebrations__reward-spotlight': {
-      component: CssModalCelebrationsRewardSpotlight,
-      metadata: rewardSpotlightCssMetadata,
     },
   },
 }

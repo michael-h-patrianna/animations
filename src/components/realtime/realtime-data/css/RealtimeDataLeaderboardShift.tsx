@@ -1,131 +1,167 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
+type TimeoutId = ReturnType<typeof setTimeout>
 
-/**
- *
- */
-export function RealtimeDataLeaderboardShift() {
-  const [leaderboard, setLeaderboard] = useState([
-    { rank: 1, player: 'Phoenix', score: 2450 },
-    { rank: 2, player: 'Shadow', score: 2380 },
-    { rank: 3, player: 'Nova', score: 2320 },
-    { rank: 4, player: 'Apex', score: 2290 },
-  ])
-  const leaderboardRef = useRef(leaderboard)
-  const rowRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+type LeaderboardEntry = {
+  rank: number
+  player: string
+  score: number
+}
 
+const INITIAL_LEADERBOARD: LeaderboardEntry[] = [
+  { rank: 1, player: 'Phoenix', score: 2450 },
+  { rank: 2, player: 'Shadow', score: 2380 },
+  { rank: 3, player: 'Nova', score: 2320 },
+  { rank: 4, player: 'Apex', score: 2290 },
+]
+
+const rowHeight = 48
+
+const resetLeaderboard = () =>
+  INITIAL_LEADERBOARD.map((entry) => ({
+    ...entry,
+  }))
+
+const buildShiftedLeaderboard = (current: LeaderboardEntry[]) => {
+  const nextLeaderboard = [...current]
+  const firstPlayer = nextLeaderboard.shift()
+  if (!firstPlayer) return current
+
+  const updatedLeaderboard = nextLeaderboard.map((player, index) => ({
+    ...player,
+    rank: index + 1,
+  }))
+
+  updatedLeaderboard.push({
+    ...firstPlayer,
+    rank: 4,
+    score: firstPlayer.score - 50,
+  })
+
+  return updatedLeaderboard
+}
+
+const animatePlayerExit = (element: HTMLDivElement | undefined) => {
+  if (!element) return
+  element.animate(
+    [
+      { transform: 'translateY(0)', opacity: 1 },
+      { transform: 'translateY(100px)', opacity: 0 },
+    ],
+    {
+      duration: 800,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      fill: 'forwards',
+    }
+  )
+}
+
+const animatePlayerShift = (
+  element: HTMLDivElement | undefined,
+  scheduleFrame: (callback: FrameRequestCallback) => number
+) => {
+  if (!element) return
+  element.style.transform = `translateY(${rowHeight}px)`
+  scheduleFrame(() => {
+    element
+      .animate(
+        [
+          { transform: `translateY(${rowHeight}px)` },
+          { transform: 'translateY(0)' },
+        ],
+        {
+          duration: 800,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          fill: 'forwards',
+        }
+      )
+      .onfinish = () => {
+      element.style.transform = ''
+    }
+  })
+}
+
+const animatePhoenixEntry = (
+  element: HTMLDivElement | undefined,
+  scheduleFrame: (callback: FrameRequestCallback) => number
+) => {
+  if (!element) return
+  element.style.opacity = '0'
+  element.style.transform = 'translateY(-20px)'
+  scheduleFrame(() => {
+    element
+      .animate(
+        [
+          { transform: 'translateY(-20px)', opacity: 0 },
+          { transform: 'translateY(0)', opacity: 1 },
+        ],
+        {
+          duration: 600,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          fill: 'forwards',
+        }
+      )
+      .onfinish = () => {
+      element.style.transform = ''
+      element.style.opacity = ''
+    }
+  })
+}
+
+const runShiftAnimations = (
+  refs: Map<string, HTMLDivElement>,
+  scheduleFrame: (callback: FrameRequestCallback) => number
+) => {
+  ;['Shadow', 'Nova', 'Apex'].forEach((playerName) => {
+    animatePlayerShift(refs.get(playerName), scheduleFrame)
+  })
+  animatePhoenixEntry(refs.get('Phoenix'), scheduleFrame)
+}
+
+const useLeaderboardShiftAnimation = (
+  leaderboardRef: MutableRefObject<LeaderboardEntry[]>,
+  rowRefs: MutableRefObject<Map<string, HTMLDivElement>>,
+  setLeaderboard: Dispatch<SetStateAction<LeaderboardEntry[]>>
+) => {
   useEffect(() => {
-    leaderboardRef.current = leaderboard
-  }, [leaderboard])
+    const timeoutIds = new Set<TimeoutId>()
+    const frameIds = new Set<number>()
+    let isMounted = true
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
+    const scheduleTimeout = (callback: () => void, delayMs: number) => {
+      const timeoutId = setTimeout(() => {
+        timeoutIds.delete(timeoutId)
+        callback()
+      }, delayMs)
+      timeoutIds.add(timeoutId)
+      return timeoutId
+    }
+
+    const scheduleFrame = (callback: FrameRequestCallback) => {
+      const frameId = requestAnimationFrame((timestamp) => {
+        frameIds.delete(frameId)
+        callback(timestamp)
+      })
+      frameIds.add(frameId)
+      return frameId
+    }
 
     const startAnimation = () => {
-      // Animate the first player out
-      const firstPlayerElement = rowRefs.current.get('Phoenix')
-      if (firstPlayerElement) {
-        firstPlayerElement.animate(
-          [
-            { transform: 'translateY(0)', opacity: 1 },
-            { transform: 'translateY(100px)', opacity: 0 },
-          ],
-          {
-            duration: 800,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            fill: 'forwards',
-          }
-        )
-      }
+      if (!isMounted) return
 
-      // After Phoenix exits, reorganize leaderboard and animate the shift
-      setTimeout(() => {
-        const newLeaderboard = [...leaderboardRef.current]
-        const firstPlayer = newLeaderboard.shift()!
+      animatePlayerExit(rowRefs.current.get('Phoenix'))
 
-        // Create new objects to force React re-render with updated ranks
-        const updatedLeaderboard = newLeaderboard.map((player, index) => ({
-          ...player,
-          rank: index + 1
-        }))
+      scheduleTimeout(() => {
+        if (!isMounted) return
 
-        // Add Phoenix at the end with new rank and score
-        updatedLeaderboard.push({
-          ...firstPlayer,
-          rank: 4,
-          score: firstPlayer.score - 50
-        })
+        setLeaderboard(buildShiftedLeaderboard(leaderboardRef.current))
+        scheduleFrame(() => runShiftAnimations(rowRefs.current, scheduleFrame))
 
-        setLeaderboard(updatedLeaderboard)
-
-        // Use FLIP technique: After state update, animate from old position to new
-        requestAnimationFrame(() => {
-          const playersToShift = ['Shadow', 'Nova', 'Apex']
-          const rowHeight = 48 // row height (~32px) + gap (8px) + padding
-
-          playersToShift.forEach((playerName) => {
-            const playerElement = rowRefs.current.get(playerName)
-            if (playerElement) {
-              // Set initial position (where they were before the DOM update)
-              playerElement.style.transform = `translateY(${rowHeight}px)`
-
-              // Animate to final position in next frame
-              requestAnimationFrame(() => {
-                playerElement.animate(
-                  [
-                    { transform: `translateY(${rowHeight}px)` },
-                    { transform: 'translateY(0)' },
-                  ],
-                  {
-                    duration: 800,
-                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                    fill: 'forwards',
-                  }
-                ).onfinish = () => {
-                  // Clean up inline styles after animation
-                  playerElement.style.transform = ''
-                }
-              })
-            }
-          })
-
-          // Animate Phoenix entering at the bottom
-          const phoenixElement = rowRefs.current.get('Phoenix')
-          if (phoenixElement) {
-            // Reset Phoenix's styles and animate it back in
-            phoenixElement.style.opacity = '0'
-            phoenixElement.style.transform = 'translateY(-20px)'
-
-            requestAnimationFrame(() => {
-              phoenixElement.animate(
-                [
-                  { transform: 'translateY(-20px)', opacity: 0 },
-                  { transform: 'translateY(0)', opacity: 1 },
-                ],
-                {
-                  duration: 600,
-                  easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                  fill: 'forwards',
-                }
-              ).onfinish = () => {
-                // Clean up inline styles after animation
-                phoenixElement.style.transform = ''
-                phoenixElement.style.opacity = ''
-              }
-            })
-          }
-        })
-
-        // Reset after delay
-        timeoutId = setTimeout(() => {
-          setLeaderboard([
-            { rank: 1, player: 'Phoenix', score: 2450 },
-            { rank: 2, player: 'Shadow', score: 2380 },
-            { rank: 3, player: 'Nova', score: 2320 },
-            { rank: 4, player: 'Apex', score: 2290 },
-          ])
-          setTimeout(startAnimation, 1000)
+        scheduleTimeout(() => {
+          if (!isMounted) return
+          setLeaderboard(resetLeaderboard())
+          scheduleTimeout(startAnimation, 1000)
         }, 2000)
       }, 800)
     }
@@ -133,9 +169,28 @@ export function RealtimeDataLeaderboardShift() {
     startAnimation()
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId)
+      isMounted = false
+      timeoutIds.forEach(clearTimeout)
+      timeoutIds.clear()
+      frameIds.forEach(cancelAnimationFrame)
+      frameIds.clear()
     }
-  }, [])
+  }, [leaderboardRef, rowRefs, setLeaderboard])
+}
+
+/**
+ *
+ */
+export function RealtimeDataLeaderboardShift() {
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(resetLeaderboard)
+  const leaderboardRef = useRef(leaderboard)
+  const rowRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+
+  useEffect(() => {
+    leaderboardRef.current = leaderboard
+  }, [leaderboard])
+
+  useLeaderboardShiftAnimation(leaderboardRef, rowRefs, setLeaderboard)
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__leaderboard-shift">
@@ -143,8 +198,9 @@ export function RealtimeDataLeaderboardShift() {
         {leaderboard.map((player) => (
           <div
             key={player.player}
-            ref={(el) => {
-              if (el) rowRefs.current.set(player.player, el)
+            ref={(element) => {
+              if (element) rowRefs.current.set(player.player, element)
+              else rowRefs.current.delete(player.player)
             }}
             className="pf-realtime-data__row"
           >
@@ -157,4 +213,3 @@ export function RealtimeDataLeaderboardShift() {
     </div>
   )
 }
-

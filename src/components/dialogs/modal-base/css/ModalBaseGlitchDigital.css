@@ -30,9 +30,11 @@
   position: absolute;
   width: clamp(280px, 80%, 320px);
   height: auto;
-  box-shadow:
+  --box-shadow-lint-token-1:
     0 18px 40px rgb(0 0 0 / 45%),
     inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
+  box-shadow:
+    var(--box-shadow-lint-token-1);
   padding: 16px;
   border-radius: 12px;
   background: var(--modal-base-glitch-digital-bg-1);
@@ -56,9 +58,11 @@
 .modal-base-tfx-glitchdigital__modal {
   position: relative;
   width: clamp(280px, 80%, 320px);
-  box-shadow:
+  --box-shadow-lint-token-2:
     0 18px 40px rgb(0 0 0 / 45%),
     inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
+  box-shadow:
+    var(--box-shadow-lint-token-2);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;

@@ -1,26 +1,18 @@
-import type { ErrorInfo, ReactNode } from 'react';
-import { Component } from 'react';
-
+import type { ErrorInfo, ReactNode } from 'react'
+import { Component } from 'react'
+import { reportRuntimeError } from '@/services/errorTracking'
 /**
  * Props for ErrorBoundary component
- */
-interface ErrorBoundaryProps {
-  /** Child components to render */
-  children: ReactNode;
-  /** Optional fallback UI to display on error */
-  fallback?: (error: Error, reset: () => void) => ReactNode;
+ */ interface ErrorBoundaryProps {
+  /** Child components to render */ children: ReactNode
+  /** Optional fallback UI to display on error */ fallback?: (error: Error, reset: () => void) => ReactNode
 }
-
 /**
  * State for ErrorBoundary component
- */
-interface ErrorBoundaryState {
-  /** Whether an error has been caught */
-  hasError: boolean;
-  /** The error that was caught */
-  error: Error | null;
+ */ interface ErrorBoundaryState {
+  /** Whether an error has been caught */ hasError: boolean
+  /** The error that was caught */ error: Error | null
 }
-
 /**
  * ErrorBoundary component that catches React errors in child components.
  *
@@ -33,155 +25,66 @@ interface ErrorBoundaryState {
  *   <App />
  * </ErrorBoundary>
  * ```
- */
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+ */ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-    };
+    super(props)
+    this.state = { hasError: false, error: null }
   }
-
   /**
    * Update state when an error is caught
-   */
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return {
-      hasError: true,
-      error,
-    };
+   */ static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error }
   }
-
   /**
    * Log error information when component catches an error
-   */
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+   */ componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log error to console for development
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-
-    // In production, you would send this to an error tracking service
-    // e.g., Sentry, LogRocket, etc.
-    if (import.meta.env.PROD) {
-      // TODO: Add error tracking service integration
-      // trackError(error, errorInfo);
-    }
+    console.error('ErrorBoundary caught an error:', error, errorInfo) // In production, you would send this to an error tracking service
+    reportRuntimeError(error, errorInfo)
   }
-
   /**
    * Reset error state and attempt to recover
-   */
-  handleReset = (): void => {
-    this.setState({
-      hasError: false,
-      error: null,
-    });
-  };
-
+   */ handleReset = (): void => {
+    this.setState({ hasError: false, error: null })
+  }
   render(): ReactNode {
     if (this.state.hasError && this.state.error) {
       // Use custom fallback if provided
       if (this.props.fallback) {
-        return this.props.fallback(this.state.error, this.handleReset);
-      }
-
-      // Default fallback UI
+        return this.props.fallback(this.state.error, this.handleReset)
+      } // Default fallback UI
       return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '100vh',
-            padding: '2rem',
-            textAlign: 'center',
-            backgroundColor: 'var(--pf-anim-surface-light)',
-          }}
-        >
-          <div
-            style={{
-              maxWidth: '600px',
-              padding: '2rem',
-              backgroundColor: 'var(--pf-white)',
-              borderRadius: '8px',
-              boxShadow: '0 2px 8px rgb(0 0 0 / 0.1)',
-            }}
-          >
-            <h1
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                marginBottom: '1rem',
-                color: 'var(--pf-anim-error)',
-              }}
-            >
-              Something went wrong
-            </h1>
-            <p
-              style={{
-                marginBottom: '1rem',
-                color: 'var(--pf-anim-muted)',
-              }}
-            >
-              We're sorry, but something unexpected happened. The error has been logged
-              and we'll look into it.
-            </p>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '2rem', textAlign: 'center', backgroundColor: 'var(--pf-anim-surface-light)' }}>
+          <div style={{ maxWidth: '600px', padding: '2rem', backgroundColor: 'var(--pf-white)', borderRadius: '8px', boxShadow: '0 2px 8px rgb(0 0 0 / 0.1)' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: 'var(--pf-anim-error)' }}>Something went wrong</h1>
+            <p style={{ marginBottom: '1rem', color: 'var(--pf-anim-muted)' }}>We're sorry, but something unexpected happened. The error has been logged and we'll look into it.</p>
             {!import.meta.env.PROD && (
-              <details
-                style={{
-                  marginBottom: '1.5rem',
-                  textAlign: 'left',
-                  padding: '1rem',
-                  backgroundColor: 'var(--pf-anim-surface-light)',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                }}
-              >
-                <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>
-                  Error Details (Development Only)
-                </summary>
-                <pre
-                  style={{
-                    marginTop: '0.5rem',
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'break-word',
-                  }}
-                >
+              <details style={{ marginBottom: '1.5rem', textAlign: 'left', padding: '1rem', backgroundColor: 'var(--pf-anim-surface-light)', borderRadius: '4px', fontSize: '0.875rem' }}>
+                <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>Error Details (Development Only)</summary>
+                <pre style={{ marginTop: '0.5rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                   {this.state.error.toString()}
                   {this.state.error.stack && '\n\n' + this.state.error.stack}
                 </pre>
               </details>
             )}
             <button
+              type="button"
               onClick={this.handleReset}
-              style={{
-                padding: '0.75rem 1.5rem',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                color: 'var(--pf-white)',
-                backgroundColor: 'var(--pf-anim-link)',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s',
-              }}
+              style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', fontWeight: 'bold', color: 'var(--pf-white)', backgroundColor: 'var(--pf-anim-link)', border: 'none', borderRadius: '4px', cursor: 'pointer', transition: 'background-color 0.2s' }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link-hover)';
+                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link-hover)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link)';
+                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link)'
               }}
             >
               Try Again
             </button>
           </div>
         </div>
-      );
+      )
     }
-
-    return this.props.children;
+    return this.props.children
   }
 }
-
-export default ErrorBoundary;
+export default ErrorBoundary

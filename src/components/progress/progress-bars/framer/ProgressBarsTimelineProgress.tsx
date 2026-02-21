@@ -1,26 +1,11 @@
 import * as m from 'motion/react-m'
-
 /**
  *
- */
-export function ProgressBarsTimelineProgress() {
+ */ export function ProgressBarsTimelineProgress() {
   const steps = 4
-
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
-      },
-    },
-  }
-
+  const containerVariants = { initial: {}, animate: { transition: { staggerChildren: 0.26, delayChildren: 0 } } }
   const stepVariants = {
-    initial: {
-      scale: 0.9,
-      opacity: 0.3,
-    },
+    initial: { scale: 0.9, opacity: 0.3 },
     animate: {
       scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
@@ -30,12 +15,8 @@ export function ProgressBarsTimelineProgress() {
       },
     },
   }
-
   const connectorVariants = {
-    initial: {
-      scaleX: 0,
-      opacity: 0.3,
-    },
+    initial: { scaleX: 0, opacity: 0.3 },
     animate: {
       scaleX: 1,
       opacity: 1,
@@ -45,47 +26,15 @@ export function ProgressBarsTimelineProgress() {
       },
     },
   }
-
   return (
-    <m.div
-      className="pf-timeline-progress"
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      data-animation-id="progress-bars__timeline-progress"
-    >
+    <m.div className="pf-timeline-progress" variants={containerVariants} initial="initial" animate="animate" data-animation-id="progress-bars__timeline-progress">
       <div className="pf-timeline-progress__track">
         {Array.from({ length: steps }, (_, index) => (
-          <div
-            key={index}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flex: index === steps - 1 ? 'none' : '1',
-            }}
-          >
-            <m.div
-              className="pf-timeline-progress__step"
-              variants={stepVariants}
-              style={{
-                background: 'var(--pf-anim-dodger-blue-20)',
-                borderColor: 'var(--pf-anim-dodger-blue-40)',
-                color: 'var(--pf-white)',
-              }}
-            >
+          <div key={index} style={{ display: 'flex', alignItems: 'center', flex: index === steps - 1 ? 'none' : '1' }}>
+            <m.div className="pf-timeline-progress__step" variants={stepVariants} style={{ background: 'var(--pf-anim-dodger-blue-20)', borderColor: 'var(--pf-anim-dodger-blue-40)', color: 'var(--pf-white)' }}>
               {index + 1}
             </m.div>
-            {index < steps - 1 && (
-              <m.div
-                className="pf-timeline-progress__connector"
-                variants={connectorVariants}
-                style={{
-                  background:
-                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), rgba(0, 255, 255, 0.2))',
-                  transformOrigin: 'left',
-                }}
-              />
-            )}
+            {index < steps - 1 && <m.div className="pf-timeline-progress__connector" variants={connectorVariants} style={{ background: 'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), rgba(0, 255, 255, 0.2))', transformOrigin: 'left' }} />}
           </div>
         ))}
       </div>

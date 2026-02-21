@@ -43,7 +43,10 @@ export function TimerEffectsPillCountdownHeartbeat() {
   }
 
   return (
-    <div className="pill-countdown-heartbeat-container">
+    <div
+      className="pill-countdown-heartbeat-container"
+      data-animation-id="timer-effects__pill-countdown-heartbeat"
+    >
       <div className={`pill-countdown-heartbeat ${getHeartbeatClass()}`}>
         <span className="pill-countdown-heartbeat__glow" aria-hidden="true" />
         <span className="pill-countdown-heartbeat__text">{formatTime(seconds)}</span>
@@ -51,4 +54,3 @@ export function TimerEffectsPillCountdownHeartbeat() {
     </div>
   )
 }
-

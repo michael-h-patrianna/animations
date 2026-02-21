@@ -11,6 +11,10 @@ function clampChannel(value: number): number {
   return Math.max(0, Math.min(255, Math.round(value)));
 }
 
+function clampRange(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
 function formatHexColor({ r, g, b }: RGB): string {
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }
@@ -131,7 +135,7 @@ export function blendColors(color1: string, color2: string, percentage: number):
   const c1 = parseColor(color1);
   const c2 = parseColor(color2);
 
-  const mix = percentage / 100;
+  const mix = clampRange(percentage, 0, 100) / 100;
   const r = clampChannel(c1.r * mix + c2.r * (1 - mix));
   const g = clampChannel(c1.g * mix + c2.g * (1 - mix));
   const b = clampChannel(c1.b * mix + c2.b * (1 - mix));
@@ -166,15 +170,16 @@ export function shiftColorTemperature(color: string, shift: number): string {
   let r = parsedColor.r;
   let g = parsedColor.g;
   let b = parsedColor.b;
+  const boundedShift = clampRange(shift, -50, 50);
 
-  if (shift > 0) {
+  if (boundedShift > 0) {
     // Warm shift: increase red and green (orange/yellow tones)
-    r = clampChannel(r + shift * 0.8);
-    g = clampChannel(g + shift * 0.5);
-    b = clampChannel(b - shift * 0.3);
+    r = clampChannel(r + boundedShift * 0.8);
+    g = clampChannel(g + boundedShift * 0.5);
+    b = clampChannel(b - boundedShift * 0.3);
   } else {
     // Cool shift: increase blue, reduce red
-    const coolShift = Math.abs(shift);
+    const coolShift = Math.abs(boundedShift);
     r = clampChannel(r - coolShift * 0.4);
     g = clampChannel(g - coolShift * 0.2);
     b = clampChannel(b + coolShift * 0.6);

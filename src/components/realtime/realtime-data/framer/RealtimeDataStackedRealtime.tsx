@@ -1,13 +1,9 @@
 import * as m from 'motion/react-m'
-
 import { useEffect, useState } from 'react'
-
 /**
  *
- */
-export function RealtimeDataStackedRealtime() {
+ */ export function RealtimeDataStackedRealtime() {
   const [isAnimating, setIsAnimating] = useState(false)
-
   const stackItems = [
     { label: 'Active Players', value: '1,247', active: true },
     { label: 'Total Wins', value: '856', active: false },
@@ -15,27 +11,35 @@ export function RealtimeDataStackedRealtime() {
     { label: 'Pending Rewards', value: '42', active: false },
     { label: 'Daily Bonus', value: '2x', active: true },
   ]
-
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
-
+    const timeoutIds = new Set<ReturnType<typeof setTimeout>>()
+    let isMounted = true
+    const scheduleTimeout = (callback: () => void, delay: number) => {
+      const timeoutId = setTimeout(() => {
+        timeoutIds.delete(timeoutId)
+        callback()
+      }, delay)
+      timeoutIds.add(timeoutId)
+      return timeoutId
+    }
     const startAnimation = () => {
-      setIsAnimating(true)
-
-      // Reset and restart after animation completes
-      timeoutId = setTimeout(() => {
+      if (!isMounted) return
+      setIsAnimating(true) // Reset and restart after animation completes
+      scheduleTimeout(() => {
+        if (!isMounted) return
         setIsAnimating(false)
-        setTimeout(startAnimation, 2000)
+        scheduleTimeout(startAnimation, 2000)
       }, 1500)
     }
-
     startAnimation()
-
     return () => {
-      if (timeoutId) clearTimeout(timeoutId)
+      isMounted = false
+      timeoutIds.forEach((timeoutId) => {
+        clearTimeout(timeoutId)
+      })
+      timeoutIds.clear()
     }
   }, [])
-
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__stacked-realtime">
       <div className="pf-realtime-data__stack">
@@ -43,31 +47,12 @@ export function RealtimeDataStackedRealtime() {
           <m.div
             key={item.label}
             className={`pf-realtime-data__stack-row ${item.active ? 'active' : ''}`}
-            initial={{
-              x: index % 2 === 0 ? -16 : 16,
-              opacity: 0,
-            }}
-            animate={{
-              x: isAnimating ? 0 : index % 2 === 0 ? -16 : 16,
-              opacity: isAnimating ? 1 : 0,
-            }}
-            transition={{
-              duration: 0.6,
-              delay: index * 0.08,
-              ease: [0.25, 0.46, 0.45, 0.94] as const,
-            }}
+            initial={{ x: index % 2 === 0 ? -16 : 16, opacity: 0 }}
+            animate={{ x: isAnimating ? 0 : index % 2 === 0 ? -16 : 16, opacity: isAnimating ? 1 : 0 }}
+            transition={{ duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] as const }}
           >
             <span className="pf-realtime-data__stack-label">{item.label}</span>
-            <m.span
-              className="pf-realtime-data__stack-value"
-              animate={{
-                color: isAnimating ? (item.active ? 'var(--pf-anim-cyan)' : 'var(--pf-anim-gray-400)') : 'var(--pf-anim-cyan)',
-              }}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.08 + 0.2,
-              }}
-            >
+            <m.span className="pf-realtime-data__stack-value" animate={{ color: isAnimating ? (item.active ? 'var(--pf-anim-cyan)' : 'var(--pf-anim-gray-400)') : 'var(--pf-anim-cyan)' }} transition={{ duration: 0.4, delay: index * 0.08 + 0.2 }}>
               {item.value}
             </m.span>
           </m.div>

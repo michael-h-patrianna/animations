@@ -4,7 +4,7 @@ import { easeInOut } from 'motion/react'
 
 function StandardEffectsShakeComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__shake">
       <m.div
         className="standard-demo-element"
         animate={{

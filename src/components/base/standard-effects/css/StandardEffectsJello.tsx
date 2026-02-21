@@ -4,7 +4,7 @@ import './StandardEffectsJello.css'
 
 function StandardEffectsJelloComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__jello">
       <div className="standard-demo-element jello-element">
         <div className="demo-text">Jello</div>
       </div>

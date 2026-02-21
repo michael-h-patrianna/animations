@@ -4,7 +4,7 @@ import './StandardEffectsPulse.css'
 
 function StandardEffectsPulseComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__pulse">
       <div className="standard-demo-element pulse-element">
         <div className="demo-text">Pulse</div>
       </div>

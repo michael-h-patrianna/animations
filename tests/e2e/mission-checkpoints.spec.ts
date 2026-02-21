@@ -1,96 +1,85 @@
-import { expect, Locator, Page, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 
-// Helper to find the Mission Checkpoints card
-async function getMissionCard(page: Page): Promise<Locator> {
-  const card = page.locator('.pf-card[data-animation-id="progress-bars__mission-checkpoints"]')
-  await expect(card).toBeVisible()
-  return card
+const groupId = 'progress-bars-framer'
+const animationId = 'progress-bars__progress-milestones'
+
+const currentPathname = (page: Page) => new URL(page.url()).pathname
+
+const milestonesCard = (page: Page) => page.locator(`.pf-card[data-animation-id="${animationId}"]`).first()
+
+const stageForCard = (card: Locator) => card.locator('.pf-demo-stage')
+
+const gotoMilestonesGroup = async (page: Page) => {
+  await page.goto(`/${groupId}`)
+  await expect.poll(() => currentPathname(page)).toBe(`/${groupId}`)
+  await page.waitForSelector(`.pf-card[data-animation-id="${animationId}"]`, { timeout: 10000 })
 }
 
-// Extract activation times from data attributes on checkpoint containers
-async function getActivationTimes(page: Page, card: Locator) {
-  const containers = card.locator(
-    '.pf-demo-stage .pf-mission-checkpoints .track-container .pf-mission-checkpoint-container'
-  )
-  const count = await containers.count()
-  const times: Array<number | null> = []
-  for (let i = 0; i < count; i++) {
-    const el = containers.nth(i)
-    const timeStr = await el.getAttribute('data-activation-time')
-    const secured = await el.getAttribute('data-secured')
-    if (secured === 'true' && timeStr) {
-      times.push(parseInt(timeStr, 10))
-    } else {
-      times.push(null)
-    }
-  }
-  return times
+const waitForRenderedStage = async (card: Locator) => {
+  await card.scrollIntoViewIfNeeded()
+
+  const stage = stageForCard(card)
+  await expect(stage).toBeVisible()
+  await expect.poll(async () => stage.locator(':scope > *').count(), { timeout: 5000 }).toBeGreaterThan(0)
+
+  return stage
 }
 
-// We expect activations roughly at 0ms, 500ms, 1000ms, 1500ms, 2000ms (duration 2000ms)
-const expectedMs = [0, 500, 1000, 1500, 2000]
-const tolerance = 200 // allow some timing variance
+const activeMilestoneCount = async (stage: Locator) => {
+  const markers = stage.locator('.milestone-marker')
+  return markers.evaluateAll((nodes) => {
+    return nodes.filter((node) => {
+      const style = node.getAttribute('style') ?? ''
+      return /0\s*,\s*255\s*,\s*255/.test(style)
+    }).length
+  })
+}
 
-test.describe('Mission Checkpoints', () => {
+const fillScaleX = async (stage: Locator) => {
+  const transform = await stage
+    .locator('.pf-progress-fill')
+    .evaluate((element) => window.getComputedStyle(element).transform)
+
+  if (transform === 'none') return 1
+  const match = transform.match(/^matrix\(([^,]+),/)
+  return match ? Number.parseFloat(match[1]) : Number.NaN
+}
+
+test.describe('Progress Milestones', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-    await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
+    await gotoMilestonesGroup(page)
   })
 
-  test('milestones activate in sync with progress fill', async ({ page }) => {
-    // Navigate to Progress category and Progress bars group
-    await page.click('.pf-sidebar button:has-text("Progress & Loading Animations")')
-    await page.waitForTimeout(200)
-    await page.click('.pf-sidebar button:has-text("Progress bars")')
+  test('renders milestone structure with expected marker and label counts', async ({ page }) => {
+    const card = milestonesCard(page)
+    const stage = await waitForRenderedStage(card)
 
-    const card = await getMissionCard(page)
-
-    // Replay to start fresh
-    await card.locator('[data-role="replay"]').click()
-
-    // Wait for full duration + buffer
-    await page.waitForTimeout(2400)
-
-    const times = await getActivationTimes(page, card)
-    expect(times.length).toBe(5)
-
-    // Validate each checkpoint roughly matches expected schedule
-    for (let i = 0; i < expectedMs.length; i++) {
-      const t = times[i]
-      expect(t).not.toBeNull()
-      if (t !== null) {
-        const diff = Math.abs(t - expectedMs[i])
-        expect(diff).toBeLessThanOrEqual(tolerance)
-      }
-    }
-
-    // Status message is removed in the simplified UI
-    await expect(card.locator('.pf-mission-status')).toHaveCount(0)
+    await expect(stage.locator('.pf-progress-milestones')).toBeVisible()
+    await expect(stage.locator('.milestone-container')).toHaveCount(5)
+    await expect(stage.locator('.label-container span')).toHaveCount(5)
+    await expect(stage.locator('.label-container')).toContainText('Start')
+    await expect(stage.locator('.label-container')).toContainText('100%')
   })
 
-  test('ui remains compact and pristine', async ({ page }) => {
-    await page.click('.pf-sidebar button:has-text("Progress & Loading Animations")')
-    await page.waitForTimeout(200)
-    await page.click('.pf-sidebar button:has-text("Progress bars")')
+  test('progress fill advances and activates all milestones', async ({ page }) => {
+    const card = milestonesCard(page)
+    const stage = await waitForRenderedStage(card)
 
-    const card = await getMissionCard(page)
+    await expect.poll(async () => fillScaleX(stage), { timeout: 3500 }).toBeGreaterThan(0.35)
+    await expect.poll(async () => activeMilestoneCount(stage), { timeout: 5500 }).toBe(5)
+  })
 
-    // Check marker size is compact (24x24)
-    const marker = card.locator('.pf-mission-checkpoint').first()
-    const box = await marker.boundingBox()
-    expect(box).not.toBeNull()
-    if (box) {
-      expect(box.width).toBeLessThanOrEqual(26)
-      expect(box.height).toBeLessThanOrEqual(26)
-    }
+  test('replay resets and replays milestone activation', async ({ page }) => {
+    const card = milestonesCard(page)
+    const stage = await waitForRenderedStage(card)
+    const replayButton = card.locator('[data-role="replay"]')
 
-    // Labels should be small and not overlapping the track excessively
-    const label = card.locator('.pf-mission-checkpoint-label').first()
-    await expect(label).toBeVisible()
+    await expect.poll(async () => activeMilestoneCount(stage), { timeout: 5500 }).toBe(5)
 
-    // Each marker should include an icon image
-    const icons = card.locator('.pf-mission-checkpoint img')
-    await expect(icons.first()).toBeVisible()
-    await expect(await icons.count()).toBeGreaterThanOrEqual(5)
+    await expect(replayButton).toBeEnabled()
+    await replayButton.click()
+
+    await expect.poll(async () => activeMilestoneCount(stage), { timeout: 1200 }).toBeLessThan(5)
+    await expect.poll(async () => activeMilestoneCount(stage), { timeout: 5500 }).toBe(5)
   })
 })

@@ -23,7 +23,7 @@ function ButtonEffectsPressSquashComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__press-squash">
-      <button
+      <button type="button"
         className={`pf-btn pf-btn--primary bfx-press-squash ${isAnimating ? 'bfx-press-squash--active' : ''}`}
         onClick={handleClick}
       >

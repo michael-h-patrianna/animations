@@ -12,6 +12,7 @@ export function TimerEffectsTimerFlash() {
     const duration = 32000
     const startTime = Date.now()
     let lastDisplayed = 32
+    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
 
     const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime
@@ -27,14 +28,19 @@ export function TimerEffectsTimerFlash() {
       if (progress >= 1) {
         clearInterval(intervalId)
         // Auto-restart after a brief pause
-        setTimeout(() => {
+        restartTimeoutId = setTimeout(() => {
           setSeconds(32)
           setAnimationKey((prev) => prev + 1)
         }, 2000)
       }
     }, 100)
 
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+      if (restartTimeoutId) {
+        clearTimeout(restartTimeoutId)
+      }
+    }
   }, [animationKey])
 
   const formatTime = (totalSeconds: number) => {
@@ -53,4 +59,3 @@ export function TimerEffectsTimerFlash() {
     </div>
   )
 }
-

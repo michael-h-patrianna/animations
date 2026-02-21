@@ -23,7 +23,7 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, var(--bulb-on-glow60) 0%, transparent 70%);
+  background: linear-gradient(180deg, var(--bulb-on-glow60) 0%, transparent 70%);
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -42,12 +42,4 @@
   transform: translate(-50%, -50%);
 }
 
-/* Primary
-}
-
-/* Winner glow */
-.lights-circle-static-3__bulb-wrapper:first-child .lights-circle-static-3__glow {
-}
-
-/* Secondary animation: Gentle breathing scale (appeal) */
-
+/* Primary winner glow styles are provided by the React animation layer. */

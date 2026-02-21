@@ -1,31 +1,29 @@
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
-test('capture console errors', async ({ page }) => {
-  const errors: string[] = []
+test('app boots without page errors or critical console errors', async ({ page }) => {
+  const consoleErrors: string[] = []
   const pageErrors: string[] = []
 
-  page.on('console', msg => {
-    if (msg.type() === 'error') {
-      errors.push(`CONSOLE ERROR: ${msg.text()}`)
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      consoleErrors.push(message.text())
     }
   })
 
-  page.on('pageerror', error => {
-    pageErrors.push(`PAGE ERROR: ${error.message}\n${error.stack}`)
+  page.on('pageerror', (error) => {
+    pageErrors.push(error.message)
   })
 
-  await page.goto('http://127.0.0.1:5173/')
+  await page.goto('/')
+  await page.waitForSelector('.pf-main .pf-sidebar', { timeout: 10000 })
+  await page.waitForSelector('.pf-card[data-animation-id]', { timeout: 10000 })
 
-  // Wait a bit for the app to try to load
-  await page.waitForTimeout(5000)
+  const criticalConsoleErrors = consoleErrors.filter((errorText) => {
+    return !/Failed to load resource|favicon|net::ERR|ResizeObserver loop limit exceeded/i.test(errorText)
+  })
 
-  console.log('\n=== CONSOLE ERRORS ===')
-  errors.forEach(e => console.log(e))
+  expect(pageErrors).toHaveLength(0)
+  expect(criticalConsoleErrors).toHaveLength(0)
 
-  console.log('\n=== PAGE ERRORS ===')
-  pageErrors.forEach(e => console.log(e))
-
-  console.log('\n=== PAGE HTML (first 500 chars) ===')
-  const html = await page.content()
-  console.log(html.substring(0, 500))
+  await expect(page.getByText('Something went wrong')).toHaveCount(0)
 })

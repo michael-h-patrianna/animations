@@ -23,7 +23,7 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, var(--bulb-on-glow60) 0%, transparent 70%);
+  background: linear-gradient(160deg, var(--bulb-on-glow60) 0%, transparent 70%);
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -42,28 +42,4 @@
   transform: translate(-50%, -50%);
 }
 
-/* Beat 1 (Strong beat) - Brightest and longest */
-.lights-circle-static-6__bulb-wrapper.beat-1 .lights-circle-static-6__bulb {
-}
-
-.lights-circle-static-6__bulb-wrapper.beat-1 .lights-circle-static-6__glow {
-}
-
-/* Beat 2 (Weak beat) - Medium brightness and shorter */
-.lights-circle-static-6__bulb-wrapper.beat-2 .lights-circle-static-6__bulb {
-}
-
-.lights-circle-static-6__bulb-wrapper.beat-2 .lights-circle-static-6__glow {
-}
-
-/* Beat 3 (Weak beat) - Dimmer and shortest */
-.lights-circle-static-6__bulb-wrapper.beat-3 .lights-circle-static-6__bulb {
-}
-
-.lights-circle-static-6__bulb-wrapper.beat-3 .lights-circle-static-6__glow {
-}
-
-/* Strong beat (1st in group) - Emphasized like "ONE-two-three" */
-
-/* Weak beat (2nd and 3rd in group) - Softer like "one-TWO-three" or "one-two-THREE" */
-
+/* Beat timing and intensity are controlled by Motion variants in the TSX component. */

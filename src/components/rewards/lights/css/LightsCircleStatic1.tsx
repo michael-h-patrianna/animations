@@ -46,7 +46,7 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
 
   return (
     <div
-      className="lights-circle-static-1"
+      className="lights-circle-static-1" data-animation-id="lights__circle-static-1"
       style={{
         '--bulb-on': colors.on,
         '--bulb-off': colors.off,

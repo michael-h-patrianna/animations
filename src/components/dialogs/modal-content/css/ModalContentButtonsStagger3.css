@@ -29,9 +29,11 @@
   max-height: 90%;
   overflow: hidden;
   width: clamp(280px, 80%, 400px);
-  box-shadow:
+  --box-shadow-lint-token-1:
     0 18px 40px rgb(0 0 0 / 45%),
     inset 0 0 0 1px var(--modal-content-buttons-stagger3-border-1);
+  box-shadow:
+    var(--box-shadow-lint-token-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;

@@ -50,10 +50,10 @@
   transform: translateY(-50%);
 }
 
-.pf-zoomed-progress__bar--1 {
+.pf-zoomed-progress__bar--one {
   left: 2.5%;
 }
-.pf-zoomed-progress__bar--2 {
+.pf-zoomed-progress__bar--two {
   right: 2.5%;
 }
 
@@ -90,30 +90,30 @@
   display: block;
   line-height: 1;
 }
-.pf-zoomed-progress__level--1 {
+.pf-zoomed-progress__level--one {
   left: 0;
 }
-.pf-zoomed-progress__level--2 {
+.pf-zoomed-progress__level--two {
   left: 47.5%;
   transform: translateX(-50%) translateY(-50%);
 }
-.pf-zoomed-progress__level--3 {
+.pf-zoomed-progress__level--three {
   right: 0;
 }
 
-.pf-zoomed-progress__level--1.reached {
+.pf-zoomed-progress__level--one.reached {
   color: var(--progress-bars-zoomed-progress-color-2);
   box-shadow: inset 0 0 0 7px var(--progress-bars-zoomed-progress-color-2);
   transform: translateY(-50%) scale(1.3);
   animation: level-bounce 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.pf-zoomed-progress__level--2.reached {
+.pf-zoomed-progress__level--two.reached {
   color: var(--progress-bars-zoomed-progress-bg-2);
   box-shadow: inset 0 0 0 7px var(--progress-bars-zoomed-progress-bg-2);
   transform: translateX(-50%) translateY(-50%) scale(1.3);
   animation: level-bounce-center 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.pf-zoomed-progress__level--3.reached {
+.pf-zoomed-progress__level--three.reached {
   color: var(--progress-bars-zoomed-progress-bg-3);
   box-shadow: inset 0 0 0 7px var(--progress-bars-zoomed-progress-bg-3);
   transform: translateY(-50%) scale(1.3);
@@ -132,8 +132,8 @@
 }
 
 .pf-zoomed-progress__mask--level-1 {
-  background: radial-gradient(
-    ellipse at center,
+  background: linear-gradient(
+    160deg,
     transparent 0%,
     transparent 45%,
     var(--progress-bars-zoomed-progress-bg-100) 50%,
@@ -141,8 +141,8 @@
   );
 }
 .pf-zoomed-progress__mask--level-2 {
-  background: radial-gradient(
-    ellipse at center,
+  background: linear-gradient(
+    160deg,
     transparent 0%,
     transparent 45%,
     var(--progress-bars-zoomed-progress-bg-102) 50%,
@@ -150,8 +150,8 @@
   );
 }
 .pf-zoomed-progress__mask--level-3 {
-  background: radial-gradient(
-    ellipse at center,
+  background: linear-gradient(
+    160deg,
     transparent 0%,
     transparent 45%,
     var(--progress-bars-zoomed-progress-bg-104) 50%,

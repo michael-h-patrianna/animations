@@ -2,7 +2,7 @@
 
   --progress-bars-neon-pulse-bg-1: #000;
   --progress-bars-neon-pulse-bg-2: #1a1a1a;
-  --progress-bars-neon-pulse-bg-3: #ff00ff;
+  --progress-bars-neon-pulse-bg-3: #f0f;
   --progress-bars-neon-pulse-bg-4: rgb(255 255 255 / 50%);
   --progress-bars-neon-pulse-bg-5: rgb(255 0 255 / 40%);
   --progress-bars-neon-pulse-bg-6: rgb(255 0 255 / 20%);
@@ -44,7 +44,7 @@
 .neon-pulse-glow {
   position: absolute;
   left: 0;
-  filter: blur(4px); /* Warning: Blur is forbidden by prompt. I must remove it. */
+  filter: none; /* Warning: Blur is forbidden by prompt. I must remove it. */
   /* opacity is safer for glow simulation without blur */
   border-radius: 10px;
   z-index: 1;

@@ -4,7 +4,7 @@ import './StandardEffectsWiggle.css'
 
 function StandardEffectsWiggleComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__wiggle">
       <div className="standard-demo-element wiggle-element">
         <div className="demo-text">Wiggle</div>
       </div>

@@ -21,7 +21,7 @@ const fireworks = useMemo(
     []
   )
   return (
-    <div className="pf-celebration">
+    <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple">
       <div className="pf-celebration__layer">
         {fireworks.map((firework) => (
           <m.span

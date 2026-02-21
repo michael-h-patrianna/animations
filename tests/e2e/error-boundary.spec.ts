@@ -1,101 +1,61 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('ErrorBoundary', () => {
-  test('should display error boundary fallback UI when an error occurs', async ({ page }) => {
-    // Navigate to the app
+  test('does not show fallback UI during healthy app render', async ({ page }) => {
     await page.goto('/')
+    await page.waitForSelector('.pf-main .pf-sidebar', { timeout: 10000 })
 
-    // Wait for the app to load
-    await page.waitForLoadState('networkidle')
-
-    // Inject a script that will throw an error when a specific button is clicked
-    await page.evaluate(() => {
-      // Create a test button that throws an error
-      const button = document.createElement('button')
-      button.id = 'test-error-button'
-      button.textContent = 'Trigger Error'
-      button.onclick = () => {
-        throw new Error('Test error for ErrorBoundary')
-      }
-      document.body.appendChild(button)
-    })
-
-    // Trigger the error by clicking the button
-    await page.click('#test-error-button')
-
-    // Wait a bit for the error to propagate
-    await page.waitForTimeout(500)
-
-    // Check if error boundary fallback UI is displayed
-    await expect(page.getByText('Something went wrong')).toBeVisible()
-    await expect(page.getByText('Try Again')).toBeVisible()
+    await expect(page.getByText('Something went wrong')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Try Again' })).toHaveCount(0)
   })
 
-  test('should show error details in development mode', async ({ page }) => {
-    // Set development mode if needed
-    await page.goto('/')
+  test('shows fallback UI when a child lifecycle error is thrown', async ({ page }) => {
+    await page.addInitScript(() => {
+      const OriginalObserver = window.IntersectionObserver
+      // Throw exactly once to trigger ErrorBoundary, then allow recovery path.
+      ;(window as Window & { __ioThrowOnce?: boolean }).__ioThrowOnce = true
 
-    // Wait for the app to load
-    await page.waitForLoadState('networkidle')
-
-    // Inject a script that throws an error in React component
-    await page.evaluate(() => {
-      const button = document.createElement('button')
-      button.id = 'test-error-button'
-      button.textContent = 'Trigger Error'
-      button.onclick = () => {
-        throw new Error('Test error message')
+      window.IntersectionObserver = class extends OriginalObserver {
+        constructor(...args: ConstructorParameters<typeof OriginalObserver>) {
+          const state = window as Window & { __ioThrowOnce?: boolean }
+          if (state.__ioThrowOnce) {
+            state.__ioThrowOnce = false
+            throw new Error('Forced IntersectionObserver failure for ErrorBoundary test')
+          }
+          super(...args)
+        }
       }
-      document.body.appendChild(button)
     })
 
-    // Trigger the error
-    await page.click('#test-error-button')
+    await page.goto('/')
 
-    // Wait for error boundary to catch the error
-    await page.waitForTimeout(500)
-
-    // In development mode, error details should be present
-    // Look for the details element
-    const detailsElement = page.locator('details:has-text("Error Details")')
-    if ((await detailsElement.count()) > 0) {
-      await expect(detailsElement).toBeVisible()
-    }
+    await expect(page.getByRole('heading', { name: 'Something went wrong' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Try Again' })).toBeVisible()
   })
 
-  test('should allow recovery by clicking Try Again button', async ({ page }) => {
-    // Navigate to the app
-    await page.goto('/')
+  test('recovers after clicking Try Again when injected failure is one-time', async ({ page }) => {
+    await page.addInitScript(() => {
+      const OriginalObserver = window.IntersectionObserver
+      ;(window as Window & { __ioThrowOnce?: boolean }).__ioThrowOnce = true
 
-    // Wait for the app to load
-    await page.waitForLoadState('networkidle')
-
-    // Inject a script that throws an error
-    await page.evaluate(() => {
-      const button = document.createElement('button')
-      button.id = 'test-error-button'
-      button.textContent = 'Trigger Error'
-      button.onclick = () => {
-        throw new Error('Test error for recovery')
+      window.IntersectionObserver = class extends OriginalObserver {
+        constructor(...args: ConstructorParameters<typeof OriginalObserver>) {
+          const state = window as Window & { __ioThrowOnce?: boolean }
+          if (state.__ioThrowOnce) {
+            state.__ioThrowOnce = false
+            throw new Error('Forced one-time failure for ErrorBoundary recovery test')
+          }
+          super(...args)
+        }
       }
-      document.body.appendChild(button)
     })
 
-    // Trigger the error
-    await page.click('#test-error-button')
+    await page.goto('/')
+    await expect(page.getByRole('heading', { name: 'Something went wrong' })).toBeVisible()
 
-    // Wait for error boundary
-    await page.waitForTimeout(500)
+    await page.getByRole('button', { name: 'Try Again' }).click()
 
-    // Verify error UI is shown
-    await expect(page.getByText('Something went wrong')).toBeVisible()
-
-    // Click Try Again button
-    await page.getByText('Try Again').click()
-
-    // After recovery, the app should be visible again
-    // Since we just reset the error state, the app should render normally
-    // We can check if the error message is gone
-    await expect(page.getByText('Something went wrong')).not.toBeVisible()
+    await page.waitForSelector('.pf-main .pf-sidebar', { timeout: 10000 })
+    await expect(page.getByRole('heading', { name: 'Something went wrong' })).toHaveCount(0)
   })
 })

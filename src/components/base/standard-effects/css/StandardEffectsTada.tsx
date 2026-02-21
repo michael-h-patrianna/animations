@@ -4,7 +4,7 @@ import './StandardEffectsTada.css'
 
 function StandardEffectsTadaComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__tada">
       <div className="standard-demo-element tada-element">
         <div className="demo-text">Tada</div>
       </div>

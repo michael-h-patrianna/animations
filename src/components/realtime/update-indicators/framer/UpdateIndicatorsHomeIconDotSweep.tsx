@@ -53,7 +53,8 @@ useEffect(() => {
           transition={{
             duration: 0.9,
             ease: easeInOut,
-            times: [0, 0.35, 1]
+            scale: { times: [0, 1] },
+            opacity: { times: [0, 0.35, 1] }
           }}
         />
       </div>

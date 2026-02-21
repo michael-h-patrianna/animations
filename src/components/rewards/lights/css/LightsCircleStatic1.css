@@ -36,7 +36,7 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, var(--bulb-on-glow50) 0%, transparent 70%);
+  background: linear-gradient(180deg, var(--bulb-on-glow50) 0%, transparent 70%);
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -51,7 +51,7 @@
   position: absolute;
   width: 14px;
   height: 14px;
-  background: radial-gradient(circle, var(--bulb-on-glow70) 0%, transparent 70%);
+  background: linear-gradient(180deg, var(--bulb-on-glow70) 0%, transparent 70%);
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -149,7 +149,7 @@
 /* Keyframes for even bulbs - smooth transitions with blend states */
 @keyframes carnival-bulb-even {
   0%, 42% {
-    background: radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
+    background: linear-gradient(180deg, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
     box-shadow: 0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50);
     transform: translate(-50%, -50%) scale(1.12) rotate(1.5deg);
     border-color: var(--lights-circle-static1-bg-2);
@@ -173,7 +173,7 @@
     border-color: var(--lights-circle-static1-border-1);
   }
   94%, 100% {
-    background: radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
+    background: linear-gradient(180deg, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
     box-shadow: 0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50);
     transform: translate(-50%, -50%) scale(1.12) rotate(1.5deg);
     border-color: var(--lights-circle-static1-bg-2);
@@ -222,7 +222,7 @@
     border-color: var(--lights-circle-static1-border-1);
   }
   44%, 92% {
-    background: radial-gradient(circle at 40% 40%, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
+    background: linear-gradient(180deg, var(--bulb-on), color-mix(in srgb, var(--bulb-on) 85%, transparent));
     box-shadow: 0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50);
     transform: translate(-50%, -50%) scale(1.12) rotate(1.5deg);
     border-color: var(--lights-circle-static1-bg-2);

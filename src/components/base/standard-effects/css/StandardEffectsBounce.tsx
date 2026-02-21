@@ -4,7 +4,7 @@ import './StandardEffectsBounce.css'
 
 function StandardEffectsBounceComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__bounce">
       <div className="standard-demo-element bounce-element">
         <div className="demo-text">Bounce</div>
       </div>

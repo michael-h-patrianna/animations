@@ -10,7 +10,7 @@ export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [blipKey, setBlipKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -23,7 +23,7 @@ useEffect(() => {
         setSeconds(display)
 
         // Blip animations at specific thresholds
-  {
+        {
           if (display > 12) {
             if (display % 6 === 0 && display > 0) {
               setBlipKey((prev) => prev + 1)
@@ -44,7 +44,7 @@ useEffect(() => {
     }, 100)
 
     // Immediate emphasis on mount
-  {
+    {
       setBlipKey((prev) => prev + 1)
     }
 
@@ -76,20 +76,8 @@ useEffect(() => {
   }
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-medium">
-      <m.div
-        key={blipKey}
-        className="pf-pill-timer__pill pf-pill-timer__pill--medium"
-        variants={blipVariants}
-        initial="idle"
-        animate="blip"
-      >
-        <m.span
-          className="pf-pill-timer__glow"
-          aria-hidden="true"
-          variants={glowVariants}
-          initial="idle"
-          animate="blip"
-        />
+      <m.div key={blipKey} className="pf-pill-timer__pill pf-pill-timer__pill--medium" variants={blipVariants} initial="idle" animate="blip">
+        <m.span className="pf-pill-timer__glow" aria-hidden="true" variants={glowVariants} initial="idle" animate="blip" />
         <div className="pf-pill-timer__time">{format(seconds)}</div>
       </m.div>
       <span className="pf-pill-timer__label">Pill Countdown — Medium</span>

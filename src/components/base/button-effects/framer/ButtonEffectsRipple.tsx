@@ -1,6 +1,6 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useRef, useState, memo } from 'react'
+import { useEffect, useRef, useState, memo } from 'react'
 
 interface Ripple {
   id: number
@@ -13,6 +13,15 @@ function ButtonEffectsRippleComponent() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
+  const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+
+  useEffect(() => {
+    const timeoutIds = timeoutIdsRef.current
+    return () => {
+      timeoutIds.forEach(clearTimeout)
+      timeoutIds.clear()
+    }
+  }, [])
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const rect = btnRef.current?.getBoundingClientRect()
@@ -27,9 +36,11 @@ function ButtonEffectsRippleComponent() {
     const id = nextId.current++
     setRipples((prev) => [...prev, { id, x, y, size }])
     // cleanup ripple after animation ends
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
+      timeoutIdsRef.current.delete(timeoutId)
       setRipples((prev) => prev.filter((r) => r.id !== id))
     }, 520)
+    timeoutIdsRef.current.add(timeoutId)
   }
 
   const rippleVariants = {
@@ -50,7 +61,7 @@ function ButtonEffectsRippleComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__ripple">
-      <button ref={btnRef} className="pf-btn pf-btn--primary pf-btn--ripple" onClick={handleClick}>
+      <button type="button" ref={btnRef} className="pf-btn pf-btn--primary pf-btn--ripple" onClick={handleClick}>
         Ripple Button
         <span className="pf-btn__ripples" aria-hidden>
           {ripples.map((r) => {
@@ -76,4 +87,3 @@ function ButtonEffectsRippleComponent() {
  * Memoized ButtonEffectsRipple to prevent unnecessary re-renders in grid layouts.
  */
 export const ButtonEffectsRipple = memo(ButtonEffectsRippleComponent)
-

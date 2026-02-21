@@ -6,10 +6,8 @@ import './framer/TimerEffectsPillCountdownHeartbeat.css'
 import './framer/TimerEffectsPillCountdownMedium.css'
 import './framer/TimerEffectsPillCountdownSoft.css'
 import './framer/TimerEffectsPillCountdownStrong.css'
-import './framer/TimerEffectsTimerColorShift.css'
 import './framer/TimerEffectsTimerFlash.css'
 import './framer/TimerEffectsTimerFlashSoft.css'
-import './framer/TimerEffectsTimerFlip.css'
 import './framer/TimerEffectsTimerPulse.css'
 import './framer/TimerEffectsUrgentPulse.css'
 
@@ -17,11 +15,6 @@ import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 
 // Lazy-loaded variants to enable code-splitting per animation component
-const TimerEffectsTimerColorShift = lazy(() =>
-  import('./framer/TimerEffectsTimerColorShift').then((m) => ({
-    default: m.TimerEffectsTimerColorShift,
-  }))
-)
 const TimerEffectsTimerFlash = lazy(() =>
   import('./framer/TimerEffectsTimerFlash').then((m) => ({ default: m.TimerEffectsTimerFlash }))
 )
@@ -29,9 +22,6 @@ const TimerEffectsTimerFlashSoft = lazy(() =>
   import('./framer/TimerEffectsTimerFlashSoft').then((m) => ({
     default: m.TimerEffectsTimerFlashSoft,
   }))
-)
-const TimerEffectsTimerFlip = lazy(() =>
-  import('./framer/TimerEffectsTimerFlip').then((m) => ({ default: m.TimerEffectsTimerFlip }))
 )
 const TimerEffectsTimerPulse = lazy(() =>
   import('./framer/TimerEffectsTimerPulse').then((m) => ({ default: m.TimerEffectsTimerPulse }))
@@ -79,10 +69,8 @@ import { metadata as timerEffectsPillCountdownExtremeMetadata } from './framer/T
 import { metadata as timerEffectsPillCountdownGlitchMetadata } from './framer/TimerEffectsPillCountdownGlitch.meta'
 import { metadata as timerEffectsPillCountdownHeartbeatMetadata } from './framer/TimerEffectsPillCountdownHeartbeat.meta'
 import { metadata as timerEffectsPillCountdownStrongMetadata } from './framer/TimerEffectsPillCountdownStrong.meta'
-import { metadata as timerEffectsTimerColorShiftMetadata } from './framer/TimerEffectsTimerColorShift.meta'
 import { metadata as timerEffectsTimerFlashMetadata } from './framer/TimerEffectsTimerFlash.meta'
 import { metadata as timerEffectsTimerFlashSoftMetadata } from './framer/TimerEffectsTimerFlashSoft.meta'
-import { metadata as timerEffectsTimerFlipMetadata } from './framer/TimerEffectsTimerFlip.meta'
 import { metadata as timerEffectsTimerPulseMetadata } from './framer/TimerEffectsTimerPulse.meta'
 import { metadata as timerEffectsUrgentPulseMetadata } from './framer/TimerEffectsUrgentPulse.meta'
 import { metadata as timerEffectsPillCountdownMediumMetadata } from './framer/TimerEffectsPillCountdownMedium.meta'
@@ -95,19 +83,12 @@ import { metadata as pillCountdownHeartbeatCssMetadata } from './css/TimerEffect
 import { metadata as pillCountdownMediumCssMetadata } from './css/TimerEffectsPillCountdownMedium.meta'
 import { metadata as pillCountdownSoftCssMetadata } from './css/TimerEffectsPillCountdownSoft.meta'
 import { metadata as pillCountdownStrongCssMetadata } from './css/TimerEffectsPillCountdownStrong.meta'
-import { metadata as timerColorShiftCssMetadata } from './css/TimerEffectsTimerColorShift.meta'
 import { metadata as timerFlashCssMetadata } from './css/TimerEffectsTimerFlash.meta'
 import { metadata as timerFlashSoftCssMetadata } from './css/TimerEffectsTimerFlashSoft.meta'
-import { metadata as timerFlipCssMetadata } from './css/TimerEffectsTimerFlip.meta'
 import { metadata as timerPulseCssMetadata } from './css/TimerEffectsTimerPulse.meta'
 import { metadata as urgentPulseCssMetadata } from './css/TimerEffectsUrgentPulse.meta'
 
 // CSS animations - Lazy load components
-const CssTimerEffectsTimerColorShift = lazy(() =>
-  import('./css/TimerEffectsTimerColorShift').then((m) => ({
-    default: m.TimerEffectsTimerColorShift,
-  }))
-)
 const CssTimerEffectsTimerFlash = lazy(() =>
   import('./css/TimerEffectsTimerFlash').then((m) => ({ default: m.TimerEffectsTimerFlash }))
 )
@@ -115,9 +96,6 @@ const CssTimerEffectsTimerFlashSoft = lazy(() =>
   import('./css/TimerEffectsTimerFlashSoft').then((m) => ({
     default: m.TimerEffectsTimerFlashSoft,
   }))
-)
-const CssTimerEffectsTimerFlip = lazy(() =>
-  import('./css/TimerEffectsTimerFlip').then((m) => ({ default: m.TimerEffectsTimerFlip }))
 )
 const CssTimerEffectsTimerPulse = lazy(() =>
   import('./css/TimerEffectsTimerPulse').then((m) => ({ default: m.TimerEffectsTimerPulse }))
@@ -168,10 +146,6 @@ export const groupMetadata: GroupMetadata = {
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
   framer: {
-    'timer-effects__timer-color-shift': {
-      component: TimerEffectsTimerColorShift,
-      metadata: timerEffectsTimerColorShiftMetadata,
-    },
     'timer-effects__timer-pulse': {
       component: TimerEffectsTimerPulse,
       metadata: timerEffectsTimerPulseMetadata,
@@ -183,10 +157,6 @@ export const groupExport: GroupExport = {
     'timer-effects__timer-flash-soft': {
       component: TimerEffectsTimerFlashSoft,
       metadata: timerEffectsTimerFlashSoftMetadata,
-    },
-    'timer-effects__timer-flip': {
-      component: TimerEffectsTimerFlip,
-      metadata: timerEffectsTimerFlipMetadata,
     },
     'timer-effects__pill-countdown-strong': {
       component: TimerEffectsPillCountdownStrong,
@@ -218,10 +188,6 @@ export const groupExport: GroupExport = {
     },
   },
   css: {
-    'timer-effects__timer-color-shift': {
-      component: CssTimerEffectsTimerColorShift,
-      metadata: timerColorShiftCssMetadata,
-    },
     'timer-effects__timer-pulse': {
       component: CssTimerEffectsTimerPulse,
       metadata: timerPulseCssMetadata,
@@ -233,10 +199,6 @@ export const groupExport: GroupExport = {
     'timer-effects__timer-flash-soft': {
       component: CssTimerEffectsTimerFlashSoft,
       metadata: timerFlashSoftCssMetadata,
-    },
-    'timer-effects__timer-flip': {
-      component: CssTimerEffectsTimerFlip,
-      metadata: timerFlipCssMetadata,
     },
     'timer-effects__pill-countdown-soft': {
       component: CssTimerEffectsPillCountdownSoft,

@@ -1,6 +1,6 @@
 import { animationDataService } from '@/services/animationData'
 import type { Category } from '@/types/animation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface LoadingState {
   isLoading: boolean
@@ -50,14 +50,38 @@ export function useAnimations() {
     isLoading: true,
     error: null,
   })
+  const isMountedRef = useRef(true)
+  const latestRequestIdRef = useRef(0)
 
-  const loadCatalog = useCallback(async () => {
-    try {
+  useEffect(() => {
+    isMountedRef.current = true
+
+    return () => {
+      isMountedRef.current = false
+    }
+  }, [])
+
+  const runCatalogRequest = useCallback(async (requestFactory: () => Promise<Category[]>) => {
+    const requestId = ++latestRequestIdRef.current
+
+    if (isMountedRef.current) {
       setLoadingState({ isLoading: true, error: null })
-      const data = await animationDataService.loadAnimations()
+    }
+
+    try {
+      const data = await requestFactory()
+
+      if (!isMountedRef.current || requestId !== latestRequestIdRef.current) {
+        return
+      }
+
       setCategories(data)
       setLoadingState({ isLoading: false, error: null })
     } catch (error) {
+      if (!isMountedRef.current || requestId !== latestRequestIdRef.current) {
+        return
+      }
+
       setLoadingState({
         isLoading: false,
         error: error instanceof Error ? error.message : 'Failed to load animations',
@@ -65,23 +89,17 @@ export function useAnimations() {
     }
   }, [])
 
+  const loadCatalog = useCallback(async () => {
+    await runCatalogRequest(() => animationDataService.loadAnimations())
+  }, [runCatalogRequest])
+
   useEffect(() => {
-    loadCatalog()
+    void loadCatalog()
   }, [loadCatalog])
 
-  const refreshAnimations = async () => {
-    try {
-      setLoadingState({ isLoading: true, error: null })
-      const data = await animationDataService.refreshCatalog()
-      setCategories(data)
-      setLoadingState({ isLoading: false, error: null })
-    } catch (error) {
-      setLoadingState({
-        isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to refresh animations',
-      })
-    }
-  }
+  const refreshAnimations = useCallback(async () => {
+    await runCatalogRequest(() => animationDataService.refreshCatalog())
+  }, [runCatalogRequest])
 
   return {
     categories,

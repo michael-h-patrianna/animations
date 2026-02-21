@@ -1,22 +1,36 @@
-import { useCodeMode } from '@/contexts/CodeModeContext'
+import { type CodeMode, useCodeMode } from '@/contexts/CodeModeContext'
 import type { FC } from 'react'
 import './CodeModeSwitch.css'
 
-export const CodeModeSwitch: FC = () => {
+interface CodeModeSwitchProps {
+  onModeSelect?: (mode: CodeMode) => void
+}
+
+export const CodeModeSwitch: FC<CodeModeSwitchProps> = ({ onModeSelect }) => {
   const { codeMode, setCodeMode } = useCodeMode()
+
+  const handleSelect = (mode: CodeMode) => {
+    if (onModeSelect) {
+      onModeSelect(mode)
+      return
+    }
+    setCodeMode(mode)
+  }
 
   return (
     <div className="pf-code-mode-switch">
       <button
+        type="button"
         className={`pf-code-mode-switch__option ${codeMode === 'Framer' ? 'is-active' : ''}`}
-        onClick={() => setCodeMode('Framer')}
+        onClick={() => handleSelect('Framer')}
         aria-pressed={codeMode === 'Framer'}
       >
         Framer
       </button>
       <button
+        type="button"
         className={`pf-code-mode-switch__option ${codeMode === 'CSS' ? 'is-active' : ''}`}
-        onClick={() => setCodeMode('CSS')}
+        onClick={() => handleSelect('CSS')}
         aria-pressed={codeMode === 'CSS'}
       >
         CSS

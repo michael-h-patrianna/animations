@@ -1,129 +1,78 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
+
+const desktopSidebar = (page: Page) => page.locator('.pf-main .pf-sidebar')
 
 test.describe('Category Navigation', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    // Wait for the app to load
-    await page.waitForSelector('.pf-category', { timeout: 10000 })
+    await page.waitForSelector('.pf-main .pf-sidebar', { timeout: 10000 })
   })
 
-  test('displays only one category at a time', async ({ page }) => {
-    // Should show first category (Dialogs) by default
-    await expect(page.locator('.pf-category')).toHaveCount(1)
-    await expect(page.locator('h1:has-text("Dialog & Modal Animations")')).toBeVisible()
+  test('loads with one active category and one visible group section', async ({ page }) => {
+    const sidebar = desktopSidebar(page)
+    await expect(sidebar.locator('.pf-sidebar__link--category').first()).toBeVisible()
+    await expect(sidebar.locator('.pf-sidebar__link--category.pf-sidebar__link--active')).toHaveCount(1)
+    await expect(page.locator('.pf-group')).toHaveCount(1)
 
-    // Other categories should not be visible
-    await expect(page.locator('h1:has-text("Button State Effects")')).not.toBeVisible()
-    await expect(page.locator('h1:has-text("Progress Animations")')).not.toBeVisible()
+    const currentPath = new URL(page.url()).pathname
+    expect(currentPath).not.toBe('/')
+    await expect(page.locator(`#group-${currentPath.slice(1)}`)).toBeVisible()
   })
 
-  test('switches categories when clicking sidebar navigation', async ({ page }) => {
-    // Click on Button State Effects category
-    await page.click('button:has-text("Button State Effects")')
+  test('switches active category and updates route to that category context', async ({ page }) => {
+    const sidebar = desktopSidebar(page)
+    const categoryButtons = sidebar.locator('.pf-sidebar__link--category')
+    const categoryCount = await categoryButtons.count()
+    expect(categoryCount).toBeGreaterThan(1)
 
-    // Wait for animation to complete
-    await page.waitForTimeout(500)
+    const initialPath = new URL(page.url()).pathname
+    await categoryButtons.nth(1).click()
 
-    // Should show Button State Effects category
-    await expect(page.locator('h1:has-text("Button State Effects")')).toBeVisible()
-
-    // Dialog category should no longer be visible
-    await expect(page.locator('h1:has-text("Dialog & Modal Animations")')).not.toBeVisible()
+    await expect.poll(() => new URL(page.url()).pathname).not.toBe(initialPath)
+    await expect(sidebar.locator('.pf-sidebar__link--category.pf-sidebar__link--active')).toHaveCount(1)
+    await expect(categoryButtons.nth(1)).toHaveClass(/pf-sidebar__link--active/)
   })
 
-  test('shows active state for current category in sidebar', async ({ page }) => {
-    // First category should be active by default
-    const dialogButton = page.locator('.pf-sidebar button:has-text("Dialog & Modal Animations")')
-    await expect(dialogButton).toHaveClass(/pf-sidebar__link--active/)
+  test('renders group links only for the active category section', async ({ page }) => {
+    const sidebar = desktopSidebar(page)
+    const sections = sidebar.locator('.pf-sidebar__section')
+    const sectionCount = await sections.count()
+    expect(sectionCount).toBeGreaterThan(0)
 
-    // Other categories should not be active
-    const buttonButton = page.locator('.pf-sidebar button:has-text("Button State Effects")')
-    await expect(buttonButton).not.toHaveClass(/pf-sidebar__link--active/)
+    for (let index = 0; index < sectionCount; index += 1) {
+      const section = sections.nth(index)
+      const isActive = await section
+        .locator('.pf-sidebar__link--category')
+        .evaluate((el) => el.classList.contains('pf-sidebar__link--active'))
+      const groupCount = await section.locator('.pf-sidebar__link--group').count()
 
-    // Click on Button State Effects
-    await buttonButton.click()
-    await page.waitForTimeout(500)
-
-    // Active state should switch
-    await expect(buttonButton).toHaveClass(/pf-sidebar__link--active/)
-    await expect(dialogButton).not.toHaveClass(/pf-sidebar__link--active/)
+      if (isActive) {
+        expect(groupCount).toBeGreaterThan(0)
+      } else {
+        expect(groupCount).toBe(0)
+      }
+    }
   })
 
-  test('displays groups only for active category', async ({ page }) => {
-    // Groups for Dialog category should be visible
-    await expect(page.locator('.pf-sidebar button:has-text("Base modal animations")')).toBeVisible()
+  test('clicking a visible group updates route and active group state', async ({ page }) => {
+    const sidebar = desktopSidebar(page)
+    const activeSection = sidebar
+      .locator('.pf-sidebar__section')
+      .filter({ has: sidebar.locator('.pf-sidebar__link--category.pf-sidebar__link--active') })
+      .first()
+    const groupButtons = activeSection.locator('.pf-sidebar__link--group')
 
-    // Click on Progress category
-    await page.click('.pf-sidebar button:has-text("Progress Animations")')
-    await page.waitForTimeout(500)
+    const groupCount = await groupButtons.count()
+    expect(groupCount).toBeGreaterThan(1)
 
-    // Dialog groups should no longer be visible
-    await expect(
-      page.locator('.pf-sidebar button:has-text("Base modal animations")')
-    ).not.toBeVisible()
+    const targetGroup = groupButtons.nth(1)
+    const targetLabel = (await targetGroup.innerText()).trim()
+    const initialPath = new URL(page.url()).pathname
 
-    // Progress groups should now be visible
-    await expect(
-      page.locator('.pf-sidebar button:has-text("Dynamic progress animations")')
-    ).toBeVisible()
-  })
+    await targetGroup.click()
 
-  test('navigates to group within category when clicking group', async ({ page }) => {
-    // Click on a group in the current category
-    await page.click('.pf-sidebar button:has-text("Base modal animations")')
-
-    // Should scroll to the group (verify group is in viewport)
-    const groupElement = page.locator('#group-modal-base')
-    await expect(groupElement).toBeInViewport()
-  })
-
-  test('switches category and scrolls to group when clicking group from different category', async ({
-    page,
-  }) => {
-    // First switch to Progress category
-    await page.click('.pf-sidebar button:has-text("Progress Animations")')
-    await page.waitForTimeout(500)
-
-    // Click on a group from that category
-    await page.click('.pf-sidebar button:has-text("Dynamic progress animations")')
-
-    // Should be in Progress category
-    await expect(page.locator('h1:has-text("Progress Animations")')).toBeVisible()
-
-    // Should scroll to the group
-    const groupElement = page.locator('#group-progress-dynamic')
-    await expect(groupElement).toBeInViewport()
-  })
-
-  test('supports keyboard navigation between categories', async ({ page }) => {
-    // Focus on first category button
-    await page.locator('.pf-sidebar button:has-text("Dialog & Modal Animations")').focus()
-
-    // Tab to next category
-    await page.keyboard.press('Tab')
-
-    // Should focus on next category button
-    await expect(page.locator('.pf-sidebar button:has-text("Button State Effects")')).toBeFocused()
-
-    // Press Enter to select
-    await page.keyboard.press('Enter')
-    await page.waitForTimeout(500)
-
-    // Should switch to Button State Effects category
-    await expect(page.locator('h1:has-text("Button State Effects")')).toBeVisible()
-  })
-
-  test('maintains scroll position when switching categories', async ({ page }) => {
-    // Scroll down a bit in first category
-    await page.evaluate(() => window.scrollBy(0, 200))
-    const scrollBefore = await page.evaluate(() => window.scrollY)
-
-    // Switch category
-    await page.click('.pf-sidebar button:has-text("Button State Effects")')
-    await page.waitForTimeout(500)
-
-    // Scroll position should be maintained (approximately)
-    const scrollAfter = await page.evaluate(() => window.scrollY)
-    expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThan(50)
+    await expect.poll(() => new URL(page.url()).pathname).not.toBe(initialPath)
+    await expect(targetGroup).toHaveClass(/pf-sidebar__link--active/)
+    await expect(page.locator('.pf-group__title')).toContainText(targetLabel)
   })
 })

@@ -15,6 +15,7 @@ export function TimerEffectsTimerFlashSoft() {
     let lastDisplayed = 32
     let lastReminderTime = 0
     const reminderInterval = 10000
+    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
 
     const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime
@@ -36,14 +37,19 @@ export function TimerEffectsTimerFlashSoft() {
       if (progress >= 1) {
         clearInterval(intervalId)
         // Auto-restart after a brief pause
-        setTimeout(() => {
+        restartTimeoutId = setTimeout(() => {
           setSeconds(32)
           setAnimationKey((prev) => prev + 1)
         }, 2000)
       }
     }, 100)
 
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+      if (restartTimeoutId) {
+        clearTimeout(restartTimeoutId)
+      }
+    }
   }, [animationKey])
 
   const formatTime = (totalSeconds: number) => {
@@ -62,4 +68,3 @@ export function TimerEffectsTimerFlashSoft() {
     </div>
   )
 }
-

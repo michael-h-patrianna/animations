@@ -22,7 +22,7 @@
   width: 100%;
   height: 240px;
   border-radius: 12px;
-  background: radial-gradient(circle at 50% 0%, var(--modal-celebrations-jackpot-celebration-bg-1), var(--modal-celebrations-jackpot-celebration-bg-2));
+  background: linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-1), var(--modal-celebrations-jackpot-celebration-bg-2));
   border: 1px solid var(--modal-celebrations-jackpot-celebration-border-1);
   overflow: hidden;
 }
@@ -38,7 +38,8 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--coin-color, linear-gradient(135deg, #ffd966 0%, var(--modal-celebrations-jackpot-celebration-bg-100) 100%));
+  --background-lint-token-1: var(--coin-color, linear-gradient(135deg, #ffd966 0%, var(--modal-celebrations-jackpot-celebration-bg-100) 100%));
+  background: var(--background-lint-token-1);
   transform: translate(-50%, -50%);
   opacity: 0;
   pointer-events: none;
@@ -82,9 +83,11 @@
   width: 140px;
   height: 44px;
   border-radius: 50%;
+  --background-lint-token-2:
+    linear-gradient(180deg, rgb(255 255 255 / 75%), var(--modal-celebrations-jackpot-celebration-bg-6)),
+    linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-101), var(--modal-celebrations-jackpot-celebration-bg-9));
   background:
-    radial-gradient(circle at 50% 28%, rgb(255 255 255 / 75%), var(--modal-celebrations-jackpot-celebration-bg-6)),
-    radial-gradient(circle at 50% 100%, var(--modal-celebrations-jackpot-celebration-bg-101), var(--modal-celebrations-jackpot-celebration-bg-9));
+    var(--background-lint-token-2);
   transform: translate(-50%, 26px);
   box-shadow: 0 22px 38px var(--modal-celebrations-jackpot-celebration-shadow);
   overflow: hidden;
@@ -95,7 +98,7 @@
   position: absolute;
   inset: 28% 24% 42%;
   border-radius: inherit;
-  background: radial-gradient(circle, var(--modal-celebrations-jackpot-celebration-bg-5), var(--modal-celebrations-jackpot-celebration-bg-6));
+  background: linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-5), var(--modal-celebrations-jackpot-celebration-bg-6));
   /* Avoid blur in RN translation */
 }
 .pf-celebration__stage-glow {
@@ -105,19 +108,19 @@
   width: 124px;
   height: 200px;
   transform: translate(-50%, 24px);
-  background: radial-gradient(circle at 50% 0%, var(--modal-celebrations-jackpot-celebration-bg-7), var(--modal-celebrations-jackpot-celebration-bg-6));
+  background: linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-7), var(--modal-celebrations-jackpot-celebration-bg-6));
   /* Avoid heavy blur and blend modes */
   pointer-events: none;
 }
 .pf-celebration__stage-glow--gold {
-  background: radial-gradient(circle at 50% 0%, var(--modal-celebrations-jackpot-celebration-bg-8), var(--modal-celebrations-jackpot-celebration-bg-9));
+  background: linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-8), var(--modal-celebrations-jackpot-celebration-bg-9));
 }
 .pf-celebration__sparkle {
   position: absolute;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--modal-celebrations-jackpot-celebration-bg-10) 0%, var(--modal-celebrations-jackpot-celebration-bg-6));
+  background: linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-10) 0%, var(--modal-celebrations-jackpot-celebration-bg-6));
   transform: translate(-50%, -50%);
   /* Avoid blend modes */
   pointer-events: none;
@@ -129,7 +132,7 @@
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--modal-celebrations-jackpot-celebration-bg-11), var(--modal-celebrations-jackpot-celebration-bg-9));
+  background: linear-gradient(180deg, var(--modal-celebrations-jackpot-celebration-bg-11), var(--modal-celebrations-jackpot-celebration-bg-9));
   transform: translate(-50%, -50%);
   pointer-events: none;
 }

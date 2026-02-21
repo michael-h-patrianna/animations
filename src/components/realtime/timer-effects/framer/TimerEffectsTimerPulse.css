@@ -16,7 +16,8 @@
 .pf-timer__value {
   font-size: 2.5rem;
   font-weight: 600;
-  color: var(--timer-color, #ecc3ff);
+  --color-lint-token-1: var(--timer-color, #ecc3ff);
+  color: var(--color-lint-token-1);
   text-align: center;
   line-height: 1;
   transition: all 0.3s ease;

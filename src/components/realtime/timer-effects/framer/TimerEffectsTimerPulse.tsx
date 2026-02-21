@@ -7,9 +7,12 @@ import { useEffect, useState } from 'react'
  */
 export function TimerEffectsTimerPulse() {
   const [value, setValue] = useState(10)
-useEffect(() => {
+  const [animationKey, setAnimationKey] = useState(0)
+
+  useEffect(() => {
     const duration = 2000
     const startTime = Date.now()
+    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
 
     const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime
@@ -21,14 +24,20 @@ useEffect(() => {
       if (progress >= 1) {
         clearInterval(intervalId)
         // Auto-restart after a brief pause
-        setTimeout(() => {
+        restartTimeoutId = setTimeout(() => {
           setValue(10)
+          setAnimationKey((prev) => prev + 1)
         }, 1000)
       }
     }, 100)
 
-    return () => clearInterval(intervalId)
-  }, [])
+    return () => {
+      clearInterval(intervalId)
+      if (restartTimeoutId) {
+        clearTimeout(restartTimeoutId)
+      }
+    }
+  }, [animationKey])
 
   const pulseVariants = {
     pulse: {

@@ -17,7 +17,7 @@
     transform: skewX(1.5625deg) skewY(1.5625deg) scale(0.99);
   }
   75% {
-    transform: skewX(-0.78125deg) skewY(-0.78125deg) scale(1.01);
+    transform: skewX(-0.7813deg) skewY(-0.7813deg) scale(1.01);
   }
   100% {
     transform: skewX(0deg) skewY(0deg) scale(1);

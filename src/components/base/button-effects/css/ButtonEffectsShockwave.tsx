@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsShockwave.css'
 
@@ -18,6 +18,15 @@ function ButtonEffectsShockwaveComponent() {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
   const nextId = useRef(0)
+  const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+
+  useEffect(() => {
+    const timeoutIds = timeoutIdsRef.current
+    return () => {
+      timeoutIds.forEach(clearTimeout)
+      timeoutIds.clear()
+    }
+  }, [])
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = btnRef.current?.getBoundingClientRect()
@@ -29,14 +38,16 @@ function ButtonEffectsShockwaveComponent() {
 
     setShockwaves((prev) => [...prev, { id, x, y }])
 
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
+      timeoutIdsRef.current.delete(timeoutId)
       setShockwaves((prev) => prev.filter((w) => w.id !== id))
     }, 1000)
+    timeoutIdsRef.current.add(timeoutId)
   }
 
   return (
     <div className="button-demo" data-animation-id="button-effects__shockwave">
-      <button
+      <button type="button"
         ref={btnRef}
         className="pf-btn pf-btn--primary bfx-shockwave"
         onClick={handleClick}
@@ -66,4 +77,3 @@ function ButtonEffectsShockwaveComponent() {
 }
 
 export const ButtonEffectsShockwave = memo(ButtonEffectsShockwaveComponent)
-

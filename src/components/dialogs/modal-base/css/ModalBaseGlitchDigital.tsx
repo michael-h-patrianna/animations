@@ -14,10 +14,16 @@ export function ModalBaseGlitchDigital() {
     >
       <div className="modal-base-tfx-glitchdigital__center">
         {/* Ghost layers behind the modal for RGB channel separation effect */}
-        <div className="modal-base-tfx-glitchdigital__ghost modal-base-tfx-glitchdigital__ghost--green">
+        <div
+          className="modal-base-tfx-glitchdigital__ghost modal-base-tfx-glitchdigital__ghost--green"
+          aria-hidden="true"
+        >
           <MockModalContent />
         </div>
-        <div className="modal-base-tfx-glitchdigital__ghost modal-base-tfx-glitchdigital__ghost--pink">
+        <div
+          className="modal-base-tfx-glitchdigital__ghost modal-base-tfx-glitchdigital__ghost--pink"
+          aria-hidden="true"
+        >
           <MockModalContent />
         </div>
 
@@ -29,4 +35,3 @@ export function ModalBaseGlitchDigital() {
     </div>
   )
 }
-

@@ -63,6 +63,12 @@
 }
 
 @keyframes crystal-burst-anim {
-  0% { transform: rotate(45deg) scale(0.5); opacity: 1; }
-  100% { transform: rotate(45deg) scale(2); opacity: 0; }
+  0% {
+    transform: rotate(45deg) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(45deg) scale(2);
+    opacity: 0;
+  }
 }

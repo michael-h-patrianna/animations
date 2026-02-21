@@ -2,7 +2,7 @@
 
   --progress-bars-neon-pulse-bg-1: #000;
   --progress-bars-neon-pulse-bg-2: #1a1a1a;
-  --progress-bars-neon-pulse-bg-3: #ff00ff;
+  --progress-bars-neon-pulse-bg-3: #f0f;
   --progress-bars-neon-pulse-bg-4: rgb(255 255 255 / 50%);
   --progress-bars-neon-pulse-bg-5: rgb(255 0 255 / 20%);
   background: var(--progress-bars-neon-pulse-bg-1);

@@ -17,6 +17,7 @@ function ButtonEffectsSplitRevealComponent() {
   return (
     <div className="button-demo" data-animation-id="button-effects__split-reveal">
       <button
+        type="button"
         className="pf-btn pf-btn--primary pf-btn--split-reveal"
         onClick={handleClick}
       >
@@ -69,4 +70,3 @@ function ButtonEffectsSplitRevealComponent() {
  * Memoized ButtonEffectsSplitReveal to prevent unnecessary re-renders in grid layouts.
  */
 export const ButtonEffectsSplitReveal = memo(ButtonEffectsSplitRevealComponent)
-

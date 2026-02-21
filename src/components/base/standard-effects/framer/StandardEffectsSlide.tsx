@@ -4,7 +4,7 @@ import { easeOut } from 'motion/react'
 
 function StandardEffectsSlideComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__slide">
       <m.div
         className="standard-demo-element"
         style={{ transformOrigin: 'center left' }}

@@ -26,7 +26,7 @@ const keyframeTimes = [0, 0.5, 1]
       }
 
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__pulse">
       <m.div
         className="standard-demo-element pulse-element"
         initial={{ scale: 1, opacity: 1 }}

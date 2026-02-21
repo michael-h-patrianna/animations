@@ -1,3 +1,4 @@
+import { presentBox, presentBoxBalloon, pulseScroll, shakeIcon } from '@/assets'
 import { CRITICAL_ICON_IMAGES } from '@/lib/preload-manifest'
 
 describe('lib • preload-manifest', () => {
@@ -9,5 +10,13 @@ describe('lib • preload-manifest', () => {
       expect(typeof s).toBe('string')
       expect(s.length).toBeGreaterThan(0)
     }
+  })
+
+  it('does not preload heavyweight optional demo assets at startup', () => {
+    const preloaded = new Set(CRITICAL_ICON_IMAGES)
+    expect(preloaded.has(presentBox)).toBe(false)
+    expect(preloaded.has(presentBoxBalloon)).toBe(false)
+    expect(preloaded.has(pulseScroll)).toBe(false)
+    expect(preloaded.has(shakeIcon)).toBe(false)
   })
 })

@@ -2,6 +2,13 @@ import { useAnimations } from '@/hooks/useAnimations'
 import { animationDataService } from '@/services/animationData'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { act, renderHook } from '@testing-library/react'
+import { StrictMode, type ReactNode } from 'react'
+
+const StrictCodeModeWrapper = ({ children }: { children: ReactNode }) => (
+  <StrictMode>
+    <CodeModeProvider>{children}</CodeModeProvider>
+  </StrictMode>
+)
 
 describe('hooks • useAnimations', () => {
   beforeEach(() => {
@@ -13,7 +20,7 @@ describe('hooks • useAnimations', () => {
 
   it('loads categories on mount and exposes refresh', async () => {
     const { result } = renderHook(() => useAnimations(), {
-      wrapper: CodeModeProvider
+      wrapper: StrictCodeModeWrapper,
     })
 
     // Initial loading true
@@ -41,7 +48,7 @@ describe('hooks • useAnimations', () => {
   it('sets error on failure', async () => {
     const spy = jest.spyOn(animationDataService, 'loadAnimations').mockRejectedValueOnce(new Error('boom'))
     const { result } = renderHook(() => useAnimations(), {
-      wrapper: CodeModeProvider
+      wrapper: StrictCodeModeWrapper,
     })
     await act(async () => {
       jest.advanceTimersByTime(130)
@@ -49,5 +56,46 @@ describe('hooks • useAnimations', () => {
     })
     expect(result.current.error).toBe('boom')
     spy.mockRestore()
+  })
+
+  it('ignores stale initial load error after a successful refresh', async () => {
+    let rejectInitialLoad: ((reason?: unknown) => void) | null = null
+    const staleError = new Error('stale-initial-load')
+    const refreshedData = [{ id: 'test-cat', title: 'Test', groups: [] }]
+
+    const loadSpy = jest
+      .spyOn(animationDataService, 'loadAnimations')
+      .mockImplementationOnce(
+        () =>
+          new Promise((_, reject) => {
+            rejectInitialLoad = reject
+          })
+      )
+
+    const refreshSpy = jest
+      .spyOn(animationDataService, 'refreshCatalog')
+      .mockResolvedValueOnce(refreshedData as never)
+
+    const { result } = renderHook(() => useAnimations(), {
+      wrapper: StrictCodeModeWrapper,
+    })
+
+    await act(async () => {
+      await result.current.refreshAnimations()
+    })
+
+    expect(result.current.error).toBeNull()
+    expect(result.current.categories).toEqual(refreshedData)
+
+    await act(async () => {
+      rejectInitialLoad?.(staleError)
+      await Promise.resolve()
+    })
+
+    expect(result.current.error).toBeNull()
+    expect(result.current.categories).toEqual(refreshedData)
+
+    loadSpy.mockRestore()
+    refreshSpy.mockRestore()
   })
 })

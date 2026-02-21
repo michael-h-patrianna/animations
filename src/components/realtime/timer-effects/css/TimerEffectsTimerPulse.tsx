@@ -11,6 +11,7 @@ export function TimerEffectsTimerPulse() {
   useEffect(() => {
     const duration = 2000
     const startTime = Date.now()
+    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
 
     const intervalId = setInterval(() => {
       const elapsed = Date.now() - startTime
@@ -22,14 +23,19 @@ export function TimerEffectsTimerPulse() {
       if (progress >= 1) {
         clearInterval(intervalId)
         // Auto-restart after a brief pause
-        setTimeout(() => {
+        restartTimeoutId = setTimeout(() => {
           setValue(10)
           setAnimationKey((prev) => prev + 1)
         }, 1000)
       }
     }, 100)
 
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+      if (restartTimeoutId) {
+        clearTimeout(restartTimeoutId)
+      }
+    }
   }, [animationKey])
 
   const progress = (10 - value) / 10
@@ -42,4 +48,3 @@ export function TimerEffectsTimerPulse() {
     </div>
   )
 }
-

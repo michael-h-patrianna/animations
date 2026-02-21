@@ -3,7 +3,7 @@ import * as m from 'motion/react-m'
 
 function StandardEffectsSqueezeComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__squeeze">
       <m.div
         className="standard-demo-element"
         animate={{

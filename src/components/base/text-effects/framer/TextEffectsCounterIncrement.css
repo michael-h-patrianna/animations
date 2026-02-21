@@ -70,7 +70,7 @@
 .pf-counter-showcase__value-glow {
   position: absolute;
   inset: -6px;
-  background: radial-gradient(circle, var(--text-effects-counter-increment-bg), transparent 60%);
+  background: linear-gradient(180deg, var(--text-effects-counter-increment-bg), transparent 60%);
   border-radius: 50%;
   z-index: -1;
   pointer-events: none;

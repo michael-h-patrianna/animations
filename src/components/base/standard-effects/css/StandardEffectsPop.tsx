@@ -4,7 +4,7 @@ import './StandardEffectsPop.css'
 
 function StandardEffectsPopComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__pop">
       <div className="standard-demo-element pop-element">
         <div className="demo-text">Pop</div>
       </div>

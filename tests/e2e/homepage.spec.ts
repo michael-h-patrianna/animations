@@ -1,53 +1,61 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
-test('displays categories and groups in the sidebar', async ({ page }) => {
-  await page.goto('/')
+const desktopSidebar = (page: Page) => page.locator('.pf-main .pf-sidebar')
 
-  await expect(page).toHaveTitle(/Animation Showcase/)
-  // Wait for sidebar to be visible
-  await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
+const currentPathname = (page: Page) => new URL(page.url()).pathname
 
-  // Check for category buttons
-  await expect(page.getByRole('button', { name: /dialog/i })).toBeVisible()
-  // Check for group buttons
-  await expect(page.locator('.pf-sidebar__link--group').first()).toBeVisible()
-})
+test.describe('Homepage', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/')
+    await page.waitForSelector('.pf-main .pf-sidebar', { timeout: 10000 })
+  })
 
-test('renders animation cards with replay controls', async ({ page }) => {
-  await page.goto('/')
-  await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
+  test('loads shell and canonicalizes root route to a group route', async ({ page }) => {
+    await expect(page).toHaveTitle(/Animation Showcase/)
 
-  // Wait for content to load
-  await page.waitForSelector('.pf-card[data-animation-id]', { timeout: 10000 })
+    await expect.poll(() => currentPathname(page)).not.toBe('/')
 
-  // Check that animation cards are rendered
-  const animationCard = page.locator('.pf-card[data-animation-id]').first()
-  await expect(animationCard).toBeVisible()
+    const sidebar = desktopSidebar(page)
+    await expect(sidebar.locator('.pf-sidebar__link--category.pf-sidebar__link--active')).toHaveCount(1)
 
-  // Check that replay button exists
-  const replayButton = animationCard.locator('[data-role="replay"]')
-  await expect(replayButton).toBeVisible()
+    const visibleGroupLinks = sidebar.locator('.pf-sidebar__link--group')
+    expect(await visibleGroupLinks.count()).toBeGreaterThan(0)
 
-  // Ensure replay button remains functional
-  await replayButton.click()
-  // Animation card should still be visible after replay
-  await expect(animationCard).toBeVisible()
-})
+    const groupId = currentPathname(page).slice(1)
+    await expect(page.locator(`#group-${groupId}`)).toBeVisible()
+  })
 
-test('sidebar navigation scrolls to target group', async ({ page }) => {
-  await page.goto('/')
-  await page.waitForSelector('.pf-sidebar', { timeout: 10000 })
+  test('renders animation cards with replay controls for the active group', async ({ page }) => {
+    await page.waitForSelector('.pf-card[data-animation-id]', { timeout: 10000 })
 
-  // Click on the second group in the sidebar
-  const groupButtons = page.locator('.pf-sidebar__link--group')
-  const secondGroup = groupButtons.nth(1)
-  await expect(secondGroup).toBeVisible()
+    const cards = page.locator('.pf-card[data-animation-id]')
+    expect(await cards.count()).toBeGreaterThan(0)
 
-  // Get the group ID from the button's text to construct the element ID
-  await secondGroup.click()
-  await page.waitForTimeout(500)
+    const firstCard = cards.first()
+    await expect(firstCard).toBeVisible()
+    await expect(firstCard.locator('[data-role="replay"]')).toBeVisible()
 
-  // Verify content changed - look for any animation cards
-  const animationCards = page.locator('.pf-card[data-animation-id]')
-  await expect(animationCards.first()).toBeVisible()
+    const groupId = currentPathname(page).slice(1)
+    await expect(page.locator(`#group-${groupId}`)).toBeVisible()
+  })
+
+  test('clicking a sidebar group updates route and active group content', async ({ page }) => {
+    const sidebar = desktopSidebar(page)
+    const groupButtons = sidebar.locator('.pf-sidebar__link--group')
+
+    expect(await groupButtons.count()).toBeGreaterThan(1)
+
+    const targetGroup = groupButtons.nth(1)
+    const targetLabel = (await targetGroup.innerText()).trim()
+    const initialPath = currentPathname(page)
+
+    await targetGroup.click()
+
+    await expect.poll(() => currentPathname(page)).not.toBe(initialPath)
+
+    const groupId = currentPathname(page).slice(1)
+    await expect(page.locator(`#group-${groupId}`)).toBeVisible()
+    await expect(page.locator('.pf-group__title')).toContainText(targetLabel)
+    await expect(targetGroup).toHaveClass(/pf-sidebar__link--active/)
+  })
 })

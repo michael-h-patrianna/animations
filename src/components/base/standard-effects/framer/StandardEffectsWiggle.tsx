@@ -4,7 +4,7 @@ import { easeInOut } from 'motion/react'
 
 function StandardEffectsWiggleComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__wiggle">
       <m.div
         className="standard-demo-element"
         animate={{

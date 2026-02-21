@@ -19,7 +19,7 @@ function ButtonFeedbackShakeGentleComponent() {
       className="button-demo"
       data-animation-id="bxf-feedback__shake-gentle"
     >
-        <button
+        <button type="button"
           className={`pf-btn pf-btn--primary bxf-feedback-shake-button ${isAnimating ? 'bxf-feedback-shake-button--active' : ''}`}
           onClick={handleClick}
           aria-label="Insufficient funds"

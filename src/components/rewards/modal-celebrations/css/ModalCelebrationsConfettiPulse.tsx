@@ -37,7 +37,7 @@ export function ModalCelebrationsConfettiPulse() {
   })
 
   return (
-    <div className="pf-celebration">
+    <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">
       <div className="pf-celebration__layer">
         {/* Pulse effects */}
         {pulses.map((pulse) => (

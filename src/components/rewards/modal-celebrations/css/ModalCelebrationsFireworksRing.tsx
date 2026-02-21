@@ -10,7 +10,7 @@ export function ModalCelebrationsFireworksRing() {
   ]
 
   return (
-    <div className="pf-celebration">
+    <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">
       <div className="pf-celebration__layer">
         {rings.map((ring) => (
           <span

@@ -36,7 +36,8 @@ useEffect(() => {
           transition={{
             duration: 1.6,
             ease: easeOut,
-            times: [0, 0.5, 1]
+            scale: { times: [0, 1] },
+            opacity: { times: [0, 0.5, 1] }
           }}
         />
         <m.span
@@ -51,7 +52,8 @@ useEffect(() => {
             duration: 1.6,
             ease: easeOut,
             delay: 0.8,
-            times: [0, 0.5, 1]
+            scale: { times: [0, 1] },
+            opacity: { times: [0, 0.5, 1] }
           }}
         />
       </div>

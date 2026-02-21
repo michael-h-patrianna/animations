@@ -5,7 +5,7 @@ import * as m from 'motion/react-m'
  */
 export function ModalContentButtonsStagger2() {
   return (
-    <div className="modal-content-overlay">
+    <div className="modal-content-overlay" data-animation-id="modal-content__buttons-stagger-2">
       <m.div
         className="modal-content-modal"
         initial={{ scale: 0.88, y: -16, opacity: 0 }}

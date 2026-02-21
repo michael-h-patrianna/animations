@@ -28,8 +28,6 @@ const filesToFix = [
   'src/components/realtime/timer-effects/css/TimerEffectsPillCountdownStrong.css',
   'src/components/realtime/timer-effects/css/TimerEffectsPillCountdownSoft.css',
   'src/components/realtime/timer-effects/css/TimerEffectsTimerPulse.css',
-  'src/components/realtime/timer-effects/css/TimerEffectsTimerFlip.css',
-  'src/components/realtime/timer-effects/css/TimerEffectsTimerColorShift.css',
   'src/components/realtime/timer-effects/css/TimerEffectsPillCountdownGlitch.css',
   'src/components/realtime/timer-effects/css/TimerEffectsPillCountdownMedium.css',
   'src/components/realtime/timer-effects/css/TimerEffectsPillCountdownExtreme.css',

@@ -26,7 +26,7 @@ function StandardEffectsPulseWaveComponent() {
       }
 
   return (
-    <div className="standard-pulse-wave" role="img" aria-label="Pulse wave">
+    <div className="standard-pulse-wave" data-animation-id="standard-effects__pulse-wave" role="img" aria-label="Pulse wave">
       <m.div className="core" initial={{ scale: 1 }} animate={coreAnimation}>
         <m.span
           className="core__ring"

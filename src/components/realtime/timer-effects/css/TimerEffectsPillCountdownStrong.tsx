@@ -15,6 +15,16 @@ export function TimerEffectsPillCountdownStrong() {
   useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
+    const timeoutIds = new Set<ReturnType<typeof setTimeout>>()
+
+    const scheduleTimeout = (callback: () => void, delay: number) => {
+      const timeoutId = setTimeout(() => {
+        timeoutIds.delete(timeoutId)
+        callback()
+      }, delay)
+      timeoutIds.add(timeoutId)
+      return timeoutId
+    }
 
     const intervalId = setInterval(() => {
       const elapsed = (Date.now() - startTime) / 1000
@@ -39,7 +49,7 @@ export function TimerEffectsPillCountdownStrong() {
         } else if ([9, 7, 5, 3, 1].includes(display)) {
           // Double-tap for critical seconds
           setAnimationKey((prev) => prev + 1)
-          setTimeout(() => setAnimationKey((prev) => prev + 1), 160)
+          scheduleTimeout(() => setAnimationKey((prev) => prev + 1), 160)
         }
 
         lastDisplay = display
@@ -53,7 +63,11 @@ export function TimerEffectsPillCountdownStrong() {
     // Initial snap
     setAnimationKey((prev) => prev + 1)
 
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+      timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId))
+      timeoutIds.clear()
+    }
   }, [])
 
   const format = (total: number) => {
@@ -75,4 +89,3 @@ export function TimerEffectsPillCountdownStrong() {
     </div>
   )
 }
-

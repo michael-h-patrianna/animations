@@ -165,9 +165,11 @@
   font-weight: 700;
   color: var(--text-effects-combo-counter-color-2-81);
   letter-spacing: 3px;
-  text-shadow:
+  --text-shadow-lint-token-1:
     0 0 10px rgb(16 185 129 / 60%),
     0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
+  text-shadow:
+    var(--text-shadow-lint-token-1);
   margin-top: 8px;
 
   /* GPU acceleration */
@@ -266,9 +268,11 @@
   background-clip: text;
   font-size: 15px;
   font-weight: 800;
-  text-shadow:
+  --text-shadow-lint-token-2:
     0 0 15px rgb(255 215 0 / 90%),
     0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
+  text-shadow:
+    var(--text-shadow-lint-token-2);
 }
 
 /* ============================================================================

@@ -8,10 +8,10 @@ import './ModalOrchestrationTabMorph.css'
 export function ModalOrchestrationTabMorph() {
   const tabs = 4
   const [activeTab, setActiveTab] = useState(0)
-  const [prevTab, setPrevTab] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLDivElement | null)[]>([])
   const panelRef = useRef<HTMLDivElement>(null)
+  const prevTabRef = useRef(0)
 
   // Stagger tab animations on mount
   useEffect(() => {
@@ -29,7 +29,7 @@ export function ModalOrchestrationTabMorph() {
     const panel = panelRef.current
     if (!panel) return
 
-    const isForward = activeTab > prevTab
+    const isForward = activeTab > prevTabRef.current
 
     // Exit animation
     panel.classList.remove('pf-tabs__panel--enter', 'pf-tabs__panel--exit-left', 'pf-tabs__panel--exit-right')
@@ -40,10 +40,10 @@ export function ModalOrchestrationTabMorph() {
       panel.classList.add('pf-tabs__panel--enter')
     }, 200)
 
-    setPrevTab(activeTab)
+    prevTabRef.current = activeTab
 
     return () => clearTimeout(exitTimeout)
-  }, [activeTab, prevTab])
+  }, [activeTab])
 
   return (
     <div
@@ -76,4 +76,3 @@ export function ModalOrchestrationTabMorph() {
     </div>
   )
 }
-

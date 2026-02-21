@@ -5,11 +5,11 @@ import * as m from 'motion/react-m'
  *
  */
 export function ModalDismissSnackbarScale() {
-const [showProgress, setShowProgress] = useState(true)
+  const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.32
   const autoDismissMs = 4000
-  const exitDuration = 0.36
+  const exitDuration = Math.min(0.36, Math.max(0.22, Math.round(entryDuration * 750) / 1000))
 
   useEffect(() => {
     const exitTimer = setTimeout(() => {
@@ -69,23 +69,11 @@ const [showProgress, setShowProgress] = useState(true)
 
   return (
     <div className="pf-toast-preview">
-      <m.div
-        className="pf-toast"
-        data-animation-id="modal-dismiss__snackbar-scale"
-        variants={toastVariants}
-        initial="hidden"
-        animate={showProgress ? ['visible', 'pulse'] : 'exit'}
-      >
+      <m.div className="pf-toast" data-animation-id="modal-dismiss__snackbar-scale" variants={toastVariants} initial="hidden" animate={showProgress ? ['visible', 'pulse'] : 'exit'}>
         <div className="pf-toast__title">Action Complete</div>
         <div className="pf-toast__body">Your changes have been saved</div>
         <div className="pf-toast__progress">
-          <m.div
-            className="pf-toast__progress-bar"
-            variants={progressVariants}
-            initial="full"
-            animate="empty"
-            style={{ transformOrigin: 'left center' }}
-          />
+          <m.div className="pf-toast__progress-bar" variants={progressVariants} initial="full" animate="empty" style={{ transformOrigin: 'left center' }} />
         </div>
       </m.div>
     </div>

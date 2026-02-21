@@ -4,7 +4,7 @@ import './StandardEffectsSpin.css'
 
 function StandardEffectsSpinComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__spin">
       <div className="standard-demo-element spin-element">
         <div className="demo-text">Spin</div>
       </div>

@@ -2,8 +2,8 @@
 
 .pill-countdown-tfx-glitchcontainer {
 
-  --timer-effects-pill-countdown-glitch-bg-1-00: #ff0000;
-  --timer-effects-pill-countdown-glitch-bg-1-ff: #ff00ff;
+  --timer-effects-pill-countdown-glitch-bg-1-00: #f00;
+  --timer-effects-pill-countdown-glitch-bg-1-ff: #f0f;
   --timer-effects-pill-countdown-glitch-bg-2: #8b0000;
   --timer-effects-pill-countdown-glitch-bg-3-4d: #ffa94d;
   --timer-effects-pill-countdown-glitch-bg-3-ea: #ffa9ea;
@@ -13,7 +13,7 @@
   --timer-effects-pill-countdown-glitch-bg-5-6b: #ff6b6b;
   --timer-effects-pill-countdown-glitch-bg-6-14: #c92a14;
   --timer-effects-pill-countdown-glitch-bg-6-2a: #c92a2a;
-  --timer-effects-pill-countdown-glitch-color-1: #00ff00;
+  --timer-effects-pill-countdown-glitch-color-1: #0f0;
   display: flex;
   justify-content: center;
   align-items: center;

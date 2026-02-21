@@ -134,13 +134,23 @@ export default {
     [noBlurName]: true,
     [noRadialName]: true,
     [noColorsName]: true,
+    // Tailwind v4 directives are valid custom at-rules in this codebase.
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: ['plugin', 'source', 'theme'],
+      },
+    ],
 
     // Disable rules that conflict with animation codebase conventions
     'no-descending-specificity': null,
     'no-duplicate-selectors': null,
     'selector-class-pattern': [
-      '^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z][a-z0-9]*(-[a-z0-9]+)*)?(--[a-z][a-z0-9]*(-[a-z0-9]+)*)?$',
-      { message: 'Class selectors must be lowercase-hyphenated BEM (e.g. "pf-modal--spring-bounce", "bfx-ripple__wave").' },
+      '^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*(__[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*)?(--[a-zA-Z0-9][a-zA-Z0-9-]*)?$',
+      {
+        message:
+          'Class selectors must follow BEM structure. Kebab-case, camelCase blocks, and numeric modifiers (e.g. "--1") are allowed.',
+      },
     ],
     'custom-property-empty-line-before': null,
     'declaration-empty-line-before': null,

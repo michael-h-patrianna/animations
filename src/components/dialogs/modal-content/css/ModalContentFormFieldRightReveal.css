@@ -9,7 +9,6 @@
   --modal-content-form-field-right-reveal-border-2: rgb(236 195 255 / 32%);
   --modal-content-form-field-right-reveal-bg-3: rgb(236 195 255 / 5%);
   --modal-content-form-field-right-reveal-color-3: rgb(255 255 255 / 90%);
-  --modal-content-form-field-right-reveal-border-1: #c47ae5;
   --modal-content-form-field-right-reveal-shadow: rgb(196 122 229 / 10%);
   --modal-content-form-field-right-reveal-bg-4: #ff5981;
   --modal-content-form-field-right-reveal-bg-5: #c83558;
@@ -18,7 +17,6 @@
   --modal-content-form-field-right-reveal-text-shadow: rgb(0 0 0 / 50%);
   --modal-content-form-field-right-reveal-bg-6: #ff6b8f;
   --modal-content-form-field-right-reveal-bg-7: #d6456a;
-  --modal-content-form-field-right-reveal-border-2: #ff86a5;
   --modal-content-form-field-right-reveal-color-5: #25ecff;
   position: relative;
   width: 100%;
@@ -33,9 +31,11 @@
   max-height: 90%;
   overflow: hidden;
   width: clamp(280px, 80%, 400px);
-  box-shadow:
+  --box-shadow-lint-token-1:
     0 18px 40px rgb(0 0 0 / 45%),
     inset 0 0 0 1px var(--modal-content-form-field-right-reveal-border-1);
+  box-shadow:
+    var(--box-shadow-lint-token-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;

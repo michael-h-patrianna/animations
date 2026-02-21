@@ -59,7 +59,6 @@ Foundational motion primitives — entrance, exit, attention, and looping patter
 | Scale | Clean scale 0 to 1 without bounce | `reference/base/standard-effects/framer/StandardEffectsScale.tsx` |
 | Shake | Horizontal shake + rotation wobble | `reference/base/standard-effects/framer/StandardEffectsShake.tsx` |
 | Slide | Linear off-screen slide entrance | `reference/base/standard-effects/framer/StandardEffectsSlide.tsx` |
-| Soft Pulse | Gentle breathing + soft glow aura | `reference/base/standard-effects/framer/StandardEffectsSoftPulse.tsx` |
 | Spin | 360 degree rotation + midpoint scale pulse | `reference/base/standard-effects/framer/StandardEffectsSpin.tsx` |
 | Squeeze | Compression squash effect | `reference/base/standard-effects/framer/StandardEffectsSqueeze.tsx` |
 | Swing | Pendulum arc with momentum lean | `reference/base/standard-effects/framer/StandardEffectsSwing.tsx` |
@@ -268,8 +267,6 @@ Countdown and time-pressure animation patterns.
 | Pill Countdown Glitch | Glitch intensifying as time expires | `reference/realtime/timer-effects/framer/TimerEffectsPillCountdownGlitch.tsx` |
 | Pill Countdown Heartbeat | Heartbeat intensifying to expiry | `reference/realtime/timer-effects/framer/TimerEffectsPillCountdownHeartbeat.tsx` |
 | Pill Countdown Strong | Segmented bar + snap ticks under 15s | `reference/realtime/timer-effects/framer/TimerEffectsPillCountdownStrong.tsx` |
-| Timer Color Shift | Green to yellow to red transition | `reference/realtime/timer-effects/framer/TimerEffectsTimerColorShift.tsx` |
-| Timer Flip | Flip animation on digit changes | `reference/realtime/timer-effects/framer/TimerEffectsTimerFlip.tsx` |
 | Timer Pulse | Continuous pulse animation | `reference/realtime/timer-effects/framer/TimerEffectsTimerPulse.tsx` |
 | Flash Expire | Color transition + pulse urgency | `reference/realtime/timer-effects/framer/TimerEffectsTimerFlash.tsx` |
 | Urgent Pulse | Fast pulse + color shift | `reference/realtime/timer-effects/framer/TimerEffectsUrgentPulse.tsx` |

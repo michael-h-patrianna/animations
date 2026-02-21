@@ -26,7 +26,7 @@ export function ModalContentButtonsStagger3() {
   }, [])
 
   return (
-    <div className="modal-content-overlay">
+    <div className="modal-content-overlay" data-animation-id="modal-content__buttons-stagger-3">
       <div className="modal-content-modal">
         <div className="modal-content-header">
           <h4 className="modal-content-title">Sequence Control</h4>
@@ -37,7 +37,7 @@ export function ModalContentButtonsStagger3() {
           <p>Keep focus with 70ms cadence.</p>
         </div>
         <div className="modal-content-footer">
-          <button
+          <button type="button"
             ref={(el) => {
               buttonRefs.current[0] = el
             }}
@@ -45,7 +45,7 @@ export function ModalContentButtonsStagger3() {
           >
             Primary
           </button>
-          <button
+          <button type="button"
             ref={(el) => {
               buttonRefs.current[1] = el
             }}
@@ -53,7 +53,7 @@ export function ModalContentButtonsStagger3() {
           >
             Secondary
           </button>
-          <button
+          <button type="button"
             ref={(el) => {
               buttonRefs.current[2] = el
             }}

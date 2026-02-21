@@ -4,7 +4,7 @@ import { easeInOut } from 'motion/react'
 
 function StandardEffectsFloatComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__float">
       <m.div
         className="standard-demo-element"
         style={{ transformOrigin: 'center 20%' }}

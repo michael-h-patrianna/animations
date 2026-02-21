@@ -56,9 +56,11 @@
   );
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow:
+  --text-shadow-lint-token-1:
     0 2px 0 rgb(0 0 0 / 25%),
     0 0 8px var(--text-effects-counter-increment-text-shadow-105);
+  text-shadow:
+    var(--text-shadow-lint-token-1);
   transform-origin: center;
 
   /* GPU acceleration */

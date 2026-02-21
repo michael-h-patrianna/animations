@@ -1,12 +1,55 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import './RealtimeDataLiveScoreUpdate.css'
 
+type TimeoutId = ReturnType<typeof setTimeout>
+type IntervalId = ReturnType<typeof setInterval>
+
+const BASE_SCORES = [1450, 1320] as const
+const SCORE_INCREMENT = 120
+const SCORE_STEPS = 20
+const SCORE_STEP_INTERVAL_MS = 40
+
+const SCORE_KEYFRAMES = [
+  { transform: 'scale(1)', color: 'var(--pf-base-50)' },
+  { transform: 'scale(1.2)', color: 'var(--pf-anim-green)' },
+  { transform: 'scale(1)', color: 'var(--pf-base-50)' },
+]
+
+const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3)
+
+const animateScoreElement = (element: HTMLDivElement | null, delayMs = 0) => {
+  if (!element) return
+  element.animate(SCORE_KEYFRAMES, {
+    duration: 800,
+    delay: delayMs,
+    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+  })
+}
+
+const initialScores = () => [...BASE_SCORES] as number[]
+
+type ScoreRowProps = {
+  rank: string
+  player: string
+  scoreRef: RefObject<HTMLDivElement | null>
+  score: number
+}
+
+const ScoreRow = ({ rank, player, scoreRef, score }: ScoreRowProps) => (
+  <div className="pf-realtime-data__row">
+    <div className="pf-realtime-data__rank">{rank}</div>
+    <div className="pf-realtime-data__player">{player}</div>
+    <div ref={scoreRef} className="pf-realtime-data__score">
+      {score.toLocaleString()}
+    </div>
+  </div>
+)
 
 /**
  *
  */
 export function RealtimeDataLiveScoreUpdate() {
-  const [scores, setScores] = useState([1450, 1320])
+  const [scores, setScores] = useState<number[]>(initialScores)
   const scoresRef = useRef(scores)
   const score1Ref = useRef<HTMLDivElement>(null)
   const score2Ref = useRef<HTMLDivElement>(null)
@@ -16,95 +59,81 @@ export function RealtimeDataLiveScoreUpdate() {
   }, [scores])
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
-    let countInterval: ReturnType<typeof setInterval>
+    const timeoutIds = new Set<TimeoutId>()
+    const intervalIds = new Set<IntervalId>()
+    let isMounted = true
+
+    const scheduleTimeout = (callback: () => void, delayMs: number) => {
+      const timeoutId = setTimeout(() => {
+        timeoutIds.delete(timeoutId)
+        callback()
+      }, delayMs)
+      timeoutIds.add(timeoutId)
+      return timeoutId
+    }
+
+    const scheduleInterval = (callback: () => void, delayMs: number) => {
+      const intervalId = setInterval(callback, delayMs)
+      intervalIds.add(intervalId)
+      return intervalId
+    }
+
+    const clearTrackedInterval = (intervalId: IntervalId) => {
+      clearInterval(intervalId)
+      intervalIds.delete(intervalId)
+    }
 
     const startAnimation = () => {
-      // Animate both scores
-      if (score1Ref.current) {
-        score1Ref.current.animate(
-          [
-            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
-            { transform: 'scale(1.2)', color: 'var(--pf-anim-green)' },
-            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
-          ],
-          {
-            duration: 800,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          }
-        )
-      }
+      if (!isMounted) return
 
-      if (score2Ref.current) {
-        score2Ref.current.animate(
-          [
-            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
-            { transform: 'scale(1.2)', color: 'var(--pf-anim-green)' },
-            { transform: 'scale(1)', color: 'var(--pf-base-50)' },
-          ],
-          {
-            duration: 800,
-            delay: 100,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          }
-        )
-      }
+      animateScoreElement(score1Ref.current)
+      animateScoreElement(score2Ref.current, 100)
 
-      // Count up the numbers
       const currentScores = [...scoresRef.current]
-      const increment = 120
       let step = 0
-      const steps = 20
+      const countInterval = scheduleInterval(() => {
+        if (!isMounted) {
+          clearTrackedInterval(countInterval)
+          return
+        }
 
-      countInterval = setInterval(() => {
-        step++
-        const progress = step / steps
-        const easeProgress = 1 - Math.pow(1 - progress, 3) // ease-out cubic
-
+        step += 1
+        const progress = step / SCORE_STEPS
+        const easedProgress = easeOutCubic(progress)
         setScores([
-          Math.round(currentScores[0] + increment * easeProgress),
-          Math.round(currentScores[1] + increment * easeProgress),
+          Math.round(currentScores[0] + SCORE_INCREMENT * easedProgress),
+          Math.round(currentScores[1] + SCORE_INCREMENT * easedProgress),
         ])
 
-        if (step >= steps) {
-          clearInterval(countInterval)
+        if (step >= SCORE_STEPS) {
+          clearTrackedInterval(countInterval)
         }
-      }, 40)
+      }, SCORE_STEP_INTERVAL_MS)
 
-      // Reset after delay
-      timeoutId = setTimeout(() => {
-        setScores([1450, 1320])
-        setTimeout(startAnimation, 1000)
+      scheduleTimeout(() => {
+        if (!isMounted) return
+        setScores(initialScores())
+        scheduleTimeout(startAnimation, 1000)
       }, 2000)
     }
 
     startAnimation()
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId)
-      if (countInterval) clearInterval(countInterval)
+      isMounted = false
+      timeoutIds.forEach(clearTimeout)
+      timeoutIds.clear()
+      intervalIds.forEach(clearInterval)
+      intervalIds.clear()
     }
   }, [])
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
       <div className="pf-realtime-data__leaderboard">
-        <div className="pf-realtime-data__row">
-          <div className="pf-realtime-data__rank">#1</div>
-          <div className="pf-realtime-data__player">Phoenix</div>
-          <div ref={score1Ref} className="pf-realtime-data__score">
-            {scores[0].toLocaleString()}
-          </div>
-        </div>
-        <div className="pf-realtime-data__row">
-          <div className="pf-realtime-data__rank">#2</div>
-          <div className="pf-realtime-data__player">Shadow</div>
-          <div ref={score2Ref} className="pf-realtime-data__score">
-            {scores[1].toLocaleString()}
-          </div>
-        </div>
+        <ScoreRow rank="#1" player="Phoenix" scoreRef={score1Ref} score={scores[0]} />
+        <ScoreRow rank="#2" player="Shadow" scoreRef={score2Ref} score={scores[1]} />
       </div>
     </div>
   )
 }
-

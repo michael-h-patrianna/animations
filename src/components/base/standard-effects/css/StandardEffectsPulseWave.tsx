@@ -5,7 +5,7 @@ import './StandardEffectsPulseWave.css'
 function StandardEffectsPulseWaveComponent() {
   return (
 
-        <div className="standard-pulse-wave" role="img" aria-label="Pulse wave">
+        <div className="standard-pulse-wave" data-animation-id="standard-effects__pulse-wave" role="img" aria-label="Pulse wave">
           <div className="core" />
         </div>
 

@@ -4,7 +4,7 @@ import './StandardEffectsFloat.css'
 
 function StandardEffectsFloatComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__float">
       <div className="standard-demo-element float-element">
         <div className="demo-text">Float</div>
       </div>

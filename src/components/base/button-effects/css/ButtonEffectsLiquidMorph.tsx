@@ -22,7 +22,7 @@ function ButtonEffectsLiquidMorphComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__liquid-morph">
-      <button
+      <button type="button"
         className={`pf-btn pf-btn--primary bfx-liquid-morph ${isAnimating ? 'bfx-liquid-morph--active' : ''}`}
         onClick={handleClick}
       >

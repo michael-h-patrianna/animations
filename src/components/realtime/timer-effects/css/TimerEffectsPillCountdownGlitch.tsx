@@ -43,7 +43,10 @@ export function TimerEffectsPillCountdownGlitch() {
   }
 
   return (
-    <div className="pill-countdown-tfx-glitchcontainer">
+    <div
+      className="pill-countdown-tfx-glitchcontainer"
+      data-animation-id="timer-effects__pill-countdown-glitch"
+    >
       <div className={`pill-countdown-glitch ${getGlitchClass()}`}>
         <span className="pill-countdown-glitch__glow" aria-hidden="true" />
         <span className="pill-countdown-glitch__text">{formatTime(seconds)}</span>
@@ -57,4 +60,3 @@ export function TimerEffectsPillCountdownGlitch() {
     </div>
   )
 }
-

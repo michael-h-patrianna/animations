@@ -26,7 +26,7 @@ export function ModalCelebrationsCoinsArc() {
   })
 
   return (
-    <div className="pf-celebration">
+    <div className="pf-celebration" data-animation-id="modal-celebrations__coins-arc">
       <div className="pf-celebration__layer">
         {coins.map((coin) => (
           <img

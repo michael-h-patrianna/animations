@@ -15,7 +15,7 @@ const flipVariants = {
     },
   }
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__flip">
       <m.div
         className="standard-demo-element flip-element"
         variants={flipVariants}

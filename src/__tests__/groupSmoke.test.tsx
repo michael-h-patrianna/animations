@@ -1,7 +1,52 @@
+import type { CategoryExport, GroupExport } from '@/types/animation'
 import { GroupSection } from '@/components/ui/GroupSection'
 import { animationDataService } from '@/services/animationData'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
-import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react'
+import { createElement } from 'react'
+import { vi } from 'vitest'
+
+vi.mock('@/components/animationRegistry', async () => {
+  const actual = await vi.importActual<typeof import('@/components/animationRegistry')>(
+    '@/components/animationRegistry'
+  )
+
+  const categories = actual.categories as Record<string, CategoryExport>
+  const synchronousCategories: Record<string, CategoryExport> = {}
+
+  const mapSource = (source: GroupExport['framer']) =>
+    Object.fromEntries(
+      Object.entries(source).map(([animationId, animation]) => [
+        animationId,
+        {
+          ...animation,
+          component: () => createElement('div', { 'data-animation-id': animationId }),
+        },
+      ])
+    )
+
+  for (const [categoryId, category] of Object.entries(categories)) {
+    const groups: CategoryExport['groups'] = {}
+
+    for (const [groupId, group] of Object.entries(category.groups)) {
+      groups[groupId] = {
+        ...group,
+        framer: mapSource(group.framer),
+        css: mapSource(group.css),
+      }
+    }
+
+    synchronousCategories[categoryId] = {
+      ...category,
+      groups,
+    }
+  }
+
+  return {
+    ...actual,
+    categories: synchronousCategories,
+  }
+})
 
 function escapeRegExp(literal: string) {
   return literal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -23,13 +68,28 @@ describe('Group demo grid smoke', () => {
           </CodeModeProvider>
         )
 
-        // Allow initial timeouts to fire (e.g., small mount delays) wrapped in act
+        // Let mocked IntersectionObserver callbacks run before waiting on Suspense content.
         await act(async () => {
-          await new Promise((r) => setTimeout(r, 20))
+          await new Promise((resolve) => setTimeout(resolve, 1))
         })
 
+        // Wait until observer-triggered visibility mounts demo content.
+        await waitFor(
+          () => {
+            const cards = Array.from(container.querySelectorAll('.pf-card'))
+            expect(cards).toHaveLength(group.animations.length)
+
+            for (const card of cards) {
+              const stage = card.querySelector('.pf-demo-stage') as HTMLElement | null
+              expect(stage).not.toBeNull()
+              expect(stage!.children.length).toBeGreaterThan(0)
+            }
+          },
+          { timeout: 10000 }
+        )
+
         // Group header shows title and count
-        const heading = await screen.findByRole('heading', {
+        const heading = within(container).getByRole('heading', {
           level: 2,
           name: new RegExp(`${escapeRegExp(group.title)} \\(${group.animations.length}\\)`),
         })
@@ -50,33 +110,29 @@ describe('Group demo grid smoke', () => {
           const stage = card!.querySelector('.pf-demo-stage') as HTMLElement | null
           expect(stage).not.toBeNull()
 
-          // Allow IntersectionObserver mock to mark visible and mount children
-          await act(async () => {
-            await new Promise((r) => setTimeout(r, 1))
-          })
-
           if (!anim.disableReplay) {
+            const stageBeforeReplay = stage
             await act(async () => {
               fireEvent.click(replayBtn)
-              await new Promise((r) => setTimeout(r, 1))
             })
-            // Expect content to remount: child count should be >= 0 and ideally change; in jsdom the key swap
-            // creates a new .pf-demo-stage child inside .pf-demo-stage--top wrapper.
-            const newStage = card!.querySelector('.pf-demo-stage') as HTMLElement
-            const newChildCount = newStage.childElementCount
-            // We assert that the stage exists and a re-render happened; child count may or may not change,
-            // so we accept non-strict inequality but ensure the element is present.
+            const newStage = card!.querySelector('.pf-demo-stage') as HTMLElement | null
             expect(newStage).toBeInTheDocument()
-            expect(newChildCount).toBeGreaterThanOrEqual(0)
-            // Avoid strict key assertions since key is React-internal; we validated remount by re-render occurrence.
+            expect(newStage).not.toBe(stageBeforeReplay)
           }
         }
 
-        expect(() => unmount()).not.toThrow()
+        await act(async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1))
+          expect(() => unmount()).not.toThrow()
+        })
       }
     }
 
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1))
+    })
+
     },
-    30000
+    90000
   )
 })

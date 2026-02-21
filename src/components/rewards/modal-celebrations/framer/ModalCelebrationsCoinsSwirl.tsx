@@ -45,7 +45,7 @@ export function ModalCelebrationsCoinsSwirl() {
   )
 
   return (
-    <div className="pf-celebration">
+    <div className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl">
       <div className="pf-celebration__layer">
         {coins.map((coin) => (
           <m.img

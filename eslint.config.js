@@ -1,13 +1,13 @@
 import js from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import jsdoc from 'eslint-plugin-jsdoc'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import jsdoc from 'eslint-plugin-jsdoc'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
-import tseslint from 'typescript-eslint'
 import { existsSync } from 'node:fs'
-import { basename, dirname, join, resolve } from 'node:path'
+import { basename, dirname, join } from 'node:path'
+import tseslint from 'typescript-eslint'
 
 /** Inline plugin: project-specific lint rules for animation components. */
 const animationRulesPlugin = {
@@ -31,45 +31,165 @@ const animationRulesPlugin = {
         const hslFunc = /^hsla?\s*\(/i
 
         const namedColors = new Set([
-          'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure',
-          'beige', 'bisque', 'black', 'blanchedalmond', 'blue',
-          'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse',
-          'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson',
-          'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray',
-          'darkgreen', 'darkgrey', 'darkkhaki', 'darkmagenta',
-          'darkolivegreen', 'darkorange', 'darkorchid', 'darkred',
-          'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray',
-          'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink',
-          'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick',
-          'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro',
-          'ghostwhite', 'gold', 'goldenrod', 'gray', 'green',
-          'greenyellow', 'grey', 'honeydew', 'hotpink', 'indianred',
-          'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush',
-          'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral',
-          'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgreen',
-          'lightgrey', 'lightpink', 'lightsalmon', 'lightseagreen',
-          'lightskyblue', 'lightslategray', 'lightslategrey',
-          'lightsteelblue', 'lightyellow', 'lime', 'limegreen', 'linen',
-          'magenta', 'maroon', 'mediumaquamarine', 'mediumblue',
-          'mediumorchid', 'mediumpurple', 'mediumseagreen',
-          'mediumslateblue', 'mediumspringgreen', 'mediumturquoise',
-          'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose',
-          'moccasin', 'navajowhite', 'navy', 'oldlace', 'olive',
-          'olivedrab', 'orange', 'orangered', 'orchid', 'palegoldenrod',
-          'palegreen', 'paleturquoise', 'palevioletred', 'papayawhip',
-          'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'purple',
-          'rebeccapurple', 'red', 'rosybrown', 'royalblue', 'saddlebrown',
-          'salmon', 'sandybrown', 'seagreen', 'seashell', 'sienna',
-          'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey',
-          'snow', 'springgreen', 'steelblue', 'tan', 'teal', 'thistle',
-          'tomato', 'turquoise', 'violet', 'wheat', 'white', 'whitesmoke',
-          'yellow', 'yellowgreen',
+          'aliceblue',
+          'antiquewhite',
+          'aqua',
+          'aquamarine',
+          'azure',
+          'beige',
+          'bisque',
+          'black',
+          'blanchedalmond',
+          'blue',
+          'blueviolet',
+          'brown',
+          'burlywood',
+          'cadetblue',
+          'chartreuse',
+          'chocolate',
+          'coral',
+          'cornflowerblue',
+          'cornsilk',
+          'crimson',
+          'cyan',
+          'darkblue',
+          'darkcyan',
+          'darkgoldenrod',
+          'darkgray',
+          'darkgreen',
+          'darkgrey',
+          'darkkhaki',
+          'darkmagenta',
+          'darkolivegreen',
+          'darkorange',
+          'darkorchid',
+          'darkred',
+          'darksalmon',
+          'darkseagreen',
+          'darkslateblue',
+          'darkslategray',
+          'darkslategrey',
+          'darkturquoise',
+          'darkviolet',
+          'deeppink',
+          'deepskyblue',
+          'dimgray',
+          'dimgrey',
+          'dodgerblue',
+          'firebrick',
+          'floralwhite',
+          'forestgreen',
+          'fuchsia',
+          'gainsboro',
+          'ghostwhite',
+          'gold',
+          'goldenrod',
+          'gray',
+          'green',
+          'greenyellow',
+          'grey',
+          'honeydew',
+          'hotpink',
+          'indianred',
+          'indigo',
+          'ivory',
+          'khaki',
+          'lavender',
+          'lavenderblush',
+          'lawngreen',
+          'lemonchiffon',
+          'lightblue',
+          'lightcoral',
+          'lightcyan',
+          'lightgoldenrodyellow',
+          'lightgray',
+          'lightgreen',
+          'lightgrey',
+          'lightpink',
+          'lightsalmon',
+          'lightseagreen',
+          'lightskyblue',
+          'lightslategray',
+          'lightslategrey',
+          'lightsteelblue',
+          'lightyellow',
+          'lime',
+          'limegreen',
+          'linen',
+          'magenta',
+          'maroon',
+          'mediumaquamarine',
+          'mediumblue',
+          'mediumorchid',
+          'mediumpurple',
+          'mediumseagreen',
+          'mediumslateblue',
+          'mediumspringgreen',
+          'mediumturquoise',
+          'mediumvioletred',
+          'midnightblue',
+          'mintcream',
+          'mistyrose',
+          'moccasin',
+          'navajowhite',
+          'navy',
+          'oldlace',
+          'olive',
+          'olivedrab',
+          'orange',
+          'orangered',
+          'orchid',
+          'palegoldenrod',
+          'palegreen',
+          'paleturquoise',
+          'palevioletred',
+          'papayawhip',
+          'peachpuff',
+          'peru',
+          'pink',
+          'plum',
+          'powderblue',
+          'purple',
+          'rebeccapurple',
+          'red',
+          'rosybrown',
+          'royalblue',
+          'saddlebrown',
+          'salmon',
+          'sandybrown',
+          'seagreen',
+          'seashell',
+          'sienna',
+          'silver',
+          'skyblue',
+          'slateblue',
+          'slategray',
+          'slategrey',
+          'snow',
+          'springgreen',
+          'steelblue',
+          'tan',
+          'teal',
+          'thistle',
+          'tomato',
+          'turquoise',
+          'violet',
+          'wheat',
+          'white',
+          'whitesmoke',
+          'yellow',
+          'yellowgreen',
         ])
 
         // CSS keywords that look like color names but are not hardcoded colors
         const allowedKeywords = new Set([
-          'transparent', 'currentcolor', 'currentColor', 'inherit',
-          'initial', 'unset', 'revert',
+          'transparent',
+          'currentcolor',
+          'currentColor',
+          'inherit',
+          'initial',
+          'unset',
+          'revert',
         ])
 
         const msg =
@@ -81,10 +201,7 @@ const animationRulesPlugin = {
           if (hexColor.test(trimmed)) return true
           if (rgbFunc.test(trimmed)) return true
           if (hslFunc.test(trimmed)) return true
-          if (
-            namedColors.has(trimmed.toLowerCase()) &&
-            !allowedKeywords.has(trimmed)
-          ) {
+          if (namedColors.has(trimmed.toLowerCase()) && !allowedKeywords.has(trimmed)) {
             return true
           }
           return false
@@ -347,7 +464,7 @@ const animationRulesPlugin = {
 }
 
 export default defineConfig([
-  globalIgnores(['dist', '.claude']),
+  globalIgnores(['dist', '.claude', '.agents']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -393,11 +510,13 @@ export default defineConfig([
         {
           types: {
             'NodeJS.Timeout': {
-              message: 'Use ReturnType<typeof setTimeout> instead — NodeJS namespace is unavailable in browser builds.',
+              message:
+                'Use ReturnType<typeof setTimeout> instead — NodeJS namespace is unavailable in browser builds.',
               suggest: ['ReturnType<typeof setTimeout>'],
             },
             'NodeJS.Timer': {
-              message: 'Use ReturnType<typeof setTimeout> instead — NodeJS namespace is unavailable in browser builds.',
+              message:
+                'Use ReturnType<typeof setTimeout> instead — NodeJS namespace is unavailable in browser builds.',
               suggest: ['ReturnType<typeof setTimeout>'],
             },
           },
@@ -412,7 +531,8 @@ export default defineConfig([
     },
   },
   {
-    files: ['**/*.tsx'],
+    files: ['**/*.js', '**/*.ts', '**/*.tsx'],
+    ignores: ['**/*.config.js', '**/*.config.cjs', '**/*.config.mjs'],
     rules: {
       'max-lines': [
         'error',
@@ -420,6 +540,15 @@ export default defineConfig([
           max: 500,
           skipBlankLines: true,
           skipComments: true,
+        },
+      ],
+      'max-lines-per-function': [
+        'error',
+        {
+          max: 75,
+          skipBlankLines: true,
+          skipComments: true,
+          IIFEs: true,
         },
       ],
     },

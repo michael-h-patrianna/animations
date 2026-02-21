@@ -4,7 +4,7 @@ import './StandardEffectsScale.css'
 
 function StandardEffectsScaleComponent() {
   return (
-    <div className="standard-demo-container">
+    <div className="standard-demo-container" data-animation-id="standard-effects__scale">
       <div className="standard-demo-element scale-element">
         <div className="demo-text">Scale</div>
       </div>
