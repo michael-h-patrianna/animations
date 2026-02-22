@@ -20,7 +20,7 @@ function ButtonFeedbackShakeGentleComponent() {
   return (
     <div
       className="button-demo"
-      data-animation-id="bxf-feedback__shake-gentle"
+      data-animation-id="button-effects__shake-gentle"
     >
       <m.button
         className="pf-btn pf-btn--primary"

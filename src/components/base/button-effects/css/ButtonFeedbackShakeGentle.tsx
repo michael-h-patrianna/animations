@@ -17,7 +17,7 @@ function ButtonFeedbackShakeGentleComponent() {
   return (
     <div
       className="button-demo"
-      data-animation-id="bxf-feedback__shake-gentle"
+      data-animation-id="button-effects__shake-gentle"
     >
         <button type="button"
           className={`pf-btn pf-btn--primary bxf-feedback-shake-button ${isAnimating ? 'bxf-feedback-shake-button--active' : ''}`}

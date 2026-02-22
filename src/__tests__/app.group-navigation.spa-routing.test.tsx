@@ -126,10 +126,10 @@ describe('App routing behavior', () => {
     })
 
     await user.click(screen.getByRole('button', { name: /Open menu/i }))
-    await user.click(screen.getByRole('button', { name: /Alpha \(CSS\)/i }))
+    await user.click(screen.getByRole('button', { name: 'Beta' }))
 
     await waitFor(() => {
-      expect(screen.getByTestId('location-path')).toHaveTextContent('/alpha-css')
+      expect(screen.getByTestId('location-path')).toHaveTextContent('/beta-framer')
     })
   })
 
@@ -156,7 +156,7 @@ describe('App routing behavior', () => {
     })
   })
 
-  it('preserves selected code mode when selecting another category', async () => {
+  it('preserves selected code mode when selecting another group', async () => {
     const user = userEvent.setup()
     renderRoutedApp('/alpha-css')
 
@@ -165,7 +165,7 @@ describe('App routing behavior', () => {
     })
 
     await user.click(screen.getByRole('button', { name: /Open menu/i }))
-    await user.click(screen.getByRole('button', { name: 'Category B' }))
+    await user.click(screen.getByRole('button', { name: 'Beta' }))
 
     await waitFor(() => {
       expect(screen.getByTestId('location-path')).toHaveTextContent('/beta-css')

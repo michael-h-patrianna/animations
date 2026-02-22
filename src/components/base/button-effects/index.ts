@@ -123,7 +123,7 @@ export const groupExport: GroupExport = {
       component: ButtonEffectsRewardReadyPulse,
       metadata: rewardReadyPulseMeta,
     },
-    'bxf-feedback__shake-gentle': {
+    'button-effects__shake-gentle': {
       component: ButtonFeedbackShakeGentle,
       metadata: shakeGentleMetadata,
     },
@@ -151,7 +151,7 @@ export const groupExport: GroupExport = {
       component: CssButtonEffectsRewardReadyPulse,
       metadata: rewardReadyPulseCssMeta,
     },
-    'bxf-feedback__shake-gentle': {
+    'button-effects__shake-gentle': {
       component: CssButtonFeedbackShakeGentle,
       metadata: shakeGentleCssMetadata,
     },

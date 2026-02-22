@@ -1,11 +1,8 @@
 import { categories } from '@/components/animationRegistry'
 import type {
-  Animation,
   Category,
   Group,
 } from '@/types/animation'
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
  * Builds catalog from category exports.
@@ -63,93 +60,23 @@ const buildCatalogFromCategories = (): Category[] => {
   }))
 }
 
-/**
- * Builds catalog with additional animations merged in.
- *
- * @param additionalAnimations - Additional animations to merge
- */
-const buildCatalogWithExtras = (additionalAnimations: Animation[]): Category[] => {
-  const baseCatalog = buildCatalogFromCategories()
-
-  // Merge with additional animations if any
-  if (additionalAnimations.length > 0) {
-    const catalogCopy = baseCatalog.map(cat => ({
-      ...cat,
-      groups: cat.groups.map(grp => ({
-        ...grp,
-        animations: [...grp.animations]
-      }))
-    }))
-
-    additionalAnimations.forEach(anim => {
-      const category = catalogCopy.find(c => c.id === anim.categoryId)
-      if (category) {
-        const group = category.groups.find(g => g.id === anim.groupId)
-        if (group) {
-          group.animations.push(anim)
-        }
-      }
-    })
-
-    return catalogCopy
-  }
-
-  return baseCatalog
-}
-
 class AnimationDataService {
   private catalog: Category[] | null = null
-  private readonly extraAnimations: Animation[] = []
 
-  private async ensureCatalog(): Promise<Category[]> {
-    // Build catalog if it doesn't exist
+  private ensureCatalog(): Category[] {
     if (!this.catalog) {
-      this.catalog = buildCatalogWithExtras(this.extraAnimations)
+      this.catalog = buildCatalogFromCategories()
     }
-
     return this.catalog
   }
 
   async loadAnimations(): Promise<Category[]> {
-    await delay(120)
     return this.ensureCatalog()
   }
 
   async refreshCatalog(): Promise<Category[]> {
-    await delay(60)
-    this.catalog = buildCatalogWithExtras(this.extraAnimations)
+    this.catalog = buildCatalogFromCategories()
     return this.catalog
-  }
-
-  async addAnimation(animation: Omit<Animation, 'id'>): Promise<Animation> {
-    const catalog = await this.ensureCatalog()
-    const category = catalog.find((entry) => entry.id === animation.categoryId)
-    if (!category) {
-      throw new Error(`Category not found: ${animation.categoryId}`)
-    }
-
-    const group = category.groups.find((entry) => entry.id === animation.groupId)
-    if (!group) {
-      throw new Error(`Group not found: ${animation.groupId} in category ${animation.categoryId}`)
-    }
-
-    const newAnimation: Animation = {
-      ...animation,
-      id: `${animation.groupId}__${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-    }
-
-    this.extraAnimations.push(newAnimation)
-    group.animations = [...group.animations, newAnimation]
-
-    return newAnimation
-  }
-
-  async getAnimationsByGroup(categoryId: string, groupId: string): Promise<Animation[]> {
-    const catalog = await this.ensureCatalog()
-    const category = catalog.find((entry) => entry.id === categoryId)
-    const group = category?.groups.find((entry) => entry.id === groupId)
-
-    return group ? [...group.animations] : []
   }
 }
 
