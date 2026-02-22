@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 
@@ -21,6 +22,8 @@ const RAY_COUNT = 14
 const RAY_INDICES = Array.from({ length: RAY_COUNT }, (_, i) => i)
 const BURST_SPARKLE_COUNT = 18
 const DEFAULT_PRIZE_COUNT = 3
+const CLAIM_APPEAR_DELAY_MS = 800
+const CLAIM_FLY_STAGGER = 0.06
 
 const PRIZE_POOL: PrizeConfig[] = [
   { id: 'gc', label: 'GC', src: dailyRewardGcImage, value: 1500, decimals: 0, modifier: 'pf-chest-gc-sc__prize--gc' },
@@ -122,6 +125,35 @@ function BurstSparkles({ sparkles }: { sparkles: SparkleData[] }) {
   )
 }
 
+function ClaimBurst() {
+  return (
+    <m.div
+      className="pf-chest-gc-sc__claim-burst"
+      initial={{ opacity: 0, scale: 0.15, x: '-50%', y: '50%' }}
+      animate={{ opacity: [0, 0.8, 0], scale: [0.15, 1.5, 2.5] }}
+      transition={{ duration: 0.5, times: [0, 0.2, 1] as const, ease: 'easeOut' }}
+    />
+  )
+}
+
+function ClaimButton({ onClaim }: { onClaim: () => void }) {
+  return (
+    <m.button
+      type="button"
+      className="pf-chest-gc-sc__claim-btn"
+      initial={{ opacity: 0, scale: 0.7, y: 20 }}
+      animate={{ opacity: 1, scale: [0.7, 1.06, 1], y: 0 }}
+      exit={{ opacity: 0, scale: 0.5, y: -10, transition: { duration: 0.25, ease: 'easeIn' } }}
+      transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as const }}
+      onClick={onClaim}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.97 }}
+    >
+      CLAIM
+    </m.button>
+  )
+}
+
 function PrizeRays() {
   return (
     <div className="pf-chest-gc-sc__prize-rays-wrap">
@@ -174,19 +206,30 @@ function PrizeText({ label, amount, delay }: { label: string; amount: string; de
   )
 }
 
-function Prize({ config, position }: { config: PrizeConfig; position: PrizePosition }) {
+function Prize({ config, position, claimed, claimIndex }: { config: PrizeConfig; position: PrizePosition; claimed: boolean; claimIndex: number }) {
   const amount = useCountUp(config.value ?? 0, 600, (position.delay + 0.6) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
   const xFrames = position.flyX === 0
     ? ['-50%', '-50%', '-50%', '-50%']
     : ['-50%', `calc(-50% + ${position.overshootX}px)`, `calc(-50% + ${position.flyX * 0.95}px)`, `calc(-50% + ${position.flyX}px)`]
 
+  const restX = xFrames[xFrames.length - 1]
+  const claimX = position.flyX === 0 ? '-50%' : `calc(-50% + ${position.flyX * 3.5}px)`
+
   return (
     <m.div
       className={`pf-chest-gc-sc__prize ${config.modifier}`}
       initial={{ x: '-50%', y: 160, scale: 0, opacity: 0 }}
-      animate={{ x: xFrames, y: [160, -18, 6, 0], scale: [0, 1.15, 0.94, 1], opacity: [0, 1, 1, 1] }}
-      transition={{ duration: 0.88, delay: position.delay, times: [0, 0.48, 0.76, 1] as const, ease: [0.22, 1, 0.36, 1] as const }}
+      animate={
+        claimed
+          ? { x: [restX, restX, claimX], y: [0, -10, -300], scale: [1, 1.15, 0.4], opacity: [1, 1, 0] }
+          : { x: xFrames, y: [160, -18, 6, 0], scale: [0, 1.15, 0.94, 1], opacity: [0, 1, 1, 1] }
+      }
+      transition={
+        claimed
+          ? { duration: 0.75, delay: claimIndex * CLAIM_FLY_STAGGER, times: [0, 0.18, 1] as const, ease: [0.32, 0, 0.67, 0] as const }
+          : { duration: 0.88, delay: position.delay, times: [0, 0.48, 0.76, 1] as const, ease: [0.22, 1, 0.36, 1] as const }
+      }
     >
       <div className="pf-chest-gc-sc__prize-icon-wrap">
         <PrizeGlow delay={position.delay} />
@@ -221,6 +264,17 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
   const prizes = PRIZE_POOL.slice(0, prizeCount)
   const positions = getPrizePositions(prizeCount)
 
+  const [claimed, setClaimed] = useState(false)
+  const [showClaim, setShowClaim] = useState(false)
+
+  useEffect(() => {
+    if (phase !== 'reveal') return
+    const t = window.setTimeout(() => setShowClaim(true), CLAIM_APPEAR_DELAY_MS)
+    return () => window.clearTimeout(t)
+  }, [phase])
+
+  const handleClaim = () => setClaimed(true)
+
   return (
     <div className="pf-chest-gc-sc__stage">
       <Chest phase={phase} />
@@ -228,11 +282,15 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
         <>
           <BurstFlash />
           <BurstSparkles sparkles={sparkles} />
+          {claimed && <ClaimBurst />}
           <div className="pf-chest-gc-sc__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} position={positions[i]} />
+              <Prize key={prize.id} config={prize} position={positions[i]} claimed={claimed} claimIndex={i} />
             ))}
           </div>
+          <AnimatePresence>
+            {showClaim && !claimed && <ClaimButton onClaim={handleClaim} />}
+          </AnimatePresence>
         </>
       )}
     </div>

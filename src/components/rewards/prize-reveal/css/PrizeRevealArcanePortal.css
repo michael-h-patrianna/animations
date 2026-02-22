@@ -24,6 +24,20 @@
   --icon-glow-default: rgb(120 140 255 / 30%);
   --aura-color-default: rgb(120 140 255 / 15%);
   --aura-glow-default: rgb(100 120 255 / 10%);
+  --claim-btn-border: rgb(255 116 149);
+  --claim-btn-bg-start: rgb(255 89 129);
+  --claim-btn-bg-end: rgb(200 53 88);
+  --claim-btn-text: rgb(255 255 255);
+  --claim-btn-glow: rgb(255 89 129 / 25%);
+  --claim-btn-hover-bg-start: rgb(255 107 143);
+  --claim-btn-hover-bg-end: rgb(214 69 106);
+  --claim-btn-hover-border: rgb(255 134 165);
+  --claim-btn-hover-glow: rgb(255 89 129 / 35%);
+  --claim-burst-inner: rgb(255 200 100 / 40%);
+  --claim-burst-outer: rgb(255 150 80 / 20%);
+  --claim-btn-text-shadow: rgb(0 0 0 / 50%);
+  --claim-btn-shadow-dark: rgb(0 0 0 / 30%);
+  --claim-btn-hover-shadow-dark: rgb(0 0 0 / 35%);
   position: relative;
   inline-size: 100%;
   block-size: 340px;
@@ -457,6 +471,71 @@
     0 1px 4px var(--text-shadow-strong);
 }
 
+/* ─── Claim button ─── */
+
+.pf-arcane-portal-css__claim-btn {
+  position: absolute;
+  z-index: 10;
+  inset-block-end: 16px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  padding: 8px 28px;
+  border-radius: 50px;
+  border: 2px solid var(--claim-btn-border);
+  background: linear-gradient(180deg, var(--claim-btn-bg-start), var(--claim-btn-bg-end));
+  color: var(--claim-btn-text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 1px var(--claim-btn-text-shadow);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 0 20px 6px var(--claim-btn-glow),
+    0 4px 12px var(--claim-btn-shadow-dark);
+  transition: box-shadow 160ms ease;
+  animation: pf-ap-css-claim-btn-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.pf-arcane-portal-css__claim-btn:hover {
+  background: linear-gradient(180deg, var(--claim-btn-hover-bg-start), var(--claim-btn-hover-bg-end));
+  border-color: var(--claim-btn-hover-border);
+  box-shadow:
+    0 0 24px 8px var(--claim-btn-hover-glow),
+    0 4px 14px var(--claim-btn-hover-shadow-dark);
+}
+
+.pf-arcane-portal-css__claim-btn.is-exiting {
+  animation: pf-ap-css-claim-btn-exit 0.25s ease-in forwards;
+  pointer-events: none;
+}
+
+/* ─── Claim burst flash ─── */
+
+.pf-arcane-portal-css__claim-burst {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 60px 40px var(--claim-burst-inner),
+    0 0 120px 80px var(--claim-burst-outer);
+  pointer-events: none;
+  animation: pf-ap-css-claim-burst 0.5s ease-out both;
+}
+
+/* ─── Prize claim fly-out ─── */
+
+.pf-arcane-portal-css__prize.is-claiming {
+  animation: pf-ap-css-claim-flyout 0.75s cubic-bezier(0.32, 0, 0.67, 0) var(--claim-delay, 0s) forwards;
+}
+
 /* ─── Responsive sizing by prize count ─── */
 
 .pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize-icon-wrap {
@@ -863,5 +942,71 @@
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Claim keyframes ─── */
+
+@keyframes pf-ap-css-claim-btn-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(20px);
+  }
+
+  70% {
+    transform: scale(1.06) translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pf-ap-css-claim-btn-exit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translateY(-10px);
+  }
+}
+
+@keyframes pf-ap-css-claim-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  20% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+@keyframes pf-ap-css-claim-flyout {
+  0% {
+    transform: translate(var(--slot-x, 0), var(--slot-y, 0));
+    scale: 1;
+    opacity: 1;
+  }
+
+  18% {
+    transform: translate(var(--slot-x, 0), calc(var(--slot-y, 0px) - 15px));
+    scale: 1.18;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--claim-fly-x, 0), -250px);
+    scale: 0.4;
+    opacity: 0;
   }
 }

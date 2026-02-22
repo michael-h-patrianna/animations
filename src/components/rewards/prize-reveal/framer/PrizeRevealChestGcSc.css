@@ -4,6 +4,20 @@
   --sparkle-glow: rgb(255 220 90 / 50%);
   --text-shadow: rgb(0 0 0 / 40%);
   --text-shadow-strong: rgb(0 0 0 / 50%);
+  --claim-btn-border: rgb(255 116 149);
+  --claim-btn-bg-start: rgb(255 89 129);
+  --claim-btn-bg-end: rgb(200 53 88);
+  --claim-btn-text: rgb(255 255 255);
+  --claim-btn-glow: rgb(255 89 129 / 25%);
+  --claim-btn-hover-bg-start: rgb(255 107 143);
+  --claim-btn-hover-bg-end: rgb(214 69 106);
+  --claim-btn-hover-border: rgb(255 134 165);
+  --claim-btn-hover-glow: rgb(255 89 129 / 35%);
+  --claim-burst-inner: rgb(255 200 100 / 40%);
+  --claim-burst-outer: rgb(255 150 80 / 20%);
+  --claim-btn-text-shadow: rgb(0 0 0 / 50%);
+  --claim-btn-shadow-dark: rgb(0 0 0 / 30%);
+  --claim-btn-hover-shadow-dark: rgb(0 0 0 / 35%);
   position: relative;
   inline-size: 100%;
   block-size: 280px;
@@ -249,6 +263,57 @@
   text-shadow:
     0 0 10px var(--amount-glow),
     0 1px 3px var(--text-shadow-strong);
+}
+
+/* ─── Claim button ─── */
+
+.pf-chest-gc-sc__claim-btn {
+  position: absolute;
+  z-index: 10;
+  inset-block-end: 12px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  padding: 8px 28px;
+  border-radius: 50px;
+  border: 2px solid var(--claim-btn-border);
+  background: linear-gradient(180deg, var(--claim-btn-bg-start), var(--claim-btn-bg-end));
+  color: var(--claim-btn-text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 1px var(--claim-btn-text-shadow);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 0 20px 6px var(--claim-btn-glow),
+    0 4px 12px var(--claim-btn-shadow-dark);
+  transition: box-shadow 160ms ease;
+}
+
+.pf-chest-gc-sc__claim-btn:hover {
+  background: linear-gradient(180deg, var(--claim-btn-hover-bg-start), var(--claim-btn-hover-bg-end));
+  border-color: var(--claim-btn-hover-border);
+  box-shadow:
+    0 0 24px 8px var(--claim-btn-hover-glow),
+    0 4px 14px var(--claim-btn-hover-shadow-dark);
+}
+
+/* ─── Claim burst flash ─── */
+
+.pf-chest-gc-sc__claim-burst {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: 50%;
+  inset-block-end: 25px;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 60px 40px var(--claim-burst-inner),
+    0 0 120px 80px var(--claim-burst-outer);
+  pointer-events: none;
 }
 
 /* ─── Responsive sizing by prize count ─── */

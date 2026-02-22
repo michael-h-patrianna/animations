@@ -22,6 +22,8 @@ const RAY_COUNT = 14
 const RAY_INDICES = Array.from({ length: RAY_COUNT }, (_, i) => i)
 const BURST_SPARKLE_COUNT = 18
 const DEFAULT_PRIZE_COUNT = 3
+const CLAIM_APPEAR_DELAY_MS = 800
+const CLAIM_FLY_STAGGER = 0.06
 
 const PRIZE_POOL: PrizeConfig[] = [
   { id: 'gc', label: 'GC', src: dailyRewardGcImage, value: 1500, decimals: 0, modifier: 'pf-chest-gc-sc-css__prize--gc' },
@@ -123,13 +125,13 @@ function PrizeRays() {
   )
 }
 
-function Prize({ config, position }: { config: PrizeConfig; position: PrizePosition }) {
+function Prize({ config, position, claimed, claimIndex }: { config: PrizeConfig; position: PrizePosition; claimed: boolean; claimIndex: number }) {
   const amount = useCountUp(config.value ?? 0, 600, (position.delay + 0.6) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
 
   return (
     <div
-      className={`pf-chest-gc-sc-css__prize ${config.modifier}`}
+      className={`pf-chest-gc-sc-css__prize ${config.modifier}${claimed ? ' is-claiming' : ''}`}
       style={{
         '--fly-x': `${position.flyX}px`,
         '--fly-overshoot': `${position.overshootX}px`,
@@ -138,6 +140,8 @@ function Prize({ config, position }: { config: PrizeConfig; position: PrizePosit
         '--glow-delay': `${position.delay + 0.45}s`,
         '--rays-delay': `${position.delay + 0.4}s`,
         '--text-delay': `${position.delay + 0.55}s`,
+        '--claim-fly-x': `${position.flyX * 3.5}px`,
+        '--claim-delay': `${claimIndex * CLAIM_FLY_STAGGER}s`,
       } as CSSProperties}
     >
       <div className="pf-chest-gc-sc-css__prize-icon-wrap">
@@ -161,6 +165,20 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
   const prizes = PRIZE_POOL.slice(0, prizeCount)
   const positions = getPrizePositions(prizeCount)
 
+  const [claimed, setClaimed] = useState(false)
+  const [showClaim, setShowClaim] = useState(false)
+
+  useEffect(() => {
+    if (phase !== 'reveal') return
+    const t = window.setTimeout(() => setShowClaim(true), CLAIM_APPEAR_DELAY_MS)
+    return () => window.clearTimeout(t)
+  }, [phase])
+
+  const handleClaim = () => {
+    setClaimed(true)
+    setShowClaim(false)
+  }
+
   return (
     <div className="pf-chest-gc-sc-css__stage">
       <div className={`pf-chest-gc-sc-css__chest${phase === 'shake' ? ' is-shaking' : ''}${phase === 'reveal' ? ' is-reveal' : ''}`}>
@@ -170,11 +188,30 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
         <>
           <div className="pf-chest-gc-sc-css__burst" />
           <BurstSparkles sparkles={sparkles} />
+          {claimed && <div className="pf-chest-gc-sc-css__claim-burst" />}
           <div className="pf-chest-gc-sc-css__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} position={positions[i]} />
+              <Prize key={prize.id} config={prize} position={positions[i]} claimed={claimed} claimIndex={i} />
             ))}
           </div>
+          {showClaim && !claimed && (
+            <button
+              type="button"
+              className="pf-chest-gc-sc-css__claim-btn"
+              onClick={handleClaim}
+            >
+              CLAIM
+            </button>
+          )}
+          {showClaim && claimed && (
+            <button
+              type="button"
+              className="pf-chest-gc-sc-css__claim-btn is-exiting"
+              disabled
+            >
+              CLAIM
+            </button>
+          )}
         </>
       )}
     </div>

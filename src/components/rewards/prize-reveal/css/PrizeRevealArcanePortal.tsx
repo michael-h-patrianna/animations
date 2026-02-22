@@ -28,6 +28,8 @@ const RUNE_SYMBOLS = ['\u2726', '\u2727', '\u2728', '\u2736', '\u2737', '\u2738'
 const RUNE_COUNT = 8
 const MOTES_PER_PRIZE = 6
 const DEFAULT_PRIZE_COUNT = 3
+const CLAIM_APPEAR_DELAY_MS = 800
+const CLAIM_FLY_STAGGER = 0.06
 
 const PRIZE_POOL: PrizeConfig[] = [
   { id: 'gc', label: 'GC', src: arcanePortalGcImage, value: 1500, decimals: 0, modifier: 'pf-arcane-portal-css__prize--gc' },
@@ -196,14 +198,14 @@ function OrbitingMotesCss({ motes, delay }: { motes: MoteData[]; delay: number }
   )
 }
 
-function Prize({ config, slot }: { config: PrizeConfig; slot: PrizeSlot }) {
+function Prize({ config, slot, claimed, claimIndex }: { config: PrizeConfig; slot: PrizeSlot; claimed: boolean; claimIndex: number }) {
   const amount = useCountUp(config.value ?? 0, 700, (slot.delay + 0.5) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
   const motes = useMemo(() => createOrbitMotes(), [])
 
   return (
     <div
-      className={`pf-arcane-portal-css__prize ${config.modifier}`}
+      className={`pf-arcane-portal-css__prize ${config.modifier}${claimed ? ' is-claiming' : ''}`}
       style={{
         '--slot-x': `${slot.x}px`,
         '--slot-y': `${slot.y}px`,
@@ -216,6 +218,8 @@ function Prize({ config, slot }: { config: PrizeConfig; slot: PrizeSlot }) {
         '--icon-delay': `${slot.delay + 0.1}s`,
         '--flash-delay': `${slot.delay}s`,
         '--text-delay': `${slot.delay + 0.4}s`,
+        '--claim-fly-x': `${slot.x * 3}px`,
+        '--claim-delay': `${claimIndex * CLAIM_FLY_STAGGER}s`,
       } as CSSProperties}
     >
       <div className="pf-arcane-portal-css__prize-aura" />
@@ -245,6 +249,20 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
   const prizes = PRIZE_POOL.slice(0, prizeCount)
   const slots = getPrizeSlots(prizeCount)
 
+  const [claimed, setClaimed] = useState(false)
+  const [showClaim, setShowClaim] = useState(false)
+
+  useEffect(() => {
+    if (phase !== 'erupt') return
+    const t = window.setTimeout(() => setShowClaim(true), CLAIM_APPEAR_DELAY_MS)
+    return () => window.clearTimeout(t)
+  }, [phase])
+
+  const handleClaim = () => {
+    setClaimed(true)
+    setShowClaim(false)
+  }
+
   const ringClass = `pf-arcane-portal-css__ring-wrap${phase === 'charge' ? ' is-charge' : ''}${phase === 'erupt' ? ' is-erupt' : ''}`
   const vortexClass = `pf-arcane-portal-css__vortex${phase === 'charge' ? ' is-charge' : ''}${phase === 'erupt' ? ' is-erupt' : ''}`
 
@@ -262,11 +280,30 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
         <>
           <div className="pf-arcane-portal-css__shockwave" />
           <div className="pf-arcane-portal-css__burst" />
+          {claimed && <div className="pf-arcane-portal-css__claim-burst" />}
           <div className="pf-arcane-portal-css__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} slot={slots[i]} />
+              <Prize key={prize.id} config={prize} slot={slots[i]} claimed={claimed} claimIndex={i} />
             ))}
           </div>
+          {showClaim && !claimed && (
+            <button
+              type="button"
+              className="pf-arcane-portal-css__claim-btn"
+              onClick={handleClaim}
+            >
+              CLAIM
+            </button>
+          )}
+          {showClaim && claimed && (
+            <button
+              type="button"
+              className="pf-arcane-portal-css__claim-btn is-exiting"
+              disabled
+            >
+              CLAIM
+            </button>
+          )}
         </>
       )}
     </div>

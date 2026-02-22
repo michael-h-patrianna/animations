@@ -6,15 +6,26 @@ import {
   arcanePortalFreeSpinsImage,
   arcanePortalGcImage,
   arcanePortalRandomRewardImage,
-  arcanePortalRingImage,
   arcanePortalRunicSigilImage,
   arcanePortalScImage,
 } from '@/assets'
 
+import {
+  AmbientGlow,
+  BurstFlash,
+  ClaimBurst,
+  ClaimButton,
+  ConvergeParticles,
+  InnerVortex,
+  OrbitingRunes,
+  PortalRing,
+  Shockwave,
+  type ParticleData,
+  type RevealPhase,
+} from '../ArcanePortalParts'
+
 /* ─── Types ─── */
 
-type RevealPhase = 'materialize' | 'charge' | 'erupt'
-type ParticleData = { id: number; startX: number; startY: number; size: number; delay: number }
 type MoteData = { id: number; angle: number; radius: number; size: number }
 type PrizeConfig = { id: string; label: string | null; src: string; value: number | null; decimals: number; modifier: string }
 type PrizeSlot = { x: number; y: number; delay: number }
@@ -24,10 +35,10 @@ type PrizeSlot = { x: number; y: number; delay: number }
 const CHARGE_DELAY_MS = 700
 const ERUPT_DELAY_MS = 1500
 const CONVERGE_PARTICLE_COUNT = 20
-const RUNE_SYMBOLS = ['\u2726', '\u2727', '\u2728', '\u2736', '\u2737', '\u2738']
-const RUNE_COUNT = 8
 const MOTES_PER_PRIZE = 6
 const DEFAULT_PRIZE_COUNT = 3
+const CLAIM_APPEAR_DELAY_MS = 800
+const CLAIM_FLY_STAGGER = 0.06
 
 const PRIZE_POOL: PrizeConfig[] = [
   { id: 'gc', label: 'GC', src: arcanePortalGcImage, value: 1500, decimals: 0, modifier: 'pf-arcane-portal__prize--gc' },
@@ -118,157 +129,6 @@ function createOrbitMotes(): MoteData[] {
     radius: 34 + Math.random() * 10,
     size: 2.5 + Math.random() * 2.5,
   }))
-}
-
-/* ═══════════════════════════════════════════════════
-   PORTAL INTRO — ambient, particles, vortex, ring, runes
-   ═══════════════════════════════════════════════════ */
-
-function AmbientGlow() {
-  return (
-    <m.div
-      className="pf-arcane-portal__ambient"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 0.7, 1] }}
-      transition={{ duration: 0.6, times: [0, 0.5, 1] as const }}
-    />
-  )
-}
-
-function ConvergeParticles({ particles }: { particles: ParticleData[] }) {
-  return (
-    <div className="pf-arcane-portal__particles">
-      {particles.map((p) => (
-        <m.div
-          key={p.id}
-          className="pf-arcane-portal__particle"
-          style={{ '--size': `${p.size}px` } as CSSProperties}
-          initial={{ x: p.startX, y: p.startY, opacity: 0, scale: 0 }}
-          animate={{ x: 0, y: 0, opacity: [0, 0.9, 1, 0], scale: [0, 1.3, 1, 0] }}
-          transition={{ duration: 0.7, delay: p.delay, ease: [0.22, 1, 0.36, 1] as const }}
-        />
-      ))}
-    </div>
-  )
-}
-
-function InnerVortex({ phase }: { phase: RevealPhase }) {
-  return (
-    <m.div
-      className="pf-arcane-portal__vortex"
-      animate={{
-        opacity: phase === 'erupt' ? 0 : phase === 'charge' ? 0.95 : 0.75,
-        scale: phase === 'erupt' ? 2.5 : phase === 'charge' ? 1.15 : 1,
-      }}
-      transition={{
-        duration: phase === 'erupt' ? 0.4 : 0.6,
-        ease: 'easeOut',
-      }}
-    />
-  )
-}
-
-function PortalRing({ phase }: { phase: RevealPhase }) {
-  return (
-    <m.div
-      className="pf-arcane-portal__ring-wrap"
-      initial={{ scale: 0, opacity: 0, rotate: -30 }}
-      animate={{
-        scale: phase === 'erupt' ? 0.4 : phase === 'charge' ? 1.08 : 1,
-        opacity: phase === 'erupt' ? 0 : 1,
-        rotate: phase === 'erupt' ? -12 : 0,
-      }}
-      transition={{
-        duration: phase === 'erupt' ? 0.45 : phase === 'charge' ? 0.8 : 0.7,
-        ease: phase === 'materialize' ? [0.16, 0.84, 0.32, 1] as const : 'easeInOut',
-      }}
-    >
-      <m.div
-        className="pf-arcane-portal__ring-glow"
-        animate={{
-          opacity: phase === 'erupt' ? 0 : phase === 'charge' ? 1 : 0.7,
-        }}
-        transition={{ duration: 0.5 }}
-      />
-      <m.img
-        src={arcanePortalRingImage}
-        alt=""
-        aria-hidden="true"
-        className="pf-arcane-portal__ring-image"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-      />
-    </m.div>
-  )
-}
-
-function OrbitingRunes() {
-  return (
-    <>
-      {Array.from({ length: RUNE_COUNT }, (_, i) => {
-        const startAngle = (i / RUNE_COUNT) * 360
-        const radius = 105
-        return (
-          <m.span
-            key={i}
-            className="pf-arcane-portal__rune"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{
-              opacity: [0, 0.95, 0.95, 0],
-              scale: [0, 1.1, 1, 0],
-              x: [
-                Math.cos((startAngle * Math.PI) / 180) * radius,
-                Math.cos(((startAngle + 120) * Math.PI) / 180) * radius,
-                Math.cos(((startAngle + 240) * Math.PI) / 180) * radius,
-                Math.cos(((startAngle + 360) * Math.PI) / 180) * (radius * 0.15),
-              ],
-              y: [
-                Math.sin((startAngle * Math.PI) / 180) * radius,
-                Math.sin(((startAngle + 120) * Math.PI) / 180) * radius,
-                Math.sin(((startAngle + 240) * Math.PI) / 180) * radius,
-                Math.sin(((startAngle + 360) * Math.PI) / 180) * (radius * 0.15),
-              ],
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0,
-              transition: { duration: 0.25 },
-            }}
-            transition={{
-              duration: 2.4,
-              delay: i * 0.05,
-              times: [0, 0.1, 0.8, 1] as const,
-              ease: 'linear',
-            }}
-          >
-            {RUNE_SYMBOLS[i % RUNE_SYMBOLS.length]}
-          </m.span>
-        )
-      })}
-    </>
-  )
-}
-
-function Shockwave() {
-  return (
-    <m.div
-      className="pf-arcane-portal__shockwave"
-      initial={{ scale: 0.3, opacity: 1 }}
-      animate={{ scale: 5, opacity: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 0.84, 0.32, 1] as const }}
-    />
-  )
-}
-
-function BurstFlash() {
-  return (
-    <m.div
-      className="pf-arcane-portal__burst"
-      initial={{ opacity: 0, scale: 0.1 }}
-      animate={{ opacity: [0, 1, 0], scale: [0.1, 1.2, 2] }}
-      transition={{ duration: 0.55, times: [0, 0.12, 1] as const, ease: 'easeOut' }}
-    />
-  )
 }
 
 /* ═══════════════════════════════════════════════════
@@ -391,27 +251,48 @@ function PrizeText({ label, amount, delay }: { label: string; amount: string; de
   )
 }
 
-function Prize({ config, slot }: { config: PrizeConfig; slot: PrizeSlot }) {
+function Prize({ config, slot, claimed, claimIndex }: { config: PrizeConfig; slot: PrizeSlot; claimed: boolean; claimIndex: number }) {
   const amount = useCountUp(config.value ?? 0, 700, (slot.delay + 0.5) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
   const motes = useMemo(() => createOrbitMotes(), [])
+
+  const flyOutX = slot.x * 3
+  const flyOutY = -250
 
   return (
     <m.div
       className={`pf-arcane-portal__prize ${config.modifier}`}
       initial={{ x: 0, y: -90, scale: 0, opacity: 0 }}
-      animate={{
-        x: [0, slot.x * 0.3, slot.x * 0.75, slot.x],
-        y: [-90, -30, slot.y * 0.6, slot.y],
-        scale: [0, 0.4, 1.1, 1],
-        opacity: [0, 0.7, 1, 1],
-      }}
-      transition={{
-        duration: 0.9,
-        delay: slot.delay,
-        times: [0, 0.25, 0.65, 1] as const,
-        ease: [0.22, 1, 0.36, 1] as const,
-      }}
+      animate={
+        claimed
+          ? {
+              x: [slot.x, slot.x, flyOutX],
+              y: [slot.y, slot.y - 15, flyOutY],
+              scale: [1, 1.18, 0.4],
+              opacity: [1, 1, 0],
+            }
+          : {
+              x: [0, slot.x * 0.3, slot.x * 0.75, slot.x],
+              y: [-90, -30, slot.y * 0.6, slot.y],
+              scale: [0, 0.4, 1.1, 1],
+              opacity: [0, 0.7, 1, 1],
+            }
+      }
+      transition={
+        claimed
+          ? {
+              duration: 0.75,
+              delay: claimIndex * CLAIM_FLY_STAGGER,
+              times: [0, 0.18, 1] as const,
+              ease: [0.32, 0, 0.67, 0] as const,
+            }
+          : {
+              duration: 0.9,
+              delay: slot.delay,
+              times: [0, 0.25, 0.65, 1] as const,
+              ease: [0.22, 1, 0.36, 1] as const,
+            }
+      }
     >
       <PrizeAura delay={slot.delay} />
       <div className="pf-arcane-portal__prize-icon-wrap">
@@ -450,6 +331,17 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
   const showRunes = phase === 'charge'
   const showPrizes = phase === 'erupt'
 
+  const [claimed, setClaimed] = useState(false)
+  const [showClaim, setShowClaim] = useState(false)
+
+  useEffect(() => {
+    if (phase !== 'erupt') return
+    const t = window.setTimeout(() => setShowClaim(true), CLAIM_APPEAR_DELAY_MS)
+    return () => window.clearTimeout(t)
+  }, [phase])
+
+  const handleClaim = () => setClaimed(true)
+
   return (
     <div className="pf-arcane-portal__stage">
       <AmbientGlow />
@@ -468,11 +360,15 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
         <>
           <Shockwave />
           <BurstFlash />
+          {claimed && <ClaimBurst />}
           <div className="pf-arcane-portal__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} slot={slots[i]} />
+              <Prize key={prize.id} config={prize} slot={slots[i]} claimed={claimed} claimIndex={i} />
             ))}
           </div>
+          <AnimatePresence>
+            {showClaim && !claimed && <ClaimButton onClaim={handleClaim} />}
+          </AnimatePresence>
         </>
       )}
     </div>
