@@ -2,6 +2,8 @@
   --burst-bg: rgb(255 225 125 / 70%);
   --sparkle-bg: rgb(255 235 150);
   --sparkle-glow: rgb(255 220 90 / 50%);
+  --text-shadow: rgb(0 0 0 / 40%);
+  --text-shadow-strong: rgb(0 0 0 / 50%);
   position: relative;
   inline-size: 100%;
   block-size: 280px;
@@ -48,11 +50,11 @@
   z-index: 4;
   inset-inline-start: 50%;
   inset-block-end: 25px;
-  inline-size: 280px;
-  block-size: 280px;
+  inline-size: 1px;
+  block-size: 1px;
   border-radius: 50%;
-  background: var(--burst-bg);
-  filter: blur(50px);
+  background: transparent;
+  box-shadow: 0 0 120px 100px var(--burst-bg);
   pointer-events: none;
 }
 
@@ -100,16 +102,25 @@
 .pf-chest-gc-sc__prize--gc {
   --ray-color: rgb(255 200 50 / 30%);
   --glow-color: rgb(255 190 50 / 50%);
+  --label-color: rgb(255 220 100);
+  --amount-color: rgb(255 215 70);
+  --amount-glow: rgb(255 200 50 / 45%);
 }
 
 .pf-chest-gc-sc__prize--sc {
   --ray-color: rgb(50 210 120 / 30%);
   --glow-color: rgb(50 200 120 / 50%);
+  --label-color: rgb(100 225 145);
+  --amount-color: rgb(80 230 130);
+  --amount-glow: rgb(50 200 120 / 45%);
 }
 
 .pf-chest-gc-sc__prize--fs {
   --ray-color: rgb(120 200 255 / 30%);
   --glow-color: rgb(100 190 255 / 50%);
+  --label-color: rgb(140 215 255);
+  --amount-color: rgb(130 215 255);
+  --amount-glow: rgb(100 200 255 / 45%);
 }
 
 .pf-chest-gc-sc__prize--rr {
@@ -124,12 +135,12 @@
   z-index: 0;
   inset-inline-start: 50%;
   inset-block-start: 50%;
-  inline-size: 120px;
-  block-size: 120px;
+  inline-size: 1px;
+  block-size: 1px;
   translate: -50% -50%;
   border-radius: 50%;
-  background: var(--glow-color);
-  filter: blur(18px);
+  background: transparent;
+  box-shadow: 0 0 40px 30px var(--glow-color);
   pointer-events: none;
 }
 
@@ -226,46 +237,18 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* GC text */
+/* Prize text colors (driven by modifier custom properties) */
 
-.pf-chest-gc-sc__prize--gc .pf-chest-gc-sc__prize-label {
-  color: rgb(255 220 100);
-  text-shadow: 0 1px 3px rgb(0 0 0 / 40%);
+.pf-chest-gc-sc__prize-label {
+  color: var(--label-color);
+  text-shadow: 0 1px 3px var(--text-shadow);
 }
 
-.pf-chest-gc-sc__prize--gc .pf-chest-gc-sc__prize-amount {
-  color: rgb(255 215 70);
+.pf-chest-gc-sc__prize-amount {
+  color: var(--amount-color);
   text-shadow:
-    0 0 10px rgb(255 200 50 / 45%),
-    0 1px 3px rgb(0 0 0 / 50%);
-}
-
-/* SC text (green) */
-
-.pf-chest-gc-sc__prize--sc .pf-chest-gc-sc__prize-label {
-  color: rgb(100 225 145);
-  text-shadow: 0 1px 3px rgb(0 0 0 / 40%);
-}
-
-.pf-chest-gc-sc__prize--sc .pf-chest-gc-sc__prize-amount {
-  color: rgb(80 230 130);
-  text-shadow:
-    0 0 10px rgb(50 200 120 / 45%),
-    0 1px 3px rgb(0 0 0 / 50%);
-}
-
-/* FS text (blue) */
-
-.pf-chest-gc-sc__prize--fs .pf-chest-gc-sc__prize-label {
-  color: rgb(140 215 255);
-  text-shadow: 0 1px 3px rgb(0 0 0 / 40%);
-}
-
-.pf-chest-gc-sc__prize--fs .pf-chest-gc-sc__prize-amount {
-  color: rgb(130 215 255);
-  text-shadow:
-    0 0 10px rgb(100 200 255 / 45%),
-    0 1px 3px rgb(0 0 0 / 50%);
+    0 0 10px var(--amount-glow),
+    0 1px 3px var(--text-shadow-strong);
 }
 
 /* ─── Responsive sizing by prize count ─── */
@@ -285,8 +268,7 @@
 }
 
 .pf-chest-gc-sc[data-prize-count='3'] .pf-chest-gc-sc__prize-glow {
-  inline-size: 100px;
-  block-size: 100px;
+  box-shadow: 0 0 35px 25px var(--glow-color);
 }
 
 .pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-icon-wrap {
@@ -304,8 +286,7 @@
 }
 
 .pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-glow {
-  inline-size: 90px;
-  block-size: 90px;
+  box-shadow: 0 0 30px 20px var(--glow-color);
 }
 
 .pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-amount {
