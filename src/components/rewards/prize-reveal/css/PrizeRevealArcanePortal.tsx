@@ -1,57 +1,64 @@
 import { memo, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import {
+  arcanePortalFreeSpinsImage,
+  arcanePortalGcImage,
+  arcanePortalRandomRewardImage,
   arcanePortalRingImage,
-  dailyRewardFreeSpinsImage,
-  dailyRewardGcImage,
-  dailyRewardRandomRewardImage,
-  dailyRewardScImage,
+  arcanePortalRunicSigilImage,
+  arcanePortalScImage,
 } from '@/assets'
 
 import './PrizeRevealArcanePortal.css'
 
+/* ─── Types ─── */
+
 type RevealPhase = 'materialize' | 'charge' | 'erupt'
 type ParticleData = { id: number; startX: number; startY: number; size: number; delay: number }
+type MoteData = { id: number; angle: number; radius: number; size: number }
 type PrizeConfig = { id: string; label: string | null; src: string; value: number | null; decimals: number; modifier: string }
-type PrizePosition = { flyX: number; overshootX: number; delay: number }
+type PrizeSlot = { x: number; y: number; delay: number }
 
-const CHARGE_DELAY_MS = 800
-const ERUPT_DELAY_MS = 1400
-const RAY_COUNT = 14
-const RAY_INDICES = Array.from({ length: RAY_COUNT }, (_, i) => i)
-const CONVERGE_PARTICLE_COUNT = 12
+/* ─── Constants ─── */
+
+const CHARGE_DELAY_MS = 700
+const ERUPT_DELAY_MS = 1500
+const CONVERGE_PARTICLE_COUNT = 20
 const RUNE_SYMBOLS = ['\u2726', '\u2727', '\u2728', '\u2736', '\u2737', '\u2738']
-const RUNE_COUNT = 6
+const RUNE_COUNT = 8
+const MOTES_PER_PRIZE = 6
 const DEFAULT_PRIZE_COUNT = 3
 
 const PRIZE_POOL: PrizeConfig[] = [
-  { id: 'gc', label: 'GC', src: dailyRewardGcImage, value: 1500, decimals: 0, modifier: 'pf-arcane-portal-css__prize--gc' },
-  { id: 'sc', label: 'SC', src: dailyRewardScImage, value: 2.5, decimals: 2, modifier: 'pf-arcane-portal-css__prize--sc' },
-  { id: 'fs', label: 'FS', src: dailyRewardFreeSpinsImage, value: 50, decimals: 0, modifier: 'pf-arcane-portal-css__prize--fs' },
-  { id: 'rr', label: null, src: dailyRewardRandomRewardImage, value: null, decimals: 0, modifier: 'pf-arcane-portal-css__prize--rr' },
+  { id: 'gc', label: 'GC', src: arcanePortalGcImage, value: 1500, decimals: 0, modifier: 'pf-arcane-portal-css__prize--gc' },
+  { id: 'sc', label: 'SC', src: arcanePortalScImage, value: 2.5, decimals: 2, modifier: 'pf-arcane-portal-css__prize--sc' },
+  { id: 'fs', label: 'FS', src: arcanePortalFreeSpinsImage, value: 50, decimals: 0, modifier: 'pf-arcane-portal-css__prize--fs' },
+  { id: 'rr', label: null, src: arcanePortalRandomRewardImage, value: null, decimals: 0, modifier: 'pf-arcane-portal-css__prize--rr' },
 ]
 
-function getPrizePositions(count: number): PrizePosition[] {
-  const layouts: Record<number, PrizePosition[]> = {
-    1: [{ flyX: 0, overshootX: 0, delay: 0.02 }],
+function getPrizeSlots(count: number): PrizeSlot[] {
+  const layouts: Record<number, PrizeSlot[]> = {
+    1: [{ x: 0, y: 30, delay: 0 }],
     2: [
-      { flyX: -78, overshootX: -88, delay: 0.02 },
-      { flyX: 78, overshootX: 88, delay: 0.1 },
+      { x: -72, y: 28, delay: 0 },
+      { x: 72, y: 28, delay: 0.1 },
     ],
     3: [
-      { flyX: -88, overshootX: -98, delay: 0.02 },
-      { flyX: 0, overshootX: 0, delay: 0.08 },
-      { flyX: 88, overshootX: 98, delay: 0.14 },
+      { x: -88, y: 32, delay: 0 },
+      { x: 0, y: 22, delay: 0.08 },
+      { x: 88, y: 32, delay: 0.16 },
     ],
     4: [
-      { flyX: -100, overshootX: -110, delay: 0.02 },
-      { flyX: -34, overshootX: -39, delay: 0.07 },
-      { flyX: 34, overshootX: 39, delay: 0.12 },
-      { flyX: 100, overshootX: 110, delay: 0.17 },
+      { x: -110, y: 34, delay: 0 },
+      { x: -37, y: 24, delay: 0.07 },
+      { x: 37, y: 24, delay: 0.14 },
+      { x: 110, y: 34, delay: 0.21 },
     ],
   }
   return layouts[count] ?? layouts[DEFAULT_PRIZE_COUNT]
 }
+
+/* ─── Hooks ─── */
 
 function useRevealPhase() {
   const [phase, setPhase] = useState<RevealPhase>('materialize')
@@ -88,19 +95,32 @@ function useCountUp(target: number, durationMs: number, delayMs: number, decimal
   return display
 }
 
+/* ─── Data generators ─── */
+
 function createConvergeParticles(): ParticleData[] {
   return Array.from({ length: CONVERGE_PARTICLE_COUNT }, (_, i) => {
     const angle = (i / CONVERGE_PARTICLE_COUNT) * Math.PI * 2
-    const distance = 100 + Math.random() * 60
+    const distance = 120 + Math.random() * 60
     return {
       id: i,
       startX: Math.cos(angle) * distance,
       startY: Math.sin(angle) * distance,
-      size: 2 + Math.random() * 3,
+      size: 2.5 + Math.random() * 3.5,
       delay: Math.random() * 0.3,
     }
   })
 }
+
+function createOrbitMotes(): MoteData[] {
+  return Array.from({ length: MOTES_PER_PRIZE }, (_, i) => ({
+    id: i,
+    angle: (i / MOTES_PER_PRIZE) * 360,
+    radius: 34 + Math.random() * 10,
+    size: 2.5 + Math.random() * 2.5,
+  }))
+}
+
+/* ─── Sub-components ─── */
 
 function ConvergeParticles({ particles }: { particles: ParticleData[] }) {
   return (
@@ -122,21 +142,29 @@ function ConvergeParticles({ particles }: { particles: ParticleData[] }) {
 }
 
 function OrbitingRunes() {
+  const radius = 105
   return (
     <div className="pf-arcane-portal-css__runes">
       {Array.from({ length: RUNE_COUNT }, (_, i) => {
-        const angle = (i / RUNE_COUNT) * 360
-        const radius = 90
-        const x = Math.cos((angle * Math.PI) / 180) * radius
-        const y = Math.sin((angle * Math.PI) / 180) * radius
+        const startAngle = (i / RUNE_COUNT) * 360
+        const a0 = startAngle
+        const a1 = startAngle + 120
+        const a2 = startAngle + 240
+        const a3 = startAngle + 360
         return (
           <span
             key={i}
             className="pf-arcane-portal-css__rune"
             style={{
-              left: `${x}px`,
-              top: `${y}px`,
-              '--rune-delay': `${i * 0.08}s`,
+              '--rune-delay': `${i * 0.05}s`,
+              '--rx0': `${Math.cos((a0 * Math.PI) / 180) * radius}px`,
+              '--ry0': `${Math.sin((a0 * Math.PI) / 180) * radius}px`,
+              '--rx1': `${Math.cos((a1 * Math.PI) / 180) * radius}px`,
+              '--ry1': `${Math.sin((a1 * Math.PI) / 180) * radius}px`,
+              '--rx2': `${Math.cos((a2 * Math.PI) / 180) * radius}px`,
+              '--ry2': `${Math.sin((a2 * Math.PI) / 180) * radius}px`,
+              '--rx3': `${Math.cos((a3 * Math.PI) / 180) * (radius * 0.15)}px`,
+              '--ry3': `${Math.sin((a3 * Math.PI) / 180) * (radius * 0.15)}px`,
             } as CSSProperties}
           >
             {RUNE_SYMBOLS[i % RUNE_SYMBOLS.length]}
@@ -147,40 +175,56 @@ function OrbitingRunes() {
   )
 }
 
-function PrizeRays() {
+function OrbitingMotesCss({ motes, delay }: { motes: MoteData[]; delay: number }) {
   return (
-    <div className="pf-arcane-portal-css__prize-rays-wrap">
-      <div className="pf-arcane-portal-css__prize-rays-spin">
-        <div className="pf-arcane-portal-css__prize-rays">
-          {RAY_INDICES.map((i) => (
-            <span key={i} className="pf-arcane-portal-css__prize-ray" style={{ '--ray-rotation': `${i * (360 / RAY_COUNT)}deg` } as CSSProperties} />
-          ))}
-        </div>
-      </div>
+    <div
+      className="pf-arcane-portal-css__motes-orbit"
+      style={{ '--mote-orbit-delay': `${delay + 0.35}s` } as CSSProperties}
+    >
+      {motes.map((mote) => (
+        <div
+          key={mote.id}
+          className="pf-arcane-portal-css__mote"
+          style={{
+            '--mote-size': `${mote.size}px`,
+            '--mote-x': `${Math.cos((mote.angle * Math.PI) / 180) * mote.radius}px`,
+            '--mote-y': `${Math.sin((mote.angle * Math.PI) / 180) * mote.radius}px`,
+          } as CSSProperties}
+        />
+      ))}
     </div>
   )
 }
 
-function Prize({ config, position }: { config: PrizeConfig; position: PrizePosition }) {
-  const amount = useCountUp(config.value ?? 0, 600, (position.delay + 0.6) * 1000, config.decimals)
+function Prize({ config, slot }: { config: PrizeConfig; slot: PrizeSlot }) {
+  const amount = useCountUp(config.value ?? 0, 700, (slot.delay + 0.5) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
+  const motes = useMemo(() => createOrbitMotes(), [])
 
   return (
     <div
       className={`pf-arcane-portal-css__prize ${config.modifier}`}
       style={{
-        '--fly-x': `${position.flyX}px`,
-        '--fly-overshoot': `${position.overshootX}px`,
-        '--fly-settle': `${position.flyX * 0.95}px`,
-        '--fly-delay': `${position.delay}s`,
-        '--glow-delay': `${position.delay + 0.45}s`,
-        '--rays-delay': `${position.delay + 0.4}s`,
-        '--text-delay': `${position.delay + 0.55}s`,
+        '--slot-x': `${slot.x}px`,
+        '--slot-y': `${slot.y}px`,
+        '--slot-x-30': `${slot.x * 0.3}px`,
+        '--slot-x-75': `${slot.x * 0.75}px`,
+        '--slot-y-60': `${slot.y * 0.6}px`,
+        '--prize-delay': `${slot.delay}s`,
+        '--aura-delay': `${slot.delay + 0.05}s`,
+        '--sigil-delay': `${slot.delay + 0.1}s`,
+        '--icon-delay': `${slot.delay + 0.1}s`,
+        '--flash-delay': `${slot.delay}s`,
+        '--text-delay': `${slot.delay + 0.4}s`,
       } as CSSProperties}
     >
+      <div className="pf-arcane-portal-css__prize-aura" />
       <div className="pf-arcane-portal-css__prize-icon-wrap">
-        <div className="pf-arcane-portal-css__prize-glow" />
-        <PrizeRays />
+        <div className="pf-arcane-portal-css__materialize-ring" />
+        <div className="pf-arcane-portal-css__sigil-wrap">
+          <img src={arcanePortalRunicSigilImage} alt="" aria-hidden="true" className="pf-arcane-portal-css__sigil-image" />
+        </div>
+        <OrbitingMotesCss motes={motes} delay={slot.delay} />
         <img src={config.src} alt="" aria-hidden="true" className="pf-arcane-portal-css__prize-icon" />
       </div>
       {hasText && (
@@ -193,11 +237,13 @@ function Prize({ config, position }: { config: PrizeConfig; position: PrizePosit
   )
 }
 
+/* ─── Main ─── */
+
 function PortalAnimation({ prizeCount }: { prizeCount: number }) {
   const phase = useRevealPhase()
   const particles = useMemo(() => createConvergeParticles(), [])
   const prizes = PRIZE_POOL.slice(0, prizeCount)
-  const positions = getPrizePositions(prizeCount)
+  const slots = getPrizeSlots(prizeCount)
 
   const ringClass = `pf-arcane-portal-css__ring-wrap${phase === 'charge' ? ' is-charge' : ''}${phase === 'erupt' ? ' is-erupt' : ''}`
   const vortexClass = `pf-arcane-portal-css__vortex${phase === 'charge' ? ' is-charge' : ''}${phase === 'erupt' ? ' is-erupt' : ''}`
@@ -218,7 +264,7 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
           <div className="pf-arcane-portal-css__burst" />
           <div className="pf-arcane-portal-css__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} position={positions[i]} />
+              <Prize key={prize.id} config={prize} slot={slots[i]} />
             ))}
           </div>
         </>

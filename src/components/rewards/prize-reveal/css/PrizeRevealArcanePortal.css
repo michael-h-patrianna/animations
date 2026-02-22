@@ -1,18 +1,32 @@
 .pf-arcane-portal-css {
-  --burst-bg: rgb(120 140 255 / 60%);
-  --sparkle-bg: rgb(180 200 255);
-  --sparkle-glow: rgb(100 140 255 / 50%);
-  --text-shadow: rgb(0 0 0 / 40%);
-  --text-shadow-strong: rgb(0 0 0 / 50%);
-  --portal-glow-primary: rgb(100 130 255 / 50%);
-  --portal-glow-secondary: rgb(160 100 255 / 40%);
-  --rune-color: rgb(180 200 255 / 80%);
-  --vortex-bg: rgb(80 60 180 / 70%);
-  --shockwave-color: rgb(160 180 255 / 60%);
-  --ambient-glow: rgb(40 30 80 / 60%);
+  --burst-bg: rgb(130 150 255 / 70%);
+  --sparkle-bg: rgb(200 215 255);
+  --sparkle-glow: rgb(110 150 255 / 60%);
+  --text-shadow: rgb(0 0 0 / 50%);
+  --text-shadow-strong: rgb(0 0 0 / 60%);
+  --portal-glow-primary: rgb(110 140 255 / 60%);
+  --portal-glow-secondary: rgb(170 110 255 / 50%);
+  --rune-color: rgb(200 215 255 / 90%);
+  --vortex-bg: rgb(90 70 200 / 75%);
+  --shockwave-color: rgb(170 190 255 / 70%);
+  --ambient-glow-inner: rgb(80 60 180 / 50%);
+  --ambient-glow-mid: rgb(60 40 140 / 40%);
+  --ambient-glow-outer: rgb(40 25 100 / 25%);
+  --mote-color: rgb(200 215 255);
+  --mote-glow: rgb(130 160 255 / 70%);
+  --materialize-ring-color: rgb(170 190 255 / 60%);
+  --ring-glow-deep: rgb(80 50 180 / 25%);
+  --vortex-bg-outer: rgb(60 40 160 / 35%);
+  --shockwave-inset: rgb(160 180 255 / 30%);
+  --burst-bg-outer: rgb(100 120 255 / 30%);
+  --materialize-inset: rgb(160 180 255 / 20%);
+  --sigil-tint-default: rgb(120 140 255 / 20%);
+  --icon-glow-default: rgb(120 140 255 / 30%);
+  --aura-color-default: rgb(120 140 255 / 15%);
+  --aura-glow-default: rgb(100 120 255 / 10%);
   position: relative;
   inline-size: 100%;
-  block-size: 280px;
+  block-size: 340px;
   overflow: hidden;
 }
 
@@ -38,7 +52,10 @@
   block-size: 1px;
   border-radius: 50%;
   background: transparent;
-  box-shadow: 0 0 120px 100px var(--ambient-glow);
+  box-shadow:
+    0 0 80px 60px var(--ambient-glow-inner),
+    0 0 160px 120px var(--ambient-glow-mid),
+    0 0 240px 180px var(--ambient-glow-outer);
   pointer-events: none;
   animation: pf-ap-css-ambient-in 0.6s ease-out both;
 }
@@ -48,8 +65,8 @@
 .pf-arcane-portal-css__ring-wrap {
   position: relative;
   z-index: 3;
-  inline-size: 150px;
-  block-size: 150px;
+  inline-size: 190px;
+  block-size: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,7 +79,7 @@
 }
 
 .pf-arcane-portal-css__ring-wrap.is-erupt {
-  animation: pf-ap-css-ring-erupt 0.5s ease-out both;
+  animation: pf-ap-css-ring-erupt 0.45s ease-out both;
 }
 
 .pf-arcane-portal-css__ring-image {
@@ -71,8 +88,10 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 20px var(--portal-glow-primary))
-    drop-shadow(0 0 40px var(--portal-glow-secondary));
+  filter:
+    drop-shadow(0 0 12px var(--portal-glow-primary))
+    drop-shadow(0 0 28px var(--portal-glow-secondary))
+    drop-shadow(0 0 50px var(--portal-glow-primary));
   animation: pf-ap-css-ring-spin 8s linear infinite;
 }
 
@@ -86,18 +105,20 @@
   translate: -50% -50%;
   border-radius: 50%;
   background: transparent;
-  box-shadow: 0 0 60px 45px var(--portal-glow-primary),
-    0 0 90px 70px var(--portal-glow-secondary);
+  box-shadow:
+    0 0 40px 30px var(--portal-glow-primary),
+    0 0 70px 55px var(--portal-glow-secondary),
+    0 0 100px 80px var(--ring-glow-deep);
   pointer-events: none;
-  animation: pf-ap-css-glow-in 0.5s ease-out 0.2s both;
+  animation: pf-ap-css-glow-in 0.5s ease-out 0.15s both;
 }
 
 .pf-arcane-portal-css__ring-wrap.is-charge .pf-arcane-portal-css__ring-glow {
-  animation: pf-ap-css-glow-pulse 0.6s ease-in-out infinite alternate;
+  animation: pf-ap-css-glow-pulse 0.5s ease-in-out infinite alternate;
 }
 
 .pf-arcane-portal-css__ring-wrap.is-erupt .pf-arcane-portal-css__ring-glow {
-  animation: pf-ap-css-glow-out 0.3s ease-out both;
+  animation: pf-ap-css-glow-out 0.35s ease-out both;
 }
 
 /* ─── Inner vortex ─── */
@@ -112,17 +133,19 @@
   translate: -50% -50%;
   border-radius: 50%;
   background: transparent;
-  box-shadow: 0 0 50px 40px var(--vortex-bg);
+  box-shadow:
+    0 0 45px 35px var(--vortex-bg),
+    0 0 80px 60px var(--vortex-bg-outer);
   pointer-events: none;
   animation: pf-ap-css-vortex-in 0.6s ease-out both;
 }
 
 .pf-arcane-portal-css__vortex.is-charge {
-  animation: pf-ap-css-vortex-charge 0.5s ease-in-out infinite alternate;
+  animation: pf-ap-css-vortex-charge 0.6s ease-in-out infinite alternate;
 }
 
 .pf-arcane-portal-css__vortex.is-erupt {
-  animation: pf-ap-css-vortex-erupt 0.3s ease-out both;
+  animation: pf-ap-css-vortex-erupt 0.4s ease-out both;
 }
 
 /* ─── Converging particles ─── */
@@ -141,7 +164,7 @@
   block-size: var(--size, 3px);
   border-radius: 50%;
   background: var(--sparkle-bg);
-  box-shadow: 0 0 6px 2px var(--sparkle-glow);
+  box-shadow: 0 0 8px 3px var(--sparkle-glow);
   pointer-events: none;
   animation: pf-ap-css-particle-converge 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--p-delay, 0s) both;
   --start-x: 0px;
@@ -162,12 +185,15 @@
 
 .pf-arcane-portal-css__rune {
   position: absolute;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--rune-color);
-  text-shadow: 0 0 8px var(--sparkle-glow);
+  text-shadow:
+    0 0 10px var(--sparkle-glow),
+    0 0 20px var(--portal-glow-primary);
   line-height: 1;
   pointer-events: none;
-  animation: pf-ap-css-rune-orbit 2.5s linear var(--rune-delay, 0s) both;
+  translate: -50% -50%;
+  animation: pf-ap-css-rune-orbit 2.4s linear var(--rune-delay, 0s) both;
 }
 
 /* ─── Shockwave ─── */
@@ -181,8 +207,10 @@
   inline-size: 60px;
   block-size: 60px;
   border-radius: 50%;
-  border: 2px solid var(--shockwave-color);
-  box-shadow: 0 0 20px 8px var(--shockwave-color);
+  border: 2.5px solid var(--shockwave-color);
+  box-shadow:
+    0 0 20px 8px var(--shockwave-color),
+    inset 0 0 15px 5px var(--shockwave-inset);
   pointer-events: none;
   animation: pf-ap-css-shockwave 0.6s cubic-bezier(0.16, 0.84, 0.32, 1) both;
 }
@@ -199,85 +227,178 @@
   block-size: 1px;
   border-radius: 50%;
   background: transparent;
-  box-shadow: 0 0 120px 100px var(--burst-bg);
+  box-shadow:
+    0 0 80px 60px var(--burst-bg),
+    0 0 140px 110px var(--burst-bg-outer);
   pointer-events: none;
   animation: pf-ap-css-burst 0.55s ease-out both;
 }
 
-/* ─── Prizes ─── */
+/* ═══════════════════════════════════════════════════
+   PRIZES
+   ═══════════════════════════════════════════════════ */
 
 .pf-arcane-portal-css__prizes {
   position: absolute;
-  inset: 0;
   z-index: 7;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
   pointer-events: none;
 }
 
 .pf-arcane-portal-css__prize {
   position: absolute;
-  inset-block-start: 28px;
-  inset-inline-start: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  animation: pf-ap-css-prize-fly 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--fly-delay, 0s) both;
+  translate: -50% -50%;
+  animation: pf-ap-css-prize-descend 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--prize-delay, 0s) both;
 }
 
 /* Prize type colors */
 
 .pf-arcane-portal-css__prize--gc {
-  --ray-color: rgb(255 200 50 / 30%);
-  --glow-color: rgb(255 190 50 / 50%);
-  --label-color: rgb(255 220 100);
-  --amount-color: rgb(255 215 70);
-  --amount-glow: rgb(255 200 50 / 45%);
+  --sigil-tint: rgb(255 200 50 / 30%);
+  --glow-color: rgb(255 190 50 / 60%);
+  --aura-color: rgb(255 190 50 / 20%);
+  --aura-glow: rgb(255 180 40 / 35%);
+  --label-color: rgb(255 225 110);
+  --amount-color: rgb(255 220 80);
+  --amount-glow: rgb(255 200 50 / 55%);
+  --mote-prize-color: rgb(255 215 90);
+  --mote-prize-glow: rgb(255 190 50 / 70%);
 }
 
 .pf-arcane-portal-css__prize--sc {
-  --ray-color: rgb(50 210 120 / 30%);
-  --glow-color: rgb(50 200 120 / 50%);
-  --label-color: rgb(100 225 145);
-  --amount-color: rgb(80 230 130);
-  --amount-glow: rgb(50 200 120 / 45%);
+  --sigil-tint: rgb(50 220 130 / 30%);
+  --glow-color: rgb(50 210 130 / 60%);
+  --aura-color: rgb(50 210 130 / 20%);
+  --aura-glow: rgb(40 200 120 / 35%);
+  --label-color: rgb(110 235 155);
+  --amount-color: rgb(90 240 140);
+  --amount-glow: rgb(50 210 130 / 55%);
+  --mote-prize-color: rgb(90 230 140);
+  --mote-prize-glow: rgb(50 210 130 / 70%);
 }
 
 .pf-arcane-portal-css__prize--fs {
-  --ray-color: rgb(120 200 255 / 30%);
-  --glow-color: rgb(100 190 255 / 50%);
-  --label-color: rgb(140 215 255);
-  --amount-color: rgb(130 215 255);
-  --amount-glow: rgb(100 200 255 / 45%);
+  --sigil-tint: rgb(130 210 255 / 30%);
+  --glow-color: rgb(110 200 255 / 60%);
+  --aura-color: rgb(110 200 255 / 20%);
+  --aura-glow: rgb(100 190 255 / 35%);
+  --label-color: rgb(150 225 255);
+  --amount-color: rgb(140 220 255);
+  --amount-glow: rgb(110 210 255 / 55%);
+  --mote-prize-color: rgb(130 210 255);
+  --mote-prize-glow: rgb(110 200 255 / 70%);
 }
 
 .pf-arcane-portal-css__prize--rr {
-  --ray-color: rgb(180 110 255 / 30%);
-  --glow-color: rgb(170 100 255 / 50%);
+  --sigil-tint: rgb(190 120 255 / 30%);
+  --glow-color: rgb(180 110 255 / 60%);
+  --aura-color: rgb(180 110 255 / 20%);
+  --aura-glow: rgb(170 100 255 / 35%);
+  --mote-prize-color: rgb(180 140 255);
+  --mote-prize-glow: rgb(170 110 255 / 70%);
 }
 
-/* ─── Prize glow ─── */
+/* ─── Prize aura — persistent colored glow behind each prize ─── */
 
-.pf-arcane-portal-css__prize-glow {
+.pf-arcane-portal-css__prize-aura {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 30px 22px var(--aura-color, var(--aura-color-default)),
+    0 0 55px 40px var(--aura-glow, var(--aura-glow-default));
+  pointer-events: none;
+  animation: pf-ap-css-aura-in 0.7s ease-out var(--aura-delay, 0.05s) both;
+}
+
+/* ─── Materialization flash ring ─── */
+
+.pf-arcane-portal-css__materialize-ring {
   position: absolute;
   z-index: 0;
   inset-inline-start: 50%;
   inset-block-start: 50%;
-  inline-size: 1px;
-  block-size: 1px;
   translate: -50% -50%;
+  inline-size: 56px;
+  block-size: 56px;
   border-radius: 50%;
-  background: transparent;
-  box-shadow: 0 0 40px 30px var(--glow-color);
+  border: 2px solid var(--materialize-ring-color);
+  box-shadow:
+    0 0 16px 5px var(--glow-color),
+    inset 0 0 10px 3px var(--materialize-inset);
   pointer-events: none;
-  animation: pf-ap-css-prize-glow-in 0.55s ease-out var(--glow-delay, 0.45s) both;
+  animation: pf-ap-css-materialize-flash 0.5s ease-out var(--flash-delay, 0s) both;
+}
+
+/* ─── Runic sigil ─── */
+
+.pf-arcane-portal-css__sigil-wrap {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 76px;
+  block-size: 76px;
+  pointer-events: none;
+  animation: pf-ap-css-sigil-in 0.65s cubic-bezier(0.16, 0.84, 0.32, 1) var(--sigil-delay, 0.1s) both;
+}
+
+.pf-arcane-portal-css__sigil-image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 8px var(--glow-color))
+    drop-shadow(0 0 16px var(--sigil-tint, var(--sigil-tint-default)));
+  animation:
+    pf-ap-css-ring-spin 10s linear infinite,
+    pf-ap-css-sigil-breathe 2.5s ease-in-out infinite;
+}
+
+/* ─── Orbiting motes ─── */
+
+.pf-arcane-portal-css__motes-orbit {
+  position: absolute;
+  z-index: 3;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+  animation: pf-ap-css-motes-rotate 2.2s linear var(--mote-orbit-delay, 0.35s) infinite;
+}
+
+.pf-arcane-portal-css__mote {
+  position: absolute;
+  inline-size: var(--mote-size, 3px);
+  block-size: var(--mote-size, 3px);
+  border-radius: 50%;
+  background: var(--mote-prize-color, var(--mote-color));
+  box-shadow: 0 0 8px 3px var(--mote-prize-glow, var(--mote-glow));
+  pointer-events: none;
+  transform: translate(var(--mote-x, 0), var(--mote-y, 0));
 }
 
 /* ─── Prize icon ─── */
 
 .pf-arcane-portal-css__prize-icon-wrap {
   position: relative;
-  inline-size: 62px;
-  block-size: 52px;
+  inline-size: 68px;
+  block-size: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,65 +407,19 @@
 
 .pf-arcane-portal-css__prize-icon {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   max-inline-size: 100%;
   max-block-size: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 35%));
+  filter:
+    drop-shadow(0 2px 6px rgb(0 0 0 / 35%))
+    drop-shadow(0 0 10px var(--glow-color, var(--icon-glow-default)));
+  animation: pf-ap-css-icon-crystallize 0.5s cubic-bezier(0.16, 0.84, 0.32, 1) var(--icon-delay, 0.1s) both;
 }
 
 .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
-  inline-size: 76px;
-  block-size: 64px;
-}
-
-/* ─── Prize rays ─── */
-
-.pf-arcane-portal-css__prize-rays-wrap {
-  position: absolute;
-  z-index: 1;
-  inline-size: 135px;
-  aspect-ratio: 1 / 1;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  animation: pf-ap-css-rays-in 0.5s cubic-bezier(0.16, 0.84, 0.32, 1) var(--rays-delay, 0.4s) both;
-}
-
-.pf-arcane-portal-css__prize-rays-spin {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  transform-origin: 50% 50%;
-  animation: pf-ap-css-ring-spin 12s linear infinite;
-}
-
-.pf-arcane-portal-css__prize-rays {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  transform-origin: 50% 50%;
-  animation: pf-ap-css-rays-pulse 2.8s ease-in-out infinite;
-}
-
-.pf-arcane-portal-css__prize-ray {
-  position: absolute;
-  inset: 0;
-  transform: rotate(var(--ray-rotation));
-  transform-origin: 50% 50%;
-}
-
-.pf-arcane-portal-css__prize-ray::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  inline-size: 14px;
-  block-size: 92px;
-  background: linear-gradient(to bottom, var(--ray-color), transparent 85%);
-  clip-path: polygon(10% 0, 90% 0, 62% 100%, 38% 100%);
-  transform: translate(-50%, -100%);
+  inline-size: 80px;
+  block-size: 66px;
 }
 
 /* ─── Prize text ─── */
@@ -353,87 +428,92 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1px;
+  gap: 2px;
   line-height: 1;
   white-space: nowrap;
-  animation: pf-ap-css-text-in 0.45s cubic-bezier(0.16, 0.84, 0.32, 1) var(--text-delay, 0.55s) both;
+  animation: pf-ap-css-text-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--text-delay, 0.4s) both;
 }
 
 .pf-arcane-portal-css__prize-label {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--label-color);
-  text-shadow: 0 1px 3px var(--text-shadow);
+  text-shadow:
+    0 1px 4px var(--text-shadow),
+    0 0 8px var(--amount-glow, var(--icon-glow-default));
 }
 
 .pf-arcane-portal-css__prize-amount {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 800;
   letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
   color: var(--amount-color);
   text-shadow:
-    0 0 10px var(--amount-glow),
-    0 1px 3px var(--text-shadow-strong);
+    0 0 12px var(--amount-glow),
+    0 0 24px var(--amount-glow),
+    0 1px 4px var(--text-shadow-strong);
 }
 
 /* ─── Responsive sizing by prize count ─── */
 
 .pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize-icon-wrap {
-  inline-size: 56px;
-  block-size: 47px;
+  inline-size: 62px;
+  block-size: 52px;
 }
 
 .pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
-  inline-size: 68px;
-  block-size: 57px;
+  inline-size: 74px;
+  block-size: 62px;
 }
 
-.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize-rays-wrap {
-  inline-size: 120px;
-}
-
-.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize-glow {
-  box-shadow: 0 0 35px 25px var(--glow-color);
+.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__sigil-wrap {
+  inline-size: 70px;
+  block-size: 70px;
 }
 
 .pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-icon-wrap {
-  inline-size: 46px;
-  block-size: 38px;
+  inline-size: 52px;
+  block-size: 44px;
 }
 
 .pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
-  inline-size: 56px;
-  block-size: 47px;
+  inline-size: 62px;
+  block-size: 52px;
 }
 
-.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-rays-wrap {
-  inline-size: 100px;
-}
-
-.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-glow {
-  box-shadow: 0 0 30px 20px var(--glow-color);
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__sigil-wrap {
+  inline-size: 60px;
+  block-size: 60px;
 }
 
 .pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-amount {
-  font-size: 15px;
+  font-size: 16px;
 }
 
-.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-ray::before {
-  block-size: 70px;
-  inline-size: 12px;
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__materialize-ring {
+  inline-size: 44px;
+  block-size: 44px;
 }
 
-/* ─── Keyframes ─── */
+/* ═══════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════ */
+
+/* ─── Portal intro ─── */
 
 @keyframes pf-ap-css-ambient-in {
-  from {
+  0% {
     opacity: 0;
   }
 
-  to {
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
     opacity: 1;
   }
 }
@@ -444,8 +524,8 @@
     opacity: 0;
   }
 
-  65% {
-    transform: scale(1.1) rotate(0deg);
+  60% {
+    transform: scale(1.08) rotate(0deg);
     opacity: 1;
   }
 
@@ -471,13 +551,8 @@
     opacity: 1;
   }
 
-  40% {
-    transform: scale(1.15) rotate(5deg);
-    opacity: 1;
-  }
-
   100% {
-    transform: scale(0.6) rotate(-10deg);
+    transform: scale(0.4) rotate(-12deg);
     opacity: 0;
   }
 }
@@ -498,13 +573,13 @@
   }
 
   to {
-    opacity: 0.6;
+    opacity: 0.7;
   }
 }
 
 @keyframes pf-ap-css-glow-pulse {
   0% {
-    opacity: 0.6;
+    opacity: 0.7;
   }
 
   100% {
@@ -514,7 +589,7 @@
 
 @keyframes pf-ap-css-glow-out {
   from {
-    opacity: 0.6;
+    opacity: 0.7;
   }
 
   to {
@@ -529,32 +604,32 @@
   }
 
   100% {
-    opacity: 0.7;
+    opacity: 0.75;
     scale: 1;
   }
 }
 
 @keyframes pf-ap-css-vortex-charge {
   0% {
-    opacity: 0.7;
+    opacity: 0.75;
     scale: 1;
   }
 
   100% {
-    opacity: 1;
+    opacity: 0.95;
     scale: 1.15;
   }
 }
 
 @keyframes pf-ap-css-vortex-erupt {
   from {
-    opacity: 0.85;
+    opacity: 0.9;
     scale: 1;
   }
 
   to {
     opacity: 0;
-    scale: 1.8;
+    scale: 2.5;
   }
 }
 
@@ -566,8 +641,8 @@
   }
 
   30% {
-    opacity: 1;
-    scale: 1.2;
+    opacity: 0.9;
+    scale: 1.3;
   }
 
   80% {
@@ -582,23 +657,39 @@
   }
 }
 
+/* ─── Orbiting runes — true orbit via per-element custom properties ─── */
+
 @keyframes pf-ap-css-rune-orbit {
   0% {
+    transform: translate(var(--rx0, 0), var(--ry0, 0));
     opacity: 0;
     scale: 0;
   }
 
-  15% {
-    opacity: 0.9;
+  10% {
+    opacity: 0.95;
+    scale: 1.1;
+  }
+
+  33% {
+    transform: translate(var(--rx1, 0), var(--ry1, 0));
+    opacity: 0.95;
     scale: 1;
   }
 
-  85% {
-    opacity: 0.9;
+  66% {
+    transform: translate(var(--rx2, 0), var(--ry2, 0));
+    opacity: 0.95;
+    scale: 1;
+  }
+
+  80% {
+    opacity: 0.95;
     scale: 1;
   }
 
   100% {
+    transform: translate(var(--rx3, 0), var(--ry3, 0));
     opacity: 0;
     scale: 0;
   }
@@ -606,12 +697,12 @@
 
 @keyframes pf-ap-css-shockwave {
   0% {
-    transform: scale(0.5);
+    transform: scale(0.3);
     opacity: 1;
   }
 
   100% {
-    transform: scale(3.5);
+    transform: scale(5);
     opacity: 0;
   }
 }
@@ -619,54 +710,30 @@
 @keyframes pf-ap-css-burst {
   0% {
     opacity: 0;
-    transform: scale(0.15);
+    transform: scale(0.1);
   }
 
-  20% {
-    opacity: 0.95;
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.6);
-  }
-}
-
-@keyframes pf-ap-css-prize-fly {
-  0% {
-    transform: translateX(-50%) translateY(80px);
-    scale: 0;
-    opacity: 0;
-  }
-
-  45% {
-    transform: translateX(calc(-50% + var(--fly-overshoot, 0px))) translateY(-14px);
-    scale: 1.18;
-    opacity: 1;
-  }
-
-  75% {
-    transform: translateX(calc(-50% + var(--fly-settle, 0px))) translateY(6px);
-    scale: 0.92;
+  12% {
     opacity: 1;
   }
 
   100% {
-    transform: translateX(calc(-50% + var(--fly-x, 0px))) translateY(0);
-    scale: 1;
-    opacity: 1;
+    opacity: 0;
+    transform: scale(2);
   }
 }
 
-@keyframes pf-ap-css-prize-glow-in {
+/* ─── Prize aura fade in ─── */
+
+@keyframes pf-ap-css-aura-in {
   0% {
     opacity: 0;
     scale: 0.3;
   }
 
-  55% {
-    opacity: 0.85;
-    scale: 1.15;
+  40% {
+    opacity: 0.8;
+    scale: 1.1;
   }
 
   100% {
@@ -675,38 +742,125 @@
   }
 }
 
-@keyframes pf-ap-css-rays-in {
-  from {
+/* ─── Prize descent from portal center ─── */
+
+@keyframes pf-ap-css-prize-descend {
+  0% {
+    transform: translate(0, -90px);
+    scale: 0;
     opacity: 0;
-    scale: 0.5;
   }
 
-  to {
+  25% {
+    transform: translate(var(--slot-x-30, 0), -30px);
+    scale: 0.4;
+    opacity: 0.7;
+  }
+
+  65% {
+    transform: translate(var(--slot-x-75, 0), var(--slot-y-60, 0));
+    scale: 1.1;
     opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--slot-x, 0), var(--slot-y, 0));
     scale: 1;
+    opacity: 1;
   }
 }
 
-@keyframes pf-ap-css-rays-pulse {
+/* ─── Materialization flash ring ─── */
+
+@keyframes pf-ap-css-materialize-flash {
+  0% {
+    opacity: 0;
+    scale: 0.2;
+  }
+
+  25% {
+    opacity: 1;
+    scale: 1.4;
+  }
+
+  100% {
+    opacity: 0;
+    scale: 2;
+  }
+}
+
+/* ─── Runic sigil entrance ─── */
+
+@keyframes pf-ap-css-sigil-in {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-60deg);
+  }
+
+  100% {
+    opacity: 0.75;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ─── Sigil breathing pulse ─── */
+
+@keyframes pf-ap-css-sigil-breathe {
   0%,
   100% {
-    opacity: 0.45;
-    scale: 0.96;
+    opacity: 0.55;
   }
 
   50% {
-    opacity: 0.82;
-    scale: 1.06;
+    opacity: 0.85;
   }
 }
 
-@keyframes pf-ap-css-text-in {
+/* ─── Motes container rotation ─── */
+
+@keyframes pf-ap-css-motes-rotate {
   from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.85);
+    transform: rotate(0deg);
   }
 
   to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Icon crystallize ─── */
+
+@keyframes pf-ap-css-icon-crystallize {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  35% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  65% {
+    transform: scale(0.93);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ─── Text pop entrance ─── */
+
+@keyframes pf-ap-css-text-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.3);
+  }
+
+  100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
