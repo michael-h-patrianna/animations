@@ -1,5 +1,4 @@
 import { animationDataService } from '@/services/animationData'
-import type { Category } from '@/types/animation'
 import { describe, expect, it } from 'vitest'
 
 describe('services - animationData', () => {

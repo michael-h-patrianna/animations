@@ -10,11 +10,8 @@ export const CodeModeSwitch: FC<CodeModeSwitchProps> = ({ onModeSelect }) => {
   const { codeMode, setCodeMode } = useCodeMode()
 
   const handleSelect = (mode: CodeMode) => {
-    if (onModeSelect) {
-      onModeSelect(mode)
-      return
-    }
     setCodeMode(mode)
+    onModeSelect?.(mode)
   }
 
   return (

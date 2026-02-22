@@ -1,6 +1,10 @@
 /* eslint-disable animation-rules/no-direct-image-imports */
 
 import coinImage from '@/assets/coin.png'
+import dailyRewardFreeSpinsImage from '@/assets/daily-reward/free-spins.webp'
+import dailyRewardGcImage from '@/assets/daily-reward/gc.png'
+import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.png'
+import dailyRewardScImage from '@/assets/daily-reward/sc.png'
 import diamondImage from '@/assets/Diamonds.png'
 import githubIcon from '@/assets/github.svg'
 import homeIcon1 from '@/assets/home-icon1.png'
@@ -26,6 +30,10 @@ import shakeIcon from '@/assets/shake_icon.png'
 
 export {
   coinImage,
+  dailyRewardFreeSpinsImage,
+  dailyRewardGcImage,
+  dailyRewardRandomRewardImage,
+  dailyRewardScImage,
   diamondImage,
   githubIcon,
   homeIcon1,

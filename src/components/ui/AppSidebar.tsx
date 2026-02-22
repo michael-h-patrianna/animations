@@ -67,141 +67,123 @@ const pickGroupIdForMode = (variants: GroupVariants, codeMode: CodeMode): string
   return variants.framer?.id ?? variants.css?.id ?? variants.fallback.id
 }
 
-/**
- * Navigation sidebar component displaying hierarchical category and group structure.
- *
- * Renders a collapsible accordion-style navigation with categories as top-level items
- * and their associated groups as nested subitems. Highlights the currently active
- * group and its parent category.
- *
- * @component
- * @param {AppSidebarProps} props - Component props
- * @param {Category[]} props.categories - Array of animation categories with nested groups
- * @param {string} props.currentGroupId - ID of the currently selected group for highlighting
- * @param {(categoryId: string) => void} props.onCategorySelect - Reserved callback for category selection compatibility
- * @param {(groupId: string) => void} props.onGroupSelect - Callback when group item clicked
- * @param {string} [props.className] - Optional CSS class name for custom styling
- *
- * @returns {JSX.Element} Sidebar navigation component
- *
- * @example
- * ```tsx
- * <AppSidebar
- *   categories={animationCategories}
- *   currentGroupId="button-effects"
- *   onCategorySelect={(id) => console.log('Category:', id)}
- *   onGroupSelect={(id) => navigateToGroup(id)}
- *   className="custom-sidebar"
- * />
- * ```
- *
- * @remarks
- * - Categories show active state when any of their groups is selected
- * - Category sections are independently expandable/collapsible and start expanded
- * - Groups show active state when they match currentGroupId
- * - Categories without groups only display the category header
- * - Uses BEM naming convention for CSS classes (pf-sidebar)
- */
-export const AppSidebar: FC<AppSidebarProps> = ({
-  categories,
-  codeMode,
-  currentGroupId,
-  onCategorySelect: _onCategorySelect,
-  onGroupSelect,
-  className,
-  topContent,
-}) => {
-  const currentBaseGroupId = getBaseGroupId(currentGroupId)
-  const categoryGroups = useMemo(
-    () =>
-      categories.map((category) => ({
-        category,
-        groupVariants: buildGroupVariants(category.groups),
-      })),
-    [categories]
-  )
-  const [expandedCategoryIds, setExpandedCategoryIds] = useState<Set<string>>(
-    () => new Set(categories.map((category) => category.id))
+function useCategoryExpansion(categories: Category[]) {
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(
+    () => new Set(categories.map((c) => c.id))
   )
 
   useEffect(() => {
-    setExpandedCategoryIds((previous) => {
+    setExpandedIds((previous) => {
       const next = new Set(previous)
-      const categoryIds = new Set(categories.map((category) => category.id))
+      const ids = new Set(categories.map((c) => c.id))
       let changed = false
 
-      categoryIds.forEach((id) => {
-        if (!next.has(id)) {
-          next.add(id)
-          changed = true
-        }
+      ids.forEach((id) => {
+        if (!next.has(id)) { next.add(id); changed = true }
       })
-
       previous.forEach((id) => {
-        if (!categoryIds.has(id)) {
-          next.delete(id)
-          changed = true
-        }
+        if (!ids.has(id)) { next.delete(id); changed = true }
       })
 
       return changed ? next : previous
     })
   }, [categories])
 
-  const toggleCategoryExpanded = (categoryId: string) => {
-    setExpandedCategoryIds((previous) => {
-      const next = new Set(previous)
+  const toggle = (categoryId: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev)
       if (next.has(categoryId)) next.delete(categoryId)
       else next.add(categoryId)
       return next
     })
   }
 
+  return { expandedIds, toggle }
+}
+
+function CategorySection({
+  category,
+  groupVariants,
+  isExpanded,
+  hasActiveGroup,
+  currentBaseGroupId,
+  codeMode,
+  onToggle,
+  onGroupSelect,
+}: {
+  category: Category
+  groupVariants: GroupVariants[]
+  isExpanded: boolean
+  hasActiveGroup: boolean
+  currentBaseGroupId: string
+  codeMode: CodeMode
+  onToggle: () => void
+  onGroupSelect: (groupId: string) => void
+}) {
+  return (
+    <div className="pf-sidebar__section">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isExpanded}
+        className={`pf-sidebar__link pf-sidebar__link--category ${hasActiveGroup ? 'pf-sidebar__link--active' : ''}`}
+      >
+        {category.title}
+      </button>
+
+      {isExpanded && groupVariants.length > 0 && (
+        <div className="pf-sidebar__subnav">
+          {groupVariants.map((group) => (
+            <button
+              type="button"
+              key={group.baseId}
+              onClick={() => onGroupSelect(pickGroupIdForMode(group, codeMode))}
+              className={`pf-sidebar__link pf-sidebar__link--group ${group.baseId === currentBaseGroupId ? 'pf-sidebar__link--active' : ''}`}
+            >
+              {group.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ *
+ */
+export const AppSidebar: FC<AppSidebarProps> = ({
+  categories,
+  codeMode,
+  currentGroupId,
+  onGroupSelect,
+  className,
+  topContent,
+}) => {
+  const currentBaseGroupId = getBaseGroupId(currentGroupId)
+  const categoryGroups = useMemo(
+    () => categories.map((category) => ({ category, groupVariants: buildGroupVariants(category.groups) })),
+    [categories]
+  )
+  const { expandedIds, toggle } = useCategoryExpansion(categories)
+
   return (
     <aside className={`pf-sidebar${className ? ` ${className}` : ''}`}>
       {topContent && <div className="pf-sidebar__intro">{topContent}</div>}
       <div className="pf-sidebar__nav">
-        {categoryGroups.map(({ category, groupVariants }) => {
-          // Check if any group in this category is currently active
-          const hasActiveGroup = groupVariants.some((group) => group.baseId === currentBaseGroupId)
-          const isExpanded = expandedCategoryIds.has(category.id)
-
-          return (
-            <div key={category.id} className="pf-sidebar__section">
-              <button
-                type="button"
-                onClick={() => toggleCategoryExpanded(category.id)}
-                aria-expanded={isExpanded}
-                className={`pf-sidebar__link pf-sidebar__link--category ${
-                  hasActiveGroup ? 'pf-sidebar__link--active' : ''
-                }`}
-              >
-                {category.title}
-              </button>
-
-              {isExpanded && groupVariants.length > 0 && (
-                <div className="pf-sidebar__subnav">
-                  {groupVariants.map((group) => {
-                    const isActiveGroup = group.baseId === currentBaseGroupId
-
-                    return (
-                      <button
-                        type="button"
-                        key={group.baseId}
-                        onClick={() => onGroupSelect(pickGroupIdForMode(group, codeMode))}
-                        className={`pf-sidebar__link pf-sidebar__link--group ${
-                          isActiveGroup ? 'pf-sidebar__link--active' : ''
-                        }`}
-                      >
-                        {group.label}
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-          )
-        })}
+        {categoryGroups.map(({ category, groupVariants }) => (
+          <CategorySection
+            key={category.id}
+            category={category}
+            groupVariants={groupVariants}
+            isExpanded={expandedIds.has(category.id)}
+            hasActiveGroup={groupVariants.some((g) => g.baseId === currentBaseGroupId)}
+            currentBaseGroupId={currentBaseGroupId}
+            codeMode={codeMode}
+            onToggle={() => toggle(category.id)}
+            onGroupSelect={onGroupSelect}
+          />
+        ))}
       </div>
     </aside>
   )

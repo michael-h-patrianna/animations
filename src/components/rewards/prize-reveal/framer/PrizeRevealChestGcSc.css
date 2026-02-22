@@ -1,0 +1,344 @@
+.pf-chest-gc-sc {
+  --burst-bg: rgb(255 225 125 / 70%);
+  --sparkle-bg: rgb(255 235 150);
+  --sparkle-glow: rgb(255 220 90 / 50%);
+  position: relative;
+  inline-size: 100%;
+  block-size: 280px;
+  overflow: hidden;
+}
+
+.pf-chest-gc-sc__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-block-end: 24px;
+  overflow: hidden;
+}
+
+/* ─── Chest ─── */
+
+.pf-chest-gc-sc__chest {
+  position: relative;
+  z-index: 3;
+  inline-size: clamp(100px, 30%, 150px);
+  pointer-events: none;
+}
+
+.pf-chest-gc-sc__chest--shake {
+  animation: pf-chest-gc-sc-shake 0.6s ease-in-out;
+}
+
+.pf-chest-gc-sc__chest-image {
+  position: relative;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 14px rgb(0 0 0 / 40%));
+}
+
+/* ─── Burst flash ─── */
+
+.pf-chest-gc-sc__burst {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-end: 25px;
+  inline-size: 280px;
+  block-size: 280px;
+  border-radius: 50%;
+  background: var(--burst-bg);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+/* ─── Burst sparkles ─── */
+
+.pf-chest-gc-sc__sparkles {
+  position: absolute;
+  z-index: 6;
+  inset-inline-start: 50%;
+  inset-block-end: 42px;
+  pointer-events: none;
+}
+
+.pf-chest-gc-sc__sparkle {
+  position: absolute;
+  inline-size: var(--size, 4px);
+  block-size: var(--size, 4px);
+  border-radius: 50%;
+  background: var(--sparkle-bg);
+  box-shadow: 0 0 6px 2px var(--sparkle-glow);
+  pointer-events: none;
+}
+
+/* ─── Prizes ─── */
+
+.pf-chest-gc-sc__prizes {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.pf-chest-gc-sc__prize {
+  position: absolute;
+  inset-block-start: 16px;
+  inset-inline-start: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Prize type colors */
+
+.pf-chest-gc-sc__prize--gc {
+  --ray-color: rgb(255 200 50 / 30%);
+  --glow-color: rgb(255 190 50 / 50%);
+}
+
+.pf-chest-gc-sc__prize--sc {
+  --ray-color: rgb(50 210 120 / 30%);
+  --glow-color: rgb(50 200 120 / 50%);
+}
+
+.pf-chest-gc-sc__prize--fs {
+  --ray-color: rgb(120 200 255 / 30%);
+  --glow-color: rgb(100 190 255 / 50%);
+}
+
+.pf-chest-gc-sc__prize--rr {
+  --ray-color: rgb(180 110 255 / 30%);
+  --glow-color: rgb(170 100 255 / 50%);
+}
+
+/* ─── Prize glow (inside icon-wrap for correct centering) ─── */
+
+.pf-chest-gc-sc__prize-glow {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 120px;
+  block-size: 120px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--glow-color);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+/* ─── Prize icon ─── */
+
+.pf-chest-gc-sc__prize-icon-wrap {
+  position: relative;
+  inline-size: 62px;
+  block-size: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.pf-chest-gc-sc__prize-icon {
+  position: relative;
+  z-index: 2;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 35%));
+}
+
+/* Random reward icon is larger (no text below) */
+
+.pf-chest-gc-sc__prize--rr .pf-chest-gc-sc__prize-icon-wrap {
+  inline-size: 76px;
+  block-size: 64px;
+}
+
+/* ─── Prize rays ─── */
+
+.pf-chest-gc-sc__prize-rays-wrap {
+  position: absolute;
+  z-index: 1;
+  inline-size: 135px;
+  aspect-ratio: 1 / 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pf-chest-gc-sc__prize-rays-spin,
+.pf-chest-gc-sc__prize-rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+}
+
+.pf-chest-gc-sc__prize-ray {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--ray-rotation));
+  transform-origin: 50% 50%;
+}
+
+.pf-chest-gc-sc__prize-ray::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 14px;
+  block-size: 92px;
+  background: linear-gradient(to bottom, var(--ray-color), transparent 85%);
+  clip-path: polygon(10% 0, 90% 0, 62% 100%, 38% 100%);
+  transform: translate(-50%, -100%);
+}
+
+/* ─── Prize text ─── */
+
+.pf-chest-gc-sc__prize-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pf-chest-gc-sc__prize-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pf-chest-gc-sc__prize-amount {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* GC text */
+
+.pf-chest-gc-sc__prize--gc .pf-chest-gc-sc__prize-label {
+  color: rgb(255 220 100);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 40%);
+}
+
+.pf-chest-gc-sc__prize--gc .pf-chest-gc-sc__prize-amount {
+  color: rgb(255 215 70);
+  text-shadow:
+    0 0 10px rgb(255 200 50 / 45%),
+    0 1px 3px rgb(0 0 0 / 50%);
+}
+
+/* SC text (green) */
+
+.pf-chest-gc-sc__prize--sc .pf-chest-gc-sc__prize-label {
+  color: rgb(100 225 145);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 40%);
+}
+
+.pf-chest-gc-sc__prize--sc .pf-chest-gc-sc__prize-amount {
+  color: rgb(80 230 130);
+  text-shadow:
+    0 0 10px rgb(50 200 120 / 45%),
+    0 1px 3px rgb(0 0 0 / 50%);
+}
+
+/* FS text (blue) */
+
+.pf-chest-gc-sc__prize--fs .pf-chest-gc-sc__prize-label {
+  color: rgb(140 215 255);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 40%);
+}
+
+.pf-chest-gc-sc__prize--fs .pf-chest-gc-sc__prize-amount {
+  color: rgb(130 215 255);
+  text-shadow:
+    0 0 10px rgb(100 200 255 / 45%),
+    0 1px 3px rgb(0 0 0 / 50%);
+}
+
+/* ─── Responsive sizing by prize count ─── */
+
+.pf-chest-gc-sc[data-prize-count='3'] .pf-chest-gc-sc__prize-icon-wrap {
+  inline-size: 56px;
+  block-size: 47px;
+}
+
+.pf-chest-gc-sc[data-prize-count='3'] .pf-chest-gc-sc__prize--rr .pf-chest-gc-sc__prize-icon-wrap {
+  inline-size: 68px;
+  block-size: 57px;
+}
+
+.pf-chest-gc-sc[data-prize-count='3'] .pf-chest-gc-sc__prize-rays-wrap {
+  inline-size: 120px;
+}
+
+.pf-chest-gc-sc[data-prize-count='3'] .pf-chest-gc-sc__prize-glow {
+  inline-size: 100px;
+  block-size: 100px;
+}
+
+.pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-icon-wrap {
+  inline-size: 46px;
+  block-size: 38px;
+}
+
+.pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize--rr .pf-chest-gc-sc__prize-icon-wrap {
+  inline-size: 56px;
+  block-size: 47px;
+}
+
+.pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-rays-wrap {
+  inline-size: 100px;
+}
+
+.pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-glow {
+  inline-size: 90px;
+  block-size: 90px;
+}
+
+.pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-amount {
+  font-size: 15px;
+}
+
+.pf-chest-gc-sc[data-prize-count='4'] .pf-chest-gc-sc__prize-ray::before {
+  block-size: 70px;
+  inline-size: 12px;
+}
+
+/* ─── Keyframes ─── */
+
+@keyframes pf-chest-gc-sc-shake {
+  0% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-6px) rotate(-1deg);
+  }
+  30% {
+    transform: translateX(6px) rotate(1deg);
+  }
+  45% {
+    transform: translateX(-5px) rotate(-0.5deg);
+  }
+  60% {
+    transform: translateX(5px) rotate(0.5deg);
+  }
+  80% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

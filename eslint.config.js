@@ -553,6 +553,13 @@ export default defineConfig([
       ],
     },
   },
+  // Test files are exempt from function length limits — describe blocks need cohesion
+  {
+    files: ['**/*.test.ts', '**/*.test.tsx'],
+    rules: {
+      'max-lines-per-function': 'off',
+    },
+  },
   // Motion (framer/) variants must be CSS-free for React Native portability
   {
     files: ['src/components/**/framer/**/*.{ts,tsx}'],

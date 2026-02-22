@@ -6,6 +6,7 @@ import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
 type AnimationRenderProps = {
   bulbCount: number
   onColor: string
+  prizeCount: number
 }
 
 type AnimationChild = ReactNode | ((props: AnimationRenderProps) => ReactNode)
@@ -78,10 +79,11 @@ const renderAnimationChild = (
   isVisible: boolean,
   infiniteAnimation: boolean,
   bulbCount: number,
-  onColor: string
+  onColor: string,
+  prizeCount: number
 ) => {
   if (!isVisible && !infiniteAnimation) return null
-  if (typeof child === 'function') return child({ bulbCount, onColor })
+  if (typeof child === 'function') return child({ bulbCount, onColor, prizeCount })
   return child
 }
 
@@ -113,6 +115,29 @@ type LightsControlsProps = {
   onBulbCountChange: (value: number) => void
   onColorChange: (color: string) => void
 }
+
+type PrizeCountControlsProps = {
+  prizeCount: number
+  onPrizeCountChange: (count: number) => void
+}
+
+const PRIZE_COUNT_OPTIONS = [1, 2, 3, 4] as const
+
+const PrizeCountControls = ({ prizeCount, onPrizeCountChange }: PrizeCountControlsProps) => (
+  <div className="flex items-center gap-1">
+    {PRIZE_COUNT_OPTIONS.map((n) => (
+      <button
+        key={n}
+        type="button"
+        onClick={() => onPrizeCountChange(n)}
+        className={`w-8 h-8 text-sm font-medium border rounded cursor-pointer hover:bg-accent ${n === prizeCount ? 'bg-accent border-primary' : ''}`}
+        aria-label={`Show ${n} prize${n > 1 ? 's' : ''}`}
+      >
+        {n}
+      </button>
+    ))}
+  </div>
+)
 
 const LightsControls = ({ bulbCount, onColor, onBulbCountChange, onColorChange }: LightsControlsProps) => (
   <div className="flex items-center gap-2">
@@ -196,6 +221,58 @@ const useCardPlayback = (infiniteAnimation: boolean, onReplay?: () => void) => {
   return { cardRef, replayKey, isVisible, triggerReplay, setReplayKey }
 }
 
+type CardControlsState = {
+  bulbCount: number
+  onColor: string
+  prizeCount: number
+  setBulbCount: (v: number) => void
+  setOnColor: (v: string) => void
+  setPrizeCount: (v: number) => void
+  setReplayKey: React.Dispatch<React.SetStateAction<number>>
+}
+
+const useCardControls = (setReplayKey: React.Dispatch<React.SetStateAction<number>>): CardControlsState => {
+  const [bulbCount, setBulbCount] = useState(16)
+  const [onColor, setOnColor] = useState(() => resolveColorInputDefault('var(--pf-anim-gold)'))
+  const [prizeCount, setPrizeCount] = useState(3)
+  return { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey }
+}
+
+type FooterControlsProps = {
+  animationId: string
+  controls: CardControlsState
+  tags?: string[]
+  disableReplay: boolean
+  onReplay: () => void
+}
+
+const FooterControls = ({ animationId, controls, tags, disableReplay, onReplay }: FooterControlsProps) => {
+  const isLightsAnimation = animationId.startsWith('lights__')
+  const isPrizeCountAnimation = animationId === 'prize-reveal__chest-gc-sc'
+  const { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey } = controls
+
+  const handleBulbCountChange = (value: number) => { setBulbCount(clampBulbCount(value)); setReplayKey((k) => k + 1) }
+  const handleColorChange = (color: string) => { setOnColor(color); setReplayKey((k) => k + 1) }
+  const handlePrizeCountChange = (count: number) => { setPrizeCount(count); setReplayKey((k) => k + 1) }
+
+  return (
+    <CardFooter className="pf-card__actions p-0 pt-3">
+      <div className="pf-card__meta">{tags?.map((tag) => <span key={tag}>{tag.toUpperCase()}</span>)}</div>
+      {isLightsAnimation && (
+        <LightsControls bulbCount={bulbCount} onColor={onColor} onBulbCountChange={handleBulbCountChange} onColorChange={handleColorChange} />
+      )}
+      {isPrizeCountAnimation && (
+        <PrizeCountControls prizeCount={prizeCount} onPrizeCountChange={handlePrizeCountChange} />
+      )}
+      <div className="pf-card__controls">
+        <Button type="button" variant="outline" size="sm" className="pf-card__replay" data-role="replay" onClick={onReplay} disabled={disableReplay} aria-disabled={disableReplay}>
+          Replay
+        </Button>
+      </div>
+    </CardFooter>
+  )
+}
+
 const AnimationCardComponent = ({
   title,
   description,
@@ -206,72 +283,25 @@ const AnimationCardComponent = ({
   infiniteAnimation = false,
   disableReplay = false,
 }: AnimationCardProps) => {
-  const { cardRef, replayKey, isVisible, triggerReplay, setReplayKey } = useCardPlayback(
-    infiniteAnimation,
-    onReplay
-  )
+  const { cardRef, replayKey, isVisible, triggerReplay, setReplayKey } = useCardPlayback(infiniteAnimation, onReplay)
   const [isExpanded, setIsExpanded] = useState(false)
-  const [bulbCount, setBulbCount] = useState(16)
-  const [onColor, setOnColor] = useState(() => resolveColorInputDefault('var(--pf-anim-gold)'))
-  const isLightsAnimation = animationId.startsWith('lights__')
-
-  const handleBulbCountChange = (value: number) => {
-    setBulbCount(clampBulbCount(value))
-    setReplayKey((key) => key + 1)
-  }
-
-  const handleColorChange = (color: string) => {
-    setOnColor(color)
-    setReplayKey((key) => key + 1)
-  }
+  const controls = useCardControls(setReplayKey)
 
   return (
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeader className="p-0 pb-3 space-y-0">
         <CardTitle className="pf-card__title mb-1">{title}</CardTitle>
-        <Description
-          description={description}
-          isExpanded={isExpanded}
-          onToggle={() => setIsExpanded((expanded) => !expanded)}
-        />
+        <Description description={description} isExpanded={isExpanded} onToggle={() => setIsExpanded((expanded) => !expanded)} />
       </CardHeader>
-
       <CardContent className="p-0 py-3">
         <div className="pf-demo-canvas">
           <div key={replayKey} className="pf-demo-stage pf-demo-stage--top">
-            {renderAnimationChild(children, isVisible, infiniteAnimation, bulbCount, onColor)}
+            {renderAnimationChild(children, isVisible, infiniteAnimation, controls.bulbCount, controls.onColor, controls.prizeCount)}
           </div>
         </div>
       </CardContent>
-
-      <CardFooter className="pf-card__actions p-0 pt-3">
-        <div className="pf-card__meta">{tags?.map((tag) => <span key={tag}>{tag.toUpperCase()}</span>)}</div>
-
-        {isLightsAnimation && (
-          <LightsControls
-            bulbCount={bulbCount}
-            onColor={onColor}
-            onBulbCountChange={handleBulbCountChange}
-            onColorChange={handleColorChange}
-          />
-        )}
-
-        <div className="pf-card__controls">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="pf-card__replay"
-            data-role="replay"
-            onClick={triggerReplay}
-            disabled={disableReplay}
-            aria-disabled={disableReplay}
-          >
-            Replay
-          </Button>
-        </div>
-      </CardFooter>
+      <FooterControls animationId={animationId} controls={controls} tags={tags} disableReplay={disableReplay} onReplay={triggerReplay} />
     </Card>
   )
 }

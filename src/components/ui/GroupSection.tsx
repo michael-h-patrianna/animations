@@ -136,15 +136,19 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 infiniteAnimation={infiniteAnimation}
                 disableReplay={animation.disableReplay}
               >
-                {({ bulbCount, onColor }) => (
-                  AnimationComponent ? (
+                {({ bulbCount, onColor, prizeCount }) => {
+                  const isPrizeCountAnimation = animation.id === 'prize-reveal__chest-gc-sc'
+                  return AnimationComponent ? (
                     <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
-                      <AnimationComponent {...(isLightsAnimation ? { numBulbs: bulbCount, onColor } : {})} />
+                      <AnimationComponent
+                        {...(isLightsAnimation ? { numBulbs: bulbCount, onColor } : {})}
+                        {...(isPrizeCountAnimation ? { prizeCount } : {})}
+                      />
                     </Suspense>
                   ) : (
                     <div className="pf-card__placeholder">{animation.id}</div>
                   )
-                )}
+                }}
               </AnimationCard>
             )
           })}
