@@ -39,7 +39,6 @@ const coins = useMemo(
             key={coin.id}
             src={coinImage}
             alt="coin"
-            className="pf-celebration__coin"
             style={{
               width: '24px',
               height: '24px',
@@ -48,16 +47,14 @@ const coins = useMemo(
               top: '60%',
             }}
             initial={{
-              x: '-50%',
-              y: '-50%',
-              translateX: 0,
-              translateY: 0,
+              x: 0,
+              y: 0,
               scale: 0.6,
               opacity: 0,
             }}
             animate={{
-              translateX: coin.tx,
-              translateY: coin.ty,
+              x: coin.tx,
+              y: coin.ty,
               scale: 1,
               opacity: [0, 1, 0],
             }}

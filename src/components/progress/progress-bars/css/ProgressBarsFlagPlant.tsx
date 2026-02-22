@@ -1,5 +1,8 @@
+import { checkpointMarkerComplete } from '@/assets'
 import { useEffect, useState } from 'react'
 import './ProgressBarsFlagPlant.css'
+
+const checkpoints = [16, 34, 52, 70, 88]
 
 /**
  *
@@ -9,40 +12,45 @@ export function ProgressBarsFlagPlant() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress(p => (p >= 100 ? 0 : p + 0.5))
-    }, 50)
+      setProgress((value) => (value >= 100 ? 0 : value + 0.46))
+    }, 44)
+
     return () => clearInterval(interval)
   }, [])
 
-  const flags = [30, 60, 90]
+  const planted = checkpoints.filter((point) => progress >= point).length
 
   return (
-    <div className="flag-plant-container-css" data-animation-id="progress-bars__flag-plant">
-      <div className="flag-track-css">
-         <div 
-           className="flag-fill-css" 
-           style={{ width: `${progress}%` }}
-         />
-         
-         {flags.map(pos => {
-           const isReached = progress >= pos
-           return (
-             <div 
-               key={pos}
-               className="flag-marker-css"
-               style={{ left: `${pos}%` }}
-             >
-               <div className="flag-pole-base-css" />
-               <div 
-                 className={`flag-pole-css ${isReached ? 'planted' : ''}`}
-               >
-                  <div className="flag-cloth-css">
-                     🚩
-                  </div>
-               </div>
-             </div>
-           )
-         })}
+    <div className="flag-plant-wrap-css" data-animation-id="progress-bars__flag-plant">
+      <div className="flag-plant-meta-css">
+        <span className="flag-plant-label-css">Checkpoint Planting</span>
+        <span className="flag-plant-value-css">{planted}/{checkpoints.length}</span>
+      </div>
+
+      <div className="flag-plant-bar-css">
+        <div className="flag-plant-bar-base-css" />
+        <div className="flag-plant-bar-fill-css" style={{ width: `${progress}%` }} />
+
+        {checkpoints.map((point, index) => {
+          const isPlanted = progress >= point
+
+          return (
+            <div
+              key={point}
+              className={`flag-plant-site-css ${isPlanted ? 'active' : ''}`}
+              style={{ left: `${point}%` }}
+            >
+              <img
+                className={`flag-plant-marker-css ${isPlanted ? 'active' : ''}`}
+                src={checkpointMarkerComplete}
+                alt=""
+                style={{ animationDelay: `${index * 0.04}s` }}
+              />
+
+              {isPlanted && <span className="flag-plant-pulse-css" />}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

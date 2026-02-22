@@ -60,17 +60,15 @@ export function ModalCelebrationsCoinsSwirl() {
               top: '60%',
             }}
             initial={{
-              x: '-50%',
-              y: '-50%',
-              translateX: 0,
-              translateY: 0,
+              x: 0,
+              y: 0,
               scale: 0.5,
               rotate: 0,
               opacity: 0,
             }}
             animate={{
-              translateX: [0, coin.midX, coin.endX],
-              translateY: [0, coin.midY, coin.endY],
+              x: [0, coin.midX, coin.endX],
+              y: [0, coin.midY, coin.endY],
               scale: [0.5, 0.8, 1],
               rotate: [0, coin.spin * 0.5, coin.spin],
               opacity: [0, 1, 0],

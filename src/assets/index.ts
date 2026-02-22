@@ -5,9 +5,23 @@ import diamondImage from '@/assets/Diamonds.png'
 import githubIcon from '@/assets/github.svg'
 import homeIcon1 from '@/assets/home-icon1.png'
 import homeIcon2 from '@/assets/home-icon2.png'
+import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
+import pirateChestEmptyImage from '@/assets/puzzled-pirate/chest-empty.webp'
+import pirateChestOpenImage from '@/assets/puzzled-pirate/chest-open.webp'
+import pirateCoinImage from '@/assets/puzzled-pirate/coin.webp'
 import presentBox from '@/assets/present_box.png'
 import presentBoxBalloon from '@/assets/present_box_balloon.png'
+import checkpointPennant from '@/assets/progress-bars-premium/checkpoint-pennant.png'
+import checkpointMarkerComplete from '@/assets/progress-bars-premium/checkpoint-marker-complete.png'
+import journeyAvatarDrone from '@/assets/progress-bars-premium/journey-avatar-drone.png'
+import journeyDestinationBeacon from '@/assets/progress-bars-premium/journey-destination-beacon.png'
+import journeyWaypointNode from '@/assets/progress-bars-premium/journey-waypoint-node.png'
+import milestoneLockClosed from '@/assets/progress-bars-premium/milestone-lock-closed.png'
+import milestoneLockOpen from '@/assets/progress-bars-premium/milestone-lock-open.png'
+import staminaCrystal from '@/assets/progress-bars-premium/stamina-crystal.png'
 import pulseScroll from '@/assets/pulse_scroll.png'
+import questlineRoyalFinalChest from '@/assets/questline-royal/final-reward-chest.png'
+import questlineRoyalMilestoneEmblem from '@/assets/questline-royal/milestone-emblem.png'
 import shakeIcon from '@/assets/shake_icon.png'
 
 export {
@@ -16,8 +30,22 @@ export {
   githubIcon,
   homeIcon1,
   homeIcon2,
+  pirateChestClosedImage,
+  pirateChestEmptyImage,
+  pirateChestOpenImage,
+  pirateCoinImage,
   presentBox,
   presentBoxBalloon,
+  checkpointMarkerComplete,
+  checkpointPennant,
+  journeyAvatarDrone,
+  journeyDestinationBeacon,
+  journeyWaypointNode,
+  milestoneLockClosed,
+  milestoneLockOpen,
+  staminaCrystal,
   pulseScroll,
+  questlineRoyalFinalChest,
+  questlineRoyalMilestoneEmblem,
   shakeIcon,
 }

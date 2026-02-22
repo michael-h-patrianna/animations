@@ -1,0 +1,115 @@
+.pf-pirate-chest-win {
+  --pf-pirate-chest-win-ray-color: rgb(255 224 124 / 42%);
+  --pf-pirate-chest-win-shadow: rgb(0 0 0 / 36%);
+
+  position: relative;
+  inline-size: 100%;
+  block-size: 240px;
+  overflow: hidden;
+}
+
+.pf-pirate-chest-win__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-block-end: 30px;
+  overflow: hidden;
+}
+
+.pf-pirate-chest-win__chest {
+  position: relative;
+  z-index: 3;
+  inline-size: clamp(112px, 34%, 170px);
+  pointer-events: none;
+}
+
+.pf-pirate-chest-win__chest--shake {
+  animation: pf-pirate-chest-win-shake 0.6s ease-in-out;
+}
+
+.pf-pirate-chest-win__image {
+  position: relative;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 20px var(--pf-pirate-chest-win-shadow));
+}
+
+.pf-pirate-chest-win__rays-wrap {
+  position: absolute;
+  z-index: 1;
+  inline-size: clamp(320px, 250%, 560px);
+  aspect-ratio: 1 / 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pf-pirate-chest-win__rays-enter,
+.pf-pirate-chest-win__rays-spin,
+.pf-pirate-chest-win__rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+}
+
+.pf-pirate-chest-win__rays {
+  position: absolute;
+  inset: 0;
+}
+
+.pf-pirate-chest-win__ray {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--ray-rotation));
+  transform-origin: 50% 50%;
+}
+
+.pf-pirate-chest-win__ray::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  inline-size: 34px;
+  block-size: 214px;
+  background: var(--pf-pirate-chest-win-ray-color);
+  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
+  transform: translate(-50%, -100%);
+}
+
+.pf-pirate-chest-win__coin {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 86px;
+  z-index: 4;
+  pointer-events: none;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgb(0 0 0 / 32%));
+}
+
+@keyframes pf-pirate-chest-win-shake {
+  0% {
+    transform: translateX(0);
+  }
+  18% {
+    transform: translateX(-7px);
+  }
+  36% {
+    transform: translateX(7px);
+  }
+  54% {
+    transform: translateX(-5px);
+  }
+  72% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

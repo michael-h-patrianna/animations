@@ -1,105 +1,176 @@
-.journey-map-container {
+.journey-distance-wrap {
+  --progress-bars-journey-distance-text-main: #e5f3ff;
+  --progress-bars-journey-distance-text-muted: rgb(175 205 238 / 84%);
+  --progress-bars-journey-distance-track-base: rgb(93 132 184 / 32%);
+  --progress-bars-journey-distance-track-edge: rgb(170 200 238 / 18%);
+  --progress-bars-journey-distance-fill-a: #3f9ff8;
+  --progress-bars-journey-distance-fill-b: #74e5d8;
+  --progress-bars-journey-distance-fill-gloss-a: transparent;
+  --progress-bars-journey-distance-fill-gloss-b: rgb(230 247 255 / 68%);
+  --progress-bars-journey-distance-tick: rgb(206 227 248 / 30%);
+  --progress-bars-journey-distance-goal-bg: rgb(13 32 55 / 80%);
+  --progress-bars-journey-distance-goal-border: rgb(130 189 245 / 42%);
+  --progress-bars-journey-distance-traveller-core-bg: rgb(12 31 53 / 90%);
+  --progress-bars-journey-distance-traveller-core-border: rgb(135 194 246 / 52%);
+  --progress-bars-journey-distance-traveller-glow-a: rgb(143 223 248 / 44%);
+  --progress-bars-journey-distance-traveller-glow-b: transparent;
+  --progress-bars-journey-distance-foot: rgb(166 197 230 / 80%);
 
-  --progress-bars-journey-map-bg-1: #fff;
-  --progress-bars-journey-map-border-1: #f3f4f6;
-  --progress-bars-journey-map-bg-2: #e5e7eb;
-  --progress-bars-journey-map-bg-3: #8b5cf6;
-  --progress-bars-journey-map-shadow-1: #c4b5fd;
-  --progress-bars-journey-map-bg-4: #1f2937;
-  position: relative;
   width: 100%;
-  height: 60px;
+  padding: 4px 0 6px;
+}
+
+.journey-distance-meta {
   display: flex;
-  align-items: center;
-  padding: 0 20px;
-  background: var(--progress-bars-journey-map-bg-1);
-  border-radius: 8px;
-  border: 1px solid var(--progress-bars-journey-map-border-1);
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.journey-map-track-bg {
+.journey-distance-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--progress-bars-journey-distance-text-muted);
+}
+
+.journey-distance-value {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--progress-bars-journey-distance-text-main);
+}
+
+.journey-distance-shell {
+  position: relative;
+  height: 62px;
+}
+
+.journey-distance-rail {
   position: absolute;
-  left: 20px;
-  right: 20px;
-  height: 4px;
-  background: repeating-linear-gradient(90deg, var(--progress-bars-journey-map-bg-2) 0, var(--progress-bars-journey-map-bg-2) 10px, transparent 10px, transparent 20px);
+  inset: 0 46px 0 0;
 }
 
-.journey-map-track-fill {
+.journey-distance-track {
   position: absolute;
-  left: 20px;
-  height: 4px;
-  background: var(--progress-bars-journey-map-bg-3);
-  max-width: calc(100% - 40px);
+  left: 0;
+  right: 0;
+  top: 21px;
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--progress-bars-journey-distance-track-edge), transparent 58%), var(--progress-bars-journey-distance-track-base);
 }
 
-.journey-node {
+.journey-distance-fill {
   position: absolute;
-  transform: translateX(-50%);
-  top: 50%;
-  margin-top: -6px; /* Center 12px dot */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 10;
+  left: 0;
+  top: 21px;
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--progress-bars-journey-distance-fill-a), var(--progress-bars-journey-distance-fill-b));
 }
 
-.journey-node-dot {
-  width: 12px;
-  height: 12px;
+.journey-distance-fill-gloss {
+  position: absolute;
+  left: 0;
+  top: 21px;
+  width: 16%;
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--progress-bars-journey-distance-fill-gloss-a), var(--progress-bars-journey-distance-fill-gloss-b), var(--progress-bars-journey-distance-fill-gloss-a));
+  pointer-events: none;
+}
+
+.journey-distance-ticks {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 26px;
+  height: 6px;
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  column-gap: 4px;
+  pointer-events: none;
+}
+
+.journey-distance-tick {
+  border-radius: 999px;
+  background: var(--progress-bars-journey-distance-tick);
+}
+
+.journey-distance-goal {
+  position: absolute;
+  right: 0;
+  top: 11px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--progress-bars-journey-distance-goal-bg);
+  border: 1px solid var(--progress-bars-journey-distance-goal-border);
+}
+
+.journey-distance-goal-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.journey-distance-traveller {
+  position: absolute;
+  right: -19px;
+  top: -11px;
+  width: 38px;
+  height: 38px;
+  z-index: 2;
+}
+
+.journey-distance-traveller-glow {
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
-  background: var(--progress-bars-journey-map-bg-2);
-  border: 2px solid var(--progress-bars-journey-map-bg-1);
-  box-shadow: 0 0 0 2px var(--progress-bars-journey-map-border-1); /* Simulating ring without actual box-shadow property if stricter rules applied, but box-shadow is allowed on web generally if not overly complex. */
+  background: linear-gradient(180deg, var(--progress-bars-journey-distance-traveller-glow-a), var(--progress-bars-journey-distance-traveller-glow-b));
+  animation: journey-distance-traveller-glow 1.2s ease-in-out infinite;
 }
 
-.journey-node.active .journey-node-dot {
-  background: var(--progress-bars-journey-map-bg-3);
-  border-color: var(--progress-bars-journey-map-bg-1);
-  box-shadow: 0 0 0 2px var(--progress-bars-journey-map-shadow-1);
+@keyframes journey-distance-traveller-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.88);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.12);
+  }
 }
 
-.journey-node-label {
-  margin-top: 12px;
-  font-size: 10px;
-  color: var(--progress-bars-journey-map-bg-3);
-  font-weight: bold;
+.journey-distance-traveller-core {
   position: absolute;
-  top: 10px;
-  width: 60px;
-  text-align: center;
-}
-
-.journey-avatar {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  margin-left: 20px; /* Offset for padding */
-  /* To clamp inside: calculate width correctly in TSX or use simple constraints */
-  max-width: calc(100% - 40px);
-}
-
-.journey-avatar-inner {
-  width: 32px;
-  height: 32px;
-  background: var(--progress-bars-journey-map-bg-1);
-  border: 2px solid var(--progress-bars-journey-map-bg-3);
+  inset: 4px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: var(--progress-bars-journey-distance-traveller-core-bg);
+  border: 1px solid var(--progress-bars-journey-distance-traveller-core-border);
 }
 
-.journey-avatar-tooltip {
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--progress-bars-journey-map-bg-4);
-  color: var(--progress-bars-journey-map-bg-1);
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
+.journey-distance-traveller-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.journey-distance-foot {
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--progress-bars-journey-distance-foot);
 }

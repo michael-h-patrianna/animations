@@ -1,22 +1,22 @@
 import { useEffect, useRef } from 'react'
 import './ModalCelebrationsCoinCascade.css'
 
-/**
- *
- */
 import { coinImage } from '@/assets'
+
 /**
  *
  */
 export function ModalCelebrationsCoinCascade() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const layerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
+    const layer = layerRef.current
+    if (!layer) return
 
-    // Clear any existing coins
-    container.innerHTML = ''
+    // Clear any existing coins from previous animation
+    while (layer.firstChild) {
+      layer.removeChild(layer.firstChild)
+    }
 
     const coinCount = 12
     const animations: Animation[] = []
@@ -37,7 +37,7 @@ export function ModalCelebrationsCoinCascade() {
       coin.style.top = '-20px'
       coin.style.opacity = '0'
 
-      container.appendChild(coin)
+      layer.appendChild(coin)
 
       // Staggered delays for cascade effect
       const delay = i * 150 + Math.random() * 100
@@ -82,12 +82,10 @@ export function ModalCelebrationsCoinCascade() {
 
   return (
     <div
-      className="pf-modal-celebration pf-modal-celebration--coin-cascade"
+      className="pf-celebration"
       data-animation-id="modal-celebrations__coin-cascade"
-      ref={containerRef}
     >
-      <div className="pf-coin-cascade"></div>
+      <div className="pf-celebration__layer" ref={layerRef} />
     </div>
   )
 }
-

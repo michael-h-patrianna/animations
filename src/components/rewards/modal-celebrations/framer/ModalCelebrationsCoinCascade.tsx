@@ -33,10 +33,10 @@ export function ModalCelebrationsCoinCascade() {
 
   return (
     <div
-      className="pf-modal-celebration pf-modal-celebration--coin-cascade"
+      className="pf-celebration"
       data-animation-id="modal-celebrations__coin-cascade"
     >
-      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div className="pf-celebration__layer">
         {coins.map((coin) => (
           <m.img
             key={coin.id}

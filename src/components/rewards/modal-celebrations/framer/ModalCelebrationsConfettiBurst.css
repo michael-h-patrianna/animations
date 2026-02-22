@@ -1,5 +1,5 @@
 /* Styles scoped for ModalCelebrationsConfettiBurst */
-.pf-celebration {
+[data-animation-id='modal-celebrations__confetti-burst'].pf-celebration {
 
   --modal-celebrations-confetti-burst-bg-1: rgb(236 195 255 / 18%);
   --modal-celebrations-confetti-burst-bg-2: rgb(29 9 47 / 92%);
@@ -12,16 +12,15 @@
   border: 1px solid var(--modal-celebrations-confetti-burst-border);
   overflow: hidden;
 }
-.pf-celebration__layer {
+[data-animation-id='modal-celebrations__confetti-burst'] .pf-celebration__layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-.pf-celebration__confetti {
+[data-animation-id='modal-celebrations__confetti-burst'] .pf-celebration__confetti {
   position: absolute;
   width: 8px;
   height: 12px;
   border-radius: 2px;
   pointer-events: none;
 }
-

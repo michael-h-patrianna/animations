@@ -1,63 +1,73 @@
 ---
-argument-hint: [description]
-description: Design and implement a new animation from a natural language description via animation-designer → animation-developer → review → tests → docs.
+argument-hint: [description of animation to create]
+description: Create a new animation with AI-generated image assets — concept → assets → dual implementation → review.
 ---
 
-You are orchestrating a complete animation delivery workflow. The user provided the animation description as: "$ARGUMENTS".
+Create a production-ready animation for this showcase catalog. User request: "$ARGUMENTS"
 
-GOAL
-- Take the user's description and produce a production-ready animation in this repository, following our motion design principles and RN-compatibility requirements.
+PHASE 1 — CONCEPT:
 
-WORKFLOW (STRICT ORDER)
-1) DESIGN SPEC (animation-designer)
-   - Call the subagent `animation-designer` with the user's description to generate a single ANIMATION_SPEC block.
-   - Enforce that the spec fully follows docs/animation-short.md.
-   - If the output is not a single valid ANIMATION_SPEC JSON block, request a corrected output from the same subagent.
+Design the animation concept. Determine:
+- Visual narrative implied by the user's description
+- Motion pattern (bounce, morph, particle, parallax, reveal, etc.)
+- Image assets needed: subject, transparency requirement, dimensions, DOM placement
+- Target category and group (existing or new)
+- Keyframe sequences, timing curves, and layering for both CSS and Motion variants
 
-2) IMPLEMENTATION (animation-developer)
-   - Hand the ANIMATION_SPEC to `animation-developer` to implement the animation in React using CSS and/or Framer Motion.
-   - Ensure accessibility (prefers-reduced-motion) and performance targets are implemented.
-   - Require the developer to place code within appropriate src/ locations, follow existing patterns, and add any necessary assets/config.
+Use the `animation-design` skill to research existing animations for similar motion patterns. Extract relevant curves and timing from the project's design tokens. Never copy reference code.
 
+Output:
+```
+CONCEPT:
+  title: [human-readable name]
+  id: [group-id__variant-name]
+  category: [category folder name]
+  group: [group folder name]
+  description: [one sentence — visual effect and use case]
+  motion_pattern: [primary technique]
+  keyframes: [value sequence for primary animation]
+  timing: [duration, easing, delays]
+  assets_needed: [{name, subject, transparency_required, dimensions}]
+```
 
-3) CODE REVIEW (code-reviewer)
-   - Ask `code-reviewer` to review the implementation for correctness, performance, accessibility, and maintainability.
-   - If issues are found, fix them and re-run review until approved.
+QUALITY GATE:
+- Clear visual narrative, not just "make it move"
+- Every asset listed with transparency requirement
+- Motion pattern maps to an allowed CSS property (transform, opacity, backgroundColor)
+- Timing values sourced from project design tokens
 
-4) TESTS (test-automator or testing-specialist)
-   - Select a suitable testing subagent (`test-automator` or `testing-specialist`).
-   - Write or update automated tests that cover the new animation behavior. Prefer Playwright for e2e and any existing unit/integration frameworks in this repo.
-   - Ensure tests are deterministic and verify key timings/variant states where feasible.
+PHASE 2 — ASSET GENERATION:
 
-5) RUN TESTS & FIX
-   - Run tests. If failures occur, fix and iterate until all tests pass.
+Call `xainflow_get_context` to load workspace/credits/projects. If multiple projects exist, ask which to use.
 
-6) DOCS (docs-architect)
-   - Call `docs-architect` to update or add documentation as needed (README sections or docs/*) describing the new animation, how it works, and any usage examples.
+For each asset in `assets_needed`:
 
-7) FINAL CHECKLIST
-   - Confirm alignment with docs/animation-short.md
-   - Confirm RN translatability per docs/REACT_NATIVE_REFACTORING_PATTERNS.md
-   - Confirm prefers-reduced-motion behavior exists
-   - Confirm performance targets and no layout thrash
-   - Confirm tests exist and pass
-   - Confirm docs updated
+1. Use the `ai-image-generation-prompting` skill to write the generation prompt. For transparent assets, append: "The subject is isolated on a transparent background with no shadows or ground plane."
 
-RESOURCES TO REFERENCE
-- @docs/animation-short.md
-- @docs/REACT_NATIVE_REFACTORING_PATTERNS.md
-- @CLAUDE.md (project memory)
-- Project structure under @src/**/*
-- Existing agents under @.claude/agents/* to align styles
+2. Generate with `xainflow_generate_image`:
+   - Transparency required → model `gpt-image`
+   - No transparency → model `grok-imagine`
+   - Set `aspect_ratio` to match target dimensions
 
-IMPORTANT RULES
-- Do NOT include source code in the DESIGN SPEC step (design-only). Code only appears in the IMPLEMENTATION step.
-- Use the subagents exactly as described: animation-designer → animation-developer → code-reviewer → tests → docs.
-- Keep outputs traceable to the ANIMATION_SPEC.
-- Prefer transform/opacity for performance; avoid filter/clip-path/vh/vw; no DOM-only APIs.
-- Ensure reduced motion alternative is implemented and tested.
+3. Download: `curl -sL "<asset_url>" -o "src/assets/<category>/<filename>.png"`
+   Create directory if needed. Add the asset to `src/assets/index.ts`.
 
-OUTPUT
-- Provide a concise progress log for each step.
-- Indicate locations of created/edited files.
-- Summarize test results and document updates.
+Regenerate once if an asset does not meet quality expectations.
+
+QUALITY GATE:
+- Every asset saved to `src/assets/` (verify with `ls`)
+- Correct model used per transparency requirement
+
+PHASE 3 — IMPLEMENTATION:
+
+Use the `animation-design` skill to implement the animation. Provide the concept from Phase 1 and asset paths from Phase 2. The skill handles: technique research, Motion+React variant, CSS+React variant, group registration, and verification.
+
+PHASE 4 — VERIFICATION:
+
+Run `npm run typecheck` and `npm run lint`. Fix issues found. Maximum one fix cycle — report any remaining issues.
+
+OUTPUT:
+- Files created/modified (paths)
+- Asset generation: model used, credits per asset
+- Issues found and resolutions
+- Final animation id and location

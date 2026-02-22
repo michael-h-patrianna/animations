@@ -1,47 +1,172 @@
-.stamina-container-css {
+.stamina-wrap-css {
+  --progress-bars-stamina-css-text-main: #dffcf1;
+  --progress-bars-stamina-css-text-muted: rgb(175 227 208 / 86%);
+  --progress-bars-stamina-css-icon-shell: rgb(39 90 80 / 50%);
+  --progress-bars-stamina-css-icon-shell-border: rgb(141 219 194 / 34%);
+  --progress-bars-stamina-css-track-base: rgb(89 154 136 / 34%);
+  --progress-bars-stamina-css-fill-drain-a: #4ed3ac;
+  --progress-bars-stamina-css-fill-drain-b: #9ff4cf;
+  --progress-bars-stamina-css-fill-charge-a: #57d3ff;
+  --progress-bars-stamina-css-fill-charge-b: #7cf3d9;
+  --progress-bars-stamina-css-fill-low-a: #ff8c6f;
+  --progress-bars-stamina-css-fill-low-b: #ffd18f;
+  --progress-bars-stamina-css-segment: rgb(165 218 200 / 26%);
+  --progress-bars-stamina-css-segment-active: rgb(228 255 244 / 62%);
+  --progress-bars-stamina-css-mode-drain-bg: rgb(77 43 26 / 70%);
+  --progress-bars-stamina-css-mode-drain-text: #fca;
+  --progress-bars-stamina-css-mode-charge-bg: rgb(28 76 67 / 70%);
+  --progress-bars-stamina-css-mode-charge-text: #c4ffe8;
 
-  --progress-bars-stamina-bg-1: rgb(0 0 0 / 80%);
-  --progress-bars-stamina-color: #fcd34d;
-  --progress-bars-stamina-bg-2: rgb(255 255 255 / 10%);
-  --progress-bars-stamina-bg-3: #22c55e;
-  --progress-bars-stamina-bg-4: #ef4444;
-  display: flex;
+  width: 100%;
+  padding: 6px 0;
+}
+
+.stamina-head-css {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
-  background: var(--progress-bars-stamina-bg-1);
-  border-radius: 20px;
-  width: fit-content;
+  column-gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stamina-icon-shell-css {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--progress-bars-stamina-css-icon-shell);
+  border: 1px solid var(--progress-bars-stamina-css-icon-shell-border);
 }
 
 .stamina-icon-css {
-  font-size: 24px;
-  color: var(--progress-bars-stamina-color);
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  animation: stamina-icon-idle-css 1.7s ease-in-out infinite;
 }
 
-.stamina-track-css {
-  width: 200px;
-  height: 16px;
-  background: var(--progress-bars-stamina-bg-2);
-  border-radius: 8px;
+.stamina-icon-css.low {
+  animation: stamina-icon-low-css 0.5s ease-in-out infinite;
+}
+
+@keyframes stamina-icon-idle-css {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes stamina-icon-low-css {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.stamina-stats-css {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stamina-title-css {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--progress-bars-stamina-css-text-main);
+}
+
+.stamina-mode-css {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.stamina-mode-css.drain {
+  background: var(--progress-bars-stamina-css-mode-drain-bg);
+  color: var(--progress-bars-stamina-css-mode-drain-text);
+}
+
+.stamina-mode-css.charge {
+  background: var(--progress-bars-stamina-css-mode-charge-bg);
+  color: var(--progress-bars-stamina-css-mode-charge-text);
+}
+
+.stamina-number-css {
+  font-size: 23px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--progress-bars-stamina-css-text-main);
+}
+
+.stamina-bar-css {
+  position: relative;
+  height: 20px;
+  border-radius: 999px;
   overflow: hidden;
-  transform: skewX(-15deg);
+  background: var(--progress-bars-stamina-css-track-base);
 }
 
-.stamina-fill-css {
-  height: 100%;
-  background: var(--progress-bars-stamina-bg-3);
-  border-radius: 8px;
-  transition: width 0.05s linear;
+.stamina-bar-fill-css {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+  transition: width 0.16s cubic-bezier(0.24, 0.78, 0.28, 0.98);
 }
 
-.stamina-fill-css.low {
-  background: var(--progress-bars-stamina-bg-4);
-  animation: stamina-low-pulse 0.2s infinite;
+.stamina-bar-fill-css.drain {
+  background: linear-gradient(90deg, var(--progress-bars-stamina-css-fill-drain-a), var(--progress-bars-stamina-css-fill-drain-b));
 }
 
-@keyframes stamina-low-pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+.stamina-bar-fill-css.charge {
+  background: linear-gradient(90deg, var(--progress-bars-stamina-css-fill-charge-a), var(--progress-bars-stamina-css-fill-charge-b));
+}
+
+.stamina-bar-fill-css.low {
+  background: linear-gradient(90deg, var(--progress-bars-stamina-css-fill-low-a), var(--progress-bars-stamina-css-fill-low-b));
+  animation: stamina-fill-low-css 0.3s ease-in-out infinite;
+}
+
+@keyframes stamina-fill-low-css {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.72;
+  }
+}
+
+.stamina-bar-segments-css {
+  position: absolute;
+  inset: 3px 6px;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  column-gap: 3px;
+  pointer-events: none;
+}
+
+.stamina-bar-segment-css {
+  border-radius: 999px;
+  background: var(--progress-bars-stamina-css-segment);
+}
+
+.stamina-bar-segment-css.active {
+  background: var(--progress-bars-stamina-css-segment-active);
 }

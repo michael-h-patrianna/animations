@@ -14,6 +14,7 @@ import './framer/ProgressBarsProgressBounce.css'
 import './framer/ProgressBarsProgressMilestones.css'
 import './framer/ProgressBarsProgressSegmented.css'
 import './framer/ProgressBarsProgressThin.css'
+import './framer/ProgressBarsQuestlineRoyal.css'
 import './framer/ProgressBarsRetroBit.css'
 import './framer/ProgressBarsSciFiLoader.css'
 import './framer/ProgressBarsStamina.css'
@@ -45,6 +46,7 @@ import { metadata as journeyMapMetadata } from './framer/ProgressBarsJourneyMap.
 import { metadata as crystalNodesMetadata } from './framer/ProgressBarsCrystalNodes.meta'
 import { metadata as flagPlantMetadata } from './framer/ProgressBarsFlagPlant.meta'
 import { metadata as elasticFillMetadata } from './framer/ProgressBarsElasticFill.meta'
+import { metadata as questlineRoyalMetadata } from './framer/ProgressBarsQuestlineRoyal.meta'
 
 // CSS - Import metadata only
 import { metadata as celebrationBurstCssMetadata } from './css/ProgressBarsCelebrationBurst.meta'
@@ -67,6 +69,7 @@ import { metadata as journeyMapCssMetadata } from './css/ProgressBarsJourneyMap.
 import { metadata as crystalNodesCssMetadata } from './css/ProgressBarsCrystalNodes.meta'
 import { metadata as flagPlantCssMetadata } from './css/ProgressBarsFlagPlant.meta'
 import { metadata as elasticFillCssMetadata } from './css/ProgressBarsElasticFill.meta'
+import { metadata as questlineRoyalCssMetadata } from './css/ProgressBarsQuestlineRoyal.meta'
 
 // Framer Motion - Lazy load components
 const ProgressBarsCelebrationBurst = lazy(() =>
@@ -123,6 +126,7 @@ const ProgressBarsJourneyMap = lazy(() => import('./framer/ProgressBarsJourneyMa
 const ProgressBarsCrystalNodes = lazy(() => import('./framer/ProgressBarsCrystalNodes').then(m => ({ default: m.ProgressBarsCrystalNodes })))
 const ProgressBarsFlagPlant = lazy(() => import('./framer/ProgressBarsFlagPlant').then(m => ({ default: m.ProgressBarsFlagPlant })))
 const ProgressBarsElasticFill = lazy(() => import('./framer/ProgressBarsElasticFill').then(m => ({ default: m.ProgressBarsElasticFill })))
+const ProgressBarsQuestlineRoyal = lazy(() => import('./framer/ProgressBarsQuestlineRoyal').then(m => ({ default: m.ProgressBarsQuestlineRoyal })))
 
 // CSS - Lazy load components
 const CssProgressBarsCelebrationBurst = lazy(() =>
@@ -179,6 +183,7 @@ const CssProgressBarsJourneyMap = lazy(() => import('./css/ProgressBarsJourneyMa
 const CssProgressBarsCrystalNodes = lazy(() => import('./css/ProgressBarsCrystalNodes').then(m => ({ default: m.ProgressBarsCrystalNodes })))
 const CssProgressBarsFlagPlant = lazy(() => import('./css/ProgressBarsFlagPlant').then(m => ({ default: m.ProgressBarsFlagPlant })))
 const CssProgressBarsElasticFill = lazy(() => import('./css/ProgressBarsElasticFill').then(m => ({ default: m.ProgressBarsElasticFill })))
+const CssProgressBarsQuestlineRoyal = lazy(() => import('./css/ProgressBarsQuestlineRoyal').then(m => ({ default: m.ProgressBarsQuestlineRoyal })))
 
 export const groupMetadata: GroupMetadata = {
   id: 'progress-bars',
@@ -237,6 +242,7 @@ export const groupExport: GroupExport = {
     'progress-bars__crystal-nodes': { component: ProgressBarsCrystalNodes, metadata: crystalNodesMetadata },
     'progress-bars__flag-plant': { component: ProgressBarsFlagPlant, metadata: flagPlantMetadata },
     'progress-bars__elastic-fill': { component: ProgressBarsElasticFill, metadata: elasticFillMetadata },
+    'progress-bars__questline-royal': { component: ProgressBarsQuestlineRoyal, metadata: questlineRoyalMetadata },
   },
   css: {
     'progress-bars__celebration-burst': {
@@ -286,5 +292,6 @@ export const groupExport: GroupExport = {
     'progress-bars__crystal-nodes': { component: CssProgressBarsCrystalNodes, metadata: crystalNodesCssMetadata },
     'progress-bars__flag-plant': { component: CssProgressBarsFlagPlant, metadata: flagPlantCssMetadata },
     'progress-bars__elastic-fill': { component: CssProgressBarsElasticFill, metadata: elasticFillCssMetadata },
+    'progress-bars__questline-royal': { component: CssProgressBarsQuestlineRoyal, metadata: questlineRoyalCssMetadata },
   },
 }

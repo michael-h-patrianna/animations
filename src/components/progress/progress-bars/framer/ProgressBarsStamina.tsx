@@ -1,5 +1,8 @@
+import { staminaCrystal } from '@/assets'
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
+
+const segmentCount = 14
 
 /**
  *
@@ -10,37 +13,69 @@ export function ProgressBarsStamina() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setStamina(s => {
+      setStamina((value) => {
         if (isDraining) {
-          if (s <= 0) {
+          const nextValue = Math.max(0, value - 1.05)
+          if (nextValue === 0) {
             setIsDraining(false)
-            return 0
           }
-          return s - 1
-        } else {
-          if (s >= 100) {
-            setIsDraining(true)
-            return 100
-          }
-          return s + 2
+          return nextValue
         }
+
+        const nextValue = Math.min(100, value + 1.85)
+        if (nextValue === 100) {
+          setIsDraining(true)
+        }
+        return nextValue
       })
-    }, 50)
+    }, 52)
+
     return () => clearInterval(interval)
   }, [isDraining])
 
   const isLow = stamina < 25
 
   return (
-    <div className="stamina-container" data-animation-id="progress-bars__stamina">
-      <div className="stamina-icon">⚡</div>
-      <div className="stamina-track">
-        <m.div 
-           className={`stamina-fill ${isLow ? 'low' : ''}`}
-           style={{ width: `${stamina}%` }}
-           animate={isLow ? { opacity: [1, 0.5, 1] } : { opacity: 1 }}
-           transition={isLow ? { duration: 0.2, repeat: Infinity } : {}}
+    <div className="stamina-wrap" data-animation-id="progress-bars__stamina">
+      <div className="stamina-head">
+        <div className="stamina-icon-shell">
+          <m.img
+            className="stamina-icon"
+            src={staminaCrystal}
+            alt=""
+            animate={isLow ? { scale: [1, 1.08, 1] } : { scale: [1, 1.02, 1] }}
+            transition={{ duration: isLow ? 0.5 : 1.7, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </div>
+
+        <div className="stamina-stats">
+          <span className="stamina-title">Stamina</span>
+          <span className={`stamina-mode ${isDraining ? 'drain' : 'charge'}`}>
+            {isDraining ? 'Drain' : 'Recharge'}
+          </span>
+        </div>
+
+        <span className="stamina-number">{Math.round(stamina)}</span>
+      </div>
+
+      <div className="stamina-bar">
+        <m.div
+          className={`stamina-bar-fill ${isLow ? 'low' : ''} ${isDraining ? 'drain' : 'charge'}`}
+          animate={{ width: `${stamina}%`, opacity: isLow ? [1, 0.72, 1] : 1 }}
+          transition={{
+            width: { duration: 0.16, ease: [0.24, 0.78, 0.28, 0.98] },
+            opacity: isLow ? { duration: 0.3, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.18 },
+          }}
         />
+
+        <div className="stamina-bar-segments">
+          {Array.from({ length: segmentCount }, (_, index) => {
+            const threshold = ((index + 1) / segmentCount) * 100
+            const isActive = stamina >= threshold
+
+            return <span key={threshold} className={`stamina-bar-segment ${isActive ? 'active' : ''}`} />
+          })}
+        </div>
       </div>
     </div>
   )

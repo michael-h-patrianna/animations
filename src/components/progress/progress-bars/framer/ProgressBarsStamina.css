@@ -1,39 +1,132 @@
-.stamina-container {
+.stamina-wrap {
+  --progress-bars-stamina-text-main: #dffcf1;
+  --progress-bars-stamina-text-muted: rgb(175 227 208 / 86%);
+  --progress-bars-stamina-icon-shell: rgb(39 90 80 / 50%);
+  --progress-bars-stamina-icon-shell-border: rgb(141 219 194 / 34%);
+  --progress-bars-stamina-track-base: rgb(89 154 136 / 34%);
+  --progress-bars-stamina-fill-drain-a: #4ed3ac;
+  --progress-bars-stamina-fill-drain-b: #9ff4cf;
+  --progress-bars-stamina-fill-charge-a: #57d3ff;
+  --progress-bars-stamina-fill-charge-b: #7cf3d9;
+  --progress-bars-stamina-fill-low-a: #ff8c6f;
+  --progress-bars-stamina-fill-low-b: #ffd18f;
+  --progress-bars-stamina-segment: rgb(165 218 200 / 26%);
+  --progress-bars-stamina-segment-active: rgb(228 255 244 / 62%);
+  --progress-bars-stamina-mode-drain-bg: rgb(77 43 26 / 70%);
+  --progress-bars-stamina-mode-drain-text: #fca;
+  --progress-bars-stamina-mode-charge-bg: rgb(28 76 67 / 70%);
+  --progress-bars-stamina-mode-charge-text: #c4ffe8;
 
-  --progress-bars-stamina-bg-1: rgb(0 0 0 / 80%);
-  --progress-bars-stamina-color: #fcd34d;
-  --progress-bars-stamina-bg-2: rgb(255 255 255 / 10%);
-  --progress-bars-stamina-bg-3: #22c55e;
-  --progress-bars-stamina-bg-4: #ef4444;
-  display: flex;
+  width: 100%;
+  padding: 6px 0;
+}
+
+.stamina-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
-  background: var(--progress-bars-stamina-bg-1);
-  border-radius: 20px;
-  width: fit-content;
+  column-gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stamina-icon-shell {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--progress-bars-stamina-icon-shell);
+  border: 1px solid var(--progress-bars-stamina-icon-shell-border);
 }
 
 .stamina-icon {
-  font-size: 24px;
-  color: var(--progress-bars-stamina-color);
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
-.stamina-track {
-  width: 200px;
-  height: 16px;
-  background: var(--progress-bars-stamina-bg-2);
-  border-radius: 8px;
+.stamina-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stamina-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--progress-bars-stamina-text-main);
+}
+
+.stamina-mode {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.stamina-mode.drain {
+  background: var(--progress-bars-stamina-mode-drain-bg);
+  color: var(--progress-bars-stamina-mode-drain-text);
+}
+
+.stamina-mode.charge {
+  background: var(--progress-bars-stamina-mode-charge-bg);
+  color: var(--progress-bars-stamina-mode-charge-text);
+}
+
+.stamina-number {
+  font-size: 23px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--progress-bars-stamina-text-main);
+}
+
+.stamina-bar {
+  position: relative;
+  height: 20px;
+  border-radius: 999px;
   overflow: hidden;
-  transform: skewX(-15deg);
+  background: var(--progress-bars-stamina-track-base);
 }
 
-.stamina-fill {
-  height: 100%;
-  background: var(--progress-bars-stamina-bg-3);
-  border-radius: 8px;
+.stamina-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
 }
 
-.stamina-fill.low {
-  background: var(--progress-bars-stamina-bg-4);
+.stamina-bar-fill.drain {
+  background: linear-gradient(90deg, var(--progress-bars-stamina-fill-drain-a), var(--progress-bars-stamina-fill-drain-b));
+}
+
+.stamina-bar-fill.charge {
+  background: linear-gradient(90deg, var(--progress-bars-stamina-fill-charge-a), var(--progress-bars-stamina-fill-charge-b));
+}
+
+.stamina-bar-fill.low {
+  background: linear-gradient(90deg, var(--progress-bars-stamina-fill-low-a), var(--progress-bars-stamina-fill-low-b));
+}
+
+.stamina-bar-segments {
+  position: absolute;
+  inset: 3px 6px;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  column-gap: 3px;
+  pointer-events: none;
+}
+
+.stamina-bar-segment {
+  border-radius: 999px;
+  background: var(--progress-bars-stamina-segment);
+}
+
+.stamina-bar-segment.active {
+  background: var(--progress-bars-stamina-segment-active);
 }

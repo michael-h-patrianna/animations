@@ -1,0 +1,92 @@
+.pf-pirate-chest-no-win-css {
+  --pf-pirate-chest-no-win-css-shadow: rgb(0 0 0 / 42%);
+
+  position: relative;
+  inline-size: 100%;
+  block-size: 240px;
+  overflow: hidden;
+}
+
+.pf-pirate-chest-no-win-css__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-block-end: 30px;
+  overflow: hidden;
+}
+
+.pf-pirate-chest-no-win-css__chest {
+  position: relative;
+  z-index: 3;
+  inline-size: clamp(112px, 34%, 170px);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(64px) scale(0.82);
+  animation: pf-pirate-chest-no-win-css-rise 0.62s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.pf-pirate-chest-no-win-css__chest.is-shaking {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: pf-pirate-chest-no-win-css-shake 0.6s ease-in-out both;
+}
+
+.pf-pirate-chest-no-win-css__chest.is-reveal {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: pf-pirate-chest-no-win-css-reveal 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.pf-pirate-chest-no-win-css__image {
+  inline-size: 100%;
+  block-size: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 20px var(--pf-pirate-chest-no-win-css-shadow));
+}
+
+@keyframes pf-pirate-chest-no-win-css-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(64px) scale(0.82);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pf-pirate-chest-no-win-css-shake {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  18% {
+    transform: translateY(0) translateX(-7px) scale(1);
+  }
+  36% {
+    transform: translateY(0) translateX(7px) scale(1);
+  }
+  54% {
+    transform: translateY(0) translateX(-5px) scale(1);
+  }
+  72% {
+    transform: translateY(0) translateX(5px) scale(1);
+  }
+  100% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+}
+
+@keyframes pf-pirate-chest-no-win-css-reveal {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(0) scale(0.9);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}

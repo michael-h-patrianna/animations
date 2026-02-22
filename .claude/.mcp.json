@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "xainflow": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://api.xainflow.com/functions/v1/mcp",
+        "--header",
+        "X-API-Key:xf_live_92242711c48d22c5ef597af7b7b4a8d1c6f8c0e03c9b3289de091ffdc10b43f4"
+      ]
+    }
+  }
+}

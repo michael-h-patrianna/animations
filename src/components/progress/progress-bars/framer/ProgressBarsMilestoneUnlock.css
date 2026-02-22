@@ -1,67 +1,100 @@
-.milestone-unlock-container {
+.milestone-unlock-wrap {
+  --progress-bars-milestone-unlock-text-main: #f1ebff;
+  --progress-bars-milestone-unlock-text-muted: rgb(212 203 248 / 86%);
+  --progress-bars-milestone-unlock-track-base: rgb(128 117 179 / 32%);
+  --progress-bars-milestone-unlock-track-dash: rgb(220 212 255 / 20%);
+  --progress-bars-milestone-unlock-fill-a: #8478ef;
+  --progress-bars-milestone-unlock-fill-b: #74d7f7;
+  --progress-bars-milestone-unlock-ring: rgb(155 142 219 / 52%);
+  --progress-bars-milestone-unlock-wave: rgb(204 231 255 / 78%);
 
-  --progress-bars-milestone-unlock-bg-1: #f8fafc;
-  --progress-bars-milestone-unlock-bg-2: #e2e8f0;
-  --progress-bars-milestone-unlock-bg-3: #3b82f6;
-  --progress-bars-milestone-unlock-bg-4: #fff;
-  --progress-bars-milestone-unlock-border-e1: #cbd5e1;
-  --progress-bars-milestone-unlock-bg-5: #fcd34d;
-  --progress-bars-milestone-unlock-border-0b: #f59e0b;
-  padding: 40px;
-  background: var(--progress-bars-milestone-unlock-bg-1);
-  border-radius: 12px;
   width: 100%;
+  padding: 6px 0;
 }
 
-.milestone-unlock-track {
+.milestone-unlock-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.milestone-unlock-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--progress-bars-milestone-unlock-text-muted);
+}
+
+.milestone-unlock-value {
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--progress-bars-milestone-unlock-text-main);
+}
+
+.milestone-unlock-rail {
   position: relative;
+  height: 64px;
+}
+
+.milestone-unlock-rail-base {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 27px;
   height: 10px;
-  background: var(--progress-bars-milestone-unlock-bg-2);
-  border-radius: 5px;
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--progress-bars-milestone-unlock-track-dash) 0,
+      var(--progress-bars-milestone-unlock-track-dash) 9px,
+      transparent 9px,
+      transparent 16px
+    ),
+    var(--progress-bars-milestone-unlock-track-base);
 }
 
-.milestone-unlock-fill {
-  height: 100%;
-  background: var(--progress-bars-milestone-unlock-bg-3);
-  border-radius: 5px;
-}
-
-.milestone-node {
+.milestone-unlock-rail-fill {
   position: absolute;
-  top: 50%;
+  left: 10px;
+  top: 27px;
+  height: 10px;
+  max-width: calc(100% - 20px);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--progress-bars-milestone-unlock-fill-a), var(--progress-bars-milestone-unlock-fill-b));
+}
+
+.milestone-unlock-lock {
+  position: absolute;
+  top: 32px;
+  width: 36px;
+  height: 36px;
   transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
 }
 
-.milestone-icon {
-  width: 30px;
-  height: 30px;
-  background: var(--progress-bars-milestone-unlock-bg-4);
-  border: 2px solid var(--progress-bars-milestone-unlock-border-e1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  z-index: 2;
-}
-
-.milestone-icon.unlocked {
-  background: var(--progress-bars-milestone-unlock-bg-5);
-  border-color: var(--progress-bars-milestone-unlock-border-0b);
-}
-
-.milestone-ripple {
+.milestone-unlock-lock-ring {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   border-radius: 50%;
-  background: var(--progress-bars-milestone-unlock-bg-5);
+  border: 1px solid var(--progress-bars-milestone-unlock-ring);
+}
+
+.milestone-unlock-lock-icon {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
   z-index: 1;
-  pointer-events: none;
+}
+
+.milestone-unlock-lock-wave {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--progress-bars-milestone-unlock-wave);
 }

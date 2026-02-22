@@ -1,89 +1,133 @@
-.milestone-unlock-container-css {
+.milestone-unlock-wrap-css {
+  --progress-bars-milestone-unlock-css-text-main: #f1ebff;
+  --progress-bars-milestone-unlock-css-text-muted: rgb(212 203 248 / 86%);
+  --progress-bars-milestone-unlock-css-track-base: rgb(128 117 179 / 32%);
+  --progress-bars-milestone-unlock-css-track-dash: rgb(220 212 255 / 20%);
+  --progress-bars-milestone-unlock-css-fill-a: #8478ef;
+  --progress-bars-milestone-unlock-css-fill-b: #74d7f7;
+  --progress-bars-milestone-unlock-css-ring: rgb(155 142 219 / 52%);
+  --progress-bars-milestone-unlock-css-wave: rgb(204 231 255 / 78%);
 
-  --progress-bars-milestone-unlock-bg-1: #f8fafc;
-  --progress-bars-milestone-unlock-bg-2: #e2e8f0;
-  --progress-bars-milestone-unlock-bg-3: #3b82f6;
-  --progress-bars-milestone-unlock-bg-4: #fff;
-  --progress-bars-milestone-unlock-border-e1: #cbd5e1;
-  --progress-bars-milestone-unlock-bg-5: #fcd34d;
-  --progress-bars-milestone-unlock-border-0b: #f59e0b;
-  padding: 40px;
-  background: var(--progress-bars-milestone-unlock-bg-1);
-  border-radius: 12px;
   width: 100%;
+  padding: 6px 0;
 }
 
-.milestone-unlock-track-css {
+.milestone-unlock-meta-css {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.milestone-unlock-label-css {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--progress-bars-milestone-unlock-css-text-muted);
+}
+
+.milestone-unlock-value-css {
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--progress-bars-milestone-unlock-css-text-main);
+}
+
+.milestone-unlock-rail-css {
   position: relative;
+  height: 64px;
+}
+
+.milestone-unlock-rail-base-css {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 27px;
   height: 10px;
-  background: var(--progress-bars-milestone-unlock-bg-2);
-  border-radius: 5px;
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--progress-bars-milestone-unlock-css-track-dash) 0,
+      var(--progress-bars-milestone-unlock-css-track-dash) 9px,
+      transparent 9px,
+      transparent 16px
+    ),
+    var(--progress-bars-milestone-unlock-css-track-base);
 }
 
-.milestone-unlock-fill-css {
-  height: 100%;
-  background: var(--progress-bars-milestone-unlock-bg-3);
-  border-radius: 5px;
-  transition: width 0.05s linear;
-}
-
-.milestone-node-css {
+.milestone-unlock-rail-fill-css {
   position: absolute;
-  top: 50%;
+  left: 10px;
+  top: 27px;
+  height: 10px;
+  max-width: calc(100% - 20px);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--progress-bars-milestone-unlock-css-fill-a), var(--progress-bars-milestone-unlock-css-fill-b));
+  transition: width 0.18s cubic-bezier(0.24, 0.78, 0.28, 0.98);
+}
+
+.milestone-unlock-lock-css {
+  position: absolute;
+  top: 32px;
+  width: 36px;
+  height: 36px;
   transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
 }
 
-.milestone-icon-css {
-  width: 30px;
-  height: 30px;
-  background: var(--progress-bars-milestone-unlock-bg-4);
-  border: 2px solid var(--progress-bars-milestone-unlock-border-e1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  z-index: 2;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s, border-color 0.3s;
-}
-
-.milestone-icon-css.unlocked {
-  background: var(--progress-bars-milestone-unlock-bg-5);
-  border-color: var(--progress-bars-milestone-unlock-border-0b);
-  transform: scale(1.2);
-  animation: milestone-wiggle 0.5s ease-out;
-}
-
-@keyframes milestone-wiggle {
-  0%, 100% { transform: rotate(0) scale(1.2); }
-  25% { transform: rotate(-10deg) scale(1.2); }
-  75% { transform: rotate(10deg) scale(1.2); }
-}
-
-.milestone-ripple-css {
+.milestone-unlock-lock-ring-css {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   border-radius: 50%;
-  background: var(--progress-bars-milestone-unlock-bg-5);
-  z-index: 1;
-  pointer-events: none;
-  animation: milestone-ripple-anim 0.8s ease-out forwards;
+  border: 1px solid var(--progress-bars-milestone-unlock-css-ring);
 }
 
-@keyframes milestone-ripple-anim {
-  0% {
-    transform: scale(0);
-    opacity: 0.8;
-  }
+.milestone-unlock-lock-icon-css {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.milestone-unlock-lock-icon-css.open {
+  animation: milestone-unlock-icon-open-css 0.62s ease;
+}
+
+@keyframes milestone-unlock-icon-open-css {
+  0%,
   100% {
-    transform: scale(2);
+    transform: scale(1) rotate(0);
+  }
+
+  35% {
+    transform: scale(1.07) rotate(-4deg);
+  }
+
+  70% {
+    transform: scale(1.03) rotate(4deg);
+  }
+}
+
+.milestone-unlock-lock-wave-css {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--progress-bars-milestone-unlock-css-wave);
+  animation: milestone-unlock-wave-css 0.66s ease-out forwards;
+}
+
+@keyframes milestone-unlock-wave-css {
+  from {
+    transform: scale(0.35);
+    opacity: 0.72;
+  }
+
+  to {
+    transform: scale(1.6);
     opacity: 0;
   }
 }

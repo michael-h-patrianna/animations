@@ -1,62 +1,95 @@
-.flag-plant-container {
+.flag-plant-wrap {
+  --progress-bars-flag-plant-text-main: #fff0e0;
+  --progress-bars-flag-plant-text-muted: rgb(249 216 183 / 84%);
+  --progress-bars-flag-plant-track-base: rgb(160 113 76 / 30%);
+  --progress-bars-flag-plant-track-dash: rgb(248 217 183 / 20%);
+  --progress-bars-flag-plant-fill-a: #e48742;
+  --progress-bars-flag-plant-fill-b: #ffd08f;
+  --progress-bars-flag-plant-pulse: rgb(255 218 163 / 78%);
 
-  --progress-bars-flag-plant-bg-1: #fff7ed;
-  --progress-bars-flag-plant-bg-2: #fed7aa;
-  --progress-bars-flag-plant-bg-3: #ea580c;
-  --progress-bars-flag-plant-bg-4: #9a3412;
-  --progress-bars-flag-plant-bg-5: #431407;
-  padding: 50px 20px 20px; /* Space on top for flags */
-  background: var(--progress-bars-flag-plant-bg-1);
-  border-radius: 8px;
   width: 100%;
+  padding: 6px 0;
 }
 
-.flag-track {
+.flag-plant-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.flag-plant-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--progress-bars-flag-plant-text-muted);
+}
+
+.flag-plant-value {
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--progress-bars-flag-plant-text-main);
+}
+
+.flag-plant-bar {
   position: relative;
-  height: 12px;
-  background: var(--progress-bars-flag-plant-bg-2);
-  border-radius: 6px;
+  height: 70px;
 }
 
-.flag-fill {
-  height: 100%;
-  background: var(--progress-bars-flag-plant-bg-3);
-  border-radius: 6px;
-}
-
-.flag-marker {
+.flag-plant-bar-base {
   position: absolute;
-  top: 0; /* Top of track */
-  width: 2px;
-  height: 100%;
-  transform: translateX(-50%);
-  z-index: 10;
+  left: 10px;
+  right: 10px;
+  top: 56px;
+  height: 10px;
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--progress-bars-flag-plant-track-dash) 0,
+      var(--progress-bars-flag-plant-track-dash) 8px,
+      transparent 8px,
+      transparent 16px
+    ),
+    var(--progress-bars-flag-plant-track-base);
 }
 
-.flag-pole-base {
+.flag-plant-bar-fill {
   position: absolute;
-  bottom: -4px;
-  left: -3px;
-  width: 8px;
-  height: 4px;
-  background: var(--progress-bars-flag-plant-bg-4);
-  border-radius: 2px;
+  left: 10px;
+  top: 56px;
+  height: 10px;
+  max-width: calc(100% - 20px);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--progress-bars-flag-plant-fill-a), var(--progress-bars-flag-plant-fill-b));
 }
 
-.flag-pole {
-  position: absolute;
-  bottom: 6px;
-  left: 0;
-  width: 2px;
-  height: 30px;
-  background: var(--progress-bars-flag-plant-bg-5);
-}
-
-.flag-cloth {
+.flag-plant-site {
   position: absolute;
   top: 0;
-  left: 2px;
-  font-size: 20px;
-  line-height: 1;
-  transform-origin: left center;
+  width: 46px;
+  height: 70px;
+  transform: translateX(-50%);
+}
+
+.flag-plant-marker {
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  width: 30px;
+  height: 50px;
+  object-fit: contain;
+  transform-origin: 50% 86%;
+}
+
+.flag-plant-pulse {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--progress-bars-flag-plant-pulse);
 }

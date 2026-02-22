@@ -1,5 +1,9 @@
+import { journeyAvatarDrone, journeyDestinationBeacon } from '@/assets'
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
+
+const totalDistance = 520
+const tickCount = 22
 
 /**
  *
@@ -9,45 +13,66 @@ export function ProgressBarsJourneyMap() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress(p => (p >= 100 ? 0 : p + 0.3))
-    }, 30)
+      setProgress((value) => (value >= 100 ? 0 : value + 0.29))
+    }, 32)
+
     return () => clearInterval(interval)
   }, [])
 
-  const nodes = [0, 33, 66, 100]
+  const coveredDistance = Math.round((progress / 100) * totalDistance)
+  const remainingDistance = Math.max(0, totalDistance - coveredDistance)
 
   return (
-    <div className="journey-map-container" data-animation-id="progress-bars__journey-map">
-      <div className="journey-map-track-bg" />
-      <m.div 
-        className="journey-map-track-fill" 
-        style={{ width: `${progress}%` }}
-      />
+    <div className="journey-distance-wrap" data-animation-id="progress-bars__journey-map">
+      <div className="journey-distance-meta">
+        <span className="journey-distance-label">Journey Distance</span>
+        <span className="journey-distance-value">{coveredDistance} km</span>
+      </div>
 
-      {nodes.map((pos) => (
-        <div 
-          key={pos} 
-          className={`journey-node ${progress >= pos ? 'active' : ''}`}
-          style={{ left: `${pos}%` }}
-        >
-          <m.div 
-             className="journey-node-dot"
-             animate={progress >= pos ? { scale: [1, 1.3, 1], backgroundColor: 'var(--pf-anim-violet)' } : { scale: 1, backgroundColor: 'var(--pf-anim-gray-200)' }}
+      <div className="journey-distance-shell">
+        <div className="journey-distance-rail">
+          <div className="journey-distance-track" />
+
+          <m.div
+            className="journey-distance-fill"
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
+          >
+            <m.div
+              className="journey-distance-traveller"
+              animate={{ y: [0, -2, 0] }}
+              transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <span className="journey-distance-traveller-glow" />
+              <span className="journey-distance-traveller-core">
+                <img className="journey-distance-traveller-icon" src={journeyAvatarDrone} alt="" />
+              </span>
+            </m.div>
+          </m.div>
+
+          <m.span
+            className="journey-distance-fill-gloss"
+            animate={{ x: ['-12%', '120%'], opacity: [0, 0.65, 0] }}
+            transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
           />
-          {progress >= pos && (
-             <div className="journey-node-label">Map {nodes.indexOf(pos) + 1}</div>
-          )}
-        </div>
-      ))}
 
-      {/* Avatar */}
-      <m.div 
-         className="journey-avatar"
-         style={{ left: `${progress}%` }}
-      >
-         <div className="journey-avatar-inner">🏃</div>
-         <div className="journey-avatar-tooltip">{Math.floor(progress)}%</div>
-      </m.div>
+          <div className="journey-distance-ticks">
+            {Array.from({ length: tickCount }, (_, index) => (
+              <span key={index} className="journey-distance-tick" />
+            ))}
+          </div>
+
+        </div>
+
+        <div className="journey-distance-goal">
+          <img className="journey-distance-goal-icon" src={journeyDestinationBeacon} alt="" />
+        </div>
+      </div>
+
+      <div className="journey-distance-foot">
+        <span>{remainingDistance} km to beacon</span>
+        <span>{Math.floor(progress)}%</span>
+      </div>
     </div>
   )
 }

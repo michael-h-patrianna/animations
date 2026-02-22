@@ -1,0 +1,461 @@
+.pf-progress-questline-royal {
+  --questline-bg-0: #060b14;
+  --questline-bg-1: #101a2e;
+  --questline-bg-2: #16243f;
+  --questline-track-left-inset: 6px;
+  --questline-track-right-inset: 44px;
+  --questline-edge: rgb(115 165 255 / 26%);
+  --questline-track: rgb(91 122 174 / 34%);
+  --questline-track-fill-1: #2a8cff;
+  --questline-track-fill-2: #5de4ff;
+  --questline-track-fill-3: #8af7c6;
+  --questline-text-strong: #edf4ff;
+  --questline-text-muted: #a8bddc;
+  --questline-highlight: #b2ecff;
+  --questline-success: #7be7a3;
+  --questline-bg-accent: rgb(95 156 255 / 18%);
+  --questline-surface-shine: rgb(255 255 255 / 8%);
+  --questline-shadow-outer: rgb(3 10 22 / 52%);
+  --questline-track-dark: rgb(61 80 110 / 86%);
+  --questline-track-stroke: rgb(188 225 255 / 12%);
+  --questline-fill-glow: rgb(83 227 255 / 45%);
+  --questline-fill-sheen: rgb(255 255 255 / 24%);
+  --questline-core-border: rgb(215 247 255 / 92%);
+  --questline-core-bg-1: rgb(149 236 255 / 95%);
+  --questline-core-bg-2: rgb(60 168 255 / 95%);
+  --questline-core-ring: rgb(90 181 255 / 22%);
+  --questline-core-glow: rgb(122 236 255 / 54%);
+  --questline-completion-1: rgb(134 237 255 / 65%);
+  --questline-completion-2: rgb(255 245 166 / 68%);
+  --questline-node-ring: rgb(169 213 255 / 38%);
+  --questline-node-ring-next: rgb(186 239 255 / 75%);
+  --questline-node-ring-unlocked: rgb(178 255 205 / 84%);
+  --questline-node-icon-glow: rgb(141 245 255 / 62%);
+  --questline-node-icon-base-filter: saturate(0.98) contrast(1.02);
+  --questline-node-icon-next-filter: saturate(1.08) contrast(1.06) brightness(1.03);
+  --questline-node-icon-unlocked-filter: saturate(1.15) contrast(1.09);
+  --questline-node-step-border: rgb(190 224 255 / 34%);
+  --questline-node-step-bg: rgb(9 17 31 / 82%);
+  --questline-node-step-unlocked-border: rgb(143 242 179 / 48%);
+  --questline-grand-ring-border: rgb(255 224 165 / 44%);
+  --questline-grand-ring-unlocked: rgb(255 240 187 / 84%);
+  --questline-grand-icon-glow: rgb(255 218 124 / 54%);
+  --questline-grand-icon-base-filter: saturate(1.02) contrast(1.04);
+  --questline-grand-icon-unlocked-filter: saturate(1.18) contrast(1.1) brightness(1.03);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  min-height: 176px;
+  padding: 18px 20px 20px;
+  border: 1px solid var(--questline-edge);
+  border-radius: 22px;
+  background:
+    linear-gradient(150deg, var(--questline-bg-accent) 0%, transparent 42%),
+    linear-gradient(0deg, var(--questline-bg-0) 0%, var(--questline-bg-1) 58%, var(--questline-bg-2) 100%);
+  box-shadow:
+    inset 0 1px 0 var(--questline-surface-shine),
+    0 22px 40px var(--questline-shadow-outer);
+  color: var(--questline-text-strong);
+  overflow: hidden;
+}
+
+.questline-royal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.questline-royal__heading {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.questline-royal__eyebrow {
+  margin: 0 0 6px;
+  color: var(--questline-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.questline-royal__title {
+  margin: 0;
+  color: var(--questline-text-strong);
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.questline-royal__status-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 0 1 46%;
+  gap: 2px;
+  max-width: 250px;
+  min-width: 0;
+  text-align: right;
+}
+
+.questline-royal__status-percent {
+  color: var(--questline-highlight);
+  font-size: 22px;
+  font-weight: 680;
+  line-height: 1;
+}
+
+.questline-royal__status-copy {
+  max-width: 100%;
+  color: var(--questline-text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.questline-royal__track-shell {
+  position: relative;
+  height: 116px;
+  padding-inline: 0;
+}
+
+.questline-royal__track-base {
+  position: absolute;
+  left: var(--questline-track-left-inset);
+  right: var(--questline-track-right-inset);
+  top: 32px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--questline-track-dark) 0%, var(--questline-track) 100%);
+  box-shadow: inset 0 0 0 1px var(--questline-track-stroke);
+}
+
+.questline-royal__track-fill {
+  position: absolute;
+  left: var(--questline-track-left-inset);
+  top: 32px;
+  width: calc(100% - var(--questline-track-left-inset) - var(--questline-track-right-inset));
+  height: 14px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, var(--questline-track-fill-1) 0%, var(--questline-track-fill-2) 54%, var(--questline-track-fill-3) 100%);
+  box-shadow: 0 0 20px var(--questline-fill-glow);
+  transform: scaleX(0);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+.questline-royal__track-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, var(--questline-fill-sheen) 50%, transparent 82%);
+  animation: questline-fill-sheen 1.8s linear infinite;
+}
+
+.questline-royal__progress-core {
+  position: absolute;
+  top: 39px;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--questline-core-border);
+  border-radius: 999px;
+  background: linear-gradient(145deg, var(--questline-core-bg-1) 0%, var(--questline-core-bg-2) 100%);
+  box-shadow:
+    0 0 0 5px var(--questline-core-ring),
+    0 0 22px var(--questline-core-glow);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.questline-royal__progress-core-anchor {
+  position: absolute;
+  top: 39px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.questline-royal__progress-core-anchor > .questline-royal__progress-core {
+  position: static;
+  top: auto;
+  transform: none;
+}
+
+.questline-royal__completion-sweep {
+  position: absolute;
+  left: var(--questline-track-left-inset);
+  top: 25px;
+  width: calc(100% - var(--questline-track-left-inset) - var(--questline-track-right-inset));
+  height: 28px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--questline-completion-1) 0%, var(--questline-completion-2) 100%);
+  transform-origin: left center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.questline-royal__node {
+  position: absolute;
+  top: 39px;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.questline-royal__node-ring {
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--questline-node-ring);
+  border-radius: 999px;
+  opacity: 0.2;
+}
+
+.questline-royal__node.is-next .questline-royal__node-ring {
+  border-color: var(--questline-node-ring-next);
+  opacity: 0.35;
+}
+
+.questline-royal__node.is-unlocked .questline-royal__node-ring {
+  border-color: var(--questline-node-ring-unlocked);
+  opacity: 0.45;
+}
+
+.questline-royal__node-icon {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  opacity: 0.92;
+  filter: var(--questline-node-icon-base-filter);
+}
+
+.questline-royal__node.is-next .questline-royal__node-icon {
+  opacity: 0.98;
+  filter: var(--questline-node-icon-next-filter);
+}
+
+.questline-royal__node.is-unlocked .questline-royal__node-icon {
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 10px var(--questline-node-icon-glow))
+    var(--questline-node-icon-unlocked-filter);
+}
+
+.questline-royal__node-step {
+  position: absolute;
+  inset: auto auto -3px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--questline-node-step-border);
+  background: var(--questline-node-step-bg);
+  color: var(--questline-text-muted);
+  font-size: 10px;
+  font-weight: 620;
+  letter-spacing: 0.04em;
+}
+
+.questline-royal__node.is-unlocked .questline-royal__node-step {
+  color: var(--questline-success);
+  border-color: var(--questline-node-step-unlocked-border);
+}
+
+.questline-royal__grand-reward {
+  position: absolute;
+  top: 39px;
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.questline-royal__grand-ring {
+  position: absolute;
+  inset: 5px;
+  border: 1px solid var(--questline-grand-ring-border);
+  border-radius: 999px;
+  opacity: 0.28;
+}
+
+.questline-royal__grand-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  opacity: 0.92;
+  filter: var(--questline-grand-icon-base-filter);
+}
+
+.questline-royal__grand-reward.is-unlocked .questline-royal__grand-ring {
+  border-color: var(--questline-grand-ring-unlocked);
+  opacity: 0.54;
+}
+
+.questline-royal__grand-reward.is-unlocked .questline-royal__grand-icon {
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 18px var(--questline-grand-icon-glow))
+    var(--questline-grand-icon-unlocked-filter);
+}
+
+.pf-progress-questline-royal--css .questline-royal__progress-core {
+  animation: questline-core-pulse 1.2s ease-in-out infinite;
+}
+
+.pf-progress-questline-royal--css .questline-royal__completion-sweep--css {
+  animation: questline-completion-sweep 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.pf-progress-questline-royal--css .questline-royal__node.is-next .questline-royal__node-ring.is-active,
+.pf-progress-questline-royal--css .questline-royal__node.is-next .questline-royal__node-ring {
+  animation: questline-ring-pulse 1.4s ease-in-out infinite;
+}
+
+.pf-progress-questline-royal--css .questline-royal__node.is-unlocked .questline-royal__node-ring {
+  animation: questline-ring-unlocked 1s ease-in-out infinite;
+}
+
+.pf-progress-questline-royal--css .questline-royal__node.is-next .questline-royal__node-icon {
+  animation: questline-node-hover 1.6s ease-in-out infinite;
+}
+
+.pf-progress-questline-royal--css .questline-royal__node.is-unlocked .questline-royal__node-icon {
+  animation: questline-node-unlocked 1.1s ease-in-out infinite;
+}
+
+.pf-progress-questline-royal--css .questline-royal__grand-ring {
+  animation: questline-grand-ring 1.8s ease-in-out infinite;
+}
+
+.pf-progress-questline-royal--css .questline-royal__grand-reward.is-unlocked .questline-royal__grand-icon {
+  animation: questline-grand-unlocked 0.95s ease-in-out infinite;
+}
+
+@keyframes questline-fill-sheen {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(140%);
+  }
+}
+
+@keyframes questline-core-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes questline-completion-sweep {
+  0% {
+    transform: scaleX(0.12);
+    opacity: 0.72;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes questline-ring-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.7;
+  }
+}
+
+@keyframes questline-ring-unlocked {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.78;
+  }
+}
+
+@keyframes questline-node-hover {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.04);
+  }
+}
+
+@keyframes questline-node-unlocked {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-2px) scale(1.08);
+  }
+}
+
+@keyframes questline-grand-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.28;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.5;
+  }
+}
+
+@keyframes questline-grand-unlocked {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.12);
+  }
+}
+
+@media (width <= 760px) {
+  .pf-progress-questline-royal {
+    --questline-track-right-inset: 38px;
+    padding: 16px;
+  }
+
+  .questline-royal__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .questline-royal__status-panel {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .questline-royal__track-shell {
+    height: 124px;
+  }
+}
