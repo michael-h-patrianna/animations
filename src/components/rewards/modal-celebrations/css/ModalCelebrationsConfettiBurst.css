@@ -1,40 +1,112 @@
-/* Styles scoped for ModalCelebrationsConfettiBurst */
+/* Scoped theme for ModalCelebrationsConfettiBurst (CSS variant) */
 [data-animation-id='modal-celebrations__confetti-burst'].pf-celebration {
-
-  --modal-celebrations-confetti-burst-bg-1: rgb(236 195 255 / 18%);
-  --modal-celebrations-confetti-burst-bg-2: rgb(29 9 47 / 92%);
-  --modal-celebrations-confetti-burst-border: rgb(236 195 255 / 12%);
-  position: relative;
-  width: 100%;
-  height: 240px;
   border-radius: 12px;
-  background: linear-gradient(180deg, var(--modal-celebrations-confetti-burst-bg-1), var(--modal-celebrations-confetti-burst-bg-2));
-  border: 1px solid var(--modal-celebrations-confetti-burst-border);
-  overflow: hidden;
-}
-[data-animation-id='modal-celebrations__confetti-burst'] .pf-celebration__layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-[data-animation-id='modal-celebrations__confetti-burst'] .pf-celebration__confetti {
-  position: absolute;
-  width: 8px;
-  height: 12px;
-  border-radius: 2px;
-  pointer-events: none;
+  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
+  border: 1px solid rgb(236 195 255 / 12%);
 }
 
-@keyframes celebration-confetti-burst {
+/* ─── Subtle origin flash (small, brief) ─── */
+@keyframes cb-flash {
   0% {
-    transform: translate(0, 0) scale(0.6) rotate(0deg);
+    transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
-  20% {
-    opacity: 1;
+  40% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.7;
   }
   100% {
-    transform: translate(var(--tx, 0), var(--ty, -160px)) scale(1) rotate(var(--rot, 0deg));
+    transform: translate(-50%, -50%) scale(1.6);
     opacity: 0;
   }
+}
+
+/* ─── Ambient glow (dim, slow fade) ─── */
+@keyframes cb-glow {
+  0% { opacity: 0; }
+  8% { opacity: 0.4; }
+  35% { opacity: 0.25; }
+  100% { opacity: 0; }
+}
+
+/* ─── Confetti burst: parabolic arc traced via many keyframe stops ─── */
+/* linear timing-function — the curve is baked into the keyframe values */
+@keyframes cb-confetti {
+  0% {
+    transform: translate(0, 0) scale(0) rotateX(0deg) rotateY(0deg) rotate(0deg);
+    opacity: 0;
+  }
+  /* Fast launch upward */
+  8% {
+    transform:
+      translate(calc(var(--tx) * 0.5), calc(var(--ty-peak) * 0.6))
+      scale(calc(var(--s) * 0.8))
+      rotateX(calc(var(--rx) * 0.08)) rotateY(calc(var(--ry) * 0.06)) rotate(calc(var(--rz) * 0.08));
+    opacity: calc(var(--peak-opacity, 1) * 0.8);
+  }
+  /* Approaching peak — decelerating */
+  14% {
+    transform:
+      translate(calc(var(--tx) * 0.78), calc(var(--ty-peak) * 0.92))
+      scale(calc(var(--s) * 1.05))
+      rotateX(calc(var(--rx) * 0.14)) rotateY(calc(var(--ry) * 0.11)) rotate(calc(var(--rz) * 0.14));
+    opacity: var(--peak-opacity, 1);
+  }
+  /* Peak — near-zero vertical speed */
+  20% {
+    transform:
+      translate(calc(var(--tx) * 0.88), var(--ty-peak))
+      scale(var(--s))
+      rotateX(calc(var(--rx) * 0.2)) rotateY(calc(var(--ry) * 0.16)) rotate(calc(var(--rz) * 0.2));
+    opacity: var(--peak-opacity, 1);
+  }
+  /* Hang phase — barely moving */
+  28% {
+    transform:
+      translate(calc(var(--tx) * 0.93), calc(var(--ty-peak) * 0.88))
+      scale(var(--s))
+      rotateX(calc(var(--rx) * 0.28)) rotateY(calc(var(--ry) * 0.22)) rotate(calc(var(--rz) * 0.28));
+    opacity: calc(var(--peak-opacity, 1) * 0.95);
+  }
+  /* Gravity starts pulling */
+  40% {
+    transform:
+      translate(calc(var(--tx) * 0.97), calc(var(--ty-peak) * 0.5))
+      scale(calc(var(--s) * 0.95))
+      rotateX(calc(var(--rx) * 0.4)) rotateY(calc(var(--ry) * 0.33)) rotate(calc(var(--rz) * 0.4));
+    opacity: calc(var(--peak-opacity, 1) * 0.85);
+  }
+  /* Falling through origin */
+  55% {
+    transform:
+      translate(calc(var(--tx) + var(--sway-x) * 0.2), calc(var(--ty-fall) * 0.15))
+      scale(calc(var(--s) * 0.9))
+      rotateX(calc(var(--rx) * 0.55)) rotateY(calc(var(--ry) * 0.46)) rotate(calc(var(--rz) * 0.55));
+    opacity: calc(var(--peak-opacity, 1) * 0.65);
+  }
+  /* Steady fall */
+  75% {
+    transform:
+      translate(calc(var(--tx) + var(--sway-x) * 0.6), calc(var(--ty-fall) * 0.55))
+      scale(calc(var(--s) * 0.8))
+      rotateX(calc(var(--rx) * 0.75)) rotateY(calc(var(--ry) * 0.63)) rotate(calc(var(--rz) * 0.75));
+    opacity: calc(var(--peak-opacity, 1) * 0.35);
+  }
+  /* Settled */
+  100% {
+    transform:
+      translate(calc(var(--tx) + var(--sway-x)), var(--ty-fall))
+      scale(calc(var(--s) * 0.7))
+      rotateX(var(--rx)) rotateY(var(--ry)) rotate(var(--rz));
+    opacity: 0;
+  }
+}
+
+/* ─── Sparkle twinkle ─── */
+@keyframes cb-sparkle {
+  0% { transform: scale(0); opacity: 0; }
+  20% { transform: scale(1.4); opacity: 0.9; }
+  50% { transform: scale(0.6); opacity: 0.3; }
+  75% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(0); opacity: 0; }
 }

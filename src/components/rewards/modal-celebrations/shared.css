@@ -1,1 +1,195 @@
-/* Shared styles for this group */
+/* ═══════════════════════════════════════════════════════════════
+   Shared styles for the modal-celebrations group
+   Foundation layer: flash, glow, shimmer, depth, shapes
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Base container ─── */
+.pf-celebration {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pf-celebration__layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ─── Depth layers ─── */
+.pf-celebration__depth-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pf-celebration__depth-fg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pf-celebration__effects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Origin flash ─── */
+.pf-celebration__flash {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 255 255 / 95%) 0%, rgb(255 206 26 / 60%) 30%, rgb(255 206 26 / 0%) 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ─── Shockwave ring ─── */
+.pf-celebration__shockwave {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 60%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ─── Radial glow overlay ─── */
+.pf-celebration__glow {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 206 26 / 40%) 0%, rgb(255 89 129 / 15%) 40%, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: opacity;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Shimmer sparkle dot ─── */
+.pf-celebration__sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 6px 2px rgb(255 255 255 / 80%);
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* ─── Confetti shapes ─── */
+.pf-celebration__confetti {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.pf-celebration__confetti--rect {
+  width: 8px;
+  height: 12px;
+  border-radius: 1.5px;
+}
+
+.pf-celebration__confetti--circle {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.pf-celebration__confetti--ribbon {
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.pf-celebration__confetti--star {
+  width: 10px;
+  height: 10px;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* ─── Firework elements ─── */
+.pf-celebration__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.pf-celebration__firework {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* ─── Spark ray (for fireworks) ─── */
+.pf-celebration__ray {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 20px;
+  border-radius: 1px;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* ─── Pulse ring ─── */
+.pf-celebration__pulse {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* ─── GPU acceleration hint for particle containers ─── */
+.pf-celebration__layer,
+.pf-celebration__depth-bg,
+.pf-celebration__depth-fg,
+.pf-celebration__effects {
+  will-change: contents;
+  contain: layout style;
+}

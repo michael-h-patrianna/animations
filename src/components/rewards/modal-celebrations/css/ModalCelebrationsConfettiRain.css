@@ -1,40 +1,63 @@
-/* Styles scoped for ModalCelebrationsConfettiRain */
-.pf-celebration {
-
-  --modal-celebrations-confetti-rain-bg-1: rgb(236 195 255 / 18%);
-  --modal-celebrations-confetti-rain-bg-2: rgb(29 9 47 / 92%);
-  --modal-celebrations-confetti-rain-border: rgb(236 195 255 / 12%);
-  position: relative;
-  width: 100%;
-  height: 240px;
+/* Scoped theme for ModalCelebrationsConfettiRain (CSS variant) */
+[data-animation-id='modal-celebrations__confetti-rain'].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, var(--modal-celebrations-confetti-rain-bg-1), var(--modal-celebrations-confetti-rain-bg-2));
-  border: 1px solid var(--modal-celebrations-confetti-rain-border);
-  overflow: hidden;
-}
-.pf-celebration__layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.pf-celebration__confetti {
-  position: absolute;
-  width: 8px;
-  height: 12px;
-  border-radius: 2px;
-  pointer-events: none;
+  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
+  border: 1px solid rgb(236 195 255 / 12%);
+  perspective: 600px;
 }
 
-@keyframes celebration-confetti-rain {
+/* ─── Top flash bar ─── */
+@keyframes cr-flash {
   0% {
-    transform: translateY(-160px) translateX(var(--dx, 0));
     opacity: 0;
+    transform: scaleX(0.3);
   }
-  15% {
+  20% {
     opacity: 1;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.6;
   }
   100% {
-    transform: translateY(220px) translateX(calc(var(--dx, 0px) + var(--drift, 0px)));
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+/* ─── Top glow ─── */
+@keyframes cr-glow {
+  0% { opacity: 0; }
+  10% { opacity: 0.9; }
+  40% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+/* ─── Confetti rain with 3D tumble ─── */
+@keyframes cr-confetti {
+  0% {
+    transform: translateY(0) translateX(0) scale(0) rotateX(0deg) rotateY(0deg) rotate(0deg);
     opacity: 0;
   }
+  20% {
+    transform: translateY(80px) translateX(var(--dx1)) scale(var(--s)) rotateX(calc(var(--rx) * 0.4)) rotateY(calc(var(--ry) * 0.3)) rotate(calc(var(--rz) * 0.4));
+    opacity: var(--peak-opacity, 1);
+  }
+  60% {
+    transform: translateY(180px) translateX(var(--dx2)) scale(var(--s)) rotateX(calc(var(--rx) * 0.8)) rotateY(calc(var(--ry) * 0.7)) rotate(calc(var(--rz) * 0.8));
+    opacity: calc(var(--peak-opacity, 1) * 0.8);
+  }
+  100% {
+    transform: translateY(280px) translateX(var(--dx3)) scale(calc(var(--s) * 0.4)) rotateX(var(--rx)) rotateY(var(--ry)) rotate(var(--rz));
+    opacity: 0;
+  }
+}
+
+/* ─── Sparkle twinkle ─── */
+@keyframes cr-sparkle {
+  0% { transform: scale(0); opacity: 0; }
+  20% { transform: scale(1.4); opacity: 1; }
+  50% { transform: scale(0.6); opacity: 0.3; }
+  75% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(0); opacity: 0; }
 }

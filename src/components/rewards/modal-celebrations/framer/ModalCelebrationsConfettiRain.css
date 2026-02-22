@@ -1,27 +1,7 @@
-/* Styles scoped for ModalCelebrationsConfettiRain */
-.pf-celebration {
-
-  --modal-celebrations-confetti-rain-bg-1: rgb(236 195 255 / 18%);
-  --modal-celebrations-confetti-rain-bg-2: rgb(29 9 47 / 92%);
-  --modal-celebrations-confetti-rain-border: rgb(236 195 255 / 12%);
-  position: relative;
-  width: 100%;
-  height: 240px;
+/* Scoped theme for ModalCelebrationsConfettiRain (Framer variant) */
+[data-animation-id='modal-celebrations__confetti-rain'].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, var(--modal-celebrations-confetti-rain-bg-1), var(--modal-celebrations-confetti-rain-bg-2));
-  border: 1px solid var(--modal-celebrations-confetti-rain-border);
-  overflow: hidden;
+  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
+  border: 1px solid rgb(236 195 255 / 12%);
+  perspective: 600px;
 }
-.pf-celebration__layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.pf-celebration__confetti {
-  position: absolute;
-  width: 8px;
-  height: 12px;
-  border-radius: 2px;
-  pointer-events: none;
-}
-
