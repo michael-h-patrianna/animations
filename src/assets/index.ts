@@ -1,5 +1,6 @@
 /* eslint-disable animation-rules/no-direct-image-imports */
 
+import arcanePortalRingImage from '@/assets/arcane-portal/portal-ring.png'
 import coinImage from '@/assets/coin.png'
 import dailyRewardFreeSpinsImage from '@/assets/daily-reward/free-spins.webp'
 import dailyRewardGcImage from '@/assets/daily-reward/gc.png'
@@ -29,6 +30,7 @@ import questlineRoyalMilestoneEmblem from '@/assets/questline-royal/milestone-em
 import shakeIcon from '@/assets/shake_icon.png'
 
 export {
+  arcanePortalRingImage,
   coinImage,
   dailyRewardFreeSpinsImage,
   dailyRewardGcImage,

@@ -3,21 +3,29 @@ import './shared.css'
 import './framer/PrizeRevealPirateChestNoWin.css'
 import './framer/PrizeRevealPirateChestWin.css'
 import './framer/PrizeRevealChestGcSc.css'
+import './framer/PrizeRevealArcanePortal.css'
 
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
 
 // Framer Motion - Import metadata only
+import { metadata as arcanePortalMetadata } from './framer/PrizeRevealArcanePortal.meta'
 import { metadata as chestGcScMetadata } from './framer/PrizeRevealChestGcSc.meta'
 import { metadata as pirateChestNoWinMetadata } from './framer/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinMetadata } from './framer/PrizeRevealPirateChestWin.meta'
 
 // CSS - Import metadata only
+import { metadata as arcanePortalCssMetadata } from './css/PrizeRevealArcanePortal.meta'
 import { metadata as chestGcScCssMetadata } from './css/PrizeRevealChestGcSc.meta'
 import { metadata as pirateChestNoWinCssMetadata } from './css/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinCssMetadata } from './css/PrizeRevealPirateChestWin.meta'
 
 // Framer Motion - Lazy load components
+const PrizeRevealArcanePortal = lazy(() =>
+  import('./framer/PrizeRevealArcanePortal').then((m) => ({
+    default: m.PrizeRevealArcanePortal,
+  }))
+)
 const PrizeRevealChestGcSc = lazy(() =>
   import('./framer/PrizeRevealChestGcSc').then((m) => ({
     default: m.PrizeRevealChestGcSc,
@@ -35,6 +43,11 @@ const PrizeRevealPirateChestWin = lazy(() =>
 )
 
 // CSS - Lazy load components
+const CssPrizeRevealArcanePortal = lazy(() =>
+  import('./css/PrizeRevealArcanePortal').then((m) => ({
+    default: m.PrizeRevealArcanePortal,
+  }))
+)
 const CssPrizeRevealChestGcSc = lazy(() =>
   import('./css/PrizeRevealChestGcSc').then((m) => ({
     default: m.PrizeRevealChestGcSc,
@@ -61,6 +74,10 @@ export const groupMetadata: GroupMetadata = {
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
   framer: {
+    'prize-reveal__arcane-portal': {
+      component: PrizeRevealArcanePortal,
+      metadata: arcanePortalMetadata,
+    },
     'prize-reveal__chest-gc-sc': {
       component: PrizeRevealChestGcSc,
       metadata: chestGcScMetadata,
@@ -75,6 +92,10 @@ export const groupExport: GroupExport = {
     },
   },
   css: {
+    'prize-reveal__arcane-portal': {
+      component: CssPrizeRevealArcanePortal,
+      metadata: arcanePortalCssMetadata,
+    },
     'prize-reveal__chest-gc-sc': {
       component: CssPrizeRevealChestGcSc,
       metadata: chestGcScCssMetadata,

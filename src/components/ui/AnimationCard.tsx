@@ -248,7 +248,7 @@ type FooterControlsProps = {
 
 const FooterControls = ({ animationId, controls, tags, disableReplay, onReplay }: FooterControlsProps) => {
   const isLightsAnimation = animationId.startsWith('lights__')
-  const isPrizeCountAnimation = animationId === 'prize-reveal__chest-gc-sc'
+  const isPrizeCountAnimation = animationId === 'prize-reveal__chest-gc-sc' || animationId === 'prize-reveal__arcane-portal'
   const { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey } = controls
 
   const handleBulbCountChange = (value: number) => { setBulbCount(clampBulbCount(value)); setReplayKey((k) => k + 1) }

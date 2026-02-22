@@ -1,0 +1,713 @@
+.pf-arcane-portal-css {
+  --burst-bg: rgb(120 140 255 / 60%);
+  --sparkle-bg: rgb(180 200 255);
+  --sparkle-glow: rgb(100 140 255 / 50%);
+  --text-shadow: rgb(0 0 0 / 40%);
+  --text-shadow-strong: rgb(0 0 0 / 50%);
+  --portal-glow-primary: rgb(100 130 255 / 50%);
+  --portal-glow-secondary: rgb(160 100 255 / 40%);
+  --rune-color: rgb(180 200 255 / 80%);
+  --vortex-bg: rgb(80 60 180 / 70%);
+  --shockwave-color: rgb(160 180 255 / 60%);
+  --ambient-glow: rgb(40 30 80 / 60%);
+  position: relative;
+  inline-size: 100%;
+  block-size: 280px;
+  overflow: hidden;
+}
+
+.pf-arcane-portal-css__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─── Background ambient glow ─── */
+
+.pf-arcane-portal-css__ambient {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 120px 100px var(--ambient-glow);
+  pointer-events: none;
+  animation: pf-ap-css-ambient-in 0.6s ease-out both;
+}
+
+/* ─── Portal ring ─── */
+
+.pf-arcane-portal-css__ring-wrap {
+  position: relative;
+  z-index: 3;
+  inline-size: 150px;
+  block-size: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: pf-ap-css-ring-materialize 0.7s cubic-bezier(0.16, 0.84, 0.32, 1) both;
+}
+
+.pf-arcane-portal-css__ring-wrap.is-charge {
+  animation: pf-ap-css-ring-pulse 0.8s ease-in-out infinite alternate;
+}
+
+.pf-arcane-portal-css__ring-wrap.is-erupt {
+  animation: pf-ap-css-ring-erupt 0.5s ease-out both;
+}
+
+.pf-arcane-portal-css__ring-image {
+  position: relative;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px var(--portal-glow-primary))
+    drop-shadow(0 0 40px var(--portal-glow-secondary));
+  animation: pf-ap-css-ring-spin 8s linear infinite;
+}
+
+.pf-arcane-portal-css__ring-glow {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 1px;
+  block-size: 1px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 60px 45px var(--portal-glow-primary),
+    0 0 90px 70px var(--portal-glow-secondary);
+  pointer-events: none;
+  animation: pf-ap-css-glow-in 0.5s ease-out 0.2s both;
+}
+
+.pf-arcane-portal-css__ring-wrap.is-charge .pf-arcane-portal-css__ring-glow {
+  animation: pf-ap-css-glow-pulse 0.6s ease-in-out infinite alternate;
+}
+
+.pf-arcane-portal-css__ring-wrap.is-erupt .pf-arcane-portal-css__ring-glow {
+  animation: pf-ap-css-glow-out 0.3s ease-out both;
+}
+
+/* ─── Inner vortex ─── */
+
+.pf-arcane-portal-css__vortex {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 1px;
+  block-size: 1px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 50px 40px var(--vortex-bg);
+  pointer-events: none;
+  animation: pf-ap-css-vortex-in 0.6s ease-out both;
+}
+
+.pf-arcane-portal-css__vortex.is-charge {
+  animation: pf-ap-css-vortex-charge 0.5s ease-in-out infinite alternate;
+}
+
+.pf-arcane-portal-css__vortex.is-erupt {
+  animation: pf-ap-css-vortex-erupt 0.3s ease-out both;
+}
+
+/* ─── Converging particles ─── */
+
+.pf-arcane-portal-css__particles {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  pointer-events: none;
+}
+
+.pf-arcane-portal-css__particle {
+  position: absolute;
+  inline-size: var(--size, 3px);
+  block-size: var(--size, 3px);
+  border-radius: 50%;
+  background: var(--sparkle-bg);
+  box-shadow: 0 0 6px 2px var(--sparkle-glow);
+  pointer-events: none;
+  animation: pf-ap-css-particle-converge 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--p-delay, 0s) both;
+  --start-x: 0px;
+  --start-y: 0px;
+}
+
+/* ─── Orbiting runes ─── */
+
+.pf-arcane-portal-css__runes {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-arcane-portal-css__rune {
+  position: absolute;
+  font-size: 14px;
+  color: var(--rune-color);
+  text-shadow: 0 0 8px var(--sparkle-glow);
+  line-height: 1;
+  pointer-events: none;
+  animation: pf-ap-css-rune-orbit 2.5s linear var(--rune-delay, 0s) both;
+}
+
+/* ─── Shockwave ─── */
+
+.pf-arcane-portal-css__shockwave {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 60px;
+  block-size: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--shockwave-color);
+  box-shadow: 0 0 20px 8px var(--shockwave-color);
+  pointer-events: none;
+  animation: pf-ap-css-shockwave 0.6s cubic-bezier(0.16, 0.84, 0.32, 1) both;
+}
+
+/* ─── Burst flash ─── */
+
+.pf-arcane-portal-css__burst {
+  position: absolute;
+  z-index: 6;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 120px 100px var(--burst-bg);
+  pointer-events: none;
+  animation: pf-ap-css-burst 0.55s ease-out both;
+}
+
+/* ─── Prizes ─── */
+
+.pf-arcane-portal-css__prizes {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.pf-arcane-portal-css__prize {
+  position: absolute;
+  inset-block-start: 28px;
+  inset-inline-start: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  animation: pf-ap-css-prize-fly 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--fly-delay, 0s) both;
+}
+
+/* Prize type colors */
+
+.pf-arcane-portal-css__prize--gc {
+  --ray-color: rgb(255 200 50 / 30%);
+  --glow-color: rgb(255 190 50 / 50%);
+  --label-color: rgb(255 220 100);
+  --amount-color: rgb(255 215 70);
+  --amount-glow: rgb(255 200 50 / 45%);
+}
+
+.pf-arcane-portal-css__prize--sc {
+  --ray-color: rgb(50 210 120 / 30%);
+  --glow-color: rgb(50 200 120 / 50%);
+  --label-color: rgb(100 225 145);
+  --amount-color: rgb(80 230 130);
+  --amount-glow: rgb(50 200 120 / 45%);
+}
+
+.pf-arcane-portal-css__prize--fs {
+  --ray-color: rgb(120 200 255 / 30%);
+  --glow-color: rgb(100 190 255 / 50%);
+  --label-color: rgb(140 215 255);
+  --amount-color: rgb(130 215 255);
+  --amount-glow: rgb(100 200 255 / 45%);
+}
+
+.pf-arcane-portal-css__prize--rr {
+  --ray-color: rgb(180 110 255 / 30%);
+  --glow-color: rgb(170 100 255 / 50%);
+}
+
+/* ─── Prize glow ─── */
+
+.pf-arcane-portal-css__prize-glow {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 1px;
+  block-size: 1px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 40px 30px var(--glow-color);
+  pointer-events: none;
+  animation: pf-ap-css-prize-glow-in 0.55s ease-out var(--glow-delay, 0.45s) both;
+}
+
+/* ─── Prize icon ─── */
+
+.pf-arcane-portal-css__prize-icon-wrap {
+  position: relative;
+  inline-size: 62px;
+  block-size: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.pf-arcane-portal-css__prize-icon {
+  position: relative;
+  z-index: 2;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 35%));
+}
+
+.pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
+  inline-size: 76px;
+  block-size: 64px;
+}
+
+/* ─── Prize rays ─── */
+
+.pf-arcane-portal-css__prize-rays-wrap {
+  position: absolute;
+  z-index: 1;
+  inline-size: 135px;
+  aspect-ratio: 1 / 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pf-ap-css-rays-in 0.5s cubic-bezier(0.16, 0.84, 0.32, 1) var(--rays-delay, 0.4s) both;
+}
+
+.pf-arcane-portal-css__prize-rays-spin {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  animation: pf-ap-css-ring-spin 12s linear infinite;
+}
+
+.pf-arcane-portal-css__prize-rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  animation: pf-ap-css-rays-pulse 2.8s ease-in-out infinite;
+}
+
+.pf-arcane-portal-css__prize-ray {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--ray-rotation));
+  transform-origin: 50% 50%;
+}
+
+.pf-arcane-portal-css__prize-ray::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 14px;
+  block-size: 92px;
+  background: linear-gradient(to bottom, var(--ray-color), transparent 85%);
+  clip-path: polygon(10% 0, 90% 0, 62% 100%, 38% 100%);
+  transform: translate(-50%, -100%);
+}
+
+/* ─── Prize text ─── */
+
+.pf-arcane-portal-css__prize-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  line-height: 1;
+  white-space: nowrap;
+  animation: pf-ap-css-text-in 0.45s cubic-bezier(0.16, 0.84, 0.32, 1) var(--text-delay, 0.55s) both;
+}
+
+.pf-arcane-portal-css__prize-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--label-color);
+  text-shadow: 0 1px 3px var(--text-shadow);
+}
+
+.pf-arcane-portal-css__prize-amount {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--amount-color);
+  text-shadow:
+    0 0 10px var(--amount-glow),
+    0 1px 3px var(--text-shadow-strong);
+}
+
+/* ─── Responsive sizing by prize count ─── */
+
+.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize-icon-wrap {
+  inline-size: 56px;
+  block-size: 47px;
+}
+
+.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
+  inline-size: 68px;
+  block-size: 57px;
+}
+
+.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize-rays-wrap {
+  inline-size: 120px;
+}
+
+.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize-glow {
+  box-shadow: 0 0 35px 25px var(--glow-color);
+}
+
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-icon-wrap {
+  inline-size: 46px;
+  block-size: 38px;
+}
+
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
+  inline-size: 56px;
+  block-size: 47px;
+}
+
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-rays-wrap {
+  inline-size: 100px;
+}
+
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-glow {
+  box-shadow: 0 0 30px 20px var(--glow-color);
+}
+
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-amount {
+  font-size: 15px;
+}
+
+.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize-ray::before {
+  block-size: 70px;
+  inline-size: 12px;
+}
+
+/* ─── Keyframes ─── */
+
+@keyframes pf-ap-css-ambient-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pf-ap-css-ring-materialize {
+  0% {
+    transform: scale(0) rotate(-30deg);
+    opacity: 0;
+  }
+
+  65% {
+    transform: scale(1.1) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes pf-ap-css-ring-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes pf-ap-css-ring-erupt {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  40% {
+    transform: scale(1.15) rotate(5deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.6) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes pf-ap-css-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pf-ap-css-glow-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.6;
+  }
+}
+
+@keyframes pf-ap-css-glow-pulse {
+  0% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pf-ap-css-glow-out {
+  from {
+    opacity: 0.6;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pf-ap-css-vortex-in {
+  0% {
+    opacity: 0;
+    scale: 0.3;
+  }
+
+  100% {
+    opacity: 0.7;
+    scale: 1;
+  }
+}
+
+@keyframes pf-ap-css-vortex-charge {
+  0% {
+    opacity: 0.7;
+    scale: 1;
+  }
+
+  100% {
+    opacity: 1;
+    scale: 1.15;
+  }
+}
+
+@keyframes pf-ap-css-vortex-erupt {
+  from {
+    opacity: 0.85;
+    scale: 1;
+  }
+
+  to {
+    opacity: 0;
+    scale: 1.8;
+  }
+}
+
+@keyframes pf-ap-css-particle-converge {
+  0% {
+    transform: translate(var(--start-x), var(--start-y));
+    opacity: 0;
+    scale: 0;
+  }
+
+  30% {
+    opacity: 1;
+    scale: 1.2;
+  }
+
+  80% {
+    opacity: 1;
+    scale: 1;
+  }
+
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+    scale: 0;
+  }
+}
+
+@keyframes pf-ap-css-rune-orbit {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+
+  15% {
+    opacity: 0.9;
+    scale: 1;
+  }
+
+  85% {
+    opacity: 0.9;
+    scale: 1;
+  }
+
+  100% {
+    opacity: 0;
+    scale: 0;
+  }
+}
+
+@keyframes pf-ap-css-shockwave {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pf-ap-css-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+
+  20% {
+    opacity: 0.95;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes pf-ap-css-prize-fly {
+  0% {
+    transform: translateX(-50%) translateY(80px);
+    scale: 0;
+    opacity: 0;
+  }
+
+  45% {
+    transform: translateX(calc(-50% + var(--fly-overshoot, 0px))) translateY(-14px);
+    scale: 1.18;
+    opacity: 1;
+  }
+
+  75% {
+    transform: translateX(calc(-50% + var(--fly-settle, 0px))) translateY(6px);
+    scale: 0.92;
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(calc(-50% + var(--fly-x, 0px))) translateY(0);
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes pf-ap-css-prize-glow-in {
+  0% {
+    opacity: 0;
+    scale: 0.3;
+  }
+
+  55% {
+    opacity: 0.85;
+    scale: 1.15;
+  }
+
+  100% {
+    opacity: 0.6;
+    scale: 1;
+  }
+}
+
+@keyframes pf-ap-css-rays-in {
+  from {
+    opacity: 0;
+    scale: 0.5;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes pf-ap-css-rays-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    scale: 0.96;
+  }
+
+  50% {
+    opacity: 0.82;
+    scale: 1.06;
+  }
+}
+
+@keyframes pf-ap-css-text-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
