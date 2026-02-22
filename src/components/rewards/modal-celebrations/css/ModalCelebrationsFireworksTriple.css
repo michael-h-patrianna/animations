@@ -1,44 +1,133 @@
-/* Styles scoped for ModalCelebrationsFireworksTriple */
-.pf-celebration {
+/* ═══════════════════════════════════════════════════════════════
+   ModalCelebrationsFireworksTriple — CSS keyframes
+   Triple starburst with radial spark rays, trail confetti, sparkles
+   ═══════════════════════════════════════════════════════════════ */
 
-  --modal-celebrations-fireworks-triple-bg-1: rgb(236 195 255 / 18%);
-  --modal-celebrations-fireworks-triple-bg-2: rgb(29 9 47 / 92%);
-  --modal-celebrations-fireworks-triple-border: rgb(236 195 255 / 12%);
-  position: relative;
-  width: 100%;
-  height: 240px;
+[data-animation-id="modal-celebrations__fireworks-triple"].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, var(--modal-celebrations-fireworks-triple-bg-1), var(--modal-celebrations-fireworks-triple-bg-2));
-  border: 1px solid var(--modal-celebrations-fireworks-triple-border);
-  overflow: hidden;
-}
-.pf-celebration__layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.pf-celebration__firework {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
+  border: 1px solid rgb(236 195 255 / 12%);
 }
 
-@keyframes celebration-firework-pop {
+/* ─── Flash at burst center ─── */
+@keyframes ft-flash {
   0% {
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
-  30% {
-    opacity: 1;
+  35% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
   }
   100% {
-    transform: translate(-50%, -50%) scale(var(--scale, 1.6));
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* ─── Expanding shockwave ring ─── */
+@keyframes ft-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(3.5);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+  }
+}
+
+/* ─── Spark ray — scaleY extension from burst center ─── */
+@keyframes ft-ray {
+  0% {
+    transform: translate(-50%, -100%) rotate(var(--a)) scaleY(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -100%) rotate(var(--a)) scaleY(1);
+    opacity: 0.95;
+  }
+  45% {
+    transform: translate(-50%, -100%) rotate(var(--a)) scaleY(0.85);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translate(-50%, -100%) rotate(var(--a)) scaleY(0.15);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translate(-50%, -100%) rotate(var(--a)) scaleY(0);
+    opacity: 0;
+  }
+}
+
+/* ─── Trail confetti — radial outward with gravity droop ─── */
+@keyframes ft-trail {
+  0% {
+    transform: translate(0, 0) scale(0) rotateZ(0);
+    opacity: 0;
+  }
+  8% {
+    transform:
+      translate(calc(var(--tx) * 0.15), calc(var(--ty) * 0.15))
+      scale(calc(var(--s) * 0.4))
+      rotateZ(calc(var(--rz) * 0.1));
+    opacity: calc(var(--peak-op) * 0.5);
+  }
+  20% {
+    transform:
+      translate(calc(var(--tx) * 0.58), calc(var(--ty) * 0.58))
+      scale(var(--s))
+      rotateZ(calc(var(--rz) * 0.3));
+    opacity: var(--peak-op);
+  }
+  50% {
+    transform:
+      translate(var(--tx), var(--ty))
+      scale(var(--s))
+      rotateZ(calc(var(--rz) * 0.6));
+    opacity: var(--peak-op);
+  }
+  75% {
+    transform:
+      translate(calc(var(--tx) * 1.05), calc(var(--ty) * 1.05 + 12px))
+      scale(calc(var(--s) * 0.7))
+      rotateZ(calc(var(--rz) * 0.85));
+    opacity: calc(var(--peak-op) * 0.5);
+  }
+  100% {
+    transform:
+      translate(calc(var(--tx) * 1.1), calc(var(--ty) * 1.1 + 35px))
+      scale(0)
+      rotateZ(var(--rz));
+    opacity: 0;
+  }
+}
+
+/* ─── Sparkle twinkle ─── */
+@keyframes ft-sparkle {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.3);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.4);
+    opacity: 0.25;
+  }
+  75% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(0);
     opacity: 0;
   }
 }

@@ -1,63 +1,143 @@
-/* Styles scoped for ModalCelebrationsConfettiPulse */
-.pf-celebration {
+/* ═══════════════════════════════════════════════════════════════
+   ModalCelebrationsConfettiPulse — CSS keyframes
+   Triple shockwave pulse: 3 rhythmic energy waves deposit confetti
+   ═══════════════════════════════════════════════════════════════ */
 
-  --modal-celebrations-confetti-pulse-bg-1: rgb(236 195 255 / 18%);
-  --modal-celebrations-confetti-pulse-bg-2: rgb(29 9 47 / 92%);
-  --modal-celebrations-confetti-pulse-border-1: rgb(236 195 255 / 12%);
-  --modal-celebrations-confetti-pulse-border-2: rgb(236 195 255 / 60%);
-  position: relative;
-  width: 100%;
-  height: 240px;
+[data-animation-id="modal-celebrations__confetti-pulse"].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, var(--modal-celebrations-confetti-pulse-bg-1), var(--modal-celebrations-confetti-pulse-bg-2));
-  border: 1px solid var(--modal-celebrations-confetti-pulse-border-1);
-  overflow: hidden;
-}
-.pf-celebration__layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.pf-celebration__confetti {
-  position: absolute;
-  width: 8px;
-  height: 12px;
-  border-radius: 2px;
-  pointer-events: none;
-}
-.pf-celebration__pulse {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid var(--modal-celebrations-confetti-pulse-border-2);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
+  border: 1px solid rgb(236 195 255 / 12%);
 }
 
-@keyframes celebration-confetti-burst {
+/* ─── Triple-pulse flash — 3 beats in sync with waves ─── */
+@keyframes cp-flash {
   0% {
-    transform: translate(0, 0) scale(0.6) rotate(0deg);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  6% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  22% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.1;
+  }
+  28% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+  }
+  44% {
+    transform: translate(-50%, -50%) scale(0.15);
+    opacity: 0.08;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ─── Glow pulsing with wave rhythm ─── */
+@keyframes cp-glow {
+  0% { opacity: 0; }
+  6% { opacity: 0.35; }
+  22% { opacity: 0.06; }
+  28% { opacity: 0.4; }
+  44% { opacity: 0.04; }
+  50% { opacity: 0.45; }
+  100% { opacity: 0; }
+}
+
+/* ─── Expanding shockwave ring ─── */
+@keyframes cp-wave {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  35% {
+    transform: translate(-50%, -50%) scale(calc(var(--max-scale) * 0.6));
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(var(--max-scale));
+    opacity: 0;
+  }
+}
+
+/* ─── Confetti particle pushed outward by wave ───
+   Particles spawn at wave radius (positioned via left/top),
+   then drift outward relative to that position with gravity.
+   --tx, --ty  = drift offset to endpoint (px)
+   --s         = peak scale
+   --peak-op   = peak opacity
+   --rz        = tumble rotation (deg)
+   linear timing — easing baked into keyframe stops. */
+@keyframes cp-particle {
+  0% {
+    transform: translate(0, 0) scale(0) rotateZ(0);
+    opacity: 0;
+  }
+  8% {
+    transform:
+      translate(calc(var(--tx) * 0.08), calc(var(--ty) * 0.08))
+      scale(calc(var(--s) * 0.4))
+      rotateZ(calc(var(--rz) * 0.05));
+    opacity: calc(var(--peak-op) * 0.5);
+  }
+  20% {
+    transform:
+      translate(calc(var(--tx) * 0.3), calc(var(--ty) * 0.3))
+      scale(var(--s))
+      rotateZ(calc(var(--rz) * 0.2));
+    opacity: var(--peak-op);
+  }
+  50% {
+    transform:
+      translate(calc(var(--tx) * 0.7), calc(var(--ty) * 0.7))
+      scale(var(--s))
+      rotateZ(calc(var(--rz) * 0.5));
+    opacity: var(--peak-op);
+  }
+  75% {
+    transform:
+      translate(var(--tx), calc(var(--ty) + 12px))
+      scale(calc(var(--s) * 0.7))
+      rotateZ(calc(var(--rz) * 0.8));
+    opacity: calc(var(--peak-op) * 0.5);
+  }
+  100% {
+    transform:
+      translate(calc(var(--tx) * 1.05), calc(var(--ty) * 1.05 + 35px))
+      scale(0)
+      rotateZ(var(--rz));
+    opacity: 0;
+  }
+}
+
+/* ─── Sparkle twinkle ─── */
+@keyframes cp-sparkle {
+  0% {
+    transform: scale(0);
     opacity: 0;
   }
   20% {
-    opacity: 1;
+    transform: scale(1.3);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.3;
+  }
+  75% {
+    transform: scale(1);
+    opacity: 0.65;
   }
   100% {
-    transform: translate(var(--tx, 0), var(--ty, -160px)) scale(1) rotate(var(--rot, 0deg));
-    opacity: 0;
-  }
-}
-
-@keyframes celebration-pulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0.2);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2.8);
+    transform: scale(0);
     opacity: 0;
   }
 }

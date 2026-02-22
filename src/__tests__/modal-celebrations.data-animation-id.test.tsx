@@ -10,6 +10,7 @@ import { ModalCelebrationsConfettiRain as CssModalCelebrationsConfettiRain } fro
 import { ModalCelebrationsConfettiSpiral as CssModalCelebrationsConfettiSpiral } from '@/components/rewards/modal-celebrations/css/ModalCelebrationsConfettiSpiral'
 import { ModalCelebrationsFireworksRing as CssModalCelebrationsFireworksRing } from '@/components/rewards/modal-celebrations/css/ModalCelebrationsFireworksRing'
 import { ModalCelebrationsFireworksTriple as CssModalCelebrationsFireworksTriple } from '@/components/rewards/modal-celebrations/css/ModalCelebrationsFireworksTriple'
+import { ModalCelebrationsFirework as CssModalCelebrationsFirework } from '@/components/rewards/modal-celebrations/css/ModalCelebrationsFirework'
 import { ModalCelebrationsTreasureParticles as CssModalCelebrationsTreasureParticles } from '@/components/rewards/modal-celebrations/css/ModalCelebrationsTreasureParticles'
 import { ModalCelebrationsCoinCascade as FramerModalCelebrationsCoinCascade } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinCascade'
 import { ModalCelebrationsCoinsArc as FramerModalCelebrationsCoinsArc } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinsArc'
@@ -20,6 +21,7 @@ import { ModalCelebrationsConfettiRain as FramerModalCelebrationsConfettiRain } 
 import { ModalCelebrationsConfettiSpiral as FramerModalCelebrationsConfettiSpiral } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsConfettiSpiral'
 import { ModalCelebrationsFireworksRing as FramerModalCelebrationsFireworksRing } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFireworksRing'
 import { ModalCelebrationsFireworksTriple as FramerModalCelebrationsFireworksTriple } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFireworksTriple'
+import { ModalCelebrationsFirework as FramerModalCelebrationsFirework } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFirework'
 import { ModalCelebrationsTreasureParticles as FramerModalCelebrationsTreasureParticles } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsTreasureParticles'
 
 function expectAnimationIdPresent(Component: () => JSX.Element, animationId: string) {
@@ -38,6 +40,7 @@ describe('modal-celebrations components expose data-animation-id', () => {
     { name: 'CSS confetti-spiral', component: CssModalCelebrationsConfettiSpiral, id: 'modal-celebrations__confetti-spiral' },
     { name: 'CSS fireworks-ring', component: CssModalCelebrationsFireworksRing, id: 'modal-celebrations__fireworks-ring' },
     { name: 'CSS fireworks-triple', component: CssModalCelebrationsFireworksTriple, id: 'modal-celebrations__fireworks-triple' },
+    { name: 'CSS firework', component: CssModalCelebrationsFirework, id: 'modal-celebrations__firework' },
     { name: 'CSS treasure-particles', component: CssModalCelebrationsTreasureParticles, id: 'modal-celebrations__treasure-particles' },
     { name: 'Framer coin-cascade', component: FramerModalCelebrationsCoinCascade, id: 'modal-celebrations__coin-cascade' },
     { name: 'Framer coins-arc', component: FramerModalCelebrationsCoinsArc, id: 'modal-celebrations__coins-arc' },
@@ -48,6 +51,7 @@ describe('modal-celebrations components expose data-animation-id', () => {
     { name: 'Framer confetti-spiral', component: FramerModalCelebrationsConfettiSpiral, id: 'modal-celebrations__confetti-spiral' },
     { name: 'Framer fireworks-ring', component: FramerModalCelebrationsFireworksRing, id: 'modal-celebrations__fireworks-ring' },
     { name: 'Framer fireworks-triple', component: FramerModalCelebrationsFireworksTriple, id: 'modal-celebrations__fireworks-triple' },
+    { name: 'Framer firework', component: FramerModalCelebrationsFirework, id: 'modal-celebrations__firework' },
     {
       name: 'Framer treasure-particles',
       component: FramerModalCelebrationsTreasureParticles,

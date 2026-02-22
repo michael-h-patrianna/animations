@@ -12,6 +12,9 @@ import dailyRewardGcImage from '@/assets/daily-reward/gc.png'
 import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.png'
 import dailyRewardScImage from '@/assets/daily-reward/sc.png'
 import diamondImage from '@/assets/Diamonds.png'
+import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
+import modalCelebrationsFireworkParticle2Image from '@/assets/modal-celebrations/firework-particle-2.webp'
+import modalCelebrationsFireworkParticle3Image from '@/assets/modal-celebrations/firework-particle-3.webp'
 import githubIcon from '@/assets/github.svg'
 import homeIcon1 from '@/assets/home-icon1.png'
 import homeIcon2 from '@/assets/home-icon2.png'
@@ -47,6 +50,9 @@ export {
   dailyRewardRandomRewardImage,
   dailyRewardScImage,
   diamondImage,
+  modalCelebrationsFireworkParticle1Image,
+  modalCelebrationsFireworkParticle2Image,
+  modalCelebrationsFireworkParticle3Image,
   githubIcon,
   homeIcon1,
   homeIcon2,

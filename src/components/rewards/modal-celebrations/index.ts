@@ -3,9 +3,11 @@ import './shared.css'
 import './framer/ModalCelebrationsCoinsArc.css'
 import './framer/ModalCelebrationsConfettiBurst.css'
 import './framer/ModalCelebrationsConfettiRain.css'
+import './framer/ModalCelebrationsConfettiPulse.css'
 import './framer/ModalCelebrationsConfettiSpiral.css'
 import './framer/ModalCelebrationsFireworksRing.css'
 import './framer/ModalCelebrationsFireworksTriple.css'
+import './framer/ModalCelebrationsFirework.css'
 import './framer/ModalCelebrationsTreasureParticles.css'
 
 import type { GroupExport, GroupMetadata } from '@/types/animation'
@@ -18,6 +20,7 @@ import { metadata as confettiRainMetadata } from './framer/ModalCelebrationsConf
 import { metadata as confettiSpiralMetadata } from './framer/ModalCelebrationsConfettiSpiral.meta'
 import { metadata as fireworksRingMetadata } from './framer/ModalCelebrationsFireworksRing.meta'
 import { metadata as fireworksTripleMetadata } from './framer/ModalCelebrationsFireworksTriple.meta'
+import { metadata as fireworkMetadata } from './framer/ModalCelebrationsFirework.meta'
 import { metadata as treasureParticlesMetadata } from './framer/ModalCelebrationsTreasureParticles.meta'
 import { metadata as coinCascadeMetadata } from './framer/ModalCelebrationsCoinCascade.meta'
 import { metadata as coinsSwirlMetadata } from './framer/ModalCelebrationsCoinsSwirl.meta'
@@ -32,6 +35,7 @@ import { metadata as confettiRainCssMetadata } from './css/ModalCelebrationsConf
 import { metadata as confettiSpiralCssMetadata } from './css/ModalCelebrationsConfettiSpiral.meta'
 import { metadata as fireworksRingCssMetadata } from './css/ModalCelebrationsFireworksRing.meta'
 import { metadata as fireworksTripleCssMetadata } from './css/ModalCelebrationsFireworksTriple.meta'
+import { metadata as fireworkCssMetadata } from './css/ModalCelebrationsFirework.meta'
 import { metadata as treasureParticlesCssMetadata } from './css/ModalCelebrationsTreasureParticles.meta'
 
 // Framer Motion - Lazy load components
@@ -63,6 +67,11 @@ const ModalCelebrationsFireworksRing = lazy(() =>
 const ModalCelebrationsFireworksTriple = lazy(() =>
   import('./framer/ModalCelebrationsFireworksTriple').then((m) => ({
     default: m.ModalCelebrationsFireworksTriple,
+  }))
+)
+const ModalCelebrationsFirework = lazy(() =>
+  import('./framer/ModalCelebrationsFirework').then((m) => ({
+    default: m.ModalCelebrationsFirework,
   }))
 )
 const ModalCelebrationsTreasureParticles = lazy(() =>
@@ -129,6 +138,11 @@ const CssModalCelebrationsFireworksTriple = lazy(() =>
     default: m.ModalCelebrationsFireworksTriple,
   }))
 )
+const CssModalCelebrationsFirework = lazy(() =>
+  import('./css/ModalCelebrationsFirework').then((m) => ({
+    default: m.ModalCelebrationsFirework,
+  }))
+)
 const CssModalCelebrationsTreasureParticles = lazy(() =>
   import('./css/ModalCelebrationsTreasureParticles').then((m) => ({
     default: m.ModalCelebrationsTreasureParticles,
@@ -168,6 +182,10 @@ export const groupExport: GroupExport = {
     'modal-celebrations__fireworks-ring': {
       component: ModalCelebrationsFireworksRing,
       metadata: fireworksRingMetadata,
+    },
+    'modal-celebrations__firework': {
+      component: ModalCelebrationsFirework,
+      metadata: fireworkMetadata,
     },
     'modal-celebrations__treasure-particles': {
       component: ModalCelebrationsTreasureParticles,
@@ -210,6 +228,10 @@ export const groupExport: GroupExport = {
     'modal-celebrations__fireworks-ring': {
       component: CssModalCelebrationsFireworksRing,
       metadata: fireworksRingCssMetadata,
+    },
+    'modal-celebrations__firework': {
+      component: CssModalCelebrationsFirework,
+      metadata: fireworkCssMetadata,
     },
     'modal-celebrations__treasure-particles': {
       component: CssModalCelebrationsTreasureParticles,

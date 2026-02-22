@@ -44,6 +44,9 @@ function isInfiniteAnimation(groupId: string, animationId: string): boolean {
     'realtime-data__live-score-update',
     'realtime-data__currency-update',
     'realtime-data__win-ticker',
+
+    // Celebration effects that are designed as perpetual loops
+    'modal-celebrations__firework',
   ]
 
   return infiniteAnimations.includes(animationId)

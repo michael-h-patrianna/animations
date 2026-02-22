@@ -43,7 +43,7 @@
   --pf-transition-fast: 160ms;
   --pf-transition-base: 280ms;
   --pf-transition-slow: 440ms;
-  --pf-demo-height: 100px;
+  --pf-demo-height: 240px;
 
   /* Animation palette */
   --pf-anim-blue: #60a5fa;
@@ -51,7 +51,7 @@
   --pf-anim-green: #c6ff77;
   --pf-anim-green-dark: #a8e65c;
   --pf-anim-green-bright: #a8ff3e;
-  --pf-anim-gold: #FFD700;
+  --pf-anim-gold: #ffd700;
   --pf-anim-purple: rgb(168 85 247);
   --pf-anim-purple-dark: rgb(147 51 234);
   --pf-anim-red: #ef4444;

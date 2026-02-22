@@ -1,0 +1,31 @@
+.mc-firework {
+  position: relative;
+  width: 100%;
+  min-height: var(--pf-demo-height, 220px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mc-firework .mc-firework__wave {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mc-firework .mc-firework__burst {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.mc-firework .mc-firework__particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  pointer-events: none;
+  will-change: transform, opacity;
+}

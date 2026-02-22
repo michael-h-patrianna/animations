@@ -1,0 +1,70 @@
+.mc-firework {
+  position: relative;
+  width: 100%;
+  min-height: var(--pf-demo-height, 220px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mc-firework .mc-firework__wave {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mc-firework .mc-firework__burst {
+  position: absolute;
+  pointer-events: none;
+}
+
+.mc-firework--css .mc-firework__particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: mc-firework-cycle var(--fw-cycle-duration, 2.5s) linear infinite;
+  animation-delay: var(--fw-delay, 0s);
+}
+
+.mc-firework--css .mc-firework__particle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+@keyframes mc-firework-cycle {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  60% {
+    transform: translate(var(--fw-x, 0), var(--fw-y, 0)) rotate(var(--fw-rotation, 0deg)) scale(var(--fw-scale, 1));
+    opacity: 1;
+  }
+
+  84% {
+    transform:
+      translate(var(--fw-x, 0), calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px)))
+      rotate(calc(var(--fw-rotation, 0deg) + 180deg))
+      scale(calc(var(--fw-scale, 1) * 0.5));
+    opacity: 0;
+  }
+
+  100% {
+    transform:
+      translate(var(--fw-x, 0), calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px)))
+      rotate(calc(var(--fw-rotation, 0deg) + 180deg))
+      scale(0);
+    opacity: 0;
+  }
+}
