@@ -171,7 +171,7 @@ function RayLayer({ rays }: { rays: Ray[] }) {
               background: `linear-gradient(to top, transparent 0%, ${r.color} 35%, var(--pf-base-50) 94%)`,
               transformOrigin: '50% 100%',
               '--a': `${r.angle}deg`,
-              animation: `ft-ray ${r.dur}ms ease-out ${r.delay}ms forwards`,
+              animation: `ft-ray ${r.dur}ms ease-out ${r.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -197,7 +197,7 @@ function TrailLayer({ trails }: { trails: Trail[] }) {
               '--s': t.scale,
               '--peak-op': t.peakOp,
               '--rz': `${t.rotZ}deg`,
-              animation: `ft-trail ${t.dur}ms linear ${t.delay}ms forwards`,
+              animation: `ft-trail ${t.dur}ms linear ${t.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -218,7 +218,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             top: `calc(50% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            animation: `ft-sparkle 1000ms ease-out ${s.delay}ms forwards`,
+            animation: `ft-sparkle 1000ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -247,7 +247,7 @@ export function ModalCelebrationsFireworksTriple() {
           style={{
             left: `calc(50% + ${b.cx}px)`,
             top: `calc(50% + ${b.cy}px)`,
-            animation: `ft-flash 220ms ease-out ${b.delay * 1000}ms forwards`,
+            animation: `ft-flash 220ms ease-out ${b.delay * 1000}ms both`,
           }}
         />
       ))}
@@ -259,7 +259,7 @@ export function ModalCelebrationsFireworksTriple() {
             left: `calc(50% + ${b.cx}px)`,
             top: `calc(50% + ${b.cy}px)`,
             borderColor: b.colors[0],
-            animation: `ft-ring 600ms ease-out ${b.delay * 1000 + 20}ms forwards`,
+            animation: `ft-ring 600ms ease-out ${b.delay * 1000 + 20}ms both`,
           }}
         />
       ))}

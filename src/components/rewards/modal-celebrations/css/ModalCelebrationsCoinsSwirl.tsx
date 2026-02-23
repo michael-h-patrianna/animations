@@ -143,7 +143,7 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
               '--spin': c.spin,
               '--tumble': c.tumble,
               '--om': c.om,
-              animation: `cs-coin ${c.dur}ms linear ${c.delay}ms forwards`,
+              animation: `cs-coin ${c.dur}ms linear ${c.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -169,7 +169,7 @@ function TrailLayer({ trails }: { trails: Mote[] }) {
             boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `cs-trail 400ms ease-out ${t.delay}ms forwards`,
+            animation: `cs-trail 400ms ease-out ${t.delay}ms both`,
           }}
         />
       ))}
@@ -191,7 +191,7 @@ function SparkleLayer({ sparkles }: { sparkles: Mote[] }) {
             height: `${s.size}px`,
             background: s.color,
             boxShadow: `0 0 4px 1px ${s.color}`,
-            animation: `cs-sparkle 700ms ease-out ${s.delay}ms forwards`,
+            animation: `cs-sparkle 700ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -225,7 +225,7 @@ export function ModalCelebrationsCoinsSwirl() {
           background: 'var(--pf-anim-gold)',
           boxShadow: '0 0 24px 16px var(--pf-anim-gold)',
           pointerEvents: 'none',
-          animation: 'cs-core-glow 1800ms ease-out forwards',
+          animation: 'cs-core-glow 1800ms ease-out both',
         }}
       />
       <div className="pf-celebration__depth-bg">

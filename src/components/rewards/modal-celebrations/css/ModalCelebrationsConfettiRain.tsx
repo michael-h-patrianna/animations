@@ -96,7 +96,7 @@ function ConfettiLayer({ particles, peakOpacity }: { particles: Particle[]; peak
               '--rz': `${p.rotZ}deg`,
               '--s': p.scale,
               '--peak-opacity': peakOpacity,
-              animation: `cr-confetti ${p.dur}ms cubic-bezier(0.12, 0, 0.39, 0) ${p.delay}ms forwards`,
+              animation: `cr-confetti ${p.dur}ms cubic-bezier(0.12, 0, 0.39, 0) ${p.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -117,7 +117,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             top: `calc(50% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            animation: `cr-sparkle 1.1s ease-out ${s.delay}ms forwards`,
+            animation: `cr-sparkle 1.1s ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -148,7 +148,7 @@ export function ModalCelebrationsConfettiRain() {
           background: 'linear-gradient(180deg, rgb(255 206 26 / 35%) 0%, rgb(236 195 255 / 15%) 50%, transparent 100%)',
           pointerEvents: 'none',
           zIndex: 0,
-          animation: 'cr-glow 2s ease-out forwards',
+          animation: 'cr-glow 2s ease-out both',
         }}
       />
 
@@ -163,7 +163,7 @@ export function ModalCelebrationsConfettiRain() {
           background: 'linear-gradient(90deg, transparent 5%, rgb(255 255 255 / 90%) 50%, transparent 95%)',
           zIndex: 3,
           pointerEvents: 'none',
-          animation: 'cr-flash 500ms ease-out forwards',
+          animation: 'cr-flash 500ms ease-out both',
         }}
       />
 

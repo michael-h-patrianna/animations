@@ -155,7 +155,7 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
               '--spin': c.spin,
               '--tumble': c.tumble,
               '--om': c.om,
-              animation: `ca-coin ${c.dur}ms linear ${c.delay}ms forwards`,
+              animation: `ca-coin ${c.dur}ms linear ${c.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -181,7 +181,7 @@ function GlintLayer({ glints }: { glints: Glint[] }) {
             boxShadow: `0 0 ${g.size + 3}px ${Math.round(g.size * 0.6)}px ${g.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `ca-glint 350ms ease-out ${g.delay}ms forwards`,
+            animation: `ca-glint 350ms ease-out ${g.delay}ms both`,
           }}
         />
       ))}
@@ -203,7 +203,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             height: `${s.size}px`,
             background: s.color,
             boxShadow: `0 0 4px 1px ${s.color}`,
-            animation: `ca-sparkle 800ms ease-out ${s.delay}ms forwards`,
+            animation: `ca-sparkle 800ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -225,11 +225,11 @@ export function ModalCelebrationsCoinsArc() {
     <div className="pf-celebration" data-animation-id="modal-celebrations__coins-arc">
       <div
         className="pf-celebration__glow"
-        style={{ left: '50%', top: '65%', animation: 'ca-glow 1600ms ease-out forwards' }}
+        style={{ left: '50%', top: '65%', animation: 'ca-glow 1600ms ease-out both' }}
       />
       <div
         className="pf-celebration__flash"
-        style={{ left: '50%', top: '65%', animation: 'ca-flash 400ms ease-out forwards' }}
+        style={{ left: '50%', top: '65%', animation: 'ca-flash 400ms ease-out both' }}
       />
       <div className="pf-celebration__depth-bg">
         <CoinLayer coins={bgCoins} />

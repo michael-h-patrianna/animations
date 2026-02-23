@@ -130,7 +130,7 @@ function ParticleLayer({ particles }: { particles: CssParticle[] }) {
               '--s': p.scale,
               '--peak-op': p.peakOp,
               '--rz': `${p.rotZ}deg`,
-              animation: `cp-particle ${p.dur}ms linear ${p.delay}ms forwards`,
+              animation: `cp-particle ${p.dur}ms linear ${p.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -151,7 +151,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             top: `calc(50% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            animation: `cp-sparkle 1200ms ease-out ${s.delay}ms forwards`,
+            animation: `cp-sparkle 1200ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -172,11 +172,11 @@ export function ModalCelebrationsConfettiPulse() {
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">
       <div
         className="pf-celebration__glow"
-        style={{ animation: 'cp-glow 2000ms ease-out forwards' }}
+        style={{ animation: 'cp-glow 2000ms ease-out both' }}
       />
       <div
         className="pf-celebration__flash"
-        style={{ animation: 'cp-flash 1400ms ease-out forwards' }}
+        style={{ animation: 'cp-flash 1400ms ease-out both' }}
       />
 
       {WAVES.map((w, i) => (
@@ -188,7 +188,7 @@ export function ModalCelebrationsConfettiPulse() {
               borderColor: w.color,
               borderWidth: '3px',
               '--max-scale': w.maxScale,
-              animation: `cp-wave 1000ms ease-out ${w.delay * 1000}ms forwards`,
+              animation: `cp-wave 1000ms ease-out ${w.delay * 1000}ms both`,
             } as React.CSSProperties
           }
         />

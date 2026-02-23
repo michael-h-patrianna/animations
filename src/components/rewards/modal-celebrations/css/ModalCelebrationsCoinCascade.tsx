@@ -168,7 +168,7 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
               '--spin': c.spin,
               '--tumble': c.tumble,
               '--om': c.om,
-              animation: `cc-coin ${c.dur}ms linear ${c.delay}ms forwards`,
+              animation: `cc-coin ${c.dur}ms linear ${c.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -194,7 +194,7 @@ function TrailLayer({ trails }: { trails: Mote[] }) {
             boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `cc-trail 400ms ease-out ${t.delay}ms forwards`,
+            animation: `cc-trail 400ms ease-out ${t.delay}ms both`,
           }}
         />
       ))}
@@ -219,7 +219,7 @@ function ImpactLayer({ impacts }: { impacts: Mote[] }) {
             boxShadow: `0 0 ${imp.size + 4}px ${Math.round(imp.size * 0.8)}px ${imp.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `cc-impact 350ms ease-out ${imp.delay}ms forwards`,
+            animation: `cc-impact 350ms ease-out ${imp.delay}ms both`,
           }}
         />
       ))}
@@ -241,7 +241,7 @@ function ShimmerLayer({ shimmers }: { shimmers: Mote[] }) {
             height: `${s.size}px`,
             background: s.color,
             boxShadow: `0 0 4px 1px ${s.color}`,
-            animation: `cc-shimmer 700ms ease-out ${s.delay}ms forwards`,
+            animation: `cc-shimmer 700ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -278,7 +278,7 @@ export function ModalCelebrationsCoinCascade() {
             background: 'var(--pf-anim-gold)',
             boxShadow: '0 0 18px 12px var(--pf-anim-gold)',
             pointerEvents: 'none',
-            animation: `cc-source-glow 1500ms ease-out ${i * 50}ms forwards`,
+            animation: `cc-source-glow 1500ms ease-out ${i * 50}ms both`,
           }}
         />
       ))}

@@ -99,7 +99,7 @@ function ConfettiLayer({ particles, peakOpacity }: { particles: Particle[]; peak
               '--rz': `${p.rotZ}deg`,
               '--s': p.scale,
               '--peak-opacity': peakOpacity,
-              animation: `cb-confetti ${p.dur}ms linear ${p.delay}ms forwards`,
+              animation: `cb-confetti ${p.dur}ms linear ${p.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -120,7 +120,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             top: `calc(55% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            animation: `cb-sparkle 1.4s ease-out ${s.delay}ms forwards`,
+            animation: `cb-sparkle 1.4s ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -139,8 +139,8 @@ export function ModalCelebrationsConfettiBurst() {
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst">
-      <div className="pf-celebration__glow" style={{ animation: 'cb-glow 2.8s ease-out forwards' }} />
-      <div className="pf-celebration__flash" style={{ animation: 'cb-flash 250ms ease-out forwards' }} />
+      <div className="pf-celebration__glow" style={{ animation: 'cb-glow 2.8s ease-out both' }} />
+      <div className="pf-celebration__flash" style={{ animation: 'cb-flash 250ms ease-out both' }} />
 
       <div className="pf-celebration__depth-bg">
         <ConfettiLayer particles={bgParts} peakOpacity="0.5" />

@@ -208,7 +208,7 @@ function EmberLayer({ embers }: { embers: Ember[] }) {
               '--ex': `${e.ex}px`,
               '--ey': `${e.ey}px`,
               '--om': e.tailOm,
-              animation: `fr-ember ${DURATION}ms linear ${e.delay + 50}ms forwards`,
+              animation: `fr-ember ${DURATION}ms linear ${e.delay + 50}ms both`,
             } as React.CSSProperties
           }
         />
@@ -234,7 +234,7 @@ function EmberLayer({ embers }: { embers: Ember[] }) {
               '--ex': `${e.ex}px`,
               '--ey': `${e.ey}px`,
               '--om': e.om,
-              animation: `fr-ember ${DURATION}ms linear ${e.delay}ms forwards`,
+              animation: `fr-ember ${DURATION}ms linear ${e.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -260,7 +260,7 @@ function ShimmerLayer({ shimmers }: { shimmers: Shimmer[] }) {
             boxShadow: `0 0 4px 1px ${s.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `fr-shimmer ${DURATION}ms linear ${s.delay}ms forwards`,
+            animation: `fr-shimmer ${DURATION}ms linear ${s.delay}ms both`,
           }}
         />
       ))}
@@ -285,7 +285,7 @@ function BurstLayer({ bursts }: { bursts: Burst[] }) {
               '--bs': b.bs,
               '--bop': b.bop,
               '--brz': `${b.brz}deg`,
-              animation: `fr-burst ${b.dur}ms linear ${b.delay}ms forwards`,
+              animation: `fr-burst ${b.dur}ms linear ${b.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -306,7 +306,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             top: `calc(50% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            animation: `fr-sparkle 900ms ease-out ${s.delay}ms forwards`,
+            animation: `fr-sparkle 900ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -329,11 +329,11 @@ export function ModalCelebrationsFireworksRing() {
     <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">
       <div
         className="pf-celebration__glow"
-        style={{ left: '50%', top: '50%', animation: `fr-glow ${DURATION}ms linear forwards` }}
+        style={{ left: '50%', top: '50%', animation: `fr-glow ${DURATION}ms linear both` }}
       />
       <div
         className="pf-celebration__flash"
-        style={{ left: '50%', top: '50%', animation: `fr-flash ${DURATION}ms linear forwards` }}
+        style={{ left: '50%', top: '50%', animation: `fr-flash ${DURATION}ms linear both` }}
       />
       <div className="pf-celebration__depth-bg">
         <EmberLayer embers={bgEmbers} />

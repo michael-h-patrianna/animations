@@ -114,7 +114,7 @@ function SpiralLayer({ particles, peakOpacity }: { particles: SpiralParticle[]; 
               '--rz': `${p.rotZ}deg`,
               '--s': p.scale,
               '--peak-opacity': peakOpacity,
-              animation: `cs-tornado ${p.dur}ms linear ${p.delay}ms forwards`,
+              animation: `cs-tornado ${p.dur}ms linear ${p.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -136,7 +136,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             top: `calc(50% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            animation: `cs-sparkle 1.2s ease-out ${s.delay}ms forwards`,
+            animation: `cs-sparkle 1.2s ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -155,7 +155,7 @@ export function ModalCelebrationsConfettiSpiral() {
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">
-      <div className="pf-celebration__flash" style={{ animation: 'cs-flash 250ms ease-out forwards' }} />
+      <div className="pf-celebration__flash" style={{ animation: 'cs-flash 250ms ease-out both' }} />
 
       <div className="pf-celebration__depth-bg">
         <SpiralLayer particles={bgParts} peakOpacity="0.5" />

@@ -163,7 +163,7 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
               '--grav': `${c.grav}px`,
               '--spin': c.spin,
               '--om': c.om,
-              animation: `tp-coin ${c.dur}ms linear ${c.delay}ms forwards`,
+              animation: `tp-coin ${c.dur}ms linear ${c.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -193,7 +193,7 @@ function GemLayer({ gems }: { gems: Gem[] }) {
               '--vy': `${g.vy}px`,
               '--grav': `${g.grav}px`,
               '--spin': g.spin,
-              animation: `tp-gem ${g.dur}ms linear ${g.delay}ms forwards`,
+              animation: `tp-gem ${g.dur}ms linear ${g.delay}ms both`,
             } as React.CSSProperties
           }
         />
@@ -219,7 +219,7 @@ function TrailLayer({ trails }: { trails: Mote[] }) {
             boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `tp-trail 400ms ease-out ${t.delay}ms forwards`,
+            animation: `tp-trail 400ms ease-out ${t.delay}ms both`,
           }}
         />
       ))}
@@ -241,7 +241,7 @@ function SparkleLayer({ sparkles }: { sparkles: Mote[] }) {
             height: `${s.size}px`,
             background: s.color,
             boxShadow: `0 0 4px 1px ${s.color}`,
-            animation: `tp-sparkle 700ms ease-out ${s.delay}ms forwards`,
+            animation: `tp-sparkle 700ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -270,12 +270,12 @@ export function ModalCelebrationsTreasureParticles() {
       {/* Center flash */}
       <span
         className="pf-celebration__flash"
-        style={{ animation: 'tp-core-flash 500ms ease-out forwards' }}
+        style={{ animation: 'tp-core-flash 500ms ease-out both' }}
       />
       {/* Ambient glow */}
       <span
         className="pf-celebration__glow"
-        style={{ animation: 'tp-glow 1800ms ease-out forwards' }}
+        style={{ animation: 'tp-glow 1800ms ease-out both' }}
       />
       {/* Background depth */}
       <div className="pf-celebration__depth-bg">
