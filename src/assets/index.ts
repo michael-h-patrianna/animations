@@ -12,6 +12,10 @@ import dailyRewardGcImage from '@/assets/daily-reward/gc.png'
 import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.png'
 import dailyRewardScImage from '@/assets/daily-reward/sc.png'
 import diamondImage from '@/assets/Diamonds.png'
+import gemDiamondImage from '@/assets/modal-celebrations/gem-diamond.png'
+import gemEmeraldImage from '@/assets/modal-celebrations/gem-emerald.png'
+import gemRubyImage from '@/assets/modal-celebrations/gem-ruby.png'
+import gemSapphireImage from '@/assets/modal-celebrations/gem-sapphire.png'
 import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
 import modalCelebrationsFireworkParticle2Image from '@/assets/modal-celebrations/firework-particle-2.webp'
 import modalCelebrationsFireworkParticle3Image from '@/assets/modal-celebrations/firework-particle-3.webp'
@@ -50,6 +54,10 @@ export {
   dailyRewardRandomRewardImage,
   dailyRewardScImage,
   diamondImage,
+  gemDiamondImage,
+  gemEmeraldImage,
+  gemRubyImage,
+  gemSapphireImage,
   modalCelebrationsFireworkParticle1Image,
   modalCelebrationsFireworkParticle2Image,
   modalCelebrationsFireworkParticle3Image,

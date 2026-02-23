@@ -1,75 +1,297 @@
-import { useEffect, useRef } from 'react'
+import { useMemo } from 'react'
+
+import {
+  coinImage,
+  gemDiamondImage,
+  gemEmeraldImage,
+  gemRubyImage,
+  gemSapphireImage,
+} from '@/assets'
+import { deg2rad, GEM_TYPES, GOLDEN_COLORS, pickRandom, randBetween } from '../utils'
 import './ModalCelebrationsTreasureParticles.css'
-/**
- *
- */ export function ModalCelebrationsTreasureParticles() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return // Clear any existing content
-    container.innerHTML = ''
-    const particleCount = 20
-    const gemCount = 6
-    const animations: Animation[] = [] // Create treasure particles (small golden particles)
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div')
-      particle.className = 'pf-treasure-particles__particle' // Random starting position around center
-      const centerX = 150
-      const centerY = 60
-      const startRadius = 20
-      const startAngle = Math.random() * 2 * Math.PI
-      const startX = centerX + Math.cos(startAngle) * startRadius
-      const startY = centerY + Math.sin(startAngle) * startRadius
-      particle.style.left = `${startX}px`
-      particle.style.top = `${startY}px`
-      particle.style.opacity = '0'
-      container.appendChild(particle) // Staggered delays
-      const delay = i * 50 + Math.random() * 200 // Particle animation: sparkly floating effect
-      const endAngle = startAngle + (Math.random() - 0.5) * Math.PI
-      const endRadius = 60 + Math.random() * 40
-      const endX = centerX + Math.cos(endAngle) * endRadius
-      const endY = centerY + Math.sin(endAngle) * endRadius
-      const particleAnimation = particle.animate(
-        [
-          { transform: 'translate(0px, 0px) scale(0.1)', opacity: '0' },
-          { transform: `translate(${(endX - startX) * 0.3}px, ${(endY - startY) * 0.3}px) scale(1.5)`, opacity: '1', offset: 0.2 },
-          { transform: `translate(${(endX - startX) * 0.7}px, ${(endY - startY) * 0.7}px) scale(1)`, opacity: '0.8', offset: 0.6 },
-          { transform: `translate(${endX - startX}px, ${endY - startY}px) scale(0.2)`, opacity: '0' },
-        ],
-        { duration: 2600, delay, easing: 'cubic-bezier(0.4, 0.0, 0.2, 1)', fill: 'forwards' }
-      )
-      animations.push(particleAnimation)
-    } // Create treasure gems (larger colorful gems)
-    for (let i = 0; i < gemCount; i++) {
-      const gem = document.createElement('div')
-      gem.className = 'pf-treasure-particles__gem' // Position gems in a circle around center
-      const angle = (i / gemCount) * 2 * Math.PI
-      const radius = 25
-      const gemX = 150 + Math.cos(angle) * radius
-      const gemY = 60 + Math.sin(angle) * radius
-      gem.style.left = `${gemX}px`
-      gem.style.top = `${gemY}px`
-      gem.style.opacity = '0'
-      container.appendChild(gem) // Gem animation: pulsing and rotating
-      const gemDelay = i * 200 + 500
-      const gemAnimation = gem.animate(
-        [
-          { transform: 'scale(0.1) rotate(0deg)', opacity: '0' },
-          { transform: 'scale(1.3) rotate(180deg)', opacity: '1', offset: 0.3 },
-          { transform: 'scale(1) rotate(360deg)', opacity: '1', offset: 0.7 },
-          { transform: 'scale(0.2) rotate(540deg)', opacity: '0' },
-        ],
-        { duration: 2600, delay: gemDelay, easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)', fill: 'forwards' }
-      )
-      animations.push(gemAnimation)
+
+/* ─── Types ─── */
+
+type Coin = {
+  id: number
+  vx: number
+  vy: number
+  grav: number
+  spin: number
+  size: number
+  delay: number
+  dur: number
+  om: number
+  layer: 'bg' | 'fg'
+}
+
+type Gem = {
+  id: number
+  vx: number
+  vy: number
+  grav: number
+  spin: number
+  image: string
+  size: number
+  delay: number
+  dur: number
+  layer: 'bg' | 'fg'
+}
+
+type Mote = {
+  id: number
+  x: number
+  y: number
+  delay: number
+  size: number
+  color: string
+}
+
+/* ─── Constants ─── */
+
+const COIN_COUNT = 12
+const GEM_COUNT = 12
+const TRAIL_COUNT = 20
+const SPARKLE_COUNT = 12
+
+const GEM_IMAGES: Record<string, string> = {
+  diamond: gemDiamondImage,
+  ruby: gemRubyImage,
+  emerald: gemEmeraldImage,
+  sapphire: gemSapphireImage,
+}
+
+/* ─── Generators ─── */
+
+/** 12 coins with radial velocity and gravity for the tp-coin keyframe. */
+function makeCoins(): Coin[] {
+  return Array.from({ length: COIN_COUNT }, (_, i) => {
+    const angle = deg2rad((i / COIN_COUNT) * 360 + randBetween(-15, 15))
+    const speed = randBetween(100, 200)
+    const isBg = i % 4 === 0
+    return {
+      id: i,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      grav: randBetween(300, 500),
+      spin: (isBg ? randBetween(2, 3) : randBetween(3, 5)) * 360,
+      size: isBg ? randBetween(14, 18) : randBetween(18, 24),
+      delay: randBetween(0, 120),
+      dur: randBetween(1400, 2000),
+      om: isBg ? 0.55 : 1,
+      layer: isBg ? ('bg' as const) : ('fg' as const),
     }
-    return () => {
-      animations.forEach((anim) => anim.cancel())
+  })
+}
+
+/** 12 gems (3 per type) with radial burst for the tp-gem keyframe. */
+function makeGems(): Gem[] {
+  return Array.from({ length: GEM_COUNT }, (_, i) => {
+    const gemType = GEM_TYPES[i % 4]
+    const angle = deg2rad((i / GEM_COUNT) * 360 + randBetween(-20, 20))
+    const speed = randBetween(80, 180)
+    const isBg = i % 3 === 0
+    return {
+      id: i,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      grav: randBetween(250, 400),
+      spin: randBetween(1, 3) * 360,
+      image: GEM_IMAGES[gemType.name],
+      size: isBg ? randBetween(12, 16) : randBetween(16, 24),
+      delay: 50 + randBetween(0, 150),
+      dur: randBetween(1500, 2200),
+      layer: isBg ? ('bg' as const) : ('fg' as const),
     }
-  }, [])
+  })
+}
+
+/** 20 colored trail motes scattered along burst paths. */
+function makeTrails(): Mote[] {
+  return Array.from({ length: TRAIL_COUNT }, (_, i) => {
+    const angle = deg2rad(randBetween(0, 360))
+    const r = randBetween(20, 90)
+    const gem = GEM_TYPES[i % 4]
+    return {
+      id: i,
+      x: Math.cos(angle) * r,
+      y: Math.sin(angle) * r,
+      delay: 100 + i * 40 + randBetween(0, 80),
+      size: randBetween(2, 4),
+      color: pickRandom([gem.color1, gem.color2]),
+    }
+  })
+}
+
+/** 12 golden sparkles in the burst area. */
+function makeSparkles(): Mote[] {
+  return Array.from({ length: SPARKLE_COUNT }, (_, i) => {
+    const angle = deg2rad(randBetween(0, 360))
+    const r = randBetween(30, 100)
+    return {
+      id: i,
+      x: Math.cos(angle) * r,
+      y: Math.sin(angle) * r,
+      delay: 200 + i * 50 + randBetween(0, 100),
+      size: randBetween(2.5, 4.5),
+      color: pickRandom(GOLDEN_COLORS),
+    }
+  })
+}
+
+/* ─── Sub-components ─── */
+
+function CoinLayer({ coins }: { coins: Coin[] }) {
   return (
-    <div className="pf-modal-celebration pf-modal-celebration--treasure-particles" data-animation-id="modal-celebrations__treasure-particles" ref={containerRef}>
-      <div className="pf-treasure-particles"></div>
+    <>
+      {coins.map((c) => (
+        <img
+          key={c.id}
+          src={coinImage}
+          alt=""
+          style={
+            {
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: `${c.size}px`,
+              height: `${c.size}px`,
+              pointerEvents: 'none',
+              willChange: 'transform, opacity',
+              '--vx': `${c.vx}px`,
+              '--vy': `${c.vy}px`,
+              '--grav': `${c.grav}px`,
+              '--spin': c.spin,
+              '--om': c.om,
+              animation: `tp-coin ${c.dur}ms linear ${c.delay}ms forwards`,
+            } as React.CSSProperties
+          }
+        />
+      ))}
+    </>
+  )
+}
+
+function GemLayer({ gems }: { gems: Gem[] }) {
+  return (
+    <>
+      {gems.map((g) => (
+        <img
+          key={g.id}
+          src={g.image}
+          alt=""
+          style={
+            {
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: `${g.size}px`,
+              height: `${g.size}px`,
+              pointerEvents: 'none',
+              willChange: 'transform, opacity',
+              '--vx': `${g.vx}px`,
+              '--vy': `${g.vy}px`,
+              '--grav': `${g.grav}px`,
+              '--spin': g.spin,
+              animation: `tp-gem ${g.dur}ms linear ${g.delay}ms forwards`,
+            } as React.CSSProperties
+          }
+        />
+      ))}
+    </>
+  )
+}
+
+function TrailLayer({ trails }: { trails: Mote[] }) {
+  return (
+    <>
+      {trails.map((t) => (
+        <span
+          key={t.id}
+          style={{
+            position: 'absolute',
+            left: `calc(50% + ${t.x}px)`,
+            top: `calc(50% + ${t.y}px)`,
+            width: `${t.size}px`,
+            height: `${t.size}px`,
+            borderRadius: '50%',
+            background: t.color,
+            boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
+            pointerEvents: 'none',
+            willChange: 'transform, opacity',
+            animation: `tp-trail 400ms ease-out ${t.delay}ms forwards`,
+          }}
+        />
+      ))}
+    </>
+  )
+}
+
+function SparkleLayer({ sparkles }: { sparkles: Mote[] }) {
+  return (
+    <>
+      {sparkles.map((s) => (
+        <span
+          key={s.id}
+          className="pf-celebration__sparkle"
+          style={{
+            left: `calc(50% + ${s.x}px)`,
+            top: `calc(50% + ${s.y}px)`,
+            width: `${s.size}px`,
+            height: `${s.size}px`,
+            background: s.color,
+            boxShadow: `0 0 4px 1px ${s.color}`,
+            animation: `tp-sparkle 700ms ease-out ${s.delay}ms forwards`,
+          }}
+        />
+      ))}
+    </>
+  )
+}
+
+/* ─── Main ─── */
+
+/**
+ * Treasure Eruption (CSS) — mixed coins and gems erupt in a radial burst
+ * with parabolic gravity arcs using CSS calc() and custom properties.
+ */
+export function ModalCelebrationsTreasureParticles() {
+  const coins = useMemo(makeCoins, [])
+  const gems = useMemo(makeGems, [])
+  const trails = useMemo(makeTrails, [])
+  const sparkles = useMemo(makeSparkles, [])
+  const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
+  const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
+  const bgGems = useMemo(() => gems.filter((g) => g.layer === 'bg'), [gems])
+  const fgGems = useMemo(() => gems.filter((g) => g.layer === 'fg'), [gems])
+
+  return (
+    <div className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles">
+      {/* Center flash */}
+      <span
+        className="pf-celebration__flash"
+        style={{ animation: 'tp-core-flash 500ms ease-out forwards' }}
+      />
+      {/* Ambient glow */}
+      <span
+        className="pf-celebration__glow"
+        style={{ animation: 'tp-glow 1800ms ease-out forwards' }}
+      />
+      {/* Background depth */}
+      <div className="pf-celebration__depth-bg">
+        <CoinLayer coins={bgCoins} />
+        <GemLayer gems={bgGems} />
+      </div>
+      {/* Effects */}
+      <div className="pf-celebration__effects">
+        <TrailLayer trails={trails} />
+        <SparkleLayer sparkles={sparkles} />
+      </div>
+      {/* Foreground depth */}
+      <div className="pf-celebration__depth-fg">
+        <CoinLayer coins={fgCoins} />
+        <GemLayer gems={fgGems} />
+      </div>
     </div>
   )
 }

@@ -1,53 +1,243 @@
-/* Styles scoped for ModalCelebrationsTreasureParticles */
-.pf-treasure-particles {
+/* ═══ ModalCelebrationsTreasureParticles — Treasure Eruption (CSS variant) ═══ */
 
-  --modal-celebrations-treasure-particles-bg-1: #ffd700;
-  --modal-celebrations-treasure-particles-bg-2: #ffb300;
-  --modal-celebrations-treasure-particles-shadow-1: rgb(255 215 0 / 60%);
-  --modal-celebrations-treasure-particles-bg-3: #ff6b6b;
-  --modal-celebrations-treasure-particles-bg-4: #ee5a52;
-  --modal-celebrations-treasure-particles-shadow-2: rgb(255 107 107 / 40%);
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* Theme */
+[data-animation-id="modal-celebrations__treasure-particles"].pf-celebration {
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgb(255 215 0 / 10%), rgb(60 20 10 / 90%));
+  border: 1px solid rgb(255 215 0 / 12%);
 }
-.pf-treasure-particles__particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(180deg, var(--modal-celebrations-treasure-particles-bg-1), var(--modal-celebrations-treasure-particles-bg-2));
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--modal-celebrations-treasure-particles-shadow-1);
+
+/*
+ * Parabolic burst path using translateX(vx*t) + translateY(vy*t + ½*grav*t²).
+ * CSS vars: --vx, --vy, --grav (with px units),
+ *           --spin (unitless), --om (opacity multiplier)
+ *
+ * Gravity fractions (0.5 * t²):
+ *   0=0, 0.05=0.0013, 0.10=0.005, 0.18=0.0162, 0.28=0.0392,
+ *   0.40=0.08, 0.52=0.1352, 0.65=0.2113, 0.78=0.3042,
+ *   0.88=0.3872, 0.95=0.4513, 1.0=0.5
+ */
+@keyframes tp-coin {
+  0% {
+    transform: translateX(0) translateY(0)
+      perspective(300px) rotateY(0deg) scale(0.2);
+    opacity: 0;
+  }
+  5% {
+    transform: translateX(calc(var(--vx) * 0.05))
+      translateY(calc(var(--vy) * 0.05 + var(--grav) * 0.0013))
+      perspective(300px) rotateY(calc(var(--spin) * 0.05 * 1deg)) scale(1);
+    opacity: var(--om, 1);
+  }
+  10% {
+    transform: translateX(calc(var(--vx) * 0.1))
+      translateY(calc(var(--vy) * 0.1 + var(--grav) * 0.005))
+      perspective(300px) rotateY(calc(var(--spin) * 0.1 * 1deg)) scale(1);
+    opacity: var(--om, 1);
+  }
+  18% {
+    transform: translateX(calc(var(--vx) * 0.18))
+      translateY(calc(var(--vy) * 0.18 + var(--grav) * 0.0162))
+      perspective(300px) rotateY(calc(var(--spin) * 0.18 * 1deg)) scale(1);
+    opacity: var(--om, 1);
+  }
+  28% {
+    transform: translateX(calc(var(--vx) * 0.28))
+      translateY(calc(var(--vy) * 0.28 + var(--grav) * 0.0392))
+      perspective(300px) rotateY(calc(var(--spin) * 0.28 * 1deg)) scale(1);
+    opacity: var(--om, 1);
+  }
+  40% {
+    transform: translateX(calc(var(--vx) * 0.4))
+      translateY(calc(var(--vy) * 0.4 + var(--grav) * 0.08))
+      perspective(300px) rotateY(calc(var(--spin) * 0.4 * 1deg)) scale(1);
+    opacity: var(--om, 1);
+  }
+  52% {
+    transform: translateX(calc(var(--vx) * 0.52))
+      translateY(calc(var(--vy) * 0.52 + var(--grav) * 0.1352))
+      perspective(300px) rotateY(calc(var(--spin) * 0.52 * 1deg)) scale(1);
+    opacity: calc(var(--om, 1) * 0.9);
+  }
+  65% {
+    transform: translateX(calc(var(--vx) * 0.65))
+      translateY(calc(var(--vy) * 0.65 + var(--grav) * 0.2113))
+      perspective(300px) rotateY(calc(var(--spin) * 0.65 * 1deg)) scale(0.85);
+    opacity: calc(var(--om, 1) * 0.7);
+  }
+  78% {
+    transform: translateX(calc(var(--vx) * 0.78))
+      translateY(calc(var(--vy) * 0.78 + var(--grav) * 0.3042))
+      perspective(300px) rotateY(calc(var(--spin) * 0.78 * 1deg)) scale(0.6);
+    opacity: calc(var(--om, 1) * 0.45);
+  }
+  88% {
+    transform: translateX(calc(var(--vx) * 0.88))
+      translateY(calc(var(--vy) * 0.88 + var(--grav) * 0.3872))
+      perspective(300px) rotateY(calc(var(--spin) * 0.88 * 1deg)) scale(0.35);
+    opacity: calc(var(--om, 1) * 0.25);
+  }
+  95% {
+    transform: translateX(calc(var(--vx) * 0.95))
+      translateY(calc(var(--vy) * 0.95 + var(--grav) * 0.4513))
+      perspective(300px) rotateY(calc(var(--spin) * 0.95 * 1deg)) scale(0.15);
+    opacity: calc(var(--om, 1) * 0.1);
+  }
+  100% {
+    transform: translateX(var(--vx))
+      translateY(calc(var(--vy) + var(--grav) * 0.5))
+      perspective(300px) rotateY(calc(var(--spin) * 1deg)) scale(0);
+    opacity: 0;
+  }
 }
-.pf-treasure-particles__gem {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(45deg, var(--modal-celebrations-treasure-particles-bg-3), var(--modal-celebrations-treasure-particles-bg-4));
-  transform: rotate(0deg);
-  box-shadow: 0 0 8px var(--modal-celebrations-treasure-particles-shadow-2);
+
+/* Gem burst — rotate (2D tumble) instead of rotateY */
+@keyframes tp-gem {
+  0% {
+    transform: translateX(0) translateY(0)
+      rotate(0deg) scale(0.2);
+    opacity: 0;
+  }
+  5% {
+    transform: translateX(calc(var(--vx) * 0.05))
+      translateY(calc(var(--vy) * 0.05 + var(--grav) * 0.0013))
+      rotate(calc(var(--spin) * 0.05 * 1deg)) scale(1.2);
+    opacity: 1;
+  }
+  10% {
+    transform: translateX(calc(var(--vx) * 0.1))
+      translateY(calc(var(--vy) * 0.1 + var(--grav) * 0.005))
+      rotate(calc(var(--spin) * 0.1 * 1deg)) scale(1.1);
+    opacity: 1;
+  }
+  18% {
+    transform: translateX(calc(var(--vx) * 0.18))
+      translateY(calc(var(--vy) * 0.18 + var(--grav) * 0.0162))
+      rotate(calc(var(--spin) * 0.18 * 1deg)) scale(1);
+    opacity: 1;
+  }
+  28% {
+    transform: translateX(calc(var(--vx) * 0.28))
+      translateY(calc(var(--vy) * 0.28 + var(--grav) * 0.0392))
+      rotate(calc(var(--spin) * 0.28 * 1deg)) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(calc(var(--vx) * 0.4))
+      translateY(calc(var(--vy) * 0.4 + var(--grav) * 0.08))
+      rotate(calc(var(--spin) * 0.4 * 1deg)) scale(1);
+    opacity: 1;
+  }
+  52% {
+    transform: translateX(calc(var(--vx) * 0.52))
+      translateY(calc(var(--vy) * 0.52 + var(--grav) * 0.1352))
+      rotate(calc(var(--spin) * 0.52 * 1deg)) scale(1);
+    opacity: 0.9;
+  }
+  65% {
+    transform: translateX(calc(var(--vx) * 0.65))
+      translateY(calc(var(--vy) * 0.65 + var(--grav) * 0.2113))
+      rotate(calc(var(--spin) * 0.65 * 1deg)) scale(0.9);
+    opacity: 0.7;
+  }
+  78% {
+    transform: translateX(calc(var(--vx) * 0.78))
+      translateY(calc(var(--vy) * 0.78 + var(--grav) * 0.3042))
+      rotate(calc(var(--spin) * 0.78 * 1deg)) scale(0.65);
+    opacity: 0.45;
+  }
+  88% {
+    transform: translateX(calc(var(--vx) * 0.88))
+      translateY(calc(var(--vy) * 0.88 + var(--grav) * 0.3872))
+      rotate(calc(var(--spin) * 0.88 * 1deg)) scale(0.35);
+    opacity: 0.25;
+  }
+  95% {
+    transform: translateX(calc(var(--vx) * 0.95))
+      translateY(calc(var(--vy) * 0.95 + var(--grav) * 0.4513))
+      rotate(calc(var(--spin) * 0.95 * 1deg)) scale(0.15);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateX(var(--vx))
+      translateY(calc(var(--vy) + var(--grav) * 0.5))
+      rotate(calc(var(--spin) * 1deg)) scale(0);
+    opacity: 0;
+  }
 }
-.pf-treasure-particles__gem::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid var(--modal-celebrations-treasure-particles-bg-3);
-  transform: translateX(-50%);
+
+/* Trail mote flash */
+@keyframes tp-trail {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.4);
+    opacity: 0.8;
+  }
+  60% {
+    transform: scale(0.6);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
 }
-.pf-treasure-particles__gem::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 4px solid var(--modal-celebrations-treasure-particles-bg-4);
-  transform: translateX(-50%);
+
+/* Sparkle twinkle */
+@keyframes tp-sparkle {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  45% {
+    transform: scale(0.4);
+    opacity: 0.2;
+  }
+  70% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* Center flash pulse */
+@keyframes tp-core-flash {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  35% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* Ambient glow */
+@keyframes tp-glow {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
 }

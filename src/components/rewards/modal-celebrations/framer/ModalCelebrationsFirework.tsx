@@ -8,7 +8,6 @@ import {
 } from '@/assets'
 import {
   FIREWORK_CYCLE_SECONDS,
-  FIREWORK_DURATION_SECONDS,
   FIREWORK_GRAVITY_DISTANCE_PX,
   generateFireworkBursts,
 } from '../fireworkModel'

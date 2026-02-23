@@ -1,65 +1,8 @@
-/* Styles scoped for ModalCelebrationsTreasureParticles */
-.pf-modal-celebration--treasure-particles {
+/* ═══ ModalCelebrationsTreasureParticles — Treasure Eruption (Framer variant) ═══ */
 
-  --modal-celebrations-treasure-particles-bg-1: #ffd700;
-  --modal-celebrations-treasure-particles-bg-2: #ffb300;
-  --modal-celebrations-treasure-particles-shadow-1: rgb(255 215 0 / 60%);
-  --modal-celebrations-treasure-particles-bg-3: #ff6b6b;
-  --modal-celebrations-treasure-particles-bg-4: #ee5a52;
-  --modal-celebrations-treasure-particles-shadow-2: rgb(255 107 107 / 40%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.pf-treasure-particles {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.pf-treasure-particles__particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(180deg, var(--modal-celebrations-treasure-particles-bg-1), var(--modal-celebrations-treasure-particles-bg-2));
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--modal-celebrations-treasure-particles-shadow-1);
-  top: 50%;
-  left: 50%;
-  margin-left: -4px;
-  margin-top: -4px;
-}
-.pf-treasure-particles__gem {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(45deg, var(--modal-celebrations-treasure-particles-bg-3), var(--modal-celebrations-treasure-particles-bg-4));
-  transform: rotate(0deg);
-  box-shadow: 0 0 8px var(--modal-celebrations-treasure-particles-shadow-2);
-  top: 50%;
-  left: 50%;
-  margin-left: -6px;
-  margin-top: -6px;
-}
-.pf-treasure-particles__gem-top,
-.pf-treasure-particles__gem-bottom {
-  position: absolute;
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform: translateX(-50%);
-}
-.pf-treasure-particles__gem-top {
-  top: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid var(--modal-celebrations-treasure-particles-bg-3);
-}
-.pf-treasure-particles__gem-bottom {
-  bottom: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 4px solid var(--modal-celebrations-treasure-particles-bg-4);
+/* Theme */
+[data-animation-id="modal-celebrations__treasure-particles"].pf-celebration {
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgb(255 215 0 / 10%), rgb(60 20 10 / 90%));
+  border: 1px solid rgb(255 215 0 / 12%);
 }
