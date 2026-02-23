@@ -1,47 +1,151 @@
-/* Styles scoped for ModalCelebrationsCoinsArc */
-.pf-celebration {
+/* ═══════════════════════════════════════════════════════════════
+   ModalCelebrationsCoinsArc — CSS keyframes
+   Golden Eruption: parabolic coin fountain with 3D spin
+   ═══════════════════════════════════════════════════════════════ */
 
-  --modal-celebrations-coins-arc-bg-1: rgb(236 195 255 / 18%);
-  --modal-celebrations-coins-arc-bg-2: rgb(29 9 47 / 92%);
-  --modal-celebrations-coins-arc-border: rgb(236 195 255 / 12%);
-  --modal-celebrations-coins-arc-bg-100: #ffb300;
-  position: relative;
-  width: 100%;
-  height: 240px;
+[data-animation-id="modal-celebrations__coins-arc"].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, var(--modal-celebrations-coins-arc-bg-1), var(--modal-celebrations-coins-arc-bg-2));
-  border: 1px solid var(--modal-celebrations-coins-arc-border);
-  overflow: hidden;
-}
-.pf-celebration__layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.pf-celebration__coin {
-  position: absolute;
-  left: 50%;
-  top: 60%;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  --background-lint-token-1: var(--coin-color, linear-gradient(135deg, #ffd966 0%, var(--modal-celebrations-coins-arc-bg-100) 100%));
-  background: var(--background-lint-token-1);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  pointer-events: none;
+  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
+  border: 1px solid rgb(236 195 255 / 12%);
 }
 
-@keyframes celebration-coin-arc {
+/* ─── Coin — parabolic arc with 3D spin ───
+   --ex     = horizontal endpoint (px)
+   --peak   = peak y (negative, upward, px)
+   --end-y  = final y below start (positive, px)
+   --spin   = total rotation (unitless degrees, e.g. 1080)
+   --om     = opacity multiplier (bg=0.55, fg=1)
+   Parabolic y approximated at fixed stops. */
+@keyframes ca-coin {
   0% {
-    transform: translate(-50%, -50%) translate(0, 0) scale(0.6);
+    transform: translate(0, 0) scale(0.4) perspective(300px) rotateY(0) rotateZ(0);
     opacity: 0;
   }
-  15% {
-    opacity: 1;
+  6% {
+    transform:
+      translate(calc(var(--ex) * 0.06), calc(var(--peak) * 0.3))
+      scale(0.85)
+      perspective(300px)
+      rotateY(calc(var(--spin) * 0.06 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.06 * 1deg));
+    opacity: calc(1.0 * var(--om, 1));
+  }
+  20% {
+    transform:
+      translate(calc(var(--ex) * 0.2), calc(var(--peak) * 0.8))
+      scale(1.0)
+      perspective(300px)
+      rotateY(calc(var(--spin) * 0.2 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.2 * 1deg));
+    opacity: calc(1.0 * var(--om, 1));
+  }
+  40% {
+    transform:
+      translate(calc(var(--ex) * 0.4), var(--peak))
+      scale(1.0)
+      perspective(300px)
+      rotateY(calc(var(--spin) * 0.4 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.4 * 1deg));
+    opacity: calc(1.0 * var(--om, 1));
+  }
+  55% {
+    transform:
+      translate(calc(var(--ex) * 0.55), calc(var(--peak) * 0.75))
+      scale(0.95)
+      perspective(300px)
+      rotateY(calc(var(--spin) * 0.55 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.55 * 1deg));
+    opacity: calc(0.9 * var(--om, 1));
+  }
+  75% {
+    transform:
+      translate(calc(var(--ex) * 0.75), calc(var(--peak) * 0.2))
+      scale(0.7)
+      perspective(300px)
+      rotateY(calc(var(--spin) * 0.75 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.75 * 1deg));
+    opacity: calc(0.6 * var(--om, 1));
   }
   100% {
-    transform: translate(-50%, -50%) translate(var(--tx, 0), var(--ty, -140px)) scale(1);
+    transform:
+      translate(var(--ex), var(--end-y))
+      scale(0.35)
+      perspective(300px)
+      rotateY(calc(var(--spin) * 1deg))
+      rotateZ(calc(var(--tumble) * 1deg));
+    opacity: 0;
+  }
+}
+
+/* ─── Metallic glint flash ─── */
+@keyframes ca-glint {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(1.8);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(0.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* ─── Golden eruption flash ─── */
+@keyframes ca-flash {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 0.9;
+  }
+  65% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ─── Golden glow ─── */
+@keyframes ca-glow {
+  0% { opacity: 0; }
+  10% { opacity: 0.5; }
+  30% { opacity: 0.4; }
+  65% { opacity: 0.15; }
+  100% { opacity: 0; }
+}
+
+/* ─── Sparkle twinkle ─── */
+@keyframes ca-sparkle {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.3);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.4);
+    opacity: 0.25;
+  }
+  75% {
+    transform: scale(1.0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(0);
     opacity: 0;
   }
 }

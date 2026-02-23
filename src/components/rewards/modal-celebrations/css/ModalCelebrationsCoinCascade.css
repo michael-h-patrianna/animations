@@ -1,6 +1,120 @@
-/* Styles scoped for ModalCelebrationsCoinCascade */
-.pf-coin-cascade {
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* ═══ ModalCelebrationsCoinCascade — Jackpot Cascade (CSS variant) ═══ */
+
+/* Theme */
+[data-animation-id="modal-celebrations__coin-cascade"].pf-celebration {
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
+  border: 1px solid rgb(236 195 255 / 12%);
+}
+
+/*
+ * Coin cascade: gravity fall + wobble + floor bounce.
+ * CSS vars per coin: --sx, --wx, --ex, --fall, --bounce, --spin, --tumble, --om
+ *
+ * Fall phase (0–65%): y = --fall * (t/0.65)^2, x zigzags via --wx
+ * Bounce phase (65–86%): y rebounds by --bounce, x settles
+ * Settle phase (86–100%): micro-bounce, fade out
+ */
+@keyframes cc-coin {
+  0% {
+    transform: translate(var(--sx), 0) scale(0.3) perspective(300px) rotateY(0deg) rotateZ(0deg);
+    opacity: 0;
+  }
+  5% {
+    transform: translate(
+      calc(var(--sx) + var(--wx) * 0.24),
+      calc(var(--fall) * 0.006)
+    ) scale(1) perspective(300px)
+      rotateY(calc(var(--spin) * 0.05 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.05 * 1deg));
+    opacity: var(--om, 1);
+  }
+  25% {
+    transform: translate(
+      calc(var(--sx) + var(--wx)),
+      calc(var(--fall) * 0.148)
+    ) scale(1) perspective(300px)
+      rotateY(calc(var(--spin) * 0.25 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.25 * 1deg));
+    opacity: var(--om, 1);
+  }
+  45% {
+    transform: translate(
+      calc(var(--sx) + var(--wx) * 0.2),
+      calc(var(--fall) * 0.479)
+    ) scale(1) perspective(300px)
+      rotateY(calc(var(--spin) * 0.45 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.45 * 1deg));
+    opacity: var(--om, 1);
+  }
+  65% {
+    transform: translate(
+      calc(var(--sx) + var(--ex)),
+      var(--fall)
+    ) scale(1) perspective(300px)
+      rotateY(calc(var(--spin) * 0.65 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.65 * 1deg));
+    opacity: var(--om, 1);
+  }
+  76% {
+    transform: translate(
+      calc(var(--sx) + var(--ex) * 0.92),
+      calc(var(--fall) - var(--bounce))
+    ) scale(0.9) perspective(300px)
+      rotateY(calc(var(--spin) * 0.76 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.76 * 1deg));
+    opacity: var(--om, 1);
+  }
+  86% {
+    transform: translate(
+      calc(var(--sx) + var(--ex) * 0.85),
+      var(--fall)
+    ) scale(0.8) perspective(300px)
+      rotateY(calc(var(--spin) * 0.86 * 1deg))
+      rotateZ(calc(var(--tumble) * 0.86 * 1deg));
+    opacity: calc(var(--om, 1) * 0.8);
+  }
+  100% {
+    transform: translate(
+      calc(var(--sx) + var(--ex) * 0.8),
+      var(--fall)
+    ) scale(0.3) perspective(300px)
+      rotateY(calc(var(--spin) * 1deg))
+      rotateZ(calc(var(--tumble) * 1deg));
+    opacity: 0;
+  }
+}
+
+/* Golden dust trail mote */
+@keyframes cc-trail {
+  0% { transform: scale(0); opacity: 0; }
+  30% { transform: scale(1.4); opacity: 0.8; }
+  60% { transform: scale(0.6); opacity: 0.3; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* Impact sparkle at bounce point */
+@keyframes cc-impact {
+  0% { transform: scale(0); opacity: 0; }
+  25% { transform: scale(2); opacity: 1; }
+  60% { transform: scale(0.8); opacity: 0.4; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* Ambient shimmer twinkle */
+@keyframes cc-shimmer {
+  0% { transform: scale(0); opacity: 0; }
+  20% { transform: scale(1.2); opacity: 0.8; }
+  45% { transform: scale(0.4); opacity: 0.2; }
+  70% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* Source glow pulse at pour points */
+@keyframes cc-source-glow {
+  0% { opacity: 0; }
+  12% { opacity: 0.5; }
+  35% { opacity: 0.35; }
+  65% { opacity: 0.12; }
+  100% { opacity: 0; }
 }
