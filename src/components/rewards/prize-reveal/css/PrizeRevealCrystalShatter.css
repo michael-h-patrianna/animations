@@ -1,0 +1,470 @@
+/* ═══════════════════════════════════════════════════
+   Crystal Shatter Prize Reveal — CSS Variant
+   All phases orchestrated via animation-delay
+   ═══════════════════════════════════════════════════ */
+
+.pf-cs-css {
+  --crystal-glow-primary: rgb(140 180 255 / 50%);
+  --crystal-glow-secondary: rgb(180 140 255 / 40%);
+  --ambient-glow-inner: rgb(100 130 220 / 35%);
+  --ambient-glow-outer: rgb(60 80 160 / 20%);
+  --shard-glow: rgb(140 180 255 / 40%);
+  --mote-glow: rgb(180 200 255 / 60%);
+  --frame-glow: rgb(160 200 255 / 30%);
+  --text-shadow: rgb(0 0 0 / 50%);
+  --text-shadow-strong: rgb(0 0 0 / 60%);
+  --aura-color-default: rgb(140 180 255 / 15%);
+  --aura-glow-default: rgb(120 160 255 / 10%);
+  position: relative;
+  inline-size: 100%;
+  block-size: 340px;
+  overflow: hidden;
+}
+
+.pf-cs-css__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─── Crystal body — descent + charge + vanish ─── */
+
+.pf-cs-css__crystal-wrap {
+  position: relative;
+  z-index: 3;
+  inline-size: 140px;
+  block-size: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation:
+    cs-descent 0.8s cubic-bezier(0.2, 0, 0.1, 1) both,
+    cs-charge-scale 1.0s ease-in-out 1.2s both,
+    cs-charge-vibrate 0.25s linear 2.0s 2,
+    cs-crystal-vanish 0.06s ease-out 2.4s both;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-descent {
+  from { transform: translateY(-150px) rotate(-8deg); opacity: 0; }
+  to   { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes cs-charge-scale {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+
+@keyframes cs-charge-vibrate {
+  0%   { transform: translateX(0) scale(1.06); }
+  20%  { transform: translateX(-2px) scale(1.06); }
+  40%  { transform: translateX(2px) scale(1.06); }
+  60%  { transform: translateX(-3px) scale(1.06); }
+  80%  { transform: translateX(3px) scale(1.06); }
+  100% { transform: translateX(0) scale(1.06); }
+}
+
+@keyframes cs-crystal-vanish {
+  from { transform: scale(1.06); opacity: 1; }
+  to   { transform: scale(0); opacity: 0; }
+}
+
+.pf-cs-css__crystal-image {
+  position: relative;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 12px var(--crystal-glow-primary))
+    drop-shadow(0 0 28px var(--crystal-glow-secondary));
+}
+
+.pf-cs-css__crystal-glow {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 50px 35px var(--crystal-glow-primary),
+    0 0 90px 65px var(--ambient-glow-inner),
+    0 0 140px 100px var(--ambient-glow-outer);
+  pointer-events: none;
+}
+
+/* ─── Energy motes — converge inward ─── */
+
+.pf-cs-css__motes-container {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-cs-css__energy-mote {
+  position: absolute;
+  inline-size: var(--mote-size, 12px);
+  block-size: var(--mote-size, 12px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px var(--mote-glow));
+  pointer-events: none;
+  translate: -50% -50%;
+  opacity: 0;
+  animation: cs-mote-converge 0.7s cubic-bezier(0.4, 0, 0.2, 1) var(--mote-delay, 1.2s) both;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-mote-converge {
+  0%   { transform: translate(var(--mote-start-x), var(--mote-start-y)) scale(1); opacity: 0; }
+  30%  { opacity: 0.9; }
+  100% { transform: translate(0, 0) scale(0.2); opacity: 0; }
+}
+
+/* ─── Shatter flash ─── */
+
+.pf-cs-css__flash {
+  position: absolute;
+  z-index: 6;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 80px;
+  block-size: 80px;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  animation: cs-flash 0.35s ease-out 2.4s both;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-flash {
+  0%   { transform: scale(0); opacity: 0.8; }
+  30%  { transform: scale(2); opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ─── Prismatic ring ─── */
+
+.pf-cs-css__prismatic-ring {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 120px;
+  block-size: 120px;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  animation: cs-prismatic-expand 0.5s ease-out 2.4s both;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-prismatic-expand {
+  0%   { transform: scale(0.1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ─── Fragments ─── */
+
+.pf-cs-css__fragments {
+  position: absolute;
+  z-index: 7;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-cs-css__shard {
+  position: absolute;
+  inline-size: 90px;
+  block-size: 90px;
+  object-fit: contain;
+  filter:
+    brightness(1.6)
+    drop-shadow(0 0 6px rgb(180 210 255 / 90%))
+    drop-shadow(0 0 14px rgb(140 180 255 / 70%));
+  pointer-events: none;
+  translate: -50% -50%;
+  opacity: 0;
+  animation: cs-shard-fly 1.2s cubic-bezier(0.2, 0, 0.1, 1) 2.4s both;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-shard-fly {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  30%  { opacity: 0.9; }
+  100% { transform: translate(var(--shard-end-x), var(--shard-end-y)) rotate(var(--shard-rotation)) scale(0.3); opacity: 0; }
+}
+
+/* ─── Dust spray ─── */
+
+.pf-cs-css__dust-spray {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-cs-css__dust-particle {
+  position: absolute;
+  inline-size: var(--dust-size, 4px);
+  block-size: var(--dust-size, 4px);
+  object-fit: contain;
+  pointer-events: none;
+  translate: -50% -50%;
+  opacity: 0;
+  animation: cs-dust-fly 0.5s ease-out 2.4s both;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-dust-fly {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dust-end-x), var(--dust-end-y)) scale(0.2); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════
+   PRIZES — appear at REVEAL_START (3.2s)
+   ═══════════════════════════════════════════════════ */
+
+.pf-cs-css__prizes {
+  position: absolute;
+  z-index: 7;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-cs-css__prize {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  translate: -50% -50%;
+  opacity: 0;
+  animation: cs-prize-emerge 0.5s cubic-bezier(0.16, 0.84, 0.32, 1) var(--slot-delay) both;
+  will-change: transform, opacity;
+}
+
+.pf-cs-css__prize--claimed {
+  animation: cs-prize-collect 0.75s cubic-bezier(0.4, 0, 1, 1) var(--claim-delay) both;
+}
+
+@keyframes cs-prize-emerge {
+  0%   { transform: translate(0, 0) scale(0); opacity: 0; }
+  60%  { transform: translate(var(--slot-x), var(--slot-y)) scale(1.15); opacity: 1; }
+  100% { transform: translate(var(--slot-x), var(--slot-y)) scale(1); opacity: 1; }
+}
+
+@keyframes cs-prize-collect {
+  0%   { transform: translate(var(--slot-x), var(--slot-y)) scale(1); opacity: 1; }
+  30%  { transform: translate(var(--slot-x), var(--slot-y)) scale(0.35); opacity: 1; }
+  100% { transform: translate(var(--streak-x), -200px) scale(0.15); opacity: 0; }
+}
+
+/* Prize type colors */
+
+.pf-cs-css__prize--gc {
+  --aura-color: rgb(255 190 50 / 15%);
+  --aura-glow: rgb(255 180 40 / 25%);
+  --label-color: rgb(255 225 110);
+  --amount-color: rgb(255 220 80);
+  --amount-glow: rgb(255 200 50 / 55%);
+}
+
+.pf-cs-css__prize--sc {
+  --aura-color: rgb(50 220 130 / 15%);
+  --aura-glow: rgb(40 200 120 / 25%);
+  --label-color: rgb(110 235 155);
+  --amount-color: rgb(90 240 140);
+  --amount-glow: rgb(50 210 130 / 55%);
+}
+
+.pf-cs-css__prize--fs {
+  --aura-color: rgb(110 200 255 / 15%);
+  --aura-glow: rgb(100 190 255 / 25%);
+  --label-color: rgb(150 225 255);
+  --amount-color: rgb(140 220 255);
+  --amount-glow: rgb(110 210 255 / 55%);
+}
+
+.pf-cs-css__prize--rr {
+  --aura-color: rgb(180 110 255 / 15%);
+  --aura-glow: rgb(170 100 255 / 25%);
+}
+
+.pf-cs-css__prize-aura {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 28px 20px var(--aura-color, var(--aura-color-default)),
+    0 0 50px 36px var(--aura-glow, var(--aura-glow-default));
+  pointer-events: none;
+}
+
+.pf-cs-css__frame-image {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 82px;
+  block-size: 82px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px var(--frame-glow));
+  pointer-events: none;
+  opacity: 0;
+  animation: cs-frame-appear 0.3s ease-out var(--frame-delay, 3.7s) both;
+}
+
+@keyframes cs-frame-appear {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 0.7; }
+}
+
+.pf-cs-css__prize-icon-wrap {
+  position: relative;
+  inline-size: 68px;
+  block-size: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.pf-cs-css__prize-icon {
+  position: relative;
+  z-index: 4;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 2px 6px rgb(0 0 0 / 35%))
+    drop-shadow(0 0 10px var(--crystal-glow-primary));
+}
+
+.pf-cs-css__prize--rr .pf-cs-css__prize-icon-wrap {
+  inline-size: 80px;
+  block-size: 66px;
+}
+
+.pf-cs-css__prize-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pf-cs-css__prize-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--label-color);
+  text-shadow:
+    0 1px 4px var(--text-shadow),
+    0 0 8px var(--amount-glow, var(--crystal-glow-primary));
+}
+
+.pf-cs-css__prize-amount {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--amount-color);
+  text-shadow:
+    0 0 12px var(--amount-glow),
+    0 0 24px var(--amount-glow),
+    0 1px 4px var(--text-shadow-strong);
+}
+
+/* ─── Claim button ─── */
+
+.pf-cs-css__claim-btn {
+  position: absolute;
+  z-index: 10;
+  inset-block-end: 16px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  padding: 8px 28px;
+  border-radius: 50px;
+  border: 2px solid rgb(140 180 255);
+  background: linear-gradient(180deg, rgb(80 120 200), rgb(60 80 160));
+  color: rgb(255 255 255);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 1px var(--text-shadow);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 0 20px 6px rgb(100 150 255 / 30%),
+    0 4px 12px rgb(0 0 0 / 30%);
+  animation: cs-btn-appear 0.4s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-btn-appear {
+  from { transform: scale(0.85) translateY(10px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.pf-cs-css__claim-btn:hover {
+  background: linear-gradient(180deg, rgb(100 140 220), rgb(70 100 180));
+  border-color: rgb(160 200 255);
+  box-shadow:
+    0 0 24px 8px rgb(120 170 255 / 40%),
+    0 4px 14px rgb(0 0 0 / 35%);
+}
+
+/* ─── Responsive ─── */
+
+.pf-cs-css[data-prize-count='4'] .pf-cs-css__prize-icon-wrap {
+  inline-size: 52px;
+  block-size: 44px;
+}
+
+.pf-cs-css[data-prize-count='4'] .pf-cs-css__prize--rr .pf-cs-css__prize-icon-wrap {
+  inline-size: 62px;
+  block-size: 52px;
+}
+
+.pf-cs-css[data-prize-count='4'] .pf-cs-css__frame-image {
+  inline-size: 66px;
+  block-size: 66px;
+}
+
+.pf-cs-css[data-prize-count='4'] .pf-cs-css__prize-amount {
+  font-size: 16px;
+}

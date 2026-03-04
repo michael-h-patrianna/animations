@@ -7,6 +7,17 @@ import arcanePortalRingImage from '@/assets/arcane-portal/portal-ring.png'
 import arcanePortalRunicSigilImage from '@/assets/arcane-portal/runic-sigil.png'
 import arcanePortalScImage from '@/assets/arcane-portal/sc.png'
 import coinImage from '@/assets/coin.png'
+import crystalShatterBodyImage from '@/assets/crystal-shatter/crystal-body.png'
+import crystalShatterDarkBodyImage from '@/assets/crystal-shatter/dark-crystal-body.png'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterEnergyMoteImage from '@/assets/crystal-shatter/energy-mote.png'
+import crystalShatterFrameImage from '@/assets/crystal-shatter/crystal-frame.png'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
+import crystalShatterShard1Image from '@/assets/crystal-shatter/crystal-shard-1.png'
+import crystalShatterShard2Image from '@/assets/crystal-shatter/crystal-shard-2.png'
+import crystalShatterShard3Image from '@/assets/crystal-shatter/crystal-shard-3.png'
+import crystalShatterShard4Image from '@/assets/crystal-shatter/crystal-shard-4.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 import dailyRewardFreeSpinsImage from '@/assets/daily-reward/free-spins.webp'
 import dailyRewardGcImage from '@/assets/daily-reward/gc.png'
 import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.png'
@@ -49,6 +60,17 @@ export {
   arcanePortalRunicSigilImage,
   arcanePortalScImage,
   coinImage,
+  crystalShatterBodyImage,
+  crystalShatterDarkBodyImage,
+  crystalShatterDustImage,
+  crystalShatterEnergyMoteImage,
+  crystalShatterFrameImage,
+  crystalShatterPrismaticRingImage,
+  crystalShatterShard1Image,
+  crystalShatterShard2Image,
+  crystalShatterShard3Image,
+  crystalShatterShard4Image,
+  crystalShatterSparkleImage,
   dailyRewardFreeSpinsImage,
   dailyRewardGcImage,
   dailyRewardRandomRewardImage,

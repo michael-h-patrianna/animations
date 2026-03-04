@@ -4,6 +4,7 @@ import './framer/PrizeRevealPirateChestNoWin.css'
 import './framer/PrizeRevealPirateChestWin.css'
 import './framer/PrizeRevealChestGcSc.css'
 import './framer/PrizeRevealArcanePortal.css'
+import './framer/PrizeRevealCrystalShatter.css'
 
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
@@ -13,12 +14,14 @@ import { metadata as arcanePortalMetadata } from './framer/PrizeRevealArcanePort
 import { metadata as chestGcScMetadata } from './framer/PrizeRevealChestGcSc.meta'
 import { metadata as pirateChestNoWinMetadata } from './framer/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinMetadata } from './framer/PrizeRevealPirateChestWin.meta'
+import { metadata as crystalShatterMetadata } from './framer/PrizeRevealCrystalShatter.meta'
 
 // CSS - Import metadata only
 import { metadata as arcanePortalCssMetadata } from './css/PrizeRevealArcanePortal.meta'
 import { metadata as chestGcScCssMetadata } from './css/PrizeRevealChestGcSc.meta'
 import { metadata as pirateChestNoWinCssMetadata } from './css/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinCssMetadata } from './css/PrizeRevealPirateChestWin.meta'
+import { metadata as crystalShatterCssMetadata } from './css/PrizeRevealCrystalShatter.meta'
 
 // Framer Motion - Lazy load components
 const PrizeRevealArcanePortal = lazy(() =>
@@ -42,6 +45,12 @@ const PrizeRevealPirateChestWin = lazy(() =>
   }))
 )
 
+const PrizeRevealCrystalShatter = lazy(() =>
+  import('./framer/PrizeRevealCrystalShatter').then((m) => ({
+    default: m.PrizeRevealCrystalShatter,
+  }))
+)
+
 // CSS - Lazy load components
 const CssPrizeRevealArcanePortal = lazy(() =>
   import('./css/PrizeRevealArcanePortal').then((m) => ({
@@ -61,6 +70,12 @@ const CssPrizeRevealPirateChestNoWin = lazy(() =>
 const CssPrizeRevealPirateChestWin = lazy(() =>
   import('./css/PrizeRevealPirateChestWin').then((m) => ({
     default: m.PrizeRevealPirateChestWin,
+  }))
+)
+
+const CssPrizeRevealCrystalShatter = lazy(() =>
+  import('./css/PrizeRevealCrystalShatter').then((m) => ({
+    default: m.PrizeRevealCrystalShatter,
   }))
 )
 
@@ -90,6 +105,10 @@ export const groupExport: GroupExport = {
       component: PrizeRevealPirateChestWin,
       metadata: pirateChestWinMetadata,
     },
+    'prize-reveal__crystal-shatter': {
+      component: PrizeRevealCrystalShatter,
+      metadata: crystalShatterMetadata,
+    },
   },
   css: {
     'prize-reveal__arcane-portal': {
@@ -107,6 +126,10 @@ export const groupExport: GroupExport = {
     'prize-reveal__pirate-chest-win': {
       component: CssPrizeRevealPirateChestWin,
       metadata: pirateChestWinCssMetadata,
+    },
+    'prize-reveal__crystal-shatter': {
+      component: CssPrizeRevealCrystalShatter,
+      metadata: crystalShatterCssMetadata,
     },
   },
 }

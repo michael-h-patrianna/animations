@@ -1,0 +1,472 @@
+.pf-crystal-shatter {
+  --crystal-glow-primary: rgb(140 180 255 / 50%);
+  --crystal-glow-secondary: rgb(180 140 255 / 40%);
+  --crystal-glow-inner: rgb(200 220 255 / 60%);
+  --ambient-glow-inner: rgb(100 130 220 / 35%);
+  --ambient-glow-outer: rgb(60 80 160 / 20%);
+  --landing-ring-color: rgb(160 190 255 / 50%);
+  --shard-glow: rgb(140 180 255 / 40%);
+  --dust-glow: rgb(180 200 255 / 50%);
+  --prismatic-start: rgb(120 180 255 / 60%);
+  --prismatic-end: rgb(255 140 200 / 40%);
+  --aura-color-default: rgb(140 180 255 / 15%);
+  --aura-glow-default: rgb(120 160 255 / 10%);
+  --frame-glow: rgb(160 200 255 / 30%);
+  --mote-glow: rgb(180 200 255 / 60%);
+  --text-shadow: rgb(0 0 0 / 50%);
+  --text-shadow-strong: rgb(0 0 0 / 60%);
+  --claim-btn-border: rgb(140 180 255);
+  --claim-btn-bg-start: rgb(80 120 200);
+  --claim-btn-bg-end: rgb(60 80 160);
+  --claim-btn-text: rgb(255 255 255);
+  --claim-btn-glow: rgb(100 150 255 / 30%);
+  --claim-btn-hover-bg-start: rgb(100 140 220);
+  --claim-btn-hover-bg-end: rgb(70 100 180);
+  --claim-btn-hover-border: rgb(160 200 255);
+  --claim-btn-hover-glow: rgb(120 170 255 / 40%);
+  --claim-burst-inner: rgb(180 200 255 / 40%);
+  --claim-burst-outer: rgb(140 170 255 / 20%);
+  position: relative;
+  inline-size: 100%;
+  block-size: 340px;
+  overflow: hidden;
+}
+
+.pf-crystal-shatter__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─── Ambient dust ─── */
+
+.pf-crystal-shatter__ambient-dust {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__ambient-mote {
+  position: absolute;
+  inline-size: var(--size, 3px);
+  block-size: var(--size, 3px);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ─── Landing ring ─── */
+
+.pf-crystal-shatter__landing-ring {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 60px;
+  block-size: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--landing-ring-color);
+  box-shadow: 0 0 16px 6px var(--crystal-glow-primary);
+  pointer-events: none;
+}
+
+/* ─── Crystal body ─── */
+
+.pf-crystal-shatter__crystal-wrap {
+  position: relative;
+  z-index: 3;
+  inline-size: 140px;
+  block-size: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__crystal-image {
+  position: relative;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 12px var(--crystal-glow-primary))
+    drop-shadow(0 0 28px var(--crystal-glow-secondary));
+  transition: filter 800ms ease;
+}
+
+.pf-crystal-shatter__crystal-image--charging {
+  filter:
+    drop-shadow(0 0 16px rgb(255 200 100 / 60%))
+    drop-shadow(0 0 36px rgb(255 170 80 / 45%))
+    hue-rotate(30deg);
+}
+
+.pf-crystal-shatter__crystal-glow {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 50px 35px var(--crystal-glow-primary),
+    0 0 90px 65px var(--ambient-glow-inner),
+    0 0 140px 100px var(--ambient-glow-outer);
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__vibration-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ─── Energy motes ─── */
+
+.pf-crystal-shatter__motes-container {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__energy-mote {
+  position: absolute;
+  inline-size: var(--mote-size, 12px);
+  block-size: var(--mote-size, 12px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px var(--mote-glow));
+  pointer-events: none;
+  translate: -50% -50%;
+}
+
+/* ─── Shatter flash ─── */
+
+.pf-crystal-shatter__flash {
+  position: absolute;
+  z-index: 6;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 80px;
+  block-size: 80px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ─── Prismatic ring ─── */
+
+.pf-crystal-shatter__prismatic-ring {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 120px;
+  block-size: 120px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ─── Crystal fragments ─── */
+
+.pf-crystal-shatter__fragments {
+  position: absolute;
+  z-index: 7;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__shard {
+  position: absolute;
+  inset-inline-start: -45px;
+  inset-block-start: -45px;
+  inline-size: 90px;
+  block-size: 90px;
+  filter:
+    drop-shadow(0 0 8px rgb(180 210 255 / 80%))
+    drop-shadow(0 0 18px rgb(140 180 255 / 50%));
+  pointer-events: none;
+}
+
+/* ─── Dust spray ─── */
+
+.pf-crystal-shatter__dust-spray {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__dust-particle {
+  position: absolute;
+  inline-size: var(--dust-size, 4px);
+  block-size: var(--dust-size, 4px);
+  object-fit: contain;
+  pointer-events: none;
+  translate: -50% -50%;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRIZES
+   ═══════════════════════════════════════════════════ */
+
+.pf-crystal-shatter__prizes {
+  position: absolute;
+  z-index: 7;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__prize {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  translate: -50% -50%;
+}
+
+/* Prize type colors */
+
+.pf-crystal-shatter__prize--gc {
+  --aura-color: rgb(255 190 50 / 15%);
+  --aura-glow: rgb(255 180 40 / 25%);
+  --label-color: rgb(255 225 110);
+  --amount-color: rgb(255 220 80);
+  --amount-glow: rgb(255 200 50 / 55%);
+}
+
+.pf-crystal-shatter__prize--sc {
+  --aura-color: rgb(50 220 130 / 15%);
+  --aura-glow: rgb(40 200 120 / 25%);
+  --label-color: rgb(110 235 155);
+  --amount-color: rgb(90 240 140);
+  --amount-glow: rgb(50 210 130 / 55%);
+}
+
+.pf-crystal-shatter__prize--fs {
+  --aura-color: rgb(110 200 255 / 15%);
+  --aura-glow: rgb(100 190 255 / 25%);
+  --label-color: rgb(150 225 255);
+  --amount-color: rgb(140 220 255);
+  --amount-glow: rgb(110 210 255 / 55%);
+}
+
+.pf-crystal-shatter__prize--rr {
+  --aura-color: rgb(180 110 255 / 15%);
+  --aura-glow: rgb(170 100 255 / 25%);
+}
+
+/* ─── Prize aura ─── */
+
+.pf-crystal-shatter__prize-aura {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 28px 20px var(--aura-color, var(--aura-color-default)),
+    0 0 50px 36px var(--aura-glow, var(--aura-glow-default));
+  pointer-events: none;
+}
+
+/* ─── Crystal frame overlay ─── */
+
+.pf-crystal-shatter__frame-image {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 82px;
+  block-size: 82px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px var(--frame-glow));
+  pointer-events: none;
+}
+
+/* ─── Orbiting dust ─── */
+
+.pf-crystal-shatter__orbit-dust {
+  position: absolute;
+  z-index: 3;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-crystal-shatter__orbit-mote {
+  position: absolute;
+  inline-size: var(--mote-size, 3px);
+  block-size: var(--mote-size, 3px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px var(--mote-glow));
+  pointer-events: none;
+}
+
+/* ─── Prize icon ─── */
+
+.pf-crystal-shatter__prize-icon-wrap {
+  position: relative;
+  inline-size: 68px;
+  block-size: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.pf-crystal-shatter__prize-icon {
+  position: relative;
+  z-index: 4;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 2px 6px rgb(0 0 0 / 35%))
+    drop-shadow(0 0 10px var(--crystal-glow-primary));
+}
+
+.pf-crystal-shatter__prize--rr .pf-crystal-shatter__prize-icon-wrap {
+  inline-size: 80px;
+  block-size: 66px;
+}
+
+/* ─── Prize text ─── */
+
+.pf-crystal-shatter__prize-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pf-crystal-shatter__prize-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--label-color);
+  text-shadow:
+    0 1px 4px var(--text-shadow),
+    0 0 8px var(--amount-glow, var(--crystal-glow-primary));
+}
+
+.pf-crystal-shatter__prize-amount {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--amount-color);
+  text-shadow:
+    0 0 12px var(--amount-glow),
+    0 0 24px var(--amount-glow),
+    0 1px 4px var(--text-shadow-strong);
+}
+
+/* ─── Claim button ─── */
+
+.pf-crystal-shatter__claim-btn {
+  position: absolute;
+  z-index: 10;
+  inset-block-end: 16px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  padding: 8px 28px;
+  border-radius: 50px;
+  border: 2px solid var(--claim-btn-border);
+  background: linear-gradient(180deg, var(--claim-btn-bg-start), var(--claim-btn-bg-end));
+  color: var(--claim-btn-text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 1px var(--text-shadow);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 0 20px 6px var(--claim-btn-glow),
+    0 4px 12px rgb(0 0 0 / 30%);
+  transition: box-shadow 160ms ease;
+}
+
+.pf-crystal-shatter__claim-btn:hover {
+  background: linear-gradient(180deg, var(--claim-btn-hover-bg-start), var(--claim-btn-hover-bg-end));
+  border-color: var(--claim-btn-hover-border);
+  box-shadow:
+    0 0 24px 8px var(--claim-btn-hover-glow),
+    0 4px 14px rgb(0 0 0 / 35%);
+}
+
+/* ─── Claim burst ─── */
+
+.pf-crystal-shatter__claim-burst {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 60px 40px var(--claim-burst-inner),
+    0 0 120px 80px var(--claim-burst-outer);
+  pointer-events: none;
+}
+
+/* ─── Responsive sizing by prize count ─── */
+
+.pf-crystal-shatter[data-prize-count='4'] .pf-crystal-shatter__prize-icon-wrap {
+  inline-size: 52px;
+  block-size: 44px;
+}
+
+.pf-crystal-shatter[data-prize-count='4'] .pf-crystal-shatter__prize--rr .pf-crystal-shatter__prize-icon-wrap {
+  inline-size: 62px;
+  block-size: 52px;
+}
+
+.pf-crystal-shatter[data-prize-count='4'] .pf-crystal-shatter__frame-image {
+  inline-size: 66px;
+  block-size: 66px;
+}
+
+.pf-crystal-shatter[data-prize-count='4'] .pf-crystal-shatter__prize-amount {
+  font-size: 16px;
+}
