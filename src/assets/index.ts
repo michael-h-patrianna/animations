@@ -1,7 +1,9 @@
 /* eslint-disable animation-rules/no-direct-image-imports */
 
 import cardPackBackImage from '@/assets/card-pack/card-back.png'
-import cardPackClosedImage from '@/assets/card-pack/card-pack-closed.png'
+import cardPackBasicImage from '@/assets/card-pack/card-pack-basic.png'
+import cardPackDiamondImage from '@/assets/card-pack/card-pack-diamond.png'
+import cardPackGoldImage from '@/assets/card-pack/card-pack-gold.png'
 import cardPackDragonPetImage from '@/assets/card-pack/card-dragon-pet.png'
 import cardPackHamsterImage from '@/assets/card-pack/card-hamster.png'
 import cardPackKittenImage from '@/assets/card-pack/card-kitten.png'
@@ -61,7 +63,9 @@ import shakeIcon from '@/assets/shake_icon.png'
 
 export {
   cardPackBackImage,
-  cardPackClosedImage,
+  cardPackBasicImage,
+  cardPackDiamondImage,
+  cardPackGoldImage,
   cardPackDragonPetImage,
   cardPackHamsterImage,
   cardPackKittenImage,

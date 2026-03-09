@@ -3,7 +3,6 @@ import { useState, type CSSProperties } from 'react'
 
 import {
   cardPackBackImage,
-  cardPackClosedImage,
   crystalShatterDustImage,
   crystalShatterEnergyMoteImage,
   crystalShatterPrismaticRingImage,
@@ -143,7 +142,7 @@ const SHAKE_KEYFRAMES = (() => {
   return { x, y, rot }
 })()
 
-export function PackBody({ phase }: { phase: PackPhase }) {
+export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: string }) {
   const isShaking = phase === 'anticipation'
   const isVisible = phase === 'arrival' || phase === 'anticipation'
 
@@ -168,7 +167,7 @@ export function PackBody({ phase }: { phase: PackPhase }) {
         }
         transition={isShaking ? { duration: 1.0, ease: 'linear' } : {}}
       >
-        <img src={cardPackClosedImage} alt="" aria-hidden="true" className="pf-card-pack__pack-image" />
+        <img src={packImage} alt="" aria-hidden="true" className="pf-card-pack__pack-image" />
         <m.div
           className="pf-card-pack__pack-glow"
           animate={
@@ -531,12 +530,12 @@ function TearDebris() {
   )
 }
 
-export function PackTearOpen() {
+export function PackTearOpen({ packImage }: { packImage: string }) {
   return (
     <div className="pf-card-pack__tear-container">
       {/* Flap — blasts upward, tumbles, shrinks into distance */}
       <m.img
-        src={cardPackClosedImage}
+        src={packImage}
         alt=""
         aria-hidden="true"
         className="pf-card-pack__tear-flap"
@@ -559,7 +558,7 @@ export function PackTearOpen() {
       <TearDebris />
       {/* Body — briefly shudders then drops */}
       <m.img
-        src={cardPackClosedImage}
+        src={packImage}
         alt=""
         aria-hidden="true"
         className="pf-card-pack__tear-body"

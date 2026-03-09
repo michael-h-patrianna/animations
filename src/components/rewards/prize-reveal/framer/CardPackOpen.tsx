@@ -3,7 +3,10 @@ import * as m from 'motion/react-m'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
+  cardPackBasicImage,
+  cardPackDiamondImage,
   cardPackDragonPetImage,
+  cardPackGoldImage,
   cardPackHamsterImage,
   cardPackKittenImage,
   cardPackPuppyImage,
@@ -40,6 +43,14 @@ import {
   type FanPosition,
   type PackPhase,
 } from '../CardPackParts'
+
+/* ─── Pack types ─── */
+
+const PACK_IMAGES = [cardPackBasicImage, cardPackGoldImage, cardPackDiamondImage] as const
+
+function randomPackImage(): string {
+  return PACK_IMAGES[Math.floor(Math.random() * PACK_IMAGES.length)]
+}
 
 /* ─── Constants ─── */
 
@@ -158,6 +169,7 @@ function useFlipStates(phase: PackPhase, cardCount: number) {
 /* ─── Main animation ─── */
 
 function CardPackAnimation({ cardCount }: { cardCount: number }) {
+  const packImage = useMemo(() => randomPackImage(), [])
   const cards = useMemo(() => {
     const pack = CARD_PACK.slice(0, cardCount)
     const newIndex = Math.floor(Math.random() * pack.length)
@@ -241,7 +253,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       <ArrivalDust />
 
       {/* Pack — visible during arrival + anticipation */}
-      <PackBody phase={phase} />
+      <PackBody phase={phase} packImage={packImage} />
       <SeamLight phase={phase} />
 
       {/* Anticipation effects — energy build-up */}
@@ -257,7 +269,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       {/* Burst effects */}
       {showBurst && (
         <>
-          <PackTearOpen />
+          <PackTearOpen packImage={packImage} />
           <BurstFlash />
           <BurstRing />
           <RadialRays />
