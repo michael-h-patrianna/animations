@@ -140,7 +140,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 disableReplay={animation.disableReplay}
               >
                 {({ bulbCount, onColor, prizeCount }) => {
-                  const isPrizeCountAnimation = animation.id === 'prize-reveal__chest-gc-sc' || animation.id === 'prize-reveal__arcane-portal'
+                  const isPrizeCountAnimation = animation.id === 'prize-reveal__chest-gc-sc' || animation.id === 'prize-reveal__arcane-portal' || animation.id === 'prize-reveal__card-pack-open'
                   return AnimationComponent ? (
                     <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
                       <AnimationComponent

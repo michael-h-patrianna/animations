@@ -121,11 +121,9 @@ type PrizeCountControlsProps = {
   onPrizeCountChange: (count: number) => void
 }
 
-const PRIZE_COUNT_OPTIONS = [1, 2, 3, 4] as const
-
-const PrizeCountControls = ({ prizeCount, onPrizeCountChange }: PrizeCountControlsProps) => (
+const PrizeCountControls = ({ prizeCount, onPrizeCountChange, maxCount = 4 }: PrizeCountControlsProps & { maxCount?: number }) => (
   <div className="flex items-center gap-1">
-    {PRIZE_COUNT_OPTIONS.map((n) => (
+    {Array.from({ length: maxCount }, (_, i) => i + 1).map((n) => (
       <button
         key={n}
         type="button"
@@ -248,7 +246,7 @@ type FooterControlsProps = {
 
 const FooterControls = ({ animationId, controls, tags, disableReplay, onReplay }: FooterControlsProps) => {
   const isLightsAnimation = animationId.startsWith('lights__')
-  const isPrizeCountAnimation = animationId === 'prize-reveal__chest-gc-sc' || animationId === 'prize-reveal__arcane-portal'
+  const isPrizeCountAnimation = animationId === 'prize-reveal__chest-gc-sc' || animationId === 'prize-reveal__arcane-portal' || animationId === 'prize-reveal__card-pack-open'
   const { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey } = controls
 
   const handleBulbCountChange = (value: number) => { setBulbCount(clampBulbCount(value)); setReplayKey((k) => k + 1) }
@@ -262,7 +260,7 @@ const FooterControls = ({ animationId, controls, tags, disableReplay, onReplay }
         <LightsControls bulbCount={bulbCount} onColor={onColor} onBulbCountChange={handleBulbCountChange} onColorChange={handleColorChange} />
       )}
       {isPrizeCountAnimation && (
-        <PrizeCountControls prizeCount={prizeCount} onPrizeCountChange={handlePrizeCountChange} />
+        <PrizeCountControls prizeCount={prizeCount} onPrizeCountChange={handlePrizeCountChange} maxCount={animationId === 'prize-reveal__card-pack-open' ? 5 : 4} />
       )}
       <div className="pf-card__controls">
         <Button type="button" variant="outline" size="sm" className="pf-card__replay" data-role="replay" onClick={onReplay} disabled={disableReplay} aria-disabled={disableReplay}>

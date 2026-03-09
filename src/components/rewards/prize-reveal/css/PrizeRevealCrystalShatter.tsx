@@ -167,6 +167,23 @@ function PrizeRevealCrystalShatterComponent({ prizeCount = DEFAULT_PRIZE_COUNT }
   const [claimed, setClaimed] = useState(false)
   const [showClaim, setShowClaim] = useState(false)
 
+  // Preload all images so they're decoded before their animation delay fires
+  useEffect(() => {
+    const sources = [
+      ...SHARD_IMAGES,
+      crystalShatterDustImage,
+      crystalShatterEnergyMoteImage,
+      crystalShatterSparkleImage,
+      crystalShatterPrismaticRingImage,
+      crystalShatterFrameImage,
+      ...prizes.map((p) => p.src),
+    ]
+    sources.forEach((src) => {
+      const img = new Image()
+      img.src = src
+    })
+  }, [prizes])
+
   useEffect(() => {
     const t = window.setTimeout(() => setShowClaim(true), CLAIM_APPEAR_MS)
     return () => window.clearTimeout(t)

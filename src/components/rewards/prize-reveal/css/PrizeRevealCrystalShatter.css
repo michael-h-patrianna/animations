@@ -42,36 +42,58 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  animation:
-    cs-descent 0.8s cubic-bezier(0.2, 0, 0.1, 1) both,
-    cs-charge-scale 1.0s ease-in-out 1.2s both,
-    cs-charge-vibrate 0.25s linear 2.0s 2,
-    cs-crystal-vanish 0.06s ease-out 2.4s both;
+  animation: cs-crystal-lifecycle 2.5s both;
   will-change: transform, opacity;
 }
 
-@keyframes cs-descent {
-  from { transform: translateY(-150px) rotate(-8deg); opacity: 0; }
-  to   { transform: translateY(0) rotate(0deg); opacity: 1; }
-}
-
-@keyframes cs-charge-scale {
-  from { transform: scale(1); }
-  to   { transform: scale(1.06); }
-}
-
-@keyframes cs-charge-vibrate {
-  0%   { transform: translateX(0) scale(1.06); }
-  20%  { transform: translateX(-2px) scale(1.06); }
-  40%  { transform: translateX(2px) scale(1.06); }
-  60%  { transform: translateX(-3px) scale(1.06); }
-  80%  { transform: translateX(3px) scale(1.06); }
-  100% { transform: translateX(0) scale(1.06); }
-}
-
-@keyframes cs-crystal-vanish {
-  from { transform: scale(1.06); opacity: 1; }
-  to   { transform: scale(0); opacity: 0; }
+@keyframes cs-crystal-lifecycle {
+  /* ── descent (0 → 0.8s) ── */
+  0% {
+    transform: translateX(0) translateY(-150px) rotate(-8deg) scale(1);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.2, 0, 0.1, 1);
+  }
+  32% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+  /* ── hold (0.8 → 1.2s) ── */
+  48% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+    animation-timing-function: ease-in-out;
+  }
+  /* ── charge scale (1.2 → 2.0s) ── */
+  80% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  /* ── vibrate cycle 1 (2.0 → 2.2s) ── */
+  82%  { transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  84%  { transform: translateX(2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  86%  { transform: translateX(-3px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  88%  { transform: translateX(3px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  /* ── vibrate cycle 2 (2.2 → 2.4s) ── */
+  90%  { transform: translateX(0) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  91.5% { transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  93%  { transform: translateX(3px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  94.5% { transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  /* ── vanish (2.4 → 2.46s) ── */
+  96% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  98.5% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(0);
+    opacity: 0;
+  }
 }
 
 .pf-cs-css__crystal-image {
@@ -118,6 +140,7 @@
   position: absolute;
   inline-size: var(--mote-size, 12px);
   block-size: var(--mote-size, 12px);
+  max-inline-size: none;
   object-fit: contain;
   filter: drop-shadow(0 0 6px var(--mote-glow));
   pointer-events: none;
@@ -146,7 +169,7 @@
   object-fit: contain;
   pointer-events: none;
   opacity: 0;
-  animation: cs-flash 0.35s ease-out 2.4s both;
+  animation: cs-flash 0.35s ease-out 2.4s forwards;
   will-change: transform, opacity;
 }
 
@@ -169,7 +192,7 @@
   object-fit: contain;
   pointer-events: none;
   opacity: 0;
-  animation: cs-prismatic-expand 0.5s ease-out 2.4s both;
+  animation: cs-prismatic-expand 0.5s ease-out 2.4s forwards;
   will-change: transform, opacity;
 }
 
@@ -194,6 +217,7 @@
   position: absolute;
   inline-size: 90px;
   block-size: 90px;
+  max-inline-size: none;
   object-fit: contain;
   filter:
     brightness(1.6)
@@ -202,7 +226,7 @@
   pointer-events: none;
   translate: -50% -50%;
   opacity: 0;
-  animation: cs-shard-fly 1.2s cubic-bezier(0.2, 0, 0.1, 1) 2.4s both;
+  animation: cs-shard-fly 1.2s cubic-bezier(0.2, 0, 0.1, 1) 2.4s forwards;
   will-change: transform, opacity;
 }
 
@@ -228,11 +252,12 @@
   position: absolute;
   inline-size: var(--dust-size, 4px);
   block-size: var(--dust-size, 4px);
+  max-inline-size: none;
   object-fit: contain;
   pointer-events: none;
   translate: -50% -50%;
   opacity: 0;
-  animation: cs-dust-fly 0.5s ease-out 2.4s both;
+  animation: cs-dust-fly 0.5s ease-out 2.4s forwards;
   will-change: transform, opacity;
 }
 

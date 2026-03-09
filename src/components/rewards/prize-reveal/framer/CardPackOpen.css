@@ -1,0 +1,610 @@
+/* ═══════════════════════════════════════════════════
+   CARD PACK OPEN — Framer Motion variant
+   Monopoly Go-inspired design
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack {
+  /* Rarity palette */
+  --rarity-common-color:    rgb(160 175 190);
+  --rarity-common-glow:     rgb(160 175 190 / 40%);
+  --rarity-uncommon-color:  rgb(60 190 100);
+  --rarity-uncommon-glow:   rgb(60 190 100 / 40%);
+  --rarity-rare-color:      rgb(140 70 240);
+  --rarity-rare-glow:       rgb(140 70 240 / 40%);
+  --rarity-epic-color:      rgb(255 175 20);
+  --rarity-epic-glow:       rgb(255 175 20 / 45%);
+  --rarity-legendary-color: rgb(255 80 170);
+  --rarity-legendary-glow:  rgb(255 80 170 / 45%);
+
+  /* Pack / stage */
+  --pack-glow:     rgb(200 170 100 / 30%);
+  --pack-glow-hot: rgb(255 200 80 / 55%);
+  --flash-color:   rgb(255 248 225);
+  --gold:          rgb(255 205 50);
+  --seam-color:    rgb(255 240 200);
+
+  /* Collect button */
+  --collect-bg-start: rgb(100 60 180);
+  --collect-bg-end:   rgb(70 30 140);
+  --collect-border:   rgb(160 120 255);
+  --collect-glow:     rgb(140 100 255 / 30%);
+
+  position: relative;
+  inline-size: 100%;
+  block-size: 420px;
+  overflow: hidden;
+}
+
+.pf-card-pack__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─── Ambient motes ─── */
+
+.pf-card-pack__ambient {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__ambient-mote {
+  position: absolute;
+  inline-size: var(--mote-size, 4px);
+  block-size: var(--mote-size, 4px);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ─── Pack body ─── */
+
+.pf-card-pack__pack-body {
+  position: relative;
+  z-index: 3;
+  inline-size: 145px;
+  block-size: 218px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-card-pack__pack-image {
+  position: relative;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+/* Pack glow aura */
+.pf-card-pack__pack-glow {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 60px 40px var(--pack-glow),
+    0 0 120px 70px rgb(200 170 100 / 10%);
+  pointer-events: none;
+}
+
+/* Subtle under-glow behind pack */
+.pf-card-pack__pack-ambient-glow {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 50%;
+  inset-block-start: 60%;
+  translate: -50% -50%;
+  inline-size: 180px;
+  block-size: 80px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, var(--pack-glow) 0%, transparent 70%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Shake during anticipation */
+.pf-card-pack__pack-body--shaking {
+  animation: pf-card-pack-shake 0.1s linear infinite;
+}
+
+@keyframes pf-card-pack-shake {
+  0%   { translate: 0 0; }
+  25%  { translate: -4px 1px; }
+  50%  { translate: 3px -2px; }
+  75%  { translate: -3px 2px; }
+  100% { translate: 2px -1px; }
+}
+
+/* ─── Landing pulse ─── */
+
+.pf-card-pack__landing-pulse {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 70px;
+  block-size: 70px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 16px 5px var(--pack-glow);
+  pointer-events: none;
+}
+
+/* ─── Seam light — horizontal at pack tear line ─── */
+
+.pf-card-pack__seam {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 145px;
+  block-size: 4px;
+  border-radius: 2px;
+  background: var(--seam-color);
+  box-shadow:
+    0 0 10px 4px rgb(255 240 200 / 70%),
+    0 0 24px 10px rgb(255 220 150 / 35%);
+  pointer-events: none;
+}
+
+/* ─── Converge motes ─── */
+
+.pf-card-pack__converge-container {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__converge-mote {
+  position: absolute;
+  inline-size: var(--mote-size, 8px);
+  block-size: var(--mote-size, 8px);
+  object-fit: contain;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   PACK TEAR OPEN
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack__tear-container {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 145px;
+  block-size: 218px;
+  pointer-events: none;
+  perspective: 800px;
+}
+
+.pf-card-pack__tear-flap {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgb(0 0 0 / 50%));
+  transform-origin: center 36%;
+}
+
+.pf-card-pack__tear-body {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgb(0 0 0 / 50%));
+}
+
+/* ─── Burst flash ─── */
+
+.pf-card-pack__burst-flash {
+  position: absolute;
+  z-index: 6;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 120px;
+  block-size: 120px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ─── Burst ring ─── */
+
+.pf-card-pack__burst-ring {
+  position: absolute;
+  z-index: 6;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 150px;
+  block-size: 150px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ─── Light column ─── */
+
+.pf-card-pack__light-column {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -100%;
+  inline-size: 18px;
+  block-size: 240px;
+  border-radius: 9px;
+  background: linear-gradient(to top, var(--flash-color), transparent);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+/* ─── Shockwave ─── */
+
+.pf-card-pack__shockwave {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 50px;
+  block-size: 50px;
+  border-radius: 50%;
+  border: 3px solid rgb(255 220 130 / 60%);
+  box-shadow: 0 0 14px 5px rgb(255 200 80 / 25%);
+  pointer-events: none;
+}
+
+/* ─── Golden confetti ─── */
+
+.pf-card-pack__confetti-container {
+  position: absolute;
+  z-index: 7;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__confetti-piece {
+  position: absolute;
+  inline-size: var(--confetti-size, 8px);
+  block-size: var(--confetti-size, 8px);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   CARDS — Monopoly Go style
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack__cards-container {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: 50%;
+  inset-block-start: 48%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__card-slot {
+  position: absolute;
+  translate: -50% -50%;
+}
+
+/* Perspective wrapper */
+.pf-card-pack__card-perspective {
+  position: relative;
+  perspective: 900px;
+}
+
+/* Flipper — 100×148 px (stars+ribbon overflow beyond this box) */
+.pf-card-pack__card-flipper {
+  position: relative;
+  inline-size: 100px;
+  block-size: 148px;
+}
+
+/* ─── Card faces ─── */
+
+.pf-card-pack__card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  /* overflow visible so stars/ribbon can protrude */
+  overflow: visible;
+}
+
+.pf-card-pack__card-back {
+  z-index: 2;
+}
+
+.pf-card-pack__card-front {
+  z-index: 1;
+  transform: rotateY(180deg);
+}
+
+/* ─── Card frame — white border with rounded corners ─── */
+
+.pf-card-pack__card-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  box-shadow:
+    0 4px 16px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px rgb(200 200 200 / 60%),
+    inset 0 1px 0 rgb(255 255 255 / 80%);
+  overflow: hidden;
+}
+
+/* Rarity tint on frame edge */
+.pf-card-pack__card-frame--rarity-3 { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(140 70 240 / 40%); }
+.pf-card-pack__card-frame--rarity-4 { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 175 20 / 50%); }
+.pf-card-pack__card-frame--rarity-5 {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 80 170 / 50%);
+  animation: pf-card-pack-frame-legendary 2.5s ease-in-out infinite;
+}
+
+@keyframes pf-card-pack-frame-legendary {
+  0%, 100% { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 80 170 / 50%); }
+  33%       { box-shadow: 0 4px 20px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(100 160 255 / 50%); }
+  66%       { box-shadow: 0 4px 20px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 215 50 / 50%); }
+}
+
+/* ─── Card image area ─── */
+
+.pf-card-pack__card-img-area {
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  min-block-size: 0;
+}
+
+.pf-card-pack__card-img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── Rarity glow on flipped card frame ─── */
+
+.pf-card-pack__card--rarity-1 .pf-card-pack__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 12px 3px var(--rarity-common-glow), inset 0 0 0 1px rgb(200 200 200 / 50%); }
+.pf-card-pack__card--rarity-2 .pf-card-pack__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 14px 4px var(--rarity-uncommon-glow), inset 0 0 0 1px rgb(200 200 200 / 50%); }
+.pf-card-pack__card--rarity-3 .pf-card-pack__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 18px 6px var(--rarity-rare-glow), inset 0 0 0 2px rgb(140 70 240 / 40%); }
+.pf-card-pack__card--rarity-4 .pf-card-pack__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 20px 8px var(--rarity-epic-glow), inset 0 0 0 2px rgb(255 175 20 / 50%); }
+.pf-card-pack__card--rarity-5 .pf-card-pack__card-frame {
+  animation: pf-card-pack-frame-legendary 2.5s ease-in-out infinite;
+}
+
+/* ─── Stars — 3D gold (radialGradient in SVG, drop-shadow for depth) ─── */
+
+.pf-card-pack__card-stars {
+  position: absolute;
+  /* Straddle top edge of frame: half above, half below */
+  inset-block-start: -14px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  display: flex;
+  gap: 0;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 4px rgb(0 0 0 / 55%)) drop-shadow(0 0 6px rgb(255 160 0 / 35%));
+}
+
+.pf-card-pack__card-star {
+  inline-size: 22px;
+  block-size: 22px;
+  display: block;
+  margin-inline: -3px;
+}
+
+/* Legendary star shimmer */
+.pf-card-pack__card-stars--rarity-5 {
+  animation: pf-card-pack-star-legendary 2s ease-in-out infinite;
+}
+
+@keyframes pf-card-pack-star-legendary {
+  0%, 100% { filter: drop-shadow(0 3px 4px rgb(0 0 0 / 55%)) drop-shadow(0 0 8px rgb(255 80 180 / 50%)); }
+  50%       { filter: drop-shadow(0 3px 4px rgb(0 0 0 / 55%)) drop-shadow(0 0 10px rgb(255 220 50 / 60%)); }
+}
+
+/* ─── Name ribbon — Monopoly Go style ─── */
+
+.pf-card-pack__card-ribbon {
+  position: absolute;
+  /* Sit on the lower portion of the card, showing art below */
+  inset-block-end: 6px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  inline-size: 108px;
+  block-size: 26px;
+  border-radius: 6px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow:
+    0 3px 8px rgb(0 0 0 / 45%),
+    inset 0 1px 0 rgb(255 255 255 / 30%),
+    inset 0 -1px 0 rgb(0 0 0 / 20%);
+}
+
+.pf-card-pack__card-ribbon-svg {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+}
+
+/* Rarity ribbon colors */
+.pf-card-pack__card-ribbon--rarity-1 {
+  background: linear-gradient(180deg, #8FA4B8 0%, #607080 45%, #445060 100%);
+}
+.pf-card-pack__card-ribbon--rarity-2 {
+  background: linear-gradient(180deg, #4DC87A 0%, #278A4A 45%, #186030 100%);
+}
+.pf-card-pack__card-ribbon--rarity-3 {
+  background: linear-gradient(180deg, #836BE8 0%, #5040CC 45%, #3020A0 100%);
+}
+.pf-card-pack__card-ribbon--rarity-4 {
+  background: linear-gradient(180deg, #F0A830 0%, #C07010 45%, #905000 100%);
+}
+.pf-card-pack__card-ribbon--rarity-5 {
+  background: linear-gradient(180deg, #E860C8 0%, #B030A0 45%, #801870 100%);
+}
+
+/* ═══════════════════════════════════════════════════
+   RARITY BURST — multi-layered
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack__rarity-burst-wrap {
+  position: absolute;
+  z-index: 7;
+  inset-inline-start: calc(50% + var(--burst-x, 0px));
+  inset-block-start: calc(50% + var(--burst-y, 0px));
+  translate: -50% -50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__rarity-glow {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 80px;
+  block-size: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--burst-color, var(--gold)) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.pf-card-pack__rarity-flash {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 70px;
+  block-size: 70px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.pf-card-pack__rarity-ring {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 90px;
+  block-size: 90px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.pf-card-pack__rarity-spark {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: var(--spark-size, 6px);
+  block-size: var(--spark-size, 6px);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ─── Screen flash ─── */
+
+.pf-card-pack__screen-flash {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__screen-flash--rarity-4 {
+  background: radial-gradient(circle at center, var(--rarity-epic-glow) 0%, transparent 65%);
+}
+
+.pf-card-pack__screen-flash--rarity-5 {
+  background: radial-gradient(circle at center, var(--rarity-legendary-glow) 0%, transparent 65%);
+}
+
+/* ─── Collect button ─── */
+
+.pf-card-pack__collect-btn {
+  position: absolute;
+  z-index: 10;
+  inset-block-end: 16px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  padding: 10px 34px;
+  border-radius: 50px;
+  border: 2px solid var(--collect-border);
+  background: linear-gradient(180deg, var(--collect-bg-start), var(--collect-bg-end));
+  color: rgb(255 255 255);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 40%);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 0 20px 6px var(--collect-glow),
+    0 4px 12px rgb(0 0 0 / 30%);
+  transition: box-shadow 160ms ease;
+}
+
+.pf-card-pack__collect-btn:hover {
+  border-color: rgb(190 155 255);
+  box-shadow:
+    0 0 28px 9px rgb(160 120 255 / 45%),
+    0 4px 14px rgb(0 0 0 / 35%);
+}
+
+/* ─── Collect burst ─── */
+
+.pf-card-pack__collect-burst {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 70px 40px rgb(200 170 255 / 35%),
+    0 0 130px 80px rgb(160 130 220 / 15%);
+  pointer-events: none;
+}

@@ -1,5 +1,12 @@
 /* eslint-disable animation-rules/no-direct-image-imports */
 
+import cardPackArcherImage from '@/assets/card-pack/card-archer.png'
+import cardPackBackImage from '@/assets/card-pack/card-back.png'
+import cardPackClosedImage from '@/assets/card-pack/card-pack-closed.png'
+import cardPackDragonImage from '@/assets/card-pack/card-dragon.png'
+import cardPackMageImage from '@/assets/card-pack/card-mage.png'
+import cardPackPhoenixImage from '@/assets/card-pack/card-phoenix.png'
+import cardPackWarriorImage from '@/assets/card-pack/card-warrior.png'
 import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.png'
 import arcanePortalGcImage from '@/assets/arcane-portal/gc.png'
 import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.png'
@@ -53,6 +60,13 @@ import questlineRoyalMilestoneEmblem from '@/assets/questline-royal/milestone-em
 import shakeIcon from '@/assets/shake_icon.png'
 
 export {
+  cardPackArcherImage,
+  cardPackBackImage,
+  cardPackClosedImage,
+  cardPackDragonImage,
+  cardPackMageImage,
+  cardPackPhoenixImage,
+  cardPackWarriorImage,
   arcanePortalFreeSpinsImage,
   arcanePortalGcImage,
   arcanePortalRandomRewardImage,

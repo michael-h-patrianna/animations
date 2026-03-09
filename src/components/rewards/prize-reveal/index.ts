@@ -5,6 +5,7 @@ import './framer/PrizeRevealPirateChestWin.css'
 import './framer/PrizeRevealChestGcSc.css'
 import './framer/PrizeRevealArcanePortal.css'
 import './framer/PrizeRevealCrystalShatter.css'
+import './framer/CardPackOpen.css'
 
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
@@ -15,6 +16,7 @@ import { metadata as chestGcScMetadata } from './framer/PrizeRevealChestGcSc.met
 import { metadata as pirateChestNoWinMetadata } from './framer/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinMetadata } from './framer/PrizeRevealPirateChestWin.meta'
 import { metadata as crystalShatterMetadata } from './framer/PrizeRevealCrystalShatter.meta'
+import { metadata as cardPackOpenMetadata } from './framer/CardPackOpen.meta'
 
 // CSS - Import metadata only
 import { metadata as arcanePortalCssMetadata } from './css/PrizeRevealArcanePortal.meta'
@@ -22,6 +24,7 @@ import { metadata as chestGcScCssMetadata } from './css/PrizeRevealChestGcSc.met
 import { metadata as pirateChestNoWinCssMetadata } from './css/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinCssMetadata } from './css/PrizeRevealPirateChestWin.meta'
 import { metadata as crystalShatterCssMetadata } from './css/PrizeRevealCrystalShatter.meta'
+import { metadata as cardPackOpenCssMetadata } from './css/CardPackOpen.meta'
 
 // Framer Motion - Lazy load components
 const PrizeRevealArcanePortal = lazy(() =>
@@ -51,6 +54,12 @@ const PrizeRevealCrystalShatter = lazy(() =>
   }))
 )
 
+const CardPackOpen = lazy(() =>
+  import('./framer/CardPackOpen').then((m) => ({
+    default: m.CardPackOpen,
+  }))
+)
+
 // CSS - Lazy load components
 const CssPrizeRevealArcanePortal = lazy(() =>
   import('./css/PrizeRevealArcanePortal').then((m) => ({
@@ -76,6 +85,12 @@ const CssPrizeRevealPirateChestWin = lazy(() =>
 const CssPrizeRevealCrystalShatter = lazy(() =>
   import('./css/PrizeRevealCrystalShatter').then((m) => ({
     default: m.PrizeRevealCrystalShatter,
+  }))
+)
+
+const CssCardPackOpen = lazy(() =>
+  import('./css/CardPackOpen').then((m) => ({
+    default: m.CardPackOpen,
   }))
 )
 
@@ -109,6 +124,10 @@ export const groupExport: GroupExport = {
       component: PrizeRevealCrystalShatter,
       metadata: crystalShatterMetadata,
     },
+    'prize-reveal__card-pack-open': {
+      component: CardPackOpen,
+      metadata: cardPackOpenMetadata,
+    },
   },
   css: {
     'prize-reveal__arcane-portal': {
@@ -130,6 +149,10 @@ export const groupExport: GroupExport = {
     'prize-reveal__crystal-shatter': {
       component: CssPrizeRevealCrystalShatter,
       metadata: crystalShatterCssMetadata,
+    },
+    'prize-reveal__card-pack-open': {
+      component: CssCardPackOpen,
+      metadata: cardPackOpenCssMetadata,
     },
   },
 }
