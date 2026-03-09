@@ -61,9 +61,17 @@ export const FAN_POSITIONS: FanPosition[] = [
   { x: 116, y: 20, rotate: 12 },
 ]
 
-/* Tear at the top seal — 16% amplitude, jagged rip at 20–36% from top */
-const TEAR_FLAP_CLIP = 'polygon(0% 0%, 100% 0%, 100% 20%, 95% 36%, 89% 20%, 82% 36%, 75% 20%, 68% 36%, 61% 20%, 54% 36%, 47% 20%, 40% 36%, 33% 20%, 26% 36%, 19% 20%, 12% 36%, 5% 20%, 0% 36%)'
-const TEAR_BODY_CLIP = 'polygon(0% 36%, 5% 20%, 12% 36%, 19% 20%, 26% 36%, 33% 20%, 40% 36%, 47% 20%, 54% 36%, 61% 20%, 68% 36%, 75% 20%, 82% 36%, 89% 20%, 95% 36%, 100% 20%, 100% 100%, 0% 100%)'
+/* Tear edge — irregular rip with varied amplitude, spacing, and wandering baseline.
+   Points shared between flap (above) and body (below) so they mesh seamlessly. */
+const TEAR_EDGE = [
+  [0, 30], [5, 24], [10, 31], [16, 22], [22, 29],
+  [28, 34], [35, 23], [42, 30], [48, 21], [55, 32],
+  [62, 25], [68, 34], [75, 22], [82, 31], [88, 24],
+  [94, 33], [100, 27],
+] as const
+
+const TEAR_FLAP_CLIP = `polygon(0% 0%, 100% 0%, ${[...TEAR_EDGE].reverse().map(([x, y]) => `${x}% ${y}%`).join(', ')})`
+const TEAR_BODY_CLIP = `polygon(${TEAR_EDGE.map(([x, y]) => `${x}% ${y}%`).join(', ')}, 100% 100%, 0% 100%)`
 
 /* ═══════════════════════════════════════════════════
    ATMOSPHERE — floating dust particles (image-based)
@@ -214,24 +222,80 @@ export function ConvergeMotes({ motes }: { motes: ConvergeMoteData[] }) {
    Flap tears upward, body stays then fades
    ═══════════════════════════════════════════════════ */
 
+const TEAR_DEBRIS_COUNT = 10
+
+function TearDebris() {
+  const particles = Array.from({ length: TEAR_DEBRIS_COUNT }, (_, i) => {
+    const spread = (i / (TEAR_DEBRIS_COUNT - 1)) * 160 - 80
+    const isSparkle = i % 3 === 0
+    return {
+      id: i,
+      x: spread + (Math.random() - 0.5) * 20,
+      endX: spread * 1.4 + (Math.random() - 0.5) * 30,
+      endY: -40 - Math.random() * 60,
+      size: isSparkle ? 8 + Math.random() * 6 : 3 + Math.random() * 4,
+      src: isSparkle ? crystalShatterSparkleImage : crystalShatterDustImage,
+      rotation: (Math.random() - 0.5) * 180,
+      delay: Math.random() * 0.1,
+    }
+  })
+
+  return (
+    <>
+      {particles.map((p) => (
+        <m.img
+          key={p.id}
+          src={p.src}
+          alt=""
+          aria-hidden="true"
+          className="pf-card-pack__tear-debris"
+          style={{ '--debris-size': `${p.size}px` } as CSSProperties}
+          initial={{ x: p.x, y: 0, opacity: 1, scale: 1, rotate: 0 }}
+          animate={{
+            x: p.endX,
+            y: p.endY,
+            opacity: [1, 0.8, 0],
+            scale: [1, 0.6, 0.1],
+            rotate: p.rotation,
+          }}
+          transition={{
+            duration: 0.5,
+            delay: p.delay,
+            times: [0, 0.4, 1] as const,
+            ease: 'easeOut',
+          }}
+        />
+      ))}
+    </>
+  )
+}
+
 export function PackTearOpen() {
   return (
     <div className="pf-card-pack__tear-container">
-      {/* Flap — rips upward, curls back in 3D */}
+      {/* Flap — blasts upward, tumbles, shrinks into distance */}
       <m.img
         src={cardPackClosedImage}
         alt=""
         aria-hidden="true"
         className="pf-card-pack__tear-flap"
         style={{ clipPath: TEAR_FLAP_CLIP }}
-        initial={{ y: 0, rotateX: 0, rotateZ: 0, opacity: 1, scale: 1 }}
-        animate={{ y: -90, rotateX: -120, rotateZ: -4, opacity: [1, 0.9, 0], scale: [1, 0.9, 0.7] }}
+        initial={{ x: 0, y: 0, rotate: 0, opacity: 1, scale: 1 }}
+        animate={{
+          x: [0, 15, 40],
+          y: [0, -100, -200],
+          rotate: [0, -15, -45],
+          opacity: [1, 0.85, 0],
+          scale: [1, 0.7, 0.3],
+        }}
         transition={{
-          duration: 0.7,
-          times: [0, 0.35, 1] as const,
+          duration: 0.75,
+          times: [0, 0.4, 1] as const,
           ease: [0.2, 0, 0.6, 1] as const,
         }}
       />
+      {/* Debris — sparkles + dust scatter from tear line */}
+      <TearDebris />
       {/* Body — briefly shudders then drops */}
       <m.img
         src={cardPackClosedImage}

@@ -207,7 +207,17 @@
   block-size: 100%;
   object-fit: contain;
   filter: drop-shadow(0 6px 14px rgb(0 0 0 / 50%));
-  transform-origin: center 36%;
+  transform-origin: center 30%;
+}
+
+.pf-card-pack__tear-debris {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 30%;
+  inline-size: var(--debris-size, 6px);
+  block-size: var(--debris-size, 6px);
+  translate: -50% -50%;
+  pointer-events: none;
 }
 
 .pf-card-pack__tear-body {
