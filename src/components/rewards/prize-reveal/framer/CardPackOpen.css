@@ -116,18 +116,7 @@
   pointer-events: none;
 }
 
-/* Shake during anticipation */
-.pf-card-pack__pack-body--shaking {
-  animation: pf-card-pack-shake 0.1s linear infinite;
-}
-
-@keyframes pf-card-pack-shake {
-  0%   { translate: 0 0; }
-  25%  { translate: -4px 1px; }
-  50%  { translate: 3px -2px; }
-  75%  { translate: -3px 2px; }
-  100% { translate: 2px -1px; }
-}
+/* Shake driven by Framer Motion in PackBody component */
 
 /* ─── Landing pulse ─── */
 
@@ -323,9 +312,22 @@
   pointer-events: none;
 }
 
+.pf-card-pack__land-shimmer {
+  position: absolute;
+  inset-inline-start: calc(50% + var(--shimmer-x, 0px));
+  inset-block-start: calc(50% + var(--shimmer-y, 0px));
+  translate: -50% -50%;
+  inline-size: 90px;
+  block-size: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--pack-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 .pf-card-pack__card-slot {
   position: absolute;
   translate: -50% -50%;
+  pointer-events: auto;
 }
 
 /* Perspective wrapper */
@@ -382,14 +384,8 @@
 .pf-card-pack__card-frame--rarity-4 { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 175 20 / 50%); }
 .pf-card-pack__card-frame--rarity-5 {
   box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 80 170 / 50%);
-  animation: pf-card-pack-frame-legendary 2.5s ease-in-out infinite;
 }
-
-@keyframes pf-card-pack-frame-legendary {
-  0%, 100% { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 80 170 / 50%); }
-  33%       { box-shadow: 0 4px 20px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(100 160 255 / 50%); }
-  66%       { box-shadow: 0 4px 20px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 215 50 / 50%); }
-}
+/* Legendary frame glow cycling driven by Framer Motion in FlipCard */
 
 /* ─── Card image area ─── */
 
@@ -415,7 +411,7 @@
 .pf-card-pack__card--rarity-3 .pf-card-pack__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 18px 6px var(--rarity-rare-glow), inset 0 0 0 2px rgb(140 70 240 / 40%); }
 .pf-card-pack__card--rarity-4 .pf-card-pack__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 20px 8px var(--rarity-epic-glow), inset 0 0 0 2px rgb(255 175 20 / 50%); }
 .pf-card-pack__card--rarity-5 .pf-card-pack__card-frame {
-  animation: pf-card-pack-frame-legendary 2.5s ease-in-out infinite;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 22px 10px var(--rarity-legendary-glow), inset 0 0 0 2px rgb(255 80 170 / 50%);
 }
 
 /* ─── Stars — 3D gold (radialGradient in SVG, drop-shadow for depth) ─── */
@@ -440,15 +436,7 @@
   margin-inline: -3px;
 }
 
-/* Legendary star shimmer */
-.pf-card-pack__card-stars--rarity-5 {
-  animation: pf-card-pack-star-legendary 2s ease-in-out infinite;
-}
-
-@keyframes pf-card-pack-star-legendary {
-  0%, 100% { filter: drop-shadow(0 3px 4px rgb(0 0 0 / 55%)) drop-shadow(0 0 8px rgb(255 80 180 / 50%)); }
-  50%       { filter: drop-shadow(0 3px 4px rgb(0 0 0 / 55%)) drop-shadow(0 0 10px rgb(255 220 50 / 60%)); }
-}
+/* Legendary star shimmer driven by Framer Motion in FlipCard */
 
 /* ─── Name ribbon — Monopoly Go style ─── */
 
@@ -490,6 +478,39 @@
 }
 .pf-card-pack__card-ribbon--rarity-5 {
   background: linear-gradient(180deg, #E860C8 0%, #B030A0 45%, #801870 100%);
+}
+
+/* ─── NEW badge — red starburst ─── */
+
+.pf-card-pack__new-badge {
+  position: absolute;
+  z-index: 12;
+  inset-inline-start: -10px;
+  inset-block-end: 26px;
+  inline-size: 34px;
+  block-size: 34px;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 45%));
+}
+
+.pf-card-pack__new-badge-star {
+  inline-size: 100%;
+  block-size: 100%;
+  background: linear-gradient(160deg, #ff3b3b 0%, #cc0000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-card-pack__new-badge-text {
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: system-ui, sans-serif;
+  text-shadow: 0 1px 1px rgb(0 0 0 / 30%);
+  line-height: 1;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -550,6 +571,15 @@
   block-size: var(--spark-size, 6px);
   object-fit: contain;
   pointer-events: none;
+}
+
+/* ─── Inspect overlay — dark backdrop when a card is focused ─── */
+
+.pf-card-pack__inspect-overlay {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  background: rgb(0 0 0 / 60%);
 }
 
 /* ─── Screen flash ─── */

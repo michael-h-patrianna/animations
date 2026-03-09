@@ -1,18 +1,20 @@
 import { AnimatePresence } from 'motion/react'
-import { memo, useEffect, useMemo, useState } from 'react'
+import * as m from 'motion/react-m'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
-  cardPackArcherImage,
-  cardPackDragonImage,
-  cardPackMageImage,
-  cardPackPhoenixImage,
-  cardPackWarriorImage,
+  cardPackDragonPetImage,
+  cardPackHamsterImage,
+  cardPackKittenImage,
+  cardPackPuppyImage,
+  cardPackUnicornImage,
 } from '@/assets'
 
 import {
   AmbientMotes,
   BurstFlash,
   BurstRing,
+  CardLandShimmer,
   CollectBurst,
   CollectButton,
   ConvergeMotes,
@@ -30,17 +32,17 @@ import {
   type CardData,
   type ConfettiData,
   type ConvergeMoteData,
+  type FanPosition,
   type PackPhase,
 } from '../CardPackParts'
 
 /* ─── Constants ─── */
 
-const ARRIVAL_MS = 0
-const ANTICIPATION_MS = 1000
-const BURST_MS = 2200
-const FAN_MS = 3000
-const FLIP_MS = 4500
-const FLIP_INTERVAL_MS = 500
+const ANTICIPATION_MS = 800
+const BURST_MS = 1800
+const FAN_MS = 2400
+const FLIP_MS = 3200
+const FLIP_INTERVAL_MS = 300
 
 const CONVERGE_MOTE_COUNT = 14
 const CONFETTI_COUNT = 22
@@ -49,11 +51,11 @@ const DEFAULT_CARD_COUNT = 5
 
 /** Demo pack — one of each rarity, sorted common→legendary for escalating drama */
 const CARD_PACK: CardData[] = [
-  { id: 0, name: 'Iron Knight', rarity: 1, frontImage: cardPackWarriorImage },
-  { id: 1, name: 'Sylvan Archer', rarity: 2, frontImage: cardPackArcherImage },
-  { id: 2, name: 'Shadow Mage', rarity: 3, frontImage: cardPackMageImage },
-  { id: 3, name: 'Golden Dragon', rarity: 4, frontImage: cardPackDragonImage },
-  { id: 4, name: 'Astral Phoenix', rarity: 5, frontImage: cardPackPhoenixImage },
+  { id: 0, name: 'Nibbles', rarity: 1, frontImage: cardPackHamsterImage },
+  { id: 1, name: 'Whiskers', rarity: 2, frontImage: cardPackKittenImage },
+  { id: 2, name: 'Biscuit', rarity: 3, frontImage: cardPackPuppyImage },
+  { id: 3, name: 'Ember', rarity: 4, frontImage: cardPackDragonPetImage },
+  { id: 4, name: 'Stardust', rarity: 5, frontImage: cardPackUnicornImage },
 ]
 
 /** Fan layouts keyed by card count — hand-tuned for visual balance */
@@ -151,7 +153,11 @@ function useFlipStates(phase: PackPhase, cardCount: number) {
 /* ─── Main animation ─── */
 
 function CardPackAnimation({ cardCount }: { cardCount: number }) {
-  const cards = useMemo(() => CARD_PACK.slice(0, cardCount), [cardCount])
+  const cards = useMemo(() => {
+    const pack = CARD_PACK.slice(0, cardCount)
+    const newIndex = Math.floor(Math.random() * pack.length)
+    return pack.map((card, i) => (i === newIndex ? { ...card, isNew: true } : card))
+  }, [cardCount])
   const positions = useMemo(() => getFanPositions(cardCount), [cardCount])
 
   const phase = usePackPhase()
@@ -181,10 +187,17 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
   const [isIdle, setIsIdle] = useState(false)
   useEffect(() => {
     if (phase !== 'flip') return
-    const idleMs = cards.length * FLIP_INTERVAL_MS + 800
+    const idleMs = cards.length * FLIP_INTERVAL_MS + 400
     const t = window.setTimeout(() => setIsIdle(true), idleMs)
     return () => window.clearTimeout(t)
   }, [phase, cards.length])
+
+  // Card inspect — tap a revealed card to enlarge it center-stage
+  const [focusedCard, setFocusedCard] = useState<number | null>(null)
+  const handleCardSelect = useCallback((index: number) => {
+    setFocusedCard((prev) => (prev === index ? null : index))
+  }, [])
+  const handleDismiss = useCallback(() => setFocusedCard(null), [])
 
   const [collected, setCollected] = useState(false)
   const [showCollect, setShowCollect] = useState(false)
@@ -194,7 +207,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
     return () => window.clearTimeout(t)
   }, [isIdle])
 
-  const handleCollect = () => setCollected(true)
+  const handleCollect = () => { setFocusedCard(null); setCollected(true) }
 
   // Screen flash tracking — fires once per epic/legendary flip
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
@@ -246,7 +259,15 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
               collectIndex={i}
               idle={isIdle}
               bobPhase={(i / cards.length) * Math.PI * 1.2}
+              selected={focusedCard === i}
+              anySelected={focusedCard !== null}
+              onSelect={() => handleCardSelect(i)}
             />
+          ))}
+
+          {/* Landing shimmers — secondary action as cards arrive */}
+          {cards.map((card, i) => (
+            <CardLandShimmer key={`shimmer-${card.id}`} position={positions[i]} delay={i * 0.12} />
           ))}
 
           {/* Rarity bursts — fire once when each card flips */}
@@ -258,6 +279,21 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
 
         </div>
       )}
+
+      {/* Inspect overlay — desaturated backdrop when a card is focused */}
+      <AnimatePresence>
+        {focusedCard !== null && (
+          <m.div
+            key="inspect-overlay"
+            className="pf-card-pack__inspect-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={handleDismiss}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Screen flash for epic/legendary */}
       {activeFlash != null && <ScreenFlash rarity={activeFlash as 4 | 5} />}

@@ -1,5 +1,5 @@
 import * as m from 'motion/react-m'
-import { useMemo, type CSSProperties } from 'react'
+import { useState, type CSSProperties } from 'react'
 
 import {
   cardPackBackImage,
@@ -21,6 +21,7 @@ export type CardData = {
   name: string
   rarity: CardRarity
   frontImage: string
+  isNew?: boolean
 }
 
 export type FanPosition = { x: number; y: number; rotate: number }
@@ -127,7 +128,7 @@ export function PackBody({ phase }: { phase: PackPhase }) {
 
   return (
     <m.div
-      className={`pf-card-pack__pack-body ${isShaking ? 'pf-card-pack__pack-body--shaking' : ''}`}
+      className="pf-card-pack__pack-body"
       initial={{ y: -180, scale: 0.5, opacity: 0 }}
       animate={{ y: 0, scale: 1, opacity: 1 }}
       transition={{
@@ -136,17 +137,22 @@ export function PackBody({ phase }: { phase: PackPhase }) {
         opacity: { duration: 0.4 },
       }}
     >
-      <img src={cardPackClosedImage} alt="" aria-hidden="true" className="pf-card-pack__pack-image" />
       <m.div
-        className="pf-card-pack__pack-glow"
-        animate={
-          isShaking
-            ? { opacity: [0.4, 0.85, 0.4], scale: [1, 1.2, 1] }
-            : { opacity: [0.2, 0.35, 0.2], scale: 1 }
-        }
-        transition={{ duration: isShaking ? 0.6 : 2.5, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <div className="pf-card-pack__pack-ambient-glow" />
+        animate={isShaking ? { x: [0, -4, 3, -3, 2, 0], y: [0, 1, -2, 2, -1, 0] } : {}}
+        transition={isShaking ? { duration: 0.1, repeat: Infinity, ease: 'linear' } : {}}
+      >
+        <img src={cardPackClosedImage} alt="" aria-hidden="true" className="pf-card-pack__pack-image" />
+        <m.div
+          className="pf-card-pack__pack-glow"
+          animate={
+            isShaking
+              ? { opacity: [0.4, 0.85, 0.4], scale: [1, 1.2, 1] }
+              : { opacity: [0.2, 0.35, 0.2], scale: 1 }
+          }
+          transition={{ duration: isShaking ? 0.6 : 2.5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <div className="pf-card-pack__pack-ambient-glow" />
+      </m.div>
     </m.div>
   )
 }
@@ -467,6 +473,57 @@ function CardNameRibbon({ name, rarity }: { name: string; rarity: CardRarity }) 
 }
 
 /* ═══════════════════════════════════════════════════
+   NEW BADGE — red starburst with white "NEW" text
+   Pops in after the card flips with a bouncy scale
+   ═══════════════════════════════════════════════════ */
+
+/** 12-point starburst clip-path for the badge shape */
+const STARBURST_POINTS = 12
+const STARBURST_CLIP = (() => {
+  const pts: string[] = []
+  for (let i = 0; i < STARBURST_POINTS * 2; i++) {
+    const angle = (i / (STARBURST_POINTS * 2)) * Math.PI * 2 - Math.PI / 2
+    const r = i % 2 === 0 ? 50 : 38
+    const x = 50 + r * Math.cos(angle)
+    const y = 50 + r * Math.sin(angle)
+    pts.push(`${x.toFixed(1)}% ${y.toFixed(1)}%`)
+  }
+  return `polygon(${pts.join(', ')})`
+})()
+
+function NewBadge() {
+  return (
+    <m.div
+      className="pf-card-pack__new-badge"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: [0, 1.3, 1], opacity: 1 }}
+      transition={{ duration: 0.4, delay: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
+    >
+      <div className="pf-card-pack__new-badge-star" style={{ clipPath: STARBURST_CLIP }}>
+        <span className="pf-card-pack__new-badge-text">NEW</span>
+      </div>
+    </m.div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   CARD LAND SHIMMER — subtle glow pulse when a card
+   arrives at its fan position (secondary action)
+   ═══════════════════════════════════════════════════ */
+
+export function CardLandShimmer({ position, delay }: { position: FanPosition; delay: number }) {
+  return (
+    <m.div
+      className="pf-card-pack__land-shimmer"
+      style={{ '--shimmer-x': `${position.x}px`, '--shimmer-y': `${position.y}px` } as CSSProperties}
+      initial={{ opacity: 0, scale: 0.3 }}
+      animate={{ opacity: [0, 0.35, 0], scale: [0.3, 1, 1.3] }}
+      transition={{ duration: 0.45, delay, times: [0, 0.35, 1] as const, ease: 'easeOut' }}
+    />
+  )
+}
+
+/* ═══════════════════════════════════════════════════
    IDLE FLOAT — sinusoidal wave with subtle rotation sway
    Main: vertical sine (7px, 3.5s)
    Subtle: rotation sine (±1.5°, same period, π/4 phase lead)
@@ -477,16 +534,20 @@ const FLOAT_Y_AMP = 4
 const FLOAT_ROT_AMP = 0.8
 const FLOAT_DURATION = 3.5
 
-function generateFloatKeyframes(phase: number) {
+function generateFloatKeyframes() {
   const yKeys: number[] = []
   const rotKeys: number[] = []
-  for (let k = 0; k < FLOAT_STEPS; k++) {
+  for (let k = 0; k <= FLOAT_STEPS; k++) {
     const t = k / FLOAT_STEPS
-    yKeys.push(FLOAT_Y_AMP * Math.sin(t * Math.PI * 2 + phase))
-    rotKeys.push(FLOAT_ROT_AMP * Math.sin(t * Math.PI * 2 + phase + Math.PI / 4))
+    yKeys.push(FLOAT_Y_AMP * Math.sin(t * Math.PI * 2))
+    rotKeys.push(FLOAT_ROT_AMP * Math.sin(t * Math.PI * 2))
   }
+  // Both start and end at 0 — seamless loop, no jump from rest position
   return { yKeys, rotKeys }
 }
+
+// Single shared instance — all cards use the same waveform, staggered by delay
+const FLOAT_KEYFRAMES = generateFloatKeyframes()
 
 /* ═══════════════════════════════════════════════════
    FLIP CARD — Monopoly Go style: frame + lights + 3D stars + ribbon
@@ -501,6 +562,9 @@ export function FlipCard({
   collectIndex,
   idle = false,
   bobPhase = 0,
+  selected = false,
+  anySelected = false,
+  onSelect,
 }: {
   card: CardData
   position: FanPosition
@@ -510,43 +574,76 @@ export function FlipCard({
   collectIndex: number
   idle?: boolean
   bobPhase?: number
+  selected?: boolean
+  anySelected?: boolean
+  onSelect?: () => void
 }) {
   const rarityClass = `pf-card-pack__card--rarity-${card.rarity}`
+
+  // Track whether the initial fan-in animation has completed
+  const [fanInDone, setFanInDone] = useState(false)
+
   const floatActive = idle && !collected
-  const float = useMemo(() => generateFloatKeyframes(bobPhase), [bobPhase])
+  // Stagger delay: converts bobPhase (radians) into a time offset within the cycle
+  const floatDelay = (bobPhase / (Math.PI * 2)) * FLOAT_DURATION
+
+  const canTap = idle && flipped && !collected && onSelect
+  const inspecting = selected || anySelected
+
+  // Spring config shared by all inspect transitions
+  const inspectSpring = { type: 'spring' as const, stiffness: 260, damping: 26, mass: 1 }
+
+  // Determine outer slot animation target
+  const slotAnimate = collected
+    ? {
+        x: [position.x, position.x * 0.3],
+        y: [position.y, -320],
+        scale: [1, 0.15],
+        opacity: [1, 0],
+        rotate: [position.rotate, 0],
+      }
+    : selected
+      ? { x: 0, y: -10, scale: 1.4, opacity: 1, rotate: 0 }
+      : anySelected
+        ? { x: position.x, y: position.y, scale: 0.88, opacity: 0.3, rotate: position.rotate }
+        : fanInDone
+          ? { x: position.x, y: position.y, scale: 1, opacity: 1, rotate: position.rotate }
+          : { x: position.x, y: position.y, scale: [0, 1.12, 1], opacity: 1, rotate: position.rotate }
+
+  // Determine outer slot transition
+  const slotTransition = collected
+    ? { duration: 0.65, delay: collectIndex * 0.08, ease: [0.4, 0, 1, 1] as const }
+    : inspecting || fanInDone
+      ? inspectSpring
+      : { duration: 0.5, delay: fanDelay, ease: [0.34, 1.56, 0.64, 1] as const }
 
   return (
     <m.div
       className={`pf-card-pack__card-slot ${rarityClass}`}
+      style={{
+        zIndex: selected ? 20 : undefined,
+        cursor: canTap && !anySelected ? 'pointer' : selected ? 'pointer' : undefined,
+        pointerEvents: anySelected && !selected ? 'none' : undefined,
+      }}
       initial={{ x: 0, y: 0, scale: 0, opacity: 0, rotate: 0 }}
-      animate={
-        collected
-          ? {
-              x: [position.x, position.x * 0.3],
-              y: [position.y, -320],
-              scale: [1, 0.15],
-              opacity: [1, 0],
-              rotate: [position.rotate, 0],
-            }
-          : {
-              x: position.x,
-              y: position.y,
-              scale: [0, 1.12, 1],
-              opacity: 1,
-              rotate: position.rotate,
-            }
-      }
-      transition={
-        collected
-          ? { duration: 0.65, delay: collectIndex * 0.08, ease: [0.4, 0, 1, 1] as const }
-          : { duration: 0.5, delay: fanDelay, ease: [0.34, 1.56, 0.64, 1] as const }
-      }
+      animate={slotAnimate}
+      transition={slotTransition}
+      onClick={canTap ? onSelect : undefined}
+      onAnimationComplete={() => { if (!fanInDone && !collected) setFanInDone(true) }}
     >
-      {/* Float wrapper — synchronized idle wave */}
+      {/* Float wrapper — keyframes start at y:0, staggered by delay per card */}
       <m.div
         className="pf-card-pack__card-perspective"
-        animate={floatActive ? { y: float.yKeys, rotate: float.rotKeys } : {}}
-        transition={floatActive ? { duration: FLOAT_DURATION, repeat: Infinity, ease: 'linear' } : {}}
+        animate={
+          floatActive
+            ? { y: FLOAT_KEYFRAMES.yKeys, rotate: FLOAT_KEYFRAMES.rotKeys }
+            : {}
+        }
+        transition={
+          floatActive
+            ? { duration: FLOAT_DURATION, repeat: Infinity, ease: 'linear', delay: floatDelay }
+            : undefined
+        }
       >
         {/* Flipper — rotateY driven by Framer, preserve-3d inline */}
         <m.div
@@ -571,7 +668,19 @@ export function FlipCard({
           {/* ── FRONT FACE ── */}
           <div className="pf-card-pack__card-face pf-card-pack__card-front">
             {/* Gold 3D stars — overflow above the frame */}
-            <div className={`pf-card-pack__card-stars pf-card-pack__card-stars--rarity-${card.rarity}`}>
+            <m.div
+              className={`pf-card-pack__card-stars pf-card-pack__card-stars--rarity-${card.rarity}`}
+              {...(card.rarity === 5 ? {
+                animate: {
+                  filter: [
+                    'drop-shadow(0 3px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(255,80,180,0.5))',
+                    'drop-shadow(0 3px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 10px rgba(255,220,50,0.6))',
+                    'drop-shadow(0 3px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(255,80,180,0.5))',
+                  ],
+                },
+                transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
+              } : {})}
+            >
               {Array.from({ length: card.rarity }, (_, i) => {
                 const mid = (card.rarity - 1) / 2
                 const arcY = Math.abs(i - mid) * 2
@@ -601,17 +710,33 @@ export function FlipCard({
                 </svg>
                 )
               })}
-            </div>
+            </m.div>
 
             {/* Card frame — white border + art */}
-            <div className={`pf-card-pack__card-frame pf-card-pack__card-frame--rarity-${card.rarity}`}>
+            <m.div
+              className={`pf-card-pack__card-frame pf-card-pack__card-frame--rarity-${card.rarity}`}
+              {...(card.rarity === 5 ? {
+                animate: {
+                  boxShadow: [
+                    '0 4px 16px rgba(0,0,0,0.4), 0 0 22px 10px rgba(255,80,170,0.45), inset 0 0 0 2px rgba(255,80,170,0.5)',
+                    '0 4px 20px rgba(0,0,0,0.4), 0 0 22px 10px rgba(100,160,255,0.45), inset 0 0 0 2px rgba(100,160,255,0.5)',
+                    '0 4px 20px rgba(0,0,0,0.4), 0 0 22px 10px rgba(255,215,50,0.45), inset 0 0 0 2px rgba(255,215,50,0.5)',
+                    '0 4px 16px rgba(0,0,0,0.4), 0 0 22px 10px rgba(255,80,170,0.45), inset 0 0 0 2px rgba(255,80,170,0.5)',
+                  ],
+                },
+                transition: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' },
+              } : {})}
+            >
               <div className="pf-card-pack__card-img-area">
                 <img src={card.frontImage} alt={card.name} className="pf-card-pack__card-img" />
               </div>
-            </div>
+            </m.div>
 
             {/* Name ribbon — overflow below the frame */}
             <CardNameRibbon name={card.name} rarity={card.rarity} />
+
+            {/* NEW badge — right side above the ribbon */}
+            {card.isNew && <NewBadge />}
           </div>
         </m.div>
       </m.div>
