@@ -4,7 +4,6 @@ import { useState, type CSSProperties } from 'react'
 import {
   cardPackBackImage,
   crystalShatterDustImage,
-  crystalShatterEnergyMoteImage,
   crystalShatterPrismaticRingImage,
   crystalShatterSparkleImage,
 } from '@/assets'
@@ -24,16 +23,6 @@ export type CardData = {
 }
 
 export type FanPosition = { x: number; y: number; rotate: number }
-
-export type ConvergeMoteData = {
-  id: number
-  startX: number
-  startY: number
-  midX: number
-  midY: number
-  size: number
-  delay: number
-}
 
 export type ConfettiData = {
   id: number
@@ -74,72 +63,34 @@ const TEAR_FLAP_CLIP = `polygon(0% 0%, 100% 0%, ${[...TEAR_EDGE].reverse().map((
 const TEAR_BODY_CLIP = `polygon(${TEAR_EDGE.map(([x, y]) => `${x}% ${y}%`).join(', ')}, 100% 100%, 0% 100%)`
 
 /* ═══════════════════════════════════════════════════
-   ATMOSPHERE — floating dust particles (image-based)
+   PACK BODY — drop in with squash-stretch, shake + bulge
    ═══════════════════════════════════════════════════ */
 
-export function AmbientMotes() {
-  const particles = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    x: (Math.random() - 0.5) * 340,
-    y: (Math.random() - 0.5) * 300,
-    size: 3 + Math.random() * 4,
-    duration: 5 + Math.random() * 5,
-    delay: Math.random() * 3,
-  }))
-
-  return (
-    <div className="pf-card-pack__ambient">
-      {particles.map((p) => (
-        <m.img
-          key={p.id}
-          src={crystalShatterDustImage}
-          alt=""
-          aria-hidden="true"
-          className="pf-card-pack__ambient-mote"
-          style={{ '--mote-size': `${p.size}px` } as CSSProperties}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0, 0.45, 0.25, 0.45, 0],
-            x: [p.x, p.x + 14, p.x - 10, p.x + 8, p.x],
-            y: [p.y, p.y - 10, p.y + 8, p.y - 5, p.y],
-          }}
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
-   PACK BODY — holographic shimmer + multi-layer glow
-   ═══════════════════════════════════════════════════ */
-
-/** Escalating shake — amplitude ramps from gentle tremor to violent judder */
+/** Escalating shake — amplitude ramps from gentle tremor to violent judder.
+    scaleX oscillates alongside to simulate internal pressure bulging the pack. */
 const SHAKE_STEPS = 30
 const SHAKE_KEYFRAMES = (() => {
   const x: number[] = []
   const y: number[] = []
   const rot: number[] = []
+  const sx: number[] = []
   for (let i = 0; i <= SHAKE_STEPS; i++) {
     const t = i / SHAKE_STEPS
-    const amp = 1 + t * 5 // 1px → 6px
-    const rotAmp = 0.3 + t * 1.7 // 0.3° → 2°
+    const amp = 1 + t * 5
+    const rotAmp = 0.3 + t * 1.7
     const sign = i % 2 === 0 ? 1 : -1
     const jitter = 0.6 + Math.random() * 0.4
     x.push(sign * amp * jitter * (0.8 + Math.random() * 0.4))
     y.push(-sign * amp * jitter * 0.5)
     rot.push(sign * rotAmp * jitter)
+    // Bulge: oscillates between 1.0 and up to 1.04, growing with t
+    sx.push(1 + (i % 2 === 0 ? t * 0.04 : 0))
   }
-  // End at rest
   x[SHAKE_STEPS] = 0
   y[SHAKE_STEPS] = 0
   rot[SHAKE_STEPS] = 0
-  return { x, y, rot }
+  sx[SHAKE_STEPS] = 1
+  return { x, y, rot, sx }
 })()
 
 export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: string }) {
@@ -151,68 +102,42 @@ export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: st
   return (
     <m.div
       className="pf-card-pack__pack-body"
-      initial={{ y: -180, scale: 0.5, opacity: 0 }}
-      animate={{ y: 0, scale: 1, opacity: 1 }}
+      initial={{ y: -180, scaleX: 0.5, scaleY: 0.5, opacity: 0 }}
+      animate={{
+        y: 0,
+        scaleX: [0.5, 1, 1.06, 0.98, 1],
+        scaleY: [0.5, 1, 0.94, 1.02, 1],
+        opacity: 1,
+      }}
       transition={{
-        y: { duration: 0.8, ease: [0.16, 0.84, 0.32, 1] },
-        scale: { duration: 0.8, ease: [0.16, 0.84, 0.32, 1] },
-        opacity: { duration: 0.4 },
+        y: { duration: 0.6, ease: [0.16, 0.84, 0.32, 1] },
+        scaleX: { duration: 0.75, times: [0, 0.7, 0.82, 0.92, 1], ease: 'easeOut' },
+        scaleY: { duration: 0.75, times: [0, 0.7, 0.82, 0.92, 1], ease: 'easeOut' },
+        opacity: { duration: 0.35 },
       }}
     >
       <m.div
         animate={
           isShaking
-            ? { x: SHAKE_KEYFRAMES.x, y: SHAKE_KEYFRAMES.y, rotate: SHAKE_KEYFRAMES.rot }
+            ? {
+                x: SHAKE_KEYFRAMES.x,
+                y: SHAKE_KEYFRAMES.y,
+                rotate: SHAKE_KEYFRAMES.rot,
+                scaleX: SHAKE_KEYFRAMES.sx,
+              }
             : {}
         }
         transition={isShaking ? { duration: 1.0, ease: 'linear' } : {}}
       >
         <img src={packImage} alt="" aria-hidden="true" className="pf-card-pack__pack-image" />
-        <m.div
-          className="pf-card-pack__pack-glow"
-          animate={
-            isShaking
-              ? { opacity: [0.3, 0.5, 0.7, 0.9], scale: [1, 1.1, 1.15, 1.3] }
-              : { opacity: [0.2, 0.35, 0.2], scale: 1 }
-          }
-          transition={{
-            duration: isShaking ? 1.0 : 2.5,
-            repeat: isShaking ? 0 : Infinity,
-            ease: 'easeIn',
-          }}
-        />
-        <m.div
-          className="pf-card-pack__pack-ambient-glow"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={
-            isShaking
-              ? { opacity: [0.6, 0.8], scale: [1, 1.3] }
-              : { opacity: 0.6, scale: 1 }
-          }
-          transition={{ duration: isShaking ? 1.0 : 0.8, ease: 'easeOut' }}
-        />
       </m.div>
     </m.div>
   )
 }
 
 /* ═══════════════════════════════════════════════════
-   LANDING PULSE
-   ═══════════════════════════════════════════════════ */
-
-export function LandingPulse() {
-  return (
-    <m.div
-      className="pf-card-pack__landing-pulse"
-      initial={{ opacity: 0, scale: 0.3 }}
-      animate={{ opacity: [0, 0.7, 0], scale: [0.3, 1.6, 2.1] }}
-      transition={{ duration: 0.5, delay: 0.75, times: [0, 0.35, 1] as const, ease: 'easeOut' }}
-    />
-  )
-}
-
-/* ═══════════════════════════════════════════════════
    SEAM LIGHT — horizontal glow at pack's tear line
+   Light escaping from inside as pressure builds
    ═══════════════════════════════════════════════════ */
 
 export function SeamLight({ phase }: { phase: PackPhase }) {
@@ -222,8 +147,8 @@ export function SeamLight({ phase }: { phase: PackPhase }) {
     <m.div
       className="pf-card-pack__seam"
       initial={{ opacity: 0, scaleX: 0.2 }}
-      animate={{ opacity: [0, 0.5, 1], scaleX: [0.2, 0.6, 1.2] }}
-      transition={{ duration: 1.2, times: [0, 0.5, 1] as const, ease: 'easeIn' }}
+      animate={{ opacity: [0, 0.4, 0.7, 1], scaleX: [0.2, 0.5, 0.8, 1.2] }}
+      transition={{ duration: 1.0, times: [0, 0.3, 0.7, 1] as const, ease: 'easeIn' }}
     />
   )
 }
@@ -232,13 +157,12 @@ export function SeamLight({ phase }: { phase: PackPhase }) {
    ARRIVAL DUST — impact particles when the pack lands
    ═══════════════════════════════════════════════════ */
 
-const ARRIVAL_DUST_COUNT = 8
+const ARRIVAL_DUST_COUNT = 5
 
 export function ArrivalDust() {
   const particles = Array.from({ length: ARRIVAL_DUST_COUNT }, (_, i) => {
-    // Semicircle below the pack — angles from ~150° to ~390° (downward fan)
     const angle = (150 + (i / (ARRIVAL_DUST_COUNT - 1)) * 240) * (Math.PI / 180)
-    const dist = 30 + Math.random() * 40
+    const dist = 20 + Math.random() * 30
     return {
       id: i,
       endX: Math.cos(angle) * dist,
@@ -257,16 +181,16 @@ export function ArrivalDust() {
           aria-hidden="true"
           className="pf-card-pack__arrival-dust"
           style={{ '--dust-size': `${p.size}px` } as CSSProperties}
-          initial={{ x: 0, y: 0, opacity: 0.8, scale: 1 }}
+          initial={{ x: 0, y: 0, opacity: 0.7, scale: 1 }}
           animate={{
             x: p.endX,
             y: p.endY,
-            opacity: [0.8, 0.5, 0],
+            opacity: [0.7, 0.4, 0],
             scale: [1, 0.5, 0.1],
           }}
           transition={{
-            duration: 0.4,
-            delay: 0.72 + Math.random() * 0.06,
+            duration: 0.35,
+            delay: 0.55 + Math.random() * 0.06,
             ease: 'easeOut',
           }}
         />
@@ -276,72 +200,28 @@ export function ArrivalDust() {
 }
 
 /* ═══════════════════════════════════════════════════
-   ENERGY RINGS — concentric pulses during anticipation
-   Each ring gets brighter/larger to show escalation
-   ═══════════════════════════════════════════════════ */
-
-export function EnergyRings() {
-  const rings = [
-    { id: 0, delay: 0.1, endScale: 1.6, opacity: 0.4 },
-    { id: 1, delay: 0.35, endScale: 2.0, opacity: 0.55 },
-    { id: 2, delay: 0.65, endScale: 2.5, opacity: 0.7 },
-  ]
-
-  return (
-    <div className="pf-card-pack__energy-ring-container">
-      {rings.map((ring) => (
-        <m.div
-          key={ring.id}
-          className="pf-card-pack__energy-ring"
-          initial={{ scale: 0.3, opacity: 0 }}
-          animate={{ scale: [0.3, ring.endScale], opacity: [ring.opacity, 0] }}
-          transition={{ duration: 0.5, delay: ring.delay, ease: 'easeOut' }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
-   EDGE SPARKS — sparkles from pack edges during anticipation
-   Frequency increases toward the end for escalation
+   EDGE SPARKS — sparkles escaping from the seam area
+   Concentrated near the tear line, not from all edges
    ═══════════════════════════════════════════════════ */
 
 export function EdgeSparks() {
-  const sparks = Array.from({ length: 8 }, (_, i) => {
-    // Distribute around pack edges — top, sides, corners
-    const side = i % 4
-    const packW = 72 // half pack width
-    const packH = 109 // half pack height
-    let startX: number, startY: number, endX: number, endY: number
-    switch (side) {
-      case 0: // top edge
-        startX = (Math.random() - 0.5) * packW * 2
-        startY = -packH
-        endX = startX + (Math.random() - 0.5) * 30
-        endY = startY - 15 - Math.random() * 25
-        break
-      case 1: // right edge
-        startX = packW
-        startY = (Math.random() - 0.5) * packH
-        endX = startX + 15 + Math.random() * 20
-        endY = startY + (Math.random() - 0.5) * 20
-        break
-      case 2: // bottom edge
-        startX = (Math.random() - 0.5) * packW * 2
-        startY = packH * 0.6
-        endX = startX + (Math.random() - 0.5) * 30
-        endY = startY + 10 + Math.random() * 20
-        break
-      default: // left edge
-        startX = -packW
-        startY = (Math.random() - 0.5) * packH
-        endX = startX - 15 - Math.random() * 20
-        endY = startY + (Math.random() - 0.5) * 20
+  const packW = 72
+  const seamY = -20 // near the tear line (~30% up from center)
+
+  const sparks = Array.from({ length: 4 }, (_, i) => {
+    // All sparks originate from the seam region
+    const side = i % 2 === 0 ? 1 : -1
+    const startX = side * (packW * 0.3 + Math.random() * packW * 0.7)
+    const startY = seamY + (Math.random() - 0.5) * 20
+    return {
+      id: i,
+      startX,
+      startY,
+      endX: startX + side * (15 + Math.random() * 25),
+      endY: startY - 10 - Math.random() * 30,
+      size: 6 + Math.random() * 6,
+      delay: 0.2 + i * 0.2,
     }
-    // Stagger: early sparks are spaced out, last 3 fire rapidly near the end
-    const delay = i < 5 ? i * 0.15 : 0.6 + (i - 5) * 0.08
-    return { id: i, startX, startY, endX, endY, size: 6 + Math.random() * 6, delay }
   })
 
   return (
@@ -374,16 +254,15 @@ export function EdgeSparks() {
 }
 
 /* ═══════════════════════════════════════════════════
-   SEAM CRACKS — branching fracture lines from the seam
+   SEAM CRACKS — fracture lines from the seam
    Appear progressively to show the pack rupturing
    ═══════════════════════════════════════════════════ */
 
 export function SeamCracks() {
   const cracks = [
-    { id: 0, x: '30%', rotate: -25, len: 16, delay: 0.35 },
-    { id: 1, x: '65%', rotate: 18, len: 22, delay: 0.6 },
-    { id: 2, x: '48%', rotate: -40, len: 18, delay: 0.8 },
-    { id: 3, x: '20%', rotate: 32, len: 14, delay: 0.9 },
+    { id: 0, x: '30%', rotate: -25, len: 16, delay: 0.3 },
+    { id: 1, x: '65%', rotate: 18, len: 22, delay: 0.55 },
+    { id: 2, x: '45%', rotate: -40, len: 18, delay: 0.8 },
   ]
 
   return (
@@ -407,86 +286,15 @@ export function SeamCracks() {
 }
 
 /* ═══════════════════════════════════════════════════
-   RADIAL RAYS — light beams radiating outward on burst
+   PACK TEAR OPEN — top-rip with jagged tear line
+   Flap tears upward, body drops — the hero moment
    ═══════════════════════════════════════════════════ */
 
-const RADIAL_RAY_COUNT = 10
-
-export function RadialRays() {
-  const rays = Array.from({ length: RADIAL_RAY_COUNT }, (_, i) => {
-    const angle = (i / RADIAL_RAY_COUNT) * 360
-    const len = 80 + Math.random() * 50
-    return { id: i, angle, len, delay: i * 0.015 }
-  })
-
-  return (
-    <div className="pf-card-pack__radial-rays-container">
-      {rays.map((ray) => (
-        <m.div
-          key={ray.id}
-          className="pf-card-pack__radial-ray"
-          style={{
-            rotate: `${ray.angle}deg`,
-            '--ray-len': `${ray.len}px`,
-          } as CSSProperties}
-          initial={{ scaleY: 0, opacity: 0.9 }}
-          animate={{ scaleY: [0, 1, 1], opacity: [0.9, 0.5, 0] }}
-          transition={{
-            duration: 0.4,
-            delay: ray.delay,
-            times: [0, 0.35, 1] as const,
-            ease: 'easeOut',
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
-   CONVERGE MOTES — energy particles spiraling inward (image-based)
-   ═══════════════════════════════════════════════════ */
-
-export function ConvergeMotes({ motes }: { motes: ConvergeMoteData[] }) {
-  return (
-    <div className="pf-card-pack__converge-container">
-      {motes.map((mote) => (
-        <m.img
-          key={mote.id}
-          src={crystalShatterEnergyMoteImage}
-          alt=""
-          aria-hidden="true"
-          className="pf-card-pack__converge-mote"
-          style={{ '--mote-size': `${mote.size}px` } as CSSProperties}
-          initial={{ x: mote.startX, y: mote.startY, scale: 1, opacity: 0 }}
-          animate={{
-            x: [mote.startX, mote.midX, 0],
-            y: [mote.startY, mote.midY, 0],
-            scale: [1, 0.7, 0.15],
-            opacity: [0, 0.9, 0],
-          }}
-          transition={{
-            duration: 0.75,
-            delay: mote.delay,
-            times: [0, 0.5, 1] as const,
-            ease: [0.4, 0, 0.2, 1] as const,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
-   PACK BURST — top-rip open with jagged tear line
-   Flap tears upward, body stays then fades
-   ═══════════════════════════════════════════════════ */
-
-const TEAR_DEBRIS_COUNT = 10
+const TEAR_DEBRIS_COUNT = 7
 
 function TearDebris() {
   const particles = Array.from({ length: TEAR_DEBRIS_COUNT }, (_, i) => {
-    const spread = (i / (TEAR_DEBRIS_COUNT - 1)) * 160 - 80
+    const spread = (i / (TEAR_DEBRIS_COUNT - 1)) * 140 - 70
     const isSparkle = i % 3 === 0
     return {
       id: i,
@@ -576,55 +384,41 @@ export function PackTearOpen({ packImage }: { packImage: string }) {
   )
 }
 
-export function BurstFlash() {
+/* ═══════════════════════════════════════════════════
+   TEAR-LINE FLASH — horizontal burst at the rip point
+   Concentrated at the seam, not a full circular flash
+   ═══════════════════════════════════════════════════ */
+
+export function TearLineFlash() {
   return (
-    <m.img
-      src={crystalShatterSparkleImage}
-      alt=""
-      aria-hidden="true"
-      className="pf-card-pack__burst-flash"
-      initial={{ scale: 0, opacity: 0.9 }}
-      animate={{ scale: [0, 2.5, 3.5], opacity: [0.9, 0.5, 0] }}
+    <m.div
+      className="pf-card-pack__tear-flash"
+      initial={{ scaleX: 0.2, scaleY: 1, opacity: 1 }}
+      animate={{ scaleX: [0.2, 1.3, 1.6], scaleY: [1, 1.5, 0.3], opacity: [1, 0.85, 0] }}
       transition={{ duration: 0.35, times: [0, 0.3, 1] as const, ease: 'easeOut' }}
     />
   )
 }
 
-export function BurstRing() {
+/* ═══════════════════════════════════════════════════
+   LIGHT SPILL — upward fan of light from the tear
+   Light pours out of the opened top like treasure glow
+   ═══════════════════════════════════════════════════ */
+
+export function LightSpill() {
   return (
-    <m.img
-      src={crystalShatterPrismaticRingImage}
-      alt=""
-      aria-hidden="true"
-      className="pf-card-pack__burst-ring"
-      initial={{ scale: 0.1, opacity: 0.75 }}
-      animate={{ scale: [0.1, 2.8], opacity: [0.75, 0] }}
-      transition={{ duration: 0.55, ease: 'easeOut' }}
+    <m.div
+      className="pf-card-pack__light-spill"
+      initial={{ scaleY: 0, opacity: 0.9 }}
+      animate={{ scaleY: [0, 1, 1], opacity: [0.9, 0.5, 0] }}
+      transition={{ duration: 0.55, delay: 0.04, times: [0, 0.3, 1] as const, ease: 'easeOut' }}
     />
   )
 }
 
-export function LightColumn() {
-  return (
-    <m.div
-      className="pf-card-pack__light-column"
-      initial={{ scaleY: 0, opacity: 0.85 }}
-      animate={{ scaleY: [0, 1, 1], opacity: [0.85, 0.55, 0] }}
-      transition={{ duration: 0.7, times: [0, 0.3, 1] as const, ease: 'easeOut' }}
-    />
-  )
-}
-
-export function ShockwaveRing() {
-  return (
-    <m.div
-      className="pf-card-pack__shockwave"
-      initial={{ scale: 0.3, opacity: 0.8 }}
-      animate={{ scale: 4.5, opacity: 0 }}
-      transition={{ duration: 0.55, delay: 0.04, ease: [0.16, 0.84, 0.32, 1] as const }}
-    />
-  )
-}
+/* ═══════════════════════════════════════════════════
+   GOLDEN CONFETTI — celebratory particles
+   ═══════════════════════════════════════════════════ */
 
 export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
   return (
@@ -779,8 +573,8 @@ export function CardLandShimmer({ position, delay }: { position: FanPosition; de
 
 /* ═══════════════════════════════════════════════════
    IDLE FLOAT — sinusoidal wave with subtle rotation sway
-   Main: vertical sine (7px, 3.5s)
-   Subtle: rotation sine (±1.5°, same period, π/4 phase lead)
+   Main: vertical sine (4px, 3.5s)
+   Subtle: rotation sine (±0.8°, same period)
    ═══════════════════════════════════════════════════ */
 
 const FLOAT_STEPS = 24
@@ -796,11 +590,9 @@ function generateFloatKeyframes() {
     yKeys.push(FLOAT_Y_AMP * Math.sin(t * Math.PI * 2))
     rotKeys.push(FLOAT_ROT_AMP * Math.sin(t * Math.PI * 2))
   }
-  // Both start and end at 0 — seamless loop, no jump from rest position
   return { yKeys, rotKeys }
 }
 
-// Single shared instance — all cards use the same waveform, staggered by delay
 const FLOAT_KEYFRAMES = generateFloatKeyframes()
 
 /* ═══════════════════════════════════════════════════
@@ -834,20 +626,16 @@ export function FlipCard({
 }) {
   const rarityClass = `pf-card-pack__card--rarity-${card.rarity}`
 
-  // Track whether the initial fan-in animation has completed
   const [fanInDone, setFanInDone] = useState(false)
 
   const floatActive = idle && !collected
-  // Stagger delay: converts bobPhase (radians) into a time offset within the cycle
   const floatDelay = (bobPhase / (Math.PI * 2)) * FLOAT_DURATION
 
   const canTap = idle && flipped && !collected && onSelect
   const inspecting = selected || anySelected
 
-  // Spring config shared by all inspect transitions
   const inspectSpring = { type: 'spring' as const, stiffness: 260, damping: 26, mass: 1 }
 
-  // Determine outer slot animation target
   const slotAnimate = collected
     ? {
         x: [position.x, position.x * 0.3],
@@ -864,7 +652,6 @@ export function FlipCard({
           ? { x: position.x, y: position.y, scale: 1, opacity: 1, rotate: position.rotate }
           : { x: position.x, y: position.y, scale: [0, 1.12, 1], opacity: 1, rotate: position.rotate }
 
-  // Determine outer slot transition
   const slotTransition = collected
     ? { duration: 0.65, delay: collectIndex * 0.08, ease: [0.4, 0, 1, 1] as const }
     : inspecting || fanInDone
@@ -885,7 +672,6 @@ export function FlipCard({
       onClick={canTap ? onSelect : undefined}
       onAnimationComplete={() => { if (!fanInDone && !collected) setFanInDone(true) }}
     >
-      {/* Float wrapper — keyframes start at y:0, staggered by delay per card */}
       <m.div
         className="pf-card-pack__card-perspective"
         animate={
@@ -899,7 +685,6 @@ export function FlipCard({
             : undefined
         }
       >
-        {/* Flipper — rotateY driven by Framer, preserve-3d inline */}
         <m.div
           className="pf-card-pack__card-flipper"
           initial={{ rotateY: 0 }}
@@ -921,7 +706,6 @@ export function FlipCard({
 
           {/* ── FRONT FACE ── */}
           <div className="pf-card-pack__card-face pf-card-pack__card-front">
-            {/* Gold 3D stars — overflow above the frame */}
             <m.div
               className={`pf-card-pack__card-stars pf-card-pack__card-stars--rarity-${card.rarity}`}
               {...(card.rarity === 5 ? {
@@ -966,7 +750,6 @@ export function FlipCard({
               })}
             </m.div>
 
-            {/* Card frame — white border + art */}
             <m.div
               className={`pf-card-pack__card-frame pf-card-pack__card-frame--rarity-${card.rarity}`}
               {...(card.rarity === 5 ? {
@@ -986,10 +769,7 @@ export function FlipCard({
               </div>
             </m.div>
 
-            {/* Name ribbon — overflow below the frame */}
             <CardNameRibbon name={card.name} rarity={card.rarity} />
-
-            {/* NEW badge — right side above the ribbon */}
             {card.isNew && <NewBadge />}
           </div>
         </m.div>
@@ -1018,7 +798,6 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
       className="pf-card-pack__rarity-burst-wrap"
       style={{ '--burst-x': `${position.x}px`, '--burst-y': `${position.y}px` } as CSSProperties}
     >
-      {/* Glow pulse */}
       <m.div
         className="pf-card-pack__rarity-glow"
         style={{ '--burst-color': color.glow } as CSSProperties}
@@ -1027,7 +806,6 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
         transition={{ duration: 0.55, times: [0, 0.4, 1] as const, ease: 'easeOut' }}
       />
 
-      {/* Flash (sparkle image) */}
       <m.img
         src={crystalShatterSparkleImage}
         alt=""
@@ -1038,7 +816,6 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
         transition={{ duration: 0.35, times: [0, 0.35, 1] as const, ease: 'easeOut' }}
       />
 
-      {/* Ring burst for rare+ */}
       {rarity >= 3 && (
         <m.img
           src={crystalShatterPrismaticRingImage}
@@ -1051,7 +828,6 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
         />
       )}
 
-      {/* Spark particles (dust images flying outward) */}
       {particles.map((p) => (
         <m.img
           key={p.id}

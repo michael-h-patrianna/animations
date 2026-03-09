@@ -3,6 +3,7 @@ import * as m from 'motion/react-m'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
+  cardPackBackImage,
   cardPackBasicImage,
   cardPackDiamondImage,
   cardPackDragonPetImage,
@@ -11,35 +12,30 @@ import {
   cardPackKittenImage,
   cardPackPuppyImage,
   cardPackUnicornImage,
+  crystalShatterDustImage,
+  crystalShatterPrismaticRingImage,
+  crystalShatterSparkleImage,
 } from '@/assets'
 
 import {
-  AmbientMotes,
   ArrivalDust,
-  BurstFlash,
-  BurstRing,
   CardLandShimmer,
   CollectBurst,
   CollectButton,
-  ConvergeMotes,
   EdgeSparks,
-  EnergyRings,
   FAN_POSITIONS,
   FlipCard,
   GoldenConfetti,
-  LandingPulse,
-  LightColumn,
+  LightSpill,
   PackBody,
   PackTearOpen,
-  RadialRays,
   RarityBurst,
   ScreenFlash,
   SeamCracks,
   SeamLight,
-  ShockwaveRing,
+  TearLineFlash,
   type CardData,
   type ConfettiData,
-  type ConvergeMoteData,
   type FanPosition,
   type PackPhase,
 } from '../CardPackParts'
@@ -52,16 +48,51 @@ function randomPackImage(): string {
   return PACK_IMAGES[Math.floor(Math.random() * PACK_IMAGES.length)]
 }
 
+/* ─── Image preloading ─── */
+
+const ALL_IMAGES = [
+  // Pack variants
+  cardPackBasicImage, cardPackGoldImage, cardPackDiamondImage,
+  // Card faces + back
+  cardPackBackImage, cardPackHamsterImage, cardPackKittenImage,
+  cardPackPuppyImage, cardPackDragonPetImage, cardPackUnicornImage,
+  // Effect sprites
+  crystalShatterDustImage, crystalShatterPrismaticRingImage,
+  crystalShatterSparkleImage,
+]
+
+function useImagePreloader(srcs: string[]): boolean {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    let cancelled = false
+    Promise.all(
+      srcs.map(
+        (src) =>
+          new Promise<void>((resolve) => {
+            const img = new Image()
+            img.onload = () => resolve()
+            img.onerror = () => resolve()
+            img.src = src
+          }),
+      ),
+    ).then(() => {
+      if (!cancelled) setReady(true)
+    })
+    return () => { cancelled = true }
+  }, [srcs])
+  return ready
+}
+
 /* ─── Constants ─── */
 
-const ANTICIPATION_MS = 800
-const BURST_MS = 1800
-const FAN_MS = 2400
-const FLIP_MS = 3200
+const ANTICIPATION_MS = 700
+const BURST_MS = 1700
+const FAN_MS = 2200
+const FLIP_MS = 3000
 const FLIP_INTERVAL_MS = 300
 
-const CONVERGE_MOTE_COUNT = 14
-const CONFETTI_COUNT = 22
+const CONFETTI_COUNT = 16
+const CONFETTI_DELAY_MS = 200 // delay after fan phase starts
 
 const DEFAULT_CARD_COUNT = 5
 
@@ -99,26 +130,6 @@ function getFanPositions(count: number): FanPosition[] {
 }
 
 /* ─── Data generators ─── */
-
-function createConvergeMotes(): ConvergeMoteData[] {
-  return Array.from({ length: CONVERGE_MOTE_COUNT }, (_, i) => {
-    const angle = (i / CONVERGE_MOTE_COUNT) * Math.PI * 2
-    const distance = 140 + Math.random() * 60
-    const startX = Math.cos(angle) * distance
-    const startY = Math.sin(angle) * distance
-    const perpAngle = angle + Math.PI / 2
-    const offset = (Math.random() - 0.5) * 50
-    return {
-      id: i,
-      startX,
-      startY,
-      midX: Math.cos(angle) * distance * 0.4 + Math.cos(perpAngle) * offset,
-      midY: Math.sin(angle) * distance * 0.4 + Math.sin(perpAngle) * offset,
-      size: 6 + Math.random() * 6,
-      delay: (i / CONVERGE_MOTE_COUNT) * 0.6,
-    }
-  })
-}
 
 function createConfetti(): ConfettiData[] {
   return Array.from({ length: CONFETTI_COUNT }, (_, i) => ({
@@ -178,7 +189,6 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
   const positions = useMemo(() => getFanPositions(cardCount), [cardCount])
 
   const phase = usePackPhase()
-  const convergeMotes = useMemo(() => createConvergeMotes(), [])
   const confetti = useMemo(() => createConfetti(), [])
   const flipped = useFlipStates(phase, cards.length)
 
@@ -238,56 +248,49 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
     })
   }, [flipped, burstedCards, cards])
 
+  // Confetti fires during fan phase, not burst
+  const [showConfetti, setShowConfetti] = useState(false)
+  useEffect(() => {
+    if (phase !== 'fan') return
+    const t = window.setTimeout(() => setShowConfetti(true), CONFETTI_DELAY_MS)
+    return () => window.clearTimeout(t)
+  }, [phase])
+
   return (
     <m.div
       className="pf-card-pack__stage"
       animate={
         showBurst
-          ? { x: [0, -3, 3, -2, 2, -1, 0], y: [0, 2, -2, 1, -1, 0] }
+          ? { x: [0, -2, 2, -1, 1, 0], y: [0, 1, -1, 0] }
           : { x: 0, y: 0 }
       }
-      transition={showBurst ? { duration: 0.25, ease: 'linear' } : { duration: 0 }}
+      transition={showBurst ? { duration: 0.2, ease: 'linear' } : { duration: 0 }}
     >
-      <AmbientMotes />
-      <LandingPulse />
+      {/* ACT 1: Arrival — pack drops with dust on impact */}
       <ArrivalDust />
 
-      {/* Pack — visible during arrival + anticipation */}
+      {/* ACT 2: Pack visible during arrival + anticipation */}
       <PackBody phase={phase} packImage={packImage} />
       <SeamLight phase={phase} />
 
-      {/* Anticipation effects — energy build-up */}
+      {/* Anticipation effects — physical strain */}
       {showAnticipation && (
         <>
-          <ConvergeMotes motes={convergeMotes} />
-          <EnergyRings />
           <EdgeSparks />
           <SeamCracks />
         </>
       )}
 
-      {/* Burst effects */}
+      {/* ACT 3: Burst — the pack rips open */}
       {showBurst && (
         <>
           <PackTearOpen packImage={packImage} />
-          <BurstFlash />
-          <BurstRing />
-          <RadialRays />
-          <LightColumn />
-          <ShockwaveRing />
-          {/* Secondary shockwave — delayed, larger, softer */}
-          <m.div
-            className="pf-card-pack__shockwave"
-            style={{ borderWidth: '2px', opacity: 0.5 }}
-            initial={{ scale: 0.5, opacity: 0.5 }}
-            animate={{ scale: 5.5, opacity: 0 }}
-            transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 0.84, 0.32, 1] as const }}
-          />
-          <GoldenConfetti confetti={confetti} />
+          <TearLineFlash />
+          <LightSpill />
         </>
       )}
 
-      {/* Cards */}
+      {/* ACT 4: Cards emerge and fan out */}
       {showCards && (
         <div className="pf-card-pack__cards-container">
           {cards.map((card, i) => (
@@ -307,22 +310,24 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
             />
           ))}
 
-          {/* Landing shimmers — secondary action as cards arrive */}
+          {/* Landing shimmers as cards arrive */}
           {cards.map((card, i) => (
             <CardLandShimmer key={`shimmer-${card.id}`} position={positions[i]} delay={i * 0.12} />
           ))}
 
-          {/* Rarity bursts — fire once when each card flips */}
+          {/* ACT 5: Rarity bursts — fire once when each card flips */}
           {cards.map((card, i) =>
             burstedCards[i] ? (
               <RarityBurst key={`burst-${card.id}`} rarity={card.rarity} position={positions[i]} />
             ) : null
           )}
-
         </div>
       )}
 
-      {/* Inspect overlay — desaturated backdrop when a card is focused */}
+      {/* Celebratory confetti — fires during fan phase, not burst */}
+      {showConfetti && <GoldenConfetti confetti={confetti} />}
+
+      {/* Inspect overlay */}
       <AnimatePresence>
         {focusedCard !== null && (
           <m.div
@@ -350,9 +355,11 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
 }
 
 function CardPackOpenComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCount?: number }) {
+  const ready = useImagePreloader(ALL_IMAGES)
+
   return (
     <div className="pf-modal-celebration pf-card-pack" data-animation-id="prize-reveal__card-pack-open">
-      <CardPackAnimation cardCount={prizeCount} />
+      {ready && <CardPackAnimation cardCount={prizeCount} />}
     </div>
   )
 }

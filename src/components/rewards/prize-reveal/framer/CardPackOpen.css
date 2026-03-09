@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════
    CARD PACK OPEN — Framer Motion variant
-   Monopoly Go-inspired design
+   Narrative: land → strain → rip → cards emerge → reveal
    ═══════════════════════════════════════════════════ */
 
 .pf-card-pack {
@@ -17,11 +17,9 @@
   --rarity-legendary-glow:  rgb(255 80 170 / 45%);
 
   /* Pack / stage */
-  --pack-glow:     rgb(200 170 100 / 30%);
-  --pack-glow-hot: rgb(255 200 80 / 55%);
-  --flash-color:   rgb(255 248 225);
-  --gold:          rgb(255 205 50);
   --seam-color:    rgb(255 240 200);
+  --gold:          rgb(255 205 50);
+  --flash-color:   rgb(255 248 225);
 
   /* Collect button */
   --collect-bg-start: rgb(100 60 180);
@@ -45,26 +43,6 @@
   overflow: hidden;
 }
 
-/* ─── Ambient motes ─── */
-
-.pf-card-pack__ambient {
-  position: absolute;
-  z-index: 0;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  inline-size: 0;
-  block-size: 0;
-  pointer-events: none;
-}
-
-.pf-card-pack__ambient-mote {
-  position: absolute;
-  inline-size: var(--mote-size, 4px);
-  block-size: var(--mote-size, 4px);
-  object-fit: contain;
-  pointer-events: none;
-}
-
 /* ─── Pack body ─── */
 
 .pf-card-pack__pack-body {
@@ -84,39 +62,6 @@
   block-size: 100%;
   object-fit: contain;
 }
-
-/* Pack glow aura */
-.pf-card-pack__pack-glow {
-  position: absolute;
-  z-index: 1;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  translate: -50% -50%;
-  inline-size: 1px;
-  block-size: 1px;
-  border-radius: 50%;
-  box-shadow:
-    0 0 60px 40px var(--pack-glow),
-    0 0 120px 70px rgb(200 170 100 / 10%);
-  pointer-events: none;
-}
-
-/* Subtle under-glow behind pack */
-.pf-card-pack__pack-ambient-glow {
-  position: absolute;
-  z-index: 0;
-  inset-inline-start: 50%;
-  inset-block-start: 60%;
-  translate: -50% -50%;
-  inline-size: 180px;
-  block-size: 80px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, var(--pack-glow) 0%, transparent 70%);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* Shake driven by Framer Motion in PackBody component */
 
 /* ─── Arrival dust — impact particles at pack base ─── */
 
@@ -138,22 +83,6 @@
   pointer-events: none;
 }
 
-/* ─── Landing pulse ─── */
-
-.pf-card-pack__landing-pulse {
-  position: absolute;
-  z-index: 1;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  translate: -50% -50%;
-  inline-size: 70px;
-  block-size: 70px;
-  border-radius: 50%;
-  border: 2px solid var(--gold);
-  box-shadow: 0 0 16px 5px var(--pack-glow);
-  pointer-events: none;
-}
-
 /* ─── Seam light — horizontal at pack tear line ─── */
 
 .pf-card-pack__seam {
@@ -172,32 +101,7 @@
   pointer-events: none;
 }
 
-/* ─── Energy rings — concentric pulses during anticipation ─── */
-
-.pf-card-pack__energy-ring-container {
-  position: absolute;
-  z-index: 2;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  inline-size: 0;
-  block-size: 0;
-  pointer-events: none;
-}
-
-.pf-card-pack__energy-ring {
-  position: absolute;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  translate: -50% -50%;
-  inline-size: 60px;
-  block-size: 60px;
-  border-radius: 50%;
-  border: 2px solid var(--gold);
-  box-shadow: 0 0 10px 3px rgb(255 205 50 / 25%);
-  pointer-events: none;
-}
-
-/* ─── Edge sparks — sparkles from pack edges during anticipation ─── */
+/* ─── Edge sparks — sparkles escaping from seam area ─── */
 
 .pf-card-pack__edge-spark-container {
   position: absolute;
@@ -218,7 +122,7 @@
   pointer-events: none;
 }
 
-/* ─── Seam cracks — branching fracture lines ─── */
+/* ─── Seam cracks — fracture lines from seam ─── */
 
 .pf-card-pack__seam-crack-container {
   position: absolute;
@@ -239,49 +143,6 @@
   border-radius: 1px;
   box-shadow: 0 0 6px 2px rgb(255 240 200 / 50%);
   transform-origin: top center;
-  pointer-events: none;
-}
-
-/* ─── Radial rays — light rays on burst ─── */
-
-.pf-card-pack__radial-rays-container {
-  position: absolute;
-  z-index: 5;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  inline-size: 0;
-  block-size: 0;
-  pointer-events: none;
-}
-
-.pf-card-pack__radial-ray {
-  position: absolute;
-  inline-size: 3px;
-  block-size: var(--ray-len, 100px);
-  background: linear-gradient(to top, rgb(255 248 225 / 80%), transparent);
-  border-radius: 2px;
-  transform-origin: bottom center;
-  pointer-events: none;
-}
-
-/* ─── Converge motes ─── */
-
-.pf-card-pack__converge-container {
-  position: absolute;
-  z-index: 2;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  inline-size: 0;
-  block-size: 0;
-  pointer-events: none;
-}
-
-.pf-card-pack__converge-mote {
-  position: absolute;
-  inline-size: var(--mote-size, 8px);
-  block-size: var(--mote-size, 8px);
-  object-fit: contain;
-  translate: -50% -50%;
   pointer-events: none;
 }
 
@@ -330,63 +191,37 @@
   filter: drop-shadow(0 6px 14px rgb(0 0 0 / 50%));
 }
 
-/* ─── Burst flash ─── */
+/* ─── Tear-line flash — horizontal burst at rip point ─── */
 
-.pf-card-pack__burst-flash {
+.pf-card-pack__tear-flash {
   position: absolute;
   z-index: 6;
   inset-inline-start: 50%;
-  inset-block-start: 50%;
+  inset-block-start: 40%;
   translate: -50% -50%;
-  inline-size: 120px;
-  block-size: 120px;
-  object-fit: contain;
+  inline-size: 180px;
+  block-size: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, transparent, var(--flash-color) 20%, var(--flash-color) 80%, transparent);
+  box-shadow:
+    0 0 20px 8px rgb(255 240 200 / 70%),
+    0 0 50px 20px rgb(255 220 150 / 30%);
   pointer-events: none;
 }
 
-/* ─── Burst ring ─── */
+/* ─── Light spill — upward fan from tear opening ─── */
 
-.pf-card-pack__burst-ring {
-  position: absolute;
-  z-index: 6;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  translate: -50% -50%;
-  inline-size: 150px;
-  block-size: 150px;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-/* ─── Light column ─── */
-
-.pf-card-pack__light-column {
+.pf-card-pack__light-spill {
   position: absolute;
   z-index: 5;
   inset-inline-start: 50%;
-  inset-block-start: 50%;
+  inset-block-start: 40%;
   translate: -50% -100%;
-  inline-size: 18px;
-  block-size: 240px;
-  border-radius: 9px;
-  background: linear-gradient(to top, var(--flash-color), transparent);
+  inline-size: 100px;
+  block-size: 140px;
+  background: linear-gradient(to top, rgb(255 240 200 / 60%), rgb(255 240 200 / 20%) 40%, transparent);
+  clip-path: polygon(20% 100%, 50% 0%, 80% 100%);
   transform-origin: bottom center;
-  pointer-events: none;
-}
-
-/* ─── Shockwave ─── */
-
-.pf-card-pack__shockwave {
-  position: absolute;
-  z-index: 4;
-  inset-inline-start: 50%;
-  inset-block-start: 50%;
-  translate: -50% -50%;
-  inline-size: 50px;
-  block-size: 50px;
-  border-radius: 50%;
-  border: 3px solid rgb(255 220 130 / 60%);
-  box-shadow: 0 0 14px 5px rgb(255 200 80 / 25%);
   pointer-events: none;
 }
 
@@ -432,7 +267,7 @@
   inline-size: 110px;
   block-size: 110px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 230 140 / 45%) 0%, var(--pack-glow) 40%, transparent 70%);
+  background: radial-gradient(circle, rgb(255 230 140 / 45%) 0%, rgb(200 170 100 / 30%) 40%, transparent 70%);
   pointer-events: none;
 }
 
@@ -461,7 +296,6 @@
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
-  /* overflow visible so stars/ribbon can protrude */
   overflow: visible;
 }
 
@@ -497,7 +331,6 @@
 .pf-card-pack__card-frame--rarity-5 {
   box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 80 170 / 50%);
 }
-/* Legendary frame glow cycling driven by Framer Motion in FlipCard */
 
 /* ─── Card image area ─── */
 
@@ -526,11 +359,10 @@
   box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 22px 10px var(--rarity-legendary-glow), inset 0 0 0 2px rgb(255 80 170 / 50%);
 }
 
-/* ─── Stars — 3D gold (radialGradient in SVG, drop-shadow for depth) ─── */
+/* ─── Stars — 3D gold ─── */
 
 .pf-card-pack__card-stars {
   position: absolute;
-  /* Straddle top edge of frame: half above, half below */
   inset-block-start: -14px;
   inset-inline-start: 50%;
   translate: -50% 0;
@@ -548,13 +380,10 @@
   margin-inline: -3px;
 }
 
-/* Legendary star shimmer driven by Framer Motion in FlipCard */
-
 /* ─── Name ribbon — Monopoly Go style ─── */
 
 .pf-card-pack__card-ribbon {
   position: absolute;
-  /* Sit on the lower portion of the card, showing art below */
   inset-block-end: 6px;
   inset-inline-start: 50%;
   translate: -50% 0;
@@ -685,7 +514,7 @@
   pointer-events: none;
 }
 
-/* ─── Inspect overlay — dark backdrop when a card is focused ─── */
+/* ─── Inspect overlay ─── */
 
 .pf-card-pack__inspect-overlay {
   position: absolute;
