@@ -120,6 +120,29 @@ export function AmbientMotes() {
    PACK BODY — holographic shimmer + multi-layer glow
    ═══════════════════════════════════════════════════ */
 
+/** Escalating shake — amplitude ramps from gentle tremor to violent judder */
+const SHAKE_STEPS = 30
+const SHAKE_KEYFRAMES = (() => {
+  const x: number[] = []
+  const y: number[] = []
+  const rot: number[] = []
+  for (let i = 0; i <= SHAKE_STEPS; i++) {
+    const t = i / SHAKE_STEPS
+    const amp = 1 + t * 5 // 1px → 6px
+    const rotAmp = 0.3 + t * 1.7 // 0.3° → 2°
+    const sign = i % 2 === 0 ? 1 : -1
+    const jitter = 0.6 + Math.random() * 0.4
+    x.push(sign * amp * jitter * (0.8 + Math.random() * 0.4))
+    y.push(-sign * amp * jitter * 0.5)
+    rot.push(sign * rotAmp * jitter)
+  }
+  // End at rest
+  x[SHAKE_STEPS] = 0
+  y[SHAKE_STEPS] = 0
+  rot[SHAKE_STEPS] = 0
+  return { x, y, rot }
+})()
+
 export function PackBody({ phase }: { phase: PackPhase }) {
   const isShaking = phase === 'anticipation'
   const isVisible = phase === 'arrival' || phase === 'anticipation'
@@ -138,20 +161,37 @@ export function PackBody({ phase }: { phase: PackPhase }) {
       }}
     >
       <m.div
-        animate={isShaking ? { x: [0, -4, 3, -3, 2, 0], y: [0, 1, -2, 2, -1, 0] } : {}}
-        transition={isShaking ? { duration: 0.1, repeat: Infinity, ease: 'linear' } : {}}
+        animate={
+          isShaking
+            ? { x: SHAKE_KEYFRAMES.x, y: SHAKE_KEYFRAMES.y, rotate: SHAKE_KEYFRAMES.rot }
+            : {}
+        }
+        transition={isShaking ? { duration: 1.0, ease: 'linear' } : {}}
       >
         <img src={cardPackClosedImage} alt="" aria-hidden="true" className="pf-card-pack__pack-image" />
         <m.div
           className="pf-card-pack__pack-glow"
           animate={
             isShaking
-              ? { opacity: [0.4, 0.85, 0.4], scale: [1, 1.2, 1] }
+              ? { opacity: [0.3, 0.5, 0.7, 0.9], scale: [1, 1.1, 1.15, 1.3] }
               : { opacity: [0.2, 0.35, 0.2], scale: 1 }
           }
-          transition={{ duration: isShaking ? 0.6 : 2.5, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{
+            duration: isShaking ? 1.0 : 2.5,
+            repeat: isShaking ? 0 : Infinity,
+            ease: 'easeIn',
+          }}
         />
-        <div className="pf-card-pack__pack-ambient-glow" />
+        <m.div
+          className="pf-card-pack__pack-ambient-glow"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={
+            isShaking
+              ? { opacity: [0.6, 0.8], scale: [1, 1.3] }
+              : { opacity: 0.6, scale: 1 }
+          }
+          transition={{ duration: isShaking ? 1.0 : 0.8, ease: 'easeOut' }}
+        />
       </m.div>
     </m.div>
   )
@@ -186,6 +226,221 @@ export function SeamLight({ phase }: { phase: PackPhase }) {
       animate={{ opacity: [0, 0.5, 1], scaleX: [0.2, 0.6, 1.2] }}
       transition={{ duration: 1.2, times: [0, 0.5, 1] as const, ease: 'easeIn' }}
     />
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   ARRIVAL DUST — impact particles when the pack lands
+   ═══════════════════════════════════════════════════ */
+
+const ARRIVAL_DUST_COUNT = 8
+
+export function ArrivalDust() {
+  const particles = Array.from({ length: ARRIVAL_DUST_COUNT }, (_, i) => {
+    // Semicircle below the pack — angles from ~150° to ~390° (downward fan)
+    const angle = (150 + (i / (ARRIVAL_DUST_COUNT - 1)) * 240) * (Math.PI / 180)
+    const dist = 30 + Math.random() * 40
+    return {
+      id: i,
+      endX: Math.cos(angle) * dist,
+      endY: Math.sin(angle) * Math.abs(Math.sin(angle)) * dist * 0.6,
+      size: 3 + Math.random() * 3,
+    }
+  })
+
+  return (
+    <div className="pf-card-pack__arrival-dust-container">
+      {particles.map((p) => (
+        <m.img
+          key={p.id}
+          src={crystalShatterDustImage}
+          alt=""
+          aria-hidden="true"
+          className="pf-card-pack__arrival-dust"
+          style={{ '--dust-size': `${p.size}px` } as CSSProperties}
+          initial={{ x: 0, y: 0, opacity: 0.8, scale: 1 }}
+          animate={{
+            x: p.endX,
+            y: p.endY,
+            opacity: [0.8, 0.5, 0],
+            scale: [1, 0.5, 0.1],
+          }}
+          transition={{
+            duration: 0.4,
+            delay: 0.72 + Math.random() * 0.06,
+            ease: 'easeOut',
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   ENERGY RINGS — concentric pulses during anticipation
+   Each ring gets brighter/larger to show escalation
+   ═══════════════════════════════════════════════════ */
+
+export function EnergyRings() {
+  const rings = [
+    { id: 0, delay: 0.1, endScale: 1.6, opacity: 0.4 },
+    { id: 1, delay: 0.35, endScale: 2.0, opacity: 0.55 },
+    { id: 2, delay: 0.65, endScale: 2.5, opacity: 0.7 },
+  ]
+
+  return (
+    <div className="pf-card-pack__energy-ring-container">
+      {rings.map((ring) => (
+        <m.div
+          key={ring.id}
+          className="pf-card-pack__energy-ring"
+          initial={{ scale: 0.3, opacity: 0 }}
+          animate={{ scale: [0.3, ring.endScale], opacity: [ring.opacity, 0] }}
+          transition={{ duration: 0.5, delay: ring.delay, ease: 'easeOut' }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   EDGE SPARKS — sparkles from pack edges during anticipation
+   Frequency increases toward the end for escalation
+   ═══════════════════════════════════════════════════ */
+
+export function EdgeSparks() {
+  const sparks = Array.from({ length: 8 }, (_, i) => {
+    // Distribute around pack edges — top, sides, corners
+    const side = i % 4
+    const packW = 72 // half pack width
+    const packH = 109 // half pack height
+    let startX: number, startY: number, endX: number, endY: number
+    switch (side) {
+      case 0: // top edge
+        startX = (Math.random() - 0.5) * packW * 2
+        startY = -packH
+        endX = startX + (Math.random() - 0.5) * 30
+        endY = startY - 15 - Math.random() * 25
+        break
+      case 1: // right edge
+        startX = packW
+        startY = (Math.random() - 0.5) * packH
+        endX = startX + 15 + Math.random() * 20
+        endY = startY + (Math.random() - 0.5) * 20
+        break
+      case 2: // bottom edge
+        startX = (Math.random() - 0.5) * packW * 2
+        startY = packH * 0.6
+        endX = startX + (Math.random() - 0.5) * 30
+        endY = startY + 10 + Math.random() * 20
+        break
+      default: // left edge
+        startX = -packW
+        startY = (Math.random() - 0.5) * packH
+        endX = startX - 15 - Math.random() * 20
+        endY = startY + (Math.random() - 0.5) * 20
+    }
+    // Stagger: early sparks are spaced out, last 3 fire rapidly near the end
+    const delay = i < 5 ? i * 0.15 : 0.6 + (i - 5) * 0.08
+    return { id: i, startX, startY, endX, endY, size: 6 + Math.random() * 6, delay }
+  })
+
+  return (
+    <div className="pf-card-pack__edge-spark-container">
+      {sparks.map((s) => (
+        <m.img
+          key={s.id}
+          src={crystalShatterSparkleImage}
+          alt=""
+          aria-hidden="true"
+          className="pf-card-pack__edge-spark"
+          style={{ '--spark-size': `${s.size}px` } as CSSProperties}
+          initial={{ x: s.startX, y: s.startY, opacity: 0, scale: 0 }}
+          animate={{
+            x: s.endX,
+            y: s.endY,
+            opacity: [0, 0.9, 0],
+            scale: [0, 1.2, 0.2],
+          }}
+          transition={{
+            duration: 0.3,
+            delay: s.delay,
+            times: [0, 0.3, 1] as const,
+            ease: 'easeOut',
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   SEAM CRACKS — branching fracture lines from the seam
+   Appear progressively to show the pack rupturing
+   ═══════════════════════════════════════════════════ */
+
+export function SeamCracks() {
+  const cracks = [
+    { id: 0, x: '30%', rotate: -25, len: 16, delay: 0.35 },
+    { id: 1, x: '65%', rotate: 18, len: 22, delay: 0.6 },
+    { id: 2, x: '48%', rotate: -40, len: 18, delay: 0.8 },
+    { id: 3, x: '20%', rotate: 32, len: 14, delay: 0.9 },
+  ]
+
+  return (
+    <div className="pf-card-pack__seam-crack-container">
+      {cracks.map((c) => (
+        <m.div
+          key={c.id}
+          className="pf-card-pack__seam-crack"
+          style={{
+            insetInlineStart: c.x,
+            rotate: `${c.rotate}deg`,
+            '--crack-len': `${c.len}px`,
+          } as CSSProperties}
+          initial={{ scaleY: 0, opacity: 0 }}
+          animate={{ scaleY: [0, 1], opacity: [0, 0.8, 0.6] }}
+          transition={{ duration: 0.25, delay: c.delay, ease: 'easeOut' }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   RADIAL RAYS — light beams radiating outward on burst
+   ═══════════════════════════════════════════════════ */
+
+const RADIAL_RAY_COUNT = 10
+
+export function RadialRays() {
+  const rays = Array.from({ length: RADIAL_RAY_COUNT }, (_, i) => {
+    const angle = (i / RADIAL_RAY_COUNT) * 360
+    const len = 80 + Math.random() * 50
+    return { id: i, angle, len, delay: i * 0.015 }
+  })
+
+  return (
+    <div className="pf-card-pack__radial-rays-container">
+      {rays.map((ray) => (
+        <m.div
+          key={ray.id}
+          className="pf-card-pack__radial-ray"
+          style={{
+            rotate: `${ray.angle}deg`,
+            '--ray-len': `${ray.len}px`,
+          } as CSSProperties}
+          initial={{ scaleY: 0, opacity: 0.9 }}
+          animate={{ scaleY: [0, 1, 1], opacity: [0.9, 0.5, 0] }}
+          transition={{
+            duration: 0.4,
+            delay: ray.delay,
+            times: [0, 0.35, 1] as const,
+            ease: 'easeOut',
+          }}
+        />
+      ))}
+    </div>
   )
 }
 
@@ -516,9 +771,9 @@ export function CardLandShimmer({ position, delay }: { position: FanPosition; de
     <m.div
       className="pf-card-pack__land-shimmer"
       style={{ '--shimmer-x': `${position.x}px`, '--shimmer-y': `${position.y}px` } as CSSProperties}
-      initial={{ opacity: 0, scale: 0.3 }}
-      animate={{ opacity: [0, 0.35, 0], scale: [0.3, 1, 1.3] }}
-      transition={{ duration: 0.45, delay, times: [0, 0.35, 1] as const, ease: 'easeOut' }}
+      initial={{ opacity: 0, scale: 0.2 }}
+      animate={{ opacity: [0, 0.55, 0], scale: [0.2, 1.1, 1.5] }}
+      transition={{ duration: 0.55, delay, times: [0, 0.3, 1] as const, ease: 'easeOut' }}
     />
   )
 }

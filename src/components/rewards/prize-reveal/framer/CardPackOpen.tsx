@@ -12,12 +12,15 @@ import {
 
 import {
   AmbientMotes,
+  ArrivalDust,
   BurstFlash,
   BurstRing,
   CardLandShimmer,
   CollectBurst,
   CollectButton,
   ConvergeMotes,
+  EdgeSparks,
+  EnergyRings,
   FAN_POSITIONS,
   FlipCard,
   GoldenConfetti,
@@ -25,8 +28,10 @@ import {
   LightColumn,
   PackBody,
   PackTearOpen,
+  RadialRays,
   RarityBurst,
   ScreenFlash,
+  SeamCracks,
   SeamLight,
   ShockwaveRing,
   type CardData,
@@ -222,16 +227,32 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
   }, [flipped, burstedCards, cards])
 
   return (
-    <div className="pf-card-pack__stage">
+    <m.div
+      className="pf-card-pack__stage"
+      animate={
+        showBurst
+          ? { x: [0, -3, 3, -2, 2, -1, 0], y: [0, 2, -2, 1, -1, 0] }
+          : { x: 0, y: 0 }
+      }
+      transition={showBurst ? { duration: 0.25, ease: 'linear' } : { duration: 0 }}
+    >
       <AmbientMotes />
       <LandingPulse />
+      <ArrivalDust />
 
       {/* Pack — visible during arrival + anticipation */}
       <PackBody phase={phase} />
       <SeamLight phase={phase} />
 
-      {/* Energy convergence during anticipation */}
-      {showAnticipation && <ConvergeMotes motes={convergeMotes} />}
+      {/* Anticipation effects — energy build-up */}
+      {showAnticipation && (
+        <>
+          <ConvergeMotes motes={convergeMotes} />
+          <EnergyRings />
+          <EdgeSparks />
+          <SeamCracks />
+        </>
+      )}
 
       {/* Burst effects */}
       {showBurst && (
@@ -239,8 +260,17 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
           <PackTearOpen />
           <BurstFlash />
           <BurstRing />
+          <RadialRays />
           <LightColumn />
           <ShockwaveRing />
+          {/* Secondary shockwave — delayed, larger, softer */}
+          <m.div
+            className="pf-card-pack__shockwave"
+            style={{ borderWidth: '2px', opacity: 0.5 }}
+            initial={{ scale: 0.5, opacity: 0.5 }}
+            animate={{ scale: 5.5, opacity: 0 }}
+            transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 0.84, 0.32, 1] as const }}
+          />
           <GoldenConfetti confetti={confetti} />
         </>
       )}
@@ -303,7 +333,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       <AnimatePresence>
         {showCollect && !collected && <CollectButton onCollect={handleCollect} />}
       </AnimatePresence>
-    </div>
+    </m.div>
   )
 }
 

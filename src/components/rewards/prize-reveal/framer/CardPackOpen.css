@@ -118,6 +118,26 @@
 
 /* Shake driven by Framer Motion in PackBody component */
 
+/* ─── Arrival dust — impact particles at pack base ─── */
+
+.pf-card-pack__arrival-dust-container {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 58%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__arrival-dust {
+  position: absolute;
+  inline-size: var(--dust-size, 4px);
+  block-size: var(--dust-size, 4px);
+  object-fit: contain;
+  pointer-events: none;
+}
+
 /* ─── Landing pulse ─── */
 
 .pf-card-pack__landing-pulse {
@@ -149,6 +169,98 @@
   box-shadow:
     0 0 10px 4px rgb(255 240 200 / 70%),
     0 0 24px 10px rgb(255 220 150 / 35%);
+  pointer-events: none;
+}
+
+/* ─── Energy rings — concentric pulses during anticipation ─── */
+
+.pf-card-pack__energy-ring-container {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__energy-ring {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 60px;
+  block-size: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 10px 3px rgb(255 205 50 / 25%);
+  pointer-events: none;
+}
+
+/* ─── Edge sparks — sparkles from pack edges during anticipation ─── */
+
+.pf-card-pack__edge-spark-container {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__edge-spark {
+  position: absolute;
+  inline-size: var(--spark-size, 8px);
+  block-size: var(--spark-size, 8px);
+  object-fit: contain;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+/* ─── Seam cracks — branching fracture lines ─── */
+
+.pf-card-pack__seam-crack-container {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 145px;
+  block-size: 60px;
+  pointer-events: none;
+}
+
+.pf-card-pack__seam-crack {
+  position: absolute;
+  inline-size: 2px;
+  block-size: var(--crack-len, 18px);
+  background: linear-gradient(to bottom, var(--seam-color), transparent);
+  border-radius: 1px;
+  box-shadow: 0 0 6px 2px rgb(255 240 200 / 50%);
+  transform-origin: top center;
+  pointer-events: none;
+}
+
+/* ─── Radial rays — light rays on burst ─── */
+
+.pf-card-pack__radial-rays-container {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack__radial-ray {
+  position: absolute;
+  inline-size: 3px;
+  block-size: var(--ray-len, 100px);
+  background: linear-gradient(to top, rgb(255 248 225 / 80%), transparent);
+  border-radius: 2px;
+  transform-origin: bottom center;
   pointer-events: none;
 }
 
@@ -317,10 +429,10 @@
   inset-inline-start: calc(50% + var(--shimmer-x, 0px));
   inset-block-start: calc(50% + var(--shimmer-y, 0px));
   translate: -50% -50%;
-  inline-size: 90px;
-  block-size: 90px;
+  inline-size: 110px;
+  block-size: 110px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--pack-glow) 0%, transparent 70%);
+  background: radial-gradient(circle, rgb(255 230 140 / 45%) 0%, var(--pack-glow) 40%, transparent 70%);
   pointer-events: none;
 }
 
