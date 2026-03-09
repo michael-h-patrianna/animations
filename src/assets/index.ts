@@ -9,6 +9,41 @@ import cardPackHamsterImage from '@/assets/card-pack/card-hamster.png'
 import cardPackKittenImage from '@/assets/card-pack/card-kitten.png'
 import cardPackPuppyImage from '@/assets/card-pack/card-puppy.png'
 import cardPackUnicornImage from '@/assets/card-pack/card-unicorn.png'
+// Set 1: Cute Pets (new)
+import cardPackGoldfishImage from '@/assets/card-pack/card-goldfish.png'
+import cardPackTurtleImage from '@/assets/card-pack/card-turtle.png'
+import cardPackBunnyImage from '@/assets/card-pack/card-bunny.png'
+import cardPackParrotImage from '@/assets/card-pack/card-parrot.png'
+import cardPackFerretImage from '@/assets/card-pack/card-ferret.png'
+import cardPackSugarGliderImage from '@/assets/card-pack/card-sugar-glider.png'
+// Set 2: Cute Farm Animals
+import cardPackChickImage from '@/assets/card-pack/card-chick.png'
+import cardPackDucklingImage from '@/assets/card-pack/card-duckling.png'
+import cardPackPigletImage from '@/assets/card-pack/card-piglet.png'
+import cardPackLambImage from '@/assets/card-pack/card-lamb.png'
+import cardPackCalfImage from '@/assets/card-pack/card-calf.png'
+import cardPackFoalImage from '@/assets/card-pack/card-foal.png'
+import cardPackGoatKidImage from '@/assets/card-pack/card-goat-kid.png'
+import cardPackAlpacaImage from '@/assets/card-pack/card-alpaca.png'
+import cardPackPeacockImage from '@/assets/card-pack/card-peacock.png'
+// Set 3: Cute Wildlife
+import cardPackSquirrelImage from '@/assets/card-pack/card-squirrel.png'
+import cardPackHedgehogImage from '@/assets/card-pack/card-hedgehog.png'
+import cardPackRaccoonImage from '@/assets/card-pack/card-raccoon.png'
+import cardPackFoxCubImage from '@/assets/card-pack/card-fox-cub.png'
+import cardPackOwlImage from '@/assets/card-pack/card-owl.png'
+import cardPackBearCubImage from '@/assets/card-pack/card-bear-cub.png'
+import cardPackDeerFawnImage from '@/assets/card-pack/card-deer-fawn.png'
+import cardPackRedPandaImage from '@/assets/card-pack/card-red-panda.png'
+import cardPackSnowLeopardImage from '@/assets/card-pack/card-snow-leopard.png'
+// Set 4: Cute Fantasy (new)
+import cardPackFairyBunnyImage from '@/assets/card-pack/card-fairy-bunny.png'
+import cardPackSlimePetImage from '@/assets/card-pack/card-slime-pet.png'
+import cardPackCrystalSnailImage from '@/assets/card-pack/card-crystal-snail.png'
+import cardPackMoonCatImage from '@/assets/card-pack/card-moon-cat.png'
+import cardPackEmberFoxImage from '@/assets/card-pack/card-ember-fox.png'
+import cardPackGriffinChickImage from '@/assets/card-pack/card-griffin-chick.png'
+import cardPackKitsuneImage from '@/assets/card-pack/card-kitsune.png'
 import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.png'
 import arcanePortalGcImage from '@/assets/arcane-portal/gc.png'
 import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.png'
@@ -71,6 +106,41 @@ export {
   cardPackKittenImage,
   cardPackPuppyImage,
   cardPackUnicornImage,
+  // Set 1: Cute Pets (new)
+  cardPackGoldfishImage,
+  cardPackTurtleImage,
+  cardPackBunnyImage,
+  cardPackParrotImage,
+  cardPackFerretImage,
+  cardPackSugarGliderImage,
+  // Set 2: Cute Farm Animals
+  cardPackChickImage,
+  cardPackDucklingImage,
+  cardPackPigletImage,
+  cardPackLambImage,
+  cardPackCalfImage,
+  cardPackFoalImage,
+  cardPackGoatKidImage,
+  cardPackAlpacaImage,
+  cardPackPeacockImage,
+  // Set 3: Cute Wildlife
+  cardPackSquirrelImage,
+  cardPackHedgehogImage,
+  cardPackRaccoonImage,
+  cardPackFoxCubImage,
+  cardPackOwlImage,
+  cardPackBearCubImage,
+  cardPackDeerFawnImage,
+  cardPackRedPandaImage,
+  cardPackSnowLeopardImage,
+  // Set 4: Cute Fantasy (new)
+  cardPackFairyBunnyImage,
+  cardPackSlimePetImage,
+  cardPackCrystalSnailImage,
+  cardPackMoonCatImage,
+  cardPackEmberFoxImage,
+  cardPackGriffinChickImage,
+  cardPackKitsuneImage,
   arcanePortalFreeSpinsImage,
   arcanePortalGcImage,
   arcanePortalRandomRewardImage,

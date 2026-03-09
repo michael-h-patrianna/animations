@@ -6,12 +6,7 @@ import {
   cardPackBackImage,
   cardPackBasicImage,
   cardPackDiamondImage,
-  cardPackDragonPetImage,
   cardPackGoldImage,
-  cardPackHamsterImage,
-  cardPackKittenImage,
-  cardPackPuppyImage,
-  cardPackUnicornImage,
   crystalShatterDustImage,
   crystalShatterPrismaticRingImage,
   crystalShatterSparkleImage,
@@ -34,11 +29,12 @@ import {
   SeamCracks,
   SeamLight,
   TearLineFlash,
-  type CardData,
   type ConfettiData,
   type FanPosition,
   type PackPhase,
 } from '../CardPackParts'
+
+import { ALL_CARD_IMAGES, drawCards, getCardSet } from '../cardSets'
 
 /* ─── Pack types ─── */
 
@@ -53,9 +49,10 @@ function randomPackImage(): string {
 const ALL_IMAGES = [
   // Pack variants
   cardPackBasicImage, cardPackGoldImage, cardPackDiamondImage,
-  // Card faces + back
-  cardPackBackImage, cardPackHamsterImage, cardPackKittenImage,
-  cardPackPuppyImage, cardPackDragonPetImage, cardPackUnicornImage,
+  // Card back
+  cardPackBackImage,
+  // All card faces from all sets
+  ...ALL_CARD_IMAGES,
   // Effect sprites
   crystalShatterDustImage, crystalShatterPrismaticRingImage,
   crystalShatterSparkleImage,
@@ -95,15 +92,6 @@ const CONFETTI_COUNT = 16
 const CONFETTI_DELAY_MS = 200 // delay after fan phase starts
 
 const DEFAULT_CARD_COUNT = 5
-
-/** Demo pack — one of each rarity, sorted common→legendary for escalating drama */
-const CARD_PACK: CardData[] = [
-  { id: 0, name: 'Nibbles', rarity: 1, frontImage: cardPackHamsterImage },
-  { id: 1, name: 'Whiskers', rarity: 2, frontImage: cardPackKittenImage },
-  { id: 2, name: 'Biscuit', rarity: 3, frontImage: cardPackPuppyImage },
-  { id: 3, name: 'Ember', rarity: 4, frontImage: cardPackDragonPetImage },
-  { id: 4, name: 'Stardust', rarity: 5, frontImage: cardPackUnicornImage },
-]
 
 /** Fan layouts keyed by card count — hand-tuned for visual balance */
 function getFanPositions(count: number): FanPosition[] {
@@ -181,11 +169,7 @@ function useFlipStates(phase: PackPhase, cardCount: number) {
 
 function CardPackAnimation({ cardCount }: { cardCount: number }) {
   const packImage = useMemo(() => randomPackImage(), [])
-  const cards = useMemo(() => {
-    const pack = CARD_PACK.slice(0, cardCount)
-    const newIndex = Math.floor(Math.random() * pack.length)
-    return pack.map((card, i) => (i === newIndex ? { ...card, isNew: true } : card))
-  }, [cardCount])
+  const cards = useMemo(() => drawCards(cardCount), [cardCount])
   const positions = useMemo(() => getFanPositions(cardCount), [cardCount])
 
   const phase = usePackPhase()
@@ -295,7 +279,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
         <div className="pf-card-pack__cards-container">
           {cards.map((card, i) => (
             <FlipCard
-              key={card.id}
+              key={`${card.id}-${i}`}
               card={card}
               position={positions[i]}
               flipped={flipped[i]}
@@ -307,18 +291,19 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
               selected={focusedCard === i}
               anySelected={focusedCard !== null}
               onSelect={() => handleCardSelect(i)}
+              ribbonColor={card.setId ? getCardSet(card.setId)?.ribbonColor : undefined}
             />
           ))}
 
           {/* Landing shimmers as cards arrive */}
-          {cards.map((card, i) => (
-            <CardLandShimmer key={`shimmer-${card.id}`} position={positions[i]} delay={i * 0.12} />
+          {cards.map((_, i) => (
+            <CardLandShimmer key={`shimmer-${i}`} position={positions[i]} delay={i * 0.12} />
           ))}
 
           {/* ACT 5: Rarity bursts — fire once when each card flips */}
           {cards.map((card, i) =>
             burstedCards[i] ? (
-              <RarityBurst key={`burst-${card.id}`} rarity={card.rarity} position={positions[i]} />
+              <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]} />
             ) : null
           )}
         </div>

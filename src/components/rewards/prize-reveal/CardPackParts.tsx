@@ -19,6 +19,7 @@ export type CardData = {
   name: string
   rarity: CardRarity
   frontImage: string
+  setId?: string
   isNew?: boolean
 }
 
@@ -458,7 +459,7 @@ export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
    CARD NAME RIBBON — SVG text auto-scales to fit, wraps to 2 lines
    ═══════════════════════════════════════════════════ */
 
-function CardNameRibbon({ name, rarity }: { name: string; rarity: CardRarity }) {
+function CardNameRibbon({ name, rarity, ribbonColor }: { name: string; rarity: CardRarity; ribbonColor?: string }) {
   const words = name.split(' ')
   const multiLine = name.length > 11 && words.length >= 2
   const line1 = multiLine ? words.slice(0, Math.ceil(words.length / 2)).join(' ') : name
@@ -466,7 +467,10 @@ function CardNameRibbon({ name, rarity }: { name: string; rarity: CardRarity }) 
   const svgH = multiLine ? 32 : 22
 
   return (
-    <div className={`pf-card-pack__card-ribbon pf-card-pack__card-ribbon--rarity-${rarity}`}>
+    <div
+      className={`pf-card-pack__card-ribbon ${ribbonColor ? '' : `pf-card-pack__card-ribbon--rarity-${rarity}`}`}
+      style={ribbonColor ? { '--ribbon-bg': ribbonColor } as CSSProperties : undefined}
+    >
       <svg
         viewBox={`0 0 100 ${svgH}`}
         preserveAspectRatio="xMidYMid meet"
@@ -611,6 +615,7 @@ export function FlipCard({
   selected = false,
   anySelected = false,
   onSelect,
+  ribbonColor,
 }: {
   card: CardData
   position: FanPosition
@@ -623,6 +628,7 @@ export function FlipCard({
   selected?: boolean
   anySelected?: boolean
   onSelect?: () => void
+  ribbonColor?: string
 }) {
   const rarityClass = `pf-card-pack__card--rarity-${card.rarity}`
 
@@ -769,7 +775,7 @@ export function FlipCard({
               </div>
             </m.div>
 
-            <CardNameRibbon name={card.name} rarity={card.rarity} />
+            <CardNameRibbon name={card.name} rarity={card.rarity} ribbonColor={ribbonColor} />
             {card.isNew && <NewBadge />}
           </div>
         </m.div>

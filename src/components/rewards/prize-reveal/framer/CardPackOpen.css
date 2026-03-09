@@ -404,7 +404,17 @@
   display: block;
 }
 
-/* Rarity ribbon colors */
+/* Set-based ribbon color (via --ribbon-bg custom property) */
+.pf-card-pack__card-ribbon[style*="--ribbon-bg"] {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ribbon-bg) 100%, white 30%) 0%,
+    var(--ribbon-bg) 45%,
+    color-mix(in srgb, var(--ribbon-bg) 100%, black 30%) 100%
+  );
+}
+
+/* Fallback: Rarity ribbon colors (used when no set color is provided) */
 .pf-card-pack__card-ribbon--rarity-1 {
   background: linear-gradient(180deg, #8FA4B8 0%, #607080 45%, #445060 100%);
 }
