@@ -43,6 +43,10 @@
   border: 1px solid var(--progress-bars-crystal-nodes-border-1);
 }
 
+.crystal-shape.charged {
+  box-shadow: 0 0 15px #06b6d4;
+}
+
 .crystal-burst {
   position: absolute;
   width: 16px;

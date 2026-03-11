@@ -34,6 +34,10 @@
   letter-spacing: 2px;
 }
 
+.xp-pop-particle {
+  text-shadow: 0 0 10px currentColor;
+}
+
 .xp-pop-label {
   font-size: 24px;
   margin-left: 8px;

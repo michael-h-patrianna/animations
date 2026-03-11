@@ -35,14 +35,12 @@ export function ProgressBarsCrystalNodes() {
             >
                <m.div 
                  className={`crystal-shape ${isActive ? 'charged' : ''}`}
-                 animate={isActive ? { 
+                 animate={isActive ? {
                     backgroundColor: 'var(--pf-anim-cyan)',
                     scale: [1, 1.2, 1],
-                    boxShadow: '0 0 15px #06b6d4'
-                 } : { 
+                 } : {
                     backgroundColor: 'var(--pf-anim-gray-700)',
                     scale: 1,
-                    boxShadow: 'none'
                  }}
                  transition={{ duration: 0.4 }}
                />

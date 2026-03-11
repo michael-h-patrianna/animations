@@ -56,7 +56,6 @@ export function ModalOrchestrationMagneticHover() {
               y: -12,
               rotateY: 5,
               rotateX: 5,
-              boxShadow: '0 20px 40px rgba(196, 122, 229, 0.3)',
               transition: {
                 type: 'spring',
                 stiffness: 300,

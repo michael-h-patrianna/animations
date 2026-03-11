@@ -157,6 +157,76 @@ function CssPrize({ config, slot, claimed, claimIndex }: { config: PrizeConfig; 
 
 /* ─── Main CSS component ─── */
 
+function ShatterEffects({ fragments, convergeMotes, dustSpray }: {
+  fragments: ReturnType<typeof useFragments>
+  convergeMotes: ReturnType<typeof useConvergeMotes>
+  dustSpray: ReturnType<typeof useDustSpray>
+}) {
+  return (
+    <>
+      <div className="pf-cs-css__crystal-wrap">
+        <img src={crystalShatterBodyImage} alt="" aria-hidden="true" className="pf-cs-css__crystal-image" />
+        <div className="pf-cs-css__crystal-glow" />
+      </div>
+
+      <div className="pf-cs-css__motes-container">
+        {convergeMotes.map((mote) => (
+          <img
+            key={mote.id}
+            src={crystalShatterEnergyMoteImage}
+            alt=""
+            aria-hidden="true"
+            className="pf-cs-css__energy-mote"
+            style={{
+              '--mote-start-x': `${mote.startX}px`,
+              '--mote-start-y': `${mote.startY}px`,
+              '--mote-size': `${mote.size}px`,
+              '--mote-delay': `${1.2 + mote.delay}s`,
+            } as CSSProperties}
+          />
+        ))}
+      </div>
+
+      <img src={crystalShatterSparkleImage} alt="" aria-hidden="true" className="pf-cs-css__flash" />
+      <img src={crystalShatterPrismaticRingImage} alt="" aria-hidden="true" className="pf-cs-css__prismatic-ring" />
+
+      <div className="pf-cs-css__fragments">
+        {fragments.map((f) => (
+          <img
+            key={f.id}
+            src={SHARD_IMAGES[f.shardIndex]}
+            alt=""
+            aria-hidden="true"
+            className="pf-cs-css__shard"
+            style={{
+              '--shard-end-x': `${f.endX}px`,
+              '--shard-end-y': `${f.endY}px`,
+              '--shard-rotation': `${f.rotation}deg`,
+            } as CSSProperties}
+          />
+        ))}
+      </div>
+
+      <div className="pf-cs-css__dust-spray">
+        {dustSpray.map((p) => (
+          <img
+            key={p.id}
+            src={crystalShatterDustImage}
+            alt=""
+            aria-hidden="true"
+            className="pf-cs-css__dust-particle"
+            style={{
+              '--dust-end-x': `${p.endX}px`,
+              '--dust-end-y': `${p.endY}px`,
+              '--dust-size': `${p.size}px`,
+            } as CSSProperties}
+          />
+        ))}
+      </div>
+    </>
+  )
+}
+
 function PrizeRevealCrystalShatterComponent({ prizeCount = DEFAULT_PRIZE_COUNT }: { prizeCount?: number }) {
   const fragments = useFragments()
   const convergeMotes = useConvergeMotes()
@@ -167,21 +237,13 @@ function PrizeRevealCrystalShatterComponent({ prizeCount = DEFAULT_PRIZE_COUNT }
   const [claimed, setClaimed] = useState(false)
   const [showClaim, setShowClaim] = useState(false)
 
-  // Preload all images so they're decoded before their animation delay fires
   useEffect(() => {
     const sources = [
-      ...SHARD_IMAGES,
-      crystalShatterDustImage,
-      crystalShatterEnergyMoteImage,
-      crystalShatterSparkleImage,
-      crystalShatterPrismaticRingImage,
-      crystalShatterFrameImage,
-      ...prizes.map((p) => p.src),
+      ...SHARD_IMAGES, crystalShatterDustImage, crystalShatterEnergyMoteImage,
+      crystalShatterSparkleImage, crystalShatterPrismaticRingImage,
+      crystalShatterFrameImage, ...prizes.map((p) => p.src),
     ]
-    sources.forEach((src) => {
-      const img = new Image()
-      img.src = src
-    })
+    sources.forEach((src) => { const img = new Image(); img.src = src })
   }, [prizes])
 
   useEffect(() => {
@@ -196,81 +258,14 @@ function PrizeRevealCrystalShatterComponent({ prizeCount = DEFAULT_PRIZE_COUNT }
       data-prize-count={prizeCount}
     >
       <div className="pf-cs-css__stage">
-        {/* Crystal body — descends and charges */}
-        <div className="pf-cs-css__crystal-wrap">
-          <img src={crystalShatterBodyImage} alt="" aria-hidden="true" className="pf-cs-css__crystal-image" />
-          <div className="pf-cs-css__crystal-glow" />
-        </div>
+        <ShatterEffects fragments={fragments} convergeMotes={convergeMotes} dustSpray={dustSpray} />
 
-        {/* Converging energy motes */}
-        <div className="pf-cs-css__motes-container">
-          {convergeMotes.map((mote) => (
-            <img
-              key={mote.id}
-              src={crystalShatterEnergyMoteImage}
-              alt=""
-              aria-hidden="true"
-              className="pf-cs-css__energy-mote"
-              style={{
-                '--mote-start-x': `${mote.startX}px`,
-                '--mote-start-y': `${mote.startY}px`,
-                '--mote-size': `${mote.size}px`,
-                '--mote-delay': `${1.2 + mote.delay}s`,
-              } as CSSProperties}
-            />
-          ))}
-        </div>
-
-        {/* Shatter flash */}
-        <img src={crystalShatterSparkleImage} alt="" aria-hidden="true" className="pf-cs-css__flash" />
-
-        {/* Prismatic ring */}
-        <img src={crystalShatterPrismaticRingImage} alt="" aria-hidden="true" className="pf-cs-css__prismatic-ring" />
-
-        {/* Fragments */}
-        <div className="pf-cs-css__fragments">
-          {fragments.map((f) => (
-            <img
-              key={f.id}
-              src={SHARD_IMAGES[f.shardIndex]}
-              alt=""
-              aria-hidden="true"
-              className="pf-cs-css__shard"
-              style={{
-                '--shard-end-x': `${f.endX}px`,
-                '--shard-end-y': `${f.endY}px`,
-                '--shard-rotation': `${f.rotation}deg`,
-              } as CSSProperties}
-            />
-          ))}
-        </div>
-
-        {/* Dust spray */}
-        <div className="pf-cs-css__dust-spray">
-          {dustSpray.map((p) => (
-            <img
-              key={p.id}
-              src={crystalShatterDustImage}
-              alt=""
-              aria-hidden="true"
-              className="pf-cs-css__dust-particle"
-              style={{
-                '--dust-end-x': `${p.endX}px`,
-                '--dust-end-y': `${p.endY}px`,
-                '--dust-size': `${p.size}px`,
-              } as CSSProperties}
-            />
-          ))}
-        </div>
-
-        {/* Prizes */}
         <div className="pf-cs-css__prizes">
           {prizes.map((prize, i) => (
             <CssPrize key={prize.id} config={prize} slot={slots[i]} claimed={claimed} claimIndex={i} />
           ))}
         </div>
 
-        {/* Claim button */}
         {showClaim && !claimed && (
           <button className="pf-cs-css__claim-btn" type="button" onClick={() => setClaimed(true)}>
             CLAIM

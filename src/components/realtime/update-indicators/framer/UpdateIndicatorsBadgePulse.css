@@ -42,4 +42,13 @@
   text-transform: uppercase;
   letter-spacing: 0.025em;
   flex-shrink: 0;
+  position: relative;
+}
+
+.pf-update-indicator__badge-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 18px rgb(236 195 255 / 40%);
+  pointer-events: none;
 }

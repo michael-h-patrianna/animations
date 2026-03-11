@@ -21,6 +21,23 @@
   --gold:          rgb(255 205 50);
   --flash-color:   rgb(255 248 225);
 
+  /* Star gradient */
+  --star-grad-0:   #FFFDE7;
+  --star-grad-25:  #FFE100;
+  --star-grad-65:  #FFA000;
+  --star-grad-100: #E65100;
+  --star-stroke:   #9A3412;
+
+  /* Set ribbon palette */
+  --set-pets-ribbon:     rgb(79 195 247);
+  --set-pets-glow:       rgb(79 195 247 / 50%);
+  --set-farm-ribbon:     rgb(102 187 106);
+  --set-farm-glow:       rgb(102 187 106 / 50%);
+  --set-wildlife-ribbon: rgb(255 167 38);
+  --set-wildlife-glow:   rgb(255 167 38 / 50%);
+  --set-fantasy-ribbon:  rgb(171 71 188);
+  --set-fantasy-glow:    rgb(171 71 188 / 50%);
+
   /* Collect button */
   --collect-bg-start: rgb(100 60 180);
   --collect-bg-end:   rgb(70 30 140);
@@ -573,7 +590,6 @@
   box-shadow:
     0 0 20px 6px var(--collect-glow),
     0 4px 12px rgb(0 0 0 / 30%);
-  transition: box-shadow 160ms ease;
 }
 
 .pf-card-pack__collect-btn:hover {

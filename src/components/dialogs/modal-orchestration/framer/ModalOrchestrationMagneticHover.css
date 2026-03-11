@@ -24,6 +24,10 @@
   text-align: center;
   cursor: pointer;
 }
+
+.pf-magnetic-tile:hover {
+  box-shadow: 0 20px 40px rgb(196 122 229 / 30%);
+}
 .pf-magnetic-tile h5 {
   margin: 0 0 8px;
   font-size: 14px;

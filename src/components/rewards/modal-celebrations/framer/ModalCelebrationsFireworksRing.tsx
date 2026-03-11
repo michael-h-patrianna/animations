@@ -243,7 +243,7 @@ function makeSparkles(): Sparkle[] {
 
 /**
  * Glowing ember dot or its ghost tail.
- * Primary embers have a boxShadow glow; tails are smaller and dimmer.
+ * Primary embers have a filter drop-shadow glow; tails are smaller and dimmer.
  */
 function EmberDot({ e, isTail }: { e: Ember; isTail?: boolean }) {
   const size = isTail ? e.tailSize : e.size
@@ -260,7 +260,7 @@ function EmberDot({ e, isTail }: { e: Ember; isTail?: boolean }) {
         height: `${size}px`,
         borderRadius: '50%',
         background: e.color,
-        boxShadow: isTail ? undefined : `0 0 ${size + 2}px ${Math.round(size * 0.5)}px ${e.color}`,
+        filter: isTail ? undefined : `drop-shadow(0 0 ${Math.round(size * 1.5) + 2}px ${e.color})`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -299,13 +299,13 @@ function ShimmerDot({ s }: { s: Shimmer }) {
     <m.span
       style={{
         position: 'absolute',
-        left: `calc(50% + ${s.x}px)`,
-        top: `calc(50% + ${s.y}px)`,
+        left: '50%', marginLeft: s.x,
+        top: '50%', marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         borderRadius: '50%',
         background: s.color,
-        boxShadow: `0 0 4px 1px ${s.color}`,
+        filter: `drop-shadow(0 0 5px ${s.color})`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -331,8 +331,8 @@ function BurstPiece({ b }: { b: Burst }) {
     <m.span
       className={`pf-celebration__confetti pf-celebration__confetti--${b.shape}`}
       style={{
-        left: `calc(50% + ${b.startX}px)`,
-        top: `calc(50% + ${b.startY}px)`,
+        left: '50%', marginLeft: b.startX,
+        top: '50%', marginTop: b.startY,
         background: b.color,
       }}
       initial={{ x: 0, y: 0, scale: 0, rotate: 0, opacity: 0 }}
@@ -362,8 +362,8 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: `calc(50% + ${s.x}px)`,
-        top: `calc(50% + ${s.y}px)`,
+        left: '50%', marginLeft: s.x,
+        top: '50%', marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

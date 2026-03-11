@@ -132,20 +132,6 @@
   inset: 0;
   border-radius: 50%;
   background: linear-gradient(180deg, var(--progress-bars-journey-distance-traveller-glow-a), var(--progress-bars-journey-distance-traveller-glow-b));
-  animation: journey-distance-traveller-glow 1.2s ease-in-out infinite;
-}
-
-@keyframes journey-distance-traveller-glow {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(0.88);
-  }
-
-  50% {
-    opacity: 0.9;
-    transform: scale(1.12);
-  }
 }
 
 .journey-distance-traveller-core {

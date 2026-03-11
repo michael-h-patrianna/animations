@@ -450,7 +450,6 @@
   box-shadow:
     0 0 20px 6px var(--claim-btn-glow),
     0 4px 12px var(--claim-btn-shadow-dark);
-  transition: box-shadow 160ms ease;
 }
 
 .pf-arcane-portal__claim-btn:hover {

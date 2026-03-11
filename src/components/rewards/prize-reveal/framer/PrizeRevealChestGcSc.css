@@ -45,7 +45,6 @@
 }
 
 .pf-chest-gc-sc__chest--shake {
-  animation: pf-chest-gc-sc-shake 0.6s ease-in-out;
 }
 
 .pf-chest-gc-sc__chest-image {
@@ -105,6 +104,7 @@
   position: absolute;
   inset-block-start: 16px;
   inset-inline-start: 50%;
+  translate: -50% 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -288,7 +288,6 @@
   box-shadow:
     0 0 20px 6px var(--claim-btn-glow),
     0 4px 12px var(--claim-btn-shadow-dark);
-  transition: box-shadow 160ms ease;
 }
 
 .pf-chest-gc-sc__claim-btn:hover {
@@ -363,28 +362,3 @@
   inline-size: 12px;
 }
 
-/* ─── Keyframes ─── */
-
-@keyframes pf-chest-gc-sc-shake {
-  0% {
-    transform: translateX(0);
-  }
-  15% {
-    transform: translateX(-6px) rotate(-1deg);
-  }
-  30% {
-    transform: translateX(6px) rotate(1deg);
-  }
-  45% {
-    transform: translateX(-5px) rotate(-0.5deg);
-  }
-  60% {
-    transform: translateX(5px) rotate(0.5deg);
-  }
-  80% {
-    transform: translateX(-2px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}

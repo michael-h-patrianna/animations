@@ -47,6 +47,7 @@ function TextEffectsXpNumberPopComponent() {
             animate={{ opacity: [0, 1, 0], scale: [0, 1, 0.7], x: [0, particle.x, particle.x * 1.5], y: [0, particle.y, particle.y * 1.5 - 40] }}
             exit={{ opacity: 0 }}
             transition={{ duration: 2.6, delay: particle.delay, ease: easeOut, times: [0, 0.4, 1] }}
+            className="xp-pop-particle"
             style={{
               position: 'absolute',
               left: '50%',
@@ -54,7 +55,6 @@ function TextEffectsXpNumberPopComponent() {
               fontSize: particle.layer === 0 ? '18px' : '14px',
               fontWeight: '700',
               color: particle.layer === 0 ? 'var(--pf-anim-green)' : 'var(--pf-anim-green-bright)',
-              textShadow: '0 0 10px currentColor',
               pointerEvents: 'none',
               zIndex: 3,
             }}

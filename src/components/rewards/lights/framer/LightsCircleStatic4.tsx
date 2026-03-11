@@ -8,10 +8,10 @@ interface LightsCircleStatic4Props {
 const animationDuration = 7 // Winner bulb glow variant (first bulb - celebration)
 const glowVariantsWinner = { hidden: { opacity: 0 }, show: { opacity: [0, 0, 1, 1], transition: { duration: animationDuration, times: [0, 0.86, 0.87, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const } } } // Winner bulb variant with dramatic celebration
 const bulbVariantsWinner = {
-  hidden: { backgroundColor: `var(--bulb-off)`, boxShadow: `0 0 2px var(--bulb-off-glow30)` },
+  hidden: { backgroundColor: `var(--bulb-off)`, filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))` },
   show: {
     backgroundColor: [`var(--bulb-off)`, `var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`],
-    boxShadow: [`0 0 2px var(--bulb-off-glow30)`, `0 0 2px var(--bulb-off-glow30)`, `0 0 20px var(--bulb-on-glow100), 0 0 30px var(--bulb-on-glow95)`, `0 0 20px var(--bulb-on-glow100), 0 0 30px var(--bulb-on-glow95)`],
+    filter: [`drop-shadow(0 0 2px var(--bulb-off-glow30))`, `drop-shadow(0 0 2px var(--bulb-off-glow30))`, `drop-shadow(0 0 20px var(--bulb-on-glow100)) drop-shadow(0 0 30px var(--bulb-on-glow95))`, `drop-shadow(0 0 20px var(--bulb-on-glow100)) drop-shadow(0 0 30px var(--bulb-on-glow95))`],
     transition: { duration: animationDuration, times: [0, 0.86, 0.87, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const },
   },
 } // Regular bulb glow variant
@@ -46,7 +46,7 @@ const glowVariantsRegular = {
   },
 } // Regular bulb variant with complex multi-phase animation
 const bulbVariantsRegular = {
-  hidden: { backgroundColor: `var(--bulb-off)`, boxShadow: `0 0 2px var(--bulb-off-glow30)` },
+  hidden: { backgroundColor: `var(--bulb-off)`, filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))` },
   show: {
     backgroundColor: [
       `var(--bulb-off)`,
@@ -71,28 +71,28 @@ const bulbVariantsRegular = {
       `var(--bulb-on)`,
       `var(--bulb-off)`, // Phase 3
     ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
-      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
-      `0 0 5px var(--bulb-on-glow55)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
-      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
-      `0 0 5px var(--bulb-on-glow55)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
-      `0 0 2px var(--bulb-off-glow30)`,
+    filter: [
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
+      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
+      `drop-shadow(0 0 5px var(--bulb-on-glow55))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
+      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
+      `drop-shadow(0 0 5px var(--bulb-on-glow55))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
+      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
+      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
+      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
     ],
     transition: { duration: animationDuration, times: [0, 0.02, 0.06, 0.06, 0.08, 0.35, 0.42, 0.46, 0.46, 0.47, 0.65, 0.68, 0.7, 0.7, 0.71, 0.75, 0.77, 0.77, 0.78, 0.82, 0.84, 0.84, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const },
   },

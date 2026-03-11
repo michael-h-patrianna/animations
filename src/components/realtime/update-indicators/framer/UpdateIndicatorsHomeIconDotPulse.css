@@ -30,5 +30,12 @@
   height: 14px;
   border-radius: 9999px;
   background: var(--update-indicators-home-icon-dot-pulse-bg);
-  box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-pulse-shadow);
+}
+
+.pf-update-indicator__dot-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  border: 8px solid rgb(255 73 103 / 25%);
+  pointer-events: none;
 }

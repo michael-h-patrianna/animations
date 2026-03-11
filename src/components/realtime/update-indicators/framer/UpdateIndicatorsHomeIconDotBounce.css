@@ -29,3 +29,11 @@
   background: var(--update-indicators-home-icon-dot-bounce-bg);
   transform-origin: center;
 }
+
+.pf-update-indicator__dot-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 6px solid rgb(255 73 103 / 18%);
+  pointer-events: none;
+}

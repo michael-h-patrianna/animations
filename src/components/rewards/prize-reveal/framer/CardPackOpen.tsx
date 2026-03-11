@@ -18,7 +18,6 @@ import {
   CollectBurst,
   CollectButton,
   EdgeSparks,
-  FAN_POSITIONS,
   FlipCard,
   GoldenConfetti,
   LightSpill,
@@ -93,6 +92,15 @@ const CONFETTI_DELAY_MS = 200 // delay after fan phase starts
 
 const DEFAULT_CARD_COUNT = 5
 
+/** Default 5-card fan layout — the most common configuration */
+const FAN_POSITIONS: FanPosition[] = [
+  { x: -116, y: 20, rotate: -12 },
+  { x: -58, y: 6, rotate: -6 },
+  { x: 0, y: -8, rotate: 0 },
+  { x: 58, y: 6, rotate: 6 },
+  { x: 116, y: 20, rotate: 12 },
+]
+
 /** Fan layouts keyed by card count — hand-tuned for visual balance */
 function getFanPositions(count: number): FanPosition[] {
   const layouts: Record<number, FanPosition[]> = {
@@ -165,45 +173,32 @@ function useFlipStates(phase: PackPhase, cardCount: number) {
   return flipped
 }
 
-/* ─── Main animation ─── */
+/* ─── Card pack game state ─── */
 
-function CardPackAnimation({ cardCount }: { cardCount: number }) {
+function useCardPackState(cardCount: number) {
   const packImage = useMemo(() => randomPackImage(), [])
   const cards = useMemo(() => drawCards(cardCount), [cardCount])
   const positions = useMemo(() => getFanPositions(cardCount), [cardCount])
-
   const phase = usePackPhase()
   const confetti = useMemo(() => createConfetti(), [])
   const flipped = useFlipStates(phase, cards.length)
 
-  const showAnticipation = phase === 'anticipation'
-  const showBurst = phase === 'burst'
-  const showCards = phase === 'fan' || phase === 'flip' || phase === 'idle'
-
-  // Track which rarity bursts have fired
   const [burstedCards, setBurstedCards] = useState<boolean[]>(Array(cards.length).fill(false))
   useEffect(() => {
     flipped.forEach((isFlipped, i) => {
       if (isFlipped && !burstedCards[i]) {
-        setBurstedCards((prev) => {
-          const next = [...prev]
-          next[i] = true
-          return next
-        })
+        setBurstedCards((prev) => { const next = [...prev]; next[i] = true; return next })
       }
     })
   }, [flipped, burstedCards])
 
-  // Idle phase — after all cards flipped
   const [isIdle, setIsIdle] = useState(false)
   useEffect(() => {
     if (phase !== 'flip') return
-    const idleMs = cards.length * FLIP_INTERVAL_MS + 400
-    const t = window.setTimeout(() => setIsIdle(true), idleMs)
+    const t = window.setTimeout(() => setIsIdle(true), cards.length * FLIP_INTERVAL_MS + 400)
     return () => window.clearTimeout(t)
   }, [phase, cards.length])
 
-  // Card inspect — tap a revealed card to enlarge it center-stage
   const [focusedCard, setFocusedCard] = useState<number | null>(null)
   const handleCardSelect = useCallback((index: number) => {
     setFocusedCard((prev) => (prev === index ? null : index))
@@ -218,9 +213,8 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
     return () => window.clearTimeout(t)
   }, [isIdle])
 
-  const handleCollect = () => { setFocusedCard(null); setCollected(true) }
+  const handleCollect = useCallback(() => { setFocusedCard(null); setCollected(true) }, [])
 
-  // Screen flash tracking — fires once per epic/legendary flip
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
   useEffect(() => {
     flipped.forEach((isFlipped, i) => {
@@ -232,7 +226,6 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
     })
   }, [flipped, burstedCards, cards])
 
-  // Confetti fires during fan phase, not burst
   const [showConfetti, setShowConfetti] = useState(false)
   useEffect(() => {
     if (phase !== 'fan') return
@@ -240,97 +233,87 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
     return () => window.clearTimeout(t)
   }, [phase])
 
+  return {
+    packImage, cards, positions, phase, confetti, flipped, burstedCards,
+    isIdle, focusedCard, handleCardSelect, handleDismiss,
+    collected, showCollect, handleCollect, activeFlash, showConfetti,
+  }
+}
+
+/* ─── Card fan container ─── */
+
+function CardFanContainer({ cards, positions, flipped, collected, isIdle, focusedCard, handleCardSelect, burstedCards }: {
+  cards: ReturnType<typeof drawCards>; positions: FanPosition[]; flipped: boolean[]
+  collected: boolean; isIdle: boolean; focusedCard: number | null
+  handleCardSelect: (i: number) => void; burstedCards: boolean[]
+}) {
+  return (
+    <div className="pf-card-pack__cards-container">
+      {cards.map((card, i) => (
+        <FlipCard
+          key={`${card.id}-${i}`}
+          card={card}
+          position={positions[i]}
+          flipped={flipped[i]}
+          fanDelay={i * 0.12}
+          collected={collected}
+          collectIndex={i}
+          idle={isIdle}
+          bobPhase={(i / cards.length) * Math.PI * 1.2}
+          selected={focusedCard === i}
+          anySelected={focusedCard !== null}
+          onSelect={() => handleCardSelect(i)}
+          ribbonColor={card.setId ? getCardSet(card.setId)?.ribbonColor : undefined}
+        />
+      ))}
+      {cards.map((_, i) => (
+        <CardLandShimmer key={`shimmer-${i}`} position={positions[i]} delay={i * 0.12} />
+      ))}
+      {cards.map((card, i) =>
+        burstedCards[i] ? <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]} /> : null
+      )}
+    </div>
+  )
+}
+
+/* ─── Main animation ─── */
+
+function CardPackAnimation({ cardCount }: { cardCount: number }) {
+  const {
+    packImage, cards, positions, phase, confetti, flipped, burstedCards,
+    isIdle, focusedCard, handleCardSelect, handleDismiss,
+    collected, showCollect, handleCollect, activeFlash, showConfetti,
+  } = useCardPackState(cardCount)
+
+  const showAnticipation = phase === 'anticipation'
+  const showBurst = phase === 'burst'
+  const showCards = phase === 'fan' || phase === 'flip' || phase === 'idle'
+
   return (
     <m.div
       className="pf-card-pack__stage"
-      animate={
-        showBurst
-          ? { x: [0, -2, 2, -1, 1, 0], y: [0, 1, -1, 0] }
-          : { x: 0, y: 0 }
-      }
+      animate={showBurst ? { x: [0, -2, 2, -1, 1, 0], y: [0, 1, -1, 0] } : { x: 0, y: 0 }}
       transition={showBurst ? { duration: 0.2, ease: 'linear' } : { duration: 0 }}
     >
-      {/* ACT 1: Arrival — pack drops with dust on impact */}
       <ArrivalDust />
-
-      {/* ACT 2: Pack visible during arrival + anticipation */}
       <PackBody phase={phase} packImage={packImage} />
       <SeamLight phase={phase} />
-
-      {/* Anticipation effects — physical strain */}
-      {showAnticipation && (
-        <>
-          <EdgeSparks />
-          <SeamCracks />
-        </>
-      )}
-
-      {/* ACT 3: Burst — the pack rips open */}
-      {showBurst && (
-        <>
-          <PackTearOpen packImage={packImage} />
-          <TearLineFlash />
-          <LightSpill />
-        </>
-      )}
-
-      {/* ACT 4: Cards emerge and fan out */}
+      {showAnticipation && <><EdgeSparks /><SeamCracks /></>}
+      {showBurst && <><PackTearOpen packImage={packImage} /><TearLineFlash /><LightSpill /></>}
       {showCards && (
-        <div className="pf-card-pack__cards-container">
-          {cards.map((card, i) => (
-            <FlipCard
-              key={`${card.id}-${i}`}
-              card={card}
-              position={positions[i]}
-              flipped={flipped[i]}
-              fanDelay={i * 0.12}
-              collected={collected}
-              collectIndex={i}
-              idle={isIdle}
-              bobPhase={(i / cards.length) * Math.PI * 1.2}
-              selected={focusedCard === i}
-              anySelected={focusedCard !== null}
-              onSelect={() => handleCardSelect(i)}
-              ribbonColor={card.setId ? getCardSet(card.setId)?.ribbonColor : undefined}
-            />
-          ))}
-
-          {/* Landing shimmers as cards arrive */}
-          {cards.map((_, i) => (
-            <CardLandShimmer key={`shimmer-${i}`} position={positions[i]} delay={i * 0.12} />
-          ))}
-
-          {/* ACT 5: Rarity bursts — fire once when each card flips */}
-          {cards.map((card, i) =>
-            burstedCards[i] ? (
-              <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]} />
-            ) : null
-          )}
-        </div>
+        <CardFanContainer cards={cards} positions={positions} flipped={flipped}
+          collected={collected} isIdle={isIdle} focusedCard={focusedCard}
+          handleCardSelect={handleCardSelect} burstedCards={burstedCards} />
       )}
-
-      {/* Celebratory confetti — fires during fan phase, not burst */}
       {showConfetti && <GoldenConfetti confetti={confetti} />}
-
-      {/* Inspect overlay */}
       <AnimatePresence>
         {focusedCard !== null && (
-          <m.div
-            key="inspect-overlay"
-            className="pf-card-pack__inspect-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={handleDismiss}
-          />
+          <m.div key="inspect-overlay" className="pf-card-pack__inspect-overlay"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }} onClick={handleDismiss} />
         )}
       </AnimatePresence>
-
-      {/* Screen flash for epic/legendary */}
       {activeFlash != null && <ScreenFlash rarity={activeFlash as 4 | 5} />}
-
-      {/* Collect */}
       {collected && <CollectBurst />}
       <AnimatePresence>
         {showCollect && !collected && <CollectButton onCollect={handleCollect} />}

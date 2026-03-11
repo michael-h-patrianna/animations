@@ -210,16 +210,16 @@ function Prize({ config, position, claimed, claimIndex }: { config: PrizeConfig;
   const amount = useCountUp(config.value ?? 0, 600, (position.delay + 0.6) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
   const xFrames = position.flyX === 0
-    ? ['-50%', '-50%', '-50%', '-50%']
-    : ['-50%', `calc(-50% + ${position.overshootX}px)`, `calc(-50% + ${position.flyX * 0.95}px)`, `calc(-50% + ${position.flyX}px)`]
+    ? [0, 0, 0, 0]
+    : [0, position.overshootX, position.flyX * 0.95, position.flyX]
 
   const restX = xFrames[xFrames.length - 1]
-  const claimX = position.flyX === 0 ? '-50%' : `calc(-50% + ${position.flyX * 3.5}px)`
+  const claimX = position.flyX === 0 ? 0 : position.flyX * 3.5
 
   return (
     <m.div
       className={`pf-chest-gc-sc__prize ${config.modifier}`}
-      initial={{ x: '-50%', y: 160, scale: 0, opacity: 0 }}
+      initial={{ x: 0, y: 160, scale: 0, opacity: 0 }}
       animate={
         claimed
           ? { x: [restX, restX, claimX], y: [0, -10, -300], scale: [1, 1.15, 0.4], opacity: [1, 1, 0] }

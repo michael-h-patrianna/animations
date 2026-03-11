@@ -54,7 +54,7 @@ const clamp01=(v:number)=>Math.min(1,Math.max(0,v));const intensity=clamp01(prog
         </div>
 
         <AnimatePresence>
-          {floatingXP.map(floating=><m.div key={floating.id}initial={{opacity:0,y:0,scale:0.6}}animate={{opacity:[0,1,1,0],y:[0,-18,-36,-52],scale:[0.6,1.05,1,0.92]}}exit={{opacity:0}}transition={{duration:1.45,times:[0,0.28,0.68,1],ease:easeOut}}className="pf-floating-xp"style={{left:`calc(${Math.min(floating.percent,100)}% + ${floating.offset}px)`}}>
+          {floatingXP.map(floating=><m.div key={floating.id}initial={{opacity:0,y:0,scale:0.6}}animate={{opacity:[0,1,1,0],y:[0,-18,-36,-52],scale:[0.6,1.05,1,0.92]}}exit={{opacity:0}}transition={{duration:1.45,times:[0,0.28,0.68,1],ease:easeOut}}className="pf-floating-xp"style={{left:`${Math.min(floating.percent,100)}%`,marginLeft:floating.offset}}>
               +{Math.round(floating.value)} XP
             </m.div>)}
         </AnimatePresence>

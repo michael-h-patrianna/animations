@@ -15,7 +15,7 @@ const items = ['Introduction complete', 'Profile configured', 'Preferences set',
         <div className="modal-content-body">
           <div className="modal-content-list">
             {items.map((item, index) => (
-              <m.div key={index} className="modal-content-list-item" initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }} animate={{ clipPath: 'inset(0 0% 0 0)', opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 + 0.1 * index, ease: [0.4, 0, 0.2, 1] }}>{item}</m.div>
+              <div key={index} className="modal-content-list-item" style={{ overflow: 'hidden' }}><m.div initial={{ x: '-100%', opacity: 0 }} animate={{ x: '0%', opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 + 0.1 * index, ease: [0.4, 0, 0.2, 1] }}>{item}</m.div></div>
             ))}
           </div>
         </div>

@@ -42,11 +42,11 @@ interface Coin {
           <m.div
             key={coin.id}
             className="coin-burst-coin-framer"
-            initial={{ x: '-50%', y: '-50%', scale: 0, rotate: 0, opacity: 0 }}
+            initial={{ x: 0, y: 0, scale: 0, rotate: 0, opacity: 0 }}
             animate={
               prefersReducedMotion
-                ? { x: '-50%', y: '-50%', scale: [0, 1, 1, 0], rotate: 0, opacity: [0, 1, 1, 0] }
-                : { x: `calc(-50% + ${coin.x}px)`, y: `calc(-50% + ${coin.y}px)`, scale: [0, 1.2, 1, 1, 0.6], rotate: [0, 0, 0, coin.rotation, coin.rotation], opacity: [0, 1, 1, 1, 0] }
+                ? { x: 0, y: 0, scale: [0, 1, 1, 0], rotate: 0, opacity: [0, 1, 1, 0] }
+                : { x: coin.x, y: coin.y, scale: [0, 1.2, 1, 1, 0.6], rotate: [0, 0, 0, coin.rotation, coin.rotation], opacity: [0, 1, 1, 1, 0] }
             }
             transition={
               prefersReducedMotion

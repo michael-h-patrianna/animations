@@ -1,1 +1,982 @@
-/* CSS variant shares the framer CSS — actual CSS-only keyframe animations would go here */
+/* ═══════════════════════════════════════════════════
+   CARD PACK OPEN — CSS-only variant
+   Narrative: land → strain → rip → cards emerge → reveal
+   All motion via @keyframes — zero Framer Motion
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack-css {
+  /* Rarity palette */
+  --rarity-common-color:    rgb(160 175 190);
+  --rarity-common-glow:     rgb(160 175 190 / 40%);
+  --rarity-uncommon-color:  rgb(60 190 100);
+  --rarity-uncommon-glow:   rgb(60 190 100 / 40%);
+  --rarity-rare-color:      rgb(140 70 240);
+  --rarity-rare-glow:       rgb(140 70 240 / 40%);
+  --rarity-epic-color:      rgb(255 175 20);
+  --rarity-epic-glow:       rgb(255 175 20 / 45%);
+  --rarity-legendary-color: rgb(255 80 170);
+  --rarity-legendary-glow:  rgb(255 80 170 / 45%);
+
+  /* Pack / stage */
+  --seam-color:    rgb(255 240 200);
+  --gold:          rgb(255 205 50);
+  --flash-color:   rgb(255 248 225);
+
+  /* Star gradient */
+  --star-grad-0:   #FFFDE7;
+  --star-grad-25:  #FFE100;
+  --star-grad-65:  #FFA000;
+  --star-grad-100: #E65100;
+  --star-stroke:   #9A3412;
+
+  /* Set ribbon palette */
+  --set-pets-ribbon:     rgb(79 195 247);
+  --set-pets-glow:       rgb(79 195 247 / 50%);
+  --set-farm-ribbon:     rgb(102 187 106);
+  --set-farm-glow:       rgb(102 187 106 / 50%);
+  --set-wildlife-ribbon: rgb(255 167 38);
+  --set-wildlife-glow:   rgb(255 167 38 / 50%);
+  --set-fantasy-ribbon:  rgb(171 71 188);
+  --set-fantasy-glow:    rgb(171 71 188 / 50%);
+
+  /* Collect button */
+  --collect-bg-start: rgb(100 60 180);
+  --collect-bg-end:   rgb(70 30 140);
+  --collect-border:   rgb(160 120 255);
+  --collect-glow:     rgb(140 100 255 / 30%);
+
+  position: relative;
+  inline-size: 100%;
+  block-size: 420px;
+  overflow: hidden;
+}
+
+.pf-card-pack-css__stage {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════
+   PACK BODY — drop in with squash-stretch
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack-css__pack-body {
+  position: relative;
+  z-index: 3;
+  inline-size: 145px;
+  block-size: 218px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: cpc-pack-arrival 0.75s cubic-bezier(0.16, 0.84, 0.32, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-pack-arrival {
+  0% {
+    transform: translateY(-180px) scaleX(0.5) scaleY(0.5);
+    opacity: 0;
+  }
+  47% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(0) scaleX(1) scaleY(1);
+  }
+  82% {
+    transform: translateY(0) scaleX(1.06) scaleY(0.94);
+  }
+  92% {
+    transform: translateY(0) scaleX(0.98) scaleY(1.02);
+  }
+  100% {
+    transform: translateY(0) scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+}
+
+.pf-card-pack-css__pack-shaker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-card-pack-css__pack-shaker--shaking {
+  animation: cpc-pack-shake 1.0s linear both;
+  will-change: transform;
+}
+
+@keyframes cpc-pack-shake {
+  0%   { transform: translateX(0) translateY(0) rotate(0deg) scaleX(1); }
+  3%   { transform: translateX(0.7px) translateY(-0.3px) rotate(0.3deg) scaleX(1.001); }
+  7%   { transform: translateX(-1.2px) translateY(0.5px) rotate(-0.5deg) scaleX(1); }
+  10%  { transform: translateX(1.5px) translateY(-0.6px) rotate(0.6deg) scaleX(1.004); }
+  13%  { transform: translateX(-1.8px) translateY(0.7px) rotate(-0.7deg) scaleX(1); }
+  17%  { transform: translateX(2.0px) translateY(-0.9px) rotate(0.9deg) scaleX(1.007); }
+  20%  { transform: translateX(-2.3px) translateY(1.0px) rotate(-1.0deg) scaleX(1); }
+  23%  { transform: translateX(2.5px) translateY(-1.1px) rotate(1.1deg) scaleX(1.01); }
+  27%  { transform: translateX(-2.8px) translateY(1.2px) rotate(-1.2deg) scaleX(1); }
+  30%  { transform: translateX(3.0px) translateY(-1.4px) rotate(1.3deg) scaleX(1.013); }
+  33%  { transform: translateX(-3.2px) translateY(1.5px) rotate(-1.4deg) scaleX(1); }
+  37%  { transform: translateX(3.5px) translateY(-1.6px) rotate(1.5deg) scaleX(1.016); }
+  40%  { transform: translateX(-3.8px) translateY(1.7px) rotate(-1.5deg) scaleX(1); }
+  43%  { transform: translateX(4.0px) translateY(-1.8px) rotate(1.6deg) scaleX(1.02); }
+  47%  { transform: translateX(-4.2px) translateY(1.9px) rotate(-1.6deg) scaleX(1); }
+  50%  { transform: translateX(4.5px) translateY(-2.0px) rotate(1.7deg) scaleX(1.023); }
+  53%  { transform: translateX(-4.8px) translateY(2.1px) rotate(-1.7deg) scaleX(1); }
+  57%  { transform: translateX(5.0px) translateY(-2.2px) rotate(1.8deg) scaleX(1.026); }
+  60%  { transform: translateX(-5.2px) translateY(2.3px) rotate(-1.8deg) scaleX(1); }
+  63%  { transform: translateX(5.4px) translateY(-2.4px) rotate(1.8deg) scaleX(1.03); }
+  67%  { transform: translateX(-5.6px) translateY(2.5px) rotate(-1.9deg) scaleX(1); }
+  70%  { transform: translateX(5.8px) translateY(-2.6px) rotate(1.9deg) scaleX(1.033); }
+  73%  { transform: translateX(-6.0px) translateY(2.6px) rotate(-1.9deg) scaleX(1); }
+  77%  { transform: translateX(6.0px) translateY(-2.7px) rotate(2.0deg) scaleX(1.036); }
+  80%  { transform: translateX(-6.2px) translateY(2.7px) rotate(-2.0deg) scaleX(1); }
+  83%  { transform: translateX(6.2px) translateY(-2.8px) rotate(2.0deg) scaleX(1.038); }
+  87%  { transform: translateX(-6.3px) translateY(2.8px) rotate(-2.0deg) scaleX(1); }
+  90%  { transform: translateX(6.3px) translateY(-2.8px) rotate(2.0deg) scaleX(1.04); }
+  93%  { transform: translateX(-6.0px) translateY(2.5px) rotate(-1.8deg) scaleX(1); }
+  97%  { transform: translateX(4.0px) translateY(-1.5px) rotate(1.2deg) scaleX(1.02); }
+  100% { transform: translateX(0) translateY(0) rotate(0deg) scaleX(1); }
+}
+
+.pf-card-pack-css__pack-image {
+  position: relative;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+/* ─── Arrival dust ─── */
+
+.pf-card-pack-css__arrival-dust-container {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: 50%;
+  inset-block-start: 58%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack-css__arrival-dust {
+  position: absolute;
+  inline-size: var(--dust-size, 4px);
+  block-size: var(--dust-size, 4px);
+  object-fit: contain;
+  pointer-events: none;
+  animation: cpc-dust-scatter var(--dust-dur, 0.35s) var(--dust-delay, 0.55s) ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-dust-scatter {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(var(--dust-end-x, 0px)) translateY(var(--dust-end-y, 0px)) scale(0.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(var(--dust-end-x, 0px)) translateY(var(--dust-end-y, 0px)) scale(0.1);
+    opacity: 0;
+  }
+}
+
+/* ─── Seam light ─── */
+
+.pf-card-pack-css__seam {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 145px;
+  block-size: 4px;
+  border-radius: 2px;
+  background: var(--seam-color);
+  box-shadow:
+    0 0 10px 4px rgb(255 240 200 / 70%),
+    0 0 24px 10px rgb(255 220 150 / 35%);
+  pointer-events: none;
+  animation: cpc-seam-grow 1.0s ease-in both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-seam-grow {
+  0%   { transform: scaleX(0.2); opacity: 0; }
+  30%  { transform: scaleX(0.5); opacity: 0.4; }
+  70%  { transform: scaleX(0.8); opacity: 0.7; }
+  100% { transform: scaleX(1.2); opacity: 1; }
+}
+
+/* ─── Edge sparks ─── */
+
+.pf-card-pack-css__edge-spark-container {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack-css__edge-spark {
+  position: absolute;
+  inline-size: var(--spark-size, 8px);
+  block-size: var(--spark-size, 8px);
+  object-fit: contain;
+  translate: -50% -50%;
+  pointer-events: none;
+  animation: cpc-edge-spark 0.3s var(--spark-delay, 0.2s) ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-edge-spark {
+  0% {
+    transform: translateX(var(--spark-start-x, 0)) translateY(var(--spark-start-y, 0)) scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: translateX(calc(var(--spark-start-x, 0px) + (var(--spark-end-x, 0px) - var(--spark-start-x, 0px)) * 0.3)) translateY(calc(var(--spark-start-y, 0px) + (var(--spark-end-y, 0px) - var(--spark-start-y, 0px)) * 0.3)) scale(1.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(var(--spark-end-x, 0)) translateY(var(--spark-end-y, 0)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* ─── Seam cracks ─── */
+
+.pf-card-pack-css__seam-crack-container {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 145px;
+  block-size: 60px;
+  pointer-events: none;
+}
+
+.pf-card-pack-css__seam-crack {
+  position: absolute;
+  inline-size: 2px;
+  block-size: var(--crack-len, 18px);
+  background: linear-gradient(to bottom, var(--seam-color), transparent);
+  border-radius: 1px;
+  box-shadow: 0 0 6px 2px rgb(255 240 200 / 50%);
+  transform-origin: top center;
+  pointer-events: none;
+  animation: cpc-crack-grow 0.25s var(--crack-delay, 0.3s) ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-crack-grow {
+  0%   { transform: rotate(var(--crack-rotate, 0deg)) scaleY(0); opacity: 0; }
+  100% { transform: rotate(var(--crack-rotate, 0deg)) scaleY(1); opacity: 0.7; }
+}
+
+/* ═══════════════════════════════════════════════════
+   PACK TEAR OPEN
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack-css__tear-container {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 145px;
+  block-size: 218px;
+  pointer-events: none;
+  perspective: 800px;
+}
+
+.pf-card-pack-css__tear-flap {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  transform-origin: center 30%;
+  animation: cpc-tear-flap 0.75s cubic-bezier(0.2, 0, 0.6, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-tear-flap {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(15px) translateY(-100px) rotate(-15deg) scale(0.7);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateX(40px) translateY(-200px) rotate(-45deg) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.pf-card-pack-css__tear-body {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  animation: cpc-tear-body 0.65s 0.08s cubic-bezier(0.3, 0, 1, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-tear-body {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  35% {
+    transform: translateY(28px) rotate(1deg) scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(80px) rotate(3deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.pf-card-pack-css__tear-debris {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 30%;
+  inline-size: var(--debris-size, 6px);
+  block-size: var(--debris-size, 6px);
+  translate: -50% -50%;
+  pointer-events: none;
+  animation: cpc-tear-debris 0.5s var(--debris-delay, 0s) ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-tear-debris {
+  0% {
+    transform: translateX(var(--debris-start-x, 0)) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(var(--debris-end-x, 0)) translateY(var(--debris-end-y, -60px)) rotate(var(--debris-rotation, 90deg)) scale(0.1);
+    opacity: 0;
+  }
+}
+
+/* ─── Tear-line flash ─── */
+
+.pf-card-pack-css__tear-flash {
+  position: absolute;
+  z-index: 6;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -50%;
+  inline-size: 180px;
+  block-size: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, transparent, var(--flash-color) 20%, var(--flash-color) 80%, transparent);
+  box-shadow:
+    0 0 20px 8px rgb(255 240 200 / 70%),
+    0 0 50px 20px rgb(255 220 150 / 30%);
+  pointer-events: none;
+  animation: cpc-tear-flash 0.35s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-tear-flash {
+  0%   { transform: scaleX(0.2) scaleY(1); opacity: 1; }
+  30%  { transform: scaleX(1.3) scaleY(1.5); opacity: 0.85; }
+  100% { transform: scaleX(1.6) scaleY(0.3); opacity: 0; }
+}
+
+/* ─── Light spill ─── */
+
+.pf-card-pack-css__light-spill {
+  position: absolute;
+  z-index: 5;
+  inset-inline-start: 50%;
+  inset-block-start: 40%;
+  translate: -50% -100%;
+  inline-size: 100px;
+  block-size: 140px;
+  background: linear-gradient(to top, rgb(255 240 200 / 60%), rgb(255 240 200 / 20%) 40%, transparent);
+  transform-origin: bottom center;
+  pointer-events: none;
+  animation: cpc-light-spill 0.55s 0.04s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-light-spill {
+  0%   { transform: scaleY(0); opacity: 0.9; }
+  30%  { transform: scaleY(1); opacity: 0.5; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ─── Stage screen-shake during burst ─── */
+
+.pf-card-pack-css__stage--burst {
+  animation: cpc-stage-shake 0.2s linear;
+}
+
+@keyframes cpc-stage-shake {
+  0%   { transform: translateX(0) translateY(0); }
+  20%  { transform: translateX(-2px) translateY(1px); }
+  40%  { transform: translateX(2px) translateY(-1px); }
+  60%  { transform: translateX(-1px) translateY(0); }
+  80%  { transform: translateX(1px) translateY(0); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════
+   GOLDEN CONFETTI
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack-css__confetti-container {
+  position: absolute;
+  z-index: 7;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack-css__confetti-piece {
+  position: absolute;
+  inline-size: var(--confetti-size, 8px);
+  block-size: var(--confetti-size, 8px);
+  object-fit: contain;
+  pointer-events: none;
+  animation: cpc-confetti var(--confetti-dur, 0.65s) var(--confetti-delay, 0s) ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-confetti {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(var(--confetti-end-x, 0)) translateY(var(--confetti-end-y, 0)) rotate(var(--confetti-rotation, 180deg)) scale(0.15);
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   CARDS — fan, flip, idle float, select, collect
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack-css__cards-container {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: 50%;
+  inset-block-start: 48%;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+/* Card slot — positioned via transform from the 0×0 anchor */
+.pf-card-pack-css__card-slot {
+  position: absolute;
+  pointer-events: auto;
+  animation: cpc-card-fan-in 0.5s var(--fan-delay, 0s) cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  will-change: transform, opacity;
+}
+
+/* Fan-in: scale up from center, overshoot, settle at final position */
+@keyframes cpc-card-fan-in {
+  0% {
+    transform: translateX(-50%) translateY(-50%) translateX(0) translateY(0) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(var(--card-y, 0)) rotate(var(--card-rotate, 0deg)) scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(var(--card-y, 0)) rotate(var(--card-rotate, 0deg)) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Rest state after fan-in completes */
+.pf-card-pack-css__card-slot--landed {
+  animation: none;
+  transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(var(--card-y, 0)) rotate(var(--card-rotate, 0deg)) scale(1);
+  opacity: 1;
+}
+
+/* Idle float */
+.pf-card-pack-css__card-slot--float {
+  animation: cpc-card-float 3.5s var(--float-delay, 0s) linear infinite;
+  transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(var(--card-y, 0)) rotate(var(--card-rotate, 0deg)) scale(1);
+}
+
+@keyframes cpc-card-float {
+  0%   { transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(calc(var(--card-y, 0px) + 0px)) rotate(var(--card-rotate, 0deg)) scale(1); }
+  25%  { transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(calc(var(--card-y, 0px) + 4px)) rotate(calc(var(--card-rotate, 0deg) + 0.8deg)) scale(1); }
+  50%  { transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(calc(var(--card-y, 0px) + 0px)) rotate(var(--card-rotate, 0deg)) scale(1); }
+  75%  { transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(calc(var(--card-y, 0px) - 4px)) rotate(calc(var(--card-rotate, 0deg) - 0.8deg)) scale(1); }
+  100% { transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(calc(var(--card-y, 0px) + 0px)) rotate(var(--card-rotate, 0deg)) scale(1); }
+}
+
+/* Selected card — zoom to center */
+.pf-card-pack-css__card-slot--selected {
+  animation: none;
+  transform: translateX(-50%) translateY(-50%) translateX(0) translateY(-10px) rotate(0deg) scale(1.4);
+  z-index: 20 !important;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/* Dimmed cards when one is selected */
+.pf-card-pack-css__card-slot--dimmed {
+  animation: none;
+  transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(var(--card-y, 0)) rotate(var(--card-rotate, 0deg)) scale(0.88);
+  opacity: 0.3;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.25s ease;
+}
+
+/* Collect fly-away */
+.pf-card-pack-css__card-slot--collected {
+  animation: cpc-card-collect 0.65s var(--collect-delay, 0s) cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
+}
+
+@keyframes cpc-card-collect {
+  0% {
+    transform: translateX(-50%) translateY(-50%) translateX(var(--card-x, 0)) translateY(var(--card-y, 0)) rotate(var(--card-rotate, 0deg)) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) translateX(calc(var(--card-x, 0px) * 0.3)) translateY(-320px) rotate(0deg) scale(0.15);
+    opacity: 0;
+  }
+}
+
+/* Perspective wrapper */
+.pf-card-pack-css__card-perspective {
+  position: relative;
+  perspective: 900px;
+}
+
+/* Flipper — 100×148 px */
+.pf-card-pack-css__card-flipper {
+  position: relative;
+  inline-size: 100px;
+  block-size: 148px;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pf-card-pack-css__card-flipper--flipped {
+  transform: rotateY(180deg);
+}
+
+/* Card faces */
+.pf-card-pack-css__card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  overflow: visible;
+}
+
+.pf-card-pack-css__card-back {
+  z-index: 2;
+}
+
+.pf-card-pack-css__card-front {
+  z-index: 1;
+  transform: rotateY(180deg);
+}
+
+/* Card frame */
+.pf-card-pack-css__card-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  box-shadow:
+    0 4px 16px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px rgb(200 200 200 / 60%),
+    inset 0 1px 0 rgb(255 255 255 / 80%);
+  overflow: hidden;
+}
+
+.pf-card-pack-css__card-frame--rarity-3 { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(140 70 240 / 40%); }
+.pf-card-pack-css__card-frame--rarity-4 { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 175 20 / 50%); }
+.pf-card-pack-css__card-frame--rarity-5 { box-shadow: 0 4px 16px rgb(0 0 0 / 45%), inset 0 0 0 2px rgb(255 80 170 / 50%); }
+
+/* Card image area */
+.pf-card-pack-css__card-img-area {
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  min-block-size: 0;
+}
+
+.pf-card-pack-css__card-img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Rarity glow on flipped card */
+.pf-card-pack-css__card--rarity-1 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 12px 3px var(--rarity-common-glow), inset 0 0 0 1px rgb(200 200 200 / 50%); }
+.pf-card-pack-css__card--rarity-2 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 14px 4px var(--rarity-uncommon-glow), inset 0 0 0 1px rgb(200 200 200 / 50%); }
+.pf-card-pack-css__card--rarity-3 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 18px 6px var(--rarity-rare-glow), inset 0 0 0 2px rgb(140 70 240 / 40%); }
+.pf-card-pack-css__card--rarity-4 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 20px 8px var(--rarity-epic-glow), inset 0 0 0 2px rgb(255 175 20 / 50%); }
+.pf-card-pack-css__card--rarity-5 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 22px 10px var(--rarity-legendary-glow), inset 0 0 0 2px rgb(255 80 170 / 50%);
+}
+
+/* Legendary frame shimmer */
+.pf-card-pack-css__card--rarity-5 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame {
+  animation: cpc-legendary-shimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes cpc-legendary-shimmer {
+  0%, 100% { box-shadow: 0 4px 16px rgb(0 0 0 / 40%), 0 0 22px 10px rgb(255 80 170 / 45%), inset 0 0 0 2px rgb(255 80 170 / 50%); }
+  33%      { box-shadow: 0 4px 20px rgb(0 0 0 / 40%), 0 0 22px 10px rgb(100 160 255 / 45%), inset 0 0 0 2px rgb(100 160 255 / 50%); }
+  66%      { box-shadow: 0 4px 20px rgb(0 0 0 / 40%), 0 0 22px 10px rgb(255 215 50 / 45%), inset 0 0 0 2px rgb(255 215 50 / 50%); }
+}
+
+/* Stars */
+.pf-card-pack-css__card-stars {
+  position: absolute;
+  inset-block-start: -14px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  display: flex;
+  gap: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pf-card-pack-css__card-star {
+  inline-size: 22px;
+  block-size: 22px;
+  display: block;
+  margin-inline: -3px;
+}
+
+/* Name ribbon */
+.pf-card-pack-css__card-ribbon {
+  position: absolute;
+  inset-block-end: 6px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  inline-size: 108px;
+  block-size: 26px;
+  border-radius: 6px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow:
+    0 3px 8px rgb(0 0 0 / 45%),
+    inset 0 1px 0 rgb(255 255 255 / 30%),
+    inset 0 -1px 0 rgb(0 0 0 / 20%);
+}
+
+.pf-card-pack-css__card-ribbon-svg {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+}
+
+.pf-card-pack-css__card-ribbon[style*="--ribbon-bg"] {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ribbon-bg) 100%, white 30%) 0%,
+    var(--ribbon-bg) 45%,
+    color-mix(in srgb, var(--ribbon-bg) 100%, black 30%) 100%
+  );
+}
+
+.pf-card-pack-css__card-ribbon--rarity-1 { background: linear-gradient(180deg, #8FA4B8 0%, #607080 45%, #445060 100%); }
+.pf-card-pack-css__card-ribbon--rarity-2 { background: linear-gradient(180deg, #4DC87A 0%, #278A4A 45%, #186030 100%); }
+.pf-card-pack-css__card-ribbon--rarity-3 { background: linear-gradient(180deg, #836BE8 0%, #5040CC 45%, #3020A0 100%); }
+.pf-card-pack-css__card-ribbon--rarity-4 { background: linear-gradient(180deg, #F0A830 0%, #C07010 45%, #905000 100%); }
+.pf-card-pack-css__card-ribbon--rarity-5 { background: linear-gradient(180deg, #E860C8 0%, #B030A0 45%, #801870 100%); }
+
+/* NEW badge */
+.pf-card-pack-css__new-badge {
+  position: absolute;
+  z-index: 12;
+  inset-inline-start: -10px;
+  inset-block-end: 26px;
+  inline-size: 34px;
+  block-size: 34px;
+  pointer-events: none;
+  animation: cpc-new-badge-pop 0.4s 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes cpc-new-badge-pop {
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pf-card-pack-css__new-badge-star {
+  inline-size: 100%;
+  block-size: 100%;
+  background: linear-gradient(160deg, #ff3b3b 0%, #cc0000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-card-pack-css__new-badge-text {
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: system-ui, sans-serif;
+  line-height: 1;
+}
+
+/* ═══════════════════════════════════════════════════
+   RARITY BURST — centered on card position
+   The burst wrapper sits at the same (left, top) as
+   the card slot, using the same coordinate system.
+   ═══════════════════════════════════════════════════ */
+
+.pf-card-pack-css__rarity-burst-wrap {
+  position: absolute;
+  z-index: 7;
+  inline-size: 0;
+  block-size: 0;
+  pointer-events: none;
+}
+
+.pf-card-pack-css__rarity-glow {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  translate: -50% -50%;
+  inline-size: 80px;
+  block-size: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--burst-color, var(--gold)) 0%, transparent 65%);
+  pointer-events: none;
+  animation: cpc-rarity-glow 0.55s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-rarity-glow {
+  0%   { transform: scale(var(--burst-scale-start, 0.3)); opacity: 0.8; }
+  40%  { transform: scale(var(--burst-scale-mid, 1.2)); opacity: 0.3; }
+  100% { transform: scale(var(--burst-scale-end, 1.6)); opacity: 0; }
+}
+
+.pf-card-pack-css__rarity-flash {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  translate: -50% -50%;
+  inline-size: 70px;
+  block-size: 70px;
+  object-fit: contain;
+  pointer-events: none;
+  animation: cpc-rarity-flash 0.35s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-rarity-flash {
+  0%   { transform: scale(0); opacity: 0.9; }
+  35%  { transform: scale(var(--burst-scale-mid, 1.0)); opacity: 0.4; }
+  100% { transform: scale(var(--burst-scale-end, 1.3)); opacity: 0; }
+}
+
+.pf-card-pack-css__rarity-ring {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  translate: -50% -50%;
+  inline-size: 90px;
+  block-size: 90px;
+  object-fit: contain;
+  pointer-events: none;
+  animation: cpc-rarity-ring 0.5s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-rarity-ring {
+  0%   { transform: scale(0.05); opacity: 0.7; }
+  100% { transform: scale(var(--burst-ring-scale, 1.2)); opacity: 0; }
+}
+
+.pf-card-pack-css__rarity-spark {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  translate: -50% -50%;
+  inline-size: var(--spark-size, 6px);
+  block-size: var(--spark-size, 6px);
+  object-fit: contain;
+  pointer-events: none;
+  animation: cpc-rarity-spark 0.45s 0.04s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-rarity-spark {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--spark-end-x, 0)) translateY(var(--spark-end-y, 0)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* ─── Land shimmer ─── */
+
+.pf-card-pack-css__land-shimmer {
+  position: absolute;
+  translate: -50% -50%;
+  inline-size: 110px;
+  block-size: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 230 140 / 45%) 0%, rgb(200 170 100 / 30%) 40%, transparent 70%);
+  pointer-events: none;
+  animation: cpc-land-shimmer 0.55s var(--shimmer-delay, 0s) ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes cpc-land-shimmer {
+  0%   { transform: scale(0.2); opacity: 0; }
+  30%  { transform: scale(1.1); opacity: 0.55; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* ─── Inspect overlay ─── */
+
+.pf-card-pack-css__inspect-overlay {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  background: rgb(0 0 0 / 60%);
+  animation: cpc-fade-in 0.25s ease both;
+}
+
+@keyframes cpc-fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ─── Screen flash ─── */
+
+.pf-card-pack-css__screen-flash {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  pointer-events: none;
+  animation: cpc-screen-flash 0.45s ease-out both;
+}
+
+.pf-card-pack-css__screen-flash--rarity-4 {
+  background: radial-gradient(circle at center, var(--rarity-epic-glow) 0%, transparent 65%);
+}
+
+.pf-card-pack-css__screen-flash--rarity-5 {
+  background: radial-gradient(circle at center, var(--rarity-legendary-glow) 0%, transparent 65%);
+}
+
+@keyframes cpc-screen-flash {
+  0%   { opacity: 0; }
+  30%  { opacity: var(--flash-peak, 0.22); }
+  100% { opacity: 0; }
+}
+
+/* ─── Collect button ─── */
+
+.pf-card-pack-css__collect-btn {
+  position: absolute;
+  z-index: 10;
+  inset-block-end: 16px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  padding: 10px 34px;
+  border-radius: 50px;
+  border: 2px solid var(--collect-border);
+  background: linear-gradient(180deg, var(--collect-bg-start), var(--collect-bg-end));
+  color: rgb(255 255 255);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow:
+    0 0 20px 6px var(--collect-glow),
+    0 4px 12px rgb(0 0 0 / 30%);
+  animation: cpc-collect-btn-appear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes cpc-collect-btn-appear {
+  0%   { transform: scale(0.7) translateY(15px); opacity: 0; }
+  70%  { transform: scale(1.06) translateY(0); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.pf-card-pack-css__collect-btn:hover {
+  border-color: rgb(190 155 255);
+  box-shadow:
+    0 0 28px 9px rgb(160 120 255 / 45%),
+    0 4px 14px rgb(0 0 0 / 35%);
+}
+
+.pf-card-pack-css__collect-btn:active {
+  transform: scale(0.97);
+}
+
+/* ─── Collect burst ─── */
+
+.pf-card-pack-css__collect-burst {
+  position: absolute;
+  z-index: 8;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 70px 40px rgb(200 170 255 / 35%),
+    0 0 130px 80px rgb(160 130 220 / 15%);
+  pointer-events: none;
+  animation: cpc-collect-burst 0.5s ease-out both;
+}
+
+@keyframes cpc-collect-burst {
+  0%   { transform: scale(0.3); opacity: 0; }
+  20%  { transform: scale(2); opacity: 0.6; }
+  100% { transform: scale(2.8); opacity: 0; }
+}

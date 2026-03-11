@@ -74,9 +74,9 @@ function PirateChestWinCoins({ coinSparkles }: { coinSparkles: CoinSparkle[] }) 
         width: sparkle.size,
         height: sparkle.size,
       }}
-      initial={{ x: '-50%', y: 0, scale: 0.55, rotate: 0, opacity: 0 }}
+      initial={{ x: 0, y: 0, scale: 0.55, rotate: 0, opacity: 0 }}
       animate={{
-        x: ['-50%', `calc(-50% + ${sparkle.tx}px)`, `calc(-50% + ${sparkle.txEnd}px)`],
+        x: [0, sparkle.tx, sparkle.txEnd],
         y: [0, sparkle.ty, -24],
         scale: [0.55, 1, 0.75],
         rotate: [0, sparkle.rotation, sparkle.rotationEnd],
@@ -150,21 +150,24 @@ function PrizeRevealPirateChestWinComponent() {
     >
       <div className="pf-pirate-chest-win__stage">
         <m.div
-          className={`pf-pirate-chest-win__chest${phase === 'shake' ? ' pf-pirate-chest-win__chest--shake' : ''}`}
+          className="pf-pirate-chest-win__chest"
           initial={{ y: 64, opacity: 0, scale: 0.82 }}
           animate={{
             y: 0,
             opacity: 1,
             scale: phase === 'reveal' ? [1, 1.18, 1] : 1,
+            x: phase === 'shake' ? [0, -7, 7, -5, 5, 0] : 0,
           }}
           transition={
-            phase === 'reveal'
-              ? {
-                  duration: 0.42,
-                  times: [0, 0.58, 1] as const,
-                  ease: [0.68, -0.55, 0.265, 1.55] as const,
-                }
-              : { type: 'spring', stiffness: 210, damping: 18 }
+            phase === 'shake'
+              ? { x: { duration: 0.6, ease: 'easeInOut' }, default: { type: 'spring', stiffness: 210, damping: 18 } }
+              : phase === 'reveal'
+                ? {
+                    duration: 0.42,
+                    times: [0, 0.58, 1] as const,
+                    ease: [0.68, -0.55, 0.265, 1.55] as const,
+                  }
+                : { type: 'spring', stiffness: 210, damping: 18 }
           }
         >
           {phase === 'reveal' && <PirateChestWinRays />}

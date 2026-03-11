@@ -10,6 +10,10 @@ import {
   crystalShatterBodyImage,
   crystalShatterDustImage,
   crystalShatterFrameImage,
+  crystalShatterShard1Image,
+  crystalShatterShard2Image,
+  crystalShatterShard3Image,
+  crystalShatterShard4Image,
 } from '@/assets'
 
 import {
@@ -21,7 +25,6 @@ import {
   EnergyMotes,
   LandingRing,
   PrismaticRingBurst,
-  SHARD_IMAGES,
   ShatterFlash,
   type DustData,
   type FragmentData,
@@ -36,6 +39,8 @@ type PrizeConfig = { id: string; label: string | null; src: string; value: numbe
 type PrizeSlot = { x: number; y: number; delay: number }
 
 /* ─── Constants ─── */
+
+const SHARD_IMAGES = [crystalShatterShard1Image, crystalShatterShard2Image, crystalShatterShard3Image, crystalShatterShard4Image]
 
 const CHARGE_START_MS = 1200
 const SHATTER_START_MS = 2400

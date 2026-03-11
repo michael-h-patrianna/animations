@@ -1,6 +1,6 @@
 /* Shared index → CSS variable mapping for character delays
    Usage: add class i-N to a char; set container --step; then
-   .char { animation-delay: calc(var(--i) * var(--step)); }
+   .char { delay: calc(var(--i) * var(--step)); }
 */
 .i-0 {
   --i: 0;

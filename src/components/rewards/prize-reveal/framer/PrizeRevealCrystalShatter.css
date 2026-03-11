@@ -100,7 +100,6 @@
   filter:
     drop-shadow(0 0 12px var(--crystal-glow-primary))
     drop-shadow(0 0 28px var(--crystal-glow-secondary));
-  transition: filter 800ms ease;
 }
 
 .pf-crystal-shatter__crystal-image--charging {
@@ -421,7 +420,6 @@
   box-shadow:
     0 0 20px 6px var(--claim-btn-glow),
     0 4px 12px rgb(0 0 0 / 30%);
-  transition: box-shadow 160ms ease;
 }
 
 .pf-crystal-shatter__claim-btn:hover {

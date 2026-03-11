@@ -41,6 +41,9 @@ import type { CardData } from './CardPackParts'
 
 /* ─── Card Set Definition ─── */
 
+/**
+ *
+ */
 export type CardSet = {
   id: string
   name: string
@@ -52,10 +55,10 @@ export type CardSet = {
 /* ─── Ribbon colors per set ─── */
 
 const SET_COLORS = {
-  pets:     { ribbon: 'rgb(79 195 247)',  glow: 'rgb(79 195 247 / 50%)' },  // Sky Blue
-  farm:     { ribbon: 'rgb(102 187 106)', glow: 'rgb(102 187 106 / 50%)' }, // Spring Green
-  wildlife: { ribbon: 'rgb(255 167 38)',  glow: 'rgb(255 167 38 / 50%)' },  // Amber
-  fantasy:  { ribbon: 'rgb(171 71 188)',  glow: 'rgb(171 71 188 / 50%)' },  // Royal Purple
+  pets:     { ribbon: 'var(--set-pets-ribbon)',     glow: 'var(--set-pets-glow)' },     // Sky Blue
+  farm:     { ribbon: 'var(--set-farm-ribbon)',     glow: 'var(--set-farm-glow)' },     // Spring Green
+  wildlife: { ribbon: 'var(--set-wildlife-ribbon)', glow: 'var(--set-wildlife-glow)' }, // Amber
+  fantasy:  { ribbon: 'var(--set-fantasy-ribbon)',  glow: 'var(--set-fantasy-glow)' },  // Royal Purple
 } as const
 
 /* ─── Card Sets ─── */
@@ -144,6 +147,9 @@ export const ALL_CARD_IMAGES = CARD_SETS.flatMap((set) => set.cards.map((c) => c
 
 const setMap = new Map(CARD_SETS.map((s) => [s.id, s]))
 
+/**
+ *
+ */
 export function getCardSet(setId: string): CardSet | undefined {
   return setMap.get(setId)
 }

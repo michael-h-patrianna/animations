@@ -33,21 +33,24 @@ useEffect(() => {
             opacity: [0, 1, 1, 1, 1, 1],
             x: [4, 0, 0, 0, 0, 0],
             y: [-4, 0, 0, 0, 0, 0],
-            boxShadow: [
-              '0 0 0 0 rgba(255, 73, 103, 0)',
-              '0 0 0 0 rgba(255, 73, 103, 0)',
-              '0 0 0 0 rgba(255, 73, 103, 0)',
-              '0 0 0 0 rgba(255, 73, 103, 0)',
-              '0 0 0 6px rgba(255, 73, 103, 0.18)',
-              '0 0 0 0 rgba(255, 73, 103, 0)'
-            ]
           }}
           transition={{
             duration: 2.42,
             times: [0, 0.174, 0.174, 0.248, 0.661, 1],
             ease: [0.2, 0.9, 0.3, 1.2] as const
           }}
-        />
+        >
+          <m.span
+            className="pf-update-indicator__dot-ring"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0, 0, 0, 1, 0] }}
+            transition={{
+              duration: 2.42,
+              times: [0, 0.174, 0.248, 0.5, 0.661, 1],
+              ease: 'easeOut'
+            }}
+          />
+        </m.span>
       </div>
     </div>
   )

@@ -23,7 +23,9 @@ const TRACK_RIGHT_INSET_PX = 44
 
 function toTrackLeft(progress: number) {
   const clampedProgress = Math.max(0, Math.min(1, progress))
-  return `calc(${TRACK_LEFT_INSET_PX}px + (100% - ${TRACK_LEFT_INSET_PX + TRACK_RIGHT_INSET_PX}px) * ${clampedProgress})`
+  const percent = 100 * clampedProgress
+  const offset = TRACK_LEFT_INSET_PX - (TRACK_LEFT_INSET_PX + TRACK_RIGHT_INSET_PX) * clampedProgress
+  return { left: `${percent}%`, marginLeft: offset }
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -104,7 +106,7 @@ function ProgressBarsQuestlineRoyalComponent() {
           }}
         />
 
-        <div className="questline-royal__progress-core-anchor" style={{ left: toTrackLeft(progress) }}>
+        <div className="questline-royal__progress-core-anchor" style={{ ...toTrackLeft(progress) }}>
           <m.div
             className="questline-royal__progress-core"
             animate={{ scale: [1, 1.15, 1], opacity: [0.75, 1, 0.75] }}
@@ -130,7 +132,7 @@ function ProgressBarsQuestlineRoyalComponent() {
             <div
               key={milestone.id}
               className={`questline-royal__node${unlocked ? ' is-unlocked' : ''}${isNext ? ' is-next' : ''}`}
-              style={{ left: toTrackLeft(milestone.at) }}
+              style={{ ...toTrackLeft(milestone.at) }}
             >
               <m.div
                 className={`questline-royal__node-ring${isNext ? ' is-active' : ''}`}
@@ -174,7 +176,7 @@ function ProgressBarsQuestlineRoyalComponent() {
 
         <div
           className={`questline-royal__grand-reward${grandRewardUnlocked ? ' is-unlocked' : ''}`}
-          style={{ left: toTrackLeft(1) }}
+          style={{ ...toTrackLeft(1) }}
         >
           <m.div
             className="questline-royal__grand-ring"

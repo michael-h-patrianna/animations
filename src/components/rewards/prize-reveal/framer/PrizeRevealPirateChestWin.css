@@ -26,10 +26,6 @@
   pointer-events: none;
 }
 
-.pf-pirate-chest-win__chest--shake {
-  animation: pf-pirate-chest-win-shake 0.6s ease-in-out;
-}
-
 .pf-pirate-chest-win__image {
   position: relative;
   z-index: 2;
@@ -87,29 +83,10 @@
   position: absolute;
   inset-inline-start: 50%;
   inset-block-end: 86px;
+  translate: -50% 0;
   z-index: 4;
   pointer-events: none;
   object-fit: contain;
   filter: drop-shadow(0 4px 6px rgb(0 0 0 / 32%));
 }
 
-@keyframes pf-pirate-chest-win-shake {
-  0% {
-    transform: translateX(0);
-  }
-  18% {
-    transform: translateX(-7px);
-  }
-  36% {
-    transform: translateX(7px);
-  }
-  54% {
-    transform: translateX(-5px);
-  }
-  72% {
-    transform: translateX(5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}

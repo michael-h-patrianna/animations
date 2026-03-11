@@ -204,13 +204,13 @@ function GlintDot({ g }: { g: Glint }) {
     <m.span
       style={{
         position: 'absolute',
-        left: `calc(50% + ${g.x}px)`,
-        top: `calc(65% + ${g.y}px)`,
+        left: '50%', marginLeft: g.x,
+        top: '65%', marginTop: g.y,
         width: `${g.size}px`,
         height: `${g.size}px`,
         borderRadius: '50%',
         background: g.color,
-        boxShadow: `0 0 ${g.size + 3}px ${Math.round(g.size * 0.6)}px ${g.color}`,
+        filter: `drop-shadow(0 0 ${Math.round(g.size * 1.6) + 3}px ${g.color})`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -226,12 +226,12 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: `calc(50% + ${s.x}px)`,
-        top: `calc(65% + ${s.y}px)`,
+        left: '50%', marginLeft: s.x,
+        top: '65%', marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
-        boxShadow: `0 0 4px 1px ${s.color}`,
+        filter: `drop-shadow(0 0 5px ${s.color})`,
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.4, 1.0, 0], opacity: [0, 0.9, 0.25, 0.6, 0] }}

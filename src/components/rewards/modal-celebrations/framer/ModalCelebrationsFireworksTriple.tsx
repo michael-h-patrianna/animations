@@ -207,7 +207,7 @@ function BurstFlash({ cx, cy, delay }: { cx: number; cy: number; delay: number }
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ left: `calc(50% + ${cx}px)`, top: `calc(50% + ${cy}px)` }}
+      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 1.2, 1.6], opacity: [0, 0.8, 0] }}
       transition={{ duration: 0.22, delay, times: [0, 0.35, 1], ease: 'easeOut' }}
@@ -220,7 +220,7 @@ function BurstRing({ cx, cy, delay, color }: { cx: number; cy: number; delay: nu
   return (
     <m.div
       className="pf-celebration__ring"
-      style={{ left: `calc(50% + ${cx}px)`, top: `calc(50% + ${cy}px)`, borderColor: color }}
+      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy, borderColor: color }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 3.5, 5], opacity: [0, 0.6, 0] }}
       transition={{ duration: 0.6, delay: delay + 0.02, times: [0, 0.4, 1], ease: 'easeOut' }}
@@ -238,8 +238,8 @@ function RayBeam({ ray }: { ray: Ray }) {
     <m.span
       className="pf-celebration__ray"
       style={{
-        left: `calc(50% + ${ray.cx}px)`,
-        top: `calc(50% + ${ray.cy}px)`,
+        left: '50%', marginLeft: ray.cx,
+        top: '50%', marginTop: ray.cy,
         height: `${ray.length}px`,
         background: `linear-gradient(to top, transparent 0%, ${ray.color} 35%, var(--pf-base-50) 94%)`,
         transformOrigin: '50% 100%',
@@ -301,8 +301,8 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: `calc(50% + ${s.x}px)`,
-        top: `calc(50% + ${s.y}px)`,
+        left: '50%', marginLeft: s.x,
+        top: '50%', marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

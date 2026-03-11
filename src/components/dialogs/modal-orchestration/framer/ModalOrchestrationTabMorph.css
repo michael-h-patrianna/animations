@@ -33,7 +33,6 @@
   font-size: 13px;
   color: var(--modal-orchestration-tab-morph-color-1);
   cursor: pointer;
-  transition: all 0.2s ease;
   transform: scale(1);
 }
 .pf-tabs__tab--active {

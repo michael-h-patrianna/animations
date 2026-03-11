@@ -11,7 +11,7 @@ delay:0.35});return controls.stop},[count,finalValue]);return<div className="com
             {/* Counting number with proper styling */}
             <m.div className="combo-current-number">
               <m.span className="combo-digit"initial={{opacity:0}}animate={{opacity:1}}transition={{duration:0.2,delay:0.25}}style={{display:"inline-block",position:"relative"}}>
-                <m.span animate={{textShadow:["0 2px 4px rgba(0, 0, 0, 0.3)","0 2px 8px rgba(239, 68, 68, 0.4)","0 2px 4px rgba(0, 0, 0, 0.3)"],scale:[1,1.05,1]}}transition={{duration:1.2,delay:0.35,ease:easeInOut}}>
+                <m.span className="combo-digit-pulse" animate={{scale:[1,1.05,1]}}transition={{duration:1.2,delay:0.35,ease:easeInOut}}>
                   {rounded}
                 </m.span>
               </m.span>

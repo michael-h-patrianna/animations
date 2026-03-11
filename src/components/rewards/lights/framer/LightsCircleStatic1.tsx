@@ -21,7 +21,7 @@ const filamentVariantsEven = { hidden: { opacity: 0.85 }, show: { opacity: [0.85
 const bulbVariantsEven = {
   hidden: {
     background: `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`, // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
-    boxShadow: `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+    filter: `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
     transform: `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
     borderColor: `var(--pf-anim-white-35)`,
   },
@@ -34,7 +34,7 @@ const bulbVariantsEven = {
       `var(--bulb-blend70)`,
       `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`, // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
     ],
-    boxShadow: [`0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`, `0 0 2px var(--bulb-on-glow50)`, `none`, `none`, `0 0 2px var(--bulb-on-glow50)`, `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`],
+    filter: [`drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`, `drop-shadow(0 0 2px var(--bulb-on-glow50))`, `none`, `none`, `drop-shadow(0 0 2px var(--bulb-on-glow50))`, `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`],
     transform: [
       `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
       `translate(-50%, -50%) scale(1.06) rotate(0.75deg)`,
@@ -51,7 +51,7 @@ const glowOuterVariantsOdd = { hidden: { opacity: 0 }, show: { opacity: [0, 0.3,
 const glowInnerVariantsOdd = { hidden: { opacity: 0 }, show: { opacity: [0, 0.4, 0.8, 0.8, 0.4, 0], transition: { duration: animationDuration, times: [0, 0.358, 0.367, 0.767, 0.775, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const } } }
 const filamentVariantsOdd = { hidden: { opacity: 0 }, show: { opacity: [0, 0.4, 0.85, 0.85, 0.4, 0], transition: { duration: animationDuration, times: [0, 0.358, 0.367, 0.767, 0.775, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const } } }
 const bulbVariantsOdd = {
-  hidden: { background: `var(--bulb-off)`, boxShadow: `none`, transform: `translate(-50%, -50%) scale(1) rotate(0deg)`, borderColor: `var(--pf-anim-white-10)` },
+  hidden: { background: `var(--bulb-off)`, filter: `none`, transform: `translate(-50%, -50%) scale(1) rotate(0deg)`, borderColor: `var(--pf-anim-white-10)` },
   show: {
     background: [
       `var(--bulb-off)`,
@@ -61,7 +61,7 @@ const bulbVariantsOdd = {
       `var(--bulb-blend70)`,
       `var(--bulb-off)`,
     ],
-    boxShadow: [`none`, `0 0 2px var(--bulb-on-glow50)`, `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`, `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`, `0 0 2px var(--bulb-on-glow50)`, `none`],
+    filter: [`none`, `drop-shadow(0 0 2px var(--bulb-on-glow50))`, `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`, `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`, `drop-shadow(0 0 2px var(--bulb-on-glow50))`, `none`],
     transform: [
       `translate(-50%, -50%) scale(1) rotate(0deg)`,
       `translate(-50%, -50%) scale(1.06) rotate(0.75deg)`,

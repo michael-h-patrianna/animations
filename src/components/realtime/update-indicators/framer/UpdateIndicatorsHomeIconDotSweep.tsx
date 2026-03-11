@@ -30,18 +30,19 @@ useEffect(() => {
           animate={{
             background: ['var(--pf-anim-rose)', 'var(--pf-anim-rose-dark)', 'var(--pf-anim-rose)'],
             scale: [1, 1.16, 1],
-            boxShadow: [
-              '0 0 0 0 rgba(255, 73, 103, 0)',
-              '0 0 0 10px rgba(255, 73, 103, 0.22)',
-              '0 0 0 0 rgba(255, 73, 103, 0)'
-            ]
           }}
           transition={{
             duration: 0.9,
             ease: easeInOut,
             times: [0, 0.3, 1]
           }}
-        />
+        >
+          <m.span
+            className="pf-update-indicator__dot-ring"
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ duration: 0.9, ease: easeInOut, times: [0, 0.3, 1] }}
+          />
+        </m.span>
         <m.span
           key={`${key}-halo`}
           className="pf-update-indicator__halo"

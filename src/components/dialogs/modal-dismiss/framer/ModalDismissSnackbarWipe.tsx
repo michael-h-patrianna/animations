@@ -24,13 +24,13 @@ const [showProgress, setShowProgress] = useState(true)
       y: 24,
       scale: 0.96,
       opacity: 0,
-      clipPath: 'inset(0 0 0 100%)',
+      x: '100%',
     },
     visible: {
       y: [24, -4, 0],
       scale: [0.96, 1.02, 1],
       opacity: [0, 1, 1],
-      clipPath: ['inset(0 0 0 100%)', 'inset(0 0 0 0)', 'inset(0 0 0 0)'],
+      x: ['100%', '0%', '0%'],
       transition: {
         duration: entryDuration,
         times: [0, 0.7, 1],
@@ -41,7 +41,7 @@ const [showProgress, setShowProgress] = useState(true)
       y: [0, 6, 0],
       scale: [1, 0.96, 0.96],
       opacity: [1, 0.6, 0],
-      clipPath: ['inset(0 0 0 0)', 'inset(0 0 0 0)', 'inset(0 0 0 100%)'],
+      x: ['0%', '0%', '100%'],
       transition: {
         duration: exitDuration,
         times: [0, 0.55, 1],

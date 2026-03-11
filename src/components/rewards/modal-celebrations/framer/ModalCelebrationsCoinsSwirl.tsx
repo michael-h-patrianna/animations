@@ -193,13 +193,13 @@ function TrailDot({ t }: { t: Mote }) {
     <m.span
       style={{
         position: 'absolute',
-        left: `calc(50% + ${t.x}px)`,
-        top: `calc(50% + ${t.y}px)`,
+        left: '50%', marginLeft: t.x,
+        top: '50%', marginTop: t.y,
         width: `${t.size}px`,
         height: `${t.size}px`,
         borderRadius: '50%',
         background: t.color,
-        boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
+        filter: `drop-shadow(0 0 ${Math.round(t.size * 1.5) + 2}px ${t.color})`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -216,12 +216,12 @@ function SparkleDot({ s }: { s: Mote }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: `calc(50% + ${s.x}px)`,
-        top: `calc(50% + ${s.y}px)`,
+        left: '50%', marginLeft: s.x,
+        top: '50%', marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
-        boxShadow: `0 0 4px 1px ${s.color}`,
+        filter: `drop-shadow(0 0 5px ${s.color})`,
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 0.4, 0.9, 0], opacity: [0, 0.8, 0.2, 0.5, 0] }}
@@ -236,13 +236,13 @@ function VortexCore() {
     <m.span
       style={{
         position: 'absolute',
-        left: 'calc(50% - 4px)',
-        top: 'calc(50% - 4px)',
+        left: '50%', marginLeft: -4,
+        top: '50%', marginTop: -4,
         width: '8px',
         height: '8px',
         borderRadius: '50%',
         background: 'var(--pf-anim-gold)',
-        boxShadow: '0 0 24px 16px var(--pf-anim-gold)',
+        filter: 'drop-shadow(0 0 24px var(--pf-anim-gold))',
         pointerEvents: 'none',
         willChange: 'opacity',
       }}

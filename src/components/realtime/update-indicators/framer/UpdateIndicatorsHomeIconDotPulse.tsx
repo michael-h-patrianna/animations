@@ -27,19 +27,18 @@ useEffect(() => {
         <m.span
           key={key}
           className="pf-update-indicator__dot pf-update-indicator__dot--pulse"
-          animate={{
-            scale: [1, 1.1, 1],
-            boxShadow: [
-              '0 0 0 0 rgba(255, 73, 103, 0)',
-              '0 0 0 8px rgba(255, 73, 103, 0.25)',
-              '0 0 0 0 rgba(255, 73, 103, 0)'
-            ]
-          }}
+          animate={{ scale: [1, 1.1, 1] }}
           transition={{
             duration: 1.4,
             ease: easeInOut
           }}
-        />
+        >
+          <m.span
+            className="pf-update-indicator__dot-ring"
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ duration: 1.4, ease: easeInOut }}
+          />
+        </m.span>
       </div>
     </div>
   )

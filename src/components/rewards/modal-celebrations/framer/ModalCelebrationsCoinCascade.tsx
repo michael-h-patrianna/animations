@@ -215,13 +215,13 @@ function TrailDot({ t }: { t: Mote }) {
     <m.span
       style={{
         position: 'absolute',
-        left: `calc(50% + ${t.x}px)`,
-        top: `calc(10% + ${t.y}px)`,
+        left: '50%', marginLeft: t.x,
+        top: '10%', marginTop: t.y,
         width: `${t.size}px`,
         height: `${t.size}px`,
         borderRadius: '50%',
         background: t.color,
-        boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
+        filter: `drop-shadow(0 0 ${Math.round(t.size * 1.5) + 2}px ${t.color})`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -238,13 +238,13 @@ function ImpactBurst({ imp }: { imp: Mote }) {
     <m.span
       style={{
         position: 'absolute',
-        left: `calc(50% + ${imp.x}px)`,
-        top: `calc(10% + ${imp.y}px)`,
+        left: '50%', marginLeft: imp.x,
+        top: '10%', marginTop: imp.y,
         width: `${imp.size}px`,
         height: `${imp.size}px`,
         borderRadius: '50%',
         background: imp.color,
-        boxShadow: `0 0 ${imp.size + 4}px ${Math.round(imp.size * 0.8)}px ${imp.color}`,
+        filter: `drop-shadow(0 0 ${Math.round(imp.size * 1.8) + 4}px ${imp.color})`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -261,12 +261,12 @@ function ShimmerDot({ s }: { s: Mote }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: `calc(50% + ${s.x}px)`,
-        top: `calc(10% + ${s.y}px)`,
+        left: '50%', marginLeft: s.x,
+        top: '10%', marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
-        boxShadow: `0 0 4px 1px ${s.color}`,
+        filter: `drop-shadow(0 0 5px ${s.color})`,
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 0.4, 0.9, 0], opacity: [0, 0.8, 0.2, 0.5, 0] }}
@@ -281,13 +281,13 @@ function SourceGlow({ x, delay }: { x: number; delay: number }) {
     <m.span
       style={{
         position: 'absolute',
-        left: `calc(50% + ${x}px)`,
+        left: '50%', marginLeft: x,
         top: '10%',
         width: '6px',
         height: '6px',
         borderRadius: '50%',
         background: 'var(--pf-anim-gold)',
-        boxShadow: '0 0 18px 12px var(--pf-anim-gold)',
+        filter: 'drop-shadow(0 0 18px var(--pf-anim-gold))',
         pointerEvents: 'none',
         willChange: 'opacity',
       }}

@@ -267,8 +267,8 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: `calc(50% + ${s.x}px)`,
-        top: `calc(50% + ${s.y}px)`,
+        left: '50%', marginLeft: s.x,
+        top: '50%', marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

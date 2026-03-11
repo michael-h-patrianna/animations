@@ -8,17 +8,17 @@ interface LightsCircleStatic5Props {
 const animationDuration = 4 // Glow variant for sparkle effect
 const glowVariants = { hidden: { opacity: 0 }, show: { opacity: [0, 0.3, 1, 0.6, 0.2, 0, 0], transition: { duration: animationDuration, times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const } } } // Bulb variant for quick flash sparkle
 const bulbVariants = {
-  hidden: { backgroundColor: `var(--bulb-off)`, boxShadow: `0 0 2px var(--bulb-off-glow30)` },
+  hidden: { backgroundColor: `var(--bulb-off)`, filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))` },
   show: {
     backgroundColor: [`var(--bulb-off)`, `var(--bulb-off-tint30)`, `var(--bulb-on)`, `var(--bulb-on-blend-5off)`, `var(--bulb-off-tint30)`, `var(--bulb-off)`, `var(--bulb-off)`],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
-      `0 0 8px var(--bulb-on-glow70)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
+    filter: [
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
+      `drop-shadow(0 0 12px var(--bulb-on-glow100)) drop-shadow(0 0 18px var(--bulb-on-glow80))`,
+      `drop-shadow(0 0 8px var(--bulb-on-glow70))`,
+      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
     ],
     transition: { duration: animationDuration, times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const },
   },

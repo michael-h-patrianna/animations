@@ -20,8 +20,8 @@ import { useEffect, useState } from 'react'
   }, []) // Main fill animation
   const fillVariants = { initial: { scaleX: 0 }, animate: { scaleX: [0, 0.25, 0.5, 0.75, 1], transition: { duration, times: [0, 0.25, 0.5, 0.75, 1], ease: 'linear' as const } } } // Segment animation
   const segmentVariants = (isActive: boolean) => ({
-    initial: { scale: 1, boxShadow: 'none' },
-    animate: isActive ? { scale: [1, 1.1, 1], boxShadow: ['none', '0 0 20px rgba(var(--pf-anim-green-rgb, 198,255,119),0.5)', 'none'], transition: { duration: 0.4, times: [0, 0.3, 1], ease: [0.68, -0.55, 0.265, 1.55] as const } } : {},
+    initial: { scale: 1 },
+    animate: isActive ? { scale: [1, 1.1, 1], transition: { duration: 0.4, times: [0, 0.3, 1], ease: [0.68, -0.55, 0.265, 1.55] as const } } : {},
   }) // Segment glow animation
   const glowVariants = (isActive: boolean) => ({ initial: { opacity: 0 }, animate: isActive ? { opacity: [0, 1, 0], transition: { duration: 0.4, times: [0, 0.3, 1], ease: easeOut } } : {} })
   return (
@@ -40,7 +40,7 @@ import { useEffect, useState } from 'react'
         {/* Gap overlays */}
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
           {Array.from({ length: segmentCount - 1 }).map((_, i) => (
-            <div key={`gap-${i}`} style={{ position: 'absolute', width: segmentGap, top: 0, bottom: 0, left: `calc(${((i + 1) * 100) / segmentCount}% - ${segmentGap / 2}px)`, background: 'var(--pf-anim-deep-purple)' }} />
+            <div key={`gap-${i}`} style={{ position: 'absolute', width: segmentGap, top: 0, bottom: 0, left: `${((i + 1) * 100) / segmentCount}%`, marginLeft: -(segmentGap / 2), background: 'var(--pf-anim-deep-purple)' }} />
           ))}
         </div>
 

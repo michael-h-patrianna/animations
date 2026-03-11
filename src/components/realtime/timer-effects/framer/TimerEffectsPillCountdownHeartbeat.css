@@ -46,7 +46,6 @@
   --glow-opacity: 0.35;
   --glow-scale: 1;
   --glow-color: rgb(102 126 234 / 30%);
-  transition: background 0.5s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,10 +62,6 @@
   background: var(--glow-color);
   opacity: var(--glow-opacity);
   transform: scale(var(--glow-scale, 1));
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease,
-    background 0.4s ease;
   pointer-events: none;
   z-index: 0;
 }

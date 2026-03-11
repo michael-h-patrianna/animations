@@ -66,11 +66,13 @@ export function ModalDismissToastSlideRight() {
   }, [])
 
   return (
-    <MockContent
-      toastRef={toastRef}
-      progressRef={progressRef}
-      animationId="modal-dismiss__toast-slide-right"
-    />
+    <div data-animation-id="modal-dismiss__toast-slide-right">
+      <MockContent
+        toastRef={toastRef}
+        progressRef={progressRef}
+        animationId="modal-dismiss__toast-slide-right"
+      />
+    </div>
   )
 }
 

@@ -43,7 +43,11 @@ export function ProgressBarsJourneyMap() {
               animate={{ y: [0, -2, 0] }}
               transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <span className="journey-distance-traveller-glow" />
+              <m.span
+                className="journey-distance-traveller-glow"
+                animate={{ opacity: [0.4, 0.9, 0.4], scale: [0.88, 1.12, 0.88] }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
               <span className="journey-distance-traveller-core">
                 <img className="journey-distance-traveller-icon" src={journeyAvatarDrone} alt="" />
               </span>
