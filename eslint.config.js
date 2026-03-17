@@ -1,7 +1,7 @@
 import js from '@eslint/js'
+import eslintReact from '@eslint-react/eslint-plugin'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import jsdoc from 'eslint-plugin-jsdoc'
-import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
@@ -19,6 +19,7 @@ export default defineConfig([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
+      eslintReact.configs.recommended,
       reactRefresh.configs.vite,
       eslintConfigPrettier,
     ],
@@ -28,12 +29,9 @@ export default defineConfig([
     },
     plugins: {
       jsdoc,
-      'react-hooks': reactHooks,
       'animation-rules': animationRulesPlugin,
     },
     rules: {
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
       'jsdoc/require-jsdoc': [
         'error',
         {
@@ -107,11 +105,30 @@ export default defineConfig([
       ],
     },
   },
-  // Test files are exempt from function length limits — describe blocks need cohesion
+  // Test files: exempt from function length limits, enforce assertion quality
   {
     files: ['**/*.test.ts', '**/*.test.tsx'],
     rules: {
       'max-lines-per-function': 'off',
+      'animation-rules/no-shallow-assertions': 'error',
+      // vi.mock() factories define components/hooks inside functions — valid pattern
+      '@eslint-react/component-hook-factories': 'off',
+    },
+  },
+  {
+    files: ['eslint-rules/**/*.js'],
+    rules: {
+      'max-lines-per-function': 'off',
+    },
+  },
+  // Animation components: static arrays (character splits, particle lists) never reorder
+  {
+    files: [
+      'src/components/**/css/**/*.{ts,tsx}',
+      'src/components/**/framer/**/*.{ts,tsx}',
+    ],
+    rules: {
+      '@eslint-react/no-array-index-key': 'off',
     },
   },
   // Motion (framer/) variants: no CSS animations + RN-portable constraints

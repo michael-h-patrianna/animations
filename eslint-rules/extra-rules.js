@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 
 function getFilename(context) {
-  return context.filename ?? context.getFilename()
+  return context.filename
 }
 
 function isInFramer(context) {
@@ -144,6 +144,127 @@ const extraRules = {
                 message: `${cssFile} contains CSS animations: ${findings.join(', ')}. In framer/ directories, animations must be driven by Motion/Reanimated. Static styling CSS is fine.`,
               })
             }
+          }
+        },
+      }
+    },
+  },
+
+  // Matchers that assert existence/type but not correctness — they
+  // catch zero real bugs.
+  // Maps matcher name → custom error message.
+  'no-shallow-assertions': {
+    meta: {
+      type: 'problem',
+      docs: { description: 'Disallow shallow test matchers that assert existence or type instead of correctness.' },
+      schema: [],
+    },
+    create(context) {
+      const MSG = 'Shallow useless test. Delete test! Do not try to rewrite it just to make it pass. It is fundamentally useless.'
+      const SHALLOW_MATCHERS = {
+        toBeDefined: true,
+        toBeTruthy: true,
+        toBeFalsy: true,
+        toBeUndefined: true,
+      }
+
+      return {
+        CallExpression(node) {
+          // 1. Block expect(typeof x), expect(Array.isArray), expect(!!x), expect(x !== null), expect(el.tagName)
+          if (node.callee.type === 'Identifier' && node.callee.name === 'expect') {
+            const arg = node.arguments[0]
+            if (arg) {
+              if (arg.type === 'UnaryExpression' && arg.operator === 'typeof') {
+                context.report({ node, message: MSG })
+              }
+              if (arg.type === 'CallExpression' && arg.callee.type === 'MemberExpression' && arg.callee.object.name === 'Array' && arg.callee.property.name === 'isArray') {
+                context.report({ node, message: MSG })
+              }
+              if (arg.type === 'UnaryExpression' && arg.operator === '!') {
+                context.report({ node, message: MSG })
+              }
+              if (arg.type === 'CallExpression' && arg.callee.name === 'Boolean') {
+                context.report({ node, message: MSG })
+              }
+              if (arg.type === 'BinaryExpression' && ['!==', '!=', '===', '==', 'in'].includes(arg.operator)) {
+                context.report({ node, message: MSG })
+              }
+              if (arg.type === 'MemberExpression' && (arg.property.name === 'tagName' || arg.property.name === 'nodeName')) {
+                context.report({ node, message: MSG })
+              }
+            }
+          }
+
+          if (node.callee.type !== 'MemberExpression') return
+
+          // 2. Block expect.any(), expect.objectContaining(), etc.
+          if (node.callee.object.name === 'expect') {
+            const prop = node.callee.property.name
+            if (['any', 'objectContaining', 'arrayContaining', 'stringContaining', 'stringMatching'].includes(prop)) {
+              context.report({ node: node.callee.property, message: MSG })
+            }
+          }
+
+          const methodName = node.callee.property.name
+          if (!methodName) return
+
+          let isShallow = false
+
+          const isNot = node.callee.object.type === 'MemberExpression' && node.callee.object.property.name === 'not'
+
+          if (SHALLOW_MATCHERS[methodName]) {
+            isShallow = true
+          } else if (methodName === 'toBeNull' && isNot) {
+            isShallow = true
+          } else if (methodName === 'toBe') {
+            if (node.arguments.length === 1) {
+              const arg = node.arguments[0]
+              if (arg.type === 'Identifier' && arg.name === 'undefined') {
+                isShallow = true
+              } else if (arg.type === 'Literal' && ['string', 'object', 'boolean', 'number', 'function', 'symbol'].includes(arg.value)) {
+                isShallow = true
+              } else if (isNot && arg.type === 'Literal' && (arg.value === 0 || arg.value === '')) {
+                isShallow = true
+              }
+            }
+          } else if (methodName === 'toBeGreaterThan' || methodName === 'toBeGreaterThanOrEqual') {
+            if (node.arguments.length === 1 && node.arguments[0].type === 'Literal') {
+              isShallow = true
+            }
+          } else if (methodName === 'toMatch') {
+            const arg = node.arguments[0]
+            if (arg?.type === 'Literal' && arg.regex) {
+              const pattern = arg.regex.pattern
+              if (pattern.includes('.+') || pattern.includes('[a-zA-Z]') || pattern === '.*') {
+                isShallow = true
+              }
+            }
+          } else if (methodName === 'toBeInstanceOf') {
+            isShallow = true
+          } else if (methodName === 'toHaveProperty' && node.arguments.length === 1) {
+            isShallow = true
+          } else if (isNot && methodName === 'toHaveLength' && node.arguments[0]?.type === 'Literal' && node.arguments[0].value === 0) {
+            isShallow = true
+          } else if (isNot && methodName === 'toBeNaN') {
+            isShallow = true
+          }
+
+          if (!isShallow) return
+
+          // Walk up the member-expression chain to find expect()
+          let obj = node.callee.object
+          while (obj.type === 'CallExpression' && obj.callee.type === 'MemberExpression') {
+            obj = obj.callee.object
+          }
+          if (obj.type === 'MemberExpression' && obj.property.name === 'not') {
+            obj = obj.object
+          }
+          
+          if (obj.type === 'CallExpression' && obj.callee.type === 'Identifier' && obj.callee.name === 'expect') {
+            context.report({
+              node: node.callee.property,
+              message: MSG,
+            })
           }
         },
       }

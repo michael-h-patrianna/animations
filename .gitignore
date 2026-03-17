@@ -26,6 +26,7 @@ coverage
 *.sw?
 
 # Local AI assistant artifacts
+claude.sh
 .playwright-mcp
 playwright-report
 test-results

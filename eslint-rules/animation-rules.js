@@ -12,7 +12,7 @@ import { extraRules } from './extra-rules.js'
 // ─── Shared helpers ──────────────────────────────────────────────────────────
 
 function getFilename(context) {
-  return context.filename ?? context.getFilename()
+  return context.filename
 }
 
 function isInFramer(context) {
