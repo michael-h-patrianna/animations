@@ -16,6 +16,7 @@ The Animation Catalog project needed a robust animation library to power hundred
 - **Ecosystem**: Good documentation and community support
 
 Alternatives considered:
+
 1. **React Spring**: Physics-based animations, good performance
 2. **GSAP**: Industry-standard, powerful but requires license for commercial use
 3. **CSS Animations + React Transition Group**: Native performance but limited flexibility
@@ -61,14 +62,17 @@ We chose **Framer Motion** as the primary animation driver for the following rea
 ## Alternatives Not Chosen
 
 ### React Spring
+
 - **Pros**: Physics-based animations, smaller bundle
 - **Cons**: More imperative API, less intuitive for layout animations
 
 ### GSAP
+
 - **Pros**: Most powerful, industry-standard
 - **Cons**: Licensing for commercial use, less React-idiomatic
 
 ### CSS Animations
+
 - **Pros**: Native performance, zero JS overhead
 - **Cons**: Limited flexibility, hard to orchestrate complex sequences
 

@@ -2,10 +2,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseZoomElastic.css'
 
-
-/**
- *
- */
 export function ModalBaseZoomElastic() {
   return (
     <div
@@ -20,4 +16,3 @@ export function ModalBaseZoomElastic() {
     </div>
   )
 }
-

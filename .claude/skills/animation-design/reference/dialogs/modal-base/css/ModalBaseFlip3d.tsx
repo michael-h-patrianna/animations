@@ -13,4 +13,3 @@ export function ModalBaseFlip3d() {
     </div>
   )
 }
-

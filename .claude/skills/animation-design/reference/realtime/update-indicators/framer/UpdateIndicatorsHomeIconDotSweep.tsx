@@ -6,7 +6,7 @@ import './UpdateIndicatorsHomeIconDotSweep.css'
 
 export function UpdateIndicatorsHomeIconDotSweep() {
   const [key, setKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 10000)
@@ -28,13 +28,13 @@ useEffect(() => {
             boxShadow: [
               '0 0 0 0 rgba(255, 73, 103, 0)',
               '0 0 0 10px rgba(255, 73, 103, 0.22)',
-              '0 0 0 0 rgba(255, 73, 103, 0)'
-            ]
+              '0 0 0 0 rgba(255, 73, 103, 0)',
+            ],
           }}
           transition={{
             duration: 0.9,
             ease: easeInOut,
-            times: [0, 0.3, 1]
+            times: [0, 0.3, 1],
           }}
         />
         <m.span
@@ -43,12 +43,12 @@ useEffect(() => {
           initial={{ scale: 0.75, opacity: 0 }}
           animate={{
             scale: [0.75, 1.8],
-            opacity: [0, 0.8, 0]
+            opacity: [0, 0.8, 0],
           }}
           transition={{
             duration: 0.9,
             ease: easeInOut,
-            times: [0, 0.35, 1]
+            times: [0, 0.35, 1],
           }}
         />
       </div>

@@ -22,7 +22,9 @@
   transform: scale(0) translateY(-100px);
   opacity: 0;
   will-change: transform, opacity;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 /* Spring bounce entrance animation - approximating spring physics with cubic-bezier */

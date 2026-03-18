@@ -24,26 +24,84 @@ import { metadata as floatingBadgeMetaCss } from './css/CardInteractionsFloating
 import { metadata as scaleClickMetaCss } from './css/CardInteractionsScaleClick.meta'
 
 // Framer Components
-const BorderGradientFramer = lazy(() => import('./framer/CardInteractionsBorderGradient').then(m => ({ default: m.CardInteractionsBorderGradient })))
-const NeonGlowFramer = lazy(() => import('./framer/CardInteractionsNeonGlow').then(m => ({ default: m.CardInteractionsNeonGlow })))
-const Tilt3DFramer = lazy(() => import('./framer/CardInteractionsTilt3D').then(m => ({ default: m.CardInteractionsTilt3D })))
-const Flip3DFramer = lazy(() => import('./framer/CardInteractionsFlip3D').then(m => ({ default: m.CardInteractionsFlip3D })))
-const ContentSlideUpFramer = lazy(() => import('./framer/CardInteractionsContentSlideUp').then(m => ({ default: m.CardInteractionsContentSlideUp })))
-const SpotlightFramer = lazy(() => import('./framer/CardInteractionsSpotlight').then(m => ({ default: m.CardInteractionsSpotlight })))
-const SheenSweepFramer = lazy(() => import('./framer/CardInteractionsSheenSweep').then(m => ({ default: m.CardInteractionsSheenSweep })))
-const FloatingBadgeFramer = lazy(() => import('./framer/CardInteractionsFloatingBadge').then(m => ({ default: m.CardInteractionsFloatingBadge })))
-const ScaleClickFramer = lazy(() => import('./framer/CardInteractionsScaleClick').then(m => ({ default: m.CardInteractionsScaleClick })))
+const BorderGradientFramer = lazy(() =>
+  import('./framer/CardInteractionsBorderGradient').then((m) => ({
+    default: m.CardInteractionsBorderGradient,
+  }))
+)
+const NeonGlowFramer = lazy(() =>
+  import('./framer/CardInteractionsNeonGlow').then((m) => ({ default: m.CardInteractionsNeonGlow }))
+)
+const Tilt3DFramer = lazy(() =>
+  import('./framer/CardInteractionsTilt3D').then((m) => ({ default: m.CardInteractionsTilt3D }))
+)
+const Flip3DFramer = lazy(() =>
+  import('./framer/CardInteractionsFlip3D').then((m) => ({ default: m.CardInteractionsFlip3D }))
+)
+const ContentSlideUpFramer = lazy(() =>
+  import('./framer/CardInteractionsContentSlideUp').then((m) => ({
+    default: m.CardInteractionsContentSlideUp,
+  }))
+)
+const SpotlightFramer = lazy(() =>
+  import('./framer/CardInteractionsSpotlight').then((m) => ({
+    default: m.CardInteractionsSpotlight,
+  }))
+)
+const SheenSweepFramer = lazy(() =>
+  import('./framer/CardInteractionsSheenSweep').then((m) => ({
+    default: m.CardInteractionsSheenSweep,
+  }))
+)
+const FloatingBadgeFramer = lazy(() =>
+  import('./framer/CardInteractionsFloatingBadge').then((m) => ({
+    default: m.CardInteractionsFloatingBadge,
+  }))
+)
+const ScaleClickFramer = lazy(() =>
+  import('./framer/CardInteractionsScaleClick').then((m) => ({
+    default: m.CardInteractionsScaleClick,
+  }))
+)
 
 // CSS Components
-const BorderGradientCss = lazy(() => import('./css/CardInteractionsBorderGradient').then(m => ({ default: m.CardInteractionsBorderGradient })))
-const NeonGlowCss = lazy(() => import('./css/CardInteractionsNeonGlow').then(m => ({ default: m.CardInteractionsNeonGlow })))
-const Tilt3DCss = lazy(() => import('./css/CardInteractionsTilt3D').then(m => ({ default: m.CardInteractionsTilt3D })))
-const Flip3DCss = lazy(() => import('./css/CardInteractionsFlip3D').then(m => ({ default: m.CardInteractionsFlip3D })))
-const ContentSlideUpCss = lazy(() => import('./css/CardInteractionsContentSlideUp').then(m => ({ default: m.CardInteractionsContentSlideUp })))
-const SpotlightCss = lazy(() => import('./css/CardInteractionsSpotlight').then(m => ({ default: m.CardInteractionsSpotlight })))
-const SheenSweepCss = lazy(() => import('./css/CardInteractionsSheenSweep').then(m => ({ default: m.CardInteractionsSheenSweep })))
-const FloatingBadgeCss = lazy(() => import('./css/CardInteractionsFloatingBadge').then(m => ({ default: m.CardInteractionsFloatingBadge })))
-const ScaleClickCss = lazy(() => import('./css/CardInteractionsScaleClick').then(m => ({ default: m.CardInteractionsScaleClick })))
+const BorderGradientCss = lazy(() =>
+  import('./css/CardInteractionsBorderGradient').then((m) => ({
+    default: m.CardInteractionsBorderGradient,
+  }))
+)
+const NeonGlowCss = lazy(() =>
+  import('./css/CardInteractionsNeonGlow').then((m) => ({ default: m.CardInteractionsNeonGlow }))
+)
+const Tilt3DCss = lazy(() =>
+  import('./css/CardInteractionsTilt3D').then((m) => ({ default: m.CardInteractionsTilt3D }))
+)
+const Flip3DCss = lazy(() =>
+  import('./css/CardInteractionsFlip3D').then((m) => ({ default: m.CardInteractionsFlip3D }))
+)
+const ContentSlideUpCss = lazy(() =>
+  import('./css/CardInteractionsContentSlideUp').then((m) => ({
+    default: m.CardInteractionsContentSlideUp,
+  }))
+)
+const SpotlightCss = lazy(() =>
+  import('./css/CardInteractionsSpotlight').then((m) => ({ default: m.CardInteractionsSpotlight }))
+)
+const SheenSweepCss = lazy(() =>
+  import('./css/CardInteractionsSheenSweep').then((m) => ({
+    default: m.CardInteractionsSheenSweep,
+  }))
+)
+const FloatingBadgeCss = lazy(() =>
+  import('./css/CardInteractionsFloatingBadge').then((m) => ({
+    default: m.CardInteractionsFloatingBadge,
+  }))
+)
+const ScaleClickCss = lazy(() =>
+  import('./css/CardInteractionsScaleClick').then((m) => ({
+    default: m.CardInteractionsScaleClick,
+  }))
+)
 
 export const groupMetadata: GroupMetadata = {
   id: 'card-interactions',
@@ -55,25 +113,49 @@ export const groupMetadata: GroupMetadata = {
 export const groupExport: GroupExport = {
   metadata: groupMetadata,
   framer: {
-    'card-interactions__border-gradient': { component: BorderGradientFramer, metadata: borderGradientMetaFramer },
+    'card-interactions__border-gradient': {
+      component: BorderGradientFramer,
+      metadata: borderGradientMetaFramer,
+    },
     'card-interactions__neon-glow': { component: NeonGlowFramer, metadata: neonGlowMetaFramer },
     'card-interactions__tilt-3d': { component: Tilt3DFramer, metadata: tilt3DMetaFramer },
     'card-interactions__flip-3d': { component: Flip3DFramer, metadata: flip3DMetaFramer },
-    'card-interactions__content-slide-up': { component: ContentSlideUpFramer, metadata: contentSlideUpMetaFramer },
+    'card-interactions__content-slide-up': {
+      component: ContentSlideUpFramer,
+      metadata: contentSlideUpMetaFramer,
+    },
     'card-interactions__spotlight': { component: SpotlightFramer, metadata: spotlightMetaFramer },
-    'card-interactions__sheen-sweep': { component: SheenSweepFramer, metadata: sheenSweepMetaFramer },
-    'card-interactions__floating-badge': { component: FloatingBadgeFramer, metadata: floatingBadgeMetaFramer },
-    'card-interactions__scale-click': { component: ScaleClickFramer, metadata: scaleClickMetaFramer },
+    'card-interactions__sheen-sweep': {
+      component: SheenSweepFramer,
+      metadata: sheenSweepMetaFramer,
+    },
+    'card-interactions__floating-badge': {
+      component: FloatingBadgeFramer,
+      metadata: floatingBadgeMetaFramer,
+    },
+    'card-interactions__scale-click': {
+      component: ScaleClickFramer,
+      metadata: scaleClickMetaFramer,
+    },
   },
   css: {
-    'card-interactions__border-gradient': { component: BorderGradientCss, metadata: borderGradientMetaCss },
+    'card-interactions__border-gradient': {
+      component: BorderGradientCss,
+      metadata: borderGradientMetaCss,
+    },
     'card-interactions__neon-glow': { component: NeonGlowCss, metadata: neonGlowMetaCss },
     'card-interactions__tilt-3d': { component: Tilt3DCss, metadata: tilt3DMetaCss },
     'card-interactions__flip-3d': { component: Flip3DCss, metadata: flip3DMetaCss },
-    'card-interactions__content-slide-up': { component: ContentSlideUpCss, metadata: contentSlideUpMetaCss },
+    'card-interactions__content-slide-up': {
+      component: ContentSlideUpCss,
+      metadata: contentSlideUpMetaCss,
+    },
     'card-interactions__spotlight': { component: SpotlightCss, metadata: spotlightMetaCss },
     'card-interactions__sheen-sweep': { component: SheenSweepCss, metadata: sheenSweepMetaCss },
-    'card-interactions__floating-badge': { component: FloatingBadgeCss, metadata: floatingBadgeMetaCss },
+    'card-interactions__floating-badge': {
+      component: FloatingBadgeCss,
+      metadata: floatingBadgeMetaCss,
+    },
     'card-interactions__scale-click': { component: ScaleClickCss, metadata: scaleClickMetaCss },
   },
 }

@@ -45,7 +45,7 @@
   border-radius: 10px;
   z-index: 1;
   /* Fallback for no-blur: just a wider, transparent bar */
-  background: rgba(255, 0, 255, 0.2); 
+  background: rgba(255, 0, 255, 0.2);
   /* Resetting properties to be safe */
   top: -2px;
   height: 14px;

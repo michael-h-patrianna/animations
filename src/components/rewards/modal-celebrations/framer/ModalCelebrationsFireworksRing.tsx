@@ -71,7 +71,7 @@ const DURATION = 2.0
  * 8-stop timeline: converge → hold → ignite → explode → fade.
  * Stops spaced for fast inward rush, dramatic hold, punchy explosion.
  */
-const TIMES: number[] = [0, 0.14, 0.28, 0.34, 0.42, 0.60, 0.80, 1.0]
+const TIMES: number[] = [0, 0.14, 0.28, 0.34, 0.42, 0.6, 0.8, 1.0]
 
 const BURST_NUM_STOPS = 8
 const BURST_TIMES = Array.from({ length: BURST_NUM_STOPS }, (_, i) => i / (BURST_NUM_STOPS - 1))
@@ -299,8 +299,10 @@ function ShimmerDot({ s }: { s: Shimmer }) {
     <m.span
       style={{
         position: 'absolute',
-        left: '50%', marginLeft: s.x,
-        top: '50%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '50%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         borderRadius: '50%',
@@ -331,8 +333,10 @@ function BurstPiece({ b }: { b: Burst }) {
     <m.span
       className={`pf-celebration__confetti pf-celebration__confetti--${b.shape}`}
       style={{
-        left: '50%', marginLeft: b.startX,
-        top: '50%', marginTop: b.startY,
+        left: '50%',
+        marginLeft: b.startX,
+        top: '50%',
+        marginTop: b.startY,
         background: b.color,
       }}
       initial={{ x: 0, y: 0, scale: 0, rotate: 0, opacity: 0 }}
@@ -362,8 +366,10 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '50%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '50%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

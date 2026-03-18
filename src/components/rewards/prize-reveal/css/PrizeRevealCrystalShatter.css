@@ -15,6 +15,14 @@
   --text-shadow-strong: rgb(0 0 0 / 60%);
   --aura-color-default: rgb(140 180 255 / 15%);
   --aura-glow-default: rgb(120 160 255 / 10%);
+  --claim-btn-border: rgb(140 180 255);
+  --claim-btn-bg-start: rgb(80 120 200);
+  --claim-btn-bg-end: rgb(60 80 160);
+  --claim-btn-glow: rgb(100 150 255 / 30%);
+  --claim-btn-hover-bg-start: rgb(100 140 220);
+  --claim-btn-hover-bg-end: rgb(70 100 180);
+  --claim-btn-hover-border: rgb(160 200 255);
+  --claim-btn-hover-glow: rgb(120 170 255 / 40%);
   position: relative;
   inline-size: 100%;
   block-size: 340px;
@@ -71,15 +79,47 @@
     animation-timing-function: linear;
   }
   /* ── vibrate cycle 1 (2.0 → 2.2s) ── */
-  82%  { transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
-  84%  { transform: translateX(2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
-  86%  { transform: translateX(-3px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
-  88%  { transform: translateX(3px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  82% {
+    transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  84% {
+    transform: translateX(2px) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  86% {
+    transform: translateX(-3px) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  88% {
+    transform: translateX(3px) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
   /* ── vibrate cycle 2 (2.2 → 2.4s) ── */
-  90%  { transform: translateX(0) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
-  91.5% { transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
-  93%  { transform: translateX(3px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
-  94.5% { transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06); opacity: 1; animation-timing-function: linear; }
+  90% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  91.5% {
+    transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  93% {
+    transform: translateX(3px) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+  94.5% {
+    transform: translateX(-2px) translateY(0) rotate(0deg) scale(1.06);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
   /* ── vanish (2.4 → 2.46s) ── */
   96% {
     transform: translateX(0) translateY(0) rotate(0deg) scale(1.06);
@@ -102,8 +142,7 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 0 12px var(--crystal-glow-primary))
+  filter: drop-shadow(0 0 12px var(--crystal-glow-primary))
     drop-shadow(0 0 28px var(--crystal-glow-secondary));
 }
 
@@ -151,9 +190,17 @@
 }
 
 @keyframes cs-mote-converge {
-  0%   { transform: translate(var(--mote-start-x), var(--mote-start-y)) scale(1); opacity: 0; }
-  30%  { opacity: 0.9; }
-  100% { transform: translate(0, 0) scale(0.2); opacity: 0; }
+  0% {
+    transform: translate(var(--mote-start-x), var(--mote-start-y)) scale(1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0) scale(0.2);
+    opacity: 0;
+  }
 }
 
 /* ─── Shatter flash ─── */
@@ -174,9 +221,18 @@
 }
 
 @keyframes cs-flash {
-  0%   { transform: scale(0); opacity: 0.8; }
-  30%  { transform: scale(2); opacity: 0.5; }
-  100% { transform: scale(2.5); opacity: 0; }
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  30% {
+    transform: scale(2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
 }
 
 /* ─── Prismatic ring ─── */
@@ -197,8 +253,14 @@
 }
 
 @keyframes cs-prismatic-expand {
-  0%   { transform: scale(0.1); opacity: 0.8; }
-  100% { transform: scale(2.5); opacity: 0; }
+  0% {
+    transform: scale(0.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
 }
 
 /* ─── Fragments ─── */
@@ -219,9 +281,7 @@
   block-size: 90px;
   max-inline-size: none;
   object-fit: contain;
-  filter:
-    brightness(1.6)
-    drop-shadow(0 0 6px rgb(180 210 255 / 90%))
+  filter: brightness(1.6) drop-shadow(0 0 6px rgb(180 210 255 / 90%))
     drop-shadow(0 0 14px rgb(140 180 255 / 70%));
   pointer-events: none;
   translate: -50% -50%;
@@ -231,9 +291,18 @@
 }
 
 @keyframes cs-shard-fly {
-  0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
-  30%  { opacity: 0.9; }
-  100% { transform: translate(var(--shard-end-x), var(--shard-end-y)) rotate(var(--shard-rotation)) scale(0.3); opacity: 0; }
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--shard-end-x), var(--shard-end-y)) rotate(var(--shard-rotation))
+      scale(0.3);
+    opacity: 0;
+  }
 }
 
 /* ─── Dust spray ─── */
@@ -262,8 +331,14 @@
 }
 
 @keyframes cs-dust-fly {
-  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
-  100% { transform: translate(var(--dust-end-x), var(--dust-end-y)) scale(0.2); opacity: 0; }
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dust-end-x), var(--dust-end-y)) scale(0.2);
+    opacity: 0;
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -297,15 +372,33 @@
 }
 
 @keyframes cs-prize-emerge {
-  0%   { transform: translate(0, 0) scale(0); opacity: 0; }
-  60%  { transform: translate(var(--slot-x), var(--slot-y)) scale(1.15); opacity: 1; }
-  100% { transform: translate(var(--slot-x), var(--slot-y)) scale(1); opacity: 1; }
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(var(--slot-x), var(--slot-y)) scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--slot-x), var(--slot-y)) scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes cs-prize-collect {
-  0%   { transform: translate(var(--slot-x), var(--slot-y)) scale(1); opacity: 1; }
-  30%  { transform: translate(var(--slot-x), var(--slot-y)) scale(0.35); opacity: 1; }
-  100% { transform: translate(var(--streak-x), -200px) scale(0.15); opacity: 0; }
+  0% {
+    transform: translate(var(--slot-x), var(--slot-y)) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(var(--slot-x), var(--slot-y)) scale(0.35);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--streak-x), -200px) scale(0.15);
+    opacity: 0;
+  }
 }
 
 /* Prize type colors */
@@ -371,8 +464,14 @@
 }
 
 @keyframes cs-frame-appear {
-  from { transform: scale(0.8); opacity: 0; }
-  to   { transform: scale(1); opacity: 0.7; }
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0.7;
+  }
 }
 
 .pf-cs-css__prize-icon-wrap {
@@ -391,9 +490,7 @@
   max-inline-size: 100%;
   max-block-size: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 2px 6px rgb(0 0 0 / 35%))
-    drop-shadow(0 0 10px var(--crystal-glow-primary));
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 35%)) drop-shadow(0 0 10px var(--crystal-glow-primary));
 }
 
 .pf-cs-css__prize--rr .pf-cs-css__prize-icon-wrap {
@@ -443,9 +540,9 @@
   translate: -50% 0;
   padding: 8px 28px;
   border-radius: 50px;
-  border: 2px solid rgb(140 180 255);
-  background: linear-gradient(180deg, rgb(80 120 200), rgb(60 80 160));
-  color: rgb(255 255 255);
+  border: 2px solid var(--claim-btn-border);
+  background: linear-gradient(180deg, var(--claim-btn-bg-start), var(--claim-btn-bg-end));
+  color: white;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -454,23 +551,33 @@
   cursor: pointer;
   pointer-events: auto;
   box-shadow:
-    0 0 20px 6px rgb(100 150 255 / 30%),
-    0 4px 12px rgb(0 0 0 / 30%);
+    0 0 20px 6px var(--claim-btn-glow),
+    0 4px 12px var(--pf-anim-black-30);
   animation: cs-btn-appear 0.4s ease-out both;
   will-change: transform, opacity;
 }
 
 @keyframes cs-btn-appear {
-  from { transform: scale(0.85) translateY(10px); opacity: 0; }
-  to   { transform: scale(1) translateY(0); opacity: 1; }
+  from {
+    transform: scale(0.85) translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 .pf-cs-css__claim-btn:hover {
-  background: linear-gradient(180deg, rgb(100 140 220), rgb(70 100 180));
-  border-color: rgb(160 200 255);
+  background: linear-gradient(
+    180deg,
+    var(--claim-btn-hover-bg-start),
+    var(--claim-btn-hover-bg-end)
+  );
+  border-color: var(--claim-btn-hover-border);
   box-shadow:
-    0 0 24px 8px rgb(120 170 255 / 40%),
-    0 4px 14px rgb(0 0 0 / 35%);
+    0 0 24px 8px var(--claim-btn-hover-glow),
+    0 4px 14px var(--pf-anim-black-35);
 }
 
 /* ─── Responsive ─── */

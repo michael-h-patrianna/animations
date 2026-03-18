@@ -1,6 +1,5 @@
 /* Styles for ModalContentListVerticalWipe */
 .modal-content-overlay {
-
   --modal-content-list-vertical-wipe-bg-1: rgb(236 195 255 / 8%);
   --modal-content-list-vertical-wipe-border-1: rgb(236 195 255 / 12%);
   --modal-content-list-vertical-wipe-color-1: rgb(255 255 255 / 76%);
@@ -28,10 +27,8 @@
   overflow: hidden;
   width: clamp(280px, 80%, 400px);
   --box-shadow-lint-token-1:
-    0 18px 40px rgb(0 0 0 / 45%),
-    inset 0 0 0 1px var(--modal-content-list-vertical-wipe-border-1);
-  box-shadow:
-    var(--box-shadow-lint-token-1);
+    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-content-list-vertical-wipe-border-1);
+  box-shadow: var(--box-shadow-lint-token-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;
@@ -99,7 +96,11 @@
 }
 .modal-content-button-primary {
   border-radius: 50px;
-  background: linear-gradient(180deg, var(--modal-content-list-vertical-wipe-bg-3), var(--modal-content-list-vertical-wipe-bg-4));
+  background: linear-gradient(
+    180deg,
+    var(--modal-content-list-vertical-wipe-bg-3),
+    var(--modal-content-list-vertical-wipe-bg-4)
+  );
   color: var(--modal-content-list-vertical-wipe-color-4);
   border: 2px solid var(--modal-content-list-vertical-wipe-border-3);
   text-shadow: 0 1px 1px var(--modal-content-list-vertical-wipe-text-shadow);

@@ -1,5 +1,4 @@
 .crystal-nodes-container {
-
   --progress-bars-crystal-nodes-bg-1: #111827;
   --progress-bars-crystal-nodes-bg-2: #374151;
   --progress-bars-crystal-nodes-bg-3: #22d3ee;
@@ -44,7 +43,7 @@
 }
 
 .crystal-shape.charged {
-  box-shadow: 0 0 15px #06b6d4;
+  box-shadow: 0 0 15px var(--pf-anim-cyan);
 }
 
 .crystal-burst {

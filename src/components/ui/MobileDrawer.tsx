@@ -4,16 +4,13 @@ import type { CodeMode } from '@/contexts/CodeModeContext'
 import type { Category } from '@/types/animation'
 import { useCallback } from 'react'
 
-/**
- *
- */
+/** Slide-out drawer wrapping AppSidebar for mobile viewports. */
 export function MobileDrawer({
   isOpen,
   codeMode,
   categories,
   currentGroupId,
   onClose,
-  onCategorySelect,
   onGroupSelect,
   onModeSelect,
 }: {
@@ -22,18 +19,9 @@ export function MobileDrawer({
   categories: Category[]
   currentGroupId: string
   onClose: () => void
-  onCategorySelect: (categoryId: string) => void
   onGroupSelect: (groupId: string) => void
   onModeSelect: (mode: CodeMode) => void
 }) {
-  const handleCategorySelect = useCallback(
-    (categoryId: string) => {
-      onCategorySelect(categoryId)
-      onClose()
-    },
-    [onCategorySelect, onClose]
-  )
-
   const handleGroupSelect = useCallback(
     (groupId: string) => {
       onGroupSelect(groupId)
@@ -47,11 +35,10 @@ export function MobileDrawer({
       id="pf-sidebar-drawer"
       role="dialog"
       aria-modal="true"
-      aria-hidden={!isOpen}
       hidden={!isOpen}
       className={`pf-drawer ${isOpen ? 'is-open' : ''}`}
     >
-      <div className="pf-drawer__overlay" onClick={onClose} />
+      <div className="pf-drawer__overlay" aria-hidden="true" onClick={onClose} />
       <div className="pf-drawer__panel">
         <div className="pf-drawer__panel-header">
           <button type="button" className="pf-hamburger" aria-label="Close menu" onClick={onClose}>
@@ -75,7 +62,6 @@ export function MobileDrawer({
           categories={categories}
           codeMode={codeMode}
           currentGroupId={currentGroupId}
-          onCategorySelect={handleCategorySelect}
           onGroupSelect={handleGroupSelect}
           className="pf-sidebar"
           topContent={<CodeModeSwitch onModeSelect={onModeSelect} />}

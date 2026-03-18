@@ -1,7 +1,6 @@
 /* Styles scoped for StandardEffectsPulse */
 
 .pulse-element {
-
   --standard-effects-pulse-bg: rgb(198 255 119 / 30%);
   transform-origin: center center;
   position: relative;

@@ -45,9 +45,6 @@ const AnimatedCoin = ({ delay }: { delay: number }) => {
   )
 }
 
-/**
- *
- */
 export function CollectionEffectsCoinTrail() {
   const [coins, setCoins] = useState<Coin[]>([])
 
@@ -75,10 +72,7 @@ export function CollectionEffectsCoinTrail() {
   }, [])
 
   return (
-    <div
-      className="pf-celebration"
-      data-animation-id="collection-effects__coin-trail"
-    >
+    <div className="pf-celebration" data-animation-id="collection-effects__coin-trail">
       <div className="pf-celebration__layer">
         {coins.map((coin) => (
           <AnimatedCoin key={coin.id} delay={coin.delay} />

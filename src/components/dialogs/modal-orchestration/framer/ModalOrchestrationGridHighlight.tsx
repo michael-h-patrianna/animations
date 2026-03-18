@@ -1,8 +1,5 @@
 import * as m from 'motion/react-m'
 
-/**
- *
- */
 export function ModalOrchestrationGridHighlight() {
   const items = 5
 

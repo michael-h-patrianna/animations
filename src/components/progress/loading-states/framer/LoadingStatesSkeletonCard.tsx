@@ -1,11 +1,7 @@
-
 import * as m from 'motion/react-m'
 
-/**
- *
- */
 export function LoadingStatesSkeletonCard() {
-const shimmerVariants = {
+  const shimmerVariants = {
     animate: {
       backgroundPosition: ['200% 0', '-200% 0'],
       transition: {
@@ -45,4 +41,3 @@ const shimmerVariants = {
     </div>
   )
 }
-

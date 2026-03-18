@@ -24,7 +24,13 @@ function ButtonEffectsLiquidMorphComponent() {
     animate: {
       scale: [1, 0.95, 1.08, 0.96, 1],
       rotate: [0, -2, 3, -1, 0],
-      borderRadius: ['50px', '50px 40px 50px 60px', '60px 50px 40px 50px', '45px 55px 50px 45px', '50px'],
+      borderRadius: [
+        '50px',
+        '50px 40px 50px 60px',
+        '60px 50px 40px 50px',
+        '45px 55px 50px 45px',
+        '50px',
+      ],
       transition: {
         duration: 0.6,
         ease: easeOut,
@@ -51,4 +57,3 @@ function ButtonEffectsLiquidMorphComponent() {
  * Memoized ButtonEffectsLiquidMorph to prevent unnecessary re-renders in grid layouts.
  */
 export const ButtonEffectsLiquidMorph = memo(ButtonEffectsLiquidMorphComponent)
-

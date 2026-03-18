@@ -17,7 +17,7 @@ interface Shockwave {
 function ButtonEffectsShockwaveComponent() {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
-  const nextId = useRef(0)
+  const nextIdRef = useRef(0)
   const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function ButtonEffectsShockwaveComponent() {
 
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
-    const id = nextId.current++
+    const id = nextIdRef.current++
 
     setShockwaves((prev) => [...prev, { id, x, y }])
 
@@ -47,7 +47,8 @@ function ButtonEffectsShockwaveComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__shockwave">
-      <button type="button"
+      <button
+        type="button"
         ref={btnRef}
         className="pf-btn pf-btn--primary bfx-shockwave"
         onClick={handleClick}

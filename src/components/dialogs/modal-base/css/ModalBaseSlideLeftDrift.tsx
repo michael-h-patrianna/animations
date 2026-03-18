@@ -2,10 +2,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseSlideLeftDrift.css'
 
-
-/**
- *
- */
 export function ModalBaseSlideLeftDrift() {
   return (
     <div
@@ -20,4 +16,3 @@ export function ModalBaseSlideLeftDrift() {
     </div>
   )
 }
-

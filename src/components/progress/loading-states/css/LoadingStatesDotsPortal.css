@@ -1,7 +1,6 @@
 /* Styles for LoadingStatesDotsPortal */
 
 .pf-loading-container {
-
   --loading-states-dots-portal-bg: #c47ae5;
   display: flex;
   align-items: center;

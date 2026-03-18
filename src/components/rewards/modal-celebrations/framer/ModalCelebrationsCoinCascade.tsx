@@ -35,7 +35,7 @@ const COIN_COUNT = 24
 const TRAIL_COUNT = 18
 const IMPACT_COUNT = 10
 const SHIMMER_COUNT = 14
-const STOPS = [0, 0.05, 0.13, 0.24, 0.37, 0.50, 0.65, 0.72, 0.78, 0.86, 0.93, 1.0]
+const STOPS = [0, 0.05, 0.13, 0.24, 0.37, 0.5, 0.65, 0.72, 0.78, 0.86, 0.93, 1.0]
 const STREAMS = [-55, 0, 55]
 
 /* ─── Generators ─── */
@@ -82,7 +82,7 @@ function makeCoins(): Coin[] {
 
       if (t < 0.05) scales.push(0.3 + 0.7 * (t / 0.05))
       else if (t < 0.65) scales.push(1.0)
-      else if (t < 0.86) scales.push(0.85 + 0.15 * Math.cos(Math.PI * (t - 0.65) / 0.21))
+      else if (t < 0.86) scales.push(0.85 + 0.15 * Math.cos((Math.PI * (t - 0.65)) / 0.21))
       else scales.push(0.85 - 0.55 * ((t - 0.86) / 0.14))
 
       if (t < 0.05) opacities.push(basePeak * (t / 0.05))
@@ -215,8 +215,10 @@ function TrailDot({ t }: { t: Mote }) {
     <m.span
       style={{
         position: 'absolute',
-        left: '50%', marginLeft: t.x,
-        top: '10%', marginTop: t.y,
+        left: '50%',
+        marginLeft: t.x,
+        top: '10%',
+        marginTop: t.y,
         width: `${t.size}px`,
         height: `${t.size}px`,
         borderRadius: '50%',
@@ -238,8 +240,10 @@ function ImpactBurst({ imp }: { imp: Mote }) {
     <m.span
       style={{
         position: 'absolute',
-        left: '50%', marginLeft: imp.x,
-        top: '10%', marginTop: imp.y,
+        left: '50%',
+        marginLeft: imp.x,
+        top: '10%',
+        marginTop: imp.y,
         width: `${imp.size}px`,
         height: `${imp.size}px`,
         borderRadius: '50%',
@@ -261,8 +265,10 @@ function ShimmerDot({ s }: { s: Mote }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '10%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '10%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
@@ -281,7 +287,8 @@ function SourceGlow({ x, delay }: { x: number; delay: number }) {
     <m.span
       style={{
         position: 'absolute',
-        left: '50%', marginLeft: x,
+        left: '50%',
+        marginLeft: x,
         top: '10%',
         width: '6px',
         height: '6px',

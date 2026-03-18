@@ -1,6 +1,5 @@
 /* Home icon with color fill accent and subtle secondary halo */
 .pf-update-indicator--icon {
-
   --update-indicators-home-icon-dot-sweep-bg-1: #ff4967;
   --update-indicators-home-icon-dot-sweep-border: rgb(255 73 103 / 55%);
   --update-indicators-home-icon-dot-sweep-shadow-1: rgb(255 73 103 / 0%);

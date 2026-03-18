@@ -15,7 +15,6 @@ function ButtonEffectsRewardReadyPulseComponent() {
   return (
     <div className="button-demo" data-animation-id="button-effects__reward-ready-pulse">
       <button type="button" className="pf-btn pf-btn--primary bfx-reward-ready-pulse">
-
         Claim Reward
       </button>
     </div>

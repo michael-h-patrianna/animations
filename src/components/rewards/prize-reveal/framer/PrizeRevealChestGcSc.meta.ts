@@ -6,4 +6,5 @@ export const metadata = {
   description:
     'Pirate chest rises, shakes, opens — Gold Coins and Sweepstake Coins fly out with prize rays and amount text.',
   tags: ['framer'],
+  controls: 'prizeCount',
 } satisfies AnimationMetadata

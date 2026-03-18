@@ -3,6 +3,7 @@
 ## MANDATORY TOOLS
 
 ### For Coding, Research, Analysis, Debugging
+
 ```
 USE: mcp__mcp_docker__sequentialthinking
 WHEN: Coding tasks, research, complex reasoning
@@ -10,6 +11,7 @@ WHY: Prevents cognitive overload, ensures systematic approach
 ```
 
 ### For Task Management
+
 ```
 USE: todo_write
 WHEN: Coding tasks, any task with 2+ steps
@@ -17,6 +19,7 @@ WHY: Tracks progress, maintains focus
 ```
 
 ### For Task Execution
+
 For each task:
 
 1. **Decide if delegating task an agent is beneficial**
@@ -71,12 +74,10 @@ For each task:
    - Imports all category exports
    - Exports `categories: Record<string, CategoryExport>` (hierarchical registry)
    - Provides `buildRegistryFromCategories()` helper (flattens to id→component map)
-   - Provides `getAnimationMetadata(id)` helper (retrieves metadata by id)
 
 5. **Data Service** (`src/services/animationData.ts`):
-   - Builds catalog from category exports (not external JSON)
-   - Transforms hierarchical registry into UI-friendly Category[] structure
-   - Exposes through `animationDataService` for hooks/components
+   - `buildCatalog()`: pure synchronous function that transforms the hierarchical registry into UI-friendly `Category[]`
+   - Creates separate Framer/CSS groups per logical group for code mode switching
 
 6. **UI Consumption**: `GroupSection` uses `buildRegistryFromCategories()` to get flat id→component mapping and renders each animation inside `AnimationCard`.
 

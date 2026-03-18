@@ -1,42 +1,22 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 
-function getFilename(context) {
-  return context.filename
-}
-
-function isInFramer(context) {
-  return getFilename(context).includes('/framer/')
-}
-
-function isAnimationFile(context) {
-  const f = getFilename(context)
-  return f.includes('/css/') || f.includes('/framer/')
-}
-
-function checkCssForAnimations(css) {
-  const findings = []
-  if (/@keyframes\s/m.test(css)) findings.push('@keyframes')
-  if (/(?:^|[{;\s])animation(?:-name|-duration|-delay|-timing-function|-iteration-count|-direction|-fill-mode|-play-state)?\s*:/m.test(css)) {
-    findings.push('animation')
-  }
-  if (/(?:^|[{;\s])transition(?:-property|-duration|-delay|-timing-function)?\s*:/m.test(css)) {
-    findings.push('transition')
-  }
-  return findings
-}
+import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
 
 const extraRules = {
   'no-viewport-units': {
     meta: {
       type: 'problem',
-      docs: { description: 'Disallow viewport units (vh, vw, vmin, vmax). Not portable to React Native.' },
+      docs: {
+        description: 'Disallow viewport units (vh, vw, vmin, vmax). Not portable to React Native.',
+      },
       schema: [],
     },
     create(context) {
       if (!isAnimationFile(context)) return {}
       const vpPattern = /\d+(?:vh|vw|vmin|vmax)\b/i
-      const msg = 'Viewport units (vh, vw, vmin, vmax) are not portable to React Native. Use percentage-based values or compute dimensions in JavaScript.'
+      const msg =
+        'Viewport units (vh, vw, vmin, vmax) are not portable to React Native. Use percentage-based values or compute dimensions in JavaScript.'
       return {
         Literal(node) {
           if (typeof node.value === 'string' && vpPattern.test(node.value)) {
@@ -58,13 +38,17 @@ const extraRules = {
   'no-important': {
     meta: {
       type: 'problem',
-      docs: { description: 'Disallow !important. Incompatible with Tailwind specificity and React Native.' },
+      docs: {
+        description:
+          'Disallow !important. Incompatible with Tailwind specificity and React Native.',
+      },
       schema: [],
     },
     create(context) {
       if (!isAnimationFile(context)) return {}
       const importantPattern = /!\s*important/i
-      const msg = '!important is banned in animation code. It conflicts with Tailwind specificity and has no React Native equivalent.'
+      const msg =
+        '!important is banned in animation code. It conflicts with Tailwind specificity and has no React Native equivalent.'
       return {
         Literal(node) {
           if (typeof node.value === 'string' && importantPattern.test(node.value)) {
@@ -86,7 +70,10 @@ const extraRules = {
   'require-data-animation-id': {
     meta: {
       type: 'problem',
-      docs: { description: 'Every animation component must include a data-animation-id attribute for testing and catalog integration.' },
+      docs: {
+        description:
+          'Every animation component must include a data-animation-id attribute for testing and catalog integration.',
+      },
       schema: [],
     },
     create(context) {
@@ -100,7 +87,9 @@ const extraRules = {
       let found = false
       return {
         JSXAttribute(node) {
-          if (node.name?.name === 'data-animation-id') { found = true }
+          if (node.name?.name === 'data-animation-id') {
+            found = true
+          }
         },
         'Program:exit'() {
           if (!found) {
@@ -117,7 +106,10 @@ const extraRules = {
   'no-css-animations-in-framer': {
     meta: {
       type: 'problem',
-      docs: { description: 'Disallow CSS animation/transition properties in any CSS file inside framer/ directories.' },
+      docs: {
+        description:
+          'Disallow CSS animation/transition properties in any CSS file inside framer/ directories.',
+      },
       schema: [],
     },
     create(context) {
@@ -131,11 +123,19 @@ const extraRules = {
 
           const dir = dirname(filename)
           let cssFiles
-          try { cssFiles = readdirSync(dir).filter((f) => f.endsWith('.css')) } catch { return }
+          try {
+            cssFiles = readdirSync(dir).filter((f) => f.endsWith('.css'))
+          } catch {
+            return
+          }
 
           for (const cssFile of cssFiles) {
             let css
-            try { css = readFileSync(join(dir, cssFile), 'utf8') } catch { continue }
+            try {
+              css = readFileSync(join(dir, cssFile), 'utf8')
+            } catch {
+              continue
+            }
 
             const findings = checkCssForAnimations(css)
             if (findings.length > 0) {
@@ -152,15 +152,18 @@ const extraRules = {
 
   // Matchers that assert existence/type but not correctness — they
   // catch zero real bugs.
-  // Maps matcher name → custom error message.
   'no-shallow-assertions': {
     meta: {
       type: 'problem',
-      docs: { description: 'Disallow shallow test matchers that assert existence or type instead of correctness.' },
+      docs: {
+        description:
+          'Disallow shallow test matchers that assert existence or type instead of correctness.',
+      },
       schema: [],
     },
     create(context) {
-      const MSG = 'Shallow useless test. Delete test! Do not try to rewrite it just to make it pass. It is fundamentally useless.'
+      const MSG =
+        'Shallow useless test. Delete test! Do not try to rewrite it just to make it pass. It is fundamentally useless.'
       const SHALLOW_MATCHERS = {
         toBeDefined: true,
         toBeTruthy: true,
@@ -168,16 +171,55 @@ const extraRules = {
         toBeUndefined: true,
       }
 
+      // Returns the expect() CallExpression that this matcher chain is attached to.
+      function findExpectCall(node) {
+        let obj = node.callee.object
+        while (obj.type === 'CallExpression' && obj.callee.type === 'MemberExpression') {
+          obj = obj.callee.object
+        }
+        if (obj.type === 'MemberExpression' && obj.property.name === 'not') {
+          obj = obj.object
+        }
+        if (
+          obj.type === 'CallExpression' &&
+          obj.callee.type === 'Identifier' &&
+          obj.callee.name === 'expect'
+        ) {
+          return obj
+        }
+        return null
+      }
+
+      // screen.getBy* / getBy* calls already throw when the element is absent,
+      // so wrapping them in toBeInTheDocument() adds zero information.
+      function isGetByQuery(node) {
+        if (!node || node.type !== 'CallExpression') return false
+        const callee = node.callee
+        const methodName =
+          callee.type === 'MemberExpression'
+            ? callee.property?.name
+            : callee.type === 'Identifier'
+              ? callee.name
+              : null
+        return typeof methodName === 'string' && /^getBy/.test(methodName)
+      }
+
       return {
         CallExpression(node) {
-          // 1. Block expect(typeof x), expect(Array.isArray), expect(!!x), expect(x !== null), expect(el.tagName)
+          // 1. Block expect(typeof x), expect(Array.isArray), expect(!!x),
+          //    expect(x !== null), expect(el.tagName) — none of these test behaviour.
           if (node.callee.type === 'Identifier' && node.callee.name === 'expect') {
             const arg = node.arguments[0]
             if (arg) {
               if (arg.type === 'UnaryExpression' && arg.operator === 'typeof') {
                 context.report({ node, message: MSG })
               }
-              if (arg.type === 'CallExpression' && arg.callee.type === 'MemberExpression' && arg.callee.object.name === 'Array' && arg.callee.property.name === 'isArray') {
+              if (
+                arg.type === 'CallExpression' &&
+                arg.callee.type === 'MemberExpression' &&
+                arg.callee.object.name === 'Array' &&
+                arg.callee.property.name === 'isArray'
+              ) {
                 context.report({ node, message: MSG })
               }
               if (arg.type === 'UnaryExpression' && arg.operator === '!') {
@@ -186,10 +228,16 @@ const extraRules = {
               if (arg.type === 'CallExpression' && arg.callee.name === 'Boolean') {
                 context.report({ node, message: MSG })
               }
-              if (arg.type === 'BinaryExpression' && ['!==', '!=', '===', '==', 'in'].includes(arg.operator)) {
+              if (
+                arg.type === 'BinaryExpression' &&
+                ['!==', '!=', '===', '==', 'in'].includes(arg.operator)
+              ) {
                 context.report({ node, message: MSG })
               }
-              if (arg.type === 'MemberExpression' && (arg.property.name === 'tagName' || arg.property.name === 'nodeName')) {
+              if (
+                arg.type === 'MemberExpression' &&
+                (arg.property.name === 'tagName' || arg.property.name === 'nodeName')
+              ) {
                 context.report({ node, message: MSG })
               }
             }
@@ -197,10 +245,11 @@ const extraRules = {
 
           if (node.callee.type !== 'MemberExpression') return
 
-          // 2. Block expect.any(), expect.objectContaining(), etc.
+          // 2. Block expect.any() — type-only assertion, not a value assertion.
+          //    Do NOT block objectContaining/arrayContaining/stringContaining/stringMatching:
+          //    those assert specific values inside the structure and are meaningful.
           if (node.callee.object.name === 'expect') {
-            const prop = node.callee.property.name
-            if (['any', 'objectContaining', 'arrayContaining', 'stringContaining', 'stringMatching'].includes(prop)) {
+            if (node.callee.property.name === 'any') {
               context.report({ node: node.callee.property, message: MSG })
             }
           }
@@ -208,9 +257,24 @@ const extraRules = {
           const methodName = node.callee.property.name
           if (!methodName) return
 
-          let isShallow = false
+          // 3. Tautological: getBy* already throws when the element is absent,
+          //    so expect(screen.getByX(...)).toBeInTheDocument() adds nothing.
+          if (methodName === 'toBeInTheDocument') {
+            const expectCall = findExpectCall(node)
+            if (expectCall && isGetByQuery(expectCall.arguments[0])) {
+              context.report({
+                node: node.callee.property,
+                message:
+                  'Tautological assertion: getBy* already throws when the element is absent — toBeInTheDocument() adds no information. Assert a specific attribute, text content, or computed state instead.',
+              })
+              return
+            }
+          }
 
-          const isNot = node.callee.object.type === 'MemberExpression' && node.callee.object.property.name === 'not'
+          let isShallow = false
+          const isNot =
+            node.callee.object.type === 'MemberExpression' &&
+            node.callee.object.property.name === 'not'
 
           if (SHALLOW_MATCHERS[methodName]) {
             isShallow = true
@@ -221,14 +285,23 @@ const extraRules = {
               const arg = node.arguments[0]
               if (arg.type === 'Identifier' && arg.name === 'undefined') {
                 isShallow = true
-              } else if (arg.type === 'Literal' && ['string', 'object', 'boolean', 'number', 'function', 'symbol'].includes(arg.value)) {
+              } else if (
+                arg.type === 'Literal' &&
+                ['string', 'object', 'boolean', 'number', 'function', 'symbol'].includes(arg.value)
+              ) {
                 isShallow = true
               } else if (isNot && arg.type === 'Literal' && (arg.value === 0 || arg.value === '')) {
                 isShallow = true
               }
             }
           } else if (methodName === 'toBeGreaterThan' || methodName === 'toBeGreaterThanOrEqual') {
-            if (node.arguments.length === 1 && node.arguments[0].type === 'Literal') {
+            // Only flag "> 0" / ">= 0" — that is "has any value", not a real assertion.
+            // "> 5" or "> 100" verifies a specific threshold and is meaningful.
+            if (
+              node.arguments.length === 1 &&
+              node.arguments[0].type === 'Literal' &&
+              node.arguments[0].value === 0
+            ) {
               isShallow = true
             }
           } else if (methodName === 'toMatch') {
@@ -243,7 +316,12 @@ const extraRules = {
             isShallow = true
           } else if (methodName === 'toHaveProperty' && node.arguments.length === 1) {
             isShallow = true
-          } else if (isNot && methodName === 'toHaveLength' && node.arguments[0]?.type === 'Literal' && node.arguments[0].value === 0) {
+          } else if (
+            isNot &&
+            methodName === 'toHaveLength' &&
+            node.arguments[0]?.type === 'Literal' &&
+            node.arguments[0].value === 0
+          ) {
             isShallow = true
           } else if (isNot && methodName === 'toBeNaN') {
             isShallow = true
@@ -259,12 +337,13 @@ const extraRules = {
           if (obj.type === 'MemberExpression' && obj.property.name === 'not') {
             obj = obj.object
           }
-          
-          if (obj.type === 'CallExpression' && obj.callee.type === 'Identifier' && obj.callee.name === 'expect') {
-            context.report({
-              node: node.callee.property,
-              message: MSG,
-            })
+
+          if (
+            obj.type === 'CallExpression' &&
+            obj.callee.type === 'Identifier' &&
+            obj.callee.name === 'expect'
+          ) {
+            context.report({ node: node.callee.property, message: MSG })
           }
         },
       }
@@ -274,15 +353,35 @@ const extraRules = {
   'no-svg-in-motion': {
     meta: {
       type: 'problem',
-      docs: { description: 'Warn against SVG elements in framer/ variants. SVG has limited React Native performance.' },
+      docs: {
+        description:
+          'Warn against SVG elements in framer/ variants. SVG has limited React Native performance.',
+      },
       schema: [],
     },
     create(context) {
       if (!isInFramer(context)) return {}
       const svgElements = new Set([
-        'svg', 'path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon',
-        'g', 'defs', 'use', 'clipPath', 'mask', 'pattern', 'text', 'tspan',
-        'foreignObject', 'linearGradient', 'radialGradient', 'stop',
+        'svg',
+        'path',
+        'circle',
+        'ellipse',
+        'rect',
+        'line',
+        'polyline',
+        'polygon',
+        'g',
+        'defs',
+        'use',
+        'clipPath',
+        'mask',
+        'pattern',
+        'text',
+        'tspan',
+        'foreignObject',
+        'linearGradient',
+        'radialGradient',
+        'stop',
       ])
       return {
         JSXOpeningElement(node) {

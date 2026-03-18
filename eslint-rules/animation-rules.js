@@ -3,38 +3,12 @@ import { basename, dirname, join, resolve } from 'node:path'
 
 import { isColorString } from './color-helpers.js'
 import { extraRules } from './extra-rules.js'
+import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
 
 /**
  * Inline ESLint plugin: project-specific lint rules for animation components.
  * Ensures animations are portable to Tailwind (web) and React Native (Reanimated/Moti).
  */
-
-// ─── Shared helpers ──────────────────────────────────────────────────────────
-
-function getFilename(context) {
-  return context.filename
-}
-
-function isInFramer(context) {
-  return getFilename(context).includes('/framer/')
-}
-
-function isAnimationFile(context) {
-  const f = getFilename(context)
-  return f.includes('/css/') || f.includes('/framer/')
-}
-
-function checkCssForAnimations(css) {
-  const findings = []
-  if (/@keyframes\s/m.test(css)) findings.push('@keyframes')
-  if (/(?:^|[{;\s])animation(?:-name|-duration|-delay|-timing-function|-iteration-count|-direction|-fill-mode|-play-state)?\s*:/m.test(css)) {
-    findings.push('animation')
-  }
-  if (/(?:^|[{;\s])transition(?:-property|-duration|-delay|-timing-function)?\s*:/m.test(css)) {
-    findings.push('transition')
-  }
-  return findings
-}
 
 // ─── Rule definitions ────────────────────────────────────────────────────────
 
@@ -442,8 +416,7 @@ const rules = {
       if (!isInFramer(context)) return {}
 
       const calcPattern = /\bcalc\s*\(/i
-      const msg =
-        'calc() is not supported in React Native. Compute values in JavaScript instead.'
+      const msg = 'calc() is not supported in React Native. Compute values in JavaScript instead.'
 
       return {
         Literal(node) {

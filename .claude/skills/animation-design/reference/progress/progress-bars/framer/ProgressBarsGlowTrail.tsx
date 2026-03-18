@@ -33,11 +33,7 @@ export function ProgressBarsGlowTrail() {
             aria-valuemin={0}
             aria-valuemax={100}
           >
-            <m.div
-              className="pf-glow-overlay"
-              initial={{ opacity: 0.4 }}
-              animate={glowAnimation}
-            />
+            <m.div className="pf-glow-overlay" initial={{ opacity: 0.4 }} animate={glowAnimation} />
           </div>
         </div>
       </div>

@@ -15,8 +15,7 @@ export function RevealEffectsAnticipationShake() {
   }, [])
 
   const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   // Phase 1: ±2px, 10 shakes (100ms each = 1000ms)
   const phase1X = [0, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, 0]
@@ -24,8 +23,12 @@ export function RevealEffectsAnticipationShake() {
   const phase1Scale = Array(12).fill(1)
 
   // Phase 2: ±3.5px, 14 shakes (~70ms each ≈ 1000ms)
-  const phase2X = [0, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, 0]
-  const phase2Y = [0, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0]
+  const phase2X = [
+    0, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, -3.5, 3.5, 0,
+  ]
+  const phase2Y = [
+    0, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0.75, -0.75, 0,
+  ]
   const phase2Scale = Array(16).fill(1.02)
 
   // Phase 3: ±5px, 20 shakes (50ms each = 1000ms)

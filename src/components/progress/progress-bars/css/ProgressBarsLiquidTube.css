@@ -1,5 +1,4 @@
 .liquid-tube-container-css {
-
   --progress-bars-liquid-tube-border: #e2e8f0;
   --progress-bars-liquid-tube-bg-1: #f8fafc;
   --progress-bars-liquid-tube-bg-2: #3b82f6;
@@ -48,8 +47,12 @@
 }
 
 @keyframes liquid-wave {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0%); }
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .liquid-bubble-css {
@@ -82,7 +85,9 @@
     transform: translateY(0);
     opacity: 0;
   }
-  20% { opacity: 1; }
+  20% {
+    opacity: 1;
+  }
   100% {
     transform: translateY(-100px);
     opacity: 0;

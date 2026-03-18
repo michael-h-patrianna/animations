@@ -1,98 +1,103 @@
 # API & Data Service Guide for LLM Coding Agents
 
-**Purpose**: This document explains how to interact with the internal Data Service and defining Component APIs.
+**Purpose**: How the internal data layer transforms code exports into UI-consumable catalog data.
 
-**Context**: This is a frontend-only application. "API" refers to internal services and component props.
+**Context**: This is a frontend-only application. "API" refers to internal services and component interfaces.
 
 ---
 
 ## Data Service Architecture
 
-### AnimationDataService
+### buildCatalog()
+
 **Location**: `src/services/animationData.ts`
-**Role**: Transforms the static code registry (`animationRegistry.ts`) into consumable UI data (`Category[]`).
+**Role**: Transforms the hierarchical registry (`animationRegistry.ts`) into a flat `Category[]` array for the UI.
 
-**Key Methods**:
-- `loadAnimations()`: Returns full catalog (async).
-- `getAnimationsByGroup(catId, groupId)`: Returns specific animations.
-- `addAnimation(anim)`: Adds a runtime-only animation (e.g., for prototyping).
+This is a **pure, synchronous function** — the catalog is derived entirely from static imports. No async data fetching, no loading states.
 
-**Usage Pattern**:
 ```typescript
-// In a component/hook
-import { animationDataService } from '@/services/animationData';
+import { buildCatalog } from '@/services/animationData'
 
-useEffect(() => {
-  const fetchData = async () => {
-    const data = await animationDataService.loadAnimations();
-    setCategories(data);
-  };
-  fetchData();
-}, []);
+const categories: Category[] = buildCatalog()
 ```
 
----
+The `useAnimations` hook wraps this in `useMemo` for stable references:
 
-## Component API Standards
-
-### Animation Components
-**Interface**: Animation components should generally accept *no required props* to ensure they work in the generic `AnimationCard`.
-**Customization**: If props are needed, provide defaults.
-
-**Template**:
 ```typescript
-import React from 'react';
-import { AnimationMetadata } from '@/types/animation';
+import { useAnimations } from '@/hooks/useAnimations'
 
-export const metadata: AnimationMetadata = {
-  id: 'category-group__animation-name',
-  title: 'Animation Title',
-  description: 'Description of behavior.',
-  tags: ['tag1', 'tag2'],
-};
-
-const AnimationName: React.FC = () => {
-  return (
-    <div className="relative ...">
-      {/* Content */}
-    </div>
-  );
-};
-
-export default AnimationName;
+function App() {
+  const { categories } = useAnimations()
+  // categories: Category[] — stable across re-renders
+}
 ```
 
 ---
 
 ## Registry API (`src/components/animationRegistry.ts`)
 
-**Role**: The "Source of Truth" linking IDs to React Components.
+**Role**: Central import point for all category exports.
 
 **Key Exports**:
-- `categories`: Hierarchical object of all code exports.
-- `buildRegistryFromCategories()`: Returns flattened `Record<string, ComponentType>`.
-- `getAnimationMetadata(id)`: Lookup helper.
 
-**How to use in UI**:
-1. Get list of items from `AnimationDataService` (contains IDs, Titles, Descriptions).
-2. When rendering, look up the Component using `buildRegistryFromCategories()` (or a cached version of it) using the `id`.
+- `categories`: `Record<string, CategoryExport>` — hierarchical registry of all animations.
+- `buildRegistryFromCategories()`: Returns flattened `Record<string, ComponentType>` mapping animation IDs to their React components.
+
+**How the UI uses it**:
+
+1. `buildCatalog()` transforms `categories` into `Category[]` with separate Framer/CSS groups.
+2. `GroupSection` calls `buildRegistryFromCategories()` (scoped to the active group) to look up components by animation ID.
 
 ---
 
-## Common Patterns
+## Component API Standards
 
-### Dynamic Loading
-The registry imports everything statically. Tree-shaking is not a primary concern for this specific demo app, but be aware that *all* animations are bundled.
+### Animation Components
 
-### Adding "Extras"
-To support runtime additions (like an "AI Generated" preview), use `animationDataService.addAnimation()`. This modifies the in-memory catalog but does not persist to disk.
+Animation components accept **no required props** by default. This ensures they work inside the generic `AnimationCard` wrapper.
+
+Components that need interactive controls declare `controls` in their metadata:
+
+```typescript
+// ComponentName.meta.ts
+export const metadata: AnimationMetadata = {
+  id: 'group-name__variant-name',
+  title: 'Variant Name',
+  description: 'What it does',
+  tags: ['framer'],
+  controls: 'lights', // optional: 'lights' | 'prizeCount'
+  infinite: true, // optional: loops continuously
+  disableReplay: false, // optional: disable replay button
+}
+```
+
+Components receiving controls accept them as props:
+
+```typescript
+export function LightsCircleStatic1({
+  numBulbs = 16,
+  onColor = '#ffd700',
+}: {
+  numBulbs?: number
+  onColor?: string
+}) {
+  // ...
+}
+```
+
+### Auto-Discovery
+
+New animations are discovered automatically via `import.meta.glob` in group `index.ts` files. Adding a new animation requires only two files:
+
+1. `ComponentName.tsx` — the animation component
+2. `ComponentName.meta.ts` — the metadata export
+
+No manual index editing required.
 
 ---
 
 ## Common Mistakes
 
-❌ **Don't**: Hardcode animation data in the UI component.
-✅ **Do**: Fetch it from `animationDataService`.
-
-❌ **Don't**: Try to `fetch('/api/...')`.
-✅ **Do**: This is a static app. Use the internal services.
+- **Don't** hardcode animation data in UI components. Use `.meta.ts` files.
+- **Don't** try to `fetch('/api/...')`. This is a static app with no backend.
+- **Don't** manually edit group or category `index.ts` files. Auto-discovery handles registration.

@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Falling',
   description: 'Letters drop and settle with a soft bounce.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 }

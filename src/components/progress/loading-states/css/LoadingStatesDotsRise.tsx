@@ -1,8 +1,5 @@
 import './LoadingStatesDotsRise.css'
 
-/**
- *
- */
 export function LoadingStatesDotsRise() {
   return (
     <div data-animation-id="loading-states__dots-rise" className="pf-loading-container">
@@ -14,4 +11,3 @@ export function LoadingStatesDotsRise() {
     </div>
   )
 }
-

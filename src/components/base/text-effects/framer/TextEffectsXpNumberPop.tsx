@@ -1,5 +1,12 @@
 import * as m from 'motion/react-m'
-import { animate, AnimatePresence, easeOut, useAnimation, useMotionValue, useTransform } from 'motion/react'
+import {
+  animate,
+  AnimatePresence,
+  easeOut,
+  useAnimation,
+  useMotionValue,
+  useTransform,
+} from 'motion/react'
 import { useEffect, useState, memo } from 'react'
 interface Particle {
   id: number
@@ -17,23 +24,39 @@ function TextEffectsXpNumberPopComponent() {
   const displayValue = useTransform(count, (latest) => `+${Math.round(latest)}`)
   useEffect(() => {
     const pendingTimeouts: ReturnType<typeof setTimeout>[] = [] // Start glow orb animation - burst and fade completely
-    glowControls.start({ opacity: [0, 0.8, 0.4, 0], scale: [0.5, 1.2, 1, 0.8], transition: { duration: 2.8, ease: easeOut, times: [0, 0.3, 0.6, 1] } }) // Number pop animation
-    numberControls.start({ scale: [0.3, 1.15, 1], y: [20, -5, 0], opacity: [0, 1, 1], transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] as const, times: [0, 0.6, 1] } }) // Animate counting with cubic ease-out
+    glowControls.start({
+      opacity: [0, 0.8, 0.4, 0],
+      scale: [0.5, 1.2, 1, 0.8],
+      transition: { duration: 2.8, ease: easeOut, times: [0, 0.3, 0.6, 1] },
+    }) // Number pop animation
+    numberControls.start({
+      scale: [0.3, 1.15, 1],
+      y: [20, -5, 0],
+      opacity: [0, 1, 1],
+      transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] as const, times: [0, 0.6, 1] },
+    }) // Animate counting with cubic ease-out
     animate(count, 240, { duration: 2.5, ease: [0, 0.65, 0.35, 1] as const }) // Create particles after delay
-    pendingTimeouts.push(
-      setTimeout(() => {
-        const newParticles: Particle[] = [] // Create multiple layers of particles
-        for (let layer = 0; layer < 2; layer++) {
-          for (let i = 0; i < 5; i++) {
-            const angle = (i / 5) * Math.PI * 2
-            const radius = 60 + layer * 20
-            newParticles.push({ id: layer * 5 + i, x: Math.cos(angle) * radius, y: Math.sin(angle) * radius, value: Math.round(10 + Math.random() * 30), layer, delay: layer * 0.1 + i * 0.05 })
-          }
+    const outerTimer = setTimeout(() => {
+      const newParticles: Particle[] = [] // Create multiple layers of particles
+      for (let layer = 0; layer < 2; layer++) {
+        for (let i = 0; i < 5; i++) {
+          const angle = (i / 5) * Math.PI * 2
+          const radius = 60 + layer * 20
+          newParticles.push({
+            id: layer * 5 + i,
+            x: Math.cos(angle) * radius,
+            y: Math.sin(angle) * radius,
+            value: Math.round(10 + Math.random() * 30),
+            layer,
+            delay: layer * 0.1 + i * 0.05,
+          })
         }
-        setParticles(newParticles) // Clear particles after animation
-        pendingTimeouts.push(setTimeout(() => setParticles([]), 3000))
-      }, 400)
-    )
+      }
+      setParticles(newParticles) // Clear particles after animation
+      const clearTimer = setTimeout(() => setParticles([]), 3000)
+      pendingTimeouts.push(clearTimer)
+    }, 400)
+    pendingTimeouts.push(outerTimer)
     return () => pendingTimeouts.forEach(clearTimeout)
   }, [glowControls, numberControls, count])
   return (
@@ -44,7 +67,12 @@ function TextEffectsXpNumberPopComponent() {
           <m.div
             key={particle.id}
             initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-            animate={{ opacity: [0, 1, 0], scale: [0, 1, 0.7], x: [0, particle.x, particle.x * 1.5], y: [0, particle.y, particle.y * 1.5 - 40] }}
+            animate={{
+              opacity: [0, 1, 0],
+              scale: [0, 1, 0.7],
+              x: [0, particle.x, particle.x * 1.5],
+              y: [0, particle.y, particle.y * 1.5 - 40],
+            }}
             exit={{ opacity: 0 }}
             transition={{ duration: 2.6, delay: particle.delay, ease: easeOut, times: [0, 0.4, 1] }}
             className="xp-pop-particle"

@@ -4,10 +4,7 @@ export function ModalOrchestrationGridHighlight() {
   const items = 5
 
   return (
-    <div
-      className="pf-grid-highlight"
-      data-animation-id="modal-orchestration__grid-highlight"
-    >
+    <div className="pf-grid-highlight" data-animation-id="modal-orchestration__grid-highlight">
       {Array.from({ length: items }, (_, index) => (
         <div
           key={index}
@@ -27,4 +24,3 @@ export function ModalOrchestrationGridHighlight() {
     </div>
   )
 }
-

@@ -59,7 +59,9 @@
   top: 21px;
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--progress-bars-journey-distance-track-edge), transparent 58%), var(--progress-bars-journey-distance-track-base);
+  background:
+    linear-gradient(90deg, var(--progress-bars-journey-distance-track-edge), transparent 58%),
+    var(--progress-bars-journey-distance-track-base);
 }
 
 .journey-distance-fill {
@@ -68,7 +70,11 @@
   top: 21px;
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--progress-bars-journey-distance-fill-a), var(--progress-bars-journey-distance-fill-b));
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-journey-distance-fill-a),
+    var(--progress-bars-journey-distance-fill-b)
+  );
 }
 
 .journey-distance-fill-gloss {
@@ -78,7 +84,12 @@
   width: 16%;
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--progress-bars-journey-distance-fill-gloss-a), var(--progress-bars-journey-distance-fill-gloss-b), var(--progress-bars-journey-distance-fill-gloss-a));
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-journey-distance-fill-gloss-a),
+    var(--progress-bars-journey-distance-fill-gloss-b),
+    var(--progress-bars-journey-distance-fill-gloss-a)
+  );
   pointer-events: none;
 }
 
@@ -131,7 +142,11 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(180deg, var(--progress-bars-journey-distance-traveller-glow-a), var(--progress-bars-journey-distance-traveller-glow-b));
+  background: linear-gradient(
+    180deg,
+    var(--progress-bars-journey-distance-traveller-glow-a),
+    var(--progress-bars-journey-distance-traveller-glow-b)
+  );
 }
 
 .journey-distance-traveller-core {

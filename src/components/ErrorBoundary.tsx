@@ -5,7 +5,10 @@ import { reportRuntimeError } from '@/services/errorTracking'
  * Props for ErrorBoundary component
  */ interface ErrorBoundaryProps {
   /** Child components to render */ children: ReactNode
-  /** Optional fallback UI to display on error */ fallback?: (error: Error, reset: () => void) => ReactNode
+  /** Optional fallback UI to display on error */ fallback?: (
+    error: Error,
+    reset: () => void
+  ) => ReactNode
 }
 /**
  * State for ErrorBoundary component
@@ -13,6 +16,96 @@ import { reportRuntimeError } from '@/services/errorTracking'
   /** Whether an error has been caught */ hasError: boolean
   /** The error that was caught */ error: Error | null
 }
+function ErrorDevDetails({ error }: { error: Error }) {
+  if (import.meta.env.PROD) return null
+  return (
+    <details
+      style={{
+        marginBottom: '1.5rem',
+        textAlign: 'left',
+        padding: '1rem',
+        backgroundColor: 'var(--pf-anim-surface-light)',
+        borderRadius: '4px',
+        fontSize: '0.875rem',
+      }}
+    >
+      <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>
+        Error Details (Development Only)
+      </summary>
+      <pre style={{ marginTop: '0.5rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+        {error.toString()}
+        {error.stack && '\n\n' + error.stack}
+      </pre>
+    </details>
+  )
+}
+
+function DefaultErrorFallback({ error, onReset }: { error: Error; onReset: () => void }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        padding: '2rem',
+        textAlign: 'center',
+        backgroundColor: 'var(--pf-anim-surface-light)',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '600px',
+          padding: '2rem',
+          backgroundColor: 'var(--pf-white)',
+          borderRadius: '8px',
+          boxShadow: '0 2px 8px rgb(0 0 0 / 0.1)',
+        }}
+      >
+        <h1
+          style={{
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            marginBottom: '1rem',
+            color: 'var(--pf-anim-error)',
+          }}
+        >
+          Something went wrong
+        </h1>
+        <p style={{ marginBottom: '1rem', color: 'var(--pf-anim-muted)' }}>
+          We're sorry, but something unexpected happened. The error has been logged and we'll look
+          into it.
+        </p>
+        <ErrorDevDetails error={error} />
+        <button
+          type="button"
+          onClick={onReset}
+          style={{
+            padding: '0.75rem 1.5rem',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            color: 'var(--pf-white)',
+            backgroundColor: 'var(--pf-anim-link)',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            transition: 'background-color 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--pf-anim-link-hover)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--pf-anim-link)'
+          }}
+        >
+          Try Again
+        </button>
+      </div>
+    </div>
+  )
+}
+
 /**
  * ErrorBoundary component that catches React errors in child components.
  *
@@ -38,8 +131,7 @@ import { reportRuntimeError } from '@/services/errorTracking'
   /**
    * Log error information when component catches an error
    */ componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // Log error to console for development
-    console.error('ErrorBoundary caught an error:', error, errorInfo) // In production, you would send this to an error tracking service
+    console.error('ErrorBoundary caught an error:', error, errorInfo)
     reportRuntimeError(error, errorInfo)
   }
   /**
@@ -49,40 +141,10 @@ import { reportRuntimeError } from '@/services/errorTracking'
   }
   render(): ReactNode {
     if (this.state.hasError && this.state.error) {
-      // Use custom fallback if provided
       if (this.props.fallback) {
         return this.props.fallback(this.state.error, this.handleReset)
-      } // Default fallback UI
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '2rem', textAlign: 'center', backgroundColor: 'var(--pf-anim-surface-light)' }}>
-          <div style={{ maxWidth: '600px', padding: '2rem', backgroundColor: 'var(--pf-white)', borderRadius: '8px', boxShadow: '0 2px 8px rgb(0 0 0 / 0.1)' }}>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: 'var(--pf-anim-error)' }}>Something went wrong</h1>
-            <p style={{ marginBottom: '1rem', color: 'var(--pf-anim-muted)' }}>We're sorry, but something unexpected happened. The error has been logged and we'll look into it.</p>
-            {!import.meta.env.PROD && (
-              <details style={{ marginBottom: '1.5rem', textAlign: 'left', padding: '1rem', backgroundColor: 'var(--pf-anim-surface-light)', borderRadius: '4px', fontSize: '0.875rem' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>Error Details (Development Only)</summary>
-                <pre style={{ marginTop: '0.5rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                  {this.state.error.toString()}
-                  {this.state.error.stack && '\n\n' + this.state.error.stack}
-                </pre>
-              </details>
-            )}
-            <button
-              type="button"
-              onClick={this.handleReset}
-              style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', fontWeight: 'bold', color: 'var(--pf-white)', backgroundColor: 'var(--pf-anim-link)', border: 'none', borderRadius: '4px', cursor: 'pointer', transition: 'background-color 0.2s' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link-hover)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--pf-anim-link)'
-              }}
-            >
-              Try Again
-            </button>
-          </div>
-        </div>
-      )
+      }
+      return <DefaultErrorFallback error={this.state.error} onReset={this.handleReset} />
     }
     return this.props.children
   }

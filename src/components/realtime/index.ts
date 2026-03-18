@@ -14,5 +14,5 @@ export const categoryExport: CategoryExport = {
     'timer-effects': timerEffectsGroup,
     'update-indicators': updateIndicatorsGroup,
     'realtime-data': realtimeDataGroup,
-  }
+  },
 }

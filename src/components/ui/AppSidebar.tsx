@@ -1,12 +1,11 @@
 import type { CodeMode } from '@/contexts/CodeModeContext'
 import type { Category, Group } from '@/types/animation'
-import { useEffect, useMemo, useState, type FC, type ReactNode } from 'react'
+import { useMemo, useState, type FC, type ReactNode } from 'react'
 
 interface AppSidebarProps {
   categories: Category[]
   codeMode: CodeMode
   currentGroupId: string
-  onCategorySelect: (categoryId: string) => void
   onGroupSelect: (groupId: string) => void
   className?: string
   topContent?: ReactNode
@@ -67,30 +66,21 @@ const pickGroupIdForMode = (variants: GroupVariants, codeMode: CodeMode): string
   return variants.framer?.id ?? variants.css?.id ?? variants.fallback.id
 }
 
+/**
+ * Tracks which categories the user has explicitly collapsed.
+ * New categories are expanded by default — no effect needed to sync with the
+ * categories list because expandedIds is derived: all IDs minus collapsedIds.
+ */
 function useCategoryExpansion(categories: Category[]) {
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(
-    () => new Set(categories.map((c) => c.id))
+  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(() => new Set())
+
+  const expandedIds = useMemo(
+    () => new Set(categories.map((c) => c.id).filter((id) => !collapsedIds.has(id))),
+    [categories, collapsedIds]
   )
 
-  useEffect(() => {
-    setExpandedIds((previous) => {
-      const next = new Set(previous)
-      const ids = new Set(categories.map((c) => c.id))
-      let changed = false
-
-      ids.forEach((id) => {
-        if (!next.has(id)) { next.add(id); changed = true }
-      })
-      previous.forEach((id) => {
-        if (!ids.has(id)) { next.delete(id); changed = true }
-      })
-
-      return changed ? next : previous
-    })
-  }, [categories])
-
   const toggle = (categoryId: string) => {
-    setExpandedIds((prev) => {
+    setCollapsedIds((prev) => {
       const next = new Set(prev)
       if (next.has(categoryId)) next.delete(categoryId)
       else next.add(categoryId)
@@ -149,9 +139,7 @@ function CategorySection({
   )
 }
 
-/**
- *
- */
+/** Desktop sidebar with category/group navigation and code mode switching. */
 export const AppSidebar: FC<AppSidebarProps> = ({
   categories,
   codeMode,
@@ -162,7 +150,11 @@ export const AppSidebar: FC<AppSidebarProps> = ({
 }) => {
   const currentBaseGroupId = getBaseGroupId(currentGroupId)
   const categoryGroups = useMemo(
-    () => categories.map((category) => ({ category, groupVariants: buildGroupVariants(category.groups) })),
+    () =>
+      categories.map((category) => ({
+        category,
+        groupVariants: buildGroupVariants(category.groups),
+      })),
     [categories]
   )
   const { expandedIds, toggle } = useCategoryExpansion(categories)

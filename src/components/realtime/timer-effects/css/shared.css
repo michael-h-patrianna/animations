@@ -1,7 +1,6 @@
 /* Shared styles for timer-effects CSS animations */
 
 .pf-pill-timer {
-
   --css-border: rgb(255 255 255 / 26%);
   --css-bg: rgb(255 255 255 / 25%);
   --css-color-1: rgb(0 0 0 / 92%);

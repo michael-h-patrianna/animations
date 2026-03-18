@@ -26,7 +26,7 @@ function TextEffectsVerbFlipComponent() {
             style={{ perspective: 600 }}
             initial={{ rotateY: 0 }}
             animate={{
-              rotateY: [0, 180, 360]
+              rotateY: [0, 180, 360],
             }}
             transition={{
               duration: 1.8,
@@ -47,7 +47,5 @@ function TextEffectsVerbFlipComponent() {
  * Memoized TextEffectsVerbFlip to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFlip = memo(TextEffectsVerbFlipComponent)
-
-
 
 export default TextEffectsVerbFlip

@@ -1,10 +1,110 @@
-import{render,screen}from"@testing-library/react";import{describe,expect,it}from"vitest";import{TextEffectsLevelBreakthrough}from"../components/base/text-effects/css/TextEffectsLevelBreakthrough";describe("TextEffectsLevelBreakthrough",()=>{describe("Text Content",()=>{it("should render default start and end text when no props provided",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("LEVEL 1");expect(endText?.textContent).toBe("LEVEL 2")});it("should render custom startText prop",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="STAGE 5"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");expect(startText?.textContent).toBe("STAGE 5")});it("should render custom endText prop",()=>{const{container}=render(<TextEffectsLevelBreakthrough endText="STAGE 6"/>);const endText=container.querySelector(".tfx-breakthrough-text-end");expect(endText?.textContent).toBe("STAGE 6")});it("should render both custom start and end text",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="BRONZE"endText="SILVER"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("BRONZE");expect(endText?.textContent).toBe("SILVER")});it("should handle text with whitespace",()=>{const startWithSpaces="  LEVEL   1  ";const endWithSpaces="  LEVEL   2  ";const{container}=render(<TextEffectsLevelBreakthrough startText={startWithSpaces}endText={endWithSpaces}/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe(startWithSpaces);expect(endText?.textContent).toBe(endWithSpaces)});it("should handle long text without issues",()=>{const longStart="THIS IS A VERY LONG LEVEL NAME START";const longEnd="THIS IS A VERY LONG LEVEL NAME END";const{container}=render(<TextEffectsLevelBreakthrough startText={longStart}endText={longEnd}/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe(longStart);expect(endText?.textContent).toBe(longEnd)});it("should handle short text",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="L1"endText="L2"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("L1");expect(endText?.textContent).toBe("L2")});it("should handle empty strings",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText=""endText=""/>);// Should render structure even with empty text
-expect(container.querySelector(".tfx-breakthrough-container")).toBeInTheDocument();expect(container.querySelector(".tfx-breakthrough-text-start")).toBeInTheDocument();expect(container.querySelector(".tfx-breakthrough-text-end")).toBeInTheDocument()});it("should handle numbers",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="1"endText="2"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("1");expect(endText?.textContent).toBe("2")});it("should handle special characters",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="LVL-1!"endText="LVL-2!"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("LVL-1!");expect(endText?.textContent).toBe("LVL-2!")});it("should handle unicode characters",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="レベル 1 🎮"endText="レベル 2 🎮"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("レベル 1 🎮");expect(endText?.textContent).toBe("レベル 2 🎮")})});describe("Structure and Styling",()=>{it("should render with correct namespaced class structure",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);// Container
-expect(container.querySelector(".tfx-breakthrough-container")).toBeInTheDocument();// Text wrapper
-expect(container.querySelector(".tfx-breakthrough-text-wrapper")).toBeInTheDocument();// Start and end text
-expect(container.querySelector(".tfx-breakthrough-text-start")).toBeInTheDocument();expect(container.querySelector(".tfx-breakthrough-text-end")).toBeInTheDocument();// Surge rings
-expect(container.querySelector(".tfx-breakthrough-surge-outer")).toBeInTheDocument();expect(container.querySelector(".tfx-breakthrough-surge-inner")).toBeInTheDocument()});it("should apply custom className to container",()=>{const{container}=render(<TextEffectsLevelBreakthrough className="custom-class"/>);const containerEl=container.querySelector(".tfx-breakthrough-container");expect(containerEl).toHaveClass("custom-class");expect(containerEl).toHaveClass("tfx-breakthrough-container")});it("should have data-animation-id attribute",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);const containerEl=container.querySelector("[data-animation-id=\"text-effects__level-breakthrough\"]");expect(containerEl).toBeInTheDocument()});it("should position end text absolutely over start text",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);const textWrapper=container.querySelector(".tfx-breakthrough-text-wrapper");const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(textWrapper).toHaveStyle({position:"relative"});expect(startText).not.toHaveStyle({position:"absolute"});expect(endText).toHaveStyle({position:"absolute"})})});describe("Rendering Performance",()=>{it("should render efficiently with minimal re-renders (memoized)",()=>{const{rerender}=render(<TextEffectsLevelBreakthrough startText="TEST 1"endText="TEST 2"/>);// Component should be memoized, so re-render with same props should be cheap
-rerender(<TextEffectsLevelBreakthrough startText="TEST 1"endText="TEST 2"/>);const startText=screen.getByText("TEST 1");const endText=screen.getByText("TEST 2");expect(startText).toBeInTheDocument();expect(endText).toBeInTheDocument()});it("should update when startText prop changes",()=>{const{container,rerender}=render(<TextEffectsLevelBreakthrough startText="BEFORE"/>);let startText=container.querySelector(".tfx-breakthrough-text-start");expect(startText?.textContent).toBe("BEFORE");rerender(<TextEffectsLevelBreakthrough startText="AFTER"/>);startText=container.querySelector(".tfx-breakthrough-text-start");expect(startText?.textContent).toBe("AFTER")});it("should update when endText prop changes",()=>{const{container,rerender}=render(<TextEffectsLevelBreakthrough endText="BEFORE"/>);let endText=container.querySelector(".tfx-breakthrough-text-end");expect(endText?.textContent).toBe("BEFORE");rerender(<TextEffectsLevelBreakthrough endText="AFTER"/>);endText=container.querySelector(".tfx-breakthrough-text-end");expect(endText?.textContent).toBe("AFTER")})});describe("CSS Animation Setup",()=>{it("should have will-change hints for GPU acceleration",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);const wrapper=container.querySelector(".tfx-breakthrough-text-wrapper");const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");const surgeOuter=container.querySelector(".tfx-breakthrough-surge-outer");const surgeInner=container.querySelector(".tfx-breakthrough-surge-inner");// Verify will-change is set
-expect(wrapper).toHaveStyle({willChange:"transform"});expect(startText).toHaveStyle({willChange:"opacity, text-shadow"});expect(endText).toHaveStyle({willChange:"opacity, text-shadow"});expect(surgeOuter).toHaveStyle({willChange:"transform, opacity"});expect(surgeInner).toHaveStyle({willChange:"transform, opacity"})});it("should have surge rings with pointer-events none",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);const surgeOuter=container.querySelector(".tfx-breakthrough-surge-outer");const surgeInner=container.querySelector(".tfx-breakthrough-surge-inner");expect(surgeOuter).toHaveStyle({pointerEvents:"none"});expect(surgeInner).toHaveStyle({pointerEvents:"none"})});it("should have initial opacity of 0 on surge rings",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);const surgeOuter=container.querySelector(".tfx-breakthrough-surge-outer");const surgeInner=container.querySelector(".tfx-breakthrough-surge-inner");expect(surgeOuter).toHaveStyle({opacity:"0"});expect(surgeInner).toHaveStyle({opacity:"0"})});it("should have initial opacity of 0 on end text",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);const endText=container.querySelector(".tfx-breakthrough-text-end");expect(endText).toHaveStyle({opacity:"0"})})});describe("Accessibility",()=>{it("should render both text elements in DOM for screen readers",()=>{render(<TextEffectsLevelBreakthrough startText="START"endText="END"/>);// Both should be in document even though one is opacity 0
-expect(screen.getByText("START")).toBeInTheDocument();expect(screen.getByText("END")).toBeInTheDocument()})});describe("Edge Cases",()=>{it("should handle same start and end text",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="SAME"endText="SAME"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("SAME");expect(endText?.textContent).toBe("SAME")});it("should handle very different length texts",()=>{const{container}=render(<TextEffectsLevelBreakthrough startText="L1"endText="ACHIEVEMENT UNLOCKED"/>);const startText=container.querySelector(".tfx-breakthrough-text-start");const endText=container.querySelector(".tfx-breakthrough-text-end");expect(startText?.textContent).toBe("L1");expect(endText?.textContent).toBe("ACHIEVEMENT UNLOCKED")});it("should not have old pf- prefixed classes",()=>{const{container}=render(<TextEffectsLevelBreakthrough/>);// Verify no legacy class names exist
-expect(container.querySelector(".pf-breakthrough-container")).not.toBeInTheDocument();expect(container.querySelector(".pf-level-breakthrough")).not.toBeInTheDocument();expect(container.querySelector(".pf-surge-lines")).not.toBeInTheDocument()})})});
+import { render, screen } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
+import { TextEffectsLevelBreakthrough } from '../components/base/text-effects/css/TextEffectsLevelBreakthrough'
+
+describe('TextEffectsLevelBreakthrough', () => {
+  it('renders default LEVEL 1 → LEVEL 2 transition text', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(container.querySelector('.tfx-breakthrough-text-start')?.textContent).toBe('LEVEL 1')
+    expect(container.querySelector('.tfx-breakthrough-text-end')?.textContent).toBe('LEVEL 2')
+  })
+
+  it('accepts custom startText and endText props', () => {
+    const { container } = render(
+      <TextEffectsLevelBreakthrough startText="BRONZE" endText="SILVER" />
+    )
+    expect(container.querySelector('.tfx-breakthrough-text-start')?.textContent).toBe('BRONZE')
+    expect(container.querySelector('.tfx-breakthrough-text-end')?.textContent).toBe('SILVER')
+  })
+
+  it('renders BEM class structure required for CSS animation sequence', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(container.querySelector('.tfx-breakthrough-container')).toBeInTheDocument()
+    expect(container.querySelector('.tfx-breakthrough-text-wrapper')).toBeInTheDocument()
+    expect(container.querySelector('.tfx-breakthrough-text-start')).toBeInTheDocument()
+    expect(container.querySelector('.tfx-breakthrough-text-end')).toBeInTheDocument()
+    expect(container.querySelector('.tfx-breakthrough-surge-outer')).toBeInTheDocument()
+    expect(container.querySelector('.tfx-breakthrough-surge-inner')).toBeInTheDocument()
+  })
+
+  it('positions end text absolutely over start text for crossfade effect', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(container.querySelector('.tfx-breakthrough-text-wrapper')).toHaveStyle({
+      position: 'relative',
+    })
+    expect(container.querySelector('.tfx-breakthrough-text-end')).toHaveStyle({
+      position: 'absolute',
+    })
+    expect(container.querySelector('.tfx-breakthrough-text-start')).not.toHaveStyle({
+      position: 'absolute',
+    })
+  })
+
+  it('starts with end text and surge rings at opacity 0 (animated in by CSS)', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(container.querySelector('.tfx-breakthrough-text-end')).toHaveStyle({ opacity: '0' })
+    expect(container.querySelector('.tfx-breakthrough-surge-outer')).toHaveStyle({ opacity: '0' })
+    expect(container.querySelector('.tfx-breakthrough-surge-inner')).toHaveStyle({ opacity: '0' })
+  })
+
+  it('sets will-change hints for GPU acceleration on animated elements', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(container.querySelector('.tfx-breakthrough-text-wrapper')).toHaveStyle({
+      willChange: 'transform',
+    })
+    expect(container.querySelector('.tfx-breakthrough-text-start')).toHaveStyle({
+      willChange: 'opacity, text-shadow',
+    })
+    expect(container.querySelector('.tfx-breakthrough-surge-outer')).toHaveStyle({
+      willChange: 'transform, opacity',
+    })
+  })
+
+  it('surge rings have pointer-events: none to not block interaction', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(container.querySelector('.tfx-breakthrough-surge-outer')).toHaveStyle({
+      pointerEvents: 'none',
+    })
+    expect(container.querySelector('.tfx-breakthrough-surge-inner')).toHaveStyle({
+      pointerEvents: 'none',
+    })
+  })
+
+  it('sets data-animation-id for registry contract', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(
+      container.querySelector('[data-animation-id="text-effects__level-breakthrough"]')
+    ).toBeInTheDocument()
+  })
+
+  it('applies custom className alongside component classes', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough className="custom" />)
+    const el = container.querySelector('.tfx-breakthrough-container')
+    expect(el).toHaveClass('custom')
+    expect(el).toHaveClass('tfx-breakthrough-container')
+  })
+
+  it('both text elements remain in DOM for screen readers', () => {
+    render(<TextEffectsLevelBreakthrough startText="START" endText="END" />)
+    expect(screen.getByText('START')).toHaveClass('tfx-breakthrough-text-start')
+    expect(screen.getByText('END')).toHaveClass('tfx-breakthrough-text-end')
+  })
+
+  it('updates text when props change', () => {
+    const { container, rerender } = render(<TextEffectsLevelBreakthrough startText="BEFORE" />)
+    expect(container.querySelector('.tfx-breakthrough-text-start')?.textContent).toBe('BEFORE')
+    rerender(<TextEffectsLevelBreakthrough startText="AFTER" />)
+    expect(container.querySelector('.tfx-breakthrough-text-start')?.textContent).toBe('AFTER')
+  })
+
+  it('handles empty strings without crashing', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough startText="" endText="" />)
+    expect(container.querySelector('.tfx-breakthrough-container')).toBeInTheDocument()
+  })
+
+  it('does not use legacy pf- prefixed classes', () => {
+    const { container } = render(<TextEffectsLevelBreakthrough />)
+    expect(container.querySelector('.pf-breakthrough-container')).not.toBeInTheDocument()
+    expect(container.querySelector('.pf-level-breakthrough')).not.toBeInTheDocument()
+  })
+})

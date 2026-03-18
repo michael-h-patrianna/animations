@@ -12,7 +12,7 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsCoinsFountain() {
-const coins = useMemo(
+  const coins = useMemo(
     () =>
       Array.from({ length: 12 }, (_, i) => {
         const tx = randBetween(-80, 80)
@@ -72,5 +72,3 @@ const coins = useMemo(
     </div>
   )
 }
-
-

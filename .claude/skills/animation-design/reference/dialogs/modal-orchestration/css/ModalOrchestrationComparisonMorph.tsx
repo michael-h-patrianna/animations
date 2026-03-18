@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationComparisonMorph.css'
 
-
 export function ModalOrchestrationComparisonMorph() {
   const panes = 2
   const paneRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -22,7 +21,9 @@ export function ModalOrchestrationComparisonMorph() {
       {Array.from({ length: panes }, (_, index) => (
         <div
           key={index}
-          ref={(el) => { paneRefs.current[index] = el }}
+          ref={(el) => {
+            paneRefs.current[index] = el
+          }}
           className="pf-comparison__pane"
         >
           <h5>{index === 0 ? 'Option A' : 'Option B'}</h5>
@@ -39,4 +40,3 @@ export function ModalOrchestrationComparisonMorph() {
     </div>
   )
 }
-

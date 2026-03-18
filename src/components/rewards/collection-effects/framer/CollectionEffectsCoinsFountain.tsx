@@ -8,9 +8,6 @@ const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
-/**
- *
- */
 export function CollectionEffectsCoinsFountain() {
   const coins = useMemo(
     () =>

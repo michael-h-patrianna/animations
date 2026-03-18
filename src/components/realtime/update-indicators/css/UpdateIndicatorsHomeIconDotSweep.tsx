@@ -1,13 +1,7 @@
 import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsHomeIconDotSweep.css'
 
-/**
- *
- */
 import { homeIcon2 } from '@/assets'
-/**
- *
- */
 export function UpdateIndicatorsHomeIconDotSweep() {
   const dotRef = useRef<HTMLSpanElement>(null)
   const haloRef = useRef<HTMLSpanElement>(null)
@@ -45,4 +39,3 @@ export function UpdateIndicatorsHomeIconDotSweep() {
     </div>
   )
 }
-

@@ -1,14 +1,7 @@
-
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 
-/**
- *
- */
 import { shakeIcon } from '@/assets'
-/**
- *
- */
 export function IconAnimationsShake() {
   return (
     <div className="icon-demo-container" data-animation-id="icon-animations__shake">

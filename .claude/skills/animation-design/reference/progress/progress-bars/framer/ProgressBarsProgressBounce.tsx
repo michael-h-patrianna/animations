@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import './ProgressBarsProgressBounce.css'
 
 export function ProgressBarsProgressBounce() {
-const [showParticles, setShowParticles] = useState(false)
+  const [showParticles, setShowParticles] = useState(false)
 
   useEffect(() => {
     // Trigger particles after fill animation completes

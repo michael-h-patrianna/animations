@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationStaggerInview() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const tileRefs = useRef<(HTMLDivElement | null)[]>([])
+  const tilesRef = useRef<(HTMLDivElement | null)[]>([])
   const [isInView, setIsInView] = useState(false)
 
   const tiles = Array.from({ length: 12 }, (_, index) => ({
@@ -19,7 +15,7 @@ export function ModalOrchestrationStaggerInview() {
   useEffect(() => {
     const revealTiles = () => {
       setIsInView(true)
-      const tileElements = tileRefs.current.filter(Boolean)
+      const tileElements = tilesRef.current.filter(Boolean)
       tileElements.forEach((tile, index) => {
         if (tile) {
           tile.style.animationDelay = `${0.2 + index * 0.1}s`
@@ -66,7 +62,9 @@ export function ModalOrchestrationStaggerInview() {
         {tiles.map((tile) => (
           <div
             key={tile.id}
-            ref={(el) => { tileRefs.current[tile.id] = el }}
+            ref={(el) => {
+              tilesRef.current[tile.id] = el
+            }}
             className="pf-stagger-tile"
           >
             <h5>{tile.title}</h5>

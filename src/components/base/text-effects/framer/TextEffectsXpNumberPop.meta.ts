@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'XP Number Pop',
   description: 'XP gain count-up with pop easing, glow orb, and particle effects.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 }

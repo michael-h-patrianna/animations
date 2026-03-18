@@ -22,13 +22,17 @@ export function RevealEffectsCardSpin3D() {
       <m.div
         className="reveal-card-spin-card"
         initial={{ rotateY: 90, scale: 0.5, opacity: 0 }}
-        animate={isRevealed ? { rotateY: 0, scale: 1, opacity: 1 } : { rotateY: 90, scale: 0.5, opacity: 0 }}
+        animate={
+          isRevealed
+            ? { rotateY: 0, scale: 1, opacity: 1 }
+            : { rotateY: 90, scale: 0.5, opacity: 0 }
+        }
         transition={{
           type: 'spring',
           damping: 12,
           stiffness: 80,
           mass: 1,
-          duration: 0.8
+          duration: 0.8,
         }}
       >
         <div className="reveal-card-spin-inner">

@@ -2,7 +2,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseSpringBounce.css'
 
-
 export function ModalBaseSpringBounce() {
   return (
     <div
@@ -17,4 +16,3 @@ export function ModalBaseSpringBounce() {
     </div>
   )
 }
-

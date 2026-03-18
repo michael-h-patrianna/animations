@@ -27,7 +27,7 @@ function TextEffectsVerbJumpComponent() {
             initial={{ y: 0, scaleY: 1 }}
             animate={{
               y: [0, -10, 0, -4, 0],
-              scaleY: [1, 0.96, 1.02, 0.98, 1]
+              scaleY: [1, 0.96, 1.02, 0.98, 1],
             }}
             transition={{
               duration: 1.6,
@@ -48,5 +48,3 @@ function TextEffectsVerbJumpComponent() {
  * Memoized TextEffectsVerbJump to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbJump = memo(TextEffectsVerbJumpComponent)
-
-

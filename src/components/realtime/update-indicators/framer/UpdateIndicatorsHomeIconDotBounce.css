@@ -1,6 +1,5 @@
 /* Home icon with bouncing dot: overshoot on appear + occasional bob */
 .pf-update-indicator--icon {
-
   --update-indicators-home-icon-dot-bounce-bg: #ff4967;
   display: inline-flex;
   align-items: center;
@@ -34,6 +33,6 @@
   position: absolute;
   inset: -6px;
   border-radius: 9999px;
-  border: 6px solid rgb(255 73 103 / 18%);
+  border: 6px solid var(--pf-anim-rose-18);
   pointer-events: none;
 }

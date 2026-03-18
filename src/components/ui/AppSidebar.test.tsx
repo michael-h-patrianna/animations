@@ -1,6 +1,7 @@
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import type { Category } from '@/types/animation'
 import { fireEvent, render, screen } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AppSidebar } from './AppSidebar'
 
 const mockCategories: Category[] = [
@@ -23,17 +24,19 @@ const mockCategories: Category[] = [
   },
 ]
 
-const mockOnCategorySelect = jest.fn()
-const mockOnGroupSelect = jest.fn()
+const mockOnGroupSelect = vi.fn()
 
-const renderSidebar = (categories: Category[], currentGroupId: string, codeMode: 'Framer' | 'CSS' = 'Framer') =>
+const renderSidebar = (
+  categories: Category[],
+  currentGroupId: string,
+  codeMode: 'Framer' | 'CSS' = 'Framer'
+) =>
   render(
     <CodeModeProvider>
       <AppSidebar
         categories={categories}
         codeMode={codeMode}
         currentGroupId={currentGroupId}
-        onCategorySelect={mockOnCategorySelect}
         onGroupSelect={mockOnGroupSelect}
       />
     </CodeModeProvider>
@@ -41,21 +44,21 @@ const renderSidebar = (categories: Category[], currentGroupId: string, codeMode:
 
 describe('AppSidebar', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('renders all categories', () => {
     renderSidebar(mockCategories, 'group-1-framer')
-    expect(screen.getByText('Category 1')).toBeInTheDocument()
-    expect(screen.getByText('Category 2')).toBeInTheDocument()
+    expect(screen.getByText('Category 1')).toHaveClass('pf-sidebar__link--category')
+    expect(screen.getByText('Category 2')).toHaveClass('pf-sidebar__link--category')
   })
 
   it('renders groups for all categories by default', () => {
     renderSidebar(mockCategories, 'group-1-framer')
 
-    expect(screen.getByText('Group 1')).toBeInTheDocument()
-    expect(screen.getByText('Group 2')).toBeInTheDocument()
-    expect(screen.getByText('Group 3')).toBeInTheDocument()
+    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
+    expect(screen.getByText('Group 2')).toHaveClass('pf-sidebar__link--group')
+    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__link--group')
   })
 
   it('deduplicates framer/css variants into one group entry', () => {
@@ -73,12 +76,11 @@ describe('AppSidebar', () => {
     expect(inactiveCategory.className).not.toContain('pf-sidebar__link--active')
   })
 
-  it('toggles category expansion without invoking onCategorySelect', () => {
+  it('toggles category expansion on click', () => {
     renderSidebar(mockCategories, 'group-1-framer')
     fireEvent.click(screen.getByText('Category 2'))
     expect(screen.queryByText('Group 3')).not.toBeInTheDocument()
-    expect(screen.getByText('Group 1')).toBeInTheDocument()
-    expect(mockOnCategorySelect).not.toHaveBeenCalled()
+    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
   })
 
   it('supports independent category collapse/expand', () => {
@@ -86,13 +88,13 @@ describe('AppSidebar', () => {
 
     fireEvent.click(screen.getByText('Category 1'))
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument()
-    expect(screen.getByText('Group 3')).toBeInTheDocument()
+    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__link--group')
 
     fireEvent.click(screen.getByText('Category 2'))
     expect(screen.queryByText('Group 3')).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByText('Category 1'))
-    expect(screen.getByText('Group 1')).toBeInTheDocument()
+    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
   })
 
   it('calls onGroupSelect with framer variant in Framer mode', () => {
@@ -114,9 +116,11 @@ describe('AppSidebar', () => {
   })
 
   it('renders correctly when category has no groups', () => {
-    const categoriesWithoutGroups: Category[] = [{ id: 'empty-category', title: 'Empty Category', groups: [] }]
+    const categoriesWithoutGroups: Category[] = [
+      { id: 'empty-category', title: 'Empty Category', groups: [] },
+    ]
     renderSidebar(categoriesWithoutGroups, '', 'Framer')
-    expect(screen.getByText('Empty Category')).toBeInTheDocument()
+    expect(screen.getByText('Empty Category')).toHaveClass('pf-sidebar__link--category')
     expect(screen.queryByRole('button', { name: /Group/i })).not.toBeInTheDocument()
   })
 
@@ -126,7 +130,7 @@ describe('AppSidebar', () => {
     expect(screen.getByText('Category 1').className).toContain('pf-sidebar__link--active')
     expect(screen.getByText('Category 2').className).not.toContain('pf-sidebar__link--active')
     expect(screen.getByText('Group 1').className).toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Group 3')).toBeInTheDocument()
+    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__link--group')
 
     rerender(
       <CodeModeProvider>
@@ -134,7 +138,6 @@ describe('AppSidebar', () => {
           categories={mockCategories}
           codeMode="Framer"
           currentGroupId="group-3-framer"
-          onCategorySelect={mockOnCategorySelect}
           onGroupSelect={mockOnGroupSelect}
         />
       </CodeModeProvider>
@@ -143,6 +146,6 @@ describe('AppSidebar', () => {
     expect(screen.getByText('Category 2').className).toContain('pf-sidebar__link--active')
     expect(screen.getByText('Category 1').className).not.toContain('pf-sidebar__link--active')
     expect(screen.getByText('Group 3').className).toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Group 1')).toBeInTheDocument()
+    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
   })
 })

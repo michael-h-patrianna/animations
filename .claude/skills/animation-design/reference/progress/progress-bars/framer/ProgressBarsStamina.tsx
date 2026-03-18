@@ -15,7 +15,7 @@ export function ProgressBarsStamina() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setStamina(s => {
+      setStamina((s) => {
         if (isDraining) {
           if (s <= 0) {
             setIsDraining(false)
@@ -40,11 +40,11 @@ export function ProgressBarsStamina() {
     <div className="stamina-container" data-animation-id="progress-bars__stamina">
       <div className="stamina-icon">⚡</div>
       <div className="stamina-track">
-        <m.div 
-           className={`stamina-fill ${isLow ? 'low' : ''}`}
-           style={{ width: `${stamina}%` }}
-           animate={isLow ? { opacity: [1, 0.5, 1] } : { opacity: 1 }}
-           transition={isLow ? { duration: 0.2, repeat: Infinity } : {}}
+        <m.div
+          className={`stamina-fill ${isLow ? 'low' : ''}`}
+          style={{ width: `${stamina}%` }}
+          animate={isLow ? { opacity: [1, 0.5, 1] } : { opacity: 1 }}
+          transition={isLow ? { duration: 0.2, repeat: Infinity } : {}}
         />
       </div>
     </div>

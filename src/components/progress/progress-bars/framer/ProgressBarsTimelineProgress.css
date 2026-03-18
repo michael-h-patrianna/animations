@@ -1,6 +1,5 @@
 /* Styles specific to Timeline Progress */
 .pf-timeline-progress {
-
   --progress-bars-timeline-progress-bg-1: rgb(30 144 255 / 10%);
   --progress-bars-timeline-progress-border: rgb(30 144 255 / 16%);
   --progress-bars-timeline-progress-color: rgb(255 255 255 / 76%);

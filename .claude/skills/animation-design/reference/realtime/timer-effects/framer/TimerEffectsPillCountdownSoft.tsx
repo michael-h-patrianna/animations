@@ -8,7 +8,7 @@ export function TimerEffectsPillCountdownSoft() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [pulseKey, setPulseKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -40,7 +40,7 @@ useEffect(() => {
     }, 100)
 
     // Trigger initial pulse
-  {
+    {
       setPulseKey((prev) => prev + 1)
     }
 

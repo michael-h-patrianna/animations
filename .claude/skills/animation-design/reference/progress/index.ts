@@ -12,5 +12,5 @@ export const categoryExport: CategoryExport = {
   groups: {
     'progress-bars': progressBarsGroup,
     'loading-states': loadingStatesGroup,
-  }
+  },
 }

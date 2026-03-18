@@ -42,4 +42,3 @@ export function IconAnimationsPulse() {
     </div>
   )
 }
-

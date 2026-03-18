@@ -19,10 +19,7 @@ interface TextEffectsComboCounterProps {
  */
 function calculateMilestones(finalValue: number, maxParticles: number): Milestone[] {
   // Don't show more particles than makes sense (avoid +1, +1, +1...)
-  const numParticles = Math.min(
-    maxParticles,
-    Math.max(1, Math.floor(finalValue / 2))
-  )
+  const numParticles = Math.min(maxParticles, Math.max(1, Math.floor(finalValue / 2)))
 
   const milestones: Milestone[] = []
 
@@ -36,7 +33,7 @@ function calculateMilestones(finalValue: number, maxParticles: number): Mileston
 
     milestones.push({
       trigger: triggerValue,
-      value: increment
+      value: increment,
     })
   }
 
@@ -52,7 +49,7 @@ function calculateMilestones(finalValue: number, maxParticles: number): Mileston
  */
 function TextEffectsComboCounterComponent({
   finalValue = 25,
-  maxParticles = 4
+  maxParticles = 4,
 }: TextEffectsComboCounterProps = {}) {
   const comboText = 'COMBO'
   const [count, setCount] = useState(0)
@@ -78,9 +75,8 @@ function TextEffectsComboCounterComponent({
 
       const progress = Math.min(elapsed / duration, 1)
       // Custom easing approximation
-      const eased = progress < 0.5
-        ? 2 * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2
+      const eased =
+        progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2
 
       const newCount = Math.round(eased * finalValue)
       setCount(newCount)
@@ -115,7 +111,7 @@ function TextEffectsComboCounterComponent({
                 key={i}
                 className="tfx-combo-particle"
                 style={{
-                  animationDelay: `${getParticleDelay(milestone.trigger)}ms`
+                  animationDelay: `${getParticleDelay(milestone.trigger)}ms`,
                 }}
               >
                 +{milestone.value}
@@ -123,26 +119,19 @@ function TextEffectsComboCounterComponent({
             ))}
           </div>
 
-          <div className="tfx-combo-hit-marker">
-            ×
-          </div>
+          <div className="tfx-combo-hit-marker">×</div>
         </div>
 
         <div className="tfx-combo-text-wrapper">
           {comboText.split('').map((char, index) => (
-            <span
-              key={index}
-              className="tfx-combo-letter"
-            >
+            <span key={index} className="tfx-combo-letter">
               {char}
             </span>
           ))}
         </div>
       </div>
 
-      <div className="tfx-combo-bonus">
-        PERFECT!
-      </div>
+      <div className="tfx-combo-bonus">PERFECT!</div>
     </div>
   )
 }
@@ -151,4 +140,3 @@ function TextEffectsComboCounterComponent({
  * Memoized TextEffectsComboCounter to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsComboCounter = memo(TextEffectsComboCounterComponent)
-

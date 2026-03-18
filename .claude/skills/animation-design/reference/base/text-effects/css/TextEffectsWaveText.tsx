@@ -69,4 +69,3 @@ function TextEffectsWaveTextComponent({
 }
 
 export const TextEffectsWaveText = memo(TextEffectsWaveTextComponent)
-

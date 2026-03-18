@@ -1,108 +1,20 @@
-// Framer variant CSS (loaded at group level for no-css-in-motion compliance)
 import './shared.css'
-import './framer/RealtimeDataLeaderboardShift.css'
-import './framer/RealtimeDataLiveScoreUpdate.css'
-import './framer/RealtimeDataStackedRealtime.css'
-import './framer/RealtimeDataWinTicker.css'
+import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
+import { buildGroupExport } from '@/lib/groupBuilder'
 
-import type { GroupExport, GroupMetadata } from '@/types/animation'
-import { lazy } from 'react'
+// Side-effect: load framer-variant CSS (layout only — animation CSS banned by lint)
+import.meta.glob('./framer/*.css', { eager: true })
 
-// Framer Motion - Import metadata only
-import { metadata as leaderboardMetadata } from './framer/RealtimeDataLeaderboardShift.meta'
-import { metadata as liveScoreMetadata } from './framer/RealtimeDataLiveScoreUpdate.meta'
-import { metadata as stackedMetadata } from './framer/RealtimeDataStackedRealtime.meta'
-import { metadata as winTickerMetadata } from './framer/RealtimeDataWinTicker.meta'
-
-// CSS - Import metadata only
-import { metadata as leaderboardCssMetadata } from './css/RealtimeDataLeaderboardShift.meta'
-import { metadata as liveScoreCssMetadata } from './css/RealtimeDataLiveScoreUpdate.meta'
-import { metadata as stackedCssMetadata } from './css/RealtimeDataStackedRealtime.meta'
-import { metadata as winTickerCssMetadata } from './css/RealtimeDataWinTicker.meta'
-
-// Framer Motion - Lazy load components
-const RealtimeDataLeaderboardShift = lazy(() =>
-  import('./framer/RealtimeDataLeaderboardShift').then((m) => ({
-    default: m.RealtimeDataLeaderboardShift,
-  }))
-)
-const RealtimeDataLiveScoreUpdate = lazy(() =>
-  import('./framer/RealtimeDataLiveScoreUpdate').then((m) => ({
-    default: m.RealtimeDataLiveScoreUpdate,
-  }))
-)
-const RealtimeDataStackedRealtime = lazy(() =>
-  import('./framer/RealtimeDataStackedRealtime').then((m) => ({
-    default: m.RealtimeDataStackedRealtime,
-  }))
-)
-const RealtimeDataWinTicker = lazy(() =>
-  import('./framer/RealtimeDataWinTicker').then((m) => ({ default: m.RealtimeDataWinTicker }))
-)
-
-// CSS - Lazy load components
-const CssRealtimeDataLeaderboardShift = lazy(() =>
-  import('./css/RealtimeDataLeaderboardShift').then((m) => ({
-    default: m.RealtimeDataLeaderboardShift,
-  }))
-)
-const CssRealtimeDataLiveScoreUpdate = lazy(() =>
-  import('./css/RealtimeDataLiveScoreUpdate').then((m) => ({
-    default: m.RealtimeDataLiveScoreUpdate,
-  }))
-)
-const CssRealtimeDataStackedRealtime = lazy(() =>
-  import('./css/RealtimeDataStackedRealtime').then((m) => ({
-    default: m.RealtimeDataStackedRealtime,
-  }))
-)
-const CssRealtimeDataWinTicker = lazy(() =>
-  import('./css/RealtimeDataWinTicker').then((m) => ({ default: m.RealtimeDataWinTicker }))
-)
-
-export const groupMetadata: GroupMetadata = {
+const metadata: GroupMetadata = {
   id: 'realtime-data',
   title: 'Realtime data',
-  tech: 'css',
   demo: 'realtimeData',
 }
 
-export const groupExport: GroupExport = {
-  metadata: groupMetadata,
-  framer: {
-    'realtime-data__leaderboard-shift': {
-      component: RealtimeDataLeaderboardShift,
-      metadata: leaderboardMetadata,
-    },
-    'realtime-data__live-score-update': {
-      component: RealtimeDataLiveScoreUpdate,
-      metadata: liveScoreMetadata,
-    },
-    'realtime-data__win-ticker': {
-      component: RealtimeDataWinTicker,
-      metadata: winTickerMetadata,
-    },
-    'realtime-data__stacked-realtime': {
-      component: RealtimeDataStackedRealtime,
-      metadata: stackedMetadata,
-    },
-  },
-  css: {
-    'realtime-data__leaderboard-shift': {
-      component: CssRealtimeDataLeaderboardShift,
-      metadata: leaderboardCssMetadata,
-    },
-    'realtime-data__live-score-update': {
-      component: CssRealtimeDataLiveScoreUpdate,
-      metadata: liveScoreCssMetadata,
-    },
-    'realtime-data__win-ticker': {
-      component: CssRealtimeDataWinTicker,
-      metadata: winTickerCssMetadata,
-    },
-    'realtime-data__stacked-realtime': {
-      component: CssRealtimeDataStackedRealtime,
-      metadata: stackedCssMetadata,
-    },
-  },
-}
+export const groupExport = buildGroupExport(
+  metadata,
+  import.meta.glob<Record<string, unknown>>('./framer/*.tsx'),
+  import.meta.glob<{ metadata: AnimationMetadata }>('./framer/*.meta.ts', { eager: true }),
+  import.meta.glob<Record<string, unknown>>('./css/*.tsx'),
+  import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true })
+)

@@ -1,6 +1,5 @@
 /* Styles scoped for TextEffectsCounterIncrement */
 .pf-counter-showcase {
-
   --text-effects-counter-increment-color: #c6ff77;
   --text-effects-counter-increment-bg: rgb(255 215 0 / 22%);
   --text-effects-counter-increment-text-shadow-100: rgb(0 0 0 / 25%);

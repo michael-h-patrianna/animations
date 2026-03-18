@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Flipping',
   description: '3D flip rotation with perspective for each character.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 }

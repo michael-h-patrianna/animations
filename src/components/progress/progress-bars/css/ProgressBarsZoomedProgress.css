@@ -1,6 +1,5 @@
 /* Zoomed Progress Animation Styles */
 .pf-zoomed-progress {
-
   --progress-bars-zoomed-progress-bg-1: rgb(78 24 124 / 15%);
   --progress-bars-zoomed-progress-border-1: rgb(255 255 255 / 90%);
   --progress-bars-zoomed-progress-bg-2: #c6ff77;
@@ -59,7 +58,11 @@
 
 .pf-zoomed-progress__fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--progress-bars-zoomed-progress-bg-2) 0%, var(--progress-bars-zoomed-progress-bg-3) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-zoomed-progress-bg-2) 0%,
+    var(--progress-bars-zoomed-progress-bg-3) 100%
+  );
   transform: skew(-30deg);
   transform-origin: left center;
   transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);

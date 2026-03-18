@@ -3,7 +3,7 @@ import * as m from 'motion/react-m'
 import { useState, memo } from 'react'
 
 function ButtonEffectsJitterComponent() {
-const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const jitterVariants = {
     animate: {

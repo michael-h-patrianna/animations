@@ -29,5 +29,3 @@ function StandardEffectsWiggleComponent() {
  * Memoized StandardEffectsWiggle to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsWiggle = memo(StandardEffectsWiggleComponent)
-
-

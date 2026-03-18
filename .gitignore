@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-package-lock.json
 
 node_modules
 dist
@@ -27,22 +26,27 @@ coverage
 
 # Local AI assistant artifacts
 claude.sh
+claude-mcp.sh
+gemini.sh
+GEMINI.md
 .playwright-mcp
 playwright-report
 test-results
 ddd.md
 dd.md
+task_state.md
 
 # AI/tool caches
 .chatmodes
 .gemini
+.agents
+tmp
 
 # Environment & secrets
 .env
 .env.*
 
 # OS files
-.DS_Store
 Thumbs.db
 
 # Build & cache

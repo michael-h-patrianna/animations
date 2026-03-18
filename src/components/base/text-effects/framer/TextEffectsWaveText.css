@@ -1,6 +1,5 @@
 /* Styles scoped for TextEffectsWaveText - Framer Motion version */
 .wave-text-container {
-
   --text-effects-wave-text-color: #3b82f6;
   --text-effects-wave-text-text-shadow: rgb(0 0 0 / 15%);
   --text-effects-wave-text-bg: rgb(147 197 253 / 40%);

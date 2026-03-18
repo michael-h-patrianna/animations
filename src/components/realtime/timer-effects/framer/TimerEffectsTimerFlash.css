@@ -1,7 +1,6 @@
 /* Styles specific to TimerEffectsTimerFlash */
 
 .pf-timer-flash {
-
   --timer-effects-timer-flash-bg: #ffc107;
   --timer-effects-timer-flash-border: rgb(255 255 255 / 20%);
   --timer-effects-timer-flash-color-1: rgb(0 0 0 / 80%);
@@ -57,4 +56,3 @@
   letter-spacing: 0.05em;
   font-weight: 500;
 }
-

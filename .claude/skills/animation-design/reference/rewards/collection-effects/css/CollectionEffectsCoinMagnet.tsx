@@ -70,18 +70,20 @@ export function CollectionEffectsCoinMagnet() {
             <div
               key={coin.id}
               className="coin-magnet-coin"
-              style={{
-                left: `${coin.startX}%`,
-                top: `${coin.startY}%`,
-                animationDelay: `${coin.delay}ms`,
-                '--coin-rotation': `${coin.rotation}deg`,
-                '--translate-x': `${translation.x}px`,
-                '--translate-y': `${translation.y}px`,
-              } as React.CSSProperties & {
-                '--coin-rotation': string
-                '--translate-x': string
-                '--translate-y': string
-              }}
+              style={
+                {
+                  left: `${coin.startX}%`,
+                  top: `${coin.startY}%`,
+                  animationDelay: `${coin.delay}ms`,
+                  '--coin-rotation': `${coin.rotation}deg`,
+                  '--translate-x': `${translation.x}px`,
+                  '--translate-y': `${translation.y}px`,
+                } as React.CSSProperties & {
+                  '--coin-rotation': string
+                  '--translate-x': string
+                  '--translate-y': string
+                }
+              }
               aria-hidden="true"
             >
               <img src={coinImage} alt="" className="coin-magnet-coin__image" />

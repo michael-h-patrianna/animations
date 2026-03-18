@@ -52,26 +52,3 @@ export function buildRegistryFromCategories() {
   })
   return registry
 }
-
-/**
- * Retrieves metadata for a specific animation by its ID.
- * Searches both Framer and CSS animations.
- *
- * @param animationId - The unique animation ID (e.g., 'modal-base__scale-gentle-pop')
- * @returns The animation's metadata, or null if not found
- */
-export function getAnimationMetadata(animationId: string) {
-  for (const cat of Object.values(categories)) {
-    for (const group of Object.values(cat.groups)) {
-      // Try framer first
-      if (group.framer && group.framer[animationId]) {
-        return group.framer[animationId].metadata
-      }
-      // Then try css
-      if (group.css && group.css[animationId]) {
-        return group.css[animationId].metadata
-      }
-    }
-  }
-  return null
-}

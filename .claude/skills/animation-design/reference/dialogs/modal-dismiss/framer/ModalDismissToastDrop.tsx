@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import '../shared.css'
 
 export function ModalDismissToastDrop() {
-const [showProgress, setShowProgress] = useState(true)
+  const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.42
   const autoDismissMs = 3600

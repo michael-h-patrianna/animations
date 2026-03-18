@@ -29,4 +29,3 @@ function StandardEffectsRubberBandComponent() {
  * Memoized StandardEffectsRubberBand to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsRubberBand = memo(StandardEffectsRubberBandComponent)
-

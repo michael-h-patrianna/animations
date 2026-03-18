@@ -60,4 +60,3 @@ function ButtonEffectsRippleComponent() {
 }
 
 export const ButtonEffectsRipple = memo(ButtonEffectsRippleComponent)
-

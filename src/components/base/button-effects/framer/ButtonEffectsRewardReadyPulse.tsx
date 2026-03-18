@@ -18,10 +18,12 @@ import { memo, useState } from 'react'
 function ButtonEffectsRewardReadyPulseComponent() {
   const [isHovered, setIsHovered] = useState(false)
 
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
 
   // Normal breathing pulse animation
   const pulseVariants = {
@@ -74,7 +76,6 @@ function ButtonEffectsRewardReadyPulseComponent() {
         onHoverEnd={() => setIsHovered(false)}
         style={{ willChange: 'transform' }}
       >
-
         Claim Reward
       </m.button>
     </div>

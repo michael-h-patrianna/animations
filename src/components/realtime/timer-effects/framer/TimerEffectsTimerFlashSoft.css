@@ -1,7 +1,6 @@
 /* Styles specific to TimerEffectsTimerFlashSoft */
 
 .pf-timer-flash {
-
   --timer-effects-timer-flash-soft-bg-1: #ffc107;
   --timer-effects-timer-flash-soft-border: rgb(255 255 255 / 20%);
   --timer-effects-timer-flash-soft-color-1: rgb(0 0 0 / 80%);
@@ -62,4 +61,3 @@
 }
 
 /* Gentle horizontal shake */
-

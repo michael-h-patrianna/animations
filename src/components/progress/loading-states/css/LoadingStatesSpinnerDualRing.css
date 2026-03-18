@@ -1,7 +1,6 @@
 /* Styles for LoadingStatesSpinnerDualRing */
 
 .pf-loading-container {
-
   --loading-states-spinner-dual-ring-border-1: rgb(236 195 255 / 16%);
   --loading-states-spinner-dual-ring-border-top: #ecc3ff;
   --loading-states-spinner-dual-ring-border-2: rgb(198 255 119 / 20%);

@@ -1,6 +1,5 @@
 /* Styles scoped for ModalOrchestrationMagneticHover */
 .pf-magnetic-container {
-
   --modal-orchestration-magnetic-hover-bg: rgb(236 195 255 / 8%);
   --modal-orchestration-magnetic-hover-border: rgb(236 195 255 / 12%);
   --modal-orchestration-magnetic-hover-color-1: rgb(255 255 255 / 76%);
@@ -26,7 +25,7 @@
 }
 
 .pf-magnetic-tile:hover {
-  box-shadow: 0 20px 40px rgb(196 122 229 / 30%);
+  box-shadow: 0 20px 40px var(--pf-anim-orchid-30);
 }
 .pf-magnetic-tile h5 {
   margin: 0 0 8px;

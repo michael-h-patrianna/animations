@@ -1,5 +1,4 @@
 .pf-charge-surge {
-
   --progress-bars-charge-surge-bg-1: rgb(59 130 246 / 10%);
   --progress-bars-charge-surge-bg-2: rgb(59 130 246 / 60%);
   --progress-bars-charge-surge-bg-3: rgb(59 130 246 / 80%);
@@ -29,7 +28,11 @@
 }
 
 .pf-charge-surge .pf-progress-fill--base {
-  background: linear-gradient(to right, var(--progress-bars-charge-surge-bg-2), var(--progress-bars-charge-surge-bg-3));
+  background: linear-gradient(
+    to right,
+    var(--progress-bars-charge-surge-bg-2),
+    var(--progress-bars-charge-surge-bg-3)
+  );
   z-index: 1;
 }
 

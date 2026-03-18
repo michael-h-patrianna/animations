@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import * as m from 'motion/react-m'
 
-
 import '../shared.css'
 
 function StandardEffectsTadaComponent() {
@@ -31,4 +30,3 @@ function StandardEffectsTadaComponent() {
  * Memoized StandardEffectsTada to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsTada = memo(StandardEffectsTadaComponent)
-

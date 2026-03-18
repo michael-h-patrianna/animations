@@ -6,7 +6,7 @@ import './UpdateIndicatorsHomeIconDotRadar.css'
 
 export function UpdateIndicatorsHomeIconDotRadar() {
   const [key, setKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 10000)
@@ -26,12 +26,12 @@ useEffect(() => {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{
             scale: [0.9, 1.9],
-            opacity: [0.9, 0.6, 0]
+            opacity: [0.9, 0.6, 0],
           }}
           transition={{
             duration: 1.6,
             ease: easeOut,
-            times: [0, 0.5, 1]
+            times: [0, 0.5, 1],
           }}
         />
         <m.span
@@ -40,13 +40,13 @@ useEffect(() => {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{
             scale: [0.9, 1.9],
-            opacity: [0.9, 0.6, 0]
+            opacity: [0.9, 0.6, 0],
           }}
           transition={{
             duration: 1.6,
             ease: easeOut,
             delay: 0.8,
-            times: [0, 0.5, 1]
+            times: [0, 0.5, 1],
           }}
         />
       </div>

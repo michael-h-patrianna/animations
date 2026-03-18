@@ -2,7 +2,6 @@
 
 /* Container for urgent pulse demo */
 .timer-urgent-pulse-demo {
-
   --timer-effects-urgent-pulse-bg-1: #ffa500;
   --timer-effects-urgent-pulse-bg-2: #ff8c00;
   --timer-effects-urgent-pulse-border: rgb(255 255 255 / 30%);
@@ -30,7 +29,11 @@
   align-items: center;
   justify-content: center;
   /* Base amber gradient - always visible */
-  background: linear-gradient(135deg, var(--timer-effects-urgent-pulse-bg-1) 0%, var(--timer-effects-urgent-pulse-bg-2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-urgent-pulse-bg-1) 0%,
+    var(--timer-effects-urgent-pulse-bg-2) 100%
+  );
   border: 2px solid var(--timer-effects-urgent-pulse-border);
   will-change: transform;
   animation: urgent-pulse-scale 500ms ease-in-out infinite;
@@ -41,7 +44,11 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--timer-effects-urgent-pulse-bg-3) 0%, var(--timer-effects-urgent-pulse-bg-4) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-urgent-pulse-bg-3) 0%,
+    var(--timer-effects-urgent-pulse-bg-4) 100%
+  );
   opacity: 0;
   border-radius: inherit;
   animation: urgent-pulse-gradient 500ms ease-in-out infinite;
@@ -70,7 +77,8 @@
 
 /* Scale animation: 1.0 → 1.12 → 1.0 */
 @keyframes urgent-pulse-scale {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -80,7 +88,8 @@
 
 /* Gradient opacity crossfade: 0 → 1 → 0 */
 @keyframes urgent-pulse-gradient {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
   }
   50% {
@@ -93,7 +102,11 @@
   .timer-urgent-pulse {
     animation: urgent-pulse-scale-slow 1000ms ease-in-out infinite;
     /* Mid-gradient: blend of amber and red */
-    background: linear-gradient(135deg, var(--timer-effects-urgent-pulse-bg-5) 0%, var(--timer-effects-urgent-pulse-bg-6) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--timer-effects-urgent-pulse-bg-5) 0%,
+      var(--timer-effects-urgent-pulse-bg-6) 100%
+    );
   }
 
   .timer-urgent-pulse::before {
@@ -103,7 +116,8 @@
   }
 
   @keyframes urgent-pulse-scale-slow {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1);
     }
     50% {

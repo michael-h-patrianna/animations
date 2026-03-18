@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationMagneticHover.css'
 
-
 export function ModalOrchestrationMagneticHover() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
@@ -33,7 +32,9 @@ export function ModalOrchestrationMagneticHover() {
         {tiles.map((tile) => (
           <div
             key={tile.id}
-            ref={(el) => { tileRefs.current[tile.id] = el }}
+            ref={(el) => {
+              tileRefs.current[tile.id] = el
+            }}
             className="pf-magnetic-tile"
           >
             <h5>{tile.title}</h5>
@@ -45,4 +46,3 @@ export function ModalOrchestrationMagneticHover() {
     </div>
   )
 }
-

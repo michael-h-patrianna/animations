@@ -1,6 +1,5 @@
 /* Styles scoped for ModalOrchestrationStaggerInview */
 .pf-stagger-container {
-
   --modal-orchestration-stagger-inview-bg: rgb(236 195 255 / 8%);
   --modal-orchestration-stagger-inview-border: rgb(236 195 255 / 12%);
   --modal-orchestration-stagger-inview-color-1: rgb(255 255 255 / 76%);

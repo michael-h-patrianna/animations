@@ -129,8 +129,8 @@
   gap: 4px;
   opacity: 0;
   transform: translate(-50%, 160px) scale(0);
-  animation: pf-chest-gc-sc-css-flyout 0.88s cubic-bezier(0.22, 1, 0.36, 1)
-    var(--fly-delay, 0.02s) forwards;
+  animation: pf-chest-gc-sc-css-flyout 0.88s cubic-bezier(0.22, 1, 0.36, 1) var(--fly-delay, 0.02s)
+    forwards;
 }
 
 /* Prize type colors */
@@ -327,7 +327,11 @@
 }
 
 .pf-chest-gc-sc-css__claim-btn:hover {
-  background: linear-gradient(180deg, var(--claim-btn-hover-bg-start), var(--claim-btn-hover-bg-end));
+  background: linear-gradient(
+    180deg,
+    var(--claim-btn-hover-bg-start),
+    var(--claim-btn-hover-bg-end)
+  );
   border-color: var(--claim-btn-hover-border);
   box-shadow:
     0 0 24px 8px var(--claim-btn-hover-glow),
@@ -360,7 +364,8 @@
 /* ─── Prize claim fly-out ─── */
 
 .pf-chest-gc-sc-css__prize.is-claiming {
-  animation: pf-chest-gc-sc-css-claim-flyout 0.75s cubic-bezier(0.32, 0, 0.67, 0) var(--claim-delay, 0s) forwards;
+  animation: pf-chest-gc-sc-css-claim-flyout 0.75s cubic-bezier(0.32, 0, 0.67, 0)
+    var(--claim-delay, 0s) forwards;
 }
 
 /* ─── Responsive sizing by prize count ─── */
@@ -370,7 +375,9 @@
   block-size: 47px;
 }
 
-.pf-chest-gc-sc-css[data-prize-count='3'] .pf-chest-gc-sc-css__prize--rr .pf-chest-gc-sc-css__prize-icon-wrap {
+.pf-chest-gc-sc-css[data-prize-count='3']
+  .pf-chest-gc-sc-css__prize--rr
+  .pf-chest-gc-sc-css__prize-icon-wrap {
   inline-size: 68px;
   block-size: 57px;
 }
@@ -388,7 +395,9 @@
   block-size: 38px;
 }
 
-.pf-chest-gc-sc-css[data-prize-count='4'] .pf-chest-gc-sc-css__prize--rr .pf-chest-gc-sc-css__prize-icon-wrap {
+.pf-chest-gc-sc-css[data-prize-count='4']
+  .pf-chest-gc-sc-css__prize--rr
+  .pf-chest-gc-sc-css__prize-icon-wrap {
   inline-size: 56px;
   block-size: 47px;
 }
@@ -505,26 +514,14 @@
     opacity: 1;
   }
   48% {
-    transform: translate(
-        calc(-50% + var(--fly-overshoot, 0px)),
-        -18px
-      )
-      scale(1.15);
+    transform: translate(calc(-50% + var(--fly-overshoot, 0px)), -18px) scale(1.15);
   }
   76% {
-    transform: translate(
-        calc(-50% + var(--fly-settle, 0px)),
-        6px
-      )
-      scale(0.94);
+    transform: translate(calc(-50% + var(--fly-settle, 0px)), 6px) scale(0.94);
   }
   100% {
     opacity: 1;
-    transform: translate(
-        calc(-50% + var(--fly-x, 0px)),
-        0
-      )
-      scale(1);
+    transform: translate(calc(-50% + var(--fly-x, 0px)), 0) scale(1);
   }
 }
 
@@ -640,29 +637,17 @@
 
 @keyframes pf-chest-gc-sc-css-claim-flyout {
   0% {
-    transform: translate(
-        calc(-50% + var(--fly-x, 0px)),
-        0
-      )
-      scale(1);
+    transform: translate(calc(-50% + var(--fly-x, 0px)), 0) scale(1);
     opacity: 1;
   }
 
   18% {
-    transform: translate(
-        calc(-50% + var(--fly-x, 0px)),
-        -10px
-      )
-      scale(1.15);
+    transform: translate(calc(-50% + var(--fly-x, 0px)), -10px) scale(1.15);
     opacity: 1;
   }
 
   100% {
-    transform: translate(
-        calc(-50% + var(--claim-fly-x, 0px)),
-        -300px
-      )
-      scale(0.4);
+    transform: translate(calc(-50% + var(--claim-fly-x, 0px)), -300px) scale(0.4);
     opacity: 0;
   }
 }

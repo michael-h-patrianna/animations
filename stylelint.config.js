@@ -110,9 +110,16 @@ const noColorsRule = createPlugin(noColorsName, (primary) => {
 
       const value = decl.value
       // Skip values that only use custom properties
-      if (/^var\(/.test(value) && !hexPattern.test(value) && !rgbPattern.test(value) && !hslPattern.test(value)) return
+      if (
+        /^var\(/.test(value) &&
+        !hexPattern.test(value) &&
+        !rgbPattern.test(value) &&
+        !hslPattern.test(value)
+      )
+        return
       // Skip transparent, currentColor, inherit, etc.
-      if (/^(?:transparent|currentcolor|inherit|initial|unset|revert|none)$/i.test(value.trim())) return
+      if (/^(?:transparent|currentcolor|inherit|initial|unset|revert|none)$/i.test(value.trim()))
+        return
 
       if (hexPattern.test(value) || rgbPattern.test(value) || hslPattern.test(value)) {
         report({
@@ -145,6 +152,11 @@ export default {
     // Disable rules that conflict with animation codebase conventions
     'no-descending-specificity': null,
     'no-duplicate-selectors': null,
+    // Animation @keyframes conventionally use compact single-line blocks:
+    //   0% { transform: scale(0); opacity: 0; }
+    // Requiring one-declaration-per-line here makes keyframes unreadable.
+    // The rule is useful for regular selectors (lint is enforced there by reviewers).
+    'declaration-block-single-line-max-declarations': null,
     'selector-class-pattern': [
       '^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*(__[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*)?(--[a-zA-Z0-9][a-zA-Z0-9-]*)?$',
       {

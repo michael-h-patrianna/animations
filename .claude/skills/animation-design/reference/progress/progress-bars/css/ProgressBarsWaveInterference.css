@@ -117,64 +117,99 @@
 }
 
 /* Progressive amplitude increase */
-.pb-wi-segment-css[data-phase="1"] {
+.pb-wi-segment-css[data-phase='1'] {
   animation: pb-wi-wave-phase1-css 3.7s ease-in-out forwards;
 }
 
-.pb-wi-segment-css[data-phase="2"] {
+.pb-wi-segment-css[data-phase='2'] {
   animation: pb-wi-wave-phase2-css 2.775s 0.925s ease-in-out forwards;
 }
 
 @keyframes pb-wi-wave-phase1-css {
-  0%, 25% {
+  0%,
+  25% {
     animation-name: pb-wi-wave-small-css;
   }
-  25%, 50% {
+  25%,
+  50% {
     animation-name: pb-wi-wave-medium-css;
   }
-  50%, 75% {
+  50%,
+  75% {
     animation-name: pb-wi-wave-large-css;
   }
-  75%, 100% {
+  75%,
+  100% {
     animation-name: pb-wi-wave-xlarge-css;
   }
 }
 
 @keyframes pb-wi-wave-phase2-css {
-  0%, 33% {
+  0%,
+  33% {
     animation-name: pb-wi-wave-medium-css;
   }
-  33%, 66% {
+  33%,
+  66% {
     animation-name: pb-wi-wave-large-css;
   }
-  66%, 100% {
+  66%,
+  100% {
     animation-name: pb-wi-wave-xlarge-css;
   }
 }
 
 /* Different amplitude waves */
 @keyframes pb-wi-wave-small-css {
-  0%, 100% { transform: translateY(0); }
-  25% { transform: translateY(-8px); }
-  75% { transform: translateY(8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-8px);
+  }
+  75% {
+    transform: translateY(8px);
+  }
 }
 
 @keyframes pb-wi-wave-medium-css {
-  0%, 100% { transform: translateY(0); }
-  25% { transform: translateY(-12px); }
-  75% { transform: translateY(12px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-12px);
+  }
+  75% {
+    transform: translateY(12px);
+  }
 }
 
 @keyframes pb-wi-wave-large-css {
-  0%, 100% { transform: translateY(0); }
-  25% { transform: translateY(-16px); }
-  75% { transform: translateY(16px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-16px);
+  }
+  75% {
+    transform: translateY(16px);
+  }
 }
 
 @keyframes pb-wi-wave-xlarge-css {
-  0%, 100% { transform: translateY(0); }
-  25% { transform: translateY(-20px); }
-  75% { transform: translateY(20px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-20px);
+  }
+  75% {
+    transform: translateY(20px);
+  }
 }
 
 /* Interference nodes */

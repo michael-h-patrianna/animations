@@ -1,7 +1,6 @@
 /* Styles for IconAnimationsPulse */
 
 .icon-demo-container {
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,4 +63,3 @@
   height: auto;
   will-change: transform, opacity;
 }
-

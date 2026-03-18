@@ -16,4 +16,3 @@ function StandardEffectsSlideComponent() {
  * Memoized StandardEffectsSlide to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsSlide = memo(StandardEffectsSlideComponent)
-

@@ -2,16 +2,10 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 
-/**
- *
- */
 import { homeIcon2 } from '@/assets'
-/**
- *
- */
 export function UpdateIndicatorsHomeIconDotSweep() {
   const [key, setKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 10000)
@@ -34,7 +28,7 @@ useEffect(() => {
           transition={{
             duration: 0.9,
             ease: easeInOut,
-            times: [0, 0.3, 1]
+            times: [0, 0.3, 1],
           }}
         >
           <m.span
@@ -49,13 +43,13 @@ useEffect(() => {
           initial={{ scale: 0.75, opacity: 0 }}
           animate={{
             scale: [0.75, 1.8],
-            opacity: [0, 0.8, 0]
+            opacity: [0, 0.8, 0],
           }}
           transition={{
             duration: 0.9,
             ease: easeInOut,
             scale: { times: [0, 1] },
-            opacity: { times: [0, 0.35, 1] }
+            opacity: { times: [0, 0.35, 1] },
           }}
         />
       </div>

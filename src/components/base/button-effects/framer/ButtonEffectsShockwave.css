@@ -1,7 +1,6 @@
 /* Styles scoped for ButtonEffectsShockwave */
 
 .pf-btn__shockwaves {
-
   --button-effects-shockwave-border: rgb(255 255 255 / 50%);
   --button-effects-shockwave-border-1: rgb(255 89 129 / 40%);
   --button-effects-shockwave-border-2: rgb(255 206 26 / 30%);

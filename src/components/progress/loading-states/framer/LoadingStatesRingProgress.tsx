@@ -1,14 +1,11 @@
-
 import * as m from 'motion/react-m'
 
-/**
- *
- */
 export function LoadingStatesRingProgress() {
   const circumference = 2 * Math.PI * 25
   return (
     <div data-animation-id="loading-states__ring-progress" className="pf-loading-container">
       <div className="pf-ring-progress">
+        {/* eslint-disable animation-rules/no-svg-in-motion -- ring progress requires SVG for strokeDashoffset animation; no equivalent in React Native without react-native-svg */}
         <svg viewBox="0 0 60 60" width="60" height="60">
           <circle cx="30" cy="30" r="25" fill="none" className="base" strokeWidth="4" />
           <m.circle
@@ -22,11 +19,16 @@ export function LoadingStatesRingProgress() {
             strokeLinecap="round"
             strokeDasharray={`${circumference}`}
             animate={{ strokeDashoffset: [circumference, 0, -circumference] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' as const, times: [0, 0.5, 1] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'linear' as const,
+              times: [0, 0.5, 1],
+            }}
           />
         </svg>
+        {/* eslint-enable animation-rules/no-svg-in-motion */}
       </div>
     </div>
   )
 }
-

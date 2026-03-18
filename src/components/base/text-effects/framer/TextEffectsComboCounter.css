@@ -1,6 +1,5 @@
 /* Styles scoped for TextEffectsComboCounter */
 .combo-counter-container {
-
   --text-effects-combo-counter-color-1: rgb(239 68 68 / 30%);
   --text-effects-combo-counter-bg-1: #ef4444;
   --text-effects-combo-counter-bg-2: #dc2626;
@@ -65,7 +64,12 @@
   position: relative;
   font-size: 36px;
   font-weight: 900;
-  background: linear-gradient(180deg, var(--text-effects-combo-counter-bg-1) 0%, var(--text-effects-combo-counter-bg-2) 50%, var(--text-effects-combo-counter-bg-3) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--text-effects-combo-counter-bg-1) 0%,
+    var(--text-effects-combo-counter-bg-2) 50%,
+    var(--text-effects-combo-counter-bg-3) 100%
+  );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 2px 4px var(--text-effects-combo-counter-text-shadow-1);
@@ -83,10 +87,8 @@
   display: inline-block;
   color: var(--text-effects-combo-counter-color-2-0b);
   --text-shadow-lint-token-1:
-    0 2px 4px var(--text-effects-combo-counter-text-shadow-3),
-    0 0 8px rgb(245 158 11 / 50%);
-  text-shadow:
-    var(--text-shadow-lint-token-1);
+    0 2px 4px var(--text-effects-combo-counter-text-shadow-3), 0 0 8px rgb(245 158 11 / 50%);
+  text-shadow: var(--text-shadow-lint-token-1);
   transform-origin: center;
 }
 .combo-digit-glow {
@@ -146,7 +148,7 @@
   text-shadow: 0 0 8px var(--text-effects-combo-counter-text-shadow-2);
 }
 .combo-digit-pulse {
-  text-shadow: 0 2px 6px rgb(239 68 68 / 40%);
+  text-shadow: 0 2px 6px var(--pf-anim-red-40);
 }
 
 .combo-bonus {
@@ -155,10 +157,8 @@
   color: var(--text-effects-combo-counter-color-3-81);
   letter-spacing: 3px;
   --text-shadow-lint-token-2:
-    0 0 10px rgb(16 185 129 / 60%),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
-  text-shadow:
-    var(--text-shadow-lint-token-2);
+    0 0 10px rgb(16 185 129 / 60%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
+  text-shadow: var(--text-shadow-lint-token-2);
   margin-top: 8px;
 }
 .combo-score-particles {
@@ -193,7 +193,12 @@
   top: 0;
   left: 0;
   transform: scale(1.1);
-  background: linear-gradient(135deg, var(--text-effects-combo-counter-bg-4) 0%, var(--text-effects-combo-counter-bg-5) 50%, var(--text-effects-combo-counter-bg-4) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--text-effects-combo-counter-bg-4) 0%,
+    var(--text-effects-combo-counter-bg-5) 50%,
+    var(--text-effects-combo-counter-bg-4) 100%
+  );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   z-index: -1;
@@ -202,38 +207,35 @@
 .combo-milestone-particle[data-value='1'] {
   color: var(--text-effects-combo-counter-color-5-fa);
   --text-shadow-lint-token-3:
-    0 0 10px rgb(96 165 250 / 80%),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
-  text-shadow:
-    var(--text-shadow-lint-token-3);
+    0 0 10px rgb(96 165 250 / 80%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
+  text-shadow: var(--text-shadow-lint-token-3);
 }
 .combo-milestone-particle[data-value='5'] {
   color: var(--text-effects-combo-counter-color-6);
   --text-shadow-lint-token-4:
-    0 0 10px rgb(167 139 250 / 80%),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
-  text-shadow:
-    var(--text-shadow-lint-token-4);
+    0 0 10px rgb(167 139 250 / 80%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
+  text-shadow: var(--text-shadow-lint-token-4);
 }
 .combo-milestone-particle[data-value='9'] {
   color: var(--text-effects-combo-counter-color-4-24);
   --text-shadow-lint-token-5:
-    0 0 10px rgb(251 191 36 / 80%),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
-  text-shadow:
-    var(--text-shadow-lint-token-5);
+    0 0 10px rgb(251 191 36 / 80%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-3);
+  text-shadow: var(--text-shadow-lint-token-5);
 }
 .combo-milestone-particle[data-value='10'] {
-  background: linear-gradient(135deg, var(--text-effects-combo-counter-bg-4) 0%, var(--text-effects-combo-counter-bg-5) 50%, var(--text-effects-combo-counter-bg-4) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--text-effects-combo-counter-bg-4) 0%,
+    var(--text-effects-combo-counter-bg-5) 50%,
+    var(--text-effects-combo-counter-bg-4) 100%
+  );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: 15px;
   font-weight: 800;
   --text-shadow-lint-token-6:
-    0 0 15px rgb(255 215 0 / 90%),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
-  text-shadow:
-    var(--text-shadow-lint-token-6);
+    0 0 15px rgb(255 215 0 / 90%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
+  text-shadow: var(--text-shadow-lint-token-6);
   position: relative;
 }
 .combo-milestone-particle[data-value='10'] .combo-milestone-particle__glow {

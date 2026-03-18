@@ -42,7 +42,9 @@ interface TextEffectsMetallicSpecularFlashProps {
  *
  * @see TextEffectsMetallicSpecularFlash.css for keyframe definitions and styling
  */
-function TextEffectsMetallicSpecularFlashComponent({ text = 'LORUM IPSUM DOLOR' }: TextEffectsMetallicSpecularFlashProps) {
+function TextEffectsMetallicSpecularFlashComponent({
+  text = 'LORUM IPSUM DOLOR',
+}: TextEffectsMetallicSpecularFlashProps) {
   const letters = React.useMemo(() => Array.from(text), [text])
 
   return (
@@ -73,4 +75,3 @@ function TextEffectsMetallicSpecularFlashComponent({ text = 'LORUM IPSUM DOLOR' 
 export const TextEffectsMetallicSpecularFlash = memo(TextEffectsMetallicSpecularFlashComponent)
 
 export default TextEffectsMetallicSpecularFlash
-

@@ -6,7 +6,7 @@ import './TimerEffectsPillCountdownHeartbeat.css'
 export function TimerEffectsPillCountdownHeartbeat() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)
-useEffect(() => {
+  useEffect(() => {
     if (!isRunning || seconds <= 0) return
 
     const interval = setInterval(() => {

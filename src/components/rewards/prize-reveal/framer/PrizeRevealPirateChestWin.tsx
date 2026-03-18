@@ -1,11 +1,7 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-import {
-  pirateChestClosedImage,
-  pirateChestOpenImage,
-  pirateCoinImage,
-} from '@/assets'
+import { pirateChestClosedImage, pirateChestOpenImage, pirateCoinImage } from '@/assets'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 
@@ -138,10 +134,7 @@ function PirateChestWinRays() {
 
 function PrizeRevealPirateChestWinComponent() {
   const phase = useRevealPhase()
-  const coinSparkles = useMemo(
-    () => createCoinSparkles(),
-    []
-  )
+  const coinSparkles = useMemo(() => createCoinSparkles(), [])
 
   return (
     <div
@@ -160,7 +153,10 @@ function PrizeRevealPirateChestWinComponent() {
           }}
           transition={
             phase === 'shake'
-              ? { x: { duration: 0.6, ease: 'easeInOut' }, default: { type: 'spring', stiffness: 210, damping: 18 } }
+              ? {
+                  x: { duration: 0.6, ease: 'easeInOut' },
+                  default: { type: 'spring', stiffness: 210, damping: 18 },
+                }
               : phase === 'reveal'
                 ? {
                     duration: 0.42,

@@ -1,8 +1,5 @@
 import './LoadingStatesRingProgress.css'
 
-/**
- *
- */
 export function LoadingStatesRingProgress() {
   const circumference = 2 * Math.PI * 25
 
@@ -28,4 +25,3 @@ export function LoadingStatesRingProgress() {
     </div>
   )
 }
-

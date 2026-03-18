@@ -4,5 +4,5 @@ export const metadata: AnimationMetadata = {
   id: 'realtime-data__leaderboard-shift',
   title: 'Leaderboard Shift',
   description: 'Real-time data pattern: Leaderboard Shift',
-  tags: ['framer', 'js']
+  tags: ['framer', 'js'],
 }

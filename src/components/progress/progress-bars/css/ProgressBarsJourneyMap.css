@@ -59,7 +59,9 @@
   top: 21px;
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--progress-bars-journey-distance-css-track-edge), transparent 58%), var(--progress-bars-journey-distance-css-track-base);
+  background:
+    linear-gradient(90deg, var(--progress-bars-journey-distance-css-track-edge), transparent 58%),
+    var(--progress-bars-journey-distance-css-track-base);
 }
 
 .journey-distance-fill-css {
@@ -68,7 +70,11 @@
   top: 21px;
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--progress-bars-journey-distance-css-fill-a), var(--progress-bars-journey-distance-css-fill-b));
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-journey-distance-css-fill-a),
+    var(--progress-bars-journey-distance-css-fill-b)
+  );
   transition: width 0.18s cubic-bezier(0.24, 0.78, 0.28, 0.98);
 }
 
@@ -79,7 +85,12 @@
   width: 16%;
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--progress-bars-journey-distance-css-fill-gloss-a), var(--progress-bars-journey-distance-css-fill-gloss-b), var(--progress-bars-journey-distance-css-fill-gloss-a));
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-journey-distance-css-fill-gloss-a),
+    var(--progress-bars-journey-distance-css-fill-gloss-b),
+    var(--progress-bars-journey-distance-css-fill-gloss-a)
+  );
   pointer-events: none;
   animation: journey-distance-fill-gloss-css 1.9s ease-in-out infinite;
 }
@@ -161,7 +172,11 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(180deg, var(--progress-bars-journey-distance-css-traveller-glow-a), var(--progress-bars-journey-distance-css-traveller-glow-b));
+  background: linear-gradient(
+    180deg,
+    var(--progress-bars-journey-distance-css-traveller-glow-a),
+    var(--progress-bars-journey-distance-css-traveller-glow-b)
+  );
   animation: journey-distance-traveller-glow-css 1.2s ease-in-out infinite;
 }
 

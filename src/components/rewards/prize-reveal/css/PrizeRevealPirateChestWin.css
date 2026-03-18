@@ -38,8 +38,7 @@
 .pf-pirate-chest-win-css__chest.is-reveal {
   opacity: 1;
   transform: translateY(0) scale(1);
-  animation: pf-pirate-chest-win-css-reveal 0.42s cubic-bezier(0.68, -0.55, 0.265, 1.55)
-    both;
+  animation: pf-pirate-chest-win-css-reveal 0.42s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
 }
 
 .pf-pirate-chest-win-css__image {
@@ -66,8 +65,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  animation: pf-pirate-chest-win-css-rays-enter 0.45s cubic-bezier(0.16, 0.84, 0.32, 1)
-    forwards;
+  animation: pf-pirate-chest-win-css-rays-enter 0.45s cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
 }
 
 .pf-pirate-chest-win-css__rays-spin,
@@ -122,8 +120,7 @@
   filter: drop-shadow(0 4px 6px rgb(0 0 0 / 32%));
   opacity: 0;
   transform: translate(-50%, 0) scale(0.55) rotate(0deg);
-  animation: pf-pirate-chest-win-css-coin 0.9s cubic-bezier(0, 0, 0.2, 1) var(--delay, 0s)
-    forwards;
+  animation: pf-pirate-chest-win-css-coin 0.9s cubic-bezier(0, 0, 0.2, 1) var(--delay, 0s) forwards;
 }
 
 @keyframes pf-pirate-chest-win-css-rise {

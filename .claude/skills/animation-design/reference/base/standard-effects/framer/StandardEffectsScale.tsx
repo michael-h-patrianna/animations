@@ -32,5 +32,3 @@ function StandardEffectsScaleComponent() {
  * Memoized StandardEffectsScale to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsScale = memo(StandardEffectsScaleComponent)
-
-

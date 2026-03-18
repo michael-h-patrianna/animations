@@ -10,10 +10,11 @@ import './ButtonEffectsJitter.css'
 function ButtonEffectsJitterComponent() {
   return (
     <div className="button-demo" data-animation-id="button-effects__jitter">
-      <button type="button" className="pf-btn pf-btn--primary bfx-jitter">Click Me!</button>
+      <button type="button" className="pf-btn pf-btn--primary bfx-jitter">
+        Click Me!
+      </button>
     </div>
   )
 }
 
 export const ButtonEffectsJitter = memo(ButtonEffectsJitterComponent)
-

@@ -13,13 +13,14 @@ App.tsx currently manages state across **5 separate variables**:
 
 ```tsx
 const [currentGroupId, setCurrentGroupId] = useState<string>('')
-const direction = 0  // Unused! Can be removed
+const direction = 0 // Unused! Can be removed
 const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 const dragControls = useDragControls()
 const appBarRef = useRef<HTMLDivElement | null>(null)
 ```
 
 **Issues:**
+
 - Navigation state (currentGroupId) separate from UI state (drawer)
 - `direction` variable is unused and can be removed
 - No clear relationship between drawer and navigation state
@@ -114,10 +115,7 @@ Combined Flow (Mobile):
 ### Reducer Implementation
 
 ```typescript
-function appReducer(
-  state: AppMachineState,
-  action: AppAction
-): AppMachineState {
+function appReducer(state: AppMachineState, action: AppAction): AppMachineState {
   switch (action.type) {
     case 'NAVIGATE_TO_GROUP':
       return {
@@ -180,7 +178,7 @@ function appReducer(
 
 **File:** `src/hooks/useAppStateMachine.ts`
 
-```typescript
+````typescript
 import { useReducer, useRef } from 'react'
 import { useDragControls } from 'framer-motion'
 import type { DragControls } from 'framer-motion'
@@ -244,40 +242,37 @@ export function useAppStateMachine() {
     appBarRef,
 
     // Actions
-    navigateToGroup: (groupId: string) =>
-      dispatch({ type: 'NAVIGATE_TO_GROUP', groupId }),
+    navigateToGroup: (groupId: string) => dispatch({ type: 'NAVIGATE_TO_GROUP', groupId }),
 
-    openDrawer: () =>
-      dispatch({ type: 'OPEN_DRAWER' }),
+    openDrawer: () => dispatch({ type: 'OPEN_DRAWER' }),
 
-    closeDrawer: () =>
-      dispatch({ type: 'CLOSE_DRAWER' }),
+    closeDrawer: () => dispatch({ type: 'CLOSE_DRAWER' }),
 
     navigateAndCloseDrawer: (groupId: string) =>
       dispatch({ type: 'NAVIGATE_AND_CLOSE_DRAWER', groupId }),
 
     // Internal actions (for animation callbacks)
-    _startDrawerAnimation: () =>
-      dispatch({ type: 'START_DRAWER_ANIMATION' }),
+    _startDrawerAnimation: () => dispatch({ type: 'START_DRAWER_ANIMATION' }),
 
-    _finishDrawerAnimation: () =>
-      dispatch({ type: 'FINISH_DRAWER_ANIMATION' }),
+    _finishDrawerAnimation: () => dispatch({ type: 'FINISH_DRAWER_ANIMATION' }),
   }
 }
-```
+````
 
 ### Step 2: Update App.tsx
 
 **Before:**
+
 ```tsx
 const [currentGroupId, setCurrentGroupId] = useState<string>('')
-const direction = 0  // Unused
+const direction = 0 // Unused
 const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 const dragControls = useDragControls()
 const appBarRef = useRef<HTMLDivElement | null>(null)
 ```
 
 **After:**
+
 ```tsx
 const {
   currentGroupId,
@@ -292,6 +287,7 @@ const {
 ```
 
 **Update setCurrentGroupId calls:**
+
 ```tsx
 // Before
 setCurrentGroupId(groupId)
@@ -301,6 +297,7 @@ navigateToGroup(groupId)
 ```
 
 **Update drawer calls:**
+
 ```tsx
 // Before
 setIsDrawerOpen(false)
@@ -310,6 +307,7 @@ closeDrawer()
 ```
 
 **Update mobile handlers:**
+
 ```tsx
 // Before
 const handleGroupSelectMobile = useCallback(
@@ -329,8 +327,9 @@ const handleGroupSelectMobile = (groupId: string) => {
 ### Step 3: Clean Up Unused Code
 
 Remove the `direction` variable entirely:
+
 ```tsx
-const direction = 0  // DELETE THIS LINE
+const direction = 0 // DELETE THIS LINE
 ```
 
 It's never used in the codebase!
@@ -433,6 +432,7 @@ describe('useAppStateMachine', () => {
 ## Benefits
 
 ### Before (5 scattered state variables)
+
 ❌ State spread across multiple variables
 ❌ No clear state relationships
 ❌ `direction` variable unused (dead code)
@@ -440,6 +440,7 @@ describe('useAppStateMachine', () => {
 ❌ Mobile handlers manually coordinate state
 
 ### After (1 useReducer + refs)
+
 ✅ Centralized state management
 ✅ Clear navigation + UI state relationship
 ✅ Unused code removed
@@ -465,12 +466,15 @@ describe('useAppStateMachine', () => {
 ## Risks & Mitigation
 
 ### Risk: Breaking Navigation Behavior
+
 **Mitigation:** Comprehensive integration tests for navigation flows
 
 ### Risk: Drawer Animation Timing Issues
+
 **Mitigation:** Keep drawer animation callbacks, test with delays
 
 ### Risk: useGroupInitialization Hook Integration
+
 **Mitigation:** Hook will call `navigateToGroup` instead of `setCurrentGroupId`
 
 ---
@@ -500,4 +504,4 @@ This was likely intended for slide animations but never implemented. Safe to del
 
 ---
 
-*This design is ready for implementation. Follow the migration checklist to safely refactor App state.*
+_This design is ready for implementation. Follow the migration checklist to safely refactor App state._

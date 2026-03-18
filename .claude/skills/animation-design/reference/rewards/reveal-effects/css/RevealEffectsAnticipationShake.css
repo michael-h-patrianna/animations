@@ -294,7 +294,7 @@
 /* Reduced Motion: Simple pulse instead of shake */
 @media (prefers-reduced-motion: reduce) {
   .anticipation-shake-box--active {
-    animation: anticipation-shake-pulse 800ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+    animation: anticipation-shake-pulse 800ms cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
   @keyframes anticipation-shake-pulse {

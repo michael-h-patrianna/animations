@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 import { animate, easeInOut, easeOut, useMotionValue, useTransform } from 'motion/react'
 import { useEffect, memo } from 'react'
@@ -216,5 +215,3 @@ function TextEffectsComboCounterComponent() {
  * Memoized TextEffectsComboCounter to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsComboCounter = memo(TextEffectsComboCounterComponent)
-
-

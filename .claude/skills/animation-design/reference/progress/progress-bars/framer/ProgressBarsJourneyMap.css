@@ -15,7 +15,13 @@
   left: 20px;
   right: 20px;
   height: 4px;
-  background: repeating-linear-gradient(90deg, #e5e7eb 0, #e5e7eb 10px, transparent 10px, transparent 20px);
+  background: repeating-linear-gradient(
+    90deg,
+    #e5e7eb 0,
+    #e5e7eb 10px,
+    transparent 10px,
+    transparent 20px
+  );
 }
 
 .journey-map-track-fill {

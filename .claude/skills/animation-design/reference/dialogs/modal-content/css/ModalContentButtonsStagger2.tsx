@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalContentButtonsStagger2.css'
 
-
 export function ModalContentButtonsStagger2() {
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
 
@@ -55,4 +54,3 @@ export function ModalContentButtonsStagger2() {
     </div>
   )
 }
-

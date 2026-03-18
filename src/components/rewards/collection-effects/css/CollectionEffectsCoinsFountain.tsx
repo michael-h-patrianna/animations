@@ -6,9 +6,6 @@ const randBetween = (min: number, max: number): number => {
   return Math.random() * (max - min) + min
 }
 
-/**
- *
- */
 export function CollectionEffectsCoinsFountain() {
   const coins = Array.from({ length: 12 }, (_, i) => {
     const tx = randBetween(-80, 80)

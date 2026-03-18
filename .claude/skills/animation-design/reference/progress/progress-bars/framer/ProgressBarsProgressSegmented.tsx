@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import './ProgressBarsProgressSegmented.css'
 
 export function ProgressBarsProgressSegmented() {
-const [activeSegments, setActiveSegments] = useState<number[]>([])
+  const [activeSegments, setActiveSegments] = useState<number[]>([])
   const segmentCount = 4
   const segmentGap = 4
   const duration = 3
@@ -39,11 +39,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
     animate: isActive
       ? {
           scale: [1, 1.1, 1],
-          boxShadow: [
-            'none',
-            '0 0 20px rgba(198,255,119,0.5)',
-            'none',
-          ],
+          boxShadow: ['none', '0 0 20px rgba(198,255,119,0.5)', 'none'],
           transition: {
             duration: 0.4,
             times: [0, 0.3, 1],
@@ -135,11 +131,7 @@ const [activeSegments, setActiveSegments] = useState<number[]>([])
                 style={{
                   flex: 1,
                   position: 'relative',
-                  borderRadius: isFirst
-                    ? '8px 2px 2px 8px'
-                    : isLast
-                      ? '2px 8px 8px 2px'
-                      : '2px',
+                  borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
                   border: '1px solid rgba(196,122,229,0.3)',
                   background: 'rgba(78,24,124,0.1)',
                   overflow: 'hidden',

@@ -99,7 +99,7 @@ function calculateIncrementSteps(
     steps.push({
       value: cumulativeValue,
       timing: timingAtStep,
-      incrementAmount
+      incrementAmount,
     })
   }
 
@@ -118,7 +118,7 @@ function calculateIncrementSteps(
       steps.push({
         value: targetValue,
         timing: durationMs,
-        incrementAmount: targetValue
+        incrementAmount: targetValue,
       })
     }
   }
@@ -153,7 +153,7 @@ function TextEffectsCounterIncrementComponent({
   animationId = 'text-effects__counter-increment',
   // Legacy props for backward compatibility
   incrementValue,
-  intervalMs
+  intervalMs,
 }: TextEffectsCounterIncrementProps = {}) {
   const [count, setCount] = useState(0)
   const [particles, setParticles] = useState<Particle[]>([])
@@ -172,7 +172,7 @@ function TextEffectsCounterIncrementComponent({
 
   // Remove particle after animation completes
   const handleParticleAnimationEnd = useCallback((particleId: number) => {
-    setParticles(prev => prev.filter(p => p.id !== particleId))
+    setParticles((prev) => prev.filter((p) => p.id !== particleId))
   }, [])
 
   // Target mode: calculate steps and execute animation (runs once on mount per instance)
@@ -202,7 +202,7 @@ function TextEffectsCounterIncrementComponent({
         const particleId = nextParticleIdRef.current++
         const newParticle = { id: particleId, value: step.incrementAmount }
 
-        setParticles(prev => {
+        setParticles((prev) => {
           const newParticles = [...prev, newParticle]
           // Keep only recent particles (they auto-remove via animation)
           return newParticles.slice(-effectiveMaxParticles)
@@ -216,16 +216,16 @@ function TextEffectsCounterIncrementComponent({
       // Clean up ALL timeouts for this instance
       timeouts.forEach(clearTimeout)
     }
-  }, [targetValue, effectiveDuration, effectiveMaxParticles, isContinuousMode])  // Continuous mode: simple interval-based increment
+  }, [targetValue, effectiveDuration, effectiveMaxParticles, isContinuousMode]) // Continuous mode: simple interval-based increment
   useEffect(() => {
     if (!isContinuousMode) return
 
     const performIncrement = () => {
-      setCount(prev => prev + continuousIncrement)
+      setCount((prev) => prev + continuousIncrement)
       popAnimationKeyRef.current++
 
       const particleId = nextParticleIdRef.current++
-      setParticles(prev => {
+      setParticles((prev) => {
         const newParticles = [...prev, { id: particleId, value: continuousIncrement }]
         return newParticles.slice(-effectiveMaxParticles)
       })
@@ -243,19 +243,13 @@ function TextEffectsCounterIncrementComponent({
   }, [isContinuousMode, continuousIncrement, effectiveDuration, effectiveMaxParticles])
 
   return (
-    <div
-      className="tfx-cinc-container"
-      data-animation-id={animationId}
-    >
+    <div className="tfx-cinc-container" data-animation-id={animationId}>
       <div className="tfx-cinc-value-wrapper">
-        <span
-          key={popAnimationKeyRef.current}
-          className="tfx-cinc-value tfx-cinc-value--popping"
-        >
+        <span key={popAnimationKeyRef.current} className="tfx-cinc-value tfx-cinc-value--popping">
           {count.toLocaleString()}
         </span>
 
-        {particles.map(particle => (
+        {particles.map((particle) => (
           <span
             key={particle.id}
             className="tfx-cinc-particle"
@@ -290,4 +284,3 @@ export function TextEffectsCounterIncrement9999() {
     />
   )
 }
-

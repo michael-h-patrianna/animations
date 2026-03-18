@@ -1,6 +1,5 @@
 /* Styles scoped for TextEffectsXpNumberPop */
 .xp-pop-container {
-
   --text-effects-xp-number-pop-bg-1: #c6ff77;
   --text-effects-xp-number-pop-bg-2: #a8ff3e;
   --text-effects-xp-number-pop-text-shadow-100: rgb(198 255 119 / 80%);
@@ -24,7 +23,11 @@
 .xp-pop-number-value {
   font-size: 56px;
   font-weight: 900;
-  background: linear-gradient(135deg, var(--text-effects-xp-number-pop-bg-1), var(--text-effects-xp-number-pop-bg-2));
+  background: linear-gradient(
+    135deg,
+    var(--text-effects-xp-number-pop-bg-1),
+    var(--text-effects-xp-number-pop-bg-2)
+  );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow:
@@ -35,7 +38,7 @@
 }
 
 .xp-pop-particle {
-  text-shadow: 0 0 10px currentColor;
+  text-shadow: 0 0 10px currentcolor;
 }
 
 .xp-pop-label {

@@ -21,13 +21,14 @@ function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tfx-twirl-container" data-animation-id="text-effects__verb-twirling" aria-label={text}>
+    <div
+      className="tfx-twirl-container"
+      data-animation-id="text-effects__verb-twirling"
+      aria-label={text}
+    >
       <div className="tfx-twirl-line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <span
-            key={i}
-            className="tfx-twirl-char"
-          >
+          <span key={i} className="tfx-twirl-char">
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}
@@ -42,4 +43,3 @@ function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
 export const TextEffectsVerbTwirl = memo(TextEffectsVerbTwirlComponent)
 
 export default TextEffectsVerbTwirl
-

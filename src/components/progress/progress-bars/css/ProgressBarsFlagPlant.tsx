@@ -4,9 +4,6 @@ import './ProgressBarsFlagPlant.css'
 
 const checkpoints = [16, 34, 52, 70, 88]
 
-/**
- *
- */
 export function ProgressBarsFlagPlant() {
   const [progress, setProgress] = useState(0)
 
@@ -24,7 +21,9 @@ export function ProgressBarsFlagPlant() {
     <div className="flag-plant-wrap-css" data-animation-id="progress-bars__flag-plant">
       <div className="flag-plant-meta-css">
         <span className="flag-plant-label-css">Checkpoint Planting</span>
-        <span className="flag-plant-value-css">{planted}/{checkpoints.length}</span>
+        <span className="flag-plant-value-css">
+          {planted}/{checkpoints.length}
+        </span>
       </div>
 
       <div className="flag-plant-bar-css">

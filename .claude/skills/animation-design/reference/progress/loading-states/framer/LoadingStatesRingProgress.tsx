@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 
 import './LoadingStatesRingProgress.css'
@@ -22,12 +21,15 @@ export function LoadingStatesRingProgress() {
             strokeLinecap="round"
             strokeDasharray={`${circumference}`}
             animate={{ strokeDashoffset: [circumference, 0, -circumference] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' as const, times: [0, 0.5, 1] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'linear' as const,
+              times: [0, 0.5, 1],
+            }}
           />
         </svg>
       </div>
     </div>
   )
 }
-
-

@@ -14,51 +14,51 @@ import '../shared.css'
 
 function TextEffectsLightSweepDrawComponent() {
   const text = 'LOREM IPSUM DOLOR'
-// Simple grapheme split that is SSR-safe for most Latin text.
+  // Simple grapheme split that is SSR-safe for most Latin text.
   const letters = React.useMemo(() => Array.from(text), [text])
 
   // Container variants handle anticipation and final settle.
-  const containerVariants: Variants =  {
-        hidden: { opacity: 0, scaleY: 0.98 },
-        show: {
-          opacity: 1,
-          scaleY: 1,
-          transition: {
-            duration: 0.2,
-            ease: easeOut,
-            when: 'beforeChildren',
-            // Stagger drives the left→right “sweep” feel.
-            staggerChildren: 0.04,
-            delayChildren: 0.15,
-          },
-        },
-        settle: {
-          scale: [1, 1.02, 1],
-          transition: { duration: 0.6, ease: [0.2, 0, 0, 1] as const, delay: 0.95 },
-        },
-      }
+  const containerVariants: Variants = {
+    hidden: { opacity: 0, scaleY: 0.98 },
+    show: {
+      opacity: 1,
+      scaleY: 1,
+      transition: {
+        duration: 0.2,
+        ease: easeOut,
+        when: 'beforeChildren',
+        // Stagger drives the left→right “sweep” feel.
+        staggerChildren: 0.04,
+        delayChildren: 0.15,
+      },
+    },
+    settle: {
+      scale: [1, 1.02, 1],
+      transition: { duration: 0.6, ease: [0.2, 0, 0, 1] as const, delay: 0.95 },
+    },
+  }
 
   // Per-letter highlight: brief color lift + subtle skew/scale, then return to base.
-  const letterVariants: Variants =  {
-        hidden: { opacity: 0, y: 6 },
-        show: {
-          opacity: [0, 1, 1] as number[],
-          y: [6, 0, 0] as number[],
-          // Use CSS vars for colors for easy theming; animate the color inline.
-          color: [
-            'var(--lsd-baseColor)',
-            'var(--lsd-highlightColor)',
-            'var(--lsd-baseColor)',
-          ] as string[],
-          skewX: [0, 1.5, 0] as number[],
-          scale: [1, 1.04, 1] as number[],
-          transition: {
-            duration: 0.6,
-            ease: easeInOut,
-            times: [0, 0.45, 1],
-          },
-        },
-      }
+  const letterVariants: Variants = {
+    hidden: { opacity: 0, y: 6 },
+    show: {
+      opacity: [0, 1, 1] as number[],
+      y: [6, 0, 0] as number[],
+      // Use CSS vars for colors for easy theming; animate the color inline.
+      color: [
+        'var(--lsd-baseColor)',
+        'var(--lsd-highlightColor)',
+        'var(--lsd-baseColor)',
+      ] as string[],
+      skewX: [0, 1.5, 0] as number[],
+      scale: [1, 1.04, 1] as number[],
+      transition: {
+        duration: 0.6,
+        ease: easeInOut,
+        times: [0, 0.45, 1],
+      },
+    },
+  }
 
   return (
     <m.div
@@ -67,15 +67,11 @@ function TextEffectsLightSweepDrawComponent() {
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
-      animate={ ['show', 'settle']}
+      animate={['show', 'settle']}
     >
       <div className="studioLogo-LightSweepDraw__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span
-            key={i}
-            className="studioLogo-LightSweepDraw__letter"
-            variants={letterVariants}
-          >
+          <m.span key={i} className="studioLogo-LightSweepDraw__letter" variants={letterVariants}>
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}
@@ -88,7 +84,5 @@ function TextEffectsLightSweepDrawComponent() {
  * Memoized TextEffectsLightSweepDraw to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsLightSweepDraw = memo(TextEffectsLightSweepDrawComponent)
-
-
 
 export default TextEffectsLightSweepDraw

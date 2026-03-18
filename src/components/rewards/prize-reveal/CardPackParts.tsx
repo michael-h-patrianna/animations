@@ -9,19 +9,10 @@ import {
 
 /* ─── Shared types ─── */
 
-/**
- *
- */
 export type PackPhase = 'arrival' | 'anticipation' | 'burst' | 'fan' | 'flip' | 'idle'
 
-/**
- *
- */
 export type CardRarity = 1 | 2 | 3 | 4 | 5
 
-/**
- *
- */
 export type CardData = {
   id: number
   name: string
@@ -31,14 +22,8 @@ export type CardData = {
   isNew?: boolean
 }
 
-/**
- *
- */
 export type FanPosition = { x: number; y: number; rotate: number }
 
-/**
- *
- */
 export type ConfettiData = {
   id: number
   angle: number
@@ -57,17 +42,32 @@ const RARITY_COLORS: Record<CardRarity, { glow: string }> = {
   5: { glow: 'var(--rarity-legendary-glow)' },
 }
 
-
 /* Tear edge — irregular rip with varied amplitude, spacing, and wandering baseline.
    Points shared between flap (above) and body (below) so they mesh seamlessly. */
 const TEAR_EDGE = [
-  [0, 30], [5, 24], [10, 31], [16, 22], [22, 29],
-  [28, 34], [35, 23], [42, 30], [48, 21], [55, 32],
-  [62, 25], [68, 34], [75, 22], [82, 31], [88, 24],
-  [94, 33], [100, 27],
+  [0, 30],
+  [5, 24],
+  [10, 31],
+  [16, 22],
+  [22, 29],
+  [28, 34],
+  [35, 23],
+  [42, 30],
+  [48, 21],
+  [55, 32],
+  [62, 25],
+  [68, 34],
+  [75, 22],
+  [82, 31],
+  [88, 24],
+  [94, 33],
+  [100, 27],
 ] as const
 
-const TEAR_FLAP_CLIP = `polygon(0% 0%, 100% 0%, ${[...TEAR_EDGE].reverse().map(([x, y]) => `${x}% ${y}%`).join(', ')})`
+const TEAR_FLAP_CLIP = `polygon(0% 0%, 100% 0%, ${[...TEAR_EDGE]
+  .reverse()
+  .map(([x, y]) => `${x}% ${y}%`)
+  .join(', ')})`
 const TEAR_BODY_CLIP = `polygon(${TEAR_EDGE.map(([x, y]) => `${x}% ${y}%`).join(', ')}, 100% 100%, 0% 100%)`
 
 /* ═══════════════════════════════════════════════════
@@ -101,9 +101,6 @@ const SHAKE_KEYFRAMES = (() => {
   return { x, y, rot, sx }
 })()
 
-/**
- *
- */
 export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: string }) {
   const isShaking = phase === 'anticipation'
   const isVisible = phase === 'arrival' || phase === 'anticipation'
@@ -151,9 +148,6 @@ export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: st
    Light escaping from inside as pressure builds
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function SeamLight({ phase }: { phase: PackPhase }) {
   if (phase !== 'anticipation') return null
 
@@ -173,9 +167,6 @@ export function SeamLight({ phase }: { phase: PackPhase }) {
 
 const ARRIVAL_DUST_COUNT = 5
 
-/**
- *
- */
 export function ArrivalDust() {
   const particles = Array.from({ length: ARRIVAL_DUST_COUNT }, (_, i) => {
     const angle = (150 + (i / (ARRIVAL_DUST_COUNT - 1)) * 240) * (Math.PI / 180)
@@ -221,9 +212,6 @@ export function ArrivalDust() {
    Concentrated near the tear line, not from all edges
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function EdgeSparks() {
   const packW = 72
   const seamY = -20 // near the tear line (~30% up from center)
@@ -278,9 +266,6 @@ export function EdgeSparks() {
    Appear progressively to show the pack rupturing
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function SeamCracks() {
   const cracks = [
     { id: 0, x: '30%', rotate: -25, len: 16, delay: 0.3 },
@@ -294,11 +279,13 @@ export function SeamCracks() {
         <m.div
           key={c.id}
           className="pf-card-pack__seam-crack"
-          style={{
-            insetInlineStart: c.x,
-            rotate: `${c.rotate}deg`,
-            '--crack-len': `${c.len}px`,
-          } as CSSProperties}
+          style={
+            {
+              insetInlineStart: c.x,
+              rotate: `${c.rotate}deg`,
+              '--crack-len': `${c.len}px`,
+            } as CSSProperties
+          }
           initial={{ scaleY: 0, opacity: 0 }}
           animate={{ scaleY: [0, 1], opacity: [0, 0.8, 0.6] }}
           transition={{ duration: 0.25, delay: c.delay, ease: 'easeOut' }}
@@ -361,9 +348,6 @@ function TearDebris() {
   )
 }
 
-/**
- *
- */
 export function PackTearOpen({ packImage }: { packImage: string }) {
   return (
     <div className="pf-card-pack__tear-container">
@@ -415,9 +399,6 @@ export function PackTearOpen({ packImage }: { packImage: string }) {
    Concentrated at the seam, not a full circular flash
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function TearLineFlash() {
   return (
     <m.div
@@ -434,9 +415,6 @@ export function TearLineFlash() {
    Light pours out of the opened top like treasure glow
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function LightSpill() {
   return (
     <m.div
@@ -452,9 +430,6 @@ export function LightSpill() {
    GOLDEN CONFETTI — celebratory particles
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
   return (
     <div className="pf-card-pack__confetti-container">
@@ -495,9 +470,6 @@ export { CardLandShimmer, FlipCard } from './FlipCardComponents'
    RARITY BURST — multi-layered: glow + sparkle flash + ring + particles
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function RarityBurst({ rarity, position }: { rarity: CardRarity; position: FanPosition }) {
   const burstScale = 0.5 + rarity * 0.45
   const particleCount = 3 + rarity * 3
@@ -570,9 +542,6 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
    SCREEN FLASH — epic / legendary
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function ScreenFlash({ rarity }: { rarity: CardRarity }) {
   if (rarity < 4) return null
   return (
@@ -589,9 +558,6 @@ export function ScreenFlash({ rarity }: { rarity: CardRarity }) {
    COLLECT
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function CollectButton({ onCollect }: { onCollect: () => void }) {
   return (
     <m.button
@@ -610,9 +576,6 @@ export function CollectButton({ onCollect }: { onCollect: () => void }) {
   )
 }
 
-/**
- *
- */
 export function CollectBurst() {
   return (
     <m.div

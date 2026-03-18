@@ -43,14 +43,10 @@ export function CollectionEffectsCoinBurst() {
   }, [])
 
   const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   return (
-    <div
-      className="coin-burst-container-framer"
-      data-animation-id="collection-effects__coin-burst"
-    >
+    <div className="coin-burst-container-framer" data-animation-id="collection-effects__coin-burst">
       <m.div
         className="coin-burst-stage-framer"
         initial={{ scale: 1 }}

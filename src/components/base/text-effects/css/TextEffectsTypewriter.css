@@ -4,7 +4,6 @@
 
 /* Container - Centers content and provides spacing */
 .text-effects-typewriter-container {
-
   --text-effects-typewriter-color-1: #10b981;
   display: flex;
   align-items: center;

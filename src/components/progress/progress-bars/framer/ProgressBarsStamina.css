@@ -102,15 +102,27 @@
 }
 
 .stamina-bar-fill.drain {
-  background: linear-gradient(90deg, var(--progress-bars-stamina-fill-drain-a), var(--progress-bars-stamina-fill-drain-b));
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-stamina-fill-drain-a),
+    var(--progress-bars-stamina-fill-drain-b)
+  );
 }
 
 .stamina-bar-fill.charge {
-  background: linear-gradient(90deg, var(--progress-bars-stamina-fill-charge-a), var(--progress-bars-stamina-fill-charge-b));
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-stamina-fill-charge-a),
+    var(--progress-bars-stamina-fill-charge-b)
+  );
 }
 
 .stamina-bar-fill.low {
-  background: linear-gradient(90deg, var(--progress-bars-stamina-fill-low-a), var(--progress-bars-stamina-fill-low-b));
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-stamina-fill-low-a),
+    var(--progress-bars-stamina-fill-low-b)
+  );
 }
 
 .stamina-bar-segments {

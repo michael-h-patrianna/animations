@@ -16,6 +16,7 @@ description: Design and implement new animations for the showcase catalog. Use w
 ### Phase 1 — Research Technique
 
 Browse [catalog.md](catalog.md) for reference animations that use a similar motion pattern to what you are creating. These are examples to learn from, not components to reuse. Open the reference file and extract:
+
 - Motion curves (easing, spring config)
 - Timing (durations, delays)
 - Keyframe sequences (value arrays)
@@ -28,6 +29,7 @@ Read [tokens.md](tokens.md) for standardized duration, easing, spring, and stagg
 Create the component in the `framer/` subfolder of the target group.
 
 **File structure** for a Motion variant:
+
 ```
 src/components/<category>/<group>/framer/
   GroupNameVariantName.tsx      # Component
@@ -35,6 +37,7 @@ src/components/<category>/<group>/framer/
 ```
 
 **Component pattern:**
+
 ```tsx
 import { memo } from 'react'
 import * as m from 'motion/react-m'
@@ -46,8 +49,16 @@ function GroupNameVariantNameComponent() {
     <div className="<group>-demo-container">
       <m.div
         className="<group>-demo-element"
-        animate={{ /* motion values */ }}
-        transition={{ /* timing config */ }}
+        animate={
+          {
+            /* motion values */
+          }
+        }
+        transition={
+          {
+            /* timing config */
+          }
+        }
       >
         <div className="demo-text">Label</div>
       </m.div>
@@ -59,6 +70,7 @@ export const GroupNameVariantName = memo(GroupNameVariantNameComponent)
 ```
 
 **Metadata pattern:**
+
 ```tsx
 import type { AnimationMetadata } from '@/types/animation'
 
@@ -77,6 +89,7 @@ export const metadata: AnimationMetadata = {
 Create the matching component in the `css/` subfolder.
 
 **File structure** for a CSS variant:
+
 ```
 src/components/<category>/<group>/css/
   GroupNameVariantName.tsx   # Component
@@ -85,6 +98,7 @@ src/components/<category>/<group>/css/
 ```
 
 **Component pattern:**
+
 ```tsx
 import { memo } from 'react'
 import '../shared.css'
@@ -104,20 +118,28 @@ export const GroupNameVariantName = memo(GroupNameVariantNameComponent)
 ```
 
 **CSS pattern:**
+
 ```css
-.<variant>-element {
+.<variant > -element {
   animation: <variant>-effect 0.8s ease-in-out;
   will-change: transform;
 }
 
 @keyframes <variant>-effect {
-  0%   { transform: /* start */ ; }
-  50%  { transform: /* peak */  ; }
-  100% { transform: /* end */   ; }
+  0% {
+    transform: /* start */;
+  }
+  50% {
+    transform: /* peak */;
+  }
+  100% {
+    transform: /* end */;
+  }
 }
 ```
 
 **Metadata pattern** — identical to the Motion variant except `tags: ['css']`:
+
 ```tsx
 import type { AnimationMetadata } from '@/types/animation'
 
@@ -179,33 +201,33 @@ If creating a new group or category, also create the group `index.ts` and catego
 
 ### Allowed
 
-| Technology | Usage |
-|-|-|
-| `motion/react` v12 | `m.div`, `AnimatePresence`, spring/tween transitions |
-| `motion/react-m` | `import * as m from 'motion/react-m'` for lazy motion components |
-| Plain CSS files | `@keyframes`, animation classes |
-| `will-change` | On animated elements for GPU compositing |
-| `memo()` | Wrap every animation component |
+| Technology         | Usage                                                            |
+| ------------------ | ---------------------------------------------------------------- |
+| `motion/react` v12 | `m.div`, `AnimatePresence`, spring/tween transitions             |
+| `motion/react-m`   | `import * as m from 'motion/react-m'` for lazy motion components |
+| Plain CSS files    | `@keyframes`, animation classes                                  |
+| `will-change`      | On animated elements for GPU compositing                         |
+| `memo()`           | Wrap every animation component                                   |
 
 ### Forbidden
 
-| Technology | Reason |
-|-|-|
-| `framer-motion` | Deprecated package name; use `motion/react` |
-| `<motion.div>` | Eagerly loads all features; use `<m.div>` |
-| `gsap`, `anime.js`, `three.js`, `pixi.js` | External animation libraries not permitted |
-| SCSS / `.module.css` | Project uses plain `.css` files |
-| `position: fixed` | Breaks card containment |
-| `!important` | Overrides cascade unpredictably |
-| Default exports on components | Registry requires named exports |
+| Technology                                | Reason                                      |
+| ----------------------------------------- | ------------------------------------------- |
+| `framer-motion`                           | Deprecated package name; use `motion/react` |
+| `<motion.div>`                            | Eagerly loads all features; use `<m.div>`   |
+| `gsap`, `anime.js`, `three.js`, `pixi.js` | External animation libraries not permitted  |
+| SCSS / `.module.css`                      | Project uses plain `.css` files             |
+| `position: fixed`                         | Breaks card containment                     |
+| `!important`                              | Overrides cascade unpredictably             |
+| Default exports on components             | Registry requires named exports             |
 
 ## Supporting Files
 
-| File | Read when |
-|-|-|
-| [catalog.md](catalog.md) | Choosing which animation technique to study |
-| [tokens.md](tokens.md) | Tuning timing, easing, springs, staggers |
+| File                       | Read when                                                              |
+| -------------------------- | ---------------------------------------------------------------------- |
+| [catalog.md](catalog.md)   | Choosing which animation technique to study                            |
+| [tokens.md](tokens.md)     | Tuning timing, easing, springs, staggers                               |
 | [patterns.md](patterns.md) | Writing group/category registration code or complex animation patterns |
-| `reference/` | Studying a specific technique's full implementation |
+| `reference/`               | Studying a specific technique's full implementation                    |
 
 Each reference animation has both a `framer/` and `css/` implementation, plus a `.meta.ts` metadata file.

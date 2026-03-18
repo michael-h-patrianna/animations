@@ -1,16 +1,13 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
 
-/**
- *
- */
 export function ProgressBarsRetroBit() {
   const [progress, setProgress] = useState(0)
-  
+
   useEffect(() => {
     // Simulate loading
     const interval = setInterval(() => {
-      setProgress(p => (p >= 100 ? 0 : p + 10))
+      setProgress((p) => (p >= 100 ? 0 : p + 10))
     }, 500)
     return () => clearInterval(interval)
   }, [])
@@ -25,9 +22,10 @@ export function ProgressBarsRetroBit() {
             key={i}
             className="retro-bit-segment"
             initial={{ opacity: 0.1 }}
-            animate={{ 
+            animate={{
               opacity: (i + 1) * 10 <= progress ? 1 : 0.1,
-              backgroundColor: (i + 1) * 10 <= progress ? 'var(--pf-anim-green-400)' : 'var(--pf-anim-green-900)' 
+              backgroundColor:
+                (i + 1) * 10 <= progress ? 'var(--pf-anim-green-400)' : 'var(--pf-anim-green-900)',
             }}
             transition={{ duration: 0 }}
           />

@@ -5,9 +5,6 @@ import './ProgressBarsJourneyMap.css'
 const totalDistance = 520
 const tickCount = 22
 
-/**
- *
- */
 export function ProgressBarsJourneyMap() {
   const [progress, setProgress] = useState(0)
 
@@ -46,7 +43,11 @@ export function ProgressBarsJourneyMap() {
           <div className="journey-distance-traveller-css" style={{ left: `${travellerLeft}%` }}>
             <span className="journey-distance-traveller-glow-css" />
             <span className="journey-distance-traveller-core-css">
-              <img className="journey-distance-traveller-icon-css" src={journeyAvatarDrone} alt="" />
+              <img
+                className="journey-distance-traveller-icon-css"
+                src={journeyAvatarDrone}
+                alt=""
+              />
             </span>
           </div>
         </div>

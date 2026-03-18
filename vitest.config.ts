@@ -11,18 +11,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolveFromRoot('src'),
-      '@/components': resolveFromRoot('src/components'),
-      '@/animations': resolveFromRoot('src/animations'),
-      '@/utils': resolveFromRoot('src/utils'),
-      '@/types': resolveFromRoot('src/types'),
-      '@/hooks': resolveFromRoot('src/hooks'),
-      '@/assets': resolveFromRoot('src/assets'),
     },
   },
   test: {
     globals: true,
     environment: 'happy-dom',
     setupFiles: './src/setupTests.ts',
+    typecheck: {
+      tsconfig: './tsconfig.test.json',
+    },
     css: true,
     exclude: [
       '**/node_modules/**',
@@ -34,6 +31,17 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
+      include: [
+        'src/components/ui/**/*.{ts,tsx}',
+        'src/components/animationRegistry.ts',
+        'src/components/ErrorBoundary.tsx',
+        'src/contexts/**/*.{ts,tsx}',
+        'src/hooks/**/*.{ts,tsx}',
+        'src/lib/**/*.{ts,tsx}',
+        'src/services/**/*.{ts,tsx}',
+        'src/utils/**/*.{ts,tsx}',
+        'src/App.tsx',
+      ],
       exclude: [
         'node_modules/',
         'src/setupTests.ts',
@@ -44,6 +52,12 @@ export default defineConfig({
         'build/**',
         'dist/**',
       ],
+      thresholds: {
+        statements: 90,
+        branches: 75,
+        functions: 85,
+        lines: 90,
+      },
     },
   },
 })

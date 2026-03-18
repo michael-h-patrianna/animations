@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react'
 
 const checkpoints = [16, 34, 52, 70, 88]
 
-/**
- *
- */
 export function ProgressBarsFlagPlant() {
   const [progress, setProgress] = useState(0)
 
@@ -24,7 +21,9 @@ export function ProgressBarsFlagPlant() {
     <div className="flag-plant-wrap" data-animation-id="progress-bars__flag-plant">
       <div className="flag-plant-meta">
         <span className="flag-plant-label">Checkpoint Planting</span>
-        <span className="flag-plant-value">{planted}/{checkpoints.length}</span>
+        <span className="flag-plant-value">
+          {planted}/{checkpoints.length}
+        </span>
       </div>
 
       <div className="flag-plant-bar">

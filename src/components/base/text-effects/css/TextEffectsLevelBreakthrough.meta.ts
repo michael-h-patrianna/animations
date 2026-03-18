@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Level Breakthrough',
   description: 'Level breakthrough shakes frame with surge lines explosion effect.',
   tags: ['css'],
-  disableReplay: false
+  disableReplay: false,
 }

@@ -7,9 +7,7 @@ interface Coin {
   rotation: number
   delay: number
 }
-/**
- *
- */ export function CollectionEffectsCoinBurst() {
+export function CollectionEffectsCoinBurst() {
   const [coins, setCoins] = useState<Coin[]>([])
   useEffect(() => {
     // Generate 14 coins in radial pattern
@@ -34,10 +32,21 @@ interface Coin {
     }, 1400)
     return () => clearTimeout(cleanup)
   }, [])
-  const prefersReducedMotion = typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
   return (
     <div className="coin-burst-container-framer" data-animation-id="collection-effects__coin-burst">
-      <m.div className="coin-burst-stage-framer" initial={{ scale: 1 }} animate={prefersReducedMotion ? { scale: 1 } : { scale: 0.8 }} transition={{ duration: 0.08, ease: [0.4, 0, 0.6, 1] as const }} aria-hidden="true">
+      <m.div
+        className="coin-burst-stage-framer"
+        initial={{ scale: 1 }}
+        animate={prefersReducedMotion ? { scale: 1 } : { scale: 0.8 }}
+        transition={{ duration: 0.08, ease: [0.4, 0, 0.6, 1] as const }}
+        aria-hidden="true"
+      >
         {coins.map((coin) => (
           <m.div
             key={coin.id}
@@ -46,11 +55,22 @@ interface Coin {
             animate={
               prefersReducedMotion
                 ? { x: 0, y: 0, scale: [0, 1, 1, 0], rotate: 0, opacity: [0, 1, 1, 0] }
-                : { x: coin.x, y: coin.y, scale: [0, 1.2, 1, 1, 0.6], rotate: [0, 0, 0, coin.rotation, coin.rotation], opacity: [0, 1, 1, 1, 0] }
+                : {
+                    x: coin.x,
+                    y: coin.y,
+                    scale: [0, 1.2, 1, 1, 0.6],
+                    rotate: [0, 0, 0, coin.rotation, coin.rotation],
+                    opacity: [0, 1, 1, 1, 0],
+                  }
             }
             transition={
               prefersReducedMotion
-                ? { duration: 0.3, delay: coin.delay / 1000, ease: 'easeOut' as const, times: [0, 0.33, 0.67, 1] }
+                ? {
+                    duration: 0.3,
+                    delay: coin.delay / 1000,
+                    ease: 'easeOut' as const,
+                    times: [0, 0.33, 0.67, 1],
+                  }
                 : {
                     duration: 1.2,
                     delay: coin.delay / 1000,

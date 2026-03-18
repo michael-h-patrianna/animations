@@ -6,7 +6,7 @@ import './TimerEffectsPillCountdownGlitch.css'
 export function TimerEffectsPillCountdownGlitch() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)
-useEffect(() => {
+  useEffect(() => {
     if (!isRunning || seconds <= 0) return
 
     const interval = setInterval(() => {
@@ -96,10 +96,16 @@ useEffect(() => {
           animate={getGlowAnimation()}
         />
         <span className="pill-countdown-glitch__text">{formatTime(seconds)}</span>
-        <span aria-hidden="true" className="pill-countdown-glitch__copy pill-countdown-glitch__copy--before">
+        <span
+          aria-hidden="true"
+          className="pill-countdown-glitch__copy pill-countdown-glitch__copy--before"
+        >
           {formatTime(seconds)}
         </span>
-        <span aria-hidden="true" className="pill-countdown-glitch__copy pill-countdown-glitch__copy--after">
+        <span
+          aria-hidden="true"
+          className="pill-countdown-glitch__copy pill-countdown-glitch__copy--after"
+        >
           {formatTime(seconds)}
         </span>
       </m.div>

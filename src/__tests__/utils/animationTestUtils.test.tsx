@@ -16,9 +16,12 @@ describe('animationTestUtils', () => {
       })
     )
 
-    expect(container.querySelector('[data-animation-id="utils__test-card"]')).toBeInTheDocument()
-    expect(screen.getByText('Utils Test Card')).toBeInTheDocument()
-    expect(screen.getByText('Utility wrapper description')).toBeInTheDocument()
+    expect(container.querySelector('[data-animation-id="utils__test-card"]')).toHaveAttribute(
+      'data-animation-id',
+      'utils__test-card'
+    )
+    expect(screen.getByText('Utils Test Card')).toHaveClass('pf-card__title')
+    expect(screen.getByText('Utility wrapper description')).toHaveClass('pf-card__description')
     expect(queryStage(container)).toContainElement(screen.getByTestId('utils-child'))
   })
 

@@ -118,9 +118,6 @@ const useStrongCountdown = () => {
   return { seconds, snapKey, colorClass }
 }
 
-/**
- *
- */
 export function TimerEffectsPillCountdownStrong() {
   const { seconds, snapKey, colorClass } = useStrongCountdown()
 

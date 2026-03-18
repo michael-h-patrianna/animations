@@ -21,27 +21,29 @@ export function RevealEffectsChestGlowOpen() {
 
   return (
     <div className="reveal-chest-glow-container-css">
-        <div className="reveal-chest-glow-wrapper-css">
-            {/* Aura Background (Only during reveal) */}
-            <div className={`reveal-chest-glow-aura-css ${phase === 'reveal' ? 'active' : ''}`} />
+      <div className="reveal-chest-glow-wrapper-css">
+        {/* Aura Background (Only during reveal) */}
+        <div className={`reveal-chest-glow-aura-css ${phase === 'reveal' ? 'active' : ''}`} />
 
-            {/* Mystery Box */}
-            <img 
-                src={boxImg}
-                className={`reveal-chest-box-css ${phase === 'shake' ? 'shaking' : ''} ${phase === 'reveal' ? 'hidden' : ''}`}
-                alt="Mystery Box"
-            />
+        {/* Mystery Box */}
+        <img
+          src={boxImg}
+          className={`reveal-chest-box-css ${phase === 'shake' ? 'shaking' : ''} ${phase === 'reveal' ? 'hidden' : ''}`}
+          alt="Mystery Box"
+        />
 
-            {/* Flash Effect */}
-            <div className={`reveal-chest-flash-css ${phase === 'flash' || phase === 'reveal' ? 'active' : ''}`} />
+        {/* Flash Effect */}
+        <div
+          className={`reveal-chest-flash-css ${phase === 'flash' || phase === 'reveal' ? 'active' : ''}`}
+        />
 
-            {/* Final Prize */}
-            <img 
-                src={diamondImg}
-                className={`reveal-chest-prize-css ${phase === 'reveal' ? 'visible' : ''}`}
-                alt="Prize"
-            />
-        </div>
+        {/* Final Prize */}
+        <img
+          src={diamondImg}
+          className={`reveal-chest-prize-css ${phase === 'reveal' ? 'visible' : ''}`}
+          alt="Prize"
+        />
+      </div>
     </div>
   )
 }

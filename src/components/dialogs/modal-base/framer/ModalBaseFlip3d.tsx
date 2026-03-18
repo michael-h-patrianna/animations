@@ -3,9 +3,6 @@ import * as m from 'motion/react-m'
 import { MockModalContent } from '../MockModalContent'
 import { overlayStyles } from '@/motion/primitives'
 
-/**
- *
- */
 export function ModalBaseFlip3d() {
   const duration = 0.8
   const ease = [0.175, 0.885, 0.32, 1] as const

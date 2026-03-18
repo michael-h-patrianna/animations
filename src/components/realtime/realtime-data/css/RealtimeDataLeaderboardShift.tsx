@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type MutableRefObject,
+  type SetStateAction,
+} from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
 type TimeoutId = ReturnType<typeof setTimeout>
@@ -64,19 +71,11 @@ const animatePlayerShift = (
   if (!element) return
   element.style.transform = `translateY(${rowHeight}px)`
   scheduleFrame(() => {
-    element
-      .animate(
-        [
-          { transform: `translateY(${rowHeight}px)` },
-          { transform: 'translateY(0)' },
-        ],
-        {
-          duration: 800,
-          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          fill: 'forwards',
-        }
-      )
-      .onfinish = () => {
+    element.animate([{ transform: `translateY(${rowHeight}px)` }, { transform: 'translateY(0)' }], {
+      duration: 800,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      fill: 'forwards',
+    }).onfinish = () => {
       element.style.transform = ''
     }
   })
@@ -90,19 +89,17 @@ const animatePhoenixEntry = (
   element.style.opacity = '0'
   element.style.transform = 'translateY(-20px)'
   scheduleFrame(() => {
-    element
-      .animate(
-        [
-          { transform: 'translateY(-20px)', opacity: 0 },
-          { transform: 'translateY(0)', opacity: 1 },
-        ],
-        {
-          duration: 600,
-          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          fill: 'forwards',
-        }
-      )
-      .onfinish = () => {
+    element.animate(
+      [
+        { transform: 'translateY(-20px)', opacity: 0 },
+        { transform: 'translateY(0)', opacity: 1 },
+      ],
+      {
+        duration: 600,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        fill: 'forwards',
+      }
+    ).onfinish = () => {
       element.style.transform = ''
       element.style.opacity = ''
     }
@@ -121,7 +118,7 @@ const runShiftAnimations = (
 
 const useLeaderboardShiftAnimation = (
   leaderboardRef: MutableRefObject<LeaderboardEntry[]>,
-  rowRefs: MutableRefObject<Map<string, HTMLDivElement>>,
+  rowRef: MutableRefObject<Map<string, HTMLDivElement>>,
   setLeaderboard: Dispatch<SetStateAction<LeaderboardEntry[]>>
 ) => {
   useEffect(() => {
@@ -150,13 +147,13 @@ const useLeaderboardShiftAnimation = (
     const startAnimation = () => {
       if (!isMounted) return
 
-      animatePlayerExit(rowRefs.current.get('Phoenix'))
+      animatePlayerExit(rowRef.current.get('Phoenix'))
 
       scheduleTimeout(() => {
         if (!isMounted) return
 
         setLeaderboard(buildShiftedLeaderboard(leaderboardRef.current))
-        scheduleFrame(() => runShiftAnimations(rowRefs.current, scheduleFrame))
+        scheduleFrame(() => runShiftAnimations(rowRef.current, scheduleFrame))
 
         scheduleTimeout(() => {
           if (!isMounted) return
@@ -175,22 +172,19 @@ const useLeaderboardShiftAnimation = (
       frameIds.forEach(cancelAnimationFrame)
       frameIds.clear()
     }
-  }, [leaderboardRef, rowRefs, setLeaderboard])
+  }, [leaderboardRef, rowRef, setLeaderboard])
 }
 
-/**
- *
- */
 export function RealtimeDataLeaderboardShift() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(resetLeaderboard)
   const leaderboardRef = useRef(leaderboard)
-  const rowRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+  const rowRef = useRef<Map<string, HTMLDivElement>>(new Map())
 
   useEffect(() => {
     leaderboardRef.current = leaderboard
   }, [leaderboard])
 
-  useLeaderboardShiftAnimation(leaderboardRef, rowRefs, setLeaderboard)
+  useLeaderboardShiftAnimation(leaderboardRef, rowRef, setLeaderboard)
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__leaderboard-shift">
@@ -199,8 +193,8 @@ export function RealtimeDataLeaderboardShift() {
           <div
             key={player.player}
             ref={(element) => {
-              if (element) rowRefs.current.set(player.player, element)
-              else rowRefs.current.delete(player.player)
+              if (element) rowRef.current.set(player.player, element)
+              else rowRef.current.delete(player.player)
             }}
             className="pf-realtime-data__row"
           >

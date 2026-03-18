@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationSpringPhysics.css'
 
-
 export function ModalOrchestrationSpringPhysics() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
@@ -33,7 +32,9 @@ export function ModalOrchestrationSpringPhysics() {
         {tiles.map((tile) => (
           <div
             key={tile.id}
-            ref={(el) => { tileRefs.current[tile.id] = el }}
+            ref={(el) => {
+              tileRefs.current[tile.id] = el
+            }}
             className="pf-spring-tile"
           >
             <h5>{tile.title}</h5>
@@ -45,4 +46,3 @@ export function ModalOrchestrationSpringPhysics() {
     </div>
   )
 }
-

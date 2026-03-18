@@ -1,7 +1,6 @@
 /* CSS-only Timer Flash Animation */
 
 .pf-timer-flash {
-
   --timer-effects-timer-flash-bg-1: #ffc107;
   --timer-effects-timer-flash-border: rgb(255 255 255 / 20%);
   --timer-effects-timer-flash-bg-2: rgb(220 53 69 / 45%);
@@ -29,7 +28,9 @@
   min-height: 30px;
   position: relative;
   will-change: transform, background-color;
-  animation: timer-flash-pill 32s linear forwards, timer-flash-pulse 1s ease-in-out infinite;
+  animation:
+    timer-flash-pill 32s linear forwards,
+    timer-flash-pulse 1s ease-in-out infinite;
 }
 
 .pf-timer-flash__glow {
@@ -41,7 +42,9 @@
   transform: scale(0.95);
   pointer-events: none;
   z-index: -1;
-  animation: timer-flash-glow 32s linear forwards, timer-flash-glow-pulse 1s ease-in-out infinite;
+  animation:
+    timer-flash-glow 32s linear forwards,
+    timer-flash-glow-pulse 1s ease-in-out infinite;
 }
 
 .pf-timer-flash__time {

@@ -14,27 +14,26 @@ import '../shared.css'
 function TextEffectsHorizonLightPassComponent() {
   const text = 'LOREM IPSUM DOLOR'
 
-
   const letters = React.useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
-        hidden: { opacity: 0, scaleY: 0.995 },
-        show: {
-          opacity: 1,
-          scaleY: 1,
-          transition: {
-            duration: 0.16,
-            ease: easeOut,
-            when: 'beforeChildren',
-            // Children manage their own right-to-left delays; no container stagger
-            delayChildren: 0.04,
-          },
-        },
-        settle: {
-          scale: [1, 1.008, 1],
-          transition: { duration: 0.28, ease: [0.2, 0, 0, 1] as const, delay: 0.85 },
-        },
-      }
+    hidden: { opacity: 0, scaleY: 0.995 },
+    show: {
+      opacity: 1,
+      scaleY: 1,
+      transition: {
+        duration: 0.16,
+        ease: easeOut,
+        when: 'beforeChildren',
+        // Children manage their own right-to-left delays; no container stagger
+        delayChildren: 0.04,
+      },
+    },
+    settle: {
+      scale: [1, 1.008, 1],
+      transition: { duration: 0.28, ease: [0.2, 0, 0, 1] as const, delay: 0.85 },
+    },
+  }
 
   // Horizon band: broad, slower pass with horizontal stretch and vertical compression.
   // Distinct from Metallic Specular Flash (which is a quick, skewed glint):
@@ -42,35 +41,35 @@ function TextEffectsHorizonLightPassComponent() {
   // - Longer duration with plateau
   // - Right-to-left sweep via index-based delays
   const letterVariants: Variants = {
-        hidden: { opacity: 0 },
-        show: (i: number) => {
-          // Right-to-left delay: later indices lead, earlier lag
-          const delayPer = 0.03
-          const count = letters.length
-          const rtlIndex = count - 1 - i
-          const delay = rtlIndex * delayPer
-          return {
-            opacity: [0, 1, 1, 1, 1] as number[],
-            // Strong highlight with extended plateau, then return to base
-            color: [
-              'var(--hlp-baseColor)',
-              'var(--hlp-highlightColor)',
-              'var(--hlp-highlightColor)',
-              'var(--hlp-highlightColor)',
-              'var(--hlp-baseColor)',
-            ] as string[],
-            // Wide stretch + slight vertical compression to read as a horizontal band
-            scaleX: [1, 1.2, 1.22, 1.06, 1] as number[],
-            scaleY: [1, 0.94, 0.96, 0.99, 1] as number[],
-            transition: {
-              duration: 1.25,
-              ease: easeInOut,
-              times: [0, 0.2, 0.55, 0.85, 1],
-              delay,
-            },
-          }
+    hidden: { opacity: 0 },
+    show: (i: number) => {
+      // Right-to-left delay: later indices lead, earlier lag
+      const delayPer = 0.03
+      const count = letters.length
+      const rtlIndex = count - 1 - i
+      const delay = rtlIndex * delayPer
+      return {
+        opacity: [0, 1, 1, 1, 1] as number[],
+        // Strong highlight with extended plateau, then return to base
+        color: [
+          'var(--hlp-baseColor)',
+          'var(--hlp-highlightColor)',
+          'var(--hlp-highlightColor)',
+          'var(--hlp-highlightColor)',
+          'var(--hlp-baseColor)',
+        ] as string[],
+        // Wide stretch + slight vertical compression to read as a horizontal band
+        scaleX: [1, 1.2, 1.22, 1.06, 1] as number[],
+        scaleY: [1, 0.94, 0.96, 0.99, 1] as number[],
+        transition: {
+          duration: 1.25,
+          ease: easeInOut,
+          times: [0, 0.2, 0.55, 0.85, 1],
+          delay,
         },
       }
+    },
+  }
 
   return (
     <m.div
@@ -101,7 +100,5 @@ function TextEffectsHorizonLightPassComponent() {
  * Memoized TextEffectsHorizonLightPass to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)
-
-
 
 export default TextEffectsHorizonLightPass

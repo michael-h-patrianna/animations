@@ -1,11 +1,10 @@
-
 import * as m from 'motion/react-m'
 
 import './LoadingStatesSkeletonVertical.css'
 import '../shared.css'
 
 export function LoadingStatesSkeletonVertical() {
-const shimmerVariants = {
+  const shimmerVariants = {
     animate: {
       backgroundPosition: ['200% 0', '-200% 0'],
       transition: {
@@ -34,11 +33,15 @@ const shimmerVariants = {
             style={{ width: item.width }}
             variants={shimmerVariants}
             animate="animate"
-            transition={{ delay: item.delay, duration: 1.5, ease: 'linear' as const, repeat: Infinity }}
+            transition={{
+              delay: item.delay,
+              duration: 1.5,
+              ease: 'linear' as const,
+              repeat: Infinity,
+            }}
           />
         ))}
       </div>
     </div>
   )
 }
-

@@ -18,7 +18,7 @@ interface Ripple {
 function ButtonEffectsRippleComponent() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
-  const nextId = useRef(0)
+  const nextIdRef = useRef(0)
   const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
   useEffect(() => {
@@ -39,7 +39,7 @@ function ButtonEffectsRippleComponent() {
     const dy = Math.max(y, rect.height - y)
     const size = Math.sqrt(dx * dx + dy * dy) * 2
 
-    const id = nextId.current++
+    const id = nextIdRef.current++
     setRipples((prev) => [...prev, { id, x, y, size }])
 
     const timeoutId = setTimeout(() => {
@@ -51,7 +51,12 @@ function ButtonEffectsRippleComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__ripple">
-      <button type="button" ref={btnRef} className="pf-btn pf-btn--primary bfx-ripple" onClick={handleClick}>
+      <button
+        type="button"
+        ref={btnRef}
+        className="pf-btn pf-btn--primary bfx-ripple"
+        onClick={handleClick}
+      >
         Click Me!
         <span className="bfx-ripple__container" aria-hidden>
           {ripples.map((r) => {

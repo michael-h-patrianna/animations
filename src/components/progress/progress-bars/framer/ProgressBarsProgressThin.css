@@ -1,6 +1,5 @@
 /* Base styles for Progress Thin */
 .pf-progress-thin {
-
   --progress-bars-progress-thin-color: rgb(255 255 255 / 76%);
   --progress-bars-progress-thin-bg-1: rgb(78 24 124 / 12%);
   --progress-bars-progress-thin-bg-2: #a8e65c;
@@ -32,7 +31,12 @@
 
 .pf-progress-thin .pf-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--progress-bars-progress-thin-bg-2) 0%, var(--progress-bars-progress-thin-bg-3) 60%, var(--progress-bars-progress-thin-bg-4) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-progress-thin-bg-2) 0%,
+    var(--progress-bars-progress-thin-bg-3) 60%,
+    var(--progress-bars-progress-thin-bg-4) 100%
+  );
   border-radius: inherit;
   transform-origin: left center;
   position: relative;

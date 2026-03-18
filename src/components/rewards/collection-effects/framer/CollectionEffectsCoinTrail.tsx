@@ -2,9 +2,6 @@ import * as m from 'motion/react-m'
 import { useMemo } from 'react'
 import { coinImage } from '@/assets'
 
-/**
- *
- */
 export function CollectionEffectsCoinTrail() {
   const coins = useMemo(
     () =>
@@ -16,10 +13,7 @@ export function CollectionEffectsCoinTrail() {
   )
 
   return (
-    <div
-      className="pf-celebration"
-      data-animation-id="collection-effects__coin-trail"
-    >
+    <div className="pf-celebration" data-animation-id="collection-effects__coin-trail">
       <div className="pf-celebration__layer">
         {coins.map((coin) => (
           <m.img

@@ -3,7 +3,7 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 
 function StandardEffectsFlipComponent() {
-const flipVariants = {
+  const flipVariants = {
     animate: {
       rotateY: [0, 90, 180],
       scale: [1, 0.95, 1],
@@ -32,4 +32,3 @@ const flipVariants = {
  * Memoized StandardEffectsFlip to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsFlip = memo(StandardEffectsFlipComponent)
-

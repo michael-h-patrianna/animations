@@ -3,10 +3,10 @@
    Triple starburst with radial spark rays, trail confetti, sparkles
    ═══════════════════════════════════════════════════════════════ */
 
-[data-animation-id="modal-celebrations__fireworks-triple"].pf-celebration {
+[data-animation-id='modal-celebrations__fireworks-triple'].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
-  border: 1px solid rgb(236 195 255 / 12%);
+  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
+  border: 1px solid var(--pf-anim-highlight-12);
 }
 
 /* ─── Flash at burst center ─── */
@@ -72,37 +72,26 @@
     opacity: 0;
   }
   8% {
-    transform:
-      translate(calc(var(--tx) * 0.15), calc(var(--ty) * 0.15))
-      scale(calc(var(--s) * 0.4))
+    transform: translate(calc(var(--tx) * 0.15), calc(var(--ty) * 0.15)) scale(calc(var(--s) * 0.4))
       rotateZ(calc(var(--rz) * 0.1));
     opacity: calc(var(--peak-op) * 0.5);
   }
   20% {
-    transform:
-      translate(calc(var(--tx) * 0.58), calc(var(--ty) * 0.58))
-      scale(var(--s))
+    transform: translate(calc(var(--tx) * 0.58), calc(var(--ty) * 0.58)) scale(var(--s))
       rotateZ(calc(var(--rz) * 0.3));
     opacity: var(--peak-op);
   }
   50% {
-    transform:
-      translate(var(--tx), var(--ty))
-      scale(var(--s))
-      rotateZ(calc(var(--rz) * 0.6));
+    transform: translate(var(--tx), var(--ty)) scale(var(--s)) rotateZ(calc(var(--rz) * 0.6));
     opacity: var(--peak-op);
   }
   75% {
-    transform:
-      translate(calc(var(--tx) * 1.05), calc(var(--ty) * 1.05 + 12px))
-      scale(calc(var(--s) * 0.7))
-      rotateZ(calc(var(--rz) * 0.85));
+    transform: translate(calc(var(--tx) * 1.05), calc(var(--ty) * 1.05 + 12px))
+      scale(calc(var(--s) * 0.7)) rotateZ(calc(var(--rz) * 0.85));
     opacity: calc(var(--peak-op) * 0.5);
   }
   100% {
-    transform:
-      translate(calc(var(--tx) * 1.1), calc(var(--ty) * 1.1 + 35px))
-      scale(0)
+    transform: translate(calc(var(--tx) * 1.1), calc(var(--ty) * 1.1 + 35px)) scale(0)
       rotateZ(var(--rz));
     opacity: 0;
   }

@@ -23,7 +23,7 @@ function TextEffectsVerbFloatComponent() {
             initial={{ y: 0, opacity: 1 }}
             animate={{
               y: [0, -6, 0, 4, 0],
-              opacity: [1, 1, 0.95, 1, 1]
+              opacity: [1, 1, 0.95, 1, 1],
             }}
             transition={{
               duration: 3,

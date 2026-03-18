@@ -3,9 +3,6 @@ import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 
 // Periodic blip: LED corner blink every 10s; subtle perimeter arc progress.
-/**
- *
- */
 export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
@@ -76,8 +73,20 @@ export function TimerEffectsPillCountdownMedium() {
   }
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-medium">
-      <m.div key={blipKey} className="pf-pill-timer__pill pf-pill-timer__pill--medium" variants={blipVariants} initial="idle" animate="blip">
-        <m.span className="pf-pill-timer__glow" aria-hidden="true" variants={glowVariants} initial="idle" animate="blip" />
+      <m.div
+        key={blipKey}
+        className="pf-pill-timer__pill pf-pill-timer__pill--medium"
+        variants={blipVariants}
+        initial="idle"
+        animate="blip"
+      >
+        <m.span
+          className="pf-pill-timer__glow"
+          aria-hidden="true"
+          variants={glowVariants}
+          initial="idle"
+          animate="blip"
+        />
         <div className="pf-pill-timer__time">{format(seconds)}</div>
       </m.div>
       <span className="pf-pill-timer__label">Pill Countdown — Medium</span>

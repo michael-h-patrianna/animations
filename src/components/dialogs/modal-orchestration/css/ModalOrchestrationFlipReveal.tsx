@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationFlipReveal.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationFlipReveal() {
-  const [flippedTiles, setFlippedTiles] = useState<Set<number>>(new Set())
-  const tileRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [flippedTiles, setFlippedTiles] = useState<Set<number>>(() => new Set())
+  const tilesRef = useRef<(HTMLDivElement | null)[]>([])
 
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
@@ -31,7 +27,7 @@ export function ModalOrchestrationFlipReveal() {
 
   // Stagger tile entrance animations on mount
   useEffect(() => {
-    const tileElements = tileRefs.current.filter(Boolean)
+    const tileElements = tilesRef.current.filter(Boolean)
     tileElements.forEach((tile, index) => {
       if (tile) {
         tile.style.animationDelay = `${0.2 + index * 0.1}s`
@@ -49,7 +45,9 @@ export function ModalOrchestrationFlipReveal() {
           return (
             <div
               key={tile.id}
-              ref={(el) => { tileRefs.current[tile.id] = el }}
+              ref={(el) => {
+                tilesRef.current[tile.id] = el
+              }}
               className="pf-flip-tile-container"
               onClick={() => toggleFlip(tile.id)}
             >
@@ -75,4 +73,3 @@ export function ModalOrchestrationFlipReveal() {
     </div>
   )
 }
-

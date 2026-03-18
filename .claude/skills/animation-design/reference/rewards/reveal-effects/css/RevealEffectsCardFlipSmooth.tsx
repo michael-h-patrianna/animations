@@ -14,10 +14,7 @@ export function RevealEffectsCardFlipSmooth() {
   }, [])
 
   return (
-    <div
-      className="card-flip-container"
-      data-animation-id="reveal-effects__card-flip-smooth"
-    >
+    <div className="card-flip-container" data-animation-id="reveal-effects__card-flip-smooth">
       <div
         className={`card-flip-card ${isFlipped ? 'card-flip-card--flipped' : ''}`}
         aria-label={isFlipped ? 'Reward revealed: 100 coins' : 'Mystery reward card'}

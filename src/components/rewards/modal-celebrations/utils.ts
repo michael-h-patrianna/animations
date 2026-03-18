@@ -1,8 +1,7 @@
 /** Shared utilities for the modal-celebrations group. */
 
 /** Random float in [min, max). */
-export const randBetween = (min: number, max: number): number =>
-  Math.random() * (max - min) + min
+export const randBetween = (min: number, max: number): number => Math.random() * (max - min) + min
 
 /** Random integer in [min, max]. */
 export const randInt = (min: number, max: number): number =>
@@ -18,8 +17,7 @@ export const polarToXY = (angle: number, radius: number) => ({
 export const deg2rad = (deg: number): number => (deg * Math.PI) / 180
 
 /** Pick a random item from an array. */
-export const pickRandom = <T>(arr: readonly T[]): T =>
-  arr[Math.floor(Math.random() * arr.length)]
+export const pickRandom = <T>(arr: readonly T[]): T => arr[Math.floor(Math.random() * arr.length)]
 
 /**
  * Confetti particle shapes.

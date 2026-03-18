@@ -23,19 +23,19 @@ interface TextEffectsVerbJumpProps {
  */
 function TextEffectsVerbJumpComponent({
   text = 'LOREM IPSUM DOLOR',
-  stepDelay = 0.06
+  stepDelay = 0.06,
 }: TextEffectsVerbJumpProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tfx-jump-container" data-animation-id="text-effects__verb-jumping" aria-label={text}>
+    <div
+      className="tfx-jump-container"
+      data-animation-id="text-effects__verb-jumping"
+      aria-label={text}
+    >
       <div className="tfx-jump-line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <span
-            key={i}
-            className="tfx-jump-char"
-            style={{ animationDelay: `${i * stepDelay}s` }}
-          >
+          <span key={i} className="tfx-jump-char" style={{ animationDelay: `${i * stepDelay}s` }}>
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}
@@ -50,4 +50,3 @@ function TextEffectsVerbJumpComponent({
 export const TextEffectsVerbJump = memo(TextEffectsVerbJumpComponent)
 
 export default TextEffectsVerbJump
-

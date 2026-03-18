@@ -2,16 +2,9 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseGlitchDigital.css'
 
-
-/**
- *
- */
 export function ModalBaseGlitchDigital() {
   return (
-    <div
-      className="modal-base-tfx-glitchdigital"
-      data-animation-id="modal-base__tfx-glitchdigital"
-    >
+    <div className="modal-base-tfx-glitchdigital" data-animation-id="modal-base__tfx-glitchdigital">
       <div className="modal-base-tfx-glitchdigital__center">
         {/* Ghost layers behind the modal for RGB channel separation effect */}
         <div

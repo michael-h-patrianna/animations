@@ -16,7 +16,7 @@ export function ProgressBarsBossHealth() {
   useEffect(() => {
     // Simulate damage taking
     const interval = setInterval(() => {
-      setHealth(h => {
+      setHealth((h) => {
         if (h <= 0) return 100 // Reset
         const damage = Math.floor(Math.random() * 20) + 5
         return Math.max(0, h - damage)
@@ -38,21 +38,21 @@ export function ProgressBarsBossHealth() {
       <div className="boss-health-frame">
         <div className="boss-skull">☠</div>
         <div className="boss-health-track">
-           {/* Background (Grey) */}
-           
-           {/* Delayed Damage (Yellow/White) */}
-           <m.div 
-             className="boss-health-fill delay"
-             animate={{ width: `${delayedHealth}%` }}
-             transition={{ duration: 0.5, ease: "easeOut" }}
-           />
-           
-           {/* Current Health (Red) */}
-           <m.div 
-             className="boss-health-fill current"
-             animate={{ width: `${health}%` }}
-             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-           />
+          {/* Background (Grey) */}
+
+          {/* Delayed Damage (Yellow/White) */}
+          <m.div
+            className="boss-health-fill delay"
+            animate={{ width: `${delayedHealth}%` }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          />
+
+          {/* Current Health (Red) */}
+          <m.div
+            className="boss-health-fill current"
+            animate={{ width: `${health}%` }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          />
         </div>
       </div>
       <div className="boss-name">DARK OVERLORD</div>

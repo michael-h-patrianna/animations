@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react'
 
 const segmentCount = 14
 
-/**
- *
- */
 export function ProgressBarsStamina() {
   const [stamina, setStamina] = useState(100)
   const [isDraining, setIsDraining] = useState(true)
@@ -64,7 +61,9 @@ export function ProgressBarsStamina() {
           animate={{ width: `${stamina}%`, opacity: isLow ? [1, 0.72, 1] : 1 }}
           transition={{
             width: { duration: 0.16, ease: [0.24, 0.78, 0.28, 0.98] },
-            opacity: isLow ? { duration: 0.3, repeat: Infinity, ease: 'easeInOut' } : { duration: 0.18 },
+            opacity: isLow
+              ? { duration: 0.3, repeat: Infinity, ease: 'easeInOut' }
+              : { duration: 0.18 },
           }}
         />
 
@@ -73,7 +72,9 @@ export function ProgressBarsStamina() {
             const threshold = ((index + 1) / segmentCount) * 100
             const isActive = stamina >= threshold
 
-            return <span key={threshold} className={`stamina-bar-segment ${isActive ? 'active' : ''}`} />
+            return (
+              <span key={threshold} className={`stamina-bar-segment ${isActive ? 'active' : ''}`} />
+            )
           })}
         </div>
       </div>

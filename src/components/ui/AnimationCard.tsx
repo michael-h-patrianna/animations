@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChevronDown } from '@/components/ui/icons/ChevronDown'
-import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
+import type { AnimationControlType } from '@/types/animation'
+import { memo, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 
 type AnimationRenderProps = {
   bulbCount: number
@@ -19,6 +20,8 @@ interface AnimationCardProps {
   onReplay?: () => void
   infiniteAnimation?: boolean
   disableReplay?: boolean
+  controls?: AnimationControlType
+  prizeCountMax?: number
   children: AnimationChild
 }
 
@@ -57,7 +60,10 @@ const resolveColorInputDefault = (tokenColor: string): string => {
 
   const tokenMatch = tokenColor.match(/^var\((--[\w-]+)\)$/)
   if (tokenMatch) {
-    const cssTokenValue = window.getComputedStyle(document.documentElement).getPropertyValue(tokenMatch[1]).trim()
+    const cssTokenValue = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue(tokenMatch[1])
+      .trim()
     const normalizedTokenColor = normalizeHexColor(cssTokenValue) ?? rgbToHex(cssTokenValue)
     if (normalizedTokenColor) return normalizedTokenColor
   }
@@ -95,7 +101,9 @@ type DescriptionProps = {
 
 const Description = ({ description, isExpanded, onToggle }: DescriptionProps) => (
   <div className="flex items-start gap-2">
-    <p className={`pf-card__description flex-1 m-0 transition-all duration-200 ${!isExpanded ? 'line-clamp-1' : ''}`}>
+    <p
+      className={`pf-card__description flex-1 m-0 transition-all duration-200 ${!isExpanded ? 'line-clamp-1' : ''}`}
+    >
       {description}
     </p>
     <button
@@ -104,7 +112,9 @@ const Description = ({ description, isExpanded, onToggle }: DescriptionProps) =>
       className="shrink-0 p-0 bg-transparent border-none cursor-pointer focus:outline-none mt-1"
       aria-label={isExpanded ? 'Collapse description' : 'Expand description'}
     >
-      <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} text-[var(--pf-text-secondary)]/60`} />
+      <ChevronDown
+        className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} text-[var(--pf-text-secondary)]/60`}
+      />
     </button>
   </div>
 )
@@ -121,7 +131,11 @@ type PrizeCountControlsProps = {
   onPrizeCountChange: (count: number) => void
 }
 
-const PrizeCountControls = ({ prizeCount, onPrizeCountChange, maxCount = 4 }: PrizeCountControlsProps & { maxCount?: number }) => (
+const PrizeCountControls = ({
+  prizeCount,
+  onPrizeCountChange,
+  maxCount = 4,
+}: PrizeCountControlsProps & { maxCount?: number }) => (
   <div className="flex items-center gap-1">
     {Array.from({ length: maxCount }, (_, i) => i + 1).map((n) => (
       <button
@@ -137,7 +151,12 @@ const PrizeCountControls = ({ prizeCount, onPrizeCountChange, maxCount = 4 }: Pr
   </div>
 )
 
-const LightsControls = ({ bulbCount, onColor, onBulbCountChange, onColorChange }: LightsControlsProps) => (
+const LightsControls = ({
+  bulbCount,
+  onColor,
+  onBulbCountChange,
+  onColorChange,
+}: LightsControlsProps) => (
   <div className="flex items-center gap-2">
     <div className="flex items-center">
       <button
@@ -184,14 +203,13 @@ const LightsControls = ({ bulbCount, onColor, onBulbCountChange, onColorChange }
 const useCardPlayback = (infiniteAnimation: boolean, onReplay?: () => void) => {
   const [replayKey, setReplayKey] = useState(0)
   const [hasPlayed, setHasPlayed] = useState(false)
-  const [isVisible, setIsVisible] = useState(false)
+  // Infinite animations are visible immediately; one-shot animations wait for
+  // IntersectionObserver to confirm the card is in the viewport before playing.
+  const [isVisible, setIsVisible] = useState(() => infiniteAnimation)
   const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (infiniteAnimation) {
-      setIsVisible(true)
-      return
-    }
+    if (infiniteAnimation) return
 
     const node = cardRef.current
     const observer = new IntersectionObserver(
@@ -229,41 +247,89 @@ type CardControlsState = {
   setReplayKey: React.Dispatch<React.SetStateAction<number>>
 }
 
-const useCardControls = (setReplayKey: React.Dispatch<React.SetStateAction<number>>): CardControlsState => {
+const useCardControls = (
+  setReplayKey: React.Dispatch<React.SetStateAction<number>>
+): CardControlsState => {
   const [bulbCount, setBulbCount] = useState(16)
-  const [onColor, setOnColor] = useState(() => resolveColorInputDefault('var(--pf-anim-gold)'))
+  const [onColor, setOnColor] = useState('')
   const [prizeCount, setPrizeCount] = useState(3)
+
+  // Resolve CSS custom property to hex — requires DOM access, so runs in layout effect
+  // rather than a state initializer to avoid side effects during render. The setState
+  // here fires exactly once on mount to resolve var(--pf-anim-gold) through the DOM.
+  useLayoutEffect(() => {
+    setOnColor(resolveColorInputDefault('var(--pf-anim-gold)')) // eslint-disable-line @eslint-react/set-state-in-effect -- intentional mount-only DOM probe
+  }, [])
+
   return { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey }
 }
 
 type FooterControlsProps = {
-  animationId: string
-  controls: CardControlsState
+  cardControls: CardControlsState
+  controlType?: AnimationControlType
+  prizeCountMax?: number
   tags?: string[]
   disableReplay: boolean
   onReplay: () => void
 }
 
-const FooterControls = ({ animationId, controls, tags, disableReplay, onReplay }: FooterControlsProps) => {
-  const isLightsAnimation = animationId.startsWith('lights__')
-  const isPrizeCountAnimation = animationId === 'prize-reveal__chest-gc-sc' || animationId === 'prize-reveal__arcane-portal' || animationId === 'prize-reveal__card-pack-open'
-  const { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey } = controls
+const FooterControls = ({
+  cardControls,
+  controlType,
+  prizeCountMax,
+  tags,
+  disableReplay,
+  onReplay,
+}: FooterControlsProps) => {
+  const { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey } =
+    cardControls
 
-  const handleBulbCountChange = (value: number) => { setBulbCount(clampBulbCount(value)); setReplayKey((k) => k + 1) }
-  const handleColorChange = (color: string) => { setOnColor(color); setReplayKey((k) => k + 1) }
-  const handlePrizeCountChange = (count: number) => { setPrizeCount(count); setReplayKey((k) => k + 1) }
+  const handleBulbCountChange = (value: number) => {
+    setBulbCount(clampBulbCount(value))
+    setReplayKey((k) => k + 1)
+  }
+  const handleColorChange = (color: string) => {
+    setOnColor(color)
+    setReplayKey((k) => k + 1)
+  }
+  const handlePrizeCountChange = (count: number) => {
+    setPrizeCount(count)
+    setReplayKey((k) => k + 1)
+  }
 
   return (
     <CardFooter className="pf-card__actions p-0 pt-3">
-      <div className="pf-card__meta">{tags?.map((tag) => <span key={tag}>{tag.toUpperCase()}</span>)}</div>
-      {isLightsAnimation && (
-        <LightsControls bulbCount={bulbCount} onColor={onColor} onBulbCountChange={handleBulbCountChange} onColorChange={handleColorChange} />
+      <div className="pf-card__meta">
+        {tags?.map((tag) => (
+          <span key={tag}>{tag.toUpperCase()}</span>
+        ))}
+      </div>
+      {controlType === 'lights' && (
+        <LightsControls
+          bulbCount={bulbCount}
+          onColor={onColor}
+          onBulbCountChange={handleBulbCountChange}
+          onColorChange={handleColorChange}
+        />
       )}
-      {isPrizeCountAnimation && (
-        <PrizeCountControls prizeCount={prizeCount} onPrizeCountChange={handlePrizeCountChange} maxCount={animationId === 'prize-reveal__card-pack-open' ? 5 : 4} />
+      {controlType === 'prizeCount' && (
+        <PrizeCountControls
+          prizeCount={prizeCount}
+          onPrizeCountChange={handlePrizeCountChange}
+          maxCount={prizeCountMax ?? 4}
+        />
       )}
       <div className="pf-card__controls">
-        <Button type="button" variant="outline" size="sm" className="pf-card__replay" data-role="replay" onClick={onReplay} disabled={disableReplay} aria-disabled={disableReplay}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="pf-card__replay"
+          data-role="replay"
+          onClick={onReplay}
+          disabled={disableReplay}
+          aria-disabled={disableReplay}
+        >
           Replay
         </Button>
       </div>
@@ -280,26 +346,49 @@ const AnimationCardComponent = ({
   onReplay,
   infiniteAnimation = false,
   disableReplay = false,
+  controls: controlType,
+  prizeCountMax,
 }: AnimationCardProps) => {
-  const { cardRef, replayKey, isVisible, triggerReplay, setReplayKey } = useCardPlayback(infiniteAnimation, onReplay)
+  const { cardRef, replayKey, isVisible, triggerReplay, setReplayKey } = useCardPlayback(
+    infiniteAnimation,
+    onReplay
+  )
   const [isExpanded, setIsExpanded] = useState(false)
-  const controls = useCardControls(setReplayKey)
+  const cardControls = useCardControls(setReplayKey)
 
   return (
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeader className="p-0 pb-3 space-y-0">
         <CardTitle className="pf-card__title mb-1">{title}</CardTitle>
-        <Description description={description} isExpanded={isExpanded} onToggle={() => setIsExpanded((expanded) => !expanded)} />
+        <Description
+          description={description}
+          isExpanded={isExpanded}
+          onToggle={() => setIsExpanded((expanded) => !expanded)}
+        />
       </CardHeader>
       <CardContent className="p-0 py-3">
         <div className="pf-demo-canvas">
           <div key={replayKey} className="pf-demo-stage pf-demo-stage--top">
-            {renderAnimationChild(children, isVisible, infiniteAnimation, controls.bulbCount, controls.onColor, controls.prizeCount)}
+            {renderAnimationChild(
+              children,
+              isVisible,
+              infiniteAnimation,
+              cardControls.bulbCount,
+              cardControls.onColor,
+              cardControls.prizeCount
+            )}
           </div>
         </div>
       </CardContent>
-      <FooterControls animationId={animationId} controls={controls} tags={tags} disableReplay={disableReplay} onReplay={triggerReplay} />
+      <FooterControls
+        cardControls={cardControls}
+        controlType={controlType}
+        prizeCountMax={prizeCountMax}
+        tags={tags}
+        disableReplay={disableReplay}
+        onReplay={triggerReplay}
+      />
     </Card>
   )
 }

@@ -5,4 +5,5 @@ export const metadata = {
   title: 'Skeleton Card',
   description: 'Card skeleton with layered shimmer lines.',
   tags: ['framer'],
+  infinite: true,
 } satisfies AnimationMetadata

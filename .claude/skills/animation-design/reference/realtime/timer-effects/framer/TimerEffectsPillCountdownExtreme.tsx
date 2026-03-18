@@ -9,7 +9,7 @@ export function TimerEffectsPillCountdownExtreme() {
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [buzzKey, setBuzzKey] = useState(0)
   const [colorClass, setColorClass] = useState('')
-useEffect(() => {
+  useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -31,7 +31,7 @@ useEffect(() => {
         }
 
         // Buzz animations at specific thresholds
-  {
+        {
           if (display === 60 || display === 50 || display === 40) {
             setBuzzKey((prev) => prev + 1)
           }
@@ -60,7 +60,7 @@ useEffect(() => {
     }, 100)
 
     // Subtle initial cue at start
-  {
+    {
       setBuzzKey((prev) => prev + 1)
     }
 

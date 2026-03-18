@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 
 import { useEffect, useRef, useState, memo } from 'react'
@@ -11,7 +10,7 @@ interface CounterIndicator {
 }
 
 function TextEffectsCounterIncrementComponent() {
-const [isValueAnimating, setIsValueAnimating] = useState(false)
+  const [isValueAnimating, setIsValueAnimating] = useState(false)
   const [count, setCount] = useState(0)
   const [counters, setCounters] = useState<CounterIndicator[]>([])
   const nextCounterIdRef = useRef(0)
@@ -119,5 +118,3 @@ const [isValueAnimating, setIsValueAnimating] = useState(false)
  * Memoized TextEffectsCounterIncrement to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsCounterIncrement = memo(TextEffectsCounterIncrementComponent)
-
-

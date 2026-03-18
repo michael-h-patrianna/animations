@@ -2,7 +2,7 @@
 
 **Purpose**: Instructions for setup, running, building, and deploying this animation library.
 
-**Tech Stack**: Vite 7 + React 19 + TypeScript 5.8 + Tailwind CSS + Vercel
+**Tech Stack**: Vite 7 + React 19 + TypeScript 5.9 + Tailwind CSS v4 + Vercel
 
 ---
 
@@ -16,28 +16,28 @@ npm install
 npm run dev
 
 # 3. Open in browser
-# http://localhost:5173
+# http://localhost:3000
 ```
 
 ---
 
 ## Key Commands
 
-| Task | Command | Notes |
-|------|---------|-------|
-| Dev server | `npm run dev` | Hot reload at localhost:5173 |
-| Type check | `npm run type-check` | TypeScript validation only |
-| Lint | `npm run lint` | ESLint check |
-| Lint fix | `npm run lint:fix` | Auto-fix lint issues |
-| Format | `npm run format` | Prettier formatting |
-| Format check | `npm run format:check` | Check formatting only |
-| Unit tests | `npm test` | Single run, exits |
-| Test coverage | `npm run test:coverage` | With coverage report |
-| E2E tests | `npm run test:e2e` | Playwright headless |
-| E2E headed | `npm run test:e2e:headed` | Visible browser |
-| Build | `npm run build` | Production build to `dist/` |
-| Preview | `npm run preview` | Serve production build |
-| Analyze | `npm run build:analyze` | Bundle analysis |
+| Task          | Command                   | Notes                        |
+| ------------- | ------------------------- | ---------------------------- |
+| Dev server    | `npm run dev`             | Hot reload at localhost:3000 |
+| Type check    | `npm run type-check`      | TypeScript validation only   |
+| Lint          | `npm run lint`            | ESLint check                 |
+| Lint fix      | `npm run lint:fix`        | Auto-fix lint issues         |
+| Format        | `npm run format`          | Prettier formatting          |
+| Format check  | `npm run format:check`    | Check formatting only        |
+| Unit tests    | `npm test`                | Single run, exits            |
+| Test coverage | `npm run test:coverage`   | With coverage report         |
+| E2E tests     | `npm run test:e2e`        | Playwright headless          |
+| E2E headed    | `npm run test:e2e:headed` | Visible browser              |
+| Build         | `npm run build`           | Production build to `dist/`  |
+| Preview       | `npm run preview`         | Serve production build       |
+| Analyze       | `npm run build:analyze`   | Bundle analysis              |
 
 ---
 
@@ -84,16 +84,17 @@ npm run preview
 
 Use these aliases instead of relative imports:
 
-| Alias | Path |
-|-------|------|
-| `@/` | `src/` |
+| Alias          | Path              |
+| -------------- | ----------------- |
+| `@/`           | `src/`            |
 | `@/components` | `src/components/` |
-| `@/hooks` | `src/hooks/` |
-| `@/utils` | `src/utils/` |
-| `@/types` | `src/types/` |
-| `@/assets` | `src/assets/` |
+| `@/hooks`      | `src/hooks/`      |
+| `@/utils`      | `src/utils/`      |
+| `@/types`      | `src/types/`      |
+| `@/assets`     | `src/assets/`     |
 
 **Example**:
+
 ```typescript
 // ✅ Correct
 import { AnimationCard } from '@/components/ui/AnimationCard'
@@ -110,22 +111,25 @@ import { AnimationCard } from '../../../components/ui/AnimationCard'
 
 **Cause**: Missing import in index.ts or circular dependency
 **Fix**:
+
 1. Check the import path uses `@/` alias
 2. Verify the component is exported from group/category index.ts
 3. Check for circular imports between files
 
 ### "Metadata missing" Error
 
-**Cause**: Component's `.meta.ts` file missing or not imported
+**Cause**: Component's `.meta.ts` file missing
 **Fix**:
-1. Verify `ComponentName.meta.ts` exists next to component
-2. Check metadata is imported in group `index.ts`
-3. Ensure metadata id matches `data-animation-id` attribute
+
+1. Verify `ComponentName.meta.ts` exists next to the component
+2. Ensure it exports `export const metadata: AnimationMetadata = { ... }`
+3. Ensure the metadata `id` matches the `data-animation-id` attribute in the component
 
 ### Build Fails with Type Errors
 
 **Cause**: TypeScript strict mode catches issues
 **Fix**:
+
 ```bash
 # Run type check to see all errors
 npm run type-check
@@ -140,6 +144,7 @@ npm run type-check
 
 **Cause**: Watch mode running in CI, or leaked timers
 **Fix**:
+
 ```bash
 # Use single-run mode
 npm test
@@ -152,10 +157,10 @@ npm test
 
 **Cause**: Dev server not running or wrong port
 **Fix**:
+
 ```bash
-# Playwright auto-starts server, but verify:
-# - Port 5173 is free
-# - baseURL in playwright.config.ts matches
+# Playwright auto-starts a dev server on port 5173 (see playwright.config.ts).
+# Verify that port is free before running E2E tests.
 
 # Run with visible browser to debug
 npm run test:e2e:headed
@@ -165,6 +170,7 @@ npm run test:e2e:headed
 
 **Cause**: Circular imports or too many parallel workers
 **Fix**:
+
 1. Check for circular imports between index.ts files
 2. Verify vitest.config.ts has `maxWorkers: 4` (max)
 3. Look for recursive component rendering

@@ -3,28 +3,28 @@
 /**
  * RGB color channels
  */
-type RGB = { r: number; g: number; b: number };
+type RGB = { r: number; g: number; b: number }
 
-const FALLBACK_COLOR: RGB = { r: 255, g: 215, b: 0 };
+const FALLBACK_COLOR: RGB = { r: 255, g: 215, b: 0 }
 
 function clampChannel(value: number): number {
-  return Math.max(0, Math.min(255, Math.round(value)));
+  return Math.max(0, Math.min(255, Math.round(value)))
 }
 
 function clampRange(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
+  return Math.max(min, Math.min(max, value))
 }
 
 function formatHexColor({ r, g, b }: RGB): string {
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
 }
 
 function parseHexColor(color: string): RGB | null {
-  const hex = color.trim().replace(/^#/, '');
-  const validHex = /^[\da-f]+$/i;
+  const hex = color.trim().replace(/^#/, '')
+  const validHex = /^[\da-f]+$/i
 
   if (!validHex.test(hex)) {
-    return null;
+    return null
   }
 
   if (hex.length === 3 || hex.length === 4) {
@@ -32,12 +32,12 @@ function parseHexColor(color: string): RGB | null {
       .slice(0, 3)
       .split('')
       .map((char) => char + char)
-      .join('');
+      .join('')
     return {
       r: parseInt(expanded.slice(0, 2), 16),
       g: parseInt(expanded.slice(2, 4), 16),
       b: parseInt(expanded.slice(4, 6), 16),
-    };
+    }
   }
 
   if (hex.length === 6 || hex.length === 8) {
@@ -45,34 +45,36 @@ function parseHexColor(color: string): RGB | null {
       r: parseInt(hex.slice(0, 2), 16),
       g: parseInt(hex.slice(2, 4), 16),
       b: parseInt(hex.slice(4, 6), 16),
-    };
+    }
   }
 
-  return null;
+  return null
 }
 
 function parseRgbChannel(channel: string): number {
-  const value = channel.trim();
+  const value = channel.trim()
   if (value.endsWith('%')) {
-    return clampChannel((parseFloat(value) / 100) * 255);
+    return clampChannel((parseFloat(value) / 100) * 255)
   }
-  return clampChannel(parseFloat(value));
+  return clampChannel(parseFloat(value))
 }
 
 function parseRgbColor(color: string): RGB | null {
   const match = color
     .trim()
-    .match(/^rgba?\(\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)(?:\s*,\s*[+-]?\d*\.?\d+%?)?\s*\)$/i);
+    .match(
+      /^rgba?\(\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)(?:\s*,\s*[+-]?\d*\.?\d+%?)?\s*\)$/i
+    )
 
   if (!match) {
-    return null;
+    return null
   }
 
   return {
     r: parseRgbChannel(match[1]),
     g: parseRgbChannel(match[2]),
     b: parseRgbChannel(match[3]),
-  };
+  }
 }
 
 /**
@@ -84,27 +86,27 @@ function resolveCssColor(color: string): RGB | null {
     typeof document === 'undefined' ||
     typeof window.getComputedStyle !== 'function'
   ) {
-    return null;
+    return null
   }
 
-  const probe = document.createElement('span');
-  probe.style.color = '';
-  probe.style.color = color;
+  const probe = document.createElement('span')
+  probe.style.color = ''
+  probe.style.color = color
 
   if (!probe.style.color) {
-    return null;
+    return null
   }
 
-  probe.style.position = 'absolute';
-  probe.style.visibility = 'hidden';
-  probe.style.pointerEvents = 'none';
+  probe.style.position = 'absolute'
+  probe.style.visibility = 'hidden'
+  probe.style.pointerEvents = 'none'
 
-  const parent = document.body ?? document.documentElement;
-  parent.appendChild(probe);
-  const resolvedColor = window.getComputedStyle(probe).color;
-  probe.remove();
+  const parent = document.body ?? document.documentElement
+  parent.appendChild(probe)
+  const resolvedColor = window.getComputedStyle(probe).color
+  probe.remove()
 
-  return parseRgbColor(resolvedColor) ?? parseHexColor(resolvedColor);
+  return parseRgbColor(resolvedColor) ?? parseHexColor(resolvedColor)
 }
 
 /**
@@ -112,13 +114,13 @@ function resolveCssColor(color: string): RGB | null {
  * Supports hex, rgb/rgba, named colors, and CSS variables (web runtime).
  */
 function parseColor(color: string): RGB {
-  const trimmedColor = color.trim();
+  const trimmedColor = color.trim()
   return (
     parseHexColor(trimmedColor) ??
     parseRgbColor(trimmedColor) ??
     resolveCssColor(trimmedColor) ??
     FALLBACK_COLOR
-  );
+  )
 }
 
 /**
@@ -132,15 +134,15 @@ function parseColor(color: string): RGB {
  * @returns Blended hex color
  */
 export function blendColors(color1: string, color2: string, percentage: number): string {
-  const c1 = parseColor(color1);
-  const c2 = parseColor(color2);
+  const c1 = parseColor(color1)
+  const c2 = parseColor(color2)
 
-  const mix = clampRange(percentage, 0, 100) / 100;
-  const r = clampChannel(c1.r * mix + c2.r * (1 - mix));
-  const g = clampChannel(c1.g * mix + c2.g * (1 - mix));
-  const b = clampChannel(c1.b * mix + c2.b * (1 - mix));
+  const mix = clampRange(percentage, 0, 100) / 100
+  const r = clampChannel(c1.r * mix + c2.r * (1 - mix))
+  const g = clampChannel(c1.g * mix + c2.g * (1 - mix))
+  const b = clampChannel(c1.b * mix + c2.b * (1 - mix))
 
-  return formatHexColor({ r, g, b });
+  return formatHexColor({ r, g, b })
 }
 
 /**
@@ -152,9 +154,9 @@ export function blendColors(color1: string, color2: string, percentage: number):
  * @returns RGBA color string
  */
 export function addTransparency(color: string, alpha: number): string {
-  const { r, g, b } = parseColor(color);
+  const { r, g, b } = parseColor(color)
 
-  return `rgba(${r}, ${g}, ${b}, ${Math.max(0, Math.min(1, alpha / 100))})`;
+  return `rgba(${r}, ${g}, ${b}, ${Math.max(0, Math.min(1, alpha / 100))})`
 }
 
 /**
@@ -166,26 +168,26 @@ export function addTransparency(color: string, alpha: number): string {
  * @returns Shifted hex color
  */
 export function shiftColorTemperature(color: string, shift: number): string {
-  const parsedColor = parseColor(color);
-  let r = parsedColor.r;
-  let g = parsedColor.g;
-  let b = parsedColor.b;
-  const boundedShift = clampRange(shift, -50, 50);
+  const parsedColor = parseColor(color)
+  let r = parsedColor.r
+  let g = parsedColor.g
+  let b = parsedColor.b
+  const boundedShift = clampRange(shift, -50, 50)
 
   if (boundedShift > 0) {
     // Warm shift: increase red and green (orange/yellow tones)
-    r = clampChannel(r + boundedShift * 0.8);
-    g = clampChannel(g + boundedShift * 0.5);
-    b = clampChannel(b - boundedShift * 0.3);
+    r = clampChannel(r + boundedShift * 0.8)
+    g = clampChannel(g + boundedShift * 0.5)
+    b = clampChannel(b - boundedShift * 0.3)
   } else {
     // Cool shift: increase blue, reduce red
-    const coolShift = Math.abs(boundedShift);
-    r = clampChannel(r - coolShift * 0.4);
-    g = clampChannel(g - coolShift * 0.2);
-    b = clampChannel(b + coolShift * 0.6);
+    const coolShift = Math.abs(boundedShift)
+    r = clampChannel(r - coolShift * 0.4)
+    g = clampChannel(g - coolShift * 0.2)
+    b = clampChannel(b + coolShift * 0.6)
   }
 
-  return formatHexColor({ r, g, b });
+  return formatHexColor({ r, g, b })
 }
 
 /**
@@ -197,37 +199,37 @@ export function shiftColorTemperature(color: string, shift: number): string {
  * @returns Object with pre-calculated color steps
  */
 export function calculateBulbColors(onColor: string) {
-  const parsedOnColor = parseColor(onColor);
+  const parsedOnColor = parseColor(onColor)
 
   // Apply warm temperature shift to onColor for more inviting glow
-  const warmOnColor = shiftColorTemperature(onColor, 15);
+  const warmOnColor = shiftColorTemperature(onColor, 15)
 
   // Derive off color by darkening the on color to 20% brightness with 70% opacity
-  let r = clampChannel(parsedOnColor.r * 0.2);
-  let g = clampChannel(parsedOnColor.g * 0.2);
-  let b = clampChannel(parsedOnColor.b * 0.2);
+  let r = clampChannel(parsedOnColor.r * 0.2)
+  let g = clampChannel(parsedOnColor.g * 0.2)
+  let b = clampChannel(parsedOnColor.b * 0.2)
 
   // Desaturate by moving RGB values closer to their average
-  const avg = (r + g + b) / 3;
-  const desaturationFactor = 0.6; // 60% closer to gray
-  r = clampChannel(r + (avg - r) * desaturationFactor);
-  g = clampChannel(g + (avg - g) * desaturationFactor);
-  b = clampChannel(b + (avg - b) * desaturationFactor);
+  const avg = (r + g + b) / 3
+  const desaturationFactor = 0.6 // 60% closer to gray
+  r = clampChannel(r + (avg - r) * desaturationFactor)
+  g = clampChannel(g + (avg - g) * desaturationFactor)
+  b = clampChannel(b + (avg - b) * desaturationFactor)
 
-  const offColorBase = formatHexColor({ r, g, b });
+  const offColorBase = formatHexColor({ r, g, b })
 
   // Apply cool temperature shift to offColor for more muted appearance
-  const coolOffColor = shiftColorTemperature(offColorBase, -10);
-  const parsedOffColor = parseColor(coolOffColor);
-  const offColor = `rgba(${parsedOffColor.r}, ${parsedOffColor.g}, ${parsedOffColor.b}, 0.7)`;
+  const coolOffColor = shiftColorTemperature(offColorBase, -10)
+  const parsedOffColor = parseColor(coolOffColor)
+  const offColor = `rgba(${parsedOffColor.r}, ${parsedOffColor.g}, ${parsedOffColor.b}, 0.7)`
 
   // Pre-calculate radial gradient color for animations (replaces color-mix())
-  const onGradientColor = blendColors(warmOnColor, '#000000', 85);
+  const onGradientColor = blendColors(warmOnColor, '#000000', 85)
 
   // Additional color-mix replacements for animations
-  const offBlend10On = blendColors(offColor, warmOnColor, 90);  // 90% off + 10% on
-  const onBlend5Off = blendColors(warmOnColor, offColor, 95);    // 95% on + 5% off
-  const onBlend10Off = blendColors(warmOnColor, offColor, 90);   // 90% on + 10% off
+  const offBlend10On = blendColors(offColor, warmOnColor, 90) // 90% off + 10% on
+  const onBlend5Off = blendColors(warmOnColor, offColor, 95) // 95% on + 5% off
+  const onBlend10Off = blendColors(warmOnColor, offColor, 90) // 90% on + 10% off
 
   return {
     // Base colors with temperature shifts
@@ -249,9 +251,9 @@ export function calculateBulbColors(onColor: string) {
     offTint20: blendColors(offColor, warmOnColor, 80),
 
     // Additional blends for specific animation patterns
-    offBlend10On,   // 90% off + 10% on
-    onBlend5Off,    // 95% on + 5% off
-    onBlend10Off,   // 90% on + 10% off
+    offBlend10On, // 90% off + 10% on
+    onBlend5Off, // 95% on + 5% off
+    onBlend10Off, // 90% on + 10% off
 
     // Radial gradient color (85% of on color blended with transparent)
     onGradient: onGradientColor,
@@ -278,10 +280,8 @@ export function calculateBulbColors(onColor: string) {
     offGlow40: addTransparency(offColor, 40),
     offGlow35: addTransparency(offColor, 35),
     offGlow30: addTransparency(offColor, 30),
-  };
+  }
 }
 
-/**
- *
- */
-export type BulbColors = ReturnType<typeof calculateBulbColors>;
+/** Pre-calculated color palette for light bulb animations. */
+export type BulbColors = ReturnType<typeof calculateBulbColors>

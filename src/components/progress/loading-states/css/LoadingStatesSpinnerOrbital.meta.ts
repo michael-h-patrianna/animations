@@ -4,5 +4,6 @@ export const metadata = {
   id: 'loading-states__spinner-orbital',
   title: 'Spinner Orbital',
   description: 'Orbital spinner around centre mass.',
-  tags: ['css']
+  tags: ['css'],
+  infinite: true,
 } satisfies AnimationMetadata

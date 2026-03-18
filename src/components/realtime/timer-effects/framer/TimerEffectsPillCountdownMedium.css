@@ -1,6 +1,5 @@
 /* Medium intensity: heartbeat + ring */
 .pf-pill-timer {
-
   --timer-effects-pill-countdown-medium-border-1: rgb(255 255 255 / 22%);
   --timer-effects-pill-countdown-medium-border-2: rgb(102 255 191 / 45%);
   --timer-effects-pill-countdown-medium-color-1: rgb(0 0 0 / 86%);

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ProgressBarsTimelineProgress.css'
 
-
 export function ProgressBarsTimelineProgress() {
   const steps = 4
   const stepRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -9,7 +8,9 @@ export function ProgressBarsTimelineProgress() {
 
   useEffect(() => {
     const stepElements = stepRefs.current.filter((el): el is HTMLDivElement => el !== null)
-    const connectorElements = connectorRefs.current.filter((el): el is HTMLDivElement => el !== null)
+    const connectorElements = connectorRefs.current.filter(
+      (el): el is HTMLDivElement => el !== null
+    )
 
     // Stagger delay: 260ms per child
     stepElements.forEach((stepEl, index) => {
@@ -62,10 +63,7 @@ export function ProgressBarsTimelineProgress() {
   }, [])
 
   return (
-    <div
-      className="pf-timeline-progress"
-      data-animation-id="progress-bars__timeline-progress"
-    >
+    <div className="pf-timeline-progress" data-animation-id="progress-bars__timeline-progress">
       <div className="pf-timeline-progress__track">
         {Array.from({ length: steps }, (_, index) => (
           <div
@@ -116,4 +114,3 @@ export function ProgressBarsTimelineProgress() {
     </div>
   )
 }
-

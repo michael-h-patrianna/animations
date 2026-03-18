@@ -29,4 +29,3 @@ function StandardEffectsFloatComponent() {
  * Memoized StandardEffectsFloat to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsFloat = memo(StandardEffectsFloatComponent)
-

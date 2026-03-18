@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import './LoadingStatesSpinnerGalaxy.css'
@@ -26,4 +25,3 @@ export function LoadingStatesSpinnerGalaxy() {
     </div>
   )
 }
-

@@ -5,7 +5,6 @@
 
 /* Container */
 .tfx-cinc-container {
-
   --text-effects-counter-increment-color-1: #c6ff77;
   --text-effects-counter-increment-color-2: #93f77b;
   --text-effects-counter-increment-color-3: #b8ff9a;
@@ -57,10 +56,8 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   --text-shadow-lint-token-1:
-    0 2px 0 rgb(0 0 0 / 25%),
-    0 0 8px var(--text-effects-counter-increment-text-shadow-105);
-  text-shadow:
-    var(--text-shadow-lint-token-1);
+    0 2px 0 rgb(0 0 0 / 25%), 0 0 8px var(--text-effects-counter-increment-text-shadow-105);
+  text-shadow: var(--text-shadow-lint-token-1);
   transform-origin: center;
 
   /* GPU acceleration */

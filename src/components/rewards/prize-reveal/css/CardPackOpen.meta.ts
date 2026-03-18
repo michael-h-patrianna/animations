@@ -7,4 +7,6 @@ export const metadata = {
     'Premium card pack descends, shakes with converging energy, splits open via clip-path — 5 collectible cards fan out face-down, then flip one by one with escalating rarity bursts (common → legendary).',
   tags: ['css'],
   disableReplay: false,
+  controls: 'prizeCount',
+  prizeCountMax: 5,
 } satisfies AnimationMetadata

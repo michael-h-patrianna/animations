@@ -4,7 +4,7 @@ import './CardInteractionsNeonGlow.css'
 
 export function CardInteractionsNeonGlow() {
   return (
-    <div 
+    <div
       className="premium-card-container pf-card-interactions--neon-glow"
       data-animation-id="card-interactions__neon-glow"
     >

@@ -2,7 +2,6 @@
 
 /* Container for urgent pulse demo */
 .timer-urgent-pulse-demo {
-
   --timer-effects-urgent-pulse-border: rgb(255 255 255 / 30%);
   --timer-effects-urgent-pulse-bg-1: #ffa500;
   --timer-effects-urgent-pulse-bg-2: #ff8c00;
@@ -35,7 +34,11 @@
 .timer-urgent-pulse__gradient-base {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--timer-effects-urgent-pulse-bg-1) 0%, var(--timer-effects-urgent-pulse-bg-2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-urgent-pulse-bg-1) 0%,
+    var(--timer-effects-urgent-pulse-bg-2) 100%
+  );
   border-radius: inherit;
   z-index: 1;
 }
@@ -44,7 +47,11 @@
 .timer-urgent-pulse__gradient-top {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--timer-effects-urgent-pulse-bg-3) 0%, var(--timer-effects-urgent-pulse-bg-4) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-urgent-pulse-bg-3) 0%,
+    var(--timer-effects-urgent-pulse-bg-4) 100%
+  );
   border-radius: inherit;
   z-index: 2;
   will-change: opacity;

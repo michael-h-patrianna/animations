@@ -12,12 +12,12 @@ export function ModalContentButtonsStagger3() {
         animate={{
           scale: [0.88, 1.02, 1],
           y: [-16, -4, 0],
-          opacity: [0, 0.6, 1]
+          opacity: [0, 0.6, 1],
         }}
         transition={{
           duration: 0.4,
           ease: [0.4, 0, 0.2, 1] as const,
-          times: [0, 0.5, 1]
+          times: [0, 0.5, 1],
         }}
       >
         <div className="modal-content-header">
@@ -35,13 +35,13 @@ export function ModalContentButtonsStagger3() {
             animate={{
               y: [20, -6, 0],
               scale: [0.94, 1.06, 1],
-              opacity: [0, 1, 1]
+              opacity: [0, 1, 1],
             }}
             transition={{
               duration: 0.32,
               delay: 0.3,
               ease: [0.4, 0, 0.2, 1] as const,
-              times: [0, 0.6, 1]
+              times: [0, 0.6, 1],
             }}
           >
             Primary
@@ -52,13 +52,13 @@ export function ModalContentButtonsStagger3() {
             animate={{
               y: [20, -6, 0],
               scale: [0.94, 1.06, 1],
-              opacity: [0, 1, 1]
+              opacity: [0, 1, 1],
             }}
             transition={{
               duration: 0.32,
               delay: 0.37,
               ease: [0.4, 0, 0.2, 1] as const,
-              times: [0, 0.6, 1]
+              times: [0, 0.6, 1],
             }}
           >
             Secondary
@@ -69,13 +69,13 @@ export function ModalContentButtonsStagger3() {
             animate={{
               y: [20, -6, 0],
               scale: [0.94, 1.06, 1],
-              opacity: [0, 1, 1]
+              opacity: [0, 1, 1],
             }}
             transition={{
               duration: 0.32,
               delay: 0.44,
               ease: [0.4, 0, 0.2, 1] as const,
-              times: [0, 0.6, 1]
+              times: [0, 0.6, 1],
             }}
           >
             Tertiary

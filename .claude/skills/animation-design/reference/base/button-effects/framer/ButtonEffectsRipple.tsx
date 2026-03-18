@@ -16,7 +16,6 @@ function ButtonEffectsRippleComponent() {
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextId = useRef(0)
 
-
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const rect = btnRef.current?.getBoundingClientRect()
     if (!rect) return
@@ -58,7 +57,7 @@ function ButtonEffectsRippleComponent() {
         <span className="pf-btn__ripples" aria-hidden>
           {ripples.map((r) => {
             const half = r.size / 2
-            return  (
+            return (
               <m.span
                 key={r.id}
                 className="pf-btn__ripple"
@@ -79,4 +78,3 @@ function ButtonEffectsRippleComponent() {
  * Memoized ButtonEffectsRipple to prevent unnecessary re-renders in grid layouts.
  */
 export const ButtonEffectsRipple = memo(ButtonEffectsRippleComponent)
-

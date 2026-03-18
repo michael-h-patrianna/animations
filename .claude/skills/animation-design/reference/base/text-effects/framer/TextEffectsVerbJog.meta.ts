@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Jogging',
   description: 'Energetic jog rhythm alternating between letters.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 }

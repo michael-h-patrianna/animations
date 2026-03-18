@@ -1,6 +1,12 @@
-
 import * as m from 'motion/react-m'
-import { animate, AnimatePresence, easeOut, useAnimation, useMotionValue, useTransform } from 'motion/react'
+import {
+  animate,
+  AnimatePresence,
+  easeOut,
+  useAnimation,
+  useMotionValue,
+  useTransform,
+} from 'motion/react'
 import { useEffect, useState, memo } from 'react'
 import './TextEffectsXpNumberPop.css'
 import '../shared.css'
@@ -130,14 +136,8 @@ function TextEffectsXpNumberPopComponent() {
 
       {/* Main number with XP label */}
       <m.div className="number-wrapper xp-pop-number-wrapper" animate={numberControls}>
-        <m.span
-          className="xp-pop-number-value"
-        >
-          {displayValue}
-        </m.span>
-        <span className="xp-pop-label">
-          XP
-        </span>
+        <m.span className="xp-pop-number-value">{displayValue}</m.span>
+        <span className="xp-pop-label">XP</span>
       </m.div>
     </div>
   )
@@ -147,5 +147,3 @@ function TextEffectsXpNumberPopComponent() {
  * Memoized TextEffectsXpNumberPop to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
-
-

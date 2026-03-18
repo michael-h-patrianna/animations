@@ -61,7 +61,8 @@
 
 /* Scale animation: 1.0 → 1.12 → 1.0 */
 @keyframes urgent-pulse-scale {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -71,7 +72,8 @@
 
 /* Gradient opacity crossfade: 0 → 1 → 0 */
 @keyframes urgent-pulse-gradient {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
   }
   50% {
@@ -94,7 +96,8 @@
   }
 
   @keyframes urgent-pulse-scale-slow {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1);
     }
     50% {

@@ -3,7 +3,7 @@
   align-items: center;
   gap: 10px;
   padding: 20px;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
   width: fit-content;
 }
@@ -16,7 +16,7 @@
 .stamina-track-css {
   width: 200px;
   height: 16px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   overflow: hidden;
   transform: skewX(-15deg);
@@ -35,7 +35,13 @@
 }
 
 @keyframes stamina-low-pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }

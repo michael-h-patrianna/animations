@@ -4,7 +4,7 @@ import * as m from 'motion/react-m'
 import '../shared.css'
 
 export function ModalDismissSnackbarScale() {
-const [showProgress, setShowProgress] = useState(true)
+  const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.32
   const autoDismissMs = 4000

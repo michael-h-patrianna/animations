@@ -3,9 +3,6 @@ import * as m from 'motion/react-m'
 import { MockModalContent } from '../MockModalContent'
 import { overlayStyles } from '@/motion/primitives'
 
-/**
- *
- */
 export function ModalBaseUnfoldOrigami() {
   const duration = 0.9
   const ease = [0.25, 0.46, 0.45, 0.94] as const

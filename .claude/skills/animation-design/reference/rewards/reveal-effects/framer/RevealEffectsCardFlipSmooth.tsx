@@ -16,8 +16,7 @@ export function RevealEffectsCardFlipSmooth() {
   }, [])
 
   const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   return (
     <div
@@ -47,7 +46,7 @@ export function RevealEffectsCardFlipSmooth() {
                 times: [0, 0.2, 0.6, 1],
                 duration: 0.8,
                 delay: isFlipped ? 0 : 0,
-                ease: "easeInOut",
+                ease: 'easeInOut',
               }
         }
         style={{
@@ -64,10 +63,10 @@ export function RevealEffectsCardFlipSmooth() {
             <div className="card-flip-mystery-mark">?</div>
           </div>
           {/* Holographic Shine */}
-          <m.div 
+          <m.div
             className="card-flip-shine"
             animate={{ x: ['-100%', '200%'] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
           />
         </m.div>
 

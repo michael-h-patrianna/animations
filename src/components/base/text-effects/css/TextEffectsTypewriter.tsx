@@ -76,4 +76,3 @@ function TextEffectsTypewriterComponent({
  * Ideal for use in grid layouts or lists where parent re-renders are frequent.
  */
 export const TextEffectsTypewriter = memo(TextEffectsTypewriterComponent)
-

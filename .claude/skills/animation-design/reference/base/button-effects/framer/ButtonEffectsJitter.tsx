@@ -5,7 +5,7 @@ import '../shared.css'
 import './ButtonEffectsJitter.css'
 
 function ButtonEffectsJitterComponent() {
-const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const jitterVariants = {
     animate: {

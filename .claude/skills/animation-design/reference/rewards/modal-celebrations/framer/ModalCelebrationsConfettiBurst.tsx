@@ -1,4 +1,3 @@
-
 import { easeOut } from 'motion/react'
 import * as m from 'motion/react-m'
 import '../shared.css'
@@ -12,7 +11,7 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsConfettiBurst() {
-const particles = Array.from({ length: 32 }, (_, i) => {
+  const particles = Array.from({ length: 32 }, (_, i) => {
     const tx = randBetween(-160, 160)
     const ty = randBetween(-210, -80)
     const rot = randBetween(-260, 260)

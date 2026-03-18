@@ -4,7 +4,7 @@ import './CardInteractionsBorderGradient.css'
 
 export function CardInteractionsBorderGradient() {
   return (
-    <div 
+    <div
       className="premium-card-container pf-card-interactions--border-gradient"
       data-animation-id="card-interactions__border-gradient"
     >

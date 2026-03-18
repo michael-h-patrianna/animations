@@ -4,5 +4,6 @@ export const metadata = {
   id: 'loading-states__ring-multi',
   title: 'Multi Ring',
   description: 'Nested rings oscillate asynchronously.',
-  tags: ['css']
+  tags: ['css'],
+  infinite: true,
 } satisfies AnimationMetadata

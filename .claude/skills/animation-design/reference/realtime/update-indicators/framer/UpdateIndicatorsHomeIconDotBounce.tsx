@@ -6,7 +6,7 @@ import './UpdateIndicatorsHomeIconDotBounce.css'
 
 export function UpdateIndicatorsHomeIconDotBounce() {
   const [key, setKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 10000)
@@ -34,13 +34,13 @@ useEffect(() => {
               '0 0 0 0 rgba(255, 73, 103, 0)',
               '0 0 0 0 rgba(255, 73, 103, 0)',
               '0 0 0 6px rgba(255, 73, 103, 0.18)',
-              '0 0 0 0 rgba(255, 73, 103, 0)'
-            ]
+              '0 0 0 0 rgba(255, 73, 103, 0)',
+            ],
           }}
           transition={{
             duration: 2.42,
             times: [0, 0.174, 0.174, 0.248, 0.661, 1],
-            ease: [0.2, 0.9, 0.3, 1.2] as const
+            ease: [0.2, 0.9, 0.3, 1.2] as const,
           }}
         />
       </div>

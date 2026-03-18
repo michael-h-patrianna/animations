@@ -1,7 +1,6 @@
 /* Styles for LoadingStatesSpinnerOrbital */
 
 .pf-loading-container {
-
   --loading-states-spinner-orbital-bg: #c47ae5;
   --loading-states-spinner-orbital-shadow: rgb(196 122 229 / 80%);
   --loading-states-spinner-orbital-border: rgb(236 195 255 / 40%);

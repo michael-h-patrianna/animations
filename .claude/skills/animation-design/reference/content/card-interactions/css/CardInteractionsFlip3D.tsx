@@ -13,15 +13,16 @@ export function CardInteractionsFlip3D() {
           <PremiumCard />
         </div>
         <div className="pf-flip-back">
-           <div className="pf-flip-back-content">
-             <div className="pf-flip-icon">⚡</div>
-             <h3>SYSTEM UNLOCKED</h3>
-             <div className="pf-flip-data">
-                ACCESS_LEVEL: ADMIN<br/>
-                ENCRYPTION: 0<br/>
-                DATA: REVEALED
-             </div>
-           </div>
+          <div className="pf-flip-back-content">
+            <div className="pf-flip-icon">⚡</div>
+            <h3>SYSTEM UNLOCKED</h3>
+            <div className="pf-flip-data">
+              ACCESS_LEVEL: ADMIN
+              <br />
+              ENCRYPTION: 0<br />
+              DATA: REVEALED
+            </div>
+          </div>
         </div>
       </div>
     </div>

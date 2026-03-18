@@ -87,4 +87,3 @@ export function ModalCelebrationsCoinTrail() {
     </div>
   )
 }
-

@@ -7,7 +7,7 @@ export function TimerEffectsTimerFlash() {
   const [seconds, setSeconds] = useState(32)
   const [bgColor, setBgColor] = useState('#ffc107')
   const [pulseSpeed, setPulseSpeed] = useState(1000)
-useEffect(() => {
+  useEffect(() => {
     const duration = 32000
     const startTime = Date.now()
     let lastDisplayed = 32

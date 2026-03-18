@@ -97,15 +97,12 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 0 12px var(--crystal-glow-primary))
+  filter: drop-shadow(0 0 12px var(--crystal-glow-primary))
     drop-shadow(0 0 28px var(--crystal-glow-secondary));
 }
 
 .pf-crystal-shatter__crystal-image--charging {
-  filter:
-    drop-shadow(0 0 16px rgb(255 200 100 / 60%))
-    drop-shadow(0 0 36px rgb(255 170 80 / 45%))
+  filter: drop-shadow(0 0 16px rgb(255 200 100 / 60%)) drop-shadow(0 0 36px rgb(255 170 80 / 45%))
     hue-rotate(30deg);
 }
 
@@ -200,9 +197,7 @@
   inset-block-start: -45px;
   inline-size: 90px;
   block-size: 90px;
-  filter:
-    drop-shadow(0 0 8px rgb(180 210 255 / 80%))
-    drop-shadow(0 0 18px rgb(140 180 255 / 50%));
+  filter: drop-shadow(0 0 8px rgb(180 210 255 / 80%)) drop-shadow(0 0 18px rgb(140 180 255 / 50%));
   pointer-events: none;
 }
 
@@ -353,9 +348,7 @@
   max-inline-size: 100%;
   max-block-size: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 2px 6px rgb(0 0 0 / 35%))
-    drop-shadow(0 0 10px var(--crystal-glow-primary));
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 35%)) drop-shadow(0 0 10px var(--crystal-glow-primary));
 }
 
 .pf-crystal-shatter__prize--rr .pf-crystal-shatter__prize-icon-wrap {
@@ -419,15 +412,19 @@
   pointer-events: auto;
   box-shadow:
     0 0 20px 6px var(--claim-btn-glow),
-    0 4px 12px rgb(0 0 0 / 30%);
+    0 4px 12px var(--pf-anim-black-30);
 }
 
 .pf-crystal-shatter__claim-btn:hover {
-  background: linear-gradient(180deg, var(--claim-btn-hover-bg-start), var(--claim-btn-hover-bg-end));
+  background: linear-gradient(
+    180deg,
+    var(--claim-btn-hover-bg-start),
+    var(--claim-btn-hover-bg-end)
+  );
   border-color: var(--claim-btn-hover-border);
   box-shadow:
     0 0 24px 8px var(--claim-btn-hover-glow),
-    0 4px 14px rgb(0 0 0 / 35%);
+    0 4px 14px var(--pf-anim-black-35);
 }
 
 /* ─── Claim burst ─── */
@@ -455,7 +452,9 @@
   block-size: 44px;
 }
 
-.pf-crystal-shatter[data-prize-count='4'] .pf-crystal-shatter__prize--rr .pf-crystal-shatter__prize-icon-wrap {
+.pf-crystal-shatter[data-prize-count='4']
+  .pf-crystal-shatter__prize--rr
+  .pf-crystal-shatter__prize-icon-wrap {
   inline-size: 62px;
   block-size: 52px;
 }

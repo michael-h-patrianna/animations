@@ -193,8 +193,10 @@ function TrailDot({ t }: { t: Mote }) {
     <m.span
       style={{
         position: 'absolute',
-        left: '50%', marginLeft: t.x,
-        top: '50%', marginTop: t.y,
+        left: '50%',
+        marginLeft: t.x,
+        top: '50%',
+        marginTop: t.y,
         width: `${t.size}px`,
         height: `${t.size}px`,
         borderRadius: '50%',
@@ -216,8 +218,10 @@ function SparkleDot({ s }: { s: Mote }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '50%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '50%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
@@ -236,8 +240,10 @@ function VortexCore() {
     <m.span
       style={{
         position: 'absolute',
-        left: '50%', marginLeft: -4,
-        top: '50%', marginTop: -4,
+        left: '50%',
+        marginLeft: -4,
+        top: '50%',
+        marginTop: -4,
         width: '8px',
         height: '8px',
         borderRadius: '50%',

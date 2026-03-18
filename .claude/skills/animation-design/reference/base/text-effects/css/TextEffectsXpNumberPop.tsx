@@ -22,10 +22,7 @@ interface TextEffectsXpNumberPopProps {
  */
 function calculateParticles(finalValue: number, maxParticles: number): Particle[] {
   // Don't show more particles than makes sense (avoid +1 spam)
-  const numParticles = Math.min(
-    maxParticles,
-    Math.max(1, Math.floor(finalValue / 5))
-  )
+  const numParticles = Math.min(maxParticles, Math.max(1, Math.floor(finalValue / 5)))
 
   const particles: Particle[] = []
   const duration = 2500
@@ -50,7 +47,7 @@ function calculateParticles(finalValue: number, maxParticles: number): Particle[
       value: increment,
       x: Math.cos(angle) * radius,
       y: Math.sin(angle) * radius,
-      delay: 400 + progress * duration // Start after number entrance
+      delay: 400 + progress * duration, // Start after number entrance
     })
   }
 
@@ -66,7 +63,7 @@ function calculateParticles(finalValue: number, maxParticles: number): Particle[
  */
 function TextEffectsXpNumberPopComponent({
   finalValue = 240,
-  maxParticles = 10
+  maxParticles = 10,
 }: TextEffectsXpNumberPopProps = {}) {
   const [count, setCount] = useState(0)
 
@@ -111,11 +108,13 @@ function TextEffectsXpNumberPopComponent({
         <div
           key={i}
           className="tfx-xp-particle"
-          style={{
-            '--particle-x': `${particle.x}px`,
-            '--particle-y': `${particle.y}px`,
-            animationDelay: `${particle.delay}ms`
-          } as React.CSSProperties}
+          style={
+            {
+              '--particle-x': `${particle.x}px`,
+              '--particle-y': `${particle.y}px`,
+              animationDelay: `${particle.delay}ms`,
+            } as React.CSSProperties
+          }
         >
           +{particle.value}
         </div>
@@ -123,12 +122,8 @@ function TextEffectsXpNumberPopComponent({
 
       {/* Main number with XP label */}
       <div className="tfx-xp-number-wrapper">
-        <span className="tfx-xp-number-value">
-          +{count}
-        </span>
-        <span className="tfx-xp-label">
-          XP
-        </span>
+        <span className="tfx-xp-number-value">+{count}</span>
+        <span className="tfx-xp-label">XP</span>
       </div>
     </div>
   )
@@ -138,4 +133,3 @@ function TextEffectsXpNumberPopComponent({
  * Memoized TextEffectsXpNumberPop to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
-

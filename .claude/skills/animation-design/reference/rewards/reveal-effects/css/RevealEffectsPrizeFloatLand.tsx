@@ -11,9 +11,9 @@ export function RevealEffectsPrizeFloatLand() {
 
   return (
     <div className="reveal-prize-float-container-css">
-       <div className={`reveal-prize-float-item-css ${isVisible ? 'visible' : ''}`}>
-         <span className="reveal-prize-float-icon-css">🎈</span>
-       </div>
+      <div className={`reveal-prize-float-item-css ${isVisible ? 'visible' : ''}`}>
+        <span className="reveal-prize-float-icon-css">🎈</span>
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 /* eslint-disable animation-rules/require-animation-metadata, animation-rules/require-dual-implementation -- helper components, not standalone animations */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 
 /** Floating XP data */
 export interface FloatingXP {
@@ -20,12 +20,12 @@ export function MultiplierBadge({ multiplier }: { multiplier: number }) {
     const animation = element.animate(
       [
         { transform: 'scale(0.4)', opacity: 0 },
-        { transform: 'scale(1)', opacity: 1 }
+        { transform: 'scale(1)', opacity: 1 },
       ],
       {
         duration: 380,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -54,13 +54,11 @@ export function MarkerIndicator({ isActive }: { isActive: boolean }) {
 
     const element = ref.current
     const animation = element.animate(
-      [
-        { opacity: isActive ? 1 : 0.38, transform: `scaleY(${isActive ? 1 : 0.7})` }
-      ],
+      [{ opacity: isActive ? 1 : 0.38, transform: `scaleY(${isActive ? 1 : 0.7})` }],
       {
         duration: 300,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -70,11 +68,7 @@ export function MarkerIndicator({ isActive }: { isActive: boolean }) {
   }, [isActive])
 
   return (
-    <div
-      ref={ref}
-      className="pf-marker__indicator"
-      style={{ willChange: 'opacity, transform' }}
-    />
+    <div ref={ref} className="pf-marker__indicator" style={{ willChange: 'opacity, transform' }} />
   )
 }
 
@@ -86,49 +80,39 @@ export function MarkerDot({ isActive }: { isActive: boolean }) {
     if (!ref.current) return
 
     const element = ref.current
-    const animation = element.animate(
-      [
-        { transform: `scale(${isActive ? 1 : 0.9})` }
-      ],
-      {
-        duration: 320,
-        easing: 'ease-out',
-        fill: 'forwards'
-      }
-    )
+    const animation = element.animate([{ transform: `scale(${isActive ? 1 : 0.9})` }], {
+      duration: 320,
+      easing: 'ease-out',
+      fill: 'forwards',
+    })
 
     return () => {
       animation.cancel()
     }
   }, [isActive])
 
-  return (
-    <div
-      ref={ref}
-      className="pf-marker__dot"
-      style={{ willChange: 'transform' }}
-    />
-  )
+  return <div ref={ref} className="pf-marker__dot" style={{ willChange: 'transform' }} />
 }
 
 /** Marker label with active state opacity animation */
-export function MarkerLabel({ isActive, children }: { isActive: boolean; children: React.ReactNode }) {
+export function MarkerLabel({
+  isActive,
+  children,
+}: {
+  isActive: boolean
+  children: React.ReactNode
+}) {
   const ref = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     if (!ref.current) return
 
     const element = ref.current
-    const animation = element.animate(
-      [
-        { opacity: isActive ? 1 : 0.42 }
-      ],
-      {
-        duration: 250,
-        easing: 'ease-out',
-        fill: 'forwards'
-      }
-    )
+    const animation = element.animate([{ opacity: isActive ? 1 : 0.42 }], {
+      duration: 250,
+      easing: 'ease-out',
+      fill: 'forwards',
+    })
 
     return () => {
       animation.cancel()
@@ -136,18 +120,20 @@ export function MarkerLabel({ isActive, children }: { isActive: boolean; childre
   }, [isActive])
 
   return (
-    <span
-      ref={ref}
-      className="pf-marker__label"
-      style={{ willChange: 'opacity' }}
-    >
+    <span ref={ref} className="pf-marker__label" style={{ willChange: 'opacity' }}>
       {children}
     </span>
   )
 }
 
 /** Milestone pulse ring animation */
-export function MilestonePulse({ threshold, isBoundary }: { threshold: number; isBoundary?: boolean }) {
+export function MilestonePulse({
+  threshold,
+  isBoundary,
+}: {
+  threshold: number
+  isBoundary?: boolean
+}) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -157,12 +143,12 @@ export function MilestonePulse({ threshold, isBoundary }: { threshold: number; i
     const animation = element.animate(
       [
         { transform: 'scale(0.8)', opacity: 0.6 },
-        { transform: 'scale(1.6)', opacity: 0 }
+        { transform: 'scale(1.6)', opacity: 0 },
       ],
       {
         duration: 800,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -192,12 +178,12 @@ export function MilestoneHalo({ threshold }: { threshold: number }) {
     const animation = element.animate(
       [
         { transform: 'scale(0.55)', opacity: 0.6 },
-        { transform: 'scale(1.3)', opacity: 0 }
+        { transform: 'scale(1.3)', opacity: 0 },
       ],
       {
         duration: 900,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -229,12 +215,12 @@ export function FloatingXPDisplay({ floating }: { floating: FloatingXP }) {
         { opacity: 0, transform: 'translateY(0px) scale(0.6)' },
         { opacity: 1, transform: 'translateY(-18px) scale(1.05)', offset: 0.28 },
         { opacity: 1, transform: 'translateY(-36px) scale(1)', offset: 0.68 },
-        { opacity: 0, transform: 'translateY(-52px) scale(0.92)' }
+        { opacity: 0, transform: 'translateY(-52px) scale(0.92)' },
       ],
       {
         duration: 1450,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -250,7 +236,7 @@ export function FloatingXPDisplay({ floating }: { floating: FloatingXP }) {
       className="pf-floating-xp"
       style={{
         left: `calc(${Math.min(floating.percent, 100)}% + ${floating.offset}px)`,
-        willChange: 'opacity, transform'
+        willChange: 'opacity, transform',
       }}
     >
       +{Math.round(floating.value)} XP

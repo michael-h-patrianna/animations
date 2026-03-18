@@ -1,86 +1,87 @@
-# Animations Catalog (React + TypeScript)
+# Animation Showcase
 
-Purpose
+A living catalog of reusable UI animations for React applications. Every animation is implemented twice — **CSS+React** and **Framer Motion+React** — for cross-platform portability (web today, React Native via Moti later).
 
-This project is a living catalog of reusable UI animations for a modern React web applications. Each animation is implemented as a small React (TypeScript) component using CSS and/or Framer Motion, organized into categories and groups and rendered in a consistent showcase. The goal is to make high‑quality, production‑ready motion easy to discover, copy, and reuse across products.
+## Quick start
 
-Portability
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
 
-Animations are intentionally authored with transform/opacity‑driven patterns so they can be translated to React Native using React Reanimated and Moti with minimal rework. The catalog serves as a reference and source of truth for motion behaviors that teams can adopt on web today and migrate to native later without redesigning the animation logic.
+## Commands
 
-Read: `docs/REACT_NATIVE_REFACTORING_PATTERNS.md` how to ensure that all animations can easily be translated to our native react apps.
+| Command                | Purpose                                            |
+| ---------------------- | -------------------------------------------------- |
+| `npm run dev`          | Dev server (port 3000)                             |
+| `npm run build`        | Production build                                   |
+| `npm run lint`         | ESLint + Stylelint                                 |
+| `npm run type-check`   | TypeScript strict check                            |
+| `npm test`             | Vitest unit tests                                  |
+| `npm run test:e2e`     | Playwright E2E (Chromium, Firefox, Safari, mobile) |
+| `npm run format:check` | Prettier format check                              |
 
-## Project structure
+## Architecture
 
-**Co-located Metadata System** - The project uses component-based metadata.
+**Stack**: React 19, TypeScript 5.9, Vite 7, Tailwind CSS v4, Motion (Framer Motion v12), Radix UI.
 
-- **Source of truth**: Folder structure + component metadata exports
-  - `src/components/<category>/` – Each category folder contains groups
-  - `src/components/<category>/<group>/` – Each group folder contains animations
-  - Each animation exports its metadata: `export const metadata: AnimationMetadata = { ... }`
-  - Each group's `index.ts` aggregates animations
-  - Each category's `index.ts` aggregates groups
+```
+src/
+├── components/
+│   ├── <category>/           # e.g. base, dialogs, progress, realtime, rewards
+│   │   ├── index.ts          # Category aggregation
+│   │   └── <group>/          # e.g. standard-effects, modal-base
+│   │       ├── index.ts      # Auto-discovers animations via import.meta.glob
+│   │       ├── framer/       # Motion implementations + .meta.ts
+│   │       └── css/          # CSS implementations + .meta.ts + .css
+│   ├── ui/                   # Catalog shell (sidebar, cards, controls)
+│   └── animationRegistry.ts  # Central registry
+├── services/                 # Data layer (synchronous catalog builder)
+├── hooks/                    # React hooks
+├── types/                    # TypeScript types
+├── motion/                   # Shared motion tokens and primitives
+└── lib/                      # Utilities (groupBuilder, preload)
+```
 
-- **Data → UI wiring**:
-  - `src/services/animationData.ts` – builds catalog from component exports
-  - `src/components/animationRegistry.ts` – provides hierarchical access
-  - See `docs/architecture.md` for detailed documentation
+Each animation component has a co-located `.meta.ts` file with its metadata (id, title, description, tags, and optional behavioral flags like `infinite` or `controls`). Group `index.ts` files use `import.meta.glob` for auto-discovery — adding a new animation requires only two files: the component and its metadata.
 
-- **Components (implementation)**:
-  - `src/components/<category-id>/<group-id>/` – all animations for a group
-    - `framer/` – Framer Motion implementations (`*.tsx`) and metadata exports
-    - `css/` – CSS animation entry points (`*.tsx`) paired with their styles
-    - `shared.css` or other shared assets stay at the group root when needed
-  - Catalog UI: `src/components/ui/` (AnimationCard, GroupSection, CategorySection)
-
-New categories and groups
-
-- Added category `Misc` with a group `Misc` hosting small CSS-only dot/circle animations adapted to the project's color scheme and without backgrounds.
-
-Where to find something to edit
-
-1. Navigate to `src/components/<category-id>/<group-id>/framer/` for motion-based components or `css/` for CSS animations and find the PascalCase component file
-2. The component contains both the animation logic and metadata export
-3. Styles live next to the component under `css/` or in a shared stylesheet at the group root when reused
+See [docs/architecture.md](docs/architecture.md) for full placement rules and component templates.
 
 ## How to add an animation
 
-1. **Create component** under the appropriate technology folder, e.g. `src/components/<category-id>/<group-id>/framer/YourAnimation.tsx` for Framer Motion:
+1. Create `<ComponentName>.tsx` in `src/components/<category>/<group>/framer/` (and `css/`)
+2. Create `<ComponentName>.meta.ts` alongside it with metadata:
+
    ```typescript
    import type { AnimationMetadata } from '@/types/animation'
 
-   export function YourAnimation() {
-     return <div>...</div>
-   }
-
    export const metadata: AnimationMetadata = {
-     id: 'group-id__your-animation',
-     title: 'Your Animation',
+     id: 'group-id__variant-name',
+     title: 'Variant Name',
      description: 'What it does',
-     tags: ['css'], // or ['framer'], ['js', 'css'], etc.
+     tags: ['framer'],
    }
    ```
 
-   For CSS-only animations, place the component in the group's `css/` folder and keep the implementation purely CSS-driven.
+3. Run `npm test` — the smoke test and lint rules verify registration automatically.
 
-2. **Add to group index** (`src/components/<category>/<group>/index.ts`):
-   - Import component + metadata
-   - Add to `groupExport.animations` object
-
-3. **Create CSS file** (if needed) inside the group's `css/` folder and import it from the component
-
-4. **Run tests**: `npm run build && npm run test`
-
-See `docs/architecture.md` for complete details.
-
-Notes for RN-friendly animations
-
-- Avoid SVG/Canvas and prefer pure CSS or Framer Motion transforms that translate to Reanimated/Moti
-- Use transform/opacity-driven patterns for portability
+No manual index editing required. The `import.meta.glob` in the group's `index.ts` discovers new files automatically.
 
 ## How to remove an animation
 
-1. Delete the component file from `src/components/<category-id>/<group-id>/`
-2. Delete its co-located `.css` file if present
-3. Remove from group's `index.ts` (groupExport.animations)
-4. Run tests to ensure the catalog renders correctly
+1. Delete the component `.tsx`, `.meta.ts`, and `.css` files
+2. Run `npm test` to verify the catalog renders correctly
+
+## Custom lint rules
+
+The project enforces animation portability through 16 custom ESLint rules in `eslint-rules/`:
+
+- **No hardcoded colors** — use CSS custom properties
+- **Dual implementation required** — every animation must exist in both `css/` and `framer/`
+- **No CSS animations in Motion variants** — Motion files must drive animation through the Motion API
+- **No non-portable styles** — `clipPath`, `boxShadow`, `grid` banned in `framer/` (not available in React Native)
+- **No shallow test assertions** — `toBeDefined()`, `toBeTruthy()`, tautological `getBy*.toBeInTheDocument()` are errors
+
+## Portability
+
+Animations use transform/opacity-driven patterns so they can be translated to React Native using Reanimated and Moti with minimal rework. The catalog serves as a reference for motion behaviors that teams can adopt on web and migrate to native without redesigning the animation logic.

@@ -24,7 +24,7 @@ function TextEffectsVerbFlipComponent() {
             style={{ perspective: 600 }}
             initial={{ rotateY: 0 }}
             animate={{
-              rotateY: [0, 180, 360]
+              rotateY: [0, 180, 360],
             }}
             transition={{
               duration: 1.8,

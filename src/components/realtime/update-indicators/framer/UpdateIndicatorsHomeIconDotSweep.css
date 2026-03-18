@@ -1,6 +1,5 @@
 /* Home icon with color fill accent and subtle secondary halo */
 .pf-update-indicator--icon {
-
   --update-indicators-home-icon-dot-sweep-bg: #ff4967;
   --update-indicators-home-icon-dot-sweep-border: rgb(255 73 103 / 55%);
   display: inline-flex;
@@ -35,7 +34,7 @@
   position: absolute;
   inset: -10px;
   border-radius: 9999px;
-  border: 10px solid rgb(255 73 103 / 22%);
+  border: 10px solid var(--pf-anim-rose-22);
   pointer-events: none;
 }
 

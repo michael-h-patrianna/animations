@@ -2,12 +2,10 @@ import homeIcon1 from '@/assets/home-icon1.png'
 import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsHomeIconDotPulse.css'
 
-
 export function UpdateIndicatorsHomeIconDotPulse() {
   const dotRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-
     const run = () => {
       const el = dotRef.current
       if (!el) return
@@ -36,4 +34,3 @@ export function UpdateIndicatorsHomeIconDotPulse() {
     </div>
   )
 }
-

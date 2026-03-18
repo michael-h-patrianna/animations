@@ -7,7 +7,7 @@ export function TimerEffectsTimerFlashSoft() {
   const [seconds, setSeconds] = useState(32)
   const [bgColor, setBgColor] = useState('#ffc107')
   const [shakeKey, setShakeKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const duration = 32000
     const startTime = Date.now()
     let lastDisplayed = 32

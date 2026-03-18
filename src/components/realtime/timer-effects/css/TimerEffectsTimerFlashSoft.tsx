@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import './TimerEffectsTimerFlashSoft.css'
 
-/**
- *
- */
 export function TimerEffectsTimerFlashSoft() {
   const [seconds, setSeconds] = useState(32)
   const [animationKey, setAnimationKey] = useState(0)

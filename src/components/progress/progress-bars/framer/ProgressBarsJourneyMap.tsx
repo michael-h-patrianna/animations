@@ -5,9 +5,6 @@ import { useEffect, useState } from 'react'
 const totalDistance = 520
 const tickCount = 22
 
-/**
- *
- */
 export function ProgressBarsJourneyMap() {
   const [progress, setProgress] = useState(0)
 
@@ -65,7 +62,6 @@ export function ProgressBarsJourneyMap() {
               <span key={index} className="journey-distance-tick" />
             ))}
           </div>
-
         </div>
 
         <div className="journey-distance-goal">

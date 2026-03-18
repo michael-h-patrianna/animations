@@ -6,27 +6,26 @@ import '../shared.css'
 import './StandardEffectsPulseCircle.css'
 
 function StandardEffectsPulseCircleComponent() {
-
   const duration = motionDurations.pulseCircle
   const ringTimes = [0, 0.7, 1]
 
   // Reduced motion users should see a static representation rather than a looping pulse.
-  const coreAnimation ={
-        scale: [1, 1.06, 1],
-        transition: { duration, ease: motionEasings.standard, times: [0, 0.5, 1] },
-      }
+  const coreAnimation = {
+    scale: [1, 1.06, 1],
+    transition: { duration, ease: motionEasings.standard, times: [0, 0.5, 1] },
+  }
 
   const ringAnimation = {
-        scale: [1, 2.6, 2.6],
-        opacity: [0.7, 0.12, 0],
-        transition: { duration, ease: motionEasings.standard, times: ringTimes },
-      }
+    scale: [1, 2.6, 2.6],
+    opacity: [0.7, 0.12, 0],
+    transition: { duration, ease: motionEasings.standard, times: ringTimes },
+  }
 
   const delayedRingAnimation = {
-        scale: [1, 2.6, 2.6],
-        opacity: [0.6, 0.1, 0],
-        transition: { duration, delay: duration / 2, ease: motionEasings.standard, times: ringTimes },
-      }
+    scale: [1, 2.6, 2.6],
+    opacity: [0.6, 0.1, 0],
+    transition: { duration, delay: duration / 2, ease: motionEasings.standard, times: ringTimes },
+  }
 
   return (
     <div className="pulse-circle-wrapper">
@@ -58,4 +57,3 @@ function StandardEffectsPulseCircleComponent() {
  * Memoized StandardEffectsPulseCircle to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsPulseCircle = memo(StandardEffectsPulseCircleComponent)
-

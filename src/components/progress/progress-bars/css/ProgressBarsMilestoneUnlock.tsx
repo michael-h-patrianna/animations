@@ -4,9 +4,6 @@ import './ProgressBarsMilestoneUnlock.css'
 
 const milestonePoints = [18, 38, 58, 78, 94]
 
-/**
- *
- */
 export function ProgressBarsMilestoneUnlock() {
   const [progress, setProgress] = useState(0)
 
@@ -24,7 +21,9 @@ export function ProgressBarsMilestoneUnlock() {
     <div className="milestone-unlock-wrap-css" data-animation-id="progress-bars__milestone-unlock">
       <div className="milestone-unlock-meta-css">
         <span className="milestone-unlock-label-css">Milestone Locks</span>
-        <span className="milestone-unlock-value-css">{unlocked}/{milestonePoints.length}</span>
+        <span className="milestone-unlock-value-css">
+          {unlocked}/{milestonePoints.length}
+        </span>
       </div>
 
       <div className="milestone-unlock-rail-css">

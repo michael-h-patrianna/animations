@@ -4,14 +4,12 @@ import './StandardEffectsRadialPulse.css'
 
 function StandardEffectsRadialPulseComponent() {
   return (
-
-        <div className="standard-radial-pulse" role="img" aria-label="Radial pulse">
-          {[0, 1, 2].map((i) => (
-            <span key={i} className={`ring ring-${i + 1}`} />
-          ))}
-          <span className="dot-center" />
-        </div>
-
+    <div className="standard-radial-pulse" role="img" aria-label="Radial pulse">
+      {[0, 1, 2].map((i) => (
+        <span key={i} className={`ring ring-${i + 1}`} />
+      ))}
+      <span className="dot-center" />
+    </div>
   )
 }
 
@@ -19,4 +17,3 @@ function StandardEffectsRadialPulseComponent() {
  * Memoized StandardEffectsRadialPulse to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsRadialPulse = memo(StandardEffectsRadialPulseComponent)
-

@@ -84,5 +84,3 @@ function TextEffectsWaveRevealComponent() {
  * Memoized TextEffectsWaveReveal to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsWaveReveal = memo(TextEffectsWaveRevealComponent)
-
-

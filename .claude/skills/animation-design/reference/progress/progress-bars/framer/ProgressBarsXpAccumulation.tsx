@@ -1,4 +1,11 @@
-import { AnimatePresence, animate, easeOut, useMotionValue, useTransform, type AnimationPlaybackControls } from 'motion/react'
+import {
+  AnimatePresence,
+  animate,
+  easeOut,
+  useMotionValue,
+  useTransform,
+  type AnimationPlaybackControls,
+} from 'motion/react'
 import * as m from 'motion/react-m'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './ProgressBarsXpAccumulation.css'

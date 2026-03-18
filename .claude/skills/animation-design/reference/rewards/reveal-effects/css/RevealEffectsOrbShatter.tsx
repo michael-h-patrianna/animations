@@ -23,26 +23,26 @@ export function RevealEffectsOrbShatter() {
 
   return (
     <div className="reveal-orb-shatter-container-css">
-        <div className="reveal-orb-wrapper-css">
-            {/* Initial Orb (disappears) */}
-            <div className={`reveal-orb-sphere-css ${isShattered ? 'shattered' : ''}`} />
-            
-            {/* Explosion Particles */}
-            {particles.map((p) => (
-               <div
-                 key={p.id}
-                 className={`reveal-orb-particle-css ${isShattered ? 'explode' : ''}`}
-                 style={{ '--tx': `${p.x}px`, '--ty': `${p.y}px` } as React.CSSProperties}
-               />
-            ))}
+      <div className="reveal-orb-wrapper-css">
+        {/* Initial Orb (disappears) */}
+        <div className={`reveal-orb-sphere-css ${isShattered ? 'shattered' : ''}`} />
 
-            {/* Main Prize */}
-            <img 
-                src={diamondImg}
-                className={`reveal-orb-content-css ${isShattered ? 'visible' : ''}`}
-                alt="Prize"
-            />
-        </div>
+        {/* Explosion Particles */}
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className={`reveal-orb-particle-css ${isShattered ? 'explode' : ''}`}
+            style={{ '--tx': `${p.x}px`, '--ty': `${p.y}px` } as React.CSSProperties}
+          />
+        ))}
+
+        {/* Main Prize */}
+        <img
+          src={diamondImg}
+          className={`reveal-orb-content-css ${isShattered ? 'visible' : ''}`}
+          alt="Prize"
+        />
+      </div>
     </div>
   )
 }

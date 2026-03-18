@@ -6,27 +6,27 @@ import '../shared.css'
 import './StandardEffectsPulse.css'
 
 function StandardEffectsPulseComponent() {
-const keyframeTimes = [0, 0.5, 1]
+  const keyframeTimes = [0, 0.5, 1]
 
   // Provide a static fallback when users request reduced motion preferences.
   const elementAnimation = {
-        scale: [1, 1.25, 1],
-        opacity: [1, 0.8, 1],
-        transition: {
-          duration: motionDurations.pulse,
-          ease: motionEasings.standard,
-          times: keyframeTimes,
-        },
-      }
+    scale: [1, 1.25, 1],
+    opacity: [1, 0.8, 1],
+    transition: {
+      duration: motionDurations.pulse,
+      ease: motionEasings.standard,
+      times: keyframeTimes,
+    },
+  }
   const glowAnimation = {
-        scale: [0.8, 1.5, 2],
-        opacity: [0, 0.6, 0],
-        transition: {
-          duration: motionDurations.pulse,
-          ease: motionEasings.standard,
-          times: keyframeTimes,
-        },
-      }
+    scale: [0.8, 1.5, 2],
+    opacity: [0, 0.6, 0],
+    transition: {
+      duration: motionDurations.pulse,
+      ease: motionEasings.standard,
+      times: keyframeTimes,
+    },
+  }
 
   return (
     <div className="standard-demo-container">
@@ -51,4 +51,3 @@ const keyframeTimes = [0, 0.5, 1]
  * Memoized StandardEffectsPulse to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsPulse = memo(StandardEffectsPulseComponent)
-

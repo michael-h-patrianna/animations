@@ -1,70 +1,78 @@
 # Data Registry Guide for LLM Coding Agents
 
-**Purpose**: This document explains the "File System as Database" pattern used in this project.
+**Purpose**: How the "File System as Database" pattern works in this project.
 
-**Database Engine**: The File System + TypeScript Exports.
+**Database Engine**: The File System + TypeScript Exports + `import.meta.glob` auto-discovery.
 
 ---
 
 ## Core Principles
 
 ### 1. Source of Truth
-The directory structure and `export const metadata` in component files are the **single source of truth**.
+
+The directory structure and `.meta.ts` metadata files are the **single source of truth**.
 There is no `database.sqlite` or `data.json`.
 
 ### 2. Schema
+
 The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`.
 
 **Category Schema** (`src/components/<category>/index.ts`):
-- `id`: string (must match folder name)
-- `title`: string
+
+- `metadata`: { id, title }
 - `groups`: Record<string, GroupExport>
 
 **Group Schema** (`src/components/<category>/<group>/index.ts`):
-- `metadata`: { id, title, tech, demo }
-- `framer`: Record<string, Animation>
-- `css`: Record<string, Animation>
 
-**Animation Schema** (`Component.tsx`):
-- `metadata`: { id, title, description, tags }
+- `metadata`: { id, title, tech, demo }
+- `framer`: Record<string, AnimationExport> (auto-discovered)
+- `css`: Record<string, AnimationExport> (auto-discovered)
+
+**Animation Schema** (`.meta.ts` file):
+
+- `metadata`: { id, title, description, tags, disableReplay?, infinite?, controls?, prizeCountMax? }
 
 ---
 
 ## Operations (CRUD)
 
 ### Create (Add New Animation)
-1. **Create File**: `src/components/<category>/<group>/framer/NewAnim.tsx`.
-2. **Define Metadata**: Export `metadata` object.
-3. **Register**: Import in `src/components/<category>/<group>/index.ts` and add to `framer` object.
+
+1. Create `ComponentName.tsx` in `src/components/<category>/<group>/framer/` (and `css/`).
+2. Create `ComponentName.meta.ts` alongside it with metadata export.
+3. **No manual registration required.** `import.meta.glob` in the group's `index.ts` discovers new files automatically.
 
 ### Read (Query)
-- **List All**: `animationDataService.loadAnimations()`
-- **Get One**: `animationRegistry.getAnimationMetadata(id)`
+
+- **Full catalog**: `buildCatalog()` from `src/services/animationData.ts`
+- **Via hook**: `useAnimations()` returns `{ categories: Category[] }`
+- **Component lookup**: `buildRegistryFromCategories()` from `src/components/animationRegistry.ts`
 
 ### Update
-- **Modify Metadata**: Edit the `export const metadata` in the component file.
-- **Modify Logic**: Edit the React component.
+
+- **Modify metadata**: Edit the `.meta.ts` file.
+- **Modify animation**: Edit the `.tsx` component file.
 
 ### Delete
-1. **Remove from Registry**: Delete line in group's `index.ts`.
-2. **Delete File**: Remove the `.tsx` file.
+
+1. Delete the `.tsx`, `.meta.ts`, and `.css` files.
+2. **No manual de-registration required.** Auto-discovery handles removal.
+3. Run `npm test` to verify the catalog renders correctly.
 
 ---
 
 ## Registry Consistency
 
-**Invariant**: The `id` in metadata SHOULD match the registry key and file path convention.
-- Convention: `category-group__name-variant`
+**Invariant**: The `id` in metadata must be unique across the entire catalog.
 
-**Safety**:
-The `buildRegistryFromCategories` function flattens the hierarchy. Duplicate IDs will overwrite each other. **Ensure IDs are unique.**
+- Convention: `group-name__variant-name` (e.g., `modal-base__scale-gentle-pop`)
+
+**Safety**: `buildRegistryFromCategories()` flattens the hierarchy. Duplicate IDs silently overwrite each other. The smoke test catches render failures but not ID collisions — unique IDs are enforced by convention.
 
 ---
 
 ## Common Mistakes
 
-❌ **Don't**: Rename a file without updating the `index.ts` import.
-✅ **Do**: Check the group's `index.ts` after any file rename.
-
-❌ **Don't**: Expect data to persist after refresh (for runtime additions).
-✅ **Do**: Understand that `animationDataService` is reset on reload (unless hardcoded in files).
+- **Don't** manually edit group `index.ts` files to register animations. Auto-discovery handles it.
+- **Don't** forget the `.meta.ts` file. The `require-animation-metadata` ESLint rule catches this.
+- **Don't** forget the dual implementation. The `require-dual-implementation` ESLint rule catches this.

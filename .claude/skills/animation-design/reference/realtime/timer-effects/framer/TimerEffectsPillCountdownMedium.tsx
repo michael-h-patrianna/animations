@@ -8,7 +8,7 @@ export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [blipKey, setBlipKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -21,7 +21,7 @@ useEffect(() => {
         setSeconds(display)
 
         // Blip animations at specific thresholds
-  {
+        {
           if (display > 12) {
             if (display % 6 === 0 && display > 0) {
               setBlipKey((prev) => prev + 1)
@@ -42,7 +42,7 @@ useEffect(() => {
     }, 100)
 
     // Immediate emphasis on mount
-  {
+    {
       setBlipKey((prev) => prev + 1)
     }
 

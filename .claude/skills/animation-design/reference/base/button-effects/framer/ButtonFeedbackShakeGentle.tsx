@@ -6,8 +6,7 @@ function ButtonFeedbackShakeGentleComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
   const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   const handleClick = () => {
     setIsAnimating(true)
@@ -18,10 +17,7 @@ function ButtonFeedbackShakeGentleComponent() {
   }
 
   return (
-    <div
-      className="button-demo"
-      data-animation-id="button-effects__shake-gentle"
-    >
+    <div className="button-demo" data-animation-id="button-effects__shake-gentle">
       <m.button
         className="pf-btn pf-btn--primary"
         onClick={handleClick}

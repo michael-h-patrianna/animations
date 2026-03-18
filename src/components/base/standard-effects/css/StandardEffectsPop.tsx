@@ -16,4 +16,3 @@ function StandardEffectsPopComponent() {
  * Memoized StandardEffectsPop to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsPop = memo(StandardEffectsPopComponent)
-

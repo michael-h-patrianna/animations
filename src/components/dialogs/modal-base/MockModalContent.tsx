@@ -1,6 +1,3 @@
-/**
- *
- */
 export function MockModalContent() {
   return (
     <>
@@ -12,8 +9,12 @@ export function MockModalContent() {
         <p>Complete 3 live sessions to unlock rewards.</p>
       </div>
       <div className="pf-modal__footer">
-        <button type="button" className="pf-button-primary">Accept</button>
-        <button type="button" className="pf-button-secondary">Later</button>
+        <button type="button" className="pf-button-primary">
+          Accept
+        </button>
+        <button type="button" className="pf-button-secondary">
+          Later
+        </button>
       </div>
     </>
   )

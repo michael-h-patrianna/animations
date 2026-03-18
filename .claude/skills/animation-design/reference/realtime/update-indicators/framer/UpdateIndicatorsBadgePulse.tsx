@@ -13,14 +13,14 @@ export function UpdateIndicatorsBadgePulse() {
           boxShadow: [
             '0 0 0 rgba(236, 195, 255, 0)',
             '0 0 18px rgba(236, 195, 255, 0.4)',
-            '0 0 0 rgba(236, 195, 255, 0)'
-          ]
+            '0 0 0 rgba(236, 195, 255, 0)',
+          ],
         }}
         transition={{
           duration: 1,
           ease: easeInOut,
           repeat: Infinity,
-          repeatType: 'loop'
+          repeatType: 'loop',
         }}
       >
         New

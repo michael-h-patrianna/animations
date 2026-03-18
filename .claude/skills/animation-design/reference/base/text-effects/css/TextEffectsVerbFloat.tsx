@@ -21,7 +21,11 @@ function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tfx-float-container" data-animation-id="text-effects__verb-floating" aria-label={text}>
+    <div
+      className="tfx-float-container"
+      data-animation-id="text-effects__verb-floating"
+      aria-label={text}
+    >
       <div className="tfx-float-line" aria-hidden="true">
         {letters.map((ch, i) => (
           <span
@@ -42,4 +46,3 @@ function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
 export const TextEffectsVerbFloat = memo(TextEffectsVerbFloatComponent)
 
 export default TextEffectsVerbFloat
-

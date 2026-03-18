@@ -1,7 +1,6 @@
 /* Styles for LoadingStatesRingMulti */
 
 .pf-loading-container {
-
   --loading-states-ring-multi-border-1: #c47ae5;
   --loading-states-ring-multi-border-2: #c6ff77;
   --loading-states-ring-multi-border-3: #47fff4;
@@ -50,4 +49,3 @@
   border-top-color: transparent;
   opacity: 0.4;
 }
-

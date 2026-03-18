@@ -16,6 +16,7 @@ The style guide audit identified scattered state management across multiple comp
 3. **TimerEffectsPillCountdownStrong**: 47-line useEffect mixing countdown, color transitions, and animations
 
 **Problems:**
+
 - No clear state relationships or transition rules
 - Difficult to test state changes in isolation
 - Cannot guarantee state consistency
@@ -31,23 +32,29 @@ We will **progressively refactor scattered state into typed state machines** usi
 ### Approach
 
 #### 1. State Machines (useReducer)
+
 For complex UI state with clear transitions:
+
 - **AnimationCard**: idle → visible → playing state machine
 - **App**: navigation + drawer state machine with atomic transitions
 
 #### 2. Custom Hook Composition
+
 For complex effects with multiple concerns:
+
 - **Timer Components**: Separate hooks for countdown, color transitions, and snap animations
 
 ### Rationale
 
 **Why useReducer over useState?**
+
 - Enforces valid state transitions via reducer logic
 - Centralizes state update logic (easier to test)
 - TypeScript discriminated unions provide type safety
 - Explicit actions make state changes auditable
 
 **Why Custom Hooks over Monolithic useEffect?**
+
 - Single Responsibility Principle (each hook one concern)
 - Easier to test with focused test cases
 - Reusable across similar components
@@ -58,6 +65,7 @@ For complex effects with multiple concerns:
 ## Implementation Strategy
 
 ### Phase 1: Design (COMPLETE ✅)
+
 - [x] Create state machine designs with state diagrams
 - [x] Define TypeScript interfaces for state and actions
 - [x] Document state transitions and invariants
@@ -65,11 +73,13 @@ For complex effects with multiple concerns:
 - [x] Write implementation guides
 
 **Artifacts:**
+
 - `docs/state-machines/animationcard-state-machine.md`
 - `docs/state-machines/app-state-machine.md`
 - `docs/state-machines/timer-hooks-design.md`
 
 ### Phase 2: Implementation (DEFERRED)
+
 To be tackled in dedicated sprint with following order:
 
 1. **Timer Hooks** (Lowest Risk)
@@ -91,6 +101,7 @@ To be tackled in dedicated sprint with following order:
    - Extensive integration testing
 
 ### Phase 3: Validation
+
 - Full test suite passes (105+ tests)
 - Type-check passes (0 errors)
 - Visual regression tests pass
@@ -129,15 +140,19 @@ To be tackled in dedicated sprint with following order:
 ## Alternatives Considered
 
 ### Alternative 1: Keep useState, Add Helper Functions
+
 **Rejected Reason:** Doesn't solve state consistency issues, still scattered
 
 ### Alternative 2: Use XState Library
+
 **Rejected Reason:** Heavy dependency for simple state machines, overkill for our needs
 
 ### Alternative 3: Context + useReducer
+
 **Rejected Reason:** No need for global state, component-level is sufficient
 
 ### Alternative 4: Zustand/Redux
+
 **Rejected Reason:** Overkill for component-level state, adds unnecessary complexity
 
 ---
@@ -145,29 +160,29 @@ To be tackled in dedicated sprint with following order:
 ## Design Principles
 
 ### 1. Explicit State Transitions
+
 ```typescript
 // Bad: Implicit state changes
 setIsVisible(true)
-setReplayKey(prev => prev + 1)
+setReplayKey((prev) => prev + 1)
 
 // Good: Explicit actions
 dispatch({ type: 'REPLAY' })
 ```
 
 ### 2. Type-Safe States
+
 ```typescript
 // Bad: Separate booleans (4 possible combinations, only 3 valid)
 const [isVisible, setIsVisible] = useState(false)
 const [isPlaying, setIsPlaying] = useState(false)
 
 // Good: Discriminated union (only valid states possible)
-type State =
-  | { status: 'idle' }
-  | { status: 'visible' }
-  | { status: 'playing' }
+type State = { status: 'idle' } | { status: 'visible' } | { status: 'playing' }
 ```
 
 ### 3. Single Responsibility Hooks
+
 ```typescript
 // Bad: One hook doing everything
 useEffect(() => {
@@ -185,17 +200,20 @@ const { scale } = useSnapAnimation({ ... })
 ## Testing Strategy
 
 ### Unit Tests
+
 - Test reducers as pure functions
 - Test custom hooks with renderHook
 - Use vi.useFakeTimers() for time-based logic
 - Verify state transitions and invariants
 
 ### Integration Tests
+
 - Test component behavior with state machine
 - Verify user interactions trigger correct actions
 - Test edge cases (rapid clicks, animations interrupting, etc.)
 
 ### Visual Regression Tests
+
 - Playwright screenshots before/after refactoring
 - Verify animations still look correct
 - Check mobile drawer behavior
@@ -237,4 +255,4 @@ const { scale } = useSnapAnimation({ ... })
 
 ---
 
-*This ADR documents our approach to state machine refactoring. Implementation will be tracked in separate PRs with detailed testing.*
+_This ADR documents our approach to state machine refactoring. Implementation will be tracked in separate PRs with detailed testing._

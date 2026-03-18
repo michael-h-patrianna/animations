@@ -16,6 +16,7 @@
 3. **Snap Animations:** Scale/opacity effects on time changes
 
 **Issues:**
+
 - Single useEffect doing too much (violates Single Responsibility)
 - Difficult to test individual concerns
 - Hard to reuse timer logic in other components
@@ -36,11 +37,12 @@ Split the complex useEffect into **3 custom hooks**, each with a single responsi
 ## Hook 1: useCountdownTimer
 
 ### Purpose
+
 Manages countdown timer state, interval, and pause/resume logic.
 
 ### Interface
 
-```typescript
+````typescript
 /**
  * Countdown timer hook with pause/resume support.
  *
@@ -139,7 +141,7 @@ export function useCountdownTimer(config: CountdownTimerConfig) {
     setTime,
   }
 }
-```
+````
 
 ### Tests
 
@@ -234,11 +236,12 @@ describe('useCountdownTimer', () => {
 ## Hook 2: useColorTransition
 
 ### Purpose
+
 Manages color transitions based on time thresholds (e.g., green → yellow → red).
 
 ### Interface
 
-```typescript
+````typescript
 /**
  * Color transition hook based on time thresholds.
  *
@@ -297,7 +300,7 @@ export function useColorTransition(config: ColorTransitionConfig) {
     hasTransitioned,
   }
 }
-```
+````
 
 ### Tests
 
@@ -394,11 +397,12 @@ describe('useColorTransition', () => {
 ## Hook 3: useSnapAnimation
 
 ### Purpose
+
 Triggers scale/opacity animations on value changes.
 
 ### Interface
 
-```typescript
+````typescript
 /**
  * Snap animation hook for scale/opacity effects on value changes.
  *
@@ -456,7 +460,7 @@ export function useSnapAnimation(config: SnapAnimationConfig) {
     opacity,
   }
 }
-```
+````
 
 ### Tests
 
@@ -522,13 +526,20 @@ describe('useSnapAnimation', () => {
 ### Updated TimerEffectsPillCountdownStrong.tsx
 
 **Before (47-line useEffect):**
+
 ```tsx
-useEffect(() => {
-  // ... 47 lines of complex logic ...
-}, [/* complex dependencies */])
+useEffect(
+  () => {
+    // ... 47 lines of complex logic ...
+  },
+  [
+    /* complex dependencies */
+  ]
+)
 ```
 
 **After (3 composed hooks):**
+
 ```tsx
 // Timer logic
 const { timeRemaining, isComplete, reset } = useCountdownTimer({
@@ -542,10 +553,10 @@ const { timeRemaining, isComplete, reset } = useCountdownTimer({
 const { color } = useColorTransition({
   currentTime: timeRemaining,
   thresholds: [
-    { threshold: 3, color: '#ef4444' },  // Red
-    { threshold: 7, color: '#f59e0b' },  // Orange
+    { threshold: 3, color: '#ef4444' }, // Red
+    { threshold: 7, color: '#f59e0b' }, // Orange
   ],
-  defaultColor: '#10b981',  // Green
+  defaultColor: '#10b981', // Green
 })
 
 // Snap animations
@@ -555,10 +566,7 @@ const { scale, opacity } = useSnapAnimation({
 })
 
 return (
-  <motion.div
-    style={{ backgroundColor: color, scale, opacity }}
-    className="timer-pill"
-  >
+  <motion.div style={{ backgroundColor: color, scale, opacity }} className="timer-pill">
     {Math.ceil(timeRemaining)}s
   </motion.div>
 )
@@ -569,6 +577,7 @@ return (
 ## Benefits
 
 ### Before (1 complex useEffect)
+
 ❌ 47 lines mixing 3 concerns
 ❌ Difficult to test individual logic
 ❌ Cannot reuse timer/color/animation separately
@@ -576,6 +585,7 @@ return (
 ❌ Hard to modify one concern without affecting others
 
 ### After (3 focused hooks)
+
 ✅ Each hook has single responsibility
 ✅ Easy to test with fake timers
 ✅ Reusable across timer components
@@ -606,4 +616,4 @@ return (
 
 ---
 
-*This design provides clear separation of concerns and comprehensive test coverage for timer components.*
+_This design provides clear separation of concerns and comprehensive test coverage for timer components._

@@ -1,10 +1,6 @@
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-import {
-  pirateChestClosedImage,
-  pirateChestOpenImage,
-  pirateCoinImage,
-} from '@/assets'
+import { pirateChestClosedImage, pirateChestOpenImage, pirateCoinImage } from '@/assets'
 
 import './PrizeRevealPirateChestWin.css'
 
@@ -108,10 +104,7 @@ function PirateChestWinCoins({ coinSparkles }: { coinSparkles: CoinSparkle[] }) 
 
 function PrizeRevealPirateChestWinComponent() {
   const phase = useRevealPhase()
-  const coinSparkles = useMemo(
-    () => createCoinSparkles(),
-    []
-  )
+  const coinSparkles = useMemo(() => createCoinSparkles(), [])
 
   return (
     <div

@@ -1,17 +1,13 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardFadeCross.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationWizardFadeCross() {
   const steps = 3
-  const panelRefs = useRef<(HTMLDivElement | null)[]>([])
+  const panelsRef = useRef<(HTMLDivElement | null)[]>([])
 
   // Stagger panel animations on mount
   useEffect(() => {
-    const panelElements = panelRefs.current.filter(Boolean)
+    const panelElements = panelsRef.current.filter(Boolean)
     panelElements.forEach((panel, index) => {
       if (panel) {
         panel.style.animationDelay = `${index * 0.26}s`
@@ -26,7 +22,9 @@ export function ModalOrchestrationWizardFadeCross() {
         {Array.from({ length: steps }, (_, index) => (
           <div
             key={index}
-            ref={(el) => { panelRefs.current[index] = el }}
+            ref={(el) => {
+              panelsRef.current[index] = el
+            }}
             className="pf-wizard__panel"
           >
             <h5>Stage {index + 1}</h5>
@@ -37,4 +35,3 @@ export function ModalOrchestrationWizardFadeCross() {
     </div>
   )
 }
-

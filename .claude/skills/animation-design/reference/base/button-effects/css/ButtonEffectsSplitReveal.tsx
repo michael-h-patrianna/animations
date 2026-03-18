@@ -30,4 +30,3 @@ function ButtonEffectsSplitRevealComponent() {
 }
 
 export const ButtonEffectsSplitReveal = memo(ButtonEffectsSplitRevealComponent)
-

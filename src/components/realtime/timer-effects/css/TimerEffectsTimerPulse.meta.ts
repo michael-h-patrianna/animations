@@ -5,4 +5,5 @@ export const metadata = {
   title: 'Timer Pulse',
   description: 'Timer with continuous pulse animation.',
   tags: ['css'],
+  infinite: true,
 } satisfies AnimationMetadata

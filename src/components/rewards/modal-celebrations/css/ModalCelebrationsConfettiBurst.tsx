@@ -140,7 +140,10 @@ export function ModalCelebrationsConfettiBurst() {
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst">
       <div className="pf-celebration__glow" style={{ animation: 'cb-glow 2.8s ease-out both' }} />
-      <div className="pf-celebration__flash" style={{ animation: 'cb-flash 250ms ease-out both' }} />
+      <div
+        className="pf-celebration__flash"
+        style={{ animation: 'cb-flash 250ms ease-out both' }}
+      />
 
       <div className="pf-celebration__depth-bg">
         <ConfettiLayer particles={bgParts} peakOpacity="0.5" />

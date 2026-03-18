@@ -86,7 +86,8 @@ function TopFlash() {
         left: 0,
         right: 0,
         height: '6px',
-        background: 'linear-gradient(90deg, transparent 5%, rgb(255 255 255 / 90%) 50%, transparent 95%)',
+        background:
+          'linear-gradient(90deg, transparent 5%, rgb(255 255 255 / 90%) 50%, transparent 95%)',
         zIndex: 3,
         pointerEvents: 'none' as const,
       }}
@@ -107,7 +108,8 @@ function TopGlow() {
         right: '10%',
         height: '60px',
         borderRadius: '50%',
-        background: 'linear-gradient(180deg, rgb(255 206 26 / 35%) 0%, rgb(236 195 255 / 15%) 50%, transparent 100%)',
+        background:
+          'linear-gradient(180deg, rgb(255 206 26 / 35%) 0%, rgb(236 195 255 / 15%) 50%, transparent 100%)',
         pointerEvents: 'none' as const,
         zIndex: 0,
       }}
@@ -156,8 +158,10 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '50%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '50%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

@@ -12,12 +12,12 @@ export function ModalContentFormFieldLeftReveal() {
         animate={{
           scale: [0.88, 1.02, 1],
           y: [-16, -4, 0],
-          opacity: [0, 0.6, 1]
+          opacity: [0, 0.6, 1],
         }}
         transition={{
           duration: 0.4,
           ease: [0.4, 0, 0.2, 1] as const,
-          times: [0, 0.5, 1]
+          times: [0, 0.5, 1],
         }}
       >
         <div className="modal-content-header">
@@ -37,7 +37,7 @@ export function ModalContentFormFieldLeftReveal() {
                 transition={{
                   duration: 0.5,
                   delay: 0.3 + 0.09 * index,
-                  ease: [0.4, 0, 0.2, 1] as const
+                  ease: [0.4, 0, 0.2, 1] as const,
                 }}
               >
                 <label>Field {index + 1}</label>
@@ -53,13 +53,13 @@ export function ModalContentFormFieldLeftReveal() {
             animate={{
               y: [16, -6, 0],
               scale: [0.94, 1.06, 1],
-              opacity: [0, 1, 1]
+              opacity: [0, 1, 1],
             }}
             transition={{
               duration: 0.3,
               delay: 0.75,
               ease: [0.4, 0, 0.2, 1] as const,
-              times: [0, 0.6, 1]
+              times: [0, 0.6, 1],
             }}
           >
             Accept
@@ -70,13 +70,13 @@ export function ModalContentFormFieldLeftReveal() {
             animate={{
               y: [16, -6, 0],
               scale: [0.94, 1.06, 1],
-              opacity: [0, 1, 1]
+              opacity: [0, 1, 1],
             }}
             transition={{
               duration: 0.3,
               delay: 0.82,
               ease: [0.4, 0, 0.2, 1] as const,
-              times: [0, 0.6, 1]
+              times: [0, 0.6, 1],
             }}
           >
             Later

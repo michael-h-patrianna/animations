@@ -7,7 +7,7 @@ export function ProgressBarsWaveInterference() {
   // 25 wave segments distributed along the bar
   const segments = Array.from({ length: 25 }, (_, i) => ({
     index: i,
-    position: i / 24 // 0 to 1
+    position: i / 24, // 0 to 1
   }))
 
   // Create interference node at milestone
@@ -57,7 +57,10 @@ export function ProgressBarsWaveInterference() {
   }, [])
 
   return (
-    <div className="progress-bars-wave-interference-css" data-animation-id="progress-bars__wave-interference">
+    <div
+      className="progress-bars-wave-interference-css"
+      data-animation-id="progress-bars__wave-interference"
+    >
       <div className="pb-wi-container-css">
         <div className="pb-wi-track-css">
           {/* Fill bar */}
@@ -72,7 +75,7 @@ export function ProgressBarsWaveInterference() {
               className="pb-wi-segment-css pb-wi-segment-left"
               style={{
                 left: `${segment.position * 100}%`,
-                animationDelay: `${-segment.position * 2.5}s` // Phase offset for left-traveling wave
+                animationDelay: `${-segment.position * 2.5}s`, // Phase offset for left-traveling wave
               }}
               data-phase="1"
             />
@@ -87,7 +90,7 @@ export function ProgressBarsWaveInterference() {
               className="pb-wi-segment-css pb-wi-segment-right"
               style={{
                 left: `${segment.position * 100}%`,
-                animationDelay: `${segment.position * 2.5 + 0.925}s` // Phase offset for right-traveling wave + 25% delay
+                animationDelay: `${segment.position * 2.5 + 0.925}s`, // Phase offset for right-traveling wave + 25% delay
               }}
               data-phase="2"
             />

@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Combo Counter',
   description: 'Dynamic counting animation with milestone particles and perfect combo celebration.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 } satisfies AnimationMetadata

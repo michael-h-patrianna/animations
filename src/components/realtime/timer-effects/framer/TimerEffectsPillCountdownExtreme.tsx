@@ -120,9 +120,6 @@ const useExtremeCountdown = () => {
   return { seconds, buzzKey, colorClass }
 }
 
-/**
- *
- */
 export function TimerEffectsPillCountdownExtreme() {
   const { seconds, buzzKey, colorClass } = useExtremeCountdown()
 

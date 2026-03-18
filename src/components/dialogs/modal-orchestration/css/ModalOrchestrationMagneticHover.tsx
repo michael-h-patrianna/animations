@@ -1,10 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationMagneticHover.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationMagneticHover() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,
@@ -13,11 +9,11 @@ export function ModalOrchestrationMagneticHover() {
   }))
 
   const containerRef = useRef<HTMLDivElement>(null)
-  const tileRefs = useRef<(HTMLDivElement | null)[]>([])
+  const tilesRef = useRef<(HTMLDivElement | null)[]>([])
 
   // Stagger tile animations on mount
   useEffect(() => {
-    const tileElements = tileRefs.current.filter(Boolean)
+    const tileElements = tilesRef.current.filter(Boolean)
     tileElements.forEach((tile, index) => {
       if (tile) {
         tile.style.animationDelay = `${0.2 + index * 0.1}s`
@@ -36,7 +32,9 @@ export function ModalOrchestrationMagneticHover() {
         {tiles.map((tile) => (
           <div
             key={tile.id}
-            ref={(el) => { tileRefs.current[tile.id] = el }}
+            ref={(el) => {
+              tilesRef.current[tile.id] = el
+            }}
             className="pf-magnetic-tile"
           >
             <h5>{tile.title}</h5>
@@ -48,4 +46,3 @@ export function ModalOrchestrationMagneticHover() {
     </div>
   )
 }
-

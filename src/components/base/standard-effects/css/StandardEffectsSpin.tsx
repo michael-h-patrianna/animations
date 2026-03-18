@@ -16,4 +16,3 @@ function StandardEffectsSpinComponent() {
  * Memoized StandardEffectsSpin to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsSpin = memo(StandardEffectsSpinComponent)
-

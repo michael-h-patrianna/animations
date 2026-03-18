@@ -7,9 +7,6 @@ interface MockContentProps {
   animationId: string
 }
 
-/**
- *
- */
 export function MockContent({ toastRef, progressRef, animationId }: MockContentProps) {
   return (
     <div className="pf-toast-preview">

@@ -5,8 +5,7 @@ import './TimerEffectsUrgentPulse.css'
 export const TimerEffectsUrgentPulse = memo(function TimerEffectsUrgentPulse() {
   // Check for reduced motion preference
   const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   // Scale animation values
   const scaleValues = [1, 1.12, 1]

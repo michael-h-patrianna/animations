@@ -28,4 +28,3 @@ function StandardEffectsSwingComponent() {
  * Memoized StandardEffectsSwing to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsSwing = memo(StandardEffectsSwingComponent)
-

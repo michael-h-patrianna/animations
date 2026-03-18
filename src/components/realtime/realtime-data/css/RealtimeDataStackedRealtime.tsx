@@ -44,12 +44,12 @@ const exitAnimation = (offsetX: number) => ({
 
 const animateStackRows = (
   items: StackItem[],
-  rowRefs: Array<HTMLDivElement | null>,
-  valueRefs: Array<HTMLSpanElement | null>
+  rowRef: Array<HTMLDivElement | null>,
+  valueRef: Array<HTMLSpanElement | null>
 ) => {
   items.forEach((item, index) => {
-    const rowElement = rowRefs[index]
-    const valueElement = valueRefs[index]
+    const rowElement = rowRef[index]
+    const valueElement = valueRef[index]
     const offsetX = index % 2 === 0 ? -16 : 16
 
     if (rowElement) {
@@ -69,8 +69,8 @@ const animateStackRows = (
   })
 }
 
-const animateStackRowsOut = (rowRefs: Array<HTMLDivElement | null>) => {
-  rowRefs.forEach((rowElement, index) => {
+const animateStackRowsOut = (rowRef: Array<HTMLDivElement | null>) => {
+  rowRef.forEach((rowElement, index) => {
     if (!rowElement) return
     const offsetX = index % 2 === 0 ? -16 : 16
     const { keyframes, options } = exitAnimation(offsetX)
@@ -80,8 +80,8 @@ const animateStackRowsOut = (rowRefs: Array<HTMLDivElement | null>) => {
 
 const useStackLoop = (
   items: StackItem[],
-  rowRefs: MutableRefObject<Array<HTMLDivElement | null>>,
-  valueRefs: MutableRefObject<Array<HTMLSpanElement | null>>
+  rowRef: MutableRefObject<Array<HTMLDivElement | null>>,
+  valueRef: MutableRefObject<Array<HTMLSpanElement | null>>
 ) => {
   useEffect(() => {
     const timeoutIds = new Set<TimeoutId>()
@@ -99,10 +99,10 @@ const useStackLoop = (
     const startAnimation = () => {
       if (!isMounted) return
 
-      animateStackRows(items, rowRefs.current, valueRefs.current)
+      animateStackRows(items, rowRef.current, valueRef.current)
       scheduleTimeout(() => {
         if (!isMounted) return
-        animateStackRowsOut(rowRefs.current)
+        animateStackRowsOut(rowRef.current)
         scheduleTimeout(startAnimation, 2000)
       }, 1500)
     }
@@ -114,18 +114,15 @@ const useStackLoop = (
       timeoutIds.forEach(clearTimeout)
       timeoutIds.clear()
     }
-  }, [items, rowRefs, valueRefs])
+  }, [items, rowRef, valueRef])
 }
 
-/**
- *
- */
 export function RealtimeDataStackedRealtime() {
-  const rowRefs = useRef<Array<HTMLDivElement | null>>([])
-  const valueRefs = useRef<Array<HTMLSpanElement | null>>([])
+  const rowRef = useRef<Array<HTMLDivElement | null>>([])
+  const valueRef = useRef<Array<HTMLSpanElement | null>>([])
   const stackItems = useMemo(() => STACK_ITEMS, [])
 
-  useStackLoop(stackItems, rowRefs, valueRefs)
+  useStackLoop(stackItems, rowRef, valueRef)
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__stacked-realtime">
@@ -134,7 +131,7 @@ export function RealtimeDataStackedRealtime() {
           <div
             key={item.label}
             ref={(element) => {
-              rowRefs.current[index] = element
+              rowRef.current[index] = element
             }}
             className={`pf-realtime-data__stack-row ${item.active ? 'active' : ''}`}
             style={{ opacity: 0, transform: `translateX(${index % 2 === 0 ? -16 : 16}px)` }}
@@ -142,7 +139,7 @@ export function RealtimeDataStackedRealtime() {
             <span className="pf-realtime-data__stack-label">{item.label}</span>
             <span
               ref={(element) => {
-                valueRefs.current[index] = element
+                valueRef.current[index] = element
               }}
               className="pf-realtime-data__stack-value"
               style={{ color: 'var(--pf-anim-cyan)' }}

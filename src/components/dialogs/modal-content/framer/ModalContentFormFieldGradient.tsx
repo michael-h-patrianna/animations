@@ -1,10 +1,13 @@
 import * as m from 'motion/react-m'
-/**
- *
- */ export function ModalContentFormFieldGradient() {
+export function ModalContentFormFieldGradient() {
   return (
     <div className="modal-content-overlay" data-animation-id="modal-content__form-field-gradient">
-      <m.div className="modal-content-modal" initial={{ scale: 0.88, y: -16, opacity: 0 }} animate={{ scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }} transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}>
+      <m.div
+        className="modal-content-modal"
+        initial={{ scale: 0.88, y: -16, opacity: 0 }}
+        animate={{ scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }}
+        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+      >
         <div className="modal-content-header">
           <h4 className="modal-content-title">Sequence Control</h4>
           <span className="modal-content-badge">Modal</span>
@@ -21,9 +24,18 @@ import * as m from 'motion/react-m'
                 animate={{
                   y: [20, 0, 0],
                   opacity: [0, 1, 1],
-                  background: ['linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.1) 50%, transparent 100%)', 'linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.2) 50%, transparent 100%)', 'transparent'],
+                  background: [
+                    'linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.1) 50%, transparent 100%)',
+                    'linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.2) 50%, transparent 100%)',
+                    'transparent',
+                  ],
                 }}
-                transition={{ duration: 0.5, delay: 0.3 + 0.12 * index, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.3 + 0.12 * index,
+                  ease: [0.4, 0, 0.2, 1] as const,
+                  times: [0, 0.5, 1],
+                }}
               >
                 <label>Field {index + 1}</label>
                 <input type="text" defaultValue="Input" />
@@ -36,7 +48,12 @@ import * as m from 'motion/react-m'
             className="modal-content-button modal-content-button-primary"
             initial={{ y: 16, scale: 0.94, opacity: 0 }}
             animate={{ y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
-            transition={{ duration: 0.3, delay: 0.75, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+            transition={{
+              duration: 0.3,
+              delay: 0.75,
+              ease: [0.4, 0, 0.2, 1] as const,
+              times: [0, 0.6, 1],
+            }}
           >
             Accept
           </m.button>
@@ -44,7 +61,12 @@ import * as m from 'motion/react-m'
             className="modal-content-button modal-content-button-secondary"
             initial={{ y: 16, scale: 0.94, opacity: 0 }}
             animate={{ y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
-            transition={{ duration: 0.3, delay: 0.82, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+            transition={{
+              duration: 0.3,
+              delay: 0.82,
+              ease: [0.4, 0, 0.2, 1] as const,
+              times: [0, 0.6, 1],
+            }}
           >
             Later
           </m.button>

@@ -113,4 +113,3 @@ function TextEffectsCharacterRevealComponent() {
  * Memoized TextEffectsCharacterReveal to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsCharacterReveal = memo(TextEffectsCharacterRevealComponent)
-

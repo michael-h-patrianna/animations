@@ -1,6 +1,5 @@
 /* Home icon with bouncing dot: overshoot on appear + occasional bob */
 .pf-update-indicator--icon {
-
   --update-indicators-home-icon-dot-bounce-bg: #ff4967;
   --update-indicators-home-icon-dot-bounce-shadow-1: rgb(255 73 103 / 0%);
   --update-indicators-home-icon-dot-bounce-shadow-2: rgb(255 73 103 / 18%);

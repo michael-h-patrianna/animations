@@ -2,9 +2,7 @@ import { githubIcon } from '@/assets'
 import type { Group } from '@/types/animation'
 import { type RefObject } from 'react'
 
-/**
- *
- */
+/** Sticky mobile header with hamburger menu, current group title, and GitHub link. */
 export function MobileHeader({
   currentGroup,
   appBarRef,

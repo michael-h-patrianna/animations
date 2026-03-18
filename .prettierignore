@@ -1,5 +1,6 @@
 # Build outputs
 /dist
+/coverage
 /playwright-report
 /test-results
 
@@ -8,3 +9,7 @@ pnpm-lock.yaml
 
 # Misc
 .DS_Store
+
+# Claude Code agent data
+.claude
+.agents

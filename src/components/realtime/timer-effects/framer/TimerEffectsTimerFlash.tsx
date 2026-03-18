@@ -1,9 +1,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
-/**
- *
- */ export function TimerEffectsTimerFlash() {
+export function TimerEffectsTimerFlash() {
   const [seconds, setSeconds] = useState(32)
   const [bgColor, setBgColor] = useState('var(--pf-anim-yellow-warm)')
   const [pulseSpeed, setPulseSpeed] = useState(1000)
@@ -66,8 +64,18 @@ import { useEffect, useState } from 'react'
   }
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
-      <m.div className="pf-timer-flash__pill" style={{ backgroundColor: bgColor }} animate={seconds <= 30 ? { scale: [1, 1 + (30 - seconds) / 200, 1] } : {}} transition={{ duration: pulseSpeed / 1000, repeat: Infinity, ease: easeInOut }}>
-        <m.span className="pf-timer-flash__glow" aria-hidden="true" animate={getGlowAnimation()} transition={{ duration: pulseSpeed / 1000, repeat: Infinity, ease: easeInOut }} />
+      <m.div
+        className="pf-timer-flash__pill"
+        style={{ backgroundColor: bgColor }}
+        animate={seconds <= 30 ? { scale: [1, 1 + (30 - seconds) / 200, 1] } : {}}
+        transition={{ duration: pulseSpeed / 1000, repeat: Infinity, ease: easeInOut }}
+      >
+        <m.span
+          className="pf-timer-flash__glow"
+          aria-hidden="true"
+          animate={getGlowAnimation()}
+          transition={{ duration: pulseSpeed / 1000, repeat: Infinity, ease: easeInOut }}
+        />
         <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
       </m.div>
       <span className="pf-timer-flash__label">Flash Expire</span>

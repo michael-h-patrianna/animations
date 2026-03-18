@@ -1,5 +1,4 @@
 .pill-countdown-tfx-glitchcontainer {
-
   --timer-effects-pill-countdown-glitch-bg-1-00: #f00;
   --timer-effects-pill-countdown-glitch-bg-1-ff: #f0f;
   --timer-effects-pill-countdown-glitch-bg-2: #8b0000;
@@ -22,7 +21,11 @@
 
 /* Timer expired state */
 .timer-expired {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%, var(--timer-effects-pill-countdown-glitch-bg-2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%,
+    var(--timer-effects-pill-countdown-glitch-bg-2) 100%
+  );
   --glow-color: rgb(255 0 0 / 55%);
   --glow-opacity: 0.45;
   --glow-scale: 1;
@@ -30,7 +33,11 @@
 
 .pill-countdown-glitch {
   position: relative;
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-3-ea) 0%, var(--timer-effects-pill-countdown-glitch-bg-4-a2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-glitch-bg-3-ea) 0%,
+    var(--timer-effects-pill-countdown-glitch-bg-4-a2) 100%
+  );
   color: white;
   padding: 1px 16px;
   height: 20px;
@@ -80,13 +87,21 @@
 
 /* 30s threshold - mild glitch */
 .tfx-glitchmild {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-5-4d) 0%, var(--timer-effects-pill-countdown-glitch-bg-6-14) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-glitch-bg-5-4d) 0%,
+    var(--timer-effects-pill-countdown-glitch-bg-6-14) 100%
+  );
   --glow-color: rgb(253 126 20 / 35%);
 }
 
 /* 20s threshold - moderate glitch */
 .tfx-glitchmoderate {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-7) 0%, var(--timer-effects-pill-countdown-glitch-bg-8) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-glitch-bg-7) 0%,
+    var(--timer-effects-pill-countdown-glitch-bg-8) 100%
+  );
   --glow-color: rgb(255 107 107 / 40%);
 }
 
@@ -96,7 +111,11 @@
 
 /* 10s threshold - severe glitch with rapid pulsing */
 .tfx-glitchsevere {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%, var(--timer-effects-pill-countdown-glitch-bg-2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%,
+    var(--timer-effects-pill-countdown-glitch-bg-2) 100%
+  );
   --glow-color: rgb(255 0 0 / 50%);
 }
 

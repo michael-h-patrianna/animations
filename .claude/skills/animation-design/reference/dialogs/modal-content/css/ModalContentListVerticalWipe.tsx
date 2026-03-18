@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalContentListVerticalWipe.css'
 
-
 export function ModalContentListVerticalWipe() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -106,4 +105,3 @@ export function ModalContentListVerticalWipe() {
     </div>
   )
 }
-

@@ -13,7 +13,14 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: conic-gradient(from 0deg, transparent 0deg, #6366f1 90deg, #a855f7 180deg, #ec4899 270deg, transparent 360deg);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #6366f1 90deg,
+    #a855f7 180deg,
+    #ec4899 270deg,
+    transparent 360deg
+  );
   animation: pf-spin 4s linear infinite;
   z-index: 0;
 }
@@ -34,6 +41,10 @@
 }
 
 @keyframes pf-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

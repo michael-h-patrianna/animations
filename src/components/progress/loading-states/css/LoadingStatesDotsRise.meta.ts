@@ -4,5 +4,6 @@ export const metadata = {
   id: 'loading-states__dots-rise',
   title: 'Dots Rise',
   description: 'Three-dot rise cadence for subtle loading feedback.',
-  tags: ['css']
+  tags: ['css'],
+  infinite: true,
 } satisfies AnimationMetadata

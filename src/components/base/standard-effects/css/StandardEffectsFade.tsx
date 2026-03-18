@@ -16,4 +16,3 @@ function StandardEffectsFadeComponent() {
  * Memoized StandardEffectsFade to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsFade = memo(StandardEffectsFadeComponent)
-

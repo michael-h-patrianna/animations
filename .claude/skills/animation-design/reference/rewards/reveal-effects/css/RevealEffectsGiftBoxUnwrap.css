@@ -20,7 +20,7 @@
   height: 80px;
   background: #ff5252;
   border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   z-index: 5;
 }
@@ -32,7 +32,9 @@
   height: 100%;
   background: #ffd700;
   transform-origin: bottom;
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  transition:
+    transform 0.5s ease-out,
+    opacity 0.5s ease-out;
 }
 
 .reveal-gift-box-ribbon-v-css.open {
@@ -55,7 +57,9 @@
   width: 110%;
   height: 30px;
   z-index: 10;
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  transition:
+    transform 0.5s ease-out,
+    opacity 0.5s ease-out;
 }
 
 .reveal-gift-box-lid-css.open {
@@ -64,44 +68,46 @@
 }
 
 .reveal-gift-box-lid-shape-css {
-    width: 100%;
-    height: 100%;
-    background: #ff1744;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  width: 100%;
+  height: 100%;
+  background: #ff1744;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .reveal-gift-box-bow-css {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 15px;
-    background: #ffd700;
-    border-radius: 10px;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 15px;
+  background: #ffd700;
+  border-radius: 10px;
 }
 
 .reveal-gift-box-content-css {
-    position: absolute;
-    bottom: 40px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 2;
-    pointer-events: none;
-    transform: scale(0.5) translateY(0);
-    opacity: 0;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s;
-    transition-delay: 0.3s;
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  transform: scale(0.5) translateY(0);
+  opacity: 0;
+  transition:
+    transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.5s;
+  transition-delay: 0.3s;
 }
 
 .reveal-gift-box-content-css.visible {
-    transform: scale(1.2) translateY(-20px);
-    opacity: 1;
+  transform: scale(1.2) translateY(-20px);
+  opacity: 1;
 }
 
 .reveal-gift-box-icon-css {
-    font-size: 56px;
+  font-size: 56px;
 }

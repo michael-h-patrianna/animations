@@ -1,16 +1,12 @@
 import { useEffect, useRef } from 'react'
 import './ModalContentButtonsStagger2.css'
 
-
-/**
- *
- */
 export function ModalContentButtonsStagger2() {
-  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([])
 
   useEffect(() => {
     // Trigger staggered animation on mount
-    buttonRefs.current.forEach((button, index) => {
+    buttonsRef.current.forEach((button, index) => {
       if (button) {
         // Reset any existing animation
         button.style.animation = 'none'
@@ -37,17 +33,19 @@ export function ModalContentButtonsStagger2() {
           <p>Keep focus with 70ms cadence.</p>
         </div>
         <div className="modal-content-footer">
-          <button type="button"
+          <button
+            type="button"
             ref={(el) => {
-              buttonRefs.current[0] = el
+              buttonsRef.current[0] = el
             }}
             className="modal-content-button modal-content-button-primary"
           >
             Primary
           </button>
-          <button type="button"
+          <button
+            type="button"
             ref={(el) => {
-              buttonRefs.current[1] = el
+              buttonsRef.current[1] = el
             }}
             className="modal-content-button modal-content-button-secondary"
           >
@@ -58,4 +56,3 @@ export function ModalContentButtonsStagger2() {
     </div>
   )
 }
-

@@ -47,12 +47,18 @@ function calculateMilestones(finalValue: number, maxParticles: number): Mileston
  * <TextEffectsComboCounter />
  * <TextEffectsComboCounter finalValue={100} maxParticles={6} />
  */
-function TextEffectsComboCounterComponent({ finalValue = 25, maxParticles = 4 }: TextEffectsComboCounterProps = {}) {
+function TextEffectsComboCounterComponent({
+  finalValue = 25,
+  maxParticles = 4,
+}: TextEffectsComboCounterProps = {}) {
   const comboText = 'COMBO'
   const [count, setCount] = useState(0)
 
   // Calculate milestones dynamically based on finalValue
-  const milestones = useMemo(() => calculateMilestones(finalValue, maxParticles), [finalValue, maxParticles])
+  const milestones = useMemo(
+    () => calculateMilestones(finalValue, maxParticles),
+    [finalValue, maxParticles]
+  )
 
   useEffect(() => {
     // Counter animation - only essential JavaScript
@@ -73,7 +79,8 @@ function TextEffectsComboCounterComponent({ finalValue = 25, maxParticles = 4 }:
 
       const progress = Math.min(elapsed / duration, 1)
       // Custom easing approximation
-      const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2
+      const eased =
+        progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2
 
       const newCount = Math.round(eased * finalValue)
       setCount(newCount)

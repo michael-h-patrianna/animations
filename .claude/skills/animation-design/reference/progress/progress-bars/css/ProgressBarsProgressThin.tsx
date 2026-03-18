@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressThin.css'
 
-
 export function ProgressBarsProgressThin() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -192,4 +191,3 @@ export function ProgressBarsProgressThin() {
     </div>
   )
 }
-

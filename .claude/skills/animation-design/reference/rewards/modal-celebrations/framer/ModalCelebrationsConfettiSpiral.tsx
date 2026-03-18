@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
@@ -13,7 +12,7 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsConfettiSpiral() {
-const particles = useMemo(
+  const particles = useMemo(
     () =>
       Array.from({ length: 26 }, (_, i) => {
         const angle = randBetween(0, 360)
@@ -58,7 +57,7 @@ const particles = useMemo(
               x: 0,
               y: 0,
               scale: 0.4,
-              opacity: 0
+              opacity: 0,
             }}
             animate={{
               rotate: particle.spin,
@@ -79,5 +78,3 @@ const particles = useMemo(
     </div>
   )
 }
-
-

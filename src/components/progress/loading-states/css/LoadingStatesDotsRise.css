@@ -1,7 +1,6 @@
 /* Styles for LoadingStatesDotsRise */
 
 .pf-loading-container {
-
   --loading-states-dots-rise-bg: #c47ae5;
   display: flex;
   align-items: center;

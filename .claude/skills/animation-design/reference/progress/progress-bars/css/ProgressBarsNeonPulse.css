@@ -37,13 +37,27 @@
 }
 
 @keyframes neon-flicker {
-  0% { opacity: 1; }
-  20% { opacity: 0.8; }
-  40% { opacity: 1; }
-  60% { opacity: 0.4; }
-  80% { opacity: 1; }
-  90% { opacity: 0.9; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.4;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .neon-pulse-glow-css {

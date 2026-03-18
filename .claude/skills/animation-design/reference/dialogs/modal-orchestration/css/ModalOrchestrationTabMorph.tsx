@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationTabMorph.css'
 
-
 export function ModalOrchestrationTabMorph() {
   const tabs = 4
   const [activeTab, setActiveTab] = useState(0)
@@ -29,7 +28,11 @@ export function ModalOrchestrationTabMorph() {
     const isForward = activeTab > prevTab
 
     // Exit animation
-    panel.classList.remove('pf-tabs__panel--enter', 'pf-tabs__panel--exit-left', 'pf-tabs__panel--exit-right')
+    panel.classList.remove(
+      'pf-tabs__panel--enter',
+      'pf-tabs__panel--exit-left',
+      'pf-tabs__panel--exit-right'
+    )
     panel.classList.add(isForward ? 'pf-tabs__panel--exit-left' : 'pf-tabs__panel--exit-right')
 
     const exitTimeout = setTimeout(() => {
@@ -43,16 +46,14 @@ export function ModalOrchestrationTabMorph() {
   }, [activeTab, prevTab])
 
   return (
-    <div
-      ref={containerRef}
-      className="pf-tabs"
-      data-animation-id="modal-orchestration__tab-morph"
-    >
+    <div ref={containerRef} className="pf-tabs" data-animation-id="modal-orchestration__tab-morph">
       <div className="pf-tabs__nav">
         {Array.from({ length: tabs }, (_, index) => (
           <div
             key={index}
-            ref={(el) => { tabRefs.current[index] = el }}
+            ref={(el) => {
+              tabRefs.current[index] = el
+            }}
             className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
             onClick={() => setActiveTab(index)}
           >
@@ -65,12 +66,11 @@ export function ModalOrchestrationTabMorph() {
         <div ref={panelRef} className="pf-tabs__panel pf-tabs__panel--enter">
           <h5>Content {activeTab + 1}</h5>
           <p>
-            Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation
-            between different content panels.
+            Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation between
+            different content panels.
           </p>
         </div>
       </div>
     </div>
   )
 }
-

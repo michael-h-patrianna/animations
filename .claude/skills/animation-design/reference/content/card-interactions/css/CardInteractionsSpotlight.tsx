@@ -4,7 +4,7 @@ import './CardInteractionsSpotlight.css'
 
 export function CardInteractionsSpotlight() {
   return (
-    <div 
+    <div
       className="premium-card-container pf-card-interactions--spotlight"
       data-animation-id="card-interactions__spotlight"
     >

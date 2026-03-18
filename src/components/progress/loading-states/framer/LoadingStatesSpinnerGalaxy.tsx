@@ -1,10 +1,6 @@
-
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 
-/**
- *
- */
 export function LoadingStatesSpinnerGalaxy() {
   return (
     <div data-animation-id="loading-states__spinner-galaxy" className="pf-loading-container">
@@ -27,4 +23,3 @@ export function LoadingStatesSpinnerGalaxy() {
     </div>
   )
 }
-

@@ -59,5 +59,3 @@ function TextEffectsTypewriterComponent() {
  * Memoized TextEffectsTypewriter to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsTypewriter = memo(TextEffectsTypewriterComponent)
-
-

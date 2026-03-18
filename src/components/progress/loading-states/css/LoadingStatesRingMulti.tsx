@@ -1,8 +1,5 @@
 import './LoadingStatesRingMulti.css'
 
-/**
- *
- */
 export function LoadingStatesRingMulti() {
   return (
     <div data-animation-id="loading-states__ring-multi" className="pf-loading-container">
@@ -14,4 +11,3 @@ export function LoadingStatesRingMulti() {
     </div>
   )
 }
-

@@ -1,6 +1,5 @@
 /* Styles scoped for StandardEffectsBlink */
 .standard-demo-container {
-
   --standard-effects-bg-1: rgb(236 195 255 / 12%);
   --standard-effects-bg-2: rgb(198 255 119 / 8%);
   --standard-effects-border: rgb(236 195 255 / 24%);
@@ -14,7 +13,11 @@
 }
 .standard-demo-element {
   padding: 24px 32px;
-  background: linear-gradient(135deg, var(--standard-effects-bg-1) 0%, var(--standard-effects-bg-2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--standard-effects-bg-1) 0%,
+    var(--standard-effects-bg-2) 100%
+  );
   border: 1px solid var(--standard-effects-border);
   border-radius: 16px;
   box-shadow: 0 8px 32px var(--standard-effects-shadow);

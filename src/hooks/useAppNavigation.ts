@@ -1,18 +1,19 @@
 import type { CodeMode } from '@/contexts/CodeModeContext'
 import { useGroupInitialization } from '@/hooks/useGroupInitialization'
 import type { Category, Group } from '@/types/animation'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-/**
- *
- */
+/** Manages navigation state: group selection, category selection, and code mode switching. */
 export function useAppNavigation(categories: Category[]) {
   const { groupId } = useParams<{ groupId?: string }>()
   const navigate = useNavigate()
   const [currentGroupId, setCurrentGroupId] = useState<string>('')
 
-  const allGroups: Group[] = categories.flatMap((category) => category.groups)
+  const allGroups: Group[] = useMemo(
+    () => categories.flatMap((category) => category.groups),
+    [categories]
+  )
 
   const navigateToGroup = useCallback(
     (id: string, options?: { replace?: boolean }) => {
@@ -50,16 +51,6 @@ export function useAppNavigation(categories: Category[]) {
     [currentGroupId, navigateToGroup]
   )
 
-  const handleCategorySelect = useCallback(
-    (categoryId: string) => {
-      const category = categories.find((c) => c.id === categoryId)
-      if (category && category.groups.length > 0) {
-        handleGroupSelect(category.groups[0].id)
-      }
-    },
-    [categories, handleGroupSelect]
-  )
-
   const currentGroup = allGroups.find((g) => g.id === currentGroupId)
 
   return {
@@ -68,6 +59,5 @@ export function useAppNavigation(categories: Category[]) {
     currentGroup,
     handleModeSelect,
     handleGroupSelect,
-    handleCategorySelect,
   }
 }

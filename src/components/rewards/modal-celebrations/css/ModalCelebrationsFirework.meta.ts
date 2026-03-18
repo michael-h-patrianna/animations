@@ -6,4 +6,5 @@ export const metadata: AnimationMetadata = {
   description:
     'Endless overlapping firework waves with five burst points and Lucky Bunny image particles that launch, rotate, and fall with gravity.',
   tags: ['css'],
+  infinite: true,
 }

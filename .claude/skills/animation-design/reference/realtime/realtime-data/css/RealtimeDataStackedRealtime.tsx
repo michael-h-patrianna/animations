@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './RealtimeDataStackedRealtime.css'
 
-
 export function RealtimeDataStackedRealtime() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([])
   const valueRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -41,15 +40,12 @@ export function RealtimeDataStackedRealtime() {
 
         if (valueElement) {
           const targetColor = item.active ? '#06b6d4' : '#9ca3af'
-          valueElement.animate(
-            [{ color: '#06b6d4' }, { color: targetColor }],
-            {
-              duration: 400,
-              delay: index * 80 + 200,
-              easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-              fill: 'forwards',
-            }
-          )
+          valueElement.animate([{ color: '#06b6d4' }, { color: targetColor }], {
+            duration: 400,
+            delay: index * 80 + 200,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            fill: 'forwards',
+          })
         }
       })
 
@@ -114,4 +110,3 @@ export function RealtimeDataStackedRealtime() {
     </div>
   )
 }
-

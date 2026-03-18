@@ -16,4 +16,3 @@ function StandardEffectsFlipComponent() {
  * Memoized StandardEffectsFlip to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsFlip = memo(StandardEffectsFlipComponent)
-

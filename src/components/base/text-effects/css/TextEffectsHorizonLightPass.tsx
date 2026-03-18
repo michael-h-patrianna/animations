@@ -41,7 +41,9 @@ interface TextEffectsHorizonLightPassProps {
  *
  * @see TextEffectsHorizonLightPass.css for styling and performance optimizations
  */
-function TextEffectsHorizonLightPassComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsHorizonLightPassProps) {
+function TextEffectsHorizonLightPassComponent({
+  text = 'LOREM IPSUM DOLOR',
+}: TextEffectsHorizonLightPassProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const lettersRef = useRef<HTMLSpanElement[]>([])
 
@@ -79,9 +81,21 @@ function TextEffectsHorizonLightPassComponent({ text = 'LOREM IPSUM DOLOR' }: Te
       return letter.animate(
         [
           { opacity: 0, color: 'var(--tfx-hlp-base-color)', transform: 'scaleX(1) scaleY(1)' },
-          { opacity: 1, color: 'var(--tfx-hlp-highlight-color)', transform: 'scaleX(1.2) scaleY(0.94)' },
-          { opacity: 1, color: 'var(--tfx-hlp-highlight-color)', transform: 'scaleX(1.22) scaleY(0.96)' },
-          { opacity: 1, color: 'var(--tfx-hlp-highlight-color)', transform: 'scaleX(1.06) scaleY(0.99)' },
+          {
+            opacity: 1,
+            color: 'var(--tfx-hlp-highlight-color)',
+            transform: 'scaleX(1.2) scaleY(0.94)',
+          },
+          {
+            opacity: 1,
+            color: 'var(--tfx-hlp-highlight-color)',
+            transform: 'scaleX(1.22) scaleY(0.96)',
+          },
+          {
+            opacity: 1,
+            color: 'var(--tfx-hlp-highlight-color)',
+            transform: 'scaleX(1.06) scaleY(0.99)',
+          },
           { opacity: 1, color: 'var(--tfx-hlp-base-color)', transform: 'scaleX(1) scaleY(1)' },
         ],
         {
@@ -130,4 +144,3 @@ function TextEffectsHorizonLightPassComponent({ text = 'LOREM IPSUM DOLOR' }: Te
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)
 
 export default TextEffectsHorizonLightPass
-

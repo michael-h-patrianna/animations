@@ -1,6 +1,5 @@
 /* Styles scoped for TextEffectsCharacterReveal */
 .character-reveal-container {
-
   --text-effects-character-reveal-color-1: rgb(0 0 0 / 40%);
   --text-effects-character-reveal-text-shadow: rgb(0 0 0 / 30%);
   --text-effects-character-reveal-color-2: rgb(255 215 0 / 30%);

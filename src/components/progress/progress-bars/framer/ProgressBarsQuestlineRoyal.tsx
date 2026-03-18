@@ -24,11 +24,11 @@ const TRACK_RIGHT_INSET_PX = 44
 function toTrackLeft(progress: number) {
   const clampedProgress = Math.max(0, Math.min(1, progress))
   const percent = 100 * clampedProgress
-  const offset = TRACK_LEFT_INSET_PX - (TRACK_LEFT_INSET_PX + TRACK_RIGHT_INSET_PX) * clampedProgress
+  const offset =
+    TRACK_LEFT_INSET_PX - (TRACK_LEFT_INSET_PX + TRACK_RIGHT_INSET_PX) * clampedProgress
   return { left: `${percent}%`, marginLeft: offset }
 }
 
-// eslint-disable-next-line max-lines-per-function
 function ProgressBarsQuestlineRoyalComponent() {
   const [progress, setProgress] = useState(0)
   const [completionPulseKey, setCompletionPulseKey] = useState(0)

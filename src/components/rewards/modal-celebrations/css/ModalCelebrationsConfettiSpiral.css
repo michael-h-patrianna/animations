@@ -1,8 +1,8 @@
 /* Scoped theme for ModalCelebrationsConfettiSpiral (CSS variant) */
 [data-animation-id='modal-celebrations__confetti-spiral'].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, rgb(200 160 255 / 16%), rgb(24 8 42 / 92%));
-  border: 1px solid rgb(200 160 255 / 10%);
+  background: linear-gradient(180deg, var(--pf-anim-lavender-16), var(--pf-anim-spiral-bg));
+  border: 1px solid var(--pf-anim-lavender-10);
 }
 
 /* ─── Origin flash ─── */
@@ -12,7 +12,7 @@
     opacity: 0;
   }
   40% {
-    transform: translate(-50%, -50%) scale(1.0);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0.6;
   }
   100% {
@@ -23,12 +23,24 @@
 
 /* ─── Spiral glow ─── */
 @keyframes cs-glow {
-  0% { opacity: 0; }
-  10% { opacity: 0.3; }
-  35% { opacity: 0.15; }
-  55% { opacity: 0.25; }
-  80% { opacity: 0.08; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  35% {
+    opacity: 0.15;
+  }
+  55% {
+    opacity: 0.25;
+  }
+  80% {
+    opacity: 0.08;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* ─── Dynamic tornado spiral ───
@@ -40,48 +52,42 @@
 @keyframes cs-tornado {
   /* At center */
   0% {
-    transform: translate(0, 0)
-      rotate(var(--sa)) translateX(0)
-      rotateX(0deg) rotateY(0deg) rotate(0deg) scale(0);
+    transform: translate(0, 0) rotate(var(--sa)) translateX(0) rotateX(0deg) rotateY(0deg)
+      rotate(0deg) scale(0);
     opacity: 0;
   }
   /* Fast initial whip — radius 17% (easeOutCubic @ 0.06) */
   6% {
-    transform: translate(0, 0)
-      rotate(calc(var(--sa) + var(--to) * 0.06)) translateX(calc(var(--mr) * 0.17))
-      rotateX(calc(var(--rx) * 0.06)) rotateY(calc(var(--ry) * 0.06)) rotate(calc(var(--rz) * 0.06))
-      scale(calc(var(--s) * 0.6));
+    transform: translate(0, 0) rotate(calc(var(--sa) + var(--to) * 0.06))
+      translateX(calc(var(--mr) * 0.17)) rotateX(calc(var(--rx) * 0.06))
+      rotateY(calc(var(--ry) * 0.06)) rotate(calc(var(--rz) * 0.06)) scale(calc(var(--s) * 0.6));
     opacity: calc(var(--peak-opacity, 1) * 0.7);
   }
   /* Expanding rapidly — radius 58% */
   25% {
-    transform: translate(0, 0)
-      rotate(calc(var(--sa) + var(--to) * 0.25)) translateX(calc(var(--mr) * 0.58))
-      rotateX(calc(var(--rx) * 0.25)) rotateY(calc(var(--ry) * 0.25)) rotate(calc(var(--rz) * 0.25))
-      scale(var(--s));
+    transform: translate(0, 0) rotate(calc(var(--sa) + var(--to) * 0.25))
+      translateX(calc(var(--mr) * 0.58)) rotateX(calc(var(--rx) * 0.25))
+      rotateY(calc(var(--ry) * 0.25)) rotate(calc(var(--rz) * 0.25)) scale(var(--s));
     opacity: var(--peak-opacity, 1);
   }
   /* Nearly full radius — radius 88% */
   50% {
-    transform: translate(0, 0)
-      rotate(calc(var(--sa) + var(--to) * 0.5)) translateX(calc(var(--mr) * 0.88))
-      rotateX(calc(var(--rx) * 0.5)) rotateY(calc(var(--ry) * 0.5)) rotate(calc(var(--rz) * 0.5))
-      scale(calc(var(--s) * 0.95));
+    transform: translate(0, 0) rotate(calc(var(--sa) + var(--to) * 0.5))
+      translateX(calc(var(--mr) * 0.88)) rotateX(calc(var(--rx) * 0.5))
+      rotateY(calc(var(--ry) * 0.5)) rotate(calc(var(--rz) * 0.5)) scale(calc(var(--s) * 0.95));
     opacity: calc(var(--peak-opacity, 1) * 0.85);
   }
   /* Coasting — radius 98%, gravity starts */
   75% {
-    transform: translate(0, 16px)
-      rotate(calc(var(--sa) + var(--to) * 0.75)) translateX(calc(var(--mr) * 0.98))
-      rotateX(calc(var(--rx) * 0.75)) rotateY(calc(var(--ry) * 0.75)) rotate(calc(var(--rz) * 0.75))
-      scale(calc(var(--s) * 0.7));
+    transform: translate(0, 16px) rotate(calc(var(--sa) + var(--to) * 0.75))
+      translateX(calc(var(--mr) * 0.98)) rotateX(calc(var(--rx) * 0.75))
+      rotateY(calc(var(--ry) * 0.75)) rotate(calc(var(--rz) * 0.75)) scale(calc(var(--s) * 0.7));
     opacity: calc(var(--peak-opacity, 1) * 0.4);
   }
   /* Settled — full orbit, beyond max radius, gravity droop */
   100% {
-    transform: translate(0, 50px)
-      rotate(calc(var(--sa) + var(--to))) translateX(calc(var(--mr) * 1.12))
-      rotateX(var(--rx)) rotateY(var(--ry)) rotate(var(--rz))
+    transform: translate(0, 50px) rotate(calc(var(--sa) + var(--to)))
+      translateX(calc(var(--mr) * 1.12)) rotateX(var(--rx)) rotateY(var(--ry)) rotate(var(--rz))
       scale(calc(var(--s) * 0.3));
     opacity: 0;
   }
@@ -89,9 +95,24 @@
 
 /* ─── Sparkle twinkle ─── */
 @keyframes cs-sparkle {
-  0% { transform: scale(0); opacity: 0; }
-  20% { transform: scale(1.3); opacity: 0.9; }
-  50% { transform: scale(0.5); opacity: 0.3; }
-  75% { transform: scale(1.0); opacity: 0.65; }
-  100% { transform: scale(0); opacity: 0; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.3);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.3;
+  }
+  75% {
+    transform: scale(1);
+    opacity: 0.65;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
 }

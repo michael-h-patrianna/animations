@@ -1,11 +1,10 @@
-
 import * as m from 'motion/react-m'
 
 import './LoadingStatesSkeletonHorizontal.css'
 import '../shared.css'
 
 export function LoadingStatesSkeletonHorizontal() {
-const shimmerVariants = {
+  const shimmerVariants = {
     animate: {
       backgroundPosition: ['200% 0', '-200% 0'],
       transition: {
@@ -33,5 +32,3 @@ const shimmerVariants = {
     </div>
   )
 }
-
-

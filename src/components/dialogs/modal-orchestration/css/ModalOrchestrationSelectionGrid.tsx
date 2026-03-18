@@ -1,17 +1,13 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationSelectionGrid.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationSelectionGrid() {
   const items = 6
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
 
   // Stagger item animations on mount
   useEffect(() => {
-    const itemElements = itemRefs.current.filter(Boolean)
+    const itemElements = itemsRef.current.filter(Boolean)
     itemElements.forEach((item, index) => {
       if (item) {
         item.style.animationDelay = `${index * 0.26}s`
@@ -23,7 +19,13 @@ export function ModalOrchestrationSelectionGrid() {
   return (
     <div className="pf-grid" data-animation-id="modal-orchestration__selection-grid">
       {Array.from({ length: items }, (_, index) => (
-        <div key={index} ref={(el) => { itemRefs.current[index] = el }} className="pf-grid__item">
+        <div
+          key={index}
+          ref={(el) => {
+            itemsRef.current[index] = el
+          }}
+          className="pf-grid__item"
+        >
           <div>
             <strong>Option {index + 1}</strong>
             <br />
@@ -34,4 +36,3 @@ export function ModalOrchestrationSelectionGrid() {
     </div>
   )
 }
-

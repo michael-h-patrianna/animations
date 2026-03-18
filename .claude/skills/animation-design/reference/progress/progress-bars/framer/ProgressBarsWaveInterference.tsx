@@ -14,7 +14,7 @@ export function ProgressBarsWaveInterference() {
   // 25 wave segments distributed along the bar
   const segments: WaveSegment[] = Array.from({ length: 25 }, (_, i) => ({
     index: i,
-    position: i / 24 // 0 to 1
+    position: i / 24, // 0 to 1
   }))
 
   // Create interference node at milestone
@@ -66,7 +66,10 @@ export function ProgressBarsWaveInterference() {
   }, [])
 
   return (
-    <div className="progress-bars-wave-interference" data-animation-id="progress-bars__wave-interference">
+    <div
+      className="progress-bars-wave-interference"
+      data-animation-id="progress-bars__wave-interference"
+    >
       <div className="pb-wi-container">
         <div className="pb-wi-track">
           {/* Fill bar */}
@@ -76,7 +79,7 @@ export function ProgressBarsWaveInterference() {
             animate={{ scaleX: 1 }}
             transition={{
               duration: 3.7,
-              ease: [0.42, 0, 0.58, 1]
+              ease: [0.42, 0, 0.58, 1],
             }}
             style={{ transformOrigin: 'left center' }}
           />
@@ -102,10 +105,18 @@ export function ProgressBarsWaveInterference() {
                 else if (t >= 0.25) amplitude = 12
 
                 // Wave displacement using simplified interference pattern
-                const leftWave = amplitude * 0.7 * Math.sin(2 * Math.PI * (segment.position * 4 - time / 2.5) + phaseOffset)
-                const rightWave = t > 0.25
-                  ? amplitude * 0.7 * Math.sin(2 * Math.PI * (segment.position * 4 + (time - 0.925) / 2.5) - phaseOffset)
-                  : 0
+                const leftWave =
+                  amplitude *
+                  0.7 *
+                  Math.sin(2 * Math.PI * (segment.position * 4 - time / 2.5) + phaseOffset)
+                const rightWave =
+                  t > 0.25
+                    ? amplitude *
+                      0.7 *
+                      Math.sin(
+                        2 * Math.PI * (segment.position * 4 + (time - 0.925) / 2.5) - phaseOffset
+                      )
+                    : 0
 
                 keyframes.push(leftWave + rightWave)
               }
@@ -120,12 +131,12 @@ export function ProgressBarsWaveInterference() {
                   left: `${segment.position * 100}%`,
                 }}
                 animate={{
-                  y: createWaveKeyframes()
+                  y: createWaveKeyframes(),
                 }}
                 transition={{
                   duration: 3.7,
                   ease: 'linear' as const,
-                  repeat: 0
+                  repeat: 0,
                 }}
               />
             )

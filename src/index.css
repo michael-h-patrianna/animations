@@ -112,6 +112,46 @@
   --pf-anim-confetti-purple: #4d96ff;
   --pf-anim-confetti-pink: #ff85a1;
 
+  /* White / black alpha scale */
+  --pf-anim-white: #fff;
+  --pf-anim-white-95: rgb(255 255 255 / 95%);
+  --pf-anim-black-30: rgb(0 0 0 / 30%);
+  --pf-anim-black-35: rgb(0 0 0 / 35%);
+  --pf-anim-black-40: rgb(0 0 0 / 40%);
+  --pf-anim-black-45: rgb(0 0 0 / 45%);
+  --pf-anim-black-60: rgb(0 0 0 / 60%);
+
+  /* Firework palette alpha variants */
+  --pf-anim-firework-gold-40: rgb(255 206 26 / 40%);
+  --pf-anim-firework-gold-60: rgb(255 206 26 / 60%);
+  --pf-anim-firework-pink-15: rgb(255 89 129 / 15%);
+
+  /* Highlight (lavender) alpha scale */
+  --pf-anim-highlight-12: rgb(236 195 255 / 12%);
+  --pf-anim-highlight-18: rgb(236 195 255 / 18%);
+  --pf-anim-highlight-40: rgb(236 195 255 / 40%);
+
+  /* Modal background tokens */
+  --pf-anim-deep-purple-bg: rgb(29 9 47 / 92%);
+  --pf-anim-lavender-10: rgb(200 160 255 / 10%);
+  --pf-anim-lavender-16: rgb(200 160 255 / 16%);
+  --pf-anim-spiral-bg: rgb(24 8 42 / 92%);
+  --pf-anim-treasure-bg: rgb(60 20 10 / 90%);
+
+  /* Gold (pure) alpha variants */
+  --pf-anim-gold-10: rgb(255 215 0 / 10%);
+  --pf-anim-gold-12: rgb(255 215 0 / 12%);
+
+  /* Red / rose alpha variants */
+  --pf-anim-red-40: rgb(239 68 68 / 40%);
+  --pf-anim-rose-18: rgb(255 73 103 / 18%);
+  --pf-anim-rose-22: rgb(255 73 103 / 22%);
+  --pf-anim-rose-25: rgb(255 73 103 / 25%);
+  --pf-anim-rose-55: rgb(255 73 103 / 55%);
+
+  /* Orchid */
+  --pf-anim-orchid-30: rgb(196 122 229 / 30%);
+
   --index-bg-100: rgb(123 70 142 / 65%);
   --index-bg-101: rgb(29 9 47 / 65%);
   --index-bg-102: rgb(7 2 12 / 65%);

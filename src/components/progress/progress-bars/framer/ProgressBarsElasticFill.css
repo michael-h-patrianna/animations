@@ -1,7 +1,6 @@
 /* ProgressBarsElasticFill.css - Elastic Fill Progress Bar (Framer Motion) */
 
 .pf-progress-elastic-fill {
-
   --progress-bars-elastic-fill-bg-1: #e0e0e0;
   --progress-bars-elastic-fill-bg-2: #82d616;
   --progress-bars-elastic-fill-bg-3: #2dd4bf;
@@ -28,7 +27,11 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, var(--progress-bars-elastic-fill-bg-2) 0%, var(--progress-bars-elastic-fill-bg-3) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-elastic-fill-bg-2) 0%,
+    var(--progress-bars-elastic-fill-bg-3) 100%
+  );
   border-radius: inherit;
   transform-origin: left center;
   will-change: transform;

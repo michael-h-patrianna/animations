@@ -25,7 +25,7 @@ function TextEffectsVerbJogComponent() {
             initial={{ y: 0, rotate: 0 }}
             animate={{
               y: [0, -6, 0, -2, 0],
-              rotate: [0, -4, 2, -2, 0]
+              rotate: [0, -4, 2, -2, 0],
             }}
             transition={{
               duration: 1.2,
@@ -46,7 +46,5 @@ function TextEffectsVerbJogComponent() {
  * Memoized TextEffectsVerbJog to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbJog = memo(TextEffectsVerbJogComponent)
-
-
 
 export default TextEffectsVerbJog

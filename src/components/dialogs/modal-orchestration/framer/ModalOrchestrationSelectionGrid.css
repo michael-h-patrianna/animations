@@ -1,6 +1,5 @@
 /* Styles scoped for ModalOrchestrationSelectionGrid */
 .pf-grid {
-
   --modal-orchestration-selection-grid-bg: rgb(236 195 255 / 8%);
   --modal-orchestration-selection-grid-border: rgb(236 195 255 / 12%);
   --modal-orchestration-selection-grid-color: rgb(255 255 255 / 76%);

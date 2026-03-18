@@ -6,9 +6,7 @@ interface CategorySectionProps {
   elementId: string
 }
 
-/**
- *
- */
+/** Renders a full category with all its groups, used when displaying all groups at once. */
 export function CategorySection({ category, elementId }: CategorySectionProps) {
   const animationCount = category.groups.reduce(
     (total, group) => total + group.animations.length,

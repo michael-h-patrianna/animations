@@ -4,5 +4,6 @@ export const metadata: AnimationMetadata = {
   id: 'realtime-data__win-ticker',
   title: 'Win Ticker',
   description: 'Real-time data pattern: Win Ticker',
-  tags: ['css']
+  tags: ['css'],
+  infinite: true,
 }

@@ -43,8 +43,12 @@
 }
 
 @keyframes liquid-wave {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0%); }
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .liquid-bubble-css {
@@ -73,7 +77,15 @@
 }
 
 @keyframes liquid-bubble {
-  0% { transform: translateY(0); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translateY(-100px); opacity: 0; }
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
 }

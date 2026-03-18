@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Twirling',
   description: 'Continuous twirl spin with subtle scale variance.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 }

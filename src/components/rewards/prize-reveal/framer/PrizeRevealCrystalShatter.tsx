@@ -35,12 +35,24 @@ import {
 
 /* ─── Types ─── */
 
-type PrizeConfig = { id: string; label: string | null; src: string; value: number | null; decimals: number; modifier: string }
+type PrizeConfig = {
+  id: string
+  label: string | null
+  src: string
+  value: number | null
+  decimals: number
+  modifier: string
+}
 type PrizeSlot = { x: number; y: number; delay: number }
 
 /* ─── Constants ─── */
 
-const SHARD_IMAGES = [crystalShatterShard1Image, crystalShatterShard2Image, crystalShatterShard3Image, crystalShatterShard4Image]
+const SHARD_IMAGES = [
+  crystalShatterShard1Image,
+  crystalShatterShard2Image,
+  crystalShatterShard3Image,
+  crystalShatterShard4Image,
+]
 
 const CHARGE_START_MS = 1200
 const SHATTER_START_MS = 2400
@@ -55,10 +67,38 @@ const ORBIT_DUST_PER_PRIZE = 3
 const DEFAULT_PRIZE_COUNT = 3
 
 const PRIZE_POOL: PrizeConfig[] = [
-  { id: 'gc', label: 'GC', src: arcanePortalGcImage, value: 1500, decimals: 0, modifier: 'pf-crystal-shatter__prize--gc' },
-  { id: 'sc', label: 'SC', src: arcanePortalScImage, value: 2.5, decimals: 2, modifier: 'pf-crystal-shatter__prize--sc' },
-  { id: 'fs', label: 'FS', src: arcanePortalFreeSpinsImage, value: 50, decimals: 0, modifier: 'pf-crystal-shatter__prize--fs' },
-  { id: 'rr', label: null, src: arcanePortalRandomRewardImage, value: null, decimals: 0, modifier: 'pf-crystal-shatter__prize--rr' },
+  {
+    id: 'gc',
+    label: 'GC',
+    src: arcanePortalGcImage,
+    value: 1500,
+    decimals: 0,
+    modifier: 'pf-crystal-shatter__prize--gc',
+  },
+  {
+    id: 'sc',
+    label: 'SC',
+    src: arcanePortalScImage,
+    value: 2.5,
+    decimals: 2,
+    modifier: 'pf-crystal-shatter__prize--sc',
+  },
+  {
+    id: 'fs',
+    label: 'FS',
+    src: arcanePortalFreeSpinsImage,
+    value: 50,
+    decimals: 0,
+    modifier: 'pf-crystal-shatter__prize--fs',
+  },
+  {
+    id: 'rr',
+    label: null,
+    src: arcanePortalRandomRewardImage,
+    value: null,
+    decimals: 0,
+    modifier: 'pf-crystal-shatter__prize--rr',
+  },
 ]
 
 function getPrizeSlots(count: number): PrizeSlot[] {
@@ -89,12 +129,12 @@ function useRevealPhase() {
   const [phase, setPhase] = useState<ShatterPhase>('descent')
   useEffect(() => {
     const timers = [
-      window.setTimeout(() => setPhase('charge'), CHARGE_START_MS),
-      window.setTimeout(() => setPhase('shatter'), SHATTER_START_MS),
-      window.setTimeout(() => setPhase('reveal'), REVEAL_START_MS),
-      window.setTimeout(() => setPhase('idle'), IDLE_START_MS),
+      setTimeout(() => setPhase('charge'), CHARGE_START_MS),
+      setTimeout(() => setPhase('shatter'), SHATTER_START_MS),
+      setTimeout(() => setPhase('reveal'), REVEAL_START_MS),
+      setTimeout(() => setPhase('idle'), IDLE_START_MS),
     ]
-    return () => timers.forEach(window.clearTimeout)
+    return () => timers.forEach((id) => clearTimeout(id))
   }, [])
   return phase
 }
@@ -111,7 +151,9 @@ function useCountUp(target: number, durationMs: number, delayMs: number, decimal
         const eased = 1 - (1 - t) ** 3
         const current = target * eased
         if (t < 1) {
-          setDisplay(decimals > 0 ? current.toFixed(decimals) : Math.round(current).toLocaleString())
+          setDisplay(
+            decimals > 0 ? current.toFixed(decimals) : Math.round(current).toLocaleString()
+          )
           rafRef.current = requestAnimationFrame(tick)
         } else {
           setDisplay(decimals > 0 ? target.toFixed(decimals) : target.toLocaleString())
@@ -119,7 +161,10 @@ function useCountUp(target: number, durationMs: number, delayMs: number, decimal
       }
       rafRef.current = requestAnimationFrame(tick)
     }, delayMs)
-    return () => { window.clearTimeout(timeout); cancelAnimationFrame(rafRef.current) }
+    return () => {
+      window.clearTimeout(timeout)
+      cancelAnimationFrame(rafRef.current)
+    }
   }, [target, durationMs, delayMs, decimals])
   return display
 }
@@ -202,8 +247,15 @@ function CrystalBody({ phase }: { phase: ShatterPhase }) {
         isGone
           ? { duration: 0.06 }
           : isCharging
-            ? { scale: { duration: 1.0, ease: 'easeInOut' }, default: { duration: 0.8, ease: [0.2, 0, 0.1, 1] as const } }
-            : { y: { duration: 0.8, ease: [0.2, 0, 0.1, 1] as const }, scale: { duration: 0.3, delay: 1.0, ease: 'easeInOut' }, default: { duration: 0.8, ease: [0.2, 0, 0.1, 1] as const } }
+            ? {
+                scale: { duration: 1.0, ease: 'easeInOut' },
+                default: { duration: 0.8, ease: [0.2, 0, 0.1, 1] as const },
+              }
+            : {
+                y: { duration: 0.8, ease: [0.2, 0, 0.1, 1] as const },
+                scale: { duration: 0.3, delay: 1.0, ease: 'easeInOut' },
+                default: { duration: 0.8, ease: [0.2, 0, 0.1, 1] as const },
+              }
       }
     >
       <m.img
@@ -319,7 +371,17 @@ function PrizeText({ label, amount, delay }: { label: string; amount: string; de
   )
 }
 
-function Prize({ config, slot, claimed, claimIndex }: { config: PrizeConfig; slot: PrizeSlot; claimed: boolean; claimIndex: number }) {
+function Prize({
+  config,
+  slot,
+  claimed,
+  claimIndex,
+}: {
+  config: PrizeConfig
+  slot: PrizeSlot
+  claimed: boolean
+  claimIndex: number
+}) {
   const amount = useCountUp(config.value ?? 0, 500, (slot.delay + 0.6) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
   const motes = useMemo(() => createOrbitDust(), [])
@@ -444,7 +506,13 @@ function CrystalShatterAnimation({ prizeCount }: { prizeCount: number }) {
           {claimed && <ClaimBurst />}
           <div className="pf-crystal-shatter__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} slot={slots[i]} claimed={claimed} claimIndex={i} />
+              <Prize
+                key={prize.id}
+                config={prize}
+                slot={slots[i]}
+                claimed={claimed}
+                claimIndex={i}
+              />
             ))}
           </div>
           <AnimatePresence>
@@ -456,7 +524,11 @@ function CrystalShatterAnimation({ prizeCount }: { prizeCount: number }) {
   )
 }
 
-function PrizeRevealCrystalShatterComponent({ prizeCount = DEFAULT_PRIZE_COUNT }: { prizeCount?: number }) {
+function PrizeRevealCrystalShatterComponent({
+  prizeCount = DEFAULT_PRIZE_COUNT,
+}: {
+  prizeCount?: number
+}) {
   return (
     <div
       className="pf-modal-celebration pf-crystal-shatter"

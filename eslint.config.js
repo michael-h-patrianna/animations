@@ -13,7 +13,7 @@ import { rules as animationRuleDefinitions } from './eslint-rules/animation-rule
 const animationRulesPlugin = { rules: animationRuleDefinitions }
 
 export default defineConfig([
-  globalIgnores(['dist', '.claude', '.agents']),
+  globalIgnores(['dist', 'coverage', '.claude', '.agents']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -52,6 +52,11 @@ export default defineConfig([
       ],
       'jsdoc/require-param': 'off',
       'jsdoc/require-returns': 'off',
+      // Allow _-prefixed variables to signal intentional discard (e.g. const [_unused, setSomething])
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { varsIgnorePattern: '^_', argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/no-restricted-types': [
         'error',
         {
@@ -123,12 +128,63 @@ export default defineConfig([
   },
   // Animation components: static arrays (character splits, particle lists) never reorder
   {
-    files: [
-      'src/components/**/css/**/*.{ts,tsx}',
-      'src/components/**/framer/**/*.{ts,tsx}',
-    ],
+    files: ['src/components/**/css/**/*.{ts,tsx}', 'src/components/**/framer/**/*.{ts,tsx}'],
     rules: {
       '@eslint-react/no-array-index-key': 'off',
+      // Animation components use the "collect-then-forEach" cleanup pattern:
+      //   const timers = [setTimeout(fn1, d1), ...]
+      //   return () => timers.forEach(id => clearTimeout(id))
+      // @eslint-react/web-api/no-leaked-timeout cannot statically trace this idiom
+      // and produces false positives on all array-collected timeouts. Real tracking
+      // bugs (setTimeout result not captured at all) are caught as "must be assigned"
+      // violations at authoring time, which ARE flagged in non-animation files.
+      '@eslint-react/web-api/no-leaked-timeout': 'off',
+      // Animation components intentionally call setState synchronously in mount-only
+      // effects to fire the initial animation cue (e.g. setAnimationKey(k+1) to
+      // trigger the first keyframe cycle). This is a deliberate design pattern —
+      // the alternative (lazy initializer) cannot handle side effects like
+      // setInterval/IntersectionObserver-triggered state. All occurrences here
+      // are in [] dep effects so there is no infinite-loop risk.
+      '@eslint-react/set-state-in-effect': 'off',
+      // Animation render functions are JSX-heavy by design: each variant requires
+      // DOM structure, inline motion props, and keyframe data co-located for clarity.
+      // Splitting into sub-components would create artificial decomposition with no
+      // reuse value and would break the self-contained component contract.
+      'max-lines-per-function': 'off',
+      // Animation components are documented through co-located .meta.ts files
+      // (title, description, tags) which are the canonical documentation source.
+      // Requiring JSDoc on these components produces empty /** */ stubs with no value.
+      'jsdoc/require-jsdoc': 'off',
+    },
+  },
+  // Animation helper files (shared parts, mock content, models) at group root
+  {
+    files: [
+      'src/components/**/Mock*.tsx',
+      'src/components/**/*Parts.tsx',
+      'src/components/**/*Components.tsx',
+      'src/components/**/fireworkModel.ts',
+      'src/components/**/utils.ts',
+      'src/components/**/cardSets.ts',
+    ],
+    rules: {
+      'jsdoc/require-jsdoc': 'off',
+    },
+  },
+  // Timer test utils: components intentionally leak timers to test the leak detector
+  {
+    files: ['src/__tests__/utils/timerTestUtils.test.tsx'],
+    rules: {
+      '@eslint-react/web-api/no-leaked-timeout': 'off',
+      '@eslint-react/web-api/no-leaked-interval': 'off',
+    },
+  },
+  // E2E test fixtures: Playwright's `use()` is not a React hook
+  {
+    files: ['tests/e2e/**/*.ts'],
+    rules: {
+      '@eslint-react/rules-of-hooks': 'off',
+      'jsdoc/require-jsdoc': 'off',
     },
   },
   // Motion (framer/) variants: no CSS animations + RN-portable constraints

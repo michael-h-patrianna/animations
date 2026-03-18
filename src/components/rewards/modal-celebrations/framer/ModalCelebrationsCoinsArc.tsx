@@ -204,8 +204,10 @@ function GlintDot({ g }: { g: Glint }) {
     <m.span
       style={{
         position: 'absolute',
-        left: '50%', marginLeft: g.x,
-        top: '65%', marginTop: g.y,
+        left: '50%',
+        marginLeft: g.x,
+        top: '65%',
+        marginTop: g.y,
         width: `${g.size}px`,
         height: `${g.size}px`,
         borderRadius: '50%',
@@ -226,8 +228,10 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '65%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '65%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,

@@ -11,17 +11,17 @@ export function RevealEffectsChestLidOpen() {
 
   return (
     <div className="reveal-chest-lid-container-css">
-        <div className="reveal-chest-wrapper-css">
-            <div className={`reveal-chest-lid-css ${isOpen ? 'open' : ''}`}>
-                <div className="reveal-chest-lid-top-css" />
-                <div className="reveal-chest-lock-css" />
-            </div>
-            <div className="reveal-chest-base-css" />
-            
-            <div className={`reveal-chest-content-css ${isOpen ? 'visible' : ''}`}>
-                <span className="reveal-chest-icon-css">👑</span>
-            </div>
+      <div className="reveal-chest-wrapper-css">
+        <div className={`reveal-chest-lid-css ${isOpen ? 'open' : ''}`}>
+          <div className="reveal-chest-lid-top-css" />
+          <div className="reveal-chest-lock-css" />
         </div>
+        <div className="reveal-chest-base-css" />
+
+        <div className={`reveal-chest-content-css ${isOpen ? 'visible' : ''}`}>
+          <span className="reveal-chest-icon-css">👑</span>
+        </div>
+      </div>
     </div>
   )
 }

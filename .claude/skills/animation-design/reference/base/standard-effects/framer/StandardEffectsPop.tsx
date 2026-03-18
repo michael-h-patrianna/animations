@@ -5,7 +5,7 @@ import '../shared.css'
 import './StandardEffectsPop.css'
 
 function StandardEffectsPopComponent() {
-const popVariants = {
+  const popVariants = {
     animate: {
       scale: [0, 1.2, 1],
       rotate: [0, 5, 0],
@@ -19,11 +19,7 @@ const popVariants = {
   }
   return (
     <div className="standard-demo-container">
-      <m.div
-        className="standard-demo-element pop-element"
-        variants={popVariants}
-        animate="animate"
-      >
+      <m.div className="standard-demo-element pop-element" variants={popVariants} animate="animate">
         <div className="demo-text">Pop</div>
       </m.div>
     </div>
@@ -34,4 +30,3 @@ const popVariants = {
  * Memoized StandardEffectsPop to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsPop = memo(StandardEffectsPopComponent)
-

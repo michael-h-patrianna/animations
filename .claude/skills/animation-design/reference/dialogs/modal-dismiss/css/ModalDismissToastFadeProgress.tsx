@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { MockContent } from './MockContent'
 
-
 export function ModalDismissToastFadeProgress() {
   const toastRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -70,4 +69,3 @@ export function ModalDismissToastFadeProgress() {
     />
   )
 }
-

@@ -40,13 +40,10 @@ function TextEffectsCharacterRevealComponent() {
         </div>
       </div>
 
-      <div className="tfx-char-reveal-subtitle">
-        {subtitle}
-      </div>
+      <div className="tfx-char-reveal-subtitle">{subtitle}</div>
     </div>
   )
 }
 
 /** Memoized to prevent re-renders in grid layouts. */
 export const TextEffectsCharacterReveal = memo(TextEffectsCharacterRevealComponent)
-

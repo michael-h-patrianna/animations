@@ -1,7 +1,6 @@
 /* Styles for ModalOrchestrationGridHighlight (Framer version) */
 
 .pf-grid {
-
   --modal-orchestration-grid-highlight-color: rgb(255 255 255 / 90%);
   display: grid;
   gap: 12px;

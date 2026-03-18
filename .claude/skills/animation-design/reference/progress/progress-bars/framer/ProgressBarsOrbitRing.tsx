@@ -132,10 +132,7 @@ export function ProgressBarsOrbitRing() {
   }
 
   return (
-    <div
-      className="pf-progress-demo pf-orbit-ring"
-      data-animation-id="progress-bars__orbit-ring"
-    >
+    <div className="pf-progress-demo pf-orbit-ring" data-animation-id="progress-bars__orbit-ring">
       <div className="track-container">
         <div className="pf-progress-track">
           {/* Main fill bar */}
@@ -166,42 +163,40 @@ export function ProgressBarsOrbitRing() {
                 />
 
                 {/* Orbit rings - only show when milestone is active */}
-                {isActive && milestone.rings.map((ring, ringIndex) => {
-                  const particles = getParticlePositions(ring.particleCount, ring.radius)
+                {isActive &&
+                  milestone.rings.map((ring, ringIndex) => {
+                    const particles = getParticlePositions(ring.particleCount, ring.radius)
 
-                  return (
-                    <div
-                      key={ringIndex}
-                      className="orbit-system"
-                    >
-                      {/* Rotating container for this orbit ring */}
-                      <m.div
-                        className="orbit-ring"
-                        initial={{ rotate: 0 }}
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: ring.duration,
-                          repeat: Infinity,
-                          ease: 'linear' as const,
-                        }}
-                      >
-                        {/* Particles positioned around the orbit */}
-                        {particles.map((particle, particleIndex) => (
-                          <m.div
-                            key={particleIndex}
-                            className="orbit-particle"
-                            style={{
-                              transform: `translate(${particle.x}px, ${particle.y}px)`,
-                            }}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.3 }}
-                          />
-                        ))}
-                      </m.div>
-                    </div>
-                  )
-                })}
+                    return (
+                      <div key={ringIndex} className="orbit-system">
+                        {/* Rotating container for this orbit ring */}
+                        <m.div
+                          className="orbit-ring"
+                          initial={{ rotate: 0 }}
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: ring.duration,
+                            repeat: Infinity,
+                            ease: 'linear' as const,
+                          }}
+                        >
+                          {/* Particles positioned around the orbit */}
+                          {particles.map((particle, particleIndex) => (
+                            <m.div
+                              key={particleIndex}
+                              className="orbit-particle"
+                              style={{
+                                transform: `translate(${particle.x}px, ${particle.y}px)`,
+                              }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          ))}
+                        </m.div>
+                      </div>
+                    )
+                  })}
               </div>
             )
           })}

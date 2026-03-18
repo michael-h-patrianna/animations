@@ -172,10 +172,10 @@ export function ProgressBarsOrbitRing() {
               orbitRing.appendChild(particleEl)
 
               // Fade in particle
-              const fadeInAnim = particleEl.animate(
-                [{ opacity: '0' }, { opacity: '1' }],
-                { duration: 300, fill: 'forwards' }
-              )
+              const fadeInAnim = particleEl.animate([{ opacity: '0' }, { opacity: '1' }], {
+                duration: 300,
+                fill: 'forwards',
+              })
               animationsRef.current.push(fadeInAnim)
             })
 

@@ -12,8 +12,7 @@ function ButtonEffectsPressSquashComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
   const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   const handleClick = () => {
     setIsAnimating(true)

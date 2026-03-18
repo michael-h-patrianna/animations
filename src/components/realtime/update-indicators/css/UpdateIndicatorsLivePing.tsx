@@ -1,10 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsLivePing.css'
 
-
-/**
- *
- */
 export function UpdateIndicatorsLivePing() {
   const iconRef = useRef<HTMLDivElement>(null)
 
@@ -37,4 +33,3 @@ export function UpdateIndicatorsLivePing() {
     </div>
   )
 }
-

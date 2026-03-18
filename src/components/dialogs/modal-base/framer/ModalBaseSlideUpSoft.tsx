@@ -3,9 +3,6 @@ import * as m from 'motion/react-m'
 import { MockModalContent } from '../MockModalContent'
 import { overlayStyles } from '@/motion/primitives'
 
-/**
- *
- */
 export function ModalBaseSlideUpSoft() {
   return (
     <m.div

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressSegmented.css'
 
-
 export function ProgressBarsProgressSegmented() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -152,4 +151,3 @@ export function ProgressBarsProgressSegmented() {
     </div>
   )
 }
-

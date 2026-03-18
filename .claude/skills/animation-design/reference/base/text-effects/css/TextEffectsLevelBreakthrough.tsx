@@ -69,16 +69,11 @@ function TextEffectsLevelBreakthroughComponent({
       <div className="tfx-breakthrough-surge tfx-breakthrough-surge-outer" />
       <div className="tfx-breakthrough-surge tfx-breakthrough-surge-inner" />
       <div className="tfx-breakthrough-text-wrapper">
-        <div className="tfx-breakthrough-text tfx-breakthrough-text-start">
-          {startText}
-        </div>
-        <div className="tfx-breakthrough-text tfx-breakthrough-text-end">
-          {endText}
-        </div>
+        <div className="tfx-breakthrough-text tfx-breakthrough-text-start">{startText}</div>
+        <div className="tfx-breakthrough-text tfx-breakthrough-text-end">{endText}</div>
       </div>
     </div>
   )
 }
 
 export const TextEffectsLevelBreakthrough = memo(TextEffectsLevelBreakthroughComponent)
-

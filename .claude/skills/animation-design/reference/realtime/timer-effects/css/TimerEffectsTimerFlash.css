@@ -21,7 +21,9 @@
   min-height: 30px;
   position: relative;
   will-change: transform, background-color;
-  animation: timer-flash-pill 32s linear forwards, timer-flash-pulse 1s ease-in-out infinite;
+  animation:
+    timer-flash-pill 32s linear forwards,
+    timer-flash-pulse 1s ease-in-out infinite;
 }
 
 .pf-timer-flash__glow {
@@ -33,7 +35,9 @@
   transform: scale(0.95);
   pointer-events: none;
   z-index: -1;
-  animation: timer-flash-glow 32s linear forwards, timer-flash-glow-pulse 1s ease-in-out infinite;
+  animation:
+    timer-flash-glow 32s linear forwards,
+    timer-flash-glow-pulse 1s ease-in-out infinite;
 }
 
 .pf-timer-flash__time {

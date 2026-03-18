@@ -21,7 +21,7 @@
 .card-flip-card--flipped {
   /* Anticipation animation followed by flip animation */
   animation:
-    card-flip-anticipation 80ms cubic-bezier(0.4, 0.0, 0.6, 1) forwards,
+    card-flip-anticipation 80ms cubic-bezier(0.4, 0, 0.6, 1) forwards,
     card-flip-rotate 600ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 80ms forwards;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .card-flip-face--back {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
   border: 3px solid rgba(255, 255, 255, 0.3);
   transform: rotateY(180deg);
   opacity: 0;
@@ -110,7 +110,10 @@
   gap: 12px;
   color: white;
   text-align: center;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .card-flip-mystery-icon {

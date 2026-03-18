@@ -1,10 +1,10 @@
 /* ═══ ModalCelebrationsTreasureParticles — Treasure Eruption (CSS variant) ═══ */
 
 /* Theme */
-[data-animation-id="modal-celebrations__treasure-particles"].pf-celebration {
+[data-animation-id='modal-celebrations__treasure-particles'].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, rgb(255 215 0 / 10%), rgb(60 20 10 / 90%));
-  border: 1px solid rgb(255 215 0 / 12%);
+  background: linear-gradient(180deg, var(--pf-anim-gold-10), var(--pf-anim-treasure-bg));
+  border: 1px solid var(--pf-anim-gold-12);
 }
 
 /*
@@ -19,73 +19,71 @@
  */
 @keyframes tp-coin {
   0% {
-    transform: translateX(0) translateY(0)
-      perspective(300px) rotateY(0deg) scale(0.2);
+    transform: translateX(0) translateY(0) perspective(300px) rotateY(0deg) scale(0.2);
     opacity: 0;
   }
   5% {
     transform: translateX(calc(var(--vx) * 0.05))
-      translateY(calc(var(--vy) * 0.05 + var(--grav) * 0.0013))
-      perspective(300px) rotateY(calc(var(--spin) * 0.05 * 1deg)) scale(1);
+      translateY(calc(var(--vy) * 0.05 + var(--grav) * 0.0013)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.05 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   10% {
     transform: translateX(calc(var(--vx) * 0.1))
-      translateY(calc(var(--vy) * 0.1 + var(--grav) * 0.005))
-      perspective(300px) rotateY(calc(var(--spin) * 0.1 * 1deg)) scale(1);
+      translateY(calc(var(--vy) * 0.1 + var(--grav) * 0.005)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.1 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   18% {
     transform: translateX(calc(var(--vx) * 0.18))
-      translateY(calc(var(--vy) * 0.18 + var(--grav) * 0.0162))
-      perspective(300px) rotateY(calc(var(--spin) * 0.18 * 1deg)) scale(1);
+      translateY(calc(var(--vy) * 0.18 + var(--grav) * 0.0162)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.18 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   28% {
     transform: translateX(calc(var(--vx) * 0.28))
-      translateY(calc(var(--vy) * 0.28 + var(--grav) * 0.0392))
-      perspective(300px) rotateY(calc(var(--spin) * 0.28 * 1deg)) scale(1);
+      translateY(calc(var(--vy) * 0.28 + var(--grav) * 0.0392)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.28 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   40% {
     transform: translateX(calc(var(--vx) * 0.4))
-      translateY(calc(var(--vy) * 0.4 + var(--grav) * 0.08))
-      perspective(300px) rotateY(calc(var(--spin) * 0.4 * 1deg)) scale(1);
+      translateY(calc(var(--vy) * 0.4 + var(--grav) * 0.08)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.4 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   52% {
     transform: translateX(calc(var(--vx) * 0.52))
-      translateY(calc(var(--vy) * 0.52 + var(--grav) * 0.1352))
-      perspective(300px) rotateY(calc(var(--spin) * 0.52 * 1deg)) scale(1);
+      translateY(calc(var(--vy) * 0.52 + var(--grav) * 0.1352)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.52 * 1deg)) scale(1);
     opacity: calc(var(--om, 1) * 0.9);
   }
   65% {
     transform: translateX(calc(var(--vx) * 0.65))
-      translateY(calc(var(--vy) * 0.65 + var(--grav) * 0.2113))
-      perspective(300px) rotateY(calc(var(--spin) * 0.65 * 1deg)) scale(0.85);
+      translateY(calc(var(--vy) * 0.65 + var(--grav) * 0.2113)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.65 * 1deg)) scale(0.85);
     opacity: calc(var(--om, 1) * 0.7);
   }
   78% {
     transform: translateX(calc(var(--vx) * 0.78))
-      translateY(calc(var(--vy) * 0.78 + var(--grav) * 0.3042))
-      perspective(300px) rotateY(calc(var(--spin) * 0.78 * 1deg)) scale(0.6);
+      translateY(calc(var(--vy) * 0.78 + var(--grav) * 0.3042)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.78 * 1deg)) scale(0.6);
     opacity: calc(var(--om, 1) * 0.45);
   }
   88% {
     transform: translateX(calc(var(--vx) * 0.88))
-      translateY(calc(var(--vy) * 0.88 + var(--grav) * 0.3872))
-      perspective(300px) rotateY(calc(var(--spin) * 0.88 * 1deg)) scale(0.35);
+      translateY(calc(var(--vy) * 0.88 + var(--grav) * 0.3872)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.88 * 1deg)) scale(0.35);
     opacity: calc(var(--om, 1) * 0.25);
   }
   95% {
     transform: translateX(calc(var(--vx) * 0.95))
-      translateY(calc(var(--vy) * 0.95 + var(--grav) * 0.4513))
-      perspective(300px) rotateY(calc(var(--spin) * 0.95 * 1deg)) scale(0.15);
+      translateY(calc(var(--vy) * 0.95 + var(--grav) * 0.4513)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.95 * 1deg)) scale(0.15);
     opacity: calc(var(--om, 1) * 0.1);
   }
   100% {
-    transform: translateX(var(--vx))
-      translateY(calc(var(--vy) + var(--grav) * 0.5))
+    transform: translateX(var(--vx)) translateY(calc(var(--vy) + var(--grav) * 0.5))
       perspective(300px) rotateY(calc(var(--spin) * 1deg)) scale(0);
     opacity: 0;
   }
@@ -94,8 +92,7 @@
 /* Gem burst — rotate (2D tumble) instead of rotateY */
 @keyframes tp-gem {
   0% {
-    transform: translateX(0) translateY(0)
-      rotate(0deg) scale(0.2);
+    transform: translateX(0) translateY(0) rotate(0deg) scale(0.2);
     opacity: 0;
   }
   5% {
@@ -106,8 +103,8 @@
   }
   10% {
     transform: translateX(calc(var(--vx) * 0.1))
-      translateY(calc(var(--vy) * 0.1 + var(--grav) * 0.005))
-      rotate(calc(var(--spin) * 0.1 * 1deg)) scale(1.1);
+      translateY(calc(var(--vy) * 0.1 + var(--grav) * 0.005)) rotate(calc(var(--spin) * 0.1 * 1deg))
+      scale(1.1);
     opacity: 1;
   }
   18% {
@@ -124,8 +121,8 @@
   }
   40% {
     transform: translateX(calc(var(--vx) * 0.4))
-      translateY(calc(var(--vy) * 0.4 + var(--grav) * 0.08))
-      rotate(calc(var(--spin) * 0.4 * 1deg)) scale(1);
+      translateY(calc(var(--vy) * 0.4 + var(--grav) * 0.08)) rotate(calc(var(--spin) * 0.4 * 1deg))
+      scale(1);
     opacity: 1;
   }
   52% {
@@ -159,8 +156,7 @@
     opacity: 0.1;
   }
   100% {
-    transform: translateX(var(--vx))
-      translateY(calc(var(--vy) + var(--grav) * 0.5))
+    transform: translateX(var(--vx)) translateY(calc(var(--vy) + var(--grav) * 0.5))
       rotate(calc(var(--spin) * 1deg)) scale(0);
     opacity: 0;
   }

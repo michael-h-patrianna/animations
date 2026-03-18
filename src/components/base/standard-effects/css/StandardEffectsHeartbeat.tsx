@@ -16,4 +16,3 @@ function StandardEffectsHeartbeatComponent() {
  * Memoized StandardEffectsHeartbeat to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsHeartbeat = memo(StandardEffectsHeartbeatComponent)
-

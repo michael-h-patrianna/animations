@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import './ProgressBarsXpAccumulation.css';
-
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import './ProgressBarsXpAccumulation.css'
 
 // Local type for milestone halo animation entries
 type MilestoneAnimation = { id: number; threshold: number }
@@ -68,12 +67,12 @@ function MultiplierBadge({ multiplier }: { multiplier: number }) {
     const animation = element.animate(
       [
         { transform: 'scale(0.4)', opacity: 0 },
-        { transform: 'scale(1)', opacity: 1 }
+        { transform: 'scale(1)', opacity: 1 },
       ],
       {
         duration: 380,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -102,13 +101,11 @@ function MarkerIndicator({ isActive }: { isActive: boolean }) {
 
     const element = ref.current
     const animation = element.animate(
-      [
-        { opacity: isActive ? 1 : 0.38, transform: `scaleY(${isActive ? 1 : 0.7})` }
-      ],
+      [{ opacity: isActive ? 1 : 0.38, transform: `scaleY(${isActive ? 1 : 0.7})` }],
       {
         duration: 300,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -118,11 +115,7 @@ function MarkerIndicator({ isActive }: { isActive: boolean }) {
   }, [isActive])
 
   return (
-    <div
-      ref={ref}
-      className="pf-marker__indicator"
-      style={{ willChange: 'opacity, transform' }}
-    />
+    <div ref={ref} className="pf-marker__indicator" style={{ willChange: 'opacity, transform' }} />
   )
 }
 
@@ -134,29 +127,18 @@ function MarkerDot({ isActive }: { isActive: boolean }) {
     if (!ref.current) return
 
     const element = ref.current
-    const animation = element.animate(
-      [
-        { transform: `scale(${isActive ? 1 : 0.9})` }
-      ],
-      {
-        duration: 320,
-        easing: 'ease-out',
-        fill: 'forwards'
-      }
-    )
+    const animation = element.animate([{ transform: `scale(${isActive ? 1 : 0.9})` }], {
+      duration: 320,
+      easing: 'ease-out',
+      fill: 'forwards',
+    })
 
     return () => {
       animation.cancel()
     }
   }, [isActive])
 
-  return (
-    <div
-      ref={ref}
-      className="pf-marker__dot"
-      style={{ willChange: 'transform' }}
-    />
-  )
+  return <div ref={ref} className="pf-marker__dot" style={{ willChange: 'transform' }} />
 }
 
 // Helper component for marker label animations
@@ -167,16 +149,11 @@ function MarkerLabel({ isActive, children }: { isActive: boolean; children: Reac
     if (!ref.current) return
 
     const element = ref.current
-    const animation = element.animate(
-      [
-        { opacity: isActive ? 1 : 0.42 }
-      ],
-      {
-        duration: 250,
-        easing: 'ease-out',
-        fill: 'forwards'
-      }
-    )
+    const animation = element.animate([{ opacity: isActive ? 1 : 0.42 }], {
+      duration: 250,
+      easing: 'ease-out',
+      fill: 'forwards',
+    })
 
     return () => {
       animation.cancel()
@@ -184,11 +161,7 @@ function MarkerLabel({ isActive, children }: { isActive: boolean; children: Reac
   }, [isActive])
 
   return (
-    <span
-      ref={ref}
-      className="pf-marker__label"
-      style={{ willChange: 'opacity' }}
-    >
+    <span ref={ref} className="pf-marker__label" style={{ willChange: 'opacity' }}>
       {children}
     </span>
   )
@@ -205,12 +178,12 @@ function MilestonePulse({ threshold, isBoundary }: { threshold: number; isBounda
     const animation = element.animate(
       [
         { transform: 'scale(0.8)', opacity: 0.6 },
-        { transform: 'scale(1.6)', opacity: 0 }
+        { transform: 'scale(1.6)', opacity: 0 },
       ],
       {
         duration: 800,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -240,12 +213,12 @@ function MilestoneHalo({ threshold }: { threshold: number }) {
     const animation = element.animate(
       [
         { transform: 'scale(0.55)', opacity: 0.6 },
-        { transform: 'scale(1.3)', opacity: 0 }
+        { transform: 'scale(1.3)', opacity: 0 },
       ],
       {
         duration: 900,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -277,12 +250,12 @@ function FloatingXPDisplay({ floating }: { floating: FloatingXP }) {
         { opacity: 0, transform: 'translateY(0px) scale(0.6)' },
         { opacity: 1, transform: 'translateY(-18px) scale(1.05)', offset: 0.28 },
         { opacity: 1, transform: 'translateY(-36px) scale(1)', offset: 0.68 },
-        { opacity: 0, transform: 'translateY(-52px) scale(0.92)' }
+        { opacity: 0, transform: 'translateY(-52px) scale(0.92)' },
       ],
       {
         duration: 1450,
         easing: 'ease-out',
-        fill: 'forwards'
+        fill: 'forwards',
       }
     )
 
@@ -298,7 +271,7 @@ function FloatingXPDisplay({ floating }: { floating: FloatingXP }) {
       className="pf-floating-xp"
       style={{
         left: `calc(${Math.min(floating.percent, 100)}% + ${floating.offset}px)`,
-        willChange: 'opacity, transform'
+        willChange: 'opacity, transform',
       }}
     >
       +{Math.round(floating.value)} XP
@@ -399,13 +372,10 @@ export function ProgressBarsXpAccumulation() {
       onComplete?: () => void
     ): Animation => {
       const element = document.createElement('div')
-      const animation = element.animate(
-        [{ opacity: 0 }, { opacity: 1 }],
-        {
-          duration: duration * 1000,
-          easing: cubicBezier(ease[0], ease[1], ease[2], ease[3]),
-        }
-      )
+      const animation = element.animate([{ opacity: 0 }, { opacity: 1 }], {
+        duration: duration * 1000,
+        easing: cubicBezier(ease[0], ease[1], ease[2], ease[3]),
+      })
 
       const startTime = performance.now()
       const range = to - from
@@ -489,7 +459,7 @@ export function ProgressBarsXpAccumulation() {
 
       // Reset progress fill transform
       if (progressFillRef.current) {
-        progressFillRef.current.style.transform = `scaleX(${(INITIAL_XP / MAX_XP) * 100 / 100})`
+        progressFillRef.current.style.transform = `scaleX(${((INITIAL_XP / MAX_XP) * 100) / 100})`
       }
 
       setFloatingXP([])
@@ -679,7 +649,7 @@ export function ProgressBarsXpAccumulation() {
             className="pf-progress-fill"
             style={{
               transform: `scaleX(${Math.max(progressDisplay, 0) / 100})`,
-              willChange: 'transform'
+              willChange: 'transform',
             }}
           />
 
@@ -726,4 +696,3 @@ export function ProgressBarsXpAccumulation() {
     </div>
   )
 }
-

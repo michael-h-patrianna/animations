@@ -1,4 +1,5 @@
 # Completion checklist
+
 - Read impacted code paths before editing (no guessing).
 - Verify with concrete commands before claiming success:
   - Prefer `npm run lint` and relevant targeted checks.

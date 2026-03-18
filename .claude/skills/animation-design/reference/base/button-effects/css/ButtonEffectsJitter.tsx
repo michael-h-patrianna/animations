@@ -16,4 +16,3 @@ function ButtonEffectsJitterComponent() {
 }
 
 export const ButtonEffectsJitter = memo(ButtonEffectsJitterComponent)
-

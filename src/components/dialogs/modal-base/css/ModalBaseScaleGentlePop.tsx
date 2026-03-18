@@ -2,10 +2,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseScaleGentlePop.css'
 
-
-/**
- *
- */
 export function ModalBaseScaleGentlePop() {
   return (
     <div
@@ -20,4 +16,3 @@ export function ModalBaseScaleGentlePop() {
     </div>
   )
 }
-

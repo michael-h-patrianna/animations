@@ -1,9 +1,5 @@
 import './RealtimeDataWinTicker.css'
 
-
-/**
- *
- */
 export function RealtimeDataWinTicker() {
   const tickerText = 'Mega Win! +5,000 credits · Daily streak unlocked · Bonus wheel ready · '
 
@@ -17,4 +13,3 @@ export function RealtimeDataWinTicker() {
     </div>
   )
 }
-

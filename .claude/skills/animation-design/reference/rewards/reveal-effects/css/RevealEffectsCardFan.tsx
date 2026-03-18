@@ -21,12 +21,12 @@ export function RevealEffectsCardFan() {
         <div
           key={card.id}
           className={`reveal-card-fan-item-css card-${index + 1} ${isOpen ? 'open' : ''}`}
-          style={{ 
+          style={{
             background: card.color,
-            zIndex: index === 1 ? 10 : 1 
+            zIndex: index === 1 ? 10 : 1,
           }}
         >
-           <span className="reveal-card-fan-icon-css">{card.icon}</span>
+          <span className="reveal-card-fan-icon-css">{card.icon}</span>
         </div>
       ))}
     </div>

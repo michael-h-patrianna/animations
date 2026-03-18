@@ -41,7 +41,9 @@ interface TextEffectsLightSweepDrawProps {
  *
  * @see TextEffectsLightSweepDraw.css for keyframe definitions and styling
  */
-function TextEffectsLightSweepDrawComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsLightSweepDrawProps) {
+function TextEffectsLightSweepDrawComponent({
+  text = 'LOREM IPSUM DOLOR',
+}: TextEffectsLightSweepDrawProps) {
   const letters = React.useMemo(() => Array.from(text), [text])
 
   return (
@@ -72,4 +74,3 @@ function TextEffectsLightSweepDrawComponent({ text = 'LOREM IPSUM DOLOR' }: Text
 export const TextEffectsLightSweepDraw = memo(TextEffectsLightSweepDrawComponent)
 
 export default TextEffectsLightSweepDraw
-

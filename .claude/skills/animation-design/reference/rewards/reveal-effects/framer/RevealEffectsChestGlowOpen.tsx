@@ -22,48 +22,58 @@ export function RevealEffectsChestGlowOpen() {
 
   return (
     <div className="reveal-chest-glow-container">
-        <div className="reveal-chest-glow-wrapper">
-            {/* Aura Background (Only during reveal) */}
-            <m.div 
-                className="reveal-chest-glow-aura"
-                initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
-                animate={phase === 'reveal' ? { scale: 1.5, opacity: [0.4, 0.6, 0.4] } : { scale: 0, opacity: 0 }}
-                transition={{ duration: 2, repeat: Infinity }}
-            />
+      <div className="reveal-chest-glow-wrapper">
+        {/* Aura Background (Only during reveal) */}
+        <m.div
+          className="reveal-chest-glow-aura"
+          initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
+          animate={
+            phase === 'reveal' ? { scale: 1.5, opacity: [0.4, 0.6, 0.4] } : { scale: 0, opacity: 0 }
+          }
+          transition={{ duration: 2, repeat: Infinity }}
+        />
 
-            {/* Mystery Box */}
-            <m.img 
-                src={boxImg}
-                className="reveal-chest-box"
-                animate={phase === 'shake' ? { 
-                    x: [-2, 2, -2, 2, 0],
-                    rotate: [-2, 2, -2, 2, 0] 
-                } : phase === 'reveal' ? { scale: 0, opacity: 0 } : {}}
-                transition={{ duration: 0.4, repeat: 2 }}
-            />
+        {/* Mystery Box */}
+        <m.img
+          src={boxImg}
+          className="reveal-chest-box"
+          animate={
+            phase === 'shake'
+              ? {
+                  x: [-2, 2, -2, 2, 0],
+                  rotate: [-2, 2, -2, 2, 0],
+                }
+              : phase === 'reveal'
+                ? { scale: 0, opacity: 0 }
+                : {}
+          }
+          transition={{ duration: 0.4, repeat: 2 }}
+        />
 
-            {/* Flash Effect */}
-            <m.div 
-                className="reveal-chest-flash"
-                initial={{ x: '-50%', y: '-50%', opacity: 0 }}
-                animate={phase === 'flash' || phase === 'reveal' ? { opacity: [0, 1, 0] } : { opacity: 0 }}
-                transition={{ duration: 0.4 }}
-            />
+        {/* Flash Effect */}
+        <m.div
+          className="reveal-chest-flash"
+          initial={{ x: '-50%', y: '-50%', opacity: 0 }}
+          animate={
+            phase === 'flash' || phase === 'reveal' ? { opacity: [0, 1, 0] } : { opacity: 0 }
+          }
+          transition={{ duration: 0.4 }}
+        />
 
-            {/* Final Prize */}
-            <m.img 
-                src={diamondImg}
-                className="reveal-chest-prize"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={phase === 'reveal' ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                transition={{ 
-                    type: "spring", 
-                    stiffness: 200, 
-                    damping: 18,
-                    delay: 0.1 
-                }}
-            />
-        </div>
+        {/* Final Prize */}
+        <m.img
+          src={diamondImg}
+          className="reveal-chest-prize"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={phase === 'reveal' ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+          transition={{
+            type: 'spring',
+            stiffness: 200,
+            damping: 18,
+            delay: 0.1,
+          }}
+        />
+      </div>
     </div>
   )
 }

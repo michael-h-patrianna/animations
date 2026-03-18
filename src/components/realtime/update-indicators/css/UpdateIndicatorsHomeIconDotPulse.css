@@ -1,6 +1,5 @@
 /* Home icon with pulsing notification dot (gentle) */
 .pf-update-indicator--icon {
-
   --update-indicators-home-icon-dot-pulse-bg: #ff4967;
   --update-indicators-home-icon-dot-pulse-shadow-1: rgb(255 73 103 / 0%);
   --update-indicators-home-icon-dot-pulse-shadow-2: rgb(255 73 103 / 25%);

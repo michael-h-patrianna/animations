@@ -5,4 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Dual Convergence',
   description: 'Two lights chase from opposite sides, meeting with a dramatic collision flash.',
   tags: ['css'],
-};
+  controls: 'lights',
+}

@@ -6,7 +6,7 @@ import './UpdateIndicatorsHomeIconDotPulse.css'
 
 export function UpdateIndicatorsHomeIconDotPulse() {
   const [key, setKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 10000)
@@ -27,12 +27,12 @@ useEffect(() => {
             boxShadow: [
               '0 0 0 0 rgba(255, 73, 103, 0)',
               '0 0 0 8px rgba(255, 73, 103, 0.25)',
-              '0 0 0 0 rgba(255, 73, 103, 0)'
-            ]
+              '0 0 0 0 rgba(255, 73, 103, 0)',
+            ],
           }}
           transition={{
             duration: 1.4,
-            ease: easeInOut
+            ease: easeInOut,
           }}
         />
       </div>

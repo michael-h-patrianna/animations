@@ -1,8 +1,5 @@
 import * as m from 'motion/react-m'
 
-/**
- *
- */
 export function ModalOrchestrationSpringPhysics() {
   const tiles = Array.from({ length: 6 }, (_, index) => ({
     id: index,

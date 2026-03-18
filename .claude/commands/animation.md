@@ -75,7 +75,6 @@ Secondary and Tertiary actions should be significantly less prominent than prima
 - Loading spinner accompaniment during form submissions
 - Contextual tooltip appearances during hover states
 
-
 **Principle 8: Make it Look Good**
 Create animations that are pleasant, engaging, and emotionally resonant with users.
 
@@ -84,13 +83,16 @@ Create animations that are pleasant, engaging, and emotionally resonant with use
 This is a **React web project** with future React Native portability as a requirement. Write web code that avoids RN-incompatible features.
 
 ### Current Stack
+
 - **Web**: Motion, CSS, React (current implementation)
 
 ### Future Compatibility
+
 - **React Native**: Will use Moti, Reanimated, react-native-linear-gradient
 - Web code must avoid features that don't translate to React Native
 
 **✅ ALLOWED** (cross-platform safe):
+
 - Transforms: `translateX`, `translateY`, `scale`, `rotate`
 - Opacity animations
 - **Linear gradients ONLY** (via react-native-linear-gradient)
@@ -98,6 +100,7 @@ This is a **React web project** with future React Native portability as a requir
 - Layout animations (position, size)
 
 **❌ FORBIDDEN** (web-only, breaks React Native):
+
 - Blur animations or CSS filters
 - Radial/conic gradients
 - Box shadows, text shadows

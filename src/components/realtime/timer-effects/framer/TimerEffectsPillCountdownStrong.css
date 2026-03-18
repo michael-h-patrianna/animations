@@ -1,6 +1,5 @@
 /* Strong intensity: stronger heartbeat, shake bursts, glow */
 .pf-pill-timer {
-
   --timer-effects-pill-countdown-strong-border: rgb(255 255 255 / 22%);
   --timer-effects-pill-countdown-strong-color-1: rgb(0 0 0 / 90%);
   --timer-effects-pill-countdown-strong-color-2: #9ca3af;

@@ -21,7 +21,9 @@
   min-height: 30px;
   position: relative;
   will-change: transform, background-color;
-  animation: timer-flash-soft-pill 32s linear forwards, timer-flash-soft-shake 0.6s ease-out;
+  animation:
+    timer-flash-soft-pill 32s linear forwards,
+    timer-flash-soft-shake 0.6s ease-out;
 }
 
 .pf-timer-flash-soft__glow {

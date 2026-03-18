@@ -19,14 +19,14 @@ export function RevealEffectsPrizeFloatLand() {
 
   return (
     <div className="reveal-prize-float-container">
-       <m.div 
-         className="reveal-prize-float-item"
-         initial={{ y: -100, opacity: 0 }}
-         animate={isVisible ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
-         transition={{ type: "spring", damping: 12, stiffness: 100 }}
-       >
-         <span className="reveal-prize-float-icon">🎈</span>
-       </m.div>
+      <m.div
+        className="reveal-prize-float-item"
+        initial={{ y: -100, opacity: 0 }}
+        animate={isVisible ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
+        transition={{ type: 'spring', damping: 12, stiffness: 100 }}
+      >
+        <span className="reveal-prize-float-icon">🎈</span>
+      </m.div>
     </div>
   )
 }

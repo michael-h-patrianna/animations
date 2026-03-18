@@ -109,7 +109,8 @@ function ConfettiPiece({ p }: { p: Particle }) {
     <m.span
       className={`pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
       style={{
-        left: '50%', marginLeft: p.originX,
+        left: '50%',
+        marginLeft: p.originX,
         top: '55%',
         background: p.color,
         transformStyle: 'preserve-3d' as const,
@@ -164,8 +165,10 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '55%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '55%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

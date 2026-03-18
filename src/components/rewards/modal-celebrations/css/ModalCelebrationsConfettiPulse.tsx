@@ -50,9 +50,36 @@ type Sparkle = {
 /* ─── Constants ─── */
 
 const WAVES: WaveConfig[] = [
-  { delay: 0, maxScale: 7, color: CELEBRATION_COLORS[0], particleCount: 12, spawnRMin: 20, spawnRMax: 45, driftMin: 22, driftMax: 40 },
-  { delay: 0.35, maxScale: 9, color: CELEBRATION_COLORS[2], particleCount: 14, spawnRMin: 35, spawnRMax: 65, driftMin: 28, driftMax: 50 },
-  { delay: 0.65, maxScale: 11, color: CELEBRATION_COLORS[3], particleCount: 16, spawnRMin: 50, spawnRMax: 85, driftMin: 32, driftMax: 55 },
+  {
+    delay: 0,
+    maxScale: 7,
+    color: CELEBRATION_COLORS[0],
+    particleCount: 12,
+    spawnRMin: 20,
+    spawnRMax: 45,
+    driftMin: 22,
+    driftMax: 40,
+  },
+  {
+    delay: 0.35,
+    maxScale: 9,
+    color: CELEBRATION_COLORS[2],
+    particleCount: 14,
+    spawnRMin: 35,
+    spawnRMax: 65,
+    driftMin: 28,
+    driftMax: 50,
+  },
+  {
+    delay: 0.65,
+    maxScale: 11,
+    color: CELEBRATION_COLORS[3],
+    particleCount: 16,
+    spawnRMin: 50,
+    spawnRMax: 85,
+    driftMin: 32,
+    driftMax: 55,
+  },
 ]
 
 /* ─── Generators ─── */
@@ -170,10 +197,7 @@ export function ModalCelebrationsConfettiPulse() {
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">
-      <div
-        className="pf-celebration__glow"
-        style={{ animation: 'cp-glow 2000ms ease-out both' }}
-      />
+      <div className="pf-celebration__glow" style={{ animation: 'cp-glow 2000ms ease-out both' }} />
       <div
         className="pf-celebration__flash"
         style={{ animation: 'cp-flash 1400ms ease-out both' }}

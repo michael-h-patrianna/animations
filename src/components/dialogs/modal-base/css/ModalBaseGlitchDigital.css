@@ -1,7 +1,6 @@
 /* GPU-accelerated glitch animation using transforms and opacity only */
 
 .modal-base-tfx-glitchdigital {
-
   --modal-base-glitch-digital-bg-1: rgb(236 195 255 / 8%);
   --modal-base-glitch-digital-border-1: rgb(236 195 255 / 12%);
   --modal-base-glitch-digital-bg-2: rgb(198 255 119 / 10%);
@@ -31,10 +30,8 @@
   width: clamp(280px, 80%, 320px);
   height: auto;
   --box-shadow-lint-token-1:
-    0 18px 40px rgb(0 0 0 / 45%),
-    inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
-  box-shadow:
-    var(--box-shadow-lint-token-1);
+    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
+  box-shadow: var(--box-shadow-lint-token-1);
   padding: 16px;
   border-radius: 12px;
   background: var(--modal-base-glitch-digital-bg-1);
@@ -59,10 +56,8 @@
   position: relative;
   width: clamp(280px, 80%, 320px);
   --box-shadow-lint-token-2:
-    0 18px 40px rgb(0 0 0 / 45%),
-    inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
-  box-shadow:
-    var(--box-shadow-lint-token-2);
+    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
+  box-shadow: var(--box-shadow-lint-token-2);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;

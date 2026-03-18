@@ -3,9 +3,6 @@ import * as m from 'motion/react-m'
 
 import { MockModalContent } from '../MockModalContent'
 
-/**
- *
- */
 export function ModalBaseZoomElastic() {
   return (
     <m.div

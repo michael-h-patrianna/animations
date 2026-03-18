@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 
 import './LoadingStatesRingMulti.css'

@@ -1,7 +1,6 @@
 /* GPU-accelerated 3D card flip animation - 60fps optimized */
 
 .modal-base-flip3d {
-
   --modal-base-flip3d-bg: rgb(236 195 255 / 8%);
   --modal-base-flip3d-border: rgb(236 195 255 / 12%);
   --modal-base-flip3d-color: rgb(255 255 255 / 76%);
@@ -31,10 +30,8 @@
   left: auto;
   width: clamp(280px, 80%, 320px);
   --box-shadow-lint-token-1:
-    0 18px 40px rgb(0 0 0 / 45%),
-    inset 0 0 0 1px var(--modal-base-flip3d-border);
-  box-shadow:
-    var(--box-shadow-lint-token-1);
+    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-base-flip3d-border);
+  box-shadow: var(--box-shadow-lint-token-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;

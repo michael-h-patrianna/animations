@@ -47,13 +47,16 @@ function randomPackImage(): string {
 
 const ALL_IMAGES = [
   // Pack variants
-  cardPackBasicImage, cardPackGoldImage, cardPackDiamondImage,
+  cardPackBasicImage,
+  cardPackGoldImage,
+  cardPackDiamondImage,
   // Card back
   cardPackBackImage,
   // All card faces from all sets
   ...ALL_CARD_IMAGES,
   // Effect sprites
-  crystalShatterDustImage, crystalShatterPrismaticRingImage,
+  crystalShatterDustImage,
+  crystalShatterPrismaticRingImage,
   crystalShatterSparkleImage,
 ]
 
@@ -69,12 +72,14 @@ function useImagePreloader(srcs: string[]): boolean {
             img.onload = () => resolve()
             img.onerror = () => resolve()
             img.src = src
-          }),
-      ),
+          })
+      )
     ).then(() => {
       if (!cancelled) setReady(true)
     })
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [srcs])
   return ready
 }
@@ -143,23 +148,23 @@ function usePackPhase(): PackPhase {
   const [phase, setPhase] = useState<PackPhase>('arrival')
   useEffect(() => {
     const timers = [
-      window.setTimeout(() => setPhase('anticipation'), ANTICIPATION_MS),
-      window.setTimeout(() => setPhase('burst'), BURST_MS),
-      window.setTimeout(() => setPhase('fan'), FAN_MS),
-      window.setTimeout(() => setPhase('flip'), FLIP_MS),
+      setTimeout(() => setPhase('anticipation'), ANTICIPATION_MS),
+      setTimeout(() => setPhase('burst'), BURST_MS),
+      setTimeout(() => setPhase('fan'), FAN_MS),
+      setTimeout(() => setPhase('flip'), FLIP_MS),
     ]
-    return () => timers.forEach(window.clearTimeout)
+    return () => timers.forEach((id) => clearTimeout(id))
   }, [])
   return phase
 }
 
 function useFlipStates(phase: PackPhase, cardCount: number) {
-  const [flipped, setFlipped] = useState<boolean[]>(Array(cardCount).fill(false))
+  const [flipped, setFlipped] = useState<boolean[]>(() => Array(cardCount).fill(false))
 
   useEffect(() => {
     if (phase !== 'flip') return
     const timers = Array.from({ length: cardCount }, (_, i) =>
-      window.setTimeout(() => {
+      setTimeout(() => {
         setFlipped((prev) => {
           const next = [...prev]
           next[i] = true
@@ -167,7 +172,7 @@ function useFlipStates(phase: PackPhase, cardCount: number) {
         })
       }, i * FLIP_INTERVAL_MS)
     )
-    return () => timers.forEach(window.clearTimeout)
+    return () => timers.forEach((id) => clearTimeout(id))
   }, [phase, cardCount])
 
   return flipped
@@ -183,11 +188,15 @@ function useCardPackState(cardCount: number) {
   const confetti = useMemo(() => createConfetti(), [])
   const flipped = useFlipStates(phase, cards.length)
 
-  const [burstedCards, setBurstedCards] = useState<boolean[]>(Array(cards.length).fill(false))
+  const [burstedCards, setBurstedCards] = useState<boolean[]>(() => Array(cards.length).fill(false))
   useEffect(() => {
     flipped.forEach((isFlipped, i) => {
       if (isFlipped && !burstedCards[i]) {
-        setBurstedCards((prev) => { const next = [...prev]; next[i] = true; return next })
+        setBurstedCards((prev) => {
+          const next = [...prev]
+          next[i] = true
+          return next
+        })
       }
     })
   }, [flipped, burstedCards])
@@ -213,7 +222,10 @@ function useCardPackState(cardCount: number) {
     return () => window.clearTimeout(t)
   }, [isIdle])
 
-  const handleCollect = useCallback(() => { setFocusedCard(null); setCollected(true) }, [])
+  const handleCollect = useCallback(() => {
+    setFocusedCard(null)
+    setCollected(true)
+  }, [])
 
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
   useEffect(() => {
@@ -234,18 +246,45 @@ function useCardPackState(cardCount: number) {
   }, [phase])
 
   return {
-    packImage, cards, positions, phase, confetti, flipped, burstedCards,
-    isIdle, focusedCard, handleCardSelect, handleDismiss,
-    collected, showCollect, handleCollect, activeFlash, showConfetti,
+    packImage,
+    cards,
+    positions,
+    phase,
+    confetti,
+    flipped,
+    burstedCards,
+    isIdle,
+    focusedCard,
+    handleCardSelect,
+    handleDismiss,
+    collected,
+    showCollect,
+    handleCollect,
+    activeFlash,
+    showConfetti,
   }
 }
 
 /* ─── Card fan container ─── */
 
-function CardFanContainer({ cards, positions, flipped, collected, isIdle, focusedCard, handleCardSelect, burstedCards }: {
-  cards: ReturnType<typeof drawCards>; positions: FanPosition[]; flipped: boolean[]
-  collected: boolean; isIdle: boolean; focusedCard: number | null
-  handleCardSelect: (i: number) => void; burstedCards: boolean[]
+function CardFanContainer({
+  cards,
+  positions,
+  flipped,
+  collected,
+  isIdle,
+  focusedCard,
+  handleCardSelect,
+  burstedCards,
+}: {
+  cards: ReturnType<typeof drawCards>
+  positions: FanPosition[]
+  flipped: boolean[]
+  collected: boolean
+  isIdle: boolean
+  focusedCard: number | null
+  handleCardSelect: (i: number) => void
+  burstedCards: boolean[]
 }) {
   return (
     <div className="pf-card-pack__cards-container">
@@ -270,7 +309,9 @@ function CardFanContainer({ cards, positions, flipped, collected, isIdle, focuse
         <CardLandShimmer key={`shimmer-${i}`} position={positions[i]} delay={i * 0.12} />
       ))}
       {cards.map((card, i) =>
-        burstedCards[i] ? <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]} /> : null
+        burstedCards[i] ? (
+          <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]} />
+        ) : null
       )}
     </div>
   )
@@ -280,9 +321,22 @@ function CardFanContainer({ cards, positions, flipped, collected, isIdle, focuse
 
 function CardPackAnimation({ cardCount }: { cardCount: number }) {
   const {
-    packImage, cards, positions, phase, confetti, flipped, burstedCards,
-    isIdle, focusedCard, handleCardSelect, handleDismiss,
-    collected, showCollect, handleCollect, activeFlash, showConfetti,
+    packImage,
+    cards,
+    positions,
+    phase,
+    confetti,
+    flipped,
+    burstedCards,
+    isIdle,
+    focusedCard,
+    handleCardSelect,
+    handleDismiss,
+    collected,
+    showCollect,
+    handleCollect,
+    activeFlash,
+    showConfetti,
   } = useCardPackState(cardCount)
 
   const showAnticipation = phase === 'anticipation'
@@ -298,19 +352,43 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       <ArrivalDust />
       <PackBody phase={phase} packImage={packImage} />
       <SeamLight phase={phase} />
-      {showAnticipation && <><EdgeSparks /><SeamCracks /></>}
-      {showBurst && <><PackTearOpen packImage={packImage} /><TearLineFlash /><LightSpill /></>}
+      {showAnticipation && (
+        <>
+          <EdgeSparks />
+          <SeamCracks />
+        </>
+      )}
+      {showBurst && (
+        <>
+          <PackTearOpen packImage={packImage} />
+          <TearLineFlash />
+          <LightSpill />
+        </>
+      )}
       {showCards && (
-        <CardFanContainer cards={cards} positions={positions} flipped={flipped}
-          collected={collected} isIdle={isIdle} focusedCard={focusedCard}
-          handleCardSelect={handleCardSelect} burstedCards={burstedCards} />
+        <CardFanContainer
+          cards={cards}
+          positions={positions}
+          flipped={flipped}
+          collected={collected}
+          isIdle={isIdle}
+          focusedCard={focusedCard}
+          handleCardSelect={handleCardSelect}
+          burstedCards={burstedCards}
+        />
       )}
       {showConfetti && <GoldenConfetti confetti={confetti} />}
       <AnimatePresence>
         {focusedCard !== null && (
-          <m.div key="inspect-overlay" className="pf-card-pack__inspect-overlay"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }} onClick={handleDismiss} />
+          <m.div
+            key="inspect-overlay"
+            className="pf-card-pack__inspect-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={handleDismiss}
+          />
         )}
       </AnimatePresence>
       {activeFlash != null && <ScreenFlash rarity={activeFlash as 4 | 5} />}
@@ -326,7 +404,10 @@ function CardPackOpenComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCount
   const ready = useImagePreloader(ALL_IMAGES)
 
   return (
-    <div className="pf-modal-celebration pf-card-pack" data-animation-id="prize-reveal__card-pack-open">
+    <div
+      className="pf-modal-celebration pf-card-pack"
+      data-animation-id="prize-reveal__card-pack-open"
+    >
       {ready && <CardPackAnimation cardCount={prizeCount} />}
     </div>
   )

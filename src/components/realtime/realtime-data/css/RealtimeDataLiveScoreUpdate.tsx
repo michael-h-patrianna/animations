@@ -45,9 +45,6 @@ const ScoreRow = ({ rank, player, scoreRef, score }: ScoreRowProps) => (
   </div>
 )
 
-/**
- *
- */
 export function RealtimeDataLiveScoreUpdate() {
   const [scores, setScores] = useState<number[]>(initialScores)
   const scoresRef = useRef(scores)

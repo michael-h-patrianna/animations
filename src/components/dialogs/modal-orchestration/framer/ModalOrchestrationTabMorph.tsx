@@ -2,9 +2,6 @@ import * as m from 'motion/react-m'
 import { AnimatePresence } from 'motion/react'
 import { useState } from 'react'
 
-/**
- *
- */
 export function ModalOrchestrationTabMorph() {
   const tabs = 4
   const [activeTab, setActiveTab] = useState(0)
@@ -58,10 +55,21 @@ export function ModalOrchestrationTabMorph() {
   }
 
   return (
-    <m.div className="pf-tabs" variants={containerVariants} initial="initial" animate="animate" data-animation-id="modal-orchestration__tab-morph">
+    <m.div
+      className="pf-tabs"
+      variants={containerVariants}
+      initial="initial"
+      animate="animate"
+      data-animation-id="modal-orchestration__tab-morph"
+    >
       <div className="pf-tabs__nav">
         {Array.from({ length: tabs }, (_, index) => (
-          <m.div key={index} className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`} variants={tabVariants} onClick={() => setActiveTab(index)}>
+          <m.div
+            key={index}
+            className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
+            variants={tabVariants}
+            onClick={() => setActiveTab(index)}
+          >
             Tab {index + 1}
           </m.div>
         ))}
@@ -69,9 +77,19 @@ export function ModalOrchestrationTabMorph() {
 
       <div className="pf-tabs__content">
         <AnimatePresence mode="wait">
-          <m.div key={activeTab} className="pf-tabs__panel" variants={panelVariants} initial="initial" animate="animate" exit="exit">
+          <m.div
+            key={activeTab}
+            className="pf-tabs__panel"
+            variants={panelVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
             <h5>Content {activeTab + 1}</h5>
-            <p>Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation between different content panels.</p>
+            <p>
+              Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation
+              between different content panels.
+            </p>
           </m.div>
         </AnimatePresence>
       </div>

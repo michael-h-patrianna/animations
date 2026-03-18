@@ -2,10 +2,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseSlideUpSoft.css'
 
-
-/**
- *
- */
 export function ModalBaseSlideUpSoft() {
   return (
     <div
@@ -20,4 +16,3 @@ export function ModalBaseSlideUpSoft() {
     </div>
   )
 }
-

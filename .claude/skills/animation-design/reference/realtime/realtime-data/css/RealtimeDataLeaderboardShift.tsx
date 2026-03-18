@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
-
 export function RealtimeDataLeaderboardShift() {
   const [leaderboard, setLeaderboard] = useState([
     { rank: 1, player: 'Phoenix', score: 2450 },
@@ -44,14 +43,14 @@ export function RealtimeDataLeaderboardShift() {
         // Create new objects to force React re-render with updated ranks
         const updatedLeaderboard = newLeaderboard.map((player, index) => ({
           ...player,
-          rank: index + 1
+          rank: index + 1,
         }))
 
         // Add Phoenix at the end with new rank and score
         updatedLeaderboard.push({
           ...firstPlayer,
           rank: 4,
-          score: firstPlayer.score - 50
+          score: firstPlayer.score - 50,
         })
 
         setLeaderboard(updatedLeaderboard)
@@ -70,10 +69,7 @@ export function RealtimeDataLeaderboardShift() {
               // Animate to final position in next frame
               requestAnimationFrame(() => {
                 playerElement.animate(
-                  [
-                    { transform: `translateY(${rowHeight}px)` },
-                    { transform: 'translateY(0)' },
-                  ],
+                  [{ transform: `translateY(${rowHeight}px)` }, { transform: 'translateY(0)' }],
                   {
                     duration: 800,
                     easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -154,4 +150,3 @@ export function RealtimeDataLeaderboardShift() {
     </div>
   )
 }
-

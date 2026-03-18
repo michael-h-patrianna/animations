@@ -11,11 +11,11 @@ export const metadata = {
 
 export function ProgressBarsRetroBit() {
   const [progress, setProgress] = useState(0)
-  
+
   useEffect(() => {
     // Simulate loading
     const interval = setInterval(() => {
-      setProgress(p => (p >= 100 ? 0 : p + 10))
+      setProgress((p) => (p >= 100 ? 0 : p + 10))
     }, 500)
     return () => clearInterval(interval)
   }, [])
@@ -30,9 +30,9 @@ export function ProgressBarsRetroBit() {
             key={i}
             className="retro-bit-segment"
             initial={{ opacity: 0.1 }}
-            animate={{ 
+            animate={{
               opacity: (i + 1) * 10 <= progress ? 1 : 0.1,
-              backgroundColor: (i + 1) * 10 <= progress ? '#4ade80' : '#14532d' 
+              backgroundColor: (i + 1) * 10 <= progress ? '#4ade80' : '#14532d',
             }}
             transition={{ duration: 0 }}
           />

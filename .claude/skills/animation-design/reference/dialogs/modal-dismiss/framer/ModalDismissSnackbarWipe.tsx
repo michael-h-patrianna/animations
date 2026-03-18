@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import * as m from 'motion/react-m'
 
-
 export function ModalDismissSnackbarWipe() {
-const [showProgress, setShowProgress] = useState(true)
+  const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.42
   const autoDismissMs = 4200

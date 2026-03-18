@@ -16,4 +16,3 @@ function StandardEffectsBlinkComponent() {
  * Memoized StandardEffectsBlink to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsBlink = memo(StandardEffectsBlinkComponent)
-

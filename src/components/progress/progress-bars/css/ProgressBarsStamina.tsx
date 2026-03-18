@@ -4,9 +4,6 @@ import './ProgressBarsStamina.css'
 
 const segmentCount = 14
 
-/**
- *
- */
 export function ProgressBarsStamina() {
   const [stamina, setStamina] = useState(100)
   const [isDraining, setIsDraining] = useState(true)
@@ -63,7 +60,12 @@ export function ProgressBarsStamina() {
             const threshold = ((index + 1) / segmentCount) * 100
             const isActive = stamina >= threshold
 
-            return <span key={threshold} className={`stamina-bar-segment-css ${isActive ? 'active' : ''}`} />
+            return (
+              <span
+                key={threshold}
+                className={`stamina-bar-segment-css ${isActive ? 'active' : ''}`}
+              />
+            )
           })}
         </div>
       </div>

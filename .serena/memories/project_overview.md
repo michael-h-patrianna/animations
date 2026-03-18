@@ -1,4 +1,5 @@
 # Project overview
+
 - Purpose: React + Motion animation catalog/playground showcasing many animation components grouped by category/group.
 - Stack: React 19, TypeScript 5, Vite 7, Tailwind CSS v4, Motion (Framer Motion v12), Radix UI.
 - Structure:

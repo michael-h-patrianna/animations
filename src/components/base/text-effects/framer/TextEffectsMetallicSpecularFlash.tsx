@@ -11,49 +11,49 @@ import { memo } from 'react'
 
 function TextEffectsMetallicSpecularFlashComponent() {
   const text = 'LORUM IPSUM DOLOR'
-const letters = React.useMemo(() => Array.from(text), [text])
+  const letters = React.useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
-        hidden: { opacity: 0, scaleX: 0.995 },
-        show: {
-          opacity: 1,
-          scaleX: 1,
-          transition: {
-            duration: 0.14,
-            ease: easeOut,
-            when: 'beforeChildren',
-            staggerChildren: 0.02, // very quick, crisp pass
-            delayChildren: 0.05,
-          },
-        },
-        settle: {
-          scale: [1, 1.01, 1],
-          transition: { duration: 0.32, ease: [0.2, 0, 0, 1] as const, delay: 0.55 },
-        },
-      }
+    hidden: { opacity: 0, scaleX: 0.995 },
+    show: {
+      opacity: 1,
+      scaleX: 1,
+      transition: {
+        duration: 0.14,
+        ease: easeOut,
+        when: 'beforeChildren',
+        staggerChildren: 0.02, // very quick, crisp pass
+        delayChildren: 0.05,
+      },
+    },
+    settle: {
+      scale: [1, 1.01, 1],
+      transition: { duration: 0.32, ease: [0.2, 0, 0, 1] as const, delay: 0.55 },
+    },
+  }
 
   // Narrow, sharp specular sweep: brief color highlight then shadow, with scaleX + skewX
-  const letterVariants: Variants =  {
-        hidden: { opacity: 0 },
-        show: {
-          opacity: [0, 1, 1, 1] as number[],
-          // Highlight → Shadow → Base for a metallic glint
-          color: [
-            'var(--msf-baseColor)',
-            'var(--msf-highlightColor)',
-            'var(--msf-shadowColor)',
-            'var(--msf-baseColor)',
-          ] as string[],
-          // No vertical motion; pure horizontal deformation
-          skewX: [0, 4, -1, 0] as number[],
-          scaleX: [1, 1.08, 0.995, 1] as number[],
-          transition: {
-            duration: 0.42,
-            ease: easeInOut,
-            times: [0, 0.25, 0.55, 1],
-          },
-        },
-      }
+  const letterVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: [0, 1, 1, 1] as number[],
+      // Highlight → Shadow → Base for a metallic glint
+      color: [
+        'var(--msf-baseColor)',
+        'var(--msf-highlightColor)',
+        'var(--msf-shadowColor)',
+        'var(--msf-baseColor)',
+      ] as string[],
+      // No vertical motion; pure horizontal deformation
+      skewX: [0, 4, -1, 0] as number[],
+      scaleX: [1, 1.08, 0.995, 1] as number[],
+      transition: {
+        duration: 0.42,
+        ease: easeInOut,
+        times: [0, 0.25, 0.55, 1],
+      },
+    },
+  }
 
   return (
     <m.div

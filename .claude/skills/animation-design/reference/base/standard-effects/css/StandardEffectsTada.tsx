@@ -16,4 +16,3 @@ function StandardEffectsTadaComponent() {
  * Memoized StandardEffectsTada to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsTada = memo(StandardEffectsTadaComponent)
-

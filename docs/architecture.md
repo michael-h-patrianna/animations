@@ -2,7 +2,7 @@
 
 **Purpose**: Instructions for where to put code and what patterns to follow in this animation library.
 
-**Tech Stack**: React 19 + Motion (Framer Motion v12) + Vite 7 + TypeScript 5.8 + Tailwind CSS
+**Tech Stack**: React 19 + Motion (Framer Motion v12) + Vite 7 + TypeScript 5.9 + Tailwind CSS v4
 
 ---
 
@@ -34,6 +34,7 @@ src/
 ```
 
 **Decision tree**:
+
 - Creating new animation? → Put in `src/components/<category>/<group>/{framer|css}/`
 - Creating UI component? → Put in `src/components/ui/`
 - Creating React hook? → Put in `src/hooks/`
@@ -48,6 +49,7 @@ src/
 ### Step 1: Create the Component File
 
 **Framer Motion Template** (`src/components/<category>/<group>/framer/GroupNameVariantName.tsx`):
+
 ```typescript
 import * as m from 'motion/react-m'
 import { MockModalContent } from '../MockModalContent'
@@ -69,6 +71,7 @@ export function GroupNameVariantName() {
 ```
 
 **CSS Template** (`src/components/<category>/<group>/css/GroupNameVariantName.tsx`):
+
 ```typescript
 import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
@@ -89,20 +92,22 @@ export function GroupNameVariantName() {
 ### Step 2: Create the Metadata File
 
 **Template** (`src/components/<category>/<group>/{framer|css}/GroupNameVariantName.meta.ts`):
+
 ```typescript
 import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
-  id: 'group-name__variant-name',  // MUST match data-animation-id
+  id: 'group-name__variant-name', // MUST match data-animation-id
   title: 'Human Readable Title',
   description: 'Describe the animation effect in detail.',
-  tags: ['framer'],  // or ['css']
+  tags: ['framer'], // or ['css']
 }
 ```
 
 ### Step 3: Register in Group Index
 
 **Add to** `src/components/<category>/<group>/index.ts`:
+
 ```typescript
 // Add import at top
 import { metadata as variantNameMetadata } from './framer/GroupNameVariantName.meta'
@@ -122,7 +127,9 @@ export const groupExport: GroupExport = {
       metadata: variantNameMetadata,
     },
   },
-  css: { /* ... */ },
+  css: {
+    /* ... */
+  },
 }
 ```
 
@@ -131,6 +138,7 @@ export const groupExport: GroupExport = {
 ## How to Create a New Animation Group
 
 **Steps**:
+
 1. Create folder: `src/components/<category>/<new-group>/`
 2. Create subfolders: `framer/` and `css/`
 3. Create `index.ts` with template below
@@ -138,6 +146,7 @@ export const groupExport: GroupExport = {
 5. Import and add to category's `index.ts`
 
 **Group Index Template** (`src/components/<category>/<new-group>/index.ts`):
+
 ```typescript
 import type { GroupExport, GroupMetadata } from '@/types/animation'
 import { lazy } from 'react'
@@ -174,12 +183,14 @@ export const groupExport: GroupExport = {
 ## How to Create a New Category
 
 **Steps**:
+
 1. Create folder: `src/components/<new-category>/`
 2. Create group subfolders
 3. Create `index.ts` with template below
 4. Import and add to `src/components/animationRegistry.ts`
 
 **Category Index Template** (`src/components/<new-category>/index.ts`):
+
 ```typescript
 import type { CategoryExport, CategoryMetadata } from '@/types/animation'
 import { groupExport as exampleGroup } from './example-group'
@@ -198,6 +209,7 @@ export const categoryExport: CategoryExport = {
 ```
 
 **Add to Registry** (`src/components/animationRegistry.ts`):
+
 ```typescript
 import { categoryExport as newCategory } from '@/components/new-category'
 
@@ -211,19 +223,20 @@ export const categories: Record<string, CategoryExport> = {
 
 ## Naming Conventions
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Category folder | `kebab-case` | `dialogs`, `progress` |
-| Group folder | `kebab-case` | `modal-base`, `loading-states` |
-| Component file | `PascalCase` | `ModalBaseScaleGentlePop.tsx` |
-| Animation ID | `group-name__variant-name` | `modal-base__scale-gentle-pop` |
-| CSS class | `pf-[element]--[modifier]` | `pf-modal--scale-gentle-pop` |
+| Type            | Pattern                    | Example                        |
+| --------------- | -------------------------- | ------------------------------ |
+| Category folder | `kebab-case`               | `dialogs`, `progress`          |
+| Group folder    | `kebab-case`               | `modal-base`, `loading-states` |
+| Component file  | `PascalCase`               | `ModalBaseScaleGentlePop.tsx`  |
+| Animation ID    | `group-name__variant-name` | `modal-base__scale-gentle-pop` |
+| CSS class       | `pf-[element]--[modifier]` | `pf-modal--scale-gentle-pop`   |
 
 ---
 
 ## Component Rendering Rules
 
 **DO**:
+
 - Always include `data-animation-id` attribute matching metadata id
 - Import shared styles from parent group folder (`import '../shared.css'`)
 - Use `motion/react-m` for Framer Motion (optimized import)
@@ -231,6 +244,7 @@ export const categories: Record<string, CategoryExport> = {
 - Components are remounted for replay (key toggle by AnimationCard)
 
 **DON'T**:
+
 - Add margins, padding, or presentation wrappers
 - Import components directly in App.tsx
 - Create global CSS files (use group-scoped or component-scoped CSS)
@@ -243,18 +257,18 @@ export const categories: Record<string, CategoryExport> = {
 ```typescript
 // Animation metadata exported by each component
 interface AnimationMetadata {
-  id: string          // Unique: group-name__variant-name
-  title: string       // Human readable
+  id: string // Unique: group-name__variant-name
+  title: string // Human readable
   description: string // Detailed description
-  tags: string[]      // e.g., ['framer'] or ['css']
+  tags: string[] // e.g., ['framer'] or ['css']
   disableReplay?: boolean
 }
 
 // Group export from index.ts
 interface GroupExport {
   metadata: GroupMetadata
-  framer: Record<string, { component: ComponentType, metadata: AnimationMetadata }>
-  css: Record<string, { component: ComponentType, metadata: AnimationMetadata }>
+  framer: Record<string, { component: ComponentType; metadata: AnimationMetadata }>
+  css: Record<string, { component: ComponentType; metadata: AnimationMetadata }>
 }
 
 // Category export from index.ts

@@ -12,7 +12,7 @@ interface Shockwave {
 function ButtonEffectsShockwaveComponent() {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const btnRef = useRef<HTMLButtonElement>(null)
-  const nextId = useRef(0)
+  const nextIdRef = useRef(0)
   const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function ButtonEffectsShockwaveComponent() {
 
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
-    const id = nextId.current++
+    const id = nextIdRef.current++
 
     // Create multiple concentric rings
     const newWave = { id, x, y }
@@ -63,15 +63,38 @@ function ButtonEffectsShockwaveComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__shockwave">
-      <button type="button" ref={btnRef} className="pf-btn pf-btn--primary pf-btn--shockwave" onClick={handleClick}>
+      <button
+        type="button"
+        ref={btnRef}
+        className="pf-btn pf-btn--primary pf-btn--shockwave"
+        onClick={handleClick}
+      >
         Click Me!
         <span className="pf-btn__shockwaves" aria-hidden>
           {shockwaves.map((wave) => (
             <React.Fragment key={wave.id}>
               <>
-                <m.span className="pf-btn__shockwave pf-btn__shockwave--1" style={{ left: wave.x, top: wave.y }} variants={shockwaveVariants(0)} initial="initial" animate="animate" />
-                <m.span className="pf-btn__shockwave pf-btn__shockwave--2" style={{ left: wave.x, top: wave.y }} variants={shockwaveVariants(0.1)} initial="initial" animate="animate" />
-                <m.span className="pf-btn__shockwave pf-btn__shockwave--3" style={{ left: wave.x, top: wave.y }} variants={shockwaveVariants(0.2)} initial="initial" animate="animate" />
+                <m.span
+                  className="pf-btn__shockwave pf-btn__shockwave--1"
+                  style={{ left: wave.x, top: wave.y }}
+                  variants={shockwaveVariants(0)}
+                  initial="initial"
+                  animate="animate"
+                />
+                <m.span
+                  className="pf-btn__shockwave pf-btn__shockwave--2"
+                  style={{ left: wave.x, top: wave.y }}
+                  variants={shockwaveVariants(0.1)}
+                  initial="initial"
+                  animate="animate"
+                />
+                <m.span
+                  className="pf-btn__shockwave pf-btn__shockwave--3"
+                  style={{ left: wave.x, top: wave.y }}
+                  variants={shockwaveVariants(0.2)}
+                  initial="initial"
+                  animate="animate"
+                />
               </>
             </React.Fragment>
           ))}

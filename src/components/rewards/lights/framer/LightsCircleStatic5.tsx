@@ -6,11 +6,33 @@ interface LightsCircleStatic5Props {
   onColor?: string
 }
 const animationDuration = 4 // Glow variant for sparkle effect
-const glowVariants = { hidden: { opacity: 0 }, show: { opacity: [0, 0.3, 1, 0.6, 0.2, 0, 0], transition: { duration: animationDuration, times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const } } } // Bulb variant for quick flash sparkle
-const bulbVariants = {
-  hidden: { backgroundColor: `var(--bulb-off)`, filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))` },
+const glowVariants = {
+  hidden: { opacity: 0 },
   show: {
-    backgroundColor: [`var(--bulb-off)`, `var(--bulb-off-tint30)`, `var(--bulb-on)`, `var(--bulb-on-blend-5off)`, `var(--bulb-off-tint30)`, `var(--bulb-off)`, `var(--bulb-off)`],
+    opacity: [0, 0.3, 1, 0.6, 0.2, 0, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const,
+    },
+  },
+} // Bulb variant for quick flash sparkle
+const bulbVariants = {
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+  },
+  show: {
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on-blend-5off)`,
+      `var(--bulb-off-tint30)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`,
+    ],
     filter: [
       `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
       `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
@@ -20,10 +42,18 @@ const bulbVariants = {
       `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
       `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
     ],
-    transition: { duration: animationDuration, times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const },
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const,
+    },
   },
 }
-const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({ numBulbs = 16, onColor = 'var(--pf-anim-gold)' }) => {
+const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({
+  numBulbs = 16,
+  onColor = 'var(--pf-anim-gold)',
+}) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
   const radius = 80
   const containerVariants = {
@@ -42,7 +72,11 @@ const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({ numBulbs = 16
     const x = radius * Math.cos(angleRad)
     const y = radius * Math.sin(angleRad)
     return (
-      <div key={i} className="lights-circle-static-5__bulb-wrapper" style={{ transform: `translate(${x}px, ${y}px)` }}>
+      <div
+        key={i}
+        className="lights-circle-static-5__bulb-wrapper"
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+      >
         <m.div className="lights-circle-static-5__glow" variants={glowVariants} />
         <m.div className="lights-circle-static-5__bulb" variants={bulbVariants} />
       </div>
@@ -91,7 +125,12 @@ const LightsCircleStatic5: React.FC<LightsCircleStatic5Props> = ({ numBulbs = 16
         } as React.CSSProperties
       }
     >
-      <m.div className="lights-circle-static-5__container" variants={containerVariants} initial="hidden" animate="show">
+      <m.div
+        className="lights-circle-static-5__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
         {bulbs}
       </m.div>
     </div>

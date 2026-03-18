@@ -16,4 +16,3 @@ function StandardEffectsJelloComponent() {
  * Memoized StandardEffectsJello to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsJello = memo(StandardEffectsJelloComponent)
-

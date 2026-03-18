@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Wave Text',
   description: 'Smooth undulating wave motion through characters for fluid text animations.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 } satisfies AnimationMetadata

@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
@@ -6,7 +5,7 @@ import './ModalCelebrationsFireworksRing.css'
 import '../shared.css'
 
 export function ModalCelebrationsFireworksRing() {
-const rings = useMemo(
+  const rings = useMemo(
     () => [
       { id: 0, scale: 3.2, delay: 0 },
       { id: 1, scale: 2.2, delay: 0.12 },
@@ -37,5 +36,3 @@ const rings = useMemo(
     </div>
   )
 }
-
-

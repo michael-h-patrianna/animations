@@ -3,7 +3,7 @@ import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 
 function StandardEffectsRadialPulseComponent() {
-const ringVariants = (delay: number) => ({
+  const ringVariants = (delay: number) => ({
     animate: {
       scale: [0.1, 7.5],
       opacity: [0.8, 0.12, 0],
@@ -16,7 +16,12 @@ const ringVariants = (delay: number) => ({
     },
   })
   return (
-    <div className="standard-radial-pulse" data-animation-id="standard-effects__radial-pulse" role="img" aria-label="Radial pulse">
+    <div
+      className="standard-radial-pulse"
+      data-animation-id="standard-effects__radial-pulse"
+      role="img"
+      aria-label="Radial pulse"
+    >
       {[0, 1, 2].map((i) => (
         <m.span
           key={i}
@@ -34,4 +39,3 @@ const ringVariants = (delay: number) => ({
  * Memoized StandardEffectsRadialPulse to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsRadialPulse = memo(StandardEffectsRadialPulseComponent)
-

@@ -16,4 +16,3 @@ function StandardEffectsSqueezeComponent() {
  * Memoized StandardEffectsSqueeze to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsSqueeze = memo(StandardEffectsSqueezeComponent)
-

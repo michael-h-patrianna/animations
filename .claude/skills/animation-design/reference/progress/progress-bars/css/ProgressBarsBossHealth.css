@@ -39,7 +39,7 @@
 }
 
 .boss-health-fill-css.delay {
-  background: #fcd34d; 
+  background: #fcd34d;
   z-index: 1;
   transition: width 0.5s ease-out;
 }

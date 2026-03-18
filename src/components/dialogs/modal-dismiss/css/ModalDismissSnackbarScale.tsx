@@ -31,9 +31,23 @@ function runAnimation(toast: HTMLDivElement, progress: HTMLDivElement) {
   toast.animate(
     [
       { transform: 'translate3d(0,0,0) scale(1)', filter: 'brightness(1)', opacity: '1' },
-      { transform: 'translate3d(0,-4px,0) scale(1.05)', filter: 'brightness(1.12)', opacity: '1', offset: 0.18 },
-      { transform: 'translate3d(0,6px,0) scale(0.96)', filter: 'brightness(0.95)', opacity: '0.92', offset: 0.55 },
-      { transform: 'translate3d(0,12px,0) scale(0.9)', filter: 'brightness(0.88)', opacity: '0.85' },
+      {
+        transform: 'translate3d(0,-4px,0) scale(1.05)',
+        filter: 'brightness(1.12)',
+        opacity: '1',
+        offset: 0.18,
+      },
+      {
+        transform: 'translate3d(0,6px,0) scale(0.96)',
+        filter: 'brightness(0.95)',
+        opacity: '0.92',
+        offset: 0.55,
+      },
+      {
+        transform: 'translate3d(0,12px,0) scale(0.9)',
+        filter: 'brightness(0.88)',
+        opacity: '0.85',
+      },
     ],
     { duration: autoDismissMs, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' }
   )
@@ -56,9 +70,6 @@ function runAnimation(toast: HTMLDivElement, progress: HTMLDivElement) {
   }
 }
 
-/**
- *
- */
 export function ModalDismissSnackbarScale() {
   const toastRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -72,7 +83,11 @@ export function ModalDismissSnackbarScale() {
 
   return (
     <div data-animation-id="modal-dismiss__snackbar-scale">
-      <MockContent toastRef={toastRef} progressRef={progressRef} animationId="modal-dismiss__snackbar-scale" />
+      <MockContent
+        toastRef={toastRef}
+        progressRef={progressRef}
+        animationId="modal-dismiss__snackbar-scale"
+      />
     </div>
   )
 }

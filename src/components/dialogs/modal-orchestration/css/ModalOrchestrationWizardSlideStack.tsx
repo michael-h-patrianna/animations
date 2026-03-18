@@ -1,17 +1,13 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardSlideStack.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationWizardSlideStack() {
   const steps = 3
-  const panelRefs = useRef<(HTMLDivElement | null)[]>([])
+  const panelRef = useRef<(HTMLDivElement | null)[]>([])
 
   // Stagger panel animations on mount
   useEffect(() => {
-    const panelElements = panelRefs.current.filter(Boolean)
+    const panelElements = panelRef.current.filter(Boolean)
     panelElements.forEach((panel, index) => {
       if (panel) {
         panel.style.animationDelay = `${index * 0.26}s`
@@ -26,7 +22,9 @@ export function ModalOrchestrationWizardSlideStack() {
         {Array.from({ length: steps }, (_, index) => (
           <div
             key={index}
-            ref={(el) => { panelRefs.current[index] = el }}
+            ref={(el) => {
+              panelRef.current[index] = el
+            }}
             className="pf-wizard__panel"
           >
             <h5>Stage {index + 1}</h5>
@@ -37,4 +35,3 @@ export function ModalOrchestrationWizardSlideStack() {
     </div>
   )
 }
-

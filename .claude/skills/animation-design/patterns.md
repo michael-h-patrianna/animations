@@ -70,13 +70,27 @@ export const StandardEffectsBounce = memo(StandardEffectsBounceComponent)
 }
 
 @keyframes bounce-effect {
-  0%   { transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg); }
-  20%  { transform: translateY(0) scaleY(0.8) scaleX(1.1) rotate(0deg); }
-  40%  { transform: translateY(-30px) scaleY(1.1) scaleX(0.95) rotate(2deg); }
-  50%  { transform: translateY(-35px) scaleY(1.05) scaleX(0.98) rotate(1deg); }
-  60%  { transform: translateY(-30px) scaleY(1.02) scaleX(0.99) rotate(-1deg); }
-  80%  { transform: translateY(0) scaleY(0.95) scaleX(1.02) rotate(0deg); }
-  100% { transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg); }
+  0% {
+    transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
+  }
+  20% {
+    transform: translateY(0) scaleY(0.8) scaleX(1.1) rotate(0deg);
+  }
+  40% {
+    transform: translateY(-30px) scaleY(1.1) scaleX(0.95) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-35px) scaleY(1.05) scaleX(0.98) rotate(1deg);
+  }
+  60% {
+    transform: translateY(-30px) scaleY(1.02) scaleX(0.99) rotate(-1deg);
+  }
+  80% {
+    transform: translateY(0) scaleY(0.95) scaleX(1.02) rotate(0deg);
+  }
+  100% {
+    transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
+  }
 }
 ```
 
@@ -204,7 +218,7 @@ export const categoryExport: CategoryExport = {
     'text-effects': textEffectsGroup,
     'standard-effects': standardEffectsGroup,
     'button-effects': buttonEffectsGroup,
-  }
+  },
 }
 ```
 
@@ -230,7 +244,7 @@ export const categories: Record<string, CategoryExport> = {
 ```tsx
 import { AnimatePresence, m } from 'motion/react'
 
-<AnimatePresence mode="wait">
+;<AnimatePresence mode="wait">
   {isVisible && (
     <m.div
       key="content"
@@ -258,7 +272,7 @@ import { AnimatePresence, m } from 'motion/react'
       key={item.id}
       variants={{
         hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 200, damping: 15 } }
+        visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 200, damping: 15 } },
       }}
     />
   ))}
@@ -309,8 +323,13 @@ transition={{ type: 'spring', stiffness: 300, damping: 10 }}
 }
 
 @keyframes effect-name {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.05); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 ```
 
@@ -318,13 +337,13 @@ transition={{ type: 'spring', stiffness: 300, damping: 10 }}
 
 ## Anti-Patterns
 
-| Do NOT | Do Instead |
-|-|-|
-| Copy reference components into `src/` | Study the technique, build fresh |
-| Use default exports | Use named exports wrapped in `memo()` |
-| Import `motion` from `motion/react` | Import `m` from `motion/react-m` |
-| Put container/title/description in animation component | Let `AnimationCard` handle the wrapper |
-| Use SCSS modules or `.module.css` | Use plain `.css` files |
-| Animate `box-shadow`, `filter`, `clip-path` in CSS variant | Stick to `transform` and `opacity` for RN portability |
-| Use `useMotionValue`/`useTransform` in Motion variant | Stick to declarative `animate`/`transition` for Moti portability |
-| Create a Motion variant without a CSS variant (or vice versa) | Always implement both variants |
+| Do NOT                                                        | Do Instead                                                       |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Copy reference components into `src/`                         | Study the technique, build fresh                                 |
+| Use default exports                                           | Use named exports wrapped in `memo()`                            |
+| Import `motion` from `motion/react`                           | Import `m` from `motion/react-m`                                 |
+| Put container/title/description in animation component        | Let `AnimationCard` handle the wrapper                           |
+| Use SCSS modules or `.module.css`                             | Use plain `.css` files                                           |
+| Animate `box-shadow`, `filter`, `clip-path` in CSS variant    | Stick to `transform` and `opacity` for RN portability            |
+| Use `useMotionValue`/`useTransform` in Motion variant         | Stick to declarative `animate`/`transition` for Moti portability |
+| Create a Motion variant without a CSS variant (or vice versa) | Always implement both variants                                   |

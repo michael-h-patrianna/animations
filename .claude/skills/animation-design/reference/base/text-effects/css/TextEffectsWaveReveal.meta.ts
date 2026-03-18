@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Wave Reveal',
   description: 'Staggered wave animation where text appears from bottom with smooth easing.',
   tags: ['css'],
-  disableReplay: false
+  disableReplay: false,
 }

@@ -5,7 +5,7 @@ import * as m from 'motion/react-m'
 const waveKeyframes = {
   y: [0, -20, 0, 5, 0, 0],
   scale: [1, 1.15, 1, 0.95, 1, 1],
-  rotateZ: [0, -5, 0, 3, 0, 0]
+  rotateZ: [0, -5, 0, 3, 0, 0],
 }
 
 const waveTimes = [0, 0.25, 0.5, 0.75, 1, 1]
@@ -14,7 +14,7 @@ const waveEase = 'linear'
 
 const highlightKeyframes = {
   opacity: [0, 0.6, 0.3, 0, 0, 0],
-  scaleY: [0.8, 1.2, 1, 0.9, 0.8, 0.8]
+  scaleY: [0.8, 1.2, 1, 0.9, 0.8, 0.8],
 }
 
 function WaveCharacter({ char, index }: { char: string; index: number }) {
@@ -33,7 +33,7 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
         times: waveTimes,
         repeat: Infinity,
         repeatType: 'loop',
-        delay: waveDelay
+        delay: waveDelay,
       }}
     >
       <span className="wave-char-inner">
@@ -49,7 +49,7 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
               times: waveTimes,
               repeat: Infinity,
               repeatType: 'loop',
-              delay: waveDelay
+              delay: waveDelay,
             }}
           />
         )}

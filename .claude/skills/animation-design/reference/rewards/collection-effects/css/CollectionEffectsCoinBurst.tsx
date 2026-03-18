@@ -48,25 +48,24 @@ export function CollectionEffectsCoinBurst() {
   }, [])
 
   return (
-    <div
-      className="coin-burst-container"
-      data-animation-id="collection-effects__coin-burst"
-    >
+    <div className="coin-burst-container" data-animation-id="collection-effects__coin-burst">
       <div className="coin-burst-stage" aria-hidden="true">
         {coins.map((coin) => (
           <div
             key={coin.id}
             className="coin-burst-coin"
-            style={{
-              animationDelay: `${coin.delay}ms`,
-              '--coin-x': `${coin.x}px`,
-              '--coin-y': `${coin.y}px`,
-              '--coin-rotation': `${coin.rotation}deg`,
-            } as React.CSSProperties & {
-              '--coin-x': string
-              '--coin-y': string
-              '--coin-rotation': string
-            }}
+            style={
+              {
+                animationDelay: `${coin.delay}ms`,
+                '--coin-x': `${coin.x}px`,
+                '--coin-y': `${coin.y}px`,
+                '--coin-rotation': `${coin.rotation}deg`,
+              } as React.CSSProperties & {
+                '--coin-x': string
+                '--coin-y': string
+                '--coin-rotation': string
+              }
+            }
             aria-hidden="true"
           >
             <div className="coin-burst-coin__inner">$</div>

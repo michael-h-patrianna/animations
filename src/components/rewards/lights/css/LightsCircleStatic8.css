@@ -1,5 +1,4 @@
 .lights-circle-static-8 {
-
   --lights-circle-static8-bg: #fff;
   display: flex;
   justify-content: center;
@@ -50,7 +49,8 @@
 
 /* Dual chase pattern with collision flash at meeting point */
 @keyframes dual-chase-bulb {
-  0%, 80% {
+  0%,
+  80% {
     background-color: var(--bulb-off);
     box-shadow: 0 0 2px var(--bulb-off-glow30);
   }
@@ -60,11 +60,15 @@
   }
   4% {
     background-color: var(--bulb-on);
-    box-shadow: 0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70);
+    box-shadow:
+      0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent),
+      0 0 15px var(--bulb-on-glow70);
   }
   8% {
     background-color: var(--bulb-on);
-    box-shadow: 0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent), 0 0 15px var(--bulb-on-glow70);
+    box-shadow:
+      0 0 10px color-mix(in srgb, var(--bulb-on) 90%, transparent),
+      0 0 15px var(--bulb-on-glow70);
   }
   10% {
     background-color: color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%);
@@ -74,7 +78,8 @@
     background-color: var(--bulb-off-tint30);
     box-shadow: 0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent);
   }
-  14%, 100% {
+  14%,
+  100% {
     background-color: var(--bulb-off);
     box-shadow: 0 0 2px var(--bulb-off-glow30);
   }
@@ -88,7 +93,8 @@
 }
 
 @keyframes dual-chase-collision {
-  0%, 80% {
+  0%,
+  80% {
     background-color: var(--bulb-off);
     box-shadow: 0 0 2px var(--bulb-off-glow30);
   }
@@ -98,15 +104,21 @@
   }
   4% {
     background-color: var(--bulb-on);
-    box-shadow: 0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 22px color-mix(in srgb, var(--bulb-on) 90%, transparent);
+    box-shadow:
+      0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent),
+      0 0 22px color-mix(in srgb, var(--bulb-on) 90%, transparent);
   }
   6% {
     background-color: var(--lights-circle-static8-bg);
-    box-shadow: 0 0 20px color-mix(in srgb, var(--lights-circle-static8-bg) 100%, transparent), 0 0 30px color-mix(in srgb, var(--bulb-on) 100%, transparent);
+    box-shadow:
+      0 0 20px color-mix(in srgb, var(--lights-circle-static8-bg) 100%, transparent),
+      0 0 30px color-mix(in srgb, var(--bulb-on) 100%, transparent);
   }
   8% {
     background-color: var(--bulb-on);
-    box-shadow: 0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent), 0 0 22px color-mix(in srgb, var(--bulb-on) 90%, transparent);
+    box-shadow:
+      0 0 15px color-mix(in srgb, var(--bulb-on) 100%, transparent),
+      0 0 22px color-mix(in srgb, var(--bulb-on) 90%, transparent);
   }
   10% {
     background-color: color-mix(in srgb, var(--bulb-on) 95%, var(--bulb-off) 5%);
@@ -116,14 +128,16 @@
     background-color: var(--bulb-off-tint30);
     box-shadow: 0 0 4px color-mix(in srgb, var(--bulb-off) 40%, transparent);
   }
-  14%, 100% {
+  14%,
+  100% {
     background-color: var(--bulb-off);
     box-shadow: 0 0 2px var(--bulb-off-glow30);
   }
 }
 
 @keyframes dual-chase-glow {
-  0%, 80% {
+  0%,
+  80% {
     opacity: 0;
   }
   2% {
@@ -141,7 +155,8 @@
   12% {
     opacity: 0.2;
   }
-  14%, 100% {
+  14%,
+  100% {
     opacity: 0;
   }
 }
@@ -153,7 +168,8 @@
 }
 
 @keyframes dual-chase-collision-glow {
-  0%, 80% {
+  0%,
+  80% {
     opacity: 0;
   }
   2% {
@@ -174,7 +190,8 @@
   12% {
     opacity: 0.3;
   }
-  14%, 100% {
+  14%,
+  100% {
     opacity: 0;
   }
 }

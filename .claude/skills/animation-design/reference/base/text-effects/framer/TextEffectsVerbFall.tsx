@@ -28,7 +28,7 @@ function TextEffectsVerbFallComponent() {
             animate={{
               y: [-12, 0, 4, 0],
               scaleY: [0.96, 1.02, 0.98, 1],
-              opacity: [0.9, 1, 1, 1]
+              opacity: [0.9, 1, 1, 1],
             }}
             transition={{
               duration: 1.6,
@@ -49,7 +49,5 @@ function TextEffectsVerbFallComponent() {
  * Memoized TextEffectsVerbFall to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFall = memo(TextEffectsVerbFallComponent)
-
-
 
 export default TextEffectsVerbFall

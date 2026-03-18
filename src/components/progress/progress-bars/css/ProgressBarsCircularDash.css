@@ -1,5 +1,4 @@
 .circular-dash-container-css {
-
   --progress-bars-circular-dash-bg: #94a3b8;
   --progress-bars-circular-dash-color: #334155;
   display: flex;
@@ -21,7 +20,7 @@
   width: 10px;
   height: 100%;
   transform-origin: center center;
-  margin-left: -5px; 
+  margin-left: -5px;
   pointer-events: none;
 }
 
@@ -30,8 +29,10 @@
   height: 16px;
   border-radius: 3px;
   background: var(--progress-bars-circular-dash-bg);
-  margin: 0 auto; 
-  transition: opacity 0.1s, background-color 0.1s;
+  margin: 0 auto;
+  transition:
+    opacity 0.1s,
+    background-color 0.1s;
 }
 
 .circular-dash-center-css {

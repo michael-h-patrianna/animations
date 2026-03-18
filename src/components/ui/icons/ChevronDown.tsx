@@ -2,9 +2,7 @@ interface ChevronDownProps {
   className?: string
 }
 
-/**
- *
- */
+/** Downward chevron icon for expand/collapse toggles. */
 export function ChevronDown({ className }: ChevronDownProps) {
   return (
     <svg

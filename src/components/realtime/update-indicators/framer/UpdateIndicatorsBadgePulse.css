@@ -1,7 +1,6 @@
 /* Styles specific to UpdateIndicatorsBadgePulse */
 
 .pf-update-indicator {
-
   --update-indicators-badge-pulse-bg-1: #c6ff77;
   --update-indicators-badge-pulse-color: #e5e7eb;
   --update-indicators-badge-pulse-bg-2: #c47ae5;
@@ -49,6 +48,6 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 18px rgb(236 195 255 / 40%);
+  box-shadow: 0 0 18px var(--pf-anim-highlight-40);
   pointer-events: none;
 }

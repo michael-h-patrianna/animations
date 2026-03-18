@@ -29,5 +29,3 @@ function StandardEffectsShakeComponent() {
  * Memoized StandardEffectsShake to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsShake = memo(StandardEffectsShakeComponent)
-
-

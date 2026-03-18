@@ -1,5 +1,4 @@
 .neon-pulse-container {
-
   --progress-bars-neon-pulse-bg-1: #000;
   --progress-bars-neon-pulse-bg-2: #1a1a1a;
   --progress-bars-neon-pulse-bg-3: #f0f;
@@ -49,7 +48,7 @@
   border-radius: 10px;
   z-index: 1;
   /* Fallback for no-blur: just a wider, transparent bar */
-  background: var(--progress-bars-neon-pulse-bg-6); 
+  background: var(--progress-bars-neon-pulse-bg-6);
   /* Resetting properties to be safe */
   top: -2px;
   height: 14px;

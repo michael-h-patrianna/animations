@@ -1,6 +1,5 @@
 /* Extreme intensity: wobble + strobe */
 .pf-pill-timer {
-
   --timer-effects-pill-countdown-extreme-border: rgb(255 255 255 / 26%);
   --timer-effects-pill-countdown-extreme-bg: rgb(255 255 255 / 25%);
   --timer-effects-pill-countdown-extreme-color-1: rgb(0 0 0 / 92%);

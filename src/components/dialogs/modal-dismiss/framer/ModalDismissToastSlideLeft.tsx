@@ -2,11 +2,8 @@ import * as m from 'motion/react-m'
 
 import { useEffect, useState } from 'react'
 
-/**
- *
- */
 export function ModalDismissToastSlideLeft() {
-const [showProgress, setShowProgress] = useState(true)
+  const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.32
   const autoDismissMs = 3800

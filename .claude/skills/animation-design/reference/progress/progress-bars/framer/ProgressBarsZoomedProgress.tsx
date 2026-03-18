@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import './ProgressBarsZoomedProgress.css'
 
 export function ProgressBarsZoomedProgress() {
-const [level, setLevel] = useState(1)
+  const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])
   const [levelReached, setLevelReached] = useState([true, false, false])
   const animationRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -104,7 +104,7 @@ const [level, setLevel] = useState(1)
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--1 ${levelReached[0] ? 'reached' : ''}`}
           variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[0] &&  'animate'}
+          animate={levelReached[0] && 'animate'}
           style={{ translateY: '-50%' }}
         >
           <span>1</span>
@@ -113,9 +113,9 @@ const [level, setLevel] = useState(1)
         {/* Level 2 marker */}
         <m.div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--2 ${levelReached[1] ? 'reached' : ''}`}
-          variants={ levelBounceVariants}
+          variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[1] &&  'animate'}
+          animate={levelReached[1] && 'animate'}
           style={{ translateX: '-50%', translateY: '-50%' }}
         >
           <span>2</span>
@@ -131,7 +131,7 @@ const [level, setLevel] = useState(1)
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--3 ${levelReached[2] ? 'reached' : ''}`}
           variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[2] &&  'animate' }
+          animate={levelReached[2] && 'animate'}
           style={{ translateY: '-50%' }}
         >
           <span>3</span>

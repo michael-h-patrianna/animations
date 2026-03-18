@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, use, useState, type ReactNode } from 'react'
 
 /**
  * Available code mode options for viewing animations
@@ -37,11 +37,7 @@ const CodeModeContext = createContext<CodeModeContextType | undefined>(undefined
 export const CodeModeProvider = ({ children }: { children: ReactNode }) => {
   const [codeMode, setCodeMode] = useState<CodeMode>('Framer')
 
-  return (
-    <CodeModeContext.Provider value={{ codeMode, setCodeMode }}>
-      {children}
-    </CodeModeContext.Provider>
-  )
+  return <CodeModeContext value={{ codeMode, setCodeMode }}>{children}</CodeModeContext>
 }
 
 /**
@@ -68,7 +64,7 @@ export const CodeModeProvider = ({ children }: { children: ReactNode }) => {
  * ```
  */
 export const useCodeMode = () => {
-  const context = useContext(CodeModeContext)
+  const context = use(CodeModeContext)
   if (context === undefined) {
     throw new Error('useCodeMode must be used within a CodeModeProvider')
   }

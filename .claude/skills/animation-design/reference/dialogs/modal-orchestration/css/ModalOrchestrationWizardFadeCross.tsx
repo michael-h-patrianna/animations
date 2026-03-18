@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationWizardFadeCross.css'
 
-
 export function ModalOrchestrationWizardFadeCross() {
   const steps = 3
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -23,7 +22,9 @@ export function ModalOrchestrationWizardFadeCross() {
         {Array.from({ length: steps }, (_, index) => (
           <div
             key={index}
-            ref={(el) => { panelRefs.current[index] = el }}
+            ref={(el) => {
+              panelRefs.current[index] = el
+            }}
             className="pf-wizard__panel"
           >
             <h5>Stage {index + 1}</h5>
@@ -34,4 +35,3 @@ export function ModalOrchestrationWizardFadeCross() {
     </div>
   )
 }
-

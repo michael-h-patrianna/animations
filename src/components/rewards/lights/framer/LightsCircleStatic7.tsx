@@ -8,12 +8,34 @@ interface LightsCircleStatic7Props {
 const animationDuration = 3 // Glow variant for comet trail - long gradual fadeout
 const glowVariants = {
   hidden: { opacity: 0 },
-  show: { opacity: [0, 1, 0.9, 0.75, 0.6, 0.45, 0.3, 0.15, 0, 0], transition: { duration: animationDuration, times: [0, 0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 1], repeat: Infinity, ease: 'linear' as const } },
+  show: {
+    opacity: [0, 1, 0.9, 0.75, 0.6, 0.45, 0.3, 0.15, 0, 0],
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 1],
+      repeat: Infinity,
+      ease: 'linear' as const,
+    },
+  },
 } // Bulb variant for comet - bright flash followed by long trailing fadeout (35% of duration)
 const bulbVariants = {
-  hidden: { backgroundColor: `var(--bulb-off)`, filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))` },
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+  },
   show: {
-    backgroundColor: [`var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`, `var(--bulb-on-blend-5off)`, `var(--bulb-blend70)`, `var(--bulb-blend40)`, `var(--bulb-blend30)`, `var(--bulb-off-blend-10on)`, `var(--bulb-off)`, `var(--bulb-off)`],
+    backgroundColor: [
+      `var(--bulb-off)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on)`,
+      `var(--bulb-on-blend-5off)`,
+      `var(--bulb-blend70)`,
+      `var(--bulb-blend40)`,
+      `var(--bulb-blend30)`,
+      `var(--bulb-off-blend-10on)`,
+      `var(--bulb-off)`,
+      `var(--bulb-off)`,
+    ],
     filter: [
       `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
       `drop-shadow(0 0 12px var(--bulb-on-glow100)) drop-shadow(0 0 18px var(--bulb-on-glow80))`,
@@ -26,10 +48,18 @@ const bulbVariants = {
       `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
       `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
     ],
-    transition: { duration: animationDuration, times: [0, 0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 1], repeat: Infinity, ease: 'linear' as const },
+    transition: {
+      duration: animationDuration,
+      times: [0, 0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 1],
+      repeat: Infinity,
+      ease: 'linear' as const,
+    },
   },
 }
-const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({ numBulbs = 16, onColor = 'var(--pf-anim-gold)' }) => {
+const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({
+  numBulbs = 16,
+  onColor = 'var(--pf-anim-gold)',
+}) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
   const radius = 80
   const containerVariants = {
@@ -48,7 +78,11 @@ const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({ numBulbs = 16
     const x = radius * Math.cos(angleRad)
     const y = radius * Math.sin(angleRad)
     return (
-      <div key={i} className="lights-circle-static-7__bulb-wrapper" style={{ transform: `translate(${x}px, ${y}px)` }}>
+      <div
+        key={i}
+        className="lights-circle-static-7__bulb-wrapper"
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+      >
         <m.div className="lights-circle-static-7__glow" variants={glowVariants} />
         <m.div className="lights-circle-static-7__bulb" variants={bulbVariants} />
       </div>
@@ -97,7 +131,12 @@ const LightsCircleStatic7: React.FC<LightsCircleStatic7Props> = ({ numBulbs = 16
         } as React.CSSProperties
       }
     >
-      <m.div className="lights-circle-static-7__container" variants={containerVariants} initial="hidden" animate="show">
+      <m.div
+        className="lights-circle-static-7__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
         {bulbs}
       </m.div>
     </div>

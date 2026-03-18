@@ -2,9 +2,6 @@ import * as m from 'motion/react-m'
 
 import { useEffect, useRef, useState } from 'react'
 
-/**
- *
- */
 export function ModalDismissToastRaise() {
   const [showProgress, setShowProgress] = useState(true)
   const toastRef = useRef<HTMLDivElement>(null)
@@ -62,11 +59,25 @@ export function ModalDismissToastRaise() {
 
   return (
     <div className="pf-toast-preview">
-      <m.div ref={toastRef} className="pf-toast" data-animation-id="modal-dismiss__toast-raise" variants={toastVariants} initial="hidden" animate={showProgress ? 'visible' : 'exit'}>
+      <m.div
+        ref={toastRef}
+        className="pf-toast"
+        data-animation-id="modal-dismiss__toast-raise"
+        variants={toastVariants}
+        initial="hidden"
+        animate={showProgress ? 'visible' : 'exit'}
+      >
         <div className="pf-toast__title">Action Complete</div>
         <div className="pf-toast__body">Your changes have been saved</div>
         <div className="pf-toast__progress">
-          <m.div ref={progressRef} className="pf-toast__progress-bar" variants={progressVariants} initial="full" animate="empty" style={{ transformOrigin: 'left center' }} />
+          <m.div
+            ref={progressRef}
+            className="pf-toast__progress-bar"
+            variants={progressVariants}
+            initial="full"
+            animate="empty"
+            style={{ transformOrigin: 'left center' }}
+          />
         </div>
       </m.div>
     </div>

@@ -38,7 +38,10 @@ function PrizeRevealPirateChestNoWinComponent() {
           }}
           transition={
             phase === 'shake'
-              ? { x: { duration: 0.6, ease: 'easeInOut' }, default: { type: 'spring', stiffness: 210, damping: 18 } }
+              ? {
+                  x: { duration: 0.6, ease: 'easeInOut' },
+                  default: { type: 'spring', stiffness: 210, damping: 18 },
+                }
               : phase === 'reveal'
                 ? {
                     duration: 0.4,

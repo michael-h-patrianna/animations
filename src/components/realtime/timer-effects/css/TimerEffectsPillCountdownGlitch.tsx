@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownGlitch.css'
 
-
-/**
- *
- */
 export function TimerEffectsPillCountdownGlitch() {
   const [seconds, setSeconds] = useState(60)
   const [isRunning, setIsRunning] = useState(true)
@@ -50,10 +46,16 @@ export function TimerEffectsPillCountdownGlitch() {
       <div className={`pill-countdown-glitch ${getGlitchClass()}`}>
         <span className="pill-countdown-glitch__glow" aria-hidden="true" />
         <span className="pill-countdown-glitch__text">{formatTime(seconds)}</span>
-        <span aria-hidden="true" className="pill-countdown-glitch__copy pill-countdown-glitch__copy--before">
+        <span
+          aria-hidden="true"
+          className="pill-countdown-glitch__copy pill-countdown-glitch__copy--before"
+        >
           {formatTime(seconds)}
         </span>
-        <span aria-hidden="true" className="pill-countdown-glitch__copy pill-countdown-glitch__copy--after">
+        <span
+          aria-hidden="true"
+          className="pill-countdown-glitch__copy pill-countdown-glitch__copy--after"
+        >
           {formatTime(seconds)}
         </span>
       </div>

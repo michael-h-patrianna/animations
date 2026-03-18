@@ -2,10 +2,6 @@ import { MockModalContent } from '../MockModalContent'
 import '../shared.css'
 import './ModalBaseTvTurnOn.css'
 
-
-/**
- *
- */
 export function ModalBaseTvTurnOn() {
   return (
     <div
@@ -20,4 +16,3 @@ export function ModalBaseTvTurnOn() {
     </div>
   )
 }
-

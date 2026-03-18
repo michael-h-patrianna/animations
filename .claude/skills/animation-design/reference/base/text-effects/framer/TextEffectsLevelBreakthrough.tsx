@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 import { easeOut, useAnimation } from 'motion/react'
 import { useEffect, useRef, memo } from 'react'
@@ -130,5 +129,3 @@ function TextEffectsLevelBreakthroughComponent() {
  * Memoized TextEffectsLevelBreakthrough to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsLevelBreakthrough = memo(TextEffectsLevelBreakthroughComponent)
-
-

@@ -15,8 +15,8 @@ export function CardInteractionsSpotlight() {
   }
 
   return (
-    <div 
-      className="premium-card-container group relative rounded-2xl bg-slate-950" 
+    <div
+      className="premium-card-container group relative rounded-2xl bg-slate-950"
       onMouseMove={handleMouseMove}
       data-animation-id="card-interactions__spotlight"
     >
@@ -35,9 +35,9 @@ export function CardInteractionsSpotlight() {
             )
           `,
           maskImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0L20 5V15L10 20L0 15V5L10 0Z' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E")`,
-          maskSize: "20px 20px",
+          maskSize: '20px 20px',
           WebkitMaskImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0L20 5V15L10 20L0 15V5L10 0Z' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E")`,
-          WebkitMaskSize: "20px 20px"
+          WebkitMaskSize: '20px 20px',
         }}
       />
 
@@ -52,11 +52,11 @@ export function CardInteractionsSpotlight() {
               transparent 80%
             )
           `,
-          maskClip: "padding-box, border-box",
-          maskComposite: "intersect",
-          WebkitMaskClip: "padding-box, border-box",
-          WebkitMaskComposite: "source-in, xor", // Trick to show only border
-          padding: "1px", // The border width
+          maskClip: 'padding-box, border-box',
+          maskComposite: 'intersect',
+          WebkitMaskClip: 'padding-box, border-box',
+          WebkitMaskComposite: 'source-in, xor', // Trick to show only border
+          padding: '1px', // The border width
         }}
       />
 

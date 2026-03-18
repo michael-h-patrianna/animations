@@ -23,19 +23,19 @@ interface TextEffectsVerbFallProps {
  */
 function TextEffectsVerbFallComponent({
   text = 'LOREM IPSUM DOLOR',
-  stepDelay = 0.05
+  stepDelay = 0.05,
 }: TextEffectsVerbFallProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tfx-fall-container" data-animation-id="text-effects__verb-falling" aria-label={text}>
+    <div
+      className="tfx-fall-container"
+      data-animation-id="text-effects__verb-falling"
+      aria-label={text}
+    >
       <div className="tfx-fall-line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <span
-            key={i}
-            className="tfx-fall-char"
-            style={{ animationDelay: `${i * stepDelay}s` }}
-          >
+          <span key={i} className="tfx-fall-char" style={{ animationDelay: `${i * stepDelay}s` }}>
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}
@@ -50,4 +50,3 @@ function TextEffectsVerbFallComponent({
 export const TextEffectsVerbFall = memo(TextEffectsVerbFallComponent)
 
 export default TextEffectsVerbFall
-

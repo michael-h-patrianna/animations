@@ -1,17 +1,13 @@
 import { useEffect, useRef } from 'react'
 import './ModalOrchestrationComparisonMorph.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationComparisonMorph() {
   const panes = 2
-  const paneRefs = useRef<(HTMLDivElement | null)[]>([])
+  const panesRef = useRef<(HTMLDivElement | null)[]>([])
 
   // Stagger pane animations on mount
   useEffect(() => {
-    const paneElements = paneRefs.current.filter(Boolean)
+    const paneElements = panesRef.current.filter(Boolean)
     paneElements.forEach((pane, index) => {
       if (pane) {
         pane.style.animationDelay = `${index * 0.26}s`
@@ -25,7 +21,9 @@ export function ModalOrchestrationComparisonMorph() {
       {Array.from({ length: panes }, (_, index) => (
         <div
           key={index}
-          ref={(el) => { paneRefs.current[index] = el }}
+          ref={(el) => {
+            panesRef.current[index] = el
+          }}
           className="pf-comparison__pane"
         >
           <h5>{index === 0 ? 'Option A' : 'Option B'}</h5>
@@ -42,4 +40,3 @@ export function ModalOrchestrationComparisonMorph() {
     </div>
   )
 }
-

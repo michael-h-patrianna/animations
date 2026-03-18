@@ -14,7 +14,7 @@ export function ProgressBarsCircularDash() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress(p => (p >= 100 ? 0 : p + 1))
+      setProgress((p) => (p >= 100 ? 0 : p + 1))
     }, 50)
     return () => clearInterval(interval)
   }, [])
@@ -25,28 +25,26 @@ export function ProgressBarsCircularDash() {
   return (
     <div className="circular-dash-container" data-animation-id="progress-bars__circular-dash">
       <div className="circular-dash-wrapper">
-         {Array.from({ length: segments }).map((_, i) => {
-           return (
-             <div 
-                key={i} 
-                className="circular-dash-segment-container"
-                style={{ 
-                   transform: `rotate(${(i / segments) * 360}deg)` 
+        {Array.from({ length: segments }).map((_, i) => {
+          return (
+            <div
+              key={i}
+              className="circular-dash-segment-container"
+              style={{
+                transform: `rotate(${(i / segments) * 360}deg)`,
+              }}
+            >
+              <m.div
+                className="circular-dash-pill"
+                animate={{
+                  opacity: i < activeSegments ? 1 : 0.2,
+                  backgroundColor: i < activeSegments ? '#3b82f6' : '#94a3b8',
                 }}
-             >
-               <m.div 
-                 className="circular-dash-pill"
-                 animate={{ 
-                    opacity: i < activeSegments ? 1 : 0.2,
-                    backgroundColor: i < activeSegments ? '#3b82f6' : '#94a3b8'
-                 }}
-               />
-             </div>
-           )
-         })}
-         <div className="circular-dash-center">
-            {Math.round(progress)}%
-         </div>
+              />
+            </div>
+          )
+        })}
+        <div className="circular-dash-center">{Math.round(progress)}%</div>
       </div>
     </div>
   )

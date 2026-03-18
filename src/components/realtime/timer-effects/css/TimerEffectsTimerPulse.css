@@ -1,7 +1,6 @@
 /* CSS-only Timer Pulse Animation */
 
 .pf-timer-pulse {
-
   --timer-effects-timer-pulse-color-1: #ecc3ff;
   --timer-effects-timer-pulse-color-2: #9ca3af;
   --timer-effects-timer-pulse-bg: rgb(236 195 255 / 16%);

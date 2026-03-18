@@ -5,4 +5,5 @@ export const metadata = {
   title: 'Skeleton Vertical',
   description: 'Vertical skeleton stack simulating cards.',
   tags: ['framer'],
+  infinite: true,
 } satisfies AnimationMetadata

@@ -9,7 +9,7 @@ export function TimerEffectsPillCountdownStrong() {
   const [seconds, setSeconds] = useState(START_SECONDS)
   const [snapKey, setSnapKey] = useState(0)
   const [colorClass, setColorClass] = useState('')
-useEffect(() => {
+  useEffect(() => {
     const startTime = Date.now()
     let lastDisplay = START_SECONDS
 
@@ -29,7 +29,7 @@ useEffect(() => {
         }
 
         // Snap animations at specific thresholds
-  {
+        {
           if ([55, 50, 45, 40, 35, 30, 25, 20].includes(display)) {
             setSnapKey((prev) => prev + 1)
           } else if ([15, 12].includes(display)) {
@@ -50,7 +50,7 @@ useEffect(() => {
     }, 100)
 
     // Initial snap
-  {
+    {
       setSnapKey((prev) => prev + 1)
     }
 

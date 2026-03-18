@@ -14,5 +14,5 @@ export const categoryExport: CategoryExport = {
     'text-effects': textEffectsGroup,
     'standard-effects': standardEffectsGroup,
     'button-effects': buttonEffectsGroup,
-  }
+  },
 }

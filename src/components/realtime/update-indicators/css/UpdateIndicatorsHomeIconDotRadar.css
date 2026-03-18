@@ -1,6 +1,5 @@
 /* Home icon with radar rings from top-right dot */
 .pf-update-indicator--icon {
-
   --update-indicators-home-icon-dot-radar-bg: #ff4967;
   --update-indicators-home-icon-dot-radar-shadow: rgb(255 73 103 / 0%);
   --update-indicators-home-icon-dot-radar-border: rgb(255 73 103 / 50%);

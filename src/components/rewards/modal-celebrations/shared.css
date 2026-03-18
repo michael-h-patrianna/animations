@@ -47,11 +47,11 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgb(255 255 255 / 95%) 0%,
-    rgb(255 206 26 / 60%) 30%,
-    rgb(255 206 26 / 0%) 70%
+  background: linear-gradient(
+    180deg,
+    var(--pf-anim-white-95) 0%,
+    var(--pf-anim-firework-gold-60) 60%,
+    transparent 100%
   );
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
@@ -68,7 +68,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid rgb(255 255 255 / 60%);
+  border: 2px solid var(--pf-anim-white-60);
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
   will-change: transform, opacity;
@@ -84,11 +84,11 @@
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgb(255 206 26 / 40%) 0%,
-    rgb(255 89 129 / 15%) 40%,
-    transparent 70%
+  background: linear-gradient(
+    180deg,
+    var(--pf-anim-firework-gold-40) 0%,
+    var(--pf-anim-firework-pink-15) 50%,
+    transparent 100%
   );
   transform: translate(-50%, -50%);
   opacity: 0;
@@ -103,8 +103,8 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 6px 2px rgb(255 255 255 / 80%);
+  background: var(--pf-anim-white);
+  box-shadow: 0 0 6px 2px var(--pf-anim-white-80);
   opacity: 0;
   will-change: transform, opacity;
   pointer-events: none;

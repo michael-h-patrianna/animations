@@ -4,5 +4,5 @@ export const metadata = {
   id: 'loading-states__spinner-galaxy',
   title: 'Spinner Galaxy',
   description: 'Galaxy spinner with layered opacity twirls.',
-  tags: ['css']
+  tags: ['css'],
 } satisfies AnimationMetadata

@@ -4,5 +4,5 @@ export const metadata = {
   id: 'loading-states__skeleton-horizontal',
   title: 'Skeleton Horizontal',
   description: 'Horizontal skeleton shimmer for content placeholders.',
-  tags: ['css']
+  tags: ['css'],
 } satisfies AnimationMetadata

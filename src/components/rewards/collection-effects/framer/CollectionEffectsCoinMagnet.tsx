@@ -8,12 +8,15 @@ interface Coin {
   rotation: number
   delay: number
 }
-/**
- *
- */ export function CollectionEffectsCoinMagnet() {
+export function CollectionEffectsCoinMagnet() {
   const [coins, setCoins] = useState<Coin[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
-  const prefersReducedMotion = typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
   useEffect(() => {
     // Generate 10 coins with random start positions
     const generatedCoins: Coin[] = Array.from({ length: 10 }, (_, i) => ({
@@ -41,7 +44,11 @@ interface Coin {
     return { x: targetX - startXPx, y: targetY - startYPx }
   }
   return (
-    <div ref={containerRef} className="coin-magnet-container-framer" data-animation-id="collection-effects__coin-magnet">
+    <div
+      ref={containerRef}
+      className="coin-magnet-container-framer"
+      data-animation-id="collection-effects__coin-magnet"
+    >
       <div className="coin-magnet-target" aria-hidden="true">
         {coins.map((coin) => {
           const translation = getTranslation(coin.startX, coin.startY)
@@ -50,13 +57,38 @@ interface Coin {
               key={coin.id}
               className="coin-magnet-coin-framer"
               style={{ left: `${coin.startX}%`, top: `${coin.startY}%` }}
-              initial={{ x: 0, y: 0, scale: prefersReducedMotion ? 0.8 : 1, rotate: 0, opacity: prefersReducedMotion ? 0 : 0.8 }}
+              initial={{
+                x: 0,
+                y: 0,
+                scale: prefersReducedMotion ? 0.8 : 1,
+                rotate: 0,
+                opacity: prefersReducedMotion ? 0 : 0.8,
+              }}
               animate={
                 prefersReducedMotion
-                  ? { x: translation.x, y: translation.y, scale: [0.8, 1, 1, 0.8], opacity: [0, 1, 1, 0] }
-                  : { x: translation.x, y: translation.y, scale: [1, 1.2, 0.8], rotate: [0, coin.rotation * 0.5, coin.rotation], opacity: [0.8, 1, 1, 0] }
+                  ? {
+                      x: translation.x,
+                      y: translation.y,
+                      scale: [0.8, 1, 1, 0.8],
+                      opacity: [0, 1, 1, 0],
+                    }
+                  : {
+                      x: translation.x,
+                      y: translation.y,
+                      scale: [1, 1.2, 0.8],
+                      rotate: [0, coin.rotation * 0.5, coin.rotation],
+                      opacity: [0.8, 1, 1, 0],
+                    }
               }
-              transition={{ duration: 1, delay: coin.delay / 1000, ease: [0.4, 0, 0.2, 1] as const, times: prefersReducedMotion ? [0, 0.3, 0.7, 1] : [0, 0.5, 1], ...(prefersReducedMotion ? {} : { opacity: { times: [0, 0.3, 0.8, 1], duration: 1 } }) }}
+              transition={{
+                duration: 1,
+                delay: coin.delay / 1000,
+                ease: [0.4, 0, 0.2, 1] as const,
+                times: prefersReducedMotion ? [0, 0.3, 0.7, 1] : [0, 0.5, 1],
+                ...(prefersReducedMotion
+                  ? {}
+                  : { opacity: { times: [0, 0.3, 0.8, 1], duration: 1 } }),
+              }}
               aria-hidden="true"
             >
               <img src={coinImage} alt="" className="coin-magnet-coin__image" />

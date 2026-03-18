@@ -4,11 +4,9 @@ import './StandardEffectsPulseWave.css'
 
 function StandardEffectsPulseWaveComponent() {
   return (
-
-        <div className="standard-pulse-wave" role="img" aria-label="Pulse wave">
-          <div className="core" />
-        </div>
-
+    <div className="standard-pulse-wave" role="img" aria-label="Pulse wave">
+      <div className="core" />
+    </div>
   )
 }
 
@@ -16,4 +14,3 @@ function StandardEffectsPulseWaveComponent() {
  * Memoized StandardEffectsPulseWave to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsPulseWave = memo(StandardEffectsPulseWaveComponent)
-

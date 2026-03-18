@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Counter Increment',
   description: 'Numeric counter ticks upwards with scale.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 } satisfies AnimationMetadata

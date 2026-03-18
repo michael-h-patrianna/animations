@@ -31,4 +31,3 @@ function StandardEffectsBounceComponent() {
  * Memoized StandardEffectsBounce to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsBounce = memo(StandardEffectsBounceComponent)
-

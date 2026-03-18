@@ -1,6 +1,13 @@
 import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
-import { useEffect, useRef, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type MutableRefObject,
+  type SetStateAction,
+} from 'react'
 
 type TimeoutId = ReturnType<typeof setTimeout>
 
@@ -89,9 +96,6 @@ const useLeaderboardLoop = (
   }, [leaderboardRef, setIsAnimating, setLeaderboard])
 }
 
-/**
- *
- */
 export function RealtimeDataLeaderboardShift() {
   const [isAnimating, setIsAnimating] = useState(false)
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(resetLeaderboard)

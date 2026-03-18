@@ -66,10 +66,7 @@ export function ProgressBarsProgressStriped() {
             style={{ transformOrigin: 'left center' }}
           >
             {/* Animated stripes */}
-            <m.div
-              className="stripes-container"
-              variants={stripesContainerVariants}
-            >
+            <m.div className="stripes-container" variants={stripesContainerVariants}>
               {stripes.map((i) => (
                 <div
                   key={i}

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ProgressBarsProgressBounce.css'
 
-
 export function ProgressBarsProgressBounce() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -185,4 +184,3 @@ export function ProgressBarsProgressBounce() {
     </div>
   )
 }
-

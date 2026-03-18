@@ -13,7 +13,14 @@ import {
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 type SparkleData = { id: number; tx: number; ty: number; size: number; delay: number }
-type PrizeConfig = { id: string; label: string | null; src: string; value: number | null; decimals: number; modifier: string }
+type PrizeConfig = {
+  id: string
+  label: string | null
+  src: string
+  value: number | null
+  decimals: number
+  modifier: string
+}
 type PrizePosition = { flyX: number; overshootX: number; delay: number }
 
 const SHAKE_DELAY_MS = 900
@@ -26,10 +33,38 @@ const CLAIM_APPEAR_DELAY_MS = 800
 const CLAIM_FLY_STAGGER = 0.06
 
 const PRIZE_POOL: PrizeConfig[] = [
-  { id: 'gc', label: 'GC', src: dailyRewardGcImage, value: 1500, decimals: 0, modifier: 'pf-chest-gc-sc__prize--gc' },
-  { id: 'sc', label: 'SC', src: dailyRewardScImage, value: 2.5, decimals: 2, modifier: 'pf-chest-gc-sc__prize--sc' },
-  { id: 'fs', label: 'FS', src: dailyRewardFreeSpinsImage, value: 50, decimals: 0, modifier: 'pf-chest-gc-sc__prize--fs' },
-  { id: 'rr', label: null, src: dailyRewardRandomRewardImage, value: null, decimals: 0, modifier: 'pf-chest-gc-sc__prize--rr' },
+  {
+    id: 'gc',
+    label: 'GC',
+    src: dailyRewardGcImage,
+    value: 1500,
+    decimals: 0,
+    modifier: 'pf-chest-gc-sc__prize--gc',
+  },
+  {
+    id: 'sc',
+    label: 'SC',
+    src: dailyRewardScImage,
+    value: 2.5,
+    decimals: 2,
+    modifier: 'pf-chest-gc-sc__prize--sc',
+  },
+  {
+    id: 'fs',
+    label: 'FS',
+    src: dailyRewardFreeSpinsImage,
+    value: 50,
+    decimals: 0,
+    modifier: 'pf-chest-gc-sc__prize--fs',
+  },
+  {
+    id: 'rr',
+    label: null,
+    src: dailyRewardRandomRewardImage,
+    value: null,
+    decimals: 0,
+    modifier: 'pf-chest-gc-sc__prize--rr',
+  },
 ]
 
 function getPrizePositions(count: number): PrizePosition[] {
@@ -59,7 +94,10 @@ function useRevealPhase() {
   useEffect(() => {
     const t1 = window.setTimeout(() => setPhase('shake'), SHAKE_DELAY_MS)
     const t2 = window.setTimeout(() => setPhase('reveal'), REVEAL_DELAY_MS)
-    return () => { window.clearTimeout(t1); window.clearTimeout(t2) }
+    return () => {
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+    }
   }, [])
   return phase
 }
@@ -76,7 +114,9 @@ function useCountUp(target: number, durationMs: number, delayMs: number, decimal
         const eased = 1 - (1 - t) ** 3
         const current = target * eased
         if (t < 1) {
-          setDisplay(decimals > 0 ? current.toFixed(decimals) : Math.round(current).toLocaleString())
+          setDisplay(
+            decimals > 0 ? current.toFixed(decimals) : Math.round(current).toLocaleString()
+          )
           rafRef.current = requestAnimationFrame(tick)
         } else {
           setDisplay(decimals > 0 ? target.toFixed(decimals) : target.toLocaleString())
@@ -84,7 +124,10 @@ function useCountUp(target: number, durationMs: number, delayMs: number, decimal
       }
       rafRef.current = requestAnimationFrame(tick)
     }, delayMs)
-    return () => { window.clearTimeout(timeout); cancelAnimationFrame(rafRef.current) }
+    return () => {
+      window.clearTimeout(timeout)
+      cancelAnimationFrame(rafRef.current)
+    }
   }, [target, durationMs, delayMs, decimals])
   return display
 }
@@ -93,7 +136,13 @@ function createBurstSparkles(): SparkleData[] {
   return Array.from({ length: BURST_SPARKLE_COUNT }, (_, i) => {
     const angle = (i / BURST_SPARKLE_COUNT) * Math.PI * 2 + (Math.random() - 0.5) * 0.4
     const distance = 50 + Math.random() * 80
-    return { id: i, tx: Math.cos(angle) * distance, ty: Math.sin(angle) * distance - 35, size: 2 + Math.random() * 4, delay: Math.random() * 0.12 }
+    return {
+      id: i,
+      tx: Math.cos(angle) * distance,
+      ty: Math.sin(angle) * distance - 35,
+      size: 2 + Math.random() * 4,
+      delay: Math.random() * 0.12,
+    }
   })
 }
 
@@ -118,7 +167,11 @@ function BurstSparkles({ sparkles }: { sparkles: SparkleData[] }) {
           style={{ '--size': `${s.size}px` } as CSSProperties}
           initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
           animate={{ opacity: [0, 1, 0], x: s.tx, y: s.ty, scale: [0, 1.2, 0] }}
-          transition={{ duration: 0.5 + Math.random() * 0.25, delay: s.delay, ease: [0.16, 0.84, 0.32, 1] as const }}
+          transition={{
+            duration: 0.5 + Math.random() * 0.25,
+            delay: s.delay,
+            ease: [0.16, 0.84, 0.32, 1] as const,
+          }}
         />
       ))}
     </div>
@@ -173,7 +226,11 @@ function PrizeRays() {
           transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
         >
           {RAY_INDICES.map((i) => (
-            <span key={i} className="pf-chest-gc-sc__prize-ray" style={{ '--ray-rotation': `${i * (360 / RAY_COUNT)}deg` } as CSSProperties} />
+            <span
+              key={i}
+              className="pf-chest-gc-sc__prize-ray"
+              style={{ '--ray-rotation': `${i * (360 / RAY_COUNT)}deg` } as CSSProperties}
+            />
           ))}
         </m.div>
       </m.div>
@@ -187,7 +244,12 @@ function PrizeGlow({ delay }: { delay: number }) {
       className="pf-chest-gc-sc__prize-glow"
       initial={{ opacity: 0, scale: 0.3 }}
       animate={{ opacity: [0, 0.85, 0.6], scale: [0.3, 1.15, 1] }}
-      transition={{ duration: 0.55, delay: delay + 0.45, times: [0, 0.55, 1] as const, ease: 'easeOut' }}
+      transition={{
+        duration: 0.55,
+        delay: delay + 0.45,
+        times: [0, 0.55, 1] as const,
+        ease: 'easeOut',
+      }}
     />
   )
 }
@@ -206,12 +268,23 @@ function PrizeText({ label, amount, delay }: { label: string; amount: string; de
   )
 }
 
-function Prize({ config, position, claimed, claimIndex }: { config: PrizeConfig; position: PrizePosition; claimed: boolean; claimIndex: number }) {
+function Prize({
+  config,
+  position,
+  claimed,
+  claimIndex,
+}: {
+  config: PrizeConfig
+  position: PrizePosition
+  claimed: boolean
+  claimIndex: number
+}) {
   const amount = useCountUp(config.value ?? 0, 600, (position.delay + 0.6) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
-  const xFrames = position.flyX === 0
-    ? [0, 0, 0, 0]
-    : [0, position.overshootX, position.flyX * 0.95, position.flyX]
+  const xFrames =
+    position.flyX === 0
+      ? [0, 0, 0, 0]
+      : [0, position.overshootX, position.flyX * 0.95, position.flyX]
 
   const restX = xFrames[xFrames.length - 1]
   const claimX = position.flyX === 0 ? 0 : position.flyX * 3.5
@@ -222,13 +295,28 @@ function Prize({ config, position, claimed, claimIndex }: { config: PrizeConfig;
       initial={{ x: 0, y: 160, scale: 0, opacity: 0 }}
       animate={
         claimed
-          ? { x: [restX, restX, claimX], y: [0, -10, -300], scale: [1, 1.15, 0.4], opacity: [1, 1, 0] }
+          ? {
+              x: [restX, restX, claimX],
+              y: [0, -10, -300],
+              scale: [1, 1.15, 0.4],
+              opacity: [1, 1, 0],
+            }
           : { x: xFrames, y: [160, -18, 6, 0], scale: [0, 1.15, 0.94, 1], opacity: [0, 1, 1, 1] }
       }
       transition={
         claimed
-          ? { duration: 0.75, delay: claimIndex * CLAIM_FLY_STAGGER, times: [0, 0.18, 1] as const, ease: [0.32, 0, 0.67, 0] as const }
-          : { duration: 0.88, delay: position.delay, times: [0, 0.48, 0.76, 1] as const, ease: [0.22, 1, 0.36, 1] as const }
+          ? {
+              duration: 0.75,
+              delay: claimIndex * CLAIM_FLY_STAGGER,
+              times: [0, 0.18, 1] as const,
+              ease: [0.32, 0, 0.67, 0] as const,
+            }
+          : {
+              duration: 0.88,
+              delay: position.delay,
+              times: [0, 0.48, 0.76, 1] as const,
+              ease: [0.22, 1, 0.36, 1] as const,
+            }
       }
     >
       <div className="pf-chest-gc-sc__prize-icon-wrap">
@@ -249,11 +337,20 @@ function Chest({ phase }: { phase: RevealPhase }) {
       animate={{ y: 0, opacity: 1, scale: phase === 'reveal' ? [1, 1.24, 0.93, 1] : 1 }}
       transition={
         phase === 'reveal'
-          ? { duration: 0.5, times: [0, 0.4, 0.7, 1] as const, ease: [0.68, -0.55, 0.265, 1.55] as const }
+          ? {
+              duration: 0.5,
+              times: [0, 0.4, 0.7, 1] as const,
+              ease: [0.68, -0.55, 0.265, 1.55] as const,
+            }
           : { type: 'spring', stiffness: 210, damping: 18 }
       }
     >
-      <img src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage} alt="" aria-hidden="true" className="pf-chest-gc-sc__chest-image" />
+      <img
+        src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage}
+        alt=""
+        aria-hidden="true"
+        className="pf-chest-gc-sc__chest-image"
+      />
     </m.div>
   )
 }
@@ -285,7 +382,13 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
           {claimed && <ClaimBurst />}
           <div className="pf-chest-gc-sc__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} position={positions[i]} claimed={claimed} claimIndex={i} />
+              <Prize
+                key={prize.id}
+                config={prize}
+                position={positions[i]}
+                claimed={claimed}
+                claimIndex={i}
+              />
             ))}
           </div>
           <AnimatePresence>
@@ -297,7 +400,11 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
   )
 }
 
-function PrizeRevealChestGcScComponent({ prizeCount = DEFAULT_PRIZE_COUNT }: { prizeCount?: number }) {
+function PrizeRevealChestGcScComponent({
+  prizeCount = DEFAULT_PRIZE_COUNT,
+}: {
+  prizeCount?: number
+}) {
   return (
     <div
       className="pf-modal-celebration pf-chest-gc-sc"

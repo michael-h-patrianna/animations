@@ -2,9 +2,6 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 
-/**
- *
- */
 export function TimerEffectsTimerPulse() {
   const [value, setValue] = useState(10)
   const [animationKey, setAnimationKey] = useState(0)

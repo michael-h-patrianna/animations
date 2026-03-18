@@ -1,15 +1,12 @@
 import * as m from 'motion/react-m'
 import { useEffect, useState } from 'react'
 
-/**
- *
- */
 export function ProgressBarsSciFiLoader() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress(p => (p >= 100 ? 0 : p + 1))
+      setProgress((p) => (p >= 100 ? 0 : p + 1))
     }, 50)
     return () => clearInterval(interval)
   }, [])
@@ -17,13 +14,13 @@ export function ProgressBarsSciFiLoader() {
   return (
     <div className="scifi-loader-container" data-animation-id="progress-bars__sci-fi-loader">
       <div className="scifi-loader-track">
-        <m.div 
+        <m.div
           className="scifi-loader-fill"
           animate={{ width: `${progress}%` }}
           transition={{ type: 'tween', ease: 'linear', duration: 0.05 }}
         />
         {/* Glint effect moving across */}
-        <m.div 
+        <m.div
           className="scifi-loader-glint"
           animate={{ left: ['-20%', '120%'] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}

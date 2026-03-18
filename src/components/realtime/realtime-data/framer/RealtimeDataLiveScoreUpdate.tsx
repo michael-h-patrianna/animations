@@ -1,6 +1,13 @@
 import { useAnimation } from 'motion/react'
 import * as m from 'motion/react-m'
-import { useEffect, useRef, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type MutableRefObject,
+  type SetStateAction,
+} from 'react'
 
 type TimeoutId = ReturnType<typeof setTimeout>
 type IntervalId = ReturnType<typeof setInterval>
@@ -114,9 +121,6 @@ const ScoreRow = ({ rank, player, score, controls, delay = 0 }: ScoreRowProps) =
   </div>
 )
 
-/**
- *
- */
 export function RealtimeDataLiveScoreUpdate() {
   const [scores, setScores] = useState<number[]>(initialScores)
   const controls1 = useAnimation()

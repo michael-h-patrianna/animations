@@ -1,4 +1,3 @@
-
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useMemo } from 'react'
@@ -13,7 +12,7 @@ const randBetween = (min: number, max: number): number => {
 }
 
 export function ModalCelebrationsConfettiRain() {
-const particles = useMemo(
+  const particles = useMemo(
     () =>
       Array.from({ length: 28 }, (_, i) => {
         const left = randBetween(10, 90)
@@ -64,4 +63,3 @@ const particles = useMemo(
     </div>
   )
 }
-

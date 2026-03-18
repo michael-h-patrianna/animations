@@ -1,6 +1,5 @@
 /* Base styles for Progress Bounce */
 .pf-progress-bounce {
-
   --progress-bars-progress-bounce-color: rgb(255 255 255 / 76%);
   --progress-bars-progress-bounce-bg-1: rgb(78 24 124 / 12%);
   --progress-bars-progress-bounce-bg-2: #c6ff77;
@@ -31,7 +30,11 @@
 
 .pf-progress-bounce .pf-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--progress-bars-progress-bounce-bg-2) 0%, var(--progress-bars-progress-bounce-bg-3) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-progress-bounce-bg-2) 0%,
+    var(--progress-bars-progress-bounce-bg-3) 100%
+  );
   border-radius: inherit;
   transform-origin: left center;
   position: relative;

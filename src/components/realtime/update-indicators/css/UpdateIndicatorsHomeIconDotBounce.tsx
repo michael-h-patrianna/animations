@@ -1,13 +1,7 @@
 import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsHomeIconDotBounce.css'
 
-/**
- *
- */
 import { homeIcon2 } from '@/assets'
-/**
- *
- */
 export function UpdateIndicatorsHomeIconDotBounce() {
   const dotRef = useRef<HTMLSpanElement>(null)
 
@@ -17,7 +11,8 @@ export function UpdateIndicatorsHomeIconDotBounce() {
       if (!el) return
       el.style.animation = 'none'
       void el.offsetHeight
-      el.style.animation = 'pf-ui-dot-enter-bounce 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2), pf-ui-dot-idle 2000ms ease-in-out 600ms'
+      el.style.animation =
+        'pf-ui-dot-enter-bounce 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2), pf-ui-dot-idle 2000ms ease-in-out 600ms'
     }
     run()
     const interval = setInterval(run, 10000)
@@ -36,4 +31,3 @@ export function UpdateIndicatorsHomeIconDotBounce() {
     </div>
   )
 }
-

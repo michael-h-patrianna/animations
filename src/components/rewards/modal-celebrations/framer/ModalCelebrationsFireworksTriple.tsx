@@ -57,9 +57,24 @@ type Sparkle = {
 
 /** Three burst positions offset from card center, staggered in time. */
 const BURSTS: BurstConfig[] = [
-  { cx: -35, cy: -18, delay: 0, colors: [CELEBRATION_COLORS[0], CELEBRATION_COLORS[3], CELEBRATION_COLORS[4]] },
-  { cx: 32, cy: -28, delay: 0.3, colors: [CELEBRATION_COLORS[2], CELEBRATION_COLORS[4], CELEBRATION_COLORS[1]] },
-  { cx: 4, cy: 8, delay: 0.55, colors: [CELEBRATION_COLORS[3], CELEBRATION_COLORS[0], CELEBRATION_COLORS[2]] },
+  {
+    cx: -35,
+    cy: -18,
+    delay: 0,
+    colors: [CELEBRATION_COLORS[0], CELEBRATION_COLORS[3], CELEBRATION_COLORS[4]],
+  },
+  {
+    cx: 32,
+    cy: -28,
+    delay: 0.3,
+    colors: [CELEBRATION_COLORS[2], CELEBRATION_COLORS[4], CELEBRATION_COLORS[1]],
+  },
+  {
+    cx: 4,
+    cy: 8,
+    delay: 0.55,
+    colors: [CELEBRATION_COLORS[3], CELEBRATION_COLORS[0], CELEBRATION_COLORS[2]],
+  },
 ]
 
 const RAYS_PER_BURST = 14
@@ -216,7 +231,17 @@ function BurstFlash({ cx, cy, delay }: { cx: number; cy: number; delay: number }
 }
 
 /** Expanding shockwave ring per burst. */
-function BurstRing({ cx, cy, delay, color }: { cx: number; cy: number; delay: number; color: string }) {
+function BurstRing({
+  cx,
+  cy,
+  delay,
+  color,
+}: {
+  cx: number
+  cy: number
+  delay: number
+  color: string
+}) {
   return (
     <m.div
       className="pf-celebration__ring"
@@ -238,8 +263,10 @@ function RayBeam({ ray }: { ray: Ray }) {
     <m.span
       className="pf-celebration__ray"
       style={{
-        left: '50%', marginLeft: ray.cx,
-        top: '50%', marginTop: ray.cy,
+        left: '50%',
+        marginLeft: ray.cx,
+        top: '50%',
+        marginTop: ray.cy,
         height: `${ray.length}px`,
         background: `linear-gradient(to top, transparent 0%, ${ray.color} 35%, var(--pf-base-50) 94%)`,
         transformOrigin: '50% 100%',
@@ -255,8 +282,18 @@ function RayBeam({ ray }: { ray: Ray }) {
       transition={{
         duration: ray.dur,
         delay: ray.delay,
-        scaleY: { duration: ray.dur, delay: ray.delay, times: [0, 0.2, 0.45, 0.75, 1], ease: 'easeOut' },
-        opacity: { duration: ray.dur, delay: ray.delay, times: [0, 0.2, 0.45, 0.75, 1], ease: 'easeOut' },
+        scaleY: {
+          duration: ray.dur,
+          delay: ray.delay,
+          times: [0, 0.2, 0.45, 0.75, 1],
+          ease: 'easeOut',
+        },
+        opacity: {
+          duration: ray.dur,
+          delay: ray.delay,
+          times: [0, 0.2, 0.45, 0.75, 1],
+          ease: 'easeOut',
+        },
       }}
     />
   )
@@ -301,8 +338,10 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '50%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '50%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

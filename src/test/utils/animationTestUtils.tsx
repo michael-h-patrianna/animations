@@ -1,19 +1,26 @@
 import { AnimationCard } from '@/components/ui/AnimationCard'
-import { act } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import React from 'react'
+import { expect, vi } from 'vitest'
 
-/**
- *
- */
-export function withAnimationCard(children: React.ReactNode, opts?: {
-  id?: string
-  title?: string
-  description?: string
-  infinite?: boolean
-  disableReplay?: boolean
-}) {
-  const { id = 'test-animation', title = 'Test', description = 'Desc', infinite = true, disableReplay = false } =
-    opts || {}
+/** Wraps a component inside AnimationCard for integration-style tests. */
+export function withAnimationCard(
+  children: React.ReactNode,
+  opts?: {
+    id?: string
+    title?: string
+    description?: string
+    infinite?: boolean
+    disableReplay?: boolean
+  }
+) {
+  const {
+    id = 'test-animation',
+    title = 'Test',
+    description = 'Desc',
+    infinite = true,
+    disableReplay = false,
+  } = opts || {}
   return (
     <AnimationCard
       title={title}
@@ -27,20 +34,22 @@ export function withAnimationCard(children: React.ReactNode, opts?: {
   )
 }
 
-/**
- *
- */
+/** Advances fake timers and flushes act() to simulate elapsed animation time. */
 export async function advanceRaf(ms: number) {
   // Use fake timers from tests to advance timers and animation frames
   await act(async () => {
-    jest.advanceTimersByTime(ms)
+    vi.advanceTimersByTime(ms)
   })
 }
 
-/**
- *
- */
+/** Queries the .pf-demo-stage element within a rendered AnimationCard. */
 export function queryStage(container?: HTMLElement | null) {
   const root = container ?? document.body
   return root.querySelector('.pf-demo-stage') as HTMLElement | null
+}
+
+/** Renders a component and asserts its root element has the expected data-animation-id attribute. */
+export function expectAnimationIdPresent(Component: () => JSX.Element, animationId: string) {
+  const { container } = render(<Component />)
+  expect(container.querySelector(`[data-animation-id="${animationId}"]`)).toBeInTheDocument()
 }

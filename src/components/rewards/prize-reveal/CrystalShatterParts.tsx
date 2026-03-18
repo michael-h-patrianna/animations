@@ -14,14 +14,8 @@ import {
 
 /* ─── Shared types ─── */
 
-/**
- *
- */
 export type ShatterPhase = 'descent' | 'charge' | 'shatter' | 'reveal' | 'idle'
 
-/**
- *
- */
 export type FragmentData = {
   id: number
   angle: number
@@ -30,9 +24,6 @@ export type FragmentData = {
   shardIndex: number
 }
 
-/**
- *
- */
 export type MoteData = {
   id: number
   startX: number
@@ -43,9 +34,6 @@ export type MoteData = {
   delay: number
 }
 
-/**
- *
- */
 export type DustData = {
   id: number
   angle: number
@@ -54,9 +42,6 @@ export type DustData = {
   size: number
 }
 
-/**
- *
- */
 export type OrbitDustData = {
   id: number
   angle: number
@@ -77,9 +62,6 @@ const SHARD_IMAGES = [
    AMBIENT DUST — floating background particles
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function AmbientDust() {
   const particles = Array.from({ length: 10 }, (_, i) => ({
     id: i,
@@ -99,11 +81,13 @@ export function AmbientDust() {
           alt=""
           aria-hidden="true"
           className="pf-crystal-shatter__ambient-mote"
-          style={{
-            '--x': `${p.x}px`,
-            '--y': `${p.y}px`,
-            '--size': `${p.size}px`,
-          } as CSSProperties}
+          style={
+            {
+              '--x': `${p.x}px`,
+              '--y': `${p.y}px`,
+              '--size': `${p.size}px`,
+            } as CSSProperties
+          }
           initial={{ opacity: 0 }}
           animate={{
             opacity: [0, 0.4, 0.3, 0.4, 0],
@@ -126,9 +110,6 @@ export function AmbientDust() {
    LANDING RING — dust ring on crystal arrival
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function LandingRing() {
   return (
     <m.div
@@ -149,9 +130,6 @@ export function LandingRing() {
    ENERGY MOTES — converge inward during charge
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function EnergyMotes({ motes }: { motes: MoteData[] }) {
   return (
     <div className="pf-crystal-shatter__motes-container">
@@ -186,9 +164,6 @@ export function EnergyMotes({ motes }: { motes: MoteData[] }) {
    SHATTER EFFECTS — flash, ring, fragments, dust
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function ShatterFlash() {
   return (
     <m.img
@@ -207,9 +182,6 @@ export function ShatterFlash() {
   )
 }
 
-/**
- *
- */
 export function PrismaticRingBurst() {
   return (
     <m.img
@@ -224,9 +196,6 @@ export function PrismaticRingBurst() {
   )
 }
 
-/**
- *
- */
 export function CrystalFragments({ fragments }: { fragments: FragmentData[] }) {
   return (
     <div className="pf-crystal-shatter__fragments">
@@ -263,9 +232,6 @@ export function CrystalFragments({ fragments }: { fragments: FragmentData[] }) {
   )
 }
 
-/**
- *
- */
 export function DustSpray({ particles }: { particles: DustData[] }) {
   return (
     <div className="pf-crystal-shatter__dust-spray">
@@ -303,9 +269,6 @@ export function DustSpray({ particles }: { particles: DustData[] }) {
    CLAIM BUTTON — crystal-themed
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function ClaimButton({ onClaim }: { onClaim: () => void }) {
   return (
     <m.button
@@ -326,9 +289,6 @@ export function ClaimButton({ onClaim }: { onClaim: () => void }) {
    CLAIM BURST — flash when prizes are collected
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function ClaimBurst() {
   return (
     <m.div

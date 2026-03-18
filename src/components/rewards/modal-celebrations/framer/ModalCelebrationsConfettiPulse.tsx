@@ -54,9 +54,36 @@ type Sparkle = {
  * further from center — the wave "pushes" particles outward.
  */
 const WAVES: WaveConfig[] = [
-  { delay: 0, maxScale: 7, color: CELEBRATION_COLORS[0], particleCount: 12, spawnRMin: 20, spawnRMax: 45, driftMin: 22, driftMax: 40 },
-  { delay: 0.35, maxScale: 9, color: CELEBRATION_COLORS[2], particleCount: 14, spawnRMin: 35, spawnRMax: 65, driftMin: 28, driftMax: 50 },
-  { delay: 0.65, maxScale: 11, color: CELEBRATION_COLORS[3], particleCount: 16, spawnRMin: 50, spawnRMax: 85, driftMin: 32, driftMax: 55 },
+  {
+    delay: 0,
+    maxScale: 7,
+    color: CELEBRATION_COLORS[0],
+    particleCount: 12,
+    spawnRMin: 20,
+    spawnRMax: 45,
+    driftMin: 22,
+    driftMax: 40,
+  },
+  {
+    delay: 0.35,
+    maxScale: 9,
+    color: CELEBRATION_COLORS[2],
+    particleCount: 14,
+    spawnRMin: 35,
+    spawnRMax: 65,
+    driftMin: 28,
+    driftMax: 50,
+  },
+  {
+    delay: 0.65,
+    maxScale: 11,
+    color: CELEBRATION_COLORS[3],
+    particleCount: 16,
+    spawnRMin: 50,
+    spawnRMax: 85,
+    driftMin: 32,
+    driftMax: 55,
+  },
 ]
 
 /** 10 stops for smooth particle path interpolation. */
@@ -178,7 +205,7 @@ function PulseFlash() {
       }}
       transition={{
         duration: 1.4,
-        times: [0, 0.06, 0.22, 0.28, 0.44, 0.50, 1.0],
+        times: [0, 0.06, 0.22, 0.28, 0.44, 0.5, 1.0],
         ease: 'easeOut',
       }}
     />
@@ -198,7 +225,7 @@ function PulseGlow() {
       }}
       transition={{
         duration: 2.0,
-        times: [0, 0.06, 0.22, 0.28, 0.44, 0.50, 1.0],
+        times: [0, 0.06, 0.22, 0.28, 0.44, 0.5, 1.0],
         ease: 'easeOut',
       }}
     />
@@ -267,8 +294,10 @@ function SparkleDot({ s }: { s: Sparkle }) {
     <m.span
       className="pf-celebration__sparkle"
       style={{
-        left: '50%', marginLeft: s.x,
-        top: '50%', marginTop: s.y,
+        left: '50%',
+        marginLeft: s.x,
+        top: '50%',
+        marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
       }}

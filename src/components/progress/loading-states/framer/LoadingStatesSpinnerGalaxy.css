@@ -1,7 +1,6 @@
 /* Styles for LoadingStatesSpinnerGalaxy */
 
 .pf-loading-container {
-
   --loading-states-spinner-galaxy-bg-1: rgb(236 195 255 / 10%);
   --loading-states-spinner-galaxy-border: rgb(236 195 255 / 16%);
   --loading-states-spinner-galaxy-border-top: #c47ae5;
@@ -18,7 +17,11 @@
   position: relative;
   width: 48px;
   height: 48px;
-  background: linear-gradient(160deg, var(--loading-states-spinner-galaxy-bg-1) 0%, transparent 70%);
+  background: linear-gradient(
+    160deg,
+    var(--loading-states-spinner-galaxy-bg-1) 0%,
+    transparent 70%
+  );
   border: 2px solid var(--loading-states-spinner-galaxy-border);
   border-top-color: var(--loading-states-spinner-galaxy-border-top);
   border-radius: 50%;

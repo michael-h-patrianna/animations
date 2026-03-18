@@ -102,8 +102,7 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 0 12px var(--portal-glow-primary))
+  filter: drop-shadow(0 0 12px var(--portal-glow-primary))
     drop-shadow(0 0 28px var(--portal-glow-secondary))
     drop-shadow(0 0 50px var(--portal-glow-primary));
   animation: pf-ap-css-ring-spin 8s linear infinite;
@@ -368,15 +367,15 @@
   inline-size: 76px;
   block-size: 76px;
   pointer-events: none;
-  animation: pf-ap-css-sigil-in 0.65s cubic-bezier(0.16, 0.84, 0.32, 1) var(--sigil-delay, 0.1s) both;
+  animation: pf-ap-css-sigil-in 0.65s cubic-bezier(0.16, 0.84, 0.32, 1) var(--sigil-delay, 0.1s)
+    both;
 }
 
 .pf-arcane-portal-css__sigil-image {
   inline-size: 100%;
   block-size: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 0 8px var(--glow-color))
+  filter: drop-shadow(0 0 8px var(--glow-color))
     drop-shadow(0 0 16px var(--sigil-tint, var(--sigil-tint-default)));
   animation:
     pf-ap-css-ring-spin 10s linear infinite,
@@ -425,10 +424,10 @@
   max-inline-size: 100%;
   max-block-size: 100%;
   object-fit: contain;
-  filter:
-    drop-shadow(0 2px 6px rgb(0 0 0 / 35%))
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 35%))
     drop-shadow(0 0 10px var(--glow-color, var(--icon-glow-default)));
-  animation: pf-ap-css-icon-crystallize 0.5s cubic-bezier(0.16, 0.84, 0.32, 1) var(--icon-delay, 0.1s) both;
+  animation: pf-ap-css-icon-crystallize 0.5s cubic-bezier(0.16, 0.84, 0.32, 1)
+    var(--icon-delay, 0.1s) both;
 }
 
 .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
@@ -499,7 +498,11 @@
 }
 
 .pf-arcane-portal-css__claim-btn:hover {
-  background: linear-gradient(180deg, var(--claim-btn-hover-bg-start), var(--claim-btn-hover-bg-end));
+  background: linear-gradient(
+    180deg,
+    var(--claim-btn-hover-bg-start),
+    var(--claim-btn-hover-bg-end)
+  );
   border-color: var(--claim-btn-hover-border);
   box-shadow:
     0 0 24px 8px var(--claim-btn-hover-glow),
@@ -533,7 +536,8 @@
 /* ─── Prize claim fly-out ─── */
 
 .pf-arcane-portal-css__prize.is-claiming {
-  animation: pf-ap-css-claim-flyout 0.75s cubic-bezier(0.32, 0, 0.67, 0) var(--claim-delay, 0s) forwards;
+  animation: pf-ap-css-claim-flyout 0.75s cubic-bezier(0.32, 0, 0.67, 0) var(--claim-delay, 0s)
+    forwards;
 }
 
 /* ─── Responsive sizing by prize count ─── */
@@ -543,7 +547,9 @@
   block-size: 52px;
 }
 
-.pf-arcane-portal-css[data-prize-count='3'] .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
+.pf-arcane-portal-css[data-prize-count='3']
+  .pf-arcane-portal-css__prize--rr
+  .pf-arcane-portal-css__prize-icon-wrap {
   inline-size: 74px;
   block-size: 62px;
 }
@@ -558,7 +564,9 @@
   block-size: 44px;
 }
 
-.pf-arcane-portal-css[data-prize-count='4'] .pf-arcane-portal-css__prize--rr .pf-arcane-portal-css__prize-icon-wrap {
+.pf-arcane-portal-css[data-prize-count='4']
+  .pf-arcane-portal-css__prize--rr
+  .pf-arcane-portal-css__prize-icon-wrap {
   inline-size: 62px;
   block-size: 52px;
 }

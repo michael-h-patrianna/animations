@@ -1,10 +1,10 @@
 /* ═══ ModalCelebrationsCoinsSwirl — Golden Vortex (CSS variant) ═══ */
 
 /* Theme */
-[data-animation-id="modal-celebrations__coins-swirl"].pf-celebration {
+[data-animation-id='modal-celebrations__coins-swirl'].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
-  border: 1px solid rgb(236 195 255 / 12%);
+  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
+  border: 1px solid var(--pf-anim-highlight-12);
 }
 
 /*
@@ -18,89 +18,125 @@
  */
 @keyframes cs-coin {
   0% {
-    transform: rotate(var(--start-angle)) translateX(var(--r-start))
-      rotateZ(0deg) perspective(300px) rotateY(0deg) scale(0.3);
+    transform: rotate(var(--start-angle)) translateX(var(--r-start)) rotateZ(0deg)
+      perspective(300px) rotateY(0deg) scale(0.3);
     opacity: 0;
   }
   8% {
     /* angular: 0.118, radial: 0.050 */
     transform: rotate(calc(var(--start-angle) + var(--total-spin) * 0.118))
       translateX(calc(var(--r-start) * 0.95 + var(--r-end) * 0.05))
-      rotateZ(calc(var(--tumble) * 0.08 * 1deg))
-      perspective(300px) rotateY(calc(var(--spin) * 0.08 * 1deg)) scale(1);
+      rotateZ(calc(var(--tumble) * 0.08 * 1deg)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.08 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   20% {
     /* angular: 0.284, radial: 0.138 */
     transform: rotate(calc(var(--start-angle) + var(--total-spin) * 0.284))
       translateX(calc(var(--r-start) * 0.862 + var(--r-end) * 0.138))
-      rotateZ(calc(var(--tumble) * 0.2 * 1deg))
-      perspective(300px) rotateY(calc(var(--spin) * 0.2 * 1deg)) scale(1);
+      rotateZ(calc(var(--tumble) * 0.2 * 1deg)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.2 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   35% {
     /* angular: 0.476, radial: 0.272 */
     transform: rotate(calc(var(--start-angle) + var(--total-spin) * 0.476))
       translateX(calc(var(--r-start) * 0.728 + var(--r-end) * 0.272))
-      rotateZ(calc(var(--tumble) * 0.35 * 1deg))
-      perspective(300px) rotateY(calc(var(--spin) * 0.35 * 1deg)) scale(1);
+      rotateZ(calc(var(--tumble) * 0.35 * 1deg)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.35 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   50% {
     /* angular: 0.646, radial: 0.406 */
     transform: rotate(calc(var(--start-angle) + var(--total-spin) * 0.646))
       translateX(calc(var(--r-start) * 0.594 + var(--r-end) * 0.406))
-      rotateZ(calc(var(--tumble) * 0.5 * 1deg))
-      perspective(300px) rotateY(calc(var(--spin) * 0.5 * 1deg)) scale(1);
+      rotateZ(calc(var(--tumble) * 0.5 * 1deg)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.5 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   65% {
     /* angular: 0.793, radial: 0.554 */
     transform: rotate(calc(var(--start-angle) + var(--total-spin) * 0.793))
       translateX(calc(var(--r-start) * 0.446 + var(--r-end) * 0.554))
-      rotateZ(calc(var(--tumble) * 0.65 * 1deg))
-      perspective(300px) rotateY(calc(var(--spin) * 0.65 * 1deg)) scale(1);
+      rotateZ(calc(var(--tumble) * 0.65 * 1deg)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.65 * 1deg)) scale(1);
     opacity: var(--om, 1);
   }
   80% {
     /* angular: 0.911, radial: 0.718 */
     transform: rotate(calc(var(--start-angle) + var(--total-spin) * 0.911))
       translateX(calc(var(--r-start) * 0.282 + var(--r-end) * 0.718))
-      rotateZ(calc(var(--tumble) * 0.8 * 1deg))
-      perspective(300px) rotateY(calc(var(--spin) * 0.8 * 1deg)) scale(0.65);
+      rotateZ(calc(var(--tumble) * 0.8 * 1deg)) perspective(300px)
+      rotateY(calc(var(--spin) * 0.8 * 1deg)) scale(0.65);
     opacity: calc(var(--om, 1) * 0.5);
   }
   100% {
-    transform: rotate(calc(var(--start-angle) + var(--total-spin)))
-      translateX(var(--r-end))
-      rotateZ(calc(var(--tumble) * 1deg))
-      perspective(300px) rotateY(calc(var(--spin) * 1deg)) scale(0.3);
+    transform: rotate(calc(var(--start-angle) + var(--total-spin))) translateX(var(--r-end))
+      rotateZ(calc(var(--tumble) * 1deg)) perspective(300px) rotateY(calc(var(--spin) * 1deg))
+      scale(0.3);
     opacity: 0;
   }
 }
 
 /* Trail mote flash */
 @keyframes cs-trail {
-  0% { transform: scale(0); opacity: 0; }
-  30% { transform: scale(1.4); opacity: 0.8; }
-  60% { transform: scale(0.6); opacity: 0.3; }
-  100% { transform: scale(0); opacity: 0; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.4);
+    opacity: 0.8;
+  }
+  60% {
+    transform: scale(0.6);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
 }
 
 /* Sparkle twinkle */
 @keyframes cs-sparkle {
-  0% { transform: scale(0); opacity: 0; }
-  20% { transform: scale(1.2); opacity: 0.8; }
-  45% { transform: scale(0.4); opacity: 0.2; }
-  70% { transform: scale(0.9); opacity: 0.5; }
-  100% { transform: scale(0); opacity: 0; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  45% {
+    transform: scale(0.4);
+    opacity: 0.2;
+  }
+  70% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
 }
 
 /* Vortex core glow pulse */
 @keyframes cs-core-glow {
-  0% { opacity: 0; }
-  10% { opacity: 0.6; }
-  30% { opacity: 0.45; }
-  60% { opacity: 0.2; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  30% {
+    opacity: 0.45;
+  }
+  60% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+  }
 }

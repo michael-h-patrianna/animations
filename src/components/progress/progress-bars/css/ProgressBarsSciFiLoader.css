@@ -1,5 +1,4 @@
 .scifi-loader-container-css {
-
   --progress-bars-sci-fi-loader-bg-1: #0f172a;
   --progress-bars-sci-fi-loader-border-1: #1e293b;
   --progress-bars-sci-fi-loader-bg-2: rgb(56 189 248 / 10%);
@@ -27,7 +26,11 @@
 
 .scifi-loader-fill-css {
   height: 100%;
-  background: linear-gradient(90deg, var(--progress-bars-sci-fi-loader-bg-3) 0%, var(--progress-bars-sci-fi-loader-border-2) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-sci-fi-loader-bg-3) 0%,
+    var(--progress-bars-sci-fi-loader-border-2) 100%
+  );
   width: 0%;
   transition: width 0.05s linear;
 }
@@ -44,8 +47,12 @@
 }
 
 @keyframes scifi-glint {
-  0% { left: -20%; }
-  100% { left: 120%; }
+  0% {
+    left: -20%;
+  }
+  100% {
+    left: 120%;
+  }
 }
 
 .scifi-loader-decor-top-css {

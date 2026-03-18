@@ -5,7 +5,7 @@ import './UpdateIndicatorsBadgePop.css'
 
 export function UpdateIndicatorsBadgePop() {
   const [key, setKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 2000)
@@ -23,7 +23,7 @@ useEffect(() => {
         transition={{
           duration: 0.4,
           ease: [0.34, 1.25, 0.64, 1] as const,
-          times: [0, 0.6, 1]
+          times: [0, 0.6, 1],
         }}
       >
         New

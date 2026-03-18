@@ -2,11 +2,8 @@ import * as m from 'motion/react-m'
 
 import { useEffect, useState } from 'react'
 
-/**
- *
- */
 export function ModalDismissToastFadeProgress() {
-const [showProgress, setShowProgress] = useState(true)
+  const [showProgress, setShowProgress] = useState(true)
 
   const entryDuration = 0.42
   const autoDismissMs = 4600

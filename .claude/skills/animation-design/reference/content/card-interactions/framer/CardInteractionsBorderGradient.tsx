@@ -4,28 +4,30 @@ import '../shared-premium.css'
 
 export function CardInteractionsBorderGradient() {
   return (
-    <div 
-      className="premium-card-container relative p-[1.5px] rounded-2xl overflow-hidden group" 
+    <div
+      className="premium-card-container relative p-[1.5px] rounded-2xl overflow-hidden group"
       data-animation-id="card-interactions__border-gradient"
     >
       {/* Moving Gradient Background - Sharper */}
       <m.div
         className="absolute inset-[-100%]"
         style={{
-          background: "conic-gradient(from 0deg, transparent 0deg, #6366f1 90deg, #a855f7 180deg, #ec4899 270deg, transparent 360deg)"
+          background:
+            'conic-gradient(from 0deg, transparent 0deg, #6366f1 90deg, #a855f7 180deg, #ec4899 270deg, transparent 360deg)',
         }}
         animate={{ rotate: 360 }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
       />
-      
+
       {/* Glow Layer - Softer */}
       <m.div
         className="absolute inset-[-100%] opacity-70 blur-md mix-blend-screen"
         style={{
-          background: "conic-gradient(from 0deg, transparent 0deg, #6366f1 90deg, #a855f7 180deg, #ec4899 270deg, transparent 360deg)"
+          background:
+            'conic-gradient(from 0deg, transparent 0deg, #6366f1 90deg, #a855f7 180deg, #ec4899 270deg, transparent 360deg)',
         }}
         animate={{ rotate: 360 }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
       />
 
       {/* Inner Card (Opaque) - slightly smaller radius to show border */}

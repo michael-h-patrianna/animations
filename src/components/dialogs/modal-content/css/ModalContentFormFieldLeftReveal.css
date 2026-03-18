@@ -1,6 +1,5 @@
 /* Styles for ModalContentFormFieldLeftReveal */
 .modal-content-overlay {
-
   --modal-content-form-field-left-reveal-bg-1: rgb(236 195 255 / 8%);
   --modal-content-form-field-left-reveal-border-1: rgb(236 195 255 / 12%);
   --modal-content-form-field-left-reveal-color-1: rgb(255 255 255 / 76%);
@@ -34,8 +33,7 @@
   --box-shadow-lint-token-1:
     0 18px 40px rgb(0 0 0 / 45%),
     inset 0 0 0 1px var(--modal-content-form-field-left-reveal-border-1);
-  box-shadow:
-    var(--box-shadow-lint-token-1);
+  box-shadow: var(--box-shadow-lint-token-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;
@@ -119,14 +117,22 @@
 }
 .modal-content-button-primary {
   border-radius: 50px;
-  background: linear-gradient(180deg, var(--modal-content-form-field-left-reveal-bg-4), var(--modal-content-form-field-left-reveal-bg-5));
+  background: linear-gradient(
+    180deg,
+    var(--modal-content-form-field-left-reveal-bg-4),
+    var(--modal-content-form-field-left-reveal-bg-5)
+  );
   color: var(--modal-content-form-field-left-reveal-color-4);
   border: 2px solid var(--modal-content-form-field-left-reveal-border-3);
   text-shadow: 0 1px 1px var(--modal-content-form-field-left-reveal-text-shadow);
   padding: 6px 12px;
 }
 .modal-content-button-primary:hover:not(:disabled, [aria-disabled='true']) {
-  background: linear-gradient(180deg, var(--modal-content-form-field-left-reveal-bg-6), var(--modal-content-form-field-left-reveal-bg-7));
+  background: linear-gradient(
+    180deg,
+    var(--modal-content-form-field-left-reveal-bg-6),
+    var(--modal-content-form-field-left-reveal-bg-7)
+  );
   border-color: var(--modal-content-form-field-left-reveal-border-2);
   /* RN-friendly: avoid drop-shadow */
 }

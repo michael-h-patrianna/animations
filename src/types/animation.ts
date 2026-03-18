@@ -1,6 +1,13 @@
 import type { ComponentType } from 'react'
 
 // ============================================================================
+// Shared Enums / Unions
+// ============================================================================
+
+/** Type of interactive controls shown in the AnimationCard footer. */
+export type AnimationControlType = 'lights' | 'prizeCount'
+
+// ============================================================================
 // Core Types
 // ============================================================================
 
@@ -15,7 +22,10 @@ export interface Animation {
   categoryId: string
   groupId: string
   tags?: string[]
-  disableReplay?: boolean // when true, the AnimationCard should disable the replay button
+  disableReplay?: boolean
+  infinite?: boolean
+  controls?: AnimationControlType
+  prizeCountMax?: number
 }
 
 /**
@@ -74,6 +84,15 @@ export interface AnimationMetadata {
 
   /** When true, the AnimationCard should disable the replay button */
   disableReplay?: boolean
+
+  /** When true, animation loops continuously without needing replay */
+  infinite?: boolean
+
+  /** Type of interactive controls to show in the animation card footer */
+  controls?: AnimationControlType
+
+  /** Maximum prize count for prizeCount controls (default: 4) */
+  prizeCountMax?: number
 }
 
 /**

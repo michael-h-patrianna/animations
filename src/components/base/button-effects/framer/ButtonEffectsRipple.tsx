@@ -12,7 +12,7 @@ interface Ripple {
 function ButtonEffectsRippleComponent() {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
-  const nextId = useRef(0)
+  const nextIdRef = useRef(0)
   const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function ButtonEffectsRippleComponent() {
     const dy = Math.max(y, rect.height - y)
     const radius = Math.sqrt(dx * dx + dy * dy)
     const size = radius * 2
-    const id = nextId.current++
+    const id = nextIdRef.current++
     setRipples((prev) => [...prev, { id, x, y, size }])
     // cleanup ripple after animation ends
     const timeoutId = setTimeout(() => {
@@ -61,12 +61,17 @@ function ButtonEffectsRippleComponent() {
 
   return (
     <div className="button-demo" data-animation-id="button-effects__ripple">
-      <button type="button" ref={btnRef} className="pf-btn pf-btn--primary pf-btn--ripple" onClick={handleClick}>
+      <button
+        type="button"
+        ref={btnRef}
+        className="pf-btn pf-btn--primary pf-btn--ripple"
+        onClick={handleClick}
+      >
         Ripple Button
         <span className="pf-btn__ripples" aria-hidden>
           {ripples.map((r) => {
             const half = r.size / 2
-            return  (
+            return (
               <m.span
                 key={r.id}
                 className="pf-btn__ripple"

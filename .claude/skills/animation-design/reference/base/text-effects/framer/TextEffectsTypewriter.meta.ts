@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Typewriter',
   description: 'Classic terminal-style text typing with blinking cursor for system messages.',
   tags: ['framer'],
-  disableReplay: false
+  disableReplay: false,
 }

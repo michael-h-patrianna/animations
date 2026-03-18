@@ -1,21 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationTabMorph.css'
 
-
-/**
- *
- */
 export function ModalOrchestrationTabMorph() {
   const tabs = 4
   const [activeTab, setActiveTab] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
-  const tabRefs = useRef<(HTMLDivElement | null)[]>([])
+  const tabsRef = useRef<(HTMLDivElement | null)[]>([])
   const panelRef = useRef<HTMLDivElement>(null)
   const prevTabRef = useRef(0)
 
   // Stagger tab animations on mount
   useEffect(() => {
-    const tabElements = tabRefs.current.filter(Boolean)
+    const tabElements = tabsRef.current.filter(Boolean)
     tabElements.forEach((tab, index) => {
       if (tab) {
         tab.style.animationDelay = `${index * 0.26}s`
@@ -32,7 +28,11 @@ export function ModalOrchestrationTabMorph() {
     const isForward = activeTab > prevTabRef.current
 
     // Exit animation
-    panel.classList.remove('pf-tabs__panel--enter', 'pf-tabs__panel--exit-left', 'pf-tabs__panel--exit-right')
+    panel.classList.remove(
+      'pf-tabs__panel--enter',
+      'pf-tabs__panel--exit-left',
+      'pf-tabs__panel--exit-right'
+    )
     panel.classList.add(isForward ? 'pf-tabs__panel--exit-left' : 'pf-tabs__panel--exit-right')
 
     const exitTimeout = setTimeout(() => {
@@ -46,16 +46,14 @@ export function ModalOrchestrationTabMorph() {
   }, [activeTab])
 
   return (
-    <div
-      ref={containerRef}
-      className="pf-tabs"
-      data-animation-id="modal-orchestration__tab-morph"
-    >
+    <div ref={containerRef} className="pf-tabs" data-animation-id="modal-orchestration__tab-morph">
       <div className="pf-tabs__nav">
         {Array.from({ length: tabs }, (_, index) => (
           <div
             key={index}
-            ref={(el) => { tabRefs.current[index] = el }}
+            ref={(el) => {
+              tabsRef.current[index] = el
+            }}
             className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
             onClick={() => setActiveTab(index)}
           >
@@ -68,8 +66,8 @@ export function ModalOrchestrationTabMorph() {
         <div ref={panelRef} className="pf-tabs__panel pf-tabs__panel--enter">
           <h5>Content {activeTab + 1}</h5>
           <p>
-            Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation
-            between different content panels.
+            Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation between
+            different content panels.
           </p>
         </div>
       </div>

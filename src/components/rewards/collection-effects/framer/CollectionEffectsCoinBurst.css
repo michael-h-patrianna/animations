@@ -1,10 +1,9 @@
 /* Coin Burst Collection Animation - Framer Motion Variant */
 
 .coin-burst-container-framer {
-
-  --collection-effects-coin-burst-bg-1: #FFD700;
-  --collection-effects-coin-burst-bg-2: #FFA500;
-  --collection-effects-coin-burst-border: #DAA520;
+  --collection-effects-coin-burst-bg-1: #ffd700;
+  --collection-effects-coin-burst-bg-2: #ffa500;
+  --collection-effects-coin-burst-border: #daa520;
   --collection-effects-coin-burst-color: rgb(255 255 255 / 90%);
   position: relative;
   width: 100%;
@@ -41,7 +40,11 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--collection-effects-coin-burst-bg-1) 0%, var(--collection-effects-coin-burst-bg-2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--collection-effects-coin-burst-bg-1) 0%,
+    var(--collection-effects-coin-burst-bg-2) 100%
+  );
   border: 2px solid var(--collection-effects-coin-burst-border);
   position: relative;
   display: flex;
@@ -50,5 +53,8 @@
   color: var(--collection-effects-coin-burst-color);
   font-size: 16px;
   font-weight: bold;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }

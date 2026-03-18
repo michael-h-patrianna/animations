@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationFlipReveal.css'
 
-
 export function ModalOrchestrationFlipReveal() {
   const [flippedTiles, setFlippedTiles] = useState<Set<number>>(new Set())
   const tileRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -46,7 +45,9 @@ export function ModalOrchestrationFlipReveal() {
           return (
             <div
               key={tile.id}
-              ref={(el) => { tileRefs.current[tile.id] = el }}
+              ref={(el) => {
+                tileRefs.current[tile.id] = el
+              }}
               className="pf-flip-tile-container"
               onClick={() => toggleFlip(tile.id)}
             >
@@ -72,4 +73,3 @@ export function ModalOrchestrationFlipReveal() {
     </div>
   )
 }
-

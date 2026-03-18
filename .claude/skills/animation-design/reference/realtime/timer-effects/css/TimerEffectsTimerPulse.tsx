@@ -35,8 +35,10 @@ export function TimerEffectsTimerPulse() {
     <div className="pf-timer-pulse" data-animation-id="timer-effects__timer-pulse">
       <div className="pf-timer-pulse__value">{value}</div>
       <span className="pf-timer-pulse__label">Seconds left</span>
-      <div className="pf-timer-pulse__underline" style={{ '--progress': progress } as React.CSSProperties} />
+      <div
+        className="pf-timer-pulse__underline"
+        style={{ '--progress': progress } as React.CSSProperties}
+      />
     </div>
   )
 }
-

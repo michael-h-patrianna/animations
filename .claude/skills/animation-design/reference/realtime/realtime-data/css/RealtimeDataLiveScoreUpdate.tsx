@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './RealtimeDataLiveScoreUpdate.css'
 
-
 export function RealtimeDataLiveScoreUpdate() {
   const [scores, setScores] = useState([1450, 1320])
   const scoresRef = useRef(scores)
@@ -104,4 +103,3 @@ export function RealtimeDataLiveScoreUpdate() {
     </div>
   )
 }
-

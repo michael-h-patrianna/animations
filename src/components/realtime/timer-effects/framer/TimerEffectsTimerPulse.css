@@ -1,7 +1,6 @@
 /* Styles specific to TimerEffectsTimerPulse */
 
 .pf-timer {
-
   --timer-effects-timer-pulse-color: #9ca3af;
   --timer-effects-timer-pulse-bg: rgb(236 195 255 / 16%);
   display: flex;
@@ -38,4 +37,3 @@
   border-radius: 4px;
   transform-origin: left center;
 }
-

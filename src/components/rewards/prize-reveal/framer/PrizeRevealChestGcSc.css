@@ -44,9 +44,6 @@
   pointer-events: none;
 }
 
-.pf-chest-gc-sc__chest--shake {
-}
-
 .pf-chest-gc-sc__chest-image {
   position: relative;
   z-index: 2;
@@ -291,7 +288,11 @@
 }
 
 .pf-chest-gc-sc__claim-btn:hover {
-  background: linear-gradient(180deg, var(--claim-btn-hover-bg-start), var(--claim-btn-hover-bg-end));
+  background: linear-gradient(
+    180deg,
+    var(--claim-btn-hover-bg-start),
+    var(--claim-btn-hover-bg-end)
+  );
   border-color: var(--claim-btn-hover-border);
   box-shadow:
     0 0 24px 8px var(--claim-btn-hover-glow),
@@ -361,4 +362,3 @@
   block-size: 70px;
   inline-size: 12px;
 }
-

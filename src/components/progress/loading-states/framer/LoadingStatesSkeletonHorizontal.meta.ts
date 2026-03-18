@@ -5,4 +5,5 @@ export const metadata = {
   title: 'Skeleton Horizontal',
   description: 'Horizontal skeleton shimmer for content placeholders.',
   tags: ['framer'],
+  infinite: true,
 } satisfies AnimationMetadata

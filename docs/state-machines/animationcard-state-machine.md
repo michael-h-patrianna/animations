@@ -20,6 +20,7 @@ const [onColor, setOnColor] = useState(DEFAULT_ON_COLOR)
 ```
 
 **Issues:**
+
 - Scattered state makes it hard to understand component behavior
 - No guarantees about state consistency
 - Difficult to test state transitions
@@ -108,7 +109,7 @@ function animationCardReducer(
       if (state.playback.status === 'idle') {
         return {
           ...state,
-          playback: { status: 'visible', replayKey: 0 }
+          playback: { status: 'visible', replayKey: 0 },
         }
       }
       return state
@@ -118,7 +119,7 @@ function animationCardReducer(
         const currentKey = state.playback.replayKey
         return {
           ...state,
-          playback: { status: 'playing', replayKey: currentKey + 1 }
+          playback: { status: 'playing', replayKey: currentKey + 1 },
         }
       }
       return state
@@ -127,7 +128,7 @@ function animationCardReducer(
       if (state.playback.status === 'playing') {
         return {
           ...state,
-          playback: { status: 'visible', replayKey: state.playback.replayKey }
+          playback: { status: 'visible', replayKey: state.playback.replayKey },
         }
       }
       return state
@@ -135,19 +136,19 @@ function animationCardReducer(
     case 'TOGGLE_EXPANSION':
       return {
         ...state,
-        ui: { isExpanded: !state.ui.isExpanded }
+        ui: { isExpanded: !state.ui.isExpanded },
       }
 
     case 'SET_BULB_COUNT':
       return {
         ...state,
-        config: { ...state.config, bulbCount: action.count }
+        config: { ...state.config, bulbCount: action.count },
       }
 
     case 'SET_ON_COLOR':
       return {
         ...state,
-        config: { ...state.config, onColor: action.color }
+        config: { ...state.config, onColor: action.color },
       }
 
     case 'RESET':
@@ -208,6 +209,7 @@ export function useAnimationCardState() {
 ### Step 2: Update AnimationCard Component
 
 **Before:**
+
 ```tsx
 const [isVisible, setIsVisible] = useState(false)
 const [replayKey, setReplayKey] = useState(0)
@@ -217,6 +219,7 @@ const [onColor, setOnColor] = useState(DEFAULT_ON_COLOR)
 ```
 
 **After:**
+
 ```tsx
 const {
   isVisible,
@@ -326,6 +329,7 @@ describe('useAnimationCardState', () => {
 ## Benefits
 
 ### Before (7 useState calls)
+
 ❌ State scattered across component
 ❌ No state transition guarantees
 ❌ Difficult to test individual state changes
@@ -333,6 +337,7 @@ describe('useAnimationCardState', () => {
 ❌ setState calls can happen in wrong order
 
 ### After (1 useReducer)
+
 ✅ Centralized state management
 ✅ Type-safe state transitions
 ✅ Easy to test with renderHook
@@ -356,12 +361,15 @@ describe('useAnimationCardState', () => {
 ## Risks & Mitigation
 
 ### Risk: Breaking Existing Behavior
+
 **Mitigation:** Comprehensive test coverage before and after migration
 
 ### Risk: Performance Impact
+
 **Mitigation:** useReducer is as performant as useState, no concerns
 
 ### Risk: Increased Complexity for Simple State
+
 **Mitigation:** Hook provides simple API, complexity hidden in reducer
 
 ---
@@ -383,4 +391,4 @@ describe('useAnimationCardState', () => {
 
 ---
 
-*This design is ready for implementation. Follow the migration checklist to safely refactor AnimationCard.*
+_This design is ready for implementation. Follow the migration checklist to safely refactor AnimationCard._

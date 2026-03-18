@@ -16,4 +16,3 @@ function StandardEffectsPulseComponent() {
  * Memoized StandardEffectsPulse to prevent unnecessary re-renders in grid layouts.
  */
 export const StandardEffectsPulse = memo(StandardEffectsPulseComponent)
-

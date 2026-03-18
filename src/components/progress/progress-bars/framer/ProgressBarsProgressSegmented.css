@@ -1,6 +1,5 @@
 /* Base styles for Progress Segmented */
 .pf-progress-segmented {
-
   --progress-bars-progress-segmented-bg-1: rgb(78 24 124 / 12%);
   --progress-bars-progress-segmented-bg-2: #c6ff77;
   --progress-bars-progress-segmented-bg-3: #d4ff9f;
@@ -23,7 +22,11 @@
 
 .pf-progress-segmented .pf-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--progress-bars-progress-segmented-bg-2) 0%, var(--progress-bars-progress-segmented-bg-3) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--progress-bars-progress-segmented-bg-2) 0%,
+    var(--progress-bars-progress-segmented-bg-3) 100%
+  );
   border-radius: inherit;
   transform-origin: left center;
   position: relative;

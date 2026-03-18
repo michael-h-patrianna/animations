@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownMedium.css'
 
-
-/**
- *
- */
 export function TimerEffectsPillCountdownMedium() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
@@ -56,10 +52,7 @@ export function TimerEffectsPillCountdownMedium() {
 
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-medium">
-      <div
-        key={animationKey}
-        className="pf-pill-timer__pill pf-pill-timer__pill--medium"
-      >
+      <div key={animationKey} className="pf-pill-timer__pill pf-pill-timer__pill--medium">
         <span className="pf-pill-timer__glow" aria-hidden="true" />
         <div className="pf-pill-timer__time">{format(seconds)}</div>
       </div>
@@ -67,4 +60,3 @@ export function TimerEffectsPillCountdownMedium() {
     </div>
   )
 }
-

@@ -1,8 +1,5 @@
 import './LoadingStatesSkeletonHorizontal.css'
 
-/**
- *
- */
 export function LoadingStatesSkeletonHorizontal() {
   return (
     <div data-animation-id="loading-states__skeleton-horizontal" className="pf-loading-container">
@@ -17,4 +14,3 @@ export function LoadingStatesSkeletonHorizontal() {
     </div>
   )
 }
-

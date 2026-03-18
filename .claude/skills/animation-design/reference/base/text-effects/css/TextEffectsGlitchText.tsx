@@ -99,9 +99,7 @@ function TextEffectsGlitchTextComponent({
       data-animation-id="text-effects__tfx-glitchtext"
     >
       {/* Main text layer */}
-      <div className="tfx-glitchtext__base">
-        {content}
-      </div>
+      <div className="tfx-glitchtext__base">{content}</div>
 
       {/* Cyan RGB offset layer */}
       <div className="tfx-glitchtext__layer tfx-glitchtext__layer--cyan" aria-hidden="true">
@@ -124,4 +122,3 @@ function TextEffectsGlitchTextComponent({
  * Prevents unnecessary re-renders in grid layouts and complex UIs.
  */
 export const TextEffectsGlitchText = memo(TextEffectsGlitchTextComponent)
-

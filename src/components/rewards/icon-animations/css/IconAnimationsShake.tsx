@@ -1,13 +1,7 @@
 // React import not required for JSX in React 17+
 import './IconAnimationsShake.css'
 
-/**
- *
- */
 import { shakeIcon } from '@/assets'
-/**
- *
- */
 export function IconAnimationsShake() {
   return (
     <div className="icon-demo-container" data-animation-id="icon-animations__shake">

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownSoft.css'
 
-
 export function TimerEffectsPillCountdownSoft() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
@@ -53,14 +52,10 @@ export function TimerEffectsPillCountdownSoft() {
 
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-soft">
-      <div
-        key={animationKey}
-        className="pf-pill-timer__pill pf-pill-timer__pill--soft"
-      >
+      <div key={animationKey} className="pf-pill-timer__pill pf-pill-timer__pill--soft">
         <div className="pf-pill-timer__time">{format(seconds)}</div>
       </div>
       <span className="pf-pill-timer__label">Pill Countdown — Soft</span>
     </div>
   )
 }
-

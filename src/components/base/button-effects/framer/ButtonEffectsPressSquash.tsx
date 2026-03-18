@@ -10,10 +10,12 @@ import * as m from 'motion/react-m'
 function ButtonEffectsPressSquashComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
 
   const handleClick = () => {
     setIsAnimating(true)

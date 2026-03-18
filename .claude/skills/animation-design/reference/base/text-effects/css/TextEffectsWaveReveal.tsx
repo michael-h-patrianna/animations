@@ -65,11 +65,7 @@ function TextEffectsWaveRevealComponent({
         {lines.map((line, lineIndex) => {
           const lineStart = initialDelay + lineIndex * lineDelay
           return (
-            <div
-              key={lineIndex}
-              className="tfx-wave-reveal-line"
-              style={{ color: line.color }}
-            >
+            <div key={lineIndex} className="tfx-wave-reveal-line" style={{ color: line.color }}>
               {line.text.split('').map((char, charIndex) => (
                 <span
                   key={charIndex}
@@ -90,4 +86,3 @@ function TextEffectsWaveRevealComponent({
 }
 
 export const TextEffectsWaveReveal = memo(TextEffectsWaveRevealComponent)
-

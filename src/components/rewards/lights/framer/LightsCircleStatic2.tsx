@@ -10,11 +10,22 @@ const glowVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: [0, 0.1, 0.25, 0.45, 0.7, 0.9, 0.9, 0.75, 0.6, 0.4, 0.2, 0.08, 0],
-    transition: { duration: animationDuration, times: [0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938, 0.1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const },
+    transition: {
+      duration: animationDuration,
+      times: [
+        0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938,
+        0.1,
+      ],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const,
+    },
   },
 } // Bulb variant for chase effect with smooth ramp up/down
 const bulbVariants = {
-  hidden: { backgroundColor: `var(--bulb-off)`, filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))` },
+  hidden: {
+    backgroundColor: `var(--bulb-off)`,
+    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+  },
   show: {
     backgroundColor: [
       `var(--bulb-off)`,
@@ -46,10 +57,21 @@ const bulbVariants = {
       `drop-shadow(0 0 2px var(--bulb-off-glow35))`,
       `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
     ],
-    transition: { duration: animationDuration, times: [0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938, 0.1], repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const },
+    transition: {
+      duration: animationDuration,
+      times: [
+        0, 0.0063, 0.0125, 0.0188, 0.025, 0.0313, 0.0625, 0.0688, 0.075, 0.0813, 0.0875, 0.0938,
+        0.1,
+      ],
+      repeat: Infinity,
+      ease: [0.42, 0, 0.58, 1] as const,
+    },
   },
 }
-const LightsCircleStatic2: React.FC<LightsCircleStatic2Props> = ({ numBulbs = 16, onColor = 'var(--pf-anim-gold)' }) => {
+const LightsCircleStatic2: React.FC<LightsCircleStatic2Props> = ({
+  numBulbs = 16,
+  onColor = 'var(--pf-anim-gold)',
+}) => {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
   const radius = 80
   const containerVariants = {
@@ -68,7 +90,11 @@ const LightsCircleStatic2: React.FC<LightsCircleStatic2Props> = ({ numBulbs = 16
     const x = radius * Math.cos(angleRad)
     const y = radius * Math.sin(angleRad)
     return (
-      <div key={i} className="lights-circle-static-2__bulb-wrapper" style={{ transform: `translate(${x}px, ${y}px)` }}>
+      <div
+        key={i}
+        className="lights-circle-static-2__bulb-wrapper"
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+      >
         <m.div className="lights-circle-static-2__glow" variants={glowVariants} />
         <m.div className="lights-circle-static-2__bulb" variants={bulbVariants} />
       </div>
@@ -117,7 +143,12 @@ const LightsCircleStatic2: React.FC<LightsCircleStatic2Props> = ({ numBulbs = 16
         } as React.CSSProperties
       }
     >
-      <m.div className="lights-circle-static-2__container" variants={containerVariants} initial="hidden" animate="show">
+      <m.div
+        className="lights-circle-static-2__container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
         {bulbs}
       </m.div>
     </div>

@@ -8,9 +8,11 @@ OUTPUT ONLY a single fenced ANIMATION_SPEC JSON block. No prose before or after.
 === END CIB-001 ===
 
 ## TASK (What to do)
+
 Design, not code. From a natural-language description, produce a complete animation specification for React (CSS + Framer Motion) that is easy to translate to React Native.
 
 ## CONSTRAINTS (Rules)
+
 - Must apply relevant principles from the embedded list below; name which ones you use and why.
 - RN-friendly: avoid DOM-only APIs, pseudo-elements, filter/clip-path/vh/vw; prefer transform/opacity; keep logic state-driven.
 - Accessibility: include prefers-reduced-motion plan.
@@ -18,15 +20,17 @@ Design, not code. From a natural-language description, produce a complete animat
 - Output format: exactly one ANIMATION_SPEC block as defined below (valid JSON). No code.
 
 ## PROCESS (How)
-1) Intake essentials: component context, trigger(s), tone, constraints (brief).
-2) Map selected principles to motion strategy (concise rationale).
-3) Specify states, timing, orchestration, layout intent, visuals, performance, testability, handoff.
+
+1. Intake essentials: component context, trigger(s), tone, constraints (brief).
+2. Map selected principles to motion strategy (concise rationale).
+3. Specify states, timing, orchestration, layout intent, visuals, performance, testability, handoff.
 
 === RECALL CIB-001 ===
 Before emitting, ensure you return ONLY the ANIMATION_SPEC block below.
 === END RECALL ===
 
 ## EMBEDDED DESIGN PRINCIPLES (quick reference)
+
 - Squash and Stretch: Elastic responsiveness via subtle scale changes to signal interactivity or system activity.
 - Anticipation: Brief pre-motion (e.g., compress/rotate) that signals an impending state change.
 - Staging: Clear hierarchy by sequencing entries (stagger) and emphasizing primary over secondary.
@@ -37,6 +41,7 @@ Before emitting, ensure you return ONLY the ANIMATION_SPEC block below.
 - Appeal: Motion that feels pleasant, brand-aligned, and emotionally engaging without distraction.
 
 ## OUTPUT FORMAT
+
 Return exactly one fenced block tagged ANIMATION_SPEC. Do not include any other text outside the block.
 
 ```ANIMATION_SPEC
@@ -128,6 +133,7 @@ Return exactly one fenced block tagged ANIMATION_SPEC. Do not include any other 
 ```
 
 ## QUALITY GATE (check before emitting)
+
 ✓ Return ONLY one ANIMATION_SPEC fenced block (valid JSON)
 ✓ Include ≥4 design_principles with rationale
 ✓ Provide concrete timings/easings and orchestration

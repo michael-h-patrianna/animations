@@ -1,13 +1,6 @@
-
 import * as m from 'motion/react-m'
 
-/**
- *
- */
 import { pulseScroll } from '@/assets'
-/**
- *
- */
 export function IconAnimationsPulse() {
   return (
     <div className="icon-demo-container" data-animation-id="icon-animations__pulse">

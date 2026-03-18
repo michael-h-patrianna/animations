@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { MockContent } from './MockContent'
 
-
 export function ModalDismissSnackbarScale() {
   const toastRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -100,4 +99,3 @@ export function ModalDismissSnackbarScale() {
     />
   )
 }
-

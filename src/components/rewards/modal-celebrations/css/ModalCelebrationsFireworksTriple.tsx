@@ -58,9 +58,24 @@ type Sparkle = {
 /* ─── Constants ─── */
 
 const BURSTS: BurstConfig[] = [
-  { cx: -35, cy: -18, delay: 0, colors: [CELEBRATION_COLORS[0], CELEBRATION_COLORS[3], CELEBRATION_COLORS[4]] },
-  { cx: 32, cy: -28, delay: 0.3, colors: [CELEBRATION_COLORS[2], CELEBRATION_COLORS[4], CELEBRATION_COLORS[1]] },
-  { cx: 4, cy: 8, delay: 0.55, colors: [CELEBRATION_COLORS[3], CELEBRATION_COLORS[0], CELEBRATION_COLORS[2]] },
+  {
+    cx: -35,
+    cy: -18,
+    delay: 0,
+    colors: [CELEBRATION_COLORS[0], CELEBRATION_COLORS[3], CELEBRATION_COLORS[4]],
+  },
+  {
+    cx: 32,
+    cy: -28,
+    delay: 0.3,
+    colors: [CELEBRATION_COLORS[2], CELEBRATION_COLORS[4], CELEBRATION_COLORS[1]],
+  },
+  {
+    cx: 4,
+    cy: 8,
+    delay: 0.55,
+    colors: [CELEBRATION_COLORS[3], CELEBRATION_COLORS[0], CELEBRATION_COLORS[2]],
+  },
 ]
 
 const RAYS_PER_BURST = 14

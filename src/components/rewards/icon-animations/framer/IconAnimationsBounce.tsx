@@ -1,14 +1,7 @@
-
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 
-/**
- *
- */
 import { presentBox as giftBoxImage } from '@/assets'
-/**
- *
- */
 export function IconAnimationsBounce() {
   return (
     <div className="icon-demo-container" data-animation-id="icon-animations__bounce">

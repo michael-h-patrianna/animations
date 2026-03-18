@@ -5,7 +5,7 @@ import './TimerEffectsTimerPulse.css'
 
 export function TimerEffectsTimerPulse() {
   const [value, setValue] = useState(10)
-useEffect(() => {
+  useEffect(() => {
     const duration = 2000
     const startTime = Date.now()
 

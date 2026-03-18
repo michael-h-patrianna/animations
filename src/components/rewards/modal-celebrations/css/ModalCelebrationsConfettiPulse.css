@@ -3,10 +3,10 @@
    Triple shockwave pulse: 3 rhythmic energy waves deposit confetti
    ═══════════════════════════════════════════════════════════════ */
 
-[data-animation-id="modal-celebrations__confetti-pulse"].pf-celebration {
+[data-animation-id='modal-celebrations__confetti-pulse'].pf-celebration {
   border-radius: 12px;
-  background: linear-gradient(180deg, rgb(236 195 255 / 18%), rgb(29 9 47 / 92%));
-  border: 1px solid rgb(236 195 255 / 12%);
+  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
+  border: 1px solid var(--pf-anim-highlight-12);
 }
 
 /* ─── Triple-pulse flash — 3 beats in sync with waves ─── */
@@ -43,13 +43,27 @@
 
 /* ─── Glow pulsing with wave rhythm ─── */
 @keyframes cp-glow {
-  0% { opacity: 0; }
-  6% { opacity: 0.35; }
-  22% { opacity: 0.06; }
-  28% { opacity: 0.4; }
-  44% { opacity: 0.04; }
-  50% { opacity: 0.45; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.35;
+  }
+  22% {
+    opacity: 0.06;
+  }
+  28% {
+    opacity: 0.4;
+  }
+  44% {
+    opacity: 0.04;
+  }
+  50% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* ─── Expanding shockwave ring ─── */
@@ -82,37 +96,27 @@
     opacity: 0;
   }
   8% {
-    transform:
-      translate(calc(var(--tx) * 0.08), calc(var(--ty) * 0.08))
-      scale(calc(var(--s) * 0.4))
+    transform: translate(calc(var(--tx) * 0.08), calc(var(--ty) * 0.08)) scale(calc(var(--s) * 0.4))
       rotateZ(calc(var(--rz) * 0.05));
     opacity: calc(var(--peak-op) * 0.5);
   }
   20% {
-    transform:
-      translate(calc(var(--tx) * 0.3), calc(var(--ty) * 0.3))
-      scale(var(--s))
+    transform: translate(calc(var(--tx) * 0.3), calc(var(--ty) * 0.3)) scale(var(--s))
       rotateZ(calc(var(--rz) * 0.2));
     opacity: var(--peak-op);
   }
   50% {
-    transform:
-      translate(calc(var(--tx) * 0.7), calc(var(--ty) * 0.7))
-      scale(var(--s))
+    transform: translate(calc(var(--tx) * 0.7), calc(var(--ty) * 0.7)) scale(var(--s))
       rotateZ(calc(var(--rz) * 0.5));
     opacity: var(--peak-op);
   }
   75% {
-    transform:
-      translate(var(--tx), calc(var(--ty) + 12px))
-      scale(calc(var(--s) * 0.7))
+    transform: translate(var(--tx), calc(var(--ty) + 12px)) scale(calc(var(--s) * 0.7))
       rotateZ(calc(var(--rz) * 0.8));
     opacity: calc(var(--peak-op) * 0.5);
   }
   100% {
-    transform:
-      translate(calc(var(--tx) * 1.05), calc(var(--ty) * 1.05 + 35px))
-      scale(0)
+    transform: translate(calc(var(--tx) * 1.05), calc(var(--ty) * 1.05 + 35px)) scale(0)
       rotateZ(var(--rz));
     opacity: 0;
   }

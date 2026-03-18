@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsBadgePop.css'
 
-
 export function UpdateIndicatorsBadgePop() {
   const badgeRef = useRef<HTMLDivElement>(null)
 
@@ -44,4 +43,3 @@ export function UpdateIndicatorsBadgePop() {
     </div>
   )
 }
-

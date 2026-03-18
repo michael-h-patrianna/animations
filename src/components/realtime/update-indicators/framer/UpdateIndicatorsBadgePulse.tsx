@@ -1,9 +1,6 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 
-/**
- *
- */
 export function UpdateIndicatorsBadgePulse() {
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
@@ -17,7 +14,7 @@ export function UpdateIndicatorsBadgePulse() {
             duration: 1,
             ease: easeInOut,
             repeat: Infinity,
-            repeatType: 'loop'
+            repeatType: 'loop',
           }}
         />
         New

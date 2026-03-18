@@ -1,6 +1,5 @@
 /* Styles for ModalContentListSoftStagger */
 .modal-content-overlay {
-
   --modal-content-list-soft-stagger-bg-1: rgb(236 195 255 / 8%);
   --modal-content-list-soft-stagger-border-1: rgb(236 195 255 / 12%);
   --modal-content-list-soft-stagger-color-1: rgb(255 255 255 / 76%);
@@ -31,10 +30,8 @@
   overflow: hidden;
   width: clamp(280px, 80%, 400px);
   --box-shadow-lint-token-1:
-    0 18px 40px rgb(0 0 0 / 45%),
-    inset 0 0 0 1px var(--modal-content-list-soft-stagger-border-1);
-  box-shadow:
-    var(--box-shadow-lint-token-1);
+    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-content-list-soft-stagger-border-1);
+  box-shadow: var(--box-shadow-lint-token-1);
   transform-origin: center;
   padding: 16px;
   border-radius: 12px;
@@ -92,14 +89,22 @@
 }
 .modal-content-button-primary {
   border-radius: 50px;
-  background: linear-gradient(180deg, var(--modal-content-list-soft-stagger-bg-3), var(--modal-content-list-soft-stagger-bg-4));
+  background: linear-gradient(
+    180deg,
+    var(--modal-content-list-soft-stagger-bg-3),
+    var(--modal-content-list-soft-stagger-bg-4)
+  );
   color: var(--modal-content-list-soft-stagger-color-3);
   border: 2px solid var(--modal-content-list-soft-stagger-border-3);
   text-shadow: 0 1px 1px var(--modal-content-list-soft-stagger-text-shadow);
   padding: 6px 12px;
 }
 .modal-content-button-primary:hover:not(:disabled, [aria-disabled='true']) {
-  background: linear-gradient(180deg, var(--modal-content-list-soft-stagger-bg-5), var(--modal-content-list-soft-stagger-bg-6));
+  background: linear-gradient(
+    180deg,
+    var(--modal-content-list-soft-stagger-bg-5),
+    var(--modal-content-list-soft-stagger-bg-6)
+  );
   border-color: var(--modal-content-list-soft-stagger-border);
   /* RN-friendly: avoid drop-shadow */
 }

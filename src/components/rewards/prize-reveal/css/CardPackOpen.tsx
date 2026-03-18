@@ -15,13 +15,10 @@ import { ALL_CARD_IMAGES, drawCards } from '../cardSets'
 
 import {
   ArrivalDust,
-  CardFanContainer,
-  CollectBurst,
   EdgeSparks,
   GoldenConfetti,
   LightSpill,
   PackTearOpen,
-  ScreenFlash,
   SeamCracks,
   SeamLight,
   TearLineFlash,
@@ -29,6 +26,7 @@ import {
   type EdgeSparkData,
   type TearDebrisData,
 } from './CardPackOpenParts'
+import { CardFanContainer, CollectBurst, ScreenFlash } from './CardPackOpenCardParts'
 
 import './CardPackOpen.css'
 
@@ -43,10 +41,13 @@ function randomPackImage(): string {
 /* ─── Image preloading ─── */
 
 const ALL_IMAGES = [
-  cardPackBasicImage, cardPackGoldImage, cardPackDiamondImage,
+  cardPackBasicImage,
+  cardPackGoldImage,
+  cardPackDiamondImage,
   cardPackBackImage,
   ...ALL_CARD_IMAGES,
-  crystalShatterDustImage, crystalShatterPrismaticRingImage,
+  crystalShatterDustImage,
+  crystalShatterPrismaticRingImage,
   crystalShatterSparkleImage,
 ]
 
@@ -62,12 +63,14 @@ function useImagePreloader(srcs: string[]): boolean {
             img.onload = () => resolve()
             img.onerror = () => resolve()
             img.src = src
-          }),
-      ),
+          })
+      )
     ).then(() => {
       if (!cancelled) setReady(true)
     })
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [srcs])
   return ready
 }
@@ -94,9 +97,21 @@ const FAN_POSITIONS: FanPosition[] = [
 function getFanPositions(count: number): FanPosition[] {
   const layouts: Record<number, FanPosition[]> = {
     1: [{ x: 0, y: -8, rotate: 0 }],
-    2: [{ x: -58, y: 6, rotate: -6 }, { x: 58, y: 6, rotate: 6 }],
-    3: [{ x: -72, y: 12, rotate: -8 }, { x: 0, y: -8, rotate: 0 }, { x: 72, y: 12, rotate: 8 }],
-    4: [{ x: -90, y: 16, rotate: -10 }, { x: -30, y: 2, rotate: -3 }, { x: 30, y: 2, rotate: 3 }, { x: 90, y: 16, rotate: 10 }],
+    2: [
+      { x: -58, y: 6, rotate: -6 },
+      { x: 58, y: 6, rotate: 6 },
+    ],
+    3: [
+      { x: -72, y: 12, rotate: -8 },
+      { x: 0, y: -8, rotate: 0 },
+      { x: 72, y: 12, rotate: 8 },
+    ],
+    4: [
+      { x: -90, y: 16, rotate: -10 },
+      { x: -30, y: 2, rotate: -3 },
+      { x: 30, y: 2, rotate: 3 },
+      { x: 90, y: 16, rotate: 10 },
+    ],
     5: FAN_POSITIONS,
   }
   return layouts[count] ?? FAN_POSITIONS
@@ -137,7 +152,9 @@ function createEdgeSparks(): EdgeSparkData[] {
     const startX = side * (packW * 0.3 + Math.random() * packW * 0.7)
     const startY = seamY + (Math.random() - 0.5) * 20
     return {
-      id: i, startX, startY,
+      id: i,
+      startX,
+      startY,
       endX: startX + side * (15 + Math.random() * 25),
       endY: startY - 10 - Math.random() * 30,
       size: 6 + Math.random() * 6,
@@ -170,26 +187,30 @@ function usePackPhase(): PackPhase {
   const [phase, setPhase] = useState<PackPhase>('arrival')
   useEffect(() => {
     const timers = [
-      window.setTimeout(() => setPhase('anticipation'), ANTICIPATION_MS),
-      window.setTimeout(() => setPhase('burst'), BURST_MS),
-      window.setTimeout(() => setPhase('fan'), FAN_MS),
-      window.setTimeout(() => setPhase('flip'), FLIP_MS),
+      setTimeout(() => setPhase('anticipation'), ANTICIPATION_MS),
+      setTimeout(() => setPhase('burst'), BURST_MS),
+      setTimeout(() => setPhase('fan'), FAN_MS),
+      setTimeout(() => setPhase('flip'), FLIP_MS),
     ]
-    return () => timers.forEach(window.clearTimeout)
+    return () => timers.forEach((id) => clearTimeout(id))
   }, [])
   return phase
 }
 
 function useFlipStates(phase: PackPhase, cardCount: number) {
-  const [flipped, setFlipped] = useState<boolean[]>(Array(cardCount).fill(false))
+  const [flipped, setFlipped] = useState<boolean[]>(() => Array(cardCount).fill(false))
   useEffect(() => {
     if (phase !== 'flip') return
     const timers = Array.from({ length: cardCount }, (_, i) =>
-      window.setTimeout(() => {
-        setFlipped((prev) => { const next = [...prev]; next[i] = true; return next })
-      }, i * FLIP_INTERVAL_MS),
+      setTimeout(() => {
+        setFlipped((prev) => {
+          const next = [...prev]
+          next[i] = true
+          return next
+        })
+      }, i * FLIP_INTERVAL_MS)
     )
-    return () => timers.forEach(window.clearTimeout)
+    return () => timers.forEach((id) => clearTimeout(id))
   }, [phase, cardCount])
   return flipped
 }
@@ -207,11 +228,15 @@ function useCardPackState(cardCount: number) {
   const tearDebris = useMemo(() => createTearDebris(), [])
   const flipped = useFlipStates(phase, cards.length)
 
-  const [burstedCards, setBurstedCards] = useState<boolean[]>(Array(cards.length).fill(false))
+  const [burstedCards, setBurstedCards] = useState<boolean[]>(() => Array(cards.length).fill(false))
   useEffect(() => {
     flipped.forEach((isFlipped, i) => {
       if (isFlipped && !burstedCards[i]) {
-        setBurstedCards((prev) => { const next = [...prev]; next[i] = true; return next })
+        setBurstedCards((prev) => {
+          const next = [...prev]
+          next[i] = true
+          return next
+        })
       }
     })
   }, [flipped, burstedCards])
@@ -237,7 +262,10 @@ function useCardPackState(cardCount: number) {
     return () => window.clearTimeout(t)
   }, [isIdle])
 
-  const handleCollect = useCallback(() => { setFocusedCard(null); setCollected(true) }, [])
+  const handleCollect = useCallback(() => {
+    setFocusedCard(null)
+    setCollected(true)
+  }, [])
 
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
   useEffect(() => {
@@ -257,22 +285,45 @@ function useCardPackState(cardCount: number) {
     return () => window.clearTimeout(t)
   }, [phase])
 
-  const [fanDone, setFanDone] = useState<boolean[]>(Array(cards.length).fill(false))
+  const [fanDone, setFanDone] = useState<boolean[]>(() => Array(cards.length).fill(false))
   useEffect(() => {
     if (phase !== 'fan' && phase !== 'flip' && phase !== 'idle') return
     const timers = cards.map((_, i) =>
-      window.setTimeout(() => {
-        setFanDone((prev) => { const next = [...prev]; next[i] = true; return next })
-      }, i * 120 + 500),
+      setTimeout(
+        () => {
+          setFanDone((prev) => {
+            const next = [...prev]
+            next[i] = true
+            return next
+          })
+        },
+        i * 120 + 500
+      )
     )
-    return () => timers.forEach(window.clearTimeout)
+    return () => timers.forEach((id) => clearTimeout(id))
   }, [phase, cards])
 
   return {
-    packImage, cards, positions, phase, confetti, flipped, burstedCards,
-    isIdle, focusedCard, handleCardSelect, handleDismiss,
-    collected, showCollect, handleCollect, activeFlash, showConfetti,
-    arrivalDust, edgeSparks, tearDebris, fanDone,
+    packImage,
+    cards,
+    positions,
+    phase,
+    confetti,
+    flipped,
+    burstedCards,
+    isIdle,
+    focusedCard,
+    handleCardSelect,
+    handleDismiss,
+    collected,
+    showCollect,
+    handleCollect,
+    activeFlash,
+    showConfetti,
+    arrivalDust,
+    edgeSparks,
+    tearDebris,
+    fanDone,
   }
 }
 
@@ -282,10 +333,26 @@ function useCardPackState(cardCount: number) {
 
 function CardPackAnimation({ cardCount }: { cardCount: number }) {
   const {
-    packImage, cards, positions, phase, confetti, flipped, burstedCards,
-    isIdle, focusedCard, handleCardSelect, handleDismiss,
-    collected, showCollect, handleCollect, activeFlash, showConfetti,
-    arrivalDust, edgeSparks, tearDebris, fanDone,
+    packImage,
+    cards,
+    positions,
+    phase,
+    confetti,
+    flipped,
+    burstedCards,
+    isIdle,
+    focusedCard,
+    handleCardSelect,
+    handleDismiss,
+    collected,
+    showCollect,
+    handleCollect,
+    activeFlash,
+    showConfetti,
+    arrivalDust,
+    edgeSparks,
+    tearDebris,
+    fanDone,
   } = useCardPackState(cardCount)
 
   const showPack = phase === 'arrival' || phase === 'anticipation'
@@ -301,8 +368,15 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
 
       {showPack && (
         <div className="pf-card-pack-css__pack-body">
-          <div className={`pf-card-pack-css__pack-shaker${showAnticipation ? ' pf-card-pack-css__pack-shaker--shaking' : ''}`}>
-            <img src={packImage} alt="" aria-hidden="true" className="pf-card-pack-css__pack-image" />
+          <div
+            className={`pf-card-pack-css__pack-shaker${showAnticipation ? ' pf-card-pack-css__pack-shaker--shaking' : ''}`}
+          >
+            <img
+              src={packImage}
+              alt=""
+              aria-hidden="true"
+              className="pf-card-pack-css__pack-image"
+            />
           </div>
         </div>
       )}
@@ -317,9 +391,15 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
 
       {showCards && (
         <CardFanContainer
-          cards={cards} positions={positions} flipped={flipped}
-          collected={collected} isIdle={isIdle} focusedCard={focusedCard}
-          handleCardSelect={handleCardSelect} burstedCards={burstedCards} fanDone={fanDone}
+          cards={cards}
+          positions={positions}
+          flipped={flipped}
+          collected={collected}
+          isIdle={isIdle}
+          focusedCard={focusedCard}
+          handleCardSelect={handleCardSelect}
+          burstedCards={burstedCards}
+          fanDone={fanDone}
         />
       )}
 
@@ -349,7 +429,10 @@ function CardPackOpenCssComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCo
   const ready = useImagePreloader(ALL_IMAGES)
 
   return (
-    <div className="pf-modal-celebration pf-card-pack-css" data-animation-id="prize-reveal__card-pack-open-css">
+    <div
+      className="pf-modal-celebration pf-card-pack-css"
+      data-animation-id="prize-reveal__card-pack-open-css"
+    >
       {ready && <CardPackAnimation cardCount={prizeCount} />}
     </div>
   )

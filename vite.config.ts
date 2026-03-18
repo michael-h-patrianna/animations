@@ -8,18 +8,10 @@ export default defineConfig({
     strictPort: false,
     open: true,
   },
-  plugins: [
-    react(),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': '/src',
-      '@/components': '/src/components',
-      '@/animations': '/src/animations',
-      '@/utils': '/src/utils',
-      '@/types': '/src/types',
-      '@/hooks': '/src/hooks',
-      '@/assets': '/src/assets',
     },
   },
   build: {

@@ -1,6 +1,5 @@
 /* Styles scoped for TextEffectsLevelBreakthrough */
 .pf-breakthrough-container {
-
   --text-effects-level-breakthrough-color: #ffce1a;
   position: relative;
 }

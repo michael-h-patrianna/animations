@@ -4,10 +4,12 @@ import * as m from 'motion/react-m'
 function ButtonFeedbackShakeGentleComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
 
   const handleClick = () => {
     setIsAnimating(true)
@@ -18,10 +20,7 @@ function ButtonFeedbackShakeGentleComponent() {
   }
 
   return (
-    <div
-      className="button-demo"
-      data-animation-id="button-effects__shake-gentle"
-    >
+    <div className="button-demo" data-animation-id="button-effects__shake-gentle">
       <m.button
         className="pf-btn pf-btn--primary"
         onClick={handleClick}

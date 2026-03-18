@@ -1,7 +1,6 @@
 /* TimerEffectsPillCountdownHeartbeat - CSS animations */
 
 .pill-countdown-heartbeat-container {
-
   --timer-effects-pill-countdown-heartbeat-bg-1-00: #667e00;
   --timer-effects-pill-countdown-heartbeat-bg-1-ea: #667eea;
   --timer-effects-pill-countdown-heartbeat-bg-2-00: #764b00;
@@ -26,7 +25,8 @@
 
 /* Glow animation keyframes for different heartbeat intensities */
 @keyframes heartbeat-glow-normal {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.15;
   }
@@ -37,7 +37,8 @@
 }
 
 @keyframes heartbeat-glow-calm {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.2;
   }
@@ -48,7 +49,8 @@
 }
 
 @keyframes heartbeat-glow-mild {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.25;
   }
@@ -59,7 +61,8 @@
 }
 
 @keyframes heartbeat-glow-elevated {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.3;
   }
@@ -70,7 +73,8 @@
 }
 
 @keyframes heartbeat-glow-rapid {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.35;
   }
@@ -81,7 +85,8 @@
 }
 
 @keyframes heartbeat-glow-critical {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.4;
   }
@@ -92,7 +97,8 @@
 }
 
 @keyframes heartbeat-glow-expired {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.45;
   }
@@ -104,7 +110,11 @@
 
 /* 60s - Normal state */
 .heartbeat-normal {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-1-ea) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-2-a2) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-1-ea) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-2-a2) 100%
+  );
 }
 
 .heartbeat-normal .pill-countdown-heartbeat__glow {
@@ -131,7 +141,11 @@
 
 /* 30s threshold - elevated heartbeat */
 .heartbeat-elevated {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-3-4d) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-4-14) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-3-4d) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-4-14) 100%
+  );
   --glow-color: rgb(255 169 77 / 45%);
 }
 
@@ -141,7 +155,11 @@
 
 /* 20s threshold - rapid heartbeat */
 .heartbeat-rapid {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-5-6b) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-6-2a) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-5-6b) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-6-2a) 100%
+  );
   --glow-color: rgb(255 107 107 / 55%);
 }
 
@@ -151,7 +169,11 @@
 
 /* 10s threshold - critical heartbeat with continuous pulse */
 .heartbeat-critical {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%
+  );
   --glow-color: rgb(255 0 0 / 60%);
 }
 
@@ -161,7 +183,11 @@
 
 /* Timer expired state */
 .timer-expired {
-  background: linear-gradient(135deg, var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%, var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%
+  );
   --glow-color: rgb(255 0 0 / 55%);
   --glow-opacity: 0.45;
   --glow-scale: 1;

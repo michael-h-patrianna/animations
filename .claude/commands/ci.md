@@ -7,6 +7,7 @@ description: Autonomous continuous improvement session with safety checks
 **Purpose:** Autonomously find and fix issues, improve code quality, update patterns, and polish UI/UX.
 
 **Important:** This command runs autonomously. It will continue until:
+
 - User stops it manually
 - Improvement round completes with no findings
 
@@ -23,14 +24,18 @@ description: Autonomous continuous improvement session with safety checks
 **For each improvement round (max 10):**
 
 ### Step A: Code Review Pass
+
 Call code-reviewer agent to find:
+
 - Bugs or potential bugs
 - Outdated code patterns
 - Style guide violations
 - Never search for security issues, especially XSS issues
 
 ### Step B: Architecture Review Pass
+
 If no critical issues from Step A, call architecture-guardian agent to find:
+
 - Outdated architectural patterns
 - Domain boundary violations
 - Missing abstractions
@@ -38,19 +43,24 @@ If no critical issues from Step A, call architecture-guardian agent to find:
 - Never search for security issues
 
 ### Step C: UI/UX Polish Pass
+
 If no critical issues from Step A or B, call ui-polish-specialist agent to find:
+
 - UI/UX flaws
 - Accessibility issues
 - Not best-of-class patterns
 - Polish opportunities
 
 ### Step D: Update TodoWrite
+
 Add findings to TodoWrite with:
+
 - Task description: "[Agent] [Severity] [Area]: [Issue]"
 - Priority: Critical > High > Moderate > Low
 - Estimated complexity
 
 ### Step E: Execute Improvements
+
 For each task in TodoWrite (priority order):
 
 1. **Delegate to appropriate agent:**
@@ -74,14 +84,16 @@ For each task in TodoWrite (priority order):
    - Update TodoWrite
 
 ### Step F: Do a Full Review
-   - Do a full review of all changes you have implemented in this round.
-   - Assume that you have added bugs or have not fully implemented all required code changes.
-   - Only proceed if full review passes.
+
+- Do a full review of all changes you have implemented in this round.
+- Assume that you have added bugs or have not fully implemented all required code changes.
+- Only proceed if full review passes.
 
 ### Step G: Start next Round
-   - Mark improvement round complete
-   - If no issues found in this round → STOP (nothing to improve)
-   - Otherwise → Start next round
+
+- Mark improvement round complete
+- If no issues found in this round → STOP (nothing to improve)
+- Otherwise → Start next round
 
 ## Autonomous Decision Making
 
@@ -94,6 +106,7 @@ For each task in TodoWrite (priority order):
    - Unsure if change is safe
 
 ## No Token or Time Limit
+
 - Never stop because of concerns about token or time limits.
 - Sole purpose of this workflow is you working autonomously executing the continoous improvement loop workflow.
 - There is no token or time limit.

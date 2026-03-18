@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import './ProgressBarsProgressMilestones.css'
 
 export function ProgressBarsProgressMilestones() {
-const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
+  const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new Set())
 
   const milestonePositions = [0, 0.25, 0.5, 0.75, 1]
   const milestoneLabels = ['Start', '25%', '50%', '75%', '100%']
@@ -122,7 +122,9 @@ const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(new 
               style={{
                 position: 'absolute',
                 inset: 0,
-                border: activatedMilestones.has(i) ? '2px solid rgba(0,255,255,0.8)' : '2px solid rgba(0,200,180,0.5)',
+                border: activatedMilestones.has(i)
+                  ? '2px solid rgba(0,255,255,0.8)'
+                  : '2px solid rgba(0,200,180,0.5)',
                 borderRadius: '50%',
                 transform: 'rotate(45deg)',
               }}

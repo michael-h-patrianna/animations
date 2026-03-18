@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ModalContentListSpotlight.css'
 
-
 export function ModalContentListSpotlight() {
   const listItemRefs = useRef<(HTMLDivElement | null)[]>([])
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -99,4 +98,3 @@ export function ModalContentListSpotlight() {
     </div>
   )
 }
-

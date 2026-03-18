@@ -56,7 +56,13 @@ export function ModalCelebrationsFirework() {
                     particle.y + FIREWORK_GRAVITY_DISTANCE_PX,
                     particle.y + FIREWORK_GRAVITY_DISTANCE_PX,
                   ],
-                  rotate: [0, 0, particle.rotation, particle.rotation + 180, particle.rotation + 180],
+                  rotate: [
+                    0,
+                    0,
+                    particle.rotation,
+                    particle.rotation + 180,
+                    particle.rotation + 180,
+                  ],
                   scale: [0, 0, particle.scale, particle.scale * 0.5, 0],
                   opacity: [0, 1, 1, 0, 0],
                 }}

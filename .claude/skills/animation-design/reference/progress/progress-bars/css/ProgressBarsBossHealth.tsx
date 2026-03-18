@@ -8,7 +8,7 @@ export function ProgressBarsBossHealth() {
   useEffect(() => {
     // Simulate damage taking
     const interval = setInterval(() => {
-      setHealth(h => {
+      setHealth((h) => {
         if (h <= 0) return 100 // Reset
         const damage = Math.floor(Math.random() * 20) + 5
         return Math.max(0, h - damage)
@@ -30,17 +30,11 @@ export function ProgressBarsBossHealth() {
       <div className="boss-health-frame-css">
         <div className="boss-skull-css">☠</div>
         <div className="boss-health-track-css">
-           {/* Delayed Damage (Yellow/White) */}
-           <div 
-             className="boss-health-fill-css delay"
-             style={{ width: `${delayedHealth}%` }}
-           />
-           
-           {/* Current Health (Red) */}
-           <div 
-             className="boss-health-fill-css current"
-             style={{ width: `${health}%` }}
-           />
+          {/* Delayed Damage (Yellow/White) */}
+          <div className="boss-health-fill-css delay" style={{ width: `${delayedHealth}%` }} />
+
+          {/* Current Health (Red) */}
+          <div className="boss-health-fill-css current" style={{ width: `${health}%` }} />
         </div>
       </div>
       <div className="boss-name-css">DARK OVERLORD</div>

@@ -5,14 +5,14 @@ import { arcanePortalRingImage } from '@/assets'
 
 /* ─── Shared types (re-exported for main file) ─── */
 
-/**
- *
- */
 export type RevealPhase = 'materialize' | 'charge' | 'erupt'
-/**
- *
- */
-export type ParticleData = { id: number; startX: number; startY: number; size: number; delay: number }
+export type ParticleData = {
+  id: number
+  startX: number
+  startY: number
+  size: number
+  delay: number
+}
 
 /* ─── Constants ─── */
 
@@ -23,9 +23,6 @@ const RUNE_COUNT = 8
    PORTAL INTRO — ambient, particles, vortex, ring, runes
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function AmbientGlow() {
   return (
     <m.div
@@ -37,9 +34,6 @@ export function AmbientGlow() {
   )
 }
 
-/**
- *
- */
 export function ConvergeParticles({ particles }: { particles: ParticleData[] }) {
   return (
     <div className="pf-arcane-portal__particles">
@@ -57,9 +51,6 @@ export function ConvergeParticles({ particles }: { particles: ParticleData[] }) 
   )
 }
 
-/**
- *
- */
 export function InnerVortex({ phase }: { phase: RevealPhase }) {
   return (
     <m.div
@@ -76,9 +67,6 @@ export function InnerVortex({ phase }: { phase: RevealPhase }) {
   )
 }
 
-/**
- *
- */
 export function PortalRing({ phase }: { phase: RevealPhase }) {
   return (
     <m.div
@@ -91,7 +79,7 @@ export function PortalRing({ phase }: { phase: RevealPhase }) {
       }}
       transition={{
         duration: phase === 'erupt' ? 0.45 : phase === 'charge' ? 0.8 : 0.7,
-        ease: phase === 'materialize' ? [0.16, 0.84, 0.32, 1] as const : 'easeInOut',
+        ease: phase === 'materialize' ? ([0.16, 0.84, 0.32, 1] as const) : 'easeInOut',
       }}
     >
       <m.div
@@ -113,9 +101,6 @@ export function PortalRing({ phase }: { phase: RevealPhase }) {
   )
 }
 
-/**
- *
- */
 export function OrbitingRunes() {
   return (
     <>
@@ -163,9 +148,6 @@ export function OrbitingRunes() {
   )
 }
 
-/**
- *
- */
 export function Shockwave() {
   return (
     <m.div
@@ -177,9 +159,6 @@ export function Shockwave() {
   )
 }
 
-/**
- *
- */
 export function BurstFlash() {
   return (
     <m.div
@@ -195,9 +174,6 @@ export function BurstFlash() {
    CLAIM — button + burst flash on collect
    ═══════════════════════════════════════════════════ */
 
-/**
- *
- */
 export function ClaimBurst() {
   return (
     <m.div
@@ -209,9 +185,6 @@ export function ClaimBurst() {
   )
 }
 
-/**
- *
- */
 export function ClaimButton({ onClaim }: { onClaim: () => void }) {
   return (
     <m.button

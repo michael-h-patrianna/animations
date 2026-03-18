@@ -5,4 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Sequential Chase',
   description: 'Single lit bulb chases around the circle creating a smooth rotating motion effect.',
   tags: ['css'],
-};
+  controls: 'lights',
+}

@@ -23,7 +23,7 @@ function TextEffectsVerbTwirlComponent() {
             initial={{ rotate: 0, scale: 1 }}
             animate={{
               rotate: [0, 90, 180, 270, 360],
-              scale: [1, 1.05, 1, 0.98, 1]
+              scale: [1, 1.05, 1, 0.98, 1],
             }}
             transition={{
               duration: 1.8,

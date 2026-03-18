@@ -15,6 +15,7 @@ With hundreds of animation components, we needed a way to:
 5. **Support Multiple Variants**: Track Framer Motion vs CSS implementations
 
 Traditional approaches considered:
+
 - **Separate JSON Files**: External metadata files (e.g., `animations.json`)
 - **Database**: Store metadata in a database
 - **Naming Conventions**: Derive metadata from file/folder structure
@@ -41,6 +42,7 @@ export default function ButtonBounce() {
 ```
 
 A registration system (`animationRegistry.ts`) then:
+
 1. Dynamically imports all animation components
 2. Extracts metadata from each component
 3. Builds a hierarchical catalog (categories → groups → animations)
@@ -103,14 +105,14 @@ src/types/
 
 ```typescript
 interface AnimationMetadata {
-  id: string                    // Unique identifier
-  title: string                 // Display name
-  description: string           // Short description
-  tags: string[]                // Searchable tags
-  category: string              // Top-level category
-  group: string                 // Subcategory (framer/css)
-  infiniteAnimation?: boolean   // Auto-loop flag
-  disableReplay?: boolean       // Hide replay button
+  id: string // Unique identifier
+  title: string // Display name
+  description: string // Short description
+  tags: string[] // Searchable tags
+  category: string // Top-level category
+  group: string // Subcategory (framer/css)
+  infiniteAnimation?: boolean // Auto-loop flag
+  disableReplay?: boolean // Hide replay button
 }
 ```
 

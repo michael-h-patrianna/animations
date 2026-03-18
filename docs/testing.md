@@ -2,7 +2,7 @@
 
 **Purpose**: Instructions for writing and running tests in this animation library.
 
-**Tech Stack**: Vitest 3 (unit/component) + Playwright (E2E) + Testing Library + jsdom
+**Tech Stack**: Vitest 4 (unit/component) + Playwright (E2E) + Testing Library + happy-dom
 
 ---
 
@@ -45,6 +45,7 @@ tests/
 ```
 
 **Decision tree**:
+
 - Testing a specific component? → Co-locate as `Component.test.tsx`
 - Testing a feature/domain? → Put in `src/__tests__/`
 - Testing user journeys in browser? → Put in `tests/e2e/`
@@ -56,6 +57,7 @@ tests/
 ### Smoke Test (Verify Rendering)
 
 **Template** (`src/__tests__/<group>.smoke.test.tsx`):
+
 ```typescript
 import { render } from '@testing-library/react'
 import { Suspense } from 'react'
@@ -83,6 +85,7 @@ describe('<GroupName> Smoke Tests', () => {
 ### Component Behavior Test
 
 **Template** (testing AnimationCard with animation):
+
 ```typescript
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -122,6 +125,7 @@ describe('<ComponentName>', () => {
 ### Hook Test
 
 **Template**:
+
 ```typescript
 import { renderHook, waitFor } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
@@ -144,6 +148,7 @@ describe('useAnimations', () => {
 ### Registry Consistency Test
 
 **Template**:
+
 ```typescript
 import { describe, it, expect } from 'vitest'
 import { categories, buildRegistryFromCategories } from '@/components/animationRegistry'
@@ -177,6 +182,7 @@ describe('Animation Registry', () => {
 ## How to Write E2E Tests
 
 **Template** (`tests/e2e/<feature>.spec.ts`):
+
 ```typescript
 import { test, expect } from '@playwright/test'
 
@@ -232,11 +238,13 @@ await advanceRaf(600) // Advance 600ms
 **CRITICAL**: Max 4 test workers in parallel. Do NOT change `maxWorkers` in vitest.config.ts.
 
 **DO**:
+
 - Use `pool: 'threads'` (memory-efficient)
 - Call `cleanup()` from @testing-library/react in afterEach
 - Process data in batches if > 100 items
 
 **DON'T**:
+
 - Generate 1000+ data points in single test
 - Forget to cleanup timers/listeners
 - Run tests in watch mode in CI
@@ -245,13 +253,13 @@ await advanceRaf(600) // Advance 600ms
 
 ## Test Naming Conventions
 
-| Type | File Pattern | Example |
-|------|--------------|---------|
-| Smoke tests | `<group>.smoke.test.tsx` | `modal-base.smoke.test.tsx` |
-| Component tests | `<Component>.test.tsx` | `AnimationCard.test.tsx` |
-| Feature tests | `<feature>.test.tsx` | `registryConsistency.test.tsx` |
-| Hook tests | `hooks.<hookName>.test.tsx` | `hooks.useAnimations.test.tsx` |
-| E2E tests | `<feature>.spec.ts` | `animation-rendering.spec.ts` |
+| Type            | File Pattern                | Example                        |
+| --------------- | --------------------------- | ------------------------------ |
+| Smoke tests     | `<group>.smoke.test.tsx`    | `modal-base.smoke.test.tsx`    |
+| Component tests | `<Component>.test.tsx`      | `AnimationCard.test.tsx`       |
+| Feature tests   | `<feature>.test.tsx`        | `registryConsistency.test.tsx` |
+| Hook tests      | `hooks.<hookName>.test.tsx` | `hooks.useAnimations.test.tsx` |
+| E2E tests       | `<feature>.spec.ts`         | `animation-rendering.spec.ts`  |
 
 ---
 

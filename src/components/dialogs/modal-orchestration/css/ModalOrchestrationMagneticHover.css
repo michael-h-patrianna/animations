@@ -1,6 +1,5 @@
 /* Styles scoped for ModalOrchestrationMagneticHover */
 .pf-magnetic-container {
-
   --modal-orchestration-magnetic-hover-bg: rgb(236 195 255 / 8%);
   --modal-orchestration-magnetic-hover-border: rgb(236 195 255 / 12%);
   --modal-orchestration-magnetic-hover-color-1: rgb(255 255 255 / 76%);
@@ -26,7 +25,9 @@
   transform: scale(0) rotateX(-90deg);
   opacity: 0;
   will-change: transform, opacity;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 /* Tile entrance animation */

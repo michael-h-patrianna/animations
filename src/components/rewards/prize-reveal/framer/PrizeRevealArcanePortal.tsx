@@ -27,7 +27,14 @@ import {
 /* ─── Types ─── */
 
 type MoteData = { id: number; angle: number; radius: number; size: number }
-type PrizeConfig = { id: string; label: string | null; src: string; value: number | null; decimals: number; modifier: string }
+type PrizeConfig = {
+  id: string
+  label: string | null
+  src: string
+  value: number | null
+  decimals: number
+  modifier: string
+}
 type PrizeSlot = { x: number; y: number; delay: number }
 
 /* ─── Constants ─── */
@@ -41,10 +48,38 @@ const CLAIM_APPEAR_DELAY_MS = 800
 const CLAIM_FLY_STAGGER = 0.06
 
 const PRIZE_POOL: PrizeConfig[] = [
-  { id: 'gc', label: 'GC', src: arcanePortalGcImage, value: 1500, decimals: 0, modifier: 'pf-arcane-portal__prize--gc' },
-  { id: 'sc', label: 'SC', src: arcanePortalScImage, value: 2.5, decimals: 2, modifier: 'pf-arcane-portal__prize--sc' },
-  { id: 'fs', label: 'FS', src: arcanePortalFreeSpinsImage, value: 50, decimals: 0, modifier: 'pf-arcane-portal__prize--fs' },
-  { id: 'rr', label: null, src: arcanePortalRandomRewardImage, value: null, decimals: 0, modifier: 'pf-arcane-portal__prize--rr' },
+  {
+    id: 'gc',
+    label: 'GC',
+    src: arcanePortalGcImage,
+    value: 1500,
+    decimals: 0,
+    modifier: 'pf-arcane-portal__prize--gc',
+  },
+  {
+    id: 'sc',
+    label: 'SC',
+    src: arcanePortalScImage,
+    value: 2.5,
+    decimals: 2,
+    modifier: 'pf-arcane-portal__prize--sc',
+  },
+  {
+    id: 'fs',
+    label: 'FS',
+    src: arcanePortalFreeSpinsImage,
+    value: 50,
+    decimals: 0,
+    modifier: 'pf-arcane-portal__prize--fs',
+  },
+  {
+    id: 'rr',
+    label: null,
+    src: arcanePortalRandomRewardImage,
+    value: null,
+    decimals: 0,
+    modifier: 'pf-arcane-portal__prize--rr',
+  },
 ]
 
 function getPrizeSlots(count: number): PrizeSlot[] {
@@ -76,7 +111,10 @@ function useRevealPhase() {
   useEffect(() => {
     const t1 = window.setTimeout(() => setPhase('charge'), CHARGE_DELAY_MS)
     const t2 = window.setTimeout(() => setPhase('erupt'), ERUPT_DELAY_MS)
-    return () => { window.clearTimeout(t1); window.clearTimeout(t2) }
+    return () => {
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+    }
   }, [])
   return phase
 }
@@ -93,7 +131,9 @@ function useCountUp(target: number, durationMs: number, delayMs: number, decimal
         const eased = 1 - (1 - t) ** 3
         const current = target * eased
         if (t < 1) {
-          setDisplay(decimals > 0 ? current.toFixed(decimals) : Math.round(current).toLocaleString())
+          setDisplay(
+            decimals > 0 ? current.toFixed(decimals) : Math.round(current).toLocaleString()
+          )
           rafRef.current = requestAnimationFrame(tick)
         } else {
           setDisplay(decimals > 0 ? target.toFixed(decimals) : target.toLocaleString())
@@ -101,7 +141,10 @@ function useCountUp(target: number, durationMs: number, delayMs: number, decimal
       }
       rafRef.current = requestAnimationFrame(tick)
     }, delayMs)
-    return () => { window.clearTimeout(timeout); cancelAnimationFrame(rafRef.current) }
+    return () => {
+      window.clearTimeout(timeout)
+      cancelAnimationFrame(rafRef.current)
+    }
   }, [target, durationMs, delayMs, decimals])
   return display
 }
@@ -251,7 +294,17 @@ function PrizeText({ label, amount, delay }: { label: string; amount: string; de
   )
 }
 
-function Prize({ config, slot, claimed, claimIndex }: { config: PrizeConfig; slot: PrizeSlot; claimed: boolean; claimIndex: number }) {
+function Prize({
+  config,
+  slot,
+  claimed,
+  claimIndex,
+}: {
+  config: PrizeConfig
+  slot: PrizeSlot
+  claimed: boolean
+  claimIndex: number
+}) {
   const amount = useCountUp(config.value ?? 0, 700, (slot.delay + 0.5) * 1000, config.decimals)
   const hasText = config.label != null && config.value != null
   const motes = useMemo(() => createOrbitMotes(), [])
@@ -351,9 +404,7 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
 
       {/* Runes wrap — AnimatePresence enables smooth exit */}
       <div className="pf-arcane-portal__runes">
-        <AnimatePresence>
-          {showRunes && <OrbitingRunes />}
-        </AnimatePresence>
+        <AnimatePresence>{showRunes && <OrbitingRunes />}</AnimatePresence>
       </div>
 
       {showPrizes && (
@@ -363,7 +414,13 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
           {claimed && <ClaimBurst />}
           <div className="pf-arcane-portal__prizes">
             {prizes.map((prize, i) => (
-              <Prize key={prize.id} config={prize} slot={slots[i]} claimed={claimed} claimIndex={i} />
+              <Prize
+                key={prize.id}
+                config={prize}
+                slot={slots[i]}
+                claimed={claimed}
+                claimIndex={i}
+              />
             ))}
           </div>
           <AnimatePresence>
@@ -375,7 +432,11 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
   )
 }
 
-function PrizeRevealArcanePortalComponent({ prizeCount = DEFAULT_PRIZE_COUNT }: { prizeCount?: number }) {
+function PrizeRevealArcanePortalComponent({
+  prizeCount = DEFAULT_PRIZE_COUNT,
+}: {
+  prizeCount?: number
+}) {
   return (
     <div
       className="pf-modal-celebration pf-arcane-portal"

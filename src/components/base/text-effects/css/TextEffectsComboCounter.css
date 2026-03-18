@@ -1,6 +1,5 @@
 /* Container */
 .tfx-combo-container {
-
   --text-effects-combo-counter-bg-1: #ef4444;
   --text-effects-combo-counter-bg-2: #dc2626;
   --text-effects-combo-counter-bg-3: #b91c1c;
@@ -63,7 +62,12 @@
   position: relative;
   font-size: 36px;
   font-weight: 900;
-  background: linear-gradient(180deg, var(--text-effects-combo-counter-bg-1) 0%, var(--text-effects-combo-counter-bg-2) 50%, var(--text-effects-combo-counter-bg-3) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--text-effects-combo-counter-bg-1) 0%,
+    var(--text-effects-combo-counter-bg-2) 50%,
+    var(--text-effects-combo-counter-bg-3) 100%
+  );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 2px 4px var(--text-effects-combo-counter-text-shadow-1);
@@ -166,10 +170,8 @@
   color: var(--text-effects-combo-counter-color-2-81);
   letter-spacing: 3px;
   --text-shadow-lint-token-1:
-    0 0 10px rgb(16 185 129 / 60%),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
-  text-shadow:
-    var(--text-shadow-lint-token-1);
+    0 0 10px rgb(16 185 129 / 60%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
+  text-shadow: var(--text-shadow-lint-token-1);
   margin-top: 8px;
 
   /* GPU acceleration */
@@ -263,16 +265,19 @@
 .tfx-combo-particle:nth-child(4),
 .tfx-combo-particle:nth-child(5),
 .tfx-combo-particle:nth-child(6) {
-  background: linear-gradient(135deg, var(--text-effects-combo-counter-bg-4) 0%, var(--text-effects-combo-counter-bg-5) 50%, var(--text-effects-combo-counter-bg-4) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--text-effects-combo-counter-bg-4) 0%,
+    var(--text-effects-combo-counter-bg-5) 50%,
+    var(--text-effects-combo-counter-bg-4) 100%
+  );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: 15px;
   font-weight: 800;
   --text-shadow-lint-token-2:
-    0 0 15px rgb(255 215 0 / 90%),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
-  text-shadow:
-    var(--text-shadow-lint-token-2);
+    0 0 15px rgb(255 215 0 / 90%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
+  text-shadow: var(--text-shadow-lint-token-2);
 }
 
 /* ============================================================================

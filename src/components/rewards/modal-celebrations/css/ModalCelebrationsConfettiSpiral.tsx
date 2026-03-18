@@ -93,7 +93,13 @@ function makeSparkles(): Sparkle[] {
 /* ─── Sub-components ─── */
 
 /** Renders particles for one depth layer. */
-function SpiralLayer({ particles, peakOpacity }: { particles: SpiralParticle[]; peakOpacity: string }) {
+function SpiralLayer({
+  particles,
+  peakOpacity,
+}: {
+  particles: SpiralParticle[]
+  peakOpacity: string
+}) {
   return (
     <>
       {particles.map((p) => (
@@ -155,7 +161,10 @@ export function ModalCelebrationsConfettiSpiral() {
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">
-      <div className="pf-celebration__flash" style={{ animation: 'cs-flash 250ms ease-out both' }} />
+      <div
+        className="pf-celebration__flash"
+        style={{ animation: 'cs-flash 250ms ease-out both' }}
+      />
 
       <div className="pf-celebration__depth-bg">
         <SpiralLayer particles={bgParts} peakOpacity="0.5" />

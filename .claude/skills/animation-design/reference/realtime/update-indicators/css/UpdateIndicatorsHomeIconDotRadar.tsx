@@ -2,7 +2,6 @@ import homeIcon1 from '@/assets/home-icon1.png'
 import { useEffect, useRef } from 'react'
 import './UpdateIndicatorsHomeIconDotRadar.css'
 
-
 export function UpdateIndicatorsHomeIconDotRadar() {
   const r1Ref = useRef<HTMLSpanElement>(null)
   const r2Ref = useRef<HTMLSpanElement>(null)
@@ -15,8 +14,7 @@ export function UpdateIndicatorsHomeIconDotRadar() {
         void el.offsetHeight
       }
       if (r1Ref.current) r1Ref.current.style.animation = 'pf-ui-ring-expand 1600ms ease-out'
-      if (r2Ref.current)
-        r2Ref.current.style.animation = 'pf-ui-ring-expand 1600ms ease-out 800ms'
+      if (r2Ref.current) r2Ref.current.style.animation = 'pf-ui-ring-expand 1600ms ease-out 800ms'
     }
     run()
     const interval = setInterval(run, 10000)
@@ -37,4 +35,3 @@ export function UpdateIndicatorsHomeIconDotRadar() {
     </div>
   )
 }
-

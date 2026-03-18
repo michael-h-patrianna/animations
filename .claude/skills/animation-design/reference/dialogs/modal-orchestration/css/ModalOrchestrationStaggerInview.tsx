@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 
-
 export function ModalOrchestrationStaggerInview() {
   const containerRef = useRef<HTMLDivElement>(null)
   const tileRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -55,7 +54,9 @@ export function ModalOrchestrationStaggerInview() {
         {tiles.map((tile) => (
           <div
             key={tile.id}
-            ref={(el) => { tileRefs.current[tile.id] = el }}
+            ref={(el) => {
+              tileRefs.current[tile.id] = el
+            }}
             className="pf-stagger-tile"
           >
             <h5>{tile.title}</h5>
@@ -66,4 +67,3 @@ export function ModalOrchestrationStaggerInview() {
     </div>
   )
 }
-

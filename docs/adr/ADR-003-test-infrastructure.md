@@ -16,12 +16,14 @@ The Animation Catalog requires comprehensive testing to ensure:
 6. **Fast Feedback**: Tests run quickly during development
 
 Testing needs:
+
 - **Unit Tests**: Component logic, hooks, services
 - **Integration Tests**: Component interactions, state management
 - **E2E Tests**: Full user flows, visual validation
 - **Performance Tests**: Animation FPS, bundle size
 
 Test frameworks considered:
+
 1. **Jest + React Testing Library**: Industry standard
 2. **Vitest + Testing Library**: Modern, faster, Vite-native
 3. **Cypress**: Popular E2E framework
@@ -38,6 +40,7 @@ We chose a **two-tier testing strategy**:
 - **Deterministic test environment** with controlled randomness
 
 **Why Vitest over Jest:**
+
 - Native Vite integration (faster, no config duplication)
 - ES modules support out of the box
 - Faster test execution (parallel by default)
@@ -52,6 +55,7 @@ We chose a **two-tier testing strategy**:
 - Accessibility audits
 
 **Why Playwright over Cypress:**
+
 - Multi-browser support (Cypress only Chrome-based)
 - Better API for async operations
 - Built-in test artifacts (screenshots, videos, traces)
@@ -100,6 +104,7 @@ process.env.TZ = 'UTC'
 ```
 
 **Benefits:**
+
 - Tests produce same results every run
 - No timing-dependent failures
 - Easier to reproduce issues
@@ -108,6 +113,7 @@ process.env.TZ = 'UTC'
 ### Key Configurations
 
 **`vitest.config.ts`:**
+
 ```typescript
 export default defineConfig({
   test: {
@@ -124,6 +130,7 @@ export default defineConfig({
 ```
 
 **`playwright.config.ts`:**
+
 ```typescript
 export default defineConfig({
   testDir: './tests/e2e',

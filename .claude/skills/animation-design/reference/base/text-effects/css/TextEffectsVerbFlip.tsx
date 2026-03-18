@@ -21,13 +21,14 @@ function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffect
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="tfx-flip-container" data-animation-id="text-effects__verb-flipping" aria-label={text}>
+    <div
+      className="tfx-flip-container"
+      data-animation-id="text-effects__verb-flipping"
+      aria-label={text}
+    >
       <div className="tfx-flip-line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <span
-            key={i}
-            className={`tfx-flip-char ${i % 2 === 1 ? 'tfx-flip-char--delayed' : ''}`}
-          >
+          <span key={i} className={`tfx-flip-char ${i % 2 === 1 ? 'tfx-flip-char--delayed' : ''}`}>
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}
@@ -42,4 +43,3 @@ function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffect
 export const TextEffectsVerbFlip = memo(TextEffectsVerbFlipComponent)
 
 export default TextEffectsVerbFlip
-

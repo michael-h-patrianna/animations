@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import './shared.css'
 import './TimerEffectsPillCountdownStrong.css'
 
-
 export function TimerEffectsPillCountdownStrong() {
   const START_SECONDS = 60
   const [seconds, setSeconds] = useState(START_SECONDS)
@@ -72,4 +71,3 @@ export function TimerEffectsPillCountdownStrong() {
     </div>
   )
 }
-

@@ -89,7 +89,8 @@ export function ProgressBarsProgressThin() {
           style={{
             position: 'absolute',
             inset: '-8px',
-            background: 'radial-gradient(ellipse at right center, rgba(198,255,119,0.2) 0%, transparent 70%)',
+            background:
+              'radial-gradient(ellipse at right center, rgba(198,255,119,0.2) 0%, transparent 70%)',
             pointerEvents: 'none',
             transform: 'scale(1.3)',
           }}

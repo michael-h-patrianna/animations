@@ -1,6 +1,5 @@
 /* Styles scoped for ModalOrchestrationSpringPhysics */
 .pf-spring-container {
-
   --modal-orchestration-spring-physics-bg: rgb(236 195 255 / 8%);
   --modal-orchestration-spring-physics-border: rgb(236 195 255 / 12%);
   --modal-orchestration-spring-physics-color-1: rgb(255 255 255 / 76%);
@@ -26,7 +25,9 @@
   transform: scale(0) translateY(-100px);
   opacity: 0;
   will-change: transform, opacity;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 /* Spring bounce entrance animation - approximating spring physics with cubic-bezier */

@@ -2,16 +2,10 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 
-/**
- *
- */
 import { homeIcon1 } from '@/assets'
-/**
- *
- */
 export function UpdateIndicatorsHomeIconDotPulse() {
   const [key, setKey] = useState(0)
-useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setKey((k) => k + 1)
     }, 10000)
@@ -30,7 +24,7 @@ useEffect(() => {
           animate={{ scale: [1, 1.1, 1] }}
           transition={{
             duration: 1.4,
-            ease: easeInOut
+            ease: easeInOut,
           }}
         >
           <m.span

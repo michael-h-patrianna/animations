@@ -13,17 +13,13 @@ export function RevealEffectsPrizeRays() {
   return (
     <div className="reveal-prize-rays-container-css">
       {/* Rays background - Centered via CSS transform */}
-      <div 
-        className={`reveal-prize-rays-bg-css ${isVisible ? 'visible' : ''}`}
-      />
+      <div className={`reveal-prize-rays-bg-css ${isVisible ? 'visible' : ''}`} />
 
       {/* Central Glow */}
-      <div 
-        className={`reveal-prize-rays-glow-css ${isVisible ? 'visible' : ''}`}
-      />
-       
+      <div className={`reveal-prize-rays-glow-css ${isVisible ? 'visible' : ''}`} />
+
       {/* Prize Icon */}
-      <img 
+      <img
         src={diamondImg}
         alt="Prize"
         className={`reveal-prize-rays-item-css ${isVisible ? 'visible' : ''}`}
