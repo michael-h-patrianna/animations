@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './ProgressBarsXpAccumulation.css'
 import {
-  type FloatingXP,
   MultiplierBadge,
   MarkerIndicator,
   MarkerDot,
@@ -9,47 +8,24 @@ import {
   MilestonePulse,
   MilestoneHalo,
   FloatingXPDisplay,
-} from './XpAccumulationHelpers' // Local type for milestone halo animation entries
-type MilestoneAnimation = { id: number; threshold: number }
-const INITIAL_XP = 100
-const MAX_XP = 1000
-const PROGRESS_DURATION = 0.48
-const ORB_IMPACT_DELAY_MS = 420
-const FLOATING_SPAWN_LEAD_MS = 110
-const FLOATING_LIFETIME_MS = 1650
-const GAIN_INTERVAL_MS = 1580
-const FIRST_GAIN_DELAY_MS = 520
-const RESET_DELAY_MS = 2600
-const PROGRESS_EASE: [number, number, number, number] = [0.18, 0.85, 0.25, 1]
-const MULTIPLIER_ZONES = [
-  { threshold: 20, multiplier: 2 },
-  { threshold: 40, multiplier: 3 },
-  { threshold: 60, multiplier: 4 },
-  { threshold: 80, multiplier: 5 },
-] as const
-const XP_SEQUENCE_RANGES: Array<[number, number]> = [
-  [150, 165],
-  [205, 222],
-  [290, 310],
-  [405, 430],
-  [525, 552],
-  [655, 678],
-  [785, 812],
-  [910, 940],
-  [MAX_XP, MAX_XP],
-]
-const MIN_SEQUENCE_STEP = 28
-function createXpSequence() {
-  let current = INITIAL_XP
-  return XP_SEQUENCE_RANGES.map(([min, max]) => {
-    const span = Math.max(0, max - min)
-    const roll = span === 0 ? min : min + Math.random() * span
-    const ensured = Math.max(current + MIN_SEQUENCE_STEP, roll)
-    const clamped = Math.min(MAX_XP, ensured)
-    current = clamped
-    return clamped
-  })
-}
+} from './XpAccumulationHelpers'
+
+import {
+  createXpSequence,
+  FIRST_GAIN_DELAY_MS,
+  FLOATING_LIFETIME_MS,
+  FLOATING_SPAWN_LEAD_MS,
+  GAIN_INTERVAL_MS,
+  INITIAL_XP,
+  MAX_XP,
+  MULTIPLIER_ZONES,
+  ORB_IMPACT_DELAY_MS,
+  PROGRESS_DURATION,
+  PROGRESS_EASE,
+  RESET_DELAY_MS,
+  type FloatingXP,
+  type MilestoneAnimation,
+} from '../XpAccumulationConfig'
 export function ProgressBarsXpAccumulation() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [floatingXP, setFloatingXP] = useState<FloatingXP[]>([])

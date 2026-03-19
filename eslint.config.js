@@ -85,6 +85,8 @@ export default defineConfig([
       'animation-rules/no-viewport-units': 'error',
       'animation-rules/no-important': 'error',
       'animation-rules/require-data-animation-id': 'error',
+      'animation-rules/no-unstyled-interactive-elements': 'error',
+      'animation-rules/no-excessive-z-index': 'error',
     },
   },
   {
@@ -151,6 +153,14 @@ export default defineConfig([
       // Splitting into sub-components would create artificial decomposition with no
       // reuse value and would break the self-contained component contract.
       'max-lines-per-function': 'off',
+      // Animation files may exceed the global 500-line limit but are capped at 400
+      // (skip blanks + comments). Components beyond this should extract config,
+      // hooks, or sub-components into a sibling *Config.ts or *Parts.tsx file.
+      'max-lines': ['error', { max: 400, skipBlankLines: true, skipComments: true }],
+      // Embedded colors in compound CSS values (box-shadow, gradient strings) are
+      // caught by the stricter Literal handler. Warn (not error) in animation dirs
+      // to flag for migration without breaking CI on 50+ pre-existing occurrences.
+      'animation-rules/no-hardcoded-colors': 'warn',
       // Animation components are documented through co-located .meta.ts files
       // (title, description, tags) which are the canonical documentation source.
       // Requiring JSDoc on these components produces empty /** */ stubs with no value.
@@ -169,6 +179,8 @@ export default defineConfig([
     ],
     rules: {
       'jsdoc/require-jsdoc': 'off',
+      // Helper files share the same embedded-color leniency as animation components
+      'animation-rules/no-hardcoded-colors': 'warn',
     },
   },
   // Timer test utils: components intentionally leak timers to test the leak detector

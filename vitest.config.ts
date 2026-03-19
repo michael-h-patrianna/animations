@@ -35,6 +35,8 @@ export default defineConfig({
         'src/components/ui/**/*.{ts,tsx}',
         'src/components/animationRegistry.ts',
         'src/components/ErrorBoundary.tsx',
+        'src/components/**/framer/**/*.{ts,tsx}',
+        'src/components/**/css/**/*.{ts,tsx}',
         'src/contexts/**/*.{ts,tsx}',
         'src/hooks/**/*.{ts,tsx}',
         'src/lib/**/*.{ts,tsx}',
@@ -57,6 +59,21 @@ export default defineConfig({
         branches: 75,
         functions: 85,
         lines: 90,
+        // Animation components are tested via smoke tests and metadata integrity
+        // checks rather than per-component unit tests. A lower threshold ensures
+        // dead code paths are visible without requiring full coverage.
+        'src/components/**/framer/**': {
+          statements: 20,
+          branches: 10,
+          functions: 15,
+          lines: 20,
+        },
+        'src/components/**/css/**': {
+          statements: 20,
+          branches: 10,
+          functions: 15,
+          lines: 20,
+        },
       },
     },
   },

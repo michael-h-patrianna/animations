@@ -30,11 +30,24 @@ const rules = {
       const msg =
         'Hardcoded color values are not allowed. Use CSS custom properties (var(--color-xxx)) or theme tokens instead.'
 
+      // Non-anchored patterns catch hex/rgb/hsl embedded in longer strings
+      // (e.g. "border: 1px solid #fff"). isColorString only catches full-string colors.
+      const embeddedHex = /#(?:[0-9a-fA-F]{3,4}){1,2}(?!\w)/
+      const embeddedRgb = /rgba?\s*\(/i
+      const embeddedHsl = /hsla?\s*\(/i
+
       return {
         Literal(node) {
+          if (typeof node.value !== 'string') return
+          if (getFilename(context).includes('.test.')) return
           if (isColorString(node.value)) {
-            if (getFilename(context).includes('.test.')) return
             context.report({ node, message: msg })
+            return
+          }
+          // Catch colors embedded in longer string literals (e.g. box-shadow, gradient values).
+          // Uses same patterns as the TemplateLiteral handler for consistency.
+          if (embeddedHex.test(node.value) || embeddedRgb.test(node.value) || embeddedHsl.test(node.value)) {
+            context.report({ node, message: msg, data: { embedded: true } })
           }
         },
         TemplateLiteral(node) {

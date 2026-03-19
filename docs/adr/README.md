@@ -22,6 +22,8 @@ Each ADR follows this structure:
 - [ADR-002: Co-located Component Metadata System](./ADR-002-colocated-metadata.md)
 - [ADR-003: Test Infrastructure with Vitest and Playwright](./ADR-003-test-infrastructure.md)
 - [ADR-004: State Machine Refactoring Strategy](./ADR-004-state-machine-refactoring.md)
+- [ADR-005: Ban Blur and Non-Linear Gradients as Animated Properties](./ADR-005-ban-animated-blur-and-gradients.md)
+- [ADR-006: Self-Contained Animation Components](./ADR-006-self-contained-animations.md)
 
 ## Creating New ADRs
 

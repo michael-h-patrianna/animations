@@ -8,7 +8,6 @@ Create a production-ready animation for this showcase catalog. User request: "$A
 PHASE 1 — CONCEPT:
 
 Design the animation concept. Determine:
-
 - Visual narrative implied by the user's description
 - Motion pattern (bounce, morph, particle, parallax, reveal, etc.)
 - Image assets needed: subject, transparency requirement, dimensions, DOM placement
@@ -18,7 +17,6 @@ Design the animation concept. Determine:
 Use the `animation-design` skill to research existing animations for similar motion patterns. Extract relevant curves and timing from the project's design tokens. Never copy reference code.
 
 Output:
-
 ```
 CONCEPT:
   title: [human-readable name]
@@ -33,7 +31,6 @@ CONCEPT:
 ```
 
 QUALITY GATE:
-
 - Clear visual narrative, not just "make it move"
 - Every asset listed with transparency requirement
 - Motion pattern maps to an allowed CSS property (transform, opacity, backgroundColor)
@@ -58,7 +55,6 @@ For each asset in `assets_needed`:
 Regenerate once if an asset does not meet quality expectations.
 
 QUALITY GATE:
-
 - Every asset saved to `src/assets/` (verify with `ls`)
 - Correct model used per transparency requirement
 
@@ -71,7 +67,6 @@ PHASE 4 — VERIFICATION:
 Run `npm run typecheck` and `npm run lint`. Fix issues found. Maximum one fix cycle — report any remaining issues.
 
 OUTPUT:
-
 - Files created/modified (paths)
 - Asset generation: model used, credits per asset
 - Issues found and resolutions

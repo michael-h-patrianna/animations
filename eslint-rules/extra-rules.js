@@ -350,6 +350,100 @@ const extraRules = {
     },
   },
 
+  /**
+   * Ban <button> elements in animation files that don't use a CSS class.
+   * Prevents agents from creating buttons with inline styles or no styling.
+   * Buttons must reference a class from shared.css or a group-scoped stylesheet.
+   */
+  'no-unstyled-interactive-elements': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'Disallow <button> elements without a className in animation components.',
+      },
+      schema: [],
+    },
+    create(context) {
+      if (!isAnimationFile(context)) return {}
+      const base = basename(getFilename(context), '.tsx')
+      if (base.startsWith('Mock') || base === 'index') return {}
+
+      return {
+        JSXOpeningElement(node) {
+          const name = node.name?.name
+          if (name !== 'button') return
+
+          const classAttr = node.attributes.find(
+            (attr) => attr.type === 'JSXAttribute' && attr.name?.name === 'className'
+          )
+          if (!classAttr || !classAttr.value) {
+            context.report({
+              node,
+              message:
+                '<button> in animation components must use a CSS class from shared.css or a group stylesheet (e.g. pf-button-primary, modal-content-button). Do not create buttons with inline styles.',
+            })
+            return
+          }
+
+          // Also ban buttons that have a className AND a style prop (inline style override)
+          const styleAttr = node.attributes.find(
+            (attr) => attr.type === 'JSXAttribute' && attr.name?.name === 'style'
+          )
+          if (styleAttr) {
+            context.report({
+              node,
+              message:
+                '<button> in animation components must not use inline styles. Style buttons through CSS classes in shared.css or a group stylesheet.',
+            })
+          }
+        },
+      }
+    },
+  },
+
+  /**
+   * Ban z-index values above 10 in animation files.
+   * High z-index breaks containment within the demo canvas.
+   */
+  'no-excessive-z-index': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'Disallow z-index values above 10 in animation components. High z-index breaks demo canvas containment.',
+      },
+      schema: [],
+    },
+    create(context) {
+      if (!isAnimationFile(context)) return {}
+
+      const MAX_Z = 10
+      const msg = `z-index values above ${MAX_Z} are banned in animation components. High z-index breaks containment within the demo canvas. Use values 0–${MAX_Z} for internal layering.`
+
+      return {
+        Property(node) {
+          const name = node.key?.name || node.key?.value
+          if (name !== 'zIndex') return
+
+          if (node.value?.type === 'Literal' && typeof node.value.value === 'number') {
+            if (node.value.value > MAX_Z) {
+              context.report({ node, message: msg })
+            }
+          }
+          if (
+            node.value?.type === 'UnaryExpression' &&
+            node.value.operator === '-' &&
+            node.value.argument?.type === 'Literal'
+          ) {
+            // Negative z-index is fine, skip
+            return
+          }
+        },
+      }
+    },
+  },
+
   'no-svg-in-motion': {
     meta: {
       type: 'problem',

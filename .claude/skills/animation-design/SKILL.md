@@ -196,6 +196,10 @@ If creating a new group or category, also create the group `index.ts` and catego
 - [ ] No `!important`
 - [ ] No hardcoded colors if theme variables exist for that purpose
 - [ ] Animation plays correctly on replay (remount via key change)
+- [ ] All `<button>` elements use a CSS class (no inline styles on buttons)
+- [ ] No `z-index` values above 10
+- [ ] Both variants produce the same visual layout (same element count, same dimensions)
+- [ ] Framer variant has multiple animated elements for visual depth (primary + ambient/accent layers)
 
 ## Technical Constraints
 
@@ -220,6 +224,9 @@ If creating a new group or category, also create the group `index.ts` and catego
 | `position: fixed`                         | Breaks card containment                     |
 | `!important`                              | Overrides cascade unpredictably             |
 | Default exports on components             | Registry requires named exports             |
+| `<button>` without CSS class              | Lint error — use classes from `shared.css` or group stylesheet (`pf-button-primary`, `modal-content-button`, etc.) |
+| `z-index` above 10                        | Lint error — breaks demo canvas containment |
+| Inline `style` on `<button>` elements     | Lint error — style buttons through CSS classes only |
 
 ## Supporting Files
 

@@ -1,104 +1,66 @@
 import { useEffect, useRef } from 'react'
 import './ModalContentListSoftStagger.css'
 export function ModalContentListSoftStagger() {
+  const items = [
+    'Privacy settings updated',
+    'Two-factor authentication enabled',
+    'Email notifications configured',
+    'Profile picture updated',
+    'Timezone set to UTC',
+  ]
   const listItemsRef = useRef<(HTMLDivElement | null)[]>([])
-  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([])
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
   useEffect(() => {
-    // Trigger staggered animation on mount
     listItemsRef.current.forEach((item, index) => {
       if (item) {
-        // Reset any existing animation
         item.style.animation = 'none'
-        void item.offsetWidth // Force reflow
-        // Apply staggered animation with 60ms base delay + 300ms modal delay
+        void item.offsetWidth
         const delay = 300 + 60 * index
         item.style.animation = `list-soft-stagger 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards ${delay}ms`
         item.style.opacity = '0'
         item.style.transform = 'translateY(16px)'
       }
-    }) // Animate buttons after list items (last item finishes at ~600ms, so start buttons at 550ms)
-    buttonsRef.current.forEach((button, index) => {
-      if (button) {
-        button.style.animation = 'none'
-        void button.offsetWidth
-        const buttonDelay = 550 + 70 * index
-        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${buttonDelay}ms`
-        button.style.opacity = '0'
-        button.style.transform = 'translateY(16px) scale(0.94)'
-      }
     })
+    if (buttonRef.current) {
+      const btn = buttonRef.current
+      btn.style.animation = 'none'
+      void btn.offsetWidth
+      btn.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards 600ms`
+      btn.style.opacity = '0'
+      btn.style.transform = 'translateY(16px) scale(0.94)'
+    }
   }, [])
   return (
     <div className="modal-content-overlay" data-animation-id="modal-content__list-soft-stagger">
       <div className="modal-content-modal">
         <div className="modal-content-header">
-          <h4 className="modal-content-title">Sequence Control</h4>
+          <h4 className="modal-content-title">Recent Changes</h4>
           <span className="modal-content-badge">Modal</span>
         </div>
         <div className="modal-content-body">
-          <p>Build trust by sequencing content reveals.</p>
-          <p>Keep focus with 70ms cadence.</p>
           <div className="modal-content-list">
-            <div
-              ref={(el) => {
-                listItemsRef.current[0] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 1
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[1] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 2
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[2] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 3
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[3] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 4
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[4] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 5
-            </div>
+            {items.map((item, index) => (
+              <div
+                key={index}
+                ref={(el) => {
+                  listItemsRef.current[index] = el
+                }}
+                className="modal-content-list-item"
+              >
+                {item}
+              </div>
+            ))}
           </div>
         </div>
         <div className="modal-content-footer">
           <button
             type="button"
             ref={(el) => {
-              buttonsRef.current[0] = el
+              buttonRef.current = el
             }}
             className="modal-content-button modal-content-button-primary"
           >
-            Accept
-          </button>
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[1] = el
-            }}
-            className="modal-content-button modal-content-button-secondary"
-          >
-            Later
+            Got it
           </button>
         </div>
       </div>

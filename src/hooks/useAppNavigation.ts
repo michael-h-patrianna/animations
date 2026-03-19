@@ -1,7 +1,7 @@
 import type { CodeMode } from '@/contexts/CodeModeContext'
 import { useGroupInitialization } from '@/hooks/useGroupInitialization'
 import type { Category, Group } from '@/types/animation'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 /** Manages navigation state: group selection, category selection, and code mode switching. */
@@ -15,11 +15,18 @@ export function useAppNavigation(categories: Category[]) {
     [categories]
   )
 
+  // Ref-stabilize navigate so navigateToGroup has a permanent identity.
+  // react-router's navigate should be stable, but useCallback([navigate])
+  // creates fragile coupling — if a future router version changes identity,
+  // every effect downstream would re-fire.
+  const navigateRef = useRef(navigate)
+  navigateRef.current = navigate
+
   const navigateToGroup = useCallback(
     (id: string, options?: { replace?: boolean }) => {
-      navigate(`/${id}`, options)
+      navigateRef.current(`/${id}`, options)
     },
-    [navigate]
+    []
   )
 
   useGroupInitialization({

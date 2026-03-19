@@ -7,53 +7,26 @@ import {
   type AnimationPlaybackControls,
 } from 'motion/react'
 import * as m from 'motion/react-m'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react' // Local type for milestone halo animation entries
-type MilestoneAnimation = { id: number; threshold: number }
-interface FloatingXP {
-  id: number
-  value: number
-  percent: number
-  offset: number
-}
-const INITIAL_XP = 100
-const MAX_XP = 1000
-const PROGRESS_DURATION = 0.48
-const ORB_IMPACT_DELAY_MS = 420
-const FLOATING_SPAWN_LEAD_MS = 110
-const FLOATING_LIFETIME_MS = 1650
-const GAIN_INTERVAL_MS = 1580
-const FIRST_GAIN_DELAY_MS = 520
-const RESET_DELAY_MS = 2600
-const PROGRESS_EASE: [number, number, number, number] = [0.18, 0.85, 0.25, 1]
-const MULTIPLIER_ZONES = [
-  { threshold: 20, multiplier: 2 },
-  { threshold: 40, multiplier: 3 },
-  { threshold: 60, multiplier: 4 },
-  { threshold: 80, multiplier: 5 },
-] as const
-const XP_SEQUENCE_RANGES: Array<[number, number]> = [
-  [150, 165],
-  [205, 222],
-  [290, 310],
-  [405, 430],
-  [525, 552],
-  [655, 678],
-  [785, 812],
-  [910, 940],
-  [MAX_XP, MAX_XP],
-]
-const MIN_SEQUENCE_STEP = 28
-function createXpSequence() {
-  let current = INITIAL_XP
-  return XP_SEQUENCE_RANGES.map(([min, max]) => {
-    const span = Math.max(0, max - min)
-    const roll = span === 0 ? min : min + Math.random() * span
-    const ensured = Math.max(current + MIN_SEQUENCE_STEP, roll)
-    const clamped = Math.min(MAX_XP, ensured)
-    current = clamped
-    return clamped
-  })
-}
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
+import {
+  createXpSequence,
+  FIRST_GAIN_DELAY_MS,
+  FLOATING_LIFETIME_MS,
+  FLOATING_SPAWN_LEAD_MS,
+  GAIN_INTERVAL_MS,
+  getCurrentMultiplier,
+  getProgressBuckets,
+  INITIAL_XP,
+  MAX_XP,
+  MULTIPLIER_ZONES,
+  ORB_IMPACT_DELAY_MS,
+  PROGRESS_DURATION,
+  PROGRESS_EASE,
+  RESET_DELAY_MS,
+  type FloatingXP,
+  type MilestoneAnimation,
+} from '../XpAccumulationConfig'
 export function ProgressBarsXpAccumulation() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [floatingXP, setFloatingXP] = useState<FloatingXP[]>([])
@@ -95,16 +68,6 @@ export function ProgressBarsXpAccumulation() {
     animationControlsRef.current.forEach((control) => control.stop())
     animationControlsRef.current = []
   }, [])
-  const getCurrentMultiplier = useCallback(
-    (xp: number) => {
-      const progressPercent = (xp / MAX_XP) * 100
-      const activeZone = [...multiplierZones]
-        .reverse()
-        .find((zone) => progressPercent >= zone.threshold)
-      return activeZone ? activeZone.multiplier : 1
-    },
-    [multiplierZones]
-  )
   const triggerMilestone = useCallback(
     (threshold: number) => {
       const milestoneId = animationRef.current.milestoneId++
@@ -157,7 +120,7 @@ export function ProgressBarsXpAccumulation() {
   useEffect(() => {
     const computedMultiplier = getCurrentMultiplier(displayXP)
     setCurrentMultiplier((prev) => (prev === computedMultiplier ? prev : computedMultiplier))
-  }, [displayXP, getCurrentMultiplier])
+  }, [displayXP])
   useEffect(() => {
     let stopped = false
     const resetAnimation = () => {
@@ -261,36 +224,14 @@ export function ProgressBarsXpAccumulation() {
     }
   }, [
     clearScheduledWork,
-    getCurrentMultiplier,
     progressValue,
     registerAnimation,
     registerTimeout,
     triggerMilestone,
     xpValue,
   ])
-  const progressPercent = progressDisplay // Dynamic glow buckets via CSS variables
-  const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
-  const intensity = clamp01(progressPercent / 100)
-  const zoneBucket =
-    progressPercent >= 80
-      ? 'zone-4'
-      : progressPercent >= 60
-        ? 'zone-3'
-        : progressPercent >= 40
-          ? 'zone-2'
-          : progressPercent >= 20
-            ? 'zone-1'
-            : 'zone-0'
-  const levelBucket =
-    intensity >= 0.8
-      ? 'level-4'
-      : intensity >= 0.6
-        ? 'level-3'
-        : intensity >= 0.4
-          ? 'level-2'
-          : intensity >= 0.2
-            ? 'level-1'
-            : 'level-0'
+  const progressPercent = progressDisplay
+  const { zoneBucket, levelBucket } = getProgressBuckets(progressPercent)
   return (
     <div
       ref={containerRef}

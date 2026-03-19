@@ -178,4 +178,16 @@ export class CatalogPage {
   groupSection(groupId: string): Locator {
     return this.page.locator(`#group-${groupId}`)
   }
+
+  /** Extract all data-animation-id values from visible cards on the current page. */
+  async getAllAnimationIds(): Promise<string[]> {
+    const cards = this.allCards()
+    const count = await cards.count()
+    const ids: string[] = []
+    for (let i = 0; i < count; i++) {
+      const id = await cards.nth(i).getAttribute('data-animation-id')
+      if (id) ids.push(id)
+    }
+    return ids
+  }
 }

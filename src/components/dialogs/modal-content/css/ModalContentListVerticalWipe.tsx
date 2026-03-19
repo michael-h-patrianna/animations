@@ -1,99 +1,62 @@
 import { useEffect, useRef } from 'react'
 import './ModalContentListVerticalWipe.css'
 export function ModalContentListVerticalWipe() {
+  const items = ['Introduction complete', 'Profile configured', 'Preferences set', 'Ready to begin']
   const listItemsRef = useRef<(HTMLDivElement | null)[]>([])
-  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([])
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
   useEffect(() => {
-    // Trigger vertical wipe animation on mount
     listItemsRef.current.forEach((item, index) => {
       if (item) {
-        // Reset any existing animation
         item.style.animation = 'none'
-        void item.offsetWidth // Force reflow
-        // Apply vertical wipe animation with staggered delay + 300ms modal delay
+        void item.offsetWidth
         const delay = 300 + 80 * index
         item.style.animation = `list-vertical-wipe 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
         item.style.opacity = '0'
         item.style.transform = 'scaleY(0)'
         item.style.transformOrigin = 'top'
       }
-    }) // Trigger button stagger animation after list items complete
-    buttonsRef.current.forEach((button, index) => {
-      if (button) {
-        // Reset any existing animation
-        button.style.animation = 'none'
-        void button.offsetWidth // Force reflow
-        // Apply staggered animation with 650ms base delay + 70ms stagger
-        const delay = 650 + 70 * index
-        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
-        button.style.opacity = '0'
-        button.style.transform = 'translateY(16px) scale(0.94)'
-      }
     })
+    if (buttonRef.current) {
+      const btn = buttonRef.current
+      btn.style.animation = 'none'
+      void btn.offsetWidth
+      btn.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards 700ms`
+      btn.style.opacity = '0'
+      btn.style.transform = 'translateY(16px) scale(0.94)'
+    }
   }, [])
   return (
     <div className="modal-content-overlay" data-animation-id="modal-content__list-vertical-wipe">
       <div className="modal-content-modal">
         <div className="modal-content-header">
-          <h4 className="modal-content-title">Sequence Control</h4>
+          <h4 className="modal-content-title">Setup Complete</h4>
           <span className="modal-content-badge">Modal</span>
         </div>
         <div className="modal-content-body">
-          <p>Build trust by sequencing content reveals.</p>
-          <p>Keep focus with 70ms cadence.</p>
           <div className="modal-content-list">
-            <div
-              ref={(el) => {
-                listItemsRef.current[0] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 1
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[1] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 2
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[2] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 3
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[3] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 4
-            </div>
+            {items.map((item, index) => (
+              <div
+                key={index}
+                ref={(el) => {
+                  listItemsRef.current[index] = el
+                }}
+                className="modal-content-list-item"
+                style={{ overflow: 'hidden' }}
+              >
+                {item}
+              </div>
+            ))}
           </div>
         </div>
         <div className="modal-content-footer">
           <button
             type="button"
             ref={(el) => {
-              buttonsRef.current[0] = el
+              buttonRef.current = el
             }}
             className="modal-content-button modal-content-button-primary"
           >
-            Accept
-          </button>
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[1] = el
-            }}
-            className="modal-content-button modal-content-button-secondary"
-          >
-            Later
+            Continue
           </button>
         </div>
       </div>

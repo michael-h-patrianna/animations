@@ -1,38 +1,100 @@
 import type { ErrorInfo, ReactNode } from 'react'
 import { Component } from 'react'
 import { reportRuntimeError } from '@/services/errorTracking'
+
 /**
  * Props for ErrorBoundary component
- */ interface ErrorBoundaryProps {
-  /** Child components to render */ children: ReactNode
-  /** Optional fallback UI to display on error */ fallback?: (
-    error: Error,
-    reset: () => void
-  ) => ReactNode
+ */
+interface ErrorBoundaryProps {
+  /** Child components to render */
+  children: ReactNode
+  /** Optional fallback UI to display on error */
+  fallback?: (error: Error, reset: () => void) => ReactNode
 }
+
 /**
  * State for ErrorBoundary component
- */ interface ErrorBoundaryState {
-  /** Whether an error has been caught */ hasError: boolean
-  /** The error that was caught */ error: Error | null
+ */
+interface ErrorBoundaryState {
+  /** Whether an error has been caught */
+  hasError: boolean
+  /** The error that was caught */
+  error: Error | null
 }
+
+/**
+ * Embedded styles for the error fallback UI.
+ * Uses a <style> tag instead of inline styles so the ErrorBoundary
+ * remains self-contained (no external CSS dependency) while keeping
+ * styles maintainable and avoiding the hardcoded-colors lint rule.
+ */
+const fallbackStyles = `
+  .pf-error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--pf-anim-surface-light);
+  }
+  .pf-error-card {
+    max-width: 600px;
+    padding: 2rem;
+    background-color: var(--pf-white);
+    border-radius: 8px;
+    box-shadow: var(--pf-shadow-soft);
+  }
+  .pf-error-card h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--pf-anim-error);
+  }
+  .pf-error-card p {
+    margin-bottom: 1rem;
+    color: var(--pf-anim-muted);
+  }
+  .pf-error-card__details {
+    margin-bottom: 1.5rem;
+    text-align: left;
+    padding: 1rem;
+    background-color: var(--pf-anim-surface-light);
+    border-radius: 4px;
+    font-size: 0.875rem;
+  }
+  .pf-error-card__details summary {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .pf-error-card__details pre {
+    margin-top: 0.5rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .pf-error-card__retry {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--pf-white);
+    background-color: var(--pf-anim-link);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .pf-error-card__retry:hover {
+    background-color: var(--pf-anim-link-hover);
+  }
+`
+
 function ErrorDevDetails({ error }: { error: Error }) {
   if (import.meta.env.PROD) return null
   return (
-    <details
-      style={{
-        marginBottom: '1.5rem',
-        textAlign: 'left',
-        padding: '1rem',
-        backgroundColor: 'var(--pf-anim-surface-light)',
-        borderRadius: '4px',
-        fontSize: '0.875rem',
-      }}
-    >
-      <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>
-        Error Details (Development Only)
-      </summary>
-      <pre style={{ marginTop: '0.5rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+    <details className="pf-error-card__details">
+      <summary>Error Details (Development Only)</summary>
+      <pre>
         {error.toString()}
         {error.stack && '\n\n' + error.stack}
       </pre>
@@ -42,67 +104,22 @@ function ErrorDevDetails({ error }: { error: Error }) {
 
 function DefaultErrorFallback({ error, onReset }: { error: Error; onReset: () => void }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        padding: '2rem',
-        textAlign: 'center',
-        backgroundColor: 'var(--pf-anim-surface-light)',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '600px',
-          padding: '2rem',
-          backgroundColor: 'var(--pf-white)',
-          borderRadius: '8px',
-          boxShadow: '0 2px 8px rgb(0 0 0 / 0.1)',
-        }}
-      >
-        <h1
-          style={{
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            marginBottom: '1rem',
-            color: 'var(--pf-anim-error)',
-          }}
-        >
-          Something went wrong
-        </h1>
-        <p style={{ marginBottom: '1rem', color: 'var(--pf-anim-muted)' }}>
-          We're sorry, but something unexpected happened. The error has been logged and we'll look
-          into it.
-        </p>
-        <ErrorDevDetails error={error} />
-        <button
-          type="button"
-          onClick={onReset}
-          style={{
-            padding: '0.75rem 1.5rem',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            color: 'var(--pf-white)',
-            backgroundColor: 'var(--pf-anim-link)',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'background-color 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--pf-anim-link-hover)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--pf-anim-link)'
-          }}
-        >
-          Try Again
-        </button>
+    <>
+      <style dangerouslySetInnerHTML={{ __html: fallbackStyles }} />
+      <div className="pf-error-page">
+        <div className="pf-error-card">
+          <h1>Something went wrong</h1>
+          <p>
+            We're sorry, but something unexpected happened. The error has been logged and we'll look
+            into it.
+          </p>
+          <ErrorDevDetails error={error} />
+          <button type="button" onClick={onReset} className="pf-error-card__retry">
+            Try Again
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -110,7 +127,8 @@ function DefaultErrorFallback({ error, onReset }: { error: Error; onReset: () =>
  * ErrorBoundary component that catches React errors in child components.
  *
  * Implements resilience principle (P4) by preventing app crashes and providing
- * user feedback and recovery mechanisms.
+ * user feedback and recovery mechanisms. Uses an embedded <style> tag so the
+ * fallback UI renders correctly even if external CSS fails to load.
  *
  * @example
  * ```tsx
@@ -118,27 +136,29 @@ function DefaultErrorFallback({ error, onReset }: { error: Error; onReset: () =>
  *   <App />
  * </ErrorBoundary>
  * ```
- */ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+ */
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = { hasError: false, error: null }
   }
-  /**
-   * Update state when an error is caught
-   */ static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+
+  /** Update state when an error is caught */
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error }
   }
-  /**
-   * Log error information when component catches an error
-   */ componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+
+  /** Log error information when component catches an error */
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error('ErrorBoundary caught an error:', error, errorInfo)
     reportRuntimeError(error, errorInfo)
   }
-  /**
-   * Reset error state and attempt to recover
-   */ handleReset = (): void => {
+
+  /** Reset error state and attempt to recover */
+  handleReset = (): void => {
     this.setState({ hasError: false, error: null })
   }
+
   render(): ReactNode {
     if (this.state.hasError && this.state.error) {
       if (this.props.fallback) {
@@ -149,4 +169,5 @@ function DefaultErrorFallback({ error, onReset }: { error: Error; onReset: () =>
     return this.props.children
   }
 }
+
 export default ErrorBoundary
