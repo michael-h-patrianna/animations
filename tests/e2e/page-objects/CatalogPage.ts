@@ -3,14 +3,18 @@ import { expect, type Locator, type Page } from '@playwright/test'
 /**
  * Page object encapsulating the animation catalog UI.
  * Provides navigation, sidebar, card, and code-mode interactions.
+ *
+ * Selector strategy:
+ * - data-testid for interactive elements and key containers
+ * - data-animation-id for cards (domain-specific stable attribute)
+ * - aria-* attributes for accessible queries
+ * - data-active for state assertions
  */
 export class CatalogPage {
   readonly sidebar: Locator
-  readonly catalog: Locator
 
   constructor(readonly page: Page) {
-    this.sidebar = page.locator('.pf-main .pf-sidebar')
-    this.catalog = page.locator('.pf-catalog')
+    this.sidebar = page.locator('[data-testid="sidebar"]').first()
   }
 
   // ── Navigation ─────────────────────────────────────────────────────
@@ -35,7 +39,7 @@ export class CatalogPage {
 
   /** Wait for at least one animation card to appear. */
   async waitForCards() {
-    await expect(this.page.locator('.pf-card[data-animation-id]').first()).toBeVisible({
+    await expect(this.page.locator('[data-animation-id]').first()).toBeVisible({
       timeout: 10_000,
     })
   }
@@ -54,32 +58,27 @@ export class CatalogPage {
 
   /** All category buttons in the sidebar. */
   categoryButtons(): Locator {
-    return this.sidebar.locator('.pf-sidebar__link--category')
-  }
-
-  /** The single active category button. */
-  activeCategoryButton(): Locator {
-    return this.sidebar.locator('.pf-sidebar__link--category.pf-sidebar__link--active')
+    return this.sidebar.locator('[data-testid^="sidebar-category-"]')
   }
 
   /** All sidebar sections. */
   sidebarSections(): Locator {
-    return this.sidebar.locator('.pf-sidebar__section')
+    return this.sidebar.locator('[data-testid^="sidebar-section-"]')
   }
 
   /** Group links within a specific sidebar section. */
   groupLinksInSection(section: Locator): Locator {
-    return section.locator('.pf-sidebar__link--group')
+    return section.locator('[data-testid^="sidebar-group-"]')
   }
 
   /** All visible group links in the sidebar. */
   allGroupLinks(): Locator {
-    return this.sidebar.locator('.pf-sidebar__link--group')
+    return this.sidebar.locator('[data-testid^="sidebar-group-"]')
   }
 
   /** The active group link in the sidebar. */
   activeGroupLink(): Locator {
-    return this.sidebar.locator('.pf-sidebar__link--group.pf-sidebar__link--active')
+    return this.sidebar.locator('[data-testid^="sidebar-group-"][data-active]')
   }
 
   /** Click a category button by index. */
@@ -100,24 +99,22 @@ export class CatalogPage {
 
   /** The code mode switch scoped to the desktop sidebar (not the mobile drawer). */
   private codeModeSwitch(): Locator {
-    return this.sidebar.locator('.pf-code-mode-switch')
+    return this.sidebar.locator('[data-testid="code-mode-switch"]')
   }
 
   /** Click the Framer mode button in the desktop sidebar. */
   async selectFramerMode() {
-    await this.codeModeSwitch()
-      .locator('.pf-code-mode-switch__option', { hasText: 'Framer' })
-      .click()
+    await this.codeModeSwitch().locator('[data-testid="code-mode-framer"]').click()
   }
 
   /** Click the CSS mode button in the desktop sidebar. */
   async selectCssMode() {
-    await this.codeModeSwitch().locator('.pf-code-mode-switch__option', { hasText: 'CSS' }).click()
+    await this.codeModeSwitch().locator('[data-testid="code-mode-css"]').click()
   }
 
   /** Get the currently active code mode label from the desktop sidebar. */
   async activeCodeMode(): Promise<string> {
-    const active = this.codeModeSwitch().locator('.pf-code-mode-switch__option.is-active')
+    const active = this.codeModeSwitch().locator('button[aria-pressed="true"]')
     return (await active.textContent()) ?? ''
   }
 
@@ -125,18 +122,18 @@ export class CatalogPage {
 
   /** Get a card by its animation ID. */
   card(animationId: string): Locator {
-    return this.page.locator(`.pf-card[data-animation-id="${animationId}"]`).first()
+    return this.page.locator(`[data-animation-id="${animationId}"]`).first()
   }
 
   /** All animation cards on the current page. */
   allCards(): Locator {
-    return this.page.locator('.pf-card[data-animation-id]')
+    return this.page.locator('[data-animation-id]')
   }
 
   /** Get the demo stage inside a card, waiting for it to have content. */
   async cardStage(card: Locator, minChildren = 1): Promise<Locator> {
     await card.scrollIntoViewIfNeeded()
-    const stage = card.locator('.pf-demo-stage')
+    const stage = card.locator('[data-testid="demo-stage"]')
     await expect(stage).toBeVisible({ timeout: 5_000 })
     await expect
       .poll(async () => stage.locator(':scope > *').count(), { timeout: 5_000 })
@@ -151,17 +148,17 @@ export class CatalogPage {
 
   /** Get the meta/tags area of a card. */
   cardMeta(card: Locator): Locator {
-    return card.locator('.pf-card__meta')
+    return card.locator('[data-testid="card-meta"]')
   }
 
   /** Get the card title. */
   cardTitle(card: Locator): Locator {
-    return card.locator('.pf-card__title')
+    return card.locator('[data-testid="card-title"]')
   }
 
   /** Get the card description. */
   cardDescription(card: Locator): Locator {
-    return card.locator('.pf-card__description')
+    return card.locator('[data-testid="card-description"]')
   }
 
   /** Get the description toggle button. */
@@ -171,7 +168,7 @@ export class CatalogPage {
 
   /** Get the group title heading in the main content area. */
   groupTitle(): Locator {
-    return this.page.locator('.pf-group__title')
+    return this.page.locator('[data-testid="group-title"]')
   }
 
   /** Get the group section element by ID. */

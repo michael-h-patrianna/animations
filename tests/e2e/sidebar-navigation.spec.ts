@@ -18,7 +18,7 @@ test.describe('Sidebar Navigation', () => {
     await catalogPage.waitForPathnameChange(before)
 
     // Group link is now active
-    await expect(target).toHaveClass(/pf-sidebar__link--active/)
+    await expect(target).toHaveAttribute('data-active', 'true')
 
     // Main content shows the correct group
     const groupId = catalogPage.currentPathname().slice(1)
@@ -33,13 +33,12 @@ test.describe('Sidebar Navigation', () => {
     const sectionCount = await sections.count()
     expect(sectionCount).toBeGreaterThan(1)
 
-    // Find a section that is NOT active and has groups visible (expanded by default)
+    // Find a section that is NOT active
     let targetSection: import('@playwright/test').Locator | null = null
     for (let i = 0; i < sectionCount; i++) {
       const section = sections.nth(i)
-      const isActive = await section
-        .locator('.pf-sidebar__link--category')
-        .evaluate((el) => el.classList.contains('pf-sidebar__link--active'))
+      const categoryBtn = section.locator('[data-testid^="sidebar-category-"]')
+      const isActive = await categoryBtn.getAttribute('data-active')
       if (!isActive) {
         targetSection = section
         break
@@ -59,15 +58,15 @@ test.describe('Sidebar Navigation', () => {
     await catalogPage.waitForPathnameChange(before)
 
     // Category should now be active
-    await expect(targetSection.locator('.pf-sidebar__link--category')).toHaveClass(
-      /pf-sidebar__link--active/
+    await expect(targetSection.locator('[data-testid^="sidebar-category-"]')).toHaveAttribute(
+      'data-active', 'true'
     )
   })
 
   test('category collapse/expand toggles group visibility', async ({ catalogPage }) => {
     const sections = catalogPage.sidebarSections()
     const firstSection = sections.first()
-    const categoryBtn = firstSection.locator('.pf-sidebar__link--category')
+    const categoryBtn = firstSection.locator('[data-testid^="sidebar-category-"]')
 
     // Categories are expanded by default (aria-expanded=true)
     await expect(categoryBtn).toHaveAttribute('aria-expanded', 'true')
@@ -79,8 +78,8 @@ test.describe('Sidebar Navigation', () => {
     await categoryBtn.click()
     await expect(categoryBtn).toHaveAttribute('aria-expanded', 'false')
 
-    // Group links should be hidden after collapse
-    const subnav = firstSection.locator('.pf-sidebar__subnav')
+    // Group links should be hidden after collapse (subnav removed from DOM)
+    const subnav = firstSection.locator('[data-testid^="sidebar-subnav-"]')
     await expect(subnav).toHaveCount(0)
 
     // Click to expand again

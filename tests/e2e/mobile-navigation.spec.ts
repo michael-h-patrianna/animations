@@ -7,7 +7,7 @@ test.describe('Mobile Navigation', () => {
 
   test('shows mobile header with hamburger button', async ({ mobilePage, page }) => {
     await expect(mobilePage.header).toBeVisible()
-    await expect(page.locator('.pf-hamburger[aria-label="Open menu"]')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
   })
 
   test('hamburger opens drawer and close button closes it', async ({ mobilePage }) => {
@@ -35,7 +35,7 @@ test.describe('Mobile Navigation', () => {
     // Content should update
     const groupId = new URL(page.url()).pathname.slice(1)
     await expect(page.locator(`#group-${groupId}`)).toBeVisible()
-    await expect(page.locator('.pf-group__title')).toContainText(label)
+    await expect(page.locator('[data-testid="group-title"]')).toContainText(label)
   })
 
   test('Escape key closes the drawer', async ({ mobilePage, page }) => {

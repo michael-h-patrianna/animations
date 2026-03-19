@@ -9,7 +9,6 @@ import type { CatalogPage } from './page-objects/CatalogPage'
  * Run:  npx playwright test visual-parity
  */
 
-const SETTLE_MS = 400
 const MAX_DIFF_RATIO = 0.2
 const CHANNEL_TOLERANCE = 30
 
@@ -24,10 +23,13 @@ async function capture(cp: CatalogPage, animId: string): Promise<Buffer | null> 
   try {
     const card = cp.card(animId)
     if (!(await card.isVisible().catch(() => false))) return null
-    await card.evaluate((el) => el.scrollIntoView({ block: 'center' }))
-    await cp.page.waitForTimeout(SETTLE_MS)
-    const stage = card.locator('.pf-demo-stage')
+    await card.scrollIntoViewIfNeeded()
+    const stage = card.locator('[data-testid="demo-stage"]')
     if (!(await stage.isVisible().catch(() => false))) return null
+    // Wait for stage to have rendered content (children loaded)
+    await expect
+      .poll(async () => stage.locator(':scope > *').count(), { timeout: 5_000 })
+      .toBeGreaterThan(0)
     return await stage.screenshot()
   } catch {
     return null

@@ -56,9 +56,7 @@ test.describe('URL Routing', () => {
     let navigated = false
     for (let i = 0; i < count; i++) {
       const link = groupLinks.nth(i)
-      const isActive = await link.evaluate((el) =>
-        el.classList.contains('pf-sidebar__link--active')
-      )
+      const isActive = await link.getAttribute('data-active')
       if (!isActive) {
         await link.click()
         navigated = true

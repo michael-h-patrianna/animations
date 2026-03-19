@@ -103,6 +103,7 @@ const Description = ({ description, isExpanded, onToggle }: DescriptionProps) =>
   <div className="flex items-start gap-2">
     <p
       className={`pf-card__description flex-1 m-0 transition-all duration-200 ${!isExpanded ? 'line-clamp-1' : ''}`}
+      data-testid="card-description"
     >
       {description}
     </p>
@@ -299,7 +300,7 @@ const FooterControls = ({
 
   return (
     <CardFooter className="pf-card__actions p-0 pt-3">
-      <div className="pf-card__meta">
+      <div className="pf-card__meta" data-testid="card-meta">
         {tags?.map((tag) => (
           <span key={tag}>{tag.toUpperCase()}</span>
         ))}
@@ -360,7 +361,7 @@ const AnimationCardComponent = ({
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeader className="p-0 pb-3 space-y-0">
-        <CardTitle className="pf-card__title mb-1">{title}</CardTitle>
+        <CardTitle className="pf-card__title mb-1" data-testid="card-title">{title}</CardTitle>
         <Description
           description={description}
           isExpanded={isExpanded}
@@ -369,7 +370,7 @@ const AnimationCardComponent = ({
       </CardHeader>
       <CardContent className="p-0 py-3">
         <div className="pf-demo-canvas">
-          <div key={replayKey} className="pf-demo-stage pf-demo-stage--top">
+          <div key={replayKey} className="pf-demo-stage pf-demo-stage--top" data-testid="demo-stage">
             {renderAnimationChild(
               children,
               isVisible,

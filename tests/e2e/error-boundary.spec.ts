@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test.describe('ErrorBoundary', () => {
   test('does not show fallback UI during healthy app render', async ({ page }) => {
     await page.goto('/')
-    await page.waitForSelector('.pf-main .pf-sidebar', { timeout: 10000 })
+    await page.waitForSelector('[data-testid="sidebar"]', { timeout: 10000 })
 
     await expect(page.getByText('Something went wrong')).toHaveCount(0)
     await expect(page.getByRole('button', { name: 'Try Again' })).toHaveCount(0)
@@ -55,7 +55,7 @@ test.describe('ErrorBoundary', () => {
 
     await page.getByRole('button', { name: 'Try Again' }).click()
 
-    await page.waitForSelector('.pf-main .pf-sidebar', { timeout: 10000 })
+    await page.waitForSelector('[data-testid="sidebar"]', { timeout: 10000 })
     await expect(page.getByRole('heading', { name: 'Something went wrong' })).toHaveCount(0)
   })
 })

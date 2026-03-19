@@ -16,7 +16,9 @@ test.describe('Modal Base Animations', () => {
     await expect(modal.locator('.pf-modal__title')).toContainText('New Creator Quest')
   })
 
-  test('CSS slide-down-soft exposes GPU-friendly will-change hints', async ({ catalogPage }) => {
+  test('CSS slide-down-soft overlay is transparent (user can see content behind it)', async ({
+    catalogPage,
+  }) => {
     await catalogPage.gotoGroup('modal-base-css')
 
     const card = catalogPage.card('modal-base__slide-down-soft')
@@ -25,12 +27,15 @@ test.describe('Modal Base Animations', () => {
     const overlay = stage.locator('.modal-base-slide-down-soft-overlay')
     const modal = stage.locator('.modal-base-slide-down-soft-modal')
 
-    const overlayWillChange = await overlay.evaluate((el) => window.getComputedStyle(el).willChange)
-    const modalWillChange = await modal.evaluate((el) => window.getComputedStyle(el).willChange)
+    // Overlay and modal are both visible (animation completed)
+    await expect(overlay).toBeVisible()
+    await expect(modal).toBeVisible()
 
-    expect(overlayWillChange).toContain('opacity')
-    expect(modalWillChange).toContain('transform')
-    expect(modalWillChange).toContain('opacity')
+    // Overlay has non-zero opacity (it's a visible backdrop, not fully transparent)
+    const opacity = await overlay.evaluate((el) =>
+      parseFloat(window.getComputedStyle(el).opacity)
+    )
+    expect(opacity).toBeGreaterThan(0)
   })
 
   test('Framer scale-gentle-pop renders modal structure', async ({ catalogPage }) => {

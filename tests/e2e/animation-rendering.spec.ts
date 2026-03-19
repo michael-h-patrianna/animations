@@ -59,7 +59,7 @@ test.describe('Animation Rendering', () => {
     await replay.click()
 
     // Character spans appear as the typewriter types
-    const firstChar = card.locator('.pf-demo-stage .typewriter-char').first()
+    const firstChar = card.locator('[data-testid="demo-stage"] .typewriter-char').first()
     await expect(firstChar).toBeVisible({ timeout: 5_000 })
   })
 })

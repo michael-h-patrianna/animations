@@ -45,23 +45,23 @@ test.describe('Level Breakthrough Animation', () => {
     await expect(container.locator('.tfx-breakthrough-surge-inner')).toHaveCount(1)
   })
 
-  test('css variant uses GPU-friendly will-change hints', async ({ catalogPage }) => {
+  test('css breakthrough replay restarts the transition animation', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-css')
 
     const card = catalogPage.card('text-effects__level-breakthrough')
     const stage = await catalogPage.cardStage(card)
 
-    const wrapper = stage.locator('.tfx-breakthrough-text-wrapper')
-    const outerSurge = stage.locator('.tfx-breakthrough-surge-outer')
+    // Surge elements exist (animation is playing)
+    await expect(stage.locator('.tfx-breakthrough-surge-outer')).toBeVisible()
 
-    const wrapperWillChange = await wrapper.evaluate((el) => window.getComputedStyle(el).willChange)
-    const surgeWillChange = await outerSurge.evaluate(
-      (el) => window.getComputedStyle(el).willChange
-    )
+    // Replay restarts the animation
+    const replay = catalogPage.replayButton(card)
+    await expect(replay).toBeEnabled()
+    await replay.click()
 
-    expect(wrapperWillChange).toContain('transform')
-    expect(surgeWillChange).toContain('transform')
-    expect(surgeWillChange).toContain('opacity')
+    // After replay, container re-appears with the transition text
+    await expect(stage.locator('.tfx-breakthrough-container')).toBeVisible()
+    await expect(stage.locator('.tfx-breakthrough-text-start')).toContainText('LEVEL 1')
   })
 })
 

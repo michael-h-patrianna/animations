@@ -45,7 +45,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
     <article id={elementId} className="pf-group">
       <header className="pf-group__header">
         <div>
-          <h2 className="pf-group__title">
+          <h2 className="pf-group__title" data-testid="group-title">
             {group.title} ({group.animations.length})
           </h2>
         </div>

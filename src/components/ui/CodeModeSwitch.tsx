@@ -15,12 +15,13 @@ export const CodeModeSwitch: FC<CodeModeSwitchProps> = ({ onModeSelect }) => {
   }
 
   return (
-    <div className="pf-code-mode-switch">
+    <div className="pf-code-mode-switch" data-testid="code-mode-switch">
       <button
         type="button"
         className={`pf-code-mode-switch__option ${codeMode === 'Framer' ? 'is-active' : ''}`}
         onClick={() => handleSelect('Framer')}
         aria-pressed={codeMode === 'Framer'}
+        data-testid="code-mode-framer"
       >
         Framer
       </button>
@@ -29,6 +30,7 @@ export const CodeModeSwitch: FC<CodeModeSwitchProps> = ({ onModeSelect }) => {
         className={`pf-code-mode-switch__option ${codeMode === 'CSS' ? 'is-active' : ''}`}
         onClick={() => handleSelect('CSS')}
         aria-pressed={codeMode === 'CSS'}
+        data-testid="code-mode-css"
       >
         CSS
       </button>

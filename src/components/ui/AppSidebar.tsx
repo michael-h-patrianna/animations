@@ -111,24 +111,28 @@ function CategorySection({
   onGroupSelect: (groupId: string) => void
 }) {
   return (
-    <div className="pf-sidebar__section">
+    <div className="pf-sidebar__section" data-testid={`sidebar-section-${category.id}`}>
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={isExpanded}
         className={`pf-sidebar__link pf-sidebar__link--category ${hasActiveGroup ? 'pf-sidebar__link--active' : ''}`}
+        data-testid={`sidebar-category-${category.id}`}
+        data-active={hasActiveGroup || undefined}
       >
         {category.title}
       </button>
 
       {isExpanded && groupVariants.length > 0 && (
-        <div className="pf-sidebar__subnav">
+        <div className="pf-sidebar__subnav" data-testid={`sidebar-subnav-${category.id}`}>
           {groupVariants.map((group) => (
             <button
               type="button"
               key={group.baseId}
               onClick={() => onGroupSelect(pickGroupIdForMode(group, codeMode))}
               className={`pf-sidebar__link pf-sidebar__link--group ${group.baseId === currentBaseGroupId ? 'pf-sidebar__link--active' : ''}`}
+              data-testid={`sidebar-group-${group.baseId}`}
+              data-active={group.baseId === currentBaseGroupId || undefined}
             >
               {group.label}
             </button>
@@ -160,7 +164,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
   const { expandedIds, toggle } = useCategoryExpansion(categories)
 
   return (
-    <aside className={`pf-sidebar${className ? ` ${className}` : ''}`}>
+    <aside className={`pf-sidebar${className ? ` ${className}` : ''}`} data-testid="sidebar">
       {topContent && <div className="pf-sidebar__intro">{topContent}</div>}
       <div className="pf-sidebar__nav">
         {categoryGroups.map(({ category, groupVariants }) => (

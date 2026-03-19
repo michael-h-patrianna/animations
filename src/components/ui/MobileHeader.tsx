@@ -13,7 +13,7 @@ export function MobileHeader({
   onOpenDrawer: () => void
 }) {
   return (
-    <div className="pf-mobile-header" data-app-shell="bar" ref={appBarRef}>
+    <div className="pf-mobile-header" data-app-shell="bar" data-testid="mobile-header" ref={appBarRef}>
       <button
         type="button"
         className="pf-hamburger"

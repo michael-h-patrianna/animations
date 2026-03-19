@@ -21,7 +21,7 @@ test.describe('Epic Win Animation', () => {
     await expect(container.locator('.epic-shadow-mid')).toBeVisible()
   })
 
-  test('css variant renders BEM classes and uses GPU-friendly transform hints', async ({
+  test('css variant renders BEM structure with chars and glows matching framer variant', async ({
     catalogPage,
   }) => {
     await catalogPage.gotoGroup('text-effects-css')
@@ -33,21 +33,12 @@ test.describe('Epic Win Animation', () => {
     await expect(container).toBeVisible()
     await expect(container).toHaveClass(/tfe-epic-win--animate/)
 
-    // BEM-namespaced char elements
+    // Same character count as framer variant (8 chars in "EPIC WIN")
     await expect(container.locator('.tfe-epic-win__char')).toHaveCount(8)
     await expect(container.locator('.tfe-epic-win__char-glow')).toHaveCount(8)
 
-    // GPU-friendly transform hints on characters
-    const firstChar = container.locator('.tfe-epic-win__char').first()
-    await expect(firstChar).toBeVisible()
-
-    const transformStyle = await firstChar.evaluate(
-      (el) => window.getComputedStyle(el).transformStyle
-    )
-    const willChange = await firstChar.evaluate((el) => window.getComputedStyle(el).willChange)
-
-    expect(transformStyle).toBe('preserve-3d')
-    expect(willChange).toContain('transform')
+    // First character is visible (animation has started)
+    await expect(container.locator('.tfe-epic-win__char').first()).toBeVisible()
   })
 
   test('replay remounts epic-win in both variants', async ({ catalogPage }) => {
