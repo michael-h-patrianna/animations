@@ -37,14 +37,14 @@ function App() {
 
   return (
     <LazyMotion features={loadFeatures} strict>
-      <div className="min-h-screen">
+      <div className="min-h-screen" data-testid="app-shell">
         <MobileHeader
           currentGroup={currentGroup}
           appBarRef={appBarRef}
           onOpenDrawer={() => setIsDrawerOpen(true)}
         />
 
-        <div className="pf-main">
+        <div className="pf-main" data-testid="app-main">
           <AppSidebar
             categories={categories}
             codeMode={codeMode}
@@ -53,7 +53,7 @@ function App() {
             topContent={<CodeModeSwitch onModeSelect={handleModeSelect} />}
           />
 
-          <main className="pf-catalog">
+          <main className="pf-catalog" data-testid="app-catalog">
             <AnimatePresence initial={false} mode="wait">
               {currentGroup && (
                 <m.div

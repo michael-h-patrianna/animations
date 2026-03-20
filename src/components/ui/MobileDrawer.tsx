@@ -33,6 +33,7 @@ export function MobileDrawer({
   return (
     <div
       id="pf-sidebar-drawer"
+      data-testid="mobile-drawer"
       role="dialog"
       aria-modal="true"
       hidden={!isOpen}
@@ -46,7 +47,7 @@ export function MobileDrawer({
       />
       <div className="pf-drawer__panel" data-testid="drawer-panel">
         <div className="pf-drawer__panel-header">
-          <button type="button" className="pf-hamburger" aria-label="Close menu" onClick={onClose}>
+          <button type="button" className="pf-hamburger" aria-label="Close menu" data-testid="drawer-close" onClick={onClose}>
             <svg
               width="22"
               height="22"

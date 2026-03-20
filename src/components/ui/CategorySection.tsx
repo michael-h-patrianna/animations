@@ -14,22 +14,22 @@ export function CategorySection({ category, elementId }: CategorySectionProps) {
   )
 
   return (
-    <section id={elementId} className="pf-category">
+    <section id={elementId} className="pf-category" data-testid={`category-section-${category.id}`}>
       <header className="pf-category__header">
         <div>
-          <h1 className="pf-category__title">
+          <h1 className="pf-category__title" data-testid={`category-title-${category.id}`}>
             {category.title} ({animationCount} animations)
           </h1>
         </div>
       </header>
 
-      <div className="pf-category__groups">
+      <div className="pf-category__groups" data-testid={`category-groups-${category.id}`}>
         {category.groups.length > 0 ? (
           category.groups.map((group) => (
             <GroupSection key={group.id} group={group} elementId={`group-${group.id}`} />
           ))
         ) : (
-          <div className="pf-category__empty">Groups coming soon</div>
+          <div className="pf-category__empty" data-testid="category-empty">Groups coming soon</div>
         )}
       </div>
     </section>

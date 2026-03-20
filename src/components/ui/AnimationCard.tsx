@@ -112,6 +112,7 @@ const Description = ({ description, isExpanded, onToggle }: DescriptionProps) =>
       onClick={onToggle}
       className="shrink-0 p-0 bg-transparent border-none cursor-pointer focus:outline-none mt-1"
       aria-label={isExpanded ? 'Collapse description' : 'Expand description'}
+      data-testid="description-toggle"
     >
       <ChevronDown
         className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} text-[var(--pf-text-secondary)]/60`}
@@ -137,7 +138,7 @@ const PrizeCountControls = ({
   onPrizeCountChange,
   maxCount = 4,
 }: PrizeCountControlsProps & { maxCount?: number }) => (
-  <div className="flex items-center gap-1">
+  <div className="flex items-center gap-1" data-testid="prize-controls">
     {Array.from({ length: maxCount }, (_, i) => i + 1).map((n) => (
       <button
         key={n}
@@ -158,7 +159,7 @@ const LightsControls = ({
   onBulbCountChange,
   onColorChange,
 }: LightsControlsProps) => (
-  <div className="flex items-center gap-2">
+  <div className="flex items-center gap-2" data-testid="lights-controls">
     <div className="flex items-center">
       <button
         type="button"
@@ -323,13 +324,14 @@ const FooterControls = ({
           maxCount={prizeCountMax ?? 4}
         />
       )}
-      <div className="pf-card__controls">
+      <div className="pf-card__controls" data-testid="card-controls">
         <Button
           type="button"
           variant="outline"
           size="sm"
           className="pf-card__replay"
           data-role="replay"
+          data-testid="card-replay"
           onClick={onReplay}
           disabled={disableReplay}
           aria-disabled={disableReplay}
@@ -374,7 +376,7 @@ const AnimationCardComponent = ({
         />
       </CardHeader>
       <CardContent className="p-0 py-3">
-        <div className="pf-demo-canvas">
+        <div className="pf-demo-canvas" data-testid="card-canvas">
           <div
             key={replayKey}
             className="pf-demo-stage pf-demo-stage--top"

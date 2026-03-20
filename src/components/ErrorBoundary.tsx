@@ -93,7 +93,7 @@ const fallbackStyles = `
 function ErrorDevDetails({ error }: { error: Error }) {
   if (import.meta.env.PROD) return null
   return (
-    <details className="pf-error-card__details">
+    <details className="pf-error-card__details" data-testid="error-details">
       <summary>Error Details (Development Only)</summary>
       <pre>
         {error.toString()}
@@ -107,15 +107,20 @@ function DefaultErrorFallback({ error, onReset }: { error: Error; onReset: () =>
   return (
     <>
       <style>{fallbackStyles}</style>
-      <div className="pf-error-page">
+      <div className="pf-error-page" data-testid="error-fallback">
         <div className="pf-error-card">
-          <h1>Something went wrong</h1>
-          <p>
+          <h1 data-testid="error-heading">Something went wrong</h1>
+          <p data-testid="error-message">
             We're sorry, but something unexpected happened. The error has been logged and we'll look
             into it.
           </p>
           <ErrorDevDetails error={error} />
-          <button type="button" onClick={onReset} className="pf-error-card__retry">
+          <button
+            type="button"
+            onClick={onReset}
+            className="pf-error-card__retry"
+            data-testid="error-retry-button"
+          >
             Try Again
           </button>
         </div>

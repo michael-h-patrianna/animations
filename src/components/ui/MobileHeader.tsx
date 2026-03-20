@@ -25,6 +25,7 @@ export function MobileHeader({
         aria-label="Open menu"
         aria-haspopup="dialog"
         aria-controls="pf-sidebar-drawer"
+        data-testid="hamburger-button"
         onClick={onOpenDrawer}
       >
         <svg
@@ -44,7 +45,7 @@ export function MobileHeader({
         </svg>
       </button>
       {currentGroup && (
-        <span className="pf-mobile-header__title">
+        <span className="pf-mobile-header__title" data-testid="mobile-title">
           {currentGroup.title} ({currentGroup.animations.length})
         </span>
       )}
@@ -54,6 +55,7 @@ export function MobileHeader({
         rel="noopener noreferrer"
         className="pf-github-link"
         aria-label="View source on GitHub"
+        data-testid="github-link"
       >
         <img src={githubIcon} alt="GitHub" className="pf-github-icon" />
       </a>

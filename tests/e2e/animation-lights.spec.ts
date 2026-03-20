@@ -63,7 +63,7 @@ test.describe('Lights Route Error Detection', () => {
     await page.goto('/lights-framer')
 
     // The ErrorBoundary should catch the crash and show the fallback UI
-    await expect(page.getByRole('heading', { name: 'Something went wrong' })).toBeVisible({
+    await expect(page.locator('[data-testid="error-heading"]')).toBeVisible({
       timeout: 10_000,
     })
 

@@ -135,7 +135,7 @@ test.describe('Integration: Full User Journey', () => {
     expect(finalPath).toMatch(/-(css|framer)$/)
 
     // Page should have no error boundary
-    await expect(catalogPage.page.getByText('Something went wrong')).toHaveCount(0)
+    await catalogPage.expectNoErrorBoundary()
 
     // Cards should be visible
     const cardCount = await catalogPage.allCards().count()

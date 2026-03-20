@@ -19,7 +19,7 @@ test.describe('App Shell', () => {
 
     expect(pageErrors).toHaveLength(0)
     expect(criticalErrors).toHaveLength(0)
-    await expect(page.getByText('Something went wrong')).toHaveCount(0)
+    await expect(page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
   })
 
   test('root route canonicalizes to first group', async ({ catalogPage }) => {

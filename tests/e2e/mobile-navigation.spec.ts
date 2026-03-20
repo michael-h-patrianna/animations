@@ -34,7 +34,7 @@ test.describe('Mobile Navigation', () => {
 
     // Content should update
     const groupId = new URL(page.url()).pathname.slice(1)
-    await expect(page.locator(`#group-${groupId}`)).toBeVisible()
+    await expect(page.locator(`[data-testid="group-section-group-${groupId}"]`)).toBeVisible()
     await expect(page.locator('[data-testid="group-title"]')).toContainText(label)
   })
 

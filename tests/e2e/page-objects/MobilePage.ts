@@ -6,7 +6,7 @@ import { expect, type Locator, type Page } from '@playwright/test'
  * Selector strategy:
  * - data-testid for containers and interactive elements
  * - aria-label for buttons (hamburger open/close)
- * - id for the drawer dialog (semantic HTML)
+ * - aria-pressed for state assertions
  */
 export class MobilePage {
   readonly header: Locator
@@ -19,7 +19,7 @@ export class MobilePage {
   constructor(page: Page) {
     this.page = page
     this.header = page.locator('[data-testid="mobile-header"]')
-    this.drawer = page.locator('#pf-sidebar-drawer')
+    this.drawer = page.locator('[data-testid="mobile-drawer"]')
     this.overlay = page.locator('[data-testid="drawer-overlay"]')
     this.drawerPanel = page.locator('[data-testid="drawer-panel"]')
   }

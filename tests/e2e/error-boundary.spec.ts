@@ -5,8 +5,8 @@ test.describe('ErrorBoundary', () => {
     await page.goto('/')
     await page.waitForSelector('[data-testid="sidebar"]', { timeout: 10000 })
 
-    await expect(page.getByText('Something went wrong')).toHaveCount(0)
-    await expect(page.getByRole('button', { name: 'Try Again' })).toHaveCount(0)
+    await expect(page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
+    await expect(page.locator('[data-testid="error-retry-button"]')).toHaveCount(0)
   })
 
   test('shows fallback UI when a child lifecycle error is thrown', async ({ page }) => {
@@ -29,8 +29,8 @@ test.describe('ErrorBoundary', () => {
 
     await page.goto('/')
 
-    await expect(page.getByRole('heading', { name: 'Something went wrong' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Try Again' })).toBeVisible()
+    await expect(page.locator('[data-testid="error-heading"]')).toBeVisible()
+    await expect(page.locator('[data-testid="error-retry-button"]')).toBeVisible()
   })
 
   test('recovers after clicking Try Again when injected failure is one-time', async ({ page }) => {
@@ -51,11 +51,11 @@ test.describe('ErrorBoundary', () => {
     })
 
     await page.goto('/')
-    await expect(page.getByRole('heading', { name: 'Something went wrong' })).toBeVisible()
+    await expect(page.locator('[data-testid="error-heading"]')).toBeVisible()
 
-    await page.getByRole('button', { name: 'Try Again' }).click()
+    await page.locator('[data-testid="error-retry-button"]').click()
 
     await page.waitForSelector('[data-testid="sidebar"]', { timeout: 10000 })
-    await expect(page.getByRole('heading', { name: 'Something went wrong' })).toHaveCount(0)
+    await expect(page.locator('[data-testid="error-heading"]')).toHaveCount(0)
   })
 })

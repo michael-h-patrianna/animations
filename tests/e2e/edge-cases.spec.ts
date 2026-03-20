@@ -110,7 +110,7 @@ test.describe('Edge Cases', () => {
     await catalogPage.waitForCards()
     const finalPath = catalogPage.currentPathname()
     expect(finalPath).not.toBe('/')
-    await expect(catalogPage.page.getByText('Something went wrong')).toHaveCount(0)
+    await catalogPage.expectNoErrorBoundary()
   })
 
   test('deep linking to multiple group types renders correct content', async ({ catalogPage }) => {
@@ -131,7 +131,7 @@ test.describe('Edge Cases', () => {
       expect(await cards.count()).toBeGreaterThan(0)
 
       // No error boundary
-      await expect(catalogPage.page.getByText('Something went wrong')).toHaveCount(0)
+      await catalogPage.expectNoErrorBoundary()
     }
   })
 

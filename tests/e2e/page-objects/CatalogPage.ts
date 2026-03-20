@@ -173,7 +173,12 @@ export class CatalogPage {
 
   /** Get the group section element by ID. */
   groupSection(groupId: string): Locator {
-    return this.page.locator(`#group-${groupId}`)
+    return this.page.locator(`[data-testid="group-section-group-${groupId}"]`)
+  }
+
+  /** Assert that the ErrorBoundary fallback is NOT shown. */
+  async expectNoErrorBoundary() {
+    await expect(this.page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
   }
 
   /** Extract all data-animation-id values from visible cards on the current page. */

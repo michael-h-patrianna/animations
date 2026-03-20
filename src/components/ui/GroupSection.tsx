@@ -42,7 +42,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
   }, [baseGroupId, isCssGroup])
 
   return (
-    <article id={elementId} className="pf-group">
+    <article id={elementId} className="pf-group" data-testid={`group-section-${elementId}`}>
       <header className="pf-group__header">
         <div>
           <h2 className="pf-group__title" data-testid="group-title">
@@ -52,7 +52,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
       </header>
 
       {group.animations.length > 0 ? (
-        <div className="pf-card-grid">
+        <div className="pf-card-grid" data-testid="card-grid">
           {group.animations.map((animation) => {
             const AnimationComponent = animationRegistry[animation.id]
 
@@ -87,7 +87,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
           })}
         </div>
       ) : (
-        <div className="pf-group__empty">Animations coming soon</div>
+        <div className="pf-group__empty" data-testid="group-empty">Animations coming soon</div>
       )}
     </article>
   )
