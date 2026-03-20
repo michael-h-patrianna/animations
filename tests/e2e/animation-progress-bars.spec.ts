@@ -23,7 +23,7 @@ test.describe('Progress Bar Animations', () => {
 
         // Animation has rendered content (not placeholder)
         const stage = await catalogPage.cardStage(card)
-        await expect(stage.locator('.pf-card__placeholder')).toHaveCount(0)
+        await expect(stage.locator(':scope > *').first()).toBeVisible()
       }
     }
   })
@@ -50,19 +50,12 @@ test.describe('Progress Bar Animations', () => {
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    // Count milestones with active styling (cyan color)
-    const activeMilestoneCount = async () => {
-      return stage.locator('.milestone-marker').evaluateAll(
-        (nodes) =>
-          nodes.filter((node) => {
-            const style = node.getAttribute('style') ?? ''
-            return /0\s*,\s*255\s*,\s*255/.test(style)
-          }).length
-      )
-    }
+    // Count milestones with data-active attribute (set by component state)
+    const activeMilestoneCount = () =>
+      stage.locator('.milestone-container[data-active]').count()
 
-    // All 5 milestones should activate as progress completes
-    await expect.poll(activeMilestoneCount, { timeout: 6_000 }).toBe(5)
+    // All 5 milestones should activate as progress completes (4s animation + buffer)
+    await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)
   })
 
   test('replay resets and replays milestone activation', async ({ catalogPage }) => {
@@ -71,18 +64,11 @@ test.describe('Progress Bar Animations', () => {
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    const activeMilestoneCount = async () => {
-      return stage.locator('.milestone-marker').evaluateAll(
-        (nodes) =>
-          nodes.filter((node) => {
-            const style = node.getAttribute('style') ?? ''
-            return /0\s*,\s*255\s*,\s*255/.test(style)
-          }).length
-      )
-    }
+    const activeMilestoneCount = () =>
+      stage.locator('.milestone-container[data-active]').count()
 
     // Wait for all milestones to activate
-    await expect.poll(activeMilestoneCount, { timeout: 6_000 }).toBe(5)
+    await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)
 
     // Replay resets
     const replay = catalogPage.replayButton(card)
@@ -90,9 +76,9 @@ test.describe('Progress Bar Animations', () => {
     await replay.click()
 
     // After replay, milestones should reset (fewer than 5 active)
-    await expect.poll(activeMilestoneCount, { timeout: 2_000 }).toBeLessThan(5)
+    await expect.poll(activeMilestoneCount, { timeout: 3_000 }).toBeLessThan(5)
 
     // And re-activate
-    await expect.poll(activeMilestoneCount, { timeout: 6_000 }).toBe(5)
+    await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)
   })
 })

@@ -8,16 +8,16 @@ test.describe('Card Interactions', () => {
     const description = catalogPage.cardDescription(card)
     const toggle = catalogPage.descriptionToggle(card)
 
-    // Starts collapsed
-    await expect(description).toHaveClass(/line-clamp-1/)
+    // Starts collapsed (no data-expanded attribute)
+    await expect(description).not.toHaveAttribute('data-expanded')
 
     // Expand
     await toggle.click()
-    await expect(description).not.toHaveClass(/line-clamp-1/)
+    await expect(description).toHaveAttribute('data-expanded', 'true')
 
     // Collapse again
     await toggle.click()
-    await expect(description).toHaveClass(/line-clamp-1/)
+    await expect(description).not.toHaveAttribute('data-expanded')
   })
 
   test('card tags display correct technology badges', async ({ catalogPage }) => {

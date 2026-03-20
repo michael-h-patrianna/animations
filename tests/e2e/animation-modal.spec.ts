@@ -42,9 +42,8 @@ test.describe('Modal Base Animations', () => {
     const card = catalogPage.card('modal-base__scale-gentle-pop')
     await expect(card).toBeVisible()
 
-    const stage = await catalogPage.cardStage(card)
-    // Framer modal should have rendered content
-    await expect(stage.locator('.pf-card__placeholder')).toHaveCount(0)
+    // cardStage already waits for rendered content (children > 0)
+    await catalogPage.cardStage(card)
   })
 
   test('CSS modal card metadata shows correct title and CSS tag', async ({ catalogPage }) => {

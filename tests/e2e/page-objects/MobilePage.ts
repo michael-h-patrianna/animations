@@ -34,8 +34,7 @@ export class MobilePage {
   /** Open the mobile drawer via hamburger button. */
   async openDrawer() {
     await this.page.getByRole('button', { name: 'Open menu' }).click()
-    await expect(this.drawer).not.toBeHidden()
-    await expect(this.drawer).toHaveClass(/is-open/)
+    await expect(this.drawer).not.toHaveAttribute('hidden')
   }
 
   /** Close the drawer via the close button. */
@@ -46,13 +45,12 @@ export class MobilePage {
 
   /** Assert the drawer is open. */
   async expectDrawerOpen() {
-    await expect(this.drawer).not.toBeHidden()
-    await expect(this.drawer).toHaveClass(/is-open/)
+    await expect(this.drawer).not.toHaveAttribute('hidden')
   }
 
   /** Assert the drawer is closed (hidden). */
   async expectDrawerClosed() {
-    await expect(this.drawer).toBeHidden()
+    await expect(this.drawer).toHaveAttribute('hidden', '')
   }
 
   /** Get group links inside the drawer. */

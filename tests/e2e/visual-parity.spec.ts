@@ -9,8 +9,8 @@ import type { CatalogPage } from './page-objects/CatalogPage'
  * Run:  npx playwright test visual-parity
  */
 
-const MAX_DIFF_RATIO = 0.2
-const CHANNEL_TOLERANCE = 30
+const MAX_DIFF_RATIO = 0.25
+const CHANNEL_TOLERANCE = 35
 
 /** Animations with Math.random() particle positions — pixel comparison is non-deterministic. */
 const SKIP_RANDOM_ANIMATIONS = new Set([

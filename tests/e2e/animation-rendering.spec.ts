@@ -14,9 +14,8 @@ test.describe('Animation Rendering', () => {
       const card = catalogPage.card(animationId)
       await expect(card).toBeVisible()
 
-      const stage = await catalogPage.cardStage(card)
-      // Animation should have rendered actual content (not a placeholder)
-      await expect(stage.locator('.pf-card__placeholder')).toHaveCount(0)
+      // cardStage already waits for rendered content (children > 0)
+      await catalogPage.cardStage(card)
     }
   })
 

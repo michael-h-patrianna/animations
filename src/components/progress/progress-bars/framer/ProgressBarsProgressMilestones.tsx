@@ -80,6 +80,7 @@ export function ProgressBarsProgressMilestones() {
           <div
             key={i}
             className="milestone-container"
+            data-active={activatedMilestones.has(i) || undefined}
             style={{
               position: 'absolute',
               left: `${pos * 100}%`,

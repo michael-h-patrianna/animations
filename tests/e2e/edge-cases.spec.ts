@@ -160,4 +160,25 @@ test.describe('Edge Cases', () => {
     expect(catalogPage.currentPathname()).toBe(pathname)
     await catalogPage.waitForCards()
   })
+
+  test('rapid mode switching does not corrupt state', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('text-effects-framer')
+
+    // Toggle mode 4 times rapidly
+    await catalogPage.selectCssMode()
+    await catalogPage.selectFramerMode()
+    await catalogPage.selectCssMode()
+    await catalogPage.selectFramerMode()
+
+    // UI should settle on Framer mode
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toMatch(/-framer$/)
+
+    // Cards should be present and functional
+    await catalogPage.waitForCards()
+    const firstCard = catalogPage.allCards().first()
+    await expect(catalogPage.cardMeta(firstCard)).toContainText('FRAMER')
+    await catalogPage.expectNoErrorBoundary()
+  })
 })

@@ -104,6 +104,7 @@ const Description = ({ description, isExpanded, onToggle }: DescriptionProps) =>
     <p
       className={`pf-card__description flex-1 m-0 transition-all duration-200 ${!isExpanded ? 'line-clamp-1' : ''}`}
       data-testid="card-description"
+      data-expanded={isExpanded || undefined}
     >
       {description}
     </p>
@@ -146,6 +147,7 @@ const PrizeCountControls = ({
         onClick={() => onPrizeCountChange(n)}
         className={`w-8 h-8 text-sm font-medium border rounded cursor-pointer hover:bg-accent ${n === prizeCount ? 'bg-accent border-primary' : ''}`}
         aria-label={`Show ${n} prize${n > 1 ? 's' : ''}`}
+        aria-pressed={n === prizeCount}
       >
         {n}
       </button>
