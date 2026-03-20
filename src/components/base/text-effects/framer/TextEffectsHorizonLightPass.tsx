@@ -98,5 +98,3 @@ function TextEffectsHorizonLightPassComponent() {
  * Memoized TextEffectsHorizonLightPass to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)
-
-export default TextEffectsHorizonLightPass

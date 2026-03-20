@@ -75,4 +75,4 @@ const LightsCircleStatic3: React.FC<LightsCircleStatic3Props> = ({
   )
 }
 
-export default LightsCircleStatic3
+export { LightsCircleStatic3 }

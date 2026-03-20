@@ -281,4 +281,4 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
     </div>
   )
 }
-export default LightsCircleStatic1
+export { LightsCircleStatic1 }

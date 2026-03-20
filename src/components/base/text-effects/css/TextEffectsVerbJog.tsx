@@ -41,5 +41,3 @@ function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffects
  * Memoized TextEffectsVerbJog to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbJog = memo(TextEffectsVerbJogComponent)
-
-export default TextEffectsVerbJog

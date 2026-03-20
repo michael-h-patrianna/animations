@@ -45,5 +45,3 @@ function TextEffectsVerbFlipComponent() {
  * Memoized TextEffectsVerbFlip to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFlip = memo(TextEffectsVerbFlipComponent)
-
-export default TextEffectsVerbFlip

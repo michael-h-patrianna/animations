@@ -431,7 +431,7 @@ function CardPackOpenCssComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCo
   return (
     <div
       className="pf-modal-celebration pf-card-pack-css"
-      data-animation-id="prize-reveal__card-pack-open-css"
+      data-animation-id="prize-reveal__card-pack-open"
     >
       {ready && <CardPackAnimation cardCount={prizeCount} />}
     </div>

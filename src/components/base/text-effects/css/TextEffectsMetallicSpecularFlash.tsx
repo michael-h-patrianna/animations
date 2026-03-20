@@ -73,5 +73,3 @@ function TextEffectsMetallicSpecularFlashComponent({
  * Component only re-renders when text prop changes.
  */
 export const TextEffectsMetallicSpecularFlash = memo(TextEffectsMetallicSpecularFlashComponent)
-
-export default TextEffectsMetallicSpecularFlash

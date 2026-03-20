@@ -72,5 +72,3 @@ function TextEffectsLightSweepDrawComponent({
  * Component only re-renders when text prop changes.
  */
 export const TextEffectsLightSweepDraw = memo(TextEffectsLightSweepDrawComponent)
-
-export default TextEffectsLightSweepDraw

@@ -83,5 +83,3 @@ function TextEffectsMetallicSpecularFlashComponent() {
  * Memoized TextEffectsMetallicSpecularFlash to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsMetallicSpecularFlash = memo(TextEffectsMetallicSpecularFlashComponent)
-
-export default TextEffectsMetallicSpecularFlash

@@ -142,5 +142,3 @@ function TextEffectsHorizonLightPassComponent({
  * Component only re-renders when text prop changes.
  */
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)
-
-export default TextEffectsHorizonLightPass

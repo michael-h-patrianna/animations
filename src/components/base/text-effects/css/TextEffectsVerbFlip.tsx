@@ -41,5 +41,3 @@ function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffect
  * Memoized TextEffectsVerbFlip to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFlip = memo(TextEffectsVerbFlipComponent)
-
-export default TextEffectsVerbFlip

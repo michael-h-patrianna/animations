@@ -82,5 +82,3 @@ function TextEffectsLightSweepDrawComponent() {
  * Memoized TextEffectsLightSweepDraw to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsLightSweepDraw = memo(TextEffectsLightSweepDrawComponent)
-
-export default TextEffectsLightSweepDraw

@@ -48,5 +48,3 @@ function TextEffectsVerbFallComponent({
  * Memoized TextEffectsVerbFall to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbFall = memo(TextEffectsVerbFallComponent)
-
-export default TextEffectsVerbFall

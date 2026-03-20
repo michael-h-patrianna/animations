@@ -44,5 +44,3 @@ function TextEffectsVerbJogComponent() {
  * Memoized TextEffectsVerbJog to prevent unnecessary re-renders in grid layouts.
  */
 export const TextEffectsVerbJog = memo(TextEffectsVerbJogComponent)
-
-export default TextEffectsVerbJog
