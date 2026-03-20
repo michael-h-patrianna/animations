@@ -30,7 +30,8 @@
     "test:coverage": "node ./scripts/run-vitest.mjs run --coverage",
     "test:e2e": "node ./scripts/run-playwright.mjs",
     "test:e2e:headed": "node ./scripts/run-playwright.mjs --headed",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "prepare": "husky"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
@@ -48,6 +49,10 @@
     "eslint-plugin-testing-library": {
       "eslint": "^10.0.0"
     }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint",
+    "*.css": "stylelint"
   },
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^3.0.0",
@@ -70,6 +75,8 @@
     "eslint-plugin-testing-library": "^7.16.1",
     "globals": "^17.3.0",
     "happy-dom": "^20.6.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "playwright": "^1.58.2",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
