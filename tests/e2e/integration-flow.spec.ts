@@ -22,9 +22,7 @@ test.describe('Integration: Full User Journey', () => {
 
     // Step 3: Switch to CSS mode — URL should update
     await catalogPage.selectCssMode()
-    await expect
-      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
-      .toMatch(/-css$/)
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
     const cssPath = catalogPage.currentPathname()
 
     // Step 4: Verify card tags now show CSS

@@ -102,7 +102,6 @@ test.describe('Edge Cases', () => {
     expect(await catalogPage.allGroupLinks().count()).toBeGreaterThan(0)
 
     // Can still navigate to a group by clicking the first visible group link
-    const currentPath = catalogPage.currentPathname()
     const firstLink = catalogPage.allGroupLinks().first()
     await firstLink.click()
 

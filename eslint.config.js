@@ -7,6 +7,8 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
+import testingLibrary from 'eslint-plugin-testing-library'
+
 import { rules as animationRuleDefinitions } from './eslint-rules/animation-rules.js'
 
 /** Inline plugin wrapping the extracted animation rule definitions. */
@@ -115,11 +117,53 @@ export default defineConfig([
   // Test files: exempt from function length limits, enforce assertion quality
   {
     files: ['**/*.test.ts', '**/*.test.tsx'],
+    plugins: {
+      'testing-library': testingLibrary,
+    },
     rules: {
       'max-lines-per-function': 'off',
       'animation-rules/no-shallow-assertions': 'error',
       // vi.mock() factories define components/hooks inside functions — valid pattern
       '@eslint-react/component-hook-factories': 'off',
+
+      // ─── Anti-slop: testing-library ──────────────────────────────────────
+      ...testingLibrary.configs['flat/react'].rules,
+      'testing-library/prefer-screen-queries': 'error',
+      // Animation DOM structure tests legitimately use container queries to inspect
+      // rendered CSS animation elements, keyframe states, and structural output.
+      // These have no data-testid or ARIA equivalent.
+      'testing-library/no-node-access': 'warn',
+      'testing-library/no-container': 'warn',
+      'testing-library/await-async-queries': 'error',
+      'testing-library/prefer-find-by': 'error',
+      'testing-library/prefer-presence-queries': 'error',
+      // Timer-cleanup tests call cleanup() before vi.clearAllTimers() to ensure
+      // deterministic unmount ordering. Vitest auto-cleanup order is not guaranteed
+      // relative to user afterEach hooks.
+      'testing-library/no-manual-cleanup': 'warn',
+      'testing-library/no-unnecessary-act': 'error',
+      'testing-library/no-render-in-lifecycle': 'error',
+      'testing-library/no-debugging-utils': 'warn',
+      'testing-library/prefer-explicit-assert': 'warn',
+      // render-result-naming-convention off — non-component helpers use render() too
+      'testing-library/render-result-naming-convention': 'off',
+
+      // ─── Ban .skip abuse ─────────────────────────────────────────────────
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'CallExpression[callee.object.name="it"][callee.property.name="skip"]',
+          message: 'No it.skip — fix or remove the test.',
+        },
+        {
+          selector: 'CallExpression[callee.object.name="test"][callee.property.name="skip"]',
+          message: 'No test.skip — fix or remove the test.',
+        },
+        {
+          selector: 'CallExpression[callee.object.name="describe"][callee.property.name="skip"]',
+          message: 'No describe.skip — fix or remove the test suite.',
+        },
+      ],
     },
   },
   {
@@ -197,6 +241,8 @@ export default defineConfig([
     rules: {
       '@eslint-react/rules-of-hooks': 'off',
       'jsdoc/require-jsdoc': 'off',
+      // E2E describe blocks are inherently long — tests are sequential user flows
+      'max-lines-per-function': 'off',
     },
   },
   // Motion (framer/) variants: no CSS animations + RN-portable constraints
@@ -209,6 +255,7 @@ export default defineConfig([
       'animation-rules/no-css-grid-in-motion': 'error',
       'animation-rules/no-calc-in-motion': 'error',
       'animation-rules/no-svg-in-motion': 'warn',
+      'animation-rules/no-default-export-in-animation': 'error',
     },
   },
 ])

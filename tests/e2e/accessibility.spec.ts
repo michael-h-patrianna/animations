@@ -32,7 +32,9 @@ test.describe('Accessibility: ARIA Attributes', () => {
     await catalogPage.gotoGroup('text-effects-framer')
 
     // Framer is active — scope to the desktop sidebar (first instance)
-    const sidebarSwitch = catalogPage.page.locator('[data-testid="sidebar"]').first()
+    const sidebarSwitch = catalogPage.page
+      .locator('[data-testid="sidebar"]')
+      .first()
       .locator('[data-testid="code-mode-switch"]')
     const framerBtn = sidebarSwitch.locator('[data-testid="code-mode-framer"]')
     const cssBtn = sidebarSwitch.locator('[data-testid="code-mode-css"]')
@@ -42,9 +44,7 @@ test.describe('Accessibility: ARIA Attributes', () => {
 
     // Switch to CSS
     await cssBtn.click()
-    await expect
-      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
-      .toMatch(/-css$/)
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
 
     await expect(framerBtn).toHaveAttribute('aria-pressed', 'false')
     await expect(cssBtn).toHaveAttribute('aria-pressed', 'true')

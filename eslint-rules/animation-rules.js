@@ -46,7 +46,11 @@ const rules = {
           }
           // Catch colors embedded in longer string literals (e.g. box-shadow, gradient values).
           // Uses same patterns as the TemplateLiteral handler for consistency.
-          if (embeddedHex.test(node.value) || embeddedRgb.test(node.value) || embeddedHsl.test(node.value)) {
+          if (
+            embeddedHex.test(node.value) ||
+            embeddedRgb.test(node.value) ||
+            embeddedHsl.test(node.value)
+          ) {
             context.report({ node, message: msg, data: { embedded: true } })
           }
         },

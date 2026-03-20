@@ -359,8 +359,7 @@ const extraRules = {
     meta: {
       type: 'problem',
       docs: {
-        description:
-          'Disallow <button> elements without a className in animation components.',
+        description: 'Disallow <button> elements without a className in animation components.',
       },
       schema: [],
     },
@@ -439,6 +438,36 @@ const extraRules = {
             // Negative z-index is fine, skip
             return
           }
+        },
+      }
+    },
+  },
+
+  /**
+   * Ban export default in animation component files.
+   * groupBuilder resolves components via named exports matching the filename.
+   * export default causes silent rendering failures (component loads as undefined).
+   */
+  'no-default-export-in-animation': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'Disallow export default in animation components. groupBuilder requires named exports matching the filename.',
+      },
+      schema: [],
+    },
+    create(context) {
+      if (!isAnimationFile(context)) return {}
+      const base = basename(getFilename(context), '.tsx')
+      if (base.startsWith('Mock') || base === 'index') return {}
+
+      return {
+        ExportDefaultDeclaration(node) {
+          context.report({
+            node,
+            message: `export default is not allowed in animation components. groupBuilder requires named exports matching the filename. Use: export { ${base} } or export function ${base}()`,
+          })
         },
       }
     },

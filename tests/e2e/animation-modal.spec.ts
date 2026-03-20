@@ -32,9 +32,7 @@ test.describe('Modal Base Animations', () => {
     await expect(modal).toBeVisible()
 
     // Overlay has non-zero opacity (it's a visible backdrop, not fully transparent)
-    const opacity = await overlay.evaluate((el) =>
-      parseFloat(window.getComputedStyle(el).opacity)
-    )
+    const opacity = await overlay.evaluate((el) => parseFloat(window.getComputedStyle(el).opacity))
     expect(opacity).toBeGreaterThan(0)
   })
 

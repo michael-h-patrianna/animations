@@ -35,9 +35,7 @@ test.describe('Mobile Code Mode Switching', () => {
     // Switch to CSS mode
     await mobilePage.openDrawer()
     await mobilePage.selectCssMode()
-    await expect
-      .poll(() => new URL(page.url()).pathname, { timeout: 5_000 })
-      .toMatch(/-css$/)
+    await expect.poll(() => new URL(page.url()).pathname, { timeout: 5_000 }).toMatch(/-css$/)
 
     // Close drawer, then reopen to navigate to a different group
     await mobilePage.closeDrawer()

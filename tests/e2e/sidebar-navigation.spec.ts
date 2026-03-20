@@ -59,7 +59,8 @@ test.describe('Sidebar Navigation', () => {
 
     // Category should now be active
     await expect(targetSection.locator('[data-testid^="sidebar-category-"]')).toHaveAttribute(
-      'data-active', 'true'
+      'data-active',
+      'true'
     )
   })
 
