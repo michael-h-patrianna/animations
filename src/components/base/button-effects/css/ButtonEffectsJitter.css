@@ -6,9 +6,6 @@
 .bfx-jitter {
   animation: bfx-jittery 4s infinite;
   will-change: transform;
-}
-
-.bfx-jitter {
   transition:
     transform var(--pf-transition-fast) ease,
     box-shadow var(--pf-transition-fast) ease;

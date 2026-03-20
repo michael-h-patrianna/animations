@@ -27,7 +27,7 @@
   min-width: 60px;
   min-height: 30px;
   position: relative;
-  will-change: transform, background-color;
+  will-change: transform;
   animation:
     timer-flash-pill 32s linear forwards,
     timer-flash-pulse 1s ease-in-out infinite;
@@ -115,10 +115,8 @@
   }
 }
 
-/* Accelerate pulse animation over time using animation-duration change simulation */
-.pf-timer-flash__pill {
-  animation-duration: 32s, 1s;
-}
+/* Accelerate pulse animation over time using animation-duration change simulation
+   Note: overridden by the @media block below when motion is allowed */
 
 /* After 30% of the timeline, speed up the pulse (approximation via CSS) */
 @media (prefers-reduced-motion: no-preference) {

@@ -53,7 +53,7 @@ describe('TextEffectsLevelBreakthrough', () => {
       willChange: 'transform',
     })
     expect(container.querySelector('.tfx-breakthrough-text-start')).toHaveStyle({
-      willChange: 'opacity, text-shadow',
+      willChange: 'opacity',
     })
     expect(container.querySelector('.tfx-breakthrough-surge-outer')).toHaveStyle({
       willChange: 'transform, opacity',

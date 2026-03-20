@@ -747,7 +747,7 @@
   animation: none;
   transform: translateX(-50%) translateY(-50%) translateX(0) translateY(-10px) rotate(0deg)
     scale(1.4);
-  z-index: 20 !important;
+  z-index: 20;
   cursor: pointer;
   transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
@@ -897,10 +897,7 @@
     0 4px 16px var(--pf-anim-black-40),
     0 0 22px 10px var(--rarity-legendary-glow),
     inset 0 0 0 2px var(--rarity-legendary-50);
-}
-
-/* Legendary frame shimmer */
-.pf-card-pack-css__card--rarity-5 .pf-card-pack-css__card-front .pf-card-pack-css__card-frame {
+  /* Legendary frame shimmer */
   animation: cpc-legendary-shimmer 2.5s ease-in-out infinite;
 }
 

@@ -81,12 +81,9 @@
 }
 
 .pf-pirate-chest-win-css__rays {
-  animation: pf-pirate-chest-win-css-rays-pulse 2.6s ease-in-out infinite;
-}
-
-.pf-pirate-chest-win-css__rays {
   position: absolute;
   inset: 0;
+  animation: pf-pirate-chest-win-css-rays-pulse 2.6s ease-in-out infinite;
 }
 
 .pf-pirate-chest-win-css__ray {

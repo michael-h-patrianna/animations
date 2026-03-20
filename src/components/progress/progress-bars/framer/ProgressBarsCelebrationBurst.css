@@ -34,7 +34,7 @@
 }
 
 .pf-celebration-burst .milestone-marker {
-  will-change: transform, opacity, background-color;
+  will-change: transform, opacity;
 }
 
 .pf-celebration-burst .burst-ring {

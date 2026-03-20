@@ -54,5 +54,5 @@
   color: var(--realtime-data-live-score-update-color-3);
   font-weight: 600;
   font-size: 0.875rem;
-  will-change: transform, color;
+  will-change: transform;
 }

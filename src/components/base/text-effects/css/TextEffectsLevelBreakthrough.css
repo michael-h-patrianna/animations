@@ -28,7 +28,7 @@
   color: var(--text-effects-level-breakthrough-color);
   text-align: center;
   padding: 20px;
-  will-change: opacity, text-shadow;
+  will-change: opacity;
 }
 
 /* Start text - fades out at breakthrough peak */

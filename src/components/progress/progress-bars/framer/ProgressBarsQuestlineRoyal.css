@@ -199,7 +199,6 @@
 
 .questline-royal__progress-core-anchor > .questline-royal__progress-core {
   position: static;
-  top: auto;
   transform: none;
 }
 

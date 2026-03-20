@@ -58,7 +58,7 @@
 }
 
 .pf-charge-surge .milestone-marker {
-  will-change: transform, background-color;
+  will-change: transform;
 }
 
 .pf-charge-surge .surge-wave {

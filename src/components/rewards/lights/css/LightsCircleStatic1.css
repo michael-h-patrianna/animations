@@ -73,8 +73,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   transform-origin: center center;
-  /* GPU acceleration for transform and background */
-  will-change: transform, background-color, box-shadow;
+  will-change: transform;
 }
 
 /* Inner filament - small bright core */

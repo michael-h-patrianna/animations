@@ -1,5 +1,6 @@
 /* Tailwind base and plugins are imported in src/index.css (v4) */
 
+/* stylelint-disable-next-line selector-max-id -- #root scopes app variables to the React mount point; :root holds design tokens */
 #root {
   --app-bg-1: rgb(33 15 49 / 82%);
   --app-bg-2: rgb(236 195 255 / 18%);
@@ -558,15 +559,9 @@
   }
 }
 
-/* Hide in-content group title on mobile; we show it in sticky header */
-.pf-group__header {
-  display: none;
-}
-
 /* Inside the drawer, make the Sidebar behave like a full-height panel */
 .pf-drawer__panel .pf-sidebar {
   position: static;
-  top: auto;
 }
 
 @theme inline {

@@ -67,7 +67,7 @@
 }
 
 .pf-charge-surge-css .milestone-marker {
-  will-change: transform, background-color;
+  will-change: transform;
   background-color: var(--progress-bars-charge-surge-bg-1);
   transition: background-color 0.2s;
 }

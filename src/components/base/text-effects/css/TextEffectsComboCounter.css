@@ -209,20 +209,32 @@
   transform: translate3d(-50%, -50%, 0);
 }
 
-/* Particle Positions - Pre-calculated for GPU optimization */
+/* Particle Positions & Colors - Pre-calculated for GPU optimization */
 .tfx-combo-particle:nth-child(1) {
   --particle-x: -18px;
   --particle-y: -68px;
+  color: var(--text-effects-combo-counter-color-3-fa);
+  text-shadow:
+    0 0 10px var(--text-effects-combo-counter-text-shadow-102),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
 }
 
 .tfx-combo-particle:nth-child(2) {
   --particle-x: 21px;
   --particle-y: -79px;
+  color: var(--text-effects-combo-counter-color-4-fa);
+  text-shadow:
+    0 0 10px var(--text-effects-combo-counter-text-shadow-103),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
 }
 
 .tfx-combo-particle:nth-child(3) {
   --particle-x: 66px;
   --particle-y: -66px;
+  color: var(--text-effects-combo-counter-color-5-24);
+  text-shadow:
+    0 0 10px var(--text-effects-combo-counter-text-shadow-104),
+    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
 }
 
 .tfx-combo-particle:nth-child(4) {
@@ -238,28 +250,6 @@
 .tfx-combo-particle:nth-child(6) {
   --particle-x: 92px;
   --particle-y: 92px;
-}
-
-/* Particle Colors - Gradient from first to last */
-.tfx-combo-particle:nth-child(1) {
-  color: var(--text-effects-combo-counter-color-3-fa);
-  text-shadow:
-    0 0 10px var(--text-effects-combo-counter-text-shadow-102),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
-}
-
-.tfx-combo-particle:nth-child(2) {
-  color: var(--text-effects-combo-counter-color-4-fa);
-  text-shadow:
-    0 0 10px var(--text-effects-combo-counter-text-shadow-103),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
-}
-
-.tfx-combo-particle:nth-child(3) {
-  color: var(--text-effects-combo-counter-color-5-24);
-  text-shadow:
-    0 0 10px var(--text-effects-combo-counter-text-shadow-104),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
 }
 
 .tfx-combo-particle:nth-child(4),

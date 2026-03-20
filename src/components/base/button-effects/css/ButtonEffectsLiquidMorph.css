@@ -7,7 +7,7 @@
   transition:
     transform var(--pf-transition-fast) ease,
     box-shadow var(--pf-transition-fast) ease;
-  will-change: transform, box-shadow;
+  will-change: transform;
 }
 
 .bfx-liquid-morph--active {

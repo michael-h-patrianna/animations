@@ -27,7 +27,7 @@
   min-width: 60px;
   min-height: 30px;
   position: relative;
-  will-change: transform, background-color;
+  will-change: transform;
   animation:
     timer-flash-soft-pill 32s linear forwards,
     timer-flash-soft-shake 0.6s ease-out;
