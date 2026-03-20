@@ -47,8 +47,8 @@ describe('MobileDrawer', () => {
 
   it('is hidden when closed', () => {
     renderDrawer({ isOpen: false })
-    const drawer = document.getElementById('pf-sidebar-drawer')
-    expect(drawer).toHaveAttribute('hidden')
+    const dialog = screen.getByRole('dialog', { hidden: true })
+    expect(dialog).toHaveAttribute('hidden')
   })
 
   it('calls onClose when close button is clicked', () => {
@@ -58,9 +58,8 @@ describe('MobileDrawer', () => {
   })
 
   it('calls onClose when overlay is clicked', () => {
-    const { onClose, container } = renderDrawer()
-    const overlay = container.querySelector('.pf-drawer__overlay')
-    fireEvent.click(overlay!)
+    const { onClose } = renderDrawer()
+    fireEvent.click(screen.getByTestId('drawer-overlay'))
     expect(onClose).toHaveBeenCalledOnce()
   })
 

@@ -14,7 +14,10 @@ export class MobilePage {
   readonly overlay: Locator
   readonly drawerPanel: Locator
 
-  constructor(readonly page: Page) {
+  readonly page: Page
+
+  constructor(page: Page) {
+    this.page = page
     this.header = page.locator('[data-testid="mobile-header"]')
     this.drawer = page.locator('#pf-sidebar-drawer')
     this.overlay = page.locator('[data-testid="drawer-overlay"]')

@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, describe, it, vi } from 'vitest'
 
 import { PrizeRevealArcanePortal as CssArcanePortal } from '@/components/rewards/prize-reveal/css/PrizeRevealArcanePortal'
@@ -18,7 +17,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  cleanup()
   vi.clearAllTimers()
   vi.useRealTimers()
 })

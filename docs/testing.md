@@ -95,11 +95,11 @@ import { ComponentName } from '@/components/<category>/<group>/framer/ComponentN
 
 describe('<ComponentName>', () => {
   beforeEach(() => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
   })
 
   afterEach(() => {
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('triggers animation on render', () => {
@@ -283,7 +283,7 @@ await advanceRaf(600) // Advance 600ms
 ❌ **Don't**: Skip the `Suspense` wrapper for lazy-loaded components
 ✅ **Do**: Wrap lazy components in `<Suspense>` with fallback
 
-❌ **Don't**: Forget to call `jest.useRealTimers()` in afterEach
+❌ **Don't**: Forget to call `vi.useRealTimers()` in afterEach
 ✅ **Do**: Always cleanup fake timers to prevent test pollution
 
 ❌ **Don't**: Assert on implementation details (internal state, private methods)

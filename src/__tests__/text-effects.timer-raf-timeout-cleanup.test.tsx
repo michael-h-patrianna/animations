@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, describe, it, vi } from 'vitest'
 
 import { TextEffectsComboCounter as CssTextEffectsComboCounter } from '@/components/base/text-effects/css/TextEffectsComboCounter'
@@ -11,7 +10,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  cleanup()
   vi.clearAllTimers()
   vi.useRealTimers()
 })

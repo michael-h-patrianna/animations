@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, describe, it, vi } from 'vitest'
 
 import { ProgressBarsCelebrationBurst as CssCelebrationBurst } from '@/components/progress/progress-bars/css/ProgressBarsCelebrationBurst'
@@ -11,7 +10,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  cleanup()
   vi.clearAllTimers()
   vi.useRealTimers()
 })

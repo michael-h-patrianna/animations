@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, describe, it, vi } from 'vitest'
 
 import { TimerEffectsPillCountdownGlitch as CssGlitch } from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownGlitch'
@@ -16,7 +15,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  cleanup()
   vi.clearAllTimers()
   vi.useRealTimers()
 })

@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, describe, it, vi } from 'vitest'
 
 import { TimerEffectsPillCountdownExtreme as CssTimerEffectsPillCountdownExtreme } from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownExtreme'
@@ -12,7 +11,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  cleanup()
   vi.clearAllTimers()
   vi.useRealTimers()
 })

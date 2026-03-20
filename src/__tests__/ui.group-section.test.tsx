@@ -38,10 +38,10 @@ describe('GroupSection', () => {
 
   it('sets the article id to the provided elementId', () => {
     const group = makeGroup()
-    const { container } = render(<GroupSection group={group} elementId="section-42" />)
+    render(<GroupSection group={group} elementId="section-42" />)
 
-    const article = container.querySelector('#section-42')
-    expect(article?.tagName).toBe('ARTICLE')
+    const article = screen.getByRole('article')
+    expect(article).toHaveAttribute('id', 'section-42')
   })
 
   it('renders AnimationCard for each animation in the group', () => {
@@ -81,9 +81,11 @@ describe('GroupSection', () => {
 
   it('renders card grid container when animations are present', () => {
     const group = makeGroup()
-    const { container } = render(<GroupSection group={group} elementId="test-section" />)
+    render(<GroupSection group={group} elementId="test-section" />)
 
-    expect(container.querySelector('.pf-card-grid')?.childElementCount).toBeGreaterThanOrEqual(1)
+    // Each animation should render a card with a title
+    const cardTitles = screen.getAllByTestId('card-title')
+    expect(cardTitles.length).toBeGreaterThanOrEqual(1)
   })
 
   it('shows animation count of zero in header for empty groups', () => {

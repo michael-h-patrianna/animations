@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, describe, it, vi } from 'vitest'
 
 import { CollectionEffectsCoinBurst as CssCoinBurst } from '@/components/rewards/collection-effects/css/CollectionEffectsCoinBurst'
@@ -13,7 +12,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  cleanup()
   vi.clearAllTimers()
   vi.useRealTimers()
 })
