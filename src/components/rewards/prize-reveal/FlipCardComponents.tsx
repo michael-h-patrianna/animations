@@ -171,9 +171,9 @@ function CardStars({ card }: { card: CardData }) {
         ? {
             animate: {
               filter: [
-                'drop-shadow(0 3px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(255,80,180,0.5))',
-                'drop-shadow(0 3px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 10px rgba(255,220,50,0.6))',
-                'drop-shadow(0 3px 4px rgba(0,0,0,0.55)) drop-shadow(0 0 8px rgba(255,80,180,0.5))',
+                'drop-shadow(0 3px 4px var(--pf-anim-black-55)) drop-shadow(0 0 8px var(--pf-anim-card-star-pink-50))',
+                'drop-shadow(0 3px 4px var(--pf-anim-black-55)) drop-shadow(0 0 10px var(--pf-anim-card-star-gold-60))',
+                'drop-shadow(0 3px 4px var(--pf-anim-black-55)) drop-shadow(0 0 8px var(--pf-anim-card-star-pink-50))',
               ],
             },
             transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
@@ -221,10 +221,10 @@ function CardFrame({ card }: { card: CardData }) {
         ? {
             animate: {
               boxShadow: [
-                '0 4px 16px rgba(0,0,0,0.4), 0 0 22px 10px rgba(255,80,170,0.45), inset 0 0 0 2px rgba(255,80,170,0.5)',
-                '0 4px 20px rgba(0,0,0,0.4), 0 0 22px 10px rgba(100,160,255,0.45), inset 0 0 0 2px rgba(100,160,255,0.5)',
-                '0 4px 20px rgba(0,0,0,0.4), 0 0 22px 10px rgba(255,215,50,0.45), inset 0 0 0 2px rgba(255,215,50,0.5)',
-                '0 4px 16px rgba(0,0,0,0.4), 0 0 22px 10px rgba(255,80,170,0.45), inset 0 0 0 2px rgba(255,80,170,0.5)',
+                '0 4px 16px var(--pf-anim-black-40), 0 0 22px 10px var(--pf-anim-card-pink-45), inset 0 0 0 2px var(--pf-anim-card-pink-50)',
+                '0 4px 20px var(--pf-anim-black-40), 0 0 22px 10px var(--pf-anim-card-blue-45), inset 0 0 0 2px var(--pf-anim-card-blue-50)',
+                '0 4px 20px var(--pf-anim-black-40), 0 0 22px 10px var(--pf-anim-card-gold-45), inset 0 0 0 2px var(--pf-anim-card-gold-50)',
+                '0 4px 16px var(--pf-anim-black-40), 0 0 22px 10px var(--pf-anim-card-pink-45), inset 0 0 0 2px var(--pf-anim-card-pink-50)',
               ],
             },
             transition: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' },
@@ -315,7 +315,7 @@ export function FlipCard({
 
   const floatActive = idle && !collected
   const floatDelay = (bobPhase / (Math.PI * 2)) * FLOAT_DURATION
-  const canTap = idle && flipped && !collected && onSelect
+  const canTap = idle && flipped && !collected && onSelect != null
   const inspecting = selected || anySelected
 
   const slotAnimate = collected

@@ -49,7 +49,7 @@ globalThis.IntersectionObserver = class IntersectionObserver {
   thresholds = []
 }
 
-if (!Element.prototype.animate) {
+if (typeof Element.prototype.animate !== 'function') {
   Element.prototype.animate = function (): Animation {
     const anim: Partial<Animation> = {
       cancel() {},
@@ -68,7 +68,7 @@ if (!Element.prototype.animate) {
   }
 }
 
-if (!Element.prototype.getAnimations) {
+if (typeof Element.prototype.getAnimations !== 'function') {
   Element.prototype.getAnimations = function (): Animation[] {
     return []
   }

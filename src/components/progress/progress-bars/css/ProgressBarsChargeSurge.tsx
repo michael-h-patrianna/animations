@@ -113,7 +113,7 @@ export function ProgressBarsChargeSurge() {
               style={{
                 position: 'absolute',
                 inset: 0,
-                border: '2px solid rgba(59, 130, 246, 0.8)',
+                border: '2px solid var(--pf-anim-blue-dark-80)',
                 borderRadius: '50%',
               }}
             />
@@ -128,7 +128,7 @@ export function ProgressBarsChargeSurge() {
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    border: '2px solid rgba(59, 130, 246, 0.8)',
+                    border: '2px solid var(--pf-anim-blue-dark-80)',
                     borderRadius: '50%',
                     pointerEvents: 'none',
                   }}

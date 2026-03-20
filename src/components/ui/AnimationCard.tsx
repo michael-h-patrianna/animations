@@ -172,7 +172,10 @@ const LightsControls = ({
       <input
         type="number"
         value={bulbCount}
-        onChange={(event) => onBulbCountChange(parseInt(event.target.value, 10) || MIN_BULB_COUNT)}
+        onChange={(event) => {
+          const parsed = parseInt(event.target.value, 10)
+          onBulbCountChange(Number.isNaN(parsed) ? MIN_BULB_COUNT : parsed)
+        }}
         min={MIN_BULB_COUNT}
         max={MAX_BULB_COUNT}
         className="w-12 h-8 text-sm text-center border [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"

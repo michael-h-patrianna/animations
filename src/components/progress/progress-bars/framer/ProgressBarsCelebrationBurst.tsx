@@ -204,7 +204,7 @@ export function ProgressBarsCelebrationBurst() {
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  border: '2px solid rgb(168 85 247 / 0.8)',
+                  border: '2px solid var(--pf-anim-purple-80)',
                   borderRadius: '50%',
                 }}
               />
@@ -220,7 +220,7 @@ export function ProgressBarsCelebrationBurst() {
                     style={{
                       position: 'absolute',
                       inset: '-4px',
-                      border: '2px solid rgb(168 85 247 / 0.8)',
+                      border: '2px solid var(--pf-anim-purple-80)',
                       borderRadius: '50%',
                       pointerEvents: 'none',
                     }}
@@ -233,7 +233,7 @@ export function ProgressBarsCelebrationBurst() {
                     style={{
                       position: 'absolute',
                       inset: '-4px',
-                      border: '2px solid rgb(168 85 247 / 0.6)',
+                      border: '2px solid var(--pf-anim-purple-60)',
                       borderRadius: '50%',
                       pointerEvents: 'none',
                     }}

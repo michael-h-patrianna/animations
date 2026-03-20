@@ -5,15 +5,16 @@ export function ProgressBarsProgressBounce() {
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
-    const trackContainer = container.querySelector('.track-container') as HTMLElement
-    const track = container.querySelector('.pf-progress-track') as HTMLElement
-    const fill = container.querySelector('.pf-progress-fill') as HTMLElement
-    if (!trackContainer || !track || !fill) return // Clean up any existing animations
+    const trackContainer = container.querySelector<HTMLElement>('.track-container')
+    const track = container.querySelector<HTMLElement>('.pf-progress-track')
+    const fill = container.querySelector<HTMLElement>('.pf-progress-fill')
+    if (trackContainer == null || track == null || fill == null) return // Clean up any existing animations
     const existingElements = container.querySelectorAll('.animation-element')
     existingElements.forEach((el) => el.remove()) // Reset fill
     fill.style.transform = 'scaleX(0) scaleY(1)'
     fill.style.transformOrigin = 'left center'
-    fill.style.background = 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)' // Create squash and stretch container
+    fill.style.background =
+      'linear-gradient(90deg, var(--pf-anim-green) 0%, var(--pf-anim-green-light) 100%)' // Create squash and stretch container
     const bounceContainer = document.createElement('div')
     bounceContainer.className = 'animation-element'
     bounceContainer.style.position = 'absolute'
@@ -29,7 +30,12 @@ export function ProgressBarsProgressBounce() {
       wave.style.top = '0'
       wave.style.bottom = '0'
       wave.style.width = '4px'
-      wave.style.background = `rgba(var(--pf-anim-green-rgb, 198,255,119),${0.6 - i * 0.2})` // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
+      const waveColors = [
+        'var(--pf-anim-green-60)',
+        'var(--pf-anim-green-40)',
+        'var(--pf-anim-green-20)',
+      ]
+      wave.style.background = waveColors[i]
       wave.style.opacity = '0'
       wave.style.pointerEvents = 'none'
       trackContainer.appendChild(wave)
@@ -40,7 +46,7 @@ export function ProgressBarsProgressBounce() {
     elasticOverlay.style.position = 'absolute'
     elasticOverlay.style.inset = '0'
     elasticOverlay.style.background =
-      'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.3) 0%, transparent 50%)' // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      'radial-gradient(ellipse at right center, var(--pf-anim-green-30) 0%, transparent 50%)' // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
     elasticOverlay.style.opacity = '0'
     elasticOverlay.style.pointerEvents = 'none'
     fill.appendChild(elasticOverlay)

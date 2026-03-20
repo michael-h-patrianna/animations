@@ -20,7 +20,7 @@ export function ProgressBarsTimelineProgress() {
       ) // Connector animation (if exists): scaleX 0 -> 1, opacity 0.3 -> 1
       // Duration: 260ms, easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)
       const connectorEl = connectorElements[index]
-      if (connectorEl) {
+      if (index in connectorElements) {
         connectorEl.animate(
           [
             { transform: 'scaleX(0)', opacity: 0.3 },
@@ -76,12 +76,12 @@ export function ProgressBarsTimelineProgress() {
                 className="pf-timeline-progress__connector"
                 style={{
                   background:
-                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), rgba(0, 255, 255, 0.2))',
+                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), var(--pf-anim-cyan-light-20))',
                   transformOrigin: 'left',
                   transform: 'scaleX(0)',
                   opacity: 0.3,
                   willChange: 'transform, opacity',
-                  filter: 'drop-shadow(0 0 6px rgba(30, 144, 255, 0.3))',
+                  filter: 'drop-shadow(0 0 6px var(--pf-anim-dodger-blue-30))',
                 }}
               />
             )}

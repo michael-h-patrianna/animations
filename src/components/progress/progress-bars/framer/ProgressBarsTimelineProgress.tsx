@@ -62,7 +62,7 @@ export function ProgressBarsTimelineProgress() {
                 variants={connectorVariants}
                 style={{
                   background:
-                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), rgba(0, 255, 255, 0.2))',
+                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), var(--pf-anim-cyan-light-20))',
                   transformOrigin: 'left',
                 }}
               />

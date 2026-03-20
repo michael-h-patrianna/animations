@@ -25,8 +25,8 @@ export function ModalContentFormFieldGradient() {
                   y: [20, 0, 0],
                   opacity: [0, 1, 1],
                   background: [
-                    'linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.1) 50%, transparent 100%)',
-                    'linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.2) 50%, transparent 100%)',
+                    'linear-gradient(90deg, transparent 0%, var(--pf-anim-blue-dark-10) 50%, transparent 100%)',
+                    'linear-gradient(90deg, transparent 0%, var(--pf-anim-blue-dark-20) 50%, transparent 100%)',
                     'transparent',
                   ],
                 }}

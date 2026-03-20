@@ -5,15 +5,16 @@ export function ProgressBarsProgressSegmented() {
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
-    const trackContainer = container.querySelector('.track-container') as HTMLElement
-    const track = container.querySelector('.pf-progress-track') as HTMLElement
-    const fill = container.querySelector('.pf-progress-fill') as HTMLElement
-    if (!trackContainer || !track || !fill) return // Clean up any existing animations
+    const trackContainer = container.querySelector<HTMLElement>('.track-container')
+    const track = container.querySelector<HTMLElement>('.pf-progress-track')
+    const fill = container.querySelector<HTMLElement>('.pf-progress-fill')
+    if (trackContainer == null || track == null || fill == null) return // Clean up any existing animations
     const existingElements = container.querySelectorAll('.animation-element')
     existingElements.forEach((el) => el.remove()) // Reset fill
     fill.style.transform = 'scaleX(0)'
     fill.style.transformOrigin = 'left center'
-    fill.style.background = 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)'
+    fill.style.background =
+      'linear-gradient(90deg, var(--pf-anim-green) 0%, var(--pf-anim-green-light) 100%)'
     fill.style.borderRadius = '8px 0 0 8px'
     fill.style.overflow = 'hidden' // Create gaps ABOVE the fill as static overlays
     const segmentCount = 4
@@ -32,7 +33,8 @@ export function ProgressBarsProgressSegmented() {
       gap.style.top = '0'
       gap.style.bottom = '0'
       gap.style.left = `calc(${(i * 100) / segmentCount}% - ${segmentGap / 2}px)`
-      gap.style.background = track.style.background || 'var(--pf-anim-deep-purple)'
+      gap.style.background =
+        track.style.background !== '' ? track.style.background : 'var(--pf-anim-deep-purple)'
       gapOverlay.appendChild(gap)
     } // Create segment overlay for animations
     const segmentOverlay = document.createElement('div')
@@ -57,7 +59,7 @@ export function ProgressBarsProgressSegmented() {
       } else {
         segment.style.borderRadius = '2px'
       }
-      segment.style.border = '1px solid rgba(196,122,229,0.3)'
+      segment.style.border = '1px solid var(--pf-anim-orchid-30)'
       segment.style.background = 'var(--pf-anim-violet-dark)'
       segment.style.overflow = 'hidden'
       segmentOverlay.appendChild(segment)
@@ -99,7 +101,7 @@ export function ProgressBarsProgressSegmented() {
               { transform: 'scale(1)', boxShadow: 'none' },
               {
                 transform: 'scale(1.1)',
-                boxShadow: '0 0 20px rgba(var(--pf-anim-green-rgb, 198,255,119),0.5)',
+                boxShadow: '0 0 20px var(--pf-anim-green-50)',
                 offset: 0.3,
               },
               { transform: 'scale(1)', boxShadow: 'none' },

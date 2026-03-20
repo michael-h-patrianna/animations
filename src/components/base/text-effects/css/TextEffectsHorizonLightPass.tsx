@@ -71,7 +71,7 @@ function TextEffectsHorizonLightPassComponent({
 
     // Letter animations with right-to-left cascade
     const letterAnimations = lettersRef.current.map((letter, i) => {
-      if (!letter) return null
+      if (letter == null) return null
 
       const delayPer = 30
       const count = letters.length

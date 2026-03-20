@@ -6,20 +6,18 @@
 export function preloadImages(urls: string[]) {
   if (typeof document === 'undefined') return
 
-  const head = document.head || document.getElementsByTagName('head')[0]
-  if (!head) return
-
+  const head = document.head
   const existing = new Set(
     Array.from(head.querySelectorAll('link[rel="preload"][as="image"]'))
-      .map((el) => el.getAttribute('href') || '')
-      .filter(Boolean)
+      .map((el) => el.getAttribute('href') ?? '')
+      .filter((href) => href !== '')
   )
 
   // Track URLs added during this invocation to avoid duplicates within the provided array
   const added = new Set<string>()
 
   urls.forEach((url) => {
-    if (!url || existing.has(url) || added.has(url)) return
+    if (url === '' || existing.has(url) || added.has(url)) return
 
     const link = document.createElement('link')
     link.setAttribute('rel', 'preload')

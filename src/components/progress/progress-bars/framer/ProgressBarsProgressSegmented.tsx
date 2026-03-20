@@ -53,7 +53,8 @@ export function ProgressBarsProgressSegmented() {
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
-              background: 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)',
+              background:
+                'linear-gradient(90deg, var(--pf-anim-green) 0%, var(--pf-anim-green-light) 100%)',
               borderRadius: '8px 0 0 8px',
               overflow: 'hidden',
             }}
@@ -103,7 +104,7 @@ export function ProgressBarsProgressSegmented() {
                   flex: 1,
                   position: 'relative',
                   borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
-                  border: '1px solid rgba(196,122,229,0.3)',
+                  border: '1px solid var(--pf-anim-orchid-30)',
                   background: 'var(--pf-anim-violet-dark)',
                   overflow: 'hidden',
                 }}

@@ -99,8 +99,8 @@ export function ProgressBarsProgressMilestones() {
                 position: 'absolute',
                 inset: 0,
                 border: activatedMilestones.has(i)
-                  ? '2px solid rgba(0,255,255,0.8)'
-                  : '2px solid rgba(0,200,180,0.5)',
+                  ? '2px solid var(--pf-anim-cyan-light-80)'
+                  : '2px solid var(--pf-anim-cyan-muted-50)',
                 borderRadius: '50%',
                 transform: 'rotate(45deg)',
               }}
@@ -111,7 +111,7 @@ export function ProgressBarsProgressMilestones() {
                   position: 'absolute',
                   inset: '20%',
                   background:
-                    'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, rgba(0,255,255,0.3) 50%, transparent 100%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                    'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, var(--pf-anim-cyan-light-30) 50%, transparent 100%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
                   borderRadius: '50%',
                   opacity: activatedMilestones.has(i) ? 1 : 0,
                   transition: 'opacity 0.3s ease',
@@ -128,7 +128,7 @@ export function ProgressBarsProgressMilestones() {
                 style={{
                   position: 'absolute',
                   inset: '-10px',
-                  border: '2px solid rgba(0,255,255,0.8)',
+                  border: '2px solid var(--pf-anim-cyan-light-80)',
                   borderRadius: '50%',
                   pointerEvents: 'none',
                 }}

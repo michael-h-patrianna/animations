@@ -36,7 +36,7 @@ export function useAppNavigation(categories: Category[]) {
 
   const handleModeSelect = useCallback(
     (mode: CodeMode) => {
-      if (!currentGroupId) return
+      if (currentGroupId === '') return
       const baseId = currentGroupId.replace(/-(?:framer|css)$/, '')
       const targetId = mode === 'CSS' ? `${baseId}-css` : `${baseId}-framer`
       const exists = allGroups.some((g) => g.id === targetId)

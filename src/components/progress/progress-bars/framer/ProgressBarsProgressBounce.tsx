@@ -71,7 +71,8 @@ export function ProgressBarsProgressBounce() {
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
-              background: 'linear-gradient(90deg, #c6ff77 0%, #d4ff9f 100%)',
+              background:
+                'linear-gradient(90deg, var(--pf-anim-green) 0%, var(--pf-anim-green-light) 100%)',
               position: 'relative',
             }}
             variants={fillVariants}
@@ -84,7 +85,7 @@ export function ProgressBarsProgressBounce() {
                 position: 'absolute',
                 inset: 0,
                 background:
-                  'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.3) 0%, transparent 50%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                  'radial-gradient(ellipse at right center, var(--pf-anim-green-30) 0%, transparent 50%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
                 pointerEvents: 'none',
               }}
               variants={elasticOverlayVariants}
@@ -105,7 +106,11 @@ export function ProgressBarsProgressBounce() {
               y: '-50%',
               width: 4,
               height: '100%',
-              background: `rgba(var(--pf-anim-green-rgb, 198,255,119),${0.6 - i * 0.2})`, // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
+              background: [
+                'var(--pf-anim-green-60)',
+                'var(--pf-anim-green-40)',
+                'var(--pf-anim-green-20)',
+              ][i],
               pointerEvents: 'none',
             }}
             variants={waveVariants(i * 0.05)}

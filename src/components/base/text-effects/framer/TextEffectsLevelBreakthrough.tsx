@@ -53,7 +53,7 @@ function TextEffectsLevelBreakthroughComponent() {
           if (!mountedRef.current) return
           if (levelRef.current) {
             levelRef.current.textContent = 'LEVEL 2'
-            levelRef.current.style.textShadow = '0 0 30px rgba(255, 206, 26, 0.8)'
+            levelRef.current.style.textShadow = '0 0 30px var(--pf-anim-firework-gold-80)'
           }
         }, 600)
         timersRef.current.push(t)
@@ -78,7 +78,8 @@ function TextEffectsLevelBreakthroughComponent() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle, transparent 75%, #ffce1a 76%, transparent 82%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+          background:
+            'radial-gradient(circle, transparent 75%, var(--pf-anim-firework-gold) 76%, transparent 82%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
           opacity: 0,
         }}
       />
@@ -90,7 +91,8 @@ function TextEffectsLevelBreakthroughComponent() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle, transparent 65%, #ffce1a 66%, transparent 72%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+          background:
+            'radial-gradient(circle, transparent 65%, var(--pf-anim-firework-gold) 66%, transparent 72%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
           opacity: 0,
         }}
       />

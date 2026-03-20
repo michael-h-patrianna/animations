@@ -164,8 +164,11 @@ export const AppSidebar: FC<AppSidebarProps> = ({
   const { expandedIds, toggle } = useCategoryExpansion(categories)
 
   return (
-    <aside className={`pf-sidebar${className ? ` ${className}` : ''}`} data-testid="sidebar">
-      {topContent && <div className="pf-sidebar__intro">{topContent}</div>}
+    <aside
+      className={`pf-sidebar${className != null ? ` ${className}` : ''}`}
+      data-testid="sidebar"
+    >
+      {topContent != null && <div className="pf-sidebar__intro">{topContent}</div>}
       <div className="pf-sidebar__nav">
         {categoryGroups.map(({ category, groupVariants }) => (
           <CategorySection

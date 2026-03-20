@@ -5,21 +5,22 @@ export function ProgressBarsProgressThin() {
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
-    const trackContainer = container.querySelector('.track-container') as HTMLElement
-    const track = container.querySelector('.pf-progress-track') as HTMLElement
-    const fill = container.querySelector('.pf-progress-fill') as HTMLElement
-    if (!trackContainer || !track || !fill) return // Clean up any existing animations
+    const trackContainer = container.querySelector<HTMLElement>('.track-container')
+    const track = container.querySelector<HTMLElement>('.pf-progress-track')
+    const fill = container.querySelector<HTMLElement>('.pf-progress-fill')
+    if (trackContainer == null || track == null || fill == null) return // Clean up any existing animations
     const existingElements = container.querySelectorAll('.animation-element')
     existingElements.forEach((el) => el.remove()) // Style thin track
     track.style.height = '2px'
     track.style.background =
-      'linear-gradient(90deg, rgba(78,24,124,0.2) 0%, var(--pf-anim-violet-dark) 100%)'
+      'linear-gradient(90deg, var(--pf-anim-violet-base-20) 0%, var(--pf-anim-violet-dark) 100%)'
     track.style.overflow = 'visible'
     track.style.borderRadius = '1px' // Ultra-thin fill
     fill.style.transform = 'scaleX(0)'
     fill.style.transformOrigin = 'left center'
     fill.style.height = '100%'
-    fill.style.background = 'linear-gradient(90deg, #a8e65c 0%, #c6ff77 60%, #d4ff9f 100%)'
+    fill.style.background =
+      'linear-gradient(90deg, var(--pf-anim-green-dark) 0%, var(--pf-anim-green) 60%, var(--pf-anim-green-light) 100%)'
     fill.style.borderRadius = 'inherit'
     fill.style.position = 'relative'
     fill.style.overflow = 'visible' // Photon trail (leading light)
@@ -32,7 +33,7 @@ export function ProgressBarsProgressThin() {
     photonTrail.style.width = '60px'
     photonTrail.style.height = '1px'
     photonTrail.style.background =
-      'linear-gradient(90deg, rgba(var(--pf-anim-green-rgb, 198,255,119),0) 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.6) 50%, rgba(var(--pf-anim-green-rgb, 198,255,119),1) 100%)'
+      'linear-gradient(90deg, transparent 0%, var(--pf-anim-green-60) 50%, var(--pf-anim-green) 100%)'
     photonTrail.style.pointerEvents = 'none' // Simulate subtle blur with opacity gradient for RN compatibility
     photonTrail.style.opacity = '0'
     fill.appendChild(photonTrail) // Micro pulse dots
@@ -58,7 +59,7 @@ export function ProgressBarsProgressThin() {
     halo.style.position = 'absolute'
     halo.style.inset = '-8px'
     halo.style.background =
-      'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.2) 0%, transparent 70%)' // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      'radial-gradient(ellipse at right center, var(--pf-anim-green-20) 0%, transparent 70%)' // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
     halo.style.opacity = '0'
     halo.style.pointerEvents = 'none' // Use larger gradient and scale for blur simulation in RN
     halo.style.transform = 'scale(1.3)'
@@ -116,7 +117,7 @@ export function ProgressBarsProgressThin() {
       flash.style.position = 'absolute'
       flash.style.inset = '-4px'
       flash.style.background =
-        'linear-gradient(90deg, transparent 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.4) 100%)'
+        'linear-gradient(90deg, transparent 0%, var(--pf-anim-green-40) 100%)'
       flash.style.pointerEvents = 'none'
       trackContainer.appendChild(flash)
       const flashAnim = flash.animate(

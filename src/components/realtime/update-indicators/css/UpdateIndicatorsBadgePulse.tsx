@@ -5,7 +5,7 @@ export function UpdateIndicatorsBadgePulse() {
   const badgeRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
 
     const startAnimation = () => {
       const badge = badgeRef.current
@@ -22,7 +22,7 @@ export function UpdateIndicatorsBadgePulse() {
     startAnimation()
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId)
+      if (timeoutId != null) clearTimeout(timeoutId)
     }
   }, [])
 

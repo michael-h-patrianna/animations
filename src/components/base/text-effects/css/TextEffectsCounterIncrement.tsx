@@ -118,7 +118,7 @@ interface IncrementStep {
   }, []) // Target mode: calculate steps and execute animation (runs once on mount per instance)
   useEffect(() => {
     if (isContinuousMode) return
-    if (!targetValue) return // Calculate increment steps for THIS instance
+    if (targetValue === 0) return // Calculate increment steps for THIS instance
     const steps = calculateIncrementSteps(targetValue, effectiveMaxParticles, effectiveDuration)
     if (steps.length === 0) return // Reset to start state
     setCount(0)

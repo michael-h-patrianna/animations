@@ -35,19 +35,12 @@ export function buildRegistryFromCategories() {
 
   Object.values(categories).forEach((cat) => {
     Object.values(cat.groups).forEach((group) => {
-      // Add Framer animations
-      if (group.framer) {
-        Object.entries(group.framer).forEach(([id, anim]) => {
-          registry[id] = anim.component
-        })
-      }
-
-      // Add CSS animations
-      if (group.css) {
-        Object.entries(group.css).forEach(([id, anim]) => {
-          registry[id] = anim.component
-        })
-      }
+      Object.entries(group.framer).forEach(([id, anim]) => {
+        registry[id] = anim.component
+      })
+      Object.entries(group.css).forEach(([id, anim]) => {
+        registry[id] = anim.component
+      })
     })
   })
   return registry

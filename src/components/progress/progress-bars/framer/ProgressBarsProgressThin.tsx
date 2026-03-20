@@ -65,7 +65,7 @@ export function ProgressBarsProgressThin() {
             position: 'absolute',
             inset: '-8px',
             background:
-              'radial-gradient(ellipse at right center, rgba(var(--pf-anim-green-rgb, 198,255,119),0.2) 0%, transparent 70%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+              'radial-gradient(ellipse at right center, var(--pf-anim-green-20) 0%, transparent 70%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
             pointerEvents: 'none',
             transform: 'scale(1.3)',
           }}
@@ -88,7 +88,7 @@ export function ProgressBarsProgressThin() {
                 width: '60px',
                 height: '1px',
                 background:
-                  'linear-gradient(90deg, rgba(var(--pf-anim-green-rgb, 198,255,119),0) 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.6) 50%, rgba(var(--pf-anim-green-rgb, 198,255,119),1) 100%)',
+                  'linear-gradient(90deg, transparent 0%, var(--pf-anim-green-60) 50%, var(--pf-anim-green) 100%)',
                 pointerEvents: 'none',
               }}
             />
@@ -120,8 +120,7 @@ export function ProgressBarsProgressThin() {
           style={{
             position: 'absolute',
             inset: '-4px',
-            background:
-              'linear-gradient(90deg, transparent 0%, rgba(var(--pf-anim-green-rgb, 198,255,119),0.4) 100%)',
+            background: 'linear-gradient(90deg, transparent 0%, var(--pf-anim-green-40) 100%)',
             pointerEvents: 'none',
           }}
         />

@@ -46,7 +46,7 @@ export function ProgressBarsCelebrationBurst() {
         ring.className = 'burst-ring'
         ring.style.position = 'absolute'
         ring.style.inset = '-4px'
-        ring.style.border = `2px solid rgba(168, 85, 247, ${0.8 - i * 0.2})` // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
+        ring.style.border = `2px solid ${i === 0 ? 'var(--pf-anim-purple-80)' : 'var(--pf-anim-purple-60)'}`
         ring.style.borderRadius = '50%'
         ring.style.pointerEvents = 'none'
         markerContainer.appendChild(ring)
@@ -182,9 +182,9 @@ export function ProgressBarsCelebrationBurst() {
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
-    const trackContainer = container.querySelector('.track-container') as HTMLElement
-    const fill = container.querySelector('.pf-progress-fill') as HTMLElement
-    if (!trackContainer || !fill) return
+    const trackContainer = container.querySelector<HTMLElement>('.track-container')
+    const fill = container.querySelector<HTMLElement>('.pf-progress-fill')
+    if (trackContainer == null || fill == null) return
     let stopped = false
     let currentAnimation: { cancel: () => void } | null = null
     const resetAnimation = () => {
@@ -227,7 +227,7 @@ export function ProgressBarsCelebrationBurst() {
         marker.style.position = 'absolute'
         marker.style.inset = '0'
         marker.style.backgroundColor = 'var(--pf-anim-purple-dark)'
-        marker.style.border = '2px solid rgb(168 85 247 / 0.8)'
+        marker.style.border = '2px solid var(--pf-anim-purple-80)'
         marker.style.borderRadius = '50%'
         marker.style.transform = 'scale(0.6)'
         marker.style.opacity = '0.6'

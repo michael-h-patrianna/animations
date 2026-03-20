@@ -5,7 +5,7 @@ export function UpdateIndicatorsLivePing() {
   const iconRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
 
     const startAnimation = () => {
       const icon = iconRef.current
@@ -21,7 +21,7 @@ export function UpdateIndicatorsLivePing() {
     startAnimation()
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId)
+      if (timeoutId != null) clearTimeout(timeoutId)
     }
   }, [])
 

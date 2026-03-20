@@ -35,7 +35,7 @@ export function useScrollToGroup({
   appBarRef: RefObject<HTMLDivElement | null>
 }) {
   useEffect(() => {
-    if (!currentGroupId || typeof window === 'undefined') return
+    if (currentGroupId === '' || typeof window === 'undefined') return
 
     const id = `group-${currentGroupId}`
     const EXTRA_OFFSET = 16

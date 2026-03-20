@@ -152,6 +152,62 @@
   /* Orchid */
   --pf-anim-orchid-30: rgb(196 122 229 / 30%);
 
+  /* Green light (gradient endpoint) */
+  --pf-anim-green-light: #d4ff9f;
+  --pf-anim-green-20: rgb(198 255 119 / 20%);
+  --pf-anim-green-30: rgb(198 255 119 / 30%);
+  --pf-anim-green-40: rgb(198 255 119 / 40%);
+  --pf-anim-green-50: rgb(198 255 119 / 50%);
+  --pf-anim-green-60: rgb(198 255 119 / 60%);
+
+  /* Purple alpha variants */
+  --pf-anim-purple-60: rgb(168 85 247 / 60%);
+  --pf-anim-purple-80: rgb(168 85 247 / 80%);
+
+  /* Blue-dark alpha variants */
+  --pf-anim-blue-dark-10: rgb(59 130 246 / 10%);
+  --pf-anim-blue-dark-20: rgb(59 130 246 / 20%);
+  --pf-anim-blue-dark-80: rgb(59 130 246 / 80%);
+
+  /* Cyan-light alpha variants */
+  --pf-anim-cyan-light-20: rgb(0 255 255 / 20%);
+  --pf-anim-cyan-light-30: rgb(0 255 255 / 30%);
+  --pf-anim-cyan-light-80: rgb(0 255 255 / 80%);
+
+  /* Cyan-muted alpha variant */
+  --pf-anim-cyan-muted-50: rgb(0 200 180 / 50%);
+
+  /* Violet-base alpha variant */
+  --pf-anim-violet-base-20: rgb(78 24 124 / 20%);
+
+  /* Dodger blue alpha variant */
+  --pf-anim-dodger-blue-30: rgb(30 144 255 / 30%);
+
+  /* Firework gold alpha variants */
+  --pf-anim-firework-gold-35: rgb(255 206 26 / 35%);
+  --pf-anim-firework-gold-80: rgb(255 206 26 / 80%);
+
+  /* Highlight (lavender) alpha scale additions */
+  --pf-anim-highlight-15: rgb(236 195 255 / 15%);
+
+  /* White alpha scale additions */
+  --pf-anim-white-90: rgb(255 255 255 / 90%);
+
+  /* Black alpha scale additions */
+  --pf-anim-black-55: rgb(0 0 0 / 55%);
+
+  /* Card frame iridescent palette */
+  --pf-anim-card-pink-45: rgb(255 80 170 / 45%);
+  --pf-anim-card-pink-50: rgb(255 80 170 / 50%);
+  --pf-anim-card-blue-45: rgb(100 160 255 / 45%);
+  --pf-anim-card-blue-50: rgb(100 160 255 / 50%);
+  --pf-anim-card-gold-45: rgb(255 215 50 / 45%);
+  --pf-anim-card-gold-50: rgb(255 215 50 / 50%);
+
+  /* Card stars glow palette */
+  --pf-anim-card-star-pink-50: rgb(255 80 180 / 50%);
+  --pf-anim-card-star-gold-60: rgb(255 220 50 / 60%);
+
   --index-bg-100: rgb(123 70 142 / 65%);
   --index-bg-101: rgb(29 9 47 / 65%);
   --index-bg-102: rgb(7 2 12 / 65%);

@@ -93,7 +93,7 @@ function resolveCssColor(color: string): RGB | null {
   probe.style.color = ''
   probe.style.color = color
 
-  if (!probe.style.color) {
+  if (probe.style.color === '') {
     return null
   }
 

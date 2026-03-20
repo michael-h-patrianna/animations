@@ -146,7 +146,7 @@ export function ModalCelebrationsConfettiRain() {
           height: '60px',
           borderRadius: '50%',
           background:
-            'linear-gradient(180deg, rgb(255 206 26 / 35%) 0%, rgb(236 195 255 / 15%) 50%, transparent 100%)',
+            'linear-gradient(180deg, var(--pf-anim-firework-gold-35) 0%, var(--pf-anim-highlight-15) 50%, transparent 100%)',
           pointerEvents: 'none',
           zIndex: 0,
           animation: 'cr-glow 2s ease-out both',
@@ -162,7 +162,7 @@ export function ModalCelebrationsConfettiRain() {
           right: 0,
           height: '6px',
           background:
-            'linear-gradient(90deg, transparent 5%, rgb(255 255 255 / 90%) 50%, transparent 95%)',
+            'linear-gradient(90deg, transparent 5%, var(--pf-anim-white-90) 50%, transparent 95%)',
           zIndex: 3,
           pointerEvents: 'none',
           animation: 'cr-flash 500ms ease-out both',

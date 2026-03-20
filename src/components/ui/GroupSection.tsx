@@ -28,8 +28,8 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
     const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
 
     for (const category of Object.values(categories)) {
-      const groupExport = category.groups[baseGroupId]
-      if (groupExport) {
+      if (baseGroupId in category.groups) {
+        const groupExport = category.groups[baseGroupId]
         const animationSource = isCssGroup ? groupExport.css : groupExport.framer
         Object.entries(animationSource).forEach(([id, anim]) => {
           registry[id] = anim.component
@@ -69,7 +69,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 prizeCountMax={animation.prizeCountMax}
               >
                 {({ bulbCount, onColor, prizeCount }) => {
-                  return AnimationComponent ? (
+                  return animation.id in animationRegistry ? (
                     <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
                       <AnimationComponent
                         {...(animation.controls === 'lights'
