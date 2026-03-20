@@ -1,4 +1,5 @@
 import type { ErrorInfo } from 'react'
+import { logger } from '@/services/logger'
 
 type RuntimeErrorReporter = (error: Error, errorInfo: ErrorInfo) => void
 
@@ -22,6 +23,6 @@ export const reportRuntimeError = (error: Error, errorInfo: ErrorInfo): void => 
   try {
     reporter(error, errorInfo)
   } catch (reportError) {
-    console.error('Runtime error reporter failed:', reportError)
+    logger.error('Runtime error reporter failed:', reportError)
   }
 }

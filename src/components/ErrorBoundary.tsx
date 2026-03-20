@@ -1,6 +1,7 @@
 import type { ErrorInfo, ReactNode } from 'react'
 import { Component } from 'react'
 import { reportRuntimeError } from '@/services/errorTracking'
+import { logger } from '@/services/logger'
 
 /**
  * Props for ErrorBoundary component
@@ -105,7 +106,7 @@ function ErrorDevDetails({ error }: { error: Error }) {
 function DefaultErrorFallback({ error, onReset }: { error: Error; onReset: () => void }) {
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: fallbackStyles }} />
+      <style>{fallbackStyles}</style>
       <div className="pf-error-page">
         <div className="pf-error-card">
           <h1>Something went wrong</h1>
@@ -150,7 +151,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   /** Log error information when component catches an error */
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('ErrorBoundary caught an error:', error, errorInfo)
+    logger.error('ErrorBoundary caught an error:', error, errorInfo)
     reportRuntimeError(error, errorInfo)
   }
 

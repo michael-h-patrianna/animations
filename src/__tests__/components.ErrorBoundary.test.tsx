@@ -70,7 +70,8 @@ describe('ErrorBoundary', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('logs error via console.error when child throws', () => {
+  it('logs error via logger when child throws', () => {
+    // In test (non-PROD) mode the logger delegates to console, so spy still works
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     render(
@@ -79,7 +80,7 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    // React itself logs, plus our componentDidCatch logs
+    // React itself logs, plus our componentDidCatch logs via logger
     const errorCalls = consoleSpy.mock.calls.filter(
       (call) => typeof call[0] === 'string' && call[0].includes('ErrorBoundary caught')
     )

@@ -62,10 +62,17 @@ describe('reportRuntimeError', () => {
 
   it('catches and logs reporter errors instead of propagating', async () => {
     vi.stubEnv('PROD', true)
-    const mod = await import('@/services/errorTracking')
+    const [mod, loggerMod] = await Promise.all([
+      import('@/services/errorTracking'),
+      import('@/services/logger'),
+    ])
     reportRuntimeError = mod.reportRuntimeError
 
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const logCalls: { level: string; message: string; args: unknown[] }[] = []
+    loggerMod.logger.setSink((level, message, ...args) => {
+      logCalls.push({ level, message, args })
+    })
+
     const brokenReporter = vi.fn(() => {
       throw new Error('reporter internal failure')
     })
@@ -74,12 +81,13 @@ describe('reportRuntimeError', () => {
     // Should not throw, even though the reporter throws
     expect(() => reportRuntimeError(testError, testErrorInfo)).not.toThrow()
 
-    // Should log the error
-    expect(consoleErrorSpy).toHaveBeenCalledOnce()
-    expect(consoleErrorSpy.mock.calls[0][0]).toBe('Runtime error reporter failed:')
-    expect(consoleErrorSpy.mock.calls[0][1].message).toBe('reporter internal failure')
+    // Should log the error via logger
+    expect(logCalls).toHaveLength(1)
+    expect(logCalls[0].level).toBe('error')
+    expect(logCalls[0].message).toBe('Runtime error reporter failed:')
+    expect((logCalls[0].args[0] as Error).message).toBe('reporter internal failure')
 
-    consoleErrorSpy.mockRestore()
+    loggerMod.logger.resetSink()
   })
 
   it('ignores non-function values on window.__PF_ANIM_RUNTIME_ERROR_REPORTER__', async () => {
