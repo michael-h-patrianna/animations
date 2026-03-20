@@ -28,6 +28,15 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parserOptions: {
+        project: [
+          './tsconfig.app.json',
+          './tsconfig.node.json',
+          './tsconfig.test.json',
+          './tsconfig.e2e.json',
+        ],
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     plugins: {
       jsdoc,
@@ -52,6 +61,7 @@ export default defineConfig([
           },
         },
       ],
+      'no-console': 'error',
       'jsdoc/require-param': 'off',
       'jsdoc/require-returns': 'off',
       // Allow _-prefixed variables to signal intentional discard (e.g. const [_unused, setSomething])
@@ -74,6 +84,20 @@ export default defineConfig([
               suggest: ['ReturnType<typeof setTimeout>'],
             },
           },
+        },
+      ],
+      '@eslint-react/dom/no-dangerously-set-innerhtml': 'error',
+      '@typescript-eslint/strict-boolean-expressions': [
+        'error',
+        {
+          allowString: false,
+          allowNumber: false,
+          allowNullableObject: true,
+          allowNullableBoolean: true,
+          allowNullableString: true,
+          allowNullableNumber: false,
+          allowNullableEnum: false,
+          allowAny: false,
         },
       ],
       // Existing animation portability rules
@@ -116,12 +140,14 @@ export default defineConfig([
   },
   // Test files: exempt from function length limits, enforce assertion quality
   {
-    files: ['**/*.test.ts', '**/*.test.tsx'],
+    files: ['**/*.test.ts', '**/*.test.tsx', 'src/test/**/*.{ts,tsx}'],
     plugins: {
       'testing-library': testingLibrary,
     },
     rules: {
       'max-lines-per-function': 'off',
+      // Test assertions and setup use truthiness idiomatically (e.g. expect(el).toBeTruthy())
+      '@typescript-eslint/strict-boolean-expressions': 'off',
       'animation-rules/no-shallow-assertions': 'error',
       // vi.mock() factories define components/hooks inside functions — valid pattern
       '@eslint-react/component-hook-factories': 'off',
@@ -132,19 +158,19 @@ export default defineConfig([
       // Animation DOM structure tests legitimately use container queries to inspect
       // rendered CSS animation elements, keyframe states, and structural output.
       // These have no data-testid or ARIA equivalent.
-      'testing-library/no-node-access': 'warn',
-      'testing-library/no-container': 'warn',
+      'testing-library/no-node-access': 'error',
+      'testing-library/no-container': 'error',
       'testing-library/await-async-queries': 'error',
       'testing-library/prefer-find-by': 'error',
       'testing-library/prefer-presence-queries': 'error',
       // Timer-cleanup tests call cleanup() before vi.clearAllTimers() to ensure
       // deterministic unmount ordering. Vitest auto-cleanup order is not guaranteed
       // relative to user afterEach hooks.
-      'testing-library/no-manual-cleanup': 'warn',
+      'testing-library/no-manual-cleanup': 'error',
       'testing-library/no-unnecessary-act': 'error',
       'testing-library/no-render-in-lifecycle': 'error',
-      'testing-library/no-debugging-utils': 'warn',
-      'testing-library/prefer-explicit-assert': 'warn',
+      'testing-library/no-debugging-utils': 'error',
+      'testing-library/prefer-explicit-assert': 'error',
       // render-result-naming-convention off — non-component helpers use render() too
       'testing-library/render-result-naming-convention': 'off',
 
@@ -204,7 +230,7 @@ export default defineConfig([
       // Embedded colors in compound CSS values (box-shadow, gradient strings) are
       // caught by the stricter Literal handler. Warn (not error) in animation dirs
       // to flag for migration without breaking CI on 50+ pre-existing occurrences.
-      'animation-rules/no-hardcoded-colors': 'warn',
+      'animation-rules/no-hardcoded-colors': 'error',
       // Animation components are documented through co-located .meta.ts files
       // (title, description, tags) which are the canonical documentation source.
       // Requiring JSDoc on these components produces empty /** */ stubs with no value.
@@ -224,7 +250,7 @@ export default defineConfig([
     rules: {
       'jsdoc/require-jsdoc': 'off',
       // Helper files share the same embedded-color leniency as animation components
-      'animation-rules/no-hardcoded-colors': 'warn',
+      'animation-rules/no-hardcoded-colors': 'error',
     },
   },
   // Timer test utils: components intentionally leak timers to test the leak detector
@@ -235,6 +261,47 @@ export default defineConfig([
       '@eslint-react/web-api/no-leaked-interval': 'off',
     },
   },
+  // Animation DOM structure tests: inspect BEM classes, data-animation-id,
+  // CSS animation keyframe state, and structural parity between CSS/Framer variants.
+  // These have no ARIA or data-testid equivalent — querySelector is the only
+  // way to assert on class-based animation structure.
+  {
+    files: [
+      'src/__tests__/all-animations.data-animation-id.test.tsx',
+      'src/__tests__/modal-orchestration.*.test.tsx',
+      'src/__tests__/text-effects.*.test.tsx',
+      'src/__tests__/realtime-data.css-framer-parity.test.tsx',
+      'src/__tests__/update-indicators.css-framer-parity.test.tsx',
+      'src/__tests__/timer-effects.urgent-pulse.structure.test.tsx',
+      'src/__tests__/utils/animationTestUtils.test.tsx',
+      'src/test/utils/animationTestUtils.tsx',
+      // UI tests that inspect structural DOM attributes (data-app-shell, hidden state)
+      'src/__tests__/ui.mobile-header.test.tsx',
+    ],
+    rules: {
+      'testing-library/no-node-access': 'off',
+      'testing-library/no-container': 'off',
+    },
+  },
+  // Timer-cleanup tests: assertNoLeakedTimersAfterUnmount handles render/unmount
+  // internally; explicit cleanup() is removed. no-manual-cleanup stays at 'error'
+  // globally. These tests use container queries to verify timer state after unmount.
+  {
+    files: [
+      'src/__tests__/*timer-cleanup*.test.tsx',
+      'src/__tests__/*raf-cleanup*.test.tsx',
+      'src/__tests__/*restart-parity*.test.tsx',
+      'src/__tests__/*timing-parity*.test.tsx',
+      'src/__tests__/*restart-timeout-cleanup*.test.tsx',
+      'src/__tests__/*timer-pulse.cleanup*.test.tsx',
+      'src/__tests__/*timer-pulse.restart-parity*.test.tsx',
+      'src/__tests__/*pill-countdown.timeout-cleanup*.test.tsx',
+    ],
+    rules: {
+      'testing-library/no-node-access': 'off',
+      'testing-library/no-container': 'off',
+    },
+  },
   // E2E test fixtures: Playwright's `use()` is not a React hook
   {
     files: ['tests/e2e/**/*.ts'],
@@ -243,6 +310,7 @@ export default defineConfig([
       'jsdoc/require-jsdoc': 'off',
       // E2E describe blocks are inherently long — tests are sequential user flows
       'max-lines-per-function': 'off',
+      '@typescript-eslint/strict-boolean-expressions': 'off',
     },
   },
   // Motion (framer/) variants: no CSS animations + RN-portable constraints
@@ -254,7 +322,7 @@ export default defineConfig([
       'animation-rules/no-non-portable-styles': 'error',
       'animation-rules/no-css-grid-in-motion': 'error',
       'animation-rules/no-calc-in-motion': 'error',
-      'animation-rules/no-svg-in-motion': 'warn',
+      'animation-rules/no-svg-in-motion': 'error',
       'animation-rules/no-default-export-in-animation': 'error',
     },
   },
