@@ -9,7 +9,13 @@ import {
   crystalShatterShard4Image,
 } from '@/assets'
 
-import type { DustData, FragmentData, MoteData, OrbitDustData, ShatterPhase } from '../CrystalShatterParts'
+import type {
+  DustData,
+  FragmentData,
+  MoteData,
+  OrbitDustData,
+  ShatterPhase,
+} from '../CrystalShatterParts'
 
 import { useEffect, useRef, useState } from 'react'
 

@@ -11,15 +11,15 @@ npm run dev        # http://localhost:3000
 
 ## Commands
 
-| Command                | Purpose                                            |
-| ---------------------- | -------------------------------------------------- |
-| `npm run dev`          | Dev server (port 3000)                             |
-| `npm run build`        | Production build                                   |
-| `npm run lint`         | ESLint + Stylelint                                 |
-| `npm run type-check`   | TypeScript strict check                            |
-| `npm test`             | Vitest unit tests                                  |
-| `npm run test:e2e`     | Playwright E2E (Chromium)                          |
-| `npm run format:check` | Prettier format check                              |
+| Command                | Purpose                   |
+| ---------------------- | ------------------------- |
+| `npm run dev`          | Dev server (port 3000)    |
+| `npm run build`        | Production build          |
+| `npm run lint`         | ESLint + Stylelint        |
+| `npm run type-check`   | TypeScript strict check   |
+| `npm test`             | Vitest unit tests         |
+| `npm run test:e2e`     | Playwright E2E (Chromium) |
+| `npm run format:check` | Prettier format check     |
 
 ## Architecture
 

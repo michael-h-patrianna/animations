@@ -60,13 +60,13 @@ No per-directory overrides are introduced. The inline suppression pattern is pre
 
 When porting framer/ variants to Moti/Reanimated:
 
-| Web pattern | Native replacement |
-|-|-|
-| `filter: blur(Xpx)` | Not portable. Use `opacity` fade or `scale` zoom instead. |
-| `backdrop-filter: blur()` | Use `@react-native-community/blur` `BlurView` (static only). |
+| Web pattern                           | Native replacement                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------ |
+| `filter: blur(Xpx)`                   | Not portable. Use `opacity` fade or `scale` zoom instead.                |
+| `backdrop-filter: blur()`             | Use `@react-native-community/blur` `BlurView` (static only).             |
 | Static `radial-gradient()` background | `react-native-svg` `<Defs><RadialGradient>` in a non-animated container. |
-| Static `conic-gradient()` | `react-native-svg` `<Defs>` with stop-based approximation. |
-| Animated gradient transition | Replace with opacity crossfade between two solid-color layers. |
+| Static `conic-gradient()`             | `react-native-svg` `<Defs>` with stop-based approximation.               |
+| Animated gradient transition          | Replace with opacity crossfade between two solid-color layers.           |
 
 ## Consequences
 

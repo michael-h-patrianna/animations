@@ -15,16 +15,16 @@ The distinction that matters:
 
 Today, several groups violate this boundary by sharing animation infrastructure across multiple animations within a group:
 
-| Shared file | Lines | Animations depending on it | Content |
-|-|-|-|-|
-| `modal-celebrations/shared.css` | 216 | All 9 celebration animations | Celebration layers, confetti shapes, firework elements, shockwave rings, spark rays |
-| `modal-celebrations/utils.ts` | 50+ | 20 imports across framer + css | `randBetween`, `polarToXY`, `deg2rad`, `pickRandom`, `CELEBRATION_COLORS`, `GOLDEN_COLORS`, `CONFETTI_SHAPES` |
-| `modal-base/shared.css` | 157 | All modal-base animations | Modal overlay, modal card, header/body/footer structure, buttons, badges |
-| `modal-content/shared.css` | 191 | All modal-content animations | Modal content layout and structural CSS |
-| `timer-effects/css/shared.css` | 185 | Timer pill animations (CSS variants) | Pill container, countdown display, timer bar structure |
-| `modal-dismiss/shared.css` | 90 | Modal dismiss animations | Dismiss overlay and layout |
-| `button-effects/shared.css` | 37 | Button effect animations | Button demo container and `.pf-btn` base |
-| `standard-effects/shared.css` | 33 | Standard effect animations | Demo container and demo element styling |
+| Shared file                     | Lines | Animations depending on it           | Content                                                                                                       |
+| ------------------------------- | ----- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `modal-celebrations/shared.css` | 216   | All 9 celebration animations         | Celebration layers, confetti shapes, firework elements, shockwave rings, spark rays                           |
+| `modal-celebrations/utils.ts`   | 50+   | 20 imports across framer + css       | `randBetween`, `polarToXY`, `deg2rad`, `pickRandom`, `CELEBRATION_COLORS`, `GOLDEN_COLORS`, `CONFETTI_SHAPES` |
+| `modal-base/shared.css`         | 157   | All modal-base animations            | Modal overlay, modal card, header/body/footer structure, buttons, badges                                      |
+| `modal-content/shared.css`      | 191   | All modal-content animations         | Modal content layout and structural CSS                                                                       |
+| `timer-effects/css/shared.css`  | 185   | Timer pill animations (CSS variants) | Pill container, countdown display, timer bar structure                                                        |
+| `modal-dismiss/shared.css`      | 90    | Modal dismiss animations             | Dismiss overlay and layout                                                                                    |
+| `button-effects/shared.css`     | 37    | Button effect animations             | Button demo container and `.pf-btn` base                                                                      |
+| `standard-effects/shared.css`   | 33    | Standard effect animations           | Demo container and demo element styling                                                                       |
 
 There are two categories of violation:
 
