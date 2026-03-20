@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import type React from 'react'
 import { describe, expect, it } from 'vitest'
 import { buildRegistryFromCategories } from '../components/animationRegistry'
@@ -6,7 +6,7 @@ import { buildRegistryFromCategories } from '../components/animationRegistry'
 type AnimationComponent = React.ComponentType<Record<string, unknown>>
 
 describe('animationRegistry smoke', () => {
-  it('renders and unmounts all registered animation components without throwing', async () => {
+  it('renders and unmounts all registered animation components without throwing', () => {
     const animationRegistry = buildRegistryFromCategories()
     const entries = Object.entries(animationRegistry) as [string, AnimationComponent][]
 
@@ -16,11 +16,8 @@ describe('animationRegistry smoke', () => {
     const failures: string[] = []
     for (const [key, Component] of entries) {
       try {
-        await act(async () => {
-          const { unmount } = render(<Component />)
-          await Promise.resolve()
-          unmount()
-        })
+        const { unmount } = render(<Component />)
+        unmount()
       } catch (e) {
         failures.push(`${key}: ${(e as Error).message}`)
       }
