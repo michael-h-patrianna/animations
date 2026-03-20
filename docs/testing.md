@@ -179,6 +179,32 @@ describe('Animation Registry', () => {
 
 ---
 
+## E2E Selector Policy
+
+**Enforced by ESLint rule `no-class-id-locators`.**
+
+Use this priority order when selecting elements in Playwright tests:
+
+| Priority | Selector Type | Example | When to use |
+|-|-|-|-|
+| 1 | `data-testid` | `[data-testid="sidebar"]` | UI shell components, interactive elements |
+| 2 | `data-animation-id` | `[data-animation-id="modal-base__scale"]` | Animation card containers |
+| 3 | `aria-*` / `role` | `button[aria-label="Close"]`, `getByRole('button')` | Accessible interactive elements |
+| 4 | `data-role` | `[data-role="replay"]` | Semantic roles not in ARIA spec |
+| 5 | `:scope > *` | `:scope > *` | Structural child queries within scoped locators |
+
+**Banned selectors** (lint error in non-animation spec files):
+
+- CSS class selectors: `.pf-modal`, `.sidebar-item`
+- ID selectors: `#group-modal-base`, `#pf-sidebar-drawer`
+- Bare tag selectors without attribute qualifiers: `div`, `span`
+
+**Exception**: `animation-*.spec.ts` files may use CSS class selectors to test internal animation DOM structure (particles, characters, milestones). These classes are scoped within `data-animation-id` containers.
+
+**Page objects**: All reusable selectors belong in `tests/e2e/page-objects/`. Prefer `CatalogPage` and `MobilePage` methods over raw locators in spec files.
+
+---
+
 ## How to Write E2E Tests
 
 **Template** (`tests/e2e/<feature>.spec.ts`):

@@ -113,6 +113,8 @@ export default defineConfig([
       'animation-rules/require-data-animation-id': 'error',
       'animation-rules/no-unstyled-interactive-elements': 'error',
       'animation-rules/no-excessive-z-index': 'error',
+      // E2E readiness: every UI component must have data-testid for stable selectors
+      'animation-rules/require-data-testid': 'error',
     },
   },
   {
@@ -311,6 +313,19 @@ export default defineConfig([
       // E2E describe blocks are inherently long — tests are sequential user flows
       'max-lines-per-function': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
+      // Ban CSS class/ID selectors in locator() — use data-testid or aria-* instead
+      'animation-rules/no-class-id-locators': 'error',
+    },
+  },
+  // Animation-specific e2e tests: CSS class selectors are acceptable for testing
+  // internal animation DOM structure (particles, milestones, characters) which has
+  // no data-testid equivalent. These selectors are scoped within data-animation-id.
+  {
+    files: [
+      'tests/e2e/animation-*.spec.ts',
+    ],
+    rules: {
+      'animation-rules/no-class-id-locators': 'off',
     },
   },
   // Motion (framer/) variants: no CSS animations + RN-portable constraints

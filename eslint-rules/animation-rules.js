@@ -4,6 +4,7 @@ import { basename, dirname, join, resolve } from 'node:path'
 import { isColorString } from './color-helpers.js'
 import { extraRules } from './extra-rules.js'
 import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
+import { testingRules } from './testing-rules.js'
 
 /**
  * Inline ESLint plugin: project-specific lint rules for animation components.
@@ -454,6 +455,7 @@ const rules = {
   },
 
   ...extraRules,
+  ...testingRules,
 }
 
 export { rules }
