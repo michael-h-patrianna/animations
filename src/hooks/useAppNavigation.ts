@@ -22,12 +22,9 @@ export function useAppNavigation(categories: Category[]) {
   const navigateRef = useRef(navigate)
   navigateRef.current = navigate
 
-  const navigateToGroup = useCallback(
-    (id: string, options?: { replace?: boolean }) => {
-      navigateRef.current(`/${id}`, options)
-    },
-    []
-  )
+  const navigateToGroup = useCallback((id: string, options?: { replace?: boolean }) => {
+    navigateRef.current(`/${id}`, options)
+  }, [])
 
   useGroupInitialization({
     allGroups,

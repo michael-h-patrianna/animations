@@ -361,7 +361,9 @@ const AnimationCardComponent = ({
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeader className="p-0 pb-3 space-y-0">
-        <CardTitle className="pf-card__title mb-1" data-testid="card-title">{title}</CardTitle>
+        <CardTitle className="pf-card__title mb-1" data-testid="card-title">
+          {title}
+        </CardTitle>
         <Description
           description={description}
           isExpanded={isExpanded}
@@ -370,7 +372,11 @@ const AnimationCardComponent = ({
       </CardHeader>
       <CardContent className="p-0 py-3">
         <div className="pf-demo-canvas">
-          <div key={replayKey} className="pf-demo-stage pf-demo-stage--top" data-testid="demo-stage">
+          <div
+            key={replayKey}
+            className="pf-demo-stage pf-demo-stage--top"
+            data-testid="demo-stage"
+          >
             {renderAnimationChild(
               children,
               isVisible,

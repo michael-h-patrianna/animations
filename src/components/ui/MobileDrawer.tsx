@@ -38,7 +38,12 @@ export function MobileDrawer({
       hidden={!isOpen}
       className={`pf-drawer ${isOpen ? 'is-open' : ''}`}
     >
-      <div className="pf-drawer__overlay" aria-hidden="true" onClick={onClose} data-testid="drawer-overlay" />
+      <div
+        className="pf-drawer__overlay"
+        aria-hidden="true"
+        onClick={onClose}
+        data-testid="drawer-overlay"
+      />
       <div className="pf-drawer__panel" data-testid="drawer-panel">
         <div className="pf-drawer__panel-header">
           <button type="button" className="pf-hamburger" aria-label="Close menu" onClick={onClose}>
