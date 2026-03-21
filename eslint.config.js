@@ -26,7 +26,7 @@ export default defineConfig([
       eslintConfigPrettier,
     ],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: globals.browser,
       parserOptions: {
         project: [
@@ -233,6 +233,15 @@ export default defineConfig([
       // caught by the stricter Literal handler. Warn (not error) in animation dirs
       // to flag for migration without breaking CI on 50+ pre-existing occurrences.
       'animation-rules/no-hardcoded-colors': 'error',
+      // Enforce category boundaries: animation components must not import across
+      // categories (e.g. rewards/ importing from dialogs/ internals).
+      'animation-rules/no-cross-category-imports': 'error',
+      // Animation components legitimately use radial/conic gradients for visual
+      // effects (glow, spotlight, ring progress). The portability rule is useful for
+      // non-animation code but produces false positives here — 13 inline suppressions
+      // existed prior to this override. Radial gradient portability to React Native
+      // will be handled per-component during the native migration.
+      'animation-rules/no-radial-angular-gradient': 'off',
       // Animation components are documented through co-located .meta.ts files
       // (title, description, tags) which are the canonical documentation source.
       // Requiring JSDoc on these components produces empty /** */ stubs with no value.
@@ -321,9 +330,7 @@ export default defineConfig([
   // internal animation DOM structure (particles, milestones, characters) which has
   // no data-testid equivalent. These selectors are scoped within data-animation-id.
   {
-    files: [
-      'tests/e2e/animation-*.spec.ts',
-    ],
+    files: ['tests/e2e/animation-*.spec.ts'],
     rules: {
       'animation-rules/no-class-id-locators': 'off',
     },
@@ -339,6 +346,39 @@ export default defineConfig([
       'animation-rules/no-calc-in-motion': 'error',
       'animation-rules/no-svg-in-motion': 'error',
       'animation-rules/no-default-export-in-animation': 'error',
+    },
+  },
+  // Context providers export both Provider and hook — react-refresh false positive
+  {
+    files: ['src/contexts/**/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  // Animation helper/part components: not standalone animations, exempt from metadata/dual-impl rules
+  {
+    files: [
+      'src/components/**/css/*Helpers.tsx',
+      'src/components/**/css/*Parts.tsx',
+      'src/components/**/css/*CardParts.tsx',
+    ],
+    rules: {
+      'animation-rules/require-animation-metadata': 'off',
+      'animation-rules/require-dual-implementation': 'off',
+    },
+  },
+  // Color utility: raw color manipulation is the purpose of this module
+  {
+    files: ['src/utils/colors.ts'],
+    rules: {
+      'animation-rules/no-hardcoded-colors': 'off',
+    },
+  },
+  // Asset index: centralized image import point (the rule's own intended exception)
+  {
+    files: ['src/assets/index.ts'],
+    rules: {
+      'animation-rules/no-direct-image-imports': 'off',
     },
   },
 ])

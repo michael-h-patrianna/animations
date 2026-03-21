@@ -24,7 +24,6 @@ export default defineConfig({
             return 'react-vendor'
           }
           if (id.includes('framer-motion') || id.includes('motion')) return 'motion'
-          if (id.includes('@radix-ui')) return 'radix'
           return 'vendor'
         },
       },

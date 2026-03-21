@@ -82,6 +82,13 @@ export default defineConfig({
           functions: 90,
           lines: 90,
         },
+        // UI shell components (AnimationCard, GroupSection, Sidebar, etc.)
+        'src/components/ui/**': {
+          statements: 90,
+          branches: 75,
+          functions: 90,
+          lines: 90,
+        },
         // Animation components are tested via smoke tests and metadata integrity
         // checks rather than per-component unit tests.
         'src/components/**/framer/**': {

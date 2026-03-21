@@ -519,6 +519,59 @@ const extraRules = {
       }
     },
   },
+  /**
+   * Prevents animation components in one category from importing internals
+   * of another category. Enforces the architectural boundary: each category
+   * (base, dialogs, progress, realtime, rewards) is a self-contained module
+   * that may only import from shared locations (types, lib, utils, motion,
+   * assets, services) and its own group hierarchy.
+   *
+   * Category index files (which aggregate groups) and the central registry
+   * (animationRegistry.ts) are exempt since they exist to bridge categories.
+   */
+  'no-cross-category-imports': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'Disallow animation components from importing across category boundaries.',
+      },
+      schema: [],
+    },
+    create(context) {
+      const filename = context.filename
+      // Only applies to files inside src/components/<category>/<group>/
+      const categoryMatch = filename.match(
+        /src\/components\/(base|dialogs|progress|realtime|rewards)\/([^/]+)\//
+      )
+      if (!categoryMatch) return {}
+
+      const ownCategory = categoryMatch[1]
+      const otherCategories = ['base', 'dialogs', 'progress', 'realtime', 'rewards'].filter(
+        (c) => c !== ownCategory
+      )
+
+      return {
+        ImportDeclaration(node) {
+          const source = node.source.value
+          if (typeof source !== 'string') return
+
+          for (const cat of otherCategories) {
+            if (
+              source.includes(`@/components/${cat}/`) ||
+              source.includes(`/components/${cat}/`)
+            ) {
+              context.report({
+                node,
+                message: `Cross-category import: files in "${ownCategory}" must not import from "${cat}". Use shared modules (@/types, @/lib, @/utils, @/motion, @/assets) or restructure the dependency.`,
+              })
+              break
+            }
+          }
+        },
+      }
+    },
+  },
 }
 
 export { extraRules }

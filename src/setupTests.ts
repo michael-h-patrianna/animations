@@ -1,53 +1,81 @@
 import '@testing-library/jest-dom/vitest'
 import { act } from '@testing-library/react'
-import { vi } from 'vitest'
 
-type GlobalWithJest = typeof globalThis & {
-  jest: typeof vi
-  fail: (message?: string) => never
-}
+/**
+ * IntersectionObserver mock with controllable triggering.
+ *
+ * By default, auto-triggers with isIntersecting: true via setTimeout(0)
+ * for backward compatibility with existing tests.
+ *
+ * Tests that need to control intersection timing can call:
+ *   MockIntersectionObserver.disableAutoTrigger()  — in beforeEach
+ *   MockIntersectionObserver.triggerAll(true)       — to simulate viewport entry
+ *   MockIntersectionObserver.enableAutoTrigger()    — in afterEach (restores default)
+ */
+class MockIntersectionObserver implements IntersectionObserver {
+  static instances: MockIntersectionObserver[] = []
+  private static autoTrigger = true
 
-const globalWithJest = globalThis as GlobalWithJest
-
-// @ts-expect-error - Vitest types don't match Jest types exactly, but they're compatible
-globalWithJest.jest = vi
-// Provide fail helper for compatibility with legacy Jest assertions
-globalWithJest.fail = (message?: string): never => {
-  throw new Error(message || 'Test failed')
-}
-
-globalWithJest.TextEncoder = globalThis.TextEncoder
-globalWithJest.TextDecoder = globalThis.TextDecoder
-
-globalThis.IntersectionObserver = class IntersectionObserver {
   callback: IntersectionObserverCallback
+  root = null
+  rootMargin = ''
+  thresholds: readonly number[] = []
 
   constructor(callback: IntersectionObserverCallback) {
     this.callback = callback
-    setTimeout(() => {
-      const entry = { isIntersecting: true } as unknown as IntersectionObserverEntry
-      act(() => {
-        callback([entry], this)
-      })
-    }, 0)
+    MockIntersectionObserver.instances.push(this)
+
+    if (MockIntersectionObserver.autoTrigger) {
+      setTimeout(() => {
+        const entry = { isIntersecting: true } as unknown as IntersectionObserverEntry
+        act(() => {
+          callback([entry], this)
+        })
+      }, 0)
+    }
   }
 
   observe() {
-    return null
+    return undefined
   }
   unobserve() {
-    return null
+    return undefined
   }
   disconnect() {
-    return null
+    return undefined
   }
-  takeRecords() {
+  takeRecords(): IntersectionObserverEntry[] {
     return []
   }
-  root = null
-  rootMargin = ''
-  thresholds = []
+
+  /** Disable auto-triggering for tests that need manual control. */
+  static disableAutoTrigger() {
+    MockIntersectionObserver.autoTrigger = false
+  }
+
+  /** Re-enable auto-triggering (call in afterEach to restore default). */
+  static enableAutoTrigger() {
+    MockIntersectionObserver.autoTrigger = true
+  }
+
+  /** Trigger all existing observer instances with the given intersection state. */
+  static triggerAll(isIntersecting: boolean) {
+    const entry = { isIntersecting } as unknown as IntersectionObserverEntry
+    for (const instance of MockIntersectionObserver.instances) {
+      act(() => {
+        instance.callback([entry], instance)
+      })
+    }
+  }
+
+  /** Reset all tracked instances (call in afterEach if using manual control). */
+  static resetInstances() {
+    MockIntersectionObserver.instances = []
+  }
 }
+
+globalThis.IntersectionObserver =
+  MockIntersectionObserver as unknown as typeof IntersectionObserver
 
 if (typeof Element.prototype.animate !== 'function') {
   Element.prototype.animate = function (): Animation {

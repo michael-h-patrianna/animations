@@ -34,7 +34,10 @@ playwright-report
 test-results
 ddd.md
 dd.md
-task_state.md
+task_*.md
+godmode_*.md
+market-readiness-*.md
+ci-godmode*.md
 
 # AI/tool caches
 .chatmodes

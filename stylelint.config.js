@@ -192,13 +192,7 @@ const noIgnoredRule = createPlugin(noIgnoredName, (primary) => {
       'overflow-x',
       'overflow-y',
     ]),
-    'table-row': new Set([
-      'margin',
-      'margin-top',
-      'margin-right',
-      'margin-bottom',
-      'margin-left',
-    ]),
+    'table-row': new Set(['margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left']),
     'table-row-group': new Set([
       'margin',
       'margin-top',
@@ -256,7 +250,7 @@ const noIgnoredRule = createPlugin(noIgnoredName, (primary) => {
               report({
                 message: noIgnoredMessages.rejected(
                   `${prop}: ${targetDecl.value}`,
-                  `display: ${displayVal}`,
+                  `display: ${displayVal}`
                 ),
                 node: targetDecl,
                 result,
@@ -276,7 +270,7 @@ const noIgnoredRule = createPlugin(noIgnoredName, (primary) => {
             report({
               message: noIgnoredMessages.rejected(
                 `${prop}: ${targetDecl.value}`,
-                'position: static',
+                'position: static'
               ),
               node: targetDecl,
               result,
@@ -339,7 +333,7 @@ function enforceNoWarnings(config) {
           throw new Error(
             `[stylelint-integrity] Rule "${name}" has severity "${entry.severity}". ` +
               'All rules must be errors. Downgrading to "warning" is prohibited — ' +
-              'disable the rule (null) or fix the violation.',
+              'disable the rule (null) or fix the violation.'
           )
         }
       }

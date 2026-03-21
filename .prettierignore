@@ -13,3 +13,7 @@ pnpm-lock.yaml
 # Claude Code agent data
 .claude
 .agents
+
+# Working documents (not source code)
+market-readiness-*.md
+task_state.md
