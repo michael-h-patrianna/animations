@@ -1,8 +1,19 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { CodeIcon, CodeViewerModal } from '@/components/ui/CodeViewerModal'
 import { ChevronDown } from '@/components/ui/icons/ChevronDown'
-import type { AnimationControlType } from '@/types/animation'
-import { memo, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import type { AnimationControlType, SourceTab } from '@/types/animation'
+import { toHex } from '@/utils/colors'
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react'
+import { createPortal } from 'react-dom'
 
 type AnimationRenderProps = {
   bulbCount: number
@@ -23,6 +34,8 @@ interface AnimationCardProps {
   controls?: AnimationControlType
   prizeCountMax?: number
   children: AnimationChild
+  /** Lazy loader that resolves source tabs for the code viewer */
+  sourceLoader?: () => Promise<SourceTab[]>
 }
 
 const MIN_BULB_COUNT = 4
@@ -30,54 +43,32 @@ const MAX_BULB_COUNT = 22
 
 const clampBulbCount = (value: number) => Math.max(MIN_BULB_COUNT, Math.min(MAX_BULB_COUNT, value))
 
-const rgbToHex = (color: string): string | null => {
-  const rgbMatch = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)$/i)
-  if (!rgbMatch) return null
-
-  const channels = rgbMatch.slice(1, 4).map(Number)
-  if (channels.some((channel) => Number.isNaN(channel) || channel < 0 || channel > 255)) return null
-
-  return `#${channels.map((channel) => channel.toString(16).padStart(2, '0')).join('')}`
-}
-
-const normalizeHexColor = (color: string): string | null => {
-  const hexMatch = color.trim().match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)
-  if (!hexMatch) return null
-
-  const normalized = hexMatch[1].toLowerCase()
-  if (normalized.length === 3) {
-    return `#${normalized
-      .split('')
-      .map((digit) => `${digit}${digit}`)
-      .join('')}`
-  }
-
-  return `#${normalized}`
-}
-
 const resolveColorInputDefault = (tokenColor: string): string => {
   if (typeof window === 'undefined' || typeof document === 'undefined') return ''
 
+  // Resolve CSS var() first via getComputedStyle, then fall back to DOM probe
   const tokenMatch = tokenColor.match(/^var\((--[\w-]+)\)$/)
   if (tokenMatch) {
     const cssTokenValue = window
       .getComputedStyle(document.documentElement)
-      .getPropertyValue(tokenMatch[1])
+      .getPropertyValue(tokenMatch[1]!)
       .trim()
-    const normalizedTokenColor = normalizeHexColor(cssTokenValue) ?? rgbToHex(cssTokenValue)
-    if (normalizedTokenColor) return normalizedTokenColor
+    if (cssTokenValue !== '') {
+      try {
+        return toHex(cssTokenValue)
+      } catch {
+        // CSS variable resolved to an unparseable value — fall through to DOM probe
+      }
+    }
   }
 
-  const fallbackInput = document.createElement('input')
-  fallbackInput.type = 'color'
-  const fallbackValue = fallbackInput.value
-  const probe = document.createElement('span')
-  probe.style.color = tokenColor
-  document.body.appendChild(probe)
-  const resolvedColor = window.getComputedStyle(probe).color
-  probe.remove()
-
-  return rgbToHex(resolvedColor) ?? normalizeHexColor(fallbackValue) ?? fallbackValue
+  // Fall back to DOM probe for any other color format
+  try {
+    return toHex(tokenColor)
+  } catch {
+    // Color could not be parsed (e.g., CSS variable not available in test env)
+    return ''
+  }
 }
 
 const renderAnimationChild = (
@@ -220,8 +211,9 @@ const useCardPlayback = (infiniteAnimation: boolean, onReplay?: () => void) => {
 
     const node = cardRef.current
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasPlayed) {
+      (entries) => {
+        const entry = entries[0]
+        if (entry?.isIntersecting && !hasPlayed) {
           setIsVisible(true)
           setHasPlayed(true)
           setReplayKey((key) => key + 1)
@@ -345,6 +337,60 @@ const FooterControls = ({
   )
 }
 
+const useCodeViewer = (sourceLoader?: () => Promise<SourceTab[]>) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [sources, setSources] = useState<SourceTab[] | null>(null)
+
+  const open = useCallback(async () => {
+    if (!sourceLoader) return
+    if (!sources) {
+      setSources(await sourceLoader())
+    }
+    setIsOpen(true)
+  }, [sourceLoader, sources])
+
+  const close = useCallback(() => setIsOpen(false), [])
+
+  return { isOpen, sources, open, close }
+}
+
+type CardHeaderBarProps = {
+  title: string
+  isExpanded: boolean
+  description: string
+  onToggle: () => void
+  onOpenCode?: () => void
+}
+
+const CardHeaderBar = ({
+  title,
+  isExpanded,
+  description,
+  onToggle,
+  onOpenCode,
+}: CardHeaderBarProps) => (
+  <CardHeader className="p-0 pb-3 space-y-0">
+    <div className="flex items-center justify-between gap-2">
+      <CardTitle className="pf-card__title mb-0" data-testid="card-title">
+        {title}
+      </CardTitle>
+      {onOpenCode && (
+        <button
+          type="button"
+          className="pf-card__code-btn"
+          onClick={onOpenCode}
+          aria-label="View source code"
+          title="View source code"
+          data-testid="code-viewer-btn"
+        >
+          <CodeIcon />
+        </button>
+      )}
+    </div>
+    <Description description={description} isExpanded={isExpanded} onToggle={onToggle} />
+  </CardHeader>
+)
+
 const AnimationCardComponent = ({
   title,
   description,
@@ -356,6 +402,7 @@ const AnimationCardComponent = ({
   disableReplay = false,
   controls: controlType,
   prizeCountMax,
+  sourceLoader,
 }: AnimationCardProps) => {
   const { cardRef, replayKey, isVisible, triggerReplay, setReplayKey } = useCardPlayback(
     infiniteAnimation,
@@ -363,20 +410,18 @@ const AnimationCardComponent = ({
   )
   const [isExpanded, setIsExpanded] = useState(false)
   const cardControls = useCardControls(setReplayKey)
+  const codeViewer = useCodeViewer(sourceLoader)
 
   return (
     <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
       <span className="pf-card__overlay" aria-hidden="true" />
-      <CardHeader className="p-0 pb-3 space-y-0">
-        <CardTitle className="pf-card__title mb-1" data-testid="card-title">
-          {title}
-        </CardTitle>
-        <Description
-          description={description}
-          isExpanded={isExpanded}
-          onToggle={() => setIsExpanded((expanded) => !expanded)}
-        />
-      </CardHeader>
+      <CardHeaderBar
+        title={title}
+        description={description}
+        isExpanded={isExpanded}
+        onToggle={() => setIsExpanded((expanded) => !expanded)}
+        onOpenCode={sourceLoader ? codeViewer.open : undefined}
+      />
       <CardContent className="p-0 py-3">
         <div className="pf-demo-canvas" data-testid="card-canvas">
           <div
@@ -403,6 +448,17 @@ const AnimationCardComponent = ({
         disableReplay={disableReplay}
         onReplay={triggerReplay}
       />
+      {codeViewer.isOpen &&
+        codeViewer.sources &&
+        codeViewer.sources.length > 0 &&
+        createPortal(
+          <CodeViewerModal
+            sources={codeViewer.sources}
+            title={title}
+            onClose={codeViewer.close}
+          />,
+          document.body
+        )}
     </Card>
   )
 }

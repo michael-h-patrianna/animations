@@ -1,0 +1,166 @@
+.code-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pf-overlay);
+  animation: code-modal-fade-in 0.15s ease-out;
+}
+
+@keyframes code-modal-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.code-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(90vw, 800px);
+  max-height: 80vh;
+  border-radius: var(--pf-radius-xs);
+  background: var(--pf-base-0);
+  border: 1px solid var(--app-border-1);
+  box-shadow: var(--pf-shadow-elevated);
+  overflow: hidden;
+}
+
+.code-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--app-border-1);
+  background: var(--pf-surface);
+}
+
+.code-modal__tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--app-bg-13);
+  border-radius: var(--pf-radius-xs);
+  padding: 2px;
+}
+
+.code-modal__tab {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--pf-text-tertiary);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    color var(--pf-transition-fast) ease,
+    background var(--pf-transition-fast) ease;
+  font-family: inherit;
+}
+
+.code-modal__tab:hover {
+  color: var(--pf-text-secondary);
+}
+
+.code-modal__tab--active {
+  color: var(--pf-white);
+  background: var(--app-bg-13);
+}
+
+.code-modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.code-modal__copy,
+.code-modal__close {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--pf-text-tertiary);
+  background: var(--app-bg-13);
+  border: 1px solid var(--app-border-1);
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    color var(--pf-transition-fast) ease,
+    background var(--pf-transition-fast) ease,
+    border-color var(--pf-transition-fast) ease;
+  font-family: inherit;
+}
+
+.code-modal__copy:hover,
+.code-modal__close:hover {
+  color: var(--pf-text-secondary);
+  background: var(--app-bg-8);
+  border-color: var(--app-border-2);
+}
+
+.code-modal__copy--done {
+  color: var(--pf-brand-accent-secondary);
+  border-color: var(--pf-brand-accent-secondary);
+}
+
+.code-modal__body {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+.code-modal__body pre {
+  margin: 0;
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+/* Override Shiki's inline background to match our modal */
+.code-modal__body .shiki {
+  background: var(--pf-base-0);
+}
+
+.code-modal__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  color: var(--pf-text-tertiary);
+  font-size: 13px;
+}
+
+/* Code icon button in animation card */
+.pf-card__code-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: var(--pf-text-tertiary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    color var(--pf-transition-fast) ease,
+    background var(--pf-transition-fast) ease,
+    border-color var(--pf-transition-fast) ease;
+  flex-shrink: 0;
+}
+
+.pf-card__code-btn:hover {
+  color: var(--pf-text-secondary);
+  background: var(--app-bg-13);
+  border-color: var(--app-border-1);
+}

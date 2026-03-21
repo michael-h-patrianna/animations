@@ -1,7 +1,8 @@
-import { categories } from '@/components/animationRegistry'
+import { getGroupAnimations } from '@/components/animationRegistry'
 import { AnimationCard } from '@/components/ui/AnimationCard'
-import type { Group } from '@/types/animation'
-import React, { Suspense, useMemo } from 'react'
+import { resolveAnimationSource } from '@/lib/groupBuilder'
+import type { AnimationExport, Group } from '@/types/animation'
+import React, { Suspense, useCallback, useMemo } from 'react'
 
 interface GroupSectionProps {
   group: Group
@@ -23,23 +24,22 @@ interface GroupSectionProps {
 export function GroupSection({ group, elementId }: GroupSectionProps) {
   const isCssGroup = group.id.endsWith('-css')
   const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
+  const currentTech = isCssGroup ? 'css' : 'framer'
 
-  const animationRegistry = useMemo(() => {
-    const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
+  const animationRegistry = useMemo(
+    () => getGroupAnimations(baseGroupId, currentTech),
+    [baseGroupId, currentTech]
+  )
 
-    for (const category of Object.values(categories)) {
-      if (baseGroupId in category.groups) {
-        const groupExport = category.groups[baseGroupId]
-        const animationSource = isCssGroup ? groupExport.css : groupExport.framer
-        Object.entries(animationSource).forEach(([id, anim]) => {
-          registry[id] = anim.component
-        })
-        break
-      }
-    }
+  const framerRegistry = useMemo(
+    () => getGroupAnimations(baseGroupId, 'framer'),
+    [baseGroupId]
+  )
 
-    return registry
-  }, [baseGroupId, isCssGroup])
+  const cssRegistry = useMemo(
+    () => getGroupAnimations(baseGroupId, 'css'),
+    [baseGroupId]
+  )
 
   return (
     <article id={elementId} className="pf-group" data-testid={`group-section-${elementId}`}>
@@ -54,41 +54,74 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
       {group.animations.length > 0 ? (
         <div className="pf-card-grid" data-testid="card-grid">
           {group.animations.map((animation) => {
-            const AnimationComponent = animationRegistry[animation.id]
+            const AnimationComponent = animationRegistry[animation.id]?.component
 
             return (
-              <AnimationCard
+              <AnimationCardWithSource
                 key={animation.id}
-                title={animation.title}
-                description={animation.description}
-                animationId={animation.id}
-                tags={animation.tags}
-                infiniteAnimation={animation.infinite}
-                disableReplay={animation.disableReplay}
-                controls={animation.controls}
-                prizeCountMax={animation.prizeCountMax}
-              >
-                {({ bulbCount, onColor, prizeCount }) => {
-                  return animation.id in animationRegistry ? (
-                    <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
-                      <AnimationComponent
-                        {...(animation.controls === 'lights'
-                          ? { numBulbs: bulbCount, onColor }
-                          : {})}
-                        {...(animation.controls === 'prizeCount' ? { prizeCount } : {})}
-                      />
-                    </Suspense>
-                  ) : (
-                    <div className="pf-card__placeholder">{animation.id}</div>
-                  )
-                }}
-              </AnimationCard>
+                animation={animation}
+                AnimationComponent={AnimationComponent}
+                animationRegistry={animationRegistry}
+                framerEntry={framerRegistry[animation.id]}
+                cssEntry={cssRegistry[animation.id]}
+              />
             )
           })}
         </div>
       ) : (
-        <div className="pf-group__empty" data-testid="group-empty">Animations coming soon</div>
+        <div className="pf-group__empty" data-testid="group-empty">
+          Animations coming soon
+        </div>
       )}
     </article>
+  )
+}
+
+interface AnimationCardWithSourceProps {
+  animation: Group['animations'][number]
+  AnimationComponent: React.ComponentType<Record<string, unknown>> | undefined
+  animationRegistry: Record<string, AnimationExport>
+  framerEntry: AnimationExport | undefined
+  cssEntry: AnimationExport | undefined
+}
+
+function AnimationCardWithSource({
+  animation,
+  AnimationComponent,
+  animationRegistry,
+  framerEntry,
+  cssEntry,
+}: AnimationCardWithSourceProps) {
+  const hasAnyEntry = Boolean(framerEntry ?? cssEntry)
+  const sourceLoader = useCallback(
+    () => resolveAnimationSource(framerEntry, cssEntry),
+    [framerEntry, cssEntry]
+  )
+
+  return (
+    <AnimationCard
+      title={animation.title}
+      description={animation.description}
+      animationId={animation.id}
+      tags={animation.tags}
+      infiniteAnimation={animation.infinite}
+      disableReplay={animation.disableReplay}
+      controls={animation.controls}
+      prizeCountMax={animation.prizeCountMax}
+      sourceLoader={hasAnyEntry ? sourceLoader : undefined}
+    >
+      {({ bulbCount, onColor, prizeCount }) => {
+        return animation.id in animationRegistry && AnimationComponent ? (
+          <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
+            <AnimationComponent
+              {...(animation.controls === 'lights' ? { numBulbs: bulbCount, onColor } : {})}
+              {...(animation.controls === 'prizeCount' ? { prizeCount } : {})}
+            />
+          </Suspense>
+        ) : (
+          <div className="pf-card__placeholder">{animation.id}</div>
+        )
+      }}
+    </AnimationCard>
   )
 }

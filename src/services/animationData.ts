@@ -1,5 +1,48 @@
 import { categories } from '@/components/animationRegistry'
-import type { Category, Group } from '@/types/animation'
+import type { Animation, AnimationExport, Category, Group, GroupMetadata } from '@/types/animation'
+
+/**
+ * Maps raw AnimationExport entries into UI-friendly Animation objects for a single tech variant.
+ */
+function toAnimations(
+  exports: Record<string, AnimationExport>,
+  categoryId: string,
+  groupId: string
+): Animation[] {
+  return Object.values(exports).map((anim) => ({
+    id: anim.metadata.id,
+    title: anim.metadata.title,
+    description: anim.metadata.description,
+    categoryId,
+    groupId,
+    tags: anim.metadata.tags,
+    disableReplay: anim.metadata.disableReplay,
+    infinite: anim.metadata.infinite,
+    controls: anim.metadata.controls,
+    prizeCountMax: anim.metadata.prizeCountMax,
+  }))
+}
+
+/**
+ * Creates a UI Group from a tech variant if it has any animations.
+ */
+function toGroup(
+  groupMeta: GroupMetadata,
+  tech: 'framer' | 'css',
+  exports: Record<string, AnimationExport>,
+  categoryId: string
+): Group | null {
+  const animations = toAnimations(exports, categoryId, `${groupMeta.id}-${tech}`)
+  if (animations.length === 0) return null
+
+  return {
+    id: `${groupMeta.id}-${tech}`,
+    title: `${groupMeta.title} (${tech === 'framer' ? 'Framer' : 'CSS'})`,
+    tech,
+    demo: groupMeta.demo,
+    animations,
+  }
+}
 
 /**
  * Builds the animation catalog from category exports.
@@ -13,53 +56,9 @@ export function buildCatalog(): Category[] {
     id: cat.metadata.id,
     title: cat.metadata.title,
     groups: Object.values(cat.groups).flatMap((group) => {
-      const framerAnimations = Object.values(group.framer)
-      const cssAnimations = Object.values(group.css)
-      const result: Group[] = []
-
-      if (framerAnimations.length > 0) {
-        result.push({
-          id: `${group.metadata.id}-framer`,
-          title: `${group.metadata.title} (Framer)`,
-          tech: 'framer',
-          demo: group.metadata.demo,
-          animations: framerAnimations.map((anim) => ({
-            id: anim.metadata.id,
-            title: anim.metadata.title,
-            description: anim.metadata.description,
-            categoryId: cat.metadata.id,
-            groupId: `${group.metadata.id}-framer`,
-            tags: anim.metadata.tags,
-            disableReplay: anim.metadata.disableReplay,
-            infinite: anim.metadata.infinite,
-            controls: anim.metadata.controls,
-            prizeCountMax: anim.metadata.prizeCountMax,
-          })),
-        })
-      }
-
-      if (cssAnimations.length > 0) {
-        result.push({
-          id: `${group.metadata.id}-css`,
-          title: `${group.metadata.title} (CSS)`,
-          tech: 'css',
-          demo: group.metadata.demo,
-          animations: cssAnimations.map((anim) => ({
-            id: anim.metadata.id,
-            title: anim.metadata.title,
-            description: anim.metadata.description,
-            categoryId: cat.metadata.id,
-            groupId: `${group.metadata.id}-css`,
-            tags: anim.metadata.tags,
-            disableReplay: anim.metadata.disableReplay,
-            infinite: anim.metadata.infinite,
-            controls: anim.metadata.controls,
-            prizeCountMax: anim.metadata.prizeCountMax,
-          })),
-        })
-      }
-
-      return result
+      const framer = toGroup(group.metadata, 'framer', group.framer, cat.metadata.id)
+      const css = toGroup(group.metadata, 'css', group.css, cat.metadata.id)
+      return [framer, css].filter((g): g is Group => g !== null)
     }),
   }))
 }

@@ -174,6 +174,12 @@ export interface AnimationExport {
 
   /** Metadata describing the animation */
   metadata: AnimationMetadata
+
+  /** Raw source code of the component (.tsx), loaded via ?raw import */
+  source?: string
+
+  /** Raw source code of the co-located CSS file, loaded via ?raw import */
+  cssSource?: string
 }
 
 /**
@@ -227,4 +233,20 @@ export interface CategoryExport {
 
   /** Map of group IDs to their complete exports */
   groups: Record<string, GroupExport>
+}
+
+// ============================================================================
+// Code Viewer Types
+// ============================================================================
+
+/** A single source-code tab displayed in the code viewer modal. */
+export interface SourceTab {
+  /** Tab label shown in the tab bar (e.g. "Component (Motion)", "CSS") */
+  label: string
+
+  /** Raw source code to display */
+  code: string
+
+  /** Language for syntax highlighting */
+  language: 'tsx' | 'css'
 }

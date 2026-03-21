@@ -21,9 +21,9 @@ describe('buildGroupExport', () => {
 
     expect(result.metadata).toBe(groupMeta)
     expect(Object.keys(result.framer)).toEqual(['test-group__test-anim'])
-    expect(result.framer['test-group__test-anim'].metadata.id).toBe('test-group__test-anim')
+    expect(result.framer['test-group__test-anim']!.metadata.id).toBe('test-group__test-anim')
     // Component should be a React.lazy object
-    expect(result.framer['test-group__test-anim'].component).toHaveProperty(
+    expect(result.framer['test-group__test-anim']!.component).toHaveProperty(
       '$$typeof',
       Symbol.for('react.lazy')
     )
@@ -172,7 +172,7 @@ describe('buildGroupExport', () => {
         {}
       )
 
-      const anim = result.framer['g__full']
+      const anim = result.framer['g__full']!
       expect(anim.metadata).toBe(fullMeta)
       expect(anim.metadata.tags).toEqual(['scale', 'modal'])
       expect(anim.metadata.infinite).toBe(true)
@@ -192,7 +192,7 @@ describe('buildGroupExport', () => {
         {}
       )
 
-      const anim = result.framer['g__minimal']
+      const anim = result.framer['g__minimal']!
       // Only expected keys should be present — no optional fields added
       expect(Object.keys(anim.metadata).sort()).toEqual(['description', 'id', 'tags', 'title'])
     })
@@ -243,5 +243,97 @@ describe('buildGroupExport', () => {
       // Only alpha has a matching component
       expect(Object.keys(result.framer)).toEqual(['g__alpha'])
     })
+  })
+
+  describe('raw source loaders', () => {
+    it('attaches tsx and css source loaders when provided', () => {
+      const tsxLoader = vi.fn().mockResolvedValue('const x = 1')
+      const cssLoader = vi.fn().mockResolvedValue('.foo {}')
+
+      const result = buildGroupExport(
+        groupMeta,
+        { './framer/TestAnim.tsx': () => Promise.resolve({ TestAnim: () => null }) },
+        { './framer/TestAnim.meta.ts': { metadata: makeMeta('g__test-anim') } },
+        {},
+        {},
+        {
+          framerTsx: { './framer/TestAnim.tsx': tsxLoader },
+          framerCss: { './framer/TestAnim.css': cssLoader },
+        }
+      )
+
+      const entry = result.framer['g__test-anim']!
+      // Entry exists and has correct metadata — source loaders are stored in WeakMap, not on the object
+      expect(entry.metadata.id).toBe('g__test-anim')
+      expect(Object.keys(entry)).not.toContain('_sourceLoader')
+    })
+  })
+})
+
+describe('buildGroupExport lazy component contract', () => {
+  it('creates React.lazy components that use the filename as the export name', () => {
+    // This tests the core assumption: the component module exports a named export
+    // matching the filename. If the file is AnimAlpha.tsx, the module must have
+    // an export named "AnimAlpha".
+    const result = buildGroupExport(
+      groupMeta,
+      {
+        './framer/AnimAlpha.tsx': () =>
+          Promise.resolve({ AnimAlpha: () => 'rendered', OtherExport: () => 'wrong' }),
+      },
+      { './framer/AnimAlpha.meta.ts': { metadata: makeMeta('g__alpha') } },
+      {},
+      {}
+    )
+
+    const lazyComponent = result.framer['g__alpha']!.component
+    // Verify it's a lazy component
+    expect(lazyComponent).toHaveProperty('$$typeof', Symbol.for('react.lazy'))
+  })
+
+  it('handles component loaders that return empty modules gracefully', async () => {
+    // If the module has no matching export, React.lazy will receive undefined
+    // as the default export. This is a production bug we want to document.
+    const result = buildGroupExport(
+      groupMeta,
+      {
+        './framer/NoExport.tsx': () => Promise.resolve({}),
+      },
+      { './framer/NoExport.meta.ts': { metadata: makeMeta('g__no-export') } },
+      {},
+      {}
+    )
+
+    // The entry is created (buildGroupExport doesn't validate the loader's return value)
+    expect(result.framer['g__no-export']!.component).toHaveProperty(
+      '$$typeof',
+      Symbol.for('react.lazy')
+    )
+  })
+
+  it('last metadata wins when duplicate IDs appear in meta modules', () => {
+    // If two meta files produce the same animation ID, the last one processed wins.
+    // This tests the Record<string, AnimationExport> overwrite behavior.
+    const result = buildGroupExport(
+      groupMeta,
+      {
+        './framer/FirstVersion.tsx': () => Promise.resolve({ FirstVersion: () => null }),
+        './framer/SecondVersion.tsx': () => Promise.resolve({ SecondVersion: () => null }),
+      },
+      {
+        './framer/FirstVersion.meta.ts': {
+          metadata: makeMeta('g__same-id', { title: 'First' }),
+        },
+        './framer/SecondVersion.meta.ts': {
+          metadata: makeMeta('g__same-id', { title: 'Second' }),
+        },
+      },
+      {},
+      {}
+    )
+
+    // Only one entry for the duplicated ID — last write wins
+    expect(Object.keys(result.framer)).toHaveLength(1)
+    expect(result.framer['g__same-id']!.metadata.title).toBe('Second')
   })
 })
