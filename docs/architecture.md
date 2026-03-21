@@ -11,36 +11,37 @@
 ```
 src/
 ├── components/
-│   ├── <category-id>/           # PUT animation categories HERE (e.g., dialogs, progress, rewards)
+│   ├── <category-id>/           # Animation categories (e.g., dialogs, progress, rewards)
 │   │   ├── index.ts             # Category aggregation (exports categoryExport)
-│   │   └── <group-id>/          # PUT animation groups HERE (e.g., modal-base, loading-states)
-│   │       ├── index.ts         # Group aggregation (exports groupExport)
-│   │       ├── framer/          # PUT Framer Motion animations HERE
+│   │   └── <group-id>/          # Animation groups (e.g., modal-base, loading-states)
+│   │       ├── index.ts         # Group aggregation (exports groupExport via buildGroupExport)
+│   │       ├── framer/          # Framer Motion animations
 │   │       │   ├── ComponentName.tsx      # Animation component
 │   │       │   └── ComponentName.meta.ts  # Metadata export
-│   │       ├── css/             # PUT CSS animations HERE
+│   │       ├── css/             # CSS animations
 │   │       │   ├── ComponentName.tsx      # Animation component
 │   │       │   ├── ComponentName.meta.ts  # Metadata export
 │   │       │   └── ComponentName.css      # Animation styles
 │   │       ├── shared.css       # Shared group styles
 │   │       └── MockContent.tsx  # Demo content components
-│   ├── ui/                      # PUT catalog UI components HERE
+│   ├── ui/                      # Catalog UI components
 │   └── animationRegistry.ts     # Central registry (imports all categories)
-├── services/                    # PUT data logic HERE
-├── hooks/                       # PUT React hooks HERE
-├── types/                       # PUT TypeScript types HERE
-├── motion/                      # PUT shared motion primitives HERE
-└── __tests__/                   # PUT unit tests HERE
+├── services/                    # Data logic
+├── hooks/                       # React hooks
+├── types/                       # TypeScript types (see animation.ts for core types)
+├── lib/                         # Build helpers (groupBuilder, sourceTransform, etc.)
+├── motion/                      # Shared motion primitives
+└── __tests__/                   # Unit tests
 ```
 
 **Decision tree**:
 
-- Creating new animation? → Put in `src/components/<category>/<group>/{framer|css}/`
-- Creating UI component? → Put in `src/components/ui/`
-- Creating React hook? → Put in `src/hooks/`
-- Creating data service? → Put in `src/services/`
-- Creating type definition? → Put in `src/types/`
-- Creating test? → Put in `src/__tests__/` or co-locate with component
+- Creating new animation? → `src/components/<category>/<group>/{framer|css}/`
+- Creating UI component? → `src/components/ui/`
+- Creating React hook? → `src/hooks/`
+- Creating data service? → `src/services/`
+- Creating type definition? → `src/types/`
+- Creating test? → `src/__tests__/` or co-locate with component
 
 ---
 
@@ -48,12 +49,11 @@ src/
 
 ### Step 1: Create the Component File
 
-**Framer Motion Template** (`src/components/<category>/<group>/framer/GroupNameVariantName.tsx`):
+**Framer Motion** (`src/components/<category>/<group>/framer/GroupNameVariantName.tsx`):
 
 ```typescript
 import * as m from 'motion/react-m'
 import { MockModalContent } from '../MockModalContent'
-import '../shared.css'
 
 export function GroupNameVariantName() {
   return (
@@ -70,7 +70,7 @@ export function GroupNameVariantName() {
 }
 ```
 
-**CSS Template** (`src/components/<category>/<group>/css/GroupNameVariantName.tsx`):
+**CSS** (`src/components/<category>/<group>/css/GroupNameVariantName.tsx`):
 
 ```typescript
 import { MockModalContent } from '../MockModalContent'
@@ -97,42 +97,18 @@ export function GroupNameVariantName() {
 import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
-  id: 'group-name__variant-name', // MUST match data-animation-id
+  id: 'group-name__variant-name',        // MUST match data-animation-id
+  urlSlugFramer: '/group-name-framer?animation=group-name__variant-name',
+  urlSlugCss: '/group-name-css?animation=group-name__variant-name',
   title: 'Human Readable Title',
   description: 'Describe the animation effect in detail.',
-  tags: ['framer'], // or ['css']
+  tier: 2,                               // 1-4, see tier definitions in Serena memory
 }
 ```
 
 ### Step 3: Done — No Manual Registration Required
 
-Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery**. When you add a `.tsx` component and its `.meta.ts` file to the `framer/` or `css/` directory, they are picked up automatically. No imports or index edits needed.
-
-The group `index.ts` looks like this (already set up for every group):
-
-```typescript
-import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
-import { buildGroupExport } from '@/lib/groupBuilder'
-
-const metadata: GroupMetadata = {
-  id: 'group-name',
-  title: 'Group Name',
-}
-
-export const groupExport = buildGroupExport(
-  metadata,
-  import.meta.glob<Record<string, unknown>>('./framer/*.tsx'),
-  import.meta.glob<{ metadata: AnimationMetadata }>('./framer/*.meta.ts', { eager: true }),
-  import.meta.glob<Record<string, unknown>>('./css/*.tsx'),
-  import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),
-  {
-    framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),
-    framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),
-    cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
-    cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
-  }
-)
-```
+Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery**. Adding a `.tsx` component and its `.meta.ts` file to the `framer/` or `css/` directory is sufficient. No imports or index edits needed.
 
 ---
 
@@ -142,9 +118,10 @@ export const groupExport = buildGroupExport(
 
 1. Create folder: `src/components/<category>/<new-group>/`
 2. Create subfolders: `framer/` and `css/`
-3. Create `index.ts` with template below
-4. Add animations to subfolders
-5. Import and add to category's `index.ts`
+3. Create `shared.css` with group-level layout styles
+4. Create `index.ts` with template below
+5. Add animations to subfolders
+6. Import and add to category's `index.ts`
 
 **Group Index Template** (`src/components/<category>/<new-group>/index.ts`):
 
@@ -173,6 +150,7 @@ export const groupExport = buildGroupExport(
     framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),
     cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
     cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
+    shared: import.meta.glob<string>('./*.{ts,tsx}', { query: '?raw', import: 'default' }),
   }
 )
 ```
@@ -184,7 +162,7 @@ export const groupExport = buildGroupExport(
 **Steps**:
 
 1. Create folder: `src/components/<new-category>/`
-2. Create group subfolders
+2. Create group subfolders with animations
 3. Create `index.ts` with template below
 4. Import and add to `src/components/animationRegistry.ts`
 
@@ -220,87 +198,21 @@ export const categories: Record<string, CategoryExport> = {
 
 ---
 
-## Naming Conventions
+## Naming & Rendering Rules
 
-| Type            | Pattern                    | Example                        |
-| --------------- | -------------------------- | ------------------------------ |
-| Category folder | `kebab-case`               | `dialogs`, `progress`          |
-| Group folder    | `kebab-case`               | `modal-base`, `loading-states` |
-| Component file  | `PascalCase`               | `ModalBaseScaleGentlePop.tsx`  |
-| Animation ID    | `group-name__variant-name` | `modal-base__scale-gentle-pop` |
-| CSS class       | `pf-[element]--[modifier]` | `pf-modal--scale-gentle-pop`   |
+See `docs/meta/styleguide.md` for the full naming conventions table and animation component rules.
 
----
-
-## Component Rendering Rules
-
-**DO**:
-
-- Always include `data-animation-id` attribute matching metadata id
-- Import shared styles from parent group folder (`import '../shared.css'`)
-- Use `motion/react-m` for Framer Motion (optimized import)
-- Render only animation content (no cards, titles, replay buttons)
-- Components are remounted for replay (key toggle by AnimationCard)
-
-**DON'T**:
-
-- Add margins, padding, or presentation wrappers
-- Import components directly in App.tsx
-- Create global CSS files (use group-scoped or component-scoped CSS)
-- Use state for replay logic (handled by parent)
+Key patterns visible in templates above:
+- Folders: `kebab-case` — Component files: `PascalCase` — IDs: `group-name__variant-name`
+- Root element must have `data-animation-id` matching metadata `id`
+- Render only animation content (AnimationCard handles presentation)
 
 ---
 
-## Key Types Reference
+## On-Demand References
 
-```typescript
-// Animation metadata exported by each component
-interface AnimationMetadata {
-  id: string // Unique: group-name__variant-name
-  title: string // Human readable
-  description: string // Detailed description
-  tags: string[] // e.g., ['framer'] or ['css']
-  disableReplay?: boolean
-}
-
-// Group export from index.ts
-interface GroupExport {
-  metadata: GroupMetadata
-  framer: Record<string, { component: ComponentType; metadata: AnimationMetadata }>
-  css: Record<string, { component: ComponentType; metadata: AnimationMetadata }>
-}
-
-// Category export from index.ts
-interface CategoryExport {
-  metadata: CategoryMetadata
-  groups: Record<string, GroupExport>
-}
-```
-
----
-
-## Common Mistakes
-
-❌ **Don't**: Create external JSON/YAML config files for animation metadata
-✅ **Do**: Export metadata from `.meta.ts` file next to component
-
-❌ **Don't**: Import animation components directly in App.tsx
-✅ **Do**: Use `animationDataService` for catalog, `buildRegistryFromCategories()` for components
-
-❌ **Don't**: Put styles in global App.css or index.css
-✅ **Do**: Create group-scoped `shared.css` or component-scoped CSS files
-
-❌ **Don't**: Add presentation wrappers (cards, titles) in animation components
-✅ **Do**: Render only the animation content; AnimationCard handles presentation
-
-❌ **Don't**: Forget `data-animation-id` attribute on root element
-✅ **Do**: Always include it, matching the metadata id exactly
-
-❌ **Don't**: Use `import { motion } from 'framer-motion'`
-✅ **Do**: Use `import * as m from 'motion/react-m'` (optimized bundle)
-
-❌ **Don't**: Name component files with kebab-case: `modal-base-scale-gentle-pop.tsx`
-✅ **Do**: Use PascalCase: `ModalBaseScaleGentlePop.tsx`
-
-❌ **Don't**: Skip the lazy loading pattern for components
-✅ **Do**: Always lazy load in group index for code splitting
+| Detail | Serena Memory |
+|-|-|
+| Tier 1-4 definitions | `project_tier_definitions` (also in auto-memory) |
+| Animation design principles | `animation_design_principles` |
+| Full type definitions | Read `src/types/animation.ts` directly |

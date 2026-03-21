@@ -1,116 +1,55 @@
-=== CRITICAL INSTRUCTION BLOCK (CIB-001): MANDATORY TOOLS ===
+# Animation Showcase Catalog
 
-## MANDATORY TOOLS
+Dual-implementation (CSS + Framer Motion) animation library for a monetisation platform. Every animation exists as both a CSS/React and a Motion/React variant for cross-platform portability.
 
-### For Coding, Research, Analysis, Debugging
+## Constraints
 
-```
-USE: mcp__mcp_docker__sequentialthinking
-WHEN: Coding tasks, research, complex reasoning
-WHY: Prevents cognitive overload, ensures systematic approach
-```
+| Constraint | Rule |
+|-|-|
+| Dual implementation | Every animation has both `framer/` and `css/` variants |
+| Auto-discovery | Adding `.tsx` + `.meta.ts` to `framer/` or `css/` is sufficient — no index edits |
+| No global CSS | Styles scoped to group (`shared.css`) or component (`.css` file) |
+| Motion import | `import * as m from 'motion/react-m'` (never `framer-motion`) |
+| Path aliases | Always use `@/` imports, never relative `../` chains |
+| Metadata co-location | `.meta.ts` next to component — no external config files |
+| Component purity | Animation components render only animation DOM — no cards, titles, or replay |
 
-### For Task Management
+## Required Reading
 
-```
-USE: todo_write
-WHEN: Coding tasks, any task with 2+ steps
-WHY: Tracks progress, maintains focus
-```
+@docs/architecture.md
+@docs/testing.md
+@docs/meta/styleguide.md
 
-### For Task Execution
+## Commands
 
-For each task:
+| Command | Purpose |
+|-|-|
+| `npm run dev` | Dev server (already running — do not start another) |
+| `npm test` | Unit tests (single run) |
+| `npm run test:coverage` | Unit tests with coverage |
+| `npm run test:e2e` | Playwright E2E (headless) |
+| `npm run test:e2e:headed` | Playwright E2E (visible browser) |
+| `npm run type-check` | TypeScript validation |
+| `npm run lint` | ESLint + Stylelint |
+| `npm run lint:css` | Stylelint only |
+| `npm run lint:fix` | Auto-fix lint issues |
+| `npm run build` | Production build (`tsc` + Vite) |
+| `npx vite build` | Build without `tsc` gate |
 
-1. **Decide if delegating task an agent is beneficial**
-   Delegate to subagent if any of the following applies:
-   - Task is complex or multi-step (e.g., write tests, debug a module, generate docs).
-   - Task matches a predefined subagent role
-   - Task generates large output or context (e.g., scanning 50 files, web research).
-   - Task can run independently (no need for constant oversight).
-   - Task can be executed in parallel (run multiple subagents at once).
+## Data Flow
 
-   To delegate a task to an agent do this:
-   - Use your agent-selection skill to select the right agent.
-   - Call the subagent and provide all the context that they need to do the task at highest quality in the context of the whole codebase.
-   - Never send a one-liner prompt to a subagent! Always provide them with all context they need to do the job. Do not let them start from scratch.
-   - Always include references to required documentation:
-     - `docs/architecture.md`
-     - `docs/testing.md`
-     - include other or more documentation references in the agent prompt if needed for the task
-   - **NEVER** just handover the task you have been given to an agent without passing on the work you have already done! Do not waste token on letting agents repeat the research or work you have already done!
-   - Be conscious of token usage! Do not duplicate work in the agent that you or another agent have already done!
+Component → Group `index.ts` (buildGroupExport) → Category `index.ts` → `animationRegistry.ts` → `animationData.ts` (buildCatalog) → `useAnimations` hook → `GroupSection` → `AnimationCard`
 
-2. **Testing requirements:**
-   - Tests must be meaningful (test actual functionality)
-   - Tests must verify correct information, not just rendering
+## Locating an Animation
 
-3. **Fix until green:**
-   - Run tests after each fix
-   - If tests fail, iterate and fix and test again
-   - Verify no regressions
+Given animation id `modal-base__scale-gentle-pop`:
 
-=== END CONSTITUTIONAL PRINCIPLES ===
-
-## High-Level Data Flow
-
-**Co-located Metadata System** - The project uses component-based metadata where folder structure IS the single source of truth:
-
-1. **Component Level**: Each animation component exports its own metadata:
-   - `export const metadata: AnimationMetadata = { id, title, description, tags }`
-   - Metadata lives next to implementation (no external config files)
-
-2. **Group Aggregation**: Each group's `index.ts` aggregates all animations:
-   - Imports all animation components + their metadata exports
-   - Exports `groupMetadata: GroupMetadata` (id, title, tech, demo)
-   - Exports `groupExport: GroupExport` combining group metadata with animations
-
-3. **Category Aggregation**: Each category's `index.ts` aggregates all groups:
-   - Imports all group exports
-   - Exports `categoryMetadata: CategoryMetadata` (id, title)
-   - Exports `categoryExport: CategoryExport` combining category metadata with groups
-
-4. **Central Registry** (`src/components/animationRegistry.ts`):
-   - Imports all category exports
-   - Exports `categories: Record<string, CategoryExport>` (hierarchical registry)
-   - Provides `buildRegistryFromCategories()` helper (flattens to id→component map)
-
-5. **Data Service** (`src/services/animationData.ts`):
-   - `buildCatalog()`: pure synchronous function that transforms the hierarchical registry into UI-friendly `Category[]`
-   - Creates separate Framer/CSS groups per logical group for code mode switching
-
-6. **UI Consumption**: `GroupSection` uses `getGroupAnimations()` to get tech-specific animation maps and renders each animation inside `AnimationCard`.
-
-## File/Folder Layout
-
-```
-src/
-├─ components/
-│  ├─ ui/                     // Catalog UI (GroupSection, AnimationCard, AppSidebar)
-│  ├─ <category-id>/          // One folder per category (folder structure defines hierarchy)
-│  │  ├─ index.ts             // Category aggregation (exports categoryExport)
-│  │  └─ <group-id>/          // One folder per group within that category
-│  │     ├─ index.ts          // Group aggregation (exports groupExport)
-│  │     ├─ framer/           // Framer Motion components + metadata exports
-│  │     ├─ css/              // CSS-animation components and styles
-│  │     └─ shared assets     // Shared CSS/TS utilities that remain at group root
-│  ├─ animationRegistry.ts    // Central registry (exports categories + helpers)
-├─ services/animationData.ts  // Builds catalog from component exports
-├─ hooks/useAnimations.ts     // Loads catalog data for the app
-├─ types/animation.ts         // Core types (metadata types, export types)
-```
-
-## Locating an Animation Component
-
-Given an animation id `category-group__variant` :
-
-1. Split the id into parts:
-   - Category id → folder name under `src/components/` (e.g. `modal-base__scale-gentle-pop` ⇒ category `dialogs`).
-   - Group id → folder inside the category (e.g. `modal-base`).
-2. Inside `src/components/<category>/<group>/framer/` or `css/`, open the component whose filename is the PascalCase version of the animation id (e.g. `ModalBaseScaleGentlePop.tsx`).
-3. Each component should include only the DOM necessary for the animation and import its own stylesheet from the group's `css/` folder (or shared CSS at the root when reused). Avoid shared or global CSS.
+1. Group = `modal-base` → find group folder under a category
+2. Category = `dialogs` → `src/components/dialogs/modal-base/`
+3. Component = PascalCase of id → `ModalBaseScaleGentlePop.tsx` in `framer/` or `css/`
 
 ## Rendering Context
 
-- Components render as children of `<AnimationCard>` inside `GroupSection` (both in `src/components/ui`). The card supplies the title, description, replay button, and `.pf-demo-canvas` wrapper. Do not duplicate those wrappers inside the animation component.
-- Components should render deterministic DOM and handle a replay by restarting animations when remounted. The replay button remounts the child by toggling a key.
+- Components render as children of `AnimationCard` inside `GroupSection`
+- AnimationCard supplies title, description, replay button, `.pf-demo-canvas` wrapper
+- Replay remounts the child by toggling a React key — components restart on mount

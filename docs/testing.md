@@ -28,33 +28,17 @@ npm run test:e2e:report     # View HTML report
 
 ## Where to Put Tests
 
-```
-src/
-├── __tests__/                        # PUT feature/domain tests HERE
-│   ├── allAnimations.smoke.test.tsx  # Smoke tests for all animations
-│   ├── registryConsistency.test.tsx  # Registry validation
-│   ├── hooks.useAnimations.test.tsx  # Hook tests
-│   └── ui.animation-card.test.tsx    # UI component tests
-└── components/
-    └── ui/
-        └── AnimationCard.test.tsx    # Co-located component tests (alternative)
-
-tests/
-└── e2e/                              # PUT Playwright E2E tests HERE
-    └── animation-rendering.spec.ts
-```
-
-**Decision tree**:
-
-- Testing a specific component? → Co-locate as `Component.test.tsx`
-- Testing a feature/domain? → Put in `src/__tests__/`
-- Testing user journeys in browser? → Put in `tests/e2e/`
+| Type | Location | File Pattern |
+|-|-|-|
+| Feature/domain tests | `src/__tests__/` | `<feature>.test.tsx` |
+| Smoke tests | `src/__tests__/` | `<group>.smoke.test.tsx` |
+| Hook tests | `src/__tests__/` | `hooks.<hookName>.test.tsx` |
+| Co-located component tests | Next to component | `<Component>.test.tsx` |
+| E2E tests | `tests/e2e/` | `<feature>.spec.ts` |
 
 ---
 
-## How to Write an Animation Test
-
-### Smoke Test (Verify Rendering)
+## How to Write an Animation Smoke Test
 
 **Template** (`src/__tests__/<group>.smoke.test.tsx`):
 
@@ -82,100 +66,19 @@ describe('<GroupName> Smoke Tests', () => {
 })
 ```
 
-### Component Behavior Test
+---
 
-**Template** (testing AnimationCard with animation):
+## Test Utilities
 
 ```typescript
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { withAnimationCard, queryStage, advanceRaf } from '@/test/utils/animationTestUtils'
-import { ComponentName } from '@/components/<category>/<group>/framer/ComponentName'
 
-describe('<ComponentName>', () => {
-  beforeEach(() => {
-    vi.useFakeTimers()
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
-  })
-
-  it('triggers animation on render', () => {
-    render(withAnimationCard(<ComponentName />, { id: 'group__variant' }))
-
-    const stage = queryStage()
-    expect(stage).toBeTruthy()
-    expect(stage!.querySelector('[data-animation-id]')).toBeInTheDocument()
-  })
-
-  it('replays animation when replay button clicked', async () => {
-    render(withAnimationCard(<ComponentName />, { id: 'group__variant' }))
-
-    const prevStage = queryStage()!
-    screen.getByRole('button', { name: /replay/i }).click()
-
-    const newStage = queryStage()
-    expect(newStage).not.toBe(prevStage) // Component remounted
-  })
-})
+withAnimationCard(<Component />, { id: 'test-id', title: 'Test', description: 'Desc' })
+const stage = queryStage()        // Query .pf-demo-stage element
+await advanceRaf(600)             // Advance fake timers 600ms
 ```
 
-### Hook Test
-
-**Template**:
-
-```typescript
-import { renderHook, waitFor } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
-import { useAnimations } from '@/hooks/useAnimations'
-
-describe('useAnimations', () => {
-  it('loads categories from registry', async () => {
-    const { result } = renderHook(() => useAnimations())
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false)
-    })
-
-    expect(result.current.categories).toBeDefined()
-    expect(result.current.categories.length).toBeGreaterThan(0)
-  })
-})
-```
-
-### Registry Consistency Test
-
-**Template**:
-
-```typescript
-import { describe, it, expect } from 'vitest'
-import { categories, buildRegistryFromCategories } from '@/components/animationRegistry'
-
-describe('Animation Registry', () => {
-  it('has unique animation IDs', () => {
-    const registry = buildRegistryFromCategories()
-    const ids = Object.keys(registry)
-    const uniqueIds = new Set(ids)
-
-    expect(ids.length).toBe(uniqueIds.size)
-  })
-
-  it('all animations have required metadata', () => {
-    Object.values(categories).forEach((cat) => {
-      Object.values(cat.groups).forEach((group) => {
-        Object.entries(group.framer).forEach(([id, { metadata }]) => {
-          expect(metadata.id).toBe(id)
-          expect(metadata.title).toBeTruthy()
-          expect(metadata.description).toBeTruthy()
-          expect(Array.isArray(metadata.tags)).toBe(true)
-        })
-      })
-    })
-  })
-})
-```
+Always pair `vi.useFakeTimers()` in `beforeEach` with `vi.useRealTimers()` in `afterEach`.
 
 ---
 
@@ -183,134 +86,57 @@ describe('Animation Registry', () => {
 
 **Enforced by ESLint rule `no-class-id-locators`.**
 
-Use this priority order when selecting elements in Playwright tests:
+| Priority | Selector Type | When to use |
+|-|-|-|
+| 1 | `data-testid` | UI shell components, interactive elements |
+| 2 | `data-animation-id` | Animation card containers |
+| 3 | `aria-*` / `role` | Accessible interactive elements |
+| 4 | `data-role` | Semantic roles not in ARIA spec |
+| 5 | `:scope > *` | Structural child queries within scoped locators |
 
-| Priority | Selector Type       | Example                                             | When to use                                     |
-| -------- | ------------------- | --------------------------------------------------- | ----------------------------------------------- |
-| 1        | `data-testid`       | `[data-testid="sidebar"]`                           | UI shell components, interactive elements       |
-| 2        | `data-animation-id` | `[data-animation-id="modal-base__scale"]`           | Animation card containers                       |
-| 3        | `aria-*` / `role`   | `button[aria-label="Close"]`, `getByRole('button')` | Accessible interactive elements                 |
-| 4        | `data-role`         | `[data-role="replay"]`                              | Semantic roles not in ARIA spec                 |
-| 5        | `:scope > *`        | `:scope > *`                                        | Structural child queries within scoped locators |
+**Banned**: CSS class selectors, ID selectors, bare tag selectors (lint error in non-animation spec files).
 
-**Banned selectors** (lint error in non-animation spec files):
+**Exception**: `animation-*.spec.ts` files may use CSS class selectors within `data-animation-id` containers.
 
-- CSS class selectors: `.pf-modal`, `.sidebar-item`
-- ID selectors: `#group-modal-base`, `#pf-sidebar-drawer`
-- Bare tag selectors without attribute qualifiers: `div`, `span`
-
-**Exception**: `animation-*.spec.ts` files may use CSS class selectors to test internal animation DOM structure (particles, characters, milestones). These classes are scoped within `data-animation-id` containers.
-
-**Page objects**: All reusable selectors belong in `tests/e2e/page-objects/`. Prefer `CatalogPage` and `MobilePage` methods over raw locators in spec files.
+**Page objects**: Reusable selectors belong in `tests/e2e/page-objects/`. Prefer `CatalogPage` and `MobilePage` methods.
 
 ---
 
-## How to Write E2E Tests
-
-**Template** (`tests/e2e/<feature>.spec.ts`):
+## E2E Test Template
 
 ```typescript
 import { test, expect } from '@playwright/test'
 
-test.describe('Animation Gallery', () => {
-  test('displays categories and animations', async ({ page }) => {
+test.describe('Feature Name', () => {
+  test('verifies expected behavior', async ({ page }) => {
     await page.goto('/')
-
-    // Wait for content
     await expect(page.locator('[data-animation-id]').first()).toBeVisible()
-
-    // Verify category exists
-    await expect(page.getByText('Dialog & Modal Animations')).toBeVisible()
-  })
-
-  test('replays animation when clicking replay', async ({ page }) => {
-    await page.goto('/')
-
-    const card = page.locator('[data-animation-id="modal-base__scale-gentle-pop"]').first()
-    await card.scrollIntoViewIfNeeded()
-
-    const replayButton = page.locator('[data-role="replay"]').first()
-    await replayButton.click()
-
-    // Animation should replay (component remounts)
-    await expect(card).toBeVisible()
   })
 })
 ```
 
 ---
 
-## Test Utilities
+## Memory Safety
 
-Use the provided test utilities from `@/test/utils/animationTestUtils`:
-
-```typescript
-import { withAnimationCard, queryStage, advanceRaf } from '@/test/utils/animationTestUtils'
-
-// Wrap animation in AnimationCard
-withAnimationCard(<Component />, { id: 'test-id', title: 'Test', description: 'Desc' })
-
-// Query the .pf-demo-stage element
-const stage = queryStage()
-
-// Advance fake timers for animation testing
-await advanceRaf(600) // Advance 600ms
-```
-
----
-
-## Memory Safety Rules
-
-**CRITICAL**: Max 4 test workers in parallel. Do NOT change `maxWorkers` in vitest.config.ts.
-
-**DO**:
-
-- Use `pool: 'threads'` (memory-efficient)
-- Call `cleanup()` from @testing-library/react in afterEach
-- Process data in batches if > 100 items
-
-**DON'T**:
-
-- Generate 1000+ data points in single test
-- Forget to cleanup timers/listeners
-- Run tests in watch mode in CI
-
----
-
-## Test Naming Conventions
-
-| Type            | File Pattern                | Example                        |
-| --------------- | --------------------------- | ------------------------------ |
-| Smoke tests     | `<group>.smoke.test.tsx`    | `modal-base.smoke.test.tsx`    |
-| Component tests | `<Component>.test.tsx`      | `AnimationCard.test.tsx`       |
-| Feature tests   | `<feature>.test.tsx`        | `registryConsistency.test.tsx` |
-| Hook tests      | `hooks.<hookName>.test.tsx` | `hooks.useAnimations.test.tsx` |
-| E2E tests       | `<feature>.spec.ts`         | `animation-rendering.spec.ts`  |
+- Max 4 test workers in parallel. Do NOT change `maxWorkers` in vitest.config.ts.
+- Call `cleanup()` from @testing-library/react in afterEach.
+- Do not generate 1000+ data points in a single test.
 
 ---
 
 ## Common Mistakes
 
-❌ **Don't**: Test animation frame values (too brittle, changes with timing)
-✅ **Do**: Test start state, end state, or just "renders without crashing"
+- **Don't**: Test animation frame values. **Do**: Test start/end state or "renders without crashing".
+- **Don't**: Use relative imports. **Do**: Use `@/` alias.
+- **Don't**: Write tests that only check defaults exist. **Do**: Verify actual behavior.
+- **Don't**: Skip `Suspense` wrapper for lazy components. **Do**: Always wrap in `<Suspense>`.
+- **Don't**: Mock everything. **Do**: Mock only browser APIs absent in happy-dom (IntersectionObserver, ResizeObserver).
+- **Don't**: Assert on implementation details. **Do**: Assert on observable behavior (DOM output, returned values).
 
-❌ **Don't**: Use relative imports in tests
-✅ **Do**: Use `@/` alias: `import X from '@/components/X'`
+## On-Demand References
 
-❌ **Don't**: Write tests that only check default values exist
-✅ **Do**: Write tests that verify actual functionality and behavior
-
-❌ **Don't**: Run `npm run test:watch` in automated workflows
-✅ **Do**: Run `npm test` for single-run execution
-
-❌ **Don't**: Mock everything - test real integrations where possible
-✅ **Do**: Mock browser APIs (IntersectionObserver, ResizeObserver) that don't exist in jsdom
-
-❌ **Don't**: Skip the `Suspense` wrapper for lazy-loaded components
-✅ **Do**: Wrap lazy components in `<Suspense>` with fallback
-
-❌ **Don't**: Forget to call `vi.useRealTimers()` in afterEach
-✅ **Do**: Always cleanup fake timers to prevent test pollution
-
-❌ **Don't**: Assert on implementation details (internal state, private methods)
-✅ **Do**: Assert on observable behavior (DOM output, returned values)
+| Detail | Serena Memory |
+|-|-|
+| Hook/registry test templates | `test_templates_advanced` |
+| Component behavior test template | `test_templates_advanced` |
