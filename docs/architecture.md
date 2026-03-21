@@ -104,33 +104,34 @@ export const metadata: AnimationMetadata = {
 }
 ```
 
-### Step 3: Register in Group Index
+### Step 3: Done — No Manual Registration Required
 
-**Add to** `src/components/<category>/<group>/index.ts`:
+Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery**. When you add a `.tsx` component and its `.meta.ts` file to the `framer/` or `css/` directory, they are picked up automatically. No imports or index edits needed.
+
+The group `index.ts` looks like this (already set up for every group):
 
 ```typescript
-// Add import at top
-import { metadata as variantNameMetadata } from './framer/GroupNameVariantName.meta'
+import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
+import { buildGroupExport } from '@/lib/groupBuilder'
 
-// Add lazy component
-const GroupNameVariantName = lazy(() =>
-  import('./framer/GroupNameVariantName').then((m) => ({ default: m.GroupNameVariantName }))
-)
-
-// Add to groupExport.framer (or .css)
-export const groupExport: GroupExport = {
-  metadata: groupMetadata,
-  framer: {
-    // ... existing animations
-    'group-name__variant-name': {
-      component: GroupNameVariantName,
-      metadata: variantNameMetadata,
-    },
-  },
-  css: {
-    /* ... */
-  },
+const metadata: GroupMetadata = {
+  id: 'group-name',
+  title: 'Group Name',
 }
+
+export const groupExport = buildGroupExport(
+  metadata,
+  import.meta.glob<Record<string, unknown>>('./framer/*.tsx'),
+  import.meta.glob<{ metadata: AnimationMetadata }>('./framer/*.meta.ts', { eager: true }),
+  import.meta.glob<Record<string, unknown>>('./css/*.tsx'),
+  import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),
+  {
+    framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),
+    framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),
+    cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
+    cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
+  }
+)
 ```
 
 ---
@@ -148,34 +149,32 @@ export const groupExport: GroupExport = {
 **Group Index Template** (`src/components/<category>/<new-group>/index.ts`):
 
 ```typescript
-import type { GroupExport, GroupMetadata } from '@/types/animation'
-import { lazy } from 'react'
+import './shared.css'
+import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
+import { buildGroupExport } from '@/lib/groupBuilder'
 
-// Import metadata
-import { metadata as exampleMetadata } from './framer/NewGroupExample.meta'
+// Side-effect: load framer-variant CSS (layout only — animation CSS banned by lint)
+import.meta.glob('./framer/*.css', { eager: true })
 
-// Lazy load components
-const NewGroupExample = lazy(() =>
-  import('./framer/NewGroupExample').then((m) => ({ default: m.NewGroupExample }))
-)
-
-export const groupMetadata: GroupMetadata = {
+const metadata: GroupMetadata = {
   id: 'new-group',
   title: 'New Group Title',
-  tech: 'framer',
   demo: 'Description of group purpose',
 }
 
-export const groupExport: GroupExport = {
-  metadata: groupMetadata,
-  framer: {
-    'new-group__example': {
-      component: NewGroupExample,
-      metadata: exampleMetadata,
-    },
-  },
-  css: {},
-}
+export const groupExport = buildGroupExport(
+  metadata,
+  import.meta.glob<Record<string, unknown>>('./framer/*.tsx'),
+  import.meta.glob<{ metadata: AnimationMetadata }>('./framer/*.meta.ts', { eager: true }),
+  import.meta.glob<Record<string, unknown>>('./css/*.tsx'),
+  import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),
+  {
+    framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),
+    framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),
+    cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
+    cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
+  }
+)
 ```
 
 ---

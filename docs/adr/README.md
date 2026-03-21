@@ -25,6 +25,10 @@ Each ADR follows this structure:
 - [ADR-005: Ban Blur and Non-Linear Gradients as Animated Properties](./ADR-005-ban-animated-blur-and-gradients.md)
 - [ADR-006: Self-Contained Animation Components](./ADR-006-self-contained-animations.md)
 
+## Related: Implementation Decisions
+
+The [`docs/decisions/`](../decisions/) directory contains implementation-focused decision records (numbered 001-006) that document specific tooling and workflow choices. The ADRs here cover higher-level architectural decisions. Some topics overlap (e.g., co-located metadata) — when they do, the ADR captures the architectural rationale while the decision record captures the implementation specifics.
+
 ## Creating New ADRs
 
 1. Copy the template from an existing ADR

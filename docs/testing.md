@@ -185,13 +185,13 @@ describe('Animation Registry', () => {
 
 Use this priority order when selecting elements in Playwright tests:
 
-| Priority | Selector Type | Example | When to use |
-|-|-|-|-|
-| 1 | `data-testid` | `[data-testid="sidebar"]` | UI shell components, interactive elements |
-| 2 | `data-animation-id` | `[data-animation-id="modal-base__scale"]` | Animation card containers |
-| 3 | `aria-*` / `role` | `button[aria-label="Close"]`, `getByRole('button')` | Accessible interactive elements |
-| 4 | `data-role` | `[data-role="replay"]` | Semantic roles not in ARIA spec |
-| 5 | `:scope > *` | `:scope > *` | Structural child queries within scoped locators |
+| Priority | Selector Type       | Example                                             | When to use                                     |
+| -------- | ------------------- | --------------------------------------------------- | ----------------------------------------------- |
+| 1        | `data-testid`       | `[data-testid="sidebar"]`                           | UI shell components, interactive elements       |
+| 2        | `data-animation-id` | `[data-animation-id="modal-base__scale"]`           | Animation card containers                       |
+| 3        | `aria-*` / `role`   | `button[aria-label="Close"]`, `getByRole('button')` | Accessible interactive elements                 |
+| 4        | `data-role`         | `[data-role="replay"]`                              | Semantic roles not in ARIA spec                 |
+| 5        | `:scope > *`        | `:scope > *`                                        | Structural child queries within scoped locators |
 
 **Banned selectors** (lint error in non-animation spec files):
 
