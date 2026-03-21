@@ -150,7 +150,9 @@ test.describe('Viewport Preview', () => {
 
   test('every card has desktop and mobile preview buttons', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('modal-base-framer')
-    const cards = catalogPage.allCards()
+    // Use card-grid scoped selector to avoid matching internal data-animation-id
+    // elements rendered by animation components inside cards
+    const cards = catalogPage.page.locator('[data-testid="card-grid"] > [data-animation-id]')
     const count = await cards.count()
     expect(count).toBeGreaterThan(0)
 
