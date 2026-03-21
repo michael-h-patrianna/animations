@@ -1,9 +1,9 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import { homeIcon2 } from '@/assets'
-export function UpdateIndicatorsHomeIconDotSweep() {
+export const UpdateIndicatorsHomeIconDotSweep = memo(function UpdateIndicatorsHomeIconDotSweep() {
   const [key, setKey] = useState(0)
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,4 +55,4 @@ export function UpdateIndicatorsHomeIconDotSweep() {
       </div>
     </div>
   )
-}
+})

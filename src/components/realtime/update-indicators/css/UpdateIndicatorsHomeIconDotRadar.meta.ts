@@ -8,4 +8,5 @@ export const metadata: AnimationMetadata = {
   description:
     'Subtle radar rings emanate from the dot using staggered arcs to signal ongoing freshness.',
   tier: 4,
+  infinite: true,
 }

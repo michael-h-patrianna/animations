@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import './UpdateIndicatorsHomeIconDotSweep.css'
 
 import { homeIcon2 } from '@/assets'
-export function UpdateIndicatorsHomeIconDotSweep() {
+export const UpdateIndicatorsHomeIconDotSweep = memo(function UpdateIndicatorsHomeIconDotSweep() {
   const dotRef = useRef<HTMLSpanElement>(null)
   const haloRef = useRef<HTMLSpanElement>(null)
 
@@ -38,4 +38,4 @@ export function UpdateIndicatorsHomeIconDotSweep() {
       </div>
     </div>
   )
-}
+})
