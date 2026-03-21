@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Slide Up Soft',
   description:
     'Slides up from 64px with 92% scale and fade-in using CSS keyframes. GPU-accelerated with transform and opacity.',
-  tags: ['css'],
+  tier: 2,
 }

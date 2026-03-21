@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Home Icon • Radar Rings',
   description:
     'Subtle radar rings emanate from the dot using staggered arcs to signal ongoing freshness.',
-  tags: ['css'],
+  tier: 4,
 }

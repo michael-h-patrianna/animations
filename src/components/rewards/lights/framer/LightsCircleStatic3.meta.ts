@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   title: 'Accelerating Spin',
   description:
     'Wheel of fortune spin: starts slow, accelerates to blur, decelerates, and settles on winner with celebration.',
-  tags: ['framer'],
   controls: 'lights',
+  tier: 3,
 }

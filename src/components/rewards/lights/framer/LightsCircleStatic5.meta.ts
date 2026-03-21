@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   title: 'Random Sparkle',
   description:
     'Unpredictable twinkling creates excitement and anticipation like stars in the night sky.',
-  tags: ['framer'],
   controls: 'lights',
+  tier: 3,
 }

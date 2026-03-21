@@ -14,11 +14,9 @@ import {
 
 import {
   ArrivalDust,
-  CardLandShimmer,
   CollectBurst,
   CollectButton,
   EdgeSparks,
-  FlipCard,
   GoldenConfetti,
   LightSpill,
   PackBody,
@@ -32,6 +30,7 @@ import {
   type FanPosition,
   type PackPhase,
 } from '../CardPackParts'
+import { CardLandShimmer, FlipCard } from '../FlipCardComponents'
 
 import { ALL_CARD_IMAGES, drawCards, getCardSet } from '../cardSets'
 

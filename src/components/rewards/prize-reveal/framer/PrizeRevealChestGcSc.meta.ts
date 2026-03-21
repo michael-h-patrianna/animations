@@ -5,6 +5,6 @@ export const metadata = {
   title: 'Chest GC & SC Prize Reveal',
   description:
     'Pirate chest rises, shakes, opens — Gold Coins and Sweepstake Coins fly out with prize rays and amount text.',
-  tags: ['framer'],
   controls: 'prizeCount',
+  tier: 4,
 } satisfies AnimationMetadata

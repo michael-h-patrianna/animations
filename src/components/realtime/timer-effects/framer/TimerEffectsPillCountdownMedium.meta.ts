@@ -4,5 +4,5 @@ export const metadata: AnimationMetadata = {
   id: 'timer-effects__pill-countdown-medium',
   title: 'Pill Countdown — Medium',
   description: 'Periodic blip with LED corner blink and subtle perimeter arc progress.',
-  tags: ['framer'],
+  tier: 4,
 }

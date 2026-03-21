@@ -137,6 +137,13 @@ function buildAnimationMap(
       subdir,
     })
 
+    if (import.meta.env.DEV && animations[meta.id]) {
+      throw new Error(
+        `[groupBuilder] Duplicate animation ID "${meta.id}" in ${subdir}/. ` +
+          `"${baseName}" conflicts with an earlier registration. Animation IDs must be unique within a tech variant.`
+      )
+    }
+
     animations[meta.id] = entry
   }
 
@@ -233,15 +240,17 @@ export async function resolveAnimationSource(
   ])
 
   const tabs: SourceTab[] = []
-  if (framerTsx) tabs.push({ label: 'Component (Motion)', code: framerTsx, language: 'tsx' })
-  if (cssTsx) tabs.push({ label: 'Component (CSS)', code: cssTsx, language: 'tsx' })
-  if (cssCss) tabs.push({ label: 'CSS', code: cssCss, language: 'css' })
-  if (framerCss) tabs.push({ label: 'CSS (Motion)', code: framerCss, language: 'css' })
+  if (framerTsx !== undefined)
+    tabs.push({ label: 'Component (Motion)', code: framerTsx, language: 'tsx' })
+  if (cssTsx !== undefined) tabs.push({ label: 'Component (CSS)', code: cssTsx, language: 'tsx' })
+  if (cssCss !== undefined) tabs.push({ label: 'CSS', code: cssCss, language: 'css' })
+  if (framerCss !== undefined)
+    tabs.push({ label: 'CSS (Motion)', code: framerCss, language: 'css' })
 
   // Phase 2: Discover and load shared dependencies from imports
   const sharedToLoad = new Map<string, RawSourceLoader>() // glob path → loader (deduplicated)
 
-  if (framerTsx && framerLoaders?.shared) {
+  if (framerTsx !== undefined && framerLoaders?.shared) {
     for (const importPath of extractRelativeImports(framerTsx)) {
       const resolved = resolveImportToGroupRoot(importPath, framerLoaders.subdir)
       const match = findSharedLoader(framerLoaders.shared, resolved)
@@ -251,7 +260,7 @@ export async function resolveAnimationSource(
     }
   }
 
-  if (cssTsx && cssLoaders?.shared) {
+  if (cssTsx !== undefined && cssLoaders?.shared) {
     for (const importPath of extractRelativeImports(cssTsx)) {
       const resolved = resolveImportToGroupRoot(importPath, cssLoaders.subdir)
       const match = findSharedLoader(cssLoaders.shared, resolved)

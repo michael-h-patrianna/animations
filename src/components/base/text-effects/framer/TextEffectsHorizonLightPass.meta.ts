@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   title: 'Horizon Light Pass',
   description:
     'A horizontal light band passes across the text, briefly brightening and stretching letters before settling.',
-  tags: ['framer'],
   disableReplay: false,
+  tier: 3,
 }

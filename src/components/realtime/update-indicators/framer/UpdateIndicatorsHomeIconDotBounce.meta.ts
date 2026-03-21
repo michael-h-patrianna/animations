@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Home Icon • Dot Bounce',
   description:
     'Dot pops in with elastic overshoot and occasional bob for lively attention per follow-through principle.',
-  tags: ['framer'],
+  tier: 4,
 }

@@ -4,6 +4,6 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__verb-flipping',
   title: 'Flipping',
   description: '3D flip rotation with perspective for each character.',
-  tags: ['framer'],
   disableReplay: false,
+  tier: 3,
 }

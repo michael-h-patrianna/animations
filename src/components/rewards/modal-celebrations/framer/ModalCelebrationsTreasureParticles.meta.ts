@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Treasure Eruption',
   description:
     'Mixed coins and gemstones erupt in a 360-degree radial burst with parabolic gravity arcs, colored gem trails, and sparkle twinkles.',
-  tags: ['framer'],
+  tier: 4,
 } satisfies AnimationMetadata

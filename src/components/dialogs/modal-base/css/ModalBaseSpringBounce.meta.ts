@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Spring Bounce',
   description:
     'Elastic spring entrance with dynamic bounce physics and smooth overlay transition. GPU-accelerated CSS keyframes.',
-  tags: ['css'],
+  tier: 2,
 }

@@ -5,6 +5,6 @@ export const metadata = {
   title: 'Character Reveal',
   description:
     'Premium text reveal with layered shadows and character scale animations for achievement moments.',
-  tags: ['framer'],
   disableReplay: false,
+  tier: 3,
 } satisfies AnimationMetadata

@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Elastic Fill',
   description:
     'Playful progress bar fill that overshoots, squashes during compression, and settles with elastic bounce physics.',
-  tags: ['framer'],
+  tier: 2,
 }

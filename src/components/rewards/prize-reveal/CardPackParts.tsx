@@ -464,8 +464,6 @@ export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
   )
 }
 
-export { CardLandShimmer, FlipCard } from './FlipCardComponents'
-
 /* ═══════════════════════════════════════════════════
    RARITY BURST — multi-layered: glow + sparkle flash + ring + particles
    ═══════════════════════════════════════════════════ */

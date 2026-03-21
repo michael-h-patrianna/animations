@@ -7,6 +7,16 @@ import type { ComponentType } from 'react'
 /** Type of interactive controls shown in the AnimationCard footer. */
 export type AnimationControlType = 'lights' | 'prizeCount'
 
+/** Position of an animation within its preview viewport. */
+export type PreviewPosition =
+  | 'center'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'top-center'
+  | 'bottom-center'
+
 // ============================================================================
 // Core Types
 // ============================================================================
@@ -21,11 +31,16 @@ export interface Animation {
   description: string
   categoryId: string
   groupId: string
-  tags?: string[]
+  /** Pre-computed URL path for the Framer variant, e.g. "/text-effects-framer?animation=text-effects__character-reveal" */
+  urlSlugFramer: string
+  /** Pre-computed URL path for the CSS variant, e.g. "/text-effects-css?animation=text-effects__character-reveal" */
+  urlSlugCss: string
   disableReplay?: boolean
   infinite?: boolean
   controls?: AnimationControlType
   prizeCountMax?: number
+  previewPosition?: PreviewPosition
+  tier?: 1 | 2 | 3 | 4
 }
 
 /**
@@ -64,7 +79,7 @@ export interface Category {
  *   id: 'modal-base__scale-gentle-pop',
  *   title: 'Gentle Pop',
  *   description: 'A smooth scaling animation with gentle easing',
- *   tags: ['scale', 'modal', 'gentle'],
+ *   tier: 1,
  *   disableReplay: false
  * };
  * ```
@@ -79,9 +94,6 @@ export interface AnimationMetadata {
   /** Detailed description of the animation behavior */
   description: string
 
-  /** Array of tags for categorization and search (can be empty) */
-  tags: string[]
-
   /** When true, the AnimationCard should disable the replay button */
   disableReplay?: boolean
 
@@ -93,6 +105,29 @@ export interface AnimationMetadata {
 
   /** Maximum prize count for prizeCount controls (default: 4) */
   prizeCountMax?: number
+
+  /** Position of the animation within the preview viewport (default: 'center') */
+  previewPosition?: PreviewPosition
+
+  /** Full URL path to view this animation's Framer variant — computed by buildCatalog(), not authored in meta files */
+  urlSlugFramer?: string
+
+  /** Full URL path to view this animation's CSS variant — computed by buildCatalog(), not authored in meta files */
+  urlSlugCss?: string
+
+  /**
+   * Portability tier — classifies what a user needs to copy-paste this animation.
+   *
+   * - **1 (Effect)**: Copy just the CSS keyframes or Motion animate props. Apply to any element.
+   *   No project imports (`@/`), no CSS file imports (framer) or no shared.css (CSS).
+   * - **2 (Decorated Effect)**: Copy the component file + its CSS. May import `@/motion/*` or
+   *   `@/utils/*` (small extractable utilities). May import own CSS + shared.css.
+   * - **3 (Orchestration)**: Copy the component + CSS + follow the HTML structure. Multiple
+   *   coordinated elements with variants/stagger. No `@/assets` imports.
+   * - **4 (Full Component)**: Copy the entire group directory. Unrestricted imports including
+   *   `@/assets`. Complex state machines, sub-components, images.
+   */
+  tier?: 1 | 2 | 3 | 4
 }
 
 /**

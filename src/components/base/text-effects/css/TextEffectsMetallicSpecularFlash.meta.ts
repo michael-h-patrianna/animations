@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Metallic Specular Flash',
   description:
     'A crisp, narrow specular flash sweeps across the text with brief skew and stretch, then settles.',
-  tags: ['css'],
+  tier: 3,
 }

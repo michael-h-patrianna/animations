@@ -4,5 +4,5 @@ export const metadata = {
   id: 'standard-effects__pulse-circle',
   title: 'Pulse Circle',
   description: 'Breathing core with staggered outward ripple rings (no text on the circle).',
-  tags: ['framer'],
+  tier: 2,
 } satisfies AnimationMetadata

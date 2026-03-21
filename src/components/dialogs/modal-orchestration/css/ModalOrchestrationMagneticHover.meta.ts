@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Magnetic Hover Tiles',
   description:
     'Tiles that respond to cursor proximity with magnetic attraction and smooth following',
-  tags: ['css', 'js'],
+  tier: 3,
 }

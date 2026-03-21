@@ -4,5 +4,5 @@ export const metadata = {
   id: 'timer-effects__urgent-pulse',
   title: 'Urgent Pulse',
   description: 'Fast pulse with color shift for critical countdown moments',
-  tags: ['framer'],
+  tier: 2,
 } satisfies AnimationMetadata

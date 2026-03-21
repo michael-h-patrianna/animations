@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Home Icon • Comet Sweep',
   description:
     'A small comet trail sweeps a short arc around the corner dot, staging attention without noise.',
-  tags: ['framer'],
+  tier: 4,
 }

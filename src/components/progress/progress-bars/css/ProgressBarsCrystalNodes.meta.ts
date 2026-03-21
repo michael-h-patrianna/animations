@@ -4,5 +4,5 @@ export const metadata = {
   id: 'progress-bars__crystal-nodes',
   title: 'Crystal Nodes',
   description: 'Crystals charge up with energy as progress flows',
-  tags: ['crystal', 'magic', 'charge', 'milestone'],
+  tier: 4,
 } satisfies AnimationMetadata

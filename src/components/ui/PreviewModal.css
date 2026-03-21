@@ -1,0 +1,221 @@
+/* ── Preview overlay ─────────────────────────────────────────────────── */
+
+.preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--preview-overlay-bg, rgb(0 0 0 / 80%));
+  animation: preview-fade-in 0.18s ease-out;
+}
+
+@keyframes preview-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Toolbar (replay + close) floating top-right ────────────────────── */
+
+.preview-toolbar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.preview-toolbar__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--pf-text-tertiary, #aaa);
+  background: var(--preview-btn-bg, rgb(255 255 255 / 8%));
+  border: 1px solid var(--preview-btn-border, rgb(255 255 255 / 15%));
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.preview-toolbar__btn:hover {
+  color: var(--pf-text-secondary, #ddd);
+  background: var(--preview-btn-bg-hover, rgb(255 255 255 / 14%));
+  border-color: var(--preview-btn-border-hover, rgb(255 255 255 / 25%));
+}
+
+.preview-toolbar__btn:focus-visible {
+  outline: 2px solid var(--ring, #888);
+  outline-offset: 2px;
+}
+
+/* ── Mode switcher (desktop / mobile toggle) ────────────────────────── */
+
+.preview-mode-switch {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--preview-switch-bg, rgb(255 255 255 / 8%));
+  border: 1px solid var(--preview-switch-border, rgb(255 255 255 / 12%));
+  border-radius: 8px;
+}
+
+.preview-mode-switch__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--pf-text-tertiary, #aaa);
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.preview-mode-switch__btn:hover {
+  color: var(--pf-text-secondary, #ddd);
+}
+
+.preview-mode-switch__btn--active {
+  color: var(--pf-white, #fff);
+  background: var(--preview-switch-active-bg, rgb(255 255 255 / 12%));
+}
+
+/* ── Desktop animation container ────────────────────────────────────── */
+
+.preview-animation {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+}
+
+.preview-animation > * {
+  pointer-events: auto;
+}
+
+/* Position variants via data-attribute */
+.preview-animation[data-position='center'] {
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-animation[data-position='top-left'] {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 24px;
+}
+
+.preview-animation[data-position='top-right'] {
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 24px;
+}
+
+.preview-animation[data-position='top-center'] {
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+}
+
+.preview-animation[data-position='bottom-left'] {
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 24px;
+}
+
+.preview-animation[data-position='bottom-right'] {
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 24px;
+}
+
+.preview-animation[data-position='bottom-center'] {
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ── Mobile phone frame ─────────────────────────────────────────────── */
+
+.preview-mobile-frame {
+  position: relative;
+  width: 375px;
+  aspect-ratio: 375 / 812;
+  max-height: calc(100dvh - 100px);
+  max-width: calc(100vw - 60px);
+  border-radius: 40px;
+  background: var(--preview-frame-bg, #1a1a1a);
+  border: 3px solid var(--preview-frame-border, #333);
+  box-shadow:
+    0 0 0 1px var(--preview-frame-ring, rgb(255 255 255 / 8%)),
+    0 20px 60px var(--preview-frame-shadow, rgb(0 0 0 / 50%));
+  overflow: hidden;
+}
+
+/* Notch */
+.preview-mobile-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 28px;
+  background: var(--preview-frame-bg, #1a1a1a);
+  border-radius: 0 0 18px 18px;
+  z-index: 2;
+}
+
+/* Home indicator */
+.preview-mobile-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  background: var(--preview-indicator-bg, rgb(255 255 255 / 20%));
+  border-radius: 100px;
+  z-index: 2;
+}
+
+.preview-mobile-screen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 37px;
+  display: flex;
+}
+
+/* Animation inside the phone screen uses same position system */
+.preview-mobile-screen .preview-animation {
+  position: absolute;
+  inset: 0;
+}

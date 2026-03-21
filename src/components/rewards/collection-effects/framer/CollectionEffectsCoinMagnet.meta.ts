@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Coin Magnet',
   description:
     'Coins fly from random positions to a fixed collection point with scale and rotation effects.',
-  tags: ['framer', 'collection', 'coins', 'magnet'],
+  tier: 4,
 } satisfies AnimationMetadata

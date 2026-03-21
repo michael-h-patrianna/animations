@@ -74,8 +74,7 @@ class MockIntersectionObserver implements IntersectionObserver {
   }
 }
 
-globalThis.IntersectionObserver =
-  MockIntersectionObserver as unknown as typeof IntersectionObserver
+globalThis.IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver
 
 if (typeof Element.prototype.animate !== 'function') {
   Element.prototype.animate = function (): Animation {

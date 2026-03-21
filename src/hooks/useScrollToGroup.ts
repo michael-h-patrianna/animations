@@ -4,28 +4,20 @@ import { useEffect } from 'react'
 /**
  * Hook to scroll a group section into view while keeping the app bar visible.
  *
- * Uses requestAnimationFrame and setTimeout fallback to handle asynchronous
- * DOM rendering. Calculates scroll position accounting for app bar height
- * and additional offset padding.
+ * Uses a MutationObserver to wait for the target element to appear in the DOM
+ * (e.g. after an AnimatePresence transition), then scrolls it into view
+ * accounting for app bar height.
  *
  * @param {Object} params - Hook parameters
  * @param {string} params.currentGroupId - ID of the group to scroll into view
  * @param {RefObject<HTMLDivElement>} params.appBarRef - Ref to the app bar element for height calculation
- *
- * @example
- * ```tsx
- * const appBarRef = useRef<HTMLDivElement>(null)
- * const [currentGroupId, setCurrentGroupId] = useState('button-effects-framer')
- *
- * useScrollToGroup({ currentGroupId, appBarRef })
- * ```
  *
  * @remarks
  * - Prefixes group ID with 'group-' to match element IDs
  * - Falls back to data-app-shell="bar" selector if ref is null
  * - Uses auto scroll behavior for instant positioning
  * - Adds 16px extra offset below app bar for visual breathing room
- * - Retries scroll after 360ms if element not yet rendered
+ * - Uses MutationObserver with 2s safety timeout for elements not yet rendered
  */
 export function useScrollToGroup({
   currentGroupId,
@@ -39,10 +31,8 @@ export function useScrollToGroup({
 
     const id = `group-${currentGroupId}`
     const EXTRA_OFFSET = 16
-    // Lazy-loaded group sections may not be in the DOM during the first rAF.
-    // 360ms covers a typical Suspense resolve + React render cycle on mid-range devices.
-    const RETRY_DELAY_MS = 360
-    let raf = 0
+    const OBSERVER_TIMEOUT_MS = 2000
+    let observer: MutationObserver | undefined
     let timeout: ReturnType<typeof setTimeout> | undefined
 
     const scrollGroupIntoView = () => {
@@ -64,16 +54,23 @@ export function useScrollToGroup({
       return true
     }
 
-    const attemptScroll = () => {
-      if (!scrollGroupIntoView()) {
-        timeout = setTimeout(scrollGroupIntoView, RETRY_DELAY_MS)
-      }
+    if (!scrollGroupIntoView()) {
+      // Element not in DOM yet (e.g. AnimatePresence transition in progress).
+      // Watch for it via MutationObserver instead of a fixed timeout.
+      observer = new MutationObserver(() => {
+        if (scrollGroupIntoView()) {
+          observer?.disconnect()
+          if (timeout) clearTimeout(timeout)
+        }
+      })
+      observer.observe(document.body, { childList: true, subtree: true })
+
+      // Safety: disconnect after 2s to avoid leaked observers
+      timeout = setTimeout(() => observer?.disconnect(), OBSERVER_TIMEOUT_MS)
     }
 
-    raf = requestAnimationFrame(attemptScroll)
-
     return () => {
-      cancelAnimationFrame(raf)
+      observer?.disconnect()
       if (timeout) clearTimeout(timeout)
     }
   }, [currentGroupId, appBarRef])

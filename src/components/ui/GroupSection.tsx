@@ -3,10 +3,13 @@ import { AnimationCard } from '@/components/ui/AnimationCard'
 import { resolveAnimationSource } from '@/lib/groupBuilder'
 import type { AnimationExport, Group } from '@/types/animation'
 import React, { Suspense, useCallback, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface GroupSectionProps {
   group: Group
   elementId: string
+  /** When set, only the animation with this ID is shown. Invalid IDs produce an error banner. */
+  animationFilter?: string
 }
 
 /**
@@ -15,45 +18,58 @@ interface GroupSectionProps {
  * Dynamically loads animation components from the registry based on the group ID,
  * automatically detecting whether to render Framer Motion or CSS implementations.
  * Supports infinite animations, lights controls, and lazy loading with Suspense.
- *
- * @component
- * @param {GroupSectionProps} props - Component props
- * @param {Group} props.group - Group metadata containing animations, title, and ID
- * @param {string} props.elementId - HTML ID for scroll-to-section navigation
  */
-export function GroupSection({ group, elementId }: GroupSectionProps) {
+export function GroupSection({ group, elementId, animationFilter }: GroupSectionProps) {
   const isCssGroup = group.id.endsWith('-css')
   const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
   const currentTech = isCssGroup ? 'css' : 'framer'
+  const navigate = useNavigate()
 
   const animationRegistry = useMemo(
     () => getGroupAnimations(baseGroupId, currentTech),
     [baseGroupId, currentTech]
   )
 
-  const framerRegistry = useMemo(
-    () => getGroupAnimations(baseGroupId, 'framer'),
-    [baseGroupId]
-  )
+  const framerRegistry = useMemo(() => getGroupAnimations(baseGroupId, 'framer'), [baseGroupId])
 
-  const cssRegistry = useMemo(
-    () => getGroupAnimations(baseGroupId, 'css'),
-    [baseGroupId]
-  )
+  const cssRegistry = useMemo(() => getGroupAnimations(baseGroupId, 'css'), [baseGroupId])
+
+  const filteredAnimations = useMemo(() => {
+    if (!animationFilter) return group.animations
+    return group.animations.filter((a) => a.id === animationFilter)
+  }, [group.animations, animationFilter])
+
+  const handleRemoveFilter = useCallback(() => {
+    // Navigate to the same group without the query param
+    navigate(`/${group.id}`, { replace: true })
+  }, [navigate, group.id])
+
+  const isFilterActive = Boolean(animationFilter)
+  const isFilterInvalid = isFilterActive && filteredAnimations.length === 0
 
   return (
     <article id={elementId} className="pf-group" data-testid={`group-section-${elementId}`}>
-      <header className="pf-group__header">
-        <div>
-          <h2 className="pf-group__title" data-testid="group-title">
-            {group.title} ({group.animations.length})
-          </h2>
+      {isFilterActive && (
+        <div className="pf-filter-banner" data-testid="filter-banner">
+          <span>
+            {isFilterInvalid
+              ? `Animation "${animationFilter}" not found`
+              : `Showing: ${animationFilter}`}
+          </span>
+          <button
+            type="button"
+            className="pf-filter-banner__remove"
+            onClick={handleRemoveFilter}
+            data-testid="remove-filter-btn"
+          >
+            Show all animations
+          </button>
         </div>
-      </header>
+      )}
 
-      {group.animations.length > 0 ? (
+      {isFilterInvalid ? null : filteredAnimations.length > 0 ? (
         <div className="pf-card-grid" data-testid="card-grid">
-          {group.animations.map((animation) => {
+          {filteredAnimations.map((animation) => {
             const AnimationComponent = animationRegistry[animation.id]?.component
 
             return (
@@ -64,6 +80,7 @@ export function GroupSection({ group, elementId }: GroupSectionProps) {
                 animationRegistry={animationRegistry}
                 framerEntry={framerRegistry[animation.id]}
                 cssEntry={cssRegistry[animation.id]}
+                isCssGroup={isCssGroup}
               />
             )
           })}
@@ -83,6 +100,7 @@ interface AnimationCardWithSourceProps {
   animationRegistry: Record<string, AnimationExport>
   framerEntry: AnimationExport | undefined
   cssEntry: AnimationExport | undefined
+  isCssGroup: boolean
 }
 
 function AnimationCardWithSource({
@@ -91,11 +109,16 @@ function AnimationCardWithSource({
   animationRegistry,
   framerEntry,
   cssEntry,
+  isCssGroup,
 }: AnimationCardWithSourceProps) {
   const hasAnyEntry = Boolean(framerEntry ?? cssEntry)
   const sourceLoader = useCallback(
-    () => resolveAnimationSource(framerEntry, cssEntry),
-    [framerEntry, cssEntry]
+    () =>
+      resolveAnimationSource(
+        isCssGroup ? undefined : framerEntry,
+        isCssGroup ? cssEntry : undefined
+      ),
+    [framerEntry, cssEntry, isCssGroup]
   )
 
   return (
@@ -103,11 +126,12 @@ function AnimationCardWithSource({
       title={animation.title}
       description={animation.description}
       animationId={animation.id}
-      tags={animation.tags}
       infiniteAnimation={animation.infinite}
       disableReplay={animation.disableReplay}
       controls={animation.controls}
       prizeCountMax={animation.prizeCountMax}
+      previewPosition={animation.previewPosition}
+      tier={animation.tier}
       sourceLoader={hasAnyEntry ? sourceLoader : undefined}
     >
       {({ bulbCount, onColor, prizeCount }) => {

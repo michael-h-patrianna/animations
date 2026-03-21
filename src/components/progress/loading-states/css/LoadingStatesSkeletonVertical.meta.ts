@@ -4,6 +4,6 @@ export const metadata = {
   id: 'loading-states__skeleton-vertical',
   title: 'Skeleton Vertical',
   description: 'Vertical skeleton stack simulating cards.',
-  tags: ['css'],
   infinite: true,
+  tier: 3,
 } satisfies AnimationMetadata

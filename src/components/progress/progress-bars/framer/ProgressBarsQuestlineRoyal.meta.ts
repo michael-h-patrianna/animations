@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Questline Royal Path',
   description:
     'Premium mission-track progress bar with milestone reward unlocks and a grand final vault reward.',
-  tags: ['questline', 'milestone', 'reward', 'premium', 'framer'],
+  tier: 4,
 } satisfies AnimationMetadata

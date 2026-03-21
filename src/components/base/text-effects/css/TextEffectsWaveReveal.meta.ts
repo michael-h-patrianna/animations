@@ -4,6 +4,6 @@ export const metadata: AnimationMetadata = {
   id: 'text-effects__wave-reveal',
   title: 'Wave Reveal',
   description: 'Staggered wave animation where text appears from bottom with smooth easing.',
-  tags: ['css'],
   disableReplay: false,
+  tier: 3,
 }

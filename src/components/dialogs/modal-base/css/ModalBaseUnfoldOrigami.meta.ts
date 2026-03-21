@@ -4,5 +4,5 @@ export const metadata: AnimationMetadata = {
   id: 'modal-base__unfold-origami',
   title: 'Origami Unfold',
   description: 'Paper-style unfolding animation with sequential axis expansion.',
-  tags: ['css'],
+  tier: 2,
 }

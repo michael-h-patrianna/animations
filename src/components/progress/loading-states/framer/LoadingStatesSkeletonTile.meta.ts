@@ -4,6 +4,6 @@ export const metadata = {
   id: 'loading-states__skeleton-tile',
   title: 'Skeleton Tile Grid',
   description: 'Grid skeleton effect for gallery loading.',
-  tags: ['framer'],
   infinite: true,
+  tier: 3,
 } satisfies AnimationMetadata

@@ -4,5 +4,5 @@ export const metadata: AnimationMetadata = {
   id: 'realtime-data__stacked-realtime',
   title: 'Stacked Pulse',
   description: 'Real-time data pattern: Stacked Pulse',
-  tags: ['css'],
+  tier: 4,
 }

@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Confetti Pulse Wave',
   description:
     'Triple shockwave pulse — 3 rhythmic energy waves expand from center, each depositing confetti at its passing radius with gravity droop and sparkle twinkles.',
-  tags: ['css'],
+  tier: 3,
 }

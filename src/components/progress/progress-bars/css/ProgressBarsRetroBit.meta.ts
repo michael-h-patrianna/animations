@@ -4,5 +4,5 @@ export const metadata = {
   id: 'progress-bars__retro-bit',
   title: 'Retro Bit',
   description: '8-bit style segmented progress bar',
-  tags: ['retro', 'pixel', 'game', 'segmented'],
+  tier: 4,
 } satisfies AnimationMetadata

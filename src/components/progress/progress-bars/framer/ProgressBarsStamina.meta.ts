@@ -4,5 +4,5 @@ export const metadata = {
   id: 'progress-bars__stamina',
   title: 'Stamina Bar',
   description: 'Dynamic stamina bar that warns when low',
-  tags: ['stamina', 'energy', 'game', 'hud'],
+  tier: 4,
 } satisfies AnimationMetadata

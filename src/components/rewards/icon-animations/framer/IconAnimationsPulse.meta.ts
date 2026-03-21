@@ -4,5 +4,5 @@ export const metadata = {
   id: 'icon-animations__pulse',
   title: 'Pulse',
   description: 'Scale pulse with opacity fade and expanding glow for heartbeat effect.',
-  tags: ['framer'],
+  tier: 4,
 } satisfies AnimationMetadata

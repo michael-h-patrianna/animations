@@ -2,28 +2,40 @@
 
 /* stylelint-disable-next-line selector-max-id -- #root scopes app variables to the React mount point; :root holds design tokens */
 #root {
-  --app-bg-1: rgb(33 15 49 / 82%);
-  --app-bg-2: rgb(236 195 255 / 18%);
-  --app-bg-3: rgb(236 195 255 / 4%);
-  --app-bg-4: rgb(196 122 229 / 16%);
-  --app-bg-5: rgb(236 195 255 / 8%);
-  --app-border-1: rgb(236 195 255 / 10%);
-  --app-bg-6: rgb(200 53 88 / 15%);
-  --app-bg-7: rgb(198 255 119 / 12%);
-  --app-bg-8: rgb(236 195 255 / 12%);
-  --app-color-1: #25ecff;
-  --app-bg-9: rgb(37 236 255 / 8%);
-  --app-border-3: #5af1ff;
-  --app-color-2: #aef8ff;
-  --app-bg-10: rgb(29 9 47 / 76%);
-  --app-bg-11: rgb(236 195 255 / 25%);
-  --app-bg-12: rgb(29 9 47 / 92%);
-  --app-shadow: rgb(255 255 255 / 4%);
-  --app-bg-13: rgb(255 255 255 / 10%);
-  --app-border-2: rgb(255 255 255 / 30%);
-  --app-bg-100: rgb(123 70 142 / 65%);
-  --app-bg-101: rgb(29 9 47 / 65%);
-  --app-bg-102: rgb(7 2 12 / 65%);
+  /* Surfaces */
+  --app-surface-primary: rgb(33 15 49 / 82%);
+  --app-surface-group: rgb(236 195 255 / 4%);
+  --app-surface-active: rgb(196 122 229 / 16%);
+  --app-surface-badge: rgb(236 195 255 / 8%);
+  --app-surface-tag: rgb(236 195 255 / 12%);
+  --app-surface-action-hover: rgb(37 236 255 / 8%);
+  --app-surface-icon-hover: rgb(255 255 255 / 10%);
+
+  /* Canvas (demo area) */
+  --app-canvas-bg: rgb(29 9 47 / 76%);
+  --app-canvas-gradient-start: rgb(236 195 255 / 25%);
+  --app-canvas-gradient-end: rgb(29 9 47 / 92%);
+  --app-shadow-canvas: rgb(255 255 255 / 4%);
+
+  /* Card overlay gradient */
+  --app-overlay-warm: rgb(200 53 88 / 15%);
+  --app-overlay-cool: rgb(198 255 119 / 12%);
+
+  /* Header/drawer gradient */
+  --app-header-gradient-start: rgb(123 70 142 / 65%);
+  --app-header-gradient-mid: rgb(29 9 47 / 65%);
+  --app-header-gradient-end: rgb(7 2 12 / 65%);
+
+  /* Borders */
+  --app-border-subtle: rgb(236 195 255 / 18%);
+  --app-border-card: rgb(236 195 255 / 10%);
+  --app-border-icon-hover: rgb(255 255 255 / 30%);
+  --app-border-action-hover: #5af1ff;
+
+  /* Accent (replay button) */
+  --app-accent-action: #25ecff;
+  --app-accent-action-hover: #aef8ff;
+
   min-height: 100vh;
 }
 
@@ -43,7 +55,7 @@
   gap: 20px;
   padding: 20px;
   border-radius: var(--pf-radius-xs);
-  background: var(--app-bg-1);
+  background: var(--app-surface-primary);
   box-shadow: var(--pf-shadow-soft);
   max-height: calc(100vh - 64px);
   overflow: hidden;
@@ -67,7 +79,7 @@
 }
 
 .pf-sidebar__nav::-webkit-scrollbar-thumb {
-  background: var(--app-bg-2);
+  background: var(--app-border-subtle);
   border-radius: 999px;
 }
 
@@ -107,21 +119,21 @@
   gap: 8px;
   padding-left: 14px;
   margin-top: 6px;
-  border-left: 1px solid var(--app-bg-2);
+  border-left: 1px solid var(--app-border-subtle);
 }
 
 .pf-sidebar__link--group {
   font-size: 14px;
   padding: 8px 12px;
   color: var(--pf-text-secondary);
-  background: var(--app-bg-3);
+  background: var(--app-surface-group);
 }
 
 .pf-sidebar__link:hover,
 .pf-sidebar__link.is-active,
 .pf-sidebar__link--active {
-  background: var(--app-bg-4);
-  border-color: var(--app-bg-2);
+  background: var(--app-surface-active);
+  border-color: var(--app-border-subtle);
   color: var(--pf-base-60);
 }
 
@@ -192,18 +204,6 @@
   gap: 18px;
 }
 
-.pf-group__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.pf-group__title {
-  font-size: 22px;
-  margin-bottom: 6px;
-  color: var(--pf-text-secondary);
-}
-
 .pf-group__meta {
   display: flex;
   flex-wrap: wrap;
@@ -218,8 +218,8 @@
   gap: 6px;
   padding: 4px 10px;
   border-radius: var(--pf-radius-pill);
-  border: 1px solid var(--app-bg-2);
-  background: var(--app-bg-5);
+  border: 1px solid var(--app-border-subtle);
+  background: var(--app-surface-badge);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -234,6 +234,39 @@
 
 .pf-group__count {
   color: var(--pf-text-secondary);
+}
+
+.pf-filter-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--filter-banner-bg, rgb(236 195 255 / 6%));
+  border: 1px solid var(--filter-banner-border, rgb(236 195 255 / 12%));
+  color: var(--filter-banner-color, rgb(255 255 255 / 76%));
+  font-size: 13px;
+}
+
+.pf-filter-banner__remove {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--app-border-action-hover);
+  background: transparent;
+  color: var(--app-accent-action);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.pf-filter-banner__remove:hover {
+  background: var(--app-surface-action-hover);
+  color: var(--app-accent-action-hover);
 }
 
 .pf-group__empty {
@@ -263,9 +296,9 @@
   gap: 12px;
   padding: 18px;
   border-radius: var(--pf-radius-xs);
-  background: var(--app-bg-1);
+  background: var(--app-surface-primary);
   box-shadow: var(--pf-shadow-soft);
-  border: 1px solid var(--app-border-1);
+  border: 1px solid var(--app-border-card);
   position: relative;
 }
 .pf-card__overlay {
@@ -273,7 +306,7 @@
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(140deg, var(--app-bg-6) 0%, var(--app-bg-7) 100%);
+  background: linear-gradient(140deg, var(--app-overlay-warm) 0%, var(--app-overlay-cool) 100%);
   opacity: 0;
   transition: opacity var(--pf-transition-base) ease;
 }
@@ -295,6 +328,67 @@
   color: var(--pf-base-60);
 }
 
+/* ── Tier Badge ──────────────────────────────────────────────────────── */
+
+.pf-tier-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: 4px;
+  border: 1px solid var(--pf-border);
+  background: var(--pf-surface);
+  color: var(--pf-text-secondary);
+  cursor: help;
+  flex-shrink: 0;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.pf-tier-badge:hover {
+  border-color: var(--pf-text-secondary);
+  color: var(--pf-base-60);
+}
+
+.pf-tier-badge__tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  width: max-content;
+  max-width: 240px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--pf-base-60);
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius-xs);
+  box-shadow: 0 4px 12px var(--tier-tooltip-shadow, rgb(0 0 0 / 25%));
+  pointer-events: none;
+  z-index: 10;
+  white-space: normal;
+}
+
+/* Arrow */
+.pf-tier-badge__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 12px;
+  border: 5px solid transparent;
+  border-top-color: var(--pf-border);
+}
+
 .pf-card__meta {
   display: flex;
   align-items: center;
@@ -308,8 +402,8 @@
 .pf-card__meta span {
   padding: 4px 10px;
   border-radius: var(--pf-radius-pill);
-  background: var(--app-bg-8);
-  border: 1px solid var(--app-bg-2);
+  background: var(--app-surface-tag);
+  border: 1px solid var(--app-border-subtle);
 }
 
 .pf-card__description {
@@ -332,8 +426,8 @@
 
 .pf-card__replay {
   /* Outline style to match secondary/tertiary */
-  color: var(--app-color-1);
-  border: 2px solid var(--app-color-1);
+  color: var(--app-accent-action);
+  border: 2px solid var(--app-accent-action);
   background: transparent;
   border-radius: 50px;
   padding: 6px 12px;
@@ -345,20 +439,24 @@
 }
 
 .pf-card__replay:hover {
-  background: var(--app-bg-9);
-  border-color: var(--app-border-3);
-  color: var(--app-color-2);
+  background: var(--app-surface-action-hover);
+  border-color: var(--app-border-action-hover);
+  color: var(--app-accent-action-hover);
 }
 
 .pf-demo-canvas {
   position: relative;
   overflow: visible;
   border-radius: var(--pf-radius-xs);
-  border: 1px solid var(--app-bg-8);
+  border: 1px solid var(--app-surface-tag);
   min-height: var(--pf-demo-height, 240px);
-  background: var(--app-bg-10);
-  background: linear-gradient(160deg, var(--app-bg-11), var(--app-bg-12));
-  box-shadow: inset 0 0 0 1px var(--app-shadow);
+  background: var(--app-canvas-bg);
+  background: linear-gradient(
+    160deg,
+    var(--app-canvas-gradient-start),
+    var(--app-canvas-gradient-end)
+  );
+  box-shadow: inset 0 0 0 1px var(--app-shadow-canvas);
   padding: 0;
   display: flex;
   align-items: center;
@@ -411,9 +509,9 @@
   z-index: 40;
   background: linear-gradient(
     160deg,
-    var(--app-bg-100) 0%,
-    var(--app-bg-101) 99%,
-    var(--app-bg-102) 100%
+    var(--app-header-gradient-start) 0%,
+    var(--app-header-gradient-mid) 99%,
+    var(--app-header-gradient-end) 100%
   );
   padding: 8px 0;
   margin-bottom: 12px;
@@ -471,8 +569,8 @@
 }
 
 .pf-github-link:hover {
-  background: var(--app-bg-13);
-  border-color: var(--app-border-2);
+  background: var(--app-surface-icon-hover);
+  border-color: var(--app-border-icon-hover);
 }
 
 .pf-github-link:focus-visible {
@@ -489,6 +587,11 @@
 
 .pf-github-link:hover .pf-github-icon {
   filter: brightness(0) invert(1) drop-shadow(0 0 4px rgb(255 255 255 / 50%));
+}
+
+/* Hide GitHub link when preview overlay is open (portaled to body) */
+body:has(.preview-overlay) .pf-github-link {
+  visibility: hidden;
 }
 
 /* Drawer and overlay */
@@ -530,9 +633,9 @@
   /* Backdrop matches page gradient to support semi-transparent Sidebar */
   background: linear-gradient(
     160deg,
-    var(--app-bg-100) 0%,
-    var(--app-bg-101) 99%,
-    var(--app-bg-102) 100%
+    var(--app-header-gradient-start) 0%,
+    var(--app-header-gradient-mid) 99%,
+    var(--app-header-gradient-end) 100%
   );
   padding: 0;
 }

@@ -4,6 +4,6 @@ export const metadata = {
   id: 'timer-effects__timer-pulse',
   title: 'Timer Pulse',
   description: 'Timer with continuous pulse animation.',
-  tags: ['css'],
   infinite: true,
+  tier: 4,
 } satisfies AnimationMetadata

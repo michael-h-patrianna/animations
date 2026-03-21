@@ -4,5 +4,5 @@ export const metadata: AnimationMetadata = {
   id: 'progress-bars__charge-surge',
   title: 'Charge Surge',
   description: 'Energy builds at milestones with anticipation pulses and surge waves',
-  tags: ['css', 'js'],
+  tier: 4,
 }

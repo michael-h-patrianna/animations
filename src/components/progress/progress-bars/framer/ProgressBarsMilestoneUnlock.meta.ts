@@ -4,5 +4,5 @@ export const metadata = {
   id: 'progress-bars__milestone-unlock',
   title: 'Milestone Unlock',
   description: 'Icons unlock and animate as progress passes them',
-  tags: ['milestone', 'unlock', 'reward', 'gamification'],
+  tier: 4,
 } satisfies AnimationMetadata

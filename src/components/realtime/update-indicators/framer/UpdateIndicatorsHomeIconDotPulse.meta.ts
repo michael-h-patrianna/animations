@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Home Icon • Dot Pulse',
   description:
     'Top-right dot with gentle breathing pulse and soft glow ripple to indicate unseen updates.',
-  tags: ['framer'],
+  tier: 4,
 }

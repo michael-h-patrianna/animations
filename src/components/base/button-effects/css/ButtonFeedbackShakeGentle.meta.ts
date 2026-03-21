@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Shake Gentle',
   description:
     'Gentle horizontal shake with opacity dim to communicate insufficient funds or blocked action',
-  tags: ['css'],
+  tier: 1,
 } satisfies AnimationMetadata

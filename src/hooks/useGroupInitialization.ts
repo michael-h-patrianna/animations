@@ -1,41 +1,15 @@
+import { findAnimationById } from '@/components/animationRegistry'
 import type { Group } from '@/types/animation'
 import { useEffect } from 'react'
 
 /**
  * Hook to initialize and synchronize the current group from URL parameters.
  *
- * Handles three scenarios:
- * 1. Valid groupId in URL → Sets as current group
- * 2. Base group name without suffix → Redirects to -framer variant
- * 3. No/invalid URL param → Redirects to first available group
- *
- * @param {Object} params - Hook parameters
- * @param {Group[]} params.allGroups - All available animation groups
- * @param {string | undefined} params.groupId - Group ID from URL params
- * @param {string} params.currentGroupId - Currently selected group ID
- * @param {(groupId: string) => void} params.setCurrentGroupId - State setter for current group
- * @param {(groupId: string, options?: { replace?: boolean }) => void} params.navigateToGroup - Router navigation callback
- *
- * @example
- * ```tsx
- * const [currentGroupId, setCurrentGroupId] = useState('')
- * const { groupId } = useParams()
- * const allGroups = categories.flatMap((c) => c.groups)
- * const navigate = useNavigate()
- *
- * useGroupInitialization({
- *   allGroups,
- *   groupId,
- *   currentGroupId,
- *   setCurrentGroupId,
- *   navigateToGroup: (id, options) => navigate(`/${id}`, options)
- * })
- * ```
- *
- * @remarks
- * - Uses router navigation callback for canonical redirects (no hard reload)
- * - Canonicalizes base group names to '-framer', then '-css', then first group
- * - Falls back to first group for invalid/missing route params
+ * Handles four scenarios:
+ * 1. Animation filter with no/wrong group → Redirects to the correct group with filter preserved
+ * 2. Valid groupId in URL → Sets as current group
+ * 3. Base group name without suffix → Redirects to -framer variant
+ * 4. No/invalid URL param → Redirects to first available group
  */
 export function useGroupInitialization({
   allGroups,
@@ -43,19 +17,49 @@ export function useGroupInitialization({
   currentGroupId,
   setCurrentGroupId,
   navigateToGroup,
+  animationFilter,
 }: {
   allGroups: Group[]
   groupId: string | undefined
   currentGroupId: string
   setCurrentGroupId: (groupId: string) => void
-  navigateToGroup: (groupId: string, options?: { replace?: boolean }) => void
+  navigateToGroup: (groupId: string, options?: { replace?: boolean; search?: string }) => void
+  animationFilter: string | undefined
 }) {
   useEffect(() => {
     if (allGroups.length === 0) return
 
     const hasGroup = (candidateId: string) => allGroups.some((g) => g.id === candidateId)
-    // allGroups.length > 0 is checked at the top of this effect
     const firstGroupId = allGroups[0]!.id
+
+    // When an animation filter is present and the URL has no group (root path),
+    // resolve the animation's group and redirect there.
+    if (animationFilter && !groupId) {
+      const found = findAnimationById(animationFilter)
+      if (found) {
+        const tech = found.hasFramer ? 'framer' : 'css'
+        const targetGroupId = `${found.baseGroupId}-${tech}`
+        if (hasGroup(targetGroupId)) {
+          if (currentGroupId !== targetGroupId) {
+            setCurrentGroupId(targetGroupId)
+          }
+          navigateToGroup(targetGroupId, {
+            replace: true,
+            search: `?animation=${encodeURIComponent(animationFilter)}`,
+          })
+          return
+        }
+      }
+      // Animation not found — navigate to first group, keep the filter so GroupSection shows error
+      if (currentGroupId !== firstGroupId) {
+        setCurrentGroupId(firstGroupId)
+      }
+      navigateToGroup(firstGroupId, {
+        replace: true,
+        search: `?animation=${encodeURIComponent(animationFilter)}`,
+      })
+      return
+    }
 
     if (groupId && hasGroup(groupId)) {
       // URL has a valid groupId
@@ -93,5 +97,5 @@ export function useGroupInitialization({
     if (groupId !== firstGroupId) {
       navigateToGroup(firstGroupId, { replace: true })
     }
-  }, [allGroups, groupId, currentGroupId, setCurrentGroupId, navigateToGroup])
+  }, [allGroups, groupId, currentGroupId, setCurrentGroupId, navigateToGroup, animationFilter])
 }

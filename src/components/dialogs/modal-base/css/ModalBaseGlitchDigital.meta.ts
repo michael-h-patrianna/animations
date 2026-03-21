@@ -4,5 +4,5 @@ export const metadata: AnimationMetadata = {
   id: 'modal-base__tfx-glitchdigital',
   title: 'Digital Glitch',
   description: 'Cyberpunk-inspired RGB channel separation with digital distortion artifacts.',
-  tags: ['css'],
+  tier: 2,
 }

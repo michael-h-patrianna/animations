@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Confetti Rainfall',
   description:
     'Windswept confetti shower with 3D tumble, depth layers, staggered wave timing, and top-edge flash.',
-  tags: ['framer'],
+  tier: 3,
 } satisfies AnimationMetadata

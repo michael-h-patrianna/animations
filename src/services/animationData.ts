@@ -7,20 +7,27 @@ import type { Animation, AnimationExport, Category, Group, GroupMetadata } from 
 function toAnimations(
   exports: Record<string, AnimationExport>,
   categoryId: string,
-  groupId: string
+  groupId: string,
+  baseGroupId: string
 ): Animation[] {
-  return Object.values(exports).map((anim) => ({
-    id: anim.metadata.id,
-    title: anim.metadata.title,
-    description: anim.metadata.description,
-    categoryId,
-    groupId,
-    tags: anim.metadata.tags,
-    disableReplay: anim.metadata.disableReplay,
-    infinite: anim.metadata.infinite,
-    controls: anim.metadata.controls,
-    prizeCountMax: anim.metadata.prizeCountMax,
-  }))
+  return Object.values(exports).map((anim) => {
+    const encodedId = encodeURIComponent(anim.metadata.id)
+    return {
+      id: anim.metadata.id,
+      title: anim.metadata.title,
+      description: anim.metadata.description,
+      categoryId,
+      groupId,
+      urlSlugFramer: `/${baseGroupId}-framer?animation=${encodedId}`,
+      urlSlugCss: `/${baseGroupId}-css?animation=${encodedId}`,
+      disableReplay: anim.metadata.disableReplay,
+      infinite: anim.metadata.infinite,
+      controls: anim.metadata.controls,
+      prizeCountMax: anim.metadata.prizeCountMax,
+      previewPosition: anim.metadata.previewPosition,
+      tier: anim.metadata.tier,
+    }
+  })
 }
 
 /**
@@ -32,7 +39,7 @@ function toGroup(
   exports: Record<string, AnimationExport>,
   categoryId: string
 ): Group | null {
-  const animations = toAnimations(exports, categoryId, `${groupMeta.id}-${tech}`)
+  const animations = toAnimations(exports, categoryId, `${groupMeta.id}-${tech}`, groupMeta.id)
   if (animations.length === 0) return null
 
   return {

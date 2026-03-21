@@ -4,5 +4,5 @@ export const metadata: AnimationMetadata = {
   id: 'progress-bars__progress-bounce',
   title: 'Grow up',
   description: 'Elastic finish emphasises completion state.',
-  tags: ['framer'],
+  tier: 4,
 }

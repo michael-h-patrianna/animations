@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   title: 'Alternating Carnival',
   description:
     'Classic carnival pattern with even/odd bulbs alternating on and off with realistic glow and fadeout.',
-  tags: ['framer'],
   controls: 'lights',
+  tier: 3,
 }

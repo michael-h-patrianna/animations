@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Confetti Spiral',
   description:
     'Dynamic tornado confetti — particles orbit center in 3 spiral arms while expanding outward with gravity release.',
-  tags: ['framer'],
+  tier: 3,
 } satisfies AnimationMetadata

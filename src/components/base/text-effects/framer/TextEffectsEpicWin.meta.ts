@@ -5,6 +5,6 @@ export const metadata = {
   title: 'Epic Win',
   description:
     'Metallic 3D text with rotating entrance, layered shadows, and victory flare effect.',
-  tags: ['framer'],
   disableReplay: false,
+  tier: 3,
 } satisfies AnimationMetadata

@@ -4,5 +4,5 @@ export const metadata = {
   id: 'progress-bars__flag-plant',
   title: 'Flag Plant',
   description: 'Flags are planted at specific milestones',
-  tags: ['flag', 'milestone', 'achievement', 'animation'],
+  tier: 4,
 } satisfies AnimationMetadata

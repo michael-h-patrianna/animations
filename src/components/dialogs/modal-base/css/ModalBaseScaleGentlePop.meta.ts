@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Gentle Scale Pop',
   description:
     'Scale entrance from 85% with fade-in using CSS keyframes. GPU-accelerated with transform and opacity.',
-  tags: ['css'],
+  tier: 2,
 }

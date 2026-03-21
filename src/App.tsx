@@ -11,7 +11,7 @@ import { useScrollLock } from '@/hooks/useScrollLock'
 import { useScrollToGroup } from '@/hooks/useScrollToGroup'
 import { AnimatePresence, LazyMotion } from 'motion/react'
 import * as m from 'motion/react-m'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 const slideVariants = {
@@ -25,8 +25,8 @@ const loadFeatures = () => import('./features').then((res) => res.default)
 /** Root application component — renders the animation catalog with sidebar navigation. */
 function App() {
   const { categories } = useAnimations()
-  const { codeMode } = useCodeMode()
-  const { currentGroupId, currentGroup, handleModeSelect, handleGroupSelect } =
+  const { codeMode, setCodeMode } = useCodeMode()
+  const { currentGroupId, currentGroup, animationFilter, handleModeSelect, handleGroupSelect } =
     useAppNavigation(categories)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const appBarRef = useRef<HTMLDivElement | null>(null)
@@ -34,6 +34,14 @@ function App() {
   useKeyboardShortcut({ isOpen: isDrawerOpen, onClose: () => setIsDrawerOpen(false) })
   useScrollLock(isDrawerOpen)
   useScrollToGroup({ currentGroupId, appBarRef })
+
+  // Sync CodeModeContext from URL-derived currentGroupId so that browser
+  // back/forward keeps the mode switch in sync with the displayed group.
+  useEffect(() => {
+    if (currentGroupId === '') return
+    const mode = currentGroupId.endsWith('-css') ? 'CSS' : 'Framer'
+    setCodeMode(mode)
+  }, [currentGroupId, setCodeMode])
 
   return (
     <LazyMotion features={loadFeatures} strict>
@@ -68,7 +76,11 @@ function App() {
                   }}
                   style={{ width: '100%' }}
                 >
-                  <GroupSection group={currentGroup} elementId={`group-${currentGroup.id}`} />
+                  <GroupSection
+                    group={currentGroup}
+                    elementId={`group-${currentGroup.id}`}
+                    animationFilter={animationFilter}
+                  />
                 </m.div>
               )}
             </AnimatePresence>

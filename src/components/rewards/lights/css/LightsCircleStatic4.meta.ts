@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   title: 'Reverse Chase Pulse',
   description:
     'Counter-clockwise chase followed by faster clockwise motion, then synchronized pulses before revealing the winner.',
-  tags: ['css'],
   controls: 'lights',
+  tier: 3,
 }

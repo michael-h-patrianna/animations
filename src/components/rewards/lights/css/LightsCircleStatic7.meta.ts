@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   title: 'Comet Trail',
   description:
     'A bright head with a long trailing fadeout creates a comet-like effect around the circle.',
-  tags: ['css'],
   controls: 'lights',
+  tier: 3,
 }

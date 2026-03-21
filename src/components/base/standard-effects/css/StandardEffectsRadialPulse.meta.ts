@@ -5,5 +5,5 @@ export const metadata: AnimationMetadata = {
   title: 'Radial Pulse',
   description:
     'Concentric ripple pulses expanding from the center using CSS transforms and opacity.',
-  tags: ['css'],
+  tier: 2,
 }

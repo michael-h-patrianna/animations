@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Fireworks Triple Burst',
   description:
     'Three staggered starburst explosions with radial spark rays, trailing confetti with gravity droop, expanding shockwave rings, and sparkle twinkles across 2 depth layers.',
-  tags: ['framer'],
+  tier: 3,
 } satisfies AnimationMetadata

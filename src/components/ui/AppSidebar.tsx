@@ -37,18 +37,16 @@ const buildGroupVariants = (groups: Group[]): GroupVariants[] => {
 
   groups.forEach((group) => {
     const baseId = getBaseGroupId(group.id)
-    const existing = variantsByBaseId.get(baseId)
+    let entry = variantsByBaseId.get(baseId)
 
-    if (!existing) {
-      variantsByBaseId.set(baseId, {
+    if (!entry) {
+      entry = {
         baseId,
         label: toDisplayGroupTitle(group.title),
         fallback: group,
-      })
+      }
+      variantsByBaseId.set(baseId, entry)
     }
-
-    const entry = variantsByBaseId.get(baseId)
-    if (!entry) return
 
     const tech = inferGroupTech(group)
     if (tech === 'framer' && !entry.framer) entry.framer = group

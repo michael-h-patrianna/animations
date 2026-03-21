@@ -4,5 +4,5 @@ export const metadata = {
   id: 'collection-effects__coins-fountain',
   title: 'Coin Fountain',
   description: 'Collection effects pattern: Coin Fountain',
-  tags: ['framer'],
+  tier: 4,
 } satisfies AnimationMetadata

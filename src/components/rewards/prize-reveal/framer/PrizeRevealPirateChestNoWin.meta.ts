@@ -5,5 +5,5 @@ export const metadata = {
   title: 'Pirate Chest Reveal (No Win)',
   description:
     'A closed chest rises and shakes before opening to an empty result with a subdued dim finish.',
-  tags: ['framer'],
+  tier: 4,
 } satisfies AnimationMetadata

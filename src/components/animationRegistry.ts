@@ -68,3 +68,22 @@ export function getGroupAnimations(
   }
   return {}
 }
+
+/**
+ * Looks up an animation ID across all categories and groups.
+ * Returns the base group ID and which tech variants contain it, or null if not found.
+ */
+export function findAnimationById(
+  animationId: string
+): { baseGroupId: string; hasFramer: boolean; hasCss: boolean } | null {
+  for (const category of Object.values(categories)) {
+    for (const [groupId, group] of Object.entries(category.groups)) {
+      const hasFramer = animationId in group.framer
+      const hasCss = animationId in group.css
+      if (hasFramer || hasCss) {
+        return { baseGroupId: groupId, hasFramer, hasCss }
+      }
+    }
+  }
+  return null
+}
