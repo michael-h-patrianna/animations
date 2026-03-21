@@ -10,6 +10,8 @@ interface PreviewModalProps {
   mode: PreviewMode
   replayKey: number
   previewPosition: PreviewPosition
+  /** When true, renders an opaque black background instead of semi-transparent overlay. */
+  opaque?: boolean
   onClose: () => void
   onReplay: () => void
   onSwitchMode: (mode: PreviewMode) => void
@@ -151,6 +153,7 @@ function PreviewModalComponent({
   mode,
   replayKey,
   previewPosition,
+  opaque = false,
   onClose,
   onReplay,
   onSwitchMode,
@@ -173,7 +176,7 @@ function PreviewModalComponent({
 
   return (
     <div
-      className="preview-overlay"
+      className={`preview-overlay${opaque ? ' preview-overlay--opaque' : ''}`}
       ref={overlayRef}
       onClick={handleOverlayClick}
       role="dialog"

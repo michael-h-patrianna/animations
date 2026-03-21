@@ -26,7 +26,7 @@ const loadFeatures = () => import('./features').then((res) => res.default)
 function App() {
   const { categories } = useAnimations()
   const { codeMode } = useCodeMode()
-  const { currentGroupId, currentGroup, handleModeSelect, handleGroupSelect } = useAppNavigation(categories)
+  const { currentGroupId, currentGroup, animationFilter, handleModeSelect, handleGroupSelect } = useAppNavigation(categories)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const appBarRef = useRef<HTMLDivElement | null>(null)
   const direction = 0
@@ -65,7 +65,7 @@ function App() {
                   }}
                   style={{ width: '100%' }}
                 >
-                  <GroupSection group={currentGroup} elementId={`group-${currentGroup.id}`} />
+                  <GroupSection group={currentGroup} elementId={`group-${currentGroup.id}`} animationFilter={animationFilter} />
                 </m.div>
               )}
             </AnimatePresence>

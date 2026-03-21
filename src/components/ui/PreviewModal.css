@@ -11,6 +11,37 @@
   animation: preview-fade-in 0.18s ease-out;
 }
 
+/* Opaque mode: solid black, no UI chrome — used for automated visual testing */
+.preview-overlay--opaque {
+  background: var(--preview-overlay-bg, rgb(0 0 0 / 80%));
+  --preview-overlay-bg: rgb(0 0 0 / 100%);
+}
+
+.preview-overlay--opaque .preview-toolbar,
+.preview-overlay--opaque .preview-mode-switch {
+  display: none;
+}
+
+.preview-overlay--opaque .preview-mobile-frame {
+  border-color: transparent;
+  background: var(--preview-frame-bg, #1a1a1a);
+  --preview-frame-bg: rgb(0 0 0 / 100%);
+  --preview-frame-border: transparent;
+  --preview-frame-ring: transparent;
+  --preview-frame-shadow: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.preview-overlay--opaque .preview-mobile-frame::before,
+.preview-overlay--opaque .preview-mobile-frame::after {
+  display: none;
+}
+
+.preview-overlay--opaque .preview-mobile-screen {
+  border-radius: 0;
+}
+
 @keyframes preview-fade-in {
   from {
     opacity: 0;

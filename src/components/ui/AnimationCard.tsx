@@ -3,9 +3,9 @@ import { CodeViewerModal } from '@/components/ui/CodeViewerModal'
 import { PreviewModal } from '@/components/ui/PreviewModal'
 import { useToast } from '@/components/ui/useToast'
 import type { AnimationControlType, PreviewPosition, SourceTab } from '@/types/animation'
-import { memo, useCallback, useState, type ReactNode } from 'react'
+import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { FooterControls } from './AnimationCardControls'
 import { CardHeaderBar } from './AnimationCardHeader'
 import { useCardControls } from './useCardControls'
@@ -56,6 +56,7 @@ function CardModals({
   codeViewer,
   preview,
   previewPosition,
+  opaque,
   children,
   controlProps,
 }: {
@@ -63,6 +64,7 @@ function CardModals({
   codeViewer: ReturnType<typeof useCodeViewer>
   preview: ReturnType<typeof usePreviewModal>
   previewPosition: PreviewPosition
+  opaque: boolean
   children: AnimationChild
   controlProps: AnimationRenderProps
 }) {
@@ -86,6 +88,7 @@ function CardModals({
             mode={preview.mode}
             replayKey={preview.replayKey}
             previewPosition={previewPosition}
+            opaque={opaque}
             onClose={preview.close}
             onReplay={preview.replay}
             onSwitchMode={handleSwitchMode}
@@ -105,6 +108,28 @@ function CardModals({
   )
 }
 
+/** Auto-open preview when URL contains ?animation=X&preview=desktop|mobile&opaque=1 */
+function useAutoPreview(
+  animationId: string,
+  preview: ReturnType<typeof usePreviewModal>
+) {
+  const [searchParams] = useSearchParams()
+  const previewParam = searchParams.get('preview')
+  const opaque = searchParams.get('opaque') === '1'
+  const autoOpenedRef = useRef(false)
+
+  useEffect(() => {
+    if (autoOpenedRef.current) return
+    const animParam = searchParams.get('animation')
+    if (animParam !== animationId || !previewParam) return
+    autoOpenedRef.current = true
+    if (previewParam === 'mobile') preview.openMobile()
+    else preview.openDesktop()
+  }, [searchParams, animationId, previewParam, preview])
+
+  return { opaque }
+}
+
 function useCopyLink(animationId: string) {
   const { showToast, toastPortal } = useToast()
   const location = useLocation()
@@ -119,20 +144,12 @@ function useCopyLink(animationId: string) {
   return { handleCopyLink, toastPortal }
 }
 
-const AnimationCardComponent = ({
-  title,
-  description,
-  animationId,
-  children,
-  onReplay,
-  infiniteAnimation = false,
-  disableReplay = false,
-  controls: controlType,
-  prizeCountMax,
-  previewPosition,
-  tier,
-  sourceLoader,
-}: AnimationCardProps) => {
+const AnimationCardComponent = (props: AnimationCardProps) => {
+  const {
+    title, description, animationId, children, onReplay, tier, sourceLoader,
+    infiniteAnimation = false, disableReplay = false,
+    controls: controlType, prizeCountMax, previewPosition,
+  } = props
   const { cardRef, replayKey, isVisible, triggerReplay, setReplayKey } = useCardPlayback(
     infiniteAnimation,
     onReplay
@@ -141,6 +158,7 @@ const AnimationCardComponent = ({
   const cardControls = useCardControls(setReplayKey)
   const codeViewer = useCodeViewer(sourceLoader)
   const preview = usePreviewModal()
+  const { opaque: opaqueParam } = useAutoPreview(animationId, preview)
   const { handleCopyLink, toastPortal } = useCopyLink(animationId)
 
   return (
@@ -187,6 +205,7 @@ const AnimationCardComponent = ({
         codeViewer={codeViewer}
         preview={preview}
         previewPosition={previewPosition ?? 'center'}
+        opaque={opaqueParam}
         controlProps={cardControls}
       >
         {children}
