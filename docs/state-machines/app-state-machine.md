@@ -1,9 +1,9 @@
 # App State Machine Design
 
-**Status:** Design Complete - Ready for Implementation
+**Status:** Superseded — navigation state extracted to `useAppNavigation` and `useGroupInitialization` hooks. Unused `direction` and `dragControls` removed. Drawer state remains as simple `useState` (appropriate for a boolean toggle).
 **Date:** October 13, 2025
 **Related:** Style Guide Audit M1 Violation
-**Priority:** HIGH
+**Priority:** Resolved
 
 ---
 

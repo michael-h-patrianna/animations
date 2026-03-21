@@ -79,14 +79,14 @@ For each task:
    - `buildCatalog()`: pure synchronous function that transforms the hierarchical registry into UI-friendly `Category[]`
    - Creates separate Framer/CSS groups per logical group for code mode switching
 
-6. **UI Consumption**: `GroupSection` uses `buildRegistryFromCategories()` to get flat id→component mapping and renders each animation inside `AnimationCard`.
+6. **UI Consumption**: `GroupSection` uses `getGroupAnimations()` to get tech-specific animation maps and renders each animation inside `AnimationCard`.
 
 ## File/Folder Layout
 
 ```
 src/
 ├─ components/
-│  ├─ ui/                     // Catalog UI (CategorySection, GroupSection, AnimationCard)
+│  ├─ ui/                     // Catalog UI (GroupSection, AnimationCard, AppSidebar)
 │  ├─ <category-id>/          // One folder per category (folder structure defines hierarchy)
 │  │  ├─ index.ts             // Category aggregation (exports categoryExport)
 │  │  └─ <group-id>/          // One folder per group within that category

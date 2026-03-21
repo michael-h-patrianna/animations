@@ -17,12 +17,12 @@ Coverage thresholds are set per-subsystem in `vitest.config.ts`:
 | `src/lib/**`                  | 90%        | 75%      | 90%       | 90%   |
 | `src/services/**`             | 90%        | 60%      | 90%       | 90%   |
 | `src/utils/**`                | 90%        | 85%      | 90%       | 90%   |
+| `src/components/ui/**`        | 90%        | 75%      | 90%       | 90%   |
 | `src/components/**/framer/**` | 20%        | 10%      | 15%       | 20%   |
 | `src/components/**/css/**`    | 20%        | 10%      | 15%       | 20%   |
 
 ## Consequences
 
-- **Positive:** Core infrastructure (hooks, lib, services, utils) is held to a high bar.
+- **Positive:** Core infrastructure (hooks, lib, services, utils) and UI shell components are held to a high bar (90%+).
 - **Positive:** Animation components aren't gated on unrealistic thresholds but still have a floor.
-- **Negative:** UI components (`src/components/ui`) aren't explicitly thresholded — they're covered indirectly. Consider adding a threshold when UI tests mature.
 - **Enforced by:** `npm run test:coverage` fails if any threshold is missed. CI runs this.

@@ -1,5 +1,7 @@
 # Front-End Engineering Style Guide
 
+> **Note:** This is a general engineering style guide, not specific to this project's current architecture. Some patterns referenced (e.g. `theme/tokens.ts`, `config/`) are aspirational or from a broader context. For project-specific guidance, see `docs/architecture.md`.
+
 ## Core Engineering Principles
 
 - **Intentional architecture:** Every module should have a single responsibility, clearly expressed through its folder structure and exports. Domain-specific logic lives in hooks or services, while UI components stay presentational.

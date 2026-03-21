@@ -1,6 +1,6 @@
 # ADR-004: State Machine Refactoring Strategy
 
-**Status:** Accepted
+**Status:** Partially Implemented — AnimationCard and App state concerns addressed via hook extraction (`useCardPlayback`, `useCardControls`, `useCodeViewer`, `useAppNavigation`, `useGroupInitialization`). Formal useReducer state machines not adopted; the hook-based decomposition was sufficient for the project's complexity level. Timer effect hooks remain inline with test-based leak detection as the safety ratchet.
 **Date:** 2025-10-13
 **Deciders:** Development Team
 **Related:** Style Guide Audit M1, S2 Violations

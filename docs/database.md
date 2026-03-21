@@ -67,7 +67,7 @@ The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`
 
 - Convention: `group-name__variant-name` (e.g., `modal-base__scale-gentle-pop`)
 
-**Safety**: `buildRegistryFromCategories()` flattens the hierarchy. Duplicate IDs silently overwrite each other. The smoke test catches render failures but not ID collisions — unique IDs are enforced by convention.
+**Safety**: `buildRegistryFromCategories()` flattens the hierarchy. Duplicate IDs silently overwrite each other (CSS wins over Framer for the same ID). ID uniqueness is enforced by the `metadata-integrity.test.ts` test suite, which catches cross-group ID collisions, prefix mismatches, and duplicate IDs within tech variants.
 
 ---
 

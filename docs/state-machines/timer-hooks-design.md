@@ -1,9 +1,9 @@
 # Timer Effect Hooks Design
 
-**Status:** Design Complete - Ready for Implementation
+**Status:** Partially addressed — timer cleanup is enforced via `assertNoLeakedTimersAfterUnmount` test utility and dedicated timer-cleanup test files. Individual timer components still use inline effects rather than extracted hooks. The per-component hook extraction was deprioritized in favor of the test-based leak detection ratchet.
 **Date:** October 13, 2025
 **Related:** Style Guide Audit S2 Violation
-**Priority:** MODERATE
+**Priority:** Low (ratchet in place)
 
 ---
 

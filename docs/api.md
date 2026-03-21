@@ -46,7 +46,7 @@ function App() {
 **How the UI uses it**:
 
 1. `buildCatalog()` transforms `categories` into `Category[]` with separate Framer/CSS groups.
-2. `GroupSection` calls `buildRegistryFromCategories()` (scoped to the active group) to look up components by animation ID.
+2. `GroupSection` calls `getGroupAnimations(baseGroupId, tech)` to look up components for the active group and tech variant.
 
 ---
 

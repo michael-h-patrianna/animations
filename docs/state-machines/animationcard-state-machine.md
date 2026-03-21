@@ -1,9 +1,9 @@
 # AnimationCard State Machine Design
 
-**Status:** Design Complete - Ready for Implementation
+**Status:** Superseded — scattered state concern addressed by extracting `useCardPlayback`, `useCardControls`, and `useCodeViewer` hooks (March 2026). Full state machine not implemented; hook decomposition was sufficient.
 **Date:** October 13, 2025
 **Related:** Style Guide Audit M1 Violation
-**Priority:** HIGH
+**Priority:** Resolved
 
 ---
 
