@@ -29,7 +29,9 @@ export function CategorySection({ category, elementId }: CategorySectionProps) {
             <GroupSection key={group.id} group={group} elementId={`group-${group.id}`} />
           ))
         ) : (
-          <div className="pf-category__empty" data-testid="category-empty">Groups coming soon</div>
+          <div className="pf-category__empty" data-testid="category-empty">
+            Groups coming soon
+          </div>
         )}
       </div>
     </section>
