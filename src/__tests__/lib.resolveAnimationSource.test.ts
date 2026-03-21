@@ -29,7 +29,11 @@ describe('resolveAnimationSource', () => {
     const tabs = await resolveAnimationSource(framerEntry, undefined)
 
     expect(tabs).toHaveLength(2)
-    expect(tabs[0]).toEqual({ label: 'Component (Motion)', code: 'export function Foo() {}', language: 'tsx' })
+    expect(tabs[0]).toEqual({
+      label: 'Component (Motion)',
+      code: 'export function Foo() {}',
+      language: 'tsx',
+    })
     expect(tabs[1]).toEqual({ label: 'CSS (Motion)', code: '.foo { color: red }', language: 'css' })
   })
 
@@ -118,7 +122,11 @@ describe('resolveAnimationSource', () => {
     const tabs = await resolveAnimationSource(undefined, cssEntry)
 
     expect(tabs).toHaveLength(2)
-    expect(tabs[0]).toEqual({ label: 'Component (CSS)', code: 'export function CssAnim() {}', language: 'tsx' })
+    expect(tabs[0]).toEqual({
+      label: 'Component (CSS)',
+      code: 'export function CssAnim() {}',
+      language: 'tsx',
+    })
     expect(tabs[1]).toEqual({ label: 'CSS', code: '.css-anim { color: blue }', language: 'css' })
   })
 
@@ -190,7 +198,11 @@ describe('resolveAnimationSource', () => {
 
     expect(tabs).toHaveLength(2)
     expect(tabs[0]!.label).toBe('Component (CSS)')
-    expect(tabs[1]).toEqual({ label: 'XpAccumulationHelpers.tsx', code: helperSource, language: 'tsx' })
+    expect(tabs[1]).toEqual({
+      label: 'XpAccumulationHelpers.tsx',
+      code: helperSource,
+      language: 'tsx',
+    })
   })
 
   it('deduplicates shared files imported by both variants', async () => {
@@ -236,6 +248,76 @@ describe('resolveAnimationSource', () => {
 
     expect(tabs).toHaveLength(1)
     expect(tabs[0]!.label).toBe('Component (Motion)')
+  })
+
+  it('includes empty-string source as a tab (loaded but empty file)', async () => {
+    const tsxLoader = vi.fn().mockResolvedValue('')
+
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/Empty.tsx': () => Promise.resolve({ Empty: () => null }) },
+      { './framer/Empty.meta.ts': { metadata: makeMeta('g__empty') } },
+      {},
+      {},
+      {
+        framerTsx: { './framer/Empty.tsx': tsxLoader },
+      }
+    )
+
+    const tabs = await resolveAnimationSource(result.framer['g__empty']!, undefined)
+
+    // Empty string is a valid loaded source — the tab should be present
+    expect(tabs).toHaveLength(1)
+    expect(tabs[0]).toEqual({ label: 'Component (Motion)', code: '', language: 'tsx' })
+  })
+
+  it('correctly resolves same-directory helper imports from css subdir', async () => {
+    const tsxSource = `import { helper } from './SharedUtils'\nexport function A() {}`
+    const helperSource = `export function helper() {}`
+
+    const result = buildGroupExport(
+      groupMeta,
+      {},
+      {},
+      { './css/A.tsx': () => Promise.resolve({ A: () => null }) },
+      { './css/A.meta.ts': { metadata: makeMeta('g__a') } },
+      {
+        cssTsx: {
+          './css/A.tsx': vi.fn().mockResolvedValue(tsxSource),
+          './css/SharedUtils.tsx': vi.fn().mockResolvedValue(helperSource),
+        },
+      }
+    )
+
+    const tabs = await resolveAnimationSource(undefined, result.css['g__a']!)
+    const helperTab = tabs.find((t) => t.label === 'SharedUtils.tsx')
+    expect(helperTab).toEqual(
+      expect.objectContaining({ code: helperSource, label: 'SharedUtils.tsx', language: 'tsx' })
+    )
+  })
+
+  it('correctly resolves parent-directory imports to group root', async () => {
+    // Import '../types' from framer/Component.tsx should resolve to ./types at group root
+    const tsxSource = `import { MyType } from '../types'\nexport function A() {}`
+    const typesSource = `export type MyType = string`
+
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/A.tsx': () => Promise.resolve({ A: () => null }) },
+      { './framer/A.meta.ts': { metadata: makeMeta('g__a') } },
+      {},
+      {},
+      {
+        framerTsx: { './framer/A.tsx': vi.fn().mockResolvedValue(tsxSource) },
+        shared: { './types.ts': vi.fn().mockResolvedValue(typesSource) },
+      }
+    )
+
+    const tabs = await resolveAnimationSource(result.framer['g__a']!, undefined)
+    const typesTab = tabs.find((t) => t.label === 'types.ts')
+    expect(typesTab).toEqual(
+      expect.objectContaining({ code: typesSource, label: 'types.ts', language: 'tsx' })
+    )
   })
 
   it('does not share source loaders between different animation entries', async () => {

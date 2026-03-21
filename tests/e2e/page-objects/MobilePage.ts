@@ -86,4 +86,9 @@ export class MobilePage {
     const active = this.drawerCodeModeSwitch().locator('button[aria-pressed="true"]')
     return (await active.textContent()) ?? ''
   }
+
+  /** Check if body scroll is locked (overflow: hidden). */
+  async isScrollLocked(): Promise<boolean> {
+    return this.page.evaluate(() => document.body.style.overflow === 'hidden')
+  }
 }

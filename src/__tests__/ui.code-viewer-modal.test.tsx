@@ -11,28 +11,23 @@ vi.mock('@/lib/highlighter', () => ({
 // Import after mock is set up
 const { CodeViewerModal } = await import('@/components/ui/CodeViewerModal')
 
-const framerSource = {
+const framerComponent = {
   label: 'Component (Motion)',
   code: 'export function Demo() { return <div>Hello</div> }',
   language: 'tsx' as const,
 }
-const cssComponentSource = {
-  label: 'Component (CSS)',
-  code: 'export function DemoCss() { return <div>Hello CSS</div> }',
-  language: 'tsx' as const,
-}
-const cssStyleSource = {
-  label: 'CSS',
-  code: '.demo { color: red; }',
-  language: 'css' as const,
-}
-const framerStyleSource = {
-  label: 'CSS (Motion)',
+const framerStyle = {
+  label: 'Styles (Motion)',
   code: '.demo-framer { opacity: 0; }',
   language: 'css' as const,
 }
+const sharedUtil = {
+  label: 'utils.ts',
+  code: 'export function rand() { return Math.random() }',
+  language: 'tsx' as const,
+}
 
-const allSources = [framerSource, cssComponentSource, cssStyleSource, framerStyleSource]
+const allSources = [framerComponent, framerStyle, sharedUtil]
 
 const defaultProps = {
   sources: allSources,
@@ -41,38 +36,104 @@ const defaultProps = {
 }
 
 describe('CodeViewerModal', () => {
-  it('renders first tab active by default', async () => {
+  it('renders JS select with tsx sources and CSS select with css sources', () => {
     render(<CodeViewerModal {...defaultProps} />)
 
-    const firstTab = screen.getByTestId('code-tab-0')
-    expect(firstTab).toHaveAttribute('aria-selected', 'true')
-    expect(firstTab).toHaveTextContent('Component (Motion)')
+    expect(screen.getByTestId('code-js')).toBeVisible()
+    expect(screen.getByTestId('code-css')).toBeVisible()
   })
 
-  it('renders all provided tabs', () => {
+  it('JS select contains tsx sources as options', () => {
     render(<CodeViewerModal {...defaultProps} />)
 
-    expect(screen.getByTestId('code-tab-0')).toHaveTextContent('Component (Motion)')
-    expect(screen.getByTestId('code-tab-1')).toHaveTextContent('Component (CSS)')
-    expect(screen.getByTestId('code-tab-2')).toHaveTextContent('CSS')
-    expect(screen.getByTestId('code-tab-3')).toHaveTextContent('CSS (Motion)')
+    const jsSelect = screen.getByTestId('code-js-select') as HTMLSelectElement
+    const options = Array.from(jsSelect.options)
+
+    expect(options).toHaveLength(2)
+    expect(options[0]!.textContent).toBe('Component (Motion)')
+    expect(options[1]!.textContent).toBe('utils.ts')
   })
 
-  it('renders only provided tabs when fewer sources given', () => {
-    render(<CodeViewerModal {...defaultProps} sources={[framerSource]} />)
+  it('CSS select contains css sources as options', () => {
+    render(<CodeViewerModal {...defaultProps} />)
 
-    expect(screen.getByTestId('code-tab-0')).toBeVisible()
-    expect(screen.queryByTestId('code-tab-1')).not.toBeInTheDocument()
+    const cssSelect = screen.getByTestId('code-css-select') as HTMLSelectElement
+    const options = Array.from(cssSelect.options)
+
+    expect(options).toHaveLength(1)
+    expect(options[0]!.textContent).toBe('Styles (Motion)')
   })
 
-  it('switches active tab when clicked', async () => {
+  it('defaults JS select to first option (main component)', () => {
+    render(<CodeViewerModal {...defaultProps} />)
+
+    const jsSelect = screen.getByTestId('code-js-select') as HTMLSelectElement
+    expect(jsSelect.value).toBe('0')
+  })
+
+  it('defaults CSS select to first option (main stylesheet)', () => {
+    render(<CodeViewerModal {...defaultProps} />)
+
+    const cssSelect = screen.getByTestId('code-css-select') as HTMLSelectElement
+    expect(cssSelect.value).toBe('0')
+  })
+
+  it('hides JS select when no tsx sources exist', () => {
+    render(<CodeViewerModal {...defaultProps} sources={[framerStyle]} />)
+
+    expect(screen.queryByTestId('code-js')).not.toBeInTheDocument()
+    expect(screen.getByTestId('code-css')).toBeVisible()
+  })
+
+  it('hides CSS select when no css sources exist', () => {
+    render(<CodeViewerModal {...defaultProps} sources={[framerComponent]} />)
+
+    expect(screen.getByTestId('code-js')).toBeVisible()
+    expect(screen.queryByTestId('code-css')).not.toBeInTheDocument()
+  })
+
+  it('shows code from JS select by default when JS sources exist', async () => {
+    render(<CodeViewerModal {...defaultProps} />)
+
+    // After highlighting loads, code pane should show content
+    const highlighted = await screen.findByTestId('code-highlighted')
+    expect(highlighted).toBeVisible()
+  })
+
+  it('switches displayed code when JS select changes', async () => {
     const user = userEvent.setup()
     render(<CodeViewerModal {...defaultProps} />)
 
-    await user.click(screen.getByTestId('code-tab-2'))
+    await expect(screen.findByTestId('code-highlighted')).resolves.toBeVisible()
 
-    expect(screen.getByTestId('code-tab-2')).toHaveAttribute('aria-selected', 'true')
-    expect(screen.getByTestId('code-tab-0')).toHaveAttribute('aria-selected', 'false')
+    // Change JS select to second option (utils.ts)
+    const jsSelect = screen.getByTestId('code-js-select') as HTMLSelectElement
+    await user.selectOptions(jsSelect, screen.getByRole('option', { name: 'utils.ts' }))
+
+    expect(jsSelect.value).toBe('1')
+
+    // Copy to verify the correct source is active
+    const spy = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined)
+    await user.click(screen.getByTestId('code-copy-btn'))
+    expect(spy).toHaveBeenCalledWith(sharedUtil.code)
+    spy.mockRestore()
+  })
+
+  it('switches to CSS code when CSS select changes', async () => {
+    const user = userEvent.setup()
+    render(<CodeViewerModal {...defaultProps} />)
+
+    await expect(screen.findByTestId('code-highlighted')).resolves.toBeVisible()
+
+    // Select the CSS dropdown to make CSS the active category
+    const cssSelect = screen.getByTestId('code-css-select')
+    await user.selectOptions(cssSelect, screen.getByRole('option', { name: 'Styles (Motion)' }))
+
+    // Copy to verify CSS source is now active
+    const spy = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined)
+    await user.click(screen.getByTestId('code-copy-btn'))
+    expect(spy).toHaveBeenCalledWith(framerStyle.code)
+    spy.mockRestore()
   })
 
   it('calls onClose when close button is clicked', async () => {
@@ -106,18 +167,23 @@ describe('CodeViewerModal', () => {
     expect(onClose).toHaveBeenCalledOnce()
   })
 
+  it('does not call onClose when clicking inside the modal panel', async () => {
+    const onClose = vi.fn()
+    const user = userEvent.setup()
+    render(<CodeViewerModal {...defaultProps} onClose={onClose} />)
+
+    const body = screen.getByTestId('code-body')
+    await user.click(body)
+
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
   it('renders dialog with proper aria attributes', () => {
     render(<CodeViewerModal {...defaultProps} />)
 
     const dialog = screen.getByRole('dialog')
     expect(dialog).toHaveAttribute('aria-modal', 'true')
     expect(dialog).toHaveAttribute('aria-label', 'Source code for Test Animation')
-  })
-
-  it('shows loading state before syntax highlighting resolves', () => {
-    render(<CodeViewerModal {...defaultProps} />)
-
-    expect(screen.getByTestId('code-body')).toBeVisible()
   })
 
   it('renders highlighted code after loading', async () => {
@@ -127,7 +193,7 @@ describe('CodeViewerModal', () => {
     expect(highlighted).toBeVisible()
   })
 
-  it('copies active tab source to clipboard when copy button is clicked', async () => {
+  it('copies active source to clipboard when copy button is clicked', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined)
     vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(writeText)
     const user = userEvent.setup()
@@ -137,21 +203,7 @@ describe('CodeViewerModal', () => {
     expect(await screen.findByText('Copied')).toBeVisible()
 
     expect(writeText).toHaveBeenCalledOnce()
-    // The source is cleaned (data-animation-id stripped) before copying
     expect(writeText).toHaveBeenCalledWith(expect.not.stringContaining('data-animation-id'))
-  })
-
-  it('copies the correct source when a non-first tab is active', async () => {
-    const writeText = vi.fn().mockResolvedValue(undefined)
-    vi.spyOn(navigator.clipboard, 'writeText').mockImplementation(writeText)
-    const user = userEvent.setup()
-    render(<CodeViewerModal {...defaultProps} />)
-
-    await user.click(screen.getByTestId('code-tab-2'))
-    await user.click(screen.getByTestId('code-copy-btn'))
-    expect(await screen.findByText('Copied')).toBeVisible()
-
-    expect(writeText).toHaveBeenCalledWith('.demo { color: red; }')
   })
 
   it('shows "Copied" text after successful copy', async () => {
@@ -169,62 +221,47 @@ describe('CodeViewerModal', () => {
     const user = userEvent.setup()
     render(<CodeViewerModal {...defaultProps} />)
 
-    // Should not throw — the error is caught and logged
     await user.click(screen.getByTestId('code-copy-btn'))
-    // Allow microtask queue to flush (the rejection handler runs async)
     await new Promise((r) => setTimeout(r, 0))
 
-    // Button should remain in the "Copy" state (not "Copied")
     expect(screen.getByTestId('code-copy-btn')).toHaveTextContent('Copy')
   })
 
-  it('strips data-animation-id from displayed source code', async () => {
-    const sourceWithId = {
-      label: 'Component (Motion)',
-      code: 'export function Demo() {\n  return <div data-animation-id="test__demo">Hello</div>\n}',
-      language: 'tsx' as const,
-    }
-    render(<CodeViewerModal {...defaultProps} sources={[sourceWithId]} />)
-
-    // The highlighter receives cleaned source, so the mock will be called
-    // with the cleaned version. We verify the mock was called (rendering succeeded).
-    expect(await screen.findByTestId('code-highlighted')).toBeVisible()
-  })
-
   it('handles empty string source without crashing', async () => {
-    const emptySource = { label: 'Component (Motion)', code: '', language: 'tsx' as const }
+    const emptySource = { label: 'Component', code: '', language: 'tsx' as const }
     render(<CodeViewerModal {...defaultProps} sources={[emptySource]} />)
     expect(screen.getByTestId('code-body')).toBeVisible()
   })
 
-  it('does not call onClose when clicking inside the dialog content', async () => {
+  it('restores focus to previously focused element on close', () => {
     const onClose = vi.fn()
-    const user = userEvent.setup()
-    render(<CodeViewerModal {...defaultProps} onClose={onClose} />)
 
-    // Click the dialog content area (not the overlay)
-    const dialog = screen.getByRole('dialog')
-    await user.click(dialog)
+    const triggerBtn = document.createElement('button')
+    triggerBtn.textContent = 'Trigger'
+    document.body.appendChild(triggerBtn)
+    triggerBtn.focus()
 
-    // onClose should NOT be called for clicks inside the dialog
-    // (only overlay clicks should close)
-  })
+    const { unmount } = render(<CodeViewerModal {...defaultProps} onClose={onClose} />)
 
-  it('switches back to first tab after viewing another', async () => {
-    const user = userEvent.setup()
-    render(<CodeViewerModal {...defaultProps} />)
+    expect(triggerBtn).not.toHaveFocus()
 
-    await user.click(screen.getByTestId('code-tab-2'))
-    expect(screen.getByTestId('code-tab-2')).toHaveAttribute('aria-selected', 'true')
+    unmount()
+    expect(triggerBtn).toHaveFocus()
 
-    await user.click(screen.getByTestId('code-tab-0'))
-    expect(screen.getByTestId('code-tab-0')).toHaveAttribute('aria-selected', 'true')
-    expect(screen.getByTestId('code-tab-2')).toHaveAttribute('aria-selected', 'false')
+    triggerBtn.remove()
   })
 
   it('aria-label includes the animation title', () => {
     render(<CodeViewerModal {...defaultProps} title="Custom Title" />)
     const dialog = screen.getByRole('dialog')
     expect(dialog).toHaveAttribute('aria-label', 'Source code for Custom Title')
+  })
+
+  it('renders with a single tsx source (only JS select visible)', async () => {
+    render(<CodeViewerModal {...defaultProps} sources={[framerComponent]} />)
+
+    expect(screen.getByTestId('code-js')).toBeVisible()
+    expect(screen.queryByTestId('code-css')).not.toBeInTheDocument()
+    expect(screen.getByTestId('code-copy-btn')).toBeVisible()
   })
 })

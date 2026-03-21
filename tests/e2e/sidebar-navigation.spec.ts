@@ -64,6 +64,48 @@ test.describe('Sidebar Navigation', () => {
     )
   })
 
+  test('active sidebar link text matches group title in main content', async ({ catalogPage }) => {
+    const groupLinks = catalogPage.allGroupLinks()
+    const count = await groupLinks.count()
+    expect(count).toBeGreaterThan(2)
+
+    // Navigate to 3 different groups and verify title matches
+    let checkedCount = 0
+    for (let i = 0; i < count && checkedCount < 3; i++) {
+      const link = groupLinks.nth(i)
+      const isActive = await link.getAttribute('data-active')
+
+      // Skip already-active links (first one on initial load)
+      if (isActive) continue
+
+      const linkText = (await link.innerText()).trim()
+      const before = catalogPage.currentPathname()
+
+      await link.click()
+      await catalogPage.waitForPathnameChange(before)
+      await catalogPage.waitForCards()
+
+      // Active link should be marked
+      await expect(link).toHaveAttribute('data-active', 'true')
+
+      // Group title in main content should contain the link text
+      // (wait for AnimatePresence transition to complete)
+      await expect
+        .poll(
+          async () => {
+            const title = await catalogPage.groupTitle().textContent()
+            return title?.trim().toLowerCase() ?? ''
+          },
+          { timeout: 5_000 }
+        )
+        .toContain(linkText.toLowerCase())
+
+      checkedCount++
+    }
+
+    expect(checkedCount).toBe(3)
+  })
+
   test('category collapse/expand toggles group visibility', async ({ catalogPage }) => {
     const sections = catalogPage.sidebarSections()
     const firstSection = sections.first()

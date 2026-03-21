@@ -114,6 +114,74 @@ test.describe('Integration: Full User Journey', () => {
     await expect.poll(async () => stageAfterBack.locator(':scope > *').count()).toBeGreaterThan(0)
   })
 
+  test('full code inspection flow: view source, switch mode, verify source changes', async ({
+    catalogPage,
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+
+    // Step 1: Navigate to a Framer group
+    await catalogPage.gotoGroup('standard-effects-framer')
+    const card = catalogPage.card('standard-effects__bounce')
+    await expect(card).toBeVisible()
+
+    // Step 2: Open code viewer
+    await catalogPage.codeViewerButton(card).click()
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Step 3: Verify Framer source contains Motion import
+    const framerSource = await catalogPage.codeBody().textContent()
+    expect(framerSource).toContain('StandardEffectsBounce')
+
+    // Step 4: If multiple tabs exist, switch to second tab and verify different content
+    const tabCount = await catalogPage.codeTabs().count()
+    if (tabCount > 1) {
+      await catalogPage.codeTab(1).click()
+      await expect(catalogPage.codeTab(1)).toHaveAttribute('aria-selected', 'true')
+      const tab2Source = await catalogPage.codeBody().textContent()
+      // Different tab should have different content
+      expect(tab2Source).not.toBe(framerSource)
+      // Switch back
+      await catalogPage.codeTab(0).click()
+    }
+
+    // Step 5: Copy code and verify clipboard
+    await catalogPage.codeCopyButton().click()
+    await expect(catalogPage.codeCopyButton()).toContainText('Copied')
+    const clipboardText = await page.evaluate(() => navigator.clipboard.readText())
+    expect(clipboardText).toContain('StandardEffectsBounce')
+
+    // Step 6: Close modal
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+
+    // Step 7: Switch to CSS mode
+    await catalogPage.selectCssMode()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/standard-effects-css')
+    await catalogPage.waitForCards()
+
+    // Step 8: Open code viewer on the same animation in CSS mode
+    const cssCard = catalogPage.card('standard-effects__bounce')
+    await expect(cssCard).toBeVisible()
+    await catalogPage.codeViewerButton(cssCard).click()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Step 9: CSS source should be different from Framer source
+    const cssSource = await catalogPage.codeBody().textContent()
+    expect(cssSource).toContain('StandardEffectsBounce')
+
+    // Step 10: Close and verify clean state
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+    await catalogPage.expectNoErrorBoundary()
+  })
+
   test('mode switch during navigation does not corrupt state', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
 

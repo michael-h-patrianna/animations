@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './fixtures/catalog.fixture'
 
 /**
  * Performance smoke tests using browser Performance API.
@@ -6,49 +6,47 @@ import { test, expect } from '@playwright/test'
  * not micro-optimizations. Budgets are generous to avoid flakes.
  */
 test.describe('Performance Budgets', () => {
-  test('initial page load completes within 5 seconds', async ({ page }) => {
+  test('initial page load completes within 5 seconds', async ({ catalogPage }) => {
     const start = Date.now()
-    await page.goto('/')
-    await page.locator('[data-testid="sidebar"]').first().waitFor({ state: 'visible' })
-    await page.locator('[data-animation-id]').first().waitFor({ state: 'visible' })
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
     const loadTime = Date.now() - start
 
     expect(loadTime, `Initial load took ${loadTime}ms (budget: 5000ms)`).toBeLessThan(5000)
   })
 
-  test('navigation between groups completes within 2 seconds', async ({ page }) => {
-    await page.goto('/')
-    await page.locator('[data-testid="sidebar"]').first().waitFor({ state: 'visible' })
+  test('navigation between groups completes within 2 seconds', async ({ catalogPage }) => {
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
 
-    // Click a different group
-    const groupLinks = page.locator('[data-testid^="sidebar-group-"]')
+    const groupLinks = catalogPage.allGroupLinks()
     await expect(groupLinks.first()).toBeVisible()
-    const secondGroup = groupLinks.nth(1)
-    await secondGroup.waitFor({ state: 'visible' })
 
+    const before = catalogPage.currentPathname()
     const start = Date.now()
-    await secondGroup.click()
-    await page.locator('[data-animation-id]').first().waitFor({ state: 'visible' })
+    await catalogPage.clickGroupLink(1)
+    await catalogPage.waitForCards()
     const navTime = Date.now() - start
 
+    expect(catalogPage.currentPathname()).not.toBe(before)
     expect(navTime, `Navigation took ${navTime}ms (budget: 2000ms)`).toBeLessThan(2000)
   })
 
-  test('no JavaScript errors during initial load', async ({ page }) => {
+  test('no JavaScript errors during initial load', async ({ catalogPage }) => {
     const errors: string[] = []
-    page.on('pageerror', (error) => errors.push(error.message))
+    catalogPage.page.on('pageerror', (error) => errors.push(error.message))
 
-    await page.goto('/')
-    await page.locator('[data-animation-id]').first().waitFor({ state: 'visible' })
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
 
     expect(errors, `JS errors during load:\n${errors.join('\n')}`).toEqual([])
   })
 
-  test('Largest Contentful Paint under 3 seconds', async ({ page }) => {
-    await page.goto('/')
-    await page.locator('[data-animation-id]').first().waitFor({ state: 'visible' })
+  test('Largest Contentful Paint under 3 seconds', async ({ catalogPage }) => {
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
 
-    const lcp = await page.evaluate(() => {
+    const lcp = await catalogPage.page.evaluate(() => {
       return new Promise<number>((resolve) => {
         new PerformanceObserver((list) => {
           const entries = list.getEntries()

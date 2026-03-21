@@ -80,4 +80,24 @@ describe('highlightCode', () => {
     // Our mock truncates to 20 chars to prove it received the input
     expect(result).toContain('export function Long')
   })
+
+  it('handles empty string source code', async () => {
+    vi.resetModules()
+    const { highlightCode } = await import('@/lib/highlighter')
+    const result = await highlightCode('', 'tsx')
+    expect(result).toContain('<pre>')
+  })
+
+  it('handles multiple sequential calls without reinitializing', async () => {
+    vi.resetModules()
+    createCallCount = 0
+    const { highlightCode } = await import('@/lib/highlighter')
+
+    await highlightCode('const a = 1', 'tsx')
+    await highlightCode('.foo {}', 'css')
+    await highlightCode('const b = 2', 'tsx')
+
+    // Should only have created the highlighter once
+    expect(createCallCount).toBe(1)
+  })
 })

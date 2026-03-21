@@ -15,9 +15,9 @@ afterEach(() => {
 
 /** Extracts displayed scores by matching locale-formatted numbers (e.g. "1,450") */
 function getDisplayedScores(): number[] {
-  return screen.getAllByText(/^\d{1,3}(,\d{3})*$/).map((el) =>
-    parseInt(el.textContent?.replace(/,/g, '') ?? '0', 10)
-  )
+  return screen
+    .getAllByText(/^\d{1,3}(,\d{3})*$/)
+    .map((el) => parseInt(el.textContent?.replace(/,/g, '') ?? '0', 10))
 }
 
 describe('realtime-data live-score-update behavior', () => {

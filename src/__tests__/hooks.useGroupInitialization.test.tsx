@@ -207,18 +207,15 @@ describe('hooks • useGroupInitialization', () => {
     const navigateToGroup = vi.fn()
     const groups = [createGroup('alpha-framer')]
 
-    const { rerender } = renderHook(
-      (props) => useGroupInitialization(props),
-      {
-        initialProps: {
-          allGroups: groups,
-          groupId: 'alpha-framer',
-          currentGroupId: 'alpha-framer',
-          setCurrentGroupId,
-          navigateToGroup,
-        },
-      }
-    )
+    const { rerender } = renderHook((props) => useGroupInitialization(props), {
+      initialProps: {
+        allGroups: groups,
+        groupId: 'alpha-framer',
+        currentGroupId: 'alpha-framer',
+        setCurrentGroupId,
+        navigateToGroup,
+      },
+    })
 
     // First render: already matching, no calls
     expect(setCurrentGroupId).not.toHaveBeenCalled()
@@ -241,18 +238,15 @@ describe('hooks • useGroupInitialization', () => {
     const navigateToGroup = vi.fn()
     const groups = [createGroup('alpha-framer'), createGroup('beta-framer')]
 
-    const { rerender } = renderHook(
-      (props) => useGroupInitialization(props),
-      {
-        initialProps: {
-          allGroups: groups,
-          groupId: 'alpha-framer',
-          currentGroupId: '',
-          setCurrentGroupId,
-          navigateToGroup,
-        },
-      }
-    )
+    const { rerender } = renderHook((props) => useGroupInitialization(props), {
+      initialProps: {
+        allGroups: groups,
+        groupId: 'alpha-framer',
+        currentGroupId: '',
+        setCurrentGroupId,
+        navigateToGroup,
+      },
+    })
 
     expect(setCurrentGroupId).toHaveBeenCalledWith('alpha-framer')
 

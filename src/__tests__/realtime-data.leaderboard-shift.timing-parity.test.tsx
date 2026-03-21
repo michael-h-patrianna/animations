@@ -63,17 +63,17 @@ describe('realtime-data leaderboard-shift behavioral verification', () => {
   it('leaderboard order changes after the reorder timer fires', () => {
     const { container } = render(<CssRealtimeDataLeaderboardShift />)
 
-    const playersBefore = Array.from(
-      container.querySelectorAll('.pf-realtime-data__player')
-    ).map((el) => el.textContent)
+    const playersBefore = Array.from(container.querySelectorAll('.pf-realtime-data__player')).map(
+      (el) => el.textContent
+    )
 
     act(() => {
       vi.advanceTimersByTime(800)
     })
 
-    const playersAfter = Array.from(
-      container.querySelectorAll('.pf-realtime-data__player')
-    ).map((el) => el.textContent)
+    const playersAfter = Array.from(container.querySelectorAll('.pf-realtime-data__player')).map(
+      (el) => el.textContent
+    )
 
     // The order should have changed (same players, different positions)
     expect(playersAfter).not.toEqual(playersBefore)

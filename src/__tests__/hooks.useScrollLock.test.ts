@@ -40,4 +40,53 @@ describe('useScrollLock', () => {
     unmount()
     expect(document.body.style.overflow).toBe('scroll')
   })
+
+  it('handles rapid open/close/open toggling without losing original overflow', () => {
+    document.body.style.overflow = 'auto'
+
+    const { rerender } = renderHook(({ isOpen }) => useScrollLock(isOpen), {
+      initialProps: { isOpen: true },
+    })
+    expect(document.body.style.overflow).toBe('hidden')
+
+    rerender({ isOpen: false })
+    expect(document.body.style.overflow).toBe('auto')
+
+    rerender({ isOpen: true })
+    expect(document.body.style.overflow).toBe('hidden')
+
+    rerender({ isOpen: false })
+    // Should restore to the value captured just before the second open ('auto'),
+    // not the original 'auto' from before the first open — this is correct because
+    // the effect captures `prev` at the time it runs.
+    expect(document.body.style.overflow).toBe('auto')
+  })
+
+  it('does not set overflow when initialized as closed then never opened', () => {
+    document.body.style.overflow = 'visible'
+
+    const { unmount } = renderHook(() => useScrollLock(false))
+    expect(document.body.style.overflow).toBe('visible')
+
+    unmount()
+    expect(document.body.style.overflow).toBe('visible')
+  })
+
+  it('captures the correct previous overflow when body style changes externally', () => {
+    document.body.style.overflow = 'auto'
+
+    const { rerender } = renderHook(({ isOpen }) => useScrollLock(isOpen), {
+      initialProps: { isOpen: false },
+    })
+
+    // External code changes overflow while lock is not active
+    document.body.style.overflow = 'scroll'
+
+    rerender({ isOpen: true })
+    expect(document.body.style.overflow).toBe('hidden')
+
+    rerender({ isOpen: false })
+    // Should restore to 'scroll' (the value at the time the lock was acquired)
+    expect(document.body.style.overflow).toBe('scroll')
+  })
 })

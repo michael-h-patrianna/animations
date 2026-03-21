@@ -1,5 +1,6 @@
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { act, fireEvent, render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 beforeEach(() => {
@@ -13,16 +14,17 @@ afterEach(() => {
 
 const renderCard = (overrides?: Partial<Parameters<typeof AnimationCard>[0]>) =>
   render(
-    <AnimationCard
-      title="Test Animation"
-      description="A test description"
-      animationId="test__animation"
-      tags={['framer']}
-      infiniteAnimation={true}
-      {...overrides}
-    >
-      {() => <div data-testid="animation-content">Animated</div>}
-    </AnimationCard>
+    <MemoryRouter>
+      <AnimationCard
+        title="Test Animation"
+        description="A test description"
+        animationId="test__animation"
+        infiniteAnimation={true}
+        {...overrides}
+      >
+        {() => <div data-testid="animation-content">Animated</div>}
+      </AnimationCard>
+    </MemoryRouter>
   )
 
 describe('AnimationCard', () => {
@@ -33,11 +35,17 @@ describe('AnimationCard', () => {
     expect(screen.getByText('A test description')).toHaveTextContent('A test description')
   })
 
-  it('renders tags as uppercase labels', () => {
-    renderCard({ tags: ['bounce', 'scale'] })
+  it('renders tier badge when tier is provided', () => {
+    renderCard({ tier: 1 })
 
-    expect(screen.getByText('BOUNCE')).toBeVisible()
-    expect(screen.getByText('SCALE')).toBeVisible()
+    const badge = screen.getByTestId('tier-badge')
+    expect(badge).toHaveTextContent('1 fx')
+  })
+
+  it('does not render tier badge when tier is undefined', () => {
+    renderCard()
+
+    expect(screen.queryByTestId('tier-badge')).toBeNull()
   })
 
   it('replay button triggers content remount (new key)', () => {
@@ -139,17 +147,19 @@ describe('AnimationCard', () => {
     let capturedProps: { bulbCount: number; onColor: string; prizeCount: number } | null = null
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__props"
-        infiniteAnimation={true}
-      >
-        {(props) => {
-          capturedProps = props
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__props"
+          infiniteAnimation={true}
+        >
+          {(props) => {
+            capturedProps = props
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     // Children function was called with render props
@@ -182,18 +192,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__lights"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__lights"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     expect(capturedBulbCount).toBe(16)
@@ -206,18 +218,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__lights"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__lights"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     fireEvent.click(screen.getByLabelText('Decrease bulb count'))
@@ -228,18 +242,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__lights"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__lights"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     // Click decrease repeatedly to hit min (4)
@@ -256,18 +272,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__lights"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__lights"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     const input = screen.getByLabelText('Number of bulbs')
@@ -279,18 +297,20 @@ describe('AnimationCard', () => {
     let capturedColor = ''
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__color"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedColor = props.onColor
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__color"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedColor = props.onColor
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     const colorInput = screen.getByLabelText('Bulb color')
@@ -302,19 +322,21 @@ describe('AnimationCard', () => {
     let capturedPrizeCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__prizes"
-        infiniteAnimation={true}
-        controls="prizeCount"
-        prizeCountMax={5}
-      >
-        {(props) => {
-          capturedPrizeCount = props.prizeCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__prizes"
+          infiniteAnimation={true}
+          controls="prizeCount"
+          prizeCountMax={5}
+        >
+          {(props) => {
+            capturedPrizeCount = props.prizeCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     expect(capturedPrizeCount).toBe(3) // default
@@ -336,14 +358,16 @@ describe('AnimationCard', () => {
 
   it('renders ReactNode children directly (not as function)', () => {
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__node"
-        infiniteAnimation={true}
-      >
-        <div data-testid="static-child">Static content</div>
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__node"
+          infiniteAnimation={true}
+        >
+          <div data-testid="static-child">Static content</div>
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     expect(screen.getByTestId('static-child')).toBeVisible()
@@ -354,18 +378,20 @@ describe('AnimationCard', () => {
 
     let capturedColor = ''
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__color-resolve"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedColor = props.onColor
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__color-resolve"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedColor = props.onColor
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     // Color is resolved via useLayoutEffect — may be hex or empty string in test env
@@ -375,15 +401,17 @@ describe('AnimationCard', () => {
 
   it('increments bulb count to max then disables increase button', () => {
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__max-bulbs"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {() => <div>Content</div>}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__max-bulbs"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {() => <div>Content</div>}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     const increaseBtn = screen.getByLabelText('Increase bulb count')
@@ -399,18 +427,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__clamp-input"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__clamp-input"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     const input = screen.getByLabelText('Number of bulbs')
@@ -428,18 +458,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__nan-input"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__nan-input"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     const input = screen.getByLabelText('Number of bulbs')
@@ -452,18 +484,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__boundary"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__boundary"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     const input = screen.getByLabelText('Number of bulbs')
@@ -497,18 +531,20 @@ describe('AnimationCard', () => {
     let capturedBulbCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__float"
-        infiniteAnimation={true}
-        controls="lights"
-      >
-        {(props) => {
-          capturedBulbCount = props.bulbCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__float"
+          infiniteAnimation={true}
+          controls="lights"
+        >
+          {(props) => {
+            capturedBulbCount = props.bulbCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     const input = screen.getByLabelText('Number of bulbs')
@@ -517,23 +553,38 @@ describe('AnimationCard', () => {
     expect(capturedBulbCount).toBe(10)
   })
 
+  it('renders code viewer button when sourceLoader is provided', () => {
+    const sourceLoader = vi.fn().mockResolvedValue([])
+    renderCard({ sourceLoader } as unknown as Partial<Parameters<typeof AnimationCard>[0]>)
+
+    expect(screen.getByRole('button', { name: 'View source code' })).toBeVisible()
+  })
+
+  it('does not render code viewer button when sourceLoader is absent', () => {
+    renderCard()
+
+    expect(screen.queryByRole('button', { name: 'View source code' })).not.toBeInTheDocument()
+  })
+
   it('prize count buttons highlight active selection', () => {
     let capturedPrizeCount = 0
 
     render(
-      <AnimationCard
-        title="Test"
-        description="Desc"
-        animationId="test__prize-active"
-        infiniteAnimation={true}
-        controls="prizeCount"
-        prizeCountMax={3}
-      >
-        {(props) => {
-          capturedPrizeCount = props.prizeCount
-          return <div>Content</div>
-        }}
-      </AnimationCard>
+      <MemoryRouter>
+        <AnimationCard
+          title="Test"
+          description="Desc"
+          animationId="test__prize-active"
+          infiniteAnimation={true}
+          controls="prizeCount"
+          prizeCountMax={3}
+        >
+          {(props) => {
+            capturedPrizeCount = props.prizeCount
+            return <div>Content</div>
+          }}
+        </AnimationCard>
+      </MemoryRouter>
     )
 
     // Default prize count is 3 — the "Show 3 prizes" button should be active

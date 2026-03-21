@@ -40,7 +40,7 @@ describe('logger', () => {
   })
 
   it('delegates debug to console.debug in dev mode', () => {
-    logger.debug('debug msg', [1, 2, 3]) // eslint-disable-line testing-library/no-debugging-utils -- testing logger.debug, not debugging
+    logger.debug('debug msg', [1, 2, 3])
     expect(consoleSpy.debug).toHaveBeenCalledWith('debug msg', [1, 2, 3])
   })
 
@@ -52,7 +52,7 @@ describe('logger', () => {
       logger.error('err')
       logger.warn('wrn')
       logger.info('inf')
-      logger.debug('dbg') // eslint-disable-line testing-library/no-debugging-utils -- testing logger.debug, not debugging
+      logger.debug('dbg')
 
       expect(customSink).toHaveBeenCalledTimes(4)
       expect(customSink).toHaveBeenCalledWith('error', 'err')
@@ -118,7 +118,7 @@ describe('logger', () => {
       logger.error('e')
       logger.warn('w')
       logger.info('i')
-      logger.debug('d') // eslint-disable-line testing-library/no-debugging-utils -- testing logger.debug
+      logger.debug('d')
 
       expect(consoleSpy.error).toHaveBeenCalledWith('e')
       expect(consoleSpy.warn).toHaveBeenCalledWith('w')

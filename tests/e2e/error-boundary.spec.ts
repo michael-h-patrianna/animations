@@ -1,18 +1,17 @@
-import { expect, test } from '@playwright/test'
+import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('ErrorBoundary', () => {
-  test('does not show fallback UI during healthy app render', async ({ page }) => {
-    await page.goto('/')
-    await page.waitForSelector('[data-testid="sidebar"]', { timeout: 10000 })
+  test('does not show fallback UI during healthy app render', async ({ catalogPage }) => {
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
 
-    await expect(page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
-    await expect(page.locator('[data-testid="error-retry-button"]')).toHaveCount(0)
+    await catalogPage.expectNoErrorBoundary()
+    await expect(catalogPage.page.locator('[data-testid="error-retry-button"]')).toHaveCount(0)
   })
 
-  test('shows fallback UI when a child lifecycle error is thrown', async ({ page }) => {
-    await page.addInitScript(() => {
+  test('shows fallback UI when a child lifecycle error is thrown', async ({ catalogPage }) => {
+    await catalogPage.page.addInitScript(() => {
       const OriginalObserver = window.IntersectionObserver
-      // Throw exactly once to trigger ErrorBoundary, then allow recovery path.
       ;(window as Window & { __ioThrowOnce?: boolean }).__ioThrowOnce = true
 
       window.IntersectionObserver = class extends OriginalObserver {
@@ -27,14 +26,16 @@ test.describe('ErrorBoundary', () => {
       }
     })
 
-    await page.goto('/')
+    await catalogPage.page.goto('/')
 
-    await expect(page.locator('[data-testid="error-heading"]')).toBeVisible()
-    await expect(page.locator('[data-testid="error-retry-button"]')).toBeVisible()
+    await expect(catalogPage.page.locator('[data-testid="error-heading"]')).toBeVisible()
+    await expect(catalogPage.page.locator('[data-testid="error-retry-button"]')).toBeVisible()
   })
 
-  test('recovers after clicking Try Again when injected failure is one-time', async ({ page }) => {
-    await page.addInitScript(() => {
+  test('recovers after clicking Try Again when injected failure is one-time', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.page.addInitScript(() => {
       const OriginalObserver = window.IntersectionObserver
       ;(window as Window & { __ioThrowOnce?: boolean }).__ioThrowOnce = true
 
@@ -50,12 +51,12 @@ test.describe('ErrorBoundary', () => {
       }
     })
 
-    await page.goto('/')
-    await expect(page.locator('[data-testid="error-heading"]')).toBeVisible()
+    await catalogPage.page.goto('/')
+    await expect(catalogPage.page.locator('[data-testid="error-heading"]')).toBeVisible()
 
-    await page.locator('[data-testid="error-retry-button"]').click()
+    await catalogPage.page.locator('[data-testid="error-retry-button"]').click()
 
-    await page.waitForSelector('[data-testid="sidebar"]', { timeout: 10000 })
-    await expect(page.locator('[data-testid="error-heading"]')).toHaveCount(0)
+    await catalogPage.waitForShell()
+    await catalogPage.expectNoErrorBoundary()
   })
 })

@@ -85,10 +85,7 @@ describe('useAnimations', () => {
 
     for (const cat of result.current.categories) {
       for (const group of cat.groups) {
-        expect(
-          group.tech,
-          `Group "${group.id}" is missing tech field`
-        ).toMatch(/^(framer|css)$/)
+        expect(group.tech, `Group "${group.id}" is missing tech field`).toMatch(/^(framer|css)$/)
       }
     }
   })

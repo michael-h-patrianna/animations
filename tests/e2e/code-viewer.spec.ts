@@ -214,4 +214,192 @@ test.describe('Code Viewer', () => {
     // Modal is still open
     await expect(modal).toBeVisible()
   })
+
+  test('closing modal with Escape then navigating keeps state clean', async ({
+    catalogPage,
+    page,
+  }) => {
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Close modal via Escape
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+
+    // Navigate to a different group via sidebar
+    const before = catalogPage.currentPathname()
+    const groupLinks = catalogPage.allGroupLinks()
+    const count = await groupLinks.count()
+
+    for (let i = 0; i < count; i++) {
+      const isActive = await groupLinks.nth(i).getAttribute('data-active')
+      if (!isActive) {
+        await groupLinks.nth(i).click()
+        break
+      }
+    }
+
+    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.waitForCards()
+
+    // No stale modal or error state
+    await expect(modal).not.toBeVisible()
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('closing modal then switching code mode works correctly', async ({ catalogPage, page }) => {
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+
+    // Close modal first
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+
+    // Switch mode (Framer → CSS)
+    await catalogPage.selectCssMode()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/modal-base-css')
+
+    await catalogPage.waitForCards()
+
+    // CSS cards render correctly
+    const cssCard = catalogPage.allCards().first()
+    await expect(catalogPage.cardMeta(cssCard)).toContainText('CSS')
+    await catalogPage.expectNoErrorBoundary()
+
+    // Can open code viewer again on the CSS variant
+    const cssViewerCard = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(cssViewerCard).click()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+  })
+
+  test('programmatic navigation via URL while modal is open unmounts modal', async ({
+    catalogPage,
+    page,
+  }) => {
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+
+    // Navigate programmatically (simulates a user typing a URL)
+    await page.goto('/text-effects-framer')
+    await catalogPage.waitForShell()
+    await catalogPage.waitForCards()
+
+    // Modal should be gone (entire page remounted)
+    await expect(modal).not.toBeVisible()
+    expect(catalogPage.currentPathname()).toBe('/text-effects-framer')
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('opening a second code viewer after closing the first shows correct source', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Open code viewer for first card
+    const card1 = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card1).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    const firstSource = await catalogPage.codeBody().textContent()
+    expect(firstSource).toContain('ModalBaseScaleGentlePop')
+
+    // Close via Escape
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+
+    // Open code viewer for a DIFFERENT card
+    const card2 = catalogPage.card('modal-base__slide-down-soft')
+    await card2.scrollIntoViewIfNeeded()
+    await catalogPage.codeViewerButton(card2).click()
+
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Source should now show the SECOND card's component, not stale first card content
+    const secondSource = await catalogPage.codeBody().textContent()
+    expect(secondSource).toContain('ModalBaseSlideDownSoft')
+    expect(secondSource).not.toContain('ModalBaseScaleGentlePop')
+  })
+
+  test('code viewer shows loading state before syntax highlighting completes', async ({
+    catalogPage,
+  }) => {
+    // Use network throttling to make Shiki loading observable
+    // Since Shiki is bundled, the loading state is typically very brief.
+    // We verify the loading element exists in the DOM structure.
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+
+    // The code body must contain EITHER the loading indicator OR highlighted code
+    // (never empty). This catches a bug where neither loading nor content is shown.
+    const codeBody = catalogPage.codeBody()
+    await expect(codeBody).toBeVisible()
+
+    const hasLoadingOrCode = await codeBody.evaluate((el) => {
+      const text = el.textContent ?? ''
+      return text.includes('Loading') || text.length > 50
+    })
+    expect(hasLoadingOrCode).toBe(true)
+
+    // Eventually, highlighted code replaces the loading state
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Loading indicator must be gone once highlighting completes
+    await expect(catalogPage.codeLoading()).toHaveCount(0)
+  })
+
+  test('code viewer modal aria-label includes animation title', async ({ catalogPage }) => {
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+
+    // aria-label should describe what source is being shown
+    const ariaLabel = await modal.getAttribute('aria-label')
+    expect(ariaLabel).toBeTruthy()
+    expect(ariaLabel).toMatch(/source code/i)
+  })
+
+  test('code viewer source contains valid structural markers', async ({ catalogPage, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Copy and validate source structure
+    await catalogPage.codeCopyButton().click()
+    const source = await catalogPage.page.evaluate(() => navigator.clipboard.readText())
+
+    // Source should contain import statements (not stripped)
+    expect(source).toMatch(/import\s/)
+
+    // Source should contain a function/component definition
+    expect(source).toMatch(/(function|const)\s+\w+/)
+
+    // Source should NOT contain catalog-only attributes (data-animation-id stripped)
+    expect(source).not.toContain('data-animation-id')
+  })
 })

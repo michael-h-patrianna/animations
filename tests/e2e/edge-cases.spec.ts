@@ -161,6 +161,87 @@ test.describe('Edge Cases', () => {
     await catalogPage.waitForCards()
   })
 
+  test('collapsing a category while navigating to a group in another category', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
+
+    const sections = catalogPage.sidebarSections()
+    const sectionCount = await sections.count()
+    expect(sectionCount).toBeGreaterThan(1)
+
+    // Find the active section and a non-active section
+    let activeSection: import('@playwright/test').Locator | null = null
+    let otherSection: import('@playwright/test').Locator | null = null
+
+    for (let i = 0; i < sectionCount; i++) {
+      const section = sections.nth(i)
+      const categoryBtn = section.locator('[data-testid^="sidebar-category-"]')
+      const isActive = await categoryBtn.getAttribute('data-active')
+      if (isActive) {
+        activeSection = section
+      } else if (!otherSection) {
+        otherSection = section
+      }
+    }
+
+    expect(activeSection).not.toBeNull()
+    expect(otherSection).not.toBeNull()
+    if (!activeSection || !otherSection) return
+
+    // Get a group link in the other section
+    const otherGroupLinks = catalogPage.groupLinksInSection(otherSection)
+    const otherGroupCount = await otherGroupLinks.count()
+    expect(otherGroupCount).toBeGreaterThan(0)
+
+    // Collapse the active section AND click a group in the other section rapidly
+    const activeCategoryBtn = activeSection.locator('[data-testid^="sidebar-category-"]')
+    const before = catalogPage.currentPathname()
+
+    await activeCategoryBtn.click() // collapse
+    await otherGroupLinks.first().click() // navigate
+
+    // Wait for navigation to settle
+    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.waitForCards()
+
+    // App should be in a consistent state
+    const finalPath = catalogPage.currentPathname()
+    expect(finalPath).not.toBe('/')
+    expect(finalPath).not.toBe(before)
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('scroll resets toward top when navigating to a new group', async ({ catalogPage, page }) => {
+    // Navigate to a group with many cards
+    await catalogPage.gotoGroup('progress-bars-framer')
+    await catalogPage.waitForCards()
+
+    // Scroll down significantly
+    await page.evaluate(() => window.scrollTo(0, 800))
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(400)
+
+    // Navigate to a different group
+    const before = catalogPage.currentPathname()
+    const groupLinks = catalogPage.allGroupLinks()
+    for (let i = 0; i < (await groupLinks.count()); i++) {
+      const isActive = await groupLinks.nth(i).getAttribute('data-active')
+      if (!isActive) {
+        await groupLinks.nth(i).click()
+        break
+      }
+    }
+    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.waitForCards()
+
+    // Scroll should move toward the group section (near top, accounting for
+    // app bar height and the useScrollToGroup's 360ms retry delay)
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY), { timeout: 5_000 })
+      .toBeLessThan(200)
+  })
+
   test('rapid mode switching does not corrupt state', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
 
@@ -178,5 +259,132 @@ test.describe('Edge Cases', () => {
     const firstCard = catalogPage.allCards().first()
     await expect(catalogPage.cardMeta(firstCard)).toContainText('FRAMER')
     await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('code mode switch button reflects correct state after browser back', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Start in Framer mode
+    await catalogPage.gotoGroup('text-effects-framer')
+    const framerMode = await catalogPage.activeCodeMode()
+    expect(framerMode.trim()).toBe('Framer')
+
+    // Switch to CSS mode
+    await catalogPage.selectCssMode()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/text-effects-css')
+
+    // Navigate to a different group (stays in CSS mode)
+    const groupLinks = catalogPage.allGroupLinks()
+    for (let i = 0; i < (await groupLinks.count()); i++) {
+      const isActive = await groupLinks.nth(i).getAttribute('data-active')
+      if (!isActive) {
+        await groupLinks.nth(i).click()
+        break
+      }
+    }
+    await catalogPage.waitForCards()
+
+    // Go back to previous group (CSS mode)
+    await page.goBack()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/text-effects-css')
+
+    // The code mode switch should show CSS as active (not stale Framer state)
+    const modeAfterBack = await catalogPage.activeCodeMode()
+    expect(modeAfterBack.trim()).toBe('CSS')
+
+    // Go back again to Framer mode
+    await page.goBack()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/text-effects-framer')
+
+    // Switch should reflect Framer mode
+    const modeAfterSecondBack = await catalogPage.activeCodeMode()
+    expect(modeAfterSecondBack.trim()).toBe('Framer')
+  })
+
+  test('active sidebar group highlights correctly after deep link reload', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Deep link to a specific group
+    await catalogPage.gotoGroup('progress-bars-framer')
+
+    // Reload the page
+    await page.reload()
+    await catalogPage.waitForShell()
+    await catalogPage.waitForCards()
+
+    // The active group link should match the current route
+    const activeLink = catalogPage.activeGroupLink()
+    await expect(activeLink).toBeVisible()
+    const activeLinkText = (await activeLink.innerText()).trim()
+
+    // Group title should match the active sidebar link
+    const groupTitle = await catalogPage.groupTitle().textContent()
+    expect(groupTitle?.trim().toLowerCase()).toContain(activeLinkText.toLowerCase())
+  })
+
+  test('navigating while drawer is open on mobile closes drawer properly', async ({
+    mobilePage,
+    page,
+  }) => {
+    await mobilePage.gotoMobile('text-effects-framer')
+
+    // Open drawer
+    await mobilePage.openDrawer()
+    await mobilePage.expectDrawerOpen()
+    expect(await mobilePage.isScrollLocked()).toBe(true)
+
+    // Programmatic navigation (simulates browser back or URL change)
+    await page.goto('/standard-effects-framer')
+    await expect(mobilePage.header).toBeVisible({ timeout: 10_000 })
+
+    // After full navigation, drawer state should be clean
+    // (no stale open drawer from previous page)
+    await mobilePage.expectDrawerClosed()
+    expect(await mobilePage.isScrollLocked()).toBe(false)
+  })
+
+  test('opening code viewer on last card of a long group works correctly', async ({
+    catalogPage,
+  }) => {
+    // Navigate to a group with many cards
+    await catalogPage.gotoGroup('progress-bars-framer')
+    await catalogPage.waitForCards()
+
+    const cards = catalogPage.allCards()
+    const count = await cards.count()
+    expect(count).toBeGreaterThan(5)
+
+    // Scroll to and interact with the LAST card
+    const lastCard = cards.nth(count - 1)
+    await lastCard.scrollIntoViewIfNeeded()
+    await expect(lastCard).toBeVisible()
+
+    // Verify the last card has content rendered (not lazy-loaded placeholder)
+    const stage = lastCard.locator('[data-testid="demo-stage"]')
+    await expect(stage).toBeVisible({ timeout: 5_000 })
+
+    // If it has a code viewer button, verify it works
+    const codeBtn = catalogPage.codeViewerButton(lastCard)
+    if ((await codeBtn.count()) > 0) {
+      await codeBtn.click()
+      const modal = catalogPage.codeViewerModal()
+      await expect(modal).toBeVisible({ timeout: 10_000 })
+      await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+      // Source should not be empty
+      const bodyText = await catalogPage.codeBody().textContent()
+      expect((bodyText ?? '').length).toBeGreaterThan(50)
+
+      await catalogPage.codeCloseButton().click()
+      await expect(modal).not.toBeVisible()
+    }
   })
 })

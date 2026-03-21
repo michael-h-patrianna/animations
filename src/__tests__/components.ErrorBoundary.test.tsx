@@ -1,4 +1,4 @@
-import ErrorBoundary from '@/components/ErrorBoundary'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -168,6 +168,71 @@ describe('ErrorBoundary', () => {
     const details = screen.getByTestId('error-details')
     expect(details).toBeInTheDocument()
     expect(details).toHaveTextContent('Error: Test error from child')
+
+    consoleErrorSpy.mockRestore()
+  })
+
+  it('calls custom fallback reset function to recover from error', () => {
+    consoleErrorSpy.mockImplementation(() => {})
+    let shouldThrow = true
+
+    function ConditionalThrower() {
+      if (shouldThrow) throw new Error('Recoverable error')
+      return <div data-testid="recovered">Recovered!</div>
+    }
+
+    render(
+      <ErrorBoundary
+        fallback={(error, reset) => (
+          <div>
+            <span>Error: {error.message}</span>
+            <button onClick={reset}>Custom Reset</button>
+          </div>
+        )}
+      >
+        <ConditionalThrower />
+      </ErrorBoundary>
+    )
+
+    expect(screen.getByText('Error: Recoverable error')).toBeVisible()
+
+    shouldThrow = false
+    fireEvent.click(screen.getByText('Custom Reset'))
+
+    expect(screen.getByTestId('recovered')).toBeVisible()
+    consoleErrorSpy.mockRestore()
+  })
+
+  it('shows error fallback repeatedly when error persists across retry attempts', () => {
+    consoleErrorSpy.mockImplementation(() => {})
+    let shouldThrow = true
+
+    function Thrower() {
+      if (shouldThrow) throw new Error('Persistent error')
+      return <div data-testid="final-recovery">Success</div>
+    }
+
+    render(
+      <ErrorBoundary>
+        <Thrower />
+      </ErrorBoundary>
+    )
+
+    // First error
+    expect(screen.getByText('Something went wrong')).toBeVisible()
+
+    // First retry — still throwing
+    fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
+    expect(screen.getByText('Something went wrong')).toBeVisible()
+
+    // Second retry — still throwing
+    fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
+    expect(screen.getByText('Something went wrong')).toBeVisible()
+
+    // Fix the error and retry
+    shouldThrow = false
+    fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
+    expect(screen.getByTestId('final-recovery')).toBeVisible()
 
     consoleErrorSpy.mockRestore()
   })

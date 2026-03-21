@@ -62,9 +62,6 @@ describe('animationRegistry', () => {
             expect(anim.metadata.description, `${groupKey}/framer/${animId}: description`).toMatch(
               /\w{5,}/
             )
-            expect(anim.metadata.tags, `${groupKey}/framer/${animId}: tags`).toEqual(
-              expect.arrayContaining([])
-            )
             expect(anim.component, `${groupKey}/framer/${animId}: component`).toHaveProperty(
               '$$typeof',
               Symbol.for('react.lazy')
@@ -76,9 +73,6 @@ describe('animationRegistry', () => {
             expect(anim.metadata.title, `${groupKey}/css/${animId}: title`).toMatch(/\w{2,}/)
             expect(anim.metadata.description, `${groupKey}/css/${animId}: description`).toMatch(
               /\w{5,}/
-            )
-            expect(anim.metadata.tags, `${groupKey}/css/${animId}: tags`).toEqual(
-              expect.arrayContaining([])
             )
             expect(anim.component, `${groupKey}/css/${animId}: component`).toHaveProperty(
               '$$typeof',

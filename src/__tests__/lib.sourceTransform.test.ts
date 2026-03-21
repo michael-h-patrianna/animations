@@ -140,4 +140,44 @@ describe('cleanSourceForDisplay', () => {
     // data-animation-identifier should NOT be removed (different attribute)
     expect(result).toContain('data-animation-identifier="other"')
   })
+
+  it('handles greedy regex correctly with multiple attributes on same line', () => {
+    // The regex /.+?/ is non-greedy, so it should only match the data-animation-id value
+    const source = `<div data-animation-id="id1" data-other="keep">`
+    const result = cleanSourceForDisplay(source)
+    expect(result).not.toContain('data-animation-id')
+    expect(result).toContain('data-other="keep"')
+  })
+
+  it('handles data-animation-id at end of tag (before closing bracket)', () => {
+    const source = `<div className="wrapper" data-animation-id="test__id">`
+    const result = cleanSourceForDisplay(source)
+    expect(result).not.toContain('data-animation-id')
+    expect(result).toContain('className="wrapper"')
+    expect(result).toContain('>')
+  })
+
+  it('handles consecutive whitespace-only lines after removal', () => {
+    const source = [
+      `<div`,
+      `  data-animation-id="test__id"`,
+      `  data-animation-id="test__id2"`,
+      `  className="foo"`,
+      `>`,
+    ].join('\n')
+    const result = cleanSourceForDisplay(source)
+    // Both data-animation-id lines should be removed
+    expect(result).not.toContain('data-animation-id')
+    expect(result).toContain('className="foo"')
+  })
+
+  it('does not transform aliased MockModalContent import (regex limitation)', () => {
+    // The regex expects `MockModalContent` directly before optional `}`, so
+    // `MockModalContent as Content` does not match. In practice the codebase
+    // never uses aliased imports for MockModalContent.
+    const source = `import { MockModalContent as Content } from '../MockModalContent'`
+    const result = cleanSourceForDisplay(source)
+    // NOT transformed because the regex doesn't match the alias syntax
+    expect(result).toContain("import { MockModalContent as Content } from '../MockModalContent'")
+  })
 })

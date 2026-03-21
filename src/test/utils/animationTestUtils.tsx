@@ -1,6 +1,7 @@
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { act, render } from '@testing-library/react'
 import React from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import { expect, vi } from 'vitest'
 
 /** Wraps a component inside AnimationCard for integration-style tests. */
@@ -22,15 +23,17 @@ export function withAnimationCard(
     disableReplay = false,
   } = opts || {}
   return (
-    <AnimationCard
-      title={title}
-      description={description}
-      animationId={id}
-      infiniteAnimation={infinite}
-      disableReplay={disableReplay}
-    >
-      {children}
-    </AnimationCard>
+    <MemoryRouter>
+      <AnimationCard
+        title={title}
+        description={description}
+        animationId={id}
+        infiniteAnimation={infinite}
+        disableReplay={disableReplay}
+      >
+        {children}
+      </AnimationCard>
+    </MemoryRouter>
   )
 }
 

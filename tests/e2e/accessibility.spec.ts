@@ -178,3 +178,105 @@ test.describe('Accessibility: Description Toggle', () => {
     expect(label).toMatch(/description/i)
   })
 })
+
+test.describe('Accessibility: Code Viewer Modal Focus', () => {
+  test('code viewer modal receives focus on open', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+
+    // Close button should receive initial focus (standard modal pattern)
+    const closeBtn = catalogPage.codeCloseButton()
+    await expect(closeBtn).toBeFocused()
+  })
+
+  test('code viewer modal restores focus on close', async ({ catalogPage, page }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    const codeBtn = catalogPage.codeViewerButton(card)
+
+    // Focus the code viewer button explicitly before opening
+    await codeBtn.focus()
+    await codeBtn.click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+
+    // Close via Escape
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+
+    // Focus should return to the element that was focused before the modal opened
+    // (the code viewer button)
+    await expect(codeBtn).toBeFocused()
+  })
+
+  test('code viewer modal controls are keyboard-reachable via click focus', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Close button receives initial focus
+    await expect(catalogPage.codeCloseButton()).toBeFocused()
+
+    // Tab buttons are clickable and update aria-selected
+    const tab0 = catalogPage.codeTab(0)
+    await tab0.click()
+    await expect(tab0).toHaveAttribute('aria-selected', 'true')
+
+    // Copy button is clickable
+    const copyBtn = catalogPage.codeCopyButton()
+    await expect(copyBtn).toBeVisible()
+    await expect(copyBtn).toBeEnabled()
+
+    // Close button is keyboard-activatable
+    await catalogPage.codeCloseButton().focus()
+    await expect(catalogPage.codeCloseButton()).toBeFocused()
+  })
+
+  test('Tab within code viewer modal cycles through interactive elements', async ({
+    catalogPage,
+    page,
+  }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Close button receives initial focus
+    await expect(catalogPage.codeCloseButton()).toBeFocused()
+
+    // Tab through interactive elements within the modal.
+    // Expected focusable elements: close button, tab buttons, copy button.
+    const focusedTestIds: string[] = []
+    for (let i = 0; i < 10; i++) {
+      await page.keyboard.press('Tab')
+      const testId = await page.evaluate(() => {
+        const el = document.activeElement
+        return el?.getAttribute('data-testid') ?? null
+      })
+      if (testId) focusedTestIds.push(testId)
+    }
+
+    // All tabs and the copy button should be reachable via Tab
+    // (currently fails because focus escapes to background sidebar elements)
+    expect(focusedTestIds).toContain('code-copy-btn')
+    expect(focusedTestIds.some((id) => id.startsWith('code-tab-'))).toBe(true)
+  })
+})

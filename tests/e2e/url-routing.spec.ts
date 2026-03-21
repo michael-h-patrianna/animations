@@ -78,4 +78,80 @@ test.describe('URL Routing', () => {
       await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toBe(secondPath)
     }
   })
+
+  test('hard page refresh preserves deep-linked framer route', async ({ catalogPage, page }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+    const pathBefore = catalogPage.currentPathname()
+    const titleBefore = await catalogPage.groupTitle().textContent()
+
+    await page.reload()
+    await catalogPage.waitForShell()
+    await catalogPage.waitForCards()
+
+    expect(catalogPage.currentPathname()).toBe(pathBefore)
+    await expect(catalogPage.groupTitle()).toHaveText(titleBefore!)
+    await expect(catalogPage.groupSection('modal-base-framer')).toBeVisible()
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('hard page refresh preserves deep-linked CSS route', async ({ catalogPage, page }) => {
+    await catalogPage.gotoGroup('progress-bars-css')
+    const pathBefore = catalogPage.currentPathname()
+
+    await page.reload()
+    await catalogPage.waitForShell()
+    await catalogPage.waitForCards()
+
+    expect(catalogPage.currentPathname()).toBe(pathBefore)
+
+    // Verify CSS mode is active after reload
+    const firstCard = catalogPage.allCards().first()
+    await expect(catalogPage.cardMeta(firstCard)).toContainText('CSS')
+  })
+
+  test('browser back from invalid route returns to previous valid state', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Navigate to a valid group first
+    await catalogPage.gotoGroup('text-effects-framer')
+    const validPath = catalogPage.currentPathname()
+
+    // Programmatically navigate to an invalid route
+    await page.goto('/this-route-does-not-exist-at-all')
+
+    // App should redirect away from invalid route
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 10_000 })
+      .not.toBe('/this-route-does-not-exist-at-all')
+
+    await catalogPage.waitForShell()
+    await catalogPage.waitForCards()
+
+    // Go back — should return to the valid route
+    await page.goBack()
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 10_000 }).toBe(validPath)
+
+    await catalogPage.waitForCards()
+    await expect(catalogPage.groupSection('text-effects-framer')).toBeVisible()
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('hard refresh after mode switch preserves CSS mode', async ({ catalogPage, page }) => {
+    // Start in Framer, switch to CSS, then reload
+    await catalogPage.gotoGroup('text-effects-framer')
+    await catalogPage.selectCssMode()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/text-effects-css')
+
+    await page.reload()
+    await catalogPage.waitForShell()
+    await catalogPage.waitForCards()
+
+    // After reload, URL should still be CSS variant
+    expect(catalogPage.currentPathname()).toBe('/text-effects-css')
+    const firstCard = catalogPage.allCards().first()
+    await expect(catalogPage.cardMeta(firstCard)).toContainText('CSS')
+  })
 })

@@ -88,8 +88,12 @@ describe('CodeModeContext', () => {
       return (
         <div>
           <span data-testid="current-mode">{codeMode}</span>
-          <button data-testid="set-framer" onClick={() => setCodeMode('Framer')}>F</button>
-          <button data-testid="set-css" onClick={() => setCodeMode('CSS')}>C</button>
+          <button data-testid="set-framer" onClick={() => setCodeMode('Framer')}>
+            F
+          </button>
+          <button data-testid="set-css" onClick={() => setCodeMode('CSS')}>
+            C
+          </button>
         </div>
       )
     }

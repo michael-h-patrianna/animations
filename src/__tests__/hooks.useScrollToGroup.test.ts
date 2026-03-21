@@ -49,18 +49,14 @@ describe('useScrollToGroup', () => {
     scrollToSpy.mockRestore()
   })
 
-  it('retries scroll after 360ms if element not found on first attempt', () => {
+  it('does not scroll when element never appears in the DOM', () => {
     const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
     const appBarRef = makeRef()
 
     renderHook(() => useScrollToGroup({ currentGroupId: 'missing-group', appBarRef }))
 
-    // First attempt (rAF) - element not found
-    vi.advanceTimersByTime(16)
-    expect(scrollToSpy).not.toHaveBeenCalled()
-
-    // Retry after 360ms - still no element
-    vi.advanceTimersByTime(360)
+    // Element never in DOM — MutationObserver watches but never finds it
+    vi.advanceTimersByTime(2500)
     expect(scrollToSpy).not.toHaveBeenCalled()
 
     scrollToSpy.mockRestore()
@@ -83,25 +79,24 @@ describe('useScrollToGroup', () => {
     scrollToSpy.mockRestore()
   })
 
-  it('scrolls successfully on retry when element appears after initial rAF', () => {
+  it('scrolls via MutationObserver when element appears after initial attempt', async () => {
     const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
     const appBarRef = makeRef()
 
     renderHook(() => useScrollToGroup({ currentGroupId: 'delayed-group', appBarRef }))
 
-    // First attempt (rAF) - element not found
-    vi.advanceTimersByTime(16)
+    // Element not in DOM yet — no scroll
     expect(scrollToSpy).not.toHaveBeenCalled()
 
-    // Now add the element before the retry fires
+    // Add the element — MutationObserver should detect it
     const el = document.createElement('div')
     el.id = 'group-delayed-group'
     el.getBoundingClientRect = () =>
       ({ top: 300, left: 0, right: 100, bottom: 400, width: 100, height: 100 }) as DOMRect
     document.body.appendChild(el)
 
-    // Retry at 360ms - element now found
-    vi.advanceTimersByTime(360)
+    // Flush MutationObserver microtask
+    await vi.advanceTimersByTimeAsync(0)
     expect(scrollToSpy).toHaveBeenCalled()
 
     el.remove()
@@ -122,9 +117,8 @@ describe('useScrollToGroup', () => {
     const appBarRef = makeRef()
     renderHook(() => useScrollToGroup({ currentGroupId: 'at-position', appBarRef }))
 
-    vi.advanceTimersByTime(16)
-
-    // Should NOT call scrollTo because the difference is < 1px
+    // Element exists at render — scroll check is synchronous.
+    // Should NOT call scrollTo because the difference is < 1px.
     expect(scrollToSpy).not.toHaveBeenCalled()
 
     el.remove()
@@ -210,6 +204,48 @@ describe('useScrollToGroup', () => {
     scrollToSpy.mockRestore()
   })
 
+  it('calculates correct scroll position with 16px extra offset', () => {
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+
+    const el = document.createElement('div')
+    el.id = 'group-calc-test'
+    // Element at top: 100, window.scrollY = 0
+    el.getBoundingClientRect = () =>
+      ({ top: 100, left: 0, right: 100, bottom: 200, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(el)
+
+    const appBarRef = makeRef()
+    renderHook(() => useScrollToGroup({ currentGroupId: 'calc-test', appBarRef }))
+    vi.advanceTimersByTime(16)
+
+    // targetY = max(0, 100 + 0 - 0 - 16) = 84
+    expect(scrollToSpy).toHaveBeenCalledWith({ top: 84, behavior: 'auto' })
+
+    el.remove()
+    scrollToSpy.mockRestore()
+  })
+
+  it('clamps scroll position to 0 when target is near page top', () => {
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+
+    const el = document.createElement('div')
+    el.id = 'group-near-top'
+    // Element at top: 10 → targetY = max(0, 10 + 0 - 0 - 16) = max(0, -6) = 0
+    el.getBoundingClientRect = () =>
+      ({ top: 10, left: 0, right: 100, bottom: 110, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(el)
+
+    const appBarRef = makeRef()
+    renderHook(() => useScrollToGroup({ currentGroupId: 'near-top', appBarRef }))
+    vi.advanceTimersByTime(16)
+
+    // difference is |0 - 0| = 0 which is < 1, so scrollTo should NOT be called
+    expect(scrollToSpy).not.toHaveBeenCalled()
+
+    el.remove()
+    scrollToSpy.mockRestore()
+  })
+
   it('does not scroll when currentGroupId changes to empty string', () => {
     const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
     const appBarRef = makeRef()
@@ -227,6 +263,51 @@ describe('useScrollToGroup', () => {
     vi.advanceTimersByTime(500)
     expect(scrollToSpy).not.toHaveBeenCalled()
 
+    scrollToSpy.mockRestore()
+  })
+
+  it('cancels previous observer when groupId changes rapidly', async () => {
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const appBarRef = makeRef()
+
+    // el1 exists at render time — first render scrolls to it synchronously
+    const el1 = document.createElement('div')
+    el1.id = 'group-first-group'
+    el1.getBoundingClientRect = () =>
+      ({ top: 200, left: 0, right: 100, bottom: 300, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(el1)
+
+    const { rerender } = renderHook(
+      ({ groupId }) => useScrollToGroup({ currentGroupId: groupId, appBarRef }),
+      { initialProps: { groupId: 'first-group' } }
+    )
+
+    // First render scrolled to el1 synchronously
+    expect(scrollToSpy).toHaveBeenCalledTimes(1)
+    scrollToSpy.mockClear()
+
+    // Rerender with second-group — cleanup disconnects any prior observer
+    rerender({ groupId: 'second-group' })
+
+    // el2 not in DOM yet, MutationObserver is watching
+    const el2 = document.createElement('div')
+    el2.id = 'group-second-group'
+    el2.getBoundingClientRect = () =>
+      ({ top: 400, left: 0, right: 100, bottom: 500, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(el2)
+
+    // Flush MutationObserver microtask
+    await vi.advanceTimersByTimeAsync(0)
+
+    // The scroll target should use second-group's position
+    expect(scrollToSpy).toHaveBeenCalled()
+    const lastCall = scrollToSpy.mock.calls[scrollToSpy.mock.calls.length - 1]!
+    const scrollOpts = lastCall[0] as ScrollToOptions
+    // second-group is at top: 400 with no app bar, so targetY = 400 + 0 - 0 - 16 = 384
+    expect(scrollOpts.top).toBe(384)
+
+    el1.remove()
+    el2.remove()
     scrollToSpy.mockRestore()
   })
 })

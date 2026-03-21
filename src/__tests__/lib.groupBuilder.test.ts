@@ -311,29 +311,27 @@ describe('buildGroupExport lazy component contract', () => {
     )
   })
 
-  it('last metadata wins when duplicate IDs appear in meta modules', () => {
-    // If two meta files produce the same animation ID, the last one processed wins.
-    // This tests the Record<string, AnimationExport> overwrite behavior.
-    const result = buildGroupExport(
-      groupMeta,
-      {
-        './framer/FirstVersion.tsx': () => Promise.resolve({ FirstVersion: () => null }),
-        './framer/SecondVersion.tsx': () => Promise.resolve({ SecondVersion: () => null }),
-      },
-      {
-        './framer/FirstVersion.meta.ts': {
-          metadata: makeMeta('g__same-id', { title: 'First' }),
+  it('throws on duplicate animation IDs in dev mode', () => {
+    // Duplicate animation IDs within a tech variant are a data integrity bug —
+    // one animation silently disappears. The invariant check catches this at build time.
+    expect(() =>
+      buildGroupExport(
+        groupMeta,
+        {
+          './framer/FirstVersion.tsx': () => Promise.resolve({ FirstVersion: () => null }),
+          './framer/SecondVersion.tsx': () => Promise.resolve({ SecondVersion: () => null }),
         },
-        './framer/SecondVersion.meta.ts': {
-          metadata: makeMeta('g__same-id', { title: 'Second' }),
+        {
+          './framer/FirstVersion.meta.ts': {
+            metadata: makeMeta('g__same-id', { title: 'First' }),
+          },
+          './framer/SecondVersion.meta.ts': {
+            metadata: makeMeta('g__same-id', { title: 'Second' }),
+          },
         },
-      },
-      {},
-      {}
-    )
-
-    // Only one entry for the duplicated ID — last write wins
-    expect(Object.keys(result.framer)).toHaveLength(1)
-    expect(result.framer['g__same-id']!.metadata.title).toBe('Second')
+        {},
+        {}
+      )
+    ).toThrow(/Duplicate animation ID "g__same-id"/)
   })
 })

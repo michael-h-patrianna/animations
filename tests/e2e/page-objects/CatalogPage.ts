@@ -56,6 +56,27 @@ export class CatalogPage {
     await expect.poll(() => this.currentPathname(), { timeout: 10_000 }).not.toBe(fromPathname)
   }
 
+  /**
+   * Wait for the AnimatePresence group transition to settle.
+   * Under load, the exit animation keeps departing group cards in the DOM
+   * briefly alongside the new group's cards. This waits until all
+   * data-animation-id values are unique.
+   */
+  async waitForTransitionSettle() {
+    await expect
+      .poll(
+        async () => {
+          const ids = await this.allCards().evaluateAll((els) =>
+            els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
+          )
+          if (ids.length === 0) return -1
+          return ids.length - new Set(ids).size
+        },
+        { timeout: 10_000 }
+      )
+      .toBe(0)
+  }
+
   // ── Sidebar ────────────────────────────────────────────────────────
 
   /** All category buttons in the sidebar. */
@@ -127,7 +148,15 @@ export class CatalogPage {
     return this.page.locator(`[data-animation-id="${animationId}"]`).first()
   }
 
-  /** All animation cards on the current page. */
+  /**
+   * All animation cards on the current page.
+   *
+   * Note: Some animation components (e.g., prize-reveal) also set
+   * data-animation-id on their internal root element. This locator
+   * matches ALL such elements. For accurate card counts in groups with
+   * those components, scope queries to the card-grid's direct children:
+   *   `groupSection(id).locator('[data-testid="card-grid"] > [data-animation-id]')`
+   */
   allCards(): Locator {
     return this.page.locator('[data-animation-id]')
   }
@@ -168,9 +197,9 @@ export class CatalogPage {
     return card.locator('button[aria-label*="description"]')
   }
 
-  /** Get the group title heading in the main content area. */
+  /** Get the group title shown in the sticky header bar. */
   groupTitle(): Locator {
-    return this.page.locator('[data-testid="group-title"]')
+    return this.page.locator('[data-testid="mobile-title"]')
   }
 
   /** Get the group section element by ID. */
@@ -220,6 +249,11 @@ export class CatalogPage {
     return this.page.locator('[data-testid="code-highlighted"]')
   }
 
+  /** Get the loading indicator in the code viewer modal. */
+  codeLoading(): Locator {
+    return this.page.locator('[data-testid="code-loading"]')
+  }
+
   /** Assert that the ErrorBoundary fallback is NOT shown. */
   async expectNoErrorBoundary() {
     await expect(this.page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
@@ -235,5 +269,109 @@ export class CatalogPage {
       if (id) ids.push(id)
     }
     return ids
+  }
+
+  /**
+   * Discover all group paths from the sidebar (framer + CSS).
+   * Switches code mode to collect both tech variants.
+   */
+  async discoverAllGroupPaths(): Promise<string[]> {
+    await this.goto()
+    await this.waitForShell()
+
+    const groupPaths: string[] = []
+
+    // Collect paths in both code modes
+    for (const selectMode of [() => this.selectFramerMode(), () => this.selectCssMode()]) {
+      await selectMode()
+      // Wait for sidebar to reflect the mode change
+      await this.page.waitForTimeout(300)
+
+      const groupLinks = this.allGroupLinks()
+      const groupCount = await groupLinks.count()
+
+      for (let i = 0; i < groupCount; i++) {
+        await groupLinks.nth(i).click()
+        await expect.poll(() => this.currentPathname(), { timeout: 5_000 }).toMatch(/^\//)
+        const path = this.currentPathname().replace(/^\//, '')
+        if (path && !groupPaths.includes(path)) {
+          groupPaths.push(path)
+        }
+      }
+    }
+    return groupPaths
+  }
+
+  // ── Viewport Preview ────────────────────────────────────────────────
+
+  /** Desktop preview button on a card. */
+  previewDesktopButton(card: Locator): Locator {
+    return card.locator('[data-testid="preview-btn-desktop"]')
+  }
+
+  /** Mobile preview button on a card. */
+  previewMobileButton(card: Locator): Locator {
+    return card.locator('[data-testid="preview-btn-mobile"]')
+  }
+
+  /** Preview overlay (portal on document.body). */
+  previewOverlay(): Locator {
+    return this.page
+      .locator('[data-testid^="preview-"]')
+      .filter({ has: this.page.locator('[data-testid="preview-toolbar"]') })
+  }
+
+  /** Preview animation container inside the overlay. */
+  previewAnimation(): Locator {
+    return this.page.locator('[data-testid="preview-animation"]')
+  }
+
+  /** Mobile phone frame in the preview. */
+  previewMobileFrame(): Locator {
+    return this.page.locator('[data-testid="preview-mobile-frame"]')
+  }
+
+  /** Replay button in the preview toolbar. */
+  previewReplayButton(): Locator {
+    return this.page.locator('[data-testid="preview-replay-btn"]')
+  }
+
+  /** Close button in the preview toolbar. */
+  previewCloseButton(): Locator {
+    return this.page.locator('[data-testid="preview-close-btn"]')
+  }
+
+  /** Desktop mode button in the preview mode switcher. */
+  previewModeDesktopButton(): Locator {
+    return this.page.locator('[data-testid="preview-mode-desktop"]')
+  }
+
+  /** Mobile mode button in the preview mode switcher. */
+  previewModeMobileButton(): Locator {
+    return this.page.locator('[data-testid="preview-mode-mobile"]')
+  }
+
+  /** Open desktop preview for a card and wait for overlay. */
+  async openDesktopPreview(card: Locator) {
+    await card.scrollIntoViewIfNeeded()
+    await this.previewDesktopButton(card).click()
+    await expect(this.page.locator('[data-testid="preview-desktop"]')).toBeVisible({
+      timeout: 3_000,
+    })
+  }
+
+  /** Open mobile preview for a card and wait for overlay. */
+  async openMobilePreview(card: Locator) {
+    await card.scrollIntoViewIfNeeded()
+    await this.previewMobileButton(card).click()
+    await expect(this.page.locator('[data-testid="preview-mobile"]')).toBeVisible({
+      timeout: 3_000,
+    })
+  }
+
+  /** Close the preview via the close button and wait for overlay to disappear. */
+  async closePreview() {
+    await this.previewCloseButton().click()
+    await expect(this.previewAnimation()).toHaveCount(0, { timeout: 3_000 })
   }
 }

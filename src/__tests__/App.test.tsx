@@ -1,6 +1,6 @@
 import App from '@/App'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 
@@ -46,9 +46,10 @@ describe('App', () => {
   it('renders animation cards from the real catalog', () => {
     renderApp()
 
-    // The app should render at least some animation cards from the real registry
+    // The real registry has 100+ animations; a framer group alone has 5+.
+    // If this drops below 5, something is broken in the import chain.
     const cardTitles = screen.getAllByTestId('card-title')
-    expect(cardTitles.length).toBeGreaterThanOrEqual(1)
+    expect(cardTitles.length).toBeGreaterThanOrEqual(5)
   })
 
   it('renders with a specific group route parameter', () => {
@@ -58,12 +59,63 @@ describe('App', () => {
     expect(screen.getByTestId('mobile-header')).toBeVisible()
   })
 
-  it('renders GitHub link in the app shell', () => {
+  it('renders GitHub link in the mobile header with security attributes', () => {
     renderApp()
 
     const githubLinks = screen.getAllByRole('link', { name: 'View source on GitHub' })
-    expect(githubLinks.length).toBeGreaterThanOrEqual(1)
+    expect(githubLinks.length).toBe(1)
     expect(githubLinks[0]).toHaveAttribute('target', '_blank')
     expect(githubLinks[0]).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(githubLinks[0]).toHaveAttribute('href', expect.stringContaining('github.com'))
+  })
+
+  it('opens drawer when hamburger is clicked and closes it', () => {
+    renderApp()
+
+    // Drawer should start hidden
+    const drawer = screen.getByRole('dialog', { hidden: true })
+    expect(drawer).toHaveAttribute('hidden')
+
+    // Click hamburger to open
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+
+    // Drawer should now be visible
+    const openDrawer = screen.getByRole('dialog')
+    expect(openDrawer).not.toHaveAttribute('hidden')
+
+    // Click close button
+    fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+
+    // Drawer should be hidden again
+    const closedDrawer = screen.getByRole('dialog', { hidden: true })
+    expect(closedDrawer).toHaveAttribute('hidden')
+  })
+
+  it('closes drawer when Escape key is pressed', () => {
+    renderApp()
+
+    // Open drawer
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+    expect(screen.getByRole('dialog')).not.toHaveAttribute('hidden')
+
+    // Press Escape
+    fireEvent.keyDown(window, { key: 'Escape' })
+
+    // Drawer should close
+    const closedDrawer = screen.getByRole('dialog', { hidden: true })
+    expect(closedDrawer).toHaveAttribute('hidden')
+  })
+
+  it('locks scroll when drawer is open and restores on close', () => {
+    document.body.style.overflow = ''
+    renderApp()
+
+    // Open drawer
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+    expect(document.body.style.overflow).toBe('hidden')
+
+    // Close drawer
+    fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+    expect(document.body.style.overflow).toBe('')
   })
 })

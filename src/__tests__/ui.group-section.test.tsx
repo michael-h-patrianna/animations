@@ -1,7 +1,12 @@
 import { GroupSection } from '@/components/ui/GroupSection'
 import type { Group } from '@/types/animation'
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
+
+function renderWithRouter(ui: React.ReactElement) {
+  return render(<MemoryRouter>{ui}</MemoryRouter>)
+}
 
 function makeGroup(overrides?: Partial<Group>): Group {
   return {
@@ -29,16 +34,9 @@ function makeGroup(overrides?: Partial<Group>): Group {
 }
 
 describe('GroupSection', () => {
-  it('renders group title with animation count', () => {
-    const group = makeGroup()
-    render(<GroupSection group={group} elementId="test-section" />)
-
-    expect(screen.getByText('Standard effects (Framer) (2)')).toHaveClass('pf-group__title')
-  })
-
   it('sets the article id to the provided elementId', () => {
     const group = makeGroup()
-    render(<GroupSection group={group} elementId="section-42" />)
+    renderWithRouter(<GroupSection group={group} elementId="section-42" />)
 
     const article = screen.getByRole('article')
     expect(article).toHaveAttribute('id', 'section-42')
@@ -46,7 +44,7 @@ describe('GroupSection', () => {
 
   it('renders AnimationCard for each animation in the group', () => {
     const group = makeGroup()
-    render(<GroupSection group={group} elementId="test-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
     expect(screen.getByText('Bounce')).toBeVisible()
     expect(screen.getByText('Fade')).toBeVisible()
@@ -54,7 +52,7 @@ describe('GroupSection', () => {
 
   it('renders empty state when group has no animations', () => {
     const group = makeGroup({ animations: [] })
-    render(<GroupSection group={group} elementId="test-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
     expect(screen.getByText('Animations coming soon')).toHaveClass('pf-group__empty')
     expect(screen.queryByText('pf-card-grid')).not.toBeInTheDocument()
@@ -73,7 +71,7 @@ describe('GroupSection', () => {
         },
       ],
     })
-    render(<GroupSection group={group} elementId="test-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
     // Should show a placeholder div with the animation id
     expect(screen.getByText('nonexistent__animation')).toHaveClass('pf-card__placeholder')
@@ -81,18 +79,11 @@ describe('GroupSection', () => {
 
   it('renders card grid container when animations are present', () => {
     const group = makeGroup()
-    render(<GroupSection group={group} elementId="test-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
     // Each animation should render a card with a title
     const cardTitles = screen.getAllByTestId('card-title')
     expect(cardTitles.length).toBeGreaterThanOrEqual(1)
-  })
-
-  it('shows animation count of zero in header for empty groups', () => {
-    const group = makeGroup({ animations: [], title: 'Empty Group' })
-    render(<GroupSection group={group} elementId="test-section" />)
-
-    expect(screen.getByText('Empty Group (0)')).toHaveClass('pf-group__title')
   })
 
   it('resolves CSS group variant from registry', () => {
@@ -111,11 +102,10 @@ describe('GroupSection', () => {
         },
       ],
     })
-    render(<GroupSection group={group} elementId="css-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="css-section" />)
 
     // Should render without error and show the animation title
     expect(screen.getByText('Bounce')).toBeVisible()
-    expect(screen.getByText('Standard effects (CSS) (1)')).toHaveClass('pf-group__title')
   })
 
   it('passes lights control props to animation component when controls=lights', () => {
@@ -132,7 +122,7 @@ describe('GroupSection', () => {
         },
       ],
     })
-    render(<GroupSection group={group} elementId="lights-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="lights-section" />)
 
     // Should render lights controls in the AnimationCard
     expect(screen.getByLabelText('Number of bulbs')).toBeVisible()
@@ -154,7 +144,7 @@ describe('GroupSection', () => {
         },
       ],
     })
-    render(<GroupSection group={group} elementId="prize-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="prize-section" />)
 
     expect(screen.getByRole('button', { name: 'Show 1 prize' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Show 3 prizes' })).toBeVisible()
@@ -184,14 +174,11 @@ describe('GroupSection', () => {
       ],
     })
 
-    render(<GroupSection group={group} elementId="mixed-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="mixed-section" />)
 
     // Both animation titles should be rendered in the cards
     expect(screen.getByText('Infinite Anim')).toBeVisible()
     expect(screen.getByText('One-shot Anim')).toBeVisible()
-
-    // Group header should show correct count
-    expect(screen.getByText('Standard effects (Framer) (2)')).toHaveClass('pf-group__title')
 
     vi.useRealTimers()
   })
@@ -211,7 +198,7 @@ describe('GroupSection', () => {
       ],
     })
 
-    render(<GroupSection group={group} elementId="no-replay-section" />)
+    renderWithRouter(<GroupSection group={group} elementId="no-replay-section" />)
 
     expect(screen.getByRole('button', { name: 'Replay' })).toBeDisabled()
   })

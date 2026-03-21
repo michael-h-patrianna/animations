@@ -100,4 +100,26 @@ describe('lib • preloadImages', () => {
     expect(hrefs).toContain('existing.png')
     expect(hrefs).toContain('new.png')
   })
+
+  it('handles large number of URLs efficiently without duplicate links', () => {
+    document.head.innerHTML = ''
+    const urls = Array.from({ length: 50 }, (_, i) => `image-${i}.png`)
+    preloadImages(urls)
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    expect(links.length).toBe(50)
+
+    // Calling again should NOT add duplicates
+    preloadImages(urls)
+    const linksAfter = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    expect(linksAfter.length).toBe(50)
+  })
+
+  it('handles interleaved duplicate and unique URLs in single call', () => {
+    document.head.innerHTML = ''
+    preloadImages(['a.png', 'b.png', 'a.png', 'c.png', 'b.png'])
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    expect(links.length).toBe(3)
+    const hrefs = Array.from(links).map((l) => l.getAttribute('href'))
+    expect(hrefs).toEqual(['a.png', 'b.png', 'c.png'])
+  })
 })

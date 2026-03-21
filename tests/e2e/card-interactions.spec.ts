@@ -49,6 +49,36 @@ test.describe('Card Interactions', () => {
     await expect(catalogPage.replayButton(card)).toBeDisabled()
   })
 
+  test('cards with source entries have code viewer buttons', async ({ catalogPage }) => {
+    // modal-base group is known to have source entries for all animations
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    const cards = catalogPage.allCards()
+    const count = await cards.count()
+    expect(count).toBeGreaterThan(0)
+
+    // At least the first card should have a code viewer button
+    const firstCard = cards.first()
+    await firstCard.scrollIntoViewIfNeeded()
+    await expect(catalogPage.codeViewerButton(firstCard)).toBeVisible({ timeout: 3_000 })
+
+    // Verify all cards with code viewer buttons are consistently styled
+    let cardsWithBtn = 0
+    for (let i = 0; i < count; i++) {
+      const card = cards.nth(i)
+      await card.scrollIntoViewIfNeeded()
+      const codeBtn = catalogPage.codeViewerButton(card)
+      const btnCount = await codeBtn.count()
+      if (btnCount > 0) {
+        await expect(codeBtn).toBeVisible()
+        cardsWithBtn++
+      }
+    }
+
+    // At least some cards should have code viewer buttons
+    expect(cardsWithBtn).toBeGreaterThan(0)
+  })
+
   test('cards have non-empty uppercase tag labels', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('standard-effects-css')
 

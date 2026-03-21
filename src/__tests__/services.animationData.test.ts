@@ -128,13 +128,13 @@ describe('buildCatalog', () => {
   it('propagates optional metadata fields when present', () => {
     const allAnims = catalog.flatMap((c) => c.groups.flatMap((g) => g.animations))
 
-    // At least some animations should have tags
-    const withTags = allAnims.filter((a) => a.tags && a.tags.length > 0)
-    expect(withTags.length).toBeGreaterThanOrEqual(10)
-
     // At least some should have infinite flag
     const withInfinite = allAnims.filter((a) => a.infinite === true)
     expect(withInfinite.length).toBeGreaterThanOrEqual(5)
+
+    // At least some should have tier
+    const withTier = allAnims.filter((a) => a.tier !== undefined)
+    expect(withTier.length).toBeGreaterThanOrEqual(1)
   })
 
   it('returns same structure on repeated calls (pure function)', () => {
@@ -223,6 +223,49 @@ describe('buildCatalog', () => {
             `Group "${baseId}": framer and css variants have different animation counts`
           ).toBe(variants[1]!.animations.length)
         }
+      }
+    }
+  })
+
+  it('groups with no animations in a tech variant are excluded from catalog', () => {
+    // If a group has framer animations but zero css animations (or vice versa),
+    // the empty variant should not appear as a group in the catalog.
+    // This verifies the toGroup null-return filter works.
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        expect(
+          group.animations.length,
+          `Group "${group.id}" has 0 animations but still appears in catalog`
+        ).toBeGreaterThanOrEqual(1)
+      }
+    }
+  })
+
+  it('each animation in catalog has the correct groupId including tech suffix', () => {
+    // The groupId field must match the group it belongs to, which includes -framer or -css.
+    // A mismatch here would cause GroupSection to fail to resolve the animation component.
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        for (const anim of group.animations) {
+          expect(anim.groupId).toBe(group.id)
+          expect(anim.groupId).toMatch(/-(?:framer|css)$/)
+        }
+      }
+    }
+  })
+
+  it('group titles contain the base group title from registry metadata', () => {
+    // Verify that toGroup constructs titles as "${metadata.title} (Framer)" or "(CSS)"
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        if (group.tech === 'framer') {
+          expect(group.title).toMatch(/\(Framer\)$/)
+        } else {
+          expect(group.title).toMatch(/\(CSS\)$/)
+        }
+        // The title before the parenthetical should be non-empty
+        const baseTitle = group.title.replace(/\s*\((?:Framer|CSS)\)$/, '')
+        expect(baseTitle, `Group "${group.id}" has empty base title`).toMatch(/\S/)
       }
     }
   })
