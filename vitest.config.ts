@@ -72,7 +72,7 @@ export default defineConfig({
         },
         'src/services/**': {
           statements: 90,
-          branches: 60,
+          branches: 75,
           functions: 90,
           lines: 90,
         },

@@ -3,6 +3,7 @@ import { basename, dirname, join, resolve } from 'node:path'
 
 import { isColorString } from './color-helpers.js'
 import { extraRules } from './extra-rules.js'
+import { portabilityRules } from './portability-rules.js'
 import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
 import { testingRules } from './testing-rules.js'
 
@@ -37,27 +38,43 @@ const rules = {
       const embeddedRgb = /rgba?\s*\(/i
       const embeddedHsl = /hsla?\s*\(/i
 
+      // Strip var() fallback values before checking for hardcoded colors.
+      // var(--color, #fff) is intentional portability, not a hardcoded color.
+      // Handles nested: var(--a, var(--b, #fff)) by stripping innermost first.
+      function stripVarFallbacks(str) {
+        let result = str
+        // Iteratively strip var(--name, fallback) → var(--name) to remove fallback values
+        let prev
+        do {
+          prev = result
+          result = result.replace(/var\(\s*--[\w-]+\s*,\s*[^()]*\)/g, 'var(--stripped)')
+        } while (result !== prev)
+        return result
+      }
+
       return {
         Literal(node) {
           if (typeof node.value !== 'string') return
           if (getFilename(context).includes('.test.')) return
           if (isColorString(node.value)) {
+            // Full-string color: check if the entire string is a var() fallback value
+            // This case doesn't apply since isColorString matches plain colors like "#fff"
             context.report({ node, message: msg })
             return
           }
-          // Catch colors embedded in longer string literals (e.g. box-shadow, gradient values).
-          // Uses same patterns as the TemplateLiteral handler for consistency.
+          // Strip var() fallback values before checking for embedded colors
+          const stripped = stripVarFallbacks(node.value)
           if (
-            embeddedHex.test(node.value) ||
-            embeddedRgb.test(node.value) ||
-            embeddedHsl.test(node.value)
+            embeddedHex.test(stripped) ||
+            embeddedRgb.test(stripped) ||
+            embeddedHsl.test(stripped)
           ) {
             context.report({ node, message: msg, data: { embedded: true } })
           }
         },
         TemplateLiteral(node) {
           for (const quasi of node.quasis) {
-            const raw = quasi.value.raw
+            const raw = stripVarFallbacks(quasi.value.raw)
             if (/#(?:[0-9a-fA-F]{3,4}){1,2}(?!\w)/.test(raw)) {
               context.report({ node, message: msg })
               return
@@ -456,6 +473,7 @@ const rules = {
 
   ...extraRules,
   ...testingRules,
+  ...portabilityRules,
 }
 
 export { rules }

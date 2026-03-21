@@ -533,8 +533,7 @@ const extraRules = {
     meta: {
       type: 'problem',
       docs: {
-        description:
-          'Disallow animation components from importing across category boundaries.',
+        description: 'Disallow animation components from importing across category boundaries.',
       },
       schema: [],
     },
@@ -557,10 +556,7 @@ const extraRules = {
           if (typeof source !== 'string') return
 
           for (const cat of otherCategories) {
-            if (
-              source.includes(`@/components/${cat}/`) ||
-              source.includes(`/components/${cat}/`)
-            ) {
+            if (source.includes(`@/components/${cat}/`) || source.includes(`/components/${cat}/`)) {
               context.report({
                 node,
                 message: `Cross-category import: files in "${ownCategory}" must not import from "${cat}". Use shared modules (@/types, @/lib, @/utils, @/motion, @/assets) or restructure the dependency.`,

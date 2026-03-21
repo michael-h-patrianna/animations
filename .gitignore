@@ -40,6 +40,8 @@ market-readiness-*.md
 ci-godmode*.md
 
 # AI/tool caches
+.claude
+.serena
 .chatmodes
 .gemini
 .agents

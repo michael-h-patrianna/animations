@@ -54,7 +54,8 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint",
-    "*.css": "stylelint"
+    "*.css": "stylelint",
+    "*.{ts,tsx,js,mjs,json,css,md}": "prettier --check"
   },
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^3.0.0",

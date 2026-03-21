@@ -115,6 +115,10 @@ export default defineConfig([
       'animation-rules/no-excessive-z-index': 'error',
       // E2E readiness: every UI component must have data-testid for stable selectors
       'animation-rules/require-data-testid': 'error',
+      // Copy-paste portability: every .meta.ts must declare a tier
+      'animation-rules/require-portability-tier': 'error',
+      // Copy-paste portability: ban position: fixed in animation components
+      'animation-rules/no-position-fixed': 'error',
     },
   },
   {
@@ -246,6 +250,11 @@ export default defineConfig([
       // (title, description, tags) which are the canonical documentation source.
       // Requiring JSDoc on these components produces empty /** */ stubs with no value.
       'jsdoc/require-jsdoc': 'off',
+      // Copy-paste portability: imports must respect declared tier budget
+      'animation-rules/tier-dependency-budget': 'error',
+      // Copy-paste portability: Tier 1-2 CSS must have var() fallbacks.
+      // Warn until existing CSS files are fixed with fallback values or reclassified to tier 2+.
+      'animation-rules/require-css-var-fallback': 'warn',
     },
   },
   // Animation helper files (shared parts, mock content, models) at group root
@@ -262,6 +271,14 @@ export default defineConfig([
       'jsdoc/require-jsdoc': 'off',
       // Helper files share the same embedded-color leniency as animation components
       'animation-rules/no-hardcoded-colors': 'error',
+    },
+  },
+  // Logger test: logger.debug() triggers false positive from testing-library/no-debugging-utils
+  // which targets screen.debug()/prettyDOM(). The logger's .debug() method is unrelated.
+  {
+    files: ['src/__tests__/services.logger.test.ts'],
+    rules: {
+      'testing-library/no-debugging-utils': 'off',
     },
   },
   // Timer test utils: components intentionally leak timers to test the leak detector
