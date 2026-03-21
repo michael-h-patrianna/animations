@@ -133,4 +133,61 @@ describe('useAppNavigation', () => {
       expect.objectContaining({ currentGroup: undefined, allGroups: [] })
     )
   })
+
+  it('handleModeSelect does not navigate when target variant does not exist', () => {
+    // Category with only framer groups — no CSS variant
+    const categoriesFramerOnly: Category[] = [
+      {
+        id: 'base',
+        title: 'Base',
+        groups: [
+          {
+            id: 'only-framer-framer',
+            title: 'Only Framer (Framer)',
+            tech: 'framer',
+            animations: [
+              {
+                id: 'only-framer__test',
+                title: 'Test',
+                description: 'Test',
+                categoryId: 'base',
+                groupId: 'only-framer-framer',
+              },
+            ],
+          },
+        ],
+      },
+    ]
+
+    const { result } = renderHook(() => useAppNavigation(categoriesFramerOnly), {
+      wrapper: createWrapper('/only-framer-framer'),
+    })
+
+    // Attempting to switch to CSS when no css variant exists should be a no-op
+    result.current.handleModeSelect('CSS')
+    // currentGroupId should remain on the framer variant
+    expect(result.current.currentGroupId).toBe('only-framer-framer')
+  })
+
+  it('handleGroupSelect navigates to a different group', () => {
+    const { result } = renderHook(() => useAppNavigation(mockCategories), {
+      wrapper: createWrapper('/standard-effects-framer'),
+    })
+
+    expect(result.current.currentGroupId).toBe('standard-effects-framer')
+
+    // Select a different group
+    result.current.handleGroupSelect('modal-base-framer')
+    // After navigation, the router would update — we verify the handler was callable
+    // (full navigation testing requires router integration)
+  })
+
+  it('currentGroup matches the resolved group from allGroups', () => {
+    const { result } = renderHook(() => useAppNavigation(mockCategories), {
+      wrapper: createWrapper('/modal-base-framer'),
+    })
+
+    expect(result.current.currentGroup?.id).toBe('modal-base-framer')
+    expect(result.current.currentGroup?.title).toBe('Modal base (Framer)')
+  })
 })

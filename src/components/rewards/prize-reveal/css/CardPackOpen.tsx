@@ -35,7 +35,7 @@ import './CardPackOpen.css'
 const PACK_IMAGES = [cardPackBasicImage, cardPackGoldImage, cardPackDiamondImage] as const
 
 function randomPackImage(): string {
-  return PACK_IMAGES[Math.floor(Math.random() * PACK_IMAGES.length)]
+  return PACK_IMAGES[Math.floor(Math.random() * PACK_IMAGES.length)]!
 }
 
 /* ─── Image preloading ─── */
@@ -270,8 +270,8 @@ function useCardPackState(cardCount: number) {
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
   useEffect(() => {
     flipped.forEach((isFlipped, i) => {
-      if (isFlipped && !burstedCards[i] && cards[i].rarity >= 4) {
-        setActiveFlash(cards[i].rarity)
+      if (isFlipped && !burstedCards[i] && cards[i]!.rarity >= 4) {
+        setActiveFlash(cards[i]!.rarity)
         const t = window.setTimeout(() => setActiveFlash(null), 400)
         return () => window.clearTimeout(t)
       }

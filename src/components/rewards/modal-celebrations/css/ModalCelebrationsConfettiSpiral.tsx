@@ -58,7 +58,7 @@ function makeParticles(): SpiralParticle[] {
       particles.push({
         id: i,
         shape: pickRandom(CONFETTI_SHAPES),
-        color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length],
+        color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length]!,
         startAngle: armBase + randBetween(-8, 8),
         totalOrbit: randBetween(620, 840),
         maxRadius: randBetween(85, 150) * (isBg ? 0.65 : 1),

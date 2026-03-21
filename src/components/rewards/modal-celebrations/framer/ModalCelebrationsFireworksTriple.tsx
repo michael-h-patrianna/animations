@@ -125,7 +125,7 @@ function makeRays(): Ray[] {
         id: id++,
         angle: (j / RAYS_PER_BURST) * 360 + randBetween(-6, 6),
         length: isBg ? randBetween(35, 65) : randBetween(55, 110),
-        color: burst.colors[j % burst.colors.length],
+        color: burst.colors[j % burst.colors.length]!,
         cx: burst.cx,
         cy: burst.cy,
         delay: burst.delay + randBetween(0, 0.06),
@@ -176,7 +176,7 @@ function makeTrails(): Trail[] {
       trails.push({
         id: id++,
         shape: pickRandom(CONFETTI_SHAPES),
-        color: burst.colors[j % burst.colors.length],
+        color: burst.colors[j % burst.colors.length]!,
         xs,
         ys,
         scales,
@@ -370,7 +370,7 @@ export function ModalCelebrationsFireworksTriple() {
         <BurstFlash key={`flash-${i}`} cx={b.cx} cy={b.cy} delay={b.delay} />
       ))}
       {BURSTS.map((b, i) => (
-        <BurstRing key={`ring-${i}`} cx={b.cx} cy={b.cy} delay={b.delay} color={b.colors[0]} />
+        <BurstRing key={`ring-${i}`} cx={b.cx} cy={b.cy} delay={b.delay} color={b.colors[0]!} />
       ))}
 
       <div className="pf-celebration__depth-bg">

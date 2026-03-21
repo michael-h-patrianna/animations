@@ -112,7 +112,7 @@ export function ProgressBarsProgressMilestones() {
                   position: 'absolute',
                   inset: '20%',
                   background:
-                    'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, var(--pf-anim-cyan-light-30) 50%, transparent 100%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                    'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, var(--pf-anim-cyan-light-30) 50%, transparent 100%)',
                   borderRadius: '50%',
                   opacity: activatedMilestones.has(i) ? 1 : 0,
                   transition: 'opacity 0.3s ease',
@@ -160,7 +160,7 @@ export function ProgressBarsProgressMilestones() {
               animate={activatedMilestones.has(i) ? 'active' : 'inactive'}
               style={{
                 position: 'absolute',
-                left: `${MILESTONE_POSITIONS[i] * 100}%`,
+                left: `${MILESTONE_POSITIONS[i]! * 100}%`,
                 transform: 'translateX(-50%)',
               }}
             >

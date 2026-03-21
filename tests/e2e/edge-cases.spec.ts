@@ -171,9 +171,7 @@ test.describe('Edge Cases', () => {
     await catalogPage.selectFramerMode()
 
     // UI should settle on Framer mode
-    await expect
-      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
-      .toMatch(/-framer$/)
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-framer$/)
 
     // Cards should be present and functional
     await catalogPage.waitForCards()

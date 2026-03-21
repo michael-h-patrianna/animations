@@ -54,7 +54,8 @@ export function useGroupInitialization({
     if (allGroups.length === 0) return
 
     const hasGroup = (candidateId: string) => allGroups.some((g) => g.id === candidateId)
-    const firstGroupId = allGroups[0].id
+    // allGroups.length > 0 is checked at the top of this effect
+    const firstGroupId = allGroups[0]!.id
 
     if (groupId && hasGroup(groupId)) {
       // URL has a valid groupId

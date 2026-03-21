@@ -20,7 +20,7 @@ export function ProgressBarsTimelineProgress() {
       ) // Connector animation (if exists): scaleX 0 -> 1, opacity 0.3 -> 1
       // Duration: 260ms, easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)
       const connectorEl = connectorElements[index]
-      if (index in connectorElements) {
+      if (index in connectorElements && connectorEl) {
         connectorEl.animate(
           [
             { transform: 'scaleX(0)', opacity: 0.3 },

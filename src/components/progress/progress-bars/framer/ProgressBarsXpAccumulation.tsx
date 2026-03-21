@@ -162,7 +162,7 @@ export function ProgressBarsXpAccumulation() {
           return
         }
         const startingXP = xpRef.current
-        const targetXP = script[stepIndex]
+        const targetXP = script[stepIndex]!
         if (targetXP <= startingXP + 1) {
           sequenceIndexRef.current += 1
           registerTimeout(runGain, 40)

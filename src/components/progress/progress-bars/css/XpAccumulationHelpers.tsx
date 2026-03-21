@@ -1,4 +1,3 @@
-/* eslint-disable animation-rules/require-animation-metadata, animation-rules/require-dual-implementation -- helper components, not standalone animations */
 import { useEffect, useRef } from 'react'
 
 /** Floating XP data */

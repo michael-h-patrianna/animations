@@ -33,7 +33,7 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
         )
 
         // Verify metadata propagated correctly
-        expect(group.title).toContain(registryGroup.metadata.title)
+        expect(group.title).toContain(registryGroup!.metadata.title)
       }
     }
   })
@@ -95,6 +95,54 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
           expect(group.tech).toBe('css')
         }
       }
+    }
+  })
+
+  it('flat registry key set is a superset of all catalog animation IDs', () => {
+    const registry = buildRegistryFromCategories()
+    const registryIds = new Set(Object.keys(registry))
+
+    const catalogIds = new Set(
+      catalog.flatMap((c) => c.groups.flatMap((g) => g.animations.map((a) => a.id)))
+    )
+
+    // Every catalog animation must be in the registry
+    for (const id of catalogIds) {
+      expect(registryIds.has(id), `Catalog animation "${id}" missing from flat registry`).toBe(true)
+    }
+  })
+
+  it('framer and css groups for the same base group share identical animation IDs', () => {
+    for (const cat of catalog) {
+      const baseIds = new Set(cat.groups.map((g) => g.id.replace(/-(?:framer|css)$/, '')))
+      for (const baseId of baseIds) {
+        const framerGroup = cat.groups.find((g) => g.id === `${baseId}-framer`)
+        const cssGroup = cat.groups.find((g) => g.id === `${baseId}-css`)
+
+        if (framerGroup && cssGroup) {
+          const framerAnimIds = new Set(framerGroup.animations.map((a) => a.id))
+          const cssAnimIds = new Set(cssGroup.animations.map((a) => a.id))
+          expect(framerAnimIds, `Mismatched animation IDs for group "${baseId}"`).toEqual(
+            cssAnimIds
+          )
+        }
+      }
+    }
+  })
+
+  it('GroupSection renders correct count for groups with controls metadata', () => {
+    // Find a group with controls animations
+    const groupWithControls = catalog
+      .flatMap((c) => c.groups)
+      .find((g) => g.animations.some((a) => a.controls))
+
+    if (groupWithControls) {
+      render(<GroupSection group={groupWithControls} elementId={`group-${groupWithControls.id}`} />)
+
+      // The group header should show the correct count
+      expect(
+        screen.getByText(`${groupWithControls.title} (${groupWithControls.animations.length})`)
+      ).toHaveClass('pf-group__title')
     }
   })
 })

@@ -201,4 +201,74 @@ describe('hooks • useGroupInitialization', () => {
     expect(setCurrentGroupId).toHaveBeenCalledWith('first-framer')
     expect(navigateToGroup).toHaveBeenCalledWith('first-framer', { replace: true })
   })
+
+  it('does not fire effects when re-rendered with same props', () => {
+    const setCurrentGroupId = vi.fn()
+    const navigateToGroup = vi.fn()
+    const groups = [createGroup('alpha-framer')]
+
+    const { rerender } = renderHook(
+      (props) => useGroupInitialization(props),
+      {
+        initialProps: {
+          allGroups: groups,
+          groupId: 'alpha-framer',
+          currentGroupId: 'alpha-framer',
+          setCurrentGroupId,
+          navigateToGroup,
+        },
+      }
+    )
+
+    // First render: already matching, no calls
+    expect(setCurrentGroupId).not.toHaveBeenCalled()
+
+    // Re-render with same props: should still not fire
+    rerender({
+      allGroups: groups,
+      groupId: 'alpha-framer',
+      currentGroupId: 'alpha-framer',
+      setCurrentGroupId,
+      navigateToGroup,
+    })
+
+    expect(setCurrentGroupId).not.toHaveBeenCalled()
+    expect(navigateToGroup).not.toHaveBeenCalled()
+  })
+
+  it('handles transition from one valid group to another', () => {
+    const setCurrentGroupId = vi.fn()
+    const navigateToGroup = vi.fn()
+    const groups = [createGroup('alpha-framer'), createGroup('beta-framer')]
+
+    const { rerender } = renderHook(
+      (props) => useGroupInitialization(props),
+      {
+        initialProps: {
+          allGroups: groups,
+          groupId: 'alpha-framer',
+          currentGroupId: '',
+          setCurrentGroupId,
+          navigateToGroup,
+        },
+      }
+    )
+
+    expect(setCurrentGroupId).toHaveBeenCalledWith('alpha-framer')
+
+    setCurrentGroupId.mockClear()
+    navigateToGroup.mockClear()
+
+    // Transition to beta
+    rerender({
+      allGroups: groups,
+      groupId: 'beta-framer',
+      currentGroupId: 'alpha-framer',
+      setCurrentGroupId,
+      navigateToGroup,
+    })
+
+    expect(setCurrentGroupId).toHaveBeenCalledWith('beta-framer')
+    expect(navigateToGroup).not.toHaveBeenCalled() // Direct match, no redirect needed
+  })
 })

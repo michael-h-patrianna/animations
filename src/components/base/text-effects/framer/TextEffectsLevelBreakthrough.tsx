@@ -79,7 +79,7 @@ function TextEffectsLevelBreakthroughComponent() {
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(circle, transparent 75%, var(--pf-anim-firework-gold) 76%, transparent 82%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+            'radial-gradient(circle, transparent 75%, var(--pf-anim-firework-gold) 76%, transparent 82%)',
           opacity: 0,
         }}
       />
@@ -92,7 +92,7 @@ function TextEffectsLevelBreakthroughComponent() {
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(circle, transparent 65%, var(--pf-anim-firework-gold) 66%, transparent 72%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+            'radial-gradient(circle, transparent 65%, var(--pf-anim-firework-gold) 66%, transparent 72%)',
           opacity: 0,
         }}
       />

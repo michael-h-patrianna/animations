@@ -49,7 +49,7 @@ function makeCoins(): Coin[] {
 
   for (let i = 0; i < COIN_COUNT; i++) {
     const streamIdx = i % 3
-    const stream = STREAMS[streamIdx]
+    const stream = STREAMS[streamIdx]!
     const layer: 'bg' | 'fg' = i % 4 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
 
@@ -113,7 +113,7 @@ function makeTrails(): Mote[] {
   const trails: Mote[] = []
 
   for (let i = 0; i < TRAIL_COUNT; i++) {
-    const stream = STREAMS[i % 3]
+    const stream = STREAMS[i % 3]!
     const fallFrac = randBetween(0.15, 0.6)
     const fallDist = randBetween(150, 185)
 
@@ -135,7 +135,7 @@ function makeImpacts(): Mote[] {
   const impacts: Mote[] = []
 
   for (let i = 0; i < IMPACT_COUNT; i++) {
-    const stream = STREAMS[i % 3]
+    const stream = STREAMS[i % 3]!
 
     impacts.push({
       id: i,

@@ -53,19 +53,19 @@ const filamentVariantsEven = {
 }
 const bulbVariantsEven = {
   hidden: {
-    background: `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`, // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+    background: `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
     filter: `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
     transform: `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
     borderColor: `var(--pf-anim-white-35)`,
   },
   show: {
     background: [
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`, // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
       `var(--bulb-blend70)`,
       `var(--bulb-off)`,
       `var(--bulb-off)`,
       `var(--bulb-blend70)`,
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`, // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
     ],
     filter: [
       `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
@@ -146,8 +146,8 @@ const bulbVariantsOdd = {
     background: [
       `var(--bulb-off)`,
       `var(--bulb-blend70)`,
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`, // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
-      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`, // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
+      `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
       `var(--bulb-blend70)`,
       `var(--bulb-off)`,
     ],

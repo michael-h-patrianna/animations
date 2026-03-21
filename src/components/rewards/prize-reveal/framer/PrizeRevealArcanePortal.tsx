@@ -274,7 +274,7 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
               <Prize
                 key={prize.id}
                 config={prize}
-                slot={slots[i]}
+                slot={slots[i]!}
                 claimed={claimed}
                 claimIndex={i}
               />

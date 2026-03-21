@@ -11,9 +11,11 @@ import { expect, type Locator, type Page } from '@playwright/test'
  * - data-active for state assertions
  */
 export class CatalogPage {
+  readonly page: Page
   readonly sidebar: Locator
 
-  constructor(readonly page: Page) {
+  constructor(page: Page) {
+    this.page = page
     this.sidebar = page.locator('[data-testid="sidebar"]').first()
   }
 
@@ -174,6 +176,48 @@ export class CatalogPage {
   /** Get the group section element by ID. */
   groupSection(groupId: string): Locator {
     return this.page.locator(`[data-testid="group-section-group-${groupId}"]`)
+  }
+
+  // ── Code Viewer ──────────────────────────────────────────────────────
+
+  /** Get the code viewer button on a card. */
+  codeViewerButton(card: Locator): Locator {
+    return card.locator('[data-testid="code-viewer-btn"]')
+  }
+
+  /** Get the code viewer modal (rendered as portal on document.body). */
+  codeViewerModal(): Locator {
+    return this.page.locator('[data-testid="code-viewer-modal"]')
+  }
+
+  /** Get a code viewer tab by index. */
+  codeTab(index: number): Locator {
+    return this.page.locator(`[data-testid="code-tab-${index}"]`)
+  }
+
+  /** Get all code viewer tabs. */
+  codeTabs(): Locator {
+    return this.page.locator('[data-testid^="code-tab-"]')
+  }
+
+  /** Get the copy button in the code viewer modal. */
+  codeCopyButton(): Locator {
+    return this.page.locator('[data-testid="code-copy-btn"]')
+  }
+
+  /** Get the close button in the code viewer modal. */
+  codeCloseButton(): Locator {
+    return this.page.locator('[data-testid="code-close-btn"]')
+  }
+
+  /** Get the code body area in the code viewer modal. */
+  codeBody(): Locator {
+    return this.page.locator('[data-testid="code-body"]')
+  }
+
+  /** Get the highlighted code container (rendered by Shiki). */
+  codeHighlighted(): Locator {
+    return this.page.locator('[data-testid="code-highlighted"]')
   }
 
   /** Assert that the ErrorBoundary fallback is NOT shown. */

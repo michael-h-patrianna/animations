@@ -51,8 +51,7 @@ test.describe('Progress Bar Animations', () => {
     const stage = await catalogPage.cardStage(card)
 
     // Count milestones with data-active attribute (set by component state)
-    const activeMilestoneCount = () =>
-      stage.locator('.milestone-container[data-active]').count()
+    const activeMilestoneCount = () => stage.locator('.milestone-container[data-active]').count()
 
     // All 5 milestones should activate as progress completes (4s animation + buffer)
     await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)
@@ -64,8 +63,7 @@ test.describe('Progress Bar Animations', () => {
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    const activeMilestoneCount = () =>
-      stage.locator('.milestone-container[data-active]').count()
+    const activeMilestoneCount = () => stage.locator('.milestone-container[data-active]').count()
 
     // Wait for all milestones to activate
     await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)

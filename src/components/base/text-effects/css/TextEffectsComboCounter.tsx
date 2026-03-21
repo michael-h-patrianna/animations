@@ -28,7 +28,7 @@ function calculateMilestones(finalValue: number, maxParticles: number): Mileston
     const triggerValue = Math.round(finalValue * progress)
 
     // Calculate increment since last milestone
-    const lastValue = i > 0 ? milestones[i - 1].trigger : 0
+    const lastValue = i > 0 ? milestones[i - 1]!.trigger : 0
     const increment = triggerValue - lastValue
 
     milestones.push({

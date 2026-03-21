@@ -79,4 +79,49 @@ describe('useAnimations', () => {
     const cardPack = allAnimations.find((a) => a.id === 'prize-reveal__card-pack-open')
     expect(cardPack?.prizeCountMax).toBe(5)
   })
+
+  it('every group has a tech field set to framer or css', () => {
+    const { result } = renderHook(() => useAnimations())
+
+    for (const cat of result.current.categories) {
+      for (const group of cat.groups) {
+        expect(
+          group.tech,
+          `Group "${group.id}" is missing tech field`
+        ).toMatch(/^(framer|css)$/)
+      }
+    }
+  })
+
+  it('animation descriptions are substantive (>10 chars)', () => {
+    const { result } = renderHook(() => useAnimations())
+
+    const allAnimations = result.current.categories.flatMap((c) =>
+      c.groups.flatMap((g) => g.animations)
+    )
+
+    for (const anim of allAnimations) {
+      expect(
+        anim.description.length,
+        `Animation "${anim.id}" has description too short: "${anim.description}"`
+      ).toBeGreaterThan(10)
+    }
+  })
+
+  it('category IDs on animations reference actual catalog categories', () => {
+    const { result } = renderHook(() => useAnimations())
+
+    const categoryIds = new Set(result.current.categories.map((c) => c.id))
+
+    for (const cat of result.current.categories) {
+      for (const group of cat.groups) {
+        for (const anim of group.animations) {
+          expect(
+            categoryIds.has(anim.categoryId),
+            `Animation "${anim.id}" references non-existent category "${anim.categoryId}"`
+          ).toBe(true)
+        }
+      }
+    }
+  })
 })

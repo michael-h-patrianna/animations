@@ -1,5 +1,6 @@
 import { AppSidebar } from '@/components/ui/AppSidebar'
 import { CodeModeSwitch } from '@/components/ui/CodeModeSwitch'
+import { CloseIcon } from '@/components/ui/icons/CloseIcon'
 import type { CodeMode } from '@/contexts/CodeModeContext'
 import type { Category } from '@/types/animation'
 import { useCallback } from 'react'
@@ -47,21 +48,14 @@ export function MobileDrawer({
       />
       <div className="pf-drawer__panel" data-testid="drawer-panel">
         <div className="pf-drawer__panel-header">
-          <button type="button" className="pf-hamburger" aria-label="Close menu" data-testid="drawer-close" onClick={onClose}>
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+          <button
+            type="button"
+            className="pf-hamburger"
+            aria-label="Close menu"
+            data-testid="drawer-close"
+            onClick={onClose}
+          >
+            <CloseIcon size={22} />
           </button>
         </div>
         <AppSidebar

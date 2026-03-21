@@ -1,5 +1,3 @@
-/* eslint-disable animation-rules/no-direct-image-imports */
-
 import cardPackBackImage from '@/assets/card-pack/card-back.png'
 import cardPackBasicImage from '@/assets/card-pack/card-pack-basic.png'
 import cardPackDiamondImage from '@/assets/card-pack/card-pack-diamond.png'

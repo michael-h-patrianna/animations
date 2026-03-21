@@ -89,7 +89,7 @@ function makeParticles(): CssParticle[] {
   let id = 0
 
   for (let wi = 0; wi < WAVES.length; wi++) {
-    const wave = WAVES[wi]
+    const wave = WAVES[wi]!
 
     for (let j = 0; j < wave.particleCount; j++) {
       const layer: 'bg' | 'fg' = j % 3 === 0 ? 'bg' : 'fg'
@@ -105,7 +105,7 @@ function makeParticles(): CssParticle[] {
       particles.push({
         id: id++,
         shape: pickRandom(CONFETTI_SHAPES),
-        color: CELEBRATION_COLORS[(wi * wave.particleCount + j) % CELEBRATION_COLORS.length],
+        color: CELEBRATION_COLORS[(wi * wave.particleCount + j) % CELEBRATION_COLORS.length]!,
         spawnX: Math.cos(angle) * spawnR,
         spawnY: Math.sin(angle) * spawnR,
         tx: Math.cos(angle) * drift,
@@ -132,7 +132,7 @@ function makeSparkles(): Sparkle[] {
       id: i,
       x: Math.cos(angle) * r,
       y: Math.sin(angle) * r + randBetween(-5, 10),
-      delay: (WAVES[waveIdx].delay + 0.3 + (i / 12) * 0.15 + randBetween(0, 0.1)) * 1000,
+      delay: (WAVES[waveIdx]!.delay + 0.3 + (i / 12) * 0.15 + randBetween(0, 0.1)) * 1000,
       size: randBetween(2.5, 5),
     }
   })

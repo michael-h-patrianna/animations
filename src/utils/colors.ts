@@ -1,5 +1,3 @@
-/* eslint-disable animation-rules/no-hardcoded-colors -- Color utility requires raw color manipulation */
-
 /**
  * RGB color channels
  */
@@ -71,9 +69,9 @@ function parseRgbColor(color: string): RGB | null {
   }
 
   return {
-    r: parseRgbChannel(match[1]),
-    g: parseRgbChannel(match[2]),
-    b: parseRgbChannel(match[3]),
+    r: parseRgbChannel(match[1]!),
+    g: parseRgbChannel(match[2]!),
+    b: parseRgbChannel(match[3]!),
   }
 }
 
@@ -112,15 +110,40 @@ function resolveCssColor(color: string): RGB | null {
 /**
  * Parses a color string and returns RGB values.
  * Supports hex, rgb/rgba, named colors, and CSS variables (web runtime).
+ * Returns null if the color cannot be parsed by any strategy.
+ */
+function tryParseColor(color: string): RGB | null {
+  const trimmedColor = color.trim()
+  return parseHexColor(trimmedColor) ?? parseRgbColor(trimmedColor) ?? resolveCssColor(trimmedColor)
+}
+
+/**
+ * Parses a color string and returns RGB values.
+ * Supports hex, rgb/rgba, named colors, and CSS variables (web runtime).
+ * Falls back to FALLBACK_COLOR (gold) for unparseable inputs.
  */
 function parseColor(color: string): RGB {
-  const trimmedColor = color.trim()
-  return (
-    parseHexColor(trimmedColor) ??
-    parseRgbColor(trimmedColor) ??
-    resolveCssColor(trimmedColor) ??
-    FALLBACK_COLOR
-  )
+  return tryParseColor(color) ?? FALLBACK_COLOR
+}
+
+/**
+ * Converts any supported color string to a normalized 6-digit hex string.
+ * Supports hex (3/4/6/8 digit), rgb/rgba, named colors, and CSS variables (web runtime).
+ *
+ * @throws {Error} In development, throws if the color cannot be parsed. In production,
+ * silently returns the fallback color '#ffd700' (gold) to avoid runtime crashes.
+ */
+export function toHex(color: string): string {
+  const parsed = tryParseColor(color)
+  if (!parsed) {
+    if (import.meta.env.DEV) {
+      throw new Error(
+        `toHex: unparseable color "${color}" — falling back to #ffd700. Fix the caller.`
+      )
+    }
+    return formatHexColor(FALLBACK_COLOR)
+  }
+  return formatHexColor(parsed)
 }
 
 /**

@@ -35,7 +35,7 @@ export function ProgressBarsProgressBounce() {
         'var(--pf-anim-green-40)',
         'var(--pf-anim-green-20)',
       ]
-      wave.style.background = waveColors[i]
+      wave.style.background = waveColors[i]!
       wave.style.opacity = '0'
       wave.style.pointerEvents = 'none'
       trackContainer.appendChild(wave)
@@ -46,7 +46,7 @@ export function ProgressBarsProgressBounce() {
     elasticOverlay.style.position = 'absolute'
     elasticOverlay.style.inset = '0'
     elasticOverlay.style.background =
-      'radial-gradient(ellipse at right center, var(--pf-anim-green-30) 0%, transparent 50%)' // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      'radial-gradient(ellipse at right center, var(--pf-anim-green-30) 0%, transparent 50%)'
     elasticOverlay.style.opacity = '0'
     elasticOverlay.style.pointerEvents = 'none'
     fill.appendChild(elasticOverlay)

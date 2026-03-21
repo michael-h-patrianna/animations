@@ -1,4 +1,8 @@
-import { buildRegistryFromCategories, categories } from '@/components/animationRegistry'
+import {
+  buildRegistryFromCategories,
+  categories,
+  getGroupAnimations,
+} from '@/components/animationRegistry'
 import { describe, expect, it } from 'vitest'
 
 describe('animationRegistry', () => {
@@ -142,6 +146,37 @@ describe('animationRegistry', () => {
       const registryKeys = new Set(Object.keys(registry))
       const missingIds = overlap.filter((id) => !registryKeys.has(id))
       expect(missingIds).toEqual([])
+    })
+  })
+
+  describe('getGroupAnimations', () => {
+    it('returns framer animations for a known group', () => {
+      const anims = getGroupAnimations('standard-effects', 'framer')
+      expect(Object.keys(anims).length).toBeGreaterThanOrEqual(1)
+      for (const [id, anim] of Object.entries(anims)) {
+        expect(id).toMatch(/^standard-effects__/)
+        expect(anim.component).toHaveProperty('$$typeof', Symbol.for('react.lazy'))
+      }
+    })
+
+    it('returns css animations for a known group', () => {
+      const anims = getGroupAnimations('standard-effects', 'css')
+      expect(Object.keys(anims).length).toBeGreaterThanOrEqual(1)
+      for (const [id, anim] of Object.entries(anims)) {
+        expect(id).toMatch(/^standard-effects__/)
+        expect(anim.metadata.id).toBe(id)
+      }
+    })
+
+    it('returns empty object for unknown group', () => {
+      const anims = getGroupAnimations('nonexistent-group', 'framer')
+      expect(anims).toEqual({})
+    })
+
+    it('returns same animations as direct category.groups access', () => {
+      const directFramer = categories['base']!.groups['standard-effects']!.framer
+      const helperFramer = getGroupAnimations('standard-effects', 'framer')
+      expect(Object.keys(helperFramer).sort()).toEqual(Object.keys(directFramer).sort())
     })
   })
 })

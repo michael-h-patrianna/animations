@@ -67,8 +67,8 @@ const useLiveScoreCycle = (
         step += 1
         const easedProgress = easeOutCubic(step / SCORE_STEPS)
         setScores([
-          Math.round(currentScores[0] + SCORE_INCREMENT * easedProgress),
-          Math.round(currentScores[1] + SCORE_INCREMENT * easedProgress),
+          Math.round(currentScores[0]! + SCORE_INCREMENT * easedProgress),
+          Math.round(currentScores[1]! + SCORE_INCREMENT * easedProgress),
         ])
         if (step >= SCORE_STEPS) clearTrackedInterval(countInterval)
       }, SCORE_STEP_INTERVAL_MS)
@@ -136,8 +136,8 @@ export function RealtimeDataLiveScoreUpdate() {
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
       <div className="pf-realtime-data__leaderboard">
-        <ScoreRow rank="#1" player="Phoenix" score={scores[0]} controls={controls1} />
-        <ScoreRow rank="#2" player="Shadow" score={scores[1]} controls={controls2} delay={0.1} />
+        <ScoreRow rank="#1" player="Phoenix" score={scores[0]!} controls={controls1} />
+        <ScoreRow rank="#2" player="Shadow" score={scores[1]!} controls={controls2} delay={0.1} />
       </div>
     </div>
   )

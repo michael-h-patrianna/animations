@@ -1,4 +1,3 @@
-/* eslint-disable animation-rules/require-animation-metadata, animation-rules/require-dual-implementation */
 import { type CSSProperties } from 'react'
 
 import { crystalShatterDustImage, crystalShatterSparkleImage } from '@/assets'

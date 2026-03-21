@@ -65,7 +65,7 @@ export function ProgressBarsProgressThin() {
             position: 'absolute',
             inset: '-8px',
             background:
-              'radial-gradient(ellipse at right center, var(--pf-anim-green-20) 0%, transparent 70%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+              'radial-gradient(ellipse at right center, var(--pf-anim-green-20) 0%, transparent 70%)',
             pointerEvents: 'none',
             transform: 'scale(1.3)',
           }}

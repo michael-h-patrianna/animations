@@ -33,7 +33,7 @@ function calculateParticles(finalValue: number, maxParticles: number): Particle[
     const triggerValue = Math.round(finalValue * progress)
 
     // Calculate increment since last particle
-    const lastValue = i > 0 ? particles[i - 1].trigger : 0
+    const lastValue = i > 0 ? particles[i - 1]!.trigger : 0
     const increment = triggerValue - lastValue
 
     // Calculate circular position (5 particles per layer)

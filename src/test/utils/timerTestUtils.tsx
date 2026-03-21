@@ -1,4 +1,5 @@
 import { act, render } from '@testing-library/react'
+import type React from 'react'
 import { vi } from 'vitest'
 
 /**
@@ -13,7 +14,7 @@ import { vi } from 'vitest'
  *   before unmounting, to exercise timer-scheduling code paths that only fire after a delay.
  */
 export function assertNoLeakedTimersAfterUnmount(
-  Component: () => JSX.Element,
+  Component: React.ComponentType,
   options?: { advanceBeforeUnmountMs?: number }
 ) {
   const { unmount } = render(<Component />)

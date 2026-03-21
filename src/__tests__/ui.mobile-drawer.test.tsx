@@ -69,4 +69,62 @@ describe('MobileDrawer', () => {
     expect(onGroupSelect).toHaveBeenCalledWith('group-1-framer')
     expect(onClose).toHaveBeenCalledOnce()
   })
+
+  it('renders the code mode switch inside the drawer', () => {
+    renderDrawer()
+    // The drawer should contain the code mode switch buttons
+    expect(screen.getByRole('button', { name: 'Framer' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'CSS' })).toBeVisible()
+  })
+
+  it('calls onModeSelect when CSS mode is selected', () => {
+    const { onModeSelect } = renderDrawer()
+    fireEvent.click(screen.getByRole('button', { name: 'CSS' }))
+    expect(onModeSelect).toHaveBeenCalledWith('CSS')
+  })
+
+  it('highlights current group in the navigation', () => {
+    renderDrawer()
+    // Group 1 is the current group — it should have active styling
+    const groupButton = screen.getByText('Group 1')
+    expect(groupButton.className).toContain('active')
+  })
+
+  it('renders all categories from the provided list', () => {
+    const categories: import('@/types/animation').Category[] = [
+      {
+        id: 'cat-a',
+        title: 'Category A',
+        groups: [
+          { id: 'ga-framer', title: 'GA (Framer)', tech: 'framer' as const, animations: [] },
+          { id: 'ga-css', title: 'GA (CSS)', tech: 'css' as const, animations: [] },
+        ],
+      },
+      {
+        id: 'cat-b',
+        title: 'Category B',
+        groups: [
+          { id: 'gb-framer', title: 'GB (Framer)', tech: 'framer' as const, animations: [] },
+          { id: 'gb-css', title: 'GB (CSS)', tech: 'css' as const, animations: [] },
+        ],
+      },
+    ]
+
+    render(
+      <CodeModeProvider>
+        <MobileDrawer
+          isOpen={true}
+          codeMode="Framer"
+          categories={categories}
+          currentGroupId="ga-framer"
+          onClose={vi.fn()}
+          onGroupSelect={vi.fn()}
+          onModeSelect={vi.fn()}
+        />
+      </CodeModeProvider>
+    )
+
+    expect(screen.getByText('Category A')).toBeVisible()
+    expect(screen.getByText('Category B')).toBeVisible()
+  })
 })

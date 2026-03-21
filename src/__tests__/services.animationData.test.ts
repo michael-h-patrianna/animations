@@ -49,7 +49,7 @@ describe('buildCatalog', () => {
         expect(variants.length).toBeLessThanOrEqual(2)
 
         if (variants.length === 1) {
-          unpaired.push(variants[0].id)
+          unpaired.push(variants[0]!.id)
         }
         if (variants.length === 2) {
           const techs = new Set(variants.map((v) => v.tech))
@@ -57,8 +57,8 @@ describe('buildCatalog', () => {
             new Set(['framer', 'css'])
           )
           // Paired groups should have the same animation IDs
-          const ids0 = new Set(variants[0].animations.map((a) => a.id))
-          const ids1 = new Set(variants[1].animations.map((a) => a.id))
+          const ids0 = new Set(variants[0]!.animations.map((a) => a.id))
+          const ids1 = new Set(variants[1]!.animations.map((a) => a.id))
           for (const id of ids0) {
             expect(ids1.has(id), `${baseId}: framer has ${id} but css doesn't`).toBe(true)
           }
@@ -141,8 +141,89 @@ describe('buildCatalog', () => {
     const catalog2 = buildCatalog()
     expect(catalog2.length).toBe(catalog.length)
     for (let i = 0; i < catalog.length; i++) {
-      expect(catalog2[i].id).toBe(catalog[i].id)
-      expect(catalog2[i].groups.length).toBe(catalog[i].groups.length)
+      expect(catalog2[i]!.id).toBe(catalog[i]!.id)
+      expect(catalog2[i]!.groups.length).toBe(catalog[i]!.groups.length)
+    }
+  })
+
+  it('group titles follow the pattern "GroupTitle (Framer)" or "GroupTitle (CSS)"', () => {
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        if (group.tech === 'framer') {
+          expect(group.title, `Group "${group.id}" should end with (Framer)`).toMatch(/\(Framer\)$/)
+        } else if (group.tech === 'css') {
+          expect(group.title, `Group "${group.id}" should end with (CSS)`).toMatch(/\(CSS\)$/)
+        }
+      }
+    }
+  })
+
+  it('group IDs follow the pattern "baseGroupId-framer" or "baseGroupId-css"', () => {
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        expect(group.id).toMatch(/-(?:framer|css)$/)
+        // The base ID (without suffix) should be a valid kebab-case identifier
+        const baseId = group.id.replace(/-(?:framer|css)$/, '')
+        expect(baseId).toMatch(/^[a-z][a-z0-9-]+$/)
+      }
+    }
+  })
+
+  it('every animation groupId matches the group it belongs to', () => {
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        for (const anim of group.animations) {
+          expect(
+            anim.groupId,
+            `Animation "${anim.id}" has groupId "${anim.groupId}" but belongs to group "${group.id}"`
+          ).toBe(group.id)
+        }
+      }
+    }
+  })
+
+  it('animation id prefix matches the base group id (without tech suffix)', () => {
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
+        for (const anim of group.animations) {
+          const prefix = anim.id.split('__')[0]
+          expect(
+            prefix,
+            `Animation "${anim.id}" prefix "${prefix}" doesn't match group base ID "${baseGroupId}"`
+          ).toBe(baseGroupId)
+        }
+      }
+    }
+  })
+
+  it('disableReplay flag is propagated to catalog animations when set', () => {
+    const allAnims = catalog.flatMap((c) => c.groups.flatMap((g) => g.animations))
+    // Some animations should have disableReplay: true
+    const withDisableReplay = allAnims.filter((a) => a.disableReplay === true)
+    // At least some should exist (e.g., prize reveals that don't support replay)
+    expect(withDisableReplay.length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('category order is deterministic across calls', () => {
+    const catalog2 = buildCatalog()
+    const ids1 = catalog.map((c) => c.id)
+    const ids2 = catalog2.map((c) => c.id)
+    expect(ids1).toEqual(ids2)
+  })
+
+  it('framer and css groups have the same animation count per base group', () => {
+    for (const cat of catalog) {
+      const baseIds = new Set(cat.groups.map((g) => g.id.replace(/-(?:framer|css)$/, '')))
+      for (const baseId of baseIds) {
+        const variants = cat.groups.filter((g) => g.id.replace(/-(?:framer|css)$/, '') === baseId)
+        if (variants.length === 2) {
+          expect(
+            variants[0]!.animations.length,
+            `Group "${baseId}": framer and css variants have different animation counts`
+          ).toBe(variants[1]!.animations.length)
+        }
+      }
     }
   })
 })

@@ -152,7 +152,7 @@ export function ProgressBarsChargeSurge() {
             {/* Main marker */}
             <m.div
               className="milestone-marker"
-              animate={markerVariants(milestoneStates[i])}
+              animate={markerVariants(milestoneStates[i]!)}
               style={{
                 position: 'absolute',
                 inset: 0,

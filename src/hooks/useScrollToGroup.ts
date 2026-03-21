@@ -39,6 +39,9 @@ export function useScrollToGroup({
 
     const id = `group-${currentGroupId}`
     const EXTRA_OFFSET = 16
+    // Lazy-loaded group sections may not be in the DOM during the first rAF.
+    // 360ms covers a typical Suspense resolve + React render cycle on mid-range devices.
+    const RETRY_DELAY_MS = 360
     let raf = 0
     let timeout: ReturnType<typeof setTimeout> | undefined
 
@@ -63,7 +66,7 @@ export function useScrollToGroup({
 
     const attemptScroll = () => {
       if (!scrollGroupIntoView()) {
-        timeout = setTimeout(scrollGroupIntoView, 360)
+        timeout = setTimeout(scrollGroupIntoView, RETRY_DELAY_MS)
       }
     }
 

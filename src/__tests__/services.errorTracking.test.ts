@@ -83,9 +83,9 @@ describe('reportRuntimeError', () => {
 
     // Should log the error via logger
     expect(logCalls).toHaveLength(1)
-    expect(logCalls[0].level).toBe('error')
-    expect(logCalls[0].message).toBe('Runtime error reporter failed:')
-    expect((logCalls[0].args[0] as Error).message).toBe('reporter internal failure')
+    expect(logCalls[0]!.level).toBe('error')
+    expect(logCalls[0]!.message).toBe('Runtime error reporter failed:')
+    expect((logCalls[0]!.args[0] as Error).message).toBe('reporter internal failure')
 
     loggerMod.logger.resetSink()
   })

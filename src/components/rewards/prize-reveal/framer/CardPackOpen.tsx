@@ -40,7 +40,7 @@ import { ALL_CARD_IMAGES, drawCards, getCardSet } from '../cardSets'
 const PACK_IMAGES = [cardPackBasicImage, cardPackGoldImage, cardPackDiamondImage] as const
 
 function randomPackImage(): string {
-  return PACK_IMAGES[Math.floor(Math.random() * PACK_IMAGES.length)]
+  return PACK_IMAGES[Math.floor(Math.random() * PACK_IMAGES.length)]!
 }
 
 /* ─── Image preloading ─── */
@@ -230,8 +230,8 @@ function useCardPackState(cardCount: number) {
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
   useEffect(() => {
     flipped.forEach((isFlipped, i) => {
-      if (isFlipped && !burstedCards[i] && cards[i].rarity >= 4) {
-        setActiveFlash(cards[i].rarity)
+      if (isFlipped && !burstedCards[i] && cards[i]!.rarity >= 4) {
+        setActiveFlash(cards[i]!.rarity)
         const t = window.setTimeout(() => setActiveFlash(null), 400)
         return () => window.clearTimeout(t)
       }
@@ -292,8 +292,8 @@ function CardFanContainer({
         <FlipCard
           key={`${card.id}-${i}`}
           card={card}
-          position={positions[i]}
-          flipped={flipped[i]}
+          position={positions[i]!}
+          flipped={flipped[i]!}
           fanDelay={i * 0.12}
           collected={collected}
           collectIndex={i}
@@ -306,11 +306,11 @@ function CardFanContainer({
         />
       ))}
       {cards.map((_, i) => (
-        <CardLandShimmer key={`shimmer-${i}`} position={positions[i]} delay={i * 0.12} />
+        <CardLandShimmer key={`shimmer-${i}`} position={positions[i]!} delay={i * 0.12} />
       ))}
       {cards.map((card, i) =>
         burstedCards[i] ? (
-          <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]} />
+          <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]!} />
         ) : null
       )}
     </div>

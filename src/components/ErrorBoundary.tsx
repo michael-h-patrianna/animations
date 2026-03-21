@@ -156,7 +156,20 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   /** Log error information when component catches an error */
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    logger.error('ErrorBoundary caught an error:', error, errorInfo)
+    // Extract the innermost component name from the React component stack
+    // to help identify which animation or UI component caused the error.
+    const componentName = errorInfo.componentStack
+      ?.match(/\n\s+at (\w+)/)?.[1] ?? 'unknown'
+
+    logger.error('ErrorBoundary caught an error:', {
+      message: error.message,
+      name: error.name,
+      failedComponent: componentName,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+      url: typeof window !== 'undefined' ? window.location.href : 'unknown',
+      timestamp: new Date().toISOString(),
+    })
     reportRuntimeError(error, errorInfo)
   }
 

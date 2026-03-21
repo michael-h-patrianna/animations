@@ -85,7 +85,7 @@ describe('ErrorBoundary', () => {
       (call) => typeof call[0] === 'string' && call[0].includes('ErrorBoundary caught')
     )
     expect(errorCalls.length).toBe(1)
-    expect(errorCalls[0][1].message).toBe('Test error from child')
+    expect(errorCalls[0]![1].message).toBe('Test error from child')
 
     consoleSpy.mockRestore()
   })
@@ -126,6 +126,77 @@ describe('ErrorBoundary', () => {
     // In non-prod (test env), ErrorDevDetails should render
     const details = screen.getByText('Error Details (Development Only)')
     expect(details).toBeInTheDocument()
+
+    consoleErrorSpy.mockRestore()
+  })
+
+  it('catches errors thrown during render of deeply nested children', () => {
+    consoleErrorSpy.mockImplementation(() => {})
+
+    function DeepChild() {
+      throw new Error('Deep nested error')
+    }
+
+    function MiddleComponent() {
+      return (
+        <div>
+          <DeepChild />
+        </div>
+      )
+    }
+
+    render(
+      <ErrorBoundary>
+        <MiddleComponent />
+      </ErrorBoundary>
+    )
+
+    expect(screen.getByText('Something went wrong')).toBeVisible()
+    consoleErrorSpy.mockRestore()
+  })
+
+  it('displays the error toString() in dev details pre tag', () => {
+    consoleErrorSpy.mockImplementation(() => {})
+
+    render(
+      <ErrorBoundary>
+        <ThrowingChild />
+      </ErrorBoundary>
+    )
+
+    // error.toString() produces "Error: Test error from child"
+    const details = screen.getByTestId('error-details')
+    expect(details).toBeInTheDocument()
+    expect(details).toHaveTextContent('Error: Test error from child')
+
+    consoleErrorSpy.mockRestore()
+  })
+
+  it('renders non-throwing children after initial error recovery', () => {
+    consoleErrorSpy.mockImplementation(() => {})
+    let shouldThrow = true
+
+    function ConditionalThrower() {
+      if (shouldThrow) throw new Error('First render error')
+      return (
+        <div>
+          <span data-testid="child-a">Child A</span>
+          <span data-testid="child-b">Child B</span>
+        </div>
+      )
+    }
+
+    render(
+      <ErrorBoundary>
+        <ConditionalThrower />
+      </ErrorBoundary>
+    )
+
+    shouldThrow = false
+    fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
+
+    expect(screen.getByTestId('child-a')).toBeVisible()
+    expect(screen.getByTestId('child-b')).toBeVisible()
 
     consoleErrorSpy.mockRestore()
   })

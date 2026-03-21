@@ -51,7 +51,7 @@ export function ProgressBarsProgressMilestones() {
       innerGlow.style.borderRadius = '50%'
       innerGlow.style.opacity = '0' // Simulate blur with radial gradient for RN compatibility
       innerGlow.style.background =
-        'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, var(--pf-anim-cyan-light-30) 50%, transparent 100%)' // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+        'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, var(--pf-anim-cyan-light-30) 50%, transparent 100%)'
       innerGlow.style.transition = 'all 0.3s ease'
       markerContainer.appendChild(innerGlow) // Outer ring pulse
       const ring = document.createElement('div')
@@ -80,13 +80,13 @@ export function ProgressBarsProgressMilestones() {
       const span = document.createElement('span')
       span.textContent = label
       span.style.position = 'absolute'
-      span.style.left = `${milestonePositions[i] * 100}%`
+      span.style.left = `${milestonePositions[i]! * 100}%`
       span.style.transform = 'translateX(-50%)'
       span.style.opacity = '0.5'
       span.style.transition = 'all 0.3s ease'
       labelContainer.appendChild(span)
       if (i in milestoneMarkers) {
-        milestoneMarkers[i].label = span
+        milestoneMarkers[i]!.label = span
       }
     }) // Main fill animation
     const duration = 4000 // Fixed 4 seconds duration

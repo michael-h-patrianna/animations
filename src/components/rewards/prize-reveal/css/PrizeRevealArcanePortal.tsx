@@ -92,7 +92,7 @@ function getPrizeSlots(count: number): PrizeSlot[] {
       { x: 110, y: 34, delay: 0.21 },
     ],
   }
-  return layouts[count] ?? layouts[DEFAULT_PRIZE_COUNT]
+  return (layouts[count] ?? layouts[DEFAULT_PRIZE_COUNT])!
 }
 
 /* ─── Hooks ─── */
@@ -362,7 +362,7 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
               <Prize
                 key={prize.id}
                 config={prize}
-                slot={slots[i]}
+                slot={slots[i]!}
                 claimed={claimed}
                 claimIndex={i}
               />

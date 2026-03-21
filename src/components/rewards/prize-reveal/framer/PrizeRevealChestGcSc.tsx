@@ -86,7 +86,7 @@ function getPrizePositions(count: number): PrizePosition[] {
       { flyX: 100, overshootX: 110, delay: 0.17 },
     ],
   }
-  return layouts[count] ?? layouts[DEFAULT_PRIZE_COUNT]
+  return (layouts[count] ?? layouts[DEFAULT_PRIZE_COUNT])!
 }
 
 function useRevealPhase() {
@@ -286,7 +286,7 @@ function Prize({
       ? [0, 0, 0, 0]
       : [0, position.overshootX, position.flyX * 0.95, position.flyX]
 
-  const restX = xFrames[xFrames.length - 1]
+  const restX = xFrames[xFrames.length - 1]!
   const claimX = position.flyX === 0 ? 0 : position.flyX * 3.5
 
   return (
@@ -385,7 +385,7 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
               <Prize
                 key={prize.id}
                 config={prize}
-                position={positions[i]}
+                position={positions[i]!}
                 claimed={claimed}
                 claimIndex={i}
               />

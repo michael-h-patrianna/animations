@@ -67,7 +67,7 @@ interface IncrementStep {
     const remaining = targetValue - cumulativeValue
     if (steps.length > 0) {
       // Add remaining to last step
-      const lastStep = steps[steps.length - 1]
+      const lastStep = steps[steps.length - 1]!
       lastStep.value = targetValue
       lastStep.incrementAmount += remaining
       lastStep.timing = durationMs

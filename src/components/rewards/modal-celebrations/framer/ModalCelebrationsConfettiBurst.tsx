@@ -49,7 +49,7 @@ function makeParticles(): Particle[] {
     return {
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
-      color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length],
+      color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length]!,
       originX: randBetween(-4, 4),
       tx: randBetween(-140, 140) * spread,
       tyPeak: randBetween(-150, -50) * reach,

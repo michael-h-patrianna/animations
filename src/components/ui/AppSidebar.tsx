@@ -91,7 +91,7 @@ function useCategoryExpansion(categories: Category[]) {
   return { expandedIds, toggle }
 }
 
-function CategorySection({
+function SidebarCategory({
   category,
   groupVariants,
   isExpanded,
@@ -171,7 +171,7 @@ export const AppSidebar: FC<AppSidebarProps> = ({
       {topContent != null && <div className="pf-sidebar__intro">{topContent}</div>}
       <div className="pf-sidebar__nav">
         {categoryGroups.map(({ category, groupVariants }) => (
-          <CategorySection
+          <SidebarCategory
             key={category.id}
             category={category}
             groupVariants={groupVariants}

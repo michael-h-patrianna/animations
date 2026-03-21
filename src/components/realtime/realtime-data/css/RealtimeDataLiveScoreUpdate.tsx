@@ -98,8 +98,8 @@ export function RealtimeDataLiveScoreUpdate() {
         const progress = step / SCORE_STEPS
         const easedProgress = easeOutCubic(progress)
         setScores([
-          Math.round(currentScores[0] + SCORE_INCREMENT * easedProgress),
-          Math.round(currentScores[1] + SCORE_INCREMENT * easedProgress),
+          Math.round(currentScores[0]! + SCORE_INCREMENT * easedProgress),
+          Math.round(currentScores[1]! + SCORE_INCREMENT * easedProgress),
         ])
 
         if (step >= SCORE_STEPS) {
@@ -128,8 +128,8 @@ export function RealtimeDataLiveScoreUpdate() {
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
       <div className="pf-realtime-data__leaderboard">
-        <ScoreRow rank="#1" player="Phoenix" scoreRef={score1Ref} score={scores[0]} />
-        <ScoreRow rank="#2" player="Shadow" scoreRef={score2Ref} score={scores[1]} />
+        <ScoreRow rank="#1" player="Phoenix" scoreRef={score1Ref} score={scores[0]!} />
+        <ScoreRow rank="#2" player="Shadow" scoreRef={score2Ref} score={scores[1]!} />
       </div>
     </div>
   )

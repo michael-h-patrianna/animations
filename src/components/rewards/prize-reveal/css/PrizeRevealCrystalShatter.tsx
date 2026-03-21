@@ -101,7 +101,7 @@ function getPrizeSlots(count: number): PrizeSlot[] {
       { x: 140, y: -10, delay: 0.45 },
     ],
   }
-  return layouts[count] ?? layouts[DEFAULT_PRIZE_COUNT]
+  return (layouts[count] ?? layouts[DEFAULT_PRIZE_COUNT])!
 }
 
 /* ─── Count-up hook ─── */
@@ -393,7 +393,7 @@ function PrizeRevealCrystalShatterComponent({
             <CssPrize
               key={prize.id}
               config={prize}
-              slot={slots[i]}
+              slot={slots[i]!}
               claimed={claimed}
               claimIndex={i}
             />

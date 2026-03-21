@@ -73,4 +73,27 @@ describe('realtime-data CSS/Framer initial DOM parity', () => {
       framer.container.querySelector('[data-animation-id="realtime-data__win-ticker"]')
     ).toBeInTheDocument()
   })
+
+  it('leaderboard-shift: both variants render same number of rows initially', () => {
+    const css = render(<CssLeaderboard />)
+    const framer = render(<FramerLeaderboard />)
+
+    const cssRows = css.container.querySelectorAll('.pf-realtime-data__row')
+    const framerRows = framer.container.querySelectorAll('.pf-realtime-data__row')
+
+    expect(cssRows.length).toBe(framerRows.length)
+    expect(cssRows.length).toBeGreaterThanOrEqual(3)
+  })
+
+  it('live-score-update: both variants render initial score elements', () => {
+    const css = render(<CssLiveScore />)
+    const framer = render(<FramerLiveScore />)
+
+    // Both should render score display elements
+    const cssScores = css.container.querySelectorAll('.pf-realtime-data__score')
+    const framerScores = framer.container.querySelectorAll('.pf-realtime-data__score')
+
+    // Should have same number of score elements (structural parity)
+    expect(cssScores.length).toBe(framerScores.length)
+  })
 })

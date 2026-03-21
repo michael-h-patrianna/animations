@@ -42,4 +42,28 @@ describe('App', () => {
     const drawer = screen.getByRole('dialog', { hidden: true })
     expect(drawer).toHaveAttribute('hidden')
   })
+
+  it('renders animation cards from the real catalog', () => {
+    renderApp()
+
+    // The app should render at least some animation cards from the real registry
+    const cardTitles = screen.getAllByTestId('card-title')
+    expect(cardTitles.length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('renders with a specific group route parameter', () => {
+    renderApp('/standard-effects-framer')
+
+    // Should show the group in the mobile header
+    expect(screen.getByTestId('mobile-header')).toBeVisible()
+  })
+
+  it('renders GitHub link in the app shell', () => {
+    renderApp()
+
+    const githubLinks = screen.getAllByRole('link', { name: 'View source on GitHub' })
+    expect(githubLinks.length).toBeGreaterThanOrEqual(1)
+    expect(githubLinks[0]).toHaveAttribute('target', '_blank')
+    expect(githubLinks[0]).toHaveAttribute('rel', 'noopener noreferrer')
+  })
 })

@@ -85,7 +85,7 @@ export function ProgressBarsProgressBounce() {
                 position: 'absolute',
                 inset: 0,
                 background:
-                  'radial-gradient(ellipse at right center, var(--pf-anim-green-30) 0%, transparent 50%)', // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+                  'radial-gradient(ellipse at right center, var(--pf-anim-green-30) 0%, transparent 50%)',
                 pointerEvents: 'none',
               }}
               variants={elasticOverlayVariants}

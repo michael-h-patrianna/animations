@@ -2,7 +2,7 @@ import { AppSidebar } from '@/components/ui/AppSidebar'
 import { CodeModeSwitch } from '@/components/ui/CodeModeSwitch'
 import { MobileDrawer } from '@/components/ui/MobileDrawer'
 import { MobileHeader } from '@/components/ui/MobileHeader'
-import { GroupSection } from '@/components/ui/catalog'
+import { GroupSection } from '@/components/ui/GroupSection'
 import { useCodeMode } from '@/contexts/CodeModeContext'
 import { useAnimations } from '@/hooks/useAnimations'
 import { useAppNavigation } from '@/hooks/useAppNavigation'
@@ -63,7 +63,7 @@ function App() {
                   animate="center"
                   exit="exit"
                   transition={{
-                    x: { type: 'spring' as const, stiffness: 300, damping: 30 },
+                    x: { type: 'spring', stiffness: 300, damping: 30 },
                     opacity: { duration: 0.2 },
                   }}
                   style={{ width: '100%' }}

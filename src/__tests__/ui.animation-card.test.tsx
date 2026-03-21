@@ -153,10 +153,10 @@ describe('AnimationCard', () => {
     )
 
     // Children function was called with render props
-    expect(capturedProps?.bulbCount).toBe(16)
-    expect(capturedProps?.prizeCount).toBe(3)
-    // onColor starts empty and is resolved via useLayoutEffect
-    expect(capturedProps?.onColor).toBe('')
+    expect(capturedProps!.bulbCount).toBe(16)
+    expect(capturedProps!.prizeCount).toBe(3)
+    // onColor resolved via useLayoutEffect — CSS vars unavailable in test env, so resolveColorInputDefault returns ''
+    expect(capturedProps!.onColor).toBe('')
   })
 
   it('toggles description expansion on chevron click', () => {

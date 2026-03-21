@@ -1,4 +1,3 @@
-/* eslint-disable animation-rules/require-animation-metadata, animation-rules/require-dual-implementation -- helper components, not standalone animations */
 import { useMemo, type CSSProperties } from 'react'
 
 import {
@@ -391,13 +390,13 @@ export function CardFanContainer({
         <FlipCard
           key={`${card.id}-${i}`}
           card={card}
-          position={positions[i]}
-          flipped={flipped[i]}
+          position={positions[i]!}
+          flipped={flipped[i]!}
           fanDelay={i * 0.12}
           collected={collected}
           collectIndex={i}
           idle={isIdle}
-          fanDone={fanDone[i]}
+          fanDone={fanDone[i]!}
           selected={focusedCard === i}
           anySelected={focusedCard !== null}
           onSelect={() => handleCardSelect(i)}
@@ -405,11 +404,11 @@ export function CardFanContainer({
         />
       ))}
       {cards.map((_, i) => (
-        <CardLandShimmer key={`shimmer-${i}`} position={positions[i]} delay={i * 0.12} />
+        <CardLandShimmer key={`shimmer-${i}`} position={positions[i]!} delay={i * 0.12} />
       ))}
       {cards.map((card, i) =>
         burstedCards[i] ? (
-          <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]} />
+          <RarityBurst key={`burst-${i}`} rarity={card.rarity} position={positions[i]!} />
         ) : null
       )}
     </div>

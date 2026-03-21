@@ -116,7 +116,7 @@ function makeParticles(): SpiralParticle[] {
       particles.push({
         id: i,
         shape: pickRandom(CONFETTI_SHAPES),
-        color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length],
+        color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length]!,
         xs,
         ys,
         scales,

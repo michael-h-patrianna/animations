@@ -87,7 +87,7 @@ function makeCoins(): Coin[] {
 /** 12 gems (3 per type) with radial burst for the tp-gem keyframe. */
 function makeGems(): Gem[] {
   return Array.from({ length: GEM_COUNT }, (_, i) => {
-    const gemType = GEM_TYPES[i % 4]
+    const gemType = GEM_TYPES[i % 4]!
     const angle = deg2rad((i / GEM_COUNT) * 360 + randBetween(-20, 20))
     const speed = randBetween(80, 180)
     const isBg = i % 3 === 0
@@ -97,7 +97,7 @@ function makeGems(): Gem[] {
       vy: Math.sin(angle) * speed,
       grav: randBetween(250, 400),
       spin: randBetween(1, 3) * 360,
-      image: GEM_IMAGES[gemType.name],
+      image: GEM_IMAGES[gemType.name]!,
       size: isBg ? randBetween(12, 16) : randBetween(16, 24),
       delay: 50 + randBetween(0, 150),
       dur: randBetween(1500, 2200),
@@ -111,7 +111,7 @@ function makeTrails(): Mote[] {
   return Array.from({ length: TRAIL_COUNT }, (_, i) => {
     const angle = deg2rad(randBetween(0, 360))
     const r = randBetween(20, 90)
-    const gem = GEM_TYPES[i % 4]
+    const gem = GEM_TYPES[i % 4]!
     return {
       id: i,
       x: Math.cos(angle) * r,

@@ -59,7 +59,7 @@ export function ProgressBarsProgressThin() {
     halo.style.position = 'absolute'
     halo.style.inset = '-8px'
     halo.style.background =
-      'radial-gradient(ellipse at right center, var(--pf-anim-green-20) 0%, transparent 70%)' // eslint-disable-line animation-rules/no-radial-angular-gradient -- radial effect required for visual design
+      'radial-gradient(ellipse at right center, var(--pf-anim-green-20) 0%, transparent 70%)'
     halo.style.opacity = '0'
     halo.style.pointerEvents = 'none' // Use larger gradient and scale for blur simulation in RN
     halo.style.transform = 'scale(1.3)'

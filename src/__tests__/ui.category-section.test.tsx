@@ -45,4 +45,82 @@ describe('UI • CategorySection', () => {
     expect(screen.getByText('G1 (1)')).toHaveClass('pf-group__title')
     expect(screen.getByText('G2 (1)')).toHaveClass('pf-group__title')
   })
+
+  it('sets the section id to the provided elementId', () => {
+    const category: Category = {
+      id: 'test-cat',
+      title: 'Test Category',
+      groups: [
+        {
+          id: 'tg',
+          title: 'TG',
+          animations: [
+            { id: 'a1', title: 't', description: 'd', categoryId: 'test-cat', groupId: 'tg' },
+          ],
+        },
+      ],
+    }
+    render(
+      <CodeModeProvider>
+        <CategorySection category={category} elementId="cat-section-42" />
+      </CodeModeProvider>
+    )
+    expect(screen.getByTestId('category-section-test-cat')).toHaveAttribute('id', 'cat-section-42')
+  })
+
+  it('renders correct total animation count across multiple groups', () => {
+    const category: Category = {
+      id: 'multi',
+      title: 'Multi Group',
+      groups: [
+        {
+          id: 'mg1',
+          title: 'MG1',
+          animations: [
+            { id: 'a1', title: 't', description: 'd', categoryId: 'multi', groupId: 'mg1' },
+            { id: 'a2', title: 't', description: 'd', categoryId: 'multi', groupId: 'mg1' },
+            { id: 'a3', title: 't', description: 'd', categoryId: 'multi', groupId: 'mg1' },
+          ],
+        },
+        {
+          id: 'mg2',
+          title: 'MG2',
+          animations: [
+            { id: 'a4', title: 't', description: 'd', categoryId: 'multi', groupId: 'mg2' },
+            { id: 'a5', title: 't', description: 'd', categoryId: 'multi', groupId: 'mg2' },
+          ],
+        },
+      ],
+    }
+    render(
+      <CodeModeProvider>
+        <CategorySection category={category} elementId="multi-1" />
+      </CodeModeProvider>
+    )
+    // Total: 3 + 2 = 5 animations
+    expect(screen.getByText(/Multi Group \(5 animations\)/)).toHaveClass('pf-category__title')
+  })
+
+  it('renders singular "animation" label for single animation', () => {
+    const category: Category = {
+      id: 'single',
+      title: 'Single',
+      groups: [
+        {
+          id: 'sg',
+          title: 'SG',
+          animations: [
+            { id: 'a1', title: 't', description: 'd', categoryId: 'single', groupId: 'sg' },
+          ],
+        },
+      ],
+    }
+    render(
+      <CodeModeProvider>
+        <CategorySection category={category} elementId="single-1" />
+      </CodeModeProvider>
+    )
+    // Should say "1 animation" (singular) not "1 animations"
+    expect(screen.getByText(/Single \(1 animation/)).toHaveClass('pf-category__title')
+  })
 })

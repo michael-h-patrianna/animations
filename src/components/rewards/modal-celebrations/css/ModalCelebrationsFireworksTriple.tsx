@@ -96,7 +96,7 @@ function makeRays(): Ray[] {
         id: id++,
         angle: (j / RAYS_PER_BURST) * 360 + randBetween(-6, 6),
         length: isBg ? randBetween(35, 65) : randBetween(55, 110),
-        color: burst.colors[j % burst.colors.length],
+        color: burst.colors[j % burst.colors.length]!,
         cx: burst.cx,
         cy: burst.cy,
         delay: burst.delay * 1000 + randBetween(0, 60),
@@ -129,7 +129,7 @@ function makeTrails(): Trail[] {
       trails.push({
         id: id++,
         shape: pickRandom(CONFETTI_SHAPES),
-        color: burst.colors[j % burst.colors.length],
+        color: burst.colors[j % burst.colors.length]!,
         tx: Math.sin(angleRad) * maxDist,
         ty: -Math.cos(angleRad) * maxDist,
         scale: isBg ? randBetween(0.5, 0.8) : randBetween(0.7, 1.1),

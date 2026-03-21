@@ -29,7 +29,7 @@ export function withAnimationCard(
       infiniteAnimation={infinite}
       disableReplay={disableReplay}
     >
-      {children as React.ReactNode}
+      {children}
     </AnimationCard>
   )
 }
@@ -49,7 +49,7 @@ export function queryStage(container?: HTMLElement | null) {
 }
 
 /** Renders a component and asserts its root element has the expected data-animation-id attribute. */
-export function expectAnimationIdPresent(Component: () => JSX.Element, animationId: string) {
+export function expectAnimationIdPresent(Component: React.ComponentType, animationId: string) {
   const { container } = render(<Component />)
   expect(container.querySelector(`[data-animation-id="${animationId}"]`)).toBeInTheDocument()
 }

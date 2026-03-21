@@ -188,14 +188,14 @@ export function drawCards(count: number): CardData[] {
   const drawn: CardData[] = []
   for (let i = 0; i < count; i++) {
     const rarity = pickRarity()
-    const pool = CARDS_BY_RARITY[rarity]
-    const card = pool[Math.floor(Math.random() * pool.length)]
+    const pool = CARDS_BY_RARITY[rarity]!
+    const card = pool[Math.floor(Math.random() * pool.length)]!
     drawn.push({ ...card })
   }
   // Sort by rarity ascending for escalating drama
   drawn.sort((a, b) => a.rarity - b.rarity)
   // Randomly mark one card as "new"
   const newIndex = Math.floor(Math.random() * drawn.length)
-  drawn[newIndex] = { ...drawn[newIndex], isNew: true }
+  drawn[newIndex] = { ...drawn[newIndex]!, isNew: true }
   return drawn
 }

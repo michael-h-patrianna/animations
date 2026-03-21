@@ -31,11 +31,11 @@ export function ProgressBarsZoomedProgress() {
       } else {
         // Add points to current level
         currentLevelPoints[currentLevel - 1] = Math.min(
-          currentLevelPoints[currentLevel - 1] + rndPoints,
+          currentLevelPoints[currentLevel - 1]! + rndPoints,
           currentLevel * 3
         )
       } // Check if level is complete (levelPoints >= 3 * level)
-      if (currentLevelPoints[currentLevel - 1] >= 3 * currentLevel) {
+      if (currentLevelPoints[currentLevel - 1]! >= 3 * currentLevel) {
         currentLevel += 1
         setLevel(currentLevel) // Update level reached states
         const newLevelReached = [false, false, false]
@@ -57,8 +57,8 @@ export function ProgressBarsZoomedProgress() {
   const getTrackPosition = () => {
     return 25 - 40 * (level - 1)
   } // Calculate progress bar widths
-  const progress1Width = (levelPoints[0] / 3) * 100
-  const progress2Width = (levelPoints[1] / 6) * 100
+  const progress1Width = (levelPoints[0]! / 3) * 100
+  const progress2Width = (levelPoints[1]! / 6) * 100
   return (
     <div className="pf-zoomed-progress" data-animation-id="progress-bars__zoomed-progress">
       {/* Progress track with zoom and pan */}

@@ -41,13 +41,13 @@ type Sparkle = {
 function makeParticles(): Particle[] {
   return Array.from({ length: 50 }, (_, i) => {
     const wave = i < 17 ? 0 : i < 34 ? 1 : 2
-    const waveBase = [0, 280, 560][wave]
+    const waveBase = [0, 280, 560][wave]!
     const layer: 'bg' | 'fg' = i % 3 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
     return {
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
-      color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length],
+      color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length]!,
       left: randBetween(5, 95),
       driftX1: randBetween(-20, 20),
       driftX2: randBetween(-45, 45),
