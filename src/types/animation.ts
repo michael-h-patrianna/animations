@@ -109,11 +109,11 @@ export interface AnimationMetadata {
   /** Position of the animation within the preview viewport (default: 'center') */
   previewPosition?: PreviewPosition
 
-  /** Full URL path to view this animation's Framer variant — computed by buildCatalog(), not authored in meta files */
-  urlSlugFramer?: string
+  /** Full URL path to view this animation's Framer variant, e.g. "/text-effects-framer?animation=text-effects__character-reveal" */
+  urlSlugFramer: string
 
-  /** Full URL path to view this animation's CSS variant — computed by buildCatalog(), not authored in meta files */
-  urlSlugCss?: string
+  /** Full URL path to view this animation's CSS variant, e.g. "/text-effects-css?animation=text-effects__character-reveal" */
+  urlSlugCss: string
 
   /**
    * Portability tier — classifies what a user needs to copy-paste this animation.

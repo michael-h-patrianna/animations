@@ -2,6 +2,8 @@ import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
   id: 'timer-effects__pill-countdown-glitch',
+  urlSlugFramer: '/timer-effects-framer?animation=timer-effects__pill-countdown-glitch',
+  urlSlugCss: '/timer-effects-css?animation=timer-effects__pill-countdown-glitch',
   title: 'Pill Countdown — Glitch',
   description: 'Countdown with glitch effects that intensify as time runs out.',
   tier: 4,

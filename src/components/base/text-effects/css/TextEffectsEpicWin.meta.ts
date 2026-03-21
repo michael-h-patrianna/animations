@@ -2,6 +2,8 @@ import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
   id: 'text-effects__epic-win',
+  urlSlugFramer: '/text-effects-framer?animation=text-effects__epic-win',
+  urlSlugCss: '/text-effects-css?animation=text-effects__epic-win',
   title: 'Epic Win',
   description:
     'Metallic 3D text with rotating entrance, layered shadows, and victory flare effect.',

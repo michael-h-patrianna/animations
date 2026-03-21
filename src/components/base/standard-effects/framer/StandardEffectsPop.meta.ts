@@ -2,6 +2,8 @@ import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
   id: 'standard-effects__pop',
+  urlSlugFramer: '/standard-effects-framer?animation=standard-effects__pop',
+  urlSlugCss: '/standard-effects-css?animation=standard-effects__pop',
   title: 'Pop',
   description: 'Scale overshoot entrance with rotation twist and motion blur for emphasis.',
   tier: 1,

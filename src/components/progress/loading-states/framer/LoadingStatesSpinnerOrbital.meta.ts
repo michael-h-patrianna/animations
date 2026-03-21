@@ -2,6 +2,8 @@ import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata = {
   id: 'loading-states__spinner-orbital',
+  urlSlugFramer: '/loading-states-framer?animation=loading-states__spinner-orbital',
+  urlSlugCss: '/loading-states-css?animation=loading-states__spinner-orbital',
   title: 'Spinner Orbital',
   description: 'Orbital spinner around centre mass.',
   infinite: true,
