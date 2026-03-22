@@ -1,111 +1,64 @@
-.pf-charge-surge-css {
-  --progress-bars-charge-surge-bg-1: rgb(59 130 246 / 10%);
-  --progress-bars-charge-surge-bg-2: rgb(59 130 246 / 60%);
-  --progress-bars-charge-surge-bg-3: rgb(59 130 246 / 80%);
-  --progress-bars-charge-surge-bg-100: rgb(147 197 253 / 60%);
-  --progress-bars-charge-surge-bg-101: rgb(96 165 250 / 80%);
+.pf-charge-surge {
+  --charge-track-color: rgb(59 130 246 / 10%);
+  --charge-fill-color: rgb(59 130 246 / 60%);
+  --charge-fill-bright: rgb(59 130 246 / 80%);
+  --charge-marker-color: var(--pf-anim-blue-dark, rgb(59 130 246));
+
   width: 100%;
-  max-width: 400px;
   padding: 20px 0;
 }
 
-.pf-charge-surge-css .pf-progress-track {
+.pf-charge-surge .pf-progress-track {
   position: relative;
   width: 100%;
   height: 12px;
-  background: var(--progress-bars-charge-surge-bg-1);
+  background: var(--charge-track-color);
   border-radius: 6px;
   overflow: visible;
 }
 
-.pf-charge-surge-css .pf-progress-fill {
+.pf-charge-surge .pf-progress-fill {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background: linear-gradient(to right, var(--charge-fill-color), var(--charge-fill-bright));
   border-radius: 6px;
+  transform-origin: left center;
   transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
 
-.pf-charge-surge-css .pf-progress-fill--base {
-  background: linear-gradient(
-    to right,
-    var(--progress-bars-charge-surge-bg-2),
-    var(--progress-bars-charge-surge-bg-3)
-  );
-  z-index: 1;
-}
-
-.pf-charge-surge-css .pf-progress-fill--glow {
-  z-index: 2;
-  overflow: hidden;
-}
-
-.pf-charge-surge-css .glow-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    var(--progress-bars-charge-surge-bg-100),
-    var(--progress-bars-charge-surge-bg-101),
-    var(--progress-bars-charge-surge-bg-100)
-  );
-  border-radius: 6px;
-  opacity: 0.4;
-  transition: opacity 0.2s;
-  will-change: opacity;
-}
-
-.pf-charge-surge-css .glow-overlay.flash {
-  opacity: 0.8;
-}
-
-.pf-charge-surge-css .milestone-container {
+.pf-charge-surge .milestone-container {
   z-index: 3;
 }
 
-.pf-charge-surge-css .milestone-marker {
-  will-change: transform;
-  background-color: var(--progress-bars-charge-surge-bg-1);
+.pf-charge-surge .milestone-marker {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--charge-marker-color);
+  border-radius: 50%;
+  background: var(--charge-track-color);
   transition: background-color 0.2s;
+  will-change: transform;
 }
 
-.pf-charge-surge-css .milestone-marker.anticipating {
-  background-color: var(--progress-bars-charge-surge-bg-2);
-  animation: anticipation-pulse 0.8s ease-in-out infinite;
+.pf-charge-surge .milestone-container.is-active .milestone-marker {
+  background: var(--charge-marker-color);
 }
 
-.pf-charge-surge-css .milestone-marker.charged {
-  background-color: var(--progress-bars-charge-surge-bg-2);
-  animation: none;
-  transform: scale(1);
-}
-
-.pf-charge-surge-css .surge-wave {
+.pf-charge-surge .surge-wave {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--charge-marker-color);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: surge-wave 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   will-change: transform, opacity;
-  animation: surge-wave 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-/* Keyframe Animations */
-@keyframes anticipation-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
 }
 
 @keyframes surge-wave {
-  0% {
-    transform: scale(0.5);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
+  0% { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
 }

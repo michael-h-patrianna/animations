@@ -1,33 +1,73 @@
+/**
+ * Elastic Fill Progress Bar
+ *
+ * A progress bar that fills with playful elastic overshoot and squash physics.
+ * In demo mode (no `progress` prop) it plays a one-shot fill to 70%.
+ * In controlled mode it animates to the given value with elastic easing.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsElasticFill progress={0.6} />
+ * ```
+ *
+ * Styleable CSS custom properties (set on a wrapper or via `style`):
+ * - `--elastic-fill-track-color`  — track background (default: #e0e0e0)
+ * - `--elastic-fill-from`         — fill gradient start (default: #82d616)
+ * - `--elastic-fill-to`           — fill gradient end (default: #2dd4bf)
+ * - `--elastic-fill-height`       — track height (default: 1.5rem)
+ * - `--elastic-fill-radius`       — border radius (default: 0.75rem)
+ *
+ * Files to copy: this file + ProgressBarsElasticFill.css
+ */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
+import type { ProgressBarProps } from '../SharedTypes'
 
-export function ProgressBarsElasticFill() {
+const DEMO_TARGET = 0.7
+
+export function ProgressBarsElasticFill({
+  progress,
+  className,
+  style,
+}: ProgressBarProps) {
   const shouldReduceMotion = useReducedMotion()
+  const isDemo = progress === undefined
+  const target = progress ?? DEMO_TARGET
+  const percent = Math.round(target * 100)
 
-  // Elastic fill animation: overshoot with squash, then settle
-  const elasticAnimation = shouldReduceMotion
+  const overshoot = Math.min(target * 1.1, 1)
+
+  const animation = shouldReduceMotion
     ? {
-        scaleX: 0.7,
+        scaleX: target,
         scaleY: 1,
-        transition: {
-          duration: 0.3,
-          ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
-        },
+        transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] as const },
       }
-    : {
-        scaleX: [0, 0.77, 0.7],
-        scaleY: [1, 0.9, 1],
-        transition: {
-          duration: 1.4, // 600ms overshoot + 800ms settle
-          delay: 0.08, // 80ms anticipation delay
-          ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number],
-          times: [0, 0.43, 1], // 43% for overshoot (600ms / 1400ms)
-        },
-      }
+    : isDemo
+      ? {
+          scaleX: [0, overshoot, target],
+          scaleY: [1, 0.9, 1],
+          transition: {
+            duration: 1.4,
+            delay: 0.08,
+            ease: [0.34, 1.56, 0.64, 1] as const,
+            times: [0, 0.43, 1],
+          },
+        }
+      : {
+          scaleX: target,
+          scaleY: 1,
+          transition: {
+            type: 'spring' as const,
+            stiffness: 180,
+            damping: 14,
+          },
+        }
 
   return (
     <div
-      className="pf-progress-demo pf-progress-elastic-fill"
+      className={`pf-progress-elastic-fill${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__elastic-fill"
     >
       <div className="track-container">
@@ -35,12 +75,12 @@ export function ProgressBarsElasticFill() {
           <m.div
             className="pf-progress-fill"
             role="progressbar"
-            aria-valuenow={70}
+            aria-valuenow={percent}
             aria-valuemin={0}
             aria-valuemax={100}
-            initial={{ scaleX: 0, scaleY: 1 }}
-            animate={elasticAnimation}
-            style={{ transformOrigin: 'left center' }}
+            initial={isDemo ? { scaleX: 0, scaleY: 1 } : false}
+            animate={animation}
+            style={{ transformOrigin: 'left center', animation: 'none' }}
           />
         </div>
       </div>

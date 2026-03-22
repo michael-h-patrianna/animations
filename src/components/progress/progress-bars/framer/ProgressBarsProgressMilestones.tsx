@@ -1,48 +1,72 @@
+/**
+ * Milestone Markers Progress Bar
+ *
+ * Progress bar with diamond-shaped milestone markers that light up with ring
+ * pulse effects as progress crosses their positions. Milestones are
+ * configurable — pass custom positions and labels.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsProgressMilestones
+ *   progress={0.6}
+ *   milestones={[
+ *     { position: 0, label: 'Start' },
+ *     { position: 0.5, label: 'Half' },
+ *     { position: 1, label: 'Done' },
+ *   ]}
+ * />
+ * ```
+ *
+ * Styleable CSS custom properties:
+ * - `--milestone-track-color`    — track background
+ * - `--milestone-fill-from`      — fill gradient start
+ * - `--milestone-fill-to`        — fill gradient end
+ * - `--milestone-marker-color`   — inactive marker color
+ * - `--milestone-active-color`   — active marker color
+ * - `--milestone-label-color`    — label text color
+ *
+ * Files to copy: this file + ProgressBarsProgressMilestones.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
 import { easeOut } from 'motion/react'
 import * as m from 'motion/react-m'
-import { useEffect, useState } from 'react'
-const MILESTONE_POSITIONS = [0, 0.25, 0.5, 0.75, 1]
-const MILESTONE_LABELS = ['Start', '25%', '50%', '75%', '100%']
-export function ProgressBarsProgressMilestones() {
-  const [activatedMilestones, setActivatedMilestones] = useState<Set<number>>(() => new Set())
-  useEffect(() => {
-    const duration = 4000
-    const startTime = Date.now() // Track activated milestones inside the closure to avoid stale reads
-    const localActivated = new Set<number>()
-    const intervalId = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      let changed = false
-      MILESTONE_POSITIONS.forEach((pos, index) => {
-        if (progress >= pos && !localActivated.has(index)) {
-          localActivated.add(index)
-          changed = true
-        }
-      })
-      if (changed) {
-        setActivatedMilestones(new Set(localActivated))
-      }
-      if (progress >= 1) {
-        clearInterval(intervalId)
-      }
-    }, 100)
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
-  const fillVariants = {
-    hidden: { scaleX: 0 },
-    visible: { scaleX: 1, transition: { duration: 4, ease: 'linear' as const } },
-  }
+import { useMemo } from 'react'
+import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
+
+const DEFAULT_MILESTONES: MilestoneConfig[] = [
+  { position: 0, label: 'Start' },
+  { position: 0.25, label: '25%' },
+  { position: 0.5, label: '50%' },
+  { position: 0.75, label: '75%' },
+  { position: 1, label: '100%' },
+]
+
+export function ProgressBarsProgressMilestones({
+  progress,
+  milestones = DEFAULT_MILESTONES,
+  className,
+  style,
+}: MilestoneProgressBarProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 1500 })
+
+  const activatedSet = useMemo(
+    () => new Set(milestones.filter((m) => displayProgress >= m.position).map((_, i) => i)),
+    [displayProgress, milestones]
+  )
+
   const markerVariants = () => ({
-    inactive: { scale: 0.5, opacity: 0.6, background: 'var(--pf-anim-cyan-soft)' },
+    inactive: { scale: 0.5, opacity: 0.6, background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))' },
     active: {
       scale: 1,
       opacity: 1,
-      background: ['var(--pf-anim-cyan-soft)', 'var(--pf-anim-cyan-light)'],
+      background: [
+        'var(--milestone-marker-color, var(--pf-anim-cyan-soft))',
+        'var(--milestone-active-color, var(--pf-anim-cyan-light))',
+      ],
       transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as const },
     },
   })
+
   const ringVariants = {
     inactive: { scale: 0.8, opacity: 0 },
     active: {
@@ -51,77 +75,74 @@ export function ProgressBarsProgressMilestones() {
       transition: { duration: 0.6, times: [0, 0.3, 1], ease: easeOut },
     },
   }
+
   const labelVariants = {
-    inactive: { opacity: 0.5, color: 'var(--pf-anim-cyan-muted)' },
+    inactive: { opacity: 0.5, color: 'var(--milestone-label-color, var(--pf-anim-cyan-muted))' },
     active: {
       opacity: 1,
-      color: 'var(--pf-anim-cyan-light)',
+      color: 'var(--milestone-active-color, var(--pf-anim-cyan-light))',
       transition: { duration: 0.3, ease: easeOut },
     },
   }
+
   return (
     <div
-      className="pf-progress-demo pf-progress-milestones"
+      className={`pf-progress-milestones${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__progress-milestones"
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
           <m.div
             className="pf-progress-fill"
-            variants={fillVariants}
-            initial="hidden"
-            animate="visible"
-            style={{ transformOrigin: 'left center' }}
+            animate={{ scaleX: displayProgress }}
+            transition={{ duration: 0.15, ease: 'linear' }}
+            style={{ transformOrigin: 'left center', animation: 'none' }}
           />
         </div>
 
-        {/* Milestone markers */}
-        {MILESTONE_POSITIONS.map((pos, i) => (
+        {milestones.map((ms, i) => (
           <div
             key={i}
             className="milestone-container"
-            data-active={activatedMilestones.has(i) || undefined}
             style={{
               position: 'absolute',
-              left: `${pos * 100}%`,
+              left: `${ms.position * 100}%`,
               top: '50%',
               transform: 'translate(-50%, -50%)',
               width: '20px',
               height: '20px',
             }}
           >
-            {/* Diamond marker */}
             <m.div
               className="milestone-marker"
               variants={markerVariants()}
               initial="inactive"
-              animate={activatedMilestones.has(i) ? 'active' : 'inactive'}
+              animate={activatedSet.has(i) ? 'active' : 'inactive'}
               style={{
                 position: 'absolute',
                 inset: 0,
-                border: activatedMilestones.has(i)
-                  ? '2px solid var(--pf-anim-cyan-light-80)'
-                  : '2px solid var(--pf-anim-cyan-muted-50)',
+                border: activatedSet.has(i)
+                  ? '2px solid var(--milestone-active-color, var(--pf-anim-cyan-light-80))'
+                  : '2px solid var(--milestone-marker-color, var(--pf-anim-cyan-muted-50))',
                 borderRadius: '50%',
                 transform: 'rotate(45deg)',
               }}
             >
-              {/* Inner glow */}
               <m.div
                 style={{
                   position: 'absolute',
                   inset: '20%',
                   background:
-                    'radial-gradient(circle, var(--pf-anim-cyan-light) 0%, var(--pf-anim-cyan-light-30) 50%, transparent 100%)',
+                    'radial-gradient(circle, var(--milestone-active-color, var(--pf-anim-cyan-light)) 0%, transparent 100%)',
                   borderRadius: '50%',
-                  opacity: activatedMilestones.has(i) ? 1 : 0,
+                  opacity: activatedSet.has(i) ? 1 : 0,
                   transition: 'opacity 0.3s ease',
                 }}
               />
             </m.div>
 
-            {/* Outer ring pulse */}
-            {activatedMilestones.has(i) && (
+            {activatedSet.has(i) && (
               <m.div
                 variants={ringVariants}
                 initial="inactive"
@@ -129,7 +150,7 @@ export function ProgressBarsProgressMilestones() {
                 style={{
                   position: 'absolute',
                   inset: '-10px',
-                  border: '2px solid var(--pf-anim-cyan-light-80)',
+                  border: '2px solid var(--milestone-active-color, var(--pf-anim-cyan-light-80))',
                   borderRadius: '50%',
                   pointerEvents: 'none',
                 }}
@@ -138,7 +159,6 @@ export function ProgressBarsProgressMilestones() {
           </div>
         ))}
 
-        {/* Milestone labels */}
         <div
           className="label-container"
           style={{
@@ -152,19 +172,19 @@ export function ProgressBarsProgressMilestones() {
             pointerEvents: 'none',
           }}
         >
-          {MILESTONE_LABELS.map((label, i) => (
+          {milestones.map((ms, i) => (
             <m.span
               key={i}
               variants={labelVariants}
               initial="inactive"
-              animate={activatedMilestones.has(i) ? 'active' : 'inactive'}
+              animate={activatedSet.has(i) ? 'active' : 'inactive'}
               style={{
                 position: 'absolute',
-                left: `${MILESTONE_POSITIONS[i]! * 100}%`,
+                left: `${ms.position * 100}%`,
                 transform: 'translateX(-50%)',
               }}
             >
-              {label}
+              {ms.label ?? `${Math.round(ms.position * 100)}%`}
             </m.span>
           ))}
         </div>

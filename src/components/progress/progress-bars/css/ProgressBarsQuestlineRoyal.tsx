@@ -1,93 +1,103 @@
-import { memo, useEffect, useMemo, useState } from 'react'
-import { questlineRoyalFinalChest, questlineRoyalMilestoneEmblem } from '@/assets'
+/**
+ * Questline Royal Path (CSS variant)
+ *
+ * Files to copy: this file + ProgressBarsQuestlineRoyal.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
+import { memo, useMemo } from 'react'
+import type { ProgressBarProps, MilestoneConfig } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsQuestlineRoyal.css'
 
-type QuestMilestone = {
-  id: string
-  step: string
-  title: string
-  reward: string
-  at: number
+interface QuestMilestone extends MilestoneConfig {
+  step?: string
+  reward?: string
 }
 
-const MILESTONES: QuestMilestone[] = [
-  { id: 'intel', step: 'I', title: 'Scout Intel', reward: '+1 Relic Key', at: 0.14 },
-  { id: 'relic', step: 'II', title: 'Secure Relic', reward: '+150 XP', at: 0.34 },
-  { id: 'warden', step: 'III', title: 'Defeat Warden', reward: '+Epic Rune', at: 0.57 },
-  { id: 'gate', step: 'IV', title: 'Clear Vault Gate', reward: '+2 Tickets', at: 0.79 },
+interface QuestlineRoyalProps extends ProgressBarProps {
+  title?: string
+  subtitle?: string
+  milestones?: QuestMilestone[]
+  milestoneIcon?: string
+  finalRewardIcon?: string
+}
+
+const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
+const DEFAULT_MILESTONES: QuestMilestone[] = [
+  { position: 0.14, step: 'I', label: 'Scout Intel', reward: '+1 Relic Key' },
+  { position: 0.34, step: 'II', label: 'Secure Relic', reward: '+150 XP' },
+  { position: 0.57, step: 'III', label: 'Defeat Warden', reward: '+Epic Rune' },
+  { position: 0.79, step: 'IV', label: 'Clear Vault Gate', reward: '+2 Tickets' },
 ]
 
-const QUEST_LOOP_MS = 7200
-const TRACK_LEFT_INSET_PX = 6
-const TRACK_RIGHT_INSET_PX = 44
+const TRACK_LEFT_INSET = 6
+const TRACK_RIGHT_INSET = 44
 
-function toTrackLeft(progress: number) {
-  const clampedProgress = Math.max(0, Math.min(1, progress))
-  return `calc(${TRACK_LEFT_INSET_PX}px + (100% - ${TRACK_LEFT_INSET_PX + TRACK_RIGHT_INSET_PX}px) * ${clampedProgress})`
+function toTrackLeft(p: number) {
+  const clamped = Math.max(0, Math.min(1, p))
+  const offset = TRACK_LEFT_INSET - (TRACK_LEFT_INSET + TRACK_RIGHT_INSET) * clamped
+  return { left: `${100 * clamped}%`, marginLeft: offset }
 }
 
-function ProgressBarsQuestlineRoyalComponent() {
-  const [progress, setProgress] = useState(0)
-  const [completionPulseKey, setCompletionPulseKey] = useState(0)
+function ShieldFallback() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" opacity="0.85">
+      <path d="M12 2L4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5z" />
+    </svg>
+  )
+}
 
-  useEffect(() => {
-    let rafId = 0
-    let previousTime = performance.now()
-    let progressValue = 0
+function ChestFallback() {
+  return (
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" opacity="0.85">
+      <rect x="2" y="7" width="20" height="14" rx="2" />
+      <path d="M2 11h20M12 11v4" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+      <path d="M5 7V5a7 7 0 0 1 14 0v2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
 
-    const frame = (now: number) => {
-      const elapsed = now - previousTime
-      previousTime = now
-
-      const nextProgress = progressValue + elapsed / QUEST_LOOP_MS
-      const completedLoops = Math.floor(nextProgress)
-      progressValue = nextProgress % 1
-
-      if (completedLoops > 0) {
-        setCompletionPulseKey((value) => value + completedLoops)
-      }
-
-      setProgress(progressValue)
-      rafId = window.requestAnimationFrame(frame)
-    }
-
-    rafId = window.requestAnimationFrame(frame)
-
-    return () => {
-      window.cancelAnimationFrame(rafId)
-    }
-  }, [])
+function ProgressBarsQuestlineRoyalComponent({
+  progress,
+  title = 'Celestial Expedition',
+  subtitle = 'Legacy Mission Path',
+  milestones = DEFAULT_MILESTONES,
+  milestoneIcon,
+  finalRewardIcon,
+  className,
+  style,
+}: QuestlineRoyalProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 7200, pause: 1500 })
 
   const unlockedCount = useMemo(
-    () => MILESTONES.filter((milestone) => progress >= milestone.at).length,
-    [progress]
+    () => milestones.filter((ms) => displayProgress >= ms.position).length,
+    [displayProgress, milestones]
   )
   const nextMilestone = useMemo(
-    () => MILESTONES.find((milestone) => progress < milestone.at) ?? null,
-    [progress]
+    () => milestones.find((ms) => displayProgress < ms.position) ?? null,
+    [displayProgress, milestones]
   )
-  const progressPercent = Math.round(progress * 100)
-  const grandRewardUnlocked = unlockedCount === MILESTONES.length
+  const progressPercent = Math.round(displayProgress * 100)
+  const grandRewardUnlocked = unlockedCount === milestones.length
   const distanceToNext = nextMilestone
-    ? Math.max(1, Math.ceil((nextMilestone.at - progress) * 100))
+    ? Math.max(1, Math.ceil((nextMilestone.position - displayProgress) * 100))
     : 0
 
   return (
     <div
-      className="pf-progress-demo pf-progress-questline-royal pf-progress-questline-royal--css"
+      className={`pf-progress-questline-royal${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__questline-royal"
     >
       <div className="questline-royal__header">
         <div className="questline-royal__heading">
-          <p className="questline-royal__eyebrow">Legacy Mission Path</p>
-          <h3 className="questline-royal__title">Celestial Expedition</h3>
+          <p className="questline-royal__eyebrow">{subtitle}</p>
+          <h3 className="questline-royal__title">{title}</h3>
         </div>
-
         <div className="questline-royal__status-panel">
           <span className="questline-royal__status-percent">{progressPercent}%</span>
           <span className="questline-royal__status-copy">
-            {nextMilestone
-              ? `Next reward: ${nextMilestone.reward} in ${distanceToNext}%`
+            {nextMilestone !== null
+              ? `Next reward: ${nextMilestone.reward ?? nextMilestone.label ?? ''} in ${distanceToNext}%`
               : 'Grand vault reward unlocked'}
           </span>
         </div>
@@ -97,57 +107,42 @@ function ProgressBarsQuestlineRoyalComponent() {
         <div className="questline-royal__track-base" />
         <div
           className="questline-royal__track-fill"
-          style={{
-            transformOrigin: 'left center',
-            transform: `scaleX(${progress})`,
-          }}
+          style={{ transform: `scaleX(${displayProgress})` }}
         />
 
-        <div className="questline-royal__progress-core" style={{ left: toTrackLeft(progress) }} />
+        <div className="questline-royal__progress-core-anchor" style={{ ...toTrackLeft(displayProgress) }}>
+          <div className="questline-royal__progress-core" />
+        </div>
 
-        {completionPulseKey > 0 && (
-          <div
-            key={completionPulseKey}
-            className="questline-royal__completion-sweep questline-royal__completion-sweep--css"
-          />
-        )}
-
-        {MILESTONES.map((milestone) => {
-          const unlocked = progress >= milestone.at
-          const isNext = !unlocked && nextMilestone?.id === milestone.id
-
+        {milestones.map((ms, i) => {
+          const unlocked = displayProgress >= ms.position
           return (
             <div
-              key={milestone.id}
-              className={`questline-royal__node${unlocked ? ' is-unlocked' : ''}${isNext ? ' is-next' : ''}`}
-              style={{ left: toTrackLeft(milestone.at) }}
+              key={i}
+              className={`questline-royal__node${unlocked ? ' is-unlocked' : ''}`}
+              style={{ ...toTrackLeft(ms.position) }}
             >
-              <div className={`questline-royal__node-ring${isNext ? ' is-active' : ''}`} />
-
-              <img
-                className="questline-royal__node-icon"
-                src={questlineRoyalMilestoneEmblem}
-                alt=""
-                aria-hidden="true"
-              />
-
-              <span className="questline-royal__node-step">{milestone.step}</span>
+              <div className="questline-royal__node-ring" />
+              {milestoneIcon !== undefined ? (
+                <img className="questline-royal__node-icon" src={milestoneIcon} alt="" aria-hidden="true" />
+              ) : (
+                <span className="questline-royal__node-icon"><ShieldFallback /></span>
+              )}
+              <span className="questline-royal__node-step">{ms.step ?? ROMAN[i] ?? `${i + 1}`}</span>
             </div>
           )
         })}
 
         <div
           className={`questline-royal__grand-reward${grandRewardUnlocked ? ' is-unlocked' : ''}`}
-          style={{ left: toTrackLeft(1) }}
+          style={{ ...toTrackLeft(1) }}
         >
           <div className="questline-royal__grand-ring" />
-
-          <img
-            className="questline-royal__grand-icon"
-            src={questlineRoyalFinalChest}
-            alt=""
-            aria-hidden="true"
-          />
+          {finalRewardIcon !== undefined ? (
+            <img className="questline-royal__grand-icon" src={finalRewardIcon} alt="" aria-hidden="true" />
+          ) : (
+            <span className="questline-royal__grand-icon"><ChestFallback /></span>
+          )}
         </div>
       </div>
     </div>

@@ -1,37 +1,71 @@
+/**
+ * Retro Bit Progress Bar
+ *
+ * Retro-style segmented progress bar with discrete block fills.
+ * In demo mode cycles continuously. In controlled mode fills blocks
+ * proportional to the given progress value.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsRetroBit progress={0.7} segments={10} label="DOWNLOADING..." />
+ * ```
+ *
+ * Styleable CSS custom properties:
+ * - `--retro-bit-bg`           — container background
+ * - `--retro-bit-active`       — active segment color
+ * - `--retro-bit-inactive`     — inactive segment color
+ * - `--retro-bit-label-color`  — label text color
+ *
+ * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
 import * as m from 'motion/react-m'
-import { useEffect, useState } from 'react'
+import type { ProgressBarProps } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 
-export function ProgressBarsRetroBit() {
-  const [progress, setProgress] = useState(0)
+interface RetroBitProps extends ProgressBarProps {
+  /** Number of discrete segments. Default: 10. */
+  segments?: number
+  /** Label text below the bar. Default: "LOADING...". */
+  label?: string
+}
 
-  useEffect(() => {
-    // Simulate loading
-    const interval = setInterval(() => {
-      setProgress((p) => (p >= 100 ? 0 : p + 10))
-    }, 500)
-    return () => clearInterval(interval)
-  }, [])
-
-  const segments = Array.from({ length: 10 })
+export function ProgressBarsRetroBit({
+  progress,
+  segments = 10,
+  label = 'LOADING...',
+  className,
+  style,
+}: RetroBitProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 1000 })
+  const activeCount = Math.floor(displayProgress * segments)
 
   return (
-    <div className="retro-bit-container" data-animation-id="progress-bars__retro-bit">
+    <div
+      className={`retro-bit-container${className ? ` ${className}` : ''}`}
+      style={style}
+      data-animation-id="progress-bars__retro-bit"
+    >
       <div className="retro-bit-frame">
-        {segments.map((_, i) => (
+        {Array.from({ length: segments }, (_, i) => (
           <m.div
             key={i}
             className="retro-bit-segment"
             initial={{ opacity: 0.1 }}
             animate={{
-              opacity: (i + 1) * 10 <= progress ? 1 : 0.1,
+              opacity: i < activeCount ? 1 : 0.1,
               backgroundColor:
-                (i + 1) * 10 <= progress ? 'var(--pf-anim-green-400)' : 'var(--pf-anim-green-900)',
+                i < activeCount
+                  ? 'var(--retro-bit-active, var(--pf-anim-green-400))'
+                  : 'var(--retro-bit-inactive, var(--pf-anim-green-900))',
             }}
             transition={{ duration: 0 }}
+            style={{ animation: 'none' }}
           />
         ))}
       </div>
-      <div className="retro-bit-label">LOADING...</div>
+      {label !== undefined && label !== '' && (
+        <div className="retro-bit-label">{label}</div>
+      )}
     </div>
   )
 }

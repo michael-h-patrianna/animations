@@ -6,6 +6,7 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/progress-bars-css?animation=progress-bars__elastic-fill',
   title: 'Elastic Fill',
   description:
-    'Playful progress bar fill that overshoots, squashes during compression, and settles with elastic bounce physics.',
+    'Progress bar with elastic overshoot and squash physics. Pass `progress` (0-1) for controlled mode, or omit for demo. Style via --elastic-fill-track-color, --elastic-fill-from, --elastic-fill-to, --elastic-fill-height, --elastic-fill-radius.',
   tier: 2,
+  previewMaxWidth: 414,
 }

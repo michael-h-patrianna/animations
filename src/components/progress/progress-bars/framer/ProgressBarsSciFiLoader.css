@@ -1,25 +1,25 @@
 .scifi-loader-container {
-  --progress-bars-sci-fi-loader-bg-1: #0f172a;
-  --progress-bars-sci-fi-loader-border-1: #1e293b;
-  --progress-bars-sci-fi-loader-bg-2: rgb(56 189 248 / 10%);
-  --progress-bars-sci-fi-loader-border-2: #38bdf8;
-  --progress-bars-sci-fi-loader-bg-3: #0ea5e9;
-  --progress-bars-sci-fi-loader-shadow: rgb(56 189 248 / 50%);
-  --progress-bars-sci-fi-loader-bg-4: rgb(255 255 255 / 30%);
+  --scifi-bg: #0f172a;
+  --scifi-border: #1e293b;
+  --scifi-track: rgb(56 189 248 / 10%);
+  --scifi-fill: #0ea5e9;
+  --scifi-accent: #38bdf8;
+  --scifi-glint: rgb(255 255 255 / 30%);
+  --scifi-text: #38bdf8;
+
   position: relative;
   padding: 30px;
-  background: var(--progress-bars-sci-fi-loader-bg-1);
-  border: 1px solid var(--progress-bars-sci-fi-loader-border-1);
+  background: var(--scifi-bg);
+  border: 1px solid var(--scifi-border);
   border-radius: 4px;
   overflow: hidden;
   width: 100%;
-  max-width: 400px;
 }
 
 .scifi-loader-track {
   height: 24px;
-  background: var(--progress-bars-sci-fi-loader-bg-2);
-  border: 1px solid var(--progress-bars-sci-fi-loader-border-2);
+  background: var(--scifi-track);
+  border: 1px solid var(--scifi-accent);
   transform: skewX(-20deg);
   position: relative;
   overflow: hidden;
@@ -27,14 +27,8 @@
 
 .scifi-loader-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--progress-bars-sci-fi-loader-bg-3) 0%,
-    var(--progress-bars-sci-fi-loader-border-2) 100%
-  );
+  background: linear-gradient(90deg, var(--scifi-fill) 0%, var(--scifi-accent) 100%);
   width: 0%;
-  box-shadow: 0 0 15px var(--progress-bars-sci-fi-loader-shadow); /* Allowed: simulating glow with shadow, or should I avoid? The prompt said forbidden. I'll remove it to be safe and use opacity layers if needed. */
-  /* Correction: Prompt says "Box shadows, text shadows" forbidden. I will remove it. */
 }
 
 .scifi-loader-glint {
@@ -42,7 +36,7 @@
   top: 0;
   width: 40px;
   height: 100%;
-  background: var(--progress-bars-sci-fi-loader-bg-4);
+  background: var(--scifi-glint);
   transform: skewX(-20deg);
 }
 
@@ -52,7 +46,7 @@
   left: 10px;
   width: 20px;
   height: 2px;
-  background: var(--progress-bars-sci-fi-loader-border-2);
+  background: var(--scifi-accent);
 }
 
 .scifi-loader-decor-bottom {
@@ -61,7 +55,7 @@
   right: 10px;
   width: 40px;
   height: 4px;
-  background: var(--progress-bars-sci-fi-loader-border-2);
+  background: var(--scifi-accent);
   display: flex;
   gap: 2px;
 }
@@ -69,7 +63,7 @@
 .scifi-loader-text {
   margin-top: 12px;
   font-family: monospace;
-  color: var(--progress-bars-sci-fi-loader-border-2);
+  color: var(--scifi-text);
   font-size: 12px;
   letter-spacing: 1px;
 }

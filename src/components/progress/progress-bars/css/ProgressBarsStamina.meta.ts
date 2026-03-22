@@ -7,4 +7,5 @@ export const metadata = {
   title: 'Stamina Bar',
   description: 'Dynamic stamina bar that warns when low',
   tier: 4,
+  previewMaxWidth: 414,
 } satisfies AnimationMetadata

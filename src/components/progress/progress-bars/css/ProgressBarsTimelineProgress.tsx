@@ -1,92 +1,62 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Timeline Progress (CSS variant)
+ *
+ * Files to copy: this file + ProgressBarsTimelineProgress.css + ../SharedTypes.ts
+ */
+import type { ProgressBarProps } from '../SharedTypes'
 import './ProgressBarsTimelineProgress.css'
-export function ProgressBarsTimelineProgress() {
-  const steps = 4
-  const stepRef = useRef<(HTMLDivElement | null)[]>([])
-  const connectorRef = useRef<(HTMLDivElement | null)[]>([])
-  useEffect(() => {
-    const stepElements = stepRef.current.filter((el): el is HTMLDivElement => el !== null)
-    const connectorElements = connectorRef.current.filter((el): el is HTMLDivElement => el !== null) // Stagger delay: 260ms per child
-    stepElements.forEach((stepEl, index) => {
-      const delay = index * 260 // Step animation: scale [0.9 -> 1.06 -> 1] and opacity [0.3 -> 1]
-      // Duration: 460ms, easing: cubic-bezier(0.34, 1.56, 0.64, 1)
-      stepEl.animate(
-        [
-          { transform: 'scale(0.9)', opacity: 0.3 },
-          { transform: 'scale(1.06)', opacity: 1, offset: 0.5 },
-          { transform: 'scale(1)', opacity: 1 },
-        ],
-        { duration: 460, delay, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', fill: 'forwards' }
-      ) // Connector animation (if exists): scaleX 0 -> 1, opacity 0.3 -> 1
-      // Duration: 260ms, easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)
-      const connectorEl = connectorElements[index]
-      if (index in connectorElements && connectorEl) {
-        connectorEl.animate(
-          [
-            { transform: 'scaleX(0)', opacity: 0.3 },
-            { transform: 'scaleX(1)', opacity: 1 },
-          ],
-          { duration: 260, delay, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' }
-        )
-      }
-    }) // Cleanup function
-    return () => {
-      stepElements.forEach((el) => {
-        el.getAnimations().forEach((anim) => anim.cancel())
-      })
-      connectorElements.forEach((el) => {
-        el.getAnimations().forEach((anim) => anim.cancel())
-      })
-    }
-  }, [])
+
+interface TimelineProps extends ProgressBarProps {
+  /** Number of timeline steps. Default: 4. */
+  steps?: number
+}
+
+export function ProgressBarsTimelineProgress({
+  progress,
+  steps = 4,
+  className,
+  style,
+}: TimelineProps) {
+  const isDemo = progress === undefined
+  const activeSteps = isDemo ? steps : Math.ceil(progress * steps)
+
   return (
-    <div className="pf-timeline-progress" data-animation-id="progress-bars__timeline-progress">
+    <div
+      className={`pf-timeline-progress${isDemo ? ' is-demo' : ''}${className ? ` ${className}` : ''}`}
+      style={style}
+      data-animation-id="progress-bars__timeline-progress"
+    >
       <div className="pf-timeline-progress__track">
-        {Array.from({ length: steps }, (_, index) => (
-          <div
-            key={index}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flex: index === steps - 1 ? 'none' : '1',
-            }}
-          >
+        {Array.from({ length: steps }, (_, index) => {
+          const isActive = isDemo || index < activeSteps
+          return (
             <div
-              ref={(el) => {
-                stepRef.current[index] = el
-              }}
-              className="pf-timeline-progress__step"
+              key={index}
               style={{
-                background: 'var(--pf-anim-dodger-blue-20)',
-                borderColor: 'var(--pf-anim-dodger-blue-40)',
-                color: 'var(--pf-white)',
-                transform: 'scale(0.9)',
-                opacity: 0.3,
-                willChange: 'transform, opacity',
-                filter: 'drop-shadow(0 0 8px var(--pf-anim-dodger-blue-40))',
+                display: 'flex',
+                alignItems: 'center',
+                flex: index === steps - 1 ? 'none' : '1',
               }}
             >
-              {index + 1}
-            </div>
-            {index < steps - 1 && (
               <div
-                ref={(el) => {
-                  connectorRef.current[index] = el
-                }}
-                className="pf-timeline-progress__connector"
+                className={`pf-timeline-progress__step${isActive ? ' is-active' : ''}`}
                 style={{
-                  background:
-                    'linear-gradient(90deg, var(--pf-anim-dodger-blue-40), var(--pf-anim-cyan-light-20))',
-                  transformOrigin: 'left',
-                  transform: 'scaleX(0)',
-                  opacity: 0.3,
-                  willChange: 'transform, opacity',
-                  filter: 'drop-shadow(0 0 6px var(--pf-anim-dodger-blue-30))',
+                  animationDelay: isDemo ? `${index * 260}ms` : undefined,
                 }}
-              />
-            )}
-          </div>
-        ))}
+              >
+                {index + 1}
+              </div>
+              {index < steps - 1 && (
+                <div
+                  className={`pf-timeline-progress__connector${isActive ? ' is-active' : ''}`}
+                  style={{
+                    animationDelay: isDemo ? `${index * 260}ms` : undefined,
+                  }}
+                />
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

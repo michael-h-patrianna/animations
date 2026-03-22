@@ -91,6 +91,13 @@
   transform: scale(0.9);
 }
 
+/* SVG fallback — inherits size/position from .flag-plant-marker-css */
+.flag-plant-marker--fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .flag-plant-marker-css.active {
   opacity: 1;
   transform: scale(1);

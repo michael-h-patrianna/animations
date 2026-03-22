@@ -1,30 +1,32 @@
 .neon-pulse-container {
-  --progress-bars-neon-pulse-bg-1: #000;
-  --progress-bars-neon-pulse-bg-2: #1a1a1a;
-  --progress-bars-neon-pulse-bg-3: #f0f;
-  --progress-bars-neon-pulse-bg-4: rgb(255 255 255 / 50%);
-  --progress-bars-neon-pulse-bg-5: rgb(255 0 255 / 40%);
-  --progress-bars-neon-pulse-bg-6: rgb(255 0 255 / 20%);
-  background: var(--progress-bars-neon-pulse-bg-1);
+  --neon-pulse-bg: #000;
+  --neon-pulse-track: #1a1a1a;
+  --neon-pulse-fill: #f0f;
+  --neon-pulse-flicker: rgb(255 255 255 / 50%);
+  --neon-pulse-glow: rgb(255 0 255 / 20%);
+  --neon-pulse-height: 10px;
+
+  background: var(--neon-pulse-bg);
   padding: 40px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: center;
+  width: 100%;
 }
 
 .neon-pulse-track {
   width: 100%;
-  height: 10px;
-  background: var(--progress-bars-neon-pulse-bg-2);
+  height: var(--neon-pulse-height);
+  background: var(--neon-pulse-track);
   position: relative;
   border-radius: 5px;
 }
 
 .neon-pulse-fill {
   height: 100%;
-  background: var(--progress-bars-neon-pulse-bg-3);
+  background: var(--neon-pulse-fill);
   border-radius: 5px;
   position: relative;
   z-index: 2;
@@ -32,34 +34,25 @@
 
 .neon-pulse-flicker {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--progress-bars-neon-pulse-bg-4);
+  inset: 0;
+  background: var(--neon-pulse-flicker);
   border-radius: 5px;
 }
 
 .neon-pulse-glow {
   position: absolute;
   left: 0;
-  filter: none; /* Warning: Blur is forbidden by prompt. I must remove it. */
-  /* opacity is safer for glow simulation without blur */
+  top: -2px;
+  height: calc(var(--neon-pulse-height) + 4px);
+  background: var(--neon-pulse-glow);
   border-radius: 10px;
   z-index: 1;
-  /* Fallback for no-blur: just a wider, transparent bar */
-  background: var(--progress-bars-neon-pulse-bg-6);
-  /* Resetting properties to be safe */
-  top: -2px;
-  height: 14px;
 }
 
 .neon-pulse-label {
-  color: var(--progress-bars-neon-pulse-bg-3);
+  color: var(--neon-pulse-fill);
   font-family: 'Courier New', monospace;
-  text-shadow: 0 0 5px var(--progress-bars-neon-pulse-bg-3); /* Text shadow forbidden. Remove. */
   font-weight: bold;
   letter-spacing: 2px;
-  /* Safe fallback */
   opacity: 0.9;
 }

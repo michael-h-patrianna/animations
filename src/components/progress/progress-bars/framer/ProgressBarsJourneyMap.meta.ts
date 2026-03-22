@@ -7,4 +7,5 @@ export const metadata = {
   title: 'Journey Map',
   description: 'Avatar travels along a path activating nodes',
   tier: 4,
+  previewMaxWidth: 414,
 } satisfies AnimationMetadata

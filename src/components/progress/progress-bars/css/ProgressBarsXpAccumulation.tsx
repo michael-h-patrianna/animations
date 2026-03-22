@@ -16,6 +16,7 @@ import {
   FLOATING_LIFETIME_MS,
   FLOATING_SPAWN_LEAD_MS,
   GAIN_INTERVAL_MS,
+  getCurrentMultiplier as getMultFromConfig,
   INITIAL_XP,
   MAX_XP,
   MULTIPLIER_ZONES,
@@ -26,22 +27,32 @@ import {
   type FloatingXP,
   type MilestoneAnimation,
 } from '../XpAccumulationConfig'
-export function ProgressBarsXpAccumulation() {
+import type { ProgressBarProps } from '../SharedTypes'
+
+interface XpAccumulationProps extends ProgressBarProps {
+  /** Maximum XP value. Default: 1000. */
+  maxXP?: number
+}
+
+export function ProgressBarsXpAccumulation({
+  progress,
+  maxXP: maxXPProp,
+  className,
+  style,
+}: XpAccumulationProps) {
+  const maxXP = maxXPProp ?? MAX_XP
+  const isControlled = progress !== undefined
   const containerRef = useRef<HTMLDivElement>(null)
   const [floatingXP, setFloatingXP] = useState<FloatingXP[]>([])
   const [currentMultiplier, setCurrentMultiplier] = useState(1)
   const [milestoneAnimations, setMilestoneAnimations] = useState<MilestoneAnimation[]>([])
   const [progressDisplay, setProgressDisplay] = useState((INITIAL_XP / MAX_XP) * 100)
-  const [displayXP, setDisplayXP] = useState(INITIAL_XP) // Replace Framer Motion values with plain refs and state
+  const [displayXP, setDisplayXP] = useState(INITIAL_XP)
   const progressValueRef = useRef((INITIAL_XP / MAX_XP) * 100)
   const xpValueRef = useRef(INITIAL_XP)
   const progressFillRef = useRef<HTMLDivElement>(null)
   const xpRef = useRef(INITIAL_XP)
-  const animationRef = useRef<{ orbId: number; floatingId: number; milestoneId: number }>({
-    orbId: 0,
-    floatingId: 0,
-    milestoneId: 0,
-  })
+  const animationRef = useRef({ orbId: 0, floatingId: 0, milestoneId: 0 })
   const timeoutHandlesRef = useRef<Array<ReturnType<typeof setTimeout>>>([])
   const animationFrameHandlesRef = useRef<Set<number>>(new Set())
   const animationControlsRef = useRef<Animation[]>([])
@@ -50,13 +61,10 @@ export function ProgressBarsXpAccumulation() {
   const xpSequenceRef = useRef<number[]>(createXpSequence())
   const sequenceIndexRef = useRef(0)
   const multiplierZones = useMemo(() => [...MULTIPLIER_ZONES], [])
-  const registerTimeout = useCallback((callback: () => void, delay: number) => {
-    const handle = setTimeout(() => {
-      timeoutHandlesRef.current = timeoutHandlesRef.current.filter((entry) => entry !== handle)
-      callback()
-    }, delay)
-    timeoutHandlesRef.current.push(handle)
-    return handle
+  const registerTimeout = useCallback((cb: () => void, delay: number) => {
+    const h = setTimeout(() => { timeoutHandlesRef.current = timeoutHandlesRef.current.filter((e) => e !== h); cb() }, delay)
+    timeoutHandlesRef.current.push(h)
+    return h
   }, [])
   const registerAnimation = useCallback((control: Animation) => {
     animationControlsRef.current.push(control)
@@ -98,12 +106,10 @@ export function ProgressBarsXpAccumulation() {
       }, 2000)
     },
     [registerTimeout]
-  ) // Note: Avoid layout reads (getBoundingClientRect/clientWidth) for marker positioning;
-  // we rely on pure CSS percentage-based placement relative to the track.
-  // Helper function to create cubic-bezier easing
+  )
   const cubicBezier = useCallback((p1x: number, p1y: number, p2x: number, p2y: number) => {
     return `cubic-bezier(${p1x}, ${p1y}, ${p2x}, ${p2y})`
-  }, []) // Custom animate function using Web Animations API
+  }, [])
   const animateValue = useCallback(
     (
       from: number,
@@ -122,10 +128,8 @@ export function ProgressBarsXpAccumulation() {
       const range = to - from
       const updateLoop = (currentTime: number) => {
         const elapsed = currentTime - startTime
-        const progress = Math.min(elapsed / (duration * 1000), 1) // Manual easing approximation for the value interpolation
-        const easedProgress = progress
-        const currentValue = from + range * easedProgress
-        onUpdate(currentValue)
+        const progress = Math.min(elapsed / (duration * 1000), 1)
+        onUpdate(from + range * progress)
         if (progress < 1) {
           registerAnimationFrame(updateLoop)
         } else {
@@ -164,11 +168,25 @@ export function ProgressBarsXpAccumulation() {
     },
     [multiplierZones, triggerMilestone]
   )
+  // Controlled mode: set display values directly
   useEffect(() => {
+    if (!isControlled) return
+    const p = (progress ?? 0) * 100
+    setProgressDisplay(p)
+    setDisplayXP(Math.round((progress ?? 0) * maxXP))
+    setCurrentMultiplier(getMultFromConfig(Math.round((progress ?? 0) * maxXP)))
+    if (progressFillRef.current) {
+      progressFillRef.current.style.transform = `scaleX(${(progress ?? 0)})`
+    }
+  }, [isControlled, progress, maxXP])
+
+  useEffect(() => {
+    if (isControlled) return
     const computedMultiplier = getCurrentMultiplier(displayXP)
     setCurrentMultiplier((prev) => (prev === computedMultiplier ? prev : computedMultiplier))
-  }, [displayXP, getCurrentMultiplier])
+  }, [displayXP, getCurrentMultiplier, isControlled])
   useEffect(() => {
+    if (isControlled) return
     let stopped = false
     const resetAnimation = () => {
       clearScheduledWork()
@@ -179,7 +197,7 @@ export function ProgressBarsXpAccumulation() {
       xpRef.current = INITIAL_XP
       progressValueRef.current = (INITIAL_XP / MAX_XP) * 100
       xpValueRef.current = INITIAL_XP
-      lastProgressRef.current = (INITIAL_XP / MAX_XP) * 100 // Reset progress fill transform
+      lastProgressRef.current = (INITIAL_XP / MAX_XP) * 100
       if (progressFillRef.current) {
         progressFillRef.current.style.transform = `scaleX(${((INITIAL_XP / MAX_XP) * 100) / 100})`
       }
@@ -187,7 +205,7 @@ export function ProgressBarsXpAccumulation() {
       setMilestoneAnimations([])
       setDisplayXP(INITIAL_XP)
       setProgressDisplay((INITIAL_XP / MAX_XP) * 100)
-      setCurrentMultiplier(getCurrentMultiplier(INITIAL_XP)) // Emit a subtle activation pulse for the Start marker
+      setCurrentMultiplier(getCurrentMultiplier(INITIAL_XP))
       registerTimeout(() => {
         triggerMilestone(0)
       }, 120)
@@ -226,7 +244,7 @@ export function ProgressBarsXpAccumulation() {
         sequenceIndexRef.current = nextIndex
         const zoneBoost = Math.max(1, getCurrentMultiplier(targetXP))
         const targetPercent = (targetXP / MAX_XP) * 100
-        const visualPercent = Math.min(99.4, targetPercent) // Advance internal ids; orbId not used for rendering, so don't store
+        const visualPercent = Math.min(99.4, targetPercent)
         animationRef.current.orbId++
         const floatingId = animationRef.current.floatingId++
         registerTimeout(() => {
@@ -247,7 +265,6 @@ export function ProgressBarsXpAccumulation() {
           Math.max(0, ORB_IMPACT_DELAY_MS - FLOATING_SPAWN_LEAD_MS)
         )
         registerTimeout(() => {
-          // Animate XP value
           const xpAnim = animateValue(
             xpValueRef.current,
             targetXP,
@@ -258,7 +275,7 @@ export function ProgressBarsXpAccumulation() {
               setDisplayXP(value)
             }
           )
-          registerAnimation(xpAnim) // Animate progress value
+          registerAnimation(xpAnim)
           const progressAnim = animateValue(
             progressValueRef.current,
             targetPercent,
@@ -296,8 +313,9 @@ export function ProgressBarsXpAccumulation() {
     registerTimeout,
     triggerMilestone,
     updateProgress,
+    isControlled,
   ])
-  const progressPercent = progressDisplay // Dynamic glow buckets via CSS variables
+  const progressPercent = progressDisplay
   const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
   const intensity = clamp01(progressPercent / 100)
   const zoneBucket =
@@ -323,7 +341,8 @@ export function ProgressBarsXpAccumulation() {
   return (
     <div
       ref={containerRef}
-      className={`pf-progress-demo pf-xp-accumulation ${zoneBucket} ${levelBucket}`}
+      className={`pf-xp-accumulation ${zoneBucket} ${levelBucket}${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__xp-accumulation"
     >
       <div className="pf-xp-counter">

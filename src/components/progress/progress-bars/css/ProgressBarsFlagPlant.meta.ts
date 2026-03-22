@@ -7,4 +7,5 @@ export const metadata = {
   title: 'Flag Plant',
   description: 'Flags are planted at specific milestones',
   tier: 4,
+  previewMaxWidth: 414,
 } satisfies AnimationMetadata

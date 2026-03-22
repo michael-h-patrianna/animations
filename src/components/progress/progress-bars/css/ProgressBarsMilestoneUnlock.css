@@ -97,6 +97,13 @@
   z-index: 1;
 }
 
+/* SVG fallback — inherits size/position from .milestone-unlock-lock-icon-css */
+.milestone-unlock-lock-icon--fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .milestone-unlock-lock-icon-css.open {
   animation: milestone-unlock-icon-open-css 0.62s ease;
 }

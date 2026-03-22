@@ -1,42 +1,75 @@
+/**
+ * Crystal Nodes Progress Bar
+ *
+ * Progress bar with crystal-shaped milestone nodes that charge up with a
+ * burst effect when the fill reaches their position.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsCrystalNodes progress={0.6} />
+ * ```
+ *
+ * Styleable CSS custom properties:
+ * - `--crystal-track-color`    — track background
+ * - `--crystal-fill-color`     — fill color
+ * - `--crystal-active-color`   — active crystal color
+ * - `--crystal-inactive-color` — inactive crystal color
+ *
+ * Files to copy: this file + ProgressBarsCrystalNodes.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
 import * as m from 'motion/react-m'
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
+import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 
-export function ProgressBarsCrystalNodes() {
-  const [progress, setProgress] = useState(0)
+const DEFAULT_MILESTONES: MilestoneConfig[] = [
+  { position: 0.2 }, { position: 0.4 }, { position: 0.6 }, { position: 0.8 },
+]
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((p) => (p >= 100 ? 0 : p + 0.4))
-    }, 40)
-    return () => clearInterval(interval)
-  }, [])
+export function ProgressBarsCrystalNodes({
+  progress,
+  milestones = DEFAULT_MILESTONES,
+  className,
+  style,
+}: MilestoneProgressBarProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 1200 })
 
-  const crystals = [20, 40, 60, 80]
+  const activatedSet = useMemo(
+    () => new Set(milestones.filter((ms) => displayProgress >= ms.position).map((_, i) => i)),
+    [displayProgress, milestones]
+  )
 
   return (
-    <div className="crystal-nodes-container" data-animation-id="progress-bars__crystal-nodes">
+    <div
+      className={`crystal-nodes-container${className ? ` ${className}` : ''}`}
+      style={style}
+      data-animation-id="progress-bars__crystal-nodes"
+    >
       <div className="crystal-track">
-        {/* Background glow for track */}
-        <m.div className="crystal-track-fill" style={{ width: `${progress}%` }} />
+        <m.div
+          className="crystal-track-fill"
+          style={{ width: `${displayProgress * 100}%`, animation: 'none' }}
+        />
 
-        {crystals.map((pos) => {
-          const isActive = progress >= pos
+        {milestones.map((ms, i) => {
+          const isActive = activatedSet.has(i)
           return (
-            <div key={pos} className="crystal-wrapper" style={{ left: `${pos}%` }}>
+            <div key={i} className="crystal-wrapper" style={{ left: `${ms.position * 100}%` }}>
               <m.div
-                className={`crystal-shape ${isActive ? 'charged' : ''}`}
+                className={`crystal-shape${isActive ? ' charged' : ''}`}
                 animate={
                   isActive
                     ? {
-                        backgroundColor: 'var(--pf-anim-cyan)',
+                        backgroundColor: 'var(--crystal-active-color, var(--pf-anim-cyan))',
                         scale: [1, 1.2, 1],
                       }
                     : {
-                        backgroundColor: 'var(--pf-anim-gray-700)',
+                        backgroundColor: 'var(--crystal-inactive-color, var(--pf-anim-gray-700))',
                         scale: 1,
                       }
                 }
                 transition={{ duration: 0.4 }}
+                style={{ animation: 'none' }}
               />
               {isActive && (
                 <m.div

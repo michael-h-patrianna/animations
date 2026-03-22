@@ -8,4 +8,5 @@ export const metadata = {
   description:
     'Premium mission-track progress bar with milestone reward unlocks and a grand final vault reward.',
   tier: 4,
+  previewMaxWidth: 414,
 } satisfies AnimationMetadata

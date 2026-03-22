@@ -1,28 +1,92 @@
-import { milestoneLockClosed, milestoneLockOpen } from '@/assets'
+/**
+ * Milestone Unlock Progress Bar
+ *
+ * Progress bar with lock icons at milestone positions that unlock with
+ * a wave animation as progress crosses their threshold. Icons toggle
+ * between locked and unlocked states.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsMilestoneUnlock
+ *   progress={0.5}
+ *   milestones={[{ position: 0.18 }, { position: 0.38 }, { position: 0.58 }, { position: 0.78 }, { position: 0.94 }]}
+ *   label="Achievements"
+ * />
+ * ```
+ *
+ * Styleable CSS custom properties:
+ * - `--unlock-track-color`   — track/rail background
+ * - `--unlock-fill-color`    — fill color
+ * - `--unlock-label-color`   — header label color
+ * - `--unlock-value-color`   — counter value color
+ * - `--unlock-ring-color`    — milestone ring color
+ *
+ * Files to copy: this file + ProgressBarsMilestoneUnlock.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
 import * as m from 'motion/react-m'
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
+import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 
-const milestonePoints = [18, 38, 58, 78, 94]
+interface MilestoneUnlockProps extends MilestoneProgressBarProps {
+  /** Label text in header. Default: "Milestone Locks". */
+  label?: string
+  /** URL for locked milestone icon. Fallback: CSS lock shape. */
+  lockedIcon?: string
+  /** URL for unlocked milestone icon. Fallback: CSS unlock shape. */
+  unlockedIcon?: string
+}
 
-export function ProgressBarsMilestoneUnlock() {
-  const [progress, setProgress] = useState(0)
+const DEFAULT_MILESTONES: MilestoneConfig[] = [
+  { position: 0.18 }, { position: 0.38 }, { position: 0.58 }, { position: 0.78 }, { position: 0.94 },
+]
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((value) => (value >= 100 ? 0 : value + 0.4))
-    }, 44)
+function LockFallback({ unlocked }: { unlocked: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d={unlocked ? 'M7 11V7a5 5 0 0 1 9.9-1' : 'M7 11V7a5 5 0 0 1 10 0v4'} />
+    </svg>
+  )
+}
 
-    return () => clearInterval(interval)
-  }, [])
+export function ProgressBarsMilestoneUnlock({
+  progress,
+  milestones = DEFAULT_MILESTONES,
+  label = 'Milestone Locks',
+  lockedIcon,
+  unlockedIcon,
+  className,
+  style,
+}: MilestoneUnlockProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 5500, pause: 1500 })
 
-  const unlocked = milestonePoints.filter((point) => progress >= point).length
+  const activatedSet = useMemo(
+    () => new Set(milestones.filter((ms) => displayProgress >= ms.position).map((_, i) => i)),
+    [displayProgress, milestones]
+  )
+
+  const unlocked = activatedSet.size
 
   return (
-    <div className="milestone-unlock-wrap" data-animation-id="progress-bars__milestone-unlock">
+    <div
+      className={`milestone-unlock-wrap${className ? ` ${className}` : ''}`}
+      style={style}
+      data-animation-id="progress-bars__milestone-unlock"
+    >
       <div className="milestone-unlock-meta">
-        <span className="milestone-unlock-label">Milestone Locks</span>
+        <span className="milestone-unlock-label">{label}</span>
         <span className="milestone-unlock-value">
-          {unlocked}/{milestonePoints.length}
+          {unlocked}/{milestones.length}
         </span>
       </div>
 
@@ -30,34 +94,57 @@ export function ProgressBarsMilestoneUnlock() {
         <div className="milestone-unlock-rail-base" />
         <m.div
           className="milestone-unlock-rail-fill"
-          animate={{ width: `${progress}%` }}
+          animate={{ width: `${displayProgress * 100}%` }}
           transition={{ duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
+          style={{ animation: 'none' }}
         />
 
-        {milestonePoints.map((point, index) => {
-          const isUnlocked = progress >= point
+        {milestones.map((ms, i) => {
+          const isUnlocked = activatedSet.has(i)
 
           return (
             <div
-              key={point}
-              className={`milestone-unlock-lock ${isUnlocked ? 'open' : 'closed'}`}
-              style={{ left: `${point}%` }}
+              key={i}
+              className={`milestone-unlock-lock${isUnlocked ? ' open' : ' closed'}`}
+              style={{ left: `${ms.position * 100}%` }}
             >
               <span className="milestone-unlock-lock-ring" />
 
-              <m.img
-                className="milestone-unlock-lock-icon"
-                src={isUnlocked ? milestoneLockOpen : milestoneLockClosed}
-                alt=""
-                animate={
-                  isUnlocked
-                    ? { scale: [1, 1.07, 1], rotate: [0, -4, 4, 0] }
-                    : { scale: 1, rotate: 0 }
-                }
-                transition={
-                  isUnlocked ? { duration: 0.62, delay: index * 0.02 } : { duration: 0.18 }
-                }
-              />
+              {lockedIcon !== undefined || unlockedIcon !== undefined ? (
+                <m.img
+                  className="milestone-unlock-lock-icon"
+                  src={isUnlocked ? (unlockedIcon ?? lockedIcon) : lockedIcon}
+                  alt=""
+                  animate={
+                    isUnlocked
+                      ? { scale: [1, 1.07, 1], rotate: [0, -4, 4, 0] }
+                      : { scale: 1, rotate: 0 }
+                  }
+                  transition={
+                    isUnlocked
+                      ? { duration: 0.62, delay: i * 0.02 }
+                      : { duration: 0.18 }
+                  }
+                  style={{ animation: 'none' }}
+                />
+              ) : (
+                <m.span
+                  className="milestone-unlock-lock-icon milestone-unlock-lock-icon--fallback"
+                  animate={
+                    isUnlocked
+                      ? { scale: [1, 1.07, 1], rotate: [0, -4, 4, 0] }
+                      : { scale: 1, rotate: 0 }
+                  }
+                  transition={
+                    isUnlocked
+                      ? { duration: 0.62, delay: i * 0.02 }
+                      : { duration: 0.18 }
+                  }
+                  style={{ animation: 'none' }}
+                >
+                  <LockFallback unlocked={isUnlocked} />
+                </m.span>
+              )}
 
               {isUnlocked && (
                 <m.span

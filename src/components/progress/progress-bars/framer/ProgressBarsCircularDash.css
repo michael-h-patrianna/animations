@@ -1,26 +1,30 @@
 .circular-dash-container {
-  --progress-bars-circular-dash-bg: #94a3b8;
-  --progress-bars-circular-dash-color: #334155;
+  --circular-dash-active: var(--pf-anim-blue-dark, #334155);
+  --circular-dash-inactive: var(--pf-anim-slate, #94a3b8);
+  --circular-dash-text: #334155;
+  --circular-dash-size: 120px;
+
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  width: 100%;
 }
 
 .circular-dash-wrapper {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: var(--circular-dash-size);
+  height: var(--circular-dash-size);
 }
 
 .circular-dash-segment-container {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 10px; /* Width of the rotation axis (invisible) */
+  width: 10px;
   height: 100%;
   transform-origin: center center;
-  margin-left: -5px; /* Centering */
+  margin-left: -5px;
   pointer-events: none;
 }
 
@@ -28,8 +32,8 @@
   width: 6px;
   height: 16px;
   border-radius: 3px;
-  background: var(--progress-bars-circular-dash-bg);
-  margin: 0 auto; /* Centers within segment-container */
+  background: var(--circular-dash-inactive);
+  margin: 0 auto;
 }
 
 .circular-dash-center {
@@ -39,5 +43,5 @@
   transform: translate(-50%, -50%);
   font-family: sans-serif;
   font-weight: bold;
-  color: var(--progress-bars-circular-dash-color);
+  color: var(--circular-dash-text);
 }

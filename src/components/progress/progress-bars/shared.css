@@ -1,1 +1,6 @@
 /* Shared styles for this group */
+
+/* Track wrapper — positions milestone markers relative to the bar */
+.track-container {
+  position: relative;
+}

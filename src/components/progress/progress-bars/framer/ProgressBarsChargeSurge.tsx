@@ -1,180 +1,170 @@
+/**
+ * Charge Surge Progress Bar
+ *
+ * Progress bar with milestone markers that show anticipation tremors
+ * before activation, then release surge wave effects on crossing.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsChargeSurge
+ *   progress={0.6}
+ *   milestones={[{ position: 0 }, { position: 0.5 }, { position: 1 }]}
+ * />
+ * ```
+ *
+ * Styleable CSS custom properties:
+ * - `--charge-track-color`    — track background
+ * - `--charge-fill-color`     — fill color
+ * - `--charge-marker-color`   — marker color
+ *
+ * Files to copy: this file + ProgressBarsChargeSurge.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
 import * as m from 'motion/react-m'
-import { useEffect, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
+
 type MilestoneState = 'inactive' | 'anticipating' | 'charged'
-interface SurgeWave {
-  id: number
-  milestoneIndex: number
-}
-const MILESTONE_POSITIONS = [0, 0.25, 0.5, 0.75, 1]
+interface SurgeWave { id: number; milestoneIndex: number }
+
+const DEFAULT_MILESTONES: MilestoneConfig[] = [
+  { position: 0 }, { position: 0.25 }, { position: 0.5 }, { position: 0.75 }, { position: 1 },
+]
 const ANTICIPATION_THRESHOLD = 0.05
-export function ProgressBarsChargeSurge() {
-  const [progress, setProgress] = useState(0)
-  const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>([
-    'inactive',
-    'inactive',
-    'inactive',
-    'inactive',
-    'inactive',
-  ])
+
+export function ProgressBarsChargeSurge({
+  progress,
+  milestones = DEFAULT_MILESTONES,
+  className,
+  style,
+}: MilestoneProgressBarProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 1500 })
+  const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>(
+    () => milestones.map(() => 'inactive')
+  )
   const [surgeWaves, setSurgeWaves] = useState<SurgeWave[]>([])
   const [glowFlash, setGlowFlash] = useState(false)
+  const waveIdRef = useRef(0)
+  const prevProgressRef = useRef(0)
+
   useEffect(() => {
-    const duration = 4000
-    const startTime = Date.now()
-    let waveIdCounter = 0
-    const pendingTimeouts: ReturnType<typeof setTimeout>[] = [] // Track states inside the closure to avoid stale reads
-    const localStates: MilestoneState[] = [
-      'inactive',
-      'inactive',
-      'inactive',
-      'inactive',
-      'inactive',
-    ]
-    const intervalId = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const currentProgress = Math.min(elapsed / duration, 1)
-      setProgress(currentProgress)
-      let stateChanged = false
-      MILESTONE_POSITIONS.forEach((pos, index) => {
-        const isNearMilestone = currentProgress >= pos - ANTICIPATION_THRESHOLD
-        const hasReachedMilestone = currentProgress >= pos
-        if (hasReachedMilestone && localStates[index] !== 'charged') {
-          localStates[index] = 'charged'
-          stateChanged = true
-          const newWave: SurgeWave = { id: waveIdCounter++, milestoneIndex: index }
-          setSurgeWaves((prev) => [...prev, newWave])
-          setGlowFlash(true)
-          {
-            const t1 = setTimeout(() => setGlowFlash(false), 200)
-            pendingTimeouts.push(t1)
-          }
-          {
-            const t2 = setTimeout(() => {
-              setSurgeWaves((prev) => prev.filter((w) => w.id !== newWave.id))
-            }, 700)
-            pendingTimeouts.push(t2)
-          }
-        } else if (isNearMilestone && !hasReachedMilestone && localStates[index] === 'inactive') {
-          localStates[index] = 'anticipating'
-          stateChanged = true
-        }
-      })
-      if (stateChanged) {
-        setMilestoneStates([...localStates])
-      }
-      if (currentProgress >= 1) {
-        clearInterval(intervalId)
-      }
-    }, 16)
-    return () => {
-      clearInterval(intervalId)
-      pendingTimeouts.forEach(clearTimeout)
+    const prev = prevProgressRef.current
+    prevProgressRef.current = displayProgress
+
+    if (displayProgress < prev - 0.02) {
+      setMilestoneStates(milestones.map(() => 'inactive'))
+      setSurgeWaves([])
+      return
     }
-  }, [])
-  const fillVariants = {
-    hidden: { scaleX: 0 },
-    visible: { scaleX: progress, transition: { duration: 0.1, ease: [0.4, 0, 0.2, 1] as const } },
-  }
+
+    const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
+    let stateChanged = false
+    const newStates = [...milestoneStates]
+
+    milestones.forEach((ms, i) => {
+      const hasReached = displayProgress >= ms.position
+      const isNear = displayProgress >= ms.position - ANTICIPATION_THRESHOLD
+
+      if (hasReached && newStates[i] !== 'charged') {
+        newStates[i] = 'charged'
+        stateChanged = true
+        const wave: SurgeWave = { id: waveIdRef.current++, milestoneIndex: i }
+        setSurgeWaves((p) => [...p, wave])
+        setGlowFlash(true)
+        const t1 = setTimeout(() => setGlowFlash(false), 200)
+        const t2 = setTimeout(() => setSurgeWaves((p) => p.filter((w) => w.id !== wave.id)), 700)
+        pendingTimeouts.push(t1, t2)
+      } else if (isNear && !hasReached && newStates[i] === 'inactive') {
+        newStates[i] = 'anticipating'
+        stateChanged = true
+      }
+    })
+
+    if (stateChanged) setMilestoneStates(newStates)
+    return () => pendingTimeouts.forEach(clearTimeout)
+  }, [displayProgress, milestones])
+
   const markerVariants = (state: MilestoneState) => {
     if (state === 'anticipating') {
       return {
         scale: [1, 1.1, 1],
-        backgroundColor: 'var(--pf-anim-blue-dark)',
+        backgroundColor: 'var(--charge-marker-color, var(--pf-anim-blue-dark))',
         transition: { scale: { duration: 0.8, repeat: Infinity, ease: 'easeInOut' as const } },
       }
-    } else if (state === 'charged') {
+    }
+    if (state === 'charged') {
       return {
         scale: 1,
-        backgroundColor: 'var(--pf-anim-blue-dark)',
+        backgroundColor: 'var(--charge-marker-color, var(--pf-anim-blue-dark))',
         transition: { backgroundColor: { duration: 0.2 } },
       }
     }
-    return { scale: 1, backgroundColor: 'var(--pf-anim-blue-dark)' }
+    return { scale: 1, backgroundColor: 'var(--charge-marker-color, var(--pf-anim-blue-dark))' }
   }
-  const surgeWaveVariants = {
-    initial: { scale: 0.5, opacity: 0.8 },
-    animate: {
-      scale: 2.5,
-      opacity: 0,
-      transition: { duration: 0.6, ease: [0.2, 0.8, 0.2, 1] as const },
-    },
-  }
-  const glowFillVariants = {
-    normal: { opacity: 0.4 },
-    flash: { opacity: 0.8, transition: { duration: 0.2 } },
-  }
+
   return (
     <div
-      className="pf-progress-demo pf-charge-surge"
+      className={`pf-charge-surge${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__charge-surge"
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          {/* Base fill layer */}
           <m.div
             className="pf-progress-fill pf-progress-fill--base"
-            variants={fillVariants}
-            initial="hidden"
-            animate="visible"
-            style={{ transformOrigin: 'left center' }}
+            animate={{ scaleX: displayProgress }}
+            transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] as const }}
+            style={{ transformOrigin: 'left center', animation: 'none' }}
           />
-
-          {/* Glow fill layer */}
           <m.div
             className="pf-progress-fill pf-progress-fill--glow"
-            variants={fillVariants}
-            initial="hidden"
-            animate="visible"
-            style={{ transformOrigin: 'left center' }}
+            animate={{ scaleX: displayProgress }}
+            transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] as const }}
+            style={{ transformOrigin: 'left center', animation: 'none' }}
           >
             <m.div
               className="glow-overlay"
-              variants={glowFillVariants}
-              animate={glowFlash ? 'flash' : 'normal'}
+              animate={{ opacity: glowFlash ? 0.8 : 0.4 }}
+              transition={{ duration: 0.2 }}
             />
           </m.div>
         </div>
 
-        {/* Milestone markers */}
-        {MILESTONE_POSITIONS.map((pos, i) => (
+        {milestones.map((ms, i) => (
           <div
             key={i}
             className="milestone-container"
             style={{
               position: 'absolute',
-              left: `${pos * 100}%`,
+              left: `${ms.position * 100}%`,
               top: '50%',
               transform: 'translate(-50%, -50%)',
               width: '24px',
               height: '24px',
             }}
           >
-            {/* Main marker */}
             <m.div
               className="milestone-marker"
               animate={markerVariants(milestoneStates[i]!)}
               style={{
                 position: 'absolute',
                 inset: 0,
-                border: '2px solid var(--pf-anim-blue-dark-80)',
+                border: '2px solid var(--charge-marker-color, var(--pf-anim-blue-dark-80))',
                 borderRadius: '50%',
               }}
             />
-
-            {/* Surge waves */}
             {surgeWaves
               .filter((w) => w.milestoneIndex === i)
               .map((wave) => (
                 <m.div
                   key={wave.id}
-                  className="surge-wave"
-                  variants={surgeWaveVariants}
-                  initial="initial"
-                  animate="animate"
+                  initial={{ scale: 0.5, opacity: 0.8 }}
+                  animate={{ scale: 2.5, opacity: 0 }}
+                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] as const }}
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    border: '2px solid var(--pf-anim-blue-dark-80)',
+                    border: '2px solid var(--charge-marker-color, var(--pf-anim-blue-dark-80))',
                     borderRadius: '50%',
                     pointerEvents: 'none',
                   }}

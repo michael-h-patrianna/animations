@@ -1,50 +1,61 @@
+/**
+ * Segmented Progress Bar
+ *
+ * Progress bar divided into segments with glow effects on segment completion.
+ * In demo mode plays a one-shot fill from 0 to 100%. In controlled mode
+ * fills proportional to the given progress value.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsProgressSegmented progress={0.5} segments={4} />
+ * ```
+ *
+ * Styleable CSS custom properties:
+ * - `--segmented-track-color`    — track background
+ * - `--segmented-fill-from`      — fill gradient start
+ * - `--segmented-fill-to`        — fill gradient end
+ * - `--segmented-segment-bg`     — segment overlay background
+ * - `--segmented-segment-border` — segment border color
+ * - `--segmented-gap-color`      — gap divider color
+ * - `--segmented-height`         — track height (default: 12px)
+ *
+ * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState } from 'react'
-export function ProgressBarsProgressSegmented() {
-  const [activeSegments, setActiveSegments] = useState<number[]>([])
-  const segmentCount = 4
-  const segmentGap = 4
-  const duration = 3
-  useEffect(() => {
-    // Trigger segment animations at specific thresholds
-    const timers = [0, 1, 2, 3].map((index) => {
-      const threshold = ((index + 1) / segmentCount) * duration * 1000
-      return setTimeout(() => {
-        setActiveSegments((prev) => [...prev, index])
-      }, threshold)
-    })
-    return () => timers.forEach((id) => clearTimeout(id))
-  }, []) // Main fill animation
+import type { ProgressBarProps } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
+
+interface SegmentedProps extends ProgressBarProps {
+  /** Number of segments. Default: 4. */
+  segments?: number
+}
+
+const SEGMENT_GAP = 4
+
+export function ProgressBarsProgressSegmented({
+  progress,
+  segments = 4,
+  className,
+  style,
+}: SegmentedProps) {
+  const isDemo = progress === undefined
+  const displayProgress = useDemoProgress(progress, { duration: 3000, pause: 1500 })
+
   const fillVariants = {
     initial: { scaleX: 0 },
     animate: {
-      scaleX: [0, 0.25, 0.5, 0.75, 1],
-      transition: { duration, times: [0, 0.25, 0.5, 0.75, 1], ease: 'linear' as const },
+      scaleX: displayProgress,
+      transition: isDemo
+        ? { duration: 3, ease: 'linear' as const }
+        : { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
-  } // Segment animation
-  const segmentVariants = (isActive: boolean) => ({
-    initial: { scale: 1 },
-    animate: isActive
-      ? {
-          scale: [1, 1.1, 1],
-          transition: {
-            duration: 0.4,
-            times: [0, 0.3, 1],
-            ease: [0.68, -0.55, 0.265, 1.55] as const,
-          },
-        }
-      : {},
-  }) // Segment glow animation
-  const glowVariants = (isActive: boolean) => ({
-    initial: { opacity: 0 },
-    animate: isActive
-      ? { opacity: [0, 1, 0], transition: { duration: 0.4, times: [0, 0.3, 1], ease: easeOut } }
-      : {},
-  })
+  }
+
   return (
     <div
-      className="pf-progress-demo pf-progress-segmented"
+      className={`pf-progress-segmented${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__progress-segmented"
     >
       <div className="track-container" style={{ position: 'relative' }}>
@@ -53,10 +64,9 @@ export function ProgressBarsProgressSegmented() {
             className="pf-progress-fill"
             style={{
               transformOrigin: 'left center',
-              background:
-                'linear-gradient(90deg, var(--pf-anim-green) 0%, var(--pf-anim-green-light) 100%)',
               borderRadius: '8px 0 0 8px',
               overflow: 'hidden',
+              animation: 'none',
             }}
             variants={fillVariants}
             initial="initial"
@@ -64,39 +74,40 @@ export function ProgressBarsProgressSegmented() {
           />
         </div>
 
-        {/* Gap overlays */}
+        {/* Gap dividers */}
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
-          {Array.from({ length: segmentCount - 1 }).map((_, i) => (
+          {Array.from({ length: segments - 1 }, (_, i) => (
             <div
               key={`gap-${i}`}
               style={{
                 position: 'absolute',
-                width: segmentGap,
+                width: SEGMENT_GAP,
                 top: 0,
                 bottom: 0,
-                left: `${((i + 1) * 100) / segmentCount}%`,
-                marginLeft: -(segmentGap / 2),
-                background: 'var(--pf-anim-deep-purple)',
+                left: `${((i + 1) * 100) / segments}%`,
+                marginLeft: -(SEGMENT_GAP / 2),
+                background: 'var(--segmented-gap-color, var(--pf-anim-deep-purple))',
               }}
             />
           ))}
         </div>
 
-        {/* Segment overlays for animations */}
+        {/* Segment overlays */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
             display: 'flex',
-            gap: segmentGap,
+            gap: SEGMENT_GAP,
             pointerEvents: 'none',
             zIndex: 5,
           }}
         >
-          {Array.from({ length: segmentCount }).map((_, i) => {
-            const isActive = activeSegments.includes(i)
+          {Array.from({ length: segments }, (_, i) => {
+            const segmentThreshold = (i + 1) / segments
+            const isActive = displayProgress >= segmentThreshold - 0.01
             const isFirst = i === 0
-            const isLast = i === segmentCount - 1
+            const isLast = i === segments - 1
             return (
               <m.div
                 key={`segment-${i}`}
@@ -104,21 +115,37 @@ export function ProgressBarsProgressSegmented() {
                   flex: 1,
                   position: 'relative',
                   borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
-                  border: '1px solid var(--pf-anim-orchid-30)',
-                  background: 'var(--pf-anim-violet-dark)',
+                  border:
+                    '1px solid var(--segmented-segment-border, var(--pf-anim-orchid-30))',
+                  background: 'var(--segmented-segment-bg, var(--pf-anim-violet-dark))',
                   overflow: 'hidden',
                 }}
-                variants={segmentVariants(isActive)}
-                initial="initial"
-                animate="animate"
+                animate={
+                  isActive
+                    ? {
+                        scale: [1, 1.1, 1],
+                        transition: {
+                          duration: 0.4,
+                          times: [0, 0.3, 1],
+                          ease: [0.68, -0.55, 0.265, 1.55] as const,
+                        },
+                      }
+                    : {}
+                }
               >
-                {/* Glow effect */}
-                <m.div
-                  style={{ position: 'absolute', inset: 0, background: 'var(--pf-anim-green)' }}
-                  variants={glowVariants(isActive)}
-                  initial="initial"
-                  animate="animate"
-                />
+                {isActive && (
+                  <m.div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background:
+                        'var(--segmented-fill-from, var(--pf-anim-green))',
+                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.4, times: [0, 0.3, 1], ease: easeOut }}
+                  />
+                )}
               </m.div>
             )
           })}

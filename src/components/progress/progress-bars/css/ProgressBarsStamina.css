@@ -46,6 +46,13 @@
   animation: stamina-icon-idle-css 1.7s ease-in-out infinite;
 }
 
+/* SVG fallback — inherits size from .stamina-icon-css */
+.stamina-icon--fallback-css {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .stamina-icon-css.low {
   animation: stamina-icon-low-css 0.5s ease-in-out infinite;
 }

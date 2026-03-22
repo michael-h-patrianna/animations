@@ -1,132 +1,88 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Segmented Progress Bar (CSS variant)
+ *
+ * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
+import type { ProgressBarProps } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsProgressSegmented.css'
-export function ProgressBarsProgressSegmented() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-    const trackContainer = container.querySelector<HTMLElement>('.track-container')
-    const track = container.querySelector<HTMLElement>('.pf-progress-track')
-    const fill = container.querySelector<HTMLElement>('.pf-progress-fill')
-    if (trackContainer == null || track == null || fill == null) return // Clean up any existing animations
-    const existingElements = container.querySelectorAll('.animation-element')
-    existingElements.forEach((el) => el.remove()) // Reset fill
-    fill.style.transform = 'scaleX(0)'
-    fill.style.transformOrigin = 'left center'
-    fill.style.background =
-      'linear-gradient(90deg, var(--pf-anim-green) 0%, var(--pf-anim-green-light) 100%)'
-    fill.style.borderRadius = '8px 0 0 8px'
-    fill.style.overflow = 'hidden' // Create gaps ABOVE the fill as static overlays
-    const segmentCount = 4
-    const segmentGap = 4 // Create gap overlays that sit on top of the fill
-    const gapOverlay = document.createElement('div')
-    gapOverlay.className = 'animation-element'
-    gapOverlay.style.position = 'absolute'
-    gapOverlay.style.inset = '0'
-    gapOverlay.style.pointerEvents = 'none'
-    gapOverlay.style.zIndex = '10'
-    trackContainer.appendChild(gapOverlay) // Add vertical gap bars
-    for (let i = 1; i < segmentCount; i++) {
-      const gap = document.createElement('div')
-      gap.style.position = 'absolute'
-      gap.style.width = `${segmentGap}px`
-      gap.style.top = '0'
-      gap.style.bottom = '0'
-      gap.style.left = `calc(${(i * 100) / segmentCount}% - ${segmentGap / 2}px)`
-      gap.style.background =
-        track.style.background !== '' ? track.style.background : 'var(--pf-anim-deep-purple)'
-      gapOverlay.appendChild(gap)
-    } // Create segment overlay for animations
-    const segmentOverlay = document.createElement('div')
-    segmentOverlay.className = 'animation-element'
-    segmentOverlay.style.position = 'absolute'
-    segmentOverlay.style.inset = '0'
-    segmentOverlay.style.display = 'flex'
-    segmentOverlay.style.gap = `${segmentGap}px`
-    segmentOverlay.style.pointerEvents = 'none'
-    segmentOverlay.style.borderRadius = 'inherit'
-    segmentOverlay.style.zIndex = '5'
-    trackContainer.appendChild(segmentOverlay) // Create visual segments for animation purposes
-    const segments = []
-    for (let i = 0; i < segmentCount; i++) {
-      const segment = document.createElement('div')
-      segment.style.flex = '1'
-      segment.style.position = 'relative' // First and last segments get special border radius
-      if (i === 0) {
-        segment.style.borderRadius = '8px 2px 2px 8px'
-      } else if (i === segmentCount - 1) {
-        segment.style.borderRadius = '2px 8px 8px 2px'
-      } else {
-        segment.style.borderRadius = '2px'
-      }
-      segment.style.border = '1px solid var(--pf-anim-orchid-30)'
-      segment.style.background = 'var(--pf-anim-violet-dark)'
-      segment.style.overflow = 'hidden'
-      segmentOverlay.appendChild(segment)
-      segments.push(segment)
-    }
-    const duration = 3000
-    const timeoutIds: ReturnType<typeof setTimeout>[] = [] // Main fill animation
-    fill.animate(
-      [
-        { transform: 'scaleX(0)' },
-        { transform: 'scaleX(0.25)', offset: 0.25 },
-        { transform: 'scaleX(0.5)', offset: 0.5 },
-        { transform: 'scaleX(0.75)', offset: 0.75 },
-        { transform: 'scaleX(1)' },
-      ],
-      {
-        duration,
-        fill: 'forwards', // Use linear to ensure segment thresholds are hit at exact times
-        easing: 'linear',
-      }
-    ) // Animate segment checkmarks as fill passes
-    segments.forEach((segment, index) => {
-      const threshold = (index + 1) / segmentCount
-      {
-        const t = setTimeout(() => {
-          // Create glow effect
-          const glow = document.createElement('div')
-          glow.style.position = 'absolute'
-          glow.style.inset = '0'
-          glow.style.background = 'var(--pf-anim-green)'
-          glow.style.opacity = '0'
-          segment.appendChild(glow)
-          glow.animate([{ opacity: '0' }, { opacity: '1', offset: 0.3 }, { opacity: '0' }], {
-            duration: 400,
-            easing: 'ease-out',
-          }) // Pulse the segment
-          segment.animate(
-            [
-              { transform: 'scale(1)', boxShadow: 'none' },
-              {
-                transform: 'scale(1.1)',
-                boxShadow: '0 0 20px var(--pf-anim-green-50)',
-                offset: 0.3,
-              },
-              { transform: 'scale(1)', boxShadow: 'none' },
-            ],
-            { duration: 400, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)' }
-          )
-        }, duration * threshold)
-        timeoutIds.push(t)
-      }
-    }) // Cleanup function
-    return () => {
-      timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId))
-      const elements = container.querySelectorAll('.animation-element')
-      elements.forEach((el) => el.remove())
-    }
-  }, [])
+
+interface SegmentedProps extends ProgressBarProps {
+  /** Number of segments. Default: 4. */
+  segments?: number
+}
+
+const SEGMENT_GAP = 4
+
+export function ProgressBarsProgressSegmented({
+  progress,
+  segments = 4,
+  className,
+  style,
+}: SegmentedProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 3000, pause: 1500 })
+
   return (
     <div
-      ref={containerRef}
-      className="pf-progress-demo pf-progress-segmented"
+      className={`pf-progress-segmented${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__progress-segmented"
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <div className="pf-progress-fill"></div>
+          <div
+            className="pf-progress-fill"
+            style={{ transform: `scaleX(${displayProgress})` }}
+          />
+        </div>
+
+        {/* Gap dividers */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
+          {Array.from({ length: segments - 1 }, (_, i) => (
+            <div
+              key={`gap-${i}`}
+              style={{
+                position: 'absolute',
+                width: SEGMENT_GAP,
+                top: 0,
+                bottom: 0,
+                left: `${((i + 1) * 100) / segments}%`,
+                marginLeft: -(SEGMENT_GAP / 2),
+                background: 'var(--segmented-gap-color, var(--pf-anim-deep-purple))',
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Segment overlays */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            gap: SEGMENT_GAP,
+            pointerEvents: 'none',
+            zIndex: 5,
+          }}
+        >
+          {Array.from({ length: segments }, (_, i) => {
+            const isFirst = i === 0
+            const isLast = i === segments - 1
+            return (
+              <div
+                key={`segment-${i}`}
+                style={{
+                  flex: 1,
+                  position: 'relative',
+                  borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
+                  border:
+                    '1px solid var(--segmented-segment-border, var(--pf-anim-orchid-30))',
+                  background: 'var(--segmented-segment-bg, var(--pf-anim-violet-dark))',
+                  overflow: 'hidden',
+                }}
+              />
+            )
+          })}
         </div>
       </div>
     </div>

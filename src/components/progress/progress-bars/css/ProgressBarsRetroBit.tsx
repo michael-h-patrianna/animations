@@ -1,34 +1,53 @@
-import { useEffect, useState } from 'react'
+/**
+ * Retro Bit Progress Bar (CSS variant)
+ *
+ * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
+import type { ProgressBarProps } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsRetroBit.css'
 
-export function ProgressBarsRetroBit() {
-  const [progress, setProgress] = useState(0)
+interface RetroBitProps extends ProgressBarProps {
+  /** Number of discrete segments. Default: 10. */
+  segments?: number
+  /** Label text below the bar. Default: "LOADING...". */
+  label?: string
+}
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((p) => (p >= 100 ? 0 : p + 10))
-    }, 500)
-    return () => clearInterval(interval)
-  }, [])
-
-  const segments = Array.from({ length: 10 })
+export function ProgressBarsRetroBit({
+  progress,
+  segments = 10,
+  label = 'LOADING...',
+  className,
+  style,
+}: RetroBitProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 1000 })
+  const activeCount = Math.floor(displayProgress * segments)
 
   return (
-    <div className="retro-bit-container-css" data-animation-id="progress-bars__retro-bit">
+    <div
+      className={`retro-bit-container-css${className ? ` ${className}` : ''}`}
+      style={style}
+      data-animation-id="progress-bars__retro-bit"
+    >
       <div className="retro-bit-frame-css">
-        {segments.map((_, i) => (
+        {Array.from({ length: segments }, (_, i) => (
           <div
             key={i}
             className="retro-bit-segment-css"
             style={{
-              opacity: (i + 1) * 10 <= progress ? 1 : 0.1,
+              opacity: i < activeCount ? 1 : 0.1,
               backgroundColor:
-                (i + 1) * 10 <= progress ? 'var(--pf-anim-green-400)' : 'var(--pf-anim-green-900)',
+                i < activeCount
+                  ? 'var(--retro-bit-active, var(--pf-anim-green-400))'
+                  : 'var(--retro-bit-inactive, var(--pf-anim-green-900))',
             }}
           />
         ))}
       </div>
-      <div className="retro-bit-label-css">LOADING...</div>
+      {label !== undefined && label !== '' && (
+        <div className="retro-bit-label-css">{label}</div>
+      )}
     </div>
   )
 }

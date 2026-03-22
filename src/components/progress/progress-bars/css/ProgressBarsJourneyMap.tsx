@@ -1,65 +1,100 @@
-import { journeyAvatarDrone, journeyDestinationBeacon } from '@/assets'
-import { useEffect, useState } from 'react'
+/**
+ * Journey Map Progress Bar (CSS variant)
+ *
+ * Files to copy: this file + ProgressBarsJourneyMap.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
+import type { ProgressBarProps } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsJourneyMap.css'
 
-const totalDistance = 520
-const tickCount = 22
+interface JourneyMapProps extends ProgressBarProps {
+  totalDistance?: number
+  unit?: string
+  label?: string
+  travelerIcon?: string
+  destinationIcon?: string
+}
 
-export function ProgressBarsJourneyMap() {
-  const [progress, setProgress] = useState(0)
+const TICK_COUNT = 22
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((value) => (value >= 100 ? 0 : value + 0.29))
-    }, 32)
+function DroneFallback() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+      <circle cx="12" cy="12" r="4" opacity="0.9" />
+      <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+    </svg>
+  )
+}
 
-    return () => clearInterval(interval)
-  }, [])
+function BeaconFallback() {
+  return (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" opacity="0.7">
+      <path d="M12 2L8 10h8zM12 22V10" />
+      <circle cx="12" cy="6" r="2" />
+    </svg>
+  )
+}
 
-  const coveredDistance = Math.round((progress / 100) * totalDistance)
-  const remainingDistance = Math.max(0, totalDistance - coveredDistance)
-  const travellerLeft = Math.min(98, Math.max(2, progress))
+export function ProgressBarsJourneyMap({
+  progress,
+  totalDistance = 520,
+  unit = 'km',
+  label = 'Journey Distance',
+  travelerIcon,
+  destinationIcon,
+  className,
+  style,
+}: JourneyMapProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 8000, pause: 1200 })
+  const percent = displayProgress * 100
+  const covered = Math.round(displayProgress * totalDistance)
+  const remaining = Math.max(0, totalDistance - covered)
 
   return (
-    <div className="journey-distance-wrap-css" data-animation-id="progress-bars__journey-map">
+    <div
+      className={`journey-distance-wrap-css${className ? ` ${className}` : ''}`}
+      style={style}
+      data-animation-id="progress-bars__journey-map"
+    >
       <div className="journey-distance-meta-css">
-        <span className="journey-distance-label-css">Journey Distance</span>
-        <span className="journey-distance-value-css">{coveredDistance} km</span>
+        <span className="journey-distance-label-css">{label}</span>
+        <span className="journey-distance-value-css">{covered} {unit}</span>
       </div>
 
       <div className="journey-distance-shell-css">
         <div className="journey-distance-rail-css">
           <div className="journey-distance-track-css" />
-          <div className="journey-distance-fill-css" style={{ width: `${progress}%` }} />
-
+          <div className="journey-distance-fill-css" style={{ width: `${percent}%` }}>
+            <div className="journey-distance-traveller-css">
+              <span className="journey-distance-traveller-glow-css" />
+              <span className="journey-distance-traveller-core-css">
+                {travelerIcon !== undefined ? (
+                  <img className="journey-distance-traveller-icon-css" src={travelerIcon} alt="" />
+                ) : (
+                  <span className="journey-distance-traveller-icon-css"><DroneFallback /></span>
+                )}
+              </span>
+            </div>
+          </div>
           <span className="journey-distance-fill-gloss-css" />
-
           <div className="journey-distance-ticks-css">
-            {Array.from({ length: tickCount }, (_, index) => (
-              <span key={index} className="journey-distance-tick-css" />
+            {Array.from({ length: TICK_COUNT }, (_, i) => (
+              <span key={i} className="journey-distance-tick-css" />
             ))}
           </div>
-
-          <div className="journey-distance-traveller-css" style={{ left: `${travellerLeft}%` }}>
-            <span className="journey-distance-traveller-glow-css" />
-            <span className="journey-distance-traveller-core-css">
-              <img
-                className="journey-distance-traveller-icon-css"
-                src={journeyAvatarDrone}
-                alt=""
-              />
-            </span>
-          </div>
         </div>
-
         <div className="journey-distance-goal-css">
-          <img className="journey-distance-goal-icon-css" src={journeyDestinationBeacon} alt="" />
+          {destinationIcon !== undefined ? (
+            <img className="journey-distance-goal-icon-css" src={destinationIcon} alt="" />
+          ) : (
+            <span className="journey-distance-goal-icon-css"><BeaconFallback /></span>
+          )}
         </div>
       </div>
 
       <div className="journey-distance-foot-css">
-        <span>{remainingDistance} km to beacon</span>
-        <span>{Math.floor(progress)}%</span>
+        <span>{remaining} {unit} to beacon</span>
+        <span>{Math.floor(percent)}%</span>
       </div>
     </div>
   )

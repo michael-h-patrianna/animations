@@ -1,3 +1,19 @@
+/**
+ * XP Accumulation Progress Bar
+ *
+ * Complex XP tracking bar with multiplier zones, floating +XP popups,
+ * milestone pulses, and zone-aware color transitions. In demo mode plays
+ * a scripted XP gain sequence. In controlled mode mirrors the given progress.
+ *
+ * @example
+ * ```tsx
+ * <ProgressBarsXpAccumulation progress={0.45} maxXP={1000} />
+ * ```
+ *
+ * Styleable CSS custom properties: inherits from ProgressBarsXpAccumulation.css
+ *
+ * Files to copy: this file + ProgressBarsXpAccumulation.css + ../XpAccumulationConfig.ts + ../SharedTypes.ts
+ */
 import {
   AnimatePresence,
   animate,
@@ -27,16 +43,48 @@ import {
   type FloatingXP,
   type MilestoneAnimation,
 } from '../XpAccumulationConfig'
-export function ProgressBarsXpAccumulation() {
+
+import type { ProgressBarProps } from '../SharedTypes'
+
+interface XpAccumulationProps extends ProgressBarProps {
+  /** Maximum XP value. Default: 1000. */
+  maxXP?: number
+}
+
+export function ProgressBarsXpAccumulation({
+  progress,
+  maxXP: maxXPProp,
+  className,
+  style,
+}: XpAccumulationProps) {
+  const maxXP = maxXPProp ?? MAX_XP
+
+  // When progress is provided, bypass the demo loop entirely
+  const isControlled = progress !== undefined
+
   const containerRef = useRef<HTMLDivElement>(null)
   const [floatingXP, setFloatingXP] = useState<FloatingXP[]>([])
   const [currentMultiplier, setCurrentMultiplier] = useState(1)
   const [milestoneAnimations, setMilestoneAnimations] = useState<MilestoneAnimation[]>([])
-  const [progressDisplay, setProgressDisplay] = useState((INITIAL_XP / MAX_XP) * 100)
-  const [displayXP, setDisplayXP] = useState(INITIAL_XP)
-  const progressValue = useMotionValue((INITIAL_XP / MAX_XP) * 100)
+  const [progressDisplay, setProgressDisplay] = useState(
+    isControlled ? (progress ?? 0) * 100 : (INITIAL_XP / maxXP) * 100
+  )
+  const [displayXP, setDisplayXP] = useState(
+    isControlled ? Math.round((progress ?? 0) * maxXP) : INITIAL_XP
+  )
+
+  // Controlled mode: just render at the given progress level
+  useEffect(() => {
+    if (!isControlled) return
+    const p = (progress ?? 0) * 100
+    setProgressDisplay(p)
+    setDisplayXP(Math.round((progress ?? 0) * maxXP))
+    setCurrentMultiplier(getCurrentMultiplier(Math.round((progress ?? 0) * maxXP)))
+  }, [isControlled, progress, maxXP])
+
+  const progressValue = useMotionValue(isControlled ? (progress ?? 0) * 100 : (INITIAL_XP / maxXP) * 100)
   const progressScale = useTransform(progressValue, (value) => Math.max(value, 0) / 100)
-  const xpValue = useMotionValue(INITIAL_XP)
+  const xpValue = useMotionValue(isControlled ? Math.round((progress ?? 0) * maxXP) : INITIAL_XP)
   const xpRef = useRef(INITIAL_XP)
   const animationRef = useRef<{ orbId: number; floatingId: number; milestoneId: number }>({
     orbId: 0,
@@ -50,6 +98,7 @@ export function ProgressBarsXpAccumulation() {
   const xpSequenceRef = useRef<number[]>(createXpSequence())
   const sequenceIndexRef = useRef(0)
   const multiplierZones = useMemo(() => [...MULTIPLIER_ZONES], [])
+
   const registerTimeout = useCallback((callback: () => void, delay: number) => {
     const handle = setTimeout(() => {
       timeoutHandlesRef.current = timeoutHandlesRef.current.filter((entry) => entry !== handle)
@@ -58,36 +107,38 @@ export function ProgressBarsXpAccumulation() {
     timeoutHandlesRef.current.push(handle)
     return handle
   }, [])
+
   const registerAnimation = useCallback((control: AnimationPlaybackControls) => {
     animationControlsRef.current.push(control)
     return control
   }, [])
+
   const clearScheduledWork = useCallback(() => {
     timeoutHandlesRef.current.forEach(clearTimeout)
     timeoutHandlesRef.current = []
     animationControlsRef.current.forEach((control) => control.stop())
     animationControlsRef.current = []
   }, [])
+
   const triggerMilestone = useCallback(
     (threshold: number) => {
       const milestoneId = animationRef.current.milestoneId++
       setMilestoneAnimations((prev) => [...prev, { id: milestoneId, threshold }])
       registerTimeout(() => {
-        setMilestoneAnimations((prev) => prev.filter((m) => m.id !== milestoneId))
+        setMilestoneAnimations((prev) => prev.filter((entry) => entry.id !== milestoneId))
       }, 2000)
     },
     [registerTimeout]
-  ) // Note: Avoid layout reads (getBoundingClientRect/clientWidth) for marker positioning;
-  // we rely on pure CSS percentage-based placement relative to the track.
+  )
+
   useEffect(() => {
-    const unsubscribe = xpValue.on('change', (latest) => {
-      setDisplayXP(latest)
-    })
-    return () => {
-      unsubscribe()
-    }
-  }, [xpValue])
+    if (isControlled) return
+    const unsubscribe = xpValue.on('change', (latest) => setDisplayXP(latest))
+    return () => { unsubscribe() }
+  }, [xpValue, isControlled])
+
   useEffect(() => {
+    if (isControlled) return
     lastProgressRef.current = progressValue.get()
     const unsubscribe = progressValue.on('change', (latest) => {
       const previous = lastProgressRef.current
@@ -105,7 +156,7 @@ export function ProgressBarsXpAccumulation() {
             reachedMilestonesRef.current.add(zone.threshold)
             triggerMilestone(zone.threshold)
           }
-        }) // Trigger completion milestone at 100%
+        })
         if (!reachedMilestonesRef.current.has(100) && previous < 100 && latest >= 100) {
           reachedMilestonesRef.current.add(100)
           triggerMilestone(100)
@@ -113,16 +164,19 @@ export function ProgressBarsXpAccumulation() {
       }
       lastProgressRef.current = latest
     })
-    return () => {
-      unsubscribe()
-    }
-  }, [multiplierZones, progressValue, triggerMilestone])
+    return () => { unsubscribe() }
+  }, [multiplierZones, progressValue, triggerMilestone, isControlled])
+
   useEffect(() => {
+    if (isControlled) return
     const computedMultiplier = getCurrentMultiplier(displayXP)
     setCurrentMultiplier((prev) => (prev === computedMultiplier ? prev : computedMultiplier))
-  }, [displayXP])
+  }, [displayXP, isControlled])
+
   useEffect(() => {
+    if (isControlled) return
     let stopped = false
+
     const resetAnimation = () => {
       clearScheduledWork()
       reachedMilestonesRef.current.clear()
@@ -132,30 +186,25 @@ export function ProgressBarsXpAccumulation() {
       xpRef.current = INITIAL_XP
       progressValue.stop()
       xpValue.stop()
-      progressValue.set((INITIAL_XP / MAX_XP) * 100)
+      progressValue.set((INITIAL_XP / maxXP) * 100)
       xpValue.set(INITIAL_XP)
       lastProgressRef.current = progressValue.get()
       setFloatingXP([])
       setMilestoneAnimations([])
       setDisplayXP(INITIAL_XP)
-      setProgressDisplay((INITIAL_XP / MAX_XP) * 100)
-      setCurrentMultiplier(getCurrentMultiplier(INITIAL_XP)) // Emit a subtle activation pulse for the Start marker
-      registerTimeout(() => {
-        triggerMilestone(0)
-      }, 120)
+      setProgressDisplay((INITIAL_XP / maxXP) * 100)
+      setCurrentMultiplier(getCurrentMultiplier(INITIAL_XP))
+      registerTimeout(() => triggerMilestone(0), 120)
     }
+
     const startGainLoop = () => {
       const runGain = () => {
-        if (stopped) {
-          return
-        }
+        if (stopped) return
         const script = xpSequenceRef.current
         const stepIndex = sequenceIndexRef.current
         if (stepIndex >= script.length) {
           registerTimeout(() => {
-            if (stopped) {
-              return
-            }
+            if (stopped) return
             resetAnimation()
             registerTimeout(runGain, FIRST_GAIN_DELAY_MS)
           }, RESET_DELAY_MS)
@@ -168,17 +217,16 @@ export function ProgressBarsXpAccumulation() {
           registerTimeout(runGain, 40)
           return
         }
-        const actualGain = Math.min(targetXP - startingXP, MAX_XP - startingXP)
+        const actualGain = Math.min(targetXP - startingXP, maxXP - startingXP)
         if (actualGain <= 0) {
           sequenceIndexRef.current += 1
           registerTimeout(runGain, 80)
           return
         }
-        const nextIndex = stepIndex + 1
-        sequenceIndexRef.current = nextIndex
+        sequenceIndexRef.current = stepIndex + 1
         const zoneBoost = Math.max(1, getCurrentMultiplier(targetXP))
-        const targetPercent = (targetXP / MAX_XP) * 100
-        const visualPercent = Math.min(99.4, targetPercent) // Advance internal ids; orbId not used for rendering, so don't store
+        const targetPercent = (targetXP / maxXP) * 100
+        const visualPercent = Math.min(99.4, targetPercent)
         animationRef.current.orbId++
         const floatingId = animationRef.current.floatingId++
         registerTimeout(() => {
@@ -188,27 +236,18 @@ export function ProgressBarsXpAccumulation() {
           () => {
             setFloatingXP((prev) => [
               ...prev,
-              {
-                id: floatingId,
-                value: actualGain,
-                percent: visualPercent,
-                offset: (Math.random() - 0.5) * (18 + zoneBoost * 4),
-              },
+              { id: floatingId, value: actualGain, percent: visualPercent, offset: (Math.random() - 0.5) * (18 + zoneBoost * 4) },
             ])
           },
           Math.max(0, ORB_IMPACT_DELAY_MS - FLOATING_SPAWN_LEAD_MS)
         )
         registerTimeout(() => {
-          registerAnimation(
-            animate(xpValue, targetXP, { duration: PROGRESS_DURATION, ease: PROGRESS_EASE })
-          )
+          registerAnimation(animate(xpValue, targetXP, { duration: PROGRESS_DURATION, ease: PROGRESS_EASE }))
           registerAnimation(
             animate(progressValue, targetPercent, {
               duration: PROGRESS_DURATION,
               ease: PROGRESS_EASE,
-              onComplete: () => {
-                xpRef.current = targetXP
-              },
+              onComplete: () => { xpRef.current = targetXP },
             })
           )
         }, ORB_IMPACT_DELAY_MS)
@@ -216,31 +255,28 @@ export function ProgressBarsXpAccumulation() {
       }
       registerTimeout(runGain, FIRST_GAIN_DELAY_MS)
     }
+
     resetAnimation()
     startGainLoop()
     return () => {
       stopped = true
       clearScheduledWork()
     }
-  }, [
-    clearScheduledWork,
-    progressValue,
-    registerAnimation,
-    registerTimeout,
-    triggerMilestone,
-    xpValue,
-  ])
+  }, [clearScheduledWork, progressValue, registerAnimation, registerTimeout, triggerMilestone, xpValue, isControlled, maxXP])
+
   const progressPercent = progressDisplay
   const { zoneBucket, levelBucket } = getProgressBuckets(progressPercent)
+
   return (
     <div
       ref={containerRef}
-      className={`pf-progress-demo pf-xp-accumulation ${zoneBucket} ${levelBucket}`}
+      className={`pf-xp-accumulation ${zoneBucket} ${levelBucket}${className ? ` ${className}` : ''}`}
+      style={style}
       data-animation-id="progress-bars__xp-accumulation"
     >
       <div className="pf-xp-counter">
         <span className="pf-xp-counter__value">
-          {Math.round(displayXP).toLocaleString()} / {MAX_XP.toLocaleString()} XP
+          {Math.round(displayXP).toLocaleString()} / {maxXP.toLocaleString()} XP
         </span>
         <AnimatePresence>
           {currentMultiplier > 1 && (
@@ -250,6 +286,7 @@ export function ProgressBarsXpAccumulation() {
               exit={{ scale: 0.7, opacity: 0 }}
               transition={{ duration: 0.38, ease: easeOut }}
               className="pf-xp-multiplier"
+              style={{ animation: 'none' }}
             >
               x{currentMultiplier}
             </m.span>
@@ -259,28 +296,36 @@ export function ProgressBarsXpAccumulation() {
 
       <div className="pf-xp-container">
         <div className="pf-progress-track">
-          <m.div className="pf-progress-fill" style={{ scaleX: progressScale }} />
+          <m.div
+            className="pf-progress-fill"
+            style={isControlled
+              ? { scaleX: progress, transformOrigin: 'left center', animation: 'none' }
+              : { scaleX: progressScale, animation: 'none' }
+            }
+          />
 
           {multiplierZones.map((zone) => {
             const isActive = progressPercent >= zone.threshold - 0.2
-            const milestoneAnim = milestoneAnimations.find((m) => m.threshold === zone.threshold)
+            const milestoneAnim = milestoneAnimations.find((entry) => entry.threshold === zone.threshold)
             return (
               <div
                 key={zone.threshold}
-                className={`pf-marker pf-marker--t${zone.threshold} ${isActive ? 'pf-marker--active' : ''}`}
+                className={`pf-marker pf-marker--t${zone.threshold}${isActive ? ' pf-marker--active' : ''}`}
               >
                 <m.div
                   className="pf-marker__indicator"
                   animate={{ opacity: isActive ? 1 : 0.38, scaleY: isActive ? 1 : 0.7 }}
                   transition={{ duration: 0.3, ease: easeOut }}
+                  style={{ animation: 'none' }}
                 />
                 <m.div
                   className="pf-marker__dot"
                   animate={{ scale: isActive ? 1 : 0.9 }}
                   transition={{ duration: 0.32, ease: easeOut }}
+                  style={{ animation: 'none' }}
                 />
                 <AnimatePresence>
-                  {milestoneAnim && (
+                  {milestoneAnim !== undefined && (
                     <m.div
                       key={`pulse-${zone.threshold}`}
                       initial={{ scale: 0.8, opacity: 0.6 }}
@@ -292,7 +337,7 @@ export function ProgressBarsXpAccumulation() {
                   )}
                 </AnimatePresence>
                 <AnimatePresence>
-                  {milestoneAnim && (
+                  {milestoneAnim !== undefined && (
                     <m.div
                       key={`halo-${zone.threshold}`}
                       initial={{ scale: 0.55, opacity: 0.6 }}
@@ -303,11 +348,11 @@ export function ProgressBarsXpAccumulation() {
                     />
                   )}
                 </AnimatePresence>
-                <AnimatePresence>{/* Trophy animation removed */}</AnimatePresence>
                 <m.span
                   className="pf-marker__label"
                   animate={{ opacity: isActive ? 1 : 0.42 }}
                   transition={{ duration: 0.25, ease: easeOut }}
+                  style={{ animation: 'none' }}
                 >
                   x{zone.multiplier}
                 </m.span>
@@ -318,24 +363,26 @@ export function ProgressBarsXpAccumulation() {
           {([0, 100] as const).map((boundary) => {
             const isStart = boundary === 0
             const isActive = isStart ? true : progressPercent >= 99.8
-            const milestoneAnim = milestoneAnimations.find((m) => m.threshold === boundary)
+            const milestoneAnim = milestoneAnimations.find((entry) => entry.threshold === boundary)
             return (
               <div
                 key={`boundary-${boundary}`}
-                className={`pf-marker pf-marker--t${boundary} ${isActive ? 'pf-marker--active' : ''}`}
+                className={`pf-marker pf-marker--t${boundary}${isActive ? ' pf-marker--active' : ''}`}
               >
                 <m.div
                   className="pf-marker__indicator"
                   animate={{ opacity: isActive ? 1 : 0.38, scaleY: isActive ? 1 : 0.7 }}
                   transition={{ duration: 0.3, ease: easeOut }}
+                  style={{ animation: 'none' }}
                 />
                 <m.div
                   className="pf-marker__dot"
                   animate={{ scale: isActive ? 1 : 0.9 }}
                   transition={{ duration: 0.32, ease: easeOut }}
+                  style={{ animation: 'none' }}
                 />
                 <AnimatePresence>
-                  {milestoneAnim && (
+                  {milestoneAnim !== undefined && (
                     <m.div
                       key={`pulse-boundary-${boundary}`}
                       initial={{ scale: 0.8, opacity: 0.6 }}
@@ -347,7 +394,7 @@ export function ProgressBarsXpAccumulation() {
                   )}
                 </AnimatePresence>
                 <AnimatePresence>
-                  {milestoneAnim && (
+                  {milestoneAnim !== undefined && (
                     <m.div
                       key={`halo-boundary-${boundary}`}
                       initial={{ scale: 0.55, opacity: 0.6 }}
@@ -362,6 +409,7 @@ export function ProgressBarsXpAccumulation() {
                   className="pf-marker__label"
                   animate={{ opacity: isActive ? 1 : 0.42 }}
                   transition={{ duration: 0.25, ease: easeOut }}
+                  style={{ animation: 'none' }}
                 >
                   {isStart ? 'Start' : 'End'}
                 </m.span>

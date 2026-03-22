@@ -7,4 +7,5 @@ export const metadata = {
   title: 'Milestone Unlock',
   description: 'Icons unlock and animate as progress passes them',
   tier: 4,
+  previewMaxWidth: 414,
 } satisfies AnimationMetadata

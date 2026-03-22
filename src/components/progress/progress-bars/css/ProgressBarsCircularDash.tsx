@@ -1,43 +1,53 @@
-import { useEffect, useState } from 'react'
+/**
+ * Circular Dash Progress (CSS variant)
+ *
+ * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ */
+import type { ProgressBarProps } from '../SharedTypes'
+import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsCircularDash.css'
 
-export function ProgressBarsCircularDash() {
-  const [progress, setProgress] = useState(0)
+interface CircularDashProps extends ProgressBarProps {
+  /** Number of dash segments in the ring. Default: 12. */
+  segments?: number
+}
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((p) => (p >= 100 ? 0 : p + 1))
-    }, 50)
-    return () => clearInterval(interval)
-  }, [])
-
-  const segments = 12
-  const activeSegments = Math.floor((progress / 100) * segments)
+export function ProgressBarsCircularDash({
+  progress,
+  segments = 12,
+  className,
+  style,
+}: CircularDashProps) {
+  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 800 })
+  const activeSegments = Math.floor(displayProgress * segments)
+  const percent = Math.round(displayProgress * 100)
 
   return (
-    <div className="circular-dash-container-css" data-animation-id="progress-bars__circular-dash">
+    <div
+      className={`circular-dash-container-css${className ? ` ${className}` : ''}`}
+      style={style}
+      data-animation-id="progress-bars__circular-dash"
+    >
       <div className="circular-dash-wrapper-css">
-        {Array.from({ length: segments }).map((_, i) => {
-          return (
+        {Array.from({ length: segments }, (_, i) => (
+          <div
+            key={i}
+            className="circular-dash-segment-container-css"
+            style={{ transform: `rotate(${(i / segments) * 360}deg)` }}
+          >
             <div
-              key={i}
-              className="circular-dash-segment-container-css"
+              className="circular-dash-pill-css"
               style={{
-                transform: `rotate(${(i / segments) * 360}deg)`,
+                opacity: i < activeSegments ? 1 : 0.2,
+                backgroundColor:
+                  i < activeSegments
+                    ? 'var(--circular-dash-active, var(--pf-anim-blue-dark))'
+                    : 'var(--circular-dash-inactive, var(--pf-anim-slate))',
               }}
-            >
-              <div
-                className="circular-dash-pill-css"
-                style={{
-                  opacity: i < activeSegments ? 1 : 0.2,
-                  backgroundColor:
-                    i < activeSegments ? 'var(--pf-anim-blue-dark)' : 'var(--pf-anim-slate)',
-                }}
-              />
-            </div>
-          )
-        })}
-        <div className="circular-dash-center-css">{Math.round(progress)}%</div>
+            />
+          </div>
+        ))}
+        <div className="circular-dash-center-css">{percent}%</div>
       </div>
     </div>
   )
