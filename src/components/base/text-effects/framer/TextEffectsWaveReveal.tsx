@@ -1,22 +1,46 @@
-import { memo } from 'react'
+/**
+ * Standalone: Copy this file + TextEffectsWaveReveal.css into your app.
+ * Runtime deps: react, motion
+ * RN: Port with Moti MotiView stagger + entering animation.
+ */
 
 import * as m from 'motion/react-m'
 import { easeOut, type Variants } from 'motion/react'
+import { memo } from 'react'
 
-function TextEffectsWaveRevealComponent() {
-  const lines = [
-    { text: 'Look at', color: 'var(--pf-anim-blue)' }, // Blue
-    { text: 'these', color: 'var(--pf-anim-green)' }, // Green
-    { text: 'colors', color: 'var(--pf-anim-gold)' }, // Gold
-  ]
+interface TextLine {
+  text: string
+  color: string
+}
 
+interface TextEffectsWaveRevealProps {
+  /** Array of text lines with colors. Each line animates sequentially. */
+  lines?: TextLine[]
+  /** Delay between character reveals in seconds. @default 0.05 */
+  charDelay?: number
+  /** Delay between line animations in seconds. @default 0.4 */
+  lineDelay?: number
+  /** Initial delay before animation starts in seconds. @default 0.2 */
+  initialDelay?: number
+}
+
+function TextEffectsWaveRevealComponent({
+  lines = [
+    { text: 'Look at', color: 'var(--pf-anim-blue)' },
+    { text: 'these', color: 'var(--pf-anim-green)' },
+    { text: 'colors', color: 'var(--pf-anim-gold)' },
+  ],
+  charDelay = 0.05,
+  lineDelay = 0.4,
+  initialDelay = 0.2,
+}: TextEffectsWaveRevealProps) {
   const containerVariants: Variants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.4, // Increased to stagger lines more
-        delayChildren: 0.2,
+        staggerChildren: lineDelay,
+        delayChildren: initialDelay,
       },
     },
   }
@@ -25,32 +49,23 @@ function TextEffectsWaveRevealComponent() {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
+      transition: { staggerChildren: charDelay },
     },
   }
 
   const letterVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 80,
-    },
+    hidden: { opacity: 0, y: 80 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        type: 'tween',
-        ease: easeOut,
-        duration: 0.5,
-      },
+      transition: { type: 'tween', ease: easeOut, duration: 0.5 },
     },
   }
 
   return (
-    <div className="wave-reveal-container" data-animation-id="text-effects__wave-reveal">
+    <div className="pf-wave-reveal" data-animation-id="text-effects__wave-reveal">
       <m.div
-        className="wave-reveal-wrapper"
+        className="pf-wave-reveal__wrapper"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -58,14 +73,14 @@ function TextEffectsWaveRevealComponent() {
         {lines.map((line, lineIndex) => (
           <m.div
             key={lineIndex}
-            className="wave-reveal-line"
+            className="pf-wave-reveal__line"
             style={{ color: line.color }}
             variants={lineVariants}
           >
             {line.text.split('').map((char, charIndex) => (
               <m.span
                 key={`${lineIndex}-${charIndex}`}
-                className="wave-reveal-char"
+                className="pf-wave-reveal__char"
                 variants={letterVariants}
               >
                 {char === ' ' ? '\u00A0' : char}
@@ -78,7 +93,4 @@ function TextEffectsWaveRevealComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsWaveReveal to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsWaveReveal = memo(TextEffectsWaveRevealComponent)

@@ -1,12 +1,28 @@
+/**
+ * Standalone: Copy this file + TextEffectsLevelBreakthrough.css (from css/ dir) into your app.
+ * Runtime deps: react, motion
+ * RN: Port useAnimation → Moti useAnimatedStyle with shared values.
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut, useAnimation } from 'motion/react'
-import { useEffect, useRef, useState, memo } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-function TextEffectsLevelBreakthroughComponent() {
+interface TextEffectsLevelBreakthroughProps {
+  /** Text shown before breakthrough. @default 'LEVEL 1' */
+  startText?: string
+  /** Text shown after breakthrough. @default 'LEVEL 2' */
+  endText?: string
+}
+
+function TextEffectsLevelBreakthroughComponent({
+  startText = 'LEVEL 1',
+  endText = 'LEVEL 2',
+}: TextEffectsLevelBreakthroughProps) {
   const levelControls = useAnimation()
   const surge1Controls = useAnimation()
   const surge2Controls = useAnimation()
-  const [level, setLevel] = useState(1)
+  const [showEnd, setShowEnd] = useState(false)
   const [showGlow, setShowGlow] = useState(false)
   const mountedRef = useRef(true)
   const timersRef = useRef<Array<ReturnType<typeof setTimeout>>>([])
@@ -22,13 +38,11 @@ function TextEffectsLevelBreakthroughComponent() {
       timersRef.current.push(t)
     }
 
-    // Reset state
-    setLevel(1)
+    setShowEnd(false)
     setShowGlow(false)
     surge1Controls.set({ opacity: 0, scale: 0.5 })
     surge2Controls.set({ opacity: 0, scale: 0.5 })
 
-    // Shake and breakthrough
     levelControls.start({
       scale: [1, 0.9, 0.9, 0.9, 1.5, 1],
       rotate: [0, -2, 2, -2, 0, 0],
@@ -39,14 +53,12 @@ function TextEffectsLevelBreakthroughComponent() {
       },
     })
 
-    // First surge ring
     surge1Controls.start({
       opacity: [0, 1, 0],
       scale: [0.5, 1.5, 2],
       transition: { duration: 0.8, ease: easeOut, times: [0, 0.5, 1] },
     })
 
-    // Second surge ring (staggered)
     scheduleTimeout(() => {
       surge2Controls.start({
         opacity: [0, 1, 0],
@@ -55,9 +67,8 @@ function TextEffectsLevelBreakthroughComponent() {
       })
     }, 100)
 
-    // Level transition after breakthrough peaks
     scheduleTimeout(() => {
-      setLevel(2)
+      setShowEnd(true)
       setShowGlow(true)
     }, 600)
 
@@ -101,7 +112,7 @@ function TextEffectsLevelBreakthroughComponent() {
         className={`pf-level-breakthrough${showGlow ? ' pf-level-breakthrough--glow' : ''}`}
         animate={levelControls}
       >
-        LEVEL {level}
+        {showEnd ? endText : startText}
       </m.div>
     </div>
   )

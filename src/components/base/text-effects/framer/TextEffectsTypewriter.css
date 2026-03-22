@@ -1,6 +1,6 @@
-/* Styles scoped for TextEffectsTypewriter */
-.typewriter-container {
-  --text-effects-typewriter-color-1: #10b981;
+/* Typewriter — Framer Motion layout (no keyframes) */
+.pf-typewriter {
+  --pf-typewriter-color: #10b981;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,20 +8,20 @@
   padding: 20px;
 }
 
-.typewriter-text {
+.pf-typewriter__text {
   font-size: 20px;
   font-weight: 600;
   font-family: 'Courier New', monospace;
   letter-spacing: 1px;
-  color: var(--text-effects-typewriter-color-1);
+  color: var(--pf-typewriter-color);
 }
 
-.typewriter-char {
+.pf-typewriter__char {
   display: inline-block;
 }
 
-.typewriter-cursor {
+.pf-typewriter__cursor {
   display: inline-block;
   font-weight: 300;
-  color: var(--text-effects-typewriter-color-1);
+  color: var(--pf-typewriter-color);
 }

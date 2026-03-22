@@ -1,21 +1,19 @@
-/* Jumping text effect (no background) - Framer Motion version */
-.verbJump {
+/* Jumping text — Framer Motion layout (no keyframes) */
+.pf-verb-jump {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
   padding: 20px;
 }
-
-.verbJump__line {
+.pf-verb-jump__line {
   display: inline-flex;
   gap: 0.02em;
 }
-.verbJump__char {
-  --lsd-baseColor: #e8e4da;
-  --lsd-highlightColor: #fff;
+.pf-verb-jump__char {
+  --pf-verb-jump-color: #e8e4da;
   display: inline-block;
-  color: var(--lsd-baseColor);
+  color: var(--pf-verb-jump-color);
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center bottom;

@@ -1,18 +1,22 @@
 /**
- * Standalone: Copy this file and TextEffectsHorizonLightPass.css into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.css into your app.
  * Runtime deps: react, motion
- * RN parity: transforms/opacity/color only; port with Reanimated/Moti.
+ * RN: Port with Reanimated/Moti — transforms/opacity/color, custom delay per index.
  */
 
 import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
-function TextEffectsHorizonLightPassComponent() {
-  const text = 'LOREM IPSUM DOLOR'
+interface TextEffectsHorizonLightPassProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+}
 
-  const letters = React.useMemo(() => Array.from(text), [text])
+function TextEffectsHorizonLightPassComponent({
+  text = 'LOREM IPSUM DOLOR',
+}: TextEffectsHorizonLightPassProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
     hidden: { opacity: 0, scaleY: 0.995 },
@@ -23,7 +27,6 @@ function TextEffectsHorizonLightPassComponent() {
         duration: 0.16,
         ease: easeOut,
         when: 'beforeChildren',
-        // Children manage their own right-to-left delays; no container stagger
         delayChildren: 0.04,
       },
     },
@@ -33,30 +36,22 @@ function TextEffectsHorizonLightPassComponent() {
     },
   }
 
-  // Horizon band: broad, slower pass with horizontal stretch and vertical compression.
-  // Distinct from Metallic Specular Flash (which is a quick, skewed glint):
-  // - No skew, no vertical translation
-  // - Longer duration with plateau
-  // - Right-to-left sweep via index-based delays
   const letterVariants: Variants = {
     hidden: { opacity: 0 },
     show: (i: number) => {
-      // Right-to-left delay: later indices lead, earlier lag
       const delayPer = 0.03
       const count = letters.length
       const rtlIndex = count - 1 - i
       const delay = rtlIndex * delayPer
       return {
         opacity: [0, 1, 1, 1, 1] as number[],
-        // Strong highlight with extended plateau, then return to base
         color: [
-          'var(--hlp-baseColor)',
-          'var(--hlp-highlightColor)',
-          'var(--hlp-highlightColor)',
-          'var(--hlp-highlightColor)',
-          'var(--hlp-baseColor)',
+          'var(--pf-hlp-base-color)',
+          'var(--pf-hlp-highlight-color)',
+          'var(--pf-hlp-highlight-color)',
+          'var(--pf-hlp-highlight-color)',
+          'var(--pf-hlp-base-color)',
         ] as string[],
-        // Wide stretch + slight vertical compression to read as a horizontal band
         scaleX: [1, 1.2, 1.22, 1.06, 1] as number[],
         scaleY: [1, 0.94, 0.96, 0.99, 1] as number[],
         transition: {
@@ -71,18 +66,18 @@ function TextEffectsHorizonLightPassComponent() {
 
   return (
     <m.div
-      className="studioLogo-HorizonLightPass"
+      className="pf-horizon-light"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
       animate={['show', 'settle']}
     >
-      <div className="studioLogo-HorizonLightPass__line" aria-hidden="true">
+      <div className="pf-horizon-light__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="studioLogo-HorizonLightPass__letter"
+            className="pf-horizon-light__letter"
             variants={letterVariants}
             custom={i}
           >
@@ -94,7 +89,4 @@ function TextEffectsHorizonLightPassComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsHorizonLightPass to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)

@@ -1,41 +1,57 @@
-import { memo } from 'react'
+/**
+ * Standalone: Copy this file + TextEffectsEpicWin.css into your app.
+ * Runtime deps: react, motion
+ * RN: Port shadow layers + per-char entrance with Moti MotiView stacking.
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-function TextEffectsEpicWinComponent() {
-  const mainText = 'EPIC WIN'
+import { memo, useMemo } from 'react'
+
+interface TextEffectsEpicWinProps {
+  /** @default 'EPIC WIN' */
+  text?: string
+}
+
+function TextEffectsEpicWinComponent({
+  text = 'EPIC WIN',
+}: TextEffectsEpicWinProps) {
+  const chars = useMemo(() => text.split(''), [text])
+
   return (
-    <div className="epic-win-container" data-animation-id="text-effects__epic-win">
-      <div className="epic-text-container">
-        {/* Multiple shadow layers for premium depth */}
+    <div className="pf-epic-win" data-animation-id="text-effects__epic-win">
+      <div className="pf-epic-win__text-container">
+        {/* Far shadow */}
         <m.div
-          className="epic-shadow-far"
+          className="pf-epic-win__shadow-far"
           initial={{ opacity: 0, scale: 1.2, y: 10 }}
           animate={{ opacity: 0.2, scale: 1, y: 6 }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
-          {mainText}
+          {text}
         </m.div>
 
+        {/* Mid shadow */}
         <m.div
-          className="epic-shadow-mid"
+          className="pf-epic-win__shadow-mid"
           initial={{ opacity: 0, scale: 1.1, y: 5 }}
           animate={{ opacity: 0.3, scale: 1, y: 3 }}
           transition={{ duration: 0.45, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
-          {mainText}
+          {text}
         </m.div>
 
         {/* Main metallic text */}
         <m.div
-          className="epic-main-text"
+          className="pf-epic-win__main-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
         >
-          {mainText.split('').map((char, index) => (
+          {chars.map((char, index) => (
             <m.span
               key={index}
-              className="epic-char"
+              className="pf-epic-win__char"
               initial={{ opacity: 0, y: 30, scale: 0.5, rotateY: -90 }}
               animate={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
               transition={{
@@ -44,18 +60,17 @@ function TextEffectsEpicWinComponent() {
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
               }}
             >
-              <m.span className="epic-char-inner">
-                <span className="epic-char-inner__text">{char === ' ' ? '\xA0' : char}</span>
-                <span aria-hidden="true" className="epic-char-inner__highlight">
+              <m.span className="pf-epic-win__char-inner">
+                <span className="pf-epic-win__char-text">{char === ' ' ? '\xA0' : char}</span>
+                <span aria-hidden="true" className="pf-epic-win__char-highlight">
                   {char === ' ' ? '\xA0' : char}
                 </span>
-                <span aria-hidden="true" className="epic-char-inner__shadow">
+                <span aria-hidden="true" className="pf-epic-win__char-shadow">
                   {char === ' ' ? '\xA0' : char}
                 </span>
 
-                {/* Individual character glow burst on arrival */}
                 <m.span
-                  className="epic-char-glow"
+                  className="pf-epic-win__char-glow"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: [0, 1, 0], scale: [0.8, 1.4, 1] }}
                   transition={{
@@ -73,6 +88,5 @@ function TextEffectsEpicWinComponent() {
     </div>
   )
 }
-/**
- * Memoized TextEffectsEpicWin to prevent unnecessary re-renders in grid layouts.
- */ export const TextEffectsEpicWin = memo(TextEffectsEpicWinComponent)
+
+export const TextEffectsEpicWin = memo(TextEffectsEpicWinComponent)

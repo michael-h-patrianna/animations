@@ -1,26 +1,29 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsVerbFlip.css into your app.
  * Runtime deps: react, motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
- * Note: In RN, perspective should be applied inline on the animated element.
+ * RN: Port with Moti — apply perspective inline on the animated element.
  */
 
 import * as m from 'motion/react-m'
+import { memo, useMemo } from 'react'
 
-import React from 'react'
-import { memo } from 'react'
+interface TextEffectsVerbFlipProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+}
 
-function TextEffectsVerbFlipComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+function TextEffectsVerbFlipComponent({
+  text = 'LOREM IPSUM DOLOR',
+}: TextEffectsVerbFlipProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbFlip" data-animation-id="text-effects__verb-flipping" aria-label={text}>
-      <div className="verbFlip__line" aria-hidden="true">
+    <div className="pf-verb-flip" data-animation-id="text-effects__verb-flipping" aria-label={text}>
+      <div className="pf-verb-flip__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="verbFlip__char"
+            className="pf-verb-flip__char"
             style={{ perspective: 600 }}
             initial={{ rotateY: 0 }}
             animate={{
@@ -28,7 +31,7 @@ function TextEffectsVerbFlipComponent() {
             }}
             transition={{
               duration: 1.8,
-              delay: i % 2 === 1 ? 0.1 : 0, // odd indices get delay
+              delay: i % 2 === 1 ? 0.1 : 0,
               ease: [0.2, 0.6, 0.2, 1] as const,
               times: [0, 0.3, 1],
             }}
@@ -41,7 +44,4 @@ function TextEffectsVerbFlipComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsVerbFlip to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbFlip = memo(TextEffectsVerbFlipComponent)

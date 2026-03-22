@@ -1,21 +1,21 @@
-/* Standalone CSS for TextEffectsMetallicSpecularFlash */
-.studioLogo-MetallicSpecularFlash {
-  --msf-baseColor: #e8e4da;
-  --msf-highlightColor: #fff;
-  --msf-shadowColor: #b6b1a6;
+/* Metallic Specular Flash — Framer Motion layout (no keyframes) */
+.pf-metallic-flash {
+  --pf-msf-base-color: #e8e4da;
+  --pf-msf-highlight-color: #fff;
+  --pf-msf-shadow-color: #b6b1a6;
   display: inline-flex;
   align-items: baseline;
 }
 
-.studioLogo-MetallicSpecularFlash__line {
+.pf-metallic-flash__line {
   display: inline-flex;
   gap: 0.02em;
 }
 
-.studioLogo-MetallicSpecularFlash__letter {
+.pf-metallic-flash__letter {
   display: inline-block;
   will-change: transform;
-  color: var(--msf-baseColor);
+  color: var(--pf-msf-base-color);
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;

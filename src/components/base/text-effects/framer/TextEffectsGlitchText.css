@@ -1,10 +1,10 @@
-/* Styles scoped for TextEffectsGlitchText */
-.tfx-glitchtext-container {
-  --text-effects-glitch-text-color-1: #fff;
-  --text-effects-glitch-text-color-2: #0ff;
-  --text-effects-glitch-text-color-3: #f0f;
-  --text-effects-glitch-text-bg: rgb(255 255 255 / 20%);
-  --text-effects-glitch-text-shadow-100: rgb(255 255 255 / 10%);
+/* Glitch Text — Framer Motion layout (no keyframes) */
+.pf-glitch {
+  --pf-glitch-color-base: #fff;
+  --pf-glitch-color-cyan: #0ff;
+  --pf-glitch-color-magenta: #f0f;
+  --pf-glitch-bar-bg: rgb(255 255 255 / 20%);
+  --pf-glitch-bar-shadow: rgb(255 255 255 / 10%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,16 +13,16 @@
   position: relative;
 }
 
-.tfx-glitchtext-base {
+.pf-glitch__base {
   font-size: 24px;
   font-weight: 900;
   letter-spacing: 3px;
-  color: var(--text-effects-glitch-text-color-1);
+  color: var(--pf-glitch-color-base);
   z-index: 3;
   position: relative;
 }
 
-.tfx-glitchtext-layer {
+.pf-glitch__layer {
   position: absolute;
   font-size: 24px;
   font-weight: 900;
@@ -32,25 +32,26 @@
   transform: translate(-50%, -50%);
 }
 
-.tfx-glitchlayer-1 {
-  color: var(--text-effects-glitch-text-color-2);
+.pf-glitch__layer--cyan {
+  color: var(--pf-glitch-color-cyan);
   z-index: 2;
   opacity: 0.7;
 }
-.tfx-glitchlayer-2 {
-  color: var(--text-effects-glitch-text-color-3);
+
+.pf-glitch__layer--magenta {
+  color: var(--pf-glitch-color-magenta);
   z-index: 1;
   opacity: 0.7;
 }
 
-.tfx-glitchbars {
+.pf-glitch__bars {
   position: absolute;
   width: 100%;
   height: 2px;
-  background: var(--text-effects-glitch-text-bg);
+  background: var(--pf-glitch-bar-bg);
   top: 45%;
   left: 0;
   box-shadow:
-    0 5px 0 var(--text-effects-glitch-text-shadow-100),
-    0 -5px 0 var(--text-effects-glitch-text-shadow-100);
+    0 5px 0 var(--pf-glitch-bar-shadow),
+    0 -5px 0 var(--pf-glitch-bar-shadow);
 }

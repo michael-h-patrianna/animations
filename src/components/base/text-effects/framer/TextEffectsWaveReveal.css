@@ -1,7 +1,7 @@
-/* Styles scoped for TextEffectsWaveReveal */
-.wave-reveal-container {
-  --text-effects-wave-reveal-text-shadow-100: rgb(0 0 0 / 15%);
-  --text-effects-wave-reveal-text-shadow-101: rgb(0 0 0 / 8%);
+/* Wave Reveal — Framer Motion layout (no keyframes) */
+.pf-wave-reveal {
+  --pf-wave-reveal-shadow-100: rgb(0 0 0 / 15%);
+  --pf-wave-reveal-shadow-101: rgb(0 0 0 / 8%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,25 +11,25 @@
   transform: rotate(-5deg);
 }
 
-.wave-reveal-wrapper {
+.pf-wave-reveal__wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
 }
 
-.wave-reveal-line {
+.pf-wave-reveal__line {
   display: flex;
   font-size: 2rem;
   line-height: 1.2;
   text-transform: uppercase;
   text-shadow:
-    2px 2px 6px var(--text-effects-wave-reveal-text-shadow-100),
+    2px 2px 6px var(--pf-wave-reveal-shadow-100),
     0 0 20px currentcolor,
-    0 4px 8px var(--text-effects-wave-reveal-text-shadow-101);
+    0 4px 8px var(--pf-wave-reveal-shadow-101);
 }
 
-.wave-reveal-char {
+.pf-wave-reveal__char {
   display: inline-block;
   will-change: transform, opacity;
 }

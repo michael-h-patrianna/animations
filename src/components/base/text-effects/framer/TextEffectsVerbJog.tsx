@@ -1,25 +1,30 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsVerbJog.css into your app.
  * Runtime deps: react, motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * RN: Translates to Moti with MotiText — same animate/transition props.
  */
 
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
-function TextEffectsVerbJogComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbJogProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+}
+
+function TextEffectsVerbJogComponent({
+  text = 'LOREM IPSUM DOLOR',
+}: TextEffectsVerbJogProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbJog" data-animation-id="text-effects__verb-jogging" aria-label={text}>
-      <div className="verbJog__line" aria-hidden="true">
+    <div className="pf-verb-jog" data-animation-id="text-effects__verb-jogging" aria-label={text}>
+      <div className="pf-verb-jog__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="verbJog__char"
+            className="pf-verb-jog__char"
             initial={{ y: 0, rotate: 0 }}
             animate={{
               y: [0, -6, 0, -2, 0],
@@ -27,7 +32,7 @@ function TextEffectsVerbJogComponent() {
             }}
             transition={{
               duration: 1.2,
-              delay: i % 2 === 0 ? 0.15 : 0, // even indices get delay (alternating legs)
+              delay: i % 2 === 0 ? 0.15 : 0,
               ease: easeInOut,
               times: [0, 0.2, 0.4, 0.6, 1],
             }}
@@ -40,7 +45,4 @@ function TextEffectsVerbJogComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsVerbJog to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbJog = memo(TextEffectsVerbJogComponent)

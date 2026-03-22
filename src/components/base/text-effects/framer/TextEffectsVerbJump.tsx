@@ -1,27 +1,33 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsVerbJump.css into your app.
  * Runtime deps: react, motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * RN: Translates to Moti with MotiText — same animate/transition props.
  */
 
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
-function TextEffectsVerbJumpComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbJumpProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+  /** Delay between each character's animation start in seconds. @default 0.06 */
+  stepDelay?: number
+}
 
-  const STEP_DELAY = 0.06 // 60ms stagger per character
+function TextEffectsVerbJumpComponent({
+  text = 'LOREM IPSUM DOLOR',
+  stepDelay = 0.06,
+}: TextEffectsVerbJumpProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbJump" data-animation-id="text-effects__verb-jumping" aria-label={text}>
-      <div className="verbJump__line" aria-hidden="true">
+    <div className="pf-verb-jump" data-animation-id="text-effects__verb-jumping" aria-label={text}>
+      <div className="pf-verb-jump__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="verbJump__char"
+            className="pf-verb-jump__char"
             initial={{ y: 0, scaleY: 1 }}
             animate={{
               y: [0, -10, 0, -4, 0],
@@ -29,7 +35,7 @@ function TextEffectsVerbJumpComponent() {
             }}
             transition={{
               duration: 1.6,
-              delay: i * STEP_DELAY,
+              delay: i * stepDelay,
               ease: easeInOut,
               times: [0, 0.2, 0.4, 0.6, 1],
             }}
@@ -42,7 +48,4 @@ function TextEffectsVerbJumpComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsVerbJump to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbJump = memo(TextEffectsVerbJumpComponent)

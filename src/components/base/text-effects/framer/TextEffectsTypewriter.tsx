@@ -1,48 +1,53 @@
-import { memo } from 'react'
+/**
+ * Standalone: Copy this file + TextEffectsTypewriter.css into your app.
+ * Runtime deps: react, motion
+ * RN: Port cursor blink with Moti useAnimatedStyle infinite loop.
+ */
 
 import * as m from 'motion/react-m'
+import { memo, useMemo } from 'react'
 
-function TextEffectsTypewriterComponent() {
-  const text = 'LOADING SYSTEM...'
-  const cursor = '|'
+interface TextEffectsTypewriterProps {
+  /** @default 'LOADING SYSTEM...' */
+  text?: string
+  /** Delay between each character appearance in seconds. @default 0.08 */
+  charDelay?: number
+  /** Cursor character shown after typing completes. @default '|' */
+  cursor?: string
+}
+
+function TextEffectsTypewriterComponent({
+  text = 'LOADING SYSTEM...',
+  charDelay = 0.08,
+  cursor = '|',
+}: TextEffectsTypewriterProps) {
+  const chars = useMemo(() => text.split(''), [text])
 
   return (
-    <div className="typewriter-container" data-animation-id="text-effects__typewriter">
-      <div className="typewriter-text">
-        {text.split('').map((char, index) => (
+    <div className="pf-typewriter" data-animation-id="text-effects__typewriter">
+      <div className="pf-typewriter__text">
+        {chars.map((char, index) => (
           <m.span
             key={index}
-            className="typewriter-char"
-            initial={{
-              opacity: 0,
-              display: 'none',
-            }}
-            animate={{
-              opacity: 1,
-              display: 'inline-block',
-            }}
-            transition={{
-              duration: 0,
-              delay: index * 0.08,
-            }}
+            className="pf-typewriter__char"
+            initial={{ opacity: 0, display: 'none' }}
+            animate={{ opacity: 1, display: 'inline-block' }}
+            transition={{ duration: 0, delay: index * charDelay }}
           >
             {char === ' ' ? '\u00A0' : char}
           </m.span>
         ))}
 
-        {/* Blinking cursor */}
         <m.span
-          className="typewriter-cursor"
+          className="pf-typewriter__cursor"
           initial={{ opacity: 1 }}
-          animate={{
-            opacity: [1, 1, 0, 0],
-          }}
+          animate={{ opacity: [1, 1, 0, 0] }}
           transition={{
             duration: 1,
             repeat: Infinity,
             times: [0, 0.5, 0.5, 1],
             ease: 'linear' as const,
-            delay: text.length * 0.08,
+            delay: chars.length * charDelay,
           }}
         >
           {cursor}
@@ -52,7 +57,4 @@ function TextEffectsTypewriterComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsTypewriter to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsTypewriter = memo(TextEffectsTypewriterComponent)

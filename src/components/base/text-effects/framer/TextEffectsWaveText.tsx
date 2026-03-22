@@ -1,6 +1,11 @@
-import { memo } from 'react'
+/**
+ * Standalone: Copy this file + TextEffectsWaveText.css into your app.
+ * Runtime deps: react, motion
+ * RN: Port with Moti infinite loop on translateY/scale/rotate per character.
+ */
 
 import * as m from 'motion/react-m'
+import { memo, useMemo } from 'react'
 
 const waveKeyframes = {
   y: [0, -20, 0, 5, 0, 0],
@@ -17,14 +22,32 @@ const highlightKeyframes = {
   scaleY: [0.8, 1.2, 1, 0.9, 0.8, 0.8],
 }
 
-function WaveCharacter({ char, index }: { char: string; index: number }) {
+interface TextEffectsWaveTextProps {
+  /** @default 'WAVE MOTION' */
+  text?: string
+  /** Delay between each character's wave cycle in seconds. @default 0.05 */
+  charDelay?: number
+  /** Show animated highlight effect on characters. @default true */
+  showHighlight?: boolean
+}
+
+function WaveCharacter({
+  char,
+  index,
+  charDelay,
+  showHighlight,
+}: {
+  char: string
+  index: number
+  charDelay: number
+  showHighlight: boolean
+}) {
   const isSpace = char === ' '
-  const waveDelay = -(index * 0.05) // Negative delay to offset phase
-  const wavePhase = index % 5
+  const waveDelay = -(index * charDelay)
 
   return (
     <m.span
-      className={`wave-char wave-phase-${wavePhase}`}
+      className="pf-wave-text__char"
       data-char={char}
       animate={waveKeyframes}
       transition={{
@@ -36,12 +59,12 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
         delay: waveDelay,
       }}
     >
-      <span className="wave-char-inner">
+      <span className="pf-wave-text__char-inner">
         {isSpace ? '\u00A0' : char}
 
-        {!isSpace && (
+        {showHighlight && !isSpace && (
           <m.span
-            className="wave-highlight"
+            className="pf-wave-text__highlight"
             animate={highlightKeyframes}
             transition={{
               duration: waveDuration,
@@ -58,21 +81,28 @@ function WaveCharacter({ char, index }: { char: string; index: number }) {
   )
 }
 
-function TextEffectsWaveTextComponent() {
-  const text = 'WAVE MOTION'
+function TextEffectsWaveTextComponent({
+  text = 'WAVE MOTION',
+  charDelay = 0.05,
+  showHighlight = true,
+}: TextEffectsWaveTextProps) {
+  const chars = useMemo(() => text.split(''), [text])
 
   return (
-    <div className="wave-text-container" data-animation-id="text-effects__wave-text">
-      <div className="wave-text-wrapper">
-        {text.split('').map((char, index) => (
-          <WaveCharacter key={index} char={char} index={index} />
+    <div className="pf-wave-text" data-animation-id="text-effects__wave-text">
+      <div className="pf-wave-text__wrapper">
+        {chars.map((char, index) => (
+          <WaveCharacter
+            key={index}
+            char={char}
+            index={index}
+            charDelay={charDelay}
+            showHighlight={showHighlight}
+          />
         ))}
       </div>
     </div>
   )
 }
 
-/**
- * Memoized TextEffectsWaveText to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsWaveText = memo(TextEffectsWaveTextComponent)

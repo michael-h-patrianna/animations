@@ -1,21 +1,23 @@
 /**
- * Standalone: Copy this file and TextEffectsLightSweepDraw.css into your app.
+ * Standalone: Copy this file + TextEffectsLightSweepDraw.css into your app.
  * Runtime deps: react, motion
- * No shared utils; all helpers are inlined here.
- * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
+ * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */
 
 import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
-function TextEffectsLightSweepDrawComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  // Simple grapheme split that is SSR-safe for most Latin text.
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsLightSweepDrawProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+}
 
-  // Container variants handle anticipation and final settle.
+function TextEffectsLightSweepDrawComponent({
+  text = 'LOREM IPSUM DOLOR',
+}: TextEffectsLightSweepDrawProps) {
+  const letters = useMemo(() => Array.from(text), [text])
+
   const containerVariants: Variants = {
     hidden: { opacity: 0, scaleY: 0.98 },
     show: {
@@ -25,7 +27,6 @@ function TextEffectsLightSweepDrawComponent() {
         duration: 0.2,
         ease: easeOut,
         when: 'beforeChildren',
-        // Stagger drives the left→right “sweep” feel.
         staggerChildren: 0.04,
         delayChildren: 0.15,
       },
@@ -36,17 +37,15 @@ function TextEffectsLightSweepDrawComponent() {
     },
   }
 
-  // Per-letter highlight: brief color lift + subtle skew/scale, then return to base.
   const letterVariants: Variants = {
     hidden: { opacity: 0, y: 6 },
     show: {
       opacity: [0, 1, 1] as number[],
       y: [6, 0, 0] as number[],
-      // Use CSS vars for colors for easy theming; animate the color inline.
       color: [
-        'var(--lsd-baseColor)',
-        'var(--lsd-highlightColor)',
-        'var(--lsd-baseColor)',
+        'var(--pf-lsd-base-color)',
+        'var(--pf-lsd-highlight-color)',
+        'var(--pf-lsd-base-color)',
       ] as string[],
       skewX: [0, 1.5, 0] as number[],
       scale: [1, 1.04, 1] as number[],
@@ -60,16 +59,16 @@ function TextEffectsLightSweepDrawComponent() {
 
   return (
     <m.div
-      className="studioLogo-LightSweepDraw"
+      className="pf-light-sweep-draw"
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
       variants={containerVariants}
       initial="hidden"
       animate={['show', 'settle']}
     >
-      <div className="studioLogo-LightSweepDraw__line" aria-hidden="true">
+      <div className="pf-light-sweep-draw__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span key={i} className="studioLogo-LightSweepDraw__letter" variants={letterVariants}>
+          <m.span key={i} className="pf-light-sweep-draw__letter" variants={letterVariants}>
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}
@@ -78,7 +77,4 @@ function TextEffectsLightSweepDrawComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsLightSweepDraw to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsLightSweepDraw = memo(TextEffectsLightSweepDrawComponent)

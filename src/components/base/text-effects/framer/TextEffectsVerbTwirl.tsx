@@ -1,25 +1,30 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsVerbTwirl.css into your app.
  * Runtime deps: react, motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * RN: Translates to Moti with MotiText — same animate/transition props.
  */
 
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
-function TextEffectsVerbTwirlComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbTwirlProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+}
+
+function TextEffectsVerbTwirlComponent({
+  text = 'LOREM IPSUM DOLOR',
+}: TextEffectsVerbTwirlProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbTwirl" data-animation-id="text-effects__verb-twirling" aria-label={text}>
-      <div className="verbTwirl__line" aria-hidden="true">
+    <div className="pf-verb-twirl" data-animation-id="text-effects__verb-twirling" aria-label={text}>
+      <div className="pf-verb-twirl__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="verbTwirl__char"
+            className="pf-verb-twirl__char"
             initial={{ rotate: 0, scale: 1 }}
             animate={{
               rotate: [0, 90, 180, 270, 360],
@@ -39,7 +44,4 @@ function TextEffectsVerbTwirlComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsVerbTwirl to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbTwirl = memo(TextEffectsVerbTwirlComponent)

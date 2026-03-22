@@ -1,8 +1,8 @@
-/* Styles scoped for TextEffectsWaveText - Framer Motion version */
-.wave-text-container {
-  --text-effects-wave-text-color: #3b82f6;
-  --text-effects-wave-text-text-shadow: rgb(0 0 0 / 15%);
-  --text-effects-wave-text-bg: rgb(147 197 253 / 40%);
+/* Wave Text — Framer Motion layout (no keyframes) */
+.pf-wave-text {
+  --pf-wave-text-color: #3b82f6;
+  --pf-wave-text-shadow: rgb(0 0 0 / 15%);
+  --pf-wave-text-highlight-bg: rgb(147 197 253 / 40%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,7 +13,7 @@
   will-change: contents;
 }
 
-.wave-text-wrapper {
+.pf-wave-text__wrapper {
   font-size: 24px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -22,25 +22,25 @@
   z-index: 2;
 }
 
-.wave-char {
+.pf-wave-text__char {
   display: inline-block;
   transform-origin: center bottom;
   position: relative;
   will-change: transform;
   transform: translateZ(0);
-  color: var(--text-effects-wave-text-color);
-  text-shadow: 0 2px 4px var(--text-effects-wave-text-text-shadow);
+  color: var(--pf-wave-text-color);
+  text-shadow: 0 2px 4px var(--pf-wave-text-shadow);
 }
 
-.wave-char-inner {
+.pf-wave-text__char-inner {
   display: inline-block;
   position: relative;
 }
 
-.wave-highlight {
+.pf-wave-text__highlight {
   position: absolute;
   inset: -20% -10%;
-  background: linear-gradient(180deg, var(--text-effects-wave-text-bg), transparent);
+  background: linear-gradient(180deg, var(--pf-wave-text-highlight-bg), transparent);
   border-radius: 50% 50% 0 0;
   pointer-events: none;
   transform-origin: center bottom;

@@ -1,27 +1,33 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsVerbFall.css into your app.
  * Runtime deps: react, motion
- * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
+ * RN: Translates to Moti with MotiText — same animate/transition props.
  */
 
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import React from 'react'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
-function TextEffectsVerbFallComponent() {
-  const text = 'LOREM IPSUM DOLOR'
-  const letters = React.useMemo(() => Array.from(text), [text])
+interface TextEffectsVerbFallProps {
+  /** @default 'LOREM IPSUM DOLOR' */
+  text?: string
+  /** Delay between each character's animation start in seconds. @default 0.05 */
+  stepDelay?: number
+}
 
-  const STEP_DELAY = 0.05 // 50ms stagger per character
+function TextEffectsVerbFallComponent({
+  text = 'LOREM IPSUM DOLOR',
+  stepDelay = 0.05,
+}: TextEffectsVerbFallProps) {
+  const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="verbFall" data-animation-id="text-effects__verb-falling" aria-label={text}>
-      <div className="verbFall__line" aria-hidden="true">
+    <div className="pf-verb-fall" data-animation-id="text-effects__verb-falling" aria-label={text}>
+      <div className="pf-verb-fall__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="verbFall__char"
+            className="pf-verb-fall__char"
             initial={{ y: -12, scaleY: 0.96, opacity: 0.9 }}
             animate={{
               y: [-12, 0, 4, 0],
@@ -30,7 +36,7 @@ function TextEffectsVerbFallComponent() {
             }}
             transition={{
               duration: 1.6,
-              delay: i * STEP_DELAY,
+              delay: i * stepDelay,
               ease: easeInOut,
               times: [0, 0.3, 0.6, 1],
             }}
@@ -43,7 +49,4 @@ function TextEffectsVerbFallComponent() {
   )
 }
 
-/**
- * Memoized TextEffectsVerbFall to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbFall = memo(TextEffectsVerbFallComponent)
