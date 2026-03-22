@@ -88,10 +88,7 @@ import journeyDestinationBeacon from '@/assets/progress-bars-premium/journey-des
 import journeyWaypointNode from '@/assets/progress-bars-premium/journey-waypoint-node.png'
 import milestoneLockClosed from '@/assets/progress-bars-premium/milestone-lock-closed.png'
 import milestoneLockOpen from '@/assets/progress-bars-premium/milestone-lock-open.png'
-import staminaCrystal from '@/assets/progress-bars-premium/stamina-crystal.png'
 import pulseScroll from '@/assets/pulse_scroll.png'
-import questlineRoyalFinalChest from '@/assets/questline-royal/final-reward-chest.png'
-import questlineRoyalMilestoneEmblem from '@/assets/questline-royal/milestone-emblem.png'
 import shakeIcon from '@/assets/shake_icon.png'
 
 export {
@@ -185,9 +182,6 @@ export {
   journeyWaypointNode,
   milestoneLockClosed,
   milestoneLockOpen,
-  staminaCrystal,
   pulseScroll,
-  questlineRoyalFinalChest,
-  questlineRoyalMilestoneEmblem,
   shakeIcon,
 }

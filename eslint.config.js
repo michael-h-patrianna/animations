@@ -403,7 +403,7 @@ export default defineConfig([
   },
   // Color utilities: raw color values are the purpose of these modules
   {
-    files: ['src/utils/colors.ts', 'src/components/**/SharedParticleUtils.ts', 'src/components/**/SharedDefaults.ts'],
+    files: ['src/utils/colors.ts', 'src/components/**/SharedParticleUtils.ts', 'src/components/**/SharedDefaults.ts', 'src/components/**/SharedCelebrationTypes.ts', 'src/components/**/SharedFallbackCoin.tsx'],
     rules: {
       'animation-rules/no-hardcoded-colors': 'off',
     },

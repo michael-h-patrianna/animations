@@ -23,12 +23,9 @@ import { ProgressBarsProgressBounce as CssProgressBounce } from '@/components/pr
 import { ProgressBarsProgressMilestones as CssProgressMilestones } from '@/components/progress/progress-bars/css/ProgressBarsProgressMilestones'
 import { ProgressBarsProgressSegmented as CssProgressSegmented } from '@/components/progress/progress-bars/css/ProgressBarsProgressSegmented'
 import { ProgressBarsProgressThin as CssProgressThin } from '@/components/progress/progress-bars/css/ProgressBarsProgressThin'
-import { ProgressBarsQuestlineRoyal as CssQuestlineRoyal } from '@/components/progress/progress-bars/css/ProgressBarsQuestlineRoyal'
-import { ProgressBarsXpAccumulation as CssXpAccumulation } from '@/components/progress/progress-bars/css/ProgressBarsXpAccumulation'
 import { ProgressBarsProgressBounce as FramerProgressBounce } from '@/components/progress/progress-bars/framer/ProgressBarsProgressBounce'
 import { ProgressBarsProgressSegmented as FramerProgressSegmented } from '@/components/progress/progress-bars/framer/ProgressBarsProgressSegmented'
 import { ProgressBarsProgressThin as FramerProgressThin } from '@/components/progress/progress-bars/framer/ProgressBarsProgressThin'
-import { ProgressBarsQuestlineRoyal as FramerQuestlineRoyal } from '@/components/progress/progress-bars/framer/ProgressBarsQuestlineRoyal'
 
 // ── Realtime data ────────────────────────────────────────────────────────
 
@@ -102,9 +99,6 @@ type TimerComponentEntry = {
 const TIMER_COMPONENTS: TimerComponentEntry[] = [
   // Progress bars
   { name: 'CSS progress-milestones', component: CssProgressMilestones },
-  { name: 'CSS xp-accumulation', component: CssXpAccumulation, advanceMs: 1000 },
-  { name: 'CSS questline-royal', component: CssQuestlineRoyal, advanceMs: 2000 },
-  { name: 'Framer questline-royal', component: FramerQuestlineRoyal, advanceMs: 2000 },
   { name: 'CSS celebration-burst', component: CssCelebrationBurst, advanceMs: 2000 },
   { name: 'CSS progress-bounce', component: CssProgressBounce },
   { name: 'Framer progress-bounce', component: FramerProgressBounce },

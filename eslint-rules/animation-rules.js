@@ -47,7 +47,7 @@ const rules = {
         let prev
         do {
           prev = result
-          result = result.replace(/var\(\s*--[\w-]+\s*,\s*[^()]*\)/g, 'var(--stripped)')
+          result = result.replace(/var\(\s*--[\w-]+\s*,\s*(?:[^()]*|\([^()]*\))*\)/g, 'var(--stripped)')
         } while (result !== prev)
         return result
       }
