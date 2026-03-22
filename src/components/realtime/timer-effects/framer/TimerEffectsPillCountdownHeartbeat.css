@@ -1,4 +1,4 @@
-.pill-countdown-heartbeat-container {
+.pf-pill-countdown-heartbeat-container {
   --timer-effects-pill-countdown-heartbeat-bg-1-00: #f00;
   --timer-effects-pill-countdown-heartbeat-bg-1-ea: #ff00ea;
   --timer-effects-pill-countdown-heartbeat-bg-2-00: #8b0000;
@@ -22,7 +22,7 @@
 }
 
 /* Timer expired state */
-.timer-expired {
+.pf-timer-expired {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-1-00) 0%,
@@ -33,7 +33,7 @@
   --glow-scale: 1;
 }
 
-.pill-countdown-heartbeat {
+.pf-pill-countdown-heartbeat {
   position: relative;
   background: linear-gradient(
     135deg,
@@ -57,12 +57,13 @@
   align-items: center;
   justify-content: center;
 }
-.pill-countdown-heartbeat__text {
+
+.pf-pill-countdown-heartbeat__text {
   position: relative;
   z-index: 1;
 }
 
-.pill-countdown-heartbeat__glow {
+.pf-pill-countdown-heartbeat__glow {
   position: absolute;
   inset: -6px;
   border-radius: 12px;
@@ -73,8 +74,8 @@
   z-index: 0;
 }
 
-/* 60s - Normal state */
-.heartbeat-normal {
+/* Normal state */
+.pf-heartbeat-normal {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-3-ea) 0%,
@@ -82,18 +83,18 @@
   );
 }
 
-/* 50s threshold - calm heartbeat */
-.heartbeat-calm {
+/* Calm heartbeat */
+.pf-heartbeat-calm {
   --glow-color: rgb(102 126 234 / 40%);
 }
 
-/* 40s threshold - mild heartbeat */
-.heartbeat-mild {
+/* Mild heartbeat */
+.pf-heartbeat-mild {
   --glow-color: rgb(102 126 234 / 45%);
 }
 
-/* 30s threshold - elevated heartbeat */
-.heartbeat-elevated {
+/* Elevated heartbeat */
+.pf-heartbeat-elevated {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-5-4d) 0%,
@@ -102,8 +103,8 @@
   --glow-color: rgb(255 169 77 / 45%);
 }
 
-/* 20s threshold - rapid heartbeat */
-.heartbeat-rapid {
+/* Rapid heartbeat */
+.pf-heartbeat-rapid {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-7-6b) 0%,
@@ -112,8 +113,8 @@
   --glow-color: rgb(255 107 107 / 55%);
 }
 
-/* 10s threshold - critical heartbeat with continuous pulse */
-.heartbeat-critical {
+/* Critical heartbeat */
+.pf-heartbeat-critical {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-1-00) 0%,
@@ -121,7 +122,3 @@
   );
   --glow-color: rgb(255 0 0 / 60%);
 }
-
-/* Threshold pulse animations */
-
-/* Continuous heartbeat for final 10s */

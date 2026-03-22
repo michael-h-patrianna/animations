@@ -1,52 +1,86 @@
-import { useEffect, useState } from 'react'
+/**
+ * Pill countdown with organic heartbeat pulse effect — CSS variant.
+ * Heartbeat rate and glow intensity increase as time runs out via CSS classes.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css (heartbeat section) + TimerEffectsPillCountdownHeartbeat.css
+ * Runtime deps: react
+ */
+
+import { memo } from 'react'
+
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
 import './shared.css'
 import './TimerEffectsPillCountdownHeartbeat.css'
 
-export function TimerEffectsPillCountdownHeartbeat() {
-  const [seconds, setSeconds] = useState(60)
-  const [isRunning, setIsRunning] = useState(true)
+const DEFAULT_START = 60
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
 
-  useEffect(() => {
-    if (!isRunning || seconds <= 0) return
+type HeartbeatLevel = 'pf-heartbeat-normal' | 'pf-heartbeat-calm' | 'pf-heartbeat-mild' | 'pf-heartbeat-elevated' | 'pf-heartbeat-rapid' | 'pf-heartbeat-critical' | 'pf-timer-expired'
 
-    const interval = setInterval(() => {
-      setSeconds((prev) => {
-        if (prev <= 1) {
-          setIsRunning(false)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
+/** Original absolute-second thresholds, scaled proportionally to startSeconds */
+function resolveHeartbeatLevel(seconds: number, startSeconds: number, isExpired: boolean): HeartbeatLevel {
+  if (isExpired) return 'pf-timer-expired'
+  const ratio = startSeconds / 60
+  if (seconds <= Math.round(10 * ratio)) return 'pf-heartbeat-critical'
+  if (seconds <= Math.round(20 * ratio)) return 'pf-heartbeat-rapid'
+  if (seconds <= Math.round(30 * ratio)) return 'pf-heartbeat-elevated'
+  if (seconds <= Math.round(40 * ratio)) return 'pf-heartbeat-mild'
+  if (seconds <= Math.round(50 * ratio)) return 'pf-heartbeat-calm'
+  return 'pf-heartbeat-normal'
+}
 
-    return () => clearInterval(interval)
-  }, [isRunning, seconds])
+function TimerEffectsPillCountdownHeartbeatComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+}: TimerEffectProps) {
+  const { seconds, phase, isExpired, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
 
-  const formatTime = (totalSeconds: number) => {
-    const mins = Math.floor(totalSeconds / 60)
-    const secs = totalSeconds % 60
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  if (isHidden) return null
+
+  const heartbeatLevel = resolveHeartbeatLevel(seconds, startSeconds, isExpired)
+  const phaseColor = colors?.[phase]
+
+  const pillStyle: React.CSSProperties = {
+    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
   }
 
-  const getHeartbeatClass = () => {
-    if (seconds === 0) return 'timer-expired'
-    if (seconds <= 10) return 'heartbeat-critical'
-    if (seconds <= 20) return 'heartbeat-rapid'
-    if (seconds <= 30) return 'heartbeat-elevated'
-    if (seconds <= 40) return 'heartbeat-mild'
-    if (seconds <= 50) return 'heartbeat-calm'
-    return 'heartbeat-normal'
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 
   return (
     <div
-      className="pill-countdown-heartbeat-container"
+      className="pf-pill-countdown-heartbeat-container"
       data-animation-id="timer-effects__pill-countdown-heartbeat"
     >
-      <div className={`pill-countdown-heartbeat ${getHeartbeatClass()}`}>
-        <span className="pill-countdown-heartbeat__glow" aria-hidden="true" />
-        <span className="pill-countdown-heartbeat__text">{formatTime(seconds)}</span>
+      <div className={`pf-pill-countdown-heartbeat ${heartbeatLevel}`} style={pillStyle}>
+        <span className="pf-pill-countdown-heartbeat__glow" aria-hidden="true" />
+        <span className="pf-pill-countdown-heartbeat__text" style={timeStyle}>
+          {formatTime(seconds)}
+        </span>
       </div>
     </div>
   )
 }
+
+export const TimerEffectsPillCountdownHeartbeat = memo(TimerEffectsPillCountdownHeartbeatComponent)

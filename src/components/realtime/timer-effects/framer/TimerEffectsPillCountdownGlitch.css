@@ -1,4 +1,4 @@
-.pill-countdown-tfx-glitchcontainer {
+.pf-pill-countdown-glitch-container {
   --timer-effects-pill-countdown-glitch-bg-1-00: #f00;
   --timer-effects-pill-countdown-glitch-bg-1-ff: #f0f;
   --timer-effects-pill-countdown-glitch-bg-2: #8b0000;
@@ -20,7 +20,7 @@
 }
 
 /* Timer expired state */
-.timer-expired {
+.pf-timer-expired {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%,
@@ -31,7 +31,7 @@
   --glow-scale: 1;
 }
 
-.pill-countdown-glitch {
+.pf-pill-countdown-glitch {
   position: relative;
   background: linear-gradient(
     135deg,
@@ -55,12 +55,13 @@
   align-items: center;
   justify-content: center;
 }
-.pill-countdown-glitch__text {
+
+.pf-pill-countdown-glitch__text {
   position: relative;
   z-index: 1;
 }
 
-.pill-countdown-glitch__glow {
+.pf-pill-countdown-glitch__glow {
   position: absolute;
   inset: -6px;
   border-radius: 12px;
@@ -71,7 +72,7 @@
   z-index: 0;
 }
 
-.pill-countdown-glitch__copy {
+.pf-pill-countdown-glitch__copy {
   position: absolute;
   top: 0;
   left: 0;
@@ -83,10 +84,8 @@
   z-index: -1;
 }
 
-/* 50s and 40s thresholds inherit baseline styles in Framer mode */
-
-/* 30s threshold - mild glitch */
-.tfx-glitchmild {
+/* Mild glitch */
+.pf-glitch-mild {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-5-4d) 0%,
@@ -95,8 +94,8 @@
   --glow-color: rgb(253 126 20 / 35%);
 }
 
-/* 20s threshold - moderate glitch */
-.tfx-glitchmoderate {
+/* Moderate glitch */
+.pf-glitch-moderate {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-7) 0%,
@@ -105,12 +104,8 @@
   --glow-color: rgb(255 107 107 / 40%);
 }
 
-.tfx-glitchmoderate .pill-countdown-glitch__copy {
-  opacity: 0;
-}
-
-/* 10s threshold - severe glitch with rapid pulsing */
-.tfx-glitchsevere {
+/* Severe glitch */
+.pf-glitch-severe {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%,
@@ -119,14 +114,10 @@
   --glow-color: rgb(255 0 0 / 50%);
 }
 
-.tfx-glitchsevere .pill-countdown-glitch__copy--before {
+.pf-glitch-severe .pf-pill-countdown-glitch__copy--before {
   color: var(--timer-effects-pill-countdown-glitch-color-1);
 }
 
-.tfx-glitchsevere .pill-countdown-glitch__copy--after {
+.pf-glitch-severe .pf-pill-countdown-glitch__copy--after {
   color: var(--timer-effects-pill-countdown-glitch-bg-1-ff);
 }
-
-/* Threshold pulse animations */
-
-/* Rapid continuous glitch for final 10s */

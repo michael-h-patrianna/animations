@@ -5,7 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/timer-effects-framer?animation=timer-effects__timer-pulse',
   urlSlugCss: '/timer-effects-css?animation=timer-effects__timer-pulse',
   title: 'Timer Pulse',
-  description: 'Timer with continuous pulse animation.',
-  infinite: true,
+  description: 'Large countdown number with pulse animation and depleting underline bar.',
   tier: 4,
 }

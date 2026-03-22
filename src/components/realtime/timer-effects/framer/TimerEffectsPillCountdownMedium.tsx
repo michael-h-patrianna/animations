@@ -1,84 +1,104 @@
+/**
+ * Pill countdown with periodic LED-style blip at interval thresholds.
+ * Blips every 6s normally, every 3s under 12 seconds.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownMedium.css
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-// Periodic blip: LED corner blink every 10s; subtle perimeter arc progress.
-export function TimerEffectsPillCountdownMedium() {
-  const START_SECONDS = 60
-  const [seconds, setSeconds] = useState(START_SECONDS)
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
+const DEFAULT_START = 60
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
+
+function shouldBlip(display: number): boolean {
+  if (display > 12) return display % 6 === 0 && display > 0
+  if (display > 0) return display % 3 === 0
+  return false
+}
+
+const blipVariants = {
+  idle: { scale: 1, opacity: 1 },
+  blip: {
+    scale: [1, 1.08, 1],
+    opacity: [1, 0.85, 1],
+    transition: { duration: 0.32, ease: easeOut },
+  },
+}
+
+const glowVariants = {
+  idle: { scale: 0.9, opacity: 0 },
+  blip: {
+    scale: [0.9, 1.15, 0.9],
+    opacity: [0, 0.6, 0],
+    transition: { duration: 0.32, ease: easeOut },
+  },
+}
+
+function TimerEffectsPillCountdownMediumComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+}: TimerEffectProps) {
+  const { seconds, phase, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
+
   const [blipKey, setBlipKey] = useState(0)
+  const prevSecondsRef = useRef(startSeconds)
+
   useEffect(() => {
-    const startTime = Date.now()
-    let lastDisplay = START_SECONDS
-
-    const intervalId = setInterval(() => {
-      const elapsed = (Date.now() - startTime) / 1000
-      const remaining = Math.max(0, START_SECONDS - elapsed)
-      const display = Math.max(0, Math.ceil(remaining))
-
-      if (display !== lastDisplay) {
-        setSeconds(display)
-
-        // Blip animations at specific thresholds
-        {
-          if (display > 12) {
-            if (display % 6 === 0 && display > 0) {
-              setBlipKey((prev) => prev + 1)
-            }
-          } else if (display > 0) {
-            if (display % 3 === 0) {
-              setBlipKey((prev) => prev + 1)
-            }
-          }
-        }
-
-        lastDisplay = display
-      }
-
-      if (remaining <= 0) {
-        clearInterval(intervalId)
-      }
-    }, 100)
-
-    // Immediate emphasis on mount
-    {
-      setBlipKey((prev) => prev + 1)
-    }
-
-    return () => clearInterval(intervalId)
+    setBlipKey((k) => k + 1)
   }, [])
 
-  const format = (total: number) => {
-    const m = Math.floor(total / 60)
-    const s = total % 60
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+  useEffect(() => {
+    if (seconds !== prevSecondsRef.current && shouldBlip(seconds)) {
+      setBlipKey((k) => k + 1)
+    }
+    prevSecondsRef.current = seconds
+  }, [seconds])
+
+  if (isHidden) return null
+
+  const phaseColor = colors?.[phase]
+  const pillStyle: React.CSSProperties = {
+    animation: 'none',
+    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
   }
 
-  const blipVariants = {
-    idle: { scale: 1, opacity: 1 },
-    blip: {
-      scale: [1, 1.08, 1],
-      opacity: [1, 0.85, 1],
-      transition: { duration: 0.32, ease: easeOut },
-    },
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 
-  const glowVariants = {
-    idle: { scale: 0.9, opacity: 0 },
-    blip: {
-      scale: [0.9, 1.15, 0.9],
-      opacity: [0, 0.6, 0],
-      transition: { duration: 0.32, ease: easeOut },
-    },
-  }
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-medium">
       <m.div
         key={blipKey}
-        className="pf-pill-timer__pill pf-pill-timer__pill--medium"
+        className={`pf-pill-timer__pill pf-pill-timer__pill--medium pf-pill-timer--${phase}`}
         variants={blipVariants}
         initial="idle"
         animate="blip"
+        style={pillStyle}
       >
         <m.span
           className="pf-pill-timer__glow"
@@ -86,10 +106,14 @@ export function TimerEffectsPillCountdownMedium() {
           variants={glowVariants}
           initial="idle"
           animate="blip"
+          style={{ animation: 'none' }}
         />
-        <div className="pf-pill-timer__time">{format(seconds)}</div>
+        <div className="pf-pill-timer__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </m.div>
-      <span className="pf-pill-timer__label">Pill Countdown — Medium</span>
     </div>
   )
 }
+
+export const TimerEffectsPillCountdownMedium = memo(TimerEffectsPillCountdownMediumComponent)

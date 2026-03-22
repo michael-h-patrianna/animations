@@ -1,84 +1,128 @@
+/**
+ * Timer pill with color transition and increasing pulse urgency.
+ * Background shifts from yellow to red with easeInOut curve.
+ * Glow and pulse intensify as time runs out.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.css
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import { useEffect, useState } from 'react'
-export function TimerEffectsTimerFlash() {
-  const [seconds, setSeconds] = useState(32)
-  const [bgColor, setBgColor] = useState('var(--pf-anim-yellow-warm)')
-  const [pulseSpeed, setPulseSpeed] = useState(1000)
-  const [animationKey, setAnimationKey] = useState(0)
-  useEffect(() => {
-    const duration = 32000
-    const startTime = Date.now()
-    let lastDisplayed = 32
-    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
-    const intervalId = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const remainingSeconds = Math.max(0, 32 - elapsed / 1000)
-      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
-      if (displaySeconds !== lastDisplayed) {
-        setSeconds(displaySeconds)
-        lastDisplayed = displaySeconds
-      } // Color transition from yellow (#ffc107) to red (#dc3545)
-      const urgencyLevel = remainingSeconds <= 30 ? (30 - remainingSeconds) / 30 : 0
-      const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t)
-      const easedUrgency = easeInOut(urgencyLevel)
-      const yellow = { r: 255, g: 193, b: 7 }
-      const red = { r: 220, g: 53, b: 69 }
-      const r = Math.round(yellow.r + (red.r - yellow.r) * easedUrgency)
-      const g = Math.round(yellow.g + (red.g - yellow.g) * easedUrgency)
-      const b = Math.round(yellow.b + (red.b - yellow.b) * easedUrgency)
-      setBgColor(`rgb(${r}, ${g}, ${b})`) // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
-      if (remainingSeconds <= 30) {
-        const speed = Math.max(300, 1000 - urgencyLevel * 700)
-        setPulseSpeed(speed)
-      }
-      if (progress >= 1) {
-        clearInterval(intervalId) // Auto-restart after a brief pause
-        restartTimeoutId = setTimeout(() => {
-          setSeconds(32)
-          setBgColor('var(--pf-anim-yellow-warm)')
-          setPulseSpeed(1000)
-          setAnimationKey((prev) => prev + 1)
-        }, 2000)
-      }
-    }, 100)
-    return () => {
-      clearInterval(intervalId)
-      if (restartTimeoutId) {
-        clearTimeout(restartTimeoutId)
-      }
-    }
-  }, [animationKey])
-  const formatTime = (totalSeconds: number) => {
-    const minutes = Math.floor(totalSeconds / 60)
-    const secs = totalSeconds % 60
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
-  }
+import { memo } from 'react'
+
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
+const DEFAULT_START = 32
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
+
+/** Original easeInOut curve for color interpolation */
+function easeInOutFn(t: number): number {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+}
+
+/**
+ * Computes background color by interpolating between two RGB colors
+ * using the original easeInOut urgency curve.
+ */
+function computeBgColor(
+  seconds: number,
+  warningThreshold: number,
+  normalColor: { r: number; g: number; b: number },
+  criticalColor: { r: number; g: number; b: number }
+): string {
+  const urgencyLevel = seconds <= warningThreshold
+    ? (warningThreshold - seconds) / warningThreshold
+    : 0
+  const easedUrgency = easeInOutFn(urgencyLevel)
+  const r = Math.round(normalColor.r + (criticalColor.r - normalColor.r) * easedUrgency)
+  const g = Math.round(normalColor.g + (criticalColor.g - normalColor.g) * easedUrgency)
+  const b = Math.round(normalColor.b + (criticalColor.b - normalColor.b) * easedUrgency)
+  return `rgb(${r}, ${g}, ${b})` // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
+}
+
+function TimerEffectsTimerFlashComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+}: TimerEffectProps) {
+  const warningThreshold = thresholds?.warning ?? DEFAULT_WARNING
+
+  const { seconds, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: warningThreshold,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
+
+  if (isHidden) return null
+
+  // Original color computation: yellow (#ffc107) → red (#dc3545) with easeInOut curve
+  const normalRgb = { r: 255, g: 193, b: 7 }
+  const criticalRgb = { r: 220, g: 53, b: 69 }
+  const bgColor = colors !== undefined
+    ? (colors[seconds <= (thresholds?.critical ?? DEFAULT_CRITICAL) ? 'critical' : seconds <= warningThreshold ? 'warning' : 'normal'] ?? computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb))
+    : computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb)
+
+  // Pulse speed: 1000ms → 300ms based on urgency (original formula)
+  const urgencyLevel = seconds <= warningThreshold
+    ? (warningThreshold - seconds) / warningThreshold
+    : 0
+  const pulseSpeed = Math.max(300, 1000 - urgencyLevel * 700) / 1000
+
+  // Glow and scale intensity from original: driven by (30 - seconds) / 30
+  const intensity = seconds <= warningThreshold
+    ? (warningThreshold - seconds) / warningThreshold
+    : 0
+
   const getGlowAnimation = () => {
-    if (seconds > 30) {
+    if (seconds > warningThreshold) {
       return { scale: 0.95, opacity: 0 }
     }
-    const intensity = (30 - seconds) / 30
-    return { scale: [0.95, 0.95 + intensity * 0.5, 0.95], opacity: [0, 0.4 + intensity * 0.4, 0] }
+    return {
+      scale: [0.95, 0.95 + intensity * 0.5, 0.95],
+      opacity: [0, 0.4 + intensity * 0.4, 0],
+    }
   }
+
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
+  }
+
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
       <m.div
         className="pf-timer-flash__pill"
-        style={{ backgroundColor: bgColor }}
-        animate={seconds <= 30 ? { scale: [1, 1 + (30 - seconds) / 200, 1] } : {}}
-        transition={{ duration: pulseSpeed / 1000, repeat: Infinity, ease: easeInOut }}
+        style={{ backgroundColor: bgColor, animation: 'none' }}
+        animate={seconds <= warningThreshold ? { scale: [1, 1 + (warningThreshold - seconds) / 200, 1] } : {}}
+        transition={{ duration: pulseSpeed, repeat: Infinity, ease: easeInOut }}
       >
         <m.span
           className="pf-timer-flash__glow"
           aria-hidden="true"
           animate={getGlowAnimation()}
-          transition={{ duration: pulseSpeed / 1000, repeat: Infinity, ease: easeInOut }}
+          transition={{ duration: pulseSpeed, repeat: Infinity, ease: easeInOut }}
+          style={{ animation: 'none' }}
         />
-        <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
+        <div className="pf-timer-flash__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </m.div>
-      <span className="pf-timer-flash__label">Flash Expire</span>
     </div>
   )
 }
+
+export const TimerEffectsTimerFlash = memo(TimerEffectsTimerFlashComponent)

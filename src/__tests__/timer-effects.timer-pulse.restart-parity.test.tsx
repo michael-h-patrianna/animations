@@ -21,73 +21,66 @@ function getFramerValue(container: HTMLElement) {
   return Number(container.querySelector('.pf-timer__value')?.textContent ?? '')
 }
 
-describe('timer-effects timer-pulse restart parity', () => {
-  it('continues countdown after first reset in both CSS and Framer variants', () => {
+describe('timer-effects timer-pulse countdown behavior', () => {
+  it('CSS and Framer variants start at 10 by default', () => {
     const css = render(<CssTimerEffectsTimerPulse />)
     const framer = render(<FramerTimerEffectsTimerPulse />)
+
+    expect(getCssValue(css.container)).toBe(10)
+    expect(getFramerValue(framer.container)).toBe(10)
+  })
+
+  it('CSS variant counts down over time', () => {
+    const { container } = render(<CssTimerEffectsTimerPulse />)
+
+    expect(getCssValue(container)).toBe(10)
 
     act(() => {
       vi.advanceTimersByTime(3000)
     })
 
-    expect(getCssValue(css.container)).toBe(10)
-    expect(getFramerValue(framer.container)).toBe(10)
+    const midValue = getCssValue(container)
+    // After 3s of a 10s countdown, value should be ~7
+    expect(midValue).toBeLessThanOrEqual(8)
+    expect(midValue).toBeGreaterThanOrEqual(6)
+  })
+
+  it('CSS variant reaches zero', () => {
+    const { container } = render(<CssTimerEffectsTimerPulse />)
 
     act(() => {
-      vi.advanceTimersByTime(500)
+      vi.advanceTimersByTime(11000)
     })
 
-    expect(getCssValue(css.container)).toBeLessThan(10)
-    expect(getFramerValue(framer.container)).toBeLessThan(10)
+    expect(getCssValue(container)).toBe(0)
+  })
+
+  it('accepts custom startSeconds', () => {
+    const { container } = render(<CssTimerEffectsTimerPulse startSeconds={5} />)
+
+    expect(getCssValue(container)).toBe(5)
+
+    act(() => {
+      vi.advanceTimersByTime(5100)
+    })
+
+    expect(getCssValue(container)).toBe(0)
   })
 })
 
 describe('timer-effects timer-pulse behavioral correctness', () => {
-  it('CSS variant starts at 10 and counts down to 0 over 2 seconds', () => {
-    const { container } = render(<CssTimerEffectsTimerPulse />)
-
-    // Initial value should be 10
-    expect(getCssValue(container)).toBe(10)
-
-    // At 1 second (50% progress), value should be ~5
-    act(() => {
-      vi.advanceTimersByTime(1000)
-    })
-    const midValue = getCssValue(container)
-    expect(midValue).toBeLessThanOrEqual(6)
-    expect(midValue).toBeGreaterThanOrEqual(4)
-
-    // At 2 seconds (100% progress), value should be 0
-    act(() => {
-      vi.advanceTimersByTime(1000)
-    })
-    expect(getCssValue(container)).toBe(0)
-  })
-
-  it('CSS variant resets to 10 after countdown completes and 1s pause', () => {
-    const { container } = render(<CssTimerEffectsTimerPulse />)
-
-    // Complete the countdown (2s) + restart pause (1s)
-    act(() => {
-      vi.advanceTimersByTime(3100)
-    })
-
-    // Should have restarted back to 10
-    expect(getCssValue(container)).toBe(10)
-  })
-
   it('CSS variant displays progress CSS custom property', () => {
     const { container } = render(<CssTimerEffectsTimerPulse />)
 
     const underline = container.querySelector('.pf-timer-pulse__underline')
     expect(underline).toBeInTheDocument()
 
-    // Initially progress is 0 (value=10, progress = (10-10)/10 = 0)
+    // Initially progress is 0
     expect(underline).toHaveStyle({ '--progress': '0' })
 
     // After full countdown, progress should be 1
     act(() => {
-      vi.advanceTimersByTime(2100)
+      vi.advanceTimersByTime(11000)
     })
     expect(underline).toHaveStyle({ '--progress': '1' })
   })
@@ -96,19 +89,30 @@ describe('timer-effects timer-pulse behavioral correctness', () => {
     const { container } = render(<CssTimerEffectsTimerPulse />)
 
     const values: number[] = [getCssValue(container)]
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 100; i++) {
       act(() => {
         vi.advanceTimersByTime(100)
       })
       values.push(getCssValue(container))
     }
 
-    // Verify monotonic decrease (each value <= previous)
+    // Verify monotonic decrease
     for (let i = 1; i < values.length; i++) {
       expect(values[i]).toBeLessThanOrEqual(values[i - 1]!)
     }
     // First value should be 10, last should be 0
     expect(values[0]).toBe(10)
     expect(values[values.length - 1]).toBe(0)
+  })
+
+  it('onEnd callback fires when timer reaches zero', () => {
+    const onEnd = vi.fn()
+    render(<CssTimerEffectsTimerPulse startSeconds={3} onEnd={onEnd} />)
+
+    act(() => {
+      vi.advanceTimersByTime(3100)
+    })
+
+    expect(onEnd).toHaveBeenCalledOnce()
   })
 })

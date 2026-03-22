@@ -21,43 +21,58 @@ function parseClockValue(container: HTMLElement, selector: string) {
   return minutes * 60 + seconds
 }
 
-describe('timer-effects restart parity', () => {
-  it('continues timer-flash countdown after first reset in CSS and Framer variants', () => {
+describe('timer-effects timer-flash countdown behavior', () => {
+  it('CSS and Framer timer-flash start at 32 seconds by default', () => {
+    const css = render(<CssTimerEffectsTimerFlash />)
+    const framer = render(<FramerTimerEffectsTimerFlash />)
+
+    expect(parseClockValue(css.container, '.pf-timer-flash__time')).toBe(32)
+    expect(parseClockValue(framer.container, '.pf-timer-flash__time')).toBe(32)
+  })
+
+  it('CSS and Framer timer-flash count down over time', () => {
     const css = render(<CssTimerEffectsTimerFlash />)
     const framer = render(<FramerTimerEffectsTimerFlash />)
 
     act(() => {
-      vi.advanceTimersByTime(34000)
-    })
-
-    expect(parseClockValue(css.container, '.pf-timer-flash__time')).toBe(32)
-    expect(parseClockValue(framer.container, '.pf-timer-flash__time')).toBe(32)
-
-    act(() => {
-      vi.advanceTimersByTime(1500)
+      vi.advanceTimersByTime(5000)
     })
 
     expect(parseClockValue(css.container, '.pf-timer-flash__time')).toBeLessThan(32)
     expect(parseClockValue(framer.container, '.pf-timer-flash__time')).toBeLessThan(32)
   })
 
-  it('continues timer-flash-soft countdown after first reset in CSS and Framer variants', () => {
+  it('CSS and Framer timer-flash reach zero', () => {
+    const css = render(<CssTimerEffectsTimerFlash />)
+    const framer = render(<FramerTimerEffectsTimerFlash />)
+
+    act(() => {
+      vi.advanceTimersByTime(33000)
+    })
+
+    expect(parseClockValue(css.container, '.pf-timer-flash__time')).toBe(0)
+    expect(parseClockValue(framer.container, '.pf-timer-flash__time')).toBe(0)
+  })
+
+  it('timer-flash accepts custom startSeconds', () => {
+    const css = render(<CssTimerEffectsTimerFlash startSeconds={15} />)
+    const framer = render(<FramerTimerEffectsTimerFlash startSeconds={15} />)
+
+    expect(parseClockValue(css.container, '.pf-timer-flash__time')).toBe(15)
+    expect(parseClockValue(framer.container, '.pf-timer-flash__time')).toBe(15)
+  })
+
+  it('timer-flash-soft CSS and Framer count down in sync', () => {
     const css = render(<CssTimerEffectsTimerFlashSoft />)
     const framer = render(<FramerTimerEffectsTimerFlashSoft />)
 
     act(() => {
-      vi.advanceTimersByTime(34000)
+      vi.advanceTimersByTime(10000)
     })
 
-    expect(parseClockValue(css.container, '.pf-timer-flash-soft__time')).toBe(32)
-    expect(parseClockValue(framer.container, '.pf-timer-flash__time')).toBe(32)
-
-    act(() => {
-      vi.advanceTimersByTime(1500)
-    })
-
-    expect(parseClockValue(css.container, '.pf-timer-flash-soft__time')).toBeLessThan(32)
-    expect(parseClockValue(framer.container, '.pf-timer-flash__time')).toBeLessThan(32)
+    const cssVal = parseClockValue(css.container, '.pf-timer-flash-soft__time')
+    const framerVal = parseClockValue(framer.container, '.pf-timer-flash__time')
+    expect(Math.abs(cssVal - framerVal)).toBeLessThanOrEqual(1)
   })
 })
 
@@ -66,7 +81,6 @@ describe('timer-effects timer-flash behavioral verification', () => {
     const { container } = render(<CssTimerEffectsTimerFlash />)
 
     const timeText = container.querySelector('.pf-timer-flash__time')?.textContent ?? ''
-    // Should match MM:SS format
     expect(timeText).toMatch(/^\d{1,2}:\d{2}$/)
   })
 
@@ -87,7 +101,6 @@ describe('timer-effects timer-flash behavioral verification', () => {
     const css = render(<CssTimerEffectsTimerFlash />)
     const framer = render(<FramerTimerEffectsTimerFlash />)
 
-    // Check at multiple time points
     for (const ms of [0, 5000, 10000, 15000]) {
       if (ms > 0) {
         act(() => {
@@ -97,8 +110,18 @@ describe('timer-effects timer-flash behavioral verification', () => {
 
       const cssVal = parseClockValue(css.container, '.pf-timer-flash__time')
       const framerVal = parseClockValue(framer.container, '.pf-timer-flash__time')
-      // Values should be within 1 second of each other (timing imprecision)
       expect(Math.abs(cssVal - framerVal)).toBeLessThanOrEqual(1)
     }
+  })
+
+  it('onEnd callback fires when timer reaches zero', () => {
+    const onEnd = vi.fn()
+    render(<CssTimerEffectsTimerFlash startSeconds={5} onEnd={onEnd} />)
+
+    act(() => {
+      vi.advanceTimersByTime(5100)
+    })
+
+    expect(onEnd).toHaveBeenCalledOnce()
   })
 })

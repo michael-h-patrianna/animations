@@ -1,6 +1,6 @@
 /* TimerEffectsPillCountdownGlitch - CSS animations */
 
-.pill-countdown-tfx-glitchcontainer {
+.pf-pill-countdown-glitch-container {
   --timer-effects-pill-countdown-glitch-bg-1-00: #f00;
   --timer-effects-pill-countdown-glitch-bg-1-ff: #f0f;
   --timer-effects-pill-countdown-glitch-bg-2: #8b0000;
@@ -20,7 +20,7 @@
 }
 
 /* Glow animation keyframes for different intensities */
-@keyframes tfx-glitchglow-minimal {
+@keyframes pf-glitch-glow-minimal {
   0%,
   100% {
     transform: scale(1);
@@ -32,7 +32,7 @@
   }
 }
 
-@keyframes tfx-glitchglow-subtle {
+@keyframes pf-glitch-glow-subtle {
   0%,
   100% {
     transform: scale(1);
@@ -44,7 +44,7 @@
   }
 }
 
-@keyframes tfx-glitchglow-mild {
+@keyframes pf-glitch-glow-mild {
   0%,
   100% {
     transform: scale(1);
@@ -56,7 +56,7 @@
   }
 }
 
-@keyframes tfx-glitchglow-moderate {
+@keyframes pf-glitch-glow-moderate {
   0%,
   100% {
     transform: scale(1);
@@ -68,7 +68,7 @@
   }
 }
 
-@keyframes tfx-glitchglow-severe {
+@keyframes pf-glitch-glow-severe {
   0%,
   100% {
     transform: scale(1);
@@ -80,7 +80,7 @@
   }
 }
 
-@keyframes tfx-glitchglow-expired {
+@keyframes pf-glitch-glow-expired {
   0%,
   100% {
     transform: scale(1);
@@ -93,7 +93,7 @@
 }
 
 /* Timer expired state */
-.timer-expired {
+.pf-timer-expired {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%,
@@ -102,22 +102,22 @@
   --glow-color: rgb(255 0 0 / 55%);
 }
 
-.timer-expired .pill-countdown-glitch__glow {
-  animation: tfx-glitchglow-expired 400ms ease-in-out infinite;
+.pf-timer-expired .pf-pill-countdown-glitch__glow {
+  animation: pf-glitch-glow-expired 400ms ease-in-out infinite;
 }
 
-/* 50s threshold - minimal glitch */
-.tfx-glitchminimal .pill-countdown-glitch__glow {
-  animation: tfx-glitchglow-minimal 2000ms ease-in-out infinite;
+/* Minimal glitch */
+.pf-glitch-minimal .pf-pill-countdown-glitch__glow {
+  animation: pf-glitch-glow-minimal 2000ms ease-in-out infinite;
 }
 
-/* 40s threshold - subtle glitch */
-.tfx-glitchsubtle .pill-countdown-glitch__glow {
-  animation: tfx-glitchglow-subtle 1700ms ease-in-out infinite;
+/* Subtle glitch */
+.pf-glitch-subtle .pf-pill-countdown-glitch__glow {
+  animation: pf-glitch-glow-subtle 1700ms ease-in-out infinite;
 }
 
-/* 30s threshold - mild glitch */
-.tfx-glitchmild {
+/* Mild glitch */
+.pf-glitch-mild {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-3-4d) 0%,
@@ -126,12 +126,12 @@
   --glow-color: rgb(253 126 20 / 35%);
 }
 
-.tfx-glitchmild .pill-countdown-glitch__glow {
-  animation: tfx-glitchglow-mild 1100ms ease-in-out infinite;
+.pf-glitch-mild .pf-pill-countdown-glitch__glow {
+  animation: pf-glitch-glow-mild 1100ms ease-in-out infinite;
 }
 
-/* 20s threshold - moderate glitch */
-.tfx-glitchmoderate {
+/* Moderate glitch */
+.pf-glitch-moderate {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-5-6b) 0%,
@@ -140,12 +140,12 @@
   --glow-color: rgb(255 107 107 / 40%);
 }
 
-.tfx-glitchmoderate .pill-countdown-glitch__glow {
-  animation: tfx-glitchglow-moderate 800ms ease-in-out infinite;
+.pf-glitch-moderate .pf-pill-countdown-glitch__glow {
+  animation: pf-glitch-glow-moderate 800ms ease-in-out infinite;
 }
 
-/* 10s threshold - severe glitch with rapid pulsing */
-.tfx-glitchsevere {
+/* Severe glitch with rapid pulsing */
+.pf-glitch-severe {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-glitch-bg-1-00) 0%,
@@ -154,14 +154,14 @@
   --glow-color: rgb(255 0 0 / 50%);
 }
 
-.tfx-glitchsevere .pill-countdown-glitch__glow {
-  animation: tfx-glitchglow-severe 500ms ease-in-out infinite;
+.pf-glitch-severe .pf-pill-countdown-glitch__glow {
+  animation: pf-glitch-glow-severe 500ms ease-in-out infinite;
 }
 
-.tfx-glitchsevere .pill-countdown-glitch__copy--before {
+.pf-glitch-severe .pf-pill-countdown-glitch__copy--before {
   color: var(--timer-effects-pill-countdown-glitch-color-1);
 }
 
-.tfx-glitchsevere .pill-countdown-glitch__copy--after {
+.pf-glitch-severe .pf-pill-countdown-glitch__copy--after {
   color: var(--timer-effects-pill-countdown-glitch-bg-1-ff);
 }

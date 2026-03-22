@@ -1,6 +1,6 @@
 /* TimerEffectsPillCountdownHeartbeat - CSS animations */
 
-.pill-countdown-heartbeat-container {
+.pf-pill-countdown-heartbeat-container {
   --timer-effects-pill-countdown-heartbeat-bg-1-00: #667e00;
   --timer-effects-pill-countdown-heartbeat-bg-1-ea: #667eea;
   --timer-effects-pill-countdown-heartbeat-bg-2-00: #764b00;
@@ -24,7 +24,7 @@
 }
 
 /* Glow animation keyframes for different heartbeat intensities */
-@keyframes heartbeat-glow-normal {
+@keyframes pf-heartbeat-glow-normal {
   0%,
   100% {
     transform: scale(1);
@@ -36,7 +36,7 @@
   }
 }
 
-@keyframes heartbeat-glow-calm {
+@keyframes pf-heartbeat-glow-calm {
   0%,
   100% {
     transform: scale(1);
@@ -48,7 +48,7 @@
   }
 }
 
-@keyframes heartbeat-glow-mild {
+@keyframes pf-heartbeat-glow-mild {
   0%,
   100% {
     transform: scale(1);
@@ -60,7 +60,7 @@
   }
 }
 
-@keyframes heartbeat-glow-elevated {
+@keyframes pf-heartbeat-glow-elevated {
   0%,
   100% {
     transform: scale(1);
@@ -72,7 +72,7 @@
   }
 }
 
-@keyframes heartbeat-glow-rapid {
+@keyframes pf-heartbeat-glow-rapid {
   0%,
   100% {
     transform: scale(1);
@@ -84,7 +84,7 @@
   }
 }
 
-@keyframes heartbeat-glow-critical {
+@keyframes pf-heartbeat-glow-critical {
   0%,
   100% {
     transform: scale(1);
@@ -96,7 +96,7 @@
   }
 }
 
-@keyframes heartbeat-glow-expired {
+@keyframes pf-heartbeat-glow-expired {
   0%,
   100% {
     transform: scale(1);
@@ -108,8 +108,8 @@
   }
 }
 
-/* 60s - Normal state */
-.heartbeat-normal {
+/* Normal state */
+.pf-heartbeat-normal {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-1-ea) 0%,
@@ -117,30 +117,30 @@
   );
 }
 
-.heartbeat-normal .pill-countdown-heartbeat__glow {
-  animation: heartbeat-glow-normal 2000ms ease-in-out infinite;
+.pf-heartbeat-normal .pf-pill-countdown-heartbeat__glow {
+  animation: pf-heartbeat-glow-normal 2000ms ease-in-out infinite;
 }
 
-/* 50s threshold - calm heartbeat */
-.heartbeat-calm {
+/* Calm heartbeat */
+.pf-heartbeat-calm {
   --glow-color: rgb(102 126 234 / 40%);
 }
 
-.heartbeat-calm .pill-countdown-heartbeat__glow {
-  animation: heartbeat-glow-calm 1500ms ease-in-out infinite;
+.pf-heartbeat-calm .pf-pill-countdown-heartbeat__glow {
+  animation: pf-heartbeat-glow-calm 1500ms ease-in-out infinite;
 }
 
-/* 40s threshold - mild heartbeat */
-.heartbeat-mild {
+/* Mild heartbeat */
+.pf-heartbeat-mild {
   --glow-color: rgb(102 126 234 / 45%);
 }
 
-.heartbeat-mild .pill-countdown-heartbeat__glow {
-  animation: heartbeat-glow-mild 1200ms ease-in-out infinite;
+.pf-heartbeat-mild .pf-pill-countdown-heartbeat__glow {
+  animation: pf-heartbeat-glow-mild 1200ms ease-in-out infinite;
 }
 
-/* 30s threshold - elevated heartbeat */
-.heartbeat-elevated {
+/* Elevated heartbeat */
+.pf-heartbeat-elevated {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-3-4d) 0%,
@@ -149,12 +149,12 @@
   --glow-color: rgb(255 169 77 / 45%);
 }
 
-.heartbeat-elevated .pill-countdown-heartbeat__glow {
-  animation: heartbeat-glow-elevated 900ms ease-in-out infinite;
+.pf-heartbeat-elevated .pf-pill-countdown-heartbeat__glow {
+  animation: pf-heartbeat-glow-elevated 900ms ease-in-out infinite;
 }
 
-/* 20s threshold - rapid heartbeat */
-.heartbeat-rapid {
+/* Rapid heartbeat */
+.pf-heartbeat-rapid {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-5-6b) 0%,
@@ -163,12 +163,12 @@
   --glow-color: rgb(255 107 107 / 55%);
 }
 
-.heartbeat-rapid .pill-countdown-heartbeat__glow {
-  animation: heartbeat-glow-rapid 700ms ease-in-out infinite;
+.pf-heartbeat-rapid .pf-pill-countdown-heartbeat__glow {
+  animation: pf-heartbeat-glow-rapid 700ms ease-in-out infinite;
 }
 
-/* 10s threshold - critical heartbeat with continuous pulse */
-.heartbeat-critical {
+/* Critical heartbeat */
+.pf-heartbeat-critical {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%,
@@ -177,12 +177,12 @@
   --glow-color: rgb(255 0 0 / 60%);
 }
 
-.heartbeat-critical .pill-countdown-heartbeat__glow {
-  animation: heartbeat-glow-critical 500ms ease-in-out infinite;
+.pf-heartbeat-critical .pf-pill-countdown-heartbeat__glow {
+  animation: pf-heartbeat-glow-critical 500ms ease-in-out infinite;
 }
 
 /* Timer expired state */
-.timer-expired {
+.pf-timer-expired {
   background: linear-gradient(
     135deg,
     var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%,
@@ -193,6 +193,6 @@
   --glow-scale: 1;
 }
 
-.timer-expired .pill-countdown-heartbeat__glow {
-  animation: heartbeat-glow-expired 600ms ease-in-out infinite;
+.pf-timer-expired .pf-pill-countdown-heartbeat__glow {
+  animation: pf-heartbeat-glow-expired 600ms ease-in-out infinite;
 }

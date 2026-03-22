@@ -1,50 +1,71 @@
-import { useEffect, useState } from 'react'
+/**
+ * Large countdown number with continuous pulse and depleting underline bar — CSS variant.
+ * The number pulses via CSS keyframes while the underline shrinks via custom property.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerPulse.css
+ * Runtime deps: react
+ */
+
+import { memo } from 'react'
+
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
 import './TimerEffectsTimerPulse.css'
 
-export function TimerEffectsTimerPulse() {
-  const [value, setValue] = useState(10)
-  const [animationKey, setAnimationKey] = useState(0)
+const DEFAULT_START = 10
+const DEFAULT_WARNING = 6
+const DEFAULT_CRITICAL = 3
 
-  useEffect(() => {
-    const duration = 2000
-    const startTime = Date.now()
-    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
+interface TimerEffectsTimerPulseProps extends TimerEffectProps {
+  /** Whether to show the depleting underline bar. Default: true */
+  showUnderline?: boolean
+}
 
-    const intervalId = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const currentValue = Math.max(0, Math.ceil(10 * (1 - progress)))
+function TimerEffectsTimerPulseComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+  showUnderline = true,
+}: TimerEffectsTimerPulseProps) {
+  const { seconds, phase, progress, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
 
-      setValue(currentValue)
+  if (isHidden) return null
 
-      if (progress >= 1) {
-        clearInterval(intervalId)
-        // Auto-restart after a brief pause
-        restartTimeoutId = setTimeout(() => {
-          setValue(10)
-          setAnimationKey((prev) => prev + 1)
-        }, 1000)
-      }
-    }, 100)
+  const phaseColor = colors?.[phase]
 
-    return () => {
-      clearInterval(intervalId)
-      if (restartTimeoutId) {
-        clearTimeout(restartTimeoutId)
-      }
-    }
-  }, [animationKey])
-
-  const progress = (10 - value) / 10
+  const valueStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : phaseColor !== undefined ? { color: phaseColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
+  }
 
   return (
     <div className="pf-timer-pulse" data-animation-id="timer-effects__timer-pulse">
-      <div className="pf-timer-pulse__value">{value}</div>
-      <span className="pf-timer-pulse__label">Seconds left</span>
-      <div
-        className="pf-timer-pulse__underline"
-        style={{ '--progress': progress } as React.CSSProperties}
-      />
+      <div className={`pf-timer-pulse__value pf-timer-pulse--${phase}`} style={valueStyle}>
+        {seconds}
+      </div>
+      {showUnderline && (
+        <div
+          className="pf-timer-pulse__underline"
+          style={{ '--progress': progress } as React.CSSProperties}
+        />
+      )}
     </div>
   )
 }
+
+export const TimerEffectsTimerPulse = memo(TimerEffectsTimerPulseComponent)

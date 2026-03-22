@@ -1,58 +1,66 @@
-import { useEffect, useState } from 'react'
+/**
+ * Timer pill with color transition and increasing pulse urgency — CSS variant.
+ * Background shifts through phase colors via CSS custom properties.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.css
+ * Runtime deps: react
+ */
+
+import { memo } from 'react'
+
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
 import './TimerEffectsTimerFlash.css'
 
-export function TimerEffectsTimerFlash() {
-  const [seconds, setSeconds] = useState(32)
-  const [animationKey, setAnimationKey] = useState(0)
+const DEFAULT_START = 32
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
 
-  useEffect(() => {
-    const duration = 32000
-    const startTime = Date.now()
-    let lastDisplayed = 32
-    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
+function TimerEffectsTimerFlashComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+}: TimerEffectProps) {
+  const { seconds, phase, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
 
-    const intervalId = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const remainingSeconds = Math.max(0, 32 - elapsed / 1000)
-      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
+  if (isHidden) return null
 
-      if (displaySeconds !== lastDisplayed) {
-        setSeconds(displaySeconds)
-        lastDisplayed = displaySeconds
-      }
+  const phaseColor = colors?.[phase]
+  const pillStyle: React.CSSProperties = {
+    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
+  }
 
-      if (progress >= 1) {
-        clearInterval(intervalId)
-        // Auto-restart after a brief pause
-        restartTimeoutId = setTimeout(() => {
-          setSeconds(32)
-          setAnimationKey((prev) => prev + 1)
-        }, 2000)
-      }
-    }, 100)
-
-    return () => {
-      clearInterval(intervalId)
-      if (restartTimeoutId) {
-        clearTimeout(restartTimeoutId)
-      }
-    }
-  }, [animationKey])
-
-  const formatTime = (totalSeconds: number) => {
-    const minutes = Math.floor(totalSeconds / 60)
-    const secs = totalSeconds % 60
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
-      <div className="pf-timer-flash__pill">
+      <div className={`pf-timer-flash__pill pf-timer-flash--${phase}`} style={pillStyle}>
         <span className="pf-timer-flash__glow" aria-hidden="true" />
-        <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
+        <div className="pf-timer-flash__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </div>
-      <span className="pf-timer-flash__label">Flash Expire</span>
     </div>
   )
 }
+
+export const TimerEffectsTimerFlash = memo(TimerEffectsTimerFlashComponent)

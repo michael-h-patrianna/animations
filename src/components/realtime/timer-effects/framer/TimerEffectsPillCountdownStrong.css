@@ -42,12 +42,15 @@
   transform: scale(var(--pill-glow-scale, 0.92));
 }
 
-.pf-pill-timer__pill--strong.is-caution {
+.pf-pill-timer__pill--strong.is-caution,
+.pf-pill-timer__pill--strong.pf-pill-timer--warning {
   --pill-bg: #ff7a00;
   --pill-highlight: #ffb347;
   --pill-glow-color: rgb(255 179 71 / 50%);
 }
-.pf-pill-timer__pill--strong.is-danger {
+
+.pf-pill-timer__pill--strong.is-danger,
+.pf-pill-timer__pill--strong.pf-pill-timer--critical {
   --pill-bg: #dc3545;
   --pill-highlight: #ff6b7d;
   --pill-glow-color: rgb(255 107 125 / 50%);

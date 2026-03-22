@@ -1,10 +1,29 @@
+/**
+ * Pill countdown with intense buzz-shake effect and aggressive color transitions.
+ * Buzzes at landmark seconds and every second in the final 10.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownExtreme.css
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-const START_SECONDS = 60
-const TICK_INTERVAL_MS = 100
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
+const DEFAULT_START = 60
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
 const FLASH_RESET_DELAY_MS = 220
+
+function shouldTriggerBuzz(displaySeconds: number): boolean {
+  if (displaySeconds === 60 || displaySeconds === 50 || displaySeconds === 40) return true
+  if (displaySeconds <= 30 && displaySeconds >= 15 && displaySeconds % 5 === 0) return true
+  return displaySeconds <= 10 && displaySeconds > 0
+}
 
 const buzzVariants = {
   idle: { scale: 1, x: 0 },
@@ -24,113 +43,85 @@ const glowVariants = {
   },
 }
 
-const formatClock = (totalSeconds: number) => {
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = totalSeconds % 60
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-}
+function TimerEffectsPillCountdownExtremeComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+}: TimerEffectProps) {
+  const { seconds, phase, isExpired, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
 
-const resolveExtremeColorClass = (displaySeconds: number) => {
-  if (displaySeconds > 30) {
-    return ''
-  }
-
-  if (displaySeconds > 10) {
-    return 'is-warning'
-  }
-
-  if (displaySeconds > 0) {
-    return 'is-danger'
-  }
-
-  return ''
-}
-
-const shouldTriggerBuzz = (displaySeconds: number) => {
-  if (displaySeconds === 60 || displaySeconds === 50 || displaySeconds === 40) {
-    return true
-  }
-
-  if (displaySeconds <= 30 && displaySeconds >= 15 && displaySeconds % 5 === 0) {
-    return true
-  }
-
-  return displaySeconds <= 10 && displaySeconds > 0
-}
-
-const useExtremeCountdown = () => {
-  const [seconds, setSeconds] = useState(START_SECONDS)
   const [buzzKey, setBuzzKey] = useState(0)
-  const [colorClass, setColorClass] = useState('')
+  const [flashClass, setFlashClass] = useState('')
+  const prevSecondsRef = useRef(startSeconds)
+  const timeoutIdsRef = useRef(new Set<ReturnType<typeof setTimeout>>())
 
   useEffect(() => {
-    const startTime = Date.now()
-    let lastDisplay = START_SECONDS
-    const timeoutIds = new Set<ReturnType<typeof setTimeout>>()
+    setBuzzKey((k) => k + 1)
+  }, [])
 
-    const scheduleTimeout = (callback: () => void, delayMs: number) => {
+  useEffect(() => {
+    if (seconds === prevSecondsRef.current) return
+    prevSecondsRef.current = seconds
+
+    // Flash on zero
+    if (isExpired) {
+      setFlashClass('is-flash')
       const timeoutId = setTimeout(() => {
-        timeoutIds.delete(timeoutId)
-        callback()
-      }, delayMs)
-      timeoutIds.add(timeoutId)
+        timeoutIdsRef.current.delete(timeoutId)
+        setFlashClass('')
+      }, FLASH_RESET_DELAY_MS)
+      timeoutIdsRef.current.add(timeoutId)
     }
 
-    const intervalId = setInterval(() => {
-      const elapsedSeconds = (Date.now() - startTime) / 1000
-      const remainingSeconds = Math.max(0, START_SECONDS - elapsedSeconds)
-      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
+    if (shouldTriggerBuzz(seconds)) {
+      setBuzzKey((k) => k + 1)
+    }
+  }, [seconds, isExpired])
 
-      if (displaySeconds === lastDisplay) {
-        if (remainingSeconds <= 0) {
-          clearInterval(intervalId)
-        }
-        return
-      }
-
-      setSeconds(displaySeconds)
-
-      if (displaySeconds === 0) {
-        setColorClass('is-flash')
-        scheduleTimeout(() => setColorClass(''), FLASH_RESET_DELAY_MS)
-      } else {
-        setColorClass(resolveExtremeColorClass(displaySeconds))
-      }
-
-      if (shouldTriggerBuzz(displaySeconds)) {
-        setBuzzKey((previous) => previous + 1)
-      }
-
-      lastDisplay = displaySeconds
-
-      if (remainingSeconds <= 0) {
-        clearInterval(intervalId)
-      }
-    }, TICK_INTERVAL_MS)
-
-    setBuzzKey((previous) => previous + 1)
-
+  useEffect(() => {
+    const ids = timeoutIdsRef.current
     return () => {
-      clearInterval(intervalId)
-      timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId))
-      timeoutIds.clear()
+      ids.forEach((id) => clearTimeout(id))
+      ids.clear()
     }
   }, [])
 
-  return { seconds, buzzKey, colorClass }
-}
+  if (isHidden) return null
 
-export function TimerEffectsPillCountdownExtreme() {
-  const { seconds, buzzKey, colorClass } = useExtremeCountdown()
+  const phaseColor = colors?.[phase]
+  const pillStyle: React.CSSProperties = {
+    animation: 'none',
+    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
+  }
+
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
+  }
 
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-extreme">
       <m.div
         key={buzzKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--extreme ${colorClass}`}
+        className={`pf-pill-timer__pill pf-pill-timer__pill--extreme pf-pill-timer--${phase} ${flashClass}`}
         variants={buzzVariants}
         initial="idle"
         animate="buzz"
+        style={pillStyle}
       >
         <m.span
           className="pf-pill-timer__glow"
@@ -138,10 +129,14 @@ export function TimerEffectsPillCountdownExtreme() {
           variants={glowVariants}
           initial="idle"
           animate="buzz"
+          style={{ animation: 'none' }}
         />
-        <div className="pf-pill-timer__time">{formatClock(seconds)}</div>
+        <div className="pf-pill-timer__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </m.div>
-      <span className="pf-pill-timer__label">Pill Countdown — Extreme</span>
     </div>
   )
 }
+
+export const TimerEffectsPillCountdownExtreme = memo(TimerEffectsPillCountdownExtremeComponent)

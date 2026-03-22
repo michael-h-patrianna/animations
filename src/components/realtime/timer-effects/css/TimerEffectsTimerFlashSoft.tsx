@@ -1,67 +1,88 @@
-import { useEffect, useState } from 'react'
+/**
+ * Timer pill with color transition and periodic shake reminders — CSS variant.
+ * Background shifts through phase colors. Shakes at configurable intervals via CSS animation replay.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlashSoft.css
+ * Runtime deps: react
+ */
+
+import { memo, useEffect, useRef, useState } from 'react'
+
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
 import './TimerEffectsTimerFlashSoft.css'
 
-export function TimerEffectsTimerFlashSoft() {
-  const [seconds, setSeconds] = useState(32)
-  const [animationKey, setAnimationKey] = useState(0)
+const DEFAULT_START = 32
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
+const DEFAULT_SHAKE_INTERVAL = 10
+
+interface TimerEffectsTimerFlashSoftProps extends TimerEffectProps {
+  /** Seconds between shake reminders. Default: 10 */
+  shakeInterval?: number
+}
+
+function TimerEffectsTimerFlashSoftComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+  shakeInterval = DEFAULT_SHAKE_INTERVAL,
+}: TimerEffectsTimerFlashSoftProps) {
+  const { seconds, phase, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
+
   const [shakeKey, setShakeKey] = useState(0)
+  const lastShakeAtRef = useRef(0)
 
   useEffect(() => {
-    const duration = 32000
-    const startTime = Date.now()
-    let lastDisplayed = 32
-    let lastReminderTime = 0
-    const reminderInterval = 10000
-    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
-
-    const intervalId = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const remainingSeconds = Math.max(0, 32 - elapsed / 1000)
-      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
-
-      if (displaySeconds !== lastDisplayed) {
-        setSeconds(displaySeconds)
-        lastDisplayed = displaySeconds
-      }
-
-      // Shake animation every 10 seconds
-      if (elapsed - lastReminderTime >= reminderInterval) {
-        lastReminderTime = elapsed
-        setShakeKey((prev) => prev + 1)
-      }
-
-      if (progress >= 1) {
-        clearInterval(intervalId)
-        // Auto-restart after a brief pause
-        restartTimeoutId = setTimeout(() => {
-          setSeconds(32)
-          setAnimationKey((prev) => prev + 1)
-        }, 2000)
-      }
-    }, 100)
-
-    return () => {
-      clearInterval(intervalId)
-      if (restartTimeoutId) {
-        clearTimeout(restartTimeoutId)
-      }
+    const elapsed = startSeconds - seconds
+    if (elapsed - lastShakeAtRef.current >= shakeInterval) {
+      lastShakeAtRef.current = elapsed
+      setShakeKey((k) => k + 1)
     }
-  }, [animationKey])
+  }, [seconds, startSeconds, shakeInterval])
 
-  const formatTime = (totalSeconds: number) => {
-    const minutes = Math.floor(totalSeconds / 60)
-    const secs = totalSeconds % 60
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  if (isHidden) return null
+
+  const phaseColor = colors?.[phase]
+  const pillStyle: React.CSSProperties = {
+    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
+  }
+
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 
   return (
     <div className="pf-timer-flash-soft" data-animation-id="timer-effects__timer-flash-soft">
-      <div key={shakeKey} className="pf-timer-flash-soft__pill">
+      <div
+        key={shakeKey}
+        className={`pf-timer-flash-soft__pill pf-timer-flash-soft--${phase}`}
+        style={pillStyle}
+      >
         <span className="pf-timer-flash-soft__glow" aria-hidden="true" />
-        <div className="pf-timer-flash-soft__time">{formatTime(seconds)}</div>
+        <div className="pf-timer-flash-soft__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </div>
-      <span className="pf-timer-flash-soft__label">Flash Expire Soft</span>
     </div>
   )
 }
+
+export const TimerEffectsTimerFlashSoft = memo(TimerEffectsTimerFlashSoftComponent)

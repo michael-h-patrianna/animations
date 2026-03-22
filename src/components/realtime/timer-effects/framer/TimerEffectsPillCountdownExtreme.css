@@ -27,11 +27,14 @@
   position: relative;
   border: 2px solid var(--timer-effects-pill-countdown-extreme-border);
 }
-.pf-pill-timer__pill.is-warning {
+.pf-pill-timer__pill.is-warning,
+.pf-pill-timer--warning {
   --pill-bg: #ff7a00;
   --pill-flash: #ffb347;
 }
-.pf-pill-timer__pill.is-danger {
+
+.pf-pill-timer__pill.is-danger,
+.pf-pill-timer--critical {
   --pill-bg: #dc3545;
   --pill-flash: #ff6478;
 }

@@ -1,13 +1,34 @@
+/**
+ * Pill countdown with aggressive snap emphasis and double-tap at critical seconds.
+ * Color transitions through normal → caution → danger phases.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownStrong.css
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-const START_SECONDS = 60
-const TICK_INTERVAL_MS = 100
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
+const DEFAULT_START = 60
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
 const DOUBLE_TAP_DELAY_MS = 160
+
 const PRIMARY_SNAP_SECONDS = new Set([55, 50, 45, 40, 35, 30, 25, 20])
 const SECONDARY_SNAP_SECONDS = new Set([15, 12])
 const DOUBLE_TAP_SNAP_SECONDS = new Set([9, 7, 5, 3, 1])
+
+function getSnapBursts(displaySeconds: number): number {
+  if (PRIMARY_SNAP_SECONDS.has(displaySeconds) || SECONDARY_SNAP_SECONDS.has(displaySeconds))
+    return 1
+  if (DOUBLE_TAP_SNAP_SECONDS.has(displaySeconds)) return 2
+  return 0
+}
 
 const snapVariants = {
   idle: { scale: 1, y: 0 },
@@ -27,108 +48,83 @@ const glowVariants = {
   },
 }
 
-const formatClock = (totalSeconds: number) => {
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = totalSeconds % 60
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-}
+function TimerEffectsPillCountdownStrongComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+}: TimerEffectProps) {
+  const { seconds, phase, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
 
-const resolveStrongColorClass = (displaySeconds: number, previousClass: string) => {
-  if (displaySeconds === 30) {
-    return 'is-caution'
-  }
-
-  if (displaySeconds <= 10 && displaySeconds > 0) {
-    return 'is-danger'
-  }
-
-  return previousClass
-}
-
-const getSnapBursts = (displaySeconds: number) => {
-  if (PRIMARY_SNAP_SECONDS.has(displaySeconds) || SECONDARY_SNAP_SECONDS.has(displaySeconds)) {
-    return 1
-  }
-
-  if (DOUBLE_TAP_SNAP_SECONDS.has(displaySeconds)) {
-    return 2
-  }
-
-  return 0
-}
-
-const useStrongCountdown = () => {
-  const [seconds, setSeconds] = useState(START_SECONDS)
   const [snapKey, setSnapKey] = useState(0)
-  const [colorClass, setColorClass] = useState('')
+  const prevSecondsRef = useRef(startSeconds)
+  const timeoutIdsRef = useRef(new Set<ReturnType<typeof setTimeout>>())
 
   useEffect(() => {
-    const startTime = Date.now()
-    let lastDisplay = START_SECONDS
-    const timeoutIds = new Set<ReturnType<typeof setTimeout>>()
+    setSnapKey((k) => k + 1)
+  }, [])
 
-    const scheduleTimeout = (callback: () => void, delayMs: number) => {
-      const timeoutId = setTimeout(() => {
-        timeoutIds.delete(timeoutId)
-        callback()
-      }, delayMs)
-      timeoutIds.add(timeoutId)
+  useEffect(() => {
+    if (seconds === prevSecondsRef.current) return
+    prevSecondsRef.current = seconds
+
+    const burstCount = getSnapBursts(seconds)
+    if (burstCount > 0) {
+      setSnapKey((k) => k + 1)
+      if (burstCount === 2) {
+        const timeoutId = setTimeout(() => {
+          timeoutIdsRef.current.delete(timeoutId)
+          setSnapKey((k) => k + 1)
+        }, DOUBLE_TAP_DELAY_MS)
+        timeoutIdsRef.current.add(timeoutId)
+      }
     }
+  }, [seconds])
 
-    const intervalId = setInterval(() => {
-      const elapsedSeconds = (Date.now() - startTime) / 1000
-      const remainingSeconds = Math.max(0, START_SECONDS - elapsedSeconds)
-      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
-
-      if (displaySeconds === lastDisplay) {
-        if (remainingSeconds <= 0) {
-          clearInterval(intervalId)
-        }
-        return
-      }
-
-      setSeconds(displaySeconds)
-      setColorClass((previousClass) => resolveStrongColorClass(displaySeconds, previousClass))
-
-      const burstCount = getSnapBursts(displaySeconds)
-      if (burstCount > 0) {
-        setSnapKey((previous) => previous + 1)
-
-        if (burstCount === 2) {
-          scheduleTimeout(() => setSnapKey((previous) => previous + 1), DOUBLE_TAP_DELAY_MS)
-        }
-      }
-
-      lastDisplay = displaySeconds
-
-      if (remainingSeconds <= 0) {
-        clearInterval(intervalId)
-      }
-    }, TICK_INTERVAL_MS)
-
-    setSnapKey((previous) => previous + 1)
-
+  // Clean up double-tap timeouts on unmount
+  useEffect(() => {
+    const ids = timeoutIdsRef.current
     return () => {
-      clearInterval(intervalId)
-      timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId))
-      timeoutIds.clear()
+      ids.forEach((id) => clearTimeout(id))
+      ids.clear()
     }
   }, [])
 
-  return { seconds, snapKey, colorClass }
-}
+  if (isHidden) return null
 
-export function TimerEffectsPillCountdownStrong() {
-  const { seconds, snapKey, colorClass } = useStrongCountdown()
+  const phaseColor = colors?.[phase]
+  const pillStyle: React.CSSProperties = {
+    animation: 'none',
+    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
+  }
+
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
+  }
 
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-strong">
       <m.div
         key={snapKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--strong ${colorClass}`}
+        className={`pf-pill-timer__pill pf-pill-timer__pill--strong pf-pill-timer--${phase}`}
         variants={snapVariants}
         initial="idle"
         animate="snap"
+        style={pillStyle}
       >
         <m.span
           className="pf-pill-timer__glow"
@@ -136,10 +132,14 @@ export function TimerEffectsPillCountdownStrong() {
           variants={glowVariants}
           initial="idle"
           animate="snap"
+          style={{ animation: 'none' }}
         />
-        <div className="pf-pill-timer__time">{formatClock(seconds)}</div>
+        <div className="pf-pill-timer__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </m.div>
-      <span className="pf-pill-timer__label">Pill Countdown — Strong</span>
     </div>
   )
 }
+
+export const TimerEffectsPillCountdownStrong = memo(TimerEffectsPillCountdownStrongComponent)

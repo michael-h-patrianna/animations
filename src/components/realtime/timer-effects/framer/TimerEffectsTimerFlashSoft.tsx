@@ -1,84 +1,125 @@
+/**
+ * Timer pill with color transition and periodic shake reminders.
+ * Background shifts from yellow to red with easeInOut curve.
+ * Shakes at configurable intervals as a gentle urgency reminder.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlashSoft.css
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState } from 'react'
-export function TimerEffectsTimerFlashSoft() {
-  const [seconds, setSeconds] = useState(32)
-  const [bgColor, setBgColor] = useState('var(--pf-anim-yellow-warm)')
+import { memo, useEffect, useRef, useState } from 'react'
+
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
+const DEFAULT_START = 32
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
+const DEFAULT_SHAKE_INTERVAL = 10
+
+function easeInOutFn(t: number): number {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+}
+
+function computeBgColor(
+  seconds: number,
+  warningThreshold: number,
+  normalColor: { r: number; g: number; b: number },
+  criticalColor: { r: number; g: number; b: number }
+): string {
+  const urgencyLevel = seconds <= warningThreshold
+    ? (warningThreshold - seconds) / warningThreshold
+    : 0
+  const easedUrgency = easeInOutFn(urgencyLevel)
+  const r = Math.round(normalColor.r + (criticalColor.r - normalColor.r) * easedUrgency)
+  const g = Math.round(normalColor.g + (criticalColor.g - normalColor.g) * easedUrgency)
+  const b = Math.round(normalColor.b + (criticalColor.b - normalColor.b) * easedUrgency)
+  return `rgb(${r}, ${g}, ${b})` // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
+}
+
+interface TimerEffectsTimerFlashSoftProps extends TimerEffectProps {
+  /** Seconds between shake reminders. Default: 10 */
+  shakeInterval?: number
+}
+
+const shakeVariants = {
+  idle: { x: 0, rotate: 0 },
+  shake: {
+    x: [0, -4, 4, -3, 3, -2, 2, 0],
+    rotate: [0, -1, 1, -0.5, 0.5, 0],
+    transition: { duration: 0.6, ease: easeOut },
+  },
+}
+
+const glowVariants = {
+  idle: { scale: 0.95, opacity: 0 },
+  shake: {
+    scale: [0.95, 1.2, 0.95],
+    opacity: [0, 0.6, 0],
+    transition: { duration: 0.6, ease: easeOut },
+  },
+}
+
+function TimerEffectsTimerFlashSoftComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+  shakeInterval = DEFAULT_SHAKE_INTERVAL,
+}: TimerEffectsTimerFlashSoftProps) {
+  const warningThreshold = thresholds?.warning ?? DEFAULT_WARNING
+
+  const { seconds, progress, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: warningThreshold,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
+
   const [shakeKey, setShakeKey] = useState(0)
-  const [animationKey, setAnimationKey] = useState(0)
+
+  // Shake at elapsed-time intervals (original: every 10s of elapsed time)
+  const lastShakeProgressRef = useRef(0)
+  const shakeIntervalFraction = startSeconds > 0 ? shakeInterval / startSeconds : 1
+
   useEffect(() => {
-    const duration = 32000
-    const startTime = Date.now()
-    let lastDisplayed = 32
-    let lastReminderTime = 0
-    const reminderInterval = 10000
-    let restartTimeoutId: ReturnType<typeof setTimeout> | null = null
-    const intervalId = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const remainingSeconds = Math.max(0, 32 - elapsed / 1000)
-      const displaySeconds = Math.max(0, Math.ceil(remainingSeconds))
-      if (displaySeconds !== lastDisplayed) {
-        setSeconds(displaySeconds)
-        lastDisplayed = displaySeconds
-      } // Color transition from yellow (#ffc107) to red (#dc3545)
-      const urgencyLevel = remainingSeconds <= 30 ? (30 - remainingSeconds) / 30 : 0
-      const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t)
-      const easedUrgency = easeInOut(urgencyLevel)
-      const yellow = { r: 255, g: 193, b: 7 }
-      const red = { r: 220, g: 53, b: 69 }
-      const r = Math.round(yellow.r + (red.r - yellow.r) * easedUrgency)
-      const g = Math.round(yellow.g + (red.g - yellow.g) * easedUrgency)
-      const b = Math.round(yellow.b + (red.b - yellow.b) * easedUrgency)
-      setBgColor(`rgb(${r}, ${g}, ${b})`) // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
-      // Shake animation every 10 seconds
-      if (elapsed - lastReminderTime >= reminderInterval) {
-        lastReminderTime = elapsed
-        setShakeKey((prev) => prev + 1)
-      }
-      if (progress >= 1) {
-        clearInterval(intervalId) // Auto-restart after a brief pause
-        restartTimeoutId = setTimeout(() => {
-          setSeconds(32)
-          setBgColor('var(--pf-anim-yellow-warm)')
-          setAnimationKey((prev) => prev + 1)
-        }, 2000)
-      }
-    }, 100)
-    return () => {
-      clearInterval(intervalId)
-      if (restartTimeoutId) {
-        clearTimeout(restartTimeoutId)
-      }
+    if (progress - lastShakeProgressRef.current >= shakeIntervalFraction) {
+      lastShakeProgressRef.current = progress
+      setShakeKey((k) => k + 1)
     }
-  }, [animationKey])
-  const formatTime = (totalSeconds: number) => {
-    const minutes = Math.floor(totalSeconds / 60)
-    const secs = totalSeconds % 60
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }, [progress, shakeIntervalFraction])
+
+  if (isHidden) return null
+
+  // Original color: yellow (#ffc107) → red (#dc3545) with easeInOut curve
+  const normalRgb = { r: 255, g: 193, b: 7 }
+  const criticalRgb = { r: 220, g: 53, b: 69 }
+  const bgColor = colors !== undefined
+    ? (colors[seconds <= (thresholds?.critical ?? DEFAULT_CRITICAL) ? 'critical' : seconds <= warningThreshold ? 'warning' : 'normal'] ?? computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb))
+    : computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb)
+
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
-  const shakeVariants = {
-    idle: { x: 0, rotate: 0 },
-    shake: {
-      x: [0, -4, 4, -3, 3, -2, 2, 0],
-      rotate: [0, -1, 1, -0.5, 0.5, 0],
-      transition: { duration: 0.6, ease: easeOut },
-    },
-  }
-  const glowVariants = {
-    idle: { scale: 0.95, opacity: 0 },
-    shake: {
-      scale: [0.95, 1.2, 0.95],
-      opacity: [0, 0.6, 0],
-      transition: { duration: 0.6, ease: easeOut },
-    },
-  }
+
   return (
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash-soft">
       <m.div
         key={shakeKey}
         className="pf-timer-flash__pill pf-timer-flash__pill--soft"
-        style={{ backgroundColor: bgColor }}
+        style={{ backgroundColor: bgColor, animation: 'none' }}
         variants={shakeVariants}
         initial="idle"
         animate="shake"
@@ -89,10 +130,14 @@ export function TimerEffectsTimerFlashSoft() {
           variants={glowVariants}
           initial="idle"
           animate="shake"
+          style={{ animation: 'none' }}
         />
-        <div className="pf-timer-flash__time">{formatTime(seconds)}</div>
+        <div className="pf-timer-flash__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </m.div>
-      <span className="pf-timer-flash__label">Flash Expire Soft</span>
     </div>
   )
 }
+
+export const TimerEffectsTimerFlashSoft = memo(TimerEffectsTimerFlashSoftComponent)

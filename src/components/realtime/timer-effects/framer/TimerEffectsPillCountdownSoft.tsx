@@ -1,77 +1,111 @@
+/**
+ * Pill countdown with quiet, breathing-style pulse at key thresholds.
+ * Pulses at every 10s mark and each of the last 5 seconds.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownSoft.css
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-// Quiet thresholds: mostly static. Brief pulse only at 60s, 30s, 10s and last 5s.
-export function TimerEffectsPillCountdownSoft() {
-  const START_SECONDS = 60
-  const [seconds, setSeconds] = useState(START_SECONDS)
+import { formatTime } from '../SharedFormat'
+import { useCountdown } from '../SharedTimer'
+import type { TimerEffectProps } from '../SharedTypes'
+
+const DEFAULT_START = 60
+const DEFAULT_WARNING = 30
+const DEFAULT_CRITICAL = 10
+
+interface TimerEffectsPillCountdownSoftProps extends TimerEffectProps {
+  /** Scale intensity of the pulse effect (0-1). Default: 0.05 */
+  pulseIntensity?: number
+}
+
+function shouldPulse(display: number): boolean {
+  if (display > 0 && display <= 60 && display >= 10 && display % 10 === 0) return true
+  if (display <= 5 && display > 0) return true
+  return false
+}
+
+const pulseVariants = {
+  idle: { scale: 1, opacity: 1 },
+  pulse: (intensity: number) => ({
+    scale: [1, 1 + intensity, 1],
+    opacity: [1, 0.9, 1],
+    transition: { duration: 0.24, ease: easeOut },
+  }),
+}
+
+function TimerEffectsPillCountdownSoftComponent({
+  startSeconds = DEFAULT_START,
+  mode = 'visual',
+  colors,
+  thresholds,
+  onEnd,
+  onEndBehavior = 'stay',
+  textColor,
+  fontSize,
+  pulseIntensity = 0.05,
+}: TimerEffectsPillCountdownSoftProps) {
+  const { seconds, phase, isHidden } = useCountdown({
+    startSeconds,
+    mode,
+    thresholds: {
+      warning: thresholds?.warning ?? DEFAULT_WARNING,
+      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+    },
+    onEnd,
+    onEndBehavior,
+  })
+
   const [pulseKey, setPulseKey] = useState(0)
+  const prevSecondsRef = useRef(startSeconds)
+
+  // Trigger pulse on mount
   useEffect(() => {
-    const startTime = Date.now()
-    let lastDisplay = START_SECONDS
-
-    const shouldPulse = (display: number) => {
-      // Pulse every 10 seconds from 60..10, and each of the last 5 seconds
-      if (display > 0 && display <= 60 && display >= 10 && display % 10 === 0) return true
-      if (display <= 5 && display > 0) return true
-      return false
-    }
-
-    const intervalId = setInterval(() => {
-      const elapsed = (Date.now() - startTime) / 1000
-      const remaining = Math.max(0, START_SECONDS - elapsed)
-      const display = Math.max(0, Math.ceil(remaining))
-
-      if (display !== lastDisplay) {
-        setSeconds(display)
-
-        if (shouldPulse(display)) {
-          setPulseKey((prev) => prev + 1)
-        }
-
-        lastDisplay = display
-      }
-
-      if (remaining <= 0) {
-        clearInterval(intervalId)
-      }
-    }, 100)
-
-    // Trigger initial pulse
-    {
-      setPulseKey((prev) => prev + 1)
-    }
-
-    return () => clearInterval(intervalId)
+    setPulseKey((k) => k + 1)
   }, [])
 
-  const format = (total: number) => {
-    const m = Math.floor(total / 60)
-    const s = total % 60
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+  // Trigger pulse at thresholds
+  useEffect(() => {
+    if (seconds !== prevSecondsRef.current && shouldPulse(seconds)) {
+      setPulseKey((k) => k + 1)
+    }
+    prevSecondsRef.current = seconds
+  }, [seconds])
+
+  if (isHidden) return null
+
+  const phaseColor = colors?.[phase]
+  const pillStyle: React.CSSProperties = {
+    animation: 'none',
+    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
   }
 
-  const pulseVariants = {
-    idle: { scale: 1, opacity: 1 },
-    pulse: {
-      scale: [1, 1.05, 1],
-      opacity: [1, 0.9, 1],
-      transition: { duration: 0.24, ease: easeOut },
-    },
+  const timeStyle: React.CSSProperties = {
+    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
+
   return (
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-soft">
       <m.div
         key={pulseKey}
-        className="pf-pill-timer__pill pf-pill-timer__pill--soft"
+        className={`pf-pill-timer__pill pf-pill-timer__pill--soft pf-pill-timer--${phase}`}
         variants={pulseVariants}
+        custom={pulseIntensity}
         initial="idle"
         animate="pulse"
+        style={pillStyle}
       >
-        <div className="pf-pill-timer__time">{format(seconds)}</div>
+        <div className="pf-pill-timer__time" style={timeStyle}>
+          {formatTime(seconds)}
+        </div>
       </m.div>
-      <span className="pf-pill-timer__label">Pill Countdown — Soft</span>
     </div>
   )
 }
+
+export const TimerEffectsPillCountdownSoft = memo(TimerEffectsPillCountdownSoftComponent)

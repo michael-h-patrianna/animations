@@ -5,7 +5,6 @@
   --css-bg: rgb(255 255 255 / 25%);
   --css-color-1: rgb(0 0 0 / 92%);
   --css-text-shadow: rgb(255 255 255 / 22%);
-  --css-color-2: #9ca3af;
   --css-bg-1: #667eea;
   --css-bg-2: #764ba2;
   display: flex;
@@ -32,6 +31,18 @@
   will-change: transform, opacity;
 }
 
+/* Phase color classes — driven by useCountdown phase */
+.pf-pill-timer--warning {
+  --pill-bg: #ff7a00;
+  --pill-flash: #ffb347;
+}
+
+.pf-pill-timer--critical {
+  --pill-bg: #dc3545;
+  --pill-flash: #ff6478;
+}
+
+/* Legacy color classes — kept for CSS animation keyframes */
 .pf-pill-timer__pill.is-warning {
   --pill-bg: #ff7a00;
   --pill-flash: #ffb347;
@@ -70,23 +81,15 @@
   z-index: 1;
 }
 
-.pf-pill-timer__label {
-  font-size: 0.8rem;
-  color: var(--css-color-2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
-}
-
-/* Glitch pill styles */
-.pill-countdown-tfx-glitchcontainer {
+/* Glitch pill styles — will be renamed to pf- prefix in WP6 */
+.pf-pill-countdown-glitch-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 60px;
 }
 
-.pill-countdown-glitch {
+.pf-pill-countdown-glitch {
   position: relative;
   background: linear-gradient(135deg, var(--css-bg-1) 0%, var(--css-bg-2) 100%);
   color: white;
@@ -108,12 +111,12 @@
   will-change: transform, opacity;
 }
 
-.pill-countdown-glitch__text {
+.pf-pill-countdown-glitch__text {
   position: relative;
   z-index: 1;
 }
 
-.pill-countdown-glitch__glow {
+.pf-pill-countdown-glitch__glow {
   position: absolute;
   inset: -6px;
   border-radius: 12px;
@@ -125,7 +128,7 @@
   will-change: transform, opacity;
 }
 
-.pill-countdown-glitch__copy {
+.pf-pill-countdown-glitch__copy {
   position: absolute;
   top: 0;
   left: 0;
@@ -138,14 +141,14 @@
 }
 
 /* Heartbeat pill styles */
-.pill-countdown-heartbeat-container {
+.pf-pill-countdown-heartbeat-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 60px;
 }
 
-.pill-countdown-heartbeat {
+.pf-pill-countdown-heartbeat {
   position: relative;
   background: linear-gradient(135deg, var(--css-bg-1) 0%, var(--css-bg-2) 100%);
   color: white;
@@ -167,12 +170,12 @@
   will-change: transform, opacity;
 }
 
-.pill-countdown-heartbeat__text {
+.pf-pill-countdown-heartbeat__text {
   position: relative;
   z-index: 1;
 }
 
-.pill-countdown-heartbeat__glow {
+.pf-pill-countdown-heartbeat__glow {
   position: absolute;
   inset: -6px;
   border-radius: 12px;
