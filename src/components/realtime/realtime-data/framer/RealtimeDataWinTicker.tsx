@@ -1,7 +1,43 @@
-import * as m from 'motion/react-m'
+/**
+ * Continuously scrolling marquee/ticker for announcements, wins, or status
+ * messages. Fully customizable: pass your own items, separator, speed, and color.
+ *
+ * Copy-paste files: this file + ../shared.css + RealtimeDataWinTicker.css
+ * Runtime deps: react, motion
+ */
 
-export function RealtimeDataWinTicker() {
-  const tickerText = 'Mega Win! +5,000 credits · Daily streak unlocked · Bonus wheel ready · '
+import * as m from 'motion/react-m'
+import { memo, useMemo } from 'react'
+
+const DEFAULT_ITEMS = [
+  'Mega Win! +5,000 credits',
+  'Daily streak unlocked',
+  'Bonus wheel ready',
+]
+
+interface RealtimeDataWinTickerProps {
+  /** Messages to scroll. Default: demo messages. */
+  items?: string[]
+  /** Separator between messages. Default: ' · ' */
+  separator?: string
+  /** Full scroll cycle duration in ms. Default: 8000 */
+  duration?: number
+  /** Text color. Default: '#f59e0b' (amber) */
+  textColor?: string
+}
+
+function RealtimeDataWinTickerComponent({
+  items = DEFAULT_ITEMS,
+  separator = ' \u00b7 ',
+  duration = 8000,
+  textColor,
+}: RealtimeDataWinTickerProps) {
+  const text = useMemo(() => {
+    const single = items.join(separator) + separator
+    return single.repeat(3)
+  }, [items, separator])
+
+  const durationS = duration / 1000
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__win-ticker">
@@ -11,15 +47,18 @@ export function RealtimeDataWinTicker() {
           initial={{ x: '100%' }}
           animate={{ x: '-100%' }}
           transition={{
-            duration: 8,
+            duration: durationS,
             ease: 'linear' as const,
             repeat: Infinity,
             repeatType: 'loop',
           }}
+          style={{ animation: 'none', ...(textColor !== undefined ? { color: textColor } : {}) }}
         >
-          {tickerText.repeat(3)} {/* Repeat to ensure continuous scrolling */}
+          {text}
         </m.div>
       </div>
     </div>
   )
 }
+
+export const RealtimeDataWinTicker = memo(RealtimeDataWinTickerComponent)

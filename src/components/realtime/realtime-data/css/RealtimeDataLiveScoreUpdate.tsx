@@ -1,136 +1,151 @@
-import { useEffect, useRef, useState, type RefObject } from 'react'
+/**
+ * Animated score display that counts up with a scale+color pulse on each update
+ * — CSS variant using Web Animations API.
+ *
+ * Copy-paste files: this file + RealtimeDataLiveScoreUpdate.css +
+ * ../SharedTypes.ts + ../shared.css
+ * Runtime deps: react
+ */
+
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import './RealtimeDataLiveScoreUpdate.css'
 
-type TimeoutId = ReturnType<typeof setTimeout>
-type IntervalId = ReturnType<typeof setInterval>
+import type { RankedEntry } from '../SharedTypes'
 
-const BASE_SCORES = [1450, 1320] as const
-const SCORE_INCREMENT = 120
+const DEFAULT_ITEMS: RankedEntry[] = [
+  { id: 'phoenix', label: 'Phoenix', score: 1450 },
+  { id: 'shadow', label: 'Shadow', score: 1320 },
+]
+
 const SCORE_STEPS = 20
 const SCORE_STEP_INTERVAL_MS = 40
 
-const SCORE_KEYFRAMES = [
-  { transform: 'scale(1)', color: 'var(--pf-base-50)' },
-  { transform: 'scale(1.2)', color: 'var(--pf-anim-green)' },
-  { transform: 'scale(1)', color: 'var(--pf-base-50)' },
-]
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
-const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3)
-
-const animateScoreElement = (element: HTMLDivElement | null, delayMs = 0) => {
-  if (!element) return
-  element.animate(SCORE_KEYFRAMES, {
-    duration: 800,
-    delay: delayMs,
-    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-  })
+interface RealtimeDataLiveScoreUpdateProps {
+  /** Score rows to display. Default: 2 demo players. */
+  items?: RankedEntry[]
+  /** Score increment per update cycle. Default: 120 */
+  increment?: number
+  /** Pulse animation duration in ms. Default: 800 */
+  duration?: number
+  /** Highlight color during score change. Default: 'var(--pf-anim-green)' */
+  highlightColor?: string
+  /** Pause between update cycles in ms. Default: 2000 */
+  pauseDuration?: number
 }
 
-const initialScores = () => [...BASE_SCORES] as number[]
-
-type ScoreRowProps = {
-  rank: string
-  player: string
-  scoreRef: RefObject<HTMLDivElement | null>
-  score: number
-}
-
-const ScoreRow = ({ rank, player, scoreRef, score }: ScoreRowProps) => (
-  <div className="pf-realtime-data__row">
-    <div className="pf-realtime-data__rank">{rank}</div>
-    <div className="pf-realtime-data__player">{player}</div>
-    <div ref={scoreRef} className="pf-realtime-data__score">
-      {score.toLocaleString()}
-    </div>
-  </div>
-)
-
-export function RealtimeDataLiveScoreUpdate() {
-  const [scores, setScores] = useState<number[]>(initialScores)
+function RealtimeDataLiveScoreUpdateComponent({
+  items = DEFAULT_ITEMS,
+  increment = 120,
+  duration = 800,
+  highlightColor = 'var(--pf-anim-green)',
+  pauseDuration = 2000,
+}: RealtimeDataLiveScoreUpdateProps) {
+  const initialScores = useMemo(() => items.map((e) => e.score), [items])
+  const [scores, setScores] = useState<number[]>(() => [...initialScores])
   const scoresRef = useRef(scores)
-  const score1Ref = useRef<HTMLDivElement>(null)
-  const score2Ref = useRef<HTMLDivElement>(null)
+  const scoreElRef = useRef<Map<string, HTMLDivElement>>(new Map())
+
+  const keyframes = useMemo(
+    () => [
+      { transform: 'scale(1)', color: 'var(--pf-base-50)' },
+      { transform: 'scale(1.2)', color: highlightColor },
+      { transform: 'scale(1)', color: 'var(--pf-base-50)' },
+    ],
+    [highlightColor]
+  )
 
   useEffect(() => {
     scoresRef.current = scores
   }, [scores])
 
   useEffect(() => {
-    const timeoutIds = new Set<TimeoutId>()
-    const intervalIds = new Set<IntervalId>()
-    let isMounted = true
+    const timeouts = new Set<ReturnType<typeof setTimeout>>()
+    const intervals = new Set<ReturnType<typeof setInterval>>()
+    let mounted = true
 
-    const scheduleTimeout = (callback: () => void, delayMs: number) => {
-      const timeoutId = setTimeout(() => {
-        timeoutIds.delete(timeoutId)
-        callback()
-      }, delayMs)
-      timeoutIds.add(timeoutId)
-      return timeoutId
+    const schedule = (fn: () => void, ms: number) => {
+      const id = setTimeout(() => {
+        timeouts.delete(id)
+        fn()
+      }, ms)
+      timeouts.add(id)
     }
 
-    const scheduleInterval = (callback: () => void, delayMs: number) => {
-      const intervalId = setInterval(callback, delayMs)
-      intervalIds.add(intervalId)
-      return intervalId
-    }
+    const cycle = () => {
+      if (!mounted) return
 
-    const clearTrackedInterval = (intervalId: IntervalId) => {
-      clearInterval(intervalId)
-      intervalIds.delete(intervalId)
-    }
+      // Pulse each score element with staggered delay
+      items.forEach((entry, index) => {
+        const el = scoreElRef.current.get(entry.id)
+        if (el) {
+          el.animate(keyframes, {
+            duration,
+            delay: index * 100,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          })
+        }
+      })
 
-    const startAnimation = () => {
-      if (!isMounted) return
-
-      animateScoreElement(score1Ref.current)
-      animateScoreElement(score2Ref.current, 100)
-
-      const currentScores = [...scoresRef.current]
+      // Count up scores
+      const current = [...scoresRef.current]
       let step = 0
-      const countInterval = scheduleInterval(() => {
-        if (!isMounted) {
-          clearTrackedInterval(countInterval)
+      const intervalId = setInterval(() => {
+        if (!mounted) {
+          clearInterval(intervalId)
+          intervals.delete(intervalId)
           return
         }
-
         step += 1
-        const progress = step / SCORE_STEPS
-        const easedProgress = easeOutCubic(progress)
-        setScores([
-          Math.round(currentScores[0]! + SCORE_INCREMENT * easedProgress),
-          Math.round(currentScores[1]! + SCORE_INCREMENT * easedProgress),
-        ])
-
+        const progress = easeOutCubic(step / SCORE_STEPS)
+        setScores(current.map((base) => Math.round(base + increment * progress)))
         if (step >= SCORE_STEPS) {
-          clearTrackedInterval(countInterval)
+          clearInterval(intervalId)
+          intervals.delete(intervalId)
         }
       }, SCORE_STEP_INTERVAL_MS)
+      intervals.add(intervalId)
 
-      scheduleTimeout(() => {
-        if (!isMounted) return
-        setScores(initialScores())
-        scheduleTimeout(startAnimation, 1000)
-      }, 2000)
+      schedule(() => {
+        if (!mounted) return
+        setScores([...initialScores])
+        schedule(cycle, 1000)
+      }, pauseDuration)
     }
 
-    startAnimation()
+    cycle()
 
     return () => {
-      isMounted = false
-      timeoutIds.forEach(clearTimeout)
-      timeoutIds.clear()
-      intervalIds.forEach(clearInterval)
-      intervalIds.clear()
+      mounted = false
+      timeouts.forEach(clearTimeout)
+      timeouts.clear()
+      intervals.forEach(clearInterval)
+      intervals.clear()
     }
-  }, [])
+  }, [duration, increment, initialScores, items, keyframes, pauseDuration])
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
       <div className="pf-realtime-data__leaderboard">
-        <ScoreRow rank="#1" player="Phoenix" scoreRef={score1Ref} score={scores[0]!} />
-        <ScoreRow rank="#2" player="Shadow" scoreRef={score2Ref} score={scores[1]!} />
+        {items.map((entry, index) => (
+          <div key={entry.id} className="pf-realtime-data__row">
+            <div className="pf-realtime-data__rank">#{index + 1}</div>
+            <div className="pf-realtime-data__player">{entry.label}</div>
+            <div
+              ref={(el) => {
+                if (el) scoreElRef.current.set(entry.id, el)
+                else scoreElRef.current.delete(entry.id)
+              }}
+              className="pf-realtime-data__score"
+            >
+              {(scores[index] ?? entry.score).toLocaleString()}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
 }
+
+export const RealtimeDataLiveScoreUpdate = memo(RealtimeDataLiveScoreUpdateComponent)

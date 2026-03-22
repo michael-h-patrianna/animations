@@ -1,10 +1,11 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata: AnimationMetadata = {
+export const metadata = {
   id: 'realtime-data__stacked-realtime',
   urlSlugFramer: '/realtime-data-framer?animation=realtime-data__stacked-realtime',
   urlSlugCss: '/realtime-data-css?animation=realtime-data__stacked-realtime',
   title: 'Stacked Pulse',
-  description: 'Real-time data pattern: Stacked Pulse',
-  tier: 4,
-}
+  description:
+    'Key-value rows that slide in with alternating directions and staggered timing. Configure items, stagger delay, duration, and active/inactive colors.',
+  tier: 3,
+} satisfies AnimationMetadata

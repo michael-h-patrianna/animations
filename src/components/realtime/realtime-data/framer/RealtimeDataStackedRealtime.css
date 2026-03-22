@@ -1,53 +1,9 @@
-/* Styles specific to RealtimeDataStackedRealtime */
+/* Layout overrides for StackedRealtime — framer variant */
 
-.pf-realtime-data {
-  --realtime-data-stacked-realtime-bg-1: rgb(17 24 39 / 80%);
-  --realtime-data-stacked-realtime-border: rgb(75 85 99 / 30%);
-  --realtime-data-stacked-realtime-bg-2: rgb(55 65 81 / 30%);
-  --realtime-data-stacked-realtime-border-left: #06b6d4;
-  --realtime-data-stacked-realtime-bg-3: rgb(6 182 212 / 10%);
-  --realtime-data-stacked-realtime-color-1: #d1d5db;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 24px;
-  font-family: Lato, sans-serif;
-  background: var(--realtime-data-stacked-realtime-bg-1);
-  border-radius: 12px;
-  border: 1px solid var(--realtime-data-stacked-realtime-border);
+[data-animation-id="realtime-data__stacked-realtime"] {
   min-height: 180px;
-  width: 100%;
-  box-sizing: border-box;
 }
 
-.pf-realtime-data__stack {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
-.pf-realtime-data__stack-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 12px;
-  background: var(--realtime-data-stacked-realtime-bg-2);
-  border-radius: 4px;
-  border-left: 2px solid transparent;
-  width: 100%;
-  box-sizing: border-box;
-}
-.pf-realtime-data__stack-row.active {
-  border-left-color: var(--realtime-data-stacked-realtime-border-left);
-  background: var(--realtime-data-stacked-realtime-bg-3);
-}
-.pf-realtime-data__stack-label {
-  color: var(--realtime-data-stacked-realtime-color-1);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.pf-realtime-data__stack-value {
-  color: var(--realtime-data-stacked-realtime-border-left);
-  font-weight: 600;
-  font-size: 0.875rem;
+[data-animation-id="realtime-data__stacked-realtime"] .pf-realtime-data__stack-row {
+  will-change: transform, opacity;
 }

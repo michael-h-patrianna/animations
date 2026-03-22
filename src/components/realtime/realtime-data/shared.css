@@ -1,1 +1,129 @@
-/* Shared styles for this group */
+/* Shared styles for the realtime-data animation group */
+
+.pf-realtime-data {
+  --pf-realtime-bg: rgb(17 24 39 / 80%);
+  --pf-realtime-border: rgb(75 85 99 / 30%);
+  --pf-realtime-row-bg: rgb(55 65 81 / 40%);
+  --pf-realtime-row-border: rgb(75 85 99 / 20%);
+  --pf-realtime-rank-color: #9ca3af;
+  --pf-realtime-label-color: #f3f4f6;
+  --pf-realtime-value-color: #10b981;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  font-family: Lato, sans-serif;
+  background: var(--pf-realtime-bg);
+  border-radius: 12px;
+  border: 1px solid var(--pf-realtime-border);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ranked list layout — shared by leaderboard-shift and live-score-update */
+
+.pf-realtime-data__leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.pf-realtime-data__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--pf-realtime-row-bg);
+  border-radius: 6px;
+  border: 1px solid var(--pf-realtime-row-border);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pf-realtime-data__rank {
+  color: var(--pf-realtime-rank-color);
+  font-weight: 600;
+  font-size: 0.875rem;
+  width: 24px;
+}
+
+.pf-realtime-data__player {
+  color: var(--pf-realtime-label-color);
+  font-weight: 500;
+  flex: 1;
+  margin-left: 8px;
+}
+
+.pf-realtime-data__score {
+  color: var(--pf-realtime-value-color);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Stacked stat rows */
+
+.pf-realtime-data__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.pf-realtime-data__stack-row {
+  --pf-realtime-stack-bg: rgb(55 65 81 / 30%);
+  --pf-realtime-stack-active-border: #06b6d4;
+  --pf-realtime-stack-active-bg: rgb(6 182 212 / 10%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: var(--pf-realtime-stack-bg);
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pf-realtime-data__stack-row.active {
+  border-left-color: var(--pf-realtime-stack-active-border);
+  background: var(--pf-realtime-stack-active-bg);
+}
+
+.pf-realtime-data__stack-label {
+  --pf-realtime-stack-label-color: #d1d5db;
+  color: var(--pf-realtime-stack-label-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.pf-realtime-data__stack-value {
+  --pf-realtime-stack-value-color: #06b6d4;
+  color: var(--pf-realtime-stack-value-color);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Ticker / marquee */
+
+.pf-realtime-data__ticker {
+  --pf-realtime-ticker-bg: rgb(31 41 55 / 80%);
+  background: var(--pf-realtime-ticker-bg);
+  border-radius: 8px;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pf-realtime-data__ticker-text {
+  --pf-realtime-ticker-color: #f59e0b;
+  color: var(--pf-realtime-ticker-color);
+  font-weight: 600;
+  white-space: nowrap;
+  position: absolute;
+}

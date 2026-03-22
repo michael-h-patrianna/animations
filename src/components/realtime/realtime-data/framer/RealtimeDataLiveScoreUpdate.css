@@ -1,57 +1,5 @@
-/* Styles specific to RealtimeDataLiveScoreUpdate */
+/* Layout overrides for LiveScoreUpdate — framer variant */
 
-.pf-realtime-data {
-  --realtime-data-live-score-update-bg-1: rgb(17 24 39 / 80%);
-  --realtime-data-live-score-update-border-1: rgb(75 85 99 / 30%);
-  --realtime-data-live-score-update-bg-2: rgb(55 65 81 / 40%);
-  --realtime-data-live-score-update-border-2: rgb(75 85 99 / 20%);
-  --realtime-data-live-score-update-color-1: #9ca3af;
-  --realtime-data-live-score-update-color-2: #f3f4f6;
-  --realtime-data-live-score-update-color-3: #10b981;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 24px;
-  font-family: Lato, sans-serif;
-  background: var(--realtime-data-live-score-update-bg-1);
-  border-radius: 12px;
-  border: 1px solid var(--realtime-data-live-score-update-border-1);
+[data-animation-id="realtime-data__live-score-update"] {
   min-height: 140px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.pf-realtime-data__leaderboard {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-.pf-realtime-data__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: var(--realtime-data-live-score-update-bg-2);
-  border-radius: 6px;
-  border: 1px solid var(--realtime-data-live-score-update-border-2);
-  width: 100%;
-  box-sizing: border-box;
-}
-.pf-realtime-data__rank {
-  color: var(--realtime-data-live-score-update-color-1);
-  font-weight: 600;
-  font-size: 0.875rem;
-  width: 24px;
-}
-.pf-realtime-data__player {
-  color: var(--realtime-data-live-score-update-color-2);
-  font-weight: 500;
-  flex: 1;
-  margin-left: 8px;
-}
-.pf-realtime-data__score {
-  color: var(--realtime-data-live-score-update-color-3);
-  font-weight: 600;
-  font-size: 0.875rem;
 }

@@ -1,144 +1,147 @@
-import { useAnimation } from 'motion/react'
+/**
+ * Animated score display that counts up with a scale+color pulse on each update.
+ * Demonstrates animating numeric value changes in a list.
+ *
+ * Copy-paste files: this file + ../SharedTypes.ts + ../shared.css +
+ * RealtimeDataLiveScoreUpdate.css
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
-import {
-  useEffect,
-  useRef,
-  useState,
-  type Dispatch,
-  type MutableRefObject,
-  type SetStateAction,
-} from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
-type TimeoutId = ReturnType<typeof setTimeout>
-type IntervalId = ReturnType<typeof setInterval>
+import type { RankedEntry } from '../SharedTypes'
 
-const BASE_SCORES = [1450, 1320] as const
-const SCORE_INCREMENT = 120
+const DEFAULT_ITEMS: RankedEntry[] = [
+  { id: 'phoenix', label: 'Phoenix', score: 1450 },
+  { id: 'shadow', label: 'Shadow', score: 1320 },
+]
+
 const SCORE_STEPS = 20
 const SCORE_STEP_INTERVAL_MS = 40
 
-const scoreAnimation = {
-  scale: [1, 1.2, 1],
-  color: ['var(--pf-base-50)', 'var(--pf-anim-green)', 'var(--pf-base-50)'],
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
+
+interface RealtimeDataLiveScoreUpdateProps {
+  /** Score rows to display. Default: 2 demo players. */
+  items?: RankedEntry[]
+  /** Score increment per update cycle. Default: 120 */
+  increment?: number
+  /** Pulse animation duration in ms. Default: 800 */
+  duration?: number
+  /** Highlight color during score change. Default: 'var(--pf-anim-green)' */
+  highlightColor?: string
+  /** Pause between update cycles in ms. Default: 2000 */
+  pauseDuration?: number
 }
 
-const initialScores = () => [...BASE_SCORES] as number[]
-const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3)
-
-const useLiveScoreCycle = (
-  controls1: ReturnType<typeof useAnimation>,
-  controls2: ReturnType<typeof useAnimation>,
-  scoresRef: MutableRefObject<number[]>,
-  setScores: Dispatch<SetStateAction<number[]>>
-) => {
-  useEffect(() => {
-    const timeoutIds = new Set<TimeoutId>()
-    const intervalIds = new Set<IntervalId>()
-    let isMounted = true
-
-    const scheduleTimeout = (callback: () => void, delayMs: number) => {
-      const timeoutId = setTimeout(() => {
-        timeoutIds.delete(timeoutId)
-        callback()
-      }, delayMs)
-      timeoutIds.add(timeoutId)
-      return timeoutId
-    }
-
-    const scheduleInterval = (callback: () => void, delayMs: number) => {
-      const intervalId = setInterval(callback, delayMs)
-      intervalIds.add(intervalId)
-      return intervalId
-    }
-
-    const clearTrackedInterval = (intervalId: IntervalId) => {
-      clearInterval(intervalId)
-      intervalIds.delete(intervalId)
-    }
-
-    const startAnimation = async () => {
-      if (!isMounted) return
-
-      const promises = [controls1.start(scoreAnimation), controls2.start(scoreAnimation)]
-      const currentScores = [...scoresRef.current]
-      let step = 0
-      const countInterval = scheduleInterval(() => {
-        if (!isMounted) return clearTrackedInterval(countInterval)
-        step += 1
-        const easedProgress = easeOutCubic(step / SCORE_STEPS)
-        setScores([
-          Math.round(currentScores[0]! + SCORE_INCREMENT * easedProgress),
-          Math.round(currentScores[1]! + SCORE_INCREMENT * easedProgress),
-        ])
-        if (step >= SCORE_STEPS) clearTrackedInterval(countInterval)
-      }, SCORE_STEP_INTERVAL_MS)
-
-      await Promise.all(promises)
-      if (!isMounted) return
-
-      scheduleTimeout(() => {
-        if (!isMounted) return
-        setScores(initialScores())
-        scheduleTimeout(() => {
-          if (isMounted) void startAnimation()
-        }, 1000)
-      }, 2000)
-    }
-
-    scheduleTimeout(() => {
-      if (isMounted) void startAnimation()
-    }, 100)
-
-    return () => {
-      isMounted = false
-      timeoutIds.forEach(clearTimeout)
-      timeoutIds.clear()
-      intervalIds.forEach(clearInterval)
-      intervalIds.clear()
-    }
-  }, [controls1, controls2, scoresRef, setScores])
-}
-
-type ScoreRowProps = {
-  rank: string
-  player: string
-  score: number
-  controls: ReturnType<typeof useAnimation>
-  delay?: number
-}
-
-const ScoreRow = ({ rank, player, score, controls, delay = 0 }: ScoreRowProps) => (
-  <div className="pf-realtime-data__row">
-    <div className="pf-realtime-data__rank">{rank}</div>
-    <div className="pf-realtime-data__player">{player}</div>
-    <m.div
-      className="pf-realtime-data__score"
-      animate={controls}
-      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const, delay }}
-    >
-      {score.toLocaleString()}
-    </m.div>
-  </div>
-)
-
-export function RealtimeDataLiveScoreUpdate() {
-  const [scores, setScores] = useState<number[]>(initialScores)
-  const controls1 = useAnimation()
-  const controls2 = useAnimation()
+function RealtimeDataLiveScoreUpdateComponent({
+  items = DEFAULT_ITEMS,
+  increment = 120,
+  duration = 800,
+  highlightColor = 'var(--pf-anim-green)',
+  pauseDuration = 2000,
+}: RealtimeDataLiveScoreUpdateProps) {
+  const initialScores = useMemo(() => items.map((e) => e.score), [items])
+  const [scores, setScores] = useState<number[]>(() => [...initialScores])
+  const [isPulsing, setIsPulsing] = useState(false)
   const scoresRef = useRef(scores)
 
   useEffect(() => {
     scoresRef.current = scores
   }, [scores])
 
-  useLiveScoreCycle(controls1, controls2, scoresRef, setScores)
+  useEffect(() => {
+    const timeouts = new Set<ReturnType<typeof setTimeout>>()
+    const intervals = new Set<ReturnType<typeof setInterval>>()
+    let mounted = true
+
+    const schedule = (fn: () => void, ms: number) => {
+      const id = setTimeout(() => {
+        timeouts.delete(id)
+        fn()
+      }, ms)
+      timeouts.add(id)
+    }
+
+    const cycle = () => {
+      if (!mounted) return
+      setIsPulsing(true)
+
+      const current = [...scoresRef.current]
+      let step = 0
+      const intervalId = setInterval(() => {
+        if (!mounted) {
+          clearInterval(intervalId)
+          intervals.delete(intervalId)
+          return
+        }
+        step += 1
+        const progress = easeOutCubic(step / SCORE_STEPS)
+        setScores(current.map((base) => Math.round(base + increment * progress)))
+        if (step >= SCORE_STEPS) {
+          clearInterval(intervalId)
+          intervals.delete(intervalId)
+        }
+      }, SCORE_STEP_INTERVAL_MS)
+      intervals.add(intervalId)
+
+      schedule(() => {
+        if (!mounted) return
+        setIsPulsing(false)
+
+        schedule(() => {
+          if (!mounted) return
+          setScores([...initialScores])
+          schedule(cycle, 1000)
+        }, pauseDuration)
+      }, duration)
+    }
+
+    cycle()
+
+    return () => {
+      mounted = false
+      timeouts.forEach(clearTimeout)
+      timeouts.clear()
+      intervals.forEach(clearInterval)
+      intervals.clear()
+    }
+  }, [duration, increment, initialScores, pauseDuration])
+
+  const durationS = duration / 1000
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
       <div className="pf-realtime-data__leaderboard">
-        <ScoreRow rank="#1" player="Phoenix" score={scores[0]!} controls={controls1} />
-        <ScoreRow rank="#2" player="Shadow" score={scores[1]!} controls={controls2} delay={0.1} />
+        {items.map((entry, index) => (
+          <div key={entry.id} className="pf-realtime-data__row">
+            <div className="pf-realtime-data__rank">#{index + 1}</div>
+            <div className="pf-realtime-data__player">{entry.label}</div>
+            <m.div
+              className="pf-realtime-data__score"
+              animate={
+                isPulsing
+                  ? {
+                      scale: [1, 1.2, 1],
+                      color: ['var(--pf-base-50)', highlightColor, 'var(--pf-base-50)'],
+                    }
+                  : { scale: 1, color: 'var(--pf-base-50)' }
+              }
+              transition={{
+                duration: durationS,
+                ease: [0.25, 0.46, 0.45, 0.94] as const,
+                delay: index * 0.1,
+              }}
+              style={{ animation: 'none' }}
+            >
+              {(scores[index] ?? entry.score).toLocaleString()}
+            </m.div>
+          </div>
+        ))}
       </div>
     </div>
   )
 }
+
+export const RealtimeDataLiveScoreUpdate = memo(RealtimeDataLiveScoreUpdateComponent)

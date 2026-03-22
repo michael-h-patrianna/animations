@@ -1,129 +1,133 @@
+/**
+ * Animated leaderboard that cycles the top entry to the bottom with smooth
+ * rank-shift transitions. Demonstrates animating positional changes in a list.
+ *
+ * Copy-paste files: this file + ../SharedTypes.ts + ../shared.css +
+ * RealtimeDataLeaderboardShift.css
+ * Runtime deps: react, motion
+ */
+
 import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
-import {
-  useEffect,
-  useRef,
-  useState,
-  type Dispatch,
-  type MutableRefObject,
-  type SetStateAction,
-} from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-type TimeoutId = ReturnType<typeof setTimeout>
+import type { RankedEntry } from '../SharedTypes'
 
-type LeaderboardEntry = {
-  rank: number
-  player: string
-  score: number
-}
-
-const INITIAL_LEADERBOARD: LeaderboardEntry[] = [
-  { rank: 1, player: 'Phoenix', score: 2450 },
-  { rank: 2, player: 'Shadow', score: 2380 },
-  { rank: 3, player: 'Nova', score: 2320 },
-  { rank: 4, player: 'Apex', score: 2290 },
+const DEFAULT_ITEMS: RankedEntry[] = [
+  { id: 'phoenix', label: 'Phoenix', score: 2450 },
+  { id: 'shadow', label: 'Shadow', score: 2380 },
+  { id: 'nova', label: 'Nova', score: 2320 },
+  { id: 'apex', label: 'Apex', score: 2290 },
 ]
 
-const rowTransition = { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }
-
-const resetLeaderboard = () =>
-  INITIAL_LEADERBOARD.map((entry) => ({
-    ...entry,
-  }))
-
-const buildShiftedLeaderboard = (current: LeaderboardEntry[]) => {
-  const nextLeaderboard = [...current]
-  const firstPlayer = nextLeaderboard.shift()
-  if (!firstPlayer) return current
-
-  const updatedLeaderboard = nextLeaderboard.map((player, index) => ({
-    ...player,
-    rank: index + 1,
-  }))
-
-  updatedLeaderboard.push({
-    ...firstPlayer,
-    rank: 4,
-    score: firstPlayer.score - 50,
-  })
-
-  return updatedLeaderboard
+interface RealtimeDataLeaderboardShiftProps {
+  /** Leaderboard entries. Default: 4 demo players. */
+  items?: RankedEntry[]
+  /** Shift animation duration in ms. Default: 800 */
+  duration?: number
+  /** Pause between animation cycles in ms. Default: 2000 */
+  pauseDuration?: number
 }
 
-const useLeaderboardLoop = (
-  leaderboardRef: MutableRefObject<LeaderboardEntry[]>,
-  setLeaderboard: Dispatch<SetStateAction<LeaderboardEntry[]>>,
-  setIsAnimating: Dispatch<SetStateAction<boolean>>
-) => {
-  useEffect(() => {
-    const timeoutIds = new Set<TimeoutId>()
-    let isMounted = true
-
-    const scheduleTimeout = (callback: () => void, delayMs: number) => {
-      const timeoutId = setTimeout(() => {
-        timeoutIds.delete(timeoutId)
-        callback()
-      }, delayMs)
-      timeoutIds.add(timeoutId)
-      return timeoutId
-    }
-
-    const startAnimation = () => {
-      if (!isMounted) return
-      setIsAnimating(true)
-
-      scheduleTimeout(() => {
-        if (!isMounted) return
-
-        setLeaderboard(buildShiftedLeaderboard(leaderboardRef.current))
-        setIsAnimating(false)
-
-        scheduleTimeout(() => {
-          if (!isMounted) return
-          setLeaderboard(resetLeaderboard())
-          scheduleTimeout(startAnimation, 1000)
-        }, 2000)
-      }, 800)
-    }
-
-    startAnimation()
-
-    return () => {
-      isMounted = false
-      timeoutIds.forEach(clearTimeout)
-      timeoutIds.clear()
-    }
-  }, [leaderboardRef, setIsAnimating, setLeaderboard])
-}
-
-export function RealtimeDataLeaderboardShift() {
-  const [isAnimating, setIsAnimating] = useState(false)
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(resetLeaderboard)
+function RealtimeDataLeaderboardShiftComponent({
+  items = DEFAULT_ITEMS,
+  duration = 800,
+  pauseDuration = 2000,
+}: RealtimeDataLeaderboardShiftProps) {
+  const initialItemsRef = useRef(items)
+  const [leaderboard, setLeaderboard] = useState<RankedEntry[]>(() => [...items])
   const leaderboardRef = useRef(leaderboard)
+  const hasMountedRef = useRef(false)
+  const skipLayoutRef = useRef(false)
 
   useEffect(() => {
     leaderboardRef.current = leaderboard
   }, [leaderboard])
 
-  useLeaderboardLoop(leaderboardRef, setLeaderboard, setIsAnimating)
+  useEffect(() => {
+    hasMountedRef.current = true
+  }, [])
+
+  const durationS = duration / 1000
+
+  useEffect(() => {
+    const timeouts = new Set<ReturnType<typeof setTimeout>>()
+    let mounted = true
+
+    const schedule = (fn: () => void, ms: number) => {
+      const id = setTimeout(() => {
+        timeouts.delete(id)
+        fn()
+      }, ms)
+      timeouts.add(id)
+    }
+
+    const cycle = () => {
+      if (!mounted) return
+      const current = leaderboardRef.current
+      if (current.length < 2) return
+
+      const demoted = current[0]!
+
+      // Phase 1: Remove top item — AnimatePresence triggers exit (slide down, fade)
+      // Remaining items use layout to shift up into the vacated slot.
+      setLeaderboard(current.slice(1))
+
+      // Phase 2: After exit completes, add demoted item at bottom — AnimatePresence
+      // triggers enter (slide in from above, fade in).
+      schedule(() => {
+        if (!mounted) return
+        setLeaderboard((prev) => [...prev, { ...demoted, score: demoted.score - 50 }])
+
+        // Phase 3: Pause, then snap-reset to initial (no animation).
+        schedule(() => {
+          if (!mounted) return
+          skipLayoutRef.current = true
+          setLeaderboard([...initialItemsRef.current])
+          requestAnimationFrame(() => {
+            skipLayoutRef.current = false
+          })
+          schedule(cycle, 1000)
+        }, pauseDuration)
+      }, duration)
+    }
+
+    // Delay first cycle so initial render shows full leaderboard — CSS variant
+    // starts with a visual-only exit (no state change), so both variants need
+    // the same initial DOM with all items visible.
+    schedule(cycle, 100)
+
+    return () => {
+      mounted = false
+      timeouts.forEach(clearTimeout)
+      timeouts.clear()
+    }
+  }, [duration, pauseDuration])
+
+  const animTransition = {
+    duration: durationS,
+    ease: [0.25, 0.46, 0.45, 0.94] as const,
+  }
+  const instantTransition = { duration: 0 }
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__leaderboard-shift">
       <div className="pf-realtime-data__leaderboard">
         <AnimatePresence mode="popLayout">
-          {leaderboard.map((player, index) => (
+          {leaderboard.map((entry, index) => (
             <m.div
-              key={player.player}
+              key={entry.id}
               className="pf-realtime-data__row"
               layout
-              initial={index === 0 && isAnimating ? { y: 0, opacity: 1 } : false}
-              animate={index === 0 && isAnimating ? { y: 100, opacity: 0 } : { y: 0, opacity: 1 }}
+              initial={hasMountedRef.current ? { y: -20, opacity: 0 } : false}
+              animate={{ y: 0, opacity: 1 }}
               exit={{ y: 100, opacity: 0 }}
-              transition={rowTransition}
+              transition={skipLayoutRef.current ? instantTransition : animTransition}
+              style={{ animation: 'none' }}
             >
-              <div className="pf-realtime-data__rank">#{player.rank}</div>
-              <div className="pf-realtime-data__player">{player.player}</div>
-              <div className="pf-realtime-data__score">{player.score.toLocaleString()}</div>
+              <div className="pf-realtime-data__rank">#{index + 1}</div>
+              <div className="pf-realtime-data__player">{entry.label}</div>
+              <div className="pf-realtime-data__score">{entry.score.toLocaleString()}</div>
             </m.div>
           ))}
         </AnimatePresence>
@@ -131,3 +135,5 @@ export function RealtimeDataLeaderboardShift() {
     </div>
   )
 }
+
+export const RealtimeDataLeaderboardShift = memo(RealtimeDataLeaderboardShiftComponent)
