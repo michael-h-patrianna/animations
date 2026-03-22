@@ -73,13 +73,13 @@ describe('PreviewModal', () => {
     expect(onClose).toHaveBeenCalledOnce()
   })
 
-  it('closes when clicking the overlay background', () => {
-    const onClose = vi.fn()
-    renderPreview({ onClose })
+  it('replays when clicking the overlay background', () => {
+    const onReplay = vi.fn()
+    renderPreview({ onReplay })
 
     const overlay = screen.getByTestId('preview-desktop')
     fireEvent.click(overlay)
-    expect(onClose).toHaveBeenCalledOnce()
+    expect(onReplay).toHaveBeenCalledOnce()
   })
 
   it('does not close when clicking inside the animation content', () => {

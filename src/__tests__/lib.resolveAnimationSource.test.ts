@@ -16,7 +16,7 @@ function makeMeta(id: string, overrides?: Partial<AnimationMetadata>): Animation
 }
 
 describe('resolveAnimationSource', () => {
-  it('resolves all source tabs for framer entry with tsx and css', async () => {
+  it('resolves only tsx tab for framer entry (framer CSS excluded from code viewer)', async () => {
     const tsxLoader = vi.fn().mockResolvedValue('export function Foo() {}')
     const cssLoader = vi.fn().mockResolvedValue('.foo { color: red }')
 
@@ -35,13 +35,12 @@ describe('resolveAnimationSource', () => {
     const framerEntry = result.framer['g__test-anim']!
     const tabs = await resolveAnimationSource(framerEntry, undefined)
 
-    expect(tabs).toHaveLength(2)
+    expect(tabs).toHaveLength(1)
     expect(tabs[0]).toEqual({
-      label: 'Component (Motion)',
+      label: 'Component',
       code: 'export function Foo() {}',
       language: 'tsx',
     })
-    expect(tabs[1]).toEqual({ label: 'CSS (Motion)', code: '.foo { color: red }', language: 'css' })
   })
 
   it('returns empty array when no loaders attached', async () => {
@@ -77,10 +76,10 @@ describe('resolveAnimationSource', () => {
     const tabs = await resolveAnimationSource(framerEntry, undefined)
 
     expect(tabs).toHaveLength(1)
-    expect(tabs[0]).toEqual({ label: 'Component (Motion)', code: 'const x = 1', language: 'tsx' })
+    expect(tabs[0]).toEqual({ label: 'Component', code: 'const x = 1', language: 'tsx' })
   })
 
-  it('resolves all 4 tabs when both variants have tsx and css', async () => {
+  it('resolves 3 tabs when both variants present (framer CSS excluded)', async () => {
     const framerTsxLoader = vi.fn().mockResolvedValue('framer tsx')
     const framerCssLoader = vi.fn().mockResolvedValue('framer css')
     const cssTsxLoader = vi.fn().mockResolvedValue('css tsx')
@@ -102,11 +101,10 @@ describe('resolveAnimationSource', () => {
 
     const tabs = await resolveAnimationSource(result.framer['g__anim']!, result.css['g__anim']!)
 
-    expect(tabs).toHaveLength(4)
-    expect(tabs[0]).toEqual({ label: 'Component (Motion)', code: 'framer tsx', language: 'tsx' })
-    expect(tabs[1]).toEqual({ label: 'Component (CSS)', code: 'css tsx', language: 'tsx' })
+    expect(tabs).toHaveLength(3)
+    expect(tabs[0]).toEqual({ label: 'Component', code: 'framer tsx', language: 'tsx' })
+    expect(tabs[1]).toEqual({ label: 'Component', code: 'css tsx', language: 'tsx' })
     expect(tabs[2]).toEqual({ label: 'CSS', code: 'css stylesheet', language: 'css' })
-    expect(tabs[3]).toEqual({ label: 'CSS (Motion)', code: 'framer css', language: 'css' })
   })
 
   it('resolves CSS-only variant tabs correctly', async () => {
@@ -130,14 +128,14 @@ describe('resolveAnimationSource', () => {
 
     expect(tabs).toHaveLength(2)
     expect(tabs[0]).toEqual({
-      label: 'Component (CSS)',
+      label: 'Component',
       code: 'export function CssAnim() {}',
       language: 'tsx',
     })
     expect(tabs[1]).toEqual({ label: 'CSS', code: '.css-anim { color: blue }', language: 'css' })
   })
 
-  it('calls each source loader only once per resolveAnimationSource call', async () => {
+  it('calls tsx source loader only once and skips framer css loader', async () => {
     const tsxLoader = vi.fn().mockResolvedValue('tsx source')
     const cssLoader = vi.fn().mockResolvedValue('css source')
 
@@ -157,7 +155,7 @@ describe('resolveAnimationSource', () => {
     await resolveAnimationSource(framerEntry, undefined)
 
     expect(tsxLoader).toHaveBeenCalledOnce()
-    expect(cssLoader).toHaveBeenCalledOnce()
+    expect(cssLoader).not.toHaveBeenCalled()
   })
 
   it('includes shared group-root files imported by the component', async () => {
@@ -179,7 +177,7 @@ describe('resolveAnimationSource', () => {
     const tabs = await resolveAnimationSource(result.framer['g__firework']!, undefined)
 
     expect(tabs).toHaveLength(2)
-    expect(tabs[0]!.label).toBe('Component (Motion)')
+    expect(tabs[0]!.label).toBe('Component')
     expect(tabs[1]).toEqual({ label: 'utils.ts', code: utilsSource, language: 'tsx' })
   })
 
@@ -204,7 +202,7 @@ describe('resolveAnimationSource', () => {
     const tabs = await resolveAnimationSource(undefined, result.css['g__xp-bar']!)
 
     expect(tabs).toHaveLength(2)
-    expect(tabs[0]!.label).toBe('Component (CSS)')
+    expect(tabs[0]!.label).toBe('Component')
     expect(tabs[1]).toEqual({
       label: 'XpAccumulationHelpers.tsx',
       code: helperSource,
@@ -254,7 +252,7 @@ describe('resolveAnimationSource', () => {
     const tabs = await resolveAnimationSource(result.framer['g__a']!, undefined)
 
     expect(tabs).toHaveLength(1)
-    expect(tabs[0]!.label).toBe('Component (Motion)')
+    expect(tabs[0]!.label).toBe('Component')
   })
 
   it('includes empty-string source as a tab (loaded but empty file)', async () => {
@@ -275,7 +273,7 @@ describe('resolveAnimationSource', () => {
 
     // Empty string is a valid loaded source — the tab should be present
     expect(tabs).toHaveLength(1)
-    expect(tabs[0]).toEqual({ label: 'Component (Motion)', code: '', language: 'tsx' })
+    expect(tabs[0]).toEqual({ label: 'Component', code: '', language: 'tsx' })
   })
 
   it('correctly resolves same-directory helper imports from css subdir', async () => {

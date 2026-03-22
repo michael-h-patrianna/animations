@@ -36,84 +36,74 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  gap: 8px;
+  padding: 0 8px 0 0;
   border-bottom: 1px solid var(--app-border-card);
   background: var(--pf-surface);
 }
 
-.code-modal__selects {
+/* ── Tab bar ────────────────────────────────────────────────────────── */
+
+.code-modal__tablist {
   display: flex;
-  gap: 10px;
-  align-items: center;
+  align-items: stretch;
+  overflow-x: auto;
   min-width: 0;
   flex: 1;
+  scrollbar-width: none;
 }
 
-.code-modal__select-group {
+.code-modal__tablist::-webkit-scrollbar {
+  display: none;
+}
+
+.code-modal__tab {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 6px;
-  min-width: 0;
-  position: relative;
-}
-
-.code-modal__select-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--pf-text-tertiary);
-  flex-shrink: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.code-modal__select {
-  appearance: none;
-  padding: 5px 28px 5px 10px;
+  padding: 10px 14px;
   font-size: 13px;
   font-weight: 500;
   font-family: inherit;
-  color: var(--pf-text-secondary);
-  background: var(--app-surface-icon-hover);
-  border: 1px solid var(--app-border-card);
-  border-radius: 5px;
+  color: var(--pf-text-tertiary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
   cursor: pointer;
-  min-width: 0;
-  max-width: 220px;
-  text-overflow: ellipsis;
+  white-space: nowrap;
   transition:
     color var(--pf-transition-fast) ease,
-    background-color var(--pf-transition-fast) ease,
-    border-color var(--pf-transition-fast) ease;
+    border-color var(--pf-transition-fast) ease,
+    background-color var(--pf-transition-fast) ease;
 }
 
-.code-modal__select-caret {
-  position: absolute;
-  right: 9px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: var(--pf-text-tertiary);
-  transition: color var(--pf-transition-fast) ease;
-}
-
-.code-modal__select-group:hover .code-modal__select-caret {
+.code-modal__tab:hover {
   color: var(--pf-text-secondary);
+  background: var(--app-surface-icon-hover);
 }
 
-.code-modal__select:hover {
+.code-modal__tab--active {
   color: var(--pf-text-primary);
-  border-color: var(--app-border-icon-hover);
+  border-bottom-color: var(--pf-brand-accent-secondary);
 }
 
-.code-modal__select:focus-visible {
-  outline: 2px solid var(--pf-brand-accent-secondary);
-  outline-offset: 1px;
+.code-modal__tab--active:hover {
+  background: transparent;
 }
+
+.code-modal__tab:focus-visible {
+  outline: 2px solid var(--pf-brand-accent-secondary);
+  outline-offset: -2px;
+  border-radius: 2px;
+}
+
+/* ── Actions ────────────────────────────────────────────────────────── */
 
 .code-modal__actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .code-modal__copy,
@@ -125,8 +115,8 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--pf-text-tertiary);
-  background: var(--app-surface-icon-hover);
-  border: 1px solid var(--app-border-card);
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: 5px;
   cursor: pointer;
   transition:
@@ -139,14 +129,15 @@
 .code-modal__copy:hover,
 .code-modal__close:hover {
   color: var(--pf-text-secondary);
-  background: var(--app-surface-tag);
-  border-color: var(--app-border-icon-hover);
+  background: var(--app-surface-icon-hover);
+  border-color: var(--app-border-card);
 }
 
 .code-modal__copy--done {
   color: var(--pf-brand-accent-secondary);
-  border-color: var(--pf-brand-accent-secondary);
 }
+
+/* ── Code body ──────────────────────────────────────────────────────── */
 
 .code-modal__body {
   flex: 1;

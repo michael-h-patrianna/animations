@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
 const mockSources: SourceTab[] = [
-  { label: 'Component (Motion)', code: 'const x = 1', language: 'tsx' },
+  { label: 'Component', code: 'const x = 1', language: 'tsx' },
   { label: 'CSS', code: '.foo {}', language: 'css' },
 ]
 

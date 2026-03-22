@@ -42,9 +42,9 @@ describe('resolveAnimationSource — advanced scenarios', () => {
 
     const tabs = await resolveAnimationSource(undefined, result.css['g__my-anim']!)
 
-    // Should have: Component (CSS), CSS (component), Config.ts — but NOT shared.css
+    // Should have: Component, CSS (component), Config.ts — but NOT shared.css
     expect(tabs).toHaveLength(3)
-    expect(tabs[0]!.label).toBe('Component (CSS)')
+    expect(tabs[0]!.label).toBe('Component')
     expect(tabs[1]!.label).toBe('CSS')
     expect(tabs[2]!.label).toBe('Config.ts')
     // shared.css is not included because bare imports are not parsed
@@ -123,7 +123,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     const tabs = await resolveAnimationSource(undefined, result.css['g__a']!)
     const labels = tabs.map((t) => t.label)
     // Component TSX + Component CSS + helper
-    expect(labels).toContain('Component (CSS)')
+    expect(labels).toContain('Component')
     expect(labels).toContain('CSS')
     expect(labels).toContain('HelperUtils.tsx')
   })
@@ -161,8 +161,8 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     // Both should resolve successfully with a single tab
     expect(tabs1).toHaveLength(1)
     expect(tabs2).toHaveLength(1)
-    expect(tabs1[0]!.label).toBe('Component (Motion)')
-    expect(tabs2[0]!.label).toBe('Component (Motion)')
+    expect(tabs1[0]!.label).toBe('Component')
+    expect(tabs2[0]!.label).toBe('Component')
     // Both should have the code loaded (content may differ since loaders are called independently)
     expect(tabs1[0]!.code).toMatch(/tsx source/)
     expect(tabs2[0]!.code).toMatch(/tsx source/)
@@ -187,24 +187,24 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   })
 
   it('fails entirely when one of multiple loaders rejects (Promise.all behavior)', async () => {
-    const tsxLoader = vi.fn().mockResolvedValue('tsx source')
-    const cssLoader = vi.fn().mockRejectedValue(new Error('css load failed'))
+    const cssTsxLoader = vi.fn().mockResolvedValue('css tsx source')
+    const cssCssLoader = vi.fn().mockRejectedValue(new Error('css load failed'))
 
     const result = buildGroupExport(
       groupMeta,
-      { './framer/Partial.tsx': () => Promise.resolve({ Partial: () => null }) },
-      { './framer/Partial.meta.ts': { metadata: makeMeta('g__partial') } },
       {},
       {},
+      { './css/Partial.tsx': () => Promise.resolve({ Partial: () => null }) },
+      { './css/Partial.meta.ts': { metadata: makeMeta('g__partial') } },
       {
-        framerTsx: { './framer/Partial.tsx': tsxLoader },
-        framerCss: { './framer/Partial.css': cssLoader },
+        cssTsx: { './css/Partial.tsx': cssTsxLoader },
+        cssCss: { './css/Partial.css': cssCssLoader },
       }
     )
 
-    const framerEntry = result.framer['g__partial']!
+    const cssEntry = result.css['g__partial']!
     // Promise.all fails if ANY loader rejects — both tabs are lost
-    await expect(resolveAnimationSource(framerEntry, undefined)).rejects.toThrow('css load failed')
+    await expect(resolveAnimationSource(undefined, cssEntry)).rejects.toThrow('css load failed')
   })
 
   it('propagates shared file loader rejection', async () => {
@@ -258,10 +258,10 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     // Only the component tsx should appear — the ../../sharedLib import resolves
     // to './../sharedLib' which doesn't match './sharedLib.ts' in the shared pool
     expect(tabs).toHaveLength(1)
-    expect(tabs[0]!.label).toBe('Component (Motion)')
+    expect(tabs[0]!.label).toBe('Component')
   })
 
-  it('returns tabs in correct order: framer tsx, css tsx, css css, framer css, then shared sorted', async () => {
+  it('returns tabs in correct order: framer tsx, css tsx, css css, then shared sorted', async () => {
     const result = buildGroupExport(
       groupMeta,
       { './framer/A.tsx': () => Promise.resolve({ A: () => null }) },
@@ -284,12 +284,11 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     const tabs = await resolveAnimationSource(result.framer['g__a']!, result.css['g__a']!)
     const labels = tabs.map((t) => t.label)
 
-    // Expected order: framer tsx, css tsx, css css, framer css, then shared files
+    // Expected order: framer tsx, css tsx, css css, then shared files (framer CSS excluded)
     expect(labels).toEqual([
-      'Component (Motion)',
-      'Component (CSS)',
+      'Component',
+      'Component',
       'CSS',
-      'CSS (Motion)',
       'utils.ts',
     ])
   })
@@ -314,10 +313,10 @@ describe('resolveAnimationSource — advanced scenarios', () => {
 
     const tabs = await resolveAnimationSource(result.framer['g__a']!, undefined)
 
-    // Only Component (Motion) + Config.ts should appear
+    // Only Component + Config.ts should appear
     // '@/lib/utils' and 'motion/react-m' are NOT relative imports → no shared tabs
     const labels = tabs.map((t) => t.label)
-    expect(labels).toEqual(['Component (Motion)', 'Config.ts'])
+    expect(labels).toEqual(['Component', 'Config.ts'])
   })
 
   it('resolves .css extension shared files with language "css"', async () => {
@@ -362,7 +361,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     )
 
     const tabs = await resolveAnimationSource(result.framer['g__a']!, undefined)
-    const sharedLabels = tabs.filter((t) => t.label !== 'Component (Motion)').map((t) => t.label)
+    const sharedLabels = tabs.filter((t) => t.label !== 'Component').map((t) => t.label)
 
     // Shared files should be sorted alphabetically by glob path
     expect(sharedLabels).toEqual(['alpha.ts', 'middle.ts', 'zebra.ts'])

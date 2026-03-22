@@ -218,11 +218,9 @@ function languageFromPath(path: string): 'tsx' | 'css' {
 /**
  * Resolves raw source code for both tech variants of an animation.
  * Returns a `SourceTab[]` with:
- *   1. Component (Motion) — framer .tsx
- *   2. Component (CSS) — css variant .tsx
- *   3. CSS — css variant .css
- *   4. CSS (Motion) — framer .css (only if it exists)
- *   5+ Shared dependency files imported by either variant
+ *   1. Component — .tsx (framer or css variant, depending on which entry is provided)
+ *   2. CSS — .css (css variant only)
+ *   3+ Shared dependency files imported by the variant
  */
 export async function resolveAnimationSource(
   framerEntry?: AnimationExport,
@@ -232,20 +230,18 @@ export async function resolveAnimationSource(
   const cssLoaders = cssEntry ? sourceLoaderRegistry.get(cssEntry) : undefined
 
   // Phase 1: Load the main component sources
-  const [framerTsx, cssTsx, cssCss, framerCss] = await Promise.all([
+  // Framer CSS files are catalog layout styles loaded as side-effects by group index —
+  // not consumer dependencies, so they are excluded from the code viewer.
+  const [framerTsx, cssTsx, cssCss] = await Promise.all([
     framerLoaders?.tsx?.() ?? Promise.resolve(undefined),
     cssLoaders?.tsx?.() ?? Promise.resolve(undefined),
     cssLoaders?.css?.() ?? Promise.resolve(undefined),
-    framerLoaders?.css?.() ?? Promise.resolve(undefined),
   ])
 
   const tabs: SourceTab[] = []
-  if (framerTsx !== undefined)
-    tabs.push({ label: 'Component (Motion)', code: framerTsx, language: 'tsx' })
-  if (cssTsx !== undefined) tabs.push({ label: 'Component (CSS)', code: cssTsx, language: 'tsx' })
+  if (framerTsx !== undefined) tabs.push({ label: 'Component', code: framerTsx, language: 'tsx' })
+  if (cssTsx !== undefined) tabs.push({ label: 'Component', code: cssTsx, language: 'tsx' })
   if (cssCss !== undefined) tabs.push({ label: 'CSS', code: cssCss, language: 'css' })
-  if (framerCss !== undefined)
-    tabs.push({ label: 'CSS (Motion)', code: framerCss, language: 'css' })
 
   // Phase 2: Discover and load shared dependencies from imports
   const sharedToLoad = new Map<string, RawSourceLoader>() // glob path → loader (deduplicated)

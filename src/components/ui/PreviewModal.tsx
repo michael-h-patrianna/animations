@@ -1,9 +1,9 @@
 import { CloseIcon } from '@/components/ui/icons/CloseIcon'
 import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
 import { SmartphoneIcon } from '@/components/ui/icons/SmartphoneIcon'
-import { useEscapeClose, useFocusTrap, useOverlayDismiss } from '@/hooks/useModalAccessibility'
+import { useEscapeClose, useFocusTrap } from '@/hooks/useModalAccessibility'
 import type { PreviewPosition } from '@/types/animation'
-import { memo, useRef, type ReactNode } from 'react'
+import { memo, useCallback, useRef, type ReactNode } from 'react'
 import type { PreviewMode } from './usePreviewModal'
 import './PreviewModal.css'
 
@@ -92,6 +92,15 @@ function ModeSwitch({
 
 // ── Main component ─────────────────────────────────────────────────────
 
+/**
+ * Full-screen preview modal for animations.
+ *
+ * Click-to-replay: clicking empty space replays the animation. This is
+ * implemented via `e.target === e.currentTarget` on each container layer,
+ * so clicks on interactive animation content (buttons, links, tabs) are
+ * never intercepted — only clicks that land directly on a container's own
+ * background trigger replay. Close is via X button or Escape only.
+ */
 function PreviewModalComponent({
   mode,
   replayKey,
@@ -108,15 +117,26 @@ function PreviewModalComponent({
 
   useFocusTrap(overlayRef, closeButtonRef)
   useEscapeClose(onClose)
-  const handleOverlayClick = useOverlayDismiss(overlayRef, onClose)
+
+  // Each layer handles its own background clicks via e.target === e.currentTarget.
+  // This is safe for ALL animations: interactive children are never the currentTarget.
+  const replayOnSelf = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.target === e.currentTarget) onReplay()
+    },
+    [onReplay]
+  )
 
   const position = previewPosition
+  const previewStyle = previewMaxWidth !== undefined
+    ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties
+    : undefined
 
   return (
     <div
       className={`preview-overlay${opaque ? ' preview-overlay--opaque' : ''}`}
       ref={overlayRef}
-      onClick={handleOverlayClick}
+      onClick={replayOnSelf}
       role="dialog"
       aria-modal="true"
       aria-label={`${mode === 'desktop' ? 'Desktop' : 'Mobile'} animation preview`}
@@ -126,12 +146,12 @@ function PreviewModalComponent({
       <Toolbar onReplay={onReplay} onClose={onClose} closeButtonRef={closeButtonRef} />
 
       {mode === 'mobile' ? (
-        <div className="preview-mobile-frame" data-testid="preview-mobile-frame">
-          <div className="preview-mobile-screen">
+        <div className="preview-mobile-frame" onClick={replayOnSelf} data-testid="preview-mobile-frame">
+          <div className="preview-mobile-screen" onClick={replayOnSelf}>
             <div
               className="preview-animation"
               data-position={position}
-              style={previewMaxWidth !== undefined ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties : undefined}
+              style={previewStyle}
               data-testid="preview-animation"
             >
               <div key={replayKey}>{children}</div>
@@ -142,7 +162,7 @@ function PreviewModalComponent({
         <div
           className="preview-animation"
           data-position={position}
-          style={previewMaxWidth !== undefined ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties : undefined}
+          style={previewStyle}
           data-testid="preview-animation"
         >
           <div key={replayKey}>{children}</div>

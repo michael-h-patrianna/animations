@@ -151,6 +151,16 @@
   pointer-events: auto;
 }
 
+/* Animation root elements (transparent layout overlays) must not capture clicks
+   so backdrop clicks pass through to .preview-overlay and trigger replay. */
+.preview-animation [data-animation-id] {
+  pointer-events: none;
+}
+
+.preview-animation [data-animation-id] > * {
+  pointer-events: auto;
+}
+
 /* Position variants via data-attribute */
 .preview-animation[data-position='center'] {
   align-items: center;

@@ -45,63 +45,16 @@ function useHighlightedSources(sources: SourceTab[]) {
   return { highlighted, loading }
 }
 
-// ── Source partitioning ─────────────────────────────────────────────────
-
-type IndexedSource = { tab: SourceTab; originalIndex: number }
-
-/** Split sources into JS/TS files and CSS files, preserving original indices for highlighting lookup. */
-function partitionSources(sources: SourceTab[]) {
-  const js: IndexedSource[] = []
-  const css: IndexedSource[] = []
-
-  for (let i = 0; i < sources.length; i++) {
-    const tab = sources[i]!
-    if (tab.language === 'css') {
-      css.push({ tab, originalIndex: i })
-    } else {
-      js.push({ tab, originalIndex: i })
-    }
-  }
-
-  return { js, css }
-}
-
 function useFileSelection(sources: SourceTab[]) {
-  const [jsIndex, setJsIndex] = useState(0)
-  const [cssIndex, setCssIndex] = useState(0)
-  const [activeCategory, setActiveCategory] = useState<'js' | 'css'>('js')
+  const [activeIndex, setActiveIndex] = useState(0)
   const [copied, setCopied] = useState(false)
-
-  const { js: jsSources, css: cssSources } = useMemo(() => partitionSources(sources), [sources])
-
-  const effectiveCategory = jsSources.length === 0 ? 'css' : activeCategory
-
-  const activeOriginalIndex = useMemo(() => {
-    if (effectiveCategory === 'js' && jsSources[jsIndex]) {
-      return jsSources[jsIndex].originalIndex
-    }
-    if (effectiveCategory === 'css' && cssSources[cssIndex]) {
-      return cssSources[cssIndex].originalIndex
-    }
-    return jsSources[0]?.originalIndex ?? cssSources[0]?.originalIndex ?? 0
-  }, [effectiveCategory, jsSources, cssSources, jsIndex, cssIndex])
-
-  const handleJsSelect = useCallback((index: number) => {
-    setJsIndex(index)
-    setActiveCategory('js')
-  }, [])
-
-  const handleCssSelect = useCallback((index: number) => {
-    setCssIndex(index)
-    setActiveCategory('css')
-  }, [])
 
   const copyTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
   useEffect(() => () => clearTimeout(copyTimerRef.current), [])
 
   const handleCopy = useCallback(async () => {
     try {
-      const activeSource = sources[activeOriginalIndex]
+      const activeSource = sources[activeIndex]
       await navigator.clipboard.writeText(
         activeSource ? cleanSourceForDisplay(activeSource.code) : ''
       )
@@ -111,19 +64,9 @@ function useFileSelection(sources: SourceTab[]) {
     } catch (err) {
       logger.warn('Clipboard write failed — browser may have denied access', err)
     }
-  }, [activeOriginalIndex, sources])
+  }, [activeIndex, sources])
 
-  return {
-    jsSources,
-    cssSources,
-    jsIndex,
-    cssIndex,
-    activeOriginalIndex,
-    copied,
-    handleJsSelect,
-    handleCssSelect,
-    handleCopy,
-  }
+  return { activeIndex, setActiveIndex, copied, handleCopy }
 }
 
 // ── Sub-components ─────────────────────────────────────────────────────
@@ -134,67 +77,84 @@ function HighlightedCode({ html }: { html: string }) {
   return <div data-testid="code-highlighted" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
-function FileSelect({
-  label,
-  items,
-  selectedIndex,
+function TabBar({
+  sources,
+  activeIndex,
   onSelect,
-  testId,
 }: {
-  label: string
-  items: { tab: SourceTab; originalIndex: number }[]
-  selectedIndex: number
-  onSelect: (localIndex: number) => void
-  testId: string
+  sources: SourceTab[]
+  activeIndex: number
+  onSelect: (index: number) => void
 }) {
-  if (items.length === 0) return null
+  const tabListRef = useRef<(HTMLButtonElement | null)[]>([])
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      let next = activeIndex
+
+      if (e.key === 'ArrowRight') {
+        next = (activeIndex + 1) % sources.length
+      } else if (e.key === 'ArrowLeft') {
+        next = (activeIndex - 1 + sources.length) % sources.length
+      } else if (e.key === 'Home') {
+        next = 0
+      } else if (e.key === 'End') {
+        next = sources.length - 1
+      } else {
+        return
+      }
+
+      e.preventDefault()
+      onSelect(next)
+      tabListRef.current[next]?.focus()
+    },
+    [activeIndex, sources.length, onSelect]
+  )
 
   return (
-    <label className="code-modal__select-group" data-testid={testId}>
-      <span className="code-modal__select-label">{label}</span>
-      <select
-        className="code-modal__select"
-        value={selectedIndex}
-        onChange={(e) => onSelect(Number(e.target.value))}
-        data-testid={`${testId}-select`}
-      >
-        {items.map((item, i) => (
-          <option key={item.tab.label} value={i}>
-            {item.tab.label}
-          </option>
-        ))}
-      </select>
-      <svg
-        className="code-modal__select-caret"
-        width="10"
-        height="6"
-        viewBox="0 0 10 6"
-        aria-hidden="true"
-      >
-        <path d="M0 0l5 6 5-6z" fill="currentColor" />
-      </svg>
-    </label>
+    <div
+      className="code-modal__tablist"
+      role="tablist"
+      aria-label="Source files"
+      data-testid="code-tablist"
+    >
+      {sources.map((source, i) => {
+        const isActive = i === activeIndex
+        return (
+          <button
+            key={source.label}
+            ref={(el) => {
+              tabListRef.current[i] = el
+            }}
+            role="tab"
+            type="button"
+            className={`code-modal__tab ${isActive ? 'code-modal__tab--active' : ''}`}
+            aria-selected={isActive}
+            tabIndex={isActive ? 0 : -1}
+            onClick={() => onSelect(i)}
+            onKeyDown={handleKeyDown}
+            data-testid={`code-tab-${i}`}
+          >
+            {source.label}
+          </button>
+        )
+      })}
+    </div>
   )
 }
 
 function ModalHeader({
-  jsSources,
-  cssSources,
-  jsIndex,
-  cssIndex,
-  onJsSelect,
-  onCssSelect,
+  sources,
+  activeIndex,
+  onSelect,
   copied,
   onCopy,
   onClose,
   closeButtonRef,
 }: {
-  jsSources: { tab: SourceTab; originalIndex: number }[]
-  cssSources: { tab: SourceTab; originalIndex: number }[]
-  jsIndex: number
-  cssIndex: number
-  onJsSelect: (index: number) => void
-  onCssSelect: (index: number) => void
+  sources: SourceTab[]
+  activeIndex: number
+  onSelect: (index: number) => void
   copied: boolean
   onCopy: () => void
   onClose: () => void
@@ -202,22 +162,7 @@ function ModalHeader({
 }) {
   return (
     <div className="code-modal__header">
-      <div className="code-modal__selects">
-        <FileSelect
-          label="JS:"
-          items={jsSources}
-          selectedIndex={jsIndex}
-          onSelect={onJsSelect}
-          testId="code-js"
-        />
-        <FileSelect
-          label="CSS:"
-          items={cssSources}
-          selectedIndex={cssIndex}
-          onSelect={onCssSelect}
-          testId="code-css"
-        />
-      </div>
+      <TabBar sources={sources} activeIndex={activeIndex} onSelect={onSelect} />
       <div className="code-modal__actions">
         <button
           type="button"
@@ -275,24 +220,26 @@ function CodeViewerModalComponent({ sources, title, onClose }: CodeViewerModalPr
     >
       <div className="code-modal" ref={modalRef}>
         <ModalHeader
-          jsSources={selection.jsSources}
-          cssSources={selection.cssSources}
-          jsIndex={selection.jsIndex}
-          cssIndex={selection.cssIndex}
-          onJsSelect={selection.handleJsSelect}
-          onCssSelect={selection.handleCssSelect}
+          sources={sources}
+          activeIndex={selection.activeIndex}
+          onSelect={selection.setActiveIndex}
           copied={selection.copied}
           onCopy={selection.handleCopy}
           onClose={onClose}
           closeButtonRef={closeButtonRef}
         />
-        <div className="code-modal__body" data-testid="code-body">
+        <div
+          className="code-modal__body"
+          role="tabpanel"
+          aria-label={sources[selection.activeIndex]?.label}
+          data-testid="code-body"
+        >
           {loading ? (
             <div className="code-modal__loading" data-testid="code-loading">
               Loading syntax highlighting...
             </div>
           ) : (
-            <HighlightedCode html={highlighted[selection.activeOriginalIndex] ?? ''} />
+            <HighlightedCode html={highlighted[selection.activeIndex] ?? ''} />
           )}
         </div>
       </div>
