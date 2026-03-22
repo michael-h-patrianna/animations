@@ -63,7 +63,7 @@ function ModalDismissToastFadeProgressComponent({
   return (
     <div
       data-animation-id="modal-dismiss__toast-fade-progress"
-      style={{ position: 'relative', overflow: 'hidden' }}
+      className={children === undefined ? 'pf-dismiss-stage' : undefined}
     >
       <div
         ref={wrapperRef}

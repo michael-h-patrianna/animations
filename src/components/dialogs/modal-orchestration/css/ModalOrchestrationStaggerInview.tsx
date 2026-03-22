@@ -11,7 +11,7 @@
  * </ModalOrchestrationStaggerInview>
  */
 
-import { Children, memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 
@@ -48,7 +48,7 @@ function ModalOrchestrationStaggerInviewComponent({
 }: ModalOrchestrationStaggerInviewProps) {
   const itemsRef = useRef<(HTMLDivElement | null)[]>([])
 
-  const items = Children.toArray(children)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   useEffect(() => {

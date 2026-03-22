@@ -1,5 +1,16 @@
 /* Shared toast visual styles for modal-dismiss placeholder content */
 
+/* Catalog staging viewport — provides space for enter/exit animations */
+.pf-dismiss-stage {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 .pf-toast {
   --modal-dismiss-bg-1: rgb(236 195 255 / 8%);
   --modal-dismiss-border: rgb(236 195 255 / 12%);

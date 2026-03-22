@@ -55,7 +55,7 @@ function ModalDismissToastRaiseComponent({
   return (
     <div
       data-animation-id="modal-dismiss__toast-raise"
-      style={{ position: 'relative', overflow: 'hidden' }}
+      className={children === undefined ? 'pf-dismiss-stage' : undefined}
     >
       <m.div
         className={className}

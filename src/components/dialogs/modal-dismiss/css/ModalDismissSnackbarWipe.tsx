@@ -66,7 +66,7 @@ function ModalDismissSnackbarWipeComponent({
   return (
     <div
       data-animation-id="modal-dismiss__snackbar-wipe"
-      style={{ position: 'relative', overflow: 'hidden' }}
+      className={children === undefined ? 'pf-dismiss-stage' : undefined}
     >
       <div
         ref={wrapperRef}

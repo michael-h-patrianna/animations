@@ -64,7 +64,7 @@ function ModalDismissToastSlideRightComponent({
   return (
     <div
       data-animation-id="modal-dismiss__toast-slide-right"
-      style={{ position: 'relative', overflow: 'hidden' }}
+      className={children === undefined ? 'pf-dismiss-stage' : undefined}
     >
       <div
         ref={wrapperRef}

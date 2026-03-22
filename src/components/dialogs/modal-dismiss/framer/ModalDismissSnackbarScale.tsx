@@ -74,7 +74,7 @@ function ModalDismissSnackbarScaleComponent({
   return (
     <div
       data-animation-id="modal-dismiss__snackbar-scale"
-      style={{ position: 'relative', overflow: 'hidden' }}
+      className={children === undefined ? 'pf-dismiss-stage' : undefined}
     >
       <m.div
         className={className}

@@ -15,7 +15,7 @@
 
 import * as m from 'motion/react-m'
 import { AnimatePresence, useReducedMotion } from 'motion/react'
-import { Children, memo, useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 
 const DEFAULT_TAB_COUNT = 4
@@ -52,7 +52,7 @@ function ModalOrchestrationTabMorphComponent({
   const prefersReducedMotion = useReducedMotion()
   const [internalIndex, setInternalIndex] = useState(0)
 
-  const items = Children.toArray(children)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_TAB_COUNT)
   const count = renderItems.length
 

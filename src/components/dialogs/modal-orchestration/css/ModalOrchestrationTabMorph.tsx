@@ -13,7 +13,7 @@
  * </ModalOrchestrationTabMorph>
  */
 
-import { Children, memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationTabMorph.css'
 
@@ -53,7 +53,7 @@ function ModalOrchestrationTabMorphComponent({
   const panelRef = useRef<HTMLDivElement>(null)
   const prevIndexRef = useRef(0)
 
-  const items = Children.toArray(children)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_TAB_COUNT)
   const count = renderItems.length
 

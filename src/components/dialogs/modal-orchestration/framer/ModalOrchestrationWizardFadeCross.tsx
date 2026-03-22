@@ -13,7 +13,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { Children, memo, useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import type { ReactNode } from 'react'
 
 const DEFAULT_COUNT = 3
@@ -46,7 +46,7 @@ function ModalOrchestrationWizardFadeCrossComponent({
 }: ModalOrchestrationWizardFadeCrossProps) {
   const prefersReducedMotion = useReducedMotion()
 
-  const items = Children.toArray(children)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   const staggerS = stagger / 1000
