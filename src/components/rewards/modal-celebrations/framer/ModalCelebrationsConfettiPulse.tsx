@@ -1,6 +1,15 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Triple shockwave pulse — 3 expanding energy waves deposit confetti at each passing radius.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
 import {
   CELEBRATION_COLORS,
   CONFETTI_SHAPES,
@@ -9,6 +18,13 @@ import {
   randBetween,
   type ConfettiShape,
 } from '../utils'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsConfettiPulseProps extends CelebrationBaseProps {
+  /** Total confetti particles across all waves. Default 42. */
+  particleCount?: number
+}
 
 /* ─── Types ─── */
 
@@ -47,46 +63,8 @@ type Sparkle = {
 
 /* ─── Constants ─── */
 
-/**
- * Three successive shockwave pulses, each larger than the last.
- * maxScale is applied to the 40px-diameter `.pf-celebration__pulse` ring.
- * Particle spawn radii increase per wave so confetti appears progressively
- * further from center — the wave "pushes" particles outward.
- */
-const WAVES: WaveConfig[] = [
-  {
-    delay: 0,
-    maxScale: 7,
-    color: CELEBRATION_COLORS[0],
-    particleCount: 12,
-    spawnRMin: 20,
-    spawnRMax: 45,
-    driftMin: 22,
-    driftMax: 40,
-  },
-  {
-    delay: 0.35,
-    maxScale: 9,
-    color: CELEBRATION_COLORS[2],
-    particleCount: 14,
-    spawnRMin: 35,
-    spawnRMax: 65,
-    driftMin: 28,
-    driftMax: 50,
-  },
-  {
-    delay: 0.65,
-    maxScale: 11,
-    color: CELEBRATION_COLORS[3],
-    particleCount: 16,
-    spawnRMin: 50,
-    spawnRMax: 85,
-    driftMin: 32,
-    driftMax: 55,
-  },
-]
-
-/** 10 stops for smooth particle path interpolation. */
+const DEFAULT_PARTICLE_COUNT = 42
+const DEFAULT_DURATION_MS = 2200
 const NUM_STOPS = 10
 const STOPS = Array.from({ length: NUM_STOPS }, (_, i) => i / (NUM_STOPS - 1))
 
@@ -94,7 +72,6 @@ const STOPS = Array.from({ length: NUM_STOPS }, (_, i) => i / (NUM_STOPS - 1))
 
 const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t)
 
-/** Scale envelope: ramp up → hold → shrink out. */
 function scaleAt(t: number, peak: number): number {
   if (t < 0.08) return peak * (t / 0.08) * 0.4
   if (t < 0.2) return peak * (0.4 + 0.6 * ((t - 0.08) / 0.12))
@@ -103,7 +80,6 @@ function scaleAt(t: number, peak: number): number {
   return peak * (0.7 - 0.7 * ((t - 0.75) / 0.25))
 }
 
-/** Opacity envelope: fast fade in → hold → fade out. */
 function opacityAt(t: number, peak: number): number {
   if (t < 0.06) return peak * (t / 0.06) * 0.5
   if (t < 0.18) return peak * (0.5 + 0.5 * ((t - 0.06) / 0.12))
@@ -114,31 +90,69 @@ function opacityAt(t: number, peak: number): number {
 
 /* ─── Generators ─── */
 
-/**
- * Each wave spawns confetti at its expanding radius.
- * Particles appear when the wave "reaches" their spawn position,
- * then drift outward with gravity. 10-stop sampling.
- */
-function makeParticles(): WaveParticle[] {
+function buildWaves(colors: readonly string[]): WaveConfig[] {
+  return [
+    {
+      delay: 0,
+      maxScale: 7,
+      color: colors[0] ?? CELEBRATION_COLORS[0],
+      particleCount: 12,
+      spawnRMin: 20,
+      spawnRMax: 45,
+      driftMin: 22,
+      driftMax: 40,
+    },
+    {
+      delay: 0.35,
+      maxScale: 9,
+      color: colors[2 % colors.length] ?? CELEBRATION_COLORS[2],
+      particleCount: 14,
+      spawnRMin: 35,
+      spawnRMax: 65,
+      driftMin: 28,
+      driftMax: 50,
+    },
+    {
+      delay: 0.65,
+      maxScale: 11,
+      color: colors[3 % colors.length] ?? CELEBRATION_COLORS[3],
+      particleCount: 16,
+      spawnRMin: 50,
+      spawnRMax: 85,
+      driftMin: 32,
+      driftMax: 55,
+    },
+  ]
+}
+
+function makeParticles(
+  totalCount: number,
+  colors: readonly string[],
+  waves: WaveConfig[],
+  timeScale: number,
+): WaveParticle[] {
   const particles: WaveParticle[] = []
   let id = 0
 
-  for (let wi = 0; wi < WAVES.length; wi++) {
-    const wave = WAVES[wi]!
+  // Distribute totalCount across waves proportionally to defaults (12:14:16 = 2:2.33:2.67)
+  const defaultTotal = waves.reduce((s, w) => s + w.particleCount, 0)
 
-    for (let j = 0; j < wave.particleCount; j++) {
+  for (let wi = 0; wi < waves.length; wi++) {
+    const wave = waves[wi]!
+    const waveCount = Math.round((wave.particleCount / defaultTotal) * totalCount)
+
+    for (let j = 0; j < waveCount; j++) {
       const layer: 'bg' | 'fg' = j % 3 === 0 ? 'bg' : 'fg'
       const isBg = layer === 'bg'
 
-      const angle = deg2rad((j / wave.particleCount) * 360 + randBetween(-10, 10))
+      const angle = deg2rad((j / waveCount) * 360 + randBetween(-10, 10))
       const spawnR = randBetween(wave.spawnRMin, wave.spawnRMax) * (isBg ? 0.7 : 1)
       const endR = spawnR + randBetween(wave.driftMin, wave.driftMax) * (isBg ? 0.7 : 1)
       const peakScale = isBg ? randBetween(0.5, 0.8) : randBetween(0.7, 1.1)
       const peakOp = isBg ? 0.5 : 1
 
-      /* Delay: wave base + time for wave to reach this radius */
       const waveReachFraction = spawnR / (wave.maxScale * 20)
-      const spawnDelay = wave.delay + waveReachFraction * 0.3
+      const spawnDelay = (wave.delay + waveReachFraction * 0.3) * timeScale
 
       const xs: number[] = []
       const ys: number[] = []
@@ -157,14 +171,14 @@ function makeParticles(): WaveParticle[] {
       particles.push({
         id: id++,
         shape: pickRandom(CONFETTI_SHAPES),
-        color: CELEBRATION_COLORS[(wi * wave.particleCount + j) % CELEBRATION_COLORS.length]!,
+        color: colors[(wi * waveCount + j) % colors.length]!,
         xs,
         ys,
         scales,
         opacities,
         rotZ: randBetween(-200, 200),
-        delay: spawnDelay + randBetween(0, 0.03),
-        dur: isBg ? randBetween(1.3, 1.7) : randBetween(1.0, 1.4),
+        delay: spawnDelay + randBetween(0, 0.03) * timeScale,
+        dur: (isBg ? randBetween(1.3, 1.7) : randBetween(1.0, 1.4)) * timeScale,
         layer,
       })
     }
@@ -173,17 +187,16 @@ function makeParticles(): WaveParticle[] {
   return particles
 }
 
-/** Sparkles scattered at outer reaches, timed to follow the waves. */
-function makeSparkles(): Sparkle[] {
+function makeSparkles(waves: WaveConfig[], timeScale: number): Sparkle[] {
   return Array.from({ length: 12 }, (_, i) => {
-    const waveIdx = i % WAVES.length
+    const waveIdx = i % waves.length
     const angle = deg2rad((i / 12) * 360 + randBetween(-20, 20))
     const r = randBetween(55, 115)
     return {
       id: i,
       x: Math.cos(angle) * r,
       y: Math.sin(angle) * r + randBetween(-5, 10),
-      delay: WAVES[waveIdx]!.delay + 0.3 + (i / 12) * 0.15 + randBetween(0, 0.1),
+      delay: (waves[waveIdx]!.delay + 0.3 + (i / 12) * 0.15 + randBetween(0, 0.1)) * timeScale,
       size: randBetween(2.5, 5),
     }
   })
@@ -191,11 +204,11 @@ function makeSparkles(): Sparkle[] {
 
 /* ─── Sub-components ─── */
 
-/** Triple-pulse flash — center blooms 3 times in rhythm with the shockwaves. */
-function PulseFlash() {
+function PulseFlash({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__flash"
+      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{
         x: '-50%',
@@ -204,7 +217,7 @@ function PulseFlash() {
         opacity: [0, 0.7, 0.1, 0.8, 0.08, 0.9, 0],
       }}
       transition={{
-        duration: 1.4,
+        duration: 1.4 * timeScale,
         times: [0, 0.06, 0.22, 0.28, 0.44, 0.5, 1.0],
         ease: 'easeOut',
       }}
@@ -212,11 +225,11 @@ function PulseFlash() {
   )
 }
 
-/** Pulsing glow that follows wave rhythm. */
-function PulseGlow() {
+function PulseGlow({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__glow"
+      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', opacity: 0 }}
       animate={{
         x: '-50%',
@@ -224,7 +237,7 @@ function PulseGlow() {
         opacity: [0, 0.35, 0.06, 0.4, 0.04, 0.45, 0],
       }}
       transition={{
-        duration: 2.0,
+        duration: 2.0 * timeScale,
         times: [0, 0.06, 0.22, 0.28, 0.44, 0.5, 1.0],
         ease: 'easeOut',
       }}
@@ -232,12 +245,11 @@ function PulseGlow() {
   )
 }
 
-/** Expanding shockwave ring for one pulse wave. */
-function WaveRing({ wave }: { wave: WaveConfig }) {
+function WaveRing({ wave, timeScale }: { wave: WaveConfig; timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__pulse"
-      style={{ borderColor: wave.color, borderWidth: '3px' }}
+      style={{ borderColor: wave.color, borderWidth: '3px', animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{
         x: '-50%',
@@ -246,8 +258,8 @@ function WaveRing({ wave }: { wave: WaveConfig }) {
         opacity: [0, 0.7, 0],
       }}
       transition={{
-        duration: 1.0,
-        delay: wave.delay,
+        duration: 1.0 * timeScale,
+        delay: wave.delay * timeScale,
         times: [0, 0.35, 1],
         ease: 'easeOut',
       }}
@@ -255,7 +267,6 @@ function WaveRing({ wave }: { wave: WaveConfig }) {
   )
 }
 
-/** Confetti particle pushed outward by a shockwave. */
 function PulsePiece({ p }: { p: WaveParticle }) {
   return (
     <m.span
@@ -265,6 +276,7 @@ function PulsePiece({ p }: { p: WaveParticle }) {
         top: '50%',
         background: p.color,
         transformStyle: 'preserve-3d' as const,
+        animation: 'none',
       }}
       initial={{ x: p.xs[0], y: p.ys[0], scale: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -288,8 +300,7 @@ function PulsePiece({ p }: { p: WaveParticle }) {
   )
 }
 
-/** Sparkle dot. */
-function SparkleDot({ s }: { s: Sparkle }) {
+function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
   return (
     <m.span
       className="pf-celebration__sparkle"
@@ -300,30 +311,51 @@ function SparkleDot({ s }: { s: Sparkle }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
+        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.5, 1.0, 0], opacity: [0, 0.9, 0.3, 0.65, 0] }}
-      transition={{ duration: 1.2, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
+      transition={{ duration: 1.2 * timeScale, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
     />
   )
 }
 
 /* ─── Main ─── */
 
-/** Triple shockwave pulse — 3 rhythmic energy waves expand from center, each depositing confetti particles at its passing radius. */
-export function ModalCelebrationsConfettiPulse() {
-  const particles = useMemo(makeParticles, [])
-  const sparkles = useMemo(makeSparkles, [])
+function ModalCelebrationsConfettiPulseComponent({
+  particleCount = DEFAULT_PARTICLE_COUNT,
+  colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsConfettiPulseProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+  const waves = useMemo(() => buildWaves(colors), [colors])
+
+  const particles = useMemo(
+    () => makeParticles(particleCount, colors, waves, timeScale),
+    [particleCount, colors, waves, timeScale],
+  )
+  const sparkles = useMemo(() => makeSparkles(waves, timeScale), [waves, timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
 
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...particles.map((p) => p.delay + p.dur),
+      ...sparkles.map((s) => s.delay + 1.2 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [particles, sparkles, timeScale, onComplete])
+
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">
-      <PulseGlow />
-      <PulseFlash />
+      <PulseGlow timeScale={timeScale} />
+      <PulseFlash timeScale={timeScale} />
 
-      {WAVES.map((w, i) => (
-        <WaveRing key={i} wave={w} />
+      {waves.map((w, i) => (
+        <WaveRing key={i} wave={w} timeScale={timeScale} />
       ))}
 
       <div className="pf-celebration__depth-bg">
@@ -338,9 +370,11 @@ export function ModalCelebrationsConfettiPulse() {
       </div>
       <div className="pf-celebration__effects">
         {sparkles.map((s) => (
-          <SparkleDot key={s.id} s={s} />
+          <SparkleDot key={s.id} s={s} timeScale={timeScale} />
         ))}
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsConfettiPulse = memo(ModalCelebrationsConfettiPulseComponent)

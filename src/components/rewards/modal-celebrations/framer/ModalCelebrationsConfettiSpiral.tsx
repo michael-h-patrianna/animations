@@ -1,14 +1,29 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Dynamic tornado confetti — particles orbit center in 3 spiral arms while expanding outward.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
 import {
-  CELEBRATION_COLORS,
   CONFETTI_SHAPES,
   deg2rad,
   pickRandom,
   randBetween,
   type ConfettiShape,
 } from '../utils'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsConfettiSpiralProps extends CelebrationBaseProps {
+  /** Total confetti particles across all spiral arms. Default 54. */
+  particleCount?: number
+}
 
 /* ─── Types ─── */
 
@@ -38,16 +53,9 @@ type Sparkle = {
 
 /* ─── Constants ─── */
 
+const DEFAULT_PARTICLE_COUNT = 54
+const DEFAULT_DURATION_MS = 2500
 const NUM_ARMS = 3
-const PER_ARM = 18
-
-/**
- * 24 evenly-spaced time stops.
- * Motion interpolates linearly between x,y keyframes — with only a few
- * points, a spiral degrades into zigzag straight lines.
- * 24 stops keeps each segment under ~30° of arc, which approximates
- * a smooth curve visually.
- */
 const NUM_STOPS = 24
 const STOPS = Array.from({ length: NUM_STOPS }, (_, i) => i / (NUM_STOPS - 1))
 
@@ -55,7 +63,6 @@ const STOPS = Array.from({ length: NUM_STOPS }, (_, i) => i / (NUM_STOPS - 1))
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
-/** Envelope for scale: ramp up fast, hold, then shrink. */
 function scaleAt(t: number, peak: number): number {
   if (t < 0.08) return peak * (t / 0.08) * 0.6
   if (t < 0.2) return peak * (0.6 + 0.4 * ((t - 0.08) / 0.12))
@@ -64,7 +71,6 @@ function scaleAt(t: number, peak: number): number {
   return peak * (0.7 - 0.4 * ((t - 0.8) / 0.2))
 }
 
-/** Envelope for opacity: fade in fast, hold, then fade out. */
 function opacityAt(t: number, peak: number): number {
   if (t < 0.06) return peak * (t / 0.06) * 0.7
   if (t < 0.2) return peak * (0.7 + 0.3 * ((t - 0.06) / 0.14))
@@ -75,20 +81,16 @@ function opacityAt(t: number, peak: number): number {
 
 /* ─── Generators ─── */
 
-/**
- * Dynamic tornado spiral: each particle continuously orbits center
- * while expanding outward (2+ full revolutions). Staggered delays
- * within each arm create visible spiral arms at any freeze-frame.
- * Positions sampled at 24 stops for smooth curved motion in Framer.
- */
-function makeParticles(): SpiralParticle[] {
+function makeParticles(count: number, colors: readonly string[], timeScale: number): SpiralParticle[] {
   const particles: SpiralParticle[] = []
+  const perArm = Math.ceil(count / NUM_ARMS)
 
   for (let arm = 0; arm < NUM_ARMS; arm++) {
     const armBase = arm * (360 / NUM_ARMS)
+    const armCount = Math.min(perArm, count - arm * perArm)
 
-    for (let j = 0; j < PER_ARM; j++) {
-      const i = arm * PER_ARM + j
+    for (let j = 0; j < armCount; j++) {
+      const i = arm * perArm + j
       const layer: 'bg' | 'fg' = j % 3 === 0 ? 'bg' : 'fg'
       const isBg = layer === 'bg'
 
@@ -116,7 +118,7 @@ function makeParticles(): SpiralParticle[] {
       particles.push({
         id: i,
         shape: pickRandom(CONFETTI_SHAPES),
-        color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length]!,
+        color: colors[i % colors.length]!,
         xs,
         ys,
         scales,
@@ -124,8 +126,8 @@ function makeParticles(): SpiralParticle[] {
         rotX: randBetween(-130, 130),
         rotY: randBetween(-110, 110),
         rotZ: randBetween(-240, 240),
-        delay: j * 0.03 + randBetween(0, 0.01),
-        dur: isBg ? randBetween(2.2, 2.8) : randBetween(1.8, 2.4),
+        delay: (j * 0.03 + randBetween(0, 0.01)) * timeScale,
+        dur: (isBg ? randBetween(2.2, 2.8) : randBetween(1.8, 2.4)) * timeScale,
         layer,
       })
     }
@@ -134,8 +136,7 @@ function makeParticles(): SpiralParticle[] {
   return particles
 }
 
-/** Sparkles scattered at mid-radius along spiral paths. */
-function makeSparkles(): Sparkle[] {
+function makeSparkles(timeScale: number): Sparkle[] {
   return Array.from({ length: 12 }, (_, i) => {
     const angle = deg2rad((i / 12) * 360 + randBetween(-15, 15))
     const r = randBetween(45, 100)
@@ -143,7 +144,7 @@ function makeSparkles(): Sparkle[] {
       id: i,
       x: Math.cos(angle) * r,
       y: Math.sin(angle) * r + randBetween(-5, 15),
-      delay: 0.7 + i * 0.08 + randBetween(0, 0.1),
+      delay: (0.7 + i * 0.08 + randBetween(0, 0.1)) * timeScale,
       size: randBetween(2.5, 5),
     }
   })
@@ -151,19 +152,18 @@ function makeSparkles(): Sparkle[] {
 
 /* ─── Sub-components ─── */
 
-/** Center flash at spiral origin. */
-function SpiralFlash() {
+function SpiralFlash({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__flash"
+      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 1.0, 1.4], opacity: [0, 0.6, 0] }}
-      transition={{ duration: 0.25, times: [0, 0.4, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.25 * timeScale, times: [0, 0.4, 1], ease: 'easeOut' }}
     />
   )
 }
 
-/** Tornado particle — orbits center along a densely-sampled spiral path. */
 function TornadoPiece({ p }: { p: SpiralParticle }) {
   return (
     <m.span
@@ -173,6 +173,7 @@ function TornadoPiece({ p }: { p: SpiralParticle }) {
         top: '50%',
         background: p.color,
         transformStyle: 'preserve-3d' as const,
+        animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotateX: 0, rotateY: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -200,8 +201,7 @@ function TornadoPiece({ p }: { p: SpiralParticle }) {
   )
 }
 
-/** Sparkle dot. */
-function SparkleDot({ s }: { s: Sparkle }) {
+function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
   return (
     <m.span
       className="pf-celebration__sparkle"
@@ -212,26 +212,43 @@ function SparkleDot({ s }: { s: Sparkle }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
+        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.5, 1.0, 0], opacity: [0, 0.9, 0.3, 0.65, 0] }}
-      transition={{ duration: 1.2, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
+      transition={{ duration: 1.2 * timeScale, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
     />
   )
 }
 
 /* ─── Main ─── */
 
-/** Dynamic tornado confetti — particles orbit center in 3 spiral arms while expanding outward with gravity release. */
-export function ModalCelebrationsConfettiSpiral() {
-  const particles = useMemo(makeParticles, [])
-  const sparkles = useMemo(makeSparkles, [])
+function ModalCelebrationsConfettiSpiralComponent({
+  particleCount = DEFAULT_PARTICLE_COUNT,
+  colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsConfettiSpiralProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+
+  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
 
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...particles.map((p) => p.delay + p.dur),
+      ...sparkles.map((s) => s.delay + 1.2 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [particles, sparkles, timeScale, onComplete])
+
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">
-      <SpiralFlash />
+      <SpiralFlash timeScale={timeScale} />
 
       <div className="pf-celebration__depth-bg">
         {bgParts.map((p) => (
@@ -245,9 +262,11 @@ export function ModalCelebrationsConfettiSpiral() {
       </div>
       <div className="pf-celebration__effects">
         {sparkles.map((s) => (
-          <SparkleDot key={s.id} s={s} />
+          <SparkleDot key={s.id} s={s} timeScale={timeScale} />
         ))}
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsConfettiSpiral = memo(ModalCelebrationsConfettiSpiralComponent)

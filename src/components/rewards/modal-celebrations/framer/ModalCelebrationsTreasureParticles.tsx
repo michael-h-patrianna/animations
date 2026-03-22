@@ -1,14 +1,27 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Treasure Eruption — mixed coins and gems erupt radially with parabolic gravity.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
-import {
-  coinImage,
-  gemDiamondImage,
-  gemEmeraldImage,
-  gemRubyImage,
-  gemSapphireImage,
-} from '@/assets'
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { FallbackCoin } from '../SharedFallbackCoin'
 import { deg2rad, GEM_TYPES, GOLDEN_COLORS, pickRandom, randBetween } from '../utils'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsTreasureParticlesProps extends CelebrationBaseProps {
+  /** Number of coin particles. Default 12. */
+  coinCount?: number
+  /** Number of gem particles. Default 12. */
+  gemCount?: number
+  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  coinImage?: string
+}
 
 /* ─── Types ─── */
 
@@ -28,7 +41,9 @@ type Gem = {
   xs: number[]
   ys: number[]
   rotations: number[]
-  image: string
+  image: string | undefined
+  gemColor1: string
+  gemColor2: string
   size: number
   delay: number
   dur: number
@@ -54,12 +69,7 @@ const STOPS = 12
 
 const BURST_TIMES = [0, 0.05, 0.1, 0.18, 0.28, 0.4, 0.52, 0.65, 0.78, 0.88, 0.95, 1]
 
-const GEM_IMAGES: Record<string, string> = {
-  diamond: gemDiamondImage,
-  ruby: gemRubyImage,
-  emerald: gemEmeraldImage,
-  sapphire: gemSapphireImage,
-}
+// GEM_IMAGES removed — gem visuals now use SVG fallback polygons with GEM_TYPES colors
 
 /* Scale envelope: quick pop then gradual fade */
 const COIN_SCALES = [0.2, 1, 1, 1, 1, 1, 1, 0.85, 0.6, 0.35, 0.15, 0]
@@ -124,7 +134,9 @@ function makeGems(): Gem[] {
       xs,
       ys,
       rotations: linSpace(randBetween(1, 3) * 360),
-      image: GEM_IMAGES[gemType.name]!,
+      image: undefined,
+      gemColor1: gemType.color1,
+      gemColor2: gemType.color2,
       size: isBg ? randBetween(12, 16) : randBetween(16, 24),
       delay: 50 + randBetween(0, 150),
       dur: randBetween(1500, 2200),
@@ -168,14 +180,12 @@ function makeSparkles(): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinLayer({ coins }: { coins: Coin[] }) {
+function CoinLayer({ coins, coinSrc }: { coins: Coin[]; coinSrc?: string }) {
   return (
     <>
       {coins.map((c) => (
-        <m.img
+        <m.div
           key={c.id}
-          src={coinImage}
-          alt=""
           style={{
             position: 'absolute',
             left: '50%',
@@ -199,7 +209,13 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
             times: BURST_TIMES,
             ease: 'linear',
           }}
-        />
+        >
+          {coinSrc !== undefined ? (
+            <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+          ) : (
+            <FallbackCoin size={typeof c.size === 'number' ? c.size : 20} />
+          )}
+        </m.div>
       ))}
     </>
   )
@@ -209,10 +225,8 @@ function GemLayer({ gems }: { gems: Gem[] }) {
   return (
     <>
       {gems.map((g) => (
-        <m.img
+        <m.div
           key={g.id}
-          src={g.image}
-          alt=""
           style={{
             position: 'absolute',
             left: '50%',
@@ -236,7 +250,23 @@ function GemLayer({ gems }: { gems: Gem[] }) {
             times: BURST_TIMES,
             ease: 'linear',
           }}
-        />
+        >
+          {g.image !== undefined ? (
+            <img src={g.image} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+          ) : (
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 24 24"
+              fill={g.gemColor1}
+              aria-hidden="true"
+              style={{ display: 'block' }}
+            >
+              <polygon points="12,2 22,9 18,22 6,22 2,9" />
+              <polygon points="12,2 17,9 12,22 7,9" fill={g.gemColor2} opacity="0.6" />
+            </svg>
+          )}
+        </m.div>
       ))}
     </>
   )
@@ -313,11 +343,25 @@ function SparkleLayer({ sparkles }: { sparkles: Mote[] }) {
  * Treasure Eruption (Framer Motion) — mixed coins and gems erupt in a radial
  * burst with parabolic gravity arcs, gem-colored trails, and sparkle twinkles.
  */
-export function ModalCelebrationsTreasureParticles() {
+function ModalCelebrationsTreasureParticlesComponent({
+  coinImage: coinSrc,
+  onComplete,
+}: ModalCelebrationsTreasureParticlesProps) {
   const coins = useMemo(makeCoins, [])
   const gems = useMemo(makeGems, [])
   const trails = useMemo(makeTrails, [])
   const sparkles = useMemo(makeSparkles, [])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...coins.map((c) => (c.delay + c.dur) / 1000),
+      ...gems.map((g) => (g.delay + g.dur) / 1000),
+      ...sparkles.map((s) => s.delay + 0.5),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [coins, gems, sparkles, onComplete])
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
   const bgGems = useMemo(() => gems.filter((g) => g.layer === 'bg'), [gems])
@@ -341,7 +385,7 @@ export function ModalCelebrationsTreasureParticles() {
       />
       {/* Background depth */}
       <div className="pf-celebration__depth-bg" style={{ perspective: 200 }}>
-        <CoinLayer coins={bgCoins} />
+        <CoinLayer coins={bgCoins} coinSrc={coinSrc} />
         <GemLayer gems={bgGems} />
       </div>
       {/* Effects */}
@@ -351,9 +395,11 @@ export function ModalCelebrationsTreasureParticles() {
       </div>
       {/* Foreground depth */}
       <div className="pf-celebration__depth-fg" style={{ perspective: 200 }}>
-        <CoinLayer coins={fgCoins} />
+        <CoinLayer coins={fgCoins} coinSrc={coinSrc} />
         <GemLayer gems={fgGems} />
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsTreasureParticles = memo(ModalCelebrationsTreasureParticlesComponent)

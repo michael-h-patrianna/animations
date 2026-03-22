@@ -1,6 +1,14 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Chrysanthemum Ring — embers converge to form a ring, ignite, then explode outward.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
 import {
   CELEBRATION_COLORS,
   CONFETTI_SHAPES,
@@ -9,6 +17,13 @@ import {
   randBetween,
   type ConfettiShape,
 } from '../utils'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsFireworksRingProps extends CelebrationBaseProps {
+  /** Total ember particles converging to the ring. Default 22. */
+  particleCount?: number
+}
 
 /* ─── Types ─── */
 
@@ -338,6 +353,7 @@ function BurstPiece({ b }: { b: Burst }) {
         top: '50%',
         marginTop: b.startY,
         background: b.color,
+        animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -372,6 +388,7 @@ function SparkleDot({ s }: { s: Sparkle }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
+        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.4, 1.0, 0], opacity: [0, 0.9, 0.25, 0.6, 0] }}
@@ -384,7 +401,7 @@ function CenterFlash() {
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ left: '50%', top: '50%' }}
+      style={{ left: '50%', top: '50%', animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{
         x: '-50%',
@@ -406,7 +423,7 @@ function CenterGlow() {
   return (
     <m.div
       className="pf-celebration__glow"
-      style={{ left: '50%', top: '50%' }}
+      style={{ left: '50%', top: '50%', animation: 'none' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.05, 0.3, 0.2, 0.55, 0.25, 0.08, 0] }}
       transition={{
@@ -425,13 +442,26 @@ function CenterGlow() {
  * glowing ring, the ring ignites with a pulse of light, then everything
  * explodes outward with burst confetti and sparkle aftermath.
  */
-export function ModalCelebrationsFireworksRing() {
+function ModalCelebrationsFireworksRingComponent({
+  onComplete,
+}: ModalCelebrationsFireworksRingProps) {
   const embers = useMemo(makeEmbers, [])
   const shimmers = useMemo(makeShimmers, [])
   const bursts = useMemo(makeBursts, [])
   const sparkles = useMemo(makeSparkles, [])
   const bgEmbers = useMemo(() => embers.filter((e) => e.layer === 'bg'), [embers])
   const fgEmbers = useMemo(() => embers.filter((e) => e.layer === 'fg'), [embers])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      DURATION + 0.22,
+      ...bursts.map((b) => b.delay + b.dur),
+      ...sparkles.map((s) => s.delay + 0.9),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [bursts, sparkles, onComplete])
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">
@@ -459,3 +489,5 @@ export function ModalCelebrationsFireworksRing() {
     </div>
   )
 }
+
+export const ModalCelebrationsFireworksRing = memo(ModalCelebrationsFireworksRingComponent)

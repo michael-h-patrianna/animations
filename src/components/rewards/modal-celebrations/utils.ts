@@ -31,28 +31,28 @@ export type ConfettiShape = 'rect' | 'circle' | 'ribbon' | 'star'
 /** All available confetti shapes for random selection. */
 export const CONFETTI_SHAPES: readonly ConfettiShape[] = ['rect', 'circle', 'ribbon', 'star']
 
-/** Celebration color palette — sourced from design tokens. */
+/** Celebration color palette — design tokens with hex fallbacks for standalone use. */
 export const CELEBRATION_COLORS = [
-  'var(--pf-anim-firework-pink)',
-  'var(--pf-anim-green)',
-  'var(--pf-anim-firework-cyan)',
-  'var(--pf-anim-firework-gold)',
-  'var(--pf-base-50)',
+  'var(--pf-anim-firework-pink, #ff5981)',
+  'var(--pf-anim-green, #c6ff77)',
+  'var(--pf-anim-firework-cyan, #47fff4)',
+  'var(--pf-anim-firework-gold, #ffce1a)',
+  'var(--pf-base-50, #ffffff)',
 ] as const
 
-/** Golden palette for coin/treasure effects — uses design tokens. */
+/** Golden palette for coin/treasure effects — design tokens with hex fallbacks. */
 export const GOLDEN_COLORS = [
-  'var(--pf-anim-gold)',
-  'var(--pf-anim-coin-dark)',
-  'var(--pf-anim-coin-light)',
-  'var(--pf-anim-coin-gold)',
-  'var(--pf-anim-yellow-warm)',
+  'var(--pf-anim-gold, #ffd700)',
+  'var(--pf-anim-coin-dark, #d97706)',
+  'var(--pf-anim-coin-light, #fde68a)',
+  'var(--pf-anim-coin-gold, #fbbf24)',
+  'var(--pf-anim-yellow-warm, #ffc107)',
 ] as const
 
-/** Gem color configs — uses design tokens. */
+/** Gem color configs — design tokens with hex fallbacks. */
 export const GEM_TYPES = [
-  { name: 'diamond', color1: 'var(--pf-anim-firework-cyan)', color2: 'var(--pf-anim-sky)' },
-  { name: 'ruby', color1: 'var(--pf-anim-confetti-red)', color2: 'var(--pf-anim-red-dark)' },
-  { name: 'emerald', color1: 'var(--pf-anim-emerald)', color2: 'var(--pf-anim-green-dark)' },
-  { name: 'sapphire', color1: 'var(--pf-anim-blue)', color2: 'var(--pf-anim-blue-dark)' },
+  { name: 'diamond', color1: 'var(--pf-anim-firework-cyan, #47fff4)', color2: 'var(--pf-anim-sky, #38bdf8)' },
+  { name: 'ruby', color1: 'var(--pf-anim-confetti-red, #ff6b6b)', color2: 'var(--pf-anim-red-dark, #dc2626)' },
+  { name: 'emerald', color1: 'var(--pf-anim-emerald, #10b981)', color2: 'var(--pf-anim-green-dark, #a8e65c)' },
+  { name: 'sapphire', color1: 'var(--pf-anim-blue, #60a5fa)', color2: 'var(--pf-anim-blue-dark, #3b82f6)' },
 ] as const

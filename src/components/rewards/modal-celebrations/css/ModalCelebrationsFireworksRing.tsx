@@ -1,5 +1,13 @@
-import { useMemo } from 'react'
+/**
+ * Chrysanthemum Ring — embers converge, ring ignites, everything explodes — CSS variant.
+ *
+ * Copy-paste files: this file + ModalCelebrationsFireworksRing.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react
+ */
 
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
 import {
   CELEBRATION_COLORS,
   CONFETTI_SHAPES,
@@ -316,12 +324,24 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
 
 /* ─── Main ─── */
 
-/** Chrysanthemum Ring (CSS) — embers converge, ring ignites, everything explodes. */
-export function ModalCelebrationsFireworksRing() {
+function ModalCelebrationsFireworksRingComponent({
+  onComplete,
+}: CelebrationBaseProps) {
   const embers = useMemo(makeEmbers, [])
   const shimmers = useMemo(makeShimmers, [])
   const bursts = useMemo(makeBursts, [])
   const sparkles = useMemo(makeSparkles, [])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      DURATION + 220,
+      ...bursts.map((b) => b.delay + b.dur),
+      ...sparkles.map((s) => s.delay + 900),
+    )
+    const timer = setTimeout(onComplete, maxTime + 50)
+    return () => clearTimeout(timer)
+  }, [bursts, sparkles, onComplete])
   const bgEmbers = useMemo(() => embers.filter((e) => e.layer === 'bg'), [embers])
   const fgEmbers = useMemo(() => embers.filter((e) => e.layer === 'fg'), [embers])
 
@@ -351,3 +371,5 @@ export function ModalCelebrationsFireworksRing() {
     </div>
   )
 }
+
+export const ModalCelebrationsFireworksRing = memo(ModalCelebrationsFireworksRingComponent)

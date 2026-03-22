@@ -1,8 +1,26 @@
-import { useMemo } from 'react'
+/**
+ * Jackpot Cascade — coins pour from 3 streams with gravity and bounce — CSS variant.
+ *
+ * Copy-paste files: this file + ModalCelebrationsCoinCascade.css + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
+ * Runtime deps: react
+ */
 
-import { coinImage } from '@/assets'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { GOLDEN_COLORS_HEX } from '../SharedCelebrationTypes'
+import { FallbackCoin } from '../SharedFallbackCoin'
 import { GOLDEN_COLORS, pickRandom, randBetween } from '../utils'
 import './ModalCelebrationsCoinCascade.css'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsCoinCascadeProps extends CelebrationBaseProps {
+  /** Number of coin particles. Default 24. */
+  coinCount?: number
+  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  coinImage?: string
+}
 
 /* ─── Types ─── */
 
@@ -33,22 +51,16 @@ type Mote = {
 
 /* ─── Constants ─── */
 
-const COIN_COUNT = 24
-const TRAIL_COUNT = 18
-const IMPACT_COUNT = 10
-const SHIMMER_COUNT = 14
+const DEFAULT_COIN_COUNT = 24
+const DEFAULT_DURATION_MS = 1400
 const STREAMS = [-55, 0, 55]
 
 /* ─── Generators ─── */
 
-/**
- * 24 coins in 3 streams with per-coin CSS variables for the cc-coin keyframe.
- * --sx: start x, --wx: wobble peak, --ex: end x, --fall, --bounce, --spin, --tumble, --om.
- */
-function makeCoins(): Coin[] {
+function makeCoins(count: number, timeScale: number): Coin[] {
   const coins: Coin[] = []
 
-  for (let i = 0; i < COIN_COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const streamIdx = i % 3
     const stream = STREAMS[streamIdx]!
     const layer: 'bg' | 'fg' = i % 4 === 0 ? 'bg' : 'fg'
@@ -71,8 +83,8 @@ function makeCoins(): Coin[] {
       spin: (isBg ? randBetween(2, 3) : randBetween(3, 5)) * 360,
       tumble: randBetween(-30, 30),
       size: isBg ? randBetween(14, 18) : randBetween(18, 26),
-      delay: streamIdx * 60 + Math.floor(i / 3) * 55 + randBetween(0, 30),
-      dur: randBetween(1100, 1500),
+      delay: (streamIdx * 60 + Math.floor(i / 3) * 55 + randBetween(0, 30)) * timeScale,
+      dur: randBetween(1100, 1500) * timeScale,
       om: isBg ? 0.55 : 1,
       layer,
     })
@@ -81,11 +93,10 @@ function makeCoins(): Coin[] {
   return coins
 }
 
-/** 18 golden trail motes along coin fall paths. */
-function makeTrails(): Mote[] {
+function makeTrails(colors: readonly string[], timeScale: number): Mote[] {
   const trails: Mote[] = []
 
-  for (let i = 0; i < TRAIL_COUNT; i++) {
+  for (let i = 0; i < 18; i++) {
     const stream = STREAMS[i % 3]!
     const fallFrac = randBetween(0.15, 0.6)
     const fallDist = randBetween(150, 185)
@@ -94,47 +105,45 @@ function makeTrails(): Mote[] {
       id: i,
       x: stream + randBetween(-18, 18),
       y: fallDist * fallFrac * fallFrac,
-      delay: (i % 3) * 60 + fallFrac * 1200 + randBetween(0, 100),
+      delay: ((i % 3) * 60 + fallFrac * 1200 + randBetween(0, 100)) * timeScale,
       size: randBetween(2, 4),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
   return trails
 }
 
-/** 10 impact sparkles at coin bounce points. */
-function makeImpacts(): Mote[] {
+function makeImpacts(colors: readonly string[], timeScale: number): Mote[] {
   const impacts: Mote[] = []
 
-  for (let i = 0; i < IMPACT_COUNT; i++) {
+  for (let i = 0; i < 10; i++) {
     const stream = STREAMS[i % 3]!
 
     impacts.push({
       id: i,
       x: stream + randBetween(-22, 22),
       y: randBetween(150, 185),
-      delay: (i % 3) * 60 + Math.floor(i / 3) * 70 + randBetween(700, 950),
+      delay: ((i % 3) * 60 + Math.floor(i / 3) * 70 + randBetween(700, 950)) * timeScale,
       size: randBetween(3, 6),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
   return impacts
 }
 
-/** 14 ambient shimmer dots in the cascade zone. */
-function makeShimmers(): Mote[] {
+function makeShimmers(colors: readonly string[], timeScale: number): Mote[] {
   const shimmers: Mote[] = []
 
-  for (let i = 0; i < SHIMMER_COUNT; i++) {
+  for (let i = 0; i < 14; i++) {
     shimmers.push({
       id: i,
       x: randBetween(-70, 70),
       y: randBetween(20, 160),
-      delay: 250 + i * 50 + randBetween(0, 80),
+      delay: (250 + i * 50 + randBetween(0, 80)) * timeScale,
       size: randBetween(2, 4),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
@@ -143,14 +152,12 @@ function makeShimmers(): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinLayer({ coins }: { coins: Coin[] }) {
+function CoinLayer({ coins, coinSrc }: { coins: Coin[]; coinSrc?: string }) {
   return (
     <>
       {coins.map((c) => (
-        <img
+        <div
           key={c.id}
-          src={coinImage}
-          alt=""
           style={
             {
               position: 'absolute',
@@ -171,13 +178,19 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
               animation: `cc-coin ${c.dur}ms linear ${c.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {coinSrc !== undefined ? (
+            <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+          ) : (
+            <FallbackCoin size={c.size} />
+          )}
+        </div>
       ))}
     </>
   )
 }
 
-function TrailLayer({ trails }: { trails: Mote[] }) {
+function TrailLayer({ trails, timeScale }: { trails: Mote[]; timeScale: number }) {
   return (
     <>
       {trails.map((t) => (
@@ -194,7 +207,7 @@ function TrailLayer({ trails }: { trails: Mote[] }) {
             boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `cc-trail 400ms ease-out ${t.delay}ms both`,
+            animation: `cc-trail ${400 * timeScale}ms ease-out ${t.delay}ms both`,
           }}
         />
       ))}
@@ -202,7 +215,7 @@ function TrailLayer({ trails }: { trails: Mote[] }) {
   )
 }
 
-function ImpactLayer({ impacts }: { impacts: Mote[] }) {
+function ImpactLayer({ impacts, timeScale }: { impacts: Mote[]; timeScale: number }) {
   return (
     <>
       {impacts.map((imp) => (
@@ -219,7 +232,7 @@ function ImpactLayer({ impacts }: { impacts: Mote[] }) {
             boxShadow: `0 0 ${imp.size + 4}px ${Math.round(imp.size * 0.8)}px ${imp.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `cc-impact 350ms ease-out ${imp.delay}ms both`,
+            animation: `cc-impact ${350 * timeScale}ms ease-out ${imp.delay}ms both`,
           }}
         />
       ))}
@@ -227,7 +240,7 @@ function ImpactLayer({ impacts }: { impacts: Mote[] }) {
   )
 }
 
-function ShimmerLayer({ shimmers }: { shimmers: Mote[] }) {
+function ShimmerLayer({ shimmers, timeScale }: { shimmers: Mote[]; timeScale: number }) {
   return (
     <>
       {shimmers.map((s) => (
@@ -241,7 +254,7 @@ function ShimmerLayer({ shimmers }: { shimmers: Mote[] }) {
             height: `${s.size}px`,
             background: s.color,
             boxShadow: `0 0 4px 1px ${s.color}`,
-            animation: `cc-shimmer 700ms ease-out ${s.delay}ms both`,
+            animation: `cc-shimmer ${700 * timeScale}ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -251,17 +264,32 @@ function ShimmerLayer({ shimmers }: { shimmers: Mote[] }) {
 
 /* ─── Main ─── */
 
-/**
- * Jackpot Cascade (CSS) — coins pour from 3 stream sources, fall with gravity
- * and wobble, bounce off the floor, with golden trail dust and impact sparkles.
- */
-export function ModalCelebrationsCoinCascade() {
-  const coins = useMemo(makeCoins, [])
-  const trails = useMemo(makeTrails, [])
-  const impacts = useMemo(makeImpacts, [])
-  const shimmers = useMemo(makeShimmers, [])
+function ModalCelebrationsCoinCascadeComponent({
+  coinCount = DEFAULT_COIN_COUNT,
+  coinImage,
+  colors = GOLDEN_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsCoinCascadeProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+  const effectiveColors = colors.length > 0 ? colors : (GOLDEN_COLORS as unknown as string[])
+
+  const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
+  const trails = useMemo(() => makeTrails(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const impacts = useMemo(() => makeImpacts(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const shimmers = useMemo(() => makeShimmers(effectiveColors, timeScale), [effectiveColors, timeScale])
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...coins.map((c) => c.delay + c.dur),
+      ...shimmers.map((s) => s.delay + 700 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime + 50)
+    return () => clearTimeout(timer)
+  }, [coins, shimmers, timeScale, onComplete])
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__coin-cascade">
@@ -275,24 +303,26 @@ export function ModalCelebrationsCoinCascade() {
             width: '6px',
             height: '6px',
             borderRadius: '50%',
-            background: 'var(--pf-anim-gold)',
-            boxShadow: '0 0 18px 12px var(--pf-anim-gold)',
+            background: 'var(--pf-anim-gold, #ffd700)',
+            boxShadow: '0 0 18px 12px var(--pf-anim-gold, #ffd700)',
             pointerEvents: 'none',
-            animation: `cc-source-glow 1500ms ease-out ${i * 50}ms both`,
+            animation: `cc-source-glow ${1500 * timeScale}ms ease-out ${i * 50 * timeScale}ms both`,
           }}
         />
       ))}
       <div className="pf-celebration__depth-bg">
-        <CoinLayer coins={bgCoins} />
+        <CoinLayer coins={bgCoins} coinSrc={coinImage} />
       </div>
       <div className="pf-celebration__depth-fg">
-        <CoinLayer coins={fgCoins} />
+        <CoinLayer coins={fgCoins} coinSrc={coinImage} />
       </div>
       <div className="pf-celebration__effects">
-        <TrailLayer trails={trails} />
-        <ImpactLayer impacts={impacts} />
-        <ShimmerLayer shimmers={shimmers} />
+        <TrailLayer trails={trails} timeScale={timeScale} />
+        <ImpactLayer impacts={impacts} timeScale={timeScale} />
+        <ShimmerLayer shimmers={shimmers} timeScale={timeScale} />
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsCoinCascade = memo(ModalCelebrationsCoinCascadeComponent)

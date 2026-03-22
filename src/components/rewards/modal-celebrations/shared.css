@@ -7,7 +7,7 @@
 .pf-celebration {
   position: relative;
   width: 100%;
-
+  min-height: var(--pf-demo-height, 220px);
   overflow: hidden;
 }
 
@@ -49,8 +49,8 @@
   border-radius: 50%;
   background: linear-gradient(
     180deg,
-    var(--pf-anim-white-95) 0%,
-    var(--pf-anim-firework-gold-60) 60%,
+    var(--pf-anim-white-95, rgb(255 255 255 / 95%)) 0%,
+    var(--pf-anim-firework-gold-60, rgb(255 206 26 / 60%)) 60%,
     transparent 100%
   );
   transform: translate(-50%, -50%) scale(0);
@@ -68,7 +68,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid var(--pf-anim-white-60);
+  border: 2px solid var(--pf-anim-white-60, rgb(255 255 255 / 60%));
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
   will-change: transform, opacity;
@@ -86,8 +86,8 @@
   border-radius: 50%;
   background: linear-gradient(
     180deg,
-    var(--pf-anim-firework-gold-40) 0%,
-    var(--pf-anim-firework-pink-15) 50%,
+    var(--pf-anim-firework-gold-40, rgb(255 206 26 / 40%)) 0%,
+    var(--pf-anim-firework-pink-15, rgb(255 89 129 / 15%)) 50%,
     transparent 100%
   );
   transform: translate(-50%, -50%);
@@ -103,8 +103,8 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--pf-anim-white);
-  box-shadow: 0 0 6px 2px var(--pf-anim-white-80);
+  background: var(--pf-anim-white, #fff);
+  box-shadow: 0 0 6px 2px var(--pf-anim-white-80, rgb(255 255 255 / 80%));
   opacity: 0;
   will-change: transform, opacity;
   pointer-events: none;
@@ -213,4 +213,9 @@
 .pf-celebration__effects {
   will-change: contents;
   contain: layout style;
+}
+
+/* ─── Viewport animations — particles may exceed container bounds ─── */
+[data-animation-id='modal-celebrations__confetti-rain'] {
+  overflow: visible;
 }

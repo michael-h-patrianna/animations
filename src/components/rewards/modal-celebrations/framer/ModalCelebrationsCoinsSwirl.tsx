@@ -1,8 +1,26 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Golden Vortex — coins spiral outward from center with decelerating angular velocity.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
-import { coinImage } from '@/assets'
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { GOLDEN_COLORS_HEX } from '../SharedCelebrationTypes'
+import { FallbackCoin } from '../SharedFallbackCoin'
 import { GOLDEN_COLORS, deg2rad, pickRandom, randBetween } from '../utils'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsCoinsSwirlProps extends CelebrationBaseProps {
+  /** Number of coin particles. Default 20. */
+  coinCount?: number
+  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  coinImage?: string
+}
 
 /* ─── Types ─── */
 
@@ -31,26 +49,21 @@ type Mote = {
 
 /* ─── Constants ─── */
 
-const COIN_COUNT = 20
-const TRAIL_COUNT = 16
-const SPARKLE_COUNT = 12
+const DEFAULT_COIN_COUNT = 20
+const DEFAULT_DURATION_MS = 1550
 const NUM_STOPS = 12
 const STOPS = Array.from({ length: NUM_STOPS }, (_, i) => i / (NUM_STOPS - 1))
 
 /* ─── Generators ─── */
 
-/**
- * 20 coins spiral outward from center. Radius expands with t^1.3 (accelerating),
- * angular velocity decelerates via 1-(1-t)^1.5 (fast near core, slow at edge).
- */
-function makeCoins(): Coin[] {
+function makeCoins(count: number, timeScale: number): Coin[] {
   const coins: Coin[] = []
 
-  for (let i = 0; i < COIN_COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const layer: 'bg' | 'fg' = i % 4 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
 
-    const startAngleDeg = (i / COIN_COUNT) * 360 + randBetween(-8, 8)
+    const startAngleDeg = (i / count) * 360 + randBetween(-8, 8)
     const rStart = randBetween(6, 14)
     const rEnd = isBg ? randBetween(60, 80) : randBetween(80, 120)
     const totalSpinDeg = randBetween(540, 900)
@@ -88,8 +101,8 @@ function makeCoins(): Coin[] {
       spins: (isBg ? randBetween(2, 3) : randBetween(3, 4)) * 360,
       tumble: randBetween(-20, 20),
       size: isBg ? randBetween(14, 18) : randBetween(18, 26),
-      delay: i * 0.04 + randBetween(0, 0.03),
-      dur: randBetween(1.3, 1.8),
+      delay: (i * 0.04 + randBetween(0, 0.03)) * timeScale,
+      dur: randBetween(1.3, 1.8) * timeScale,
       layer,
     })
   }
@@ -97,13 +110,12 @@ function makeCoins(): Coin[] {
   return coins
 }
 
-/** 16 golden dust motes along spiral paths. */
-function makeTrails(): Mote[] {
+function makeTrails(colors: readonly string[], timeScale: number): Mote[] {
   const trails: Mote[] = []
 
-  for (let i = 0; i < TRAIL_COUNT; i++) {
+  for (let i = 0; i < 16; i++) {
     const t = randBetween(0.12, 0.6)
-    const startAngle = (i / TRAIL_COUNT) * 360 + randBetween(-15, 15)
+    const startAngle = (i / 16) * 360 + randBetween(-15, 15)
     const totalSpin = randBetween(540, 900)
     const rStart = randBetween(6, 14)
     const rEnd = randBetween(70, 110)
@@ -116,20 +128,19 @@ function makeTrails(): Mote[] {
       id: i,
       x: Math.cos(angleRad) * r,
       y: Math.sin(angleRad) * r,
-      delay: t * 1.5 + randBetween(0, 0.1),
+      delay: (t * 1.5 + randBetween(0, 0.1)) * timeScale,
       size: randBetween(2, 4),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
   return trails
 }
 
-/** 12 golden sparkles scattered around the vortex area. */
-function makeSparkles(): Mote[] {
+function makeSparkles(colors: readonly string[], timeScale: number): Mote[] {
   const sparkles: Mote[] = []
 
-  for (let i = 0; i < SPARKLE_COUNT; i++) {
+  for (let i = 0; i < 12; i++) {
     const angleRad = deg2rad(randBetween(0, 360))
     const r = randBetween(30, 100)
 
@@ -137,9 +148,9 @@ function makeSparkles(): Mote[] {
       id: i,
       x: Math.cos(angleRad) * r,
       y: Math.sin(angleRad) * r,
-      delay: 0.3 + i * 0.06 + randBetween(0, 0.08),
+      delay: (0.3 + i * 0.06 + randBetween(0, 0.08)) * timeScale,
       size: randBetween(2.5, 4.5),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
@@ -148,12 +159,9 @@ function makeSparkles(): Mote[] {
 
 /* ─── Sub-components ─── */
 
-/** Coin spiraling outward with 3D metallic spin. */
-function CoinPiece({ c }: { c: Coin }) {
+function CoinPiece({ c, coinSrc }: { c: Coin; coinSrc?: string }) {
   return (
-    <m.img
-      src={coinImage}
-      alt=""
+    <m.div
       style={{
         position: 'absolute',
         left: '50%',
@@ -183,12 +191,17 @@ function CoinPiece({ c }: { c: Coin }) {
         rotateY: { duration: c.dur, delay: c.delay, ease: 'linear' },
         rotateZ: { duration: c.dur, delay: c.delay, ease: 'linear' },
       }}
-    />
+    >
+      {coinSrc !== undefined ? (
+        <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+      ) : (
+        <FallbackCoin size={c.size} />
+      )}
+    </m.div>
   )
 }
 
-/** Golden dust mote along a spiral trail. */
-function TrailDot({ t }: { t: Mote }) {
+function TrailDot({ t, timeScale }: { t: Mote; timeScale: number }) {
   return (
     <m.span
       style={{
@@ -207,13 +220,12 @@ function TrailDot({ t }: { t: Mote }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 0], opacity: [0, 0.8, 0.3, 0] }}
-      transition={{ duration: 0.4, delay: t.delay, times: [0, 0.3, 0.6, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.4 * timeScale, delay: t.delay, times: [0, 0.3, 0.6, 1], ease: 'easeOut' }}
     />
   )
 }
 
-/** Golden sparkle twinkle in the vortex area. */
-function SparkleDot({ s }: { s: Mote }) {
+function SparkleDot({ s, timeScale }: { s: Mote; timeScale: number }) {
   return (
     <m.span
       className="pf-celebration__sparkle"
@@ -226,16 +238,16 @@ function SparkleDot({ s }: { s: Mote }) {
         height: `${s.size}px`,
         background: s.color,
         filter: `drop-shadow(0 0 5px ${s.color})`,
+        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 0.4, 0.9, 0], opacity: [0, 0.8, 0.2, 0.5, 0] }}
-      transition={{ duration: 0.7, delay: s.delay, times: [0, 0.2, 0.45, 0.7, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.7 * timeScale, delay: s.delay, times: [0, 0.2, 0.45, 0.7, 1], ease: 'easeOut' }}
     />
   )
 }
 
-/** Pulsing golden core at the vortex center. */
-function VortexCore() {
+function VortexCore({ timeScale }: { timeScale: number }) {
   return (
     <m.span
       style={{
@@ -247,53 +259,69 @@ function VortexCore() {
         width: '8px',
         height: '8px',
         borderRadius: '50%',
-        background: 'var(--pf-anim-gold)',
-        filter: 'drop-shadow(0 0 24px var(--pf-anim-gold))',
+        background: 'var(--pf-anim-gold, #ffd700)',
+        filter: 'drop-shadow(0 0 24px var(--pf-anim-gold, #ffd700))',
         pointerEvents: 'none',
         willChange: 'opacity',
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.6, 0.45, 0.2, 0] }}
-      transition={{ duration: 1.8, times: [0, 0.1, 0.3, 0.6, 1], ease: 'easeOut' }}
+      transition={{ duration: 1.8 * timeScale, times: [0, 0.1, 0.3, 0.6, 1], ease: 'easeOut' }}
     />
   )
 }
 
 /* ─── Main ─── */
 
-/**
- * Golden Vortex — coins spiral outward from a glowing center in expanding
- * orbits with decelerating angular velocity and 3D metallic spin, accompanied
- * by golden trail dust and sparkle twinkles.
- */
-export function ModalCelebrationsCoinsSwirl() {
-  const coins = useMemo(makeCoins, [])
-  const trails = useMemo(makeTrails, [])
-  const sparkles = useMemo(makeSparkles, [])
+function ModalCelebrationsCoinsSwirlComponent({
+  coinCount = DEFAULT_COIN_COUNT,
+  coinImage,
+  colors = GOLDEN_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsCoinsSwirlProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+  const effectiveColors = colors.length > 0 ? colors : (GOLDEN_COLORS as unknown as string[])
+
+  const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
+  const trails = useMemo(() => makeTrails(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const sparkles = useMemo(() => makeSparkles(effectiveColors, timeScale), [effectiveColors, timeScale])
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
 
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...coins.map((c) => c.delay + c.dur),
+      ...sparkles.map((s) => s.delay + 0.7 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [coins, sparkles, timeScale, onComplete])
+
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl">
-      <VortexCore />
+      <VortexCore timeScale={timeScale} />
       <div className="pf-celebration__depth-bg" style={{ perspective: 300 }}>
         {bgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} />
+          <CoinPiece key={c.id} c={c} coinSrc={coinImage} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg" style={{ perspective: 300 }}>
         {fgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} />
+          <CoinPiece key={c.id} c={c} coinSrc={coinImage} />
         ))}
       </div>
       <div className="pf-celebration__effects">
         {trails.map((t) => (
-          <TrailDot key={t.id} t={t} />
+          <TrailDot key={t.id} t={t} timeScale={timeScale} />
         ))}
         {sparkles.map((s) => (
-          <SparkleDot key={s.id} s={s} />
+          <SparkleDot key={s.id} s={s} timeScale={timeScale} />
         ))}
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsCoinsSwirl = memo(ModalCelebrationsCoinsSwirlComponent)

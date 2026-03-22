@@ -6,6 +6,6 @@ export const metadata = {
   urlSlugCss: '/modal-celebrations-css?animation=modal-celebrations__confetti-spiral',
   title: 'Confetti Spiral',
   description:
-    'Dynamic tornado confetti — particles orbit center in 3 spiral arms while expanding outward with gravity release.',
+    'Dynamic tornado confetti — particles orbit center in 3 spiral arms with gravity release. Configurable particleCount, colors, duration, and onComplete callback.',
   tier: 3,
 } satisfies AnimationMetadata

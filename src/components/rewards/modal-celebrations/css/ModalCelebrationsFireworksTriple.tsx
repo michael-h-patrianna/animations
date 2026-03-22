@@ -1,5 +1,13 @@
-import { useMemo } from 'react'
+/**
+ * Triple starburst — 3 staggered firework explosions with spark rays — CSS variant.
+ *
+ * Copy-paste files: this file + ModalCelebrationsFireworksTriple.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react
+ */
 
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
 import {
   CELEBRATION_COLORS,
   CONFETTI_SHAPES,
@@ -243,11 +251,22 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
 
 /* ─── Main ─── */
 
-/** Triple starburst — 3 staggered firework explosions with radial spark rays, trailing confetti, and sparkle twinkles. */
-export function ModalCelebrationsFireworksTriple() {
+function ModalCelebrationsFireworksTripleComponent({
+  onComplete,
+}: CelebrationBaseProps) {
   const rays = useMemo(makeRays, [])
   const trails = useMemo(makeTrails, [])
   const sparkles = useMemo(makeSparkles, [])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...trails.map((t) => t.delay + t.dur),
+      ...sparkles.map((s) => s.delay + 1000),
+    )
+    const timer = setTimeout(onComplete, maxTime + 50)
+    return () => clearTimeout(timer)
+  }, [trails, sparkles, onComplete])
   const bgRays = useMemo(() => rays.filter((r) => r.layer === 'bg'), [rays])
   const fgRays = useMemo(() => rays.filter((r) => r.layer === 'fg'), [rays])
   const bgTrails = useMemo(() => trails.filter((t) => t.layer === 'bg'), [trails])
@@ -293,3 +312,5 @@ export function ModalCelebrationsFireworksTriple() {
     </div>
   )
 }
+
+export const ModalCelebrationsFireworksTriple = memo(ModalCelebrationsFireworksTripleComponent)

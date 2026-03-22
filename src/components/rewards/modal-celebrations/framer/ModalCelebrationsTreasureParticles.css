@@ -1,8 +1,1 @@
 /* ═══ ModalCelebrationsTreasureParticles — Treasure Eruption (Framer variant) ═══ */
-
-/* Theme */
-[data-animation-id='modal-celebrations__treasure-particles'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-gold-10), var(--pf-anim-treasure-bg));
-  border: 1px solid var(--pf-anim-gold-12);
-}

@@ -2,7 +2,6 @@
   position: relative;
   width: 100%;
   min-height: var(--pf-demo-height, 220px);
-  overflow: hidden;
   pointer-events: none;
 }
 

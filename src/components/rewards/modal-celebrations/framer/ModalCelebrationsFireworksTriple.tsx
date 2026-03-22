@@ -1,6 +1,14 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Triple starburst — 3 staggered firework explosions with spark rays and trailing confetti.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
 import {
   CELEBRATION_COLORS,
   CONFETTI_SHAPES,
@@ -9,6 +17,10 @@ import {
   randBetween,
   type ConfettiShape,
 } from '../utils'
+
+/* ─── Props ─── */
+
+type ModalCelebrationsFireworksTripleProps = CelebrationBaseProps
 
 /* ─── Types ─── */
 
@@ -222,7 +234,7 @@ function BurstFlash({ cx, cy, delay }: { cx: number; cy: number; delay: number }
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy }}
+      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy, animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 1.2, 1.6], opacity: [0, 0.8, 0] }}
       transition={{ duration: 0.22, delay, times: [0, 0.35, 1], ease: 'easeOut' }}
@@ -245,7 +257,7 @@ function BurstRing({
   return (
     <m.div
       className="pf-celebration__ring"
-      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy, borderColor: color }}
+      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy, borderColor: color, animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 3.5, 5], opacity: [0, 0.6, 0] }}
       transition={{ duration: 0.6, delay: delay + 0.02, times: [0, 0.4, 1], ease: 'easeOut' }}
@@ -309,6 +321,7 @@ function TrailPiece({ t }: { t: Trail }) {
         top: '50%',
         background: t.color,
         transformStyle: 'preserve-3d' as const,
+        animation: 'none',
       }}
       initial={{ x: t.xs[0], y: t.ys[0], scale: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -344,6 +357,7 @@ function SparkleDot({ s }: { s: Sparkle }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
+        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.4, 1.0, 0], opacity: [0, 0.9, 0.25, 0.6, 0] }}
@@ -354,11 +368,22 @@ function SparkleDot({ s }: { s: Sparkle }) {
 
 /* ─── Main ─── */
 
-/** Triple starburst — 3 staggered firework explosions with radial spark rays, trailing confetti, and sparkle twinkles. */
-export function ModalCelebrationsFireworksTriple() {
+function ModalCelebrationsFireworksTripleComponent({
+  onComplete,
+}: ModalCelebrationsFireworksTripleProps) {
   const rays = useMemo(makeRays, [])
   const trails = useMemo(makeTrails, [])
   const sparkles = useMemo(makeSparkles, [])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...trails.map((t) => t.delay + t.dur),
+      ...sparkles.map((s) => s.delay + 1.0),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [trails, sparkles, onComplete])
   const bgRays = useMemo(() => rays.filter((r) => r.layer === 'bg'), [rays])
   const fgRays = useMemo(() => rays.filter((r) => r.layer === 'fg'), [rays])
   const bgTrails = useMemo(() => trails.filter((t) => t.layer === 'bg'), [trails])
@@ -397,3 +422,5 @@ export function ModalCelebrationsFireworksTriple() {
     </div>
   )
 }
+
+export const ModalCelebrationsFireworksTriple = memo(ModalCelebrationsFireworksTripleComponent)

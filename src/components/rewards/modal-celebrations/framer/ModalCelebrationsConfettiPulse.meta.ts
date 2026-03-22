@@ -6,6 +6,6 @@ export const metadata = {
   urlSlugCss: '/modal-celebrations-css?animation=modal-celebrations__confetti-pulse',
   title: 'Confetti Pulse Wave',
   description:
-    'Triple shockwave pulse — 3 rhythmic energy waves expand from center, each depositing confetti at its passing radius with gravity droop and sparkle twinkles.',
+    'Triple shockwave pulse — 3 energy waves expand from center, depositing confetti at each radius. Configurable particleCount, colors, duration, and onComplete callback.',
   tier: 3,
 } satisfies AnimationMetadata

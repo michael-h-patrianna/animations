@@ -1,8 +1,26 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Jackpot Cascade — coins pour from 3 stream sources, gravity fall with wobble and bounce.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
-import { coinImage } from '@/assets'
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { GOLDEN_COLORS_HEX } from '../SharedCelebrationTypes'
+import { FallbackCoin } from '../SharedFallbackCoin'
 import { GOLDEN_COLORS, pickRandom, randBetween } from '../utils'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsCoinCascadeProps extends CelebrationBaseProps {
+  /** Number of coin particles. Default 24. */
+  coinCount?: number
+  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  coinImage?: string
+}
 
 /* ─── Types ─── */
 
@@ -31,23 +49,17 @@ type Mote = {
 
 /* ─── Constants ─── */
 
-const COIN_COUNT = 24
-const TRAIL_COUNT = 18
-const IMPACT_COUNT = 10
-const SHIMMER_COUNT = 14
+const DEFAULT_COIN_COUNT = 24
+const DEFAULT_DURATION_MS = 1400
 const STOPS = [0, 0.05, 0.13, 0.24, 0.37, 0.5, 0.65, 0.72, 0.78, 0.86, 0.93, 1.0]
 const STREAMS = [-55, 0, 55]
 
 /* ─── Generators ─── */
 
-/**
- * 24 coins in 3 streams — gravity fall with sinusoidal air wobble and floor bounce.
- * Fall: y(t) = fallDist * (t/0.65)^2. Bounce: parabolic rebound at 65% mark.
- */
-function makeCoins(): Coin[] {
+function makeCoins(count: number, timeScale: number): Coin[] {
   const coins: Coin[] = []
 
-  for (let i = 0; i < COIN_COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const streamIdx = i % 3
     const stream = STREAMS[streamIdx]!
     const layer: 'bg' | 'fg' = i % 4 === 0 ? 'bg' : 'fg'
@@ -99,8 +111,8 @@ function makeCoins(): Coin[] {
       spins: (isBg ? randBetween(2, 3) : randBetween(3, 5)) * 360,
       tumble: randBetween(-30, 30),
       size: isBg ? randBetween(14, 18) : randBetween(18, 26),
-      delay: streamIdx * 0.06 + Math.floor(i / 3) * 0.055 + randBetween(0, 0.03),
-      dur: randBetween(1.1, 1.5),
+      delay: (streamIdx * 0.06 + Math.floor(i / 3) * 0.055 + randBetween(0, 0.03)) * timeScale,
+      dur: randBetween(1.1, 1.5) * timeScale,
       layer,
     })
   }
@@ -108,11 +120,10 @@ function makeCoins(): Coin[] {
   return coins
 }
 
-/** 18 golden dust motes trailing behind falling coins. */
-function makeTrails(): Mote[] {
+function makeTrails(colors: readonly string[], timeScale: number): Mote[] {
   const trails: Mote[] = []
 
-  for (let i = 0; i < TRAIL_COUNT; i++) {
+  for (let i = 0; i < 18; i++) {
     const stream = STREAMS[i % 3]!
     const fallFrac = randBetween(0.15, 0.6)
     const fallDist = randBetween(150, 185)
@@ -121,47 +132,45 @@ function makeTrails(): Mote[] {
       id: i,
       x: stream + randBetween(-18, 18),
       y: fallDist * fallFrac * fallFrac,
-      delay: (i % 3) * 0.06 + fallFrac * 1.2 + randBetween(0, 0.1),
+      delay: ((i % 3) * 0.06 + fallFrac * 1.2 + randBetween(0, 0.1)) * timeScale,
       size: randBetween(2, 4),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
   return trails
 }
 
-/** 10 impact sparkles at coin bounce points near the floor. */
-function makeImpacts(): Mote[] {
+function makeImpacts(colors: readonly string[], timeScale: number): Mote[] {
   const impacts: Mote[] = []
 
-  for (let i = 0; i < IMPACT_COUNT; i++) {
+  for (let i = 0; i < 10; i++) {
     const stream = STREAMS[i % 3]!
 
     impacts.push({
       id: i,
       x: stream + randBetween(-22, 22),
       y: randBetween(150, 185),
-      delay: (i % 3) * 0.06 + Math.floor(i / 3) * 0.07 + randBetween(0.7, 0.95),
+      delay: ((i % 3) * 0.06 + Math.floor(i / 3) * 0.07 + randBetween(0.7, 0.95)) * timeScale,
       size: randBetween(3, 6),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
   return impacts
 }
 
-/** 14 ambient golden shimmer dots floating in the cascade zone. */
-function makeShimmers(): Mote[] {
+function makeShimmers(colors: readonly string[], timeScale: number): Mote[] {
   const shimmers: Mote[] = []
 
-  for (let i = 0; i < SHIMMER_COUNT; i++) {
+  for (let i = 0; i < 14; i++) {
     shimmers.push({
       id: i,
       x: randBetween(-70, 70),
       y: randBetween(20, 160),
-      delay: 0.25 + i * 0.05 + randBetween(0, 0.08),
+      delay: (0.25 + i * 0.05 + randBetween(0, 0.08)) * timeScale,
       size: randBetween(2, 4),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
@@ -170,12 +179,9 @@ function makeShimmers(): Mote[] {
 
 /* ─── Sub-components ─── */
 
-/** Coin with gravity fall, sinusoidal wobble, bounce, and 3D spin. */
-function CoinPiece({ c }: { c: Coin }) {
+function CoinPiece({ c, coinSrc }: { c: Coin; coinSrc?: string }) {
   return (
-    <m.img
-      src={coinImage}
-      alt=""
+    <m.div
       style={{
         position: 'absolute',
         left: '50%',
@@ -205,12 +211,17 @@ function CoinPiece({ c }: { c: Coin }) {
         rotateY: { duration: c.dur, delay: c.delay, ease: 'linear' },
         rotateZ: { duration: c.dur, delay: c.delay, ease: 'linear' },
       }}
-    />
+    >
+      {coinSrc !== undefined ? (
+        <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+      ) : (
+        <FallbackCoin size={c.size} />
+      )}
+    </m.div>
   )
 }
 
-/** Golden dust mote trailing behind a falling coin. */
-function TrailDot({ t }: { t: Mote }) {
+function TrailDot({ t, timeScale }: { t: Mote; timeScale: number }) {
   return (
     <m.span
       style={{
@@ -229,13 +240,12 @@ function TrailDot({ t }: { t: Mote }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 0], opacity: [0, 0.8, 0.3, 0] }}
-      transition={{ duration: 0.4, delay: t.delay, times: [0, 0.3, 0.6, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.4 * timeScale, delay: t.delay, times: [0, 0.3, 0.6, 1], ease: 'easeOut' }}
     />
   )
 }
 
-/** Impact sparkle burst at coin bounce point. */
-function ImpactBurst({ imp }: { imp: Mote }) {
+function ImpactBurst({ imp, timeScale }: { imp: Mote; timeScale: number }) {
   return (
     <m.span
       style={{
@@ -254,13 +264,12 @@ function ImpactBurst({ imp }: { imp: Mote }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 2, 0.8, 0], opacity: [0, 1, 0.4, 0] }}
-      transition={{ duration: 0.35, delay: imp.delay, times: [0, 0.25, 0.6, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.35 * timeScale, delay: imp.delay, times: [0, 0.25, 0.6, 1], ease: 'easeOut' }}
     />
   )
 }
 
-/** Ambient golden shimmer twinkle. */
-function ShimmerDot({ s }: { s: Mote }) {
+function ShimmerDot({ s, timeScale }: { s: Mote; timeScale: number }) {
   return (
     <m.span
       className="pf-celebration__sparkle"
@@ -273,16 +282,16 @@ function ShimmerDot({ s }: { s: Mote }) {
         height: `${s.size}px`,
         background: s.color,
         filter: `drop-shadow(0 0 5px ${s.color})`,
+        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 0.4, 0.9, 0], opacity: [0, 0.8, 0.2, 0.5, 0] }}
-      transition={{ duration: 0.7, delay: s.delay, times: [0, 0.2, 0.45, 0.7, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.7 * timeScale, delay: s.delay, times: [0, 0.2, 0.45, 0.7, 1], ease: 'easeOut' }}
     />
   )
 }
 
-/** Golden glow at a pour-point stream source. */
-function SourceGlow({ x, delay }: { x: number; delay: number }) {
+function SourceGlow({ x, delay, timeScale }: { x: number; delay: number; timeScale: number }) {
   return (
     <m.span
       style={{
@@ -293,59 +302,75 @@ function SourceGlow({ x, delay }: { x: number; delay: number }) {
         width: '6px',
         height: '6px',
         borderRadius: '50%',
-        background: 'var(--pf-anim-gold)',
-        filter: 'drop-shadow(0 0 18px var(--pf-anim-gold))',
+        background: 'var(--pf-anim-gold, #ffd700)',
+        filter: 'drop-shadow(0 0 18px var(--pf-anim-gold, #ffd700))',
         pointerEvents: 'none',
         willChange: 'opacity',
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.5, 0.35, 0.12, 0] }}
-      transition={{ duration: 1.5, delay, times: [0, 0.12, 0.35, 0.65, 1], ease: 'easeOut' }}
+      transition={{ duration: 1.5 * timeScale, delay, times: [0, 0.12, 0.35, 0.65, 1], ease: 'easeOut' }}
     />
   )
 }
 
 /* ─── Main ─── */
 
-/**
- * Jackpot Cascade — coins pour from 3 stream sources at the top, accelerate
- * with gravity, wobble through air, and bounce off the floor with golden
- * trail dust, impact sparkles, and ambient shimmer.
- */
-export function ModalCelebrationsCoinCascade() {
-  const coins = useMemo(makeCoins, [])
-  const trails = useMemo(makeTrails, [])
-  const impacts = useMemo(makeImpacts, [])
-  const shimmers = useMemo(makeShimmers, [])
+function ModalCelebrationsCoinCascadeComponent({
+  coinCount = DEFAULT_COIN_COUNT,
+  coinImage,
+  colors = GOLDEN_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsCoinCascadeProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+  const effectiveColors = colors.length > 0 ? colors : (GOLDEN_COLORS as unknown as string[])
+
+  const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
+  const trails = useMemo(() => makeTrails(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const impacts = useMemo(() => makeImpacts(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const shimmers = useMemo(() => makeShimmers(effectiveColors, timeScale), [effectiveColors, timeScale])
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...coins.map((c) => c.delay + c.dur),
+      ...shimmers.map((s) => s.delay + 0.7 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [coins, shimmers, timeScale, onComplete])
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__coin-cascade">
       {STREAMS.map((x, i) => (
-        <SourceGlow key={i} x={x} delay={i * 0.05} />
+        <SourceGlow key={i} x={x} delay={i * 0.05 * timeScale} timeScale={timeScale} />
       ))}
       <div className="pf-celebration__depth-bg" style={{ perspective: 300 }}>
         {bgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} />
+          <CoinPiece key={c.id} c={c} coinSrc={coinImage} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg" style={{ perspective: 300 }}>
         {fgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} />
+          <CoinPiece key={c.id} c={c} coinSrc={coinImage} />
         ))}
       </div>
       <div className="pf-celebration__effects">
         {trails.map((t) => (
-          <TrailDot key={t.id} t={t} />
+          <TrailDot key={t.id} t={t} timeScale={timeScale} />
         ))}
         {impacts.map((imp) => (
-          <ImpactBurst key={imp.id} imp={imp} />
+          <ImpactBurst key={imp.id} imp={imp} timeScale={timeScale} />
         ))}
         {shimmers.map((s) => (
-          <ShimmerDot key={s.id} s={s} />
+          <ShimmerDot key={s.id} s={s} timeScale={timeScale} />
         ))}
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsCoinCascade = memo(ModalCelebrationsCoinCascadeComponent)

@@ -1,12 +1,5 @@
 /* ═══ ModalCelebrationsTreasureParticles — Treasure Eruption (CSS variant) ═══ */
 
-/* Theme */
-[data-animation-id='modal-celebrations__treasure-particles'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-gold-10), var(--pf-anim-treasure-bg));
-  border: 1px solid var(--pf-anim-gold-12);
-}
-
 /*
  * Parabolic burst path using translateX(vx*t) + translateY(vy*t + ½*grav*t²).
  * CSS vars: --vx, --vy, --grav (with px units),

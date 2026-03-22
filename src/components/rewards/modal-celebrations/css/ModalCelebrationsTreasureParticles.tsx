@@ -1,14 +1,27 @@
-import { useMemo } from 'react'
+/**
+ * Treasure Eruption — mixed coins and gems erupt radially — CSS variant.
+ *
+ * Copy-paste files: this file + ModalCelebrationsTreasureParticles.css + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
+ * Runtime deps: react
+ */
 
-import {
-  coinImage,
-  gemDiamondImage,
-  gemEmeraldImage,
-  gemRubyImage,
-  gemSapphireImage,
-} from '@/assets'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { FallbackCoin } from '../SharedFallbackCoin'
 import { deg2rad, GEM_TYPES, GOLDEN_COLORS, pickRandom, randBetween } from '../utils'
 import './ModalCelebrationsTreasureParticles.css'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsTreasureParticlesProps extends CelebrationBaseProps {
+  /** Number of coin particles. Default 12. */
+  coinCount?: number
+  /** Number of gem particles. Default 12. */
+  gemCount?: number
+  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  coinImage?: string
+}
 
 /* ─── Types ─── */
 
@@ -31,7 +44,9 @@ type Gem = {
   vy: number
   grav: number
   spin: number
-  image: string
+  image: string | undefined
+  gemColor1: string
+  gemColor2: string
   size: number
   delay: number
   dur: number
@@ -54,12 +69,7 @@ const GEM_COUNT = 12
 const TRAIL_COUNT = 20
 const SPARKLE_COUNT = 12
 
-const GEM_IMAGES: Record<string, string> = {
-  diamond: gemDiamondImage,
-  ruby: gemRubyImage,
-  emerald: gemEmeraldImage,
-  sapphire: gemSapphireImage,
-}
+// GEM_IMAGES removed — gem visuals now use SVG fallback with GEM_TYPES colors
 
 /* ─── Generators ─── */
 
@@ -97,7 +107,9 @@ function makeGems(): Gem[] {
       vy: Math.sin(angle) * speed,
       grav: randBetween(250, 400),
       spin: randBetween(1, 3) * 360,
-      image: GEM_IMAGES[gemType.name]!,
+      image: undefined,
+      gemColor1: gemType.color1,
+      gemColor2: gemType.color2,
       size: isBg ? randBetween(12, 16) : randBetween(16, 24),
       delay: 50 + randBetween(0, 150),
       dur: randBetween(1500, 2200),
@@ -141,14 +153,12 @@ function makeSparkles(): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinLayer({ coins }: { coins: Coin[] }) {
+function CoinLayer({ coins, coinSrc }: { coins: Coin[]; coinSrc?: string }) {
   return (
     <>
       {coins.map((c) => (
-        <img
+        <div
           key={c.id}
-          src={coinImage}
-          alt=""
           style={
             {
               position: 'absolute',
@@ -166,7 +176,13 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
               animation: `tp-coin ${c.dur}ms linear ${c.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {coinSrc !== undefined ? (
+            <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+          ) : (
+            <FallbackCoin size={c.size} />
+          )}
+        </div>
       ))}
     </>
   )
@@ -176,10 +192,8 @@ function GemLayer({ gems }: { gems: Gem[] }) {
   return (
     <>
       {gems.map((g) => (
-        <img
+        <div
           key={g.id}
-          src={g.image}
-          alt=""
           style={
             {
               position: 'absolute',
@@ -196,7 +210,23 @@ function GemLayer({ gems }: { gems: Gem[] }) {
               animation: `tp-gem ${g.dur}ms linear ${g.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {g.image !== undefined ? (
+            <img src={g.image} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+          ) : (
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 24 24"
+              fill={g.gemColor1}
+              aria-hidden="true"
+              style={{ display: 'block' }}
+            >
+              <polygon points="12,2 22,9 18,22 6,22 2,9" />
+              <polygon points="12,2 17,9 12,22 7,9" fill={g.gemColor2} opacity="0.6" />
+            </svg>
+          )}
+        </div>
       ))}
     </>
   )
@@ -255,11 +285,25 @@ function SparkleLayer({ sparkles }: { sparkles: Mote[] }) {
  * Treasure Eruption (CSS) — mixed coins and gems erupt in a radial burst
  * with parabolic gravity arcs using CSS calc() and custom properties.
  */
-export function ModalCelebrationsTreasureParticles() {
+function ModalCelebrationsTreasureParticlesComponent({
+  coinImage: coinSrc,
+  onComplete,
+}: ModalCelebrationsTreasureParticlesProps) {
   const coins = useMemo(makeCoins, [])
   const gems = useMemo(makeGems, [])
   const trails = useMemo(makeTrails, [])
   const sparkles = useMemo(makeSparkles, [])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...coins.map((c) => c.delay + c.dur),
+      ...gems.map((g) => g.delay + g.dur),
+      ...sparkles.map((s) => s.delay + 700),
+    )
+    const timer = setTimeout(onComplete, maxTime + 50)
+    return () => clearTimeout(timer)
+  }, [coins, gems, sparkles, onComplete])
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
   const bgGems = useMemo(() => gems.filter((g) => g.layer === 'bg'), [gems])
@@ -279,7 +323,7 @@ export function ModalCelebrationsTreasureParticles() {
       />
       {/* Background depth */}
       <div className="pf-celebration__depth-bg">
-        <CoinLayer coins={bgCoins} />
+        <CoinLayer coins={bgCoins} coinSrc={coinSrc} />
         <GemLayer gems={bgGems} />
       </div>
       {/* Effects */}
@@ -289,9 +333,11 @@ export function ModalCelebrationsTreasureParticles() {
       </div>
       {/* Foreground depth */}
       <div className="pf-celebration__depth-fg">
-        <CoinLayer coins={fgCoins} />
+        <CoinLayer coins={fgCoins} coinSrc={coinSrc} />
         <GemLayer gems={fgGems} />
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsTreasureParticles = memo(ModalCelebrationsTreasureParticlesComponent)

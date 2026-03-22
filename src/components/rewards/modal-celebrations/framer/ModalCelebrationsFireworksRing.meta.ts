@@ -6,6 +6,6 @@ export const metadata = {
   urlSlugCss: '/modal-celebrations-css?animation=modal-celebrations__fireworks-ring',
   title: 'Chrysanthemum Ring',
   description:
-    'Glowing embers converge inward from all directions to form a ring with shimmer particles, the ring ignites with a central flash, then burst confetti erupts outward with gravity droop and sparkle aftermath.',
+    'Embers converge to form a ring, ignite with a flash, then burst confetti erupts outward. Self-contained choreography with onComplete callback.',
   tier: 3,
 } satisfies AnimationMetadata

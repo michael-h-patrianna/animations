@@ -1,13 +1,28 @@
-import { useMemo } from 'react'
+/**
+ * Windswept confetti shower with 3D tumble, depth layers, and top-edge flash — CSS variant.
+ *
+ * Copy-paste files: this file + ModalCelebrationsConfettiRain.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react
+ */
 
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
 import {
-  CELEBRATION_COLORS,
   CONFETTI_SHAPES,
   pickRandom,
   randBetween,
   type ConfettiShape,
 } from '../utils'
 import './ModalCelebrationsConfettiRain.css'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsConfettiRainProps extends CelebrationBaseProps {
+  /** Total confetti particles across all waves. Default 50. */
+  particleCount?: number
+}
 
 /* ─── Types ─── */
 
@@ -36,18 +51,23 @@ type Sparkle = {
   size: number
 }
 
+/* ─── Constants ─── */
+
+const DEFAULT_PARTICLE_COUNT = 50
+const DEFAULT_DURATION_MS = 2100
+
 /* ─── Generators ─── */
 
-function makeParticles(): Particle[] {
-  return Array.from({ length: 50 }, (_, i) => {
-    const wave = i < 17 ? 0 : i < 34 ? 1 : 2
+function makeParticles(count: number, colors: readonly string[], timeScale: number): Particle[] {
+  return Array.from({ length: count }, (_, i) => {
+    const wave = i < Math.floor(count / 3) ? 0 : i < Math.floor((count * 2) / 3) ? 1 : 2
     const waveBase = [0, 280, 560][wave]!
     const layer: 'bg' | 'fg' = i % 3 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
     return {
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
-      color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length]!,
+      color: colors[i % colors.length]!,
       left: randBetween(5, 95),
       driftX1: randBetween(-20, 20),
       driftX2: randBetween(-45, 45),
@@ -55,20 +75,20 @@ function makeParticles(): Particle[] {
       rotX: randBetween(-180, 180),
       rotY: randBetween(-180, 180),
       rotZ: randBetween(-120, 120),
-      delay: waveBase + randBetween(0, 180),
-      dur: isBg ? randBetween(1800, 2400) : randBetween(1200, 1700),
+      delay: (waveBase + randBetween(0, 180)) * timeScale,
+      dur: (isBg ? randBetween(1800, 2400) : randBetween(1200, 1700)) * timeScale,
       scale: isBg ? randBetween(0.9, 1.4) : randBetween(0.6, 1.0),
       layer,
     }
   })
 }
 
-function makeSparkles(): Sparkle[] {
+function makeSparkles(timeScale: number): Sparkle[] {
   return Array.from({ length: 8 }, (_, i) => ({
     id: i,
     x: randBetween(-130, 130),
     y: randBetween(-40, 80),
-    delay: 900 + i * 100 + randBetween(0, 150),
+    delay: (900 + i * 100 + randBetween(0, 150)) * timeScale,
     size: randBetween(2.5, 5),
   }))
 }
@@ -105,7 +125,7 @@ function ConfettiLayer({ particles, peakOpacity }: { particles: Particle[]; peak
   )
 }
 
-function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
+function SparkleLayer({ sparkles, timeScale }: { sparkles: Sparkle[]; timeScale: number }) {
   return (
     <>
       {sparkles.map((s) => (
@@ -117,7 +137,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             top: `calc(50% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            animation: `cr-sparkle 1.1s ease-out ${s.delay}ms both`,
+            animation: `cr-sparkle ${1100 * timeScale}ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -127,33 +147,31 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
 
 /* ─── Main ─── */
 
-/** Windswept confetti shower with 3D tumble, depth layers, staggered wave timing, and top-edge flash. */
-export function ModalCelebrationsConfettiRain() {
-  const particles = useMemo(makeParticles, [])
-  const sparkles = useMemo(makeSparkles, [])
+function ModalCelebrationsConfettiRainComponent({
+  particleCount = DEFAULT_PARTICLE_COUNT,
+  colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsConfettiRainProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+
+  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
 
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...particles.map((p) => p.delay + p.dur),
+      ...sparkles.map((s) => s.delay + 1100 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime + 50)
+    return () => clearTimeout(timer)
+  }, [particles, sparkles, timeScale, onComplete])
+
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-rain">
-      {/* Top glow */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '-20px',
-          left: '10%',
-          right: '10%',
-          height: '60px',
-          borderRadius: '50%',
-          background:
-            'linear-gradient(180deg, var(--pf-anim-firework-gold-35) 0%, var(--pf-anim-highlight-15) 50%, transparent 100%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-          animation: 'cr-glow 2s ease-out both',
-        }}
-      />
-
-      {/* Top flash bar */}
       <div
         style={{
           position: 'absolute',
@@ -165,7 +183,7 @@ export function ModalCelebrationsConfettiRain() {
             'linear-gradient(90deg, transparent 5%, var(--pf-anim-white-90) 50%, transparent 95%)',
           zIndex: 3,
           pointerEvents: 'none',
-          animation: 'cr-flash 500ms ease-out both',
+          animation: `cr-flash ${500 * timeScale}ms ease-out both`,
         }}
       />
 
@@ -176,8 +194,10 @@ export function ModalCelebrationsConfettiRain() {
         <ConfettiLayer particles={fgParts} peakOpacity="1" />
       </div>
       <div className="pf-celebration__effects">
-        <SparkleLayer sparkles={sparkles} />
+        <SparkleLayer sparkles={sparkles} timeScale={timeScale} />
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsConfettiRain = memo(ModalCelebrationsConfettiRainComponent)

@@ -1,8 +1,26 @@
-import { useMemo } from 'react'
+/**
+ * Golden Eruption — parabolic coin fountain with 3D spin — CSS variant.
+ *
+ * Copy-paste files: this file + ModalCelebrationsCoinsArc.css + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
+ * Runtime deps: react
+ */
 
-import { coinImage } from '@/assets'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { GOLDEN_COLORS_HEX } from '../SharedCelebrationTypes'
+import { FallbackCoin } from '../SharedFallbackCoin'
 import { GOLDEN_COLORS, deg2rad, pickRandom, randBetween } from '../utils'
 import './ModalCelebrationsCoinsArc.css'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsCoinsArcProps extends CelebrationBaseProps {
+  /** Number of coin particles. Default 20. */
+  coinCount?: number
+  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  coinImage?: string
+}
 
 /* ─── Types ─── */
 
@@ -20,16 +38,7 @@ type Coin = {
   layer: 'bg' | 'fg'
 }
 
-type Glint = {
-  id: number
-  x: number
-  y: number
-  delay: number
-  size: number
-  color: string
-}
-
-type Sparkle = {
+type Mote = {
   id: number
   x: number
   y: number
@@ -40,24 +49,19 @@ type Sparkle = {
 
 /* ─── Constants ─── */
 
-const COIN_COUNT = 20
-const GLINT_COUNT = 10
-const SPARKLE_COUNT = 14
+const DEFAULT_COIN_COUNT = 20
+const DEFAULT_DURATION_MS = 1400
 
 /* ─── Generators ─── */
 
-/**
- * 20 coins — CSS variant stores parabolic endpoints and peak height.
- * The ca-coin keyframe approximates the arc using --ex, --peak, --end-y.
- */
-function makeCoins(): Coin[] {
+function makeCoins(count: number, timeScale: number): Coin[] {
   const coins: Coin[] = []
 
-  for (let i = 0; i < COIN_COUNT; i++) {
+  for (let i = 0; i < count; i++) {
     const layer: 'bg' | 'fg' = i % 3 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
 
-    const angleDeg = -55 + (i / (COIN_COUNT - 1)) * 110 + randBetween(-4, 4)
+    const angleDeg = -55 + (i / (count - 1)) * 110 + randBetween(-4, 4)
     const angle = deg2rad(angleDeg)
     const speed = isBg ? randBetween(280, 360) : randBetween(350, 450)
     const gravity = randBetween(750, 950)
@@ -65,7 +69,6 @@ function makeCoins(): Coin[] {
     const vx = Math.sin(angle) * speed
     const vy = -Math.cos(angle) * speed
 
-    /* Apex: t_apex = -vy / gravity, y_apex = vy·t + ½·g·t² */
     const tApex = Math.min(-vy / gravity, 1)
     const peakY = vy * tApex + 0.5 * gravity * tApex * tApex
     const endY = vy + 0.5 * gravity
@@ -78,8 +81,8 @@ function makeCoins(): Coin[] {
       spin: (isBg ? randBetween(2, 3) : randBetween(3, 4)) * 360,
       tumble: randBetween(-25, 25),
       size: isBg ? randBetween(16, 20) : randBetween(20, 28),
-      delay: i * 18 + randBetween(0, 30),
-      dur: randBetween(1200, 1600),
+      delay: (i * 18 + randBetween(0, 30)) * timeScale,
+      dur: randBetween(1200, 1600) * timeScale,
       om: isBg ? 0.55 : 1,
       layer,
     })
@@ -88,10 +91,10 @@ function makeCoins(): Coin[] {
   return coins
 }
 
-function makeGlints(): Glint[] {
-  const glints: Glint[] = []
+function makeGlints(colors: readonly string[], timeScale: number): Mote[] {
+  const glints: Mote[] = []
 
-  for (let i = 0; i < GLINT_COUNT; i++) {
+  for (let i = 0; i < 10; i++) {
     const angle = deg2rad(randBetween(-50, 50))
     const t = randBetween(0.15, 0.5)
     const speed = randBetween(300, 420)
@@ -100,19 +103,19 @@ function makeGlints(): Glint[] {
       id: i,
       x: Math.sin(angle) * speed * t,
       y: -Math.cos(angle) * speed * t + 0.5 * gravity * t * t,
-      delay: t * 1400 + randBetween(0, 120),
+      delay: (t * 1400 + randBetween(0, 120)) * timeScale,
       size: randBetween(3, 6),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
   return glints
 }
 
-function makeSparkles(): Sparkle[] {
-  const sparkles: Sparkle[] = []
+function makeSparkles(colors: readonly string[], timeScale: number): Mote[] {
+  const sparkles: Mote[] = []
 
-  for (let i = 0; i < SPARKLE_COUNT; i++) {
+  for (let i = 0; i < 14; i++) {
     const angle = deg2rad(randBetween(-55, 55))
     const t = randBetween(0.1, 0.7)
     const speed = randBetween(280, 430)
@@ -121,9 +124,9 @@ function makeSparkles(): Sparkle[] {
       id: i,
       x: Math.sin(angle) * speed * t + randBetween(-8, 8),
       y: -Math.cos(angle) * speed * t + 0.5 * gravity * t * t + randBetween(-6, 6),
-      delay: 400 + i * 60 + randBetween(0, 80),
+      delay: (400 + i * 60 + randBetween(0, 80)) * timeScale,
       size: randBetween(2.5, 4.5),
-      color: pickRandom(GOLDEN_COLORS),
+      color: pickRandom(colors),
     })
   }
 
@@ -132,14 +135,12 @@ function makeSparkles(): Sparkle[] {
 
 /* ─── Sub-components ─── */
 
-function CoinLayer({ coins }: { coins: Coin[] }) {
+function CoinLayer({ coins, coinSrc }: { coins: Coin[]; coinSrc?: string }) {
   return (
     <>
       {coins.map((c) => (
-        <img
+        <div
           key={c.id}
-          src={coinImage}
-          alt=""
           style={
             {
               position: 'absolute',
@@ -158,13 +159,19 @@ function CoinLayer({ coins }: { coins: Coin[] }) {
               animation: `ca-coin ${c.dur}ms linear ${c.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {coinSrc !== undefined ? (
+            <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+          ) : (
+            <FallbackCoin size={c.size} />
+          )}
+        </div>
       ))}
     </>
   )
 }
 
-function GlintLayer({ glints }: { glints: Glint[] }) {
+function GlintLayer({ glints, timeScale }: { glints: Mote[]; timeScale: number }) {
   return (
     <>
       {glints.map((g) => (
@@ -181,7 +188,7 @@ function GlintLayer({ glints }: { glints: Glint[] }) {
             boxShadow: `0 0 ${g.size + 3}px ${Math.round(g.size * 0.6)}px ${g.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
-            animation: `ca-glint 350ms ease-out ${g.delay}ms both`,
+            animation: `ca-glint ${350 * timeScale}ms ease-out ${g.delay}ms both`,
           }}
         />
       ))}
@@ -189,7 +196,7 @@ function GlintLayer({ glints }: { glints: Glint[] }) {
   )
 }
 
-function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
+function SparkleLayer({ sparkles, timeScale }: { sparkles: Mote[]; timeScale: number }) {
   return (
     <>
       {sparkles.map((s) => (
@@ -203,7 +210,7 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
             height: `${s.size}px`,
             background: s.color,
             boxShadow: `0 0 4px 1px ${s.color}`,
-            animation: `ca-sparkle 800ms ease-out ${s.delay}ms both`,
+            animation: `ca-sparkle ${800 * timeScale}ms ease-out ${s.delay}ms both`,
           }}
         />
       ))}
@@ -213,34 +220,54 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
 
 /* ─── Main ─── */
 
-/** Golden Eruption (CSS) — parabolic coin fountain with 3D spin and golden effects. */
-export function ModalCelebrationsCoinsArc() {
-  const coins = useMemo(makeCoins, [])
-  const glints = useMemo(makeGlints, [])
-  const sparkles = useMemo(makeSparkles, [])
+function ModalCelebrationsCoinsArcComponent({
+  coinCount = DEFAULT_COIN_COUNT,
+  coinImage,
+  colors = GOLDEN_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsCoinsArcProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+  const effectiveColors = colors.length > 0 ? colors : (GOLDEN_COLORS as unknown as string[])
+
+  const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
+  const glints = useMemo(() => makeGlints(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const sparkles = useMemo(() => makeSparkles(effectiveColors, timeScale), [effectiveColors, timeScale])
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
+
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...coins.map((c) => c.delay + c.dur),
+      ...sparkles.map((s) => s.delay + 800 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime + 50)
+    return () => clearTimeout(timer)
+  }, [coins, sparkles, timeScale, onComplete])
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__coins-arc">
       <div
         className="pf-celebration__glow"
-        style={{ left: '50%', top: '65%', animation: 'ca-glow 1600ms ease-out both' }}
+        style={{ left: '50%', top: '65%', animation: `ca-glow ${1600 * timeScale}ms ease-out both` }}
       />
       <div
         className="pf-celebration__flash"
-        style={{ left: '50%', top: '65%', animation: 'ca-flash 400ms ease-out both' }}
+        style={{ left: '50%', top: '65%', animation: `ca-flash ${400 * timeScale}ms ease-out both` }}
       />
       <div className="pf-celebration__depth-bg">
-        <CoinLayer coins={bgCoins} />
+        <CoinLayer coins={bgCoins} coinSrc={coinImage} />
       </div>
       <div className="pf-celebration__depth-fg">
-        <CoinLayer coins={fgCoins} />
+        <CoinLayer coins={fgCoins} coinSrc={coinImage} />
       </div>
       <div className="pf-celebration__effects">
-        <GlintLayer glints={glints} />
-        <SparkleLayer sparkles={sparkles} />
+        <GlintLayer glints={glints} timeScale={timeScale} />
+        <SparkleLayer sparkles={sparkles} timeScale={timeScale} />
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsCoinsArc = memo(ModalCelebrationsCoinsArcComponent)

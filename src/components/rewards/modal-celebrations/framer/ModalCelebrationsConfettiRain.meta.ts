@@ -6,6 +6,6 @@ export const metadata = {
   urlSlugCss: '/modal-celebrations-css?animation=modal-celebrations__confetti-rain',
   title: 'Confetti Rainfall',
   description:
-    'Windswept confetti shower with 3D tumble, depth layers, staggered wave timing, and top-edge flash.',
+    'Windswept confetti shower with 3D tumble, depth layers, and top-edge flash. Configurable particleCount, colors, duration, and onComplete callback.',
   tier: 3,
 } satisfies AnimationMetadata

@@ -1,11 +1,11 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata: AnimationMetadata = {
+export const metadata = {
   id: 'modal-celebrations__confetti-spiral',
   urlSlugFramer: '/modal-celebrations-framer?animation=modal-celebrations__confetti-spiral',
   urlSlugCss: '/modal-celebrations-css?animation=modal-celebrations__confetti-spiral',
   title: 'Confetti Spiral',
   description:
-    'Dynamic tornado confetti — particles orbit center in 3 spiral arms while expanding outward with gravity release.',
+    'Dynamic tornado confetti — particles orbit center in 3 spiral arms with gravity release. Configurable particleCount, colors, duration, and onComplete callback.',
   tier: 3,
-}
+} satisfies AnimationMetadata

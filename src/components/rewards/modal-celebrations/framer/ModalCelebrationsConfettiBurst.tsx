@@ -1,13 +1,28 @@
-import * as m from 'motion/react-m'
-import { useMemo } from 'react'
+/**
+ * Multi-layered confetti explosion with depth layers, 3D tumble, and sparkles.
+ *
+ * Copy-paste files: this file + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
+ * Runtime deps: react, motion
+ */
 
+import * as m from 'motion/react-m'
+import { memo, useEffect, useMemo } from 'react'
+
+import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
 import {
-  CELEBRATION_COLORS,
   CONFETTI_SHAPES,
   pickRandom,
   randBetween,
   type ConfettiShape,
 } from '../utils'
+
+/* ─── Props ─── */
+
+interface ModalCelebrationsConfettiBurstProps extends CelebrationBaseProps {
+  /** Total confetti particles. Default 60. */
+  particleCount?: number
+}
 
 /* ─── Types ─── */
 
@@ -37,11 +52,16 @@ type Sparkle = {
   size: number
 }
 
+/* ─── Constants ─── */
+
+const DEFAULT_PARTICLE_COUNT = 60
+const DEFAULT_DURATION_MS = 2800
+
 /* ─── Generators ─── */
 
-function makeParticles(): Particle[] {
-  return Array.from({ length: 60 }, (_, i) => {
-    const layer: 'bg' | 'fg' = i < 20 ? 'bg' : 'fg'
+function makeParticles(count: number, colors: readonly string[], timeScale: number): Particle[] {
+  return Array.from({ length: count }, (_, i) => {
+    const layer: 'bg' | 'fg' = i < Math.floor(count / 3) ? 'bg' : 'fg'
     const isBg = layer === 'bg'
     const spread = isBg ? 0.65 : 1
     const reach = isBg ? 0.6 : 1
@@ -49,7 +69,7 @@ function makeParticles(): Particle[] {
     return {
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
-      color: CELEBRATION_COLORS[i % CELEBRATION_COLORS.length]!,
+      color: colors[i % colors.length]!,
       originX: randBetween(-4, 4),
       tx: randBetween(-140, 140) * spread,
       tyPeak: randBetween(-150, -50) * reach,
@@ -58,44 +78,46 @@ function makeParticles(): Particle[] {
       rotX: randBetween(-160, 160),
       rotY: randBetween(-140, 140),
       rotZ: randBetween(-300, 300),
-      delay: i * 0.003 + randBetween(0, 0.015),
-      dur: isBg ? randBetween(2.6, 3.4) : randBetween(2.0, 2.8),
+      delay: (i * 0.003 + randBetween(0, 0.015)) * timeScale,
+      dur: (isBg ? randBetween(2.6, 3.4) : randBetween(2.0, 2.8)) * timeScale,
       scale: isBg ? randBetween(0.55, 0.85) : randBetween(0.75, 1.15),
       layer,
     }
   })
 }
 
-function makeSparkles(): Sparkle[] {
+function makeSparkles(timeScale: number): Sparkle[] {
   return Array.from({ length: 10 }, (_, i) => ({
     id: i,
     x: randBetween(-100, 100),
     y: randBetween(-110, 20),
-    delay: 1.0 + i * 0.1 + randBetween(0, 0.15),
+    delay: (1.0 + i * 0.1 + randBetween(0, 0.15)) * timeScale,
     size: randBetween(2.5, 5),
   }))
 }
 
 /* ─── Sub-components ─── */
 
-function SubtleFlash() {
+function SubtleFlash({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__flash"
+      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 1.2, 1.6], opacity: [0, 0.7, 0] }}
-      transition={{ duration: 0.25, times: [0, 0.4, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.25 * timeScale, times: [0, 0.4, 1], ease: 'easeOut' }}
     />
   )
 }
 
-function AmbientGlow() {
+function AmbientGlow({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__glow"
+      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', opacity: [0, 0.4, 0.25, 0.08] }}
-      transition={{ duration: 2.8, times: [0, 0.08, 0.35, 1], ease: 'easeOut' }}
+      transition={{ duration: 2.8 * timeScale, times: [0, 0.08, 0.35, 1], ease: 'easeOut' }}
     />
   )
 }
@@ -114,6 +136,7 @@ function ConfettiPiece({ p }: { p: Particle }) {
         top: '55%',
         background: p.color,
         transformStyle: 'preserve-3d' as const,
+        animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotateX: 0, rotateY: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -160,7 +183,7 @@ function ConfettiPiece({ p }: { p: Particle }) {
   )
 }
 
-function SparkleDot({ s }: { s: Sparkle }) {
+function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
   return (
     <m.span
       className="pf-celebration__sparkle"
@@ -171,27 +194,44 @@ function SparkleDot({ s }: { s: Sparkle }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
+        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 1.1, 0], opacity: [0, 0.9, 0.3, 0.7, 0] }}
-      transition={{ duration: 1.4, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
+      transition={{ duration: 1.4 * timeScale, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
     />
   )
 }
 
 /* ─── Main ─── */
 
-/** Multi-layered confetti explosion with subtle flash, depth layers, 3D tumble, and lingering sparkles. */
-export function ModalCelebrationsConfettiBurst() {
-  const particles = useMemo(makeParticles, [])
-  const sparkles = useMemo(makeSparkles, [])
+function ModalCelebrationsConfettiBurstComponent({
+  particleCount = DEFAULT_PARTICLE_COUNT,
+  colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  duration,
+  onComplete,
+}: ModalCelebrationsConfettiBurstProps) {
+  const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+
+  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
 
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxTime = Math.max(
+      ...particles.map((p) => p.delay + p.dur),
+      ...sparkles.map((s) => s.delay + 1.4 * timeScale),
+    )
+    const timer = setTimeout(onComplete, maxTime * 1000 + 50)
+    return () => clearTimeout(timer)
+  }, [particles, sparkles, timeScale, onComplete])
+
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst">
-      <AmbientGlow />
-      <SubtleFlash />
+      <AmbientGlow timeScale={timeScale} />
+      <SubtleFlash timeScale={timeScale} />
 
       <div className="pf-celebration__depth-bg">
         {bgParts.map((p) => (
@@ -205,9 +245,11 @@ export function ModalCelebrationsConfettiBurst() {
       </div>
       <div className="pf-celebration__effects">
         {sparkles.map((s) => (
-          <SparkleDot key={s.id} s={s} />
+          <SparkleDot key={s.id} s={s} timeScale={timeScale} />
         ))}
       </div>
     </div>
   )
 }
+
+export const ModalCelebrationsConfettiBurst = memo(ModalCelebrationsConfettiBurstComponent)
