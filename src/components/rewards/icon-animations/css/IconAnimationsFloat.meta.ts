@@ -6,5 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/icon-animations-css?animation=icon-animations__float',
   title: 'Float',
   description: 'Gentle Y-axis sine wave with subtle rotation and shadow distance changes.',
+  infinite: true,
   tier: 4,
 }

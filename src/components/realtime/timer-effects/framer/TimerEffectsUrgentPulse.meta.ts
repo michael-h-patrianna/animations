@@ -6,5 +6,6 @@ export const metadata = {
   urlSlugCss: '/timer-effects-css?animation=timer-effects__urgent-pulse',
   title: 'Urgent Pulse',
   description: 'Fast pulse with color shift for critical countdown moments',
+  infinite: true,
   tier: 2,
 } satisfies AnimationMetadata

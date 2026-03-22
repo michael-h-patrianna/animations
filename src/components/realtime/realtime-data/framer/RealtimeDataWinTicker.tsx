@@ -1,4 +1,3 @@
-// React import not required for JSX in React 17+
 import * as m from 'motion/react-m'
 
 export function RealtimeDataWinTicker() {

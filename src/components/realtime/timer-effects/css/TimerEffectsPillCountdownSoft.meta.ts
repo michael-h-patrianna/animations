@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/timer-effects-framer?animation=timer-effects__pill-countdown-soft',
   urlSlugCss: '/timer-effects-css?animation=timer-effects__pill-countdown-soft',
   title: 'Pill Countdown — Soft',
-  description: 'Quiet thresholds: mostly static. Brief pulse only at 60s, 30s, 10s and last 5s.',
+  description: 'Quiet countdown with brief pulse at key thresholds.',
   tier: 4,
 }

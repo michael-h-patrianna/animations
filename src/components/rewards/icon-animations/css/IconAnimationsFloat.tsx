@@ -1,4 +1,3 @@
-// React import not required for JSX in React 17+
 import './IconAnimationsFloat.css'
 
 import { presentBoxBalloon as balloonImage } from '@/assets'

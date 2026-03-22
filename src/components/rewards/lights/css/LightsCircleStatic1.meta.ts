@@ -8,5 +8,6 @@ export const metadata: AnimationMetadata = {
   description:
     'Classic carnival pattern with even/odd bulbs alternating on and off with realistic glow and fadeout.',
   controls: 'lights',
+  infinite: true,
   tier: 3,
 }

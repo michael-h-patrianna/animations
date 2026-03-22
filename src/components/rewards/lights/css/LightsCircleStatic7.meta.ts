@@ -8,5 +8,6 @@ export const metadata: AnimationMetadata = {
   description:
     'A bright head with a long trailing fadeout creates a comet-like effect around the circle.',
   controls: 'lights',
+  infinite: true,
   tier: 3,
 }

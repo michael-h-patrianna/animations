@@ -8,5 +8,6 @@ export const metadata: AnimationMetadata = {
   description:
     'Musical waltz pattern with groups of 3 bulbs following strong-weak-weak rhythm, like carnival organ music.',
   controls: 'lights',
+  infinite: true,
   tier: 3,
 }

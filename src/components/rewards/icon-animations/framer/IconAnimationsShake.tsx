@@ -10,7 +10,7 @@ export function IconAnimationsShake() {
         alt="Shake animation"
         style={{ width: 120 }}
         animate={{
-          translateX: [0, -10, 10, -8, 8, -6, 6, -4, 4, -2, 0],
+          x: [0, -10, 10, -8, 8, -6, 6, -4, 4, -2, 0],
           rotate: [0, -1, 1, -0.8, 0.8, -0.6, 0.6, -0.4, 0.4, -0.2, 0],
           scaleX: [1, 0.98, 0.98, 0.99, 0.99, 0.995, 0.995, 1, 1, 1, 1],
         }}

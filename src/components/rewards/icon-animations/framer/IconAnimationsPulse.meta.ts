@@ -6,5 +6,6 @@ export const metadata = {
   urlSlugCss: '/icon-animations-css?animation=icon-animations__pulse',
   title: 'Pulse',
   description: 'Scale pulse with opacity fade and expanding glow for heartbeat effect.',
+  infinite: true,
   tier: 4,
 } satisfies AnimationMetadata

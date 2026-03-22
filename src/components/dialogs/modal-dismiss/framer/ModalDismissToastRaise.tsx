@@ -1,11 +1,9 @@
 import * as m from 'motion/react-m'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export function ModalDismissToastRaise() {
   const [showProgress, setShowProgress] = useState(true)
-  const toastRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef<HTMLDivElement>(null)
 
   const entryDuration = 0.42
   const autoDismissMs = 3600
@@ -60,7 +58,6 @@ export function ModalDismissToastRaise() {
   return (
     <div className="pf-toast-preview">
       <m.div
-        ref={toastRef}
         className="pf-toast"
         data-animation-id="modal-dismiss__toast-raise"
         variants={toastVariants}
@@ -71,7 +68,6 @@ export function ModalDismissToastRaise() {
         <div className="pf-toast__body">Your changes have been saved</div>
         <div className="pf-toast__progress">
           <m.div
-            ref={progressRef}
             className="pf-toast__progress-bar"
             variants={progressVariants}
             initial="full"

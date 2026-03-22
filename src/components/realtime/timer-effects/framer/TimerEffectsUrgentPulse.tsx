@@ -1,14 +1,9 @@
 import * as m from 'motion/react-m'
-import { memo, useState } from 'react'
+import { useReducedMotion } from 'motion/react'
+import { memo } from 'react'
 
 export const TimerEffectsUrgentPulse = memo(function TimerEffectsUrgentPulse() {
-  // Check for reduced motion preference once on mount (not during render)
-  const [prefersReducedMotion] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
+  const prefersReducedMotion = useReducedMotion()
 
   // Scale animation values
   const scaleValues = [1, 1.12, 1]

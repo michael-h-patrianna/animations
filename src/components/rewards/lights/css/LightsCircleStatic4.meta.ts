@@ -8,5 +8,6 @@ export const metadata: AnimationMetadata = {
   description:
     'Counter-clockwise chase followed by faster clockwise motion, then synchronized pulses before revealing the winner.',
   controls: 'lights',
+  infinite: true,
   tier: 3,
 }

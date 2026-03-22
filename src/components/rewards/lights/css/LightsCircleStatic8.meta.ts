@@ -7,5 +7,6 @@ export const metadata: AnimationMetadata = {
   title: 'Dual Convergence',
   description: 'Two lights chase from opposite sides, meeting with a dramatic collision flash.',
   controls: 'lights',
+  infinite: true,
   tier: 3,
 }

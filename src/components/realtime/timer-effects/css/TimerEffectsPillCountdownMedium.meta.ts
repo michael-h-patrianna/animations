@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/timer-effects-framer?animation=timer-effects__pill-countdown-medium',
   urlSlugCss: '/timer-effects-css?animation=timer-effects__pill-countdown-medium',
   title: 'Pill Countdown — Medium',
-  description: 'Periodic blip: LED corner blink every 10s; subtle perimeter arc progress.',
+  description: 'Periodic blip with LED corner blink and subtle perimeter arc progress.',
   tier: 4,
 }

@@ -269,13 +269,14 @@ function useCardPackState(cardCount: number) {
 
   const [activeFlash, setActiveFlash] = useState<number | null>(null)
   useEffect(() => {
+    const timeoutIds: number[] = []
     flipped.forEach((isFlipped, i) => {
       if (isFlipped && !burstedCards[i] && cards[i]!.rarity >= 4) {
         setActiveFlash(cards[i]!.rarity)
-        const t = window.setTimeout(() => setActiveFlash(null), 400)
-        return () => window.clearTimeout(t)
+        timeoutIds.push(window.setTimeout(() => setActiveFlash(null), 400))
       }
     })
+    return () => timeoutIds.forEach((t) => window.clearTimeout(t))
   }, [flipped, burstedCards, cards])
 
   const [showConfetti, setShowConfetti] = useState(false)

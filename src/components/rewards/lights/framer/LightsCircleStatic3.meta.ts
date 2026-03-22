@@ -8,5 +8,6 @@ export const metadata: AnimationMetadata = {
   description:
     'Wheel of fortune spin: starts slow, accelerates to blur, decelerates, and settles on winner with celebration.',
   controls: 'lights',
+  infinite: true,
   tier: 3,
 }

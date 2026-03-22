@@ -8,5 +8,6 @@ export const metadata: AnimationMetadata = {
   description:
     'Unpredictable twinkling creates excitement and anticipation like stars in the night sky.',
   controls: 'lights',
+  infinite: true,
   tier: 3,
 }
