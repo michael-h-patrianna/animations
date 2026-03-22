@@ -1,16 +1,14 @@
+/**
+ * Catalog display for the Jitter CSS effect.
+ * Consumer product: ButtonEffectsJitter.css — apply .pf-jitter to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './ButtonEffectsJitter.css'
 
-/**
- * CSS-driven jitter animation that triggers on idle.
- *
- * @returns Button with jitter animation
- */
 function ButtonEffectsJitterComponent() {
   return (
-    <div className="button-demo" data-animation-id="button-effects__jitter">
-      <button type="button" className="pf-btn pf-btn--primary bfx-jitter">
+    <div data-animation-id="button-effects__jitter" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <button type="button" className="pf-btn pf-btn--primary pf-jitter">
         Click Me!
       </button>
     </div>

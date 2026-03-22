@@ -1,19 +1,30 @@
 /**
- * Press squash button effect with vertical compression and horizontal expansion.
- * GPU-accelerated using transform only (scaleX, scaleY, translateY).
- * Transform origin anchored to bottom for realistic squash deformation.
+ * Press Squash — click-triggered squash-and-stretch anchored at bottom.
+ *
+ * Usage:
+ *   <button class="my-btn pf-press-squash">Buy Now</button>
+ *   On click: add .pf-press-squash--active, remove after animation ends.
+ *
+ *   JS pattern:
+ *     el.classList.add('pf-press-squash--active')
+ *     el.addEventListener('animationend', () => el.classList.remove('pf-press-squash--active'), { once: true })
+ *
+ * Custom properties:
+ *   --pf-press-squash-duration: 300ms
+ *
+ * Copy this file. No other dependencies.
  */
 
-.bfx-press-squash {
+.pf-press-squash {
   transform-origin: center bottom;
 }
 
-.bfx-press-squash--active {
-  animation: bfx-press-squash 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.pf-press-squash--active {
+  animation: pf-press-squash var(--pf-press-squash-duration, 300ms) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   will-change: transform;
 }
 
-@keyframes bfx-press-squash {
+@keyframes pf-press-squash {
   0% {
     transform: scaleX(1) scaleY(1) translateY(0);
   }
@@ -28,9 +39,8 @@
   }
 }
 
-/* Accessibility: Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .bfx-press-squash--active {
+  .pf-press-squash--active {
     animation: none;
   }
 }

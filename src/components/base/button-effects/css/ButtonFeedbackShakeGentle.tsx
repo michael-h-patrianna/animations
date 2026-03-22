@@ -1,25 +1,25 @@
+/**
+ * Catalog display for the Shake Gentle CSS effect.
+ * Consumer product: ButtonFeedbackShakeGentle.css — apply .pf-shake-gentle + toggle --active.
+ */
 import { memo, useEffect, useState } from 'react'
 import './ButtonFeedbackShakeGentle.css'
 
 function ButtonFeedbackShakeGentleComponent() {
-  const [isAnimating, setIsAnimating] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(true)
 
   useEffect(() => {
     if (!isAnimating) return
-    const timer = setTimeout(() => setIsAnimating(false), 600)
+    const timer = setTimeout(() => setIsAnimating(false), 400)
     return () => clearTimeout(timer)
   }, [isAnimating])
 
-  const handleClick = () => {
-    setIsAnimating(true)
-  }
-
   return (
-    <div className="button-demo" data-animation-id="button-effects__shake-gentle">
+    <div data-animation-id="button-effects__shake-gentle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <button
         type="button"
-        className={`pf-btn pf-btn--primary bxf-feedback-shake-button ${isAnimating ? 'bxf-feedback-shake-button--active' : ''}`}
-        onClick={handleClick}
+        className={`pf-btn pf-btn--primary pf-shake-gentle ${isAnimating ? 'pf-shake-gentle--active' : ''}`}
+        onClick={() => setIsAnimating(true)}
         aria-label="Insufficient funds"
         aria-live="polite"
       >

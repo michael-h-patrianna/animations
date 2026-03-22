@@ -1,8 +1,20 @@
+/**
+ * Shockwave — wraps any element with concentric rings expanding from click point.
+ * Multiple staggered rings with different colors create a depth effect.
+ *
+ * Copy-paste files: this file + ButtonEffectsShockwave.css
+ * Runtime deps: react, motion
+ *
+ * Usage:
+ *   <ButtonEffectsShockwave ringCount={3} color="rgba(255,255,255,0.5)">
+ *     <button className="my-btn">Activate</button>
+ *   </ButtonEffectsShockwave>
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import React, { useRef, useState, memo, useEffect } from 'react'
-
-const RING_DELAYS = [0, 0.1, 0.2] as const
+import React, { useRef, useState, memo, useEffect, type ReactNode } from 'react'
+import './ButtonEffectsShockwave.css'
 
 interface Shockwave {
   id: number
@@ -11,11 +23,28 @@ interface Shockwave {
   size: number
 }
 
-function ButtonEffectsShockwaveComponent() {
+interface ButtonEffectsShockwaveProps {
+  children?: ReactNode
+  /** Number of concentric rings per click. Default: 3 */
+  ringCount?: number
+  /** Base ring border color. Default: 'rgba(255,255,255,0.5)' */
+  color?: string
+  /** Ring expansion duration in ms. Default: 1000 */
+  duration?: number
+}
+
+function ButtonEffectsShockwaveComponent({
+  children,
+  ringCount = 3,
+  color,
+  duration = 1000,
+}: ButtonEffectsShockwaveProps) {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
-  const btnRef = useRef<HTMLButtonElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const nextIdRef = useRef(0)
   const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+
+  const durationS = duration / 1000
 
   useEffect(() => {
     const timeoutIds = timeoutIdsRef.current
@@ -25,68 +54,66 @@ function ButtonEffectsShockwaveComponent() {
     }
   }, [])
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = btnRef.current?.getBoundingClientRect()
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
-
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     const id = nextIdRef.current++
-
-    // Compute ring diameter from farthest corner (same approach as Ripple)
     const dx = Math.max(x, rect.width - x)
     const dy = Math.max(y, rect.height - y)
     const size = Math.sqrt(dx * dx + dy * dy) * 2
 
     setShockwaves((prev) => [...prev, { id, x, y, size }])
 
+    const cleanupMs = duration + ringCount * 100 + 200
     const timeoutId = setTimeout(() => {
       timeoutIdsRef.current.delete(timeoutId)
       setShockwaves((prev) => prev.filter((w) => w.id !== id))
-    }, 1200)
+    }, cleanupMs)
     timeoutIdsRef.current.add(timeoutId)
   }
 
   return (
-    <div className="button-demo" data-animation-id="button-effects__shockwave">
-      <button
-        type="button"
-        ref={btnRef}
-        className="pf-btn pf-btn--primary pf-btn--shockwave"
-        onClick={handleClick}
-      >
-        Click Me!
-        <span className="pf-btn__shockwaves" aria-hidden>
-          {shockwaves.map((wave) => {
-            const half = wave.size / 2
-            const pos = {
-              left: wave.x - half,
-              top: wave.y - half,
-              width: wave.size,
-              height: wave.size,
-            }
-            return (
-              <React.Fragment key={wave.id}>
-                {RING_DELAYS.map((delay, i) => (
-                  <m.span
-                    key={i}
-                    className={`pf-btn__shockwave pf-btn__shockwave--${i + 1}`}
-                    style={pos}
-                    initial={{ scale: 0, opacity: 1 }}
-                    animate={{ scale: 1, opacity: 0 }}
-                    transition={{ duration: 1, ease: easeOut, delay }}
-                  />
-                ))}
-              </React.Fragment>
-            )
-          })}
-        </span>
-      </button>
+    <div
+      ref={containerRef}
+      className="pf-shockwave"
+      data-animation-id="button-effects__shockwave"
+      onClick={handleClick}
+      style={color !== undefined ? { ['--pf-shockwave-color' as string]: color } : undefined}
+    >
+      {children ?? (
+        <button type="button" className="pf-btn pf-btn--primary">
+          Click Me!
+        </button>
+      )}
+      <span className="pf-shockwave__overlay" aria-hidden>
+        {shockwaves.map((wave) => {
+          const half = wave.size / 2
+          const pos = {
+            left: wave.x - half,
+            top: wave.y - half,
+            width: wave.size,
+            height: wave.size,
+          }
+          return (
+            <React.Fragment key={wave.id}>
+              {Array.from({ length: ringCount }, (_, i) => (
+                <m.span
+                  key={i}
+                  className="pf-shockwave__ring"
+                  style={{ ...pos, opacity: 1 - i * 0.15, animation: 'none' }}
+                  initial={{ scale: 0, opacity: 1 - i * 0.15 }}
+                  animate={{ scale: 1, opacity: 0 }}
+                  transition={{ duration: durationS, ease: easeOut, delay: i * 0.1 }}
+                />
+              ))}
+            </React.Fragment>
+          )
+        })}
+      </span>
     </div>
   )
 }
 
-/**
- * Memoized ButtonEffectsShockwave to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsShockwave = memo(ButtonEffectsShockwaveComponent)

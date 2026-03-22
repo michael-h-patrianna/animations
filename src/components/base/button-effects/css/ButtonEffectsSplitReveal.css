@@ -1,47 +1,45 @@
 /**
- * Split reveal effect with text separation and center content reveal.
- * GPU-accelerated using transform only.
+ * Split Reveal — button text separates to reveal hidden content on click.
+ *
+ * Copy-paste files: this file + ButtonEffectsSplitReveal.tsx
+ * Runtime deps: react
+ *
+ * Custom properties:
+ *   --pf-split-reveal-duration: 800ms
+ *
+ * The TSX component manages click → toggle --active → auto-close lifecycle.
  */
 
-.bfx-split-reveal {
+.pf-split-reveal {
   position: relative;
   overflow: visible;
-  transition:
-    transform var(--pf-transition-fast, 160ms) ease,
-    box-shadow var(--pf-transition-fast, 160ms) ease;
-  will-change: transform;
 }
 
-.bfx-split-reveal__top,
-.bfx-split-reveal__bottom {
+.pf-split-reveal__top,
+.pf-split-reveal__bottom {
   display: inline-block;
-  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: transform var(--pf-split-reveal-duration, 800ms) cubic-bezier(0.68, -0.55, 0.265, 1.55);
   will-change: transform;
 }
 
-.bfx-split-reveal:active {
-  transform: translateY(1px) scale(0.98);
-  box-shadow: var(--pf-shadow-inner, inset 0 0 0 1px rgb(236 195 255 / 8%));
-}
-
-.bfx-split-reveal__content {
+.pf-split-reveal__content {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) scale(0);
   font-size: 24px;
-  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: transform var(--pf-split-reveal-duration, 800ms) cubic-bezier(0.68, -0.55, 0.265, 1.55);
   will-change: transform;
 }
 
-.bfx-split-reveal--active .bfx-split-reveal__top {
+.pf-split-reveal--active .pf-split-reveal__top {
   transform: translateY(-15px) rotate(-5deg);
 }
 
-.bfx-split-reveal--active .bfx-split-reveal__bottom {
+.pf-split-reveal--active .pf-split-reveal__bottom {
   transform: translateY(15px) rotate(5deg);
 }
 
-.bfx-split-reveal--active .bfx-split-reveal__content {
+.pf-split-reveal--active .pf-split-reveal__content {
   transform: translate(-50%, -50%) scale(1.2);
 }

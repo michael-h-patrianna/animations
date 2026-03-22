@@ -1,16 +1,36 @@
+/**
+ * Jitter — wraps any element with a looping scale-burst + rotation wobble.
+ * On hover, switches to a gentle heartbeat pulse.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <ButtonEffectsJitter duration={4000}><button>Buy Now</button></ButtonEffectsJitter>
+ */
+
 import * as m from 'motion/react-m'
+import { useState, memo, type ReactNode } from 'react'
 
-import { useState, memo } from 'react'
+interface ButtonEffectsJitterProps {
+  children?: ReactNode
+  /** Full jitter cycle duration in ms. Default: 4000 */
+  duration?: number
+}
 
-function ButtonEffectsJitterComponent() {
+function ButtonEffectsJitterComponent({
+  children,
+  duration = 4000,
+}: ButtonEffectsJitterProps) {
   const [isHovered, setIsHovered] = useState(false)
+
+  const durationS = duration / 1000
 
   const jitterVariants = {
     animate: {
       scale: [1, 0.9, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1],
       rotate: [0, 0, 0, -5, 5, -3, 2, 0, 0, 0],
       transition: {
-        duration: 4,
+        duration: durationS,
         ease: 'linear' as const,
         repeat: Infinity,
         times: [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 1],
@@ -28,22 +48,23 @@ function ButtonEffectsJitterComponent() {
       },
     },
   }
+
   return (
-    <div className="button-demo" data-animation-id="button-effects__jitter">
-      <m.button
-        className="pf-btn pf-btn--primary pf-btn--jitter"
-        variants={isHovered ? heartbeatVariants : jitterVariants}
-        animate="animate"
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-      >
-        Click Me!
-      </m.button>
-    </div>
+    <m.div
+      data-animation-id="button-effects__jitter"
+      style={{ display: 'inline-flex', animation: 'none' }}
+      variants={isHovered ? heartbeatVariants : jitterVariants}
+      animate="animate"
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+    >
+      {children ?? (
+        <button type="button" className="pf-btn pf-btn--primary">
+          Click Me!
+        </button>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized ButtonEffectsJitter to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsJitter = memo(ButtonEffectsJitterComponent)

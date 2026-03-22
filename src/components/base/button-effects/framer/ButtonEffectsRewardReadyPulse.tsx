@@ -1,56 +1,65 @@
+/**
+ * Reward Ready Pulse — wraps any element with a breathing scale + vertical bob
+ * to signal "ready to claim". Pauses on hover, compresses on tap.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <ButtonEffectsRewardReadyPulse><button>Claim Reward</button></ButtonEffectsRewardReadyPulse>
+ */
+
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useState } from 'react'
+import { memo, useState, type ReactNode } from 'react'
 
-/**
- * Framer Motion-driven reward ready pulse animation.
- *
- * Combines scale pulsing (1.0 → 1.08 → 1.0) with vertical bobbing (0 → -4px → 0)
- * to create a "breathing" effect indicating an element is ready to claim.
- *
- * Features:
- * - Infinite loop animation (2000ms cycle)
- * - Hover: scale to 1.12 (pauses pulse)
- * - Press: scale to 0.95
- * - Reduced motion support: subtle 1.02 scale at 3s cycle
- *
- * @returns Button with reward ready pulse animation
- */
-function ButtonEffectsRewardReadyPulseComponent() {
+interface ButtonEffectsRewardReadyPulseProps {
+  children?: ReactNode
+  /** Pulse cycle duration in ms. Default: 2000 */
+  duration?: number
+  /** Peak scale at pulse apex. Default: 1.08 */
+  pulseScale?: number
+  /** Vertical bob distance in px. Default: 4 */
+  bobDistance?: number
+}
+
+function ButtonEffectsRewardReadyPulseComponent({
+  children,
+  duration = 2000,
+  pulseScale = 1.08,
+  bobDistance = 4,
+}: ButtonEffectsRewardReadyPulseProps) {
   const [isHovered, setIsHovered] = useState(false)
-
   const prefersReducedMotion = useReducedMotion()
 
-  // Normal breathing pulse animation
+  const durationS = duration / 1000
+
   const pulseVariants = {
     animate: {
-      scale: [1, 1.08, 1],
-      y: [0, -4, 0],
+      scale: [1, pulseScale, 1],
+      y: [0, -bobDistance, 0],
       transition: {
-        duration: 2,
+        duration: durationS,
         ease: [0.4, 0.0, 0.6, 1.0] as const,
         repeat: Infinity,
       },
     },
   }
 
-  // Reduced motion: subtle pulse only
   const reducedMotionVariants = {
     animate: {
       scale: [1, 1.02, 1],
       y: [0, 0, 0],
       transition: {
-        duration: 3,
+        duration: durationS * 1.5,
         ease: 'easeInOut' as const,
         repeat: Infinity,
       },
     },
   }
 
-  // Hover state: scale up, no pulse
   const hoverVariants = {
     animate: {
-      scale: 1.12,
+      scale: pulseScale + 0.04,
       y: 0,
       transition: {
         duration: 0.2,
@@ -60,25 +69,24 @@ function ButtonEffectsRewardReadyPulseComponent() {
   }
 
   return (
-    <div className="button-demo" data-animation-id="button-effects__reward-ready-pulse">
-      <m.button
-        className="pf-btn pf-btn--primary"
-        variants={
-          isHovered ? hoverVariants : prefersReducedMotion ? reducedMotionVariants : pulseVariants
-        }
-        animate="animate"
-        whileTap={{ scale: 0.95, y: 0 }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        style={{ willChange: 'transform' }}
-      >
-        Claim Reward
-      </m.button>
-    </div>
+    <m.div
+      data-animation-id="button-effects__reward-ready-pulse"
+      style={{ display: 'inline-flex', willChange: 'transform', animation: 'none' }}
+      variants={
+        isHovered ? hoverVariants : prefersReducedMotion ? reducedMotionVariants : pulseVariants
+      }
+      animate="animate"
+      whileTap={{ scale: 0.95, y: 0 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+    >
+      {children ?? (
+        <button type="button" className="pf-btn pf-btn--primary">
+          Claim Reward
+        </button>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized ButtonEffectsRewardReadyPulse to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsRewardReadyPulse = memo(ButtonEffectsRewardReadyPulseComponent)

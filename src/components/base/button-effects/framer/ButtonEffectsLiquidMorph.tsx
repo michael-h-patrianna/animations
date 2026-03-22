@@ -1,15 +1,36 @@
+/**
+ * Liquid Morph — wraps any element with a click-triggered blob-like deformation.
+ * Organic scale + rotation + border-radius morphing for fluid feedback.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <ButtonEffectsLiquidMorph><button onClick={buy}>Buy Now</button></ButtonEffectsLiquidMorph>
+ */
+
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState, memo } from 'react'
+import { useEffect, useState, memo, type ReactNode } from 'react'
 
-function ButtonEffectsLiquidMorphComponent() {
+interface ButtonEffectsLiquidMorphProps {
+  children?: ReactNode
+  /** Morph animation duration in ms. Default: 600 */
+  duration?: number
+}
+
+function ButtonEffectsLiquidMorphComponent({
+  children,
+  duration = 600,
+}: ButtonEffectsLiquidMorphProps) {
   const [isAnimating, setIsAnimating] = useState(false)
+
+  const durationS = duration / 1000
 
   useEffect(() => {
     if (!isAnimating) return
-    const timer = setTimeout(() => setIsAnimating(false), 600)
+    const timer = setTimeout(() => setIsAnimating(false), duration)
     return () => clearTimeout(timer)
-  }, [isAnimating])
+  }, [isAnimating, duration])
 
   const handleClick = () => {
     setIsAnimating(true)
@@ -32,28 +53,29 @@ function ButtonEffectsLiquidMorphComponent() {
         '50px',
       ],
       transition: {
-        duration: 0.6,
+        duration: durationS,
         ease: easeOut,
         times: [0, 0.25, 0.5, 0.75, 1],
       },
     },
   }
+
   return (
-    <div className="button-demo" data-animation-id="button-effects__liquid-morph">
-      <m.button
-        className="pf-btn pf-btn--primary pf-btn--liquid-morph"
-        onClick={handleClick}
-        variants={liquidMorphVariants}
-        initial="initial"
-        animate={isAnimating ? 'animate' : 'initial'}
-      >
-        Click Me!
-      </m.button>
-    </div>
+    <m.div
+      data-animation-id="button-effects__liquid-morph"
+      style={{ display: 'inline-flex', animation: 'none' }}
+      onClick={handleClick}
+      variants={liquidMorphVariants}
+      initial="initial"
+      animate={isAnimating ? 'animate' : 'initial'}
+    >
+      {children ?? (
+        <button type="button" className="pf-btn pf-btn--primary">
+          Click Me!
+        </button>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized ButtonEffectsLiquidMorph to prevent unnecessary re-renders in grid layouts.
- */
 export const ButtonEffectsLiquidMorph = memo(ButtonEffectsLiquidMorphComponent)

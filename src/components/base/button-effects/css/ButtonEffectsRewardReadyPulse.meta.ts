@@ -2,10 +2,9 @@ import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
   id: 'button-effects__reward-ready-pulse',
-  urlSlugFramer: '/button-effects-framer?animation=button-effects__reward-ready-pulse',
-  urlSlugCss: '/button-effects-css?animation=button-effects__reward-ready-pulse',
   title: 'Reward Ready Pulse',
-  description: 'Gentle breathing pulse indicating element is ready to claim.',
+  description:
+    'CSS utility class (.pf-reward-pulse) — add to any element for a breathing scale + vertical bob. Custom properties: --pf-reward-pulse-duration, --pf-reward-pulse-scale, --pf-reward-pulse-bob.',
   infinite: true,
   tier: 1,
 }

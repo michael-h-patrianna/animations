@@ -1,14 +1,10 @@
-.button-demo {
-  --button-effects-bg-1: #ff5981;
-  --button-effects-bg-2: #c83558;
-  --button-effects-color: #fff;
-  --button-effects-border: #ff7495;
-  --button-effects-text-shadow: rgb(0 0 0 / 50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--pf-demo-height);
-}
+/**
+ * Shared demo button styles for the button-effects group.
+ * Used by framer variants as default content when no children are provided,
+ * and by CSS variant catalog scaffolding.
+ * NOT part of the consumer product.
+ */
+
 .pf-btn {
   position: relative;
   display: inline-flex;
@@ -27,6 +23,11 @@
 }
 
 .pf-btn--primary {
+  --button-effects-bg-1: #ff5981;
+  --button-effects-bg-2: #c83558;
+  --button-effects-color: #fff;
+  --button-effects-border: #ff7495;
+  --button-effects-text-shadow: rgb(0 0 0 / 50%);
   border-radius: 50px;
   background: linear-gradient(180deg, var(--button-effects-bg-1), var(--button-effects-bg-2));
   color: var(--button-effects-color);

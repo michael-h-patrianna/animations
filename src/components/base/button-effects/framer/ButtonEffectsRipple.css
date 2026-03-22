@@ -1,24 +1,27 @@
-/* Styles scoped for ButtonEffectsRipple */
+/**
+ * Layout styles for the Ripple framer wrapper.
+ * The overlay sits on top of children, clips ripples, and ignores pointer events.
+ */
 
-.pf-btn__ripples {
-  --button-effects-ripple-bg-100: rgb(255 255 255 / 60%);
-  --button-effects-ripple-bg-101: rgb(255 255 255 / 35%);
-  --button-effects-ripple-bg-102: rgb(255 255 255 / 20%);
-  --button-effects-ripple-bg-103: rgb(255 255 255 / 0%);
+.pf-ripple {
+  position: relative;
+  display: inline-flex;
+}
+
+.pf-ripple__overlay {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
+  border-radius: inherit;
 }
-.pf-btn__ripple {
+
+.pf-ripple__wave {
   position: absolute;
   border-radius: 50%;
-  background: linear-gradient(
-    180deg,
-    var(--button-effects-ripple-bg-100) 0%,
-    var(--button-effects-ripple-bg-101) 40%,
-    var(--button-effects-ripple-bg-102) 60%,
-    var(--button-effects-ripple-bg-103) 70%
+  background: radial-gradient(
+    circle,
+    var(--pf-ripple-color, rgb(255 255 255 / 40%)) 0%,
+    transparent 70%
   );
-  transform: scale(0.2);
-  opacity: 0.6;
 }

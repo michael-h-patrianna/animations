@@ -1,8 +1,17 @@
-import { memo, useEffect, useRef, useState } from 'react'
-import '../shared.css'
-import './ButtonEffectsShockwave.css'
+/**
+ * Shockwave — wraps any element with concentric rings expanding from click point.
+ *
+ * Copy-paste files: this file + ButtonEffectsShockwave.css
+ * Runtime deps: react
+ *
+ * Usage:
+ *   <ButtonEffectsShockwave ringCount={3}>
+ *     <button className="my-btn">Activate</button>
+ *   </ButtonEffectsShockwave>
+ */
 
-const RING_COUNT = 3
+import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
+import './ButtonEffectsShockwave.css'
 
 interface Shockwave {
   id: number
@@ -11,15 +20,21 @@ interface Shockwave {
   size: number
 }
 
-/**
- * Concentric ring shockwave effect emanating from click position.
- * Creates three staggered waves with different colors for depth effect.
- *
- * @returns Button with click-positioned shockwave animations
- */
-function ButtonEffectsShockwaveComponent() {
+interface ButtonEffectsShockwaveProps {
+  children?: ReactNode
+  /** Number of concentric rings per click. Default: 3 */
+  ringCount?: number
+  /** Ring expansion duration in ms. Default: 1000 */
+  duration?: number
+}
+
+function ButtonEffectsShockwaveComponent({
+  children,
+  ringCount = 3,
+  duration = 1000,
+}: ButtonEffectsShockwaveProps) {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
-  const btnRef = useRef<HTMLButtonElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const nextIdRef = useRef(0)
   const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
@@ -31,60 +46,64 @@ function ButtonEffectsShockwaveComponent() {
     }
   }, [])
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = btnRef.current?.getBoundingClientRect()
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
-
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     const id = nextIdRef.current++
-
-    // Compute ring diameter from farthest corner
     const dx = Math.max(x, rect.width - x)
     const dy = Math.max(y, rect.height - y)
     const size = Math.sqrt(dx * dx + dy * dy) * 2
 
     setShockwaves((prev) => [...prev, { id, x, y, size }])
 
+    const cleanupMs = duration + ringCount * 100 + 200
     const timeoutId = setTimeout(() => {
       timeoutIdsRef.current.delete(timeoutId)
       setShockwaves((prev) => prev.filter((w) => w.id !== id))
-    }, 1200)
+    }, cleanupMs)
     timeoutIdsRef.current.add(timeoutId)
   }
 
   return (
-    <div className="button-demo" data-animation-id="button-effects__shockwave">
-      <button
-        type="button"
-        ref={btnRef}
-        className="pf-btn pf-btn--primary bfx-shockwave"
-        onClick={handleClick}
-      >
-        Click Me!
-        <span className="bfx-shockwave__container" aria-hidden>
-          {shockwaves.map((wave) => {
-            const half = wave.size / 2
-            const pos = {
-              left: wave.x - half,
-              top: wave.y - half,
-              width: wave.size,
-              height: wave.size,
-            }
-            return (
-              <span key={wave.id} className="bfx-shockwave__group">
-                {Array.from({ length: RING_COUNT }, (_, i) => (
-                  <span
-                    key={i}
-                    className={`bfx-shockwave__ring bfx-shockwave__ring--${i + 1}`}
-                    style={pos}
-                  />
-                ))}
-              </span>
-            )
-          })}
-        </span>
-      </button>
+    <div
+      ref={containerRef}
+      className="pf-shockwave"
+      data-animation-id="button-effects__shockwave"
+      onClick={handleClick}
+    >
+      {children ?? (
+        <button type="button" className="pf-btn pf-btn--primary">
+          Click Me!
+        </button>
+      )}
+      <span className="pf-shockwave__overlay" aria-hidden>
+        {shockwaves.map((wave) => {
+          const half = wave.size / 2
+          const pos = {
+            left: wave.x - half,
+            top: wave.y - half,
+            width: wave.size,
+            height: wave.size,
+          }
+          return (
+            <span key={wave.id} className="pf-shockwave__group">
+              {Array.from({ length: ringCount }, (_, i) => (
+                <span
+                  key={i}
+                  className={`pf-shockwave__ring pf-shockwave__ring--${i + 1}`}
+                  style={{
+                    ...pos,
+                    animationDuration: `${duration}ms`,
+                    animationDelay: `${i * 100}ms`,
+                  }}
+                />
+              ))}
+            </span>
+          )
+        })}
+      </span>
     </div>
   )
 }

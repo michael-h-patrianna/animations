@@ -1,22 +1,29 @@
 /**
- * Liquid morph effect with blob-like deformation and rotation.
- * GPU-accelerated using transform and border-radius.
+ * Liquid Morph — click-triggered blob-like deformation with organic border-radius morphing.
+ *
+ * Usage:
+ *   <button class="my-btn pf-liquid-morph">Buy Now</button>
+ *   On click: add .pf-liquid-morph--active, remove after animation ends.
+ *
+ *   JS pattern:
+ *     el.classList.add('pf-liquid-morph--active')
+ *     el.addEventListener('animationend', () => el.classList.remove('pf-liquid-morph--active'), { once: true })
+ *
+ * Custom properties:
+ *   --pf-liquid-morph-duration: 600ms
+ *
+ * Copy this file. No other dependencies.
  */
 
-.bfx-liquid-morph {
-  transition:
-    transform var(--pf-transition-fast, 160ms) ease,
-    box-shadow var(--pf-transition-fast, 160ms) ease;
+.pf-liquid-morph {
   will-change: transform;
 }
 
-.bfx-liquid-morph--active {
-  animation: bfx-liquid-morph 0.6s ease-out;
-  transform: translateY(1px) scale(0.98);
-  box-shadow: var(--pf-shadow-inner, inset 0 0 0 1px rgb(236 195 255 / 8%));
+.pf-liquid-morph--active {
+  animation: pf-liquid-morph var(--pf-liquid-morph-duration, 600ms) ease-out;
 }
 
-@keyframes bfx-liquid-morph {
+@keyframes pf-liquid-morph {
   0% {
     transform: scale(1) rotate(0deg);
     border-radius: 50px;

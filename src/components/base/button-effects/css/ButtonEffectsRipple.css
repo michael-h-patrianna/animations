@@ -1,46 +1,45 @@
 /**
- * Material Design ripple effect with radial gradient fade.
- * GPU-accelerated using transform and opacity.
+ * Ripple — Material Design-style click ripple expansion.
+ *
+ * Copy-paste files: this file + ButtonEffectsRipple.tsx
+ * Runtime deps: react
+ *
+ * The TSX component manages click → spawn ripple → cleanup lifecycle.
+ * This CSS defines the expansion keyframes and overlay layout.
+ *
+ * Custom properties:
+ *   --pf-ripple-color: rgba(255,255,255,0.4)  (ripple fill)
+ *   --pf-ripple-duration: 520ms               (expansion time)
  */
 
-.bfx-ripple__container {
-  --button-effects-ripple-bg-100: rgb(255 255 255 / 60%);
-  --button-effects-ripple-bg-101: rgb(255 255 255 / 35%);
-  --button-effects-ripple-bg-102: rgb(255 255 255 / 20%);
-  --button-effects-ripple-bg-103: rgb(255 255 255 / 0%);
+.pf-ripple {
+  position: relative;
+  display: inline-flex;
+}
+
+.pf-ripple__overlay {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
+  border-radius: inherit;
 }
 
-.bfx-ripple {
-  transition:
-    transform var(--pf-transition-fast) ease,
-    box-shadow var(--pf-transition-fast) ease;
-}
-
-.bfx-ripple:active {
-  transform: translateY(1px) scale(0.98);
-  box-shadow: var(--pf-shadow-inner);
-}
-
-.bfx-ripple__wave {
+.pf-ripple__wave {
   position: absolute;
   border-radius: 50%;
-  background: linear-gradient(
-    180deg,
-    var(--button-effects-ripple-bg-100) 0%,
-    var(--button-effects-ripple-bg-101) 40%,
-    var(--button-effects-ripple-bg-102) 60%,
-    var(--button-effects-ripple-bg-103) 70%
+  background: radial-gradient(
+    circle,
+    var(--pf-ripple-color, rgb(255 255 255 / 40%)) 0%,
+    transparent 70%
   );
   transform: scale(0.2);
   opacity: 0.6;
-  animation: bfx-ripple 520ms ease-out forwards;
+  animation: pf-ripple var(--pf-ripple-duration, 520ms) ease-out forwards;
   will-change: transform, opacity;
 }
 
-@keyframes bfx-ripple {
+@keyframes pf-ripple {
   60% {
     opacity: 0.45;
   }

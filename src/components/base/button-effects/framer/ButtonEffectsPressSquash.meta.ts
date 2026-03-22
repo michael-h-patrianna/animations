@@ -2,9 +2,9 @@ import type { AnimationMetadata } from '@/types/animation'
 
 export const metadata: AnimationMetadata = {
   id: 'button-effects__press-squash',
-  urlSlugFramer: '/button-effects-framer?animation=button-effects__press-squash',
-  urlSlugCss: '/button-effects-css?animation=button-effects__press-squash',
   title: 'Press Squash',
-  description: 'Button squashes vertically with horizontal expansion for tactile press feedback',
+  description:
+    'Wraps any element with a click-triggered squash-and-stretch anchored at bottom. Props: duration.',
+  disableReplay: true,
   tier: 1,
 }

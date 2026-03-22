@@ -1,11 +1,9 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata = {
+export const metadata: AnimationMetadata = {
   id: 'button-effects__shake-gentle',
-  urlSlugFramer: '/button-effects-framer?animation=button-effects__shake-gentle',
-  urlSlugCss: '/button-effects-css?animation=button-effects__shake-gentle',
   title: 'Shake Gentle',
   description:
-    'Gentle horizontal shake with opacity dim to communicate insufficient funds or blocked action',
+    'Wraps any element with a horizontal shake + opacity dim for error feedback. Props: duration, trigger (programmatic false→true edge).',
   tier: 1,
-} satisfies AnimationMetadata
+}

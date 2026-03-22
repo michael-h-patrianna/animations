@@ -1,26 +1,22 @@
-/* Styles scoped for ButtonEffectsSplitReveal */
+/**
+ * Layout styles for the Split Reveal framer variant.
+ * Positions the reveal content centered behind the split labels.
+ */
 
-.pf-btn--split-reveal {
+.pf-split-reveal {
   position: relative;
   overflow: visible;
 }
-.pf-btn__split-top,
-.pf-btn__split-bottom {
+
+.pf-split-reveal__top,
+.pf-split-reveal__bottom {
   display: inline-block;
 }
-.pf-btn__split-reveal-content {
+
+.pf-split-reveal__content {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) scale(0);
   font-size: 24px;
-}
-.pf-btn--split-reveal.split-revealing .pf-btn__split-top {
-  transform: translateY(-15px) rotate(-5deg);
-}
-.pf-btn--split-reveal.split-revealing .pf-btn__split-bottom {
-  transform: translateY(15px) rotate(5deg);
-}
-.pf-btn--split-reveal.split-revealing .pf-btn__split-reveal-content {
-  transform: translate(-50%, -50%) scale(1.2);
 }
