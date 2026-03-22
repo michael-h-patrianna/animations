@@ -1,65 +1,58 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Stagger-reveals child elements with a horizontal wipe-in — CSS variant.
+ *
+ * Copy-paste files: this file + ModalContentListVerticalWipe.css + ../SharedTypes.ts
+ * Runtime deps: react
+ *
+ * @example
+ * <ModalContentListVerticalWipe stagger={100} duration={500}>
+ *   <div>Step complete</div>
+ *   <div>Profile configured</div>
+ * </ModalContentListVerticalWipe>
+ */
+
+import { Children, memo } from 'react'
+
+import { generateMockListItems } from '../MockContentItems'
+import type { ContentStaggerProps } from '../SharedTypes'
+
 import './ModalContentListVerticalWipe.css'
-export function ModalContentListVerticalWipe() {
-  const items = ['Introduction complete', 'Profile configured', 'Preferences set', 'Ready to begin']
-  const listItemsRef = useRef<(HTMLDivElement | null)[]>([])
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
-  useEffect(() => {
-    listItemsRef.current.forEach((item, index) => {
-      if (item) {
-        item.style.animation = 'none'
-        void item.offsetWidth
-        const delay = 300 + 80 * index
-        item.style.animation = `list-vertical-wipe 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
-        item.style.opacity = '0'
-        item.style.transform = 'scaleY(0)'
-        item.style.transformOrigin = 'top'
-      }
-    })
-    if (buttonRef.current) {
-      const btn = buttonRef.current
-      btn.style.animation = 'none'
-      void btn.offsetWidth
-      btn.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards 700ms`
-      btn.style.opacity = '0'
-      btn.style.transform = 'translateY(16px) scale(0.94)'
-    }
-  }, [])
+
+const DEFAULT_DURATION = 500
+const DEFAULT_STAGGER = 100
+const DEFAULT_COUNT = 4
+
+function ModalContentListVerticalWipeComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  stagger = DEFAULT_STAGGER,
+  className,
+  style,
+}: ContentStaggerProps) {
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generateMockListItems(DEFAULT_COUNT)
+
   return (
-    <div className="modal-content-overlay" data-animation-id="modal-content__list-vertical-wipe">
-      <div className="modal-content-modal">
-        <div className="modal-content-header">
-          <h4 className="modal-content-title">Setup Complete</h4>
-          <span className="modal-content-badge">Modal</span>
-        </div>
-        <div className="modal-content-body">
-          <div className="modal-content-list">
-            {items.map((item, index) => (
-              <div
-                key={index}
-                ref={(el) => {
-                  listItemsRef.current[index] = el
-                }}
-                className="modal-content-list-item"
-                style={{ overflow: 'hidden' }}
-              >
-                {item}
-              </div>
-            ))}
+    <div
+      className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+      data-animation-id="modal-content__list-vertical-wipe"
+      style={style}
+    >
+      {renderItems.map((child, i) => (
+        <div key={i} className="pf-list-vertical-wipe-clip">
+          <div
+            className="pf-list-vertical-wipe-item"
+            style={{
+              '--pf-stagger-delay': `${String(stagger * i)}ms`,
+              '--pf-stagger-duration': `${String(duration)}ms`,
+            } as React.CSSProperties}
+          >
+            {child}
           </div>
         </div>
-        <div className="modal-content-footer">
-          <button
-            type="button"
-            ref={(el) => {
-              buttonRef.current = el
-            }}
-            className="modal-content-button modal-content-button-primary"
-          >
-            Continue
-          </button>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }
+
+export const ModalContentListVerticalWipe = memo(ModalContentListVerticalWipeComponent)

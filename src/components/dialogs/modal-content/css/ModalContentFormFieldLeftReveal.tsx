@@ -1,99 +1,60 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Stagger-reveals child elements by sliding from the left — CSS variant.
+ *
+ * Copy-paste files: this file + ModalContentFormFieldLeftReveal.css + ../SharedTypes.ts
+ * Runtime deps: react
+ *
+ * @example
+ * <ModalContentFormFieldLeftReveal stagger={90} distance={40}>
+ *   <div><label>Name</label><input /></div>
+ *   <div><label>Email</label><input /></div>
+ * </ModalContentFormFieldLeftReveal>
+ */
+
+import { Children, memo } from 'react'
+
+import { generateMockFormFields } from '../MockContentItems'
+import type { DirectionalRevealProps } from '../SharedTypes'
+
 import './ModalContentFormFieldLeftReveal.css'
-export function ModalContentFormFieldLeftReveal() {
-  const fieldsRef = useRef<(HTMLDivElement | null)[]>([])
-  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([])
-  useEffect(() => {
-    // Trigger left reveal animation on mount
-    fieldsRef.current.forEach((field, index) => {
-      if (field) {
-        // Reset any existing animation
-        field.style.animation = 'none'
-        void field.offsetWidth // Force reflow
-        // Apply left reveal animation with staggered delay + 300ms modal delay
-        const delay = 300 + 90 * index
-        field.style.animation = `form-field-left-reveal 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
-        field.style.opacity = '0'
-        field.style.transform = 'translateX(-32px)'
-      }
-    }) // Trigger button stagger animation after form fields complete
-    buttonsRef.current.forEach((button, index) => {
-      if (button) {
-        // Reset any existing animation
-        button.style.animation = 'none'
-        void button.offsetWidth // Force reflow
-        // Apply staggered animation with 750ms base delay + 70ms stagger
-        const delay = 750 + 70 * index
-        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
-        button.style.opacity = '0'
-        button.style.transform = 'translateY(16px) scale(0.94)'
-      }
-    })
-  }, [])
+
+const DEFAULT_DURATION = 500
+const DEFAULT_STAGGER = 90
+const DEFAULT_DISTANCE = 32
+const DEFAULT_COUNT = 3
+
+function ModalContentFormFieldLeftRevealComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  stagger = DEFAULT_STAGGER,
+  distance = DEFAULT_DISTANCE,
+  className,
+  style,
+}: DirectionalRevealProps) {
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generateMockFormFields(DEFAULT_COUNT)
+
   return (
     <div
-      className="modal-content-overlay"
+      className={className !== undefined ? `pf-content-stagger pf-content-stagger--form ${className}` : 'pf-content-stagger pf-content-stagger--form'}
       data-animation-id="modal-content__form-field-left-reveal"
+      style={style}
     >
-      <div className="modal-content-modal">
-        <div className="modal-content-header">
-          <h4 className="modal-content-title">Sequence Control</h4>
-          <span className="modal-content-badge">Modal</span>
+      {renderItems.map((child, i) => (
+        <div
+          key={i}
+          className="pf-form-left-reveal-item"
+          style={{
+            '--pf-stagger-delay': `${String(stagger * i)}ms`,
+            '--pf-stagger-duration': `${String(duration)}ms`,
+            '--pf-reveal-distance': `${String(distance)}px`,
+          } as React.CSSProperties}
+        >
+          {child}
         </div>
-        <div className="modal-content-body">
-          <p>Build trust by sequencing content reveals.</p>
-          <p>Keep focus with 70ms cadence.</p>
-          <div className="modal-content-form">
-            <div
-              ref={(el) => {
-                fieldsRef.current[0] = el
-              }}
-              className="modal-content-field"
-            >
-              <label>Field 1</label>
-              <input type="text" defaultValue="Input" />
-            </div>
-            <div
-              ref={(el) => {
-                fieldsRef.current[1] = el
-              }}
-              className="modal-content-field"
-            >
-              <label>Field 2</label>
-              <input type="text" defaultValue="Input" />
-            </div>
-            <div
-              ref={(el) => {
-                fieldsRef.current[2] = el
-              }}
-              className="modal-content-field"
-            >
-              <label>Field 3</label>
-              <input type="text" defaultValue="Input" />
-            </div>
-          </div>
-        </div>
-        <div className="modal-content-footer">
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[0] = el
-            }}
-            className="modal-content-button modal-content-button-primary"
-          >
-            Accept
-          </button>
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[1] = el
-            }}
-            className="modal-content-button modal-content-button-secondary"
-          >
-            Later
-          </button>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }
+
+export const ModalContentFormFieldLeftReveal = memo(ModalContentFormFieldLeftRevealComponent)

@@ -1,94 +1,57 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Stagger-reveals child elements with a scale spotlight effect — CSS variant.
+ *
+ * Copy-paste files: this file + ModalContentListSpotlight.css + ../SharedTypes.ts
+ * Runtime deps: react
+ *
+ * @example
+ * <ModalContentListSpotlight stagger={120} duration={500}>
+ *   <div>Milestone 1</div>
+ *   <div>Milestone 2</div>
+ * </ModalContentListSpotlight>
+ */
+
+import { Children, memo } from 'react'
+
+import { generateMockListItems } from '../MockContentItems'
+import type { ContentStaggerProps } from '../SharedTypes'
+
 import './ModalContentListSpotlight.css'
-export function ModalContentListSpotlight() {
-  const listItemsRef = useRef<(HTMLDivElement | null)[]>([])
-  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([])
-  useEffect(() => {
-    // Trigger spotlight animation on mount
-    listItemsRef.current.forEach((item, index) => {
-      if (item) {
-        // Reset any existing animation
-        item.style.animation = 'none'
-        void item.offsetWidth // Force reflow
-        // Apply spotlight animation with staggered delay + 300ms modal delay
-        const delay = 300 + 120 * index
-        item.style.animation = `list-spotlight 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
-        item.style.opacity = '0'
-        item.style.transform = 'scale(0.95)' // Simulate brightness filter with opacity for RN compatibility
-        item.style.backgroundColor = 'var(--pf-anim-black-15)'
-      }
-    }) // Trigger button stagger animation after list items complete
-    buttonsRef.current.forEach((button, index) => {
-      if (button) {
-        // Reset any existing animation
-        button.style.animation = 'none'
-        void button.offsetWidth // Force reflow
-        // Apply staggered animation with 650ms base delay + 70ms stagger
-        const delay = 650 + 70 * index
-        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
-        button.style.opacity = '0'
-        button.style.transform = 'translateY(16px) scale(0.94)'
-      }
-    })
-  }, [])
+
+const DEFAULT_DURATION = 500
+const DEFAULT_STAGGER = 120
+const DEFAULT_COUNT = 3
+
+function ModalContentListSpotlightComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  stagger = DEFAULT_STAGGER,
+  className,
+  style,
+}: ContentStaggerProps) {
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generateMockListItems(DEFAULT_COUNT)
+
   return (
-    <div className="modal-content-overlay" data-animation-id="modal-content__list-spotlight">
-      <div className="modal-content-modal">
-        <div className="modal-content-header">
-          <h4 className="modal-content-title">Sequence Control</h4>
-          <span className="modal-content-badge">Modal</span>
+    <div
+      className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+      data-animation-id="modal-content__list-spotlight"
+      style={style}
+    >
+      {renderItems.map((child, i) => (
+        <div
+          key={i}
+          className="pf-list-spotlight-item"
+          style={{
+            '--pf-stagger-delay': `${String(stagger * i)}ms`,
+            '--pf-stagger-duration': `${String(duration)}ms`,
+          } as React.CSSProperties}
+        >
+          {child}
         </div>
-        <div className="modal-content-body">
-          <p>Build trust by sequencing content reveals.</p>
-          <p>Keep focus with 70ms cadence.</p>
-          <div className="modal-content-list">
-            <div
-              ref={(el) => {
-                listItemsRef.current[0] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 1
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[1] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 2
-            </div>
-            <div
-              ref={(el) => {
-                listItemsRef.current[2] = el
-              }}
-              className="modal-content-list-item"
-            >
-              Milestone 3
-            </div>
-          </div>
-        </div>
-        <div className="modal-content-footer">
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[0] = el
-            }}
-            className="modal-content-button modal-content-button-primary"
-          >
-            Accept
-          </button>
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[1] = el
-            }}
-            className="modal-content-button modal-content-button-secondary"
-          >
-            Later
-          </button>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }
+
+export const ModalContentListSpotlight = memo(ModalContentListSpotlightComponent)

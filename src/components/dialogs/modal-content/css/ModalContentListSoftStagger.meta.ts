@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-content-framer?animation=modal-content__list-soft-stagger',
   urlSlugCss: '/modal-content-css?animation=modal-content__list-soft-stagger',
   title: 'List Soft Stagger',
-  description: 'Sequential list reveal (5 items) using 60ms offsets.',
+  description: 'Soft upward fade stagger for list items — CSS variant. Props: duration, stagger via CSS custom properties.',
   tier: 3,
 }

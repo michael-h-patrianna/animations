@@ -1,191 +1,44 @@
-/* Shared mock modal styles for modal-content demos */
+/*
+ * Shared layout classes for modal-content choreography animations.
+ * Layout only — no animation properties, no modal appearance styling.
+ * CSS variants define their own keyframes in component-scoped CSS files.
+ */
 
-/* Overlay */
-.modal-content-overlay {
-  --modal-content-bg-1: rgb(236 195 255 / 8%);
-  --modal-content-border-1: rgb(236 195 255 / 12%);
-  --modal-content-color-1: rgb(255 255 255 / 76%);
-  --modal-content-bg-2: rgb(198 255 119 / 16%);
-  --modal-content-color-2: #c6ff77;
-  --modal-content-border-2: rgb(236 195 255 / 32%);
-  --modal-content-bg-3: #ff5981;
-  --modal-content-bg-4: #c83558;
-  --modal-content-color-3: #fff;
-  --modal-content-border-3: #ff7495;
-  --modal-content-text-shadow: rgb(0 0 0 / 50%);
-  --modal-content-bg-5: #ff6b8f;
-  --modal-content-bg-6: #d6456a;
-  --modal-content-color-4: #25ecff;
-  --modal-content-color-5: rgb(255 255 255 / 90%);
-  --modal-content-bg-7: rgb(236 195 255 / 5%);
-  --modal-content-shadow: rgb(196 122 229 / 10%);
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 240px;
-  background: transparent;
+/* Mock content color tokens — used by MockContentItems.tsx inline styles */
+:root {
+  --pf-mock-btn-primary-bg-1: #ff5981;
+  --pf-mock-btn-primary-bg-2: #c83558;
+  --pf-mock-btn-primary-color: #fff;
+  --pf-mock-btn-primary-border: #ff7495;
+  --pf-mock-btn-primary-text-shadow: rgb(0 0 0 / 50%);
+  --pf-mock-btn-secondary-color: #25ecff;
+  --pf-mock-list-item-bg: rgb(236 195 255 / 8%);
+  --pf-mock-list-item-border: #c47ae5;
+  --pf-mock-list-item-color: rgb(255 255 255 / 90%);
+  --pf-mock-field-label-color: rgb(255 255 255 / 76%);
+  --pf-mock-field-input-border: rgb(236 195 255 / 32%);
+  --pf-mock-field-input-bg: rgb(236 195 255 / 5%);
+  --pf-mock-field-input-color: rgb(255 255 255 / 90%);
+  --pf-gradient-sweep-10: rgb(59 130 246 / 10%);
+  --pf-gradient-sweep-20: rgb(59 130 246 / 20%);
+}
+
+/* Vertical stagger container (lists, form fields) */
+.pf-content-stagger {
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Modal container */
-.modal-content-modal {
-  max-height: 90%;
-  overflow: hidden;
-  width: clamp(280px, 80%, 400px);
-  --box-shadow-lint-token-1:
-    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-content-border-1);
-  box-shadow: var(--box-shadow-lint-token-1);
-  transform-origin: center;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--modal-content-bg-1);
-  border: 1px solid var(--modal-content-border-1);
-  color: var(--modal-content-color-1);
-}
-
-/* Header */
-.modal-content-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid rgb(236 195 255 / 16%);
-}
-
-.modal-content-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.modal-content-badge {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--modal-content-bg-2);
-  color: var(--modal-content-color-2);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* Body */
-.modal-content-body {
-  padding: 24px 0;
-  min-height: 120px;
-}
-
-.modal-content-body p {
-  margin: 0 0 12px;
-  line-height: 1.5;
-}
-
-/* Footer */
-.modal-content-footer {
-  display: flex;
+  flex-direction: column;
   gap: 12px;
   width: 100%;
+}
+
+/* Horizontal variant for button groups */
+.pf-content-stagger--horizontal {
+  flex-flow: row wrap;
+  gap: 10px;
   justify-content: flex-end;
-  flex-wrap: nowrap;
 }
 
-/* Buttons */
-.modal-content-button {
-  padding: 10px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--modal-content-border-2);
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition:
-    transform 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.modal-content-button-primary {
-  border-radius: 50px;
-  background: linear-gradient(180deg, var(--modal-content-bg-3), var(--modal-content-bg-4));
-  color: var(--modal-content-color-3);
-  border: 2px solid var(--modal-content-border-3);
-  text-shadow: 0 1px 1px var(--modal-content-text-shadow);
-  padding: 6px 12px;
-}
-
-.modal-content-button-primary:hover:not(:disabled, [aria-disabled='true']) {
-  background: linear-gradient(180deg, var(--modal-content-bg-5), var(--modal-content-bg-6));
-  border-color: var(--modal-content-border-1);
-  /* RN-friendly: avoid drop-shadow */
-}
-
-.modal-content-button-primary:disabled,
-.modal-content-button-primary[aria-disabled='true'] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.modal-content-button-secondary {
-  color: var(--modal-content-color-4);
-  border: 2px solid var(--modal-content-color-4);
-  background: transparent;
-  border-radius: 50px;
-  padding: 6px 12px;
-}
-
-.modal-content-button-secondary:hover {
-  transform: translateY(1px) scale(0.99);
-}
-
-/* List styles */
-.modal-content-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.modal-content-list-item {
-  padding: 12px 16px;
-  background: var(--modal-content-bg-1);
-  border-radius: 8px;
-  border-left: 4px solid var(--modal-content-border-2);
-  color: var(--modal-content-color-5);
-  font-weight: 500;
-}
-
-/* Form styles */
-.modal-content-form {
-  display: flex;
-  flex-direction: column;
+/* Form field variant with wider gap */
+.pf-content-stagger--form {
   gap: 16px;
-  margin-top: 16px;
-}
-
-.modal-content-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.modal-content-field label {
-  font-weight: 500;
-  color: var(--modal-content-color-1);
-  font-size: 14px;
-}
-
-.modal-content-field input {
-  padding: 10px 12px;
-  border: 1px solid var(--modal-content-border-2);
-  border-radius: 6px;
-  font-size: 14px;
-  background: var(--modal-content-bg-7);
-  color: var(--modal-content-color-5);
-  transition: border-color 0.2s ease;
-}
-
-.modal-content-field input:focus {
-  outline: none;
-  border-color: var(--modal-content-border-2);
-  box-shadow: 0 0 0 3px var(--modal-content-shadow);
 }

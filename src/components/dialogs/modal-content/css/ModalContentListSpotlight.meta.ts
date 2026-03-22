@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-content-framer?animation=modal-content__list-spotlight',
   urlSlugCss: '/modal-content-css?animation=modal-content__list-spotlight',
   title: 'List Spotlight Sweep',
-  description: 'Content choreography inside the modal.',
+  description: 'Scale-up spotlight stagger — CSS variant. Props: duration, stagger via CSS custom properties.',
   tier: 3,
 }

@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-content-framer?animation=modal-content__form-field-right-reveal',
   urlSlugCss: '/modal-content-css?animation=modal-content__form-field-right-reveal',
   title: 'Form Fields From Right',
-  description: 'Form fields slide in from the right with gentle 420ms pacing.',
+  description: 'Right-slide reveal stagger — CSS variant. Props: duration, stagger, distance via CSS custom properties.',
   tier: 3,
 }

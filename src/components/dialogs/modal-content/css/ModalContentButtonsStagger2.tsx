@@ -1,58 +1,57 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Stagger-reveals child elements with a bounce-up pop — CSS variant.
+ *
+ * Copy-paste files: this file + ModalContentButtonsStagger2.css + ../SharedTypes.ts
+ * Runtime deps: react
+ *
+ * @example
+ * <ModalContentButtonsStagger2 stagger={70} duration={300}>
+ *   <button>Accept</button>
+ *   <button>Cancel</button>
+ * </ModalContentButtonsStagger2>
+ */
+
+import { Children, memo } from 'react'
+
+import { generateMockButtons } from '../MockContentItems'
+import type { ContentStaggerProps } from '../SharedTypes'
+
 import './ModalContentButtonsStagger2.css'
 
-export function ModalContentButtonsStagger2() {
-  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([])
+const DEFAULT_DURATION = 300
+const DEFAULT_STAGGER = 70
+const DEFAULT_COUNT = 2
 
-  useEffect(() => {
-    // Trigger staggered animation on mount
-    buttonsRef.current.forEach((button, index) => {
-      if (button) {
-        // Reset any existing animation
-        button.style.animation = 'none'
-        void button.offsetWidth // Force reflow
-
-        // Apply staggered animation with 70ms base delay + 300ms modal delay
-        const delay = 300 + 70 * index
-        button.style.animation = `button-stagger 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards ${delay}ms`
-        button.style.opacity = '0'
-        button.style.transform = 'translateY(16px) scale(0.94)'
-      }
-    })
-  }, [])
+function ModalContentButtonsStagger2Component({
+  children,
+  duration = DEFAULT_DURATION,
+  stagger = DEFAULT_STAGGER,
+  className,
+  style,
+}: ContentStaggerProps) {
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generateMockButtons(DEFAULT_COUNT)
 
   return (
-    <div className="modal-content-overlay" data-animation-id="modal-content__buttons-stagger-2">
-      <div className="modal-content-modal">
-        <div className="modal-content-header">
-          <h4 className="modal-content-title">Sequence Control</h4>
-          <span className="modal-content-badge">Modal</span>
+    <div
+      className={className !== undefined ? `pf-content-stagger pf-content-stagger--horizontal ${className}` : 'pf-content-stagger pf-content-stagger--horizontal'}
+      data-animation-id="modal-content__buttons-stagger-2"
+      style={style}
+    >
+      {renderItems.map((child, i) => (
+        <div
+          key={i}
+          className="pf-button-stagger-item"
+          style={{
+            '--pf-stagger-delay': `${String(stagger * i)}ms`,
+            '--pf-stagger-duration': `${String(duration)}ms`,
+          } as React.CSSProperties}
+        >
+          {child}
         </div>
-        <div className="modal-content-body">
-          <p>Build trust by sequencing content reveals.</p>
-          <p>Keep focus with 70ms cadence.</p>
-        </div>
-        <div className="modal-content-footer">
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[0] = el
-            }}
-            className="modal-content-button modal-content-button-primary"
-          >
-            Primary
-          </button>
-          <button
-            type="button"
-            ref={(el) => {
-              buttonsRef.current[1] = el
-            }}
-            className="modal-content-button modal-content-button-secondary"
-          >
-            Secondary
-          </button>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }
+
+export const ModalContentButtonsStagger2 = memo(ModalContentButtonsStagger2Component)

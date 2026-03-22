@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-content-framer?animation=modal-content__buttons-stagger-2',
   urlSlugCss: '/modal-content-css?animation=modal-content__buttons-stagger-2',
   title: 'Button Stagger ×2',
-  description: 'Button cluster stagger with 2 actions.',
+  description: 'Bounce-up stagger for button groups — CSS variant. Props: duration, stagger via CSS custom properties.',
   tier: 3,
 }
