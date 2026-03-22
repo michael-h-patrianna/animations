@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-base-framer?animation=modal-base__shatter-assemble',
   urlSlugCss: '/modal-base-css?animation=modal-base__shatter-assemble',
   title: 'Shatter Assembly',
-  description: 'Glass fragments coalesce into modal with blur and rotation effects.',
+  description:
+    'Wrap your modal — jittery rotation and position shifts assembling into place. Props: children, duration, overlayOpacity.',
   tier: 2,
 }

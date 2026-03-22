@@ -6,6 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-base-css?animation=modal-base__slide-up-soft',
   title: 'Slide Up Soft',
   description:
-    'Slides up from 64px with 92% scale and fade-in using CSS keyframes. GPU-accelerated with transform and opacity.',
+    'Wrap your modal — slides up from below with subtle scale. Props: children, duration, distance, overlayOpacity.',
   tier: 2,
 }

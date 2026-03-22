@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-base-framer?animation=modal-base__tfx-glitchdigital',
   urlSlugCss: '/modal-base-css?animation=modal-base__tfx-glitchdigital',
   title: 'Digital Glitch',
-  description: 'Cyberpunk-inspired RGB channel separation with digital distortion artifacts.',
+  description:
+    'Wrap your modal — RGB channel separation with digital glitch skew. Props: children, duration, intensity, overlayOpacity.',
   tier: 2,
 }

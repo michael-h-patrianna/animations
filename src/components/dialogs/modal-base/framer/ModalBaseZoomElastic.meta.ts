@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-base-framer?animation=modal-base__zoom-elastic',
   urlSlugCss: '/modal-base-css?animation=modal-base__zoom-elastic',
   title: 'Elastic Zoom Bounce',
-  description: 'Mobile game style zoom with elastic bounce physics and overshoot.',
+  description:
+    'Wrap your modal — elastic zoom with multi-bounce overshoot. Props: children, duration, overlayOpacity.',
   tier: 2,
 }

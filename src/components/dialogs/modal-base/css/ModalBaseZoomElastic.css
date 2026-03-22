@@ -1,48 +1,35 @@
-/* Styles scoped for ModalBaseZoomElastic */
+/*
+ * Modal entrance: zoom elastic — CSS variant.
+ */
 
-/* Overlay fade-in animation */
-.pf-modal-overlay--zoom-elastic {
-  animation: modal-overlay-zoom-elastic-fade 0.72s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-  --overlay-opacity: 0.68;
+.pf-modal-zoom-elastic {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  opacity: 0;
+  animation: pf-zoom-elastic-overlay var(--pf-entrance-duration, 720ms) cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   will-change: opacity;
 }
 
-/* Modal elastic zoom bounce animation */
-.pf-modal--zoom-elastic {
-  animation: modal-zoom-elastic 0.72s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+.pf-modal-zoom-elastic__content {
+  opacity: 0;
+  animation: pf-zoom-elastic-content var(--pf-entrance-duration, 720ms) cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   will-change: transform, opacity;
 }
 
-/* Keyframes for overlay fade-in */
-@keyframes modal-overlay-zoom-elastic-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+@keyframes pf-zoom-elastic-overlay {
+  from { opacity: 0; }
+  to { opacity: var(--pf-overlay-opacity, 1); }
 }
 
-/* Keyframes for modal elastic zoom with bounce overshoot */
-@keyframes modal-zoom-elastic {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  40% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-  60% {
-    transform: scale(0.95);
-    opacity: 1;
-  }
-  80% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+@keyframes pf-zoom-elastic-content {
+  0% { transform: scale(0); opacity: 0; }
+  40% { transform: scale(1.15); opacity: 1; }
+  60% { transform: scale(0.95); }
+  80% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
 }

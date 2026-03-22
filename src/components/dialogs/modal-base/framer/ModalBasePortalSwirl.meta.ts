@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-base-framer?animation=modal-base__portal-swirl',
   urlSlugCss: '/modal-base-css?animation=modal-base__portal-swirl',
   title: 'Portal Swirl',
-  description: 'Fantasy game vortex entrance with spiral rotation and morphing border radius.',
+  description:
+    'Wrap your modal — 720deg spiral with morphing border-radius. Props: children, duration, overlayOpacity.',
   tier: 2,
 }

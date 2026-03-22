@@ -1,31 +1,61 @@
+/**
+ * Modal entrance — origami unfold from rotateX(-180) with scale-up.
+ *
+ * Copy-paste files: this file + SharedTypes.ts
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { memo } from 'react'
 
-import { MockModalContent } from '../MockModalContent'
-import { overlayStyles } from '@/motion/primitives'
+import { ModalPlaceholder } from '../MockModalContent'
+import type { ModalEntranceProps } from '../SharedTypes'
+import { DEFAULT_OVERLAY_OPACITY } from '../SharedTypes'
 
-export function ModalBaseUnfoldOrigami() {
-  const duration = 0.9
-  const ease = [0.25, 0.46, 0.45, 0.94] as const
+const DEFAULT_DURATION = 900
+const DEFAULT_PERSPECTIVE = 1200
+
+interface ModalBaseUnfoldOrigamiProps extends ModalEntranceProps {
+  /** CSS perspective depth in pixels. Default: 1200. */
+  perspective?: number
+}
+
+function ModalBaseUnfoldOrigamiComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  perspective = DEFAULT_PERSPECTIVE,
+  overlayOpacity = DEFAULT_OVERLAY_OPACITY,
+  className,
+  style,
+  onAnimationComplete,
+}: ModalBaseUnfoldOrigamiProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const durationS = duration / 1000
+
   return (
     <m.div
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration, ease }}
-      style={overlayStyles.standard}
+      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
       data-animation-id="modal-base__unfold-origami"
     >
-      <div className="pf-modal-center pf-perspective">
+      <div className="pf-modal-center" style={{ perspective }}>
         <m.div
-          className="pf-modal"
-          style={{ transformStyle: 'preserve-3d' }}
-          initial={{ rotateX: -180, scale: 0, opacity: 0 }}
-          animate={{ rotateX: 0, scale: 1, opacity: 1 }}
-          transition={{ duration, ease }}
+          className={className}
+          style={{ transformStyle: 'preserve-3d', animation: 'none' }}
+          initial={prefersReducedMotion ? { opacity: 0 } : { rotateX: -180, scale: 0, opacity: 0 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { rotateX: 0, scale: 1, opacity: 1 }}
+          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.25, 0.46, 0.45, 0.94] }}
+          onAnimationComplete={onAnimationComplete}
         >
-          <MockModalContent />
+          <ModalPlaceholder>{children}</ModalPlaceholder>
         </m.div>
       </div>
     </m.div>
   )
 }
+
+export const ModalBaseUnfoldOrigami = memo(ModalBaseUnfoldOrigamiComponent)

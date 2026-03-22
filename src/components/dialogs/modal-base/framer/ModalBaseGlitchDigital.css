@@ -1,0 +1,5 @@
+/* Color tokens for GlitchDigital ghost layers — framer variant. */
+.pf-modal-overlay[data-animation-id='modal-base__tfx-glitchdigital'] {
+  --pf-glitch-green: rgb(198 255 119 / 10%);
+  --pf-glitch-pink: rgb(255 119 198 / 10%);
+}

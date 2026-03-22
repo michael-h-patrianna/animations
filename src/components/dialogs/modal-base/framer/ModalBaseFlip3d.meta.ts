@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-base-framer?animation=modal-base__flip-3d',
   urlSlugCss: '/modal-base-css?animation=modal-base__flip-3d',
   title: '3D Card Flip',
-  description: 'Card game style 3D rotation reveal with perspective depth and overshoot.',
+  description:
+    'Wrap your modal — 3D card flip from 180deg with scale-up. Props: children, duration, perspective, overlayOpacity.',
   tier: 2,
 }

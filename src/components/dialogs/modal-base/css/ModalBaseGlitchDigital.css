@@ -1,11 +1,15 @@
-/* GPU-accelerated glitch animation using transforms and opacity only */
+/*
+ * Modal entrance: digital glitch with RGB channel separation — CSS variant.
+ *
+ * Custom properties for runtime override:
+ *   --pf-entrance-duration: 600ms
+ *   --pf-overlay-opacity: 0.5
+ *   --pf-glitch-intensity: 1
+ */
 
-.modal-base-tfx-glitchdigital {
-  --modal-base-glitch-digital-bg-1: rgb(236 195 255 / 8%);
-  --modal-base-glitch-digital-border-1: rgb(236 195 255 / 12%);
-  --modal-base-glitch-digital-bg-2: rgb(198 255 119 / 10%);
-  --modal-base-glitch-digital-bg-3: rgb(255 119 198 / 10%);
-  --modal-base-glitch-digital-color: rgb(255 255 255 / 76%);
+.pf-modal-glitch {
+  --pf-glitch-green: rgb(198 255 119 / 10%);
+  --pf-glitch-pink: rgb(255 119 198 / 10%);
   position: relative;
   width: 100%;
   height: 100%;
@@ -13,76 +17,61 @@
   display: grid;
   place-items: center;
   background: transparent;
-  animation: modal-base-tfx-glitchoverlay-fade 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  opacity: 0;
+  animation: pf-glitch-digital-overlay var(--pf-entrance-duration, 600ms) ease-in-out forwards;
   will-change: opacity;
 }
 
-.modal-base-tfx-glitchdigital__center {
+.pf-modal-glitch__stage {
   position: relative;
   display: grid;
   place-items: center;
-  width: 100%;
-  height: 100%;
 }
 
-.modal-base-tfx-glitchdigital__ghost {
+.pf-modal-glitch__ghost {
   position: absolute;
-  width: clamp(280px, 80%, 320px);
-  height: auto;
-  --box-shadow-lint-token-1:
-    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
-  box-shadow: var(--box-shadow-lint-token-1);
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--modal-base-glitch-digital-bg-1);
-  border: 1px solid var(--modal-base-glitch-digital-border-1);
+  inset: 0;
+  border-radius: inherit;
   pointer-events: none;
   will-change: transform, opacity;
 }
 
-.modal-base-tfx-glitchdigital__ghost--green {
-  background: var(--modal-base-glitch-digital-bg-2);
-  animation: modal-base-tfx-glitchghost-green 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+.pf-modal-glitch__ghost--green {
+  background: var(--pf-glitch-green);
+  opacity: 0;
+  animation: pf-glitch-digital-ghost-green var(--pf-entrance-duration, 600ms) ease-in-out forwards;
   animation-delay: 0.05s;
+  animation-fill-mode: both;
 }
 
-.modal-base-tfx-glitchdigital__ghost--pink {
-  background: var(--modal-base-glitch-digital-bg-3);
-  animation: modal-base-tfx-glitchghost-pink 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+.pf-modal-glitch__ghost--pink {
+  background: var(--pf-glitch-pink);
+  opacity: 0;
+  animation: pf-glitch-digital-ghost-pink var(--pf-entrance-duration, 600ms) ease-in-out forwards;
   animation-delay: 0.1s;
+  animation-fill-mode: both;
 }
 
-.modal-base-tfx-glitchdigital__modal {
+.pf-modal-glitch__content {
   position: relative;
-  width: clamp(280px, 80%, 320px);
-  --box-shadow-lint-token-2:
-    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-base-glitch-digital-border-1);
-  box-shadow: var(--box-shadow-lint-token-2);
-  transform-origin: center;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--modal-base-glitch-digital-bg-1);
-  border: 1px solid var(--modal-base-glitch-digital-border-1);
-  color: var(--modal-base-glitch-digital-color);
   z-index: 1;
+  opacity: 0;
+  animation: pf-glitch-digital-content var(--pf-entrance-duration, 600ms) ease-in-out forwards;
   will-change: transform, opacity;
-  animation: modal-base-tfx-glitchmain 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
 }
 
-/* Overlay fade-in animation */
-@keyframes modal-base-tfx-glitchoverlay-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+@keyframes pf-glitch-digital-overlay {
+  from { opacity: 0; }
+  to { opacity: var(--pf-overlay-opacity, 1); }
 }
 
-/* Green ghost layer animation - starts at offset with opacity, converges to center and fades */
-@keyframes modal-base-tfx-glitchghost-green {
+@keyframes pf-glitch-digital-ghost-green {
   from {
-    transform: translate3d(3px, 2px, 0);
+    transform: translate3d(
+      calc(3px * var(--pf-glitch-intensity, 1)),
+      calc(2px * var(--pf-glitch-intensity, 1)),
+      0
+    );
     opacity: 0.4;
   }
   to {
@@ -91,10 +80,13 @@
   }
 }
 
-/* Pink ghost layer animation - starts at opposite offset, converges to center and fades */
-@keyframes modal-base-tfx-glitchghost-pink {
+@keyframes pf-glitch-digital-ghost-pink {
   from {
-    transform: translate3d(-2px, -3px, 0);
+    transform: translate3d(
+      calc(-2px * var(--pf-glitch-intensity, 1)),
+      calc(-3px * var(--pf-glitch-intensity, 1)),
+      0
+    );
     opacity: 0.3;
   }
   to {
@@ -103,26 +95,10 @@
   }
 }
 
-/* Main modal animation - digital glitch effect with skew and opacity variations */
-@keyframes modal-base-tfx-glitchmain {
-  0% {
-    transform: skewX(0deg);
-    opacity: 0;
-  }
-  25% {
-    transform: skewX(2deg);
-    opacity: 0.5;
-  }
-  50% {
-    transform: skewX(-2deg);
-    opacity: 0.8;
-  }
-  75% {
-    transform: skewX(1deg);
-    opacity: 0.95;
-  }
-  100% {
-    transform: skewX(0deg);
-    opacity: 1;
-  }
+@keyframes pf-glitch-digital-content {
+  0% { transform: skewX(0deg); opacity: 0; }
+  25% { transform: skewX(calc(2deg * var(--pf-glitch-intensity, 1))); opacity: 0.5; }
+  50% { transform: skewX(calc(-2deg * var(--pf-glitch-intensity, 1))); opacity: 0.8; }
+  75% { transform: skewX(calc(1deg * var(--pf-glitch-intensity, 1))); opacity: 0.95; }
+  100% { transform: skewX(0deg); opacity: 1; }
 }

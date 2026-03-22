@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-base-framer?animation=modal-base__unfold-origami',
   urlSlugCss: '/modal-base-css?animation=modal-base__unfold-origami',
   title: 'Origami Unfold',
-  description: 'Paper-style unfolding animation with sequential axis expansion.',
+  description:
+    'Wrap your modal — origami unfold from rotateX(-180) with scale-up. Props: children, duration, perspective, overlayOpacity.',
   tier: 2,
 }

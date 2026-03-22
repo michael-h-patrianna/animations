@@ -1,8 +1,8 @@
-/* Styles scoped for ModalBaseRippleExpand */
-.pf-modal-base-ripple-expand {
-  --modal-base-ripple-expand-bg: rgb(236 195 255 / 8%);
-  --modal-base-ripple-expand-border: rgb(236 195 255 / 12%);
-  --modal-base-ripple-expand-color: rgb(255 255 255 / 76%);
+/*
+ * Modal entrance: ripple expand — CSS variant.
+ */
+
+.pf-modal-ripple {
   position: relative;
   width: 100%;
   height: 100%;
@@ -10,58 +10,25 @@
   display: grid;
   place-items: center;
   background: transparent;
-}
-
-.pf-modal-base-ripple-expand__overlay {
-  position: absolute;
-  inset: 0;
-  background: transparent;
-  animation: modal-base-ripple-expand-overlay 550ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+  animation: pf-ripple-expand-overlay var(--pf-entrance-duration, 550ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: opacity;
 }
 
-.pf-modal-base-ripple-expand__modal {
-  position: relative;
-  width: clamp(280px, 80%, 320px);
-  --box-shadow-lint-token-1:
-    0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-base-ripple-expand-border);
-  box-shadow: var(--box-shadow-lint-token-1);
-  transform-origin: center;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--modal-base-ripple-expand-bg);
-  border: 1px solid var(--modal-base-ripple-expand-border);
-  color: var(--modal-base-ripple-expand-color);
-  animation: modal-base-ripple-expand-modal 550ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-modal-ripple__content {
+  opacity: 0;
+  animation: pf-ripple-expand-content var(--pf-entrance-duration, 550ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: transform, opacity;
 }
 
-/* GPU-accelerated overlay fade-in */
-@keyframes modal-base-ripple-expand-overlay {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.68;
-  }
+@keyframes pf-ripple-expand-overlay {
+  from { opacity: 0; }
+  to { opacity: var(--pf-overlay-opacity, 1); }
 }
 
-/* GPU-accelerated ripple expand with scale keyframes and opacity */
-@keyframes modal-base-ripple-expand-modal {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  25% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(0.98);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+@keyframes pf-ripple-expand-content {
+  0% { transform: scale(0); opacity: 0; }
+  45% { transform: scale(1.05); opacity: 0.8; }
+  70% { transform: scale(0.98); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }

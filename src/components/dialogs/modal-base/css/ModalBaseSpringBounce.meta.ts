@@ -6,6 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-base-css?animation=modal-base__spring-bounce',
   title: 'Spring Bounce',
   description:
-    'Elastic spring entrance with dynamic bounce physics and smooth overlay transition. GPU-accelerated CSS keyframes.',
+    'Wrap your modal — spring-physics bounce with overshoot (CSS cubic-bezier approximation). Props: children, overlayOpacity.',
   tier: 2,
 }
