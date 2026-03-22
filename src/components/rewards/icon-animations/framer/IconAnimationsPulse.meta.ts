@@ -1,11 +1,12 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata = {
+export const metadata: AnimationMetadata = {
   id: 'icon-animations__pulse',
   urlSlugFramer: '/icon-animations-framer?animation=icon-animations__pulse',
   urlSlugCss: '/icon-animations-css?animation=icon-animations__pulse',
   title: 'Pulse',
-  description: 'Scale pulse with opacity fade and expanding glow for heartbeat effect.',
+  description:
+    'Animated image with scale pulse, rotation wobble and opacity breathing. Props: src, alt, width, duration.',
   infinite: true,
-  tier: 4,
-} satisfies AnimationMetadata
+  tier: 2,
+}

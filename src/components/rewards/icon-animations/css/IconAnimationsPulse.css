@@ -1,14 +1,20 @@
-/* Styles for IconAnimationsPulse */
-
-.icon-demo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  position: relative;
+/**
+ * Pulse — animated image effect, continuous cycle.
+ *
+ * Usage: apply .pf-icon-pulse to a wrapper element.
+ *
+ * Custom properties:
+ *   --pf-icon-pulse-duration: 2s
+ *
+ * Copy this file + shared.css. No other dependencies.
+ */
+.pf-icon-pulse {
+  animation: pf-icon-pulse var(--pf-icon-pulse-duration, 2s) cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: center center;
+  will-change: transform, opacity;
 }
 
-@keyframes icon-pulse-animation {
+@keyframes pf-icon-pulse {
   0% {
     transform: scale(1) rotate(-2deg) skewY(0deg);
     opacity: 1;
@@ -53,13 +59,4 @@
     transform: scale(1) rotate(-2deg) skewY(0deg);
     opacity: 1;
   }
-}
-
-.icon-pulse-element {
-  position: relative;
-  animation: icon-pulse-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  transform-origin: center center;
-  width: 140px;
-  height: auto;
-  will-change: transform, opacity;
 }

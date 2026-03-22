@@ -1,14 +1,36 @@
+/**
+ * Animated image — gentle floating with sway and subtle scale breathing.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <IconAnimationsFloat src="/balloon.png" alt="balloon" duration={8000} />
+ */
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { memo } from 'react'
 
-import { presentBoxBalloon as balloonImage } from '@/assets'
-export function IconAnimationsFloat() {
+interface IconAnimationsFloatProps {
+  /** Image source URL. Renders a placeholder when omitted. */
+  src?: string
+  /** Alt text for the image. Default: '' */
+  alt?: string
+  /** Image width in px. Default: 120 */
+  width?: number
+  /** Duration of one full cycle in ms. Default: 6000 */
+  duration?: number
+}
+
+function IconAnimationsFloatComponent({
+  src,
+  alt = '',
+  width = 120,
+  duration = 6000,
+}: IconAnimationsFloatProps) {
   return (
-    <div className="icon-demo-container" data-animation-id="icon-animations__float">
-      <m.img
-        src={balloonImage}
-        alt="Floating balloon"
-        style={{ width: 120, transformOrigin: 'center 20%' }}
+    <div className="pf-icon-anim" data-animation-id="icon-animations__float">
+      <m.div
+        style={{ transformOrigin: 'center 20%', animation: 'none' }}
         animate={{
           y: [
             0, -1.5, -3, -4.5, -6, -7.5, -9, -10.5, -12, -13, -14, -13, -12, -10.5, -9, -7.5, -6,
@@ -25,15 +47,28 @@ export function IconAnimationsFloat() {
           ],
         }}
         transition={{
-          duration: 6,
-          ease: easeInOut,
+          duration: duration / 1000,
+          ease: [0.4, 0, 0.6, 1] as const,
           repeat: Infinity,
           times: [
             0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75,
             0.8, 0.85, 0.9, 0.95, 1,
           ],
         }}
-      />
+      >
+        {src !== undefined ? (
+          <img
+            src={src}
+            alt={alt}
+            className="pf-icon-anim__image"
+            style={{ width }}
+          />
+        ) : (
+          <div className="pf-icon-anim__placeholder" style={{ width, height: width }} />
+        )}
+      </m.div>
     </div>
   )
 }
+
+export const IconAnimationsFloat = memo(IconAnimationsFloatComponent)

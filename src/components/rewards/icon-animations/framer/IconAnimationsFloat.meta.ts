@@ -5,7 +5,8 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/icon-animations-framer?animation=icon-animations__float',
   urlSlugCss: '/icon-animations-css?animation=icon-animations__float',
   title: 'Float',
-  description: 'Gentle Y-axis sine wave with subtle rotation and shadow distance changes.',
+  description:
+    'Animated image with gentle floating, horizontal sway and subtle scale breathing. Props: src, alt, width, duration.',
   infinite: true,
-  tier: 4,
+  tier: 2,
 }

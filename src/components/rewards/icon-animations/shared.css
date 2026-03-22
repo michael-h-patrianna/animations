@@ -1,1 +1,29 @@
-/* Shared styles for this group */
+/* Shared layout for icon-animations group */
+.pf-icon-anim {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+}
+
+.pf-icon-anim__placeholder {
+  --pf-icon-placeholder-bg-1: rgb(236 195 255 / 15%);
+  --pf-icon-placeholder-bg-2: rgb(198 255 119 / 10%);
+  --pf-icon-placeholder-border: rgb(236 195 255 / 20%);
+  width: var(--pf-icon-anim-width, 120px);
+  height: var(--pf-icon-anim-width, 120px);
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    var(--pf-icon-placeholder-bg-1) 0%,
+    var(--pf-icon-placeholder-bg-2) 100%
+  );
+  border: 1px solid var(--pf-icon-placeholder-border);
+}
+
+.pf-icon-anim__image {
+  width: var(--pf-icon-anim-width, 120px);
+  height: auto;
+  display: block;
+}

@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/icon-animations-framer?animation=icon-animations__shake',
   urlSlugCss: '/icon-animations-css?animation=icon-animations__shake',
   title: 'Shake',
-  description: 'Horizontal shake with rotation wobble and scale compression for error feedback.',
-  tier: 4,
+  description:
+    'Animated image with horizontal shake, rotation wobble and scale compression. Props: src, alt, width, duration.',
+  tier: 2,
 }

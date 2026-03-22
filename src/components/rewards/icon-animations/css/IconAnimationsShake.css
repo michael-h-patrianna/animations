@@ -1,14 +1,19 @@
-/* Styles for IconAnimationsShake */
-
-.icon-demo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  position: relative;
+/**
+ * Shake — animated image effect.
+ *
+ * Usage: apply .pf-icon-shake to a wrapper element.
+ *
+ * Custom properties:
+ *   --pf-icon-shake-duration: 500ms
+ *
+ * Copy this file + shared.css. No other dependencies.
+ */
+.pf-icon-shake {
+  animation: pf-icon-shake var(--pf-icon-shake-duration, 500ms) ease-in-out;
+  will-change: transform;
 }
 
-@keyframes icon-shake-animation {
+@keyframes pf-icon-shake {
   0%,
   100% {
     transform: translateX(0) rotate(0deg) scaleX(1);
@@ -40,11 +45,4 @@
   90% {
     transform: translateX(-2px) rotate(-0.2deg) scaleX(1);
   }
-}
-
-.icon-shake-element {
-  animation: icon-shake-animation 0.5s ease-in-out;
-  width: 120px;
-  height: auto;
-  will-change: transform;
 }

@@ -1,14 +1,20 @@
-/* Styles for IconAnimationsBounce */
-
-.icon-demo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  position: relative;
+/**
+ * Bounce — animated image effect.
+ *
+ * Usage: apply .pf-icon-bounce to a wrapper element.
+ *
+ * Custom properties:
+ *   --pf-icon-bounce-duration: 800ms
+ *
+ * Copy this file + shared.css. No other dependencies.
+ */
+.pf-icon-bounce {
+  animation: pf-icon-bounce var(--pf-icon-bounce-duration, 800ms) ease-in-out;
+  transform-origin: center bottom;
+  will-change: transform;
 }
 
-@keyframes icon-bounce-animation {
+@keyframes pf-icon-bounce {
   0%,
   100% {
     transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
@@ -31,12 +37,4 @@
   90% {
     transform: translateY(0) scaleY(0.95) scaleX(1.02) rotate(0deg);
   }
-}
-
-.icon-bounce-element {
-  animation: icon-bounce-animation 0.8s ease-in-out;
-  transform-origin: center bottom;
-  width: 120px;
-  height: auto;
-  will-change: transform;
 }

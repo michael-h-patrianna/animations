@@ -1,14 +1,36 @@
+/**
+ * Animated image — bounce with squash-stretch deformation and tilt.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <IconAnimationsBounce src="/icon.png" alt="reward" width={80} />
+ */
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { memo } from 'react'
 
-import { presentBox as giftBoxImage } from '@/assets'
-export function IconAnimationsBounce() {
+interface IconAnimationsBounceProps {
+  /** Image source URL. Renders a placeholder when omitted. */
+  src?: string
+  /** Alt text for the image. Default: '' */
+  alt?: string
+  /** Image width in px. Default: 120 */
+  width?: number
+  /** Animation duration in ms. Default: 800 */
+  duration?: number
+}
+
+function IconAnimationsBounceComponent({
+  src,
+  alt = '',
+  width = 120,
+  duration = 800,
+}: IconAnimationsBounceProps) {
   return (
-    <div className="icon-demo-container" data-animation-id="icon-animations__bounce">
-      <m.img
-        src={giftBoxImage}
-        alt="Bouncing gift box"
-        style={{ width: 120, transformOrigin: 'center bottom' }}
+    <div className="pf-icon-anim" data-animation-id="icon-animations__bounce">
+      <m.div
+        style={{ transformOrigin: 'center bottom', animation: 'none' }}
         animate={{
           y: [0, 0, -30, -40, -30, 0, 0, 0],
           scaleY: [1, 0.8, 1.1, 1, 0.95, 0.9, 0.95, 1],
@@ -16,11 +38,24 @@ export function IconAnimationsBounce() {
           rotate: [0, 0, -2, -1, 1, 0, 0, 0],
         }}
         transition={{
-          duration: 0.8,
-          ease: easeInOut,
+          duration: duration / 1000,
+          ease: [0.4, 0, 0.6, 1] as const,
           times: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 0.9, 1],
         }}
-      />
+      >
+        {src !== undefined ? (
+          <img
+            src={src}
+            alt={alt}
+            className="pf-icon-anim__image"
+            style={{ width }}
+          />
+        ) : (
+          <div className="pf-icon-anim__placeholder" style={{ width, height: width }} />
+        )}
+      </m.div>
     </div>
   )
 }
+
+export const IconAnimationsBounce = memo(IconAnimationsBounceComponent)

@@ -1,14 +1,20 @@
-/* Styles for IconAnimationsFloat */
-
-.icon-demo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  position: relative;
+/**
+ * Float — animated image effect, continuous cycle.
+ *
+ * Usage: apply .pf-icon-float to a wrapper element.
+ *
+ * Custom properties:
+ *   --pf-icon-float-duration: 6s
+ *
+ * Copy this file + shared.css. No other dependencies.
+ */
+.pf-icon-float {
+  animation: pf-icon-float var(--pf-icon-float-duration, 6s) ease-in-out infinite;
+  transform-origin: center 20%;
+  will-change: transform;
 }
 
-@keyframes icon-float-animation {
+@keyframes pf-icon-float {
   0% {
     transform: translateY(0) translateX(0) rotate(0deg) scale(1);
   }
@@ -72,12 +78,4 @@
   100% {
     transform: translateY(0) translateX(0) rotate(0deg) scale(1);
   }
-}
-
-.icon-float-element {
-  animation: icon-float-animation 6s ease-in-out infinite;
-  transform-origin: center 20%;
-  width: 120px;
-  height: auto;
-  will-change: transform;
 }

@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/icon-animations-framer?animation=icon-animations__bounce',
   urlSlugCss: '/icon-animations-css?animation=icon-animations__bounce',
   title: 'Bounce',
-  description: 'Vertical bounce with squash-stretch deformation and tilt for playful feedback.',
-  tier: 4,
+  description:
+    'Animated image with vertical bounce, squash-stretch deformation and tilt. Props: src, alt, width, duration.',
+  tier: 2,
 }

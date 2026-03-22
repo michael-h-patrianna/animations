@@ -1,9 +1,1 @@
-/* Styles for IconAnimationsShake */
-
-.icon-demo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  position: relative;
-}
+/* Layout for IconAnimationsShake framer variant — no styles needed, shared.css provides layout */

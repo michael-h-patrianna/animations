@@ -7,8 +7,8 @@ import.meta.glob('./framer/*.css', { eager: true })
 
 const metadata: GroupMetadata = {
   id: 'icon-animations',
-  title: 'Icon animations',
-  demo: 'iconAnimations',
+  title: 'Icon Animations',
+  demo: 'Animated image components — pass any image src and get bounce, float, pulse or shake effects.',
 }
 
 export const groupExport = buildGroupExport(
