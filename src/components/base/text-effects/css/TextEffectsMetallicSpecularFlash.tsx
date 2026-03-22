@@ -17,7 +17,7 @@ interface TextEffectsMetallicSpecularFlashProps {
  * creating a metallic sheen that sweeps across the text from left to right.
  *
  * @param props - Component props
- * @param props.text - Text to animate (default: 'LORUM IPSUM DOLOR')
+ * @param props.text - Text to animate (default: 'LOREM IPSUM DOLOR')
  *
  * @returns Animated text element with CSS keyframe animations
  *
@@ -43,7 +43,7 @@ interface TextEffectsMetallicSpecularFlashProps {
  * @see TextEffectsMetallicSpecularFlash.css for keyframe definitions and styling
  */
 function TextEffectsMetallicSpecularFlashComponent({
-  text = 'LORUM IPSUM DOLOR',
+  text = 'LOREM IPSUM DOLOR',
 }: TextEffectsMetallicSpecularFlashProps) {
   const letters = React.useMemo(() => Array.from(text), [text])
 

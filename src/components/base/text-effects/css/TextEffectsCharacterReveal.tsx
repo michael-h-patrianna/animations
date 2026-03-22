@@ -1,15 +1,26 @@
 import { memo } from 'react'
 import './TextEffectsCharacterReveal.css'
 
+interface TextEffectsCharacterRevealProps {
+  /** Main text to reveal. @default 'ACHIEVEMENT' */
+  text?: string
+  /** Subtitle text below the main reveal. @default 'UNLOCKED' */
+  subtitle?: string
+}
+
 /**
  * Pure CSS character reveal effect. Shadow text fades in, then main characters
  * pop in sequentially with scale/translate, followed by subtitle.
  * Dynamic delays set via inline styles.
+ *
+ * @example
+ * <TextEffectsCharacterReveal />
+ * <TextEffectsCharacterReveal text="VICTORY" subtitle="ROYALE" />
  */
-function TextEffectsCharacterRevealComponent() {
-  const text = 'ACHIEVEMENT'
-  const subtitle = 'UNLOCKED'
-
+function TextEffectsCharacterRevealComponent({
+  text = 'ACHIEVEMENT',
+  subtitle = 'UNLOCKED',
+}: TextEffectsCharacterRevealProps) {
   return (
     <div className="tfx-char-reveal-container" data-animation-id="text-effects__character-reveal">
       <div className="tfx-char-reveal-text-container">
