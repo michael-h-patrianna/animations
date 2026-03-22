@@ -58,9 +58,11 @@ See [docs/architecture.md](docs/architecture.md) for full placement rules and co
 
    export const metadata: AnimationMetadata = {
      id: 'group-id__variant-name',
+     urlSlugFramer: '/group-id-framer?animation=group-id__variant-name',
+     urlSlugCss: '/group-id-css?animation=group-id__variant-name',
      title: 'Variant Name',
      description: 'What it does',
-     tags: ['framer'],
+     tier: 2,
    }
    ```
 

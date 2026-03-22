@@ -1,6 +1,6 @@
 # Project overview
 
-- Purpose: React + Motion animation catalog/playground showcasing many animation components grouped by category/group.
+- Purpose: React + Motion animation catalog showcasing standalone, copy-pasteable animation components. Every animation is fully configurable via optional props, works with zero props in the catalog, and can be dropped into any React web or React Native (Moti) project.
 - Stack: React 19, TypeScript 5, Vite 7, Tailwind CSS v4, Motion (Framer Motion v12), Radix UI.
 - Structure:
   - `src/components/<category>/<group>/{framer|css}` for animation implementations.
@@ -13,4 +13,6 @@
   - `docs/testing.md` — test stack, templates, selector policy
   - `docs/meta/styleguide.md` — immutable naming/CSS/import/component rules
 - On-demand Serena memories: `codebase_structure`, `code_style_conventions`, `jsdoc_templates`, `test_templates_advanced`
+- Quality bar: `docs/reports/animation-refactoring-playbook.md` — methodology for making animations standalone and configurable. Reference implementation: `src/components/rewards/collection-effects/`.
+- Demo separation: animation components contain zero demo code. Catalog renders demo UI via `demoMode` metadata → `DemoModeWrapper` in `GroupSection.tsx`.
 - Current state note: repository can be very dirty during large refactors; avoid reverting unrelated user changes.

@@ -47,68 +47,111 @@ src/
 
 ## How to Create a New Animation Component
 
+### Design first, code second
+
+Before writing any code, write the consumer scenario: "A developer building [app type] wants [visual result]. They write: [JSX]." The JSX reveals the props interface. See `docs/reports/animation-refactoring-playbook.md` for the full methodology.
+
 ### Step 1: Create the Component File
+
+Components must be **standalone** — zero demo imports. All props optional with sensible defaults.
 
 **Framer Motion** (`src/components/<category>/<group>/framer/GroupNameVariantName.tsx`):
 
 ```typescript
-import * as m from 'motion/react-m'
-import { MockModalContent } from '../MockModalContent'
+/**
+ * [One-line description of what this animation does]
+ *
+ * Copy-paste files: this file + [list dependencies]
+ * Runtime deps: react, motion
+ */
 
-export function GroupNameVariantName() {
+import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { memo, useLayoutEffect, useRef, useState } from 'react'
+
+// Props interface — all optional, sensible defaults
+interface GroupNameVariantNameProps {
+  duration?: number    // ms, default 400
+  // ... animation-specific props
+}
+
+function GroupNameVariantNameComponent({
+  duration = 400,
+}: GroupNameVariantNameProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <m.div
       className="pf-[element-type]"
       initial={{ opacity: 0, scale: 0.85 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.42, ease: [0.12, 0.75, 0.4, 1] }}
+      transition={{ duration: duration / 1000, ease: [0.12, 0.75, 0.4, 1] }}
       data-animation-id="group-name__variant-name"
+      style={{ animation: 'none' }}  // Prevent CSS variant override
     >
-      <MockModalContent />
+      {/* Animation DOM only — no demo content */}
     </m.div>
   )
 }
+
+export const GroupNameVariantName = memo(GroupNameVariantNameComponent)
 ```
 
 **CSS** (`src/components/<category>/<group>/css/GroupNameVariantName.tsx`):
 
 ```typescript
-import { MockModalContent } from '../MockModalContent'
-import '../shared.css'
+/**
+ * [One-line description] — CSS variant.
+ *
+ * Copy-paste files: this file + GroupNameVariantName.css + [shared deps]
+ * Runtime deps: react
+ */
+
+import { memo } from 'react'
 import './GroupNameVariantName.css'
 
-export function GroupNameVariantName() {
+interface GroupNameVariantNameProps {
+  duration?: number
+}
+
+function GroupNameVariantNameComponent({
+  duration = 400,
+}: GroupNameVariantNameProps) {
   return (
     <div
-      className="pf-[element-type] pf-[element-type]--variant-name"
+      className="pf-[element-type]"
       data-animation-id="group-name__variant-name"
+      style={{ animationDuration: `${duration}ms` }}
     >
-      <MockModalContent />
+      {/* Animation DOM only */}
     </div>
   )
 }
+
+export const GroupNameVariantName = memo(GroupNameVariantNameComponent)
 ```
 
 ### Step 2: Create the Metadata File
 
-**Template** (`src/components/<category>/<group>/{framer|css}/GroupNameVariantName.meta.ts`):
-
 ```typescript
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata: AnimationMetadata = {
-  id: 'group-name__variant-name',        // MUST match data-animation-id
+export const metadata = {
+  id: 'group-name__variant-name', // MUST match data-animation-id
   urlSlugFramer: '/group-name-framer?animation=group-name__variant-name',
   urlSlugCss: '/group-name-css?animation=group-name__variant-name',
   title: 'Human Readable Title',
-  description: 'Describe the animation effect in detail.',
-  tier: 2,                               // 1-4, see tier definitions in Serena memory
-}
+  description: 'What it does + what props are configurable.',
+  tier: 2,
+  demoMode: 'burst', // Optional — tells catalog to render demo UI alongside component
+} satisfies AnimationMetadata
 ```
 
 ### Step 3: Done — No Manual Registration Required
 
 Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery**. Adding a `.tsx` component and its `.meta.ts` file to the `framer/` or `css/` directory is sufficient. No imports or index edits needed.
+
+Shared infrastructure files at group root must match `SKIP_PATTERN` in `src/lib/groupBuilder.ts:31` — prefix with `Shared` or `Mock`.
 
 ---
 
@@ -203,6 +246,7 @@ export const categories: Record<string, CategoryExport> = {
 See `docs/meta/styleguide.md` for the full naming conventions table and animation component rules.
 
 Key patterns visible in templates above:
+
 - Folders: `kebab-case` — Component files: `PascalCase` — IDs: `group-name__variant-name`
 - Root element must have `data-animation-id` matching metadata `id`
 - Render only animation content (AnimationCard handles presentation)
@@ -211,8 +255,11 @@ Key patterns visible in templates above:
 
 ## On-Demand References
 
-| Detail | Serena Memory |
+| Detail | Location |
 |-|-|
-| Tier 1-4 definitions | `project_tier_definitions` (also in auto-memory) |
-| Animation design principles | `animation_design_principles` |
+| Refactoring playbook | `docs/reports/animation-refactoring-playbook.md` |
+| Reference implementation | `src/components/rewards/collection-effects/` |
+| Tier 1-4 definitions | Serena: `project_tier_definitions` (also in auto-memory) |
+| Animation design principles | Serena: `animation_design_principles` |
+| Demo separation architecture | Auto-memory: `project_demo_separation` |
 | Full type definitions | Read `src/types/animation.ts` directly |

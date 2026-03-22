@@ -28,13 +28,13 @@ npm run test:e2e:report     # View HTML report
 
 ## Where to Put Tests
 
-| Type | Location | File Pattern |
-|-|-|-|
-| Feature/domain tests | `src/__tests__/` | `<feature>.test.tsx` |
-| Smoke tests | `src/__tests__/` | `<group>.smoke.test.tsx` |
-| Hook tests | `src/__tests__/` | `hooks.<hookName>.test.tsx` |
-| Co-located component tests | Next to component | `<Component>.test.tsx` |
-| E2E tests | `tests/e2e/` | `<feature>.spec.ts` |
+| Type                       | Location          | File Pattern                |
+| -------------------------- | ----------------- | --------------------------- |
+| Feature/domain tests       | `src/__tests__/`  | `<feature>.test.tsx`        |
+| Smoke tests                | `src/__tests__/`  | `<group>.smoke.test.tsx`    |
+| Hook tests                 | `src/__tests__/`  | `hooks.<hookName>.test.tsx` |
+| Co-located component tests | Next to component | `<Component>.test.tsx`      |
+| E2E tests                  | `tests/e2e/`      | `<feature>.spec.ts`         |
 
 ---
 
@@ -86,13 +86,13 @@ Always pair `vi.useFakeTimers()` in `beforeEach` with `vi.useRealTimers()` in `a
 
 **Enforced by ESLint rule `no-class-id-locators`.**
 
-| Priority | Selector Type | When to use |
-|-|-|-|
-| 1 | `data-testid` | UI shell components, interactive elements |
-| 2 | `data-animation-id` | Animation card containers |
-| 3 | `aria-*` / `role` | Accessible interactive elements |
-| 4 | `data-role` | Semantic roles not in ARIA spec |
-| 5 | `:scope > *` | Structural child queries within scoped locators |
+| Priority | Selector Type       | When to use                                     |
+| -------- | ------------------- | ----------------------------------------------- |
+| 1        | `data-testid`       | UI shell components, interactive elements       |
+| 2        | `data-animation-id` | Animation card containers                       |
+| 3        | `aria-*` / `role`   | Accessible interactive elements                 |
+| 4        | `data-role`         | Semantic roles not in ARIA spec                 |
+| 5        | `:scope > *`        | Structural child queries within scoped locators |
 
 **Banned**: CSS class selectors, ID selectors, bare tag selectors (lint error in non-animation spec files).
 
@@ -136,7 +136,7 @@ test.describe('Feature Name', () => {
 
 ## On-Demand References
 
-| Detail | Serena Memory |
-|-|-|
-| Hook/registry test templates | `test_templates_advanced` |
+| Detail                           | Serena Memory             |
+| -------------------------------- | ------------------------- |
+| Hook/registry test templates     | `test_templates_advanced` |
 | Component behavior test template | `test_templates_advanced` |
