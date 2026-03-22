@@ -1,22 +1,22 @@
 /**
- * Stagger-reveals child elements with a horizontal wipe-in effect.
- * Each child slides from off-screen left into view inside a clipped container.
+ * Modal with horizontal wipe-in list reveal.
+ * Modal scales in, list items wipe in from off-screen left, then button pops in.
  *
- * Copy-paste files: this file + ../SharedTypes.ts
+ * Copy-paste files: this file + ../SharedTypes.ts + ../shared.css
  * Runtime deps: react, motion
  *
  * @example
  * <ModalContentListVerticalWipe stagger={100} duration={500}>
- *   <div>Step 1 complete</div>
- *   <div>Step 2 complete</div>
+ *   <div>Step complete</div>
+ *   <div>Profile configured</div>
  * </ModalContentListVerticalWipe>
  */
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { Children, memo } from 'react'
+import { memo } from 'react'
 
-import { generateMockListItems } from '../MockContentItems'
+import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 500
@@ -32,36 +32,65 @@ function ModalContentListVerticalWipeComponent({
   onAnimationComplete,
 }: ContentStaggerProps) {
   const prefersReducedMotion = useReducedMotion()
-
-  const items = Children.toArray(children)
-  const renderItems = items.length > 0 ? items : generateMockListItems(DEFAULT_COUNT)
-
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const durationS = duration / 1000
   const staggerS = stagger / 1000
+  const reduced = prefersReducedMotion === true
+
+  const animateWipeItem = (child: React.ReactNode, i: number, delayBase: number) => (
+    <div key={i} style={{ overflow: 'hidden' }}>
+      <m.div
+        initial={reduced ? { opacity: 0 } : { x: '-100%', opacity: 0 }}
+        animate={reduced ? { opacity: 1 } : { x: '0%', opacity: 1 }}
+        transition={reduced ? { duration: 0.01 } : { duration: durationS, delay: delayBase + staggerS * i, ease: [0.4, 0, 0.2, 1] as const }}
+        style={{ animation: 'none' }}
+      >
+        {child}
+      </m.div>
+    </div>
+  )
+
+  if (items.length > 0) {
+    return (
+      <div
+        className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+        data-animation-id="modal-content__list-vertical-wipe"
+        style={style}
+      >
+        {items.map((child, i) => animateWipeItem(child, i, 0))}
+      </div>
+    )
+  }
+
+  const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div
-      className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
-      data-animation-id="modal-content__list-vertical-wipe"
-      style={style}
-    >
-      {renderItems.map((child, i) => (
-        <div key={i} style={{ overflow: 'hidden' }}>
+    <div className="pf-mc-overlay" data-animation-id="modal-content__list-vertical-wipe">
+      <m.div
+        className="pf-mc-box"
+        initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
+        animate={reduced ? { opacity: 1 } : { scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }}
+        transition={reduced ? { duration: 0.01 } : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+        style={{ animation: 'none' }}
+      >
+        <MockModalHeader title="Setup Complete" />
+        <div className="pf-mc-body">
+          <div className="pf-mc-list">
+            {mockItems.map((item, i) => animateWipeItem(item, i, 0.3))}
+          </div>
+        </div>
+        <div className="pf-mc-footer">
           <m.div
-            initial={prefersReducedMotion === true ? { opacity: 0 } : { x: '-100%', opacity: 0 }}
-            animate={prefersReducedMotion === true ? { opacity: 1 } : { x: '0%', opacity: 1 }}
-            transition={
-              prefersReducedMotion === true
-                ? { duration: 0.01 }
-                : { duration: durationS, delay: staggerS * i, ease: [0.4, 0, 0.2, 1] as const }
-            }
-            onAnimationComplete={i === renderItems.length - 1 ? onAnimationComplete : undefined}
+            initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
+            animate={reduced ? { opacity: 1 } : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
+            transition={reduced ? { duration: 0.01 } : { duration: 0.3, delay: 0.7, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+            onAnimationComplete={onAnimationComplete}
             style={{ animation: 'none' }}
           >
-            {child}
+            <MockButton label="Continue" />
           </m.div>
         </div>
-      ))}
+      </m.div>
     </div>
   )
 }

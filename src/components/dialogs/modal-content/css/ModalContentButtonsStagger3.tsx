@@ -1,27 +1,19 @@
 /**
- * Stagger-reveals child elements with a bounce-up pop (3-button default) — CSS variant.
+ * Modal with staggered button reveal (3-button default) — CSS variant.
  *
- * Copy-paste files: this file + ModalContentButtonsStagger3.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentButtonsStagger3.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
- *
- * @example
- * <ModalContentButtonsStagger3 stagger={70} duration={320}>
- *   <button>Accept</button>
- *   <button>Later</button>
- *   <button>Skip</button>
- * </ModalContentButtonsStagger3>
  */
 
-import { Children, memo } from 'react'
+import { memo } from 'react'
 
-import { generateMockButtons } from '../MockContentItems'
+import { MockButton, MockModalHeader } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentButtonsStagger3.css'
 
 const DEFAULT_DURATION = 320
 const DEFAULT_STAGGER = 70
-const DEFAULT_COUNT = 3
 
 function ModalContentButtonsStagger3Component({
   children,
@@ -30,27 +22,47 @@ function ModalContentButtonsStagger3Component({
   className,
   style,
 }: ContentStaggerProps) {
-  const items = Children.toArray(children)
-  const renderItems = items.length > 0 ? items : generateMockButtons(DEFAULT_COUNT)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+
+  const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
+    <div
+      key={i}
+      className="pf-button-stagger-3-item"
+      style={{
+        '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
+        '--pf-stagger-duration': `${String(duration)}ms`,
+      } as React.CSSProperties}
+    >
+      {child}
+    </div>
+  )
+
+  if (items.length > 0) {
+    return (
+      <div
+        className={className !== undefined ? `pf-content-stagger pf-content-stagger--horizontal ${className}` : 'pf-content-stagger pf-content-stagger--horizontal'}
+        data-animation-id="modal-content__buttons-stagger-3"
+        style={style}
+      >
+        {items.map((child, i) => wrapItem(child, i, 0))}
+      </div>
+    )
+  }
 
   return (
-    <div
-      className={className !== undefined ? `pf-content-stagger pf-content-stagger--horizontal ${className}` : 'pf-content-stagger pf-content-stagger--horizontal'}
-      data-animation-id="modal-content__buttons-stagger-3"
-      style={style}
-    >
-      {renderItems.map((child, i) => (
-        <div
-          key={i}
-          className="pf-button-stagger-3-item"
-          style={{
-            '--pf-stagger-delay': `${String(stagger * i)}ms`,
-            '--pf-stagger-duration': `${String(duration)}ms`,
-          } as React.CSSProperties}
-        >
-          {child}
+    <div className="pf-mc-overlay" data-animation-id="modal-content__buttons-stagger-3">
+      <div className="pf-mc-box pf-mc-box--entrance">
+        <MockModalHeader />
+        <div className="pf-mc-body">
+          <p>Build trust by sequencing content reveals.</p>
+          <p>Keep focus with 70ms cadence.</p>
         </div>
-      ))}
+        <div className="pf-mc-footer">
+          {wrapItem(<MockButton label="Primary" />, 0, 300)}
+          {wrapItem(<MockButton label="Secondary" variant="secondary" />, 1, 300)}
+          {wrapItem(<MockButton label="Tertiary" variant="secondary" />, 2, 300)}
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,19 +1,13 @@
 /**
- * Stagger-reveals child elements by sliding from the right — CSS variant.
+ * Modal with right-slide form field reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentFormFieldRightReveal.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentFormFieldRightReveal.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
- *
- * @example
- * <ModalContentFormFieldRightReveal stagger={90} distance={40}>
- *   <div><label>Name</label><input /></div>
- *   <div><label>Email</label><input /></div>
- * </ModalContentFormFieldRightReveal>
  */
 
-import { Children, memo } from 'react'
+import { memo } from 'react'
 
-import { generateMockFormFields } from '../MockContentItems'
+import { generateMockFormFields, MockButton, MockModalHeader } from '../MockContentItems'
 import type { DirectionalRevealProps } from '../SharedTypes'
 
 import './ModalContentFormFieldRightReveal.css'
@@ -31,28 +25,62 @@ function ModalContentFormFieldRightRevealComponent({
   className,
   style,
 }: DirectionalRevealProps) {
-  const items = Children.toArray(children)
-  const renderItems = items.length > 0 ? items : generateMockFormFields(DEFAULT_COUNT)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+
+  const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
+    <div
+      key={i}
+      className="pf-form-right-reveal-item"
+      style={{
+        '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
+        '--pf-stagger-duration': `${String(duration)}ms`,
+        '--pf-reveal-distance': `${String(distance)}px`,
+      } as React.CSSProperties}
+    >
+      {child}
+    </div>
+  )
+
+  if (items.length > 0) {
+    return (
+      <div
+        className={className !== undefined ? `pf-content-stagger pf-content-stagger--form ${className}` : 'pf-content-stagger pf-content-stagger--form'}
+        data-animation-id="modal-content__form-field-right-reveal"
+        style={style}
+      >
+        {items.map((child, i) => wrapItem(child, i, 0))}
+      </div>
+    )
+  }
+
+  const mockFields = generateMockFormFields(DEFAULT_COUNT)
 
   return (
-    <div
-      className={className !== undefined ? `pf-content-stagger pf-content-stagger--form ${className}` : 'pf-content-stagger pf-content-stagger--form'}
-      data-animation-id="modal-content__form-field-right-reveal"
-      style={style}
-    >
-      {renderItems.map((child, i) => (
-        <div
-          key={i}
-          className="pf-form-right-reveal-item"
-          style={{
-            '--pf-stagger-delay': `${String(stagger * i)}ms`,
-            '--pf-stagger-duration': `${String(duration)}ms`,
-            '--pf-reveal-distance': `${String(distance)}px`,
-          } as React.CSSProperties}
-        >
-          {child}
+    <div className="pf-mc-overlay" data-animation-id="modal-content__form-field-right-reveal">
+      <div className="pf-mc-box pf-mc-box--entrance">
+        <MockModalHeader />
+        <div className="pf-mc-body">
+          <p>Build trust by sequencing content reveals.</p>
+          <p>Keep focus with 70ms cadence.</p>
+          <div className="pf-mc-form">
+            {mockFields.map((field, i) => wrapItem(field, i, 300))}
+          </div>
         </div>
-      ))}
+        <div className="pf-mc-footer">
+          <div
+            className="pf-button-stagger-item"
+            style={{ '--pf-stagger-delay': '750ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+          >
+            <MockButton label="Accept" />
+          </div>
+          <div
+            className="pf-button-stagger-item"
+            style={{ '--pf-stagger-delay': '820ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+          >
+            <MockButton label="Later" variant="secondary" />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

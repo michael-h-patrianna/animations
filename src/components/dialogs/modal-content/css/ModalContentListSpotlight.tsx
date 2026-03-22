@@ -1,19 +1,13 @@
 /**
- * Stagger-reveals child elements with a scale spotlight effect — CSS variant.
+ * Modal with spotlight-sweep list reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentListSpotlight.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentListSpotlight.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
- *
- * @example
- * <ModalContentListSpotlight stagger={120} duration={500}>
- *   <div>Milestone 1</div>
- *   <div>Milestone 2</div>
- * </ModalContentListSpotlight>
  */
 
-import { Children, memo } from 'react'
+import { memo } from 'react'
 
-import { generateMockListItems } from '../MockContentItems'
+import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentListSpotlight.css'
@@ -29,27 +23,61 @@ function ModalContentListSpotlightComponent({
   className,
   style,
 }: ContentStaggerProps) {
-  const items = Children.toArray(children)
-  const renderItems = items.length > 0 ? items : generateMockListItems(DEFAULT_COUNT)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+
+  const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
+    <div
+      key={i}
+      className="pf-list-spotlight-item"
+      style={{
+        '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
+        '--pf-stagger-duration': `${String(duration)}ms`,
+      } as React.CSSProperties}
+    >
+      {child}
+    </div>
+  )
+
+  if (items.length > 0) {
+    return (
+      <div
+        className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+        data-animation-id="modal-content__list-spotlight"
+        style={style}
+      >
+        {items.map((child, i) => wrapItem(child, i, 0))}
+      </div>
+    )
+  }
+
+  const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div
-      className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
-      data-animation-id="modal-content__list-spotlight"
-      style={style}
-    >
-      {renderItems.map((child, i) => (
-        <div
-          key={i}
-          className="pf-list-spotlight-item"
-          style={{
-            '--pf-stagger-delay': `${String(stagger * i)}ms`,
-            '--pf-stagger-duration': `${String(duration)}ms`,
-          } as React.CSSProperties}
-        >
-          {child}
+    <div className="pf-mc-overlay" data-animation-id="modal-content__list-spotlight">
+      <div className="pf-mc-box pf-mc-box--entrance">
+        <MockModalHeader />
+        <div className="pf-mc-body">
+          <p>Build trust by sequencing content reveals.</p>
+          <p>Keep focus with 70ms cadence.</p>
+          <div className="pf-mc-list">
+            {mockItems.map((item, i) => wrapItem(item, i, 300))}
+          </div>
         </div>
-      ))}
+        <div className="pf-mc-footer">
+          <div
+            className="pf-button-stagger-item"
+            style={{ '--pf-stagger-delay': '650ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+          >
+            <MockButton label="Accept" />
+          </div>
+          <div
+            className="pf-button-stagger-item"
+            style={{ '--pf-stagger-delay': '720ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+          >
+            <MockButton label="Later" variant="secondary" />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

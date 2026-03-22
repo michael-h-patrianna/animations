@@ -1,19 +1,13 @@
 /**
- * Stagger-reveals child elements with a horizontal wipe-in — CSS variant.
+ * Modal with horizontal wipe-in list reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentListVerticalWipe.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentListVerticalWipe.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
- *
- * @example
- * <ModalContentListVerticalWipe stagger={100} duration={500}>
- *   <div>Step complete</div>
- *   <div>Profile configured</div>
- * </ModalContentListVerticalWipe>
  */
 
-import { Children, memo } from 'react'
+import { memo } from 'react'
 
-import { generateMockListItems } from '../MockContentItems'
+import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentListVerticalWipe.css'
@@ -29,28 +23,54 @@ function ModalContentListVerticalWipeComponent({
   className,
   style,
 }: ContentStaggerProps) {
-  const items = Children.toArray(children)
-  const renderItems = items.length > 0 ? items : generateMockListItems(DEFAULT_COUNT)
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+
+  const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
+    <div key={i} className="pf-list-vertical-wipe-clip">
+      <div
+        className="pf-list-vertical-wipe-item"
+        style={{
+          '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
+          '--pf-stagger-duration': `${String(duration)}ms`,
+        } as React.CSSProperties}
+      >
+        {child}
+      </div>
+    </div>
+  )
+
+  if (items.length > 0) {
+    return (
+      <div
+        className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+        data-animation-id="modal-content__list-vertical-wipe"
+        style={style}
+      >
+        {items.map((child, i) => wrapItem(child, i, 0))}
+      </div>
+    )
+  }
+
+  const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div
-      className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
-      data-animation-id="modal-content__list-vertical-wipe"
-      style={style}
-    >
-      {renderItems.map((child, i) => (
-        <div key={i} className="pf-list-vertical-wipe-clip">
-          <div
-            className="pf-list-vertical-wipe-item"
-            style={{
-              '--pf-stagger-delay': `${String(stagger * i)}ms`,
-              '--pf-stagger-duration': `${String(duration)}ms`,
-            } as React.CSSProperties}
-          >
-            {child}
+    <div className="pf-mc-overlay" data-animation-id="modal-content__list-vertical-wipe">
+      <div className="pf-mc-box pf-mc-box--entrance">
+        <MockModalHeader title="Setup Complete" />
+        <div className="pf-mc-body">
+          <div className="pf-mc-list">
+            {mockItems.map((item, i) => wrapItem(item, i, 300))}
           </div>
         </div>
-      ))}
+        <div className="pf-mc-footer">
+          <div
+            className="pf-button-stagger-item"
+            style={{ '--pf-stagger-delay': '700ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+          >
+            <MockButton label="Continue" />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

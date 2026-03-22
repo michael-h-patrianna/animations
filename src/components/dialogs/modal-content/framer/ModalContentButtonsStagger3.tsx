@@ -1,8 +1,8 @@
 /**
- * Stagger-reveals child elements with a bounce-up pop effect (3-button default).
- * Same choreography as ButtonsStagger2 but defaults to 3 placeholder items.
+ * Modal with staggered button reveal (3-button default).
+ * Modal scales in, then action buttons pop up one by one with overshoot.
  *
- * Copy-paste files: this file + ../SharedTypes.ts
+ * Copy-paste files: this file + ../SharedTypes.ts + ../shared.css
  * Runtime deps: react, motion
  *
  * @example
@@ -15,14 +15,13 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { Children, memo } from 'react'
+import { memo } from 'react'
 
-import { generateMockButtons } from '../MockContentItems'
+import { MockButton, MockModalHeader } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 320
 const DEFAULT_STAGGER = 70
-const DEFAULT_COUNT = 3
 
 function ModalContentButtonsStagger3Component({
   children,
@@ -33,39 +32,56 @@ function ModalContentButtonsStagger3Component({
   onAnimationComplete,
 }: ContentStaggerProps) {
   const prefersReducedMotion = useReducedMotion()
-
-  const items = Children.toArray(children)
-  const renderItems = items.length > 0 ? items : generateMockButtons(DEFAULT_COUNT)
-
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const durationS = duration / 1000
   const staggerS = stagger / 1000
+  const reduced = prefersReducedMotion === true
+
+  const animateItem = (child: React.ReactNode, i: number, delayBase: number) => (
+    <m.div
+      key={i}
+      initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
+      animate={reduced ? { opacity: 1 } : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
+      transition={reduced ? { duration: 0.01 } : { duration: durationS, delay: delayBase + staggerS * i, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+      onAnimationComplete={onAnimationComplete}
+      style={{ animation: 'none' }}
+    >
+      {child}
+    </m.div>
+  )
+
+  if (items.length > 0) {
+    return (
+      <div
+        className={className !== undefined ? `pf-content-stagger pf-content-stagger--horizontal ${className}` : 'pf-content-stagger pf-content-stagger--horizontal'}
+        data-animation-id="modal-content__buttons-stagger-3"
+        style={style}
+      >
+        {items.map((child, i) => animateItem(child, i, 0))}
+      </div>
+    )
+  }
 
   return (
-    <div
-      className={className !== undefined ? `pf-content-stagger pf-content-stagger--horizontal ${className}` : 'pf-content-stagger pf-content-stagger--horizontal'}
-      data-animation-id="modal-content__buttons-stagger-3"
-      style={style}
-    >
-      {renderItems.map((child, i) => (
-        <m.div
-          key={i}
-          initial={prefersReducedMotion === true ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
-          animate={
-            prefersReducedMotion === true
-              ? { opacity: 1 }
-              : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }
-          }
-          transition={
-            prefersReducedMotion === true
-              ? { duration: 0.01 }
-              : { duration: durationS, delay: staggerS * i, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }
-          }
-          onAnimationComplete={i === renderItems.length - 1 ? onAnimationComplete : undefined}
-          style={{ animation: 'none' }}
-        >
-          {child}
-        </m.div>
-      ))}
+    <div className="pf-mc-overlay" data-animation-id="modal-content__buttons-stagger-3">
+      <m.div
+        className="pf-mc-box"
+        initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
+        animate={reduced ? { opacity: 1 } : { scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }}
+        transition={reduced ? { duration: 0.01 } : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+        style={{ animation: 'none' }}
+      >
+        <MockModalHeader />
+        <div className="pf-mc-body">
+          <p>Build trust by sequencing content reveals.</p>
+          <p>Keep focus with 70ms cadence.</p>
+        </div>
+        <div className="pf-mc-footer">
+          {animateItem(<MockButton label="Primary" />, 0, 0.3)}
+          {animateItem(<MockButton label="Secondary" variant="secondary" />, 1, 0.3)}
+          {animateItem(<MockButton label="Tertiary" variant="secondary" />, 2, 0.3)}
+        </div>
+      </m.div>
     </div>
   )
 }

@@ -1,8 +1,8 @@
 /**
- * Stagger-reveals child elements with a scale-up spotlight effect.
- * Each child scales from 95% with slight overshoot and fades in.
+ * Modal with spotlight-sweep list reveal.
+ * Modal scales in, list items scale up with overshoot one by one, then buttons pop in.
  *
- * Copy-paste files: this file + ../SharedTypes.ts
+ * Copy-paste files: this file + ../SharedTypes.ts + ../shared.css
  * Runtime deps: react, motion
  *
  * @example
@@ -14,9 +14,9 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { Children, memo } from 'react'
+import { memo } from 'react'
 
-import { generateMockListItems } from '../MockContentItems'
+import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 500
@@ -32,39 +32,75 @@ function ModalContentListSpotlightComponent({
   onAnimationComplete,
 }: ContentStaggerProps) {
   const prefersReducedMotion = useReducedMotion()
-
-  const items = Children.toArray(children)
-  const renderItems = items.length > 0 ? items : generateMockListItems(DEFAULT_COUNT)
-
+  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const durationS = duration / 1000
   const staggerS = stagger / 1000
+  const reduced = prefersReducedMotion === true
+
+  const animateListItem = (child: React.ReactNode, i: number, delayBase: number) => (
+    <m.div
+      key={i}
+      initial={reduced ? { opacity: 0 } : { scale: 0.95, opacity: 0 }}
+      animate={reduced ? { opacity: 1 } : { scale: [0.95, 1.02, 1], opacity: [0, 0.7, 1] }}
+      transition={reduced ? { duration: 0.01 } : { duration: durationS, delay: delayBase + staggerS * i, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+      style={{ animation: 'none' }}
+    >
+      {child}
+    </m.div>
+  )
+
+  if (items.length > 0) {
+    return (
+      <div
+        className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+        data-animation-id="modal-content__list-spotlight"
+        style={style}
+      >
+        {items.map((child, i) => animateListItem(child, i, 0))}
+      </div>
+    )
+  }
+
+  const mockItems = generateMockListItems(DEFAULT_COUNT)
+  const buttonStaggerBase = 0.3 + staggerS * DEFAULT_COUNT + 0.05
 
   return (
-    <div
-      className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
-      data-animation-id="modal-content__list-spotlight"
-      style={style}
-    >
-      {renderItems.map((child, i) => (
-        <m.div
-          key={i}
-          initial={prefersReducedMotion === true ? { opacity: 0 } : { scale: 0.95, opacity: 0 }}
-          animate={
-            prefersReducedMotion === true
-              ? { opacity: 1 }
-              : { scale: [0.95, 1.02, 1], opacity: [0, 0.7, 1] }
-          }
-          transition={
-            prefersReducedMotion === true
-              ? { duration: 0.01 }
-              : { duration: durationS, delay: staggerS * i, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }
-          }
-          onAnimationComplete={i === renderItems.length - 1 ? onAnimationComplete : undefined}
-          style={{ animation: 'none' }}
-        >
-          {child}
-        </m.div>
-      ))}
+    <div className="pf-mc-overlay" data-animation-id="modal-content__list-spotlight">
+      <m.div
+        className="pf-mc-box"
+        initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
+        animate={reduced ? { opacity: 1 } : { scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }}
+        transition={reduced ? { duration: 0.01 } : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+        style={{ animation: 'none' }}
+      >
+        <MockModalHeader />
+        <div className="pf-mc-body">
+          <p>Build trust by sequencing content reveals.</p>
+          <p>Keep focus with 70ms cadence.</p>
+          <div className="pf-mc-list">
+            {mockItems.map((item, i) => animateListItem(item, i, 0.3))}
+          </div>
+        </div>
+        <div className="pf-mc-footer">
+          <m.div
+            initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
+            animate={reduced ? { opacity: 1 } : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
+            transition={reduced ? { duration: 0.01 } : { duration: 0.3, delay: buttonStaggerBase, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+            style={{ animation: 'none' }}
+          >
+            <MockButton label="Accept" />
+          </m.div>
+          <m.div
+            initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
+            animate={reduced ? { opacity: 1 } : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
+            transition={reduced ? { duration: 0.01 } : { duration: 0.3, delay: buttonStaggerBase + 0.07, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+            onAnimationComplete={onAnimationComplete}
+            style={{ animation: 'none' }}
+          >
+            <MockButton label="Later" variant="secondary" />
+          </m.div>
+        </div>
+      </m.div>
     </div>
   )
 }
