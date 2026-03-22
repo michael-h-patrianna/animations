@@ -310,4 +310,33 @@ describe('useScrollToGroup', () => {
     el2.remove()
     scrollToSpy.mockRestore()
   })
+
+  it('MutationObserver disconnects after 2s safety timeout — late DOM additions do not trigger scroll', async () => {
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const appBarRef = makeRef()
+
+    renderHook(() => useScrollToGroup({ currentGroupId: 'timeout-group', appBarRef }))
+
+    // Element not in DOM — MutationObserver is watching
+    expect(scrollToSpy).not.toHaveBeenCalled()
+
+    // Advance past the 2s safety timeout
+    vi.advanceTimersByTime(2100)
+
+    // NOW add the element — observer should have been disconnected by timeout
+    const el = document.createElement('div')
+    el.id = 'group-timeout-group'
+    el.getBoundingClientRect = () =>
+      ({ top: 500, left: 0, right: 100, bottom: 600, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(el)
+
+    // Flush any pending MutationObserver callbacks
+    await vi.advanceTimersByTimeAsync(0)
+
+    // Observer was disconnected — scroll should NOT have been called
+    expect(scrollToSpy).not.toHaveBeenCalled()
+
+    el.remove()
+    scrollToSpy.mockRestore()
+  })
 })

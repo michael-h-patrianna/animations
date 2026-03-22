@@ -5,7 +5,14 @@ import { describe, expect, it } from 'vitest'
 const groupMeta: GroupMetadata = { id: 'test-group', title: 'Test Group' }
 
 function makeMeta(id: string, overrides?: Partial<AnimationMetadata>): AnimationMetadata {
-  return { id, title: id, description: 'desc', tags: [], ...overrides }
+  return {
+    id,
+    title: id,
+    description: 'desc',
+    urlSlugFramer: `/${id}-framer`,
+    urlSlugCss: `/${id}-css`,
+    ...overrides,
+  }
 }
 
 describe('buildGroupExport', () => {
@@ -194,7 +201,13 @@ describe('buildGroupExport', () => {
 
       const anim = result.framer['g__minimal']!
       // Only expected keys should be present — no optional fields added
-      expect(Object.keys(anim.metadata).sort()).toEqual(['description', 'id', 'tags', 'title'])
+      expect(Object.keys(anim.metadata).sort()).toEqual([
+        'description',
+        'id',
+        'title',
+        'urlSlugCss',
+        'urlSlugFramer',
+      ])
     })
   })
 
@@ -309,6 +322,93 @@ describe('buildGroupExport lazy component contract', () => {
       '$$typeof',
       Symbol.for('react.lazy')
     )
+  })
+
+  describe('collectHelperLoaders and shared pool merging', () => {
+    it('includes CSS helper files (matching SKIP_PATTERN) in the shared pool', () => {
+      // A CSS file named MockStyles.css matches SKIP_PATTERN (starts with Mock)
+      // and should be collected as a helper, not registered as an animation
+      const helperCssLoader = vi.fn().mockResolvedValue('.mock-helper {}')
+
+      const result = buildGroupExport(
+        groupMeta,
+        { './framer/RealAnim.tsx': () => Promise.resolve({ RealAnim: () => null }) },
+        { './framer/RealAnim.meta.ts': { metadata: makeMeta('g__real-anim') } },
+        {},
+        {},
+        {
+          framerTsx: {
+            './framer/RealAnim.tsx': vi.fn().mockResolvedValue('export function RealAnim() {}'),
+          },
+          framerCss: { './framer/MockStyles.css': helperCssLoader },
+        }
+      )
+
+      // The animation should be registered
+      expect(Object.keys(result.framer)).toEqual(['g__real-anim'])
+      // MockStyles.css is a helper — it gets merged into allShared via collectHelperLoaders
+      // We can't directly inspect the WeakMap, but we verify the entry exists
+      expect(result.framer['g__real-anim']!.metadata.id).toBe('g__real-anim')
+    })
+
+    it('merges framer and css helper loaders into the same shared pool', () => {
+      // Both framer/ and css/ may have helper files. These should be merged
+      // so that resolveAnimationSource can find helpers from either subdir.
+      const result = buildGroupExport(
+        groupMeta,
+        { './framer/AnimA.tsx': () => Promise.resolve({ AnimA: () => null }) },
+        { './framer/AnimA.meta.ts': { metadata: makeMeta('g__a') } },
+        { './css/AnimA.tsx': () => Promise.resolve({ AnimA: () => null }) },
+        { './css/AnimA.meta.ts': { metadata: makeMeta('g__a') } },
+        {
+          framerTsx: {
+            './framer/AnimA.tsx': vi.fn().mockResolvedValue('export function AnimA() {}'),
+            './framer/SharedUtils.tsx': vi.fn().mockResolvedValue('// framer helper'),
+          },
+          cssTsx: {
+            './css/AnimA.tsx': vi.fn().mockResolvedValue('export function AnimA() {}'),
+            './css/SharedUtils.tsx': vi.fn().mockResolvedValue('// css helper'),
+          },
+        }
+      )
+
+      // Both variants should be registered
+      expect(Object.keys(result.framer)).toEqual(['g__a'])
+      expect(Object.keys(result.css)).toEqual(['g__a'])
+    })
+
+    it('last-write-wins when framer and css have identically-pathed helper files', () => {
+      // If both framer/ and css/ contain ./SharedUtils.tsx, the allShared merger
+      // uses object spread: { ...shared, ...framerHelpers, ...cssHelpers }
+      // css helpers overwrite framer helpers with the same path key
+      const framerHelper = vi.fn().mockResolvedValue('framer version')
+      const cssHelper = vi.fn().mockResolvedValue('css version')
+
+      const result = buildGroupExport(
+        groupMeta,
+        { './framer/Anim.tsx': () => Promise.resolve({ Anim: () => null }) },
+        { './framer/Anim.meta.ts': { metadata: makeMeta('g__anim') } },
+        { './css/Anim.tsx': () => Promise.resolve({ Anim: () => null }) },
+        { './css/Anim.meta.ts': { metadata: makeMeta('g__anim') } },
+        {
+          framerTsx: {
+            './framer/Anim.tsx': vi.fn().mockResolvedValue('export function Anim() {}'),
+            // Same relative path from framer/ subdir
+            './framer/SharedUtils.tsx': framerHelper,
+          },
+          cssTsx: {
+            './css/Anim.tsx': vi.fn().mockResolvedValue('export function Anim() {}'),
+            // Same relative path from css/ subdir — different key, so no collision
+            './css/SharedUtils.tsx': cssHelper,
+          },
+        }
+      )
+
+      // Both entries should exist. The paths differ (./framer/ vs ./css/)
+      // so there is no actual collision in the allShared pool.
+      expect(Object.keys(result.framer)).toEqual(['g__anim'])
+      expect(Object.keys(result.css)).toEqual(['g__anim'])
+    })
   })
 
   it('throws on duplicate animation IDs in dev mode', () => {

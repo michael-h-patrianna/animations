@@ -54,6 +54,30 @@ describe('toHex', () => {
   it('handles leading/trailing whitespace', () => {
     expect(toHex('  #ff0000  ')).toBe('#ff0000')
   })
+
+  it('resolves CSS custom property containing rgb() value', () => {
+    document.documentElement.style.setProperty('--test-rgb-color', 'rgb(0, 128, 255)')
+    const result = toHex('var(--test-rgb-color)')
+    expect(result).toBe('#0080ff')
+    document.documentElement.style.removeProperty('--test-rgb-color')
+  })
+
+  it('throws for named CSS colors in happy-dom (no getComputedStyle color resolution)', () => {
+    // Named colors like 'red' fall through to resolveCssColor, which probes
+    // via getComputedStyle. happy-dom does not resolve named colors to rgb,
+    // so this throws in dev mode. In a real browser, this would resolve to #ff0000.
+    expect(() => toHex('red')).toThrow('unparseable color')
+  })
+
+  it('resolves CSS variable referencing another CSS variable', () => {
+    document.documentElement.style.setProperty('--base-color', '#336699')
+    document.documentElement.style.setProperty('--ref-color', 'var(--base-color)')
+    // toHex('var(--ref-color)') should resolve through getComputedStyle
+    const result = toHex('var(--ref-color)')
+    expect(result).toBe('#336699')
+    document.documentElement.style.removeProperty('--base-color')
+    document.documentElement.style.removeProperty('--ref-color')
+  })
 })
 
 describe('blendColors', () => {
@@ -324,5 +348,204 @@ describe('calculateBulbColors', () => {
     expect(gradR).toBeLessThan(onR)
     // But not too dark (85% of original)
     expect(gradR).toBeGreaterThan(onR * 0.7)
+  })
+})
+
+describe('color parsing edge cases', () => {
+  it('handles rgb() with extra whitespace', () => {
+    expect(blendColors('rgb(  255 ,  0 ,  0  )', '#0000ff', 100)).toBe('#ff0000')
+  })
+
+  it('handles rgb() with negative channel values (clamped to 0)', () => {
+    // parseFloat('-50') returns -50, clampChannel clamps to 0
+    const result = blendColors('rgb(-50, -50, -50)', '#ffffff', 100)
+    expect(result).toBe('#000000')
+  })
+
+  it('handles rgb() with channels > 255 (clamped to 255)', () => {
+    const result = blendColors('rgb(300, 300, 300)', '#000000', 100)
+    expect(result).toBe('#ffffff')
+  })
+
+  it('handles rgb() with percentage channels', () => {
+    const result = toHex('rgb(50%, 0%, 100%)')
+    expect(result).toBe('#8000ff')
+  })
+
+  it('handles rgba() with percentage alpha (alpha ignored by blendColors)', () => {
+    // rgba with percentage alpha: alpha component is captured but ignored by parseRgbChannel
+    const result = blendColors('rgba(255, 0, 0, 50%)', '#0000ff', 100)
+    expect(result).toBe('#ff0000')
+  })
+
+  it('handles hex with mixed case', () => {
+    expect(toHex('#AaBbCc')).toBe('#aabbcc')
+  })
+
+  it('addTransparency handles alpha at exact boundary 100', () => {
+    const result = addTransparency('#ff0000', 100)
+    // alpha = 100/100 = 1
+    expect(result).toBe('rgba(255, 0, 0, 1)')
+  })
+
+  it('blendColors with identical colors at any percentage returns that color', () => {
+    const color = '#abcdef'
+    expect(blendColors(color, color, 0)).toBe(color)
+    expect(blendColors(color, color, 50)).toBe(color)
+    expect(blendColors(color, color, 100)).toBe(color)
+  })
+
+  it('toHex handles hex without # prefix', () => {
+    // The parseHexColor strips # before checking — but if no # is present,
+    // it should still work because trim().replace(/^#/, '') is a no-op
+    expect(toHex('ff0000')).toBe('#ff0000')
+  })
+
+  it('shiftColorTemperature at shift 0 is identity', () => {
+    // Verify with multiple colors that shift 0 returns exact input
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#abcdef', '#000000', '#ffffff']
+    for (const color of colors) {
+      expect(shiftColorTemperature(color, 0), `${color} at shift 0`).toBe(color)
+    }
+  })
+})
+
+describe('color utility mathematical precision', () => {
+  it('blendColors at 50% between complementary colors is mathematically correct', () => {
+    // #ff0000 and #00ff00 at 50%:
+    // R: 255*0.5 + 0*0.5 = 127.5 → round to 128
+    // G: 0*0.5 + 255*0.5 = 127.5 → round to 128
+    // B: 0
+    const result = blendColors('#ff0000', '#00ff00', 50)
+    expect(result).toBe('#808000')
+  })
+
+  it('addTransparency at floating point boundaries does not produce scientific notation', () => {
+    const result1 = addTransparency('#ff0000', 0.1)
+    expect(result1).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
+    expect(result1).not.toContain('e')
+
+    const result2 = addTransparency('#ff0000', 99.9)
+    expect(result2).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
+    expect(result2).not.toContain('e')
+  })
+
+  it('shiftColorTemperature with pure red warm shift only increases R and G', () => {
+    const result = shiftColorTemperature('#ff0000', 25)
+    const r = parseInt(result.slice(1, 3), 16)
+    const g = parseInt(result.slice(3, 5), 16)
+    const b = parseInt(result.slice(5, 7), 16)
+    // R: 255 + 25*0.8 = 275 → clamped to 255
+    expect(r).toBe(255)
+    // G: 0 + 25*0.5 = 13 → round to 13
+    expect(g).toBe(13)
+    // B: 0 - 25*0.3 = -7.5 → clamped to 0
+    expect(b).toBe(0)
+  })
+
+  it('shiftColorTemperature with pure blue cool shift increases B correctly', () => {
+    const result = shiftColorTemperature('#0000ff', -25)
+    const r = parseInt(result.slice(1, 3), 16)
+    const g = parseInt(result.slice(3, 5), 16)
+    const b = parseInt(result.slice(5, 7), 16)
+    // R: 0 - 25*0.4 = -10 → clamped to 0
+    expect(r).toBe(0)
+    // G: 0 - 25*0.2 = -5 → clamped to 0
+    expect(g).toBe(0)
+    // B: 255 + 25*0.6 = 270 → clamped to 255
+    expect(b).toBe(255)
+  })
+
+  it('blendColors is not commutative at non-50% percentages', () => {
+    const ab25 = blendColors('#ff0000', '#0000ff', 25)
+    const ba25 = blendColors('#0000ff', '#ff0000', 25)
+    // At 25%, ab25 should have more blue; ba25 should have more red
+    expect(ab25).not.toBe(ba25)
+    // Verify: ab25 at 25% means 25% red, 75% blue
+    const abR = parseInt(ab25.slice(1, 3), 16)
+    const baR = parseInt(ba25.slice(1, 3), 16)
+    expect(abR).toBeLessThan(baR)
+  })
+
+  it('toHex throws for 5-digit hex (invalid length)', () => {
+    expect(() => toHex('#12345')).toThrow('unparseable color')
+  })
+
+  it('toHex throws for 7-digit hex (invalid length)', () => {
+    expect(() => toHex('#1234567')).toThrow('unparseable color')
+  })
+
+  it('toHex throws for 1-digit hex', () => {
+    expect(() => toHex('#a')).toThrow('unparseable color')
+  })
+
+  it('toHex throws for 2-digit hex', () => {
+    expect(() => toHex('#ab')).toThrow('unparseable color')
+  })
+
+  it('toHex throws for hex with non-hex characters', () => {
+    expect(() => toHex('#gggggg')).toThrow('unparseable color')
+  })
+
+  it('toHex throws for hex with spaces inside', () => {
+    expect(() => toHex('#ff 00 00')).toThrow('unparseable color')
+  })
+
+  it('calculateBulbColors desaturation moves RGB channels toward their average', () => {
+    // For a saturated input like pure red, the off-color derivation:
+    // 1. Darkens to 20% → R=51, G=0, B=0
+    // 2. Desaturates 60% toward average → avg=(51+0+0)/3=17
+    //    R = 51 + (17-51)*0.6 = 51 - 20.4 = 30.6 → 31
+    //    G = 0 + (17-0)*0.6 = 10.2 → 10
+    //    B = 0 + (17-0)*0.6 = 10.2 → 10
+    // 3. Cool shift -10 applied
+    // Result should show convergence of R,G,B values (less saturated)
+    const colors = calculateBulbColors('#ff0000')
+    const offMatch = colors.off.match(/rgba\((\d+), (\d+), (\d+)/)
+    const offR = parseInt(offMatch![1]!)
+    const offG = parseInt(offMatch![2]!)
+    const offB = parseInt(offMatch![3]!)
+    // Desaturation means channels are closer to average than the darkened input
+    const avg = (offR + offG + offB) / 3
+    const maxDev = Math.max(Math.abs(offR - avg), Math.abs(offG - avg), Math.abs(offB - avg))
+    // For desaturated color, max deviation should be much less than 255
+    expect(maxDev).toBeLessThan(50)
+  })
+})
+
+describe('color parsing — modern CSS4 space-separated syntax', () => {
+  it('rgb() with space-separated values falls through to browser resolution', () => {
+    // Modern CSS4: rgb(255 0 0) — the comma-based regex does not match this syntax
+    // In happy-dom, resolveCssColor may or may not resolve it, depending on implementation
+    // The function should not crash regardless of the outcome
+    const result = blendColors('rgb(255 0 0)', '#0000ff', 100)
+    // Falls back to gold (#ffd700) if resolveCssColor also fails in test env
+    expect(result).toMatch(/^#[0-9a-f]{6}$/i)
+  })
+
+  it('rgb() with slash alpha syntax does not match comma-based regex', () => {
+    // CSS4: rgb(255 0 0 / 0.5) — uses space separation with / for alpha
+    const result = blendColors('rgb(255 0 0 / 0.5)', '#0000ff', 100)
+    expect(result).toMatch(/^#[0-9a-f]{6}$/i)
+  })
+
+  it('toHex with rgb() missing commas falls through to browser resolution', () => {
+    // In dev mode, if resolveCssColor also fails, toHex throws
+    // In happy-dom, behavior depends on CSS property resolution
+    try {
+      const result = toHex('rgb(128 128 128)')
+      expect(result).toMatch(/^#[0-9a-f]{6}$/i)
+    } catch (e) {
+      // Expected in dev mode if happy-dom can't resolve it
+      expect((e as Error).message).toContain('unparseable color')
+    }
+  })
+
+  it('addTransparency handles rgba() with space-separated input (falls back to gold)', () => {
+    // rgba(255 0 0 / 0.5) is not matched by the comma regex
+    // parseColor falls back to FALLBACK_COLOR
+    const result = addTransparency('rgba(255 0 0 / 0.5)', 50)
+    // Should still return a valid rgba string (using fallback gold color)
+    expect(result).toMatch(/^rgba\(\d+, \d+, \d+, [\d.]+\)$/)
   })
 })

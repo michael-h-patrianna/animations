@@ -1,5 +1,11 @@
 import { preloadImages } from '@/lib/preload'
 import { CRITICAL_ICON_IMAGES } from '@/lib/preload-manifest'
+import { afterEach } from 'vitest'
+
+afterEach(() => {
+  // Clean up any preload links injected during tests to prevent cross-test pollution
+  document.head.querySelectorAll('link[rel="preload"][as="image"]').forEach((el) => el.remove())
+})
 
 describe('lib • preloadImages', () => {
   it('no-ops without document/head', () => {
@@ -73,15 +79,17 @@ describe('lib • preloadImages', () => {
     expect(links.length).toBe(2)
   })
 
-  it('handles whitespace-only URLs as empty (skips them)', () => {
+  it('whitespace-only URLs are NOT filtered (function checks === "" not trim)', () => {
     document.head.innerHTML = ''
     preloadImages(['   ', 'valid.png'])
     const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
-    // Whitespace-only URLs are not empty string, so they may be added
-    // The function checks `url === ''` — whitespace passes through
-    // This is an edge case that documents current behavior
     const hrefs = Array.from(links).map((l) => l.getAttribute('href'))
+    // The function only checks `url === ''`, so whitespace-only strings pass through.
+    // This means a link element with href="   " is created — a minor edge case
+    // that doesn't cause harm in practice since no image has a whitespace-only URL.
     expect(hrefs).toContain('valid.png')
+    expect(hrefs).toContain('   ')
+    expect(links.length).toBe(2)
   })
 
   it('preserves pre-existing preload links in the head', () => {
@@ -121,5 +129,98 @@ describe('lib • preloadImages', () => {
     expect(links.length).toBe(3)
     const hrefs = Array.from(links).map((l) => l.getAttribute('href'))
     expect(hrefs).toEqual(['a.png', 'b.png', 'c.png'])
+  })
+
+  it('creates Image() objects to warm the browser cache for each unique URL', () => {
+    document.head.innerHTML = ''
+    const imageInstances: Array<{ src: string; decoding: string }> = []
+    const OrigImage = globalThis.Image
+
+    globalThis.Image = class MockImage {
+      src = ''
+      decoding = ''
+      constructor() {
+        imageInstances.push(this)
+      }
+    } as unknown as typeof Image
+
+    preloadImages(['warm1.png', 'warm2.png', 'warm1.png'])
+
+    // Should create Image() for each unique URL (2, not 3)
+    expect(imageInstances).toHaveLength(2)
+    expect(imageInstances[0]!.src).toBe('warm1.png')
+    expect(imageInstances[0]!.decoding).toBe('async')
+    expect(imageInstances[1]!.src).toBe('warm2.png')
+    expect(imageInstances[1]!.decoding).toBe('async')
+
+    globalThis.Image = OrigImage
+  })
+
+  it('does not create Image() for empty URLs', () => {
+    document.head.innerHTML = ''
+    const imageInstances: Array<{ src: string }> = []
+    const OrigImage = globalThis.Image
+
+    globalThis.Image = class MockImage {
+      src = ''
+      decoding = ''
+      constructor() {
+        imageInstances.push(this)
+      }
+    } as unknown as typeof Image
+
+    preloadImages(['', 'valid.png', ''])
+
+    expect(imageInstances).toHaveLength(1)
+    expect(imageInstances[0]!.src).toBe('valid.png')
+
+    globalThis.Image = OrigImage
+  })
+
+  it('survives Image constructor throwing without breaking subsequent URLs', () => {
+    document.head.innerHTML = ''
+    const OrigImage = globalThis.Image
+
+    let callCount = 0
+    globalThis.Image = class MockImage {
+      src = ''
+      decoding = ''
+      constructor() {
+        callCount++
+        if (callCount === 1) throw new Error('Image constructor failed')
+      }
+    } as unknown as typeof Image
+
+    // The function does not try-catch the Image() call, so this will throw.
+    // This documents the behavior: a failing Image() constructor will propagate
+    // and prevent subsequent URLs from being processed within the forEach.
+    // The link tags are added BEFORE the Image() call, so they will be present.
+    expect(() => preloadImages(['fail.png', 'success.png'])).toThrow('Image constructor failed')
+
+    // The first link was added before the Image() throw
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    expect(links.length).toBe(1)
+    expect(links[0]!.getAttribute('href')).toBe('fail.png')
+
+    globalThis.Image = OrigImage
+  })
+
+  it('handles concurrent calls from multiple callers without race conditions', () => {
+    document.head.innerHTML = ''
+
+    // Simulate two concurrent callers
+    preloadImages(['shared.png', 'only-a.png'])
+    preloadImages(['shared.png', 'only-b.png'])
+
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    const hrefs = Array.from(links).map((l) => l.getAttribute('href'))
+
+    // shared.png should appear only once (second call detects it in existing set)
+    expect(hrefs.filter((h) => h === 'shared.png')).toHaveLength(1)
+    // All three unique URLs should be present
+    expect(hrefs).toContain('shared.png')
+    expect(hrefs).toContain('only-a.png')
+    expect(hrefs).toContain('only-b.png')
+    expect(links.length).toBe(3)
   })
 })

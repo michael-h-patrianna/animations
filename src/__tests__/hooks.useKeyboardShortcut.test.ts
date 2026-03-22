@@ -94,4 +94,55 @@ describe('useKeyboardShortcut', () => {
     expect(onClose1).not.toHaveBeenCalled()
     expect(onClose2).toHaveBeenCalledOnce()
   })
+
+  it('multiple concurrent instances all fire on Escape (no listener clobbering)', () => {
+    const onCloseA = vi.fn()
+    const onCloseB = vi.fn()
+    const onCloseC = vi.fn()
+
+    renderHook(() => useKeyboardShortcut({ isOpen: true, onClose: onCloseA }))
+    renderHook(() => useKeyboardShortcut({ isOpen: true, onClose: onCloseB }))
+    renderHook(() => useKeyboardShortcut({ isOpen: true, onClose: onCloseC }))
+
+    fireEvent.keyDown(window, { key: 'Escape' })
+
+    // All three should fire — the hook uses addEventListener, not onkeydown assignment
+    expect(onCloseA).toHaveBeenCalledOnce()
+    expect(onCloseB).toHaveBeenCalledOnce()
+    expect(onCloseC).toHaveBeenCalledOnce()
+  })
+
+  it('only active instances fire when some are closed', () => {
+    const onCloseActive = vi.fn()
+    const onCloseClosed = vi.fn()
+
+    renderHook(() => useKeyboardShortcut({ isOpen: true, onClose: onCloseActive }))
+    renderHook(() => useKeyboardShortcut({ isOpen: false, onClose: onCloseClosed }))
+
+    fireEvent.keyDown(window, { key: 'Escape' })
+
+    expect(onCloseActive).toHaveBeenCalledOnce()
+    expect(onCloseClosed).not.toHaveBeenCalled()
+  })
+
+  it('does not respond to "Esc" (legacy IE key value)', () => {
+    // The hook checks e.key === 'Escape' (standard), not 'Esc' (legacy)
+    const onClose = vi.fn()
+    renderHook(() => useKeyboardShortcut({ isOpen: true, onClose }))
+
+    fireEvent.keyDown(window, { key: 'Esc' })
+    expect(onClose).not.toHaveBeenCalled()
+
+    // Standard 'Escape' still works
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(onClose).toHaveBeenCalledOnce()
+  })
+
+  it('does not respond to keyup events (only keydown)', () => {
+    const onClose = vi.fn()
+    renderHook(() => useKeyboardShortcut({ isOpen: true, onClose }))
+
+    fireEvent.keyUp(window, { key: 'Escape' })
+    expect(onClose).not.toHaveBeenCalled()
+  })
 })

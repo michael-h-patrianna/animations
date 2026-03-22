@@ -15,7 +15,13 @@ describe('metadata integrity', () => {
             expect(anim.metadata.id, `${context}: id`).toMatch(/^[a-z][a-z0-9-]*__[a-z][a-z0-9-]*$/)
             expect(anim.metadata.title, `${context}: title`).toMatch(/\w{2,}/)
             expect(anim.metadata.description, `${context}: description`).toMatch(/\w{5,}/)
-            expect(anim.metadata.tags, `${context}: tags`).toEqual(expect.arrayContaining([]))
+            // urlSlug fields are optional (catalog computes them) but validated when present
+            if (anim.metadata.urlSlugFramer) {
+              expect(anim.metadata.urlSlugFramer, `${context}: urlSlugFramer`).toMatch(/^\/[a-z]/)
+            }
+            if (anim.metadata.urlSlugCss) {
+              expect(anim.metadata.urlSlugCss, `${context}: urlSlugCss`).toMatch(/^\/[a-z]/)
+            }
           }
         }
       }

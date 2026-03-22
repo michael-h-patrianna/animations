@@ -1,6 +1,7 @@
 import {
   buildRegistryFromCategories,
   categories,
+  findAnimationById,
   getGroupAnimations,
 } from '@/components/animationRegistry'
 import { describe, expect, it } from 'vitest'
@@ -171,6 +172,96 @@ describe('animationRegistry', () => {
       const directFramer = categories['base']!.groups['standard-effects']!.framer
       const helperFramer = getGroupAnimations('standard-effects', 'framer')
       expect(Object.keys(helperFramer).sort()).toEqual(Object.keys(directFramer).sort())
+    })
+  })
+
+  describe('findAnimationById', () => {
+    it('finds animation present in both framer and css variants', () => {
+      // standard-effects__bounce exists in both variants
+      const result = findAnimationById('standard-effects__bounce')
+      expect(result).toEqual({
+        baseGroupId: 'standard-effects',
+        hasFramer: true,
+        hasCss: true,
+      })
+    })
+
+    it('returns null for nonexistent animation ID', () => {
+      const result = findAnimationById('nonexistent-group__nonexistent-variant')
+      expect(result).toBeNull()
+    })
+
+    it('returns null for empty string', () => {
+      expect(findAnimationById('')).toBeNull()
+    })
+
+    it('returns the correct baseGroupId (not the suffixed group ID)', () => {
+      // Pick any known animation from the catalog
+      const allAnimIds = Object.values(categories).flatMap((cat) =>
+        Object.values(cat.groups).flatMap((group) => Object.keys(group.framer))
+      )
+      // Use the first one
+      const testId = allAnimIds[0]!
+      const result = findAnimationById(testId)
+      // baseGroupId should NOT end with -framer or -css (it's the base group key)
+      expect(result?.baseGroupId).not.toMatch(/-(?:framer|css)$/)
+      expect(result?.baseGroupId).toMatch(/^[a-z][a-z0-9-]+$/)
+    })
+
+    it('correctly identifies animation only in framer when css variant is missing', () => {
+      // Verify by checking all groups — find one where framer has an ID that css does not
+      // If all are paired (which is the design intent), this test documents that behavior
+      let foundFramerOnly = false
+      for (const cat of Object.values(categories)) {
+        for (const group of Object.values(cat.groups)) {
+          for (const id of Object.keys(group.framer)) {
+            if (!(id in group.css)) {
+              const result = findAnimationById(id)
+              expect(result).toEqual({
+                baseGroupId: expect.stringMatching(/^[a-z][a-z0-9-]+$/),
+                hasFramer: true,
+                hasCss: false,
+              })
+              foundFramerOnly = true
+              break
+            }
+          }
+          if (foundFramerOnly) break
+        }
+        if (foundFramerOnly) break
+      }
+      // If no framer-only animation exists, all are paired — document this
+      if (!foundFramerOnly) {
+        // All animations are dual-implementation — every framer ID has a css counterpart
+        const allFramerIds = Object.values(categories).flatMap((cat) =>
+          Object.values(cat.groups).flatMap((group) => Object.keys(group.framer))
+        )
+        for (const id of allFramerIds) {
+          const result = findAnimationById(id)
+          expect(result!.hasFramer).toBe(true)
+          expect(result!.hasCss).toBe(true)
+        }
+      }
+    })
+
+    it('finds animations across all 5 categories', () => {
+      // Pick one animation ID from each category
+      for (const cat of Object.values(categories)) {
+        const firstGroup = Object.values(cat.groups)[0]!
+        const firstAnimId = Object.keys(firstGroup.framer)[0]!
+        const result = findAnimationById(firstAnimId)
+        expect(result).toEqual(
+          expect.objectContaining({
+            baseGroupId: expect.stringMatching(/^[a-z][a-z0-9-]+$/),
+          })
+        )
+      }
+    })
+
+    it('returns consistent results across multiple calls for the same ID', () => {
+      const result1 = findAnimationById('standard-effects__bounce')
+      const result2 = findAnimationById('standard-effects__bounce')
+      expect(result1).toEqual(result2)
     })
   })
 })

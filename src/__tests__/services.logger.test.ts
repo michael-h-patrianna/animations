@@ -135,4 +135,53 @@ describe('logger', () => {
       expect(consoleSpy.debug).not.toHaveBeenCalled()
     })
   })
+
+  describe('sink replacement during active logging', () => {
+    it('swapping sink mid-call-stack routes subsequent calls to new sink', () => {
+      const sink1Calls: string[] = []
+      const sink2Calls: string[] = []
+
+      const sink1 = vi.fn((_level: string, msg: string) => {
+        sink1Calls.push(msg)
+        // Replace sink during the first call
+        if (msg === 'trigger-swap') {
+          logger.setSink((_l, m) => {
+            sink2Calls.push(m)
+          })
+        }
+      })
+
+      logger.setSink(sink1)
+
+      logger.info('trigger-swap')
+      logger.info('after-swap')
+
+      expect(sink1Calls).toEqual(['trigger-swap'])
+      expect(sink2Calls).toEqual(['after-swap'])
+    })
+
+    it('resetSink after failed custom sink restores console logging', () => {
+      const throwingSink = vi.fn(() => {
+        throw new Error('sink failure')
+      })
+
+      logger.setSink(throwingSink)
+
+      // Sink throws — propagates to caller
+      expect(() => logger.error('fail')).toThrow('sink failure')
+
+      // Reset should restore console
+      logger.resetSink()
+      logger.info('restored')
+      expect(consoleSpy.info).toHaveBeenCalledWith('restored')
+    })
+
+    it('handles zero-argument log calls (only level and message)', () => {
+      const sink = vi.fn()
+      logger.setSink(sink)
+
+      logger.error('msg')
+      expect(sink).toHaveBeenCalledWith('error', 'msg')
+    })
+  })
 })

@@ -1,7 +1,7 @@
 import { buildRegistryFromCategories } from '@/components/animationRegistry'
-import { render, waitFor } from '@testing-library/react'
+import { cleanup, render, waitFor } from '@testing-library/react'
 import { Suspense } from 'react'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
 /**
  * Auto-discovering contract test: every animation registered in the registry
@@ -9,14 +9,21 @@ import { describe, expect, it } from 'vitest'
  *
  * Registry components are React.lazy() wrapped, so we render inside Suspense
  * and wait for the lazy component to resolve before asserting.
+ *
+ * Each test explicitly unmounts after assertion to prevent memory accumulation
+ * across 170+ component renders within a single worker.
  */
 
 describe('all registered animations expose data-animation-id', () => {
   const registry = buildRegistryFromCategories()
 
+  afterEach(() => {
+    cleanup()
+  })
+
   for (const [id, Component] of Object.entries(registry)) {
     it(`${id}`, async () => {
-      const { container } = render(
+      const { container, unmount } = render(
         <Suspense fallback={<div>loading</div>}>
           <Component />
         </Suspense>
@@ -28,6 +35,8 @@ describe('all registered animations expose data-animation-id', () => {
         },
         { timeout: 2000 }
       )
+
+      unmount()
     })
   }
 })

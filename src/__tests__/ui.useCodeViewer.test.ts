@@ -141,6 +141,23 @@ describe('useCodeViewer', () => {
       // open should be a new reference since sourceLoader changed
       expect(result.current.open).not.toBe(firstOpen)
     })
+
+    it('open reference changes after sources are loaded (sources dependency)', async () => {
+      const loader = vi.fn().mockResolvedValue(mockSources)
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      const openBeforeLoad = result.current.open
+
+      await act(async () => {
+        await result.current.open()
+      })
+
+      // After loading, sources changed from null to mockSources,
+      // which changes the open callback reference (useCallback dep: [sourceLoader, sources])
+      const openAfterLoad = result.current.open
+      expect(openAfterLoad).not.toBe(openBeforeLoad)
+      // close should remain stable
+    })
   })
 
   describe('concurrent calls', () => {
@@ -193,11 +210,14 @@ describe('useCodeViewer', () => {
   })
 
   describe('error handling', () => {
-    it('catches sourceLoader errors, logs them, and does not open the modal', async () => {
-      const loader = vi.fn().mockRejectedValue(new Error('network failure'))
+    it('catches sourceLoader errors, logs them via logger.error, and does not open the modal', async () => {
+      const { logger } = await import('@/services/logger')
+      const logSpy = vi.spyOn(logger, 'error').mockImplementation(() => {})
+
+      const networkError = new Error('network failure')
+      const loader = vi.fn().mockRejectedValue(networkError)
       const { result } = renderHook(() => useCodeViewer(loader))
 
-      // The hook catches errors internally — no unhandled rejection
       await act(async () => {
         await result.current.open()
       })
@@ -206,6 +226,98 @@ describe('useCodeViewer', () => {
       expect(result.current.isOpen).toBe(false)
       // Sources remain null after failed load
       expect(result.current.sources).toBeNull()
+      // logger.error must have been called with the error — catches silent error swallowing
+      expect(logSpy).toHaveBeenCalledOnce()
+      expect(logSpy).toHaveBeenCalledWith('Failed to load animation source code', networkError)
+
+      logSpy.mockRestore()
+    })
+
+    it('retries loading after a failure (sources stay null, so next open re-fetches)', async () => {
+      const loader = vi
+        .fn()
+        .mockRejectedValueOnce(new Error('first failure'))
+        .mockResolvedValueOnce(mockSources)
+
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      // First attempt fails
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(result.current.isOpen).toBe(false)
+      expect(result.current.sources).toBeNull()
+
+      // Second attempt succeeds (sources was null, so loader is called again)
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(result.current.isOpen).toBe(true)
+      expect(result.current.sources).toEqual(mockSources)
+      expect(loader).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('sourceLoader change without remount', () => {
+    it('uses stale cache when sourceLoader changes but sources are already loaded', async () => {
+      // This documents the design trade-off: useCodeViewer caches sources in state.
+      // When the sourceLoader prop changes, the cached sources remain because
+      // the !sources guard prevents re-fetching. In practice, this is fine because
+      // each AnimationCard remounts on navigation (resetting state), but this test
+      // documents the behavior for consumers who might reuse the hook across loaders.
+      const sources1: SourceTab[] = [{ label: 'V1', code: 'v1', language: 'tsx' }]
+      const sources2: SourceTab[] = [{ label: 'V2', code: 'v2', language: 'tsx' }]
+      const loader1 = vi.fn().mockResolvedValue(sources1)
+      const loader2 = vi.fn().mockResolvedValue(sources2)
+
+      const { result, rerender } = renderHook(({ loader }) => useCodeViewer(loader), {
+        initialProps: { loader: loader1 },
+      })
+
+      // Load sources from loader1
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(result.current.sources).toEqual(sources1)
+      expect(loader1).toHaveBeenCalledOnce()
+
+      // Close and switch loader
+      act(() => {
+        result.current.close()
+      })
+      rerender({ loader: loader2 })
+
+      // Open again — should NOT call loader2 because sources are cached
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(loader2).not.toHaveBeenCalled()
+      expect(result.current.sources).toEqual(sources1) // still v1
+    })
+  })
+
+  describe('unmount during loading', () => {
+    it('does not crash when component unmounts while sourceLoader is pending', async () => {
+      let resolveLoader!: (value: SourceTab[]) => void
+      const loader = vi.fn().mockImplementation(
+        () =>
+          new Promise<SourceTab[]>((resolve) => {
+            resolveLoader = resolve
+          })
+      )
+
+      const { result, unmount } = renderHook(() => useCodeViewer(loader))
+
+      // Start loading
+      await act(async () => {
+        // Fire the open call which starts the async loader
+        void result.current.open()
+        // Unmount immediately while the loader is still pending
+        unmount()
+        // Resolve the loader after unmount — React 19 handles state updates
+        // on unmounted components gracefully (no-op), so this should not throw
+        resolveLoader(mockSources)
+      })
     })
   })
 })

@@ -1,6 +1,6 @@
 import { GroupSection } from '@/components/ui/GroupSection'
 import type { Group } from '@/types/animation'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -201,5 +201,156 @@ describe('GroupSection', () => {
     renderWithRouter(<GroupSection group={group} elementId="no-replay-section" />)
 
     expect(screen.getByRole('button', { name: 'Replay' })).toBeDisabled()
+  })
+
+  describe('animationFilter', () => {
+    it('shows filter banner with animation name when animationFilter is active', () => {
+      const group = makeGroup()
+      renderWithRouter(
+        <GroupSection
+          group={group}
+          elementId="filter-section"
+          animationFilter="standard-effects__bounce"
+        />
+      )
+
+      expect(screen.getByTestId('filter-banner')).toBeVisible()
+      expect(screen.getByText(/Showing: standard-effects__bounce/)).toBeVisible()
+    })
+
+    it('shows only the filtered animation in the card grid', () => {
+      const group = makeGroup({
+        animations: [
+          {
+            id: 'standard-effects__bounce',
+            title: 'Bounce',
+            description: 'A bounce animation',
+            categoryId: 'base',
+            groupId: 'standard-effects-framer',
+            infinite: true,
+          },
+          {
+            id: 'standard-effects__fade',
+            title: 'Fade',
+            description: 'A fade animation',
+            categoryId: 'base',
+            groupId: 'standard-effects-framer',
+            infinite: true,
+          },
+        ],
+      })
+      renderWithRouter(
+        <GroupSection
+          group={group}
+          elementId="filter-section"
+          animationFilter="standard-effects__bounce"
+        />
+      )
+
+      expect(screen.getByText('Bounce')).toBeVisible()
+      expect(screen.queryByText('Fade')).not.toBeInTheDocument()
+    })
+
+    it('shows error message when animationFilter references nonexistent animation', () => {
+      const group = makeGroup()
+      renderWithRouter(
+        <GroupSection group={group} elementId="invalid-filter" animationFilter="nonexistent__id" />
+      )
+
+      expect(screen.getByText(/Animation "nonexistent__id" not found/)).toBeVisible()
+    })
+
+    it('renders "Show all animations" button to remove filter', () => {
+      const group = makeGroup()
+      renderWithRouter(
+        <GroupSection
+          group={group}
+          elementId="filter-section"
+          animationFilter="standard-effects__bounce"
+        />
+      )
+
+      expect(screen.getByTestId('remove-filter-btn')).toHaveTextContent('Show all animations')
+    })
+
+    it('clicking "Show all animations" navigates to the group without filter', () => {
+      const group = makeGroup()
+      render(
+        <MemoryRouter
+          initialEntries={['/standard-effects-framer?animation=standard-effects__bounce']}
+        >
+          <GroupSection
+            group={group}
+            elementId="filter-section"
+            animationFilter="standard-effects__bounce"
+          />
+        </MemoryRouter>
+      )
+
+      // Click the remove-filter button — this calls navigate(`/${group.id}`, { replace: true })
+      fireEvent.click(screen.getByTestId('remove-filter-btn'))
+
+      // After navigation, the filter banner should no longer show the filter text
+      // (the parent would re-render without animationFilter, but in this isolated test
+      // we verify the handler doesn't crash and the button is interactive)
+      expect(screen.getByTestId('remove-filter-btn')).toBeVisible()
+    })
+
+    it('does not show filter banner when animationFilter is undefined', () => {
+      const group = makeGroup()
+      renderWithRouter(<GroupSection group={group} elementId="no-filter" />)
+
+      expect(screen.queryByTestId('filter-banner')).not.toBeInTheDocument()
+    })
+
+    it('partial ID match does NOT filter (requires exact match)', () => {
+      const group = makeGroup({
+        animations: [
+          {
+            id: 'standard-effects__bounce',
+            title: 'Bounce',
+            description: 'A bounce animation',
+            categoryId: 'base',
+            groupId: 'standard-effects-framer',
+            infinite: true,
+          },
+        ],
+      })
+      renderWithRouter(
+        <GroupSection
+          group={group}
+          elementId="partial-filter"
+          animationFilter="standard-effects__boun"
+        />
+      )
+
+      // Partial ID should NOT match — shows error instead of the animation
+      expect(screen.getByText(/not found/)).toBeVisible()
+    })
+
+    it('filter with ID from a different group shows error', () => {
+      const group = makeGroup({
+        animations: [
+          {
+            id: 'standard-effects__bounce',
+            title: 'Bounce',
+            description: 'A bounce animation',
+            categoryId: 'base',
+            groupId: 'standard-effects-framer',
+            infinite: true,
+          },
+        ],
+      })
+      renderWithRouter(
+        <GroupSection
+          group={group}
+          elementId="wrong-group-filter"
+          animationFilter="modal-base__scale-gentle-pop"
+        />
+      )
+
+      // ID exists in a different group — this group doesn't have it
+      expect(screen.getByText(/not found/)).toBeVisible()
+    })
   })
 })

@@ -5,7 +5,14 @@ import { describe, expect, it, vi } from 'vitest'
 const groupMeta: GroupMetadata = { id: 'test-group', title: 'Test Group' }
 
 function makeMeta(id: string, overrides?: Partial<AnimationMetadata>): AnimationMetadata {
-  return { id, title: id, description: 'desc', tags: [], ...overrides }
+  return {
+    id,
+    title: id,
+    description: 'desc',
+    urlSlugFramer: `/${id}-framer`,
+    urlSlugCss: `/${id}-css`,
+    ...overrides,
+  }
 }
 
 describe('resolveAnimationSource', () => {

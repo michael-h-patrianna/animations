@@ -60,4 +60,43 @@ describe('cn (class name merger)', () => {
     const result = cn('btn', isActive && 'btn-active')
     expect(result).toBe('btn')
   })
+
+  it('resolves responsive variant conflicts (last wins)', () => {
+    const result = cn('sm:p-4', 'sm:p-8')
+    expect(result).toBe('sm:p-8')
+  })
+
+  it('preserves non-conflicting responsive variants', () => {
+    const result = cn('sm:p-4', 'md:p-8')
+    expect(result).toBe('sm:p-4 md:p-8')
+  })
+
+  it('resolves arbitrary value vs utility conflict', () => {
+    const result = cn('p-4', 'p-[10px]')
+    expect(result).toBe('p-[10px]')
+  })
+
+  it('handles complex real-world class composition', () => {
+    // Pattern commonly used in AnimationCard and similar components
+    const result = cn('flex items-center gap-2', 'rounded-lg bg-gray-100', 'hover:bg-gray-200', {
+      'opacity-50': true,
+      'pointer-events-none': false,
+    })
+    expect(result).toContain('flex')
+    expect(result).toContain('items-center')
+    expect(result).toContain('opacity-50')
+    expect(result).not.toContain('pointer-events-none')
+  })
+
+  it('resolves conflicting background colors', () => {
+    const result = cn('bg-red-500', 'bg-blue-500')
+    expect(result).toBe('bg-blue-500')
+  })
+
+  it('handles nested conditional arrays', () => {
+    const isActive = true
+    const isDisabled = false
+    const result = cn('base', [isActive && 'active', isDisabled && 'disabled'])
+    expect(result).toBe('base active')
+  })
 })

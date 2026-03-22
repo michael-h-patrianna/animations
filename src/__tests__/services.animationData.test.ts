@@ -212,6 +212,25 @@ describe('buildCatalog', () => {
     expect(ids1).toEqual(ids2)
   })
 
+  it('urlSlugFramer and urlSlugCss contain properly encoded animation IDs', () => {
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        for (const anim of group.animations) {
+          const encodedId = encodeURIComponent(anim.id)
+          // Animation IDs with __ should be encoded as-is (no special chars to encode)
+          expect(anim.urlSlugFramer).toContain(`animation=${encodedId}`)
+          expect(anim.urlSlugCss).toContain(`animation=${encodedId}`)
+          // URL slugs should start with /
+          expect(anim.urlSlugFramer).toMatch(/^\//)
+          expect(anim.urlSlugCss).toMatch(/^\//)
+          // Framer slug should contain -framer, CSS slug should contain -css
+          expect(anim.urlSlugFramer).toContain('-framer')
+          expect(anim.urlSlugCss).toContain('-css')
+        }
+      }
+    }
+  })
+
   it('framer and css groups have the same animation count per base group', () => {
     for (const cat of catalog) {
       const baseIds = new Set(cat.groups.map((g) => g.id.replace(/-(?:framer|css)$/, '')))
@@ -266,6 +285,56 @@ describe('buildCatalog', () => {
         // The title before the parenthetical should be non-empty
         const baseTitle = group.title.replace(/\s*\((?:Framer|CSS)\)$/, '')
         expect(baseTitle, `Group "${group.id}" has empty base title`).toMatch(/\S/)
+      }
+    }
+  })
+
+  it('all optional metadata fields propagate correctly through toAnimations', () => {
+    // Verify that every animation with controls, prizeCountMax, previewPosition, tier
+    // has those fields correctly propagated (not undefined when they should be set)
+    const allAnims = catalog.flatMap((c) => c.groups.flatMap((g) => g.animations))
+
+    // Find animations with controls — must be a recognized control type
+    const VALID_CONTROLS = ['lights', 'prizeCount']
+    const withControls = allAnims.filter((a) => a.controls !== undefined)
+    for (const anim of withControls) {
+      expect(
+        VALID_CONTROLS,
+        `${anim.id} controls="${anim.controls}" is not a recognized control type`
+      ).toContain(anim.controls)
+    }
+
+    // Find animations with prizeCountMax
+    const withPrizeMax = allAnims.filter((a) => a.prizeCountMax !== undefined)
+    for (const anim of withPrizeMax) {
+      expect(
+        anim.prizeCountMax,
+        `${anim.id} prizeCountMax should be a positive integer`
+      ).toBeGreaterThanOrEqual(1)
+    }
+
+    // Find animations with tier — should be between 1 and 4
+    const withTier = allAnims.filter((a) => a.tier !== undefined)
+    for (const anim of withTier) {
+      expect(anim.tier, `${anim.id} tier out of range`).toBeGreaterThanOrEqual(1)
+      expect(anim.tier, `${anim.id} tier out of range`).toBeLessThanOrEqual(4)
+    }
+  })
+
+  it('animation IDs with double underscores do not produce malformed URL slugs', () => {
+    // The double underscore in animation IDs (group__variant) should survive
+    // encodeURIComponent without producing confusing encoding
+    for (const cat of catalog) {
+      for (const group of cat.groups) {
+        for (const anim of group.animations) {
+          // encodeURIComponent('group__variant') produces 'group__variant'
+          // (double underscore has no special URL meaning)
+          const encoded = encodeURIComponent(anim.id)
+          expect(encoded).toBe(anim.id)
+          // Both URL slugs should contain the raw animation ID (no encoding needed)
+          expect(anim.urlSlugFramer).toContain(`animation=${anim.id}`)
+          expect(anim.urlSlugCss).toContain(`animation=${anim.id}`)
+        }
       }
     }
   })
