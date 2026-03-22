@@ -1,32 +1,88 @@
+/**
+ * Standalone: Copy this file + TextEffectsComboCounter.css into your app.
+ * Runtime deps: react, motion
+ * RN: Port with Moti — useMotionValue → useSharedValue, per-char stagger via delay.
+ */
+
 import * as m from 'motion/react-m'
 import { animate, easeInOut, easeOut, useMotionValue, useTransform } from 'motion/react'
-import { useEffect, memo } from 'react'
-function TextEffectsComboCounterComponent() {
-  const finalValue = 25
-  const comboText = 'COMBO' // Milestones: [triggerValue, particleValue]
-  const milestones = [
-    { trigger: 1, value: 1 },
-    { trigger: 6, value: 5 },
-    { trigger: 15, value: 9 },
-    { trigger: 25, value: 10 },
-  ] // Motion value for the counter
-  const count = useMotionValue(0)
-  const rounded = useTransform(count, (latest) => Math.round(latest)) // Start counting animation on mount
+import { memo, useEffect, useMemo, useRef } from 'react'
+
+interface Milestone {
+  trigger: number
+  value: number
+}
+
+interface TextEffectsComboCounterProps {
+  /** Starting value. @default 0 */
+  from?: number
+  /** Target combo count to animate to. @default 25 */
+  to?: number
+  /** Label text next to the counter (e.g. 'COMBO', 'STREAK', 'KILLS'). @default 'COMBO' */
+  label?: string
+  /** Celebration text at the end. Set to undefined to hide. @default 'PERFECT!' */
+  bonusText?: string
+  /** Custom number formatting. @default Math.round(n).toLocaleString() */
+  formatValue?: (n: number) => string
+  /** Maximum number of milestone particles. @default 4 */
+  maxParticles?: number
+}
+
+const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
+
+function calculateMilestones(range: number, maxParticles: number): Milestone[] {
+  const absRange = Math.abs(range)
+  const numParticles = Math.min(maxParticles, Math.max(1, Math.floor(absRange / 2)))
+  const milestones: Milestone[] = []
+
+  for (let i = 0; i < numParticles; i++) {
+    const progress = (i + 1) / numParticles
+    const triggerValue = Math.round(absRange * progress)
+    const lastValue = i > 0 ? milestones[i - 1]!.trigger : 0
+    const increment = triggerValue - lastValue
+
+    milestones.push({ trigger: triggerValue, value: increment })
+  }
+
+  return milestones
+}
+
+function TextEffectsComboCounterComponent({
+  from = 0,
+  to = 25,
+  label = 'COMBO',
+  bonusText = 'PERFECT!',
+  formatValue = defaultFormat,
+  maxParticles = 4,
+}: TextEffectsComboCounterProps) {
+  const formatRef = useRef(formatValue)
+  formatRef.current = formatValue
+
+  const range = to - from
+  const milestones = useMemo(
+    () => calculateMilestones(range, maxParticles),
+    [range, maxParticles]
+  )
+
+  const count = useMotionValue(from)
+  const displayCount = useTransform(count, (latest) => formatRef.current(latest))
+
   useEffect(() => {
-    const controls = animate(count, finalValue, {
+    count.set(from)
+    const controls = animate(count, to, {
       duration: 1.2,
-      ease: [0.25, 0.1, 0.25, 1] as const, // Custom easing - slow start, accelerate, slow finish
+      ease: [0.25, 0.1, 0.25, 1] as const,
       delay: 0.35,
     })
     return controls.stop
-  }, [count, finalValue])
+  }, [count, from, to])
+
   return (
-    <div className="combo-counter-container" data-animation-id="text-effects__combo-counter">
-      {/* Main combo container */}
-      <div className="combo-main-container">
-        {/* Number counter with × */}
+    <div className="pf-combo" data-animation-id="text-effects__combo-counter">
+      <div className="pf-combo__main">
+        {/* Number counter with multiplier */}
         <m.div
-          className="combo-number-wrapper"
+          className="pf-combo__number-wrapper"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: [0, 1.2, 0.95, 1], rotate: [180, 10, -5, 0] }}
           transition={{
@@ -35,39 +91,38 @@ function TextEffectsComboCounterComponent() {
             ease: [0.25, 0.46, 0.45, 0.94] as const,
           }}
         >
-          <div className="combo-number-container">
-            {/* Counting number with proper styling */}
-            <m.div className="combo-current-number">
+          <div className="pf-combo__number-container">
+            <div className="pf-combo__current-number">
               <m.span
-                className="combo-digit"
+                className="pf-combo__digit"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2, delay: 0.25 }}
                 style={{ display: 'inline-block', position: 'relative' }}
               >
                 <m.span
-                  className="combo-digit-pulse"
+                  className="pf-combo__digit-pulse"
                   animate={{ scale: [1, 1.05, 1] }}
                   transition={{ duration: 1.2, delay: 0.35, ease: easeInOut }}
                 >
-                  {rounded}
+                  {displayCount}
                 </m.span>
               </m.span>
-            </m.div>
+            </div>
 
-            {/* Milestone particles emitting from the number */}
+            {/* Milestone particles */}
             {milestones.map((milestone, i) => {
-              const angle = -90 + i * 30 - 45 // Spread upward in tighter arc
+              const angle = -90 + i * 30 - 45
               const distance = 70 + i * 12
               const xOffset = Math.cos((angle * Math.PI) / 180) * distance
-              const yOffset = Math.sin((angle * Math.PI) / 180) * distance // Calculate exact timing based on the easing curve
-              // With our easing [0.25, 0.1, 0.25, 1], values accelerate in middle
-              const triggerProgress = milestone.trigger / finalValue
-              const adjustedDelay = triggerProgress * 0.8 // Slightly compress timing
+              const yOffset = Math.sin((angle * Math.PI) / 180) * distance
+              const triggerProgress = milestone.trigger / Math.abs(range)
+              const adjustedDelay = triggerProgress * 0.8
+
               return (
                 <m.div
                   key={i}
-                  className="combo-milestone-particle"
+                  className="pf-combo__milestone-particle"
                   data-value={milestone.value}
                   initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
                   animate={{
@@ -78,10 +133,10 @@ function TextEffectsComboCounterComponent() {
                   }}
                   transition={{ duration: 1, delay: 0.35 + adjustedDelay, ease: easeOut }}
                 >
-                  <span className="combo-milestone-particle__text">+{milestone.value}</span>
-                  {milestone.value === 10 && (
-                    <span aria-hidden="true" className="combo-milestone-particle__glow">
-                      +{milestone.value}
+                  <span className="pf-combo__milestone-text">+{formatValue(milestone.value)}</span>
+                  {milestone.value >= 10 && (
+                    <span aria-hidden="true" className="pf-combo__milestone-glow">
+                      +{formatValue(milestone.value)}
                     </span>
                   )}
                 </m.div>
@@ -89,9 +144,9 @@ function TextEffectsComboCounterComponent() {
             })}
           </div>
 
-          {/* Hit multiplier marker */}
+          {/* Hit multiplier */}
           <m.div
-            className="combo-hit-marker"
+            className="pf-combo__hit-marker"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: [0, 1.3, 1], opacity: [0, 1, 0.9] }}
             transition={{ duration: 0.3, delay: 0.15, ease: easeOut }}
@@ -100,17 +155,17 @@ function TextEffectsComboCounterComponent() {
           </m.div>
         </m.div>
 
-        {/* Combo text with stagger animation */}
+        {/* Label text with stagger */}
         <m.div
-          className="combo-text-wrapper"
+          className="pf-combo__text-wrapper"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2, delay: 0.1 }}
         >
-          {comboText.split('').map((char, index) => (
+          {label.split('').map((char, index) => (
             <m.span
               key={index}
-              className="combo-text-char"
+              className="pf-combo__text-char"
               initial={{ opacity: 0, scale: 0, rotate: -180 }}
               animate={{ opacity: 1, scale: [0, 1.2, 1], rotate: [180, -10, 0] }}
               transition={{
@@ -125,18 +180,19 @@ function TextEffectsComboCounterComponent() {
         </m.div>
       </div>
 
-      {/* Perfect text */}
-      <m.div
-        className="combo-bonus"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: [0, 1, 1], scale: [0.5, 1.1, 1] }}
-        transition={{ duration: 0.4, delay: 1.6, times: [0, 0.6, 1], ease: easeOut }}
-      >
-        PERFECT!
-      </m.div>
+      {/* Bonus text */}
+      {bonusText !== undefined && (
+        <m.div
+          className="pf-combo__bonus"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: [0, 1, 1], scale: [0.5, 1.1, 1] }}
+          transition={{ duration: 0.4, delay: 1.6, times: [0, 0.6, 1], ease: easeOut }}
+        >
+          {bonusText}
+        </m.div>
+      )}
     </div>
   )
 }
-/**
- * Memoized TextEffectsComboCounter to prevent unnecessary re-renders in grid layouts.
- */ export const TextEffectsComboCounter = memo(TextEffectsComboCounterComponent)
+
+export const TextEffectsComboCounter = memo(TextEffectsComboCounterComponent)

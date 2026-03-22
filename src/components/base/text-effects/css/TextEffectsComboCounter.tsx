@@ -1,4 +1,10 @@
-import { memo, useEffect, useMemo, useState } from 'react'
+/**
+ * Standalone: Copy this file + TextEffectsComboCounter.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
+ */
+
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import './TextEffectsComboCounter.css'
 
 interface Milestone {
@@ -7,61 +13,66 @@ interface Milestone {
 }
 
 interface TextEffectsComboCounterProps {
-  /** @default 25 */
-  finalValue?: number
-  /** @default 4 */
+  /** Starting value. @default 0 */
+  from?: number
+  /** Target combo count. @default 25 */
+  to?: number
+  /** Label text next to the counter (e.g. 'COMBO', 'STREAK', 'KILLS'). @default 'COMBO' */
+  label?: string
+  /** Celebration text at the end. Set to undefined to hide. @default 'PERFECT!' */
+  bonusText?: string
+  /** Custom number formatting. @default Math.round(n).toLocaleString() */
+  formatValue?: (n: number) => string
+  /** Maximum number of milestone particles. @default 4 */
   maxParticles?: number
 }
 
-/**
- * Calculates evenly distributed milestone particles.
- * Limits particle count for small numbers to avoid +1 spam.
- */
-function calculateMilestones(finalValue: number, maxParticles: number): Milestone[] {
-  // Don't show more particles than makes sense (avoid +1, +1, +1...)
-  const numParticles = Math.min(maxParticles, Math.max(1, Math.floor(finalValue / 2)))
+const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
 
+function calculateMilestones(range: number, maxParticles: number): Milestone[] {
+  const absRange = Math.abs(range)
+  const numParticles = Math.min(maxParticles, Math.max(1, Math.floor(absRange / 2)))
   const milestones: Milestone[] = []
 
   for (let i = 0; i < numParticles; i++) {
     const progress = (i + 1) / numParticles
-    const triggerValue = Math.round(finalValue * progress)
-
-    // Calculate increment since last milestone
+    const triggerValue = Math.round(absRange * progress)
     const lastValue = i > 0 ? milestones[i - 1]!.trigger : 0
     const increment = triggerValue - lastValue
 
-    milestones.push({
-      trigger: triggerValue,
-      value: increment,
-    })
+    milestones.push({ trigger: triggerValue, value: increment })
   }
 
   return milestones
 }
 
 /**
- * Combo counter animation that counts from 0 to a target value with milestone particles.
+ * Combo counter with milestone particles and celebration text.
  *
  * @example
  * <TextEffectsComboCounter />
- * <TextEffectsComboCounter finalValue={100} maxParticles={6} />
+ * <TextEffectsComboCounter to={100} label="STREAK" bonusText="ON FIRE!" />
+ * <TextEffectsComboCounter from={0} to={50} label="KILLS" bonusText="RAMPAGE!" maxParticles={6} />
  */
 function TextEffectsComboCounterComponent({
-  finalValue = 25,
+  from = 0,
+  to = 25,
+  label = 'COMBO',
+  bonusText = 'PERFECT!',
+  formatValue = defaultFormat,
   maxParticles = 4,
 }: TextEffectsComboCounterProps = {}) {
-  const comboText = 'COMBO'
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(from)
+  const formatRef = useRef(formatValue)
+  formatRef.current = formatValue
 
-  // Calculate milestones dynamically based on finalValue
+  const range = to - from
   const milestones = useMemo(
-    () => calculateMilestones(finalValue, maxParticles),
-    [finalValue, maxParticles]
+    () => calculateMilestones(range, maxParticles),
+    [range, maxParticles]
   )
 
   useEffect(() => {
-    // Counter animation - only essential JavaScript
     const startTime = performance.now()
     const duration = 1200
     const delay = 350
@@ -78,12 +89,10 @@ function TextEffectsComboCounterComponent({
       }
 
       const progress = Math.min(elapsed / duration, 1)
-      // Custom easing approximation
       const eased =
         progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2
 
-      const newCount = Math.round(eased * finalValue)
-      setCount(newCount)
+      setCount(from + eased * range)
 
       if (progress < 1) {
         frameId = requestAnimationFrame(animateCount)
@@ -96,12 +105,11 @@ function TextEffectsComboCounterComponent({
       isActive = false
       cancelAnimationFrame(frameId)
     }
-  }, [finalValue])
+  }, [from, to, range])
 
-  // Calculate animation delay for each particle based on when counter reaches trigger
   const getParticleDelay = (triggerValue: number): number => {
-    const triggerProgress = triggerValue / finalValue
-    return 350 + triggerProgress * 1200 // delay + (progress * duration)
+    const triggerProgress = triggerValue / Math.abs(range)
+    return 350 + triggerProgress * 1200
   }
 
   return (
@@ -111,7 +119,7 @@ function TextEffectsComboCounterComponent({
           <div className="tfx-combo-number-container">
             <div className="tfx-combo-current-number">
               <span className="tfx-combo-digit">
-                <span>{count}</span>
+                <span>{formatRef.current(count)}</span>
               </span>
             </div>
 
@@ -123,7 +131,7 @@ function TextEffectsComboCounterComponent({
                   animationDelay: `${getParticleDelay(milestone.trigger)}ms`,
                 }}
               >
-                +{milestone.value}
+                +{formatRef.current(milestone.value)}
               </div>
             ))}
           </div>
@@ -132,7 +140,7 @@ function TextEffectsComboCounterComponent({
         </div>
 
         <div className="tfx-combo-text-wrapper">
-          {comboText.split('').map((char, index) => (
+          {label.split('').map((char, index) => (
             <span key={index} className="tfx-combo-letter">
               {char}
             </span>
@@ -140,12 +148,11 @@ function TextEffectsComboCounterComponent({
         </div>
       </div>
 
-      <div className="tfx-combo-bonus">PERFECT!</div>
+      {bonusText !== undefined && (
+        <div className="tfx-combo-bonus">{bonusText}</div>
+      )}
     </div>
   )
 }
 
-/**
- * Memoized TextEffectsComboCounter to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsComboCounter = memo(TextEffectsComboCounterComponent)

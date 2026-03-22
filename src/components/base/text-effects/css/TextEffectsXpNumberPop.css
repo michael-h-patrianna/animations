@@ -60,7 +60,7 @@
   backface-visibility: hidden;
 }
 
-/* XP Label */
+/* Label (prefix/suffix) */
 .tfx-xp-label {
   font-size: 24px;
   margin-left: 8px;
@@ -74,6 +74,11 @@
   /* Animation */
   animation: tfx-xp-label-fade 400ms 400ms ease-out forwards;
   opacity: 0;
+}
+
+.tfx-xp-label--prefix {
+  margin-left: 0;
+  margin-right: 4px;
 }
 
 /* ============================================================================

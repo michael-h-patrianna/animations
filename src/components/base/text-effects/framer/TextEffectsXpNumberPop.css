@@ -1,10 +1,10 @@
-/* Styles scoped for TextEffectsXpNumberPop */
-.xp-pop-container {
-  --text-effects-xp-number-pop-bg-1: #c6ff77;
-  --text-effects-xp-number-pop-bg-2: #a8ff3e;
-  --text-effects-xp-number-pop-text-shadow-100: rgb(198 255 119 / 80%);
-  --text-effects-xp-number-pop-text-shadow-101: rgb(198 255 119 / 50%);
-  --text-effects-xp-number-pop-text-shadow-102: rgb(0 0 0 / 30%);
+/* XP Number Pop — Framer Motion layout (no keyframes) */
+.pf-xp-pop {
+  --pf-xp-pop-color-1: #c6ff77;
+  --pf-xp-pop-color-2: #a8ff3e;
+  --pf-xp-pop-glow-100: rgb(198 255 119 / 80%);
+  --pf-xp-pop-glow-101: rgb(198 255 119 / 50%);
+  --pf-xp-pop-shadow: rgb(0 0 0 / 30%);
   position: relative;
   min-height: 80px;
   display: flex;
@@ -13,38 +13,43 @@
   overflow: visible;
 }
 
-.xp-pop-number-wrapper {
+.pf-xp-pop__number-wrapper {
   display: flex;
   align-items: baseline;
   position: relative;
   z-index: 2;
 }
 
-.xp-pop-number-value {
+.pf-xp-pop__number-value {
   font-size: 56px;
   font-weight: 900;
   background: linear-gradient(
     135deg,
-    var(--text-effects-xp-number-pop-bg-1),
-    var(--text-effects-xp-number-pop-bg-2)
+    var(--pf-xp-pop-color-1),
+    var(--pf-xp-pop-color-2)
   );
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow:
-    0 0 30px var(--text-effects-xp-number-pop-text-shadow-100),
-    0 0 60px var(--text-effects-xp-number-pop-text-shadow-101),
-    0 2px 4px var(--text-effects-xp-number-pop-text-shadow-102);
+    0 0 30px var(--pf-xp-pop-glow-100),
+    0 0 60px var(--pf-xp-pop-glow-101),
+    0 2px 4px var(--pf-xp-pop-shadow);
   letter-spacing: 2px;
 }
 
-.xp-pop-particle {
+.pf-xp-pop__particle {
   text-shadow: 0 0 10px currentcolor;
 }
 
-.xp-pop-label {
+.pf-xp-pop__label {
   font-size: 24px;
   margin-left: 8px;
   font-weight: 700;
   opacity: 0.8;
-  color: var(--text-effects-xp-number-pop-bg-2);
+  color: var(--pf-xp-pop-color-2);
+}
+
+.pf-xp-pop__label:first-child {
+  margin-left: 0;
+  margin-right: 4px;
 }

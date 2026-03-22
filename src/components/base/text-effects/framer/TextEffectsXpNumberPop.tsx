@@ -1,3 +1,9 @@
+/**
+ * Standalone: Copy this file + TextEffectsXpNumberPop.css into your app.
+ * Runtime deps: react, motion
+ * RN: Port with Moti — useMotionValue → useSharedValue, AnimatePresence → exitTransition.
+ */
+
 import * as m from 'motion/react-m'
 import {
   animate,
@@ -7,8 +13,9 @@ import {
   useMotionValue,
   useTransform,
 } from 'motion/react'
-import { useEffect, useState, memo } from 'react'
-interface Particle {
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
+
+interface CountUpParticle {
   id: number
   x: number
   y: number
@@ -16,13 +23,79 @@ interface Particle {
   layer: number
   delay: number
 }
-function TextEffectsXpNumberPopComponent() {
+
+interface TextEffectsXpNumberPopProps {
+  /** Starting value of the count-up. @default 0 */
+  from?: number
+  /** Target value to count up to. @default 240 */
+  to?: number
+  /** Text before the number (e.g. "$", "+"). */
+  prefix?: string
+  /** Text after the number (e.g. " XP", " pts", " €"). @default ' XP' */
+  suffix?: string
+  /** Custom number formatting. Receives the current number, returns display string. @default Math.round(n).toLocaleString() */
+  formatValue?: (n: number) => string
+  /** Maximum floating particles. Auto-scales down for small ranges. @default 10 */
+  maxParticles?: number
+}
+
+const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
+
+function generateParticles(range: number, maxParticles: number): CountUpParticle[] {
+  const absRange = Math.abs(range)
+  const numParticles = Math.min(maxParticles, Math.max(1, Math.floor(absRange / 5)))
+  const particlesPerLayer = 5
+  const particles: CountUpParticle[] = []
+
+  for (let i = 0; i < numParticles; i++) {
+    const progress = (i + 1) / numParticles
+    const cumulative = Math.round(absRange * progress)
+    const prev = i > 0 ? Math.round(absRange * (i / numParticles)) : 0
+    const increment = cumulative - prev
+
+    const angleIndex = i % particlesPerLayer
+    const angle = (angleIndex / particlesPerLayer) * Math.PI * 2
+    const layer = Math.floor(i / particlesPerLayer)
+    const radius = 60 + layer * 20
+
+    particles.push({
+      id: i,
+      x: Math.cos(angle) * radius,
+      y: Math.sin(angle) * radius,
+      value: increment,
+      layer,
+      delay: layer * 0.1 + angleIndex * 0.05,
+    })
+  }
+
+  return particles
+}
+
+function TextEffectsXpNumberPopComponent({
+  from = 0,
+  to = 240,
+  prefix,
+  suffix = ' XP',
+  formatValue = defaultFormat,
+  maxParticles = 10,
+}: TextEffectsXpNumberPopProps) {
   const glowControls = useAnimation()
   const numberControls = useAnimation()
-  const [particles, setParticles] = useState<Particle[]>([]) // Motion value for smooth counting
-  const count = useMotionValue(0)
-  const displayValue = useTransform(count, (latest) => `+${Math.round(latest)}`)
+  const [showParticles, setShowParticles] = useState(false)
+  const count = useMotionValue(from)
+  const formatRef = useRef(formatValue)
+  formatRef.current = formatValue
+
+  const displayValue = useTransform(count, (latest) => formatRef.current(latest))
+
+  const range = to - from
+  const particles = useMemo(
+    () => generateParticles(range, maxParticles),
+    [range, maxParticles]
+  )
+
   useEffect(() => {
+    count.set(from)
     const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
 
     glowControls.start({
@@ -38,43 +111,28 @@ function TextEffectsXpNumberPopComponent() {
       transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] as const, times: [0, 0.6, 1] },
     })
 
-    const countControls = animate(count, 240, {
+    const countControls = animate(count, to, {
       duration: 2.5,
       ease: [0, 0.65, 0.35, 1] as const,
     })
 
-    const outerTimer = setTimeout(() => {
-      const newParticles: Particle[] = []
-      for (let layer = 0; layer < 2; layer++) {
-        for (let i = 0; i < 5; i++) {
-          const angle = (i / 5) * Math.PI * 2
-          const radius = 60 + layer * 20
-          newParticles.push({
-            id: layer * 5 + i,
-            x: Math.cos(angle) * radius,
-            y: Math.sin(angle) * radius,
-            value: Math.round(10 + Math.random() * 30),
-            layer,
-            delay: layer * 0.1 + i * 0.05,
-          })
-        }
-      }
-      setParticles(newParticles)
-      const clearTimer = setTimeout(() => setParticles([]), 3000)
-      pendingTimeouts.push(clearTimer)
+    const showTimer = setTimeout(() => {
+      setShowParticles(true)
+      const hideTimer = setTimeout(() => setShowParticles(false), 3000)
+      pendingTimeouts.push(hideTimer)
     }, 400)
-    pendingTimeouts.push(outerTimer)
+    pendingTimeouts.push(showTimer)
 
     return () => {
       pendingTimeouts.forEach(clearTimeout)
       countControls.stop()
     }
-  }, [glowControls, numberControls, count])
+  }, [glowControls, numberControls, count, from, to])
+
   return (
-    <div className="xp-pop-container" data-animation-id="text-effects__xp-number-pop">
-      {/* Floating particles */}
+    <div className="pf-xp-pop" data-animation-id="text-effects__xp-number-pop">
       <AnimatePresence>
-        {particles.map((particle) => (
+        {showParticles && particles.map((particle) => (
           <m.div
             key={particle.id}
             initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
@@ -86,7 +144,7 @@ function TextEffectsXpNumberPopComponent() {
             }}
             exit={{ opacity: 0 }}
             transition={{ duration: 2.6, delay: particle.delay, ease: easeOut, times: [0, 0.4, 1] }}
-            className="xp-pop-particle"
+            className="pf-xp-pop__particle"
             style={{
               position: 'absolute',
               left: '50%',
@@ -98,19 +156,18 @@ function TextEffectsXpNumberPopComponent() {
               zIndex: 3,
             }}
           >
-            +{particle.value}
+            +{formatValue(particle.value)}
           </m.div>
         ))}
       </AnimatePresence>
 
-      {/* Main number with XP label */}
-      <m.div className="number-wrapper xp-pop-number-wrapper" animate={numberControls}>
-        <m.span className="xp-pop-number-value">{displayValue}</m.span>
-        <span className="xp-pop-label">XP</span>
+      <m.div className="pf-xp-pop__number-wrapper" animate={numberControls}>
+        {prefix !== undefined && <span className="pf-xp-pop__label">{prefix}</span>}
+        <m.span className="pf-xp-pop__number-value">{displayValue}</m.span>
+        {suffix !== undefined && <span className="pf-xp-pop__label">{suffix}</span>}
       </m.div>
     </div>
   )
 }
-/**
- * Memoized TextEffectsXpNumberPop to prevent unnecessary re-renders in grid layouts.
- */ export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
+
+export const TextEffectsXpNumberPop = memo(TextEffectsXpNumberPopComponent)
