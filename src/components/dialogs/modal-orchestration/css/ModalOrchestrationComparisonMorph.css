@@ -1,47 +1,47 @@
-/* Styles scoped for ModalOrchestrationComparisonMorph */
-.pf-comparison {
-  --modal-orchestration-comparison-morph-bg-1: rgb(236 195 255 / 8%);
-  --modal-orchestration-comparison-morph-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-comparison-morph-color: rgb(255 255 255 / 76%);
-  --modal-orchestration-comparison-morph-bg-2: rgb(236 195 255 / 10%);
+/* Styles for ModalOrchestrationComparisonMorph (CSS variant) */
+.pf-comparison-morph {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  min-height: 360px;
   position: relative;
 }
-.pf-comparison__pane {
+
+.pf-comparison-morph__pane {
   padding: 20px;
   border-radius: 12px;
-  background: var(--modal-orchestration-comparison-morph-bg-1);
-  border: 1px solid var(--modal-orchestration-comparison-morph-border);
-  color: var(--modal-orchestration-comparison-morph-color);
-  transform: rotate(-6deg) scale(0.82);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   opacity: 0;
+  transform: rotate(-6deg) scale(0.82);
   will-change: transform, opacity;
 }
 
-/* Pane morph entrance animation */
-@keyframes paneMorph {
+@keyframes pf-comparison-morph-enter {
   from {
-    transform: rotate(-6deg) scale(0.82);
     opacity: 0;
+    transform: rotate(-6deg) scale(0.82);
   }
   to {
-    transform: rotate(0deg) scale(1);
     opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
 }
 
-.pf-comparison__pane--animated {
-  animation: paneMorph 0.312s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+.pf-comparison-morph__pane--visible {
+  animation-name: pf-comparison-morph-enter;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation-fill-mode: both;
 }
 
-.pf-comparison__badge {
-  margin-top: 16px;
-  padding: 8px 12px;
-  background: var(--modal-orchestration-comparison-morph-bg-2);
-  border-radius: 6px;
+.pf-comparison-morph__pane h5 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 92%));
+}
+
+.pf-comparison-morph__pane p {
+  margin: 0;
   font-size: 12px;
 }

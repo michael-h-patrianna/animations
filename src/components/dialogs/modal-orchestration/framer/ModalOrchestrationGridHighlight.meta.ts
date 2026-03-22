@@ -1,10 +1,12 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata: AnimationMetadata = {
+export const metadata = {
   id: 'modal-orchestration__grid-highlight',
   urlSlugFramer: '/modal-orchestration-framer?animation=modal-orchestration__grid-highlight',
   urlSlugCss: '/modal-orchestration-css?animation=modal-orchestration__grid-highlight',
   title: 'Grid Highlight',
-  description: 'Grid items with highlight sweep and staggered entrance',
+  description:
+    'Wrap child elements in a grid with staggered scale-bounce entrance and gradient highlight background. Configurable stagger, duration, columns, and highlight colors.',
   tier: 3,
-}
+  previewMaxWidth: 414,
+} satisfies AnimationMetadata

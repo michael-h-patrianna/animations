@@ -1,43 +1,40 @@
-/* Styles scoped for ModalOrchestrationSelectionGrid */
-.pf-grid {
-  --modal-orchestration-selection-grid-bg: rgb(236 195 255 / 8%);
-  --modal-orchestration-selection-grid-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-selection-grid-color: rgb(255 255 255 / 76%);
+/* Styles for ModalOrchestrationSelectionGrid (CSS variant) */
+.pf-selection-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  min-height: 360px;
   position: relative;
 }
-.pf-grid__item {
+
+.pf-selection-grid__item {
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-selection-grid-bg);
-  border: 1px solid var(--modal-orchestration-selection-grid-border);
-  color: var(--modal-orchestration-selection-grid-color);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  transform: translateY(16px);
   opacity: 0;
+  transform: translateY(var(--pf-cascade-distance, 16px));
   will-change: transform, opacity;
 }
 
-/* Item cascade entrance animation */
-@keyframes itemCascade {
+@keyframes pf-selection-grid-cascade {
   from {
-    transform: translateY(16px);
     opacity: 0;
+    transform: translateY(var(--pf-cascade-distance, 16px));
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.pf-grid__item--animated {
-  animation: itemCascade 0.21s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-selection-grid__item--visible {
+  animation-name: pf-selection-grid-cascade;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
 }

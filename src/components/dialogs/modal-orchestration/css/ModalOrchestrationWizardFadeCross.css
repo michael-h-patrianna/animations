@@ -1,43 +1,42 @@
-/* Styles scoped for ModalOrchestrationWizardFadeCross */
-.pf-wizard {
-  --modal-orchestration-wizard-fade-cross-bg: rgb(236 195 255 / 8%);
-  --modal-orchestration-wizard-fade-cross-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-wizard-fade-cross-color: rgb(255 255 255 / 76%);
+/* Styles for ModalOrchestrationWizardFadeCross (CSS variant) */
+.pf-wizard-fade {
   width: 100%;
   display: grid;
   gap: 12px;
-  min-height: 360px;
   position: relative;
 }
-.pf-wizard__panels {
+
+.pf-wizard-fade__panels {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-.pf-wizard__panel {
+
+.pf-wizard-fade__panel {
   position: relative;
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-wizard-fade-cross-bg);
-  border: 1px solid var(--modal-orchestration-wizard-fade-cross-border);
-  color: var(--modal-orchestration-wizard-fade-cross-color);
-  transform: translateY(16px);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   opacity: 0;
+  transform: translateY(var(--pf-fade-distance, 16px));
   will-change: transform, opacity;
 }
 
-/* Panel fade entrance animation */
-@keyframes panelFadeIn {
+@keyframes pf-wizard-fade-enter {
   from {
-    transform: translateY(16px);
     opacity: 0;
+    transform: translateY(var(--pf-fade-distance, 16px));
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.pf-wizard__panel--animated {
-  animation: panelFadeIn 0.26s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-wizard-fade__panel--visible {
+  animation-name: pf-wizard-fade-enter;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
 }

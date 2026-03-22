@@ -1,105 +1,94 @@
-/* Styles scoped for ModalOrchestrationWizardScaleRotate */
-.pf-wizard {
-  --modal-orchestration-wizard-scale-rotate-bg-1: rgb(236 195 255 / 10%);
-  --modal-orchestration-wizard-scale-rotate-border-1: rgb(236 195 255 / 16%);
-  --modal-orchestration-wizard-scale-rotate-color-1: rgb(255 255 255 / 76%);
-  --modal-orchestration-wizard-scale-rotate-bg-2: rgb(236 195 255 / 28%);
-  --modal-orchestration-wizard-scale-rotate-border-2: rgb(196 122 229 / 85%);
-  --modal-orchestration-wizard-scale-rotate-color-2: rgb(255 255 255 / 95%);
-  --modal-orchestration-wizard-scale-rotate-shadow-1: rgb(196 122 229 / 45%);
-  --modal-orchestration-wizard-scale-rotate-bg-3: rgb(236 195 255 / 8%);
-  --modal-orchestration-wizard-scale-rotate-border-3: rgb(236 195 255 / 12%);
-  --modal-orchestration-wizard-scale-rotate-bg-4: rgb(236 195 255 / 25%);
-  --modal-orchestration-wizard-scale-rotate-border-4: rgb(196 122 229 / 75%);
-  --modal-orchestration-wizard-scale-rotate-shadow-2: rgb(196 122 229 / 40%);
+/* Styles for ModalOrchestrationWizardScaleRotate (CSS variant) */
+.pf-wizard-scale {
   width: 100%;
   display: grid;
   gap: 12px;
-  min-height: 360px;
   position: relative;
 }
-.pf-wizard__steps {
+
+.pf-wizard-scale__steps {
   display: flex;
   gap: 8px;
 }
-.pf-wizard__step {
+
+.pf-wizard-scale__step {
   flex: 1;
   padding: 8px 12px;
   border-radius: 999px;
-  background: var(--modal-orchestration-wizard-scale-rotate-bg-1);
-  border: 1px solid var(--modal-orchestration-wizard-scale-rotate-border-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 10%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 16%));
   text-align: center;
   font-size: 12px;
-  color: var(--modal-orchestration-wizard-scale-rotate-color-1);
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
+  opacity: 0;
   transform: scale(0.9);
-  opacity: 0.3;
   will-change: transform, opacity;
 }
 
-/* Step scale pop animation */
-@keyframes stepScalePop {
+@keyframes pf-wizard-scale-step-pop {
   0% {
-    transform: scale(0.9);
     opacity: 0.3;
+    transform: scale(0.9);
   }
   50% {
-    transform: scale(1.06);
     opacity: 1;
+    transform: scale(1.06);
   }
   100% {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-.pf-wizard__step--animated {
-  animation: stepScalePop 0.46s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.pf-wizard-scale__step--visible {
+  animation: pf-wizard-scale-step-pop 0.46s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.pf-wizard__step--highlighted {
-  background: var(--modal-orchestration-wizard-scale-rotate-bg-2);
-  border: 2px solid var(--modal-orchestration-wizard-scale-rotate-border-2);
-  color: var(--modal-orchestration-wizard-scale-rotate-color-2);
-  box-shadow: 0 0 0 1px var(--modal-orchestration-wizard-scale-rotate-shadow-1);
+.pf-wizard-scale__step--active {
+  background: var(--pf-orch-active-bg, rgb(236 195 255 / 28%));
+  border: 2px solid var(--pf-orch-active-border, rgb(196 122 229 / 85%));
+  color: var(--pf-orch-active-color, rgb(255 255 255 / 95%));
+  box-shadow: 0 0 0 1px var(--pf-orch-active-glow, rgb(196 122 229 / 45%));
 }
 
-.pf-wizard__panels {
+.pf-wizard-scale__panels {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.pf-wizard__panel {
+.pf-wizard-scale__panel {
   position: relative;
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-wizard-scale-rotate-bg-3);
-  border: 1px solid var(--modal-orchestration-wizard-scale-rotate-border-3);
-  color: var(--modal-orchestration-wizard-scale-rotate-color-1);
-  transform: rotate(-6deg) scale(0.82);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   opacity: 0;
+  transform: rotate(-6deg) scale(0.82);
   will-change: transform, opacity;
 }
 
-/* Panel rotate morph animation */
-@keyframes panelRotateMorph {
+@keyframes pf-wizard-scale-panel-morph {
   from {
-    transform: rotate(-6deg) scale(0.82);
     opacity: 0;
+    transform: rotate(-6deg) scale(0.82);
   }
   to {
-    transform: rotate(0deg) scale(1);
     opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
 }
 
-.pf-wizard__panel--animated {
-  animation: panelRotateMorph 0.312s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+.pf-wizard-scale__panel--visible {
+  animation-name: pf-wizard-scale-panel-morph;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation-fill-mode: both;
 }
 
-.pf-wizard__panel--highlighted {
-  background: var(--modal-orchestration-wizard-scale-rotate-bg-4);
-  border: 2px solid var(--modal-orchestration-wizard-scale-rotate-border-4);
-  color: var(--modal-orchestration-wizard-scale-rotate-color-2);
-  box-shadow: 0 0 0 1px var(--modal-orchestration-wizard-scale-rotate-shadow-2);
+.pf-wizard-scale__panel--active {
+  background: var(--pf-orch-active-bg, rgb(236 195 255 / 25%));
+  border: 2px solid var(--pf-orch-active-border, rgb(196 122 229 / 75%));
+  color: var(--pf-orch-active-color, rgb(255 255 255 / 95%));
+  box-shadow: 0 0 0 1px var(--pf-orch-active-glow, rgb(196 122 229 / 40%));
 }

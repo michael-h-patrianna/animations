@@ -1,93 +1,83 @@
-/* Styles scoped for ModalOrchestrationTabMorph */
-.pf-tabs {
-  --modal-orchestration-tab-morph-bg-1: rgb(236 195 255 / 5%);
-  --modal-orchestration-tab-morph-border-1: rgb(236 195 255 / 12%);
-  --modal-orchestration-tab-morph-color-1: rgb(255 255 255 / 76%);
-  --modal-orchestration-tab-morph-bg-2: rgb(236 195 255 / 20%);
-  --modal-orchestration-tab-morph-border-2: rgb(196 122 229 / 60%);
-  --modal-orchestration-tab-morph-color-2: rgb(255 255 255 / 95%);
-  --modal-orchestration-tab-morph-shadow: rgb(196 122 229 / 30%);
-  --modal-orchestration-tab-morph-bg-3: rgb(236 195 255 / 8%);
+/* Styles for ModalOrchestrationTabMorph (CSS variant) */
+.pf-tab-morph {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 360px;
   position: relative;
 }
-.pf-tabs__nav {
+
+.pf-tab-morph__nav {
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid var(--modal-orchestration-tab-morph-border-1);
+  border-bottom: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
   padding-bottom: 8px;
 }
-.pf-tabs__tab {
+
+.pf-tab-morph__tab {
   flex: 1;
   padding: 6px 12px;
   border-radius: 8px 8px 0 0;
-  background: var(--modal-orchestration-tab-morph-bg-1);
-  border: 1px solid var(--modal-orchestration-tab-morph-border-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 5%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
   border-bottom: none;
   text-align: center;
   font-size: 13px;
-  color: var(--modal-orchestration-tab-morph-color-1);
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   cursor: pointer;
   transition: all 0.2s ease;
-  transform: scale(1);
-  opacity: 0.3;
+  opacity: 0;
+  transform: scale(0.9);
   will-change: transform, opacity;
 }
 
-/* Tab entrance animation with pop easing */
-@keyframes tabPop {
+@keyframes pf-tab-morph-pop {
   0% {
-    transform: scale(0.9);
     opacity: 0.3;
+    transform: scale(0.9);
   }
   50% {
-    transform: scale(1.06);
     opacity: 1;
+    transform: scale(1.06);
   }
   100% {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-.pf-tabs__tab--animated {
-  animation: tabPop 0.46s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.pf-tab-morph__tab--animated {
+  animation: pf-tab-morph-pop 0.46s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.pf-tabs__tab--active {
-  background: var(--modal-orchestration-tab-morph-bg-2);
-  border: 1px solid var(--modal-orchestration-tab-morph-border-2);
-  border-bottom: none;
-  color: var(--modal-orchestration-tab-morph-color-2);
-  box-shadow: 0 0 0 1px var(--modal-orchestration-tab-morph-shadow);
+.pf-tab-morph__tab--active {
+  background: var(--pf-orch-active-bg, rgb(236 195 255 / 20%));
+  border-color: var(--pf-orch-active-border, rgb(196 122 229 / 60%));
+  color: var(--pf-orch-active-color, rgb(255 255 255 / 95%));
+  box-shadow: 0 0 0 1px var(--pf-orch-active-glow, rgb(196 122 229 / 30%));
   transform: scale(1.05);
   opacity: 1;
 }
 
-.pf-tabs__content {
+.pf-tab-morph__content {
   position: relative;
   min-height: 200px;
 }
 
-.pf-tabs__panel {
+.pf-tab-morph__panel {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-tab-morph-bg-3);
-  border: 1px solid var(--modal-orchestration-tab-morph-border-1);
-  color: var(--modal-orchestration-tab-morph-color-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   will-change: transform, opacity;
 }
 
-/* Panel enter animation */
-@keyframes panelEnter {
+@keyframes pf-tab-morph-panel-enter {
   from {
     transform: translateX(300px);
     opacity: 0;
@@ -98,8 +88,7 @@
   }
 }
 
-/* Panel exit left animation */
-@keyframes panelExitLeft {
+@keyframes pf-tab-morph-panel-exit-left {
   from {
     transform: translateX(0);
     opacity: 1;
@@ -110,8 +99,7 @@
   }
 }
 
-/* Panel exit right animation */
-@keyframes panelExitRight {
+@keyframes pf-tab-morph-panel-exit-right {
   from {
     transform: translateX(0);
     opacity: 1;
@@ -122,14 +110,14 @@
   }
 }
 
-.pf-tabs__panel--enter {
-  animation: panelEnter 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-tab-morph__panel--enter {
+  animation: pf-tab-morph-panel-enter 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-.pf-tabs__panel--exit-left {
-  animation: panelExitLeft 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-tab-morph__panel--exit-left {
+  animation: pf-tab-morph-panel-exit-left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-.pf-tabs__panel--exit-right {
-  animation: panelExitRight 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-tab-morph__panel--exit-right {
+  animation: pf-tab-morph-panel-exit-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }

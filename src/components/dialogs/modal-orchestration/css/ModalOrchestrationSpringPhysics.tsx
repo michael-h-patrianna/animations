@@ -1,48 +1,82 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Spring-physics stagger entrance with CSS hover-lift and tap-press transitions — CSS variant.
+ *
+ * Copy-paste files: this file + ModalOrchestrationSpringPhysics.css
+ * Runtime deps: react
+ *
+ * @example
+ * <ModalOrchestrationSpringPhysics stagger={100} columns={3}>
+ *   <ProductCard>...</ProductCard>
+ *   <ProductCard>...</ProductCard>
+ * </ModalOrchestrationSpringPhysics>
+ */
+
+import { Children, memo, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import './ModalOrchestrationSpringPhysics.css'
 
-export function ModalOrchestrationSpringPhysics() {
-  const tiles = Array.from({ length: 6 }, (_, index) => ({
-    id: index,
-    title: `Elastic ${index + 1}`,
-    content: `Spring bounce effect`,
-  }))
+const DEFAULT_COUNT = 6
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const tilesRef = useRef<(HTMLDivElement | null)[]>([])
+interface ModalOrchestrationSpringPhysicsProps {
+  /** Items to bounce in. When omitted, renders placeholder tiles. */
+  children?: ReactNode
+  /** Delay between each item's entrance in ms. Default 100. */
+  stagger?: number
+  /** Duration of each item's entrance animation in ms. Default 800. */
+  duration?: number
+  /** Number of grid columns. Default 3. */
+  columns?: number
+}
 
-  // Stagger tile animations on mount
+function generatePlaceholders(count: number): ReactNode[] {
+  return Array.from({ length: count }, (_, i) => (
+    <div key={`placeholder-${i}`}>
+      <h5>Elastic {i + 1}</h5>
+      <p>Spring bounce</p>
+    </div>
+  ))
+}
+
+function ModalOrchestrationSpringPhysicsComponent({
+  children,
+  stagger = 100,
+  duration = 800,
+  columns = 3,
+}: ModalOrchestrationSpringPhysicsProps) {
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
+
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
+
   useEffect(() => {
-    const tileElements = tilesRef.current.filter(Boolean)
-    tileElements.forEach((tile, index) => {
-      if (tile) {
-        tile.style.animationDelay = `${0.2 + index * 0.1}s`
-        tile.classList.add('pf-spring-tile--animated')
+    itemsRef.current.filter(Boolean).forEach((el, index) => {
+      if (el !== null) {
+        el.style.animationDelay = `${(0.2 * 1000 + index * stagger) / 1000}s`
+        el.style.animationDuration = `${duration / 1000}s`
+        el.classList.add('pf-spring-physics__item--visible')
       }
     })
-  }, [])
+  }, [stagger, duration])
 
   return (
     <div
-      ref={containerRef}
-      className="pf-spring-container"
+      className="pf-spring-physics"
       data-animation-id="modal-orchestration__spring-physics"
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
-      <div className="pf-spring-grid">
-        {tiles.map((tile) => (
-          <div
-            key={tile.id}
-            ref={(el) => {
-              tilesRef.current[tile.id] = el
-            }}
-            className="pf-spring-tile"
-          >
-            <h5>{tile.title}</h5>
-            <p>{tile.content}</p>
-            <div className="pf-spring-indicator">⚡</div>
-          </div>
-        ))}
-      </div>
+      {renderItems.map((child, i) => (
+        <div
+          key={i}
+          ref={(el) => {
+            itemsRef.current[i] = el
+          }}
+          className="pf-spring-physics__item"
+        >
+          {child}
+        </div>
+      ))}
     </div>
   )
 }
+
+export const ModalOrchestrationSpringPhysics = memo(ModalOrchestrationSpringPhysicsComponent)

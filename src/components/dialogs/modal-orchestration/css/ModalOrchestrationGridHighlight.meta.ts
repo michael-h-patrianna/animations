@@ -5,6 +5,8 @@ export const metadata = {
   urlSlugFramer: '/modal-orchestration-framer?animation=modal-orchestration__grid-highlight',
   urlSlugCss: '/modal-orchestration-css?animation=modal-orchestration__grid-highlight',
   title: 'Grid Highlight',
-  description: 'Grid tiles that animate with staggered highlight sweep effect',
+  description:
+    'Wrap child elements in a grid with staggered scale-bounce entrance and gradient highlight background. Configurable stagger, duration, columns, and highlight colors.',
   tier: 3,
+  previewMaxWidth: 414,
 } satisfies AnimationMetadata

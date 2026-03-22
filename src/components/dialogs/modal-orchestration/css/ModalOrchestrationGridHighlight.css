@@ -1,58 +1,49 @@
-/* Styles scoped for ModalOrchestrationGridHighlight (CSS-only version) */
+/* Styles for ModalOrchestrationGridHighlight (CSS variant) */
 .pf-grid-highlight {
-  --modal-orchestration-grid-highlight-color: rgb(255 255 255 / 76%);
-  width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  min-height: 360px;
-  position: relative;
+  padding: 16px;
+  width: 100%;
 }
 
 .pf-grid-highlight__item {
   padding: 16px;
-  border-radius: 12px;
-  color: var(--modal-orchestration-grid-highlight-color);
-  text-align: center;
+  border-radius: 8px;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   font-size: 14px;
-  animation: pf-grid-highlight-sweep 0.21s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 90%));
+  background: linear-gradient(
+    135deg,
+    var(--pf-grid-highlight-start, var(--pf-anim-highlight)),
+    var(--pf-grid-highlight-end, var(--pf-anim-highlight-accent))
+  );
+  border: 1px solid var(--pf-anim-highlight-border);
+  opacity: 0;
+  transform: translateY(16px) scale(0.9);
   will-change: transform, opacity;
-}
-
-.pf-grid-highlight__item--0 {
-  animation-delay: 0s;
-}
-
-.pf-grid-highlight__item--1 {
-  animation-delay: 0.26s;
-}
-
-.pf-grid-highlight__item--2 {
-  animation-delay: 0.52s;
-}
-
-.pf-grid-highlight__item--3 {
-  animation-delay: 0.78s;
-}
-
-.pf-grid-highlight__item--4 {
-  animation-delay: 1.04s;
 }
 
 @keyframes pf-grid-highlight-sweep {
   0% {
-    transform: translateY(16px) scale(0.9);
     opacity: 0;
+    transform: translateY(16px) scale(0.9);
   }
   60% {
-    transform: translateY(0) scale(1.05);
     opacity: 1;
+    transform: translateY(0) scale(1.05);
   }
   100% {
-    transform: translateY(0) scale(1);
     opacity: 1;
+    transform: translateY(0) scale(1);
   }
+}
+
+.pf-grid-highlight__item--visible {
+  animation-name: pf-grid-highlight-sweep;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
 }

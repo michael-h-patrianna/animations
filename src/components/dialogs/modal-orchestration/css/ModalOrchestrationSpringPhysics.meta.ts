@@ -1,10 +1,12 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata: AnimationMetadata = {
+export const metadata = {
   id: 'modal-orchestration__spring-physics',
   urlSlugFramer: '/modal-orchestration-framer?animation=modal-orchestration__spring-physics',
   urlSlugCss: '/modal-orchestration-css?animation=modal-orchestration__spring-physics',
   title: 'Spring Physics Tiles',
-  description: 'Elastic spring-based tile animations with gesture interactions and bounce effects',
+  description:
+    'Wrap child elements for spring-physics stagger entrance with hover-lift and tap-press gestures. Configurable stiffness, damping, mass, stagger, and columns.',
   tier: 3,
-}
+  previewMaxWidth: 414,
+} satisfies AnimationMetadata

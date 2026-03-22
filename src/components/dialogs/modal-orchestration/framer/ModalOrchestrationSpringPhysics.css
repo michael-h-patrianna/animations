@@ -1,40 +1,33 @@
-/* Styles scoped for ModalOrchestrationSpringPhysics */
-.pf-spring-container {
-  --modal-orchestration-spring-physics-bg: rgb(236 195 255 / 8%);
-  --modal-orchestration-spring-physics-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-spring-physics-color-1: rgb(255 255 255 / 76%);
-  --modal-orchestration-spring-physics-color-2: rgb(255 255 255 / 92%);
+/* Layout styles for ModalOrchestrationSpringPhysics (framer variant) */
+.pf-spring-physics {
   width: 100%;
-  min-height: 360px;
+  display: grid;
+  gap: 16px;
   position: relative;
 }
-.pf-spring-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.pf-spring-tile {
+
+.pf-spring-physics__item {
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-spring-physics-bg);
-  border: 1px solid var(--modal-orchestration-spring-physics-border);
-  color: var(--modal-orchestration-spring-physics-color-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   text-align: center;
   cursor: grab;
   user-select: none;
 }
-.pf-spring-tile:active {
+
+.pf-spring-physics__item:active {
   cursor: grabbing;
 }
-.pf-spring-tile h5 {
+
+.pf-spring-physics__item h5 {
   margin: 0 0 8px;
   font-size: 14px;
-  color: var(--modal-orchestration-spring-physics-color-2);
+  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 92%));
 }
-.pf-spring-tile p {
-  margin: 0 0 8px;
+
+.pf-spring-physics__item p {
+  margin: 0;
   font-size: 12px;
-}
-.pf-spring-indicator {
-  font-size: 16px;
 }

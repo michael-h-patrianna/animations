@@ -1,62 +1,55 @@
-/* Styles scoped for ModalOrchestrationFlipReveal */
-.pf-flip-container {
-  --modal-orchestration-flip-reveal-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-flip-reveal-color-1: rgb(255 255 255 / 76%);
-  --modal-orchestration-flip-reveal-bg-1: rgb(236 195 255 / 8%);
-  --modal-orchestration-flip-reveal-bg-2: rgb(196 122 229 / 15%);
-  --modal-orchestration-flip-reveal-color-2: rgb(255 255 255 / 92%);
+/* Layout styles for ModalOrchestrationFlipReveal (framer variant) */
+.pf-flip-reveal {
   width: 100%;
-  min-height: 360px;
-  position: relative;
-  perspective: 1000px;
-}
-.pf-flip-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 8px;
 }
-.pf-flip-tile-container {
+
+.pf-flip-reveal__card {
   cursor: pointer;
-  height: 140px;
+  height: 80px;
+  perspective: 600px;
 }
-.pf-flip-tile {
+
+.pf-flip-reveal__inner {
   width: 100%;
   height: 100%;
   position: relative;
-  transform-style: preserve-3d;
 }
-.pf-flip-face {
+
+.pf-flip-reveal__face {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid var(--modal-orchestration-flip-reveal-border);
-  color: var(--modal-orchestration-flip-reveal-color-1);
+  inset: 0;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   text-align: center;
   backface-visibility: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
-.pf-flip-front {
-  background: var(--modal-orchestration-flip-reveal-bg-1);
+
+.pf-flip-reveal__front {
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
 }
-.pf-flip-back {
-  background: var(--modal-orchestration-flip-reveal-bg-2);
+
+.pf-flip-reveal__back {
+  background: var(--pf-orch-active-bg, rgb(196 122 229 / 15%));
   transform: rotateY(180deg);
 }
-.pf-flip-face h5 {
-  margin: 0 0 8px;
-  font-size: 14px;
-  color: var(--modal-orchestration-flip-reveal-color-2);
-}
-.pf-flip-face p {
-  margin: 0 0 8px;
+
+.pf-flip-reveal__face h5 {
+  margin: 0 0 2px;
   font-size: 12px;
-  text-align: center;
+  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 92%));
 }
-.pf-flip-indicator {
-  font-size: 16px;
+
+.pf-flip-reveal__face p {
+  margin: 0;
+  font-size: 10px;
+  text-align: center;
 }

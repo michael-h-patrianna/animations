@@ -1,64 +1,108 @@
+/**
+ * Rotate-scale morph entrance for side-by-side comparison panes.
+ *
+ * Copy-paste files: this file + ModalOrchestrationComparisonMorph.css
+ * Runtime deps: react, motion
+ *
+ * @example
+ * <ModalOrchestrationComparisonMorph stagger={260}>
+ *   <PricingPlanA>...</PricingPlanA>
+ *   <PricingPlanB>...</PricingPlanB>
+ * </ModalOrchestrationComparisonMorph>
+ */
+
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { Children, memo, useMemo } from 'react'
+import type { ReactNode } from 'react'
 
-export function ModalOrchestrationComparisonMorph() {
-  const panes = 2
+const DEFAULT_COUNT = 2
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
+interface ModalOrchestrationComparisonMorphProps {
+  /** Comparison panes (typically 2). When omitted, renders placeholder panes. */
+  children?: ReactNode
+  /** Delay between each pane's entrance in ms. Default 260. */
+  stagger?: number
+  /** Duration of each pane's entrance animation in ms. Default 312. */
+  duration?: number
+}
+
+function generatePlaceholders(count: number): ReactNode[] {
+  const labels = ['Option A', 'Option B', 'Option C', 'Option D']
+  return Array.from({ length: count }, (_, i) => (
+    <div key={`placeholder-${i}`}>
+      <h5>{labels[i] ?? `Option ${i + 1}`}</h5>
+      <p>Comparison pane {i + 1} with details and benefits.</p>
+    </div>
+  ))
+}
+
+function ModalOrchestrationComparisonMorphComponent({
+  children,
+  stagger = 260,
+  duration = 312,
+}: ModalOrchestrationComparisonMorphProps) {
+  const prefersReducedMotion = useReducedMotion()
+
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
+
+  const staggerS = stagger / 1000
+  const durationS = duration / 1000
+
+  const containerVariants = useMemo(
+    () => ({
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
+        },
       },
-    },
-  }
+    }),
+    [staggerS, prefersReducedMotion]
+  )
 
-  const paneVariants = {
-    initial: {
-      rotate: -6,
-      scale: 0.82,
-      opacity: 0,
-    },
-    animate: {
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.312, // 520ms * 0.6 (morph pattern)
-        ease: [0.68, -0.55, 0.265, 1.55] as const, // vibrant easing
+  const paneVariants = useMemo(
+    () => ({
+      hidden: {
+        rotate: -6,
+        scale: 0.82,
+        opacity: 0,
       },
-    },
-  }
+      visible: {
+        rotate: 0,
+        scale: 1,
+        opacity: 1,
+        transition: {
+          duration: prefersReducedMotion === true ? 0 : durationS,
+          ease: [0.68, -0.55, 0.265, 1.55] as const,
+        },
+      },
+    }),
+    [durationS, prefersReducedMotion]
+  )
 
   return (
     <m.div
-      className="pf-comparison"
+      className="pf-comparison-morph"
       variants={containerVariants}
-      initial="initial"
-      animate="animate"
+      initial="hidden"
+      animate="visible"
       data-animation-id="modal-orchestration__comparison-morph"
+      style={{ animation: 'none' }}
     >
-      {Array.from({ length: panes }, (_, index) => (
-        <m.div key={index} className="pf-comparison__pane" variants={paneVariants}>
-          <h5>{index === 0 ? 'Option A' : 'Option B'}</h5>
-          <p>
-            {index === 0
-              ? 'Comparison pane showcasing the first option with detailed information and benefits.'
-              : 'Alternative pane demonstrating the second option with different features and advantages.'}
-          </p>
-          <div
-            style={{
-              marginTop: '16px',
-              padding: '8px 12px',
-              background: 'var(--pf-anim-highlight)',
-              borderRadius: '6px',
-              fontSize: '12px',
-            }}
-          >
-            {index === 0 ? 'Primary choice' : 'Alternative choice'}
-          </div>
+      {renderItems.map((child, i) => (
+        <m.div
+          key={i}
+          className="pf-comparison-morph__pane"
+          variants={paneVariants}
+          style={{ animation: 'none' }}
+        >
+          {child}
         </m.div>
       ))}
     </m.div>
   )
 }
+
+export const ModalOrchestrationComparisonMorph = memo(ModalOrchestrationComparisonMorphComponent)

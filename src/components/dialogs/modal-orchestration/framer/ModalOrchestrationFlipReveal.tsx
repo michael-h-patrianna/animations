@@ -1,85 +1,168 @@
+/**
+ * Click-to-flip cards with 3D perspective reveal, staggered entrance animation.
+ *
+ * Copy-paste files: this file + ModalOrchestrationFlipReveal.css
+ * Runtime deps: react, motion
+ *
+ * @example
+ * <ModalOrchestrationFlipReveal
+ *   items={[
+ *     { front: <div>Question 1</div>, back: <div>Answer 1</div> },
+ *     { front: <div>Question 2</div>, back: <div>Answer 2</div> },
+ *   ]}
+ *   stagger={100}
+ *   columns={3}
+ * />
+ */
+
 import * as m from 'motion/react-m'
-import { useState } from 'react'
-export function ModalOrchestrationFlipReveal() {
-  const [flippedTiles, setFlippedTiles] = useState<Set<number>>(() => new Set())
-  const tiles = Array.from({ length: 6 }, (_, index) => ({
-    id: index,
-    frontTitle: `Card ${index + 1}`,
-    frontContent: `Click to flip`,
-    backTitle: `Revealed`,
-    backContent: `Hidden content`,
+import { useReducedMotion } from 'motion/react'
+import { memo, useCallback, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
+
+const DEFAULT_COUNT = 6
+
+interface FlipItem {
+  front: ReactNode
+  back: ReactNode
+}
+
+interface ModalOrchestrationFlipRevealProps {
+  /** Array of {front, back} content for each card. When omitted, renders placeholder cards. */
+  items?: FlipItem[]
+  /** Delay between each card's entrance in ms. Default 100. */
+  stagger?: number
+  /** Duration of the flip animation in ms. Default 600. */
+  flipDuration?: number
+  /** Number of grid columns. Default 3. */
+  columns?: number
+}
+
+function generatePlaceholders(count: number): FlipItem[] {
+  return Array.from({ length: count }, (_, i) => ({
+    front: (
+      <div>
+        <h5>Card {i + 1}</h5>
+        <p>Click to flip</p>
+      </div>
+    ),
+    back: (
+      <div>
+        <h5>Revealed</h5>
+        <p>Hidden content</p>
+      </div>
+    ),
   }))
-  const toggleFlip = (tileId: number) => {
-    setFlippedTiles((prev) => {
-      const newSet = new Set(prev)
-      if (newSet.has(tileId)) {
-        newSet.delete(tileId)
+}
+
+function ModalOrchestrationFlipRevealComponent({
+  items,
+  stagger = 100,
+  flipDuration = 600,
+  columns = 3,
+}: ModalOrchestrationFlipRevealProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const [flippedCards, setFlippedCards] = useState<Set<number>>(() => new Set())
+
+  const renderItems = items !== undefined && items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
+
+  const staggerS = stagger / 1000
+  const flipS = flipDuration / 1000
+
+  const toggleFlip = useCallback((index: number) => {
+    setFlippedCards((prev) => {
+      const next = new Set(prev)
+      if (next.has(index)) {
+        next.delete(index)
       } else {
-        newSet.add(tileId)
+        next.add(index)
       }
-      return newSet
+      return next
     })
-  }
-  const containerVariants = {
-    initial: {},
-    animate: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
-  }
-  const tileVariants = {
-    initial: { scale: 0, opacity: 0, rotateY: -180 },
-    animate: {
-      scale: 1,
-      opacity: 1,
-      rotateY: 0,
-      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-  }
+  }, [])
+
+  const containerVariants = useMemo(
+    () => ({
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
+          delayChildren: prefersReducedMotion === true ? 0 : staggerS * 2,
+        },
+      },
+    }),
+    [staggerS, prefersReducedMotion]
+  )
+
+  const cardVariants = useMemo(
+    () => ({
+      hidden: {
+        scale: 0.8,
+        opacity: 0,
+        y: 20,
+      },
+      visible: {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: prefersReducedMotion === true ? 0 : 0.5,
+          ease: [0.25, 0.46, 0.45, 0.94] as const,
+        },
+      },
+    }),
+    [prefersReducedMotion]
+  )
+
   return (
     <m.div
-      className="pf-flip-container"
+      className="pf-flip-reveal"
       variants={containerVariants}
-      initial="initial"
-      animate="animate"
+      initial="hidden"
+      animate="visible"
       data-animation-id="modal-orchestration__flip-reveal"
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, animation: 'none' }}
     >
-      <div className="pf-flip-grid">
-        {tiles.map((tile) => {
-          const isFlipped = flippedTiles.has(tile.id)
-          return (
+      {renderItems.map((item, i) => {
+        const isFlipped = flippedCards.has(i)
+        return (
+          <m.div
+            key={i}
+            className="pf-flip-reveal__card"
+            variants={cardVariants}
+            onClick={() => toggleFlip(i)}
+            whileHover={
+              prefersReducedMotion === true
+                ? undefined
+                : {
+                    scale: 1.05,
+                    transition: { type: 'spring', stiffness: 300, damping: 25 },
+                  }
+            }
+            whileTap={prefersReducedMotion === true ? undefined : { scale: 0.95 }}
+            style={{ animation: 'none' }}
+          >
             <m.div
-              key={tile.id}
-              className="pf-flip-tile-container"
-              variants={tileVariants}
-              onClick={() => toggleFlip(tile.id)}
-              whileHover={{
-                scale: 1.05,
-                transition: { type: 'spring', stiffness: 300, damping: 25 },
+              className="pf-flip-reveal__inner"
+              animate={{ rotateY: isFlipped ? 180 : 0 }}
+              transition={{
+                duration: prefersReducedMotion === true ? 0 : flipS,
+                ease: [0.25, 0.46, 0.45, 0.94] as const,
               }}
-              whileTap={{ scale: 0.95 }}
+              style={{ transformStyle: 'preserve-3d', animation: 'none' }}
             >
-              <m.div
-                className="pf-flip-tile"
-                animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                {/* Front Face */}
-                <div className="pf-flip-face pf-flip-front">
-                  <h5>{tile.frontTitle}</h5>
-                  <p>{tile.frontContent}</p>
-                  <div className="pf-flip-indicator">↻</div>
-                </div>
-
-                {/* Back Face */}
-                <div className="pf-flip-face pf-flip-back">
-                  <h5>{tile.backTitle}</h5>
-                  <p>{tile.backContent}</p>
-                  <div className="pf-flip-indicator">✓</div>
-                </div>
-              </m.div>
+              <div className="pf-flip-reveal__face pf-flip-reveal__front">
+                {item.front}
+              </div>
+              <div className="pf-flip-reveal__face pf-flip-reveal__back">
+                {item.back}
+              </div>
             </m.div>
-          )
-        })}
-      </div>
+          </m.div>
+        )
+      })}
     </m.div>
   )
 }
+
+export const ModalOrchestrationFlipReveal = memo(ModalOrchestrationFlipRevealComponent)

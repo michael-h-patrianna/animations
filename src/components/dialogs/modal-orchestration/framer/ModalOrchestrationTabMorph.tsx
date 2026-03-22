@@ -1,98 +1,176 @@
+/**
+ * Tab panel container with pop-scale tab entrance and sliding content transitions.
+ * Supports controlled (activeIndex + onTabChange) or uncontrolled (internal state) usage.
+ *
+ * Copy-paste files: this file + ModalOrchestrationTabMorph.css
+ * Runtime deps: react, motion
+ *
+ * @example
+ * <ModalOrchestrationTabMorph labels={['Overview', 'Details', 'Pricing']}>
+ *   <OverviewPanel />
+ *   <DetailsPanel />
+ *   <PricingPanel />
+ * </ModalOrchestrationTabMorph>
+ */
+
 import * as m from 'motion/react-m'
-import { AnimatePresence } from 'motion/react'
-import { useState } from 'react'
+import { AnimatePresence, useReducedMotion } from 'motion/react'
+import { Children, memo, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
 
-export function ModalOrchestrationTabMorph() {
-  const tabs = 4
-  const [activeTab, setActiveTab] = useState(0)
+const DEFAULT_TAB_COUNT = 4
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
-      },
-    },
+interface ModalOrchestrationTabMorphProps {
+  /** Panel content — each child is one tab's content. When omitted, renders placeholder panels. */
+  children?: ReactNode
+  /** Tab header labels. Default generates "Tab 1", "Tab 2", etc. */
+  labels?: string[]
+  /** Controlled active tab index. When provided, component is controlled. */
+  activeIndex?: number
+  /** Callback when a tab is clicked (for controlled mode). */
+  onTabChange?: (index: number) => void
+  /** Delay between each tab's entrance animation in ms. Default 260. */
+  stagger?: number
+}
+
+function generatePlaceholders(count: number): ReactNode[] {
+  return Array.from({ length: count }, (_, i) => (
+    <div key={`placeholder-${i}`}>
+      <h5>Content {i + 1}</h5>
+      <p>Tab panel content for tab {i + 1}.</p>
+    </div>
+  ))
+}
+
+function ModalOrchestrationTabMorphComponent({
+  children,
+  labels,
+  activeIndex,
+  onTabChange,
+  stagger = 260,
+}: ModalOrchestrationTabMorphProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const [internalIndex, setInternalIndex] = useState(0)
+
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_TAB_COUNT)
+  const count = renderItems.length
+
+  const isControlled = activeIndex !== undefined
+  const currentIndex = isControlled ? activeIndex : internalIndex
+  const safeIndex = Math.min(Math.max(currentIndex, 0), count - 1)
+
+  const tabLabels =
+    labels !== undefined && labels.length > 0
+      ? labels
+      : Array.from({ length: count }, (_, i) => `Tab ${i + 1}`)
+
+  const handleTabClick = (index: number) => {
+    if (onTabChange !== undefined) {
+      onTabChange(index)
+    }
+    if (!isControlled) {
+      setInternalIndex(index)
+    }
   }
 
-  const tabVariants = {
-    initial: {
-      scale: 0.9,
-      opacity: 0.3,
-    },
-    animate: {
-      scale: [0.9, 1.06, 1],
-      opacity: [0.3, 1, 1],
-      transition: {
-        duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] as const, // pop easing
-      },
-    },
-  }
+  const staggerS = stagger / 1000
 
-  const panelVariants = {
-    initial: {
-      x: 300,
-      opacity: 0,
-    },
-    animate: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
+  const containerVariants = useMemo(
+    () => ({
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
+        },
       },
-    },
-    exit: {
-      x: -300,
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
+    }),
+    [staggerS, prefersReducedMotion]
+  )
+
+  const tabVariants = useMemo(
+    () => ({
+      hidden: {
+        scale: 0.9,
+        opacity: 0.3,
       },
-    },
-  }
+      visible: {
+        scale: [0.9, 1.06, 1],
+        opacity: [0.3, 1, 1],
+        transition: {
+          duration: prefersReducedMotion === true ? 0 : 0.46,
+          ease: [0.34, 1.56, 0.64, 1] as const,
+        },
+      },
+    }),
+    [prefersReducedMotion]
+  )
+
+  const slideDistance = prefersReducedMotion === true ? 0 : 300
+
+  const panelVariants = useMemo(
+    () => ({
+      initial: { x: slideDistance, opacity: 0 },
+      animate: {
+        x: 0,
+        opacity: 1,
+        transition: {
+          duration: prefersReducedMotion === true ? 0 : 0.3,
+          ease: [0.25, 0.46, 0.45, 0.94] as const,
+        },
+      },
+      exit: {
+        x: -slideDistance,
+        opacity: 0,
+        transition: {
+          duration: prefersReducedMotion === true ? 0 : 0.2,
+          ease: [0.25, 0.46, 0.45, 0.94] as const,
+        },
+      },
+    }),
+    [slideDistance, prefersReducedMotion]
+  )
 
   return (
     <m.div
-      className="pf-tabs"
+      className="pf-tab-morph"
       variants={containerVariants}
-      initial="initial"
-      animate="animate"
+      initial="hidden"
+      animate="visible"
       data-animation-id="modal-orchestration__tab-morph"
+      style={{ animation: 'none' }}
     >
-      <div className="pf-tabs__nav">
-        {Array.from({ length: tabs }, (_, index) => (
+      <div className="pf-tab-morph__nav">
+        {tabLabels.map((label, i) => (
           <m.div
-            key={index}
-            className={`pf-tabs__tab${index === activeTab ? ' pf-tabs__tab--active' : ''}`}
+            key={i}
+            className={`pf-tab-morph__tab${i === safeIndex ? ' pf-tab-morph__tab--active' : ''}`}
             variants={tabVariants}
-            onClick={() => setActiveTab(index)}
+            onClick={() => handleTabClick(i)}
+            style={{ animation: 'none' }}
           >
-            Tab {index + 1}
+            {label}
           </m.div>
         ))}
       </div>
 
-      <div className="pf-tabs__content">
+      <div className="pf-tab-morph__content">
         <AnimatePresence mode="wait">
           <m.div
-            key={activeTab}
-            className="pf-tabs__panel"
+            key={safeIndex}
+            className="pf-tab-morph__panel"
             variants={panelVariants}
             initial="initial"
             animate="animate"
             exit="exit"
+            style={{ animation: 'none' }}
           >
-            <h5>Content {activeTab + 1}</h5>
-            <p>
-              Tab morph content for tab {activeTab + 1}. Click tabs to see the swipe animation
-              between different content panels.
-            </p>
+            {renderItems[safeIndex]}
           </m.div>
         </AnimatePresence>
       </div>
     </m.div>
   )
 }
+
+export const ModalOrchestrationTabMorph = memo(ModalOrchestrationTabMorphComponent)

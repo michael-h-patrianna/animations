@@ -1,43 +1,42 @@
-/* Styles scoped for ModalOrchestrationWizardSlideStack */
-.pf-wizard {
-  --modal-orchestration-wizard-slide-stack-bg: rgb(236 195 255 / 8%);
-  --modal-orchestration-wizard-slide-stack-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-wizard-slide-stack-color: rgb(255 255 255 / 76%);
+/* Styles for ModalOrchestrationWizardSlideStack (CSS variant) */
+.pf-wizard-slide {
   width: 100%;
   display: grid;
   gap: 12px;
-  min-height: 360px;
   position: relative;
 }
-.pf-wizard__panels {
+
+.pf-wizard-slide__panels {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-.pf-wizard__panel {
+
+.pf-wizard-slide__panel {
   position: relative;
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-wizard-slide-stack-bg);
-  border: 1px solid var(--modal-orchestration-wizard-slide-stack-border);
-  color: var(--modal-orchestration-wizard-slide-stack-color);
-  transform: translateX(48px) scale(0.94);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   opacity: 0;
+  transform: translateX(var(--pf-slide-distance, 48px)) scale(0.94);
   will-change: transform, opacity;
 }
 
-/* Panel slide entrance animation */
-@keyframes panelSlideIn {
+@keyframes pf-wizard-slide-enter {
   from {
-    transform: translateX(48px) scale(0.94);
     opacity: 0;
+    transform: translateX(var(--pf-slide-distance, 48px)) scale(0.94);
   }
   to {
-    transform: translateX(0) scale(1);
     opacity: 1;
+    transform: translateX(0) scale(1);
   }
 }
 
-.pf-wizard__panel--animated {
-  animation: panelSlideIn 0.312s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-wizard-slide__panel--visible {
+  animation-name: pf-wizard-slide-enter;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
 }

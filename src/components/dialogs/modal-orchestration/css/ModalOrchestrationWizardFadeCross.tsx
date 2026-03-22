@@ -1,37 +1,84 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Sequential fade-up stagger entrance for a list of panels — CSS variant.
+ *
+ * Copy-paste files: this file + ModalOrchestrationWizardFadeCross.css
+ * Runtime deps: react
+ *
+ * @example
+ * <ModalOrchestrationWizardFadeCross stagger={260}>
+ *   <StepPanel>...</StepPanel>
+ *   <StepPanel>...</StepPanel>
+ * </ModalOrchestrationWizardFadeCross>
+ */
+
+import { Children, memo, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import './ModalOrchestrationWizardFadeCross.css'
 
-export function ModalOrchestrationWizardFadeCross() {
-  const steps = 3
+const DEFAULT_COUNT = 3
+
+interface ModalOrchestrationWizardFadeCrossProps {
+  /** Panels to stagger in. When omitted, renders placeholder panels. */
+  children?: ReactNode
+  /** Delay between each panel's entrance in ms. Default 260. */
+  stagger?: number
+  /** Duration of each panel's entrance animation in ms. Default 260. */
+  duration?: number
+  /** Vertical travel distance in px. Default 16. */
+  distance?: number
+}
+
+function generatePlaceholders(count: number): ReactNode[] {
+  return Array.from({ length: count }, (_, i) => (
+    <div key={`placeholder-${i}`}>
+      <h5>Stage {i + 1}</h5>
+      <p>Panel content {i + 1}</p>
+    </div>
+  ))
+}
+
+function ModalOrchestrationWizardFadeCrossComponent({
+  children,
+  stagger = 260,
+  duration = 260,
+  distance = 16,
+}: ModalOrchestrationWizardFadeCrossProps) {
   const panelsRef = useRef<(HTMLDivElement | null)[]>([])
 
-  // Stagger panel animations on mount
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
+
   useEffect(() => {
-    const panelElements = panelsRef.current.filter(Boolean)
-    panelElements.forEach((panel, index) => {
-      if (panel) {
-        panel.style.animationDelay = `${index * 0.26}s`
-        panel.classList.add('pf-wizard__panel--animated')
+    panelsRef.current.filter(Boolean).forEach((el, index) => {
+      if (el !== null) {
+        el.style.animationDelay = `${(index * stagger) / 1000}s`
+        el.style.animationDuration = `${duration / 1000}s`
+        el.style.setProperty('--pf-fade-distance', `${distance}px`)
+        el.classList.add('pf-wizard-fade__panel--visible')
       }
     })
-  }, [])
+  }, [stagger, duration, distance])
 
   return (
-    <div className="pf-wizard" data-animation-id="modal-orchestration__wizard-fade-cross">
-      <div className="pf-wizard__panels">
-        {Array.from({ length: steps }, (_, index) => (
+    <div
+      className="pf-wizard-fade"
+      data-animation-id="modal-orchestration__wizard-fade-cross"
+    >
+      <div className="pf-wizard-fade__panels">
+        {renderItems.map((child, i) => (
           <div
-            key={index}
+            key={i}
             ref={(el) => {
-              panelsRef.current[index] = el
+              panelsRef.current[i] = el
             }}
-            className="pf-wizard__panel"
+            className="pf-wizard-fade__panel"
           >
-            <h5>Stage {index + 1}</h5>
-            <p>Cross-fade content placeholder to illustrate flow animation.</p>
+            {child}
           </div>
         ))}
       </div>
     </div>
   )
 }
+
+export const ModalOrchestrationWizardFadeCross = memo(ModalOrchestrationWizardFadeCrossComponent)

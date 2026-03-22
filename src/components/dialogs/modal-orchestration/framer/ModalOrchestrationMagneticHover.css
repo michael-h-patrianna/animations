@@ -1,41 +1,33 @@
-/* Styles scoped for ModalOrchestrationMagneticHover */
-.pf-magnetic-container {
-  --modal-orchestration-magnetic-hover-bg: rgb(236 195 255 / 8%);
-  --modal-orchestration-magnetic-hover-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-magnetic-hover-color-1: rgb(255 255 255 / 76%);
-  --modal-orchestration-magnetic-hover-color-2: rgb(255 255 255 / 92%);
+/* Layout styles for ModalOrchestrationMagneticHover (framer variant) */
+.pf-magnetic-hover {
   width: 100%;
-  min-height: 360px;
+  display: grid;
+  gap: 12px;
   position: relative;
   overflow: hidden;
 }
-.pf-magnetic-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-.pf-magnetic-tile {
+
+.pf-magnetic-hover__item {
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-magnetic-hover-bg);
-  border: 1px solid var(--modal-orchestration-magnetic-hover-border);
-  color: var(--modal-orchestration-magnetic-hover-color-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   text-align: center;
   cursor: pointer;
 }
 
-.pf-magnetic-tile:hover {
-  box-shadow: 0 20px 40px var(--pf-anim-orchid-30);
+.pf-magnetic-hover__item:hover {
+  box-shadow: 0 20px 40px var(--pf-anim-orchid-30, rgb(196 122 229 / 30%));
 }
-.pf-magnetic-tile h5 {
+
+.pf-magnetic-hover__item h5 {
   margin: 0 0 8px;
   font-size: 14px;
-  color: var(--modal-orchestration-magnetic-hover-color-2);
+  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 92%));
 }
-.pf-magnetic-tile p {
-  margin: 0 0 8px;
+
+.pf-magnetic-hover__item p {
+  margin: 0;
   font-size: 12px;
-}
-.pf-magnetic-indicator {
-  font-size: 16px;
 }

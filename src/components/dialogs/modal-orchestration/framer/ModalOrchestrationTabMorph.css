@@ -1,59 +1,53 @@
-/* Styles scoped for ModalOrchestrationTabMorph */
-.pf-tabs {
-  --modal-orchestration-tab-morph-bg-1: rgb(236 195 255 / 5%);
-  --modal-orchestration-tab-morph-border-1: rgb(236 195 255 / 12%);
-  --modal-orchestration-tab-morph-color-1: rgb(255 255 255 / 76%);
-  --modal-orchestration-tab-morph-bg-2: rgb(236 195 255 / 20%);
-  --modal-orchestration-tab-morph-border-2: rgb(196 122 229 / 60%);
-  --modal-orchestration-tab-morph-color-2: rgb(255 255 255 / 95%);
-  --modal-orchestration-tab-morph-shadow: rgb(196 122 229 / 30%);
-  --modal-orchestration-tab-morph-bg-3: rgb(236 195 255 / 8%);
+/* Layout styles for ModalOrchestrationTabMorph (framer variant) */
+.pf-tab-morph {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 360px;
   position: relative;
 }
-.pf-tabs__nav {
+
+.pf-tab-morph__nav {
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid var(--modal-orchestration-tab-morph-border-1);
+  border-bottom: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
   padding-bottom: 8px;
 }
-.pf-tabs__tab {
+
+.pf-tab-morph__tab {
   flex: 1;
   padding: 6px 12px;
   border-radius: 8px 8px 0 0;
-  background: var(--modal-orchestration-tab-morph-bg-1);
-  border: 1px solid var(--modal-orchestration-tab-morph-border-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 5%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
   border-bottom: none;
   text-align: center;
   font-size: 13px;
-  color: var(--modal-orchestration-tab-morph-color-1);
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   cursor: pointer;
-  transform: scale(1);
 }
-.pf-tabs__tab--active {
-  background: var(--modal-orchestration-tab-morph-bg-2);
-  border: 1px solid var(--modal-orchestration-tab-morph-border-2);
-  border-bottom: none;
-  color: var(--modal-orchestration-tab-morph-color-2);
-  box-shadow: 0 0 0 1px var(--modal-orchestration-tab-morph-shadow);
+
+.pf-tab-morph__tab--active {
+  background: var(--pf-orch-active-bg, rgb(236 195 255 / 20%));
+  border-color: var(--pf-orch-active-border, rgb(196 122 229 / 60%));
+  color: var(--pf-orch-active-color, rgb(255 255 255 / 95%));
+  box-shadow: 0 0 0 1px var(--pf-orch-active-glow, rgb(196 122 229 / 30%));
   transform: scale(1.05);
 }
-.pf-tabs__content {
+
+.pf-tab-morph__content {
   position: relative;
   min-height: 200px;
 }
-.pf-tabs__panel {
+
+.pf-tab-morph__panel {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-tab-morph-bg-3);
-  border: 1px solid var(--modal-orchestration-tab-morph-border-1);
-  color: var(--modal-orchestration-tab-morph-color-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
 }

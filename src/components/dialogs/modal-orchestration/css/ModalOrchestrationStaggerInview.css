@@ -1,35 +1,30 @@
-/* Styles scoped for ModalOrchestrationStaggerInview */
-.pf-stagger-container {
-  --modal-orchestration-stagger-inview-bg: rgb(236 195 255 / 8%);
-  --modal-orchestration-stagger-inview-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-stagger-inview-color-1: rgb(255 255 255 / 76%);
-  --modal-orchestration-stagger-inview-color-2: rgb(255 255 255 / 92%);
+/* Styles for ModalOrchestrationStaggerInview (CSS variant) */
+.pf-stagger-inview {
   width: 100%;
-  min-height: 360px;
   position: relative;
 }
-.pf-stagger-grid {
+
+.pf-stagger-inview__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
-.pf-stagger-tile {
+
+.pf-stagger-inview__item {
   padding: 16px;
   border-radius: 12px;
-  background: var(--modal-orchestration-stagger-inview-bg);
-  border: 1px solid var(--modal-orchestration-stagger-inview-border);
-  color: var(--modal-orchestration-stagger-inview-color-1);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
   text-align: center;
   opacity: 0;
-  transform: translateY(60px) scale(0.8);
+  transform: translateY(var(--pf-stagger-distance, 60px)) scale(0.8);
   will-change: transform, opacity;
 }
 
-/* Tile stagger entrance animation */
-@keyframes tileStaggerIn {
+@keyframes pf-stagger-inview-enter {
   from {
     opacity: 0;
-    transform: translateY(60px) scale(0.8);
+    transform: translateY(var(--pf-stagger-distance, 60px)) scale(0.8);
   }
   to {
     opacity: 1;
@@ -37,16 +32,19 @@
   }
 }
 
-.pf-stagger-tile--visible {
-  animation: tileStaggerIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.pf-stagger-inview__item--visible {
+  animation-name: pf-stagger-inview-enter;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
 }
 
-.pf-stagger-tile h5 {
+.pf-stagger-inview__item h5 {
   margin: 0 0 8px;
   font-size: 14px;
-  color: var(--modal-orchestration-stagger-inview-color-2);
+  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 92%));
 }
-.pf-stagger-tile p {
+
+.pf-stagger-inview__item p {
   margin: 0;
   font-size: 12px;
 }

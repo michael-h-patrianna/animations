@@ -1,77 +1,90 @@
-import { useEffect, useRef, useState } from 'react'
+/**
+ * Stagger-reveals child elements one by one on mount — CSS variant.
+ *
+ * Copy-paste files: this file + ModalOrchestrationStaggerInview.css
+ * Runtime deps: react
+ *
+ * @example
+ * <ModalOrchestrationStaggerInview stagger={100} duration={600} distance={60}>
+ *   <Card>...</Card>
+ *   <Card>...</Card>
+ * </ModalOrchestrationStaggerInview>
+ */
+
+import { Children, memo, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 
-export function ModalOrchestrationStaggerInview() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const tilesRef = useRef<(HTMLDivElement | null)[]>([])
-  const [isInView, setIsInView] = useState(false)
+const DEFAULT_COUNT = 12
 
-  const tiles = Array.from({ length: 12 }, (_, index) => ({
-    id: index,
-    title: `Tile ${index + 1}`,
-    content: `Content for tile ${index + 1}`,
-  }))
+interface ModalOrchestrationStaggerInviewProps {
+  /** Items to stagger-reveal. When omitted, renders placeholder tiles. */
+  children?: ReactNode
+  /** Delay between each item's entrance in ms. Default 100. */
+  stagger?: number
+  /** Duration of each item's entrance animation in ms. Default 600. */
+  duration?: number
+  /** Vertical travel distance in px. Default 60. */
+  distance?: number
+  /** Number of grid columns. Default 4. */
+  columns?: number
+}
+
+function generatePlaceholders(count: number): ReactNode[] {
+  return Array.from({ length: count }, (_, i) => (
+    <div key={`placeholder-${i}`}>
+      <h5>Item {i + 1}</h5>
+      <p>Content {i + 1}</p>
+    </div>
+  ))
+}
+
+function ModalOrchestrationStaggerInviewComponent({
+  children,
+  stagger = 100,
+  duration = 600,
+  distance = 60,
+  columns = 4,
+}: ModalOrchestrationStaggerInviewProps) {
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
+
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   useEffect(() => {
-    const revealTiles = () => {
-      setIsInView(true)
-      const tileElements = tilesRef.current.filter(Boolean)
-      tileElements.forEach((tile, index) => {
-        if (tile) {
-          tile.style.animationDelay = `${0.2 + index * 0.1}s`
-          tile.classList.add('pf-stagger-tile--visible')
-        }
-      })
-    }
-
-    if (typeof IntersectionObserver !== 'function') {
-      if (!isInView) revealTiles()
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !isInView) {
-            revealTiles()
-          }
-        })
-      },
-      { threshold: 0.1, rootMargin: '-100px' }
-    )
-
-    const currentContainer = containerRef.current
-    if (currentContainer) {
-      observer.observe(currentContainer)
-    }
-
-    return () => {
-      if (currentContainer) {
-        observer.unobserve(currentContainer)
+    itemsRef.current.filter(Boolean).forEach((el, index) => {
+      if (el !== null) {
+        el.style.animationDelay = `${(index * stagger) / 1000}s`
+        el.style.animationDuration = `${duration / 1000}s`
+        el.style.setProperty('--pf-stagger-distance', `${distance}px`)
+        el.classList.add('pf-stagger-inview__item--visible')
       }
-    }
-  }, [isInView])
+    })
+  }, [stagger, duration, distance])
 
   return (
     <div
-      ref={containerRef}
-      className="pf-stagger-container"
+      className="pf-stagger-inview"
       data-animation-id="modal-orchestration__stagger-inview"
     >
-      <div className="pf-stagger-grid">
-        {tiles.map((tile) => (
+      <div
+        className="pf-stagger-inview__grid"
+        style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+      >
+        {renderItems.map((child, i) => (
           <div
-            key={tile.id}
+            key={i}
             ref={(el) => {
-              tilesRef.current[tile.id] = el
+              itemsRef.current[i] = el
             }}
-            className="pf-stagger-tile"
+            className="pf-stagger-inview__item"
           >
-            <h5>{tile.title}</h5>
-            <p>{tile.content}</p>
+            {child}
           </div>
         ))}
       </div>
     </div>
   )
 }
+
+export const ModalOrchestrationStaggerInview = memo(ModalOrchestrationStaggerInviewComponent)

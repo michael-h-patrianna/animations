@@ -1,82 +1,154 @@
+/**
+ * Two-layer stagger entrance: pop-scale step indicators + rotate-morph content panels.
+ *
+ * Copy-paste files: this file + ModalOrchestrationWizardScaleRotate.css
+ * Runtime deps: react, motion
+ *
+ * @example
+ * <ModalOrchestrationWizardScaleRotate stepLabels={['Setup', 'Configure', 'Launch']} activeStep={0}>
+ *   <SetupPanel />
+ *   <ConfigPanel />
+ *   <LaunchPanel />
+ * </ModalOrchestrationWizardScaleRotate>
+ */
+
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { Children, memo, useMemo } from 'react'
+import type { ReactNode } from 'react'
 
-export function ModalOrchestrationWizardScaleRotate() {
-  const steps = 3
+const DEFAULT_COUNT = 3
 
-  const containerVariants = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.26,
-        delayChildren: 0,
+interface ModalOrchestrationWizardScaleRotateProps {
+  /** Panel content to stagger in. When omitted, renders placeholder panels. */
+  children?: ReactNode
+  /** Labels for step indicators. Default generates "Step 1", "Step 2", etc. */
+  stepLabels?: string[]
+  /** Index of the highlighted step/panel (0-based). Default 0. */
+  activeStep?: number
+  /** Delay between each element's entrance in ms. Default 260. */
+  stagger?: number
+  /** Duration of each panel's entrance animation in ms. Default 312. */
+  duration?: number
+}
+
+function generatePlaceholders(count: number): ReactNode[] {
+  return Array.from({ length: count }, (_, i) => (
+    <div key={`placeholder-${i}`}>
+      <h5>Stage {i + 1}</h5>
+      <p>Panel content {i + 1}</p>
+    </div>
+  ))
+}
+
+function ModalOrchestrationWizardScaleRotateComponent({
+  children,
+  stepLabels,
+  activeStep = 0,
+  stagger = 260,
+  duration = 312,
+}: ModalOrchestrationWizardScaleRotateProps) {
+  const prefersReducedMotion = useReducedMotion()
+
+  const items = Children.toArray(children)
+  const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
+  const count = renderItems.length
+  const labels =
+    stepLabels !== undefined && stepLabels.length > 0
+      ? stepLabels
+      : Array.from({ length: count }, (_, i) => `Step ${i + 1}`)
+
+  const staggerS = stagger / 1000
+  const durationS = duration / 1000
+
+  const containerVariants = useMemo(
+    () => ({
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
+        },
       },
-    },
-  }
+    }),
+    [staggerS, prefersReducedMotion]
+  )
 
-  const stepVariants = {
-    initial: {
-      scale: 0.9,
-      opacity: 0.3,
-    },
-    animate: {
-      scale: [0.9, 1.06, 1],
-      opacity: [0.3, 1, 1],
-      transition: {
-        duration: 0.46,
-        ease: [0.34, 1.56, 0.64, 1] as const, // pop easing
+  const stepVariants = useMemo(
+    () => ({
+      hidden: {
+        scale: 0.9,
+        opacity: 0.3,
       },
-    },
-  }
+      visible: {
+        scale: [0.9, 1.06, 1],
+        opacity: [0.3, 1, 1],
+        transition: {
+          duration: prefersReducedMotion === true ? 0 : 0.46,
+          ease: [0.34, 1.56, 0.64, 1] as const,
+        },
+      },
+    }),
+    [prefersReducedMotion]
+  )
 
-  const panelVariants = {
-    initial: {
-      rotate: -6,
-      scale: 0.82,
-      opacity: 0,
-    },
-    animate: {
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.312, // 520ms * 0.6
-        ease: [0.68, -0.55, 0.265, 1.55] as const, // vibrant easing
+  const panelVariants = useMemo(
+    () => ({
+      hidden: {
+        rotate: -6,
+        scale: 0.82,
+        opacity: 0,
       },
-    },
-  }
+      visible: {
+        rotate: 0,
+        scale: 1,
+        opacity: 1,
+        transition: {
+          duration: prefersReducedMotion === true ? 0 : durationS,
+          ease: [0.68, -0.55, 0.265, 1.55] as const,
+        },
+      },
+    }),
+    [durationS, prefersReducedMotion]
+  )
 
   return (
     <m.div
-      className="pf-wizard"
+      className="pf-wizard-scale"
       variants={containerVariants}
-      initial="initial"
-      animate="animate"
+      initial="hidden"
+      animate="visible"
       data-animation-id="modal-orchestration__wizard-scale-rotate"
+      style={{ animation: 'none' }}
     >
-      <div className="pf-wizard__steps">
-        {Array.from({ length: steps }, (_, index) => (
+      <div className="pf-wizard-scale__steps">
+        {labels.map((label, i) => (
           <m.div
-            key={index}
-            className={`pf-wizard__step${index === 0 ? ' pf-wizard__step--highlighted' : ''}`}
+            key={i}
+            className={`pf-wizard-scale__step${i === activeStep ? ' pf-wizard-scale__step--active' : ''}`}
             variants={stepVariants}
+            style={{ animation: 'none' }}
           >
-            Step {index + 1}
+            {label}
           </m.div>
         ))}
       </div>
 
-      <div className="pf-wizard__panels">
-        {Array.from({ length: steps }, (_, index) => (
+      <div className="pf-wizard-scale__panels">
+        {renderItems.map((child, i) => (
           <m.div
-            key={index}
-            className={`pf-wizard__panel${index === 0 ? ' pf-wizard__panel--highlighted' : ''}`}
+            key={i}
+            className={`pf-wizard-scale__panel${i === activeStep ? ' pf-wizard-scale__panel--active' : ''}`}
             variants={panelVariants}
+            style={{ animation: 'none' }}
           >
-            <h5>Stage {index + 1}</h5>
-            <p>Scale-rotate content placeholder to illustrate flow animation.</p>
+            {child}
           </m.div>
         ))}
       </div>
     </m.div>
   )
 }
+
+export const ModalOrchestrationWizardScaleRotate = memo(
+  ModalOrchestrationWizardScaleRotateComponent
+)

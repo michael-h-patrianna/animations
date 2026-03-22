@@ -1,19 +1,27 @@
-/* Styles scoped for ModalOrchestrationComparisonMorph */
-.pf-comparison {
-  --modal-orchestration-comparison-morph-bg: rgb(236 195 255 / 8%);
-  --modal-orchestration-comparison-morph-border: rgb(236 195 255 / 12%);
-  --modal-orchestration-comparison-morph-color: rgb(255 255 255 / 76%);
+/* Layout styles for ModalOrchestrationComparisonMorph (framer variant) */
+.pf-comparison-morph {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  min-height: 360px;
   position: relative;
 }
-.pf-comparison__pane {
+
+.pf-comparison-morph__pane {
   padding: 20px;
   border-radius: 12px;
-  background: var(--modal-orchestration-comparison-morph-bg);
-  border: 1px solid var(--modal-orchestration-comparison-morph-border);
-  color: var(--modal-orchestration-comparison-morph-color);
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
+}
+
+.pf-comparison-morph__pane h5 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 92%));
+}
+
+.pf-comparison-morph__pane p {
+  margin: 0;
+  font-size: 12px;
 }
