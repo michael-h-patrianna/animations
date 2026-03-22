@@ -109,6 +109,19 @@
   pointer-events: auto;
 }
 
+/* ── Wanted Poster: paper curl shadow at the unrolling edge ── */
+.pf-mo-paper-curl {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: linear-gradient(to top, var(--pf-mo-mc-box-shadow-color) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
+}
+
 /* ── Impact glow (pulses on landing) ── */
 .pf-mo-impact-glow {
   position: absolute;

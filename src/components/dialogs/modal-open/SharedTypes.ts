@@ -280,7 +280,7 @@ function speedCurve(t: number, force: number): number {
  * uniform TIME intervals (smooth playback) while baking speed character
  * into the spatial positions.
  */
-function invertSpeedCurve(target: number, force: number): number {
+export function invertSpeedCurve(target: number, force: number): number {
   if (target <= 0) return 0
   if (target >= 1) return 1
   let lo = 0
@@ -425,3 +425,293 @@ export function reverseTrajectory(t: TrajectoryArrays): TrajectoryArrays {
     opacity: [...t.opacity].reverse(),
   }
 }
+
+// ============================================================================
+// Extended trajectory (adds scaleX, scaleY, rotate, skewX for richer animations)
+// ============================================================================
+
+/** Extended trajectory with per-axis scale, rotation, and skew. */
+export interface ExtendedTrajectoryArrays extends TrajectoryArrays {
+  scaleX: number[]
+  scaleY: number[]
+  rotate: number[]
+  skewX: number[]
+}
+
+/** Reverses an extended trajectory for close animations. */
+export function reverseExtended(t: ExtendedTrajectoryArrays): ExtendedTrajectoryArrays {
+  const n = t.times.length
+  const maxTime = t.times[n - 1]!
+  const revTimes = [...t.times].reverse().map((v) => (maxTime - v) / maxTime)
+  return {
+    x: [...t.x].reverse(), y: [...t.y].reverse(), times: revTimes,
+    scale: [...t.scale].reverse(), opacity: [...t.opacity].reverse(),
+    scaleX: [...t.scaleX].reverse(), scaleY: [...t.scaleY].reverse(),
+    rotate: [...t.rotate].reverse(), skewX: [...t.skewX].reverse(),
+  }
+}
+
+// ============================================================================
+// Bubble Pop trajectory
+// ============================================================================
+
+/**
+ * Bubble Pop: the modal is already AT CENTER from the start. It inflates in
+ * place with dramatic wobble — no position movement. The "from" connection
+ * is shown by a quick initial translate-snap (first 10% of timeline) from
+ * trigger to center, then the remaining 90% is pure inflation + wobble + jello.
+ *
+ * This is architecturally different from fly-in: the star is SHAPE DEFORMATION,
+ * not spatial trajectory.
+ */
+export function computeBubblePopTrajectory(
+  from: ResolvedPoint,
+  center: ResolvedPoint,
+  force = DEFAULT_IMPACT_FORCE,
+): ExtendedTrajectoryArrays {
+  const f = Math.max(0, Math.min(1, force))
+
+  // Gentle wobble during inflation, jello skew on landing
+  const wobbleAmp = 0.03 + f * 0.08 // ±3% (soft) → ±11% — subtle, not jittery
+  const skewAmp = 4 + f * 8 // 4° → 12° — the jello IS the character
+
+  const x: number[] = [], y: number[] = [], times: number[] = []
+  const scale: number[] = [], opacity: number[] = []
+  const scaleX: number[] = [], scaleY: number[] = []
+  const rotate: number[] = [], skewX: number[] = []
+
+  const push = (tl: number, s: number, sx: number, sy: number, sk: number, op: number) => {
+    x.push(0); y.push(0); times.push(tl)
+    scale.push(s); scaleX.push(sx); scaleY.push(sy)
+    rotate.push(0); skewX.push(sk); opacity.push(op)
+  }
+
+  // Phase 1: Quick snap from trigger to center (0→8%)
+  x.push(from.x - center.x); y.push(from.y - center.y); times.push(0)
+  scale.push(0); scaleX.push(1); scaleY.push(1); rotate.push(0); skewX.push(0); opacity.push(0)
+
+  push(0.08, 0.15, 1, 1, 0, 1)
+
+  // Phase 2: Inflation with wobble (8%→62%)
+  // CRT-inspired: fewer, wider swings. One big overshoot then halving settle.
+  const a = wobbleAmp
+  const ah = a * 0.5
+  const aq = a * 0.25
+
+  //                  time  scale  scaleX       scaleY       skew  opacity
+  push(0.20, 0.40, 1 + a,   1 - a,   0, 1) // big first overshoot
+  push(0.34, 0.65, 1 - ah,  1 + ah,  0, 1) // bounce back (half amplitude)
+  push(0.46, 0.82, 1 + aq,  1 - aq,  0, 1) // settle (quarter)
+  push(0.56, 0.94, 1 - aq * 0.5, 1 + aq * 0.5, 0, 1) // micro
+  push(0.64, 1.00, 1,       1,       0, 1) // wobble done, scale at 1
+
+  // Phase 3: Jello settle — skewX with halving amplitude (64%→100%)
+  // Same CRT feel: one big deformation, then halving decay
+  const sk = skewAmp
+  const skh = sk * 0.5
+  const skq = sk * 0.25
+
+  push(0.72, 1.03, 1, 1, -sk,  1) // big skew
+  push(0.81, 0.98, 1, 1,  skh, 1) // half bounce
+  push(0.89, 1.01, 1, 1, -skq, 1) // quarter
+  push(0.95, 1.00, 1, 1,  0,   1) // settle
+
+  // Rest
+  push(1.00, 1.00, 1, 1, 0, 1)
+
+  return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
+}
+
+// ============================================================================
+// Comic Punch trajectory
+// ============================================================================
+
+/**
+ * Comic Punch: FAST straight-line arrival (first 25%), then the ENTIRE
+ * remaining 75% is dominated by exaggerated squash-stretch impact.
+ * The squash-stretch is the star — not the travel.
+ */
+export function computeComicPunchTrajectory(
+  from: ResolvedPoint,
+  center: ResolvedPoint,
+  force = DEFAULT_IMPACT_FORCE,
+): ExtendedTrajectoryArrays {
+  const f = Math.max(0, Math.min(1, force))
+  const dx = center.x - from.x
+  const dy = center.y - from.y
+  const angle = Math.atan2(dy, dx)
+
+  // Force-derived physics
+  const tiltAngle = 3 + f * 8 // 3° → 11° rotation during flight
+  const squashX = 0.88 - f * 0.18 // scaleX squash: 0.88 (soft) → 0.70 (hard)
+  const stretchY = 1 + (1 - squashX) * 1.3 // proportional stretch
+  const bounceCycles = Math.round(1 + f * 3) // 1 → 4
+
+  const x: number[] = [], y: number[] = [], times: number[] = []
+  const scale: number[] = [], opacity: number[] = []
+  const scaleX: number[] = [], scaleY: number[] = []
+  const rotate: number[] = [], skewX: number[] = []
+
+  // Phase 1: FAST punch flight (0→25%) — aggressive ease-out
+  const flightEnd = 0.25
+  const flightSamples = 8
+  for (let i = 0; i <= flightSamples; i++) {
+    const t = i / flightSamples
+    const tl = t * flightEnd
+    // Very aggressive ease-out for punchy arrival
+    const curveT = 1 - Math.pow(1 - t, 3)
+
+    x.push((from.x + dx * curveT) - center.x)
+    y.push((from.y + dy * curveT) - center.y)
+    times.push(tl)
+
+    scale.push(0.3 + 0.7 * curveT)
+    scaleX.push(1); scaleY.push(1)
+    const tiltDir = angle > 0 ? 1 : -1
+    rotate.push(tiltAngle * tiltDir * (1 - curveT))
+    skewX.push(0)
+    opacity.push(t < 0.15 ? t / 0.15 : 1)
+  }
+
+  // Phase 2: IMPACT squash-stretch bounces (25%→98%) — this IS the animation
+  const impactStart = flightEnd
+  const impactSpan = 0.73
+
+  for (let cycle = 0; cycle < bounceCycles; cycle++) {
+    const cycleProgress = cycle / bounceCycles
+    const decay = Math.pow(1 - cycleProgress, 1.5)
+    const cycleDuration = impactSpan / bounceCycles
+    const cycleStart = impactStart + cycleProgress * impactSpan
+
+    // Squash peak (scaleX compresses, scaleY extends)
+    const squashT = cycleStart + cycleDuration * 0.35
+    x.push(0); y.push(0); times.push(squashT)
+    scale.push(1)
+    scaleX.push(1 - (1 - squashX) * decay)
+    scaleY.push(1 + (stretchY - 1) * decay)
+    rotate.push(0); skewX.push(0); opacity.push(1)
+
+    // Rebound peak (scaleX extends, scaleY compresses)
+    const reboundT = cycleStart + cycleDuration * 0.7
+    x.push(0); y.push(0); times.push(reboundT)
+    scale.push(1)
+    scaleX.push(1 + (stretchY - 1) * decay * 0.6)
+    scaleY.push(1 - (1 - squashX) * decay * 0.5)
+    rotate.push(0); skewX.push(0); opacity.push(1)
+  }
+
+  // Rest
+  x.push(0); y.push(0); times.push(1)
+  scale.push(1); scaleX.push(1); scaleY.push(1)
+  rotate.push(0); skewX.push(0); opacity.push(1)
+
+  return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
+}
+
+// ============================================================================
+// Slam Down trajectory
+// ============================================================================
+
+/**
+ * Slam Down: dramatically different two-phase trajectory.
+ * Phase 1: modal ROCKETS upward from trigger (quick, explosive).
+ * Phase 2: apex HANG — the modal floats at the top, building tension.
+ * Phase 3: GRAVITY SLAM — accelerating fall to center (cubic ease-in = gravity).
+ * Phase 4: AFTERSHOCK — heavy bounces with scaleY compression on each impact.
+ *
+ * The apex hang and gravity-slam are what make this visually unique.
+ */
+export function computeSlamDownTrajectory(
+  from: ResolvedPoint,
+  center: ResolvedPoint,
+  force = DEFAULT_IMPACT_FORCE,
+): ExtendedTrajectoryArrays {
+  const f = Math.max(0, Math.min(1, force))
+  const dx = center.x - from.x
+
+  // Force-derived physics — much more dramatic ranges
+  const launchHeight = 60 + f * 200 // 60px (soft) → 260px (hard) above center
+  const apexHangPct = 0.06 + f * 0.10 // 6% → 16% of timeline as dramatic pause
+  const aftershocks = Math.round(1 + f * 3) // 1 → 4
+  const aftershockAmp = 8 + f * 30 // 8px → 38px
+  // Impact scaleY compression: the modal squishes vertically on each slam
+  const impactSquashY = 0.95 - f * 0.12 // 0.95 → 0.83
+
+  const x: number[] = [], y: number[] = [], times: number[] = []
+  const scale: number[] = [], opacity: number[] = []
+  const scaleX: number[] = [], scaleY: number[] = []
+  const rotate: number[] = [], skewX: number[] = []
+
+  const ext = () => { scaleX.push(1); scaleY.push(1); rotate.push(0); skewX.push(0) }
+  const extSq = (sy: number) => { scaleX.push(1); scaleY.push(sy); rotate.push(0); skewX.push(0) }
+
+  // Phase 1: LAUNCH UP from trigger (0→22%)
+  const launchEnd = 0.22
+  const launchSamples = 8
+  for (let i = 0; i <= launchSamples; i++) {
+    const t = i / launchSamples
+    const tl = t * launchEnd
+    const xT = 1 - Math.pow(1 - t, 2)
+    x.push((from.x + dx * xT) - center.x)
+    // Y: ease-out upward from trigger to apex
+    const yT = 1 - Math.pow(1 - t, 2.5)
+    y.push(((from.y * (1 - yT)) + ((center.y - launchHeight) * yT)) - center.y)
+    times.push(tl)
+    scale.push(0.2 + 0.6 * t)
+    opacity.push(t < 0.2 ? t / 0.2 : 1)
+    ext()
+  }
+
+  // Phase 2: APEX HANG — dramatic tension pause (22→22+hang%)
+  const hangEnd = launchEnd + apexHangPct
+  // Gentle float at apex
+  x.push(0); y.push(-launchHeight); times.push(launchEnd + apexHangPct * 0.3)
+  scale.push(0.85); opacity.push(1); ext()
+  x.push(0); y.push(-launchHeight + 3); times.push(launchEnd + apexHangPct * 0.6)
+  scale.push(0.87); opacity.push(1); ext()
+  x.push(0); y.push(-launchHeight); times.push(hangEnd)
+  scale.push(0.85); opacity.push(1); ext()
+
+  // Phase 3: GRAVITY SLAM (hangEnd→65%) — cubic ease-in (accelerating fall)
+  const slamEnd = 0.65
+  const slamSamples = 10
+  for (let i = 1; i <= slamSamples; i++) {
+    const t = i / slamSamples
+    const tl = hangEnd + t * (slamEnd - hangEnd)
+    const gravity = t * t * t // cubic ease-in = gravity acceleration
+    x.push(0)
+    y.push(-launchHeight * (1 - gravity))
+    times.push(tl)
+    scale.push(0.85 + 0.15 * gravity)
+    opacity.push(1)
+    // Slight scaleY stretch during fall (anticipation of impact)
+    extSq(1 + 0.05 * gravity)
+  }
+
+  // Phase 4: AFTERSHOCK bounces with scaleY compression
+  const bounceStart = slamEnd
+  const bounceSpan = 1 - bounceStart - 0.03
+  for (let i = 0; i < aftershocks; i++) {
+    const p = i / aftershocks
+    const decay = Math.pow(1 - p, 1.8)
+
+    // Impact: squish down
+    const impactT = bounceStart + p * bounceSpan + bounceSpan / aftershocks * 0.15
+    x.push(0); y.push(0); times.push(impactT)
+    scale.push(1); opacity.push(1)
+    extSq(impactSquashY + (1 - impactSquashY) * (1 - decay))
+
+    // Rebound: bounce up
+    const reboundT = bounceStart + p * bounceSpan + bounceSpan / aftershocks * 0.6
+    x.push(0); y.push(-aftershockAmp * decay); times.push(reboundT)
+    scale.push(1 + 0.02 * decay); opacity.push(1); ext()
+  }
+
+  // Rest
+  x.push(0); y.push(0); times.push(1)
+  scale.push(1); opacity.push(1); ext()
+
+  return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
+}
+
+// Wanted Poster unroll logic is in the component files (uses height animation, not scaleY).
