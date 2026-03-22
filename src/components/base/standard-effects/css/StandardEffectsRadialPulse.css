@@ -14,7 +14,7 @@
   height: 8px;
   margin: -4px 0 0 -4px;
   border-radius: 50%;
-  background: var(--pf-base-60);
+  background: var(--pf-base-60, #efd7fa);
   box-shadow: 0 0 0 2px var(--standard-effects-radial-pulse-shadow);
 }
 

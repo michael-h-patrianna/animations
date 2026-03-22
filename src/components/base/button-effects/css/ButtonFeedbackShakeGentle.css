@@ -8,7 +8,9 @@
 
 .bxf-feedback-shake-button.pf-btn:active {
   transform: scale(1);
-  box-shadow: var(--pf-shadow-soft), var(--pf-shadow-inner);
+  box-shadow:
+    var(--pf-shadow-soft, 0 12px 28px rgb(0 0 0 / 38%)),
+    var(--pf-shadow-inner, inset 0 0 0 1px rgb(236 195 255 / 8%));
 }
 /* Horizontal shake animation */
 @keyframes feedbackShake {

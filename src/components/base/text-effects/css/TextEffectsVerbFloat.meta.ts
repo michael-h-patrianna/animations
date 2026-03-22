@@ -7,5 +7,6 @@ export const metadata: AnimationMetadata = {
   title: 'Floating',
   description: 'Gentle float up/down across letters with offset phases.',
   disableReplay: false,
+  infinite: true,
   tier: 3,
 }

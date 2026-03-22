@@ -1,6 +1,6 @@
 /**
  * Standalone: Copy this file and TextEffectsMetallicSpecularFlash.css into your app.
- * Runtime deps: react, framer-motion
+ * Runtime deps: react, motion
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */
 

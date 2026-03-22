@@ -6,5 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/button-effects-css?animation=button-effects__jitter',
   title: 'Button Jitter',
   description: 'Playful button with continuous jittery animation and heartbeat on hover.',
+  infinite: true,
   tier: 1,
 }

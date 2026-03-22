@@ -1,12 +1,14 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import React, { useRef, useState } from 'react'
-import { memo, useEffect } from 'react'
+import React, { useRef, useState, memo, useEffect } from 'react'
+
+const RING_DELAYS = [0, 0.1, 0.2] as const
 
 interface Shockwave {
   id: number
   x: number
   y: number
+  size: number
 }
 
 function ButtonEffectsShockwaveComponent() {
@@ -31,35 +33,19 @@ function ButtonEffectsShockwaveComponent() {
     const y = e.clientY - rect.top
     const id = nextIdRef.current++
 
-    // Create multiple concentric rings
-    const newWave = { id, x, y }
-    setShockwaves((prev) => [...prev, newWave])
+    // Compute ring diameter from farthest corner (same approach as Ripple)
+    const dx = Math.max(x, rect.width - x)
+    const dy = Math.max(y, rect.height - y)
+    const size = Math.sqrt(dx * dx + dy * dy) * 2
 
-    // Clean up after animation
+    setShockwaves((prev) => [...prev, { id, x, y, size }])
+
     const timeoutId = setTimeout(() => {
       timeoutIdsRef.current.delete(timeoutId)
       setShockwaves((prev) => prev.filter((w) => w.id !== id))
     }, 1200)
     timeoutIdsRef.current.add(timeoutId)
   }
-
-  const shockwaveVariants = (delay: number) => ({
-    initial: {
-      width: 0,
-      height: 0,
-      opacity: 1,
-    },
-    animate: {
-      width: 150,
-      height: 150,
-      opacity: 0,
-      transition: {
-        duration: 1,
-        ease: easeOut,
-        delay,
-      },
-    },
-  })
 
   return (
     <div className="button-demo" data-animation-id="button-effects__shockwave">
@@ -71,33 +57,29 @@ function ButtonEffectsShockwaveComponent() {
       >
         Click Me!
         <span className="pf-btn__shockwaves" aria-hidden>
-          {shockwaves.map((wave) => (
-            <React.Fragment key={wave.id}>
-              <>
-                <m.span
-                  className="pf-btn__shockwave pf-btn__shockwave--1"
-                  style={{ left: wave.x, top: wave.y }}
-                  variants={shockwaveVariants(0)}
-                  initial="initial"
-                  animate="animate"
-                />
-                <m.span
-                  className="pf-btn__shockwave pf-btn__shockwave--2"
-                  style={{ left: wave.x, top: wave.y }}
-                  variants={shockwaveVariants(0.1)}
-                  initial="initial"
-                  animate="animate"
-                />
-                <m.span
-                  className="pf-btn__shockwave pf-btn__shockwave--3"
-                  style={{ left: wave.x, top: wave.y }}
-                  variants={shockwaveVariants(0.2)}
-                  initial="initial"
-                  animate="animate"
-                />
-              </>
-            </React.Fragment>
-          ))}
+          {shockwaves.map((wave) => {
+            const half = wave.size / 2
+            const pos = {
+              left: wave.x - half,
+              top: wave.y - half,
+              width: wave.size,
+              height: wave.size,
+            }
+            return (
+              <React.Fragment key={wave.id}>
+                {RING_DELAYS.map((delay, i) => (
+                  <m.span
+                    key={i}
+                    className={`pf-btn__shockwave pf-btn__shockwave--${i + 1}`}
+                    style={pos}
+                    initial={{ scale: 0, opacity: 1 }}
+                    animate={{ scale: 1, opacity: 0 }}
+                    transition={{ duration: 1, ease: easeOut, delay }}
+                  />
+                ))}
+              </React.Fragment>
+            )
+          })}
         </span>
       </button>
     </div>

@@ -23,21 +23,28 @@ function TextEffectsXpNumberPopComponent() {
   const count = useMotionValue(0)
   const displayValue = useTransform(count, (latest) => `+${Math.round(latest)}`)
   useEffect(() => {
-    const pendingTimeouts: ReturnType<typeof setTimeout>[] = [] // Start glow orb animation - burst and fade completely
+    const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
+
     glowControls.start({
       opacity: [0, 0.8, 0.4, 0],
       scale: [0.5, 1.2, 1, 0.8],
       transition: { duration: 2.8, ease: easeOut, times: [0, 0.3, 0.6, 1] },
-    }) // Number pop animation
+    })
+
     numberControls.start({
       scale: [0.3, 1.15, 1],
       y: [20, -5, 0],
       opacity: [0, 1, 1],
       transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] as const, times: [0, 0.6, 1] },
-    }) // Animate counting with cubic ease-out
-    animate(count, 240, { duration: 2.5, ease: [0, 0.65, 0.35, 1] as const }) // Create particles after delay
+    })
+
+    const countControls = animate(count, 240, {
+      duration: 2.5,
+      ease: [0, 0.65, 0.35, 1] as const,
+    })
+
     const outerTimer = setTimeout(() => {
-      const newParticles: Particle[] = [] // Create multiple layers of particles
+      const newParticles: Particle[] = []
       for (let layer = 0; layer < 2; layer++) {
         for (let i = 0; i < 5; i++) {
           const angle = (i / 5) * Math.PI * 2
@@ -52,12 +59,16 @@ function TextEffectsXpNumberPopComponent() {
           })
         }
       }
-      setParticles(newParticles) // Clear particles after animation
+      setParticles(newParticles)
       const clearTimer = setTimeout(() => setParticles([]), 3000)
       pendingTimeouts.push(clearTimer)
     }, 400)
     pendingTimeouts.push(outerTimer)
-    return () => pendingTimeouts.forEach(clearTimeout)
+
+    return () => {
+      pendingTimeouts.forEach(clearTimeout)
+      countControls.stop()
+    }
   }, [glowControls, numberControls, count])
   return (
     <div className="xp-pop-container" data-animation-id="text-effects__xp-number-pop">

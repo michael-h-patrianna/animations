@@ -1,6 +1,6 @@
 /**
  * Standalone: Copy this file into your app.
- * Runtime deps: react, framer-motion
+ * Runtime deps: react, motion
  * RN parity: Translates cleanly to Moti with MotiText and same animate/transition props.
  */
 

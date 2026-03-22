@@ -29,14 +29,10 @@
 
 .bfx-shockwave__ring {
   position: absolute;
-  width: 150px;
-  height: 150px;
   border: 2px solid var(--button-effects-shockwave-border);
   border-radius: 50%;
   pointer-events: none;
   will-change: transform, opacity;
-  margin-left: -75px;
-  margin-top: -75px;
 }
 
 .bfx-shockwave__ring--1 {

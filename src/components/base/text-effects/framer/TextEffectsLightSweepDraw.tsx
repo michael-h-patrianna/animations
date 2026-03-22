@@ -1,6 +1,6 @@
 /**
  * Standalone: Copy this file and TextEffectsLightSweepDraw.css into your app.
- * Runtime deps: react, framer-motion
+ * Runtime deps: react, motion
  * No shared utils; all helpers are inlined here.
  * RN parity: transforms/opacity/color only; port the variants/timing to Reanimated/Moti.
  */

@@ -2,10 +2,13 @@ import { memo, useEffect, useRef, useState } from 'react'
 import '../shared.css'
 import './ButtonEffectsShockwave.css'
 
+const RING_COUNT = 3
+
 interface Shockwave {
   id: number
   x: number
   y: number
+  size: number
 }
 
 /**
@@ -36,12 +39,17 @@ function ButtonEffectsShockwaveComponent() {
     const y = e.clientY - rect.top
     const id = nextIdRef.current++
 
-    setShockwaves((prev) => [...prev, { id, x, y }])
+    // Compute ring diameter from farthest corner
+    const dx = Math.max(x, rect.width - x)
+    const dy = Math.max(y, rect.height - y)
+    const size = Math.sqrt(dx * dx + dy * dy) * 2
+
+    setShockwaves((prev) => [...prev, { id, x, y, size }])
 
     const timeoutId = setTimeout(() => {
       timeoutIdsRef.current.delete(timeoutId)
       setShockwaves((prev) => prev.filter((w) => w.id !== id))
-    }, 1000)
+    }, 1200)
     timeoutIdsRef.current.add(timeoutId)
   }
 
@@ -55,22 +63,26 @@ function ButtonEffectsShockwaveComponent() {
       >
         Click Me!
         <span className="bfx-shockwave__container" aria-hidden>
-          {shockwaves.map((wave) => (
-            <span key={wave.id} className="bfx-shockwave__group">
-              <span
-                className="bfx-shockwave__ring bfx-shockwave__ring--1"
-                style={{ left: wave.x, top: wave.y }}
-              />
-              <span
-                className="bfx-shockwave__ring bfx-shockwave__ring--2"
-                style={{ left: wave.x, top: wave.y }}
-              />
-              <span
-                className="bfx-shockwave__ring bfx-shockwave__ring--3"
-                style={{ left: wave.x, top: wave.y }}
-              />
-            </span>
-          ))}
+          {shockwaves.map((wave) => {
+            const half = wave.size / 2
+            const pos = {
+              left: wave.x - half,
+              top: wave.y - half,
+              width: wave.size,
+              height: wave.size,
+            }
+            return (
+              <span key={wave.id} className="bfx-shockwave__group">
+                {Array.from({ length: RING_COUNT }, (_, i) => (
+                  <span
+                    key={i}
+                    className={`bfx-shockwave__ring bfx-shockwave__ring--${i + 1}`}
+                    style={pos}
+                  />
+                ))}
+              </span>
+            )
+          })}
         </span>
       </button>
     </div>

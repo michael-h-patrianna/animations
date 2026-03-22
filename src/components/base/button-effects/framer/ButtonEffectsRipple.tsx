@@ -67,7 +67,7 @@ function ButtonEffectsRippleComponent() {
         className="pf-btn pf-btn--primary pf-btn--ripple"
         onClick={handleClick}
       >
-        Ripple Button
+        Click Me!
         <span className="pf-btn__ripples" aria-hidden>
           {ripples.map((r) => {
             const half = r.size / 2

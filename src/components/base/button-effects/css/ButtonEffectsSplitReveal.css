@@ -7,8 +7,8 @@
   position: relative;
   overflow: visible;
   transition:
-    transform var(--pf-transition-fast) ease,
-    box-shadow var(--pf-transition-fast) ease;
+    transform var(--pf-transition-fast, 160ms) ease,
+    box-shadow var(--pf-transition-fast, 160ms) ease;
   will-change: transform;
 }
 
@@ -21,7 +21,7 @@
 
 .bfx-split-reveal:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: var(--pf-shadow-inner);
+  box-shadow: var(--pf-shadow-inner, inset 0 0 0 1px rgb(236 195 255 / 8%));
 }
 
 .bfx-split-reveal__content {

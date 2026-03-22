@@ -7,5 +7,6 @@ export const metadata: AnimationMetadata = {
   title: 'Glitch Text',
   description: 'Digital distortion with RGB channel separation and scanning line artifacts.',
   disableReplay: false,
+  infinite: true,
   tier: 2,
 }

@@ -6,5 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/standard-effects-css?animation=standard-effects__bounce',
   title: 'Bounce',
   description: 'Vertical bounce with squash-stretch deformation and tilt for playful feedback.',
+  infinite: true,
   tier: 1,
 }

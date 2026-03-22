@@ -10,7 +10,7 @@
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: var(--pf-base-20);
+  background: var(--pf-base-20, #7a468e);
   position: relative;
   animation: pulse-core-breathe 2.2s ease-in-out;
   will-change: transform;

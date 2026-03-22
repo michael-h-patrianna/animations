@@ -6,5 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/standard-effects-css?animation=standard-effects__pulse-wave',
   title: 'Pulse Wave',
   description: 'Listening pulse with filled core and expanding ring glow.',
+  infinite: true,
   tier: 2,
 }

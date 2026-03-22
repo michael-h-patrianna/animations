@@ -6,5 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/standard-effects-css?animation=standard-effects__float',
   title: 'Float',
   description: 'Gentle floating animation with subtle lateral drift and rotation.',
+  infinite: true,
   tier: 1,
 }

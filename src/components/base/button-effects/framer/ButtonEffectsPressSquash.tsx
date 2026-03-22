@@ -1,5 +1,6 @@
 import { memo, useState } from 'react'
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 
 /**
  * Framer Motion press squash animation that triggers on click.
@@ -10,12 +11,7 @@ import * as m from 'motion/react-m'
 function ButtonEffectsPressSquashComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
 
-  const [prefersReducedMotion] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
+  const prefersReducedMotion = useReducedMotion()
 
   const handleClick = () => {
     setIsAnimating(true)

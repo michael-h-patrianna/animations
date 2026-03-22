@@ -6,5 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/button-effects-css?animation=button-effects__reward-ready-pulse',
   title: 'Reward Ready Pulse',
   description: 'Gentle breathing pulse indicating element is ready to claim.',
+  infinite: true,
   tier: 1,
 }

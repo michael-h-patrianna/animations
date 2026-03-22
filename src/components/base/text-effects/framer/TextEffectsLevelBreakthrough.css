@@ -12,6 +12,9 @@
   position: relative;
   z-index: 2;
 }
+.pf-level-breakthrough--glow {
+  text-shadow: 0 0 30px var(--pf-anim-firework-gold-80);
+}
 .pf-surge-lines {
   position: absolute;
   inset: 0;

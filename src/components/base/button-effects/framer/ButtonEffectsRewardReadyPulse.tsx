@@ -1,4 +1,5 @@
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useState } from 'react'
 
 /**
@@ -18,12 +19,7 @@ import { memo, useState } from 'react'
 function ButtonEffectsRewardReadyPulseComponent() {
   const [isHovered, setIsHovered] = useState(false)
 
-  const [prefersReducedMotion] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
+  const prefersReducedMotion = useReducedMotion()
 
   // Normal breathing pulse animation
   const pulseVariants = {
