@@ -167,37 +167,53 @@ const rules = {
   },
 
   /**
-   * Ban blur() in animation code — filter: blur() and backdrop-filter: blur()
-   * are not supported in React Native and are expensive on mobile GPUs.
+   * Ban animated blur() — filter: blur() and backdrop-filter: blur() inside
+   * Motion animate/whileHover/whileTap/exit props or CSS keyframe strings.
+   * Static blur in style={{}} or initial={{}} is allowed as subtle polish
+   * that can be omitted on React Native without visual breakage.
+   *
+   * Why not ban all blur? Static backdrop-filter: blur(6px) is legitimate
+   * frosted-glass polish. Animated blur is the GPU killer and RN blocker.
    */
   'no-blur-animation': {
     meta: {
       type: 'problem',
       docs: {
         description:
-          'Disallow blur() in animation code. Blur is not supported in React Native and is GPU-expensive on mobile.',
+          'Disallow animated blur(). Static blur in style/initial is allowed; animated blur in Motion animate props is banned.',
       },
       schema: [],
     },
     create(context) {
       const blurPattern = /\bblur\s*\(/i
+      const animateProps = new Set(['animate', 'whileHover', 'whileTap', 'whileFocus', 'whileDrag', 'whileInView', 'exit'])
       const msg =
-        'blur() is banned in animation code. It is not supported in React Native and is GPU-expensive on mobile. Use opacity or scale alternatives.'
+        'Animated blur() is banned — GPU-expensive on mobile and not portable to React Native. Static blur in style/initial is allowed.'
+
+      /** Walk up from a Property node to check if it's inside an animate-like prop */
+      function isInsideAnimateProp(node) {
+        let current = node.parent
+        while (current) {
+          if (
+            current.type === 'JSXAttribute' &&
+            current.name &&
+            animateProps.has(current.name.name)
+          ) {
+            return true
+          }
+          if (
+            current.type === 'Property' &&
+            current.key &&
+            animateProps.has(current.key.name || current.key.value)
+          ) {
+            return true
+          }
+          current = current.parent
+        }
+        return false
+      }
 
       return {
-        Literal(node) {
-          if (typeof node.value === 'string' && blurPattern.test(node.value)) {
-            context.report({ node, message: msg })
-          }
-        },
-        TemplateLiteral(node) {
-          for (const quasi of node.quasis) {
-            if (blurPattern.test(quasi.value.raw)) {
-              context.report({ node, message: msg })
-              return
-            }
-          }
-        },
         Property(node) {
           if (
             node.key &&
@@ -205,7 +221,8 @@ const rules = {
             node.value &&
             node.value.type === 'Literal' &&
             typeof node.value.value === 'string' &&
-            blurPattern.test(node.value.value)
+            blurPattern.test(node.value.value) &&
+            isInsideAnimateProp(node)
           ) {
             context.report({ node: node.value, message: msg })
           }
@@ -215,22 +232,22 @@ const rules = {
   },
 
   /**
-   * Ban radial-gradient() and conic-gradient() in animation code.
-   * Only linear-gradient() is portable to React Native.
+   * Ban conic-gradient() in animation code — not portable to React Native.
+   * radial-gradient() is allowed (available via RN package).
    */
   'no-radial-angular-gradient': {
     meta: {
       type: 'problem',
       docs: {
         description:
-          'Disallow radial-gradient() and conic-gradient(). Only linear-gradient() is portable to React Native.',
+          'Disallow conic-gradient(). radial-gradient() and linear-gradient() are portable to React Native.',
       },
       schema: [],
     },
     create(context) {
-      const gradientPattern = /\b(?:radial-gradient|conic-gradient)\s*\(/i
+      const gradientPattern = /\bconic-gradient\s*\(/i
       const msg =
-        'radial-gradient() and conic-gradient() are banned. Only linear-gradient() is portable to React Native. Use solid fills or linear-gradient() instead.'
+        'conic-gradient() is banned — not portable to React Native. Use linear-gradient() or radial-gradient() instead.'
 
       return {
         Literal(node) {

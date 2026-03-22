@@ -10,38 +10,43 @@ const {
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-// no-blur: blur() is GPU-expensive and unsupported in React Native
+// no-blur: blur() inside @keyframes is GPU-expensive and not portable to RN.
+// Static blur (filter/backdrop-filter on a class) is allowed as subtle polish
+// that can be omitted on mobile native without visual breakage.
 // ---------------------------------------------------------------------------
 const noBlurName = 'animation-rules/no-blur'
 const noBlurMessages = ruleMessages(noBlurName, {
   rejected:
-    'blur() is banned. It is not supported in React Native and is GPU-expensive on mobile. Use opacity or scale alternatives.',
+    'blur() inside @keyframes is banned — GPU-expensive on mobile and not portable to React Native. Static blur on classes is allowed.',
 })
 
 const noBlurRule = createPlugin(noBlurName, (primary) => {
   return (root, result) => {
     if (!primary) return
 
-    root.walkDecls((decl) => {
-      if (/\bblur\s*\(/i.test(decl.value)) {
-        report({
-          message: noBlurMessages.rejected,
-          node: decl,
-          result,
-          ruleName: noBlurName,
-        })
-      }
+    root.walkAtRules('keyframes', (atRule) => {
+      atRule.walkDecls((decl) => {
+        if (/\bblur\s*\(/i.test(decl.value)) {
+          report({
+            message: noBlurMessages.rejected,
+            node: decl,
+            result,
+            ruleName: noBlurName,
+          })
+        }
+      })
     })
   }
 })
 
 // ---------------------------------------------------------------------------
-// no-radial-angular-gradient: only linear-gradient() is portable to RN
+// no-conic-gradient: conic-gradient() is not portable to React Native.
+// radial-gradient() is allowed (available via RN package).
 // ---------------------------------------------------------------------------
 const noRadialName = 'animation-rules/no-radial-angular-gradient'
 const noRadialMessages = ruleMessages(noRadialName, {
   rejected:
-    'radial-gradient() and conic-gradient() are banned. Only linear-gradient() is portable to React Native.',
+    'conic-gradient() is banned — not portable to React Native. Use linear-gradient() or radial-gradient() instead.',
 })
 
 const noRadialRule = createPlugin(noRadialName, (primary) => {
@@ -49,7 +54,7 @@ const noRadialRule = createPlugin(noRadialName, (primary) => {
     if (!primary) return
 
     root.walkDecls((decl) => {
-      if (/\b(?:radial-gradient|conic-gradient)\s*\(/i.test(decl.value)) {
+      if (/\bconic-gradient\s*\(/i.test(decl.value)) {
         report({
           message: noRadialMessages.rejected,
           node: decl,

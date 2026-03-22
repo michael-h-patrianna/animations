@@ -279,16 +279,26 @@ const portabilityRules = {
             return
           }
 
+          // Collect locally-defined custom properties (e.g. `--my-var: value;`).
+          // If a variable is defined in the same CSS file it's self-contained — a
+          // fallback is unnecessary because the definition travels with the code.
+          const definedVars = new Set()
+          const defPattern = /(--[\w-]+)\s*:/g
+          let defMatch
+          while ((defMatch = defPattern.exec(css)) !== null) {
+            definedVars.add(defMatch[1])
+          }
+
           // Find var(--xxx) without a fallback (no comma after the property name)
-          // var(--color-accent) = no fallback (BAD)
+          // var(--color-accent) = no fallback (BAD if not locally defined)
           // var(--color-accent, #6366f1) = has fallback (GOOD)
           // var(--x, var(--y, #fff)) = nested fallback (GOOD)
           const varPattern = /var\(\s*(--[\w-]+)\s*\)/g
           let match
           while ((match = varPattern.exec(css)) !== null) {
-            // Check that the match is var(--name) without a comma (no fallback)
-            // The regex already excludes commas by matching only up to )
             const varName = match[1]
+            // Skip variables defined in the same CSS file — they're self-contained
+            if (definedVars.has(varName)) continue
             context.report({
               loc: { line: 1, column: 0 },
               message: `CSS variable ${varName} in ${basename(cssPath)} has no fallback value. For Tier ${tier} portability, use var(${varName}, <fallback>) so the component works when copied without the theme CSS.`,

@@ -305,6 +305,8 @@ export default defineConfig([
       'src/test/utils/animationTestUtils.tsx',
       // UI tests that inspect structural DOM attributes (data-app-shell, hidden state)
       'src/__tests__/ui.mobile-header.test.tsx',
+      // Focus trap tests require document.activeElement — no Testing Library equivalent
+      'src/__tests__/hooks.useModalAccessibility.test.tsx',
     ],
     rules: {
       'testing-library/no-node-access': 'off',
@@ -328,6 +330,21 @@ export default defineConfig([
     rules: {
       'testing-library/no-node-access': 'off',
       'testing-library/no-container': 'off',
+    },
+  },
+  // Tests requiring explicit cleanup() for deterministic ordering:
+  // - App.test.tsx / hooks.usePreviewModal.test.ts: cleanup() must run BEFORE
+  //   _resetScrollLockState() so useEffect unmount decrements lockCount first.
+  // - all-animations.data-animation-id.test.tsx: 170+ lazy components in one suite
+  //   require explicit cleanup per test to prevent memory accumulation.
+  {
+    files: [
+      'src/__tests__/App.test.tsx',
+      'src/__tests__/all-animations.data-animation-id.test.tsx',
+      'src/__tests__/hooks.usePreviewModal.test.ts',
+    ],
+    rules: {
+      'testing-library/no-manual-cleanup': 'off',
     },
   },
   // E2E test fixtures: Playwright's `use()` is not a React hook
@@ -384,9 +401,9 @@ export default defineConfig([
       'animation-rules/require-dual-implementation': 'off',
     },
   },
-  // Color utility: raw color manipulation is the purpose of this module
+  // Color utilities: raw color values are the purpose of these modules
   {
-    files: ['src/utils/colors.ts'],
+    files: ['src/utils/colors.ts', 'src/components/**/SharedParticleUtils.ts'],
     rules: {
       'animation-rules/no-hardcoded-colors': 'off',
     },
