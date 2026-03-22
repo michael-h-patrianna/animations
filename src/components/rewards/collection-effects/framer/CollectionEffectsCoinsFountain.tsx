@@ -25,7 +25,6 @@ import {
 const DEFAULT_COUNT = 12
 const DEFAULT_SPREAD = 160 // eruption height
 const DEFAULT_DURATION_S = 1.2
-const PARTICLE_SIZE = 24
 const CLEANUP_BUFFER_MS = 400
 const HORIZONTAL_SPREAD = 80 // max horizontal deviation
 
@@ -89,6 +88,7 @@ function LaunchFlash({ origin }: { origin: ResolvedPoint }) {
 function ParticleElement({
   particle,
   origin,
+  particleSize,
   durationS,
   prefersReducedMotion,
   onFinish,
@@ -96,6 +96,7 @@ function ParticleElement({
 }: {
   particle: Particle
   origin: ResolvedPoint
+  particleSize: number
   durationS: number
   prefersReducedMotion: boolean | null
   onFinish?: () => void
@@ -181,7 +182,7 @@ function ParticleElement({
         <FallbackParticle
           shape={particle.fallback.shape}
           color={particle.fallback.color}
-          size={isBg ? PARTICLE_SIZE * 0.8 : PARTICLE_SIZE}
+          size={isBg ? particleSize * 0.8 : particleSize}
         />
       )}
     </m.div>
@@ -193,6 +194,7 @@ function CollectionEffectsCoinsFountainComponent({
   to: _to,
   count = DEFAULT_COUNT,
   particleImages,
+  particleSize = 24,
   colors,
   spread = DEFAULT_SPREAD,
   duration,
@@ -242,6 +244,7 @@ function CollectionEffectsCoinsFountainComponent({
       ref={containerRef}
       className="pf-coins-fountain"
       data-animation-id="collection-effects__coins-fountain"
+      style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && origin !== null && (
         <div className="pf-coins-fountain__stage" aria-hidden="true" style={{ perspective: 300 }}>
@@ -251,6 +254,7 @@ function CollectionEffectsCoinsFountainComponent({
               key={particle.id}
               particle={particle}
               origin={origin}
+              particleSize={particleSize}
               durationS={durationS}
               prefersReducedMotion={prefersReducedMotion}
               onFinish={particle.id === lastParticleId ? handleComplete : undefined}

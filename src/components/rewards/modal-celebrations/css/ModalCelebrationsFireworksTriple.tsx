@@ -43,6 +43,7 @@ type Trail = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   tx: number
   ty: number
   scale: number
@@ -121,7 +122,8 @@ function makeRays(): Ray[] {
  * Trail confetti — CSS variant uses pre-computed tx,ty endpoints.
  * CSS keyframe interpolates linearly from center to endpoint with gravity at the end.
  */
-function makeTrails(): Trail[] {
+function makeTrails(images: readonly string[]): Trail[] {
+  const hasImages = images.length > 0
   const trails: Trail[] = []
   let id = 0
 
@@ -134,10 +136,12 @@ function makeTrails(): Trail[] {
       const angleRad = deg2rad(angleDeg)
       const maxDist = isBg ? randBetween(40, 70) : randBetween(60, 115)
 
+      const trailId = id++
       trails.push({
-        id: id++,
+        id: trailId,
         shape: pickRandom(CONFETTI_SHAPES),
         color: burst.colors[j % burst.colors.length]!,
+        imageUrl: hasImages ? images[trailId % images.length] : undefined,
         tx: Math.sin(angleRad) * maxDist,
         ty: -Math.cos(angleRad) * maxDist,
         scale: isBg ? randBetween(0.5, 0.8) : randBetween(0.7, 1.1),
@@ -203,18 +207,21 @@ function RayLayer({ rays }: { rays: Ray[] }) {
   )
 }
 
-function TrailLayer({ trails }: { trails: Trail[] }) {
+function TrailLayer({ trails, maxW, maxH }: { trails: Trail[]; maxW: number; maxH: number }) {
   return (
     <>
       {trails.map((t) => (
         <span
           key={t.id}
-          className={`pf-celebration__confetti pf-celebration__confetti--${t.shape}`}
+          className={t.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${t.shape}`}
           style={
             {
               left: `calc(50% + ${t.cx}px)`,
               top: `calc(50% + ${t.cy}px)`,
-              background: t.color,
+              background: t.imageUrl !== undefined ? undefined : t.color,
+              width: t.imageUrl !== undefined ? maxW : undefined,
+              height: t.imageUrl !== undefined ? maxH : undefined,
+              position: t.imageUrl !== undefined ? 'absolute' : undefined,
               '--tx': `${t.tx}px`,
               '--ty': `${t.ty}px`,
               '--s': t.scale,
@@ -223,7 +230,11 @@ function TrailLayer({ trails }: { trails: Trail[] }) {
               animation: `ft-trail ${t.dur}ms linear ${t.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {t.imageUrl !== undefined && (
+            <img src={t.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+          )}
+        </span>
       ))}
     </>
   )
@@ -252,10 +263,13 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
 /* ─── Main ─── */
 
 function ModalCelebrationsFireworksTripleComponent({
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   onComplete,
 }: CelebrationBaseProps) {
   const rays = useMemo(makeRays, [])
-  const trails = useMemo(makeTrails, [])
+  const trails = useMemo(() => makeTrails(particleImages), [particleImages])
   const sparkles = useMemo(makeSparkles, [])
 
   useEffect(() => {
@@ -300,11 +314,11 @@ function ModalCelebrationsFireworksTripleComponent({
 
       <div className="pf-celebration__depth-bg">
         <RayLayer rays={bgRays} />
-        <TrailLayer trails={bgTrails} />
+        <TrailLayer trails={bgTrails} maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__depth-fg">
         <RayLayer rays={fgRays} />
-        <TrailLayer trails={fgTrails} />
+        <TrailLayer trails={fgTrails} maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__effects">
         <SparkleLayer sparkles={sparkles} />

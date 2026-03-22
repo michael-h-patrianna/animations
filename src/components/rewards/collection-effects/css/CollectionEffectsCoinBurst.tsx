@@ -24,7 +24,6 @@ import {
 const DEFAULT_COUNT = 14
 const DEFAULT_SPREAD = 130
 const DEFAULT_DURATION_MS = 1200
-const PARTICLE_SIZE = 28
 const SPREAD_VARIANCE = 0.4
 const CLEANUP_BUFFER_MS = 300
 
@@ -64,6 +63,7 @@ function CollectionEffectsCoinBurstComponent({
   from,
   count = DEFAULT_COUNT,
   particleImages,
+  particleSize = 24,
   colors,
   spread = DEFAULT_SPREAD,
   duration = DEFAULT_DURATION_MS,
@@ -108,7 +108,7 @@ function CollectionEffectsCoinBurstComponent({
   }, [particles, duration, handleComplete, onComplete])
 
   return (
-    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst">
+    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst" style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}>
       {alive && origin !== null && (
         <div className="pf-coin-burst__stage pf-coin-burst__stage--anticipation" aria-hidden="true">
           <div className="pf-coin-burst__flash" style={{ left: origin.x, top: origin.y }} />
@@ -131,7 +131,7 @@ function CollectionEffectsCoinBurstComponent({
               {particle.imageSrc ? (
                 <img src={particle.imageSrc} alt="" className="pf-coin-burst__particle-image" />
               ) : (
-                <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+                <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
               )}
             </div>
           ))}

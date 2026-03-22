@@ -30,6 +30,7 @@ type Particle = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   originX: number
   tx: number
   tyPeak: number
@@ -59,7 +60,8 @@ const DEFAULT_DURATION_MS = 2800
 
 /* ─── Generators ─── */
 
-function makeParticles(count: number, colors: readonly string[], timeScale: number): Particle[] {
+function makeParticles(count: number, colors: readonly string[], images: readonly string[], timeScale: number): Particle[] {
+  const hasImages = images.length > 0
   return Array.from({ length: count }, (_, i) => {
     const layer: 'bg' | 'fg' = i < Math.floor(count / 3) ? 'bg' : 'fg'
     const isBg = layer === 'bg'
@@ -70,6 +72,7 @@ function makeParticles(count: number, colors: readonly string[], timeScale: numb
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
       color: colors[i % colors.length]!,
+      imageUrl: hasImages ? images[i % images.length] : undefined,
       originX: randBetween(-4, 4),
       tx: randBetween(-140, 140) * spread,
       tyPeak: randBetween(-150, -50) * reach,
@@ -122,19 +125,21 @@ function AmbientGlow({ timeScale }: { timeScale: number }) {
   )
 }
 
-function ConfettiPiece({ p }: { p: Particle }) {
+function ConfettiPiece({ p, maxW, maxH }: { p: Particle; maxW: number; maxH: number }) {
   const isBg = p.layer === 'bg'
   const peakOp = isBg ? 0.5 : 1
   const dur = p.dur
 
   return (
     <m.span
-      className={`pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+      className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
       style={{
         left: '50%',
         marginLeft: p.originX,
         top: '55%',
-        background: p.color,
+        ...(p.imageUrl !== undefined
+          ? { width: maxW, height: maxH }
+          : { background: p.color }),
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
@@ -179,7 +184,11 @@ function ConfettiPiece({ p }: { p: Particle }) {
         rotateY: { duration: dur, delay: p.delay, ease: 'linear' },
         rotate: { duration: dur, delay: p.delay, ease: 'linear' },
       }}
-    />
+    >
+      {p.imageUrl !== undefined && (
+        <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+      )}
+    </m.span>
   )
 }
 
@@ -208,12 +217,15 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
 function ModalCelebrationsConfettiBurstComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
   colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   duration,
   onComplete,
 }: ModalCelebrationsConfettiBurstProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
 
-  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const particles = useMemo(() => makeParticles(particleCount, colors, particleImages, timeScale), [particleCount, colors, particleImages, timeScale])
   const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
@@ -235,12 +247,12 @@ function ModalCelebrationsConfettiBurstComponent({
 
       <div className="pf-celebration__depth-bg">
         {bgParts.map((p) => (
-          <ConfettiPiece key={p.id} p={p} />
+          <ConfettiPiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg">
         {fgParts.map((p) => (
-          <ConfettiPiece key={p.id} p={p} />
+          <ConfettiPiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__effects">

@@ -25,7 +25,6 @@ import {
 const DEFAULT_COUNT = 14
 const DEFAULT_SPREAD = 130
 const DEFAULT_DURATION_S = 1.2
-const PARTICLE_SIZE = 28
 const SPREAD_VARIANCE = 0.4
 const CLEANUP_BUFFER_MS = 300
 
@@ -76,6 +75,7 @@ function BurstFlash({ origin }: { origin: ResolvedPoint }) {
 function ParticleElement({
   particle,
   origin,
+  particleSize,
   durationS,
   prefersReducedMotion,
   onFinish,
@@ -83,6 +83,7 @@ function ParticleElement({
 }: {
   particle: Particle
   origin: ResolvedPoint
+  particleSize: number
   durationS: number
   prefersReducedMotion: boolean | null
   onFinish?: () => void
@@ -115,7 +116,7 @@ function ParticleElement({
       {particle.imageSrc ? (
         <img src={particle.imageSrc} alt="" className="pf-coin-burst__particle-image" />
       ) : (
-        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
       )}
     </m.div>
   )
@@ -125,6 +126,7 @@ function CollectionEffectsCoinBurstComponent({
   from,
   count = DEFAULT_COUNT,
   particleImages,
+  particleSize = 24,
   colors,
   spread = DEFAULT_SPREAD,
   duration,
@@ -167,7 +169,7 @@ function CollectionEffectsCoinBurstComponent({
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
 
   return (
-    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst">
+    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst" style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}>
       {alive && origin !== null && (
         <m.div
           className="pf-coin-burst__stage"
@@ -182,6 +184,7 @@ function CollectionEffectsCoinBurstComponent({
               key={particle.id}
               particle={particle}
               origin={origin}
+              particleSize={particleSize}
               durationS={durationS}
               prefersReducedMotion={prefersReducedMotion}
               onFinish={particle.id === lastParticleId ? handleComplete : undefined}

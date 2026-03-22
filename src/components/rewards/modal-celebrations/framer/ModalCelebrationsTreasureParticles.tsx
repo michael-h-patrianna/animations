@@ -19,7 +19,7 @@ interface ModalCelebrationsTreasureParticlesProps extends CelebrationBaseProps {
   coinCount?: number
   /** Number of gem particles. Default 12. */
   gemCount?: number
-  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  /** URL for a single coin image. Overridden by `particleImages` when both are provided. When omitted, renders SVG fallback coin. */
   coinImage?: string
 }
 
@@ -180,94 +180,106 @@ function makeSparkles(): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinLayer({ coins, coinSrc }: { coins: Coin[]; coinSrc?: string }) {
+function CoinLayer({ coins, resolveImg, maxW, maxH }: { coins: Coin[]; resolveImg: (id: number) => string | undefined; maxW: number; maxH: number }) {
   return (
     <>
-      {coins.map((c) => (
-        <m.div
-          key={c.id}
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            width: c.size,
-            height: c.size,
-            pointerEvents: 'none',
-            willChange: 'transform, opacity',
-          }}
-          initial={{ x: 0, y: 0, scale: 0.2, opacity: 0, rotateY: 0 }}
-          animate={{
-            x: c.xs,
-            y: c.ys,
-            scale: COIN_SCALES,
-            opacity: OPACITY_ENV,
-            rotateY: c.spins,
-          }}
-          transition={{
-            duration: c.dur / 1000,
-            delay: c.delay / 1000,
-            times: BURST_TIMES,
-            ease: 'linear',
-          }}
-        >
-          {coinSrc !== undefined ? (
-            <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
-          ) : (
-            <FallbackCoin size={typeof c.size === 'number' ? c.size : 20} />
-          )}
-        </m.div>
-      ))}
+      {coins.map((c) => {
+        const src = resolveImg(c.id)
+        const w = src !== undefined ? Math.min(c.size, maxW) : c.size
+        const h = src !== undefined ? Math.min(c.size, maxH) : c.size
+        return (
+          <m.div
+            key={c.id}
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: w,
+              height: h,
+              pointerEvents: 'none',
+              willChange: 'transform, opacity',
+            }}
+            initial={{ x: 0, y: 0, scale: 0.2, opacity: 0, rotateY: 0 }}
+            animate={{
+              x: c.xs,
+              y: c.ys,
+              scale: COIN_SCALES,
+              opacity: OPACITY_ENV,
+              rotateY: c.spins,
+            }}
+            transition={{
+              duration: c.dur / 1000,
+              delay: c.delay / 1000,
+              times: BURST_TIMES,
+              ease: 'linear',
+            }}
+          >
+            {src !== undefined ? (
+              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <FallbackCoin size={typeof c.size === 'number' ? c.size : 20} />
+            )}
+          </m.div>
+        )
+      })}
     </>
   )
 }
 
-function GemLayer({ gems }: { gems: Gem[] }) {
+function GemLayer({ gems, resolveImg, maxW, maxH }: { gems: Gem[]; resolveImg: (id: number) => string | undefined; maxW: number; maxH: number }) {
   return (
     <>
-      {gems.map((g) => (
-        <m.div
-          key={g.id}
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            width: g.size,
-            height: g.size,
-            pointerEvents: 'none',
-            willChange: 'transform, opacity',
-          }}
-          initial={{ x: 0, y: 0, scale: 0.2, opacity: 0, rotate: 0 }}
-          animate={{
-            x: g.xs,
-            y: g.ys,
-            scale: GEM_SCALES,
-            opacity: OPACITY_ENV,
-            rotate: g.rotations,
-          }}
-          transition={{
-            duration: g.dur / 1000,
-            delay: g.delay / 1000,
-            times: BURST_TIMES,
-            ease: 'linear',
-          }}
-        >
-          {g.image !== undefined ? (
-            <img src={g.image} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
-          ) : (
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 24 24"
-              fill={g.gemColor1}
-              aria-hidden="true"
-              style={{ display: 'block' }}
-            >
-              <polygon points="12,2 22,9 18,22 6,22 2,9" />
-              <polygon points="12,2 17,9 12,22 7,9" fill={g.gemColor2} opacity="0.6" />
-            </svg>
-          )}
-        </m.div>
-      ))}
+      {gems.map((g) => {
+        const src = resolveImg(g.id)
+        const w = src !== undefined ? Math.min(g.size, maxW) : g.size
+        const h = src !== undefined ? Math.min(g.size, maxH) : g.size
+        return (
+          <m.div
+            key={g.id}
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: w,
+              height: h,
+              pointerEvents: 'none',
+              willChange: 'transform, opacity',
+            }}
+            initial={{ x: 0, y: 0, scale: 0.2, opacity: 0, rotate: 0 }}
+            animate={{
+              x: g.xs,
+              y: g.ys,
+              scale: GEM_SCALES,
+              opacity: OPACITY_ENV,
+              rotate: g.rotations,
+            }}
+            transition={{
+              duration: g.dur / 1000,
+              delay: g.delay / 1000,
+              times: BURST_TIMES,
+              ease: 'linear',
+            }}
+          >
+            {src !== undefined ? (
+              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            ) : g.image !== undefined ? (
+              <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 24 24"
+                fill={g.gemColor1}
+                aria-hidden="true"
+                style={{ display: 'block' }}
+              >
+                <polygon points="12,2 22,9 18,22 6,22 2,9" />
+                <polygon points="12,2 17,9 12,22 7,9" fill={g.gemColor2} opacity="0.6" />
+              </svg>
+            )}
+          </m.div>
+        )
+      })}
     </>
   )
 }
@@ -344,9 +356,17 @@ function SparkleLayer({ sparkles }: { sparkles: Mote[] }) {
  * burst with parabolic gravity arcs, gem-colored trails, and sparkle twinkles.
  */
 function ModalCelebrationsTreasureParticlesComponent({
-  coinImage: coinSrc,
+  coinImage,
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   onComplete,
 }: ModalCelebrationsTreasureParticlesProps) {
+  const hasParticleImages = particleImages.length > 0
+  const resolveCoinImg = (id: number): string | undefined =>
+    hasParticleImages ? particleImages[id % particleImages.length] : coinImage
+  const resolveGemImg = (id: number): string | undefined =>
+    hasParticleImages ? particleImages[id % particleImages.length] : undefined
   const coins = useMemo(makeCoins, [])
   const gems = useMemo(makeGems, [])
   const trails = useMemo(makeTrails, [])
@@ -385,8 +405,8 @@ function ModalCelebrationsTreasureParticlesComponent({
       />
       {/* Background depth */}
       <div className="pf-celebration__depth-bg" style={{ perspective: 200 }}>
-        <CoinLayer coins={bgCoins} coinSrc={coinSrc} />
-        <GemLayer gems={bgGems} />
+        <CoinLayer coins={bgCoins} resolveImg={resolveCoinImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+        <GemLayer gems={bgGems} resolveImg={resolveGemImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       {/* Effects */}
       <div className="pf-celebration__effects">
@@ -395,8 +415,8 @@ function ModalCelebrationsTreasureParticlesComponent({
       </div>
       {/* Foreground depth */}
       <div className="pf-celebration__depth-fg" style={{ perspective: 200 }}>
-        <CoinLayer coins={fgCoins} coinSrc={coinSrc} />
-        <GemLayer gems={fgGems} />
+        <CoinLayer coins={fgCoins} resolveImg={resolveCoinImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+        <GemLayer gems={fgGems} resolveImg={resolveGemImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
     </div>
   )

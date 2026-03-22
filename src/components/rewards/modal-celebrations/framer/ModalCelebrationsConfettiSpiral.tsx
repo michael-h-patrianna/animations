@@ -31,6 +31,7 @@ type SpiralParticle = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   xs: number[]
   ys: number[]
   scales: number[]
@@ -81,7 +82,8 @@ function opacityAt(t: number, peak: number): number {
 
 /* ─── Generators ─── */
 
-function makeParticles(count: number, colors: readonly string[], timeScale: number): SpiralParticle[] {
+function makeParticles(count: number, colors: readonly string[], images: readonly string[], timeScale: number): SpiralParticle[] {
+  const hasImages = images.length > 0
   const particles: SpiralParticle[] = []
   const perArm = Math.ceil(count / NUM_ARMS)
 
@@ -119,6 +121,7 @@ function makeParticles(count: number, colors: readonly string[], timeScale: numb
         id: i,
         shape: pickRandom(CONFETTI_SHAPES),
         color: colors[i % colors.length]!,
+        imageUrl: hasImages ? images[i % images.length] : undefined,
         xs,
         ys,
         scales,
@@ -164,14 +167,16 @@ function SpiralFlash({ timeScale }: { timeScale: number }) {
   )
 }
 
-function TornadoPiece({ p }: { p: SpiralParticle }) {
+function TornadoPiece({ p, maxW, maxH }: { p: SpiralParticle; maxW: number; maxH: number }) {
   return (
     <m.span
-      className={`pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+      className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
       style={{
         left: '50%',
         top: '50%',
-        background: p.color,
+        ...(p.imageUrl !== undefined
+          ? { width: maxW, height: maxH }
+          : { background: p.color }),
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
@@ -197,7 +202,11 @@ function TornadoPiece({ p }: { p: SpiralParticle }) {
         rotateY: { duration: p.dur, delay: p.delay, ease: 'linear' },
         rotate: { duration: p.dur, delay: p.delay, ease: 'linear' },
       }}
-    />
+    >
+      {p.imageUrl !== undefined && (
+        <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+      )}
+    </m.span>
   )
 }
 
@@ -226,12 +235,15 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
 function ModalCelebrationsConfettiSpiralComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
   colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   duration,
   onComplete,
 }: ModalCelebrationsConfettiSpiralProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
 
-  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const particles = useMemo(() => makeParticles(particleCount, colors, particleImages, timeScale), [particleCount, colors, particleImages, timeScale])
   const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
@@ -252,12 +264,12 @@ function ModalCelebrationsConfettiSpiralComponent({
 
       <div className="pf-celebration__depth-bg">
         {bgParts.map((p) => (
-          <TornadoPiece key={p.id} p={p} />
+          <TornadoPiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg">
         {fgParts.map((p) => (
-          <TornadoPiece key={p.id} p={p} />
+          <TornadoPiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__effects">

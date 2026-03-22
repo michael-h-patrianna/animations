@@ -47,6 +47,7 @@ type Trail = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   xs: number[]
   ys: number[]
   scales: number[]
@@ -155,7 +156,8 @@ function makeRays(): Ray[] {
  * droop with gravity. Positions sampled at 12 stops.
  * Trail directions use "screen-clockwise from up" to match rays.
  */
-function makeTrails(): Trail[] {
+function makeTrails(images: readonly string[]): Trail[] {
+  const hasImages = images.length > 0
   const trails: Trail[] = []
   let id = 0
 
@@ -185,10 +187,12 @@ function makeTrails(): Trail[] {
         opacities.push(trailOpacityAt(t, peakOp))
       }
 
+      const trailId = id++
       trails.push({
-        id: id++,
+        id: trailId,
         shape: pickRandom(CONFETTI_SHAPES),
         color: burst.colors[j % burst.colors.length]!,
+        imageUrl: hasImages ? images[trailId % images.length] : undefined,
         xs,
         ys,
         scales,
@@ -312,14 +316,16 @@ function RayBeam({ ray }: { ray: Ray }) {
 }
 
 /** Trail confetti particle — follows ray path outward with gravity droop. */
-function TrailPiece({ t }: { t: Trail }) {
+function TrailPiece({ t, maxW, maxH }: { t: Trail; maxW: number; maxH: number }) {
   return (
     <m.span
-      className={`pf-celebration__confetti pf-celebration__confetti--${t.shape}`}
+      className={t.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${t.shape}`}
       style={{
         left: '50%',
         top: '50%',
-        background: t.color,
+        ...(t.imageUrl !== undefined
+          ? { width: maxW, height: maxH }
+          : { background: t.color }),
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
@@ -341,7 +347,11 @@ function TrailPiece({ t }: { t: Trail }) {
         opacity: { duration: t.dur, delay: t.delay, times: STOPS, ease: 'linear' },
         rotate: { duration: t.dur, delay: t.delay, ease: 'linear' },
       }}
-    />
+    >
+      {t.imageUrl !== undefined && (
+        <img src={t.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+      )}
+    </m.span>
   )
 }
 
@@ -369,10 +379,13 @@ function SparkleDot({ s }: { s: Sparkle }) {
 /* ─── Main ─── */
 
 function ModalCelebrationsFireworksTripleComponent({
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   onComplete,
 }: ModalCelebrationsFireworksTripleProps) {
   const rays = useMemo(makeRays, [])
-  const trails = useMemo(makeTrails, [])
+  const trails = useMemo(() => makeTrails(particleImages), [particleImages])
   const sparkles = useMemo(makeSparkles, [])
 
   useEffect(() => {
@@ -403,7 +416,7 @@ function ModalCelebrationsFireworksTripleComponent({
           <RayBeam key={`ray-${r.id}`} ray={r} />
         ))}
         {bgTrails.map((t) => (
-          <TrailPiece key={`trail-${t.id}`} t={t} />
+          <TrailPiece key={`trail-${t.id}`} t={t} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg">
@@ -411,7 +424,7 @@ function ModalCelebrationsFireworksTripleComponent({
           <RayBeam key={`ray-${r.id}`} ray={r} />
         ))}
         {fgTrails.map((t) => (
-          <TrailPiece key={`trail-${t.id}`} t={t} />
+          <TrailPiece key={`trail-${t.id}`} t={t} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__effects">

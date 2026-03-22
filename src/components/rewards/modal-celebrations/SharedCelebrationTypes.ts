@@ -29,6 +29,27 @@ export interface CelebrationBaseProps {
    */
   colors?: string[]
 
+  /**
+   * Image URLs for particles. Each particle is randomly assigned an image from the array.
+   * When omitted, particles render as colored confetti shapes (or SVG coins for coin effects).
+   * Takes precedence over animation-specific image props (e.g., `coinImage`).
+   */
+  particleImages?: string[]
+
+  /**
+   * Maximum width in pixels for image particles.
+   * Only applies when `particleImages` is provided. Confetti fallback shapes keep their own sizes.
+   * @default 24
+   */
+  particleMaxWidth?: number
+
+  /**
+   * Maximum height in pixels for image particles.
+   * Only applies when `particleImages` is provided. Confetti fallback shapes keep their own sizes.
+   * @default 24
+   */
+  particleMaxHeight?: number
+
   /** Fires after the last particle finishes its animation. */
   onComplete?: () => void
 }

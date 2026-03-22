@@ -17,8 +17,8 @@
 
 .pf-coin-burst__particle {
   position: absolute;
-  width: 28px;
-  height: 28px;
+  width: var(--pf-particle-size, 24px);
+  height: var(--pf-particle-size, 24px);
   translate: -50% -50%;
   will-change: transform, opacity;
   pointer-events: none;

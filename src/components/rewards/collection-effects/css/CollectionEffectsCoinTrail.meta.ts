@@ -8,5 +8,6 @@ export const metadata: AnimationMetadata = {
   description:
     'Particles arc along a smooth bezier curve from source to target. Each particle follows a slightly different path for organic feel. Configurable from/to, spread (arc height), particle images or colors, count, duration, and onComplete.',
   tier: 3,
+  order: -1,
   demoMode: 'trail',
 }

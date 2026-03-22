@@ -130,39 +130,44 @@ function makeSparkles(colors: readonly string[], timeScale: number): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinLayer({ coins, coinSrc }: { coins: Coin[]; coinSrc?: string }) {
+function CoinLayer({ coins, resolveImg, maxW, maxH }: { coins: Coin[]; resolveImg: (id: number) => string | undefined; maxW: number; maxH: number }) {
   return (
     <>
-      {coins.map((c) => (
-        <div
-          key={c.id}
-          style={
-            {
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              width: `${c.size}px`,
-              height: `${c.size}px`,
-              pointerEvents: 'none',
-              willChange: 'transform, opacity',
-              '--start-angle': `${c.startAngle}deg`,
-              '--total-spin': `${c.totalSpin}deg`,
-              '--r-start': `${c.rStart}px`,
-              '--r-end': `${c.rEnd}px`,
-              '--spin': c.spin,
-              '--tumble': c.tumble,
-              '--om': c.om,
-              animation: `cs-coin ${c.dur}ms linear ${c.delay}ms both`,
-            } as React.CSSProperties
-          }
-        >
-          {coinSrc !== undefined ? (
-            <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
-          ) : (
-            <FallbackCoin size={c.size} />
-          )}
-        </div>
-      ))}
+      {coins.map((c) => {
+        const src = resolveImg(c.id)
+        const w = src !== undefined ? Math.min(c.size, maxW) : c.size
+        const h = src !== undefined ? Math.min(c.size, maxH) : c.size
+        return (
+          <div
+            key={c.id}
+            style={
+              {
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                width: w,
+                height: h,
+                pointerEvents: 'none',
+                willChange: 'transform, opacity',
+                '--start-angle': `${c.startAngle}deg`,
+                '--total-spin': `${c.totalSpin}deg`,
+                '--r-start': `${c.rStart}px`,
+                '--r-end': `${c.rEnd}px`,
+                '--spin': c.spin,
+                '--tumble': c.tumble,
+                '--om': c.om,
+                animation: `cs-coin ${c.dur}ms linear ${c.delay}ms both`,
+              } as React.CSSProperties
+            }
+          >
+            {src !== undefined ? (
+              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <FallbackCoin size={c.size} />
+            )}
+          </div>
+        )
+      })}
     </>
   )
 }
@@ -219,12 +224,18 @@ function SparkleLayer({ sparkles, timeScale }: { sparkles: Mote[]; timeScale: nu
 function ModalCelebrationsCoinsSwirlComponent({
   coinCount = DEFAULT_COIN_COUNT,
   coinImage,
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   colors = GOLDEN_COLORS_HEX as unknown as string[],
   duration,
   onComplete,
 }: ModalCelebrationsCoinsSwirlProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
   const effectiveColors = colors.length > 0 ? colors : (GOLDEN_COLORS as unknown as string[])
+  const hasParticleImages = particleImages.length > 0
+  const resolveCoinSrc = (index: number): string | undefined =>
+    hasParticleImages ? particleImages[index % particleImages.length] : coinImage
 
   const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
   const trails = useMemo(() => makeTrails(effectiveColors, timeScale), [effectiveColors, timeScale])
@@ -259,10 +270,10 @@ function ModalCelebrationsCoinsSwirlComponent({
         }}
       />
       <div className="pf-celebration__depth-bg">
-        <CoinLayer coins={bgCoins} coinSrc={coinImage} />
+        <CoinLayer coins={bgCoins} resolveImg={resolveCoinSrc} maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__depth-fg">
-        <CoinLayer coins={fgCoins} coinSrc={coinImage} />
+        <CoinLayer coins={fgCoins} resolveImg={resolveCoinSrc} maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__effects">
         <TrailLayer trails={trails} timeScale={timeScale} />

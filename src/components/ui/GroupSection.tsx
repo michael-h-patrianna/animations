@@ -190,10 +190,15 @@ function DemoModeWrapper({
     return <StatusRowDemo Component={Component} controlProps={controlProps} />
   }
 
+  const isParticleMode = mode === 'burst' || mode === 'magnet' || mode === 'trail' || mode === 'fountain'
+  const particleProps = isParticleMode
+    ? { particleImages: ['/images/coin-particle.png'], particleSize: 50 }
+    : {}
+
   return (
     <>
       <DemoAnchors fromRef={fromRef} toRef={toRef} mode={mode} />
-      <Component {...controlProps} from={fromRef} to={toRef} />
+      <Component {...controlProps} {...particleProps} from={fromRef} to={toRef} />
     </>
   )
 }

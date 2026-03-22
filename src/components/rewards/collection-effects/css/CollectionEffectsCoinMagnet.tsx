@@ -1,5 +1,11 @@
 /**
- * Particles fly along parabolic arcs from source to target — CSS variant.
+ * Source emits particles, target attracts them like a magnet — CSS variant.
+ *
+ * Visual narrative matches the framer variant:
+ * 1. Emission (0-12%): particles burst FROM the source outward
+ * 2. Hover (12-25%): particles hang momentarily — magnetic field grips them
+ * 3. Pull (25-92%): particles accelerate along curves toward target
+ * 4. Impact (92-100%): particles shrink to zero and disappear at the target
  *
  * Copy-paste files: this file + CollectionEffectsCoinMagnet.css + SharedTypes.ts +
  * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
@@ -23,18 +29,15 @@ import {
 } from '../SharedTypes'
 
 const DEFAULT_COUNT = 10
-const DEFAULT_SPREAD = 80
-const DEFAULT_DURATION_MS = 1000
-const PARTICLE_SIZE = 36
-const CLEANUP_BUFFER_MS = 400
-const OVERSHOOT_FACTOR = 0.08
-const ARC_HEIGHT_FACTOR = 0.25
+const DEFAULT_SPREAD = 60
+const DEFAULT_DURATION_MS = 1333
+const CLEANUP_BUFFER_MS = 500
 
 interface Particle {
   id: number
-  startOffsetX: number
-  startOffsetY: number
-  rotation: number
+  emitAngle: number
+  emitDist: number
+  curvature: number
   delay: number
   imageSrc: string | undefined
   fallback: { shape: ConfettiShape; color: string }
@@ -46,39 +49,53 @@ function generateParticles(
   images: string[],
   colors?: string[]
 ): Particle[] {
-  return Array.from({ length: count }, (_, i) => {
-    const angle = Math.random() * Math.PI * 2
-    const dist = Math.random() * spread
-    const t = i / Math.max(count - 1, 1)
-    const delay = t * t * 600
-    return {
-      id: i,
-      startOffsetX: Math.cos(angle) * dist,
-      startOffsetY: Math.sin(angle) * dist,
-      rotation: (Math.random() - 0.5) * 30,
-      delay,
-      imageSrc: randomImage(images),
-      fallback: generateFallbackParticle(colors),
-    }
-  })
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    emitAngle: Math.random() * Math.PI * 2,
+    emitDist: spread * (0.4 + Math.random() * 0.6),
+    curvature: (Math.random() - 0.5) * 2,
+    delay: i * 50,
+    imageSrc: randomImage(images),
+    fallback: generateFallbackParticle(colors),
+  }))
 }
 
-function computeArc(
-  startX: number,
-  startY: number,
-  targetX: number,
-  targetY: number
-) {
-  const dx = targetX - startX
-  const dy = targetY - startY
-  const dist = Math.sqrt(dx * dx + dy * dy)
-  const perpX = (-dy / (dist === 0 ? 1 : dist)) * dist * ARC_HEIGHT_FACTOR
-  const perpY = (dx / (dist === 0 ? 1 : dist)) * dist * ARC_HEIGHT_FACTOR
+/**
+ * Samples 4 points along the pull bezier curve for CSS keyframe stops.
+ * Uses quadratic ease-in (t²) for magnetic acceleration, matching the framer variant.
+ */
+function samplePullStops(
+  start: ResolvedPoint,
+  end: ResolvedPoint,
+  curvature: number,
+): { p1: ResolvedPoint; p2: ResolvedPoint; p3: ResolvedPoint; p4: ResolvedPoint } {
+  const dx = end.x - start.x
+  const dy = end.y - start.y
+  const rawDist = Math.sqrt(dx * dx + dy * dy)
+  const dist = rawDist === 0 ? 1 : rawDist
+  const nx = -dy / dist
+  const ny = dx / dist
+  const arc = dist * 0.3 * curvature
+
+  const cp1x = start.x + dx * 0.2 + nx * arc
+  const cp1y = start.y + dy * 0.2 + ny * arc
+  const cp2x = end.x - dx * 0.15 + nx * arc * 0.2
+  const cp2y = end.y - dy * 0.15 + ny * arc * 0.2
+
+  function sample(linear: number): ResolvedPoint {
+    const t = linear * linear // ease-in
+    const mt = 1 - t
+    return {
+      x: mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x,
+      y: mt * mt * mt * start.y + 3 * mt * mt * t * cp1y + 3 * mt * t * t * cp2y + t * t * t * end.y,
+    }
+  }
+
   return {
-    midX: startX + dx * 0.5 + perpX,
-    midY: startY + dy * 0.5 + perpY,
-    overshootX: targetX + dx * OVERSHOOT_FACTOR,
-    overshootY: targetY + dy * OVERSHOOT_FACTOR,
+    p1: sample(0.3),  // early pull — barely moved (ease-in)
+    p2: sample(0.55), // mid pull
+    p3: sample(0.8),  // approaching target
+    p4: end,          // at target
   }
 }
 
@@ -87,6 +104,7 @@ function CollectionEffectsCoinMagnetComponent({
   to,
   count = DEFAULT_COUNT,
   particleImages,
+  particleSize = 24,
   colors,
   spread = DEFAULT_SPREAD,
   duration = DEFAULT_DURATION_MS,
@@ -120,47 +138,42 @@ function CollectionEffectsCoinMagnetComponent({
 
   const isBurst = pointsAreEqual(fromPt, toPt)
 
-  const cleanupMs = duration + CLEANUP_BUFFER_MS + particles.length * 60
+  const maxDelay = particles.length > 0 ? particles[particles.length - 1]!.delay : 0
+  const cleanupMs = duration + CLEANUP_BUFFER_MS + maxDelay
   useEffect(() => {
     const cleanup = setTimeout(() => setAlive(false), cleanupMs)
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => {
-    onComplete?.()
-  }, [onComplete])
-
+  const handleComplete = useCallback(() => { onComplete?.() }, [onComplete])
   useEffect(() => {
     if (onComplete === undefined) return
-    const maxDelay = particles.reduce((max, p) => Math.max(max, p.delay), 0)
     const timer = setTimeout(handleComplete, maxDelay + duration + 50)
     return () => clearTimeout(timer)
-  }, [particles, duration, handleComplete, onComplete])
+  }, [maxDelay, duration, handleComplete, onComplete])
 
   return (
     <div
       ref={containerRef}
       className="pf-coin-magnet"
       data-animation-id="collection-effects__coin-magnet"
+      style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-magnet__stage" aria-hidden="true">
           {!isBurst && (
             <div
               className="pf-coin-magnet__arrival-flash"
-              style={{ left: toPt.x, top: toPt.y }}
+              style={{ left: toPt.x, top: toPt.y, animationDelay: `${duration * 0.8}ms` }}
             />
           )}
           {particles.map((particle) => {
-            const startX = fromPt.x + particle.startOffsetX
-            const startY = fromPt.y + particle.startOffsetY
+            const scatterX = fromPt.x + Math.cos(particle.emitAngle) * particle.emitDist
+            const scatterY = fromPt.y + Math.sin(particle.emitAngle) * particle.emitDist
 
             if (isBurst) {
-              // Burst mode: radiate outward from origin
-              const burstDist = 80 + Math.random() * 60
-              const burstAngle = Math.atan2(particle.startOffsetY, particle.startOffsetX)
-              const burstTx = Math.cos(burstAngle) * burstDist
-              const burstTy = Math.sin(burstAngle) * burstDist
+              const burstTx = Math.cos(particle.emitAngle) * particle.emitDist
+              const burstTy = Math.sin(particle.emitAngle) * particle.emitDist
               return (
                 <div
                   key={particle.id}
@@ -170,7 +183,7 @@ function CollectionEffectsCoinMagnetComponent({
                       left: fromPt.x,
                       top: fromPt.y,
                       animationDelay: `${particle.delay}ms`,
-                      animationDuration: `${duration}ms`,
+                      animationDuration: `${duration * 0.6}ms`,
                       '--burst-tx': `${burstTx}px`,
                       '--burst-ty': `${burstTy}px`,
                     } as React.CSSProperties
@@ -179,38 +192,44 @@ function CollectionEffectsCoinMagnetComponent({
                   {particle.imageSrc ? (
                     <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
                   ) : (
-                    <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+                    <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
                   )}
                 </div>
               )
             }
 
-            // Normal mode: arc flight from start to target
-            const arc = computeArc(startX, startY, toPt.x, toPt.y)
+            // Magnet mode: sample 4 pull-curve positions
+            const scatter = { x: scatterX, y: scatterY }
+            const stops = samplePullStops(scatter, toPt, particle.curvature)
             return (
               <div
                 key={particle.id}
-                className="pf-coin-magnet__particle pf-coin-magnet__particle--flight"
+                className="pf-coin-magnet__particle pf-coin-magnet__particle--magnet"
                 style={
                   {
+                    left: 0,
+                    top: 0,
                     animationDelay: `${particle.delay}ms`,
                     animationDuration: `${duration}ms`,
-                    '--start-x': `${startX}px`,
-                    '--start-y': `${startY}px`,
-                    '--mid-x': `${arc.midX}px`,
-                    '--mid-y': `${arc.midY}px`,
-                    '--overshoot-x': `${arc.overshootX}px`,
-                    '--overshoot-y': `${arc.overshootY}px`,
-                    '--target-x': `${toPt.x}px`,
-                    '--target-y': `${toPt.y}px`,
-                    '--rotation': `${particle.rotation}deg`,
+                    '--src-x': `${fromPt.x}px`,
+                    '--src-y': `${fromPt.y}px`,
+                    '--scatter-x': `${scatterX}px`,
+                    '--scatter-y': `${scatterY}px`,
+                    '--pull1-x': `${stops.p1.x}px`,
+                    '--pull1-y': `${stops.p1.y}px`,
+                    '--pull2-x': `${stops.p2.x}px`,
+                    '--pull2-y': `${stops.p2.y}px`,
+                    '--pull3-x': `${stops.p3.x}px`,
+                    '--pull3-y': `${stops.p3.y}px`,
+                    '--target-x': `${stops.p4.x}px`,
+                    '--target-y': `${stops.p4.y}px`,
                   } as React.CSSProperties
                 }
               >
                 {particle.imageSrc ? (
                   <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
                 ) : (
-                  <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+                  <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
                 )}
               </div>
             )

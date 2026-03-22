@@ -155,6 +155,9 @@ export interface AnimationMetadata {
 
   /** Max width (px) for demo canvas and preview containers. Prevents wide animations from stretching full viewport. */
   previewMaxWidth?: number
+
+  /** Sort priority within the group. Lower values appear first. Defaults to 0. */
+  order?: number
 }
 
 /**

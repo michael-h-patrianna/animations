@@ -15,8 +15,8 @@
 
 .pf-coin-trail__particle {
   position: absolute;
-  width: 24px;
-  height: 24px;
+  width: var(--pf-particle-size, 24px);
+  height: var(--pf-particle-size, 24px);
   translate: -50% -50%;
   opacity: 0;
   will-change: transform, opacity;
@@ -39,32 +39,32 @@
 @keyframes pf-coin-trail-claim {
   0% {
     transform: translate(
-        calc(var(--from-x) - 50%),
-        calc(var(--from-y) - 50%)
+        var(--from-x),
+        var(--from-y)
       )
       scale(0.15);
     opacity: 0;
   }
   8% {
     transform: translate(
-        calc(var(--from-x) - 50%),
-        calc(var(--from-y) - 50%)
+        var(--from-x),
+        var(--from-y)
       )
       scale(1.1);
     opacity: 1;
   }
   22% {
     transform: translate(
-        calc(var(--apex-x) - 50%),
-        calc(var(--apex-y) - 50%)
+        var(--apex-x),
+        var(--apex-y)
       )
       scale(1);
     opacity: 1;
   }
   32% {
     transform: translate(
-        calc(var(--apex-x) - 50%),
-        calc(var(--apex-y) - 50%)
+        var(--apex-x),
+        var(--apex-y)
       )
       scale(0.95);
     opacity: 1;
@@ -76,16 +76,16 @@
   /* Arrive at target — shrink */
   92% {
     transform: translate(
-        calc(var(--to-x) - 50%),
-        calc(var(--to-y) - 50%)
+        var(--to-x),
+        var(--to-y)
       )
       scale(0.4);
     opacity: 0.6;
   }
   100% {
     transform: translate(
-        calc(var(--to-x) - 50%),
-        calc(var(--to-y) - 50%)
+        var(--to-x),
+        var(--to-y)
       )
       scale(0.2);
     opacity: 0;
@@ -138,11 +138,7 @@
 
   @keyframes pf-coin-trail-claim-reduced {
     0% {
-      transform: translate(
-          calc(var(--from-x) - 50%),
-          calc(var(--from-y) - 50%)
-        )
-        scale(0.8);
+      transform: translate(var(--from-x), var(--from-y)) scale(0.8);
       opacity: 0;
     }
     30% {
@@ -152,11 +148,7 @@
       opacity: 1;
     }
     100% {
-      transform: translate(
-          calc(var(--to-x) - 50%),
-          calc(var(--to-y) - 50%)
-        )
-        scale(0.5);
+      transform: translate(var(--to-x), var(--to-y)) scale(0.5);
       opacity: 0;
     }
   }

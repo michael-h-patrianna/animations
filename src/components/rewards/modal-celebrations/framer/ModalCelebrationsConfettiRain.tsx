@@ -30,6 +30,7 @@ type Particle = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   left: number
   driftX1: number
   driftX2: number
@@ -58,7 +59,8 @@ const DEFAULT_DURATION_MS = 2100
 
 /* ─── Generators ─── */
 
-function makeParticles(count: number, colors: readonly string[], timeScale: number): Particle[] {
+function makeParticles(count: number, colors: readonly string[], images: readonly string[], timeScale: number): Particle[] {
+  const hasImages = images.length > 0
   return Array.from({ length: count }, (_, i) => {
     const wave = i < Math.floor(count / 3) ? 0 : i < Math.floor((count * 2) / 3) ? 1 : 2
     const waveBase = [0, 0.28, 0.56][wave]!
@@ -69,6 +71,7 @@ function makeParticles(count: number, colors: readonly string[], timeScale: numb
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
       color: colors[i % colors.length]!,
+      imageUrl: hasImages ? images[i % images.length] : undefined,
       left: randBetween(5, 95),
       driftX1: randBetween(-20, 20),
       driftX2: randBetween(-45, 45),
@@ -118,16 +121,18 @@ function TopFlash({ timeScale }: { timeScale: number }) {
   )
 }
 
-function RainPiece({ p }: { p: Particle }) {
+function RainPiece({ p, maxW, maxH }: { p: Particle; maxW: number; maxH: number }) {
   const isBg = p.layer === 'bg'
 
   return (
     <m.span
-      className={`pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+      className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
       style={{
         left: `${p.left}%`,
         top: '-5%',
-        background: p.color,
+        ...(p.imageUrl !== undefined
+          ? { width: maxW, height: maxH }
+          : { background: p.color }),
         opacity: isBg ? 0.45 : undefined,
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
@@ -148,7 +153,11 @@ function RainPiece({ p }: { p: Particle }) {
         times: [0, 0.2, 0.6, 1],
         ease: [0.12, 0, 0.39, 0],
       }}
-    />
+    >
+      {p.imageUrl !== undefined && (
+        <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+      )}
+    </m.span>
   )
 }
 
@@ -177,12 +186,15 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
 function ModalCelebrationsConfettiRainComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
   colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   duration,
   onComplete,
 }: ModalCelebrationsConfettiRainProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
 
-  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const particles = useMemo(() => makeParticles(particleCount, colors, particleImages, timeScale), [particleCount, colors, particleImages, timeScale])
   const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
@@ -203,12 +215,12 @@ function ModalCelebrationsConfettiRainComponent({
 
       <div className="pf-celebration__depth-bg">
         {bgParts.map((p) => (
-          <RainPiece key={p.id} p={p} />
+          <RainPiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg">
         {fgParts.map((p) => (
-          <RainPiece key={p.id} p={p} />
+          <RainPiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__effects">

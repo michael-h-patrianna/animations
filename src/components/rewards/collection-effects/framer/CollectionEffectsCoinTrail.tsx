@@ -26,7 +26,6 @@ import {
 const DEFAULT_COUNT = 8
 const DEFAULT_SPREAD = 50 // pop-up height above source
 const DEFAULT_DURATION_S = 1.0
-const PARTICLE_SIZE = 24
 const CLEANUP_BUFFER_MS = 400
 const SWIRL_RADIUS = 50
 
@@ -58,6 +57,7 @@ function ParticleElement({
   fromPt,
   toPt,
   popHeight,
+  particleSize,
   isSwirl,
   durationS,
   prefersReducedMotion,
@@ -68,6 +68,7 @@ function ParticleElement({
   fromPt: ResolvedPoint
   toPt: ResolvedPoint
   popHeight: number
+  particleSize: number
   isSwirl: boolean
   durationS: number
   prefersReducedMotion: boolean | null
@@ -112,7 +113,7 @@ function ParticleElement({
         {particle.imageSrc ? (
           <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
         ) : (
-          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
         )}
       </m.div>
     )
@@ -136,11 +137,11 @@ function ParticleElement({
               opacity: [0, 1, 0],
             }
           : {
-              // Phase 1: emit small + pop up (0→0.08→0.22), Phase 2: hang (0.22→0.32), Phase 3: fly to target (0.32→0.90), Phase 4: arrive (0.90→1)
-              x: [fromPt.x, fromPt.x, apexX, apexX, toPt.x + (toPt.x - apexX) * 0.05, toPt.x],
-              y: [fromPt.y, fromPt.y, apexY, apexY, toPt.y - 5, toPt.y],
-              scale: [0.15, 1.1, 1.0, 0.95, 0.45, 0.25],
-              opacity: [0, 1, 1, 1, 0.7, 0],
+              // Phase 1: pop in (0→0.08), Phase 2: pop up (0.08→0.22), Phase 3: hang (0.22→0.32), Phase 4: fly to target (0.32→0.92), Phase 5: absorb (0.92→1)
+              x: [fromPt.x, fromPt.x, apexX, apexX, toPt.x, toPt.x],
+              y: [fromPt.y, fromPt.y, apexY, apexY, toPt.y, toPt.y],
+              scale: [0.15, 1.1, 1.0, 1.0, 1.0, 0],
+              opacity: [0, 1, 1, 1, 1, 0],
             }
       }
       transition={
@@ -155,28 +156,28 @@ function ParticleElement({
           : {
               duration: durationS,
               delay: particle.delay,
-              times: [0, 0.08, 0.22, 0.32, 0.90, 1],
+              times: [0, 0.08, 0.22, 0.32, 0.92, 1],
               x: {
                 duration: durationS,
                 delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.90, 1],
+                times: [0, 0.08, 0.22, 0.32, 0.92, 1],
                 ease: ['easeOut', 'easeOut', 'linear', [0.5, 0, 1, 0.5], 'easeOut'],
               },
               y: {
                 duration: durationS,
                 delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.90, 1],
+                times: [0, 0.08, 0.22, 0.32, 0.92, 1],
                 ease: ['easeOut', 'easeOut', 'linear', [0.5, 0, 1, 0.5], 'easeOut'],
               },
               scale: {
                 duration: durationS,
                 delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.90, 1],
+                times: [0, 0.08, 0.22, 0.32, 0.92, 1],
               },
               opacity: {
                 duration: durationS,
                 delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.85, 1],
+                times: [0, 0.08, 0.22, 0.32, 0.96, 1],
               },
             }
       }
@@ -186,7 +187,7 @@ function ParticleElement({
       {particle.imageSrc ? (
         <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
       ) : (
-        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
       )}
     </m.div>
   )
@@ -197,6 +198,7 @@ function CollectionEffectsCoinTrailComponent({
   to,
   count = DEFAULT_COUNT,
   particleImages,
+  particleSize = 24,
   colors,
   spread = DEFAULT_SPREAD,
   duration,
@@ -249,6 +251,7 @@ function CollectionEffectsCoinTrailComponent({
       ref={containerRef}
       className="pf-coin-trail"
       data-animation-id="collection-effects__coin-trail"
+      style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-trail__stage" aria-hidden="true">
@@ -259,6 +262,7 @@ function CollectionEffectsCoinTrailComponent({
               fromPt={fromPt}
               toPt={toPt}
               popHeight={spread}
+              particleSize={particleSize}
               isSwirl={isSwirl}
               durationS={durationS}
               prefersReducedMotion={prefersReducedMotion}

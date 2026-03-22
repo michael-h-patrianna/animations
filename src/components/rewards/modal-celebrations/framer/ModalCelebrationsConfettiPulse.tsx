@@ -43,6 +43,7 @@ type WaveParticle = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   xs: number[]
   ys: number[]
   scales: number[]
@@ -128,9 +129,11 @@ function buildWaves(colors: readonly string[]): WaveConfig[] {
 function makeParticles(
   totalCount: number,
   colors: readonly string[],
+  images: readonly string[],
   waves: WaveConfig[],
   timeScale: number,
 ): WaveParticle[] {
+  const hasImages = images.length > 0
   const particles: WaveParticle[] = []
   let id = 0
 
@@ -168,10 +171,12 @@ function makeParticles(
         opacities.push(opacityAt(t, peakOp))
       }
 
+      const particleId = id++
       particles.push({
-        id: id++,
+        id: particleId,
         shape: pickRandom(CONFETTI_SHAPES),
         color: colors[(wi * waveCount + j) % colors.length]!,
+        imageUrl: hasImages ? images[particleId % images.length] : undefined,
         xs,
         ys,
         scales,
@@ -267,14 +272,16 @@ function WaveRing({ wave, timeScale }: { wave: WaveConfig; timeScale: number }) 
   )
 }
 
-function PulsePiece({ p }: { p: WaveParticle }) {
+function PulsePiece({ p, maxW, maxH }: { p: WaveParticle; maxW: number; maxH: number }) {
   return (
     <m.span
-      className={`pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+      className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
       style={{
         left: '50%',
         top: '50%',
-        background: p.color,
+        ...(p.imageUrl !== undefined
+          ? { width: maxW, height: maxH }
+          : { background: p.color }),
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
@@ -296,7 +303,11 @@ function PulsePiece({ p }: { p: WaveParticle }) {
         opacity: { duration: p.dur, delay: p.delay, times: STOPS, ease: 'linear' },
         rotate: { duration: p.dur, delay: p.delay, ease: 'linear' },
       }}
-    />
+    >
+      {p.imageUrl !== undefined && (
+        <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+      )}
+    </m.span>
   )
 }
 
@@ -325,6 +336,9 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
 function ModalCelebrationsConfettiPulseComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
   colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   duration,
   onComplete,
 }: ModalCelebrationsConfettiPulseProps) {
@@ -332,8 +346,8 @@ function ModalCelebrationsConfettiPulseComponent({
   const waves = useMemo(() => buildWaves(colors), [colors])
 
   const particles = useMemo(
-    () => makeParticles(particleCount, colors, waves, timeScale),
-    [particleCount, colors, waves, timeScale],
+    () => makeParticles(particleCount, colors, particleImages, waves, timeScale),
+    [particleCount, colors, particleImages, waves, timeScale],
   )
   const sparkles = useMemo(() => makeSparkles(waves, timeScale), [waves, timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
@@ -360,12 +374,12 @@ function ModalCelebrationsConfettiPulseComponent({
 
       <div className="pf-celebration__depth-bg">
         {bgParts.map((p) => (
-          <PulsePiece key={p.id} p={p} />
+          <PulsePiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg">
         {fgParts.map((p) => (
-          <PulsePiece key={p.id} p={p} />
+          <PulsePiece key={p.id} p={p} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__effects">

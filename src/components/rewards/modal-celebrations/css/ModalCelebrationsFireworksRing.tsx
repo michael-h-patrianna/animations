@@ -50,6 +50,7 @@ type Burst = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   startX: number
   startY: number
   bx: number
@@ -142,7 +143,8 @@ function makeShimmers(): Shimmer[] {
   return shimmers
 }
 
-function makeBursts(): Burst[] {
+function makeBursts(images: readonly string[]): Burst[] {
+  const hasImages = images.length > 0
   const bursts: Burst[] = []
   const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
 
@@ -157,6 +159,7 @@ function makeBursts(): Burst[] {
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
       color: pickRandom(CELEBRATION_COLORS),
+      imageUrl: hasImages ? images[i % images.length] : undefined,
       startX,
       startY,
       bx: Math.cos(angle) * maxDist * easeOut(1),
@@ -276,18 +279,21 @@ function ShimmerLayer({ shimmers }: { shimmers: Shimmer[] }) {
   )
 }
 
-function BurstLayer({ bursts }: { bursts: Burst[] }) {
+function BurstLayer({ bursts, maxW, maxH }: { bursts: Burst[]; maxW: number; maxH: number }) {
   return (
     <>
       {bursts.map((b) => (
         <span
           key={b.id}
-          className={`pf-celebration__confetti pf-celebration__confetti--${b.shape}`}
+          className={b.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${b.shape}`}
           style={
             {
               left: `calc(50% + ${b.startX}px)`,
               top: `calc(50% + ${b.startY}px)`,
-              background: b.color,
+              background: b.imageUrl !== undefined ? undefined : b.color,
+              width: b.imageUrl !== undefined ? maxW : undefined,
+              height: b.imageUrl !== undefined ? maxH : undefined,
+              position: b.imageUrl !== undefined ? 'absolute' : undefined,
               '--bx': `${b.bx}px`,
               '--by': `${b.by}px`,
               '--bs': b.bs,
@@ -296,7 +302,11 @@ function BurstLayer({ bursts }: { bursts: Burst[] }) {
               animation: `fr-burst ${b.dur}ms linear ${b.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {b.imageUrl !== undefined && (
+            <img src={b.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+          )}
+        </span>
       ))}
     </>
   )
@@ -325,11 +335,14 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
 /* ─── Main ─── */
 
 function ModalCelebrationsFireworksRingComponent({
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   onComplete,
 }: CelebrationBaseProps) {
   const embers = useMemo(makeEmbers, [])
   const shimmers = useMemo(makeShimmers, [])
-  const bursts = useMemo(makeBursts, [])
+  const bursts = useMemo(() => makeBursts(particleImages), [particleImages])
   const sparkles = useMemo(makeSparkles, [])
 
   useEffect(() => {
@@ -363,7 +376,7 @@ function ModalCelebrationsFireworksRingComponent({
       </div>
       <div className="pf-celebration__depth-fg">
         <EmberLayer embers={fgEmbers} />
-        <BurstLayer bursts={bursts} />
+        <BurstLayer bursts={bursts} maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__layer">
         <SparkleLayer sparkles={sparkles} />

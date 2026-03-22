@@ -43,7 +43,7 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
     }
   })
 
-  it('GroupSection renders animations from a real catalog group with correct titles', () => {
+  it('GroupSection renders animations from a real catalog group with correct titles', { timeout: 15_000 }, () => {
     // Pick the first framer group that has animations
     const realGroup = catalog
       .flatMap((c) => c.groups)

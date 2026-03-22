@@ -25,7 +25,6 @@ import {
 const DEFAULT_COUNT = 8
 const DEFAULT_SPREAD = 50
 const DEFAULT_DURATION_MS = 1000
-const PARTICLE_SIZE = 24
 const CLEANUP_BUFFER_MS = 400
 
 interface Particle {
@@ -55,6 +54,7 @@ function CollectionEffectsCoinTrailComponent({
   to,
   count = DEFAULT_COUNT,
   particleImages,
+  particleSize = 24,
   colors,
   spread = DEFAULT_SPREAD,
   duration = DEFAULT_DURATION_MS,
@@ -110,6 +110,7 @@ function CollectionEffectsCoinTrailComponent({
       ref={containerRef}
       className="pf-coin-trail"
       data-animation-id="collection-effects__coin-trail"
+      style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-trail__stage" aria-hidden="true">
@@ -136,7 +137,7 @@ function CollectionEffectsCoinTrailComponent({
                   {particle.imageSrc ? (
                     <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
                   ) : (
-                    <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+                    <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
                   )}
                 </div>
               )
@@ -167,7 +168,7 @@ function CollectionEffectsCoinTrailComponent({
                 {particle.imageSrc ? (
                   <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
                 ) : (
-                  <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+                  <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
                 )}
               </div>
             )

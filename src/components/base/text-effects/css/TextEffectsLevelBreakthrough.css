@@ -56,8 +56,8 @@
 
 /* Outer surge ring - 6px thick band at 75-82% radius */
 .tfx-breakthrough-surge-outer {
-  background: linear-gradient(
-    180deg,
+  background: radial-gradient(
+    circle,
     transparent 75%,
     var(--text-effects-level-breakthrough-color) 76%,
     transparent 82%
@@ -66,8 +66,8 @@
 
 /* Inner surge ring - 6px thick band at 65-72% radius, delayed start */
 .tfx-breakthrough-surge-inner {
-  background: linear-gradient(
-    180deg,
+  background: radial-gradient(
+    circle,
     transparent 65%,
     var(--text-effects-level-breakthrough-color) 66%,
     transparent 72%

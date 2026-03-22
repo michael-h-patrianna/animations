@@ -10,26 +10,28 @@ function toAnimations(
   groupId: string,
   baseGroupId: string
 ): Animation[] {
-  return Object.values(exports).map((anim) => {
-    const encodedId = encodeURIComponent(anim.metadata.id)
-    return {
-      id: anim.metadata.id,
-      title: anim.metadata.title,
-      description: anim.metadata.description,
-      categoryId,
-      groupId,
-      urlSlugFramer: `/${baseGroupId}-framer?animation=${encodedId}`,
-      urlSlugCss: `/${baseGroupId}-css?animation=${encodedId}`,
-      disableReplay: anim.metadata.disableReplay,
-      infinite: anim.metadata.infinite,
-      controls: anim.metadata.controls,
-      prizeCountMax: anim.metadata.prizeCountMax,
-      previewPosition: anim.metadata.previewPosition,
-      tier: anim.metadata.tier,
-      demoMode: anim.metadata.demoMode,
-      previewMaxWidth: anim.metadata.previewMaxWidth,
-    }
-  })
+  return Object.values(exports)
+    .sort((a, b) => (a.metadata.order ?? 0) - (b.metadata.order ?? 0))
+    .map((anim) => {
+      const encodedId = encodeURIComponent(anim.metadata.id)
+      return {
+        id: anim.metadata.id,
+        title: anim.metadata.title,
+        description: anim.metadata.description,
+        categoryId,
+        groupId,
+        urlSlugFramer: `/${baseGroupId}-framer?animation=${encodedId}`,
+        urlSlugCss: `/${baseGroupId}-css?animation=${encodedId}`,
+        disableReplay: anim.metadata.disableReplay,
+        infinite: anim.metadata.infinite,
+        controls: anim.metadata.controls,
+        prizeCountMax: anim.metadata.prizeCountMax,
+        previewPosition: anim.metadata.previewPosition,
+        tier: anim.metadata.tier,
+        demoMode: anim.metadata.demoMode,
+        previewMaxWidth: anim.metadata.previewMaxWidth,
+      }
+    })
 }
 
 /**

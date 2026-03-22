@@ -17,8 +17,8 @@
 
 .pf-coin-magnet__particle {
   position: absolute;
-  width: 36px;
-  height: 36px;
+  width: var(--pf-particle-size, 24px);
+  height: var(--pf-particle-size, 24px);
   translate: -50% -50%;
   will-change: transform, opacity;
   pointer-events: none;

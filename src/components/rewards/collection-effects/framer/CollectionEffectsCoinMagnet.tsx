@@ -1,5 +1,11 @@
 /**
- * Particles fly along parabolic arcs from source to target with overshoot settle.
+ * Source emits particles, target attracts them like a magnet.
+ *
+ * Visual narrative:
+ * 1. Emission (0-12%): particles burst FROM the source outward
+ * 2. Hover (12-25%): particles hang momentarily — magnetic field grips them
+ * 3. Pull (25-92%): particles accelerate along smooth bezier curves toward target
+ * 4. Impact (92-100%): particles shrink to zero and disappear at the target
  *
  * Copy-paste files: this file + SharedTypes.ts + SharedParticleUtils.ts +
  * SharedFallbackParticle.tsx + SharedImagePreloader.ts
@@ -24,20 +30,17 @@ import {
 } from '../SharedTypes'
 
 const DEFAULT_COUNT = 10
-const DEFAULT_SPREAD = 80
-const DEFAULT_DURATION_S = 1.0
-const PARTICLE_SIZE = 36
-const CLEANUP_BUFFER_MS = 400
-const OVERSHOOT_FACTOR = 0.08
-const ARC_HEIGHT_FACTOR = 0.25
+const DEFAULT_SPREAD = 60
+const DEFAULT_DURATION_S = 1.33
+const CLEANUP_BUFFER_MS = 500
+const WAYPOINTS = 20
 
 interface Particle {
   id: number
-  startOffsetX: number
-  startOffsetY: number
-  rotation: number
+  emitAngle: number
+  emitDist: number
+  curvature: number
   delay: number
-  burstDist: number
   imageSrc: string | undefined
   fallback: { shape: ConfettiShape; color: string }
 }
@@ -48,37 +51,53 @@ function generateParticles(
   images: string[],
   colors?: string[]
 ): Particle[] {
-  return Array.from({ length: count }, (_, i) => {
-    const angle = Math.random() * Math.PI * 2
-    const dist = Math.random() * spread
-    const t = i / Math.max(count - 1, 1)
-    const delay = t * t * 0.6
-    return {
-      id: i,
-      startOffsetX: Math.cos(angle) * dist,
-      startOffsetY: Math.sin(angle) * dist,
-      rotation: (Math.random() - 0.5) * 30,
-      delay,
-      burstDist: 80 + Math.random() * 60,
-      imageSrc: randomImage(images),
-      fallback: generateFallbackParticle(colors),
-    }
-  })
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    emitAngle: Math.random() * Math.PI * 2,
+    emitDist: spread * (0.4 + Math.random() * 0.6),
+    curvature: (Math.random() - 0.5) * 2,
+    delay: i * 0.05,
+    imageSrc: randomImage(images),
+    fallback: generateFallbackParticle(colors),
+  }))
 }
 
-function computeArc(startX: number, startY: number, targetX: number, targetY: number) {
-  const dx = targetX - startX
-  const dy = targetY - startY
-  const dist = Math.sqrt(dx * dx + dy * dy)
-  const safeDist = dist === 0 ? 1 : dist
-  const perpX = -dy / safeDist * dist * ARC_HEIGHT_FACTOR
-  const perpY = dx / safeDist * dist * ARC_HEIGHT_FACTOR
-  return {
-    midX: startX + dx * 0.5 + perpX,
-    midY: startY + dy * 0.5 + perpY,
-    overshootX: targetX + dx * OVERSHOOT_FACTOR,
-    overshootY: targetY + dy * OVERSHOOT_FACTOR,
+/**
+ * Samples a cubic bezier from `start` to `end` into WAYPOINTS+1 positions.
+ * The parametric easing (t²) bakes magnetic acceleration into the waypoint spacing:
+ * positions are close together at the start (slow) and spread apart near the end (fast).
+ * Motion animates through these at linear time intervals, producing the acceleration visually.
+ */
+function sampleBezierPath(
+  start: ResolvedPoint,
+  end: ResolvedPoint,
+  curvature: number,
+): { xPath: number[]; yPath: number[] } {
+  const dx = end.x - start.x
+  const dy = end.y - start.y
+  const rawDist = Math.sqrt(dx * dx + dy * dy)
+  const dist = rawDist === 0 ? 1 : rawDist
+  const nx = -dy / dist
+  const ny = dx / dist
+  const arc = dist * 0.3 * curvature
+
+  const cp1x = start.x + dx * 0.2 + nx * arc
+  const cp1y = start.y + dy * 0.2 + ny * arc
+  const cp2x = end.x - dx * 0.15 + nx * arc * 0.2
+  const cp2y = end.y - dy * 0.15 + ny * arc * 0.2
+
+  const xPath: number[] = []
+  const yPath: number[] = []
+
+  for (let i = 0; i <= WAYPOINTS; i++) {
+    const linear = i / WAYPOINTS
+    const t = linear * linear // ease-in: slow start, accelerating pull
+    const mt = 1 - t
+    xPath.push(mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x)
+    yPath.push(mt * mt * mt * start.y + 3 * mt * mt * t * cp1y + 3 * mt * t * t * cp2y + t * t * t * end.y)
   }
+
+  return { xPath, yPath }
 }
 
 function ArrivalFlash({ target }: { target: ResolvedPoint }) {
@@ -87,8 +106,8 @@ function ArrivalFlash({ target }: { target: ResolvedPoint }) {
       className="pf-coin-magnet__arrival-flash"
       style={{ left: target.x, top: target.y, animation: 'none' }}
       initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: [0, 1.2, 1.8], opacity: [0, 0.6, 0] }}
-      transition={{ duration: 0.4, delay: 0.5, times: [0, 0.4, 1], ease: 'easeOut' }}
+      animate={{ scale: [0, 1.2, 1.8], opacity: [0, 0.7, 0] }}
+      transition={{ duration: 0.5, delay: 1.05, times: [0, 0.4, 1], ease: 'easeOut' }}
     />
   )
 }
@@ -97,6 +116,7 @@ function ParticleElement({
   particle,
   fromPt,
   targetPt,
+  particleSize,
   isBurst,
   durationS,
   prefersReducedMotion,
@@ -106,73 +126,116 @@ function ParticleElement({
   particle: Particle
   fromPt: ResolvedPoint
   targetPt: ResolvedPoint
+  particleSize: number
   isBurst: boolean
   durationS: number
   prefersReducedMotion: boolean | null
   onFinish?: () => void
   isLast: boolean
 }) {
-  const startX = fromPt.x + particle.startOffsetX
-  const startY = fromPt.y + particle.startOffsetY
+  // Scattered position after emission burst
+  const scatterX = fromPt.x + Math.cos(particle.emitAngle) * particle.emitDist
+  const scatterY = fromPt.y + Math.sin(particle.emitAngle) * particle.emitDist
 
   if (isBurst) {
-    const burstAngle = Math.atan2(particle.startOffsetY, particle.startOffsetX)
-    const burstTx = Math.cos(burstAngle) * particle.burstDist
-    const burstTy = Math.sin(burstAngle) * particle.burstDist
+    // No target — just emit outward and fade
     return (
       <m.div
         className="pf-coin-magnet__particle"
         style={{ left: fromPt.x, top: fromPt.y, animation: 'none' }}
-        initial={{ x: 0, y: 0, scale: 0.15, opacity: 0 }}
-        animate={{ x: burstTx, y: burstTy, scale: [0.15, 1.15, 0.9, 0.35], opacity: [0, 1, 0.7, 0] }}
-        transition={{ duration: durationS, delay: particle.delay, ease: [0.2, 0.8, 0.3, 1] as const, times: [0, 0.15, 0.6, 1] }}
+        initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
+        animate={{
+          x: [0, 0, Math.cos(particle.emitAngle) * particle.emitDist],
+          y: [0, 0, Math.sin(particle.emitAngle) * particle.emitDist],
+          scale: [0, 1, 0.4],
+          opacity: [0, 1, 0],
+        }}
+        transition={{
+          duration: durationS * 0.6,
+          delay: particle.delay,
+          times: [0, 0.15, 1],
+          ease: [0.2, 0.8, 0.3, 1] as const,
+        }}
         onAnimationComplete={isLast ? onFinish : undefined}
         aria-hidden="true"
       >
         {particle.imageSrc ? (
           <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
         ) : (
-          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
         )}
       </m.div>
     )
   }
 
-  const arc = computeArc(startX, startY, targetPt.x, targetPt.y)
+  if (prefersReducedMotion) {
+    return (
+      <m.div
+        className="pf-coin-magnet__particle"
+        style={{ left: 0, top: 0, animation: 'none' }}
+        initial={{ x: fromPt.x, y: fromPt.y, scale: 0, opacity: 0 }}
+        animate={{
+          x: [fromPt.x, targetPt.x],
+          y: [fromPt.y, targetPt.y],
+          scale: [0, 1, 0.3],
+          opacity: [0, 1, 0],
+        }}
+        transition={{ duration: durationS * 0.5, delay: particle.delay, ease: 'easeOut' as const, times: [0, 1], scale: { times: [0, 0.3, 1] }, opacity: { times: [0, 0.3, 1] } }}
+        onAnimationComplete={isLast ? onFinish : undefined}
+        aria-hidden="true"
+      >
+        {particle.imageSrc ? (
+          <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
+        ) : (
+          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+        )}
+      </m.div>
+    )
+  }
+
+  // Sample the pull curve (scattered position → target)
+  const scatter = { x: scatterX, y: scatterY }
+  const { xPath, yPath } = sampleBezierPath(scatter, targetPt, particle.curvature)
+
+  // Build full path: source → scattered → bezier waypoints to target
+  // Phases: emit (0→0.12), hover (0.12→0.25), pull (0.25→1.0)
+  const fullX = [fromPt.x, fromPt.x, scatterX, scatterX, ...xPath]
+  const fullY = [fromPt.y, fromPt.y, scatterY, scatterY, ...yPath]
+
+  // Times: 4 fixed points + 21 waypoints evenly spread across 0.25→1.0
+  const pullStart = 0.25
+  const pullRange = 1.0 - pullStart
+  const fullTimes = [
+    0, 0.03, 0.12, 0.25,
+    ...Array.from({ length: WAYPOINTS + 1 }, (_, i) => pullStart + (i / WAYPOINTS) * pullRange),
+  ]
 
   return (
     <m.div
       className="pf-coin-magnet__particle"
       style={{ left: 0, top: 0, animation: 'none' }}
-      initial={{ x: startX, y: startY, scale: 0.15, rotate: 0, opacity: 0 }}
-      animate={
-        prefersReducedMotion
-          ? {
-              x: [startX, targetPt.x],
-              y: [startY, targetPt.y],
-              scale: [0.15, 1, 0.4],
-              opacity: [0, 1, 0],
-            }
-          : {
-              x: [startX, arc.midX, arc.overshootX, targetPt.x, targetPt.x],
-              y: [startY, arc.midY, arc.overshootY, targetPt.y, targetPt.y],
-              scale: [0.15, 1.1, 1.0, 0.5, 0.3],
-              rotate: [0, particle.rotation * 0.5, particle.rotation, particle.rotation, particle.rotation],
-              opacity: [0, 1, 1, 0.6, 0],
-            }
-      }
-      transition={
-        prefersReducedMotion
-          ? { duration: durationS, delay: particle.delay, ease: 'easeOut' as const, times: [0, 1], scale: { times: [0, 0.5, 1] }, opacity: { times: [0, 0.3, 1] } }
-          : { duration: durationS, delay: particle.delay, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.10, 0.45, 0.88, 1], opacity: { times: [0, 0.10, 0.75, 0.92, 1], duration: durationS } }
-      }
+      initial={{ x: fromPt.x, y: fromPt.y, scale: 0, opacity: 0 }}
+      animate={{
+        x: fullX,
+        y: fullY,
+        scale: [0, 1, 1, 1, 0.3, 0],
+        opacity: [0, 1, 1, 1, 1, 0],
+      }}
+      transition={{
+        duration: durationS,
+        delay: particle.delay,
+        x: { times: fullTimes, ease: 'linear' },
+        y: { times: fullTimes, ease: 'linear' },
+        scale: { times: [0, 0.05, 0.12, 0.85, 0.95, 1] },
+        opacity: { times: [0, 0.05, 0.12, 0.85, 0.97, 1] },
+      }}
       onAnimationComplete={isLast ? onFinish : undefined}
       aria-hidden="true"
     >
       {particle.imageSrc ? (
         <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
       ) : (
-        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
       )}
     </m.div>
   )
@@ -183,6 +246,7 @@ function CollectionEffectsCoinMagnetComponent({
   to,
   count = DEFAULT_COUNT,
   particleImages,
+  particleSize = 24,
   colors,
   spread = DEFAULT_SPREAD,
   duration,
@@ -218,7 +282,8 @@ function CollectionEffectsCoinMagnetComponent({
 
   const isBurst = pointsAreEqual(fromPt, toPt)
 
-  const cleanupMs = durationS * 1000 + CLEANUP_BUFFER_MS + particles.length * 60
+  const maxDelay = particles.length > 0 ? particles[particles.length - 1]!.delay * 1000 : 0
+  const cleanupMs = durationS * 1000 + CLEANUP_BUFFER_MS + maxDelay
   useEffect(() => {
     const cleanup = setTimeout(() => setAlive(false), cleanupMs)
     return () => clearTimeout(cleanup)
@@ -228,7 +293,7 @@ function CollectionEffectsCoinMagnetComponent({
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
 
   return (
-    <div ref={containerRef} className="pf-coin-magnet" data-animation-id="collection-effects__coin-magnet">
+    <div ref={containerRef} className="pf-coin-magnet" data-animation-id="collection-effects__coin-magnet" style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}>
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-magnet__stage" aria-hidden="true">
           {!isBurst && <ArrivalFlash target={toPt} />}
@@ -238,6 +303,7 @@ function CollectionEffectsCoinMagnetComponent({
               particle={particle}
               fromPt={fromPt}
               targetPt={toPt}
+              particleSize={particleSize}
               isBurst={isBurst}
               durationS={durationS}
               prefersReducedMotion={prefersReducedMotion}

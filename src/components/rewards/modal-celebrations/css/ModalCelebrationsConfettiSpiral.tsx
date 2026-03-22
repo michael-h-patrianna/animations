@@ -31,6 +31,7 @@ type SpiralParticle = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   startAngle: number
   totalOrbit: number
   maxRadius: number
@@ -59,7 +60,8 @@ const NUM_ARMS = 3
 
 /* ─── Generators ─── */
 
-function makeParticles(count: number, colors: readonly string[], timeScale: number): SpiralParticle[] {
+function makeParticles(count: number, colors: readonly string[], images: readonly string[], timeScale: number): SpiralParticle[] {
+  const hasImages = images.length > 0
   const particles: SpiralParticle[] = []
   const perArm = Math.ceil(count / NUM_ARMS)
 
@@ -76,6 +78,7 @@ function makeParticles(count: number, colors: readonly string[], timeScale: numb
         id: i,
         shape: pickRandom(CONFETTI_SHAPES),
         color: colors[i % colors.length]!,
+        imageUrl: hasImages ? images[i % images.length] : undefined,
         startAngle: armBase + randBetween(-8, 8),
         totalOrbit: randBetween(620, 840),
         maxRadius: randBetween(85, 150) * (isBg ? 0.65 : 1),
@@ -109,18 +112,21 @@ function makeSparkles(timeScale: number): Sparkle[] {
 
 /* ─── Sub-components ─── */
 
-function SpiralLayer({ particles, peakOpacity }: { particles: SpiralParticle[]; peakOpacity: string }) {
+function SpiralLayer({ particles, peakOpacity, maxW, maxH }: { particles: SpiralParticle[]; peakOpacity: string; maxW: number; maxH: number }) {
   return (
     <>
       {particles.map((p) => (
         <span
           key={p.id}
-          className={`pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+          className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
           style={
             {
               left: '50%',
               top: '50%',
-              background: p.color,
+              background: p.imageUrl !== undefined ? undefined : p.color,
+              width: p.imageUrl !== undefined ? maxW : undefined,
+              height: p.imageUrl !== undefined ? maxH : undefined,
+              position: p.imageUrl !== undefined ? 'absolute' : undefined,
               transformStyle: 'preserve-3d',
               '--sa': `${p.startAngle}deg`,
               '--to': `${p.totalOrbit}deg`,
@@ -133,7 +139,11 @@ function SpiralLayer({ particles, peakOpacity }: { particles: SpiralParticle[]; 
               animation: `cs-tornado ${p.dur}ms linear ${p.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {p.imageUrl !== undefined && (
+            <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+          )}
+        </span>
       ))}
     </>
   )
@@ -164,12 +174,15 @@ function SparkleLayer({ sparkles, timeScale }: { sparkles: Sparkle[]; timeScale:
 function ModalCelebrationsConfettiSpiralComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
   colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   duration,
   onComplete,
 }: ModalCelebrationsConfettiSpiralProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
 
-  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const particles = useMemo(() => makeParticles(particleCount, colors, particleImages, timeScale), [particleCount, colors, particleImages, timeScale])
   const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
@@ -192,10 +205,10 @@ function ModalCelebrationsConfettiSpiralComponent({
       />
 
       <div className="pf-celebration__depth-bg">
-        <SpiralLayer particles={bgParts} peakOpacity="0.5" />
+        <SpiralLayer particles={bgParts} peakOpacity="0.5" maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__depth-fg">
-        <SpiralLayer particles={fgParts} peakOpacity="1" />
+        <SpiralLayer particles={fgParts} peakOpacity="1" maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__effects">
         <SparkleLayer sparkles={sparkles} timeScale={timeScale} />

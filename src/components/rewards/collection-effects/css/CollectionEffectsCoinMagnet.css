@@ -1,4 +1,5 @@
 /* Coin Magnet — CSS Variant */
+/* Source emits → hover → magnetic pull → impact at target */
 
 .pf-coin-magnet {
   position: relative;
@@ -17,8 +18,8 @@
 
 .pf-coin-magnet__particle {
   position: absolute;
-  width: 36px;
-  height: 36px;
+  width: var(--pf-particle-size, 24px);
+  height: var(--pf-particle-size, 24px);
   translate: -50% -50%;
   opacity: 0;
   will-change: transform, opacity;
@@ -42,7 +43,7 @@
   --flash-edge: rgb(255 215 0 / 0%);
   background: radial-gradient(circle, var(--flash-color) 0%, var(--flash-edge) 70%);
   pointer-events: none;
-  animation: pf-coin-magnet-flash 400ms ease-out 500ms forwards;
+  animation: pf-coin-magnet-flash 500ms ease-out both;
   opacity: 0;
 }
 
@@ -53,7 +54,7 @@
   }
   40% {
     transform: scale(1.2);
-    opacity: 0.6;
+    opacity: 0.7;
   }
   100% {
     transform: scale(1.8);
@@ -61,86 +62,120 @@
   }
 }
 
-/* ── Flight mode: parabolic arc from start → mid → overshoot → target ── */
+/* ── Magnet mode: emit → hover → pull along sampled bezier → impact ── */
 
-.pf-coin-magnet__particle--flight {
+.pf-coin-magnet__particle--magnet {
   left: 0;
   top: 0;
-  animation: pf-coin-magnet-flight 1000ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: pf-coin-magnet-pull 2000ms linear both;
 }
 
-@keyframes pf-coin-magnet-flight {
+@keyframes pf-coin-magnet-pull {
+  /* Emission: appear at source */
   0% {
     transform: translate(
-        calc(var(--start-x) - 50%),
-        calc(var(--start-y) - 50%)
+        var(--src-x),
+        var(--src-y)
       )
-      scale(0.15) rotate(0deg);
+      scale(0);
     opacity: 0;
   }
-  10% {
+  /* Emission: pop to full size, still at source */
+  3% {
     transform: translate(
-        calc(var(--start-x) - 50%),
-        calc(var(--start-y) - 50%)
+        var(--src-x),
+        var(--src-y)
       )
-      scale(1.1);
+      scale(0);
+    opacity: 0;
+  }
+  /* Emission complete: arrived at scattered position */
+  5% {
+    transform: translate(
+        var(--src-x),
+        var(--src-y)
+      )
+      scale(1);
     opacity: 1;
   }
+  12% {
+    transform: translate(
+        var(--scatter-x),
+        var(--scatter-y)
+      )
+      scale(1);
+    opacity: 1;
+  }
+  /* Hover: hanging at scattered position, magnetic field gripping */
+  25% {
+    transform: translate(
+        var(--scatter-x),
+        var(--scatter-y)
+      )
+      scale(1);
+    opacity: 1;
+  }
+  /* Pull phase: sampled bezier positions with increasing speed */
   45% {
     transform: translate(
-        calc(var(--mid-x) - 50%),
-        calc(var(--mid-y) - 50%)
+        var(--pull1-x),
+        var(--pull1-y)
       )
-      scale(1) rotate(calc(var(--rotation) * 0.5));
+      scale(1);
     opacity: 1;
   }
-  75% {
+  65% {
     transform: translate(
-        calc(var(--overshoot-x) - 50%),
-        calc(var(--overshoot-y) - 50%)
+        var(--pull2-x),
+        var(--pull2-y)
       )
-      scale(0.7) rotate(var(--rotation));
-    opacity: 0.9;
+      scale(1);
+    opacity: 1;
   }
-  90% {
+  85% {
     transform: translate(
-        calc(var(--target-x) - 50%),
-        calc(var(--target-y) - 50%)
+        var(--pull3-x),
+        var(--pull3-y)
       )
-      scale(0.45) rotate(var(--rotation));
-    opacity: 0.5;
+      scale(1);
+    opacity: 1;
+  }
+  /* Impact: shrink and disappear at target */
+  95% {
+    transform: translate(
+        var(--target-x),
+        var(--target-y)
+      )
+      scale(0.3);
+    opacity: 1;
   }
   100% {
     transform: translate(
-        calc(var(--target-x) - 50%),
-        calc(var(--target-y) - 50%)
+        var(--target-x),
+        var(--target-y)
       )
-      scale(0.3) rotate(var(--rotation));
+      scale(0);
     opacity: 0;
   }
 }
 
-/* ── Burst mode: radiate outward from origin ─────────────────────────── */
+/* ── Burst mode: emit outward and fade (no target) ─────────────────── */
 
 .pf-coin-magnet__particle--burst {
-  animation: pf-coin-magnet-burst 1000ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  animation: pf-coin-magnet-burst 1200ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
 }
 
 @keyframes pf-coin-magnet-burst {
   0% {
-    transform: translate(0, 0) scale(0.15);
+    transform: translate(0, 0) scale(0);
     opacity: 0;
   }
-  10% {
-    transform: translate(0, 0) scale(1.15);
-    opacity: 1;
-  }
-  60% {
-    transform: translate(var(--burst-tx), var(--burst-ty)) scale(1);
+  15% {
+    transform: translate(0, 0) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translate(var(--burst-tx), var(--burst-ty)) scale(0.5);
+    transform: translate(var(--burst-tx), var(--burst-ty)) scale(0.4);
     opacity: 0;
   }
 }
@@ -148,31 +183,25 @@
 /* ── Reduced motion ──────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .pf-coin-magnet__particle--flight {
-    animation-name: pf-coin-magnet-flight-reduced;
+  .pf-coin-magnet__particle--magnet {
+    animation-name: pf-coin-magnet-pull-reduced;
+    animation-duration: 1000ms;
   }
 
-  @keyframes pf-coin-magnet-flight-reduced {
+  @keyframes pf-coin-magnet-pull-reduced {
     0% {
-      transform: translate(
-          calc(var(--start-x) - 50%),
-          calc(var(--start-y) - 50%)
-        )
-        scale(0.8);
+      transform: translate(var(--src-x), var(--src-y)) scale(0);
       opacity: 0;
     }
     30% {
+      transform: translate(var(--src-x), var(--src-y)) scale(1);
       opacity: 1;
     }
     70% {
       opacity: 1;
     }
     100% {
-      transform: translate(
-          calc(var(--target-x) - 50%),
-          calc(var(--target-y) - 50%)
-        )
-        scale(0.7);
+      transform: translate(var(--target-x), var(--target-y)) scale(0.3);
       opacity: 0;
     }
   }

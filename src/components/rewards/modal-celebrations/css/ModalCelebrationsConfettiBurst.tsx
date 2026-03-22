@@ -30,6 +30,7 @@ type Particle = {
   id: number
   shape: ConfettiShape
   color: string
+  imageUrl: string | undefined
   originX: number
   tx: number
   tyPeak: number
@@ -59,7 +60,8 @@ const DEFAULT_DURATION_MS = 2800
 
 /* ─── Generators ─── */
 
-function makeParticles(count: number, colors: readonly string[], timeScale: number): Particle[] {
+function makeParticles(count: number, colors: readonly string[], images: readonly string[], timeScale: number): Particle[] {
+  const hasImages = images.length > 0
   return Array.from({ length: count }, (_, i) => {
     const layer: 'bg' | 'fg' = i < Math.floor(count / 3) ? 'bg' : 'fg'
     const isBg = layer === 'bg'
@@ -69,6 +71,7 @@ function makeParticles(count: number, colors: readonly string[], timeScale: numb
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
       color: colors[i % colors.length]!,
+      imageUrl: hasImages ? images[i % images.length] : undefined,
       originX: randBetween(-4, 4),
       tx: randBetween(-140, 140) * spread,
       tyPeak: randBetween(-150, -50) * reach,
@@ -97,18 +100,21 @@ function makeSparkles(timeScale: number): Sparkle[] {
 
 /* ─── Sub-components ─── */
 
-function ConfettiLayer({ particles, peakOpacity }: { particles: Particle[]; peakOpacity: string }) {
+function ConfettiLayer({ particles, peakOpacity, maxW, maxH }: { particles: Particle[]; peakOpacity: string; maxW: number; maxH: number }) {
   return (
     <>
       {particles.map((p) => (
         <span
           key={p.id}
-          className={`pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+          className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
           style={
             {
               left: `calc(50% + ${p.originX}px)`,
               top: '55%',
-              background: p.color,
+              background: p.imageUrl !== undefined ? undefined : p.color,
+              width: p.imageUrl !== undefined ? maxW : undefined,
+              height: p.imageUrl !== undefined ? maxH : undefined,
+              position: p.imageUrl !== undefined ? 'absolute' : undefined,
               transformStyle: 'preserve-3d',
               '--tx': `${p.tx}px`,
               '--ty-peak': `${p.tyPeak}px`,
@@ -122,7 +128,11 @@ function ConfettiLayer({ particles, peakOpacity }: { particles: Particle[]; peak
               animation: `cb-confetti ${p.dur}ms linear ${p.delay}ms both`,
             } as React.CSSProperties
           }
-        />
+        >
+          {p.imageUrl !== undefined && (
+            <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+          )}
+        </span>
       ))}
     </>
   )
@@ -153,12 +163,15 @@ function SparkleLayer({ sparkles, timeScale }: { sparkles: Sparkle[]; timeScale:
 function ModalCelebrationsConfettiBurstComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
   colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   duration,
   onComplete,
 }: ModalCelebrationsConfettiBurstProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
 
-  const particles = useMemo(() => makeParticles(particleCount, colors, timeScale), [particleCount, colors, timeScale])
+  const particles = useMemo(() => makeParticles(particleCount, colors, particleImages, timeScale), [particleCount, colors, particleImages, timeScale])
   const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
@@ -179,10 +192,10 @@ function ModalCelebrationsConfettiBurstComponent({
       <div className="pf-celebration__flash" style={{ animation: `cb-flash ${250 * timeScale}ms ease-out both` }} />
 
       <div className="pf-celebration__depth-bg">
-        <ConfettiLayer particles={bgParts} peakOpacity="0.5" />
+        <ConfettiLayer particles={bgParts} peakOpacity="0.5" maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__depth-fg">
-        <ConfettiLayer particles={fgParts} peakOpacity="1" />
+        <ConfettiLayer particles={fgParts} peakOpacity="1" maxW={particleMaxWidth} maxH={particleMaxHeight} />
       </div>
       <div className="pf-celebration__effects">
         <SparkleLayer sparkles={sparkles} timeScale={timeScale} />

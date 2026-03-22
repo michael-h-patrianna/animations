@@ -1,13 +1,18 @@
 /**
  * Endless firework overlay — infinite repeating burst waves with particle images or confetti fallbacks.
  *
- * Copy-paste files: this file + ../fireworkModel.ts + ../SharedCelebrationTypes.ts + ../utils.ts
+ * Copy-paste files: this file + ../fireworkModel.ts + ../SharedCelebrationTypes.ts + ../utils.ts + firework-particle-1.webp + firework-particle-2.webp + firework-particle-3.webp
  * Runtime deps: react, motion
  */
 
 import * as m from 'motion/react-m'
 import { memo, useMemo } from 'react'
 
+import {
+  modalCelebrationsFireworkParticle1Image,
+  modalCelebrationsFireworkParticle2Image,
+  modalCelebrationsFireworkParticle3Image,
+} from '@/assets'
 import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
 import {
   FIREWORK_DEFAULT_BURST_COUNT,
@@ -18,11 +23,23 @@ import {
 } from '../fireworkModel'
 import { CONFETTI_SHAPES, pickRandom, type ConfettiShape } from '../utils'
 
+/* ─── Defaults ─── */
+
+const DEFAULT_PARTICLE_IMAGES = [
+  modalCelebrationsFireworkParticle1Image,
+  modalCelebrationsFireworkParticle2Image,
+  modalCelebrationsFireworkParticle3Image,
+]
+
 /* ─── Props ─── */
 
 interface ModalCelebrationsFireworkProps {
-  /** Image URLs for particles. When omitted, renders colored confetti shape fallbacks. */
+  /** Image URLs for particles. Defaults to bundled firework particle images. Falls back to colored confetti shapes when set to empty array. */
   particleImages?: string[]
+  /** Maximum width in pixels for particles. @default 24 */
+  particleMaxWidth?: number
+  /** Maximum height in pixels for particles. @default 24 */
+  particleMaxHeight?: number
   /** Fallback confetti colors when no images provided. */
   colors?: string[]
   /** Number of burst origin points per cycle. Default 5. */
@@ -49,13 +66,15 @@ function buildFallbackCache(count: number, colors: readonly string[]): FallbackI
 const DEFAULT_COLORS = CELEBRATION_COLORS_HEX as unknown as string[]
 
 function ModalCelebrationsFireworkComponent({
-  particleImages,
+  particleImages = DEFAULT_PARTICLE_IMAGES,
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   colors = DEFAULT_COLORS,
   burstCount = FIREWORK_DEFAULT_BURST_COUNT,
   particlesPerBurst = FIREWORK_DEFAULT_PARTICLES_PER_BURST,
   duration = FIREWORK_DEFAULT_DURATION_MS,
 }: ModalCelebrationsFireworkProps) {
-  const images = particleImages ?? []
+  const images = particleImages
   const hasImages = images.length > 0
   const variantCount = hasImages ? images.length : colors.length
   const cycleDurationS = duration / 1000
@@ -87,6 +106,7 @@ function ModalCelebrationsFireworkComponent({
               <m.div
                 key={particle.id}
                 className="mc-firework__particle"
+                style={{ width: particleMaxWidth, height: particleMaxHeight, animation: 'none' }}
                 initial={{
                   x: 0,
                   y: 0,
@@ -125,7 +145,7 @@ function ModalCelebrationsFireworkComponent({
                   <img
                     src={images[particle.imageIndex % images.length]}
                     alt=""
-                    style={{ width: '100%', height: '100%', display: 'block' }}
+                    style={{ maxWidth: particleMaxWidth, maxHeight: particleMaxHeight, width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
                   />
                 ) : (
                   <span

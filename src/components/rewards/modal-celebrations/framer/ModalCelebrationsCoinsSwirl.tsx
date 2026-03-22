@@ -18,7 +18,7 @@ import { GOLDEN_COLORS, deg2rad, pickRandom, randBetween } from '../utils'
 interface ModalCelebrationsCoinsSwirlProps extends CelebrationBaseProps {
   /** Number of coin particles. Default 20. */
   coinCount?: number
-  /** URL for coin image. When omitted, renders SVG fallback coin. */
+  /** URL for a single coin image. Overridden by `particleImages` when both are provided. When omitted, renders SVG fallback coin. */
   coinImage?: string
 }
 
@@ -159,15 +159,17 @@ function makeSparkles(colors: readonly string[], timeScale: number): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinPiece({ c, coinSrc }: { c: Coin; coinSrc?: string }) {
+function CoinPiece({ c, coinSrc, maxW, maxH }: { c: Coin; coinSrc?: string; maxW: number; maxH: number }) {
+  const w = coinSrc !== undefined ? Math.min(c.size, maxW) : c.size
+  const h = coinSrc !== undefined ? Math.min(c.size, maxH) : c.size
   return (
     <m.div
       style={{
         position: 'absolute',
         left: '50%',
         top: '50%',
-        width: `${c.size}px`,
-        height: `${c.size}px`,
+        width: w,
+        height: h,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -193,7 +195,7 @@ function CoinPiece({ c, coinSrc }: { c: Coin; coinSrc?: string }) {
       }}
     >
       {coinSrc !== undefined ? (
-        <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', display: 'block' }} />
+        <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
       ) : (
         <FallbackCoin size={c.size} />
       )}
@@ -276,12 +278,18 @@ function VortexCore({ timeScale }: { timeScale: number }) {
 function ModalCelebrationsCoinsSwirlComponent({
   coinCount = DEFAULT_COIN_COUNT,
   coinImage,
+  particleImages = [],
+  particleMaxWidth = 24,
+  particleMaxHeight = 24,
   colors = GOLDEN_COLORS_HEX as unknown as string[],
   duration,
   onComplete,
 }: ModalCelebrationsCoinsSwirlProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
   const effectiveColors = colors.length > 0 ? colors : (GOLDEN_COLORS as unknown as string[])
+  const hasParticleImages = particleImages.length > 0
+  const resolveCoinSrc = (index: number): string | undefined =>
+    hasParticleImages ? particleImages[index % particleImages.length] : coinImage
 
   const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
   const trails = useMemo(() => makeTrails(effectiveColors, timeScale), [effectiveColors, timeScale])
@@ -304,12 +312,12 @@ function ModalCelebrationsCoinsSwirlComponent({
       <VortexCore timeScale={timeScale} />
       <div className="pf-celebration__depth-bg" style={{ perspective: 300 }}>
         {bgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} coinSrc={coinImage} />
+          <CoinPiece key={c.id} c={c} coinSrc={resolveCoinSrc(c.id)} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__depth-fg" style={{ perspective: 300 }}>
         {fgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} coinSrc={coinImage} />
+          <CoinPiece key={c.id} c={c} coinSrc={resolveCoinSrc(c.id)} maxW={particleMaxWidth} maxH={particleMaxHeight} />
         ))}
       </div>
       <div className="pf-celebration__effects">

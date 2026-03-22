@@ -45,6 +45,13 @@ export interface CollectionEffectProps {
   colors?: string[]
 
   /**
+   * Maximum particle size in pixels (width and height).
+   * Controls the bounding box for both image and fallback SVG particles.
+   * @default 24
+   */
+  particleSize?: number
+
+  /**
    * How far particles travel from their origin, in pixels.
    * Interpretation varies by animation:
    * - CoinBurst: radial burst distance (default 130)
