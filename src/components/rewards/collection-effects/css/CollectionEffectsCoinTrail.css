@@ -1,25 +1,174 @@
-/* Styles scoped for CollectionEffectsCoinTrail */
+/* Coin Trail — CSS Variant */
+/* "Claim reward" pattern: pop up → hang → accelerate to target → shrink on arrival */
+
 .pf-coin-trail {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 300px;
 }
 
-@keyframes coin-trail-motion {
+.pf-coin-trail__stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pf-coin-trail__particle {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  translate: -50% -50%;
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.pf-coin-trail__particle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Claim mode: pop up → hang → accelerate to target ────────────── */
+
+.pf-coin-trail__particle--claim {
+  animation: pf-coin-trail-claim 1000ms ease-out both;
+}
+
+@keyframes pf-coin-trail-claim {
   0% {
-    transform: translate(0, 0) scale(0.5) rotate(0deg);
+    transform: translate(
+        calc(var(--from-x) - 50%),
+        calc(var(--from-y) - 50%)
+      )
+      scale(0.15);
     opacity: 0;
   }
-  30% {
-    transform: translate(50px, -20px) scale(0.8) rotate(180deg);
+  8% {
+    transform: translate(
+        calc(var(--from-x) - 50%),
+        calc(var(--from-y) - 50%)
+      )
+      scale(1.1);
     opacity: 1;
   }
-  70% {
-    transform: translate(150px, -10px) scale(1) rotate(360deg);
+  22% {
+    transform: translate(
+        calc(var(--apex-x) - 50%),
+        calc(var(--apex-y) - 50%)
+      )
+      scale(1);
     opacity: 1;
+  }
+  32% {
+    transform: translate(
+        calc(var(--apex-x) - 50%),
+        calc(var(--apex-y) - 50%)
+      )
+      scale(0.95);
+    opacity: 1;
+  }
+  /* Approaching target (accelerating) */
+  85% {
+    opacity: 0.8;
+  }
+  /* Arrive at target — shrink */
+  92% {
+    transform: translate(
+        calc(var(--to-x) - 50%),
+        calc(var(--to-y) - 50%)
+      )
+      scale(0.4);
+    opacity: 0.6;
   }
   100% {
-    transform: translate(250px, 5px) scale(0.6) rotate(540deg);
+    transform: translate(
+        calc(var(--to-x) - 50%),
+        calc(var(--to-y) - 50%)
+      )
+      scale(0.2);
     opacity: 0;
+  }
+}
+
+/* ── Swirl mode: circular orbit when from === to ─────────────────── */
+
+.pf-coin-trail__particle--swirl {
+  animation: pf-coin-trail-swirl 1000ms ease-in-out both;
+}
+
+@keyframes pf-coin-trail-swirl {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(var(--swirl-tx), var(--swirl-ty)) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(
+        calc(var(--swirl-tx) * -0.6),
+        calc(var(--swirl-ty) * -0.6)
+      )
+      scale(0.8);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(
+        calc(var(--swirl-tx) * 0.2),
+        calc(var(--swirl-ty) * 0.2)
+      )
+      scale(0.4);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-coin-trail__particle--claim {
+    animation-name: pf-coin-trail-claim-reduced;
+  }
+
+  @keyframes pf-coin-trail-claim-reduced {
+    0% {
+      transform: translate(
+          calc(var(--from-x) - 50%),
+          calc(var(--from-y) - 50%)
+        )
+        scale(0.8);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(
+          calc(var(--to-x) - 50%),
+          calc(var(--to-y) - 50%)
+        )
+        scale(0.5);
+      opacity: 0;
+    }
+  }
+
+  .pf-coin-trail__particle--swirl {
+    animation-name: pf-coin-trail-swirl-reduced;
+  }
+
+  @keyframes pf-coin-trail-swirl-reduced {
+    0% { opacity: 0; transform: scale(0); }
+    33% { opacity: 1; transform: scale(1); }
+    67% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
   }
 }

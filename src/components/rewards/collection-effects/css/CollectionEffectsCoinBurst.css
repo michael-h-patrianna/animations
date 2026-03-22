@@ -1,133 +1,134 @@
-/* Coin Burst Collection Animation - CSS Variant */
+/* Coin Burst — CSS Variant */
 
-.coin-burst-container {
-  --collection-effects-coin-burst-bg-1: #ffd700;
-  --collection-effects-coin-burst-bg-2: #ffa500;
-  --collection-effects-coin-burst-border: #daa520;
-  --collection-effects-coin-burst-color: rgb(255 255 255 / 90%);
+.pf-coin-burst {
   position: relative;
   width: 100%;
   min-height: 300px;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.coin-burst-stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Container anticipation animation */
-  animation: coin-burst-container-anticipation 80ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
+.pf-coin-burst__stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-/* Container anticipation: brief scale down before coins appear */
-@keyframes coin-burst-container-anticipation {
+.pf-coin-burst__stage--anticipation {
+  animation: pf-coin-burst-anticipation 150ms cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+@keyframes pf-coin-burst-anticipation {
   0% {
     transform: scale(1);
   }
+  50% {
+    transform: scale(0.85);
+  }
   100% {
-    transform: scale(0.8);
+    transform: scale(1);
   }
 }
 
-.coin-burst-coin {
+.pf-coin-burst__particle {
   position: absolute;
-  left: 50%;
-  top: 50%;
   width: 28px;
   height: 28px;
-  /* Coin burst animation with staggered delays */
-  animation: coin-burst-flight 1200ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  translate: -50% -50%;
+  opacity: 0;
+  animation: pf-coin-burst-flight 1200ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
   will-change: transform, opacity;
   pointer-events: none;
-  transform: translate(-50%, -50%);
 }
 
-.coin-burst-coin__inner {
+.pf-coin-burst__particle-image {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.pf-coin-burst__flash {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  translate: -50% -50%;
   border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    var(--collection-effects-coin-burst-bg-1) 0%,
-    var(--collection-effects-coin-burst-bg-2) 100%
-  );
-  border: 2px solid var(--collection-effects-coin-burst-border);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--collection-effects-coin-burst-color);
-  font-size: 16px;
-  font-weight: bold;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  --flash-color: rgb(255 215 0 / 80%);
+  --flash-edge: rgb(255 165 0 / 0%);
+  background: radial-gradient(circle, var(--flash-color) 0%, var(--flash-edge) 70%);
+  pointer-events: none;
+  animation: pf-coin-burst-flash 300ms ease-out forwards;
 }
 
-/* Coin burst flight animation */
-@keyframes coin-burst-flight {
-  /* Pop-in phase: 0-100ms */
+@keyframes pf-coin-burst-flash {
   0% {
-    transform: translate(-50%, -50%) scale(0);
+    transform: scale(0);
     opacity: 0;
   }
-  8.33% {
-    /* 100ms / 1200ms = 8.33% */
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 1;
+  30% {
+    transform: scale(1.5);
+    opacity: 0.8;
   }
-  /* Settle briefly before burst */
-  16.67% {
-    /* 200ms / 1200ms */
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  /* Burst travel phase: 200-900ms (700ms duration) */
-  75% {
-    /* 900ms / 1200ms */
-    transform: translate(calc(-50% + var(--coin-x)), calc(-50% + var(--coin-y))) scale(1)
-      rotate(var(--coin-rotation));
-    opacity: 1;
-  }
-  /* Fade exit phase: 900-1200ms (300ms overlap + 100ms final) */
   100% {
-    transform: translate(calc(-50% + var(--coin-x)), calc(-50% + var(--coin-y))) scale(0.6)
-      rotate(var(--coin-rotation));
+    transform: scale(2);
     opacity: 0;
   }
 }
 
-/* Reduced motion: simple fade in/out without transforms */
+@keyframes pf-coin-burst-flight {
+  0% {
+    transform: translate(0, 0) scale(0.15) rotate(0deg);
+    opacity: 0;
+  }
+  6% {
+    transform: translate(0, 0) scale(1.15);
+    opacity: 1;
+  }
+  14% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(var(--burst-tx), var(--burst-ty)) scale(0.9) rotate(var(--burst-rotation));
+    opacity: 1;
+  }
+  80% {
+    transform: translate(var(--burst-tx), var(--burst-ty)) scale(0.65) rotate(var(--burst-rotation));
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(var(--burst-tx), var(--burst-ty)) scale(0.35) rotate(var(--burst-rotation));
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .coin-burst-stage {
+  .pf-coin-burst__stage--anticipation {
     animation: none;
-    transform: scale(1);
   }
 
-  .coin-burst-coin {
-    animation: coin-burst-reduced 300ms ease-out forwards;
+  .pf-coin-burst__particle {
+    animation: pf-coin-burst-reduced 300ms ease-out forwards;
   }
 
-  @keyframes coin-burst-reduced {
+  @keyframes pf-coin-burst-reduced {
     0% {
       opacity: 0;
-      transform: translate(-50%, -50%) scale(1);
+      transform: scale(0);
     }
-    50% {
+    33% {
       opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
+      transform: scale(1);
+    }
+    67% {
+      opacity: 1;
+      transform: scale(1);
     }
     100% {
       opacity: 0;
-      transform: translate(-50%, -50%) scale(1);
+      transform: scale(0);
     }
   }
 }

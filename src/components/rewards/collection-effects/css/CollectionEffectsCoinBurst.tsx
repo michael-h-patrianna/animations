@@ -1,77 +1,144 @@
-import { useEffect, useState } from 'react'
+/**
+ * Radial particle burst from a configurable origin — CSS variant.
+ *
+ * Copy-paste files: this file + CollectionEffectsCoinBurst.css + SharedTypes.ts +
+ * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
+ * Runtime deps: react
+ */
+
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import './CollectionEffectsCoinBurst.css'
 
-interface Coin {
+import { FallbackParticle } from '../SharedFallbackParticle'
+import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
+import { useImagePreloader } from '../SharedImagePreloader'
+import {
+  clampImages,
+  containerCenter,
+  randomImage,
+  resolvePointRelative,
+  type CollectionEffectProps,
+  type ResolvedPoint,
+} from '../SharedTypes'
+
+const DEFAULT_COUNT = 14
+const DEFAULT_SPREAD = 130
+const DEFAULT_DURATION_MS = 1200
+const PARTICLE_SIZE = 28
+const SPREAD_VARIANCE = 0.4
+const CLEANUP_BUFFER_MS = 300
+
+interface Particle {
   id: number
-  x: number
-  y: number
+  tx: number
+  ty: number
   rotation: number
   delay: number
+  imageSrc: string | undefined
+  fallback: { shape: ConfettiShape; color: string }
 }
 
-export function CollectionEffectsCoinBurst() {
-  const [coins, setCoins] = useState<Coin[]>([])
+function generateParticles(
+  count: number,
+  spread: number,
+  images: string[],
+  colors?: string[]
+): Particle[] {
+  const halfVariance = spread * SPREAD_VARIANCE
+  return Array.from({ length: count }, (_, i) => {
+    const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.3
+    const distance = spread - halfVariance + Math.random() * halfVariance * 2
+    return {
+      id: i,
+      tx: Math.cos(angle) * distance,
+      ty: Math.sin(angle) * distance,
+      rotation: (Math.random() - 0.5) * 360,
+      delay: i * 4,
+      imageSrc: randomImage(images),
+      fallback: generateFallbackParticle(colors),
+    }
+  })
+}
+
+function CollectionEffectsCoinBurstComponent({
+  from,
+  count = DEFAULT_COUNT,
+  particleImages,
+  colors,
+  spread = DEFAULT_SPREAD,
+  duration = DEFAULT_DURATION_MS,
+  onComplete,
+}: CollectionEffectProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const images = useMemo(() => clampImages(particleImages), [particleImages])
+  const { ready, timedOut } = useImagePreloader(images.length > 0 ? images : undefined)
+  const useImages = ready && !timedOut && images.length > 0
+
+  const particles = useMemo(
+    () => generateParticles(count, spread, useImages ? images : [], colors),
+    [count, spread, useImages, images, colors]
+  )
+
+  const [origin, setOrigin] = useState<ResolvedPoint | null>(null)
+  const [alive, setAlive] = useState(true)
+
+  useLayoutEffect(() => {
+    if (!ready) return
+    const container = containerRef.current
+    if (container === null) return
+    if (from !== undefined) {
+      setOrigin(resolvePointRelative(from, container))
+    } else {
+      setOrigin(containerCenter(container))
+    }
+  }, [from, ready])
 
   useEffect(() => {
-    // Generate 14 coins in radial pattern
-    const totalCoins = 14
-    const generatedCoins: Coin[] = Array.from({ length: totalCoins }, (_, i) => {
-      const angle = (i / totalCoins) * Math.PI * 2
-      const distance = 120 + Math.random() * 60 // 120-180px
-      const x = Math.cos(angle) * distance
-      const y = Math.sin(angle) * distance
-      const rotation = Math.random() * 180
-
-      return {
-        id: i,
-        x,
-        y,
-        rotation,
-        delay: i * 5, // 5ms stagger
-      }
-    })
-
-    setCoins(generatedCoins)
-
-    // Clean up after animation completes
-    // Container anticipation: 80ms
-    // Coin pop-in: 100ms
-    // Burst travel: 700ms
-    // Fade exit: 400ms (overlaps with travel)
-    // Total: 80 + 100 + 700 = 880ms + max delay (13 * 5 = 65ms) = 945ms
-    // Add buffer for fade exit: 945 + 400 = 1345ms
-    const cleanup = setTimeout(() => {
-      setCoins([])
-    }, 1400)
-
+    const cleanup = setTimeout(() => setAlive(false), duration + CLEANUP_BUFFER_MS)
     return () => clearTimeout(cleanup)
-  }, [])
+  }, [duration])
+
+  const handleComplete = useCallback(() => { onComplete?.() }, [onComplete])
+  useEffect(() => {
+    if (onComplete === undefined) return
+    const maxDelay = particles.reduce((max, p) => Math.max(max, p.delay), 0)
+    const timer = setTimeout(handleComplete, maxDelay + duration + 50)
+    return () => clearTimeout(timer)
+  }, [particles, duration, handleComplete, onComplete])
 
   return (
-    <div className="coin-burst-container" data-animation-id="collection-effects__coin-burst">
-      <div className="coin-burst-stage" aria-hidden="true">
-        {coins.map((coin) => (
-          <div
-            key={coin.id}
-            className="coin-burst-coin"
-            style={
-              {
-                animationDelay: `${coin.delay}ms`,
-                '--coin-x': `${coin.x}px`,
-                '--coin-y': `${coin.y}px`,
-                '--coin-rotation': `${coin.rotation}deg`,
-              } as React.CSSProperties & {
-                '--coin-x': string
-                '--coin-y': string
-                '--coin-rotation': string
+    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst">
+      {alive && origin !== null && (
+        <div className="pf-coin-burst__stage pf-coin-burst__stage--anticipation" aria-hidden="true">
+          <div className="pf-coin-burst__flash" style={{ left: origin.x, top: origin.y }} />
+          {particles.map((particle) => (
+            <div
+              key={particle.id}
+              className="pf-coin-burst__particle"
+              style={
+                {
+                  left: origin.x,
+                  top: origin.y,
+                  animationDelay: `${particle.delay}ms`,
+                  animationDuration: `${duration}ms`,
+                  '--burst-tx': `${particle.tx}px`,
+                  '--burst-ty': `${particle.ty}px`,
+                  '--burst-rotation': `${particle.rotation}deg`,
+                } as React.CSSProperties
               }
-            }
-            aria-hidden="true"
-          >
-            <div className="coin-burst-coin__inner">$</div>
-          </div>
-        ))}
-      </div>
+            >
+              {particle.imageSrc ? (
+                <img src={particle.imageSrc} alt="" className="pf-coin-burst__particle-image" />
+              ) : (
+                <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
+
+export const CollectionEffectsCoinBurst = memo(CollectionEffectsCoinBurstComponent)

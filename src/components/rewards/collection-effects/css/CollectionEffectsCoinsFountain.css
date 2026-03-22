@@ -1,57 +1,134 @@
-/* Styles scoped for CollectionEffectsCoinsFountain */
-.pf-celebration {
-  --collection-effects-coins-fountain-bg-1: rgb(236 195 255 / 18%);
-  --collection-effects-coins-fountain-bg-2: rgb(29 9 47 / 92%);
-  --collection-effects-coins-fountain-border: rgb(236 195 255 / 12%);
-  --collection-effects-coins-fountain-bg-100: #ffb300;
+/* Coins Fountain — CSS Variant */
+
+.pf-coins-fountain {
   position: relative;
   width: 100%;
-  height: 240px;
-  border-radius: 12px;
-  background: linear-gradient(
-    180deg,
-    var(--collection-effects-coins-fountain-bg-1),
-    var(--collection-effects-coins-fountain-bg-2)
-  );
-  border: 1px solid var(--collection-effects-coins-fountain-border);
-  overflow: hidden;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.pf-celebration__layer {
+
+.pf-coins-fountain__stage {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-.pf-celebration__coin {
+
+.pf-coins-fountain__particle {
   position: absolute;
-  left: 50%;
-  top: 60%;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  --background-lint-token-1: var(
-    --coin-color,
-    linear-gradient(135deg, #ffd966 0%, var(--collection-effects-coins-fountain-bg-100) 100%)
-  );
-  background: var(--background-lint-token-1);
-  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  translate: -50% -50%;
   opacity: 0;
+  will-change: transform, opacity;
   pointer-events: none;
+  animation: pf-coins-fountain-erupt 1200ms ease-out both;
 }
 
-@keyframes celebration-coin-fountain {
+.pf-coins-fountain__particle--bg {
+  z-index: 0;
+}
+
+.pf-coins-fountain__particle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.pf-coins-fountain__flash {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  --flash-color: rgb(255 215 0 / 70%);
+  --flash-edge: rgb(255 165 0 / 0%);
+  background: radial-gradient(circle, var(--flash-color) 0%, var(--flash-edge) 70%);
+  pointer-events: none;
+  animation: pf-coins-fountain-flash 400ms ease-out forwards;
+}
+
+@keyframes pf-coins-fountain-flash {
   0% {
-    transform: translate(-50%, -50%) translate(0, 0) scale(0.6);
+    transform: scale(0);
     opacity: 0;
   }
-  20% {
-    opacity: 1;
+  30% {
+    transform: scale(1.4);
+    opacity: 0.9;
   }
-  60% {
-    transform: translate(-50%, -50%) translate(var(--tx, 0), var(--ty, -160px)) scale(1);
-    opacity: 1;
+  65% {
+    transform: scale(0.6);
+    opacity: 0.3;
   }
   100% {
-    transform: translate(-50%, -50%) translate(calc(var(--tx, 0px) * 0.6), -20px) scale(0.7);
+    transform: scale(0);
     opacity: 0;
+  }
+}
+
+/* Eruption: launch up to apex, then fall with gravity */
+@keyframes pf-coins-fountain-erupt {
+  0% {
+    transform: translate(0, 0) scale(0.15);
+    opacity: 0;
+  }
+  8% {
+    transform: translate(0, 0) scale(1.1);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(var(--fountain-tx), var(--fountain-ty-apex)) scale(1);
+    opacity: 1;
+  }
+  65% {
+    transform: translate(
+        calc(var(--fountain-tx) + var(--fountain-tx-fall) * 0.4),
+        calc(var(--fountain-ty-apex) * 0.3)
+      )
+      scale(0.75);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(
+        calc(var(--fountain-tx) + var(--fountain-tx-fall)),
+        var(--fountain-ty-fall)
+      )
+      scale(0.7);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-coins-fountain__particle {
+    animation-name: pf-coins-fountain-reduced;
+  }
+
+  @keyframes pf-coins-fountain-reduced {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0) scale(0.8);
+    }
+    30% {
+      opacity: 1;
+      transform: translate(
+          calc(var(--fountain-tx) * 0.3),
+          calc(var(--fountain-ty-apex) * 0.3)
+        )
+        scale(1);
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(
+          calc(var(--fountain-tx) * 0.3),
+          calc(var(--fountain-ty-apex) * 0.3)
+        )
+        scale(0.7);
+    }
   }
 }

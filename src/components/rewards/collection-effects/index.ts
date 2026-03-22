@@ -1,3 +1,4 @@
+import './shared.css'
 import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
 import { buildGroupExport } from '@/lib/groupBuilder'
 

@@ -1,93 +1,202 @@
-/* Coin Magnet Collection Animation - CSS Variant */
+/* Coin Magnet — CSS Variant */
 
-.coin-magnet-container {
+.pf-coin-magnet {
   position: relative;
   width: 100%;
   min-height: 300px;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.coin-magnet-target {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 300px;
+.pf-coin-magnet__stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-.coin-magnet-coin {
+.pf-coin-magnet__particle {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  animation: coin-magnet-flight 1000ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  width: 36px;
+  height: 36px;
+  translate: -50% -50%;
+  opacity: 0;
   will-change: transform, opacity;
   pointer-events: none;
 }
 
-.coin-magnet-coin__image {
+.pf-coin-magnet__particle-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
-/* Flight animation: coins fly from random positions to top-right target */
-/* Uses CSS custom properties set from React for precise positioning */
-@keyframes coin-magnet-flight {
+.pf-coin-magnet__arrival-flash {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  --flash-color: rgb(255 215 0 / 70%);
+  --flash-edge: rgb(255 215 0 / 0%);
+  background: radial-gradient(circle, var(--flash-color) 0%, var(--flash-edge) 70%);
+  pointer-events: none;
+  animation: pf-coin-magnet-flash 400ms ease-out 500ms forwards;
+  opacity: 0;
+}
+
+@keyframes pf-coin-magnet-flash {
   0% {
-    transform: translate(-50%, -50%) scale(1) rotate(0deg);
-    opacity: 0.8;
+    transform: scale(0);
+    opacity: 0;
   }
-  30% {
-    opacity: 1;
-  }
-  50% {
-    /* Mid-flight: scale up slightly, partial rotation */
-    transform: translate(
-        calc(-50% + var(--translate-x) * 0.5),
-        calc(-50% + var(--translate-y) * 0.5)
-      )
-      scale(1.2) rotate(calc(var(--coin-rotation, 10deg) * 0.5));
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
+  40% {
+    transform: scale(1.2);
+    opacity: 0.6;
   }
   100% {
-    /* End at target position */
-    transform: translate(calc(-50% + var(--translate-x)), calc(-50% + var(--translate-y)))
-      scale(0.8) rotate(var(--coin-rotation, 10deg));
+    transform: scale(1.8);
     opacity: 0;
   }
 }
 
-/* Reduced motion: coins fade in/out at target without flight */
+/* ── Flight mode: parabolic arc from start → mid → overshoot → target ── */
+
+.pf-coin-magnet__particle--flight {
+  left: 0;
+  top: 0;
+  animation: pf-coin-magnet-flight 1000ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes pf-coin-magnet-flight {
+  0% {
+    transform: translate(
+        calc(var(--start-x) - 50%),
+        calc(var(--start-y) - 50%)
+      )
+      scale(0.15) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(
+        calc(var(--start-x) - 50%),
+        calc(var(--start-y) - 50%)
+      )
+      scale(1.1);
+    opacity: 1;
+  }
+  45% {
+    transform: translate(
+        calc(var(--mid-x) - 50%),
+        calc(var(--mid-y) - 50%)
+      )
+      scale(1) rotate(calc(var(--rotation) * 0.5));
+    opacity: 1;
+  }
+  75% {
+    transform: translate(
+        calc(var(--overshoot-x) - 50%),
+        calc(var(--overshoot-y) - 50%)
+      )
+      scale(0.7) rotate(var(--rotation));
+    opacity: 0.9;
+  }
+  90% {
+    transform: translate(
+        calc(var(--target-x) - 50%),
+        calc(var(--target-y) - 50%)
+      )
+      scale(0.45) rotate(var(--rotation));
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(
+        calc(var(--target-x) - 50%),
+        calc(var(--target-y) - 50%)
+      )
+      scale(0.3) rotate(var(--rotation));
+    opacity: 0;
+  }
+}
+
+/* ── Burst mode: radiate outward from origin ─────────────────────────── */
+
+.pf-coin-magnet__particle--burst {
+  animation: pf-coin-magnet-burst 1000ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@keyframes pf-coin-magnet-burst {
+  0% {
+    transform: translate(0, 0) scale(0.15);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(0, 0) scale(1.15);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(var(--burst-tx), var(--burst-ty)) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--burst-tx), var(--burst-ty)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
-  .coin-magnet-coin {
-    animation: coin-magnet-fade 1000ms ease-out forwards;
+  .pf-coin-magnet__particle--flight {
+    animation-name: pf-coin-magnet-flight-reduced;
   }
 
-  @keyframes coin-magnet-fade {
+  @keyframes pf-coin-magnet-flight-reduced {
     0% {
-      opacity: 0;
-      transform: translate(calc(-50% + var(--translate-x)), calc(-50% + var(--translate-y)))
+      transform: translate(
+          calc(var(--start-x) - 50%),
+          calc(var(--start-y) - 50%)
+        )
         scale(0.8);
+      opacity: 0;
     }
     30% {
       opacity: 1;
-      transform: translate(calc(-50% + var(--translate-x)), calc(-50% + var(--translate-y)))
-        scale(1);
     }
     70% {
       opacity: 1;
-      transform: translate(calc(-50% + var(--translate-x)), calc(-50% + var(--translate-y)))
-        scale(1);
+    }
+    100% {
+      transform: translate(
+          calc(var(--target-x) - 50%),
+          calc(var(--target-y) - 50%)
+        )
+        scale(0.7);
+      opacity: 0;
+    }
+  }
+
+  .pf-coin-magnet__particle--burst {
+    animation-name: pf-coin-magnet-burst-reduced;
+  }
+
+  @keyframes pf-coin-magnet-burst-reduced {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    33% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    67% {
+      opacity: 1;
+      transform: scale(1);
     }
     100% {
       opacity: 0;
-      transform: translate(calc(-50% + var(--translate-x)), calc(-50% + var(--translate-y)))
-        scale(0.8);
+      transform: scale(0);
     }
   }
 }

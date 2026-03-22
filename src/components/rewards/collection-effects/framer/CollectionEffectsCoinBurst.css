@@ -1,60 +1,44 @@
-/* Coin Burst Collection Animation - Framer Motion Variant */
+/* Coin Burst — Framer Motion Variant (layout only) */
 
-.coin-burst-container-framer {
-  --collection-effects-coin-burst-bg-1: #ffd700;
-  --collection-effects-coin-burst-bg-2: #ffa500;
-  --collection-effects-coin-burst-border: #daa520;
-  --collection-effects-coin-burst-color: rgb(255 255 255 / 90%);
+.pf-coin-burst {
   position: relative;
   width: 100%;
-  min-height: 300px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.coin-burst-stage-framer {
-  position: relative;
-  width: 100%;
-  height: 100%;
   min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.coin-burst-coin-framer {
+.pf-coin-burst__stage {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pf-coin-burst__particle {
+  position: absolute;
   width: 28px;
   height: 28px;
+  translate: -50% -50%;
   will-change: transform, opacity;
   pointer-events: none;
 }
 
-/* Coin visual styles */
-.coin-burst-coin__inner {
+.pf-coin-burst__particle-image {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.pf-coin-burst__flash {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  translate: -50% -50%;
   border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    var(--collection-effects-coin-burst-bg-1) 0%,
-    var(--collection-effects-coin-burst-bg-2) 100%
-  );
-  border: 2px solid var(--collection-effects-coin-burst-border);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--collection-effects-coin-burst-color);
-  font-size: 16px;
-  font-weight: bold;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  --flash-color: rgb(255 215 0 / 80%);
+  --flash-edge: rgb(255 165 0 / 0%);
+  background: radial-gradient(circle, var(--flash-color) 0%, var(--flash-edge) 70%);
+  pointer-events: none;
 }

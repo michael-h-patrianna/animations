@@ -1,68 +1,266 @@
-import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
-import { useMemo } from 'react'
+/**
+ * Particle fountain erupting upward with parabolic physics.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedParticleUtils.ts +
+ * SharedFallbackParticle.tsx + SharedImagePreloader.ts
+ * Runtime deps: react, motion
+ */
 
-// Utility function to generate random number between min and max
-import { coinImage } from '@/assets'
-const randBetween = (min: number, max: number): number => {
-  return Math.random() * (max - min) + min
+import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+
+import { FallbackParticle } from '../SharedFallbackParticle'
+import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
+import { useImagePreloader } from '../SharedImagePreloader'
+import {
+  clampImages,
+  containerCenter,
+  randomImage,
+  resolvePointRelative,
+  type CollectionEffectProps,
+  type ResolvedPoint,
+} from '../SharedTypes'
+
+const DEFAULT_COUNT = 12
+const DEFAULT_SPREAD = 160 // eruption height
+const DEFAULT_DURATION_S = 1.2
+const PARTICLE_SIZE = 24
+const CLEANUP_BUFFER_MS = 400
+const HORIZONTAL_SPREAD = 80 // max horizontal deviation
+
+const randBetween = (min: number, max: number) => Math.random() * (max - min) + min
+
+interface Particle {
+  id: number
+  /** Horizontal offset at apex */
+  tx: number
+  /** Vertical offset at apex (negative = upward) */
+  tyApex: number
+  /** Where particle lands (relative to origin) */
+  tyFall: number
+  txFall: number
+  delay: number
+  /** 3D spin for metallic flash */
+  spinY: number
+  tumble: number
+  layer: 'bg' | 'fg'
+  imageSrc: string | undefined
+  fallback: { shape: ConfettiShape; color: string }
 }
 
-export function CollectionEffectsCoinsFountain() {
-  const coins = useMemo(
-    () =>
-      Array.from({ length: 12 }, (_, i) => {
-        const tx = randBetween(-80, 80)
-        const ty = randBetween(-200, -120)
-        const delay = i * 0.05
-        const duration = 1.1
+function generateParticles(
+  count: number,
+  spread: number,
+  images: string[],
+  colors?: string[]
+): Particle[] {
+  return Array.from({ length: count }, (_, i) => {
+    const isBg = i % 3 === 0
+    const heightMultiplier = isBg ? 0.7 : 1
+    return {
+      id: i,
+      tx: randBetween(-HORIZONTAL_SPREAD, HORIZONTAL_SPREAD) * (isBg ? 0.6 : 1),
+      tyApex: -(spread * (0.7 + Math.random() * 0.3)) * heightMultiplier,
+      tyFall: randBetween(10, 40),
+      txFall: randBetween(-20, 20),
+      delay: i * 0.04,
+      spinY: randBetween(2, 4) * 360 * (isBg ? 0.7 : 1),
+      tumble: randBetween(-25, 25),
+      layer: isBg ? 'bg' : 'fg',
+      imageSrc: randomImage(images),
+      fallback: generateFallbackParticle(colors),
+    }
+  })
+}
 
-        return {
-          id: i,
-          tx,
-          ty,
-          delay,
-          duration,
-        }
-      }),
-    []
-  )
+function LaunchFlash({ origin }: { origin: ResolvedPoint }) {
   return (
-    <div className="pf-celebration" data-animation-id="collection-effects__coins-fountain">
-      <div className="pf-celebration__layer">
-        {coins.map((coin) => (
-          <m.img
-            key={coin.id}
-            src={coinImage}
-            alt="coin"
-            style={{
-              width: '24px',
-              height: '24px',
-              position: 'absolute',
-              left: '50%',
-              top: '60%',
-            }}
-            initial={{
-              x: 0,
-              y: 0,
-              scale: 0.6,
-              opacity: 0,
-            }}
-            animate={{
-              x: [0, coin.tx, coin.tx * 0.6],
-              y: [0, coin.ty, -20],
-              scale: [0.6, 1, 0.7],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: coin.duration,
-              delay: coin.delay,
-              times: [0, 0.6, 1],
-              ease: easeOut,
-            }}
-          />
-        ))}
-      </div>
+    <m.div
+      className="pf-coins-fountain__flash"
+      style={{ left: origin.x, top: origin.y, animation: 'none' }}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: [0, 1.4, 0.6, 0], opacity: [0, 0.9, 0.3, 0] }}
+      transition={{ duration: 0.4, times: [0, 0.3, 0.65, 1], ease: 'easeOut' }}
+    />
+  )
+}
+
+function ParticleElement({
+  particle,
+  origin,
+  durationS,
+  prefersReducedMotion,
+  onFinish,
+  isLast,
+}: {
+  particle: Particle
+  origin: ResolvedPoint
+  durationS: number
+  prefersReducedMotion: boolean | null
+  onFinish?: () => void
+  isLast: boolean
+}) {
+  const isBg = particle.layer === 'bg'
+  const peakOpacity = isBg ? 0.6 : 1
+
+  return (
+    <m.div
+      className="pf-coins-fountain__particle"
+      style={{
+        left: origin.x,
+        top: origin.y,
+        zIndex: isBg ? 0 : 1,
+        animation: 'none',
+      }}
+      initial={{ x: 0, y: 0, scale: 0.15, rotateY: 0, rotateZ: 0, opacity: 0 }}
+      animate={
+        prefersReducedMotion
+          ? {
+              x: [0, particle.tx * 0.3],
+              y: [0, particle.tyApex * 0.3],
+              scale: [0.15, 1, 0.4],
+              opacity: [0, peakOpacity, 0],
+            }
+          : {
+              x: [0, 0, particle.tx, particle.tx + particle.txFall],
+              y: [0, 0, particle.tyApex, particle.tyFall],
+              scale: [0.15, isBg ? 0.8 : 1.1, isBg ? 0.75 : 1.0, isBg ? 0.3 : 0.4],
+              rotateY: [0, 0, particle.spinY, particle.spinY],
+              rotateZ: [0, 0, particle.tumble, particle.tumble],
+              opacity: [0, 1, peakOpacity, 0],
+            }
+      }
+      transition={
+        prefersReducedMotion
+          ? {
+              duration: durationS * 0.6,
+              delay: particle.delay,
+              ease: 'easeOut' as const,
+              scale: { times: [0, 0.4, 1] },
+              opacity: { times: [0, 0.3, 1] },
+            }
+          : {
+              duration: durationS,
+              delay: particle.delay,
+              times: [0, 0.07, 0.45, 1],
+              y: {
+                duration: durationS,
+                delay: particle.delay,
+                times: [0, 0.07, 0.45, 1],
+                ease: ['easeOut', 'easeOut', [0.33, 0, 0.85, 1]],
+              },
+              x: {
+                duration: durationS,
+                delay: particle.delay,
+                times: [0, 0.07, 0.45, 1],
+                ease: ['easeOut', 'easeOut', [0.25, 0.1, 0.25, 1]],
+              },
+              scale: {
+                duration: durationS,
+                delay: particle.delay,
+                times: [0, 0.07, 0.40, 1],
+                ease: ['easeOut', 'easeOut', 'linear'],
+              },
+              opacity: {
+                duration: durationS,
+                delay: particle.delay,
+                times: [0, 0.07, 0.35, 1],
+                ease: ['easeOut', 'easeOut', [0.5, 0, 1, 1]],
+              },
+              rotateY: { duration: durationS, delay: particle.delay, ease: 'linear' },
+              rotateZ: { duration: durationS, delay: particle.delay, ease: 'linear' },
+            }
+      }
+      onAnimationComplete={isLast ? onFinish : undefined}
+      aria-hidden="true"
+    >
+      {particle.imageSrc ? (
+        <img src={particle.imageSrc} alt="" className="pf-coins-fountain__particle-image" />
+      ) : (
+        <FallbackParticle
+          shape={particle.fallback.shape}
+          color={particle.fallback.color}
+          size={isBg ? PARTICLE_SIZE * 0.8 : PARTICLE_SIZE}
+        />
+      )}
+    </m.div>
+  )
+}
+
+function CollectionEffectsCoinsFountainComponent({
+  from,
+  to: _to,
+  count = DEFAULT_COUNT,
+  particleImages,
+  colors,
+  spread = DEFAULT_SPREAD,
+  duration,
+  onComplete,
+}: CollectionEffectProps) {
+  const durationS = duration !== undefined ? duration / 1000 : DEFAULT_DURATION_S
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const images = useMemo(() => clampImages(particleImages), [particleImages])
+  const { ready, timedOut } = useImagePreloader(images.length > 0 ? images : undefined)
+  const useImages = ready && !timedOut && images.length > 0
+
+  const particles = useMemo(
+    () => generateParticles(count, spread, useImages ? images : [], colors),
+    [count, spread, useImages, images, colors]
+  )
+
+  const [origin, setOrigin] = useState<ResolvedPoint | null>(null)
+  const [alive, setAlive] = useState(true)
+
+  useLayoutEffect(() => {
+    if (!ready) return
+    const container = containerRef.current
+    if (container === null) return
+    if (from !== undefined) {
+      setOrigin(resolvePointRelative(from, container))
+    } else {
+      setOrigin(containerCenter(container))
+    }
+  }, [from, ready])
+  const prefersReducedMotion = useReducedMotion()
+
+  const cleanupMs = durationS * 1000 + CLEANUP_BUFFER_MS + count * 40
+  useEffect(() => {
+    const cleanup = setTimeout(() => setAlive(false), cleanupMs)
+    return () => clearTimeout(cleanup)
+  }, [cleanupMs])
+
+  const handleComplete = useCallback(() => {
+    onComplete?.()
+  }, [onComplete])
+
+  const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
+
+  return (
+    <div
+      ref={containerRef}
+      className="pf-coins-fountain"
+      data-animation-id="collection-effects__coins-fountain"
+    >
+      {alive && origin !== null && (
+        <div className="pf-coins-fountain__stage" aria-hidden="true" style={{ perspective: 300 }}>
+          <LaunchFlash origin={origin} />
+          {particles.map((particle) => (
+            <ParticleElement
+              key={particle.id}
+              particle={particle}
+              origin={origin}
+              durationS={durationS}
+              prefersReducedMotion={prefersReducedMotion}
+              onFinish={particle.id === lastParticleId ? handleComplete : undefined}
+              isLast={particle.id === lastParticleId}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
+
+export const CollectionEffectsCoinsFountain = memo(CollectionEffectsCoinsFountainComponent)

@@ -1,0 +1,57 @@
+/* ── Collection Effects — Shared Demo Anchors ────────────────────────── */
+
+.pf-collection-demo-anchors {
+  --demo-anchor-bg: rgb(255 255 255 / 12%);
+  --demo-anchor-border: rgb(255 255 255 / 18%);
+  --demo-anchor-text: rgb(255 255 255 / 70%);
+  --demo-anchor-source: #4ecdc4;
+  --demo-anchor-target: #ffd700;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Anchor pill ─────────────────────────────────────────────────────── */
+
+.pf-collection-demo-anchor {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 6px;
+  border-radius: 20px;
+  background: var(--demo-anchor-bg);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--demo-anchor-border);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--demo-anchor-text);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  translate: -50% -50%;
+}
+
+.pf-collection-demo-anchor__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pf-collection-demo-anchor--from .pf-collection-demo-anchor__dot {
+  background: var(--demo-anchor-source);
+  box-shadow: 0 0 6px var(--demo-anchor-source);
+}
+
+.pf-collection-demo-anchor--to .pf-collection-demo-anchor__dot {
+  background: var(--demo-anchor-target);
+  box-shadow: 0 0 6px var(--demo-anchor-target);
+}
+
+.pf-collection-demo-anchor__label {
+  line-height: 1;
+}

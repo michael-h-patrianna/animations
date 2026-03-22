@@ -1,92 +1,197 @@
-import { useEffect, useState } from 'react'
+/**
+ * Radial particle burst from a configurable origin.
+ *
+ * Copy-paste files: this file + SharedTypes.ts + SharedParticleUtils.ts +
+ * SharedFallbackParticle.tsx + SharedImagePreloader.ts
+ * Runtime deps: react, motion
+ */
+
 import * as m from 'motion/react-m'
-interface Coin {
+import { useReducedMotion } from 'motion/react'
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+
+import { FallbackParticle } from '../SharedFallbackParticle'
+import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
+import { useImagePreloader } from '../SharedImagePreloader'
+import {
+  clampImages,
+  containerCenter,
+  randomImage,
+  resolvePointRelative,
+  type CollectionEffectProps,
+  type ResolvedPoint,
+} from '../SharedTypes'
+
+const DEFAULT_COUNT = 14
+const DEFAULT_SPREAD = 130
+const DEFAULT_DURATION_S = 1.2
+const PARTICLE_SIZE = 28
+const SPREAD_VARIANCE = 0.4
+const CLEANUP_BUFFER_MS = 300
+
+interface Particle {
   id: number
-  x: number
-  y: number
+  tx: number
+  ty: number
   rotation: number
   delay: number
+  imageSrc: string | undefined
+  fallback: { shape: ConfettiShape; color: string }
 }
-export function CollectionEffectsCoinBurst() {
-  const [coins, setCoins] = useState<Coin[]>([])
-  useEffect(() => {
-    // Generate 14 coins in radial pattern
-    const totalCoins = 14
-    const generatedCoins: Coin[] = Array.from({ length: totalCoins }, (_, i) => {
-      const angle = (i / totalCoins) * Math.PI * 2
-      const distance = 120 + Math.random() * 60 // 120-180px
-      const x = Math.cos(angle) * distance
-      const y = Math.sin(angle) * distance
-      const rotation = Math.random() * 180
-      return {
-        id: i,
-        x,
-        y,
-        rotation,
-        delay: i * 5, // 5ms stagger
-      }
-    })
-    setCoins(generatedCoins) // Clean up after animation completes
-    const cleanup = setTimeout(() => {
-      setCoins([])
-    }, 1400)
-    return () => clearTimeout(cleanup)
-  }, [])
-  const [prefersReducedMotion] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
+
+function generateParticles(
+  count: number,
+  spread: number,
+  images: string[],
+  colors?: string[]
+): Particle[] {
+  const halfVariance = spread * SPREAD_VARIANCE
+  return Array.from({ length: count }, (_, i) => {
+    const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.3
+    const distance = spread - halfVariance + Math.random() * halfVariance * 2
+    return {
+      id: i,
+      tx: Math.cos(angle) * distance,
+      ty: Math.sin(angle) * distance,
+      rotation: (Math.random() - 0.5) * 360,
+      delay: i * 0.004,
+      imageSrc: randomImage(images),
+      fallback: generateFallbackParticle(colors),
+    }
+  })
+}
+
+function BurstFlash({ origin }: { origin: ResolvedPoint }) {
   return (
-    <div className="coin-burst-container-framer" data-animation-id="collection-effects__coin-burst">
-      <m.div
-        className="coin-burst-stage-framer"
-        initial={{ scale: 1 }}
-        animate={prefersReducedMotion ? { scale: 1 } : { scale: 0.8 }}
-        transition={{ duration: 0.08, ease: [0.4, 0, 0.6, 1] as const }}
-        aria-hidden="true"
-      >
-        {coins.map((coin) => (
-          <m.div
-            key={coin.id}
-            className="coin-burst-coin-framer"
-            initial={{ x: 0, y: 0, scale: 0, rotate: 0, opacity: 0 }}
-            animate={
-              prefersReducedMotion
-                ? { x: 0, y: 0, scale: [0, 1, 1, 0], rotate: 0, opacity: [0, 1, 1, 0] }
-                : {
-                    x: coin.x,
-                    y: coin.y,
-                    scale: [0, 1.2, 1, 1, 0.6],
-                    rotate: [0, 0, 0, coin.rotation, coin.rotation],
-                    opacity: [0, 1, 1, 1, 0],
-                  }
+    <m.div
+      className="pf-coin-burst__flash"
+      style={{ left: origin.x, top: origin.y, animation: 'none' }}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: [0, 1.5, 2], opacity: [0, 0.8, 0] }}
+      transition={{ duration: 0.3, times: [0, 0.3, 1], ease: 'easeOut' }}
+    />
+  )
+}
+
+function ParticleElement({
+  particle,
+  origin,
+  durationS,
+  prefersReducedMotion,
+  onFinish,
+  isLast,
+}: {
+  particle: Particle
+  origin: ResolvedPoint
+  durationS: number
+  prefersReducedMotion: boolean | null
+  onFinish?: () => void
+  isLast: boolean
+}) {
+  return (
+    <m.div
+      className="pf-coin-burst__particle"
+      style={{ left: origin.x, top: origin.y, animation: 'none' }}
+      initial={{ x: 0, y: 0, scale: 0.15, rotate: 0, opacity: 0 }}
+      animate={
+        prefersReducedMotion
+          ? { x: 0, y: 0, scale: [0.15, 1, 1, 0], rotate: 0, opacity: [0, 1, 1, 0] }
+          : {
+              x: [0, 0, 0, particle.tx, particle.tx],
+              y: [0, 0, 0, particle.ty, particle.ty],
+              scale: [0.15, 1.15, 1, 0.8, 0.35],
+              rotate: [0, 0, 0, particle.rotation, particle.rotation],
+              opacity: [0, 1, 1, 0.7, 0],
             }
-            transition={
-              prefersReducedMotion
-                ? {
-                    duration: 0.3,
-                    delay: coin.delay / 1000,
-                    ease: 'easeOut' as const,
-                    times: [0, 0.33, 0.67, 1],
-                  }
-                : {
-                    duration: 1.2,
-                    delay: coin.delay / 1000,
-                    ease: [0.2, 0.8, 0.3, 1] as const,
-                    times: [0, 0.083, 0.167, 0.75, 1],
-                    scale: { times: [0, 0.083, 0.167, 0.75, 1], duration: 1.2 },
-                    rotate: { times: [0, 0.083, 0.167, 0.75, 1], duration: 1.2 },
-                    opacity: { times: [0, 0.083, 0.167, 0.75, 1], duration: 1.2 },
-                  }
-            }
-            aria-hidden="true"
-          >
-            <div className="coin-burst-coin__inner">$</div>
-          </m.div>
-        ))}
-      </m.div>
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.3, delay: particle.delay, ease: 'easeOut' as const, times: [0, 0.33, 0.67, 1] }
+          : { duration: durationS, delay: particle.delay, times: [0, 0.06, 0.14, 0.7, 1] }
+      }
+      onAnimationComplete={isLast ? onFinish : undefined}
+      aria-hidden="true"
+    >
+      {particle.imageSrc ? (
+        <img src={particle.imageSrc} alt="" className="pf-coin-burst__particle-image" />
+      ) : (
+        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+      )}
+    </m.div>
+  )
+}
+
+function CollectionEffectsCoinBurstComponent({
+  from,
+  count = DEFAULT_COUNT,
+  particleImages,
+  colors,
+  spread = DEFAULT_SPREAD,
+  duration,
+  onComplete,
+}: CollectionEffectProps) {
+  const durationS = duration !== undefined ? duration / 1000 : DEFAULT_DURATION_S
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const images = useMemo(() => clampImages(particleImages), [particleImages])
+  const { ready, timedOut } = useImagePreloader(images.length > 0 ? images : undefined)
+  const useImages = ready && !timedOut && images.length > 0
+
+  const particles = useMemo(
+    () => generateParticles(count, spread, useImages ? images : [], colors),
+    [count, spread, useImages, images, colors]
+  )
+
+  const [origin, setOrigin] = useState<ResolvedPoint | null>(null)
+  const [alive, setAlive] = useState(true)
+  const prefersReducedMotion = useReducedMotion()
+
+  useLayoutEffect(() => {
+    if (!ready) return
+    const container = containerRef.current
+    if (container === null) return
+    if (from !== undefined) {
+      setOrigin(resolvePointRelative(from, container))
+    } else {
+      setOrigin(containerCenter(container))
+    }
+  }, [from, ready])
+
+  const cleanupMs = durationS * 1000 + CLEANUP_BUFFER_MS
+  useEffect(() => {
+    const cleanup = setTimeout(() => setAlive(false), cleanupMs)
+    return () => clearTimeout(cleanup)
+  }, [cleanupMs])
+
+  const handleComplete = useCallback(() => { onComplete?.() }, [onComplete])
+  const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
+
+  return (
+    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst">
+      {alive && origin !== null && (
+        <m.div
+          className="pf-coin-burst__stage"
+          initial={{ scale: 1 }}
+          animate={prefersReducedMotion ? { scale: 1 } : { scale: [1, 0.85, 1] }}
+          transition={{ duration: 0.15, ease: [0.4, 0, 0.6, 1] as const }}
+          aria-hidden="true"
+        >
+          <BurstFlash origin={origin} />
+          {particles.map((particle) => (
+            <ParticleElement
+              key={particle.id}
+              particle={particle}
+              origin={origin}
+              durationS={durationS}
+              prefersReducedMotion={prefersReducedMotion}
+              onFinish={particle.id === lastParticleId ? handleComplete : undefined}
+              isLast={particle.id === lastParticleId}
+            />
+          ))}
+        </m.div>
+      )}
     </div>
   )
 }
+
+export const CollectionEffectsCoinBurst = memo(CollectionEffectsCoinBurstComponent)

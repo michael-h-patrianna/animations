@@ -1,83 +1,181 @@
-import { useEffect, useState } from 'react'
+/**
+ * "Claim reward" particle trail — CSS variant.
+ *
+ * Copy-paste files: this file + CollectionEffectsCoinTrail.css + SharedTypes.ts +
+ * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
+ * Runtime deps: react
+ */
+
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import './CollectionEffectsCoinTrail.css'
 
-import { coinImage } from '@/assets'
-interface Coin {
+import { FallbackParticle } from '../SharedFallbackParticle'
+import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
+import { useImagePreloader } from '../SharedImagePreloader'
+import {
+  clampImages,
+  containerCenter,
+  pointsAreEqual,
+  randomImage,
+  resolvePointRelative,
+  type CollectionEffectProps,
+  type ResolvedPoint,
+} from '../SharedTypes'
+
+const DEFAULT_COUNT = 8
+const DEFAULT_SPREAD = 50
+const DEFAULT_DURATION_MS = 1000
+const PARTICLE_SIZE = 24
+const CLEANUP_BUFFER_MS = 400
+
+interface Particle {
   id: number
   delay: number
+  apexOffsetX: number
+  imageSrc: string | undefined
+  fallback: { shape: ConfettiShape; color: string }
 }
 
-// Separate Coin component for better React Native translation
-const AnimatedCoin = ({ delay }: { delay: number }) => {
-  const [isAnimating, setIsAnimating] = useState(false)
+function generateParticles(
+  count: number,
+  images: string[],
+  colors?: string[]
+): Particle[] {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    delay: i * 70,
+    apexOffsetX: (Math.random() - 0.5) * 20,
+    imageSrc: randomImage(images),
+    fallback: generateFallbackParticle(colors),
+  }))
+}
+
+function CollectionEffectsCoinTrailComponent({
+  from,
+  to,
+  count = DEFAULT_COUNT,
+  particleImages,
+  colors,
+  spread = DEFAULT_SPREAD,
+  duration = DEFAULT_DURATION_MS,
+  onComplete,
+}: CollectionEffectProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const images = useMemo(() => clampImages(particleImages), [particleImages])
+  const { ready, timedOut } = useImagePreloader(images.length > 0 ? images : undefined)
+  const useImages = ready && !timedOut && images.length > 0
+
+  const particles = useMemo(
+    () => generateParticles(count, useImages ? images : [], colors),
+    [count, useImages, images, colors]
+  )
+
+  const [fromPt, setFromPt] = useState<ResolvedPoint | null>(null)
+  const [toPt, setToPt] = useState<ResolvedPoint | null>(null)
+  const [alive, setAlive] = useState(true)
+
+  useLayoutEffect(() => {
+    if (!ready) return
+    const container = containerRef.current
+    if (container === null) return
+    const center = containerCenter(container)
+    const resolvedFrom = from !== undefined ? resolvePointRelative(from, container) : center
+    setFromPt(resolvedFrom)
+    const resolvedTo = to !== undefined ? resolvePointRelative(to, container) : resolvedFrom
+    setToPt(resolvedTo)
+  }, [from, to, ready])
+
+  const isSwirl = pointsAreEqual(fromPt, toPt)
+
+  const cleanupMs = duration + CLEANUP_BUFFER_MS + count * 70
+  useEffect(() => {
+    const cleanup = setTimeout(() => setAlive(false), cleanupMs)
+    return () => clearTimeout(cleanup)
+  }, [cleanupMs])
+
+  const handleComplete = useCallback(() => {
+    onComplete?.()
+  }, [onComplete])
 
   useEffect(() => {
-    // Small delay to trigger animation after mount
-    const timer = setTimeout(() => setIsAnimating(true), 10)
+    if (onComplete === undefined) return
+    const maxDelay = particles.reduce((max, p) => Math.max(max, p.delay), 0)
+    const timer = setTimeout(handleComplete, maxDelay + duration + 50)
     return () => clearTimeout(timer)
-  }, [])
+  }, [particles, duration, handleComplete, onComplete])
 
   return (
     <div
-      className="pf-coin-trail__coin"
-      style={{
-        position: 'absolute',
-        left: '10px',
-        top: '50px',
-        width: '24px',
-        height: '24px',
-        animation: isAnimating
-          ? `coin-trail-motion 2.4s ${delay}ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards`
-          : 'none',
-        opacity: 0,
-      }}
+      ref={containerRef}
+      className="pf-coin-trail"
+      data-animation-id="collection-effects__coin-trail"
     >
-      <img
-        src={coinImage}
-        alt="coin"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
-        }}
-      />
+      {alive && fromPt !== null && toPt !== null && (
+        <div className="pf-coin-trail__stage" aria-hidden="true">
+          {particles.map((particle) => {
+            if (isSwirl) {
+              const swirlAngle = (particle.id / count) * Math.PI * 2
+              const swirlTx = Math.cos(swirlAngle) * 50
+              const swirlTy = Math.sin(swirlAngle) * 50
+              return (
+                <div
+                  key={particle.id}
+                  className="pf-coin-trail__particle pf-coin-trail__particle--swirl"
+                  style={
+                    {
+                      left: fromPt.x,
+                      top: fromPt.y,
+                      animationDelay: `${particle.delay}ms`,
+                      animationDuration: `${duration}ms`,
+                      '--swirl-tx': `${swirlTx}px`,
+                      '--swirl-ty': `${swirlTy}px`,
+                    } as React.CSSProperties
+                  }
+                >
+                  {particle.imageSrc ? (
+                    <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
+                  ) : (
+                    <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+                  )}
+                </div>
+              )
+            }
+
+            // "Claim reward" CSS animation: pop up → hang → accelerate to target
+            const apexX = fromPt.x + particle.apexOffsetX
+            const apexY = fromPt.y - spread
+            return (
+              <div
+                key={particle.id}
+                className="pf-coin-trail__particle pf-coin-trail__particle--claim"
+                style={
+                  {
+                    left: 0,
+                    top: 0,
+                    animationDelay: `${particle.delay}ms`,
+                    animationDuration: `${duration}ms`,
+                    '--from-x': `${fromPt.x}px`,
+                    '--from-y': `${fromPt.y}px`,
+                    '--apex-x': `${apexX}px`,
+                    '--apex-y': `${apexY}px`,
+                    '--to-x': `${toPt.x}px`,
+                    '--to-y': `${toPt.y}px`,
+                  } as React.CSSProperties
+                }
+              >
+                {particle.imageSrc ? (
+                  <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
+                ) : (
+                  <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={PARTICLE_SIZE} />
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
 
-export function CollectionEffectsCoinTrail() {
-  const [coins, setCoins] = useState<Coin[]>([])
-
-  useEffect(() => {
-    // Create coins with staggered delays
-    const coinCount = 8
-    const newCoins = Array.from({ length: coinCount }, (_, i) => ({
-      id: i,
-      delay: i * 100,
-    }))
-
-    setCoins(newCoins)
-
-    // Clean up after animation completes
-    const cleanupTimeout = setTimeout(
-      () => {
-        // Animation complete - could reset here if needed
-      },
-      2400 + coinCount * 100
-    )
-
-    return () => {
-      clearTimeout(cleanupTimeout)
-    }
-  }, [])
-
-  return (
-    <div className="pf-celebration" data-animation-id="collection-effects__coin-trail">
-      <div className="pf-celebration__layer">
-        {coins.map((coin) => (
-          <AnimatedCoin key={coin.id} delay={coin.delay} />
-        ))}
-      </div>
-    </div>
-  )
-}
+export const CollectionEffectsCoinTrail = memo(CollectionEffectsCoinTrailComponent)

@@ -6,6 +6,7 @@ export const metadata = {
   urlSlugCss: '/collection-effects-css?animation=collection-effects__coin-magnet',
   title: 'Coin Magnet',
   description:
-    'Coins fly from random positions to a fixed collection point with scale and rotation effects.',
-  tier: 4,
+    'Particles fly along parabolic arcs from a source area to a target point with overshoot settle. Configurable from/to, particle images or color palette, count, spread, duration, and onComplete callback.',
+  tier: 3,
+  demoMode: 'magnet',
 } satisfies AnimationMetadata
