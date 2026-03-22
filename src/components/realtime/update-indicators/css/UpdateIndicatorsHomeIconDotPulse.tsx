@@ -1,36 +1,53 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Notification dot — gentle breathing pulse with soft glow ring. CSS variant.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotPulse.css + ../shared.css + ../SharedTypes.ts
+ * Runtime deps: react
+ *
+ * Usage: <UpdateIndicatorsHomeIconDotPulse dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotPulse>
+ */
+import { memo } from 'react'
+import { DOT_COLOR, ringTint } from '../SharedDefaults'
+import type { DotIndicatorProps } from '../SharedTypes'
 import './UpdateIndicatorsHomeIconDotPulse.css'
 
-import { homeIcon1 } from '@/assets'
-export function UpdateIndicatorsHomeIconDotPulse() {
-  const dotRef = useRef<HTMLSpanElement>(null)
+function UpdateIndicatorsHomeIconDotPulseComponent({
+  children,
+  dotColor = DOT_COLOR,
+  dotSize = 14,
+  duration = 1400,
+}: DotIndicatorProps) {
+  const dotStyle = {
+    ['--pf-dot-pulse-color' as string]: dotColor,
+    ['--pf-dot-pulse-ring' as string]: ringTint(dotColor, 25),
+    ['--pf-dot-pulse-dur' as string]: `${duration}ms`,
+    width: dotSize,
+    height: dotSize,
+    background: dotColor,
+  }
 
-  useEffect(() => {
-    const run = () => {
-      const el = dotRef.current
-      if (!el) return
-      // reset and retrigger keyframes
-      el.style.animation = 'none'
-      // force reflow
-      void el.offsetHeight
-      el.style.animation = 'pf-ui-dot-pulse 1400ms ease-in-out'
-    }
-
-    // initial run, then every 10s
-    run()
-    const interval = setInterval(run, 10000)
-    return () => clearInterval(interval)
-  }, [])
+  const dot = (
+    <span
+      className="pf-update-indicator__dot pf-update-indicator__dot--pulse pf-dot-pulse-anim"
+      style={dotStyle}
+    />
+  )
 
   return (
     <div
-      className="pf-update-indicator pf-update-indicator--icon"
+      className="pf-update-indicator"
       data-animation-id="update-indicators__home-icon-dot-pulse"
     >
-      <div className="pf-update-indicator__icon-wrap">
-        <img className="pf-update-indicator__img" src={homeIcon1} alt="Home" />
-        <span ref={dotRef} className="pf-update-indicator__dot pf-update-indicator__dot--pulse" />
-      </div>
+      {children !== undefined ? (
+        <div className="pf-update-indicator__anchor">
+          {children}
+          {dot}
+        </div>
+      ) : (
+        dot
+      )}
     </div>
   )
 }
+
+export const UpdateIndicatorsHomeIconDotPulse = memo(UpdateIndicatorsHomeIconDotPulseComponent)

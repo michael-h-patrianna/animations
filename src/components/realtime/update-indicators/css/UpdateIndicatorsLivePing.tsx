@@ -1,35 +1,42 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Live status dot — continuously pulsing indicator for real-time/active state. CSS variant.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsLivePing.css + ../shared.css
+ * Runtime deps: react
+ *
+ * Usage: <UpdateIndicatorsLivePing color="#00ff00" size={10} />
+ */
+import { memo } from 'react'
+import { PING_COLOR } from '../SharedDefaults'
 import './UpdateIndicatorsLivePing.css'
 
-export function UpdateIndicatorsLivePing() {
-  const iconRef = useRef<HTMLDivElement>(null)
+interface LivePingProps {
+  /** Dot color. Default: '#c6ff77' */
+  color?: string
+  /** Dot diameter in px. Default: 12 */
+  size?: number
+  /** Pulse cycle duration in ms. Default: 1200 */
+  duration?: number
+}
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null
-
-    const startAnimation = () => {
-      const icon = iconRef.current
-      if (!icon) return
-
-      // Start ping animation
-      icon.style.animation = 'update-live-ping 1200ms ease-in-out infinite'
-
-      // Auto-restart
-      timeoutId = setTimeout(startAnimation, 4000)
-    }
-
-    startAnimation()
-
-    return () => {
-      if (timeoutId != null) clearTimeout(timeoutId)
-    }
-  }, [])
-
+function UpdateIndicatorsLivePingComponent({
+  color = PING_COLOR,
+  size = 12,
+  duration = 1200,
+}: LivePingProps) {
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__live-ping">
-      <div ref={iconRef} className="pf-update-indicator__icon"></div>
-      <div className="pf-update-indicator__copy">Content update arrived</div>
-      <div className="pf-update-indicator__badge">New</div>
+      <div
+        className="pf-update-indicator__ping pf-live-ping"
+        style={{
+          ['--pf-live-ping-dur' as string]: `${duration}ms`,
+          width: size,
+          height: size,
+          background: color,
+        }}
+      />
     </div>
   )
 }
+
+export const UpdateIndicatorsLivePing = memo(UpdateIndicatorsLivePingComponent)

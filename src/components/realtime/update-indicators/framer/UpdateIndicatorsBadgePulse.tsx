@@ -1,24 +1,55 @@
+/**
+ * Animated badge — continuous glowing pulse to signal unseen content.
+ * Place next to any element to draw attention.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsBadgePulse.css
+ * Runtime deps: react, motion
+ *
+ * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>
+ */
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
+import { memo, type ReactNode } from 'react'
+import { BADGE_COLOR, BADGE_GLOW } from '../SharedDefaults'
 
-export function UpdateIndicatorsBadgePulse() {
+interface BadgePulseProps {
+  /** Badge content. Default: 'New' */
+  children?: ReactNode
+  /** Badge background color. Default: '#c47ae5' */
+  color?: string
+  /** Glow color. Default: 'rgb(236 195 255 / 40%)' */
+  glowColor?: string
+  /** Pulse cycle duration in ms. Default: 1000 */
+  duration?: number
+}
+
+function UpdateIndicatorsBadgePulseComponent({
+  children = 'New',
+  color = BADGE_COLOR,
+  glowColor = BADGE_GLOW,
+  duration = 1000,
+}: BadgePulseProps) {
+  const durS = duration / 1000
+
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
-      <div className="pf-update-indicator__icon"></div>
-      <div className="pf-update-indicator__copy">Content update arrived</div>
-      <div className="pf-update-indicator__badge">
+      <div className="pf-update-indicator__badge" style={{ background: color }}>
         <m.div
           className="pf-update-indicator__badge-glow"
+          style={{ ['--pf-badge-glow' as string]: `0 0 18px ${glowColor}`, animation: 'none' }}
           animate={{ opacity: [0, 1, 0] }}
           transition={{
-            duration: 1,
+            duration: durS,
             ease: easeInOut,
             repeat: Infinity,
             repeatType: 'loop',
           }}
         />
-        New
+        {children}
       </div>
     </div>
   )
 }
+
+export const UpdateIndicatorsBadgePulse = memo(UpdateIndicatorsBadgePulseComponent)

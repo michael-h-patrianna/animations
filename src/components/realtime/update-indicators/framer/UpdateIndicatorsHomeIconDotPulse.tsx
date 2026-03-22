@@ -1,39 +1,71 @@
+/**
+ * Notification dot — gentle breathing pulse with soft glow ring.
+ * Overlays an animated dot on any element passed as children.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotPulse.css + ../SharedTypes.ts
+ * Runtime deps: react, motion
+ *
+ * Usage: <UpdateIndicatorsHomeIconDotPulse dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotPulse>
+ */
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { memo } from 'react'
+import { DOT_COLOR, ringTint } from '../SharedDefaults'
+import type { DotIndicatorProps } from '../SharedTypes'
 
-import { homeIcon1 } from '@/assets'
-export function UpdateIndicatorsHomeIconDotPulse() {
-  const [key, setKey] = useState(0)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setKey((k) => k + 1)
-    }, 10000)
-    return () => clearInterval(interval)
-  }, [])
+function UpdateIndicatorsHomeIconDotPulseComponent({
+  children,
+  dotColor = DOT_COLOR,
+  dotSize = 14,
+  duration = 1400,
+}: DotIndicatorProps) {
+  const durS = duration / 1000
+  const ringBorder = `${Math.round(dotSize * 0.57)}px solid ${ringTint(dotColor, 25)}`
+
+  const dot = (
+    <m.span
+      className="pf-update-indicator__dot pf-update-indicator__dot--pulse"
+      style={{
+        width: dotSize,
+        height: dotSize,
+        background: dotColor,
+        animation: 'none',
+      }}
+      animate={{ scale: [1, 1.1, 1] }}
+      transition={{
+        duration: durS,
+        ease: easeInOut,
+      }}
+    >
+      <m.span
+        className="pf-update-indicator__dot-ring"
+        style={{
+          inset: `${-Math.round(dotSize * 0.57)}px`,
+          border: ringBorder,
+          animation: 'none',
+        }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ duration: durS, ease: easeInOut }}
+      />
+    </m.span>
+  )
+
   return (
     <div
-      className="pf-update-indicator pf-update-indicator--icon"
+      className="pf-update-indicator"
       data-animation-id="update-indicators__home-icon-dot-pulse"
     >
-      <div className="pf-update-indicator__icon-wrap">
-        <img className="pf-update-indicator__img" src={homeIcon1} alt="Home" />
-        <m.span
-          key={key}
-          className="pf-update-indicator__dot pf-update-indicator__dot--pulse"
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{
-            duration: 1.4,
-            ease: easeInOut,
-          }}
-        >
-          <m.span
-            className="pf-update-indicator__dot-ring"
-            animate={{ opacity: [0, 1, 0] }}
-            transition={{ duration: 1.4, ease: easeInOut }}
-          />
-        </m.span>
-      </div>
+      {children !== undefined ? (
+        <div className="pf-update-indicator__anchor">
+          {children}
+          {dot}
+        </div>
+      ) : (
+        dot
+      )}
     </div>
   )
 }
+
+export const UpdateIndicatorsHomeIconDotPulse = memo(UpdateIndicatorsHomeIconDotPulseComponent)

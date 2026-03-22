@@ -1,33 +1,55 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Notification dot — elastic bounce entrance with idle bob. CSS variant.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.css + ../shared.css + ../SharedTypes.ts
+ * Runtime deps: react
+ *
+ * Usage: <UpdateIndicatorsHomeIconDotBounce dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotBounce>
+ */
+import { memo } from 'react'
+import { DOT_COLOR, ringTint } from '../SharedDefaults'
+import type { DotIndicatorProps } from '../SharedTypes'
 import './UpdateIndicatorsHomeIconDotBounce.css'
 
-import { homeIcon2 } from '@/assets'
-export function UpdateIndicatorsHomeIconDotBounce() {
-  const dotRef = useRef<HTMLSpanElement>(null)
+function UpdateIndicatorsHomeIconDotBounceComponent({
+  children,
+  dotColor = DOT_COLOR,
+  dotSize = 14,
+  duration = 2420,
+}: DotIndicatorProps) {
+  const dotStyle = {
+    ['--pf-dot-bounce-color' as string]: dotColor,
+    ['--pf-dot-bounce-ring' as string]: ringTint(dotColor, 18),
+    ['--pf-dot-bounce-dur' as string]: `${duration * 0.174}ms`,
+    ['--pf-dot-bounce-idle-dur' as string]: `${duration * 0.826}ms`,
+    ['--pf-dot-bounce-idle-delay' as string]: `${duration * 0.248}ms`,
+    width: dotSize,
+    height: dotSize,
+    background: dotColor,
+  }
 
-  useEffect(() => {
-    const run = () => {
-      const el = dotRef.current
-      if (!el) return
-      el.style.animation = 'none'
-      void el.offsetHeight
-      el.style.animation =
-        'pf-ui-dot-enter-bounce 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2), pf-ui-dot-idle 2000ms ease-in-out 600ms'
-    }
-    run()
-    const interval = setInterval(run, 10000)
-    return () => clearInterval(interval)
-  }, [])
+  const dot = (
+    <span
+      className="pf-update-indicator__dot pf-update-indicator__dot--bounce pf-dot-bounce-enter"
+      style={dotStyle}
+    />
+  )
 
   return (
     <div
-      className="pf-update-indicator pf-update-indicator--icon"
+      className="pf-update-indicator"
       data-animation-id="update-indicators__home-icon-dot-bounce"
     >
-      <div className="pf-update-indicator__icon-wrap">
-        <img className="pf-update-indicator__img" src={homeIcon2} alt="Home" />
-        <span ref={dotRef} className="pf-update-indicator__dot pf-update-indicator__dot--bounce" />
-      </div>
+      {children !== undefined ? (
+        <div className="pf-update-indicator__anchor">
+          {children}
+          {dot}
+        </div>
+      ) : (
+        dot
+      )}
     </div>
   )
 }
+
+export const UpdateIndicatorsHomeIconDotBounce = memo(UpdateIndicatorsHomeIconDotBounceComponent)

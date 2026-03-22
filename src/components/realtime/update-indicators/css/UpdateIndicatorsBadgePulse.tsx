@@ -1,38 +1,46 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Animated badge — continuous glowing pulse to signal unseen content. CSS variant.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsBadgePulse.css + ../shared.css
+ * Runtime deps: react
+ *
+ * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>
+ */
+import { memo, type ReactNode } from 'react'
+import { BADGE_COLOR, BADGE_GLOW } from '../SharedDefaults'
 import './UpdateIndicatorsBadgePulse.css'
 
-export function UpdateIndicatorsBadgePulse() {
-  const badgeRef = useRef<HTMLDivElement>(null)
+interface BadgePulseProps {
+  /** Badge content. Default: 'New' */
+  children?: ReactNode
+  /** Badge background color. Default: '#c47ae5' */
+  color?: string
+  /** Glow color. Default: 'rgb(236 195 255 / 40%)' */
+  glowColor?: string
+  /** Pulse cycle duration in ms. Default: 1000 */
+  duration?: number
+}
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null
-
-    const startAnimation = () => {
-      const badge = badgeRef.current
-      if (!badge) return
-
-      // Start pulse animation
-      badge.style.animation = 'update-badge-pulse 1000ms ease-in-out infinite'
-
-      // Auto-restart (continuous for pulse)
-      timeoutId = setTimeout(startAnimation, 3000)
-    }
-
-    // Start animation immediately
-    startAnimation()
-
-    return () => {
-      if (timeoutId != null) clearTimeout(timeoutId)
-    }
-  }, [])
-
+function UpdateIndicatorsBadgePulseComponent({
+  children = 'New',
+  color = BADGE_COLOR,
+  glowColor = BADGE_GLOW,
+  duration = 1000,
+}: BadgePulseProps) {
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
-      <div className="pf-update-indicator__icon"></div>
-      <div className="pf-update-indicator__copy">Content update arrived</div>
-      <div ref={badgeRef} className="pf-update-indicator__badge">
-        New
+      <div
+        className="pf-update-indicator__badge pf-badge-pulse"
+        style={{
+          ['--pf-badge-pulse-glow' as string]: glowColor,
+          ['--pf-badge-pulse-dur' as string]: `${duration}ms`,
+          background: color,
+        }}
+      >
+        {children}
       </div>
     </div>
   )
 }
+
+export const UpdateIndicatorsBadgePulse = memo(UpdateIndicatorsBadgePulseComponent)

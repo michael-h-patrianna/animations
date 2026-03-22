@@ -1,8 +1,83 @@
-/* Shared styles for this group */
+/* ── Base layout for all update-indicator components ── */
 
-/* Base indicator container — centered inline element */
+/* Container — centered inline element */
 .pf-update-indicator {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ── Dot-indicator layout (icon + dot overlay) ── */
+
+/* Wrapper that positions dot relative to children */
+.pf-update-indicator__anchor {
+  position: relative;
+  display: inline-block;
+}
+
+/* Notification dot — positioned at top-right of anchor */
+.pf-update-indicator__dot {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  border-radius: 9999px;
+  transform-origin: center;
+  z-index: 1;
+}
+
+/* Ring element for radar/pulse secondary effects */
+.pf-update-indicator__dot-ring {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+/* Expanding ring for radar effect */
+.pf-update-indicator__ring {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border-radius: 9999px;
+  transform-origin: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Expanding halo for sweep effect */
+.pf-update-indicator__halo {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Badge-indicator layout ── */
+
+.pf-update-indicator__badge {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Glow overlay for badge-pulse */
+.pf-update-indicator__badge-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ── Live-ping dot ── */
+
+.pf-update-indicator__ping {
+  border-radius: 50%;
+  flex-shrink: 0;
 }

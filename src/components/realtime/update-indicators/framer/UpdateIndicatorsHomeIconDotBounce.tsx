@@ -1,51 +1,82 @@
+/**
+ * Notification dot — elastic bounce entrance with idle bob.
+ * Overlays an animated dot on any element passed as children.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.css + ../SharedTypes.ts
+ * Runtime deps: react, motion
+ *
+ * Usage: <UpdateIndicatorsHomeIconDotBounce dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotBounce>
+ */
 import * as m from 'motion/react-m'
+import { memo } from 'react'
+import { DOT_COLOR, ringTint } from '../SharedDefaults'
+import type { DotIndicatorProps } from '../SharedTypes'
 
-import { useEffect, useState } from 'react'
+function UpdateIndicatorsHomeIconDotBounceComponent({
+  children,
+  dotColor = DOT_COLOR,
+  dotSize = 14,
+  duration = 2420,
+}: DotIndicatorProps) {
+  const durS = duration / 1000
+  const ringBorder = `${Math.round(dotSize * 0.43)}px solid ${ringTint(dotColor, 18)}`
 
-import { homeIcon2 } from '@/assets'
-export function UpdateIndicatorsHomeIconDotBounce() {
-  const [key, setKey] = useState(0)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setKey((k) => k + 1)
-    }, 10000)
-    return () => clearInterval(interval)
-  }, [])
+  const dot = (
+    <m.span
+      className="pf-update-indicator__dot pf-update-indicator__dot--bounce"
+      style={{
+        width: dotSize,
+        height: dotSize,
+        background: dotColor,
+        animation: 'none',
+      }}
+      initial={{ scale: 0, opacity: 0, x: 4, y: -4 }}
+      animate={{
+        scale: [0, 1.2, 1, 1, 1.06, 1],
+        opacity: [0, 1, 1, 1, 1, 1],
+        x: [4, 0, 0, 0, 0, 0],
+        y: [-4, 0, 0, 0, 0, 0],
+      }}
+      transition={{
+        duration: durS,
+        times: [0, 0.174, 0.174, 0.248, 0.661, 1],
+        ease: [0.2, 0.9, 0.3, 1.2] as const,
+      }}
+    >
+      <m.span
+        className="pf-update-indicator__dot-ring"
+        style={{
+          inset: `${-Math.round(dotSize * 0.43)}px`,
+          border: ringBorder,
+          animation: 'none',
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0, 0, 0, 1, 0] }}
+        transition={{
+          duration: durS,
+          times: [0, 0.174, 0.248, 0.5, 0.661, 1],
+          ease: 'easeOut',
+        }}
+      />
+    </m.span>
+  )
+
   return (
     <div
-      className="pf-update-indicator pf-update-indicator--icon"
+      className="pf-update-indicator"
       data-animation-id="update-indicators__home-icon-dot-bounce"
     >
-      <div className="pf-update-indicator__icon-wrap">
-        <img className="pf-update-indicator__img" src={homeIcon2} alt="Home" />
-        <m.span
-          key={key}
-          className="pf-update-indicator__dot pf-update-indicator__dot--bounce"
-          initial={{ scale: 0, opacity: 0, x: 4, y: -4 }}
-          animate={{
-            scale: [0, 1.2, 1, 1, 1.06, 1],
-            opacity: [0, 1, 1, 1, 1, 1],
-            x: [4, 0, 0, 0, 0, 0],
-            y: [-4, 0, 0, 0, 0, 0],
-          }}
-          transition={{
-            duration: 2.42,
-            times: [0, 0.174, 0.174, 0.248, 0.661, 1],
-            ease: [0.2, 0.9, 0.3, 1.2] as const,
-          }}
-        >
-          <m.span
-            className="pf-update-indicator__dot-ring"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0, 0, 0, 1, 0] }}
-            transition={{
-              duration: 2.42,
-              times: [0, 0.174, 0.248, 0.5, 0.661, 1],
-              ease: 'easeOut',
-            }}
-          />
-        </m.span>
-      </div>
+      {children !== undefined ? (
+        <div className="pf-update-indicator__anchor">
+          {children}
+          {dot}
+        </div>
+      ) : (
+        dot
+      )}
     </div>
   )
 }
+
+export const UpdateIndicatorsHomeIconDotBounce = memo(UpdateIndicatorsHomeIconDotBounceComponent)

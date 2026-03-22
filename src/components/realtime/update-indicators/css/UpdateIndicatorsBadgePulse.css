@@ -1,56 +1,15 @@
-/* Styles specific to UpdateIndicatorsBadgePulse */
+/* Badge pulse: continuous glow cycle */
 
-.pf-update-indicator {
-  --update-indicators-badge-pulse-bg-1: #c6ff77;
-  --update-indicators-badge-pulse-color: #e5e7eb;
-  --update-indicators-badge-pulse-bg-2: #c47ae5;
-  --update-indicators-badge-pulse-shadow-1: rgb(236 195 255 / 0%);
-  --update-indicators-badge-pulse-shadow-2: rgb(236 195 255 / 40%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  font-family: Lato, sans-serif;
-  position: relative;
-  max-width: 300px;
+.pf-badge-pulse {
+  animation: pf-ui-badge-pulse var(--pf-badge-pulse-dur, 1000ms) ease-in-out infinite;
 }
 
-.pf-update-indicator__icon {
-  width: 12px;
-  height: 12px;
-  background: var(--update-indicators-badge-pulse-bg-1);
-  border-radius: 50%;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.pf-update-indicator__copy {
-  color: var(--update-indicators-badge-pulse-color);
-  font-size: 0.875rem;
-  line-height: 1.4;
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-.pf-update-indicator__badge {
-  background: var(--update-indicators-badge-pulse-bg-2);
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  flex-shrink: 0;
-}
-
-@keyframes update-badge-pulse {
+@keyframes pf-ui-badge-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 var(--update-indicators-badge-pulse-shadow-1);
+    box-shadow: 0 0 0 transparent;
   }
   50% {
-    box-shadow: 0 0 18px var(--update-indicators-badge-pulse-shadow-2);
+    box-shadow: 0 0 18px var(--pf-badge-pulse-glow, rgb(236 195 255 / 40%));
   }
 }

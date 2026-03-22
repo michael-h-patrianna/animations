@@ -1,51 +1,19 @@
-/* Home icon with pulsing notification dot (gentle) */
-.pf-update-indicator--icon {
-  --update-indicators-home-icon-dot-pulse-bg: #ff4967;
-  --update-indicators-home-icon-dot-pulse-shadow-1: rgb(255 73 103 / 0%);
-  --update-indicators-home-icon-dot-pulse-shadow-2: rgb(255 73 103 / 25%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
+/* Dot pulse: gentle scale + glowing ring cycle */
 
-.pf-update-indicator__icon-wrap {
-  position: relative;
-  width: 84px; /* requested width */
-  height: auto; /* maintain aspect based on image */
-}
-
-.pf-update-indicator__img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain; /* keep original aspect ratio */
-}
-
-.pf-update-indicator__dot {
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  width: 14px;
-  height: 14px;
-  border-radius: 9999px;
-  background: var(--update-indicators-home-icon-dot-pulse-bg);
-  box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-pulse-shadow-1);
-}
-
-/* Pulse modifier — gentle scale+shadow cycle applied via JS ref */
-.pf-update-indicator__dot--pulse {
-  will-change: transform, opacity;
+.pf-dot-pulse-anim {
+  animation: pf-ui-dot-pulse var(--pf-dot-pulse-dur, 1400ms) ease-in-out;
+  animation-fill-mode: both;
+  will-change: transform;
 }
 
 @keyframes pf-ui-dot-pulse {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-pulse-shadow-1);
+    box-shadow: 0 0 0 0 var(--pf-dot-pulse-ring, rgb(255 73 103 / 0%));
   }
   50% {
     transform: scale(1.1);
-    box-shadow: 0 0 0 8px var(--update-indicators-home-icon-dot-pulse-shadow-2);
+    box-shadow: 0 0 0 8px var(--pf-dot-pulse-ring, rgb(255 73 103 / 25%));
   }
 }

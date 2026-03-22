@@ -1,45 +1,42 @@
-import { useEffect, useRef } from 'react'
+/**
+ * Animated badge — pops in with elastic overshoot. CSS variant.
+ *
+ * Copy-paste files: this file + UpdateIndicatorsBadgePop.css + ../shared.css
+ * Runtime deps: react
+ *
+ * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b">3</UpdateIndicatorsBadgePop>
+ */
+import { memo, type ReactNode } from 'react'
+import { BADGE_COLOR } from '../SharedDefaults'
 import './UpdateIndicatorsBadgePop.css'
 
-export function UpdateIndicatorsBadgePop() {
-  const badgeRef = useRef<HTMLDivElement>(null)
+interface BadgePopProps {
+  /** Badge content. Default: 'New' */
+  children?: ReactNode
+  /** Badge background color. Default: '#c47ae5' */
+  color?: string
+  /** Animation duration in ms. Default: 400 */
+  duration?: number
+}
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null
-
-    const startAnimation = () => {
-      const badge = badgeRef.current
-      if (!badge) return
-
-      // Reset animation
-      badge.style.animation = ''
-      badge.style.transform = 'scale(0.6)'
-
-      // Trigger reflow
-      void badge.offsetHeight
-
-      // Start pop animation
-      badge.style.animation = 'update-badge-pop 400ms cubic-bezier(0.34, 1.25, 0.64, 1) forwards'
-
-      // Auto-restart after delay
-      timeoutId = setTimeout(startAnimation, 2000)
-    }
-
-    // Start animation immediately
-    startAnimation()
-
-    return () => {
-      if (timeoutId != null) clearTimeout(timeoutId)
-    }
-  }, [])
-
+function UpdateIndicatorsBadgePopComponent({
+  children = 'New',
+  color = BADGE_COLOR,
+  duration = 400,
+}: BadgePopProps) {
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pop">
-      <div className="pf-update-indicator__icon"></div>
-      <div className="pf-update-indicator__copy">Content update arrived</div>
-      <div ref={badgeRef} className="pf-update-indicator__badge">
-        New
+      <div
+        className="pf-update-indicator__badge pf-badge-pop"
+        style={{
+          ['--pf-badge-pop-dur' as string]: `${duration}ms`,
+          background: color,
+        }}
+      >
+        {children}
       </div>
     </div>
   )
 }
+
+export const UpdateIndicatorsBadgePop = memo(UpdateIndicatorsBadgePopComponent)

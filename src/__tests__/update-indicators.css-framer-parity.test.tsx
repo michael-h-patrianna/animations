@@ -3,8 +3,10 @@ import { describe, expect, it } from 'vitest'
 
 import { UpdateIndicatorsBadgePop as CssBadgePop } from '@/components/realtime/update-indicators/css/UpdateIndicatorsBadgePop'
 import { UpdateIndicatorsBadgePulse as CssBadgePulse } from '@/components/realtime/update-indicators/css/UpdateIndicatorsBadgePulse'
+import { UpdateIndicatorsHomeIconDotBounce as CssDotBounce } from '@/components/realtime/update-indicators/css/UpdateIndicatorsHomeIconDotBounce'
 import { UpdateIndicatorsLivePing as CssLivePing } from '@/components/realtime/update-indicators/css/UpdateIndicatorsLivePing'
 import { UpdateIndicatorsBadgePop as FramerBadgePop } from '@/components/realtime/update-indicators/framer/UpdateIndicatorsBadgePop'
+import { UpdateIndicatorsHomeIconDotBounce as FramerDotBounce } from '@/components/realtime/update-indicators/framer/UpdateIndicatorsHomeIconDotBounce'
 
 /**
  * Parity tests verify that CSS and Framer variants of the same animation
@@ -31,27 +33,25 @@ describe('update-indicators CSS/Framer DOM parity', () => {
     const css = render(<CssBadgePop />)
     const framer = render(<FramerBadgePop />)
 
-    // Both should have the same container class
+    // Both should have the container + badge elements
     expect(css.container.querySelector('.pf-update-indicator')).toBeInTheDocument()
     expect(framer.container.querySelector('.pf-update-indicator')).toBeInTheDocument()
-
-    // Both should have icon, copy, and badge elements
-    expect(css.container.querySelector('.pf-update-indicator__icon')).toBeInTheDocument()
-    expect(framer.container.querySelector('.pf-update-indicator__icon')).toBeInTheDocument()
 
     expect(css.container.querySelector('.pf-update-indicator__badge')).toBeInTheDocument()
     expect(framer.container.querySelector('.pf-update-indicator__badge')).toBeInTheDocument()
   })
 
-  it('badge-pop variants render the same text content', () => {
+  it('badge-pop variants render the same default text content', () => {
     const css = render(<CssBadgePop />)
     const framer = render(<FramerBadgePop />)
 
     const cssBadgeText = css.container.querySelector('.pf-update-indicator__badge')?.textContent
-    const framerBadgeText = framer.container.querySelector(
-      '.pf-update-indicator__badge'
-    )?.textContent
+    const framerBadgeText = framer.container
+      .querySelector('.pf-update-indicator__badge')
+      ?.textContent
 
+    expect(cssBadgeText).toBe('New')
+    expect(framerBadgeText).toBe('New')
     expect(cssBadgeText).toBe(framerBadgeText)
   })
 
@@ -67,5 +67,39 @@ describe('update-indicators CSS/Framer DOM parity', () => {
     expect(
       container.querySelector('[data-animation-id="update-indicators__live-ping"]')
     ).toBeInTheDocument()
+  })
+
+  it('dot-bounce variants share the same data-animation-id', () => {
+    const css = render(<CssDotBounce />)
+    const framer = render(<FramerDotBounce />)
+
+    const cssAnimId = css.container
+      .querySelector('[data-animation-id]')
+      ?.getAttribute('data-animation-id')
+    const framerAnimId = framer.container
+      .querySelector('[data-animation-id]')
+      ?.getAttribute('data-animation-id')
+
+    expect(cssAnimId).toBe('update-indicators__home-icon-dot-bounce')
+    expect(framerAnimId).toBe('update-indicators__home-icon-dot-bounce')
+  })
+
+  it('dot-bounce renders anchor wrapper when children provided', () => {
+    const { container } = render(
+      <FramerDotBounce>
+        <span data-testid="child">icon</span>
+      </FramerDotBounce>
+    )
+
+    expect(container.querySelector('.pf-update-indicator__anchor')).toBeInTheDocument()
+    expect(container.querySelector('[data-testid="child"]')).toBeInTheDocument()
+    expect(container.querySelector('.pf-update-indicator__dot')).toBeInTheDocument()
+  })
+
+  it('dot-bounce renders only dot when no children', () => {
+    const { container } = render(<FramerDotBounce />)
+
+    expect(container.querySelector('.pf-update-indicator__anchor')).not.toBeInTheDocument()
+    expect(container.querySelector('.pf-update-indicator__dot')).toBeInTheDocument()
   })
 })
