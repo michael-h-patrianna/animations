@@ -1,21 +1,28 @@
-/* Base styles for Progress Milestones */
 .pf-progress-milestones {
-  --progress-bars-progress-milestones-bg-1: rgb(78 24 124 / 12%);
-  --progress-bars-progress-milestones-bg-2: #c6ff77;
-  --progress-bars-progress-milestones-bg-3: #d4ff9f;
+  --milestone-track-bg: rgb(255 255 255 / 8%);
+  --milestone-track-border: rgb(255 255 255 / 5%);
+  --milestone-track-shadow: rgb(0 0 0 / 25%);
+  --milestone-fill-from: #38bdf8;
+  --milestone-fill-to: #7dd3fc;
+  --milestone-fill-glow: rgb(56 189 248 / 30%);
+  --milestone-fill-highlight: rgb(255 255 255 / 22%);
+
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  height: 80px;
+  min-height: 72px;
   justify-content: center;
+  padding: 1rem;
 }
 
 .pf-progress-milestones .pf-progress-track {
   width: 100%;
-  height: 12px;
+  height: 10px;
   border-radius: 999px;
-  background: var(--progress-bars-progress-milestones-bg-1);
+  background: var(--milestone-track-bg);
+  border: 1px solid var(--milestone-track-border);
+  box-shadow: inset 0 1px 3px var(--milestone-track-shadow);
   overflow: hidden;
   position: relative;
 }
@@ -24,12 +31,21 @@
   height: 100%;
   background: linear-gradient(
     90deg,
-    var(--progress-bars-progress-milestones-bg-2) 0%,
-    var(--progress-bars-progress-milestones-bg-3) 100%
+    var(--milestone-fill-from) 0%,
+    var(--milestone-fill-to) 100%
   );
   border-radius: inherit;
   transform-origin: left center;
   position: relative;
-  transform: scaleX(0);
   will-change: transform;
+  box-shadow: 0 0 12px var(--milestone-fill-glow);
+}
+
+.pf-progress-milestones .pf-progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--milestone-fill-highlight) 0%, transparent 55%);
+  pointer-events: none;
 }

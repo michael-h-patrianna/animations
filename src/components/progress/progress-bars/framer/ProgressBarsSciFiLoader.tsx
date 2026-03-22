@@ -35,7 +35,9 @@ export function ProgressBarsSciFiLoader({
   className,
   style,
 }: SciFiLoaderProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 800 })
+  const isDemo = progress === undefined
+  const demoDuration = 5000
+  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 800 })
   const percent = Math.round(displayProgress * 100)
 
   return (
@@ -47,8 +49,12 @@ export function ProgressBarsSciFiLoader({
       <div className="scifi-loader-track">
         <m.div
           className="scifi-loader-fill"
-          animate={{ width: `${percent}%` }}
-          transition={{ type: 'tween', ease: 'linear', duration: 0.05 }}
+          initial={isDemo ? { width: '0%' } : false}
+          animate={isDemo
+            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 0.8 } }
+            : { width: `${percent}%` }
+          }
+          transition={isDemo ? undefined : { type: 'tween', ease: 'linear', duration: 0.05 }}
           style={{ animation: 'none' }}
         />
         <m.div

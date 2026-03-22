@@ -48,7 +48,7 @@ export function ProgressBarsProgressSegmented({
                 bottom: 0,
                 left: `${((i + 1) * 100) / segments}%`,
                 marginLeft: -(SEGMENT_GAP / 2),
-                background: 'var(--segmented-gap-color, var(--pf-anim-deep-purple))',
+                background: 'var(--segmented-gap-color)',
               }}
             />
           ))}
@@ -76,8 +76,8 @@ export function ProgressBarsProgressSegmented({
                   position: 'relative',
                   borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
                   border:
-                    '1px solid var(--segmented-segment-border, var(--pf-anim-orchid-30))',
-                  background: 'var(--segmented-segment-bg, var(--pf-anim-violet-dark))',
+                    '1px solid var(--segmented-segment-border)',
+                  background: 'var(--segmented-segment-bg)',
                   overflow: 'hidden',
                 }}
               />

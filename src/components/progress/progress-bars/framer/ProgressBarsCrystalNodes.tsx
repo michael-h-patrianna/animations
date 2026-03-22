@@ -60,11 +60,11 @@ export function ProgressBarsCrystalNodes({
                 animate={
                   isActive
                     ? {
-                        backgroundColor: 'var(--crystal-active-color, var(--pf-anim-cyan))',
+                        backgroundColor: 'var(--crystal-active)',
                         scale: [1, 1.2, 1],
                       }
                     : {
-                        backgroundColor: 'var(--crystal-inactive-color, var(--pf-anim-gray-700))',
+                        backgroundColor: 'var(--crystal-inactive)',
                         scale: 1,
                       }
                 }

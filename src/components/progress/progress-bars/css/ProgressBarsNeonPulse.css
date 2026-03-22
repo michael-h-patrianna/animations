@@ -1,17 +1,28 @@
 .neon-pulse-container-css {
-  --neon-pulse-bg: #000;
-  --neon-pulse-track: #1a1a1a;
-  --neon-pulse-fill: #f0f;
-  --neon-pulse-flicker: rgb(255 255 255 / 50%);
-  --neon-pulse-glow: rgb(255 0 255 / 20%);
-  --neon-pulse-height: 10px;
+  --neon-pulse-bg: #0a0a0f;
+  --neon-pulse-edge: rgb(236 72 153 / 12%);
+  --neon-pulse-shine: rgb(255 255 255 / 4%);
+  --neon-pulse-shadow: rgb(0 0 0 / 40%);
+  --neon-pulse-track: rgb(236 72 153 / 8%);
+  --neon-pulse-track-border: rgb(236 72 153 / 12%);
+  --neon-pulse-fill: #ec4899;
+  --neon-pulse-fill-to: #f472b6;
+  --neon-pulse-flicker: rgb(255 255 255 / 35%);
+  --neon-pulse-glow: rgb(236 72 153 / 25%);
+  --neon-pulse-glow-tight: rgb(236 72 153 / 50%);
+  --neon-pulse-label-glow: rgb(236 72 153 / 60%);
+  --neon-pulse-height: 8px;
 
   background: var(--neon-pulse-bg);
-  padding: 40px;
-  border-radius: 8px;
+  border: 1px solid var(--neon-pulse-edge);
+  box-shadow:
+    inset 0 1px 0 var(--neon-pulse-shine),
+    0 12px 24px var(--neon-pulse-shadow);
+  border-radius: 12px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
   align-items: center;
   width: 100%;
 }
@@ -20,24 +31,28 @@
   width: 100%;
   height: var(--neon-pulse-height);
   background: var(--neon-pulse-track);
+  border: 1px solid var(--neon-pulse-track-border);
   position: relative;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 .neon-pulse-fill-css {
   height: 100%;
-  background: var(--neon-pulse-fill);
+  background: linear-gradient(90deg, var(--neon-pulse-fill) 0%, var(--neon-pulse-fill-to) 100%);
   border-radius: 5px;
   position: relative;
   z-index: 2;
   transition: width 0.03s linear;
+  box-shadow:
+    0 0 16px var(--neon-pulse-glow),
+    0 0 4px var(--neon-pulse-glow-tight);
 }
 
 .neon-pulse-flicker-css {
   position: absolute;
   inset: 0;
   background: var(--neon-pulse-flicker);
-  border-radius: 5px;
+  border-radius: inherit;
   animation: neon-flicker 0.4s linear infinite;
 }
 
@@ -65,7 +80,9 @@
 .neon-pulse-label-css {
   color: var(--neon-pulse-fill);
   font-family: 'Courier New', monospace;
-  font-weight: bold;
-  letter-spacing: 2px;
-  opacity: 0.9;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px var(--neon-pulse-label-glow);
 }

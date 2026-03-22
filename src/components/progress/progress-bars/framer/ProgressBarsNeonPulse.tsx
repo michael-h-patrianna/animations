@@ -11,12 +11,12 @@
  * ```
  *
  * Styleable CSS custom properties:
- * - `--neon-pulse-bg`         — container background (default: #000)
- * - `--neon-pulse-track`      — track background (default: #1a1a1a)
- * - `--neon-pulse-fill`       — neon fill color (default: #f0f)
- * - `--neon-pulse-flicker`    — flicker overlay color (default: rgb(255 255 255 / 50%))
- * - `--neon-pulse-glow`       — glow layer color (default: rgb(255 0 255 / 20%))
- * - `--neon-pulse-height`     — track height (default: 10px)
+ * - `--neon-pulse-bg`         — container background (default: #0a0a0f)
+ * - `--neon-pulse-track`      — track background (default: rgb(236 72 153 / 8%))
+ * - `--neon-pulse-fill`       — neon fill color (default: #ec4899)
+ * - `--neon-pulse-fill-to`    — neon fill end (default: #f472b6)
+ * - `--neon-pulse-glow`       — glow layer (default: rgb(236 72 153 / 25%))
+ * - `--neon-pulse-height`     — track height (default: 8px)
  *
  * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
@@ -35,8 +35,10 @@ export function ProgressBarsNeonPulse({
   className,
   style,
 }: NeonPulseProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 6000, pause: 800 })
-  const percent = displayProgress * 100
+  const isDemo = progress === undefined
+  const demoDuration = 6000
+  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 800 })
+  const percent = isDemo ? undefined : displayProgress * 100
 
   return (
     <div
@@ -47,8 +49,12 @@ export function ProgressBarsNeonPulse({
       <div className="neon-pulse-track">
         <m.div
           className="neon-pulse-fill"
-          animate={{ width: `${percent}%` }}
-          transition={{ ease: 'linear', duration: 0.1 }}
+          initial={isDemo ? { width: '0%' } : false}
+          animate={isDemo
+            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 0.8 } }
+            : { width: `${percent}%` }
+          }
+          transition={isDemo ? undefined : { ease: 'linear', duration: 0.1 }}
           style={{ animation: 'none' }}
         >
           <m.div
@@ -61,8 +67,12 @@ export function ProgressBarsNeonPulse({
 
         <m.div
           className="neon-pulse-glow"
-          animate={{ width: `${percent}%` }}
-          transition={{ ease: 'linear', duration: 0.1 }}
+          initial={isDemo ? { width: '0%' } : false}
+          animate={isDemo
+            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 0.8 } }
+            : { width: `${percent}%` }
+          }
+          transition={isDemo ? undefined : { ease: 'linear', duration: 0.1 }}
         />
       </div>
       {label !== undefined && label !== '' && <div className="neon-pulse-label">{label}</div>}

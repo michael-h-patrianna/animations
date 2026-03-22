@@ -1,31 +1,35 @@
 .pf-progress-thin {
-  --thin-label-color: rgb(255 255 255 / 76%);
-  --thin-track-color: rgb(78 24 124 / 12%);
-  --thin-fill-from: #a8e65c;
-  --thin-fill-via: #c6ff77;
-  --thin-fill-to: #d4ff9f;
-  --thin-accent: var(--pf-anim-green, #a8e65c);
+  --thin-label-color: rgb(255 255 255 / 55%);
+  --thin-track-bg: rgb(255 255 255 / 6%);
+  --thin-fill-from: #38bdf8;
+  --thin-fill-via: #7dd3fc;
+  --thin-fill-to: #bae6fd;
+  --thin-fill-glow: rgb(56 189 248 / 40%);
+  --thin-accent: #38bdf8;
+  --thin-accent-dim: rgb(56 189 248 / 50%);
+  --thin-accent-faint: rgb(56 189 248 / 15%);
+  --thin-flash: rgb(56 189 248 / 30%);
 
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
   min-height: 48px;
   justify-content: center;
 }
 
 .pf-progress-thin .pf-progress-thin__label {
-  font-size: 12px;
-  color: var(--thin-label-color);
+  font-size: 11px;
   font-weight: 500;
-  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+  color: var(--thin-label-color);
 }
 
 .pf-progress-thin .pf-progress-track {
   width: 100%;
   height: 2px;
   border-radius: 999px;
-  background: var(--thin-track-color);
+  background: var(--thin-track-bg);
   overflow: visible;
   position: relative;
 }
@@ -44,23 +48,23 @@
   overflow: visible;
   will-change: transform;
   transform: scaleX(0);
+  box-shadow: 0 0 8px var(--thin-fill-glow);
   animation: thin-fill-sweep 1200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-/* Controlled mode: transition instead of keyframe */
 .pf-progress-thin.is-controlled .pf-progress-fill {
   animation: none;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ─── Demo-only sub-elements ─── */
+/* Demo-only sub-elements */
 
 .pf-progress-thin__halo {
   position: absolute;
   inset: -8px;
   background: radial-gradient(
     ellipse at right center,
-    var(--thin-accent) 0%,
+    var(--thin-accent-faint) 0%,
     transparent 70%
   );
   opacity: 0;
@@ -79,7 +83,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--thin-accent) 50%,
+    var(--thin-accent-dim) 50%,
     var(--thin-accent) 100%
   );
   pointer-events: none;
@@ -103,13 +107,13 @@
 .pf-progress-thin__flash {
   position: absolute;
   inset: -4px;
-  background: linear-gradient(90deg, transparent 0%, var(--thin-accent) 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--thin-flash) 100%);
   pointer-events: none;
   opacity: 0;
   animation: thin-flash 300ms ease-out 1200ms both;
 }
 
-/* ─── Keyframes ─── */
+/* Keyframes */
 
 @keyframes thin-fill-sweep {
   0% { transform: scaleX(0); opacity: 0.3; }

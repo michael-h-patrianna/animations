@@ -12,11 +12,12 @@
  * ```
  *
  * Styleable CSS custom properties:
- * - `--bounce-track-color`  — track background
- * - `--bounce-fill-from`    — fill gradient start
- * - `--bounce-fill-to`      — fill gradient end
- * - `--bounce-accent`       — accent for waves/particles
- * - `--bounce-height`       — track height (default: 12px)
+ * - `--bounce-track-bg`       — track background (default: rgb(255 255 255 / 8%))
+ * - `--bounce-fill-from`      — fill gradient start (default: #34d399)
+ * - `--bounce-fill-to`        — fill gradient end (default: #6ee7b7)
+ * - `--bounce-accent`         — accent for waves/particles (default: #34d399)
+ * - `--bounce-accent-dark`    — darker accent for alt particles (default: #059669)
+ * - `--bounce-height`         — track height (default: 14px)
  *
  * Files to copy: this file + ProgressBarsProgressBounce.css + ../SharedTypes.ts
  */
@@ -130,7 +131,7 @@ export function ProgressBarsProgressBounce({
                     position: 'absolute',
                     inset: 0,
                     background:
-                      'radial-gradient(ellipse at right center, var(--bounce-accent, var(--pf-anim-green-30)) 0%, transparent 50%)',
+                      'radial-gradient(ellipse at right center, var(--bounce-accent-dim) 0%, transparent 50%)',
                     pointerEvents: 'none',
                   }}
                   variants={elasticOverlayVariants}
@@ -140,7 +141,7 @@ export function ProgressBarsProgressBounce({
               </m.div>
             </m.div>
 
-            {[0, 1, 2].map((i) => (
+            {(['--bounce-accent-60', '--bounce-accent-40', '--bounce-accent-20'] as const).map((v, i) => (
               <m.div
                 key={`wave-${i}`}
                 style={{
@@ -150,7 +151,7 @@ export function ProgressBarsProgressBounce({
                   y: '-50%',
                   width: 4,
                   height: '100%',
-                  background: `var(--bounce-accent, var(--pf-anim-green-${60 - i * 20}))`,
+                  background: `var(${v})`,
                   pointerEvents: 'none',
                   opacity: 0,
                 }}
@@ -175,8 +176,8 @@ export function ProgressBarsProgressBounce({
                       height: 4,
                       background:
                         i % 2 === 0
-                          ? 'var(--bounce-accent, var(--pf-anim-green))'
-                          : 'var(--bounce-accent, var(--pf-anim-green-dark))',
+                          ? 'var(--bounce-accent)'
+                          : 'var(--bounce-accent-dark)',
                       borderRadius: '50%',
                       pointerEvents: 'none',
                     }}

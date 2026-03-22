@@ -11,12 +11,13 @@
  * ```
  *
  * Styleable CSS custom properties:
- * - `--thin-label-color`   — label text color
- * - `--thin-track-color`   — track background
- * - `--thin-fill-from`     — fill gradient start
- * - `--thin-fill-via`      — fill gradient middle
- * - `--thin-fill-to`       — fill gradient end
- * - `--thin-accent`        — accent color for photon/dots/halo
+ * - `--thin-label-color`   — label text color (default: rgb(255 255 255 / 55%))
+ * - `--thin-track-bg`      — track background (default: rgb(255 255 255 / 6%))
+ * - `--thin-fill-from`     — fill gradient start (default: #38bdf8)
+ * - `--thin-fill-via`      — fill gradient middle (default: #7dd3fc)
+ * - `--thin-fill-to`       — fill gradient end (default: #bae6fd)
+ * - `--thin-fill-glow`     — fill glow shadow (default: rgb(56 189 248 / 40%))
+ * - `--thin-accent`        — accent for photon/dots/halo (default: #38bdf8)
  *
  * Files to copy: this file + ProgressBarsProgressThin.css + ../SharedTypes.ts
  */
@@ -127,7 +128,7 @@ export function ProgressBarsProgressThin({
               position: 'absolute',
               inset: '-8px',
               background:
-                'radial-gradient(ellipse at right center, var(--thin-accent, var(--pf-anim-green-20)) 0%, transparent 70%)',
+                'radial-gradient(ellipse at right center, var(--thin-accent-faint) 0%, transparent 70%)',
               pointerEvents: 'none',
               transform: 'scale(1.3)',
             }}
@@ -154,7 +155,7 @@ export function ProgressBarsProgressThin({
                   width: '60px',
                   height: '1px',
                   background:
-                    'linear-gradient(90deg, transparent 0%, var(--thin-accent, var(--pf-anim-green-60)) 50%, var(--thin-accent, var(--pf-anim-green)) 100%)',
+                    'linear-gradient(90deg, transparent 0%, var(--thin-accent-dim) 50%, var(--thin-accent) 100%)',
                   pointerEvents: 'none',
                 }}
               />
@@ -172,7 +173,7 @@ export function ProgressBarsProgressThin({
                 transform: 'translate(-50%, -50%)',
                 width: '4px',
                 height: '4px',
-                background: 'var(--thin-accent, var(--pf-anim-green))',
+                background: 'var(--thin-accent, #38bdf8)',
                 borderRadius: '50%',
                 pointerEvents: 'none',
               }}
@@ -185,7 +186,7 @@ export function ProgressBarsProgressThin({
               position: 'absolute',
               inset: '-4px',
               background:
-                'linear-gradient(90deg, transparent 0%, var(--thin-accent, var(--pf-anim-green-40)) 100%)',
+                'linear-gradient(90deg, transparent 0%, var(--thin-flash) 100%)',
               pointerEvents: 'none',
             }}
           />

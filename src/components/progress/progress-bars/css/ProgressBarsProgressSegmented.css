@@ -1,8 +1,15 @@
 .pf-progress-segmented {
-  --segmented-track-color: rgb(78 24 124 / 12%);
-  --segmented-fill-from: #c6ff77;
-  --segmented-fill-to: #d4ff9f;
-  --segmented-height: 12px;
+  --segmented-track-bg: rgb(255 255 255 / 8%);
+  --segmented-track-border: rgb(255 255 255 / 5%);
+  --segmented-track-shadow: rgb(0 0 0 / 25%);
+  --segmented-fill-from: #a78bfa;
+  --segmented-fill-to: #c4b5fd;
+  --segmented-fill-glow: rgb(167 139 250 / 30%);
+  --segmented-fill-highlight: rgb(255 255 255 / 22%);
+  --segmented-gap-color: rgb(15 5 25);
+  --segmented-segment-border: rgb(167 139 250 / 15%);
+  --segmented-segment-bg: rgb(167 139 250 / 6%);
+  --segmented-height: 14px;
 
   display: flex;
   flex-direction: column;
@@ -10,13 +17,16 @@
   width: 100%;
   min-height: 48px;
   justify-content: center;
+  padding: 1rem;
 }
 
 .pf-progress-segmented .pf-progress-track {
   width: 100%;
   height: var(--segmented-height);
   border-radius: 999px;
-  background: var(--segmented-track-color);
+  background: var(--segmented-track-bg);
+  border: 1px solid var(--segmented-track-border);
+  box-shadow: inset 0 1px 3px var(--segmented-track-shadow);
   overflow: visible;
   position: relative;
 }
@@ -32,5 +42,15 @@
   transform-origin: left center;
   position: relative;
   will-change: transform;
+  box-shadow: 0 0 12px var(--segmented-fill-glow);
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pf-progress-segmented .pf-progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--segmented-fill-highlight) 0%, transparent 55%);
+  pointer-events: none;
 }

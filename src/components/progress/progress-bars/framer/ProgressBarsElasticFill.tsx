@@ -11,11 +11,14 @@
  * ```
  *
  * Styleable CSS custom properties (set on a wrapper or via `style`):
- * - `--elastic-fill-track-color`  — track background (default: #e0e0e0)
- * - `--elastic-fill-from`         — fill gradient start (default: #82d616)
- * - `--elastic-fill-to`           — fill gradient end (default: #2dd4bf)
- * - `--elastic-fill-height`       — track height (default: 1.5rem)
- * - `--elastic-fill-radius`       — border radius (default: 0.75rem)
+ * - `--elastic-fill-track-bg`      — track background (default: rgb(255 255 255 / 8%))
+ * - `--elastic-fill-track-border`  — track border (default: rgb(255 255 255 / 5%))
+ * - `--elastic-fill-track-shadow`  — track inset shadow (default: rgb(0 0 0 / 25%))
+ * - `--elastic-fill-from`          — fill gradient start (default: #f59e0b)
+ * - `--elastic-fill-to`            — fill gradient end (default: #fbbf24)
+ * - `--elastic-fill-glow`          — fill outer glow (default: rgb(245 158 11 / 35%))
+ * - `--elastic-fill-height`        — track height (default: 14px)
+ * - `--elastic-fill-radius`        — border radius (default: 999px)
  *
  * Files to copy: this file + ProgressBarsElasticFill.css
  */

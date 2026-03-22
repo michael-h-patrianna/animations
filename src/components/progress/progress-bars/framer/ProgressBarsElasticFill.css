@@ -1,9 +1,13 @@
 .pf-progress-elastic-fill {
-  --elastic-fill-track-color: #e0e0e0;
-  --elastic-fill-from: #82d616;
-  --elastic-fill-to: #2dd4bf;
-  --elastic-fill-height: 1.5rem;
-  --elastic-fill-radius: 0.75rem;
+  --elastic-fill-track-bg: rgb(255 255 255 / 8%);
+  --elastic-fill-track-border: rgb(255 255 255 / 5%);
+  --elastic-fill-track-shadow: rgb(0 0 0 / 25%);
+  --elastic-fill-from: #f59e0b;
+  --elastic-fill-to: #fbbf24;
+  --elastic-fill-glow: rgb(245 158 11 / 35%);
+  --elastic-fill-highlight: rgb(255 255 255 / 22%);
+  --elastic-fill-height: 14px;
+  --elastic-fill-radius: 999px;
 
   width: 100%;
   padding: 1rem;
@@ -18,8 +22,10 @@
   position: relative;
   width: 100%;
   height: var(--elastic-fill-height);
-  background: var(--elastic-fill-track-color);
+  background: var(--elastic-fill-track-bg);
+  border: 1px solid var(--elastic-fill-track-border);
   border-radius: var(--elastic-fill-radius);
+  box-shadow: inset 0 1px 3px var(--elastic-fill-track-shadow);
   overflow: hidden;
 }
 
@@ -35,4 +41,14 @@
   border-radius: inherit;
   transform-origin: left center;
   will-change: transform;
+  box-shadow: 0 0 12px var(--elastic-fill-glow);
+}
+
+.pf-progress-elastic-fill .pf-progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--elastic-fill-highlight) 0%, transparent 55%);
+  pointer-events: none;
 }

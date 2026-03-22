@@ -41,8 +41,8 @@ export function ProgressBarsCircularDash({
                 opacity: i < activeSegments ? 1 : 0.2,
                 backgroundColor:
                   i < activeSegments
-                    ? 'var(--circular-dash-active, var(--pf-anim-blue-dark))'
-                    : 'var(--circular-dash-inactive, var(--pf-anim-slate))',
+                    ? 'var(--circular-dash-active)'
+                    : 'var(--circular-dash-inactive)',
               }}
             />
           </div>

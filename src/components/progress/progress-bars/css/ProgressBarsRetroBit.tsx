@@ -39,8 +39,8 @@ export function ProgressBarsRetroBit({
               opacity: i < activeCount ? 1 : 0.1,
               backgroundColor:
                 i < activeCount
-                  ? 'var(--retro-bit-active, var(--pf-anim-green-400))'
-                  : 'var(--retro-bit-inactive, var(--pf-anim-green-900))',
+                  ? 'var(--retro-bit-active)'
+                  : 'var(--retro-bit-inactive)',
             }}
           />
         ))}

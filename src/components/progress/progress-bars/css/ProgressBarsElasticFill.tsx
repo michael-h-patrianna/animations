@@ -11,8 +11,9 @@
  * ```
  *
  * Styleable CSS custom properties — same as framer variant:
- * - `--elastic-fill-track-color`, `--elastic-fill-from`, `--elastic-fill-to`
- * - `--elastic-fill-height`, `--elastic-fill-radius`
+ * - `--elastic-fill-track-bg`, `--elastic-fill-track-border`, `--elastic-fill-track-shadow`
+ * - `--elastic-fill-from`, `--elastic-fill-to`, `--elastic-fill-glow`
+ * - `--elastic-fill-height` (default: 14px), `--elastic-fill-radius` (default: 999px)
  *
  * Files to copy: this file + ProgressBarsElasticFill.css
  */

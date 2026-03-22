@@ -1,13 +1,13 @@
 .circular-dash-container {
-  --circular-dash-active: var(--pf-anim-blue-dark, #334155);
-  --circular-dash-inactive: var(--pf-anim-slate, #94a3b8);
-  --circular-dash-text: #334155;
+  --circular-dash-active: #2dd4bf;
+  --circular-dash-inactive: rgb(255 255 255 / 10%);
+  --circular-dash-text: rgb(255 255 255 / 95%);
   --circular-dash-size: 120px;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 24px;
   width: 100%;
 }
 
@@ -42,6 +42,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: sans-serif;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
   color: var(--circular-dash-text);
 }

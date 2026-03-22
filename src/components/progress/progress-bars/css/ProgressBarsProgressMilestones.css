@@ -1,24 +1,30 @@
 .pf-progress-milestones {
-  --milestone-track-color: rgb(78 24 124 / 12%);
-  --milestone-fill-from: #c6ff77;
-  --milestone-fill-to: #d4ff9f;
-  --milestone-marker-color: var(--pf-anim-cyan-soft, #67e8f9);
-  --milestone-active-color: var(--pf-anim-cyan-light, #a5f3fc);
-  --milestone-label-color: var(--pf-anim-cyan-muted, #94a3b8);
+  --milestone-track-bg: rgb(255 255 255 / 8%);
+  --milestone-track-border: rgb(255 255 255 / 5%);
+  --milestone-track-shadow: rgb(0 0 0 / 25%);
+  --milestone-fill-from: #38bdf8;
+  --milestone-fill-to: #7dd3fc;
+  --milestone-fill-glow: rgb(56 189 248 / 30%);
+  --milestone-marker-color: rgb(56 189 248 / 40%);
+  --milestone-active-color: #7dd3fc;
+  --milestone-label-color: rgb(255 255 255 / 45%);
 
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  min-height: 60px;
+  min-height: 72px;
   justify-content: center;
+  padding: 1rem;
 }
 
 .pf-progress-milestones .pf-progress-track {
   width: 100%;
-  height: 12px;
+  height: 10px;
   border-radius: 999px;
-  background: var(--milestone-track-color);
+  background: var(--milestone-track-bg);
+  border: 1px solid var(--milestone-track-border);
+  box-shadow: inset 0 1px 3px var(--milestone-track-shadow);
   overflow: hidden;
   position: relative;
 }
@@ -34,6 +40,7 @@
   transform-origin: left center;
   position: relative;
   will-change: transform;
+  box-shadow: 0 0 12px var(--milestone-fill-glow);
   transition: transform 0.15s linear;
 }
 
@@ -42,7 +49,7 @@
   position: absolute;
   inset: 0;
   background: var(--milestone-marker-color);
-  border: 2px solid var(--milestone-marker-color);
+  border: 1px solid var(--milestone-marker-color);
   border-radius: 50%;
   transform: rotate(45deg) scale(0.5);
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -57,7 +64,7 @@
 .pf-progress-milestones .milestone-ring {
   position: absolute;
   inset: -10px;
-  border: 2px solid var(--milestone-active-color);
+  border: 1px solid var(--milestone-active-color);
   border-radius: 50%;
   pointer-events: none;
   animation: milestone-ring-pulse 0.6s ease-out both;

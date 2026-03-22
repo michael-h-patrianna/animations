@@ -70,7 +70,9 @@ export function ProgressBarsJourneyMap({
   className,
   style,
 }: JourneyMapProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 8000, pause: 1200 })
+  const isDemo = progress === undefined
+  const demoDuration = 8000
+  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1200 })
   const percent = displayProgress * 100
   const covered = Math.round(displayProgress * totalDistance)
   const remaining = Math.max(0, totalDistance - covered)
@@ -94,8 +96,12 @@ export function ProgressBarsJourneyMap({
 
           <m.div
             className="journey-distance-fill"
-            animate={{ width: `${percent}%` }}
-            transition={{ duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
+            initial={isDemo ? { width: '0%' } : false}
+            animate={isDemo
+              ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 1.2 } }
+              : { width: `${percent}%` }
+            }
+            transition={isDemo ? undefined : { duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
             style={{ animation: 'none' }}
           >
             <m.div

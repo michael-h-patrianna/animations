@@ -38,7 +38,9 @@ export function ProgressBarsChargeSurge({
   className,
   style,
 }: MilestoneProgressBarProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 1500 })
+  const isDemo = progress === undefined
+  const demoDuration = 4000
+  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1500 })
   const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>(
     () => milestones.map(() => 'inactive')
   )
@@ -88,18 +90,18 @@ export function ProgressBarsChargeSurge({
     if (state === 'anticipating') {
       return {
         scale: [1, 1.1, 1],
-        backgroundColor: 'var(--charge-marker-color, var(--pf-anim-blue-dark))',
+        backgroundColor: 'var(--charge-marker-color)',
         transition: { scale: { duration: 0.8, repeat: Infinity, ease: 'easeInOut' as const } },
       }
     }
     if (state === 'charged') {
       return {
         scale: 1,
-        backgroundColor: 'var(--charge-marker-color, var(--pf-anim-blue-dark))',
+        backgroundColor: 'var(--charge-marker-color)',
         transition: { backgroundColor: { duration: 0.2 } },
       }
     }
-    return { scale: 1, backgroundColor: 'var(--charge-marker-color, var(--pf-anim-blue-dark))' }
+    return { scale: 1, backgroundColor: 'var(--charge-marker-color)' }
   }
 
   return (
@@ -112,14 +114,22 @@ export function ProgressBarsChargeSurge({
         <div className="pf-progress-track">
           <m.div
             className="pf-progress-fill pf-progress-fill--base"
-            animate={{ scaleX: displayProgress }}
-            transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] as const }}
+            initial={isDemo ? { scaleX: 0 } : false}
+            animate={isDemo
+              ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
+              : { scaleX: progress ?? 0 }
+            }
+            transition={isDemo ? undefined : { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
           <m.div
             className="pf-progress-fill pf-progress-fill--glow"
-            animate={{ scaleX: displayProgress }}
-            transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] as const }}
+            initial={isDemo ? { scaleX: 0 } : false}
+            animate={isDemo
+              ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
+              : { scaleX: progress ?? 0 }
+            }
+            transition={isDemo ? undefined : { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           >
             <m.div
@@ -149,7 +159,7 @@ export function ProgressBarsChargeSurge({
               style={{
                 position: 'absolute',
                 inset: 0,
-                border: '2px solid var(--charge-marker-color, var(--pf-anim-blue-dark-80))',
+                border: '2px solid var(--charge-marker-border)',
                 borderRadius: '50%',
               }}
             />
@@ -164,7 +174,7 @@ export function ProgressBarsChargeSurge({
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    border: '2px solid var(--charge-marker-color, var(--pf-anim-blue-dark-80))',
+                    border: '2px solid var(--charge-marker-border)',
                     borderRadius: '50%',
                     pointerEvents: 'none',
                   }}

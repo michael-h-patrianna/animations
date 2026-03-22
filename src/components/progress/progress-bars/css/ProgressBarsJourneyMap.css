@@ -1,45 +1,49 @@
 .journey-distance-wrap-css {
-  --progress-bars-journey-distance-css-text-main: #e5f3ff;
-  --progress-bars-journey-distance-css-text-muted: rgb(175 205 238 / 84%);
-  --progress-bars-journey-distance-css-track-base: rgb(93 132 184 / 32%);
-  --progress-bars-journey-distance-css-track-edge: rgb(170 200 238 / 18%);
-  --progress-bars-journey-distance-css-fill-a: #3f9ff8;
-  --progress-bars-journey-distance-css-fill-b: #74e5d8;
-  --progress-bars-journey-distance-css-fill-gloss-a: transparent;
-  --progress-bars-journey-distance-css-fill-gloss-b: rgb(230 247 255 / 68%);
-  --progress-bars-journey-distance-css-tick: rgb(206 227 248 / 30%);
-  --progress-bars-journey-distance-css-goal-bg: rgb(13 32 55 / 80%);
-  --progress-bars-journey-distance-css-goal-border: rgb(130 189 245 / 42%);
-  --progress-bars-journey-distance-css-traveller-core-bg: rgb(12 31 53 / 90%);
-  --progress-bars-journey-distance-css-traveller-core-border: rgb(135 194 246 / 52%);
-  --progress-bars-journey-distance-css-traveller-glow-a: rgb(143 223 248 / 44%);
-  --progress-bars-journey-distance-css-traveller-glow-b: transparent;
-  --progress-bars-journey-distance-css-foot: rgb(166 197 230 / 80%);
+  --journey-text-strong: #e5f3ff;
+  --journey-text-muted: rgb(175 205 238 / 70%);
+  --journey-track-bg: rgb(93 132 184 / 20%);
+  --journey-track-edge: rgb(170 200 238 / 18%);
+  --journey-track-border: rgb(170 200 238 / 10%);
+  --journey-track-shadow: rgb(0 0 0 / 20%);
+  --journey-fill-from: #3b82f6;
+  --journey-fill-to: #67e8f9;
+  --journey-fill-glow: rgb(59 130 246 / 25%);
+  --journey-gloss-a: transparent;
+  --journey-gloss-b: rgb(230 247 255 / 60%);
+  --journey-tick: rgb(206 227 248 / 20%);
+  --journey-goal-bg: rgb(13 32 55 / 80%);
+  --journey-goal-border: rgb(130 189 245 / 30%);
+  --journey-traveller-bg: rgb(12 31 53 / 90%);
+  --journey-traveller-border: rgb(135 194 246 / 40%);
+  --journey-traveller-glow: rgb(143 223 248 / 35%);
+  --journey-foot: rgb(166 197 230 / 60%);
+  --journey-icon-color: rgb(166 197 230 / 80%);
 
   width: 100%;
-  padding: 4px 0 6px;
+  padding: 1rem 0;
 }
 
 .journey-distance-meta-css {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .journey-distance-label-css {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--progress-bars-journey-distance-css-text-muted);
+  color: var(--journey-text-muted);
 }
 
 .journey-distance-value-css {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1;
   font-weight: 700;
-  color: var(--progress-bars-journey-distance-css-text-main);
+  font-variant-numeric: tabular-nums;
+  color: var(--journey-text-strong);
 }
 
 .journey-distance-shell-css {
@@ -59,9 +63,11 @@
   top: 21px;
   height: 16px;
   border-radius: 999px;
+  border: 1px solid var(--journey-track-border);
+  box-shadow: inset 0 1px 3px var(--journey-track-shadow);
   background:
-    linear-gradient(90deg, var(--progress-bars-journey-distance-css-track-edge), transparent 58%),
-    var(--progress-bars-journey-distance-css-track-base);
+    linear-gradient(90deg, var(--journey-track-edge), transparent 58%),
+    var(--journey-track-bg);
 }
 
 .journey-distance-fill-css {
@@ -72,9 +78,10 @@
   border-radius: 999px;
   background: linear-gradient(
     90deg,
-    var(--progress-bars-journey-distance-css-fill-a),
-    var(--progress-bars-journey-distance-css-fill-b)
+    var(--journey-fill-from),
+    var(--journey-fill-to)
   );
+  box-shadow: 0 0 12px var(--journey-fill-glow);
   transition: width 0.18s cubic-bezier(0.24, 0.78, 0.28, 0.98);
 }
 
@@ -87,28 +94,18 @@
   border-radius: 999px;
   background: linear-gradient(
     90deg,
-    var(--progress-bars-journey-distance-css-fill-gloss-a),
-    var(--progress-bars-journey-distance-css-fill-gloss-b),
-    var(--progress-bars-journey-distance-css-fill-gloss-a)
+    var(--journey-gloss-a),
+    var(--journey-gloss-b),
+    var(--journey-gloss-a)
   );
   pointer-events: none;
-  animation: journey-distance-fill-gloss-css 1.9s ease-in-out infinite;
+  animation: journey-gloss-sweep 1.9s ease-in-out infinite;
 }
 
-@keyframes journey-distance-fill-gloss-css {
-  0% {
-    transform: translateX(-12%);
-    opacity: 0;
-  }
-
-  45% {
-    opacity: 0.65;
-  }
-
-  100% {
-    transform: translateX(120%);
-    opacity: 0;
-  }
+@keyframes journey-gloss-sweep {
+  0% { transform: translateX(-12%); opacity: 0; }
+  45% { opacity: 0.65; }
+  100% { transform: translateX(120%); opacity: 0; }
 }
 
 .journey-distance-ticks-css {
@@ -125,7 +122,7 @@
 
 .journey-distance-tick-css {
   border-radius: 999px;
-  background: var(--progress-bars-journey-distance-css-tick);
+  background: var(--journey-tick);
 }
 
 .journey-distance-goal-css {
@@ -137,8 +134,9 @@
   border-radius: 10px;
   display: grid;
   place-items: center;
-  background: var(--progress-bars-journey-distance-css-goal-bg);
-  border: 1px solid var(--progress-bars-journey-distance-css-goal-border);
+  background: var(--journey-goal-bg);
+  border: 1px solid var(--journey-goal-border);
+  color: var(--journey-icon-color);
 }
 
 .journey-distance-goal-icon-css {
@@ -154,43 +152,29 @@
   width: 38px;
   height: 38px;
   z-index: 2;
-  animation: journey-distance-traveller-float-css 1.7s ease-in-out infinite;
+  animation: journey-traveller-float 1.7s ease-in-out infinite;
 }
 
-@keyframes journey-distance-traveller-float-css {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) translateY(0);
-  }
-
-  50% {
-    transform: translate(-50%, -50%) translateY(-2px);
-  }
+@keyframes journey-traveller-float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-2px); }
 }
 
 .journey-distance-traveller-glow-css {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(
-    180deg,
-    var(--progress-bars-journey-distance-css-traveller-glow-a),
-    var(--progress-bars-journey-distance-css-traveller-glow-b)
+  background: radial-gradient(
+    circle,
+    var(--journey-traveller-glow),
+    transparent 70%
   );
-  animation: journey-distance-traveller-glow-css 1.2s ease-in-out infinite;
+  animation: journey-traveller-glow 1.2s ease-in-out infinite;
 }
 
-@keyframes journey-distance-traveller-glow-css {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(0.88);
-  }
-
-  50% {
-    opacity: 0.9;
-    transform: scale(1.12);
-  }
+@keyframes journey-traveller-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.88); }
+  50% { opacity: 0.9; transform: scale(1.12); }
 }
 
 .journey-distance-traveller-core-css {
@@ -199,8 +183,9 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--progress-bars-journey-distance-css-traveller-core-bg);
-  border: 1px solid var(--progress-bars-journey-distance-css-traveller-core-border);
+  background: var(--journey-traveller-bg);
+  border: 1px solid var(--journey-traveller-border);
+  color: var(--journey-icon-color);
 }
 
 .journey-distance-traveller-icon-css {
@@ -210,12 +195,12 @@
 }
 
 .journey-distance-foot-css {
-  margin-top: 6px;
+  margin-top: 8px;
   display: flex;
   justify-content: space-between;
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--progress-bars-journey-distance-css-foot);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--journey-foot);
 }

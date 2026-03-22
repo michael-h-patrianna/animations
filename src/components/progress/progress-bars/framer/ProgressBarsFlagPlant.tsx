@@ -56,7 +56,9 @@ export function ProgressBarsFlagPlant({
   className,
   style,
 }: FlagPlantProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 1500 })
+  const isDemo = progress === undefined
+  const demoDuration = 5000
+  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1500 })
 
   const activatedSet = useMemo(
     () => new Set(milestones.filter((ms) => displayProgress >= ms.position).map((_, i) => i)),
@@ -82,8 +84,12 @@ export function ProgressBarsFlagPlant({
         <div className="flag-plant-bar-base" />
         <m.div
           className="flag-plant-bar-fill"
-          animate={{ width: `${displayProgress * 100}%` }}
-          transition={{ duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
+          initial={isDemo ? { width: '0%' } : false}
+          animate={isDemo
+            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 1.5 } }
+            : { width: `${displayProgress * 100}%` }
+          }
+          transition={isDemo ? undefined : { duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
           style={{ animation: 'none' }}
         />
 
