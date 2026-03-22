@@ -41,6 +41,7 @@ export interface Animation {
   prizeCountMax?: number
   previewPosition?: PreviewPosition
   tier?: 1 | 2 | 3 | 4
+  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain'
 }
 
 /**
@@ -109,11 +110,19 @@ export interface AnimationMetadata {
   /** Position of the animation within the preview viewport (default: 'center') */
   previewPosition?: PreviewPosition
 
-  /** Full URL path to view this animation's Framer variant, e.g. "/text-effects-framer?animation=text-effects__character-reveal" */
-  urlSlugFramer: string
+  /**
+   * Full URL path to view this animation's Framer variant.
+   * Optional in metadata — the catalog computes these from the group ID and animation ID.
+   * When present, serves as documentation of the intended URL.
+   */
+  urlSlugFramer?: string
 
-  /** Full URL path to view this animation's CSS variant, e.g. "/text-effects-css?animation=text-effects__character-reveal" */
-  urlSlugCss: string
+  /**
+   * Full URL path to view this animation's CSS variant.
+   * Optional in metadata — the catalog computes these from the group ID and animation ID.
+   * When present, serves as documentation of the intended URL.
+   */
+  urlSlugCss?: string
 
   /**
    * Portability tier — classifies what a user needs to copy-paste this animation.
@@ -128,6 +137,18 @@ export interface AnimationMetadata {
    *   `@/assets`. Complex state machines, sub-components, images.
    */
   tier?: 1 | 2 | 3 | 4
+
+  /**
+   * When set, the catalog renders demo anchor UI alongside the animation.
+   * The animation component itself stays standalone — demo rendering is handled
+   * by the catalog layer (GroupSection), not the component.
+   *
+   * - `burst`: single Source anchor at random position
+   * - `magnet`: Source + Target anchors with minimum distance
+   * - `trail`: Source + Target anchors with minimum distance
+   * - `fountain`: single Source anchor in bottom region
+   */
+  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain'
 }
 
 /**

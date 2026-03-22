@@ -1,32 +1,49 @@
 import { useEffect } from 'react'
 
 /**
+ * Module-level lock state shared across all useScrollLock instances.
+ * Tracks how many concurrent locks are active and the original overflow value
+ * captured before the first lock was acquired.
+ */
+let lockCount = 0
+let savedOverflow: string | null = null
+
+/**
  * Hook to prevent background scrolling when a modal or drawer is open.
  *
- * Temporarily sets `document.body.style.overflow = 'hidden'` while the target
- * is open, then restores the previous overflow value on close or unmount.
+ * Uses a reference counter so multiple concurrent locks (e.g. drawer + modal)
+ * work correctly: the first lock saves the original overflow, the last unlock
+ * restores it.
  *
- * @param {boolean} isOpen - Whether the target (drawer/modal) is currently open
+ * @param isOpen - Whether the target (drawer/modal) is currently open
  *
  * @example
  * ```tsx
  * const [isDrawerOpen, setIsDrawerOpen] = useState(false)
  * useScrollLock(isDrawerOpen)
  * ```
- *
- * @remarks
- * - Preserves original overflow value for proper restoration
- * - Useful for mobile drawers and full-screen modals
- * - Automatically cleans up on component unmount
  */
 export function useScrollLock(isOpen: boolean) {
   useEffect(() => {
     if (isOpen) {
-      const prev = document.body.style.overflow
+      if (lockCount === 0) {
+        savedOverflow = document.body.style.overflow
+      }
+      lockCount++
       document.body.style.overflow = 'hidden'
       return () => {
-        document.body.style.overflow = prev
+        lockCount--
+        if (lockCount === 0 && savedOverflow !== null) {
+          document.body.style.overflow = savedOverflow
+          savedOverflow = null
+        }
       }
     }
   }, [isOpen])
+}
+
+/** Reset internal state — test-only, not exported from the public API. */
+export function _resetScrollLockState() {
+  lockCount = 0
+  savedOverflow = null
 }
