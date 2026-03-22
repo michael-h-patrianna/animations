@@ -43,7 +43,7 @@ export function ProgressBarsCelebrationBurst({
   )
 
   const [particles, setParticles] = useState<Particle[]>([])
-  const [burstIndices, setBurstIndices] = useState<Set<number>>(new Set())
+  const [burstIndices, setBurstIndices] = useState<Set<number>>(() => new Set())
   const particleIdRef = useRef(0)
   const prevActivatedRef = useRef<Set<number>>(new Set())
 
@@ -55,17 +55,19 @@ export function ProgressBarsCelebrationBurst({
     if (newActivations.length === 0) return
 
     const newParticles: Particle[] = []
-    const newBursts = new Set(burstIndices)
 
     for (const idx of newActivations) {
-      newBursts.add(idx)
       for (const angle of [0, 90, 180, 270]) {
         newParticles.push({ id: particleIdRef.current++, milestoneIndex: idx, angle })
       }
     }
 
     setParticles((p) => [...p, ...newParticles])
-    setBurstIndices(newBursts)
+    setBurstIndices((prev) => {
+      const next = new Set(prev)
+      for (const idx of newActivations) next.add(idx)
+      return next
+    })
 
     const timeout = setTimeout(() => {
       const ids = new Set(newParticles.map((p) => p.id))

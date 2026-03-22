@@ -84,7 +84,7 @@ export function ProgressBarsChargeSurge({
 
     if (stateChanged) setMilestoneStates(newStates)
     return () => pendingTimeouts.forEach(clearTimeout)
-  }, [displayProgress, milestones])
+  }, [displayProgress, milestones, milestoneStates])
 
   const markerVariants = (state: MilestoneState) => {
     if (state === 'anticipating') {
