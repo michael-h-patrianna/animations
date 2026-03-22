@@ -1,93 +1,94 @@
-import { useEffect, useRef } from 'react'
-import { MockContent } from './MockContent'
+/**
+ * Auto-dismiss wrapper — bouncy scale-in, subtle pulse during visible, scale-down exit. CSS variant.
+ *
+ * Copy-paste files: this file + SharedTypes.ts
+ * Runtime deps: react
+ *
+ * Usage: <ModalDismissSnackbarScale duration={5000} onDismiss={remove}><YourSnackbar /></ModalDismissSnackbarScale>
+ */
 
-function runAnimation(toast: HTMLDivElement, progress: HTMLDivElement) {
-  toast.style.opacity = '0'
-  toast.style.transform = 'translate3d(0, 16px, 0) scale(0.84)'
-  progress.style.transform = 'scaleX(1)'
+import { memo, useEffect, useRef } from 'react'
 
-  const entryDuration = 320
-  const autoDismissMs = 4000
-  const exitDuration = Math.min(360, Math.max(220, Math.round(entryDuration * 0.75)))
+import { ToastPlaceholder } from '../MockToastContent'
+import type { AutoDismissProps } from '../SharedTypes'
 
-  const enterKeyframes = [
-    { transform: 'translate3d(0, 16px, 0) scale(0.84)', opacity: '0' },
-    { transform: 'translate3d(0, -6px, 0) scale(1.08)', opacity: '1', offset: 0.6 },
-    { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-  ]
+const DEFAULT_DURATION = 4000
 
-  toast.animate(enterKeyframes, {
-    duration: entryDuration,
-    easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-    fill: 'forwards',
-  })
-
-  progress.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }], {
-    duration: autoDismissMs,
-    easing: 'linear',
-    fill: 'forwards',
-  })
-
-  toast.animate(
-    [
-      { transform: 'translate3d(0,0,0) scale(1)', filter: 'brightness(1)', opacity: '1' },
-      {
-        transform: 'translate3d(0,-4px,0) scale(1.05)',
-        filter: 'brightness(1.12)',
-        opacity: '1',
-        offset: 0.18,
-      },
-      {
-        transform: 'translate3d(0,6px,0) scale(0.96)',
-        filter: 'brightness(0.95)',
-        opacity: '0.92',
-        offset: 0.55,
-      },
-      {
-        transform: 'translate3d(0,12px,0) scale(0.9)',
-        filter: 'brightness(0.88)',
-        opacity: '0.85',
-      },
-    ],
-    { duration: autoDismissMs, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' }
-  )
-
-  const exitTimer = setTimeout(() => {
-    toast.animate(
-      [
-        { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-        { transform: 'translate3d(0, 6px, 0) scale(0.92)', opacity: '0.4', offset: 0.6 },
-        { transform: 'translate3d(0, 16px, 0) scale(0.8)', opacity: '0' },
-      ],
-      { duration: exitDuration, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)', fill: 'forwards' }
-    )
-  }, autoDismissMs)
-
-  return () => {
-    clearTimeout(exitTimer)
-    toast.getAnimations().forEach((anim) => anim.cancel())
-    progress.getAnimations().forEach((anim) => anim.cancel())
-  }
-}
-
-export function ModalDismissSnackbarScale() {
-  const toastRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef<HTMLDivElement>(null)
+function ModalDismissSnackbarScaleComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  onDismiss,
+  className,
+  style,
+}: AutoDismissProps) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const onDismissRef = useRef(onDismiss)
+  onDismissRef.current = onDismiss
 
   useEffect(() => {
-    const toast = toastRef.current
-    const progress = progressRef.current
-    if (!toast || !progress) return
-    return runAnimation(toast, progress)
-  }, [])
+    const el = wrapperRef.current
+    if (el === null) return
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const entryDuration = reducedMotion ? 10 : 320
+    const exitDuration = reducedMotion ? 10 : 240
+    const entryEasing = 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+    const pulseEasing = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+
+    // Entry: bouncy scale-in
+    el.animate(
+      [
+        { transform: 'translate3d(0, 16px, 0) scale(0.84)', opacity: '0' },
+        { transform: 'translate3d(0, -6px, 0) scale(1.08)', opacity: '1', offset: 0.6 },
+        { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
+      ],
+      { duration: entryDuration, easing: entryEasing, fill: 'forwards' }
+    )
+
+    // Pulse: slow drift during visible phase
+    el.animate(
+      [
+        { transform: 'translate3d(0, 0, 0) scale(1)', filter: 'brightness(1)', opacity: '1' },
+        { transform: 'translate3d(0, -4px, 0) scale(1.05)', filter: 'brightness(1.12)', opacity: '1', offset: 0.18 },
+        { transform: 'translate3d(0, 6px, 0) scale(0.96)', filter: 'brightness(0.95)', opacity: '0.92', offset: 0.55 },
+        { transform: 'translate3d(0, 12px, 0) scale(0.9)', filter: 'brightness(0.88)', opacity: '0.85' },
+      ],
+      { duration: reducedMotion ? 10 : duration, easing: pulseEasing, fill: 'forwards' }
+    )
+
+    // Exit after timeout
+    const exitTimer = setTimeout(() => {
+      const exitAnim = el.animate(
+        [
+          { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
+          { transform: 'translate3d(0, 6px, 0) scale(0.92)', opacity: '0.4', offset: 0.6 },
+          { transform: 'translate3d(0, 16px, 0) scale(0.8)', opacity: '0' },
+        ],
+        { duration: exitDuration, easing: entryEasing, fill: 'forwards' }
+      )
+      exitAnim.onfinish = () => onDismissRef.current?.()
+    }, duration)
+
+    return () => {
+      clearTimeout(exitTimer)
+      el.getAnimations().forEach((a) => a.cancel())
+    }
+  }, [duration])
 
   return (
-    <div data-animation-id="modal-dismiss__snackbar-scale">
-      <MockContent
-        toastRef={toastRef}
-        progressRef={progressRef}
-        animationId="modal-dismiss__snackbar-scale"
-      />
+    <div
+      data-animation-id="modal-dismiss__snackbar-scale"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
+      <div
+        ref={wrapperRef}
+        className={className}
+        style={{ ...style, opacity: 0, transform: 'translate3d(0, 16px, 0) scale(0.84)' }}
+      >
+        <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
+      </div>
     </div>
   )
 }
+
+export const ModalDismissSnackbarScale = memo(ModalDismissSnackbarScaleComponent)

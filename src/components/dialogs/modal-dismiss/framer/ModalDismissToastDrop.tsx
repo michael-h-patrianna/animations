@@ -1,81 +1,76 @@
+/**
+ * Auto-dismiss wrapper — content drops from above, exits downward after timeout.
+ *
+ * Copy-paste files: this file + SharedTypes.ts
+ * Runtime deps: react, motion
+ *
+ * Usage: <ModalDismissToastDrop duration={5000} onDismiss={remove}><YourToast /></ModalDismissToastDrop>
+ */
+
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-import { useEffect, useState } from 'react'
+import { ToastPlaceholder } from '../MockToastContent'
+import type { AutoDismissProps } from '../SharedTypes'
 
-export function ModalDismissToastDrop() {
-  const [showProgress, setShowProgress] = useState(true)
+const DEFAULT_DURATION = 3600
 
-  const entryDuration = 0.42
-  const autoDismissMs = 3600
-  const exitDuration = Math.min(0.36, Math.max(0.22, Math.round(entryDuration * 750) / 1000))
+function ModalDismissToastDropComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  onDismiss,
+  className,
+  style,
+}: AutoDismissProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const [phase, setPhase] = useState<'enter' | 'exit'>('enter')
+  const onDismissRef = useRef(onDismiss)
+  onDismissRef.current = onDismiss
 
   useEffect(() => {
-    const exitTimer = setTimeout(() => {
-      setShowProgress(false)
-    }, autoDismissMs)
+    const timer = setTimeout(() => setPhase('exit'), duration)
+    return () => clearTimeout(timer)
+  }, [duration])
 
-    return () => clearTimeout(exitTimer)
-  }, [autoDismissMs])
-  const toastVariants = {
-    hidden: {
-      y: '-120%',
-      scale: 0.96,
-      opacity: 0,
-    },
+  const entryS = prefersReducedMotion ? 0.01 : 0.42
+  const exitS = prefersReducedMotion ? 0.01 : 0.32
+
+  const variants = {
+    hidden: { y: '-120%', scale: 0.96, opacity: 0 },
     visible: {
       y: ['-120%', '10%', '0%'],
       scale: [0.96, 1.02, 1],
       opacity: [0, 1, 1],
-      transition: {
-        duration: entryDuration,
-        times: [0, 0.7, 1],
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-      },
+      transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
     exit: {
       y: ['0%', '-12%', '120%'],
       scale: [1, 0.98, 0.9],
       opacity: [1, 0.9, 0],
-      transition: {
-        duration: exitDuration,
-        times: [0, 0.5, 1],
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-      },
-    },
-  }
-
-  const progressVariants = {
-    full: { scaleX: 1 },
-    empty: {
-      scaleX: 0,
-      transition: {
-        duration: autoDismissMs / 1000,
-        ease: 'linear' as const,
-      },
+      transition: { duration: exitS, times: [0, 0.5, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
   }
 
   return (
-    <div className="pf-toast-preview">
+    <div
+      data-animation-id="modal-dismiss__toast-drop"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
       <m.div
-        className="pf-toast"
-        data-animation-id="modal-dismiss__toast-drop"
-        variants={toastVariants}
+        className={className}
+        style={{ ...style, animation: 'none' }}
+        variants={variants}
         initial="hidden"
-        animate={showProgress ? 'visible' : 'exit'}
+        animate={phase === 'enter' ? 'visible' : 'exit'}
+        onAnimationComplete={(definition: string) => {
+          if (definition === 'exit') onDismissRef.current?.()
+        }}
       >
-        <div className="pf-toast__title">Action Complete</div>
-        <div className="pf-toast__body">Your changes have been saved</div>
-        <div className="pf-toast__progress">
-          <m.div
-            className="pf-toast__progress-bar"
-            variants={progressVariants}
-            initial="full"
-            animate="empty"
-            style={{ transformOrigin: 'left center' }}
-          />
-        </div>
+        <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
       </m.div>
     </div>
   )
 }
+
+export const ModalDismissToastDrop = memo(ModalDismissToastDropComponent)

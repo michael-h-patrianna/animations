@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-dismiss-framer?animation=modal-dismiss__toast-slide-right',
   urlSlugCss: '/modal-dismiss-css?animation=modal-dismiss__toast-slide-right',
   title: 'Toast Slide Right',
-  description: 'Toast slides along the horizontal axis with auto-dismiss at 3800ms.',
-  tier: 4,
+  description: 'Wraps content with a slide-from-right entrance and rightward exit. Configurable timeout via duration prop.',
+  tier: 2,
 }

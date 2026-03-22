@@ -1,73 +1,80 @@
-import { useEffect, useRef } from 'react'
-import { MockContent } from './MockContent'
+/**
+ * Auto-dismiss wrapper — content slides in from the right, exits right after timeout. CSS variant.
+ *
+ * Copy-paste files: this file + SharedTypes.ts
+ * Runtime deps: react
+ *
+ * Usage: <ModalDismissToastSlideRight duration={5000} onDismiss={remove}><YourToast /></ModalDismissToastSlideRight>
+ */
 
-export function ModalDismissToastSlideRight() {
-  const toastRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef<HTMLDivElement>(null)
+import { memo, useEffect, useRef } from 'react'
+
+import { ToastPlaceholder } from '../MockToastContent'
+import type { AutoDismissProps } from '../SharedTypes'
+
+const DEFAULT_DURATION = 3800
+
+function ModalDismissToastSlideRightComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  onDismiss,
+  className,
+  style,
+}: AutoDismissProps) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const onDismissRef = useRef(onDismiss)
+  onDismissRef.current = onDismiss
 
   useEffect(() => {
-    const toast = toastRef.current
-    const progress = progressRef.current
-    if (!toast || !progress) return
+    const el = wrapperRef.current
+    if (el === null) return
 
-    // Set initial state
-    toast.style.opacity = '0'
-    toast.style.transform = 'translate3d(140%, 0, 0) scale(0.96)'
-    progress.style.transform = 'scaleX(1)'
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const entryDuration = reducedMotion ? 10 : 320
+    const exitDuration = reducedMotion ? 10 : 240
+    const easing = 'cubic-bezier(0.4, 0.0, 0.2, 1)'
 
-    const entryDuration = 320
-    const autoDismissMs = 3800
-    const exitDuration = Math.min(360, Math.max(220, Math.round(entryDuration * 0.75)))
-
-    // Entrance animation (slides from right with overshoot to -6%)
-    const enterKeyframes = [
-      { transform: 'translate3d(140%, 0, 0) scale(0.96)', opacity: '0' },
-      { transform: 'translate3d(-6%, 0, 0) scale(1.02)', opacity: '1', offset: 0.7 },
-      { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-    ]
-
-    toast.animate(enterKeyframes, {
-      duration: entryDuration,
-      easing: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
-      fill: 'forwards',
-    })
-
-    // Progress bar animation (scaleX from 1 to 0)
-    progress.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }], {
-      duration: autoDismissMs,
-      easing: 'linear',
-      fill: 'forwards',
-    })
-
-    // Schedule exit animation
-    const exitTimer = setTimeout(() => {
-      const exitKeyframes = [
+    el.animate(
+      [
+        { transform: 'translate3d(140%, 0, 0) scale(0.96)', opacity: '0' },
+        { transform: 'translate3d(-6%, 0, 0) scale(1.02)', opacity: '1', offset: 0.7 },
         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-        { transform: 'translate3d(8%, 0, 0) scale(0.98)', opacity: '0.9', offset: 0.5 },
-        { transform: 'translate3d(160%, 0, 0) scale(0.9)', opacity: '0' },
-      ]
+      ],
+      { duration: entryDuration, easing, fill: 'forwards' }
+    )
 
-      toast.animate(exitKeyframes, {
-        duration: exitDuration,
-        easing: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
-        fill: 'forwards',
-      })
-    }, autoDismissMs)
+    const exitTimer = setTimeout(() => {
+      const exitAnim = el.animate(
+        [
+          { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
+          { transform: 'translate3d(8%, 0, 0) scale(0.98)', opacity: '0.9', offset: 0.5 },
+          { transform: 'translate3d(160%, 0, 0) scale(0.9)', opacity: '0' },
+        ],
+        { duration: exitDuration, easing, fill: 'forwards' }
+      )
+      exitAnim.onfinish = () => onDismissRef.current?.()
+    }, duration)
 
     return () => {
       clearTimeout(exitTimer)
-      toast.getAnimations().forEach((anim) => anim.cancel())
-      progress.getAnimations().forEach((anim) => anim.cancel())
+      el.getAnimations().forEach((a) => a.cancel())
     }
-  }, [])
+  }, [duration])
 
   return (
-    <div data-animation-id="modal-dismiss__toast-slide-right">
-      <MockContent
-        toastRef={toastRef}
-        progressRef={progressRef}
-        animationId="modal-dismiss__toast-slide-right"
-      />
+    <div
+      data-animation-id="modal-dismiss__toast-slide-right"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
+      <div
+        ref={wrapperRef}
+        className={className}
+        style={{ ...style, opacity: 0, transform: 'translate3d(140%, 0, 0) scale(0.96)' }}
+      >
+        <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
+      </div>
     </div>
   )
 }
+
+export const ModalDismissToastSlideRight = memo(ModalDismissToastSlideRightComponent)

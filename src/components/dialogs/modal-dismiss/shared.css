@@ -1,5 +1,6 @@
-/* Shared toast styles for modal-dismiss components */
-.pf-toast-preview {
+/* Shared toast visual styles for modal-dismiss placeholder content */
+
+.pf-toast {
   --modal-dismiss-bg-1: rgb(236 195 255 / 8%);
   --modal-dismiss-border: rgb(236 195 255 / 12%);
   --modal-dismiss-color: rgb(255 255 255 / 76%);
@@ -9,16 +10,6 @@
   --modal-dismiss-shadow: rgb(255 255 255 / 65%);
   --modal-dismiss-bg-100: rgb(255 255 255 / 85%);
   --modal-dismiss-bg-101: rgb(255 255 255 / 25%);
-  position: relative;
-  width: 100%;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.pf-toast {
   min-width: 240px;
   --box-shadow-lint-token-1:
     0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--modal-dismiss-border);
@@ -62,29 +53,17 @@
   );
   transform-origin: left center;
   border-radius: inherit;
+  animation-name: pf-toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
 
-.pf-toast__progress-outer {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-}
+@keyframes pf-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
 
-.pf-toast__progress-spark {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  transform: translate(50%, -50%);
-  background: linear-gradient(
-    180deg,
-    var(--modal-dismiss-bg-100) 0%,
-    var(--modal-dismiss-bg-101) 60%,
-    transparent 100%
-  );
-  box-shadow: 0 0 16px var(--modal-dismiss-shadow);
-  opacity: 0;
+  to {
+    transform: scaleX(0);
+  }
 }

@@ -1,81 +1,76 @@
+/**
+ * Auto-dismiss wrapper — content slides in from the right, exits right after timeout.
+ *
+ * Copy-paste files: this file + SharedTypes.ts
+ * Runtime deps: react, motion
+ *
+ * Usage: <ModalDismissToastSlideRight duration={5000} onDismiss={remove}><YourToast /></ModalDismissToastSlideRight>
+ */
+
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { memo, useEffect, useRef, useState } from 'react'
 
-import { useEffect, useState } from 'react'
+import { ToastPlaceholder } from '../MockToastContent'
+import type { AutoDismissProps } from '../SharedTypes'
 
-export function ModalDismissToastSlideRight() {
-  const [showProgress, setShowProgress] = useState(true)
+const DEFAULT_DURATION = 3800
 
-  const entryDuration = 0.32
-  const autoDismissMs = 3800
-  const exitDuration = Math.min(0.36, Math.max(0.22, Math.round(entryDuration * 750) / 1000))
+function ModalDismissToastSlideRightComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  onDismiss,
+  className,
+  style,
+}: AutoDismissProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const [phase, setPhase] = useState<'enter' | 'exit'>('enter')
+  const onDismissRef = useRef(onDismiss)
+  onDismissRef.current = onDismiss
 
   useEffect(() => {
-    const exitTimer = setTimeout(() => {
-      setShowProgress(false)
-    }, autoDismissMs)
+    const timer = setTimeout(() => setPhase('exit'), duration)
+    return () => clearTimeout(timer)
+  }, [duration])
 
-    return () => clearTimeout(exitTimer)
-  }, [autoDismissMs])
-  const toastVariants = {
-    hidden: {
-      x: '140%',
-      scale: 0.96,
-      opacity: 0,
-    },
+  const entryS = prefersReducedMotion ? 0.01 : 0.32
+  const exitS = prefersReducedMotion ? 0.01 : 0.24
+
+  const variants = {
+    hidden: { x: '140%', scale: 0.96, opacity: 0 },
     visible: {
       x: ['140%', '-6%', '0%'],
       scale: [0.96, 1.02, 1],
       opacity: [0, 1, 1],
-      transition: {
-        duration: entryDuration,
-        times: [0, 0.7, 1],
-        ease: [0.4, 0, 0.2, 1] as const,
-      },
+      transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.4, 0, 0.2, 1] as const },
     },
     exit: {
       x: ['0%', '8%', '160%'],
       scale: [1, 0.98, 0.9],
       opacity: [1, 0.9, 0],
-      transition: {
-        duration: exitDuration,
-        times: [0, 0.5, 1],
-        ease: [0.4, 0, 0.2, 1] as const,
-      },
-    },
-  }
-
-  const progressVariants = {
-    full: { scaleX: 1 },
-    empty: {
-      scaleX: 0,
-      transition: {
-        duration: autoDismissMs / 1000,
-        ease: 'linear' as const,
-      },
+      transition: { duration: exitS, times: [0, 0.5, 1], ease: [0.4, 0, 0.2, 1] as const },
     },
   }
 
   return (
-    <div className="pf-toast-preview">
+    <div
+      data-animation-id="modal-dismiss__toast-slide-right"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
       <m.div
-        className="pf-toast"
-        data-animation-id="modal-dismiss__toast-slide-right"
-        variants={toastVariants}
+        className={className}
+        style={{ ...style, animation: 'none' }}
+        variants={variants}
         initial="hidden"
-        animate={showProgress ? 'visible' : 'exit'}
+        animate={phase === 'enter' ? 'visible' : 'exit'}
+        onAnimationComplete={(definition: string) => {
+          if (definition === 'exit') onDismissRef.current?.()
+        }}
       >
-        <div className="pf-toast__title">Action Complete</div>
-        <div className="pf-toast__body">Your changes have been saved</div>
-        <div className="pf-toast__progress">
-          <m.div
-            className="pf-toast__progress-bar"
-            variants={progressVariants}
-            initial="full"
-            animate="empty"
-            style={{ transformOrigin: 'left center' }}
-          />
-        </div>
+        <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
       </m.div>
     </div>
   )
 }
+
+export const ModalDismissToastSlideRight = memo(ModalDismissToastSlideRightComponent)

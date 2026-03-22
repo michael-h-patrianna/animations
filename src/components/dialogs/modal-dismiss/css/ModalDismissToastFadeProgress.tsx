@@ -1,73 +1,79 @@
-import { useEffect, useRef } from 'react'
-import { MockContent } from './MockContent'
+/**
+ * Auto-dismiss wrapper — soft fade-in with scale, fades out after timeout. CSS variant.
+ *
+ * Copy-paste files: this file + SharedTypes.ts
+ * Runtime deps: react
+ *
+ * Usage: <ModalDismissToastFadeProgress duration={5000} onDismiss={remove}><YourToast /></ModalDismissToastFadeProgress>
+ */
 
-export function ModalDismissToastFadeProgress() {
-  const toastRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef<HTMLDivElement>(null)
-  // Removed unused state
+import { memo, useEffect, useRef } from 'react'
+
+import { ToastPlaceholder } from '../MockToastContent'
+import type { AutoDismissProps } from '../SharedTypes'
+
+const DEFAULT_DURATION = 4600
+
+function ModalDismissToastFadeProgressComponent({
+  children,
+  duration = DEFAULT_DURATION,
+  onDismiss,
+  className,
+  style,
+}: AutoDismissProps) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const onDismissRef = useRef(onDismiss)
+  onDismissRef.current = onDismiss
 
   useEffect(() => {
-    const toast = toastRef.current
-    const progress = progressRef.current
-    if (!toast || !progress) return
+    const el = wrapperRef.current
+    if (el === null) return
 
-    // Set initial state
-    toast.style.opacity = '0'
-    toast.style.transform = 'translate3d(0, 18px, 0) scale(0.94)'
-    progress.style.transform = 'scaleX(1)'
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const entryDuration = reducedMotion ? 10 : 420
+    const exitDuration = reducedMotion ? 10 : 320
+    const easing = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
 
-    const entryDuration = 420
-    const autoDismissMs = 4600
-    const exitDuration = Math.min(360, Math.max(220, Math.round(entryDuration * 0.75)))
-
-    // Entrance animation (fade with scale from 0.94 to 1)
-    const enterKeyframes = [
-      { transform: 'translate3d(0, 18px, 0) scale(0.94)', opacity: '0' },
-      { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-    ]
-
-    toast.animate(enterKeyframes, {
-      duration: entryDuration,
-      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', // gentle easing
-      fill: 'forwards',
-    })
-
-    // Progress bar animation (scaleX from 1 to 0)
-    progress.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }], {
-      duration: autoDismissMs,
-      easing: 'linear',
-      fill: 'forwards',
-    })
-
-    // Schedule exit animation
-    const exitTimer = setTimeout(() => {
-      const exitKeyframes = [
+    el.animate(
+      [
+        { transform: 'translate3d(0, 18px, 0) scale(0.94)', opacity: '0' },
         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-        { transform: 'translate3d(0, 12px, 0) scale(0.92)', opacity: '0.4', offset: 0.6 },
-        { transform: 'translate3d(0, 24px, 0) scale(0.88)', opacity: '0' },
-      ]
+      ],
+      { duration: entryDuration, easing, fill: 'forwards' }
+    )
 
-      toast.animate(exitKeyframes, {
-        duration: exitDuration,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        fill: 'forwards',
-      })
-    }, autoDismissMs)
+    const exitTimer = setTimeout(() => {
+      const exitAnim = el.animate(
+        [
+          { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
+          { transform: 'translate3d(0, 12px, 0) scale(0.92)', opacity: '0.4', offset: 0.6 },
+          { transform: 'translate3d(0, 24px, 0) scale(0.88)', opacity: '0' },
+        ],
+        { duration: exitDuration, easing, fill: 'forwards' }
+      )
+      exitAnim.onfinish = () => onDismissRef.current?.()
+    }, duration)
 
     return () => {
       clearTimeout(exitTimer)
-      toast.getAnimations().forEach((anim) => anim.cancel())
-      progress.getAnimations().forEach((anim) => anim.cancel())
+      el.getAnimations().forEach((a) => a.cancel())
     }
-  }, [])
+  }, [duration])
 
   return (
-    <div data-animation-id="modal-dismiss__toast-fade-progress">
-      <MockContent
-        toastRef={toastRef}
-        progressRef={progressRef}
-        animationId="modal-dismiss__toast-fade-progress"
-      />
+    <div
+      data-animation-id="modal-dismiss__toast-fade-progress"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
+      <div
+        ref={wrapperRef}
+        className={className}
+        style={{ ...style, opacity: 0, transform: 'translate3d(0, 18px, 0) scale(0.94)' }}
+      >
+        <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
+      </div>
     </div>
   )
 }
+
+export const ModalDismissToastFadeProgress = memo(ModalDismissToastFadeProgressComponent)
