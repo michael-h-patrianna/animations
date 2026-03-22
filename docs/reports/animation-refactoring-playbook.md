@@ -56,9 +56,30 @@ The metadata `description` field and the file header comment should answer all f
 
 ## How to Work
 
+### Step 0: Identify the consumer product (mandatory gate)
+
+Before reading code, before planning work packages, answer these three questions **for each variant independently**:
+
+1. **What does the consumer copy?** Just the CSS file? The component + CSS? The component + shared utilities? The whole group directory?
+2. **How do they use it?** Add a CSS class to any element? Wrap their content with a React component? Embed a standalone widget? Pass live data as props?
+3. **One-sentence pitch:** How would a developer describe this animation to a colleague?
+
+The one-sentence pitch is the test. If you can't say it in one sentence, you don't understand the product yet. The answer determines everything: prop interface, file headers, what "standalone" means, and what the TSX file's role is.
+
+**The two variants often serve different purposes and audiences:**
+
+| Group type | CSS variant product | Framer variant product |
+|-|-|-|
+| FX effects (bounce, shake) | `.css` file — add class to any element | Wrapper component — RN porting reference |
+| Visual indicators (pulse circle) | `.css` + documented HTML structure | Component with size/color/duration props |
+| Data-driven (progress bar) | `.css` + custom properties set via JS | Component accepting data props |
+| Full scenes (chest reveal) | `.css` mirrors the framer choreography | Self-contained component with theme/callback props |
+
+Do NOT skip this step. The standard-effects refactoring failed initially because the work was planned as "add children prop + duration prop to everything" — a structural template — instead of recognizing that these are CSS utility effects where the `.css` file IS the product and the TSX is catalog scaffolding.
+
 ### Start with scenarios, not code
 
-Before reading any animation code, write the consumer scenario: "A developer building [specific app type] wants [specific visual result]. They write: [JSX]." This forces the API to emerge from real use cases. The JSX you write IS the specification — implementation follows.
+Before reading any animation code, write the consumer scenario: "A developer building [specific app type] wants [specific visual result]." They write [JSX] for the framer variant, or [HTML + CSS class] for the CSS variant — use whichever matches the consumer product you identified in Step 0. This forces the API to emerge from real use cases.
 
 ### Critique your own API design before implementing
 
