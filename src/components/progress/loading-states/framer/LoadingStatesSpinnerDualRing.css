@@ -1,38 +1,20 @@
-/* Styles for LoadingStatesSpinnerDualRing */
+/* Layout for LoadingStatesSpinnerDualRing (framer variant) */
 
-.pf-loading-container {
-  --loading-states-spinner-dual-ring-border-1: rgb(236 195 255 / 16%);
-  --loading-states-spinner-dual-ring-border-top: #ecc3ff;
-  --loading-states-spinner-dual-ring-border-2: rgb(198 255 119 / 20%);
-  --loading-states-spinner-dual-ring-border-bottom: #c6ff77;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
 .pf-spinner-dual-ring {
   position: relative;
-  width: 48px;
-  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .pf-spinner-dual-ring__outer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 4px solid var(--loading-states-spinner-dual-ring-border-1);
-  border-top-color: var(--loading-states-spinner-dual-ring-border-top);
   border-radius: 50%;
+  box-sizing: border-box;
 }
+
 .pf-spinner-dual-ring__inner {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--loading-states-spinner-dual-ring-border-2);
-  border-bottom-color: var(--loading-states-spinner-dual-ring-border-bottom);
   border-radius: 50%;
+  box-sizing: border-box;
 }

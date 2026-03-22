@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__skeleton-card',
   urlSlugCss: '/loading-states-css?animation=loading-states__skeleton-card',
   title: 'Skeleton Card',
-  description: 'Card skeleton with layered shimmer lines.',
+  description:
+    'Card skeleton using .pf-skeleton class. Add class to any element for custom layouts — no React needed.',
   infinite: true,
-  tier: 3,
+  tier: 4,
 } satisfies AnimationMetadata

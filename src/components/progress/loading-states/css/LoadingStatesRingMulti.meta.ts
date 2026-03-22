@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__ring-multi',
   urlSlugCss: '/loading-states-css?animation=loading-states__ring-multi',
   title: 'Multi Ring',
-  description: 'Nested rings oscillate asynchronously.',
+  description:
+    'Three concentric rings spinning at different speeds. Configure size, colors, thickness, and speed via CSS custom properties.',
   infinite: true,
-  tier: 3,
+  tier: 4,
 } satisfies AnimationMetadata

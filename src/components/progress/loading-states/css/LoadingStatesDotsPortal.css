@@ -1,32 +1,43 @@
-/* Styles for LoadingStatesDotsPortal */
+/* Styles for LoadingStatesDotsPortal (CSS variant) */
 
-.pf-loading-container {
-  --loading-states-dots-portal-bg: #c47ae5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
+.pf-dots-portal {
+  --pf-dp-dot-size: 12px;
+  --pf-dp-color: #c47ae5;
+  --pf-dp-gap: 8px;
+  --pf-dp-duration: 1.2s;
+  --pf-dp-travel: 20px;
 
-.pf-dots {
-  display: flex;
-  gap: 8px;
+  display: inline-flex;
+  gap: var(--pf-dp-gap);
   align-items: center;
   justify-content: center;
 }
-.pf-dots span {
-  width: 12px;
-  height: 12px;
+
+.pf-dots-portal__dot {
+  width: var(--pf-dp-dot-size);
+  height: var(--pf-dp-dot-size);
   border-radius: 50%;
-  background: var(--loading-states-dots-portal-bg);
+  background: var(--pf-dp-color);
   display: inline-block;
+  will-change: transform, opacity;
 }
 
-@keyframes dots-portal-left {
+.pf-dots-portal__dot--left {
+  animation: pf-dp-left var(--pf-dp-duration) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.pf-dots-portal__dot--center {
+  animation: pf-dp-center var(--pf-dp-duration) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.pf-dots-portal__dot--right {
+  animation: pf-dp-right var(--pf-dp-duration) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes pf-dp-left {
   0%,
   100% {
-    transform: translateX(-20px) scale(1);
+    transform: translateX(calc(-1 * var(--pf-dp-travel))) scale(1);
     opacity: 1;
   }
   50% {
@@ -35,39 +46,26 @@
   }
 }
 
-@keyframes dots-portal-center {
+@keyframes pf-dp-center {
   0%,
   100% {
-    transform: translateX(0) scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+}
+
+@keyframes pf-dp-right {
+  0%,
+  100% {
+    transform: translateX(var(--pf-dp-travel)) scale(1);
     opacity: 1;
   }
   50% {
     transform: translateX(0) scale(0.5);
     opacity: 0.5;
   }
-}
-
-@keyframes dots-portal-right {
-  0%,
-  100% {
-    transform: translateX(20px) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(0) scale(0.5);
-    opacity: 0.5;
-  }
-}
-
-.pf-dots-portal span:nth-child(1) {
-  animation: dots-portal-left 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  will-change: transform, opacity;
-}
-.pf-dots-portal span:nth-child(2) {
-  animation: dots-portal-center 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  will-change: transform, opacity;
-}
-.pf-dots-portal span:nth-child(3) {
-  animation: dots-portal-right 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  will-change: transform, opacity;
 }

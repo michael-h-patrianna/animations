@@ -1,49 +1,6 @@
-/* Styles for LoadingStatesSkeletonCard */
-
-.pf-loading-container {
-  --loading-states-skeleton-card-bg-100: rgb(236 195 255 / 5%);
-  --loading-states-skeleton-card-bg-101: rgb(236 195 255 / 18%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
-.pf-skeleton {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-.pf-skeleton__line {
-  display: block;
-  width: 100%;
-  height: 12px;
-  border-radius: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--loading-states-skeleton-card-bg-100) 0%,
-    var(--loading-states-skeleton-card-bg-101) 40%,
-    var(--loading-states-skeleton-card-bg-100) 100%
-  );
-  background-size: 200% 100%;
-  background-position: 200% 0;
-}
+/* Layout for LoadingStatesSkeletonCard (framer variant) — shimmer from SharedSkeleton */
 
 .pf-skeleton-card {
-  width: 200px;
-}
-.pf-skeleton-card .pf-skeleton__title {
-  height: 18px;
-  width: 60%;
-  margin-bottom: 12px;
-}
-.pf-skeleton-card .pf-skeleton__line:nth-child(2) {
-  width: 85%;
-}
-.pf-skeleton-card .pf-skeleton__line:nth-child(3) {
-  width: 75%;
-}
-.pf-skeleton-card .pf-skeleton__line:nth-child(4) {
-  width: 90%;
+  display: flex;
+  flex-direction: column;
 }

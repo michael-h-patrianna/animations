@@ -1,36 +1,19 @@
-/* Styles for LoadingStatesSpinnerOrbital */
+/* Layout for LoadingStatesSpinnerOrbital (framer variant) */
 
-.pf-loading-container {
-  --loading-states-spinner-orbital-bg: #c47ae5;
-  --loading-states-spinner-orbital-shadow: rgb(196 122 229 / 80%);
-  --loading-states-spinner-orbital-border: rgb(236 195 255 / 40%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
 .pf-spinner-orbital {
   position: relative;
-  width: 48px;
-  height: 48px;
-  border: none;
-  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .pf-spinner-orbital__satellite {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  background: var(--loading-states-spinner-orbital-bg);
   border-radius: 50%;
-  top: -2px;
-  left: calc(50% - 6px);
-  box-shadow: 0 0 10px var(--loading-states-spinner-orbital-shadow);
-  transform-origin: 6px 26px;
+  box-shadow: var(--pf-so-glow, none);
 }
+
 .pf-spinner-orbital__ring {
   position: absolute;
-  inset: 8px;
   border-radius: 50%;
-  border: 2px dashed var(--loading-states-spinner-orbital-border);
 }

@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__ring-progress',
   urlSlugCss: '/loading-states-css?animation=loading-states__ring-progress',
   title: 'Ring Progress',
-  description: 'Progress ring fills from 0 to 100%.',
+  description:
+    'SVG ring that continuously fills and empties. Configure size, color, trackColor, thickness, and speed.',
   infinite: true,
-  tier: 2,
+  tier: 4,
 } satisfies AnimationMetadata

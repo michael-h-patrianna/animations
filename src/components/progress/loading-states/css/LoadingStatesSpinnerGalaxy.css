@@ -1,60 +1,85 @@
-/* Styles for LoadingStatesSpinnerGalaxy */
+/* Styles for LoadingStatesSpinnerGalaxy (CSS variant) */
 
-.pf-loading-container {
-  --loading-states-spinner-galaxy-bg-1: rgb(236 195 255 / 10%);
-  --loading-states-spinner-galaxy-border: rgb(236 195 255 / 16%);
-  --loading-states-spinner-galaxy-border-top: #c47ae5;
-  --loading-states-spinner-galaxy-shadow: rgb(196 122 229 / 30%);
-  --loading-states-spinner-galaxy-bg-2: #c6ff77;
-  --loading-states-spinner-galaxy-bg-3: #47fff4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
 .pf-spinner-galaxy {
+  --pf-sg-size: 48px;
+  --pf-sg-color: #c47ae5;
+  --pf-sg-color-faded: rgb(236 195 255 / 16%);
+  --pf-sg-color-bg: rgb(236 195 255 / 10%);
+  --pf-sg-shadow: 0 0 20px rgb(196 122 229 / 30%);
+  --pf-sg-star-1: #c6ff77;
+  --pf-sg-star-1-size: 8px;
+  --pf-sg-star-1-offset: 8px;
+  --pf-sg-star-2: #47fff4;
+  --pf-sg-star-2-size: 6px;
+  --pf-sg-star-2-offset: 10px;
+  --pf-sg-rotate-duration: 2s;
+  --pf-sg-pulse-1-duration: 1.5s;
+  --pf-sg-pulse-2-duration: 1s;
+  --pf-sg-pulse-2-delay: 0.3s;
+
   position: relative;
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(
-    160deg,
-    var(--loading-states-spinner-galaxy-bg-1) 0%,
-    transparent 70%
-  );
-  border: 2px solid var(--loading-states-spinner-galaxy-border);
-  border-top-color: var(--loading-states-spinner-galaxy-border-top);
+  display: inline-flex;
+  width: var(--pf-sg-size);
+  height: var(--pf-sg-size);
+  background: linear-gradient(160deg, var(--pf-sg-color-bg) 0%, transparent 70%);
+  border: 2px solid var(--pf-sg-color-faded);
+  border-top-color: var(--pf-sg-color);
   border-radius: 50%;
-  box-shadow: 0 0 20px var(--loading-states-spinner-galaxy-shadow);
-  animation: spinner-rotate 2s linear infinite;
+  box-shadow: var(--pf-sg-shadow);
+  animation: pf-sg-rotate var(--pf-sg-rotate-duration) linear infinite;
   will-change: transform;
 }
-.pf-spinner-galaxy::before {
-  content: '';
+
+.pf-spinner-galaxy__star {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  background: var(--loading-states-spinner-galaxy-bg-2);
   border-radius: 50%;
-  top: 8px;
-  left: 8px;
-}
-.pf-spinner-galaxy::after {
-  content: '';
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: var(--loading-states-spinner-galaxy-bg-3);
-  border-radius: 50%;
-  bottom: 10px;
-  right: 10px;
 }
 
-@keyframes spinner-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+.pf-spinner-galaxy__star--primary {
+  width: var(--pf-sg-star-1-size);
+  height: var(--pf-sg-star-1-size);
+  background: var(--pf-sg-star-1);
+  top: var(--pf-sg-star-1-offset);
+  left: var(--pf-sg-star-1-offset);
+  animation: pf-sg-pulse-1 var(--pf-sg-pulse-1-duration) ease-in-out infinite;
+}
+
+.pf-spinner-galaxy__star--secondary {
+  width: var(--pf-sg-star-2-size);
+  height: var(--pf-sg-star-2-size);
+  background: var(--pf-sg-star-2);
+  bottom: var(--pf-sg-star-2-offset);
+  right: var(--pf-sg-star-2-offset);
+  animation: pf-sg-pulse-2 var(--pf-sg-pulse-2-duration) ease-in-out infinite;
+  animation-delay: var(--pf-sg-pulse-2-delay);
+}
+
+@keyframes pf-sg-rotate {
+  to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes pf-sg-pulse-1 {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes pf-sg-pulse-2 {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
   }
 }

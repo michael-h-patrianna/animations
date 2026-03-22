@@ -1,26 +1,12 @@
-/* Styles for LoadingStatesDotsPortal */
+/* Layout for LoadingStatesDotsPortal (framer variant) */
 
-.pf-loading-container {
-  --loading-states-dots-portal-bg: #c47ae5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
-
-.pf-dots {
-  display: flex;
-  gap: 8px;
+.pf-dots-portal {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.pf-dots span {
-  width: 12px;
-  height: 12px;
+
+.pf-dots-portal__dot {
   border-radius: 50%;
-  background: var(--loading-states-dots-portal-bg);
   display: inline-block;
 }
-
-/* Framer variants control per-dot motion timing for the portal effect. */

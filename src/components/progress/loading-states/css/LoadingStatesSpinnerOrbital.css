@@ -1,49 +1,63 @@
-/* Styles for LoadingStatesSpinnerOrbital */
+/* Styles for LoadingStatesSpinnerOrbital (CSS variant) */
 
-.pf-loading-container {
-  --loading-states-spinner-orbital-bg: #c47ae5;
-  --loading-states-spinner-orbital-shadow: rgb(196 122 229 / 80%);
-  --loading-states-spinner-orbital-border: rgb(236 195 255 / 40%);
-  display: flex;
+.pf-spinner-orbital {
+  --pf-so-size: 48px;
+  --pf-so-color: #c47ae5;
+  --pf-so-color-glow: rgb(196 122 229 / 80%);
+  --pf-so-ring-color: rgb(236 195 255 / 40%);
+  --pf-so-satellite-size: 12px;
+  --pf-so-satellite-top: -2px;
+  --pf-so-satellite-glow: 0 0 10px rgb(196 122 229 / 80%);
+  --pf-so-origin-x: 6px;
+  --pf-so-origin-y: 26px;
+  --pf-so-ring-inset: 8px;
+  --pf-so-orbit-duration: 1.2s;
+  --pf-so-ring-duration: 2s;
+
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  width: 100%;
-}
-.pf-spinner-orbital {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border: none;
-  background: transparent;
-}
-.pf-spinner-orbital::before {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: var(--loading-states-spinner-orbital-bg);
-  border-radius: 50%;
-  top: -2px;
-  left: calc(50% - 6px);
-  box-shadow: 0 0 10px var(--loading-states-spinner-orbital-shadow);
-  animation: spinner-orbital 1s linear infinite;
-  transform-origin: 6px 26px;
-  will-change: transform;
-}
-.pf-spinner-orbital::after {
-  content: '';
-  position: absolute;
-  inset: 8px;
-  border-radius: 50%;
-  border: 2px dashed var(--loading-states-spinner-orbital-border);
+  width: var(--pf-so-size);
+  height: var(--pf-so-size);
 }
 
-@keyframes spinner-orbital {
-  0% {
+.pf-spinner-orbital__satellite {
+  position: absolute;
+  width: var(--pf-so-satellite-size);
+  height: var(--pf-so-satellite-size);
+  background: var(--pf-so-color);
+  border-radius: 50%;
+  top: var(--pf-so-satellite-top);
+  left: calc(50% - var(--pf-so-satellite-size) / 2);
+  box-shadow: var(--pf-so-satellite-glow);
+  transform-origin: var(--pf-so-origin-x) var(--pf-so-origin-y);
+  animation: pf-so-orbit var(--pf-so-orbit-duration) linear infinite;
+  will-change: transform;
+}
+
+.pf-spinner-orbital__ring {
+  position: absolute;
+  inset: var(--pf-so-ring-inset);
+  border-radius: 50%;
+  border: 2px dashed var(--pf-so-ring-color);
+  animation: pf-so-ring-fade var(--pf-so-ring-duration) linear infinite;
+}
+
+@keyframes pf-so-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pf-so-ring-fade {
+  0%,
+  100% {
+    opacity: 0.3;
     transform: rotate(0deg);
   }
-  100% {
-    transform: rotate(360deg);
+  50% {
+    opacity: 0.8;
+    transform: rotate(-180deg);
   }
 }

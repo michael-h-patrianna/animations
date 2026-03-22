@@ -1,35 +1,6 @@
-/* Styles for LoadingStatesSkeletonHorizontal */
-
-.pf-loading-container {
-  --loading-states-skeleton-horizontal-bg-100: rgb(236 195 255 / 5%);
-  --loading-states-skeleton-horizontal-bg-101: rgb(236 195 255 / 18%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
-.pf-skeleton {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-.pf-skeleton__line {
-  display: block;
-  width: 100%;
-  height: 12px;
-  border-radius: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--loading-states-skeleton-horizontal-bg-100) 0%,
-    var(--loading-states-skeleton-horizontal-bg-101) 40%,
-    var(--loading-states-skeleton-horizontal-bg-100) 100%
-  );
-  background-size: 200% 100%;
-  background-position: 200% 0;
-}
+/* Layout for LoadingStatesSkeletonHorizontal (framer variant) — shimmer from SharedSkeleton */
 
 .pf-skeleton-horizontal {
-  width: 200px;
+  display: flex;
+  flex-direction: column;
 }

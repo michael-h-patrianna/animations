@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__dots-portal',
   urlSlugCss: '/loading-states-css?animation=loading-states__dots-portal',
   title: 'Dots Portal',
-  description: 'Dots fold into portal centre to indicate processing.',
+  description:
+    'Three dots converge to center then expand back. Configure color, dotSize, gap, and speed via CSS custom properties.',
   infinite: true,
-  tier: 3,
+  tier: 4,
 } satisfies AnimationMetadata

@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__dots-rise',
   urlSlugCss: '/loading-states-css?animation=loading-states__dots-rise',
   title: 'Dots Rise',
-  description: 'Three-dot rise cadence for subtle loading feedback.',
+  description:
+    'Three dots bouncing upward in sequence. Configure color, dotSize, gap, and speed.',
   infinite: true,
-  tier: 3,
+  tier: 4,
 } satisfies AnimationMetadata

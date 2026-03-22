@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__spinner-galaxy',
   urlSlugCss: '/loading-states-css?animation=loading-states__spinner-galaxy',
   title: 'Spinner Galaxy',
-  description: 'Galaxy spinner with layered opacity twirls.',
+  description:
+    'Spinning disc with two pulsing star dots. Configure size, color, starColors, and speed.',
   infinite: true,
-  tier: 2,
+  tier: 4,
 } satisfies AnimationMetadata

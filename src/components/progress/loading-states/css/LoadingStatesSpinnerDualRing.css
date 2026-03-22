@@ -1,62 +1,59 @@
-/* Styles for LoadingStatesSpinnerDualRing */
+/* Styles for LoadingStatesSpinnerDualRing (CSS variant) */
 
-.pf-loading-container {
-  --loading-states-spinner-dual-ring-border-1: rgb(236 195 255 / 16%);
-  --loading-states-spinner-dual-ring-border-top: #ecc3ff;
-  --loading-states-spinner-dual-ring-border-2: rgb(198 255 119 / 20%);
-  --loading-states-spinner-dual-ring-border-bottom: #c6ff77;
-  display: flex;
+.pf-spinner-dual-ring {
+  --pf-sdr-size: 48px;
+  --pf-sdr-color: #ecc3ff;
+  --pf-sdr-color-faded: rgb(236 195 255 / 16%);
+  --pf-sdr-secondary: #c6ff77;
+  --pf-sdr-secondary-faded: rgb(198 255 119 / 20%);
+  --pf-sdr-thickness: 4px;
+  --pf-sdr-inner-thickness: 3px;
+  --pf-sdr-inner-inset: 2px;
+  --pf-sdr-outer-duration: 1s;
+  --pf-sdr-inner-duration: 1.2s;
+
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  width: 100%;
+  width: var(--pf-sdr-size);
+  height: var(--pf-sdr-size);
 }
-.pf-spinner-dual-ring {
-  position: relative;
-  width: 48px;
-  height: 48px;
-}
-.pf-spinner-dual-ring::before {
-  content: '';
+
+.pf-spinner-dual-ring__outer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 4px solid var(--loading-states-spinner-dual-ring-border-1);
-  border-top-color: var(--loading-states-spinner-dual-ring-border-top);
+  width: var(--pf-sdr-size);
+  height: var(--pf-sdr-size);
+  border: var(--pf-sdr-thickness) solid var(--pf-sdr-color-faded);
+  border-top-color: var(--pf-sdr-color);
   border-radius: 50%;
-  animation: spinner-dual-ring 1s linear infinite;
-  will-change: transform;
-}
-.pf-spinner-dual-ring::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--loading-states-spinner-dual-ring-border-2);
-  border-bottom-color: var(--loading-states-spinner-dual-ring-border-bottom);
-  border-radius: 50%;
-  animation: spinner-dual-ring-reverse 1.2s linear infinite;
+  box-sizing: border-box;
+  animation: pf-sdr-spin var(--pf-sdr-outer-duration) linear infinite;
   will-change: transform;
 }
 
-@keyframes spinner-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+.pf-spinner-dual-ring__inner {
+  position: absolute;
+  top: var(--pf-sdr-inner-inset);
+  left: var(--pf-sdr-inner-inset);
+  width: calc(var(--pf-sdr-size) - var(--pf-sdr-inner-inset) * 2 - var(--pf-sdr-inner-thickness) * 2);
+  height: calc(var(--pf-sdr-size) - var(--pf-sdr-inner-inset) * 2 - var(--pf-sdr-inner-thickness) * 2);
+  border: var(--pf-sdr-inner-thickness) solid var(--pf-sdr-secondary-faded);
+  border-bottom-color: var(--pf-sdr-secondary);
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: pf-sdr-spin-reverse var(--pf-sdr-inner-duration) linear infinite;
+  will-change: transform;
+}
+
+@keyframes pf-sdr-spin {
+  to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes spinner-dual-ring-reverse {
-  0% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(0deg);
+@keyframes pf-sdr-spin-reverse {
+  to {
+    transform: rotate(-360deg);
   }
 }

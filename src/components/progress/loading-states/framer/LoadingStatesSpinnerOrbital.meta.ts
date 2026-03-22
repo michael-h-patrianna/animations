@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__spinner-orbital',
   urlSlugCss: '/loading-states-css?animation=loading-states__spinner-orbital',
   title: 'Spinner Orbital',
-  description: 'Orbital spinner around centre mass.',
+  description:
+    'Glowing satellite orbiting a dashed ring. Configure size, color, and speed.',
   infinite: true,
-  tier: 2,
+  tier: 4,
 } satisfies AnimationMetadata

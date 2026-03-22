@@ -5,7 +5,8 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__skeleton-tile',
   urlSlugCss: '/loading-states-css?animation=loading-states__skeleton-tile',
   title: 'Skeleton Tile Grid',
-  description: 'Grid skeleton effect for gallery loading.',
+  description:
+    'Shimmer tile grid composed from Skeleton primitives. Use SharedSkeleton.tsx (framer) or .pf-skeleton class (CSS) for custom layouts.',
   infinite: true,
-  tier: 3,
+  tier: 4,
 } satisfies AnimationMetadata

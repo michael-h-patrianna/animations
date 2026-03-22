@@ -1,1 +1,40 @@
-/* Shared styles for this group */
+/*
+ * Skeleton shimmer primitive.
+ *
+ * Add .pf-skeleton to any block-level element to turn it into a shimmer placeholder.
+ * The element must have explicit width and height (via CSS or inline style).
+ *
+ * Customize via CSS custom properties on the element or a parent:
+ *   --pf-skeleton-base     Base fill color         (default: rgb(236 195 255 / 5%))
+ *   --pf-skeleton-shimmer  Shimmer highlight color  (default: rgb(236 195 255 / 18%))
+ *   --pf-skeleton-radius   Border radius            (default: 4px)
+ *   --pf-skeleton-duration  Animation cycle duration (default: 1.4s)
+ *
+ * Example:
+ *   <div class="avatar pf-skeleton" style="width:40px;height:40px;--pf-skeleton-radius:50%"></div>
+ *   <div class="title pf-skeleton" style="width:60%;height:18px"></div>
+ *   <div class="line pf-skeleton" style="width:100%;height:12px"></div>
+ */
+
+.pf-skeleton {
+  display: block;
+  border-radius: var(--pf-skeleton-radius, 4px);
+  background: linear-gradient(
+    90deg,
+    var(--pf-skeleton-base, rgb(236 195 255 / 5%)) 0%,
+    var(--pf-skeleton-shimmer, rgb(236 195 255 / 18%)) 40%,
+    var(--pf-skeleton-base, rgb(236 195 255 / 5%)) 100%
+  );
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  animation: pf-skeleton-shimmer var(--pf-skeleton-duration, 1.4s) ease-in-out infinite;
+}
+
+@keyframes pf-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

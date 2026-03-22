@@ -1,76 +1,78 @@
-/* Styles for LoadingStatesRingMulti */
-
-.pf-loading-container {
-  --loading-states-ring-multi-border-1: #c47ae5;
-  --loading-states-ring-multi-border-2: #c6ff77;
-  --loading-states-ring-multi-border-3: #47fff4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  width: 100%;
-}
+/* Styles for LoadingStatesRingMulti (CSS variant) */
 
 .pf-ring-multi {
+  --pf-rm-size: 60px;
+  --pf-rm-thickness: 3px;
+  --pf-rm-color-1: #c47ae5;
+  --pf-rm-color-2: #c6ff77;
+  --pf-rm-color-3: #47fff4;
+  --pf-rm-inner-size: 40px;
+  --pf-rm-middle-size: 50px;
+  --pf-rm-duration-1: 1.2s;
+  --pf-rm-duration-2: 1.8s;
+  --pf-rm-duration-3: 2.4s;
+
   position: relative;
-  width: 60px;
-  height: 60px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pf-rm-size);
+  height: var(--pf-rm-size);
 }
+
 .pf-ring-multi__segment {
   position: absolute;
-  border: 3px solid;
   border-radius: 50%;
+  box-sizing: border-box;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: var(--pf-rm-thickness);
   border-top-color: transparent;
+  will-change: transform;
 }
 
-.pf-ring-multi__segment:nth-child(1) {
-  width: 40px;
-  height: 40px;
-  border-color: var(--loading-states-ring-multi-border-1);
-  /* Keep one side transparent so rotation is visible */
+.pf-ring-multi__segment--inner {
+  width: var(--pf-rm-inner-size);
+  height: var(--pf-rm-inner-size);
+  border-color: var(--pf-rm-color-1);
   border-top-color: transparent;
   opacity: 0.8;
-  animation: ring-multi-normal 1.2s linear infinite;
-  will-change: transform;
+  animation: pf-rm-spin-cw var(--pf-rm-duration-1) linear infinite;
 }
-.pf-ring-multi__segment:nth-child(2) {
-  width: 50px;
-  height: 50px;
-  border-color: var(--loading-states-ring-multi-border-2);
-  /* Keep one side transparent so rotation is visible */
+
+.pf-ring-multi__segment--middle {
+  width: var(--pf-rm-middle-size);
+  height: var(--pf-rm-middle-size);
+  border-color: var(--pf-rm-color-2);
   border-top-color: transparent;
   opacity: 0.6;
-  animation: ring-multi-reverse 1.4s linear infinite;
-  will-change: transform;
+  animation: pf-rm-spin-ccw var(--pf-rm-duration-2) linear infinite;
 }
-.pf-ring-multi__segment:nth-child(3) {
-  width: 60px;
-  height: 60px;
-  border-color: var(--loading-states-ring-multi-border-3);
-  /* Keep one side transparent so rotation is visible */
+
+.pf-ring-multi__segment--outer {
+  width: var(--pf-rm-size);
+  height: var(--pf-rm-size);
+  border-color: var(--pf-rm-color-3);
   border-top-color: transparent;
   opacity: 0.4;
-  animation: ring-multi-normal 1.6s linear infinite;
-  will-change: transform;
+  animation: pf-rm-spin-cw var(--pf-rm-duration-3) linear infinite;
 }
 
-@keyframes ring-multi-normal {
-  0% {
+@keyframes pf-rm-spin-cw {
+  from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
-  100% {
+  to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-@keyframes ring-multi-reverse {
-  0% {
+@keyframes pf-rm-spin-ccw {
+  from {
     transform: translate(-50%, -50%) rotate(360deg);
   }
-  100% {
+  to {
     transform: translate(-50%, -50%) rotate(0deg);
   }
 }

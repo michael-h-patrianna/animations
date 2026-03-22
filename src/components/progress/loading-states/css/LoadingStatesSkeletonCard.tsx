@@ -1,14 +1,101 @@
+/**
+ * Card skeleton with a title line and body lines — CSS variant.
+ *
+ * Uses the .pf-skeleton class from shared.css. For custom layouts, just add
+ * .pf-skeleton to any element with explicit width/height — no React needed.
+ *
+ * Copy-paste files: this file + LoadingStatesSkeletonCard.css + ../shared.css + ../SharedDefaults.ts
+ * Runtime deps: react
+ */
+
+import { memo } from 'react'
+
+import { SKELETON_BASE_COLOR, SKELETON_SHIMMER_COLOR } from '../SharedDefaults'
 import './LoadingStatesSkeletonCard.css'
 
-export function LoadingStatesSkeletonCard() {
+interface LoadingStatesSkeletonCardProps {
+  /** Overall width in px. */
+  width?: number
+  /** Number of body lines (excluding title). */
+  lines?: number
+  /** Height of each body line in px. */
+  lineHeight?: number
+  /** Gap between lines in px. */
+  gap?: number
+  /** Skeleton base fill color. */
+  baseColor?: string
+  /** Shimmer highlight color. */
+  shimmerColor?: string
+  /** Animation speed multiplier (2 = twice as fast). */
+  speed?: number
+  /** Corner radius for each line in px. */
+  borderRadius?: number
+  /** Additional CSS class for the root element. */
+  className?: string
+}
+
+const DEFAULT_WIDTH = 200
+const DEFAULT_LINES = 3
+const DEFAULT_LINE_HEIGHT = 12
+const DEFAULT_GAP = 8
+const DEFAULT_BASE = SKELETON_BASE_COLOR
+const DEFAULT_SHIMMER = SKELETON_SHIMMER_COLOR
+const DEFAULT_SPEED = 1
+const DEFAULT_RADIUS = 4
+const TITLE_HEIGHT_RATIO = 1.5
+const TITLE_WIDTH_PERCENT = 60
+const TITLE_MARGIN_RATIO = 1.5
+const BODY_WIDTHS = [85, 75, 90, 80, 70, 95]
+const STAGGER_DELAY = 0.08
+
+function LoadingStatesSkeletonCardComponent({
+  width = DEFAULT_WIDTH,
+  lines = DEFAULT_LINES,
+  lineHeight = DEFAULT_LINE_HEIGHT,
+  gap = DEFAULT_GAP,
+  baseColor = DEFAULT_BASE,
+  shimmerColor = DEFAULT_SHIMMER,
+  speed = DEFAULT_SPEED,
+  borderRadius = DEFAULT_RADIUS,
+  className,
+}: LoadingStatesSkeletonCardProps) {
+  const safeSpeed = speed <= 0 ? DEFAULT_SPEED : speed
+  const duration = 1.4 / safeSpeed
+  const titleHeight = Math.round(lineHeight * TITLE_HEIGHT_RATIO)
+  const titleMargin = Math.round(gap * TITLE_MARGIN_RATIO)
+
+  const vars = {
+    '--pf-skeleton-base': baseColor,
+    '--pf-skeleton-shimmer': shimmerColor,
+    '--pf-skeleton-radius': `${borderRadius}px`,
+    '--pf-skeleton-duration': `${duration}s`,
+  } as React.CSSProperties
+
   return (
-    <div data-animation-id="loading-states__skeleton-card" className="pf-loading-container">
-      <div className="pf-skeleton pf-skeleton-card">
-        <div className="pf-skeleton__line pf-skeleton__title"></div>
-        <div className="pf-skeleton__line"></div>
-        <div className="pf-skeleton__line"></div>
-        <div className="pf-skeleton__line"></div>
-      </div>
+    <div
+      data-animation-id="loading-states__skeleton-card"
+      className={className !== undefined ? `pf-skeleton-card ${className}` : 'pf-skeleton-card'}
+      style={{ ...vars, width, gap }}
+      role="status"
+      aria-label="Loading"
+    >
+      <div
+        className="pf-skeleton"
+        style={{ width: `${TITLE_WIDTH_PERCENT}%`, height: titleHeight, marginBottom: titleMargin - gap }}
+      />
+      {Array.from({ length: lines }, (_, i) => (
+        <div
+          key={i}
+          className="pf-skeleton"
+          style={{
+            width: `${BODY_WIDTHS[i % BODY_WIDTHS.length]}%`,
+            height: lineHeight,
+            animationDelay: `${((i + 1) * STAGGER_DELAY) / safeSpeed}s`,
+          }}
+        />
+      ))}
     </div>
   )
 }
+
+export const LoadingStatesSkeletonCard = memo(LoadingStatesSkeletonCardComponent)

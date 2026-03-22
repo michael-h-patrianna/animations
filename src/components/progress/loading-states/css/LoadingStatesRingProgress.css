@@ -1,39 +1,33 @@
-/* Styles for LoadingStatesRingProgress */
+/* Styles for LoadingStatesRingProgress (CSS variant) */
 
-.pf-loading-container {
-  --loading-states-ring-progress-stroke-1: rgb(236 195 255 / 20%);
-  --loading-states-ring-progress-stroke-2: #c47ae5;
-  display: flex;
+.pf-ring-progress {
+  --pf-rp-size: 60px;
+  --pf-rp-circumference: 157.08;
+  --pf-rp-duration: 2s;
+
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  width: 100%;
-}
-.pf-ring-progress {
-  position: relative;
-  width: 60px;
-  height: 60px;
+  width: var(--pf-rp-size);
+  height: var(--pf-rp-size);
 }
 
-.pf-ring-progress svg {
+.pf-ring-progress__svg {
   transform: rotate(-90deg);
 }
-.pf-ring-progress circle.base {
-  stroke: var(--loading-states-ring-progress-stroke-1);
-}
-.pf-ring-progress circle.pf-progress-ring {
-  stroke: var(--loading-states-ring-progress-stroke-2);
-  animation: ring-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+.pf-ring-progress__stroke {
+  animation: pf-rp-fill var(--pf-rp-duration) cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes ring-progress {
+@keyframes pf-rp-fill {
   0% {
-    stroke-dashoffset: 157.08;
+    stroke-dashoffset: var(--pf-rp-circumference);
   }
   50% {
     stroke-dashoffset: 0;
   }
   100% {
-    stroke-dashoffset: -157.08;
+    stroke-dashoffset: calc(-1 * var(--pf-rp-circumference));
   }
 }
