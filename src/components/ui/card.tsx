@@ -25,11 +25,6 @@ const CardTitle = ({ className, ref, ...props }: React.ComponentPropsWithRef<'di
 )
 CardTitle.displayName = 'CardTitle'
 
-const CardDescription = ({ className, ref, ...props }: React.ComponentPropsWithRef<'div'>) => (
-  <div ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
-)
-CardDescription.displayName = 'CardDescription'
-
 const CardContent = ({ className, ref, ...props }: React.ComponentPropsWithRef<'div'>) => (
   <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
 )
@@ -40,4 +35,4 @@ const CardFooter = ({ className, ref, ...props }: React.ComponentPropsWithRef<'d
 )
 CardFooter.displayName = 'CardFooter'
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export { Card, CardHeader, CardFooter, CardTitle, CardContent }

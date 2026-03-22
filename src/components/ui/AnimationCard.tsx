@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { CodeViewerModal } from '@/components/ui/CodeViewerModal'
 import { PreviewModal } from '@/components/ui/PreviewModal'
 import { useToast } from '@/components/ui/useToast'
+import { logger } from '@/services/logger'
 import type { AnimationControlType, PreviewPosition, SourceTab } from '@/types/animation'
 import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
@@ -109,10 +110,7 @@ function CardModals({
 }
 
 /** Auto-open preview when URL contains ?animation=X&preview=desktop|mobile&opaque=1 */
-function useAutoPreview(
-  animationId: string,
-  preview: ReturnType<typeof usePreviewModal>
-) {
+function useAutoPreview(animationId: string, preview: ReturnType<typeof usePreviewModal>) {
   const [searchParams] = useSearchParams()
   const previewParam = searchParams.get('preview')
   const opaque = searchParams.get('opaque') === '1'
@@ -136,81 +134,105 @@ function useCopyLink(animationId: string) {
 
   const handleCopyLink = useCallback(() => {
     const url = `${window.location.origin}${location.pathname}?animation=${encodeURIComponent(animationId)}`
-    navigator.clipboard.writeText(url).then(() => {
-      showToast('Animation URL copied to clipboard')
-    })
+    navigator.clipboard.writeText(url).then(
+      () => showToast('Animation URL copied to clipboard'),
+      (err) => logger.warn('Clipboard write failed — browser may have denied access', err)
+    )
   }, [animationId, showToast, location.pathname])
 
   return { handleCopyLink, toastPortal }
 }
 
-const AnimationCardComponent = (props: AnimationCardProps) => {
-  const {
-    title, description, animationId, children, onReplay, tier, sourceLoader,
-    infiniteAnimation = false, disableReplay = false,
-    controls: controlType, prizeCountMax, previewPosition,
-  } = props
-  const { cardRef, replayKey, isVisible, triggerReplay, setReplayKey } = useCardPlayback(
-    infiniteAnimation,
-    onReplay
-  )
+/** Orchestrates all card-level hooks into a single state bundle. */
+function useAnimationCard(props: AnimationCardProps) {
+  const { animationId, infiniteAnimation = false, onReplay, sourceLoader } = props
+  const playback = useCardPlayback(infiniteAnimation, onReplay)
   const [isExpanded, setIsExpanded] = useState(false)
-  const cardControls = useCardControls(setReplayKey)
+  const cardControls = useCardControls(playback.setReplayKey)
   const codeViewer = useCodeViewer(sourceLoader)
   const preview = usePreviewModal()
-  const { opaque: opaqueParam } = useAutoPreview(animationId, preview)
+  const { opaque } = useAutoPreview(animationId, preview)
   const { handleCopyLink, toastPortal } = useCopyLink(animationId)
 
+  return {
+    playback,
+    isExpanded,
+    setIsExpanded,
+    cardControls,
+    codeViewer,
+    preview,
+    opaque,
+    handleCopyLink,
+    toastPortal,
+  }
+}
+
+function AnimationCardComponent(props: AnimationCardProps) {
+  const {
+    title,
+    description,
+    animationId,
+    children,
+    tier,
+    sourceLoader,
+    infiniteAnimation = false,
+    disableReplay = false,
+    controls: controlType,
+    prizeCountMax,
+    previewPosition,
+  } = props
+  const card = useAnimationCard(props)
+
   return (
-    <Card className="pf-card" data-animation-id={animationId} ref={cardRef}>
+    <Card className="pf-card" data-animation-id={animationId} ref={card.playback.cardRef}>
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeaderBar
         title={title}
         description={description}
-        isExpanded={isExpanded}
-        onToggle={() => setIsExpanded((expanded) => !expanded)}
-        onCopyLink={handleCopyLink}
-        onOpenCode={sourceLoader ? codeViewer.open : undefined}
-        onOpenDesktopPreview={preview.openDesktop}
-        onOpenMobilePreview={preview.openMobile}
+        isExpanded={card.isExpanded}
+        onToggle={() => card.setIsExpanded((v) => !v)}
+        onCopyLink={card.handleCopyLink}
+        onOpenCode={sourceLoader ? card.codeViewer.open : undefined}
+        onOpenDesktopPreview={card.preview.openDesktop}
+        onOpenMobilePreview={card.preview.openMobile}
       />
       <CardContent className="p-0 py-3">
         <div className="pf-demo-canvas" data-testid="card-canvas">
           <div
-            key={replayKey}
+            key={card.playback.replayKey}
             className="pf-demo-stage pf-demo-stage--top"
             data-testid="demo-stage"
           >
             {renderAnimationChild(
               children,
-              isVisible,
+              card.playback.isVisible,
               infiniteAnimation,
-              cardControls.bulbCount,
-              cardControls.onColor,
-              cardControls.prizeCount
+              card.cardControls.bulbCount,
+              card.cardControls.onColor,
+              card.cardControls.prizeCount
             )}
           </div>
         </div>
       </CardContent>
       <FooterControls
-        cardControls={cardControls}
+        cardControls={card.cardControls}
         controlType={controlType}
         prizeCountMax={prizeCountMax}
         tier={tier}
         disableReplay={disableReplay}
-        onReplay={triggerReplay}
+        onReplay={card.playback.triggerReplay}
       />
       <CardModals
         title={title}
-        codeViewer={codeViewer}
-        preview={preview}
+        codeViewer={card.codeViewer}
+        preview={card.preview}
         previewPosition={previewPosition ?? 'center'}
-        opaque={opaqueParam}
-        controlProps={cardControls}
+        opaque={card.opaque}
+        controlProps={card.cardControls}
       >
         {children}
       </CardModals>
-      {toastPortal}
+      {card.toastPortal}
     </Card>
   )
 }

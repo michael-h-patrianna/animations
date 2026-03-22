@@ -1,8 +1,9 @@
 import { CloseIcon } from '@/components/ui/icons/CloseIcon'
 import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
 import { SmartphoneIcon } from '@/components/ui/icons/SmartphoneIcon'
+import { useEscapeClose, useFocusTrap, useOverlayDismiss } from '@/hooks/useModalAccessibility'
 import type { PreviewPosition } from '@/types/animation'
-import { memo, useCallback, useEffect, useRef, type ReactNode } from 'react'
+import { memo, useRef, type ReactNode } from 'react'
 import type { PreviewMode } from './usePreviewModal'
 import './PreviewModal.css'
 
@@ -16,66 +17,6 @@ interface PreviewModalProps {
   onReplay: () => void
   onSwitchMode: (mode: PreviewMode) => void
   children: ReactNode
-}
-
-// ── Hooks ──────────────────────────────────────────────────────────────
-
-const FOCUSABLE_SELECTOR =
-  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-
-function useFocusTrap(
-  overlayRef: React.RefObject<HTMLDivElement | null>,
-  closeButtonRef: React.RefObject<HTMLButtonElement | null>
-) {
-  const previousFocusRef = useRef<HTMLElement | null>(null)
-
-  useEffect(() => {
-    previousFocusRef.current = document.activeElement as HTMLElement
-    closeButtonRef.current?.focus()
-    return () => {
-      previousFocusRef.current?.focus()
-    }
-  }, [closeButtonRef])
-
-  useEffect(() => {
-    const overlay = overlayRef.current
-    if (!overlay) return
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return
-
-      const focusable = Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
-      if (focusable.length === 0) return
-
-      const first = focusable[0]!
-      const last = focusable[focusable.length - 1]!
-
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          e.preventDefault()
-          last.focus()
-        }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault()
-          first.focus()
-        }
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [overlayRef])
-}
-
-function useEscapeClose(onClose: () => void) {
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [onClose])
 }
 
 // ── Sub-components ─────────────────────────────────────────────────────
@@ -164,13 +105,7 @@ function PreviewModalComponent({
 
   useFocusTrap(overlayRef, closeButtonRef)
   useEscapeClose(onClose)
-
-  const handleOverlayClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === overlayRef.current) onClose()
-    },
-    [onClose]
-  )
+  const handleOverlayClick = useOverlayDismiss(overlayRef, onClose)
 
   const position = previewPosition
 

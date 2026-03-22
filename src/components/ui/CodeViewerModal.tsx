@@ -4,6 +4,7 @@ import { cleanSourceForDisplay } from '@/lib/sourceTransform'
 import type { SourceTab } from '@/types/animation'
 import { CloseIcon } from '@/components/ui/icons/CloseIcon'
 import { CopyCheckIcon, CopyIcon } from '@/components/ui/icons/CopyIcon'
+import { useEscapeClose, useFocusTrap, useOverlayDismiss } from '@/hooks/useModalAccessibility'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './CodeViewerModal.css'
 
@@ -42,65 +43,6 @@ function useHighlightedSources(sources: SourceTab[]) {
   }, [sourceKey]) // eslint-disable-line @eslint-react/exhaustive-deps -- sourceKey is the stable identity derived from sources
 
   return { highlighted, loading }
-}
-
-const FOCUSABLE_SELECTOR =
-  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-
-function useModalFocus(
-  closeButtonRef: React.RefObject<HTMLButtonElement | null>,
-  modalRef: React.RefObject<HTMLDivElement | null>
-) {
-  const previousFocusRef = useRef<HTMLElement | null>(null)
-
-  useEffect(() => {
-    previousFocusRef.current = document.activeElement as HTMLElement
-    closeButtonRef.current?.focus()
-    return () => {
-      previousFocusRef.current?.focus()
-    }
-  }, [closeButtonRef])
-
-  // Focus trap: Tab/Shift+Tab cycle within the modal
-  useEffect(() => {
-    const modal = modalRef.current
-    if (!modal) return
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return
-
-      const focusable = Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
-      if (focusable.length === 0) return
-
-      const first = focusable[0]!
-      const last = focusable[focusable.length - 1]!
-
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          e.preventDefault()
-          last.focus()
-        }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault()
-          first.focus()
-        }
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [modalRef])
-}
-
-function useEscapeClose(onClose: () => void) {
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [onClose])
 }
 
 // ── Source partitioning ─────────────────────────────────────────────────
@@ -317,15 +259,9 @@ function CodeViewerModalComponent({ sources, title, onClose }: CodeViewerModalPr
 
   const selection = useFileSelection(sources)
   const { highlighted, loading } = useHighlightedSources(sources)
-  useModalFocus(closeButtonRef, modalRef)
+  useFocusTrap(modalRef, closeButtonRef)
   useEscapeClose(onClose)
-
-  const handleOverlayClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === overlayRef.current) onClose()
-    },
-    [onClose]
-  )
+  const handleOverlayClick = useOverlayDismiss(overlayRef, onClose)
 
   return (
     <div

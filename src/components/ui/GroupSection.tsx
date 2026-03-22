@@ -1,8 +1,9 @@
 import { getGroupAnimations } from '@/components/animationRegistry'
+import { DemoAnchors } from '@/components/rewards/collection-effects/MockDemoAnchors'
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { resolveAnimationSource } from '@/lib/groupBuilder'
 import type { AnimationExport, Group } from '@/types/animation'
-import React, { Suspense, useCallback, useMemo } from 'react'
+import React, { Suspense, useCallback, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface GroupSectionProps {
@@ -135,17 +136,54 @@ function AnimationCardWithSource({
       sourceLoader={hasAnyEntry ? sourceLoader : undefined}
     >
       {({ bulbCount, onColor, prizeCount }) => {
-        return animation.id in animationRegistry && AnimationComponent ? (
+        if (!(animation.id in animationRegistry) || AnimationComponent === undefined) {
+          return <div className="pf-card__placeholder">{animation.id}</div>
+        }
+
+        const controlProps = {
+          ...(animation.controls === 'lights' ? { numBulbs: bulbCount, onColor } : {}),
+          ...(animation.controls === 'prizeCount' ? { prizeCount } : {}),
+        }
+
+        if (animation.demoMode !== undefined) {
+          return (
+            <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
+              <DemoModeWrapper mode={animation.demoMode} Component={AnimationComponent} controlProps={controlProps} />
+            </Suspense>
+          )
+        }
+
+        return (
           <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
-            <AnimationComponent
-              {...(animation.controls === 'lights' ? { numBulbs: bulbCount, onColor } : {})}
-              {...(animation.controls === 'prizeCount' ? { prizeCount } : {})}
-            />
+            <AnimationComponent {...controlProps} />
           </Suspense>
-        ) : (
-          <div className="pf-card__placeholder">{animation.id}</div>
         )
       }}
     </AnimationCard>
+  )
+}
+
+/**
+ * Wraps an animation component with demo anchor UI for the catalog.
+ * Renders Source/Target pills at random positions and passes their refs
+ * as `from`/`to` props to the animation component.
+ */
+function DemoModeWrapper({
+  mode,
+  Component,
+  controlProps,
+}: {
+  mode: 'burst' | 'magnet' | 'trail' | 'fountain'
+  Component: React.ComponentType<Record<string, unknown>>
+  controlProps: Record<string, unknown>
+}) {
+  const fromRef = useRef<HTMLDivElement>(null)
+  const toRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <>
+      <DemoAnchors fromRef={fromRef} toRef={toRef} mode={mode} />
+      <Component {...controlProps} from={fromRef} to={toRef} />
+    </>
   )
 }

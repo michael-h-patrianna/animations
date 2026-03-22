@@ -95,7 +95,7 @@ function ErrorDevDetails({ error }: { error: Error }) {
   return (
     <details className="pf-error-card__details" data-testid="error-details">
       <summary>Error Details (Development Only)</summary>
-      <pre>
+      <pre data-testid="error-stack">
         {error.toString()}
         {error.stack && '\n\n' + error.stack}
       </pre>
