@@ -1,0 +1,232 @@
+/*
+ * Shared layout + tokens for modal-open animations.
+ * Provides overlay, centering, trigger button, and impact glow styles.
+ */
+
+/* ── Tokens ── */
+:root {
+  /* Trigger button */
+  --pf-mo-trigger-border: rgb(236 195 255 / 40%);
+  --pf-mo-trigger-bg: rgb(236 195 255 / 10%);
+  --pf-mo-trigger-color: rgb(255 255 255 / 85%);
+  --pf-mo-trigger-hover-bg: rgb(236 195 255 / 18%);
+  --pf-mo-trigger-hover-border: rgb(236 195 255 / 60%);
+
+  /* Overlay */
+  --pf-mo-overlay-color: #000;
+
+  /* Impact glow */
+  --pf-mo-impact-glow-color: rgb(200 160 255 / 15%);
+  --pf-mo-impact-glow-mid: rgb(200 160 255 / 8%);
+  --pf-mo-impact-glow-end: rgb(200 160 255 / 4%);
+
+  /* Mock modal content */
+  --pf-mo-mc-bg: rgb(236 195 255 / 8%);
+  --pf-mo-mc-border: rgb(236 195 255 / 12%);
+  --pf-mo-mc-color: rgb(255 255 255 / 76%);
+  --pf-mo-mc-badge-bg: rgb(198 255 119 / 16%);
+  --pf-mo-mc-badge-color: #c6ff77;
+  --pf-mo-mc-btn-primary-bg-1: #ff5981;
+  --pf-mo-mc-btn-primary-bg-2: #c83558;
+  --pf-mo-mc-btn-primary-color: #fff;
+  --pf-mo-mc-btn-primary-border: #ff7495;
+  --pf-mo-mc-btn-text-shadow: rgb(0 0 0 / 50%);
+  --pf-mo-mc-list-bg: rgb(236 195 255 / 8%);
+  --pf-mo-mc-list-accent: #c47ae5;
+  --pf-mo-mc-list-color: rgb(255 255 255 / 90%);
+  --pf-mo-mc-box-shadow-color: rgb(0 0 0 / 45%);
+}
+
+/* ── Container ── */
+.pf-mo-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* ── Trigger button row (3 demo buttons to show any-origin trajectory) ── */
+.pf-mo-trigger-row {
+  position: absolute;
+  top: 14%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 12px;
+}
+
+/* ── Trigger button ── */
+.pf-mo-trigger {
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: 2px solid var(--pf-mo-trigger-border);
+  background: var(--pf-mo-trigger-bg);
+  color: var(--pf-mo-trigger-color);
+}
+
+.pf-mo-trigger:hover {
+  background: var(--pf-mo-trigger-hover-bg);
+  border-color: var(--pf-mo-trigger-hover-border);
+}
+
+.pf-mo-trigger:active {
+  transform: scale(0.96);
+}
+
+/* ── Overlay backdrop ── */
+.pf-mo-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--pf-mo-overlay-color);
+  opacity: var(--pf-mo-overlay-opacity, 0.5);
+  z-index: 3;
+}
+
+/* ── Modal flight stage (grid-centered — modal animates as offset from center) ── */
+.pf-mo-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+}
+
+/* ── Modal wrapper (at rest: centered by grid. Motion x/y offset for trajectory) ── */
+.pf-mo-modal {
+  transform-origin: center center;
+  pointer-events: auto;
+}
+
+/* ── Impact glow (pulses on landing) ── */
+.pf-mo-impact-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120%;
+  height: 120%;
+  translate: -50% -50%;
+  border-radius: 16px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 3;
+  box-shadow: 0 0 40px 8px var(--pf-mo-impact-glow-color);
+}
+
+/* ── Mock modal box ── */
+.pf-mo-box {
+  position: relative;
+  max-height: 90%;
+  overflow: hidden;
+  width: clamp(280px, 80%, 400px);
+  transform-origin: center;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--pf-mo-mc-bg);
+  border: 1px solid var(--pf-mo-mc-border);
+  color: var(--pf-mo-mc-color);
+  box-shadow: 0 18px 40px var(--pf-mo-mc-box-shadow-color), inset 0 0 0 1px var(--pf-mo-mc-border);
+}
+
+.pf-mo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--pf-mo-mc-border);
+}
+
+.pf-mo-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.pf-mo-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--pf-mo-mc-color);
+  cursor: pointer;
+}
+
+.pf-mo-close-btn:hover {
+  background: var(--pf-mo-mc-border);
+}
+
+.pf-mo-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--pf-mo-mc-badge-bg);
+  color: var(--pf-mo-mc-badge-color);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pf-mo-body {
+  padding: 24px 0;
+  min-height: 60px;
+}
+
+.pf-mo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pf-mo-list-item {
+  padding: 12px 16px;
+  background: var(--pf-mo-mc-list-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--pf-mo-mc-list-accent);
+  color: var(--pf-mo-mc-list-color);
+  font-weight: 500;
+}
+
+.pf-mo-footer {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+.pf-mo-btn-primary {
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  background: linear-gradient(180deg, var(--pf-mo-mc-btn-primary-bg-1), var(--pf-mo-mc-btn-primary-bg-2));
+  color: var(--pf-mo-mc-btn-primary-color);
+  border: 2px solid var(--pf-mo-mc-btn-primary-border);
+  text-shadow: 0 1px 1px var(--pf-mo-mc-btn-text-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-mo-trigger:active {
+    transform: none;
+  }
+}

@@ -60,7 +60,7 @@ describe('group export completeness', () => {
     }
   })
 
-  it('all 17 expected groups are present', () => {
+  it('all 18 expected groups are present', () => {
     const groupKeys = allGroups.map((g) => g.key).sort()
     expect(groupKeys).toEqual([
       'button-effects',
@@ -72,6 +72,7 @@ describe('group export completeness', () => {
       'modal-celebrations',
       'modal-content',
       'modal-dismiss',
+      'modal-open',
       'modal-orchestration',
       'prize-reveal',
       'progress-bars',

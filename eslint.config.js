@@ -271,6 +271,8 @@ export default defineConfig([
       'jsdoc/require-jsdoc': 'off',
       // Helper files share the same embedded-color leniency as animation components
       'animation-rules/no-hardcoded-colors': 'error',
+      // Mock files mix component and function exports — react-refresh false positive
+      'react-refresh/only-export-components': 'off',
     },
   },
   // Logger test: logger.debug() triggers false positive from testing-library/no-debugging-utils
