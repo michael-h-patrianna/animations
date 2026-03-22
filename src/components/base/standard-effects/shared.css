@@ -1,10 +1,5 @@
 /* Catalog demo scaffolding for standard-effects group */
 .pf-standard-demo {
-  --standard-effects-bg-1: rgb(236 195 255 / 12%);
-  --standard-effects-bg-2: rgb(198 255 119 / 8%);
-  --standard-effects-border: rgb(236 195 255 / 24%);
-  --standard-effects-shadow: rgb(0 0 0 / 12%);
-  --standard-effects-color: rgb(255 255 255 / 90%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,12 +10,12 @@
   padding: 24px 32px;
   background: linear-gradient(
     135deg,
-    var(--standard-effects-bg-1) 0%,
-    var(--standard-effects-bg-2) 100%
+    color-mix(in srgb, var(--pf-base-50) 12%, transparent) 0%,
+    color-mix(in srgb, var(--pf-brand-accent-secondary) 8%, transparent) 100%
   );
-  border: 1px solid var(--standard-effects-border);
+  border: 1px solid color-mix(in srgb, var(--pf-base-50) 24%, transparent);
   border-radius: 16px;
-  box-shadow: 0 8px 32px var(--standard-effects-shadow);
+  box-shadow: 0 8px 32px color-mix(in srgb, black 12%, transparent);
   position: relative;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -28,6 +23,6 @@
 .pf-standard-demo__label {
   font-size: 16px;
   font-weight: 600;
-  color: var(--standard-effects-color);
+  color: var(--pf-text-secondary);
   text-align: center;
 }
