@@ -33,6 +33,11 @@
   box-shadow: 0 0 0 0 var(--update-indicators-home-icon-dot-pulse-shadow-1);
 }
 
+/* Pulse modifier — gentle scale+shadow cycle applied via JS ref */
+.pf-update-indicator__dot--pulse {
+  will-change: transform, opacity;
+}
+
 @keyframes pf-ui-dot-pulse {
   0%,
   100% {

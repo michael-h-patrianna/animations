@@ -1,1 +1,8 @@
 /* Shared styles for this group */
+
+/* Base celebration wrapper — full-width stage for prize reveal animations */
+.pf-modal-celebration {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}

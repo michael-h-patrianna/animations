@@ -46,6 +46,11 @@
   /* RN-friendly: avoid drop-shadow */
 }
 
+/* Fill modifier — color flash applied via JS ref */
+.pf-update-indicator__dot--fill {
+  will-change: transform, opacity;
+}
+
 /* driven by JS trigger: dot fill flash then settle */
 @keyframes pf-ui-dot-fill {
   0% {

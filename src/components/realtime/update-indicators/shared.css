@@ -1,1 +1,8 @@
 /* Shared styles for this group */
+
+/* Base indicator container — centered inline element */
+.pf-update-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

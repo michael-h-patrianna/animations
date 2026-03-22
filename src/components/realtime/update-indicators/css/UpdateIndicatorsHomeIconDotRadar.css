@@ -46,6 +46,15 @@
   /* RN-friendly: avoid blend modes and drop-shadow; simulate glow with extra ring layers */
 }
 
+/* Ring variant modifiers — staggered expand applied via JS ref */
+.pf-update-indicator__ring--1 {
+  animation-delay: 0s;
+}
+
+.pf-update-indicator__ring--2 {
+  animation-delay: 0.3s;
+}
+
 /* animations triggered via JS every 10s */
 
 @keyframes pf-ui-ring-expand {

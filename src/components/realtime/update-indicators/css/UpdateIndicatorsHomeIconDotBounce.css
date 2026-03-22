@@ -46,6 +46,11 @@
   }
 }
 
+/* Bounce modifier — entrance overshoot applied via JS ref */
+.pf-update-indicator__dot--bounce {
+  will-change: transform, opacity;
+}
+
 @keyframes pf-ui-dot-idle {
   0%,
   100% {

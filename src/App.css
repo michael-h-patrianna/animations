@@ -463,6 +463,12 @@
   justify-content: center;
 }
 
+/* When a group sets previewMaxWidth, constrain the demo stage */
+.pf-demo-canvas .pf-demo-stage {
+  max-width: var(--pf-preview-max-width);
+  margin-inline: auto;
+}
+
 .pf-demo-stage {
   position: relative;
   width: 100%;

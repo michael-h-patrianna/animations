@@ -65,6 +65,13 @@
   backface-visibility: hidden;
 }
 
+/* Prefix/suffix label inside the value display */
+.tfx-cinc-label {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
 /* Pop animation on value change */
 .tfx-cinc-value--popping {
   animation: tfx-cinc-value-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
