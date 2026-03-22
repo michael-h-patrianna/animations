@@ -1,3 +1,4 @@
+import { homeIcon1 } from '@/assets'
 import { getGroupAnimations } from '@/components/animationRegistry'
 import { DemoAnchors } from '@/components/rewards/collection-effects/MockDemoAnchors'
 import { AnimationCard } from '@/components/ui/AnimationCard'
@@ -174,17 +175,59 @@ function DemoModeWrapper({
   Component,
   controlProps,
 }: {
-  mode: 'burst' | 'magnet' | 'trail' | 'fountain'
+  mode: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
   Component: React.ComponentType<Record<string, unknown>>
   controlProps: Record<string, unknown>
 }) {
   const fromRef = useRef<HTMLDivElement>(null)
   const toRef = useRef<HTMLDivElement>(null)
 
+  if (mode === 'icon-dot') {
+    return <IconDotDemo Component={Component} controlProps={controlProps} />
+  }
+
+  if (mode === 'status-row') {
+    return <StatusRowDemo Component={Component} controlProps={controlProps} />
+  }
+
   return (
     <>
       <DemoAnchors fromRef={fromRef} toRef={toRef} mode={mode} />
       <Component {...controlProps} from={fromRef} to={toRef} />
     </>
+  )
+}
+
+/** Renders a demo icon with the dot-indicator component overlaid. */
+function IconDotDemo({
+  Component,
+  controlProps,
+}: {
+  Component: React.ComponentType<Record<string, unknown>>
+  controlProps: Record<string, unknown>
+}) {
+  return (
+    <div className="pf-demo-icon-dot">
+      <Component {...controlProps}>
+        <img src={homeIcon1} alt="Home" className="pf-demo-icon-dot__icon" />
+      </Component>
+    </div>
+  )
+}
+
+/** Renders a status row (dot + text) with the badge/ping component at the end. */
+function StatusRowDemo({
+  Component,
+  controlProps,
+}: {
+  Component: React.ComponentType<Record<string, unknown>>
+  controlProps: Record<string, unknown>
+}) {
+  return (
+    <div className="pf-demo-status-row">
+      <span className="pf-demo-status-row__dot" />
+      <span className="pf-demo-status-row__text">Content update arrived</span>
+      <Component {...controlProps} />
+    </div>
   )
 }

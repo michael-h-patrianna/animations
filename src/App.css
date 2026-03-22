@@ -482,6 +482,46 @@
   display: flex;
 }
 
+/* Demo wrapper: icon with dot-indicator overlay */
+.pf-demo-icon-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.pf-demo-icon-dot__icon {
+  width: 84px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Demo wrapper: status row for badge/ping indicators */
+.pf-demo-status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  font-family: Lato, sans-serif;
+  max-width: 300px;
+}
+
+.pf-demo-status-row__dot {
+  width: 12px;
+  height: 12px;
+  background: var(--pf-brand-accent-secondary);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pf-demo-status-row__text {
+  color: var(--pf-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  flex: 1;
+}
+
 .pf-card__placeholder {
   color: var(--pf-text-secondary);
   font-size: 14px;

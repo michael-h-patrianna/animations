@@ -118,11 +118,15 @@ function PreviewModalComponent({
   useFocusTrap(overlayRef, closeButtonRef)
   useEscapeClose(onClose)
 
-  // Each layer handles its own background clicks via e.target === e.currentTarget.
-  // This is safe for ALL animations: interactive children are never the currentTarget.
+  // Replay on backdrop click: fires when the click lands on the preview overlay
+  // itself OR on the animation's root element (transparent layout container with
+  // data-animation-id). Interactive children inside the animation are never matched.
   const replayOnSelf = useCallback(
     (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) onReplay()
+      const target = e.target as HTMLElement
+      if (target === e.currentTarget || target.hasAttribute('data-animation-id')) {
+        onReplay()
+      }
     },
     [onReplay]
   )
@@ -146,8 +150,8 @@ function PreviewModalComponent({
       <Toolbar onReplay={onReplay} onClose={onClose} closeButtonRef={closeButtonRef} />
 
       {mode === 'mobile' ? (
-        <div className="preview-mobile-frame" onClick={replayOnSelf} data-testid="preview-mobile-frame">
-          <div className="preview-mobile-screen" onClick={replayOnSelf}>
+        <div className="preview-mobile-frame" data-testid="preview-mobile-frame">
+          <div className="preview-mobile-screen">
             <div
               className="preview-animation"
               data-position={position}

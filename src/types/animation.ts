@@ -41,7 +41,7 @@ export interface Animation {
   prizeCountMax?: number
   previewPosition?: PreviewPosition
   tier?: 1 | 2 | 3 | 4
-  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain'
+  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
   previewMaxWidth?: number
 }
 
@@ -148,8 +148,10 @@ export interface AnimationMetadata {
    * - `magnet`: Source + Target anchors with minimum distance
    * - `trail`: Source + Target anchors with minimum distance
    * - `fountain`: single Source anchor in bottom region
+   * - `icon-dot`: renders a demo icon and passes it as children (for dot indicators)
+   * - `status-row`: renders a status row (dot + text) around the component (for badges/pings)
    */
-  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain'
+  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
 
   /** Max width (px) for demo canvas and preview containers. Prevents wide animations from stretching full viewport. */
   previewMaxWidth?: number
