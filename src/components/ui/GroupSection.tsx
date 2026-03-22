@@ -133,6 +133,7 @@ function AnimationCardWithSource({
       prizeCountMax={animation.prizeCountMax}
       previewPosition={animation.previewPosition}
       tier={animation.tier}
+      previewMaxWidth={animation.previewMaxWidth}
       sourceLoader={hasAnyEntry ? sourceLoader : undefined}
     >
       {({ bulbCount, onColor, prizeCount }) => {

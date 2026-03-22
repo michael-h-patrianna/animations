@@ -122,11 +122,13 @@ function extractJsxClassNames(tsxContent: string): string[] {
   // Match className={`...`} (template literals — extract static parts)
   const templatePattern = /className=\{`([^`]+)`\}/g
   while ((match = templatePattern.exec(codeOnly)) !== null) {
-    // Extract static class tokens from template literal, ignoring ${} expressions
-    const stripped = match[1].replace(/\$\{[^}]*\}/g, ' ')
-    stripped
+    // Mark positions adjacent to ${} so we can discard partial fragments.
+    // e.g. `pf-marker--t${val}` → `pf-marker--t⌀` → skip the fragment
+    const marked = match[1].replace(/\$\{[^}]*\}/g, '\0')
+    marked
       .split(/\s+/)
       .filter(Boolean)
+      .filter((c) => !c.includes('\0'))
       .forEach((c) => classes.add(c))
   }
 

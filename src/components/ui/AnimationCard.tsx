@@ -33,6 +33,8 @@ interface AnimationCardProps {
   prizeCountMax?: number
   previewPosition?: PreviewPosition
   tier?: 1 | 2 | 3 | 4
+  /** Max width (px) for demo canvas and preview. Prevents wide animations from stretching. */
+  previewMaxWidth?: number
   children: AnimationChild
   /** Lazy loader that resolves source tabs for the code viewer */
   sourceLoader?: () => Promise<SourceTab[]>
@@ -58,6 +60,7 @@ function CardModals({
   preview,
   previewPosition,
   opaque,
+  previewMaxWidth,
   children,
   controlProps,
 }: {
@@ -66,6 +69,7 @@ function CardModals({
   preview: ReturnType<typeof usePreviewModal>
   previewPosition: PreviewPosition
   opaque: boolean
+  previewMaxWidth?: number
   children: AnimationChild
   controlProps: AnimationRenderProps
 }) {
@@ -90,6 +94,7 @@ function CardModals({
             replayKey={preview.replayKey}
             previewPosition={previewPosition}
             opaque={opaque}
+            previewMaxWidth={previewMaxWidth}
             onClose={preview.close}
             onReplay={preview.replay}
             onSwitchMode={handleSwitchMode}
@@ -174,6 +179,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
     animationId,
     children,
     tier,
+    previewMaxWidth,
     sourceLoader,
     infiniteAnimation = false,
     disableReplay = false,
@@ -197,7 +203,11 @@ function AnimationCardComponent(props: AnimationCardProps) {
         onOpenMobilePreview={card.preview.openMobile}
       />
       <CardContent className="p-0 py-3">
-        <div className="pf-demo-canvas" data-testid="card-canvas">
+        <div
+          className="pf-demo-canvas"
+          style={previewMaxWidth !== undefined ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties : undefined}
+          data-testid="card-canvas"
+        >
           <div
             key={card.playback.replayKey}
             className="pf-demo-stage pf-demo-stage--top"
@@ -228,6 +238,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
         preview={card.preview}
         previewPosition={previewPosition ?? 'center'}
         opaque={card.opaque}
+        previewMaxWidth={previewMaxWidth}
         controlProps={card.cardControls}
       >
         {children}

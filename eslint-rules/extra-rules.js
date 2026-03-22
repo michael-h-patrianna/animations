@@ -478,7 +478,7 @@ const extraRules = {
       type: 'problem',
       docs: {
         description:
-          'Warn against SVG elements in framer/ variants. SVG has limited React Native performance.',
+          'Forbid SVG elements animated via Motion (m.svg, m.path, etc.) in framer/ variants. Static SVG icons are allowed.',
       },
       schema: [],
     },
@@ -508,13 +508,19 @@ const extraRules = {
       ])
       return {
         JSXOpeningElement(node) {
-          const name = node.name?.name
-          if (!name) return
-          if (!svgElements.has(name)) return
-          context.report({
-            node,
-            message: `<${name}> (SVG) has limited performance in React Native. Prefer View + transform/opacity animations. If SVG is required, add an eslint-disable comment with justification.`,
-          })
+          const nodeName = node.name
+          // Flag m.svg, m.path, etc. — Motion-animated SVG elements
+          if (
+            nodeName?.type === 'JSXMemberExpression' &&
+            nodeName.object?.name === 'm' &&
+            svgElements.has(nodeName.property?.name)
+          ) {
+            context.report({
+              node,
+              message: `<m.${nodeName.property.name}> animates SVG via Motion — poor React Native performance. Use CSS keyframes or a static SVG with transform/opacity on a wrapper View.`,
+            })
+          }
+          // Static <svg>, <path>, etc. are allowed — they're just icons
         },
       }
     },

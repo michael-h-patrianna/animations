@@ -13,6 +13,8 @@ interface PreviewModalProps {
   previewPosition: PreviewPosition
   /** When true, renders an opaque black background instead of semi-transparent overlay. */
   opaque?: boolean
+  /** Max width (px) for preview animation container. */
+  previewMaxWidth?: number
   onClose: () => void
   onReplay: () => void
   onSwitchMode: (mode: PreviewMode) => void
@@ -95,6 +97,7 @@ function PreviewModalComponent({
   replayKey,
   previewPosition,
   opaque = false,
+  previewMaxWidth,
   onClose,
   onReplay,
   onSwitchMode,
@@ -128,6 +131,7 @@ function PreviewModalComponent({
             <div
               className="preview-animation"
               data-position={position}
+              style={previewMaxWidth !== undefined ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties : undefined}
               data-testid="preview-animation"
             >
               <div key={replayKey}>{children}</div>
@@ -135,7 +139,12 @@ function PreviewModalComponent({
           </div>
         </div>
       ) : (
-        <div className="preview-animation" data-position={position} data-testid="preview-animation">
+        <div
+          className="preview-animation"
+          data-position={position}
+          style={previewMaxWidth !== undefined ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties : undefined}
+          data-testid="preview-animation"
+        >
           <div key={replayKey}>{children}</div>
         </div>
       )}

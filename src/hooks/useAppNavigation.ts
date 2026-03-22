@@ -1,14 +1,22 @@
 import type { CodeMode } from '@/contexts/CodeModeContext'
+import { useCodeMode } from '@/contexts/CodeModeContext'
 import { useGroupInitialization } from '@/hooks/useGroupInitialization'
 import type { Category, Group } from '@/types/animation'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+
+const codeModeFromGroupId = (groupId: string): CodeMode | undefined => {
+  if (groupId.endsWith('-css')) return 'CSS'
+  if (groupId.endsWith('-framer')) return 'Framer'
+  return undefined
+}
 
 /** Manages navigation state: group selection, category selection, and code mode switching. */
 export function useAppNavigation(categories: Category[]) {
   const { groupId } = useParams<{ groupId?: string }>()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { codeMode, setCodeMode } = useCodeMode()
   const [currentGroupId, setCurrentGroupId] = useState<string>('')
 
   const animationFilter = searchParams.get('animation') ?? undefined
@@ -41,6 +49,15 @@ export function useAppNavigation(categories: Category[]) {
     navigateToGroup,
     animationFilter,
   })
+
+  // Sync CodeMode context to match the URL-derived group variant
+  useEffect(() => {
+    if (currentGroupId === '') return
+    const urlMode = codeModeFromGroupId(currentGroupId)
+    if (urlMode !== undefined && urlMode !== codeMode) {
+      setCodeMode(urlMode)
+    }
+  }, [currentGroupId, codeMode, setCodeMode])
 
   const handleModeSelect = useCallback(
     (mode: CodeMode) => {

@@ -1,3 +1,4 @@
+import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { useAppNavigation } from '@/hooks/useAppNavigation'
 import type { Category } from '@/types/animation'
 import { renderHook } from '@testing-library/react'
@@ -62,11 +63,13 @@ const mockCategories: Category[] = [
 
 function createWrapper(initialRoute: string) {
   return ({ children }: { children: ReactNode }) => (
-    <MemoryRouter initialEntries={[initialRoute]}>
-      <Routes>
-        <Route path="/:groupId?" element={children} />
-      </Routes>
-    </MemoryRouter>
+    <CodeModeProvider>
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <Routes>
+          <Route path="/:groupId?" element={children} />
+        </Routes>
+      </MemoryRouter>
+    </CodeModeProvider>
   )
 }
 

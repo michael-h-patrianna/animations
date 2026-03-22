@@ -27,6 +27,7 @@ function toAnimations(
       previewPosition: anim.metadata.previewPosition,
       tier: anim.metadata.tier,
       demoMode: anim.metadata.demoMode,
+      previewMaxWidth: anim.metadata.previewMaxWidth,
     }
   })
 }

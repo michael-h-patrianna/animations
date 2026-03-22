@@ -147,6 +147,7 @@
 }
 
 .preview-animation > * {
+  display: contents;
   pointer-events: auto;
 }
 
@@ -249,4 +250,13 @@
 .preview-mobile-screen .preview-animation {
   position: absolute;
   inset: 0;
+}
+
+/* When previewMaxWidth is set, constrain the preview animation container */
+.preview-animation[style*='--pf-preview-max-width'] {
+  width: 100%;
+  max-width: var(--pf-preview-max-width);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
 }

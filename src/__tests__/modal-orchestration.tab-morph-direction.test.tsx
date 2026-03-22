@@ -11,9 +11,9 @@ describe('modal-orchestration tab-morph direction', () => {
 
       fireEvent.click(screen.getByText('Tab 2'))
 
-      const panel = container.querySelector('.pf-tabs__panel')
-      expect(panel).toHaveClass('pf-tabs__panel--exit-left')
-      expect(panel).not.toHaveClass('pf-tabs__panel--exit-right')
+      const panel = container.querySelector('.pf-tab-morph__panel')
+      expect(panel).toHaveClass('pf-tab-morph__panel--exit-left')
+      expect(panel).not.toHaveClass('pf-tab-morph__panel--exit-right')
     })
 
     it('uses right-exit animation when moving to a lower tab index', () => {
@@ -22,9 +22,9 @@ describe('modal-orchestration tab-morph direction', () => {
       fireEvent.click(screen.getByText('Tab 3'))
       fireEvent.click(screen.getByText('Tab 1'))
 
-      const panel = container.querySelector('.pf-tabs__panel')
-      expect(panel).toHaveClass('pf-tabs__panel--exit-right')
-      expect(panel).not.toHaveClass('pf-tabs__panel--exit-left')
+      const panel = container.querySelector('.pf-tab-morph__panel')
+      expect(panel).toHaveClass('pf-tab-morph__panel--exit-right')
+      expect(panel).not.toHaveClass('pf-tab-morph__panel--exit-left')
     })
 
     it('sets data-animation-id', () => {

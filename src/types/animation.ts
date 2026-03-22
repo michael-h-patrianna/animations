@@ -42,6 +42,7 @@ export interface Animation {
   previewPosition?: PreviewPosition
   tier?: 1 | 2 | 3 | 4
   demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain'
+  previewMaxWidth?: number
 }
 
 /**
@@ -149,6 +150,9 @@ export interface AnimationMetadata {
    * - `fountain`: single Source anchor in bottom region
    */
   demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain'
+
+  /** Max width (px) for demo canvas and preview containers. Prevents wide animations from stretching full viewport. */
+  previewMaxWidth?: number
 }
 
 /**
