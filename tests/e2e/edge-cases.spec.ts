@@ -256,11 +256,14 @@ test.describe('Edge Cases', () => {
 
     // Cards should be present and functional
     await catalogPage.waitForCards()
-    const firstCard = catalogPage.allCards().first()
-    await expect(catalogPage.cardMeta(firstCard)).toContainText('FRAMER')
+    const framerMode = await catalogPage.activeCodeMode()
+    expect(framerMode.trim()).toBe('Framer')
     await catalogPage.expectNoErrorBoundary()
   })
 
+  // Fixed: App.tsx useEffect syncs codeMode from currentGroupId on every URL change,
+  // including browser back. Previously CodeModeContext was only set on explicit mode
+  // switch clicks, causing stale state after history navigation.
   test('code mode switch button reflects correct state after browser back', async ({
     catalogPage,
     page,
@@ -386,5 +389,158 @@ test.describe('Edge Cases', () => {
       await catalogPage.codeCloseButton().click()
       await expect(modal).not.toBeVisible()
     }
+  })
+
+  test('clicking the already-active group link is a no-op (does not crash)', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
+
+    // Find the active group link
+    const activeLink = catalogPage.activeGroupLink()
+    await expect(activeLink).toBeVisible()
+
+    const pathBefore = catalogPage.currentPathname()
+    const cardCountBefore = await catalogPage.allCards().count()
+
+    // Click it again
+    await activeLink.click()
+
+    // URL and content should not change — no error, no navigation
+    expect(catalogPage.currentPathname()).toBe(pathBefore)
+    await catalogPage.waitForCards()
+    const cardCountAfter = await catalogPage.allCards().count()
+    expect(cardCountAfter).toBe(cardCountBefore)
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('expanded description persists across browser back navigation', async ({
+    catalogPage,
+    page,
+  }) => {
+    await catalogPage.gotoGroup('text-effects-framer')
+
+    const card = catalogPage.card('text-effects__character-reveal')
+    const description = catalogPage.cardDescription(card)
+    const toggle = catalogPage.descriptionToggle(card)
+
+    // Expand description
+    await toggle.click()
+    await expect(description).toHaveAttribute('data-expanded', 'true')
+
+    // Navigate to a different group
+    const before = catalogPage.currentPathname()
+    const groupLinks = catalogPage.allGroupLinks()
+    for (let i = 0; i < (await groupLinks.count()); i++) {
+      const isActive = await groupLinks.nth(i).getAttribute('data-active')
+      if (!isActive) {
+        await groupLinks.nth(i).click()
+        break
+      }
+    }
+    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.waitForCards()
+
+    // Navigate back
+    await page.goBack()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/text-effects-framer')
+    await catalogPage.waitForCards()
+
+    // Description state persists across back-navigation (React state preserved)
+    const cardAfterBack = catalogPage.card('text-effects__character-reveal')
+    const descriptionAfterBack = catalogPage.cardDescription(cardAfterBack)
+    await expect(descriptionAfterBack).toHaveAttribute('data-expanded', 'true')
+
+    // Can still toggle it
+    const toggleAfterBack = catalogPage.descriptionToggle(cardAfterBack)
+    await toggleAfterBack.click()
+    await expect(descriptionAfterBack).not.toHaveAttribute('data-expanded')
+  })
+
+  test('filter + preview: opening preview on filtered card works correctly', async ({
+    catalogPage,
+    page,
+  }) => {
+    const targetId = 'modal-base__scale-gentle-pop'
+    await page.goto(`/modal-base-framer?animation=${encodeURIComponent(targetId)}`)
+    await catalogPage.waitForShell()
+
+    // Filter is active
+    await expect(catalogPage.filterBanner()).toBeVisible({ timeout: 10_000 })
+
+    // Open preview on the filtered card
+    const card = catalogPage.card(targetId)
+    await expect(card).toBeVisible({ timeout: 10_000 })
+    await catalogPage.openDesktopPreview(card)
+    await expect(catalogPage.previewAnimation()).toBeVisible()
+
+    // Close preview
+    await catalogPage.closePreview()
+    await expect(catalogPage.previewAnimation()).toHaveCount(0)
+
+    // Filter should still be active after preview close
+    await expect(catalogPage.filterBanner()).toBeVisible()
+    expect(new URL(page.url()).searchParams.get('animation')).toBe(targetId)
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('double mode switch + navigate does not leave stale cards', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('text-effects-framer')
+
+    // Switch to CSS, then immediately to Framer, then navigate
+    await catalogPage.selectCssMode()
+    await catalogPage.selectFramerMode()
+
+    const groupLinks = catalogPage.allGroupLinks()
+    const count = await groupLinks.count()
+    for (let i = 0; i < count; i++) {
+      const isActive = await groupLinks.nth(i).getAttribute('data-active')
+      if (!isActive) {
+        await groupLinks.nth(i).click()
+        break
+      }
+    }
+
+    // Wait for the UI to settle
+    await catalogPage.waitForCards()
+    await catalogPage.waitForTransitionSettle()
+
+    // Verify: no duplicate card IDs (catches stale cards from interrupted transitions)
+    const ids = await catalogPage
+      .allCards()
+      .evaluateAll((els) => els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean))
+    expect(ids.length).toBeGreaterThan(0)
+    // AnimatePresence should have cleaned up exit animations
+    const uniqueIds = new Set(ids)
+    expect(uniqueIds.size).toBe(ids.length)
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('page reload while code viewer is open results in clean state', async ({
+    catalogPage,
+    page,
+  }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    // Open code viewer
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+
+    // Reload the page
+    await page.reload()
+    await catalogPage.waitForShell()
+    await catalogPage.waitForCards()
+
+    // Code viewer should not be open after reload (no state persistence)
+    await expect(modal).not.toBeVisible()
+
+    // Page should be functional
+    expect(catalogPage.currentPathname()).toBe('/modal-base-framer')
+    await catalogPage.expectNoErrorBoundary()
   })
 })

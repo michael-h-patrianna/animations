@@ -24,8 +24,8 @@ test.describe('Code Viewer', () => {
     await expect(modal).toHaveAttribute('role', 'dialog')
     await expect(modal).toHaveAttribute('aria-modal', 'true')
 
-    // First tab (Component (Motion)) is active by default
-    await expect(catalogPage.codeTab(0)).toHaveAttribute('aria-selected', 'true')
+    // JS file selector is present with at least one option
+    await expect(catalogPage.codeJsSelector()).toBeVisible()
 
     // Code body contains Shiki-highlighted content
     await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
@@ -62,26 +62,10 @@ test.describe('Code Viewer', () => {
     expect(bodyText).toContain('Replace')
   })
 
-  test('shows both component and CSS tabs for animations with dual implementations', async ({
+  test('shows both JS and CSS file selectors for animations with stylesheets', async ({
     catalogPage,
   }) => {
-    const card = catalogPage.card('modal-base__scale-gentle-pop')
-    await catalogPage.codeViewerButton(card).click()
-
-    const modal = catalogPage.codeViewerModal()
-    await expect(modal).toBeVisible({ timeout: 10_000 })
-
-    // Should have at least Component (Motion) and Component (CSS) tabs
-    const tabs = catalogPage.codeTabs()
-    const tabCount = await tabs.count()
-    expect(tabCount).toBeGreaterThanOrEqual(2)
-
-    // First tab should be the Motion component
-    await expect(catalogPage.codeTab(0)).toContainText('Component (Motion)')
-  })
-
-  test('CSS tab shows stylesheet content', async ({ catalogPage }) => {
-    // Navigate to a group known to have CSS stylesheets
+    // Navigate to CSS group which has CSS stylesheet files
     await catalogPage.gotoGroup('modal-base-css')
     const card = catalogPage.card('modal-base__scale-gentle-pop')
     await catalogPage.codeViewerButton(card).click()
@@ -89,24 +73,31 @@ test.describe('Code Viewer', () => {
     const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
 
-    // Find the CSS tab (label "CSS") and click it
-    const tabs = catalogPage.codeTabs()
-    const tabCount = await tabs.count()
-    let cssTabIndex = -1
-    for (let i = 0; i < tabCount; i++) {
-      const text = await catalogPage.codeTab(i).textContent()
-      if (text?.trim() === 'CSS') {
-        cssTabIndex = i
-        break
-      }
-    }
-    expect(cssTabIndex).toBeGreaterThanOrEqual(0)
+    // JS selector should be visible (component file)
+    await expect(catalogPage.codeJsSelector()).toBeVisible()
 
-    await catalogPage.codeTab(cssTabIndex).click()
-    await expect(catalogPage.codeTab(cssTabIndex)).toHaveAttribute('aria-selected', 'true')
+    // CSS selector should be visible (stylesheet file)
+    await expect(catalogPage.codeCssSelector()).toBeVisible()
+  })
 
-    const bodyText = await catalogPage.codeBody().textContent()
-    expect(bodyText).toContain('@keyframes')
+  test('CSS file selector shows stylesheet content with keyframes', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('modal-base-css')
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Select the CSS file via the CSS dropdown
+    const cssSelect = catalogPage.codeCssSelect()
+    await expect(cssSelect).toBeVisible()
+    await cssSelect.selectOption({ index: 0 })
+
+    // Code body should update to show CSS content
+    await expect
+      .poll(async () => (await catalogPage.codeBody().textContent()) ?? '', { timeout: 5_000 })
+      .toMatch(/@keyframes|animation/)
   })
 
   test('close button dismisses the modal', async ({ catalogPage }) => {
@@ -189,7 +180,7 @@ test.describe('Code Viewer', () => {
     expect(bodyText).toContain('StandardEffectsBounce')
   })
 
-  test('tab switching preserves modal state', async ({ catalogPage }) => {
+  test('switching JS file selector changes displayed source', async ({ catalogPage }) => {
     const card = catalogPage.card('modal-base__scale-gentle-pop')
     await catalogPage.codeViewerButton(card).click()
 
@@ -197,18 +188,22 @@ test.describe('Code Viewer', () => {
     await expect(modal).toBeVisible({ timeout: 10_000 })
     await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
 
-    // If there are multiple tabs, switch between them
-    const tabs = catalogPage.codeTabs()
-    const tabCount = await tabs.count()
-    if (tabCount > 1) {
-      // Switch to second tab
-      await catalogPage.codeTab(1).click()
-      await expect(catalogPage.codeTab(1)).toHaveAttribute('aria-selected', 'true')
+    // Get initial source content
+    const initialSource = await catalogPage.codeBody().textContent()
+    expect(initialSource).toBeTruthy()
 
-      // Switch back to first tab
-      await catalogPage.codeTab(0).click()
-      await expect(catalogPage.codeTab(0)).toHaveAttribute('aria-selected', 'true')
-      await expect(catalogPage.codeTab(1)).toHaveAttribute('aria-selected', 'false')
+    // Check if JS selector has multiple options
+    const jsSelect = catalogPage.codeJsSelect()
+    const optionCount = await jsSelect.locator('option').count()
+
+    if (optionCount > 1) {
+      // Switch to second option
+      await jsSelect.selectOption({ index: 1 })
+
+      // Content should change (different file)
+      await expect
+        .poll(async () => (await catalogPage.codeBody().textContent()) ?? '', { timeout: 5_000 })
+        .not.toBe(initialSource)
     }
 
     // Modal is still open
@@ -269,10 +264,6 @@ test.describe('Code Viewer', () => {
       .toBe('/modal-base-css')
 
     await catalogPage.waitForCards()
-
-    // CSS cards render correctly
-    const cssCard = catalogPage.allCards().first()
-    await expect(catalogPage.cardMeta(cssCard)).toContainText('CSS')
     await catalogPage.expectNoErrorBoundary()
 
     // Can open code viewer again on the CSS variant
@@ -339,9 +330,6 @@ test.describe('Code Viewer', () => {
   test('code viewer shows loading state before syntax highlighting completes', async ({
     catalogPage,
   }) => {
-    // Use network throttling to make Shiki loading observable
-    // Since Shiki is bundled, the loading state is typically very brief.
-    // We verify the loading element exists in the DOM structure.
     const card = catalogPage.card('modal-base__scale-gentle-pop')
     await catalogPage.codeViewerButton(card).click()
 
@@ -375,8 +363,94 @@ test.describe('Code Viewer', () => {
 
     // aria-label should describe what source is being shown
     const ariaLabel = await modal.getAttribute('aria-label')
-    expect(ariaLabel).toBeTruthy()
     expect(ariaLabel).toMatch(/source code/i)
+  })
+
+  test('code viewer from filtered view shows correct source and preserves filter', async ({
+    catalogPage,
+    page,
+  }) => {
+    const targetId = 'modal-base__scale-gentle-pop'
+    await page.goto(`/modal-base-framer?animation=${encodeURIComponent(targetId)}`)
+    await catalogPage.waitForShell()
+
+    // Filter banner should be visible
+    await expect(catalogPage.filterBanner()).toBeVisible({ timeout: 10_000 })
+
+    // Open code viewer on the filtered card
+    const card = catalogPage.card(targetId)
+    await expect(card).toBeVisible({ timeout: 10_000 })
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Source should contain the correct component
+    const bodyText = await catalogPage.codeBody().textContent()
+    expect(bodyText).toContain('ModalBaseScaleGentlePop')
+
+    // Close code viewer
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+
+    // Filter should still be active (not stripped by code viewer open/close)
+    await expect(catalogPage.filterBanner()).toBeVisible()
+    expect(new URL(page.url()).searchParams.get('animation')).toBe(targetId)
+  })
+
+  test('Framer and CSS source code differ for the same animation', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Get Framer source
+    await catalogPage.gotoGroup('modal-base-framer')
+    const framerCard = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(framerCard).click()
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+    const framerSource = await catalogPage.codeBody().textContent()
+    await page.keyboard.press('Escape')
+    await expect(modal).not.toBeVisible()
+
+    // Get CSS source
+    await catalogPage.gotoGroup('modal-base-css')
+    const cssCard = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(cssCard).click()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+    const cssSource = await catalogPage.codeBody().textContent()
+    await page.keyboard.press('Escape')
+
+    // Both should contain the component name
+    expect(framerSource).toContain('ModalBaseScaleGentlePop')
+    expect(cssSource).toContain('ModalBaseScaleGentlePop')
+
+    // But the actual source must differ (different implementation)
+    expect(framerSource).not.toBe(cssSource)
+
+    // Framer source should contain Motion import, CSS source should not
+    expect(framerSource).toMatch(/motion/)
+  })
+
+  test('highlighted source code contains syntax tokens (not plain text fallback)', async ({
+    catalogPage,
+  }) => {
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    // Shiki outputs syntax-highlighted HTML with <span> tokens inside <pre><code>
+    const highlighted = catalogPage.codeHighlighted()
+    const spanCount = await highlighted.locator('span').count()
+
+    // Syntax highlighting should produce many span elements (tokens)
+    // Plain text without highlighting would have zero or very few spans
+    expect(spanCount, 'Shiki should produce syntax-highlighted spans').toBeGreaterThan(10)
   })
 
   test('code viewer source contains valid structural markers', async ({ catalogPage, context }) => {

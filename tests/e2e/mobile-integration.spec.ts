@@ -9,6 +9,7 @@ import { test, expect } from './fixtures/catalog.fixture'
  */
 test.describe('Mobile Integration Flows', () => {
   test('complete mobile journey: navigate → switch mode → view code → navigate back', async ({
+    catalogPage,
     mobilePage,
     page,
     context,
@@ -21,11 +22,10 @@ test.describe('Mobile Integration Flows', () => {
     await mobilePage.selectCssMode()
     await expect.poll(() => new URL(page.url()).pathname, { timeout: 5_000 }).toMatch(/-css$/)
 
-    // Step 2: Close drawer, verify CSS cards visible
+    // Step 2: Close drawer, verify CSS mode active via URL
     await mobilePage.closeDrawer()
-    const firstCard = page.locator('[data-animation-id]').first()
-    await expect(firstCard).toBeVisible({ timeout: 5_000 })
-    await expect(firstCard.locator('[data-testid="card-meta"]')).toContainText('CSS')
+    await expect(catalogPage.allCards().first()).toBeVisible({ timeout: 5_000 })
+    expect(new URL(page.url()).pathname).toMatch(/-css$/)
 
     // Step 3: Navigate to a different group via drawer
     await mobilePage.openDrawer()
@@ -37,13 +37,13 @@ test.describe('Mobile Integration Flows', () => {
     expect(pathname).toMatch(/-css$/)
 
     // Step 4: Open code viewer on the new group
-    const newCard = page.locator('[data-animation-id]').first()
+    const newCard = catalogPage.allCards().first()
     await expect(newCard).toBeVisible({ timeout: 10_000 })
 
-    const codeBtn = newCard.locator('[data-testid="code-viewer-btn"]')
+    const codeBtn = catalogPage.codeViewerButton(newCard)
     if ((await codeBtn.count()) > 0) {
       await codeBtn.click()
-      const modal = page.locator('[data-testid="code-viewer-modal"]')
+      const modal = catalogPage.codeViewerModal()
       await expect(modal).toBeVisible({ timeout: 10_000 })
 
       // Close modal
@@ -58,7 +58,7 @@ test.describe('Mobile Integration Flows', () => {
       .toBe('/text-effects-css')
 
     // No error boundary
-    await expect(page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
+    await catalogPage.expectNoErrorBoundary()
   })
 
   test('rapid drawer open/close does not corrupt state', async ({ mobilePage }) => {
@@ -85,7 +85,11 @@ test.describe('Mobile Integration Flows', () => {
     expect(await mobilePage.isScrollLocked()).toBe(false)
   })
 
-  test('viewport resize during drawer open transitions correctly', async ({ mobilePage, page }) => {
+  test('viewport resize during drawer open transitions correctly', async ({
+    catalogPage,
+    mobilePage,
+    page,
+  }) => {
     await mobilePage.gotoMobile('text-effects-framer')
     await mobilePage.openDrawer()
     await mobilePage.expectDrawerOpen()
@@ -94,13 +98,12 @@ test.describe('Mobile Integration Flows', () => {
     await page.setViewportSize({ width: 1280, height: 720 })
 
     // Desktop sidebar should be visible now
-    const sidebar = page.locator('[data-testid="sidebar"]').first()
-    await expect(sidebar).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.sidebar).toBeVisible({ timeout: 10_000 })
 
     // Content should still be present
-    await expect(page.locator('[data-animation-id]').first()).toBeVisible({ timeout: 5_000 })
+    await expect(catalogPage.allCards().first()).toBeVisible({ timeout: 5_000 })
 
     // No error state
-    await expect(page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
+    await catalogPage.expectNoErrorBoundary()
   })
 })

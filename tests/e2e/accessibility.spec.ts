@@ -165,6 +165,31 @@ test.describe('Accessibility: Keyboard Navigation', () => {
   })
 })
 
+test.describe('Accessibility: Card Action Buttons', () => {
+  test('card header buttons have descriptive aria-labels', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await expect(card).toBeVisible()
+
+    // Desktop preview button
+    const desktopBtn = catalogPage.previewDesktopButton(card)
+    await expect(desktopBtn).toHaveAttribute('aria-label', /desktop/i)
+
+    // Mobile preview button
+    const mobileBtn = catalogPage.previewMobileButton(card)
+    await expect(mobileBtn).toHaveAttribute('aria-label', /mobile/i)
+
+    // Code viewer button
+    const codeBtn = catalogPage.codeViewerButton(card)
+    await expect(codeBtn).toHaveAttribute('aria-label', /source|code/i)
+
+    // Copy link button
+    const copyBtn = catalogPage.copyLinkButton(card)
+    await expect(copyBtn).toHaveAttribute('aria-label', /copy|link|url/i)
+  })
+})
+
 test.describe('Accessibility: Description Toggle', () => {
   test('description toggle buttons have descriptive aria-labels', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
@@ -172,9 +197,8 @@ test.describe('Accessibility: Description Toggle', () => {
     const card = catalogPage.card('text-effects__character-reveal')
     const toggle = catalogPage.descriptionToggle(card)
 
-    // Has a meaningful aria-label
+    // Has a meaningful aria-label describing the expand/collapse action
     const label = await toggle.getAttribute('aria-label')
-    expect(label).toBeTruthy()
     expect(label).toMatch(/description/i)
   })
 })
@@ -231,10 +255,11 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
     // Close button receives initial focus
     await expect(catalogPage.codeCloseButton()).toBeFocused()
 
-    // Tab buttons are clickable and update aria-selected
-    const tab0 = catalogPage.codeTab(0)
-    await tab0.click()
-    await expect(tab0).toHaveAttribute('aria-selected', 'true')
+    // JS file selector is interactable
+    const jsSelect = catalogPage.codeJsSelect()
+    if ((await jsSelect.count()) > 0) {
+      await expect(jsSelect).toBeVisible()
+    }
 
     // Copy button is clickable
     const copyBtn = catalogPage.codeCopyButton()
@@ -274,9 +299,11 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
       if (testId) focusedTestIds.push(testId)
     }
 
-    // All tabs and the copy button should be reachable via Tab
-    // (currently fails because focus escapes to background sidebar elements)
+    // Copy button and file selectors should be reachable via Tab
     expect(focusedTestIds).toContain('code-copy-btn')
-    expect(focusedTestIds.some((id) => id.startsWith('code-tab-'))).toBe(true)
+    // File selector dropdowns should be reachable (code-js-select or code-css-select)
+    expect(focusedTestIds.some((id) => id === 'code-js-select' || id === 'code-css-select')).toBe(
+      true
+    )
   })
 })

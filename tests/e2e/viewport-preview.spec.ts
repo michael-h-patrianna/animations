@@ -77,6 +77,36 @@ test.describe('Viewport Preview', () => {
     await catalogPage.closePreview()
   })
 
+  test('opening preview on a different card after closing works correctly', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.gotoGroup('modal-base-framer')
+    const cards = catalogPage.scopedCards('modal-base-framer')
+    const count = await cards.count()
+    expect(count).toBeGreaterThan(1)
+
+    // Open preview on first card
+    const firstCard = cards.first()
+    await catalogPage.openDesktopPreview(firstCard)
+    await expect(catalogPage.previewAnimation()).toBeVisible()
+    await catalogPage.closePreview()
+
+    // Open preview on second card — should work without stale state
+    const secondCard = cards.nth(1)
+    await secondCard.scrollIntoViewIfNeeded()
+    await catalogPage.openDesktopPreview(secondCard)
+    await expect(catalogPage.previewAnimation()).toBeVisible()
+
+    // Should render content (not blank from stale component ref)
+    await expect
+      .poll(async () => catalogPage.previewAnimation().locator(':scope > * > *').count(), {
+        timeout: 3_000,
+      })
+      .toBeGreaterThan(0)
+
+    await catalogPage.closePreview()
+  })
+
   // ── Replay ───────────────────────────────────────────────────────────
 
   test('replay button remounts animation in preview', async ({ catalogPage }) => {
@@ -91,9 +121,9 @@ test.describe('Viewport Preview', () => {
     expect(childCount).toBeGreaterThan(0)
 
     await catalogPage.previewReplayButton().click()
-    await catalogPage.page.waitForTimeout(100)
 
-    await expect(animation).toBeVisible()
+    // Wait for animation to remount and be visible after replay
+    await expect(animation).toBeVisible({ timeout: 3_000 })
     const childCountAfter = await animation.locator(':scope > * > *').count()
     expect(childCountAfter).toBeGreaterThan(0)
 
@@ -162,5 +192,109 @@ test.describe('Viewport Preview', () => {
       await expect(catalogPage.previewDesktopButton(card)).toBeVisible()
       await expect(catalogPage.previewMobileButton(card)).toBeVisible()
     }
+  })
+})
+
+// ── Preview from mobile viewport ─────────────────────────────────────────
+
+test.describe('Viewport Preview: Mobile Viewport', () => {
+  test('preview opens correctly when app is at mobile viewport width', async ({
+    catalogPage,
+    mobilePage,
+  }) => {
+    await mobilePage.gotoMobile('standard-effects-framer')
+
+    const card = catalogPage.card('standard-effects__bounce')
+    await expect(card).toBeVisible({ timeout: 10_000 })
+
+    // Open desktop preview from mobile viewport
+    await card.scrollIntoViewIfNeeded()
+    await catalogPage.previewDesktopButton(card).click()
+    await expect(catalogPage.page.locator('[data-testid="preview-desktop"]')).toBeVisible({
+      timeout: 3_000,
+    })
+    await expect(catalogPage.previewAnimation()).toBeVisible()
+
+    // Preview should have content
+    await expect
+      .poll(async () => catalogPage.previewAnimation().locator(':scope > * > *').count(), {
+        timeout: 3_000,
+      })
+      .toBeGreaterThan(0)
+
+    // Close via Escape
+    await catalogPage.page.keyboard.press('Escape')
+    await expect(catalogPage.previewAnimation()).toHaveCount(0)
+
+    // App is still functional
+    await expect(card).toBeVisible()
+    await catalogPage.expectNoErrorBoundary()
+  })
+})
+
+// ── CSS Mode Preview ────────────────────────────────────────────────────
+
+test.describe('Viewport Preview: CSS Mode', () => {
+  test('desktop preview opens and renders from CSS-mode card', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('standard-effects-css')
+    const card = catalogPage.allCards().first()
+
+    await catalogPage.openDesktopPreview(card)
+    const animation = catalogPage.previewAnimation()
+    await expect(animation).toBeVisible()
+
+    // Animation should have rendered content
+    await expect
+      .poll(async () => animation.locator(':scope > * > *').count(), { timeout: 3_000 })
+      .toBeGreaterThan(0)
+
+    await catalogPage.closePreview()
+    await expect(catalogPage.previewAnimation()).toHaveCount(0)
+  })
+
+  test('mobile preview opens and shows phone frame from CSS-mode card', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('modal-base-css')
+    const card = catalogPage.allCards().first()
+
+    await catalogPage.openMobilePreview(card)
+    await expect(catalogPage.previewMobileFrame()).toBeVisible()
+    await expect(catalogPage.previewAnimation()).toBeVisible()
+
+    await catalogPage.closePreview()
+  })
+
+  test('mode switch works within CSS-mode preview', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('standard-effects-css')
+    const card = catalogPage.allCards().first()
+
+    // Start in desktop mode
+    await catalogPage.openDesktopPreview(card)
+    await expect(catalogPage.previewMobileFrame()).toHaveCount(0)
+
+    // Switch to mobile
+    await catalogPage.previewModeMobileButton().click()
+    await expect(catalogPage.previewMobileFrame()).toBeVisible()
+
+    // Switch back to desktop
+    await catalogPage.previewModeDesktopButton().click()
+    await expect(catalogPage.previewMobileFrame()).toHaveCount(0)
+
+    await catalogPage.closePreview()
+  })
+
+  test('replay in CSS-mode preview remounts animation', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('standard-effects-css')
+    const card = catalogPage.allCards().first()
+
+    await catalogPage.openDesktopPreview(card)
+    const animation = catalogPage.previewAnimation()
+    await expect(animation).toBeVisible()
+
+    await catalogPage.previewReplayButton().click()
+
+    // Animation should remain visible after replay
+    await expect(animation).toBeVisible({ timeout: 3_000 })
+
+    await catalogPage.closePreview()
   })
 })

@@ -3,14 +3,17 @@ import { test, expect } from './fixtures/catalog.fixture'
 test.describe('Progress Bar Animations', () => {
   test('renders progress bar cards in both Framer and CSS variants', async ({ catalogPage }) => {
     const variants = [
-      { groupId: 'progress-bars-framer', expectedTag: 'FRAMER' },
-      { groupId: 'progress-bars-css', expectedTag: 'CSS' },
+      { groupId: 'progress-bars-framer', expectedSuffix: '-framer' },
+      { groupId: 'progress-bars-css', expectedSuffix: '-css' },
     ] as const
 
     const representativeIds = ['progress-bars__timeline-progress', 'progress-bars__progress-bounce']
 
     for (const variant of variants) {
       await catalogPage.gotoGroup(variant.groupId)
+
+      // URL confirms the correct mode
+      expect(catalogPage.currentPathname()).toMatch(new RegExp(`${variant.expectedSuffix}$`))
 
       // Verify multiple cards exist
       const cards = catalogPage.allCards()
@@ -19,7 +22,6 @@ test.describe('Progress Bar Animations', () => {
       for (const animId of representativeIds) {
         const card = catalogPage.card(animId)
         await expect(card).toBeVisible()
-        await expect(catalogPage.cardMeta(card)).toContainText(variant.expectedTag)
 
         // Animation has rendered content (not placeholder)
         const stage = await catalogPage.cardStage(card)

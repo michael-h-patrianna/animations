@@ -49,8 +49,10 @@ test.describe('Mobile Containment Scan @containment', () => {
 
           const animation = catalogPage.previewAnimation()
           await expect(animation).toBeVisible({ timeout: 3_000 })
-          // Allow animation to reach a representative state
-          await catalogPage.page.waitForTimeout(500)
+          // Wait for animation to have rendered descendants
+          await expect
+            .poll(async () => animation.locator('*').count(), { timeout: 3_000 })
+            .toBeGreaterThan(0)
 
           const violations = await checkContainment(
             catalogPage.page,
@@ -82,7 +84,10 @@ test.describe('Mobile Containment Scan @containment', () => {
           await catalogPage.closePreview()
         } catch {
           await catalogPage.page.keyboard.press('Escape')
-          await catalogPage.page.waitForTimeout(200)
+          // Wait for preview overlay to dismiss
+          await expect(catalogPage.previewAnimation())
+            .toHaveCount(0, { timeout: 2_000 })
+            .catch(() => {})
         }
       }
     }
@@ -134,7 +139,10 @@ test.describe('Desktop Containment Scan @desktop-containment', () => {
 
           const animation = catalogPage.previewAnimation()
           await expect(animation).toBeVisible({ timeout: 3_000 })
-          await catalogPage.page.waitForTimeout(500)
+          // Wait for animation to have rendered descendants
+          await expect
+            .poll(async () => animation.locator('*').count(), { timeout: 3_000 })
+            .toBeGreaterThan(0)
 
           const viewport = catalogPage.page.viewportSize()!
           const violations = await catalogPage.page.evaluate(
@@ -225,7 +233,10 @@ test.describe('Desktop Containment Scan @desktop-containment', () => {
           await catalogPage.closePreview()
         } catch {
           await catalogPage.page.keyboard.press('Escape')
-          await catalogPage.page.waitForTimeout(200)
+          // Wait for preview overlay to dismiss
+          await expect(catalogPage.previewAnimation())
+            .toHaveCount(0, { timeout: 2_000 })
+            .catch(() => {})
         }
       }
     }
@@ -280,7 +291,10 @@ test.describe('Mobile Positioning Verification @positioning', () => {
 
           const animation = catalogPage.previewAnimation()
           await expect(animation).toBeVisible({ timeout: 3_000 })
-          await catalogPage.page.waitForTimeout(500)
+          // Wait for animation to have rendered descendants
+          await expect
+            .poll(async () => animation.locator('*').count(), { timeout: 3_000 })
+            .toBeGreaterThan(0)
 
           const result = await checkPositioning(
             catalogPage.page,
@@ -324,7 +338,10 @@ test.describe('Mobile Positioning Verification @positioning', () => {
           await catalogPage.closePreview()
         } catch {
           await catalogPage.page.keyboard.press('Escape')
-          await catalogPage.page.waitForTimeout(200)
+          // Wait for preview overlay to dismiss
+          await expect(catalogPage.previewAnimation())
+            .toHaveCount(0, { timeout: 2_000 })
+            .catch(() => {})
         }
       }
     }
@@ -373,7 +390,10 @@ test.describe('Desktop Positioning Verification @positioning', () => {
 
           const animation = catalogPage.previewAnimation()
           await expect(animation).toBeVisible({ timeout: 3_000 })
-          await catalogPage.page.waitForTimeout(500)
+          // Wait for animation to have rendered descendants
+          await expect
+            .poll(async () => animation.locator('*').count(), { timeout: 3_000 })
+            .toBeGreaterThan(0)
 
           const result = await checkPositioning(
             catalogPage.page,
@@ -425,7 +445,10 @@ test.describe('Desktop Positioning Verification @positioning', () => {
           await catalogPage.closePreview()
         } catch {
           await catalogPage.page.keyboard.press('Escape')
-          await catalogPage.page.waitForTimeout(200)
+          // Wait for preview overlay to dismiss
+          await expect(catalogPage.previewAnimation())
+            .toHaveCount(0, { timeout: 2_000 })
+            .catch(() => {})
         }
       }
     }

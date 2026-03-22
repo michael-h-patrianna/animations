@@ -49,8 +49,8 @@ test.describe('Timer Effect Animations', () => {
     const card = catalogPage.card('timer-effects__pill-countdown-soft')
     await expect(card).toBeVisible()
 
-    // CSS tag is shown
-    await expect(catalogPage.cardMeta(card)).toContainText('CSS')
+    // URL confirms CSS mode is active
+    expect(catalogPage.currentPathname()).toBe('/timer-effects-css')
 
     // Timer renders with digits (poll past Suspense loading state)
     const stage = await catalogPage.cardStage(card)

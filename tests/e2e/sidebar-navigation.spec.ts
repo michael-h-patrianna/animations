@@ -106,6 +106,47 @@ test.describe('Sidebar Navigation', () => {
     expect(checkedCount).toBe(3)
   })
 
+  test('navigating between categories moves the active highlight correctly', async ({
+    catalogPage,
+  }) => {
+    const sections = catalogPage.sidebarSections()
+    const sectionCount = await sections.count()
+    expect(sectionCount).toBeGreaterThan(1)
+
+    // Find the currently active category
+    let activeIndex = -1
+    for (let i = 0; i < sectionCount; i++) {
+      const categoryBtn = sections.nth(i).locator('[data-testid^="sidebar-category-"]')
+      if (await categoryBtn.getAttribute('data-active')) {
+        activeIndex = i
+        break
+      }
+    }
+    expect(activeIndex).toBeGreaterThanOrEqual(0)
+
+    // Click a group in a DIFFERENT category
+    const otherIndex = activeIndex === 0 ? 1 : 0
+    const otherSection = sections.nth(otherIndex)
+    const otherGroups = catalogPage.groupLinksInSection(otherSection)
+    expect(await otherGroups.count()).toBeGreaterThan(0)
+
+    const before = catalogPage.currentPathname()
+    await otherGroups.first().click()
+    await catalogPage.waitForPathnameChange(before)
+
+    // The old category should no longer be active
+    const oldCategoryBtn = sections.nth(activeIndex).locator('[data-testid^="sidebar-category-"]')
+    await expect(oldCategoryBtn).not.toHaveAttribute('data-active')
+
+    // The new category should be active
+    const newCategoryBtn = otherSection.locator('[data-testid^="sidebar-category-"]')
+    await expect(newCategoryBtn).toHaveAttribute('data-active', 'true')
+
+    // Only one group link should be active
+    const allActive = catalogPage.activeGroupLink()
+    expect(await allActive.count()).toBe(1)
+  })
+
   test('category collapse/expand toggles group visibility', async ({ catalogPage }) => {
     const sections = catalogPage.sidebarSections()
     const firstSection = sections.first()

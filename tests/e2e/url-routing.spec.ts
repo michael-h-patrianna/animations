@@ -104,9 +104,8 @@ test.describe('URL Routing', () => {
 
     expect(catalogPage.currentPathname()).toBe(pathBefore)
 
-    // Verify CSS mode is active after reload
-    const firstCard = catalogPage.allCards().first()
-    await expect(catalogPage.cardMeta(firstCard)).toContainText('CSS')
+    // URL suffix confirms CSS mode is preserved after reload
+    expect(catalogPage.currentPathname()).toMatch(/-css$/)
   })
 
   test('browser back from invalid route returns to previous valid state', async ({
@@ -151,7 +150,5 @@ test.describe('URL Routing', () => {
 
     // After reload, URL should still be CSS variant
     expect(catalogPage.currentPathname()).toBe('/text-effects-css')
-    const firstCard = catalogPage.allCards().first()
-    await expect(catalogPage.cardMeta(firstCard)).toContainText('CSS')
   })
 })

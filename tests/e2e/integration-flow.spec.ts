@@ -25,10 +25,10 @@ test.describe('Integration: Full User Journey', () => {
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
     const cssPath = catalogPage.currentPathname()
 
-    // Step 4: Verify card tags now show CSS
+    // Step 4: Verify code mode switch reflects CSS
     await catalogPage.waitForCards()
-    const firstCard = catalogPage.allCards().first()
-    await expect(catalogPage.cardMeta(firstCard)).toContainText('CSS')
+    const cssModeAfterSwitch = await catalogPage.activeCodeMode()
+    expect(cssModeAfterSwitch.trim()).toBe('CSS')
 
     // Step 5: Navigate to a different group via sidebar (mode should persist as CSS)
     const groupLinks = catalogPage.allGroupLinks()
@@ -51,7 +51,8 @@ test.describe('Integration: Full User Journey', () => {
     expect(newPath).toMatch(/-css$/)
     expect(newPath).not.toBe(cssPath) // Different group
     await catalogPage.waitForCards()
-    await expect(catalogPage.cardMeta(catalogPage.allCards().first())).toContainText('CSS')
+    const cssModeStep6 = await catalogPage.activeCodeMode()
+    expect(cssModeStep6.trim()).toBe('CSS')
 
     // Step 7: Browser back — should go to previous CSS group
     await page.goBack()
@@ -61,9 +62,9 @@ test.describe('Integration: Full User Journey', () => {
     await page.goBack()
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toBe(initialPath)
 
-    // Step 9: Verify we're back at Framer mode with correct cards
+    // Step 9: Verify we're back at Framer mode via URL
     await catalogPage.waitForCards()
-    await expect(catalogPage.cardMeta(catalogPage.allCards().first())).toContainText('FRAMER')
+    expect(catalogPage.currentPathname()).toMatch(/-framer$/)
   })
 
   test('replay animation, navigate away, come back — animation still works', async ({
@@ -136,16 +137,16 @@ test.describe('Integration: Full User Journey', () => {
     const framerSource = await catalogPage.codeBody().textContent()
     expect(framerSource).toContain('StandardEffectsBounce')
 
-    // Step 4: If multiple tabs exist, switch to second tab and verify different content
-    const tabCount = await catalogPage.codeTabs().count()
-    if (tabCount > 1) {
-      await catalogPage.codeTab(1).click()
-      await expect(catalogPage.codeTab(1)).toHaveAttribute('aria-selected', 'true')
-      const tab2Source = await catalogPage.codeBody().textContent()
-      // Different tab should have different content
-      expect(tab2Source).not.toBe(framerSource)
+    // Step 4: If JS selector has multiple options, switch and verify different content
+    const jsSelect = catalogPage.codeJsSelect()
+    const optionCount = await jsSelect.locator('option').count()
+    if (optionCount > 1) {
+      await jsSelect.selectOption({ index: 1 })
+      const secondFileSource = await catalogPage.codeBody().textContent()
+      // Different file should have different content
+      expect(secondFileSource).not.toBe(framerSource)
       // Switch back
-      await catalogPage.codeTab(0).click()
+      await jsSelect.selectOption({ index: 0 })
     }
 
     // Step 5: Copy code and verify clipboard
@@ -179,6 +180,33 @@ test.describe('Integration: Full User Journey', () => {
     // Step 10: Close and verify clean state
     await page.keyboard.press('Escape')
     await expect(modal).not.toBeVisible()
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('round-trip navigation: A → B → A preserves correct card content', async ({
+    catalogPage,
+  }) => {
+    // Navigate to group A
+    await catalogPage.gotoGroup('modal-base-framer')
+    const groupACards = await catalogPage.getAllAnimationIds()
+    expect(groupACards.length).toBeGreaterThan(0)
+
+    // Navigate to group B
+    await catalogPage.gotoGroup('standard-effects-framer')
+    const groupBCards = await catalogPage.getAllAnimationIds()
+    expect(groupBCards.length).toBeGreaterThan(0)
+    expect(groupBCards).not.toEqual(groupACards)
+
+    // Navigate back to group A
+    await catalogPage.gotoGroup('modal-base-framer')
+    await catalogPage.waitForTransitionSettle()
+    const groupACardsAgain = await catalogPage.getAllAnimationIds()
+
+    // Same cards should be present after round-trip (not stale B cards)
+    expect(groupACardsAgain.sort()).toEqual(groupACards.sort())
+
+    // Group title should match group A
+    await expect(catalogPage.groupTitle()).toContainText('Base modal')
     await catalogPage.expectNoErrorBoundary()
   })
 

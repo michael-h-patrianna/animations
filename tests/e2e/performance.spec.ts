@@ -43,24 +43,28 @@ test.describe('Performance Budgets', () => {
   })
 
   test('Largest Contentful Paint under 3 seconds', async ({ catalogPage }) => {
+    // Install the LCP observer via addInitScript so it runs before any page JS.
+    // The observer stores the latest LCP startTime on window for later retrieval.
+    await catalogPage.page.addInitScript(() => {
+      ;(window as Window & { __lcpValue?: number }).__lcpValue = -1
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          ;(window as Window & { __lcpValue?: number }).__lcpValue = entry.startTime
+        }
+      })
+      observer.observe({ type: 'largest-contentful-paint', buffered: true })
+    })
+
     await catalogPage.goto()
     await catalogPage.waitForCards()
 
-    const lcp = await catalogPage.page.evaluate(() => {
-      return new Promise<number>((resolve) => {
-        new PerformanceObserver((list) => {
-          const entries = list.getEntries()
-          const last = entries[entries.length - 1]
-          resolve(last.startTime)
-        }).observe({ type: 'largest-contentful-paint', buffered: true })
+    // Retrieve the LCP value recorded by the observer
+    const lcp = await catalogPage.page.evaluate(
+      () => (window as Window & { __lcpValue?: number }).__lcpValue ?? -1
+    )
 
-        // Fallback if no LCP entry fires within 5s
-        setTimeout(() => resolve(-1), 5000)
-      })
-    })
-
-    if (lcp >= 0) {
-      expect(lcp, `LCP was ${lcp.toFixed(0)}ms (budget: 3000ms)`).toBeLessThan(3000)
-    }
+    // The observer must have captured at least one LCP entry
+    expect(lcp, 'No LCP entry captured — observer setup failed').toBeGreaterThan(0)
+    expect(lcp, `LCP was ${lcp.toFixed(0)}ms (budget: 3000ms)`).toBeLessThan(3000)
   })
 })

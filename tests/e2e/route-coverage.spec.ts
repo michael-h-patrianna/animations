@@ -9,7 +9,7 @@ import { test, expect } from './fixtures/catalog.fixture'
  * 2. At least one animation card rendered
  * 3. All card IDs are unique (no duplicate registrations)
  * 4. Card titles are non-empty (metadata properly configured)
- * 5. Correct technology tag (FRAMER/CSS) matches the route suffix
+ * 5. Code mode switch reflects the correct mode (Framer/CSS) for the route suffix
  * 6. Group title heading is visible and non-empty
  *
  * Uses separate test cases per group to isolate failures.
@@ -36,10 +36,63 @@ const ALL_GROUP_IDS = [
   'realtime-data',
 ]
 
+/**
+ * Verify the hardcoded group list matches the actual catalog.
+ * Catches silent gaps when a new group is added to the codebase
+ * but not to this test file.
+ */
+test('ALL_GROUP_IDS matches all groups discovered from sidebar', async ({ catalogPage }) => {
+  await catalogPage.goto()
+  await catalogPage.waitForCards()
+
+  // Record the initial group from the default landing page
+  const initialMatch = catalogPage.currentPathname().match(/^\/(.+)-(framer|css)$/)
+  const discoveredBaseIds = new Set<string>()
+  if (initialMatch) discoveredBaseIds.add(initialMatch[1])
+
+  // Click each sidebar group link and record the URL to extract base IDs
+  const groupLinks = catalogPage.allGroupLinks()
+  const count = await groupLinks.count()
+
+  for (let i = 0; i < count; i++) {
+    const link = groupLinks.nth(i)
+    const isActive = await link.getAttribute('data-active')
+    if (isActive) {
+      // Already-active link won't change URL — just record current path
+      const match = catalogPage.currentPathname().match(/^\/(.+)-(framer|css)$/)
+      if (match) discoveredBaseIds.add(match[1])
+      continue
+    }
+    const before = catalogPage.currentPathname()
+    await link.click()
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).not.toBe(before)
+    const match = catalogPage.currentPathname().match(/^\/(.+)-(framer|css)$/)
+    if (match) discoveredBaseIds.add(match[1])
+  }
+
+  const hardcodedSet = new Set(ALL_GROUP_IDS)
+
+  // Every discovered group must be in the hardcoded list
+  const missing = [...discoveredBaseIds].filter((id) => !hardcodedSet.has(id))
+  expect(
+    missing,
+    `Groups in sidebar but missing from ALL_GROUP_IDS: ${missing.join(', ')}. ` +
+      'Add them to the hardcoded list so they get route-coverage tests.'
+  ).toHaveLength(0)
+
+  // Every hardcoded group must exist in the sidebar
+  const extra = [...hardcodedSet].filter((id) => !discoveredBaseIds.has(id))
+  expect(
+    extra,
+    `Groups in ALL_GROUP_IDS but not in sidebar: ${extra.join(', ')}. ` +
+      'Remove them from the hardcoded list or verify they still exist.'
+  ).toHaveLength(0)
+})
+
 for (const baseId of ALL_GROUP_IDS) {
   for (const suffix of ['-framer', '-css'] as const) {
     const groupId = `${baseId}${suffix}`
-    const expectedTag = suffix === '-framer' ? 'FRAMER' : 'CSS'
+    const expectedSuffix = suffix
 
     test(`route /${groupId} renders correct content`, async ({ catalogPage }) => {
       await catalogPage.page.goto(`/${groupId}`)
@@ -77,8 +130,8 @@ for (const baseId of ALL_GROUP_IDS) {
       const titleText = await title.textContent()
       expect(titleText?.trim().length).toBeGreaterThan(0)
 
-      // First card shows the correct technology tag
-      await expect(catalogPage.cardMeta(firstCard)).toContainText(expectedTag)
+      // URL suffix confirms the correct mode for this route
+      expect(catalogPage.currentPathname()).toMatch(new RegExp(`${expectedSuffix}$`))
 
       // Group title heading is visible and non-empty
       const groupTitle = catalogPage.groupTitle()

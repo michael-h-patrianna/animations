@@ -5,7 +5,11 @@ import { test, expect } from './fixtures/catalog.fixture'
  * CodeModeSwitch instance — mode changes there must propagate to URL and card content.
  */
 test.describe('Mobile Code Mode Switching', () => {
-  test('switching to CSS mode in drawer updates URL and cards', async ({ mobilePage, page }) => {
+  test('switching to CSS mode in drawer updates URL and cards', async ({
+    catalogPage,
+    mobilePage,
+    page,
+  }) => {
     await mobilePage.gotoMobile('text-effects-framer')
 
     // Open drawer and switch to CSS
@@ -22,11 +26,10 @@ test.describe('Mobile Code Mode Switching', () => {
       .poll(() => new URL(page.url()).pathname, { timeout: 5_000 })
       .toBe('/text-effects-css')
 
-    // Close drawer and verify cards show CSS tags
+    // Close drawer and verify CSS mode is active via URL
     await mobilePage.closeDrawer()
-    const firstCard = page.locator('[data-animation-id]').first()
-    await expect(firstCard).toBeVisible({ timeout: 5_000 })
-    await expect(firstCard.locator('[data-testid="card-meta"]')).toContainText('CSS')
+    await expect(catalogPage.allCards().first()).toBeVisible({ timeout: 5_000 })
+    expect(new URL(page.url()).pathname).toMatch(/-css$/)
   })
 
   test('mode persists when navigating via drawer group links', async ({ mobilePage, page }) => {
@@ -51,6 +54,7 @@ test.describe('Mobile Code Mode Switching', () => {
   })
 
   test('switching back to Framer mode in drawer restores framer URL', async ({
+    catalogPage,
     mobilePage,
     page,
   }) => {
@@ -63,24 +67,21 @@ test.describe('Mobile Code Mode Switching', () => {
       .poll(() => new URL(page.url()).pathname, { timeout: 5_000 })
       .toBe('/text-effects-framer')
 
-    // Cards should show FRAMER tag
+    // Verify Framer mode is active via URL
     await mobilePage.closeDrawer()
-    const firstCard = page.locator('[data-animation-id]').first()
-    await expect(firstCard).toBeVisible({ timeout: 5_000 })
-    await expect(firstCard.locator('[data-testid="card-meta"]')).toContainText('FRAMER')
+    await expect(catalogPage.allCards().first()).toBeVisible({ timeout: 5_000 })
+    expect(new URL(page.url()).pathname).toMatch(/-framer$/)
   })
 
-  test('code viewer modal works on mobile viewport', async ({ mobilePage, page }) => {
+  test('code viewer modal works on mobile viewport', async ({ catalogPage, mobilePage }) => {
     await mobilePage.gotoMobile('modal-base-framer')
 
-    // Find a card and open its code viewer
-    const card = page.locator('[data-animation-id="modal-base__scale-gentle-pop"]')
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
     await expect(card).toBeVisible({ timeout: 10_000 })
 
-    const codeBtn = card.locator('[data-testid="code-viewer-btn"]')
-    await codeBtn.click()
+    await catalogPage.codeViewerButton(card).click()
 
-    const modal = page.locator('[data-testid="code-viewer-modal"]')
+    const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
 
     // Modal has correct ARIA attributes
@@ -88,36 +89,86 @@ test.describe('Mobile Code Mode Switching', () => {
     await expect(modal).toHaveAttribute('aria-modal', 'true')
 
     // Syntax-highlighted code is visible
-    await expect(page.locator('[data-testid="code-highlighted"]')).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
 
     // Code body contains the component name
-    const bodyText = await page.locator('[data-testid="code-body"]').textContent()
+    const bodyText = await catalogPage.codeBody().textContent()
     expect(bodyText).toContain('ModalBaseScaleGentlePop')
 
     // Close via close button
-    await page.locator('[data-testid="code-close-btn"]').click()
+    await catalogPage.codeCloseButton().click()
     await expect(modal).not.toBeVisible()
 
     // Page is still functional after closing
     await expect(card).toBeVisible()
   })
 
-  test('code viewer copy works on mobile viewport', async ({ mobilePage, page, context }) => {
+  test('mobile mode switch renders different implementation for same animation', async ({
+    catalogPage,
+    mobilePage,
+    page,
+  }) => {
+    // Start in Framer mode
+    await mobilePage.gotoMobile('standard-effects-framer')
+
+    // Wait for cards and get the first card's animation ID
+    const firstCard = catalogPage.allCards().first()
+    await expect(firstCard).toBeVisible({ timeout: 10_000 })
+    const animId = await firstCard.getAttribute('data-animation-id')
+    expect(animId).toBeTruthy()
+
+    // Wait for stage to render content
+    const framerStage = firstCard.locator('[data-testid="demo-stage"]')
+    await expect(framerStage).toBeVisible({ timeout: 5_000 })
+    await expect
+      .poll(async () => framerStage.locator(':scope > *').count(), { timeout: 5_000 })
+      .toBeGreaterThan(0)
+    const framerHtml = await framerStage.innerHTML()
+
+    // Switch to CSS mode via drawer
+    await mobilePage.openDrawer()
+    await mobilePage.selectCssMode()
+    await expect.poll(() => new URL(page.url()).pathname, { timeout: 5_000 }).toMatch(/-css$/)
+    await mobilePage.closeDrawer()
+
+    // Find the same animation in CSS mode
+    const cssCard = catalogPage.card(animId!)
+    await expect(cssCard).toBeVisible({ timeout: 10_000 })
+    const cssStage = cssCard.locator('[data-testid="demo-stage"]')
+    await expect(cssStage).toBeVisible({ timeout: 5_000 })
+    await expect
+      .poll(async () => cssStage.locator(':scope > *').count(), { timeout: 5_000 })
+      .toBeGreaterThan(0)
+    const cssHtml = await cssStage.innerHTML()
+
+    // Both must have rendered content
+    expect(framerHtml.length).toBeGreaterThan(10)
+    expect(cssHtml.length).toBeGreaterThan(10)
+
+    // The two implementations produce different DOM
+    expect(cssHtml).not.toBe(framerHtml)
+  })
+
+  test('code viewer copy works on mobile viewport', async ({
+    catalogPage,
+    mobilePage,
+    page,
+    context,
+  }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
     await mobilePage.gotoMobile('standard-effects-framer')
 
-    const card = page.locator('[data-animation-id="standard-effects__bounce"]')
+    const card = catalogPage.card('standard-effects__bounce')
     await expect(card).toBeVisible({ timeout: 10_000 })
 
-    const codeBtn = card.locator('[data-testid="code-viewer-btn"]')
-    await codeBtn.click()
+    await catalogPage.codeViewerButton(card).click()
 
-    const modal = page.locator('[data-testid="code-viewer-modal"]')
+    const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
-    await expect(page.locator('[data-testid="code-highlighted"]')).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
 
     // Copy code
-    const copyBtn = page.locator('[data-testid="code-copy-btn"]')
+    const copyBtn = catalogPage.codeCopyButton()
     await copyBtn.click()
     await expect(copyBtn).toContainText('Copied')
 

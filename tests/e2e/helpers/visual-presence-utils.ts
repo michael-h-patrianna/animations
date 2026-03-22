@@ -138,9 +138,7 @@ export async function checkVisualPresence(
 /**
  * Determine the violation reason from a presence result, or null if acceptable.
  */
-export function classifyViolation(
-  result: PresenceResult
-): PresenceViolation['reason'] | null {
+export function classifyViolation(result: PresenceResult): PresenceViolation['reason'] | null {
   if (result.contentPixelCount === 0) return 'no-content'
   if (result.contentBox.width < MIN_CONTENT_WIDTH) return 'too-narrow'
   if (result.contentBox.height < MIN_CONTENT_HEIGHT) return 'too-short'

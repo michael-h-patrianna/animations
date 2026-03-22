@@ -207,6 +207,27 @@ export class CatalogPage {
     return this.page.locator(`[data-testid="group-section-group-${groupId}"]`)
   }
 
+  /**
+   * Cards scoped to the card-grid's direct children within a group section.
+   * Avoids double-counting animation components that set data-animation-id
+   * on their internal root (e.g., prize-reveal).
+   */
+  scopedCards(groupId: string): Locator {
+    return this.groupSection(groupId).locator('[data-testid="card-grid"] > [data-animation-id]')
+  }
+
+  // ── Filter Banner ──────────────────────────────────────────────────
+
+  /** The filter banner element shown when ?animation= is active. */
+  filterBanner(): Locator {
+    return this.page.locator('[data-testid="filter-banner"]')
+  }
+
+  /** The "Show all animations" / remove filter button in the filter banner. */
+  removeFilterButton(): Locator {
+    return this.page.locator('[data-testid="remove-filter-btn"]')
+  }
+
   // ── Code Viewer ──────────────────────────────────────────────────────
 
   /** Get the code viewer button on a card. */
@@ -219,14 +240,24 @@ export class CatalogPage {
     return this.page.locator('[data-testid="code-viewer-modal"]')
   }
 
-  /** Get a code viewer tab by index. */
-  codeTab(index: number): Locator {
-    return this.page.locator(`[data-testid="code-tab-${index}"]`)
+  /** Get the JS file selector group in the code viewer. */
+  codeJsSelector(): Locator {
+    return this.page.locator('[data-testid="code-js"]')
   }
 
-  /** Get all code viewer tabs. */
-  codeTabs(): Locator {
-    return this.page.locator('[data-testid^="code-tab-"]')
+  /** Get the JS file dropdown select element. */
+  codeJsSelect(): Locator {
+    return this.page.locator('[data-testid="code-js-select"]')
+  }
+
+  /** Get the CSS file selector group in the code viewer. */
+  codeCssSelector(): Locator {
+    return this.page.locator('[data-testid="code-css"]')
+  }
+
+  /** Get the CSS file dropdown select element. */
+  codeCssSelect(): Locator {
+    return this.page.locator('[data-testid="code-css-select"]')
   }
 
   /** Get the copy button in the code viewer modal. */
@@ -259,6 +290,18 @@ export class CatalogPage {
     await expect(this.page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
   }
 
+  // ── Toast ─────────────────────────────────────────────────────────────
+
+  /** Toast notification element (portaled to document.body). */
+  toast(): Locator {
+    return this.page.locator('[data-testid="app-toast"]')
+  }
+
+  /** Copy-link button on a card. */
+  copyLinkButton(card: Locator): Locator {
+    return card.locator('[data-testid="copy-link-btn"]')
+  }
+
   /** Extract all data-animation-id values from visible cards on the current page. */
   async getAllAnimationIds(): Promise<string[]> {
     const cards = this.allCards()
@@ -284,8 +327,8 @@ export class CatalogPage {
     // Collect paths in both code modes
     for (const selectMode of [() => this.selectFramerMode(), () => this.selectCssMode()]) {
       await selectMode()
-      // Wait for sidebar to reflect the mode change
-      await this.page.waitForTimeout(300)
+      // Wait for sidebar group links to reflect the mode change
+      await expect(this.allGroupLinks().first()).toBeVisible({ timeout: 5_000 })
 
       const groupLinks = this.allGroupLinks()
       const groupCount = await groupLinks.count()
@@ -373,5 +416,17 @@ export class CatalogPage {
   async closePreview() {
     await this.previewCloseButton().click()
     await expect(this.previewAnimation()).toHaveCount(0, { timeout: 3_000 })
+  }
+
+  // ── Preview Accessibility ─────────────────────────────────────────────
+
+  /** The preview overlay element (desktop or mobile). */
+  previewDialog(): Locator {
+    return this.page.locator('[data-testid="preview-desktop"], [data-testid="preview-mobile"]')
+  }
+
+  /** Preview mode switch container. */
+  previewModeSwitch(): Locator {
+    return this.page.locator('[data-testid="preview-mode-switch"]')
   }
 }

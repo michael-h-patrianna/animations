@@ -63,9 +63,8 @@ test.describe('Loading State Animations', () => {
     const count = await cards.count()
     expect(count).toBeGreaterThan(5)
 
-    // First card has CSS tag
-    const firstCard = cards.first()
-    await expect(catalogPage.cardMeta(firstCard)).toContainText('CSS')
+    // URL confirms CSS mode is active
+    expect(catalogPage.currentPathname()).toBe('/loading-states-css')
 
     // First 5 cards render visible stage content (not empty placeholders)
     for (let i = 0; i < Math.min(count, 5); i++) {

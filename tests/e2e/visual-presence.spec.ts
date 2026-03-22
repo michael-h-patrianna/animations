@@ -74,8 +74,10 @@ async function checkAllPresence(
 
       const animation = catalogPage.previewAnimation()
       await expect(animation).toBeVisible({ timeout: 5_000 })
-      // Allow animation to reach a visible state
-      await catalogPage.page.waitForTimeout(800)
+      // Wait for animation to have rendered content (descendants)
+      await expect
+        .poll(async () => animation.locator('*').count(), { timeout: 3_000 })
+        .toBeGreaterThan(0)
 
       // Pixel-level analysis against opaque black background
       const screenshotBuffer = await animation.screenshot()
@@ -111,7 +113,9 @@ async function checkAllPresence(
       // If preview fails to open, try to recover
       try {
         await catalogPage.page.keyboard.press('Escape')
-        await catalogPage.page.waitForTimeout(200)
+        await expect(catalogPage.previewAnimation())
+          .toHaveCount(0, { timeout: 2_000 })
+          .catch(() => {})
       } catch {
         // Page may be in an unrecoverable state — continue to next animation
       }

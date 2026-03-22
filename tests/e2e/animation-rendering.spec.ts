@@ -47,6 +47,32 @@ test.describe('Animation Rendering', () => {
     await expect.poll(async () => stage.locator(':scope > *').count()).toBeGreaterThan(0)
   })
 
+  test('interactive button-effects ripple creates ripple elements on click', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.gotoGroup('button-effects-framer')
+
+    const card = catalogPage.card('button-effects__ripple')
+    const stage = await catalogPage.cardStage(card)
+
+    // Ripple is click-to-trigger — replay is disabled
+    await expect(catalogPage.replayButton(card)).toBeDisabled()
+
+    // Click the button inside the animation to trigger a ripple
+    const button = stage.locator('button')
+    await expect(button).toBeVisible()
+
+    const rippleContainer = stage.locator('.pf-btn__ripples')
+    const rippleCountBefore = await rippleContainer.locator('.pf-btn__ripple').count()
+
+    await button.click()
+
+    // A ripple element should appear after click
+    await expect
+      .poll(async () => rippleContainer.locator('.pf-btn__ripple').count(), { timeout: 2_000 })
+      .toBeGreaterThan(rippleCountBefore)
+  })
+
   test('typewriter renders visible character spans after replay', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
 

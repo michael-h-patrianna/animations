@@ -48,7 +48,10 @@ test.describe('App Shell', () => {
     await catalogPage.goto()
     await catalogPage.waitForCards()
 
-    const cards = catalogPage.allCards()
+    // Scope to card-grid direct children to avoid counting internal
+    // data-animation-id elements rendered by animation components (e.g., prize-reveal)
+    const groupId = catalogPage.currentPathname().slice(1)
+    const cards = catalogPage.scopedCards(groupId)
     expect(await cards.count()).toBeGreaterThan(0)
 
     // First card has a replay button

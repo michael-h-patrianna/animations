@@ -46,13 +46,14 @@ test.describe('Modal Base Animations', () => {
     await catalogPage.cardStage(card)
   })
 
-  test('CSS modal card metadata shows correct title and CSS tag', async ({ catalogPage }) => {
+  test('CSS modal card metadata shows correct title and description', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('modal-base-css')
 
     const card = catalogPage.card('modal-base__slide-down-soft')
     await expect(catalogPage.cardTitle(card)).toContainText('Slide Down Welcome')
     await expect(catalogPage.cardDescription(card)).toContainText('Slides in from the top')
-    await expect(catalogPage.cardMeta(card)).toContainText('CSS')
+    // URL confirms CSS mode
+    expect(catalogPage.currentPathname()).toBe('/modal-base-css')
   })
 
   test('replay keeps modal content mounted after click', async ({ catalogPage }) => {

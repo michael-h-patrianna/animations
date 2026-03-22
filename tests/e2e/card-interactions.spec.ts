@@ -1,41 +1,45 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Card Interactions', () => {
-  test('description toggle expands and collapses card text', async ({ catalogPage }) => {
+  test('description toggle expands and collapses card text with correct aria-label', async ({
+    catalogPage,
+  }) => {
     await catalogPage.gotoGroup('text-effects-framer')
 
     const card = catalogPage.card('text-effects__character-reveal')
     const description = catalogPage.cardDescription(card)
     const toggle = catalogPage.descriptionToggle(card)
 
-    // Starts collapsed (no data-expanded attribute)
+    // Starts collapsed
     await expect(description).not.toHaveAttribute('data-expanded')
+    await expect(toggle).toHaveAttribute('aria-label', 'Expand description')
 
     // Expand
     await toggle.click()
     await expect(description).toHaveAttribute('data-expanded', 'true')
+    await expect(toggle).toHaveAttribute('aria-label', 'Collapse description')
 
     // Collapse again
     await toggle.click()
     await expect(description).not.toHaveAttribute('data-expanded')
+    await expect(toggle).toHaveAttribute('aria-label', 'Expand description')
   })
 
-  test('card tags display correct technology badges', async ({ catalogPage }) => {
-    // Framer card should show FRAMER tag
+  test('card tier badge displays valid tier label', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
-    const framerCard = catalogPage.card('text-effects__character-reveal')
-    const framerMeta = catalogPage.cardMeta(framerCard)
-    await expect(framerMeta).toContainText('FRAMER')
 
-    // CSS card should show CSS tag
-    await catalogPage.gotoGroup('button-effects-css')
-    const cssCard = catalogPage.card('button-effects__jitter')
-    const cssMeta = catalogPage.cardMeta(cssCard)
-    await expect(cssMeta).toContainText('CSS')
+    const card = catalogPage.card('text-effects__character-reveal')
+    const tierBadge = card.locator('[data-testid="tier-badge"]')
+    await expect(tierBadge).toBeVisible()
 
-    // CSS card should NOT show FRAMER
-    const cssText = ((await cssMeta.textContent()) ?? '').toUpperCase()
-    expect(cssText).not.toContain('FRAMER')
+    // Tier badge has a data-tier attribute with valid tier number (1-4)
+    const tier = await tierBadge.getAttribute('data-tier')
+    expect(Number(tier)).toBeGreaterThanOrEqual(1)
+    expect(Number(tier)).toBeLessThanOrEqual(4)
+
+    // Badge has an aria-label with a descriptive tooltip (long enough to be useful)
+    const ariaLabel = await tierBadge.getAttribute('aria-label')
+    expect(ariaLabel?.length).toBeGreaterThan(10)
   })
 
   test('disabled replay button is correctly marked on interactive-only animations', async ({
@@ -79,24 +83,48 @@ test.describe('Card Interactions', () => {
     expect(cardsWithBtn).toBeGreaterThan(0)
   })
 
-  test('cards have non-empty uppercase tag labels', async ({ catalogPage }) => {
-    await catalogPage.gotoGroup('standard-effects-css')
+  test('tier badge hover shows tooltip with descriptive text', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('text-effects-framer')
 
-    const cards = catalogPage.allCards()
+    const card = catalogPage.card('text-effects__character-reveal')
+    const tierBadge = card.locator('[data-testid="tier-badge"]')
+    await expect(tierBadge).toBeVisible()
+
+    // No tooltip initially
+    await expect(tierBadge.locator('[role="tooltip"]')).toHaveCount(0)
+
+    // Hover over badge to show tooltip
+    await tierBadge.hover()
+    const tooltip = tierBadge.locator('[role="tooltip"]')
+    await expect(tooltip).toBeVisible()
+
+    // Tooltip contains meaningful descriptive text
+    const tooltipText = await tooltip.textContent()
+    expect(tooltipText!.length).toBeGreaterThan(20)
+
+    // Move mouse away to dismiss
+    await card.locator('[data-testid="card-title"]').hover()
+    await expect(tooltip).not.toBeVisible()
+  })
+
+  test('all cards in a group have tier badges with valid tier numbers', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('standard-effects-framer')
+
+    const groupSection = catalogPage.groupSection('standard-effects-framer')
+    const cards = groupSection.locator('[data-testid="card-grid"] > [data-animation-id]')
     const count = await cards.count()
     expect(count).toBeGreaterThan(0)
 
     // Check all cards (not a sample)
     for (let i = 0; i < count; i++) {
-      const meta = catalogPage.cardMeta(cards.nth(i))
-      const tags = await meta.locator('span').allTextContents()
-      expect(tags.length).toBeGreaterThan(0)
+      const card = cards.nth(i)
+      await card.scrollIntoViewIfNeeded()
+      const tierBadge = card.locator('[data-testid="tier-badge"]')
+      await expect(tierBadge).toBeVisible()
 
-      for (const tag of tags) {
-        const trimmed = tag.trim()
-        expect(trimmed.length).toBeGreaterThan(0)
-        expect(trimmed).toBe(trimmed.toUpperCase())
-      }
+      const tier = await tierBadge.getAttribute('data-tier')
+      expect(Number(tier)).toBeGreaterThanOrEqual(1)
+      expect(Number(tier)).toBeLessThanOrEqual(4)
     }
   })
 })

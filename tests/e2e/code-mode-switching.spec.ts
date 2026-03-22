@@ -17,11 +17,10 @@ test.describe('Code Mode Switching (Framer ↔ CSS)', () => {
       .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
       .toBe('/text-effects-css')
 
-    // Cards should now show CSS tags instead of FRAMER
+    // Code mode switch should reflect CSS
     await catalogPage.waitForCards()
-    const firstCard = catalogPage.allCards().first()
-    const meta = catalogPage.cardMeta(firstCard)
-    await expect(meta).toContainText('CSS')
+    const cssMode = await catalogPage.activeCodeMode()
+    expect(cssMode.trim()).toBe('CSS')
   })
 
   test('switching to Framer mode updates URL and card tags', async ({ catalogPage }) => {
@@ -36,9 +35,8 @@ test.describe('Code Mode Switching (Framer ↔ CSS)', () => {
       .toBe('/text-effects-framer')
 
     await catalogPage.waitForCards()
-    const firstCard = catalogPage.allCards().first()
-    const meta = catalogPage.cardMeta(firstCard)
-    await expect(meta).toContainText('FRAMER')
+    const framerMode = await catalogPage.activeCodeMode()
+    expect(framerMode.trim()).toBe('Framer')
   })
 
   test('mode switch preserves the current group context', async ({ catalogPage }) => {
