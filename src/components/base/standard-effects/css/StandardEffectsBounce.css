@@ -1,11 +1,20 @@
-/* CSS-only Bounce Animation */
-.bounce-element {
+/**
+ * Bounce — apply to any HTML element.
+ *
+ * Usage: <div class="pf-bounce">content</div>
+ *
+ * Custom properties:
+ *   --pf-bounce-duration: 800ms
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-bounce {
+  animation: pf-bounce var(--pf-bounce-duration, 800ms) ease-in-out;
   transform-origin: center bottom;
-  animation: bounce-effect 0.8s ease-in-out infinite;
   will-change: transform;
 }
 
-@keyframes bounce-effect {
+@keyframes pf-bounce {
   0% {
     transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
   }

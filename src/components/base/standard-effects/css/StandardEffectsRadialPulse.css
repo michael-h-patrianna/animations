@@ -1,12 +1,28 @@
-.standard-radial-pulse {
-  --standard-effects-radial-pulse-shadow: rgb(236 195 255 / 15%);
-  --standard-effects-radial-pulse-border: rgb(236 195 255 / 32%);
+/**
+ * Radial Pulse — self-contained expanding ring ripple indicator.
+ *
+ * Usage:
+ *   <div class="pf-radial-pulse" role="img" aria-label="Radial pulse">
+ *     <span class="pf-radial-pulse__ring pf-radial-pulse__ring--1"></span>
+ *     <span class="pf-radial-pulse__ring pf-radial-pulse__ring--2"></span>
+ *     <span class="pf-radial-pulse__ring pf-radial-pulse__ring--3"></span>
+ *     <span class="pf-radial-pulse__dot"></span>
+ *   </div>
+ *
+ * Custom properties:
+ *   --pf-radial-pulse-color: rgb(236 195 255 / 32%) (ring border color)
+ *   --pf-radial-pulse-dot-color: #efd7fa (center dot)
+ *   --pf-radial-pulse-duration: 2.4s (one ring cycle)
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-radial-pulse {
   position: relative;
   width: 160px;
   height: 160px;
 }
 
-.standard-radial-pulse .dot-center {
+.pf-radial-pulse__dot {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -14,11 +30,11 @@
   height: 8px;
   margin: -4px 0 0 -4px;
   border-radius: 50%;
-  background: var(--pf-base-60, #efd7fa);
-  box-shadow: 0 0 0 2px var(--standard-effects-radial-pulse-shadow);
+  background: var(--pf-radial-pulse-dot-color, #efd7fa);
+  box-shadow: 0 0 0 2px var(--pf-radial-pulse-dot-border, rgb(236 195 255 / 15%));
 }
 
-.standard-radial-pulse .ring {
+.pf-radial-pulse__ring {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -26,21 +42,22 @@
   height: 10px;
   margin: -5px 0 0 -5px;
   border-radius: 50%;
-  border: 2px solid var(--standard-effects-radial-pulse-border);
+  border: 2px solid var(--pf-radial-pulse-color, rgb(236 195 255 / 32%));
   transform: scale(0.1);
   opacity: 0.8;
-  animation: standard-radial-ripple 2.4s ease-out;
+  animation: pf-radial-pulse-ripple var(--pf-radial-pulse-duration, 2.4s) ease-out;
   will-change: transform, opacity;
 }
 
-.standard-radial-pulse .ring-2 {
+.pf-radial-pulse__ring--2 {
   animation-delay: 0.6s;
 }
-.standard-radial-pulse .ring-3 {
+
+.pf-radial-pulse__ring--3 {
   animation-delay: 1.2s;
 }
 
-@keyframes standard-radial-ripple {
+@keyframes pf-radial-pulse-ripple {
   0% {
     transform: scale(0.1);
     opacity: 0.8;

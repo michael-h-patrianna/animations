@@ -1,30 +1,48 @@
-import { memo } from 'react'
+/**
+ * Squeeze effect — wraps any React element with a squeeze-and-release animation.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <StandardEffectsSqueeze duration={900}><YourContent /></StandardEffectsSqueeze>
+ */
 import * as m from 'motion/react-m'
+import { memo, type ReactNode } from 'react'
 
-function StandardEffectsSqueezeComponent() {
+interface StandardEffectsSqueezeProps {
+  children?: ReactNode
+  /** Animation duration in ms. Default: 900 */
+  duration?: number
+}
+
+function StandardEffectsSqueezeComponent({
+  children,
+  duration = 900,
+}: StandardEffectsSqueezeProps) {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__squeeze">
-      <m.div
-        className="standard-demo-element"
-        animate={{
-          scaleX: [1, 1.1, 1.25, 0.75, 1.15, 0.95, 1.05, 0.98, 1],
-          scaleY: [1, 0.9, 0.75, 1.25, 0.85, 1.05, 0.95, 1.02, 1],
-          rotate: [0, -2, -4, 3, -1, 1, -0.5, 0.2, 0],
-          opacity: [1, 0.95, 0.9, 0.92, 0.96, 0.98, 0.99, 1, 1],
-        }}
-        transition={{
-          duration: 0.9,
-          ease: [0.68, -0.55, 0.265, 1.55] as const,
-          times: [0, 0.15, 0.3, 0.4, 0.5, 0.65, 0.75, 0.85, 1],
-        }}
-      >
-        <div className="demo-text">Squeeze</div>
-      </m.div>
-    </div>
+    <m.div
+      data-animation-id="standard-effects__squeeze"
+      style={{ animation: 'none' }}
+      animate={{
+        scaleX: [1, 1.1, 1.25, 0.75, 1.15, 0.95, 1.05, 0.98, 1],
+        scaleY: [1, 0.9, 0.75, 1.25, 0.85, 1.05, 0.95, 1.02, 1],
+        rotate: [0, -2, -4, 3, -1, 1, -0.5, 0.2, 0],
+        opacity: [1, 0.95, 0.9, 0.92, 0.96, 0.98, 0.99, 1, 1],
+      }}
+      transition={{
+        duration: duration / 1000,
+        ease: [0.68, -0.55, 0.265, 1.55] as const,
+        times: [0, 0.15, 0.3, 0.4, 0.5, 0.65, 0.75, 0.85, 1],
+      }}
+    >
+      {children ?? (
+        <div className="pf-standard-demo__element">
+          <span className="pf-standard-demo__label">Squeeze</span>
+        </div>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized StandardEffectsSqueeze to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsSqueeze = memo(StandardEffectsSqueezeComponent)

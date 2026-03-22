@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Rubber Band CSS effect.
+ * Consumer product: StandardEffectsRubberBand.css — apply .pf-rubber-band to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsRubberBand.css'
 
 function StandardEffectsRubberBandComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__rubber-band">
-      <div className="standard-demo-element rubber-band-element">
-        <div className="demo-text">RubberBand</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__rubber-band">
+      <div className="pf-rubber-band pf-standard-demo__element">
+        <span className="pf-standard-demo__label">RubberBand</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsRubberBand to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsRubberBand = memo(StandardEffectsRubberBandComponent)

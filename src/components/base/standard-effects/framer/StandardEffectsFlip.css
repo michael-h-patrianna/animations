@@ -1,5 +1,1 @@
-/* Styles scoped for StandardEffectsFlip */
-
-.flip-element {
-  backface-visibility: visible;
-}
+/* Layout handled by inline styles — this file kept for glob compatibility */

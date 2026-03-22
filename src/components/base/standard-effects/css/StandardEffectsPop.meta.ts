@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__pop',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__pop',
   title: 'Pop',
-  description: 'Scale overshoot entrance with rotation twist and motion blur for emphasis.',
+  description: 'Elastic pop-in with scale overshoot and rotation twist. CSS: apply .pf-pop to any element. Configurable duration.',
   tier: 1,
 }

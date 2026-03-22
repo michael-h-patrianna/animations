@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Flip CSS effect.
+ * Consumer product: StandardEffectsFlip.css — apply .pf-flip to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsFlip.css'
 
 function StandardEffectsFlipComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__flip">
-      <div className="standard-demo-element flip-element">
-        <div className="demo-text">Flip</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__flip">
+      <div className="pf-flip pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Flip</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsFlip to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsFlip = memo(StandardEffectsFlipComponent)

@@ -5,7 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__radial-pulse',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__radial-pulse',
   title: 'Radial Pulse',
-  description:
-    'Concentric ripple pulses expanding from the center using CSS transforms and opacity.',
-  tier: 2,
+  description: 'Expanding ring ripples from center dot. CSS: use documented HTML structure. Configurable via custom properties.',
+  tier: 1,
 }

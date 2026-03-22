@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__spin',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__spin',
   title: 'Spin',
-  description: '360-degree rotation with scale pulse at midpoint and motion blur trail.',
+  description: '360-degree rotation with scale pulse. CSS: apply .pf-spin to any element. Configurable duration.',
   tier: 1,
 }

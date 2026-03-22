@@ -1,6 +1,20 @@
-/* Styles scoped for StandardEffectsFlip */
+/**
+ * Flip — apply to any HTML element.
+ *
+ * Usage: <div class="pf-flip">content</div>
+ *
+ * Custom properties:
+ *   --pf-flip-duration: 800ms
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-flip {
+  animation: pf-flip var(--pf-flip-duration, 800ms) ease-in-out;
+  backface-visibility: visible;
+  will-change: transform;
+}
 
-@keyframes flip-animation {
+@keyframes pf-flip {
   0% {
     transform: perspective(400px) rotateY(0) scale(1);
   }
@@ -10,9 +24,4 @@
   100% {
     transform: perspective(400px) rotateY(180deg) scale(1);
   }
-}
-.flip-element {
-  animation: flip-animation 0.8s ease-in-out;
-  backface-visibility: visible;
-  will-change: transform;
 }

@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Fade CSS effect.
+ * Consumer product: StandardEffectsFade.css — apply .pf-fade to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsFade.css'
 
 function StandardEffectsFadeComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__fade">
-      <div className="standard-demo-element fade-element">
-        <div className="demo-text">Fade</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__fade">
+      <div className="pf-fade pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Fade</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsFade to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsFade = memo(StandardEffectsFadeComponent)

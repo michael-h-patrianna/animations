@@ -1,29 +1,47 @@
-import { memo } from 'react'
+/**
+ * Pop In effect — wraps any React element with an elastic pop entrance animation.
+ * Port to React Native: translate initial/animate/transition to Moti MotiView from/animate/transition.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <StandardEffectsPop duration={500}><YourContent /></StandardEffectsPop>
+ */
 import * as m from 'motion/react-m'
+import { memo, type ReactNode } from 'react'
 
-function StandardEffectsPopComponent() {
-  const popVariants = {
-    animate: {
-      scale: [0, 1.2, 1],
-      rotate: [0, 5, 0],
-      opacity: [0, 0.8, 1],
-      transition: {
-        duration: 0.5,
+interface StandardEffectsPopProps {
+  children?: ReactNode
+  /** Animation duration in ms. Default: 500 */
+  duration?: number
+}
+
+function StandardEffectsPopComponent({
+  children,
+  duration = 500,
+}: StandardEffectsPopProps) {
+  return (
+    <m.div
+      data-animation-id="standard-effects__pop"
+      style={{ animation: 'none' }}
+      animate={{
+        scale: [0, 1.2, 1],
+        rotate: [0, 5, 0],
+        opacity: [0, 0.8, 1],
+      }}
+      transition={{
+        duration: duration / 1000,
         ease: [0.68, -0.55, 0.265, 1.55] as const,
         times: [0, 0.5, 1],
-      },
-    },
-  }
-  return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__pop">
-      <m.div className="standard-demo-element pop-element" variants={popVariants} animate="animate">
-        <div className="demo-text">Pop</div>
-      </m.div>
-    </div>
+      }}
+    >
+      {children ?? (
+        <div className="pf-standard-demo__element">
+          <span className="pf-standard-demo__label">Pop</span>
+        </div>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized StandardEffectsPop to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsPop = memo(StandardEffectsPopComponent)

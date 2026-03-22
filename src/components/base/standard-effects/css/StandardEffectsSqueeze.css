@@ -1,11 +1,19 @@
-/* CSS-only Squeeze Animation */
-.squeeze-element {
-  transform-origin: center center;
-  animation: squeeze-effect 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+/**
+ * Squeeze — apply to any HTML element.
+ *
+ * Usage: <div class="pf-squeeze">content</div>
+ *
+ * Custom properties:
+ *   --pf-squeeze-duration: 900ms
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-squeeze {
+  animation: pf-squeeze var(--pf-squeeze-duration, 900ms) cubic-bezier(0.68, -0.55, 0.265, 1.55);
   will-change: transform, opacity;
 }
 
-@keyframes squeeze-effect {
+@keyframes pf-squeeze {
   0% {
     transform: scaleX(1) scaleY(1) rotate(0deg);
     opacity: 1;

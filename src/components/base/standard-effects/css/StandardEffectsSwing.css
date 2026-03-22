@@ -1,11 +1,20 @@
-/* CSS-only Swing Animation */
-.swing-element {
+/**
+ * Swing — apply to any HTML element.
+ *
+ * Usage: <div class="pf-swing">content</div>
+ *
+ * Custom properties:
+ *   --pf-swing-duration: 1s
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-swing {
+  animation: pf-swing var(--pf-swing-duration, 1s) ease-in-out;
   transform-origin: center top;
-  animation: swing-effect 1s ease-in-out;
   will-change: transform;
 }
 
-@keyframes swing-effect {
+@keyframes pf-swing {
   0% {
     transform: translateX(0) rotate(0deg);
   }

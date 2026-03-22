@@ -5,7 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__float',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__float',
   title: 'Float',
-  description: 'Gentle floating animation with subtle lateral drift and rotation.',
+  description: 'Continuous floating with subtle drift and rotation. CSS: apply .pf-float to any element. Configurable cycle duration.',
   infinite: true,
   tier: 1,
 }

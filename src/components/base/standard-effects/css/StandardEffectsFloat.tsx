@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Float CSS effect.
+ * Consumer product: StandardEffectsFloat.css — apply .pf-float to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsFloat.css'
 
 function StandardEffectsFloatComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__float">
-      <div className="standard-demo-element float-element">
-        <div className="demo-text">Float</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__float">
+      <div className="pf-float pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Float</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsFloat to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsFloat = memo(StandardEffectsFloatComponent)

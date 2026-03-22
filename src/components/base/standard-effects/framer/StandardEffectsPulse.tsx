@@ -1,50 +1,82 @@
-import { memo } from 'react'
-import { motionDurations, motionEasings } from '@/motion/tokens'
+/**
+ * Pulse effect — wraps any React element with a rhythmic scale pulse and glow.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ * The glow ::before pseudo-element maps to an absolute-positioned sibling in RN.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <StandardEffectsPulse duration={1500}><YourContent /></StandardEffectsPulse>
+ */
 import * as m from 'motion/react-m'
+import { memo, type ReactNode } from 'react'
 
-function StandardEffectsPulseComponent() {
-  const keyframeTimes = [0, 0.5, 1]
+import { PULSE_GLOW_COLOR } from '../SharedDefaults'
 
-  // Provide a static fallback when users request reduced motion preferences.
-  const elementAnimation = {
-    scale: [1, 1.25, 1],
-    opacity: [1, 0.8, 1],
-    transition: {
-      duration: motionDurations.pulse,
-      ease: motionEasings.standard,
-      times: keyframeTimes,
-    },
-  }
-  const glowAnimation = {
-    scale: [0.8, 1.5, 2],
-    opacity: [0, 0.6, 0],
-    transition: {
-      duration: motionDurations.pulse,
-      ease: motionEasings.standard,
-      times: keyframeTimes,
-    },
-  }
+interface StandardEffectsPulseProps {
+  children?: ReactNode
+  /** Duration of one full cycle in ms. Default: 1500 */
+  duration?: number
+  /** Glow overlay color. Default: 'rgb(198 255 119 / 30%)' */
+  glowColor?: string
+}
+
+function StandardEffectsPulseComponent({
+  children,
+  duration = 1500,
+  glowColor,
+}: StandardEffectsPulseProps) {
+  const resolvedGlowColor = glowColor ?? PULSE_GLOW_COLOR
+  const durationS = duration / 1000
+  const keyframeTimes: number[] = [0, 0.5, 1]
 
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__pulse">
-      <m.div
-        className="standard-demo-element pulse-element"
-        initial={{ scale: 1, opacity: 1 }}
-        animate={elementAnimation}
-      >
-        <m.span
-          className="pulse-element__glow"
-          aria-hidden="true"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={glowAnimation}
-        />
-        <div className="demo-text">Pulse</div>
-      </m.div>
-    </div>
+    <m.div
+      className="pf-pulse"
+      data-animation-id="standard-effects__pulse"
+      style={{ animation: 'none', position: 'relative' }}
+      initial={{ scale: 1, opacity: 1 }}
+      animate={{
+        scale: [1, 1.25, 1],
+        opacity: [1, 0.8, 1],
+      }}
+      transition={{
+        duration: durationS,
+        ease: [0.4, 0, 0.6, 1] as const,
+        times: keyframeTimes,
+        repeat: Infinity,
+      }}
+    >
+      <m.span
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 'inherit',
+          background: `linear-gradient(180deg, ${resolvedGlowColor} 0%, transparent 70%)`,
+          pointerEvents: 'none',
+          zIndex: -1,
+          animation: 'none',
+        }}
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{
+          scale: [0.8, 1.5, 2],
+          opacity: [0, 0.6, 0],
+        }}
+        transition={{
+          duration: durationS,
+          ease: [0.4, 0, 0.6, 1] as const,
+          times: keyframeTimes,
+          repeat: Infinity,
+        }}
+      />
+      {children ?? (
+        <div className="pf-standard-demo__element">
+          <span className="pf-standard-demo__label">Pulse</span>
+        </div>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized StandardEffectsPulse to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsPulse = memo(StandardEffectsPulseComponent)

@@ -1,29 +1,46 @@
-import { memo } from 'react'
+/**
+ * Spin effect — wraps any React element with a single 360° rotation.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <StandardEffectsSpin duration={800}><YourContent /></StandardEffectsSpin>
+ */
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { memo, type ReactNode } from 'react'
 
-function StandardEffectsSpinComponent() {
+interface StandardEffectsSpinProps {
+  children?: ReactNode
+  /** Animation duration in ms. Default: 800 */
+  duration?: number
+}
+
+function StandardEffectsSpinComponent({
+  children,
+  duration = 800,
+}: StandardEffectsSpinProps) {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__spin">
-      <m.div
-        className="standard-demo-element"
-        animate={{
-          rotate: [0, 90, 180, 270, 360],
-          scale: [0.98, 1.02, 1.04, 1.02, 1],
-        }}
-        transition={{
-          duration: 0.8,
-          ease: easeOut,
-          times: [0, 0.25, 0.5, 0.75, 1],
-        }}
-      >
-        <div className="demo-text">Spin</div>
-      </m.div>
-    </div>
+    <m.div
+      data-animation-id="standard-effects__spin"
+      style={{ animation: 'none' }}
+      animate={{
+        rotate: [0, 90, 180, 270, 360],
+        scale: [0.98, 1.02, 1.04, 1.02, 1],
+      }}
+      transition={{
+        duration: duration / 1000,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
+        times: [0, 0.25, 0.5, 0.75, 1],
+      }}
+    >
+      {children ?? (
+        <div className="pf-standard-demo__element">
+          <span className="pf-standard-demo__label">Spin</span>
+        </div>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized StandardEffectsSpin to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsSpin = memo(StandardEffectsSpinComponent)

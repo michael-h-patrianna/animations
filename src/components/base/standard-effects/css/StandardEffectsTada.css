@@ -1,6 +1,19 @@
-/* Styles scoped for StandardEffectsTada */
+/**
+ * Tada — apply to any HTML element.
+ *
+ * Usage: <div class="pf-tada">content</div>
+ *
+ * Custom properties:
+ *   --pf-tada-duration: 1s
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-tada {
+  animation: pf-tada var(--pf-tada-duration, 1s) cubic-bezier(0.4, 0, 0.6, 1);
+  will-change: transform, opacity;
+}
 
-@keyframes tada-animation {
+@keyframes pf-tada {
   0% {
     transform: scale(1) rotate(0deg) skewX(0deg);
     opacity: 1;
@@ -45,9 +58,4 @@
     transform: scale(1) rotate(0deg) skewX(0deg);
     opacity: 1;
   }
-}
-
-.tada-element {
-  animation: tada-animation 1s cubic-bezier(0.4, 0, 0.6, 1);
-  will-change: transform, opacity;
 }

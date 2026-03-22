@@ -1,26 +1,43 @@
-import { memo } from 'react'
+/**
+ * Fade In effect — wraps any React element with a fade-in entrance animation.
+ * Port to React Native: translate initial/animate/transition to Moti MotiView from/animate/transition.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <StandardEffectsFade duration={800}><YourContent /></StandardEffectsFade>
+ */
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { memo, type ReactNode } from 'react'
 
-function StandardEffectsFadeComponent() {
+interface StandardEffectsFadeProps {
+  children?: ReactNode
+  /** Animation duration in ms. Default: 800 */
+  duration?: number
+}
+
+function StandardEffectsFadeComponent({
+  children,
+  duration = 800,
+}: StandardEffectsFadeProps) {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__fade">
-      <m.div
-        className="standard-demo-element fade-element"
-        initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{
-          duration: 0.8,
-          ease: easeOut,
-        }}
-      >
-        <div className="demo-text">Fade</div>
-      </m.div>
-    </div>
+    <m.div
+      data-animation-id="standard-effects__fade"
+      style={{ animation: 'none' }}
+      initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
+      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+      transition={{
+        duration: duration / 1000,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
+      }}
+    >
+      {children ?? (
+        <div className="pf-standard-demo__element">
+          <span className="pf-standard-demo__label">Fade</span>
+        </div>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized StandardEffectsFade to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsFade = memo(StandardEffectsFadeComponent)

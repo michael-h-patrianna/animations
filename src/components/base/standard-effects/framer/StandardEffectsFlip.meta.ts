@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__flip',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__flip',
   title: 'Flip',
-  description: 'Y-axis card flip with shadow perspective and scale change during rotation.',
+  description: 'Y-axis card flip with perspective and scale change during rotation. Wraps any element. Configurable duration.',
   tier: 1,
 }

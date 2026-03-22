@@ -1,40 +1,58 @@
-.standard-pulse-wave {
-  --standard-effects-pulse-wave-border: rgb(236 195 255 / 60%);
+/**
+ * Pulse Wave — self-contained pulsing wave indicator with expanding rings.
+ *
+ * Usage:
+ *   <div class="pf-pulse-wave">
+ *     <div class="pf-pulse-wave__core"></div>
+ *   </div>
+ *
+ * The core uses ::before and ::after pseudo-elements for expanding ring waves.
+ *
+ * Custom properties:
+ *   --pf-pulse-wave-size: 56px (core diameter)
+ *   --pf-pulse-wave-color: #7a468e (core fill)
+ *   --pf-pulse-wave-ring-color: rgb(236 195 255 / 60%) (ring border)
+ *   --pf-pulse-wave-duration: 2s (one full cycle)
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-pulse-wave {
   position: relative;
   width: 160px;
   height: 160px;
   display: grid;
   place-items: center;
 }
-.standard-pulse-wave .core {
-  width: 56px;
-  height: 56px;
+
+.pf-pulse-wave__core {
+  width: var(--pf-pulse-wave-size, 56px);
+  height: var(--pf-pulse-wave-size, 56px);
   border-radius: 50%;
-  background: var(--pf-base-20, #7a468e);
+  background: var(--pf-pulse-wave-color, #7a468e);
   position: relative;
-  animation: pulse-core-breathe 2s ease-in-out infinite;
+  animation: pf-pulse-wave-breathe var(--pf-pulse-wave-duration, 2s) ease-in-out infinite;
   will-change: transform;
 }
 
-.standard-pulse-wave .core::before,
-.standard-pulse-wave .core::after {
+.pf-pulse-wave__core::before,
+.pf-pulse-wave__core::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid var(--standard-effects-pulse-wave-border);
+  border: 2px solid var(--pf-pulse-wave-ring-color, rgb(236 195 255 / 60%));
   opacity: 0.6;
   transform: scale(1);
-  animation: pulse-wave-ring 2s ease-out infinite;
+  animation: pf-pulse-wave-ring var(--pf-pulse-wave-duration, 2s) ease-out infinite;
   will-change: transform, opacity;
 }
 
-.standard-pulse-wave .core::after {
-  animation-delay: 1s;
+.pf-pulse-wave__core::after {
+  animation-delay: calc(var(--pf-pulse-wave-duration, 2s) / 2);
   opacity: 0.4;
 }
 
-@keyframes pulse-wave-ring {
+@keyframes pf-pulse-wave-ring {
   0% {
     transform: scale(1);
     opacity: 0.6;
@@ -49,7 +67,7 @@
   }
 }
 
-@keyframes pulse-core-breathe {
+@keyframes pf-pulse-wave-breathe {
   0%,
   100% {
     transform: scale(1);

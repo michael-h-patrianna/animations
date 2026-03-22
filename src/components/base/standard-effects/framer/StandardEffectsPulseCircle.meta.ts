@@ -5,6 +5,6 @@ export const metadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__pulse-circle',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__pulse-circle',
   title: 'Pulse Circle',
-  description: 'Breathing core with staggered outward ripple rings (no text on the circle).',
-  tier: 2,
+  description: 'Self-contained pulsing circle with expanding ring indicators. Configurable size, color, and duration.',
+  tier: 1,
 } satisfies AnimationMetadata

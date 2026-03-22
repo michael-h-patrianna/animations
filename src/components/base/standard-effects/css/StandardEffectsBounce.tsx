@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Bounce CSS effect.
+ * Consumer product: StandardEffectsBounce.css — apply .pf-bounce to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsBounce.css'
 
 function StandardEffectsBounceComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__bounce">
-      <div className="standard-demo-element bounce-element">
-        <div className="demo-text">Bounce</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__bounce">
+      <div className="pf-bounce pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Bounce</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsBounce to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsBounce = memo(StandardEffectsBounceComponent)

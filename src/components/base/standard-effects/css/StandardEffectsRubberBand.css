@@ -1,11 +1,19 @@
-/* CSS-only Rubber Band Animation */
-.rubber-band-element {
-  transform-origin: center center;
-  animation: rubber-band-effect 1s ease-in-out;
+/**
+ * Rubber Band — apply to any HTML element.
+ *
+ * Usage: <div class="pf-rubber-band">content</div>
+ *
+ * Custom properties:
+ *   --pf-rubber-band-duration: 1s
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-rubber-band {
+  animation: pf-rubber-band var(--pf-rubber-band-duration, 1s) ease-in-out;
   will-change: transform;
 }
 
-@keyframes rubber-band-effect {
+@keyframes pf-rubber-band {
   0% {
     transform: scaleX(1) scaleY(1);
   }

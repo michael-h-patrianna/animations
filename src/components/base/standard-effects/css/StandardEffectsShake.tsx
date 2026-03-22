@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Shake CSS effect.
+ * Consumer product: StandardEffectsShake.css — apply .pf-shake to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsShake.css'
 
 function StandardEffectsShakeComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__shake">
-      <div className="standard-demo-element shake-element">
-        <div className="demo-text">Shake</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__shake">
+      <div className="pf-shake pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Shake</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsShake to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsShake = memo(StandardEffectsShakeComponent)

@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Jello CSS effect.
+ * Consumer product: StandardEffectsJello.css — apply .pf-jello to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsJello.css'
 
 function StandardEffectsJelloComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__jello">
-      <div className="standard-demo-element jello-element">
-        <div className="demo-text">Jello</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__jello">
+      <div className="pf-jello pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Jello</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsJello to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsJello = memo(StandardEffectsJelloComponent)

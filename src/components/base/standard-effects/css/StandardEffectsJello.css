@@ -1,6 +1,19 @@
-/* Styles scoped for StandardEffectsJello */
+/**
+ * Jello — apply to any HTML element.
+ *
+ * Usage: <div class="pf-jello">content</div>
+ *
+ * Custom properties:
+ *   --pf-jello-duration: 1s
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-jello {
+  animation: pf-jello var(--pf-jello-duration, 1s) ease-in-out;
+  will-change: transform;
+}
 
-@keyframes jello-animation {
+@keyframes pf-jello {
   0% {
     transform: skewX(0deg) skewY(0deg) scale(1);
   }
@@ -22,9 +35,4 @@
   100% {
     transform: skewX(0deg) skewY(0deg) scale(1);
   }
-}
-
-.jello-element {
-  animation: jello-animation 1s ease-in-out;
-  will-change: transform;
 }

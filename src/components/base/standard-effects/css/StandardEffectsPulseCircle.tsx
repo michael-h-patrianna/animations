@@ -1,16 +1,16 @@
+/**
+ * Catalog display for the Pulse Circle CSS effect.
+ * Consumer product: StandardEffectsPulseCircle.css — use documented HTML structure.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsPulseCircle.css'
 
 function StandardEffectsPulseCircleComponent() {
   return (
-    <div className="pulse-circle-wrapper" data-animation-id="standard-effects__pulse-circle">
-      <div className="pulse-circle" role="img" aria-label="Pulse circle" />
+    <div className="pf-pulse-circle-wrapper" data-animation-id="standard-effects__pulse-circle">
+      <div className="pf-pulse-circle" role="img" aria-label="Pulse circle" />
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsPulseCircle to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsPulseCircle = memo(StandardEffectsPulseCircleComponent)

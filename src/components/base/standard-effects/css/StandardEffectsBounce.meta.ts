@@ -5,7 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__bounce',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__bounce',
   title: 'Bounce',
-  description: 'Vertical bounce with squash-stretch deformation and tilt for playful feedback.',
-  infinite: true,
+  description: 'Vertical bounce with squash-stretch deformation and tilt for playful feedback. CSS: apply .pf-bounce to any element. Configurable duration.',
   tier: 1,
 }

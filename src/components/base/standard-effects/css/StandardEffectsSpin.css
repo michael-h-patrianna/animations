@@ -1,6 +1,19 @@
-/* Styles scoped for StandardEffectsSpin */
+/**
+ * Spin — apply to any HTML element for a single 360° rotation.
+ *
+ * Usage: <div class="pf-spin">content</div>
+ *
+ * Custom properties:
+ *   --pf-spin-duration: 800ms
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-spin {
+  animation: pf-spin var(--pf-spin-duration, 800ms) ease-out;
+  will-change: transform;
+}
 
-@keyframes spin-animation {
+@keyframes pf-spin {
   0% {
     transform: rotate(0deg) scale(0.98);
   }
@@ -16,9 +29,4 @@
   100% {
     transform: rotate(360deg) scale(1);
   }
-}
-
-.spin-element {
-  animation: spin-animation 0.8s ease-out;
-  will-change: transform;
 }

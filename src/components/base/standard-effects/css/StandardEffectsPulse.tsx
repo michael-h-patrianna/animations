@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Pulse CSS effect.
+ * Consumer product: StandardEffectsPulse.css — apply .pf-pulse to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsPulse.css'
 
 function StandardEffectsPulseComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__pulse">
-      <div className="standard-demo-element pulse-element">
-        <div className="demo-text">Pulse</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__pulse">
+      <div className="pf-pulse pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Pulse</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsPulse to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsPulse = memo(StandardEffectsPulseComponent)

@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Swing CSS effect.
+ * Consumer product: StandardEffectsSwing.css — apply .pf-swing to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsSwing.css'
 
 function StandardEffectsSwingComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__swing">
-      <div className="standard-demo-element swing-element">
-        <div className="demo-text">Swing</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__swing">
+      <div className="pf-swing pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Swing</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsSwing to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsSwing = memo(StandardEffectsSwingComponent)

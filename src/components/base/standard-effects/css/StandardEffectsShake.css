@@ -1,11 +1,19 @@
-/* CSS-only Shake Animation */
-.shake-element {
-  animation: shake-effect 0.5s ease-in-out;
+/**
+ * Shake — apply to any HTML element.
+ *
+ * Usage: <div class="pf-shake">content</div>
+ *
+ * Custom properties:
+ *   --pf-shake-duration: 500ms
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-shake {
+  animation: pf-shake var(--pf-shake-duration, 500ms) ease-in-out;
   will-change: transform;
-  transform-origin: center center;
 }
 
-@keyframes shake-effect {
+@keyframes pf-shake {
   0% {
     transform: translateX(0) rotate(0deg) scaleX(1);
   }

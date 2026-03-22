@@ -1,11 +1,20 @@
-/* CSS-only Float Animation */
-.float-element {
+/**
+ * Float — apply to any HTML element for a continuous floating effect.
+ *
+ * Usage: <div class="pf-float">content</div>
+ *
+ * Custom properties:
+ *   --pf-float-duration: 6s (one full cycle)
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-float {
+  animation: pf-float var(--pf-float-duration, 6s) ease-in-out infinite;
   transform-origin: center 20%;
-  animation: float-effect 6s ease-in-out infinite;
   will-change: transform;
 }
 
-@keyframes float-effect {
+@keyframes pf-float {
   0% {
     transform: translateY(0) translateX(0) rotate(0deg) scale(1);
   }

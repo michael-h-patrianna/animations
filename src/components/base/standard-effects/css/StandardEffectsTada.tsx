@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Tada CSS effect.
+ * Consumer product: StandardEffectsTada.css — apply .pf-tada to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsTada.css'
 
 function StandardEffectsTadaComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__tada">
-      <div className="standard-demo-element tada-element">
-        <div className="demo-text">Tada</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__tada">
+      <div className="pf-tada pf-standard-demo__element">
+        <span className="pf-standard-demo__label">Tada</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsTada to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsTada = memo(StandardEffectsTadaComponent)

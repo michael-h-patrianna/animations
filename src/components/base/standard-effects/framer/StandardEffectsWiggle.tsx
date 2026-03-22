@@ -1,29 +1,46 @@
-import { memo } from 'react'
+/**
+ * Wiggle effect — wraps any React element with a wiggle animation.
+ * Port to React Native: translate animate/transition to Moti MotiView props.
+ *
+ * Copy-paste files: this file
+ * Runtime deps: react, motion
+ *
+ * Usage: <StandardEffectsWiggle duration={1000}><YourContent /></StandardEffectsWiggle>
+ */
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { memo, type ReactNode } from 'react'
 
-function StandardEffectsWiggleComponent() {
+interface StandardEffectsWiggleProps {
+  children?: ReactNode
+  /** Animation duration in ms. Default: 1000 */
+  duration?: number
+}
+
+function StandardEffectsWiggleComponent({
+  children,
+  duration = 1000,
+}: StandardEffectsWiggleProps) {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__wiggle">
-      <m.div
-        className="standard-demo-element"
-        animate={{
-          rotate: [0, -3, 3, -3, 3, -3, 3, -3, 3, -3, 3, 0],
-          scale: [1, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1],
-          x: [0, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, 0],
-        }}
-        transition={{
-          duration: 1,
-          ease: easeInOut,
-        }}
-      >
-        <div className="demo-text">Wiggle</div>
-      </m.div>
-    </div>
+    <m.div
+      data-animation-id="standard-effects__wiggle"
+      style={{ animation: 'none' }}
+      animate={{
+        rotate: [0, -3, 3, -3, 3, -3, 3, -3, 3, -3, 3, 0],
+        scale: [1, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1],
+        x: [0, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, 0],
+      }}
+      transition={{
+        duration: duration / 1000,
+        ease: [0.4, 0, 0.2, 1] as const,
+      }}
+    >
+      {children ?? (
+        <div className="pf-standard-demo__element">
+          <span className="pf-standard-demo__label">Wiggle</span>
+        </div>
+      )}
+    </m.div>
   )
 }
 
-/**
- * Memoized StandardEffectsWiggle to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsWiggle = memo(StandardEffectsWiggleComponent)

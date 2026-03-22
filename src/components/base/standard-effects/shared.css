@@ -1,5 +1,5 @@
-/* Styles scoped for StandardEffectsBlink */
-.standard-demo-container {
+/* Catalog demo scaffolding for standard-effects group */
+.pf-standard-demo {
   --standard-effects-bg-1: rgb(236 195 255 / 12%);
   --standard-effects-bg-2: rgb(198 255 119 / 8%);
   --standard-effects-border: rgb(236 195 255 / 24%);
@@ -11,7 +11,7 @@
   min-height: 200px;
   position: relative;
 }
-.standard-demo-element {
+.pf-standard-demo__element {
   padding: 24px 32px;
   background: linear-gradient(
     135deg,
@@ -25,7 +25,7 @@
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
 }
-.demo-text {
+.pf-standard-demo__label {
   font-size: 16px;
   font-weight: 600;
   color: var(--standard-effects-color);

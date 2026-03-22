@@ -1,18 +1,18 @@
+/**
+ * Catalog display for the Heartbeat CSS effect.
+ * Consumer product: StandardEffectsHeartbeat.css — apply .pf-heartbeat to any element.
+ */
 import { memo } from 'react'
-import '../shared.css'
 import './StandardEffectsHeartbeat.css'
 
 function StandardEffectsHeartbeatComponent() {
   return (
-    <div className="standard-demo-container" data-animation-id="standard-effects__heartbeat">
-      <div className="standard-demo-element heartbeat-element">
-        <div className="demo-text">HeartBeat</div>
+    <div className="pf-standard-demo" data-animation-id="standard-effects__heartbeat">
+      <div className="pf-heartbeat pf-standard-demo__element">
+        <span className="pf-standard-demo__label">HeartBeat</span>
       </div>
     </div>
   )
 }
 
-/**
- * Memoized StandardEffectsHeartbeat to prevent unnecessary re-renders in grid layouts.
- */
 export const StandardEffectsHeartbeat = memo(StandardEffectsHeartbeatComponent)

@@ -5,6 +5,6 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__scale',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__scale',
   title: 'Scale',
-  description: 'Clean scale transformation from small to full size without bounce.',
+  description: 'Scale-up entrance with organic rotation and skew overshoot. CSS: apply .pf-scale to any element. Configurable duration.',
   tier: 1,
 }

@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__float',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__float',
   title: 'Float',
-  description: 'Gentle Y-axis sine wave with subtle rotation and shadow distance changes.',
+  description: 'Continuous floating with subtle drift and rotation. Wraps any element. Configurable cycle duration.',
+  infinite: true,
   tier: 1,
 }

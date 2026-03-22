@@ -1,10 +1,19 @@
-/* CSS-only Wiggle Animation */
-.wiggle-element {
-  animation: wiggle-effect 1s ease-in-out;
+/**
+ * Wiggle — apply to any HTML element.
+ *
+ * Usage: <div class="pf-wiggle">content</div>
+ *
+ * Custom properties:
+ *   --pf-wiggle-duration: 1s
+ *
+ * Copy this file. No other dependencies.
+ */
+.pf-wiggle {
+  animation: pf-wiggle var(--pf-wiggle-duration, 1s) ease-in-out;
   will-change: transform;
 }
 
-@keyframes wiggle-effect {
+@keyframes pf-wiggle {
   0% {
     transform: translateX(0) rotate(0deg) scale(1);
   }
