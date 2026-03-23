@@ -1,7 +1,9 @@
 import type { CodeMode } from '@/contexts/CodeModeContext'
+import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import type { Category, Group } from '@/types/animation'
-import { useMemo, useState, type FC, type ReactNode } from 'react'
+import { useMemo, type FC, type ReactNode } from 'react'
 
+/** Props for the AppSidebar component. */
 interface AppSidebarProps {
   categories: Category[]
   codeMode: CodeMode
@@ -23,7 +25,6 @@ const GROUP_MODE_SUFFIX_PATTERN = /-(?:framer|css)$/
 const GROUP_MODE_TITLE_SUFFIX_PATTERN = /\s+\((?:Framer|CSS)\)$/
 
 const getBaseGroupId = (groupId: string) => groupId.replace(GROUP_MODE_SUFFIX_PATTERN, '')
-
 const toDisplayGroupTitle = (title: string) => title.replace(GROUP_MODE_TITLE_SUFFIX_PATTERN, '')
 
 const inferGroupTech = (group: Group): 'framer' | 'css' | undefined => {
@@ -60,84 +61,31 @@ const pickGroupIdForMode = (variants: GroupVariants, codeMode: CodeMode): string
   if (codeMode === 'CSS') {
     return variants.css?.id ?? variants.framer?.id ?? variants.fallback.id
   }
-
   return variants.framer?.id ?? variants.css?.id ?? variants.fallback.id
 }
 
-/**
- * Tracks which categories the user has explicitly collapsed.
- * New categories are expanded by default — no effect needed to sync with the
- * categories list because expandedIds is derived: all IDs minus collapsedIds.
- */
-function useCategoryExpansion(categories: Category[]) {
-  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(() => new Set())
-
-  const expandedIds = useMemo(
-    () => new Set(categories.map((c) => c.id).filter((id) => !collapsedIds.has(id))),
-    [categories, collapsedIds]
-  )
-
-  const toggle = (categoryId: string) => {
-    setCollapsedIds((prev) => {
-      const next = new Set(prev)
-      if (next.has(categoryId)) next.delete(categoryId)
-      else next.add(categoryId)
-      return next
-    })
-  }
-
-  return { expandedIds, toggle }
-}
-
-function SidebarCategory({
-  category,
-  groupVariants,
-  isExpanded,
-  hasActiveGroup,
-  currentBaseGroupId,
+/** Single navigation link for a group within a category. */
+function GroupNavLink({
+  group,
+  isActive,
   codeMode,
-  onToggle,
-  onGroupSelect,
+  onSelect,
 }: {
-  category: Category
-  groupVariants: GroupVariants[]
-  isExpanded: boolean
-  hasActiveGroup: boolean
-  currentBaseGroupId: string
+  group: GroupVariants
+  isActive: boolean
   codeMode: CodeMode
-  onToggle: () => void
-  onGroupSelect: (groupId: string) => void
+  onSelect: (groupId: string) => void
 }) {
   return (
-    <div className="pf-sidebar__section" data-testid={`sidebar-section-${category.id}`}>
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={isExpanded}
-        className={`pf-sidebar__link pf-sidebar__link--category ${hasActiveGroup ? 'pf-sidebar__link--active' : ''}`}
-        data-testid={`sidebar-category-${category.id}`}
-        data-active={hasActiveGroup || undefined}
-      >
-        {category.title}
-      </button>
-
-      {isExpanded && groupVariants.length > 0 && (
-        <div className="pf-sidebar__subnav" data-testid={`sidebar-subnav-${category.id}`}>
-          {groupVariants.map((group) => (
-            <button
-              type="button"
-              key={group.baseId}
-              onClick={() => onGroupSelect(pickGroupIdForMode(group, codeMode))}
-              className={`pf-sidebar__link pf-sidebar__link--group ${group.baseId === currentBaseGroupId ? 'pf-sidebar__link--active' : ''}`}
-              data-testid={`sidebar-group-${group.baseId}`}
-              data-active={group.baseId === currentBaseGroupId || undefined}
-            >
-              {group.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+    <button
+      type="button"
+      onClick={() => onSelect(pickGroupIdForMode(group, codeMode))}
+      className={`pf-sidebar__nav-link ${isActive ? 'pf-sidebar__nav-link--active' : ''}`}
+      data-testid={`sidebar-group-${group.baseId}`}
+      data-active={isActive || undefined}
+    >
+      <span className="pf-sidebar__nav-link-label">{group.label}</span>
+    </button>
   )
 }
 
@@ -159,7 +107,6 @@ export const AppSidebar: FC<AppSidebarProps> = ({
       })),
     [categories]
   )
-  const { expandedIds, toggle } = useCategoryExpansion(categories)
 
   return (
     <aside
@@ -169,17 +116,25 @@ export const AppSidebar: FC<AppSidebarProps> = ({
       {topContent != null && <div className="pf-sidebar__intro">{topContent}</div>}
       <div className="pf-sidebar__nav">
         {categoryGroups.map(({ category, groupVariants }) => (
-          <SidebarCategory
+          <ControlGroup
             key={category.id}
-            category={category}
-            groupVariants={groupVariants}
-            isExpanded={expandedIds.has(category.id)}
-            hasActiveGroup={groupVariants.some((g) => g.baseId === currentBaseGroupId)}
-            currentBaseGroupId={currentBaseGroupId}
-            codeMode={codeMode}
-            onToggle={() => toggle(category.id)}
-            onGroupSelect={onGroupSelect}
-          />
+            title={category.title}
+            collapsible
+            defaultOpen
+            data-testid={`sidebar-section-${category.id}`}
+          >
+            <nav className="pf-sidebar__group-list" data-testid={`sidebar-subnav-${category.id}`}>
+              {groupVariants.map((group) => (
+                <GroupNavLink
+                  key={group.baseId}
+                  group={group}
+                  isActive={group.baseId === currentBaseGroupId}
+                  codeMode={codeMode}
+                  onSelect={onGroupSelect}
+                />
+              ))}
+            </nav>
+          </ControlGroup>
         ))}
       </div>
     </aside>

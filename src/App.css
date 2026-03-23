@@ -1,49 +1,49 @@
 /* Tailwind base and plugins are imported in src/index.css (v4) */
 
-/* stylelint-disable-next-line selector-max-id -- #root scopes app variables to the React mount point; :root holds design tokens */
+/* Unified demo content tokens */
+@import './components/demo-tokens.css';
+
+/*
+ * App-level variables bridged to the demo-ui theme system.
+ * Canvas variables stay hardcoded — the animation canvas is always dark.
+ * All other UI chrome inherits from [data-demo-ui] semantic tokens.
+ */
+
+/* stylelint-disable-next-line selector-max-id -- #root scopes canvas-only variables to the React mount point */
 #root {
-  /* Surfaces */
-  --app-surface-primary: rgb(33 15 49 / 82%);
-  --app-surface-group: rgb(236 195 255 / 4%);
-  --app-surface-active: rgb(196 122 229 / 16%);
-  --app-surface-badge: rgb(236 195 255 / 8%);
-  --app-surface-tag: rgb(236 195 255 / 12%);
-  --app-surface-action-hover: rgb(37 236 255 / 8%);
-  --app-surface-icon-hover: rgb(255 255 255 / 10%);
+  /* Canvas (demo area) — dark purple gradient */
+  --app-canvas-bg: oklch(12% 0.075 300deg / 76%);
+  --app-canvas-gradient-start: oklch(85% 0.08 310deg / 25%);
+  --app-canvas-gradient-end: oklch(12% 0.075 300deg / 92%);
+  --app-shadow-canvas: oklch(100% 0 0deg / 4%);
 
-  /* Canvas (demo area) */
-  --app-canvas-bg: rgb(29 9 47 / 76%);
-  --app-canvas-gradient-start: rgb(236 195 255 / 25%);
-  --app-canvas-gradient-end: rgb(29 9 47 / 92%);
-  --app-shadow-canvas: rgb(255 255 255 / 4%);
-
-  /* Card overlay gradient */
-  --app-overlay-warm: rgb(200 53 88 / 15%);
-  --app-overlay-cool: rgb(198 255 119 / 12%);
-
-  /* Header/drawer gradient */
-  --app-header-gradient-start: rgb(123 70 142 / 65%);
-  --app-header-gradient-mid: rgb(29 9 47 / 65%);
-  --app-header-gradient-end: rgb(7 2 12 / 65%);
-
-  /* Borders */
-  --app-border-subtle: rgb(236 195 255 / 18%);
-  --app-border-card: rgb(236 195 255 / 10%);
-  --app-border-icon-hover: rgb(255 255 255 / 30%);
-  --app-border-action-hover: #5af1ff;
-
-  /* Accent (replay button) */
-  --app-accent-action: #25ecff;
-  --app-accent-action-hover: #aef8ff;
+  /* Card overlay gradient — subtle warm/cool blend */
+  --app-overlay-warm: oklch(50% 0.16 15deg / 15%);
+  --app-overlay-cool: oklch(92% 0.15 130deg / 12%);
 
   min-height: 100vh;
 }
 
+/* Legacy grid layout — kept for MobileDrawer sidebar rendering */
 .pf-main {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
   gap: 32px;
   align-items: flex-start;
+}
+
+/* Editor layout — catalog content sits under the overlay */
+.pf-catalog--editor {
+  padding-top: 64px;
+  padding-left: 340px;
+  padding-right: 16px;
+  transition: padding-left 0.3s ease;
+}
+
+@media (width <= 1219px) {
+  .pf-catalog--editor {
+    padding-left: 16px;
+  }
 }
 
 .pf-sidebar {
@@ -55,10 +55,22 @@
   gap: 20px;
   padding: 20px;
   border-radius: var(--pf-radius-xs);
-  background: var(--app-surface-primary);
-  box-shadow: var(--pf-shadow-soft);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-soft);
   max-height: calc(100vh - 64px);
   overflow: hidden;
+}
+
+/* Inside a glass panel: strip standalone chrome, fill the panel fully */
+.pf-sidebar.pf-sidebar--panel {
+  position: static;
+  padding: 16px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  max-height: none;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .pf-sidebar__intro {
@@ -69,8 +81,9 @@
 .pf-sidebar__nav {
   flex: 1;
   overflow-y: auto;
-  display: grid;
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   padding-right: 4px;
 }
 
@@ -79,62 +92,50 @@
 }
 
 .pf-sidebar__nav::-webkit-scrollbar-thumb {
-  background: var(--app-border-subtle);
+  background: var(--border-subtle);
   border-radius: 999px;
 }
 
-.pf-sidebar__section {
-  display: grid;
-  gap: 10px;
+/* ── Sidebar navigation links ──────────────────────────────────────── */
+
+.pf-sidebar__group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
-.pf-sidebar__section-title {
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--pf-text-tertiary);
-}
-
-.pf-sidebar__link {
-  padding: 10px 12px;
-  border-radius: var(--pf-radius-md);
+.pf-sidebar__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: var(--pf-radius-sm, 6px);
   background: transparent;
-  border: 1px solid transparent;
-  color: var(--pf-text-secondary);
-  cursor: pointer;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 400;
   text-align: left;
+  cursor: pointer;
   transition:
     background var(--pf-transition-fast) ease,
-    border var(--pf-transition-fast) ease,
     color var(--pf-transition-fast) ease;
 }
 
-.pf-sidebar__link--category {
-  font-weight: 600;
-  color: var(--pf-text-primary);
+.pf-sidebar__nav-link:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
-.pf-sidebar__subnav {
-  display: grid;
-  gap: 8px;
-  padding-left: 14px;
-  margin-top: 6px;
-  border-left: 1px solid var(--app-border-subtle);
+.pf-sidebar__nav-link--active {
+  background: var(--bg-active);
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
-.pf-sidebar__link--group {
-  font-size: 14px;
-  padding: 8px 12px;
-  color: var(--pf-text-secondary);
-  background: var(--app-surface-group);
-}
-
-.pf-sidebar__link:hover,
-.pf-sidebar__link.is-active,
-.pf-sidebar__link--active {
-  background: var(--app-surface-active);
-  border-color: var(--app-border-subtle);
-  color: var(--pf-base-60);
+.pf-sidebar__nav-link--active .pf-sidebar__nav-link-label {
+  text-shadow: 0 0 12px var(--theme-accent-glow);
 }
 
 @media (width <= 1220px) {
@@ -167,7 +168,7 @@
   padding: 28px;
   display: grid;
   gap: 24px;
-  box-shadow: var(--pf-shadow-soft);
+  box-shadow: var(--shadow-soft);
 }
 
 .pf-category__header {
@@ -179,11 +180,11 @@
 .pf-category__title {
   font-size: 28px;
   margin-bottom: 6px;
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
 }
 
 .pf-category__summary {
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
@@ -194,7 +195,7 @@
 
 .pf-category__empty {
   font-size: 14px;
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -208,7 +209,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -218,22 +219,22 @@
   gap: 6px;
   padding: 4px 10px;
   border-radius: var(--pf-radius-pill);
-  border: 1px solid var(--app-border-subtle);
-  background: var(--app-surface-badge);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-hover);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .pf-group__badge--tech {
-  color: var(--pf-base-60);
+  color: var(--text-primary);
 }
 
 .pf-group__badge--demo {
-  color: var(--pf-brand-accent-secondary);
+  color: var(--theme-accent);
 }
 
 .pf-group__count {
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
 }
 
 .pf-filter-banner {
@@ -243,18 +244,18 @@
   gap: 12px;
   padding: 10px 16px;
   border-radius: 10px;
-  background: var(--filter-banner-bg, rgb(236 195 255 / 6%));
-  border: 1px solid var(--filter-banner-border, rgb(236 195 255 / 12%));
-  color: var(--filter-banner-color, rgb(255 255 255 / 76%));
+  background: var(--bg-hover);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
 .pf-filter-banner__remove {
   padding: 6px 14px;
   border-radius: 8px;
-  border: 1px solid var(--app-border-action-hover);
+  border: 1px solid var(--theme-accent);
   background: transparent;
-  color: var(--app-accent-action);
+  color: var(--theme-accent);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -265,13 +266,12 @@
 }
 
 .pf-filter-banner__remove:hover {
-  background: var(--app-surface-action-hover);
-  color: var(--app-accent-action-hover);
+  background: var(--accent-subtle);
 }
 
 .pf-group__empty {
   font-size: 14px;
-  color: var(--pf-text-tertiary);
+  color: var(--text-tertiary);
   font-style: italic;
 }
 
@@ -281,7 +281,6 @@
   gap: var(--pf-grid-gap);
 }
 
-/* Mobile: below 390px, stack cards vertically without enforcing min width */
 @media (width <= 389px) {
   .pf-card-grid {
     display: flex;
@@ -296,11 +295,12 @@
   gap: 12px;
   padding: 18px;
   border-radius: var(--pf-radius-xs);
-  background: var(--app-surface-primary);
-  box-shadow: var(--pf-shadow-soft);
-  border: 1px solid var(--app-border-card);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-subtle);
   position: relative;
 }
+
 .pf-card__overlay {
   position: absolute;
   inset: 0;
@@ -325,7 +325,7 @@
 .pf-card__title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--pf-base-60);
+  color: var(--text-primary);
 }
 
 /* ── Tier Badge ──────────────────────────────────────────────────────── */
@@ -342,9 +342,9 @@
   text-transform: uppercase;
   white-space: nowrap;
   border-radius: 4px;
-  border: 1px solid var(--pf-border);
-  background: var(--pf-surface);
-  color: var(--pf-text-secondary);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
   cursor: help;
   flex-shrink: 0;
   transition:
@@ -353,8 +353,8 @@
 }
 
 .pf-tier-badge:hover {
-  border-color: var(--pf-text-secondary);
-  color: var(--pf-base-60);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .pf-tier-badge__tooltip {
@@ -369,9 +369,9 @@
   line-height: 1.4;
   text-transform: none;
   letter-spacing: normal;
-  color: var(--pf-base-60);
-  background: var(--pf-surface);
-  border: 1px solid var(--pf-border);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
   border-radius: var(--pf-radius-xs);
   box-shadow: 0 4px 12px var(--tier-tooltip-shadow, rgb(0 0 0 / 25%));
   pointer-events: none;
@@ -379,14 +379,13 @@
   white-space: normal;
 }
 
-/* Arrow */
 .pf-tier-badge__tooltip::after {
   content: '';
   position: absolute;
   top: 100%;
   left: 12px;
   border: 5px solid transparent;
-  border-top-color: var(--pf-border);
+  border-top-color: var(--border-default);
 }
 
 .pf-card__meta {
@@ -395,20 +394,20 @@
   flex-wrap: wrap;
   gap: 8px;
   font-size: 12px;
-  color: var(--pf-text-tertiary);
+  color: var(--text-tertiary);
   margin-top: 6px;
 }
 
 .pf-card__meta span {
   padding: 4px 10px;
   border-radius: var(--pf-radius-pill);
-  background: var(--app-surface-tag);
-  border: 1px solid var(--app-border-subtle);
+  background: var(--bg-hover);
+  border: 1px solid var(--border-subtle);
 }
 
 .pf-card__description {
   font-size: 13px;
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
   line-height: 1.55;
 }
 
@@ -425,9 +424,8 @@
 }
 
 .pf-card__replay {
-  /* Outline style to match secondary/tertiary */
-  color: var(--app-accent-action);
-  border: 2px solid var(--app-accent-action);
+  color: var(--theme-accent);
+  border: 2px solid var(--theme-accent);
   background: transparent;
   border-radius: 50px;
   padding: 6px 12px;
@@ -439,16 +437,16 @@
 }
 
 .pf-card__replay:hover {
-  background: var(--app-surface-action-hover);
-  border-color: var(--app-border-action-hover);
-  color: var(--app-accent-action-hover);
+  background: var(--accent-subtle);
 }
+
+/* ── Demo Canvas ─────────────────────────────────────────────────────── */
 
 .pf-demo-canvas {
   position: relative;
   overflow: visible;
   border-radius: var(--pf-radius-xs);
-  border: 1px solid var(--app-surface-tag);
+  border: 1px solid var(--border-subtle);
   min-height: var(--pf-demo-height, 240px);
   background: var(--app-canvas-bg);
   background: linear-gradient(
@@ -463,7 +461,6 @@
   justify-content: center;
 }
 
-/* When a group sets previewMaxWidth, constrain the demo stage */
 .pf-demo-canvas .pf-demo-stage {
   max-width: var(--pf-preview-max-width);
   margin-inline: auto;
@@ -482,7 +479,6 @@
   display: flex;
 }
 
-/* Demo wrapper: icon with dot-indicator overlay */
 .pf-demo-icon-dot {
   display: flex;
   align-items: center;
@@ -497,7 +493,6 @@
   object-fit: contain;
 }
 
-/* Demo wrapper: status row for badge/ping indicators */
 .pf-demo-status-row {
   display: flex;
   align-items: center;
@@ -510,20 +505,20 @@
 .pf-demo-status-row__dot {
   width: 12px;
   height: 12px;
-  background: var(--pf-brand-accent-secondary);
+  background: var(--theme-accent);
   border-radius: 50%;
   flex-shrink: 0;
 }
 
 .pf-demo-status-row__text {
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
   font-size: 0.875rem;
   line-height: 1.4;
   flex: 1;
 }
 
 .pf-card__placeholder {
-  color: var(--pf-text-secondary);
+  color: var(--text-secondary);
   font-size: 14px;
   text-align: center;
 }
@@ -545,7 +540,8 @@
   }
 }
 
-/* Header housing the hamburger button — always visible & sticky */
+/* ── Mobile Header ──────────────────────────────────────────────────── */
+
 .pf-mobile-header {
   display: flex;
   align-items: center;
@@ -553,17 +549,12 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: linear-gradient(
-    160deg,
-    var(--app-header-gradient-start) 0%,
-    var(--app-header-gradient-mid) 99%,
-    var(--app-header-gradient-end) 100%
-  );
+  background: var(--bg-panel);
+  backdrop-filter: blur(16px);
   padding: 8px 0;
   margin-bottom: 12px;
 }
 
-/* Hamburger button */
 .pf-hamburger {
   display: inline-flex;
   align-items: center;
@@ -572,12 +563,11 @@
   height: 40px;
   border-radius: var(--pf-radius-md, 8px);
   background: transparent;
-  border: 1px solid var(--border);
-  color: var(--foreground);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
   cursor: pointer;
 }
 
-/* Hide hamburger on desktop where the inline sidebar is visible */
 @media (width >= 1220px) {
   .pf-hamburger {
     display: none;
@@ -585,20 +575,18 @@
 }
 
 .pf-hamburger:focus-visible {
-  outline: 2px solid var(--ring);
+  outline: 2px solid var(--theme-accent);
   outline-offset: 2px;
 }
 
-/* Mobile header title */
 .pf-mobile-header__title {
   margin-left: 10px;
   font-size: 18px;
   font-weight: 600;
-  color: var(--pf-text-primary);
+  color: var(--text-primary);
   flex: 1;
 }
 
-/* GitHub link in header */
 .pf-github-link {
   display: inline-flex;
   align-items: center;
@@ -607,7 +595,7 @@
   height: 40px;
   border-radius: var(--pf-radius-md, 8px);
   background: transparent;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-subtle);
   margin-right: 8px;
   transition:
     background-color 0.2s ease,
@@ -615,12 +603,12 @@
 }
 
 .pf-github-link:hover {
-  background: var(--app-surface-icon-hover);
-  border-color: var(--app-border-icon-hover);
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
 }
 
 .pf-github-link:focus-visible {
-  outline: 2px solid var(--ring);
+  outline: 2px solid var(--theme-accent);
   outline-offset: 2px;
 }
 
@@ -635,12 +623,12 @@
   filter: brightness(0) invert(1) drop-shadow(0 0 4px rgb(255 255 255 / 50%));
 }
 
-/* Hide GitHub link when preview overlay is open (portaled to body) */
 body:has(.preview-overlay) .pf-github-link {
   visibility: hidden;
 }
 
-/* Drawer and overlay */
+/* ── Drawer ─────────────────────────────────────────────────────────── */
+
 .pf-drawer {
   position: fixed;
   inset: 0;
@@ -655,14 +643,13 @@ body:has(.preview-overlay) .pf-github-link {
 .pf-drawer__overlay {
   position: absolute;
   inset: 0;
-  background: var(--pf-overlay);
+  background: var(--bg-overlay);
   opacity: 0;
   transition: opacity var(--pf-transition-fast, 200ms) ease;
 }
 
 .pf-drawer.is-open .pf-drawer__overlay {
   opacity: 1;
-  /* Leave the drawer area uncovered so the page background shows behind the Sidebar */
   margin-left: min(86vw, 340px);
 }
 
@@ -676,13 +663,8 @@ body:has(.preview-overlay) .pf-github-link {
   transform: translateX(-100%);
   transition: transform var(--pf-transition-fast, 200ms) ease;
   overflow-y: auto;
-  /* Backdrop matches page gradient to support semi-transparent Sidebar */
-  background: linear-gradient(
-    160deg,
-    var(--app-header-gradient-start) 0%,
-    var(--app-header-gradient-mid) 99%,
-    var(--app-header-gradient-end) 100%
-  );
+  background: var(--bg-panel);
+  backdrop-filter: blur(24px);
   padding: 0;
 }
 
@@ -690,7 +672,6 @@ body:has(.preview-overlay) .pf-github-link {
   transform: translateX(0);
 }
 
-/* Drawer panel header (hosts the close X button) */
 .pf-drawer__panel-header {
   display: flex;
   align-items: center;
@@ -698,20 +679,21 @@ body:has(.preview-overlay) .pf-github-link {
   padding: 8px;
 }
 
-/* On larger viewports, match drawer width to the desktop sidebar column */
 @media (width >= 769px) {
   .pf-drawer__panel {
     width: 320px;
   }
+
   .pf-drawer.is-open .pf-drawer__overlay {
     margin-left: 320px;
   }
 }
 
-/* Inside the drawer, make the Sidebar behave like a full-height panel */
 .pf-drawer__panel .pf-sidebar {
   position: static;
 }
+
+/* ── Tailwind theme tokens (shadcn compat) ──────────────────────────── */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

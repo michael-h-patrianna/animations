@@ -1,4 +1,3 @@
-import { CardHeader, CardTitle } from '@/components/ui/card'
 import { CodeIcon } from '@/components/ui/icons/CodeIcon'
 import { LinkIcon } from '@/components/ui/icons/LinkIcon'
 import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
@@ -31,7 +30,7 @@ export const Description = ({ description, isExpanded, onToggle }: DescriptionPr
       data-testid="description-toggle"
     >
       <ChevronDown
-        className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} text-[var(--pf-text-secondary)]/60`}
+        className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} text-[var(--text-secondary)]/60`}
       />
     </button>
   </div>
@@ -61,11 +60,11 @@ export const CardHeaderBar = ({
   onOpenDesktopPreview,
   onOpenMobilePreview,
 }: CardHeaderBarProps) => (
-  <CardHeader className="p-0 pb-3 space-y-0">
+  <div className="p-0 pb-3">
     <div className="flex items-center justify-between gap-2">
-      <CardTitle className="pf-card__title mb-0" data-testid="card-title">
+      <div className="pf-card__title mb-0 font-semibold leading-none tracking-tight" data-testid="card-title">
         {title}
-      </CardTitle>
+      </div>
       <div className="flex items-center gap-1">
         <button
           type="button"
@@ -112,5 +111,5 @@ export const CardHeaderBar = ({
       </div>
     </div>
     <Description description={description} isExpanded={isExpanded} onToggle={onToggle} />
-  </CardHeader>
+  </div>
 )

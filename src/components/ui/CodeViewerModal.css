@@ -1,189 +1,4 @@
-.code-modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--pf-overlay);
-  animation: code-modal-fade-in 0.15s ease-out;
-}
-
-@keyframes code-modal-fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.code-modal {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: min(90vw, 800px);
-  max-height: 80vh;
-  border-radius: var(--pf-radius-xs);
-  background: var(--pf-base-0);
-  border: 1px solid var(--app-border-card);
-  box-shadow: var(--pf-shadow-elevated);
-  overflow: hidden;
-}
-
-.code-modal__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 0 8px 0 0;
-  border-bottom: 1px solid var(--app-border-card);
-  background: var(--pf-surface);
-}
-
-/* ── Tab bar ────────────────────────────────────────────────────────── */
-
-.code-modal__tab-scroll-wrapper {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-}
-
-.code-modal__tablist {
-  display: flex;
-  align-items: stretch;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.code-modal__tablist::-webkit-scrollbar {
-  display: none;
-}
-
-.code-modal__scroll-caret {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  color: var(--pf-text-tertiary);
-  background: var(--pf-surface);
-  border: 1px solid var(--app-border-card);
-  border-radius: 50%;
-  box-shadow: var(--pf-shadow-subtle, 0 1px 3px rgb(0 0 0 / 12%));
-  cursor: pointer;
-  transition:
-    color var(--pf-transition-fast) ease,
-    background var(--pf-transition-fast) ease;
-  font-family: inherit;
-}
-
-.code-modal__scroll-caret:hover {
-  color: var(--pf-text-primary);
-  background: var(--app-surface-icon-hover);
-}
-
-.code-modal__scroll-caret--left {
-  left: 0;
-}
-
-.code-modal__scroll-caret--right {
-  right: 0;
-}
-
-.code-modal__tab {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 10px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: inherit;
-  color: var(--pf-text-tertiary);
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    color var(--pf-transition-fast) ease,
-    border-color var(--pf-transition-fast) ease,
-    background-color var(--pf-transition-fast) ease;
-}
-
-.code-modal__tab:hover {
-  color: var(--pf-text-secondary);
-  background: var(--app-surface-icon-hover);
-}
-
-.code-modal__tab--active {
-  color: var(--pf-text-primary);
-  border-bottom-color: var(--pf-brand-accent-secondary);
-}
-
-.code-modal__tab--active:hover {
-  background: transparent;
-}
-
-.code-modal__tab:focus-visible {
-  outline: 2px solid var(--pf-brand-accent-secondary);
-  outline-offset: -2px;
-  border-radius: 2px;
-}
-
-/* ── Actions ────────────────────────────────────────────────────────── */
-
-.code-modal__actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.code-modal__copy,
-.code-modal__close {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--pf-text-tertiary);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  cursor: pointer;
-  transition:
-    color var(--pf-transition-fast) ease,
-    background var(--pf-transition-fast) ease,
-    border-color var(--pf-transition-fast) ease;
-  font-family: inherit;
-}
-
-.code-modal__copy:hover,
-.code-modal__close:hover {
-  color: var(--pf-text-secondary);
-  background: var(--app-surface-icon-hover);
-  border-color: var(--app-border-card);
-}
-
-.code-modal__copy--done {
-  color: var(--pf-brand-accent-secondary);
-}
-
 /* ── Code body ──────────────────────────────────────────────────────── */
-
-.code-modal__body {
-  flex: 1;
-  overflow: auto;
-  min-height: 0;
-}
 
 .code-modal__body pre {
   margin: 0;
@@ -193,9 +8,9 @@
   overflow-x: auto;
 }
 
-/* Override Shiki's inline background to match our modal */
+/* Override Shiki's inline background to match the modal */
 .code-modal__body .shiki {
-  background: var(--pf-base-0);
+  background: var(--bg-surface);
 }
 
 .code-modal__loading {
@@ -203,11 +18,12 @@
   align-items: center;
   justify-content: center;
   padding: 48px 16px;
-  color: var(--pf-text-tertiary);
+  color: var(--text-tertiary);
   font-size: 13px;
 }
 
-/* Code icon button in animation card */
+/* ── Code icon button in animation card ─────────────────────────────── */
+
 .pf-card__code-btn {
   display: flex;
   align-items: center;
@@ -215,7 +31,7 @@
   width: 28px;
   height: 28px;
   padding: 0;
-  color: var(--pf-text-tertiary);
+  color: var(--text-tertiary);
   background: transparent;
   border: 1px solid transparent;
   border-radius: 5px;
@@ -228,7 +44,7 @@
 }
 
 .pf-card__code-btn:hover {
-  color: var(--pf-text-secondary);
-  background: var(--app-surface-icon-hover);
-  border-color: var(--app-border-card);
+  color: var(--text-secondary);
+  background: var(--bg-hover);
+  border-color: var(--border-subtle);
 }

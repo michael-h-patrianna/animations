@@ -1,4 +1,3 @@
-import { Card, CardContent } from '@/components/ui/card'
 import { CodeViewerModal } from '@/components/ui/CodeViewerModal'
 import { PreviewModal } from '@/components/ui/PreviewModal'
 import { useToast } from '@/components/ui/useToast'
@@ -184,7 +183,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
   const card = useAnimationCard(props)
 
   return (
-    <Card className="pf-card" data-animation-id={animationId} ref={card.playback.cardRef}>
+    <div className="pf-card" data-animation-id={animationId} ref={card.playback.cardRef}>
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeaderBar
         title={title}
@@ -196,7 +195,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
         onOpenDesktopPreview={card.preview.openDesktop}
         onOpenMobilePreview={card.preview.openMobile}
       />
-      <CardContent className="p-0 py-3">
+      <div className="py-3">
         <div
           className="pf-demo-canvas"
           style={
@@ -221,7 +220,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
             )}
           </div>
         </div>
-      </CardContent>
+      </div>
       <FooterControls
         cardControls={card.cardControls}
         controlType={controlType}
@@ -242,7 +241,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
         {children}
       </CardModals>
       {card.toastPortal}
-    </Card>
+    </div>
   )
 }
 

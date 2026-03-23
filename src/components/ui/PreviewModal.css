@@ -62,37 +62,6 @@
   gap: 8px;
 }
 
-.preview-toolbar__btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: inherit;
-  color: var(--pf-text-tertiary, #aaa);
-  background: var(--preview-btn-bg, rgb(255 255 255 / 8%));
-  border: 1px solid var(--preview-btn-border, rgb(255 255 255 / 15%));
-  border-radius: 6px;
-  cursor: pointer;
-  transition:
-    color 0.15s ease,
-    background 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.preview-toolbar__btn:hover {
-  color: var(--pf-text-secondary, #ddd);
-  background: var(--preview-btn-bg-hover, rgb(255 255 255 / 14%));
-  border-color: var(--preview-btn-border-hover, rgb(255 255 255 / 25%));
-}
-
-.preview-toolbar__btn:focus-visible {
-  outline: 2px solid var(--ring, #888);
-  outline-offset: 2px;
-}
-
 /* ── Mode switcher (desktop / mobile toggle) ────────────────────────── */
 
 .preview-mode-switch {
@@ -104,8 +73,8 @@
   display: flex;
   gap: 2px;
   padding: 3px;
-  background: var(--preview-switch-bg, rgb(255 255 255 / 8%));
-  border: 1px solid var(--preview-switch-border, rgb(255 255 255 / 12%));
+  background: var(--preview-switch-bg, rgb(18 18 24));
+  border: 1px solid var(--preview-switch-border, rgb(255 255 255 / 18%));
   border-radius: 8px;
 }
 
@@ -118,7 +87,7 @@
   font-size: 12px;
   font-weight: 500;
   font-family: inherit;
-  color: var(--pf-text-tertiary, #aaa);
+  color: var(--text-tertiary);
   background: transparent;
   border: none;
   border-radius: 5px;
@@ -129,11 +98,11 @@
 }
 
 .preview-mode-switch__btn:hover {
-  color: var(--pf-text-secondary, #ddd);
+  color: var(--text-secondary);
 }
 
 .preview-mode-switch__btn--active {
-  color: var(--pf-white, #fff);
+  color: var(--text-primary);
   background: var(--preview-switch-active-bg, rgb(255 255 255 / 12%));
 }
 
@@ -146,6 +115,15 @@
   pointer-events: none;
   /* Override card-sized demo height so animations fill the preview container */
   --pf-demo-height: 100%;
+}
+
+/* Desktop: constrain to 960px centered, no overflow clip */
+.preview-overlay > .preview-animation {
+  width: 100%;
+  max-width: 960px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
 }
 
 .preview-animation > * {
@@ -261,4 +239,15 @@
   left: 50%;
   right: auto;
   transform: translateX(-50%);
+}
+
+/* ── Prize-reveal overflow unclip ──────────────────────────────────────
+   Prize-reveal components use a fixed-height wrapper (.pf-modal-celebration)
+   and inner stage, both with overflow:hidden to contain effects in-card.
+   In preview, the container has room — let effects breathe. The preview
+   containers themselves provide the outer clipping boundary (viewport for
+   desktop, phone frame for mobile). */
+.preview-animation .pf-modal-celebration,
+.preview-animation .pf-modal-celebration > * {
+  overflow: visible;
 }

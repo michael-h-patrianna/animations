@@ -1,9 +1,7 @@
-import { AppSidebar } from '@/components/ui/AppSidebar'
-import { CodeModeSwitch } from '@/components/ui/CodeModeSwitch'
-import { MobileDrawer } from '@/components/ui/MobileDrawer'
-import { MobileHeader } from '@/components/ui/MobileHeader'
 import { GroupSection } from '@/components/ui/GroupSection'
+import { MobileDrawer } from '@/components/ui/MobileDrawer'
 import { useCodeMode } from '@/contexts/CodeModeContext'
+import { EditorLayout } from '@/demo-ui/components/layout/EditorLayout'
 import { useAnimations } from '@/hooks/useAnimations'
 import { useAppNavigation } from '@/hooks/useAppNavigation'
 import { useEscapeClose } from '@/hooks/useModalAccessibility'
@@ -12,6 +10,7 @@ import { useScrollToGroup } from '@/hooks/useScrollToGroup'
 import { AnimatePresence, LazyMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useRef, useState } from 'react'
+import '@/demo-ui/styles/index.css'
 import './App.css'
 
 const groupTransition = {
@@ -37,41 +36,25 @@ function App() {
 
   return (
     <LazyMotion features={loadFeatures} strict>
-      <div className="min-h-screen">
-        <MobileHeader
-          currentGroup={currentGroup}
-          appBarRef={appBarRef}
-          onOpenDrawer={() => setIsDrawerOpen(true)}
-        />
-
-        <div className="pf-main">
-          <AppSidebar
-            categories={categories}
-            codeMode={codeMode}
-            currentGroupId={currentGroupId}
-            onGroupSelect={handleGroupSelect}
-            topContent={<CodeModeSwitch onModeSelect={handleModeSelect} />}
-          />
-
-          <main className="pf-catalog">
-            <AnimatePresence initial={false} mode="wait">
-              {currentGroup && (
-                <m.div
-                  key={currentGroupId}
-                  {...groupTransition}
-                  transition={{ opacity: { duration: 0.2 } }}
-                  style={{ width: '100%' }}
-                >
-                  <GroupSection
-                    group={currentGroup}
-                    elementId={`group-${currentGroup.id}`}
-                    animationFilter={animationFilter}
-                  />
-                </m.div>
-              )}
-            </AnimatePresence>
-          </main>
-        </div>
+      <EditorLayout onOpenDrawer={() => setIsDrawerOpen(true)}>
+        <main className="pf-catalog pf-catalog--editor">
+          <AnimatePresence initial={false} mode="wait">
+            {currentGroup && (
+              <m.div
+                key={currentGroupId}
+                {...groupTransition}
+                transition={{ opacity: { duration: 0.2 } }}
+                style={{ width: '100%' }}
+              >
+                <GroupSection
+                  group={currentGroup}
+                  elementId={`group-${currentGroup.id}`}
+                  animationFilter={animationFilter}
+                />
+              </m.div>
+            )}
+          </AnimatePresence>
+        </main>
 
         <MobileDrawer
           isOpen={isDrawerOpen}
@@ -82,7 +65,7 @@ function App() {
           onGroupSelect={handleGroupSelect}
           onModeSelect={handleModeSelect}
         />
-      </div>
+      </EditorLayout>
     </LazyMotion>
   )
 }

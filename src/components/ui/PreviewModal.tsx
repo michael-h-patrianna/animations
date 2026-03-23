@@ -1,6 +1,7 @@
 import { CloseIcon } from '@/components/ui/icons/CloseIcon'
 import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
 import { SmartphoneIcon } from '@/components/ui/icons/SmartphoneIcon'
+import { Button, useLayoutStore } from '@/demo-ui'
 import { useEscapeClose, useFocusTrap } from '@/hooks/useModalAccessibility'
 import type { PreviewPosition } from '@/types/animation'
 import { memo, useCallback, useRef, type ReactNode } from 'react'
@@ -34,25 +35,25 @@ function Toolbar({
 }) {
   return (
     <div className="preview-toolbar" data-testid="preview-toolbar">
-      <button
-        type="button"
-        className="preview-toolbar__btn"
+      <Button
+        variant="primary"
+        size="sm"
         onClick={onReplay}
-        aria-label="Replay animation"
+        ariaLabel="Replay animation"
         data-testid="preview-replay-btn"
       >
         Replay
-      </button>
-      <button
-        type="button"
-        className="preview-toolbar__btn"
+      </Button>
+      <Button
+        variant="primary"
+        size="sm"
         onClick={onClose}
         ref={closeButtonRef}
-        aria-label="Close preview"
+        ariaLabel="Close preview"
         data-testid="preview-close-btn"
       >
         <CloseIcon />
-      </button>
+      </Button>
     </div>
   )
 }
@@ -114,6 +115,8 @@ function PreviewModalComponent({
 }: PreviewModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const theme = useLayoutStore((s) => s.theme)
+  const accent = useLayoutStore((s) => s.accent)
 
   useFocusTrap(overlayRef, closeButtonRef)
   useEscapeClose(onClose)
@@ -146,6 +149,9 @@ function PreviewModalComponent({
       aria-modal="true"
       aria-label={`${mode === 'desktop' ? 'Desktop' : 'Mobile'} animation preview`}
       data-testid={`preview-${mode}`}
+      data-demo-ui
+      data-mode={theme}
+      data-accent={accent}
     >
       <ModeSwitch mode={mode} onSwitchMode={onSwitchMode} />
       <Toolbar onReplay={onReplay} onClose={onClose} closeButtonRef={closeButtonRef} />

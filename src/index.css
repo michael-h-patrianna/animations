@@ -8,7 +8,7 @@
 @source "./**/*.{js,ts,jsx,tsx}";
 
 :root {
-  --index-bg: rgb(236 195 255 / 18%);
+  --index-bg: oklch(85% 0.08 310deg / 18%);
   --pf-base-0: #1d092f;
   --pf-base-5: #3a125d;
   --pf-base-10: #4e187c;
@@ -208,9 +208,9 @@
   --pf-anim-card-star-pink-50: rgb(255 80 180 / 50%);
   --pf-anim-card-star-gold-60: rgb(255 220 50 / 60%);
 
-  --index-bg-100: rgb(123 70 142 / 65%);
-  --index-bg-101: rgb(29 9 47 / 65%);
-  --index-bg-102: rgb(7 2 12 / 65%);
+  --index-bg-100: oklch(44% 0.10 305deg / 65%);
+  --index-bg-101: oklch(12% 0.075 300deg / 65%);
+  --index-bg-102: oklch(5% 0.04 300deg / 65%);
 }
 
 /* (removed empty html ruleset) */

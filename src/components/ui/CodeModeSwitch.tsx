@@ -1,39 +1,33 @@
 import { type CodeMode, useCodeMode } from '@/contexts/CodeModeContext'
+import { ToggleGroup, type ToggleOption } from '@/demo-ui/components/ui/ToggleGroup'
 import type { FC } from 'react'
-import './CodeModeSwitch.css'
 
+/** Props for the CodeModeSwitch component. */
 interface CodeModeSwitchProps {
   onModeSelect?: (mode: CodeMode) => void
 }
 
+const CODE_MODE_OPTIONS: ToggleOption<CodeMode>[] = [
+  { value: 'Framer', label: 'Framer' },
+  { value: 'CSS', label: 'CSS' },
+]
+
+/** Toggle switch between Framer and CSS code modes. */
 export const CodeModeSwitch: FC<CodeModeSwitchProps> = ({ onModeSelect }) => {
   const { codeMode, setCodeMode } = useCodeMode()
 
-  const handleSelect = (mode: CodeMode) => {
+  const handleChange = (mode: CodeMode) => {
     setCodeMode(mode)
     onModeSelect?.(mode)
   }
 
   return (
-    <div className="pf-code-mode-switch" data-testid="code-mode-switch">
-      <button
-        type="button"
-        className={`pf-code-mode-switch__option ${codeMode === 'Framer' ? 'is-active' : ''}`}
-        onClick={() => handleSelect('Framer')}
-        aria-pressed={codeMode === 'Framer'}
-        data-testid="code-mode-framer"
-      >
-        Framer
-      </button>
-      <button
-        type="button"
-        className={`pf-code-mode-switch__option ${codeMode === 'CSS' ? 'is-active' : ''}`}
-        onClick={() => handleSelect('CSS')}
-        aria-pressed={codeMode === 'CSS'}
-        data-testid="code-mode-css"
-      >
-        CSS
-      </button>
-    </div>
+    <ToggleGroup
+      options={CODE_MODE_OPTIONS}
+      value={codeMode}
+      onChange={handleChange}
+      ariaLabel="Code mode"
+      data-testid="code-mode-switch"
+    />
   )
 }
