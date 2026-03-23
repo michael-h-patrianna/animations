@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { memo, useMemo, type CSSProperties } from 'react'
+import { memo, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import './ModalCelebrationsFirework.css'
 
 import {
@@ -61,6 +61,30 @@ function buildFallbackCache(count: number, colors: readonly string[]): FallbackI
   }))
 }
 
+/* ─── Wave cycling ─── */
+
+type FireworkWave = {
+  key: number
+  bursts: ReturnType<typeof generateFireworkBursts>
+  fallbacks: FallbackInfo[][] | null
+  createdAt: number
+}
+
+function createWave(
+  key: number,
+  config: Parameters<typeof generateFireworkBursts>[0],
+  hasImages: boolean,
+  colors: readonly string[]
+): FireworkWave {
+  const bursts = generateFireworkBursts(config)
+  return {
+    key,
+    bursts,
+    fallbacks: hasImages ? null : bursts.map((b) => buildFallbackCache(b.particles.length, colors)),
+    createdAt: Date.now(),
+  }
+}
+
 /* ─── Main ─── */
 
 const DEFAULT_COLORS = CELEBRATION_COLORS_HEX
@@ -81,70 +105,92 @@ function ModalCelebrationsFireworkComponent({
   // Single-burst visual duration is ~60% of the cycle (matches keyframe at 60%)
   const burstDurationS = cycleDurationS * 0.6
 
-  const bursts = useMemo(
-    () =>
-      generateFireworkBursts({ burstCount, particlesPerBurst, durationMs: duration, variantCount }),
+  const config = useMemo(
+    () => ({ burstCount, particlesPerBurst, durationMs: duration, variantCount }),
     [burstCount, particlesPerBurst, duration, variantCount]
   )
 
-  const fallbackCache = useMemo(
-    () => (hasImages ? null : bursts.map((b) => buildFallbackCache(b.particles.length, colors))),
-    [bursts, colors, hasImages]
-  )
+  // Wave lifetime: max burst delay + max particle delay + cycle duration
+  const baseGap = cycleDurationS * 0.12
+  const jitterRange = baseGap * 0.67
+  const maxTotalDelay = (burstCount - 1) * baseGap + jitterRange + 0.3
+  const waveLifetimeMs = (maxTotalDelay + cycleDurationS) * 1000
+
+  const nextKeyRef = useRef(1)
+  const [waves, setWaves] = useState<FireworkWave[]>(() => [
+    createWave(0, config, hasImages, colors),
+  ])
+
+  useEffect(() => {
+    nextKeyRef.current = 1
+    setWaves([createWave(0, config, hasImages, colors)])
+
+    const interval = setInterval(() => {
+      const key = nextKeyRef.current++
+      setWaves((prev) => [
+        ...prev.filter((w) => Date.now() - w.createdAt < waveLifetimeMs),
+        createWave(key, config, hasImages, colors),
+      ])
+    }, duration)
+
+    return () => clearInterval(interval)
+  }, [config, duration, hasImages, colors, waveLifetimeMs])
 
   return (
     <div className="mc-firework mc-firework--css" data-animation-id="modal-celebrations__firework">
-      <div className="mc-firework__wave">
-        {bursts.map((burst, bi) => (
-          <div
-            key={burst.id}
-            className="mc-firework__burst"
-            style={{
-              left: `${burst.posX}%`,
-              top: `${burst.posY}%`,
-            }}
-          >
-            {burst.particles.map((particle, pi) => (
-              <span
-                key={particle.id}
-                className="mc-firework__particle"
-                style={
-                  {
-                    '--fw-x': `${particle.x}px`,
-                    '--fw-y': `${particle.y}px`,
-                    '--fw-rotation': `${particle.rotation}deg`,
-                    '--fw-scale': String(particle.scale),
-                    '--fw-duration': `${burstDurationS}s`,
-                    '--fw-cycle-duration': `${cycleDurationS}s`,
-                    '--fw-gravity-distance': `${FIREWORK_GRAVITY_DISTANCE_PX}px`,
-                    '--fw-delay': `${burst.delay + particle.delay}s`,
-                    width: `${particleMaxWidth}px`,
-                    height: `${particleMaxHeight}px`,
-                  } as CSSProperties
-                }
-              >
-                {hasImages ? (
-                  <img
-                    className="mc-firework__particle-image"
-                    src={images[particle.imageIndex % images.length]}
-                    alt=""
-                  />
-                ) : (
-                  <span
-                    className={`pf-celebration__confetti pf-celebration__confetti--${fallbackCache![bi]![pi]!.shape}`}
-                    style={{
-                      display: 'block',
-                      width: '100%',
-                      height: '100%',
-                      background: fallbackCache![bi]![pi]!.color,
-                    }}
-                  />
-                )}
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
+      {waves.map((wave) => (
+        <div key={wave.key} className="mc-firework__wave">
+          {wave.bursts.map((burst, bi) => (
+            <div
+              key={burst.id}
+              className="mc-firework__burst"
+              style={{
+                left: `${burst.posX}%`,
+                top: `${burst.posY}%`,
+              }}
+            >
+              {burst.particles.map((particle, pi) => (
+                <span
+                  key={particle.id}
+                  className="mc-firework__particle"
+                  style={
+                    {
+                      '--fw-x': `${particle.x}px`,
+                      '--fw-y': `${particle.y}px`,
+                      '--fw-rotation': `${particle.rotation}deg`,
+                      '--fw-scale': String(particle.scale),
+                      '--fw-duration': `${burstDurationS}s`,
+                      '--fw-cycle-duration': `${cycleDurationS}s`,
+                      '--fw-gravity-distance': `${FIREWORK_GRAVITY_DISTANCE_PX}px`,
+                      '--fw-delay': `${burst.delay + particle.delay}s`,
+                      width: `${particleMaxWidth}px`,
+                      height: `${particleMaxHeight}px`,
+                    } as CSSProperties
+                  }
+                >
+                  {hasImages ? (
+                    <img
+                      className="mc-firework__particle-image"
+                      src={images[particle.imageIndex % images.length]}
+                      alt=""
+                    />
+                  ) : (
+                    <span
+                      className={`pf-celebration__confetti pf-celebration__confetti--${wave.fallbacks![bi]![pi]!.shape}`}
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        height: '100%',
+                        background: wave.fallbacks![bi]![pi]!.color,
+                      }}
+                    />
+                  )}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   )
 }

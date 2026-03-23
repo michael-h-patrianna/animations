@@ -76,7 +76,7 @@
   background: var(--pf-surface);
   border: 1px solid var(--app-border-card);
   border-radius: 50%;
-  box-shadow: var(--pf-shadow-subtle, 0 1px 3px rgb(0 0 0 / 0.12));
+  box-shadow: var(--pf-shadow-subtle, 0 1px 3px rgb(0 0 0 / 12%));
   cursor: pointer;
   transition:
     color var(--pf-transition-fast) ease,

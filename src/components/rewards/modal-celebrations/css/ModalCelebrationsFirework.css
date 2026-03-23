@@ -25,7 +25,7 @@
   opacity: 0;
   pointer-events: none;
   will-change: transform, opacity;
-  animation: mc-firework-cycle var(--fw-cycle-duration, 2.5s) linear infinite;
+  animation: mc-firework-cycle var(--fw-cycle-duration, 2.5s) linear 1;
   animation-delay: var(--fw-delay, 0s);
 }
 
@@ -54,7 +54,7 @@
 
   84% {
     transform: translate(
-        calc(var(--fw-x, 0) * 1.18),
+        calc(var(--fw-x, 0) * 1.4),
         calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px) * 0.7)
       )
       rotate(calc(var(--fw-rotation, 0deg) + 180deg)) scale(calc(var(--fw-scale, 1) * 0.5));
@@ -63,7 +63,7 @@
 
   100% {
     transform: translate(
-        calc(var(--fw-x, 0) * 1.22),
+        calc(var(--fw-x, 0) * 1.55),
         calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px))
       )
       rotate(calc(var(--fw-rotation, 0deg) + 180deg)) scale(0);

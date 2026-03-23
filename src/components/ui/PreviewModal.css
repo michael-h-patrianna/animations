@@ -144,6 +144,8 @@
   inset: 0;
   display: flex;
   pointer-events: none;
+  /* Override card-sized demo height so animations fill the preview container */
+  --pf-demo-height: 100%;
 }
 
 .preview-animation > * {
