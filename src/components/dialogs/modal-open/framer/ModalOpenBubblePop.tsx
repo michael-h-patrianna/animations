@@ -36,7 +36,10 @@ function ModalOpenBubblePopComponent(props: ModalOpenProps) {
   }, [s.fromPoint, s.center, s.force])
 
   const closeTraj = useMemo(
-    () => (s.fromPoint && s.center ? computeBubblePopCloseTrajectory(s.fromPoint, s.center, s.force) : null),
+    () =>
+      s.fromPoint && s.center
+        ? computeBubblePopCloseTrajectory(s.fromPoint, s.center, s.force)
+        : null,
     [s.fromPoint, s.center, s.force]
   )
 

@@ -488,12 +488,12 @@ export function computeArcCloseTrajectory(
 
   x.push(0)
   y.push(0)
-  times.push(0.10)
+  times.push(0.1)
   scale.push(1.04)
   opacity.push(1)
 
   // Phase 2: Reverse arc to button (10%→82%)
-  const flightStart = 0.10
+  const flightStart = 0.1
   const flightEnd = 0.82
   const flightSpan = flightEnd - flightStart
   const flightSamples = 16
@@ -522,7 +522,7 @@ export function computeArcCloseTrajectory(
   // Phase 3: Vanish at button (82%→100%)
   x.push(dx)
   y.push(dy)
-  times.push(0.90)
+  times.push(0.9)
   scale.push(0.06)
   opacity.push(0.15)
 
@@ -698,8 +698,14 @@ export function computeBubblePopCloseTrajectory(
     skewX: number[] = []
 
   const push = (
-    px: number, py: number, tl: number,
-    s: number, sx: number, sy: number, sk: number, op: number
+    px: number,
+    py: number,
+    tl: number,
+    s: number,
+    sx: number,
+    sy: number,
+    sk: number,
+    op: number
   ) => {
     x.push(px)
     y.push(py)
@@ -714,13 +720,13 @@ export function computeBubblePopCloseTrajectory(
 
   // Phase 1: Deflation at center (0→30%) — reverse of the inflation wobble
   const a = wobbleAmp
-  push(0, 0, 0, 1.0, 1, 1, 0, 1)              // rest
-  push(0, 0, 0.08, 0.92, 1 - a, 1 + a, 0, 1)  // first squeeze
+  push(0, 0, 0, 1.0, 1, 1, 0, 1) // rest
+  push(0, 0, 0.08, 0.92, 1 - a, 1 + a, 0, 1) // first squeeze
   push(0, 0, 0.18, 0.6, 1 + a * 0.5, 1 - a * 0.5, 0, 1) // bounce
-  push(0, 0, 0.30, 0.2, 1, 1, 0, 1)            // deflated
+  push(0, 0, 0.3, 0.2, 1, 1, 0, 1) // deflated
 
   // Phase 2: Fly to button (30%→82%)
-  const flightStart = 0.30
+  const flightStart = 0.3
   const flightEnd = 0.82
   const flightSpan = flightEnd - flightStart
   const flightSamples = 8
@@ -732,15 +738,19 @@ export function computeBubblePopCloseTrajectory(
     const curveT = Math.pow(t, easeInPower)
 
     push(
-      dx * curveT, dy * curveT, tl,
+      dx * curveT,
+      dy * curveT,
+      tl,
       0.2 - 0.12 * curveT, // 0.2 → 0.08
-      1, 1, 0,
+      1,
+      1,
+      0,
       t < 0.5 ? 1 : 1 - ((t - 0.5) / 0.5) * 0.6
     )
   }
 
   // Phase 3: Vanish at button (82%→100%)
-  push(dx, dy, 0.90, 0.04, 1, 1, 0, 0.15)
+  push(dx, dy, 0.9, 0.04, 1, 1, 0, 0.15)
   push(dx, dy, 1.0, 0, 1, 1, 0, 0)
 
   return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
@@ -881,7 +891,7 @@ export function computeComicPunchCloseTrajectory(
   const angle = Math.atan2(dy, dx)
 
   // Force-derived close physics
-  const anticipationSquash = 0.90 - f * 0.08 // scaleX: 0.90 (soft) → 0.82 (hard)
+  const anticipationSquash = 0.9 - f * 0.08 // scaleX: 0.90 (soft) → 0.82 (hard)
   const anticipationStretch = 1 + (1 - anticipationSquash) * 1.2 // scaleY: proportional
   const tiltAngle = 2 + f * 6 // rotation during flight: 2° → 8°
 
@@ -1215,7 +1225,7 @@ export function computeSlamDownCloseTrajectory(
 
   // Phase 3: Gravity fall to button (35%→80%) — ease-in (accelerating)
   const fallStart = riseEnd
-  const fallEnd = 0.80
+  const fallEnd = 0.8
   const fallSpan = fallEnd - fallStart
   const fallSamples = 8
 
@@ -1246,7 +1256,7 @@ export function computeSlamDownCloseTrajectory(
   // Phase 4: Vanish at button (80%→100%)
   x.push(dx)
   y.push(dy)
-  times.push(0.90)
+  times.push(0.9)
   scale.push(0.08)
   opacity.push(0.15)
   ext()

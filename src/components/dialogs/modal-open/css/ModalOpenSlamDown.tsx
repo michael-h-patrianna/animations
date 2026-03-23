@@ -32,7 +32,10 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
   }, [s.fromPoint, s.center, s.force])
 
   const closeTraj = useMemo(
-    () => (s.fromPoint && s.center ? computeSlamDownCloseTrajectory(s.fromPoint, s.center, s.force) : null),
+    () =>
+      s.fromPoint && s.center
+        ? computeSlamDownCloseTrajectory(s.fromPoint, s.center, s.force)
+        : null,
     [s.fromPoint, s.center, s.force]
   )
   const { isVisible, isClosing, activeDurationMs, handleCloseComplete, handleOpenComplete } = s
