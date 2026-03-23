@@ -13,10 +13,7 @@ import { ModalOpenPlaceholder } from '../MockOpenModalContent'
 import { SharedDemoTriggers } from '../SharedDemoTriggers'
 import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
-import {
-  computeSlamDownCloseTrajectory,
-  computeSlamDownTrajectory,
-} from '../SlamDownTrajectory'
+import { computeSlamDownCloseTrajectory, computeSlamDownTrajectory } from '../SlamDownTrajectory'
 import { type ExtendedTrajectoryArrays, type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [

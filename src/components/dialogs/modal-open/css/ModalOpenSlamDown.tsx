@@ -10,10 +10,7 @@ import { SharedDemoTriggers } from '../SharedDemoTriggers'
 import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
 import './shared-css-animations.css'
-import {
-  computeSlamDownCloseTrajectory,
-  computeSlamDownTrajectory,
-} from '../SlamDownTrajectory'
+import { computeSlamDownCloseTrajectory, computeSlamDownTrajectory } from '../SlamDownTrajectory'
 import { type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [

@@ -13,10 +13,7 @@ import { ModalOpenPlaceholder } from '../MockOpenModalContent'
 import { SharedDemoTriggers } from '../SharedDemoTriggers'
 import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
-import {
-  computeBubblePopCloseTrajectory,
-  computeBubblePopTrajectory,
-} from '../BubblePopTrajectory'
+import { computeBubblePopCloseTrajectory, computeBubblePopTrajectory } from '../BubblePopTrajectory'
 import { type ExtendedTrajectoryArrays, type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [

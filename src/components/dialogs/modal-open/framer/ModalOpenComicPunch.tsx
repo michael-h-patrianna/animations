@@ -35,7 +35,10 @@ function ModalOpenComicPunchComponent(props: ModalOpenProps) {
   }, [s.fromPoint, s.center, s.force])
 
   const closeTraj = useMemo(
-    () => (s.fromPoint && s.center ? computeComicPunchCloseTrajectory(s.fromPoint, s.center, s.force) : null),
+    () =>
+      s.fromPoint && s.center
+        ? computeComicPunchCloseTrajectory(s.fromPoint, s.center, s.force)
+        : null,
     [s.fromPoint, s.center, s.force]
   )
 

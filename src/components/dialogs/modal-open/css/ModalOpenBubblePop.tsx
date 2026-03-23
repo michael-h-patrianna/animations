@@ -13,10 +13,7 @@ import { SharedDemoTriggers } from '../SharedDemoTriggers'
 import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
 import '../css/shared-css-animations.css'
-import {
-  computeBubblePopCloseTrajectory,
-  computeBubblePopTrajectory,
-} from '../BubblePopTrajectory'
+import { computeBubblePopCloseTrajectory, computeBubblePopTrajectory } from '../BubblePopTrajectory'
 import { type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
