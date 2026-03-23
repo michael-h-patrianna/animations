@@ -1,9 +1,4 @@
-/* Scoped theme for ModalCelebrationsConfettiBurst (CSS variant) */
-[data-animation-id='modal-celebrations__confetti-burst'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
-  border: 1px solid var(--pf-anim-highlight-12);
-}
+/* CSS variant */
 
 /* ─── Subtle origin flash (small, brief) ─── */
 @keyframes cb-flash {

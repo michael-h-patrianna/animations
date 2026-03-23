@@ -16,7 +16,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
+import { DemoButton, DemoList, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import { generateMockListItems } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 500
@@ -75,9 +76,9 @@ function ModalContentListVerticalWipeComponent({
   const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div className="pf-mc-overlay" data-animation-id="modal-content__list-vertical-wipe">
+    <div className="pf-demo-overlay" data-animation-id="modal-content__list-vertical-wipe">
       <m.div
-        className="pf-mc-box"
+        className="pf-demo-modal"
         initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
         animate={
           reduced
@@ -91,13 +92,13 @@ function ModalContentListVerticalWipeComponent({
         }
         style={{ animation: 'none' }}
       >
-        <MockModalHeader title="Setup Complete" />
-        <div className="pf-mc-body">
-          <div className="pf-mc-list">
+        <DemoModalHeader title="Setup Complete" />
+        <DemoModalBody>
+          <DemoList>
             {mockItems.map((item, i) => animateWipeItem(item, i, 0.3))}
-          </div>
-        </div>
-        <div className="pf-mc-footer">
+          </DemoList>
+        </DemoModalBody>
+        <DemoModalFooter>
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
             animate={
@@ -113,9 +114,9 @@ function ModalContentListVerticalWipeComponent({
             onAnimationComplete={onAnimationComplete}
             style={{ animation: 'none' }}
           >
-            <MockButton label="Continue" />
+            <DemoButton label="Continue" />
           </m.div>
-        </div>
+        </DemoModalFooter>
       </m.div>
     </div>
   )

@@ -15,18 +15,14 @@ function ButtonEffectsLiquidMorphComponent() {
   }, [isAnimating])
 
   return (
-    <div
+    <button
+      type="button"
       data-animation-id="button-effects__liquid-morph"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      className={`pf-demo-btn pf-demo-btn--primary pf-liquid-morph ${isAnimating ? 'pf-liquid-morph--active' : ''}`}
+      onClick={() => setIsAnimating(true)}
     >
-      <button
-        type="button"
-        className={`pf-btn pf-btn--primary pf-liquid-morph ${isAnimating ? 'pf-liquid-morph--active' : ''}`}
-        onClick={() => setIsAnimating(true)}
-      >
-        Click Me!
-      </button>
-    </div>
+      Click Me!
+    </button>
   )
 }
 

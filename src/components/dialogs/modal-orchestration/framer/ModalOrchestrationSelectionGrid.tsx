@@ -15,6 +15,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import type { ReactNode } from 'react'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
 const DEFAULT_DISTANCE = 16
@@ -34,11 +35,9 @@ interface ModalOrchestrationSelectionGridProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <div key={`placeholder-${i}`}>
-      <strong>Option {i + 1}</strong>
-      <br />
-      Select item
-    </div>
+    <DemoCard key={`placeholder-${i}`} title={`Option ${i + 1}`}>
+      <p>Select item</p>
+    </DemoCard>
   ))
 }
 

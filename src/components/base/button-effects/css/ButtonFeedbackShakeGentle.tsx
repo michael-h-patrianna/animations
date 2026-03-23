@@ -15,20 +15,16 @@ function ButtonFeedbackShakeGentleComponent() {
   }, [isAnimating])
 
   return (
-    <div
+    <button
+      type="button"
       data-animation-id="button-effects__shake-gentle"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      className={`pf-demo-btn pf-demo-btn--primary pf-shake-gentle ${isAnimating ? 'pf-shake-gentle--active' : ''}`}
+      onClick={() => setIsAnimating(true)}
+      aria-label="Insufficient funds"
+      aria-live="polite"
     >
-      <button
-        type="button"
-        className={`pf-btn pf-btn--primary pf-shake-gentle ${isAnimating ? 'pf-shake-gentle--active' : ''}`}
-        onClick={() => setIsAnimating(true)}
-        aria-label="Insufficient funds"
-        aria-live="polite"
-      >
-        Click Me
-      </button>
-    </div>
+      Click Me
+    </button>
   )
 }
 

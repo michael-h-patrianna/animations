@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsBlink.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsBlinkComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__blink">
-      <div className="pf-blink pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Blink</span>
-      </div>
-    </div>
+    <DemoBox className="pf-blink" label="Blink" data-animation-id="standard-effects__blink" />
   )
 }
 

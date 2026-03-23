@@ -28,7 +28,7 @@ function IconAnimationsFloatComponent({
   duration = 6000,
 }: IconAnimationsFloatProps) {
   return (
-    <div className="pf-icon-anim" data-animation-id="icon-animations__float">
+    <div data-animation-id="icon-animations__float">
       <m.div
         style={{ transformOrigin: 'center 20%', animation: 'none' }}
         animate={{

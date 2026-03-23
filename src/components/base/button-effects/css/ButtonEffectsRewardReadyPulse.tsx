@@ -4,17 +4,15 @@
  */
 import { memo } from 'react'
 import './ButtonEffectsRewardReadyPulse.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 function ButtonEffectsRewardReadyPulseComponent() {
   return (
-    <div
+    <DemoButton
+      className="pf-reward-pulse"
+      label="Claim Reward"
       data-animation-id="button-effects__reward-ready-pulse"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-    >
-      <button type="button" className="pf-btn pf-btn--primary pf-reward-pulse">
-        Claim Reward
-      </button>
-    </div>
+    />
   )
 }
 

@@ -1,11 +1,4 @@
-/* Shared layout for icon-animations group */
-.pf-icon-anim {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  position: relative;
-}
+/* Shared styles for icon-animations group */
 
 .pf-icon-anim__placeholder {
   --pf-icon-placeholder-bg-1: rgb(236 195 255 / 15%);

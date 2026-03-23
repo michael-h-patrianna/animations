@@ -9,7 +9,6 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '../MockModalContent'
 import type { ModalEntranceProps } from '../SharedTypes'
-import { DEFAULT_OVERLAY_OPACITY } from '../SharedTypes'
 import './ModalBaseSlideUpSoft.css'
 
 const DEFAULT_DURATION = 420
@@ -23,25 +22,19 @@ function ModalBaseSlideUpSoftComponent({
   children,
   duration = DEFAULT_DURATION,
   distance = DEFAULT_DISTANCE,
-  overlayOpacity = DEFAULT_OVERLAY_OPACITY,
   className,
   style,
 }: ModalBaseSlideUpSoftProps) {
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
-    '--pf-overlay-opacity': overlayOpacity,
     '--pf-slide-distance': `${distance}px`,
   } as React.CSSProperties
 
   return (
-    <div
-      className="pf-modal-slide-up"
-      style={cssVars}
-      data-animation-id="modal-base__slide-up-soft"
-    >
+    <div data-animation-id="modal-base__slide-up-soft">
       <div
-        className={`pf-modal-slide-up__content${className ? ` ${className}` : ''}`}
-        style={style}
+        className={`pf-modal-slide-up${className ? ` ${className}` : ''}`}
+        style={{ ...style, ...cssVars }}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

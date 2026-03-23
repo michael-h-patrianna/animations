@@ -47,20 +47,18 @@ function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffec
   }
 
   return (
-    <m.div
+    <m.button
+      type="button"
+      className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__jitter"
-      style={{ display: 'inline-flex', animation: 'none' }}
+      style={{ animation: 'none' }}
       variants={isHovered ? heartbeatVariants : jitterVariants}
       animate="animate"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Click Me!
-        </button>
-      )}
-    </m.div>
+      {children ?? 'Click Me!'}
+    </m.button>
   )
 }
 

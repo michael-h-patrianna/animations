@@ -15,6 +15,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import type { ReactNode } from 'react'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 2
 
@@ -30,10 +31,9 @@ interface ModalOrchestrationComparisonMorphProps {
 function generatePlaceholders(count: number): ReactNode[] {
   const labels = ['Option A', 'Option B', 'Option C', 'Option D']
   return Array.from({ length: count }, (_, i) => (
-    <div key={`placeholder-${i}`}>
-      <h5>{labels[i] ?? `Option ${i + 1}`}</h5>
-      <p>Comparison pane {i + 1} with details and benefits.</p>
-    </div>
+    <DemoCard key={`placeholder-${i}`} title={labels[i] ?? `Option ${i + 1}`}>
+        <p>Comparison pane {i + 1} with details and benefits.</p>
+      </DemoCard>
   ))
 }
 

@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsPop.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsPopComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__pop">
-      <div className="pf-pop pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Pop</span>
-      </div>
-    </div>
+    <DemoBox className="pf-pop" label="Pop" data-animation-id="standard-effects__pop" />
   )
 }
 

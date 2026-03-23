@@ -9,7 +9,6 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '../MockModalContent'
 import type { ModalEntranceProps } from '../SharedTypes'
-import { DEFAULT_OVERLAY_OPACITY } from '../SharedTypes'
 import './ModalBaseUnfoldOrigami.css'
 
 const DEFAULT_DURATION = 900
@@ -23,29 +22,21 @@ function ModalBaseUnfoldOrigamiComponent({
   children,
   duration = DEFAULT_DURATION,
   perspective = DEFAULT_PERSPECTIVE,
-  overlayOpacity = DEFAULT_OVERLAY_OPACITY,
   className,
   style,
 }: ModalBaseUnfoldOrigamiProps) {
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
-    '--pf-overlay-opacity': overlayOpacity,
     '--pf-perspective': `${perspective}px`,
   } as React.CSSProperties
 
   return (
-    <div
-      className="pf-modal-origami"
-      style={cssVars}
-      data-animation-id="modal-base__unfold-origami"
-    >
-      <div className="pf-modal-origami__perspective">
-        <div
-          className={`pf-modal-origami__content${className ? ` ${className}` : ''}`}
-          style={style}
-        >
-          <ModalPlaceholder>{children}</ModalPlaceholder>
-        </div>
+    <div data-animation-id="modal-base__unfold-origami" style={{ ...cssVars, perspective }}>
+      <div
+        className={`pf-modal-origami${className ? ` ${className}` : ''}`}
+        style={style}
+      >
+        <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>
   )

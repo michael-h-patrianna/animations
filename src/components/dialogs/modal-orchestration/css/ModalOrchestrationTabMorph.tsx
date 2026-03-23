@@ -16,6 +16,7 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationTabMorph.css'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_TAB_COUNT = 4
 
@@ -34,10 +35,9 @@ interface ModalOrchestrationTabMorphProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <div key={`placeholder-${i}`}>
-      <h5>Content {i + 1}</h5>
-      <p>Tab panel content for tab {i + 1}.</p>
-    </div>
+    <DemoCard key={`placeholder-${i}`} title={`Content ${i + 1}`}>
+        <p>.</p>
+      </DemoCard>
   ))
 }
 

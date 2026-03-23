@@ -10,6 +10,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 import { PULSE_GLOW_COLOR } from '../SharedDefaults'
 
@@ -71,9 +72,7 @@ function StandardEffectsPulseComponent({
         }}
       />
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Pulse</span>
-        </div>
+        <DemoBox label="Pulse" />
       )}
     </m.div>
   )

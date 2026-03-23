@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsRubberBand.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsRubberBandComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__rubber-band">
-      <div className="pf-rubber-band pf-standard-demo__element">
-        <span className="pf-standard-demo__label">RubberBand</span>
-      </div>
-    </div>
+    <DemoBox className="pf-rubber-band" label="RubberBand" data-animation-id="standard-effects__rubber-band" />
   )
 }
 

@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsFloat.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsFloatComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__float">
-      <div className="pf-float pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Float</span>
-      </div>
-    </div>
+    <DemoBox className="pf-float" label="Float" data-animation-id="standard-effects__float" />
   )
 }
 

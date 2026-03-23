@@ -80,7 +80,7 @@ function ButtonEffectsSplitRevealComponent({
   return (
     <button
       type="button"
-      className={`pf-split-reveal ${className ?? 'pf-btn pf-btn--primary'}`}
+      className={`pf-split-reveal ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
       data-animation-id="button-effects__split-reveal"
       onClick={handleClick}
     >

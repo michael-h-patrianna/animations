@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsRubberBandProps {
   children?: ReactNode
@@ -35,9 +36,7 @@ function StandardEffectsRubberBandComponent({
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">RubberBand</span>
-        </div>
+        <DemoBox label="RubberBand" />
       )}
     </m.div>
   )

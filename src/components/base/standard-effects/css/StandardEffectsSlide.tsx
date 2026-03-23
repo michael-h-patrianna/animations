@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsSlide.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsSlideComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__slide">
-      <div className="pf-slide pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Slide</span>
-      </div>
-    </div>
+    <DemoBox className="pf-slide" label="Slide" data-animation-id="standard-effects__slide" />
   )
 }
 

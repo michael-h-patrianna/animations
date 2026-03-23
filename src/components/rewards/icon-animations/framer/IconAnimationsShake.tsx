@@ -28,7 +28,7 @@ function IconAnimationsShakeComponent({
   duration = 500,
 }: IconAnimationsShakeProps) {
   return (
-    <div className="pf-icon-anim" data-animation-id="icon-animations__shake">
+    <div data-animation-id="icon-animations__shake">
       <m.div
         style={{ animation: 'none' }}
         animate={{

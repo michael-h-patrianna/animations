@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsBounce.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsBounceComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__bounce">
-      <div className="pf-bounce pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Bounce</span>
-      </div>
-    </div>
+    <DemoBox className="pf-bounce" label="Bounce" data-animation-id="standard-effects__bounce" />
   )
 }
 

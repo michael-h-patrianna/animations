@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSwingProps {
   children?: ReactNode
@@ -32,9 +33,7 @@ function StandardEffectsSwingComponent({ children, duration = 1000 }: StandardEf
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Swing</span>
-        </div>
+        <DemoBox label="Swing" />
       )}
     </m.div>
   )

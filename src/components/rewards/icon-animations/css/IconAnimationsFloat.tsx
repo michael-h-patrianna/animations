@@ -27,7 +27,7 @@ function IconAnimationsFloatComponent({
   duration = 6000,
 }: IconAnimationsFloatProps) {
   return (
-    <div className="pf-icon-anim" data-animation-id="icon-animations__float">
+    <div data-animation-id="icon-animations__float">
       <div
         className="pf-icon-float"
         style={{ ['--pf-icon-float-duration' as string]: `${duration}ms` }}

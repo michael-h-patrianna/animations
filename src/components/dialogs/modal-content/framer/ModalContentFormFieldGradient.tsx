@@ -16,7 +16,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { generateMockFormFields, MockButton, MockModalHeader } from '../MockContentItems'
+import { DemoButton, DemoForm, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import { generateMockFormFields } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 500
@@ -89,9 +90,9 @@ function ModalContentFormFieldGradientComponent({
   const mockFields = generateMockFormFields(DEFAULT_COUNT)
 
   return (
-    <div className="pf-mc-overlay" data-animation-id="modal-content__form-field-gradient">
+    <div className="pf-demo-overlay" data-animation-id="modal-content__form-field-gradient">
       <m.div
-        className="pf-mc-box"
+        className="pf-demo-modal"
         initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
         animate={
           reduced
@@ -105,15 +106,15 @@ function ModalContentFormFieldGradientComponent({
         }
         style={{ animation: 'none' }}
       >
-        <MockModalHeader />
-        <div className="pf-mc-body">
+        <DemoModalHeader />
+        <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
           <p>Keep focus with 70ms cadence.</p>
-          <div className="pf-mc-form">
+          <DemoForm>
             {mockFields.map((field, i) => animateField(field, i, 0.3))}
-          </div>
-        </div>
-        <div className="pf-mc-footer">
+          </DemoForm>
+        </DemoModalBody>
+        <DemoModalFooter>
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
             animate={
@@ -133,7 +134,7 @@ function ModalContentFormFieldGradientComponent({
             }
             style={{ animation: 'none' }}
           >
-            <MockButton label="Accept" />
+            <DemoButton label="Accept" />
           </m.div>
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
@@ -155,9 +156,9 @@ function ModalContentFormFieldGradientComponent({
             onAnimationComplete={onAnimationComplete}
             style={{ animation: 'none' }}
           >
-            <MockButton label="Later" variant="secondary" />
+            <DemoButton label="Later" variant="secondary" />
           </m.div>
-        </div>
+        </DemoModalFooter>
       </m.div>
     </div>
   )

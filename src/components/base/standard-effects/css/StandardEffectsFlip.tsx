@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsFlip.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsFlipComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__flip">
-      <div className="pf-flip pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Flip</span>
-      </div>
-    </div>
+    <DemoBox className="pf-flip" label="Flip" data-animation-id="standard-effects__flip" />
   )
 }
 

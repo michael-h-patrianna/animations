@@ -16,7 +16,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
+import { DemoButton, DemoList, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import { generateMockListItems } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 500
@@ -76,9 +77,9 @@ function ModalContentListSpotlightComponent({
   const buttonStaggerBase = 0.3 + staggerS * DEFAULT_COUNT + 0.05
 
   return (
-    <div className="pf-mc-overlay" data-animation-id="modal-content__list-spotlight">
+    <div className="pf-demo-overlay" data-animation-id="modal-content__list-spotlight">
       <m.div
-        className="pf-mc-box"
+        className="pf-demo-modal"
         initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
         animate={
           reduced
@@ -92,15 +93,15 @@ function ModalContentListSpotlightComponent({
         }
         style={{ animation: 'none' }}
       >
-        <MockModalHeader />
-        <div className="pf-mc-body">
+        <DemoModalHeader />
+        <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
           <p>Keep focus with 70ms cadence.</p>
-          <div className="pf-mc-list">
+          <DemoList>
             {mockItems.map((item, i) => animateListItem(item, i, 0.3))}
-          </div>
-        </div>
-        <div className="pf-mc-footer">
+          </DemoList>
+        </DemoModalBody>
+        <DemoModalFooter>
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
             animate={
@@ -120,7 +121,7 @@ function ModalContentListSpotlightComponent({
             }
             style={{ animation: 'none' }}
           >
-            <MockButton label="Accept" />
+            <DemoButton label="Accept" />
           </m.div>
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
@@ -142,9 +143,9 @@ function ModalContentListSpotlightComponent({
             onAnimationComplete={onAnimationComplete}
             style={{ animation: 'none' }}
           >
-            <MockButton label="Later" variant="secondary" />
+            <DemoButton label="Later" variant="secondary" />
           </m.div>
-        </div>
+        </DemoModalFooter>
       </m.div>
     </div>
   )

@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSqueezeProps {
   children?: ReactNode
@@ -37,9 +38,7 @@ function StandardEffectsSqueezeComponent({
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Squeeze</span>
-        </div>
+        <DemoBox label="Squeeze" />
       )}
     </m.div>
   )

@@ -1,12 +1,16 @@
 import type { ReactNode } from 'react'
 
+import { DemoButton, DemoCloseButton, DemoList, DemoListItem, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+
 /**
  * Mock modal content for zero-props catalog demo of modal-open animations.
- * Uses pf-mo-* classes from shared.css — self-contained, no cross-group imports.
+ * Composes demo-blocks building blocks inside the pf-mo-box structural wrapper
+ * (animation CSS targets pf-mo-box for entrance effects).
  * NOT copied by consumers — exists only for catalog rendering.
  */
 
 const STAGGER_DELAY_MS = 60
+const STAGGER_EASE = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
 const CONTENT_ITEMS = [
   'Daily bonus collected',
   'New achievement unlocked',
@@ -29,71 +33,53 @@ export function MockOpenModalContent({
   onClose?: () => void
 }) {
   const show = revealed === true
+  const buttonDelay = STAGGER_DELAY_MS * (CONTENT_ITEMS.length + 1)
 
   return (
     <div className="pf-mo-box">
-      <button
-        type="button"
-        className="pf-mo-close-btn"
+      <DemoCloseButton
         onClick={onClose}
-        aria-label="Close modal"
         style={{
           opacity: show ? 1 : 0,
           transition: 'opacity 200ms ease',
         }}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M12 4L4 12M4 4l8 8"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      </button>
-      <div
-        className="pf-mo-header"
+      />
+      <DemoModalHeader
+        title="Bonus Reward"
+        badge="New"
         style={{
           opacity: show ? 1 : 0,
           transform: show ? 'translateY(0)' : 'translateY(8px)',
-          transition:
-            'opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          transition: `opacity 300ms ${STAGGER_EASE}, transform 300ms ${STAGGER_EASE}`,
         }}
-      >
-        <h4 className="pf-mo-title">Bonus Reward</h4>
-        <span className="pf-mo-badge">New</span>
-      </div>
-      <div className="pf-mo-body">
-        <div className="pf-mo-list">
+      />
+      <DemoModalBody>
+        <DemoList>
           {CONTENT_ITEMS.map((text, i) => (
-            <div
+            <DemoListItem
               key={text}
-              className="pf-mo-list-item"
               style={{
                 opacity: show ? 1 : 0,
                 transform: show ? 'translateY(0)' : 'translateY(12px)',
-                transition: `opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${STAGGER_DELAY_MS * (i + 1)}ms, transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${STAGGER_DELAY_MS * (i + 1)}ms`,
+                transition: `opacity 300ms ${STAGGER_EASE} ${STAGGER_DELAY_MS * (i + 1)}ms, transform 300ms ${STAGGER_EASE} ${STAGGER_DELAY_MS * (i + 1)}ms`,
               }}
             >
               {text}
-            </div>
+            </DemoListItem>
           ))}
-        </div>
-      </div>
-      <div className="pf-mo-footer">
-        <button
-          type="button"
-          className="pf-mo-btn-primary"
+        </DemoList>
+      </DemoModalBody>
+      <DemoModalFooter>
+        <DemoButton
+          label="Close"
           onClick={onClose}
           style={{
             opacity: show ? 1 : 0,
             transform: show ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.94)',
-            transition: `opacity 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${STAGGER_DELAY_MS * (CONTENT_ITEMS.length + 1)}ms, transform 250ms cubic-bezier(0.4, 0, 0.2, 1) ${STAGGER_DELAY_MS * (CONTENT_ITEMS.length + 1)}ms`,
+            transition: `opacity 250ms ${STAGGER_EASE} ${buttonDelay}ms, transform 250ms cubic-bezier(0.4, 0, 0.2, 1) ${buttonDelay}ms`,
           }}
-        >
-          Close
-        </button>
-      </div>
+        />
+      </DemoModalFooter>
     </div>
   )
 }

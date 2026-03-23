@@ -17,7 +17,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { MockButton, MockModalHeader } from '../MockContentItems'
+import { DemoButton, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 320
@@ -78,9 +78,9 @@ function ModalContentButtonsStagger3Component({
   }
 
   return (
-    <div className="pf-mc-overlay" data-animation-id="modal-content__buttons-stagger-3">
+    <div className="pf-demo-overlay" data-animation-id="modal-content__buttons-stagger-3">
       <m.div
-        className="pf-mc-box"
+        className="pf-demo-modal"
         initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
         animate={
           reduced
@@ -94,16 +94,16 @@ function ModalContentButtonsStagger3Component({
         }
         style={{ animation: 'none' }}
       >
-        <MockModalHeader />
-        <div className="pf-mc-body">
+        <DemoModalHeader />
+        <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
           <p>Keep focus with 70ms cadence.</p>
-        </div>
-        <div className="pf-mc-footer">
-          {animateItem(<MockButton label="Primary" />, 0, 0.3)}
-          {animateItem(<MockButton label="Secondary" variant="secondary" />, 1, 0.3)}
-          {animateItem(<MockButton label="Tertiary" variant="secondary" />, 2, 0.3)}
-        </div>
+        </DemoModalBody>
+        <DemoModalFooter>
+          {animateItem(<DemoButton label="Primary" />, 0, 0.3)}
+          {animateItem(<DemoButton label="Secondary" variant="secondary" />, 1, 0.3)}
+          {animateItem(<DemoButton label="Tertiary" variant="secondary" />, 2, 0.3)}
+        </DemoModalFooter>
       </m.div>
     </div>
   )

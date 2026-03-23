@@ -28,7 +28,7 @@ function IconAnimationsBounceComponent({
   duration = 800,
 }: IconAnimationsBounceProps) {
   return (
-    <div className="pf-icon-anim" data-animation-id="icon-animations__bounce">
+    <div data-animation-id="icon-animations__bounce">
       <m.div
         style={{ transformOrigin: 'center bottom', animation: 'none' }}
         animate={{

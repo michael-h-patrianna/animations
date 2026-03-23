@@ -3,12 +3,6 @@
    Chrysanthemum Ring: converge → ring hold → ignite → explode
    ═══════════════════════════════════════════════════════════════ */
 
-[data-animation-id='modal-celebrations__fireworks-ring'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
-  border: 1px solid var(--pf-anim-highlight-12);
-}
-
 /* ─── Ember dot — converge inward → hold on ring → explode outward ───
    --sx, --sy = offset from ring position to start (converge origin)
    --ex, --ey = offset from ring position to explosion endpoint

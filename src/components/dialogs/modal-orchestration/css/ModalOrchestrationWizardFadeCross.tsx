@@ -14,6 +14,7 @@
 import { memo, useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationWizardFadeCross.css'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 3
 
@@ -30,10 +31,9 @@ interface ModalOrchestrationWizardFadeCrossProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <div key={`placeholder-${i}`}>
-      <h5>Stage {i + 1}</h5>
-      <p>Panel content {i + 1}</p>
-    </div>
+    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`}>
+        <p></p>
+      </DemoCard>
   ))
 }
 

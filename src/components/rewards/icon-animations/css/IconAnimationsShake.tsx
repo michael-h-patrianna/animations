@@ -27,7 +27,7 @@ function IconAnimationsShakeComponent({
   duration = 500,
 }: IconAnimationsShakeProps) {
   return (
-    <div className="pf-icon-anim" data-animation-id="icon-animations__shake">
+    <div data-animation-id="icon-animations__shake">
       <div
         className="pf-icon-shake"
         style={{ ['--pf-icon-shake-duration' as string]: `${duration}ms` }}

@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSpinProps {
   children?: ReactNode
@@ -32,9 +33,7 @@ function StandardEffectsSpinComponent({ children, duration = 800 }: StandardEffe
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Spin</span>
-        </div>
+        <DemoBox label="Spin" />
       )}
     </m.div>
   )

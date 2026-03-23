@@ -27,7 +27,7 @@ function IconAnimationsPulseComponent({
   duration = 2000,
 }: IconAnimationsPulseProps) {
   return (
-    <div className="pf-icon-anim" data-animation-id="icon-animations__pulse">
+    <div data-animation-id="icon-animations__pulse">
       <div
         className="pf-icon-pulse"
         style={{ ['--pf-icon-pulse-duration' as string]: `${duration}ms` }}

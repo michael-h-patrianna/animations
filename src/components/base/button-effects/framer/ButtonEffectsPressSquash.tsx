@@ -36,9 +36,11 @@ function ButtonEffectsPressSquashComponent({
   }
 
   return (
-    <m.div
+    <m.button
+      type="button"
+      className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__press-squash"
-      style={{ display: 'inline-flex', transformOrigin: 'center bottom', animation: 'none' }}
+      style={{ transformOrigin: 'center bottom', animation: 'none' }}
       onClick={handleClick}
       initial={{ scaleX: 1, scaleY: 1, y: 0 }}
       animate={
@@ -59,12 +61,8 @@ function ButtonEffectsPressSquashComponent({
       }}
       onAnimationComplete={handleAnimationComplete}
     >
-      {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Click Me!
-        </button>
-      )}
-    </m.div>
+      {children ?? 'Click Me!'}
+    </m.button>
   )
 }
 

@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsWiggleProps {
   children?: ReactNode
@@ -32,9 +33,7 @@ function StandardEffectsWiggleComponent({ children, duration = 1000 }: StandardE
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Wiggle</span>
-        </div>
+        <DemoBox label="Wiggle" />
       )}
     </m.div>
   )

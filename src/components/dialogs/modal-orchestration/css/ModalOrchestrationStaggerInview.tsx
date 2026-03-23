@@ -14,6 +14,7 @@
 import { memo, useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationStaggerInview.css'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 12
 
@@ -32,10 +33,9 @@ interface ModalOrchestrationStaggerInviewProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <div key={`placeholder-${i}`}>
-      <h5>Item {i + 1}</h5>
-      <p>Content {i + 1}</p>
-    </div>
+    <DemoCard key={`placeholder-${i}`} title={`Item ${i + 1}`}>
+        <p></p>
+      </DemoCard>
   ))
 }
 

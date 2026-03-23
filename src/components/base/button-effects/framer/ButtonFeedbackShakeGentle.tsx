@@ -48,9 +48,11 @@ function ButtonFeedbackShakeGentleComponent({
   }
 
   return (
-    <m.div
+    <m.button
+      type="button"
+      className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__shake-gentle"
-      style={{ display: 'inline-flex', animation: 'none' }}
+      style={{ animation: 'none' }}
       initial={{ x: 0, scale: 1, opacity: 1 }}
       animate={
         isAnimating
@@ -81,12 +83,8 @@ function ButtonFeedbackShakeGentleComponent({
       aria-label="Insufficient funds"
       aria-live="polite"
     >
-      {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Click Me
-        </button>
-      )}
-    </m.div>
+      {children ?? 'Click Me'}
+    </m.button>
   )
 }
 

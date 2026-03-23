@@ -1,11 +1,13 @@
 /**
- * Windswept confetti shower with 3D tumble, depth layers, and top-edge flash — CSS variant.
+ * Windswept confetti shower with 3D tumble, depth layers, and afterglow sparkles — CSS variant.
+ * Particles fall from emitY to the bottom of a boundary element (viewport by default),
+ * adapting to any container size. 11-point gravity curve for smooth motion at any distance.
  *
  * Copy-paste files: this file + ModalCelebrationsConfettiRain.css + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css
  * Runtime deps: react
  */
 
-import { memo, useEffect, useMemo } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
@@ -17,6 +19,10 @@ import './ModalCelebrationsConfettiRain.css'
 interface ModalCelebrationsConfettiRainProps extends CelebrationBaseProps {
   /** Total confetti particles across all waves. Default 50. */
   particleCount?: number
+  /** Emission Y position as percentage of container height (0 = top, 100 = bottom). Default 0. */
+  emitY?: number
+  /** Element whose bottom edge particles fall toward. Omit for viewport. */
+  boundary?: HTMLElement | null
 }
 
 /* ─── Types ─── */
@@ -27,22 +33,20 @@ type Particle = {
   color: string
   imageUrl: string | undefined
   left: number
-  driftX1: number
-  driftX2: number
-  driftX3: number
+  xValues: number[]
   rotX: number
   rotY: number
   rotZ: number
   delay: number
   dur: number
-  scale: number
+  peakScale: number
   layer: 'bg' | 'fg'
 }
 
 type Sparkle = {
   id: number
-  x: number
-  y: number
+  xPct: number
+  yPct: number
   delay: number
   size: number
 }
@@ -51,6 +55,28 @@ type Sparkle = {
 
 const DEFAULT_PARTICLE_COUNT = 50
 const DEFAULT_DURATION_MS = 2100
+const FALLBACK_DISTANCE = 500
+const STEPS = 10
+const FALL_TIMES = Array.from({ length: STEPS + 1 }, (_, i) => i / STEPS)
+
+/* ─── Motion curves (sampled for CSS custom properties) ─── */
+
+function driftAtT(t: number, base: number, amp: number, freq: number): number {
+  return base * t + amp * Math.sin(freq * Math.PI * t) * t
+}
+
+/* ─── Fall distance measurement ─── */
+
+function measureFallDistance(
+  container: HTMLElement,
+  emitYPct: number,
+  boundary: HTMLElement | null | undefined
+): number {
+  const rect = container.getBoundingClientRect()
+  const emitYPx = rect.height * (emitYPct / 100)
+  const bottomBound = boundary ? boundary.getBoundingClientRect().bottom : window.innerHeight
+  return Math.max(bottomBound - rect.top - emitYPx, 100)
+}
 
 /* ─── Generators ─── */
 
@@ -66,34 +92,47 @@ function makeParticles(
     const waveBase = [0, 280, 560][wave]!
     const layer: 'bg' | 'fg' = i % 3 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
+
+    const driftBase = randBetween(-25, 25)
+    const driftAmp = randBetween(15, 40)
+    const driftFreq = randBetween(1.2, 2.5)
+
     return {
       id: i,
       shape: pickRandom(CONFETTI_SHAPES),
       color: colors[i % colors.length]!,
       imageUrl: hasImages ? images[i % images.length] : undefined,
       left: randBetween(5, 95),
-      driftX1: randBetween(-20, 20),
-      driftX2: randBetween(-45, 45),
-      driftX3: randBetween(-30, 55),
+      xValues: FALL_TIMES.map((t) => driftAtT(t, driftBase, driftAmp, driftFreq)),
       rotX: randBetween(-180, 180),
       rotY: randBetween(-180, 180),
       rotZ: randBetween(-120, 120),
       delay: (waveBase + randBetween(0, 180)) * timeScale,
       dur: (isBg ? randBetween(1800, 2400) : randBetween(1200, 1700)) * timeScale,
-      scale: isBg ? randBetween(0.9, 1.4) : randBetween(0.6, 1.0),
+      peakScale: isBg ? randBetween(0.9, 1.4) : randBetween(0.6, 1.0),
       layer,
     }
   })
 }
 
-function makeSparkles(timeScale: number): Sparkle[] {
-  return Array.from({ length: 8 }, (_, i) => ({
-    id: i,
-    x: randBetween(-130, 130),
-    y: randBetween(-40, 80),
-    delay: (900 + i * 100 + randBetween(0, 150)) * timeScale,
-    size: randBetween(2.5, 5),
-  }))
+function makeSparkles(emitYPct: number, timeScale: number): Sparkle[] {
+  const startY = emitYPct + (100 - emitYPct) * 0.2
+  const endY = emitYPct + (100 - emitYPct) * 0.85
+  const range = endY - startY
+  const avgFallMs = 1500 * timeScale
+
+  return Array.from({ length: 12 }, (_, i) => {
+    const yPct = startY + (i / 11) * range + randBetween(-range * 0.04, range * 0.04)
+    const span = 100 - emitYPct
+    const progress = span > 0 ? (yPct - emitYPct) / span : 0
+    return {
+      id: i,
+      xPct: randBetween(15, 85),
+      yPct: Math.max(startY, Math.min(endY, yPct)),
+      delay: progress * avgFallMs * 0.6 + randBetween(0, 250) * timeScale,
+      size: randBetween(2.5, 5),
+    }
+  })
 }
 
 /* ─── Sub-components ─── */
@@ -103,11 +142,15 @@ function ConfettiLayer({
   peakOpacity,
   maxW,
   maxH,
+  fallDistance,
+  emitYPct,
 }: {
   particles: Particle[]
   peakOpacity: string
   maxW: number
   maxH: number
+  fallDistance: number
+  emitYPct: number
 }) {
   return (
     <>
@@ -122,21 +165,29 @@ function ConfettiLayer({
           style={
             {
               left: `${p.left}%`,
-              top: '-5%',
+              top: `${emitYPct}%`,
               background: p.imageUrl !== undefined ? undefined : p.color,
               width: p.imageUrl !== undefined ? maxW : undefined,
               height: p.imageUrl !== undefined ? maxH : undefined,
               position: p.imageUrl !== undefined ? 'absolute' : undefined,
               transformStyle: 'preserve-3d',
-              '--dx1': `${p.driftX1}px`,
-              '--dx2': `${p.driftX2}px`,
-              '--dx3': `${p.driftX3}px`,
+              '--fall': `${fallDistance}px`,
+              '--x1': `${p.xValues[1]}px`,
+              '--x2': `${p.xValues[2]}px`,
+              '--x3': `${p.xValues[3]}px`,
+              '--x4': `${p.xValues[4]}px`,
+              '--x5': `${p.xValues[5]}px`,
+              '--x6': `${p.xValues[6]}px`,
+              '--x7': `${p.xValues[7]}px`,
+              '--x8': `${p.xValues[8]}px`,
+              '--x9': `${p.xValues[9]}px`,
+              '--x10': `${p.xValues[10]}px`,
               '--rx': `${p.rotX}deg`,
               '--ry': `${p.rotY}deg`,
               '--rz': `${p.rotZ}deg`,
-              '--s': p.scale,
+              '--s': p.peakScale,
               '--peak-opacity': peakOpacity,
-              animation: `cr-confetti ${p.dur}ms cubic-bezier(0.12, 0, 0.39, 0) ${p.delay}ms both`,
+              animation: `cr-confetti ${p.dur}ms linear ${p.delay}ms both`,
             } as React.CSSProperties
           }
         >
@@ -161,8 +212,8 @@ function SparkleLayer({ sparkles, timeScale }: { sparkles: Sparkle[]; timeScale:
           key={s.id}
           className="pf-celebration__sparkle"
           style={{
-            left: `calc(50% + ${s.x}px)`,
-            top: `calc(50% + ${s.y}px)`,
+            left: `${s.xPct}%`,
+            top: `${s.yPct}%`,
             width: `${s.size}px`,
             height: `${s.size}px`,
             animation: `cr-sparkle ${1100 * timeScale}ms ease-out ${s.delay}ms both`,
@@ -182,15 +233,24 @@ function ModalCelebrationsConfettiRainComponent({
   particleMaxWidth = 24,
   particleMaxHeight = 24,
   duration,
+  emitY = 0,
+  boundary,
   onComplete,
 }: ModalCelebrationsConfettiRainProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [fallDistance, setFallDistance] = useState(FALLBACK_DISTANCE)
+
+  useLayoutEffect(() => {
+    if (!containerRef.current) return
+    setFallDistance(measureFallDistance(containerRef.current, emitY, boundary))
+  }, [emitY, boundary])
 
   const particles = useMemo(
     () => makeParticles(particleCount, colors, particleImages, timeScale),
     [particleCount, colors, particleImages, timeScale]
   )
-  const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
+  const sparkles = useMemo(() => makeSparkles(emitY, timeScale), [emitY, timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
 
@@ -205,11 +265,15 @@ function ModalCelebrationsConfettiRainComponent({
   }, [particles, sparkles, timeScale, onComplete])
 
   return (
-    <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-rain">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__confetti-rain"
+    >
       <div
         style={{
           position: 'absolute',
-          top: 0,
+          top: `${emitY}%`,
           left: 0,
           right: 0,
           height: '6px',
@@ -227,6 +291,8 @@ function ModalCelebrationsConfettiRainComponent({
           peakOpacity="0.45"
           maxW={particleMaxWidth}
           maxH={particleMaxHeight}
+          fallDistance={fallDistance}
+          emitYPct={emitY}
         />
       </div>
       <div className="pf-celebration__depth-fg">
@@ -235,6 +301,8 @@ function ModalCelebrationsConfettiRainComponent({
           peakOpacity="1"
           maxW={particleMaxWidth}
           maxH={particleMaxHeight}
+          fallDistance={fallDistance}
+          emitYPct={emitY}
         />
       </div>
       <div className="pf-celebration__effects">

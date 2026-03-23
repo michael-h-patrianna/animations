@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsSwing.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsSwingComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__swing">
-      <div className="pf-swing pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Swing</span>
-      </div>
-    </div>
+    <DemoBox className="pf-swing" label="Swing" data-animation-id="standard-effects__swing" />
   )
 }
 

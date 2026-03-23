@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsJello.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsJelloComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__jello">
-      <div className="pf-jello pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Jello</span>
-      </div>
-    </div>
+    <DemoBox className="pf-jello" label="Jello" data-animation-id="standard-effects__jello" />
   )
 }
 

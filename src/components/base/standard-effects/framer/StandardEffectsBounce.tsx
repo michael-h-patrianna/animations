@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsBounceProps {
   children?: ReactNode
@@ -34,9 +35,7 @@ function StandardEffectsBounceComponent({ children, duration = 800 }: StandardEf
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Bounce</span>
-        </div>
+        <DemoBox label="Bounce" />
       )}
     </m.div>
   )

@@ -12,6 +12,7 @@
 
 import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
 import './ButtonEffectsRipple.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 interface Ripple {
   id: number
@@ -65,9 +66,7 @@ function ButtonEffectsRippleComponent({ children, duration = 520 }: ButtonEffect
       onClick={handleClick}
     >
       {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Click Me!
-        </button>
+        <DemoButton label="Click Me!" />
       )}
       <span className="pf-ripple__overlay" aria-hidden>
         {ripples.map((r) => {

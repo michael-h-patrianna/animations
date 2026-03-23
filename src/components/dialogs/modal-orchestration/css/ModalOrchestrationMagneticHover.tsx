@@ -14,6 +14,7 @@
 import { memo, useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationMagneticHover.css'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
 
@@ -30,10 +31,9 @@ interface ModalOrchestrationMagneticHoverProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <div key={`placeholder-${i}`}>
-      <h5>Hover {i + 1}</h5>
-      <p>Magnetic tilt</p>
-    </div>
+    <DemoCard key={`placeholder-${i}`} title="Hover {i + 1}">
+        <p>Magnetic tilt</p>
+      </DemoCard>
   ))
 }
 

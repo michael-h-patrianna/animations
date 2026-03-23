@@ -1,7 +1,4 @@
-/* Scoped theme for ModalCelebrationsConfettiRain (Framer variant) */
+/* Framer variant — perspective needed for 3D confetti tumble */
 [data-animation-id='modal-celebrations__confetti-rain'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
-  border: 1px solid var(--pf-anim-highlight-12);
   perspective: 600px;
 }

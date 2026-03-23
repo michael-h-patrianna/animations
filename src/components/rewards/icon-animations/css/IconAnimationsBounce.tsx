@@ -27,7 +27,7 @@ function IconAnimationsBounceComponent({
   duration = 800,
 }: IconAnimationsBounceProps) {
   return (
-    <div className="pf-icon-anim" data-animation-id="icon-animations__bounce">
+    <div data-animation-id="icon-animations__bounce">
       <div
         className="pf-icon-bounce"
         style={{ ['--pf-icon-bounce-duration' as string]: `${duration}ms` }}

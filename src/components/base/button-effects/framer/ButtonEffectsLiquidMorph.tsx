@@ -61,20 +61,18 @@ function ButtonEffectsLiquidMorphComponent({
   }
 
   return (
-    <m.div
+    <m.button
+      type="button"
+      className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__liquid-morph"
-      style={{ display: 'inline-flex', animation: 'none' }}
+      style={{ animation: 'none' }}
       onClick={handleClick}
       variants={liquidMorphVariants}
       initial="initial"
       animate={isAnimating ? 'animate' : 'initial'}
     >
-      {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Click Me!
-        </button>
-      )}
-    </m.div>
+      {children ?? 'Click Me!'}
+    </m.button>
   )
 }
 

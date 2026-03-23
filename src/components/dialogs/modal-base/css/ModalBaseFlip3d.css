@@ -3,43 +3,11 @@
  */
 
 .pf-modal-flip-3d {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 240px;
-  display: grid;
-  place-items: center;
-  background: transparent;
-  opacity: 0;
-  animation: pf-flip-3d-overlay var(--pf-entrance-duration, 800ms)
-    cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
-  will-change: opacity;
-}
-
-.pf-modal-flip-3d__perspective {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  perspective: var(--pf-perspective, 1200px);
-}
-
-.pf-modal-flip-3d__content {
   opacity: 0;
   transform-style: preserve-3d;
   animation: pf-flip-3d-content var(--pf-entrance-duration, 800ms)
     cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
   will-change: transform, opacity;
-}
-
-@keyframes pf-flip-3d-overlay {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: var(--pf-overlay-opacity, 1);
-  }
 }
 
 @keyframes pf-flip-3d-content {

@@ -1,8 +1,6 @@
 import type { ReactNode } from 'react'
 
-import './shared.css'
-
-const DEFAULT_PLACEHOLDER_DURATION = 4000
+import { DemoToast } from '@/components/demo-blocks'
 
 /**
  * Default placeholder notification rendered when an animation component
@@ -10,17 +8,6 @@ const DEFAULT_PLACEHOLDER_DURATION = 4000
  * so the enter → wait → exit choreography is visible in the catalog.
  * Consumers replace this by passing their own children to the animation.
  */
-function MockToastContent({ duration = DEFAULT_PLACEHOLDER_DURATION }: { duration?: number }) {
-  return (
-    <div className="pf-toast">
-      <div className="pf-toast__title">Action Complete</div>
-      <div className="pf-toast__body">Your changes have been saved</div>
-      <div className="pf-toast__progress">
-        <div className="pf-toast__progress-bar" style={{ animationDuration: `${duration}ms` }} />
-      </div>
-    </div>
-  )
-}
 
 /**
  * Wraps children or renders the default toast placeholder.
@@ -34,5 +21,5 @@ export function ToastPlaceholder({
   duration?: number
 }) {
   if (children !== undefined) return <>{children}</>
-  return <MockToastContent duration={duration} />
+  return <DemoToast duration={duration} />
 }

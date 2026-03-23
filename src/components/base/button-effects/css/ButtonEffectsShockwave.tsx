@@ -12,6 +12,7 @@
 
 import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
 import './ButtonEffectsShockwave.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 interface Shockwave {
   id: number
@@ -74,9 +75,7 @@ function ButtonEffectsShockwaveComponent({
       onClick={handleClick}
     >
       {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Click Me!
-        </button>
+        <DemoButton label="Click Me!" />
       )}
       <span className="pf-shockwave__overlay" aria-hidden>
         {shockwaves.map((wave) => {

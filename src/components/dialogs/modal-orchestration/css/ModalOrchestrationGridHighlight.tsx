@@ -14,6 +14,7 @@
 import { memo, useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationGridHighlight.css'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 5
 
@@ -34,11 +35,9 @@ interface ModalOrchestrationGridHighlightProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <div key={`placeholder-${i}`}>
-      <strong>Item {i + 1}</strong>
-      <br />
-      Highlight sweep
-    </div>
+    <DemoCard key={`placeholder-${i}`} title={`Item ${i + 1}`}>
+      <p>Highlight sweep</p>
+    </DemoCard>
   ))
 }
 

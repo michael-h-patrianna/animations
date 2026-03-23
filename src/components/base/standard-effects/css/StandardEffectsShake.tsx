@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsShake.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsShakeComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__shake">
-      <div className="pf-shake pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Shake</span>
-      </div>
-    </div>
+    <DemoBox className="pf-shake" label="Shake" data-animation-id="standard-effects__shake" />
   )
 }
 

@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsFadeProps {
   children?: ReactNode
@@ -29,9 +30,7 @@ function StandardEffectsFadeComponent({ children, duration = 800 }: StandardEffe
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Fade</span>
-        </div>
+        <DemoBox label="Fade" />
       )}
     </m.div>
   )

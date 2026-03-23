@@ -61,7 +61,7 @@ function ButtonEffectsSplitRevealComponent({
     >
       <button
         type="button"
-        className={`pf-split-reveal ${isRevealing ? 'pf-split-reveal--active' : ''} ${className ?? 'pf-btn pf-btn--primary'}`}
+        className={`pf-split-reveal ${isRevealing ? 'pf-split-reveal--active' : ''} ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
         onClick={handleClick}
       >
         <span className="pf-split-reveal__top">{topLabel}</span>

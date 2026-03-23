@@ -1,6 +1,1 @@
-/* Theme — ModalCelebrationsCoinCascade (Framer variant) */
-[data-animation-id='modal-celebrations__coin-cascade'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
-  border: 1px solid var(--pf-anim-highlight-12);
-}
+/* Framer variant — no scoped styles needed */

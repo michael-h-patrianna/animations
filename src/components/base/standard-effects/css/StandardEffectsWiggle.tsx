@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsWiggle.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsWiggleComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__wiggle">
-      <div className="pf-wiggle pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Wiggle</span>
-      </div>
-    </div>
+    <DemoBox className="pf-wiggle" label="Wiggle" data-animation-id="standard-effects__wiggle" />
   )
 }
 

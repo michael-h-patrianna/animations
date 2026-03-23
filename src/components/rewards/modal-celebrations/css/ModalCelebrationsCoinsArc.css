@@ -3,12 +3,6 @@
    Golden Eruption: parabolic coin fountain with 3D spin
    ═══════════════════════════════════════════════════════════════ */
 
-[data-animation-id='modal-celebrations__coins-arc'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
-  border: 1px solid var(--pf-anim-highlight-12);
-}
-
 /* ─── Coin — parabolic arc with 3D spin ───
    --ex     = horizontal endpoint (px)
    --peak   = peak y (negative, upward, px)

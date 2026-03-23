@@ -82,12 +82,6 @@
 }
 
 /* Glitch pill styles — will be renamed to pf- prefix in WP6 */
-.pf-pill-countdown-glitch-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60px;
-}
 
 .pf-pill-countdown-glitch {
   position: relative;
@@ -141,12 +135,6 @@
 }
 
 /* Heartbeat pill styles */
-.pf-pill-countdown-heartbeat-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60px;
-}
 
 .pf-pill-countdown-heartbeat {
   position: relative;

@@ -9,7 +9,6 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '../MockModalContent'
 import type { ModalEntranceProps } from '../SharedTypes'
-import { DEFAULT_OVERLAY_OPACITY } from '../SharedTypes'
 import './ModalBaseScaleGentlePop.css'
 
 const DEFAULT_DURATION = 420
@@ -17,24 +16,14 @@ const DEFAULT_DURATION = 420
 function ModalBaseScaleGentlePopComponent({
   children,
   duration = DEFAULT_DURATION,
-  overlayOpacity = DEFAULT_OVERLAY_OPACITY,
   className,
   style,
 }: ModalEntranceProps) {
-  const cssVars = {
-    '--pf-entrance-duration': `${duration}ms`,
-    '--pf-overlay-opacity': overlayOpacity,
-  } as React.CSSProperties
-
   return (
-    <div
-      className="pf-modal-scale-pop"
-      style={cssVars}
-      data-animation-id="modal-base__scale-gentle-pop"
-    >
+    <div data-animation-id="modal-base__scale-gentle-pop">
       <div
-        className={`pf-modal-scale-pop__content${className ? ` ${className}` : ''}`}
-        style={style}
+        className={`pf-modal-scale-pop${className ? ` ${className}` : ''}`}
+        style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

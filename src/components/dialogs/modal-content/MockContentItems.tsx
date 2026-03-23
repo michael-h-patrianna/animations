@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react'
 
+import { DemoButton, DemoFormField, DemoListItem, DemoModalHeader } from '@/components/demo-blocks'
+
 /**
  * Placeholder content for zero-props catalog rendering.
- * Each generator produces styled elements using pf-mc-* classes from shared.css.
- * These are NOT copied by consumers — they exist only so animations
- * produce a meaningful visual when rendered with zero props.
+ * Thin wrappers around demo-blocks building blocks, re-exported under
+ * the names animation components already import.
+ * NOT copied by consumers — exists only for catalog demos.
  */
 
 // ---------------------------------------------------------------------------
@@ -12,12 +14,7 @@ import type { ReactNode } from 'react'
 // ---------------------------------------------------------------------------
 
 export function MockModalHeader({ title = 'Sequence Control' }: { title?: string }) {
-  return (
-    <div className="pf-mc-header">
-      <h4 className="pf-mc-title">{title}</h4>
-      <span className="pf-mc-badge">Modal</span>
-    </div>
-  )
+  return <DemoModalHeader title={title} badge="Modal" />
 }
 
 // ---------------------------------------------------------------------------
@@ -31,11 +28,7 @@ export function MockButton({
   label: string
   variant?: 'primary' | 'secondary'
 }) {
-  return (
-    <button type="button" className={`pf-mc-btn pf-mc-btn--${variant}`}>
-      {label}
-    </button>
-  )
+  return <DemoButton label={label} variant={variant} />
 }
 
 // ---------------------------------------------------------------------------
@@ -53,9 +46,7 @@ const DEFAULT_LIST_TEXTS = [
 export function generateMockListItems(count?: number): ReactNode[] {
   const texts = DEFAULT_LIST_TEXTS.slice(0, count ?? DEFAULT_LIST_TEXTS.length)
   return texts.map((text, i) => (
-    <div key={`mock-item-${String(i)}`} className="pf-mc-list-item">
-      {text}
-    </div>
+    <DemoListItem key={`mock-item-${String(i)}`}>{text}</DemoListItem>
   ))
 }
 
@@ -66,9 +57,6 @@ export function generateMockListItems(count?: number): ReactNode[] {
 export function generateMockFormFields(count: number = 3): ReactNode[] {
   const labels = ['Username', 'Email', 'Password', 'Confirm']
   return Array.from({ length: count }, (_, i) => (
-    <div key={`mock-field-${String(i)}`} className="pf-mc-field">
-      <label>{labels[i] ?? `Field ${String(i + 1)}`}</label>
-      <input type="text" readOnly />
-    </div>
+    <DemoFormField key={`mock-field-${String(i)}`} label={labels[i] ?? `Field ${String(i + 1)}`} />
   ))
 }

@@ -9,7 +9,6 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '../MockModalContent'
 import type { ModalEntranceProps } from '../SharedTypes'
-import { DEFAULT_OVERLAY_OPACITY } from '../SharedTypes'
 import './ModalBaseGlitchDigital.css'
 
 const DEFAULT_DURATION = 600
@@ -23,23 +22,17 @@ function ModalBaseGlitchDigitalComponent({
   children,
   duration = DEFAULT_DURATION,
   intensity = 1,
-  overlayOpacity = DEFAULT_OVERLAY_OPACITY,
   className,
   style,
 }: ModalBaseGlitchDigitalProps) {
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
-    '--pf-overlay-opacity': overlayOpacity,
     '--pf-glitch-intensity': intensity,
   } as React.CSSProperties
 
   return (
-    <div
-      className="pf-modal-glitch"
-      style={cssVars}
-      data-animation-id="modal-base__tfx-glitchdigital"
-    >
-      <div className="pf-modal-glitch__stage">
+    <div data-animation-id="modal-base__tfx-glitchdigital">
+      <div className="pf-modal-glitch" style={cssVars}>
         <div className="pf-modal-glitch__ghost pf-modal-glitch__ghost--green" aria-hidden="true" />
         <div className="pf-modal-glitch__ghost pf-modal-glitch__ghost--pink" aria-hidden="true" />
         <div

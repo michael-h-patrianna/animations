@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsBlinkProps {
   children?: ReactNode
@@ -45,9 +46,7 @@ function StandardEffectsBlinkComponent({ children, duration = 1000 }: StandardEf
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Blink</span>
-        </div>
+        <DemoBox label="Blink" />
       )}
     </m.div>
   )

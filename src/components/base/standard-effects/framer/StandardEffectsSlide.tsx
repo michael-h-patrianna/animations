@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSlideProps {
   children?: ReactNode
@@ -29,9 +30,7 @@ function StandardEffectsSlideComponent({ children, duration = 700 }: StandardEff
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Slide</span>
-        </div>
+        <DemoBox label="Slide" />
       )}
     </m.div>
   )

@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsFloatProps {
   children?: ReactNode
@@ -34,9 +35,7 @@ function StandardEffectsFloatComponent({ children, duration = 6000 }: StandardEf
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Float</span>
-        </div>
+        <DemoBox label="Float" />
       )}
     </m.div>
   )

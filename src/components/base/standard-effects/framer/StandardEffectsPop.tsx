@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsPopProps {
   children?: ReactNode
@@ -33,9 +34,7 @@ function StandardEffectsPopComponent({ children, duration = 500 }: StandardEffec
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Pop</span>
-        </div>
+        <DemoBox label="Pop" />
       )}
     </m.div>
   )

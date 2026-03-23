@@ -7,7 +7,8 @@
 
 import { memo } from 'react'
 
-import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
+import { DemoButton, DemoList, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import { generateMockListItems } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentListVerticalWipe.css'
@@ -58,13 +59,13 @@ function ModalContentListVerticalWipeComponent({
   const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div className="pf-mc-overlay" data-animation-id="modal-content__list-vertical-wipe">
-      <div className="pf-mc-box pf-mc-box--entrance">
-        <MockModalHeader title="Setup Complete" />
-        <div className="pf-mc-body">
-          <div className="pf-mc-list">{mockItems.map((item, i) => wrapItem(item, i, 300))}</div>
-        </div>
-        <div className="pf-mc-footer">
+    <div className="pf-demo-overlay" data-animation-id="modal-content__list-vertical-wipe">
+      <div className="pf-demo-modal pf-mc-box--entrance">
+        <DemoModalHeader title="Setup Complete" />
+        <DemoModalBody>
+          <DemoList>{mockItems.map((item, i) => wrapItem(item, i, 300))}</DemoList>
+        </DemoModalBody>
+        <DemoModalFooter>
           <div
             className="pf-button-stagger-item"
             style={
@@ -74,9 +75,9 @@ function ModalContentListVerticalWipeComponent({
               } as React.CSSProperties
             }
           >
-            <MockButton label="Continue" />
+            <DemoButton label="Continue" />
           </div>
-        </div>
+        </DemoModalFooter>
       </div>
     </div>
   )

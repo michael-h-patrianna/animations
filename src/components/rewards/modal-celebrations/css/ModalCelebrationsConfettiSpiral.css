@@ -1,9 +1,4 @@
-/* Scoped theme for ModalCelebrationsConfettiSpiral (CSS variant) */
-[data-animation-id='modal-celebrations__confetti-spiral'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-lavender-16), var(--pf-anim-spiral-bg));
-  border: 1px solid var(--pf-anim-lavender-10);
-}
+/* CSS variant */
 
 /* ─── Origin flash ─── */
 @keyframes cs-flash {

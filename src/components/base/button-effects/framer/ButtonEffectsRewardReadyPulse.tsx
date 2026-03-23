@@ -69,9 +69,11 @@ function ButtonEffectsRewardReadyPulseComponent({
   }
 
   return (
-    <m.div
+    <m.button
+      type="button"
+      className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__reward-ready-pulse"
-      style={{ display: 'inline-flex', willChange: 'transform', animation: 'none' }}
+      style={{ willChange: 'transform', animation: 'none' }}
       variants={
         isHovered ? hoverVariants : prefersReducedMotion ? reducedMotionVariants : pulseVariants
       }
@@ -80,12 +82,8 @@ function ButtonEffectsRewardReadyPulseComponent({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Claim Reward
-        </button>
-      )}
-    </m.div>
+      {children ?? 'Claim Reward'}
+    </m.button>
   )
 }
 

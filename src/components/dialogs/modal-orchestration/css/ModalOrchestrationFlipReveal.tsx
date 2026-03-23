@@ -18,6 +18,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationFlipReveal.css'
+import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
 
@@ -40,16 +41,14 @@ interface ModalOrchestrationFlipRevealProps {
 function generatePlaceholders(count: number): FlipItem[] {
   return Array.from({ length: count }, (_, i) => ({
     front: (
-      <div>
-        <h5>Card {i + 1}</h5>
+      <DemoCard title={`Card ${i + 1}`}>
         <p>Click to flip</p>
-      </div>
+      </DemoCard>
     ),
     back: (
-      <div>
-        <h5>Revealed</h5>
+      <DemoCard title="Revealed">
         <p>Hidden content</p>
-      </div>
+      </DemoCard>
     ),
   }))
 }

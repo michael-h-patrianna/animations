@@ -9,6 +9,7 @@
  */
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
+import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsTadaProps {
   children?: ReactNode
@@ -34,9 +35,7 @@ function StandardEffectsTadaComponent({ children, duration = 1000 }: StandardEff
       }}
     >
       {children ?? (
-        <div className="pf-standard-demo__element">
-          <span className="pf-standard-demo__label">Tada</span>
-        </div>
+        <DemoBox label="Tada" />
       )}
     </m.div>
   )

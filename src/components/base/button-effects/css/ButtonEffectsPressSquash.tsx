@@ -15,18 +15,14 @@ function ButtonEffectsPressSquashComponent() {
   }, [isAnimating])
 
   return (
-    <div
+    <button
+      type="button"
       data-animation-id="button-effects__press-squash"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      className={`pf-demo-btn pf-demo-btn--primary pf-press-squash ${isAnimating ? 'pf-press-squash--active' : ''}`}
+      onClick={() => setIsAnimating(true)}
     >
-      <button
-        type="button"
-        className={`pf-btn pf-btn--primary pf-press-squash ${isAnimating ? 'pf-press-squash--active' : ''}`}
-        onClick={() => setIsAnimating(true)}
-      >
-        Click Me!
-      </button>
-    </div>
+      Click Me!
+    </button>
   )
 }
 

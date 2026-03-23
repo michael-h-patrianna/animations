@@ -16,6 +16,7 @@ import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useRef, useState, memo, type ReactNode } from 'react'
 import './ButtonEffectsRipple.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 interface Ripple {
   id: number
@@ -87,9 +88,7 @@ function ButtonEffectsRippleComponent({
       style={color !== undefined ? { ['--pf-ripple-color' as string]: color } : undefined}
     >
       {children ?? (
-        <button type="button" className="pf-btn pf-btn--primary">
-          Click Me!
-        </button>
+        <DemoButton label="Click Me!" />
       )}
       <span className="pf-ripple__overlay" aria-hidden>
         {ripples.map((r) => {

@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsSpin.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsSpinComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__spin">
-      <div className="pf-spin pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Spin</span>
-      </div>
-    </div>
+    <DemoBox className="pf-spin" label="Spin" data-animation-id="standard-effects__spin" />
   )
 }
 

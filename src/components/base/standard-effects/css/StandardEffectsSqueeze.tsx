@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsSqueeze.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsSqueezeComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__squeeze">
-      <div className="pf-squeeze pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Squeeze</span>
-      </div>
-    </div>
+    <DemoBox className="pf-squeeze" label="Squeeze" data-animation-id="standard-effects__squeeze" />
   )
 }
 

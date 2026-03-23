@@ -1,47 +1,11 @@
 /*
- * Shared layout + tokens for modal-content choreography animations.
- * Provides the mock modal structure for zero-props catalog demos.
- * CSS variants reuse these classes — no per-component duplication.
+ * Shared structural + animation CSS for modal-content choreography animations.
+ * Visual styling for inner elements (header, buttons, list items, form fields)
+ * is provided by demo-blocks.css via --pf-demo-* tokens.
+ * Color tokens defined in src/components/demo-tokens.css (--pf-mc-* aliases).
  */
 
-:root {
-  --pf-mc-bg: rgb(236 195 255 / 8%);
-  --pf-mc-border: rgb(236 195 255 / 12%);
-  --pf-mc-color: rgb(255 255 255 / 76%);
-  --pf-mc-badge-bg: rgb(198 255 119 / 16%);
-  --pf-mc-badge-color: #c6ff77;
-  --pf-mc-btn-border: rgb(236 195 255 / 32%);
-  --pf-mc-btn-primary-bg-1: #ff5981;
-  --pf-mc-btn-primary-bg-2: #c83558;
-  --pf-mc-btn-primary-color: #fff;
-  --pf-mc-btn-primary-border: #ff7495;
-  --pf-mc-btn-text-shadow: rgb(0 0 0 / 50%);
-  --pf-mc-btn-secondary-color: #25ecff;
-  --pf-mc-list-bg: rgb(236 195 255 / 8%);
-  --pf-mc-list-accent: #c47ae5;
-  --pf-mc-list-color: rgb(255 255 255 / 90%);
-  --pf-mc-field-label: rgb(255 255 255 / 76%);
-  --pf-mc-field-input-border: rgb(236 195 255 / 32%);
-  --pf-mc-field-input-bg: rgb(236 195 255 / 5%);
-  --pf-mc-field-input-color: rgb(255 255 255 / 90%);
-  --pf-mc-field-shadow: rgb(196 122 229 / 10%);
-  --pf-mc-gradient-10: rgb(59 130 246 / 10%);
-  --pf-mc-gradient-20: rgb(59 130 246 / 20%);
-}
-
-/* ── Overlay ── */
-.pf-mc-overlay {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 240px;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Modal box ── */
+/* ── Modal box (animation target — keeps visual styling for consumer copy-paste) ── */
 .pf-mc-box {
   max-height: 90%;
   overflow: hidden;
@@ -77,134 +41,6 @@
     transform: scale(1) translateY(0);
     opacity: 1;
   }
-}
-
-/* ── Header ── */
-.pf-mc-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--pf-mc-border);
-}
-
-.pf-mc-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.pf-mc-badge {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--pf-mc-badge-bg);
-  color: var(--pf-mc-badge-color);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* ── Body ── */
-.pf-mc-body {
-  padding: 24px 0;
-  min-height: 120px;
-}
-
-.pf-mc-body p {
-  margin: 0 0 12px;
-  line-height: 1.5;
-}
-
-/* ── Footer ── */
-.pf-mc-footer {
-  display: flex;
-  gap: 12px;
-  width: 100%;
-  justify-content: flex-end;
-  flex-wrap: nowrap;
-}
-
-/* ── Buttons ── */
-.pf-mc-btn {
-  padding: 10px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--pf-mc-btn-border);
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition:
-    transform 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.pf-mc-btn--primary {
-  border-radius: 50px;
-  background: linear-gradient(180deg, var(--pf-mc-btn-primary-bg-1), var(--pf-mc-btn-primary-bg-2));
-  color: var(--pf-mc-btn-primary-color);
-  border: 2px solid var(--pf-mc-btn-primary-border);
-  text-shadow: 0 1px 1px var(--pf-mc-btn-text-shadow);
-  padding: 6px 12px;
-}
-
-.pf-mc-btn--secondary {
-  color: var(--pf-mc-btn-secondary-color);
-  border: 2px solid var(--pf-mc-btn-secondary-color);
-  background: transparent;
-  border-radius: 50px;
-  padding: 6px 12px;
-}
-
-/* ── List items ── */
-.pf-mc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.pf-mc-list-item {
-  padding: 12px 16px;
-  background: var(--pf-mc-list-bg);
-  border-radius: 8px;
-  border-left: 4px solid var(--pf-mc-list-accent);
-  color: var(--pf-mc-list-color);
-  font-weight: 500;
-}
-
-/* ── Form fields ── */
-.pf-mc-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-}
-
-.pf-mc-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.pf-mc-field label {
-  font-weight: 500;
-  color: var(--pf-mc-field-label);
-  font-size: 14px;
-}
-
-.pf-mc-field input {
-  padding: 10px 12px;
-  border: 1px solid var(--pf-mc-field-input-border);
-  border-radius: 6px;
-  font-size: 14px;
-  background: var(--pf-mc-field-input-bg);
-  color: var(--pf-mc-field-input-color);
-  transition: border-color 0.2s ease;
-}
-
-.pf-mc-field input:focus {
-  outline: none;
-  border-color: var(--pf-mc-border);
-  box-shadow: 0 0 0 3px var(--pf-mc-field-shadow);
 }
 
 /* ── Stagger containers (used by consumer path) ── */

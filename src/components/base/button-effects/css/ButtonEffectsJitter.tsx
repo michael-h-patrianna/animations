@@ -4,17 +4,11 @@
  */
 import { memo } from 'react'
 import './ButtonEffectsJitter.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 function ButtonEffectsJitterComponent() {
   return (
-    <div
-      data-animation-id="button-effects__jitter"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-    >
-      <button type="button" className="pf-btn pf-btn--primary pf-jitter">
-        Click Me!
-      </button>
-    </div>
+    <DemoButton className="pf-jitter" label="Click Me!" data-animation-id="button-effects__jitter" />
   )
 }
 

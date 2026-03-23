@@ -3,7 +3,6 @@
  *
  * Custom properties for runtime override:
  *   --pf-entrance-duration: 600ms
- *   --pf-overlay-opacity: 0.5
  *   --pf-glitch-intensity: 1
  */
 
@@ -11,21 +10,6 @@
   --pf-glitch-green: rgb(198 255 119 / 10%);
   --pf-glitch-pink: rgb(255 119 198 / 10%);
   position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 240px;
-  display: grid;
-  place-items: center;
-  background: transparent;
-  opacity: 0;
-  animation: pf-glitch-digital-overlay var(--pf-entrance-duration, 600ms) ease-in-out forwards;
-  will-change: opacity;
-}
-
-.pf-modal-glitch__stage {
-  position: relative;
-  display: grid;
-  place-items: center;
 }
 
 .pf-modal-glitch__ghost {
@@ -58,15 +42,6 @@
   opacity: 0;
   animation: pf-glitch-digital-content var(--pf-entrance-duration, 600ms) ease-in-out forwards;
   will-change: transform, opacity;
-}
-
-@keyframes pf-glitch-digital-overlay {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: var(--pf-overlay-opacity, 1);
-  }
 }
 
 @keyframes pf-glitch-digital-ghost-green {

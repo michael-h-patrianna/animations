@@ -1,11 +1,13 @@
 /**
  * Jackpot Cascade — coins pour from 3 streams with gravity and bounce — CSS variant.
+ * Falls from emitY to the bottom of a boundary element (viewport by default),
+ * adapting to any container size.
  *
  * Copy-paste files: this file + ModalCelebrationsCoinCascade.css + ../SharedCelebrationTypes.ts + ../SharedFallbackCoin.tsx + ../utils.ts + ../shared.css
  * Runtime deps: react
  */
 
-import { memo, useEffect, useMemo } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
 import { GOLDEN_COLORS_HEX } from '../SharedCelebrationTypes'
@@ -20,6 +22,10 @@ interface ModalCelebrationsCoinCascadeProps extends CelebrationBaseProps {
   coinCount?: number
   /** URL for coin image. When omitted, renders SVG fallback coin. */
   coinImage?: string
+  /** Emission Y position as percentage of container height (0 = top, 100 = bottom). Default 0. */
+  emitY?: number
+  /** Element whose bottom edge particles fall toward. Omit for viewport. */
+  boundary?: HTMLElement | null
 }
 
 /* ─── Types ─── */
@@ -53,11 +59,30 @@ type Mote = {
 
 const DEFAULT_COIN_COUNT = 24
 const DEFAULT_DURATION_MS = 1400
+const FALLBACK_DISTANCE = 500
 const STREAMS = [-55, 0, 55]
+
+/* ─── Fall distance measurement ─── */
+
+function measureFallDistance(
+  container: HTMLElement,
+  emitYPct: number,
+  boundary: HTMLElement | null | undefined
+): number {
+  const rect = container.getBoundingClientRect()
+  const emitYPx = rect.height * (emitYPct / 100)
+  // Coins bounce off a visible floor — default to container height so the bounce
+  // stays in view. Viewport behavior happens naturally when the consumer wraps
+  // the component in a full-screen overlay.
+  const bottomBound = boundary
+    ? boundary.getBoundingClientRect().bottom - rect.top
+    : rect.height
+  return Math.max(bottomBound - emitYPx, 100)
+}
 
 /* ─── Generators ─── */
 
-function makeCoins(count: number, timeScale: number): Coin[] {
+function makeCoins(count: number, fallDistance: number, timeScale: number): Coin[] {
   const coins: Coin[] = []
 
   for (let i = 0; i < count; i++) {
@@ -67,7 +92,7 @@ function makeCoins(count: number, timeScale: number): Coin[] {
     const isBg = layer === 'bg'
 
     const startX = stream + randBetween(-16, 16)
-    const fallDist = randBetween(150, 185)
+    const fallDist = fallDistance * randBetween(0.65, 0.75)
     const wobbleAmp = randBetween(6, 15) * (Math.random() > 0.5 ? 1 : -1)
     const wobbleFreq = randBetween(1.5, 2.8)
     const endX = wobbleAmp * Math.sin(wobbleFreq * Math.PI)
@@ -93,18 +118,22 @@ function makeCoins(count: number, timeScale: number): Coin[] {
   return coins
 }
 
-function makeTrails(colors: readonly string[], timeScale: number): Mote[] {
+function makeTrails(
+  colors: readonly string[],
+  fallDistance: number,
+  timeScale: number
+): Mote[] {
   const trails: Mote[] = []
 
   for (let i = 0; i < 18; i++) {
     const stream = STREAMS[i % 3]!
     const fallFrac = randBetween(0.15, 0.6)
-    const fallDist = randBetween(150, 185)
+    const coinFall = fallDistance * randBetween(0.65, 0.75)
 
     trails.push({
       id: i,
       x: stream + randBetween(-18, 18),
-      y: fallDist * fallFrac * fallFrac,
+      y: coinFall * fallFrac * fallFrac,
       delay: ((i % 3) * 60 + fallFrac * 1200 + randBetween(0, 100)) * timeScale,
       size: randBetween(2, 4),
       color: pickRandom(colors),
@@ -114,7 +143,11 @@ function makeTrails(colors: readonly string[], timeScale: number): Mote[] {
   return trails
 }
 
-function makeImpacts(colors: readonly string[], timeScale: number): Mote[] {
+function makeImpacts(
+  colors: readonly string[],
+  fallDistance: number,
+  timeScale: number
+): Mote[] {
   const impacts: Mote[] = []
 
   for (let i = 0; i < 10; i++) {
@@ -123,7 +156,7 @@ function makeImpacts(colors: readonly string[], timeScale: number): Mote[] {
     impacts.push({
       id: i,
       x: stream + randBetween(-22, 22),
-      y: randBetween(150, 185),
+      y: fallDistance * randBetween(0.65, 0.75),
       delay: ((i % 3) * 60 + Math.floor(i / 3) * 70 + randBetween(700, 950)) * timeScale,
       size: randBetween(3, 6),
       color: pickRandom(colors),
@@ -133,14 +166,18 @@ function makeImpacts(colors: readonly string[], timeScale: number): Mote[] {
   return impacts
 }
 
-function makeShimmers(colors: readonly string[], timeScale: number): Mote[] {
+function makeShimmers(
+  colors: readonly string[],
+  fallDistance: number,
+  timeScale: number
+): Mote[] {
   const shimmers: Mote[] = []
 
   for (let i = 0; i < 14; i++) {
     shimmers.push({
       id: i,
       x: randBetween(-70, 70),
-      y: randBetween(20, 160),
+      y: fallDistance * randBetween(0.12, 0.94),
       delay: (250 + i * 50 + randBetween(0, 80)) * timeScale,
       size: randBetween(2, 4),
       color: pickRandom(colors),
@@ -157,11 +194,13 @@ function CoinLayer({
   resolveImg,
   maxW,
   maxH,
+  emitYPct,
 }: {
   coins: Coin[]
   resolveImg: (id: number) => string | undefined
   maxW: number
   maxH: number
+  emitYPct: number
 }) {
   return (
     <>
@@ -176,7 +215,7 @@ function CoinLayer({
               {
                 position: 'absolute',
                 left: '50%',
-                top: '10%',
+                top: `${emitYPct}%`,
                 width: w,
                 height: h,
                 pointerEvents: 'none',
@@ -209,7 +248,15 @@ function CoinLayer({
   )
 }
 
-function TrailLayer({ trails, timeScale }: { trails: Mote[]; timeScale: number }) {
+function TrailLayer({
+  trails,
+  timeScale,
+  emitYPct,
+}: {
+  trails: Mote[]
+  timeScale: number
+  emitYPct: number
+}) {
   return (
     <>
       {trails.map((t) => (
@@ -218,7 +265,7 @@ function TrailLayer({ trails, timeScale }: { trails: Mote[]; timeScale: number }
           style={{
             position: 'absolute',
             left: `calc(50% + ${t.x}px)`,
-            top: `calc(10% + ${t.y}px)`,
+            top: `calc(${emitYPct}% + ${t.y}px)`,
             width: `${t.size}px`,
             height: `${t.size}px`,
             borderRadius: '50%',
@@ -234,7 +281,15 @@ function TrailLayer({ trails, timeScale }: { trails: Mote[]; timeScale: number }
   )
 }
 
-function ImpactLayer({ impacts, timeScale }: { impacts: Mote[]; timeScale: number }) {
+function ImpactLayer({
+  impacts,
+  timeScale,
+  emitYPct,
+}: {
+  impacts: Mote[]
+  timeScale: number
+  emitYPct: number
+}) {
   return (
     <>
       {impacts.map((imp) => (
@@ -243,7 +298,7 @@ function ImpactLayer({ impacts, timeScale }: { impacts: Mote[]; timeScale: numbe
           style={{
             position: 'absolute',
             left: `calc(50% + ${imp.x}px)`,
-            top: `calc(10% + ${imp.y}px)`,
+            top: `calc(${emitYPct}% + ${imp.y}px)`,
             width: `${imp.size}px`,
             height: `${imp.size}px`,
             borderRadius: '50%',
@@ -259,7 +314,15 @@ function ImpactLayer({ impacts, timeScale }: { impacts: Mote[]; timeScale: numbe
   )
 }
 
-function ShimmerLayer({ shimmers, timeScale }: { shimmers: Mote[]; timeScale: number }) {
+function ShimmerLayer({
+  shimmers,
+  timeScale,
+  emitYPct,
+}: {
+  shimmers: Mote[]
+  timeScale: number
+  emitYPct: number
+}) {
   return (
     <>
       {shimmers.map((s) => (
@@ -268,7 +331,7 @@ function ShimmerLayer({ shimmers, timeScale }: { shimmers: Mote[]; timeScale: nu
           className="pf-celebration__sparkle"
           style={{
             left: `calc(50% + ${s.x}px)`,
-            top: `calc(10% + ${s.y}px)`,
+            top: `calc(${emitYPct}% + ${s.y}px)`,
             width: `${s.size}px`,
             height: `${s.size}px`,
             background: s.color,
@@ -291,23 +354,39 @@ function ModalCelebrationsCoinCascadeComponent({
   particleMaxHeight = 24,
   colors = GOLDEN_COLORS_HEX,
   duration,
+  emitY = 15,
+  boundary,
   onComplete,
 }: ModalCelebrationsCoinCascadeProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [fallDistance, setFallDistance] = useState(FALLBACK_DISTANCE)
+
+  useLayoutEffect(() => {
+    if (!containerRef.current) return
+    setFallDistance(measureFallDistance(containerRef.current, emitY, boundary))
+  }, [emitY, boundary])
+
   const effectiveColors = colors.length > 0 ? colors : GOLDEN_COLORS
   const hasParticleImages = particleImages.length > 0
   const resolveCoinSrc = (index: number): string | undefined =>
     hasParticleImages ? particleImages[index % particleImages.length] : coinImage
 
-  const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
-  const trails = useMemo(() => makeTrails(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const coins = useMemo(
+    () => makeCoins(coinCount, fallDistance, timeScale),
+    [coinCount, fallDistance, timeScale]
+  )
+  const trails = useMemo(
+    () => makeTrails(effectiveColors, fallDistance, timeScale),
+    [effectiveColors, fallDistance, timeScale]
+  )
   const impacts = useMemo(
-    () => makeImpacts(effectiveColors, timeScale),
-    [effectiveColors, timeScale]
+    () => makeImpacts(effectiveColors, fallDistance, timeScale),
+    [effectiveColors, fallDistance, timeScale]
   )
   const shimmers = useMemo(
-    () => makeShimmers(effectiveColors, timeScale),
-    [effectiveColors, timeScale]
+    () => makeShimmers(effectiveColors, fallDistance, timeScale),
+    [effectiveColors, fallDistance, timeScale]
   )
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
@@ -323,14 +402,18 @@ function ModalCelebrationsCoinCascadeComponent({
   }, [coins, shimmers, timeScale, onComplete])
 
   return (
-    <div className="pf-celebration" data-animation-id="modal-celebrations__coin-cascade">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__coin-cascade"
+    >
       {STREAMS.map((x, i) => (
         <span
           key={i}
           style={{
             position: 'absolute',
             left: `calc(50% + ${x}px)`,
-            top: '10%',
+            top: `${emitY}%`,
             width: '6px',
             height: '6px',
             borderRadius: '50%',
@@ -347,6 +430,7 @@ function ModalCelebrationsCoinCascadeComponent({
           resolveImg={resolveCoinSrc}
           maxW={particleMaxWidth}
           maxH={particleMaxHeight}
+          emitYPct={emitY}
         />
       </div>
       <div className="pf-celebration__depth-fg">
@@ -355,12 +439,13 @@ function ModalCelebrationsCoinCascadeComponent({
           resolveImg={resolveCoinSrc}
           maxW={particleMaxWidth}
           maxH={particleMaxHeight}
+          emitYPct={emitY}
         />
       </div>
       <div className="pf-celebration__effects">
-        <TrailLayer trails={trails} timeScale={timeScale} />
-        <ImpactLayer impacts={impacts} timeScale={timeScale} />
-        <ShimmerLayer shimmers={shimmers} timeScale={timeScale} />
+        <TrailLayer trails={trails} timeScale={timeScale} emitYPct={emitY} />
+        <ImpactLayer impacts={impacts} timeScale={timeScale} emitYPct={emitY} />
+        <ShimmerLayer shimmers={shimmers} timeScale={timeScale} emitYPct={emitY} />
       </div>
     </div>
   )

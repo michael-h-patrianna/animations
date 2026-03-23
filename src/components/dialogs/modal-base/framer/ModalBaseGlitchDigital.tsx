@@ -13,7 +13,6 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '../MockModalContent'
 import type { ModalEntranceProps } from '../SharedTypes'
-import { DEFAULT_OVERLAY_OPACITY } from '../SharedTypes'
 
 const DEFAULT_DURATION = 600
 
@@ -34,7 +33,6 @@ function ModalBaseGlitchDigitalComponent({
   children,
   duration = DEFAULT_DURATION,
   intensity = 1,
-  overlayOpacity = DEFAULT_OVERLAY_OPACITY,
   className,
   style,
   onAnimationComplete,
@@ -47,59 +45,48 @@ function ModalBaseGlitchDigitalComponent({
   const skewMax = 2 * intensity
 
   return (
-    <m.div
-      className="pf-modal-overlay"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: 'easeInOut' }}
-      style={
-        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
-      }
-      data-animation-id="modal-base__tfx-glitchdigital"
-    >
-      <div className="pf-modal-center">
-        <div style={{ position: 'relative' }}>
-          {/* Green ghost — chromatic aberration layer */}
-          {!prefersReducedMotion && (
-            <m.div
-              style={{ ...ghostBase, background: 'var(--pf-glitch-green)' }}
-              initial={{ x: ghostOffsetGreen.x, y: ghostOffsetGreen.y, opacity: 0.4 }}
-              animate={{ x: 0, y: 0, opacity: 0 }}
-              transition={{ duration: durationS, ease: 'easeInOut', delay: 0.05 }}
-              aria-hidden="true"
-            />
-          )}
-          {/* Pink ghost — chromatic aberration layer */}
-          {!prefersReducedMotion && (
-            <m.div
-              style={{ ...ghostBase, background: 'var(--pf-glitch-pink)' }}
-              initial={{ x: ghostOffsetPink.x, y: ghostOffsetPink.y, opacity: 0.3 }}
-              animate={{ x: 0, y: 0, opacity: 0 }}
-              transition={{ duration: durationS, ease: 'easeInOut', delay: 0.1 }}
-              aria-hidden="true"
-            />
-          )}
-          {/* Main content with glitch skew */}
+    <div data-animation-id="modal-base__tfx-glitchdigital">
+      <div style={{ position: 'relative' }}>
+        {/* Green ghost — chromatic aberration layer */}
+        {!prefersReducedMotion && (
           <m.div
-            className={className}
-            initial={prefersReducedMotion ? { opacity: 0 } : { skewX: 0, opacity: 0 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 1 }
-                : {
-                    skewX: [0, skewMax, -skewMax, skewMax * 0.5, 0],
-                    opacity: [0, 0.5, 0.8, 0.95, 1],
-                  }
-            }
-            transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: 'easeInOut' }}
-            onAnimationComplete={onAnimationComplete}
-            style={{ position: 'relative', zIndex: 1, animation: 'none' }}
-          >
-            <ModalPlaceholder>{children}</ModalPlaceholder>
-          </m.div>
-        </div>
+            style={{ ...ghostBase, background: 'var(--pf-glitch-green)' }}
+            initial={{ x: ghostOffsetGreen.x, y: ghostOffsetGreen.y, opacity: 0.4 }}
+            animate={{ x: 0, y: 0, opacity: 0 }}
+            transition={{ duration: durationS, ease: 'easeInOut', delay: 0.05 }}
+            aria-hidden="true"
+          />
+        )}
+        {/* Pink ghost — chromatic aberration layer */}
+        {!prefersReducedMotion && (
+          <m.div
+            style={{ ...ghostBase, background: 'var(--pf-glitch-pink)' }}
+            initial={{ x: ghostOffsetPink.x, y: ghostOffsetPink.y, opacity: 0.3 }}
+            animate={{ x: 0, y: 0, opacity: 0 }}
+            transition={{ duration: durationS, ease: 'easeInOut', delay: 0.1 }}
+            aria-hidden="true"
+          />
+        )}
+        {/* Main content with glitch skew */}
+        <m.div
+          className={className}
+          initial={prefersReducedMotion ? { opacity: 0 } : { skewX: 0, opacity: 0 }}
+          animate={
+            prefersReducedMotion
+              ? { opacity: 1 }
+              : {
+                  skewX: [0, skewMax, -skewMax, skewMax * 0.5, 0],
+                  opacity: [0, 0.5, 0.8, 0.95, 1],
+                }
+          }
+          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: 'easeInOut' }}
+          onAnimationComplete={onAnimationComplete}
+          style={{ ...style, position: 'relative', zIndex: 1, animation: 'none' }}
+        >
+          <ModalPlaceholder>{children}</ModalPlaceholder>
+        </m.div>
       </div>
-    </m.div>
+    </div>
   )
 }
 

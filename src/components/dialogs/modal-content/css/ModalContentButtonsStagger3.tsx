@@ -7,7 +7,7 @@
 
 import { memo } from 'react'
 
-import { MockButton, MockModalHeader } from '../MockContentItems'
+import { DemoButton, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentButtonsStagger3.css'
@@ -56,18 +56,18 @@ function ModalContentButtonsStagger3Component({
   }
 
   return (
-    <div className="pf-mc-overlay" data-animation-id="modal-content__buttons-stagger-3">
-      <div className="pf-mc-box pf-mc-box--entrance">
-        <MockModalHeader />
-        <div className="pf-mc-body">
+    <div className="pf-demo-overlay" data-animation-id="modal-content__buttons-stagger-3">
+      <div className="pf-demo-modal pf-mc-box--entrance">
+        <DemoModalHeader />
+        <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
           <p>Keep focus with 70ms cadence.</p>
-        </div>
-        <div className="pf-mc-footer">
-          {wrapItem(<MockButton label="Primary" />, 0, 300)}
-          {wrapItem(<MockButton label="Secondary" variant="secondary" />, 1, 300)}
-          {wrapItem(<MockButton label="Tertiary" variant="secondary" />, 2, 300)}
-        </div>
+        </DemoModalBody>
+        <DemoModalFooter>
+          {wrapItem(<DemoButton label="Primary" />, 0, 300)}
+          {wrapItem(<DemoButton label="Secondary" variant="secondary" />, 1, 300)}
+          {wrapItem(<DemoButton label="Tertiary" variant="secondary" />, 2, 300)}
+        </DemoModalFooter>
       </div>
     </div>
   )

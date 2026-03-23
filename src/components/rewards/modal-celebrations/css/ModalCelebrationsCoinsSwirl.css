@@ -1,12 +1,5 @@
 /* ═══ ModalCelebrationsCoinsSwirl — Golden Vortex (CSS variant) ═══ */
 
-/* Theme */
-[data-animation-id='modal-celebrations__coins-swirl'].pf-celebration {
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--pf-anim-highlight-18), var(--pf-anim-deep-purple-bg));
-  border: 1px solid var(--pf-anim-highlight-12);
-}
-
 /*
  * Spiral coin path using rotate(orbital) + translateX(radius).
  * CSS vars: --start-angle, --total-spin (with units),

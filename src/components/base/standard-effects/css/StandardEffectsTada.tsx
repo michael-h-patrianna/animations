@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsTada.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsTadaComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__tada">
-      <div className="pf-tada pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Tada</span>
-      </div>
-    </div>
+    <DemoBox className="pf-tada" label="Tada" data-animation-id="standard-effects__tada" />
   )
 }
 

@@ -16,7 +16,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { generateMockListItems, MockButton, MockModalHeader } from '../MockContentItems'
+import { DemoButton, DemoList, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import { generateMockListItems } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 400
@@ -74,9 +75,9 @@ function ModalContentListSoftStaggerComponent({
   const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div className="pf-mc-overlay" data-animation-id="modal-content__list-soft-stagger">
+    <div className="pf-demo-overlay" data-animation-id="modal-content__list-soft-stagger">
       <m.div
-        className="pf-mc-box"
+        className="pf-demo-modal"
         initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
         animate={
           reduced
@@ -90,13 +91,13 @@ function ModalContentListSoftStaggerComponent({
         }
         style={{ animation: 'none' }}
       >
-        <MockModalHeader title="Recent Changes" />
-        <div className="pf-mc-body">
-          <div className="pf-mc-list">
+        <DemoModalHeader title="Recent Changes" />
+        <DemoModalBody>
+          <DemoList>
             {mockItems.map((item, i) => animateListItem(item, i, 0.3))}
-          </div>
-        </div>
-        <div className="pf-mc-footer">
+          </DemoList>
+        </DemoModalBody>
+        <DemoModalFooter>
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
             animate={
@@ -112,9 +113,9 @@ function ModalContentListSoftStaggerComponent({
             onAnimationComplete={onAnimationComplete}
             style={{ animation: 'none' }}
           >
-            <MockButton label="Got it" />
+            <DemoButton label="Got it" />
           </m.div>
-        </div>
+        </DemoModalFooter>
       </m.div>
     </div>
   )

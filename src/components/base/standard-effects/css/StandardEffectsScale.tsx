@@ -4,14 +4,11 @@
  */
 import { memo } from 'react'
 import './StandardEffectsScale.css'
+import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsScaleComponent() {
   return (
-    <div className="pf-standard-demo" data-animation-id="standard-effects__scale">
-      <div className="pf-scale pf-standard-demo__element">
-        <span className="pf-standard-demo__label">Scale</span>
-      </div>
-    </div>
+    <DemoBox className="pf-scale" label="Scale" data-animation-id="standard-effects__scale" />
   )
 }
 
