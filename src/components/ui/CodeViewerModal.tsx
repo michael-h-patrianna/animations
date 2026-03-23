@@ -143,13 +143,7 @@ function useTabScroll() {
   return { scrollRef, canScrollLeft, canScrollRight, scroll }
 }
 
-function ScrollCaret({
-  direction,
-  onClick,
-}: {
-  direction: 'left' | 'right'
-  onClick: () => void
-}) {
+function ScrollCaret({ direction, onClick }: { direction: 'left' | 'right'; onClick: () => void }) {
   return (
     <button
       type="button"
