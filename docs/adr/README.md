@@ -24,10 +24,8 @@ Each ADR follows this structure:
 - [ADR-004: State Machine Refactoring Strategy](./ADR-004-state-machine-refactoring.md)
 - [ADR-005: Ban Blur and Non-Linear Gradients as Animated Properties](./ADR-005-ban-animated-blur-and-gradients.md)
 - [ADR-006: Self-Contained Animation Components](./ADR-006-self-contained-animations.md)
-
-## Related: Implementation Decisions
-
-The [`docs/decisions/`](../decisions/) directory contains implementation-focused decision records (numbered 001-006) that document specific tooling and workflow choices. The ADRs here cover higher-level architectural decisions. Some topics overlap (e.g., co-located metadata) — when they do, the ADR captures the architectural rationale while the decision record captures the implementation specifics.
+- [ADR-007: Auto-Discovery via import.meta.glob](./ADR-007-auto-discovery-glob.md)
+- [ADR-008: Lint Config Integrity Enforcement](./ADR-008-lint-integrity-enforcement.md)
 
 ## Creating New ADRs
 
@@ -35,4 +33,4 @@ The [`docs/decisions/`](../decisions/) directory contains implementation-focused
 2. Number it sequentially (ADR-XXX)
 3. Fill in all sections with meaningful content
 4. Update this index
-5. Get team review before marking as "accepted"
+5. Get team review before marking as "accepted" (lol)

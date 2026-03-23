@@ -10,18 +10,18 @@ All colors in `background`, `border`, `box-shadow`, `text-shadow`, `color` decla
 
 Before any visual work, determine which model the bar follows:
 
-| Model | Description | Has own background? | Examples |
-|-|-|-|-|
-| **A — Naked track** | Just a track + fill. Sits in consumer's layout. | No | ElasticFill, ProgressThin, ProgressBounce, ProgressSegmented, CelebrationBurst |
-| **B — Self-contained card** | Creates its own visual world with bg, border, padding. | Yes | NeonPulse, SciFiLoader, RetroBit, CrystalNodes, QuestlineRoyal, XpAccumulation |
-| **C — Labeled composite** | Track + metadata UI (labels, counters, icons). No own bg. | No | Stamina, JourneyMap, FlagPlant, MilestoneUnlock, ProgressMilestones, ChargeSurge |
-| **D — Non-bar shape** | Not a horizontal/vertical bar. Circular, tube, etc. | Varies | CircularDash, LiquidTube, ZoomedProgress |
+| Model                       | Description                                               | Has own background? | Examples                                                                         |
+| --------------------------- | --------------------------------------------------------- | ------------------- | -------------------------------------------------------------------------------- |
+| **A — Naked track**         | Just a track + fill. Sits in consumer's layout.           | No                  | ElasticFill, ProgressThin, ProgressBounce, ProgressSegmented, CelebrationBurst   |
+| **B — Self-contained card** | Creates its own visual world with bg, border, padding.    | Yes                 | NeonPulse, SciFiLoader, RetroBit, CrystalNodes, QuestlineRoyal, XpAccumulation   |
+| **C — Labeled composite**   | Track + metadata UI (labels, counters, icons). No own bg. | No                  | Stamina, JourneyMap, FlagPlant, MilestoneUnlock, ProgressMilestones, ChargeSurge |
+| **D — Non-bar shape**       | Not a horizontal/vertical bar. Circular, tube, etc.       | Varies              | CircularDash, LiquidTube, ZoomedProgress                                         |
 
 The model determines which CSS recipes apply. A naked track needs depth on the track itself. A card creates depth on its container. A labeled composite needs typography rules.
 
 ## Step 1: Identity
 
-Write one sentence: "This bar is a _____ that communicates _____ through _____."
+Write one sentence: "This bar is a **\_** that communicates **\_** through **\_**."
 
 This determines the color family and visual tone. Gaming/achievement bars want luminous, exciting colors. Utility bars want clean, neutral tones. Themed bars define their own world.
 
@@ -44,6 +44,7 @@ All CSS color values are custom properties on the component root. Name them sema
 ```
 
 **Palette derivation from a single primary hue (e.g., `#38bdf8` sky-blue):**
+
 - Track bg: primary at 8% opacity → `rgb(56 189 248 / 8%)`
 - Track border: white at 5% → `rgb(255 255 255 / 5%)`
 - Track shadow: black at 25% → `rgb(0 0 0 / 25%)`
@@ -58,24 +59,25 @@ All CSS color values are custom properties on the component root. Name them sema
 
 Utility bars share a small set of color families to avoid rainbow chaos on the catalog page:
 
-| Color family | Primary | Bars |
-|-|-|-|
-| Amber/Gold | `#f59e0b` | ElasticFill, FlagPlant |
-| Sky Blue | `#38bdf8` | ProgressThin, ProgressMilestones, ChargeSurge, JourneyMap |
-| Emerald | `#34d399` | ProgressBounce, Stamina |
-| Violet | `#a78bfa` | ProgressSegmented, MilestoneUnlock, ZoomedProgress |
-| Purple | `#a855f7` | CelebrationBurst (kept as-is per user) |
-| Cyan | `#22d3ee` | CrystalNodes, SciFiLoader, XpAccumulation |
-| Teal | `#14b8a6` | CircularDash |
-| Blue | `#3b82f6` | LiquidTube |
-| Magenta | `#ec4899` | NeonPulse |
-| Terminal Green | `#22c55e` | RetroBit |
-| Blue-Cyan-Gold | (multi) | QuestlineRoyal (already good, minimal changes) |
-| Blue-Cyan | `#38bdf8` | TimelineProgress |
+| Color family   | Primary   | Bars                                                      |
+| -------------- | --------- | --------------------------------------------------------- |
+| Amber/Gold     | `#f59e0b` | ElasticFill, FlagPlant                                    |
+| Sky Blue       | `#38bdf8` | ProgressThin, ProgressMilestones, ChargeSurge, JourneyMap |
+| Emerald        | `#34d399` | ProgressBounce, Stamina                                   |
+| Violet         | `#a78bfa` | ProgressSegmented, MilestoneUnlock, ZoomedProgress        |
+| Purple         | `#a855f7` | CelebrationBurst (kept as-is per user)                    |
+| Cyan           | `#22d3ee` | CrystalNodes, SciFiLoader, XpAccumulation                 |
+| Teal           | `#14b8a6` | CircularDash                                              |
+| Blue           | `#3b82f6` | LiquidTube                                                |
+| Magenta        | `#ec4899` | NeonPulse                                                 |
+| Terminal Green | `#22c55e` | RetroBit                                                  |
+| Blue-Cyan-Gold | (multi)   | QuestlineRoyal (already good, minimal changes)            |
+| Blue-Cyan      | `#38bdf8` | TimelineProgress                                          |
 
 ## Step 3: Depth (Track)
 
 **For standard tracks (height ≥ 6px) — Model A/C:**
+
 ```css
 .track {
   background: var(--track-bg);
@@ -87,6 +89,7 @@ Utility bars share a small set of color families to avoid rainbow chaos on the c
 
 **For thin tracks (height ≤ 4px) — e.g., ProgressThin:**
 No inset shadow (doesn't render well at this scale). Use fill glow for depth instead:
+
 ```css
 .track {
   background: var(--track-bg);
@@ -98,9 +101,11 @@ No inset shadow (doesn't render well at this scale). Use fill glow for depth ins
 ```
 
 **For self-contained cards — Model B:**
+
 ```css
 .container {
-  background: linear-gradient(150deg, var(--accent-tint) 0%, transparent 42%),
+  background:
+    linear-gradient(150deg, var(--accent-tint) 0%, transparent 42%),
     linear-gradient(0deg, var(--bg-dark) 0%, var(--bg-mid) 58%, var(--bg-light) 100%);
   border: 1px solid var(--edge-color);
   box-shadow:
@@ -161,6 +166,7 @@ Status tag:     10px  weight 700  uppercase  letter-spacing 0.05em  pill bg
 ## Step 7: TSX Inline Audit
 
 Check the framer TSX file for inline `style` props that reference colors:
+
 - Replace `var(--pf-anim-*)` fallbacks with the bar's own custom property or a hardcoded hex
 - Ensure all inline accent colors match the CSS custom property values
 - Elements that share CSS class names with the CSS variant need `style={{ animation: 'none' }}`
@@ -168,6 +174,7 @@ Check the framer TSX file for inline `style` props that reference colors:
 ## Quality Gate
 
 Before marking a bar as done:
+
 1. CSS-only: `npm run lint:css` passes
 2. TSX: `npm run type-check` passes
 3. Visual: the bar looks like it belongs in a premium mobile game, not a Bootstrap template

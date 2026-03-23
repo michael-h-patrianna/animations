@@ -255,11 +255,11 @@ Key patterns visible in templates above:
 
 ## On-Demand References
 
-| Detail | Location |
-|-|-|
-| Refactoring playbook | `docs/reports/animation-refactoring-playbook.md` |
-| Reference implementation | `src/components/rewards/collection-effects/` |
-| Tier 1-4 definitions | Serena: `project_tier_definitions` (also in auto-memory) |
-| Animation design principles | Serena: `animation_design_principles` |
-| Demo separation architecture | Auto-memory: `project_demo_separation` |
-| Full type definitions | Read `src/types/animation.ts` directly |
+| Detail                       | Location                                                 |
+| ---------------------------- | -------------------------------------------------------- |
+| Refactoring playbook         | `docs/reports/animation-refactoring-playbook.md`         |
+| Reference implementation     | `src/components/rewards/collection-effects/`             |
+| Tier 1-4 definitions         | Serena: `project_tier_definitions` (also in auto-memory) |
+| Animation design principles  | Serena: `animation_design_principles`                    |
+| Demo separation architecture | Auto-memory: `project_demo_separation`                   |
+| Full type definitions        | Read `src/types/animation.ts` directly                   |

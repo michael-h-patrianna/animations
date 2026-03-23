@@ -16,23 +16,23 @@ The catalog showcases animations ranging from simple CSS effects to full interac
 
 ## Current Tier Distribution
 
-| Tier | Count | Definition |
-|-|-|-|
-| 1 (Effect) | 22 | Copy CSS keyframes or Motion props |
-| 2 (Decorated) | 29 | Copy component + CSS |
-| 3 (Orchestration) | 54 | Copy component + CSS + follow HTML structure |
-| 4 (Full Component) | 69 | Copy entire group directory |
+| Tier               | Count | Definition                                   |
+| ------------------ | ----- | -------------------------------------------- |
+| 1 (Effect)         | 22    | Copy CSS keyframes or Motion props           |
+| 2 (Decorated)      | 29    | Copy component + CSS                         |
+| 3 (Orchestration)  | 54    | Copy component + CSS + follow HTML structure |
+| 4 (Full Component) | 69    | Copy entire group directory                  |
 
 ## Observed Integration Patterns
 
 Regardless of tier, animations fall into four distinct integration patterns:
 
-| Pattern | User action | Examples |
-|-|-|-|
-| **Element Effect** | Wrap or apply to any existing element | `IconAnimationsBounce`, `ButtonEffectsRipple`, `TextEffectsVerbJog` |
-| **Overlay Layer** | Absolute-positioned layer triggered on demand | `ConfettiBurst`, `Firework`, `CoinBurst`, `CoinMagnet` |
-| **Orchestration** | Multi-element coordinator — user provides children | `GridHighlight`, wizard-slide variants, stagger-inview |
-| **Full Scene** | Self-contained component with own DOM, assets, state | `CardPackOpen`, `PrizeRevealArcanePortal`, `LightsCircleStatic*` |
+| Pattern            | User action                                          | Examples                                                            |
+| ------------------ | ---------------------------------------------------- | ------------------------------------------------------------------- |
+| **Element Effect** | Wrap or apply to any existing element                | `IconAnimationsBounce`, `ButtonEffectsRipple`, `TextEffectsVerbJog` |
+| **Overlay Layer**  | Absolute-positioned layer triggered on demand        | `ConfettiBurst`, `Firework`, `CoinBurst`, `CoinMagnet`              |
+| **Orchestration**  | Multi-element coordinator — user provides children   | `GridHighlight`, wizard-slide variants, stagger-inview              |
+| **Full Scene**     | Self-contained component with own DOM, assets, state | `CardPackOpen`, `PrizeRevealArcanePortal`, `LightsCircleStatic*`    |
 
 The tier system conflates these. `CoinBurst` (overlay layer, structurally simple to integrate) and `CardPackOpen` (full scene with state machine) are both tier 4.
 
@@ -71,6 +71,7 @@ Design what the user pastes into their project and what they type to make it wor
 ```
 
 This consumer API immediately reveals:
+
 - The component needs `from` and `to` as ref or coordinate
 - It needs image preloading before animation starts
 - It needs a fallback particle renderer (SVG confetti)

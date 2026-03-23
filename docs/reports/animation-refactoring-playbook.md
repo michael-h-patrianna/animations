@@ -47,6 +47,7 @@ Think about which kind of animation you're working on. The approach differs fund
 ### What a consumer actually needs to know
 
 For every animation you refactor, the consumer needs exactly four answers:
+
 1. Where does this go in my component tree?
 2. What props do I pass?
 3. What files do I copy?
@@ -68,12 +69,12 @@ The one-sentence pitch is the test. If you can't say it in one sentence, you don
 
 **The two variants often serve different purposes and audiences:**
 
-| Group type | CSS variant product | Framer variant product |
-|-|-|-|
-| FX effects (bounce, shake) | `.css` file — add class to any element | Wrapper component — RN porting reference |
-| Visual indicators (pulse circle) | `.css` + documented HTML structure | Component with size/color/duration props |
-| Data-driven (progress bar) | `.css` + custom properties set via JS | Component accepting data props |
-| Full scenes (chest reveal) | `.css` mirrors the framer choreography | Self-contained component with theme/callback props |
+| Group type                       | CSS variant product                    | Framer variant product                             |
+| -------------------------------- | -------------------------------------- | -------------------------------------------------- |
+| FX effects (bounce, shake)       | `.css` file — add class to any element | Wrapper component — RN porting reference           |
+| Visual indicators (pulse circle) | `.css` + documented HTML structure     | Component with size/color/duration props           |
+| Data-driven (progress bar)       | `.css` + custom properties set via JS  | Component accepting data props                     |
+| Full scenes (chest reveal)       | `.css` mirrors the framer choreography | Self-contained component with theme/callback props |
 
 Do NOT skip this step. The standard-effects refactoring failed initially because the work was planned as "add children prop + duration prop to everything" — a structural template — instead of recognizing that these are CSS utility effects where the `.css` file IS the product and the TSX is catalog scaffolding.
 
@@ -84,6 +85,7 @@ Before reading any animation code, write the consumer scenario: "A developer bui
 ### Critique your own API design before implementing
 
 After writing the consumer scenario, attack it:
+
 - Does this API work for a mobile app AND a web app AND a browser game?
 - Are there props that only make sense in one context?
 - Would a developer look at this interface and immediately know what each prop does?
@@ -95,6 +97,7 @@ If the API survives this critique, implement it. If not, revise and critique aga
 ### Critique your implementation before declaring it done
 
 After implementing, ask:
+
 - Does the animation LOOK and FEEL like its counterpart in a professional mobile game?
 - Is the Motion variant actually animating, or is the CSS variant's stylesheet silently overriding it?
 - Do particles/elements appear at their correct positions on mount, or flash at (0,0) first?
@@ -103,13 +106,13 @@ After implementing, ask:
 
 If any answer is wrong, debug and fix. The diagnostic patterns from the collection-effects work:
 
-| You see | The cause is | Fix |
-|-|-|-|
-| Elements at top-left (0,0) then jump | `useEffect` before layout settles | `useLayoutEffect` |
-| Framer particles visible but frozen | CSS `animation:` overrides Motion | `style={{ animation: 'none' }}` on `m.*` elements |
-| CSS particles flash then disappear during delay | `fill-mode: forwards` skips 0% keyframe during delay | `opacity: 0` on class + `fill-mode: both` |
-| Framer: some properties animate, others don't | `times` array length doesn't match all property arrays | All animated properties must be same-length arrays when `times` is set |
-| Lint: strict-boolean-expressions | `if (obj)` or `if (num)` | `if (x !== undefined)`, `(n === 0 ? 1 : n)` |
+| You see                                         | The cause is                                           | Fix                                                                    |
+| ----------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------- |
+| Elements at top-left (0,0) then jump            | `useEffect` before layout settles                      | `useLayoutEffect`                                                      |
+| Framer particles visible but frozen             | CSS `animation:` overrides Motion                      | `style={{ animation: 'none' }}` on `m.*` elements                      |
+| CSS particles flash then disappear during delay | `fill-mode: forwards` skips 0% keyframe during delay   | `opacity: 0` on class + `fill-mode: both`                              |
+| Framer: some properties animate, others don't   | `times` array length doesn't match all property arrays | All animated properties must be same-length arrays when `times` is set |
+| Lint: strict-boolean-expressions                | `if (obj)` or `if (num)`                               | `if (x !== undefined)`, `(n === 0 ? 1 : n)`                            |
 
 ### Shared file naming
 
@@ -119,12 +122,12 @@ Files at group root that aren't animations must match `SKIP_PATTERN` in `src/lib
 
 Before starting any group refactoring, read these for context:
 
-| File | What it tells you |
-|-|-|
-| `src/components/rewards/collection-effects/SharedTypes.ts` | How to design a shared props interface with spatial resolution utilities |
-| `src/components/rewards/collection-effects/framer/CollectionEffectsCoinMagnet.tsx` | Reference for a fully standalone configurable particle animation |
-| `src/components/rewards/collection-effects/css/CollectionEffectsCoinMagnet.tsx` | How the CSS variant mirrors the framer variant using custom properties |
-| `src/components/rewards/collection-effects/MockDemoAnchors.tsx` | How catalog demo UI works — randomized positions, ref passing |
-| `src/components/ui/GroupSection.tsx:165-189` | How `DemoModeWrapper` renders demo UI based on metadata |
-| `src/types/animation.ts` | Where `demoMode` lives in the type system |
-| `src/lib/groupBuilder.ts:31` | The `SKIP_PATTERN` regex for shared file naming |
+| File                                                                               | What it tells you                                                        |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `src/components/rewards/collection-effects/SharedTypes.ts`                         | How to design a shared props interface with spatial resolution utilities |
+| `src/components/rewards/collection-effects/framer/CollectionEffectsCoinMagnet.tsx` | Reference for a fully standalone configurable particle animation         |
+| `src/components/rewards/collection-effects/css/CollectionEffectsCoinMagnet.tsx`    | How the CSS variant mirrors the framer variant using custom properties   |
+| `src/components/rewards/collection-effects/MockDemoAnchors.tsx`                    | How catalog demo UI works — randomized positions, ref passing            |
+| `src/components/ui/GroupSection.tsx:165-189`                                       | How `DemoModeWrapper` renders demo UI based on metadata                  |
+| `src/types/animation.ts`                                                           | Where `demoMode` lives in the type system                                |
+| `src/lib/groupBuilder.ts:31`                                                       | The `SKIP_PATTERN` regex for shared file naming                          |
