@@ -14,8 +14,8 @@ import { SharedDemoTriggers } from '../SharedDemoTriggers'
 import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
 import {
+  computeSlamDownCloseTrajectory,
   computeSlamDownTrajectory,
-  reverseExtended,
   type ExtendedTrajectoryArrays,
   type ModalOpenProps,
 } from '../SharedTypes'
@@ -35,7 +35,10 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
     return computeSlamDownTrajectory(s.fromPoint, s.center, s.force)
   }, [s.fromPoint, s.center, s.force])
 
-  const closeTraj = useMemo(() => (openTraj ? reverseExtended(openTraj) : null), [openTraj])
+  const closeTraj = useMemo(
+    () => (s.fromPoint && s.center ? computeSlamDownCloseTrajectory(s.fromPoint, s.center, s.force) : null),
+    [s.fromPoint, s.center, s.force]
+  )
 
   const traj: ExtendedTrajectoryArrays | null = s.isClosing ? closeTraj : openTraj
 

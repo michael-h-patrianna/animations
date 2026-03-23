@@ -13,10 +13,10 @@ import { ModalOpenPlaceholder } from '../MockOpenModalContent'
 import '../shared.css'
 import './ModalOpenFlyIn.css'
 import {
+  computeArcCloseTrajectory,
   computeArcTrajectory,
   containerCenter,
   resolvePointRelative,
-  reverseTrajectory,
   DEFAULT_DURATION,
   DEFAULT_IMPACT_FORCE,
   DEFAULT_OVERLAY_OPACITY,
@@ -182,9 +182,9 @@ function ModalOpenFlyInComponent({
   }, [fromPoint, center, force])
 
   const closeTrajectory = useMemo(() => {
-    if (!openTrajectory) return null
-    return reverseTrajectory(openTrajectory)
-  }, [openTrajectory])
+    if (!fromPoint || !center) return null
+    return computeArcCloseTrajectory(fromPoint, center, force)
+  }, [fromPoint, center, force])
 
   const isVisible = phase !== 'idle'
   const isClosing = phase === 'closing'

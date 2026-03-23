@@ -325,7 +325,7 @@ export function computeArcTrajectory(
   const distance = Math.sqrt(dx * dx + dy * dy)
 
   // ── Force-derived physics ──
-  const initialScale = 0.15 - f * 0.14 // 0.15 (soft) → 0.01 (extreme)
+  const initialScale = 0.15 - f * 0.08 // 0.15 (soft) → 0.07 (extreme) — floor at 0.07 so it's visible at button
   const scaleGrowthPower = 1.5 + f * 1.5 // 1.5 (gradual) → 3.0 (explosive)
   const posOvershoot = 0.005 + f * 0.085 // 0.5% → 9%
   const scaleOvershoot = 1.0 + 0.01 + f * 0.13 // 1.01 → 1.14
@@ -375,8 +375,8 @@ export function computeArcTrajectory(
       initialScale + (1 - initialScale) * (1 - Math.pow(1 - linearT, scaleGrowthPower))
     scale.push(scaleVal)
 
-    // Opacity: quick fade-in over first 8% of linear time
-    opacity.push(linearT < 0.08 ? linearT / 0.08 : 1)
+    // Opacity: start visible at button (0.4) so the spatial origin is clear
+    opacity.push(Math.min(1, 0.4 + linearT * 8))
   }
 
   // ── Settle phase: overshoot + bounce + optional impact shake + rest ──
@@ -434,6 +434,105 @@ export function reverseTrajectory(t: TrajectoryArrays): TrajectoryArrays {
     scale: [...t.scale].reverse(),
     opacity: [...t.opacity].reverse(),
   }
+}
+
+/**
+ * FlyIn CLOSE: dedicated trajectory that arcs back to the trigger button.
+ *
+ * Unlike reverseTrajectory (which replays the settle phase in reverse for 30%
+ * before any spatial movement), this trajectory prioritizes the return flight:
+ *
+ * Phase 1 (0→10%): Anticipation at center — slight scale bump.
+ * Phase 2 (10%→82%): Reverse arc to button, accelerating. Scale shrinks.
+ * Phase 3 (82%→100%): Vanish at button.
+ */
+export function computeArcCloseTrajectory(
+  from: ResolvedPoint,
+  center: ResolvedPoint,
+  force = DEFAULT_IMPACT_FORCE
+): TrajectoryArrays {
+  const f = Math.max(0, Math.min(1, force))
+  const dx = from.x - center.x // direction: center → button
+  const dy = from.y - center.y
+  const distance = Math.sqrt(dx * dx + dy * dy)
+
+  // Below threshold — just scale-pop
+  if (distance < MIN_ARC_DISTANCE) {
+    return {
+      x: [0, 0, 0],
+      y: [0, 0, 0],
+      times: [0, 0.6, 1],
+      scale: [1, 0.5, 0],
+      opacity: [1, 0.5, 0],
+    }
+  }
+
+  // Reverse the arc control points (center → from)
+  const { cp1, cp2 } = computeArcControlPoints(from, center, f)
+  // Swap and mirror: fly from center to `from` using reversed control points
+  const rCp1 = { x: cp2.x, y: cp2.y }
+  const rCp2 = { x: cp1.x, y: cp1.y }
+
+  const x: number[] = []
+  const y: number[] = []
+  const times: number[] = []
+  const scale: number[] = []
+  const opacity: number[] = []
+
+  // Phase 1: Anticipation at center (0→10%)
+  x.push(0)
+  y.push(0)
+  times.push(0)
+  scale.push(1)
+  opacity.push(1)
+
+  x.push(0)
+  y.push(0)
+  times.push(0.10)
+  scale.push(1.04)
+  opacity.push(1)
+
+  // Phase 2: Reverse arc to button (10%→82%)
+  const flightStart = 0.10
+  const flightEnd = 0.82
+  const flightSpan = flightEnd - flightStart
+  const flightSamples = 16
+
+  for (let i = 1; i <= flightSamples; i++) {
+    const t = i / flightSamples
+    const tl = flightStart + t * flightSpan
+
+    // Ease-in: accelerates toward button (lower power at high force for trackability)
+    const easeInPower = 2.0 - f * 0.4 // 2.0 (soft) → 1.6 (hard)
+    const curveT = Math.pow(t, easeInPower)
+
+    // Arc from center to button
+    x.push(cBezier(curveT, center.x, rCp1.x, rCp2.x, from.x) - center.x)
+    y.push(cBezier(curveT, center.y, rCp1.y, rCp2.y, from.y) - center.y)
+    times.push(tl)
+
+    // Scale shrinks: 1.0 → 0.12
+    scale.push(1.0 - 0.88 * curveT)
+
+    // Opacity holds until 55% of flight, then fades
+    const fadeStart = 0.55
+    opacity.push(t < fadeStart ? 1 : 1 - ((t - fadeStart) / (1 - fadeStart)) * 0.6)
+  }
+
+  // Phase 3: Vanish at button (82%→100%)
+  x.push(dx)
+  y.push(dy)
+  times.push(0.90)
+  scale.push(0.06)
+  opacity.push(0.15)
+
+  x.push(dx)
+  y.push(dy)
+  times.push(1)
+  scale.push(0)
+  opacity.push(0)
+
+  return { x, y, times, scale, opacity }
 }
 
 // ============================================================================
@@ -512,18 +611,30 @@ export function computeBubblePopTrajectory(
     opacity.push(op)
   }
 
-  // Phase 1: Quick snap from trigger to center (0→8%)
+  // Phase 1: Quick snap from trigger to center (0→12%)
+  // Start visible at button so the spatial origin is clear
   x.push(from.x - center.x)
   y.push(from.y - center.y)
   times.push(0)
-  scale.push(0)
+  scale.push(0.08)
   scaleX.push(1)
   scaleY.push(1)
   rotate.push(0)
   skewX.push(0)
-  opacity.push(0)
+  opacity.push(0.6)
 
-  push(0.08, 0.15, 1, 1, 0, 1)
+  // Midway: moving toward center, growing
+  x.push((from.x - center.x) * 0.3)
+  y.push((from.y - center.y) * 0.3)
+  times.push(0.06)
+  scale.push(0.1)
+  scaleX.push(1)
+  scaleY.push(1)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(0.9)
+
+  push(0.12, 0.15, 1, 1, 0, 1)
 
   // Phase 2: Inflation with wobble (8%→62%)
   // CRT-inspired: fewer, wider swings. One big overshoot then halving settle.
@@ -551,6 +662,86 @@ export function computeBubblePopTrajectory(
 
   // Rest
   push(1.0, 1.0, 1, 1, 0, 1)
+
+  return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
+}
+
+/**
+ * Bubble Pop CLOSE: deflates at center then snaps back to button.
+ *
+ * Unlike reverseExtended (92% reversed wobble/jello at center, 8% snap),
+ * this prioritizes the spatial return:
+ *
+ * Phase 1 (0→30%): Quick deflation at center with reverse wobble character.
+ * Phase 2 (30%→82%): Fly to button while shrinking.
+ * Phase 3 (82%→100%): Vanish at button.
+ */
+export function computeBubblePopCloseTrajectory(
+  from: ResolvedPoint,
+  center: ResolvedPoint,
+  force = DEFAULT_IMPACT_FORCE
+): ExtendedTrajectoryArrays {
+  const f = Math.max(0, Math.min(1, force))
+  const dx = from.x - center.x // direction: center → button
+  const dy = from.y - center.y
+
+  const wobbleAmp = 0.02 + f * 0.05
+
+  const x: number[] = [],
+    y: number[] = [],
+    times: number[] = []
+  const scale: number[] = [],
+    opacity: number[] = []
+  const scaleX: number[] = [],
+    scaleY: number[] = []
+  const rotate: number[] = [],
+    skewX: number[] = []
+
+  const push = (
+    px: number, py: number, tl: number,
+    s: number, sx: number, sy: number, sk: number, op: number
+  ) => {
+    x.push(px)
+    y.push(py)
+    times.push(tl)
+    scale.push(s)
+    scaleX.push(sx)
+    scaleY.push(sy)
+    rotate.push(0)
+    skewX.push(sk)
+    opacity.push(op)
+  }
+
+  // Phase 1: Deflation at center (0→30%) — reverse of the inflation wobble
+  const a = wobbleAmp
+  push(0, 0, 0, 1.0, 1, 1, 0, 1)              // rest
+  push(0, 0, 0.08, 0.92, 1 - a, 1 + a, 0, 1)  // first squeeze
+  push(0, 0, 0.18, 0.6, 1 + a * 0.5, 1 - a * 0.5, 0, 1) // bounce
+  push(0, 0, 0.30, 0.2, 1, 1, 0, 1)            // deflated
+
+  // Phase 2: Fly to button (30%→82%)
+  const flightStart = 0.30
+  const flightEnd = 0.82
+  const flightSpan = flightEnd - flightStart
+  const flightSamples = 8
+
+  for (let i = 1; i <= flightSamples; i++) {
+    const t = i / flightSamples
+    const tl = flightStart + t * flightSpan
+    const easeInPower = 1.8 - f * 0.3 // 1.8 (soft) → 1.5 (hard)
+    const curveT = Math.pow(t, easeInPower)
+
+    push(
+      dx * curveT, dy * curveT, tl,
+      0.2 - 0.12 * curveT, // 0.2 → 0.08
+      1, 1, 0,
+      t < 0.5 ? 1 : 1 - ((t - 0.5) / 0.5) * 0.6
+    )
+  }
+
+  // Phase 3: Vanish at button (82%→100%)
+  push(dx, dy, 0.90, 0.04, 1, 1, 0, 0.15)
+  push(dx, dy, 1.0, 0, 1, 1, 0, 0)
 
   return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
 }
@@ -863,8 +1054,9 @@ export function computeSlamDownTrajectory(
     const yT = 1 - Math.pow(1 - t, 2.5)
     y.push(from.y * (1 - yT) + (center.y - launchHeight) * yT - center.y)
     times.push(tl)
-    scale.push(0.2 + 0.6 * t)
-    opacity.push(t < 0.2 ? t / 0.2 : 1)
+    scale.push(0.3 + 0.5 * t)
+    // Start visible at button (0.5 opacity) so the spatial origin is clear
+    opacity.push(Math.min(1, 0.5 + t * 3))
     ext()
   }
 
@@ -938,6 +1130,132 @@ export function computeSlamDownTrajectory(
   times.push(1)
   scale.push(1)
   opacity.push(1)
+  ext()
+
+  return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
+}
+
+/**
+ * Slam Down CLOSE: lifts from center, then drops to button with gravity.
+ *
+ * Unlike reverseExtended (which replays aftershock bounces for 35% before
+ * any spatial movement), this prioritizes the return flight:
+ *
+ * Phase 1 (0→8%): Brief anticipation at center.
+ * Phase 2 (8%→35%): Rise upward from center (reverse of the slam).
+ * Phase 3 (35%→80%): Accelerating fall to button (gravity curve).
+ * Phase 4 (80%→100%): Vanish at button.
+ */
+export function computeSlamDownCloseTrajectory(
+  from: ResolvedPoint,
+  center: ResolvedPoint,
+  force = DEFAULT_IMPACT_FORCE
+): ExtendedTrajectoryArrays {
+  const f = Math.max(0, Math.min(1, force))
+  const dx = from.x - center.x // direction: center → button
+  const dy = from.y - center.y
+
+  // Rise height: proportional to force, but shorter than open's launch
+  const riseHeight = 40 + f * 100 // 40px (soft) → 140px (hard) — less than open's 60→260
+
+  const x: number[] = [],
+    y: number[] = [],
+    times: number[] = []
+  const scale: number[] = [],
+    opacity: number[] = []
+  const scaleX: number[] = [],
+    scaleY: number[] = []
+  const rotate: number[] = [],
+    skewX: number[] = []
+
+  const ext = () => {
+    scaleX.push(1)
+    scaleY.push(1)
+    rotate.push(0)
+    skewX.push(0)
+  }
+
+  // Phase 1: Anticipation at center (0→8%)
+  x.push(0)
+  y.push(0)
+  times.push(0)
+  scale.push(1)
+  opacity.push(1)
+  ext()
+
+  // Slight scaleY stretch (anticipation of lift-off)
+  x.push(0)
+  y.push(0)
+  times.push(0.08)
+  scale.push(1.02)
+  opacity.push(1)
+  scaleX.push(1)
+  scaleY.push(1.04)
+  rotate.push(0)
+  skewX.push(0)
+
+  // Phase 2: Rise upward (8%→35%) — ease-out lift
+  const riseStart = 0.08
+  const riseEnd = 0.35
+  const riseSpan = riseEnd - riseStart
+  const riseSamples = 6
+
+  for (let i = 1; i <= riseSamples; i++) {
+    const t = i / riseSamples
+    const tl = riseStart + t * riseSpan
+    const curveT = 1 - Math.pow(1 - t, 2) // ease-out rise
+
+    x.push(dx * 0.15 * curveT) // slight horizontal drift toward button
+    y.push(-riseHeight * curveT) // rise upward
+    times.push(tl)
+    scale.push(1.0 - 0.15 * curveT) // slight shrink during rise
+    opacity.push(1)
+    ext()
+  }
+
+  // Phase 3: Gravity fall to button (35%→80%) — ease-in (accelerating)
+  const fallStart = riseEnd
+  const fallEnd = 0.80
+  const fallSpan = fallEnd - fallStart
+  const fallSamples = 8
+
+  // Start position: slightly drifted horizontally, risen vertically
+  const riseEndX = dx * 0.15
+  const riseEndY = -riseHeight
+
+  for (let i = 1; i <= fallSamples; i++) {
+    const t = i / fallSamples
+    const tl = fallStart + t * fallSpan
+    // Gravity: cubic ease-in (accelerating fall)
+    const gravity = t * t * t
+
+    // X: ease toward button
+    const xEase = Math.pow(t, 1.5)
+    x.push(riseEndX + (dx - riseEndX) * xEase)
+    // Y: fall from rise apex to button Y
+    y.push(riseEndY + (dy - riseEndY) * gravity)
+    times.push(tl)
+
+    // Scale shrinks: 0.85 → 0.2
+    scale.push(0.85 - 0.65 * gravity)
+    // Opacity fades in second half
+    opacity.push(t < 0.5 ? 1 : 1 - ((t - 0.5) / 0.5) * 0.6)
+    ext()
+  }
+
+  // Phase 4: Vanish at button (80%→100%)
+  x.push(dx)
+  y.push(dy)
+  times.push(0.90)
+  scale.push(0.08)
+  opacity.push(0.15)
+  ext()
+
+  x.push(dx)
+  y.push(dy)
+  times.push(1)
+  scale.push(0)
+  opacity.push(0)
   ext()
 
   return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }

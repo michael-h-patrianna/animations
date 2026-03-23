@@ -13,7 +13,11 @@ import { SharedDemoTriggers } from '../SharedDemoTriggers'
 import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
 import '../css/shared-css-animations.css'
-import { computeBubblePopTrajectory, reverseExtended, type ModalOpenProps } from '../SharedTypes'
+import {
+  computeBubblePopCloseTrajectory,
+  computeBubblePopTrajectory,
+  type ModalOpenProps,
+} from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soft', force: 0.1, duration: 900, reveal: 45 },
@@ -30,7 +34,10 @@ function ModalOpenBubblePopComponent(props: ModalOpenProps) {
     return computeBubblePopTrajectory(s.fromPoint, s.center, s.force)
   }, [s.fromPoint, s.center, s.force])
 
-  const closeTraj = useMemo(() => (openTraj ? reverseExtended(openTraj) : null), [openTraj])
+  const closeTraj = useMemo(
+    () => (s.fromPoint && s.center ? computeBubblePopCloseTrajectory(s.fromPoint, s.center, s.force) : null),
+    [s.fromPoint, s.center, s.force]
+  )
 
   const { isVisible, isClosing, activeDurationMs, handleCloseComplete, handleOpenComplete } = s
   const traj = isClosing ? closeTraj : openTraj
