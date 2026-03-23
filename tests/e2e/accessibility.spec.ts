@@ -255,11 +255,10 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
     // Close button receives initial focus
     await expect(catalogPage.codeCloseButton()).toBeFocused()
 
-    // JS file selector is interactable
-    const jsSelect = catalogPage.codeJsSelect()
-    if ((await jsSelect.count()) > 0) {
-      await expect(jsSelect).toBeVisible()
-    }
+    // Tab list is interactable
+    const tabList = catalogPage.codeTabList()
+    await expect(tabList).toBeVisible()
+    expect(await catalogPage.codeTabs().count()).toBeGreaterThan(0)
 
     // Copy button is clickable
     const copyBtn = catalogPage.codeCopyButton()
@@ -299,11 +298,9 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
       if (testId) focusedTestIds.push(testId)
     }
 
-    // Copy button and file selectors should be reachable via Tab
+    // Copy button should be reachable via Tab
     expect(focusedTestIds).toContain('code-copy-btn')
-    // File selector dropdowns should be reachable (code-js-select or code-css-select)
-    expect(focusedTestIds.some((id) => id === 'code-js-select' || id === 'code-css-select')).toBe(
-      true
-    )
+    // Tab buttons should be reachable (code-tab-0, code-tab-1, etc.)
+    expect(focusedTestIds.some((id) => id.startsWith('code-tab-'))).toBe(true)
   })
 })

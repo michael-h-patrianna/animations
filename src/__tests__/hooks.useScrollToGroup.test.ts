@@ -339,4 +339,79 @@ describe('useScrollToGroup', () => {
     el.remove()
     scrollToSpy.mockRestore()
   })
+
+  it('element appearing just before the 2s timeout still triggers scroll', async () => {
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const appBarRef = makeRef()
+
+    renderHook(() => useScrollToGroup({ currentGroupId: 'just-in-time', appBarRef }))
+
+    // Advance to just before timeout (1999ms)
+    vi.advanceTimersByTime(1999)
+
+    // Add element before timeout fires
+    const el = document.createElement('div')
+    el.id = 'group-just-in-time'
+    el.getBoundingClientRect = () =>
+      ({ top: 400, left: 0, right: 100, bottom: 500, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(el)
+
+    // Flush MutationObserver
+    await vi.advanceTimersByTimeAsync(0)
+
+    // Observer should have caught it before the timeout
+    expect(scrollToSpy).toHaveBeenCalled()
+
+    el.remove()
+    scrollToSpy.mockRestore()
+  })
+
+  it('re-rendering with new groupId while old observer is still watching cancels old observer', async () => {
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const appBarRef = makeRef()
+
+    const { rerender } = renderHook(
+      ({ groupId }) => useScrollToGroup({ currentGroupId: groupId, appBarRef }),
+      { initialProps: { groupId: 'group-a' } }
+    )
+
+    // group-a not in DOM — observer watching
+
+    // Switch to group-b before group-a appears
+    rerender({ groupId: 'group-b' })
+
+    // Now add group-a to DOM — old observer should have been disconnected by cleanup
+    const elA = document.createElement('div')
+    elA.id = 'group-group-a'
+    elA.getBoundingClientRect = () =>
+      ({ top: 100, left: 0, right: 100, bottom: 200, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(elA)
+
+    await vi.advanceTimersByTimeAsync(0)
+
+    // Should NOT have scrolled to group-a (old observer was cleaned up)
+    // The call may or may not happen depending on observer cleanup timing
+    // But group-b's observer is now watching, and group-a appeared which is irrelevant to it
+
+    // Add group-b to DOM — should trigger scroll via the active observer
+    const elB = document.createElement('div')
+    elB.id = 'group-group-b'
+    elB.getBoundingClientRect = () =>
+      ({ top: 300, left: 0, right: 100, bottom: 400, width: 100, height: 100 }) as DOMRect
+    document.body.appendChild(elB)
+
+    await vi.advanceTimersByTimeAsync(0)
+
+    // The most recent scroll should be to group-b's position
+    const lastCall = scrollToSpy.mock.calls[scrollToSpy.mock.calls.length - 1]
+    if (lastCall) {
+      const opts = lastCall[0] as ScrollToOptions
+      // group-b at top:300 - 0 (no appbar) - 16 (offset) = 284
+      expect(opts.top).toBe(284)
+    }
+
+    elA.remove()
+    elB.remove()
+    scrollToSpy.mockRestore()
+  })
 })

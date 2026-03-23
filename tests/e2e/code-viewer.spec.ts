@@ -24,8 +24,9 @@ test.describe('Code Viewer', () => {
     await expect(modal).toHaveAttribute('role', 'dialog')
     await expect(modal).toHaveAttribute('aria-modal', 'true')
 
-    // JS file selector is present with at least one option
-    await expect(catalogPage.codeJsSelector()).toBeVisible()
+    // Tab list is present with at least one tab
+    await expect(catalogPage.codeTabList()).toBeVisible()
+    expect(await catalogPage.codeTabs().count()).toBeGreaterThan(0)
 
     // Code body contains Shiki-highlighted content
     await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
@@ -47,22 +48,7 @@ test.describe('Code Viewer', () => {
     expect(bodyText).not.toContain('data-animation-id')
   })
 
-  test('source code replaces MockModalContent import with guidance comment', async ({
-    catalogPage,
-  }) => {
-    const card = catalogPage.card('modal-base__scale-gentle-pop')
-    await catalogPage.codeViewerButton(card).click()
-
-    const modal = catalogPage.codeViewerModal()
-    await expect(modal).toBeVisible({ timeout: 10_000 })
-    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
-
-    const bodyText = await catalogPage.codeBody().textContent()
-    expect(bodyText).not.toContain("from '../MockModalContent'")
-    expect(bodyText).toContain('Replace')
-  })
-
-  test('shows both JS and CSS file selectors for animations with stylesheets', async ({
+  test('CSS variant code viewer shows multiple tabs including stylesheet', async ({
     catalogPage,
   }) => {
     // Navigate to CSS group which has CSS stylesheet files
@@ -72,32 +58,29 @@ test.describe('Code Viewer', () => {
 
     const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
-
-    // JS selector should be visible (component file)
-    await expect(catalogPage.codeJsSelector()).toBeVisible()
-
-    // CSS selector should be visible (stylesheet file)
-    await expect(catalogPage.codeCssSelector()).toBeVisible()
-  })
-
-  test('CSS file selector shows stylesheet content with keyframes', async ({ catalogPage }) => {
-    await catalogPage.gotoGroup('modal-base-css')
-    const card = catalogPage.card('modal-base__scale-gentle-pop')
-    await catalogPage.codeViewerButton(card).click()
-
-    const modal = catalogPage.codeViewerModal()
-    await expect(modal).toBeVisible({ timeout: 10_000 })
     await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
 
-    // Select the CSS file via the CSS dropdown
-    const cssSelect = catalogPage.codeCssSelect()
-    await expect(cssSelect).toBeVisible()
-    await cssSelect.selectOption({ index: 0 })
+    // Tab list should have multiple tabs (component .tsx + CSS stylesheet)
+    const tabCount = await catalogPage.codeTabs().count()
+    expect(tabCount).toBeGreaterThanOrEqual(2)
 
-    // Code body should update to show CSS content
-    await expect
-      .poll(async () => (await catalogPage.codeBody().textContent()) ?? '', { timeout: 5_000 })
-      .toMatch(/@keyframes|animation/)
+    // Find and click a CSS tab (label is "CSS" per groupBuilder.ts)
+    let foundCssTab = false
+    for (let i = 0; i < tabCount; i++) {
+      const tab = catalogPage.codeTab(i)
+      const label = (await tab.textContent())?.trim()
+      if (label === 'CSS') {
+        await tab.click()
+        foundCssTab = true
+
+        // Code body should update to show CSS content with keyframes or animation properties
+        await expect
+          .poll(async () => (await catalogPage.codeBody().textContent()) ?? '', { timeout: 5_000 })
+          .toMatch(/@keyframes|animation/)
+        break
+      }
+    }
+    expect(foundCssTab).toBe(true)
   })
 
   test('close button dismisses the modal', async ({ catalogPage }) => {
@@ -180,7 +163,7 @@ test.describe('Code Viewer', () => {
     expect(bodyText).toContain('StandardEffectsBounce')
   })
 
-  test('switching JS file selector changes displayed source', async ({ catalogPage }) => {
+  test('switching tabs changes displayed source', async ({ catalogPage }) => {
     const card = catalogPage.card('modal-base__scale-gentle-pop')
     await catalogPage.codeViewerButton(card).click()
 
@@ -192,13 +175,12 @@ test.describe('Code Viewer', () => {
     const initialSource = await catalogPage.codeBody().textContent()
     expect(initialSource).toBeTruthy()
 
-    // Check if JS selector has multiple options
-    const jsSelect = catalogPage.codeJsSelect()
-    const optionCount = await jsSelect.locator('option').count()
+    // Check if there are multiple tabs
+    const tabCount = await catalogPage.codeTabs().count()
 
-    if (optionCount > 1) {
-      // Switch to second option
-      await jsSelect.selectOption({ index: 1 })
+    if (tabCount > 1) {
+      // Switch to second tab
+      await catalogPage.codeTab(1).click()
 
       // Content should change (different file)
       await expect
@@ -226,19 +208,7 @@ test.describe('Code Viewer', () => {
     await expect(modal).not.toBeVisible()
 
     // Navigate to a different group via sidebar
-    const before = catalogPage.currentPathname()
-    const groupLinks = catalogPage.allGroupLinks()
-    const count = await groupLinks.count()
-
-    for (let i = 0; i < count; i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-
-    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // No stale modal or error state
@@ -475,5 +445,37 @@ test.describe('Code Viewer', () => {
 
     // Source should NOT contain catalog-only attributes (data-animation-id stripped)
     expect(source).not.toContain('data-animation-id')
+  })
+
+  test('tab navigation with arrow keys works in code viewer', async ({ catalogPage, page }) => {
+    await catalogPage.gotoGroup('modal-base-css')
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await catalogPage.codeViewerButton(card).click()
+
+    const modal = catalogPage.codeViewerModal()
+    await expect(modal).toBeVisible({ timeout: 10_000 })
+    await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
+
+    const tabCount = await catalogPage.codeTabs().count()
+    if (tabCount < 2) return // Skip if only one tab
+
+    // Focus the first tab
+    const firstTab = catalogPage.codeTab(0)
+    await firstTab.focus()
+    await expect(firstTab).toHaveAttribute('aria-selected', 'true')
+
+    // Press ArrowRight to move to next tab
+    await page.keyboard.press('ArrowRight')
+
+    // Second tab should now be selected
+    const secondTab = catalogPage.codeTab(1)
+    await expect(secondTab).toHaveAttribute('aria-selected', 'true')
+    await expect(firstTab).toHaveAttribute('aria-selected', 'false')
+
+    // Press ArrowLeft to go back
+    await page.keyboard.press('ArrowLeft')
+    await expect(firstTab).toHaveAttribute('aria-selected', 'true')
+
+    await page.keyboard.press('Escape')
   })
 })

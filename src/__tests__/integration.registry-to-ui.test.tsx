@@ -43,22 +43,26 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
     }
   })
 
-  it('GroupSection renders animations from a real catalog group with correct titles', { timeout: 15_000 }, () => {
-    // Pick the first framer group that has animations
-    const realGroup = catalog
-      .flatMap((c) => c.groups)
-      .find((g) => g.tech === 'framer' && g.animations.length > 0)
+  it(
+    'GroupSection renders animations from a real catalog group with correct titles',
+    { timeout: 15_000 },
+    () => {
+      // Pick the first framer group that has animations
+      const realGroup = catalog
+        .flatMap((c) => c.groups)
+        .find((g) => g.tech === 'framer' && g.animations.length > 0)
 
-    // Fail fast if no framer group with animations exists
-    if (!realGroup) throw new Error('No framer group with animations found in catalog')
+      // Fail fast if no framer group with animations exists
+      if (!realGroup) throw new Error('No framer group with animations found in catalog')
 
-    renderWithRouter(<GroupSection group={realGroup} elementId={`group-${realGroup.id}`} />)
+      renderWithRouter(<GroupSection group={realGroup} elementId={`group-${realGroup.id}`} />)
 
-    // Each animation title should appear
-    for (const anim of realGroup.animations) {
-      expect(screen.getByText(anim.title)).toBeVisible()
+      // Each animation title should appear
+      for (const anim of realGroup.animations) {
+        expect(screen.getByText(anim.title)).toBeVisible()
+      }
     }
-  })
+  )
 
   it('every catalog animation ID exists in the flat registry', () => {
     const registry = buildRegistryFromCategories()

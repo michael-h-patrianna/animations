@@ -23,6 +23,7 @@ const ALL_GROUP_IDS = [
   'modal-base',
   'modal-content',
   'modal-dismiss',
+  'modal-open',
   'modal-orchestration',
   'modal-celebrations',
   'prize-reveal',

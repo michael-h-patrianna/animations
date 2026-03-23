@@ -157,4 +157,32 @@ test.describe('Preview Advanced Interactions', () => {
     await page.keyboard.press('Escape')
     await catalogPage.expectNoErrorBoundary()
   })
+
+  test('preview mode switch then navigate away does not leave stale overlay', async ({
+    catalogPage,
+  }) => {
+    await catalogPage.gotoGroup('standard-effects-framer')
+    const card = catalogPage.allCards().first()
+
+    // Open desktop preview, switch to mobile, then navigate away
+    await catalogPage.openDesktopPreview(card)
+    await expect(catalogPage.previewAnimation()).toBeVisible()
+
+    // Switch to mobile mode within preview
+    await catalogPage.previewModeMobileButton().click()
+    await expect(catalogPage.previewMobileFrame()).toBeVisible()
+
+    // Close preview then navigate to a different group
+    await catalogPage.closePreview()
+    await expect(catalogPage.previewAnimation()).toHaveCount(0)
+
+    await catalogPage.gotoGroup('text-effects-framer')
+    await catalogPage.waitForCards()
+
+    // No stale preview overlay on the new page
+    await expect(catalogPage.previewAnimation()).toHaveCount(0)
+    // No stale mobile frame elements
+    await expect(catalogPage.previewMobileFrame()).toHaveCount(0)
+    await catalogPage.expectNoErrorBoundary()
+  })
 })

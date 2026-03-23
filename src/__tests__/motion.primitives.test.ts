@@ -30,9 +30,15 @@ describe('createLoopTransition', () => {
     expect(t.delay).toBe(0.5)
   })
 
-  it('produces a valid Framer Motion transition object with exactly the expected keys', () => {
-    const t = createLoopTransition(1)
-    expect(Object.keys(t).sort()).toEqual(['delay', 'duration', 'ease', 'repeat', 'repeatType'])
+  it('produces a complete infinite-loop transition from a single call', () => {
+    const t = createLoopTransition(3, 0.2)
+    expect(t).toEqual({
+      duration: 3,
+      delay: 0.2,
+      ease: motionEasings.standard,
+      repeat: Infinity,
+      repeatType: 'loop',
+    })
   })
 })
 

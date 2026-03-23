@@ -1,39 +1,38 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Modal Base Animations', () => {
-  test('CSS slide-down-soft renders overlay, modal, and title', async ({ catalogPage }) => {
+  test('CSS slide-down-soft renders animation container with modal content', async ({
+    catalogPage,
+  }) => {
     await catalogPage.gotoGroup('modal-base-css')
 
     const card = catalogPage.card('modal-base__slide-down-soft')
     await expect(card).toBeVisible()
 
     const stage = await catalogPage.cardStage(card)
-    const overlay = stage.locator('.pf-modal-overlay.modal-base-slide-down-soft-overlay')
-    const modal = stage.locator('.pf-modal.modal-base-slide-down-soft-modal')
+    const container = stage.locator('.pf-modal-slide-down')
+    const content = stage.locator('.pf-modal-slide-down__content')
 
-    await expect(overlay).toBeVisible()
-    await expect(modal).toBeVisible()
-    await expect(modal.locator('.pf-modal__title')).toContainText('New Creator Quest')
+    await expect(container).toBeVisible()
+    await expect(content).toBeVisible()
+    // MockModalContent renders title "New Creator Quest" inside the modal
+    await expect(content).toContainText('New Creator Quest')
   })
 
-  test('CSS slide-down-soft overlay is transparent (user can see content behind it)', async ({
-    catalogPage,
-  }) => {
+  test('CSS slide-down-soft renders visible content (not zero-size)', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('modal-base-css')
 
     const card = catalogPage.card('modal-base__slide-down-soft')
     const stage = await catalogPage.cardStage(card)
 
-    const overlay = stage.locator('.modal-base-slide-down-soft-overlay')
-    const modal = stage.locator('.modal-base-slide-down-soft-modal')
+    const content = stage.locator('.pf-modal-slide-down__content')
+    await expect(content).toBeVisible()
 
-    // Overlay and modal are both visible (animation completed)
-    await expect(overlay).toBeVisible()
-    await expect(modal).toBeVisible()
-
-    // Overlay has non-zero opacity (it's a visible backdrop, not fully transparent)
-    const opacity = await overlay.evaluate((el) => parseFloat(window.getComputedStyle(el).opacity))
-    expect(opacity).toBeGreaterThan(0)
+    // Content has non-zero dimensions (animation completed and content is shown)
+    const box = await content.boundingBox()
+    expect(box).not.toBeNull()
+    expect(box!.width).toBeGreaterThan(50)
+    expect(box!.height).toBeGreaterThan(50)
   })
 
   test('Framer scale-gentle-pop renders modal structure', async ({ catalogPage }) => {
@@ -50,8 +49,8 @@ test.describe('Modal Base Animations', () => {
     await catalogPage.gotoGroup('modal-base-css')
 
     const card = catalogPage.card('modal-base__slide-down-soft')
-    await expect(catalogPage.cardTitle(card)).toContainText('Slide Down Welcome')
-    await expect(catalogPage.cardDescription(card)).toContainText('Slides in from the top')
+    await expect(catalogPage.cardTitle(card)).toContainText('Slide Down Soft')
+    await expect(catalogPage.cardDescription(card)).toContainText('slides down')
     // URL confirms CSS mode
     expect(catalogPage.currentPathname()).toBe('/modal-base-css')
   })
@@ -68,6 +67,6 @@ test.describe('Modal Base Animations', () => {
 
     await expect(stage).toBeVisible()
     await expect.poll(async () => stage.locator(':scope > *').count()).toBeGreaterThan(0)
-    await expect(stage.locator('.pf-modal')).toBeVisible()
+    await expect(stage.locator('.pf-modal-slide-down')).toBeVisible()
   })
 })

@@ -142,6 +142,30 @@ describe('animationRegistry', () => {
       const missingIds = overlap.filter((id) => !registryKeys.has(id))
       expect(missingIds).toEqual([])
     })
+
+    it('CSS component identity wins over framer for dual-variant animations', () => {
+      // Pick the first dual-variant animation and verify the flat registry entry
+      // points to the CSS component reference, not the framer one.
+      for (const cat of Object.values(categories)) {
+        for (const group of Object.values(cat.groups)) {
+          for (const [animId, cssEntry] of Object.entries(group.css)) {
+            const framerEntry = group.framer[animId]
+            if (!framerEntry) continue
+
+            // Both variants exist — the flat registry should contain the CSS component
+            const registryComponent = registry[animId]
+            expect(
+              registryComponent,
+              `${animId}: flat registry should use CSS component, not framer`
+            ).toBe(cssEntry.component)
+            // It should NOT be the framer component
+            expect(registryComponent).not.toBe(framerEntry.component)
+            return // One verified pair is sufficient to prove the ordering
+          }
+        }
+      }
+      throw new Error('No dual-variant animation found to verify CSS-wins-over-framer')
+    })
   })
 
   describe('getGroupAnimations', () => {
@@ -172,6 +196,36 @@ describe('animationRegistry', () => {
       const directFramer = categories['base']!.groups['standard-effects']!.framer
       const helperFramer = getGroupAnimations('standard-effects', 'framer')
       expect(Object.keys(helperFramer).sort()).toEqual(Object.keys(directFramer).sort())
+    })
+
+    it('returns framer map (not css) when tech is "framer" — verifies correct branch', () => {
+      // This catches a swap bug where the ternary condition is inverted
+      const framerAnims = getGroupAnimations('standard-effects', 'framer')
+      const cssAnims = getGroupAnimations('standard-effects', 'css')
+      // Both should have the same IDs (dual-implementation) but different component refs
+      const framerIds = Object.keys(framerAnims).sort()
+      const cssIds = Object.keys(cssAnims).sort()
+      expect(framerIds).toEqual(cssIds)
+      // Components must be different objects (lazy wrappers from different modules)
+      const firstId = framerIds[0]!
+      expect(framerAnims[firstId]!.component).not.toBe(cssAnims[firstId]!.component)
+    })
+
+    it('finds groups across all categories (not just the first)', () => {
+      // Collect one group ID from each category and verify getGroupAnimations finds it
+      for (const [catKey, cat] of Object.entries(categories)) {
+        const firstGroupId = Object.keys(cat.groups)[0]!
+        const framerAnims = getGroupAnimations(firstGroupId, 'framer')
+        expect(
+          Object.keys(framerAnims).length,
+          `getGroupAnimations("${firstGroupId}", "framer") returned empty — category: ${catKey}`
+        ).toBeGreaterThanOrEqual(1)
+      }
+    })
+
+    it('returns empty object for unknown group with valid tech', () => {
+      const result = getGroupAnimations('this-group-does-not-exist', 'css')
+      expect(result).toEqual({})
     })
   })
 

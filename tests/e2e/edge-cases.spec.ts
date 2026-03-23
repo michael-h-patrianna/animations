@@ -11,19 +11,7 @@ test.describe('Edge Cases', () => {
       .toBe('/text-effects-css')
 
     // Click a different group in the sidebar
-    const groupLinks = catalogPage.allGroupLinks()
-    const count = await groupLinks.count()
-    expect(count).toBeGreaterThan(1)
-
-    // Find a non-active group and click it
-    for (let i = 0; i < count; i++) {
-      const link = groupLinks.nth(i)
-      const isActive = await link.getAttribute('data-active')
-      if (!isActive) {
-        await link.click()
-        break
-      }
-    }
+    await catalogPage.clickNonActiveGroup()
 
     // The new route should end with -css (mode persists)
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
@@ -223,16 +211,7 @@ test.describe('Edge Cases', () => {
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(400)
 
     // Navigate to a different group
-    const before = catalogPage.currentPathname()
-    const groupLinks = catalogPage.allGroupLinks()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Scroll should move toward the group section (near top, accounting for
@@ -256,8 +235,9 @@ test.describe('Edge Cases', () => {
 
     // Cards should be present and functional
     await catalogPage.waitForCards()
-    const framerMode = await catalogPage.activeCodeMode()
-    expect(framerMode.trim()).toBe('Framer')
+    await expect
+      .poll(async () => (await catalogPage.activeCodeMode()).trim(), { timeout: 5_000 })
+      .toBe('Framer')
     await catalogPage.expectNoErrorBoundary()
   })
 
@@ -280,14 +260,7 @@ test.describe('Edge Cases', () => {
       .toBe('/text-effects-css')
 
     // Navigate to a different group (stays in CSS mode)
-    const groupLinks = catalogPage.allGroupLinks()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Go back to previous group (CSS mode)
@@ -430,16 +403,7 @@ test.describe('Edge Cases', () => {
     await expect(description).toHaveAttribute('data-expanded', 'true')
 
     // Navigate to a different group
-    const before = catalogPage.currentPathname()
-    const groupLinks = catalogPage.allGroupLinks()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Navigate back
@@ -494,15 +458,7 @@ test.describe('Edge Cases', () => {
     await catalogPage.selectCssMode()
     await catalogPage.selectFramerMode()
 
-    const groupLinks = catalogPage.allGroupLinks()
-    const count = await groupLinks.count()
-    for (let i = 0; i < count; i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
+    await catalogPage.clickNonActiveGroup()
 
     // Wait for the UI to settle
     await catalogPage.waitForCards()

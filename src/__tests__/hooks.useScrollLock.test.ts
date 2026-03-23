@@ -265,6 +265,62 @@ describe('useScrollLock', () => {
     expect(document.body.style.overflow).toBe('')
   })
 
+  it('_resetScrollLockState fully resets module state for test isolation', () => {
+    document.body.style.overflow = 'auto'
+
+    // Create two active locks
+    const hook1 = renderHook(() => useScrollLock(true))
+    const hook2 = renderHook(() => useScrollLock(true))
+    expect(document.body.style.overflow).toBe('hidden')
+
+    // Unmount both hooks first to run their cleanup (decrements lockCount normally)
+    hook1.unmount()
+    hook2.unmount()
+    // After both unmounts, lockCount is 0 and overflow is restored
+    expect(document.body.style.overflow).toBe('auto')
+
+    // Now reset — verifies reset works from a clean state
+    _resetScrollLockState()
+
+    // After reset, a new lock should behave as if no prior locks existed
+    document.body.style.overflow = 'visible'
+    const hook3 = renderHook(({ isOpen }) => useScrollLock(isOpen), {
+      initialProps: { isOpen: true },
+    })
+    expect(document.body.style.overflow).toBe('hidden')
+
+    // Closing this new lock should restore to 'visible' (what was current when lock acquired)
+    hook3.rerender({ isOpen: false })
+    expect(document.body.style.overflow).toBe('visible')
+  })
+
+  it('_resetScrollLockState during active locks allows fresh start', () => {
+    document.body.style.overflow = 'auto'
+
+    // Create an active lock (do NOT close or unmount it)
+    const hook1 = renderHook(() => useScrollLock(true))
+    expect(document.body.style.overflow).toBe('hidden')
+
+    // Force reset while lock is active — simulates test isolation cleanup
+    _resetScrollLockState()
+    document.body.style.overflow = 'scroll'
+
+    // New hook after reset should work independently
+    const hook2 = renderHook(({ isOpen }) => useScrollLock(isOpen), {
+      initialProps: { isOpen: true },
+    })
+    expect(document.body.style.overflow).toBe('hidden')
+
+    hook2.rerender({ isOpen: false })
+    expect(document.body.style.overflow).toBe('scroll')
+
+    // Clean up hook1 — its cleanup will decrement a counter that was reset,
+    // potentially going negative, but the guard prevents it from corrupting state
+    hook1.unmount()
+    // hook2 already closed, so overflow stays at 'scroll'
+    expect(document.body.style.overflow).toBe('scroll')
+  })
+
   it('handles interleaved open/close across 4 concurrent hooks without counter drift', () => {
     document.body.style.overflow = 'auto'
 
@@ -290,5 +346,55 @@ describe('useScrollLock', () => {
     hooks[1]!.rerender({ isOpen: false })
     // All released — restored
     expect(document.body.style.overflow).toBe('auto')
+  })
+
+  it('captures "hidden" as savedOverflow when body is already hidden externally', () => {
+    // Edge case: external code (another library) sets overflow: hidden before
+    // our lock. When our lock releases, it should restore to "hidden" (the
+    // external state), not to "" or some other default.
+    document.body.style.overflow = 'hidden'
+
+    const { rerender } = renderHook(({ isOpen }) => useScrollLock(isOpen), {
+      initialProps: { isOpen: true },
+    })
+    // Still hidden — our lock set it, but savedOverflow is 'hidden'
+    expect(document.body.style.overflow).toBe('hidden')
+
+    rerender({ isOpen: false })
+    // Should restore to the external 'hidden', not to ''
+    expect(document.body.style.overflow).toBe('hidden')
+  })
+
+  it('handles external overflow modification while locks are active (lock ignores external changes)', () => {
+    document.body.style.overflow = 'auto'
+
+    const hook = renderHook(({ isOpen }) => useScrollLock(isOpen), {
+      initialProps: { isOpen: true },
+    })
+    expect(document.body.style.overflow).toBe('hidden')
+
+    // External code modifies overflow while lock is active — this is an
+    // anti-pattern but shouldn't cause state corruption.
+    document.body.style.overflow = 'scroll'
+
+    // Release the lock — savedOverflow was 'auto' from before the lock
+    hook.rerender({ isOpen: false })
+    // Restores to the value captured at lock time, not the externally modified 'scroll'
+    expect(document.body.style.overflow).toBe('auto')
+  })
+
+  it('handles body.style.overflow set to empty string vs missing (both are falsy)', () => {
+    // Distinguish between overflow='' (explicitly empty) and overflow being the
+    // default browser state. Both are empty strings via style.overflow getter.
+    document.body.style.overflow = ''
+    const { rerender } = renderHook(({ isOpen }) => useScrollLock(isOpen), {
+      initialProps: { isOpen: true },
+    })
+    expect(document.body.style.overflow).toBe('hidden')
+
+    rerender({ isOpen: false })
+    // savedOverflow was '' → restored to '' → which triggers the ?? '' fallback
+    // (savedOverflow is '' which is not null, so it passes the null check)
+    expect(document.body.style.overflow).toBe('')
   })
 })

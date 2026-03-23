@@ -282,4 +282,52 @@ describe('cleanSourceForDisplay', () => {
     expect(result).not.toContain('data-animation-id')
     expect(result).toContain('className="keep"')
   })
+
+  it('preserves style={{ animation: "none" }} attribute (consumer-relevant for framer variants)', () => {
+    // The styleguide requires framer components to add style={{ animation: 'none' }}
+    // on elements sharing class names with CSS variants. This must survive the transform
+    // because consumers need it to prevent CSS animation overrides.
+    const source = `<m.div className="pf-modal" style={{ animation: 'none' }}>`
+    const result = cleanSourceForDisplay(source)
+    expect(result).toContain("style={{ animation: 'none' }}")
+  })
+
+  it('preserves style={{ animation: "none" }} alongside data-animation-id removal', () => {
+    const source = `<m.div data-animation-id="test__id" className="pf-modal" style={{ animation: 'none' }}>`
+    const result = cleanSourceForDisplay(source)
+    expect(result).not.toContain('data-animation-id')
+    expect(result).toContain("style={{ animation: 'none' }}")
+    expect(result).toContain('className="pf-modal"')
+  })
+
+  it('handles multi-line JSX with data-animation-id on its own line (typical Prettier output)', () => {
+    const source = [
+      `<m.div`,
+      `  className="pf-modal"`,
+      `  data-animation-id="test__id"`,
+      `  style={{ animation: 'none' }}`,
+      `  initial={{ opacity: 0 }}`,
+      `>`,
+    ].join('\n')
+    const result = cleanSourceForDisplay(source)
+    expect(result).not.toContain('data-animation-id')
+    expect(result).toContain('className="pf-modal"')
+    expect(result).toContain("style={{ animation: 'none' }}")
+    expect(result).toContain('initial={{ opacity: 0 }}')
+  })
+
+  it('handles data-animation-id followed by self-closing tag on same line', () => {
+    const source = `<m.div data-animation-id="test__id" />`
+    const result = cleanSourceForDisplay(source)
+    expect(result).not.toContain('data-animation-id')
+    expect(result).toContain('/>')
+  })
+
+  it('preserves JSX expression attributes adjacent to data-animation-id', () => {
+    const source = `<m.div data-animation-id="g__v" animate={{ scale: isHovered ? 1.1 : 1 }} className="pf-card">`
+    const result = cleanSourceForDisplay(source)
+    expect(result).not.toContain('data-animation-id')
+    expect(result).toContain('animate={{ scale: isHovered ? 1.1 : 1 }}')
+    expect(result).toContain('className="pf-card"')
+  })
 })

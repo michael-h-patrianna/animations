@@ -25,34 +25,23 @@ test.describe('Integration: Full User Journey', () => {
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
     const cssPath = catalogPage.currentPathname()
 
-    // Step 4: Verify code mode switch reflects CSS
+    // Step 4: Verify code mode switch reflects CSS (poll to wait for React state sync)
     await catalogPage.waitForCards()
-    const cssModeAfterSwitch = await catalogPage.activeCodeMode()
-    expect(cssModeAfterSwitch.trim()).toBe('CSS')
+    await expect
+      .poll(async () => (await catalogPage.activeCodeMode()).trim(), { timeout: 5_000 })
+      .toBe('CSS')
 
     // Step 5: Navigate to a different group via sidebar (mode should persist as CSS)
-    const groupLinks = catalogPage.allGroupLinks()
-    const count = await groupLinks.count()
-    expect(count).toBeGreaterThan(1)
-
-    // Find and click a non-active group
-    for (let i = 0; i < count; i++) {
-      const link = groupLinks.nth(i)
-      const isActive = await link.getAttribute('data-active')
-      if (!isActive) {
-        await link.click()
-        break
-      }
-    }
-    await catalogPage.waitForPathnameChange(cssPath)
+    await catalogPage.clickNonActiveGroup()
 
     // Step 6: Verify mode persisted — still in CSS
     const newPath = catalogPage.currentPathname()
     expect(newPath).toMatch(/-css$/)
     expect(newPath).not.toBe(cssPath) // Different group
     await catalogPage.waitForCards()
-    const cssModeStep6 = await catalogPage.activeCodeMode()
-    expect(cssModeStep6.trim()).toBe('CSS')
+    await expect
+      .poll(async () => (await catalogPage.activeCodeMode()).trim(), { timeout: 5_000 })
+      .toBe('CSS')
 
     // Step 7: Browser back — should go to previous CSS group
     await page.goBack()
@@ -88,16 +77,8 @@ test.describe('Integration: Full User Journey', () => {
     await expect.poll(async () => stage.locator(':scope > *').count()).toBeGreaterThan(0)
 
     // Navigate to a different group
-    const groupLinks = catalogPage.allGroupLinks()
     const before = catalogPage.currentPathname()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.clickNonActiveGroup()
 
     // Navigate back
     await page.goBack()
@@ -137,16 +118,15 @@ test.describe('Integration: Full User Journey', () => {
     const framerSource = await catalogPage.codeBody().textContent()
     expect(framerSource).toContain('StandardEffectsBounce')
 
-    // Step 4: If JS selector has multiple options, switch and verify different content
-    const jsSelect = catalogPage.codeJsSelect()
-    const optionCount = await jsSelect.locator('option').count()
-    if (optionCount > 1) {
-      await jsSelect.selectOption({ index: 1 })
+    // Step 4: If tab list has multiple tabs, switch and verify different content
+    const tabCount = await catalogPage.codeTabs().count()
+    if (tabCount > 1) {
+      await catalogPage.codeTab(1).click()
       const secondFileSource = await catalogPage.codeBody().textContent()
       // Different file should have different content
       expect(secondFileSource).not.toBe(framerSource)
       // Switch back
-      await jsSelect.selectOption({ index: 0 })
+      await catalogPage.codeTab(0).click()
     }
 
     // Step 5: Copy code and verify clipboard

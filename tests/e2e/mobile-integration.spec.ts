@@ -37,11 +37,15 @@ test.describe('Mobile Integration Flows', () => {
     expect(pathname).toMatch(/-css$/)
 
     // Step 4: Open code viewer on the new group
+    // Wait for cards to load and demo stages to render before interacting
+    await catalogPage.waitForCards()
     const newCard = catalogPage.allCards().first()
     await expect(newCard).toBeVisible({ timeout: 10_000 })
+    await newCard.scrollIntoViewIfNeeded()
 
     const codeBtn = catalogPage.codeViewerButton(newCard)
     if ((await codeBtn.count()) > 0) {
+      await expect(codeBtn).toBeVisible({ timeout: 5_000 })
       await codeBtn.click()
       const modal = catalogPage.codeViewerModal()
       await expect(modal).toBeVisible({ timeout: 10_000 })

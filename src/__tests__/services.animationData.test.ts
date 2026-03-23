@@ -205,6 +205,45 @@ describe('buildCatalog', () => {
     expect(withDisableReplay.length).toBeGreaterThanOrEqual(1)
   })
 
+  it('animations with negative order values appear before those with order 0 (default)', () => {
+    // The toAnimations function sorts by (a.metadata.order ?? 0).
+    // collection-effects has coin-trail with order: -1, so it should appear first
+    // within its group, before animations with order: 0 (default).
+    const rewardsCategory = catalog.find((c) => c.id === 'rewards')
+    expect(rewardsCategory?.id).toBe('rewards')
+
+    const collectionFramer = rewardsCategory!.groups.find(
+      (g) => g.id === 'collection-effects-framer'
+    )
+    expect(collectionFramer?.id).toBe('collection-effects-framer')
+    expect(
+      collectionFramer!.animations.length,
+      'collection-effects-framer must have multiple animations to test ordering'
+    ).toBeGreaterThanOrEqual(2)
+
+    // coin-trail has order: -1, so it must be first in the sorted list
+    expect(
+      collectionFramer!.animations[0]!.id,
+      'Animation with order: -1 should appear first in the group'
+    ).toBe('collection-effects__coin-trail')
+  })
+
+  it('catalog animation ordering is deterministic across repeated buildCatalog calls', () => {
+    // Verifies that the sort is stable: same input always produces the same order.
+    // This catches non-deterministic sort implementations (e.g., unstable sort
+    // where equal-order elements swap positions between calls).
+    const catalog2 = buildCatalog()
+    for (const cat of catalog) {
+      const cat2 = catalog2.find((c) => c.id === cat.id)!
+      for (const group of cat.groups) {
+        const group2 = cat2.groups.find((g) => g.id === group.id)!
+        const ids1 = group.animations.map((a) => a.id)
+        const ids2 = group2.animations.map((a) => a.id)
+        expect(ids1, `Group ${group.id} order should be deterministic`).toEqual(ids2)
+      }
+    }
+  })
+
   it('category order is deterministic across calls', () => {
     const catalog2 = buildCatalog()
     const ids1 = catalog.map((c) => c.id)

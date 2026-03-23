@@ -83,16 +83,7 @@ test.describe('Animation Filter Banner', () => {
     await expect(banner).toBeVisible({ timeout: 10_000 })
 
     // Navigate to a different group via sidebar
-    const groupLinks = catalogPage.allGroupLinks()
-    const before = new URL(page.url()).pathname
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Banner should be gone on the new group

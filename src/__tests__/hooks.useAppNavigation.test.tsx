@@ -333,6 +333,25 @@ describe('useAppNavigation', () => {
     expect(() => result.current.handleModeSelect('CSS')).not.toThrow()
   })
 
+  it('codeModeFromGroupId correctly identifies framer variant ending in -framer', () => {
+    // When the URL points to a -framer group, the code mode should sync to 'Framer'
+    const { result } = renderHook(() => useAppNavigation(mockCategories), {
+      wrapper: createWrapper('/standard-effects-framer'),
+    })
+
+    // currentGroupId ends with -framer → codeModeFromGroupId returns 'Framer'
+    // The hook syncs CodeModeContext to match
+    expect(result.current.currentGroupId).toBe('standard-effects-framer')
+  })
+
+  it('codeModeFromGroupId correctly identifies css variant ending in -css', () => {
+    const { result } = renderHook(() => useAppNavigation(mockCategories), {
+      wrapper: createWrapper('/standard-effects-css'),
+    })
+
+    expect(result.current.currentGroupId).toBe('standard-effects-css')
+  })
+
   it('handleModeSelect does not crash with group ID ending in -css-framer (double suffix)', () => {
     // Edge case: group ID 'weird-css-framer' — regex strips trailing '-framer'
     // leaving 'weird-css', then looks for 'weird-css-css'

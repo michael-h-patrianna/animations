@@ -353,4 +353,30 @@ describe('GroupSection', () => {
       expect(screen.getByText(/not found/)).toBeVisible()
     })
   })
+
+  describe('demoMode rendering — placeholder branch', () => {
+    // demoMode animations that are NOT in the registry still go through the
+    // placeholder branch (line 142), which is the same as non-demoMode.
+    // This covers the "animation not found + demoMode" path.
+    it('renders placeholder for unregistered animation with demoMode', () => {
+      const group = makeGroup({
+        id: 'fake-group-framer',
+        animations: [
+          {
+            id: 'fake-group__demo',
+            title: 'Demo',
+            description: 'Demo animation',
+            categoryId: 'base',
+            groupId: 'fake-group-framer',
+            demoMode: 'icon-dot',
+            infinite: true, // infinite ensures render without IntersectionObserver
+          },
+        ],
+      })
+      renderWithRouter(<GroupSection group={group} elementId="demo-placeholder" />)
+
+      // Unregistered → placeholder renders the ID text
+      expect(screen.getByText('fake-group__demo')).toHaveClass('pf-card__placeholder')
+    })
+  })
 })

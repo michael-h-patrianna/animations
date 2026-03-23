@@ -355,4 +355,122 @@ describe('resolveAnimationSource', () => {
     expect(tabsA[0]!.code).toBe('source A')
     expect(tabsB[0]!.code).toBe('source B')
   })
+
+  it('returns empty array when both entries are undefined', async () => {
+    const tabs = await resolveAnimationSource(undefined, undefined)
+    expect(tabs).toEqual([])
+  })
+
+  it('propagates tsx loader rejection to the caller', async () => {
+    const tsxLoader = vi.fn().mockRejectedValue(new Error('network failure'))
+
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/FailAnim.tsx': () => Promise.resolve({ FailAnim: () => null }) },
+      { './framer/FailAnim.meta.ts': { metadata: makeMeta('g__fail-anim') } },
+      {},
+      {},
+      {
+        framerTsx: { './framer/FailAnim.tsx': tsxLoader },
+      }
+    )
+
+    const framerEntry = result.framer['g__fail-anim']!
+    await expect(resolveAnimationSource(framerEntry, undefined)).rejects.toThrow('network failure')
+  })
+
+  it('propagates css loader rejection to the caller', async () => {
+    const cssTsxLoader = vi.fn().mockResolvedValue('export function A() {}')
+    const cssCssLoader = vi.fn().mockRejectedValue(new Error('css load failed'))
+
+    const result = buildGroupExport(
+      groupMeta,
+      {},
+      {},
+      { './css/CssAnim.tsx': () => Promise.resolve({ CssAnim: () => null }) },
+      { './css/CssAnim.meta.ts': { metadata: makeMeta('g__css-anim') } },
+      {
+        cssTsx: { './css/CssAnim.tsx': cssTsxLoader },
+        cssCss: { './css/CssAnim.css': cssCssLoader },
+      }
+    )
+
+    const cssEntry = result.css['g__css-anim']!
+    await expect(resolveAnimationSource(undefined, cssEntry)).rejects.toThrow('css load failed')
+  })
+
+  it('propagates shared loader rejection during parallel loading', async () => {
+    const tsxSource = `import { helper } from '../SharedUtil'\nexport function A() {}`
+
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/A.tsx': () => Promise.resolve({ A: () => null }) },
+      { './framer/A.meta.ts': { metadata: makeMeta('g__a') } },
+      {},
+      {},
+      {
+        framerTsx: { './framer/A.tsx': vi.fn().mockResolvedValue(tsxSource) },
+        shared: {
+          './SharedUtil.ts': vi.fn().mockRejectedValue(new Error('shared load failed')),
+        },
+      }
+    )
+
+    await expect(resolveAnimationSource(result.framer['g__a']!, undefined)).rejects.toThrow(
+      'shared load failed'
+    )
+  })
+
+  it('handles entry with no WeakMap registration (no rawSources provided)', async () => {
+    // When buildGroupExport is called without rawSources, entries have no source loaders
+    // in the WeakMap. resolveAnimationSource should return empty tabs.
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/NoSrc.tsx': () => Promise.resolve({ NoSrc: () => null }) },
+      { './framer/NoSrc.meta.ts': { metadata: makeMeta('g__no-src') } },
+      {},
+      {}
+      // No rawSources argument
+    )
+
+    const tabs = await resolveAnimationSource(result.framer['g__no-src']!, undefined)
+    expect(tabs).toEqual([])
+  })
+
+  it('entries from independent buildGroupExport calls have isolated source loaders (WeakMap per-object)', async () => {
+    // Two separate buildGroupExport calls with the same ID but different source loaders.
+    // The WeakMap keys on object identity, not ID, so each entry gets its own loaders.
+    const loaderA = vi.fn().mockResolvedValue('source from group A')
+    const loaderB = vi.fn().mockResolvedValue('source from group B')
+
+    const groupMetaA: GroupMetadata = { id: 'group-a', title: 'Group A' }
+    const groupMetaB: GroupMetadata = { id: 'group-b', title: 'Group B' }
+
+    const resultA = buildGroupExport(
+      groupMetaA,
+      { './framer/Anim.tsx': () => Promise.resolve({ Anim: () => null }) },
+      { './framer/Anim.meta.ts': { metadata: makeMeta('shared__anim') } },
+      {},
+      {},
+      { framerTsx: { './framer/Anim.tsx': loaderA } }
+    )
+
+    const resultB = buildGroupExport(
+      groupMetaB,
+      { './framer/Anim.tsx': () => Promise.resolve({ Anim: () => null }) },
+      { './framer/Anim.meta.ts': { metadata: makeMeta('shared__anim') } },
+      {},
+      {},
+      { framerTsx: { './framer/Anim.tsx': loaderB } }
+    )
+
+    const tabsA = await resolveAnimationSource(resultA.framer['shared__anim']!, undefined)
+    const tabsB = await resolveAnimationSource(resultB.framer['shared__anim']!, undefined)
+
+    // Each entry should use its own loader, not share one
+    expect(tabsA[0]!.code).toBe('source from group A')
+    expect(tabsB[0]!.code).toBe('source from group B')
+    expect(loaderA).toHaveBeenCalledOnce()
+    expect(loaderB).toHaveBeenCalledOnce()
+  })
 })

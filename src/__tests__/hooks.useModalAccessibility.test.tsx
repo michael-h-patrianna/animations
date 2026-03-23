@@ -287,6 +287,23 @@ describe('useFocusTrap', () => {
     expect(document.activeElement).toBe(screen.getByTestId('first'))
   })
 
+  it('handles null containerRef (ref never attached to DOM)', () => {
+    // If containerRef.current stays null (e.g., conditional rendering),
+    // the keydown handler should not be attached and no errors should occur.
+    function TestComponent() {
+      const containerRef = useRef<HTMLDivElement>(null)
+      const initialFocusRef = useRef<HTMLButtonElement>(null)
+      // Do NOT attach containerRef to any element
+      useFocusTrap(containerRef, initialFocusRef)
+      return <div>No container ref attached</div>
+    }
+
+    expect(() => render(<TestComponent />)).not.toThrow()
+    // Tab and Shift+Tab should not cause errors
+    fireEvent.keyDown(document, { key: 'Tab' })
+    fireEvent.keyDown(document, { key: 'Tab', shiftKey: true })
+  })
+
   it('excludes elements with tabindex="-1" from focus trap cycle', () => {
     function TestComponent() {
       const containerRef = useRef<HTMLDivElement>(null)

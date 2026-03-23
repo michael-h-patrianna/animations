@@ -1,25 +1,15 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('App Shell', () => {
-  test('loads without page errors and renders sidebar + cards', async ({ catalogPage, page }) => {
-    const consoleErrors: string[] = []
-    const pageErrors: string[] = []
-
-    page.on('console', (msg) => {
-      if (msg.type() === 'error') consoleErrors.push(msg.text())
-    })
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-
+  test('loads without page errors and renders sidebar + cards', async ({
+    catalogPage,
+    errorCollector,
+  }) => {
     await catalogPage.goto()
     await catalogPage.waitForCards()
 
-    const criticalErrors = consoleErrors.filter(
-      (text) => !/Failed to load resource|favicon|net::ERR|ResizeObserver loop/i.test(text)
-    )
-
-    expect(pageErrors).toHaveLength(0)
-    expect(criticalErrors).toHaveLength(0)
-    await expect(page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
+    errorCollector.expectNoErrors()
+    await expect(catalogPage.page.locator('[data-testid="error-fallback"]')).toHaveCount(0)
   })
 
   test('root route canonicalizes to first group', async ({ catalogPage }) => {

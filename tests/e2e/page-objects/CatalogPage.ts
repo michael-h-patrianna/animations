@@ -118,6 +118,26 @@ export class CatalogPage {
     await this.waitForPathnameChange(before)
   }
 
+  /**
+   * Click the first non-active group link in the sidebar.
+   * Returns the pathname after navigation, or null if no non-active link was found.
+   */
+  async clickNonActiveGroup(): Promise<string | null> {
+    const groupLinks = this.allGroupLinks()
+    const count = await groupLinks.count()
+    const before = this.currentPathname()
+
+    for (let i = 0; i < count; i++) {
+      const isActive = await groupLinks.nth(i).getAttribute('data-active')
+      if (!isActive) {
+        await groupLinks.nth(i).click()
+        await this.waitForPathnameChange(before)
+        return this.currentPathname()
+      }
+    }
+    return null
+  }
+
   // ── Code Mode ──────────────────────────────────────────────────────
 
   /** The code mode switch scoped to the desktop sidebar (not the mobile drawer). */
@@ -240,24 +260,19 @@ export class CatalogPage {
     return this.page.locator('[data-testid="code-viewer-modal"]')
   }
 
-  /** Get the JS file selector group in the code viewer. */
-  codeJsSelector(): Locator {
-    return this.page.locator('[data-testid="code-js"]')
+  /** Get the tab list in the code viewer (role="tablist"). */
+  codeTabList(): Locator {
+    return this.page.locator('[data-testid="code-tablist"]')
   }
 
-  /** Get the JS file dropdown select element. */
-  codeJsSelect(): Locator {
-    return this.page.locator('[data-testid="code-js-select"]')
+  /** Get a specific tab button by index in the code viewer. */
+  codeTab(index: number): Locator {
+    return this.page.locator(`[data-testid="code-tab-${index}"]`)
   }
 
-  /** Get the CSS file selector group in the code viewer. */
-  codeCssSelector(): Locator {
-    return this.page.locator('[data-testid="code-css"]')
-  }
-
-  /** Get the CSS file dropdown select element. */
-  codeCssSelect(): Locator {
-    return this.page.locator('[data-testid="code-css-select"]')
+  /** Get all tab buttons in the code viewer. */
+  codeTabs(): Locator {
+    return this.page.locator('[data-testid^="code-tab-"]')
   }
 
   /** Get the copy button in the code viewer modal. */

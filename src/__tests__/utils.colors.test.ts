@@ -491,6 +491,31 @@ describe('color utility mathematical precision', () => {
     expect(() => toHex('#ff 00 00')).toThrow('unparseable color')
   })
 
+  it('3-digit shorthand #123 expands to #112233', () => {
+    expect(toHex('#123')).toBe('#112233')
+  })
+
+  it('3-digit shorthand #fff expands to #ffffff', () => {
+    expect(toHex('#fff')).toBe('#ffffff')
+  })
+
+  it('handles all-uppercase hex #AABBCC', () => {
+    expect(toHex('#AABBCC')).toBe('#aabbcc')
+  })
+
+  it('handles leading-zero hex #001122', () => {
+    expect(toHex('#001122')).toBe('#001122')
+  })
+
+  it('handles all-same-digit hex #555555', () => {
+    expect(toHex('#555555')).toBe('#555555')
+  })
+
+  it('treats 4-digit hex as 3-digit + alpha (ignores alpha channel)', () => {
+    // #1234 → expand first 3 digits: #112233, ignore 4th
+    expect(toHex('#1234')).toBe('#112233')
+  })
+
   it('calculateBulbColors desaturation moves RGB channels toward their average', () => {
     // For a saturated input like pure red, the off-color derivation:
     // 1. Darkens to 20% → R=51, G=0, B=0

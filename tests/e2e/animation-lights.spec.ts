@@ -37,6 +37,43 @@ test.describe('Lights Animation Controls', () => {
     expect(value).toMatch(/^#[0-9a-f]{6}$/i)
   })
 
+  test('boundary buttons disable at min and max bulb count', async ({ catalogPage }) => {
+    await catalogPage.gotoGroup('lights-framer')
+
+    const card = catalogPage.card('lights__circle-static-1')
+    const bulbInput = card.locator('input[type="number"][aria-label="Number of bulbs"]')
+    const increaseBtn = card.locator('button[aria-label="Increase bulb count"]')
+    const decreaseBtn = card.locator('button[aria-label="Decrease bulb count"]')
+
+    // Default is 16, min is 4, max is 22
+    const initialValue = Number.parseInt(await bulbInput.inputValue(), 10)
+    expect(initialValue).toBe(16)
+
+    // Both buttons should be enabled at default value (4 < 16 < 22)
+    await expect(increaseBtn).toBeEnabled()
+    await expect(decreaseBtn).toBeEnabled()
+
+    // Increase to max (22) — increase button should disable
+    for (let v = initialValue; v < 22; v++) {
+      await increaseBtn.click()
+    }
+    await expect
+      .poll(async () => Number.parseInt(await bulbInput.inputValue(), 10), { timeout: 3_000 })
+      .toBe(22)
+    await expect(increaseBtn).toBeDisabled()
+    await expect(decreaseBtn).toBeEnabled()
+
+    // Decrease back to min (4) — decrease button should disable
+    for (let v = 22; v > 4; v--) {
+      await decreaseBtn.click()
+    }
+    await expect
+      .poll(async () => Number.parseInt(await bulbInput.inputValue(), 10), { timeout: 3_000 })
+      .toBe(4)
+    await expect(decreaseBtn).toBeDisabled()
+    await expect(increaseBtn).toBeEnabled()
+  })
+
   test('lights-framer route loads without ErrorBoundary', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('lights-framer')
 

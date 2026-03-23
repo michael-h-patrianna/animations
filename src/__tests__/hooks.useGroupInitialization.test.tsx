@@ -438,8 +438,39 @@ describe('hooks • useGroupInitialization', () => {
 
       // findAnimationById should NOT have been called — groupId takes precedence
       expect(mockFindAnimationById).not.toHaveBeenCalled()
-      // Should just set the group from the URL
+      // Should just set the group from the URL — groupId wins over animationFilter
       expect(setCurrentGroupId).toHaveBeenCalledWith('alpha-framer')
+      // navigateToGroup should NOT be called (groupId is already valid)
+      expect(navigateToGroup).not.toHaveBeenCalled()
+    })
+
+    it('groupId takes precedence even when animationFilter would resolve to a different group', () => {
+      const setCurrentGroupId = vi.fn()
+      const navigateToGroup = vi.fn()
+      const groups = [createGroup('alpha-framer'), createGroup('beta-framer')]
+
+      // animationFilter would resolve to beta-framer, but groupId says alpha-framer
+      mockFindAnimationById.mockReturnValue({
+        baseGroupId: 'beta',
+        hasFramer: true,
+        hasCss: false,
+      })
+
+      renderHook(() =>
+        useGroupInitialization({
+          allGroups: groups,
+          groupId: 'alpha-framer',
+          currentGroupId: '',
+          setCurrentGroupId,
+          navigateToGroup,
+          animationFilter: 'beta__some-animation',
+        })
+      )
+
+      // groupId 'alpha-framer' is valid and present → takes precedence
+      expect(setCurrentGroupId).toHaveBeenCalledWith('alpha-framer')
+      // findAnimationById should NOT have been called because groupId is present
+      expect(mockFindAnimationById).not.toHaveBeenCalled()
     })
 
     it('falls back to first group when resolved targetGroupId is not in allGroups', () => {
@@ -524,11 +555,7 @@ describe('hooks • useGroupInitialization', () => {
       expect(navigateToGroup).not.toHaveBeenCalled()
 
       // Add new groups — allGroups reference changes
-      const expandedGroups = [
-        ...initialGroups,
-        createGroup('beta-framer'),
-        createGroup('beta-css'),
-      ]
+      const expandedGroups = [...initialGroups, createGroup('beta-framer'), createGroup('beta-css')]
 
       rerender({
         allGroups: expandedGroups,

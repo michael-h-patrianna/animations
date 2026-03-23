@@ -306,6 +306,42 @@ describe('useCountUp', () => {
     expect(result.current).toBe('100')
   })
 
+  it('handles NaN target without crashing', () => {
+    // NaN * eased = NaN → toLocaleString() returns "NaN"
+    // This documents the behavior: NaN target produces "NaN" string display
+    const { result } = renderHook(() => useCountUp(NaN, 200, 0, 0))
+
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
+
+    expect(result.current).toBe('NaN')
+  })
+
+  it('handles Infinity target without crashing', () => {
+    // Infinity * eased = Infinity → Math.round(Infinity) = Infinity → toLocaleString() = "∞"
+    const { result } = renderHook(() => useCountUp(Infinity, 200, 0, 0))
+
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
+
+    // toLocaleString for Infinity produces "∞" in most locales
+    expect(result.current).not.toBe('0')
+    expect(result.current).not.toContain('NaN')
+  })
+
+  it('handles NaN target with decimals mode', () => {
+    // NaN.toFixed(2) = "NaN"
+    const { result } = renderHook(() => useCountUp(NaN, 200, 0, 2))
+
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
+
+    expect(result.current).toBe('NaN')
+  })
+
   it('cleanup cancels both timeout and RAF when unmounting during delay period', () => {
     const clearTimeoutSpy = vi.spyOn(window, 'clearTimeout')
     const cancelRAFSpy = vi.spyOn(globalThis, 'cancelAnimationFrame')
@@ -326,5 +362,47 @@ describe('useCountUp', () => {
     act(() => {
       vi.advanceTimersByTime(2000)
     })
+  })
+
+  it('converges to new target after target prop changes to a smaller value', () => {
+    // First animation runs to completion
+    const { result, rerender } = renderHook(({ target }) => useCountUp(target, 200, 0, 0), {
+      initialProps: { target: 1000 },
+    })
+
+    act(() => {
+      vi.advanceTimersByTime(300) // complete first animation
+    })
+    expect(result.current).toBe('1,000')
+
+    // Change target to a smaller value — effect restarts with new parameters
+    rerender({ target: 50 })
+
+    // Run the new animation to completion
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
+    expect(result.current).toBe('50')
+  })
+
+  it('handles target changing from positive to negative mid-animation', () => {
+    const { result, rerender } = renderHook(({ target }) => useCountUp(target, 200, 0, 0), {
+      initialProps: { target: 100 },
+    })
+
+    // Start animation
+    act(() => {
+      vi.advanceTimersByTime(100)
+    })
+
+    // Change to negative
+    rerender({ target: -200 })
+
+    // Complete the new animation
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
+
+    expect(result.current).toBe('-200')
   })
 })

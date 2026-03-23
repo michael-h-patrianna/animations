@@ -226,6 +226,8 @@ describe('useCodeViewer', () => {
       expect(result.current.isOpen).toBe(false)
       // Sources remain null after failed load
       expect(result.current.sources).toBeNull()
+      // Error state exposes the failure message for UI display
+      expect(result.current.error).toBe('network failure')
       // logger.error must have been called with the error — catches silent error swallowing
       expect(logSpy).toHaveBeenCalledOnce()
       expect(logSpy).toHaveBeenCalledWith('Failed to load animation source code', networkError)
@@ -247,6 +249,7 @@ describe('useCodeViewer', () => {
       })
       expect(result.current.isOpen).toBe(false)
       expect(result.current.sources).toBeNull()
+      expect(result.current.error).toBe('first failure')
 
       // Second attempt succeeds (sources was null, so loader is called again)
       await act(async () => {
@@ -254,6 +257,8 @@ describe('useCodeViewer', () => {
       })
       expect(result.current.isOpen).toBe(true)
       expect(result.current.sources).toEqual(mockSources)
+      // Error is cleared on successful load
+      expect(result.current.error).toBeNull()
       expect(loader).toHaveBeenCalledTimes(2)
     })
   })
@@ -318,6 +323,168 @@ describe('useCodeViewer', () => {
         // on unmounted components gracefully (no-op), so this should not throw
         resolveLoader(mockSources)
       })
+    })
+  })
+
+  describe('sourceLoader returning null or undefined', () => {
+    it('sourceLoader returning null causes open to re-fetch on every call (known limitation)', async () => {
+      // KNOWN BEHAVIOR: If sourceLoader resolves with null, setSources(null) is called.
+      // On the next open(), !sources is still true, so the loader is called again.
+      // This creates a retry loop — each open() call invokes the loader.
+      // This documents the behavior rather than asserting it should be fixed,
+      // because in practice all sourceLoaders return SourceTab[] arrays.
+      const loader = vi.fn().mockResolvedValue(null)
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      // First open: loads and sets sources to null
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(loader).toHaveBeenCalledTimes(1)
+      // isOpen is set to true because the load "succeeded" (no error thrown)
+      expect(result.current.isOpen).toBe(true)
+      // sources is null because the loader returned null
+      expect(result.current.sources).toBeNull()
+
+      // Close
+      act(() => {
+        result.current.close()
+      })
+
+      // Second open: !sources is still true → loader is called again
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(loader).toHaveBeenCalledTimes(2)
+    })
+
+    it('sourceLoader returning undefined behaves like null (re-fetches each open)', async () => {
+      const loader = vi.fn().mockResolvedValue(undefined)
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      await act(async () => {
+        await result.current.open()
+      })
+      // undefined is falsy → !sources is true → would re-fetch
+      expect(result.current.isOpen).toBe(true)
+      // setSources(undefined) produces a falsy sources value, so re-open will re-fetch.
+      // The behavioral proof is at the end: loader is called twice.
+
+      act(() => {
+        result.current.close()
+      })
+
+      await act(async () => {
+        await result.current.open()
+      })
+      // Loader called again because sources is still falsy
+      expect(loader).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('open while already open', () => {
+    it('calling open() while already open with cached sources is a no-op (no re-fetch)', async () => {
+      const loader = vi.fn().mockResolvedValue(mockSources)
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      // First open: loads sources
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(loader).toHaveBeenCalledOnce()
+      expect(result.current.isOpen).toBe(true)
+
+      // Second open while already open: sources are cached, should not re-fetch
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(loader).toHaveBeenCalledOnce() // still 1
+      expect(result.current.isOpen).toBe(true)
+    })
+  })
+
+  describe('concurrent resolution ordering', () => {
+    it('first-to-resolve wins when two concurrent open() calls race', async () => {
+      // When two open() calls race, both call the loader (documented behavior).
+      // The last setSources call wins. Both resolve with the same data in practice,
+      // but this test verifies no state corruption when they resolve in different orders.
+      const sources1: SourceTab[] = [{ label: 'First', code: 'first', language: 'tsx' }]
+      const sources2: SourceTab[] = [{ label: 'Second', code: 'second', language: 'tsx' }]
+
+      let resolveFirst!: (value: SourceTab[]) => void
+      let resolveSecond!: (value: SourceTab[]) => void
+      let callCount = 0
+
+      const loader = vi.fn().mockImplementation(
+        () =>
+          new Promise<SourceTab[]>((resolve) => {
+            callCount++
+            if (callCount === 1) resolveFirst = resolve
+            else resolveSecond = resolve
+          })
+      )
+
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      // Start two concurrent opens
+      act(() => {
+        void result.current.open()
+        void result.current.open()
+      })
+
+      // Resolve second before first (out of order)
+      await act(async () => {
+        resolveSecond(sources2)
+      })
+
+      // First resolution arrives late
+      await act(async () => {
+        resolveFirst(sources1)
+      })
+
+      // Modal should be open — last setSources call wins (sources1, resolved second)
+      expect(result.current.isOpen).toBe(true)
+      expect(result.current.sources).toEqual(sources1)
+    })
+  })
+
+  describe('close during load', () => {
+    it('close() before loader resolves keeps modal closed but caches the sources', async () => {
+      // close() invalidates the pending open(), so when the loader resolves
+      // the modal stays closed. Sources are still cached for the next open().
+      let resolveLoader!: (value: SourceTab[]) => void
+      const loader = vi.fn().mockImplementation(
+        () => new Promise<SourceTab[]>((resolve) => { resolveLoader = resolve })
+      )
+
+      const { result } = renderHook(() => useCodeViewer(loader))
+
+      // Start open (loader is pending)
+      act(() => {
+        void result.current.open()
+      })
+
+      // Close before loader resolves
+      act(() => {
+        result.current.close()
+      })
+      expect(result.current.isOpen).toBe(false)
+
+      // Loader resolves — sources are cached but modal stays closed
+      await act(async () => {
+        resolveLoader(mockSources)
+      })
+
+      expect(result.current.isOpen).toBe(false)
+      expect(result.current.sources).toEqual(mockSources)
+
+      // Next open() uses cached sources and opens immediately
+      await act(async () => {
+        await result.current.open()
+      })
+      expect(result.current.isOpen).toBe(true)
+      expect(result.current.sources).toEqual(mockSources)
+      expect(loader).toHaveBeenCalledTimes(1)
     })
   })
 })

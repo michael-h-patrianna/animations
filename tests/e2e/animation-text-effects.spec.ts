@@ -72,10 +72,10 @@ test.describe('XP Number Pop Animation', () => {
     const card = catalogPage.card('text-effects__xp-number-pop')
     const stage = await catalogPage.cardStage(card)
 
-    await expect(stage.locator('.xp-pop-container')).toBeVisible()
-    await expect(stage.locator('.xp-pop-number-wrapper')).toBeVisible()
-    await expect(stage.locator('.xp-pop-number-value')).toBeVisible()
-    await expect(stage.locator('.xp-pop-label')).toHaveText('XP')
+    await expect(stage.locator('.pf-xp-pop')).toBeVisible()
+    await expect(stage.locator('.pf-xp-pop__number-wrapper')).toBeVisible()
+    await expect(stage.locator('.pf-xp-pop__number-value')).toBeVisible()
+    await expect(stage.locator('.pf-xp-pop__label')).toHaveText('XP')
   })
 
   test('css variant renders and counts up to target value', async ({ catalogPage }) => {

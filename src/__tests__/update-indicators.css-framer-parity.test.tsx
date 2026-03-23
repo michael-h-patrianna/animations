@@ -46,9 +46,9 @@ describe('update-indicators CSS/Framer DOM parity', () => {
     const framer = render(<FramerBadgePop />)
 
     const cssBadgeText = css.container.querySelector('.pf-update-indicator__badge')?.textContent
-    const framerBadgeText = framer.container
-      .querySelector('.pf-update-indicator__badge')
-      ?.textContent
+    const framerBadgeText = framer.container.querySelector(
+      '.pf-update-indicator__badge'
+    )?.textContent
 
     expect(cssBadgeText).toBe('New')
     expect(framerBadgeText).toBe('New')

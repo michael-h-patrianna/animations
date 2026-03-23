@@ -26,11 +26,8 @@ describe('clampBulbCount', () => {
     expect(clampBulbCount(MAX_BULB_COUNT + 1)).toBe(MAX_BULB_COUNT)
   })
 
-  it('handles NaN by returning MIN_BULB_COUNT (Math.max/min behavior)', () => {
-    // Math.max(MIN, Math.min(MAX, NaN)) = Math.max(MIN, NaN) = NaN
-    // This documents the actual behavior: NaN propagates through Math.max/min
-    const result = clampBulbCount(NaN)
-    expect(result).toBeNaN()
+  it('handles NaN by returning MIN_BULB_COUNT', () => {
+    expect(clampBulbCount(NaN)).toBe(MIN_BULB_COUNT)
   })
 
   it('handles Infinity by clamping to MAX_BULB_COUNT', () => {
@@ -98,6 +95,45 @@ describe('resolveColorInputDefault', () => {
     // Regex /^var\((--[\w-]+)\)$/ won't match because 'not-a-prop' doesn't start with --
     // Falls through to toHex('var(not-a-prop)') → throws → returns ''
     expect(result).toBe('')
+  })
+
+  it('handles var() with extra whitespace inside parens', () => {
+    // The regex /^var\((--[\w-]+)\)$/ requires exact match — no whitespace allowed
+    // CSS spec allows var( --foo ), but the regex is strict
+    const result = resolveColorInputDefault('var( --test-color )')
+    expect(result).toBe('')
+  })
+
+  it('handles var() with fallback value syntax', () => {
+    // CSS allows var(--color, #ff0000) but the regex /^var\((--[\w-]+)\)$/ requires
+    // the var() to contain ONLY the property name — no fallback. So this won't match.
+    const result = resolveColorInputDefault('var(--missing, #ff0000)')
+    expect(result).toBe('')
+  })
+
+  it('handles CSS variable resolving to empty string (set but empty)', () => {
+    // Setting a property to '' via style.setProperty makes getComputedStyle return ''
+    document.documentElement.style.setProperty('--test-color', '')
+    const result = resolveColorInputDefault('var(--test-color)')
+    // getPropertyValue returns '' → empty string check triggers → falls through to toHex
+    // toHex('var(--test-color)') → throws because var() can't be parsed statically → returns ''
+    expect(result).toBe('')
+  })
+
+  it('handles CSS variable resolving to whitespace-only value', () => {
+    document.documentElement.style.setProperty('--test-color', '   ')
+    const result = resolveColorInputDefault('var(--test-color)')
+    // getPropertyValue returns '   ', .trim() is '' → same as empty → falls through
+    expect(result).toBe('')
+    document.documentElement.style.removeProperty('--test-color')
+  })
+
+  it('handles non-var() non-hex color strings without throwing', () => {
+    // 'transparent' is not hex/rgb — toHex resolves it via DOM probe.
+    // In happy-dom this either resolves to a hex or throws and returns ''.
+    const result = resolveColorInputDefault('transparent')
+    // Valid outcomes are a hex string (#rrggbb) or empty string (resolution failed)
+    expect(result === '' || /^#[\da-f]{6}$/i.test(result)).toBe(true)
   })
 })
 

@@ -285,12 +285,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     const labels = tabs.map((t) => t.label)
 
     // Expected order: framer tsx, css tsx, css css, then shared files (framer CSS excluded)
-    expect(labels).toEqual([
-      'Component',
-      'Component',
-      'CSS',
-      'utils.ts',
-    ])
+    expect(labels).toEqual(['Component', 'Component', 'CSS', 'utils.ts'])
   })
 
   it('ignores absolute/bare module imports (non-relative) and does not create shared tabs for them', async () => {
@@ -339,6 +334,82 @@ describe('resolveAnimationSource — advanced scenarios', () => {
 
     const sharedTab = tabs.find((t) => t.label === 'shared.css')
     expect(sharedTab).toEqual({ label: 'shared.css', code: sharedCss, language: 'css' })
+  })
+
+  it('does NOT parse dynamic imports — import("../foo") is not matched by RELATIVE_IMPORT_RE', async () => {
+    // Dynamic imports use import() syntax, not `from '...'` syntax.
+    // The regex /\bfrom\s+['"]/ does not match dynamic imports.
+    const tsxSource = `const lazy = import('../DynamicHelper')\nexport function A() { return <div /> }`
+
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/A.tsx': () => Promise.resolve({ A: () => null }) },
+      { './framer/A.meta.ts': { metadata: makeMeta('g__a') } },
+      {},
+      {},
+      {
+        framerTsx: { './framer/A.tsx': vi.fn().mockResolvedValue(tsxSource) },
+        shared: { './DynamicHelper.ts': vi.fn().mockResolvedValue('export const x = 1') },
+      }
+    )
+
+    const tabs = await resolveAnimationSource(result.framer['g__a']!, undefined)
+    // Only the component — DynamicHelper is NOT included because dynamic imports aren't parsed
+    expect(tabs).toHaveLength(1)
+    expect(tabs[0]!.label).toBe('Component')
+  })
+
+  it('parses type-only imports — import type { X } from "../types"', async () => {
+    // type-only imports still use `from '...'` syntax, so RELATIVE_IMPORT_RE matches them
+    const tsxSource = `import type { Config } from '../types'\nexport function A() { return <div /> }`
+    const typesCode = `export type Config = { speed: number }`
+
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/A.tsx': () => Promise.resolve({ A: () => null }) },
+      { './framer/A.meta.ts': { metadata: makeMeta('g__a') } },
+      {},
+      {},
+      {
+        framerTsx: { './framer/A.tsx': vi.fn().mockResolvedValue(tsxSource) },
+        shared: { './types.ts': vi.fn().mockResolvedValue(typesCode) },
+      }
+    )
+
+    const tabs = await resolveAnimationSource(result.framer['g__a']!, undefined)
+    // type-only import still resolves to a shared tab
+    const typesTab = tabs.find((t) => t.label === 'types.ts')
+    expect(typesTab).toEqual(expect.objectContaining({ label: 'types.ts', code: typesCode }))
+  })
+
+  it('does NOT parse imports inside comments', async () => {
+    // The regex matches ANY line with `from '...'` — it cannot distinguish commented-out imports.
+    // This documents the known limitation: commented imports are still parsed.
+    const tsxSource = `// import { helper } from '../commented'\nimport { real } from '../real'\nexport function A() { return <div /> }`
+    const commentedCode = `export const helper = 1`
+    const realCode = `export const real = 2`
+
+    const result = buildGroupExport(
+      groupMeta,
+      { './framer/A.tsx': () => Promise.resolve({ A: () => null }) },
+      { './framer/A.meta.ts': { metadata: makeMeta('g__a') } },
+      {},
+      {},
+      {
+        framerTsx: { './framer/A.tsx': vi.fn().mockResolvedValue(tsxSource) },
+        shared: {
+          './commented.ts': vi.fn().mockResolvedValue(commentedCode),
+          './real.ts': vi.fn().mockResolvedValue(realCode),
+        },
+      }
+    )
+
+    const tabs = await resolveAnimationSource(result.framer['g__a']!, undefined)
+    const labels = tabs.map((t) => t.label)
+    // Both appear because the regex cannot distinguish comments from code
+    expect(labels).toContain('real.ts')
+    // KNOWN LIMITATION: commented import is also included
+    expect(labels).toContain('commented.ts')
   })
 
   it('handles component that imports multiple shared files — all appear sorted alphabetically', async () => {

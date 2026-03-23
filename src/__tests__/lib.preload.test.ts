@@ -223,4 +223,45 @@ describe('lib • preloadImages', () => {
     expect(hrefs).toContain('only-b.png')
     expect(links.length).toBe(3)
   })
+
+  it('handles URLs with hash fragments as distinct from base URLs', () => {
+    document.head.innerHTML = ''
+    preloadImages(['image.png', 'image.png#section'])
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    expect(links.length).toBe(2)
+  })
+
+  it('handles URLs with encoded characters correctly', () => {
+    document.head.innerHTML = ''
+    preloadImages(['image%20with%20spaces.png', 'image with spaces.png'])
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    // These are distinct URLs (browser treats encoded and unencoded differently)
+    expect(links.length).toBe(2)
+  })
+
+  it('handles data: URLs without creating Image() or link tags', () => {
+    document.head.innerHTML = ''
+    const dataUrl = 'data:image/png;base64,iVBORw0KGgo='
+    preloadImages([dataUrl])
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    // data: URLs are valid non-empty strings, so they get a link tag
+    expect(links.length).toBe(1)
+    expect(links[0]!.getAttribute('href')).toBe(dataUrl)
+  })
+
+  it('handles array with only empty strings (all filtered)', () => {
+    document.head.innerHTML = ''
+    preloadImages(['', '', ''])
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    expect(links.length).toBe(0)
+  })
+
+  it('link elements are appended in order of first appearance', () => {
+    document.head.innerHTML = ''
+    preloadImages(['c.png', 'a.png', 'b.png'])
+    const links = document.head.querySelectorAll('link[rel="preload"][as="image"]')
+    const hrefs = Array.from(links).map((l) => l.getAttribute('href'))
+    // Order should match input array order
+    expect(hrefs).toEqual(['c.png', 'a.png', 'b.png'])
+  })
 })

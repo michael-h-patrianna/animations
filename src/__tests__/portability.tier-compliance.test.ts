@@ -277,16 +277,29 @@ describe('Portability: CSS Class Coverage', () => {
 
     // Orphaned classes indicate portability gaps — the component uses classes
     // it doesn't explicitly import, making copy-paste incomplete.
-    // Fail if more than 20 components have orphans (current baseline: 20).
-    // As components are fixed to explicitly import their shared CSS, lower this threshold.
+    //
+    // RATCHET: Current threshold is 9 components. When fixing components,
+    // lower ORPHAN_THRESHOLD to match the new count. The "ratchet slack"
+    // assertion below will fail when the actual count drops 5+ below the
+    // threshold, reminding you to tighten it.
+    const ORPHAN_THRESHOLD = 9
     const componentOrphans = new Set(orphans.map((o) => o.split(':')[0]))
-    if (componentOrphans.size > 20) {
+    if (componentOrphans.size > ORPHAN_THRESHOLD) {
       // Report count and samples instead of the full list
       const sample = orphans.slice(0, 10).join('\n')
       expect.fail(
         `${componentOrphans.size} CSS components have ${orphans.length} orphaned classes (classes used but not defined in any imported CSS).\n` +
           `This means copy-pasting these components would result in unstyled elements.\n` +
           `First 10:\n${sample}`
+      )
+    }
+
+    // Ratchet tightening reminder: if the actual count is 5+ below the
+    // threshold, the threshold is stale and should be lowered.
+    if (componentOrphans.size <= ORPHAN_THRESHOLD - 5) {
+      expect.fail(
+        `Orphan component count (${componentOrphans.size}) is well below the threshold (${ORPHAN_THRESHOLD}). ` +
+          `Tighten ORPHAN_THRESHOLD to ${componentOrphans.size} in this test to prevent regression.`
       )
     }
   })

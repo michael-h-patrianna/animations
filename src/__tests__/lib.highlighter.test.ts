@@ -188,4 +188,70 @@ describe('highlightCode', () => {
     expect(tsxResult).toContain('lang="tsx"')
     expect(cssResult).toContain('lang="css"')
   })
+
+  it('propagates codeToHtml error after successful initialization', async () => {
+    vi.resetModules()
+    createCallCount = 0
+
+    // Override the mock to make codeToHtml throw on the second call
+    const { createHighlighterCore } = await import('shiki/core')
+    let callNum = 0
+    vi.mocked(createHighlighterCore).mockImplementation(() => {
+      createCallCount++
+      return Promise.resolve({
+        codeToHtml: vi.fn().mockImplementation(() => {
+          callNum++
+          if (callNum === 2) throw new Error('codeToHtml failed')
+          return '<pre><code>ok</code></pre>'
+        }),
+      })
+    })
+
+    const { highlightCode } = await import('@/lib/highlighter')
+
+    // First call succeeds
+    const result1 = await highlightCode('const a = 1', 'tsx')
+    expect(result1).toContain('ok')
+
+    // Second call — codeToHtml throws
+    await expect(highlightCode('bad code', 'tsx')).rejects.toThrow('codeToHtml failed')
+
+    // Highlighter was only created once (singleton preserved)
+    expect(createCallCount).toBe(1)
+  })
+
+  it('subsequent calls succeed after a codeToHtml failure (singleton is not invalidated)', async () => {
+    vi.resetModules()
+    createCallCount = 0
+
+    let shouldFail = false
+    const { createHighlighterCore } = await import('shiki/core')
+    vi.mocked(createHighlighterCore).mockImplementation(() => {
+      createCallCount++
+      return Promise.resolve({
+        codeToHtml: vi.fn().mockImplementation((code: string, opts: { lang: string }) => {
+          if (shouldFail) throw new Error('transient codeToHtml error')
+          return `<pre><code lang="${opts.lang}">${code.slice(0, 20)}</code></pre>`
+        }),
+      })
+    })
+
+    const { highlightCode } = await import('@/lib/highlighter')
+
+    // First call succeeds
+    const ok = await highlightCode('const a = 1', 'tsx')
+    expect(ok).toContain('const a = 1')
+
+    // Second call fails transiently
+    shouldFail = true
+    await expect(highlightCode('fail', 'tsx')).rejects.toThrow('transient codeToHtml error')
+
+    // Third call succeeds (error was transient, highlighter still works)
+    shouldFail = false
+    const ok2 = await highlightCode('recovery', 'tsx')
+    expect(ok2).toContain('recovery')
+
+    // Singleton was only created once
+    expect(createCallCount).toBe(1)
+  })
 })

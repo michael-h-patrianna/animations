@@ -46,39 +46,69 @@ test.describe('Progress Bar Animations', () => {
     await expect(stage.locator('.label-container')).toContainText('100%')
   })
 
-  test('milestone progress activates all 5 milestones over time', async ({ catalogPage }) => {
+  test('milestone progress markers become fully opaque as progress completes', async ({
+    catalogPage,
+  }) => {
     await catalogPage.gotoGroup('progress-bars-framer')
 
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    // Count milestones with data-active attribute (set by component state)
-    const activeMilestoneCount = () => stage.locator('.milestone-container[data-active]').count()
-
-    // All 5 milestones should activate as progress completes (4s animation + buffer)
-    await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)
+    // Wait for the last milestone marker to become fully opaque (progress reaches 100%)
+    // The demo animation takes ~4s + 1.5s pause; markers animate to opacity:1 when active
+    const lastMarker = stage.locator('.milestone-marker').last()
+    await expect
+      .poll(
+        async () => {
+          const opacity = await lastMarker.evaluate((el) =>
+            parseFloat(window.getComputedStyle(el).opacity)
+          )
+          return opacity
+        },
+        { timeout: 10_000 }
+      )
+      .toBeGreaterThan(0.9)
   })
 
-  test('replay resets and replays milestone activation', async ({ catalogPage }) => {
+  test('replay resets and replays milestone progress', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('progress-bars-framer')
 
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    const activeMilestoneCount = () => stage.locator('.milestone-container[data-active]').count()
+    // Wait for progress to complete (last marker becomes opaque)
+    const lastMarker = stage.locator('.milestone-marker').last()
+    await expect
+      .poll(
+        async () => {
+          const opacity = await lastMarker.evaluate((el) =>
+            parseFloat(window.getComputedStyle(el).opacity)
+          )
+          return opacity
+        },
+        { timeout: 10_000 }
+      )
+      .toBeGreaterThan(0.9)
 
-    // Wait for all milestones to activate
-    await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)
-
-    // Replay resets
+    // Replay resets the animation
     const replay = catalogPage.replayButton(card)
     await expect(replay).toBeEnabled()
     await replay.click()
 
-    // After replay, milestones should reset (fewer than 5 active)
-    await expect.poll(activeMilestoneCount, { timeout: 3_000 }).toBeLessThan(5)
+    // After replay, first marker should still have rendered content (remounted)
+    await expect(stage.locator('.milestone-marker').first()).toBeVisible({ timeout: 5_000 })
 
-    // And re-activate
-    await expect.poll(activeMilestoneCount, { timeout: 8_000 }).toBe(5)
+    // Progress resumes — last marker eventually becomes opaque again
+    await expect
+      .poll(
+        async () => {
+          const opacity = await lastMarker.evaluate((el) =>
+            parseFloat(window.getComputedStyle(el).opacity)
+          )
+          return opacity
+        },
+        { timeout: 10_000 }
+      )
+      .toBeGreaterThan(0.9)
   })
 })

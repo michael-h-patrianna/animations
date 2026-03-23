@@ -18,16 +18,9 @@ import { test, expect } from './fixtures/catalog.fixture'
 test.describe('Console Error Monitoring', () => {
   test('no JS errors during navigate → switch mode → navigate → back flow', async ({
     catalogPage,
+    errorCollector,
     page,
   }) => {
-    const pageErrors: string[] = []
-    const consoleErrors: string[] = []
-
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-    page.on('console', (msg) => {
-      if (msg.type() === 'error') consoleErrors.push(msg.text())
-    })
-
     // Step 1: Initial load
     await catalogPage.goto()
     await catalogPage.waitForCards()
@@ -43,14 +36,7 @@ test.describe('Console Error Monitoring', () => {
     await catalogPage.waitForCards()
 
     // Step 4: Navigate to a different group via sidebar
-    const groupLinks = catalogPage.allGroupLinks()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Step 5: Browser back
@@ -62,22 +48,14 @@ test.describe('Console Error Monitoring', () => {
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-framer$/)
     await catalogPage.waitForCards()
 
-    // Filter noise (favicon, ResizeObserver loop are benign)
-    const criticalErrors = consoleErrors.filter(
-      (text) => !/Failed to load resource|favicon|net::ERR|ResizeObserver loop/i.test(text)
-    )
-
-    expect(pageErrors, `Uncaught JS errors:\n${pageErrors.join('\n')}`).toHaveLength(0)
-    expect(criticalErrors, `Console errors:\n${criticalErrors.join('\n')}`).toHaveLength(0)
+    errorCollector.expectNoErrors()
   })
 
   test('no JS errors during code viewer open/close across groups', async ({
     catalogPage,
+    errorCollector,
     page,
   }) => {
-    const pageErrors: string[] = []
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-
     await catalogPage.gotoGroup('modal-base-framer')
 
     // Open code viewer
@@ -107,13 +85,14 @@ test.describe('Console Error Monitoring', () => {
     await catalogPage.gotoGroup('button-effects-framer')
     await catalogPage.waitForCards()
 
-    expect(pageErrors, `Uncaught JS errors:\n${pageErrors.join('\n')}`).toHaveLength(0)
+    errorCollector.expectNoErrors()
   })
 
-  test('no JS errors during rapid preview open/close cycles', async ({ catalogPage, page }) => {
-    const pageErrors: string[] = []
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-
+  test('no JS errors during rapid preview open/close cycles', async ({
+    catalogPage,
+    errorCollector,
+    page,
+  }) => {
     await catalogPage.gotoGroup('standard-effects-framer')
 
     const card = catalogPage.allCards().first()
@@ -132,16 +111,14 @@ test.describe('Console Error Monitoring', () => {
     await expect(catalogPage.previewMobileFrame()).toBeVisible()
     await catalogPage.closePreview()
 
-    expect(pageErrors, `Uncaught JS errors:\n${pageErrors.join('\n')}`).toHaveLength(0)
+    errorCollector.expectNoErrors()
   })
 
   test('no JS errors during mobile drawer + code viewer interaction', async ({
     mobilePage,
+    errorCollector,
     page,
   }) => {
-    const pageErrors: string[] = []
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-
     await mobilePage.gotoMobile('modal-base-framer')
 
     // Open code viewer
@@ -165,21 +142,14 @@ test.describe('Console Error Monitoring', () => {
     await mobilePage.selectCssMode()
     await mobilePage.closeDrawer()
 
-    expect(pageErrors, `Uncaught JS errors:\n${pageErrors.join('\n')}`).toHaveLength(0)
+    errorCollector.expectNoErrors()
   })
 
   test('no JS errors during filter apply → remove → navigate flow', async ({
     catalogPage,
+    errorCollector,
     page,
   }) => {
-    const pageErrors: string[] = []
-    const consoleErrors: string[] = []
-
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-    page.on('console', (msg) => {
-      if (msg.type() === 'error') consoleErrors.push(msg.text())
-    })
-
     // Apply filter via URL
     await page.goto('/text-effects-framer?animation=text-effects__character-reveal')
     await catalogPage.waitForShell()
@@ -190,14 +160,7 @@ test.describe('Console Error Monitoring', () => {
     await catalogPage.waitForCards()
 
     // Navigate to a different group
-    const groupLinks = catalogPage.allGroupLinks()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Apply filter again via URL on new group
@@ -208,20 +171,14 @@ test.describe('Console Error Monitoring', () => {
       await catalogPage.waitForShell()
     }
 
-    const criticalErrors = consoleErrors.filter(
-      (text) => !/Failed to load resource|favicon|net::ERR|ResizeObserver loop/i.test(text)
-    )
-    expect(pageErrors, `Uncaught JS errors:\n${pageErrors.join('\n')}`).toHaveLength(0)
-    expect(criticalErrors, `Console errors:\n${criticalErrors.join('\n')}`).toHaveLength(0)
+    errorCollector.expectNoErrors()
   })
 
   test('no JS errors during preview open → close → code mode switch → preview open', async ({
     catalogPage,
+    errorCollector,
     page,
   }) => {
-    const pageErrors: string[] = []
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-
     await catalogPage.gotoGroup('standard-effects-framer')
 
     const card = catalogPage.allCards().first()
@@ -250,6 +207,6 @@ test.describe('Console Error Monitoring', () => {
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-framer$/)
     await catalogPage.waitForCards()
 
-    expect(pageErrors, `Uncaught JS errors:\n${pageErrors.join('\n')}`).toHaveLength(0)
+    errorCollector.expectNoErrors()
   })
 })

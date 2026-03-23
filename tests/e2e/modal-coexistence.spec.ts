@@ -160,20 +160,10 @@ test.describe('Code Viewer + Preview Modal Coexistence', () => {
     await catalogPage.openDesktopPreview(card)
     await expect(catalogPage.previewAnimation()).toBeVisible()
 
-    // Navigate to a different group via sidebar (clicks go through the overlay)
-    const groupLinks = catalogPage.allGroupLinks()
-    const before = catalogPage.currentPathname()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        // The preview overlay covers the sidebar. Close preview first, then navigate.
-        await catalogPage.closePreview()
-        await expect(catalogPage.previewAnimation()).toHaveCount(0)
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-    await catalogPage.waitForPathnameChange(before)
+    // The preview overlay covers the sidebar. Close preview first, then navigate.
+    await catalogPage.closePreview()
+    await expect(catalogPage.previewAnimation()).toHaveCount(0)
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Preview overlay should not be stuck on screen after navigation

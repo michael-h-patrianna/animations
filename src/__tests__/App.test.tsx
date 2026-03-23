@@ -1,4 +1,4 @@
-import App from '@/App'
+import { App } from '@/App'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { _resetScrollLockState } from '@/hooks/useScrollLock'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
@@ -107,8 +107,8 @@ describe('App', () => {
     fireEvent.click(screen.getByTestId('hamburger-button'))
     expect(drawer).not.toHaveAttribute('hidden')
 
-    // Press Escape
-    fireEvent.keyDown(window, { key: 'Escape' })
+    // Press Escape (useEscapeClose listens on document)
+    fireEvent.keyDown(document, { key: 'Escape' })
 
     // Drawer should close
     expect(drawer).toHaveAttribute('hidden')

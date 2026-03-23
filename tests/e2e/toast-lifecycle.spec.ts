@@ -73,16 +73,7 @@ test.describe('Toast Notification Lifecycle', () => {
 
     // Navigate to a different group — toast is portaled to body, should unmount
     // with the card component that owns it
-    const before = catalogPage.currentPathname()
-    const groupLinks = catalogPage.allGroupLinks()
-    for (let i = 0; i < (await groupLinks.count()); i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // Toast should be gone (component unmounted)

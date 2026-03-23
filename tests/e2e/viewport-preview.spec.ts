@@ -43,7 +43,7 @@ test.describe('Viewport Preview', () => {
     await expect(catalogPage.previewAnimation()).toHaveCount(0)
   })
 
-  test('backdrop click closes preview', async ({ catalogPage }) => {
+  test('backdrop click replays animation (does not close)', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('modal-base-framer')
     const card = catalogPage.allCards().first()
 
@@ -51,8 +51,15 @@ test.describe('Viewport Preview', () => {
     const overlay = catalogPage.page.locator('[data-testid="preview-desktop"]')
     await expect(overlay).toBeVisible()
 
-    // Click the overlay edge (top-left corner, avoiding toolbar/animation)
+    // Click the overlay edge — should replay (not close)
+    // PreviewModal uses replayOnSelf: clicks on own background trigger replay
     await overlay.click({ position: { x: 5, y: 80 } })
+
+    // Preview stays open — animation is replayed, not dismissed
+    await expect(catalogPage.previewAnimation()).toBeVisible()
+
+    // Close via close button
+    await catalogPage.closePreview()
     await expect(catalogPage.previewAnimation()).toHaveCount(0)
   })
 

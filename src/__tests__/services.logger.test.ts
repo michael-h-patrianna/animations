@@ -184,4 +184,41 @@ describe('logger', () => {
       expect(sink).toHaveBeenCalledWith('error', 'msg')
     })
   })
+
+  describe('variadic argument passthrough', () => {
+    it('passes 0 extra args to console (message only)', () => {
+      logger.info('just a message')
+      expect(consoleSpy.info).toHaveBeenCalledWith('just a message')
+      // Should not have any additional arguments
+      expect(consoleSpy.info.mock.calls[0]).toHaveLength(1)
+    })
+
+    it('passes 3+ extra args to console', () => {
+      const obj = { key: 'value' }
+      const arr = [1, 2, 3]
+      const num = 42
+
+      logger.warn('multi', obj, arr, num)
+      expect(consoleSpy.warn).toHaveBeenCalledWith('multi', obj, arr, num)
+      expect(consoleSpy.warn.mock.calls[0]).toHaveLength(4)
+    })
+
+    it('passes 3+ extra args to custom sink', () => {
+      const sink = vi.fn()
+      logger.setSink(sink)
+
+      const err = new Error('test')
+      const ctx = { userId: 1 }
+      const extra = 'details'
+
+      logger.error('failed', err, ctx, extra)
+      expect(sink).toHaveBeenCalledWith('error', 'failed', err, ctx, extra)
+      expect(sink.mock.calls[0]).toHaveLength(5) // level + message + 3 args
+    })
+
+    it('passes undefined and null args through without filtering', () => {
+      logger.debug('with-nullish', undefined, null, 0, '')
+      expect(consoleSpy.debug).toHaveBeenCalledWith('with-nullish', undefined, null, 0, '')
+    })
+  })
 })

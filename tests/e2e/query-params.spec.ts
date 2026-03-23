@@ -150,20 +150,7 @@ test.describe('Query Parameters', () => {
     await expect(catalogPage.allCards().first()).toBeVisible({ timeout: 10_000 })
 
     // Navigate to a different group via sidebar
-    const groupLinks = catalogPage.allGroupLinks()
-    const count = await groupLinks.count()
-    expect(count).toBeGreaterThan(1)
-
-    const before = new URL(page.url()).pathname
-    for (let i = 0; i < count; i++) {
-      const isActive = await groupLinks.nth(i).getAttribute('data-active')
-      if (!isActive) {
-        await groupLinks.nth(i).click()
-        break
-      }
-    }
-
-    await catalogPage.waitForPathnameChange(before)
+    await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
     // The animation filter should be stripped from the URL
@@ -286,10 +273,7 @@ test.describe('Query Parameter Edge Cases', () => {
     await catalogPage.expectNoErrorBoundary()
   })
 
-  test('?animation= at root path resolves to the correct group', async ({
-    catalogPage,
-    page,
-  }) => {
+  test('?animation= at root path resolves to the correct group', async ({ catalogPage, page }) => {
     // Navigate to root with an animation filter but no group path.
     // useGroupInitialization should resolve the animation's group and redirect.
     const targetId = 'modal-base__scale-gentle-pop'
@@ -297,9 +281,7 @@ test.describe('Query Parameter Edge Cases', () => {
     await catalogPage.waitForShell()
 
     // Should redirect to the modal-base group with filter preserved
-    await expect
-      .poll(() => new URL(page.url()).pathname, { timeout: 10_000 })
-      .toMatch(/modal-base/)
+    await expect.poll(() => new URL(page.url()).pathname, { timeout: 10_000 }).toMatch(/modal-base/)
 
     // Filter should be active
     await expect(catalogPage.filterBanner()).toBeVisible({ timeout: 10_000 })

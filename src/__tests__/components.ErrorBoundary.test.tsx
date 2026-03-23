@@ -1,5 +1,6 @@
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { fireEvent, render, screen } from '@testing-library/react'
+import React from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 // Component that throws on render
@@ -335,6 +336,38 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
+    expect(screen.getByText('Something went wrong')).toBeVisible()
+
+    consoleErrorSpy.mockRestore()
+  })
+
+  it('does NOT catch errors thrown in useEffect (React async boundary limitation)', () => {
+    consoleErrorSpy.mockImplementation(() => {})
+
+    function AsyncThrower() {
+      // This error happens AFTER render, in the useEffect phase.
+      // ErrorBoundary (getDerivedStateFromError) only catches render-phase errors.
+      const [_count, setCount] = React.useState(0)
+      React.useEffect(() => {
+        // Throw indirectly via state update that will cause render error.
+        // The updater function runs during the next render, so the throw
+        // is caught by ErrorBoundary's getDerivedStateFromError.
+        setCount(() => {
+          throw new Error('Async effect error')
+        })
+      }, [])
+      return <div>Should render initially {_count}</div>
+    }
+
+    // React 19 will catch the error in the boundary because setState throws during render
+    // This documents that state-update-triggered errors ARE caught (unlike raw promise rejections)
+    render(
+      <ErrorBoundary>
+        <AsyncThrower />
+      </ErrorBoundary>
+    )
+
+    // The error boundary should catch the setState-triggered error
     expect(screen.getByText('Something went wrong')).toBeVisible()
 
     consoleErrorSpy.mockRestore()

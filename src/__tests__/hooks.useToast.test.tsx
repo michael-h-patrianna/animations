@@ -116,6 +116,35 @@ describe('useToast', () => {
     expect(screen.getByTestId('app-toast')).toHaveTextContent('C')
   })
 
+  it('rapid 10x showToast calls result in single toast with last message', () => {
+    function TestHost() {
+      const { showToast, toastPortal } = useToast()
+      return (
+        <div>
+          <button
+            onClick={() => {
+              for (let i = 0; i < 10; i++) {
+                showToast(`Message ${i}`)
+              }
+            }}
+            data-testid="rapid10"
+          >
+            Fire 10
+          </button>
+          {toastPortal}
+        </div>
+      )
+    }
+
+    render(<TestHost />)
+    fireEvent.click(screen.getByTestId('rapid10'))
+
+    // Only one toast element should exist
+    expect(screen.getAllByTestId('app-toast')).toHaveLength(1)
+    // It should show the last message
+    expect(screen.getByTestId('app-toast')).toHaveTextContent('Message 9')
+  })
+
   it('showToast with empty string creates a portal (documents behavior)', () => {
     function TestHost() {
       const { showToast, toastPortal } = useToast()
@@ -222,5 +251,66 @@ describe('ToastContent', () => {
     // Advance past all durations — cleanup should have cleared the timer
     vi.advanceTimersByTime(5000)
     expect(onDone).not.toHaveBeenCalled()
+  })
+})
+
+describe('useToast race conditions', () => {
+  it('showToast during exit animation replaces the toast (old unmounts, new mounts)', () => {
+    function TestHost() {
+      const { showToast, toastPortal } = useToast()
+      return (
+        <div>
+          <button onClick={() => showToast('First')} data-testid="first">
+            1
+          </button>
+          <button onClick={() => showToast('Second')} data-testid="second">
+            2
+          </button>
+          {toastPortal}
+        </div>
+      )
+    }
+
+    render(<TestHost />)
+
+    // Show first toast
+    fireEvent.click(screen.getByTestId('first'))
+    expect(screen.getByTestId('app-toast')).toHaveTextContent('First')
+
+    // Advance to exit animation phase (after VISIBLE_MS = 2800ms)
+    vi.advanceTimersByTime(2801)
+
+    // Show second toast during the exit animation of the first
+    fireEvent.click(screen.getByTestId('second'))
+
+    // Should show the new toast
+    const toasts = screen.getAllByTestId('app-toast')
+    expect(toasts).toHaveLength(1)
+    expect(toasts[0]).toHaveTextContent('Second')
+  })
+
+  it('showToast with same message as current toast still creates a fresh toast', () => {
+    function TestHost() {
+      const { showToast, toastPortal } = useToast()
+      return (
+        <div>
+          <button onClick={() => showToast('Same message')} data-testid="trigger">
+            Go
+          </button>
+          {toastPortal}
+        </div>
+      )
+    }
+
+    render(<TestHost />)
+
+    // Show toast twice with same message — should still work
+    fireEvent.click(screen.getByTestId('trigger'))
+    expect(screen.getByTestId('app-toast')).toHaveTextContent('Same message')
+
+    fireEvent.click(screen.getByTestId('trigger'))
+    // Still one toast with the same message
+    expect(screen.getAllByTestId('app-toast')).toHaveLength(1)
+    expect(screen.getByTestId('app-toast')).toHaveTextContent('Same message')
   })
 })
