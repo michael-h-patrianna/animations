@@ -226,34 +226,30 @@ export function computeArcTrajectory(
   const perpShakeX = -dy / distance
   const perpShakeY = dx / distance
 
-  // ── Origin pop: modal appears at button before departing ──
-  const popEnd = 0.07
-  const originX = from.x - center.x
-  const originY = from.y - center.y
-  const x: number[] = [originX, originX, originX]
-  const y: number[] = [originY, originY, originY]
-  const times: number[] = [0, 0.03, popEnd]
-  const scale: number[] = [0, 0.35, 0.3]
-  const opacity: number[] = [0, 1, 1]
-
   // ── Flight phase: dense Bezier sampling with force-dependent speed ──
-  const flightEnd = 0.7 + (1 - 0.7) * popEnd // compress slightly to preserve settle ratio
+  // Modal starts visible at the button (scale 0.35, full opacity) so the flight
+  // itself IS the "emerging from button" — no separate pop phase needed.
+  const flightEnd = 0.7
+  const x: number[] = []
+  const y: number[] = []
+  const times: number[] = []
+  const scale: number[] = []
+  const opacity: number[] = []
 
-  for (let i = 1; i <= ARC_SAMPLES; i++) {
-    const linearT = i / ARC_SAMPLES // 0→1, uniform time progress
-    const timelineT = popEnd + linearT * (flightEnd - popEnd)
+  for (let i = 0; i <= ARC_SAMPLES; i++) {
+    const linearT = i / ARC_SAMPLES
+    const timelineT = linearT * flightEnd
 
-    // Position: speed character baked into WHERE on the Bezier we are at each time step
     const curveT = invertSpeedCurve(linearT, f)
     x.push(cBezier(curveT, from.x, cp1.x, cp2.x, center.x) - center.x)
     y.push(cBezier(curveT, from.y, cp1.y, cp2.y, center.y) - center.y)
     times.push(timelineT)
 
-    // Scale: ramp from pop scale to full via ease-out
-    const scaleVal =
-      initialScale + (1 - initialScale) * (1 - Math.pow(1 - linearT, scaleGrowthPower))
-    scale.push(Math.max(scaleVal, 0.3)) // never below pop scale
+    // Scale: start at 0.35 (visible at button) and grow via ease-out
+    const growthT = 1 - Math.pow(1 - linearT, scaleGrowthPower)
+    scale.push(0.35 + 0.65 * growthT)
 
+    // Full opacity from the start — the modal is immediately visible at the button
     opacity.push(1)
   }
 

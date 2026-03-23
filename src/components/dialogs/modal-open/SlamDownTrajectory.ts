@@ -54,34 +54,20 @@ export function computeSlamDownTrajectory(
     skewX.push(0)
   }
 
-  // ── Origin pop: modal appears at button before launching ──
-  const popEnd = 0.07
-  const originX = from.x - center.x
-  const originY = from.y - center.y
-
-  x.push(originX, originX, originX)
-  y.push(originY, originY, originY)
-  times.push(0, 0.03, popEnd)
-  scale.push(0, 0.35, 0.3)
-  opacity.push(0, 1, 1)
-  ext()
-  ext()
-  ext()
-
-  // Phase 1: LAUNCH UP from trigger (7%→22%)
-  const launchStart = popEnd
+  // Phase 1: LAUNCH UP from trigger (0→22%)
+  // Modal starts visible at button (scale 0.35, full opacity) — the launch IS the emergence.
   const launchEnd = 0.22
   const launchSamples = 8
-  for (let i = 1; i <= launchSamples; i++) {
+  for (let i = 0; i <= launchSamples; i++) {
     const t = i / launchSamples
-    const tl = launchStart + t * (launchEnd - launchStart)
+    const tl = t * launchEnd
     const xT = 1 - Math.pow(1 - t, 2)
     x.push(from.x + dx * xT - center.x)
-    // Y: ease-out upward from trigger to apex
     const yT = 1 - Math.pow(1 - t, 2.5)
     y.push(from.y * (1 - yT) + (center.y - launchHeight) * yT - center.y)
     times.push(tl)
-    scale.push(0.3 + 0.5 * t) // from pop scale upward
+    // Scale: start at 0.35 (visible at button), grow during launch
+    scale.push(0.35 + 0.50 * t)
     opacity.push(1)
     ext()
   }

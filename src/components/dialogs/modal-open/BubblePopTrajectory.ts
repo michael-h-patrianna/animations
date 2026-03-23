@@ -51,7 +51,8 @@ export function computeBubblePopTrajectory(
   const originX = from.x - center.x
   const originY = from.y - center.y
 
-  // Phase 0: Origin pop — modal appears at button before snapping to center
+  // Phase 1: Snap from button to center (0→10%)
+  // Modal starts visible at button (scale 0.35, full opacity) — the snap IS the emergence.
   const pushAt = (
     px: number,
     py: number,
@@ -73,15 +74,11 @@ export function computeBubblePopTrajectory(
     opacity.push(op)
   }
 
-  pushAt(originX, originY, 0, 0, 1, 1, 0, 0) // invisible at button
-  pushAt(originX, originY, 0.03, 0.35, 1, 1, 0, 1) // pop to visible
-  pushAt(originX, originY, 0.07, 0.3, 1, 1, 0, 1) // hold at button
+  pushAt(originX, originY, 0, 0.12, 1, 1, 0, 1) // visible seed at button
+  pushAt(originX * 0.3, originY * 0.3, 0.05, 0.14, 1, 1, 0, 1) // growing toward center
+  push(0.10, 0.15, 1, 1, 0, 1) // at center, ready to inflate
 
-  // Phase 1: Snap from button to center (7%→14%)
-  pushAt(originX * 0.3, originY * 0.3, 0.1, 0.2, 1, 1, 0, 1) // midway
-  push(0.14, 0.15, 1, 1, 0, 1) // at center, ready to inflate
-
-  // Phase 2: Inflation with wobble (14%→66%)
+  // Phase 2: Inflation with wobble (10%→64%)
   // CRT-inspired: fewer, wider swings. One big overshoot then halving settle.
   const a = wobbleAmp
   const ah = a * 0.5
