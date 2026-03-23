@@ -1,0 +1,344 @@
+/*
+ * Shared building block styles for demo content.
+ * All colors reference --pf-demo-* tokens from demo-tokens.css.
+ * Catalog infrastructure only — not copied by consumers.
+ */
+
+/* ── Card: glassmorphic surface ── */
+.pf-demo-card {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--pf-demo-card-bg);
+  border: 1px solid var(--pf-demo-card-border);
+  color: var(--pf-demo-card-color);
+  box-shadow:
+    var(--pf-demo-card-shadow),
+    inset 0 0 0 1px var(--pf-demo-card-border);
+}
+
+.pf-demo-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--pf-demo-card-title-color);
+}
+
+.pf-demo-card__text {
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Modal: card with header/body/footer sections ── */
+.pf-demo-modal {
+  width: clamp(280px, 80%, 400px);
+  margin-inline: auto;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--pf-demo-card-bg);
+  border: 1px solid var(--pf-demo-card-border);
+  color: var(--pf-demo-card-color);
+  box-shadow:
+    var(--pf-demo-card-shadow),
+    inset 0 0 0 1px var(--pf-demo-card-border);
+  overflow: hidden;
+  transform-origin: center;
+}
+
+.pf-demo-modal__body {
+  padding: 24px 0;
+  min-height: 60px;
+}
+
+.pf-demo-modal__body p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.pf-demo-modal__footer {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+/* ── Modal header: title + badge row ── */
+.pf-demo-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 10px;
+  border-bottom: 1px solid var(--pf-demo-card-border);
+}
+
+.pf-demo-modal-header__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ── Badge ── */
+.pf-demo-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--pf-demo-badge-bg);
+  color: var(--pf-demo-badge-color);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Buttons ── */
+.pf-demo-btn {
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pf-demo-btn--primary {
+  background: linear-gradient(180deg, var(--pf-demo-btn-primary-bg-1), var(--pf-demo-btn-primary-bg-2));
+  color: var(--pf-demo-btn-primary-color);
+  border: 2px solid var(--pf-demo-btn-primary-border);
+  text-shadow: 0 1px 1px var(--pf-demo-btn-text-shadow);
+}
+
+.pf-demo-btn--secondary {
+  color: var(--pf-demo-btn-secondary-color);
+  border: 2px solid var(--pf-demo-btn-secondary-color);
+  background: transparent;
+}
+
+/* ── Close button ── */
+.pf-demo-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--pf-demo-card-color);
+  cursor: pointer;
+}
+
+.pf-demo-close-btn:hover {
+  background: var(--pf-demo-card-border);
+}
+
+/* ── List ── */
+.pf-demo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── List item ── */
+.pf-demo-list-item {
+  padding: 12px 16px;
+  background: var(--pf-demo-list-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--pf-demo-list-accent);
+  color: var(--pf-demo-list-color);
+  font-weight: 500;
+}
+
+/* ── Form field ── */
+.pf-demo-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pf-demo-form-field__label {
+  font-weight: 500;
+  color: var(--pf-demo-field-label);
+  font-size: 14px;
+}
+
+.pf-demo-form-field__input {
+  padding: 10px 12px;
+  border: 1px solid var(--pf-demo-field-input-border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--pf-demo-field-input-bg);
+  color: var(--pf-demo-field-input-color);
+  transition: border-color 0.2s ease;
+}
+
+.pf-demo-form-field__input:focus {
+  outline: none;
+  border-color: var(--pf-demo-card-border);
+  box-shadow: 0 0 0 3px var(--pf-demo-field-shadow);
+}
+
+/* ── Toast ── */
+.pf-demo-toast {
+  min-width: 240px;
+  transform-origin: center;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--pf-demo-card-bg);
+  border: 1px solid var(--pf-demo-card-border);
+  color: var(--pf-demo-card-color);
+  box-shadow:
+    var(--pf-demo-card-shadow),
+    inset 0 0 0 1px var(--pf-demo-card-border);
+  position: relative;
+}
+
+.pf-demo-toast__title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.pf-demo-toast__body {
+  padding-bottom: 8px;
+}
+
+.pf-demo-toast__progress {
+  position: absolute;
+  inset-inline: 12px;
+  bottom: 10px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--pf-demo-toast-progress-bg);
+  overflow: hidden;
+}
+
+.pf-demo-toast__progress-bar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    -135deg,
+    var(--pf-demo-toast-progress-1) 0.56%,
+    var(--pf-demo-toast-progress-2) 100%
+  );
+  transform-origin: left center;
+  border-radius: inherit;
+  animation-name: pf-demo-toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes pf-demo-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* ── Overlay: centering container ── */
+.pf-demo-overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Form: vertical field column ── */
+.pf-demo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* ── Grid: responsive card grid ── */
+.pf-demo-grid {
+  display: grid;
+  gap: 12px;
+}
+
+/* ── Tab bar: horizontal tab row ── */
+.pf-demo-tab-bar {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--pf-demo-card-border);
+  padding-bottom: 8px;
+}
+
+/* ── Tab: single tab button ── */
+.pf-demo-tab {
+  flex: 1;
+  padding: 6px 12px;
+  border-radius: 8px 8px 0 0;
+  background: var(--pf-demo-card-bg);
+  border: 1px solid var(--pf-demo-card-border);
+  border-bottom: none;
+  text-align: center;
+  font-size: 13px;
+  color: var(--pf-demo-card-color);
+  cursor: pointer;
+}
+
+.pf-demo-tab--active {
+  background: var(--pf-demo-active-bg);
+  border-color: var(--pf-demo-active-border);
+  color: var(--pf-demo-active-color);
+  box-shadow: 0 0 0 1px var(--pf-demo-active-glow);
+}
+
+/* ── Step indicator: wizard step pill ── */
+.pf-demo-step-indicator {
+  display: flex;
+  gap: 8px;
+}
+
+.pf-demo-step {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--pf-demo-card-bg);
+  border: 1px solid var(--pf-demo-card-border);
+  text-align: center;
+  font-size: 12px;
+  color: var(--pf-demo-card-color);
+}
+
+/* ── Box: rounded rectangle with centered label ── */
+.pf-demo-box {
+  padding: 24px 32px;
+  background: linear-gradient(
+    135deg,
+    var(--pf-demo-card-bg) 0%,
+    var(--pf-demo-list-bg) 100%
+  );
+  border: 1px solid var(--pf-demo-card-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px var(--pf-demo-card-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  backface-visibility: hidden;
+}
+
+.pf-demo-box__label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--pf-demo-card-color);
+  text-align: center;
+}
+
+.pf-demo-step--active {
+  background: var(--pf-demo-active-bg);
+  border: 2px solid var(--pf-demo-active-border);
+  color: var(--pf-demo-active-color);
+  box-shadow: 0 0 0 1px var(--pf-demo-active-glow);
+}

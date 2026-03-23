@@ -1,0 +1,145 @@
+/*
+ * Unified demo content tokens — single source of truth.
+ *
+ * Defines the glassmorphic card/modal visual shared across dialog groups.
+ * Dark defaults on :root — all themes are dark variants.
+ *
+ * Each group's legacy namespace is aliased to the canonical --pf-demo-* tokens
+ * so existing component CSS files work without modification.
+ *
+ * Component CSS files keep var(--token, fallback) patterns — fallbacks serve
+ * consumers who copy-paste without this file.
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE (default)
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Canonical tokens ── */
+
+  /* Card / modal surface */
+  --pf-demo-card-bg: oklch(85% 0.08 310deg / 8%);
+  --pf-demo-card-border: oklch(85% 0.08 310deg / 12%);
+  --pf-demo-card-color: oklch(100% 0 0deg / 76%);
+  --pf-demo-card-title-color: oklch(100% 0 0deg / 92%);
+  --pf-demo-card-shadow: 0 18px 40px oklch(0% 0 0deg / 45%);
+
+  /* Badge */
+  --pf-demo-badge-bg: oklch(92% 0.15 130deg / 16%);
+  --pf-demo-badge-color: #c6ff77;
+
+  /* Primary button */
+  --pf-demo-btn-primary-bg-1: #ff5981;
+  --pf-demo-btn-primary-bg-2: #c83558;
+  --pf-demo-btn-primary-color: #fff;
+  --pf-demo-btn-primary-border: #ff7495;
+  --pf-demo-btn-text-shadow: oklch(0% 0 0deg / 50%);
+
+  /* Secondary button */
+  --pf-demo-btn-secondary-color: oklch(88% 0.12 195deg);
+
+  /* Button border */
+  --pf-demo-btn-border: oklch(85% 0.08 310deg / 32%);
+
+  /* List items */
+  --pf-demo-list-bg: oklch(85% 0.08 310deg / 8%);
+  --pf-demo-list-accent: #c47ae5;
+  --pf-demo-list-color: oklch(100% 0 0deg / 90%);
+
+  /* Form fields */
+  --pf-demo-field-label: oklch(100% 0 0deg / 76%);
+  --pf-demo-field-input-border: oklch(85% 0.08 310deg / 32%);
+  --pf-demo-field-input-bg: oklch(85% 0.08 310deg / 5%);
+  --pf-demo-field-input-color: oklch(100% 0 0deg / 90%);
+  --pf-demo-field-shadow: oklch(64% 0.13 310deg / 10%);
+
+  /* Gradient accents */
+  --pf-demo-gradient-10: oklch(60% 0.18 265deg / 10%);
+  --pf-demo-gradient-20: oklch(60% 0.18 265deg / 20%);
+
+  /* Trigger button (modal-open) */
+  --pf-demo-trigger-border: oklch(85% 0.08 310deg / 40%);
+  --pf-demo-trigger-bg: oklch(85% 0.08 310deg / 10%);
+  --pf-demo-trigger-color: oklch(100% 0 0deg / 85%);
+  --pf-demo-trigger-hover-bg: oklch(85% 0.08 310deg / 18%);
+  --pf-demo-trigger-hover-border: oklch(85% 0.08 310deg / 60%);
+
+  /* Overlay */
+  --pf-demo-overlay-color: #000;
+
+  /* Impact glow (modal-open landing effect) */
+  --pf-demo-impact-glow-color: oklch(75% 0.10 300deg / 15%);
+
+  /* Toast (modal-dismiss) */
+  --pf-demo-toast-progress-bg: oklch(85% 0.08 310deg / 16%);
+  --pf-demo-toast-progress-1: #1bee02;
+  --pf-demo-toast-progress-2: #00ad45;
+  --pf-demo-toast-shadow-color: oklch(100% 0 0deg / 65%);
+  --pf-demo-toast-text-bright: oklch(100% 0 0deg / 85%);
+  --pf-demo-toast-text-dim: oklch(100% 0 0deg / 25%);
+
+  /* Orchestration active state */
+  --pf-demo-active-bg: oklch(85% 0.08 310deg / 20%);
+  --pf-demo-active-border: oklch(64% 0.13 310deg / 60%);
+  --pf-demo-active-color: oklch(100% 0 0deg / 95%);
+  --pf-demo-active-glow: oklch(64% 0.13 310deg / 30%);
+
+  /* ── Aliases: modal-content (--pf-mc-*) ── */
+  --pf-mc-bg: var(--pf-demo-card-bg);
+  --pf-mc-border: var(--pf-demo-card-border);
+  --pf-mc-color: var(--pf-demo-card-color);
+  --pf-mc-badge-bg: var(--pf-demo-badge-bg);
+  --pf-mc-badge-color: var(--pf-demo-badge-color);
+  --pf-mc-btn-border: var(--pf-demo-btn-border);
+  --pf-mc-btn-primary-bg-1: var(--pf-demo-btn-primary-bg-1);
+  --pf-mc-btn-primary-bg-2: var(--pf-demo-btn-primary-bg-2);
+  --pf-mc-btn-primary-color: var(--pf-demo-btn-primary-color);
+  --pf-mc-btn-primary-border: var(--pf-demo-btn-primary-border);
+  --pf-mc-btn-text-shadow: var(--pf-demo-btn-text-shadow);
+  --pf-mc-btn-secondary-color: var(--pf-demo-btn-secondary-color);
+  --pf-mc-list-bg: var(--pf-demo-list-bg);
+  --pf-mc-list-accent: var(--pf-demo-list-accent);
+  --pf-mc-list-color: var(--pf-demo-list-color);
+  --pf-mc-field-label: var(--pf-demo-field-label);
+  --pf-mc-field-input-border: var(--pf-demo-field-input-border);
+  --pf-mc-field-input-bg: var(--pf-demo-field-input-bg);
+  --pf-mc-field-input-color: var(--pf-demo-field-input-color);
+  --pf-mc-field-shadow: var(--pf-demo-field-shadow);
+  --pf-mc-gradient-10: var(--pf-demo-gradient-10);
+  --pf-mc-gradient-20: var(--pf-demo-gradient-20);
+
+  /* ── Aliases: modal-open (--pf-mo-*) ── */
+  --pf-mo-trigger-border: var(--pf-demo-trigger-border);
+  --pf-mo-trigger-bg: var(--pf-demo-trigger-bg);
+  --pf-mo-trigger-color: var(--pf-demo-trigger-color);
+  --pf-mo-trigger-hover-bg: var(--pf-demo-trigger-hover-bg);
+  --pf-mo-trigger-hover-border: var(--pf-demo-trigger-hover-border);
+  --pf-mo-overlay-color: var(--pf-demo-overlay-color);
+  --pf-mo-impact-glow-color: var(--pf-demo-impact-glow-color);
+  --pf-mo-mc-bg: var(--pf-demo-card-bg);
+  --pf-mo-mc-border: var(--pf-demo-card-border);
+  --pf-mo-mc-color: var(--pf-demo-card-color);
+  --pf-mo-mc-badge-bg: var(--pf-demo-badge-bg);
+  --pf-mo-mc-badge-color: var(--pf-demo-badge-color);
+  --pf-mo-mc-btn-primary-bg-1: var(--pf-demo-btn-primary-bg-1);
+  --pf-mo-mc-btn-primary-bg-2: var(--pf-demo-btn-primary-bg-2);
+  --pf-mo-mc-btn-primary-color: var(--pf-demo-btn-primary-color);
+  --pf-mo-mc-btn-primary-border: var(--pf-demo-btn-primary-border);
+  --pf-mo-mc-btn-text-shadow: var(--pf-demo-btn-text-shadow);
+  --pf-mo-mc-list-bg: var(--pf-demo-list-bg);
+  --pf-mo-mc-list-accent: var(--pf-demo-list-accent);
+  --pf-mo-mc-list-color: var(--pf-demo-list-color);
+  --pf-mo-mc-box-shadow-color: oklch(0% 0 0deg / 45%);
+
+  /* ── Aliases: orchestration (--pf-orch-*) ── */
+  --pf-orch-item-bg: var(--pf-demo-card-bg);
+  --pf-orch-item-border: var(--pf-demo-card-border);
+  --pf-orch-item-color: var(--pf-demo-card-color);
+  --pf-orch-item-title-color: var(--pf-demo-card-title-color);
+  --pf-orch-active-bg: var(--pf-demo-active-bg);
+  --pf-orch-active-border: var(--pf-demo-active-border);
+  --pf-orch-active-color: var(--pf-demo-active-color);
+  --pf-orch-active-glow: var(--pf-demo-active-glow);
+}
+

@@ -1,0 +1,326 @@
+/**
+ * Demo UI Styles
+ * All styles scoped to [data-demo-ui] for isolation from animation component CSS
+ */
+
+/* stylelint-disable declaration-no-important -- Tailwind-override utilities need !important for specificity */
+/* stylelint-disable selector-class-pattern -- Tailwind arbitrary value selectors don't follow BEM */
+
+@import './theme.css';
+@import './theme-dark-purple.css';
+@import './theme-dark-blue.css';
+@import './theme-dark-brown.css';
+@import './theme-dark-black.css';
+
+/* GLASSMORPHISM UTILITIES */
+[data-demo-ui] .glass-panel {
+  background-color: var(--bg-panel);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 1px 0 0 oklch(100% 0 0deg / 5%),
+    inset 0 0 0 1px oklch(100% 0 0deg / 2%);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+[data-demo-ui] .glass-input {
+  background-color: var(--color-glass);
+  border: 1px solid var(--border-subtle);
+  box-shadow: inset 0 1px 2px oklch(0% 0 0deg / 5%);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+}
+
+[data-demo-ui] .glass-input:hover {
+  border-color: var(--border-default);
+  background-color: color-mix(in oklch, var(--color-glass), var(--text-primary) 5%);
+}
+
+[data-demo-ui] .glass-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+[data-demo-ui] .glass-input:focus {
+  outline: none;
+  border-color: var(--theme-accent);
+  background-color: color-mix(in oklch, var(--color-glass), var(--theme-accent) 5%);
+  box-shadow:
+    inset 0 1px 2px oklch(0% 0 0deg / 5%),
+    0 0 0 1px var(--theme-accent),
+    0 0 12px -2px color-mix(in oklch, var(--theme-accent-glow) 30%, transparent);
+}
+
+/* ============================================
+   BUTTON COMPONENTS
+   ============================================ */
+
+[data-demo-ui] .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  border: 1px solid transparent;
+  letter-spacing: 0.01em;
+}
+
+[data-demo-ui] .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+[data-demo-ui] .btn:active {
+  transform: translateY(1px);
+}
+
+/* Primary Button */
+[data-demo-ui] .btn-primary {
+  background-color: var(--accent-subtle);
+  border-color: var(--theme-accent);
+  color: var(--theme-accent);
+  box-shadow: none;
+}
+
+[data-demo-ui] .btn-primary:hover {
+  background-color: color-mix(in oklch, var(--theme-accent) 25%, transparent);
+  box-shadow: 0 0 12px var(--accent-subtle);
+  transform: translateY(-0.5px);
+}
+
+[data-demo-ui] .btn-primary:active {
+  background-color: var(--accent-subtle);
+  transform: translateY(0);
+}
+
+/* Secondary Button */
+[data-demo-ui] .btn-secondary {
+  background-color: transparent;
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+[data-demo-ui] .btn-secondary:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  transform: translateY(-0.5px);
+}
+
+[data-demo-ui] .btn-secondary:active {
+  background-color: var(--bg-active);
+  transform: translateY(0);
+}
+
+/* Ghost Button */
+[data-demo-ui] .btn-ghost {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--text-secondary);
+}
+
+[data-demo-ui] .btn-ghost:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+[data-demo-ui] .btn-ghost:active {
+  background-color: var(--bg-active);
+}
+
+/* Danger Button */
+[data-demo-ui] .btn-danger {
+  background-color: transparent;
+  border-color: var(--border-danger);
+  color: var(--text-danger);
+}
+
+[data-demo-ui] .btn-danger:hover {
+  background-color: var(--bg-danger);
+  border-color: var(--text-danger);
+}
+
+[data-demo-ui] .btn-danger:active {
+  background-color: color-mix(in oklch, var(--bg-danger), black 10%);
+}
+
+/* --- SIZES --- */
+
+[data-demo-ui] .btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  height: 1.75rem;
+}
+
+[data-demo-ui] .btn-md {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  height: 2.25rem;
+}
+
+[data-demo-ui] .btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  height: 2.75rem;
+}
+
+[data-demo-ui] .btn-icon {
+  padding: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+[data-demo-ui] .btn-icon.btn-sm {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+/* TEXT UTILITIES */
+[data-demo-ui] .text-glow {
+  text-shadow: 0 0 12px var(--theme-accent-glow);
+}
+
+[data-demo-ui] .text-glow-subtle {
+  text-shadow: 0 0 8px color-mix(in oklch, var(--theme-accent-glow) 40%, transparent);
+}
+
+/* COLOR UTILITIES */
+[data-demo-ui] .text-text-primary {
+  color: var(--text-primary) !important;
+}
+
+[data-demo-ui] .text-text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+[data-demo-ui] .text-text-tertiary {
+  color: var(--text-tertiary) !important;
+}
+
+[data-demo-ui] .text-accent {
+  color: var(--theme-accent) !important;
+}
+
+[data-demo-ui] .bg-panel {
+  background-color: var(--bg-panel) !important;
+}
+
+[data-demo-ui] .bg-surface {
+  background-color: var(--bg-surface) !important;
+}
+
+[data-demo-ui] .bg-elevated {
+  background-color: var(--bg-elevated) !important;
+}
+
+/* Border utilities */
+[data-demo-ui] .border-border-subtle {
+  border-color: var(--border-subtle) !important;
+}
+
+[data-demo-ui] .border-border-default {
+  border-color: var(--border-default) !important;
+}
+
+/* Hover states */
+[data-demo-ui] .hover\:text-text-primary:hover {
+  color: var(--text-primary) !important;
+}
+
+[data-demo-ui] .hover\:bg-\[var\(--bg-hover\)\]:hover {
+  background-color: var(--bg-hover) !important;
+}
+
+/* STATUS UTILITIES */
+[data-demo-ui] .text-text-danger {
+  color: var(--text-danger) !important;
+}
+
+[data-demo-ui] .text-text-success {
+  color: var(--text-success) !important;
+}
+
+[data-demo-ui] .text-text-warning {
+  color: var(--text-warning) !important;
+}
+
+[data-demo-ui] .text-text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Accent with opacity */
+[data-demo-ui] .bg-accent\/10 {
+  background-color: color-mix(in oklch, var(--theme-accent) 10%, transparent) !important;
+}
+
+/* SCROLLBAR UTILITIES */
+[data-demo-ui] .scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+[data-demo-ui] .scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+[data-demo-ui] .scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+[data-demo-ui] .scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-demo-ui] .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 9999px;
+}
+
+[data-demo-ui] .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-strong);
+}
+
+/* RESET POPOVER DEFAULTS */
+[data-demo-ui] [popover] {
+  border: none;
+  background: transparent;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+/* BASE STYLES FOR DEMO UI */
+[data-demo-ui] {
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SECTION LABEL */
+[data-demo-ui] .section-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
