@@ -55,35 +55,37 @@ export function useCountdown({
   onEnd,
   onEndBehavior,
 }: UseCountdownOptions): CountdownState {
-  const [seconds, setSeconds] = useState(startSeconds)
-  const [progress, setProgress] = useState(0)
-  const [isExpired, setIsExpired] = useState(false)
+  const alreadyExpired = startSeconds <= 0
+  const [seconds, setSeconds] = useState(alreadyExpired ? 0 : startSeconds)
+  const [progress, setProgress] = useState(alreadyExpired ? 1 : 0)
+  const [isExpired, setIsExpired] = useState(alreadyExpired)
   const [isHidden, setIsHidden] = useState(false)
 
   // Stable reference for onEnd to avoid re-subscribing the interval
   const onEndRef = useRef(onEnd)
   onEndRef.current = onEnd
 
-  const onEndFired = useRef(false)
+  const onEndFiredRef = useRef(false)
 
   const fireOnEnd = useCallback(() => {
-    if (!onEndFired.current) {
-      onEndFired.current = true
+    if (!onEndFiredRef.current) {
+      onEndFiredRef.current = true
       onEndRef.current?.()
     }
   }, [])
 
+  // Fire onEnd immediately for already-expired timers
+  useEffect(() => {
+    if (alreadyExpired) {
+      fireOnEnd()
+    }
+  }, [alreadyExpired, fireOnEnd])
+
   useEffect(() => {
     // Reset fired flag on remount (replay via key toggle)
-    onEndFired.current = false
+    onEndFiredRef.current = false
 
-    if (startSeconds <= 0) {
-      setSeconds(0)
-      setProgress(1)
-      setIsExpired(true)
-      fireOnEnd()
-      return
-    }
+    if (startSeconds <= 0) return
 
     const startTime = Date.now()
     let visualAccumulator = 0

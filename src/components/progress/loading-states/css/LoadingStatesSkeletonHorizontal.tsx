@@ -68,7 +68,9 @@ function LoadingStatesSkeletonHorizontalComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-horizontal"
-      className={className !== undefined ? `pf-skeleton-horizontal ${className}` : 'pf-skeleton-horizontal'}
+      className={
+        className !== undefined ? `pf-skeleton-horizontal ${className}` : 'pf-skeleton-horizontal'
+      }
       style={{ ...vars, width, gap }}
       role="status"
       aria-label="Loading"

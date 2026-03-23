@@ -67,10 +67,7 @@ function TextEffectsComboCounterComponent({
   formatRef.current = formatValue
 
   const range = to - from
-  const milestones = useMemo(
-    () => calculateMilestones(range, maxParticles),
-    [range, maxParticles]
-  )
+  const milestones = useMemo(() => calculateMilestones(range, maxParticles), [range, maxParticles])
 
   useEffect(() => {
     const startTime = performance.now()
@@ -148,9 +145,7 @@ function TextEffectsComboCounterComponent({
         </div>
       </div>
 
-      {bonusText !== undefined && (
-        <div className="tfx-combo-bonus">{bonusText}</div>
-      )}
+      {bonusText !== undefined && <div className="tfx-combo-bonus">{bonusText}</div>}
     </div>
   )
 }

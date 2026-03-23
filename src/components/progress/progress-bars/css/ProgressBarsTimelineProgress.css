@@ -69,12 +69,27 @@
 }
 
 @keyframes timeline-step-pop {
-  0% { transform: scale(0.9); opacity: 0.3; }
-  50% { transform: scale(1.06); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes timeline-connector-fill {
-  0% { transform: scaleX(0); opacity: 0.3; }
-  100% { transform: scaleX(1); opacity: 1; }
+  0% {
+    transform: scaleX(0);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }

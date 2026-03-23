@@ -1,6 +1,13 @@
 /** Shared data model for the FireworksRing animation (framer + CSS variants). */
 
-import { CELEBRATION_COLORS, CONFETTI_SHAPES, deg2rad, pickRandom, randBetween, type ConfettiShape } from './utils'
+import {
+  CELEBRATION_COLORS,
+  CONFETTI_SHAPES,
+  deg2rad,
+  pickRandom,
+  randBetween,
+  type ConfettiShape,
+} from './utils'
 
 /* ─── Types ─── */
 
@@ -29,6 +36,7 @@ export type Shimmer = {
   color: string
 }
 
+/** Confetti particle erupting from the ring at ignition, with pre-computed multi-stop keyframes. */
 export type Burst = {
   id: number
   shape: ConfettiShape
@@ -45,6 +53,7 @@ export type Burst = {
   dur: number
 }
 
+/** Twinkling dot at an outer position after the explosion phase. */
 export type Sparkle = {
   id: number
   x: number
@@ -69,7 +78,10 @@ export const DURATION = 2.0
 export const TIMES: number[] = [0, 0.14, 0.28, 0.34, 0.42, 0.6, 0.8, 1.0]
 
 const BURST_NUM_STOPS = 8
-export const BURST_TIMES = Array.from({ length: BURST_NUM_STOPS }, (_, i) => i / (BURST_NUM_STOPS - 1))
+export const BURST_TIMES = Array.from(
+  { length: BURST_NUM_STOPS },
+  (_, i) => i / (BURST_NUM_STOPS - 1)
+)
 
 /* ─── Helpers ─── */
 

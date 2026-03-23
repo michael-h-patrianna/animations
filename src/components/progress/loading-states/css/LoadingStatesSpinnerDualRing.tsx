@@ -7,10 +7,7 @@
 
 import { memo } from 'react'
 
-import {
-  SPINNER_DUAL_RING_COLOR,
-  SPINNER_DUAL_RING_SECONDARY,
-} from '../SharedDefaults'
+import { SPINNER_DUAL_RING_COLOR, SPINNER_DUAL_RING_SECONDARY } from '../SharedDefaults'
 import './LoadingStatesSpinnerDualRing.css'
 
 interface LoadingStatesSpinnerDualRingProps {
@@ -45,19 +42,23 @@ function LoadingStatesSpinnerDualRingComponent({
   return (
     <div
       data-animation-id="loading-states__spinner-dual-ring"
-      className={className !== undefined ? `pf-spinner-dual-ring ${className}` : 'pf-spinner-dual-ring'}
-      style={{
-        '--pf-sdr-size': `${size}px`,
-        '--pf-sdr-color': color,
-        '--pf-sdr-color-faded': `color-mix(in srgb, ${color} 16%, transparent)`,
-        '--pf-sdr-secondary': secondaryColor,
-        '--pf-sdr-secondary-faded': `color-mix(in srgb, ${secondaryColor} 20%, transparent)`,
-        '--pf-sdr-thickness': `${thickness}px`,
-        '--pf-sdr-inner-thickness': `${Math.max(1, Math.round(thickness * 0.75))}px`,
-        '--pf-sdr-inner-inset': `${Math.round(thickness / 2)}px`,
-        '--pf-sdr-outer-duration': `${1 / safeSpeed}s`,
-        '--pf-sdr-inner-duration': `${1.2 / safeSpeed}s`,
-      } as React.CSSProperties}
+      className={
+        className !== undefined ? `pf-spinner-dual-ring ${className}` : 'pf-spinner-dual-ring'
+      }
+      style={
+        {
+          '--pf-sdr-size': `${size}px`,
+          '--pf-sdr-color': color,
+          '--pf-sdr-color-faded': `color-mix(in srgb, ${color} 16%, transparent)`,
+          '--pf-sdr-secondary': secondaryColor,
+          '--pf-sdr-secondary-faded': `color-mix(in srgb, ${secondaryColor} 20%, transparent)`,
+          '--pf-sdr-thickness': `${thickness}px`,
+          '--pf-sdr-inner-thickness': `${Math.max(1, Math.round(thickness * 0.75))}px`,
+          '--pf-sdr-inner-inset': `${Math.round(thickness / 2)}px`,
+          '--pf-sdr-outer-duration': `${1 / safeSpeed}s`,
+          '--pf-sdr-inner-duration': `${1.2 / safeSpeed}s`,
+        } as React.CSSProperties
+      }
       role="status"
       aria-label="Loading"
     >

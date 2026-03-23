@@ -66,8 +66,7 @@
   border: 1px solid var(--journey-track-border);
   box-shadow: inset 0 1px 3px var(--journey-track-shadow);
   background:
-    linear-gradient(90deg, var(--journey-track-edge), transparent 58%),
-    var(--journey-track-bg);
+    linear-gradient(90deg, var(--journey-track-edge), transparent 58%), var(--journey-track-bg);
 }
 
 .journey-distance-fill {
@@ -76,11 +75,7 @@
   top: 21px;
   height: 16px;
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--journey-fill-from),
-    var(--journey-fill-to)
-  );
+  background: linear-gradient(90deg, var(--journey-fill-from), var(--journey-fill-to));
   box-shadow: 0 0 12px var(--journey-fill-glow);
 }
 
@@ -150,11 +145,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    var(--journey-traveller-glow),
-    transparent 70%
-  );
+  background: radial-gradient(circle, var(--journey-traveller-glow), transparent 70%);
 }
 
 .journey-distance-traveller-core {

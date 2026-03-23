@@ -16,10 +16,7 @@ interface StandardEffectsShakeProps {
   duration?: number
 }
 
-function StandardEffectsShakeComponent({
-  children,
-  duration = 500,
-}: StandardEffectsShakeProps) {
+function StandardEffectsShakeComponent({ children, duration = 500 }: StandardEffectsShakeProps) {
   return (
     <m.div
       data-animation-id="standard-effects__shake"

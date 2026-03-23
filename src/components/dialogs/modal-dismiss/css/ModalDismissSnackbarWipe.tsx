@@ -36,21 +36,41 @@ function ModalDismissSnackbarWipeComponent({
 
     const enterAnim = el.animate(
       [
-        { transform: 'translate3d(100%, 24px, 0) scale(0.96)', opacity: '0', clipPath: 'inset(0 0 0 100%)' },
-        { transform: 'translate3d(0, -4px, 0) scale(1.02)', opacity: '1', clipPath: 'inset(0 0 0 0)', offset: 0.7 },
+        {
+          transform: 'translate3d(100%, 24px, 0) scale(0.96)',
+          opacity: '0',
+          clipPath: 'inset(0 0 0 100%)',
+        },
+        {
+          transform: 'translate3d(0, -4px, 0) scale(1.02)',
+          opacity: '1',
+          clipPath: 'inset(0 0 0 0)',
+          offset: 0.7,
+        },
         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1', clipPath: 'inset(0 0 0 0)' },
       ],
       { duration: entryDuration, easing, fill: 'forwards' }
     )
 
-    enterAnim.onfinish = () => { el.style.clipPath = 'inset(0 0 0 0)' }
+    enterAnim.onfinish = () => {
+      el.style.clipPath = 'inset(0 0 0 0)'
+    }
 
     const exitTimer = setTimeout(() => {
       const exitAnim = el.animate(
         [
           { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1', clipPath: 'inset(0 0 0 0)' },
-          { transform: 'translate3d(0, 6px, 0) scale(0.96)', opacity: '0.6', clipPath: 'inset(0 0 0 0)', offset: 0.55 },
-          { transform: 'translate3d(0, 0, 0) scale(0.96)', opacity: '0', clipPath: 'inset(0 0 0 100%)' },
+          {
+            transform: 'translate3d(0, 6px, 0) scale(0.96)',
+            opacity: '0.6',
+            clipPath: 'inset(0 0 0 0)',
+            offset: 0.55,
+          },
+          {
+            transform: 'translate3d(0, 0, 0) scale(0.96)',
+            opacity: '0',
+            clipPath: 'inset(0 0 0 100%)',
+          },
         ],
         { duration: exitDuration, easing, fill: 'forwards' }
       )
@@ -71,7 +91,12 @@ function ModalDismissSnackbarWipeComponent({
       <div
         ref={wrapperRef}
         className={className}
-        style={{ ...style, opacity: 0, transform: 'translate3d(100%, 24px, 0) scale(0.96)', clipPath: 'inset(0 0 0 100%)' }}
+        style={{
+          ...style,
+          opacity: 0,
+          transform: 'translate3d(100%, 24px, 0) scale(0.96)',
+          clipPath: 'inset(0 0 0 100%)',
+        }}
       >
         <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
       </div>

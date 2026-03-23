@@ -99,10 +99,7 @@ export function resolvePoint(ref: PointRef): ResolvedPoint | null {
  * Resolves a PointRef to coordinates relative to a container element.
  * Converts viewport-absolute coordinates to container-relative.
  */
-export function resolvePointRelative(
-  ref: PointRef,
-  container: HTMLElement
-): ResolvedPoint | null {
+export function resolvePointRelative(ref: PointRef, container: HTMLElement): ResolvedPoint | null {
   const absolute = resolvePoint(ref)
   if (!absolute) return null
   const containerRect = container.getBoundingClientRect()
@@ -121,10 +118,7 @@ export function containerCenter(container: HTMLElement): ResolvedPoint {
  * Returns true if two resolved points are close enough to be considered the same position.
  * Uses a 5px Euclidean distance threshold.
  */
-export function pointsAreEqual(
-  a: ResolvedPoint | null,
-  b: ResolvedPoint | null
-): boolean {
+export function pointsAreEqual(a: ResolvedPoint | null, b: ResolvedPoint | null): boolean {
   if (!a || !b) return false
   const dx = a.x - b.x
   const dy = a.y - b.y

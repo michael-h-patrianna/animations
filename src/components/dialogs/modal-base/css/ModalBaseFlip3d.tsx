@@ -36,7 +36,10 @@ function ModalBaseFlip3dComponent({
   return (
     <div className="pf-modal-flip-3d" style={cssVars} data-animation-id="modal-base__flip-3d">
       <div className="pf-modal-flip-3d__perspective">
-        <div className={`pf-modal-flip-3d__content${className ? ` ${className}` : ''}`} style={style}>
+        <div
+          className={`pf-modal-flip-3d__content${className ? ` ${className}` : ''}`}
+          style={style}
+        >
           <ModalPlaceholder>{children}</ModalPlaceholder>
         </div>
       </div>

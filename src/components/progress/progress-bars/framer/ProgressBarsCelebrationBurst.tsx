@@ -21,10 +21,18 @@ import { useMemo, useRef, useState, useEffect } from 'react'
 import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
 import { useDemoProgress } from '../SharedDemoLoop'
 
-interface Particle { id: number; milestoneIndex: number; angle: number }
+interface Particle {
+  id: number
+  milestoneIndex: number
+  angle: number
+}
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0 }, { position: 0.25 }, { position: 0.5 }, { position: 0.75 }, { position: 1 },
+  { position: 0 },
+  { position: 0.25 },
+  { position: 0.5 },
+  { position: 0.75 },
+  { position: 1 },
 ]
 
 export function ProgressBarsCelebrationBurst({
@@ -93,9 +101,10 @@ export function ProgressBarsCelebrationBurst({
           <m.div
             className="pf-progress-fill"
             initial={isDemo ? { scaleX: 0 } : false}
-            animate={isDemo
-              ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
-              : { scaleX: progress ?? 0 }
+            animate={
+              isDemo
+                ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
+                : { scaleX: progress ?? 0 }
             }
             transition={isDemo ? undefined : { duration: 0.3, ease: 'linear' }}
             style={{ transformOrigin: 'left center', animation: 'none' }}

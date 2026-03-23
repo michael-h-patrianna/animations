@@ -112,7 +112,15 @@ function RealtimeDataStackedRealtimeComponent({
 
     const cycle = () => {
       if (!mounted) return
-      animateRowsIn(items, rowRef.current, valueRef.current, duration, staggerDelay, activeColor, inactiveColor)
+      animateRowsIn(
+        items,
+        rowRef.current,
+        valueRef.current,
+        duration,
+        staggerDelay,
+        activeColor,
+        inactiveColor
+      )
 
       schedule(() => {
         if (!mounted) return

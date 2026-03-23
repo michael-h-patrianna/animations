@@ -149,7 +149,9 @@
   background: var(--pf-mo-mc-bg);
   border: 1px solid var(--pf-mo-mc-border);
   color: var(--pf-mo-mc-color);
-  box-shadow: 0 18px 40px var(--pf-mo-mc-box-shadow-color), inset 0 0 0 1px var(--pf-mo-mc-border);
+  box-shadow:
+    0 18px 40px var(--pf-mo-mc-box-shadow-color),
+    inset 0 0 0 1px var(--pf-mo-mc-border);
 }
 
 .pf-mo-header {
@@ -232,7 +234,11 @@
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  background: linear-gradient(180deg, var(--pf-mo-mc-btn-primary-bg-1), var(--pf-mo-mc-btn-primary-bg-2));
+  background: linear-gradient(
+    180deg,
+    var(--pf-mo-mc-btn-primary-bg-1),
+    var(--pf-mo-mc-btn-primary-bg-2)
+  );
   color: var(--pf-mo-mc-btn-primary-color);
   border: 2px solid var(--pf-mo-mc-btn-primary-border);
   text-shadow: 0 1px 1px var(--pf-mo-mc-btn-text-shadow);

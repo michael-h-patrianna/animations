@@ -42,7 +42,16 @@ function ModalContentListSpotlightComponent({
       key={i}
       initial={reduced ? { opacity: 0 } : { scale: 0.95, opacity: 0 }}
       animate={reduced ? { opacity: 1 } : { scale: [0.95, 1.02, 1], opacity: [0, 0.7, 1] }}
-      transition={reduced ? { duration: 0.01 } : { duration: durationS, delay: delayBase + staggerS * i, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+      transition={
+        reduced
+          ? { duration: 0.01 }
+          : {
+              duration: durationS,
+              delay: delayBase + staggerS * i,
+              ease: [0.4, 0, 0.2, 1] as const,
+              times: [0, 0.5, 1],
+            }
+      }
       style={{ animation: 'none' }}
     >
       {child}
@@ -52,7 +61,9 @@ function ModalContentListSpotlightComponent({
   if (items.length > 0) {
     return (
       <div
-        className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+        className={
+          className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'
+        }
         data-animation-id="modal-content__list-spotlight"
         style={style}
       >
@@ -69,8 +80,16 @@ function ModalContentListSpotlightComponent({
       <m.div
         className="pf-mc-box"
         initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
-        animate={reduced ? { opacity: 1 } : { scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }}
-        transition={reduced ? { duration: 0.01 } : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }}
+        animate={
+          reduced
+            ? { opacity: 1 }
+            : { scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }
+        }
+        transition={
+          reduced
+            ? { duration: 0.01 }
+            : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }
+        }
         style={{ animation: 'none' }}
       >
         <MockModalHeader />
@@ -84,16 +103,42 @@ function ModalContentListSpotlightComponent({
         <div className="pf-mc-footer">
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
-            animate={reduced ? { opacity: 1 } : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
-            transition={reduced ? { duration: 0.01 } : { duration: 0.3, delay: buttonStaggerBase, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+            animate={
+              reduced
+                ? { opacity: 1 }
+                : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }
+            }
+            transition={
+              reduced
+                ? { duration: 0.01 }
+                : {
+                    duration: 0.3,
+                    delay: buttonStaggerBase,
+                    ease: [0.4, 0, 0.2, 1] as const,
+                    times: [0, 0.6, 1],
+                  }
+            }
             style={{ animation: 'none' }}
           >
             <MockButton label="Accept" />
           </m.div>
           <m.div
             initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
-            animate={reduced ? { opacity: 1 } : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }}
-            transition={reduced ? { duration: 0.01 } : { duration: 0.3, delay: buttonStaggerBase + 0.07, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.6, 1] }}
+            animate={
+              reduced
+                ? { opacity: 1 }
+                : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }
+            }
+            transition={
+              reduced
+                ? { duration: 0.01 }
+                : {
+                    duration: 0.3,
+                    delay: buttonStaggerBase + 0.07,
+                    ease: [0.4, 0, 0.2, 1] as const,
+                    times: [0, 0.6, 1],
+                  }
+            }
             onAnimationComplete={onAnimationComplete}
             style={{ animation: 'none' }}
           >

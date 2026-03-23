@@ -285,7 +285,11 @@ function BurstLayer({ bursts, maxW, maxH }: { bursts: Burst[]; maxW: number; max
       {bursts.map((b) => (
         <span
           key={b.id}
-          className={b.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${b.shape}`}
+          className={
+            b.imageUrl !== undefined
+              ? undefined
+              : `pf-celebration__confetti pf-celebration__confetti--${b.shape}`
+          }
           style={
             {
               left: `calc(50% + ${b.startX}px)`,
@@ -304,7 +308,11 @@ function BurstLayer({ bursts, maxW, maxH }: { bursts: Burst[]; maxW: number; max
           }
         >
           {b.imageUrl !== undefined && (
-            <img src={b.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            <img
+              src={b.imageUrl}
+              alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+            />
           )}
         </span>
       ))}
@@ -350,7 +358,7 @@ function ModalCelebrationsFireworksRingComponent({
     const maxTime = Math.max(
       DURATION + 220,
       ...bursts.map((b) => b.delay + b.dur),
-      ...sparkles.map((s) => s.delay + 900),
+      ...sparkles.map((s) => s.delay + 900)
     )
     const timer = setTimeout(onComplete, maxTime + 50)
     return () => clearTimeout(timer)

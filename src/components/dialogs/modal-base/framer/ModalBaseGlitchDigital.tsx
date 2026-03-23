@@ -52,7 +52,9 @@ function ModalBaseGlitchDigitalComponent({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: 'easeInOut' }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__tfx-glitchdigital"
     >
       <div className="pf-modal-center">

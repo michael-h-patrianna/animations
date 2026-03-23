@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/loading-states-css?animation=loading-states__spinner-galaxy',
   title: 'Spinner Galaxy',
   description:
-    'Spinning disc with two pulsing star dots. Configure size, color, starColors, and speed via CSS custom properties.',
+    'Spinning disc with two pulsing star dots. Configure size, color, starColors, and speed.',
   infinite: true,
   tier: 4,
 } satisfies AnimationMetadata

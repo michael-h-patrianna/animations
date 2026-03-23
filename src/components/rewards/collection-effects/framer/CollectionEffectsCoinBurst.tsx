@@ -107,7 +107,12 @@ function ParticleElement({
       }
       transition={
         prefersReducedMotion
-          ? { duration: 0.3, delay: particle.delay, ease: 'easeOut' as const, times: [0, 0.33, 0.67, 1] }
+          ? {
+              duration: 0.3,
+              delay: particle.delay,
+              ease: 'easeOut' as const,
+              times: [0, 0.33, 0.67, 1],
+            }
           : { duration: durationS, delay: particle.delay, times: [0, 0.06, 0.14, 0.7, 1] }
       }
       onAnimationComplete={isLast ? onFinish : undefined}
@@ -116,7 +121,11 @@ function ParticleElement({
       {particle.imageSrc ? (
         <img src={particle.imageSrc} alt="" className="pf-coin-burst__particle-image" />
       ) : (
-        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+        <FallbackParticle
+          shape={particle.fallback.shape}
+          color={particle.fallback.color}
+          size={particleSize}
+        />
       )}
     </m.div>
   )
@@ -165,11 +174,18 @@ function CollectionEffectsCoinBurstComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => { onComplete?.() }, [onComplete])
+  const handleComplete = useCallback(() => {
+    onComplete?.()
+  }, [onComplete])
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
 
   return (
-    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst" style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}>
+    <div
+      ref={containerRef}
+      className="pf-coin-burst"
+      data-animation-id="collection-effects__coin-burst"
+      style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
+    >
       {alive && origin !== null && (
         <m.div
           className="pf-coin-burst__stage"

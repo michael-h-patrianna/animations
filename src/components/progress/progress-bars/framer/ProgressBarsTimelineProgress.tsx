@@ -84,7 +84,9 @@ export function ProgressBarsTimelineProgress({
               <m.div
                 className="pf-timeline-progress__step"
                 variants={isDemo ? stepVariants : undefined}
-                animate={!isDemo ? { scale: isActive ? 1 : 0.9, opacity: isActive ? 1 : 0.3 } : undefined}
+                animate={
+                  !isDemo ? { scale: isActive ? 1 : 0.9, opacity: isActive ? 1 : 0.3 } : undefined
+                }
                 transition={!isDemo ? { duration: 0.3 } : undefined}
                 style={{
                   background: 'var(--timeline-step-bg, var(--pf-anim-dodger-blue-20))',
@@ -98,7 +100,9 @@ export function ProgressBarsTimelineProgress({
                 <m.div
                   className="pf-timeline-progress__connector"
                   variants={isDemo ? connectorVariants : undefined}
-                  animate={!isDemo ? { scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0.3 } : undefined}
+                  animate={
+                    !isDemo ? { scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0.3 } : undefined
+                  }
                   transition={!isDemo ? { duration: 0.3 } : undefined}
                   style={{
                     background:

@@ -16,10 +16,7 @@ interface StandardEffectsScaleProps {
   duration?: number
 }
 
-function StandardEffectsScaleComponent({
-  children,
-  duration = 600,
-}: StandardEffectsScaleProps) {
+function StandardEffectsScaleComponent({ children, duration = 600 }: StandardEffectsScaleProps) {
   return (
     <m.div
       data-animation-id="standard-effects__scale"

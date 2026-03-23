@@ -51,8 +51,24 @@ export const GOLDEN_COLORS = [
 
 /** Gem color configs — design tokens with hex fallbacks. */
 export const GEM_TYPES = [
-  { name: 'diamond', color1: 'var(--pf-anim-firework-cyan, #47fff4)', color2: 'var(--pf-anim-sky, #38bdf8)' },
-  { name: 'ruby', color1: 'var(--pf-anim-confetti-red, #ff6b6b)', color2: 'var(--pf-anim-red-dark, #dc2626)' },
-  { name: 'emerald', color1: 'var(--pf-anim-emerald, #10b981)', color2: 'var(--pf-anim-green-dark, #a8e65c)' },
-  { name: 'sapphire', color1: 'var(--pf-anim-blue, #60a5fa)', color2: 'var(--pf-anim-blue-dark, #3b82f6)' },
+  {
+    name: 'diamond',
+    color1: 'var(--pf-anim-firework-cyan, #47fff4)',
+    color2: 'var(--pf-anim-sky, #38bdf8)',
+  },
+  {
+    name: 'ruby',
+    color1: 'var(--pf-anim-confetti-red, #ff6b6b)',
+    color2: 'var(--pf-anim-red-dark, #dc2626)',
+  },
+  {
+    name: 'emerald',
+    color1: 'var(--pf-anim-emerald, #10b981)',
+    color2: 'var(--pf-anim-green-dark, #a8e65c)',
+  },
+  {
+    name: 'sapphire',
+    color1: 'var(--pf-anim-blue, #60a5fa)',
+    color2: 'var(--pf-anim-blue-dark, #3b82f6)',
+  },
 ] as const

@@ -14,13 +14,30 @@ interface FlagPlantProps extends MilestoneProgressBarProps {
 }
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0.16 }, { position: 0.34 }, { position: 0.52 }, { position: 0.70 }, { position: 0.88 },
+  { position: 0.16 },
+  { position: 0.34 },
+  { position: 0.52 },
+  { position: 0.7 },
+  { position: 0.88 },
 ]
 
 function FlagFallback({ active }: { active: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: active ? 1 : 0.45 }}>
-      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" fill={active ? 'currentColor' : 'none'} />
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ opacity: active ? 1 : 0.45 }}
+    >
+      <path
+        d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
+        fill={active ? 'currentColor' : 'none'}
+      />
       <line x1="4" y1="22" x2="4" y2="15" />
     </svg>
   )
@@ -74,7 +91,9 @@ export function ProgressBarsFlagPlant({
                   style={{ animationDelay: `${i * 0.04}s` }}
                 />
               ) : (
-                <span className={`flag-plant-marker-css flag-plant-marker--fallback${isPlanted ? ' active' : ''}`}>
+                <span
+                  className={`flag-plant-marker-css flag-plant-marker--fallback${isPlanted ? ' active' : ''}`}
+                >
                   <FlagFallback active={isPlanted} />
                 </span>
               )}

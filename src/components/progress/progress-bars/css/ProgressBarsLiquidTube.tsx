@@ -9,11 +9,7 @@ import type { ProgressBarProps } from '../SharedTypes'
 import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsLiquidTube.css'
 
-export function ProgressBarsLiquidTube({
-  progress,
-  className,
-  style,
-}: ProgressBarProps) {
+export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
   const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 600 })
   const percent = displayProgress * 100
 

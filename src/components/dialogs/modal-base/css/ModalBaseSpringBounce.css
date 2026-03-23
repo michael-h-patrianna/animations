@@ -23,14 +23,30 @@
 }
 
 @keyframes pf-spring-bounce-overlay {
-  from { opacity: 0; }
-  to { opacity: var(--pf-overlay-opacity, 1); }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--pf-overlay-opacity, 1);
+  }
 }
 
 @keyframes pf-spring-bounce-content {
-  0% { transform: translateY(-30px) scale(0.7); opacity: 0; }
-  50% { opacity: 1; }
-  70% { transform: translateY(0) scale(1.05); }
-  85% { transform: translateY(0) scale(0.98); }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
+  0% {
+    transform: translateY(-30px) scale(0.7);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(0) scale(1.05);
+  }
+  85% {
+    transform: translateY(0) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }

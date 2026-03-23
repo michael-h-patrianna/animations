@@ -16,10 +16,7 @@ interface StandardEffectsSlideProps {
   duration?: number
 }
 
-function StandardEffectsSlideComponent({
-  children,
-  duration = 700,
-}: StandardEffectsSlideProps) {
+function StandardEffectsSlideComponent({ children, duration = 700 }: StandardEffectsSlideProps) {
   return (
     <m.div
       data-animation-id="standard-effects__slide"

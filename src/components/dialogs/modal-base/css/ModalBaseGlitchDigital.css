@@ -61,8 +61,12 @@
 }
 
 @keyframes pf-glitch-digital-overlay {
-  from { opacity: 0; }
-  to { opacity: var(--pf-overlay-opacity, 1); }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--pf-overlay-opacity, 1);
+  }
 }
 
 @keyframes pf-glitch-digital-ghost-green {
@@ -96,9 +100,24 @@
 }
 
 @keyframes pf-glitch-digital-content {
-  0% { transform: skewX(0deg); opacity: 0; }
-  25% { transform: skewX(calc(2deg * var(--pf-glitch-intensity, 1))); opacity: 0.5; }
-  50% { transform: skewX(calc(-2deg * var(--pf-glitch-intensity, 1))); opacity: 0.8; }
-  75% { transform: skewX(calc(1deg * var(--pf-glitch-intensity, 1))); opacity: 0.95; }
-  100% { transform: skewX(0deg); opacity: 1; }
+  0% {
+    transform: skewX(0deg);
+    opacity: 0;
+  }
+  25% {
+    transform: skewX(calc(2deg * var(--pf-glitch-intensity, 1)));
+    opacity: 0.5;
+  }
+  50% {
+    transform: skewX(calc(-2deg * var(--pf-glitch-intensity, 1)));
+    opacity: 0.8;
+  }
+  75% {
+    transform: skewX(calc(1deg * var(--pf-glitch-intensity, 1)));
+    opacity: 0.95;
+  }
+  100% {
+    transform: skewX(0deg);
+    opacity: 1;
+  }
 }

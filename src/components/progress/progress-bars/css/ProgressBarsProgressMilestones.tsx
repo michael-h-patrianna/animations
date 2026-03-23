@@ -37,10 +37,7 @@ export function ProgressBarsProgressMilestones({
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <div
-            className="pf-progress-fill"
-            style={{ transform: `scaleX(${displayProgress})` }}
-          />
+          <div className="pf-progress-fill" style={{ transform: `scaleX(${displayProgress})` }} />
         </div>
 
         {milestones.map((ms, i) => {

@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-dismiss-framer?animation=modal-dismiss__toast-fade-progress',
   urlSlugCss: '/modal-dismiss-css?animation=modal-dismiss__toast-fade-progress',
   title: 'Toast Fade Progress',
-  description: 'Wraps content with a soft fade-in and fade-out dismiss. Configurable timeout via duration prop.',
+  description:
+    'Wraps content with a soft fade-in and fade-out dismiss. Configurable timeout via duration prop.',
   tier: 2,
 }

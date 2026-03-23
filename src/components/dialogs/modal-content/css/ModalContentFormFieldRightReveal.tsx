@@ -31,11 +31,13 @@ function ModalContentFormFieldRightRevealComponent({
     <div
       key={i}
       className="pf-form-right-reveal-item"
-      style={{
-        '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
-        '--pf-stagger-duration': `${String(duration)}ms`,
-        '--pf-reveal-distance': `${String(distance)}px`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
+          '--pf-stagger-duration': `${String(duration)}ms`,
+          '--pf-reveal-distance': `${String(distance)}px`,
+        } as React.CSSProperties
+      }
     >
       {child}
     </div>
@@ -44,7 +46,11 @@ function ModalContentFormFieldRightRevealComponent({
   if (items.length > 0) {
     return (
       <div
-        className={className !== undefined ? `pf-content-stagger pf-content-stagger--form ${className}` : 'pf-content-stagger pf-content-stagger--form'}
+        className={
+          className !== undefined
+            ? `pf-content-stagger pf-content-stagger--form ${className}`
+            : 'pf-content-stagger pf-content-stagger--form'
+        }
         data-animation-id="modal-content__form-field-right-reveal"
         style={style}
       >
@@ -62,20 +68,28 @@ function ModalContentFormFieldRightRevealComponent({
         <div className="pf-mc-body">
           <p>Build trust by sequencing content reveals.</p>
           <p>Keep focus with 70ms cadence.</p>
-          <div className="pf-mc-form">
-            {mockFields.map((field, i) => wrapItem(field, i, 300))}
-          </div>
+          <div className="pf-mc-form">{mockFields.map((field, i) => wrapItem(field, i, 300))}</div>
         </div>
         <div className="pf-mc-footer">
           <div
             className="pf-button-stagger-item"
-            style={{ '--pf-stagger-delay': '750ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+            style={
+              {
+                '--pf-stagger-delay': '750ms',
+                '--pf-stagger-duration': '300ms',
+              } as React.CSSProperties
+            }
           >
             <MockButton label="Accept" />
           </div>
           <div
             className="pf-button-stagger-item"
-            style={{ '--pf-stagger-delay': '820ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+            style={
+              {
+                '--pf-stagger-delay': '820ms',
+                '--pf-stagger-duration': '300ms',
+              } as React.CSSProperties
+            }
           >
             <MockButton label="Later" variant="secondary" />
           </div>

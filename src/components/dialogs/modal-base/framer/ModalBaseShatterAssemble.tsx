@@ -32,7 +32,9 @@ function ModalBaseShatterAssembleComponent({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: 'linear' }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__shatter-assemble"
     >
       <div className="pf-modal-center">
@@ -49,7 +51,10 @@ function ModalBaseShatterAssembleComponent({
                   opacity: [0, 0.3, 0.6, 0.9, 1],
                 }
           }
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.68, -0.55, 0.265, 1.55] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.68, -0.55, 0.265, 1.55],
+          }}
           onAnimationComplete={onAnimationComplete}
           style={{ animation: 'none' }}
         >

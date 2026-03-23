@@ -126,10 +126,7 @@ function CollectionEffectsCoinsFountainComponent({
     >
       {alive && origin !== null && (
         <div className="pf-coins-fountain__stage" aria-hidden="true">
-          <div
-            className="pf-coins-fountain__flash"
-            style={{ left: origin.x, top: origin.y }}
-          />
+          <div className="pf-coins-fountain__flash" style={{ left: origin.x, top: origin.y }} />
           {particles.map((particle) => {
             const isBg = particle.layer === 'bg'
             return (
@@ -150,7 +147,11 @@ function CollectionEffectsCoinsFountainComponent({
                 }
               >
                 {particle.imageSrc ? (
-                  <img src={particle.imageSrc} alt="" className="pf-coins-fountain__particle-image" />
+                  <img
+                    src={particle.imageSrc}
+                    alt=""
+                    className="pf-coins-fountain__particle-image"
+                  />
                 ) : (
                   <FallbackParticle
                     shape={particle.fallback.shape}

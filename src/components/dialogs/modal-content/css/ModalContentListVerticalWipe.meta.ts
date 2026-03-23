@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-content-framer?animation=modal-content__list-vertical-wipe',
   urlSlugCss: '/modal-content-css?animation=modal-content__list-vertical-wipe',
   title: 'List Vertical Wipe',
-  description: 'Horizontal wipe-in stagger — CSS variant. Props: duration, stagger via CSS custom properties.',
+  description:
+    'Horizontal wipe-in stagger. Each child slides from off-screen left inside a clipped container. Props: duration, stagger.',
   tier: 3,
 }

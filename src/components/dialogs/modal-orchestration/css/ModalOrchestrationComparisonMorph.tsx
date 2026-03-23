@@ -57,10 +57,7 @@ function ModalOrchestrationComparisonMorphComponent({
   }, [stagger, duration])
 
   return (
-    <div
-      className="pf-comparison-morph"
-      data-animation-id="modal-orchestration__comparison-morph"
-    >
+    <div className="pf-comparison-morph" data-animation-id="modal-orchestration__comparison-morph">
       {renderItems.map((child, i) => (
         <div
           key={i}

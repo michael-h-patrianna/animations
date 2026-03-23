@@ -53,13 +53,19 @@
   }
 
   84% {
-    transform: translate(calc(var(--fw-x, 0) * 1.18), calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px) * 0.7))
+    transform: translate(
+        calc(var(--fw-x, 0) * 1.18),
+        calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px) * 0.7)
+      )
       rotate(calc(var(--fw-rotation, 0deg) + 180deg)) scale(calc(var(--fw-scale, 1) * 0.5));
     opacity: 0;
   }
 
   100% {
-    transform: translate(calc(var(--fw-x, 0) * 1.22), calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px)))
+    transform: translate(
+        calc(var(--fw-x, 0) * 1.22),
+        calc(var(--fw-y, 0) + var(--fw-gravity-distance, 100px))
+      )
       rotate(calc(var(--fw-rotation, 0deg) + 180deg)) scale(0);
     opacity: 0;
   }

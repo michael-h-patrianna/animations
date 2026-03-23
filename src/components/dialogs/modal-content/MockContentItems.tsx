@@ -24,7 +24,13 @@ export function MockModalHeader({ title = 'Sequence Control' }: { title?: string
 // Mock buttons
 // ---------------------------------------------------------------------------
 
-export function MockButton({ label, variant = 'primary' }: { label: string; variant?: 'primary' | 'secondary' }) {
+export function MockButton({
+  label,
+  variant = 'primary',
+}: {
+  label: string
+  variant?: 'primary' | 'secondary'
+}) {
   return (
     <button type="button" className={`pf-mc-btn pf-mc-btn--${variant}`}>
       {label}

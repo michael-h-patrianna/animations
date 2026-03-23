@@ -29,10 +29,12 @@ function ModalContentListVerticalWipeComponent({
     <div key={i} className="pf-list-vertical-wipe-clip">
       <div
         className="pf-list-vertical-wipe-item"
-        style={{
-          '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
-          '--pf-stagger-duration': `${String(duration)}ms`,
-        } as React.CSSProperties}
+        style={
+          {
+            '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
+            '--pf-stagger-duration': `${String(duration)}ms`,
+          } as React.CSSProperties
+        }
       >
         {child}
       </div>
@@ -42,7 +44,9 @@ function ModalContentListVerticalWipeComponent({
   if (items.length > 0) {
     return (
       <div
-        className={className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'}
+        className={
+          className !== undefined ? `pf-content-stagger ${className}` : 'pf-content-stagger'
+        }
         data-animation-id="modal-content__list-vertical-wipe"
         style={style}
       >
@@ -58,14 +62,17 @@ function ModalContentListVerticalWipeComponent({
       <div className="pf-mc-box pf-mc-box--entrance">
         <MockModalHeader title="Setup Complete" />
         <div className="pf-mc-body">
-          <div className="pf-mc-list">
-            {mockItems.map((item, i) => wrapItem(item, i, 300))}
-          </div>
+          <div className="pf-mc-list">{mockItems.map((item, i) => wrapItem(item, i, 300))}</div>
         </div>
         <div className="pf-mc-footer">
           <div
             className="pf-button-stagger-item"
-            style={{ '--pf-stagger-delay': '700ms', '--pf-stagger-duration': '300ms' } as React.CSSProperties}
+            style={
+              {
+                '--pf-stagger-delay': '700ms',
+                '--pf-stagger-duration': '300ms',
+              } as React.CSSProperties
+            }
           >
             <MockButton label="Continue" />
           </div>

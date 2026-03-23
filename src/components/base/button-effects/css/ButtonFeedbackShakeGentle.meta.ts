@@ -4,6 +4,6 @@ export const metadata: AnimationMetadata = {
   id: 'button-effects__shake-gentle',
   title: 'Shake Gentle',
   description:
-    'CSS utility class (.pf-shake-gentle) — toggle --active for a horizontal shake + opacity dim. Custom property: --pf-shake-gentle-duration.',
+    'Wraps any element with a horizontal shake + opacity dim for error feedback. Props: duration, trigger (programmatic false→true edge).',
   tier: 1,
 }

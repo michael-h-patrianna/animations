@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__swing',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__swing',
   title: 'Swing',
-  description: 'Pendulum arc swing with axis rotation and momentum lean for hanging elements. Wraps any element. Configurable duration.',
+  description:
+    'Pendulum arc swing with axis rotation and momentum lean for hanging elements. Wraps any element. Configurable duration.',
   tier: 1,
 }

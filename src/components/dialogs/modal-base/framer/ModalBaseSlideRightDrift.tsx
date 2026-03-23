@@ -38,16 +38,26 @@ function ModalBaseSlideRightDriftComponent({
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.22, 0.61, 0.36, 1] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      transition={{
+        duration: prefersReducedMotion ? 0.01 : durationS,
+        ease: [0.22, 0.61, 0.36, 1],
+      }}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__slide-right-drift"
     >
       <div className="pf-modal-center">
         <m.div
           className={className}
-          initial={prefersReducedMotion ? { opacity: 0 } : { x: -distance, scale: 0.93, opacity: 0 }}
+          initial={
+            prefersReducedMotion ? { opacity: 0 } : { x: -distance, scale: 0.93, opacity: 0 }
+          }
           animate={prefersReducedMotion ? { opacity: 1 } : { x: 0, scale: 1, opacity: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.22, 0.61, 0.36, 1],
+          }}
           onAnimationComplete={onAnimationComplete}
           style={{ animation: 'none' }}
         >

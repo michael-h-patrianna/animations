@@ -76,10 +76,7 @@ function ModalOrchestrationWizardScaleRotateComponent({
   }, [stagger, duration])
 
   return (
-    <div
-      className="pf-wizard-scale"
-      data-animation-id="modal-orchestration__wizard-scale-rotate"
-    >
+    <div className="pf-wizard-scale" data-animation-id="modal-orchestration__wizard-scale-rotate">
       <div className="pf-wizard-scale__steps">
         {labels.map((label, i) => (
           <div

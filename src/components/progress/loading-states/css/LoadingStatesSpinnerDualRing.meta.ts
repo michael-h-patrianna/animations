@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/loading-states-css?animation=loading-states__spinner-dual-ring',
   title: 'Spinner Dual Ring',
   description:
-    'Two concentric rings spinning in opposite directions. Configure size, color, secondaryColor, speed, and thickness via CSS custom properties.',
+    'Two concentric rings spinning in opposite directions. Configure size, color, secondaryColor, speed, and thickness.',
   infinite: true,
   tier: 4,
 } satisfies AnimationMetadata

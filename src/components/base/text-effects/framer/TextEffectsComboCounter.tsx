@@ -59,10 +59,7 @@ function TextEffectsComboCounterComponent({
   formatRef.current = formatValue
 
   const range = to - from
-  const milestones = useMemo(
-    () => calculateMilestones(range, maxParticles),
-    [range, maxParticles]
-  )
+  const milestones = useMemo(() => calculateMilestones(range, maxParticles), [range, maxParticles])
 
   const count = useMotionValue(from)
   const displayCount = useTransform(count, (latest) => formatRef.current(latest))

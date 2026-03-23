@@ -111,7 +111,7 @@ function makeParticles(
   colors: readonly string[],
   images: readonly string[],
   waves: WaveConfig[],
-  timeScale: number,
+  timeScale: number
 ): CssParticle[] {
   const hasImages = images.length > 0
   const particles: CssParticle[] = []
@@ -165,7 +165,8 @@ function makeSparkles(waves: WaveConfig[], timeScale: number): Sparkle[] {
       id: i,
       x: Math.cos(angle) * r,
       y: Math.sin(angle) * r + randBetween(-5, 10),
-      delay: (waves[waveIdx]!.delay + 0.3 + (i / 12) * 0.15 + randBetween(0, 0.1)) * 1000 * timeScale,
+      delay:
+        (waves[waveIdx]!.delay + 0.3 + (i / 12) * 0.15 + randBetween(0, 0.1)) * 1000 * timeScale,
       size: randBetween(2.5, 5),
     }
   })
@@ -173,13 +174,25 @@ function makeSparkles(waves: WaveConfig[], timeScale: number): Sparkle[] {
 
 /* ─── Sub-components ─── */
 
-function ParticleLayer({ particles, maxW, maxH }: { particles: CssParticle[]; maxW: number; maxH: number }) {
+function ParticleLayer({
+  particles,
+  maxW,
+  maxH,
+}: {
+  particles: CssParticle[]
+  maxW: number
+  maxH: number
+}) {
   return (
     <>
       {particles.map((p) => (
         <span
           key={p.id}
-          className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+          className={
+            p.imageUrl !== undefined
+              ? undefined
+              : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`
+          }
           style={
             {
               left: `calc(50% + ${p.spawnX}px)`,
@@ -198,7 +211,11 @@ function ParticleLayer({ particles, maxW, maxH }: { particles: CssParticle[]; ma
           }
         >
           {p.imageUrl !== undefined && (
-            <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            <img
+              src={p.imageUrl}
+              alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+            />
           )}
         </span>
       ))}
@@ -230,7 +247,7 @@ function SparkleLayer({ sparkles, timeScale }: { sparkles: Sparkle[]; timeScale:
 
 function ModalCelebrationsConfettiPulseComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
-  colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  colors = CELEBRATION_COLORS_HEX,
   particleImages = [],
   particleMaxWidth = 24,
   particleMaxHeight = 24,
@@ -242,7 +259,7 @@ function ModalCelebrationsConfettiPulseComponent({
 
   const particles = useMemo(
     () => makeParticles(particleCount, colors, particleImages, waves, timeScale),
-    [particleCount, colors, particleImages, waves, timeScale],
+    [particleCount, colors, particleImages, waves, timeScale]
   )
   const sparkles = useMemo(() => makeSparkles(waves, timeScale), [waves, timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
@@ -252,7 +269,7 @@ function ModalCelebrationsConfettiPulseComponent({
     if (onComplete === undefined) return
     const maxTime = Math.max(
       ...particles.map((p) => p.delay + p.dur),
-      ...sparkles.map((s) => s.delay + 1200 * timeScale),
+      ...sparkles.map((s) => s.delay + 1200 * timeScale)
     )
     const timer = setTimeout(onComplete, maxTime + 50)
     return () => clearTimeout(timer)
@@ -260,8 +277,14 @@ function ModalCelebrationsConfettiPulseComponent({
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">
-      <div className="pf-celebration__glow" style={{ animation: `cp-glow ${2000 * timeScale}ms ease-out both` }} />
-      <div className="pf-celebration__flash" style={{ animation: `cp-flash ${1400 * timeScale}ms ease-out both` }} />
+      <div
+        className="pf-celebration__glow"
+        style={{ animation: `cp-glow ${2000 * timeScale}ms ease-out both` }}
+      />
+      <div
+        className="pf-celebration__flash"
+        style={{ animation: `cp-flash ${1400 * timeScale}ms ease-out both` }}
+      />
 
       {waves.map((w, i) => (
         <div

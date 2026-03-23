@@ -207,11 +207,5 @@ function TextEffectsCounterIncrementComponent({
 export const TextEffectsCounterIncrement = TextEffectsCounterIncrementComponent
 
 export function TextEffectsCounterIncrement9999() {
-  return (
-    <TextEffectsCounterIncrementComponent
-      to={9999}
-      durationMs={4000}
-      maxParticles={25}
-    />
-  )
+  return <TextEffectsCounterIncrementComponent to={9999} durationMs={4000} maxParticles={25} />
 }

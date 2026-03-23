@@ -19,11 +19,7 @@
 import type { ProgressBarProps } from '../SharedTypes'
 import './ProgressBarsProgressBounce.css'
 
-export function ProgressBarsProgressBounce({
-  progress,
-  className,
-  style,
-}: ProgressBarProps) {
+export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {
   const isControlled = progress !== undefined
 
   return (

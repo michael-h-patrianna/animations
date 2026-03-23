@@ -12,7 +12,8 @@
 /* ── Overlay ── */
 .pf-mo-overlay--css {
   opacity: 0;
-  animation: pf-mo-overlay-fade calc(var(--pf-mo-duration, 600ms) * 0.6) cubic-bezier(0, 0, 0.2, 1) calc(var(--pf-mo-duration, 600ms) * 0.1) forwards;
+  animation: pf-mo-overlay-fade calc(var(--pf-mo-duration, 600ms) * 0.6) cubic-bezier(0, 0, 0.2, 1)
+    calc(var(--pf-mo-duration, 600ms) * 0.1) forwards;
   will-change: opacity;
 }
 
@@ -74,7 +75,8 @@
 .pf-mo-modal--pop {
   opacity: 0;
   animation:
-    pf-mo-pop-scale calc(var(--pf-mo-duration, 600ms) * 0.7) cubic-bezier(0.12, 0.75, 0.4, 1) forwards,
+    pf-mo-pop-scale calc(var(--pf-mo-duration, 600ms) * 0.7) cubic-bezier(0.12, 0.75, 0.4, 1)
+      forwards,
     pf-mo-arc-opacity calc(var(--pf-mo-duration, 600ms) * 0.2) ease-out forwards;
   will-change: transform, opacity;
 }

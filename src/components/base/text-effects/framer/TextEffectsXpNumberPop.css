@@ -23,11 +23,7 @@
 .pf-xp-pop__number-value {
   font-size: 56px;
   font-weight: 900;
-  background: linear-gradient(
-    135deg,
-    var(--pf-xp-pop-color-1),
-    var(--pf-xp-pop-color-2)
-  );
+  background: linear-gradient(135deg, var(--pf-xp-pop-color-1), var(--pf-xp-pop-color-2));
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow:

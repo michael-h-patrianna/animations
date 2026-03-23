@@ -4,7 +4,7 @@ export const metadata: AnimationMetadata = {
   id: 'button-effects__press-squash',
   title: 'Press Squash',
   description:
-    'CSS utility class (.pf-press-squash) — toggle --active on click for a squash-and-stretch. Custom property: --pf-press-squash-duration.',
+    'Wraps any element with a click-triggered squash-and-stretch anchored at bottom. Props: duration.',
   disableReplay: true,
   tier: 1,
 }

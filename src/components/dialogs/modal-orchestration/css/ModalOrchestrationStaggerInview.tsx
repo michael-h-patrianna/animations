@@ -63,10 +63,7 @@ function ModalOrchestrationStaggerInviewComponent({
   }, [stagger, duration, distance])
 
   return (
-    <div
-      className="pf-stagger-inview"
-      data-animation-id="modal-orchestration__stagger-inview"
-    >
+    <div className="pf-stagger-inview" data-animation-id="modal-orchestration__stagger-inview">
       <div
         className="pf-stagger-inview__grid"
         style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}

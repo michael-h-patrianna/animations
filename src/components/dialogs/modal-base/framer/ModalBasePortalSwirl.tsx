@@ -31,8 +31,13 @@ function ModalBasePortalSwirlComponent({
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.25, 0.46, 0.45, 0.94] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      transition={{
+        duration: prefersReducedMotion ? 0.01 : durationS,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__portal-swirl"
     >
       <div className="pf-modal-center">
@@ -48,7 +53,10 @@ function ModalBasePortalSwirlComponent({
               ? { opacity: 1 }
               : { rotate: 0, scale: 1, opacity: 1, borderRadius: '12px' }
           }
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
           onAnimationComplete={onAnimationComplete}
           style={{ animation: 'none' }}
         >

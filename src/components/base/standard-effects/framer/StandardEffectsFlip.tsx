@@ -16,10 +16,7 @@ interface StandardEffectsFlipProps {
   duration?: number
 }
 
-function StandardEffectsFlipComponent({
-  children,
-  duration = 800,
-}: StandardEffectsFlipProps) {
+function StandardEffectsFlipComponent({ children, duration = 800 }: StandardEffectsFlipProps) {
   return (
     <m.div
       data-animation-id="standard-effects__flip"

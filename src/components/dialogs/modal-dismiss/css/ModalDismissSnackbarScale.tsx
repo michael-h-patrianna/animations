@@ -49,9 +49,23 @@ function ModalDismissSnackbarScaleComponent({
     el.animate(
       [
         { transform: 'translate3d(0, 0, 0) scale(1)', filter: 'brightness(1)', opacity: '1' },
-        { transform: 'translate3d(0, -4px, 0) scale(1.05)', filter: 'brightness(1.12)', opacity: '1', offset: 0.18 },
-        { transform: 'translate3d(0, 6px, 0) scale(0.96)', filter: 'brightness(0.95)', opacity: '0.92', offset: 0.55 },
-        { transform: 'translate3d(0, 12px, 0) scale(0.9)', filter: 'brightness(0.88)', opacity: '0.85' },
+        {
+          transform: 'translate3d(0, -4px, 0) scale(1.05)',
+          filter: 'brightness(1.12)',
+          opacity: '1',
+          offset: 0.18,
+        },
+        {
+          transform: 'translate3d(0, 6px, 0) scale(0.96)',
+          filter: 'brightness(0.95)',
+          opacity: '0.92',
+          offset: 0.55,
+        },
+        {
+          transform: 'translate3d(0, 12px, 0) scale(0.9)',
+          filter: 'brightness(0.88)',
+          opacity: '0.85',
+        },
       ],
       { duration: reducedMotion ? 10 : duration, easing: pulseEasing, fill: 'forwards' }
     )

@@ -67,7 +67,7 @@ function generateParticles(
 function samplePullStops(
   start: ResolvedPoint,
   end: ResolvedPoint,
-  curvature: number,
+  curvature: number
 ): { p1: ResolvedPoint; p2: ResolvedPoint; p3: ResolvedPoint; p4: ResolvedPoint } {
   const dx = end.x - start.x
   const dy = end.y - start.y
@@ -86,16 +86,18 @@ function samplePullStops(
     const t = linear * linear // ease-in
     const mt = 1 - t
     return {
-      x: mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x,
-      y: mt * mt * mt * start.y + 3 * mt * mt * t * cp1y + 3 * mt * t * t * cp2y + t * t * t * end.y,
+      x:
+        mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x,
+      y:
+        mt * mt * mt * start.y + 3 * mt * mt * t * cp1y + 3 * mt * t * t * cp2y + t * t * t * end.y,
     }
   }
 
   return {
-    p1: sample(0.3),  // early pull — barely moved (ease-in)
+    p1: sample(0.3), // early pull — barely moved (ease-in)
     p2: sample(0.55), // mid pull
-    p3: sample(0.8),  // approaching target
-    p4: end,          // at target
+    p3: sample(0.8), // approaching target
+    p4: end, // at target
   }
 }
 
@@ -145,7 +147,9 @@ function CollectionEffectsCoinMagnetComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => { onComplete?.() }, [onComplete])
+  const handleComplete = useCallback(() => {
+    onComplete?.()
+  }, [onComplete])
   useEffect(() => {
     if (onComplete === undefined) return
     const timer = setTimeout(handleComplete, maxDelay + duration + 50)
@@ -190,9 +194,17 @@ function CollectionEffectsCoinMagnetComponent({
                   }
                 >
                   {particle.imageSrc ? (
-                    <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
+                    <img
+                      src={particle.imageSrc}
+                      alt=""
+                      className="pf-coin-magnet__particle-image"
+                    />
                   ) : (
-                    <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+                    <FallbackParticle
+                      shape={particle.fallback.shape}
+                      color={particle.fallback.color}
+                      size={particleSize}
+                    />
                   )}
                 </div>
               )
@@ -229,7 +241,11 @@ function CollectionEffectsCoinMagnetComponent({
                 {particle.imageSrc ? (
                   <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
                 ) : (
-                  <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+                  <FallbackParticle
+                    shape={particle.fallback.shape}
+                    color={particle.fallback.color}
+                    size={particleSize}
+                  />
                 )}
               </div>
             )

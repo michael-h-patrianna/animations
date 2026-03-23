@@ -61,10 +61,7 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
   )
 
   return (
-    <div
-      className="pf-update-indicator"
-      data-animation-id="update-indicators__home-icon-dot-sweep"
-    >
+    <div className="pf-update-indicator" data-animation-id="update-indicators__home-icon-dot-sweep">
       {children !== undefined ? (
         <div className="pf-update-indicator__anchor">
           {children}

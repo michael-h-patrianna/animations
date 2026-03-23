@@ -38,7 +38,11 @@ interface MilestoneUnlockProps extends MilestoneProgressBarProps {
 }
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0.18 }, { position: 0.38 }, { position: 0.58 }, { position: 0.78 }, { position: 0.94 },
+  { position: 0.18 },
+  { position: 0.38 },
+  { position: 0.58 },
+  { position: 0.78 },
+  { position: 0.94 },
 ]
 
 function LockFallback({ unlocked }: { unlocked: boolean }) {
@@ -97,9 +101,18 @@ export function ProgressBarsMilestoneUnlock({
         <m.div
           className="milestone-unlock-rail-fill"
           initial={isDemo ? { width: '0%' } : false}
-          animate={isDemo
-            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 1.5 } }
-            : { width: `${displayProgress * 100}%` }
+          animate={
+            isDemo
+              ? {
+                  width: '100%',
+                  transition: {
+                    duration: demoDuration / 1000,
+                    ease: 'linear',
+                    repeat: Infinity,
+                    repeatDelay: 1.5,
+                  },
+                }
+              : { width: `${displayProgress * 100}%` }
           }
           transition={isDemo ? undefined : { duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
           style={{ animation: 'none' }}
@@ -126,11 +139,7 @@ export function ProgressBarsMilestoneUnlock({
                       ? { scale: [1, 1.07, 1], rotate: [0, -4, 4, 0] }
                       : { scale: 1, rotate: 0 }
                   }
-                  transition={
-                    isUnlocked
-                      ? { duration: 0.62, delay: i * 0.02 }
-                      : { duration: 0.18 }
-                  }
+                  transition={isUnlocked ? { duration: 0.62, delay: i * 0.02 } : { duration: 0.18 }}
                   style={{ animation: 'none' }}
                 />
               ) : (
@@ -141,11 +150,7 @@ export function ProgressBarsMilestoneUnlock({
                       ? { scale: [1, 1.07, 1], rotate: [0, -4, 4, 0] }
                       : { scale: 1, rotate: 0 }
                   }
-                  transition={
-                    isUnlocked
-                      ? { duration: 0.62, delay: i * 0.02 }
-                      : { duration: 0.18 }
-                  }
+                  transition={isUnlocked ? { duration: 0.62, delay: i * 0.02 } : { duration: 0.18 }}
                   style={{ animation: 'none' }}
                 >
                   <LockFallback unlocked={isUnlocked} />

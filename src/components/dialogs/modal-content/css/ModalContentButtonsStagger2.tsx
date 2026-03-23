@@ -28,10 +28,12 @@ function ModalContentButtonsStagger2Component({
     <div
       key={i}
       className="pf-button-stagger-item"
-      style={{
-        '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
-        '--pf-stagger-duration': `${String(duration)}ms`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
+          '--pf-stagger-duration': `${String(duration)}ms`,
+        } as React.CSSProperties
+      }
     >
       {child}
     </div>
@@ -40,7 +42,11 @@ function ModalContentButtonsStagger2Component({
   if (items.length > 0) {
     return (
       <div
-        className={className !== undefined ? `pf-content-stagger pf-content-stagger--horizontal ${className}` : 'pf-content-stagger pf-content-stagger--horizontal'}
+        className={
+          className !== undefined
+            ? `pf-content-stagger pf-content-stagger--horizontal ${className}`
+            : 'pf-content-stagger pf-content-stagger--horizontal'
+        }
         data-animation-id="modal-content__buttons-stagger-2"
         style={style}
       >

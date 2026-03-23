@@ -4,7 +4,7 @@ export const metadata: AnimationMetadata = {
   id: 'button-effects__shockwave',
   title: 'Shockwave',
   description:
-    'Wrapper component + CSS for concentric ring expansion from click point. Custom properties: --pf-shockwave-color, --pf-shockwave-duration.',
+    'Wraps any element with concentric rings expanding from click point. Props: ringCount, color, duration.',
   disableReplay: true,
   tier: 2,
 }

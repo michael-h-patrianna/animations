@@ -89,10 +89,7 @@ function TextEffectsXpNumberPopComponent({
   const displayValue = useTransform(count, (latest) => formatRef.current(latest))
 
   const range = to - from
-  const particles = useMemo(
-    () => generateParticles(range, maxParticles),
-    [range, maxParticles]
-  )
+  const particles = useMemo(() => generateParticles(range, maxParticles), [range, maxParticles])
 
   useEffect(() => {
     count.set(from)
@@ -132,33 +129,40 @@ function TextEffectsXpNumberPopComponent({
   return (
     <div className="pf-xp-pop" data-animation-id="text-effects__xp-number-pop">
       <AnimatePresence>
-        {showParticles && particles.map((particle) => (
-          <m.div
-            key={particle.id}
-            initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0.7],
-              x: [0, particle.x, particle.x * 1.5],
-              y: [0, particle.y, particle.y * 1.5 - 40],
-            }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 2.6, delay: particle.delay, ease: easeOut, times: [0, 0.4, 1] }}
-            className="pf-xp-pop__particle"
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              fontSize: particle.layer === 0 ? '18px' : '14px',
-              fontWeight: '700',
-              color: particle.layer === 0 ? 'var(--pf-anim-green)' : 'var(--pf-anim-green-bright)',
-              pointerEvents: 'none',
-              zIndex: 3,
-            }}
-          >
-            +{formatValue(particle.value)}
-          </m.div>
-        ))}
+        {showParticles &&
+          particles.map((particle) => (
+            <m.div
+              key={particle.id}
+              initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0.7],
+                x: [0, particle.x, particle.x * 1.5],
+                y: [0, particle.y, particle.y * 1.5 - 40],
+              }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 2.6,
+                delay: particle.delay,
+                ease: easeOut,
+                times: [0, 0.4, 1],
+              }}
+              className="pf-xp-pop__particle"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                fontSize: particle.layer === 0 ? '18px' : '14px',
+                fontWeight: '700',
+                color:
+                  particle.layer === 0 ? 'var(--pf-anim-green)' : 'var(--pf-anim-green-bright)',
+                pointerEvents: 'none',
+                zIndex: 3,
+              }}
+            >
+              +{formatValue(particle.value)}
+            </m.div>
+          ))}
       </AnimatePresence>
 
       <m.div className="pf-xp-pop__number-wrapper" animate={numberControls}>

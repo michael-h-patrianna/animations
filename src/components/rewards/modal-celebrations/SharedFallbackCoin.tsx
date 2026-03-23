@@ -29,7 +29,15 @@ function FallbackCoinComponent({ size }: FallbackCoinProps) {
         </radialGradient>
       </defs>
       <circle cx="12" cy="12" r="10.5" fill="url(#pf-coin-grad)" />
-      <circle cx="12" cy="12" r="9" fill="none" stroke="#b45309" strokeWidth="0.5" strokeOpacity="0.3" />
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        fill="none"
+        stroke="#b45309"
+        strokeWidth="0.5"
+        strokeOpacity="0.3"
+      />
       <circle cx="9" cy="9" r="3" fill="#fef3c7" fillOpacity="0.4" />
     </svg>
   )

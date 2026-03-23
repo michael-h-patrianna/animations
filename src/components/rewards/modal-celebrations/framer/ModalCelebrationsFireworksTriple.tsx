@@ -261,7 +261,14 @@ function BurstRing({
   return (
     <m.div
       className="pf-celebration__ring"
-      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy, borderColor: color, animation: 'none' }}
+      style={{
+        left: '50%',
+        marginLeft: cx,
+        top: '50%',
+        marginTop: cy,
+        borderColor: color,
+        animation: 'none',
+      }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 3.5, 5], opacity: [0, 0.6, 0] }}
       transition={{ duration: 0.6, delay: delay + 0.02, times: [0, 0.4, 1], ease: 'easeOut' }}
@@ -319,13 +326,15 @@ function RayBeam({ ray }: { ray: Ray }) {
 function TrailPiece({ t, maxW, maxH }: { t: Trail; maxW: number; maxH: number }) {
   return (
     <m.span
-      className={t.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${t.shape}`}
+      className={
+        t.imageUrl !== undefined
+          ? undefined
+          : `pf-celebration__confetti pf-celebration__confetti--${t.shape}`
+      }
       style={{
         left: '50%',
         top: '50%',
-        ...(t.imageUrl !== undefined
-          ? { width: maxW, height: maxH }
-          : { background: t.color }),
+        ...(t.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: t.color }),
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
@@ -349,7 +358,11 @@ function TrailPiece({ t, maxW, maxH }: { t: Trail; maxW: number; maxH: number })
       }}
     >
       {t.imageUrl !== undefined && (
-        <img src={t.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+        <img
+          src={t.imageUrl}
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+        />
       )}
     </m.span>
   )
@@ -392,7 +405,7 @@ function ModalCelebrationsFireworksTripleComponent({
     if (onComplete === undefined) return
     const maxTime = Math.max(
       ...trails.map((t) => t.delay + t.dur),
-      ...sparkles.map((s) => s.delay + 1.0),
+      ...sparkles.map((s) => s.delay + 1.0)
     )
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
@@ -416,7 +429,12 @@ function ModalCelebrationsFireworksTripleComponent({
           <RayBeam key={`ray-${r.id}`} ray={r} />
         ))}
         {bgTrails.map((t) => (
-          <TrailPiece key={`trail-${t.id}`} t={t} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+          <TrailPiece
+            key={`trail-${t.id}`}
+            t={t}
+            maxW={particleMaxWidth}
+            maxH={particleMaxHeight}
+          />
         ))}
       </div>
       <div className="pf-celebration__depth-fg">
@@ -424,7 +442,12 @@ function ModalCelebrationsFireworksTripleComponent({
           <RayBeam key={`ray-${r.id}`} ray={r} />
         ))}
         {fgTrails.map((t) => (
-          <TrailPiece key={`trail-${t.id}`} t={t} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+          <TrailPiece
+            key={`trail-${t.id}`}
+            t={t}
+            maxW={particleMaxWidth}
+            maxH={particleMaxHeight}
+          />
         ))}
       </div>
       <div className="pf-celebration__effects">

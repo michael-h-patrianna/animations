@@ -113,7 +113,9 @@ export function ProgressBarsProgressThin({
       style={style}
       data-animation-id="progress-bars__progress-thin"
     >
-      {label !== undefined && label !== '' && <div className="pf-progress-thin__label">{label}</div>}
+      {label !== undefined && label !== '' && (
+        <div className="pf-progress-thin__label">{label}</div>
+      )}
 
       {isDemo ? (
         <m.div
@@ -185,8 +187,7 @@ export function ProgressBarsProgressThin({
             style={{
               position: 'absolute',
               inset: '-4px',
-              background:
-                'linear-gradient(90deg, transparent 0%, var(--thin-flash) 100%)',
+              background: 'linear-gradient(90deg, transparent 0%, var(--thin-flash) 100%)',
               pointerEvents: 'none',
             }}
           />

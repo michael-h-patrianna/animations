@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__scale',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__scale',
   title: 'Scale',
-  description: 'Scale-up entrance with organic rotation and skew overshoot. Wraps any element. Configurable duration.',
+  description:
+    'Scale-up entrance with organic rotation and skew overshoot. Wraps any element. Configurable duration.',
   tier: 1,
 }

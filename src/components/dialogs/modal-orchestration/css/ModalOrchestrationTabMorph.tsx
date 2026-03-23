@@ -97,7 +97,9 @@ function ModalOrchestrationTabMorphComponent({
       'pf-tab-morph__panel--exit-left',
       'pf-tab-morph__panel--exit-right'
     )
-    panel.classList.add(isForward ? 'pf-tab-morph__panel--exit-left' : 'pf-tab-morph__panel--exit-right')
+    panel.classList.add(
+      isForward ? 'pf-tab-morph__panel--exit-left' : 'pf-tab-morph__panel--exit-right'
+    )
 
     const exitTimeout = setTimeout(() => {
       panel.classList.remove('pf-tab-morph__panel--exit-left', 'pf-tab-morph__panel--exit-right')

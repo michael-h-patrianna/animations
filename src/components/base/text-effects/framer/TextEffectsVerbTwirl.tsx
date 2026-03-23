@@ -13,13 +13,15 @@ interface TextEffectsVerbTwirlProps {
   text?: string
 }
 
-function TextEffectsVerbTwirlComponent({
-  text = 'LOREM IPSUM DOLOR',
-}: TextEffectsVerbTwirlProps) {
+function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbTwirlProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="pf-verb-twirl" data-animation-id="text-effects__verb-twirling" aria-label={text}>
+    <div
+      className="pf-verb-twirl"
+      data-animation-id="text-effects__verb-twirling"
+      aria-label={text}
+    >
       <div className="pf-verb-twirl__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span

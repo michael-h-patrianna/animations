@@ -31,8 +31,13 @@ function ModalBaseTvTurnOnComponent({
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.34, 1.56, 0.64, 1] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      transition={{
+        duration: prefersReducedMotion ? 0.01 : durationS,
+        ease: [0.34, 1.56, 0.64, 1],
+      }}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__tv-turn-on"
     >
       <div className="pf-modal-center">
@@ -40,7 +45,10 @@ function ModalBaseTvTurnOnComponent({
           className={className}
           initial={prefersReducedMotion ? { opacity: 0 } : { scaleX: 2, scaleY: 0, opacity: 0 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { scaleX: 1, scaleY: 1, opacity: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.34, 1.56, 0.64, 1] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.34, 1.56, 0.64, 1],
+          }}
           onAnimationComplete={onAnimationComplete}
           style={{ animation: 'none' }}
         >

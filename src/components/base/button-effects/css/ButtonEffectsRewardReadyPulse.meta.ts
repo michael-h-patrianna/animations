@@ -4,7 +4,7 @@ export const metadata: AnimationMetadata = {
   id: 'button-effects__reward-ready-pulse',
   title: 'Reward Ready Pulse',
   description:
-    'CSS utility class (.pf-reward-pulse) — add to any element for a breathing scale + vertical bob. Custom properties: --pf-reward-pulse-duration, --pf-reward-pulse-scale, --pf-reward-pulse-bob.',
+    'Wraps any element with a breathing scale + vertical bob to signal availability. Pauses on hover, compresses on tap. Props: duration, pulseScale, bobDistance.',
   infinite: true,
   tier: 1,
 }

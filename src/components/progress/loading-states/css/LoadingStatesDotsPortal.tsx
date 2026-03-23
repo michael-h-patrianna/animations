@@ -41,13 +41,15 @@ function LoadingStatesDotsPortalComponent({
     <div
       data-animation-id="loading-states__dots-portal"
       className={className !== undefined ? `pf-dots-portal ${className}` : 'pf-dots-portal'}
-      style={{
-        '--pf-dp-dot-size': `${dotSize}px`,
-        '--pf-dp-color': color,
-        '--pf-dp-gap': `${gap}px`,
-        '--pf-dp-duration': `${1.2 / safeSpeed}s`,
-        '--pf-dp-travel': `${travel}px`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--pf-dp-dot-size': `${dotSize}px`,
+          '--pf-dp-color': color,
+          '--pf-dp-gap': `${gap}px`,
+          '--pf-dp-duration': `${1.2 / safeSpeed}s`,
+          '--pf-dp-travel': `${travel}px`,
+        } as React.CSSProperties
+      }
       role="status"
       aria-label="Loading"
     >

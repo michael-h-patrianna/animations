@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-content-framer?animation=modal-content__form-field-left-reveal',
   urlSlugCss: '/modal-content-css?animation=modal-content__form-field-left-reveal',
   title: 'Form Fields From Left',
-  description: 'Left-slide reveal stagger — CSS variant. Props: duration, stagger, distance via CSS custom properties.',
+  description:
+    'Left-slide reveal stagger. Each child translates from -distance to 0. Props: duration, stagger, distance.',
   tier: 3,
 }

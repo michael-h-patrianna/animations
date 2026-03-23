@@ -18,11 +18,7 @@ import * as m from 'motion/react-m'
 import { useEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '../SharedTypes'
 
-export function ProgressBarsZoomedProgress({
-  progress,
-  className,
-  style,
-}: ProgressBarProps) {
+export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {
   const isControlled = progress !== undefined
   const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])

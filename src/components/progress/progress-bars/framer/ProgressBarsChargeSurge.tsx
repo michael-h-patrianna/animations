@@ -25,10 +25,17 @@ import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
 import { useDemoProgress } from '../SharedDemoLoop'
 
 type MilestoneState = 'inactive' | 'anticipating' | 'charged'
-interface SurgeWave { id: number; milestoneIndex: number }
+interface SurgeWave {
+  id: number
+  milestoneIndex: number
+}
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0 }, { position: 0.25 }, { position: 0.5 }, { position: 0.75 }, { position: 1 },
+  { position: 0 },
+  { position: 0.25 },
+  { position: 0.5 },
+  { position: 0.75 },
+  { position: 1 },
 ]
 const ANTICIPATION_THRESHOLD = 0.05
 
@@ -41,8 +48,8 @@ export function ProgressBarsChargeSurge({
   const isDemo = progress === undefined
   const demoDuration = 4000
   const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1500 })
-  const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>(
-    () => milestones.map(() => 'inactive')
+  const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>(() =>
+    milestones.map(() => 'inactive')
   )
   const [surgeWaves, setSurgeWaves] = useState<SurgeWave[]>([])
   const [glowFlash, setGlowFlash] = useState(false)
@@ -115,9 +122,10 @@ export function ProgressBarsChargeSurge({
           <m.div
             className="pf-progress-fill pf-progress-fill--base"
             initial={isDemo ? { scaleX: 0 } : false}
-            animate={isDemo
-              ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
-              : { scaleX: progress ?? 0 }
+            animate={
+              isDemo
+                ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
+                : { scaleX: progress ?? 0 }
             }
             transition={isDemo ? undefined : { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
@@ -125,9 +133,10 @@ export function ProgressBarsChargeSurge({
           <m.div
             className="pf-progress-fill pf-progress-fill--glow"
             initial={isDemo ? { scaleX: 0 } : false}
-            animate={isDemo
-              ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
-              : { scaleX: progress ?? 0 }
+            animate={
+              isDemo
+                ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
+                : { scaleX: progress ?? 0 }
             }
             transition={isDemo ? undefined : { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}

@@ -28,11 +28,7 @@ import type { ProgressBarProps } from '../SharedTypes'
 
 const DEMO_TARGET = 0.7
 
-export function ProgressBarsElasticFill({
-  progress,
-  className,
-  style,
-}: ProgressBarProps) {
+export function ProgressBarsElasticFill({ progress, className, style }: ProgressBarProps) {
   const shouldReduceMotion = useReducedMotion()
   const isDemo = progress === undefined
   const target = progress ?? DEMO_TARGET

@@ -38,8 +38,13 @@ function ModalBaseUnfoldOrigamiComponent({
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.25, 0.46, 0.45, 0.94] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      transition={{
+        duration: prefersReducedMotion ? 0.01 : durationS,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__unfold-origami"
     >
       <div className="pf-modal-center" style={{ perspective }}>
@@ -48,7 +53,10 @@ function ModalBaseUnfoldOrigamiComponent({
           style={{ transformStyle: 'preserve-3d', animation: 'none' }}
           initial={prefersReducedMotion ? { opacity: 0 } : { rotateX: -180, scale: 0, opacity: 0 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { rotateX: 0, scale: 1, opacity: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
           onAnimationComplete={onAnimationComplete}
         >
           <ModalPlaceholder>{children}</ModalPlaceholder>

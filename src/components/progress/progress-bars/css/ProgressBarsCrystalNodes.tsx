@@ -9,7 +9,10 @@ import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsCrystalNodes.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0.2 }, { position: 0.4 }, { position: 0.6 }, { position: 0.8 },
+  { position: 0.2 },
+  { position: 0.4 },
+  { position: 0.6 },
+  { position: 0.8 },
 ]
 
 export function ProgressBarsCrystalNodes({

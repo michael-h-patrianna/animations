@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/loading-states-css?animation=loading-states__dots-portal',
   title: 'Dots Portal',
   description:
-    'Three dots converge to center then expand back. Configure color, dotSize, gap, and speed via CSS custom properties.',
+    'Three dots converge to center then expand back. Configure color, dotSize, gap, and speed.',
   infinite: true,
   tier: 4,
 } satisfies AnimationMetadata

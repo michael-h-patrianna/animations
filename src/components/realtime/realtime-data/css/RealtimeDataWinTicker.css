@@ -1,6 +1,6 @@
 /* Animation for WinTicker — CSS variant */
 
-[data-animation-id="realtime-data__win-ticker"] .pf-realtime-data__ticker-text {
+[data-animation-id='realtime-data__win-ticker'] .pf-realtime-data__ticker-text {
   will-change: transform;
   animation: pf-realtime-ticker-scroll var(--pf-realtime-ticker-duration, 8s) linear infinite;
 }

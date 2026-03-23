@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__shake',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__shake',
   title: 'Shake',
-  description: 'Horizontal shake with rotation wobble and scale compression for error feedback. CSS: apply .pf-shake to any element. Configurable duration.',
+  description:
+    'Horizontal shake with rotation wobble and scale compression for error feedback. Wraps any element. Configurable duration.',
   tier: 1,
 }

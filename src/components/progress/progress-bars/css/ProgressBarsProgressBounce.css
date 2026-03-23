@@ -36,11 +36,7 @@
 
 .pf-progress-bounce .pf-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--bounce-fill-from) 0%,
-    var(--bounce-fill-to) 100%
-  );
+  background: linear-gradient(90deg, var(--bounce-fill-from) 0%, var(--bounce-fill-to) 100%);
   border-radius: inherit;
   transform-origin: left center;
   position: relative;
@@ -69,24 +65,55 @@
 }
 
 @keyframes bounce-fill-demo {
-  0% { transform: scaleX(0) scaleY(1); }
-  50% { transform: scaleX(0.7) scaleY(1); }
-  55% { transform: scaleX(0.7) scaleY(0.8); }
-  70% { transform: scaleX(1.15) scaleY(0.85); }
-  78% { transform: scaleX(0.92) scaleY(1.08); }
-  86% { transform: scaleX(1.06) scaleY(0.96); }
-  92% { transform: scaleX(0.97) scaleY(1.02); }
-  96% { transform: scaleX(1.01) scaleY(0.99); }
-  100% { transform: scaleX(1) scaleY(1); }
+  0% {
+    transform: scaleX(0) scaleY(1);
+  }
+  50% {
+    transform: scaleX(0.7) scaleY(1);
+  }
+  55% {
+    transform: scaleX(0.7) scaleY(0.8);
+  }
+  70% {
+    transform: scaleX(1.15) scaleY(0.85);
+  }
+  78% {
+    transform: scaleX(0.92) scaleY(1.08);
+  }
+  86% {
+    transform: scaleX(1.06) scaleY(0.96);
+  }
+  92% {
+    transform: scaleX(0.97) scaleY(1.02);
+  }
+  96% {
+    transform: scaleX(1.01) scaleY(0.99);
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+  }
 }
 
 @keyframes bounce-track-deform {
-  0%, 55% { transform: scaleY(1); }
-  70% { transform: scaleY(1.2); }
-  78% { transform: scaleY(0.9); }
-  86% { transform: scaleY(1.1); }
-  92% { transform: scaleY(0.95); }
-  100% { transform: scaleY(1); }
+  0%,
+  55% {
+    transform: scaleY(1);
+  }
+  70% {
+    transform: scaleY(1.2);
+  }
+  78% {
+    transform: scaleY(0.9);
+  }
+  86% {
+    transform: scaleY(1.1);
+  }
+  92% {
+    transform: scaleY(0.95);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

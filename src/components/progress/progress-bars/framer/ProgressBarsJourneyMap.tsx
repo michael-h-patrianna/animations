@@ -46,7 +46,12 @@ function DroneFallback() {
   return (
     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
       <circle cx="12" cy="12" r="4" opacity="0.9" />
-      <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+      <path
+        d="M12 2v4M12 18v4M2 12h4M18 12h4"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.5"
+      />
     </svg>
   )
 }
@@ -97,9 +102,18 @@ export function ProgressBarsJourneyMap({
           <m.div
             className="journey-distance-fill"
             initial={isDemo ? { width: '0%' } : false}
-            animate={isDemo
-              ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 1.2 } }
-              : { width: `${percent}%` }
+            animate={
+              isDemo
+                ? {
+                    width: '100%',
+                    transition: {
+                      duration: demoDuration / 1000,
+                      ease: 'linear',
+                      repeat: Infinity,
+                      repeatDelay: 1.2,
+                    },
+                  }
+                : { width: `${percent}%` }
             }
             transition={isDemo ? undefined : { duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
             style={{ animation: 'none' }}
@@ -120,7 +134,9 @@ export function ProgressBarsJourneyMap({
                 {travelerIcon !== undefined ? (
                   <img className="journey-distance-traveller-icon" src={travelerIcon} alt="" />
                 ) : (
-                  <span className="journey-distance-traveller-icon"><DroneFallback /></span>
+                  <span className="journey-distance-traveller-icon">
+                    <DroneFallback />
+                  </span>
                 )}
               </span>
             </m.div>
@@ -144,7 +160,9 @@ export function ProgressBarsJourneyMap({
           {destinationIcon !== undefined ? (
             <img className="journey-distance-goal-icon" src={destinationIcon} alt="" />
           ) : (
-            <span className="journey-distance-goal-icon"><BeaconFallback /></span>
+            <span className="journey-distance-goal-icon">
+              <BeaconFallback />
+            </span>
           )}
         </div>
       </div>

@@ -38,7 +38,7 @@ function generateParticles(
   count: number,
   width: number,
   height: number,
-  variantCount: number,
+  variantCount: number
 ): FireworkParticle[] {
   return Array.from({ length: count }, (_, i) => ({
     id: i,
@@ -63,7 +63,10 @@ export interface FireworkConfig {
 /** Generate one wave of bursts distributed across the cycle duration with natural jitter. */
 export function generateFireworkBursts(config: FireworkConfig): FireworkBurst[] {
   const burstCount = Math.max(1, config.burstCount ?? FIREWORK_DEFAULT_BURST_COUNT)
-  const particlesPerBurst = Math.max(1, config.particlesPerBurst ?? FIREWORK_DEFAULT_PARTICLES_PER_BURST)
+  const particlesPerBurst = Math.max(
+    1,
+    config.particlesPerBurst ?? FIREWORK_DEFAULT_PARTICLES_PER_BURST
+  )
   const cycleDurationMs = config.durationMs ?? FIREWORK_DEFAULT_DURATION_MS
   const cycleDurationS = cycleDurationMs / 1000
   const variantCount = Math.max(1, config.variantCount)
@@ -81,7 +84,7 @@ export function generateFireworkBursts(config: FireworkConfig): FireworkBurst[] 
       particlesPerBurst,
       FIREWORK_SPREAD_WIDTH,
       FIREWORK_SPREAD_HEIGHT,
-      variantCount,
+      variantCount
     ),
   }))
 }

@@ -77,7 +77,11 @@ function calculateSteps(range: number, numSteps: number, durationMs: number): Mi
     if (cumulative + increment > range) increment = range - cumulative
     if (increment <= 0) continue
     cumulative += increment
-    steps.push({ value: cumulative, timing: Math.round(durationMs * easedProgress), incrementAmount: increment })
+    steps.push({
+      value: cumulative,
+      timing: Math.round(durationMs * easedProgress),
+      incrementAmount: increment,
+    })
   }
 
   if (cumulative < range && steps.length > 0) {
@@ -103,7 +107,9 @@ function TextEffectsCounterIncrementComponent({
 }: TextEffectsCounterIncrementProps) {
   const [isValueAnimating, setIsValueAnimating] = useState(false)
   const [count, setCount] = useState(from)
-  const [floatingParticle, setFloatingParticle] = useState<{ id: number; value: number } | null>(null)
+  const [floatingParticle, setFloatingParticle] = useState<{ id: number; value: number } | null>(
+    null
+  )
   const nextIdRef = useRef(0)
   const formatRef = useRef(formatValue)
   formatRef.current = formatValue
@@ -169,8 +175,12 @@ function TextEffectsCounterIncrementComponent({
         setIsValueAnimating(true)
         setFloatingParticle({ id: nextIdRef.current++, value: step.incrementAmount })
 
-        const t1 = setTimeout(() => { if (isMounted) setIsValueAnimating(false) }, 500)
-        const t2 = setTimeout(() => { if (isMounted) setFloatingParticle(null) }, 800)
+        const t1 = setTimeout(() => {
+          if (isMounted) setIsValueAnimating(false)
+        }, 500)
+        const t2 = setTimeout(() => {
+          if (isMounted) setFloatingParticle(null)
+        }, 800)
         timeouts.push(t1, t2)
       }, step.timing)
       timeouts.push(t)

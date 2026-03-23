@@ -11,7 +11,11 @@
 import * as m from 'motion/react-m'
 import { memo } from 'react'
 
-import { INDICATOR_DOT_BORDER_COLOR, INDICATOR_DOT_COLOR, INDICATOR_RADIAL_RING_COLOR } from '../SharedDefaults'
+import {
+  INDICATOR_DOT_BORDER_COLOR,
+  INDICATOR_DOT_COLOR,
+  INDICATOR_RADIAL_RING_COLOR,
+} from '../SharedDefaults'
 
 interface StandardEffectsRadialPulseProps {
   /** Number of expanding rings. Default: 3 */

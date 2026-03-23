@@ -33,11 +33,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--elastic-fill-from) 0%,
-    var(--elastic-fill-to) 100%
-  );
+  background: linear-gradient(90deg, var(--elastic-fill-from) 0%, var(--elastic-fill-to) 100%);
   border-radius: inherit;
   transform-origin: left center;
   will-change: transform;

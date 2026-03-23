@@ -4,7 +4,15 @@
  * state to drive its specific visual animation.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from 'react'
 import {
   containerCenter,
   resolvePointRelative,
@@ -38,7 +46,11 @@ export interface DemoPreset {
 }
 
 /** Resolved effective values derived from props + demo config. */
-function useEffectiveValues(props: ModalOpenProps, demoConfig: DemoConfig | null, isDemoMode: boolean) {
+function resolveEffectiveValues(
+  props: ModalOpenProps,
+  demoConfig: DemoConfig | null,
+  isDemoMode: boolean
+) {
   const {
     duration = DEFAULT_DURATION,
     overlayOpacity = DEFAULT_OVERLAY_OPACITY,
@@ -55,7 +67,15 @@ function useEffectiveValues(props: ModalOpenProps, demoConfig: DemoConfig | null
   const closeDurationS = durationS * CLOSE_DURATION_RATIO
   const closeDurationMs = effectiveDuration * CLOSE_DURATION_RATIO
 
-  return { effectiveDuration, force, durationS, closeDurationS, closeDurationMs, overlayOpacity: overlayOpacity ?? DEFAULT_OVERLAY_OPACITY, effectiveReveal }
+  return {
+    effectiveDuration,
+    force,
+    durationS,
+    closeDurationS,
+    closeDurationMs,
+    overlayOpacity: overlayOpacity ?? DEFAULT_OVERLAY_OPACITY,
+    effectiveReveal,
+  }
 }
 
 /** Phase transitions and content reveal timer. */
@@ -68,9 +88,11 @@ function usePhaseLogic(
   onAnimationComplete: ModalOpenProps['onAnimationComplete'],
   setContentRevealed: (v: boolean) => void,
   setDemoConfig: (v: DemoConfig | null) => void,
-  setFromPoint: (v: ResolvedPoint | null) => void,
+  setFromPoint: (v: ResolvedPoint | null) => void
 ) {
-  const revealDelayMs = Math.round(effectiveDuration * Math.max(0, Math.min(100, effectiveReveal)) / 100)
+  const revealDelayMs = Math.round(
+    (effectiveDuration * Math.max(0, Math.min(100, effectiveReveal))) / 100
+  )
 
   useEffect(() => {
     if (phase !== 'opening' || !fromPoint) return
@@ -99,12 +121,44 @@ function usePhaseLogic(
   return { handleOpenComplete, handleClose, handleCloseComplete }
 }
 
+/** Resolves click position relative to container and triggers the opening phase. */
+function useDemoClickHandler(
+  containerRef: RefObject<HTMLDivElement | null>,
+  buttonListRef: RefObject<(HTMLButtonElement | null)[]>,
+  presets: readonly DemoPreset[],
+  setCenter: (v: ResolvedPoint) => void,
+  setFromPoint: (v: ResolvedPoint) => void,
+  setDemoConfig: (v: DemoConfig) => void,
+  setPhase: (p: Phase) => void
+) {
+  return useCallback(
+    (i: number) => {
+      const container = containerRef.current
+      const btn = buttonListRef.current[i]
+      if (!container || !btn) return
+      const btnRect = btn.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
+      const point = {
+        x: btnRect.left + btnRect.width / 2 - containerRect.left,
+        y: btnRect.top + btnRect.height / 2 - containerRect.top,
+      }
+      const cfg = presets[i]!
+      setCenter(containerCenter(container))
+      setFromPoint(point)
+      setDemoConfig({ from: point, force: cfg.force, duration: cfg.duration, reveal: cfg.reveal })
+      setPhase('opening')
+    },
+    [containerRef, buttonListRef, presets, setCenter, setFromPoint, setDemoConfig, setPhase]
+  )
+}
+
 /**
  * Core hook for all modal-open animations.
  */
 export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoPreset[]) {
   const { from } = props
   const containerRef = useRef<HTMLDivElement>(null)
+  const buttonListRef = useRef<(HTMLButtonElement | null)[]>([])
 
   const isDemoMode = from === undefined
   const [demoConfig, setDemoConfig] = useState<DemoConfig | null>(null)
@@ -113,10 +167,19 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
   const [center, setCenter] = useState<ResolvedPoint | null>(null)
   const [contentRevealed, setContentRevealed] = useState(false)
 
-  const vals = useEffectiveValues(props, demoConfig, isDemoMode)
-  const phases = usePhaseLogic(phase, setPhase, fromPoint, vals.effectiveDuration, vals.effectiveReveal, props.onAnimationComplete, setContentRevealed, setDemoConfig, setFromPoint)
+  const vals = resolveEffectiveValues(props, demoConfig, isDemoMode)
+  const phases = usePhaseLogic(
+    phase,
+    setPhase,
+    fromPoint,
+    vals.effectiveDuration,
+    vals.effectiveReveal,
+    props.onAnimationComplete,
+    setContentRevealed,
+    setDemoConfig,
+    setFromPoint
+  )
 
-  // Consumer path
   useLayoutEffect(() => {
     const container = containerRef.current
     if (!container || isDemoMode) return
@@ -124,33 +187,48 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
     setFromPoint(resolvePointRelative(from, container))
   }, [from, isDemoMode])
 
-  // Demo button refs + click handler
-  const btnRefs = useRef<(HTMLButtonElement | null)[]>([])
-  const handleDemoClick = useCallback((i: number) => {
-    const container = containerRef.current
-    const btn = btnRefs.current[i]
-    if (!container || !btn) return
-    const btnRect = btn.getBoundingClientRect()
-    const containerRect = container.getBoundingClientRect()
-    const cfg = presets[i]!
-    setCenter(containerCenter(container))
-    setFromPoint({
-      x: btnRect.left + btnRect.width / 2 - containerRect.left,
-      y: btnRect.top + btnRect.height / 2 - containerRect.top,
-    })
-    setDemoConfig({ from: { x: btnRect.left + btnRect.width / 2 - containerRect.left, y: btnRect.top + btnRect.height / 2 - containerRect.top }, force: cfg.force, duration: cfg.duration, reveal: cfg.reveal })
-    setPhase('opening')
-  }, [presets])
+  const handleDemoClick = useDemoClickHandler(
+    containerRef,
+    buttonListRef,
+    presets,
+    setCenter,
+    setFromPoint,
+    setDemoConfig,
+    setPhase
+  )
 
   const isVisible = phase !== 'idle'
   const isClosing = phase === 'closing'
 
-  return useMemo(() => ({
-    containerRef, btnRefs, isDemoMode, phase, isVisible, isClosing,
-    force: vals.force, overlayOpacity: vals.overlayOpacity,
-    activeDurationS: isClosing ? vals.closeDurationS : vals.durationS,
-    activeDurationMs: isClosing ? vals.closeDurationMs : vals.effectiveDuration,
-    fromPoint, center, contentRevealed,
-    handleDemoClick, ...phases,
-  }), [isDemoMode, phase, isVisible, isClosing, vals, fromPoint, center, contentRevealed, handleDemoClick, phases])
+  return useMemo(
+    () => ({
+      containerRef,
+      buttonListRef,
+      isDemoMode,
+      phase,
+      isVisible,
+      isClosing,
+      force: vals.force,
+      overlayOpacity: vals.overlayOpacity,
+      activeDurationS: isClosing ? vals.closeDurationS : vals.durationS,
+      activeDurationMs: isClosing ? vals.closeDurationMs : vals.effectiveDuration,
+      fromPoint,
+      center,
+      contentRevealed,
+      handleDemoClick,
+      ...phases,
+    }),
+    [
+      isDemoMode,
+      phase,
+      isVisible,
+      isClosing,
+      vals,
+      fromPoint,
+      center,
+      contentRevealed,
+      handleDemoClick,
+      phases,
+    ]
+  )
 }

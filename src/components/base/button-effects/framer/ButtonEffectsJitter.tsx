@@ -17,10 +17,7 @@ interface ButtonEffectsJitterProps {
   duration?: number
 }
 
-function ButtonEffectsJitterComponent({
-  children,
-  duration = 4000,
-}: ButtonEffectsJitterProps) {
+function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffectsJitterProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const durationS = duration / 1000

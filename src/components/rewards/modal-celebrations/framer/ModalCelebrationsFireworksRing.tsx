@@ -122,15 +122,17 @@ function ShimmerDot({ s }: { s: Shimmer }) {
 function BurstPiece({ b, maxW, maxH }: { b: Burst; maxW: number; maxH: number }) {
   return (
     <m.span
-      className={b.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${b.shape}`}
+      className={
+        b.imageUrl !== undefined
+          ? undefined
+          : `pf-celebration__confetti pf-celebration__confetti--${b.shape}`
+      }
       style={{
         left: '50%',
         marginLeft: b.startX,
         top: '50%',
         marginTop: b.startY,
-        ...(b.imageUrl !== undefined
-          ? { width: maxW, height: maxH }
-          : { background: b.color }),
+        ...(b.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: b.color }),
         animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotate: 0, opacity: 0 }}
@@ -153,7 +155,11 @@ function BurstPiece({ b, maxW, maxH }: { b: Burst; maxW: number; maxH: number })
       }}
     >
       {b.imageUrl !== undefined && (
-        <img src={b.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+        <img
+          src={b.imageUrl}
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+        />
       )}
     </m.span>
   )
@@ -242,7 +248,7 @@ function ModalCelebrationsFireworksRingComponent({
     const maxTime = Math.max(
       DURATION + 0.22,
       ...bursts.map((b) => b.delay + b.dur),
-      ...sparkles.map((s) => s.delay + 0.9),
+      ...sparkles.map((s) => s.delay + 0.9)
     )
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)

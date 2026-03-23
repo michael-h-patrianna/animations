@@ -34,9 +34,16 @@ function ModalBaseUnfoldOrigamiComponent({
   } as React.CSSProperties
 
   return (
-    <div className="pf-modal-origami" style={cssVars} data-animation-id="modal-base__unfold-origami">
+    <div
+      className="pf-modal-origami"
+      style={cssVars}
+      data-animation-id="modal-base__unfold-origami"
+    >
       <div className="pf-modal-origami__perspective">
-        <div className={`pf-modal-origami__content${className ? ` ${className}` : ''}`} style={style}>
+        <div
+          className={`pf-modal-origami__content${className ? ` ${className}` : ''}`}
+          style={style}
+        >
           <ModalPlaceholder>{children}</ModalPlaceholder>
         </div>
       </div>

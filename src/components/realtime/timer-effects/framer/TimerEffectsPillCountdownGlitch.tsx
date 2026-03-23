@@ -18,10 +18,21 @@ const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
 const DEFAULT_CRITICAL = 10
 
-type GlitchLevel = '' | 'pf-glitch-minimal' | 'pf-glitch-subtle' | 'pf-glitch-mild' | 'pf-glitch-moderate' | 'pf-glitch-severe' | 'pf-timer-expired'
+type GlitchLevel =
+  | ''
+  | 'pf-glitch-minimal'
+  | 'pf-glitch-subtle'
+  | 'pf-glitch-mild'
+  | 'pf-glitch-moderate'
+  | 'pf-glitch-severe'
+  | 'pf-timer-expired'
 
 /** Original absolute-second thresholds, scaled proportionally to startSeconds */
-function resolveGlitchLevel(seconds: number, startSeconds: number, isExpired: boolean): GlitchLevel {
+function resolveGlitchLevel(
+  seconds: number,
+  startSeconds: number,
+  isExpired: boolean
+): GlitchLevel {
   if (isExpired) return 'pf-timer-expired'
   // Original thresholds for 60s: 50, 40, 30, 20, 10
   // Scale proportionally for other startSeconds values
@@ -124,7 +135,11 @@ function TimerEffectsPillCountdownGlitchComponent({
     >
       <m.div
         className={`pf-pill-countdown-glitch ${glitchLevel}`}
-        style={phaseColor !== undefined ? { backgroundColor: phaseColor, animation: 'none' } : { animation: 'none' }}
+        style={
+          phaseColor !== undefined
+            ? { backgroundColor: phaseColor, animation: 'none' }
+            : { animation: 'none' }
+        }
       >
         <m.span
           className="pf-pill-countdown-glitch__glow"

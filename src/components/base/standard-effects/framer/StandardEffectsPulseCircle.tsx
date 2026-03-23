@@ -37,7 +37,13 @@ function StandardEffectsPulseCircleComponent({
 
   return (
     <div
-      style={{ width: 160, height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{
+        width: 160,
+        height: 160,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
       data-animation-id="standard-effects__pulse-circle"
     >
       <m.div

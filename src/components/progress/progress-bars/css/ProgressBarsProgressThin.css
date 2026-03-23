@@ -116,36 +116,86 @@
 /* Keyframes */
 
 @keyframes thin-fill-sweep {
-  0% { transform: scaleX(0); opacity: 0.3; }
-  30% { opacity: 0.6; }
-  70% { opacity: 0.8; }
-  100% { transform: scaleX(1); opacity: 1; }
+  0% {
+    transform: scaleX(0);
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
 
 @keyframes thin-halo {
-  0%, 30% { opacity: 0; }
-  60% { opacity: 0.5; }
-  90% { opacity: 0.3; }
-  100% { opacity: 0; }
+  0%,
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes thin-photon {
-  0%, 20% { opacity: 0; transform: translateY(-50%) translateX(20px); }
-  50% { opacity: 1; transform: translateY(-50%) translateX(0); }
-  90% { opacity: 0.5; transform: translateY(-50%) translateX(-10px); }
-  100% { opacity: 0; transform: translateY(-50%) translateX(-20px); }
+  0%,
+  20% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  90% {
+    opacity: 0.5;
+    transform: translateY(-50%) translateX(-10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-20px);
+  }
 }
 
 @keyframes thin-dot {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
-  30% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
 }
 
 @keyframes thin-flash {
-  0% { opacity: 0; transform: scaleX(0.8); }
-  30% { opacity: 1; transform: scaleX(1); }
-  100% { opacity: 0; transform: scaleX(1); }
+  0% {
+    opacity: 0;
+    transform: scaleX(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

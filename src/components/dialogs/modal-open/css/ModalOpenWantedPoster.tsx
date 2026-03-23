@@ -22,7 +22,7 @@ const SAMPLES = 24
 
 function computeKeyframes(
   modalHeight: number,
-  force: number,
+  force: number
 ): { keyframes: Keyframe[]; reverseKeyframes: Keyframe[] } {
   const f = Math.max(0, Math.min(1, force))
   const keyframes: Keyframe[] = []
@@ -31,9 +31,8 @@ function computeKeyframes(
   for (let i = 0; i <= SAMPLES; i++) {
     const t = i / SAMPLES
     const tl = t * unrollEnd
-    const unrollT = t < 0.25
-      ? t * t / 0.25 * 0.25
-      : 0.25 + (1 - Math.pow(1 - (t - 0.25) / 0.75, 1.8)) * 0.75
+    const unrollT =
+      t < 0.25 ? ((t * t) / 0.25) * 0.25 : 0.25 + (1 - Math.pow(1 - (t - 0.25) / 0.75, 1.8)) * 0.75
 
     keyframes.push({
       offset: tl,
@@ -65,10 +64,12 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
   const contentRef = useRef<HTMLDivElement>(null)
   const [modalHeight, setModalHeight] = useState(0)
 
+  const { isVisible, isClosing, activeDurationMs, handleCloseComplete, handleOpenComplete } = s
+
   useLayoutEffect(() => {
-    if (!contentRef.current || !s.isVisible) return
+    if (!contentRef.current || !isVisible) return
     setModalHeight(contentRef.current.scrollHeight)
-  }, [s.isVisible])
+  }, [isVisible])
 
   const kfData = useMemo(() => {
     if (modalHeight === 0) return null
@@ -77,26 +78,58 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
 
   useEffect(() => {
     const el = modalRef.current
-    if (!el || !kfData || !s.isVisible) return
+    if (!el || !kfData || !isVisible) return
 
-    const frames = s.isClosing ? kfData.reverseKeyframes : kfData.keyframes
-    const anim = el.animate(frames, { duration: s.activeDurationMs, fill: 'forwards', easing: 'linear' })
-    anim.onfinish = () => { if (s.isClosing) s.handleCloseComplete(); else s.handleOpenComplete() }
+    const frames = isClosing ? kfData.reverseKeyframes : kfData.keyframes
+    const anim = el.animate(frames, {
+      duration: activeDurationMs,
+      fill: 'forwards',
+      easing: 'linear',
+    })
+    anim.onfinish = () => {
+      if (isClosing) handleCloseComplete()
+      else handleOpenComplete()
+    }
     return () => anim.cancel()
-  }, [kfData, s.activeDurationMs, s.isVisible, s.isClosing, s.handleCloseComplete, s.handleOpenComplete])
+  }, [kfData, activeDurationMs, isVisible, isClosing, handleCloseComplete, handleOpenComplete])
 
   return (
-    <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__wanted-poster">
+    <div
+      ref={s.containerRef}
+      className="pf-mo-container"
+      data-animation-id="modal-open__wanted-poster"
+    >
       {s.isDemoMode && s.phase === 'idle' && (
-        <SharedDemoTriggers presets={PRESETS} btnRefs={s.btnRefs} onClickButton={s.handleDemoClick} />
+        <SharedDemoTriggers
+          presets={PRESETS}
+          buttonListRef={s.buttonListRef}
+          onClickButton={s.handleDemoClick}
+        />
       )}
       {s.isVisible && (
         <>
-          <div className={`pf-mo-overlay ${s.isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`} style={{ '--pf-mo-overlay-opacity': s.overlayOpacity, '--pf-mo-duration': `${s.activeDurationMs}ms` } as React.CSSProperties} />
+          <div
+            className={`pf-mo-overlay ${s.isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`}
+            style={
+              {
+                '--pf-mo-overlay-opacity': s.overlayOpacity,
+                '--pf-mo-duration': `${s.activeDurationMs}ms`,
+              } as React.CSSProperties
+            }
+          />
           <div className="pf-mo-stage">
-            <div ref={modalRef} className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`} style={{ ...props.style, width: '100%', maxWidth: 420, overflow: 'hidden' }}>
+            <div
+              ref={modalRef}
+              className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
+              style={{ ...props.style, width: '100%', maxWidth: 420, overflow: 'hidden' }}
+            >
               <div ref={contentRef} style={{ position: 'relative' }}>
-                <ModalOpenPlaceholder revealed={s.contentRevealed} onClose={s.isDemoMode ? s.handleClose : undefined}>{props.children}</ModalOpenPlaceholder>
+                <ModalOpenPlaceholder
+                  revealed={s.contentRevealed}
+                  onClose={s.isDemoMode ? s.handleClose : undefined}
+                >
+                  {props.children}
+                </ModalOpenPlaceholder>
               </div>
               <div className="pf-mo-paper-curl" />
             </div>

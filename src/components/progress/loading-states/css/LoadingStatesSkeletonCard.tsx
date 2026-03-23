@@ -81,7 +81,11 @@ function LoadingStatesSkeletonCardComponent({
     >
       <div
         className="pf-skeleton"
-        style={{ width: `${TITLE_WIDTH_PERCENT}%`, height: titleHeight, marginBottom: titleMargin - gap }}
+        style={{
+          width: `${TITLE_WIDTH_PERCENT}%`,
+          height: titleHeight,
+          marginBottom: titleMargin - gap,
+        }}
       />
       {Array.from({ length: lines }, (_, i) => (
         <div

@@ -27,8 +27,15 @@ function ModalBaseZoomElasticComponent({
   } as React.CSSProperties
 
   return (
-    <div className="pf-modal-zoom-elastic" style={cssVars} data-animation-id="modal-base__zoom-elastic">
-      <div className={`pf-modal-zoom-elastic__content${className ? ` ${className}` : ''}`} style={style}>
+    <div
+      className="pf-modal-zoom-elastic"
+      style={cssVars}
+      data-animation-id="modal-base__zoom-elastic"
+    >
+      <div
+        className={`pf-modal-zoom-elastic__content${className ? ` ${className}` : ''}`}
+        style={style}
+      >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>

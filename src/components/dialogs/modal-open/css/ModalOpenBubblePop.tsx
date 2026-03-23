@@ -13,11 +13,7 @@ import { SharedDemoTriggers } from '../SharedDemoTriggers'
 import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
 import '../css/shared-css-animations.css'
-import {
-  computeBubblePopTrajectory,
-  reverseExtended,
-  type ModalOpenProps,
-} from '../SharedTypes'
+import { computeBubblePopTrajectory, reverseExtended, type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soft', force: 0.1, duration: 900, reveal: 45 },
@@ -34,14 +30,15 @@ function ModalOpenBubblePopComponent(props: ModalOpenProps) {
     return computeBubblePopTrajectory(s.fromPoint, s.center, s.force)
   }, [s.fromPoint, s.center, s.force])
 
-  const closeTraj = useMemo(() => openTraj ? reverseExtended(openTraj) : null, [openTraj])
+  const closeTraj = useMemo(() => (openTraj ? reverseExtended(openTraj) : null), [openTraj])
 
-  const traj = s.isClosing ? closeTraj : openTraj
+  const { isVisible, isClosing, activeDurationMs, handleCloseComplete, handleOpenComplete } = s
+  const traj = isClosing ? closeTraj : openTraj
 
   // WAAPI for all transforms
   useEffect(() => {
     const el = modalRef.current
-    if (!el || !traj || !s.isVisible) return
+    if (!el || !traj || !isVisible) return
 
     const keyframes: Keyframe[] = traj.times.map((t, i) => ({
       offset: t,
@@ -50,34 +47,54 @@ function ModalOpenBubblePopComponent(props: ModalOpenProps) {
     }))
 
     const anim = el.animate(keyframes, {
-      duration: s.activeDurationMs,
+      duration: activeDurationMs,
       fill: 'forwards',
       easing: 'linear',
     })
 
     anim.onfinish = () => {
-      if (s.isClosing) s.handleCloseComplete()
-      else s.handleOpenComplete()
+      if (isClosing) handleCloseComplete()
+      else handleOpenComplete()
     }
 
     return () => anim.cancel()
-  }, [traj, s.activeDurationMs, s.isVisible, s.isClosing, s.handleCloseComplete, s.handleOpenComplete])
+  }, [traj, activeDurationMs, isVisible, isClosing, handleCloseComplete, handleOpenComplete])
 
   return (
-    <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__bubble-pop">
+    <div
+      ref={s.containerRef}
+      className="pf-mo-container"
+      data-animation-id="modal-open__bubble-pop"
+    >
       {s.isDemoMode && s.phase === 'idle' && (
-        <SharedDemoTriggers presets={PRESETS} btnRefs={s.btnRefs} onClickButton={s.handleDemoClick} />
+        <SharedDemoTriggers
+          presets={PRESETS}
+          buttonListRef={s.buttonListRef}
+          onClickButton={s.handleDemoClick}
+        />
       )}
 
       {s.isVisible && traj !== null && (
         <>
           <div
             className={`pf-mo-overlay ${s.isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`}
-            style={{ '--pf-mo-overlay-opacity': s.overlayOpacity, '--pf-mo-duration': `${s.activeDurationMs}ms` } as React.CSSProperties}
+            style={
+              {
+                '--pf-mo-overlay-opacity': s.overlayOpacity,
+                '--pf-mo-duration': `${s.activeDurationMs}ms`,
+              } as React.CSSProperties
+            }
           />
           <div className="pf-mo-stage">
-            <div ref={modalRef} className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`} style={props.style}>
-              <ModalOpenPlaceholder revealed={s.contentRevealed} onClose={s.isDemoMode ? s.handleClose : undefined}>
+            <div
+              ref={modalRef}
+              className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`}
+              style={props.style}
+            >
+              <ModalOpenPlaceholder
+                revealed={s.contentRevealed}
+                onClose={s.isDemoMode ? s.handleClose : undefined}
+              >
                 {props.children}
               </ModalOpenPlaceholder>
             </div>

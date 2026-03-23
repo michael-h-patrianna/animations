@@ -60,10 +60,7 @@ function ModalOrchestrationWizardSlideStackComponent({
   }, [stagger, duration, distance])
 
   return (
-    <div
-      className="pf-wizard-slide"
-      data-animation-id="modal-orchestration__wizard-slide-stack"
-    >
+    <div className="pf-wizard-slide" data-animation-id="modal-orchestration__wizard-slide-stack">
       <div className="pf-wizard-slide__panels">
         {renderItems.map((child, i) => (
           <div

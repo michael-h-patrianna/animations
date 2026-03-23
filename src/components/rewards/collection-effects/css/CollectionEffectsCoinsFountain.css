@@ -113,10 +113,7 @@
     }
     30% {
       opacity: 1;
-      transform: translate(
-          calc(var(--fountain-tx) * 0.3),
-          calc(var(--fountain-ty-apex) * 0.3)
-        )
+      transform: translate(calc(var(--fountain-tx) * 0.3), calc(var(--fountain-ty-apex) * 0.3))
         scale(1);
     }
     70% {
@@ -124,10 +121,7 @@
     }
     100% {
       opacity: 0;
-      transform: translate(
-          calc(var(--fountain-tx) * 0.3),
-          calc(var(--fountain-ty-apex) * 0.3)
-        )
+      transform: translate(calc(var(--fountain-tx) * 0.3), calc(var(--fountain-ty-apex) * 0.3))
         scale(0.7);
     }
   }

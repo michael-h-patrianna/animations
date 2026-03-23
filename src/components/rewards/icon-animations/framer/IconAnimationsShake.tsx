@@ -43,12 +43,7 @@ function IconAnimationsShakeComponent({
         }}
       >
         {src !== undefined ? (
-          <img
-            src={src}
-            alt={alt}
-            className="pf-icon-anim__image"
-            style={{ width }}
-          />
+          <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
         ) : (
           <div className="pf-icon-anim__placeholder" style={{ width, height: width }} />
         )}

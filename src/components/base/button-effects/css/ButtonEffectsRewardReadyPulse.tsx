@@ -7,7 +7,10 @@ import './ButtonEffectsRewardReadyPulse.css'
 
 function ButtonEffectsRewardReadyPulseComponent() {
   return (
-    <div data-animation-id="button-effects__reward-ready-pulse" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div
+      data-animation-id="button-effects__reward-ready-pulse"
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
       <button type="button" className="pf-btn pf-btn--primary pf-reward-pulse">
         Claim Reward
       </button>

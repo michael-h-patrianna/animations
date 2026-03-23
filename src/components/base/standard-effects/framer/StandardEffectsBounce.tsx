@@ -16,10 +16,7 @@ interface StandardEffectsBounceProps {
   duration?: number
 }
 
-function StandardEffectsBounceComponent({
-  children,
-  duration = 800,
-}: StandardEffectsBounceProps) {
+function StandardEffectsBounceComponent({ children, duration = 800 }: StandardEffectsBounceProps) {
   return (
     <m.div
       data-animation-id="standard-effects__bounce"

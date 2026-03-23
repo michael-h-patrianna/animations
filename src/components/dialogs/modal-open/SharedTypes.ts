@@ -102,10 +102,7 @@ export function resolvePoint(ref: PointRef): ResolvedPoint | null {
 /**
  * Resolves a PointRef to coordinates relative to a container element.
  */
-export function resolvePointRelative(
-  ref: PointRef,
-  container: HTMLElement
-): ResolvedPoint | null {
+export function resolvePointRelative(ref: PointRef, container: HTMLElement): ResolvedPoint | null {
   const absolute = resolvePoint(ref)
   if (!absolute) return null
   const containerRect = container.getBoundingClientRect()
@@ -143,7 +140,7 @@ interface ArcControlPoints {
 function computeArcControlPoints(
   from: ResolvedPoint,
   center: ResolvedPoint,
-  force: number,
+  force: number
 ): ArcControlPoints {
   const dx = center.x - from.x
   const dy = center.y - from.y
@@ -196,10 +193,15 @@ export interface TrajectoryArrays {
 function appendSettlePhase(
   t: TrajectoryArrays,
   force: number,
-  dx: number, dy: number,
-  posOvershoot: number, scaleOvershoot: number, scaleBounce: number,
-  shakeAmplitude: number, shakeCycles: number,
-  perpX: number, perpY: number,
+  dx: number,
+  dy: number,
+  posOvershoot: number,
+  scaleOvershoot: number,
+  scaleBounce: number,
+  shakeAmplitude: number,
+  shakeCycles: number,
+  perpX: number,
+  perpY: number
 ): void {
   // Settle timing scales with force: soft = slow/late, hard = fast/early
   const overshootT = 0.85 - force * 0.11 // 0.85 (soft) → 0.74 (hard)
@@ -285,7 +287,8 @@ export function invertSpeedCurve(target: number, force: number): number {
   if (target >= 1) return 1
   let lo = 0
   let hi = 1
-  for (let i = 0; i < 16; i++) { // 16 iterations → ~1e-5 precision
+  for (let i = 0; i < 16; i++) {
+    // 16 iterations → ~1e-5 precision
     const mid = (lo + hi) / 2
     if (speedCurve(mid, force) < target) lo = mid
     else hi = mid
@@ -314,7 +317,7 @@ export const DEFAULT_IMPACT_FORCE = 0.5
 export function computeArcTrajectory(
   from: ResolvedPoint,
   center: ResolvedPoint,
-  force = DEFAULT_IMPACT_FORCE,
+  force = DEFAULT_IMPACT_FORCE
 ): { x: number[]; y: number[]; times: number[]; scale: number[]; opacity: number[] } {
   const f = Math.max(0, Math.min(1, force))
   const dx = center.x - from.x
@@ -350,7 +353,7 @@ export function computeArcTrajectory(
   const perpShakeY = dx / distance
 
   // ── Flight phase: dense Bezier sampling with force-dependent speed ──
-  const flightEnd = 0.70
+  const flightEnd = 0.7
   const x: number[] = []
   const y: number[] = []
   const times: number[] = []
@@ -368,7 +371,8 @@ export function computeArcTrajectory(
     times.push(timelineT)
 
     // Scale: follows LINEAR time with its own smooth ease-out (decoupled from trajectory speed)
-    const scaleVal = initialScale + (1 - initialScale) * (1 - Math.pow(1 - linearT, scaleGrowthPower))
+    const scaleVal =
+      initialScale + (1 - initialScale) * (1 - Math.pow(1 - linearT, scaleGrowthPower))
     scale.push(scaleVal)
 
     // Opacity: quick fade-in over first 8% of linear time
@@ -378,11 +382,17 @@ export function computeArcTrajectory(
   // ── Settle phase: overshoot + bounce + optional impact shake + rest ──
   const arrays: TrajectoryArrays = { x, y, times, scale, opacity }
   appendSettlePhase(
-    arrays, f,
-    dx, dy,
-    posOvershoot, scaleOvershoot, scaleBounce,
-    shakeAmplitude, shakeCycles,
-    perpShakeX, perpShakeY,
+    arrays,
+    f,
+    dx,
+    dy,
+    posOvershoot,
+    scaleOvershoot,
+    scaleBounce,
+    shakeAmplitude,
+    shakeCycles,
+    perpShakeX,
+    perpShakeY
   )
 
   return arrays
@@ -395,7 +405,7 @@ export function computeArcTrajectory(
 export function computeSvgArcPath(
   from: ResolvedPoint,
   center: ResolvedPoint,
-  force = DEFAULT_IMPACT_FORCE,
+  force = DEFAULT_IMPACT_FORCE
 ): string {
   const { cp1, cp2 } = computeArcControlPoints(from, center, force)
 
@@ -444,10 +454,15 @@ export function reverseExtended(t: ExtendedTrajectoryArrays): ExtendedTrajectory
   const maxTime = t.times[n - 1]!
   const revTimes = [...t.times].reverse().map((v) => (maxTime - v) / maxTime)
   return {
-    x: [...t.x].reverse(), y: [...t.y].reverse(), times: revTimes,
-    scale: [...t.scale].reverse(), opacity: [...t.opacity].reverse(),
-    scaleX: [...t.scaleX].reverse(), scaleY: [...t.scaleY].reverse(),
-    rotate: [...t.rotate].reverse(), skewX: [...t.skewX].reverse(),
+    x: [...t.x].reverse(),
+    y: [...t.y].reverse(),
+    times: revTimes,
+    scale: [...t.scale].reverse(),
+    opacity: [...t.opacity].reverse(),
+    scaleX: [...t.scaleX].reverse(),
+    scaleY: [...t.scaleY].reverse(),
+    rotate: [...t.rotate].reverse(),
+    skewX: [...t.skewX].reverse(),
   }
 }
 
@@ -467,7 +482,7 @@ export function reverseExtended(t: ExtendedTrajectoryArrays): ExtendedTrajectory
 export function computeBubblePopTrajectory(
   from: ResolvedPoint,
   center: ResolvedPoint,
-  force = DEFAULT_IMPACT_FORCE,
+  force = DEFAULT_IMPACT_FORCE
 ): ExtendedTrajectoryArrays {
   const f = Math.max(0, Math.min(1, force))
 
@@ -475,20 +490,38 @@ export function computeBubblePopTrajectory(
   const wobbleAmp = 0.03 + f * 0.08 // ±3% (soft) → ±11% — subtle, not jittery
   const skewAmp = 4 + f * 8 // 4° → 12° — the jello IS the character
 
-  const x: number[] = [], y: number[] = [], times: number[] = []
-  const scale: number[] = [], opacity: number[] = []
-  const scaleX: number[] = [], scaleY: number[] = []
-  const rotate: number[] = [], skewX: number[] = []
+  const x: number[] = [],
+    y: number[] = [],
+    times: number[] = []
+  const scale: number[] = [],
+    opacity: number[] = []
+  const scaleX: number[] = [],
+    scaleY: number[] = []
+  const rotate: number[] = [],
+    skewX: number[] = []
 
   const push = (tl: number, s: number, sx: number, sy: number, sk: number, op: number) => {
-    x.push(0); y.push(0); times.push(tl)
-    scale.push(s); scaleX.push(sx); scaleY.push(sy)
-    rotate.push(0); skewX.push(sk); opacity.push(op)
+    x.push(0)
+    y.push(0)
+    times.push(tl)
+    scale.push(s)
+    scaleX.push(sx)
+    scaleY.push(sy)
+    rotate.push(0)
+    skewX.push(sk)
+    opacity.push(op)
   }
 
   // Phase 1: Quick snap from trigger to center (0→8%)
-  x.push(from.x - center.x); y.push(from.y - center.y); times.push(0)
-  scale.push(0); scaleX.push(1); scaleY.push(1); rotate.push(0); skewX.push(0); opacity.push(0)
+  x.push(from.x - center.x)
+  y.push(from.y - center.y)
+  times.push(0)
+  scale.push(0)
+  scaleX.push(1)
+  scaleY.push(1)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(0)
 
   push(0.08, 0.15, 1, 1, 0, 1)
 
@@ -499,11 +532,11 @@ export function computeBubblePopTrajectory(
   const aq = a * 0.25
 
   //                  time  scale  scaleX       scaleY       skew  opacity
-  push(0.20, 0.40, 1 + a,   1 - a,   0, 1) // big first overshoot
-  push(0.34, 0.65, 1 - ah,  1 + ah,  0, 1) // bounce back (half amplitude)
-  push(0.46, 0.82, 1 + aq,  1 - aq,  0, 1) // settle (quarter)
+  push(0.2, 0.4, 1 + a, 1 - a, 0, 1) // big first overshoot
+  push(0.34, 0.65, 1 - ah, 1 + ah, 0, 1) // bounce back (half amplitude)
+  push(0.46, 0.82, 1 + aq, 1 - aq, 0, 1) // settle (quarter)
   push(0.56, 0.94, 1 - aq * 0.5, 1 + aq * 0.5, 0, 1) // micro
-  push(0.64, 1.00, 1,       1,       0, 1) // wobble done, scale at 1
+  push(0.64, 1.0, 1, 1, 0, 1) // wobble done, scale at 1
 
   // Phase 3: Jello settle — skewX with halving amplitude (64%→100%)
   // Same CRT feel: one big deformation, then halving decay
@@ -511,13 +544,13 @@ export function computeBubblePopTrajectory(
   const skh = sk * 0.5
   const skq = sk * 0.25
 
-  push(0.72, 1.03, 1, 1, -sk,  1) // big skew
-  push(0.81, 0.98, 1, 1,  skh, 1) // half bounce
+  push(0.72, 1.03, 1, 1, -sk, 1) // big skew
+  push(0.81, 0.98, 1, 1, skh, 1) // half bounce
   push(0.89, 1.01, 1, 1, -skq, 1) // quarter
-  push(0.95, 1.00, 1, 1,  0,   1) // settle
+  push(0.95, 1.0, 1, 1, 0, 1) // settle
 
   // Rest
-  push(1.00, 1.00, 1, 1, 0, 1)
+  push(1.0, 1.0, 1, 1, 0, 1)
 
   return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
 }
@@ -534,7 +567,7 @@ export function computeBubblePopTrajectory(
 export function computeComicPunchTrajectory(
   from: ResolvedPoint,
   center: ResolvedPoint,
-  force = DEFAULT_IMPACT_FORCE,
+  force = DEFAULT_IMPACT_FORCE
 ): ExtendedTrajectoryArrays {
   const f = Math.max(0, Math.min(1, force))
   const dx = center.x - from.x
@@ -547,35 +580,47 @@ export function computeComicPunchTrajectory(
   const stretchY = 1 + (1 - squashX) * 1.3 // proportional stretch
   const bounceCycles = Math.round(1 + f * 3) // 1 → 4
 
-  const x: number[] = [], y: number[] = [], times: number[] = []
-  const scale: number[] = [], opacity: number[] = []
-  const scaleX: number[] = [], scaleY: number[] = []
-  const rotate: number[] = [], skewX: number[] = []
+  const x: number[] = [],
+    y: number[] = [],
+    times: number[] = []
+  const scale: number[] = [],
+    opacity: number[] = []
+  const scaleX: number[] = [],
+    scaleY: number[] = []
+  const rotate: number[] = [],
+    skewX: number[] = []
 
-  // Phase 1: FAST punch flight (0→25%) — aggressive ease-out
-  const flightEnd = 0.25
+  // Phase 1: FAST punch flight — scales with force so higher force still has trackable movement
+  // Soft: 25% of timeline = long enough to see. Hard: 32% to compensate for shorter durations.
+  const flightEnd = 0.25 + f * 0.07
   const flightSamples = 8
+  // Ease-out power: soft = cubic (punchy), hard = slightly less aggressive so the eye can track
+  const easeOutPower = 3 - f * 0.7 // 3.0 (soft) → 2.3 (hard)
+
   for (let i = 0; i <= flightSamples; i++) {
     const t = i / flightSamples
     const tl = t * flightEnd
-    // Very aggressive ease-out for punchy arrival
-    const curveT = 1 - Math.pow(1 - t, 3)
+    const curveT = 1 - Math.pow(1 - t, easeOutPower)
 
-    x.push((from.x + dx * curveT) - center.x)
-    y.push((from.y + dy * curveT) - center.y)
+    x.push(from.x + dx * curveT - center.x)
+    y.push(from.y + dy * curveT - center.y)
     times.push(tl)
 
-    scale.push(0.3 + 0.7 * curveT)
-    scaleX.push(1); scaleY.push(1)
+    // Larger initial scale at higher force — more visible at button origin
+    const initialScale = 0.3 + f * 0.12 // 0.3 (soft) → 0.42 (hard)
+    scale.push(initialScale + (1 - initialScale) * curveT)
+    scaleX.push(1)
+    scaleY.push(1)
     const tiltDir = angle > 0 ? 1 : -1
     rotate.push(tiltAngle * tiltDir * (1 - curveT))
     skewX.push(0)
-    opacity.push(t < 0.15 ? t / 0.15 : 1)
+    // Start visible at button so the spatial origin is clear — comic panels don't fade in
+    opacity.push(Math.min(1, 0.5 + t * 4))
   }
 
-  // Phase 2: IMPACT squash-stretch bounces (25%→98%) — this IS the animation
+  // Phase 2: IMPACT squash-stretch bounces — this IS the animation
   const impactStart = flightEnd
-  const impactSpan = 0.73
+  const impactSpan = 0.98 - flightEnd
 
   for (let cycle = 0; cycle < bounceCycles; cycle++) {
     const cycleProgress = cycle / bounceCycles
@@ -585,25 +630,171 @@ export function computeComicPunchTrajectory(
 
     // Squash peak (scaleX compresses, scaleY extends)
     const squashT = cycleStart + cycleDuration * 0.35
-    x.push(0); y.push(0); times.push(squashT)
+    x.push(0)
+    y.push(0)
+    times.push(squashT)
     scale.push(1)
     scaleX.push(1 - (1 - squashX) * decay)
     scaleY.push(1 + (stretchY - 1) * decay)
-    rotate.push(0); skewX.push(0); opacity.push(1)
+    rotate.push(0)
+    skewX.push(0)
+    opacity.push(1)
 
     // Rebound peak (scaleX extends, scaleY compresses)
     const reboundT = cycleStart + cycleDuration * 0.7
-    x.push(0); y.push(0); times.push(reboundT)
+    x.push(0)
+    y.push(0)
+    times.push(reboundT)
     scale.push(1)
     scaleX.push(1 + (stretchY - 1) * decay * 0.6)
     scaleY.push(1 - (1 - squashX) * decay * 0.5)
-    rotate.push(0); skewX.push(0); opacity.push(1)
+    rotate.push(0)
+    skewX.push(0)
+    opacity.push(1)
   }
 
   // Rest
-  x.push(0); y.push(0); times.push(1)
-  scale.push(1); scaleX.push(1); scaleY.push(1)
-  rotate.push(0); skewX.push(0); opacity.push(1)
+  x.push(0)
+  y.push(0)
+  times.push(1)
+  scale.push(1)
+  scaleX.push(1)
+  scaleY.push(1)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(1)
+
+  return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
+}
+
+/**
+ * Comic Punch CLOSE: dedicated trajectory that flies the modal back INTO
+ * the trigger button, creating a clear spatial connection on dismiss.
+ *
+ * Unlike the generic reverseExtended (which replays squash-stretch for 75%
+ * of the close before any spatial movement), this trajectory prioritizes
+ * the return-to-button flight:
+ *
+ * Phase 1 (0→12%): Anticipation squash at center — gathers energy.
+ * Phase 2 (12%→78%): Fly back to button with ease-in acceleration (sucked back).
+ * Phase 3 (78%→100%): Vanish at button — shrink to nothing.
+ */
+export function computeComicPunchCloseTrajectory(
+  from: ResolvedPoint,
+  center: ResolvedPoint,
+  force = DEFAULT_IMPACT_FORCE
+): ExtendedTrajectoryArrays {
+  const f = Math.max(0, Math.min(1, force))
+  const dx = from.x - center.x // direction: center → button
+  const dy = from.y - center.y
+  const angle = Math.atan2(dy, dx)
+
+  // Force-derived close physics
+  const anticipationSquash = 0.90 - f * 0.08 // scaleX: 0.90 (soft) → 0.82 (hard)
+  const anticipationStretch = 1 + (1 - anticipationSquash) * 1.2 // scaleY: proportional
+  const tiltAngle = 2 + f * 6 // rotation during flight: 2° → 8°
+
+  const x: number[] = [],
+    y: number[] = [],
+    times: number[] = []
+  const scale: number[] = [],
+    opacity: number[] = []
+  const scaleX: number[] = [],
+    scaleY: number[] = []
+  const rotate: number[] = [],
+    skewX: number[] = []
+
+  // Phase 1: Anticipation squash at center (0→12%)
+  // Rest position
+  x.push(0)
+  y.push(0)
+  times.push(0)
+  scale.push(1)
+  scaleX.push(1)
+  scaleY.push(1)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(1)
+
+  // Squash: compress toward button direction (gathering energy)
+  x.push(0)
+  y.push(0)
+  times.push(0.07)
+  scale.push(1)
+  scaleX.push(anticipationSquash)
+  scaleY.push(anticipationStretch)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(1)
+
+  // Release: snap back toward normal before launching
+  x.push(0)
+  y.push(0)
+  times.push(0.12)
+  scale.push(1.02)
+  scaleX.push(1.03)
+  scaleY.push(0.97)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(1)
+
+  // Phase 2: Fly back to button (12%→78%) — ease-in (accelerating = sucked back)
+  const flightStart = 0.12
+  const flightEnd = 0.78
+  const flightSpan = flightEnd - flightStart
+  const flightSamples = 10
+
+  for (let i = 1; i <= flightSamples; i++) {
+    const t = i / flightSamples // 0→1 within flight phase
+    const tl = flightStart + t * flightSpan
+
+    // Ease-in: starts slow, accelerates — like being pulled/sucked into button.
+    // Power is LOWER at high force so the flight stays trackable with shorter durations.
+    // At t=0.5: soft → 0.5^2.0 = 25% traveled, hard → 0.5^1.6 = 33% traveled.
+    const curveT = Math.pow(t, 2.0 - f * 0.4) // 2.0 (soft) → 1.6 (hard)
+
+    x.push(dx * curveT)
+    y.push(dy * curveT)
+    times.push(tl)
+
+    // Scale shrinks along flight: 1.0 → 0.3
+    const flightScale = 1.0 - 0.7 * curveT
+    scale.push(flightScale)
+    scaleX.push(1)
+    scaleY.push(1)
+
+    // Tilt toward button direction
+    const tiltDir = angle > 0 ? 1 : -1
+    rotate.push(tiltAngle * tiltDir * curveT)
+    skewX.push(0)
+
+    // Opacity holds until 55% of flight, then fades
+    const fadeStart = 0.55
+    opacity.push(t < fadeStart ? 1 : 1 - ((t - fadeStart) / (1 - fadeStart)) * 0.6)
+  }
+
+  // Phase 3: Vanish at button (78%→100%)
+  // Quick shrink to near-zero
+  x.push(dx)
+  y.push(dy)
+  times.push(0.88)
+  scale.push(0.12)
+  scaleX.push(1)
+  scaleY.push(1)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(0.2)
+
+  // Final vanish
+  x.push(dx)
+  y.push(dy)
+  times.push(1)
+  scale.push(0)
+  scaleX.push(1)
+  scaleY.push(1)
+  rotate.push(0)
+  skewX.push(0)
+  opacity.push(0)
 
   return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
 }
@@ -624,26 +815,41 @@ export function computeComicPunchTrajectory(
 export function computeSlamDownTrajectory(
   from: ResolvedPoint,
   center: ResolvedPoint,
-  force = DEFAULT_IMPACT_FORCE,
+  force = DEFAULT_IMPACT_FORCE
 ): ExtendedTrajectoryArrays {
   const f = Math.max(0, Math.min(1, force))
   const dx = center.x - from.x
 
   // Force-derived physics — much more dramatic ranges
   const launchHeight = 60 + f * 200 // 60px (soft) → 260px (hard) above center
-  const apexHangPct = 0.06 + f * 0.10 // 6% → 16% of timeline as dramatic pause
+  const apexHangPct = 0.06 + f * 0.1 // 6% → 16% of timeline as dramatic pause
   const aftershocks = Math.round(1 + f * 3) // 1 → 4
   const aftershockAmp = 8 + f * 30 // 8px → 38px
   // Impact scaleY compression: the modal squishes vertically on each slam
   const impactSquashY = 0.95 - f * 0.12 // 0.95 → 0.83
 
-  const x: number[] = [], y: number[] = [], times: number[] = []
-  const scale: number[] = [], opacity: number[] = []
-  const scaleX: number[] = [], scaleY: number[] = []
-  const rotate: number[] = [], skewX: number[] = []
+  const x: number[] = [],
+    y: number[] = [],
+    times: number[] = []
+  const scale: number[] = [],
+    opacity: number[] = []
+  const scaleX: number[] = [],
+    scaleY: number[] = []
+  const rotate: number[] = [],
+    skewX: number[] = []
 
-  const ext = () => { scaleX.push(1); scaleY.push(1); rotate.push(0); skewX.push(0) }
-  const extSq = (sy: number) => { scaleX.push(1); scaleY.push(sy); rotate.push(0); skewX.push(0) }
+  const ext = () => {
+    scaleX.push(1)
+    scaleY.push(1)
+    rotate.push(0)
+    skewX.push(0)
+  }
+  const extSq = (sy: number) => {
+    scaleX.push(1)
+    scaleY.push(sy)
+    rotate.push(0)
+    skewX.push(0)
+  }
 
   // Phase 1: LAUNCH UP from trigger (0→22%)
   const launchEnd = 0.22
@@ -652,10 +858,10 @@ export function computeSlamDownTrajectory(
     const t = i / launchSamples
     const tl = t * launchEnd
     const xT = 1 - Math.pow(1 - t, 2)
-    x.push((from.x + dx * xT) - center.x)
+    x.push(from.x + dx * xT - center.x)
     // Y: ease-out upward from trigger to apex
     const yT = 1 - Math.pow(1 - t, 2.5)
-    y.push(((from.y * (1 - yT)) + ((center.y - launchHeight) * yT)) - center.y)
+    y.push(from.y * (1 - yT) + (center.y - launchHeight) * yT - center.y)
     times.push(tl)
     scale.push(0.2 + 0.6 * t)
     opacity.push(t < 0.2 ? t / 0.2 : 1)
@@ -665,12 +871,24 @@ export function computeSlamDownTrajectory(
   // Phase 2: APEX HANG — dramatic tension pause (22→22+hang%)
   const hangEnd = launchEnd + apexHangPct
   // Gentle float at apex
-  x.push(0); y.push(-launchHeight); times.push(launchEnd + apexHangPct * 0.3)
-  scale.push(0.85); opacity.push(1); ext()
-  x.push(0); y.push(-launchHeight + 3); times.push(launchEnd + apexHangPct * 0.6)
-  scale.push(0.87); opacity.push(1); ext()
-  x.push(0); y.push(-launchHeight); times.push(hangEnd)
-  scale.push(0.85); opacity.push(1); ext()
+  x.push(0)
+  y.push(-launchHeight)
+  times.push(launchEnd + apexHangPct * 0.3)
+  scale.push(0.85)
+  opacity.push(1)
+  ext()
+  x.push(0)
+  y.push(-launchHeight + 3)
+  times.push(launchEnd + apexHangPct * 0.6)
+  scale.push(0.87)
+  opacity.push(1)
+  ext()
+  x.push(0)
+  y.push(-launchHeight)
+  times.push(hangEnd)
+  scale.push(0.85)
+  opacity.push(1)
+  ext()
 
   // Phase 3: GRAVITY SLAM (hangEnd→65%) — cubic ease-in (accelerating fall)
   const slamEnd = 0.65
@@ -696,20 +914,31 @@ export function computeSlamDownTrajectory(
     const decay = Math.pow(1 - p, 1.8)
 
     // Impact: squish down
-    const impactT = bounceStart + p * bounceSpan + bounceSpan / aftershocks * 0.15
-    x.push(0); y.push(0); times.push(impactT)
-    scale.push(1); opacity.push(1)
+    const impactT = bounceStart + p * bounceSpan + (bounceSpan / aftershocks) * 0.15
+    x.push(0)
+    y.push(0)
+    times.push(impactT)
+    scale.push(1)
+    opacity.push(1)
     extSq(impactSquashY + (1 - impactSquashY) * (1 - decay))
 
     // Rebound: bounce up
-    const reboundT = bounceStart + p * bounceSpan + bounceSpan / aftershocks * 0.6
-    x.push(0); y.push(-aftershockAmp * decay); times.push(reboundT)
-    scale.push(1 + 0.02 * decay); opacity.push(1); ext()
+    const reboundT = bounceStart + p * bounceSpan + (bounceSpan / aftershocks) * 0.6
+    x.push(0)
+    y.push(-aftershockAmp * decay)
+    times.push(reboundT)
+    scale.push(1 + 0.02 * decay)
+    opacity.push(1)
+    ext()
   }
 
   // Rest
-  x.push(0); y.push(0); times.push(1)
-  scale.push(1); opacity.push(1); ext()
+  x.push(0)
+  y.push(0)
+  times.push(1)
+  scale.push(1)
+  opacity.push(1)
+  ext()
 
   return { x, y, times, scale, scaleX, scaleY, rotate, skewX, opacity }
 }

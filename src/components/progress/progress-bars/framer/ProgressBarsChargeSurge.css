@@ -62,7 +62,12 @@
 .pf-charge-surge .glow-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, var(--charge-glow-dim), var(--charge-glow-bright), var(--charge-glow-dim));
+  background: linear-gradient(
+    90deg,
+    var(--charge-glow-dim),
+    var(--charge-glow-bright),
+    var(--charge-glow-dim)
+  );
   border-radius: 999px;
 }
 

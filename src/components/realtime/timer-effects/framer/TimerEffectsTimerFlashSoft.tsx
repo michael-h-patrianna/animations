@@ -30,9 +30,8 @@ function computeBgColor(
   normalColor: { r: number; g: number; b: number },
   criticalColor: { r: number; g: number; b: number }
 ): string {
-  const urgencyLevel = seconds <= warningThreshold
-    ? (warningThreshold - seconds) / warningThreshold
-    : 0
+  const urgencyLevel =
+    seconds <= warningThreshold ? (warningThreshold - seconds) / warningThreshold : 0
   const easedUrgency = easeInOutFn(urgencyLevel)
   const r = Math.round(normalColor.r + (criticalColor.r - normalColor.r) * easedUrgency)
   const g = Math.round(normalColor.g + (criticalColor.g - normalColor.g) * easedUrgency)
@@ -105,9 +104,16 @@ function TimerEffectsTimerFlashSoftComponent({
   // Original color: yellow (#ffc107) → red (#dc3545) with easeInOut curve
   const normalRgb = { r: 255, g: 193, b: 7 }
   const criticalRgb = { r: 220, g: 53, b: 69 }
-  const bgColor = colors !== undefined
-    ? (colors[seconds <= (thresholds?.critical ?? DEFAULT_CRITICAL) ? 'critical' : seconds <= warningThreshold ? 'warning' : 'normal'] ?? computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb))
-    : computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb)
+  const bgColor =
+    colors !== undefined
+      ? (colors[
+          seconds <= (thresholds?.critical ?? DEFAULT_CRITICAL)
+            ? 'critical'
+            : seconds <= warningThreshold
+              ? 'warning'
+              : 'normal'
+        ] ?? computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb))
+      : computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb)
 
   const timeStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),

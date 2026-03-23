@@ -35,11 +35,7 @@
 
 .pf-progress-bounce .pf-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--bounce-fill-from) 0%,
-    var(--bounce-fill-to) 100%
-  );
+  background: linear-gradient(90deg, var(--bounce-fill-from) 0%, var(--bounce-fill-to) 100%);
   border-radius: inherit;
   transform-origin: left center;
   position: relative;

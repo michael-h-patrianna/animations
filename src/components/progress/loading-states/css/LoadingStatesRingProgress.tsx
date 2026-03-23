@@ -47,11 +47,13 @@ function LoadingStatesRingProgressComponent({
     <div
       data-animation-id="loading-states__ring-progress"
       className={className !== undefined ? `pf-ring-progress ${className}` : 'pf-ring-progress'}
-      style={{
-        '--pf-rp-size': `${size}px`,
-        '--pf-rp-circumference': `${circumference}`,
-        '--pf-rp-duration': `${2 / safeSpeed}s`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--pf-rp-size': `${size}px`,
+          '--pf-rp-circumference': `${circumference}`,
+          '--pf-rp-duration': `${2 / safeSpeed}s`,
+        } as React.CSSProperties
+      }
       role="status"
       aria-label="Loading"
     >

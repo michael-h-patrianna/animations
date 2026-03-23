@@ -62,7 +62,11 @@ function TimerEffectsTimerPulseComponent({
 
   const valueStyle: React.CSSProperties = {
     animation: 'none',
-    ...(textColor !== undefined ? { color: textColor } : phaseColor !== undefined ? { color: phaseColor } : {}),
+    ...(textColor !== undefined
+      ? { color: textColor }
+      : phaseColor !== undefined
+        ? { color: phaseColor }
+        : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

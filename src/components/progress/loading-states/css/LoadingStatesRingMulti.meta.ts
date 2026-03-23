@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/loading-states-css?animation=loading-states__ring-multi',
   title: 'Multi Ring',
   description:
-    'Three concentric rings spinning at different speeds. Configure size, colors, thickness, and speed via CSS custom properties.',
+    'Three concentric rings spinning at different speeds. Configure size, colors, thickness, and speed.',
   infinite: true,
   tier: 4,
 } satisfies AnimationMetadata

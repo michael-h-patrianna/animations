@@ -17,19 +17,39 @@
 
 .pf-modal-shatter__content {
   opacity: 0;
-  animation: pf-shatter-assemble-content var(--pf-entrance-duration, 850ms) cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation: pf-shatter-assemble-content var(--pf-entrance-duration, 850ms)
+    cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes pf-shatter-assemble-overlay {
-  from { opacity: 0; }
-  to { opacity: var(--pf-overlay-opacity, 1); }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--pf-overlay-opacity, 1);
+  }
 }
 
 @keyframes pf-shatter-assemble-content {
-  0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
-  25% { transform: translate3d(-5px, -5px, 0) rotate(5deg); opacity: 0.3; }
-  50% { transform: translate3d(5px, -5px, 0) rotate(-5deg); opacity: 0.6; }
-  75% { transform: translate3d(-2px, -2px, 0) rotate(2deg); opacity: 0.9; }
-  100% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; }
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    transform: translate3d(-5px, -5px, 0) rotate(5deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate3d(5px, -5px, 0) rotate(-5deg);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate3d(-2px, -2px, 0) rotate(2deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
 }

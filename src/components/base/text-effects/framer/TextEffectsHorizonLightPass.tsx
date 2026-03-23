@@ -75,12 +75,7 @@ function TextEffectsHorizonLightPassComponent({
     >
       <div className="pf-horizon-light__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span
-            key={i}
-            className="pf-horizon-light__letter"
-            variants={letterVariants}
-            custom={i}
-          >
+          <m.span key={i} className="pf-horizon-light__letter" variants={letterVariants} custom={i}>
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

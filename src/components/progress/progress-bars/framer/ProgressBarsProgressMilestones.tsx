@@ -57,7 +57,11 @@ export function ProgressBarsProgressMilestones({
   )
 
   const markerVariants = () => ({
-    inactive: { scale: 0.5, opacity: 0.6, background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))' },
+    inactive: {
+      scale: 0.5,
+      opacity: 0.6,
+      background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))',
+    },
     active: {
       scale: 1,
       opacity: 1,
@@ -98,9 +102,10 @@ export function ProgressBarsProgressMilestones({
           <m.div
             className="pf-progress-fill"
             initial={isDemo ? { scaleX: 0 } : false}
-            animate={isDemo
-              ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
-              : { scaleX: progress ?? 0 }
+            animate={
+              isDemo
+                ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
+                : { scaleX: progress ?? 0 }
             }
             transition={isDemo ? undefined : { duration: 0.3, ease: 'linear' }}
             style={{ transformOrigin: 'left center', animation: 'none' }}

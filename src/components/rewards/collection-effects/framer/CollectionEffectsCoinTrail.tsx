@@ -38,11 +38,7 @@ interface Particle {
   fallback: { shape: ConfettiShape; color: string }
 }
 
-function generateParticles(
-  count: number,
-  images: string[],
-  colors?: string[]
-): Particle[] {
+function generateParticles(count: number, images: string[], colors?: string[]): Particle[] {
   return Array.from({ length: count }, (_, i) => ({
     id: i,
     delay: i * 0.07,
@@ -113,7 +109,11 @@ function ParticleElement({
         {particle.imageSrc ? (
           <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
         ) : (
-          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+          <FallbackParticle
+            shape={particle.fallback.shape}
+            color={particle.fallback.color}
+            size={particleSize}
+          />
         )}
       </m.div>
     )
@@ -187,7 +187,11 @@ function ParticleElement({
       {particle.imageSrc ? (
         <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
       ) : (
-        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+        <FallbackParticle
+          shape={particle.fallback.shape}
+          color={particle.fallback.color}
+          size={particleSize}
+        />
       )}
     </m.div>
   )

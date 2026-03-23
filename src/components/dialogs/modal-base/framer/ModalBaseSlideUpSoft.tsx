@@ -38,8 +38,13 @@ function ModalBaseSlideUpSoftComponent({
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.22, 0.61, 0.36, 1] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      transition={{
+        duration: prefersReducedMotion ? 0.01 : durationS,
+        ease: [0.22, 0.61, 0.36, 1],
+      }}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__slide-up-soft"
     >
       <div className="pf-modal-center">
@@ -47,7 +52,10 @@ function ModalBaseSlideUpSoftComponent({
           className={className}
           initial={prefersReducedMotion ? { opacity: 0 } : { y: distance, scale: 0.92, opacity: 0 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { y: 0, scale: 1, opacity: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.22, 0.61, 0.36, 1],
+          }}
           onAnimationComplete={onAnimationComplete}
           style={{ animation: 'none' }}
         >

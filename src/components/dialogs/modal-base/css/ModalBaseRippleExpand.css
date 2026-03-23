@@ -11,24 +11,42 @@
   place-items: center;
   background: transparent;
   opacity: 0;
-  animation: pf-ripple-expand-overlay var(--pf-entrance-duration, 550ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: pf-ripple-expand-overlay var(--pf-entrance-duration, 550ms)
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: opacity;
 }
 
 .pf-modal-ripple__content {
   opacity: 0;
-  animation: pf-ripple-expand-content var(--pf-entrance-duration, 550ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: pf-ripple-expand-content var(--pf-entrance-duration, 550ms)
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes pf-ripple-expand-overlay {
-  from { opacity: 0; }
-  to { opacity: var(--pf-overlay-opacity, 1); }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--pf-overlay-opacity, 1);
+  }
 }
 
 @keyframes pf-ripple-expand-content {
-  0% { transform: scale(0); opacity: 0; }
-  45% { transform: scale(1.05); opacity: 0.8; }
-  70% { transform: scale(0.98); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(0.98);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

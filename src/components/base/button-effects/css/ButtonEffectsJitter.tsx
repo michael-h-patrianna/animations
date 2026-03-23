@@ -7,7 +7,10 @@ import './ButtonEffectsJitter.css'
 
 function ButtonEffectsJitterComponent() {
   return (
-    <div data-animation-id="button-effects__jitter" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div
+      data-animation-id="button-effects__jitter"
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
       <button type="button" className="pf-btn pf-btn--primary pf-jitter">
         Click Me!
       </button>

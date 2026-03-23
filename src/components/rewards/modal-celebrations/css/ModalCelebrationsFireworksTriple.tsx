@@ -213,7 +213,11 @@ function TrailLayer({ trails, maxW, maxH }: { trails: Trail[]; maxW: number; max
       {trails.map((t) => (
         <span
           key={t.id}
-          className={t.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${t.shape}`}
+          className={
+            t.imageUrl !== undefined
+              ? undefined
+              : `pf-celebration__confetti pf-celebration__confetti--${t.shape}`
+          }
           style={
             {
               left: `calc(50% + ${t.cx}px)`,
@@ -232,7 +236,11 @@ function TrailLayer({ trails, maxW, maxH }: { trails: Trail[]; maxW: number; max
           }
         >
           {t.imageUrl !== undefined && (
-            <img src={t.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+            <img
+              src={t.imageUrl}
+              alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+            />
           )}
         </span>
       ))}
@@ -276,7 +284,7 @@ function ModalCelebrationsFireworksTripleComponent({
     if (onComplete === undefined) return
     const maxTime = Math.max(
       ...trails.map((t) => t.delay + t.dur),
-      ...sparkles.map((s) => s.delay + 1000),
+      ...sparkles.map((s) => s.delay + 1000)
     )
     const timer = setTimeout(onComplete, maxTime + 50)
     return () => clearTimeout(timer)

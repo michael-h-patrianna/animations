@@ -77,10 +77,7 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
   )
 
   return (
-    <div
-      className="pf-update-indicator"
-      data-animation-id="update-indicators__home-icon-dot-radar"
-    >
+    <div className="pf-update-indicator" data-animation-id="update-indicators__home-icon-dot-radar">
       {children !== undefined ? (
         <div className="pf-update-indicator__anchor">
           {children}

@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__squeeze',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__squeeze',
   title: 'Squeeze',
-  description: 'Compression effect that squashes element for tactile button feedback. CSS: apply .pf-squeeze to any element. Configurable duration.',
+  description:
+    'Compression effect that squashes element for tactile button feedback. Wraps any element. Configurable duration.',
   tier: 1,
 }

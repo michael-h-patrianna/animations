@@ -20,7 +20,8 @@
 }
 
 .pf-press-squash--active {
-  animation: pf-press-squash var(--pf-press-squash-duration, 300ms) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: pf-press-squash var(--pf-press-squash-duration, 300ms)
+    cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   will-change: transform;
 }
 

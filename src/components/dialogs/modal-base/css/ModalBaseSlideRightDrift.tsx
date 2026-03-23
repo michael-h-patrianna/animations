@@ -34,8 +34,15 @@ function ModalBaseSlideRightDriftComponent({
   } as React.CSSProperties
 
   return (
-    <div className="pf-modal-slide-right" style={cssVars} data-animation-id="modal-base__slide-right-drift">
-      <div className={`pf-modal-slide-right__content${className ? ` ${className}` : ''}`} style={style}>
+    <div
+      className="pf-modal-slide-right"
+      style={cssVars}
+      data-animation-id="modal-base__slide-right-drift"
+    >
+      <div
+        className={`pf-modal-slide-right__content${className ? ` ${className}` : ''}`}
+        style={style}
+      >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>

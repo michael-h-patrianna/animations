@@ -10,12 +10,7 @@ import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
-import {
-  CONFETTI_SHAPES,
-  pickRandom,
-  randBetween,
-  type ConfettiShape,
-} from '../utils'
+import { CONFETTI_SHAPES, pickRandom, randBetween, type ConfettiShape } from '../utils'
 
 /* ─── Props ─── */
 
@@ -60,7 +55,12 @@ const DEFAULT_DURATION_MS = 2800
 
 /* ─── Generators ─── */
 
-function makeParticles(count: number, colors: readonly string[], images: readonly string[], timeScale: number): Particle[] {
+function makeParticles(
+  count: number,
+  colors: readonly string[],
+  images: readonly string[],
+  timeScale: number
+): Particle[] {
   const hasImages = images.length > 0
   return Array.from({ length: count }, (_, i) => {
     const layer: 'bg' | 'fg' = i < Math.floor(count / 3) ? 'bg' : 'fg'
@@ -132,14 +132,16 @@ function ConfettiPiece({ p, maxW, maxH }: { p: Particle; maxW: number; maxH: num
 
   return (
     <m.span
-      className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+      className={
+        p.imageUrl !== undefined
+          ? undefined
+          : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`
+      }
       style={{
         left: '50%',
         marginLeft: p.originX,
         top: '55%',
-        ...(p.imageUrl !== undefined
-          ? { width: maxW, height: maxH }
-          : { background: p.color }),
+        ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
@@ -186,7 +188,11 @@ function ConfettiPiece({ p, maxW, maxH }: { p: Particle; maxW: number; maxH: num
       }}
     >
       {p.imageUrl !== undefined && (
-        <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+        <img
+          src={p.imageUrl}
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+        />
       )}
     </m.span>
   )
@@ -207,7 +213,12 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 1.1, 0], opacity: [0, 0.9, 0.3, 0.7, 0] }}
-      transition={{ duration: 1.4 * timeScale, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
+      transition={{
+        duration: 1.4 * timeScale,
+        delay: s.delay,
+        times: [0, 0.2, 0.5, 0.75, 1],
+        ease: 'easeOut',
+      }}
     />
   )
 }
@@ -216,7 +227,7 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
 
 function ModalCelebrationsConfettiBurstComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
-  colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  colors = CELEBRATION_COLORS_HEX,
   particleImages = [],
   particleMaxWidth = 24,
   particleMaxHeight = 24,
@@ -225,7 +236,10 @@ function ModalCelebrationsConfettiBurstComponent({
 }: ModalCelebrationsConfettiBurstProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
 
-  const particles = useMemo(() => makeParticles(particleCount, colors, particleImages, timeScale), [particleCount, colors, particleImages, timeScale])
+  const particles = useMemo(
+    () => makeParticles(particleCount, colors, particleImages, timeScale),
+    [particleCount, colors, particleImages, timeScale]
+  )
   const sparkles = useMemo(() => makeSparkles(timeScale), [timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
   const fgParts = useMemo(() => particles.filter((p) => p.layer === 'fg'), [particles])
@@ -234,7 +248,7 @@ function ModalCelebrationsConfettiBurstComponent({
     if (onComplete === undefined) return
     const maxTime = Math.max(
       ...particles.map((p) => p.delay + p.dur),
-      ...sparkles.map((s) => s.delay + 1.4 * timeScale),
+      ...sparkles.map((s) => s.delay + 1.4 * timeScale)
     )
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)

@@ -11,25 +11,44 @@
   place-items: center;
   background: transparent;
   opacity: 0;
-  animation: pf-zoom-elastic-overlay var(--pf-entrance-duration, 720ms) cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation: pf-zoom-elastic-overlay var(--pf-entrance-duration, 720ms)
+    cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   will-change: opacity;
 }
 
 .pf-modal-zoom-elastic__content {
   opacity: 0;
-  animation: pf-zoom-elastic-content var(--pf-entrance-duration, 720ms) cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation: pf-zoom-elastic-content var(--pf-entrance-duration, 720ms)
+    cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes pf-zoom-elastic-overlay {
-  from { opacity: 0; }
-  to { opacity: var(--pf-overlay-opacity, 1); }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--pf-overlay-opacity, 1);
+  }
 }
 
 @keyframes pf-zoom-elastic-content {
-  0% { transform: scale(0); opacity: 0; }
-  40% { transform: scale(1.15); opacity: 1; }
-  60% { transform: scale(0.95); }
-  80% { transform: scale(1.05); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  80% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

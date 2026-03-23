@@ -11,23 +11,35 @@
   place-items: center;
   background: transparent;
   opacity: 0;
-  animation: pf-tv-turn-on-overlay var(--pf-entrance-duration, 650ms) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: pf-tv-turn-on-overlay var(--pf-entrance-duration, 650ms)
+    cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   will-change: opacity;
 }
 
 .pf-modal-tv-on__content {
   opacity: 0;
   transform-origin: center;
-  animation: pf-tv-turn-on-content var(--pf-entrance-duration, 650ms) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: pf-tv-turn-on-content var(--pf-entrance-duration, 650ms)
+    cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes pf-tv-turn-on-overlay {
-  from { opacity: 0; }
-  to { opacity: var(--pf-overlay-opacity, 1); }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--pf-overlay-opacity, 1);
+  }
 }
 
 @keyframes pf-tv-turn-on-content {
-  from { transform: scaleX(2) scaleY(0); opacity: 0; }
-  to { transform: scaleX(1) scaleY(1); opacity: 1; }
+  from {
+    transform: scaleX(2) scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
+  }
 }

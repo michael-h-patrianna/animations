@@ -36,8 +36,12 @@
   position: absolute;
   top: var(--pf-sdr-inner-inset);
   left: var(--pf-sdr-inner-inset);
-  width: calc(var(--pf-sdr-size) - var(--pf-sdr-inner-inset) * 2 - var(--pf-sdr-inner-thickness) * 2);
-  height: calc(var(--pf-sdr-size) - var(--pf-sdr-inner-inset) * 2 - var(--pf-sdr-inner-thickness) * 2);
+  width: calc(
+    var(--pf-sdr-size) - var(--pf-sdr-inner-inset) * 2 - var(--pf-sdr-inner-thickness) * 2
+  );
+  height: calc(
+    var(--pf-sdr-size) - var(--pf-sdr-inner-inset) * 2 - var(--pf-sdr-inner-thickness) * 2
+  );
   border: var(--pf-sdr-inner-thickness) solid var(--pf-sdr-secondary-faded);
   border-bottom-color: var(--pf-sdr-secondary);
   border-radius: 50%;

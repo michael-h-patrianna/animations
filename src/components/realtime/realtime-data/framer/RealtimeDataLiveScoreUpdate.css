@@ -1,5 +1,5 @@
 /* Layout overrides for LiveScoreUpdate — framer variant */
 
-[data-animation-id="realtime-data__live-score-update"] {
+[data-animation-id='realtime-data__live-score-update'] {
   min-height: 140px;
 }

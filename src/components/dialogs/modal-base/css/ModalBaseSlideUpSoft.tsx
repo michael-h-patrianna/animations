@@ -34,8 +34,15 @@ function ModalBaseSlideUpSoftComponent({
   } as React.CSSProperties
 
   return (
-    <div className="pf-modal-slide-up" style={cssVars} data-animation-id="modal-base__slide-up-soft">
-      <div className={`pf-modal-slide-up__content${className ? ` ${className}` : ''}`} style={style}>
+    <div
+      className="pf-modal-slide-up"
+      style={cssVars}
+      data-animation-id="modal-base__slide-up-soft"
+    >
+      <div
+        className={`pf-modal-slide-up__content${className ? ` ${className}` : ''}`}
+        style={style}
+      >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>

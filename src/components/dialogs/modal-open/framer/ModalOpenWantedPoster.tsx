@@ -34,7 +34,9 @@ interface UnrollData {
 function computeUnroll(modalHeight: number, force: number): UnrollData {
   const f = Math.max(0, Math.min(1, force))
 
-  const h: number[] = [], opacity: number[] = [], times: number[] = []
+  const h: number[] = [],
+    opacity: number[] = [],
+    times: number[] = []
   const unrollEnd = 0.78
 
   for (let i = 0; i <= SAMPLES; i++) {
@@ -42,9 +44,8 @@ function computeUnroll(modalHeight: number, force: number): UnrollData {
     const tl = t * unrollEnd
 
     // Gravity-inspired: ease-in (inertia) → accelerating → ease-out at end
-    const unrollT = t < 0.25
-      ? t * t / 0.25 * 0.25
-      : 0.25 + (1 - Math.pow(1 - (t - 0.25) / 0.75, 1.8)) * 0.75
+    const unrollT =
+      t < 0.25 ? ((t * t) / 0.25) * 0.25 : 0.25 + (1 - Math.pow(1 - (t - 0.25) / 0.75, 1.8)) * 0.75
 
     h.push(modalHeight * Math.min(1, unrollT))
     times.push(tl)
@@ -56,10 +57,18 @@ function computeUnroll(modalHeight: number, force: number): UnrollData {
   const bounce = 1 - (0.01 + f * 0.04)
   const micro = 1 + (overshoot - 1) * 0.15
 
-  h.push(modalHeight * overshoot); opacity.push(1); times.push(unrollEnd + 0.05)
-  h.push(modalHeight * bounce); opacity.push(1); times.push(unrollEnd + 0.11)
-  h.push(modalHeight * micro); opacity.push(1); times.push(unrollEnd + 0.16)
-  h.push(modalHeight); opacity.push(1); times.push(1)
+  h.push(modalHeight * overshoot)
+  opacity.push(1)
+  times.push(unrollEnd + 0.05)
+  h.push(modalHeight * bounce)
+  opacity.push(1)
+  times.push(unrollEnd + 0.11)
+  h.push(modalHeight * micro)
+  opacity.push(1)
+  times.push(unrollEnd + 0.16)
+  h.push(modalHeight)
+  opacity.push(1)
+  times.push(1)
 
   return { h, opacity, times }
 }
@@ -90,13 +99,21 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
     return computeUnroll(modalHeight, s.force)
   }, [modalHeight, s.force])
 
-  const closeData = useMemo(() => openData ? reverseUnroll(openData) : null, [openData])
+  const closeData = useMemo(() => (openData ? reverseUnroll(openData) : null), [openData])
   const data = s.isClosing ? closeData : openData
 
   return (
-    <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__wanted-poster">
+    <div
+      ref={s.containerRef}
+      className="pf-mo-container"
+      data-animation-id="modal-open__wanted-poster"
+    >
       {s.isDemoMode && s.phase === 'idle' && (
-        <SharedDemoTriggers presets={PRESETS} btnRefs={s.btnRefs} onClickButton={s.handleDemoClick} />
+        <SharedDemoTriggers
+          presets={PRESETS}
+          buttonListRef={s.buttonListRef}
+          onClickButton={s.handleDemoClick}
+        />
       )}
 
       {s.isVisible && (
@@ -105,14 +122,23 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
             className="pf-mo-overlay"
             initial={{ opacity: s.isClosing ? s.overlayOpacity : 0 }}
             animate={{ opacity: s.isClosing ? 0 : s.overlayOpacity }}
-            transition={{ duration: reduced ? 0.01 : s.activeDurationS * 0.5, ease: [0, 0, 0.2, 1] }}
+            transition={{
+              duration: reduced ? 0.01 : s.activeDurationS * 0.5,
+              ease: [0, 0, 0.2, 1],
+            }}
             style={{ animation: 'none' }}
           />
           <div className="pf-mo-stage">
             <m.div
               key={s.isClosing ? 'close' : 'open'}
               className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
-              style={{ ...props.style, width: '100%', maxWidth: 420, overflow: 'hidden', animation: 'none' }}
+              style={{
+                ...props.style,
+                width: '100%',
+                maxWidth: 420,
+                overflow: 'hidden',
+                animation: 'none',
+              }}
               initial={
                 reduced
                   ? { height: s.isClosing ? 'auto' : 0, opacity: s.isClosing ? 1 : 0 }
@@ -137,7 +163,10 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
               onAnimationComplete={s.isClosing ? s.handleCloseComplete : s.handleOpenComplete}
             >
               <div ref={contentRef} style={{ position: 'relative' }}>
-                <ModalOpenPlaceholder revealed={s.contentRevealed} onClose={s.isDemoMode ? s.handleClose : undefined}>
+                <ModalOpenPlaceholder
+                  revealed={s.contentRevealed}
+                  onClose={s.isDemoMode ? s.handleClose : undefined}
+                >
                   {props.children}
                 </ModalOpenPlaceholder>
               </div>

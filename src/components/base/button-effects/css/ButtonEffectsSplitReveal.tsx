@@ -55,7 +55,9 @@ function ButtonEffectsSplitRevealComponent({
   return (
     <div
       data-animation-id="button-effects__split-reveal"
-      style={duration !== 800 ? { ['--pf-split-reveal-duration' as string]: `${duration}ms` } : undefined}
+      style={
+        duration !== 800 ? { ['--pf-split-reveal-duration' as string]: `${duration}ms` } : undefined
+      }
     >
       <button
         type="button"

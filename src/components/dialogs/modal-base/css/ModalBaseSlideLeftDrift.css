@@ -12,19 +12,25 @@
   place-items: center;
   background: transparent;
   opacity: 0;
-  animation: pf-slide-left-drift-overlay var(--pf-entrance-duration, 420ms) cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation: pf-slide-left-drift-overlay var(--pf-entrance-duration, 420ms)
+    cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   will-change: opacity;
 }
 
 .pf-modal-slide-left__content {
   opacity: 0;
-  animation: pf-slide-left-drift-content var(--pf-entrance-duration, 420ms) cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation: pf-slide-left-drift-content var(--pf-entrance-duration, 420ms)
+    cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   will-change: transform, opacity;
 }
 
 @keyframes pf-slide-left-drift-overlay {
-  from { opacity: 0; }
-  to { opacity: var(--pf-overlay-opacity, 1); }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--pf-overlay-opacity, 1);
+  }
 }
 
 @keyframes pf-slide-left-drift-content {

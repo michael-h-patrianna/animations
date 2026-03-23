@@ -71,7 +71,7 @@ function generateParticles(
 function sampleBezierPath(
   start: ResolvedPoint,
   end: ResolvedPoint,
-  curvature: number,
+  curvature: number
 ): { xPath: number[]; yPath: number[] } {
   const dx = end.x - start.x
   const dy = end.y - start.y
@@ -93,8 +93,12 @@ function sampleBezierPath(
     const linear = i / WAYPOINTS
     const t = linear * linear // ease-in: slow start, accelerating pull
     const mt = 1 - t
-    xPath.push(mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x)
-    yPath.push(mt * mt * mt * start.y + 3 * mt * mt * t * cp1y + 3 * mt * t * t * cp2y + t * t * t * end.y)
+    xPath.push(
+      mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x
+    )
+    yPath.push(
+      mt * mt * mt * start.y + 3 * mt * mt * t * cp1y + 3 * mt * t * t * cp2y + t * t * t * end.y
+    )
   }
 
   return { xPath, yPath }
@@ -162,7 +166,11 @@ function ParticleElement({
         {particle.imageSrc ? (
           <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
         ) : (
-          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+          <FallbackParticle
+            shape={particle.fallback.shape}
+            color={particle.fallback.color}
+            size={particleSize}
+          />
         )}
       </m.div>
     )
@@ -180,14 +188,25 @@ function ParticleElement({
           scale: [0, 1, 0.3],
           opacity: [0, 1, 0],
         }}
-        transition={{ duration: durationS * 0.5, delay: particle.delay, ease: 'easeOut' as const, times: [0, 1], scale: { times: [0, 0.3, 1] }, opacity: { times: [0, 0.3, 1] } }}
+        transition={{
+          duration: durationS * 0.5,
+          delay: particle.delay,
+          ease: 'easeOut' as const,
+          times: [0, 1],
+          scale: { times: [0, 0.3, 1] },
+          opacity: { times: [0, 0.3, 1] },
+        }}
         onAnimationComplete={isLast ? onFinish : undefined}
         aria-hidden="true"
       >
         {particle.imageSrc ? (
           <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
         ) : (
-          <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+          <FallbackParticle
+            shape={particle.fallback.shape}
+            color={particle.fallback.color}
+            size={particleSize}
+          />
         )}
       </m.div>
     )
@@ -206,7 +225,10 @@ function ParticleElement({
   const pullStart = 0.25
   const pullRange = 1.0 - pullStart
   const fullTimes = [
-    0, 0.03, 0.12, 0.25,
+    0,
+    0.03,
+    0.12,
+    0.25,
     ...Array.from({ length: WAYPOINTS + 1 }, (_, i) => pullStart + (i / WAYPOINTS) * pullRange),
   ]
 
@@ -235,7 +257,11 @@ function ParticleElement({
       {particle.imageSrc ? (
         <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
       ) : (
-        <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+        <FallbackParticle
+          shape={particle.fallback.shape}
+          color={particle.fallback.color}
+          size={particleSize}
+        />
       )}
     </m.div>
   )
@@ -289,11 +315,18 @@ function CollectionEffectsCoinMagnetComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => { onComplete?.() }, [onComplete])
+  const handleComplete = useCallback(() => {
+    onComplete?.()
+  }, [onComplete])
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
 
   return (
-    <div ref={containerRef} className="pf-coin-magnet" data-animation-id="collection-effects__coin-magnet" style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}>
+    <div
+      ref={containerRef}
+      className="pf-coin-magnet"
+      data-animation-id="collection-effects__coin-magnet"
+      style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
+    >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-magnet__stage" aria-hidden="true">
           {!isBurst && <ArrivalFlash target={toPt} />}

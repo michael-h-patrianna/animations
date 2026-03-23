@@ -31,11 +31,7 @@
 
 .pf-progress-milestones .pf-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--milestone-fill-from) 0%,
-    var(--milestone-fill-to) 100%
-  );
+  background: linear-gradient(90deg, var(--milestone-fill-from) 0%, var(--milestone-fill-to) 100%);
   border-radius: inherit;
   transform-origin: left center;
   position: relative;
@@ -71,9 +67,17 @@
 }
 
 @keyframes milestone-ring-pulse {
-  0% { transform: scale(0.8); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: scale(2); opacity: 0; }
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 
 /* Labels */

@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/loading-states-css?animation=loading-states__skeleton-horizontal',
   title: 'Skeleton Horizontal',
   description:
-    'Even-width shimmer lines using .pf-skeleton class. Add class to any element for custom layouts — no React needed.',
+    'Even-width shimmer lines composed from Skeleton primitives. Use SharedSkeleton.tsx (framer) or .pf-skeleton class (CSS) for custom layouts.',
   infinite: true,
   tier: 4,
 } satisfies AnimationMetadata

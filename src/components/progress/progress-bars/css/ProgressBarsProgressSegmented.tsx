@@ -30,10 +30,7 @@ export function ProgressBarsProgressSegmented({
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <div
-            className="pf-progress-fill"
-            style={{ transform: `scaleX(${displayProgress})` }}
-          />
+          <div className="pf-progress-fill" style={{ transform: `scaleX(${displayProgress})` }} />
         </div>
 
         {/* Gap dividers */}
@@ -75,8 +72,7 @@ export function ProgressBarsProgressSegmented({
                   flex: 1,
                   position: 'relative',
                   borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
-                  border:
-                    '1px solid var(--segmented-segment-border)',
+                  border: '1px solid var(--segmented-segment-border)',
                   background: 'var(--segmented-segment-bg)',
                   overflow: 'hidden',
                 }}

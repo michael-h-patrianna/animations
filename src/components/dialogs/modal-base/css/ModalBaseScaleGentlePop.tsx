@@ -32,7 +32,10 @@ function ModalBaseScaleGentlePopComponent({
       style={cssVars}
       data-animation-id="modal-base__scale-gentle-pop"
     >
-      <div className={`pf-modal-scale-pop__content${className ? ` ${className}` : ''}`} style={style}>
+      <div
+        className={`pf-modal-scale-pop__content${className ? ` ${className}` : ''}`}
+        style={style}
+      >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>

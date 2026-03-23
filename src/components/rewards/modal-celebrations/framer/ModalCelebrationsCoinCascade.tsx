@@ -179,7 +179,17 @@ function makeShimmers(colors: readonly string[], timeScale: number): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinPiece({ c, coinSrc, maxW, maxH }: { c: Coin; coinSrc?: string; maxW: number; maxH: number }) {
+function CoinPiece({
+  c,
+  coinSrc,
+  maxW,
+  maxH,
+}: {
+  c: Coin
+  coinSrc?: string
+  maxW: number
+  maxH: number
+}) {
   const w = coinSrc !== undefined ? Math.min(c.size, maxW) : c.size
   const h = coinSrc !== undefined ? Math.min(c.size, maxH) : c.size
   return (
@@ -215,7 +225,11 @@ function CoinPiece({ c, coinSrc, maxW, maxH }: { c: Coin; coinSrc?: string; maxW
       }}
     >
       {coinSrc !== undefined ? (
-        <img src={coinSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+        <img
+          src={coinSrc}
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+        />
       ) : (
         <FallbackCoin size={c.size} />
       )}
@@ -242,7 +256,12 @@ function TrailDot({ t, timeScale }: { t: Mote; timeScale: number }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 0], opacity: [0, 0.8, 0.3, 0] }}
-      transition={{ duration: 0.4 * timeScale, delay: t.delay, times: [0, 0.3, 0.6, 1], ease: 'easeOut' }}
+      transition={{
+        duration: 0.4 * timeScale,
+        delay: t.delay,
+        times: [0, 0.3, 0.6, 1],
+        ease: 'easeOut',
+      }}
     />
   )
 }
@@ -266,7 +285,12 @@ function ImpactBurst({ imp, timeScale }: { imp: Mote; timeScale: number }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 2, 0.8, 0], opacity: [0, 1, 0.4, 0] }}
-      transition={{ duration: 0.35 * timeScale, delay: imp.delay, times: [0, 0.25, 0.6, 1], ease: 'easeOut' }}
+      transition={{
+        duration: 0.35 * timeScale,
+        delay: imp.delay,
+        times: [0, 0.25, 0.6, 1],
+        ease: 'easeOut',
+      }}
     />
   )
 }
@@ -288,7 +312,12 @@ function ShimmerDot({ s, timeScale }: { s: Mote; timeScale: number }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 0.4, 0.9, 0], opacity: [0, 0.8, 0.2, 0.5, 0] }}
-      transition={{ duration: 0.7 * timeScale, delay: s.delay, times: [0, 0.2, 0.45, 0.7, 1], ease: 'easeOut' }}
+      transition={{
+        duration: 0.7 * timeScale,
+        delay: s.delay,
+        times: [0, 0.2, 0.45, 0.7, 1],
+        ease: 'easeOut',
+      }}
     />
   )
 }
@@ -311,7 +340,12 @@ function SourceGlow({ x, delay, timeScale }: { x: number; delay: number; timeSca
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.5, 0.35, 0.12, 0] }}
-      transition={{ duration: 1.5 * timeScale, delay, times: [0, 0.12, 0.35, 0.65, 1], ease: 'easeOut' }}
+      transition={{
+        duration: 1.5 * timeScale,
+        delay,
+        times: [0, 0.12, 0.35, 0.65, 1],
+        ease: 'easeOut',
+      }}
     />
   )
 }
@@ -324,20 +358,26 @@ function ModalCelebrationsCoinCascadeComponent({
   particleImages = [],
   particleMaxWidth = 24,
   particleMaxHeight = 24,
-  colors = GOLDEN_COLORS_HEX as unknown as string[],
+  colors = GOLDEN_COLORS_HEX,
   duration,
   onComplete,
 }: ModalCelebrationsCoinCascadeProps) {
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
-  const effectiveColors = colors.length > 0 ? colors : (GOLDEN_COLORS as unknown as string[])
+  const effectiveColors = colors.length > 0 ? colors : GOLDEN_COLORS
   const hasParticleImages = particleImages.length > 0
   const resolveCoinSrc = (index: number): string | undefined =>
     hasParticleImages ? particleImages[index % particleImages.length] : coinImage
 
   const coins = useMemo(() => makeCoins(coinCount, timeScale), [coinCount, timeScale])
   const trails = useMemo(() => makeTrails(effectiveColors, timeScale), [effectiveColors, timeScale])
-  const impacts = useMemo(() => makeImpacts(effectiveColors, timeScale), [effectiveColors, timeScale])
-  const shimmers = useMemo(() => makeShimmers(effectiveColors, timeScale), [effectiveColors, timeScale])
+  const impacts = useMemo(
+    () => makeImpacts(effectiveColors, timeScale),
+    [effectiveColors, timeScale]
+  )
+  const shimmers = useMemo(
+    () => makeShimmers(effectiveColors, timeScale),
+    [effectiveColors, timeScale]
+  )
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
 
@@ -345,7 +385,7 @@ function ModalCelebrationsCoinCascadeComponent({
     if (onComplete === undefined) return
     const maxTime = Math.max(
       ...coins.map((c) => c.delay + c.dur),
-      ...shimmers.map((s) => s.delay + 0.7 * timeScale),
+      ...shimmers.map((s) => s.delay + 0.7 * timeScale)
     )
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
@@ -358,12 +398,24 @@ function ModalCelebrationsCoinCascadeComponent({
       ))}
       <div className="pf-celebration__depth-bg" style={{ perspective: 300 }}>
         {bgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} coinSrc={resolveCoinSrc(c.id)} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+          <CoinPiece
+            key={c.id}
+            c={c}
+            coinSrc={resolveCoinSrc(c.id)}
+            maxW={particleMaxWidth}
+            maxH={particleMaxHeight}
+          />
         ))}
       </div>
       <div className="pf-celebration__depth-fg" style={{ perspective: 300 }}>
         {fgCoins.map((c) => (
-          <CoinPiece key={c.id} c={c} coinSrc={resolveCoinSrc(c.id)} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+          <CoinPiece
+            key={c.id}
+            c={c}
+            coinSrc={resolveCoinSrc(c.id)}
+            maxW={particleMaxWidth}
+            maxH={particleMaxHeight}
+          />
         ))}
       </div>
       <div className="pf-celebration__effects">

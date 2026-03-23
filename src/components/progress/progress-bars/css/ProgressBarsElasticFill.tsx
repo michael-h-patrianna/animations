@@ -22,11 +22,7 @@ import './ProgressBarsElasticFill.css'
 
 const DEMO_TARGET = 0.7
 
-export function ProgressBarsElasticFill({
-  progress,
-  className,
-  style,
-}: ProgressBarProps) {
+export function ProgressBarsElasticFill({ progress, className, style }: ProgressBarProps) {
   const isControlled = progress !== undefined
   const target = progress ?? DEMO_TARGET
   const percent = Math.round(target * 100)

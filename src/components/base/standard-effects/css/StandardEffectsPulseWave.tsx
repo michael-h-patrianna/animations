@@ -7,7 +7,12 @@ import './StandardEffectsPulseWave.css'
 
 function StandardEffectsPulseWaveComponent() {
   return (
-    <div className="pf-pulse-wave" data-animation-id="standard-effects__pulse-wave" role="img" aria-label="Pulse wave">
+    <div
+      className="pf-pulse-wave"
+      data-animation-id="standard-effects__pulse-wave"
+      role="img"
+      aria-label="Pulse wave"
+    >
       <div className="pf-pulse-wave__core" />
     </div>
   )

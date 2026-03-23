@@ -16,10 +16,7 @@ function MockToastContent({ duration = DEFAULT_PLACEHOLDER_DURATION }: { duratio
       <div className="pf-toast__title">Action Complete</div>
       <div className="pf-toast__body">Your changes have been saved</div>
       <div className="pf-toast__progress">
-        <div
-          className="pf-toast__progress-bar"
-          style={{ animationDuration: `${duration}ms` }}
-        />
+        <div className="pf-toast__progress-bar" style={{ animationDuration: `${duration}ms` }} />
       </div>
     </div>
   )

@@ -38,7 +38,9 @@ export function ProgressBarsProgressThin({
       style={style}
       data-animation-id="progress-bars__progress-thin"
     >
-      {label !== undefined && label !== '' && <div className="pf-progress-thin__label">{label}</div>}
+      {label !== undefined && label !== '' && (
+        <div className="pf-progress-thin__label">{label}</div>
+      )}
 
       <div className="track-container" style={{ position: 'relative' }}>
         {/* Halo glow (demo only) */}

@@ -27,7 +27,11 @@ function ModalBaseShatterAssembleComponent({
   } as React.CSSProperties
 
   return (
-    <div className="pf-modal-shatter" style={cssVars} data-animation-id="modal-base__shatter-assemble">
+    <div
+      className="pf-modal-shatter"
+      style={cssVars}
+      data-animation-id="modal-base__shatter-assemble"
+    >
       <div className={`pf-modal-shatter__content${className ? ` ${className}` : ''}`} style={style}>
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

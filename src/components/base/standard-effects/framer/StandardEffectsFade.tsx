@@ -16,10 +16,7 @@ interface StandardEffectsFadeProps {
   duration?: number
 }
 
-function StandardEffectsFadeComponent({
-  children,
-  duration = 800,
-}: StandardEffectsFadeProps) {
+function StandardEffectsFadeComponent({ children, duration = 800 }: StandardEffectsFadeProps) {
   return (
     <m.div
       data-animation-id="standard-effects__fade"

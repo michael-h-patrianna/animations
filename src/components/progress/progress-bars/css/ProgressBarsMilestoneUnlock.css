@@ -72,11 +72,7 @@
   height: 10px;
   max-width: calc(100% - 20px);
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--unlock-fill-from),
-    var(--unlock-fill-to)
-  );
+  background: linear-gradient(90deg, var(--unlock-fill-from), var(--unlock-fill-to));
   box-shadow: 0 0 12px var(--unlock-fill-glow);
   transition: width 0.18s cubic-bezier(0.24, 0.78, 0.28, 0.98);
 }
@@ -122,9 +118,16 @@
 }
 
 @keyframes milestone-unlock-icon-open-css {
-  0%, 100% { transform: scale(1) rotate(0); }
-  35% { transform: scale(1.07) rotate(-4deg); }
-  70% { transform: scale(1.03) rotate(4deg); }
+  0%,
+  100% {
+    transform: scale(1) rotate(0);
+  }
+  35% {
+    transform: scale(1.07) rotate(-4deg);
+  }
+  70% {
+    transform: scale(1.03) rotate(4deg);
+  }
 }
 
 .milestone-unlock-lock-wave-css {
@@ -136,6 +139,12 @@
 }
 
 @keyframes milestone-unlock-wave-css {
-  from { transform: scale(0.35); opacity: 0.72; }
-  to { transform: scale(1.6); opacity: 0; }
+  from {
+    transform: scale(0.35);
+    opacity: 0.72;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }

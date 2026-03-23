@@ -160,7 +160,7 @@ function ParticleElement({
               scale: {
                 duration: durationS,
                 delay: particle.delay,
-                times: [0, 0.07, 0.40, 1],
+                times: [0, 0.07, 0.4, 1],
                 ease: ['easeOut', 'easeOut', 'linear'],
               },
               opacity: {

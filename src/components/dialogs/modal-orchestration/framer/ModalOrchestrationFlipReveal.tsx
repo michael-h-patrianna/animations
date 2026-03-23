@@ -64,7 +64,8 @@ function ModalOrchestrationFlipRevealComponent({
   const prefersReducedMotion = useReducedMotion()
   const [flippedCards, setFlippedCards] = useState<Set<number>>(() => new Set())
 
-  const renderItems = items !== undefined && items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
+  const renderItems =
+    items !== undefined && items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   const staggerS = stagger / 1000
   const flipS = flipDuration / 1000
@@ -151,12 +152,8 @@ function ModalOrchestrationFlipRevealComponent({
               }}
               style={{ transformStyle: 'preserve-3d', animation: 'none' }}
             >
-              <div className="pf-flip-reveal__face pf-flip-reveal__front">
-                {item.front}
-              </div>
-              <div className="pf-flip-reveal__face pf-flip-reveal__back">
-                {item.back}
-              </div>
+              <div className="pf-flip-reveal__face pf-flip-reveal__front">{item.front}</div>
+              <div className="pf-flip-reveal__face pf-flip-reveal__back">{item.back}</div>
             </m.div>
           </m.div>
         )

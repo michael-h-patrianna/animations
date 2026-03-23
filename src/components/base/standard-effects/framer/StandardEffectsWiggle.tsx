@@ -16,10 +16,7 @@ interface StandardEffectsWiggleProps {
   duration?: number
 }
 
-function StandardEffectsWiggleComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsWiggleProps) {
+function StandardEffectsWiggleComponent({ children, duration = 1000 }: StandardEffectsWiggleProps) {
   return (
     <m.div
       data-animation-id="standard-effects__wiggle"

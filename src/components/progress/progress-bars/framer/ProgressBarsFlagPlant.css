@@ -71,11 +71,7 @@
   height: 10px;
   max-width: calc(100% - 20px);
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--flag-fill-from),
-    var(--flag-fill-to)
-  );
+  background: linear-gradient(90deg, var(--flag-fill-from), var(--flag-fill-to));
   box-shadow: 0 0 12px var(--flag-fill-glow);
 }
 

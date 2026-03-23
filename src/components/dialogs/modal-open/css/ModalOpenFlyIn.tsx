@@ -52,33 +52,38 @@ function DemoTriggers({
   containerRef: React.RefObject<HTMLDivElement | null>
   onSelect: (config: DemoConfig) => void
 }) {
-  const btnRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const buttonListRef = useRef<(HTMLButtonElement | null)[]>([])
 
-  const handleClick = useCallback((i: number) => {
-    const container = containerRef.current
-    const btn = btnRefs.current[i]
-    if (!container || !btn) return
+  const handleClick = useCallback(
+    (i: number) => {
+      const container = containerRef.current
+      const btn = buttonListRef.current[i]
+      if (!container || !btn) return
 
-    const btnRect = btn.getBoundingClientRect()
-    const containerRect = container.getBoundingClientRect()
-    const cfg = DEMO_BUTTONS[i]!
-    onSelect({
-      from: {
-        x: btnRect.left + btnRect.width / 2 - containerRect.left,
-        y: btnRect.top + btnRect.height / 2 - containerRect.top,
-      },
-      force: cfg.force,
-      duration: cfg.duration,
-      reveal: cfg.reveal,
-    })
-  }, [containerRef, onSelect])
+      const btnRect = btn.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
+      const cfg = DEMO_BUTTONS[i]!
+      onSelect({
+        from: {
+          x: btnRect.left + btnRect.width / 2 - containerRect.left,
+          y: btnRect.top + btnRect.height / 2 - containerRect.top,
+        },
+        force: cfg.force,
+        duration: cfg.duration,
+        reveal: cfg.reveal,
+      })
+    },
+    [containerRef, onSelect]
+  )
 
   return (
     <div className="pf-mo-trigger-row">
       {DEMO_BUTTONS.map((btn, i) => (
         <button
           key={btn.label}
-          ref={(el) => { btnRefs.current[i] = el }}
+          ref={(el) => {
+            buttonListRef.current[i] = el
+          }}
           type="button"
           className="pf-mo-trigger"
           onClick={() => handleClick(i)}
@@ -142,7 +147,9 @@ function ModalOpenFlyInComponent({
   }, [])
 
   // Content reveal timer
-  const revealDelayMs = Math.round(effectiveDuration * Math.max(0, Math.min(100, effectiveReveal)) / 100)
+  const revealDelayMs = Math.round(
+    (effectiveDuration * Math.max(0, Math.min(100, effectiveReveal))) / 100
+  )
   useEffect(() => {
     if (phase !== 'opening' || !fromPoint) return
     const timer = setTimeout(() => setContentRevealed(true), revealDelayMs)
@@ -163,9 +170,10 @@ function ModalOpenFlyInComponent({
     setContentRevealed(false)
   }, [])
 
-  const distance = fromPoint && center
-    ? Math.sqrt((fromPoint.x - center.x) ** 2 + (fromPoint.y - center.y) ** 2)
-    : 0
+  const distance =
+    fromPoint && center
+      ? Math.sqrt((fromPoint.x - center.x) ** 2 + (fromPoint.y - center.y) ** 2)
+      : 0
   const isArc = distance >= MIN_ARC_DISTANCE
 
   const openTrajectory = useMemo(() => {
@@ -211,14 +219,18 @@ function ModalOpenFlyInComponent({
     }
 
     return () => anim.cancel()
-  }, [activeTrajectory, activeDuration, isVisible, isArc, isClosing, handleFlyOutComplete, onAnimationComplete])
+  }, [
+    activeTrajectory,
+    activeDuration,
+    isVisible,
+    isArc,
+    isClosing,
+    handleFlyOutComplete,
+    onAnimationComplete,
+  ])
 
   return (
-    <div
-      ref={containerRef}
-      className="pf-mo-container"
-      data-animation-id="modal-open__fly-in"
-    >
+    <div ref={containerRef} className="pf-mo-container" data-animation-id="modal-open__fly-in">
       {isDemoMode && phase === 'idle' && (
         <DemoTriggers containerRef={containerRef} onSelect={handleDemoSelect} />
       )}
@@ -227,10 +239,12 @@ function ModalOpenFlyInComponent({
         <>
           <div
             className={`pf-mo-overlay ${isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`}
-            style={{
-              '--pf-mo-overlay-opacity': overlayOpacity,
-              '--pf-mo-duration': `${activeDuration}ms`,
-            } as React.CSSProperties}
+            style={
+              {
+                '--pf-mo-overlay-opacity': overlayOpacity,
+                '--pf-mo-duration': `${activeDuration}ms`,
+              } as React.CSSProperties
+            }
           />
 
           <div className="pf-mo-stage">

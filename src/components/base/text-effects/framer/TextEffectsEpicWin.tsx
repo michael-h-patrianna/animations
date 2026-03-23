@@ -13,9 +13,7 @@ interface TextEffectsEpicWinProps {
   text?: string
 }
 
-function TextEffectsEpicWinComponent({
-  text = 'EPIC WIN',
-}: TextEffectsEpicWinProps) {
+function TextEffectsEpicWinComponent({ text = 'EPIC WIN' }: TextEffectsEpicWinProps) {
   const chars = useMemo(() => text.split(''), [text])
 
   return (

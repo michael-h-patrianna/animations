@@ -36,13 +36,30 @@ interface FlagPlantProps extends MilestoneProgressBarProps {
 }
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0.16 }, { position: 0.34 }, { position: 0.52 }, { position: 0.70 }, { position: 0.88 },
+  { position: 0.16 },
+  { position: 0.34 },
+  { position: 0.52 },
+  { position: 0.7 },
+  { position: 0.88 },
 ]
 
 function FlagFallback({ active }: { active: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: active ? 1 : 0.45 }}>
-      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" fill={active ? 'currentColor' : 'none'} />
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ opacity: active ? 1 : 0.45 }}
+    >
+      <path
+        d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
+        fill={active ? 'currentColor' : 'none'}
+      />
       <line x1="4" y1="22" x2="4" y2="15" />
     </svg>
   )
@@ -85,9 +102,18 @@ export function ProgressBarsFlagPlant({
         <m.div
           className="flag-plant-bar-fill"
           initial={isDemo ? { width: '0%' } : false}
-          animate={isDemo
-            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 1.5 } }
-            : { width: `${displayProgress * 100}%` }
+          animate={
+            isDemo
+              ? {
+                  width: '100%',
+                  transition: {
+                    duration: demoDuration / 1000,
+                    ease: 'linear',
+                    repeat: Infinity,
+                    repeatDelay: 1.5,
+                  },
+                }
+              : { width: `${displayProgress * 100}%` }
           }
           transition={isDemo ? undefined : { duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
           style={{ animation: 'none' }}

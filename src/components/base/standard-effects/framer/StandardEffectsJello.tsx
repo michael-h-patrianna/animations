@@ -16,10 +16,7 @@ interface StandardEffectsJelloProps {
   duration?: number
 }
 
-function StandardEffectsJelloComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsJelloProps) {
+function StandardEffectsJelloComponent({ children, duration = 1000 }: StandardEffectsJelloProps) {
   return (
     <m.div
       data-animation-id="standard-effects__jello"

@@ -5,7 +5,8 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__pulse',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__pulse',
   title: 'Pulse',
-  description: 'Rhythmic scale pulse with expanding glow overlay. CSS: apply .pf-pulse to any element. Configurable cycle duration and glow color.',
+  description:
+    'Rhythmic scale pulse with expanding glow overlay. Wraps any element. Configurable cycle duration.',
   infinite: true,
   tier: 1,
 }

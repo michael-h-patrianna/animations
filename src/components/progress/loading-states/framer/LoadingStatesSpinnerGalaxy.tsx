@@ -9,10 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion, easeInOut } from 'motion/react'
 import { memo } from 'react'
 
-import {
-  SPINNER_GALAXY_COLOR,
-  SPINNER_GALAXY_STARS,
-} from '../SharedDefaults'
+import { SPINNER_GALAXY_COLOR, SPINNER_GALAXY_STARS } from '../SharedDefaults'
 
 interface LoadingStatesSpinnerGalaxyProps {
   /** Overall diameter in px. */
@@ -84,11 +81,7 @@ function LoadingStatesSpinnerGalaxyComponent({
           left: primaryOffset,
           animation: 'none',
         }}
-        animate={
-          prefersReducedMotion
-            ? undefined
-            : { scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }
-        }
+        animate={prefersReducedMotion ? undefined : { scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
         transition={
           prefersReducedMotion
             ? undefined
@@ -105,15 +98,16 @@ function LoadingStatesSpinnerGalaxyComponent({
           right: secondaryOffset,
           animation: 'none',
         }}
-        animate={
-          prefersReducedMotion
-            ? undefined
-            : { scale: [1, 1.3, 1], opacity: [0.4, 1, 0.4] }
-        }
+        animate={prefersReducedMotion ? undefined : { scale: [1, 1.3, 1], opacity: [0.4, 1, 0.4] }}
         transition={
           prefersReducedMotion
             ? undefined
-            : { duration: secondaryPulseDuration, repeat: Infinity, ease: easeInOut, delay: 0.3 / safeSpeed }
+            : {
+                duration: secondaryPulseDuration,
+                repeat: Infinity,
+                ease: easeInOut,
+                delay: 0.3 / safeSpeed,
+              }
         }
       />
     </m.div>

@@ -34,11 +34,18 @@ function ModalBaseGlitchDigitalComponent({
   } as React.CSSProperties
 
   return (
-    <div className="pf-modal-glitch" style={cssVars} data-animation-id="modal-base__tfx-glitchdigital">
+    <div
+      className="pf-modal-glitch"
+      style={cssVars}
+      data-animation-id="modal-base__tfx-glitchdigital"
+    >
       <div className="pf-modal-glitch__stage">
         <div className="pf-modal-glitch__ghost pf-modal-glitch__ghost--green" aria-hidden="true" />
         <div className="pf-modal-glitch__ghost pf-modal-glitch__ghost--pink" aria-hidden="true" />
-        <div className={`pf-modal-glitch__content${className ? ` ${className}` : ''}`} style={style}>
+        <div
+          className={`pf-modal-glitch__content${className ? ` ${className}` : ''}`}
+          style={style}
+        >
           <ModalPlaceholder>{children}</ModalPlaceholder>
         </div>
       </div>

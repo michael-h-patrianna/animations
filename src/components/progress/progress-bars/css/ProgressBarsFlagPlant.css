@@ -70,11 +70,7 @@
   height: 10px;
   max-width: calc(100% - 20px);
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--flag-fill-from),
-    var(--flag-fill-to)
-  );
+  background: linear-gradient(90deg, var(--flag-fill-from), var(--flag-fill-to));
   box-shadow: 0 0 12px var(--flag-fill-glow);
   transition: width 0.18s cubic-bezier(0.24, 0.78, 0.28, 0.98);
 }
@@ -113,10 +109,19 @@
 }
 
 @keyframes flag-plant-marker-sway-css {
-  0%, 100% { transform: scale(1) rotate(0); }
-  35% { transform: scale(1.05) rotate(5deg); }
-  60% { transform: scale(1.02) rotate(-3deg); }
-  80% { transform: scale(1.04) rotate(2deg); }
+  0%,
+  100% {
+    transform: scale(1) rotate(0);
+  }
+  35% {
+    transform: scale(1.05) rotate(5deg);
+  }
+  60% {
+    transform: scale(1.02) rotate(-3deg);
+  }
+  80% {
+    transform: scale(1.04) rotate(2deg);
+  }
 }
 
 .flag-plant-pulse-css {
@@ -131,6 +136,12 @@
 }
 
 @keyframes flag-plant-pulse-css {
-  from { transform: scale(0.3); opacity: 0.74; }
-  to { transform: scale(1.65); opacity: 0; }
+  from {
+    transform: scale(0.3);
+    opacity: 0.74;
+  }
+  to {
+    transform: scale(1.65);
+    opacity: 0;
+  }
 }

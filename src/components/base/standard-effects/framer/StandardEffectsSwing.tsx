@@ -16,10 +16,7 @@ interface StandardEffectsSwingProps {
   duration?: number
 }
 
-function StandardEffectsSwingComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsSwingProps) {
+function StandardEffectsSwingComponent({ children, duration = 1000 }: StandardEffectsSwingProps) {
   return (
     <m.div
       data-animation-id="standard-effects__swing"

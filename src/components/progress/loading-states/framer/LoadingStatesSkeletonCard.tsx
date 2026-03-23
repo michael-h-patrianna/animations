@@ -89,7 +89,7 @@ function LoadingStatesSkeletonCardComponent({
           baseColor={baseColor}
           shimmerColor={shimmerColor}
           speed={speed}
-          delay={(i + 1) * STAGGER_DELAY / safeSpeed}
+          delay={((i + 1) * STAGGER_DELAY) / safeSpeed}
           className="pf-skeleton-card__line"
         />
       ))}

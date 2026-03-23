@@ -32,7 +32,9 @@ function ModalBaseScaleGentlePopComponent({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.12, 0.75, 0.4, 1] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__scale-gentle-pop"
     >
       <div className="pf-modal-center">
@@ -40,7 +42,10 @@ function ModalBaseScaleGentlePopComponent({
           className={className}
           initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0.85, opacity: 0 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { scale: 1, opacity: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.12, 0.75, 0.4, 1] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.12, 0.75, 0.4, 1],
+          }}
           onAnimationComplete={onAnimationComplete}
           style={{ animation: 'none' }}
         >

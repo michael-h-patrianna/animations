@@ -180,7 +180,17 @@ function makeSparkles(): Mote[] {
 
 /* ─── Sub-components ─── */
 
-function CoinLayer({ coins, resolveImg, maxW, maxH }: { coins: Coin[]; resolveImg: (id: number) => string | undefined; maxW: number; maxH: number }) {
+function CoinLayer({
+  coins,
+  resolveImg,
+  maxW,
+  maxH,
+}: {
+  coins: Coin[]
+  resolveImg: (id: number) => string | undefined
+  maxW: number
+  maxH: number
+}) {
   return (
     <>
       {coins.map((c) => {
@@ -215,7 +225,11 @@ function CoinLayer({ coins, resolveImg, maxW, maxH }: { coins: Coin[]; resolveIm
             }}
           >
             {src !== undefined ? (
-              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+              <img
+                src={src}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+              />
             ) : (
               <FallbackCoin size={typeof c.size === 'number' ? c.size : 20} />
             )}
@@ -226,7 +240,17 @@ function CoinLayer({ coins, resolveImg, maxW, maxH }: { coins: Coin[]; resolveIm
   )
 }
 
-function GemLayer({ gems, resolveImg, maxW, maxH }: { gems: Gem[]; resolveImg: (id: number) => string | undefined; maxW: number; maxH: number }) {
+function GemLayer({
+  gems,
+  resolveImg,
+  maxW,
+  maxH,
+}: {
+  gems: Gem[]
+  resolveImg: (id: number) => string | undefined
+  maxW: number
+  maxH: number
+}) {
   return (
     <>
       {gems.map((g) => {
@@ -261,9 +285,17 @@ function GemLayer({ gems, resolveImg, maxW, maxH }: { gems: Gem[]; resolveImg: (
             }}
           >
             {src !== undefined ? (
-              <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+              <img
+                src={src}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+              />
             ) : g.image !== undefined ? (
-              <img src={g.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+              <img
+                src={g.image}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+              />
             ) : (
               <svg
                 width="100%"
@@ -377,7 +409,7 @@ function ModalCelebrationsTreasureParticlesComponent({
     const maxTime = Math.max(
       ...coins.map((c) => (c.delay + c.dur) / 1000),
       ...gems.map((g) => (g.delay + g.dur) / 1000),
-      ...sparkles.map((s) => s.delay + 0.5),
+      ...sparkles.map((s) => s.delay + 0.5)
     )
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
@@ -405,8 +437,18 @@ function ModalCelebrationsTreasureParticlesComponent({
       />
       {/* Background depth */}
       <div className="pf-celebration__depth-bg" style={{ perspective: 200 }}>
-        <CoinLayer coins={bgCoins} resolveImg={resolveCoinImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
-        <GemLayer gems={bgGems} resolveImg={resolveGemImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+        <CoinLayer
+          coins={bgCoins}
+          resolveImg={resolveCoinImg}
+          maxW={particleMaxWidth}
+          maxH={particleMaxHeight}
+        />
+        <GemLayer
+          gems={bgGems}
+          resolveImg={resolveGemImg}
+          maxW={particleMaxWidth}
+          maxH={particleMaxHeight}
+        />
       </div>
       {/* Effects */}
       <div className="pf-celebration__effects">
@@ -415,8 +457,18 @@ function ModalCelebrationsTreasureParticlesComponent({
       </div>
       {/* Foreground depth */}
       <div className="pf-celebration__depth-fg" style={{ perspective: 200 }}>
-        <CoinLayer coins={fgCoins} resolveImg={resolveCoinImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
-        <GemLayer gems={fgGems} resolveImg={resolveGemImg} maxW={particleMaxWidth} maxH={particleMaxHeight} />
+        <CoinLayer
+          coins={fgCoins}
+          resolveImg={resolveCoinImg}
+          maxW={particleMaxWidth}
+          maxH={particleMaxHeight}
+        />
+        <GemLayer
+          gems={fgGems}
+          resolveImg={resolveGemImg}
+          maxW={particleMaxWidth}
+          maxH={particleMaxHeight}
+        />
       </div>
     </div>
   )

@@ -64,12 +64,14 @@ function LoadingStatesSkeletonTileComponent({
     <div
       data-animation-id="loading-states__skeleton-tile"
       className={className !== undefined ? `pf-skeleton-tile ${className}` : 'pf-skeleton-tile'}
-      style={{
-        width,
-        gap,
-        '--pf-skeleton-tile-cols': `repeat(${columns}, 1fr)`,
-        animation: 'none',
-      } as React.CSSProperties}
+      style={
+        {
+          width,
+          gap,
+          '--pf-skeleton-tile-cols': `repeat(${columns}, 1fr)`,
+          animation: 'none',
+        } as React.CSSProperties
+      }
       role="status"
       aria-label="Loading"
     >
@@ -82,7 +84,7 @@ function LoadingStatesSkeletonTileComponent({
           baseColor={baseColor}
           shimmerColor={shimmerColor}
           speed={speed}
-          delay={i * STAGGER_DELAY / safeSpeed}
+          delay={(i * STAGGER_DELAY) / safeSpeed}
         />
       ))}
     </div>

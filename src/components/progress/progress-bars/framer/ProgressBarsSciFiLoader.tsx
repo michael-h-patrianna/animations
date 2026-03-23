@@ -50,9 +50,18 @@ export function ProgressBarsSciFiLoader({
         <m.div
           className="scifi-loader-fill"
           initial={isDemo ? { width: '0%' } : false}
-          animate={isDemo
-            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 0.8 } }
-            : { width: `${percent}%` }
+          animate={
+            isDemo
+              ? {
+                  width: '100%',
+                  transition: {
+                    duration: demoDuration / 1000,
+                    ease: 'linear',
+                    repeat: Infinity,
+                    repeatDelay: 0.8,
+                  },
+                }
+              : { width: `${percent}%` }
           }
           transition={isDemo ? undefined : { type: 'tween', ease: 'linear', duration: 0.05 }}
           style={{ animation: 'none' }}

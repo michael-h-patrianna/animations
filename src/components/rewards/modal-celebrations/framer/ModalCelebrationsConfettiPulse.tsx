@@ -131,7 +131,7 @@ function makeParticles(
   colors: readonly string[],
   images: readonly string[],
   waves: WaveConfig[],
-  timeScale: number,
+  timeScale: number
 ): WaveParticle[] {
   const hasImages = images.length > 0
   const particles: WaveParticle[] = []
@@ -275,13 +275,15 @@ function WaveRing({ wave, timeScale }: { wave: WaveConfig; timeScale: number }) 
 function PulsePiece({ p, maxW, maxH }: { p: WaveParticle; maxW: number; maxH: number }) {
   return (
     <m.span
-      className={p.imageUrl !== undefined ? undefined : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`}
+      className={
+        p.imageUrl !== undefined
+          ? undefined
+          : `pf-celebration__confetti pf-celebration__confetti--${p.shape}`
+      }
       style={{
         left: '50%',
         top: '50%',
-        ...(p.imageUrl !== undefined
-          ? { width: maxW, height: maxH }
-          : { background: p.color }),
+        ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
         transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
@@ -305,7 +307,11 @@ function PulsePiece({ p, maxW, maxH }: { p: WaveParticle; maxW: number; maxH: nu
       }}
     >
       {p.imageUrl !== undefined && (
-        <img src={p.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+        <img
+          src={p.imageUrl}
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+        />
       )}
     </m.span>
   )
@@ -326,7 +332,12 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.5, 1.0, 0], opacity: [0, 0.9, 0.3, 0.65, 0] }}
-      transition={{ duration: 1.2 * timeScale, delay: s.delay, times: [0, 0.2, 0.5, 0.75, 1], ease: 'easeOut' }}
+      transition={{
+        duration: 1.2 * timeScale,
+        delay: s.delay,
+        times: [0, 0.2, 0.5, 0.75, 1],
+        ease: 'easeOut',
+      }}
     />
   )
 }
@@ -335,7 +346,7 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
 
 function ModalCelebrationsConfettiPulseComponent({
   particleCount = DEFAULT_PARTICLE_COUNT,
-  colors = CELEBRATION_COLORS_HEX as unknown as string[],
+  colors = CELEBRATION_COLORS_HEX,
   particleImages = [],
   particleMaxWidth = 24,
   particleMaxHeight = 24,
@@ -347,7 +358,7 @@ function ModalCelebrationsConfettiPulseComponent({
 
   const particles = useMemo(
     () => makeParticles(particleCount, colors, particleImages, waves, timeScale),
-    [particleCount, colors, particleImages, waves, timeScale],
+    [particleCount, colors, particleImages, waves, timeScale]
   )
   const sparkles = useMemo(() => makeSparkles(waves, timeScale), [waves, timeScale])
   const bgParts = useMemo(() => particles.filter((p) => p.layer === 'bg'), [particles])
@@ -357,7 +368,7 @@ function ModalCelebrationsConfettiPulseComponent({
     if (onComplete === undefined) return
     const maxTime = Math.max(
       ...particles.map((p) => p.delay + p.dur),
-      ...sparkles.map((s) => s.delay + 1.2 * timeScale),
+      ...sparkles.map((s) => s.delay + 1.2 * timeScale)
     )
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)

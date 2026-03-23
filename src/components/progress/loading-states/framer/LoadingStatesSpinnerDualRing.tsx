@@ -9,10 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import {
-  SPINNER_DUAL_RING_COLOR,
-  SPINNER_DUAL_RING_SECONDARY,
-} from '../SharedDefaults'
+import { SPINNER_DUAL_RING_COLOR, SPINNER_DUAL_RING_SECONDARY } from '../SharedDefaults'
 
 interface LoadingStatesSpinnerDualRingProps {
   /** Overall diameter in px. */
@@ -56,7 +53,9 @@ function LoadingStatesSpinnerDualRingComponent({
   return (
     <div
       data-animation-id="loading-states__spinner-dual-ring"
-      className={className !== undefined ? `pf-spinner-dual-ring ${className}` : 'pf-spinner-dual-ring'}
+      className={
+        className !== undefined ? `pf-spinner-dual-ring ${className}` : 'pf-spinner-dual-ring'
+      }
       style={{
         width: size,
         height: size,

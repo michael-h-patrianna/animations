@@ -18,10 +18,21 @@ const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
 const DEFAULT_CRITICAL = 10
 
-type HeartbeatLevel = 'pf-heartbeat-normal' | 'pf-heartbeat-calm' | 'pf-heartbeat-mild' | 'pf-heartbeat-elevated' | 'pf-heartbeat-rapid' | 'pf-heartbeat-critical' | 'pf-timer-expired'
+type HeartbeatLevel =
+  | 'pf-heartbeat-normal'
+  | 'pf-heartbeat-calm'
+  | 'pf-heartbeat-mild'
+  | 'pf-heartbeat-elevated'
+  | 'pf-heartbeat-rapid'
+  | 'pf-heartbeat-critical'
+  | 'pf-timer-expired'
 
 /** Original absolute-second thresholds, scaled proportionally to startSeconds */
-function resolveHeartbeatLevel(seconds: number, startSeconds: number, isExpired: boolean): HeartbeatLevel {
+function resolveHeartbeatLevel(
+  seconds: number,
+  startSeconds: number,
+  isExpired: boolean
+): HeartbeatLevel {
   if (isExpired) return 'pf-timer-expired'
   const ratio = startSeconds / 60
   if (seconds <= Math.round(10 * ratio)) return 'pf-heartbeat-critical'
@@ -122,7 +133,11 @@ function TimerEffectsPillCountdownHeartbeatComponent({
     >
       <m.div
         className={`pf-pill-countdown-heartbeat ${heartbeatLevel}`}
-        style={phaseColor !== undefined ? { backgroundColor: phaseColor, animation: 'none' } : { animation: 'none' }}
+        style={
+          phaseColor !== undefined
+            ? { backgroundColor: phaseColor, animation: 'none' }
+            : { animation: 'none' }
+        }
       >
         <m.span
           className="pf-pill-countdown-heartbeat__glow"

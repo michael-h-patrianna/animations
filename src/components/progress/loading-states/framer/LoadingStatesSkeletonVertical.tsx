@@ -59,7 +59,9 @@ function LoadingStatesSkeletonVerticalComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-vertical"
-      className={className !== undefined ? `pf-skeleton-vertical ${className}` : 'pf-skeleton-vertical'}
+      className={
+        className !== undefined ? `pf-skeleton-vertical ${className}` : 'pf-skeleton-vertical'
+      }
       style={{ width, gap, display: 'flex', flexDirection: 'column', animation: 'none' }}
       role="status"
       aria-label="Loading"
@@ -73,7 +75,7 @@ function LoadingStatesSkeletonVerticalComponent({
           baseColor={baseColor}
           shimmerColor={shimmerColor}
           speed={speed}
-          delay={i * STAGGER_DELAY / safeSpeed}
+          delay={(i * STAGGER_DELAY) / safeSpeed}
         />
       ))}
     </div>

@@ -60,10 +60,7 @@ function ModalOrchestrationWizardFadeCrossComponent({
   }, [stagger, duration, distance])
 
   return (
-    <div
-      className="pf-wizard-fade"
-      data-animation-id="modal-orchestration__wizard-fade-cross"
-    >
+    <div className="pf-wizard-fade" data-animation-id="modal-orchestration__wizard-fade-cross">
       <div className="pf-wizard-fade__panels">
         {renderItems.map((child, i) => (
           <div

@@ -73,88 +73,48 @@
 @keyframes pf-coin-magnet-pull {
   /* Emission: appear at source */
   0% {
-    transform: translate(
-        var(--src-x),
-        var(--src-y)
-      )
-      scale(0);
+    transform: translate(var(--src-x), var(--src-y)) scale(0);
     opacity: 0;
   }
   /* Emission: pop to full size, still at source */
   3% {
-    transform: translate(
-        var(--src-x),
-        var(--src-y)
-      )
-      scale(0);
+    transform: translate(var(--src-x), var(--src-y)) scale(0);
     opacity: 0;
   }
   /* Emission complete: arrived at scattered position */
   5% {
-    transform: translate(
-        var(--src-x),
-        var(--src-y)
-      )
-      scale(1);
+    transform: translate(var(--src-x), var(--src-y)) scale(1);
     opacity: 1;
   }
   12% {
-    transform: translate(
-        var(--scatter-x),
-        var(--scatter-y)
-      )
-      scale(1);
+    transform: translate(var(--scatter-x), var(--scatter-y)) scale(1);
     opacity: 1;
   }
   /* Hover: hanging at scattered position, magnetic field gripping */
   25% {
-    transform: translate(
-        var(--scatter-x),
-        var(--scatter-y)
-      )
-      scale(1);
+    transform: translate(var(--scatter-x), var(--scatter-y)) scale(1);
     opacity: 1;
   }
   /* Pull phase: sampled bezier positions with increasing speed */
   45% {
-    transform: translate(
-        var(--pull1-x),
-        var(--pull1-y)
-      )
-      scale(1);
+    transform: translate(var(--pull1-x), var(--pull1-y)) scale(1);
     opacity: 1;
   }
   65% {
-    transform: translate(
-        var(--pull2-x),
-        var(--pull2-y)
-      )
-      scale(1);
+    transform: translate(var(--pull2-x), var(--pull2-y)) scale(1);
     opacity: 1;
   }
   85% {
-    transform: translate(
-        var(--pull3-x),
-        var(--pull3-y)
-      )
-      scale(1);
+    transform: translate(var(--pull3-x), var(--pull3-y)) scale(1);
     opacity: 1;
   }
   /* Impact: shrink and disappear at target */
   95% {
-    transform: translate(
-        var(--target-x),
-        var(--target-y)
-      )
-      scale(0.3);
+    transform: translate(var(--target-x), var(--target-y)) scale(0.3);
     opacity: 1;
   }
   100% {
-    transform: translate(
-        var(--target-x),
-        var(--target-y)
-      )
-      scale(0);
+    transform: translate(var(--target-x), var(--target-y)) scale(0);
     opacity: 0;
   }
 }

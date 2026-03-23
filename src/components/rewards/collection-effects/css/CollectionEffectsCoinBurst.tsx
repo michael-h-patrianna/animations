@@ -99,7 +99,9 @@ function CollectionEffectsCoinBurstComponent({
     return () => clearTimeout(cleanup)
   }, [duration])
 
-  const handleComplete = useCallback(() => { onComplete?.() }, [onComplete])
+  const handleComplete = useCallback(() => {
+    onComplete?.()
+  }, [onComplete])
   useEffect(() => {
     if (onComplete === undefined) return
     const maxDelay = particles.reduce((max, p) => Math.max(max, p.delay), 0)
@@ -108,7 +110,12 @@ function CollectionEffectsCoinBurstComponent({
   }, [particles, duration, handleComplete, onComplete])
 
   return (
-    <div ref={containerRef} className="pf-coin-burst" data-animation-id="collection-effects__coin-burst" style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}>
+    <div
+      ref={containerRef}
+      className="pf-coin-burst"
+      data-animation-id="collection-effects__coin-burst"
+      style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
+    >
       {alive && origin !== null && (
         <div className="pf-coin-burst__stage pf-coin-burst__stage--anticipation" aria-hidden="true">
           <div className="pf-coin-burst__flash" style={{ left: origin.x, top: origin.y }} />
@@ -131,7 +138,11 @@ function CollectionEffectsCoinBurstComponent({
               {particle.imageSrc ? (
                 <img src={particle.imageSrc} alt="" className="pf-coin-burst__particle-image" />
               ) : (
-                <FallbackParticle shape={particle.fallback.shape} color={particle.fallback.color} size={particleSize} />
+                <FallbackParticle
+                  shape={particle.fallback.shape}
+                  color={particle.fallback.color}
+                  size={particleSize}
+                />
               )}
             </div>
           ))}

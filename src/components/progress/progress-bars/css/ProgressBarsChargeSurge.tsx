@@ -9,7 +9,11 @@ import { useDemoProgress } from '../SharedDemoLoop'
 import './ProgressBarsChargeSurge.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0 }, { position: 0.25 }, { position: 0.5 }, { position: 0.75 }, { position: 1 },
+  { position: 0 },
+  { position: 0.25 },
+  { position: 0.5 },
+  { position: 0.75 },
+  { position: 1 },
 ]
 
 export function ProgressBarsChargeSurge({
@@ -33,10 +37,7 @@ export function ProgressBarsChargeSurge({
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <div
-            className="pf-progress-fill"
-            style={{ transform: `scaleX(${displayProgress})` }}
-          />
+          <div className="pf-progress-fill" style={{ transform: `scaleX(${displayProgress})` }} />
         </div>
 
         {milestones.map((ms, i) => {

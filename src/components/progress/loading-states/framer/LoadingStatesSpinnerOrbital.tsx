@@ -43,7 +43,7 @@ function LoadingStatesSpinnerOrbitalComponent({
 
   // Transform origin: satellite rotates around the center of the container.
   // Satellite sits at the top center, so origin is offset by half the container height.
-  const originY = size / 2 - satelliteSize / 2 + (satelliteSize / 2)
+  const originY = size / 2 - satelliteSize / 2 + satelliteSize / 2
 
   return (
     <div
@@ -83,11 +83,7 @@ function LoadingStatesSpinnerOrbitalComponent({
           border: `2px dashed ${ringColor}`,
           animation: 'none',
         }}
-        animate={
-          prefersReducedMotion
-            ? undefined
-            : { rotate: -360, opacity: [0.3, 0.8, 0.3] }
-        }
+        animate={prefersReducedMotion ? undefined : { rotate: -360, opacity: [0.3, 0.8, 0.3] }}
         transition={
           prefersReducedMotion
             ? undefined

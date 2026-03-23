@@ -43,7 +43,12 @@ export function MockOpenModalContent({
         }}
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M12 4L4 12M4 4l8 8"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </svg>
       </button>
       <div
@@ -51,7 +56,8 @@ export function MockOpenModalContent({
         style={{
           opacity: show ? 1 : 0,
           transform: show ? 'translateY(0)' : 'translateY(8px)',
-          transition: 'opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          transition:
+            'opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         }}
       >
         <h4 className="pf-mo-title">Bonus Reward</h4>

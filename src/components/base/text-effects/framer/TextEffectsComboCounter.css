@@ -84,9 +84,7 @@
 .pf-combo__text-char {
   display: inline-block;
   color: var(--pf-combo-amber);
-  --pf-combo-text-shadow:
-    0 2px 4px rgb(0 0 0 / 40%),
-    0 0 8px rgb(245 158 11 / 50%);
+  --pf-combo-text-shadow: 0 2px 4px rgb(0 0 0 / 40%), 0 0 8px rgb(245 158 11 / 50%);
   text-shadow: var(--pf-combo-text-shadow);
   transform-origin: center;
 }
@@ -110,9 +108,7 @@
   font-weight: 700;
   color: var(--pf-combo-green);
   letter-spacing: 3px;
-  --pf-combo-bonus-shadow:
-    0 0 10px rgb(16 185 129 / 60%),
-    0 1px 3px var(--pf-combo-shadow);
+  --pf-combo-bonus-shadow: 0 0 10px rgb(16 185 129 / 60%), 0 1px 3px var(--pf-combo-shadow);
   text-shadow: var(--pf-combo-bonus-shadow);
   margin-top: 8px;
 }

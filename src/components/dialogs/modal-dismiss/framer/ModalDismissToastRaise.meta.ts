@@ -5,6 +5,7 @@ export const metadata: AnimationMetadata = {
   urlSlugFramer: '/modal-dismiss-framer?animation=modal-dismiss__toast-raise',
   urlSlugCss: '/modal-dismiss-css?animation=modal-dismiss__toast-raise',
   title: 'Toast Rise Up',
-  description: 'Wraps content with a rise-from-below entrance and upward exit. Configurable timeout via duration prop.',
+  description:
+    'Wraps content with a rise-from-below entrance and upward exit. Configurable timeout via duration prop.',
   tier: 2,
 }

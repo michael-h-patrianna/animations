@@ -58,7 +58,9 @@ function LoadingStatesSkeletonHorizontalComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-horizontal"
-      className={className !== undefined ? `pf-skeleton-horizontal ${className}` : 'pf-skeleton-horizontal'}
+      className={
+        className !== undefined ? `pf-skeleton-horizontal ${className}` : 'pf-skeleton-horizontal'
+      }
       style={{ width, gap, display: 'flex', flexDirection: 'column', animation: 'none' }}
       role="status"
       aria-label="Loading"
@@ -72,7 +74,7 @@ function LoadingStatesSkeletonHorizontalComponent({
           baseColor={baseColor}
           shimmerColor={shimmerColor}
           speed={speed}
-          delay={i * STAGGER_DELAY / safeSpeed}
+          delay={(i * STAGGER_DELAY) / safeSpeed}
         />
       ))}
     </div>

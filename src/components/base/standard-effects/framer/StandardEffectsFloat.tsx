@@ -16,10 +16,7 @@ interface StandardEffectsFloatProps {
   duration?: number
 }
 
-function StandardEffectsFloatComponent({
-  children,
-  duration = 6000,
-}: StandardEffectsFloatProps) {
+function StandardEffectsFloatComponent({ children, duration = 6000 }: StandardEffectsFloatProps) {
   return (
     <m.div
       data-animation-id="standard-effects__float"

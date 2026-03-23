@@ -26,10 +26,7 @@ interface ButtonEffectsRippleProps {
   duration?: number
 }
 
-function ButtonEffectsRippleComponent({
-  children,
-  duration = 520,
-}: ButtonEffectsRippleProps) {
+function ButtonEffectsRippleComponent({ children, duration = 520 }: ButtonEffectsRippleProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextIdRef = useRef(0)

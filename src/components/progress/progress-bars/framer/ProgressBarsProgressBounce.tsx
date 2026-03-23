@@ -26,11 +26,7 @@ import { easeOut } from 'motion/react'
 import { useEffect, useState } from 'react'
 import type { ProgressBarProps } from '../SharedTypes'
 
-export function ProgressBarsProgressBounce({
-  progress,
-  className,
-  style,
-}: ProgressBarProps) {
+export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {
   const isDemo = progress === undefined
   const target = progress ?? 1
   const [showParticles, setShowParticles] = useState(false)
@@ -141,25 +137,27 @@ export function ProgressBarsProgressBounce({
               </m.div>
             </m.div>
 
-            {(['--bounce-accent-60', '--bounce-accent-40', '--bounce-accent-20'] as const).map((v, i) => (
-              <m.div
-                key={`wave-${i}`}
-                style={{
-                  position: 'absolute',
-                  right: 0,
-                  top: '50%',
-                  y: '-50%',
-                  width: 4,
-                  height: '100%',
-                  background: `var(${v})`,
-                  pointerEvents: 'none',
-                  opacity: 0,
-                }}
-                variants={waveVariants(i * 0.05)}
-                initial="initial"
-                animate="animate"
-              />
-            ))}
+            {(['--bounce-accent-60', '--bounce-accent-40', '--bounce-accent-20'] as const).map(
+              (v, i) => (
+                <m.div
+                  key={`wave-${i}`}
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '50%',
+                    y: '-50%',
+                    width: 4,
+                    height: '100%',
+                    background: `var(${v})`,
+                    pointerEvents: 'none',
+                    opacity: 0,
+                  }}
+                  variants={waveVariants(i * 0.05)}
+                  initial="initial"
+                  animate="animate"
+                />
+              )
+            )}
 
             {showParticles &&
               Array.from({ length: 5 }).map((_, i) => {
@@ -175,9 +173,7 @@ export function ProgressBarsProgressBounce({
                       width: 4,
                       height: 4,
                       background:
-                        i % 2 === 0
-                          ? 'var(--bounce-accent)'
-                          : 'var(--bounce-accent-dark)',
+                        i % 2 === 0 ? 'var(--bounce-accent)' : 'var(--bounce-accent-dark)',
                       borderRadius: '50%',
                       pointerEvents: 'none',
                     }}

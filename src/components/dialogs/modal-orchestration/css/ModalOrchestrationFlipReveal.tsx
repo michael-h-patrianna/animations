@@ -63,7 +63,8 @@ function ModalOrchestrationFlipRevealComponent({
   const [flippedCards, setFlippedCards] = useState<Set<number>>(() => new Set())
   const cardsRef = useRef<(HTMLDivElement | null)[]>([])
 
-  const renderItems = items !== undefined && items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
+  const renderItems =
+    items !== undefined && items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   const toggleFlip = useCallback((index: number) => {
     setFlippedCards((prev) => {
@@ -107,12 +108,8 @@ function ModalOrchestrationFlipRevealComponent({
               className={`pf-flip-reveal__inner${isFlipped ? ' pf-flip-reveal__inner--flipped' : ''}`}
               style={{ transitionDuration: `${flipDuration}ms` }}
             >
-              <div className="pf-flip-reveal__face pf-flip-reveal__front">
-                {item.front}
-              </div>
-              <div className="pf-flip-reveal__face pf-flip-reveal__back">
-                {item.back}
-              </div>
+              <div className="pf-flip-reveal__face pf-flip-reveal__front">{item.front}</div>
+              <div className="pf-flip-reveal__face pf-flip-reveal__back">{item.back}</div>
             </div>
           </div>
         )

@@ -7,11 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '../SharedTypes'
 import './ProgressBarsZoomedProgress.css'
 
-export function ProgressBarsZoomedProgress({
-  progress,
-  className,
-  style,
-}: ProgressBarProps) {
+export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {
   const isControlled = progress !== undefined
   const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])
@@ -88,16 +84,22 @@ export function ProgressBarsZoomedProgress({
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
           <div className="pf-zoomed-progress__fill" style={{ width: `${progress1Width}%` }} />
         </div>
-        <div className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] === true ? ' reached' : ''}`}>
+        <div
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] === true ? ' reached' : ''}`}
+        >
           <span>1</span>
         </div>
-        <div className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] === true ? ' reached' : ''}`}>
+        <div
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] === true ? ' reached' : ''}`}
+        >
           <span>2</span>
         </div>
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--two">
           <div className="pf-zoomed-progress__fill" style={{ width: `${progress2Width}%` }} />
         </div>
-        <div className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] === true ? ' reached' : ''}`}>
+        <div
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] === true ? ' reached' : ''}`}
+        >
           <span>3</span>
         </div>
       </div>

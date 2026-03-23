@@ -42,18 +42,20 @@ function LoadingStatesRingMultiComponent({
     <div
       data-animation-id="loading-states__ring-multi"
       className={className !== undefined ? `pf-ring-multi ${className}` : 'pf-ring-multi'}
-      style={{
-        '--pf-rm-size': `${size}px`,
-        '--pf-rm-thickness': `${thickness}px`,
-        '--pf-rm-color-1': colors[0],
-        '--pf-rm-color-2': colors[1],
-        '--pf-rm-color-3': colors[2],
-        '--pf-rm-inner-size': `${innerSize}px`,
-        '--pf-rm-middle-size': `${middleSize}px`,
-        '--pf-rm-duration-1': `${1.2 / safeSpeed}s`,
-        '--pf-rm-duration-2': `${1.8 / safeSpeed}s`,
-        '--pf-rm-duration-3': `${2.4 / safeSpeed}s`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--pf-rm-size': `${size}px`,
+          '--pf-rm-thickness': `${thickness}px`,
+          '--pf-rm-color-1': colors[0],
+          '--pf-rm-color-2': colors[1],
+          '--pf-rm-color-3': colors[2],
+          '--pf-rm-inner-size': `${innerSize}px`,
+          '--pf-rm-middle-size': `${middleSize}px`,
+          '--pf-rm-duration-1': `${1.2 / safeSpeed}s`,
+          '--pf-rm-duration-2': `${1.8 / safeSpeed}s`,
+          '--pf-rm-duration-3': `${2.4 / safeSpeed}s`,
+        } as React.CSSProperties
+      }
       role="status"
       aria-label="Loading"
     >

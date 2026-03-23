@@ -23,7 +23,10 @@ import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
 import { useDemoProgress } from '../SharedDemoLoop'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0.2 }, { position: 0.4 }, { position: 0.6 }, { position: 0.8 },
+  { position: 0.2 },
+  { position: 0.4 },
+  { position: 0.6 },
+  { position: 0.8 },
 ]
 
 export function ProgressBarsCrystalNodes({

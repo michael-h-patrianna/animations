@@ -91,10 +91,7 @@ function TextEffectsXpNumberPopComponent({
   formatRef.current = formatValue
 
   const range = to - from
-  const particles = useMemo(
-    () => calculateParticles(range, maxParticles),
-    [range, maxParticles]
-  )
+  const particles = useMemo(() => calculateParticles(range, maxParticles), [range, maxParticles])
 
   useEffect(() => {
     const startTime = performance.now()
@@ -150,7 +147,9 @@ function TextEffectsXpNumberPopComponent({
 
       {/* Main number with labels */}
       <div className="tfx-xp-number-wrapper">
-        {prefix !== undefined && <span className="tfx-xp-label tfx-xp-label--prefix">{prefix}</span>}
+        {prefix !== undefined && (
+          <span className="tfx-xp-label tfx-xp-label--prefix">{prefix}</span>
+        )}
         <span className="tfx-xp-number-value">{formatRef.current(count)}</span>
         {suffix !== undefined && <span className="tfx-xp-label">{suffix}</span>}
       </div>

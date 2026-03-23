@@ -74,11 +74,7 @@ function SkeletonComponent({
         backgroundSize: '200% 100%',
         animation: 'none',
       }}
-      animate={
-        prefersReducedMotion
-          ? undefined
-          : { backgroundPosition: ['200% 0', '-200% 0'] }
-      }
+      animate={prefersReducedMotion ? undefined : { backgroundPosition: ['200% 0', '-200% 0'] }}
       transition={
         prefersReducedMotion
           ? undefined

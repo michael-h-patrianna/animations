@@ -60,15 +60,11 @@ function LoadingStatesDotsRiseComponent({
             background: color,
             animation: 'none',
           }}
-          animate={
-            prefersReducedMotion
-              ? { opacity: [0.3, 1, 0.3] }
-              : { y: [0, -riseHeight, 0] }
-          }
+          animate={prefersReducedMotion ? { opacity: [0.3, 1, 0.3] } : { y: [0, -riseHeight, 0] }}
           transition={{
             duration,
             repeat: Infinity,
-            delay: i * 0.15 / safeSpeed,
+            delay: (i * 0.15) / safeSpeed,
           }}
         />
       ))}

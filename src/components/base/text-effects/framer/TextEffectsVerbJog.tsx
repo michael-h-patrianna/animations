@@ -13,9 +13,7 @@ interface TextEffectsVerbJogProps {
   text?: string
 }
 
-function TextEffectsVerbJogComponent({
-  text = 'LOREM IPSUM DOLOR',
-}: TextEffectsVerbJogProps) {
+function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbJogProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (

@@ -19,10 +19,21 @@ const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
 const DEFAULT_CRITICAL = 10
 
-type GlitchLevel = '' | 'pf-glitch-minimal' | 'pf-glitch-subtle' | 'pf-glitch-mild' | 'pf-glitch-moderate' | 'pf-glitch-severe' | 'pf-timer-expired'
+type GlitchLevel =
+  | ''
+  | 'pf-glitch-minimal'
+  | 'pf-glitch-subtle'
+  | 'pf-glitch-mild'
+  | 'pf-glitch-moderate'
+  | 'pf-glitch-severe'
+  | 'pf-timer-expired'
 
 /** Original absolute-second thresholds, scaled proportionally to startSeconds */
-function resolveGlitchLevel(seconds: number, startSeconds: number, isExpired: boolean): GlitchLevel {
+function resolveGlitchLevel(
+  seconds: number,
+  startSeconds: number,
+  isExpired: boolean
+): GlitchLevel {
   if (isExpired) return 'pf-timer-expired'
   const ratio = startSeconds / 60
   if (seconds <= Math.round(10 * ratio)) return 'pf-glitch-severe'

@@ -15,12 +15,25 @@ interface MilestoneUnlockProps extends MilestoneProgressBarProps {
 }
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
-  { position: 0.18 }, { position: 0.38 }, { position: 0.58 }, { position: 0.78 }, { position: 0.94 },
+  { position: 0.18 },
+  { position: 0.38 },
+  { position: 0.58 },
+  { position: 0.78 },
+  { position: 0.94 },
 ]
 
 function LockFallback({ unlocked }: { unlocked: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
       <path d={unlocked ? 'M7 11V7a5 5 0 0 1 9.9-1' : 'M7 11V7a5 5 0 0 1 10 0v4'} />
     </svg>
@@ -81,7 +94,9 @@ export function ProgressBarsMilestoneUnlock({
                   style={{ animationDelay: `${i * 0.02}s` }}
                 />
               ) : (
-                <span className={`milestone-unlock-lock-icon-css milestone-unlock-lock-icon--fallback${isUnlocked ? ' open' : ' closed'}`}>
+                <span
+                  className={`milestone-unlock-lock-icon-css milestone-unlock-lock-icon--fallback${isUnlocked ? ' open' : ' closed'}`}
+                >
                   <LockFallback unlocked={isUnlocked} />
                 </span>
               )}

@@ -16,10 +16,7 @@ interface StandardEffectsSpinProps {
   duration?: number
 }
 
-function StandardEffectsSpinComponent({
-  children,
-  duration = 800,
-}: StandardEffectsSpinProps) {
+function StandardEffectsSpinComponent({ children, duration = 800 }: StandardEffectsSpinProps) {
   return (
     <m.div
       data-animation-id="standard-effects__spin"

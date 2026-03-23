@@ -27,7 +27,7 @@ export interface CelebrationBaseProps {
    * - Coin effects: golden palette (gold, amber, cream)
    * Accepts any valid CSS color string (hex, rgb, hsl).
    */
-  colors?: string[]
+  colors?: readonly string[]
 
   /**
    * Image URLs for particles. Each particle is randomly assigned an image from the array.
@@ -64,10 +64,4 @@ export const CELEBRATION_COLORS_HEX = [
 ] as const
 
 /** Golden palette for coin/treasure effects — hex values for standalone use. */
-export const GOLDEN_COLORS_HEX = [
-  '#ffd700',
-  '#d97706',
-  '#fde68a',
-  '#fbbf24',
-  '#ffc107',
-] as const
+export const GOLDEN_COLORS_HEX = ['#ffd700', '#d97706', '#fde68a', '#fbbf24', '#ffc107'] as const

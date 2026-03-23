@@ -38,17 +38,27 @@ function ModalBaseFlip3dComponent({
       className="pf-modal-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.175, 0.885, 0.32, 1] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      transition={{
+        duration: prefersReducedMotion ? 0.01 : durationS,
+        ease: [0.175, 0.885, 0.32, 1],
+      }}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__flip-3d"
     >
       <div className="pf-modal-center" style={{ perspective }}>
         <m.div
           className={className}
           style={{ transformStyle: 'preserve-3d', animation: 'none' }}
-          initial={prefersReducedMotion ? { opacity: 0 } : { rotateY: 180, scale: 0.65, opacity: 0 }}
+          initial={
+            prefersReducedMotion ? { opacity: 0 } : { rotateY: 180, scale: 0.65, opacity: 0 }
+          }
           animate={prefersReducedMotion ? { opacity: 1 } : { rotateY: 0, scale: 1, opacity: 1 }}
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: [0.175, 0.885, 0.32, 1] }}
+          transition={{
+            duration: prefersReducedMotion ? 0.01 : durationS,
+            ease: [0.175, 0.885, 0.32, 1],
+          }}
           onAnimationComplete={onAnimationComplete}
         >
           <ModalPlaceholder>{children}</ModalPlaceholder>

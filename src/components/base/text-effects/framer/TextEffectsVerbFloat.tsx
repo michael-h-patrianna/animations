@@ -13,13 +13,15 @@ interface TextEffectsVerbFloatProps {
   text?: string
 }
 
-function TextEffectsVerbFloatComponent({
-  text = 'LOREM IPSUM DOLOR',
-}: TextEffectsVerbFloatProps) {
+function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbFloatProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="pf-verb-float" data-animation-id="text-effects__verb-floating" aria-label={text}>
+    <div
+      className="pf-verb-float"
+      data-animation-id="text-effects__verb-floating"
+      aria-label={text}
+    >
       <div className="pf-verb-float__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span

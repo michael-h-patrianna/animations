@@ -73,11 +73,7 @@
   height: 10px;
   max-width: calc(100% - 20px);
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--unlock-fill-from),
-    var(--unlock-fill-to)
-  );
+  background: linear-gradient(90deg, var(--unlock-fill-from), var(--unlock-fill-to));
   box-shadow: 0 0 12px var(--unlock-fill-glow);
 }
 

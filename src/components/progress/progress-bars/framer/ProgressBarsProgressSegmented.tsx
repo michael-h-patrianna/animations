@@ -115,8 +115,7 @@ export function ProgressBarsProgressSegmented({
                   flex: 1,
                   position: 'relative',
                   borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
-                  border:
-                    '1px solid var(--segmented-segment-border)',
+                  border: '1px solid var(--segmented-segment-border)',
                   background: 'var(--segmented-segment-bg)',
                   overflow: 'hidden',
                 }}
@@ -138,8 +137,7 @@ export function ProgressBarsProgressSegmented({
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background:
-                        'var(--segmented-fill-from)',
+                      background: 'var(--segmented-fill-from)',
                     }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: [0, 1, 0] }}

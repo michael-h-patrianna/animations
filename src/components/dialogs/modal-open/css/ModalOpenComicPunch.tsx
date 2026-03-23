@@ -11,8 +11,8 @@ import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
 import '../shared.css'
 import './shared-css-animations.css'
 import {
+  computeComicPunchCloseTrajectory,
   computeComicPunchTrajectory,
-  reverseExtended,
   type ModalOpenProps,
 } from '../SharedTypes'
 
@@ -31,12 +31,16 @@ function ModalOpenComicPunchComponent(props: ModalOpenProps) {
     return computeComicPunchTrajectory(s.fromPoint, s.center, s.force)
   }, [s.fromPoint, s.center, s.force])
 
-  const closeTraj = useMemo(() => openTraj ? reverseExtended(openTraj) : null, [openTraj])
-  const traj = s.isClosing ? closeTraj : openTraj
+  const closeTraj = useMemo(
+    () => (s.fromPoint && s.center ? computeComicPunchCloseTrajectory(s.fromPoint, s.center, s.force) : null),
+    [s.fromPoint, s.center, s.force]
+  )
+  const { isVisible, isClosing, activeDurationMs, handleCloseComplete, handleOpenComplete } = s
+  const traj = isClosing ? closeTraj : openTraj
 
   useEffect(() => {
     const el = modalRef.current
-    if (!el || !traj || !s.isVisible) return
+    if (!el || !traj || !isVisible) return
 
     const keyframes: Keyframe[] = traj.times.map((t, i) => ({
       offset: t,
@@ -44,22 +48,54 @@ function ModalOpenComicPunchComponent(props: ModalOpenProps) {
       opacity: traj.opacity[i],
     }))
 
-    const anim = el.animate(keyframes, { duration: s.activeDurationMs, fill: 'forwards', easing: 'linear' })
-    anim.onfinish = () => { if (s.isClosing) s.handleCloseComplete(); else s.handleOpenComplete() }
+    const anim = el.animate(keyframes, {
+      duration: activeDurationMs,
+      fill: 'forwards',
+      easing: 'linear',
+    })
+    anim.onfinish = () => {
+      if (isClosing) handleCloseComplete()
+      else handleOpenComplete()
+    }
     return () => anim.cancel()
-  }, [traj, s.activeDurationMs, s.isVisible, s.isClosing, s.handleCloseComplete, s.handleOpenComplete])
+  }, [traj, activeDurationMs, isVisible, isClosing, handleCloseComplete, handleOpenComplete])
 
   return (
-    <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__comic-punch">
+    <div
+      ref={s.containerRef}
+      className="pf-mo-container"
+      data-animation-id="modal-open__comic-punch"
+    >
       {s.isDemoMode && s.phase === 'idle' && (
-        <SharedDemoTriggers presets={PRESETS} btnRefs={s.btnRefs} onClickButton={s.handleDemoClick} />
+        <SharedDemoTriggers
+          presets={PRESETS}
+          buttonListRef={s.buttonListRef}
+          onClickButton={s.handleDemoClick}
+        />
       )}
       {s.isVisible && traj !== null && (
         <>
-          <div className={`pf-mo-overlay ${s.isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`} style={{ '--pf-mo-overlay-opacity': s.overlayOpacity, '--pf-mo-duration': `${s.activeDurationMs}ms` } as React.CSSProperties} />
+          <div
+            className={`pf-mo-overlay ${s.isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`}
+            style={
+              {
+                '--pf-mo-overlay-opacity': s.overlayOpacity,
+                '--pf-mo-duration': `${s.activeDurationMs}ms`,
+              } as React.CSSProperties
+            }
+          />
           <div className="pf-mo-stage">
-            <div ref={modalRef} className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`} style={props.style}>
-              <ModalOpenPlaceholder revealed={s.contentRevealed} onClose={s.isDemoMode ? s.handleClose : undefined}>{props.children}</ModalOpenPlaceholder>
+            <div
+              ref={modalRef}
+              className={`pf-mo-modal${props.className ? ` ${props.className}` : ''}`}
+              style={props.style}
+            >
+              <ModalOpenPlaceholder
+                revealed={s.contentRevealed}
+                onClose={s.isDemoMode ? s.handleClose : undefined}
+              >
+                {props.children}
+              </ModalOpenPlaceholder>
             </div>
           </div>
         </>

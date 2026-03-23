@@ -44,13 +44,15 @@ function LoadingStatesDotsRiseComponent({
     <div
       data-animation-id="loading-states__dots-rise"
       className={className !== undefined ? `pf-dots-rise ${className}` : 'pf-dots-rise'}
-      style={{
-        '--pf-dr-dot-size': `${dotSize}px`,
-        '--pf-dr-color': color,
-        '--pf-dr-gap': `${gap}px`,
-        '--pf-dr-duration': `${duration}s`,
-        '--pf-dr-rise': `${riseHeight}px`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--pf-dr-dot-size': `${dotSize}px`,
+          '--pf-dr-color': color,
+          '--pf-dr-gap': `${gap}px`,
+          '--pf-dr-duration': `${duration}s`,
+          '--pf-dr-rise': `${riseHeight}px`,
+        } as React.CSSProperties
+      }
       role="status"
       aria-label="Loading"
     >

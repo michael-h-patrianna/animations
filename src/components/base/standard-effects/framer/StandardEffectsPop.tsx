@@ -16,10 +16,7 @@ interface StandardEffectsPopProps {
   duration?: number
 }
 
-function StandardEffectsPopComponent({
-  children,
-  duration = 500,
-}: StandardEffectsPopProps) {
+function StandardEffectsPopComponent({ children, duration = 500 }: StandardEffectsPopProps) {
   return (
     <m.div
       data-animation-id="standard-effects__pop"

@@ -18,7 +18,8 @@
 .pf-split-reveal__top,
 .pf-split-reveal__bottom {
   display: inline-block;
-  transition: transform var(--pf-split-reveal-duration, 800ms) cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: transform var(--pf-split-reveal-duration, 800ms)
+    cubic-bezier(0.68, -0.55, 0.265, 1.55);
   will-change: transform;
 }
 
@@ -28,7 +29,8 @@
   top: 50%;
   transform: translate(-50%, -50%) scale(0);
   font-size: 24px;
-  transition: transform var(--pf-split-reveal-duration, 800ms) cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: transform var(--pf-split-reveal-duration, 800ms)
+    cubic-bezier(0.68, -0.55, 0.265, 1.55);
   will-change: transform;
 }
 

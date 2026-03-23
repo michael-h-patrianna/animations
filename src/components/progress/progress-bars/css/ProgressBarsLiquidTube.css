@@ -53,8 +53,12 @@
 }
 
 @keyframes liquid-wave {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0%); }
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .liquid-bubble-css {
@@ -67,12 +71,29 @@
   opacity: 0;
 }
 
-.bubble-1 { left: 20%; animation: liquid-bubble 3s ease-in infinite; }
-.bubble-2 { left: 50%; animation: liquid-bubble 4s ease-in 1s infinite; }
-.bubble-3 { left: 80%; animation: liquid-bubble 2.5s ease-in 0.5s infinite; }
+.bubble-1 {
+  left: 20%;
+  animation: liquid-bubble 3s ease-in infinite;
+}
+.bubble-2 {
+  left: 50%;
+  animation: liquid-bubble 4s ease-in 1s infinite;
+}
+.bubble-3 {
+  left: 80%;
+  animation: liquid-bubble 2.5s ease-in 0.5s infinite;
+}
 
 @keyframes liquid-bubble {
-  0% { transform: translateY(0); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translateY(-100px); opacity: 0; }
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
 }

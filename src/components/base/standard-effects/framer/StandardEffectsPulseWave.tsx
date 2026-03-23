@@ -37,7 +37,14 @@ function StandardEffectsPulseWaveComponent({
 
   return (
     <div
-      style={{ position: 'relative', width: 160, height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{
+        position: 'relative',
+        width: 160,
+        height: 160,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
       data-animation-id="standard-effects__pulse-wave"
       role="img"
       aria-label="Pulse wave"

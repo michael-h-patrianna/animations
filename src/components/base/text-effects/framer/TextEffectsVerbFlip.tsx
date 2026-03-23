@@ -12,9 +12,7 @@ interface TextEffectsVerbFlipProps {
   text?: string
 }
 
-function TextEffectsVerbFlipComponent({
-  text = 'LOREM IPSUM DOLOR',
-}: TextEffectsVerbFlipProps) {
+function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbFlipProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (

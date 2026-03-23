@@ -23,14 +23,28 @@ function FallbackParticleComponent({ shape, color, size }: FallbackParticleProps
 
   if (shape === 'circle') {
     return (
-      <svg width={size} height={size} viewBox={viewBox} fill={color} aria-hidden="true" style={{ display: 'block' }}>
+      <svg
+        width={size}
+        height={size}
+        viewBox={viewBox}
+        fill={color}
+        aria-hidden="true"
+        style={{ display: 'block' }}
+      >
         <circle cx="12" cy="12" r="10" />
       </svg>
     )
   }
 
   return (
-    <svg width={size} height={size} viewBox={viewBox} fill={color} aria-hidden="true" style={{ display: 'block' }}>
+    <svg
+      width={size}
+      height={size}
+      viewBox={viewBox}
+      fill={color}
+      aria-hidden="true"
+      style={{ display: 'block' }}
+    >
       <path d={SHAPE_PATHS[shape]} />
     </svg>
   )

@@ -54,18 +54,14 @@ export function ProgressBarsRetroBit({
             animate={{
               opacity: i < activeCount ? 1 : 0.1,
               backgroundColor:
-                i < activeCount
-                  ? 'var(--retro-bit-active)'
-                  : 'var(--retro-bit-inactive)',
+                i < activeCount ? 'var(--retro-bit-active)' : 'var(--retro-bit-inactive)',
             }}
             transition={{ duration: 0 }}
             style={{ animation: 'none' }}
           />
         ))}
       </div>
-      {label !== undefined && label !== '' && (
-        <div className="retro-bit-label">{label}</div>
-      )}
+      {label !== undefined && label !== '' && <div className="retro-bit-label">{label}</div>}
     </div>
   )
 }

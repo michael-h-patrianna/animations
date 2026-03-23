@@ -41,7 +41,7 @@ interface ModalCelebrationsFireworkProps {
   /** Maximum height in pixels for particles. @default 24 */
   particleMaxHeight?: number
   /** Fallback confetti colors when no images provided. */
-  colors?: string[]
+  colors?: readonly string[]
   /** Number of burst origin points per cycle. Default 5. */
   burstCount?: number
   /** Particles emitted per burst. Default 50. */
@@ -63,7 +63,7 @@ function buildFallbackCache(count: number, colors: readonly string[]): FallbackI
 
 /* ─── Main ─── */
 
-const DEFAULT_COLORS = CELEBRATION_COLORS_HEX as unknown as string[]
+const DEFAULT_COLORS = CELEBRATION_COLORS_HEX
 
 function ModalCelebrationsFireworkComponent({
   particleImages = DEFAULT_PARTICLE_IMAGES,
@@ -80,14 +80,15 @@ function ModalCelebrationsFireworkComponent({
   const cycleDurationS = duration / 1000
 
   const bursts = useMemo(
-    () => generateFireworkBursts({ burstCount, particlesPerBurst, durationMs: duration, variantCount }),
-    [burstCount, particlesPerBurst, duration, variantCount],
+    () =>
+      generateFireworkBursts({ burstCount, particlesPerBurst, durationMs: duration, variantCount }),
+    [burstCount, particlesPerBurst, duration, variantCount]
   )
 
   // Pre-generate stable fallback shapes for each burst's particles
   const fallbackCache = useMemo(
-    () => hasImages ? null : bursts.map((b) => buildFallbackCache(b.particles.length, colors)),
-    [bursts, colors, hasImages],
+    () => (hasImages ? null : bursts.map((b) => buildFallbackCache(b.particles.length, colors))),
+    [bursts, colors, hasImages]
   )
 
   return (
@@ -115,7 +116,13 @@ function ModalCelebrationsFireworkComponent({
                   opacity: 0,
                 }}
                 animate={{
-                  x: [0, 0, particle.x, particle.x + particle.x * 0.18, particle.x + particle.x * 0.22],
+                  x: [
+                    0,
+                    0,
+                    particle.x,
+                    particle.x + particle.x * 0.18,
+                    particle.x + particle.x * 0.22,
+                  ],
                   y: [
                     0,
                     0,
@@ -145,7 +152,14 @@ function ModalCelebrationsFireworkComponent({
                   <img
                     src={images[particle.imageIndex % images.length]}
                     alt=""
-                    style={{ maxWidth: particleMaxWidth, maxHeight: particleMaxHeight, width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+                    style={{
+                      maxWidth: particleMaxWidth,
+                      maxHeight: particleMaxHeight,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      display: 'block',
+                    }}
                   />
                 ) : (
                   <span

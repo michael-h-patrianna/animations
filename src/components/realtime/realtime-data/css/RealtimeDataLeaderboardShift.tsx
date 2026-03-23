@@ -55,10 +55,11 @@ const animateShift = (
   if (!el) return
   el.style.transform = `translateY(${ROW_HEIGHT}px)`
   scheduleFrame(() => {
-    el.animate(
-      [{ transform: `translateY(${ROW_HEIGHT}px)` }, { transform: 'translateY(0)' }],
-      { duration: durationMs, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' }
-    ).onfinish = () => {
+    el.animate([{ transform: `translateY(${ROW_HEIGHT}px)` }, { transform: 'translateY(0)' }], {
+      duration: durationMs,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      fill: 'forwards',
+    }).onfinish = () => {
       el.style.transform = ''
     }
   })

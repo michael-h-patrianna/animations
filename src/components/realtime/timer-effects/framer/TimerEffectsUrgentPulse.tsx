@@ -57,10 +57,7 @@ function TimerEffectsUrgentPulseComponent({
   }
 
   return (
-    <div
-      className="timer-urgent-pulse-demo"
-      data-animation-id="timer-effects__urgent-pulse"
-    >
+    <div className="timer-urgent-pulse-demo" data-animation-id="timer-effects__urgent-pulse">
       <m.div
         className="timer-urgent-pulse"
         animate={{ scale: scaleValues }}

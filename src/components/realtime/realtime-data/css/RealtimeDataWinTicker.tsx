@@ -9,11 +9,7 @@
 import { memo, useMemo } from 'react'
 import './RealtimeDataWinTicker.css'
 
-const DEFAULT_ITEMS = [
-  'Mega Win! +5,000 credits',
-  'Daily streak unlocked',
-  'Bonus wheel ready',
-]
+const DEFAULT_ITEMS = ['Mega Win! +5,000 credits', 'Daily streak unlocked', 'Bonus wheel ready']
 
 interface RealtimeDataWinTickerProps {
   /** Messages to scroll. Default: demo messages. */

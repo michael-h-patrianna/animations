@@ -7,11 +7,11 @@ import type { DemoPreset } from './SharedModalOpenLogic'
  */
 function SharedDemoTriggersComponent({
   presets,
-  btnRefs,
+  buttonListRef,
   onClickButton,
 }: {
   presets: readonly DemoPreset[]
-  btnRefs: RefObject<(HTMLButtonElement | null)[]>
+  buttonListRef: RefObject<(HTMLButtonElement | null)[]>
   onClickButton: (i: number) => void
 }) {
   return (
@@ -19,7 +19,9 @@ function SharedDemoTriggersComponent({
       {presets.map((btn, i) => (
         <button
           key={btn.label}
-          ref={(el) => { btnRefs.current[i] = el }}
+          ref={(el) => {
+            buttonListRef.current[i] = el
+          }}
           type="button"
           className="pf-mo-trigger"
           onClick={() => onClickButton(i)}

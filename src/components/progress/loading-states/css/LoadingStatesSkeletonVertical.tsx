@@ -69,7 +69,9 @@ function LoadingStatesSkeletonVerticalComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-vertical"
-      className={className !== undefined ? `pf-skeleton-vertical ${className}` : 'pf-skeleton-vertical'}
+      className={
+        className !== undefined ? `pf-skeleton-vertical ${className}` : 'pf-skeleton-vertical'
+      }
       style={{ ...vars, width, gap }}
       role="status"
       aria-label="Loading"

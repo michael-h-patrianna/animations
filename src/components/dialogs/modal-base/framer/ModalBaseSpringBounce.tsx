@@ -44,7 +44,9 @@ function ModalBaseSpringBounceComponent({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-      style={{ ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties}
+      style={
+        { ...style, '--overlay-opacity': overlayOpacity, animation: 'none' } as React.CSSProperties
+      }
       data-animation-id="modal-base__spring-bounce"
     >
       <div className="pf-modal-center">
@@ -53,9 +55,7 @@ function ModalBaseSpringBounceComponent({
           initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0.7, opacity: 0, y: -30 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { scale: 1, opacity: 1, y: 0 }}
           transition={
-            prefersReducedMotion
-              ? { duration: 0.01 }
-              : { type: 'spring', stiffness, damping, mass }
+            prefersReducedMotion ? { duration: 0.01 } : { type: 'spring', stiffness, damping, mass }
           }
           onAnimationComplete={onAnimationComplete}
           style={{ animation: 'none' }}

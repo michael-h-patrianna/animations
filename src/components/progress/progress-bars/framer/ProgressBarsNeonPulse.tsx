@@ -50,9 +50,18 @@ export function ProgressBarsNeonPulse({
         <m.div
           className="neon-pulse-fill"
           initial={isDemo ? { width: '0%' } : false}
-          animate={isDemo
-            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 0.8 } }
-            : { width: `${percent}%` }
+          animate={
+            isDemo
+              ? {
+                  width: '100%',
+                  transition: {
+                    duration: demoDuration / 1000,
+                    ease: 'linear',
+                    repeat: Infinity,
+                    repeatDelay: 0.8,
+                  },
+                }
+              : { width: `${percent}%` }
           }
           transition={isDemo ? undefined : { ease: 'linear', duration: 0.1 }}
           style={{ animation: 'none' }}
@@ -68,9 +77,18 @@ export function ProgressBarsNeonPulse({
         <m.div
           className="neon-pulse-glow"
           initial={isDemo ? { width: '0%' } : false}
-          animate={isDemo
-            ? { width: '100%', transition: { duration: demoDuration / 1000, ease: 'linear', repeat: Infinity, repeatDelay: 0.8 } }
-            : { width: `${percent}%` }
+          animate={
+            isDemo
+              ? {
+                  width: '100%',
+                  transition: {
+                    duration: demoDuration / 1000,
+                    ease: 'linear',
+                    repeat: Infinity,
+                    repeatDelay: 0.8,
+                  },
+                }
+              : { width: `${percent}%` }
           }
           transition={isDemo ? undefined : { ease: 'linear', duration: 0.1 }}
         />
