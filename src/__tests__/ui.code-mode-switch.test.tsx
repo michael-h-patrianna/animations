@@ -34,41 +34,39 @@ function renderSwitchWithConsumer(onModeSelect = vi.fn()) {
 }
 
 describe('CodeModeSwitch', () => {
-  it('renders Framer and CSS buttons', () => {
+  it('renders Framer and CSS radio options', () => {
     renderSwitch()
 
-    expect(screen.getByRole('button', { name: 'Framer' })).toBeVisible()
-    expect(screen.getByRole('button', { name: 'CSS' })).toBeVisible()
+    expect(screen.getByRole('radio', { name: 'Framer' })).toBeVisible()
+    expect(screen.getByRole('radio', { name: 'CSS' })).toBeVisible()
   })
 
   it('defaults to Framer mode active', () => {
     renderSwitch()
 
-    const framerBtn = screen.getByRole('button', { name: 'Framer' })
-    const cssBtn = screen.getByRole('button', { name: 'CSS' })
+    const framerBtn = screen.getByRole('radio', { name: 'Framer' })
+    const cssBtn = screen.getByRole('radio', { name: 'CSS' })
 
-    expect(framerBtn).toHaveAttribute('aria-pressed', 'true')
-    expect(cssBtn).toHaveAttribute('aria-pressed', 'false')
-    expect(framerBtn.className).toContain('is-active')
-    expect(cssBtn.className).not.toContain('is-active')
+    expect(framerBtn).toHaveAttribute('aria-checked', 'true')
+    expect(cssBtn).toHaveAttribute('aria-checked', 'false')
   })
 
-  it('toggles to CSS mode on click and updates aria-pressed', () => {
+  it('toggles to CSS mode on click and updates aria-checked', () => {
     renderSwitch()
 
-    fireEvent.click(screen.getByRole('button', { name: 'CSS' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'CSS' }))
 
-    expect(screen.getByRole('button', { name: 'CSS' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByRole('button', { name: 'Framer' })).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByRole('radio', { name: 'CSS' })).toHaveAttribute('aria-checked', 'true')
+    expect(screen.getByRole('radio', { name: 'Framer' })).toHaveAttribute('aria-checked', 'false')
   })
 
   it('calls onModeSelect callback with the selected mode', () => {
     const { onModeSelect } = renderSwitch()
 
-    fireEvent.click(screen.getByRole('button', { name: 'CSS' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'CSS' }))
     expect(onModeSelect).toHaveBeenCalledWith('CSS')
 
-    fireEvent.click(screen.getByRole('button', { name: 'Framer' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Framer' }))
     expect(onModeSelect).toHaveBeenCalledWith('Framer')
   })
 
@@ -77,10 +75,10 @@ describe('CodeModeSwitch', () => {
 
     expect(screen.getByTestId('current-mode')).toHaveTextContent('Framer')
 
-    fireEvent.click(screen.getByRole('button', { name: 'CSS' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'CSS' }))
     expect(screen.getByTestId('current-mode')).toHaveTextContent('CSS')
 
-    fireEvent.click(screen.getByRole('button', { name: 'Framer' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Framer' }))
     expect(screen.getByTestId('current-mode')).toHaveTextContent('Framer')
   })
 })

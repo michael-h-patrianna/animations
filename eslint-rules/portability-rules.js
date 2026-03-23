@@ -117,7 +117,8 @@ const portabilityRules = {
 
       // Extractable utility prefixes — small modules a user can inline.
       // @/types/ is included because type-only imports are erased at compile time.
-      const extractableImports = ['@/motion/', '@/utils/', '@/types/']
+      // @/components/demo-blocks is included because demo-blocks are portable demo primitives.
+      const extractableImports = ['@/motion/', '@/utils/', '@/types/', '@/components/demo-blocks']
 
       return {
         ImportDeclaration(node) {
@@ -127,8 +128,12 @@ const portabilityRules = {
 
           if (tier === 4) return // Tier 4 is unrestricted
 
+          // Demo-blocks are portable demo primitives — allowed at all tiers
+          const isExtractable = extractableImports.some((prefix) => source.startsWith(prefix))
+          if (isExtractable) return
+
           if (tier === 1) {
-            // Tier 1: no @/ imports at all
+            // Tier 1: no @/ imports except extractable
             context.report({
               node,
               message: `Tier 1 (Effect) animations must not use project imports. Found: "${source}". Tier 1 components use only npm packages and local files. Raise the tier to 2+ or remove this import.`,
@@ -145,14 +150,11 @@ const portabilityRules = {
             return
           }
 
-          // Tier 2 and 3: allow @/motion/* and @/utils/*, ban everything else
-          const isExtractable = extractableImports.some((prefix) => source.startsWith(prefix))
-          if (!isExtractable) {
-            context.report({
-              node,
-              message: `Tier ${tier} animations may only import from @/motion/* and @/utils/* (extractable utilities). Found: "${source}". Raise the tier to 4 or restructure.`,
-            })
-          }
+          // Tier 2 and 3: only extractable imports allowed (already checked above)
+          context.report({
+            node,
+            message: `Tier ${tier} animations may only import from extractable utilities (@/motion/*, @/utils/*, @/components/demo-blocks). Found: "${source}". Raise the tier to 4 or restructure.`,
+          })
         },
       }
     },

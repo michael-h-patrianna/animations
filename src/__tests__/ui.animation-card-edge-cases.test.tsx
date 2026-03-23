@@ -271,11 +271,11 @@ describe('AnimationCard — edge cases and boundary conditions', () => {
       </MemoryRouter>
     )
 
-    // Default prize count is 3 — the "Show 3 prizes" button should be active
+    // Default prize count is 3 — the "3" radio should be checked
     expect(capturedPrizeCount).toBe(3)
 
-    // Clicking a different count changes the active button
-    fireEvent.click(screen.getByRole('button', { name: 'Show 1 prize' }))
+    // Clicking a different count changes the active selection
+    fireEvent.click(screen.getByRole('radio', { name: '1' }))
     expect(capturedPrizeCount).toBe(1)
   })
 

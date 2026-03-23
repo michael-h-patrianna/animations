@@ -1,6 +1,6 @@
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import type { Category } from '@/types/animation'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AppSidebar } from '@/components/ui/AppSidebar'
 
@@ -49,16 +49,16 @@ describe('AppSidebar', () => {
 
   it('renders all categories', () => {
     renderSidebar(mockCategories, 'group-1-framer')
-    expect(screen.getByText('Category 1')).toHaveClass('pf-sidebar__link--category')
-    expect(screen.getByText('Category 2')).toHaveClass('pf-sidebar__link--category')
+    expect(screen.getByText('Category 1')).toBeVisible()
+    expect(screen.getByText('Category 2')).toBeVisible()
   })
 
   it('renders groups for all categories by default', () => {
     renderSidebar(mockCategories, 'group-1-framer')
 
-    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
-    expect(screen.getByText('Group 2')).toHaveClass('pf-sidebar__link--group')
-    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__link--group')
+    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__nav-link-label')
+    expect(screen.getByText('Group 2')).toHaveClass('pf-sidebar__nav-link-label')
+    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__nav-link-label')
   })
 
   it('deduplicates framer/css variants into one group entry', () => {
@@ -66,35 +66,47 @@ describe('AppSidebar', () => {
     expect(screen.getAllByText('Group 1')).toHaveLength(1)
   })
 
-  it('applies active styling to current category', () => {
+  it('applies active styling to current group', () => {
     renderSidebar(mockCategories, 'group-1-framer')
 
-    const activeCategory = screen.getByText('Category 1')
-    const inactiveCategory = screen.getByText('Category 2')
+    const activeGroup = screen.getByTestId('sidebar-group-group-1')
+    const inactiveGroup = screen.getByTestId('sidebar-group-group-2')
 
-    expect(activeCategory.className).toContain('pf-sidebar__link--active')
-    expect(inactiveCategory.className).not.toContain('pf-sidebar__link--active')
+    expect(activeGroup).toHaveClass('pf-sidebar__nav-link--active')
+    expect(inactiveGroup).not.toHaveClass('pf-sidebar__nav-link--active')
   })
 
   it('toggles category expansion on click', () => {
     renderSidebar(mockCategories, 'group-1-framer')
-    fireEvent.click(screen.getByText('Category 2'))
+
+    // Click Category 2 toggle header to collapse it
+    const cat2Section = screen.getByTestId('sidebar-section-category-2')
+    const cat2Toggle = within(cat2Section).getByTestId('control-group-toggle')
+    fireEvent.click(cat2Toggle)
+
     expect(screen.queryByText('Group 3')).not.toBeInTheDocument()
-    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
+    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__nav-link-label')
   })
 
   it('supports independent category collapse/expand', () => {
     renderSidebar(mockCategories, 'group-1-framer')
 
-    fireEvent.click(screen.getByText('Category 1'))
+    // Collapse Category 1
+    const cat1Section = screen.getByTestId('sidebar-section-category-1')
+    const cat1Toggle = within(cat1Section).getByTestId('control-group-toggle')
+    fireEvent.click(cat1Toggle)
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument()
-    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__link--group')
+    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__nav-link-label')
 
-    fireEvent.click(screen.getByText('Category 2'))
+    // Collapse Category 2
+    const cat2Section = screen.getByTestId('sidebar-section-category-2')
+    const cat2Toggle = within(cat2Section).getByTestId('control-group-toggle')
+    fireEvent.click(cat2Toggle)
     expect(screen.queryByText('Group 3')).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByText('Category 1'))
-    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
+    // Re-expand Category 1
+    fireEvent.click(cat1Toggle)
+    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__nav-link-label')
   })
 
   it('calls onGroupSelect with framer variant in Framer mode', () => {
@@ -120,17 +132,17 @@ describe('AppSidebar', () => {
       { id: 'empty-category', title: 'Empty Category', groups: [] },
     ]
     renderSidebar(categoriesWithoutGroups, '', 'Framer')
-    expect(screen.getByText('Empty Category')).toHaveClass('pf-sidebar__link--category')
-    expect(screen.queryByRole('button', { name: /Group/i })).not.toBeInTheDocument()
+    expect(screen.getByText('Empty Category')).toBeVisible()
+    expect(screen.queryByTestId(/sidebar-group-/)).not.toBeInTheDocument()
   })
 
   it('updates visible groups and active states when current group changes', () => {
     const { rerender } = renderSidebar(mockCategories, 'group-1-framer')
 
-    expect(screen.getByText('Category 1').className).toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Category 2').className).not.toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Group 1').className).toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__link--group')
+    expect(screen.getByTestId('sidebar-group-group-1')).toHaveClass('pf-sidebar__nav-link--active')
+    expect(screen.getByTestId('sidebar-group-group-3')).not.toHaveClass(
+      'pf-sidebar__nav-link--active'
+    )
 
     rerender(
       <CodeModeProvider>
@@ -143,9 +155,9 @@ describe('AppSidebar', () => {
       </CodeModeProvider>
     )
 
-    expect(screen.getByText('Category 2').className).toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Category 1').className).not.toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Group 3').className).toContain('pf-sidebar__link--active')
-    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__link--group')
+    expect(screen.getByTestId('sidebar-group-group-3')).toHaveClass('pf-sidebar__nav-link--active')
+    expect(screen.getByTestId('sidebar-group-group-1')).not.toHaveClass(
+      'pf-sidebar__nav-link--active'
+    )
   })
 })

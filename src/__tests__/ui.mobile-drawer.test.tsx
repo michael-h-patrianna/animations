@@ -72,21 +72,21 @@ describe('MobileDrawer', () => {
 
   it('renders the code mode switch inside the drawer', () => {
     renderDrawer()
-    // The drawer should contain the code mode switch buttons
-    expect(screen.getByRole('button', { name: 'Framer' })).toBeVisible()
-    expect(screen.getByRole('button', { name: 'CSS' })).toBeVisible()
+    // The drawer should contain the code mode switch radio options
+    expect(screen.getByRole('radio', { name: 'Framer' })).toBeVisible()
+    expect(screen.getByRole('radio', { name: 'CSS' })).toBeVisible()
   })
 
   it('calls onModeSelect when CSS mode is selected', () => {
     const { onModeSelect } = renderDrawer()
-    fireEvent.click(screen.getByRole('button', { name: 'CSS' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'CSS' }))
     expect(onModeSelect).toHaveBeenCalledWith('CSS')
   })
 
   it('highlights current group in the navigation', () => {
     renderDrawer()
-    // Group 1 is the current group — it should have active styling
-    const groupButton = screen.getByText('Group 1')
+    // Group 1 is the current group — its nav link should have active class
+    const groupButton = screen.getByTestId('sidebar-group-group-1')
     expect(groupButton.className).toContain('active')
   })
 

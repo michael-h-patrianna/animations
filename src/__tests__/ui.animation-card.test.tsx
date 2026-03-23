@@ -89,19 +89,17 @@ describe('AnimationCard', () => {
   it('shows prize count controls when controls="prizeCount"', () => {
     renderCard({ controls: 'prizeCount', prizeCountMax: 5 })
 
-    // Should render 5 prize count buttons (1-5)
+    // Should render 5 prize count radio options (1-5)
     for (let i = 1; i <= 5; i++) {
-      expect(
-        screen.getByRole('button', { name: `Show ${i} prize${i > 1 ? 's' : ''}` })
-      ).toBeVisible()
+      expect(screen.getByRole('radio', { name: String(i) })).toBeVisible()
     }
   })
 
   it('defaults prize count max to 4 when not specified', () => {
     renderCard({ controls: 'prizeCount' })
 
-    expect(screen.getByRole('button', { name: 'Show 4 prizes' })).toBeVisible()
-    expect(screen.queryByRole('button', { name: 'Show 5 prizes' })).not.toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: '4' })).toBeVisible()
+    expect(screen.queryByRole('radio', { name: '5' })).not.toBeInTheDocument()
   })
 
   it('fires IntersectionObserver for one-shot animations and renders content', async () => {
@@ -341,10 +339,10 @@ describe('AnimationCard', () => {
 
     expect(capturedPrizeCount).toBe(3) // default
 
-    fireEvent.click(screen.getByRole('button', { name: 'Show 5 prizes' }))
+    fireEvent.click(screen.getByRole('radio', { name: '5' }))
     expect(capturedPrizeCount).toBe(5)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Show 1 prize' }))
+    fireEvent.click(screen.getByRole('radio', { name: '1' }))
     expect(capturedPrizeCount).toBe(1)
   })
 

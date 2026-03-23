@@ -146,8 +146,8 @@ describe('GroupSection', () => {
     })
     renderWithRouter(<GroupSection group={group} elementId="prize-section" />)
 
-    expect(screen.getByRole('button', { name: 'Show 1 prize' })).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Show 3 prizes' })).toBeVisible()
+    expect(screen.getByRole('radio', { name: '1' })).toBeVisible()
+    expect(screen.getByRole('radio', { name: '3' })).toBeVisible()
   })
 
   it('handles group with mixed infinite and non-infinite animations', () => {
