@@ -279,7 +279,11 @@ export default defineConfig([
   // type bundles. These contain pure mathematical functions computing animation
   // keyframes — same exempt status as animation components for line limits.
   {
-    files: ['src/components/**/Shared*.ts', 'src/components/**/Shared*.tsx'],
+    files: [
+      'src/components/**/Shared*.ts',
+      'src/components/**/Shared*.tsx',
+      'src/components/**/*Trajectory.ts',
+    ],
     rules: {
       'max-lines-per-function': 'off',
       'max-lines': ['error', { max: 600, skipBlankLines: true, skipComments: true }],
