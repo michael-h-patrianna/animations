@@ -173,14 +173,8 @@ function useAnimationCard(props: AnimationCardProps) {
 }
 
 function AnimationCardComponent(props: AnimationCardProps) {
+  const { title, description, animationId, children, tier, previewMaxWidth, sourceLoader } = props
   const {
-    title,
-    description,
-    animationId,
-    children,
-    tier,
-    previewMaxWidth,
-    sourceLoader,
     infiniteAnimation = false,
     disableReplay = false,
     controls: controlType,
@@ -205,7 +199,11 @@ function AnimationCardComponent(props: AnimationCardProps) {
       <CardContent className="p-0 py-3">
         <div
           className="pf-demo-canvas"
-          style={previewMaxWidth !== undefined ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties : undefined}
+          style={
+            previewMaxWidth !== undefined
+              ? ({ '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties)
+              : undefined
+          }
           data-testid="card-canvas"
         >
           <div

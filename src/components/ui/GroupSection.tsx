@@ -150,7 +150,11 @@ function AnimationCardWithSource({
         if (animation.demoMode !== undefined) {
           return (
             <Suspense fallback={<div className="pf-card__placeholder">Loading…</div>}>
-              <DemoModeWrapper mode={animation.demoMode} Component={AnimationComponent} controlProps={controlProps} />
+              <DemoModeWrapper
+                mode={animation.demoMode}
+                Component={AnimationComponent}
+                controlProps={controlProps}
+              />
             </Suspense>
           )
         }
@@ -190,7 +194,8 @@ function DemoModeWrapper({
     return <StatusRowDemo Component={Component} controlProps={controlProps} />
   }
 
-  const isParticleMode = mode === 'burst' || mode === 'magnet' || mode === 'trail' || mode === 'fountain'
+  const isParticleMode =
+    mode === 'burst' || mode === 'magnet' || mode === 'trail' || mode === 'fountain'
   const particleProps = isParticleMode
     ? { particleImages: ['/images/coin-particle.png'], particleSize: 50 }
     : {}
@@ -212,7 +217,7 @@ function IconDotDemo({
   controlProps: Record<string, unknown>
 }) {
   return (
-    <div className="pf-demo-icon-dot">
+    <div className="pf-demo-icon-dot" data-testid="demo-icon-dot">
       <Component {...controlProps}>
         <img src={homeIcon1} alt="Home" className="pf-demo-icon-dot__icon" />
       </Component>
@@ -229,9 +234,11 @@ function StatusRowDemo({
   controlProps: Record<string, unknown>
 }) {
   return (
-    <div className="pf-demo-status-row">
-      <span className="pf-demo-status-row__dot" />
-      <span className="pf-demo-status-row__text">Content update arrived</span>
+    <div className="pf-demo-status-row" data-testid="demo-status-row">
+      <span className="pf-demo-status-row__dot" data-testid="demo-status-row-dot" />
+      <span className="pf-demo-status-row__text" data-testid="demo-status-row-text">
+        Content update arrived
+      </span>
       <Component {...controlProps} />
     </div>
   )

@@ -8,7 +8,7 @@ export const MIN_BULB_COUNT = 4
 export const MAX_BULB_COUNT = 22
 
 export const clampBulbCount = (value: number) =>
-  Math.max(MIN_BULB_COUNT, Math.min(MAX_BULB_COUNT, value))
+  Number.isNaN(value) ? MIN_BULB_COUNT : Math.max(MIN_BULB_COUNT, Math.min(MAX_BULB_COUNT, value))
 
 // ── Color resolution ──────────────────────────────────────────────────────
 

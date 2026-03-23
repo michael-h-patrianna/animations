@@ -1,9 +1,16 @@
+import { logger } from '@/services/logger'
 import { useEffect } from 'react'
 
 /**
  * Module-level lock state shared across all useScrollLock instances.
  * Tracks how many concurrent locks are active and the original overflow value
  * captured before the first lock was acquired.
+ *
+ * Invariants:
+ * - lockCount >= 0 at all times
+ * - savedOverflow is non-null only when lockCount > 0
+ * - When lockCount transitions 0 → 1, savedOverflow captures document.body.style.overflow
+ * - When lockCount transitions 1 → 0, savedOverflow is restored and cleared
  */
 let lockCount = 0
 let savedOverflow: string | null = null
@@ -33,8 +40,16 @@ export function useScrollLock(isOpen: boolean) {
       document.body.style.overflow = 'hidden'
       return () => {
         lockCount--
-        if (lockCount === 0 && savedOverflow !== null) {
-          document.body.style.overflow = savedOverflow
+        if (lockCount < 0) {
+          logger.warn(
+            `useScrollLock: lockCount went negative (${lockCount}), resetting to safe state. This indicates a double-unlock bug.`
+          )
+          lockCount = 0
+          savedOverflow = null
+          return
+        }
+        if (lockCount === 0) {
+          document.body.style.overflow = savedOverflow ?? ''
           savedOverflow = null
         }
       }

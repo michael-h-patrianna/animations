@@ -151,7 +151,6 @@
   pointer-events: auto;
 }
 
-
 /* Position variants via data-attribute */
 .preview-animation[data-position='center'] {
   align-items: center;

@@ -132,9 +132,10 @@ function PreviewModalComponent({
   )
 
   const position = previewPosition
-  const previewStyle = previewMaxWidth !== undefined
-    ? { '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties
-    : undefined
+  const previewStyle =
+    previewMaxWidth !== undefined
+      ? ({ '--pf-preview-max-width': `${previewMaxWidth}px` } as React.CSSProperties)
+      : undefined
 
   return (
     <div

@@ -20,15 +20,22 @@ function useHighlightedSources(sources: SourceTab[]) {
   const [highlighted, setHighlighted] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
 
-  // Stable key to avoid re-highlighting on every render
+  // Stable key: re-highlight only when actual source content changes,
+  // not when the sources array reference changes between renders.
   const sourceKey = useMemo(() => sources.map((s) => s.code).join('\0'), [sources])
+
+  // Ref captures the latest sources so the effect can read them without
+  // listing the (potentially unstable) array reference as a dependency.
+  const sourcesRef = useRef(sources)
+  sourcesRef.current = sources
 
   useEffect(() => {
     let cancelled = false
 
     async function run() {
+      const currentSources = sourcesRef.current
       const results = await Promise.all(
-        sources.map((tab) => highlightCode(cleanSourceForDisplay(tab.code), tab.language))
+        currentSources.map((tab) => highlightCode(cleanSourceForDisplay(tab.code), tab.language))
       )
       if (!cancelled) {
         setHighlighted(results)
@@ -40,7 +47,7 @@ function useHighlightedSources(sources: SourceTab[]) {
     return () => {
       cancelled = true
     }
-  }, [sourceKey]) // eslint-disable-line @eslint-react/exhaustive-deps -- sourceKey is the stable identity derived from sources
+  }, [sourceKey])
 
   return { highlighted, loading }
 }
