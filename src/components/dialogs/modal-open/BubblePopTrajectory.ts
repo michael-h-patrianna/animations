@@ -75,10 +75,10 @@ export function computeBubblePopTrajectory(
 
   pushAt(originX, originY, 0, 0, 1, 1, 0, 0) // invisible at button
   pushAt(originX, originY, 0.03, 0.35, 1, 1, 0, 1) // pop to visible
-  pushAt(originX, originY, 0.07, 0.30, 1, 1, 0, 1) // hold at button
+  pushAt(originX, originY, 0.07, 0.3, 1, 1, 0, 1) // hold at button
 
   // Phase 1: Snap from button to center (7%→14%)
-  pushAt(originX * 0.3, originY * 0.3, 0.10, 0.20, 1, 1, 0, 1) // midway
+  pushAt(originX * 0.3, originY * 0.3, 0.1, 0.2, 1, 1, 0, 1) // midway
   push(0.14, 0.15, 1, 1, 0, 1) // at center, ready to inflate
 
   // Phase 2: Inflation with wobble (14%→66%)

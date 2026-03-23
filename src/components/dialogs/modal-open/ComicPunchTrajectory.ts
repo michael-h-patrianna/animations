@@ -45,7 +45,7 @@ export function computeComicPunchTrajectory(
   x.push(originX, originX, originX)
   y.push(originY, originY, originY)
   times.push(0, 0.03, popEnd)
-  scale.push(0, 0.35, 0.30)
+  scale.push(0, 0.35, 0.3)
   scaleX.push(1, 1, 1)
   scaleY.push(1, 1, 1)
   rotate.push(0, 0, 0)
@@ -67,7 +67,7 @@ export function computeComicPunchTrajectory(
     y.push(from.y + dy * curveT - center.y)
     times.push(tl)
 
-    scale.push(0.30 + 0.70 * curveT) // from pop scale to 1.0
+    scale.push(0.3 + 0.7 * curveT) // from pop scale to 1.0
     scaleX.push(1)
     scaleY.push(1)
     const tiltDir = angle > 0 ? 1 : -1

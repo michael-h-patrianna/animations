@@ -233,7 +233,7 @@ export function computeArcTrajectory(
   const x: number[] = [originX, originX, originX]
   const y: number[] = [originY, originY, originY]
   const times: number[] = [0, 0.03, popEnd]
-  const scale: number[] = [0, 0.35, 0.30]
+  const scale: number[] = [0, 0.35, 0.3]
   const opacity: number[] = [0, 1, 1]
 
   // ── Flight phase: dense Bezier sampling with force-dependent speed ──
@@ -252,7 +252,7 @@ export function computeArcTrajectory(
     // Scale: ramp from pop scale to full via ease-out
     const scaleVal =
       initialScale + (1 - initialScale) * (1 - Math.pow(1 - linearT, scaleGrowthPower))
-    scale.push(Math.max(scaleVal, 0.30)) // never below pop scale
+    scale.push(Math.max(scaleVal, 0.3)) // never below pop scale
 
     opacity.push(1)
   }

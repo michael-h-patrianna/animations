@@ -62,7 +62,7 @@ export function computeSlamDownTrajectory(
   x.push(originX, originX, originX)
   y.push(originY, originY, originY)
   times.push(0, 0.03, popEnd)
-  scale.push(0, 0.35, 0.30)
+  scale.push(0, 0.35, 0.3)
   opacity.push(0, 1, 1)
   ext()
   ext()
@@ -81,7 +81,7 @@ export function computeSlamDownTrajectory(
     const yT = 1 - Math.pow(1 - t, 2.5)
     y.push(from.y * (1 - yT) + (center.y - launchHeight) * yT - center.y)
     times.push(tl)
-    scale.push(0.30 + 0.50 * t) // from pop scale upward
+    scale.push(0.3 + 0.5 * t) // from pop scale upward
     opacity.push(1)
     ext()
   }
