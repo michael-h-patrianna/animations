@@ -26,8 +26,8 @@ describe('App', () => {
   it('renders top bar and navigation toggle', () => {
     renderApp()
 
-    expect(screen.getByTestId('top-bar')).toBeInTheDocument()
-    expect(screen.getByTestId('toggle-left-panel')).toBeInTheDocument()
+    expect(screen.getByTestId('top-bar')).toHaveAttribute('data-app-shell', 'bar')
+    expect(screen.getByTestId('toggle-left-panel')).toHaveAttribute('aria-label', 'Toggle Navigation')
   })
 
   it('renders code mode switch in drawer after opening', () => {
@@ -63,7 +63,7 @@ describe('App', () => {
   it('renders with a specific group route parameter', () => {
     renderApp('/standard-effects-framer')
 
-    expect(screen.getByTestId('top-bar')).toBeInTheDocument()
+    expect(screen.getByTestId('top-bar')).toHaveAttribute('data-app-shell', 'bar')
   })
 
   it('renders GitHub link with security attributes', () => {

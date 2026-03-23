@@ -243,19 +243,14 @@ describe('CodeViewerModal', () => {
       render(<CodeViewerModal {...defaultProps} />)
 
       const dialog = screen.getByRole('dialog')
-      const labelledBy = dialog.getAttribute('aria-labelledby')
-      expect(labelledBy).toBeTruthy()
-      // The referenced element should contain the title text
-      const titleEl = document.getElementById(labelledBy!)
-      expect(titleEl).toHaveTextContent('Test Animation')
+      expect(dialog).toHaveAttribute('aria-labelledby')
+      expect(screen.getByText('Test Animation')).toHaveAttribute('id', dialog.getAttribute('aria-labelledby')!)
     })
 
     it('dialog title reflects the animation title prop', () => {
       render(<CodeViewerModal {...defaultProps} title="Custom Title" />)
       const dialog = screen.getByRole('dialog')
-      const labelledBy = dialog.getAttribute('aria-labelledby')
-      const titleEl = document.getElementById(labelledBy!)
-      expect(titleEl).toHaveTextContent('Custom Title')
+      expect(screen.getByText('Custom Title')).toHaveAttribute('id', dialog.getAttribute('aria-labelledby')!)
     })
 
     it('tablist is present', () => {
