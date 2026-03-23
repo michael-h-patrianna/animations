@@ -84,6 +84,100 @@ function HighlightedCode({ html }: { html: string }) {
   return <div data-testid="code-highlighted" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
+function useTabScroll() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  useEffect(() => {
+    const container = scrollRef.current
+    if (!container) return
+
+    let rafId: number | null = null
+
+    const checkScroll = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = container
+      const threshold = 5
+      setCanScrollLeft(scrollLeft > threshold)
+      setCanScrollRight(scrollWidth - clientWidth - scrollLeft > threshold)
+    }
+
+    const handleScroll = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(checkScroll)
+    }
+
+    const handleWheel = (e: WheelEvent) => {
+      if (container.scrollWidth <= container.clientWidth) return
+      e.preventDefault()
+      container.scrollBy({ left: e.deltaY, behavior: 'smooth' })
+    }
+
+    const handleResize = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(checkScroll)
+    }
+
+    // Initial check after layout
+    rafId = requestAnimationFrame(checkScroll)
+
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    container.addEventListener('wheel', handleWheel, { passive: false })
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      container.removeEventListener('scroll', handleScroll)
+      container.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  const scroll = useCallback((direction: 'left' | 'right') => {
+    scrollRef.current?.scrollBy({
+      left: direction === 'left' ? -100 : 100,
+      behavior: 'smooth',
+    })
+  }, [])
+
+  return { scrollRef, canScrollLeft, canScrollRight, scroll }
+}
+
+function ScrollCaret({
+  direction,
+  onClick,
+}: {
+  direction: 'left' | 'right'
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      className={`code-modal__scroll-caret code-modal__scroll-caret--${direction}`}
+      onClick={onClick}
+      tabIndex={-1}
+      aria-label={`Scroll tabs ${direction}`}
+    >
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {direction === 'left' ? (
+          <polyline points="15 18 9 12 15 6" />
+        ) : (
+          <polyline points="9 18 15 12 9 6" />
+        )}
+      </svg>
+    </button>
+  )
+}
+
 function TabBar({
   sources,
   activeIndex,
@@ -94,6 +188,7 @@ function TabBar({
   onSelect: (index: number) => void
 }) {
   const tabListRef = useRef<(HTMLButtonElement | null)[]>([])
+  const { scrollRef, canScrollLeft, canScrollRight, scroll } = useTabScroll()
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -119,33 +214,38 @@ function TabBar({
   )
 
   return (
-    <div
-      className="code-modal__tablist"
-      role="tablist"
-      aria-label="Source files"
-      data-testid="code-tablist"
-    >
-      {sources.map((source, i) => {
-        const isActive = i === activeIndex
-        return (
-          <button
-            key={source.label}
-            ref={(el) => {
-              tabListRef.current[i] = el
-            }}
-            role="tab"
-            type="button"
-            className={`code-modal__tab ${isActive ? 'code-modal__tab--active' : ''}`}
-            aria-selected={isActive}
-            tabIndex={isActive ? 0 : -1}
-            onClick={() => onSelect(i)}
-            onKeyDown={handleKeyDown}
-            data-testid={`code-tab-${i}`}
-          >
-            {source.label}
-          </button>
-        )
-      })}
+    <div className="code-modal__tab-scroll-wrapper">
+      {canScrollLeft && <ScrollCaret direction="left" onClick={() => scroll('left')} />}
+      <div
+        ref={scrollRef}
+        className="code-modal__tablist"
+        role="tablist"
+        aria-label="Source files"
+        data-testid="code-tablist"
+      >
+        {sources.map((source, i) => {
+          const isActive = i === activeIndex
+          return (
+            <button
+              key={source.label}
+              ref={(el) => {
+                tabListRef.current[i] = el
+              }}
+              role="tab"
+              type="button"
+              className={`code-modal__tab ${isActive ? 'code-modal__tab--active' : ''}`}
+              aria-selected={isActive}
+              tabIndex={isActive ? 0 : -1}
+              onClick={() => onSelect(i)}
+              onKeyDown={handleKeyDown}
+              data-testid={`code-tab-${i}`}
+            >
+              {source.label}
+            </button>
+          )
+        })}
+      </div>
+      {canScrollRight && <ScrollCaret direction="right" onClick={() => scroll('right')} />}
     </div>
   )
 }
