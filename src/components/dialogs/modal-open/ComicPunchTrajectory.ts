@@ -37,32 +37,43 @@ export function computeComicPunchTrajectory(
   const rotate: number[] = [],
     skewX: number[] = []
 
-  // Phase 1: FAST punch flight — scales with force so higher force still has trackable movement
-  // Soft: 25% of timeline = long enough to see. Hard: 32% to compensate for shorter durations.
-  const flightEnd = 0.25 + f * 0.07
+  // ── Origin pop: modal appears at button before punching ──
+  const popEnd = 0.07
+  const originX = from.x - center.x
+  const originY = from.y - center.y
+
+  x.push(originX, originX, originX)
+  y.push(originY, originY, originY)
+  times.push(0, 0.03, popEnd)
+  scale.push(0, 0.35, 0.30)
+  scaleX.push(1, 1, 1)
+  scaleY.push(1, 1, 1)
+  rotate.push(0, 0, 0)
+  skewX.push(0, 0, 0)
+  opacity.push(0, 1, 1)
+
+  // Phase 1: FAST punch flight from button to center
+  const flightStart = popEnd
+  const flightEnd = flightStart + 0.25 + f * 0.07
   const flightSamples = 8
-  // Ease-out power: soft = cubic (punchy), hard = slightly less aggressive so the eye can track
   const easeOutPower = 3 - f * 0.7 // 3.0 (soft) → 2.3 (hard)
 
-  for (let i = 0; i <= flightSamples; i++) {
+  for (let i = 1; i <= flightSamples; i++) {
     const t = i / flightSamples
-    const tl = t * flightEnd
+    const tl = flightStart + t * (flightEnd - flightStart)
     const curveT = 1 - Math.pow(1 - t, easeOutPower)
 
     x.push(from.x + dx * curveT - center.x)
     y.push(from.y + dy * curveT - center.y)
     times.push(tl)
 
-    // Larger initial scale at higher force — more visible at button origin
-    const initialScale = 0.3 + f * 0.12 // 0.3 (soft) → 0.42 (hard)
-    scale.push(initialScale + (1 - initialScale) * curveT)
+    scale.push(0.30 + 0.70 * curveT) // from pop scale to 1.0
     scaleX.push(1)
     scaleY.push(1)
     const tiltDir = angle > 0 ? 1 : -1
     rotate.push(tiltAngle * tiltDir * (1 - curveT))
     skewX.push(0)
-    // Start visible at button so the spatial origin is clear — comic panels don't fade in
-    opacity.push(Math.min(1, 0.5 + t * 4))
+    opacity.push(1)
   }
 
   // Phase 2: IMPACT squash-stretch bounces — this IS the animation

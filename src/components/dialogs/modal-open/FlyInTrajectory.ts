@@ -226,17 +226,22 @@ export function computeArcTrajectory(
   const perpShakeX = -dy / distance
   const perpShakeY = dx / distance
 
-  // ── Flight phase: dense Bezier sampling with force-dependent speed ──
-  const flightEnd = 0.7
-  const x: number[] = []
-  const y: number[] = []
-  const times: number[] = []
-  const scale: number[] = []
-  const opacity: number[] = []
+  // ── Origin pop: modal appears at button before departing ──
+  const popEnd = 0.07
+  const originX = from.x - center.x
+  const originY = from.y - center.y
+  const x: number[] = [originX, originX, originX]
+  const y: number[] = [originY, originY, originY]
+  const times: number[] = [0, 0.03, popEnd]
+  const scale: number[] = [0, 0.35, 0.30]
+  const opacity: number[] = [0, 1, 1]
 
-  for (let i = 0; i <= ARC_SAMPLES; i++) {
+  // ── Flight phase: dense Bezier sampling with force-dependent speed ──
+  const flightEnd = 0.7 + (1 - 0.7) * popEnd // compress slightly to preserve settle ratio
+
+  for (let i = 1; i <= ARC_SAMPLES; i++) {
     const linearT = i / ARC_SAMPLES // 0→1, uniform time progress
-    const timelineT = linearT * flightEnd
+    const timelineT = popEnd + linearT * (flightEnd - popEnd)
 
     // Position: speed character baked into WHERE on the Bezier we are at each time step
     const curveT = invertSpeedCurve(linearT, f)
@@ -244,13 +249,12 @@ export function computeArcTrajectory(
     y.push(cBezier(curveT, from.y, cp1.y, cp2.y, center.y) - center.y)
     times.push(timelineT)
 
-    // Scale: follows LINEAR time with its own smooth ease-out (decoupled from trajectory speed)
+    // Scale: ramp from pop scale to full via ease-out
     const scaleVal =
       initialScale + (1 - initialScale) * (1 - Math.pow(1 - linearT, scaleGrowthPower))
-    scale.push(scaleVal)
+    scale.push(Math.max(scaleVal, 0.30)) // never below pop scale
 
-    // Opacity: start visible at button (0.4) so the spatial origin is clear
-    opacity.push(Math.min(1, 0.4 + linearT * 8))
+    opacity.push(1)
   }
 
   // ── Settle phase: overshoot + bounce + optional impact shake + rest ──

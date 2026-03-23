@@ -48,32 +48,40 @@ export function computeBubblePopTrajectory(
     opacity.push(op)
   }
 
-  // Phase 1: Quick snap from trigger to center (0→12%)
-  // Start visible at button so the spatial origin is clear
-  x.push(from.x - center.x)
-  y.push(from.y - center.y)
-  times.push(0)
-  scale.push(0.08)
-  scaleX.push(1)
-  scaleY.push(1)
-  rotate.push(0)
-  skewX.push(0)
-  opacity.push(0.6)
+  const originX = from.x - center.x
+  const originY = from.y - center.y
 
-  // Midway: moving toward center, growing
-  x.push((from.x - center.x) * 0.3)
-  y.push((from.y - center.y) * 0.3)
-  times.push(0.06)
-  scale.push(0.1)
-  scaleX.push(1)
-  scaleY.push(1)
-  rotate.push(0)
-  skewX.push(0)
-  opacity.push(0.9)
+  // Phase 0: Origin pop — modal appears at button before snapping to center
+  const pushAt = (
+    px: number,
+    py: number,
+    tl: number,
+    s: number,
+    sx: number,
+    sy: number,
+    sk: number,
+    op: number
+  ) => {
+    x.push(px)
+    y.push(py)
+    times.push(tl)
+    scale.push(s)
+    scaleX.push(sx)
+    scaleY.push(sy)
+    rotate.push(0)
+    skewX.push(sk)
+    opacity.push(op)
+  }
 
-  push(0.12, 0.15, 1, 1, 0, 1)
+  pushAt(originX, originY, 0, 0, 1, 1, 0, 0) // invisible at button
+  pushAt(originX, originY, 0.03, 0.35, 1, 1, 0, 1) // pop to visible
+  pushAt(originX, originY, 0.07, 0.30, 1, 1, 0, 1) // hold at button
 
-  // Phase 2: Inflation with wobble (12%→64%)
+  // Phase 1: Snap from button to center (7%→14%)
+  pushAt(originX * 0.3, originY * 0.3, 0.10, 0.20, 1, 1, 0, 1) // midway
+  push(0.14, 0.15, 1, 1, 0, 1) // at center, ready to inflate
+
+  // Phase 2: Inflation with wobble (14%→66%)
   // CRT-inspired: fewer, wider swings. One big overshoot then halving settle.
   const a = wobbleAmp
   const ah = a * 0.5
