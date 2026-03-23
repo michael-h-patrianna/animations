@@ -67,7 +67,7 @@ export function computeSlamDownTrajectory(
     y.push(from.y * (1 - yT) + (center.y - launchHeight) * yT - center.y)
     times.push(tl)
     // Scale: start at 0.35 (visible at button), grow during launch
-    scale.push(0.35 + 0.50 * t)
+    scale.push(0.35 + 0.5 * t)
     opacity.push(1)
     ext()
   }

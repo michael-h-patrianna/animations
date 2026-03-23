@@ -17,9 +17,10 @@ import { computeSlamDownCloseTrajectory, computeSlamDownTrajectory } from '../Sl
 import { type ExtendedTrajectoryArrays, type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
+  { label: 'Soy', force: 0.02, duration: 1100, reveal: 45 },
   { label: 'Soft', force: 0.1, duration: 850, reveal: 55 },
   { label: 'Harder', force: 0.6, duration: 550, reveal: 65 },
-  { label: "I'm scared", force: 1.0, duration: 450, reveal: 72 },
+  { label: 'Daddy', force: 1.0, duration: 450, reveal: 72 },
 ]
 
 function ModalOpenSlamDownComponent(props: ModalOpenProps) {

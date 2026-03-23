@@ -76,7 +76,7 @@ export function computeBubblePopTrajectory(
 
   pushAt(originX, originY, 0, 0.12, 1, 1, 0, 1) // visible seed at button
   pushAt(originX * 0.3, originY * 0.3, 0.05, 0.14, 1, 1, 0, 1) // growing toward center
-  push(0.10, 0.15, 1, 1, 0, 1) // at center, ready to inflate
+  push(0.1, 0.15, 1, 1, 0, 1) // at center, ready to inflate
 
   // Phase 2: Inflation with wobble (10%→64%)
   // CRT-inspired: fewer, wider swings. One big overshoot then halving settle.

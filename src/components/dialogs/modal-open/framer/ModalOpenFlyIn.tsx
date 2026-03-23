@@ -42,9 +42,10 @@ const CLOSE_DURATION_RATIO = 0.7
 // ── Demo config (catalog only — not part of consumer API) ──────────────
 
 const DEMO_BUTTONS = [
+  { label: 'Soy', force: 0.02, duration: 1200, reveal: 40 },
   { label: 'Soft', force: 0.1, duration: 900, reveal: 50 },
   { label: 'Harder', force: 0.6, duration: 520, reveal: 65 },
-  { label: "I'm scared", force: 1.0, duration: 400, reveal: 72 },
+  { label: 'Daddy', force: 1.0, duration: 400, reveal: 72 },
 ] as const
 
 interface DemoConfig {

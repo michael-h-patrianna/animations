@@ -17,9 +17,10 @@ import {
 import { type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
+  { label: 'Soy', force: 0.02, duration: 1000, reveal: 45 },
   { label: 'Soft', force: 0.1, duration: 700, reveal: 55 },
   { label: 'Harder', force: 0.6, duration: 480, reveal: 60 },
-  { label: "I'm scared", force: 1.0, duration: 350, reveal: 68 },
+  { label: 'Daddy', force: 1.0, duration: 350, reveal: 68 },
 ]
 
 function ModalOpenComicPunchComponent(props: ModalOpenProps) {
