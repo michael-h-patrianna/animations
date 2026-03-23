@@ -47,7 +47,10 @@ const rules = {
         let prev
         do {
           prev = result
-          result = result.replace(/var\(\s*--[\w-]+\s*,\s*(?:[^()]*|\([^()]*\))*\)/g, 'var(--stripped)')
+          result = result.replace(
+            /var\(\s*--[\w-]+\s*,\s*(?:[^()]*|\([^()]*\))*\)/g,
+            'var(--stripped)'
+          )
         } while (result !== prev)
         return result
       }
@@ -186,7 +189,15 @@ const rules = {
     },
     create(context) {
       const blurPattern = /\bblur\s*\(/i
-      const animateProps = new Set(['animate', 'whileHover', 'whileTap', 'whileFocus', 'whileDrag', 'whileInView', 'exit'])
+      const animateProps = new Set([
+        'animate',
+        'whileHover',
+        'whileTap',
+        'whileFocus',
+        'whileDrag',
+        'whileInView',
+        'exit',
+      ])
       const msg =
         'Animated blur() is banned — GPU-expensive on mobile and not portable to React Native. Static blur in style/initial is allowed.'
 

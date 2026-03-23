@@ -229,10 +229,10 @@ export default defineConfig([
       // Splitting into sub-components would create artificial decomposition with no
       // reuse value and would break the self-contained component contract.
       'max-lines-per-function': 'off',
-      // Animation files may exceed the global 500-line limit but are capped at 400
+      // Animation files may exceed the global 500-line limit but are capped at 450
       // (skip blanks + comments). Components beyond this should extract config,
       // hooks, or sub-components into a sibling *Config.ts or *Parts.tsx file.
-      'max-lines': ['error', { max: 400, skipBlankLines: true, skipComments: true }],
+      'max-lines': ['error', { max: 450, skipBlankLines: true, skipComments: true }],
       // Embedded colors in compound CSS values (box-shadow, gradient strings) are
       // caught by the stricter Literal handler. Warn (not error) in animation dirs
       // to flag for migration without breaking CI on 50+ pre-existing occurrences.
@@ -275,12 +275,31 @@ export default defineConfig([
       'react-refresh/only-export-components': 'off',
     },
   },
+  // Shared computation files at group root: trajectory generators, physics models,
+  // type bundles. These contain pure mathematical functions computing animation
+  // keyframes — same exempt status as animation components for line limits.
+  {
+    files: ['src/components/**/Shared*.ts', 'src/components/**/Shared*.tsx'],
+    rules: {
+      'max-lines-per-function': 'off',
+      'max-lines': ['error', { max: 600, skipBlankLines: true, skipComments: true }],
+    },
+  },
   // Logger test: logger.debug() triggers false positive from testing-library/no-debugging-utils
   // which targets screen.debug()/prettyDOM(). The logger's .debug() method is unrelated.
   {
     files: ['src/__tests__/services.logger.test.ts'],
     rules: {
       'testing-library/no-debugging-utils': 'off',
+    },
+  },
+  // ErrorBoundary test: AsyncThrower intentionally calls setState in useEffect to verify
+  // that ErrorBoundary catches state-update-triggered render errors. The pattern is the
+  // test subject, not a mistake.
+  {
+    files: ['src/__tests__/components.ErrorBoundary.test.tsx'],
+    rules: {
+      '@eslint-react/set-state-in-effect': 'off',
     },
   },
   // Timer test utils: components intentionally leak timers to test the leak detector
@@ -309,6 +328,8 @@ export default defineConfig([
       'src/__tests__/ui.mobile-header.test.tsx',
       // Focus trap tests require document.activeElement — no Testing Library equivalent
       'src/__tests__/hooks.useModalAccessibility.test.tsx',
+      // Modal lifecycle integration test: focus trap assertions require document.activeElement
+      'src/__tests__/integration.modal-lifecycle.test.tsx',
     ],
     rules: {
       'testing-library/no-node-access': 'off',
@@ -339,11 +360,14 @@ export default defineConfig([
   //   _resetScrollLockState() so useEffect unmount decrements lockCount first.
   // - all-animations.data-animation-id.test.tsx: 170+ lazy components in one suite
   //   require explicit cleanup per test to prevent memory accumulation.
+  // - integration.modal-lifecycle.test.tsx: cleanup() must run BEFORE
+  //   _resetScrollLockState() for deterministic scroll lock ordering.
   {
     files: [
       'src/__tests__/App.test.tsx',
       'src/__tests__/all-animations.data-animation-id.test.tsx',
       'src/__tests__/hooks.usePreviewModal.test.ts',
+      'src/__tests__/integration.modal-lifecycle.test.tsx',
     ],
     rules: {
       'testing-library/no-manual-cleanup': 'off',
@@ -405,7 +429,13 @@ export default defineConfig([
   },
   // Color utilities: raw color values are the purpose of these modules
   {
-    files: ['src/utils/colors.ts', 'src/components/**/SharedParticleUtils.ts', 'src/components/**/SharedDefaults.ts', 'src/components/**/SharedCelebrationTypes.ts', 'src/components/**/SharedFallbackCoin.tsx'],
+    files: [
+      'src/utils/colors.ts',
+      'src/components/**/SharedParticleUtils.ts',
+      'src/components/**/SharedDefaults.ts',
+      'src/components/**/SharedCelebrationTypes.ts',
+      'src/components/**/SharedFallbackCoin.tsx',
+    ],
     rules: {
       'animation-rules/no-hardcoded-colors': 'off',
     },

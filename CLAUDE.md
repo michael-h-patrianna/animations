@@ -15,18 +15,18 @@ Refactoring playbook: `docs/reports/animation-refactoring-playbook.md`
 
 ## Constraints
 
-| Constraint | Rule |
-|-|-|
-| Dual implementation | Every animation has both `framer/` and `css/` variants |
-| Standalone components | Zero demo imports inside animation components — demo UI rendered by catalog via `demoMode` metadata |
-| Auto-discovery | Adding `.tsx` + `.meta.ts` to `framer/` or `css/` is sufficient — no index edits |
-| No global CSS | Styles scoped to group (`shared.css`) or component (`.css` file) |
-| Motion import | `import * as m from 'motion/react-m'` (never `framer-motion`) |
-| Path aliases | Always use `@/` imports, never relative `../` chains |
-| Metadata co-location | `.meta.ts` next to component — no external config files |
-| Component purity | Animation components render only animation DOM — no cards, titles, replay, or demo anchors |
-| All props optional | Components typed `ComponentType<Record<string, unknown>>` — must work with zero props |
-| CSS/framer conflict | Framer `m.*` elements need `style={{ animation: 'none' }}` when sharing class names with CSS-animated elements |
+| Constraint            | Rule                                                                                                           |
+| --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Dual implementation   | Every animation has both `framer/` and `css/` variants                                                         |
+| Standalone components | Zero demo imports inside animation components — demo UI rendered by catalog via `demoMode` metadata            |
+| Auto-discovery        | Adding `.tsx` + `.meta.ts` to `framer/` or `css/` is sufficient — no index edits                               |
+| No global CSS         | Styles scoped to group (`shared.css`) or component (`.css` file)                                               |
+| Motion import         | `import * as m from 'motion/react-m'` (never `framer-motion`)                                                  |
+| Path aliases          | Always use `@/` imports, never relative `../` chains                                                           |
+| Metadata co-location  | `.meta.ts` next to component — no external config files                                                        |
+| Component purity      | Animation components render only animation DOM — no cards, titles, replay, or demo anchors                     |
+| All props optional    | Components typed `ComponentType<Record<string, unknown>>` — must work with zero props                          |
+| CSS/framer conflict   | Framer `m.*` elements need `style={{ animation: 'none' }}` when sharing class names with CSS-animated elements |
 
 ## Required Reading
 
@@ -36,19 +36,19 @@ Refactoring playbook: `docs/reports/animation-refactoring-playbook.md`
 
 ## Commands
 
-| Command | Purpose |
-|-|-|
-| `npm run dev` | Dev server (already running — do not start another) |
-| `npm test` | Unit tests (single run) |
-| `npm run test:coverage` | Unit tests with coverage |
-| `npm run test:e2e` | Playwright E2E (headless) |
-| `npm run test:e2e:headed` | Playwright E2E (visible browser) |
-| `npm run type-check` | TypeScript validation |
-| `npm run lint` | ESLint + Stylelint |
-| `npm run lint:css` | Stylelint only |
-| `npm run lint:fix` | Auto-fix lint issues |
-| `npm run build` | Production build (`tsc` + Vite) |
-| `npx vite build` | Build without `tsc` gate |
+| Command                   | Purpose                                             |
+| ------------------------- | --------------------------------------------------- |
+| `npm run dev`             | Dev server (already running — do not start another) |
+| `npm test`                | Unit tests (single run)                             |
+| `npm run test:coverage`   | Unit tests with coverage                            |
+| `npm run test:e2e`        | Playwright E2E (headless)                           |
+| `npm run test:e2e:headed` | Playwright E2E (visible browser)                    |
+| `npm run type-check`      | TypeScript validation                               |
+| `npm run lint`            | ESLint + Stylelint                                  |
+| `npm run lint:css`        | Stylelint only                                      |
+| `npm run lint:fix`        | Auto-fix lint issues                                |
+| `npm run build`           | Production build (`tsc` + Vite)                     |
+| `npx vite build`          | Build without `tsc` gate                            |
 
 ## Data Flow
 
@@ -57,6 +57,7 @@ Component → Group `index.ts` (buildGroupExport) → Category `index.ts` → `a
 ## Demo Separation
 
 Animation components contain zero demo code. The catalog handles demo rendering:
+
 1. Animation metadata has optional `demoMode` field
 2. `GroupSection.tsx` checks `demoMode` and wraps component with `DemoModeWrapper`
 3. The wrapper renders demo UI (anchors, mock data) as siblings and passes refs/values as props

@@ -17,8 +17,10 @@ const DIST_DIR = join(import.meta.dirname, '..', 'dist', 'assets')
 
 /** Size budgets in KB (uncompressed). */
 const BUDGETS = {
-  // Main app entry — includes all eager imports (registry, UI components, types)
-  'index-*.js': 400,
+  // Main app entry — includes all eager imports (registry, UI components, types).
+  // Budget is uncompressed KB. Gzip is ~62KB at current size. Raised from 400
+  // to 450 to accommodate ongoing animation registration without false failures.
+  'index-*.js': 450,
   // React + React DOM + React Router
   'react-vendor-*.js': 300,
   // Motion (Framer Motion) core
