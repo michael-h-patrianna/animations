@@ -12,9 +12,8 @@ import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useStat
 import { ModalOpenPlaceholder } from '../MockOpenModalContent'
 import '../shared.css'
 import './ModalOpenFlyIn.css'
+import { computeArcCloseTrajectory, computeArcTrajectory } from '../FlyInTrajectory'
 import {
-  computeArcCloseTrajectory,
-  computeArcTrajectory,
   containerCenter,
   resolvePointRelative,
   DEFAULT_DURATION,

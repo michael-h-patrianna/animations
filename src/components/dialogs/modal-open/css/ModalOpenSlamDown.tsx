@@ -13,8 +13,8 @@ import './shared-css-animations.css'
 import {
   computeSlamDownCloseTrajectory,
   computeSlamDownTrajectory,
-  type ModalOpenProps,
-} from '../SharedTypes'
+} from '../SlamDownTrajectory'
+import { type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soft', force: 0.1, duration: 850, reveal: 55 },

@@ -16,9 +16,8 @@ import '../shared.css'
 import {
   computeSlamDownCloseTrajectory,
   computeSlamDownTrajectory,
-  type ExtendedTrajectoryArrays,
-  type ModalOpenProps,
-} from '../SharedTypes'
+} from '../SlamDownTrajectory'
+import { type ExtendedTrajectoryArrays, type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soft', force: 0.1, duration: 850, reveal: 55 },

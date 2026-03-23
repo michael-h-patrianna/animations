@@ -13,8 +13,8 @@ import './shared-css-animations.css'
 import {
   computeComicPunchCloseTrajectory,
   computeComicPunchTrajectory,
-  type ModalOpenProps,
-} from '../SharedTypes'
+} from '../ComicPunchTrajectory'
+import { type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soft', force: 0.1, duration: 700, reveal: 55 },

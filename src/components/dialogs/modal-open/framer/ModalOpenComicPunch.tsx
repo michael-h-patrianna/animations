@@ -16,9 +16,8 @@ import '../shared.css'
 import {
   computeComicPunchCloseTrajectory,
   computeComicPunchTrajectory,
-  type ExtendedTrajectoryArrays,
-  type ModalOpenProps,
-} from '../SharedTypes'
+} from '../ComicPunchTrajectory'
+import { type ExtendedTrajectoryArrays, type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soft', force: 0.1, duration: 700, reveal: 55 },

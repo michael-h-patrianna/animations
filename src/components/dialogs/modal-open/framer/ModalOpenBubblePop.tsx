@@ -16,9 +16,8 @@ import '../shared.css'
 import {
   computeBubblePopCloseTrajectory,
   computeBubblePopTrajectory,
-  type ExtendedTrajectoryArrays,
-  type ModalOpenProps,
-} from '../SharedTypes'
+} from '../BubblePopTrajectory'
+import { type ExtendedTrajectoryArrays, type ModalOpenProps } from '../SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soft', force: 0.1, duration: 900, reveal: 45 },

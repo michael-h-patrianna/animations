@@ -1,6 +1,6 @@
+import { invertSpeedCurve } from '@/components/dialogs/modal-open/FlyInTrajectory'
 import {
   containerCenter,
-  invertSpeedCurve,
   resolvePoint,
   resolvePointRelative,
   reverseExtended,
