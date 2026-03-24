@@ -10,9 +10,29 @@ export const metadata = {
   tier: 4,
   previewMaxWidth: 414,
   props: [
-    { type: 'number', name: 'progress', label: 'Progress', default: 0.72, min: 0, max: 1, step: 0.01 },
-    { type: 'string', name: 'milestones', label: 'Milestones', disabled: true, disabledReason: 'MilestoneConfig[] — set via code' },
+    {
+      type: 'number',
+      name: 'progress',
+      label: 'Progress',
+      default: 0.72,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    {
+      type: 'string',
+      name: 'milestones',
+      label: 'Milestones',
+      disabled: true,
+      disabledReason: 'MilestoneConfig[] — set via code',
+    },
     { type: 'string', name: 'className', label: 'Class Name' },
-    { type: 'string', name: 'style', label: 'Style', disabled: true, disabledReason: 'CSSProperties object — set via code' },
+    {
+      type: 'string',
+      name: 'style',
+      label: 'Style',
+      disabled: true,
+      disabledReason: 'CSSProperties object — set via code',
+    },
   ],
 } satisfies AnimationMetadata

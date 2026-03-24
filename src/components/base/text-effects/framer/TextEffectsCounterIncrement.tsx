@@ -199,7 +199,11 @@ function TextEffectsCounterIncrementComponent({
     <div
       className="pf-counter-showcase"
       data-animation-id="text-effects__counter-increment"
-      style={color !== undefined ? { '--text-effects-counter-increment-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--text-effects-counter-increment-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
       <div className="pf-counter-showcase__target">
         <m.span

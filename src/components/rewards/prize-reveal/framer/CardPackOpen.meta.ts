@@ -11,7 +11,15 @@ export const metadata = {
   controls: 'prizeCount',
   prizeCountMax: 5,
   props: [
-    { type: 'number', name: 'prizeCount', label: 'Card Count', default: 5, min: 1, max: 5, step: 1 },
+    {
+      type: 'number',
+      name: 'prizeCount',
+      label: 'Card Count',
+      default: 5,
+      min: 1,
+      max: 5,
+      step: 1,
+    },
   ],
   tier: 4,
 } satisfies AnimationMetadata

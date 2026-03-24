@@ -7,15 +7,47 @@
 .tfx-cinc-container {
   --text-effects-counter-increment-color: #c6ff77;
   --text-effects-counter-increment-color-1: var(--text-effects-counter-increment-color);
-  --text-effects-counter-increment-color-2: color-mix(in srgb, var(--text-effects-counter-increment-color), black 10%);
-  --text-effects-counter-increment-color-3: color-mix(in srgb, var(--text-effects-counter-increment-color), white 20%);
-  --text-effects-counter-increment-color-4: color-mix(in srgb, var(--text-effects-counter-increment-color), white 40%);
-  --text-effects-counter-increment-bg-100: color-mix(in srgb, var(--text-effects-counter-increment-color), white 85%);
-  --text-effects-counter-increment-bg-101: color-mix(in srgb, var(--text-effects-counter-increment-color), white 85%);
+  --text-effects-counter-increment-color-2: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    black 10%
+  );
+  --text-effects-counter-increment-color-3: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    white 20%
+  );
+  --text-effects-counter-increment-color-4: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    white 40%
+  );
+  --text-effects-counter-increment-bg-100: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    white 85%
+  );
+  --text-effects-counter-increment-bg-101: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    white 85%
+  );
   --text-effects-counter-increment-bg-102: var(--text-effects-counter-increment-color);
-  --text-effects-counter-increment-bg-103: color-mix(in srgb, var(--text-effects-counter-increment-color), black 20%);
-  --text-effects-counter-increment-bg-104: color-mix(in srgb, var(--text-effects-counter-increment-color), black 40%);
-  --text-effects-counter-increment-text-shadow-105: color-mix(in srgb, var(--text-effects-counter-increment-color), transparent 65%);
+  --text-effects-counter-increment-bg-103: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    black 20%
+  );
+  --text-effects-counter-increment-bg-104: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    black 40%
+  );
+  --text-effects-counter-increment-text-shadow-105: color-mix(
+    in srgb,
+    var(--text-effects-counter-increment-color),
+    transparent 65%
+  );
   display: flex;
   align-items: center;
   justify-content: center;

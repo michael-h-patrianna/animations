@@ -58,18 +58,46 @@ const HeaderActions = ({
   settingsOpen,
 }: HeaderActionsProps) => (
   <div className="flex items-center gap-1">
-    <button type="button" className="pf-card__code-btn" onClick={onOpenDesktopPreview} aria-label="Desktop preview" title="Desktop preview" data-testid="preview-btn-desktop">
+    <button
+      type="button"
+      className="pf-card__code-btn"
+      onClick={onOpenDesktopPreview}
+      aria-label="Desktop preview"
+      title="Desktop preview"
+      data-testid="preview-btn-desktop"
+    >
       <MonitorIcon />
     </button>
-    <button type="button" className="pf-card__code-btn" onClick={onOpenMobilePreview} aria-label="Mobile preview" title="Mobile preview" data-testid="preview-btn-mobile">
+    <button
+      type="button"
+      className="pf-card__code-btn"
+      onClick={onOpenMobilePreview}
+      aria-label="Mobile preview"
+      title="Mobile preview"
+      data-testid="preview-btn-mobile"
+    >
       <SmartphoneIcon />
     </button>
     {onOpenCode != null && (
-      <button type="button" className="pf-card__code-btn" onClick={onOpenCode} aria-label="View source code" title="View source code" data-testid="code-viewer-btn">
+      <button
+        type="button"
+        className="pf-card__code-btn"
+        onClick={onOpenCode}
+        aria-label="View source code"
+        title="View source code"
+        data-testid="code-viewer-btn"
+      >
         <CodeIcon />
       </button>
     )}
-    <button type="button" className="pf-card__code-btn" onClick={onCopyLink} aria-label="Copy animation URL" title="Copy animation URL" data-testid="copy-link-btn">
+    <button
+      type="button"
+      className="pf-card__code-btn"
+      onClick={onCopyLink}
+      aria-label="Copy animation URL"
+      title="Copy animation URL"
+      data-testid="copy-link-btn"
+    >
       <LinkIcon />
     </button>
     {onOpenSettings != null && (
@@ -107,7 +135,10 @@ export const CardHeaderBar = ({
 }: CardHeaderBarProps) => (
   <div className="p-0 pb-3">
     <div className="flex items-center justify-between gap-2">
-      <div className="pf-card__title mb-0 font-semibold leading-none tracking-tight" data-testid="card-title">
+      <div
+        className="pf-card__title mb-0 font-semibold leading-none tracking-tight"
+        data-testid="card-title"
+      >
         {title}
       </div>
       <HeaderActions {...actions} />

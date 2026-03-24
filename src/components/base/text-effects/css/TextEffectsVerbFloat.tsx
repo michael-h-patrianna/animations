@@ -19,7 +19,10 @@ interface TextEffectsVerbFloatProps {
  * <TextEffectsVerbFloat text="HELLO WORLD" />
  * <TextEffectsVerbFloat text="A B C" />
  */
-function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbFloatProps) {
+function TextEffectsVerbFloatComponent({
+  text = 'LOREM IPSUM DOLOR',
+  color,
+}: TextEffectsVerbFloatProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -27,7 +30,9 @@ function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR', color }: Te
       className="tfx-float-container"
       data-animation-id="text-effects__verb-floating"
       aria-label={text}
-      style={color !== undefined ? { '--lsd-baseColor': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--lsd-baseColor': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="tfx-float-line" aria-hidden="true">
         {letters.map((ch, i) => (

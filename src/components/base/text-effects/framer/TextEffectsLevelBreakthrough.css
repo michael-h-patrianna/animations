@@ -1,7 +1,11 @@
 /* Styles scoped for TextEffectsLevelBreakthrough */
 .pf-breakthrough-container {
   --text-effects-level-breakthrough-color: #ffce1a;
-  --text-effects-level-breakthrough-glow: color-mix(in srgb, var(--text-effects-level-breakthrough-color), transparent 20%);
+  --text-effects-level-breakthrough-glow: color-mix(
+    in srgb,
+    var(--text-effects-level-breakthrough-color),
+    transparent 20%
+  );
   position: relative;
 }
 .pf-level-breakthrough {

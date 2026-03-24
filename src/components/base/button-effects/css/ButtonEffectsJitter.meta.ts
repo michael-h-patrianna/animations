@@ -8,7 +8,22 @@ export const metadata: AnimationMetadata = {
   infinite: true,
   tier: 1,
   props: [
-    { type: 'number', name: 'duration', label: 'Duration', default: 4000, min: 500, max: 10000, step: 100, unit: 'ms' },
-    { type: 'string', name: 'children', label: 'Children', disabled: true, disabledReason: 'Wrap your button via JSX children' },
+    {
+      type: 'number',
+      name: 'duration',
+      label: 'Duration',
+      default: 4000,
+      min: 500,
+      max: 10000,
+      step: 100,
+      unit: 'ms',
+    },
+    {
+      type: 'string',
+      name: 'children',
+      label: 'Children',
+      disabled: true,
+      disabledReason: 'Wrap your button via JSX children',
+    },
   ],
 }

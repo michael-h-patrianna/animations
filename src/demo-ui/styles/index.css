@@ -15,6 +15,7 @@
 /* GLASSMORPHISM UTILITIES */
 [data-demo-ui] .glass-panel {
   background-color: var(--bg-glass);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   backdrop-filter: blur(16px) saturate(150%);
   border: 1px solid var(--border-subtle);
   box-shadow:
@@ -25,6 +26,28 @@
     background-color 0.3s ease,
     border-color 0.3s ease,
     box-shadow 0.3s ease;
+}
+
+[data-demo-ui].pf-shell-backdrop {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklch, var(--theme-accent) 22%, transparent) 0%,
+      transparent 42%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--text-primary) 8%, transparent) 0%,
+      transparent 34%,
+      color-mix(in oklch, var(--theme-accent) 10%, transparent) 100%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--bg-app), white 7%) 0%,
+      color-mix(in oklch, var(--bg-app), white 2%) 20%,
+      var(--bg-app) 32%,
+      color-mix(in oklch, var(--bg-app), black 8%) 100%
+    );
 }
 
 [data-demo-ui] .glass-input {

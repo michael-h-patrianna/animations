@@ -185,7 +185,11 @@ function TextEffectsCounterIncrementComponent({
     <div
       className="tfx-cinc-container"
       data-animation-id="text-effects__counter-increment"
-      style={color !== undefined ? { '--text-effects-counter-increment-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--text-effects-counter-increment-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
       <div className="tfx-cinc-value-wrapper">
         <span key={popKey} className="tfx-cinc-value tfx-cinc-value--popping">

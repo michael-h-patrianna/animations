@@ -27,7 +27,11 @@ function TextEffectsWaveTextComponent({
     <div
       className="tfx-wave-text-container"
       data-animation-id="text-effects__wave-text"
-      style={color !== undefined ? { '--text-effects-wave-text-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--text-effects-wave-text-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
       <div className="tfx-wave-text-wrapper">
         {text.split('').map((char, index) => {

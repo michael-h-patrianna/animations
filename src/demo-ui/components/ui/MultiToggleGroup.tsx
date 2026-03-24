@@ -41,10 +41,12 @@ export const MultiToggleGroup = <T extends string = string>({
 
   return (
     <div className={className}>
-      {label && <label className='block text-xs font-medium text-text-secondary mb-2'>{label}</label>}
+      {label && (
+        <label className="block text-xs font-medium text-text-secondary mb-2">{label}</label>
+      )}
       <div
-        className='flex flex-wrap gap-1 p-1 bg-[var(--bg-hover)] rounded-lg'
-        role='group'
+        className="flex flex-wrap gap-1 p-1 bg-[var(--bg-hover)] rounded-lg"
+        role="group"
         aria-label={ariaLabel || label}
         data-testid={testId}
       >
@@ -66,11 +68,11 @@ export const MultiToggleGroup = <T extends string = string>({
                     : 'bg-[var(--bg-hover)] text-text-secondary border-border-default hover:text-text-primary hover:bg-[var(--bg-active)]'
                 }
               `}
-              role='checkbox'
+              role="checkbox"
               aria-checked={isSelected}
               data-testid={testId ? `${testId}-${option.value}` : undefined}
             >
-              <span className='relative z-10'>{option.label}</span>
+              <span className="relative z-10">{option.label}</span>
             </MotionEl.button>
           )
         })}

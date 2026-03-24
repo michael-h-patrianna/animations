@@ -29,7 +29,9 @@ function TextEffectsVerbFallComponent({
       className="pf-verb-fall"
       data-animation-id="text-effects__verb-falling"
       aria-label={text}
-      style={color !== undefined ? { '--pf-verb-fall-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-verb-fall-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-verb-fall__line" aria-hidden="true">
         {letters.map((ch, i) => (

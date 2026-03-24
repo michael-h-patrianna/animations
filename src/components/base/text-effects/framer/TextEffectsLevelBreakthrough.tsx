@@ -89,7 +89,11 @@ function TextEffectsLevelBreakthroughComponent({
     <div
       className="pf-breakthrough-container"
       data-animation-id="text-effects__level-breakthrough"
-      style={color !== undefined ? { '--text-effects-level-breakthrough-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--text-effects-level-breakthrough-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
       <m.div
         className="pf-surge-lines"

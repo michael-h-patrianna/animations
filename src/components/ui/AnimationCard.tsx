@@ -248,12 +248,23 @@ function CardCanvas({
 
 function AnimationCardComponent(props: AnimationCardProps) {
   const { title, description, animationId, children, tier, previewMaxWidth, sourceLoader } = props
-  const { infiniteAnimation = false, disableReplay = false, controls: controlType, prizeCountMax, previewPosition, propsConfig } = props
+  const {
+    infiniteAnimation = false,
+    disableReplay = false,
+    controls: controlType,
+    prizeCountMax,
+    previewPosition,
+    propsConfig,
+  } = props
   const card = useAnimationCard(props)
   const effectiveControlType = propsConfig != null ? undefined : controlType
 
   return (
-    <div className="pf-card" data-animation-id={animationId} ref={card.playback.cardRef}>
+    <div
+      className="pf-card glass-panel"
+      data-animation-id={animationId}
+      ref={card.playback.cardRef}
+    >
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeaderBar
         title={title}
@@ -262,7 +273,9 @@ function AnimationCardComponent(props: AnimationCardProps) {
         onToggle={() => card.setIsExpanded((v) => !v)}
         onCopyLink={card.handleCopyLink}
         onOpenCode={sourceLoader ? card.codeViewer.open : undefined}
-        onOpenSettings={propsConfig != null && import.meta.env.DEV ? card.settings.toggle : undefined}
+        onOpenSettings={
+          propsConfig != null && import.meta.env.DEV ? card.settings.toggle : undefined
+        }
         settingsOpen={card.settings.isOpen}
         onOpenDesktopPreview={card.preview.openDesktop}
         onOpenMobilePreview={card.preview.openMobile}
@@ -299,7 +312,12 @@ function AnimationCardComponent(props: AnimationCardProps) {
         {children}
       </CardModals>
       {propsConfig != null && import.meta.env.DEV && (
-        <CardSettingsPortal title={title} propsConfig={propsConfig} settings={card.settings} onApply={card.playback.triggerReplay} />
+        <CardSettingsPortal
+          title={title}
+          propsConfig={propsConfig}
+          settings={card.settings}
+          onApply={card.playback.triggerReplay}
+        />
       )}
       {card.toastPortal}
     </div>

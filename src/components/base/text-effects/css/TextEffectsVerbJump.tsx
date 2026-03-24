@@ -35,7 +35,9 @@ function TextEffectsVerbJumpComponent({
       className="tfx-jump-container"
       data-animation-id="text-effects__verb-jumping"
       aria-label={text}
-      style={color !== undefined ? { '--lsd-baseColor': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--lsd-baseColor': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="tfx-jump-line" aria-hidden="true">
         {letters.map((ch, i) => (

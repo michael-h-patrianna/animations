@@ -20,6 +20,8 @@ interface EditorLayoutProps {
   children?: React.ReactNode
 }
 
+const TOP_BAR_OFFSET_PX = 64
+
 const SPRING_CONFIG = {
   type: 'spring' as const,
   damping: 25,
@@ -31,6 +33,11 @@ const panelVariants = {
   hiddenLeft: { x: -340, opacity: 0, scale: 0.95 },
   visible: { x: 0, opacity: 1, scale: 1, transition: SPRING_CONFIG },
   hiddenRight: { x: 340, opacity: 0, scale: 0.95 },
+}
+
+const sidePanelOffsetStyle: React.CSSProperties = {
+  marginTop: `${TOP_BAR_OFFSET_PX}px`,
+  height: `calc(100% - ${TOP_BAR_OFFSET_PX}px)`,
 }
 
 export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
@@ -48,8 +55,7 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
       data-demo-ui
       data-mode={theme}
       data-accent={accent}
-      className="relative h-screen supports-[height:100dvh]:h-[100dvh] w-screen overflow-hidden"
-      style={{ backgroundColor: 'var(--bg-app)' }}
+      className="pf-shell-backdrop relative h-screen supports-[height:100dvh]:h-dvh w-screen overflow-hidden"
     >
       <m.div
         initial={{ opacity: 0 }}
@@ -58,7 +64,7 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
         className="relative z-10 flex flex-col h-full w-full pointer-events-none"
         style={{ color: 'var(--text-primary)' }}
       >
-        <div className="pointer-events-auto shrink-0 z-50">
+        <div className="pointer-events-auto absolute inset-x-0 top-0 z-50">
           <EditorTopBar />
         </div>
 
@@ -73,6 +79,7 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
                 variants={panelVariants}
                 data-testid="left-panel"
                 className="glass-panel rounded-xl h-full overflow-hidden w-80 pointer-events-auto flex flex-col relative z-20"
+                style={sidePanelOffsetStyle}
               >
                 <div className="w-full h-full overflow-hidden">
                   <EditorLeftPanel />
@@ -82,7 +89,10 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
           </AnimatePresence>
 
           {/* Center Content */}
-          <div className="flex-1 flex flex-col min-w-0 relative z-0 pointer-events-auto overflow-auto">
+          <div
+            className="flex-1 flex flex-col min-w-0 relative z-0 pointer-events-auto overflow-auto pt-16"
+            data-testid="editor-center-pane"
+          >
             {children}
           </div>
 
@@ -96,6 +106,7 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
                 variants={panelVariants}
                 data-testid="right-panel"
                 className="glass-panel rounded-xl h-full overflow-hidden w-80 pointer-events-auto flex flex-col relative z-20"
+                style={sidePanelOffsetStyle}
               >
                 <div id="inspector-panel" className="w-full h-full overflow-hidden">
                   <Suspense fallback={null}>

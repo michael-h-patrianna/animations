@@ -279,11 +279,7 @@ function ColorsField({
       <div className="flex flex-wrap gap-1.5">
         {value.map((color, i) => (
           <div key={`color-${String(i)}`} className="flex items-center gap-1">
-            <ColorPicker
-              value={color}
-              onChange={(v) => updateItem(i, v)}
-              disableAlpha
-            />
+            <ColorPicker value={color} onChange={(v) => updateItem(i, v)} disableAlpha />
             <Button
               variant="ghost"
               size="icon"
@@ -361,7 +357,9 @@ function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
       return (
         <SelectField
           config={config}
-          value={typeof value === 'string' ? value : (config.default ?? config.options[0]?.value ?? '')}
+          value={
+            typeof value === 'string' ? value : (config.default ?? config.options[0]?.value ?? '')
+          }
           onChange={handleChange as (v: string) => void}
         />
       )

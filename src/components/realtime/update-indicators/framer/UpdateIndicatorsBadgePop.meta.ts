@@ -10,8 +10,23 @@ export const metadata = {
   tier: 2,
   demoMode: 'status-row',
   props: [
-    { type: 'string', name: 'children', label: 'Children', disabled: true, disabledReason: 'ReactNode — set via JSX children' },
+    {
+      type: 'string',
+      name: 'children',
+      label: 'Children',
+      disabled: true,
+      disabledReason: 'ReactNode — set via JSX children',
+    },
     { type: 'color', name: 'color', label: 'Color', default: '#c47ae5' },
-    { type: 'number', name: 'duration', label: 'Duration', default: 400, min: 100, max: 1500, step: 50, unit: 'ms' },
+    {
+      type: 'number',
+      name: 'duration',
+      label: 'Duration',
+      default: 400,
+      min: 100,
+      max: 1500,
+      step: 50,
+      unit: 'ms',
+    },
   ],
 } satisfies AnimationMetadata

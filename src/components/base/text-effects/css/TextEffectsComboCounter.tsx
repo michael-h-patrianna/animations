@@ -118,11 +118,19 @@ function TextEffectsComboCounterComponent({
     <div
       className="tfx-combo-container"
       data-animation-id="text-effects__combo-counter"
-      style={{
-        ...(numberColor !== undefined ? { '--text-effects-combo-counter-number-color': numberColor } : {}),
-        ...(labelColor !== undefined ? { '--text-effects-combo-counter-label-color': labelColor } : {}),
-        ...(bonusColor !== undefined ? { '--text-effects-combo-counter-bonus-color': bonusColor } : {}),
-      } as React.CSSProperties}
+      style={
+        {
+          ...(numberColor !== undefined
+            ? { '--text-effects-combo-counter-number-color': numberColor }
+            : {}),
+          ...(labelColor !== undefined
+            ? { '--text-effects-combo-counter-label-color': labelColor }
+            : {}),
+          ...(bonusColor !== undefined
+            ? { '--text-effects-combo-counter-bonus-color': bonusColor }
+            : {}),
+        } as React.CSSProperties
+      }
     >
       <div className="tfx-combo-main">
         <div className="tfx-combo-number-wrapper">

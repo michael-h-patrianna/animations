@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Popover } from './Popover'
-import { isValidHex, parseColorToHsv, rgbToHex, hsvToHex, type HSVA, type RGBA } from '@/demo-ui/lib/colors/colorUtils'
+import {
+  isValidHex,
+  parseColorToHsv,
+  rgbToHex,
+  hsvToHex,
+  type HSVA,
+  type RGBA,
+} from '@/demo-ui/lib/colors/colorUtils'
 import { useColorPickerState, type ColorPickerState } from '@/demo-ui/lib/useColorPickerState'
 import { m as MotionEl } from 'motion/react'
 import { sx } from '@/demo-ui/lib/sx'
@@ -51,41 +58,44 @@ function ColorPickerHeader({
   onCopy: () => void
 }) {
   return (
-    <div className='flex items-center justify-between'>
-      <div className='flex items-center gap-2 bg-[var(--bg-hover)] rounded-full p-0.5 border border-border-subtle'>
-        <div className='relative w-12 h-6 rounded-full overflow-hidden flex cursor-help' title='Original vs New'>
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2 bg-[var(--bg-hover)] rounded-full p-0.5 border border-border-subtle">
+        <div
+          className="relative w-12 h-6 rounded-full overflow-hidden flex cursor-help"
+          title="Original vs New"
+        >
           <div
-            className='absolute inset-0 -z-10'
+            className="absolute inset-0 -z-10"
             style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })}
           />
-          <div className='w-1/2 h-full' style={sx({ backgroundColor: initialColor })} />
-          <div className='w-1/2 h-full' style={sx({ backgroundColor: value })} />
+          <div className="w-1/2 h-full" style={sx({ backgroundColor: initialColor })} />
+          <div className="w-1/2 h-full" style={sx({ backgroundColor: value })} />
         </div>
       </div>
-      <div className='flex items-center gap-1'>
+      <div className="flex items-center gap-1">
         {typeof window !== 'undefined' && 'EyeDropper' in window && (
           <MotionEl.button
-            data-testid='color-picker-eyedropper'
+            data-testid="color-picker-eyedropper"
             onClick={onEyedropper}
-            className='p-1.5 rounded hover:bg-[var(--bg-hover)] text-text-tertiary hover:text-text-primary transition-colors'
-            title='Pick color'
+            className="p-1.5 rounded hover:bg-[var(--bg-hover)] text-text-tertiary hover:text-text-primary transition-colors"
+            title="Pick color"
           >
             <svg {...ICON_PROPS}>
-              <path d='M2 22l5-5 5-5 5 5-5 5-5-5z' />
-              <path d='M17 7l-5 5' />
-              <path d='M14 2l8 8' />
+              <path d="M2 22l5-5 5-5 5 5-5 5-5-5z" />
+              <path d="M17 7l-5 5" />
+              <path d="M14 2l8 8" />
             </svg>
           </MotionEl.button>
         )}
         <MotionEl.button
-          data-testid='color-picker-copy'
+          data-testid="color-picker-copy"
           onClick={onCopy}
-          className='p-1.5 rounded hover:bg-[var(--bg-hover)] text-text-tertiary hover:text-text-primary transition-colors'
-          title='Copy to clipboard'
+          className="p-1.5 rounded hover:bg-[var(--bg-hover)] text-text-tertiary hover:text-text-primary transition-colors"
+          title="Copy to clipboard"
         >
           <svg {...ICON_PROPS}>
-            <rect x='9' y='9' width='13' height='13' rx='2' ry='2' />
-            <path d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1' />
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
           </svg>
         </MotionEl.button>
       </div>
@@ -105,19 +115,22 @@ function SaturationArea({
   return (
     <div
       ref={svRef}
-      className='w-full h-[160px] rounded-lg relative cursor-crosshair overflow-hidden shadow-lg ring-1 ring-border-default group'
+      className="w-full h-[160px] rounded-lg relative cursor-crosshair overflow-hidden shadow-lg ring-1 ring-border-default group"
       onMouseDown={onMouseDown}
       style={sx({ backgroundColor: `hsl(${String(hsv.h * 360)}, 100%, 50%)` })}
-      role='slider'
-      aria-label='Saturation and brightness'
+      role="slider"
+      aria-label="Saturation and brightness"
       aria-valuetext={`Saturation ${String(Math.round(hsv.s * 100))}%, Brightness ${String(Math.round(hsv.v * 100))}%`}
       tabIndex={0}
     >
-      <div className='absolute inset-0 bg-gradient-to-r from-white to-transparent' />
-      <div className='absolute inset-0 bg-gradient-to-t from-black to-transparent' />
-      <div className='absolute inset-0 mix-blend-overlay opacity-30 pointer-events-none' style={sx({ backgroundImage: NOISE_BG })} />
+      <div className="absolute inset-0 bg-gradient-to-r from-white to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
       <div
-        className='absolute w-4 h-4 rounded-full shadow-lg border-2 border-text-primary pointer-events-none -translate-x-1/2 -translate-y-1/2 transform transition-transform duration-75 ease-out group-active:scale-75'
+        className="absolute inset-0 mix-blend-overlay opacity-30 pointer-events-none"
+        style={sx({ backgroundImage: NOISE_BG })}
+      />
+      <div
+        className="absolute w-4 h-4 rounded-full shadow-lg border-2 border-text-primary pointer-events-none -translate-x-1/2 -translate-y-1/2 transform transition-transform duration-75 ease-out group-active:scale-75"
         style={sx({ left: `${String(hsv.s * 100)}%`, top: `${String((1 - hsv.v) * 100)}%` })}
       />
     </div>
@@ -134,43 +147,52 @@ function ColorSliders({
   onHsvChange: (hsv: HSVA) => void
 }) {
   return (
-    <div className='space-y-3'>
-      <div className='h-3 rounded-full relative overflow-hidden ring-1 ring-border-default cursor-pointer group'>
-        <div className='absolute inset-0' style={sx({ background: HUE_GRADIENT })} />
+    <div className="space-y-3">
+      <div className="h-3 rounded-full relative overflow-hidden ring-1 ring-border-default cursor-pointer group">
+        <div className="absolute inset-0" style={sx({ background: HUE_GRADIENT })} />
         <MotionEl.input
-          type='range'
+          type="range"
           min={0}
           max={1}
           step={0.001}
           value={hsv.h}
-          onChange={(e) => { onHsvChange({ ...hsv, h: parseFloat(e.target.value) }) }}
-          className='absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10'
-          aria-label='Hue'
+          onChange={(e) => {
+            onHsvChange({ ...hsv, h: parseFloat(e.target.value) })
+          }}
+          className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+          aria-label="Hue"
         />
         <div
-          className='absolute top-0 bottom-0 w-2 h-full bg-white shadow-md rounded-full pointer-events-none -translate-x-1/2 transition-transform group-active:scale-110'
+          className="absolute top-0 bottom-0 w-2 h-full bg-white shadow-md rounded-full pointer-events-none -translate-x-1/2 transition-transform group-active:scale-110"
           style={sx({ left: `${String(hsv.h * 100)}%` })}
         />
       </div>
       {!disableAlpha && (
-        <div className='h-3 rounded-full relative overflow-hidden ring-1 ring-border-default cursor-pointer group'>
-          <div className='absolute inset-0 z-0' style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })} />
+        <div className="h-3 rounded-full relative overflow-hidden ring-1 ring-border-default cursor-pointer group">
           <div
-            className='absolute inset-0 z-1'
-            style={sx({ background: `linear-gradient(to right, transparent, ${hsvToHex(hsv.h, hsv.s, hsv.v)})` })}
+            className="absolute inset-0 z-0"
+            style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })}
+          />
+          <div
+            className="absolute inset-0 z-1"
+            style={sx({
+              background: `linear-gradient(to right, transparent, ${hsvToHex(hsv.h, hsv.s, hsv.v)})`,
+            })}
           />
           <MotionEl.input
-            type='range'
+            type="range"
             min={0}
             max={1}
             step={0.01}
             value={hsv.a}
-            onChange={(e) => { onHsvChange({ ...hsv, a: parseFloat(e.target.value) }) }}
-            className='absolute inset-0 opacity-0 w-full h-full cursor-pointer z-20'
-            aria-label='Opacity'
+            onChange={(e) => {
+              onHsvChange({ ...hsv, a: parseFloat(e.target.value) })
+            }}
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-20"
+            aria-label="Opacity"
           />
           <div
-            className='absolute top-0 bottom-0 w-2 h-full bg-white shadow-md rounded-full pointer-events-none -translate-x-1/2 z-30 transition-transform group-active:scale-110'
+            className="absolute top-0 bottom-0 w-2 h-full bg-white shadow-md rounded-full pointer-events-none -translate-x-1/2 z-30 transition-transform group-active:scale-110"
             style={sx({ left: `${String(hsv.a * 100)}%` })}
           />
         </div>
@@ -188,7 +210,8 @@ function ColorInputs({
   disableAlpha: boolean
   value: string
 }) {
-  const { hsv, mode, setMode, hexInput, setHexInput, rgbInput, setRgbInput, handleHsvChange } = state
+  const { hsv, mode, setMode, hexInput, setHexInput, rgbInput, setRgbInput, handleHsvChange } =
+    state
 
   const handleAlphaInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const parsed = parseInt(e.target.value, 10)
@@ -205,14 +228,16 @@ function ColorInputs({
   }
 
   return (
-    <div className='flex flex-col gap-2 bg-[var(--bg-hover)] p-2 rounded-lg border border-border-subtle'>
-      <div className='flex items-center gap-2 mb-1'>
-        <div className='flex bg-[var(--bg-active)] rounded p-0.5'>
+    <div className="flex flex-col gap-2 bg-[var(--bg-hover)] p-2 rounded-lg border border-border-subtle">
+      <div className="flex items-center gap-2 mb-1">
+        <div className="flex bg-[var(--bg-active)] rounded p-0.5">
           {(['HEX', 'RGB'] as const).map((m) => (
             <MotionEl.button
-              data-testid='color-picker-mode'
+              data-testid="color-picker-mode"
               key={m}
-              onClick={() => { setMode(m) }}
+              onClick={() => {
+                setMode(m)
+              }}
               className={`px-2 py-0.5 text-[9px] font-bold rounded-sm transition-all ${mode === m ? 'bg-[var(--bg-active)] text-text-primary shadow-sm' : 'text-text-tertiary hover:text-text-secondary'}`}
             >
               {m}
@@ -221,53 +246,59 @@ function ColorInputs({
         </div>
       </div>
       {mode === 'HEX' && (
-        <div className='flex gap-2'>
-          <div className='flex-1 bg-[var(--bg-hover)] border border-border-default rounded px-2 py-1 flex items-center gap-2 group-focus-within:border-accent/50 transition-colors'>
-            <span className='text-[10px] text-text-tertiary font-mono select-none'>#</span>
+        <div className="flex gap-2">
+          <div className="flex-1 bg-[var(--bg-hover)] border border-border-default rounded px-2 py-1 flex items-center gap-2 group-focus-within:border-accent/50 transition-colors">
+            <span className="text-[10px] text-text-tertiary font-mono select-none">#</span>
             <MotionEl.input
-              type='text'
+              type="text"
               value={hexInput.replace('#', '')}
               onChange={(e) => {
                 const val = '#' + e.target.value
                 setHexInput(val)
                 if (isValidHex(val)) handleHsvChange(parseColorToHsv(val))
               }}
-              onBlur={() => { if (!isValidHex(hexInput)) setHexInput(value) }}
-              onFocus={(e) => { e.target.select() }}
-              className='w-full bg-transparent text-xs font-mono text-text-primary outline-none uppercase'
+              onBlur={() => {
+                if (!isValidHex(hexInput)) setHexInput(value)
+              }}
+              onFocus={(e) => {
+                e.target.select()
+              }}
+              className="w-full bg-transparent text-xs font-mono text-text-primary outline-none uppercase"
               spellCheck={false}
             />
           </div>
           {!disableAlpha && (
-            <div className='w-14 bg-[var(--bg-hover)] border border-border-default rounded px-1 py-1 flex items-center gap-1 group-focus-within:border-accent/50 transition-colors'>
-              <span className='text-[9px] text-text-tertiary font-bold'>%</span>
+            <div className="w-14 bg-[var(--bg-hover)] border border-border-default rounded px-1 py-1 flex items-center gap-1 group-focus-within:border-accent/50 transition-colors">
+              <span className="text-[9px] text-text-tertiary font-bold">%</span>
               <MotionEl.input
-                type='number'
+                type="number"
                 min={0}
                 max={100}
                 value={Math.round(hsv.a * 100)}
                 onChange={handleAlphaInput}
-                className='w-full bg-transparent text-xs font-mono text-text-primary outline-none text-right [&::-webkit-inner-spin-button]:appearance-none'
+                className="w-full bg-transparent text-xs font-mono text-text-primary outline-none text-right [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
           )}
         </div>
       )}
       {mode === 'RGB' && (
-        <div className='flex gap-1.5'>
+        <div className="flex gap-1.5">
           {(['r', 'g', 'b'] as const).map((c) => (
             <div
               key={c}
-              className='flex-1 bg-[var(--bg-hover)] border border-border-default rounded px-1 py-1 flex items-center gap-1'
+              className="flex-1 bg-[var(--bg-hover)] border border-border-default rounded px-1 py-1 flex items-center gap-1"
             >
-              <span className='text-[9px] text-text-tertiary uppercase font-bold'>{c}</span>
+              <span className="text-[9px] text-text-tertiary uppercase font-bold">{c}</span>
               <MotionEl.input
-                type='number'
+                type="number"
                 min={0}
                 max={255}
                 value={rgbInput[c]}
-                onChange={(e) => { handleRgbInput(c, e) }}
-                className='w-full bg-transparent text-xs font-mono text-text-primary outline-none text-right [&::-webkit-inner-spin-button]:appearance-none'
+                onChange={(e) => {
+                  handleRgbInput(c, e)
+                }}
+                className="w-full bg-transparent text-xs font-mono text-text-primary outline-none text-right [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
           ))}
@@ -277,33 +308,48 @@ function ColorInputs({
   )
 }
 
-function PaletteHistory({ palette, history, onSelect }: { palette: string[]; history: string[]; onSelect: (c: string) => void }) {
+function PaletteHistory({
+  palette,
+  history,
+  onSelect,
+}: {
+  palette: string[]
+  history: string[]
+  onSelect: (c: string) => void
+}) {
   return (
-    <div className='space-y-2 pt-1'>
-      <div className='flex gap-1 justify-between'>
+    <div className="space-y-2 pt-1">
+      <div className="flex gap-1 justify-between">
         {palette.map((c) => (
           <MotionEl.button
-            data-testid='color-picker-hsv-change'
+            data-testid="color-picker-hsv-change"
             key={c}
-            onClick={() => { onSelect(c) }}
-            className='w-6 h-6 rounded-md border border-border-subtle hover:scale-110 hover:border-border-strong transition-all shadow-sm'
+            onClick={() => {
+              onSelect(c)
+            }}
+            className="w-6 h-6 rounded-md border border-border-subtle hover:scale-110 hover:border-border-strong transition-all shadow-sm"
             style={sx({ backgroundColor: c })}
             title={c}
           />
         ))}
       </div>
       {history.length > 0 && (
-        <div className='flex gap-1.5 flex-wrap pt-2 border-t border-border-subtle'>
+        <div className="flex gap-1.5 flex-wrap pt-2 border-t border-border-subtle">
           {history.map((c) => (
             <MotionEl.button
-              data-testid='color-picker-hsv-change-2'
+              data-testid="color-picker-hsv-change-2"
               key={c}
-              onClick={() => { onSelect(c) }}
-              className='w-5 h-5 rounded-full border border-border-default hover:scale-110 hover:border-border-strong transition-all shadow-sm relative overflow-hidden'
-              title='History'
+              onClick={() => {
+                onSelect(c)
+              }}
+              className="w-5 h-5 rounded-full border border-border-default hover:scale-110 hover:border-border-strong transition-all shadow-sm relative overflow-hidden"
+              title="History"
             >
-              <div className='absolute inset-0 -z-10' style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })} />
-              <div className='absolute inset-0' style={sx({ backgroundColor: c })} />
+              <div
+                className="absolute inset-0 -z-10"
+                style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })}
+              />
+              <div className="absolute inset-0" style={sx({ backgroundColor: c })} />
             </MotionEl.button>
           ))}
         </div>
@@ -346,13 +392,17 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height))
       handleHsvChange({ ...hsv, s: x, v: 1 - y })
     },
-    [hsv, handleHsvChange],
+    [hsv, handleHsvChange]
   )
 
   useEffect(() => {
     if (!isDraggingSV) return
-    const onMove = (e: MouseEvent) => { updateSV(e.clientX, e.clientY) }
-    const onUp = () => { setIsDraggingSV(false) }
+    const onMove = (e: MouseEvent) => {
+      updateSV(e.clientX, e.clientY)
+    }
+    const onUp = () => {
+      setIsDraggingSV(false)
+    }
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseup', onUp)
     return () => {
@@ -367,13 +417,22 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       if (e.key === 'Escape') setIsOpen(false)
     }
     window.addEventListener('keydown', handleKey)
-    return () => { window.removeEventListener('keydown', handleKey) }
+    return () => {
+      window.removeEventListener('keydown', handleKey)
+    }
   }, [isOpen])
 
   const handleEyedropper = () => {
     if (!('EyeDropper' in window)) return
-    const dropper = new (window as unknown as { EyeDropper: new () => { open: () => Promise<{ sRGBHex: string }> } }).EyeDropper()
-    void dropper.open().then((result) => { handleHsvChange(parseColorToHsv(result.sRGBHex)) }).catch(() => {})
+    const dropper = new (
+      window as unknown as { EyeDropper: new () => { open: () => Promise<{ sRGBHex: string }> } }
+    ).EyeDropper()
+    void dropper
+      .open()
+      .then((result) => {
+        handleHsvChange(parseColorToHsv(result.sRGBHex))
+      })
+      .catch(() => {})
   }
 
   const handleCopy = () => {
@@ -382,23 +441,37 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {label && <span className='text-xs font-medium text-text-secondary select-none'>{label}</span>}
+      {label && (
+        <span className="text-xs font-medium text-text-secondary select-none">{label}</span>
+      )}
       <Popover
         open={isOpen}
         onOpenChange={handleOpenChange}
         offset={8}
         trigger={
-          <div className={`flex items-center gap-2 group p-1 rounded-md hover:bg-[var(--bg-hover)] transition-colors ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
-            <div className='relative w-8 h-5 rounded overflow-hidden shadow-sm ring-1 ring-border-default group-hover:ring-border-strong transition-all'>
-              <div className='absolute inset-0 z-0' style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })} />
-              <div className='absolute inset-0 z-10' style={sx({ backgroundColor: value })} />
+          <div
+            className={`flex items-center gap-2 group p-1 rounded-md hover:bg-[var(--bg-hover)] transition-colors ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
+          >
+            <div className="relative w-8 h-5 rounded overflow-hidden shadow-sm ring-1 ring-border-default group-hover:ring-border-strong transition-all">
+              <div
+                className="absolute inset-0 z-0"
+                style={sx({ backgroundImage: `url(${CHECKERBOARD})`, opacity: 0.4 })}
+              />
+              <div className="absolute inset-0 z-10" style={sx({ backgroundColor: value })} />
             </div>
-            <span className='text-xs font-mono text-text-tertiary group-hover:text-text-primary transition-colors'>{value}</span>
+            <span className="text-xs font-mono text-text-tertiary group-hover:text-text-primary transition-colors">
+              {value}
+            </span>
           </div>
         }
         content={
-          <div className='w-[260px] p-3 flex flex-col gap-3 select-none text-text-primary'>
-            <ColorPickerHeader initialColor={initialColor} value={value} onEyedropper={handleEyedropper} onCopy={handleCopy} />
+          <div className="w-[260px] p-3 flex flex-col gap-3 select-none text-text-primary">
+            <ColorPickerHeader
+              initialColor={initialColor}
+              value={value}
+              onEyedropper={handleEyedropper}
+              onCopy={handleCopy}
+            />
             <SaturationArea
               hsv={hsv}
               svRef={svRef}
@@ -410,7 +483,13 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
             />
             <ColorSliders hsv={hsv} disableAlpha={disableAlpha} onHsvChange={handleHsvChange} />
             <ColorInputs state={state} disableAlpha={disableAlpha} value={value} />
-            <PaletteHistory palette={state.palette} history={state.history} onSelect={(c) => { handleHsvChange(parseColorToHsv(c)) }} />
+            <PaletteHistory
+              palette={state.palette}
+              history={state.history}
+              onSelect={(c) => {
+                handleHsvChange(parseColorToHsv(c))
+              }}
+            />
           </div>
         }
       />

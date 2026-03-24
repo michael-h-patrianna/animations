@@ -11,7 +11,16 @@ export const metadata = {
   tier: 3,
   props: [
     { type: 'string', name: 'text', label: 'Text', default: 'WAVE MOTION' },
-    { type: 'number', name: 'charDelay', label: 'Char Delay', default: 0.05, min: 0.01, max: 0.2, step: 0.01, unit: 's' },
+    {
+      type: 'number',
+      name: 'charDelay',
+      label: 'Char Delay',
+      default: 0.05,
+      min: 0.01,
+      max: 0.2,
+      step: 0.01,
+      unit: 's',
+    },
     { type: 'boolean', name: 'showHighlight', label: 'Show Highlight', default: true },
     { type: 'color', name: 'color', label: 'Color', default: '#3b82f6' },
   ],

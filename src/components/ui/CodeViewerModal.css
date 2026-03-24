@@ -1,16 +1,23 @@
 /* ── Code body ──────────────────────────────────────────────────────── */
 
+.code-modal__content,
+.code-modal__body,
+.code-modal__loading {
+  background: transparent;
+}
+
 .code-modal__body pre {
   margin: 0;
   padding: 16px;
   font-size: 13px;
   line-height: 1.6;
   overflow-x: auto;
+  background: transparent;
 }
 
-/* Override Shiki's inline background to match the modal */
+/* Shiki HTML is normalized in JS so the glass surface can show through */
 .code-modal__body .shiki {
-  background: var(--bg-surface);
+  background: transparent;
 }
 
 .code-modal__loading {

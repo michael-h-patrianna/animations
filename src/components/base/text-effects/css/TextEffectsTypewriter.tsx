@@ -27,7 +27,11 @@ function TextEffectsTypewriterComponent({
     <div
       className="text-effects-typewriter-container"
       data-animation-id="text-effects__typewriter"
-      style={color !== undefined ? { '--text-effects-typewriter-color-1': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--text-effects-typewriter-color-1': color } as React.CSSProperties)
+          : undefined
+      }
     >
       <div className="text-effects-typewriter-text">
         {text.split('').map((char, index) => (

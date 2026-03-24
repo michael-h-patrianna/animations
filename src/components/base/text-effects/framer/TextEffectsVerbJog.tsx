@@ -15,7 +15,10 @@ interface TextEffectsVerbJogProps {
   color?: string
 }
 
-function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbJogProps) {
+function TextEffectsVerbJogComponent({
+  text = 'LOREM IPSUM DOLOR',
+  color,
+}: TextEffectsVerbJogProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -23,7 +26,9 @@ function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR', color }: Text
       className="pf-verb-jog"
       data-animation-id="text-effects__verb-jogging"
       aria-label={text}
-      style={color !== undefined ? { '--pf-verb-jog-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-verb-jog-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-verb-jog__line" aria-hidden="true">
         {letters.map((ch, i) => (

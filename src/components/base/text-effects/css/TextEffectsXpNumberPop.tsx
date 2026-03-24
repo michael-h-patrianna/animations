@@ -123,7 +123,11 @@ function TextEffectsXpNumberPopComponent({
     <div
       className="tfx-xp-container"
       data-animation-id="text-effects__xp-number-pop"
-      style={color !== undefined ? { '--text-effects-xp-number-pop-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--text-effects-xp-number-pop-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
       {/* Floating particles with calculated positions and delays */}
       {particles.map((particle, i) => (

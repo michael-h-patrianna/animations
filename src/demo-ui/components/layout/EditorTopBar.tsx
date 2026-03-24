@@ -54,7 +54,16 @@ function PanelRightIcon() {
 
 /** Top bar with sidebar toggle, group title, view menu, and GitHub link. */
 export const EditorTopBar: React.FC = () => {
-  const { leftPanelVisible, toggleLeftPanel, rightPanelVisible, toggleRightPanel, theme, setTheme, accent, setAccent } = useLayoutStore(
+  const {
+    leftPanelVisible,
+    toggleLeftPanel,
+    rightPanelVisible,
+    toggleRightPanel,
+    theme,
+    setTheme,
+    accent,
+    setAccent,
+  } = useLayoutStore(
     useShallow((state: LayoutStore) => ({
       leftPanelVisible: state.showLeftPanel,
       toggleLeftPanel: state.toggleLeftPanel,

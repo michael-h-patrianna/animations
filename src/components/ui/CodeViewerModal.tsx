@@ -16,6 +16,12 @@ interface CodeViewerModalProps {
   onClose: () => void
 }
 
+function stripShikiBackground(html: string): string {
+  return html
+    .replace(/background-color:[^;"]+;?/g, 'background-color: transparent;')
+    .replace(/background:[^;"]+;?/g, 'background: transparent;')
+}
+
 /** Highlights all source tabs and tracks loading state. */
 function useHighlightedSources(sources: SourceTab[]) {
   const [highlighted, setHighlighted] = useState<string[]>([])
@@ -30,7 +36,7 @@ function useHighlightedSources(sources: SourceTab[]) {
     async function run() {
       const results = await Promise.all(
         sourcesRef.current.map((tab) =>
-          highlightCode(cleanSourceForDisplay(tab.code), tab.language)
+          highlightCode(cleanSourceForDisplay(tab.code), tab.language).then(stripShikiBackground)
         )
       )
       if (!cancelled) {
@@ -139,8 +145,8 @@ function CodeViewerModalComponent({ sources, title, onClose }: CodeViewerModalPr
         value={selection.activeId}
         onChange={selection.setActiveId}
         className="flex-1 min-h-0 flex flex-col"
-        tabListClassName="px-2 bg-[var(--bg-surface)]"
-        contentClassName="flex-1 overflow-y-auto bg-[var(--bg-app)]"
+        tabListClassName="px-2 bg-panel-header/50"
+        contentClassName="flex-1 overflow-y-auto code-modal__content"
         data-testid="code-tablist"
       />
     </Modal>

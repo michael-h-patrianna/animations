@@ -68,7 +68,9 @@ function TextEffectsMetallicSpecularFlashComponent({
       variants={containerVariants}
       initial="hidden"
       animate={['show', 'settle']}
-      style={color !== undefined ? { '--pf-msf-base-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-msf-base-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-metallic-flash__line" aria-hidden="true">
         {letters.map((ch, i) => (

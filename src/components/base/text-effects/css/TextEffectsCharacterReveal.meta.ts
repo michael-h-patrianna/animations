@@ -13,6 +13,11 @@ export const metadata: AnimationMetadata = {
     { type: 'string', name: 'text', label: 'Text', default: 'ACHIEVEMENT' },
     { type: 'string', name: 'subtitle', label: 'Subtitle', default: 'UNLOCKED' },
     { type: 'color', name: 'color', label: 'Color', default: '#ffd700' },
-    { type: 'color', name: 'subtitleColor', label: 'Subtitle Color', default: 'rgba(255,193,7,0.8)' },
+    {
+      type: 'color',
+      name: 'subtitleColor',
+      label: 'Subtitle Color',
+      default: 'rgba(255,193,7,0.8)',
+    },
   ],
 }

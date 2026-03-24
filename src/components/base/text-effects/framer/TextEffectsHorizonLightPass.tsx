@@ -75,7 +75,9 @@ function TextEffectsHorizonLightPassComponent({
       variants={containerVariants}
       initial="hidden"
       animate={['show', 'settle']}
-      style={color !== undefined ? { '--pf-hlp-base-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-hlp-base-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-horizon-light__line" aria-hidden="true">
         {letters.map((ch, i) => (

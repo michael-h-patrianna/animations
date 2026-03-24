@@ -295,9 +295,6 @@
   gap: 12px;
   padding: 18px;
   border-radius: var(--pf-radius-xs);
-  background: var(--bg-panel);
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--border-subtle);
   position: relative;
 }
 

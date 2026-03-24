@@ -14,7 +14,10 @@ interface TextEffectsVerbFlipProps {
   color?: string
 }
 
-function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbFlipProps) {
+function TextEffectsVerbFlipComponent({
+  text = 'LOREM IPSUM DOLOR',
+  color,
+}: TextEffectsVerbFlipProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -22,7 +25,9 @@ function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR', color }: Tex
       className="pf-verb-flip"
       data-animation-id="text-effects__verb-flipping"
       aria-label={text}
-      style={color !== undefined ? { '--pf-verb-flip-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-verb-flip-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-verb-flip__line" aria-hidden="true">
         {letters.map((ch, i) => (

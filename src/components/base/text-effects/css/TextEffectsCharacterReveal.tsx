@@ -27,10 +27,14 @@ function TextEffectsCharacterRevealComponent({
     <div
       className="tfx-char-reveal-container"
       data-animation-id="text-effects__character-reveal"
-      style={{
-        ...(color !== undefined ? { '--text-effects-character-reveal-color': color } : {}),
-        ...(subtitleColor !== undefined ? { '--text-effects-character-reveal-subtitle-color': subtitleColor } : {}),
-      } as React.CSSProperties}
+      style={
+        {
+          ...(color !== undefined ? { '--text-effects-character-reveal-color': color } : {}),
+          ...(subtitleColor !== undefined
+            ? { '--text-effects-character-reveal-subtitle-color': subtitleColor }
+            : {}),
+        } as React.CSSProperties
+      }
     >
       <div className="tfx-char-reveal-text-container">
         {/* Shadow text layer */}

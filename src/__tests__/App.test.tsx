@@ -33,6 +33,23 @@ describe('App', () => {
     )
   })
 
+  it('renders the editor shell with a backdrop layer for glass surfaces', () => {
+    renderApp()
+
+    expect(document.querySelector('[data-demo-ui]')).toHaveClass('pf-shell-backdrop')
+  })
+
+  it('positions the top bar above the pane stack so content can scroll under it', () => {
+    renderApp()
+
+    expect(screen.getByTestId('top-bar').parentElement).toHaveClass(
+      'absolute',
+      'inset-x-0',
+      'top-0'
+    )
+    expect(screen.getByTestId('editor-center-pane')).toHaveClass('pt-16')
+  })
+
   it('renders code mode switch in drawer after opening', () => {
     renderApp()
 

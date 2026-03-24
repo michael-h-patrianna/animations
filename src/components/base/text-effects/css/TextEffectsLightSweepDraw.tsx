@@ -24,7 +24,9 @@ function TextEffectsLightSweepDrawComponent({
       className="tfx-light-sweep-draw"
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
-      style={color !== undefined ? { '--tfx-lsd-base-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--tfx-lsd-base-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="tfx-light-sweep-draw__line" aria-hidden="true">
         {letters.map((ch, i) => (

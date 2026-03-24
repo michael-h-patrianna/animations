@@ -68,7 +68,9 @@ function TextEffectsLightSweepDrawComponent({
       variants={containerVariants}
       initial="hidden"
       animate={['show', 'settle']}
-      style={color !== undefined ? { '--pf-lsd-base-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-lsd-base-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-light-sweep-draw__line" aria-hidden="true">
         {letters.map((ch, i) => (

@@ -133,7 +133,9 @@ function TextEffectsXpNumberPopComponent({
     <div
       className="pf-xp-pop"
       data-animation-id="text-effects__xp-number-pop"
-      style={color !== undefined ? { '--pf-xp-pop-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-xp-pop-color': color } as React.CSSProperties) : undefined
+      }
     >
       <AnimatePresence>
         {showParticles &&
@@ -162,9 +164,7 @@ function TextEffectsXpNumberPopComponent({
                 fontSize: particle.layer === 0 ? '18px' : '14px',
                 fontWeight: '700',
                 color:
-                  particle.layer === 0
-                    ? 'var(--pf-xp-pop-color-1)'
-                    : 'var(--pf-xp-pop-color-2)',
+                  particle.layer === 0 ? 'var(--pf-xp-pop-color-1)' : 'var(--pf-xp-pop-color-2)',
                 pointerEvents: 'none',
                 zIndex: 3,
               }}

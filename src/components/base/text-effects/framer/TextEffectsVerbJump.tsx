@@ -29,7 +29,9 @@ function TextEffectsVerbJumpComponent({
       className="pf-verb-jump"
       data-animation-id="text-effects__verb-jumping"
       aria-label={text}
-      style={color !== undefined ? { '--pf-verb-jump-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-verb-jump-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-verb-jump__line" aria-hidden="true">
         {letters.map((ch, i) => (

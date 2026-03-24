@@ -501,10 +501,7 @@ export default defineConfig([
   // Settings panel UI: hex values are form input defaults (color picker fallbacks),
   // not hardcoded animation styling. Meta prop defaults are consumer-facing values.
   {
-    files: [
-      'src/components/ui/PropField.tsx',
-      'src/components/**/*.meta.ts',
-    ],
+    files: ['src/components/ui/PropField.tsx', 'src/components/**/*.meta.ts'],
     rules: {
       'animation-rules/no-hardcoded-colors': 'off',
     },
@@ -513,10 +510,7 @@ export default defineConfig([
   // that define the color wheel itself — no theme token can replace them.
   // Color utilities: raw color values are the purpose of these modules.
   {
-    files: [
-      'src/demo-ui/components/ui/ColorPicker.tsx',
-      'src/demo-ui/lib/colors/**/*.ts',
-    ],
+    files: ['src/demo-ui/components/ui/ColorPicker.tsx', 'src/demo-ui/lib/colors/**/*.ts'],
     rules: {
       'animation-rules/no-hardcoded-colors': 'off',
     },

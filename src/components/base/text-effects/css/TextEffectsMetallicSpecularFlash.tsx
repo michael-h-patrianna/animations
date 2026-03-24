@@ -24,7 +24,9 @@ function TextEffectsMetallicSpecularFlashComponent({
       className="tfx-metallic-specular-flash"
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
-      style={color !== undefined ? { '--tfx-msf-base-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--tfx-msf-base-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="tfx-metallic-specular-flash__line" aria-hidden="true">
         {letters.map((ch, i) => (

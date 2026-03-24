@@ -67,10 +67,13 @@ export const test = base.extend<CatalogFixtures>({
       },
     })
   },
-  _autoErrorGuard: [async ({ errorCollector }, use) => {
-    await use()
-    errorCollector.expectNoErrors()
-  }, { auto: true }],
+  _autoErrorGuard: [
+    async ({ errorCollector }, use) => {
+      await use()
+      errorCollector.expectNoErrors()
+    },
+    { auto: true },
+  ],
 })
 
 export { expect } from '@playwright/test'

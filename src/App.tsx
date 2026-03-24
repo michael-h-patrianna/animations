@@ -35,7 +35,11 @@ function App() {
             }}
             style={{ width: '100%' }}
           >
-            <GroupSection group={currentGroup} elementId={`group-${currentGroup.id}`} animationFilter={animationFilter} />
+            <GroupSection
+              group={currentGroup}
+              elementId={`group-${currentGroup.id}`}
+              animationFilter={animationFilter}
+            />
           </m.div>
         )}
       </AnimatePresence>

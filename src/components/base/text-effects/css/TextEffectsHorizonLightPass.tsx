@@ -95,7 +95,9 @@ function TextEffectsHorizonLightPassComponent({
       className="tfx-horizon-light-pass"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
-      style={color !== undefined ? { '--tfx-hlp-base-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--tfx-hlp-base-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="tfx-horizon-light-pass__line" aria-hidden="true">
         {letters.map((ch, i) => (

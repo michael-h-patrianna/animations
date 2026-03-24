@@ -37,8 +37,14 @@ function useDrag(ref: React.RefObject<HTMLDivElement | null>) {
     if (dragRef.current == null) return
     const dx = e.clientX - dragRef.current.startX
     const dy = e.clientY - dragRef.current.startY
-    const newX = Math.max(EDGE_PADDING, Math.min(window.innerWidth - PANEL_WIDTH - EDGE_PADDING, dragRef.current.origX + dx))
-    const newY = Math.max(EDGE_PADDING, Math.min(window.innerHeight - 100, dragRef.current.origY + dy))
+    const newX = Math.max(
+      EDGE_PADDING,
+      Math.min(window.innerWidth - PANEL_WIDTH - EDGE_PADDING, dragRef.current.origX + dx)
+    )
+    const newY = Math.max(
+      EDGE_PADDING,
+      Math.min(window.innerHeight - 100, dragRef.current.origY + dy)
+    )
     setPosition({ x: newX, y: newY })
   }, [])
 
@@ -51,16 +57,47 @@ function useDrag(ref: React.RefObject<HTMLDivElement | null>) {
 
 // ── Panel header ─────────────────────────────────────────────────────────
 
-function PanelHeaderActions({ isDirty, onReset, onClose }: { isDirty: boolean; onReset: () => void; onClose: () => void }) {
+function PanelHeaderActions({
+  isDirty,
+  onReset,
+  onClose,
+}: {
+  isDirty: boolean
+  onReset: () => void
+  onClose: () => void
+}) {
   return (
     <div className="flex items-center gap-1">
       {isDirty && (
-        <Button variant="ghost" size="sm" onClick={onReset} ariaLabel="Reset to defaults" className="text-[10px] px-1.5 py-0.5 h-auto" data-testid="settings-reset-btn">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onReset}
+          ariaLabel="Reset to defaults"
+          className="text-[10px] px-1.5 py-0.5 h-auto"
+          data-testid="settings-reset-btn"
+        >
           Reset
         </Button>
       )}
-      <Button variant="ghost" size="icon" onClick={onClose} ariaLabel="Close settings" className="p-0.5" data-testid="settings-close-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onClose}
+        ariaLabel="Close settings"
+        className="p-0.5"
+        data-testid="settings-close-btn"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
@@ -95,11 +132,22 @@ function PanelHeader({
       data-testid="settings-panel-header"
     >
       <div className="flex items-center gap-2">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-tertiary shrink-0">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="text-text-tertiary shrink-0"
+        >
           <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
           <circle cx="12" cy="12" r="3" />
         </svg>
-        <h3 className="text-xs font-bold text-text-primary tracking-wide uppercase m-0" data-testid="settings-panel-title">
+        <h3
+          className="text-xs font-bold text-text-primary tracking-wide uppercase m-0"
+          data-testid="settings-panel-title"
+        >
           {title}
         </h3>
       </div>
@@ -123,9 +171,17 @@ function PanelBody({
   const disabledProps = useMemo(() => propsConfig.filter((p) => p.disabled === true), [propsConfig])
 
   return (
-    <div className="p-3 flex flex-col gap-3 max-h-[60vh] overflow-y-auto custom-scrollbar" data-testid="settings-panel-body">
+    <div
+      className="p-3 flex flex-col gap-3 max-h-[60vh] overflow-y-auto custom-scrollbar"
+      data-testid="settings-panel-body"
+    >
       {enabledProps.map((config) => (
-        <PropField key={config.name} config={config} value={propOverrides[config.name]} onChange={onPropChange} />
+        <PropField
+          key={config.name}
+          config={config}
+          value={propOverrides[config.name]}
+          onChange={onPropChange}
+        />
       ))}
       {disabledProps.length > 0 && (
         <>
@@ -135,7 +191,12 @@ function PanelBody({
             </span>
           </div>
           {disabledProps.map((config) => (
-            <PropField key={config.name} config={config} value={undefined} onChange={onPropChange} />
+            <PropField
+              key={config.name}
+              config={config}
+              value={undefined}
+              onChange={onPropChange}
+            />
           ))}
         </>
       )}
@@ -180,9 +241,10 @@ function FloatingSettingsPanelComponent({
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [onClose])
 
-  const positionStyle: React.CSSProperties = drag.position != null
-    ? { left: drag.position.x, top: drag.position.y }
-    : { right: INITIAL_RIGHT, top: INITIAL_TOP }
+  const positionStyle: React.CSSProperties =
+    drag.position != null
+      ? { left: drag.position.x, top: drag.position.y }
+      : { right: INITIAL_RIGHT, top: INITIAL_TOP }
 
   return createPortal(
     <div
@@ -208,9 +270,19 @@ function FloatingSettingsPanelComponent({
           onPointerMove={drag.handlePointerMove}
           onPointerUp={drag.handlePointerUp}
         />
-        <PanelBody propsConfig={propsConfig} propOverrides={propOverrides} onPropChange={onPropChange} />
+        <PanelBody
+          propsConfig={propsConfig}
+          propOverrides={propOverrides}
+          onPropChange={onPropChange}
+        />
         <div className="px-3 py-2.5 border-t border-panel-border bg-panel-header/30">
-          <Button variant="primary" size="sm" onClick={onApply} className="w-full" data-testid="settings-apply-btn">
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={onApply}
+            className="w-full"
+            data-testid="settings-apply-btn"
+          >
             Apply & Replay
           </Button>
         </div>

@@ -31,12 +31,13 @@ function computePopoverPosition(
   popoverEl: HTMLElement | null,
   side: 'top' | 'bottom',
   align: 'start' | 'end' | 'center',
-  offset: number,
+  offset: number
 ): { top: number; left: number } {
   const triggerRect = triggerEl.getBoundingClientRect()
   const popoverRect = popoverEl?.getBoundingClientRect() || { width: 0, height: 0 }
 
-  let top = side === 'bottom' ? triggerRect.bottom + offset : triggerRect.top - popoverRect.height - offset
+  let top =
+    side === 'bottom' ? triggerRect.bottom + offset : triggerRect.top - popoverRect.height - offset
   let left =
     align === 'start'
       ? triggerRect.left
@@ -94,7 +95,7 @@ export const Popover: React.FC<PopoverProps> = ({
       }
       onOpenChange?.(newOpen)
     },
-    [isControlled, onOpenChange],
+    [isControlled, onOpenChange]
   )
 
   useEffect(() => {
@@ -140,14 +141,14 @@ export const Popover: React.FC<PopoverProps> = ({
   return (
     <>
       <div
-        data-testid='popover-open-change'
+        data-testid="popover-open-change"
         ref={triggerRef}
         onClick={() => {
           handleOpenChange(!isOpen)
         }}
         className={`inline-block cursor-pointer ${className}`}
-        role='button'
-        aria-haspopup='dialog'
+        role="button"
+        aria-haspopup="dialog"
         aria-expanded={isOpen}
       >
         {trigger}
@@ -155,9 +156,9 @@ export const Popover: React.FC<PopoverProps> = ({
 
       <div
         ref={popoverRef}
-        popover='auto'
+        popover="auto"
         id={popoverId}
-        className='m-0 p-0 border-none bg-transparent'
+        className="m-0 p-0 border-none bg-transparent"
         style={sx({
           position: 'fixed' as const,
           top: coords.top,
@@ -171,7 +172,7 @@ export const Popover: React.FC<PopoverProps> = ({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.1, ease: 'easeOut' }}
-              className='glass-panel rounded-lg shadow-2xl border border-border-default'
+              className="glass-panel rounded-lg shadow-2xl border border-border-default"
               style={sx({ backdropFilter: 'blur(24px)' })}
             >
               {content}

@@ -77,11 +77,19 @@ export function useColorPickerState(opts: UseColorPickerStateOptions): ColorPick
       newHsv.a = opts.alpha
     }
     setHsv(newHsv)
-    setHexInput(newHsv.a === 1 ? hsvToHex(newHsv.h, newHsv.s, newHsv.v) : hsvToHex8(newHsv.h, newHsv.s, newHsv.v, newHsv.a))
+    setHexInput(
+      newHsv.a === 1
+        ? hsvToHex(newHsv.h, newHsv.s, newHsv.v)
+        : hsvToHex8(newHsv.h, newHsv.s, newHsv.v, newHsv.a)
+    )
     setRgbInput(hsvToRgb(newHsv.h, newHsv.s, newHsv.v, newHsv.a))
   }, [opts.value, opts.alpha, opts.disableAlpha])
 
-  const { onChange: onChangeProp, onChangeAlpha: onChangeAlphaProp, disableAlpha: disableAlphaProp } = opts
+  const {
+    onChange: onChangeProp,
+    onChangeAlpha: onChangeAlphaProp,
+    disableAlpha: disableAlphaProp,
+  } = opts
 
   const updateExternal = useCallback(
     (newHsv: HSVA) => {
@@ -94,7 +102,7 @@ export function useColorPickerState(opts: UseColorPickerStateOptions): ColorPick
         onChangeProp(h.a === 1 ? hsvToHex(h.h, h.s, h.v) : hsvToHex8(h.h, h.s, h.v, h.a))
       }
     },
-    [onChangeProp, onChangeAlphaProp, disableAlphaProp],
+    [onChangeProp, onChangeAlphaProp, disableAlphaProp]
   )
 
   const handleHsvChange = useCallback(
@@ -102,14 +110,28 @@ export function useColorPickerState(opts: UseColorPickerStateOptions): ColorPick
       setHsv(newHsv)
       updateExternal(newHsv)
       const displayHex =
-        newHsv.a === 1 ? hsvToHex(newHsv.h, newHsv.s, newHsv.v) : hsvToHex8(newHsv.h, newHsv.s, newHsv.v, newHsv.a)
+        newHsv.a === 1
+          ? hsvToHex(newHsv.h, newHsv.s, newHsv.v)
+          : hsvToHex8(newHsv.h, newHsv.s, newHsv.v, newHsv.a)
       setHexInput(displayHex)
       setRgbInput(hsvToRgb(newHsv.h, newHsv.s, newHsv.v, newHsv.a))
     },
-    [updateExternal],
+    [updateExternal]
   )
 
   const palette = generatePalette(hsv.h, hsv.s, hsv.v)
 
-  return { hsv, mode, setMode, history, addToHistory, hexInput, setHexInput, rgbInput, setRgbInput, handleHsvChange, palette }
+  return {
+    hsv,
+    mode,
+    setMode,
+    history,
+    addToHistory,
+    hexInput,
+    setHexInput,
+    rgbInput,
+    setRgbInput,
+    handleHsvChange,
+    palette,
+  }
 }

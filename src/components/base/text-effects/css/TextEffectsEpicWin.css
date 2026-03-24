@@ -12,7 +12,11 @@
   --text-effects-epic-win-color: #ffd700;
   --text-effects-epic-win-color-1: rgb(0 0 0 / 8%);
   --text-effects-epic-win-color-2: rgb(0 0 0 / 15%);
-  --text-effects-epic-win-bg: color-mix(in srgb, var(--text-effects-epic-win-color), transparent 80%);
+  --text-effects-epic-win-bg: color-mix(
+    in srgb,
+    var(--text-effects-epic-win-color),
+    transparent 80%
+  );
   --text-effects-epic-win-bg-100: color-mix(in srgb, var(--text-effects-epic-win-color), white 85%);
   --text-effects-epic-win-bg-101: color-mix(in srgb, var(--text-effects-epic-win-color), white 85%);
   --text-effects-epic-win-bg-102: var(--text-effects-epic-win-color);

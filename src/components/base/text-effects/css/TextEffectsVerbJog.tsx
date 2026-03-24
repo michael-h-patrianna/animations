@@ -19,7 +19,10 @@ interface TextEffectsVerbJogProps {
  * <TextEffectsVerbJog text="RUN FAST" />
  * <TextEffectsVerbJog text="Quick Brown Fox" />
  */
-function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbJogProps) {
+function TextEffectsVerbJogComponent({
+  text = 'LOREM IPSUM DOLOR',
+  color,
+}: TextEffectsVerbJogProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -27,7 +30,9 @@ function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR', color }: Text
       className="tfx-jog-container"
       data-animation-id="text-effects__verb-jogging"
       aria-label={text}
-      style={color !== undefined ? { '--lsd-baseColor': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--lsd-baseColor': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="tfx-jog-line" aria-hidden="true">
         {letters.map((ch, i) => (

@@ -30,7 +30,11 @@ function TextEffectsTypewriterComponent({
     <div
       className="pf-typewriter"
       data-animation-id="text-effects__typewriter"
-      style={color !== undefined ? { '--pf-typewriter-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--pf-typewriter-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
       <div className="pf-typewriter__text">
         {chars.map((char, index) => (

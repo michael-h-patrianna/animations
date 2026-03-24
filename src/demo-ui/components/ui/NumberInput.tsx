@@ -255,29 +255,29 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       onKeyDown={handleKeyDown}
       error={error || props.error}
       rightIcon={
-        <div className='flex flex-col gap-[1px]'>
+        <div className="flex flex-col gap-[1px]">
           <MotionEl.button
-            data-testid='number-input-change'
-            className='h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center'
+            data-testid="number-input-change"
+            className="h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center"
             onClick={() => {
               onChange(Math.min(value + step, max))
             }}
             tabIndex={-1}
           >
-            <svg width='6' height='4' viewBox='0 0 8 4' fill='currentColor'>
-              <path d='M4 0L8 4H0L4 0Z' />
+            <svg width="6" height="4" viewBox="0 0 8 4" fill="currentColor">
+              <path d="M4 0L8 4H0L4 0Z" />
             </svg>
           </MotionEl.button>
           <MotionEl.button
-            data-testid='number-input-change-2'
-            className='h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center'
+            data-testid="number-input-change-2"
+            className="h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center"
             onClick={() => {
               onChange(Math.max(value - step, min))
             }}
             tabIndex={-1}
           >
-            <svg width='6' height='4' viewBox='0 0 8 4' fill='currentColor'>
-              <path d='M4 4L0 0H8L4 4Z' />
+            <svg width="6" height="4" viewBox="0 0 8 4" fill="currentColor">
+              <path d="M4 4L0 0H8L4 4Z" />
             </svg>
           </MotionEl.button>
         </div>

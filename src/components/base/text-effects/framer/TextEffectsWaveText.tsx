@@ -95,7 +95,9 @@ function TextEffectsWaveTextComponent({
     <div
       className="pf-wave-text"
       data-animation-id="text-effects__wave-text"
-      style={color !== undefined ? { '--pf-wave-text-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-wave-text-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-wave-text__wrapper">
         {chars.map((char, index) => (

@@ -30,7 +30,11 @@ function TextEffectsGlitchTextComponent({
     <div
       className={`pf-glitch ${className}`.trim()}
       data-animation-id="text-effects__tfx-glitchtext"
-      style={color !== undefined ? { '--pf-glitch-color-base': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--pf-glitch-color-base': color } as React.CSSProperties)
+          : undefined
+      }
     >
       {/* Main text */}
       <m.div

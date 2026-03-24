@@ -3,7 +3,10 @@ import { soundManager } from '@/demo-ui/lib/audio/SoundManager'
 import { m as MotionEl, type HTMLMotionProps } from 'motion/react'
 
 /** Props for the ToggleButton component with sound feedback. */
-export interface ToggleButtonProps extends Omit<React.ComponentPropsWithoutRef<'button'>, 'onToggle'> {
+export interface ToggleButtonProps extends Omit<
+  React.ComponentPropsWithoutRef<'button'>,
+  'onToggle'
+> {
   pressed: boolean
   onToggle: (pressed: boolean) => void
   ariaLabel: string
@@ -35,9 +38,9 @@ export const ToggleButton = ({
 
   return (
     <MotionEl.button
-      data-testid='toggle-button-click'
+      data-testid="toggle-button-click"
       ref={ref}
-      type='button'
+      type="button"
       aria-pressed={pressed}
       onClick={handleClick}
       onMouseEnter={() => {

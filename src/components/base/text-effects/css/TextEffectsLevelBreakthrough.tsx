@@ -27,7 +27,11 @@ function TextEffectsLevelBreakthroughComponent({
     <div
       className={`tfx-breakthrough-container ${className}`.trim()}
       data-animation-id="text-effects__level-breakthrough"
-      style={color !== undefined ? { '--text-effects-level-breakthrough-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined
+          ? ({ '--text-effects-level-breakthrough-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
       <div className="tfx-breakthrough-surge tfx-breakthrough-surge-outer" />
       <div className="tfx-breakthrough-surge tfx-breakthrough-surge-inner" />

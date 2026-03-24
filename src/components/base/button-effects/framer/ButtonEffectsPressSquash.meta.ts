@@ -8,7 +8,22 @@ export const metadata: AnimationMetadata = {
   disableReplay: true,
   tier: 1,
   props: [
-    { type: 'number', name: 'duration', label: 'Duration', default: 300, min: 50, max: 2000, step: 50, unit: 'ms' },
-    { type: 'string', name: 'children', label: 'Children', disabled: true, disabledReason: 'Wrap your button via JSX children' },
+    {
+      type: 'number',
+      name: 'duration',
+      label: 'Duration',
+      default: 300,
+      min: 50,
+      max: 2000,
+      step: 50,
+      unit: 'ms',
+    },
+    {
+      type: 'string',
+      name: 'children',
+      label: 'Children',
+      disabled: true,
+      disabledReason: 'Wrap your button via JSX children',
+    },
   ],
 }

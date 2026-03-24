@@ -22,7 +22,9 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
     <div
       className="pf-epic-win"
       data-animation-id="text-effects__epic-win"
-      style={color !== undefined ? { '--pf-epic-win-color': color } as React.CSSProperties : undefined}
+      style={
+        color !== undefined ? ({ '--pf-epic-win-color': color } as React.CSSProperties) : undefined
+      }
     >
       <div className="pf-epic-win__text-container">
         {/* Far shadow */}

@@ -87,11 +87,13 @@ function TextEffectsComboCounterComponent({
     <div
       className="pf-combo"
       data-animation-id="text-effects__combo-counter"
-      style={{
-        ...(numberColor !== undefined ? { '--pf-combo-number-color': numberColor } : {}),
-        ...(labelColor !== undefined ? { '--pf-combo-label-color': labelColor } : {}),
-        ...(bonusColor !== undefined ? { '--pf-combo-bonus-color': bonusColor } : {}),
-      } as React.CSSProperties}
+      style={
+        {
+          ...(numberColor !== undefined ? { '--pf-combo-number-color': numberColor } : {}),
+          ...(labelColor !== undefined ? { '--pf-combo-label-color': labelColor } : {}),
+          ...(bonusColor !== undefined ? { '--pf-combo-bonus-color': bonusColor } : {}),
+        } as React.CSSProperties
+      }
     >
       <div className="pf-combo__main">
         {/* Number counter with multiplier */}
