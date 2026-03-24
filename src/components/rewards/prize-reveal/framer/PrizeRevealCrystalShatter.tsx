@@ -331,7 +331,11 @@ function CrystalShatterAnimation({ prizeCount }: { prizeCount: number }) {
             ))}
           </div>
           {showClaim && !claimed && (
-            <DemoButton label="Claim" className="pf-prize-reveal__action-btn" onClick={handleClaim} />
+            <DemoButton
+              label="Claim"
+              className="pf-prize-reveal__action-btn"
+              onClick={handleClaim}
+            />
           )}
         </>
       )}

@@ -397,7 +397,11 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       {activeFlash != null && <ScreenFlash rarity={activeFlash as 4 | 5} />}
       {collected && <CollectBurst />}
       {showCollect && !collected && (
-        <DemoButton label="Collect All" className="pf-prize-reveal__action-btn" onClick={handleCollect} />
+        <DemoButton
+          label="Collect All"
+          className="pf-prize-reveal__action-btn"
+          onClick={handleCollect}
+        />
       )}
     </m.div>
   )

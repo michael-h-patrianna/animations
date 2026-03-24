@@ -417,7 +417,11 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       {collected && <CollectBurst />}
 
       {showCollect && !collected && (
-        <DemoButton label="Collect All" className="pf-prize-reveal__action-btn" onClick={handleCollect} />
+        <DemoButton
+          label="Collect All"
+          className="pf-prize-reveal__action-btn"
+          onClick={handleCollect}
+        />
       )}
     </div>
   )

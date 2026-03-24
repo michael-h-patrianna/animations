@@ -371,7 +371,11 @@ function PrizeRevealCrystalShatterComponent({
         </div>
 
         {showClaim && !claimed && (
-          <DemoButton label="Claim" className="pf-prize-reveal__action-btn" onClick={() => setClaimed(true)} />
+          <DemoButton
+            label="Claim"
+            className="pf-prize-reveal__action-btn"
+            onClick={() => setClaimed(true)}
+          />
         )}
       </div>
     </div>
