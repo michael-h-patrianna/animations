@@ -23,12 +23,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import {
-  MODAL_ENTRANCE,
-  REDUCED_FADE,
-  toItemArray,
-  type ContentStaggerProps,
-} from '../SharedTypes'
+import { MODAL_ENTRANCE, REDUCED_FADE, toItemArray, type ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 320
 const DEFAULT_STAGGER = 70
@@ -47,12 +42,7 @@ function ModalContentButtonsStagger3Component({
   const staggerS = stagger / 1000
   const reduced = prefersReducedMotion === true
 
-  const animateItem = (
-    child: React.ReactNode,
-    i: number,
-    delayBase: number,
-    isLast = false,
-  ) => (
+  const animateItem = (child: React.ReactNode, i: number, delayBase: number, isLast = false) => (
     <m.div
       key={i}
       initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}

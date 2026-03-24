@@ -1,8 +1,7 @@
 /* Scale spotlight stagger — CSS variant */
 
 .pf-list-spotlight-item {
-  animation: pf-list-spotlight var(--pf-stagger-duration, 500ms) cubic-bezier(0.4, 0, 0.2, 1)
-    both;
+  animation: pf-list-spotlight var(--pf-stagger-duration, 500ms) cubic-bezier(0.4, 0, 0.2, 1) both;
   animation-delay: var(--pf-stagger-delay, 0ms);
 }
 
