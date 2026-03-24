@@ -21,10 +21,7 @@ function TextEffectsTypewriterComponent({
   cursor = '|',
 }: TextEffectsTypewriterProps) {
   return (
-    <div
-      className="text-effects-typewriter-container"
-      data-animation-id="text-effects__typewriter"
-    >
+    <div className="text-effects-typewriter-container" data-animation-id="text-effects__typewriter">
       <div className="text-effects-typewriter-text">
         {text.split('').map((char, index) => (
           <span
