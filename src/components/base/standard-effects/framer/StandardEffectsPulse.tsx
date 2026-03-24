@@ -20,12 +20,15 @@ interface StandardEffectsPulseProps {
   duration?: number
   /** Glow overlay color. Default: 'rgb(198 255 119 / 30%)' */
   glowColor?: string
+  /** Border radius applied to the pulse glow. Default: 16 */
+  borderRadius?: number | string
 }
 
 function StandardEffectsPulseComponent({
   children,
   duration = 1500,
   glowColor,
+  borderRadius = 16,
 }: StandardEffectsPulseProps) {
   const resolvedGlowColor = glowColor ?? PULSE_GLOW_COLOR
   const durationS = duration / 1000
@@ -34,7 +37,7 @@ function StandardEffectsPulseComponent({
     <m.div
       className="pf-pulse"
       data-animation-id="standard-effects__pulse"
-      style={{ animation: 'none', position: 'relative' }}
+      style={{ animation: 'none', position: 'relative', borderRadius }}
       animate={{
         scale: [1, 1.25, 1],
         opacity: [1, 0.8, 1],
