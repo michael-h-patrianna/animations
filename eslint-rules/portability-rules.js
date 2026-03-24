@@ -136,7 +136,7 @@ const portabilityRules = {
             // Tier 1: no @/ imports except extractable
             context.report({
               node,
-              message: `Tier 1 (Effect) animations must not use project imports. Found: "${source}". Tier 1 components use only npm packages and local files. Raise the tier to 2+ or remove this import.`,
+              message: `Tier 1 (Effect) animations must not use project imports. Found: "${source}". Tier 1 components use only npm packages, local files, and @/components/demo-blocks. Raise the tier to 2+ or remove this import.`,
             })
             return
           }
@@ -153,7 +153,7 @@ const portabilityRules = {
           // Tier 2 and 3: only extractable imports allowed (already checked above)
           context.report({
             node,
-            message: `Tier ${tier} animations may only import from extractable utilities (@/motion/*, @/utils/*, @/components/demo-blocks). Found: "${source}". Raise the tier to 4 or restructure.`,
+            message: `Tier ${tier} animations may only import from extractable utilities (@/motion/*, @/utils/*, @/types/*, @/components/demo-blocks). Found: "${source}". Raise the tier to 4 or restructure.`,
           })
         },
       }

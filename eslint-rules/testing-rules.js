@@ -5,6 +5,18 @@ import { getFilename } from './rule-helpers.js'
 /** Files in src/components/ui/ that are generic primitives using ...props spread. */
 const UI_PRIMITIVES = new Set(['card', 'button', 'button-variants'])
 
+/** Matchers where expect.any() is meaningful as an asymmetric argument. */
+const ASYMMETRIC_MATCHER_NAMES = new Set([
+  'toHaveBeenCalledWith',
+  'toEqual',
+  'toMatchObject',
+  'toHaveBeenLastCalledWith',
+  'toHaveBeenNthCalledWith',
+  'toStrictEqual',
+  'objectContaining',
+  'arrayContaining',
+])
+
 const testingRules = {
   /**
    * Require data-testid on UI components in src/components/ui/.
@@ -91,6 +103,222 @@ const testingRules = {
               node: arg,
               message: `Flaky selector "${value.length > 40 ? value.slice(0, 40) + '…' : value}". Use [data-testid="..."], [data-animation-id="..."], or [aria-*] selectors instead of CSS class/ID selectors.`,
             })
+          }
+        },
+      }
+    },
+  },
+  /**
+   * Ban shallow test matchers that assert existence/type but not correctness.
+   * These catch zero real bugs:
+   *   - toBeDefined, toBeTruthy, toBeFalsy, toBeUndefined
+   *   - expect(typeof x), expect(Array.isArray), expect(!!x)
+   *   - expect.any() as a standalone assertion (allowed as asymmetric matcher)
+   *   - toBeInstanceOf, toHaveProperty(key) without value
+   *   - toBeGreaterThan(0), not.toHaveLength(0)
+   */
+  'no-shallow-assertions': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'Disallow shallow test matchers that assert existence or type instead of correctness.',
+      },
+      schema: [],
+    },
+    create(context) {
+      const MSG =
+        'Shallow useless test. Delete test! Do not try to rewrite it just to make it pass. It is fundamentally useless.'
+      const SHALLOW_MATCHERS = {
+        toBeDefined: true,
+        toBeTruthy: true,
+        toBeFalsy: true,
+        toBeUndefined: true,
+      }
+
+      function findExpectCall(node) {
+        let obj = node.callee.object
+        while (obj.type === 'CallExpression' && obj.callee.type === 'MemberExpression') {
+          obj = obj.callee.object
+        }
+        if (obj.type === 'MemberExpression' && obj.property.name === 'not') {
+          obj = obj.object
+        }
+        if (
+          obj.type === 'CallExpression' &&
+          obj.callee.type === 'Identifier' &&
+          obj.callee.name === 'expect'
+        ) {
+          return obj
+        }
+        return null
+      }
+
+      function isGetByQuery(node) {
+        if (!node || node.type !== 'CallExpression') return false
+        const callee = node.callee
+        const methodName =
+          callee.type === 'MemberExpression'
+            ? callee.property?.name
+            : callee.type === 'Identifier'
+              ? callee.name
+              : null
+        return typeof methodName === 'string' && /^getBy/.test(methodName)
+      }
+
+      /** True when expect.any() is used as an argument inside a matcher call. */
+      function isInsideAsymmetricMatcher(node) {
+        let ancestor = node.parent
+        while (ancestor) {
+          if (
+            ancestor.type === 'CallExpression' &&
+            ancestor.callee?.type === 'MemberExpression' &&
+            ASYMMETRIC_MATCHER_NAMES.has(ancestor.callee.property?.name)
+          ) {
+            return true
+          }
+          ancestor = ancestor.parent
+        }
+        return false
+      }
+
+      return {
+        CallExpression(node) {
+          // 1. Block expect(typeof x), expect(Array.isArray), expect(!!x),
+          //    expect(x !== null), expect(el.tagName).
+          if (node.callee.type === 'Identifier' && node.callee.name === 'expect') {
+            const arg = node.arguments[0]
+            if (arg) {
+              if (arg.type === 'UnaryExpression' && arg.operator === 'typeof') {
+                context.report({ node, message: MSG })
+              }
+              if (
+                arg.type === 'CallExpression' &&
+                arg.callee.type === 'MemberExpression' &&
+                arg.callee.object.name === 'Array' &&
+                arg.callee.property.name === 'isArray'
+              ) {
+                context.report({ node, message: MSG })
+              }
+              if (arg.type === 'UnaryExpression' && arg.operator === '!') {
+                context.report({ node, message: MSG })
+              }
+              if (arg.type === 'CallExpression' && arg.callee.name === 'Boolean') {
+                context.report({ node, message: MSG })
+              }
+              if (
+                arg.type === 'BinaryExpression' &&
+                ['!==', '!=', '===', '==', 'in'].includes(arg.operator)
+              ) {
+                context.report({ node, message: MSG })
+              }
+              if (
+                arg.type === 'MemberExpression' &&
+                (arg.property.name === 'tagName' || arg.property.name === 'nodeName')
+              ) {
+                context.report({ node, message: MSG })
+              }
+            }
+          }
+
+          if (node.callee.type !== 'MemberExpression') return
+
+          // 2. Block expect.any() as standalone assertion — type-only, not value.
+          //    Allow expect.any() inside asymmetric matchers (toHaveBeenCalledWith etc.)
+          //    where it asserts "called with *a* function" which is meaningful.
+          if (node.callee.object.name === 'expect') {
+            if (node.callee.property.name === 'any' && !isInsideAsymmetricMatcher(node)) {
+              context.report({ node: node.callee.property, message: MSG })
+            }
+          }
+
+          const methodName = node.callee.property.name
+          if (!methodName) return
+
+          // 3. Tautological: getBy* already throws when the element is absent.
+          if (methodName === 'toBeInTheDocument') {
+            const expectCall = findExpectCall(node)
+            if (expectCall && isGetByQuery(expectCall.arguments[0])) {
+              context.report({
+                node: node.callee.property,
+                message:
+                  'Tautological assertion: getBy* already throws when the element is absent — toBeInTheDocument() adds no information. Assert a specific attribute, text content, or computed state instead.',
+              })
+              return
+            }
+          }
+
+          let isShallow = false
+          const isNot =
+            node.callee.object.type === 'MemberExpression' &&
+            node.callee.object.property.name === 'not'
+
+          if (SHALLOW_MATCHERS[methodName]) {
+            isShallow = true
+          } else if (methodName === 'toBeNull' && isNot) {
+            isShallow = true
+          } else if (methodName === 'toBe') {
+            if (node.arguments.length === 1) {
+              const arg = node.arguments[0]
+              if (arg.type === 'Identifier' && arg.name === 'undefined') {
+                isShallow = true
+              } else if (
+                arg.type === 'Literal' &&
+                ['string', 'object', 'boolean', 'number', 'function', 'symbol'].includes(arg.value)
+              ) {
+                isShallow = true
+              } else if (isNot && arg.type === 'Literal' && (arg.value === 0 || arg.value === '')) {
+                isShallow = true
+              }
+            }
+          } else if (methodName === 'toBeGreaterThan' || methodName === 'toBeGreaterThanOrEqual') {
+            if (
+              node.arguments.length === 1 &&
+              node.arguments[0].type === 'Literal' &&
+              node.arguments[0].value === 0
+            ) {
+              isShallow = true
+            }
+          } else if (methodName === 'toMatch') {
+            const arg = node.arguments[0]
+            if (arg?.type === 'Literal' && arg.regex) {
+              const pattern = arg.regex.pattern
+              if (pattern.includes('.+') || pattern.includes('[a-zA-Z]') || pattern === '.*') {
+                isShallow = true
+              }
+            }
+          } else if (methodName === 'toBeInstanceOf') {
+            isShallow = true
+          } else if (methodName === 'toHaveProperty' && node.arguments.length === 1) {
+            isShallow = true
+          } else if (
+            isNot &&
+            methodName === 'toHaveLength' &&
+            node.arguments[0]?.type === 'Literal' &&
+            node.arguments[0].value === 0
+          ) {
+            isShallow = true
+          } else if (isNot && methodName === 'toBeNaN') {
+            isShallow = true
+          }
+
+          if (!isShallow) return
+
+          // Walk up the member-expression chain to find expect()
+          let obj = node.callee.object
+          while (obj.type === 'CallExpression' && obj.callee.type === 'MemberExpression') {
+            obj = obj.callee.object
+          }
+          if (obj.type === 'MemberExpression' && obj.property.name === 'not') {
+            obj = obj.object
+          }
+
+          if (
+            obj.type === 'CallExpression' &&
+            obj.callee.type === 'Identifier' &&
+            obj.callee.name === 'expect'
+          ) {
+            context.report({ node: node.callee.property, message: MSG })
           }
         },
       }

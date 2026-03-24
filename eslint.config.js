@@ -121,10 +121,23 @@ export default defineConfig([
       'animation-rules/no-position-fixed': 'error',
     },
   },
+  // Source code quality gates: line limits and default export ban.
+  // Config files (vite, vitest, playwright, etc.) are exempt since
+  // their APIs require default exports.
   {
     files: ['**/*.js', '**/*.ts', '**/*.tsx'],
-    ignores: ['**/*.config.js', '**/*.config.cjs', '**/*.config.mjs'],
+    ignores: ['**/*.config.js', '**/*.config.cjs', '**/*.config.mjs', '**/*.config.ts'],
     rules: {
+      // Project convention: all exports are named. Default exports break groupBuilder resolution
+      // and make imports less grep-able.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'ExportDefaultDeclaration',
+          message:
+            'Default exports are banned. Use named exports: `export const X = ...` or `export function X()`. Config files are exempt.',
+        },
+      ],
       'max-lines': [
         'error',
         {
@@ -180,9 +193,14 @@ export default defineConfig([
       // render-result-naming-convention off — non-component helpers use render() too
       'testing-library/render-result-naming-convention': 'off',
 
-      // ─── Ban .skip abuse ─────────────────────────────────────────────────
+      // ─── Ban .skip abuse + default exports + text queries ─────────────────
       'no-restricted-syntax': [
         'error',
+        {
+          selector: 'ExportDefaultDeclaration',
+          message:
+            'Default exports are banned. Use named exports: `export const X = ...` or `export function X()`.',
+        },
         {
           selector: 'CallExpression[callee.object.name="it"][callee.property.name="skip"]',
           message: 'No it.skip — fix or remove the test.',
@@ -194,6 +212,16 @@ export default defineConfig([
         {
           selector: 'CallExpression[callee.object.name="describe"][callee.property.name="skip"]',
           message: 'No describe.skip — fix or remove the test suite.',
+        },
+        {
+          selector: 'CallExpression[callee.property.name=/ByText$/]',
+          message:
+            'Do not query by text content — use getByTestId/queryByTestId with data-testid attributes instead. Text changes frequently and makes tests brittle.',
+        },
+        {
+          selector: 'CallExpression[callee.name=/ByText$/]',
+          message:
+            'Do not query by text content — use getByTestId/queryByTestId with data-testid attributes instead. Text changes frequently and makes tests brittle.',
         },
       ],
     },
@@ -326,10 +354,9 @@ export default defineConfig([
       'src/__tests__/realtime-data.css-framer-parity.test.tsx',
       'src/__tests__/update-indicators.css-framer-parity.test.tsx',
       'src/__tests__/timer-effects.urgent-pulse.structure.test.tsx',
+      'src/__tests__/realtime-data.live-score-behavior.test.tsx',
       'src/__tests__/utils/animationTestUtils.test.tsx',
       'src/test/utils/animationTestUtils.tsx',
-      // UI tests that inspect structural DOM attributes (data-app-shell, hidden state)
-      'src/__tests__/ui.mobile-header.test.tsx',
       // Focus trap tests require document.activeElement — no Testing Library equivalent
       'src/__tests__/hooks.useModalAccessibility.test.tsx',
       // Modal lifecycle integration test: focus trap assertions require document.activeElement
@@ -386,6 +413,9 @@ export default defineConfig([
       // E2E describe blocks are inherently long — tests are sequential user flows
       'max-lines-per-function': 'off',
       '@typescript-eslint/strict-boolean-expressions': 'off',
+      // E2E tests use color name strings ('cyan', 'magenta') as accent/theme
+      // identifiers in test data — not as hardcoded color values in UI code.
+      'animation-rules/no-hardcoded-colors': 'off',
       // Ban CSS class/ID selectors in locator() — use data-testid or aria-* instead
       'animation-rules/no-class-id-locators': 'error',
     },
@@ -410,6 +440,26 @@ export default defineConfig([
       'animation-rules/no-calc-in-motion': 'error',
       'animation-rules/no-svg-in-motion': 'error',
       'animation-rules/no-default-export-in-animation': 'error',
+    },
+  },
+  // Demo-ui components: self-contained UI kit with dense JSX layouts
+  // (dropdown positioning, input styling, tooltip logic). max-lines-per-function
+  // at 75 is too restrictive for properly-formatted React component JSX.
+  // DropdownMenuItems additionally uses useLayoutEffect for portal positioning
+  // (measure DOM rect → set position state) which is the standard React pattern.
+  {
+    files: ['src/demo-ui/**/*.{ts,tsx}'],
+    rules: {
+      'max-lines-per-function': [
+        'error',
+        { max: 120, skipBlankLines: true, skipComments: true, IIFEs: true },
+      ],
+    },
+  },
+  {
+    files: ['src/demo-ui/components/ui/DropdownMenuItems.tsx'],
+    rules: {
+      '@eslint-react/set-state-in-effect': 'off',
     },
   },
   // Context providers export both Provider and hook — react-refresh false positive
