@@ -78,9 +78,6 @@ export const DEFAULT_OVERLAY_OPACITY = 0.5
 /** Minimum distance (px) from center to use arc trajectory. Below this, falls back to scale-pop. */
 export const MIN_ARC_DISTANCE = 30
 
-/** Arc offset as fraction of travel distance (controls curve intensity). */
-export const ARC_OFFSET_RATIO = 0.2
-
 /**
  * Resolves a PointRef to pixel coordinates.
  * For `{x, y}` objects: returns as-is.

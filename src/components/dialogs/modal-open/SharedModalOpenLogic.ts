@@ -73,7 +73,7 @@ function resolveEffectiveValues(
     durationS,
     closeDurationS,
     closeDurationMs,
-    overlayOpacity: overlayOpacity ?? DEFAULT_OVERLAY_OPACITY,
+    overlayOpacity,
     effectiveReveal,
   }
 }
@@ -200,6 +200,12 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
   const isVisible = phase !== 'idle'
   const isClosing = phase === 'closing'
 
+  const { force, overlayOpacity, durationS, closeDurationS, effectiveDuration, closeDurationMs } =
+    vals
+  const activeDurationS = isClosing ? closeDurationS : durationS
+  const activeDurationMs = isClosing ? closeDurationMs : effectiveDuration
+  const { handleOpenComplete, handleClose, handleCloseComplete } = phases
+
   return useMemo(
     () => ({
       containerRef,
@@ -208,27 +214,34 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
       phase,
       isVisible,
       isClosing,
-      force: vals.force,
-      overlayOpacity: vals.overlayOpacity,
-      activeDurationS: isClosing ? vals.closeDurationS : vals.durationS,
-      activeDurationMs: isClosing ? vals.closeDurationMs : vals.effectiveDuration,
+      force,
+      overlayOpacity,
+      activeDurationS,
+      activeDurationMs,
       fromPoint,
       center,
       contentRevealed,
       handleDemoClick,
-      ...phases,
+      handleOpenComplete,
+      handleClose,
+      handleCloseComplete,
     }),
     [
       isDemoMode,
       phase,
       isVisible,
       isClosing,
-      vals,
+      force,
+      overlayOpacity,
+      activeDurationS,
+      activeDurationMs,
       fromPoint,
       center,
       contentRevealed,
       handleDemoClick,
-      phases,
+      handleOpenComplete,
+      handleClose,
+      handleCloseComplete,
     ]
   )
 }
