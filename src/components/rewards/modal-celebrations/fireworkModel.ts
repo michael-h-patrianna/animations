@@ -1,5 +1,7 @@
 /** Shared firework particle model for modal-celebrations CSS and Framer variants. */
 
+import { randBetween } from './utils'
+
 /* ─── Defaults ─── */
 
 export const FIREWORK_DEFAULT_BURST_COUNT = 5
@@ -30,10 +32,6 @@ export type FireworkBurst = {
   particles: FireworkParticle[]
 }
 
-function randomBetween(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
-
 function generateParticles(
   count: number,
   width: number,
@@ -42,12 +40,12 @@ function generateParticles(
 ): FireworkParticle[] {
   return Array.from({ length: count }, (_, i) => ({
     id: i,
-    x: randomBetween(-width / 2, width / 2),
+    x: randBetween(-width / 2, width / 2),
     y: Math.random() * height - height / 1.2,
-    rotation: randomBetween(-360, 360),
-    scale: randomBetween(0.5, 1.3),
+    rotation: randBetween(-360, 360),
+    scale: randBetween(0.5, 1.3),
     imageIndex: Math.floor(Math.random() * variantCount),
-    delay: randomBetween(0, 0.3),
+    delay: randBetween(0, 0.3),
   }))
 }
 
@@ -77,9 +75,9 @@ export function generateFireworkBursts(config: FireworkConfig): FireworkBurst[] 
 
   return Array.from({ length: burstCount }, (_, i) => ({
     id: i,
-    posX: randomBetween(15, 85),
-    posY: randomBetween(10, 60),
-    delay: i * baseGap + randomBetween(0, jitterRange),
+    posX: randBetween(15, 85),
+    posY: randBetween(10, 60),
+    delay: i * baseGap + randBetween(0, jitterRange),
     particles: generateParticles(
       particlesPerBurst,
       FIREWORK_SPREAD_WIDTH,

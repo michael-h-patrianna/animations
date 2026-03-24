@@ -3,6 +3,7 @@ import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
 import { arcanePortalRunicSigilImage } from '@/assets'
+import { useCountUp } from '@/hooks/useCountUp'
 
 import {
   AmbientGlow,
@@ -24,7 +25,6 @@ import {
   createConvergeParticles,
   createOrbitMotes,
   getPrizeSlots,
-  useCountUp,
   useRevealPhase,
   type MoteData,
   type PrizeConfig,

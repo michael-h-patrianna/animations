@@ -123,12 +123,6 @@
   pointer-events: none;
 }
 
-.pf-crystal-shatter__vibration-wrap {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
 /* ─── Energy motes ─── */
 
 .pf-crystal-shatter__motes-container {

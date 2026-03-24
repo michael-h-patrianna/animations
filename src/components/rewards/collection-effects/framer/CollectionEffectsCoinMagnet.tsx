@@ -14,7 +14,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '../SharedFallbackParticle'
 import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
@@ -31,7 +31,7 @@ import {
 
 const DEFAULT_COUNT = 10
 const DEFAULT_SPREAD = 60
-const DEFAULT_DURATION_S = 1.33
+const DEFAULT_DURATION_S = 2.0
 const CLEANUP_BUFFER_MS = 500
 const WAYPOINTS = 20
 
@@ -104,14 +104,14 @@ function sampleBezierPath(
   return { xPath, yPath }
 }
 
-function ArrivalFlash({ target }: { target: ResolvedPoint }) {
+function ArrivalFlash({ target, durationS }: { target: ResolvedPoint; durationS: number }) {
   return (
     <m.div
       className="pf-coin-magnet__arrival-flash"
       style={{ left: target.x, top: target.y, animation: 'none' }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 1.8], opacity: [0, 0.7, 0] }}
-      transition={{ duration: 0.5, delay: 1.05, times: [0, 0.4, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.5, delay: durationS * 0.8, times: [0, 0.4, 1], ease: 'easeOut' }}
     />
   )
 }
@@ -125,7 +125,6 @@ function ParticleElement({
   durationS,
   prefersReducedMotion,
   onFinish,
-  isLast,
 }: {
   particle: Particle
   fromPt: ResolvedPoint
@@ -135,11 +134,20 @@ function ParticleElement({
   durationS: number
   prefersReducedMotion: boolean | null
   onFinish?: () => void
-  isLast: boolean
 }) {
   // Scattered position after emission burst
   const scatterX = fromPt.x + Math.cos(particle.emitAngle) * particle.emitDist
   const scatterY = fromPt.y + Math.sin(particle.emitAngle) * particle.emitDist
+
+  const particleContent = particle.imageSrc ? (
+    <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
+  ) : (
+    <FallbackParticle
+      shape={particle.fallback.shape}
+      color={particle.fallback.color}
+      size={particleSize}
+    />
+  )
 
   if (isBurst) {
     // No target — just emit outward and fade
@@ -160,18 +168,10 @@ function ParticleElement({
           times: [0, 0.15, 1],
           ease: [0.2, 0.8, 0.3, 1] as const,
         }}
-        onAnimationComplete={isLast ? onFinish : undefined}
+        onAnimationComplete={onFinish}
         aria-hidden="true"
       >
-        {particle.imageSrc ? (
-          <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
-        ) : (
-          <FallbackParticle
-            shape={particle.fallback.shape}
-            color={particle.fallback.color}
-            size={particleSize}
-          />
-        )}
+        {particleContent}
       </m.div>
     )
   }
@@ -196,18 +196,10 @@ function ParticleElement({
           scale: { times: [0, 0.3, 1] },
           opacity: { times: [0, 0.3, 1] },
         }}
-        onAnimationComplete={isLast ? onFinish : undefined}
+        onAnimationComplete={onFinish}
         aria-hidden="true"
       >
-        {particle.imageSrc ? (
-          <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
-        ) : (
-          <FallbackParticle
-            shape={particle.fallback.shape}
-            color={particle.fallback.color}
-            size={particleSize}
-          />
-        )}
+        {particleContent}
       </m.div>
     )
   }
@@ -251,18 +243,10 @@ function ParticleElement({
         scale: { times: [0, 0.05, 0.12, 0.85, 0.95, 1] },
         opacity: { times: [0, 0.05, 0.12, 0.85, 0.97, 1] },
       }}
-      onAnimationComplete={isLast ? onFinish : undefined}
+      onAnimationComplete={onFinish}
       aria-hidden="true"
     >
-      {particle.imageSrc ? (
-        <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
-      ) : (
-        <FallbackParticle
-          shape={particle.fallback.shape}
-          color={particle.fallback.color}
-          size={particleSize}
-        />
-      )}
+      {particleContent}
     </m.div>
   )
 }
@@ -315,9 +299,6 @@ function CollectionEffectsCoinMagnetComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => {
-    onComplete?.()
-  }, [onComplete])
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
 
   return (
@@ -329,7 +310,7 @@ function CollectionEffectsCoinMagnetComponent({
     >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-magnet__stage" aria-hidden="true">
-          {!isBurst && <ArrivalFlash target={toPt} />}
+          {!isBurst && <ArrivalFlash target={toPt} durationS={durationS} />}
           {particles.map((particle) => (
             <ParticleElement
               key={particle.id}
@@ -340,8 +321,7 @@ function CollectionEffectsCoinMagnetComponent({
               isBurst={isBurst}
               durationS={durationS}
               prefersReducedMotion={prefersReducedMotion}
-              onFinish={particle.id === lastParticleId ? handleComplete : undefined}
-              isLast={particle.id === lastParticleId}
+              onFinish={particle.id === lastParticleId ? onComplete : undefined}
             />
           ))}
         </div>

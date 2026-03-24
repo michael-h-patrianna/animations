@@ -41,7 +41,6 @@ type Gem = {
   xs: number[]
   ys: number[]
   rotations: number[]
-  image: string | undefined
   gemColor1: string
   gemColor2: string
   size: number
@@ -68,8 +67,6 @@ const SPARKLE_COUNT = 12
 const STOPS = 12
 
 const BURST_TIMES = [0, 0.05, 0.1, 0.18, 0.28, 0.4, 0.52, 0.65, 0.78, 0.88, 0.95, 1]
-
-// GEM_IMAGES removed — gem visuals now use SVG fallback polygons with GEM_TYPES colors
 
 /* Scale envelope: quick pop then gradual fade */
 const COIN_SCALES = [0.2, 1, 1, 1, 1, 1, 1, 0.85, 0.6, 0.35, 0.15, 0]
@@ -134,7 +131,6 @@ function makeGems(): Gem[] {
       xs,
       ys,
       rotations: linSpace(randBetween(1, 3) * 360),
-      image: undefined,
       gemColor1: gemType.color1,
       gemColor2: gemType.color2,
       size: isBg ? randBetween(12, 16) : randBetween(16, 24),
@@ -231,7 +227,7 @@ function CoinLayer({
                 style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <FallbackCoin size={typeof c.size === 'number' ? c.size : 20} />
+              <FallbackCoin size={c.size} />
             )}
           </m.div>
         )
@@ -287,12 +283,6 @@ function GemLayer({
             {src !== undefined ? (
               <img
                 src={src}
-                alt=""
-                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-              />
-            ) : g.image !== undefined ? (
-              <img
-                src={g.image}
                 alt=""
                 style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
               />

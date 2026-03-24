@@ -166,19 +166,6 @@
   pointer-events: none;
 }
 
-.pf-celebration__firework {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid;
-  transform: translate(-50%, -50%);
-  will-change: transform, opacity;
-  pointer-events: none;
-}
-
 /* ─── Spark ray (for fireworks) ─── */
 .pf-celebration__ray {
   position: absolute;

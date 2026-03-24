@@ -13,7 +13,7 @@ import {
 } from '@/assets'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
-type SparkleData = { id: number; tx: number; ty: number; size: number; delay: number }
+type SparkleData = { id: number; tx: number; ty: number; size: number; delay: number; duration: number }
 type PrizeConfig = {
   id: string
   label: string | null
@@ -113,6 +113,7 @@ function createBurstSparkles(): SparkleData[] {
       ty: Math.sin(angle) * distance - 35,
       size: 2 + Math.random() * 4,
       delay: Math.random() * 0.12,
+      duration: 0.5 + Math.random() * 0.25,
     }
   })
 }
@@ -139,7 +140,7 @@ function BurstSparkles({ sparkles }: { sparkles: SparkleData[] }) {
           initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
           animate={{ opacity: [0, 1, 0], x: s.tx, y: s.ty, scale: [0, 1.2, 0] }}
           transition={{
-            duration: 0.5 + Math.random() * 0.25,
+            duration: s.duration,
             delay: s.delay,
             ease: [0.16, 0.84, 0.32, 1] as const,
           }}
@@ -303,17 +304,29 @@ function Prize({
 function Chest({ phase }: { phase: RevealPhase }) {
   return (
     <m.div
-      className={`pf-chest-gc-sc__chest${phase === 'shake' ? ' pf-chest-gc-sc__chest--shake' : ''}`}
+      className="pf-chest-gc-sc__chest"
       initial={{ y: 64, opacity: 0, scale: 0.82 }}
-      animate={{ y: 0, opacity: 1, scale: phase === 'reveal' ? [1, 1.24, 0.93, 1] : 1 }}
+      animate={{
+        y: 0,
+        opacity: 1,
+        scale: phase === 'reveal' ? [1, 1.24, 0.93, 1] : 1,
+        x: phase === 'shake' ? [0, -6, 6, -5, 5, -2, 0] : 0,
+        rotate: phase === 'shake' ? [0, -1, 1, -0.5, 0.5, 0, 0] : 0,
+      }}
       transition={
-        phase === 'reveal'
+        phase === 'shake'
           ? {
-              duration: 0.5,
-              times: [0, 0.4, 0.7, 1] as const,
-              ease: [0.68, -0.55, 0.265, 1.55] as const,
+              x: { duration: 0.6, ease: 'easeInOut' },
+              rotate: { duration: 0.6, ease: 'easeInOut' },
+              default: { type: 'spring', stiffness: 210, damping: 18 },
             }
-          : { type: 'spring', stiffness: 210, damping: 18 }
+          : phase === 'reveal'
+            ? {
+                duration: 0.5,
+                times: [0, 0.4, 0.7, 1] as const,
+                ease: [0.68, -0.55, 0.265, 1.55] as const,
+              }
+            : { type: 'spring', stiffness: 210, damping: 18 }
       }
     >
       <img

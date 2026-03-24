@@ -1,20 +1,19 @@
+import type { CSSProperties } from 'react'
 import { calculateBulbColors } from '@/utils/colors'
 import * as m from 'motion/react-m'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 interface LightsCircleStatic1Props {
   numBulbs?: number
   onColor?: string
 }
-const animationDuration = 1.2 // Container variant with staggerChildren
+const animationDuration = 1.2
+
 const containerVariants = {
   hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0, // No stagger for alternating pattern
-    },
-  },
-} // Define variants for even bulbs with multi-layer glow effects
+  show: { opacity: 1 },
+}
+
+// Even bulbs: multi-layer glow effects
 const glowOuterVariantsEven = {
   hidden: { opacity: 0.65 },
   show: {
@@ -98,7 +97,9 @@ const bulbVariantsEven = {
       ease: [0.42, 0, 0.58, 1] as const,
     },
   },
-} // Define variants for odd bulbs with multi-layer glow effects
+}
+
+// Odd bulbs: multi-layer glow effects
 const glowOuterVariantsOdd = {
   hidden: { opacity: 0 },
   show: {
@@ -183,50 +184,48 @@ const bulbVariantsOdd = {
     },
   },
 }
-const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
+const RADIUS = 80
+
+function LightsCircleStatic1({
   numBulbs = 16,
   onColor = 'var(--pf-anim-gold)',
-}) => {
+}: LightsCircleStatic1Props) {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
-  const radius = 80
-  const bulbs = Array.from({ length: numBulbs }, (_, i) => {
-    const angle = (i * 360) / numBulbs - 90
-    const angleRad = (angle * Math.PI) / 180
-    const x = radius * Math.cos(angleRad)
-    const y = radius * Math.sin(angleRad)
-    const isEven = i % 2 === 0
-    return (
-      <div
-        key={i}
-        className="lights-circle-static-1__bulb-wrapper"
-        style={{ transform: `translate(${x}px, ${y}px)` }}
-      >
-        {/* Outer glow layer */}
-        <m.div
-          className="lights-circle-static-1__glow-outer"
-          variants={isEven ? glowOuterVariantsEven : glowOuterVariantsOdd}
-        />
-        {/* Inner glow layer */}
-        <m.div
-          className="lights-circle-static-1__glow-inner"
-          variants={isEven ? glowInnerVariantsEven : glowInnerVariantsOdd}
-        />
-        {/* Main bulb */}
-        <m.div
-          className="lights-circle-static-1__bulb"
-          variants={isEven ? bulbVariantsEven : bulbVariantsOdd}
-        >
-          {/* Glass shine overlay */}
-          <div className="lights-circle-static-1__glass-shine" />
-        </m.div>
-        {/* Filament (bright core) */}
-        <m.div
-          className="lights-circle-static-1__filament"
-          variants={isEven ? filamentVariantsEven : filamentVariantsOdd}
-        />
-      </div>
-    )
-  })
+  const bulbs = useMemo(
+    () =>
+      Array.from({ length: numBulbs }, (_, i) => {
+        const angle = (i * 360) / numBulbs - 90
+        const rad = (angle * Math.PI) / 180
+        const isEven = i % 2 === 0
+        return (
+          <div
+            key={i}
+            className="lights-circle-static-1__bulb-wrapper"
+            style={{ transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)` }}
+          >
+            <m.div
+              className="lights-circle-static-1__glow-outer"
+              variants={isEven ? glowOuterVariantsEven : glowOuterVariantsOdd}
+            />
+            <m.div
+              className="lights-circle-static-1__glow-inner"
+              variants={isEven ? glowInnerVariantsEven : glowInnerVariantsOdd}
+            />
+            <m.div
+              className="lights-circle-static-1__bulb"
+              variants={isEven ? bulbVariantsEven : bulbVariantsOdd}
+            >
+              <div className="lights-circle-static-1__glass-shine" />
+            </m.div>
+            <m.div
+              className="lights-circle-static-1__filament"
+              variants={isEven ? filamentVariantsEven : filamentVariantsOdd}
+            />
+          </div>
+        )
+      }),
+    [numBulbs]
+  )
   return (
     <div
       className="lights-circle-static-1"
@@ -235,39 +234,11 @@ const LightsCircleStatic1: React.FC<LightsCircleStatic1Props> = ({
         {
           '--bulb-on': colors.on,
           '--bulb-off': colors.off,
-          '--bulb-blend90': colors.blend90,
-          '--bulb-blend80': colors.blend80,
           '--bulb-blend70': colors.blend70,
-          '--bulb-blend60': colors.blend60,
-          '--bulb-blend40': colors.blend40,
-          '--bulb-blend30': colors.blend30,
-          '--bulb-blend20': colors.blend20,
-          '--bulb-blend10': colors.blend10,
-          '--bulb-off-tint30': colors.offTint30,
-          '--bulb-off-tint20': colors.offTint20,
           '--bulb-on-gradient': colors.onGradient,
-          '--bulb-off-blend-10on': colors.offBlend10On,
-          '--bulb-on-blend-5off': colors.onBlend5Off,
-          '--bulb-on-blend-10off': colors.onBlend10Off,
-          '--bulb-on-glow90': colors.onGlow90,
-          '--bulb-on-glow100': colors.onGlow100,
-          '--bulb-on-glow95': colors.onGlow95,
-          '--bulb-on-glow75': colors.onGlow75,
-          '--bulb-on-glow55': colors.onGlow55,
-          '--bulb-white-glow100': colors.whiteGlow100,
-          '--bulb-on-glow65': colors.onGlow65,
-          '--bulb-on-glow40': colors.onGlow40,
-          '--bulb-off-glow40': colors.offGlow40,
-          '--bulb-on-glow80': colors.onGlow80,
           '--bulb-on-glow70': colors.onGlow70,
-          '--bulb-on-glow60': colors.onGlow60,
           '--bulb-on-glow50': colors.onGlow50,
-          '--bulb-on-glow45': colors.onGlow45,
-          '--bulb-on-glow35': colors.onGlow35,
-          '--bulb-on-glow30': colors.onGlow30,
-          '--bulb-off-glow35': colors.offGlow35,
-          '--bulb-off-glow30': colors.offGlow30,
-        } as React.CSSProperties
+        } as CSSProperties
       }
     >
       <m.div

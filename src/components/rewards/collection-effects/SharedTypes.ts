@@ -122,7 +122,7 @@ export function pointsAreEqual(a: ResolvedPoint | null, b: ResolvedPoint | null)
   if (!a || !b) return false
   const dx = a.x - b.x
   const dy = a.y - b.y
-  return Math.sqrt(dx * dx + dy * dy) < 5
+  return dx * dx + dy * dy < 25
 }
 
 /** Clamps particleImages to MAX_PARTICLE_IMAGES and returns the usable subset. */

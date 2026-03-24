@@ -40,6 +40,7 @@ export type DustData = {
   distance: number
   speed: number
   size: number
+  delay: number
 }
 
 export type OrbitDustData = {
@@ -62,15 +63,17 @@ const SHARD_IMAGES = [
    AMBIENT DUST — floating background particles
    ═══════════════════════════════════════════════════ */
 
+const AMBIENT_DUST = Array.from({ length: 10 }, (_, i) => ({
+  id: i,
+  x: (Math.random() - 0.5) * 280,
+  y: (Math.random() - 0.5) * 260,
+  size: 2 + Math.random() * 3,
+  duration: 4 + Math.random() * 4,
+  delay: Math.random() * 3,
+}))
+
 export function AmbientDust() {
-  const particles = Array.from({ length: 10 }, (_, i) => ({
-    id: i,
-    x: (Math.random() - 0.5) * 280,
-    y: (Math.random() - 0.5) * 260,
-    size: 2 + Math.random() * 3,
-    duration: 4 + Math.random() * 4,
-    delay: Math.random() * 3,
-  }))
+  const particles = AMBIENT_DUST
 
   return (
     <div className="pf-crystal-shatter__ambient-dust">
@@ -255,7 +258,7 @@ export function DustSpray({ particles }: { particles: DustData[] }) {
             }}
             transition={{
               duration: 0.4 + p.speed * 0.3,
-              delay: Math.random() * 0.15,
+              delay: p.delay,
               ease: 'easeOut',
             }}
           />

@@ -1,24 +1,21 @@
+import type { CSSProperties } from 'react'
 import { calculateBulbColors } from '@/utils/colors'
 import * as m from 'motion/react-m'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 interface LightsCircleStatic6Props {
   numBulbs?: number
   onColor?: string
 }
-const animationDuration = 4.8 // Divisible by 3 for waltz timing
-const groupSize = 3 // Container variant with staggerChildren for waltz group pattern
-// Note: We cannot use staggerChildren for the waltz pattern because each group member
-// needs a different animation AND a different delay offset within the group.
-// The parent container will not stagger, but we'll handle timing via custom delays.
+const animationDuration = 4.8
+const groupSize = 3
+
+// No stagger at container level -- timing handled via per-bulb delays.
 const containerVariants = {
   hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0, // No stagger at container level
-    },
-  },
-} // Strong beat glow variant (1st in group) - brightest and longest
+  show: { opacity: 1 },
+}
+
+// Strong beat glow variant (1st in group) - brightest and longest
 const glowVariantsStrong = {
   hidden: { opacity: 0 },
   show: {
@@ -30,7 +27,9 @@ const glowVariantsStrong = {
       ease: [0.42, 0, 0.58, 1] as const,
     },
   },
-} // Strong beat bulb variant (1st in group)
+}
+
+// Strong beat bulb variant (1st in group)
 const bulbVariantsStrong = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
@@ -64,7 +63,9 @@ const bulbVariantsStrong = {
       ease: [0.42, 0, 0.58, 1] as const,
     },
   },
-} // Weak beat glow variant (2nd and 3rd in group) - dimmer and shorter
+}
+
+// Weak beat glow variant (2nd and 3rd in group) - dimmer and shorter
 const glowVariantsWeak = {
   hidden: { opacity: 0 },
   show: {
@@ -76,7 +77,9 @@ const glowVariantsWeak = {
       ease: [0.42, 0, 0.58, 1] as const,
     },
   },
-} // Weak beat bulb variant (2nd and 3rd in group)
+}
+
+// Weak beat bulb variant (2nd and 3rd in group)
 const bulbVariantsWeak = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
@@ -111,62 +114,47 @@ const bulbVariantsWeak = {
     },
   },
 }
-const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
+const RADIUS = 80
+
+function addDelay<
+  H extends Record<string, string | number>,
+  S extends Record<string, unknown> & { transition: Record<string, unknown> },
+>(base: { hidden: H; show: S }, delay: number) {
+  return {
+    hidden: base.hidden,
+    show: { ...base.show, transition: { ...base.show.transition, delay } },
+  }
+}
+
+function LightsCircleStatic6({
   numBulbs = 16,
   onColor = 'var(--pf-anim-gold)',
-}) => {
+}: LightsCircleStatic6Props) {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
-  const radius = 80
   const numGroups = Math.ceil(numBulbs / groupSize)
   const delayPerGroup = animationDuration / numGroups
-  const bulbs = Array.from({ length: numBulbs }, (_, i) => {
-    const angle = (i * 360) / numBulbs - 90
-    const angleRad = (angle * Math.PI) / 180
-    const x = radius * Math.cos(angleRad)
-    const y = radius * Math.sin(angleRad)
-    const groupIndex = Math.floor(i / groupSize)
-    const positionInGroup = i % groupSize // 0 = strong beat, 1-2 = weak beats
-    const baseDelay = groupIndex * delayPerGroup
-    const beatDelay = positionInGroup * 0.15 // Stagger beats within group
-    const totalDelay = baseDelay + beatDelay
-    const isStrongBeat = positionInGroup === 0 // Create custom transition with delay for this specific bulb
-    const baseGlowShow = (isStrongBeat ? glowVariantsStrong : glowVariantsWeak).show
-    const customGlowVariants = {
-      hidden: { opacity: 0 },
-      show: {
-        ...baseGlowShow,
-        transition: {
-          ...(typeof baseGlowShow === 'object' && 'transition' in baseGlowShow
-            ? baseGlowShow.transition
-            : {}),
-          delay: totalDelay,
-        },
-      },
-    }
-    const baseBulbShow = (isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).show
-    const customBulbVariants = {
-      hidden: (isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak).hidden,
-      show: {
-        ...baseBulbShow,
-        transition: {
-          ...(typeof baseBulbShow === 'object' && 'transition' in baseBulbShow
-            ? baseBulbShow.transition
-            : {}),
-          delay: totalDelay,
-        },
-      },
-    }
-    return (
-      <div
-        key={i}
-        className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
-        style={{ transform: `translate(${x}px, ${y}px)` }}
-      >
-        <m.div className="lights-circle-static-6__glow" variants={customGlowVariants} />
-        <m.div className="lights-circle-static-6__bulb" variants={customBulbVariants} />
-      </div>
-    )
-  })
+  const bulbs = useMemo(
+    () =>
+      Array.from({ length: numBulbs }, (_, i) => {
+        const rad = ((i * 360) / numBulbs - 90) * (Math.PI / 180)
+        const positionInGroup = i % groupSize
+        const isStrongBeat = positionInGroup === 0
+        const totalDelay = Math.floor(i / groupSize) * delayPerGroup + positionInGroup * 0.15
+        const glowBase = isStrongBeat ? glowVariantsStrong : glowVariantsWeak
+        const bulbBase = isStrongBeat ? bulbVariantsStrong : bulbVariantsWeak
+        return (
+          <div
+            key={i}
+            className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
+            style={{ transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)` }}
+          >
+            <m.div className="lights-circle-static-6__glow" variants={addDelay(glowBase, totalDelay)} />
+            <m.div className="lights-circle-static-6__bulb" variants={addDelay(bulbBase, totalDelay)} />
+          </div>
+        )
+      }),
+    [numBulbs, delayPerGroup]
+  )
   return (
     <div
       className="lights-circle-static-6"
@@ -175,39 +163,19 @@ const LightsCircleStatic6: React.FC<LightsCircleStatic6Props> = ({
         {
           '--bulb-on': colors.on,
           '--bulb-off': colors.off,
-          '--bulb-blend90': colors.blend90,
-          '--bulb-blend80': colors.blend80,
-          '--bulb-blend70': colors.blend70,
-          '--bulb-blend60': colors.blend60,
           '--bulb-blend40': colors.blend40,
-          '--bulb-blend30': colors.blend30,
-          '--bulb-blend20': colors.blend20,
-          '--bulb-blend10': colors.blend10,
-          '--bulb-off-tint30': colors.offTint30,
+          '--bulb-blend70': colors.blend70,
           '--bulb-off-tint20': colors.offTint20,
-          '--bulb-on-gradient': colors.onGradient,
-          '--bulb-off-blend-10on': colors.offBlend10On,
+          '--bulb-off-tint30': colors.offTint30,
           '--bulb-on-blend-5off': colors.onBlend5Off,
-          '--bulb-on-blend-10off': colors.onBlend10Off,
-          '--bulb-on-glow90': colors.onGlow90,
           '--bulb-on-glow100': colors.onGlow100,
-          '--bulb-on-glow95': colors.onGlow95,
-          '--bulb-on-glow75': colors.onGlow75,
-          '--bulb-on-glow55': colors.onGlow55,
-          '--bulb-white-glow100': colors.whiteGlow100,
-          '--bulb-on-glow65': colors.onGlow65,
-          '--bulb-on-glow40': colors.onGlow40,
-          '--bulb-off-glow40': colors.offGlow40,
           '--bulb-on-glow80': colors.onGlow80,
           '--bulb-on-glow70': colors.onGlow70,
-          '--bulb-on-glow60': colors.onGlow60,
           '--bulb-on-glow50': colors.onGlow50,
-          '--bulb-on-glow45': colors.onGlow45,
-          '--bulb-on-glow35': colors.onGlow35,
-          '--bulb-on-glow30': colors.onGlow30,
+          '--bulb-off-glow40': colors.offGlow40,
           '--bulb-off-glow35': colors.offGlow35,
           '--bulb-off-glow30': colors.offGlow30,
-        } as React.CSSProperties
+        } as CSSProperties
       }
     >
       <m.div

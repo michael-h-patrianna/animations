@@ -6,7 +6,7 @@
  * Runtime deps: react
  */
 
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import './CollectionEffectsCoinTrail.css'
 
 import { FallbackParticle } from '../SharedFallbackParticle'
@@ -90,16 +90,12 @@ function CollectionEffectsCoinTrailComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => {
-    onComplete?.()
-  }, [onComplete])
-
   useEffect(() => {
     if (onComplete === undefined) return
     const maxDelay = particles.reduce((max, p) => Math.max(max, p.delay), 0)
-    const timer = setTimeout(handleComplete, maxDelay + duration + 50)
+    const timer = setTimeout(onComplete, maxDelay + duration + 50)
     return () => clearTimeout(timer)
-  }, [particles, duration, handleComplete, onComplete])
+  }, [particles, duration, onComplete])
 
   return (
     <div

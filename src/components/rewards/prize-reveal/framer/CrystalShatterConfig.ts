@@ -18,7 +18,6 @@ import type {
 } from '../CrystalShatterParts'
 
 import { useEffect, useState } from 'react'
-import { useCountUp } from '@/hooks/useCountUp'
 
 /* ─── Types ─── */
 
@@ -127,8 +126,6 @@ export function useRevealPhase() {
   return phase
 }
 
-export { useCountUp }
-
 /* ─── Data generators ─── */
 
 export function createFragments(): FragmentData[] {
@@ -172,6 +169,7 @@ export function createDustSpray(): DustData[] {
     distance: 80 + Math.random() * 160,
     speed: 0.5 + Math.random(),
     size: 3 + Math.random() * 5,
+    delay: Math.random() * 0.15,
   }))
 }
 

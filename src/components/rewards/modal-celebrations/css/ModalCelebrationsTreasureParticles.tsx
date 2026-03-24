@@ -44,7 +44,6 @@ type Gem = {
   vy: number
   grav: number
   spin: number
-  image: string | undefined
   gemColor1: string
   gemColor2: string
   size: number
@@ -68,8 +67,6 @@ const COIN_COUNT = 12
 const GEM_COUNT = 12
 const TRAIL_COUNT = 20
 const SPARKLE_COUNT = 12
-
-// GEM_IMAGES removed — gem visuals now use SVG fallback with GEM_TYPES colors
 
 /* ─── Generators ─── */
 
@@ -107,7 +104,6 @@ function makeGems(): Gem[] {
       vy: Math.sin(angle) * speed,
       grav: randBetween(250, 400),
       spin: randBetween(1, 3) * 360,
-      image: undefined,
       gemColor1: gemType.color1,
       gemColor2: gemType.color2,
       size: isBg ? randBetween(12, 16) : randBetween(16, 24),
@@ -247,12 +243,6 @@ function GemLayer({
             {src !== undefined ? (
               <img
                 src={src}
-                alt=""
-                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-              />
-            ) : g.image !== undefined ? (
-              <img
-                src={g.image}
                 alt=""
                 style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
               />

@@ -229,8 +229,8 @@ export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
                 '--confetti-end-x': `${endX}px`,
                 '--confetti-end-y': `${endY}px`,
                 '--confetti-rotation': `${c.rotation}deg`,
-                '--confetti-dur': `${0.55 + Math.random() * 0.25}s`,
-                '--confetti-delay': `${Math.random() * 0.12}s`,
+                '--confetti-dur': `${c.duration}s`,
+                '--confetti-delay': `${c.delay}s`,
               } as CSSProperties
             }
           />

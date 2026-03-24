@@ -1,6 +1,6 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata: AnimationMetadata = {
+export const metadata = {
   id: 'collection-effects__coin-trail',
   urlSlugFramer: '/collection-effects-framer?animation=collection-effects__coin-trail',
   urlSlugCss: '/collection-effects-css?animation=collection-effects__coin-trail',
@@ -10,4 +10,4 @@ export const metadata: AnimationMetadata = {
   tier: 3,
   order: -1,
   demoMode: 'trail',
-}
+} satisfies AnimationMetadata

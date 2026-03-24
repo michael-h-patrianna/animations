@@ -7,6 +7,7 @@ import {
   crystalShatterDustImage,
   crystalShatterFrameImage,
 } from '@/assets'
+import { useCountUp } from '@/hooks/useCountUp'
 
 import {
   AmbientDust,
@@ -33,7 +34,6 @@ import {
   createFragments,
   createOrbitDust,
   getPrizeSlots,
-  useCountUp,
   useRevealPhase,
   type PrizeConfig,
   type PrizeSlot,
@@ -53,16 +53,23 @@ function CrystalBody({ phase }: { phase: ShatterPhase }) {
       initial={{ y: -150, rotate: -8, opacity: 0 }}
       animate={
         isGone
-          ? { y: 0, rotate: 0, opacity: 0, scale: 0 }
+          ? { y: 0, rotate: 0, opacity: 0, scale: 0, x: 0 }
           : isCharging
-            ? { y: 0, rotate: 0, opacity: 1, scale: 1.06 }
-            : { y: 0, rotate: 0, opacity: 1, scale: [1, 1.03, 1] }
+            ? {
+                y: 0,
+                rotate: 0,
+                opacity: 1,
+                scale: 1.06,
+                x: [-2, 2, -3, 3, -2, 2, -1, 1, 0],
+              }
+            : { y: 0, rotate: 0, opacity: 1, scale: [1, 1.03, 1], x: 0 }
       }
       transition={
         isGone
           ? { duration: 0.06 }
           : isCharging
             ? {
+                x: { duration: 0.25, repeat: Infinity, ease: 'linear', delay: 0.6 },
                 scale: { duration: 1.0, ease: 'easeInOut' },
                 default: { duration: 0.8, ease: [0.2, 0, 0.1, 1] as const },
               }
@@ -80,13 +87,6 @@ function CrystalBody({ phase }: { phase: ShatterPhase }) {
         className={`pf-crystal-shatter__crystal-image ${isCharging ? 'pf-crystal-shatter__crystal-image--charging' : ''}`}
       />
       <div className="pf-crystal-shatter__crystal-glow" />
-      {isCharging && (
-        <m.div
-          className="pf-crystal-shatter__vibration-wrap"
-          animate={{ x: [-2, 2, -3, 3, -2, 2, -1, 1, 0] }}
-          transition={{ duration: 0.25, repeat: Infinity, ease: 'linear', delay: 0.6 }}
-        />
-      )}
     </m.div>
   )
 }

@@ -1,5 +1,5 @@
 import * as m from 'motion/react-m'
-import { type CSSProperties } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 
 import {
   crystalShatterDustImage,
@@ -30,6 +30,8 @@ export type ConfettiData = {
   distance: number
   rotation: number
   size: number
+  duration: number
+  delay: number
 }
 
 /* ─── Constants ─── */
@@ -167,21 +169,22 @@ export function SeamLight({ phase }: { phase: PackPhase }) {
 
 const ARRIVAL_DUST_COUNT = 5
 
-export function ArrivalDust() {
-  const particles = Array.from({ length: ARRIVAL_DUST_COUNT }, (_, i) => {
-    const angle = (150 + (i / (ARRIVAL_DUST_COUNT - 1)) * 240) * (Math.PI / 180)
-    const dist = 20 + Math.random() * 30
-    return {
-      id: i,
-      endX: Math.cos(angle) * dist,
-      endY: Math.sin(angle) * Math.abs(Math.sin(angle)) * dist * 0.6,
-      size: 3 + Math.random() * 3,
-    }
-  })
+const ARRIVAL_DUST = Array.from({ length: ARRIVAL_DUST_COUNT }, (_, i) => {
+  const angle = (150 + (i / (ARRIVAL_DUST_COUNT - 1)) * 240) * (Math.PI / 180)
+  const dist = 20 + Math.random() * 30
+  return {
+    id: i,
+    endX: Math.cos(angle) * dist,
+    endY: Math.sin(angle) * Math.abs(Math.sin(angle)) * dist * 0.6,
+    size: 3 + Math.random() * 3,
+    delay: 0.55 + Math.random() * 0.06,
+  }
+})
 
+export function ArrivalDust() {
   return (
     <div className="pf-card-pack__arrival-dust-container">
-      {particles.map((p) => (
+      {ARRIVAL_DUST.map((p) => (
         <m.img
           key={p.id}
           src={crystalShatterDustImage}
@@ -198,7 +201,7 @@ export function ArrivalDust() {
           }}
           transition={{
             duration: 0.35,
-            delay: 0.55 + Math.random() * 0.06,
+            delay: p.delay,
             ease: 'easeOut',
           }}
         />
@@ -212,12 +215,10 @@ export function ArrivalDust() {
    Concentrated near the tear line, not from all edges
    ═══════════════════════════════════════════════════ */
 
-export function EdgeSparks() {
+const EDGE_SPARKS = (() => {
   const packW = 72
-  const seamY = -20 // near the tear line (~30% up from center)
-
-  const sparks = Array.from({ length: 4 }, (_, i) => {
-    // All sparks originate from the seam region
+  const seamY = -20
+  return Array.from({ length: 4 }, (_, i) => {
     const side = i % 2 === 0 ? 1 : -1
     const startX = side * (packW * 0.3 + Math.random() * packW * 0.7)
     const startY = seamY + (Math.random() - 0.5) * 20
@@ -231,10 +232,12 @@ export function EdgeSparks() {
       delay: 0.2 + i * 0.2,
     }
   })
+})()
 
+export function EdgeSparks() {
   return (
     <div className="pf-card-pack__edge-spark-container">
-      {sparks.map((s) => (
+      {EDGE_SPARKS.map((s) => (
         <m.img
           key={s.id}
           src={crystalShatterSparkleImage}
@@ -302,25 +305,25 @@ export function SeamCracks() {
 
 const TEAR_DEBRIS_COUNT = 7
 
-function TearDebris() {
-  const particles = Array.from({ length: TEAR_DEBRIS_COUNT }, (_, i) => {
-    const spread = (i / (TEAR_DEBRIS_COUNT - 1)) * 140 - 70
-    const isSparkle = i % 3 === 0
-    return {
-      id: i,
-      x: spread + (Math.random() - 0.5) * 20,
-      endX: spread * 1.4 + (Math.random() - 0.5) * 30,
-      endY: -40 - Math.random() * 60,
-      size: isSparkle ? 8 + Math.random() * 6 : 3 + Math.random() * 4,
-      src: isSparkle ? crystalShatterSparkleImage : crystalShatterDustImage,
-      rotation: (Math.random() - 0.5) * 180,
-      delay: Math.random() * 0.1,
-    }
-  })
+const TEAR_DEBRIS = Array.from({ length: TEAR_DEBRIS_COUNT }, (_, i) => {
+  const spread = (i / (TEAR_DEBRIS_COUNT - 1)) * 140 - 70
+  const isSparkle = i % 3 === 0
+  return {
+    id: i,
+    x: spread + (Math.random() - 0.5) * 20,
+    endX: spread * 1.4 + (Math.random() - 0.5) * 30,
+    endY: -40 - Math.random() * 60,
+    size: isSparkle ? 8 + Math.random() * 6 : 3 + Math.random() * 4,
+    src: isSparkle ? crystalShatterSparkleImage : crystalShatterDustImage,
+    rotation: (Math.random() - 0.5) * 180,
+    delay: Math.random() * 0.1,
+  }
+})
 
+function TearDebris() {
   return (
     <>
-      {particles.map((p) => (
+      {TEAR_DEBRIS.map((p) => (
         <m.img
           key={p.id}
           src={p.src}
@@ -453,8 +456,8 @@ export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
               rotate: c.rotation,
             }}
             transition={{
-              duration: 0.55 + Math.random() * 0.25,
-              delay: Math.random() * 0.12,
+              duration: c.duration,
+              delay: c.delay,
               ease: 'easeOut',
             }}
           />
@@ -473,11 +476,15 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
   const particleCount = 3 + rarity * 3
   const color = RARITY_COLORS[rarity]
 
-  const particles = Array.from({ length: particleCount }, (_, i) => {
-    const angle = (i / particleCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.4
-    const dist = 20 + rarity * 12 + Math.random() * 10
-    return { id: i, angle, dist, size: 4 + Math.random() * 6 }
-  })
+  const particles = useMemo(
+    () =>
+      Array.from({ length: particleCount }, (_, i) => {
+        const angle = (i / particleCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.4
+        const dist = 20 + rarity * 12 + Math.random() * 10
+        return { id: i, angle, dist, size: 4 + Math.random() * 6 }
+      }),
+    [particleCount, rarity]
+  )
 
   return (
     <div

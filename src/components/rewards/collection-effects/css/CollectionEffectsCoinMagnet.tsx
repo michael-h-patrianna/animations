@@ -12,7 +12,7 @@
  * Runtime deps: react
  */
 
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import './CollectionEffectsCoinMagnet.css'
 
 import { FallbackParticle } from '../SharedFallbackParticle'
@@ -147,14 +147,11 @@ function CollectionEffectsCoinMagnetComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => {
-    onComplete?.()
-  }, [onComplete])
   useEffect(() => {
     if (onComplete === undefined) return
-    const timer = setTimeout(handleComplete, maxDelay + duration + 50)
+    const timer = setTimeout(onComplete, maxDelay + duration + 50)
     return () => clearTimeout(timer)
-  }, [maxDelay, duration, handleComplete, onComplete])
+  }, [maxDelay, duration, onComplete])
 
   return (
     <div

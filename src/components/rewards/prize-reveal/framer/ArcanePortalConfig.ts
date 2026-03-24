@@ -8,7 +8,6 @@ import {
 import type { ParticleData, RevealPhase } from '../ArcanePortalParts'
 
 import { useEffect, useState } from 'react'
-import { useCountUp } from '@/hooks/useCountUp'
 
 /* ─── Types ─── */
 
@@ -104,8 +103,6 @@ export function useRevealPhase() {
   }, [])
   return phase
 }
-
-export { useCountUp }
 
 /* ─── Data generators ─── */
 

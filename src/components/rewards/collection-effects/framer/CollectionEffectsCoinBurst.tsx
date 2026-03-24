@@ -8,7 +8,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '../SharedFallbackParticle'
 import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
@@ -79,7 +79,6 @@ function ParticleElement({
   durationS,
   prefersReducedMotion,
   onFinish,
-  isLast,
 }: {
   particle: Particle
   origin: ResolvedPoint
@@ -87,7 +86,6 @@ function ParticleElement({
   durationS: number
   prefersReducedMotion: boolean | null
   onFinish?: () => void
-  isLast: boolean
 }) {
   return (
     <m.div
@@ -115,7 +113,7 @@ function ParticleElement({
             }
           : { duration: durationS, delay: particle.delay, times: [0, 0.06, 0.14, 0.7, 1] }
       }
-      onAnimationComplete={isLast ? onFinish : undefined}
+      onAnimationComplete={onFinish}
       aria-hidden="true"
     >
       {particle.imageSrc ? (
@@ -174,9 +172,6 @@ function CollectionEffectsCoinBurstComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => {
-    onComplete?.()
-  }, [onComplete])
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
 
   return (
@@ -203,8 +198,7 @@ function CollectionEffectsCoinBurstComponent({
               particleSize={particleSize}
               durationS={durationS}
               prefersReducedMotion={prefersReducedMotion}
-              onFinish={particle.id === lastParticleId ? handleComplete : undefined}
-              isLast={particle.id === lastParticleId}
+              onFinish={particle.id === lastParticleId ? onComplete : undefined}
             />
           ))}
         </m.div>

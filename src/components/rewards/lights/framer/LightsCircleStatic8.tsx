@@ -1,21 +1,20 @@
+import type { CSSProperties } from 'react'
 import { calculateBulbColors } from '@/utils/colors'
 import * as m from 'motion/react-m'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 interface LightsCircleStatic8Props {
   numBulbs?: number
   onColor?: string
 }
-const animationDuration = 4 // Container variant - we'll handle stagger timing manually because first half
-// and second half need different chase directions
+const animationDuration = 4
+
+// No stagger at container level -- first/second half need different chase directions.
 const containerVariants = {
   hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0, // No stagger at container level - we handle it manually
-    },
-  },
-} // Regular bulb glow variant
+  show: { opacity: 1 },
+}
+
+// Regular bulb glow variant
 const glowVariantsRegular = {
   hidden: { opacity: 0 },
   show: {
@@ -27,7 +26,9 @@ const glowVariantsRegular = {
       ease: [0.42, 0, 0.58, 1] as const,
     },
   },
-} // Regular bulb variant
+}
+
+// Regular bulb variant
 const bulbVariantsRegular = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
@@ -61,7 +62,9 @@ const bulbVariantsRegular = {
       ease: [0.42, 0, 0.58, 1] as const,
     },
   },
-} // Collision bulb glow variant (where they meet with white flash)
+}
+
+// Collision bulb glow variant (where they meet with white flash)
 const glowVariantsCollision = {
   hidden: { opacity: 0 },
   show: {
@@ -73,7 +76,9 @@ const glowVariantsCollision = {
       ease: [0.42, 0, 0.58, 1] as const,
     },
   },
-} // Collision bulb variant with white flash at collision point
+}
+
+// Collision bulb variant with white flash at collision point
 const bulbVariantsCollision = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
@@ -110,61 +115,50 @@ const bulbVariantsCollision = {
     },
   },
 }
-const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
+const RADIUS = 80
+
+function addDelay<
+  H extends Record<string, string | number>,
+  S extends Record<string, unknown> & { transition: Record<string, unknown> },
+>(base: { hidden: H; show: S }, delay: number) {
+  return {
+    hidden: base.hidden,
+    show: { ...base.show, transition: { ...base.show.transition, delay } },
+  }
+}
+
+function LightsCircleStatic8({
   numBulbs = 16,
   onColor = 'var(--pf-anim-gold)',
-}) => {
+}: LightsCircleStatic8Props) {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
-  const radius = 80
   const halfBulbs = Math.floor(numBulbs / 2)
   const delayPerBulb = animationDuration / halfBulbs
-  const bulbs = Array.from({ length: numBulbs }, (_, i) => {
-    const angle = (i * 360) / numBulbs - 90
-    const angleRad = (angle * Math.PI) / 180
-    const x = radius * Math.cos(angleRad)
-    const y = radius * Math.sin(angleRad) // First half chases clockwise, second half counter-clockwise
-    const isFirstHalf = i < halfBulbs
-    const chaseIndex = isFirstHalf ? i : numBulbs - i - 1
-    const delay = chaseIndex * delayPerBulb // Check if this is a collision bulb (where they meet)
-    const isCollisionBulb =
-      (isFirstHalf && i === halfBulbs - 1) || (!isFirstHalf && i === halfBulbs) // Create custom variants with delay
-    const baseGlowShow = (isCollisionBulb ? glowVariantsCollision : glowVariantsRegular).show
-    const customGlowVariants = {
-      hidden: { opacity: 0 },
-      show: {
-        ...baseGlowShow,
-        transition: {
-          ...(typeof baseGlowShow === 'object' && 'transition' in baseGlowShow
-            ? baseGlowShow.transition
-            : {}),
-          delay,
-        },
-      },
-    }
-    const baseBulbShow = (isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).show
-    const customBulbVariants = {
-      hidden: (isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular).hidden,
-      show: {
-        ...baseBulbShow,
-        transition: {
-          ...(typeof baseBulbShow === 'object' && 'transition' in baseBulbShow
-            ? baseBulbShow.transition
-            : {}),
-          delay,
-        },
-      },
-    }
-    return (
-      <div
-        key={i}
-        className={`lights-circle-static-8__bulb-wrapper ${isFirstHalf ? 'first-half' : 'second-half'}`}
-        style={{ transform: `translate(${x}px, ${y}px)` }}
-      >
-        <m.div className="lights-circle-static-8__glow" variants={customGlowVariants} />
-        <m.div className="lights-circle-static-8__bulb" variants={customBulbVariants} />
-      </div>
-    )
-  })
+  const bulbs = useMemo(
+    () =>
+      Array.from({ length: numBulbs }, (_, i) => {
+        const rad = ((i * 360) / numBulbs - 90) * (Math.PI / 180)
+        // First half chases clockwise, second half counter-clockwise
+        const isFirstHalf = i < halfBulbs
+        const chaseIndex = isFirstHalf ? i : numBulbs - i - 1
+        const delay = chaseIndex * delayPerBulb
+        const isCollisionBulb =
+          (isFirstHalf && i === halfBulbs - 1) || (!isFirstHalf && i === halfBulbs)
+        const glowBase = isCollisionBulb ? glowVariantsCollision : glowVariantsRegular
+        const bulbBase = isCollisionBulb ? bulbVariantsCollision : bulbVariantsRegular
+        return (
+          <div
+            key={i}
+            className={`lights-circle-static-8__bulb-wrapper ${isFirstHalf ? 'first-half' : 'second-half'}`}
+            style={{ transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)` }}
+          >
+            <m.div className="lights-circle-static-8__glow" variants={addDelay(glowBase, delay)} />
+            <m.div className="lights-circle-static-8__bulb" variants={addDelay(bulbBase, delay)} />
+          </div>
+        )
+      }),
+    [numBulbs, halfBulbs, delayPerBulb]
+  )
   return (
     <div
       className="lights-circle-static-8"
@@ -173,39 +167,16 @@ const LightsCircleStatic8: React.FC<LightsCircleStatic8Props> = ({
         {
           '--bulb-on': colors.on,
           '--bulb-off': colors.off,
-          '--bulb-blend90': colors.blend90,
-          '--bulb-blend80': colors.blend80,
-          '--bulb-blend70': colors.blend70,
-          '--bulb-blend60': colors.blend60,
-          '--bulb-blend40': colors.blend40,
-          '--bulb-blend30': colors.blend30,
-          '--bulb-blend20': colors.blend20,
-          '--bulb-blend10': colors.blend10,
           '--bulb-off-tint30': colors.offTint30,
-          '--bulb-off-tint20': colors.offTint20,
-          '--bulb-on-gradient': colors.onGradient,
-          '--bulb-off-blend-10on': colors.offBlend10On,
           '--bulb-on-blend-5off': colors.onBlend5Off,
-          '--bulb-on-blend-10off': colors.onBlend10Off,
-          '--bulb-on-glow90': colors.onGlow90,
           '--bulb-on-glow100': colors.onGlow100,
-          '--bulb-on-glow95': colors.onGlow95,
-          '--bulb-on-glow75': colors.onGlow75,
-          '--bulb-on-glow55': colors.onGlow55,
-          '--bulb-white-glow100': colors.whiteGlow100,
-          '--bulb-on-glow65': colors.onGlow65,
-          '--bulb-on-glow40': colors.onGlow40,
-          '--bulb-off-glow40': colors.offGlow40,
+          '--bulb-on-glow90': colors.onGlow90,
           '--bulb-on-glow80': colors.onGlow80,
           '--bulb-on-glow70': colors.onGlow70,
-          '--bulb-on-glow60': colors.onGlow60,
-          '--bulb-on-glow50': colors.onGlow50,
-          '--bulb-on-glow45': colors.onGlow45,
-          '--bulb-on-glow35': colors.onGlow35,
-          '--bulb-on-glow30': colors.onGlow30,
-          '--bulb-off-glow35': colors.offGlow35,
+          '--bulb-white-glow100': colors.whiteGlow100,
+          '--bulb-off-glow40': colors.offGlow40,
           '--bulb-off-glow30': colors.offGlow30,
-        } as React.CSSProperties
+        } as CSSProperties
       }
     >
       <m.div

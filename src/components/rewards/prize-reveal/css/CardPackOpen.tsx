@@ -126,6 +126,8 @@ function createConfetti(): ConfettiData[] {
     distance: 60 + Math.random() * 120,
     rotation: (Math.random() > 0.5 ? 1 : -1) * (90 + Math.random() * 270),
     size: 3 + Math.random() * 5,
+    duration: 0.55 + Math.random() * 0.25,
+    delay: Math.random() * 0.12,
   }))
 }
 

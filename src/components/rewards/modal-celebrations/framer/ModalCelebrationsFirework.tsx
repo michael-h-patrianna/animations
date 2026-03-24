@@ -98,9 +98,8 @@ function ModalCelebrationsFireworkComponent({
   particlesPerBurst = FIREWORK_DEFAULT_PARTICLES_PER_BURST,
   duration = FIREWORK_DEFAULT_DURATION_MS,
 }: ModalCelebrationsFireworkProps) {
-  const images = particleImages
-  const hasImages = images.length > 0
-  const variantCount = hasImages ? images.length : colors.length
+  const hasImages = particleImages.length > 0
+  const variantCount = hasImages ? particleImages.length : colors.length
   const cycleDurationS = duration / 1000
 
   const config = useMemo(
@@ -194,7 +193,7 @@ function ModalCelebrationsFireworkComponent({
                 >
                   {hasImages ? (
                     <img
-                      src={images[particle.imageIndex % images.length]}
+                      src={particleImages[particle.imageIndex % particleImages.length]}
                       alt=""
                       style={{
                         maxWidth: particleMaxWidth,

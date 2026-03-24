@@ -8,7 +8,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '../SharedFallbackParticle'
 import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
@@ -58,7 +58,6 @@ function ParticleElement({
   durationS,
   prefersReducedMotion,
   onFinish,
-  isLast,
 }: {
   particle: Particle
   fromPt: ResolvedPoint
@@ -69,23 +68,29 @@ function ParticleElement({
   durationS: number
   prefersReducedMotion: boolean | null
   onFinish?: () => void
-  isLast: boolean
 }) {
+  const particleContent = particle.imageSrc ? (
+    <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
+  ) : (
+    <FallbackParticle
+      shape={particle.fallback.shape}
+      color={particle.fallback.color}
+      size={particleSize}
+    />
+  )
+
   if (isSwirl) {
     const startAngle = (particle.id / 8) * Math.PI * 2
     const steps = 12
-    const xPath = Array.from({ length: steps }, (_, k) => {
+    const xPath: number[] = []
+    const yPath: number[] = []
+    for (let k = 0; k < steps; k++) {
       const t = k / (steps - 1)
       const angle = startAngle + t * Math.PI * 3
       const radius = SWIRL_RADIUS * (1 - t * 0.8)
-      return fromPt.x + Math.cos(angle) * radius
-    })
-    const yPath = Array.from({ length: steps }, (_, k) => {
-      const t = k / (steps - 1)
-      const angle = startAngle + t * Math.PI * 3
-      const radius = SWIRL_RADIUS * (1 - t * 0.8)
-      return fromPt.y + Math.sin(angle) * radius
-    })
+      xPath.push(fromPt.x + Math.cos(angle) * radius)
+      yPath.push(fromPt.y + Math.sin(angle) * radius)
+    }
 
     return (
       <m.div
@@ -103,18 +108,10 @@ function ParticleElement({
           delay: particle.delay,
           ease: 'linear',
         }}
-        onAnimationComplete={isLast ? onFinish : undefined}
+        onAnimationComplete={onFinish}
         aria-hidden="true"
       >
-        {particle.imageSrc ? (
-          <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
-        ) : (
-          <FallbackParticle
-            shape={particle.fallback.shape}
-            color={particle.fallback.color}
-            size={particleSize}
-          />
-        )}
+        {particleContent}
       </m.div>
     )
   }
@@ -181,7 +178,7 @@ function ParticleElement({
               },
             }
       }
-      onAnimationComplete={isLast ? onFinish : undefined}
+      onAnimationComplete={onFinish}
       aria-hidden="true"
     >
       {particle.imageSrc ? (
@@ -244,10 +241,6 @@ function CollectionEffectsCoinTrailComponent({
     return () => clearTimeout(cleanup)
   }, [cleanupMs])
 
-  const handleComplete = useCallback(() => {
-    onComplete?.()
-  }, [onComplete])
-
   const lastParticleId = particles.length > 0 ? particles[particles.length - 1]!.id : -1
 
   return (
@@ -270,8 +263,7 @@ function CollectionEffectsCoinTrailComponent({
               isSwirl={isSwirl}
               durationS={durationS}
               prefersReducedMotion={prefersReducedMotion}
-              onFinish={particle.id === lastParticleId ? handleComplete : undefined}
-              isLast={particle.id === lastParticleId}
+              onFinish={particle.id === lastParticleId ? onComplete : undefined}
             />
           ))}
         </div>
