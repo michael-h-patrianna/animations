@@ -57,11 +57,13 @@ function ModalOrchestrationStaggerInviewComponent({
           <div
             key={i}
             className="pf-stagger-inview__item pf-stagger-inview__item--visible"
-            style={{
-              animationDelay: `${(i * stagger) / 1000}s`,
-              animationDuration: `${duration / 1000}s`,
-              '--pf-stagger-distance': `${distance}px`,
-            } as React.CSSProperties}
+            style={
+              {
+                animationDelay: `${(i * stagger) / 1000}s`,
+                animationDuration: `${duration / 1000}s`,
+                '--pf-stagger-distance': `${distance}px`,
+              } as React.CSSProperties
+            }
           >
             {child}
           </div>

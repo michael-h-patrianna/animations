@@ -51,11 +51,13 @@ function ModalOrchestrationWizardFadeCrossComponent({
           <div
             key={i}
             className="pf-wizard-fade__panel pf-wizard-fade__panel--visible"
-            style={{
-              animationDelay: `${(i * stagger) / 1000}s`,
-              animationDuration: `${duration / 1000}s`,
-              '--pf-fade-distance': `${distance}px`,
-            } as React.CSSProperties}
+            style={
+              {
+                animationDelay: `${(i * stagger) / 1000}s`,
+                animationDuration: `${duration / 1000}s`,
+                '--pf-fade-distance': `${distance}px`,
+              } as React.CSSProperties
+            }
           >
             {child}
           </div>
