@@ -10,7 +10,7 @@ import { memo } from 'react'
 
 import { formatTime } from '../SharedFormat'
 import { useCountdown } from '../SharedTimer'
-import type { TimerEffectProps } from '../SharedTypes'
+import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
 
 import './TimerEffectsTimerFlash.css'
 
@@ -18,22 +18,23 @@ const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
 const DEFAULT_CRITICAL = 10
 
-function TimerEffectsTimerFlashComponent({
-  startSeconds = DEFAULT_START,
-  mode = 'visual',
-  colors,
-  thresholds,
-  onEnd,
-  onEndBehavior = 'stay',
-  textColor,
-  fontSize,
-}: TimerEffectProps) {
+function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
+  const {
+    startSeconds = DEFAULT_START,
+    mode = 'visual',
+    onEnd,
+    onEndBehavior = 'stay',
+    textColor,
+    fontSize,
+  } = props
+
+  const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const { seconds, phase, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
-      warning: thresholds?.warning ?? DEFAULT_WARNING,
-      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+      warning: resolved.warningThreshold,
+      critical: resolved.criticalThreshold,
     },
     onEnd,
     onEndBehavior,
@@ -41,7 +42,7 @@ function TimerEffectsTimerFlashComponent({
 
   if (isHidden) return null
 
-  const phaseColor = colors?.[phase]
+  const phaseColor = resolved.colors?.[phase]
   const pillStyle: React.CSSProperties = {
     ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
   }

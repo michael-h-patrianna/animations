@@ -18,13 +18,6 @@ export const metadata: AnimationMetadata = {
       disabled: true,
       disabledReason: 'Pass content via JSX children',
     },
-    {
-      type: 'string',
-      name: 'className',
-      label: 'Class Name',
-      disabled: true,
-      disabledReason: 'Pass additional CSS classes via props',
-    },
     { type: 'color', name: 'color', label: 'Color', default: '#ffffff' },
   ],
 }

@@ -31,7 +31,6 @@ export const metadata = {
     { type: 'string', name: 'label', label: 'Label', default: 'Journey Distance' },
     { type: 'image', name: 'travelerIcon', label: 'Traveler Icon' },
     { type: 'image', name: 'destinationIcon', label: 'Destination Icon' },
-    { type: 'string', name: 'className', label: 'Class Name' },
     {
       type: 'string',
       name: 'style',

@@ -41,13 +41,6 @@ export const metadata: AnimationMetadata = {
     },
     {
       type: 'string',
-      name: 'className',
-      label: 'Class Name',
-      disabled: true,
-      disabledReason: 'Pass CSS class string via className prop',
-    },
-    {
-      type: 'string',
       name: 'onClick',
       label: 'On Click',
       disabled: true,

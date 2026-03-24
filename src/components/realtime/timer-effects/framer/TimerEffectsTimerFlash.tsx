@@ -18,30 +18,30 @@ import {
   formatTime,
 } from '../SharedFormat'
 import { useCountdown } from '../SharedTimer'
-import type { TimerEffectProps } from '../SharedTypes'
+import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
 const DEFAULT_CRITICAL = 10
 
-function TimerEffectsTimerFlashComponent({
-  startSeconds = DEFAULT_START,
-  mode = 'visual',
-  colors,
-  thresholds,
-  onEnd,
-  onEndBehavior = 'stay',
-  textColor,
-  fontSize,
-}: TimerEffectProps) {
-  const warningThreshold = thresholds?.warning ?? DEFAULT_WARNING
+function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
+  const {
+    startSeconds = DEFAULT_START,
+    mode = 'visual',
+    onEnd,
+    onEndBehavior = 'stay',
+    textColor,
+    fontSize,
+  } = props
+
+  const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
 
   const { seconds, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
-      warning: warningThreshold,
-      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+      warning: resolved.warningThreshold,
+      critical: resolved.criticalThreshold,
     },
     onEnd,
     onEndBehavior,
@@ -50,22 +50,22 @@ function TimerEffectsTimerFlashComponent({
   if (isHidden) return null
 
   const bgColor =
-    colors !== undefined
-      ? (colors[
-          seconds <= (thresholds?.critical ?? DEFAULT_CRITICAL)
+    resolved.colors !== undefined
+      ? (resolved.colors[
+          seconds <= resolved.criticalThreshold
             ? 'critical'
-            : seconds <= warningThreshold
+            : seconds <= resolved.warningThreshold
               ? 'warning'
               : 'normal'
-        ] ?? computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
-      : computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
+        ] ?? computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
+      : computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
 
   // Single urgency value drives pulse speed, glow intensity, and scale
-  const urgency = seconds <= warningThreshold ? (warningThreshold - seconds) / warningThreshold : 0
+  const urgency = seconds <= resolved.warningThreshold ? (resolved.warningThreshold - seconds) / resolved.warningThreshold : 0
   const pulseSpeed = Math.max(300, 1000 - urgency * 700) / 1000
 
   const glowAnimation =
-    seconds > warningThreshold
+    seconds > resolved.warningThreshold
       ? { scale: 0.95, opacity: 0 }
       : {
           scale: [0.95, 0.95 + urgency * 0.5, 0.95],
@@ -83,8 +83,8 @@ function TimerEffectsTimerFlashComponent({
         className="pf-timer-flash__pill"
         style={{ backgroundColor: bgColor, animation: 'none' }}
         animate={
-          seconds <= warningThreshold
-            ? { scale: [1, 1 + (warningThreshold - seconds) / 200, 1] }
+          seconds <= resolved.warningThreshold
+            ? { scale: [1, 1 + (resolved.warningThreshold - seconds) / 200, 1] }
             : {}
         }
         transition={{ duration: pulseSpeed, repeat: Infinity, ease: easeInOut }}

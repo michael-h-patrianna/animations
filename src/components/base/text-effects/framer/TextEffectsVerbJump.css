@@ -1,5 +1,6 @@
 /* Jumping text — Framer Motion layout (no keyframes) */
 .pf-verb-jump {
+  --pf-verb-jump-color: #e8e4da;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +12,6 @@
   gap: 0.02em;
 }
 .pf-verb-jump__char {
-  --pf-verb-jump-color: #e8e4da;
   display: inline-block;
   color: var(--pf-verb-jump-color);
   font-weight: 700;

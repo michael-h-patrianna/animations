@@ -28,7 +28,6 @@ export const metadata = {
       disabled: true,
       disabledReason: 'MilestoneConfig[] — set via code',
     },
-    { type: 'string', name: 'className', label: 'Class Name' },
     {
       type: 'string',
       name: 'style',

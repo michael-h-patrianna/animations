@@ -1,4 +1,5 @@
 .tfx-flip-container {
+  --lsd-baseColor: #e8e4da;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,7 +14,6 @@
 }
 
 .tfx-flip-char {
-  --lsd-baseColor: #e8e4da;
   --lsd-highlightColor: #fff;
   display: inline-block;
   color: var(--lsd-baseColor);

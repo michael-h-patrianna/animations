@@ -20,7 +20,6 @@ export const metadata: AnimationMetadata = {
     },
     { type: 'number', name: 'damping', label: 'Damping', default: 20, min: 5, max: 60, step: 1 },
     { type: 'number', name: 'mass', label: 'Mass', default: 0.8, min: 0.1, max: 3, step: 0.1 },
-    { type: 'string', name: 'className', label: 'CSS Class', default: '' },
     {
       type: 'string',
       name: 'children',

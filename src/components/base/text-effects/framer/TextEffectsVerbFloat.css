@@ -1,5 +1,6 @@
 /* Floating text — Framer Motion layout (no keyframes) */
 .pf-verb-float {
+  --pf-verb-float-color: #e8e4da;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +12,6 @@
   gap: 0.02em;
 }
 .pf-verb-float__char {
-  --pf-verb-float-color: #e8e4da;
   display: inline-block;
   color: var(--pf-verb-float-color);
   font-weight: 700;

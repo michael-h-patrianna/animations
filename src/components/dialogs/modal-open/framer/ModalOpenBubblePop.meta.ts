@@ -54,7 +54,6 @@ export const metadata: AnimationMetadata = {
       step: 5,
       unit: '%',
     },
-    { type: 'string', name: 'className', label: 'CSS Class', default: '' },
     {
       type: 'string',
       name: 'children',

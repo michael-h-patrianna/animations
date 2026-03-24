@@ -11,7 +11,7 @@ import { easeInOut } from 'motion/react'
 import { memo } from 'react'
 
 import { useCountdown } from '../SharedTimer'
-import type { TimerEffectProps } from '../SharedTypes'
+import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
 
 const DEFAULT_START = 10
 const DEFAULT_WARNING = 6
@@ -34,23 +34,24 @@ const pulseVariants = {
   },
 }
 
-function TimerEffectsTimerPulseComponent({
-  startSeconds = DEFAULT_START,
-  mode = 'visual',
-  colors,
-  thresholds,
-  onEnd,
-  onEndBehavior = 'stay',
-  textColor,
-  fontSize,
-  showUnderline = true,
-}: TimerEffectsTimerPulseProps) {
+function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
+  const {
+    startSeconds = DEFAULT_START,
+    mode = 'visual',
+    onEnd,
+    onEndBehavior = 'stay',
+    textColor,
+    fontSize,
+    showUnderline = true,
+  } = props
+
+  const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const { seconds, phase, progress, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
-      warning: thresholds?.warning ?? DEFAULT_WARNING,
-      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+      warning: resolved.warningThreshold,
+      critical: resolved.criticalThreshold,
     },
     onEnd,
     onEndBehavior,
@@ -58,7 +59,7 @@ function TimerEffectsTimerPulseComponent({
 
   if (isHidden) return null
 
-  const phaseColor = colors?.[phase]
+  const phaseColor = resolved.colors?.[phase]
 
   const valueStyle: React.CSSProperties = {
     animation: 'none',

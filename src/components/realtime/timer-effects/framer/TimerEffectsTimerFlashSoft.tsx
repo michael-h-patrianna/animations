@@ -18,7 +18,7 @@ import {
   formatTime,
 } from '../SharedFormat'
 import { useCountdown } from '../SharedTimer'
-import type { TimerEffectProps } from '../SharedTypes'
+import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
@@ -48,25 +48,25 @@ const glowVariants = {
   },
 }
 
-function TimerEffectsTimerFlashSoftComponent({
-  startSeconds = DEFAULT_START,
-  mode = 'visual',
-  colors,
-  thresholds,
-  onEnd,
-  onEndBehavior = 'stay',
-  textColor,
-  fontSize,
-  shakeInterval = DEFAULT_SHAKE_INTERVAL,
-}: TimerEffectsTimerFlashSoftProps) {
-  const warningThreshold = thresholds?.warning ?? DEFAULT_WARNING
+function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftProps) {
+  const {
+    startSeconds = DEFAULT_START,
+    mode = 'visual',
+    onEnd,
+    onEndBehavior = 'stay',
+    textColor,
+    fontSize,
+    shakeInterval = DEFAULT_SHAKE_INTERVAL,
+  } = props
 
+  const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
+  
   const { seconds, progress, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
-      warning: warningThreshold,
-      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+      warning: resolved.warningThreshold,
+      critical: resolved.criticalThreshold,
     },
     onEnd,
     onEndBehavior,
@@ -88,15 +88,15 @@ function TimerEffectsTimerFlashSoftComponent({
   if (isHidden) return null
 
   const bgColor =
-    colors !== undefined
-      ? (colors[
-          seconds <= (thresholds?.critical ?? DEFAULT_CRITICAL)
+    resolved.colors !== undefined
+      ? (resolved.colors[
+          seconds <= resolved.criticalThreshold
             ? 'critical'
-            : seconds <= warningThreshold
+            : seconds <= resolved.warningThreshold
               ? 'warning'
               : 'normal'
-        ] ?? computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
-      : computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
+        ] ?? computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
+      : computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
 
   const timeStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),

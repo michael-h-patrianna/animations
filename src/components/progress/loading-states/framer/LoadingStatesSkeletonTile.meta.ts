@@ -60,6 +60,5 @@ export const metadata = {
       step: 1,
       unit: 'px',
     },
-    { type: 'string', name: 'className', label: 'Class Name' },
   ],
 } satisfies AnimationMetadata

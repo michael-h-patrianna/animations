@@ -21,7 +21,6 @@ export const metadata = {
     },
     { type: 'number', name: 'segments', label: 'Segments', default: 10, min: 2, max: 20, step: 1 },
     { type: 'string', name: 'label', label: 'Label', default: 'LOADING...' },
-    { type: 'string', name: 'className', label: 'Class Name' },
     {
       type: 'string',
       name: 'style',

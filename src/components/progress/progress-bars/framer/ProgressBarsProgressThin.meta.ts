@@ -20,7 +20,6 @@ export const metadata: AnimationMetadata = {
       step: 0.01,
     },
     { type: 'string', name: 'label', label: 'Label', default: 'Level progress' },
-    { type: 'string', name: 'className', label: 'Class Name' },
     {
       type: 'string',
       name: 'style',

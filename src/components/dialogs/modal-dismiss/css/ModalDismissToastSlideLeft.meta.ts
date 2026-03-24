@@ -33,7 +33,6 @@ export const metadata: AnimationMetadata = {
       disabled: true,
       disabledReason: 'Callback — pass a () => void function via props',
     },
-    { type: 'string', name: 'className', label: 'Class Name' },
     {
       type: 'string',
       name: 'style',

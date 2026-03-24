@@ -10,7 +10,7 @@ import { memo } from 'react'
 
 import { formatTime } from '../SharedFormat'
 import { useCountdown } from '../SharedTimer'
-import type { TimerEffectProps } from '../SharedTypes'
+import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
 
 import './shared.css'
 import './TimerEffectsPillCountdownHeartbeat.css'
@@ -44,22 +44,23 @@ function resolveHeartbeatLevel(
   return 'pf-heartbeat-normal'
 }
 
-function TimerEffectsPillCountdownHeartbeatComponent({
-  startSeconds = DEFAULT_START,
-  mode = 'visual',
-  colors,
-  thresholds,
-  onEnd,
-  onEndBehavior = 'stay',
-  textColor,
-  fontSize,
-}: TimerEffectProps) {
+function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
+  const {
+    startSeconds = DEFAULT_START,
+    mode = 'visual',
+    onEnd,
+    onEndBehavior = 'stay',
+    textColor,
+    fontSize,
+  } = props
+
+  const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const { seconds, phase, isExpired, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
-      warning: thresholds?.warning ?? DEFAULT_WARNING,
-      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+      warning: resolved.warningThreshold,
+      critical: resolved.criticalThreshold,
     },
     onEnd,
     onEndBehavior,
@@ -68,7 +69,7 @@ function TimerEffectsPillCountdownHeartbeatComponent({
   if (isHidden) return null
 
   const heartbeatLevel = resolveHeartbeatLevel(seconds, startSeconds, isExpired)
-  const phaseColor = colors?.[phase]
+  const phaseColor = resolved.colors?.[phase]
 
   const pillStyle: React.CSSProperties = {
     ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),

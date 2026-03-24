@@ -19,7 +19,6 @@ export const metadata = {
       max: 1,
       step: 0.01,
     },
-    { type: 'string', name: 'className', label: 'Class Name' },
     {
       type: 'string',
       name: 'style',

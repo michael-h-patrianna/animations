@@ -31,13 +31,6 @@ export const metadata: AnimationMetadata = {
     },
     {
       type: 'string',
-      name: 'className',
-      label: 'CSS Class',
-      default: '',
-      description: 'Additional CSS class name for the content wrapper.',
-    },
-    {
-      type: 'string',
       name: 'children',
       label: 'Children',
       disabled: true,

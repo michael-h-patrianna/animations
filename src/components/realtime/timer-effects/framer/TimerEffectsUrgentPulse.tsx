@@ -13,30 +13,31 @@ import { memo } from 'react'
 
 import { formatTime } from '../SharedFormat'
 import { useCountdown } from '../SharedTimer'
-import type { TimerEffectProps } from '../SharedTypes'
+import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
 
 const DEFAULT_START = 5
 const DEFAULT_WARNING = 3
 const DEFAULT_CRITICAL = 1
 
-function TimerEffectsUrgentPulseComponent({
-  startSeconds = DEFAULT_START,
-  mode = 'visual',
-  colors,
-  thresholds,
-  onEnd,
-  onEndBehavior = 'stay',
-  textColor,
-  fontSize,
-}: TimerEffectProps) {
+function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
+  const {
+    startSeconds = DEFAULT_START,
+    mode = 'visual',
+    onEnd,
+    onEndBehavior = 'stay',
+    textColor,
+    fontSize,
+  } = props
+
+  const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const prefersReducedMotion = useReducedMotion()
 
   const { seconds, phase, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
-      warning: thresholds?.warning ?? DEFAULT_WARNING,
-      critical: thresholds?.critical ?? DEFAULT_CRITICAL,
+      warning: resolved.warningThreshold,
+      critical: resolved.criticalThreshold,
     },
     onEnd,
     onEndBehavior,
@@ -49,7 +50,7 @@ function TimerEffectsUrgentPulseComponent({
   const opacityValues = prefersReducedMotion ? 0.5 : [0, 1, 0]
   const duration = prefersReducedMotion ? 1 : 0.5
 
-  const phaseColor = colors?.[phase]
+  const phaseColor = resolved.colors?.[phase]
 
   const valueStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),

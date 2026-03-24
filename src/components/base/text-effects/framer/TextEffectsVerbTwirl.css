@@ -1,5 +1,6 @@
 /* Twirling text — Framer Motion layout (no keyframes) */
 .pf-verb-twirl {
+  --pf-verb-twirl-color: #e8e4da;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +12,6 @@
   gap: 0.02em;
 }
 .pf-verb-twirl__char {
-  --pf-verb-twirl-color: #e8e4da;
   display: inline-block;
   color: var(--pf-verb-twirl-color);
   font-weight: 700;

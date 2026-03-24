@@ -64,11 +64,26 @@ export interface TimerEffectProps {
    */
   mode?: TimerMode
 
-  /** Colors for each urgency phase. Overrides variant defaults. */
+  /** Colors for each urgency phase. Overrides variant defaults. Takes precedence over flat color props. */
   colors?: TimerPhaseColors
 
-  /** Seconds-remaining thresholds for phase transitions. Overrides variant defaults. */
+  /** Seconds-remaining thresholds for phase transitions. Overrides variant defaults. Takes precedence over flat threshold props. */
   thresholds?: TimerPhaseThresholds
+
+  /** Background color for the normal (plenty of time) phase. Ignored when `colors` is provided. */
+  normalColor?: string
+
+  /** Background color for the warning (time getting low) phase. Ignored when `colors` is provided. */
+  warningColor?: string
+
+  /** Background color for the critical (final seconds) phase. Ignored when `colors` is provided. */
+  criticalColor?: string
+
+  /** Seconds remaining to enter warning phase. Default varies by variant. Ignored when `thresholds` is provided. */
+  warningThreshold?: number
+
+  /** Seconds remaining to enter critical phase. Default varies by variant. Ignored when `thresholds` is provided. */
+  criticalThreshold?: number
 
   /** Called once when the timer reaches zero. */
   onEnd?: () => void
@@ -81,6 +96,29 @@ export interface TimerEffectProps {
 
   /** Override font size (px) for the time display. */
   fontSize?: number
+}
+
+/**
+ * Resolves flat color props and flat threshold props into TimerPhaseColors and TimerPhaseThresholds objects.
+ * The `colors`/`thresholds` object props take precedence over flat props for backward compatibility.
+ */
+export function resolveTimerProps(
+  props: Pick<TimerEffectProps, 'colors' | 'thresholds' | 'normalColor' | 'warningColor' | 'criticalColor' | 'warningThreshold' | 'criticalThreshold'>,
+  defaultWarning: number,
+  defaultCritical: number
+): { colors: TimerPhaseColors | undefined; warningThreshold: number; criticalThreshold: number } {
+  const hasFlat = props.normalColor !== undefined || props.warningColor !== undefined || props.criticalColor !== undefined
+  const colors = props.colors ?? (hasFlat ? {
+    normal: props.normalColor,
+    warning: props.warningColor,
+    critical: props.criticalColor,
+  } : undefined)
+
+  return {
+    colors,
+    warningThreshold: props.thresholds?.warning ?? props.warningThreshold ?? defaultWarning,
+    criticalThreshold: props.thresholds?.critical ?? props.criticalThreshold ?? defaultCritical,
+  }
 }
 
 // ============================================================================

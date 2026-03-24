@@ -20,7 +20,6 @@ export const metadata: AnimationMetadata = {
       step: 0.01,
     },
     { type: 'number', name: 'segments', label: 'Segments', default: 4, min: 2, max: 12, step: 1 },
-    { type: 'string', name: 'className', label: 'Class Name' },
     {
       type: 'string',
       name: 'style',
