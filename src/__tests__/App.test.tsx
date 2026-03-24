@@ -36,12 +36,14 @@ describe('App', () => {
   it('renders the editor shell with a backdrop layer for glass surfaces', () => {
     renderApp()
 
+    // eslint-disable-next-line testing-library/no-node-access -- checking demo-ui root element
     expect(document.querySelector('[data-demo-ui]')).toHaveClass('pf-shell-backdrop')
   })
 
   it('positions the top bar above the pane stack so content can scroll under it', () => {
     renderApp()
 
+    // eslint-disable-next-line testing-library/no-node-access -- verifying DOM structure
     expect(screen.getByTestId('top-bar').parentElement).toHaveClass(
       'absolute',
       'inset-x-0',

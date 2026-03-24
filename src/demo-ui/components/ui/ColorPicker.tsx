@@ -397,12 +397,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
 
   useEffect(() => {
     if (!isDraggingSV) return
-    const onMove = (e: MouseEvent) => {
-      updateSV(e.clientX, e.clientY)
-    }
-    const onUp = () => {
-      setIsDraggingSV(false)
-    }
+    const onMove = (e: MouseEvent) => updateSV(e.clientX, e.clientY)
+    const onUp = () => setIsDraggingSV(false)
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseup', onUp)
     return () => {
@@ -417,9 +413,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       if (e.key === 'Escape') setIsOpen(false)
     }
     window.addEventListener('keydown', handleKey)
-    return () => {
-      window.removeEventListener('keydown', handleKey)
-    }
+    return () => window.removeEventListener('keydown', handleKey)
   }, [isOpen])
 
   const handleEyedropper = () => {
@@ -429,9 +423,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
     ).EyeDropper()
     void dropper
       .open()
-      .then((result) => {
-        handleHsvChange(parseColorToHsv(result.sRGBHex))
-      })
+      .then((result) => handleHsvChange(parseColorToHsv(result.sRGBHex)))
       .catch(() => {})
   }
 
