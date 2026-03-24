@@ -45,9 +45,7 @@ const DEFAULT_LIST_TEXTS = [
 
 export function generateMockListItems(count?: number): ReactNode[] {
   const texts = DEFAULT_LIST_TEXTS.slice(0, count ?? DEFAULT_LIST_TEXTS.length)
-  return texts.map((text, i) => (
-    <DemoListItem key={`mock-item-${String(i)}`}>{text}</DemoListItem>
-  ))
+  return texts.map((text, i) => <DemoListItem key={`mock-item-${String(i)}`}>{text}</DemoListItem>)
 }
 
 // ---------------------------------------------------------------------------

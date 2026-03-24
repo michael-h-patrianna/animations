@@ -7,9 +7,7 @@ import './StandardEffectsSlide.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsSlideComponent() {
-  return (
-    <DemoBox className="pf-slide" label="Slide" data-animation-id="standard-effects__slide" />
-  )
+  return <DemoBox className="pf-slide" label="Slide" data-animation-id="standard-effects__slide" />
 }
 
 export const StandardEffectsSlide = memo(StandardEffectsSlideComponent)

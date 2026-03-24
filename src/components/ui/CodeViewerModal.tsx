@@ -29,12 +29,19 @@ function useHighlightedSources(sources: SourceTab[]) {
     let cancelled = false
     async function run() {
       const results = await Promise.all(
-        sourcesRef.current.map((tab) => highlightCode(cleanSourceForDisplay(tab.code), tab.language))
+        sourcesRef.current.map((tab) =>
+          highlightCode(cleanSourceForDisplay(tab.code), tab.language)
+        )
       )
-      if (!cancelled) { setHighlighted(results); setLoading(false) }
+      if (!cancelled) {
+        setHighlighted(results)
+        setLoading(false)
+      }
     }
     run()
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [sourceKey])
 
   return { highlighted, loading }
@@ -54,7 +61,9 @@ function useFileSelection(sources: SourceTab[]) {
   const handleCopy = useCallback(async () => {
     try {
       const activeSource = sources[safeIndex]
-      await navigator.clipboard.writeText(activeSource ? cleanSourceForDisplay(activeSource.code) : '')
+      await navigator.clipboard.writeText(
+        activeSource ? cleanSourceForDisplay(activeSource.code) : ''
+      )
       setCopied(true)
       clearTimeout(copyTimerRef.current)
       copyTimerRef.current = setTimeout(() => setCopied(false), 2000)
@@ -83,14 +92,16 @@ function CodeViewerModalComponent({ sources, title, onClose }: CodeViewerModalPr
         id: source.label,
         label: source.label,
         content: loading ? (
-          <div className="code-modal__loading" data-testid="code-loading">Loading syntax highlighting...</div>
+          <div className="code-modal__loading" data-testid="code-loading">
+            Loading syntax highlighting...
+          </div>
         ) : (
           <div className="code-modal__body" data-testid="code-body">
             <HighlightedCode html={highlighted[i] ?? ''} />
           </div>
         ),
       })),
-    [sources, highlighted, loading],
+    [sources, highlighted, loading]
   )
 
   const copyButton = (
@@ -101,7 +112,15 @@ function CodeViewerModalComponent({ sources, title, onClose }: CodeViewerModalPr
       data-testid="code-copy-btn"
       className={`gap-1 ${selection.copied ? 'text-[var(--theme-accent)]' : ''}`}
     >
-      {selection.copied ? <><CopyCheckIcon /> Copied</> : <><CopyIcon /> Copy</>}
+      {selection.copied ? (
+        <>
+          <CopyCheckIcon /> Copied
+        </>
+      ) : (
+        <>
+          <CopyIcon /> Copy
+        </>
+      )}
     </Button>
   )
 

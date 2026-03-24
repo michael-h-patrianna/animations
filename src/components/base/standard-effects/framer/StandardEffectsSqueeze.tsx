@@ -37,9 +37,7 @@ function StandardEffectsSqueezeComponent({
         times: [0, 0.15, 0.3, 0.4, 0.5, 0.65, 0.75, 0.85, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="Squeeze" />
-      )}
+      {children ?? <DemoBox label="Squeeze" />}
     </m.div>
   )
 }

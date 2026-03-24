@@ -71,9 +71,7 @@ function StandardEffectsPulseComponent({
           repeat: Infinity,
         }}
       />
-      {children ?? (
-        <DemoBox label="Pulse" />
-      )}
+      {children ?? <DemoBox label="Pulse" />}
     </m.div>
   )
 }

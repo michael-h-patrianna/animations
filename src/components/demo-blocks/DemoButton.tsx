@@ -10,7 +10,14 @@ interface DemoButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
 }
 
 /** Themed action button for demo modal footers and forms. */
-export function DemoButton({ label, variant = 'primary', className = '', style, onClick, ...rest }: DemoButtonProps) {
+export function DemoButton({
+  label,
+  variant = 'primary',
+  className = '',
+  style,
+  onClick,
+  ...rest
+}: DemoButtonProps) {
   return (
     <button
       type="button"

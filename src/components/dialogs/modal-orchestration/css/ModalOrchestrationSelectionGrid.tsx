@@ -11,7 +11,7 @@
  * </ModalOrchestrationSelectionGrid>
  */
 
-import { memo, useEffect, useRef } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationSelectionGrid.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -46,21 +46,8 @@ function ModalOrchestrationSelectionGridComponent({
   distance = 16,
   columns = 3,
 }: ModalOrchestrationSelectionGridProps) {
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
-
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
-
-  useEffect(() => {
-    itemsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(index * stagger) / 1000}s`
-        el.style.animationDuration = `${duration / 1000}s`
-        el.style.setProperty('--pf-cascade-distance', `${distance}px`)
-        el.classList.add('pf-selection-grid__item--visible')
-      }
-    })
-  }, [stagger, duration, distance])
 
   return (
     <div
@@ -71,10 +58,12 @@ function ModalOrchestrationSelectionGridComponent({
       {renderItems.map((child, i) => (
         <div
           key={i}
-          ref={(el) => {
-            itemsRef.current[i] = el
-          }}
-          className="pf-selection-grid__item"
+          className="pf-selection-grid__item pf-selection-grid__item--visible"
+          style={{
+            animationDelay: `${(i * stagger) / 1000}s`,
+            animationDuration: `${duration / 1000}s`,
+            '--pf-cascade-distance': `${distance}px`,
+          } as React.CSSProperties}
         >
           {child}
         </div>

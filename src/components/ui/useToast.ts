@@ -1,4 +1,4 @@
-import { createElement, useState } from 'react'
+import { createElement, useCallback, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ToastContent } from './Toast'
 
@@ -6,8 +6,8 @@ import { ToastContent } from './Toast'
 export function useToast() {
   const [toast, setToast] = useState<string | null>(null)
 
-  const showToast = (msg: string) => setToast(msg)
-  const clearToast = () => setToast(null)
+  const showToast = useCallback((msg: string) => setToast(msg), [])
+  const clearToast = useCallback(() => setToast(null), [])
 
   const toastPortal = toast
     ? createPortal(

@@ -1,6 +1,14 @@
 import type { ReactNode } from 'react'
 
-import { DemoButton, DemoCloseButton, DemoList, DemoListItem, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import {
+  DemoButton,
+  DemoCloseButton,
+  DemoList,
+  DemoListItem,
+  DemoModalBody,
+  DemoModalFooter,
+  DemoModalHeader,
+} from '@/components/demo-blocks'
 
 /**
  * Mock modal content for zero-props catalog demo of modal-open animations.

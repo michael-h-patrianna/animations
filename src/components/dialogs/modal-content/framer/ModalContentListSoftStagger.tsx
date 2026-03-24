@@ -16,7 +16,13 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { DemoButton, DemoList, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import {
+  DemoButton,
+  DemoList,
+  DemoModalBody,
+  DemoModalFooter,
+  DemoModalHeader,
+} from '@/components/demo-blocks'
 import { generateMockListItems } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
@@ -93,9 +99,7 @@ function ModalContentListSoftStaggerComponent({
       >
         <DemoModalHeader title="Recent Changes" />
         <DemoModalBody>
-          <DemoList>
-            {mockItems.map((item, i) => animateListItem(item, i, 0.3))}
-          </DemoList>
+          <DemoList>{mockItems.map((item, i) => animateListItem(item, i, 0.3))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
           <m.div

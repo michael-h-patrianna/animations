@@ -48,67 +48,59 @@
  */
 @keyframes cr-confetti {
   0% {
-    transform: translateY(0) translateX(0) scale(0)
-      rotateX(0deg) rotateY(0deg) rotate(0deg);
+    transform: translateY(0) translateX(0) scale(0) rotateX(0deg) rotateY(0deg) rotate(0deg);
     opacity: 0;
   }
   10% {
     transform: translateY(calc(var(--fall) * 0.032)) translateX(var(--x1))
-      scale(calc(var(--s) * 0.83))
-      rotateX(calc(var(--rx) * 0.1)) rotateY(calc(var(--ry) * 0.1)) rotate(calc(var(--rz) * 0.1));
+      scale(calc(var(--s) * 0.83)) rotateX(calc(var(--rx) * 0.1)) rotateY(calc(var(--ry) * 0.1))
+      rotate(calc(var(--rz) * 0.1));
     opacity: var(--peak-opacity, 1);
   }
   20% {
-    transform: translateY(calc(var(--fall) * 0.089)) translateX(var(--x2))
-      scale(var(--s))
+    transform: translateY(calc(var(--fall) * 0.089)) translateX(var(--x2)) scale(var(--s))
       rotateX(calc(var(--rx) * 0.2)) rotateY(calc(var(--ry) * 0.2)) rotate(calc(var(--rz) * 0.2));
     opacity: var(--peak-opacity, 1);
   }
   30% {
-    transform: translateY(calc(var(--fall) * 0.164)) translateX(var(--x3))
-      scale(var(--s))
+    transform: translateY(calc(var(--fall) * 0.164)) translateX(var(--x3)) scale(var(--s))
       rotateX(calc(var(--rx) * 0.3)) rotateY(calc(var(--ry) * 0.3)) rotate(calc(var(--rz) * 0.3));
     opacity: var(--peak-opacity, 1);
   }
   40% {
-    transform: translateY(calc(var(--fall) * 0.253)) translateX(var(--x4))
-      scale(var(--s))
+    transform: translateY(calc(var(--fall) * 0.253)) translateX(var(--x4)) scale(var(--s))
       rotateX(calc(var(--rx) * 0.4)) rotateY(calc(var(--ry) * 0.4)) rotate(calc(var(--rz) * 0.4));
     opacity: var(--peak-opacity, 1);
   }
   50% {
-    transform: translateY(calc(var(--fall) * 0.354)) translateX(var(--x5))
-      scale(var(--s))
+    transform: translateY(calc(var(--fall) * 0.354)) translateX(var(--x5)) scale(var(--s))
       rotateX(calc(var(--rx) * 0.5)) rotateY(calc(var(--ry) * 0.5)) rotate(calc(var(--rz) * 0.5));
     opacity: var(--peak-opacity, 1);
   }
   60% {
-    transform: translateY(calc(var(--fall) * 0.465)) translateX(var(--x6))
-      scale(var(--s))
+    transform: translateY(calc(var(--fall) * 0.465)) translateX(var(--x6)) scale(var(--s))
       rotateX(calc(var(--rx) * 0.6)) rotateY(calc(var(--ry) * 0.6)) rotate(calc(var(--rz) * 0.6));
     opacity: calc(var(--peak-opacity, 1) * 0.95);
   }
   70% {
-    transform: translateY(calc(var(--fall) * 0.586)) translateX(var(--x7))
-      scale(var(--s))
+    transform: translateY(calc(var(--fall) * 0.586)) translateX(var(--x7)) scale(var(--s))
       rotateX(calc(var(--rx) * 0.7)) rotateY(calc(var(--ry) * 0.7)) rotate(calc(var(--rz) * 0.7));
     opacity: calc(var(--peak-opacity, 1) * 0.85);
   }
   80% {
     transform: translateY(calc(var(--fall) * 0.716)) translateX(var(--x8))
-      scale(calc(var(--s) * 0.85))
-      rotateX(calc(var(--rx) * 0.8)) rotateY(calc(var(--ry) * 0.8)) rotate(calc(var(--rz) * 0.8));
+      scale(calc(var(--s) * 0.85)) rotateX(calc(var(--rx) * 0.8)) rotateY(calc(var(--ry) * 0.8))
+      rotate(calc(var(--rz) * 0.8));
     opacity: calc(var(--peak-opacity, 1) * 0.6);
   }
   90% {
     transform: translateY(calc(var(--fall) * 0.854)) translateX(var(--x9))
-      scale(calc(var(--s) * 0.6))
-      rotateX(calc(var(--rx) * 0.9)) rotateY(calc(var(--ry) * 0.9)) rotate(calc(var(--rz) * 0.9));
+      scale(calc(var(--s) * 0.6)) rotateX(calc(var(--rx) * 0.9)) rotateY(calc(var(--ry) * 0.9))
+      rotate(calc(var(--rz) * 0.9));
     opacity: calc(var(--peak-opacity, 1) * 0.3);
   }
   100% {
-    transform: translateY(var(--fall)) translateX(var(--x10))
-      scale(calc(var(--s) * 0.4))
+    transform: translateY(var(--fall)) translateX(var(--x10)) scale(calc(var(--s) * 0.4))
       rotateX(var(--rx)) rotateY(var(--ry)) rotate(var(--rz));
     opacity: 0;
   }

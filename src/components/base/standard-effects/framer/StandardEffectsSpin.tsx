@@ -32,9 +32,7 @@ function StandardEffectsSpinComponent({ children, duration = 800 }: StandardEffe
         times: [0, 0.25, 0.5, 0.75, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="Spin" />
-      )}
+      {children ?? <DemoBox label="Spin" />}
     </m.div>
   )
 }

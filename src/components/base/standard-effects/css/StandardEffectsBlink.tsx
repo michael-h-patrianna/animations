@@ -7,9 +7,7 @@ import './StandardEffectsBlink.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsBlinkComponent() {
-  return (
-    <DemoBox className="pf-blink" label="Blink" data-animation-id="standard-effects__blink" />
-  )
+  return <DemoBox className="pf-blink" label="Blink" data-animation-id="standard-effects__blink" />
 }
 
 export const StandardEffectsBlink = memo(StandardEffectsBlinkComponent)

@@ -35,9 +35,7 @@ function ModalBaseSlideRightDriftComponent({
     <div data-animation-id="modal-base__slide-right-drift">
       <m.div
         className={className}
-        initial={
-          prefersReducedMotion ? { opacity: 0 } : { x: -distance, scale: 0.93, opacity: 0 }
-        }
+        initial={prefersReducedMotion ? { opacity: 0 } : { x: -distance, scale: 0.93, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { x: 0, scale: 1, opacity: 1 }}
         transition={{
           duration: prefersReducedMotion ? 0.01 : durationS,

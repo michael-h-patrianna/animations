@@ -62,7 +62,10 @@ export const CardHeaderBar = ({
 }: CardHeaderBarProps) => (
   <div className="p-0 pb-3">
     <div className="flex items-center justify-between gap-2">
-      <div className="pf-card__title mb-0 font-semibold leading-none tracking-tight" data-testid="card-title">
+      <div
+        className="pf-card__title mb-0 font-semibold leading-none tracking-tight"
+        data-testid="card-title"
+      >
         {title}
       </div>
       <div className="flex items-center gap-1">

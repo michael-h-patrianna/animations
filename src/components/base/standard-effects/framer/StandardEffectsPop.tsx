@@ -33,9 +33,7 @@ function StandardEffectsPopComponent({ children, duration = 500 }: StandardEffec
         times: [0, 0.5, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="Pop" />
-      )}
+      {children ?? <DemoBox label="Pop" />}
     </m.div>
   )
 }

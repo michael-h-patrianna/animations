@@ -33,9 +33,7 @@ function StandardEffectsJelloComponent({ children, duration = 1000 }: StandardEf
         times: [0, 0.3, 0.4, 0.5, 0.65, 0.75, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="Jello" />
-      )}
+      {children ?? <DemoBox label="Jello" />}
     </m.div>
   )
 }

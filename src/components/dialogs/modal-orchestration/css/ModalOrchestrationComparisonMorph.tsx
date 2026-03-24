@@ -11,7 +11,7 @@
  * </ModalOrchestrationComparisonMorph>
  */
 
-import { memo, useEffect, useRef } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationComparisonMorph.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -31,8 +31,8 @@ function generatePlaceholders(count: number): ReactNode[] {
   const labels = ['Option A', 'Option B', 'Option C', 'Option D']
   return Array.from({ length: count }, (_, i) => (
     <DemoCard key={`placeholder-${i}`} title={labels[i] ?? `Option ${i + 1}`}>
-        <p>Comparison pane {i + 1} with details and benefits.</p>
-      </DemoCard>
+      <p>Comparison pane {i + 1} with details and benefits.</p>
+    </DemoCard>
   ))
 }
 
@@ -41,30 +41,19 @@ function ModalOrchestrationComparisonMorphComponent({
   stagger = 260,
   duration = 312,
 }: ModalOrchestrationComparisonMorphProps) {
-  const panesRef = useRef<(HTMLDivElement | null)[]>([])
-
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
-
-  useEffect(() => {
-    panesRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(index * stagger) / 1000}s`
-        el.style.animationDuration = `${duration / 1000}s`
-        el.classList.add('pf-comparison-morph__pane--visible')
-      }
-    })
-  }, [stagger, duration])
 
   return (
     <div className="pf-comparison-morph" data-animation-id="modal-orchestration__comparison-morph">
       {renderItems.map((child, i) => (
         <div
           key={i}
-          ref={(el) => {
-            panesRef.current[i] = el
+          className="pf-comparison-morph__pane pf-comparison-morph__pane--visible"
+          style={{
+            animationDelay: `${(i * stagger) / 1000}s`,
+            animationDuration: `${duration / 1000}s`,
           }}
-          className="pf-comparison-morph__pane"
         >
           {child}
         </div>

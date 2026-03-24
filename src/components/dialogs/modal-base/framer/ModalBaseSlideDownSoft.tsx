@@ -35,9 +35,7 @@ function ModalBaseSlideDownSoftComponent({
     <div data-animation-id="modal-base__slide-down-soft">
       <m.div
         className={className}
-        initial={
-          prefersReducedMotion ? { opacity: 0 } : { y: -distance, scale: 0.92, opacity: 0 }
-        }
+        initial={prefersReducedMotion ? { opacity: 0 } : { y: -distance, scale: 0.92, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { y: 0, scale: 1, opacity: 1 }}
         transition={{
           duration: prefersReducedMotion ? 0.01 : durationS,

@@ -17,7 +17,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useCallback, useMemo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -37,6 +37,8 @@ interface ModalOrchestrationFlipRevealProps {
   flipDuration?: number
   /** Number of grid columns. Default 3. */
   columns?: number
+  /** Height of each flip card in px. Default 120. */
+  cardHeight?: number
 }
 
 function generatePlaceholders(count: number): FlipItem[] {
@@ -59,6 +61,7 @@ function ModalOrchestrationFlipRevealComponent({
   stagger = 100,
   flipDuration = 600,
   columns = 3,
+  cardHeight = 120,
 }: ModalOrchestrationFlipRevealProps) {
   const prefersReducedMotion = useReducedMotion()
   const [flippedCards, setFlippedCards] = useState<Set<number>>(() => new Set())
@@ -66,6 +69,7 @@ function ModalOrchestrationFlipRevealComponent({
   const renderItems =
     items !== undefined && items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
+  const noMotion = !!prefersReducedMotion
   const staggerS = stagger / 1000
   const flipS = flipDuration / 1000
 
@@ -81,38 +85,28 @@ function ModalOrchestrationFlipRevealComponent({
     })
   }, [])
 
-  const containerVariants = useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
-          delayChildren: prefersReducedMotion === true ? 0 : staggerS * 2,
-        },
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: noMotion ? 0 : staggerS,
+        delayChildren: noMotion ? 0 : staggerS * 2,
       },
-    }),
-    [staggerS, prefersReducedMotion]
-  )
+    },
+  }
 
-  const cardVariants = useMemo(
-    () => ({
-      hidden: {
-        scale: 0.8,
-        opacity: 0,
-        y: 20,
+  const cardVariants = {
+    hidden: { scale: 0.8, opacity: 0, y: 20 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: noMotion ? 0 : 0.5,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
-      visible: {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : 0.5,
-          ease: [0.25, 0.46, 0.45, 0.94] as const,
-        },
-      },
-    }),
-    [prefersReducedMotion]
-  )
+    },
+  }
 
   return (
     <m.div
@@ -132,21 +126,21 @@ function ModalOrchestrationFlipRevealComponent({
             variants={cardVariants}
             onClick={() => toggleFlip(i)}
             whileHover={
-              prefersReducedMotion === true
+              noMotion
                 ? undefined
                 : {
                     scale: 1.05,
                     transition: { type: 'spring', stiffness: 300, damping: 25 },
                   }
             }
-            whileTap={prefersReducedMotion === true ? undefined : { scale: 0.95 }}
-            style={{ animation: 'none' }}
+            whileTap={noMotion ? undefined : { scale: 0.95 }}
+            style={{ minHeight: cardHeight, animation: 'none' }}
           >
             <m.div
               className="pf-flip-reveal__inner"
               animate={{ rotateY: isFlipped ? 180 : 0 }}
               transition={{
-                duration: prefersReducedMotion === true ? 0 : flipS,
+                duration: noMotion ? 0 : flipS,
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
               }}
               style={{ transformStyle: 'preserve-3d', animation: 'none' }}

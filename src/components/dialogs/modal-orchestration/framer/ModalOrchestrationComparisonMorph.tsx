@@ -13,7 +13,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useMemo } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -32,8 +32,8 @@ function generatePlaceholders(count: number): ReactNode[] {
   const labels = ['Option A', 'Option B', 'Option C', 'Option D']
   return Array.from({ length: count }, (_, i) => (
     <DemoCard key={`placeholder-${i}`} title={labels[i] ?? `Option ${i + 1}`}>
-        <p>Comparison pane {i + 1} with details and benefits.</p>
-      </DemoCard>
+      <p>Comparison pane {i + 1} with details and benefits.</p>
+    </DemoCard>
   ))
 }
 
@@ -47,40 +47,29 @@ function ModalOrchestrationComparisonMorphComponent({
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
+  const noMotion = !!prefersReducedMotion
   const staggerS = stagger / 1000
   const durationS = duration / 1000
 
-  const containerVariants = useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
-        },
-      },
-    }),
-    [staggerS, prefersReducedMotion]
-  )
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: noMotion ? 0 : staggerS },
+    },
+  }
 
-  const paneVariants = useMemo(
-    () => ({
-      hidden: {
-        rotate: -6,
-        scale: 0.82,
-        opacity: 0,
+  const paneVariants = {
+    hidden: { rotate: -6, scale: 0.82, opacity: 0 },
+    visible: {
+      rotate: 0,
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: noMotion ? 0 : durationS,
+        ease: [0.68, -0.55, 0.265, 1.55] as const,
       },
-      visible: {
-        rotate: 0,
-        scale: 1,
-        opacity: 1,
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : durationS,
-          ease: [0.68, -0.55, 0.265, 1.55] as const,
-        },
-      },
-    }),
-    [durationS, prefersReducedMotion]
-  )
+    },
+  }
 
   return (
     <m.div

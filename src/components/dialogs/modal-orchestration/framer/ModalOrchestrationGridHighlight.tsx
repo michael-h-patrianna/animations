@@ -1,5 +1,5 @@
 /**
- * Stagger entrance with scale bounce and gradient highlight background.
+ * Stagger entrance with scale bounce for a grid of children.
  *
  * Copy-paste files: this file + ModalOrchestrationGridHighlight.css
  * Runtime deps: react, motion
@@ -13,15 +13,14 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useMemo } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 5
-const DEFAULT_DISTANCE = 16
 
 interface ModalOrchestrationGridHighlightProps {
-  /** Items to stagger in with highlight. When omitted, renders placeholder items. */
+  /** Items to stagger in. When omitted, renders placeholder items. */
   children?: ReactNode
   /** Delay between each item's entrance in ms. Default 260. */
   stagger?: number
@@ -31,17 +30,11 @@ interface ModalOrchestrationGridHighlightProps {
   distance?: number
   /** Number of grid columns. Default 2. */
   columns?: number
-  /** Start color of the gradient highlight. Default uses theme variable. */
-  highlightColor?: string
-  /** End color of the gradient highlight. Default uses theme variable. */
-  highlightAccent?: string
 }
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Item ${i + 1}`}>
-      <p>Highlight sweep</p>
-    </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Item ${i + 1}`} />
   ))
 }
 
@@ -49,62 +42,37 @@ function ModalOrchestrationGridHighlightComponent({
   children,
   stagger = 260,
   duration = 210,
-  distance = DEFAULT_DISTANCE,
+  distance = 16,
   columns = 2,
-  highlightColor,
-  highlightAccent,
 }: ModalOrchestrationGridHighlightProps) {
   const prefersReducedMotion = useReducedMotion()
 
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
+  const noMotion = !!prefersReducedMotion
   const staggerS = stagger / 1000
   const durationS = duration / 1000
-  const safeDistance = prefersReducedMotion === true ? 0 : distance
 
-  const containerVariants = useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
-        },
-      },
-    }),
-    [staggerS, prefersReducedMotion]
-  )
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: noMotion ? 0 : staggerS },
+    },
+  }
 
-  const itemVariants = useMemo(
-    () => ({
-      hidden: {
-        y: safeDistance,
-        opacity: 0,
-        scale: 0.9,
+  const itemVariants = {
+    hidden: { y: noMotion ? 0 : distance, opacity: 0, scale: 0.9 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: [0.9, 1.05, 1],
+      transition: {
+        duration: noMotion ? 0 : durationS,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
-      visible: {
-        y: 0,
-        opacity: 1,
-        scale: [0.9, 1.05, 1],
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : durationS,
-          ease: [0.25, 0.46, 0.45, 0.94] as const,
-        },
-      },
-    }),
-    [safeDistance, durationS, prefersReducedMotion]
-  )
-
-  const itemStyle = useMemo(() => {
-    const style: Record<string, string> = { animation: 'none' }
-    if (highlightColor !== undefined) {
-      style['--pf-grid-highlight-start'] = highlightColor
-    }
-    if (highlightAccent !== undefined) {
-      style['--pf-grid-highlight-end'] = highlightAccent
-    }
-    return style
-  }, [highlightColor, highlightAccent])
+    },
+  }
 
   return (
     <m.div
@@ -120,7 +88,7 @@ function ModalOrchestrationGridHighlightComponent({
           key={i}
           className="pf-grid-highlight__item"
           variants={itemVariants}
-          style={itemStyle}
+          style={{ animation: 'none' }}
         >
           {child}
         </m.div>

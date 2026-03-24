@@ -34,9 +34,7 @@ function StandardEffectsBounceComponent({ children, duration = 800 }: StandardEf
         times: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="Bounce" />
-      )}
+      {children ?? <DemoBox label="Bounce" />}
     </m.div>
   )
 }

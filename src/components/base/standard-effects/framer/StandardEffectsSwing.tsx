@@ -32,9 +32,7 @@ function StandardEffectsSwingComponent({ children, duration = 1000 }: StandardEf
         times: [0, 0.2, 0.4, 0.6, 0.8, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="Swing" />
-      )}
+      {children ?? <DemoBox label="Swing" />}
     </m.div>
   )
 }

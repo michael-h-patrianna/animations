@@ -11,7 +11,7 @@
  * </ModalOrchestrationMagneticHover>
  */
 
-import { memo, useEffect, useRef } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationMagneticHover.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -31,9 +31,9 @@ interface ModalOrchestrationMagneticHoverProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title="Hover {i + 1}">
-        <p>Magnetic tilt</p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Hover ${i + 1}`}>
+      <p>Magnetic tilt</p>
+    </DemoCard>
   ))
 }
 
@@ -43,20 +43,8 @@ function ModalOrchestrationMagneticHoverComponent({
   duration = 600,
   columns = 4,
 }: ModalOrchestrationMagneticHoverProps) {
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
-
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
-
-  useEffect(() => {
-    itemsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(0.2 * 1000 + index * stagger) / 1000}s`
-        el.style.animationDuration = `${duration / 1000}s`
-        el.classList.add('pf-magnetic-hover__item--visible')
-      }
-    })
-  }, [stagger, duration])
 
   return (
     <div
@@ -67,10 +55,11 @@ function ModalOrchestrationMagneticHoverComponent({
       {renderItems.map((child, i) => (
         <div
           key={i}
-          ref={(el) => {
-            itemsRef.current[i] = el
+          className="pf-magnetic-hover__item pf-magnetic-hover__item--visible"
+          style={{
+            animationDelay: `${(200 + i * stagger) / 1000}s`,
+            animationDuration: `${duration / 1000}s`,
           }}
-          className="pf-magnetic-hover__item"
         >
           {child}
         </div>

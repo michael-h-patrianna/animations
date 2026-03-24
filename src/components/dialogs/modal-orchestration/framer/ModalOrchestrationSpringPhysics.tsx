@@ -13,7 +13,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useMemo } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -36,9 +36,9 @@ interface ModalOrchestrationSpringPhysicsProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title="Elastic {i + 1}">
-        <p>Spring bounce</p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Elastic ${i + 1}`}>
+      <p>Spring bounce</p>
+    </DemoCard>
   ))
 }
 
@@ -55,71 +55,45 @@ function ModalOrchestrationSpringPhysicsComponent({
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
+  const noMotion = !!prefersReducedMotion
   const staggerS = stagger / 1000
 
-  const containerVariants = useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
-          delayChildren: prefersReducedMotion === true ? 0 : staggerS * 2,
-        },
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: noMotion ? 0 : staggerS,
+        delayChildren: noMotion ? 0 : staggerS * 2,
       },
-    }),
-    [staggerS, prefersReducedMotion]
-  )
+    },
+  }
 
-  const itemVariants = useMemo(
-    () => ({
-      hidden: {
-        scale: 0,
-        y: -100,
-        opacity: 0,
-      },
-      visible: {
-        scale: 1,
-        y: 0,
-        opacity: 1,
-        transition:
-          prefersReducedMotion === true
-            ? { duration: 0 }
-            : {
-                type: 'spring' as const,
-                stiffness,
-                damping,
-                mass,
-              },
-      },
-    }),
-    [stiffness, damping, mass, prefersReducedMotion]
-  )
+  const itemVariants = {
+    hidden: { scale: 0, y: -100, opacity: 0 },
+    visible: {
+      scale: 1,
+      y: 0,
+      opacity: 1,
+      transition: noMotion
+        ? { duration: 0 }
+        : { type: 'spring' as const, stiffness, damping, mass },
+    },
+  }
 
-  const hoverAnimation =
-    prefersReducedMotion === true
-      ? undefined
-      : {
-          scale: 1.05,
-          y: -8,
-          transition: {
-            type: 'spring' as const,
-            stiffness: 400,
-            damping: 20,
-            mass: 0.8,
-          },
-        }
+  const hoverAnimation = noMotion
+    ? undefined
+    : {
+        scale: 1.05,
+        y: -8,
+        transition: { type: 'spring' as const, stiffness: 400, damping: 20, mass: 0.8 },
+      }
 
-  const tapAnimation =
-    prefersReducedMotion === true
-      ? undefined
-      : {
-          scale: 0.95,
-          transition: {
-            type: 'spring' as const,
-            stiffness: 600,
-            damping: 25,
-          },
-        }
+  const tapAnimation = noMotion
+    ? undefined
+    : {
+        scale: 0.95,
+        transition: { type: 'spring' as const, stiffness: 600, damping: 25 },
+      }
 
   return (
     <m.div

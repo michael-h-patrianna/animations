@@ -34,9 +34,7 @@ function StandardEffectsFloatComponent({ children, duration = 6000 }: StandardEf
         repeat: Infinity,
       }}
     >
-      {children ?? (
-        <DemoBox label="Float" />
-      )}
+      {children ?? <DemoBox label="Float" />}
     </m.div>
   )
 }

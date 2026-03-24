@@ -8,7 +8,11 @@ import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsRubberBandComponent() {
   return (
-    <DemoBox className="pf-rubber-band" label="RubberBand" data-animation-id="standard-effects__rubber-band" />
+    <DemoBox
+      className="pf-rubber-band"
+      label="RubberBand"
+      data-animation-id="standard-effects__rubber-band"
+    />
   )
 }
 

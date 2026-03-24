@@ -7,9 +7,7 @@ import './StandardEffectsFloat.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsFloatComponent() {
-  return (
-    <DemoBox className="pf-float" label="Float" data-animation-id="standard-effects__float" />
-  )
+  return <DemoBox className="pf-float" label="Float" data-animation-id="standard-effects__float" />
 }
 
 export const StandardEffectsFloat = memo(StandardEffectsFloatComponent)

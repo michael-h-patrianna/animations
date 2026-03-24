@@ -69,7 +69,7 @@
   --pf-demo-overlay-color: #000;
 
   /* Impact glow (modal-open landing effect) */
-  --pf-demo-impact-glow-color: oklch(75% 0.10 300deg / 15%);
+  --pf-demo-impact-glow-color: oklch(75% 0.1 300deg / 15%);
 
   /* Toast (modal-dismiss) */
   --pf-demo-toast-progress-bg: oklch(85% 0.08 310deg / 16%);
@@ -142,4 +142,3 @@
   --pf-orch-active-color: var(--pf-demo-active-color);
   --pf-orch-active-glow: var(--pf-demo-active-glow);
 }
-

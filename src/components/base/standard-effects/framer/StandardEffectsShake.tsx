@@ -32,9 +32,7 @@ function StandardEffectsShakeComponent({ children, duration = 500 }: StandardEff
         ease: [0.4, 0, 0.2, 1] as const,
       }}
     >
-      {children ?? (
-        <DemoBox label="Shake" />
-      )}
+      {children ?? <DemoBox label="Shake" />}
     </m.div>
   )
 }

@@ -29,9 +29,7 @@ function StandardEffectsSlideComponent({ children, duration = 700 }: StandardEff
         ease: [0.25, 0.46, 0.45, 0.94] as const,
       }}
     >
-      {children ?? (
-        <DemoBox label="Slide" />
-      )}
+      {children ?? <DemoBox label="Slide" />}
     </m.div>
   )
 }

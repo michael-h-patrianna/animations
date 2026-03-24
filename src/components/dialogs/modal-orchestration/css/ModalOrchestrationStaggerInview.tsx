@@ -11,7 +11,7 @@
  * </ModalOrchestrationStaggerInview>
  */
 
-import { memo, useEffect, useRef } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationStaggerInview.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -33,9 +33,7 @@ interface ModalOrchestrationStaggerInviewProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Item ${i + 1}`}>
-        <p></p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Item ${i + 1}`} />
   ))
 }
 
@@ -46,21 +44,8 @@ function ModalOrchestrationStaggerInviewComponent({
   distance = 60,
   columns = 4,
 }: ModalOrchestrationStaggerInviewProps) {
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
-
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
-
-  useEffect(() => {
-    itemsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(index * stagger) / 1000}s`
-        el.style.animationDuration = `${duration / 1000}s`
-        el.style.setProperty('--pf-stagger-distance', `${distance}px`)
-        el.classList.add('pf-stagger-inview__item--visible')
-      }
-    })
-  }, [stagger, duration, distance])
 
   return (
     <div className="pf-stagger-inview" data-animation-id="modal-orchestration__stagger-inview">
@@ -71,10 +56,12 @@ function ModalOrchestrationStaggerInviewComponent({
         {renderItems.map((child, i) => (
           <div
             key={i}
-            ref={(el) => {
-              itemsRef.current[i] = el
-            }}
-            className="pf-stagger-inview__item"
+            className="pf-stagger-inview__item pf-stagger-inview__item--visible"
+            style={{
+              animationDelay: `${(i * stagger) / 1000}s`,
+              animationDuration: `${duration / 1000}s`,
+              '--pf-stagger-distance': `${distance}px`,
+            } as React.CSSProperties}
           >
             {child}
           </div>

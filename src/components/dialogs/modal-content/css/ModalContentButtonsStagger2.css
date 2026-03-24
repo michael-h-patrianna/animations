@@ -1,26 +1,2 @@
 /* Button bounce-up stagger — CSS variant */
-
-.pf-button-stagger-item {
-  opacity: 0;
-  animation: pf-button-bounce-up var(--pf-stagger-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1)
-    forwards;
-  animation-delay: var(--pf-stagger-delay, 0ms);
-  animation-fill-mode: both;
-}
-
-@keyframes pf-button-bounce-up {
-  0% {
-    transform: translateY(16px) scale(0.94);
-    opacity: 0;
-  }
-
-  60% {
-    transform: translateY(-6px) scale(1.06);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
+/* .pf-button-stagger-item lives in ../shared.css (shared across multiple content choreographies) */

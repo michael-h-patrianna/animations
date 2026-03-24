@@ -47,9 +47,7 @@ export function measureFallDistance(
   // Coins bounce off a visible floor — default to container height so the bounce
   // stays in view. Viewport behavior happens naturally when the consumer wraps
   // the component in a full-screen overlay.
-  const bottomBound = boundary
-    ? boundary.getBoundingClientRect().bottom - rect.top
-    : rect.height
+  const bottomBound = boundary ? boundary.getBoundingClientRect().bottom - rect.top : rect.height
   return Math.max(bottomBound - emitYPx, 100)
 }
 

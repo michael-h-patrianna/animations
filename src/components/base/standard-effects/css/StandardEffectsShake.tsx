@@ -7,9 +7,7 @@ import './StandardEffectsShake.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsShakeComponent() {
-  return (
-    <DemoBox className="pf-shake" label="Shake" data-animation-id="standard-effects__shake" />
-  )
+  return <DemoBox className="pf-shake" label="Shake" data-animation-id="standard-effects__shake" />
 }
 
 export const StandardEffectsShake = memo(StandardEffectsShakeComponent)

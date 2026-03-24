@@ -11,7 +11,7 @@
  * </ModalOrchestrationWizardFadeCross>
  */
 
-import { memo, useEffect, useRef } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationWizardFadeCross.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -31,9 +31,7 @@ interface ModalOrchestrationWizardFadeCrossProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`}>
-        <p></p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`} />
   ))
 }
 
@@ -43,21 +41,8 @@ function ModalOrchestrationWizardFadeCrossComponent({
   duration = 260,
   distance = 16,
 }: ModalOrchestrationWizardFadeCrossProps) {
-  const panelsRef = useRef<(HTMLDivElement | null)[]>([])
-
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
-
-  useEffect(() => {
-    panelsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(index * stagger) / 1000}s`
-        el.style.animationDuration = `${duration / 1000}s`
-        el.style.setProperty('--pf-fade-distance', `${distance}px`)
-        el.classList.add('pf-wizard-fade__panel--visible')
-      }
-    })
-  }, [stagger, duration, distance])
 
   return (
     <div className="pf-wizard-fade" data-animation-id="modal-orchestration__wizard-fade-cross">
@@ -65,10 +50,12 @@ function ModalOrchestrationWizardFadeCrossComponent({
         {renderItems.map((child, i) => (
           <div
             key={i}
-            ref={(el) => {
-              panelsRef.current[i] = el
-            }}
-            className="pf-wizard-fade__panel"
+            className="pf-wizard-fade__panel pf-wizard-fade__panel--visible"
+            style={{
+              animationDelay: `${(i * stagger) / 1000}s`,
+              animationDuration: `${duration / 1000}s`,
+              '--pf-fade-distance': `${distance}px`,
+            } as React.CSSProperties}
           >
             {child}
           </div>

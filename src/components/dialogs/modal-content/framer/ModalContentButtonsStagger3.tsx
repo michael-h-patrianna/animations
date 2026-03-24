@@ -17,7 +17,12 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { DemoButton, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import {
+  DemoButton,
+  DemoModalBody,
+  DemoModalFooter,
+  DemoModalHeader,
+} from '@/components/demo-blocks'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 const DEFAULT_DURATION = 320

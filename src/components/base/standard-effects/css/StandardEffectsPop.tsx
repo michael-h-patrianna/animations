@@ -7,9 +7,7 @@ import './StandardEffectsPop.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsPopComponent() {
-  return (
-    <DemoBox className="pf-pop" label="Pop" data-animation-id="standard-effects__pop" />
-  )
+  return <DemoBox className="pf-pop" label="Pop" data-animation-id="standard-effects__pop" />
 }
 
 export const StandardEffectsPop = memo(StandardEffectsPopComponent)

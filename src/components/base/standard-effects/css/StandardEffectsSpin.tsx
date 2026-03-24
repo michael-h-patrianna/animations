@@ -7,9 +7,7 @@ import './StandardEffectsSpin.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsSpinComponent() {
-  return (
-    <DemoBox className="pf-spin" label="Spin" data-animation-id="standard-effects__spin" />
-  )
+  return <DemoBox className="pf-spin" label="Spin" data-animation-id="standard-effects__spin" />
 }
 
 export const StandardEffectsSpin = memo(StandardEffectsSpinComponent)

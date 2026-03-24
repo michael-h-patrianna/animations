@@ -7,7 +7,12 @@
 
 import { memo } from 'react'
 
-import { DemoButton, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import {
+  DemoButton,
+  DemoModalBody,
+  DemoModalFooter,
+  DemoModalHeader,
+} from '@/components/demo-blocks'
 import type { ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentButtonsStagger2.css'

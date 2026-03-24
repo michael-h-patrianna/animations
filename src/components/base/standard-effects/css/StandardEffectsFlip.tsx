@@ -7,9 +7,7 @@ import './StandardEffectsFlip.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsFlipComponent() {
-  return (
-    <DemoBox className="pf-flip" label="Flip" data-animation-id="standard-effects__flip" />
-  )
+  return <DemoBox className="pf-flip" label="Flip" data-animation-id="standard-effects__flip" />
 }
 
 export const StandardEffectsFlip = memo(StandardEffectsFlipComponent)

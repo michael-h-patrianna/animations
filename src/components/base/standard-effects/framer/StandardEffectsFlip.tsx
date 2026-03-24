@@ -32,9 +32,7 @@ function StandardEffectsFlipComponent({ children, duration = 800 }: StandardEffe
         times: [0, 0.4, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="Flip" />
-      )}
+      {children ?? <DemoBox label="Flip" />}
     </m.div>
   )
 }

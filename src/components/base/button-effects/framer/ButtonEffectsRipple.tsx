@@ -87,9 +87,7 @@ function ButtonEffectsRippleComponent({
       onClick={handleClick}
       style={color !== undefined ? { ['--pf-ripple-color' as string]: color } : undefined}
     >
-      {children ?? (
-        <DemoButton label="Click Me!" />
-      )}
+      {children ?? <DemoButton label="Click Me!" />}
       <span className="pf-ripple__overlay" aria-hidden>
         {ripples.map((r) => {
           const half = r.size / 2

@@ -99,7 +99,11 @@
 }
 
 .pf-demo-btn--primary {
-  background: linear-gradient(180deg, var(--pf-demo-btn-primary-bg-1), var(--pf-demo-btn-primary-bg-2));
+  background: linear-gradient(
+    180deg,
+    var(--pf-demo-btn-primary-bg-1),
+    var(--pf-demo-btn-primary-bg-2)
+  );
   color: var(--pf-demo-btn-primary-color);
   border: 2px solid var(--pf-demo-btn-primary-border);
   text-shadow: 0 1px 1px var(--pf-demo-btn-text-shadow);
@@ -314,11 +318,7 @@
 /* ── Box: rounded rectangle with centered label ── */
 .pf-demo-box {
   padding: 24px 32px;
-  background: linear-gradient(
-    135deg,
-    var(--pf-demo-card-bg) 0%,
-    var(--pf-demo-list-bg) 100%
-  );
+  background: linear-gradient(135deg, var(--pf-demo-card-bg) 0%, var(--pf-demo-list-bg) 100%);
   border: 1px solid var(--pf-demo-card-border);
   border-radius: 16px;
   box-shadow: 0 8px 32px var(--pf-demo-card-shadow);

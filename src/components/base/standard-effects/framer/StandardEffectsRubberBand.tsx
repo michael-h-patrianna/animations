@@ -35,9 +35,7 @@ function StandardEffectsRubberBandComponent({
         times: [0, 0.3, 0.4, 0.5, 0.65, 0.75, 1],
       }}
     >
-      {children ?? (
-        <DemoBox label="RubberBand" />
-      )}
+      {children ?? <DemoBox label="RubberBand" />}
     </m.div>
   )
 }

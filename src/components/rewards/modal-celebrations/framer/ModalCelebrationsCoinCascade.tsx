@@ -106,15 +106,7 @@ function CoinPiece({
   )
 }
 
-function TrailDot({
-  t,
-  timeScale,
-  emitYPct,
-}: {
-  t: Mote
-  timeScale: number
-  emitYPct: number
-}) {
+function TrailDot({ t, timeScale, emitYPct }: { t: Mote; timeScale: number; emitYPct: number }) {
   return (
     <m.span
       style={{
@@ -180,15 +172,7 @@ function ImpactBurst({
   )
 }
 
-function ShimmerDot({
-  s,
-  timeScale,
-  emitYPct,
-}: {
-  s: Mote
-  timeScale: number
-  emitYPct: number
-}) {
+function ShimmerDot({ s, timeScale, emitYPct }: { s: Mote; timeScale: number; emitYPct: number }) {
   return (
     <m.span
       className="pf-celebration__sparkle"

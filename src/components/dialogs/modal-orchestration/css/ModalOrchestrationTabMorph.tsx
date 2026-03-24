@@ -15,6 +15,7 @@
 
 import { memo, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+
 import './ModalOrchestrationTabMorph.css'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -27,7 +28,7 @@ interface ModalOrchestrationTabMorphProps {
   labels?: string[]
   /** Controlled active tab index. When provided, component is controlled. */
   activeIndex?: number
-  /** Callback when a tab is clicked (for controlled mode). */
+  /** Callback when a tab is clicked. Fires in both controlled and uncontrolled mode. */
   onTabChange?: (index: number) => void
   /** Delay between each tab's entrance animation in ms. Default 260. */
   stagger?: number
@@ -35,9 +36,7 @@ interface ModalOrchestrationTabMorphProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Content ${i + 1}`}>
-        <p>.</p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Content ${i + 1}`} />
   ))
 }
 
@@ -49,7 +48,6 @@ function ModalOrchestrationTabMorphComponent({
   stagger = 260,
 }: ModalOrchestrationTabMorphProps) {
   const [internalIndex, setInternalIndex] = useState(0)
-  const tabsRef = useRef<(HTMLDivElement | null)[]>([])
   const panelRef = useRef<HTMLDivElement>(null)
   const prevIndexRef = useRef(0)
 
@@ -74,16 +72,6 @@ function ModalOrchestrationTabMorphComponent({
       setInternalIndex(index)
     }
   }
-
-  // Stagger tab entrance animations on mount
-  useEffect(() => {
-    tabsRef.current.filter(Boolean).forEach((tab, index) => {
-      if (tab !== null) {
-        tab.style.animationDelay = `${(index * stagger) / 1000}s`
-        tab.classList.add('pf-tab-morph__tab--animated')
-      }
-    })
-  }, [stagger])
 
   // Handle panel slide transitions
   useEffect(() => {
@@ -117,11 +105,10 @@ function ModalOrchestrationTabMorphComponent({
         {tabLabels.map((label, i) => (
           <div
             key={i}
-            ref={(el) => {
-              tabsRef.current[i] = el
-            }}
-            className={`pf-tab-morph__tab${i === safeIndex ? ' pf-tab-morph__tab--active' : ''}`}
+            className={`pf-tab-morph__tab pf-tab-morph__tab--animated${i === safeIndex ? ' pf-tab-morph__tab--active' : ''}`}
+            style={{ animationDelay: `${(i * stagger) / 1000}s` }}
             onClick={() => handleTabClick(i)}
+            data-testid={`tab-morph-tab-${i}`}
           >
             {label}
           </div>

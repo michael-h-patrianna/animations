@@ -4,6 +4,7 @@
  */
 import { memo, useEffect, useState } from 'react'
 import './ButtonEffectsLiquidMorph.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 function ButtonEffectsLiquidMorphComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
@@ -15,14 +16,12 @@ function ButtonEffectsLiquidMorphComponent() {
   }, [isAnimating])
 
   return (
-    <button
-      type="button"
+    <DemoButton
       data-animation-id="button-effects__liquid-morph"
-      className={`pf-demo-btn pf-demo-btn--primary pf-liquid-morph ${isAnimating ? 'pf-liquid-morph--active' : ''}`}
+      className={`pf-liquid-morph ${isAnimating ? 'pf-liquid-morph--active' : ''}`}
       onClick={() => setIsAnimating(true)}
-    >
-      Click Me!
-    </button>
+      label="Click Me!"
+    />
   )
 }
 

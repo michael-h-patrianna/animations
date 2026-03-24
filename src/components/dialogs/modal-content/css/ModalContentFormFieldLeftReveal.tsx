@@ -7,7 +7,13 @@
 
 import { memo } from 'react'
 
-import { DemoButton, DemoForm, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import {
+  DemoButton,
+  DemoForm,
+  DemoModalBody,
+  DemoModalFooter,
+  DemoModalHeader,
+} from '@/components/demo-blocks'
 import { generateMockFormFields } from '../MockContentItems'
 import type { DirectionalRevealProps } from '../SharedTypes'
 

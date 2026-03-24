@@ -16,7 +16,13 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { DemoButton, DemoForm, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import {
+  DemoButton,
+  DemoForm,
+  DemoModalBody,
+  DemoModalFooter,
+  DemoModalHeader,
+} from '@/components/demo-blocks'
 import { generateMockFormFields } from '../MockContentItems'
 import type { DirectionalRevealProps } from '../SharedTypes'
 
@@ -99,9 +105,7 @@ function ModalContentFormFieldRightRevealComponent({
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
           <p>Keep focus with 70ms cadence.</p>
-          <DemoForm>
-            {mockFields.map((field, i) => animateField(field, i, 0.3))}
-          </DemoForm>
+          <DemoForm>{mockFields.map((field, i) => animateField(field, i, 0.3))}</DemoForm>
         </DemoModalBody>
         <DemoModalFooter>
           <m.div

@@ -32,10 +32,7 @@ function ModalBaseUnfoldOrigamiComponent({
 
   return (
     <div data-animation-id="modal-base__unfold-origami" style={{ ...cssVars, perspective }}>
-      <div
-        className={`pf-modal-origami${className ? ` ${className}` : ''}`}
-        style={style}
-      >
+      <div className={`pf-modal-origami${className ? ` ${className}` : ''}`} style={style}>
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>

@@ -7,9 +7,7 @@ import './StandardEffectsTada.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsTadaComponent() {
-  return (
-    <DemoBox className="pf-tada" label="Tada" data-animation-id="standard-effects__tada" />
-  )
+  return <DemoBox className="pf-tada" label="Tada" data-animation-id="standard-effects__tada" />
 }
 
 export const StandardEffectsTada = memo(StandardEffectsTadaComponent)

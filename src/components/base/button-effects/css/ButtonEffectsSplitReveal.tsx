@@ -15,6 +15,7 @@
 
 import { memo, useEffect, useState, type ReactNode } from 'react'
 import './ButtonEffectsSplitReveal.css'
+import '@/components/demo-blocks/demo-blocks.css'
 
 interface ButtonEffectsSplitRevealProps {
   /** Top half label. Default: 'Click' */

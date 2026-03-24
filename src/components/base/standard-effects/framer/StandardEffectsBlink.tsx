@@ -45,9 +45,7 @@ function StandardEffectsBlinkComponent({ children, duration = 1000 }: StandardEf
         ],
       }}
     >
-      {children ?? (
-        <DemoBox label="Blink" />
-      )}
+      {children ?? <DemoBox label="Blink" />}
     </m.div>
   )
 }

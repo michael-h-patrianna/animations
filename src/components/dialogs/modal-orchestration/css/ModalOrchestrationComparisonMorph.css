@@ -8,11 +8,7 @@
 }
 
 .pf-comparison-morph__pane {
-  padding: 20px;
-  border-radius: 12px;
-  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
-  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
-  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
+  /* Animation wrapper only — visual card styling comes from children */
   opacity: 0;
   transform: rotate(-6deg) scale(0.82);
   will-change: transform, opacity;
@@ -35,13 +31,3 @@
   animation-fill-mode: both;
 }
 
-.pf-comparison-morph__pane h5 {
-  margin: 0 0 8px;
-  font-size: 14px;
-  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 92%));
-}
-
-.pf-comparison-morph__pane p {
-  margin: 0;
-  font-size: 12px;
-}

@@ -21,7 +21,10 @@ export function DemoToast({
       <div className="pf-demo-toast__title">{title}</div>
       <div className="pf-demo-toast__body">{body}</div>
       <div className="pf-demo-toast__progress">
-        <div className="pf-demo-toast__progress-bar" style={{ animationDuration: `${duration}ms` }} />
+        <div
+          className="pf-demo-toast__progress-bar"
+          style={{ animationDuration: `${duration}ms` }}
+        />
       </div>
     </div>
   )

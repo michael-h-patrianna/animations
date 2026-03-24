@@ -12,7 +12,7 @@
  * </ModalOrchestrationWizardScaleRotate>
  */
 
-import { memo, useEffect, useRef } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationWizardScaleRotate.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -34,9 +34,7 @@ interface ModalOrchestrationWizardScaleRotateProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`}>
-        <p></p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`} />
   ))
 }
 
@@ -47,9 +45,6 @@ function ModalOrchestrationWizardScaleRotateComponent({
   stagger = 260,
   duration = 312,
 }: ModalOrchestrationWizardScaleRotateProps) {
-  const stepsRef = useRef<(HTMLDivElement | null)[]>([])
-  const panelsRef = useRef<(HTMLDivElement | null)[]>([])
-
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
   const count = renderItems.length
@@ -58,33 +53,14 @@ function ModalOrchestrationWizardScaleRotateComponent({
       ? stepLabels
       : Array.from({ length: count }, (_, i) => `Step ${i + 1}`)
 
-  useEffect(() => {
-    stepsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(index * stagger) / 1000}s`
-        el.classList.add('pf-wizard-scale__step--visible')
-      }
-    })
-
-    panelsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(index * stagger) / 1000}s`
-        el.style.animationDuration = `${duration / 1000}s`
-        el.classList.add('pf-wizard-scale__panel--visible')
-      }
-    })
-  }, [stagger, duration])
-
   return (
     <div className="pf-wizard-scale" data-animation-id="modal-orchestration__wizard-scale-rotate">
       <div className="pf-wizard-scale__steps">
         {labels.map((label, i) => (
           <div
             key={i}
-            ref={(el) => {
-              stepsRef.current[i] = el
-            }}
-            className={`pf-wizard-scale__step${i === activeStep ? ' pf-wizard-scale__step--active' : ''}`}
+            className={`pf-wizard-scale__step pf-wizard-scale__step--visible${i === activeStep ? ' pf-wizard-scale__step--active' : ''}`}
+            style={{ animationDelay: `${(i * stagger) / 1000}s` }}
           >
             {label}
           </div>
@@ -95,10 +71,11 @@ function ModalOrchestrationWizardScaleRotateComponent({
         {renderItems.map((child, i) => (
           <div
             key={i}
-            ref={(el) => {
-              panelsRef.current[i] = el
+            className="pf-wizard-scale__panel pf-wizard-scale__panel--visible"
+            style={{
+              animationDelay: `${(i * stagger) / 1000}s`,
+              animationDuration: `${duration / 1000}s`,
             }}
-            className={`pf-wizard-scale__panel${i === activeStep ? ' pf-wizard-scale__panel--active' : ''}`}
           >
             {child}
           </div>

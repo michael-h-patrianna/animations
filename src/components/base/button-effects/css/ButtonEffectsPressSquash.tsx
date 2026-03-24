@@ -4,6 +4,7 @@
  */
 import { memo, useEffect, useState } from 'react'
 import './ButtonEffectsPressSquash.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 function ButtonEffectsPressSquashComponent() {
   const [isAnimating, setIsAnimating] = useState(false)
@@ -15,14 +16,12 @@ function ButtonEffectsPressSquashComponent() {
   }, [isAnimating])
 
   return (
-    <button
-      type="button"
+    <DemoButton
       data-animation-id="button-effects__press-squash"
-      className={`pf-demo-btn pf-demo-btn--primary pf-press-squash ${isAnimating ? 'pf-press-squash--active' : ''}`}
+      className={`pf-press-squash ${isAnimating ? 'pf-press-squash--active' : ''}`}
       onClick={() => setIsAnimating(true)}
-    >
-      Click Me!
-    </button>
+      label="Click Me!"
+    />
   )
 }
 

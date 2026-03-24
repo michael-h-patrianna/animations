@@ -8,7 +8,11 @@ import { DemoButton } from '@/components/demo-blocks'
 
 function ButtonEffectsJitterComponent() {
   return (
-    <DemoButton className="pf-jitter" label="Click Me!" data-animation-id="button-effects__jitter" />
+    <DemoButton
+      className="pf-jitter"
+      label="Click Me!"
+      data-animation-id="button-effects__jitter"
+    />
   )
 }
 

@@ -7,21 +7,7 @@
 }
 
 .pf-grid-highlight__item {
-  padding: 16px;
-  border-radius: 8px;
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 14px;
-  color: var(--pf-orch-item-title-color, rgb(255 255 255 / 90%));
-  background: linear-gradient(
-    135deg,
-    var(--pf-grid-highlight-start, var(--pf-anim-highlight)),
-    var(--pf-grid-highlight-end, var(--pf-anim-highlight-accent))
-  );
-  border: 1px solid var(--pf-anim-highlight-border);
+  /* Animation wrapper only — visual card styling comes from children */
   opacity: 0;
   transform: translateY(16px) scale(0.9);
   will-change: transform, opacity;

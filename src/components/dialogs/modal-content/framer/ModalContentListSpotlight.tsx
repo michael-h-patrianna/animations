@@ -16,7 +16,13 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { DemoButton, DemoList, DemoModalBody, DemoModalFooter, DemoModalHeader } from '@/components/demo-blocks'
+import {
+  DemoButton,
+  DemoList,
+  DemoModalBody,
+  DemoModalFooter,
+  DemoModalHeader,
+} from '@/components/demo-blocks'
 import { generateMockListItems } from '../MockContentItems'
 import type { ContentStaggerProps } from '../SharedTypes'
 
@@ -97,9 +103,7 @@ function ModalContentListSpotlightComponent({
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
           <p>Keep focus with 70ms cadence.</p>
-          <DemoList>
-            {mockItems.map((item, i) => animateListItem(item, i, 0.3))}
-          </DemoList>
+          <DemoList>{mockItems.map((item, i) => animateListItem(item, i, 0.3))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
           <m.div

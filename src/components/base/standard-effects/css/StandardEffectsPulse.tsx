@@ -7,9 +7,7 @@ import './StandardEffectsPulse.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsPulseComponent() {
-  return (
-    <DemoBox className="pf-pulse" label="Pulse" data-animation-id="standard-effects__pulse" />
-  )
+  return <DemoBox className="pf-pulse" label="Pulse" data-animation-id="standard-effects__pulse" />
 }
 
 export const StandardEffectsPulse = memo(StandardEffectsPulseComponent)

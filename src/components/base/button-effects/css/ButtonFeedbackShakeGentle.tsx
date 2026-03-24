@@ -4,6 +4,7 @@
  */
 import { memo, useEffect, useState } from 'react'
 import './ButtonFeedbackShakeGentle.css'
+import { DemoButton } from '@/components/demo-blocks'
 
 function ButtonFeedbackShakeGentleComponent() {
   const [isAnimating, setIsAnimating] = useState(true)
@@ -15,16 +16,14 @@ function ButtonFeedbackShakeGentleComponent() {
   }, [isAnimating])
 
   return (
-    <button
-      type="button"
+    <DemoButton
       data-animation-id="button-effects__shake-gentle"
-      className={`pf-demo-btn pf-demo-btn--primary pf-shake-gentle ${isAnimating ? 'pf-shake-gentle--active' : ''}`}
+      className={`pf-shake-gentle ${isAnimating ? 'pf-shake-gentle--active' : ''}`}
       onClick={() => setIsAnimating(true)}
       aria-label="Insufficient funds"
       aria-live="polite"
-    >
-      Click Me
-    </button>
+      label="Click Me"
+    />
   )
 }
 

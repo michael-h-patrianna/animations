@@ -7,6 +7,6 @@ export const metadata = {
   title: 'Interactive Tab Tiles',
   description:
     'Tab panel container with pop-scale entrance and sliding content transitions. Controlled or uncontrolled. Configurable labels, stagger, and active index.',
-  tier: 4,
+  tier: 3,
   previewMaxWidth: 414,
 } satisfies AnimationMetadata

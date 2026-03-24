@@ -74,9 +74,7 @@ function measureFallDistance(
   // Coins bounce off a visible floor — default to container height so the bounce
   // stays in view. Viewport behavior happens naturally when the consumer wraps
   // the component in a full-screen overlay.
-  const bottomBound = boundary
-    ? boundary.getBoundingClientRect().bottom - rect.top
-    : rect.height
+  const bottomBound = boundary ? boundary.getBoundingClientRect().bottom - rect.top : rect.height
   return Math.max(bottomBound - emitYPx, 100)
 }
 
@@ -118,11 +116,7 @@ function makeCoins(count: number, fallDistance: number, timeScale: number): Coin
   return coins
 }
 
-function makeTrails(
-  colors: readonly string[],
-  fallDistance: number,
-  timeScale: number
-): Mote[] {
+function makeTrails(colors: readonly string[], fallDistance: number, timeScale: number): Mote[] {
   const trails: Mote[] = []
 
   for (let i = 0; i < 18; i++) {
@@ -143,11 +137,7 @@ function makeTrails(
   return trails
 }
 
-function makeImpacts(
-  colors: readonly string[],
-  fallDistance: number,
-  timeScale: number
-): Mote[] {
+function makeImpacts(colors: readonly string[], fallDistance: number, timeScale: number): Mote[] {
   const impacts: Mote[] = []
 
   for (let i = 0; i < 10; i++) {
@@ -166,11 +156,7 @@ function makeImpacts(
   return impacts
 }
 
-function makeShimmers(
-  colors: readonly string[],
-  fallDistance: number,
-  timeScale: number
-): Mote[] {
+function makeShimmers(colors: readonly string[], fallDistance: number, timeScale: number): Mote[] {
   const shimmers: Mote[] = []
 
   for (let i = 0; i < 14; i++) {

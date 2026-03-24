@@ -13,10 +13,6 @@
 }
 
 .pf-wizard-fade__panel {
+  /* Animation wrapper only — visual card styling comes from children */
   position: relative;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--pf-orch-item-bg, rgb(236 195 255 / 8%));
-  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
-  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
 }

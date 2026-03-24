@@ -40,11 +40,7 @@ function TierBadge({ tier }: { tier: number }) {
 
   return (
     <Tooltip content={config.tooltip} position="top">
-      <span
-        className="pf-tier-badge"
-        data-tier={tier}
-        data-testid="tier-badge"
-      >
+      <span className="pf-tier-badge" data-tier={tier} data-testid="tier-badge">
         {config.label}
       </span>
     </Tooltip>
@@ -130,11 +126,12 @@ export const PrizeCountControls = ({
   maxCount = 4,
 }: PrizeCountControlsProps) => {
   const options: ToggleOption[] = useMemo(
-    () => Array.from({ length: maxCount }, (_, i) => ({
-      value: String(i + 1),
-      label: String(i + 1),
-    })),
-    [maxCount],
+    () =>
+      Array.from({ length: maxCount }, (_, i) => ({
+        value: String(i + 1),
+        label: String(i + 1),
+      })),
+    [maxCount]
   )
 
   return (

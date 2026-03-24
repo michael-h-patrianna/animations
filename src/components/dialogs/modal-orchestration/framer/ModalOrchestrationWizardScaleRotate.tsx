@@ -14,7 +14,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useMemo } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -35,9 +35,7 @@ interface ModalOrchestrationWizardScaleRotateProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`}>
-        <p></p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`} />
   ))
 }
 
@@ -58,58 +56,41 @@ function ModalOrchestrationWizardScaleRotateComponent({
       ? stepLabels
       : Array.from({ length: count }, (_, i) => `Step ${i + 1}`)
 
+  const noMotion = !!prefersReducedMotion
   const staggerS = stagger / 1000
   const durationS = duration / 1000
 
-  const containerVariants = useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
-        },
-      },
-    }),
-    [staggerS, prefersReducedMotion]
-  )
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: noMotion ? 0 : staggerS },
+    },
+  }
 
-  const stepVariants = useMemo(
-    () => ({
-      hidden: {
-        scale: 0.9,
-        opacity: 0.3,
+  const stepVariants = {
+    hidden: { scale: 0.9, opacity: 0.3 },
+    visible: {
+      scale: [0.9, 1.06, 1],
+      opacity: [0.3, 1, 1],
+      transition: {
+        duration: noMotion ? 0 : 0.46,
+        ease: [0.34, 1.56, 0.64, 1] as const,
       },
-      visible: {
-        scale: [0.9, 1.06, 1],
-        opacity: [0.3, 1, 1],
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : 0.46,
-          ease: [0.34, 1.56, 0.64, 1] as const,
-        },
-      },
-    }),
-    [prefersReducedMotion]
-  )
+    },
+  }
 
-  const panelVariants = useMemo(
-    () => ({
-      hidden: {
-        rotate: -6,
-        scale: 0.82,
-        opacity: 0,
+  const panelVariants = {
+    hidden: { rotate: -6, scale: 0.82, opacity: 0 },
+    visible: {
+      rotate: 0,
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: noMotion ? 0 : durationS,
+        ease: [0.68, -0.55, 0.265, 1.55] as const,
       },
-      visible: {
-        rotate: 0,
-        scale: 1,
-        opacity: 1,
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : durationS,
-          ease: [0.68, -0.55, 0.265, 1.55] as const,
-        },
-      },
-    }),
-    [durationS, prefersReducedMotion]
-  )
+    },
+  }
 
   return (
     <m.div

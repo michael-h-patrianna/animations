@@ -83,9 +83,7 @@ function ButtonEffectsShockwaveComponent({
       onClick={handleClick}
       style={color !== undefined ? { ['--pf-shockwave-color' as string]: color } : undefined}
     >
-      {children ?? (
-        <DemoButton label="Click Me!" />
-      )}
+      {children ?? <DemoButton label="Click Me!" />}
       <span className="pf-shockwave__overlay" aria-hidden>
         {shockwaves.map((wave) => {
           const half = wave.size / 2

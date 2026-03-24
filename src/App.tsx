@@ -19,7 +19,7 @@ const groupTransition = {
   exit: { opacity: 0 },
 }
 
-const loadFeatures = () => import('./features').then((res) => res.default)
+const loadFeatures = () => import('./features').then((res) => res.features)
 
 /** Root application component. */
 function App() {
@@ -36,7 +36,20 @@ function App() {
 
   return (
     <LazyMotion features={loadFeatures} strict>
-      <EditorLayout onOpenDrawer={() => setIsDrawerOpen(true)}>
+      <EditorLayout
+        onOpenDrawer={() => setIsDrawerOpen(true)}
+        overlay={
+          <MobileDrawer
+            isOpen={isDrawerOpen}
+            codeMode={codeMode}
+            categories={categories}
+            currentGroupId={currentGroupId}
+            onClose={() => setIsDrawerOpen(false)}
+            onGroupSelect={handleGroupSelect}
+            onModeSelect={handleModeSelect}
+          />
+        }
+      >
         <main className="pf-catalog pf-catalog--editor">
           <AnimatePresence initial={false} mode="wait">
             {currentGroup && (
@@ -55,16 +68,6 @@ function App() {
             )}
           </AnimatePresence>
         </main>
-
-        <MobileDrawer
-          isOpen={isDrawerOpen}
-          codeMode={codeMode}
-          categories={categories}
-          currentGroupId={currentGroupId}
-          onClose={() => setIsDrawerOpen(false)}
-          onGroupSelect={handleGroupSelect}
-          onModeSelect={handleModeSelect}
-        />
       </EditorLayout>
     </LazyMotion>
   )

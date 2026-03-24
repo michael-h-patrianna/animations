@@ -61,6 +61,10 @@ export function useFocusTrap(
 /**
  * Closes a modal when the Escape key is pressed.
  *
+ * The callback is stored in a ref so the event listener is not re-subscribed
+ * when the caller provides an unstable function reference (e.g. inline arrow).
+ * The effect only re-runs when `enabled` changes.
+ *
  * When the component using this hook is always mounted (e.g. a drawer toggled
  * by state), pass `enabled` to control when the listener is active. When the
  * component mounts/unmounts with the modal (e.g. portaled modals), `enabled`
@@ -71,15 +75,18 @@ export function useFocusTrap(
  * @param enabled - Whether the listener is active (default: true)
  */
 export function useEscapeClose(onClose: () => void, enabled = true) {
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+
   useEffect(() => {
     if (!enabled) return
 
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') onCloseRef.current()
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
-  }, [onClose, enabled])
+  }, [enabled])
 }
 
 /**

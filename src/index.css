@@ -208,7 +208,7 @@
   --pf-anim-card-star-pink-50: rgb(255 80 180 / 50%);
   --pf-anim-card-star-gold-60: rgb(255 220 50 / 60%);
 
-  --index-bg-100: oklch(44% 0.10 305deg / 65%);
+  --index-bg-100: oklch(44% 0.1 305deg / 65%);
   --index-bg-101: oklch(12% 0.075 300deg / 65%);
   --index-bg-102: oklch(5% 0.04 300deg / 65%);
 }

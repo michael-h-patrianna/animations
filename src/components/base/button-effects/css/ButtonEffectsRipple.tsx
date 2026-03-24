@@ -65,9 +65,7 @@ function ButtonEffectsRippleComponent({ children, duration = 520 }: ButtonEffect
       data-animation-id="button-effects__ripple"
       onClick={handleClick}
     >
-      {children ?? (
-        <DemoButton label="Click Me!" />
-      )}
+      {children ?? <DemoButton label="Click Me!" />}
       <span className="pf-ripple__overlay" aria-hidden>
         {ripples.map((r) => {
           const half = r.size / 2

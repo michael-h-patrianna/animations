@@ -15,7 +15,7 @@
 
 import * as m from 'motion/react-m'
 import { AnimatePresence, useReducedMotion } from 'motion/react'
-import { memo, useMemo, useState } from 'react'
+import { memo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -28,7 +28,7 @@ interface ModalOrchestrationTabMorphProps {
   labels?: string[]
   /** Controlled active tab index. When provided, component is controlled. */
   activeIndex?: number
-  /** Callback when a tab is clicked (for controlled mode). */
+  /** Callback when a tab is clicked. Fires in both controlled and uncontrolled mode. */
   onTabChange?: (index: number) => void
   /** Delay between each tab's entrance animation in ms. Default 260. */
   stagger?: number
@@ -36,9 +36,7 @@ interface ModalOrchestrationTabMorphProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Content ${i + 1}`}>
-        <p>.</p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Content ${i + 1}`} />
   ))
 }
 
@@ -74,62 +72,48 @@ function ModalOrchestrationTabMorphComponent({
     }
   }
 
+  const noMotion = !!prefersReducedMotion
   const staggerS = stagger / 1000
+  const slideDistance = noMotion ? 0 : 300
 
-  const containerVariants = useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: prefersReducedMotion === true ? 0 : staggerS,
-        },
-      },
-    }),
-    [staggerS, prefersReducedMotion]
-  )
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: noMotion ? 0 : staggerS },
+    },
+  }
 
-  const tabVariants = useMemo(
-    () => ({
-      hidden: {
-        scale: 0.9,
-        opacity: 0.3,
+  const tabVariants = {
+    hidden: { scale: 0.9, opacity: 0.3 },
+    visible: {
+      scale: [0.9, 1.06, 1],
+      opacity: [0.3, 1, 1],
+      transition: {
+        duration: noMotion ? 0 : 0.46,
+        ease: [0.34, 1.56, 0.64, 1] as const,
       },
-      visible: {
-        scale: [0.9, 1.06, 1],
-        opacity: [0.3, 1, 1],
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : 0.46,
-          ease: [0.34, 1.56, 0.64, 1] as const,
-        },
-      },
-    }),
-    [prefersReducedMotion]
-  )
+    },
+  }
 
-  const slideDistance = prefersReducedMotion === true ? 0 : 300
-
-  const panelVariants = useMemo(
-    () => ({
-      initial: { x: slideDistance, opacity: 0 },
-      animate: {
-        x: 0,
-        opacity: 1,
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : 0.3,
-          ease: [0.25, 0.46, 0.45, 0.94] as const,
-        },
+  const panelVariants = {
+    initial: { x: slideDistance, opacity: 0 },
+    animate: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        duration: noMotion ? 0 : 0.3,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
-      exit: {
-        x: -slideDistance,
-        opacity: 0,
-        transition: {
-          duration: prefersReducedMotion === true ? 0 : 0.2,
-          ease: [0.25, 0.46, 0.45, 0.94] as const,
-        },
+    },
+    exit: {
+      x: -slideDistance,
+      opacity: 0,
+      transition: {
+        duration: noMotion ? 0 : 0.2,
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
-    }),
-    [slideDistance, prefersReducedMotion]
-  )
+    },
+  }
 
   return (
     <m.div
@@ -147,6 +131,7 @@ function ModalOrchestrationTabMorphComponent({
             className={`pf-tab-morph__tab${i === safeIndex ? ' pf-tab-morph__tab--active' : ''}`}
             variants={tabVariants}
             onClick={() => handleTabClick(i)}
+            data-testid={`tab-morph-tab-${i}`}
             style={{ animation: 'none' }}
           >
             {label}

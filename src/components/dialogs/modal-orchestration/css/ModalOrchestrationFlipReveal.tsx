@@ -15,7 +15,7 @@
  * />
  */
 
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationFlipReveal.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -36,6 +36,8 @@ interface ModalOrchestrationFlipRevealProps {
   flipDuration?: number
   /** Number of grid columns. Default 3. */
   columns?: number
+  /** Height of each flip card in px. Default 120. */
+  cardHeight?: number
 }
 
 function generatePlaceholders(count: number): FlipItem[] {
@@ -58,9 +60,9 @@ function ModalOrchestrationFlipRevealComponent({
   stagger = 100,
   flipDuration = 600,
   columns = 3,
+  cardHeight = 120,
 }: ModalOrchestrationFlipRevealProps) {
   const [flippedCards, setFlippedCards] = useState<Set<number>>(() => new Set())
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
 
   const renderItems =
     items !== undefined && items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
@@ -77,15 +79,6 @@ function ModalOrchestrationFlipRevealComponent({
     })
   }, [])
 
-  useEffect(() => {
-    cardsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(0.2 * 1000 + index * stagger) / 1000}s`
-        el.classList.add('pf-flip-reveal__card--visible')
-      }
-    })
-  }, [stagger])
-
   return (
     <div
       className="pf-flip-reveal"
@@ -97,10 +90,8 @@ function ModalOrchestrationFlipRevealComponent({
         return (
           <div
             key={i}
-            ref={(el) => {
-              cardsRef.current[i] = el
-            }}
-            className="pf-flip-reveal__card"
+            className="pf-flip-reveal__card pf-flip-reveal__card--visible"
+            style={{ minHeight: cardHeight, animationDelay: `${(200 + i * stagger) / 1000}s` }}
             onClick={() => toggleFlip(i)}
           >
             <div

@@ -11,7 +11,7 @@
  * </ModalOrchestrationWizardSlideStack>
  */
 
-import { memo, useEffect, useRef } from 'react'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationWizardSlideStack.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -31,9 +31,7 @@ interface ModalOrchestrationWizardSlideStackProps {
 
 function generatePlaceholders(count: number): ReactNode[] {
   return Array.from({ length: count }, (_, i) => (
-    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`}>
-        <p></p>
-      </DemoCard>
+    <DemoCard key={`placeholder-${i}`} title={`Stage ${i + 1}`} />
   ))
 }
 
@@ -43,21 +41,8 @@ function ModalOrchestrationWizardSlideStackComponent({
   duration = 312,
   distance = 48,
 }: ModalOrchestrationWizardSlideStackProps) {
-  const panelsRef = useRef<(HTMLDivElement | null)[]>([])
-
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
-
-  useEffect(() => {
-    panelsRef.current.filter(Boolean).forEach((el, index) => {
-      if (el !== null) {
-        el.style.animationDelay = `${(index * stagger) / 1000}s`
-        el.style.animationDuration = `${duration / 1000}s`
-        el.style.setProperty('--pf-slide-distance', `${distance}px`)
-        el.classList.add('pf-wizard-slide__panel--visible')
-      }
-    })
-  }, [stagger, duration, distance])
 
   return (
     <div className="pf-wizard-slide" data-animation-id="modal-orchestration__wizard-slide-stack">
@@ -65,10 +50,12 @@ function ModalOrchestrationWizardSlideStackComponent({
         {renderItems.map((child, i) => (
           <div
             key={i}
-            ref={(el) => {
-              panelsRef.current[i] = el
-            }}
-            className="pf-wizard-slide__panel"
+            className="pf-wizard-slide__panel pf-wizard-slide__panel--visible"
+            style={{
+              animationDelay: `${(i * stagger) / 1000}s`,
+              animationDuration: `${duration / 1000}s`,
+              '--pf-slide-distance': `${distance}px`,
+            } as React.CSSProperties}
           >
             {child}
           </div>

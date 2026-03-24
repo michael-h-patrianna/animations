@@ -38,9 +38,7 @@ function StandardEffectsHeartbeatComponent({
         repeat: Infinity,
       }}
     >
-      {children ?? (
-        <DemoBox label="HeartBeat" />
-      )}
+      {children ?? <DemoBox label="HeartBeat" />}
     </m.div>
   )
 }

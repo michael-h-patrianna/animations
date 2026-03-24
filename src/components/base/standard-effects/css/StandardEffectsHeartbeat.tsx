@@ -8,7 +8,11 @@ import { DemoBox } from '@/components/demo-blocks'
 
 function StandardEffectsHeartbeatComponent() {
   return (
-    <DemoBox className="pf-heartbeat" label="HeartBeat" data-animation-id="standard-effects__heartbeat" />
+    <DemoBox
+      className="pf-heartbeat"
+      label="HeartBeat"
+      data-animation-id="standard-effects__heartbeat"
+    />
   )
 }
 
