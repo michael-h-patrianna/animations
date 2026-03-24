@@ -12,10 +12,11 @@ import {
   crystalShatterSparkleImage,
 } from '@/assets'
 
+import { DemoButton } from '@/components/demo-blocks'
+
 import {
   ArrivalDust,
   CollectBurst,
-  CollectButton,
   EdgeSparks,
   GoldenConfetti,
   LightSpill,
@@ -395,9 +396,9 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       </AnimatePresence>
       {activeFlash != null && <ScreenFlash rarity={activeFlash as 4 | 5} />}
       {collected && <CollectBurst />}
-      <AnimatePresence>
-        {showCollect && !collected && <CollectButton onCollect={handleCollect} />}
-      </AnimatePresence>
+      {showCollect && !collected && (
+        <DemoButton label="Collect All" className="pf-prize-reveal__action-btn" onClick={handleCollect} />
+      )}
     </m.div>
   )
 }

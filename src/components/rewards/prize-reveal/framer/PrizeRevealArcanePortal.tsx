@@ -5,11 +5,12 @@ import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { arcanePortalRunicSigilImage } from '@/assets'
 import { useCountUp } from '@/hooks/useCountUp'
 
+import { DemoButton } from '@/components/demo-blocks'
+
 import {
   AmbientGlow,
   BurstFlash,
   ClaimBurst,
-  ClaimButton,
   ConvergeParticles,
   InnerVortex,
   OrbitingRunes,
@@ -280,9 +281,9 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
               />
             ))}
           </div>
-          <AnimatePresence>
-            {showClaim && !claimed && <ClaimButton onClaim={handleClaim} />}
-          </AnimatePresence>
+          {showClaim && !claimed && (
+            <DemoButton label="Claim" className="pf-prize-reveal__action-btn" onClick={handleClaim} />
+          )}
         </>
       )}
     </div>

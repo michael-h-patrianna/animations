@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
@@ -9,10 +8,11 @@ import {
 } from '@/assets'
 import { useCountUp } from '@/hooks/useCountUp'
 
+import { DemoButton } from '@/components/demo-blocks'
+
 import {
   AmbientDust,
   ClaimBurst,
-  ClaimButton,
   CrystalFragments,
   DustSpray,
   EnergyMotes,
@@ -330,9 +330,9 @@ function CrystalShatterAnimation({ prizeCount }: { prizeCount: number }) {
               />
             ))}
           </div>
-          <AnimatePresence>
-            {showClaim && !claimed && <ClaimButton onClaim={handleClaim} />}
-          </AnimatePresence>
+          {showClaim && !claimed && (
+            <DemoButton label="Claim" className="pf-prize-reveal__action-btn" onClick={handleClaim} />
+          )}
         </>
       )}
     </div>

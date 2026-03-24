@@ -1,4 +1,5 @@
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import {
@@ -340,14 +341,7 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
             ))}
           </div>
           {showClaim && !claimed && (
-            <button type="button" className="pf-arcane-portal-css__claim-btn" onClick={handleClaim}>
-              CLAIM
-            </button>
-          )}
-          {showClaim && claimed && (
-            <button type="button" className="pf-arcane-portal-css__claim-btn is-exiting" disabled>
-              CLAIM
-            </button>
+            <DemoButton label="Claim" className="pf-prize-reveal__action-btn" onClick={handleClaim} />
           )}
         </>
       )}

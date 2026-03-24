@@ -1,6 +1,6 @@
-import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import {
@@ -165,24 +165,6 @@ function ClaimBurst() {
       animate={{ opacity: [0, 0.8, 0], scale: [0.15, 1.5, 2.5] }}
       transition={{ duration: 0.5, times: [0, 0.2, 1] as const, ease: 'easeOut' }}
     />
-  )
-}
-
-function ClaimButton({ onClaim }: { onClaim: () => void }) {
-  return (
-    <m.button
-      type="button"
-      className="pf-chest-gc-sc__claim-btn"
-      initial={{ opacity: 0, scale: 0.7, y: 20 }}
-      animate={{ opacity: 1, scale: [0.7, 1.06, 1], y: 0 }}
-      exit={{ opacity: 0, scale: 0.5, y: -10, transition: { duration: 0.25, ease: 'easeIn' } }}
-      transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as const }}
-      onClick={onClaim}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.97 }}
-    >
-      CLAIM
-    </m.button>
   )
 }
 
@@ -382,9 +364,9 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
               />
             ))}
           </div>
-          <AnimatePresence>
-            {showClaim && !claimed && <ClaimButton onClaim={handleClaim} />}
-          </AnimatePresence>
+          {showClaim && !claimed && (
+            <DemoButton label="Claim" className="pf-prize-reveal__action-btn" onClick={handleClaim} />
+          )}
         </>
       )}
     </div>

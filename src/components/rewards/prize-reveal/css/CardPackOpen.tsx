@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { DemoButton } from '@/components/demo-blocks'
 
 import {
   cardPackBackImage,
@@ -416,9 +417,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       {collected && <CollectBurst />}
 
       {showCollect && !collected && (
-        <button className="pf-card-pack-css__collect-btn" type="button" onClick={handleCollect}>
-          COLLECT ALL
-        </button>
+        <DemoButton label="Collect All" className="pf-prize-reveal__action-btn" onClick={handleCollect} />
       )}
     </div>
   )

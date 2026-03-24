@@ -185,20 +185,3 @@ export function ClaimBurst() {
   )
 }
 
-export function ClaimButton({ onClaim }: { onClaim: () => void }) {
-  return (
-    <m.button
-      type="button"
-      className="pf-arcane-portal__claim-btn"
-      initial={{ opacity: 0, scale: 0.7, y: 20 }}
-      animate={{ opacity: 1, scale: [0.7, 1.06, 1], y: 0 }}
-      exit={{ opacity: 0, scale: 0.5, y: -10, transition: { duration: 0.25, ease: 'easeIn' } }}
-      transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as const }}
-      onClick={onClaim}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.97 }}
-    >
-      CLAIM
-    </m.button>
-  )
-}

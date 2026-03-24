@@ -269,26 +269,6 @@ export function DustSpray({ particles }: { particles: DustData[] }) {
 }
 
 /* ═══════════════════════════════════════════════════
-   CLAIM BUTTON — crystal-themed
-   ═══════════════════════════════════════════════════ */
-
-export function ClaimButton({ onClaim }: { onClaim: () => void }) {
-  return (
-    <m.button
-      className="pf-crystal-shatter__claim-btn"
-      type="button"
-      onClick={onClaim}
-      initial={{ scale: 0.85, opacity: 0, y: 10 }}
-      animate={{ scale: 1, opacity: 1, y: 0 }}
-      exit={{ scale: 0.8, opacity: 0 }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
-    >
-      CLAIM
-    </m.button>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
    CLAIM BURST — flash when prizes are collected
    ═══════════════════════════════════════════════════ */
 

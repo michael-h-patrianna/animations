@@ -1,4 +1,5 @@
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import {
@@ -370,9 +371,7 @@ function PrizeRevealCrystalShatterComponent({
         </div>
 
         {showClaim && !claimed && (
-          <button className="pf-cs-css__claim-btn" type="button" onClick={() => setClaimed(true)}>
-            CLAIM
-          </button>
+          <DemoButton label="Claim" className="pf-prize-reveal__action-btn" onClick={() => setClaimed(true)} />
         )}
       </div>
     </div>

@@ -15,14 +15,6 @@
   --text-shadow-strong: rgb(0 0 0 / 60%);
   --aura-color-default: rgb(140 180 255 / 15%);
   --aura-glow-default: rgb(120 160 255 / 10%);
-  --claim-btn-border: rgb(140 180 255);
-  --claim-btn-bg-start: rgb(80 120 200);
-  --claim-btn-bg-end: rgb(60 80 160);
-  --claim-btn-glow: rgb(100 150 255 / 30%);
-  --claim-btn-hover-bg-start: rgb(100 140 220);
-  --claim-btn-hover-bg-end: rgb(70 100 180);
-  --claim-btn-hover-border: rgb(160 200 255);
-  --claim-btn-hover-glow: rgb(120 170 255 / 40%);
   position: relative;
   inline-size: 100%;
   block-size: 340px;
@@ -528,56 +520,6 @@
     0 0 12px var(--amount-glow),
     0 0 24px var(--amount-glow),
     0 1px 4px var(--text-shadow-strong);
-}
-
-/* ─── Claim button ─── */
-
-.pf-cs-css__claim-btn {
-  position: absolute;
-  z-index: 10;
-  inset-block-end: 16px;
-  inset-inline-start: 50%;
-  translate: -50% 0;
-  padding: 8px 28px;
-  border-radius: 50px;
-  border: 2px solid var(--claim-btn-border);
-  background: linear-gradient(180deg, var(--claim-btn-bg-start), var(--claim-btn-bg-end));
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-shadow: 0 1px 1px var(--text-shadow);
-  cursor: pointer;
-  pointer-events: auto;
-  box-shadow:
-    0 0 20px 6px var(--claim-btn-glow),
-    0 4px 12px var(--pf-anim-black-30);
-  animation: cs-btn-appear 0.4s ease-out both;
-  will-change: transform, opacity;
-}
-
-@keyframes cs-btn-appear {
-  from {
-    transform: scale(0.85) translateY(10px);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
-
-.pf-cs-css__claim-btn:hover {
-  background: linear-gradient(
-    180deg,
-    var(--claim-btn-hover-bg-start),
-    var(--claim-btn-hover-bg-end)
-  );
-  border-color: var(--claim-btn-hover-border);
-  box-shadow:
-    0 0 24px 8px var(--claim-btn-hover-glow),
-    0 4px 14px var(--pf-anim-black-35);
 }
 
 /* ─── Responsive ─── */
