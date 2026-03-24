@@ -1,4 +1,5 @@
 import { CodeIcon } from '@/components/ui/icons/CodeIcon'
+import { GearIcon } from '@/components/ui/icons/GearIcon'
 import { LinkIcon } from '@/components/ui/icons/LinkIcon'
 import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
 import { SmartphoneIcon } from '@/components/ui/icons/SmartphoneIcon'
@@ -36,82 +37,80 @@ export const Description = ({ description, isExpanded, onToggle }: DescriptionPr
   </div>
 )
 
+// ── Header Action Buttons ─────────────────────────────────────────────────
+
+type HeaderActionsProps = {
+  onCopyLink: () => void
+  onOpenCode?: () => void
+  onOpenSettings?: () => void
+  onOpenDesktopPreview: () => void
+  onOpenMobilePreview: () => void
+  settingsOpen?: boolean
+}
+
+/** Row of icon buttons: preview, code, link, settings. */
+const HeaderActions = ({
+  onCopyLink,
+  onOpenCode,
+  onOpenSettings,
+  onOpenDesktopPreview,
+  onOpenMobilePreview,
+  settingsOpen,
+}: HeaderActionsProps) => (
+  <div className="flex items-center gap-1">
+    <button type="button" className="pf-card__code-btn" onClick={onOpenDesktopPreview} aria-label="Desktop preview" title="Desktop preview" data-testid="preview-btn-desktop">
+      <MonitorIcon />
+    </button>
+    <button type="button" className="pf-card__code-btn" onClick={onOpenMobilePreview} aria-label="Mobile preview" title="Mobile preview" data-testid="preview-btn-mobile">
+      <SmartphoneIcon />
+    </button>
+    {onOpenCode != null && (
+      <button type="button" className="pf-card__code-btn" onClick={onOpenCode} aria-label="View source code" title="View source code" data-testid="code-viewer-btn">
+        <CodeIcon />
+      </button>
+    )}
+    <button type="button" className="pf-card__code-btn" onClick={onCopyLink} aria-label="Copy animation URL" title="Copy animation URL" data-testid="copy-link-btn">
+      <LinkIcon />
+    </button>
+    {onOpenSettings != null && (
+      <button
+        type="button"
+        className={`pf-card__code-btn ${settingsOpen === true ? 'pf-card__code-btn--active' : ''}`}
+        onClick={onOpenSettings}
+        aria-label={settingsOpen === true ? 'Close settings' : 'Open settings'}
+        title="Configure props"
+        data-testid="settings-btn"
+        aria-pressed={settingsOpen}
+      >
+        <GearIcon />
+      </button>
+    )}
+  </div>
+)
+
 // ── Card Header Bar ───────────────────────────────────────────────────────
 
-type CardHeaderBarProps = {
+type CardHeaderBarProps = HeaderActionsProps & {
   title: string
   isExpanded: boolean
   description: string
   onToggle: () => void
-  onCopyLink: () => void
-  onOpenCode?: () => void
-  onOpenDesktopPreview: () => void
-  onOpenMobilePreview: () => void
 }
 
-/** Card header with title, code viewer button, and collapsible description. */
+/** Card header with title, action buttons, and collapsible description. */
 export const CardHeaderBar = ({
   title,
   isExpanded,
   description,
   onToggle,
-  onCopyLink,
-  onOpenCode,
-  onOpenDesktopPreview,
-  onOpenMobilePreview,
+  ...actions
 }: CardHeaderBarProps) => (
   <div className="p-0 pb-3">
     <div className="flex items-center justify-between gap-2">
-      <div
-        className="pf-card__title mb-0 font-semibold leading-none tracking-tight"
-        data-testid="card-title"
-      >
+      <div className="pf-card__title mb-0 font-semibold leading-none tracking-tight" data-testid="card-title">
         {title}
       </div>
-      <div className="flex items-center gap-1">
-        <button
-          type="button"
-          className="pf-card__code-btn"
-          onClick={onOpenDesktopPreview}
-          aria-label="Desktop preview"
-          title="Desktop preview"
-          data-testid="preview-btn-desktop"
-        >
-          <MonitorIcon />
-        </button>
-        <button
-          type="button"
-          className="pf-card__code-btn"
-          onClick={onOpenMobilePreview}
-          aria-label="Mobile preview"
-          title="Mobile preview"
-          data-testid="preview-btn-mobile"
-        >
-          <SmartphoneIcon />
-        </button>
-        {onOpenCode && (
-          <button
-            type="button"
-            className="pf-card__code-btn"
-            onClick={onOpenCode}
-            aria-label="View source code"
-            title="View source code"
-            data-testid="code-viewer-btn"
-          >
-            <CodeIcon />
-          </button>
-        )}
-        <button
-          type="button"
-          className="pf-card__code-btn"
-          onClick={onCopyLink}
-          aria-label="Copy animation URL"
-          title="Copy animation URL"
-          data-testid="copy-link-btn"
-        >
-          <LinkIcon />
-        </button>
-      </div>
+      <HeaderActions {...actions} />
     </div>
     <Description description={description} isExpanded={isExpanded} onToggle={onToggle} />
   </div>

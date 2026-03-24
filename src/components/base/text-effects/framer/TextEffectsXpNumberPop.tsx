@@ -37,6 +37,8 @@ interface TextEffectsXpNumberPopProps {
   formatValue?: (n: number) => string
   /** Maximum floating particles. Auto-scales down for small ranges. @default 10 */
   maxParticles?: number
+  /** Base color for number, particles, and label. Gradient stops are computed. @default '#c6ff77' */
+  color?: string
 }
 
 const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
@@ -78,6 +80,7 @@ function TextEffectsXpNumberPopComponent({
   suffix = ' XP',
   formatValue = defaultFormat,
   maxParticles = 10,
+  color,
 }: TextEffectsXpNumberPopProps) {
   const glowControls = useAnimation()
   const numberControls = useAnimation()
@@ -127,7 +130,11 @@ function TextEffectsXpNumberPopComponent({
   }, [glowControls, numberControls, count, from, to])
 
   return (
-    <div className="pf-xp-pop" data-animation-id="text-effects__xp-number-pop">
+    <div
+      className="pf-xp-pop"
+      data-animation-id="text-effects__xp-number-pop"
+      style={color !== undefined ? { '--pf-xp-pop-color': color } as React.CSSProperties : undefined}
+    >
       <AnimatePresence>
         {showParticles &&
           particles.map((particle) => (
@@ -155,7 +162,9 @@ function TextEffectsXpNumberPopComponent({
                 fontSize: particle.layer === 0 ? '18px' : '14px',
                 fontWeight: '700',
                 color:
-                  particle.layer === 0 ? 'var(--pf-anim-green)' : 'var(--pf-anim-green-bright)',
+                  particle.layer === 0
+                    ? 'var(--pf-xp-pop-color-1)'
+                    : 'var(--pf-xp-pop-color-2)',
                 pointerEvents: 'none',
                 zIndex: 3,
               }}

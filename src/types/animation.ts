@@ -43,6 +43,8 @@ export interface Animation {
   tier?: 1 | 2 | 3 | 4
   demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
   previewMaxWidth?: number
+  /** Configurable props for the interactive settings panel. */
+  props?: PropConfig[]
 }
 
 /**
@@ -66,6 +68,91 @@ export interface Category {
   title: string
   groups: Group[]
 }
+
+// ============================================================================
+// Prop Configuration Types (for interactive settings panel)
+// ============================================================================
+
+/** Base fields shared by all prop config variants. */
+interface PropConfigBase {
+  /** Prop name on the component (must match the actual prop name). */
+  name: string
+  /** Human-readable label shown in the settings form. */
+  label: string
+  /** Optional tooltip description. */
+  description?: string
+  /** When true, the prop is shown in the form but cannot be edited interactively. */
+  disabled?: boolean
+  /** Explanation shown when disabled (e.g. "Requires element ref"). */
+  disabledReason?: string
+}
+
+/** Numeric prop — rendered as slider (when min/max provided) or number input. */
+export interface NumberPropConfig extends PropConfigBase {
+  type: 'number'
+  default?: number
+  min?: number
+  max?: number
+  step?: number
+  /** Display unit label (e.g. 'ms', 'px', 'deg'). Does not affect the value. */
+  unit?: string
+}
+
+/** Free-text string prop — rendered as text input. */
+export interface StringPropConfig extends PropConfigBase {
+  type: 'string'
+  default?: string
+}
+
+/** Boolean prop — rendered as toggle switch. */
+export interface BooleanPropConfig extends PropConfigBase {
+  type: 'boolean'
+  default?: boolean
+}
+
+/** Color prop — rendered as color picker + hex input. */
+export interface ColorPropConfig extends PropConfigBase {
+  type: 'color'
+  default?: string
+}
+
+/** Enumerated prop — rendered as select dropdown. */
+export interface SelectPropConfig extends PropConfigBase {
+  type: 'select'
+  default?: string
+  options: { label: string; value: string }[]
+}
+
+/** Single image URL prop — rendered as text input with image preview. */
+export interface ImagePropConfig extends PropConfigBase {
+  type: 'image'
+  default?: string
+}
+
+/** Array of image URLs — rendered as list of URL inputs with add/remove. */
+export interface ImagesPropConfig extends PropConfigBase {
+  type: 'images'
+  default?: string[]
+  maxItems?: number
+}
+
+/** Array of CSS color strings — rendered as list of color pickers with add/remove. */
+export interface ColorsPropConfig extends PropConfigBase {
+  type: 'colors'
+  default?: string[]
+  maxItems?: number
+}
+
+/** Discriminated union of all prop configuration types. */
+export type PropConfig =
+  | NumberPropConfig
+  | StringPropConfig
+  | BooleanPropConfig
+  | ColorPropConfig
+  | SelectPropConfig
+  | ImagePropConfig
+  | ImagesPropConfig
+  | ColorsPropConfig
 
 // ============================================================================
 // Component Metadata Types
@@ -158,6 +245,14 @@ export interface AnimationMetadata {
 
   /** Sort priority within the group. Lower values appear first. Defaults to 0. */
   order?: number
+
+  /**
+   * Configurable props exposed in the interactive settings panel.
+   * When present, a gear icon appears in the card header.
+   * Each entry describes one component prop — its type, default, and constraints.
+   * Props with `disabled: true` are shown but not editable (refs, callbacks, ReactNode).
+   */
+  props?: PropConfig[]
 }
 
 /**

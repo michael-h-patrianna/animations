@@ -4,6 +4,8 @@ import './TextEffectsHorizonLightPass.css'
 interface TextEffectsHorizonLightPassProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Base text color. Highlight is always white. @default '#e8e4da' */
+  color?: string
 }
 
 /**
@@ -13,6 +15,7 @@ interface TextEffectsHorizonLightPassProps {
  */
 function TextEffectsHorizonLightPassComponent({
   text = 'LOREM IPSUM DOLOR',
+  color,
 }: TextEffectsHorizonLightPassProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const lettersRef = useRef<HTMLSpanElement[]>([])
@@ -92,6 +95,7 @@ function TextEffectsHorizonLightPassComponent({
       className="tfx-horizon-light-pass"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
+      style={color !== undefined ? { '--tfx-hlp-base-color': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-horizon-light-pass__line" aria-hidden="true">
         {letters.map((ch, i) => (

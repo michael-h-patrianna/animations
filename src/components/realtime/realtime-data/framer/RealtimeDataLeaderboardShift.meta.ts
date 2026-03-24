@@ -8,4 +8,9 @@ export const metadata = {
   description:
     'Animated ranked list that cycles the top entry to the bottom with smooth position transitions. Configure items, duration, and pause timing.',
   tier: 3,
+  props: [
+    { type: 'string', name: 'items', label: 'Items', disabled: true, disabledReason: 'RankedEntry[] — set via code' },
+    { type: 'number', name: 'duration', label: 'Duration', default: 800, min: 200, max: 3000, step: 100, unit: 'ms' },
+    { type: 'number', name: 'pauseDuration', label: 'Pause Duration', default: 2000, min: 500, max: 5000, step: 100, unit: 'ms' },
+  ],
 } satisfies AnimationMetadata

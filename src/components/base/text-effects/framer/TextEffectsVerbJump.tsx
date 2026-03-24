@@ -13,16 +13,24 @@ interface TextEffectsVerbJumpProps {
   text?: string
   /** Delay between each character's animation start in seconds. @default 0.06 */
   stepDelay?: number
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
 function TextEffectsVerbJumpComponent({
   text = 'LOREM IPSUM DOLOR',
   stepDelay = 0.06,
+  color,
 }: TextEffectsVerbJumpProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="pf-verb-jump" data-animation-id="text-effects__verb-jumping" aria-label={text}>
+    <div
+      className="pf-verb-jump"
+      data-animation-id="text-effects__verb-jumping"
+      aria-label={text}
+      style={color !== undefined ? { '--pf-verb-jump-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-verb-jump__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span

@@ -8,6 +8,8 @@ interface TextEffectsTypewriterProps {
   charDelay?: number
   /** Cursor character shown after typing completes. @default '|' */
   cursor?: string
+  /** Text and cursor color. @default '#10b981' */
+  color?: string
 }
 
 /**
@@ -19,9 +21,14 @@ function TextEffectsTypewriterComponent({
   text = 'LOADING SYSTEM...',
   charDelay = 0.08,
   cursor = '|',
+  color,
 }: TextEffectsTypewriterProps) {
   return (
-    <div className="text-effects-typewriter-container" data-animation-id="text-effects__typewriter">
+    <div
+      className="text-effects-typewriter-container"
+      data-animation-id="text-effects__typewriter"
+      style={color !== undefined ? { '--text-effects-typewriter-color-1': color } as React.CSSProperties : undefined}
+    >
       <div className="text-effects-typewriter-text">
         {text.split('').map((char, index) => (
           <span

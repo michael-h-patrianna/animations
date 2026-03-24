@@ -31,6 +31,8 @@ interface TextEffectsCounterIncrementProps {
   incrementValue?: number
   /** Continuous mode: milliseconds between increments. @default 2000 */
   intervalMs?: number
+  /** Base color for number, glow, and particles. Gradient stops are computed. @default '#c6ff77' */
+  color?: string
 }
 
 const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
@@ -109,6 +111,7 @@ function TextEffectsCounterIncrementComponent({
   maxParticles,
   incrementValue,
   intervalMs,
+  color,
 }: TextEffectsCounterIncrementProps = {}) {
   const [count, setCount] = useState(from)
   const [particles, setParticles] = useState<Particle[]>([])
@@ -179,7 +182,11 @@ function TextEffectsCounterIncrementComponent({
   }, [isContinuousMode, from, continuousIncrement, effectiveDuration, effectiveMaxParticles])
 
   return (
-    <div className="tfx-cinc-container" data-animation-id="text-effects__counter-increment">
+    <div
+      className="tfx-cinc-container"
+      data-animation-id="text-effects__counter-increment"
+      style={color !== undefined ? { '--text-effects-counter-increment-color': color } as React.CSSProperties : undefined}
+    >
       <div className="tfx-cinc-value-wrapper">
         <span key={popKey} className="tfx-cinc-value tfx-cinc-value--popping">
           {prefix !== undefined && <span className="tfx-cinc-label">{prefix}</span>}

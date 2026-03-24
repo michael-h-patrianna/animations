@@ -11,10 +11,13 @@ import { memo, useMemo } from 'react'
 interface TextEffectsLightSweepDrawProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Base text color. Highlight is always white. @default '#e8e4da' */
+  color?: string
 }
 
 function TextEffectsLightSweepDrawComponent({
   text = 'LOREM IPSUM DOLOR',
+  color,
 }: TextEffectsLightSweepDrawProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
@@ -65,6 +68,7 @@ function TextEffectsLightSweepDrawComponent({
       variants={containerVariants}
       initial="hidden"
       animate={['show', 'settle']}
+      style={color !== undefined ? { '--pf-lsd-base-color': color } as React.CSSProperties : undefined}
     >
       <div className="pf-light-sweep-draw__line" aria-hidden="true">
         {letters.map((ch, i) => (

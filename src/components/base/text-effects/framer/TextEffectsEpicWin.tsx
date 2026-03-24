@@ -11,13 +11,19 @@ import { memo, useMemo } from 'react'
 interface TextEffectsEpicWinProps {
   /** @default 'EPIC WIN' */
   text?: string
+  /** Base color for the metallic gradient. Light/dark stops are computed. @default '#ffd700' */
+  color?: string
 }
 
-function TextEffectsEpicWinComponent({ text = 'EPIC WIN' }: TextEffectsEpicWinProps) {
+function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEpicWinProps) {
   const chars = useMemo(() => text.split(''), [text])
 
   return (
-    <div className="pf-epic-win" data-animation-id="text-effects__epic-win">
+    <div
+      className="pf-epic-win"
+      data-animation-id="text-effects__epic-win"
+      style={color !== undefined ? { '--pf-epic-win-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-epic-win__text-container">
         {/* Far shadow */}
         <m.div

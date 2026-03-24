@@ -8,4 +8,9 @@ export const metadata: AnimationMetadata = {
   description: 'Letters drop and settle with a soft bounce.',
   disableReplay: false,
   tier: 3,
+  props: [
+    { type: 'string', name: 'text', label: 'Text', default: 'LOREM IPSUM DOLOR' },
+    { type: 'number', name: 'stepDelay', label: 'Step Delay', default: 0.05, min: 0.01, max: 0.2, step: 0.01, unit: 's' },
+    { type: 'color', name: 'color', label: 'Color', default: '#e8e4da' },
+  ],
 }

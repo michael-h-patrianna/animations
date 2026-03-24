@@ -14,17 +14,24 @@ interface TextEffectsTypewriterProps {
   charDelay?: number
   /** Cursor character shown after typing completes. @default '|' */
   cursor?: string
+  /** Text and cursor color. @default '#10b981' */
+  color?: string
 }
 
 function TextEffectsTypewriterComponent({
   text = 'LOADING SYSTEM...',
   charDelay = 0.08,
   cursor = '|',
+  color,
 }: TextEffectsTypewriterProps) {
   const chars = useMemo(() => text.split(''), [text])
 
   return (
-    <div className="pf-typewriter" data-animation-id="text-effects__typewriter">
+    <div
+      className="pf-typewriter"
+      data-animation-id="text-effects__typewriter"
+      style={color !== undefined ? { '--pf-typewriter-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-typewriter__text">
         {chars.map((char, index) => (
           <m.span

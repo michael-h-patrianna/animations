@@ -8,4 +8,9 @@ export const metadata: AnimationMetadata = {
   description: 'Level breakthrough shakes frame with surge lines explosion effect.',
   disableReplay: false,
   tier: 4,
+  props: [
+    { type: 'string', name: 'startText', label: 'Start Text', default: 'LEVEL 1' },
+    { type: 'string', name: 'endText', label: 'End Text', default: 'LEVEL 2' },
+    { type: 'color', name: 'color', label: 'Color', default: '#ffce1a' },
+  ],
 }

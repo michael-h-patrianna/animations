@@ -8,6 +8,8 @@ interface TextEffectsLevelBreakthroughProps {
   endText?: string
   /** Additional CSS class for the container. */
   className?: string
+  /** Text and surge ring color. @default '#ffce1a' */
+  color?: string
 }
 
 /**
@@ -19,11 +21,13 @@ function TextEffectsLevelBreakthroughComponent({
   startText = 'LEVEL 1',
   endText = 'LEVEL 2',
   className = '',
+  color,
 }: TextEffectsLevelBreakthroughProps) {
   return (
     <div
       className={`tfx-breakthrough-container ${className}`.trim()}
       data-animation-id="text-effects__level-breakthrough"
+      style={color !== undefined ? { '--text-effects-level-breakthrough-color': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-breakthrough-surge tfx-breakthrough-surge-outer" />
       <div className="tfx-breakthrough-surge tfx-breakthrough-surge-inner" />

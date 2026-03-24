@@ -30,6 +30,7 @@ function toAnimations(
         tier: anim.metadata.tier,
         demoMode: anim.metadata.demoMode,
         previewMaxWidth: anim.metadata.previewMaxWidth,
+        props: anim.metadata.props,
       }
     })
 }

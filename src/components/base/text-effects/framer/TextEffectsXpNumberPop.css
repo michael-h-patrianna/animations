@@ -1,9 +1,10 @@
 /* XP Number Pop — Framer Motion layout (no keyframes) */
 .pf-xp-pop {
-  --pf-xp-pop-color-1: #c6ff77;
-  --pf-xp-pop-color-2: #a8ff3e;
-  --pf-xp-pop-glow-100: rgb(198 255 119 / 80%);
-  --pf-xp-pop-glow-101: rgb(198 255 119 / 50%);
+  --pf-xp-pop-color: #c6ff77;
+  --pf-xp-pop-color-1: var(--pf-xp-pop-color);
+  --pf-xp-pop-color-2: color-mix(in srgb, var(--pf-xp-pop-color), black 15%);
+  --pf-xp-pop-glow-100: color-mix(in srgb, var(--pf-xp-pop-color), transparent 20%);
+  --pf-xp-pop-glow-101: color-mix(in srgb, var(--pf-xp-pop-color), transparent 50%);
   --pf-xp-pop-shadow: rgb(0 0 0 / 30%);
   position: relative;
   min-height: 80px;

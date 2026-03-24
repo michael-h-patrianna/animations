@@ -9,4 +9,10 @@ export const metadata: AnimationMetadata = {
     'Animated image with gentle floating, horizontal sway and subtle scale breathing. Props: src, alt, width, duration.',
   infinite: true,
   tier: 2,
+  props: [
+    { type: 'image', name: 'src', label: 'Image URL', description: 'Image source URL. Renders a placeholder when omitted.' },
+    { type: 'string', name: 'alt', label: 'Alt Text', default: '' },
+    { type: 'number', name: 'width', label: 'Width', default: 120, min: 20, max: 400, step: 10, unit: 'px' },
+    { type: 'number', name: 'duration', label: 'Cycle Duration', default: 6000, min: 1000, max: 20000, step: 500, unit: 'ms' },
+  ],
 }

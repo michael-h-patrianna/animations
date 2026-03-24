@@ -2,7 +2,7 @@
 .tfx-metallic-specular-flash {
   --tfx-msf-base-color: #e8e4da;
   --tfx-msf-highlight-color: #fff;
-  --tfx-msf-shadow-color: #b6b1a6;
+  --tfx-msf-shadow-color: color-mix(in srgb, var(--tfx-msf-base-color), black 20%);
   display: inline-flex;
   align-items: baseline;
   contain: layout style;

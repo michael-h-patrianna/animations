@@ -14,14 +14,8 @@ import { Button } from '@/demo-ui/components/ui/Button'
 import { DropdownMenu } from '@/demo-ui/components/ui/DropdownMenu'
 import { useViewMenuItems } from '@/demo-ui/components/layout/useViewMenuItems'
 
-/** Props for the EditorTopBar component. */
-interface EditorTopBarProps {
-  /** Called when the panel toggle is clicked on mobile (opens the drawer). */
-  onOpenDrawer?: () => void
-}
-
-/** SVG icon for the sidebar panel toggle. */
-function PanelIcon() {
+/** SVG icon for the left sidebar panel toggle. */
+function PanelLeftIcon() {
   return (
     <svg
       width="18"
@@ -39,12 +33,33 @@ function PanelIcon() {
   )
 }
 
+/** SVG icon for the right inspector panel toggle. */
+function PanelRightIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <line x1="15" y1="3" x2="15" y2="21" />
+    </svg>
+  )
+}
+
 /** Top bar with sidebar toggle, group title, view menu, and GitHub link. */
-export const EditorTopBar: React.FC<EditorTopBarProps> = ({ onOpenDrawer }) => {
-  const { leftPanelVisible, toggleLeftPanel, theme, setTheme, accent, setAccent } = useLayoutStore(
+export const EditorTopBar: React.FC = () => {
+  const { leftPanelVisible, toggleLeftPanel, rightPanelVisible, toggleRightPanel, theme, setTheme, accent, setAccent } = useLayoutStore(
     useShallow((state: LayoutStore) => ({
       leftPanelVisible: state.showLeftPanel,
       toggleLeftPanel: state.toggleLeftPanel,
+      rightPanelVisible: state.showRightPanel,
+      toggleRightPanel: state.toggleRightPanel,
       theme: state.theme,
       setTheme: state.setTheme,
       accent: state.accent,
@@ -56,17 +71,13 @@ export const EditorTopBar: React.FC<EditorTopBarProps> = ({ onOpenDrawer }) => {
   const { currentGroup } = useAppNavigation(categories)
   const viewItems = useViewMenuItems(theme, setTheme, accent, setAccent)
   const isMobile = useIsMobile()
-  const toggleClass = leftPanelVisible
+
+  const leftToggleClass = leftPanelVisible
     ? 'bg-accent/10 text-accent'
     : 'text-text-secondary hover:text-text-primary hover:bg-[var(--bg-hover)]'
-
-  const handlePanelToggle = () => {
-    if (isMobile && onOpenDrawer != null) {
-      onOpenDrawer()
-    } else {
-      toggleLeftPanel()
-    }
-  }
+  const rightToggleClass = rightPanelVisible
+    ? 'bg-accent/10 text-accent'
+    : 'text-text-secondary hover:text-text-primary hover:bg-[var(--bg-hover)]'
 
   return (
     <div
@@ -79,12 +90,12 @@ export const EditorTopBar: React.FC<EditorTopBarProps> = ({ onOpenDrawer }) => {
         <Button
           variant={leftPanelVisible && !isMobile ? 'primary' : 'ghost'}
           size="icon"
-          onClick={handlePanelToggle}
+          onClick={toggleLeftPanel}
           ariaLabel="Toggle Navigation"
           data-testid="toggle-left-panel"
-          className={`p-1.5 ${!isMobile ? toggleClass : 'text-text-secondary hover:text-text-primary hover:bg-[var(--bg-hover)]'}`}
+          className={`p-1.5 ${!isMobile ? leftToggleClass : 'text-text-secondary hover:text-text-primary hover:bg-[var(--bg-hover)]'}`}
         >
-          <PanelIcon />
+          <PanelLeftIcon />
         </Button>
         <div className="flex items-center gap-2 text-xs text-text-secondary">
           <DropdownMenu
@@ -119,8 +130,18 @@ export const EditorTopBar: React.FC<EditorTopBarProps> = ({ onOpenDrawer }) => {
         )}
       </div>
 
-      {/* Right: GitHub link */}
-      <div className="flex items-center shrink-0 ml-auto">
+      {/* Right: inspector toggle + GitHub link */}
+      <div className="flex items-center gap-2 shrink-0 ml-auto">
+        <Button
+          variant={rightPanelVisible ? 'primary' : 'ghost'}
+          size="icon"
+          onClick={toggleRightPanel}
+          ariaLabel="Toggle Inspector"
+          data-testid="toggle-right-panel"
+          className={`p-1.5 ${rightToggleClass}`}
+        >
+          <PanelRightIcon />
+        </Button>
         <a
           href="https://github.com/michael-haufschild-gib/animations"
           target="_blank"

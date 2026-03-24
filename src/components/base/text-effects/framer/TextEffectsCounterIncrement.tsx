@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 
 const numberPopVariants = {
   idle: { scale: 1, rotate: 0, opacity: 1 },
@@ -53,6 +53,8 @@ interface TextEffectsCounterIncrementProps {
   maxParticles?: number
   /** Target mode: total animation duration in ms. @default 3000 */
   durationMs?: number
+  /** Base color for number, glow, and particles. Gradient stops are computed. @default '#c6ff77' */
+  color?: string
 }
 
 const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
@@ -104,17 +106,20 @@ function TextEffectsCounterIncrementComponent({
   intervalMs = 2000,
   maxParticles = 8,
   durationMs = 3000,
+  color,
 }: TextEffectsCounterIncrementProps) {
   const [isValueAnimating, setIsValueAnimating] = useState(false)
   const [count, setCount] = useState(from)
-  const [floatingParticle, setFloatingParticle] = useState<{ id: number; value: number } | null>(
-    null
-  )
+  const [particles, setParticles] = useState<{ id: number; value: number }[]>([])
   const nextIdRef = useRef(0)
   const formatRef = useRef(formatValue)
   formatRef.current = formatValue
 
   const isContinuousMode = to === undefined
+
+  const removeParticle = useCallback((id: number) => {
+    setParticles((prev) => prev.filter((p) => p.id !== id))
+  }, [])
 
   // Continuous mode
   useEffect(() => {
@@ -135,11 +140,11 @@ function TextEffectsCounterIncrementComponent({
     const animationCycle = () => {
       if (!isMounted) return
       setIsValueAnimating(true)
-      setFloatingParticle({ id: nextIdRef.current++, value: incrementValue })
+      const id = nextIdRef.current++
+      setParticles((prev) => [...prev, { id, value: incrementValue }])
       setCount((c) => c + incrementValue)
 
       scheduleTimeout(() => setIsValueAnimating(false), 500)
-      scheduleTimeout(() => setFloatingParticle(null), 800)
     }
 
     setCount(from)
@@ -163,7 +168,7 @@ function TextEffectsCounterIncrementComponent({
     if (steps.length === 0) return
 
     setCount(from)
-    setFloatingParticle(null)
+    setParticles([])
 
     let isMounted = true
     const timeouts: ReturnType<typeof setTimeout>[] = []
@@ -173,15 +178,13 @@ function TextEffectsCounterIncrementComponent({
         if (!isMounted) return
         setCount(from + step.value)
         setIsValueAnimating(true)
-        setFloatingParticle({ id: nextIdRef.current++, value: step.incrementAmount })
+        const id = nextIdRef.current++
+        setParticles((prev) => [...prev, { id, value: step.incrementAmount }])
 
         const t1 = setTimeout(() => {
           if (isMounted) setIsValueAnimating(false)
         }, 500)
-        const t2 = setTimeout(() => {
-          if (isMounted) setFloatingParticle(null)
-        }, 800)
-        timeouts.push(t1, t2)
+        timeouts.push(t1)
       }, step.timing)
       timeouts.push(t)
     })
@@ -193,7 +196,11 @@ function TextEffectsCounterIncrementComponent({
   }, [isContinuousMode, from, to, maxParticles, durationMs])
 
   return (
-    <div className="pf-counter-showcase" data-animation-id="text-effects__counter-increment">
+    <div
+      className="pf-counter-showcase"
+      data-animation-id="text-effects__counter-increment"
+      style={color !== undefined ? { '--text-effects-counter-increment-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-counter-showcase__target">
         <m.span
           className="pf-counter-showcase__value"
@@ -209,17 +216,18 @@ function TextEffectsCounterIncrementComponent({
           </span>
         </m.span>
 
-        {floatingParticle !== null && (
+        {particles.map((particle) => (
           <m.span
-            key={floatingParticle.id}
+            key={particle.id}
             className="pf-update-indicator__counter"
             variants={counterFloatVariants}
             initial="hidden"
             animate="float"
+            onAnimationComplete={() => removeParticle(particle.id)}
           >
-            +{formatRef.current(floatingParticle.value)}
+            +{formatRef.current(particle.value)}
           </m.span>
-        )}
+        ))}
       </div>
     </div>
   )

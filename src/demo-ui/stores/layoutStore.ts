@@ -44,11 +44,14 @@ export type AccentColor = (typeof ACCENT_COLORS)[number]
 /** Manages panel visibility, theme mode, and accent color selection. */
 export interface LayoutStore {
   showLeftPanel: boolean
+  showRightPanel: boolean
   theme: ThemeMode
   accent: AccentColor
 
   toggleLeftPanel: () => void
   setLeftPanel: (show: boolean) => void
+  toggleRightPanel: () => void
+  setRightPanel: (show: boolean) => void
   setTheme: (theme: ThemeMode) => void
   setAccent: (accent: AccentColor) => void
 }
@@ -69,6 +72,7 @@ export const useLayoutStore = create<LayoutStore>()(
   persist(
     (set) => ({
       showLeftPanel: !isMobileViewport,
+      showRightPanel: false,
       theme: THEME_MODES[0],
       accent: DEFAULT_ACCENT,
 
@@ -77,6 +81,12 @@ export const useLayoutStore = create<LayoutStore>()(
       },
       setLeftPanel: (show) => {
         set({ showLeftPanel: show })
+      },
+      toggleRightPanel: () => {
+        set((state) => ({ showRightPanel: !state.showRightPanel }))
+      },
+      setRightPanel: (show) => {
+        set({ showRightPanel: show })
       },
       setTheme: (theme) => {
         set({ theme })

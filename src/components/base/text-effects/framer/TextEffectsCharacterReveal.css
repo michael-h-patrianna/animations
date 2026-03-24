@@ -1,13 +1,15 @@
 /* Character Reveal — Framer Motion layout (no keyframes) */
 .pf-char-reveal {
+  --pf-char-reveal-color: #ffd700;
+  --pf-char-reveal-subtitle-color: color-mix(in srgb, var(--pf-char-reveal-color), transparent 20%);
   --pf-char-reveal-shadow: rgb(0 0 0 / 40%);
   --pf-char-reveal-shadow-blur: rgb(0 0 0 / 30%);
-  --pf-char-reveal-glow: rgb(255 215 0 / 30%);
-  --pf-char-reveal-subtitle: rgb(255 193 7 / 80%);
+  --pf-char-reveal-glow: color-mix(in srgb, var(--pf-char-reveal-color), transparent 70%);
+  --pf-char-reveal-subtitle: var(--pf-char-reveal-subtitle-color);
   --pf-char-reveal-subtitle-shadow: rgb(0 0 0 / 20%);
-  --pf-char-reveal-gold-100: #ffd700;
-  --pf-char-reveal-gold-101: #ffed4e;
-  --pf-char-reveal-gold-102: #ffa500;
+  --pf-char-reveal-gold-100: var(--pf-char-reveal-color);
+  --pf-char-reveal-gold-101: color-mix(in srgb, var(--pf-char-reveal-color), white 40%);
+  --pf-char-reveal-gold-102: color-mix(in srgb, var(--pf-char-reveal-color), black 20%);
   display: flex;
   flex-direction: column;
   align-items: center;

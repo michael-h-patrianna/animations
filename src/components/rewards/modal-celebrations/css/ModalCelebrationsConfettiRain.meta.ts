@@ -8,4 +8,15 @@ export const metadata = {
   description:
     'Windswept confetti shower with 3D tumble, depth layers, and top-edge flash. Configurable particleCount, colors, duration, and onComplete callback.',
   tier: 3,
+  props: [
+    { type: 'number', name: 'particleCount', label: 'Particle Count', default: 50, min: 10, max: 120, step: 1 },
+    { type: 'number', name: 'emitY', label: 'Emit Y', default: 0, min: 0, max: 100, step: 1, unit: '%' },
+    { type: 'number', name: 'duration', label: 'Duration', default: 2100, min: 800, max: 6000, step: 100, unit: 'ms' },
+    { type: 'colors', name: 'colors', label: 'Colors', default: ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ffffff'], maxItems: 8 },
+    { type: 'images', name: 'particleImages', label: 'Particle Images', default: [], maxItems: 10 },
+    { type: 'number', name: 'particleMaxWidth', label: 'Max Particle Width', default: 24, min: 8, max: 80, step: 2, unit: 'px' },
+    { type: 'number', name: 'particleMaxHeight', label: 'Max Particle Height', default: 24, min: 8, max: 80, step: 2, unit: 'px' },
+    { type: 'string', name: 'boundary', label: 'Boundary Element', disabled: true, disabledReason: 'HTMLElement ref — set in code' },
+    { type: 'string', name: 'onComplete', label: 'On Complete', disabled: true, disabledReason: 'Callback — set in code' },
+  ],
 } satisfies AnimationMetadata

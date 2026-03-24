@@ -10,6 +10,8 @@ interface TextEffectsVerbJumpProps {
    * @default 0.06
    */
   stepDelay?: number
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
 /**
@@ -24,6 +26,7 @@ interface TextEffectsVerbJumpProps {
 function TextEffectsVerbJumpComponent({
   text = 'LOREM IPSUM DOLOR',
   stepDelay = 0.06,
+  color,
 }: TextEffectsVerbJumpProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
@@ -32,6 +35,7 @@ function TextEffectsVerbJumpComponent({
       className="tfx-jump-container"
       data-animation-id="text-effects__verb-jumping"
       aria-label={text}
+      style={color !== undefined ? { '--lsd-baseColor': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-jump-line" aria-hidden="true">
         {letters.map((ch, i) => (

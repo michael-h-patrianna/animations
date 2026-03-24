@@ -11,13 +11,20 @@ import { memo, useMemo } from 'react'
 interface TextEffectsVerbJogProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
-function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbJogProps) {
+function TextEffectsVerbJogComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbJogProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="pf-verb-jog" data-animation-id="text-effects__verb-jogging" aria-label={text}>
+    <div
+      className="pf-verb-jog"
+      data-animation-id="text-effects__verb-jogging"
+      aria-label={text}
+      style={color !== undefined ? { '--pf-verb-jog-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-verb-jog__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span

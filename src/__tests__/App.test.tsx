@@ -47,11 +47,11 @@ describe('App', () => {
     expect(framerRadio[0]).toHaveAttribute('aria-checked', 'true')
   })
 
-  it('renders the mobile drawer in hidden state initially', () => {
+  it('renders the left panel visible by default', () => {
     renderApp()
 
-    const drawer = screen.getByRole('dialog', { hidden: true })
-    expect(drawer).toHaveAttribute('hidden')
+    const leftPanel = screen.getByTestId('left-panel')
+    expect(leftPanel).toBeInTheDocument()
   })
 
   it('renders animation cards from the real catalog', () => {

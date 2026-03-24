@@ -9,4 +9,8 @@ export const metadata: AnimationMetadata = {
     'Left-to-right cinematic highlight that briefly brightens and deforms each letter with a gentle settle.',
   disableReplay: false,
   tier: 3,
+  props: [
+    { type: 'string', name: 'text', label: 'Text', default: 'LOREM IPSUM DOLOR' },
+    { type: 'color', name: 'color', label: 'Color', default: '#e8e4da' },
+  ],
 }

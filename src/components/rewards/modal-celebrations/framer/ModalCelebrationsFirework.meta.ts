@@ -9,4 +9,13 @@ export const metadata = {
     'Infinite firework overlay with burst waves. Configurable particleImages (or colored circle fallbacks) and colors palette.',
   infinite: true,
   tier: 4,
+  props: [
+    { type: 'number', name: 'burstCount', label: 'Burst Count', default: 5, min: 1, max: 12, step: 1 },
+    { type: 'number', name: 'particlesPerBurst', label: 'Particles Per Burst', default: 50, min: 10, max: 100, step: 5 },
+    { type: 'number', name: 'duration', label: 'Cycle Duration', default: 2500, min: 800, max: 6000, step: 100, unit: 'ms' },
+    { type: 'colors', name: 'colors', label: 'Fallback Colors', default: ['#ff5981', '#c6ff77', '#47fff4', '#ffce1a', '#ffffff'], maxItems: 8 },
+    { type: 'images', name: 'particleImages', label: 'Particle Images', default: [], maxItems: 10 },
+    { type: 'number', name: 'particleMaxWidth', label: 'Max Particle Width', default: 24, min: 8, max: 80, step: 2, unit: 'px' },
+    { type: 'number', name: 'particleMaxHeight', label: 'Max Particle Height', default: 24, min: 8, max: 80, step: 2, unit: 'px' },
+  ],
 } satisfies AnimationMetadata

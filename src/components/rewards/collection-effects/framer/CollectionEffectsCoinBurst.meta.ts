@@ -9,4 +9,14 @@ export const metadata = {
     'Radial particle burst from a configurable origin point. Supports custom particle images with preloading, SVG confetti fallback, and onComplete callback. Accepts from/count/particleImages/onComplete props.',
   tier: 3,
   demoMode: 'burst',
+  props: [
+    { type: 'number', name: 'count', label: 'Particle Count', default: 14, min: 1, max: 40, step: 1 },
+    { type: 'number', name: 'particleSize', label: 'Particle Size', default: 24, min: 8, max: 80, step: 2, unit: 'px' },
+    { type: 'number', name: 'spread', label: 'Spread Distance', default: 130, min: 30, max: 300, step: 10, unit: 'px' },
+    { type: 'number', name: 'duration', label: 'Duration', default: 1200, min: 300, max: 5000, step: 100, unit: 'ms' },
+    { type: 'images', name: 'particleImages', label: 'Particle Images', default: ['/images/coin-particle.png'], maxItems: 10 },
+    { type: 'colors', name: 'colors', label: 'Fallback Colors', default: ['#FFD700', '#FF6B6B', '#4ECDC4'], maxItems: 8 },
+    { type: 'string', name: 'from', label: 'Origin Point', disabled: true, disabledReason: 'Ref or {x,y} — set in code' },
+    { type: 'string', name: 'onComplete', label: 'On Complete', disabled: true, disabledReason: 'Callback — set in code' },
+  ],
 } satisfies AnimationMetadata

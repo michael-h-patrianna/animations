@@ -6,6 +6,8 @@ interface TextEffectsVerbTwirlProps {
    * @default "LOREM IPSUM DOLOR"
    */
   text?: string
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
 /**
@@ -17,7 +19,7 @@ interface TextEffectsVerbTwirlProps {
  * <TextEffectsVerbTwirl text="SPIN AROUND" />
  * <TextEffectsVerbTwirl text="Twirl & Dance" />
  */
-function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbTwirlProps) {
+function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbTwirlProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -25,6 +27,7 @@ function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
       className="tfx-twirl-container"
       data-animation-id="text-effects__verb-twirling"
       aria-label={text}
+      style={color !== undefined ? { '--lsd-baseColor': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-twirl-line" aria-hidden="true">
         {letters.map((ch, i) => (

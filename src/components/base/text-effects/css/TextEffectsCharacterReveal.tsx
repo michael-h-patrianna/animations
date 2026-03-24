@@ -6,6 +6,10 @@ interface TextEffectsCharacterRevealProps {
   text?: string
   /** Subtitle text below the main reveal. @default 'UNLOCKED' */
   subtitle?: string
+  /** Base color for the metallic text gradient. Light/dark stops are computed. @default '#ffd700' */
+  color?: string
+  /** Subtitle text color. @default derived from color at 80% opacity */
+  subtitleColor?: string
 }
 
 /**
@@ -16,9 +20,18 @@ interface TextEffectsCharacterRevealProps {
 function TextEffectsCharacterRevealComponent({
   text = 'ACHIEVEMENT',
   subtitle = 'UNLOCKED',
+  color,
+  subtitleColor,
 }: TextEffectsCharacterRevealProps) {
   return (
-    <div className="tfx-char-reveal-container" data-animation-id="text-effects__character-reveal">
+    <div
+      className="tfx-char-reveal-container"
+      data-animation-id="text-effects__character-reveal"
+      style={{
+        ...(color !== undefined ? { '--text-effects-character-reveal-color': color } : {}),
+        ...(subtitleColor !== undefined ? { '--text-effects-character-reveal-subtitle-color': subtitleColor } : {}),
+      } as React.CSSProperties}
+    >
       <div className="tfx-char-reveal-text-container">
         {/* Shadow text layer */}
         <div className="tfx-char-reveal-shadow-text">

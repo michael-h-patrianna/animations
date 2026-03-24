@@ -9,4 +9,10 @@ export const metadata: AnimationMetadata = {
     'Animated image with scale pulse, rotation wobble and opacity breathing. Props: src, alt, width, duration.',
   infinite: true,
   tier: 2,
+  props: [
+    { type: 'image', name: 'src', label: 'Image URL', description: 'Image source URL. Renders a placeholder when omitted.' },
+    { type: 'string', name: 'alt', label: 'Alt Text', default: '' },
+    { type: 'number', name: 'width', label: 'Width', default: 140, min: 20, max: 400, step: 10, unit: 'px' },
+    { type: 'number', name: 'duration', label: 'Cycle Duration', default: 2000, min: 500, max: 20000, step: 500, unit: 'ms' },
+  ],
 }

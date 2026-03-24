@@ -1,14 +1,14 @@
 /* Styles scoped for TextEffectsCounterIncrement */
 .pf-counter-showcase {
   --text-effects-counter-increment-color: #c6ff77;
-  --text-effects-counter-increment-bg: rgb(255 215 0 / 22%);
+  --text-effects-counter-increment-bg: color-mix(in srgb, var(--text-effects-counter-increment-color), transparent 78%);
   --text-effects-counter-increment-text-shadow-100: rgb(0 0 0 / 25%);
-  --text-effects-counter-increment-text-shadow-101: rgb(255 215 0 / 35%);
-  --text-effects-counter-increment-bg-102: #fff8dc;
-  --text-effects-counter-increment-bg-103: #fff8dc;
-  --text-effects-counter-increment-bg-104: #ffd700;
-  --text-effects-counter-increment-bg-105: #ffa500;
-  --text-effects-counter-increment-bg-106: #ff8c00;
+  --text-effects-counter-increment-text-shadow-101: color-mix(in srgb, var(--text-effects-counter-increment-color), transparent 65%);
+  --text-effects-counter-increment-bg-102: color-mix(in srgb, var(--text-effects-counter-increment-color), white 85%);
+  --text-effects-counter-increment-bg-103: color-mix(in srgb, var(--text-effects-counter-increment-color), white 85%);
+  --text-effects-counter-increment-bg-104: var(--text-effects-counter-increment-color);
+  --text-effects-counter-increment-bg-105: color-mix(in srgb, var(--text-effects-counter-increment-color), black 20%);
+  --text-effects-counter-increment-bg-106: color-mix(in srgb, var(--text-effects-counter-increment-color), black 40%);
   display: flex;
   flex-direction: column;
   align-items: center;

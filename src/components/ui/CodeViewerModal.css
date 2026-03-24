@@ -48,3 +48,9 @@
   background: var(--bg-hover);
   border-color: var(--border-subtle);
 }
+
+.pf-card__code-btn--active {
+  color: var(--theme-accent, var(--text-primary));
+  background: var(--bg-active, var(--bg-hover));
+  border-color: var(--theme-accent, var(--border-default));
+}

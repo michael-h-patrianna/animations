@@ -13,11 +13,14 @@ interface TextEffectsLevelBreakthroughProps {
   startText?: string
   /** Text shown after breakthrough. @default 'LEVEL 2' */
   endText?: string
+  /** Text and surge ring color. @default '#ffce1a' */
+  color?: string
 }
 
 function TextEffectsLevelBreakthroughComponent({
   startText = 'LEVEL 1',
   endText = 'LEVEL 2',
+  color,
 }: TextEffectsLevelBreakthroughProps) {
   const levelControls = useAnimation()
   const surge1Controls = useAnimation()
@@ -83,7 +86,11 @@ function TextEffectsLevelBreakthroughComponent({
   }, [levelControls, surge1Controls, surge2Controls])
 
   return (
-    <div className="pf-breakthrough-container" data-animation-id="text-effects__level-breakthrough">
+    <div
+      className="pf-breakthrough-container"
+      data-animation-id="text-effects__level-breakthrough"
+      style={color !== undefined ? { '--text-effects-level-breakthrough-color': color } as React.CSSProperties : undefined}
+    >
       <m.div
         className="pf-surge-lines"
         animate={surge1Controls}
@@ -91,7 +98,7 @@ function TextEffectsLevelBreakthroughComponent({
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(circle, transparent 75%, var(--pf-anim-firework-gold) 76%, transparent 82%)',
+            'radial-gradient(circle, transparent 75%, var(--text-effects-level-breakthrough-color) 76%, transparent 82%)',
           opacity: 0,
         }}
       />
@@ -103,7 +110,7 @@ function TextEffectsLevelBreakthroughComponent({
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(circle, transparent 65%, var(--pf-anim-firework-gold) 66%, transparent 72%)',
+            'radial-gradient(circle, transparent 65%, var(--text-effects-level-breakthrough-color) 66%, transparent 72%)',
           opacity: 0,
         }}
       />

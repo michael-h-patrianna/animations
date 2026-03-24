@@ -1,0 +1,287 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { Input, type InputProps } from './Input'
+import { m as MotionEl } from 'motion/react'
+
+/** Props for the NumberInput component with expression evaluation support. */
+export interface NumberInputProps extends Omit<InputProps, 'onChange' | 'value'> {
+  value: number
+  onChange: (value: number) => void
+  min?: number
+  max?: number
+  step?: number
+  precision?: number
+}
+
+/**
+ * Tokenizes a math expression into numbers, operators, and parentheses.
+ */
+function tokenize(expr: string): (string | number)[] | null {
+  const tokens: (string | number)[] = []
+  let i = 0
+
+  while (i < expr.length) {
+    const char = expr.charAt(i)
+
+    if (/\s/.test(char)) {
+      i++
+      continue
+    }
+
+    if ('+-*/()%'.includes(char)) {
+      tokens.push(char)
+      i++
+      continue
+    }
+
+    if (/[0-9.]/.test(char)) {
+      let numStr = ''
+      while (i < expr.length && /[0-9.]/.test(expr.charAt(i))) {
+        numStr += expr.charAt(i)
+        i++
+      }
+      const num = parseFloat(numStr)
+      if (isNaN(num)) return null
+      tokens.push(num)
+      continue
+    }
+
+    return null
+  }
+
+  return tokens
+}
+
+/**
+ * Safe recursive descent parser for math expressions.
+ * Handles: +, -, *, /, %, parentheses, and unary minus.
+ */
+function parseTokens(tokens: (string | number)[]): number | null {
+  let pos = 0
+
+  function peek(): string | number | undefined {
+    return tokens[pos]
+  }
+
+  function consume(): string | number | undefined {
+    return tokens[pos++]
+  }
+
+  function parseExpr(): number | null {
+    let left = parseTerm()
+    if (left === null) return null
+
+    while (peek() === '+' || peek() === '-') {
+      const op = consume()
+      const right = parseTerm()
+      if (right === null) return null
+      left = op === '+' ? left + right : left - right
+    }
+
+    return left
+  }
+
+  function parseTerm(): number | null {
+    let left = parseFactor()
+    if (left === null) return null
+
+    while (peek() === '*' || peek() === '/' || peek() === '%') {
+      const op = consume()
+      const right = parseFactor()
+      if (right === null) return null
+      if (op === '*') left = left * right
+      else if (op === '/') {
+        if (right === 0) return null
+        left = left / right
+      } else left = left % right
+    }
+
+    return left
+  }
+
+  function parseFactor(): number | null {
+    if (peek() === '-') {
+      consume()
+      const val = parsePrimary()
+      if (val === null) return null
+      return -val
+    }
+    if (peek() === '+') {
+      consume()
+    }
+    return parsePrimary()
+  }
+
+  function parsePrimary(): number | null {
+    const token = peek()
+
+    if (typeof token === 'number') {
+      consume()
+      return token
+    }
+
+    if (token === '(') {
+      consume()
+      const result = parseExpr()
+      if (result === null) return null
+      if (peek() !== ')') return null
+      consume()
+      return result
+    }
+
+    return null
+  }
+
+  const result = parseExpr()
+
+  if (pos !== tokens.length) return null
+
+  return result
+}
+
+/**
+ * Safely parses and evaluates a math expression without using eval().
+ * Supports: numbers, +, -, *, /, %, parentheses, and constants (pi, tau, e).
+ */
+function parseExpression(expression: string): number | null {
+  try {
+    const expr = expression
+      .replace(/\bpi\b/gi, Math.PI.toString())
+      .replace(/\btau\b/gi, (Math.PI * 2).toString())
+      .replace(/\be\b/gi, Math.E.toString())
+
+    const tokens = tokenize(expr)
+    if (!tokens || tokens.length === 0) return null
+
+    const result = parseTokens(tokens)
+    if (result === null || !isFinite(result) || isNaN(result)) return null
+
+    return result
+  } catch {
+    return null
+  }
+}
+
+export const NumberInput: React.FC<NumberInputProps> = ({
+  value,
+  onChange,
+  min = -Infinity,
+  max = Infinity,
+  step = 1,
+  precision = 3,
+  onBlur,
+  ...props
+}) => {
+  const [localValue, setLocalValue] = useState(value.toString())
+  const [error, setError] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isFocused, setIsFocused] = useState(false)
+  const errorTimerRef = useRef<number | null>(null)
+  const isMountedRef = useRef(true)
+
+  useEffect(() => {
+    isMountedRef.current = true
+    return () => {
+      isMountedRef.current = false
+      if (errorTimerRef.current !== null) {
+        clearTimeout(errorTimerRef.current)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isFocused) {
+      const formatted = value.toFixed(precision)
+      setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
+    }
+  }, [value, precision, isFocused])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalValue(e.target.value)
+    setError(null)
+  }
+
+  const handleFocus = () => {
+    setIsFocused(true)
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocused(false)
+    const parsed = parseExpression(localValue)
+
+    if (parsed !== null) {
+      const clamped = Math.min(Math.max(parsed, min), max)
+      onChange(clamped)
+      const formatted = clamped.toFixed(precision)
+      setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
+      setError(null)
+    } else {
+      if (localValue.trim() === '') {
+        const formatted = value.toFixed(precision)
+        setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
+        setError(null)
+      } else {
+        setError('Invalid expression')
+        if (errorTimerRef.current !== null) {
+          clearTimeout(errorTimerRef.current)
+        }
+        errorTimerRef.current = window.setTimeout(() => {
+          if (!isMountedRef.current) return
+          const formatted = value.toFixed(precision)
+          setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
+          setError(null)
+          errorTimerRef.current = null
+        }, 1500)
+      }
+    }
+
+    if (onBlur) onBlur(e)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.currentTarget.blur()
+    }
+    props.onKeyDown?.(e)
+  }
+
+  return (
+    <Input
+      {...props}
+      ref={inputRef}
+      value={localValue}
+      onChange={handleChange}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onKeyDown={handleKeyDown}
+      error={error || props.error}
+      rightIcon={
+        <div className='flex flex-col gap-[1px]'>
+          <MotionEl.button
+            data-testid='number-input-change'
+            className='h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center'
+            onClick={() => {
+              onChange(Math.min(value + step, max))
+            }}
+            tabIndex={-1}
+          >
+            <svg width='6' height='4' viewBox='0 0 8 4' fill='currentColor'>
+              <path d='M4 0L8 4H0L4 0Z' />
+            </svg>
+          </MotionEl.button>
+          <MotionEl.button
+            data-testid='number-input-change-2'
+            className='h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center'
+            onClick={() => {
+              onChange(Math.max(value - step, min))
+            }}
+            tabIndex={-1}
+          >
+            <svg width='6' height='4' viewBox='0 0 8 4' fill='currentColor'>
+              <path d='M4 4L0 0H8L4 4Z' />
+            </svg>
+          </MotionEl.button>
+        </div>
+      }
+    />
+  )
+}

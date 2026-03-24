@@ -28,6 +28,8 @@ interface TextEffectsXpNumberPopProps {
   formatValue?: (n: number) => string
   /** Maximum floating particles. Auto-scales down for small ranges. @default 10 */
   maxParticles?: number
+  /** Base color for number, particles, and label. Gradient stops are computed. @default '#c6ff77' */
+  color?: string
 }
 
 const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
@@ -80,6 +82,7 @@ function TextEffectsXpNumberPopComponent({
   suffix = ' XP',
   formatValue = defaultFormat,
   maxParticles = 10,
+  color,
 }: TextEffectsXpNumberPopProps) {
   const [count, setCount] = useState(from)
   const formatRef = useRef(formatValue)
@@ -117,7 +120,11 @@ function TextEffectsXpNumberPopComponent({
   }, [from, to, range])
 
   return (
-    <div className="tfx-xp-container" data-animation-id="text-effects__xp-number-pop">
+    <div
+      className="tfx-xp-container"
+      data-animation-id="text-effects__xp-number-pop"
+      style={color !== undefined ? { '--text-effects-xp-number-pop-color': color } as React.CSSProperties : undefined}
+    >
       {/* Floating particles with calculated positions and delays */}
       {particles.map((particle, i) => (
         <div

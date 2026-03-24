@@ -9,4 +9,10 @@ export const metadata: AnimationMetadata = {
     'Ultra-thin progress line with photon trail and pulse effects. Pass `progress` (0-1) for controlled mode. Optional `label` prop. Style via --thin-label-color, --thin-track-color, --thin-fill-from/via/to, --thin-accent.',
   tier: 3,
   previewMaxWidth: 414,
+  props: [
+    { type: 'number', name: 'progress', label: 'Progress', default: 0.72, min: 0, max: 1, step: 0.01 },
+    { type: 'string', name: 'label', label: 'Label', default: 'Level progress' },
+    { type: 'string', name: 'className', label: 'Class Name' },
+    { type: 'string', name: 'style', label: 'Style', disabled: true, disabledReason: 'CSSProperties object — set via code' },
+  ],
 }

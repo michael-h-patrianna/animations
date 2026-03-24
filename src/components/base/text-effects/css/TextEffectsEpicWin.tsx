@@ -6,9 +6,13 @@ import './TextEffectsEpicWin.css'
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
-function TextEffectsEpicWinComponent({ text = 'EPIC WIN' }: { text?: string }) {
+function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: { text?: string; color?: string }) {
   return (
-    <div className="tfe-epic-win tfe-epic-win--animate" data-animation-id="text-effects__epic-win">
+    <div
+      className="tfe-epic-win tfe-epic-win--animate"
+      data-animation-id="text-effects__epic-win"
+      style={color !== undefined ? { '--text-effects-epic-win-color': color } as React.CSSProperties : undefined}
+    >
       <div className="tfe-epic-win__text-container">
         {/* Layered shadow elements for depth */}
         <div className="tfe-epic-win__shadow-far">{text}</div>

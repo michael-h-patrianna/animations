@@ -136,8 +136,9 @@ function AnimationCardWithSource({
       tier={animation.tier}
       previewMaxWidth={animation.previewMaxWidth}
       sourceLoader={hasAnyEntry ? sourceLoader : undefined}
+      propsConfig={animation.props}
     >
-      {({ bulbCount, onColor, prizeCount }) => {
+      {({ bulbCount, onColor, prizeCount, propOverrides }) => {
         if (!(animation.id in animationRegistry) || AnimationComponent === undefined) {
           return <div className="pf-card__placeholder">{animation.id}</div>
         }
@@ -145,6 +146,7 @@ function AnimationCardWithSource({
         const controlProps = {
           ...(animation.controls === 'lights' ? { numBulbs: bulbCount, onColor } : {}),
           ...(animation.controls === 'prizeCount' ? { prizeCount } : {}),
+          ...propOverrides,
         }
 
         if (animation.demoMode !== undefined) {

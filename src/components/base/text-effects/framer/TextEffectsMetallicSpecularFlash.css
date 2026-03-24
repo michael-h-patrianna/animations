@@ -2,7 +2,7 @@
 .pf-metallic-flash {
   --pf-msf-base-color: #e8e4da;
   --pf-msf-highlight-color: #fff;
-  --pf-msf-shadow-color: #b6b1a6;
+  --pf-msf-shadow-color: color-mix(in srgb, var(--pf-msf-base-color), black 20%);
   display: inline-flex;
   align-items: baseline;
 }

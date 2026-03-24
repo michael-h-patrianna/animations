@@ -4,6 +4,8 @@ import './TextEffectsMetallicSpecularFlash.css'
 interface TextEffectsMetallicSpecularFlashProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Base text color. Highlight and shadow are computed automatically. @default '#e8e4da' */
+  color?: string
 }
 
 /**
@@ -13,6 +15,7 @@ interface TextEffectsMetallicSpecularFlashProps {
  */
 function TextEffectsMetallicSpecularFlashComponent({
   text = 'LOREM IPSUM DOLOR',
+  color,
 }: TextEffectsMetallicSpecularFlashProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
@@ -21,6 +24,7 @@ function TextEffectsMetallicSpecularFlashComponent({
       className="tfx-metallic-specular-flash"
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
+      style={color !== undefined ? { '--tfx-msf-base-color': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-metallic-specular-flash__line" aria-hidden="true">
         {letters.map((ch, i) => (

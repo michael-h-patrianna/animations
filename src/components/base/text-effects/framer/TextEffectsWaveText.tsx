@@ -29,6 +29,8 @@ interface TextEffectsWaveTextProps {
   charDelay?: number
   /** Show animated highlight effect on characters. @default true */
   showHighlight?: boolean
+  /** Text color. @default '#3b82f6' */
+  color?: string
 }
 
 function WaveCharacter({
@@ -85,11 +87,16 @@ function TextEffectsWaveTextComponent({
   text = 'WAVE MOTION',
   charDelay = 0.05,
   showHighlight = true,
+  color,
 }: TextEffectsWaveTextProps) {
   const chars = useMemo(() => text.split(''), [text])
 
   return (
-    <div className="pf-wave-text" data-animation-id="text-effects__wave-text">
+    <div
+      className="pf-wave-text"
+      data-animation-id="text-effects__wave-text"
+      style={color !== undefined ? { '--pf-wave-text-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-wave-text__wrapper">
         {chars.map((char, index) => (
           <WaveCharacter

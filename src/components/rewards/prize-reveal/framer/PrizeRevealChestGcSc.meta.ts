@@ -8,5 +8,8 @@ export const metadata = {
   description:
     'Pirate chest rises, shakes, opens — Gold Coins and Sweepstake Coins fly out with prize rays and amount text.',
   controls: 'prizeCount',
+  props: [
+    { type: 'number', name: 'prizeCount', label: 'Prize Count', default: 3, min: 1, max: 4, step: 1 },
+  ],
   tier: 4,
 } satisfies AnimationMetadata

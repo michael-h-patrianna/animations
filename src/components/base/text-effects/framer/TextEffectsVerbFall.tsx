@@ -13,16 +13,24 @@ interface TextEffectsVerbFallProps {
   text?: string
   /** Delay between each character's animation start in seconds. @default 0.05 */
   stepDelay?: number
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
 function TextEffectsVerbFallComponent({
   text = 'LOREM IPSUM DOLOR',
   stepDelay = 0.05,
+  color,
 }: TextEffectsVerbFallProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="pf-verb-fall" data-animation-id="text-effects__verb-falling" aria-label={text}>
+    <div
+      className="pf-verb-fall"
+      data-animation-id="text-effects__verb-falling"
+      aria-label={text}
+      style={color !== undefined ? { '--pf-verb-fall-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-verb-fall__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span

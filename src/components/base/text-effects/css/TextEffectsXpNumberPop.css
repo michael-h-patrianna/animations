@@ -1,17 +1,18 @@
 /* Container */
 .tfx-xp-container {
-  --text-effects-xp-number-pop-bg-1: #c6ff77;
-  --text-effects-xp-number-pop-bg-2: #a8ff3e;
-  --text-effects-xp-number-pop-text-shadow-1: rgb(198 255 119 / 90%);
-  --text-effects-xp-number-pop-color-1: #b8ff5e;
-  --text-effects-xp-number-pop-text-shadow-2: rgb(184 255 94 / 90%);
-  --text-effects-xp-number-pop-text-shadow-3: rgb(168 255 62 / 90%);
-  --text-effects-xp-number-pop-color-2: #9bff28;
-  --text-effects-xp-number-pop-text-shadow-4: rgb(155 255 40 / 90%);
-  --text-effects-xp-number-pop-color-3: #8eff10;
-  --text-effects-xp-number-pop-text-shadow-5: rgb(142 255 16 / 90%);
-  --text-effects-xp-number-pop-text-shadow-100: rgb(198 255 119 / 80%);
-  --text-effects-xp-number-pop-text-shadow-101: rgb(198 255 119 / 50%);
+  --text-effects-xp-number-pop-color: #c6ff77;
+  --text-effects-xp-number-pop-bg-1: var(--text-effects-xp-number-pop-color);
+  --text-effects-xp-number-pop-bg-2: color-mix(in srgb, var(--text-effects-xp-number-pop-color), black 15%);
+  --text-effects-xp-number-pop-text-shadow-1: color-mix(in srgb, var(--text-effects-xp-number-pop-color), transparent 10%);
+  --text-effects-xp-number-pop-color-1: color-mix(in srgb, var(--text-effects-xp-number-pop-color), black 8%);
+  --text-effects-xp-number-pop-text-shadow-2: color-mix(in srgb, var(--text-effects-xp-number-pop-color), transparent 10%);
+  --text-effects-xp-number-pop-text-shadow-3: color-mix(in srgb, var(--text-effects-xp-number-pop-color), transparent 10%);
+  --text-effects-xp-number-pop-color-2: color-mix(in srgb, var(--text-effects-xp-number-pop-color), black 22%);
+  --text-effects-xp-number-pop-text-shadow-4: color-mix(in srgb, var(--text-effects-xp-number-pop-color), transparent 10%);
+  --text-effects-xp-number-pop-color-3: color-mix(in srgb, var(--text-effects-xp-number-pop-color), black 35%);
+  --text-effects-xp-number-pop-text-shadow-5: color-mix(in srgb, var(--text-effects-xp-number-pop-color), transparent 10%);
+  --text-effects-xp-number-pop-text-shadow-100: color-mix(in srgb, var(--text-effects-xp-number-pop-color), transparent 20%);
+  --text-effects-xp-number-pop-text-shadow-101: color-mix(in srgb, var(--text-effects-xp-number-pop-color), transparent 50%);
   --text-effects-xp-number-pop-text-shadow-102: rgb(0 0 0 / 30%);
   position: relative;
   min-height: 80px;

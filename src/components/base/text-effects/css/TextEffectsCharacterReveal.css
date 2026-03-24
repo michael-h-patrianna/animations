@@ -45,12 +45,14 @@
 
 /* Styles scoped for TextEffectsCharacterReveal */
 .tfx-char-reveal-container {
+  --text-effects-character-reveal-color: #ffd700;
+  --text-effects-character-reveal-subtitle-color: color-mix(in srgb, var(--text-effects-character-reveal-color), transparent 20%);
   --text-effects-character-reveal-color-1: rgb(0 0 0 / 40%);
   --text-effects-character-reveal-text-shadow: rgb(0 0 0 / 30%);
-  --text-effects-character-reveal-color-2: rgb(255 193 7 / 80%);
-  --text-effects-character-reveal-bg-100: #ffd700;
-  --text-effects-character-reveal-bg-101: #ffed4e;
-  --text-effects-character-reveal-bg-102: #ffa500;
+  --text-effects-character-reveal-color-2: var(--text-effects-character-reveal-subtitle-color);
+  --text-effects-character-reveal-bg-100: var(--text-effects-character-reveal-color);
+  --text-effects-character-reveal-bg-101: color-mix(in srgb, var(--text-effects-character-reveal-color), white 40%);
+  --text-effects-character-reveal-bg-102: color-mix(in srgb, var(--text-effects-character-reveal-color), black 20%);
   display: flex;
   flex-direction: column;
   align-items: center;

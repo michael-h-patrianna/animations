@@ -10,6 +10,8 @@ interface TextEffectsVerbFallProps {
    * @default 0.05
    */
   stepDelay?: number
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
 /**
@@ -24,6 +26,7 @@ interface TextEffectsVerbFallProps {
 function TextEffectsVerbFallComponent({
   text = 'LOREM IPSUM DOLOR',
   stepDelay = 0.05,
+  color,
 }: TextEffectsVerbFallProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
@@ -32,6 +35,7 @@ function TextEffectsVerbFallComponent({
       className="tfx-fall-container"
       data-animation-id="text-effects__verb-falling"
       aria-label={text}
+      style={color !== undefined ? { '--lsd-baseColor': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-fall-line" aria-hidden="true">
         {letters.map((ch, i) => (

@@ -9,4 +9,10 @@ export const metadata: AnimationMetadata = {
   disableReplay: false,
   infinite: true,
   tier: 2,
+  props: [
+    { type: 'string', name: 'text', label: 'Text', default: 'SYSTEM ERROR' },
+    { type: 'string', name: 'children', label: 'Children', disabled: true, disabledReason: 'Pass content via JSX children' },
+    { type: 'string', name: 'className', label: 'Class Name', disabled: true, disabledReason: 'Pass additional CSS classes via props' },
+    { type: 'color', name: 'color', label: 'Color', default: '#ffffff' },
+  ],
 }

@@ -7,6 +7,7 @@
 export { EditorLayout } from './components/layout/EditorLayout'
 export { EditorTopBar } from './components/layout/EditorTopBar'
 export { EditorLeftPanel } from './components/layout/EditorLeftPanel'
+export { EditorRightPanel } from './components/layout/EditorRightPanel'
 
 // UI components
 export { Button, type ButtonProps } from './components/ui/Button'

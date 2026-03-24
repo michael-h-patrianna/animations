@@ -134,7 +134,7 @@ export const Modal: React.FC<ModalProps> = ({
       data-accent={accent}
       data-testid={dataTestId}
     >
-      <div className="bg-panel border border-panel-border rounded-lg shadow-2xl overflow-hidden pointer-events-auto">
+      <div className="glass-panel rounded-lg shadow-2xl overflow-hidden pointer-events-auto">
         <ModalHeader titleId={titleId} title={title} headerRight={headerRight} onClose={onClose} />
         <div className={bodyClassName}>{children}</div>
       </div>

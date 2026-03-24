@@ -11,9 +11,11 @@ import { memo, useMemo } from 'react'
 interface TextEffectsVerbFloatProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
-function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbFloatProps) {
+function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbFloatProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -21,6 +23,7 @@ function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
       className="pf-verb-float"
       data-animation-id="text-effects__verb-floating"
       aria-label={text}
+      style={color !== undefined ? { '--pf-verb-float-color': color } as React.CSSProperties : undefined}
     >
       <div className="pf-verb-float__line" aria-hidden="true">
         {letters.map((ch, i) => (

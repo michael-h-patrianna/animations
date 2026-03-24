@@ -20,6 +20,9 @@ interface TextEffectsGlitchTextProps {
    * Applied to the root container element.
    */
   className?: string
+
+  /** Base text color. @default '#ffffff' */
+  color?: string
 }
 
 /**
@@ -31,6 +34,7 @@ function TextEffectsGlitchTextComponent({
   text = 'SYSTEM ERROR',
   children,
   className = '',
+  color,
 }: TextEffectsGlitchTextProps) {
   const content = children ?? text
 
@@ -38,6 +42,7 @@ function TextEffectsGlitchTextComponent({
     <div
       className={`tfx-glitchtext__container ${className}`.trim()}
       data-animation-id="text-effects__tfx-glitchtext"
+      style={color !== undefined ? { '--tfx-glitchtext-color': color } as React.CSSProperties : undefined}
     >
       {/* Main text layer */}
       <div className="tfx-glitchtext__base">{content}</div>

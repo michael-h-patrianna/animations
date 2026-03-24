@@ -4,11 +4,12 @@
   --pf-epic-win-shadow-2: rgb(0 0 0 / 15%);
   --pf-epic-win-highlight: rgb(255 255 255 / 40%);
   --pf-epic-win-char-shadow: rgb(0 0 0 / 30%);
-  --pf-epic-win-glow-bg: rgb(255 215 0 / 20%);
-  --pf-epic-win-gold-100: #fff8dc;
-  --pf-epic-win-gold-200: #ffd700;
-  --pf-epic-win-gold-300: #ffa500;
-  --pf-epic-win-gold-400: #ff8c00;
+  --pf-epic-win-color: #ffd700;
+  --pf-epic-win-glow-bg: color-mix(in srgb, var(--pf-epic-win-color), transparent 80%);
+  --pf-epic-win-gold-100: color-mix(in srgb, var(--pf-epic-win-color), white 85%);
+  --pf-epic-win-gold-200: var(--pf-epic-win-color);
+  --pf-epic-win-gold-300: color-mix(in srgb, var(--pf-epic-win-color), black 20%);
+  --pf-epic-win-gold-400: color-mix(in srgb, var(--pf-epic-win-color), black 40%);
   display: flex;
   flex-direction: column;
   align-items: center;

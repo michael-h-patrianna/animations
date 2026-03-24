@@ -14,12 +14,15 @@ interface TextEffectsGlitchTextProps {
   children?: React.ReactNode
   /** Additional CSS class for the container. */
   className?: string
+  /** Base text color. @default '#ffffff' */
+  color?: string
 }
 
 function TextEffectsGlitchTextComponent({
   text = 'SYSTEM ERROR',
   children,
   className = '',
+  color,
 }: TextEffectsGlitchTextProps) {
   const content = children ?? text
 
@@ -27,6 +30,7 @@ function TextEffectsGlitchTextComponent({
     <div
       className={`pf-glitch ${className}`.trim()}
       data-animation-id="text-effects__tfx-glitchtext"
+      style={color !== undefined ? { '--pf-glitch-color-base': color } as React.CSSProperties : undefined}
     >
       {/* Main text */}
       <m.div

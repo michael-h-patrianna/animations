@@ -11,10 +11,13 @@ import { memo, useMemo } from 'react'
 interface TextEffectsHorizonLightPassProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Base text color. Highlight is always white. @default '#e8e4da' */
+  color?: string
 }
 
 function TextEffectsHorizonLightPassComponent({
   text = 'LOREM IPSUM DOLOR',
+  color,
 }: TextEffectsHorizonLightPassProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
@@ -72,6 +75,7 @@ function TextEffectsHorizonLightPassComponent({
       variants={containerVariants}
       initial="hidden"
       animate={['show', 'settle']}
+      style={color !== undefined ? { '--pf-hlp-base-color': color } as React.CSSProperties : undefined}
     >
       <div className="pf-horizon-light__line" aria-hidden="true">
         {letters.map((ch, i) => (

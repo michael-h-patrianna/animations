@@ -13,16 +13,29 @@ interface TextEffectsCharacterRevealProps {
   text?: string
   /** Subtitle text below the main reveal. @default 'UNLOCKED' */
   subtitle?: string
+  /** Base color for the metallic text gradient. Light/dark stops are computed. @default '#ffd700' */
+  color?: string
+  /** Subtitle text color. @default derived from color at 80% opacity */
+  subtitleColor?: string
 }
 
 function TextEffectsCharacterRevealComponent({
   text = 'ACHIEVEMENT',
   subtitle = 'UNLOCKED',
+  color,
+  subtitleColor,
 }: TextEffectsCharacterRevealProps) {
   const chars = useMemo(() => text.split(''), [text])
 
   return (
-    <div className="pf-char-reveal" data-animation-id="text-effects__character-reveal">
+    <div
+      className="pf-char-reveal"
+      data-animation-id="text-effects__character-reveal"
+      style={{
+        ...(color !== undefined ? { '--pf-char-reveal-color': color } : {}),
+        ...(subtitleColor !== undefined ? { '--pf-char-reveal-subtitle-color': subtitleColor } : {}),
+      } as React.CSSProperties}
+    >
       <div className="pf-char-reveal__text-container">
         {/* Shadow text layer */}
         <m.div

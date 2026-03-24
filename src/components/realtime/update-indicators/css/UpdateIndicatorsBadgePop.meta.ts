@@ -9,4 +9,9 @@ export const metadata = {
     'Animated badge that pops in with elastic overshoot. Place next to any element to signal new content. Configure children (badge text), color, duration.',
   tier: 2,
   demoMode: 'status-row',
+  props: [
+    { type: 'string', name: 'children', label: 'Children', disabled: true, disabledReason: 'ReactNode — set via JSX children' },
+    { type: 'color', name: 'color', label: 'Color', default: '#c47ae5' },
+    { type: 'number', name: 'duration', label: 'Duration', default: 400, min: 100, max: 1500, step: 50, unit: 'ms' },
+  ],
 } satisfies AnimationMetadata

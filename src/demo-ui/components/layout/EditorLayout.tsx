@@ -1,40 +1,43 @@
 /**
  * EditorLayout Component
- * Main layout wrapper providing glassmorphic UI overlay with theme support.
- * Theme attributes live on the outermost wrapper so both content and overlay inherit them.
+ * Three-panel layout: left explorer, center content, right inspector.
+ * Glassmorphic UI with theme scoping via data attributes.
  */
 
-import type React from 'react'
-import { AnimatePresence, m } from 'motion/react'
+import React, { Suspense } from 'react'
+import { AnimatePresence } from 'motion/react'
+import * as m from 'motion/react-m'
 import { useShallow } from 'zustand/react/shallow'
 import { useLayoutStore, type LayoutStore } from '@/demo-ui/stores/layoutStore'
 import { EditorTopBar } from '@/demo-ui/components/layout/EditorTopBar'
 import { EditorLeftPanel } from '@/demo-ui/components/layout/EditorLeftPanel'
 
-/** Props for the EditorLayout component. */
+const EditorRightPanel = React.lazy(() =>
+  import('./EditorRightPanel').then((mod) => ({ default: mod.EditorRightPanel }))
+)
+
 interface EditorLayoutProps {
   children?: React.ReactNode
-  /** Called when the panel toggle is clicked on mobile (opens the drawer). */
-  onOpenDrawer?: () => void
-  /** Overlay content rendered above the glassmorphic shell (e.g., MobileDrawer). */
-  overlay?: React.ReactNode
+}
+
+const SPRING_CONFIG = {
+  type: 'spring' as const,
+  damping: 25,
+  stiffness: 300,
+  mass: 0.8,
 }
 
 const panelVariants = {
   hiddenLeft: { x: -340, opacity: 0, scale: 0.95 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { type: 'spring' as const, damping: 25, stiffness: 300, mass: 0.8 },
-  },
+  visible: { x: 0, opacity: 1, scale: 1, transition: SPRING_CONFIG },
+  hiddenRight: { x: 340, opacity: 0, scale: 0.95 },
 }
 
-/** Full-screen editor layout with theme scoping, glassmorphic top bar, and animated left panel. */
-export const EditorLayout: React.FC<EditorLayoutProps> = ({ children, onOpenDrawer, overlay }) => {
-  const { leftPanelVisible, theme, accent } = useLayoutStore(
+export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
+  const { leftPanelVisible, rightPanelVisible, theme, accent } = useLayoutStore(
     useShallow((state: LayoutStore) => ({
       leftPanelVisible: state.showLeftPanel,
+      rightPanelVisible: state.showRightPanel,
       theme: state.theme,
       accent: state.accent,
     }))
@@ -48,8 +51,6 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children, onOpenDraw
       className="relative h-screen supports-[height:100dvh]:h-[100dvh] w-screen overflow-hidden"
       style={{ backgroundColor: 'var(--bg-app)' }}
     >
-      <div className="absolute inset-0 z-0 overflow-auto">{children}</div>
-
       <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -58,10 +59,11 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children, onOpenDraw
         style={{ color: 'var(--text-primary)' }}
       >
         <div className="pointer-events-auto shrink-0 z-50">
-          <EditorTopBar onOpenDrawer={onOpenDrawer} />
+          <EditorTopBar />
         </div>
 
         <div className="flex flex-1 min-h-0 overflow-hidden relative p-2 gap-2">
+          {/* Left Panel */}
           <AnimatePresence mode="popLayout">
             {leftPanelVisible && (
               <m.div
@@ -69,7 +71,8 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children, onOpenDraw
                 animate="visible"
                 exit="hiddenLeft"
                 variants={panelVariants}
-                className="glass-panel rounded-xl h-full overflow-hidden w-80 pointer-events-auto flex flex-col absolute left-2 top-0 bottom-2 z-30 shadow-2xl"
+                data-testid="left-panel"
+                className="glass-panel rounded-xl h-full overflow-hidden w-80 pointer-events-auto flex flex-col relative z-20"
               >
                 <div className="w-full h-full overflow-hidden">
                   <EditorLeftPanel />
@@ -77,12 +80,33 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children, onOpenDraw
               </m.div>
             )}
           </AnimatePresence>
-          <div className="flex-1 flex flex-col min-w-0 relative z-0" />
+
+          {/* Center Content */}
+          <div className="flex-1 flex flex-col min-w-0 relative z-0 pointer-events-auto overflow-auto">
+            {children}
+          </div>
+
+          {/* Right Panel */}
+          <AnimatePresence mode="popLayout">
+            {rightPanelVisible && (
+              <m.div
+                initial="hiddenRight"
+                animate="visible"
+                exit="hiddenRight"
+                variants={panelVariants}
+                data-testid="right-panel"
+                className="glass-panel rounded-xl h-full overflow-hidden w-80 pointer-events-auto flex flex-col relative z-20"
+              >
+                <div id="inspector-panel" className="w-full h-full overflow-hidden">
+                  <Suspense fallback={null}>
+                    <EditorRightPanel />
+                  </Suspense>
+                </div>
+              </m.div>
+            )}
+          </AnimatePresence>
         </div>
       </m.div>
-
-      {/* Overlay slot: rendered above the glassmorphic shell for modals/drawers */}
-      {overlay}
     </div>
   )
 }

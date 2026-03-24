@@ -26,6 +26,12 @@ interface TextEffectsComboCounterProps {
   formatValue?: (n: number) => string
   /** Maximum number of milestone particles. @default 4 */
   maxParticles?: number
+  /** Number gradient base color. @default '#ef4444' */
+  numberColor?: string
+  /** Label and hit-marker color. @default '#f59e0b' */
+  labelColor?: string
+  /** Bonus text color. @default '#ffd700' */
+  bonusColor?: string
 }
 
 const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
@@ -54,6 +60,9 @@ function TextEffectsComboCounterComponent({
   bonusText = 'PERFECT!',
   formatValue = defaultFormat,
   maxParticles = 4,
+  numberColor,
+  labelColor,
+  bonusColor,
 }: TextEffectsComboCounterProps) {
   const formatRef = useRef(formatValue)
   formatRef.current = formatValue
@@ -75,7 +84,15 @@ function TextEffectsComboCounterComponent({
   }, [count, from, to])
 
   return (
-    <div className="pf-combo" data-animation-id="text-effects__combo-counter">
+    <div
+      className="pf-combo"
+      data-animation-id="text-effects__combo-counter"
+      style={{
+        ...(numberColor !== undefined ? { '--pf-combo-number-color': numberColor } : {}),
+        ...(labelColor !== undefined ? { '--pf-combo-label-color': labelColor } : {}),
+        ...(bonusColor !== undefined ? { '--pf-combo-bonus-color': bonusColor } : {}),
+      } as React.CSSProperties}
+    >
       <div className="pf-combo__main">
         {/* Number counter with multiplier */}
         <m.div

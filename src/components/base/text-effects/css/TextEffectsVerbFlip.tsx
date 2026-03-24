@@ -6,6 +6,8 @@ interface TextEffectsVerbFlipProps {
    * @default "LOREM IPSUM DOLOR"
    */
   text?: string
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
 /**
@@ -17,7 +19,7 @@ interface TextEffectsVerbFlipProps {
  * <TextEffectsVerbFlip text="SPIN ME" />
  * <TextEffectsVerbFlip text="Flip That!" />
  */
-function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbFlipProps) {
+function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbFlipProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -25,6 +27,7 @@ function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffect
       className="tfx-flip-container"
       data-animation-id="text-effects__verb-flipping"
       aria-label={text}
+      style={color !== undefined ? { '--lsd-baseColor': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-flip-line" aria-hidden="true">
         {letters.map((ch, i) => (

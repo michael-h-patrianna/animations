@@ -8,7 +8,7 @@
 /* Container - relative positioning for absolute surge rings */
 .tfx-breakthrough-container {
   --text-effects-level-breakthrough-color: #ffce1a;
-  --text-effects-level-breakthrough-text-shadow-1: rgb(255 206 26 / 80%);
+  --text-effects-level-breakthrough-text-shadow-1: color-mix(in srgb, var(--text-effects-level-breakthrough-color), transparent 20%);
   position: relative;
   display: inline-block;
 }

@@ -1,6 +1,7 @@
 /* Styles scoped for TextEffectsLevelBreakthrough */
 .pf-breakthrough-container {
   --text-effects-level-breakthrough-color: #ffce1a;
+  --text-effects-level-breakthrough-glow: color-mix(in srgb, var(--text-effects-level-breakthrough-color), transparent 20%);
   position: relative;
 }
 .pf-level-breakthrough {
@@ -13,7 +14,7 @@
   z-index: 2;
 }
 .pf-level-breakthrough--glow {
-  text-shadow: 0 0 30px var(--pf-anim-firework-gold-80);
+  text-shadow: 0 0 30px var(--text-effects-level-breakthrough-glow);
 }
 .pf-surge-lines {
   position: absolute;

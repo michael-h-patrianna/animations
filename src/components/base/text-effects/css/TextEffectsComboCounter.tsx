@@ -25,6 +25,12 @@ interface TextEffectsComboCounterProps {
   formatValue?: (n: number) => string
   /** Maximum number of milestone particles. @default 4 */
   maxParticles?: number
+  /** Number gradient base color. @default '#ef4444' */
+  numberColor?: string
+  /** Label and hit-marker color. @default '#f59e0b' */
+  labelColor?: string
+  /** Bonus text color. @default '#ffd700' */
+  bonusColor?: string
 }
 
 const defaultFormat = (n: number): string => Math.round(n).toLocaleString()
@@ -58,6 +64,9 @@ function TextEffectsComboCounterComponent({
   bonusText = 'PERFECT!',
   formatValue = defaultFormat,
   maxParticles = 4,
+  numberColor,
+  labelColor,
+  bonusColor,
 }: TextEffectsComboCounterProps = {}) {
   const [count, setCount] = useState(from)
   const formatRef = useRef(formatValue)
@@ -106,7 +115,15 @@ function TextEffectsComboCounterComponent({
   }
 
   return (
-    <div className="tfx-combo-container" data-animation-id="text-effects__combo-counter">
+    <div
+      className="tfx-combo-container"
+      data-animation-id="text-effects__combo-counter"
+      style={{
+        ...(numberColor !== undefined ? { '--text-effects-combo-counter-number-color': numberColor } : {}),
+        ...(labelColor !== undefined ? { '--text-effects-combo-counter-label-color': labelColor } : {}),
+        ...(bonusColor !== undefined ? { '--text-effects-combo-counter-bonus-color': bonusColor } : {}),
+      } as React.CSSProperties}
+    >
       <div className="tfx-combo-main">
         <div className="tfx-combo-number-wrapper">
           <div className="tfx-combo-number-container">

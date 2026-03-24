@@ -4,6 +4,8 @@ import './TextEffectsLightSweepDraw.css'
 interface TextEffectsLightSweepDrawProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Base text color. Highlight is always white. @default '#e8e4da' */
+  color?: string
 }
 
 /**
@@ -13,6 +15,7 @@ interface TextEffectsLightSweepDrawProps {
  */
 function TextEffectsLightSweepDrawComponent({
   text = 'LOREM IPSUM DOLOR',
+  color,
 }: TextEffectsLightSweepDrawProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
@@ -21,6 +24,7 @@ function TextEffectsLightSweepDrawComponent({
       className="tfx-light-sweep-draw"
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
+      style={color !== undefined ? { '--tfx-lsd-base-color': color } as React.CSSProperties : undefined}
     >
       <div className="tfx-light-sweep-draw__line" aria-hidden="true">
         {letters.map((ch, i) => (

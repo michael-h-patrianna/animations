@@ -17,6 +17,16 @@ const ASYMMETRIC_MATCHER_NAMES = new Set([
   'arrayContaining',
 ])
 
+/** Query methods that produce flaky locators when used as .click() targets. */
+const FLAKY_QUERY_METHODS = new Set([
+  'getByText',
+  'getByRole',
+  'getByLabelText',
+  'getByPlaceholderText',
+  'getByAltText',
+  'getByTitle',
+])
+
 const testingRules = {
   /**
    * Require data-testid on UI components in src/components/ui/.
@@ -319,6 +329,90 @@ const testingRules = {
             obj.callee.name === 'expect'
           ) {
             context.report({ node: node.callee.property, message: MSG })
+          }
+        },
+      }
+    },
+  },
+  /**
+   * Ban page.waitForTimeout() in E2E specs.
+   * Arbitrary delays are flaky, slow, and hide real timing issues.
+   * Wait for a condition: toBeVisible, waitForFunction, expect.poll.
+   */
+  'no-waitfor-timeout': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'Disallow page.waitForTimeout() in E2E specs — use condition-based waits instead.',
+      },
+      schema: [],
+    },
+    create(context) {
+      const filename = getFilename(context)
+      if (!filename.includes(`${sep}e2e${sep}`)) return {}
+
+      return {
+        CallExpression(node) {
+          if (node.callee?.type !== 'MemberExpression') return
+          if (node.callee.property?.name !== 'waitForTimeout') return
+          context.report({
+            node,
+            message:
+              'waitForTimeout() is banned in E2E tests — arbitrary delays are flaky. Wait for a condition: toBeVisible(), waitForFunction(), expect.poll().',
+          })
+        },
+      }
+    },
+  },
+
+  /**
+   * Ban flaky .click() targets obtained via getByText, getByRole, etc.
+   * Click targets must use getByTestId or data-testid locators.
+   * Text and role selectors break on any copy or DOM structure change.
+   */
+  'no-flaky-click-selectors': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'E2E click targets must use getByTestId or data-testid locators, not text/role/label selectors.',
+      },
+      schema: [],
+    },
+    create(context) {
+      const filename = getFilename(context)
+      if (!filename.includes(`${sep}e2e${sep}`)) return {}
+
+      return {
+        CallExpression(node) {
+          // Match: <expr>.click(...)
+          if (node.callee?.type !== 'MemberExpression') return
+          if (node.callee.property?.name !== 'click') return
+
+          // Walk back through the chain to find the query method
+          let obj = node.callee.object
+          // Handle chained calls like page.getByText('x').first().click()
+          while (obj.type === 'CallExpression' && obj.callee?.type === 'MemberExpression') {
+            const method = obj.callee.property
+            if (method?.type === 'Identifier' && FLAKY_QUERY_METHODS.has(method.name)) {
+              context.report({
+                node: method,
+                message: `.click() target must use getByTestId() or [data-testid] locator. ${method.name}() produces flaky selectors that break on text or DOM changes.`,
+              })
+              return
+            }
+            obj = obj.callee.object
+          }
+          // Direct call: page.getByText('x').click()
+          if (obj.type === 'CallExpression' && obj.callee?.type === 'Identifier') {
+            const name = obj.callee.name
+            if (FLAKY_QUERY_METHODS.has(name)) {
+              context.report({
+                node: obj.callee,
+                message: `.click() target must use getByTestId() or [data-testid] locator. ${name}() produces flaky selectors that break on text or DOM changes.`,
+              })
+            }
           }
         },
       }

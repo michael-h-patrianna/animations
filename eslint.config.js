@@ -418,6 +418,10 @@ export default defineConfig([
       'animation-rules/no-hardcoded-colors': 'off',
       // Ban CSS class/ID selectors in locator() — use data-testid or aria-* instead
       'animation-rules/no-class-id-locators': 'error',
+      // Ban waitForTimeout() — flaky arbitrary delays. Use condition-based waits.
+      'animation-rules/no-waitfor-timeout': 'error',
+      // Ban flaky click targets (getByText, getByRole) — use getByTestId or data-testid locators
+      'animation-rules/no-flaky-click-selectors': 'error',
     },
   },
   // Animation-specific e2e tests: CSS class selectors are acceptable for testing
@@ -489,6 +493,29 @@ export default defineConfig([
       'src/components/**/SharedDefaults.ts',
       'src/components/**/SharedCelebrationTypes.ts',
       'src/components/**/SharedFallbackCoin.tsx',
+    ],
+    rules: {
+      'animation-rules/no-hardcoded-colors': 'off',
+    },
+  },
+  // Settings panel UI: hex values are form input defaults (color picker fallbacks),
+  // not hardcoded animation styling. Meta prop defaults are consumer-facing values.
+  {
+    files: [
+      'src/components/ui/PropField.tsx',
+      'src/components/**/*.meta.ts',
+    ],
+    rules: {
+      'animation-rules/no-hardcoded-colors': 'off',
+    },
+  },
+  // Color picker: hue spectrum gradient and SV area use fixed HSL/hex values
+  // that define the color wheel itself — no theme token can replace them.
+  // Color utilities: raw color values are the purpose of these modules.
+  {
+    files: [
+      'src/demo-ui/components/ui/ColorPicker.tsx',
+      'src/demo-ui/lib/colors/**/*.ts',
     ],
     rules: {
       'animation-rules/no-hardcoded-colors': 'off',

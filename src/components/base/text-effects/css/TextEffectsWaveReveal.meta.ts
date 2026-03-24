@@ -8,4 +8,10 @@ export const metadata: AnimationMetadata = {
   description: 'Staggered wave animation where text appears from bottom with smooth easing.',
   disableReplay: false,
   tier: 3,
+  props: [
+    { type: 'string', name: 'lines', label: 'Lines', disabled: true, disabledReason: 'Array of {text, color} objects — pass via JSX props' },
+    { type: 'number', name: 'charDelay', label: 'Char Delay', default: 0.05, min: 0.01, max: 0.2, step: 0.01, unit: 's' },
+    { type: 'number', name: 'lineDelay', label: 'Line Delay', default: 0.4, min: 0.1, max: 1, step: 0.05, unit: 's' },
+    { type: 'number', name: 'initialDelay', label: 'Initial Delay', default: 0.2, min: 0, max: 1, step: 0.05, unit: 's' },
+  ],
 }

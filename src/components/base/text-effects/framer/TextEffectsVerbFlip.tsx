@@ -10,13 +10,20 @@ import { memo, useMemo } from 'react'
 interface TextEffectsVerbFlipProps {
   /** @default 'LOREM IPSUM DOLOR' */
   text?: string
+  /** Text color. @default '#e8e4da' */
+  color?: string
 }
 
-function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffectsVerbFlipProps) {
+function TextEffectsVerbFlipComponent({ text = 'LOREM IPSUM DOLOR', color }: TextEffectsVerbFlipProps) {
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div className="pf-verb-flip" data-animation-id="text-effects__verb-flipping" aria-label={text}>
+    <div
+      className="pf-verb-flip"
+      data-animation-id="text-effects__verb-flipping"
+      aria-label={text}
+      style={color !== undefined ? { '--pf-verb-flip-color': color } as React.CSSProperties : undefined}
+    >
       <div className="pf-verb-flip__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span

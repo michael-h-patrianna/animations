@@ -26,6 +26,11 @@ type CatalogFixtures = {
    * to assert no uncaught JS errors or console.error() calls occurred.
    */
   errorCollector: ErrorCollector
+  /**
+   * Auto-fixture: asserts no uncaught JS errors or console.error() calls
+   * after every test. No opt-in required.
+   */
+  _autoErrorGuard: void
 }
 
 /**
@@ -62,6 +67,10 @@ export const test = base.extend<CatalogFixtures>({
       },
     })
   },
+  _autoErrorGuard: [async ({ errorCollector }, use) => {
+    await use()
+    errorCollector.expectNoErrors()
+  }, { auto: true }],
 })
 
 export { expect } from '@playwright/test'

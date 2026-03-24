@@ -9,4 +9,8 @@ export const metadata: AnimationMetadata = {
   controls: 'lights',
   infinite: true,
   tier: 3,
+  props: [
+    { type: 'number', name: 'numBulbs', label: 'Number of Bulbs', default: 16, min: 4, max: 40, step: 1 },
+    { type: 'color', name: 'onColor', label: 'Bulb Color', default: 'var(--pf-anim-gold)' },
+  ],
 }
