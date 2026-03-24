@@ -24,7 +24,13 @@ import {
   DemoModalHeader,
 } from '@/components/demo-blocks'
 import { generateMockListItems } from '../MockContentItems'
-import type { ContentStaggerProps } from '../SharedTypes'
+import {
+  MODAL_ENTRANCE,
+  REDUCED_FADE,
+  buttonBounceProps,
+  toItemArray,
+  type ContentStaggerProps,
+} from '../SharedTypes'
 
 const DEFAULT_DURATION = 500
 const DEFAULT_STAGGER = 120
@@ -39,7 +45,7 @@ function ModalContentListSpotlightComponent({
   onAnimationComplete,
 }: ContentStaggerProps) {
   const prefersReducedMotion = useReducedMotion()
-  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+  const items = toItemArray(children)
   const durationS = duration / 1000
   const staggerS = stagger / 1000
   const reduced = prefersReducedMotion === true
@@ -86,17 +92,7 @@ function ModalContentListSpotlightComponent({
     <div className="pf-demo-overlay" data-animation-id="modal-content__list-spotlight">
       <m.div
         className="pf-demo-modal"
-        initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
-        animate={
-          reduced
-            ? { opacity: 1 }
-            : { scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }
-        }
-        transition={
-          reduced
-            ? { duration: 0.01 }
-            : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }
-        }
+        {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}
         style={{ animation: 'none' }}
       >
         <DemoModalHeader />
@@ -106,44 +102,11 @@ function ModalContentListSpotlightComponent({
           <DemoList>{mockItems.map((item, i) => animateListItem(item, i, 0.3))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
-          <m.div
-            initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
-            animate={
-              reduced
-                ? { opacity: 1 }
-                : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }
-            }
-            transition={
-              reduced
-                ? { duration: 0.01 }
-                : {
-                    duration: 0.3,
-                    delay: buttonStaggerBase,
-                    ease: [0.4, 0, 0.2, 1] as const,
-                    times: [0, 0.6, 1],
-                  }
-            }
-            style={{ animation: 'none' }}
-          >
+          <m.div {...buttonBounceProps(buttonStaggerBase, reduced)} style={{ animation: 'none' }}>
             <DemoButton label="Accept" />
           </m.div>
           <m.div
-            initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
-            animate={
-              reduced
-                ? { opacity: 1 }
-                : { y: [16, -6, 0], scale: [0.94, 1.06, 1], opacity: [0, 1, 1] }
-            }
-            transition={
-              reduced
-                ? { duration: 0.01 }
-                : {
-                    duration: 0.3,
-                    delay: buttonStaggerBase + 0.07,
-                    ease: [0.4, 0, 0.2, 1] as const,
-                    times: [0, 0.6, 1],
-                  }
-            }
+            {...buttonBounceProps(buttonStaggerBase + 0.07, reduced)}
             onAnimationComplete={onAnimationComplete}
             style={{ animation: 'none' }}
           >

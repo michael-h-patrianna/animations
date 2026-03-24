@@ -15,7 +15,7 @@ import {
   DemoModalHeader,
 } from '@/components/demo-blocks'
 import { generateMockListItems } from '../MockContentItems'
-import type { ContentStaggerProps } from '../SharedTypes'
+import { toItemArray, type ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentListVerticalWipe.css'
 
@@ -30,7 +30,7 @@ function ModalContentListVerticalWipeComponent({
   className,
   style,
 }: ContentStaggerProps) {
-  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+  const items = toItemArray(children)
 
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div key={i} className="pf-list-vertical-wipe-clip">

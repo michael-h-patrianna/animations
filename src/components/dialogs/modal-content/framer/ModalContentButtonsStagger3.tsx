@@ -23,7 +23,12 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import type { ContentStaggerProps } from '../SharedTypes'
+import {
+  MODAL_ENTRANCE,
+  REDUCED_FADE,
+  toItemArray,
+  type ContentStaggerProps,
+} from '../SharedTypes'
 
 const DEFAULT_DURATION = 320
 const DEFAULT_STAGGER = 70
@@ -37,12 +42,17 @@ function ModalContentButtonsStagger3Component({
   onAnimationComplete,
 }: ContentStaggerProps) {
   const prefersReducedMotion = useReducedMotion()
-  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+  const items = toItemArray(children)
   const durationS = duration / 1000
   const staggerS = stagger / 1000
   const reduced = prefersReducedMotion === true
 
-  const animateItem = (child: React.ReactNode, i: number, delayBase: number) => (
+  const animateItem = (
+    child: React.ReactNode,
+    i: number,
+    delayBase: number,
+    isLast = false,
+  ) => (
     <m.div
       key={i}
       initial={reduced ? { opacity: 0 } : { y: 16, scale: 0.94, opacity: 0 }}
@@ -59,7 +69,7 @@ function ModalContentButtonsStagger3Component({
               times: [0, 0.6, 1],
             }
       }
-      onAnimationComplete={onAnimationComplete}
+      onAnimationComplete={isLast ? onAnimationComplete : undefined}
       style={{ animation: 'none' }}
     >
       {child}
@@ -77,7 +87,7 @@ function ModalContentButtonsStagger3Component({
         data-animation-id="modal-content__buttons-stagger-3"
         style={style}
       >
-        {items.map((child, i) => animateItem(child, i, 0))}
+        {items.map((child, i) => animateItem(child, i, 0, i === items.length - 1))}
       </div>
     )
   }
@@ -86,17 +96,7 @@ function ModalContentButtonsStagger3Component({
     <div className="pf-demo-overlay" data-animation-id="modal-content__buttons-stagger-3">
       <m.div
         className="pf-demo-modal"
-        initial={reduced ? { opacity: 0 } : { scale: 0.88, y: -16, opacity: 0 }}
-        animate={
-          reduced
-            ? { opacity: 1 }
-            : { scale: [0.88, 1.02, 1], y: [-16, -4, 0], opacity: [0, 0.6, 1] }
-        }
-        transition={
-          reduced
-            ? { duration: 0.01 }
-            : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const, times: [0, 0.5, 1] }
-        }
+        {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}
         style={{ animation: 'none' }}
       >
         <DemoModalHeader />
@@ -107,7 +107,7 @@ function ModalContentButtonsStagger3Component({
         <DemoModalFooter>
           {animateItem(<DemoButton label="Primary" />, 0, 0.3)}
           {animateItem(<DemoButton label="Secondary" variant="secondary" />, 1, 0.3)}
-          {animateItem(<DemoButton label="Tertiary" variant="secondary" />, 2, 0.3)}
+          {animateItem(<DemoButton label="Tertiary" variant="secondary" />, 2, 0.3, true)}
         </DemoModalFooter>
       </m.div>
     </div>

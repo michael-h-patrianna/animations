@@ -15,7 +15,7 @@ import {
   DemoModalHeader,
 } from '@/components/demo-blocks'
 import { generateMockFormFields } from '../MockContentItems'
-import type { ContentStaggerProps } from '../SharedTypes'
+import { toItemArray, type ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentFormFieldGradient.css'
 
@@ -30,7 +30,7 @@ function ModalContentFormFieldGradientComponent({
   className,
   style,
 }: ContentStaggerProps) {
-  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+  const items = toItemArray(children)
 
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div

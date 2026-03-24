@@ -15,7 +15,7 @@ import {
   DemoModalHeader,
 } from '@/components/demo-blocks'
 import { generateMockFormFields } from '../MockContentItems'
-import type { DirectionalRevealProps } from '../SharedTypes'
+import { toItemArray, type DirectionalRevealProps } from '../SharedTypes'
 
 import './ModalContentFormFieldLeftReveal.css'
 
@@ -32,7 +32,7 @@ function ModalContentFormFieldLeftRevealComponent({
   className,
   style,
 }: DirectionalRevealProps) {
-  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+  const items = toItemArray(children)
 
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div

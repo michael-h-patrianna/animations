@@ -13,7 +13,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import type { ContentStaggerProps } from '../SharedTypes'
+import { toItemArray, type ContentStaggerProps } from '../SharedTypes'
 
 import './ModalContentButtonsStagger3.css'
 
@@ -27,7 +27,7 @@ function ModalContentButtonsStagger3Component({
   className,
   style,
 }: ContentStaggerProps) {
-  const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
+  const items = toItemArray(children)
 
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
