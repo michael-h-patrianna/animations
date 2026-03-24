@@ -1,10 +1,12 @@
 import { AnimationCard } from '@/components/ui/AnimationCard'
+import { DEFAULT_ACCENT, DEFAULT_THEME, useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 beforeEach(() => {
   vi.useFakeTimers()
+  useLayoutStore.setState({ theme: DEFAULT_THEME, accent: DEFAULT_ACCENT })
 })
 
 afterEach(() => {
@@ -184,6 +186,26 @@ describe('AnimationCard', () => {
       'aria-label',
       'Expand description'
     )
+  })
+
+  it('renders the copy-link toast with the active demo-ui glass theme', async () => {
+    useLayoutStore.setState({ theme: 'dark-brown', accent: 'orange' })
+    vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined)
+
+    renderCard()
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Copy animation URL' }))
+      await Promise.resolve()
+    })
+
+    const toast = screen.getByTestId('app-toast')
+    const themedRoot = toast.closest('[data-demo-ui]')
+
+    expect(toast).toHaveClass('glass-panel')
+    expect(themedRoot).not.toBeNull()
+    expect(themedRoot).toHaveAttribute('data-mode', 'dark-brown')
+    expect(themedRoot).toHaveAttribute('data-accent', 'orange')
   })
 
   it('increments bulb count via increase button', () => {

@@ -2,7 +2,7 @@ import { useCodeMode } from '@/contexts/CodeModeContext'
 import type { CodeMode } from '@/contexts/CodeModeContext'
 import { useLazyAnimations } from '@/hooks/useLazyAnimations'
 import { findLazyGroup, preloadLazyGroup } from '@/lib/lazyGroupRegistry'
-import type { LazyGroup } from '@/types/lazy'
+import type { LazyCategory, LazyGroup } from '@/types/lazy'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
@@ -14,6 +14,7 @@ const codeModeFromGroupId = (groupId: string): CodeMode | undefined => {
 
 /** Hook result type */
 export interface LazyAppNavigationResult {
+  navCategories: LazyCategory[]
   allGroups: LazyGroup[]
   currentGroupId: string
   currentGroup?: import('@/types/animation').Group
@@ -152,6 +153,7 @@ export function useLazyAppNavigation(): LazyAppNavigationResult {
 
   return useMemo(
     () => ({
+      navCategories: navCatalog.categories,
       allGroups,
       currentGroupId,
       currentGroup,
@@ -162,6 +164,7 @@ export function useLazyAppNavigation(): LazyAppNavigationResult {
       handleGroupSelect,
     }),
     [
+      navCatalog.categories,
       allGroups,
       currentGroupId,
       currentGroup,

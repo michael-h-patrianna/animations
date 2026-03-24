@@ -1,8 +1,10 @@
+import '@/components/lazyBootstrap'
 import {
+  clearGroupCache,
   findLazyGroup,
   getAllLazyGroups,
+  getLoadedGroupAnimations,
   getLazyNavCatalog,
-  isGroupLoaded,
   loadLazyGroup,
 } from '@/lib/lazyGroupRegistry'
 import type { AnimationExport, CategoryExport } from '@/types/animation'
@@ -47,6 +49,11 @@ export async function getLazyGroupAnimationsAsync(
 ): Promise<Record<string, AnimationExport>> {
   const groupId = `${baseGroupId}-${tech}`
 
+  const loaded = getLoadedGroupAnimations(groupId)
+  if (Object.keys(loaded).length > 0) {
+    return loaded
+  }
+
   // Check if already loading/cached
   const cached = groupExportCache.get(groupId)
   if (cached) {
@@ -81,15 +88,7 @@ export function getLazyGroupAnimationsSync(
   tech: 'framer' | 'css'
 ): Record<string, AnimationExport> {
   const groupId = `${baseGroupId}-${tech}`
-
-  // If already loaded, extract from result
-  if (isGroupLoaded(groupId)) {
-    // We need to get the loaded result - but this is sync
-    // The actual result will be populated after async load completes
-    // For now, return empty and let the component re-render
-  }
-
-  return {}
+  return getLoadedGroupAnimations(groupId)
 }
 
 // ============================================================================
@@ -113,7 +112,12 @@ export const categories: Record<string, CategoryExport> = {}
  */
 export function buildRegistryFromCategories() {
   const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
-  // Return empty - animations are now lazy-loaded
+  for (const group of getAllLazyGroups()) {
+    const loaded = getLoadedGroupAnimations(group.id)
+    for (const [id, anim] of Object.entries(loaded)) {
+      registry[id] = anim.component
+    }
+  }
   return registry
 }
 
@@ -135,20 +139,7 @@ export function getGroupAnimations(
   tech: 'framer' | 'css'
 ): Record<string, AnimationExport> {
   const groupId = `${baseGroupId}-${tech}`
-
-  // If already loaded, try to get the result
-  if (isGroupLoaded(groupId)) {
-    // Return the loaded animations
-    const cached = groupExportCache.get(groupId)
-    if (cached) {
-      // If it's a resolved promise, we can't get the value synchronously
-      // But the lazy loading hooks will handle re-rendering when ready
-    }
-  }
-
-  // Return empty for now - the lazy loading system will populate this
-  // and trigger re-renders via the hooks
-  return {}
+  return getLoadedGroupAnimations(groupId)
 }
 
 /**
@@ -164,7 +155,8 @@ export function findAnimationById(
   const allGroups = getAllLazyGroups()
 
   for (const group of allGroups) {
-    if (group.animationIds.includes(animationId)) {
+    const loadedAnimations = getLoadedGroupAnimations(group.id)
+    if (group.animationIds.includes(animationId) || animationId in loadedAnimations) {
       // Check if both variants exist
       const framerId = `${group.baseGroupId}-framer`
       const cssId = `${group.baseGroupId}-css`
@@ -202,4 +194,5 @@ export async function preloadAllGroups(): Promise<void> {
  */
 export function clearAnimationCache(): void {
   groupExportCache.clear()
+  clearGroupCache()
 }

@@ -1,3 +1,4 @@
+import '@/components/lazyBootstrap'
 import {
   getLazyNavCatalog,
   isGroupCached,

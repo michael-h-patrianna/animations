@@ -1,26 +1,28 @@
-/**
- * Multi-step data flow integration test.
- *
- * Traces data from: animationRegistry → buildCatalog → GroupSection rendering
- * with filter → AnimationCard render props. Verifies that the full pipeline
- * produces correct output at each step, catching mismatches between layers
- * that unit tests of individual modules would miss.
- */
-import { categories, findAnimationById, getGroupAnimations } from '@/components/animationRegistry'
+import { findAnimationById, getGroupAnimations } from '@/components/animationRegistry'
+import { loadLazyCatalog, preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { GroupSection } from '@/components/ui/GroupSection'
-import { buildCatalog } from '@/services/animationData'
 import type { Category } from '@/types/animation'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
-
-const catalog: Category[] = buildCatalog()
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 function renderWithRouter(ui: React.ReactElement) {
   return render(<MemoryRouter>{ui}</MemoryRouter>)
 }
 
 describe('integration: full data flow pipeline', () => {
+  let catalog: Category[] = []
+
+  beforeAll(async () => {
+    resetLazyTestState()
+    catalog = await loadLazyCatalog()
+    await preloadRegistry()
+  })
+
+  afterAll(() => {
+    resetLazyTestState()
+  })
+
   it('animation IDs in catalog match findAnimationById lookups', () => {
     const allAnimIds = catalog.flatMap((c) =>
       c.groups.flatMap((g) => g.animations.map((a) => a.id))
@@ -141,10 +143,9 @@ describe('integration: full data flow pipeline', () => {
   })
 
   it('registry components loaded via getGroupAnimations are React.lazy', () => {
-    // Pick first base group from each category
-    for (const cat of Object.values(categories)) {
-      const firstGroupKey = Object.keys(cat.groups)[0]!
-      const framerAnims = getGroupAnimations(firstGroupKey, 'framer')
+    for (const group of catalog.flatMap((category) => category.groups)) {
+      const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
+      const framerAnims = getGroupAnimations(baseGroupId, 'framer')
       for (const [id, entry] of Object.entries(framerAnims)) {
         expect(entry.component, `${id} component is not React.lazy`).toHaveProperty(
           '$$typeof',

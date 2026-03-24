@@ -222,6 +222,14 @@ export function getGroupError(groupId: string): Error | undefined {
   return groupCache.get(groupId)?.error
 }
 
+/**
+ * Gets the loaded animation exports for a group if available.
+ * Returns an empty object when the group has not been loaded yet.
+ */
+export function getLoadedGroupAnimations(groupId: string): Record<string, AnimationExport> {
+  return groupCache.get(groupId)?.result?.animations ?? {}
+}
+
 // ============================================================================
 // Navigation Catalog API
 // ============================================================================

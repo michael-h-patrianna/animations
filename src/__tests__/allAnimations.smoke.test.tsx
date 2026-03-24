@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import type React from 'react'
-import { describe, expect, it } from 'vitest'
-import { buildRegistryFromCategories } from '../components/animationRegistry'
+import { preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 type AnimationComponent = React.ComponentType<Record<string, unknown>>
 
@@ -19,8 +19,18 @@ type AnimationComponent = React.ComponentType<Record<string, unknown>>
  * see `all-animations.data-animation-id.test.tsx`.
  */
 describe('animationRegistry smoke', () => {
+  let animationRegistry: Record<string, AnimationComponent> = {}
+
+  beforeAll(async () => {
+    resetLazyTestState()
+    animationRegistry = (await preloadRegistry()) as Record<string, AnimationComponent>
+  })
+
+  afterAll(() => {
+    resetLazyTestState()
+  })
+
   it('mounts and unmounts all registered lazy wrappers without throwing', () => {
-    const animationRegistry = buildRegistryFromCategories()
     const entries = Object.entries(animationRegistry) as [string, AnimationComponent][]
 
     expect(entries.length).toBeGreaterThanOrEqual(100)
@@ -39,8 +49,7 @@ describe('animationRegistry smoke', () => {
   })
 
   it('registry keys follow group__variant naming convention with no duplicates', () => {
-    const registry = buildRegistryFromCategories()
-    const keys = Object.keys(registry)
+    const keys = Object.keys(animationRegistry)
 
     expect(new Set(keys).size).toBe(keys.length)
 

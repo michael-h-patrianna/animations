@@ -3,6 +3,31 @@ import { basename, dirname, join } from 'node:path'
 
 import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
 
+function extractImportsFromSource(source) {
+  const imports = []
+  let match
+
+  const fromPattern = /import\s+[\s\S]*?from\s+['"]([^'"]+)['"]/g
+  while ((match = fromPattern.exec(source)) !== null) {
+    imports.push(match[1])
+  }
+
+  const barePattern = /import\s+['"]([^'"]+)['"]/g
+  while ((match = barePattern.exec(source)) !== null) {
+    imports.push(match[1])
+  }
+
+  return [...new Set(imports)]
+}
+
+function importsLoadDemoBlockStyles(imports) {
+  return imports.some(
+    (source) =>
+      typeof source === 'string' &&
+      (source.startsWith('@/components/demo-blocks') || source.includes('/demo-blocks/demo-blocks.css'))
+  )
+}
+
 const extraRules = {
   'no-viewport-units': {
     meta: {
@@ -267,6 +292,74 @@ const extraRules = {
           context.report({
             node,
             message: `export default is not allowed in animation components. groupBuilder requires named exports matching the filename. Use: export { ${base} } or export function ${base}()`,
+          })
+        },
+      }
+    },
+  },
+
+  /**
+   * Prevent lazy-loaded animation chunks from relying on unrelated chunks to load
+   * shared demo-block styles. If an animation file uses raw pf-demo-* classes,
+   * it must either import demo-blocks directly or have its group index load
+   * demo-blocks.css as a side effect.
+   */
+  'no-implicit-demo-block-styles': {
+    meta: {
+      type: 'problem',
+      docs: {
+        description:
+          'Disallow animation files from using raw pf-demo-* classes without explicitly loading demo-block styles.',
+      },
+      schema: [],
+    },
+    create(context) {
+      const filename = getFilename(context)
+      if (!filename.endsWith('.tsx')) return {}
+      if (!isAnimationFile(context)) return {}
+
+      const base = basename(filename, '.tsx')
+      if (base.startsWith('Mock') || base === 'index') return {}
+      if (base.includes('Helper') || base.includes('Parts')) return {}
+
+      let usesRawDemoClasses = false
+      let loadsDemoBlockStylesLocally = false
+
+      return {
+        ImportDeclaration(node) {
+          const source = node.source.value
+          if (typeof source !== 'string') return
+          if (importsLoadDemoBlockStyles([source])) {
+            loadsDemoBlockStylesLocally = true
+          }
+        },
+        JSXAttribute(node) {
+          if (node.name?.name !== 'className') return
+          if (context.sourceCode.getText(node).includes('pf-demo-')) {
+            usesRawDemoClasses = true
+          }
+        },
+        'Program:exit'() {
+          if (!usesRawDemoClasses || loadsDemoBlockStylesLocally) return
+
+          const groupIndexPath = join(dirname(filename), '..', 'index.ts')
+          let groupIndexLoadsDemoStyles = false
+
+          try {
+            const groupIndexSource = readFileSync(groupIndexPath, 'utf8')
+            groupIndexLoadsDemoStyles = importsLoadDemoBlockStyles(
+              extractImportsFromSource(groupIndexSource)
+            )
+          } catch {
+            groupIndexLoadsDemoStyles = false
+          }
+
+          if (groupIndexLoadsDemoStyles) return
+
+          context.report({
+            loc: { line: 1, column: 0 },
+            message:
+              'This animation uses raw pf-demo-* classes but does not explicitly load demo-block styles. Import a Demo* component, import "@/components/demo-blocks/demo-blocks.css" locally, or add that import to the group index. Lazy-loaded groups must not rely on unrelated chunks for shared styles.',
           })
         },
       }

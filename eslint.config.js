@@ -111,6 +111,7 @@ export default defineConfig([
       'animation-rules/no-viewport-units': 'error',
       'animation-rules/no-important': 'error',
       'animation-rules/require-data-animation-id': 'error',
+      'animation-rules/no-implicit-demo-block-styles': 'error',
       'animation-rules/no-unstyled-interactive-elements': 'error',
       'animation-rules/no-excessive-z-index': 'error',
       // E2E readiness: every UI component must have data-testid for stable selectors

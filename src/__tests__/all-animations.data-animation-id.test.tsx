@@ -1,7 +1,7 @@
-import { buildRegistryFromCategories } from '@/components/animationRegistry'
+import { preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { cleanup, render, waitFor } from '@testing-library/react'
 import { Suspense } from 'react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterAll, afterEach, describe, expect, it } from 'vitest'
 
 /**
  * Auto-discovering contract test: every animation registered in the registry
@@ -14,15 +14,24 @@ import { afterEach, describe, expect, it } from 'vitest'
  * across 170+ component renders within a single worker.
  */
 
-describe('all registered animations expose data-animation-id', () => {
-  const registry = buildRegistryFromCategories()
+resetLazyTestState()
+const registry = await preloadRegistry()
 
+describe('all registered animations expose data-animation-id', () => {
   afterEach(() => {
     cleanup()
   })
 
+  afterAll(() => {
+    resetLazyTestState()
+  })
+
+  it('preloads a substantial registry', () => {
+    expect(Object.keys(registry).length).toBeGreaterThanOrEqual(100)
+  })
+
   for (const [id, Component] of Object.entries(registry)) {
-    it(`${id}`, async () => {
+    it(id, async () => {
       const { container, unmount } = render(
         <Suspense fallback={<div>loading</div>}>
           <Component />

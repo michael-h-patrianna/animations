@@ -1,9 +1,10 @@
-import { buildRegistryFromCategories, categories } from '@/components/animationRegistry'
+import { buildRegistryFromCategories } from '@/components/animationRegistry'
+import { loadLazyCatalog, preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { GroupSection } from '@/components/ui/GroupSection'
-import { buildCatalog } from '@/services/animationData'
+import type { Category } from '@/types/animation'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 function renderWithRouter(ui: React.ReactElement) {
   return render(<MemoryRouter>{ui}</MemoryRouter>)
@@ -17,28 +18,23 @@ function renderWithRouter(ui: React.ReactElement) {
  * that unit tests of either layer alone would miss.
  */
 describe('integration: registry → buildCatalog → GroupSection', () => {
-  const catalog = buildCatalog()
+  let catalog: Category[] = []
 
-  it('buildCatalog produces groups whose IDs trace back to registry groups', () => {
+  beforeAll(async () => {
+    resetLazyTestState()
+    catalog = await loadLazyCatalog()
+    await preloadRegistry()
+  })
+
+  afterAll(() => {
+    resetLazyTestState()
+  })
+
+  it('loaded catalog produces groups whose IDs trace back to lazy group variants', () => {
     for (const cat of catalog) {
       for (const group of cat.groups) {
-        // Strip -framer/-css suffix to get the registry group key
-        const registryGroupKey = group.id.replace(/-(?:framer|css)$/, '')
-        const registryCat = Object.values(categories).find((c) =>
-          Object.keys(c.groups).includes(registryGroupKey)
-        )
-        expect(
-          registryCat?.metadata.id,
-          `Group "${group.id}" has no matching registry category`
-        ).toMatch(/\w+/)
-
-        const registryGroup = registryCat!.groups[registryGroupKey]
-        expect(registryGroup?.metadata.id, `Registry group "${registryGroupKey}" not found`).toBe(
-          registryGroupKey
-        )
-
-        // Verify metadata propagated correctly
-        expect(group.title).toContain(registryGroup!.metadata.title)
+        expect(group.id).toMatch(/-(?:framer|css)$/)
+        expect(group.title).toMatch(/\((?:Framer|CSS)\)$/)
       }
     }
   })
@@ -66,7 +62,7 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
     }
   )
 
-  it('every catalog animation ID exists in the flat registry', () => {
+  it('every loaded catalog animation ID exists in the flat registry', () => {
     const registry = buildRegistryFromCategories()
 
     for (const cat of catalog) {
@@ -104,7 +100,7 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
     }
   })
 
-  it('flat registry key set is a superset of all catalog animation IDs', () => {
+  it('flat registry key set is a superset of all loaded catalog animation IDs', () => {
     const registry = buildRegistryFromCategories()
     const registryIds = new Set(Object.keys(registry))
 

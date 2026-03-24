@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useDropdownStore } from '@/demo-ui/stores/dropdownStore'
 import {
   ACCENT_COLORS,
+  DEFAULT_ACCENT,
+  DEFAULT_THEME,
   THEME_MODES,
   useLayoutStore,
   type AccentColor,
@@ -69,8 +71,8 @@ describe('layoutStore', () => {
     // Reset to defaults before each test
     useLayoutStore.setState({
       showLeftPanel: true,
-      theme: THEME_MODES[0],
-      accent: ACCENT_COLORS[0],
+      theme: DEFAULT_THEME,
+      accent: DEFAULT_ACCENT,
     })
   })
 
@@ -106,6 +108,11 @@ describe('layoutStore', () => {
     expect(useLayoutStore.getState().accent).toBe('magenta')
   })
 
+  it('uses dark-blue theme and blue accent as defaults', () => {
+    expect(useLayoutStore.getState().theme).toBe(DEFAULT_THEME)
+    expect(useLayoutStore.getState().accent).toBe(DEFAULT_ACCENT)
+  })
+
   it('all theme modes start with dark- prefix', () => {
     expect(THEME_MODES).toEqual(expect.arrayContaining([expect.stringMatching(/^dark-/)]))
     // Verify exact known set for regression detection
@@ -124,7 +131,7 @@ describe('layoutStore', () => {
     const persisted = {
       showLeftPanel: true,
       theme: 'light' as unknown as ThemeMode, // legacy value
-      accent: ACCENT_COLORS[0],
+      accent: DEFAULT_ACCENT,
     }
 
     // Access the persist config via internal API
@@ -132,7 +139,7 @@ describe('layoutStore', () => {
     const mergeResult = persistApi.getOptions().merge?.(persisted, useLayoutStore.getState())
 
     // The merge function should replace invalid theme with default
-    expect(mergeResult?.theme).toBe(THEME_MODES[0])
+    expect(mergeResult?.theme).toBe(DEFAULT_THEME)
   })
 
   it('persist merge preserves valid theme', () => {
@@ -155,14 +162,14 @@ describe('layoutStore', () => {
     const persisted = {
       showLeftPanel: true,
       theme: 'dark' as unknown as ThemeMode,
-      accent: ACCENT_COLORS[0],
+      accent: DEFAULT_ACCENT,
     }
 
     const mergeResult = useLayoutStore.persist
       .getOptions()
       .merge?.(persisted, useLayoutStore.getState())
 
-    expect(mergeResult?.theme).toBe(THEME_MODES[0])
+    expect(mergeResult?.theme).toBe(DEFAULT_THEME)
   })
 
   it('persist merge handles null persisted state gracefully', () => {
@@ -170,16 +177,16 @@ describe('layoutStore', () => {
     const mergeResult = useLayoutStore.persist.getOptions().merge?.(null, useLayoutStore.getState())
 
     // Should fallback to current state defaults
-    expect(mergeResult?.theme).toBe(THEME_MODES[0])
-    expect(mergeResult?.accent).toBe(ACCENT_COLORS[0])
+    expect(mergeResult?.theme).toBe(DEFAULT_THEME)
+    expect(mergeResult?.accent).toBe(DEFAULT_ACCENT)
   })
 
   it('persist merge handles empty persisted state', () => {
     const mergeResult = useLayoutStore.persist.getOptions().merge?.({}, useLayoutStore.getState())
 
     // Current state defaults should remain
-    expect(mergeResult?.theme).toBe(THEME_MODES[0])
-    expect(mergeResult?.accent).toBe(ACCENT_COLORS[0])
+    expect(mergeResult?.theme).toBe(DEFAULT_THEME)
+    expect(mergeResult?.accent).toBe(DEFAULT_ACCENT)
   })
 
   it('persist merge handles persisted state with extra unknown keys', () => {
@@ -243,7 +250,7 @@ describe('layoutStore', () => {
     for (const invalid of invalidThemes) {
       const persisted = { theme: invalid as ThemeMode }
       const result = merge(persisted, useLayoutStore.getState())
-      expect(result?.theme, `Theme "${invalid}" should be rejected`).toBe(THEME_MODES[0])
+      expect(result?.theme, `Theme "${invalid}" should be rejected`).toBe(DEFAULT_THEME)
     }
   })
 })

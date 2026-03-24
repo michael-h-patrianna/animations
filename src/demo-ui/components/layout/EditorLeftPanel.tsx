@@ -7,11 +7,10 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { type CodeMode, useCodeMode } from '@/contexts/CodeModeContext'
-import { useAnimations } from '@/hooks/useAnimations'
-import { useAppNavigation } from '@/hooks/useAppNavigation'
+import { useLazyAppNavigation } from '@/hooks/useLazyAppNavigation'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import { ToggleGroup, type ToggleOption } from '@/demo-ui/components/ui/ToggleGroup'
-import type { Group } from '@/types/animation'
+import type { LazyCategory, LazyGroup } from '@/types/lazy'
 
 const CODE_MODE_OPTIONS: ToggleOption<CodeMode>[] = [
   { value: 'Framer', label: 'Framer' },
@@ -24,12 +23,12 @@ const GROUP_TITLE_SUFFIX = /\s+\((?:Framer|CSS)\)$/
 interface GroupVariants {
   baseId: string
   label: string
-  framer?: Group
-  css?: Group
-  fallback: Group
+  framer?: LazyGroup
+  css?: LazyGroup
+  fallback: LazyGroup
 }
 
-function buildGroupVariants(groups: Group[]): GroupVariants[] {
+function buildGroupVariants(groups: LazyGroup[]): GroupVariants[] {
   const map = new Map<string, GroupVariants>()
 
   for (const group of groups) {
@@ -67,18 +66,18 @@ function pickGroupId(variants: GroupVariants, mode: CodeMode): string {
 }
 
 export const EditorLeftPanel: React.FC = () => {
-  const { categories } = useAnimations()
   const { codeMode, setCodeMode } = useCodeMode()
-  const { currentGroupId, handleGroupSelect, handleModeSelect } = useAppNavigation(categories)
+  const { navCategories, currentGroupId, handleGroupSelect, handleModeSelect } =
+    useLazyAppNavigation()
   const currentBaseGroupId = currentGroupId.replace(GROUP_MODE_SUFFIX, '')
 
   const categoryGroups = useMemo(
     () =>
-      categories.map((cat) => ({
+      navCategories.map((cat: LazyCategory) => ({
         category: cat,
         variants: buildGroupVariants(cat.groups),
       })),
-    [categories]
+    [navCategories]
   )
 
   const handleCodeModeChange = (mode: CodeMode) => {
@@ -124,7 +123,7 @@ export const EditorLeftPanel: React.FC = () => {
                     key={group.baseId}
                     type="button"
                     onClick={() => handleGroupSelect(pickGroupId(group, codeMode))}
-                    className={`text-left w-full px-2 py-1.5 text-xs rounded-md transition-colors duration-150 ${
+                    className={`text-left w-full px-2 py-1.5 text-xs rounded-md cursor-pointer transition-colors duration-150 ${
                       isActive
                         ? 'bg-accent/15 text-accent font-medium'
                         : 'text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]'

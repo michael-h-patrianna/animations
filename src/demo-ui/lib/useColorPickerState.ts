@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useReducer } from 'react'
 import {
   parseColorToHsv,
   hsvToHex,
@@ -36,53 +36,96 @@ export interface ColorPickerState {
   palette: string[]
 }
 
+interface ColorDraftState {
+  history: string[]
+  hsv: HSVA
+  hexInput: string
+  rgbInput: RGBA
+}
+
+type ColorDraftAction =
+  | { type: 'loadHistory'; history: string[] }
+  | { type: 'syncExternal'; next: Omit<ColorDraftState, 'history'> }
+  | { type: 'setHexInput'; value: string }
+  | { type: 'setRgbInput'; value: RGBA }
+  | { type: 'setColor'; hsv: HSVA }
+
+function buildColorDraft(value: string, alpha: number | undefined, disableAlpha: boolean) {
+  const hsv = parseColorToHsv(value)
+  if (disableAlpha) {
+    hsv.a = 1
+  } else if (alpha !== undefined) {
+    hsv.a = alpha
+  }
+
+  return {
+    hsv,
+    hexInput: hsv.a === 1 ? hsvToHex(hsv.h, hsv.s, hsv.v) : hsvToHex8(hsv.h, hsv.s, hsv.v, hsv.a),
+    rgbInput: hsvToRgb(hsv.h, hsv.s, hsv.v, hsv.a),
+  }
+}
+
+function colorDraftReducer(state: ColorDraftState, action: ColorDraftAction): ColorDraftState {
+  switch (action.type) {
+    case 'loadHistory':
+      return { ...state, history: action.history }
+    case 'syncExternal':
+      return { ...state, ...action.next }
+    case 'setHexInput':
+      return { ...state, hexInput: action.value }
+    case 'setRgbInput':
+      return { ...state, rgbInput: action.value }
+    case 'setColor':
+      return {
+        ...state,
+        hsv: action.hsv,
+        hexInput:
+          action.hsv.a === 1
+            ? hsvToHex(action.hsv.h, action.hsv.s, action.hsv.v)
+            : hsvToHex8(action.hsv.h, action.hsv.s, action.hsv.v, action.hsv.a),
+        rgbInput: hsvToRgb(action.hsv.h, action.hsv.s, action.hsv.v, action.hsv.a),
+      }
+    default:
+      return state
+  }
+}
+
 /**
  * Core state management for the ColorPicker.
  * Handles HSV state, color format sync, history persistence, and external change propagation.
  */
 export function useColorPickerState(opts: UseColorPickerStateOptions): ColorPickerState {
-  const [hsv, setHsv] = useState<HSVA>({ h: 0, s: 0, v: 0, a: 1 })
   const [mode, setMode] = useState<'HEX' | 'RGB'>('HEX')
-  const [history, setHistory] = useState<string[]>([])
-  const [hexInput, setHexInput] = useState(opts.value)
-  const [rgbInput, setRgbInput] = useState<RGBA>({ r: 0, g: 0, b: 0, a: 1 })
+  const [state, dispatch] = useReducer(colorDraftReducer, {
+    ...buildColorDraft(opts.value, opts.alpha, opts.disableAlpha),
+    history: [],
+  })
 
   useEffect(() => {
     try {
       const stored = localStorage.getItem(HISTORY_KEY)
-      if (stored) setHistory(JSON.parse(stored) as string[])
+      if (stored) dispatch({ type: 'loadHistory', history: JSON.parse(stored) as string[] })
     } catch {
       // localStorage unavailable — history starts empty
     }
   }, [])
 
-  const addToHistory = (color: string) => {
-    setHistory((prev) => {
-      const filtered = prev.filter((c) => c !== color)
+  const addToHistory = useCallback(
+    (color: string) => {
+      const filtered = state.history.filter((c) => c !== color)
       const next = [color, ...filtered].slice(0, MAX_HISTORY)
       try {
         localStorage.setItem(HISTORY_KEY, JSON.stringify(next))
       } catch {
         // localStorage unavailable
       }
-      return next
-    })
-  }
+      dispatch({ type: 'loadHistory', history: next })
+    },
+    [state.history]
+  )
 
   useEffect(() => {
-    const newHsv = parseColorToHsv(opts.value)
-    if (opts.disableAlpha) {
-      newHsv.a = 1
-    } else if (opts.alpha !== undefined) {
-      newHsv.a = opts.alpha
-    }
-    setHsv(newHsv)
-    setHexInput(
-      newHsv.a === 1
-        ? hsvToHex(newHsv.h, newHsv.s, newHsv.v)
-        : hsvToHex8(newHsv.h, newHsv.s, newHsv.v, newHsv.a)
-    )
-    setRgbInput(hsvToRgb(newHsv.h, newHsv.s, newHsv.v, newHsv.a))
+    dispatch({ type: 'syncExternal', next: buildColorDraft(opts.value, opts.alpha, opts.disableAlpha) })
   }, [opts.value, opts.alpha, opts.disableAlpha])
 
   const {
@@ -107,29 +150,31 @@ export function useColorPickerState(opts: UseColorPickerStateOptions): ColorPick
 
   const handleHsvChange = useCallback(
     (newHsv: HSVA) => {
-      setHsv(newHsv)
+      dispatch({ type: 'setColor', hsv: newHsv })
       updateExternal(newHsv)
-      const displayHex =
-        newHsv.a === 1
-          ? hsvToHex(newHsv.h, newHsv.s, newHsv.v)
-          : hsvToHex8(newHsv.h, newHsv.s, newHsv.v, newHsv.a)
-      setHexInput(displayHex)
-      setRgbInput(hsvToRgb(newHsv.h, newHsv.s, newHsv.v, newHsv.a))
     },
     [updateExternal]
   )
 
-  const palette = generatePalette(hsv.h, hsv.s, hsv.v)
+  const setHexInput = useCallback((value: string) => {
+    dispatch({ type: 'setHexInput', value })
+  }, [])
+
+  const setRgbInput = useCallback((value: RGBA) => {
+    dispatch({ type: 'setRgbInput', value })
+  }, [])
+
+  const palette = generatePalette(state.hsv.h, state.hsv.s, state.hsv.v)
 
   return {
-    hsv,
+    hsv: state.hsv,
     mode,
     setMode,
-    history,
+    history: state.history,
     addToHistory,
-    hexInput,
+    hexInput: state.hexInput,
     setHexInput,
-    rgbInput,
+    rgbInput: state.rgbInput,
     setRgbInput,
     handleHsvChange,
     palette,

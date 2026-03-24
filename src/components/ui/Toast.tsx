@@ -1,3 +1,4 @@
+import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { useEffect, useRef } from 'react'
 import './Toast.css'
 
@@ -14,6 +15,8 @@ const EXIT_MS = 320
 export function ToastContent({ message, onDone }: ToastProps) {
   const toastRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
+  const theme = useLayoutStore((s) => s.theme)
+  const accent = useLayoutStore((s) => s.accent)
 
   useEffect(() => {
     const toast = toastRef.current
@@ -22,9 +25,9 @@ export function ToastContent({ message, onDone }: ToastProps) {
 
     toast.animate(
       [
-        { transform: 'translate3d(-50%, 120%, 0) scale(0.96)', opacity: '0' },
-        { transform: 'translate3d(-50%, -8%, 0) scale(1.02)', opacity: '1', offset: 0.7 },
-        { transform: 'translate3d(-50%, 0, 0) scale(1)', opacity: '1' },
+        { transform: 'translate3d(0, 120%, 0) scale(0.96)', opacity: '0' },
+        { transform: 'translate3d(0, -8%, 0) scale(1.02)', opacity: '1', offset: 0.7 },
+        { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
       ],
       { duration: ENTRY_MS, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' }
     )
@@ -38,9 +41,9 @@ export function ToastContent({ message, onDone }: ToastProps) {
     const exitTimer = setTimeout(() => {
       const exitAnim = toast.animate(
         [
-          { transform: 'translate3d(-50%, 0, 0) scale(1)', opacity: '1' },
-          { transform: 'translate3d(-50%, 12%, 0) scale(0.98)', opacity: '0.9', offset: 0.5 },
-          { transform: 'translate3d(-50%, -120%, 0) scale(0.9)', opacity: '0' },
+          { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
+          { transform: 'translate3d(0, 12%, 0) scale(0.98)', opacity: '0.9', offset: 0.5 },
+          { transform: 'translate3d(0, -120%, 0) scale(0.9)', opacity: '0' },
         ],
         { duration: EXIT_MS, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' }
       )
@@ -55,16 +58,18 @@ export function ToastContent({ message, onDone }: ToastProps) {
   }, [onDone])
 
   return (
-    <div
-      ref={toastRef}
-      className="pf-app-toast"
-      role="status"
-      aria-live="polite"
-      data-testid="app-toast"
-    >
-      {message}
-      <div className="pf-app-toast__track">
-        <div ref={progressRef} className="pf-app-toast__progress" />
+    <div className="pf-app-toast-shell" data-demo-ui data-mode={theme} data-accent={accent}>
+      <div
+        ref={toastRef}
+        className="pf-app-toast glass-panel"
+        role="status"
+        aria-live="polite"
+        data-testid="app-toast"
+      >
+        <div className="pf-app-toast__message">{message}</div>
+        <div className="pf-app-toast__track">
+          <div ref={progressRef} className="pf-app-toast__progress" />
+        </div>
       </div>
     </div>
   )

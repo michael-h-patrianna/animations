@@ -1,5 +1,6 @@
 import { App } from '@/App'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
+import demoUiStyles from '@/demo-ui/styles/index.css?raw'
 import { _resetScrollLockState } from '@/hooks/useScrollLock'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -40,6 +41,19 @@ describe('App', () => {
     expect(document.querySelector('[data-demo-ui]')).toHaveClass('pf-shell-backdrop')
   })
 
+  it('uses dark-blue theme with blue accent by default', () => {
+    renderApp()
+
+    // eslint-disable-next-line testing-library/no-node-access -- verifying app shell theme attributes
+    const demoUiRoot = document.querySelector('[data-demo-ui]')
+    expect(demoUiRoot).toHaveAttribute('data-mode', 'dark-blue')
+    expect(demoUiRoot).toHaveAttribute('data-accent', 'blue')
+  })
+
+  it('defines a solid Tailwind border style in the shared demo-ui stylesheet', () => {
+    expect(demoUiStyles).toContain('--tw-border-style: solid;')
+  })
+
   it('positions the top bar above the pane stack so content can scroll under it', () => {
     renderApp()
 
@@ -73,12 +87,17 @@ describe('App', () => {
     expect(leftPanel).toBeInTheDocument()
   })
 
-  it('renders animation cards from the real catalog', () => {
+  it('renders clickable left-panel group entries with pointer cursor affordance', async () => {
     renderApp()
 
-    // The real registry has 100+ animations; a framer group alone has 5+.
-    // If this drops below 5, something is broken in the import chain.
-    const cardTitles = screen.getAllByTestId('card-title')
+    const firstGroupEntry = await screen.findByTestId('sidebar-group-standard-effects')
+    expect(firstGroupEntry).toHaveClass('cursor-pointer')
+  })
+
+  it('renders animation cards from the real catalog', async () => {
+    renderApp()
+
+    const cardTitles = await screen.findAllByTestId('card-title')
     expect(cardTitles.length).toBeGreaterThanOrEqual(5)
   })
 
@@ -102,16 +121,16 @@ describe('App', () => {
   // Button uses motion elements whose click handling doesn't propagate
   // reliably in happy-dom. Covered by E2E instead.
 
-  it('renders different animation titles for different route groups', () => {
+  it('renders different animation titles for different route groups', async () => {
     // Render at specific group route
     const { unmount } = renderApp('/standard-effects-framer')
-    const firstGroupTitles = screen.getAllByTestId('card-title').map((el) => el.textContent)
+    const firstGroupTitles = (await screen.findAllByTestId('card-title')).map((el) => el.textContent)
 
     unmount()
 
     // Render at a different group
     renderApp('/modal-base-framer')
-    const secondGroupTitles = screen.getAllByTestId('card-title').map((el) => el.textContent)
+    const secondGroupTitles = (await screen.findAllByTestId('card-title')).map((el) => el.textContent)
 
     // Both groups should have multiple cards with different content
     expect(firstGroupTitles.length).toBeGreaterThanOrEqual(2)
@@ -119,32 +138,30 @@ describe('App', () => {
     expect(firstGroupTitles).not.toEqual(secondGroupTitles)
   })
 
-  it('framer and css variants of same group show same number of cards', () => {
+  it('framer and css variants of same group show same number of cards', async () => {
     const { unmount: u1 } = renderApp('/standard-effects-framer')
-    const framerCount = screen.getAllByTestId('card-title').length
+    const framerCount = (await screen.findAllByTestId('card-title')).length
     u1()
 
     renderApp('/standard-effects-css')
-    const cssCount = screen.getAllByTestId('card-title').length
+    const cssCount = (await screen.findAllByTestId('card-title')).length
 
     // Both tech variants should render the same number of animations
     expect(framerCount).toBe(cssCount)
     expect(framerCount).toBeGreaterThanOrEqual(2)
   })
 
-  it('renders group section with correct data-testid', () => {
+  it('renders group section with correct data-testid', async () => {
     renderApp('/standard-effects-framer')
 
-    // AnimatePresence may set opacity: 0 during initial animation, so check DOM presence
-    const section = screen.getByTestId('group-section-group-standard-effects-framer')
+    const section = await screen.findByTestId('group-section-group-standard-effects-framer')
     expect(section).toBeInTheDocument()
   })
 
-  it('handles animation filter in URL', () => {
+  it('handles animation filter in URL', async () => {
     renderApp('/standard-effects-framer?animation=standard-effects__bounce')
 
-    // Filter banner is rendered (AnimatePresence may affect visibility)
-    const filterBanner = screen.getByTestId('filter-banner')
+    const filterBanner = await screen.findByTestId('filter-banner')
     expect(filterBanner).toBeInTheDocument()
     expect(filterBanner).toHaveTextContent('standard-effects__bounce')
   })

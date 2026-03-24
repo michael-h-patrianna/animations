@@ -134,10 +134,10 @@ test.describe('Layout Persistence: Theme and Accent', () => {
     expect(await catalogPage.currentTheme()).toBe(targetTheme)
 
     // Clean up: restore default theme
-    await selectFromViewSubmenu(catalogPage, page, 'Theme', 'theme-dark-purple')
+    await selectFromViewSubmenu(catalogPage, page, 'Theme', 'theme-dark-blue')
     await expect
       .poll(async () => catalogPage.currentTheme(), { timeout: 3_000 })
-      .toBe('dark-purple')
+      .toBe('dark-blue')
   })
 
   test('accent color selection applies data-accent attribute and persists across reload', async ({
@@ -169,8 +169,8 @@ test.describe('Layout Persistence: Theme and Accent', () => {
     expect(await catalogPage.currentAccent()).toBe(targetAccent)
 
     // Clean up: restore default accent
-    await selectFromViewSubmenu(catalogPage, page, 'Accent', 'accent-cyan')
-    await expect.poll(async () => catalogPage.currentAccent(), { timeout: 3_000 }).toBe('cyan')
+    await selectFromViewSubmenu(catalogPage, page, 'Accent', 'accent-blue')
+    await expect.poll(async () => catalogPage.currentAccent(), { timeout: 3_000 }).toBe('blue')
   })
 })
 

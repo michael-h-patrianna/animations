@@ -59,8 +59,13 @@ export interface LayoutStore {
 /** Collapse side panel by default on mobile viewports */
 const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 1220
 
-/** Default accent — first entry in ACCENT_COLORS */
-const DEFAULT_ACCENT = ACCENT_COLORS[0]
+/** Default theme used for initial state and persisted-state migration. */
+export const DEFAULT_THEME: ThemeMode = 'dark-blue'
+
+/* eslint-disable animation-rules/no-hardcoded-colors -- accent identifiers map to token sets, not direct DOM color values */
+/** Default accent used for initial state and persisted-state migration. */
+export const DEFAULT_ACCENT: AccentColor = 'blue'
+/* eslint-enable animation-rules/no-hardcoded-colors */
 
 /** Set of valid theme mode values for migration validation. */
 const VALID_THEMES = new Set<string>(THEME_MODES)
@@ -73,7 +78,7 @@ export const useLayoutStore = create<LayoutStore>()(
     (set) => ({
       showLeftPanel: !isMobileViewport,
       showRightPanel: false,
-      theme: THEME_MODES[0],
+      theme: DEFAULT_THEME,
       accent: DEFAULT_ACCENT,
 
       toggleLeftPanel: () => {
@@ -105,9 +110,9 @@ export const useLayoutStore = create<LayoutStore>()(
         if (isMobileViewport) {
           merged.showLeftPanel = false
         }
-        // Migrate legacy theme values: 'dark' → 'dark-purple', 'light' → 'dark-purple'
+        // Migrate legacy theme values like "dark" or "light" to the current default.
         if (!VALID_THEMES.has(merged.theme)) {
-          merged.theme = THEME_MODES[0]
+          merged.theme = DEFAULT_THEME
         }
         // Migrate invalid accent values to default
         if (!VALID_ACCENTS.has(merged.accent)) {

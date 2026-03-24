@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useReducer, useRef } from 'react'
 import { Input, type InputProps } from './Input'
 import { m as MotionEl } from 'motion/react'
 
@@ -161,6 +161,46 @@ function parseExpression(expression: string): number | null {
   }
 }
 
+function formatDisplayValue(value: number, precision: number): string {
+  const formatted = value.toFixed(precision)
+  return precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted
+}
+
+interface NumberInputState {
+  localValue: string
+  error: string | null
+  isFocused: boolean
+}
+
+type NumberInputAction =
+  | { type: 'focus'; value: string }
+  | { type: 'setLocalValue'; value: string }
+  | { type: 'syncFromExternal'; value: string }
+  | { type: 'commit'; value: string }
+  | { type: 'reset'; value: string }
+  | { type: 'showError'; error: string }
+
+function numberInputReducer(state: NumberInputState, action: NumberInputAction): NumberInputState {
+  switch (action.type) {
+    case 'focus':
+      return { ...state, isFocused: true, localValue: action.value, error: null }
+    case 'setLocalValue':
+      return { ...state, localValue: action.value, error: null }
+    case 'syncFromExternal':
+      if (state.isFocused || state.error !== null || state.localValue === action.value) {
+        return state
+      }
+      return { ...state, localValue: action.value }
+    case 'commit':
+    case 'reset':
+      return { localValue: action.value, error: null, isFocused: false }
+    case 'showError':
+      return { ...state, error: action.error, isFocused: false }
+    default:
+      return state
+  }
+}
+
 export const NumberInput: React.FC<NumberInputProps> = ({
   value,
   onChange,
@@ -171,10 +211,12 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   onBlur,
   ...props
 }) => {
-  const [localValue, setLocalValue] = useState(value.toString())
-  const [error, setError] = useState<string | null>(null)
+  const [{ localValue, error }, dispatch] = useReducer(numberInputReducer, {
+    localValue: formatDisplayValue(value, precision),
+    error: null,
+    isFocused: false,
+  })
   const inputRef = useRef<HTMLInputElement>(null)
-  const [isFocused, setIsFocused] = useState(false)
   const errorTimerRef = useRef<number | null>(null)
   const isMountedRef = useRef(true)
 
@@ -189,46 +231,35 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   }, [])
 
   useEffect(() => {
-    if (!isFocused) {
-      const formatted = value.toFixed(precision)
-      setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
-    }
-  }, [value, precision, isFocused])
+    dispatch({ type: 'syncFromExternal', value: formatDisplayValue(value, precision) })
+  }, [value, precision])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalValue(e.target.value)
-    setError(null)
+    dispatch({ type: 'setLocalValue', value: e.target.value })
   }
 
   const handleFocus = () => {
-    setIsFocused(true)
+    dispatch({ type: 'focus', value: formatDisplayValue(value, precision) })
   }
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocused(false)
     const parsed = parseExpression(localValue)
 
     if (parsed !== null) {
       const clamped = Math.min(Math.max(parsed, min), max)
       onChange(clamped)
-      const formatted = clamped.toFixed(precision)
-      setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
-      setError(null)
+      dispatch({ type: 'commit', value: formatDisplayValue(clamped, precision) })
     } else {
       if (localValue.trim() === '') {
-        const formatted = value.toFixed(precision)
-        setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
-        setError(null)
+        dispatch({ type: 'reset', value: formatDisplayValue(value, precision) })
       } else {
-        setError('Invalid expression')
+        dispatch({ type: 'showError', error: 'Invalid expression' })
         if (errorTimerRef.current !== null) {
           clearTimeout(errorTimerRef.current)
         }
         errorTimerRef.current = window.setTimeout(() => {
           if (!isMountedRef.current) return
-          const formatted = value.toFixed(precision)
-          setLocalValue(precision > 0 ? formatted.replace(/\.?0+$/, '') : formatted)
-          setError(null)
+          dispatch({ type: 'reset', value: formatDisplayValue(value, precision) })
           errorTimerRef.current = null
         }, 1500)
       }
@@ -255,10 +286,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       onKeyDown={handleKeyDown}
       error={error || props.error}
       rightIcon={
-        <div className="flex flex-col gap-[1px]">
+        <div className="flex flex-col gap-px">
           <MotionEl.button
             data-testid="number-input-change"
-            className="h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center"
+            className="h-2 w-3 hover:bg-(--bg-active) rounded-sm flex items-center justify-center"
             onClick={() => {
               onChange(Math.min(value + step, max))
             }}
@@ -270,7 +301,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           </MotionEl.button>
           <MotionEl.button
             data-testid="number-input-change-2"
-            className="h-2 w-3 hover:bg-[var(--bg-active)] rounded-sm flex items-center justify-center"
+            className="h-2 w-3 hover:bg-(--bg-active) rounded-sm flex items-center justify-center"
             onClick={() => {
               onChange(Math.max(value - step, min))
             }}

@@ -76,7 +76,7 @@ export const Slider: React.FC<SliderProps> = ({
               max={max}
               step={step}
               disabled={disabled}
-              className="w-16 h-6 text-xs text-center border border-[var(--border-subtle)] bg-glass text-text-primary rounded px-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:outline-none focus:border-accent"
+              className="w-16 h-6 text-xs text-center border border-(--border-subtle) bg-glass text-text-primary rounded px-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:outline-none focus:border-accent"
               aria-label={label != null ? `${label} value` : 'Slider value'}
             />
             {unit != null && <span className="text-[10px] text-text-tertiary">{unit}</span>}
@@ -84,7 +84,7 @@ export const Slider: React.FC<SliderProps> = ({
         </div>
       )}
       <div className="relative h-5 flex items-center">
-        <div className="absolute inset-x-0 h-1.5 rounded-full bg-[var(--bg-surface)] border border-[var(--border-subtle)]">
+        <div className="absolute inset-x-0 h-1.5 rounded-full bg-(--bg-surface) border border-(--border-subtle)">
           <div
             className="absolute inset-y-0 left-0 rounded-full bg-accent/60"
             style={{ width: `${percent}%` }}
@@ -100,7 +100,7 @@ export const Slider: React.FC<SliderProps> = ({
           max={max}
           step={step}
           disabled={disabled}
-          className="absolute inset-x-0 w-full h-5 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-accent [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:hover:scale-110 [&::-moz-range-thumb]:w-3.5 [&::-moz-range-thumb]:h-3.5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-accent [&::-moz-range-thumb]:shadow-sm"
+          className="absolute inset-x-0 w-full h-5 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-(--theme-accent) [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:hover:scale-110 [&::-moz-range-thumb]:w-3.5 [&::-moz-range-thumb]:h-3.5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-(--theme-accent) [&::-moz-range-thumb]:shadow-sm"
           aria-label={label ?? 'Slider'}
         />
       </div>

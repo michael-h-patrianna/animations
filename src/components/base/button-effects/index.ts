@@ -1,4 +1,5 @@
 import './shared.css'
+import '@/components/demo-blocks/demo-blocks.css'
 import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
 import { buildGroupExport } from '@/lib/groupBuilder'
 

@@ -78,8 +78,6 @@ export const Popover: React.FC<PopoverProps> = ({
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen
 
-  const [coords, setCoords] = useState({ top: 0, left: 0 })
-
   const prevIsOpenRef = useRef(isOpen)
   useEffect(() => {
     if (isOpen && !prevIsOpenRef.current) {
@@ -121,9 +119,13 @@ export const Popover: React.FC<PopoverProps> = ({
   }, [handleOpenChange])
 
   const updatePosition = useCallback(() => {
-    if (triggerRef.current && isOpen) {
-      setCoords(computePopoverPosition(triggerRef.current, popoverRef.current, side, align, offset))
-    }
+    const trigger = triggerRef.current
+    const popover = popoverRef.current
+    if (!trigger || !popover || !isOpen) return
+
+    const { top, left } = computePopoverPosition(trigger, popover, side, align, offset)
+    popover.style.top = `${String(top)}px`
+    popover.style.left = `${String(left)}px`
   }, [isOpen, side, align, offset])
 
   useLayoutEffect(() => {
@@ -161,8 +163,8 @@ export const Popover: React.FC<PopoverProps> = ({
         className="m-0 p-0 border-none bg-transparent"
         style={sx({
           position: 'fixed' as const,
-          top: coords.top,
-          left: coords.left,
+          top: 0,
+          left: 0,
         })}
       >
         <AnimatePresence>

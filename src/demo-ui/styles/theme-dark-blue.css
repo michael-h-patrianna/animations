@@ -1,9 +1,11 @@
 /**
  * Dark Blue Theme - Deep navy palette in oklch
  * Cool, sophisticated dark blue with steel-tinted glass and subtle cyan undertones.
+ * Also serves as the fallback theme when no data-mode is provided.
  */
 
-[data-demo-ui][data-mode='dark-blue'] {
+[data-demo-ui][data-mode='dark-blue'],
+[data-demo-ui]:not([data-mode]) {
   /* BACKGROUNDS */
   --bg-app: oklch(10% 0.04 250deg);
   --bg-panel: oklch(13% 0.035 248deg / 82%);

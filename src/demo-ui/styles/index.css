@@ -236,8 +236,24 @@
   color: var(--theme-accent) !important;
 }
 
+[data-demo-ui] .text-danger {
+  color: var(--text-danger) !important;
+}
+
 [data-demo-ui] .bg-panel {
   background-color: var(--bg-panel) !important;
+}
+
+[data-demo-ui] .bg-panel\/90 {
+  background-color: color-mix(in oklch, var(--bg-panel) 90%, transparent) !important;
+}
+
+[data-demo-ui] .bg-panel-header\/50 {
+  background-color: color-mix(in oklch, var(--panel-header) 50%, transparent) !important;
+}
+
+[data-demo-ui] .bg-panel-header\/30 {
+  background-color: color-mix(in oklch, var(--panel-header) 30%, transparent) !important;
 }
 
 [data-demo-ui] .bg-surface {
@@ -257,6 +273,26 @@
   border-color: var(--border-default) !important;
 }
 
+[data-demo-ui] .border-panel-border {
+  border-color: var(--panel-border) !important;
+}
+
+[data-demo-ui] .border-accent {
+  border-color: var(--theme-accent) !important;
+}
+
+[data-demo-ui] .border-accent\/40 {
+  border-color: color-mix(in oklch, var(--theme-accent) 40%, transparent) !important;
+}
+
+[data-demo-ui] .border-accent\/50 {
+  border-color: color-mix(in oklch, var(--theme-accent) 50%, transparent) !important;
+}
+
+[data-demo-ui] .border-danger-border {
+  border-color: var(--border-danger) !important;
+}
+
 /* Hover states */
 [data-demo-ui] .hover\:text-text-primary:hover {
   color: var(--text-primary) !important;
@@ -264,6 +300,10 @@
 
 [data-demo-ui] .hover\:bg-\[var\(--bg-hover\)\]:hover {
   background-color: var(--bg-hover) !important;
+}
+
+[data-demo-ui] .hover\:bg-panel:hover {
+  background-color: var(--bg-panel) !important;
 }
 
 /* STATUS UTILITIES */
@@ -286,6 +326,42 @@
 /* Accent with opacity */
 [data-demo-ui] .bg-accent\/10 {
   background-color: color-mix(in oklch, var(--theme-accent) 10%, transparent) !important;
+}
+
+[data-demo-ui] .bg-accent\/15 {
+  background-color: color-mix(in oklch, var(--theme-accent) 15%, transparent) !important;
+}
+
+[data-demo-ui] .bg-accent\/20 {
+  background-color: color-mix(in oklch, var(--theme-accent) 20%, transparent) !important;
+}
+
+[data-demo-ui] .bg-accent\/60 {
+  background-color: color-mix(in oklch, var(--theme-accent) 60%, transparent) !important;
+}
+
+[data-demo-ui] .focus\:border-accent:focus {
+  border-color: var(--theme-accent) !important;
+}
+
+[data-demo-ui] .focus\:border-danger:focus {
+  border-color: var(--text-danger) !important;
+}
+
+[data-demo-ui] .focus\:ring-accent\/50:focus {
+  --tw-ring-color: color-mix(in oklch, var(--theme-accent) 50%, transparent) !important;
+}
+
+[data-demo-ui] .focus\:ring-danger-border:focus {
+  --tw-ring-color: var(--border-danger) !important;
+}
+
+[data-demo-ui] .placeholder\:text-danger\/30::placeholder {
+  color: color-mix(in oklch, var(--text-danger) 30%, transparent) !important;
+}
+
+[data-demo-ui] .group:focus-within .group-focus-within\:border-accent\/50 {
+  border-color: color-mix(in oklch, var(--theme-accent) 50%, transparent) !important;
 }
 
 /* SCROLLBAR UTILITIES */
@@ -327,6 +403,8 @@
 
 /* BASE STYLES FOR DEMO UI */
 [data-demo-ui] {
+  /* Tailwind border utilities expect this variable to exist in v4. */
+  --tw-border-style: solid;
   font-family:
     Inter,
     -apple-system,

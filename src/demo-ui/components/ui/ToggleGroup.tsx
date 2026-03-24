@@ -1,4 +1,5 @@
 import { m } from 'motion/react'
+import { sx } from '@/demo-ui/lib/sx'
 import { soundManager } from '@/demo-ui/lib/audio/SoundManager'
 
 /** Single option in a ToggleGroup. */
@@ -34,7 +35,7 @@ export const ToggleGroup = <T extends string = string>({
 
   return (
     <div
-      className={`relative flex p-1 gap-1 glass-input rounded-lg border border-[var(--border-subtle)] ${className}`}
+      className={`relative flex p-1 gap-1 glass-input rounded-lg border border-(--border-subtle) ${className}`}
       role="radiogroup"
       aria-label={ariaLabel}
       data-testid={testId}
@@ -42,7 +43,11 @@ export const ToggleGroup = <T extends string = string>({
       {/* Sliding indicator — always mounted, positioned via transform */}
       {selectedIndex >= 0 && (
         <m.div
-          className="absolute top-1 bottom-1 bg-accent/15 border border-accent/40 rounded-md pointer-events-none"
+          className="absolute top-1 bottom-1 border rounded-md pointer-events-none"
+          style={sx({
+            backgroundColor: 'var(--accent-subtle)',
+            borderColor: 'var(--accent-muted)',
+          })}
           animate={{
             left: `calc(${String(selectedIndex)} * (100% / ${String(count)}) + 4px)`,
             width: `calc(100% / ${String(count)} - 8px)`,

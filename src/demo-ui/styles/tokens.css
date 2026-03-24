@@ -41,8 +41,8 @@
   --token-amber-600: oklch(65% 0.14 85deg);
   --token-amber-900: oklch(30% 0.06 85deg);
 
-  /* ACCENT TOKEN COMPONENTS - Default cyan */
-  --token-accent-h: 200;
+  /* ACCENT TOKEN COMPONENTS - Default blue */
+  --token-accent-h: 260;
   --token-accent-c: 0.14;
   --token-accent-l: 70%;
 }

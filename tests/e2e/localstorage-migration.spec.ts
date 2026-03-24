@@ -7,7 +7,7 @@ import { test, expect } from './fixtures/catalog.fixture'
  * to localStorage under key 'animation-catalog-layout'. When the app updates,
  * users may have stale or corrupt localStorage data. The store's merge function
  * must handle:
- * - Legacy theme values ('dark', 'light') → migrated to 'dark-purple'
+ * - Legacy theme values ('dark', 'light') → migrated to 'dark-blue'
  * - Missing fields → filled with defaults
  * - Corrupt JSON → graceful fallback to defaults
  * - Valid persisted state → applied correctly
@@ -35,9 +35,9 @@ test.describe('LocalStorage Migration', () => {
     await catalogPage.goto()
     await catalogPage.waitForCards()
 
-    // Theme should be migrated to the default 'dark-purple' (not the invalid 'dark')
+    // Theme should be migrated to the default 'dark-blue' (not the invalid 'dark')
     const theme = await catalogPage.currentTheme()
-    expect(theme).toBe('dark-purple')
+    expect(theme).toBe('dark-blue')
 
     // App should function normally
     await catalogPage.expectNoErrorBoundary()
@@ -80,7 +80,7 @@ test.describe('LocalStorage Migration', () => {
     // Theme from stored state should be applied
     expect(await catalogPage.currentTheme()).toBe('dark-blue')
 
-    // Accent should fall back to default (cyan)
+    // Accent should fall back to default (blue)
     expect(await catalogPage.currentAccent()).toBeTruthy()
 
     // App functions normally
@@ -95,7 +95,7 @@ test.describe('LocalStorage Migration', () => {
         JSON.stringify({
           state: {
             showLeftPanel: true,
-            theme: 'dark-purple',
+            theme: 'dark-blue',
             accent: 'magenta',
           },
           version: 0,

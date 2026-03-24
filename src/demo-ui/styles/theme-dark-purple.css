@@ -1,11 +1,9 @@
 /**
  * Dark Purple Theme - Deep violet palette in oklch
  * Original purple identity with lavender-tinted glass.
- * Also serves as the default fallback theme.
  */
 
-[data-demo-ui][data-mode='dark-purple'],
-[data-demo-ui]:not([data-mode]) {
+[data-demo-ui][data-mode='dark-purple'] {
   /* BACKGROUNDS */
   --bg-app: oklch(12% 0.075 300deg);
   --bg-panel: oklch(14% 0.06 300deg / 82%);
