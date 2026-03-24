@@ -36,40 +36,60 @@ function ModalDismissSnackbarWipeComponent({
   const entryS = prefersReducedMotion ? 0.01 : 0.42
   const exitS = prefersReducedMotion ? 0.01 : 0.32
 
-  const variants = {
-    hidden: { y: 24, scale: 0.96, opacity: 0, x: '100%' },
+  const outerVariants = {
+    hidden: { x: '100%' },
+    visible: {
+      x: ['100%', '0%', '0%'],
+      transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+    },
+    exit: {
+      x: ['0%', '0%', '100%'],
+      transition: { duration: exitS, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+    },
+  }
+
+  const innerVariants = {
+    hidden: { y: 24, scale: 0.96, opacity: 0 },
     visible: {
       y: [24, -4, 0],
       scale: [0.96, 1.02, 1],
       opacity: [0, 1, 1],
-      x: ['100%', '0%', '0%'],
       transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
     exit: {
       y: [0, 6, 0],
       scale: [1, 0.96, 0.96],
       opacity: [1, 0.6, 0],
-      x: ['0%', '0%', '100%'],
       transition: { duration: exitS, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
   }
+
+  const animatePhase = phase === 'enter' ? 'visible' : 'exit'
 
   return (
     <div
       data-animation-id="modal-dismiss__snackbar-wipe"
       className={children === undefined ? 'pf-dismiss-stage' : undefined}
+      style={{ overflow: 'hidden' }}
     >
       <m.div
-        className={className}
-        style={{ ...style, animation: 'none' }}
-        variants={variants}
+        variants={outerVariants}
         initial="hidden"
-        animate={phase === 'enter' ? 'visible' : 'exit'}
-        onAnimationComplete={(definition: string) => {
-          if (definition === 'exit') onDismissRef.current?.()
-        }}
+        animate={animatePhase}
+        style={{ animation: 'none' }}
       >
-        <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
+        <m.div
+          className={className}
+          style={{ ...style, animation: 'none' }}
+          variants={innerVariants}
+          initial="hidden"
+          animate={animatePhase}
+          onAnimationComplete={(definition: string) => {
+            if (definition === 'exit') onDismissRef.current?.()
+          }}
+        >
+          <ToastPlaceholder duration={duration}>{children}</ToastPlaceholder>
+        </m.div>
       </m.div>
     </div>
   )

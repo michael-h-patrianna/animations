@@ -45,10 +45,10 @@ function ModalDismissToastSlideRightComponent({
       transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.4, 0, 0.2, 1] as const },
     },
     exit: {
-      x: ['0%', '8%', '160%'],
-      scale: [1, 0.98, 0.9],
-      opacity: [1, 0.9, 0],
-      transition: { duration: exitS, times: [0, 0.5, 1], ease: [0.4, 0, 0.2, 1] as const },
+      x: ['0%', '6%', '160%'],
+      scale: [1, 1.0, 0.94],
+      opacity: [1, 0.92, 0],
+      transition: { duration: exitS, times: [0, 0.35, 1], ease: [0.4, 0, 0.2, 1] as const },
     },
   }
 

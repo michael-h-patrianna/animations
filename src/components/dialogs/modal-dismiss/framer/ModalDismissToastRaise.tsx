@@ -45,10 +45,10 @@ function ModalDismissToastRaiseComponent({
       transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
     exit: {
-      y: ['0%', '12%', '-120%'],
-      scale: [1, 0.98, 0.9],
-      opacity: [1, 0.9, 0],
-      transition: { duration: exitS, times: [0, 0.5, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+      y: ['0%', '5%', '-120%'],
+      scale: [1, 1.04, 0.92],
+      opacity: [1, 1, 0],
+      transition: { duration: exitS, times: [0, 0.3, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
   }
 

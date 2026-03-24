@@ -47,10 +47,10 @@ function ModalDismissToastDropComponent({
       const exitAnim = el.animate(
         [
           { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-          { transform: 'translate3d(0, -12%, 0) scale(0.98)', opacity: '0.9', offset: 0.5 },
-          { transform: 'translate3d(0, 120%, 0) scale(0.9)', opacity: '0' },
+          { transform: 'translate3d(0, -5%, 0) scale(0.97)', opacity: '0.65', offset: 0.2 },
+          { transform: 'translate3d(0, 120%, 0) scale(0.82)', opacity: '0' },
         ],
-        { duration: exitDuration, easing, fill: 'forwards' }
+        { duration: exitDuration, easing: 'cubic-bezier(0.45, 0, 0.85, 0.25)', fill: 'forwards' }
       )
       exitAnim.onfinish = () => onDismissRef.current?.()
     }, duration)

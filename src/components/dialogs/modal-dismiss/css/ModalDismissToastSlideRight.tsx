@@ -47,8 +47,8 @@ function ModalDismissToastSlideRightComponent({
       const exitAnim = el.animate(
         [
           { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
-          { transform: 'translate3d(8%, 0, 0) scale(0.98)', opacity: '0.9', offset: 0.5 },
-          { transform: 'translate3d(160%, 0, 0) scale(0.9)', opacity: '0' },
+          { transform: 'translate3d(6%, 0, 0) scale(1.0)', opacity: '0.92', offset: 0.35 },
+          { transform: 'translate3d(160%, 0, 0) scale(0.94)', opacity: '0' },
         ],
         { duration: exitDuration, easing, fill: 'forwards' }
       )
