@@ -24,11 +24,13 @@ Source loaders are attached to each `AnimationExport` via a `WeakMap` to avoid p
 ## Consequences
 
 **Easier:**
+
 - Adding new animations: create 2 files (component + meta), done
 - Consistency: all groups use identical index.ts boilerplate
 - Code viewer: source files are automatically available without explicit imports
 
 **Harder:**
+
 - Debugging discovery failures: silent skips when SKIP_PATTERN matches unexpectedly
 - Understanding the system: WeakMap indirection is invisible at the type level
 - Dev-only duplicate ID check (line 140) requires running the dev server to catch conflicts

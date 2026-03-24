@@ -30,7 +30,7 @@
 - No `useState` for replay logic — parent remounts via key toggle
 - Every animation implemented twice: one in `framer/`, one in `css/`
 - Metadata file (`.meta.ts`) required next to every component file (`.tsx`)
-- **Standalone**: zero demo imports (`MockContent`, `DemoAnchors`, `isDemo` branches). Demo UI is rendered by the catalog layer via `demoMode` metadata, not by the component
+- **Standalone**: no catalog-specific demo imports (`MockContent`, `DemoAnchors`, `isDemo` branches). `@/components/demo-blocks` imports ARE allowed — these are portable UI primitives (buttons, modals, lists, etc.) that ship with the animation as content. Demo UI orchestration (what to show, when) is rendered by the catalog layer via `demoMode` metadata, not by the component
 - **All props optional**: components typed `ComponentType<Record<string, unknown>>`. Sensible defaults when props omitted (container center for spatial, placeholder content for wrappers)
 - **Every configurable value is a prop**: hardcoded counts, positions, colors, durations, images that a consumer would want to change must be exposed as optional props
 - **File header comment**: lists copy-paste files and runtime deps

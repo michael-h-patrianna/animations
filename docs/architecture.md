@@ -53,7 +53,7 @@ Before writing any code, write the consumer scenario: "A developer building [app
 
 ### Step 1: Create the Component File
 
-Components must be **standalone** — zero demo imports. All props optional with sensible defaults.
+Components must be **standalone** — no catalog-specific demo imports (`MockContent`, `DemoAnchors`). Imports from `@/components/demo-blocks` are allowed — these are portable UI primitives (buttons, modals, forms) that ship with the animation. All props optional with sensible defaults.
 
 **Framer Motion** (`src/components/<category>/<group>/framer/GroupNameVariantName.tsx`):
 
@@ -89,7 +89,7 @@ function GroupNameVariantNameComponent({
       data-animation-id="group-name__variant-name"
       style={{ animation: 'none' }}  // Prevent CSS variant override
     >
-      {/* Animation DOM only — no demo content */}
+      {/* Animation DOM — demo-blocks imports OK, no catalog scaffolding */}
     </m.div>
   )
 }
@@ -123,7 +123,7 @@ function GroupNameVariantNameComponent({
       data-animation-id="group-name__variant-name"
       style={{ animationDuration: `${duration}ms` }}
     >
-      {/* Animation DOM only */}
+      {/* Animation DOM — demo-blocks imports OK, no catalog scaffolding */}
     </div>
   )
 }

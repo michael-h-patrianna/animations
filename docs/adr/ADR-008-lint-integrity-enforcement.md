@@ -7,6 +7,7 @@
 ## Context
 
 AI coding agents and developers under time pressure tend to resolve lint violations by:
+
 1. Downgrading severity from `error` to `warning` in Stylelint configs
 2. Scattering inline `eslint-disable` suppressions across files
 3. Disabling rules globally instead of fixing the underlying code
@@ -25,15 +26,17 @@ The ESLint config uses file-level overrides (eslint.config.js) to handle rule ex
 
 ### Custom anti-shallow-assertion rule
 
-The `no-shallow-assertions` ESLint rule (eslint-rules/extra-rules.js) prevents tests from using existence-only matchers (`toBeDefined`, `toBeTruthy`, `.not.toBeNull()`, `typeof` checks, etc.) that pass without verifying correctness.
+The `no-shallow-assertions` ESLint rule (eslint-rules/testing-rules.js) prevents tests from using existence-only matchers (`toBeDefined`, `toBeTruthy`, `.not.toBeNull()`, `typeof` checks, etc.) that pass without verifying correctness. The rule correctly allows `expect.any()` when used as an asymmetric matcher argument inside `toHaveBeenCalledWith()` and similar matchers, since that pattern asserts the argument type, not just existence.
 
 ## Consequences
 
 **Easier:**
+
 - Maintaining quality: lint violations must be fixed, not suppressed
 - Onboarding: new contributors cannot silently degrade lint rules
 - AI-agent safety: agents cannot downgrade lint severity to make code pass
 
 **Harder:**
+
 - Emergency fixes: cannot quickly suppress a new rule that fires on existing code
 - Migration: adding a new lint rule requires fixing all existing violations upfront, or using config-level overrides with documented rationale
