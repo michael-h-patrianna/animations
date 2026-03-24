@@ -91,7 +91,7 @@ function sampleBezierPath(
 
   for (let i = 0; i <= WAYPOINTS; i++) {
     const linear = i / WAYPOINTS
-    const t = linear * linear // ease-in: slow start, accelerating pull
+    const t = Math.pow(linear, 1.5) // ease-in: gentler than t² to match CSS feel
     const mt = 1 - t
     xPath.push(
       mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x
@@ -209,18 +209,18 @@ function ParticleElement({
   const { xPath, yPath } = sampleBezierPath(scatter, targetPt, particle.curvature)
 
   // Build full path: source → scattered → bezier waypoints to target
-  // Phases: emit (0→0.12), hover (0.12→0.25), pull (0.25→1.0)
+  // Phases: emit (0→0.12), hover (0.12→0.40), pull (0.40→1.0)
   const fullX = [fromPt.x, fromPt.x, scatterX, scatterX, ...xPath]
   const fullY = [fromPt.y, fromPt.y, scatterY, scatterY, ...yPath]
 
-  // Times: 4 fixed points + 21 waypoints evenly spread across 0.25→1.0
-  const pullStart = 0.25
+  // Times: 4 fixed points + 21 waypoints evenly spread across pullStart→1.0
+  const pullStart = 0.4
   const pullRange = 1.0 - pullStart
   const fullTimes = [
     0,
     0.03,
     0.12,
-    0.25,
+    pullStart,
     ...Array.from({ length: WAYPOINTS + 1 }, (_, i) => pullStart + (i / WAYPOINTS) * pullRange),
   ]
 
