@@ -37,9 +37,9 @@ test.describe('Card Interactions', () => {
     expect(Number(tier)).toBeGreaterThanOrEqual(1)
     expect(Number(tier)).toBeLessThanOrEqual(4)
 
-    // Badge has an aria-label with a descriptive tooltip (long enough to be useful)
-    const ariaLabel = await tierBadge.getAttribute('aria-label')
-    expect(ariaLabel?.length).toBeGreaterThan(10)
+    // Badge text contains the tier label (e.g., "1 drop", "2 deco")
+    const text = await tierBadge.textContent()
+    expect(text!.trim().length).toBeGreaterThan(0)
   })
 
   test('disabled replay button is correctly marked on interactive-only animations', async ({
@@ -87,16 +87,17 @@ test.describe('Card Interactions', () => {
     await catalogPage.gotoGroup('text-effects-framer')
 
     const card = catalogPage.card('text-effects__character-reveal')
-    const tierBadge = card.locator('[data-testid="tier-badge"]')
-    await expect(tierBadge).toBeVisible()
+    // Tooltip wrapper wraps the tier badge
+    const tooltipWrapper = card.locator('[data-testid="tooltip-wrapper"]')
+    await expect(tooltipWrapper).toBeVisible()
 
-    // No tooltip initially
-    await expect(tierBadge.locator('[role="tooltip"]')).toHaveCount(0)
+    // No tooltip initially (tooltip is portaled to document.body)
+    await expect(catalogPage.page.locator('body > [role="tooltip"]')).toHaveCount(0)
 
     // Hover over badge to show tooltip
-    await tierBadge.hover()
-    const tooltip = tierBadge.locator('[role="tooltip"]')
-    await expect(tooltip).toBeVisible()
+    await tooltipWrapper.hover()
+    const tooltip = catalogPage.page.locator('[role="tooltip"]')
+    await expect(tooltip).toBeVisible({ timeout: 3_000 })
 
     // Tooltip contains meaningful descriptive text
     const tooltipText = await tooltip.textContent()

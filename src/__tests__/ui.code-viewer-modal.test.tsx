@@ -195,7 +195,10 @@ describe('CodeViewerModal', () => {
       render(<CodeViewerModal {...defaultProps} />)
 
       await user.click(screen.getByTestId('code-copy-btn'))
-      expect(await screen.findByText('Copied')).toBeVisible()
+      // Wait for copy state to update
+      await vi.waitFor(() => {
+        expect(screen.getByTestId('code-copy-btn')).toHaveTextContent('Copied')
+      })
 
       expect(writeText).toHaveBeenCalledOnce()
       expect(writeText).toHaveBeenCalledWith(expect.not.stringContaining('data-animation-id'))
@@ -208,7 +211,9 @@ describe('CodeViewerModal', () => {
 
       await user.click(screen.getByTestId('code-copy-btn'))
 
-      expect(await screen.findByText('Copied')).toBeVisible()
+      await vi.waitFor(() => {
+        expect(screen.getByTestId('code-copy-btn')).toHaveTextContent('Copied')
+      })
     })
 
     it('handles clipboard write failure gracefully without crashing', async () => {
@@ -244,13 +249,17 @@ describe('CodeViewerModal', () => {
 
       const dialog = screen.getByRole('dialog')
       expect(dialog).toHaveAttribute('aria-labelledby')
-      expect(screen.getByText('Test Animation')).toHaveAttribute('id', dialog.getAttribute('aria-labelledby')!)
+      const titleEl = screen.getByTestId('modal-title')
+      expect(titleEl).toHaveTextContent('Test Animation')
+      expect(titleEl).toHaveAttribute('id', dialog.getAttribute('aria-labelledby')!)
     })
 
     it('dialog title reflects the animation title prop', () => {
       render(<CodeViewerModal {...defaultProps} title="Custom Title" />)
       const dialog = screen.getByRole('dialog')
-      expect(screen.getByText('Custom Title')).toHaveAttribute('id', dialog.getAttribute('aria-labelledby')!)
+      const titleEl = screen.getByTestId('modal-title')
+      expect(titleEl).toHaveTextContent('Custom Title')
+      expect(titleEl).toHaveAttribute('id', dialog.getAttribute('aria-labelledby')!)
     })
 
     it('tablist is present', () => {

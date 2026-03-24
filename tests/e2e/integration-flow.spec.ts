@@ -166,21 +166,29 @@ test.describe('Integration: Full User Journey', () => {
   test('round-trip navigation: A → B → A preserves correct card content', async ({
     catalogPage,
   }) => {
-    // Navigate to group A
+    // Navigate to group A — use scopedCards to avoid counting internal data-animation-id
     await catalogPage.gotoGroup('modal-base-framer')
-    const groupACards = await catalogPage.getAllAnimationIds()
+    await catalogPage.waitForTransitionSettle()
+    const groupACards = await catalogPage
+      .scopedCards('modal-base-framer')
+      .evaluateAll((els) => els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean))
     expect(groupACards.length).toBeGreaterThan(0)
 
     // Navigate to group B
     await catalogPage.gotoGroup('standard-effects-framer')
-    const groupBCards = await catalogPage.getAllAnimationIds()
+    await catalogPage.waitForTransitionSettle()
+    const groupBCards = await catalogPage
+      .scopedCards('standard-effects-framer')
+      .evaluateAll((els) => els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean))
     expect(groupBCards.length).toBeGreaterThan(0)
     expect(groupBCards).not.toEqual(groupACards)
 
     // Navigate back to group A
     await catalogPage.gotoGroup('modal-base-framer')
     await catalogPage.waitForTransitionSettle()
-    const groupACardsAgain = await catalogPage.getAllAnimationIds()
+    const groupACardsAgain = await catalogPage
+      .scopedCards('modal-base-framer')
+      .evaluateAll((els) => els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean))
 
     // Same cards should be present after round-trip (not stale B cards)
     expect(groupACardsAgain.sort()).toEqual(groupACards.sort())

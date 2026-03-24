@@ -77,9 +77,11 @@ test.describe('Loading State Animations', () => {
   test('Framer and CSS loading states have matching animation IDs', async ({ catalogPage }) => {
     // Verify both variants have the same set of animations
     await catalogPage.gotoGroup('loading-states-framer')
+    await catalogPage.waitForTransitionSettle()
     const framerIds = await catalogPage.getAllAnimationIds()
 
     await catalogPage.gotoGroup('loading-states-css')
+    await catalogPage.waitForTransitionSettle()
     const cssIds = await catalogPage.getAllAnimationIds()
 
     expect(framerIds.sort()).toEqual(cssIds.sort())

@@ -84,9 +84,8 @@ test.describe('Mobile Code Mode Switching', () => {
     const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
 
-    // Modal has correct ARIA attributes
-    await expect(modal).toHaveAttribute('role', 'dialog')
-    await expect(modal).toHaveAttribute('aria-modal', 'true')
+    // Native <dialog> is open
+    await expect(modal).toHaveAttribute('open', '')
 
     // Syntax-highlighted code is visible
     await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })

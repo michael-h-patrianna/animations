@@ -81,8 +81,8 @@ test.describe('Edge Cases', () => {
       }
     }
 
-    // All group links should be hidden
-    expect(await catalogPage.allGroupLinks().count()).toBe(0)
+    // All group links should be hidden (wait for collapse animations to complete)
+    await expect.poll(async () => catalogPage.allGroupLinks().count(), { timeout: 5_000 }).toBe(0)
 
     // Expand first category — groups should reappear
     await categoryBtns.first().click()
@@ -139,8 +139,8 @@ test.describe('Edge Cases', () => {
     // URL should not change
     expect(catalogPage.currentPathname()).toBe(pathname)
 
-    // Desktop sidebar should be visible
-    await expect(catalogPage.sidebar).toBeVisible()
+    // Top bar should be visible (sidebar panel may or may not be open depending on store state)
+    await expect(catalogPage.page.locator('[data-testid="top-bar"]')).toBeVisible()
     await catalogPage.waitForCards()
 
     // Resize back to mobile — content still present
@@ -159,35 +159,30 @@ test.describe('Edge Cases', () => {
     const sectionCount = await sections.count()
     expect(sectionCount).toBeGreaterThan(1)
 
-    // Find the active section and a non-active section
-    let activeSection: import('@playwright/test').Locator | null = null
-    let otherSection: import('@playwright/test').Locator | null = null
-
+    // Find the section containing the active group and another section
+    let activeSectionIndex = -1
     for (let i = 0; i < sectionCount; i++) {
       const section = sections.nth(i)
-      const categoryBtn = section.locator('[data-testid^="sidebar-category-"]')
-      const isActive = await categoryBtn.getAttribute('data-active')
-      if (isActive) {
-        activeSection = section
-      } else if (!otherSection) {
-        otherSection = section
+      const activeInSection = section.locator('[data-testid^="sidebar-group-"][data-active]')
+      if ((await activeInSection.count()) > 0) {
+        activeSectionIndex = i
+        break
       }
     }
+    expect(activeSectionIndex).toBeGreaterThanOrEqual(0)
 
-    expect(activeSection).not.toBeNull()
-    expect(otherSection).not.toBeNull()
-    if (!activeSection || !otherSection) return
-
-    // Get a group link in the other section
+    const otherIndex = activeSectionIndex === 0 ? 1 : 0
+    const otherSection = sections.nth(otherIndex)
     const otherGroupLinks = catalogPage.groupLinksInSection(otherSection)
-    const otherGroupCount = await otherGroupLinks.count()
-    expect(otherGroupCount).toBeGreaterThan(0)
+    expect(await otherGroupLinks.count()).toBeGreaterThan(0)
 
     // Collapse the active section AND click a group in the other section rapidly
-    const activeCategoryBtn = activeSection.locator('[data-testid^="sidebar-category-"]')
+    const activeToggle = sections
+      .nth(activeSectionIndex)
+      .locator('[data-testid="control-group-toggle"]')
     const before = catalogPage.currentPathname()
 
-    await activeCategoryBtn.click() // collapse
+    await activeToggle.click() // collapse
     await otherGroupLinks.first().click() // navigate
 
     // Wait for navigation to settle
@@ -201,24 +196,28 @@ test.describe('Edge Cases', () => {
     await catalogPage.expectNoErrorBoundary()
   })
 
-  test('scroll resets toward top when navigating to a new group', async ({ catalogPage, page }) => {
-    // Navigate to a group with many cards
+  test('navigating to a new group renders the group section at the top of the content area', async ({
+    catalogPage,
+  }) => {
+    // Navigate to first group
     await catalogPage.gotoGroup('progress-bars-framer')
     await catalogPage.waitForCards()
 
-    // Scroll down significantly
-    await page.evaluate(() => window.scrollTo(0, 800))
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(400)
-
-    // Navigate to a different group
+    // Navigate to a different group via sidebar
+    await catalogPage.ensureSidebarOpen()
     await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
-    // Scroll should move toward the group section (near top, accounting for
-    // app bar height and the useScrollToGroup's 360ms retry delay)
-    await expect
-      .poll(() => page.evaluate(() => window.scrollY), { timeout: 5_000 })
-      .toBeLessThan(200)
+    // The new group section should be visible in the viewport
+    const groupId = catalogPage.currentPathname().slice(1)
+    await expect(catalogPage.groupSection(groupId)).toBeVisible()
+
+    // The group section should be near the top of the viewport
+    const sectionTop = await catalogPage
+      .groupSection(groupId)
+      .evaluate((el) => el.getBoundingClientRect().top)
+    // Allow generous threshold (top bar + any padding)
+    expect(sectionTop).toBeLessThan(300)
   })
 
   test('rapid mode switching does not corrupt state', async ({ catalogPage }) => {
@@ -319,7 +318,7 @@ test.describe('Edge Cases', () => {
 
     // Programmatic navigation (simulates browser back or URL change)
     await page.goto('/standard-effects-framer')
-    await expect(mobilePage.header).toBeVisible({ timeout: 10_000 })
+    await expect(mobilePage.topBar).toBeVisible({ timeout: 10_000 })
 
     // After full navigation, drawer state should be clean
     // (no stale open drawer from previous page)
@@ -375,16 +374,16 @@ test.describe('Edge Cases', () => {
     await expect(activeLink).toBeVisible()
 
     const pathBefore = catalogPage.currentPathname()
-    const cardCountBefore = await catalogPage.allCards().count()
 
     // Click it again
     await activeLink.click()
 
-    // URL and content should not change — no error, no navigation
+    // URL should not change — no error, no navigation
     expect(catalogPage.currentPathname()).toBe(pathBefore)
     await catalogPage.waitForCards()
-    const cardCountAfter = await catalogPage.allCards().count()
-    expect(cardCountAfter).toBe(cardCountBefore)
+
+    // Active link should still be active
+    await expect(activeLink).toHaveAttribute('data-active', 'true')
     await catalogPage.expectNoErrorBoundary()
   })
 
@@ -498,5 +497,42 @@ test.describe('Edge Cases', () => {
     // Page should be functional
     expect(catalogPage.currentPathname()).toBe('/modal-base-framer')
     await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('browser back navigation scrolls to top of new group section', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Navigate to a group with many cards
+    await catalogPage.gotoGroup('progress-bars-framer')
+    await catalogPage.waitForCards()
+
+    // Scroll to the last card
+    const cards = catalogPage.allCards()
+    const totalCards = await cards.count()
+    expect(totalCards).toBeGreaterThan(5)
+    await cards.nth(totalCards - 1).scrollIntoViewIfNeeded()
+
+    // Navigate to a different group
+    await catalogPage.gotoGroup('text-effects-framer')
+    await catalogPage.waitForCards()
+
+    // The new group section should be visible near the top
+    const groupId = catalogPage.currentPathname().slice(1)
+    const sectionTop = await catalogPage
+      .groupSection(groupId)
+      .evaluate((el) => el.getBoundingClientRect().top)
+    expect(sectionTop).toBeLessThan(300)
+
+    // Go back
+    await page.goBack()
+    await expect
+      .poll(() => catalogPage.currentPathname(), { timeout: 5_000 })
+      .toBe('/progress-bars-framer')
+    await catalogPage.waitForCards()
+
+    // The group section should be visible (not stuck at bottom from previous scroll)
+    const backGroupSection = catalogPage.groupSection('progress-bars-framer')
+    await expect(backGroupSection).toBeVisible()
   })
 })

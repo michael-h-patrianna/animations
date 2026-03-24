@@ -31,8 +31,8 @@ describe('AnimationCard', () => {
   it('renders title and description', () => {
     renderCard()
 
-    expect(screen.getByText('Test Animation')).toHaveClass('pf-card__title')
-    expect(screen.getByText('A test description')).toHaveTextContent('A test description')
+    expect(screen.getByTestId('card-title')).toHaveTextContent('Test Animation')
+    expect(screen.getByTestId('card-description')).toHaveTextContent('A test description')
   })
 
   it('renders tier badge when tier is provided', () => {

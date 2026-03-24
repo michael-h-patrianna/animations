@@ -163,11 +163,15 @@ describe('integration: code viewer pipeline', () => {
 
             const cleaned = cleanSourceForDisplay(tab.code)
             if (cleaned.includes('data-animation-id=')) {
-              errors.push(`${firstId}/${tab.label}: data-animation-id survived cleanSourceForDisplay`)
+              errors.push(
+                `${firstId}/${tab.label}: data-animation-id survived cleanSourceForDisplay`
+              )
             }
             // Cleaned code should not be empty (source was loaded)
             if (tab.code.length > 0 && cleaned.length === 0) {
-              errors.push(`${firstId}/${tab.label}: cleanSourceForDisplay produced empty output from non-empty source`)
+              errors.push(
+                `${firstId}/${tab.label}: cleanSourceForDisplay produced empty output from non-empty source`
+              )
             }
           }
         } catch (e) {
@@ -183,31 +187,44 @@ describe('integration: code viewer pipeline', () => {
   // infinite: true in CSS metadata but undefined (missing) in framer metadata.
   // This causes the catalog to show different behavior flags for the same animation
   // depending on whether the user views the framer or CSS variant.
-  it.fails('metadata consistency: optional fields match across framer and css variants (KNOWN BUG: text-effects verb animations)', () => {
-    const mismatches: string[] = []
+  it.fails(
+    'metadata consistency: optional fields match across framer and css variants (KNOWN BUG: text-effects verb animations)',
+    () => {
+      const mismatches: string[] = []
 
-    for (const cat of Object.values(categories)) {
-      for (const group of Object.values(cat.groups)) {
-        for (const [id, framerAnim] of Object.entries(group.framer)) {
-          const cssAnim = group.css[id]
-          if (!cssAnim) continue
+      for (const cat of Object.values(categories)) {
+        for (const group of Object.values(cat.groups)) {
+          for (const [id, framerAnim] of Object.entries(group.framer)) {
+            const cssAnim = group.css[id]
+            if (!cssAnim) continue
 
-          const optionalFields = [
-            'disableReplay', 'infinite', 'controls', 'prizeCountMax',
-            'previewPosition', 'demoMode', 'previewMaxWidth',
-          ] as const
+            const optionalFields = [
+              'disableReplay',
+              'infinite',
+              'controls',
+              'prizeCountMax',
+              'previewPosition',
+              'demoMode',
+              'previewMaxWidth',
+            ] as const
 
-          for (const field of optionalFields) {
-            const framerVal = framerAnim.metadata[field]
-            const cssVal = cssAnim.metadata[field]
-            if (framerVal !== cssVal) {
-              mismatches.push(`${id}.${field}: framer=${JSON.stringify(framerVal)} css=${JSON.stringify(cssVal)}`)
+            for (const field of optionalFields) {
+              const framerVal = framerAnim.metadata[field]
+              const cssVal = cssAnim.metadata[field]
+              if (framerVal !== cssVal) {
+                mismatches.push(
+                  `${id}.${field}: framer=${JSON.stringify(framerVal)} css=${JSON.stringify(cssVal)}`
+                )
+              }
             }
           }
         }
       }
-    }
 
-    expect(mismatches, `Metadata mismatches between framer and css:\n${mismatches.join('\n')}`).toEqual([])
-  })
+      expect(
+        mismatches,
+        `Metadata mismatches between framer and css:\n${mismatches.join('\n')}`
+      ).toEqual([])
+    }
+  )
 })

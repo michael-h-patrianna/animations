@@ -46,16 +46,18 @@ describe('GroupSection', () => {
     const group = makeGroup()
     renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
-    expect(screen.getByText('Bounce')).toBeVisible()
-    expect(screen.getByText('Fade')).toBeVisible()
+    const titles = screen.getAllByTestId('card-title')
+    const titleTexts = titles.map((el) => el.textContent)
+    expect(titleTexts).toContain('Bounce')
+    expect(titleTexts).toContain('Fade')
   })
 
   it('renders empty state when group has no animations', () => {
     const group = makeGroup({ animations: [] })
     renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
-    expect(screen.getByText('Animations coming soon')).toHaveClass('pf-group__empty')
-    expect(screen.queryByText('pf-card-grid')).not.toBeInTheDocument()
+    expect(screen.getByTestId('group-empty')).toHaveTextContent('Animations coming soon')
+    expect(screen.queryByTestId('card-grid')).not.toBeInTheDocument()
   })
 
   it('renders placeholder when animation component is not found in registry', () => {
@@ -73,8 +75,8 @@ describe('GroupSection', () => {
     })
     renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
-    // Should show a placeholder div with the animation id
-    expect(screen.getByText('nonexistent__animation')).toHaveClass('pf-card__placeholder')
+    // Should show a placeholder div with the animation id inside the demo stage
+    expect(screen.getByTestId('demo-stage')).toHaveTextContent('nonexistent__animation')
   })
 
   it('renders card grid container when animations are present', () => {
@@ -105,7 +107,7 @@ describe('GroupSection', () => {
     renderWithRouter(<GroupSection group={group} elementId="css-section" />)
 
     // Should render without error and show the animation title
-    expect(screen.getByText('Bounce')).toBeVisible()
+    expect(screen.getByTestId('card-title')).toHaveTextContent('Bounce')
   })
 
   it('passes lights control props to animation component when controls=lights', () => {
@@ -177,8 +179,10 @@ describe('GroupSection', () => {
     renderWithRouter(<GroupSection group={group} elementId="mixed-section" />)
 
     // Both animation titles should be rendered in the cards
-    expect(screen.getByText('Infinite Anim')).toBeVisible()
-    expect(screen.getByText('One-shot Anim')).toBeVisible()
+    const titles = screen.getAllByTestId('card-title')
+    const titleTexts = titles.map((el) => el.textContent)
+    expect(titleTexts).toContain('Infinite Anim')
+    expect(titleTexts).toContain('One-shot Anim')
 
     vi.useRealTimers()
   })
@@ -214,8 +218,9 @@ describe('GroupSection', () => {
         />
       )
 
-      expect(screen.getByTestId('filter-banner')).toBeVisible()
-      expect(screen.getByText(/Showing: standard-effects__bounce/)).toBeVisible()
+      const banner = screen.getByTestId('filter-banner')
+      expect(banner).toBeVisible()
+      expect(banner).toHaveTextContent(/Showing: standard-effects__bounce/)
     })
 
     it('shows only the filtered animation in the card grid', () => {
@@ -247,8 +252,9 @@ describe('GroupSection', () => {
         />
       )
 
-      expect(screen.getByText('Bounce')).toBeVisible()
-      expect(screen.queryByText('Fade')).not.toBeInTheDocument()
+      const titles = screen.getAllByTestId('card-title')
+      expect(titles).toHaveLength(1)
+      expect(titles[0]).toHaveTextContent('Bounce')
     })
 
     it('shows error message when animationFilter references nonexistent animation', () => {
@@ -257,7 +263,7 @@ describe('GroupSection', () => {
         <GroupSection group={group} elementId="invalid-filter" animationFilter="nonexistent__id" />
       )
 
-      expect(screen.getByText(/Animation "nonexistent__id" not found/)).toBeVisible()
+      expect(screen.getByTestId('filter-banner')).toHaveTextContent(/not found/)
     })
 
     it('renders "Show all animations" button to remove filter', () => {
@@ -325,7 +331,7 @@ describe('GroupSection', () => {
       )
 
       // Partial ID should NOT match — shows error instead of the animation
-      expect(screen.getByText(/not found/)).toBeVisible()
+      expect(screen.getByTestId('filter-banner')).toHaveTextContent(/not found/)
     })
 
     it('filter with ID from a different group shows error', () => {
@@ -350,7 +356,7 @@ describe('GroupSection', () => {
       )
 
       // ID exists in a different group — this group doesn't have it
-      expect(screen.getByText(/not found/)).toBeVisible()
+      expect(screen.getByTestId('filter-banner')).toHaveTextContent(/not found/)
     })
   })
 
@@ -375,8 +381,8 @@ describe('GroupSection', () => {
       })
       renderWithRouter(<GroupSection group={group} elementId="demo-placeholder" />)
 
-      // Unregistered → placeholder renders the ID text
-      expect(screen.getByText('fake-group__demo')).toHaveClass('pf-card__placeholder')
+      // Unregistered → placeholder renders the ID text inside the demo stage
+      expect(screen.getByTestId('demo-stage')).toHaveTextContent('fake-group__demo')
     })
   })
 })

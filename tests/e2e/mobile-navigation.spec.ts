@@ -5,12 +5,15 @@ test.describe('Mobile Navigation', () => {
     await mobilePage.gotoMobile('text-effects-framer')
   })
 
-  test('shows mobile header with hamburger button', async ({ mobilePage, page }) => {
-    await expect(mobilePage.header).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
+  test('shows top bar with panel toggle button at mobile viewport', async ({
+    mobilePage,
+    page,
+  }) => {
+    await expect(mobilePage.topBar).toBeVisible()
+    await expect(page.locator('[data-testid="toggle-left-panel"]')).toBeVisible()
   })
 
-  test('hamburger opens drawer and close button closes it', async ({ mobilePage }) => {
+  test('panel toggle opens drawer and close button closes it', async ({ mobilePage }) => {
     await mobilePage.expectDrawerClosed()
 
     await mobilePage.openDrawer()
@@ -27,15 +30,14 @@ test.describe('Mobile Navigation', () => {
     expect(await groupLinks.count()).toBeGreaterThan(1)
 
     // Click the second group
-    const label = await mobilePage.clickDrawerGroup(1)
+    await mobilePage.clickDrawerGroup(1)
 
     // Drawer should close
     await mobilePage.expectDrawerClosed()
 
-    // Content should update
+    // Content should update — group section for the new route is visible
     const groupId = new URL(page.url()).pathname.slice(1)
     await expect(page.locator(`[data-testid="group-section-group-${groupId}"]`)).toBeVisible()
-    await expect(page.locator('[data-testid="mobile-title"]')).toContainText(label)
   })
 
   test('Escape key closes the drawer', async ({ mobilePage, page }) => {
@@ -59,11 +61,11 @@ test.describe('Mobile Navigation', () => {
     expect(await mobilePage.isScrollLocked()).toBe(false)
 
     await mobilePage.openDrawer()
-    // Drawer open → body scroll locked
+    // Drawer open -> body scroll locked
     expect(await mobilePage.isScrollLocked()).toBe(true)
 
     await mobilePage.closeDrawer()
-    // Drawer closed → body scroll restored
+    // Drawer closed -> body scroll restored
     expect(await mobilePage.isScrollLocked()).toBe(false)
   })
 
@@ -82,10 +84,10 @@ test.describe('Mobile Navigation', () => {
   test('mobile drawer shows same group links as desktop sidebar', async ({
     catalogPage,
     mobilePage,
-    page,
   }) => {
-    // First, collect desktop sidebar group labels at normal viewport
+    // Collect desktop sidebar group labels at normal viewport
     await catalogPage.gotoGroup('text-effects-framer')
+    await catalogPage.ensureSidebarOpen()
     const desktopLinks = catalogPage.allGroupLinks()
     const desktopCount = await desktopLinks.count()
     const desktopLabels: string[] = []
@@ -94,9 +96,8 @@ test.describe('Mobile Navigation', () => {
     }
     expect(desktopLabels.length).toBeGreaterThan(5)
 
-    // Switch to mobile viewport
-    await page.setViewportSize({ width: 375, height: 667 })
-    await expect(mobilePage.header).toBeVisible({ timeout: 10_000 })
+    // Navigate fresh at mobile viewport (avoids viewport-resize mid-test issues)
+    await mobilePage.gotoMobile('text-effects-framer')
 
     // Open drawer and collect mobile group labels
     await mobilePage.openDrawer()

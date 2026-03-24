@@ -12,11 +12,28 @@ import { expect, type Locator, type Page } from '@playwright/test'
  */
 export class CatalogPage {
   readonly page: Page
-  readonly sidebar: Locator
 
   constructor(page: Page) {
     this.page = page
-    this.sidebar = page.locator('[data-testid="sidebar"]').first()
+  }
+
+  /**
+   * The desktop sidebar panel (inside EditorLayout).
+   * Two sidebar elements exist: one in MobileDrawer (hidden when closed)
+   * and one in the EditorLeftPanel. This targets the visible desktop panel.
+   */
+  get sidebar(): Locator {
+    return this.page.locator('[data-testid="sidebar"]:visible')
+  }
+
+  /** The top bar (always visible regardless of sidebar state). */
+  private topBar(): Locator {
+    return this.page.locator('[data-testid="top-bar"]')
+  }
+
+  /** The sidebar panel toggle button in the top bar. */
+  private panelToggle(): Locator {
+    return this.page.locator('[data-testid="toggle-left-panel"]')
   }
 
   // ── Navigation ─────────────────────────────────────────────────────
@@ -34,9 +51,29 @@ export class CatalogPage {
     await this.waitForCards()
   }
 
-  /** Wait for the app shell (sidebar) to be ready. */
+  /** Wait for the app shell to be ready with sidebar visible. */
   async waitForShell() {
-    await expect(this.sidebar).toBeVisible({ timeout: 10_000 })
+    await expect(this.topBar()).toBeVisible({ timeout: 10_000 })
+    await this.ensureSidebarOpen()
+  }
+
+  /**
+   * Ensure the left sidebar panel is open.
+   * If hidden (toggled off or persisted closed), clicks the panel toggle.
+   */
+  async ensureSidebarOpen() {
+    const visible = await this.page
+      .locator('[data-testid="sidebar"]:visible')
+      .count()
+      .then((c) => c > 0)
+      .catch(() => false)
+
+    if (!visible) {
+      await this.panelToggle().click()
+      await expect(this.page.locator('[data-testid="sidebar"]:visible')).toBeVisible({
+        timeout: 5_000,
+      })
+    }
   }
 
   /** Wait for at least one animation card to appear. */
@@ -79,9 +116,15 @@ export class CatalogPage {
 
   // ── Sidebar ────────────────────────────────────────────────────────
 
-  /** All category buttons in the sidebar. */
+  /**
+   * All category toggle buttons in the sidebar.
+   * After ui-refactor: categories use ControlGroup with `data-testid="control-group-toggle"`.
+   * Scoped to sidebar sections to avoid matching non-category control groups.
+   */
   categoryButtons(): Locator {
-    return this.sidebar.locator('[data-testid^="sidebar-category-"]')
+    return this.sidebar.locator(
+      '[data-testid^="sidebar-section-"] > [data-testid="control-group-toggle"]'
+    )
   }
 
   /** All sidebar sections. */
@@ -147,17 +190,19 @@ export class CatalogPage {
 
   /** Click the Framer mode button in the desktop sidebar. */
   async selectFramerMode() {
-    await this.codeModeSwitch().locator('[data-testid="code-mode-framer"]').click()
+    await this.ensureSidebarOpen()
+    await this.codeModeSwitch().locator('[data-testid="code-mode-switch-Framer"]').click()
   }
 
   /** Click the CSS mode button in the desktop sidebar. */
   async selectCssMode() {
-    await this.codeModeSwitch().locator('[data-testid="code-mode-css"]').click()
+    await this.ensureSidebarOpen()
+    await this.codeModeSwitch().locator('[data-testid="code-mode-switch-CSS"]').click()
   }
 
   /** Get the currently active code mode label from the desktop sidebar. */
   async activeCodeMode(): Promise<string> {
-    const active = this.codeModeSwitch().locator('button[aria-pressed="true"]')
+    const active = this.codeModeSwitch().locator('button[aria-checked="true"]')
     return (await active.textContent()) ?? ''
   }
 
@@ -217,9 +262,9 @@ export class CatalogPage {
     return card.locator('button[aria-label*="description"]')
   }
 
-  /** Get the group title shown in the sticky header bar. */
+  /** Get the group title shown in the top bar. */
   groupTitle(): Locator {
-    return this.page.locator('[data-testid="mobile-title"]')
+    return this.page.locator('[data-testid="topbar-title"]')
   }
 
   /** Get the group section element by ID. */
@@ -267,12 +312,12 @@ export class CatalogPage {
 
   /** Get a specific tab button by index in the code viewer. */
   codeTab(index: number): Locator {
-    return this.page.locator(`[data-testid="code-tab-${index}"]`)
+    return this.page.locator('[data-testid^="code-tablist-tab-"]').nth(index)
   }
 
   /** Get all tab buttons in the code viewer. */
   codeTabs(): Locator {
-    return this.page.locator('[data-testid^="code-tab-"]')
+    return this.page.locator('[data-testid^="code-tablist-tab-"]')
   }
 
   /** Get the copy button in the code viewer modal. */
@@ -282,22 +327,23 @@ export class CatalogPage {
 
   /** Get the close button in the code viewer modal. */
   codeCloseButton(): Locator {
-    return this.page.locator('[data-testid="code-close-btn"]')
+    return this.codeViewerModal().locator('[data-testid="demo-modal-close"]')
   }
 
-  /** Get the code body area in the code viewer modal. */
+  /** Get the code body area in the active tab panel of the code viewer modal. */
   codeBody(): Locator {
-    return this.page.locator('[data-testid="code-body"]')
+    // Tabs use keep-alive: inactive panels are hidden. Target the visible one.
+    return this.codeViewerModal().locator('[data-testid="code-body"]:visible').first()
   }
 
-  /** Get the highlighted code container (rendered by Shiki). */
+  /** Get the highlighted code container (rendered by Shiki) in the active tab. */
   codeHighlighted(): Locator {
-    return this.page.locator('[data-testid="code-highlighted"]')
+    return this.codeViewerModal().locator('[data-testid="code-highlighted"]:visible').first()
   }
 
   /** Get the loading indicator in the code viewer modal. */
   codeLoading(): Locator {
-    return this.page.locator('[data-testid="code-loading"]')
+    return this.codeViewerModal().locator('[data-testid="code-loading"]')
   }
 
   /** Assert that the ErrorBoundary fallback is NOT shown. */
@@ -443,5 +489,71 @@ export class CatalogPage {
   /** Preview mode switch container. */
   previewModeSwitch(): Locator {
     return this.page.locator('[data-testid="preview-mode-switch"]')
+  }
+
+  // ── View Menu (Theme + Accent) ─────────────────────────────────────
+
+  /** The VIEW button in the top bar. */
+  viewMenuButton(): Locator {
+    return this.page.locator('[data-testid="menu-view"]')
+  }
+
+  /** The dropdown menu content (popover). */
+  private dropdownContent(): Locator {
+    return this.page.locator('[data-dropdown-content="true"]')
+  }
+
+  /** Open the VIEW dropdown menu and wait for it to be visible. */
+  async openViewMenu() {
+    await this.viewMenuButton().click()
+    await expect(this.page.locator('[data-testid="dropdown-menu-stop-propagation"]')).toBeVisible({
+      timeout: 3_000,
+    })
+  }
+
+  /** Click a theme option inside the VIEW dropdown submenu. */
+  async selectTheme(themeId: string) {
+    await this.page.locator(`[data-testid="theme-${themeId}"]`).click()
+  }
+
+  /** Click an accent option inside the VIEW dropdown submenu. */
+  async selectAccent(accentId: string) {
+    await this.page.locator(`[data-testid="accent-${accentId}"]`).click()
+  }
+
+  /** Get the current theme mode from the [data-demo-ui] root element. */
+  async currentTheme(): Promise<string> {
+    const root = this.page.locator('[data-demo-ui]')
+    return (await root.getAttribute('data-mode')) ?? ''
+  }
+
+  /** Get the current accent color from the [data-demo-ui] root element. */
+  async currentAccent(): Promise<string> {
+    const root = this.page.locator('[data-demo-ui]')
+    return (await root.getAttribute('data-accent')) ?? ''
+  }
+
+  // ── Layout Store (Panel Toggle Persistence) ────────────────────────
+
+  /** Get the zustand layout store state from localStorage. */
+  async getLayoutStoreState(): Promise<Record<string, unknown> | null> {
+    return this.page.evaluate(() => {
+      const raw = localStorage.getItem('animation-catalog-layout')
+      if (!raw) return null
+      try {
+        return JSON.parse(raw)
+      } catch {
+        return null
+      }
+    })
+  }
+
+  /** Check if the sidebar is currently visible (any viewport). */
+  async isSidebarVisible(): Promise<boolean> {
+    return this.page
+      .locator('[data-testid="sidebar"]:visible')
+      .count()
+      .then((c) => c > 0)
+      .catch(() => false)
   }
 }

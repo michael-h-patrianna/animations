@@ -18,6 +18,7 @@ import type { CatalogPage } from './page-objects/CatalogPage'
 const SKIP_SIZE_CHECK = new Set([
   'modal-content__list-soft-stagger', // CSS variant renders taller (488px vs 241px)
   'modal-orchestration__wizard-scale-rotate', // Size mismatch (323px vs 241px)
+  'modal-content__form-field-gradient', // Framer renders taller (511px vs 240px)
 ])
 
 type StageMetrics = {

@@ -160,6 +160,30 @@ test.describe('Query Parameters', () => {
 })
 
 test.describe('Query Parameter Edge Cases', () => {
+  test('?animation= with valid ID from a DIFFERENT group shows not-found in current group', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Navigate to text-effects group but filter for a modal-base animation
+    // This is a cross-group mismatch — the animation ID is valid but belongs elsewhere
+    await page.goto('/text-effects-framer?animation=modal-base__scale-gentle-pop')
+    await catalogPage.waitForShell()
+
+    // The group section should render (text-effects group loaded)
+    const groupSection = catalogPage.groupSection('text-effects-framer')
+    await expect(groupSection).toBeVisible({ timeout: 10_000 })
+
+    // Should show "not found" because the animation doesn't exist in this group
+    await expect(groupSection).toContainText('not found')
+
+    // Remove filter should still work
+    await expect(catalogPage.removeFilterButton()).toBeVisible()
+    await catalogPage.removeFilterButton().click()
+    await catalogPage.waitForCards()
+    expect(await catalogPage.allCards().count()).toBeGreaterThan(1)
+    await catalogPage.expectNoErrorBoundary()
+  })
+
   test('empty ?animation= value shows all cards in the group', async ({ catalogPage, page }) => {
     await page.goto('/text-effects-framer?animation=')
     await catalogPage.waitForShell()

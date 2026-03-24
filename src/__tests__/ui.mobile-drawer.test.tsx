@@ -65,7 +65,7 @@ describe('MobileDrawer', () => {
 
   it('calls both onGroupSelect and onClose when a group is selected', () => {
     const { onGroupSelect, onClose } = renderDrawer()
-    fireEvent.click(screen.getByText('Group 1'))
+    fireEvent.click(screen.getByTestId('sidebar-group-group-1'))
     expect(onGroupSelect).toHaveBeenCalledWith('group-1-framer')
     expect(onClose).toHaveBeenCalledOnce()
   })
@@ -124,7 +124,7 @@ describe('MobileDrawer', () => {
       </CodeModeProvider>
     )
 
-    expect(screen.getByText('Category A')).toBeVisible()
-    expect(screen.getByText('Category B')).toBeVisible()
+    expect(screen.getByTestId('sidebar-section-cat-a')).toBeVisible()
+    expect(screen.getByTestId('sidebar-section-cat-b')).toBeVisible()
   })
 })

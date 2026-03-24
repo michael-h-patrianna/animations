@@ -57,9 +57,11 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
 
       renderWithRouter(<GroupSection group={realGroup} elementId={`group-${realGroup.id}`} />)
 
-      // Each animation title should appear
+      // Each animation title should appear in a card-title element
+      const titleElements = screen.getAllByTestId('card-title')
+      const renderedTitles = titleElements.map((el) => el.textContent)
       for (const anim of realGroup.animations) {
-        expect(screen.getByText(anim.title)).toBeVisible()
+        expect(renderedTitles).toContain(anim.title)
       }
     }
   )

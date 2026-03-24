@@ -98,18 +98,25 @@ test.describe('Code Mode Switching (Framer ↔ CSS)', () => {
     const groups = ['text-effects', 'button-effects', 'progress-bars']
 
     for (const baseGroup of groups) {
-      await catalogPage.gotoGroup(`${baseGroup}-framer`)
+      const framerId = `${baseGroup}-framer`
+      await catalogPage.gotoGroup(framerId)
       await catalogPage.waitForTransitionSettle()
-      const framerCount = await catalogPage.allCards().count()
-      const framerIds = await catalogPage.getAllAnimationIds()
+      // Use scopedCards to avoid counting internal data-animation-id elements
+      const framerCards = catalogPage.scopedCards(framerId)
+      const framerIds = await framerCards.evaluateAll((els) =>
+        els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
+      )
 
-      await catalogPage.gotoGroup(`${baseGroup}-css`)
+      const cssId = `${baseGroup}-css`
+      await catalogPage.gotoGroup(cssId)
       await catalogPage.waitForTransitionSettle()
-      const cssCount = await catalogPage.allCards().count()
-      const cssIds = await catalogPage.getAllAnimationIds()
+      const cssCards = catalogPage.scopedCards(cssId)
+      const cssIds = await cssCards.evaluateAll((els) =>
+        els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
+      )
 
       // Same animation IDs should exist in both modes
-      expect(framerCount).toBe(cssCount)
+      expect(framerIds.length).toBe(cssIds.length)
 
       // Same animation IDs (order may differ)
       expect(framerIds.sort()).toEqual(cssIds.sort())

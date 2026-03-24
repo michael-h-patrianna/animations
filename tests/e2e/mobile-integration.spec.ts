@@ -37,8 +37,9 @@ test.describe('Mobile Integration Flows', () => {
     expect(pathname).toMatch(/-css$/)
 
     // Step 4: Open code viewer on the new group
-    // Wait for cards to load and demo stages to render before interacting
+    // Wait for cards to load and AnimatePresence transitions to settle
     await catalogPage.waitForCards()
+    await catalogPage.waitForTransitionSettle()
     const newCard = catalogPage.allCards().first()
     await expect(newCard).toBeVisible({ timeout: 10_000 })
     await newCard.scrollIntoViewIfNeeded()

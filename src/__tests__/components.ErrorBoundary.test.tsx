@@ -34,9 +34,9 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    expect(screen.getByText('Something went wrong')).toBeVisible()
-    expect(screen.getByText(/unexpected happened/)).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Try Again' })).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
+    expect(screen.getByTestId('error-message')).toBeVisible()
+    expect(screen.getByTestId('error-retry-button')).toBeVisible()
     // Child content should not be rendered
     expect(screen.queryByTestId('child-content')).not.toBeInTheDocument()
 
@@ -58,15 +58,15 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
 
     // Fix the error condition before clicking Try Again
     shouldThrow = false
-    fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
+    fireEvent.click(screen.getByTestId('error-retry-button'))
 
     // After reset, the child should render successfully
     expect(screen.getByTestId('recovered')).toBeVisible()
-    expect(screen.queryByText('Something went wrong')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('error-heading')).not.toBeInTheDocument()
 
     consoleErrorSpy.mockRestore()
   })
@@ -108,9 +108,9 @@ describe('ErrorBoundary', () => {
     )
 
     expect(screen.getByTestId('custom-fallback')).toBeVisible()
-    expect(screen.getByText('Custom: Test error from child')).toBeVisible()
+    expect(screen.getByTestId('custom-fallback')).toHaveTextContent('Custom: Test error from child')
     // Default fallback should NOT be rendered
-    expect(screen.queryByText('Something went wrong')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('error-heading')).not.toBeInTheDocument()
 
     consoleErrorSpy.mockRestore()
   })
@@ -124,9 +124,8 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    // In non-prod (test env), ErrorDevDetails should render
-    const details = screen.getByText('Error Details (Development Only)')
-    expect(details).toBeInTheDocument()
+    // In non-prod (test env), ErrorDevDetails should render with summary text
+    expect(screen.getByTestId('error-details')).toHaveTextContent('Error Details')
 
     consoleErrorSpy.mockRestore()
   })
@@ -152,7 +151,7 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
     consoleErrorSpy.mockRestore()
   })
 
@@ -186,7 +185,7 @@ describe('ErrorBoundary', () => {
       <ErrorBoundary
         fallback={(error, reset) => (
           <div>
-            <span>Error: {error.message}</span>
+            <span data-testid="custom-error-text">Error: {error.message}</span>
             <button onClick={reset}>Custom Reset</button>
           </div>
         )}
@@ -195,10 +194,10 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    expect(screen.getByText('Error: Recoverable error')).toBeVisible()
+    expect(screen.getByTestId('custom-error-text')).toHaveTextContent('Error: Recoverable error')
 
     shouldThrow = false
-    fireEvent.click(screen.getByText('Custom Reset'))
+    fireEvent.click(screen.getByRole('button', { name: 'Custom Reset' }))
 
     expect(screen.getByTestId('recovered')).toBeVisible()
     consoleErrorSpy.mockRestore()
@@ -220,15 +219,15 @@ describe('ErrorBoundary', () => {
     )
 
     // First error
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
 
     // First retry — still throwing
     fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
 
     // Second retry — still throwing
     fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
 
     // Fix the error and retry
     shouldThrow = false
@@ -336,7 +335,7 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
 
     consoleErrorSpy.mockRestore()
   })
@@ -368,7 +367,7 @@ describe('ErrorBoundary', () => {
     )
 
     // The error boundary should catch the setState-triggered error
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
 
     consoleErrorSpy.mockRestore()
   })
@@ -391,47 +390,6 @@ describe('ErrorBoundary', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('recovers from first error, then catches a different second error', () => {
-    consoleErrorSpy.mockImplementation(() => {})
-    let errorMessage = 'First error'
-    let shouldThrow = true
-
-    function MultiErrorChild() {
-      if (shouldThrow) throw new Error(errorMessage)
-      return <div data-testid="child">Working</div>
-    }
-
-    render(
-      <ErrorBoundary>
-        <MultiErrorChild />
-      </ErrorBoundary>
-    )
-
-    // First error caught
-    expect(screen.getByText('Something went wrong')).toBeVisible()
-
-    // Recover from first error
-    shouldThrow = false
-    fireEvent.click(screen.getByRole('button', { name: 'Try Again' }))
-    expect(screen.getByTestId('child')).toBeVisible()
-
-    // Trigger a second, different error by re-rendering with new error
-    errorMessage = 'Second different error'
-    shouldThrow = true
-    // Force re-render that throws — we need to unmount and remount to trigger
-    // ErrorBoundary's getDerivedStateFromError only catches during render
-    // So we simulate by directly updating state that triggers the child to throw
-    // The simplest way: just verify the boundary can handle the scenario
-    // by resetting state and having the child throw again on next render
-    // Actually, the boundary already recovered — the child is rendering.
-    // To trigger a new error, we'd need the child to re-render and throw.
-    // Since we can't force a re-render from outside, this test documents
-    // the recovery → success path. The error → recovery → error path
-    // is covered by the "shows error fallback repeatedly" test above.
-
-    consoleErrorSpy.mockRestore()
-  })
-
   it('handles undefined error.stack gracefully in dev details', () => {
     consoleErrorSpy.mockImplementation(() => {})
 
@@ -448,7 +406,7 @@ describe('ErrorBoundary', () => {
     )
 
     // Should render error fallback without crashing on undefined stack
-    expect(screen.getByText('Something went wrong')).toBeVisible()
+    expect(screen.getByTestId('error-heading')).toBeVisible()
 
     consoleErrorSpy.mockRestore()
   })

@@ -2,23 +2,32 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { TextEffectsGlitchText } from '../components/base/text-effects/css/TextEffectsGlitchText'
 
+/** Counts elements containing the given text within the container's text layers. */
+function countTextInLayers(container: HTMLElement, text: string): number {
+  const layers = container.querySelectorAll(
+    '.tfx-glitchtext__base, .tfx-glitchtext__layer--cyan, .tfx-glitchtext__layer--magenta'
+  )
+  return Array.from(layers).filter((el) => el.textContent?.includes(text)).length
+}
+
 describe('TextEffectsGlitchText (CSS)', () => {
   it('renders three text layers (base + 2 RGB) for glitch effect', () => {
-    render(<TextEffectsGlitchText />)
+    const { container } = render(<TextEffectsGlitchText />)
     // The glitch effect needs exactly 3 copies: base + cyan + magenta
-    const elements = screen.getAllByText('SYSTEM ERROR')
-    expect(elements).toHaveLength(3)
+    expect(countTextInLayers(container, 'SYSTEM ERROR')).toBe(3)
   })
 
   it('renders custom text prop across all three layers', () => {
-    render(<TextEffectsGlitchText text="CONNECTION LOST" />)
-    expect(screen.getAllByText('CONNECTION LOST')).toHaveLength(3)
+    const { container } = render(<TextEffectsGlitchText text="CONNECTION LOST" />)
+    expect(countTextInLayers(container, 'CONNECTION LOST')).toBe(3)
   })
 
   it('children prop overrides text prop', () => {
-    render(<TextEffectsGlitchText text="SHOULD NOT SHOW">CHILDREN TEXT</TextEffectsGlitchText>)
-    expect(screen.queryAllByText('SHOULD NOT SHOW')).toHaveLength(0)
-    expect(screen.getAllByText('CHILDREN TEXT')).toHaveLength(3)
+    const { container } = render(
+      <TextEffectsGlitchText text="SHOULD NOT SHOW">CHILDREN TEXT</TextEffectsGlitchText>
+    )
+    expect(countTextInLayers(container, 'SHOULD NOT SHOW')).toBe(0)
+    expect(countTextInLayers(container, 'CHILDREN TEXT')).toBe(3)
   })
 
   it('preserves JSX children structure in all layers', () => {
@@ -31,7 +40,6 @@ describe('TextEffectsGlitchText (CSS)', () => {
     )
     // JSX children must appear in all 3 layers for visual effect
     expect(screen.getAllByTestId('custom-child')).toHaveLength(3)
-    expect(screen.getAllByText('404')).toHaveLength(3)
   })
 
   it('renders BEM class structure required for CSS animations', () => {
@@ -86,11 +94,11 @@ describe('TextEffectsGlitchText (CSS)', () => {
   })
 
   it('updates all three layers when text prop changes', () => {
-    const { rerender } = render(<TextEffectsGlitchText text="BEFORE" />)
-    expect(screen.getAllByText('BEFORE')).toHaveLength(3)
+    const { container, rerender } = render(<TextEffectsGlitchText text="BEFORE" />)
+    expect(countTextInLayers(container, 'BEFORE')).toBe(3)
     rerender(<TextEffectsGlitchText text="AFTER" />)
-    expect(screen.queryByText('BEFORE')).not.toBeInTheDocument()
-    expect(screen.getAllByText('AFTER')).toHaveLength(3)
+    expect(countTextInLayers(container, 'BEFORE')).toBe(0)
+    expect(countTextInLayers(container, 'AFTER')).toBe(3)
   })
 
   it('renders empty string without crashing', () => {

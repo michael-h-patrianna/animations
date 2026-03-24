@@ -27,7 +27,10 @@ describe('App', () => {
     renderApp()
 
     expect(screen.getByTestId('top-bar')).toHaveAttribute('data-app-shell', 'bar')
-    expect(screen.getByTestId('toggle-left-panel')).toHaveAttribute('aria-label', 'Toggle Navigation')
+    expect(screen.getByTestId('toggle-left-panel')).toHaveAttribute(
+      'aria-label',
+      'Toggle Navigation'
+    )
   })
 
   it('renders code mode switch in drawer after opening', () => {

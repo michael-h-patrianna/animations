@@ -118,7 +118,7 @@ test.describe('Animation Filter Banner', () => {
     const targetId = 'text-effects__character-reveal'
     await page.setViewportSize({ width: 375, height: 667 })
     await page.goto(`/text-effects-framer?animation=${encodeURIComponent(targetId)}`)
-    await expect(mobilePage.header).toBeVisible({ timeout: 10_000 })
+    await expect(mobilePage.topBar).toBeVisible({ timeout: 10_000 })
 
     // Filter banner visible on mobile
     const banner = catalogPage.filterBanner()

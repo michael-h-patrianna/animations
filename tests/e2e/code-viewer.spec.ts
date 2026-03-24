@@ -20,9 +20,8 @@ test.describe('Code Viewer', () => {
     const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
 
-    // Modal has correct aria attributes
-    await expect(modal).toHaveAttribute('role', 'dialog')
-    await expect(modal).toHaveAttribute('aria-modal', 'true')
+    // Native <dialog> is open (has open attribute when showModal() called)
+    await expect(modal).toHaveAttribute('open', '')
 
     // Tab list is present with at least one tab
     await expect(catalogPage.codeTabList()).toBeVisible()
@@ -105,16 +104,19 @@ test.describe('Code Viewer', () => {
     await expect(modal).not.toBeVisible()
   })
 
-  test('clicking overlay outside modal dismisses it', async ({ catalogPage }) => {
+  test('clicking outside modal content area dismisses it', async ({ catalogPage, page }) => {
     const card = catalogPage.card('modal-base__scale-gentle-pop')
     await catalogPage.codeViewerButton(card).click()
 
     const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
 
-    // Click the overlay (top-left corner, outside the centered modal)
-    await modal.click({ position: { x: 5, y: 5 } })
-    await expect(modal).not.toBeVisible()
+    // The native <dialog> fills the viewport; clicking outside the inner
+    // content div (but on the dialog element itself) triggers onClose.
+    // Click at the very edge of the viewport to hit the transparent dialog area.
+    const viewport = page.viewportSize()!
+    await page.mouse.click(viewport.width - 5, 5)
+    await expect(modal).not.toBeVisible({ timeout: 3_000 })
   })
 
   test('copy button copies source to clipboard and shows confirmation', async ({
@@ -324,16 +326,22 @@ test.describe('Code Viewer', () => {
     await expect(catalogPage.codeLoading()).toHaveCount(0)
   })
 
-  test('code viewer modal aria-label includes animation title', async ({ catalogPage }) => {
+  test('code viewer modal has accessible title', async ({ catalogPage }) => {
     const card = catalogPage.card('modal-base__scale-gentle-pop')
     await catalogPage.codeViewerButton(card).click()
 
     const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
 
-    // aria-label should describe what source is being shown
-    const ariaLabel = await modal.getAttribute('aria-label')
-    expect(ariaLabel).toMatch(/source code/i)
+    // Native <dialog> uses aria-labelledby pointing to the title element
+    const labelledBy = await modal.getAttribute('aria-labelledby')
+    expect(labelledBy).toBeTruthy()
+
+    // The referenced title element contains text
+    const titleEl = modal.locator('[data-testid="modal-title"]')
+    await expect(titleEl).toBeVisible()
+    const titleText = await titleEl.textContent()
+    expect(titleText!.length).toBeGreaterThan(0)
   })
 
   test('code viewer from filtered view shows correct source and preserves filter', async ({

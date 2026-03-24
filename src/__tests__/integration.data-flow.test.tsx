@@ -81,13 +81,10 @@ describe('integration: full data flow pipeline', () => {
       <GroupSection group={group} elementId={`group-${group.id}`} animationFilter={targetAnim.id} />
     )
 
-    // Only the filtered animation should be shown
-    expect(screen.getByText(targetAnim.title)).toBeVisible()
-
-    // Other animations should NOT be present
-    for (const anim of group.animations.slice(1)) {
-      expect(screen.queryByText(anim.title)).not.toBeInTheDocument()
-    }
+    // Only the filtered animation should be shown — single card-title element
+    const titles = screen.getAllByTestId('card-title')
+    expect(titles).toHaveLength(1)
+    expect(titles[0]).toHaveTextContent(targetAnim.title)
 
     // Filter banner should show the animation ID
     expect(screen.getByTestId('filter-banner')).toHaveTextContent(targetAnim.id)
@@ -104,7 +101,7 @@ describe('integration: full data flow pipeline', () => {
       />
     )
 
-    expect(screen.getByText(/not found/)).toBeVisible()
+    expect(screen.getByTestId('filter-banner')).toHaveTextContent(/not found/)
     // The "Show all animations" button should be present
     expect(screen.getByTestId('remove-filter-btn')).toBeVisible()
   })

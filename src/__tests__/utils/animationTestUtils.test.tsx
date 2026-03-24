@@ -20,8 +20,8 @@ describe('animationTestUtils', () => {
       'data-animation-id',
       'utils__test-card'
     )
-    expect(screen.getByText('Utils Test Card')).toHaveClass('pf-card__title')
-    expect(screen.getByText('Utility wrapper description')).toHaveClass('pf-card__description')
+    expect(screen.getByTestId('card-title')).toHaveTextContent('Utils Test Card')
+    expect(screen.getByTestId('card-description')).toHaveTextContent('Utility wrapper description')
     expect(queryStage(container)).toContainElement(screen.getByTestId('utils-child'))
   })
 

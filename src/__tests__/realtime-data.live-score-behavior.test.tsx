@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { RealtimeDataLiveScoreUpdate as CssLiveScore } from '@/components/realtime/realtime-data/css/RealtimeDataLiveScoreUpdate'
@@ -13,40 +13,43 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
-/** Extracts displayed scores by matching locale-formatted numbers (e.g. "1,450") */
-function getDisplayedScores(): number[] {
-  return screen
-    .getAllByText(/^\d{1,3}(,\d{3})*$/)
-    .map((el) => parseInt(el.textContent?.replace(/,/g, '') ?? '0', 10))
+/** Extracts displayed scores from .pf-realtime-data__score elements */
+function getDisplayedScores(container: HTMLElement): number[] {
+  return Array.from(container.querySelectorAll('.pf-realtime-data__score')).map((el) =>
+    parseInt(el.textContent?.replace(/,/g, '') ?? '0', 10)
+  )
 }
 
 describe('realtime-data live-score-update behavior', () => {
   it('CSS and Framer variants start with identical initial scores', () => {
-    const { unmount } = render(<CssLiveScore />)
-    const cssScores = getDisplayedScores()
+    const { container: cssContainer, unmount } = render(<CssLiveScore />)
+    const cssScores = getDisplayedScores(cssContainer)
     unmount()
 
-    render(<FramerLiveScore />)
-    const framerScores = getDisplayedScores()
+    const { container: framerContainer } = render(<FramerLiveScore />)
+    const framerScores = getDisplayedScores(framerContainer)
 
     expect(cssScores).toEqual(framerScores)
   })
 
-  it('scores display with locale formatting (commas)', () => {
-    render(<CssLiveScore />)
-    expect(screen.getByText('1,450')).toHaveClass('pf-realtime-data__score')
-    expect(screen.getByText('1,320')).toHaveClass('pf-realtime-data__score')
+  it('scores display with locale formatting (commas) and correct class', () => {
+    const { container } = render(<CssLiveScore />)
+    const scoreElements = container.querySelectorAll('.pf-realtime-data__score')
+    const scoreTexts = Array.from(scoreElements).map((el) => el.textContent)
+
+    expect(scoreTexts).toContain('1,450')
+    expect(scoreTexts).toContain('1,320')
   })
 
   it('scores increase over time (not decrease)', () => {
-    render(<CssLiveScore />)
-    const initialScores = getDisplayedScores()
+    const { container } = render(<CssLiveScore />)
+    const initialScores = getDisplayedScores(container)
 
     act(() => {
       vi.advanceTimersByTime(2500)
     })
 
-    const updatedScores = getDisplayedScores()
+    const updatedScores = getDisplayedScores(container)
     // Scores should increase or stay the same (never decrease)
     for (let i = 0; i < initialScores.length; i++) {
       expect(updatedScores[i]).toBeGreaterThanOrEqual(initialScores[i]!)

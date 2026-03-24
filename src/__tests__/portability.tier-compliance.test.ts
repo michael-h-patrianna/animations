@@ -297,7 +297,7 @@ describe('Portability: CSS Class Coverage', () => {
     // lower ORPHAN_THRESHOLD to match the new count. The "ratchet slack"
     // assertion below will fail when the actual count drops 5+ below the
     // threshold, reminding you to tighten it.
-    const ORPHAN_THRESHOLD = 12
+    const ORPHAN_THRESHOLD = 4
     const componentOrphans = new Set(orphans.map((o) => o.split(':')[0]))
     if (componentOrphans.size > ORPHAN_THRESHOLD) {
       // Report count and samples instead of the full list

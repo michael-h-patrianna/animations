@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { TextEffectsLevelBreakthrough } from '../components/base/text-effects/css/TextEffectsLevelBreakthrough'
 
@@ -85,9 +85,11 @@ describe('TextEffectsLevelBreakthrough', () => {
   })
 
   it('both text elements remain in DOM for screen readers', () => {
-    render(<TextEffectsLevelBreakthrough startText="START" endText="END" />)
-    expect(screen.getByText('START')).toHaveClass('tfx-breakthrough-text-start')
-    expect(screen.getByText('END')).toHaveClass('tfx-breakthrough-text-end')
+    const { container } = render(<TextEffectsLevelBreakthrough startText="START" endText="END" />)
+    const startEl = container.querySelector('.tfx-breakthrough-text-start')
+    const endEl = container.querySelector('.tfx-breakthrough-text-end')
+    expect(startEl).toHaveTextContent('START')
+    expect(endEl).toHaveTextContent('END')
   })
 
   it('updates text when props change', () => {

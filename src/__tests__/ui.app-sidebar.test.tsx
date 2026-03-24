@@ -49,21 +49,24 @@ describe('AppSidebar', () => {
 
   it('renders all categories', () => {
     renderSidebar(mockCategories, 'group-1-framer')
-    expect(screen.getByText('Category 1')).toBeVisible()
-    expect(screen.getByText('Category 2')).toBeVisible()
+    expect(screen.getByTestId('sidebar-section-category-1')).toBeVisible()
+    expect(screen.getByTestId('sidebar-section-category-2')).toBeVisible()
   })
 
   it('renders groups for all categories by default', () => {
     renderSidebar(mockCategories, 'group-1-framer')
 
-    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__nav-link-label')
-    expect(screen.getByText('Group 2')).toHaveClass('pf-sidebar__nav-link-label')
-    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__nav-link-label')
+    expect(screen.getByTestId('sidebar-group-group-1')).toBeVisible()
+    expect(screen.getByTestId('sidebar-group-group-2')).toBeVisible()
+    expect(screen.getByTestId('sidebar-group-group-3')).toBeVisible()
   })
 
   it('deduplicates framer/css variants into one group entry', () => {
     renderSidebar(mockCategories, 'group-1-framer')
-    expect(screen.getAllByText('Group 1')).toHaveLength(1)
+    // group-1 has both framer and css variants but should render as one sidebar entry
+    const cat1Nav = screen.getByTestId('sidebar-subnav-category-1')
+    const groupButtons = within(cat1Nav).getAllByTestId(/^sidebar-group-group-1$/)
+    expect(groupButtons).toHaveLength(1)
   })
 
   it('applies active styling to current group', () => {
@@ -84,8 +87,8 @@ describe('AppSidebar', () => {
     const cat2Toggle = within(cat2Section).getByTestId('control-group-toggle')
     fireEvent.click(cat2Toggle)
 
-    expect(screen.queryByText('Group 3')).not.toBeInTheDocument()
-    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__nav-link-label')
+    expect(screen.queryByTestId('sidebar-group-group-3')).not.toBeInTheDocument()
+    expect(screen.getByTestId('sidebar-group-group-1')).toBeVisible()
   })
 
   it('supports independent category collapse/expand', () => {
@@ -95,35 +98,35 @@ describe('AppSidebar', () => {
     const cat1Section = screen.getByTestId('sidebar-section-category-1')
     const cat1Toggle = within(cat1Section).getByTestId('control-group-toggle')
     fireEvent.click(cat1Toggle)
-    expect(screen.queryByText('Group 1')).not.toBeInTheDocument()
-    expect(screen.getByText('Group 3')).toHaveClass('pf-sidebar__nav-link-label')
+    expect(screen.queryByTestId('sidebar-group-group-1')).not.toBeInTheDocument()
+    expect(screen.getByTestId('sidebar-group-group-3')).toHaveClass('pf-sidebar__nav-link')
 
     // Collapse Category 2
     const cat2Section = screen.getByTestId('sidebar-section-category-2')
     const cat2Toggle = within(cat2Section).getByTestId('control-group-toggle')
     fireEvent.click(cat2Toggle)
-    expect(screen.queryByText('Group 3')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('sidebar-group-group-3')).not.toBeInTheDocument()
 
     // Re-expand Category 1
     fireEvent.click(cat1Toggle)
-    expect(screen.getByText('Group 1')).toHaveClass('pf-sidebar__nav-link-label')
+    expect(screen.getByTestId('sidebar-group-group-1')).toHaveClass('pf-sidebar__nav-link')
   })
 
   it('calls onGroupSelect with framer variant in Framer mode', () => {
     renderSidebar(mockCategories, 'group-1-framer', 'Framer')
-    fireEvent.click(screen.getByText('Group 1'))
+    fireEvent.click(screen.getByTestId('sidebar-group-group-1'))
     expect(mockOnGroupSelect).toHaveBeenCalledWith('group-1-framer')
   })
 
   it('calls onGroupSelect with css variant in CSS mode', () => {
     renderSidebar(mockCategories, 'group-1-css', 'CSS')
-    fireEvent.click(screen.getByText('Group 1'))
+    fireEvent.click(screen.getByTestId('sidebar-group-group-1'))
     expect(mockOnGroupSelect).toHaveBeenCalledWith('group-1-css')
   })
 
   it('falls back to available variant when selected mode is missing', () => {
     renderSidebar(mockCategories, 'group-2-framer', 'CSS')
-    fireEvent.click(screen.getByText('Group 2'))
+    fireEvent.click(screen.getByTestId('sidebar-group-group-2'))
     expect(mockOnGroupSelect).toHaveBeenCalledWith('group-2-framer')
   })
 
@@ -132,7 +135,7 @@ describe('AppSidebar', () => {
       { id: 'empty-category', title: 'Empty Category', groups: [] },
     ]
     renderSidebar(categoriesWithoutGroups, '', 'Framer')
-    expect(screen.getByText('Empty Category')).toBeVisible()
+    expect(screen.getByTestId('sidebar-section-empty-category')).toBeVisible()
     expect(screen.queryByTestId(/sidebar-group-/)).not.toBeInTheDocument()
   })
 

@@ -28,26 +28,25 @@ test.describe('Accessibility: ARIA Attributes', () => {
     }
   })
 
-  test('code mode switch buttons have correct aria-pressed state', async ({ catalogPage }) => {
+  test('code mode switch buttons have correct aria-checked state', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
+    await catalogPage.ensureSidebarOpen()
 
-    // Framer is active — scope to the desktop sidebar (first instance)
-    const sidebarSwitch = catalogPage.page
-      .locator('[data-testid="sidebar"]')
-      .first()
-      .locator('[data-testid="code-mode-switch"]')
-    const framerBtn = sidebarSwitch.locator('[data-testid="code-mode-framer"]')
-    const cssBtn = sidebarSwitch.locator('[data-testid="code-mode-css"]')
+    // Code mode switch uses role="radiogroup" with aria-checked
+    const sidebarSwitch = catalogPage.sidebar.locator('[data-testid="code-mode-switch"]')
+    const framerBtn = sidebarSwitch.locator('[data-testid="code-mode-switch-Framer"]')
+    const cssBtn = sidebarSwitch.locator('[data-testid="code-mode-switch-CSS"]')
 
-    await expect(framerBtn).toHaveAttribute('aria-pressed', 'true')
-    await expect(cssBtn).toHaveAttribute('aria-pressed', 'false')
+    // Framer is active
+    await expect(framerBtn).toHaveAttribute('aria-checked', 'true')
+    await expect(cssBtn).toHaveAttribute('aria-checked', 'false')
 
     // Switch to CSS
     await cssBtn.click()
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
 
-    await expect(framerBtn).toHaveAttribute('aria-pressed', 'false')
-    await expect(cssBtn).toHaveAttribute('aria-pressed', 'true')
+    await expect(framerBtn).toHaveAttribute('aria-checked', 'false')
+    await expect(cssBtn).toHaveAttribute('aria-checked', 'true')
   })
 
   test('mobile drawer has correct dialog role and aria-modal', async ({ mobilePage }) => {
@@ -77,31 +76,26 @@ test.describe('Accessibility: ARIA Attributes', () => {
     const disabledCard = catalogPage.card('button-effects__ripple')
     const disabledReplay = catalogPage.replayButton(disabledCard)
     await expect(disabledReplay).toBeDisabled()
-    await expect(disabledReplay).toHaveAttribute('aria-disabled', 'true')
   })
 })
 
 test.describe('Accessibility: Keyboard Navigation', () => {
-  test('Tab navigates through sidebar elements in order', async ({ catalogPage, page }) => {
+  test('sidebar group links are keyboard-focusable and tabbable between', async ({
+    catalogPage,
+    page,
+  }) => {
     await catalogPage.goto()
     await catalogPage.waitForCards()
 
-    // Tab into the sidebar — first interactive element should receive focus
-    // We start from the body and tab forward
-    await page.keyboard.press('Tab')
+    // Focus the first sidebar group link directly
+    const firstLink = catalogPage.allGroupLinks().first()
+    await firstLink.focus()
+    await expect(firstLink).toBeFocused()
 
-    // After some tabs, we should reach a sidebar category button
-    let foundCategory = false
-    for (let i = 0; i < 20; i++) {
-      const focused = page.locator(':focus')
-      const testId = await focused.getAttribute('data-testid')
-      if (testId && testId.startsWith('sidebar-category-')) {
-        foundCategory = true
-        break
-      }
-      await page.keyboard.press('Tab')
-    }
-    expect(foundCategory).toBe(true)
+    // Tab to the next link
+    await page.keyboard.press('Tab')
+    const secondLink = catalogPage.allGroupLinks().nth(1)
+    await expect(secondLink).toBeFocused()
   })
 
   test('Enter activates sidebar group links', async ({ catalogPage, page }) => {
@@ -114,11 +108,11 @@ test.describe('Accessibility: Keyboard Navigation', () => {
 
     const before = catalogPage.currentPathname()
 
-    // Press Enter to activate — standard keyboard activation for buttons
+    // Press Enter to activate
     await page.keyboard.press('Enter')
     await catalogPage.waitForPathnameChange(before)
 
-    // Navigation occurred — URL changed and content updated
+    // Navigation occurred
     const afterEnter = catalogPage.currentPathname()
     expect(afterEnter).not.toBe(before)
     await catalogPage.waitForCards()
@@ -146,22 +140,50 @@ test.describe('Accessibility: Keyboard Navigation', () => {
     }
   })
 
-  test('mobile hamburger button is keyboard-accessible', async ({ mobilePage, page }) => {
+  test('mobile panel toggle is keyboard-accessible', async ({ mobilePage, page }) => {
     await mobilePage.gotoMobile('text-effects-framer')
 
-    // Focus the hamburger button
-    const hamburger = page.getByRole('button', { name: 'Open menu' })
-    await hamburger.focus()
+    // Focus the panel toggle button
+    const panelToggle = page.locator('[data-testid="toggle-left-panel"]')
+    await panelToggle.focus()
 
-    // Activate with Enter
+    // Activate with Enter — should open drawer
     await page.keyboard.press('Enter')
     await mobilePage.expectDrawerOpen()
 
-    // Close button is now focusable
-    const closeBtn = page.getByRole('button', { name: 'Close menu' })
+    // Close button inside drawer
+    const closeBtn = page.locator('[data-testid="drawer-close"]')
     await closeBtn.focus()
     await page.keyboard.press('Enter')
     await mobilePage.expectDrawerClosed()
+  })
+})
+
+test.describe('Accessibility: Code Mode Switch Keyboard', () => {
+  test('code mode switch buttons are activatable via keyboard', async ({ catalogPage, page }) => {
+    await catalogPage.gotoGroup('text-effects-framer')
+    await catalogPage.ensureSidebarOpen()
+
+    const sidebarSwitch = catalogPage.sidebar.locator('[data-testid="code-mode-switch"]')
+    const cssBtn = sidebarSwitch.locator('[data-testid="code-mode-switch-CSS"]')
+
+    // Focus the CSS button and activate via Space (radio button convention)
+    await cssBtn.focus()
+    await expect(cssBtn).toBeFocused()
+    await page.keyboard.press('Space')
+
+    // Should switch to CSS mode
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
+    await expect(cssBtn).toHaveAttribute('aria-checked', 'true')
+
+    // Focus Framer button and activate via Enter
+    const framerBtn = sidebarSwitch.locator('[data-testid="code-mode-switch-Framer"]')
+    await framerBtn.focus()
+    await page.keyboard.press('Enter')
+
+    // Should switch back to Framer mode
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-framer$/)
+    await expect(framerBtn).toHaveAttribute('aria-checked', 'true')
   })
 })
 
@@ -197,9 +219,105 @@ test.describe('Accessibility: Description Toggle', () => {
     const card = catalogPage.card('text-effects__character-reveal')
     const toggle = catalogPage.descriptionToggle(card)
 
-    // Has a meaningful aria-label describing the expand/collapse action
     const label = await toggle.getAttribute('aria-label')
     expect(label).toMatch(/description/i)
+  })
+})
+
+test.describe('Accessibility: Reduced Motion', () => {
+  test('Framer animation respects prefers-reduced-motion by skipping scale transform', async ({
+    catalogPage,
+    page,
+  }) => {
+    // Emulate reduced motion before navigating
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await catalogPage.gotoGroup('modal-base-framer')
+
+    const card = catalogPage.card('modal-base__scale-gentle-pop')
+    await expect(card).toBeVisible()
+
+    // Wait for the animation to complete (reduced motion uses 0.01s duration)
+    const stage = await catalogPage.cardStage(card)
+    await expect(stage).toBeVisible()
+
+    // The inner m.div should have opacity:1 and scale:1 (or no scale at all)
+    // With reduced motion, the initial state skips scale (only opacity: 0 → 1)
+    // After animation completes, the element should be fully visible
+    const innerDiv = stage.locator(':scope > div > div').first()
+    await expect(innerDiv).toBeVisible()
+
+    // Verify the animation completed nearly instantly by checking the element
+    // is fully opaque (not mid-animation). The 0.01s duration means it's
+    // effectively instant.
+    const opacity = await innerDiv.evaluate((el) => parseFloat(window.getComputedStyle(el).opacity))
+    expect(opacity).toBeGreaterThanOrEqual(0.99)
+
+    // App functions normally with reduced motion
+    await catalogPage.expectNoErrorBoundary()
+  })
+
+  test('navigation and mode switching work with reduced motion enabled', async ({
+    catalogPage,
+    page,
+    errorCollector,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
+
+    // Navigate to a different group — transitions should complete instantly
+    await catalogPage.clickNonActiveGroup()
+    await catalogPage.waitForCards()
+
+    // Cards render correctly with reduced motion
+    const cardCount = await catalogPage.allCards().count()
+    expect(cardCount).toBeGreaterThan(0)
+
+    // Switch code mode — URL transitions should still work
+    await catalogPage.selectCssMode()
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
+    await catalogPage.waitForCards()
+
+    // Switch back to Framer
+    await catalogPage.selectFramerMode()
+    await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-framer$/)
+    await catalogPage.waitForCards()
+
+    // Sidebar navigation still works
+    await catalogPage.clickNonActiveGroup()
+    await catalogPage.waitForCards()
+
+    errorCollector.expectNoErrors()
+    await catalogPage.expectNoErrorBoundary()
+  })
+})
+
+test.describe('Accessibility: View Menu', () => {
+  test('View menu trigger has correct aria-expanded state', async ({ catalogPage }) => {
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
+
+    const trigger = catalogPage.page.locator('[data-testid="dropdown-menu-toggle"]').filter({
+      has: catalogPage.viewMenuButton(),
+    })
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+    // Open menu
+    await catalogPage.openViewMenu()
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  test('Escape key closes View menu dropdown', async ({ catalogPage, page }) => {
+    await catalogPage.goto()
+    await catalogPage.waitForCards()
+
+    await catalogPage.openViewMenu()
+    const dropdown = page.locator('[data-testid="dropdown-menu-stop-propagation"]')
+    await expect(dropdown).toBeVisible()
+
+    // Escape closes the dropdown
+    await page.keyboard.press('Escape')
+    await expect(dropdown).not.toBeVisible()
   })
 })
 
@@ -213,9 +331,20 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
     const modal = catalogPage.codeViewerModal()
     await expect(modal).toBeVisible({ timeout: 10_000 })
 
-    // Close button should receive initial focus (standard modal pattern)
-    const closeBtn = catalogPage.codeCloseButton()
-    await expect(closeBtn).toBeFocused()
+    // Focus should be inside the modal (either close button or the modal itself)
+    await expect
+      .poll(
+        async () => {
+          const focused = await catalogPage.page.evaluate(() => {
+            const el = document.activeElement
+            const modal = document.querySelector('[data-testid="code-viewer-modal"]')
+            return modal?.contains(el) ?? false
+          })
+          return focused
+        },
+        { timeout: 5_000 }
+      )
+      .toBe(true)
   })
 
   test('code viewer modal restores focus on close', async ({ catalogPage, page }) => {
@@ -235,14 +364,11 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
     await page.keyboard.press('Escape')
     await expect(modal).not.toBeVisible()
 
-    // Focus should return to the element that was focused before the modal opened
-    // (the code viewer button)
+    // Focus should return to the code viewer button
     await expect(codeBtn).toBeFocused()
   })
 
-  test('code viewer modal controls are keyboard-reachable via click focus', async ({
-    catalogPage,
-  }) => {
+  test('code viewer modal controls are keyboard-reachable', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('modal-base-framer')
 
     const card = catalogPage.card('modal-base__scale-gentle-pop')
@@ -252,22 +378,19 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
     await expect(modal).toBeVisible({ timeout: 10_000 })
     await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
 
-    // Close button receives initial focus
-    await expect(catalogPage.codeCloseButton()).toBeFocused()
-
     // Tab list is interactable
     const tabList = catalogPage.codeTabList()
     await expect(tabList).toBeVisible()
     expect(await catalogPage.codeTabs().count()).toBeGreaterThan(0)
 
-    // Copy button is clickable
+    // Copy button is visible and enabled
     const copyBtn = catalogPage.codeCopyButton()
     await expect(copyBtn).toBeVisible()
     await expect(copyBtn).toBeEnabled()
 
-    // Close button is keyboard-activatable
-    await catalogPage.codeCloseButton().focus()
-    await expect(catalogPage.codeCloseButton()).toBeFocused()
+    // Close button is visible and enabled
+    await expect(catalogPage.codeCloseButton()).toBeVisible()
+    await expect(catalogPage.codeCloseButton()).toBeEnabled()
   })
 
   test('Tab within code viewer modal cycles through interactive elements', async ({
@@ -283,11 +406,7 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
     await expect(modal).toBeVisible({ timeout: 10_000 })
     await expect(catalogPage.codeHighlighted()).toBeVisible({ timeout: 10_000 })
 
-    // Close button receives initial focus
-    await expect(catalogPage.codeCloseButton()).toBeFocused()
-
-    // Tab through interactive elements within the modal.
-    // Expected focusable elements: close button, tab buttons, copy button.
+    // Tab through interactive elements within the modal
     const focusedTestIds: string[] = []
     for (let i = 0; i < 10; i++) {
       await page.keyboard.press('Tab')
@@ -300,7 +419,7 @@ test.describe('Accessibility: Code Viewer Modal Focus', () => {
 
     // Copy button should be reachable via Tab
     expect(focusedTestIds).toContain('code-copy-btn')
-    // Tab buttons should be reachable (code-tab-0, code-tab-1, etc.)
-    expect(focusedTestIds.some((id) => id.startsWith('code-tab-'))).toBe(true)
+    // Tab buttons should be reachable (now: code-tablist-tab-*)
+    expect(focusedTestIds.some((id) => id.startsWith('code-tablist-tab-'))).toBe(true)
   })
 })

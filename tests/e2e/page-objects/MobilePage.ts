@@ -1,15 +1,20 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
 /**
- * Page object for mobile viewport interactions: header, hamburger menu, drawer.
+ * Page object for mobile viewport interactions: top bar, drawer navigation.
+ *
+ * After ui-refactor: the old MobileHeader is replaced by EditorTopBar.
+ * On mobile, the panel toggle button opens the MobileDrawer instead of
+ * toggling the sidebar panel.
  *
  * Selector strategy:
  * - data-testid for containers and interactive elements
- * - aria-label for buttons (hamburger open/close)
- * - aria-pressed for state assertions
+ * - aria-label for buttons
+ * - aria-checked for toggle state assertions
  */
 export class MobilePage {
-  readonly header: Locator
+  /** The top bar (replaces old mobile-header). */
+  readonly topBar: Locator
   readonly drawer: Locator
   readonly overlay: Locator
   readonly drawerPanel: Locator
@@ -18,7 +23,7 @@ export class MobilePage {
 
   constructor(page: Page) {
     this.page = page
-    this.header = page.locator('[data-testid="mobile-header"]')
+    this.topBar = page.locator('[data-testid="top-bar"]')
     this.drawer = page.locator('[data-testid="mobile-drawer"]')
     this.overlay = page.locator('[data-testid="drawer-overlay"]')
     this.drawerPanel = page.locator('[data-testid="drawer-panel"]')
@@ -28,18 +33,23 @@ export class MobilePage {
   async gotoMobile(groupId: string) {
     await this.page.setViewportSize({ width: 375, height: 667 })
     await this.page.goto(`/${groupId}`)
-    await expect(this.header).toBeVisible({ timeout: 10_000 })
+    await expect(this.topBar).toBeVisible({ timeout: 10_000 })
   }
 
-  /** Open the mobile drawer via hamburger button. */
+  /** The panel toggle button in the top bar (opens drawer on mobile). */
+  private panelToggle(): Locator {
+    return this.page.locator('[data-testid="toggle-left-panel"]')
+  }
+
+  /** Open the mobile drawer via the panel toggle button. */
   async openDrawer() {
-    await this.page.getByRole('button', { name: 'Open menu' }).click()
+    await this.panelToggle().click()
     await expect(this.drawer).not.toHaveAttribute('hidden')
   }
 
   /** Close the drawer via the close button. */
   async closeDrawer() {
-    await this.page.getByRole('button', { name: 'Close menu' }).click()
+    await this.drawer.locator('[data-testid="drawer-close"]').click()
     await expect(this.drawer).toBeHidden()
   }
 
@@ -73,17 +83,17 @@ export class MobilePage {
 
   /** Switch to CSS mode in the mobile drawer. */
   async selectCssMode() {
-    await this.drawerCodeModeSwitch().locator('[data-testid="code-mode-css"]').click()
+    await this.drawerCodeModeSwitch().locator('[data-testid="code-mode-switch-CSS"]').click()
   }
 
   /** Switch to Framer mode in the mobile drawer. */
   async selectFramerMode() {
-    await this.drawerCodeModeSwitch().locator('[data-testid="code-mode-framer"]').click()
+    await this.drawerCodeModeSwitch().locator('[data-testid="code-mode-switch-Framer"]').click()
   }
 
   /** Get the currently active code mode from the drawer. */
   async activeCodeMode(): Promise<string> {
-    const active = this.drawerCodeModeSwitch().locator('button[aria-pressed="true"]')
+    const active = this.drawerCodeModeSwitch().locator('button[aria-checked="true"]')
     return (await active.textContent()) ?? ''
   }
 

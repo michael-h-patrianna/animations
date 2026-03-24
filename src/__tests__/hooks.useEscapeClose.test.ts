@@ -83,10 +83,9 @@ describe('useEscapeClose with enabled parameter', () => {
   it('uses latest onClose callback reference', () => {
     const onClose1 = vi.fn()
     const onClose2 = vi.fn()
-    const { rerender } = renderHook(
-      ({ onClose }) => useEscapeClose(onClose, true),
-      { initialProps: { onClose: onClose1 } }
-    )
+    const { rerender } = renderHook(({ onClose }) => useEscapeClose(onClose, true), {
+      initialProps: { onClose: onClose1 },
+    })
 
     rerender({ onClose: onClose2 })
     fireEvent.keyDown(document, { key: 'Escape' })

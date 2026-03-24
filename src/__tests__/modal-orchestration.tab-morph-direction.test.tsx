@@ -9,7 +9,7 @@ describe('modal-orchestration tab-morph direction', () => {
     it('uses left-exit animation when moving to a higher tab index', () => {
       const { container } = render(<CssTabMorph />)
 
-      fireEvent.click(screen.getByText('Tab 2'))
+      fireEvent.click(screen.getByTestId('tab-morph-tab-1'))
 
       const panel = container.querySelector('.pf-tab-morph__panel')
       expect(panel).toHaveClass('pf-tab-morph__panel--exit-left')
@@ -19,8 +19,8 @@ describe('modal-orchestration tab-morph direction', () => {
     it('uses right-exit animation when moving to a lower tab index', () => {
       const { container } = render(<CssTabMorph />)
 
-      fireEvent.click(screen.getByText('Tab 3'))
-      fireEvent.click(screen.getByText('Tab 1'))
+      fireEvent.click(screen.getByTestId('tab-morph-tab-2'))
+      fireEvent.click(screen.getByTestId('tab-morph-tab-0'))
 
       const panel = container.querySelector('.pf-tab-morph__panel')
       expect(panel).toHaveClass('pf-tab-morph__panel--exit-right')
@@ -47,15 +47,15 @@ describe('modal-orchestration tab-morph direction', () => {
       render(<FramerTabMorph />)
 
       // Should render multiple tab buttons
-      const tab1 = screen.getByText('Tab 1')
-      const tab2 = screen.getByText('Tab 2')
-      expect(tab1).toBeInTheDocument()
-      expect(tab2).toBeInTheDocument()
+      const tab0 = screen.getByTestId('tab-morph-tab-0')
+      const tab1 = screen.getByTestId('tab-morph-tab-1')
+      expect(tab0).toHaveTextContent('Tab 1')
+      expect(tab1).toHaveTextContent('Tab 2')
 
       // Clicking tab 2 should not throw
-      fireEvent.click(tab2)
-      // Tab 2 content heading should be visible
-      expect(screen.getByText('Content 2')).toHaveTextContent('Content 2')
+      fireEvent.click(tab1)
+      // Tab 2 should now be active
+      expect(screen.getByTestId('tab-morph-tab-1')).toHaveClass('pf-tab-morph__tab--active')
     })
   })
 })

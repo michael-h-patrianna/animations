@@ -11,20 +11,16 @@ test.describe('Prize Reveal Controls', () => {
     const controls = card.locator('[data-testid="prize-controls"]')
     await expect(controls).toBeVisible()
 
-    // Should have 4 count buttons (maxCount default is 4)
-    const buttons = controls.locator('button')
-    expect(await buttons.count()).toBeGreaterThanOrEqual(3)
-
-    // Click button "2" and verify it becomes selected
-    const btn2 = controls.locator('button', { hasText: '2' })
+    // ToggleGroup uses role="radio" buttons with aria-checked
+    const btn2 = controls.locator('[data-testid="prize-controls-2"]')
     await btn2.click()
-    await expect(btn2).toHaveAttribute('aria-pressed', 'true')
+    await expect(btn2).toHaveAttribute('aria-checked', 'true')
 
     // Click button "3" and verify it becomes selected, button 2 deselected
-    const btn3 = controls.locator('button', { hasText: '3' })
+    const btn3 = controls.locator('[data-testid="prize-controls-3"]')
     await btn3.click()
-    await expect(btn3).toHaveAttribute('aria-pressed', 'true')
-    await expect(btn2).toHaveAttribute('aria-pressed', 'false')
+    await expect(btn3).toHaveAttribute('aria-checked', 'true')
+    await expect(btn2).toHaveAttribute('aria-checked', 'false')
   })
 
   test('prize count controls trigger animation replay', async ({ catalogPage }) => {
@@ -38,7 +34,7 @@ test.describe('Prize Reveal Controls', () => {
     await expect(controls).toBeVisible()
 
     // Change prize count — should trigger replay (remount)
-    const btn1 = controls.locator('button', { hasText: '1' })
+    const btn1 = controls.locator('[data-testid="prize-controls-1"]')
     await btn1.click()
 
     // Stage should still have content after control change
@@ -46,19 +42,21 @@ test.describe('Prize Reveal Controls', () => {
     await expect.poll(async () => stage.locator(':scope > *').count()).toBeGreaterThan(0)
   })
 
-  test('prize count controls have accessible labels', async ({ catalogPage }) => {
+  test('prize count controls use accessible radiogroup', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('prize-reveal-framer')
 
     const card = catalogPage.card('prize-reveal__arcane-portal')
     const controls = card.locator('[data-testid="prize-controls"]')
     await expect(controls).toBeVisible()
 
-    // Each button should have an aria-label describing the count
-    const buttons = controls.locator('button')
+    // ToggleGroup has role="radiogroup" with an aria-label
+    await expect(controls).toHaveAttribute('role', 'radiogroup')
+    const ariaLabel = await controls.getAttribute('aria-label')
+    expect(ariaLabel).toBe('Prize count')
+
+    // Each button should have role="radio"
+    const buttons = controls.locator('button[role="radio"]')
     const count = await buttons.count()
-    for (let i = 0; i < count; i++) {
-      const label = await buttons.nth(i).getAttribute('aria-label')
-      expect(label).toMatch(/Show \d+ prizes?/)
-    }
+    expect(count).toBeGreaterThanOrEqual(3)
   })
 })

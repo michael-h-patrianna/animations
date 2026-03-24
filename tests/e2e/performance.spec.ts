@@ -58,10 +58,12 @@ test.describe('Performance Budgets', () => {
     await catalogPage.goto()
     await catalogPage.waitForCards()
 
-    // Retrieve the LCP value recorded by the observer
-    const lcp = await catalogPage.page.evaluate(
-      () => (window as Window & { __lcpValue?: number }).__lcpValue ?? -1
-    )
+    // LCP entries arrive asynchronously. Wait for the observer to capture one.
+    const lcp = await catalogPage.page.evaluate(async () => {
+      // Give the browser time to report LCP (may be delayed by opacity animations)
+      await new Promise((r) => setTimeout(r, 1000))
+      return (window as Window & { __lcpValue?: number }).__lcpValue ?? -1
+    })
 
     // The observer must have captured at least one LCP entry
     expect(lcp, 'No LCP entry captured — observer setup failed').toBeGreaterThan(0)

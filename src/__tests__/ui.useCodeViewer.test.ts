@@ -454,7 +454,10 @@ describe('useCodeViewer', () => {
       // the modal stays closed. Sources are still cached for the next open().
       let resolveLoader!: (value: SourceTab[]) => void
       const loader = vi.fn().mockImplementation(
-        () => new Promise<SourceTab[]>((resolve) => { resolveLoader = resolve })
+        () =>
+          new Promise<SourceTab[]>((resolve) => {
+            resolveLoader = resolve
+          })
       )
 
       const { result } = renderHook(() => useCodeViewer(loader))
