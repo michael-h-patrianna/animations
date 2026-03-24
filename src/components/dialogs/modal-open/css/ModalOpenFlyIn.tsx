@@ -73,7 +73,15 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
     }
 
     return () => anim.cancel()
-  }, [activeTrajectory, activeDurationMs, isVisible, isArc, isClosing, handleCloseComplete, handleOpenComplete])
+  }, [
+    activeTrajectory,
+    activeDurationMs,
+    isVisible,
+    isArc,
+    isClosing,
+    handleCloseComplete,
+    handleOpenComplete,
+  ])
 
   return (
     <div ref={s.containerRef} className="pf-mo-container" data-animation-id="modal-open__fly-in">
@@ -101,7 +109,12 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
             <div
               ref={modalRef}
               className={`pf-mo-modal ${isArc ? (isClosing ? 'pf-mo-modal--arc-close' : 'pf-mo-modal--arc') : 'pf-mo-modal--pop'}${props.className ? ` ${props.className}` : ''}`}
-              style={{ ...props.style, '--pf-mo-duration': `${activeDurationMs}ms` } as React.CSSProperties}
+              style={
+                {
+                  ...props.style,
+                  '--pf-mo-duration': `${activeDurationMs}ms`,
+                } as React.CSSProperties
+              }
             >
               {!isClosing && (
                 <div

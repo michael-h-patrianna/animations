@@ -44,9 +44,7 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
 
   const closeTraj = useMemo(
     () =>
-      s.fromPoint && s.center
-        ? computeArcCloseTrajectory(s.fromPoint, s.center, s.force)
-        : null,
+      s.fromPoint && s.center ? computeArcCloseTrajectory(s.fromPoint, s.center, s.force) : null,
     [s.fromPoint, s.center, s.force]
   )
 
