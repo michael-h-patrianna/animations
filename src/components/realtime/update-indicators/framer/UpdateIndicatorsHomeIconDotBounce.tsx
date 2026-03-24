@@ -41,7 +41,7 @@ function UpdateIndicatorsHomeIconDotBounceComponent({
       transition={{
         duration: durS,
         times: [0, 0.174, 0.174, 0.248, 0.661, 1],
-        ease: [0.2, 0.9, 0.3, 1.2] as const,
+        ease: [0.2, 0.9, 0.3, 1.2],
       }}
     >
       <m.span

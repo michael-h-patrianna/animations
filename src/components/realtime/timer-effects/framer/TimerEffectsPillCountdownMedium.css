@@ -4,7 +4,6 @@
   --timer-effects-pill-countdown-medium-border-2: rgb(102 255 191 / 45%);
   --timer-effects-pill-countdown-medium-color-1: rgb(0 0 0 / 86%);
   --timer-effects-pill-countdown-medium-text-shadow: rgb(255 255 255 / 28%);
-  --timer-effects-pill-countdown-medium-color-2: #9ca3af;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +14,6 @@
 
 .pf-pill-timer__pill {
   --pill-bg: #42f5a4;
-  --pill-highlight: #66ffbf;
   --pill-glow-opacity: 0;
   --pill-glow-scale: 0.9;
   min-width: 112px;
@@ -49,12 +47,4 @@
   font-size: 14px;
   color: var(--timer-effects-pill-countdown-medium-color-1);
   text-shadow: 0 1px 1px var(--timer-effects-pill-countdown-medium-text-shadow);
-}
-
-.pf-pill-timer__label {
-  font-size: 0.875rem;
-  color: var(--timer-effects-pill-countdown-medium-color-2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
 }

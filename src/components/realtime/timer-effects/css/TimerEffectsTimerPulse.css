@@ -2,7 +2,6 @@
 
 .pf-timer-pulse {
   --timer-effects-timer-pulse-color-1: #ecc3ff;
-  --timer-effects-timer-pulse-color-2: #9ca3af;
   --timer-effects-timer-pulse-bg: rgb(236 195 255 / 16%);
   display: flex;
   flex-direction: column;
@@ -20,14 +19,6 @@
   text-align: center;
   line-height: 1;
   animation: timer-pulse-beat 0.8s ease-in-out infinite;
-}
-
-.pf-timer-pulse__label {
-  font-size: 0.875rem;
-  color: var(--timer-effects-timer-pulse-color-2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
 }
 
 .pf-timer-pulse__underline {

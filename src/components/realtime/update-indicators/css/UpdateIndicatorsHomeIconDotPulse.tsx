@@ -18,7 +18,6 @@ function UpdateIndicatorsHomeIconDotPulseComponent({
   duration = 1400,
 }: DotIndicatorProps) {
   const dotStyle = {
-    ['--pf-dot-pulse-color' as string]: dotColor,
     ['--pf-dot-pulse-ring' as string]: ringTint(dotColor, 25),
     ['--pf-dot-pulse-dur' as string]: `${duration}ms`,
     width: dotSize,

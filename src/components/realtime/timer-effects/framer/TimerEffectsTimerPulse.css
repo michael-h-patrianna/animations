@@ -1,7 +1,6 @@
 /* Styles specific to TimerEffectsTimerPulse */
 
 .pf-timer {
-  --timer-effects-timer-pulse-color: #9ca3af;
   --timer-effects-timer-pulse-bg: rgb(236 195 255 / 16%);
   display: flex;
   flex-direction: column;
@@ -19,14 +18,6 @@
   color: var(--color-lint-token-1);
   text-align: center;
   line-height: 1;
-}
-
-.pf-timer__label {
-  font-size: 0.875rem;
-  color: var(--timer-effects-timer-pulse-color);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
 }
 
 /* Underline base used by pulse animation */

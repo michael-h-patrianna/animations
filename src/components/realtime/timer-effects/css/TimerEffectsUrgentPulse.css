@@ -7,7 +7,6 @@
   --timer-effects-urgent-pulse-border: rgb(255 255 255 / 30%);
   --timer-effects-urgent-pulse-bg-3: #ff6b35;
   --timer-effects-urgent-pulse-bg-4: #f44;
-  --timer-effects-urgent-pulse-color: #9ca3af;
   --timer-effects-urgent-pulse-bg-5: #ff8a1b;
   --timer-effects-urgent-pulse-bg-6: #ff6822;
   display: flex;
@@ -64,15 +63,6 @@
   font-size: 16px;
   color: white;
   text-align: center;
-}
-
-/* Label below timer */
-.timer-urgent-pulse__label {
-  font-size: 0.8rem;
-  color: var(--timer-effects-urgent-pulse-color);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
 }
 
 /* Scale animation: 1.0 → 1.12 → 1.0 */

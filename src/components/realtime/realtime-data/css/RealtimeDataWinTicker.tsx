@@ -33,12 +33,13 @@ function RealtimeDataWinTickerComponent({
     return single.repeat(3)
   }, [items, separator])
 
-  const style = useMemo(() => {
-    const s: Record<string, string> = {}
-    s['--pf-realtime-ticker-duration'] = `${duration}ms`
-    if (textColor !== undefined) s.color = textColor
-    return s
-  }, [duration, textColor])
+  const style = useMemo(
+    () => ({
+      '--pf-realtime-ticker-duration': `${duration}ms`,
+      color: textColor,
+    }),
+    [duration, textColor]
+  )
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__win-ticker">

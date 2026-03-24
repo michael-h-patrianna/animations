@@ -2,7 +2,6 @@
 .pf-pill-timer {
   --timer-effects-pill-countdown-strong-border: rgb(255 255 255 / 22%);
   --timer-effects-pill-countdown-strong-color-1: rgb(0 0 0 / 90%);
-  --timer-effects-pill-countdown-strong-color-2: #9ca3af;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +12,6 @@
 
 .pf-pill-timer__pill {
   --pill-bg: #ffb300;
-  --pill-highlight: #ffd166;
   --pill-glow-opacity: 0;
   --pill-glow-scale: 0.92;
   --pill-glow-color: rgb(255 209 102 / 45%);
@@ -42,17 +40,13 @@
   transform: scale(var(--pill-glow-scale, 0.92));
 }
 
-.pf-pill-timer__pill--strong.is-caution,
 .pf-pill-timer__pill--strong.pf-pill-timer--warning {
   --pill-bg: #ff7a00;
-  --pill-highlight: #ffb347;
   --pill-glow-color: rgb(255 179 71 / 50%);
 }
 
-.pf-pill-timer__pill--strong.is-danger,
 .pf-pill-timer__pill--strong.pf-pill-timer--critical {
   --pill-bg: #dc3545;
-  --pill-highlight: #ff6b7d;
   --pill-glow-color: rgb(255 107 125 / 50%);
 }
 
@@ -64,10 +58,3 @@
   text-shadow: 0 1px 1px var(--timer-effects-pill-countdown-strong-border);
 }
 
-.pf-pill-timer__label {
-  font-size: 0.8rem;
-  color: var(--timer-effects-pill-countdown-strong-color-2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
-}

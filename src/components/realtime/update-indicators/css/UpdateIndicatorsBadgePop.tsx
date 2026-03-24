@@ -6,24 +6,16 @@
  *
  * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b">3</UpdateIndicatorsBadgePop>
  */
-import { memo, type ReactNode } from 'react'
+import { memo } from 'react'
 import { BADGE_COLOR } from '../SharedDefaults'
+import type { BadgeIndicatorProps } from '../SharedTypes'
 import './UpdateIndicatorsBadgePop.css'
-
-interface BadgePopProps {
-  /** Badge content. Default: 'New' */
-  children?: ReactNode
-  /** Badge background color. Default: '#c47ae5' */
-  color?: string
-  /** Animation duration in ms. Default: 400 */
-  duration?: number
-}
 
 function UpdateIndicatorsBadgePopComponent({
   children = 'New',
   color = BADGE_COLOR,
   duration = 400,
-}: BadgePopProps) {
+}: BadgeIndicatorProps) {
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pop">
       <div

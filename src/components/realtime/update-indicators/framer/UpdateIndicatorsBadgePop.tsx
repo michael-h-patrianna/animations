@@ -3,7 +3,7 @@
  * Place next to any element to indicate new content.
  * Port to React Native: translate animate/transition to Moti MotiView props.
  *
- * Copy-paste files: this file + UpdateIndicatorsBadgePop.css
+ * Copy-paste files: this file
  * Runtime deps: react, motion
  *
  * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b">3</UpdateIndicatorsBadgePop>
@@ -29,7 +29,7 @@ function UpdateIndicatorsBadgePopComponent({
         animate={{ scale: [0.6, 1.1, 1] }}
         transition={{
           duration: durS,
-          ease: [0.34, 1.25, 0.64, 1] as const,
+          ease: [0.34, 1.25, 0.64, 1],
           times: [0, 0.6, 1],
         }}
       >

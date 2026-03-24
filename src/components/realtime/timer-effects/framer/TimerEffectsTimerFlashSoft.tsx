@@ -11,7 +11,12 @@ import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
 
-import { formatTime } from '../SharedFormat'
+import {
+  computeUrgencyColor,
+  FLASH_CRITICAL_RGB,
+  FLASH_NORMAL_RGB,
+  formatTime,
+} from '../SharedFormat'
 import { useCountdown } from '../SharedTimer'
 import type { TimerEffectProps } from '../SharedTypes'
 
@@ -19,25 +24,6 @@ const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
 const DEFAULT_CRITICAL = 10
 const DEFAULT_SHAKE_INTERVAL = 10
-
-function easeInOutFn(t: number): number {
-  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-}
-
-function computeBgColor(
-  seconds: number,
-  warningThreshold: number,
-  normalColor: { r: number; g: number; b: number },
-  criticalColor: { r: number; g: number; b: number }
-): string {
-  const urgencyLevel =
-    seconds <= warningThreshold ? (warningThreshold - seconds) / warningThreshold : 0
-  const easedUrgency = easeInOutFn(urgencyLevel)
-  const r = Math.round(normalColor.r + (criticalColor.r - normalColor.r) * easedUrgency)
-  const g = Math.round(normalColor.g + (criticalColor.g - normalColor.g) * easedUrgency)
-  const b = Math.round(normalColor.b + (criticalColor.b - normalColor.b) * easedUrgency)
-  return `rgb(${r}, ${g}, ${b})` // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
-}
 
 interface TimerEffectsTimerFlashSoftProps extends TimerEffectProps {
   /** Seconds between shake reminders. Default: 10 */
@@ -101,9 +87,6 @@ function TimerEffectsTimerFlashSoftComponent({
 
   if (isHidden) return null
 
-  // Original color: yellow (#ffc107) → red (#dc3545) with easeInOut curve
-  const normalRgb = { r: 255, g: 193, b: 7 }
-  const criticalRgb = { r: 220, g: 53, b: 69 }
   const bgColor =
     colors !== undefined
       ? (colors[
@@ -112,8 +95,9 @@ function TimerEffectsTimerFlashSoftComponent({
             : seconds <= warningThreshold
               ? 'warning'
               : 'normal'
-        ] ?? computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb))
-      : computeBgColor(seconds, warningThreshold, normalRgb, criticalRgb)
+        ] ??
+        computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
+      : computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
 
   const timeStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),

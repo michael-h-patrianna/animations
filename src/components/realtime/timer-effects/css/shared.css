@@ -42,22 +42,6 @@
   --pill-flash: #ff6478;
 }
 
-/* Legacy color classes — kept for CSS animation keyframes */
-.pf-pill-timer__pill.is-warning {
-  --pill-bg: #ff7a00;
-  --pill-flash: #ffb347;
-}
-
-.pf-pill-timer__pill.is-danger {
-  --pill-bg: #dc3545;
-  --pill-flash: #ff6478;
-}
-
-.pf-pill-timer__pill.is-caution {
-  --pill-bg: #ffa500;
-  --pill-flash: #ffd700;
-}
-
 .pf-pill-timer__pill.is-flash {
   background-color: var(--pill-flash);
 }

@@ -5,7 +5,6 @@
   --timer-effects-timer-flash-border: rgb(255 255 255 / 20%);
   --timer-effects-timer-flash-color-1: rgb(0 0 0 / 80%);
   --timer-effects-timer-flash-text-shadow: rgb(255 255 255 / 30%);
-  --timer-effects-timer-flash-color-2: #9ca3af;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,12 +46,4 @@
   color: var(--timer-effects-timer-flash-color-1);
   font-variant-numeric: tabular-nums;
   text-shadow: 0 1px 2px var(--timer-effects-timer-flash-text-shadow);
-}
-
-.pf-timer-flash__label {
-  font-size: 0.875rem;
-  color: var(--timer-effects-timer-flash-color-2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
 }

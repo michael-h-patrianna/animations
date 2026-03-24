@@ -44,11 +44,11 @@ function RealtimeDataWinTickerComponent({
           animate={{ x: '-100%' }}
           transition={{
             duration: durationS,
-            ease: 'linear' as const,
+            ease: 'linear',
             repeat: Infinity,
             repeatType: 'loop',
           }}
-          style={{ animation: 'none', ...(textColor !== undefined ? { color: textColor } : {}) }}
+          style={{ animation: 'none', color: textColor }}
         >
           {text}
         </m.div>

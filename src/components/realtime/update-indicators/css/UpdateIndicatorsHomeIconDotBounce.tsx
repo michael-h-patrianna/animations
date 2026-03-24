@@ -18,7 +18,6 @@ function UpdateIndicatorsHomeIconDotBounceComponent({
   duration = 2420,
 }: DotIndicatorProps) {
   const dotStyle = {
-    ['--pf-dot-bounce-color' as string]: dotColor,
     ['--pf-dot-bounce-ring' as string]: ringTint(dotColor, 18),
     ['--pf-dot-bounce-dur' as string]: `${duration * 0.174}ms`,
     ['--pf-dot-bounce-idle-dur' as string]: `${duration * 0.826}ms`,
