@@ -29,7 +29,10 @@ export function useTabsScroll() {
       const { scrollWidth, clientWidth } = container
       if (scrollWidth === lastScrollWidth && clientWidth === lastClientWidth) {
         stableCheckCount++
-        if (stableCheckCount >= 2) { checkScroll(); return }
+        if (stableCheckCount >= 2) {
+          checkScroll()
+          return
+        }
       } else {
         stableCheckCount = 0
       }
@@ -44,7 +47,9 @@ export function useTabsScroll() {
     resizeObserver.observe(container)
     rafId = requestAnimationFrame(waitForStableLayout)
 
-    const handleScroll = () => { if (!isCleanedUp) rafId = requestAnimationFrame(checkScroll) }
+    const handleScroll = () => {
+      if (!isCleanedUp) rafId = requestAnimationFrame(checkScroll)
+    }
     container.addEventListener('scroll', handleScroll, { passive: true })
 
     const handleWheel = (e: WheelEvent) => {

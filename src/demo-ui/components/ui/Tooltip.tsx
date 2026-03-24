@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { m, AnimatePresence } from 'motion/react'
 import { createPortal } from 'react-dom'
 import { useShallow } from 'zustand/react/shallow'
-import { sx } from '../../lib/sx'
-import { useLayoutStore, type LayoutStore } from '../../stores/layoutStore'
+import { sx } from '@/demo-ui/lib/sx'
+import { useLayoutStore, type LayoutStore } from '@/demo-ui/stores/layoutStore'
 
 /** Props for the Tooltip component. */
 export interface TooltipProps {
@@ -21,7 +21,7 @@ type Position = TooltipProps['position']
 function computeTooltipCoords(
   triggerRect: DOMRect,
   tooltipRect: DOMRect,
-  position: Position,
+  position: Position
 ): { x: number; y: number } {
   let x = 0
   let y = 0
@@ -63,7 +63,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
   const tooltipRef = useRef<HTMLDivElement>(null)
-  const { theme, accent } = useLayoutStore(useShallow((s: LayoutStore) => ({ theme: s.theme, accent: s.accent })))
+  const { theme, accent } = useLayoutStore(
+    useShallow((s: LayoutStore) => ({ theme: s.theme, accent: s.accent }))
+  )
 
   const showTooltip = () => {
     timeoutRef.current = setTimeout(() => setIsVisible(true), delay)
@@ -76,15 +78,32 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   useEffect(() => {
     if (isVisible && triggerRef.current && tooltipRef.current) {
-      setCoords(computeTooltipCoords(triggerRef.current.getBoundingClientRect(), tooltipRef.current.getBoundingClientRect(), position))
+      setCoords(
+        computeTooltipCoords(
+          triggerRef.current.getBoundingClientRect(),
+          tooltipRef.current.getBoundingClientRect(),
+          position
+        )
+      )
     }
   }, [isVisible, position])
 
-  useEffect(() => () => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }, [])
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    },
+    []
+  )
 
   return (
-    <div className={`relative inline-block ${className}`} data-testid='tooltip-wrapper'>
-      <div ref={triggerRef} onMouseEnter={showTooltip} onMouseLeave={hideTooltip} onFocus={showTooltip} onBlur={hideTooltip}>
+    <div className={`relative inline-block ${className}`} data-testid="tooltip-wrapper">
+      <div
+        ref={triggerRef}
+        onMouseEnter={showTooltip}
+        onMouseLeave={hideTooltip}
+        onFocus={showTooltip}
+        onBlur={hideTooltip}
+      >
         {children}
       </div>
       {typeof document !== 'undefined' &&
@@ -100,15 +119,15 @@ export const Tooltip: React.FC<TooltipProps> = ({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                className='fixed z-[100] px-3 py-1.5 text-[11px] font-medium text-[var(--text-primary)] bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-lg shadow-lg pointer-events-none max-w-xs break-words tracking-wide'
+                className="fixed z-[100] px-3 py-1.5 text-[11px] font-medium text-[var(--text-primary)] bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-lg shadow-lg pointer-events-none max-w-xs break-words tracking-wide"
                 style={sx({ left: `${String(coords.x)}px`, top: `${String(coords.y)}px` })}
-                role='tooltip'
+                role="tooltip"
               >
                 {content}
               </m.div>
             )}
           </AnimatePresence>,
-          document.body,
+          document.body
         )}
     </div>
   )

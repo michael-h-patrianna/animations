@@ -4,17 +4,26 @@ import type React from 'react'
 export function clearInputValue(
   input: HTMLInputElement,
   onChange?: React.ChangeEventHandler<HTMLInputElement>,
-  onClear?: () => void,
+  onClear?: () => void
 ) {
   input.value = ''
   if (onChange) {
     const syntheticEvent = {
-      target: input, currentTarget: input,
+      target: input,
+      currentTarget: input,
       nativeEvent: new Event('input', { bubbles: true }),
-      bubbles: true, cancelable: true, defaultPrevented: false, eventPhase: 0, isTrusted: true,
-      preventDefault: () => {}, stopPropagation: () => {}, persist: () => {},
-      isDefaultPrevented: () => false, isPropagationStopped: () => false,
-      timeStamp: Date.now(), type: 'change',
+      bubbles: true,
+      cancelable: true,
+      defaultPrevented: false,
+      eventPhase: 0,
+      isTrusted: true,
+      preventDefault: () => {},
+      stopPropagation: () => {},
+      persist: () => {},
+      isDefaultPrevented: () => false,
+      isPropagationStopped: () => false,
+      timeStamp: Date.now(),
+      type: 'change',
     } as unknown as React.ChangeEvent<HTMLInputElement>
     onChange(syntheticEvent)
   } else {

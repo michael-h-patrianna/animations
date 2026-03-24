@@ -3,7 +3,7 @@
  * Provides reactive media query matching for responsive layouts.
  */
 
-import { useEffect, useState } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 
 /** Named responsive breakpoint identifiers. */
 export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
@@ -17,30 +17,27 @@ export const BREAKPOINTS: Record<Breakpoint, string> = {
   '2xl': '(min-width: 1536px)',
 }
 
+/** Server snapshot — always false (no window). */
+function getServerSnapshot() {
+  return false
+}
+
 /** Reactively matches a CSS media query string. */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(() => {
-    if (typeof window === 'undefined') return false
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      const mediaQuery = window.matchMedia(query)
+      mediaQuery.addEventListener('change', onStoreChange)
+      return () => mediaQuery.removeEventListener('change', onStoreChange)
+    },
+    [query]
+  )
+
+  const getSnapshot = useCallback(() => {
     return window.matchMedia(query).matches
-  })
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const mediaQuery = window.matchMedia(query)
-    setMatches(mediaQuery.matches)
-
-    const handler = (event: MediaQueryListEvent) => {
-      setMatches(event.matches)
-    }
-
-    mediaQuery.addEventListener('change', handler)
-    return () => {
-      mediaQuery.removeEventListener('change', handler)
-    }
   }, [query])
 
-  return matches
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }
 
 /** Returns true if the viewport is at or above the given breakpoint. */

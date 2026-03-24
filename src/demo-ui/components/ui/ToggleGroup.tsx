@@ -1,5 +1,5 @@
 import { m } from 'motion/react'
-import { soundManager } from '../../lib/audio/SoundManager'
+import { soundManager } from '@/demo-ui/lib/audio/SoundManager'
 
 /** Single option in a ToggleGroup. */
 export interface ToggleOption<T extends string = string> {
@@ -35,14 +35,14 @@ export const ToggleGroup = <T extends string = string>({
   return (
     <div
       className={`relative flex p-1 gap-1 glass-input rounded-lg border border-[var(--border-subtle)] ${className}`}
-      role='radiogroup'
+      role="radiogroup"
       aria-label={ariaLabel}
       data-testid={testId}
     >
       {/* Sliding indicator — always mounted, positioned via transform */}
       {selectedIndex >= 0 && (
         <m.div
-          className='absolute top-1 bottom-1 bg-accent/15 border border-accent/40 rounded-md pointer-events-none'
+          className="absolute top-1 bottom-1 bg-accent/15 border border-accent/40 rounded-md pointer-events-none"
           animate={{
             left: `calc(${String(selectedIndex)} * (100% / ${String(count)}) + 4px)`,
             width: `calc(100% / ${String(count)} - 8px)`,
@@ -57,7 +57,7 @@ export const ToggleGroup = <T extends string = string>({
         return (
           <button
             key={option.value}
-            type='button'
+            type="button"
             onClick={() => {
               if (!isDisabled && !isSelected) {
                 onChange(option.value)
@@ -69,7 +69,7 @@ export const ToggleGroup = <T extends string = string>({
             }}
             disabled={isDisabled}
             className={`flex-1 relative px-3 py-1.5 text-xs font-medium rounded-md transition-colors duration-200 z-10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${isSelected ? 'text-accent' : 'text-text-secondary hover:text-text-primary'}`}
-            role='radio'
+            role="radio"
             aria-checked={isSelected}
             data-testid={testId ? `${testId}-${option.value}` : undefined}
           >

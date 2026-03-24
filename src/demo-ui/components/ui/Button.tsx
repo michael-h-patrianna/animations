@@ -1,14 +1,15 @@
-import React, { forwardRef, useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { m, type HTMLMotionProps } from 'motion/react'
 import { LoadingSpinner } from './LoadingSpinner'
-import { soundManager } from '../../lib/audio/SoundManager'
-import { sx } from '../../lib/sx'
+import { soundManager } from '@/demo-ui/lib/audio/SoundManager'
+import { sx } from '@/demo-ui/lib/sx'
 
 /** Props for the Button component. */
 export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'ref'> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
   size?: 'sm' | 'md' | 'lg' | 'icon'
   children: React.ReactNode
+  ref?: React.Ref<HTMLButtonElement>
   disabled?: boolean
   loading?: boolean
   className?: string
@@ -25,7 +26,10 @@ function useRipples() {
 
   useEffect(() => {
     const timers = timersRef.current
-    return () => { timers.forEach(clearTimeout); timers.clear() }
+    return () => {
+      timers.forEach(clearTimeout)
+      timers.clear()
+    }
   }, [])
 
   const spawn = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,10 +47,11 @@ function useRipples() {
 }
 
 /** Animated button with ripple feedback, loading overlay, and variant styling. */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({
+export function Button({
   variant = 'primary',
   size = 'md',
   children,
+  ref,
   onClick,
   disabled = false,
   loading = false,
@@ -56,7 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   'data-testid': testId,
   glow = false,
   ...props
-}, ref) {
+}: ButtonProps) {
   const { ripples, spawn } = useRipples()
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -73,7 +78,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       type={type}
       onClick={handleClick}
-      onMouseEnter={() => { if (!disabled && !loading) soundManager.playHover() }}
+      onMouseEnter={() => {
+        if (!disabled && !loading) soundManager.playHover()
+      }}
       disabled={disabled || loading}
       className={`btn btn-${variant} btn-${size} ${glowClass} ${className}`}
       aria-label={ariaLabel}
@@ -83,20 +90,29 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {...props}
     >
       {loading && (
-        <div className='absolute inset-0 flex items-center justify-center bg-inherit backdrop-blur-[1px] z-20 rounded-[inherit]'>
+        <div className="absolute inset-0 flex items-center justify-center bg-inherit backdrop-blur-[1px] z-20 rounded-[inherit]">
           <LoadingSpinner size={size === 'sm' ? 12 : 16} />
         </div>
       )}
       {ripples.map((r) => (
         <span
           key={r.id}
-          className='absolute rounded-full bg-[var(--text-primary)]/10 animate-ping pointer-events-none'
-          style={sx({ left: r.x, top: r.y, width: '20px', height: '20px', transform: 'translate(-50%, -50%)', animationDuration: '0.6s' })}
+          className="absolute rounded-full bg-[var(--text-primary)]/10 animate-ping pointer-events-none"
+          style={sx({
+            left: r.x,
+            top: r.y,
+            width: '20px',
+            height: '20px',
+            transform: 'translate(-50%, -50%)',
+            animationDuration: '0.6s',
+          })}
         />
       ))}
-      <div className={`flex items-center justify-center gap-2 ${loading ? 'opacity-0' : 'opacity-100'} transition-opacity relative z-10`}>
+      <div
+        className={`flex items-center justify-center gap-2 ${loading ? 'opacity-0' : 'opacity-100'} transition-opacity relative z-10`}
+      >
         {children}
       </div>
     </m.button>
   )
-})
+}

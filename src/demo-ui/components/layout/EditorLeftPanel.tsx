@@ -21,7 +21,7 @@ export const EditorLeftPanel: React.FC = () => {
       codeMode={codeMode}
       currentGroupId={currentGroupId}
       onGroupSelect={handleGroupSelect}
-      className='pf-sidebar--panel'
+      className="pf-sidebar--panel"
       topContent={<CodeModeSwitch onModeSelect={handleModeSelect} />}
     />
   )

@@ -15,7 +15,6 @@ export const THEME_MODES = ['dark-purple', 'dark-blue', 'dark-brown', 'dark-blac
 export type ThemeMode = (typeof THEME_MODES)[number]
 
 /** Human-readable display labels for theme modes. */
-// eslint-disable-next-line animation-rules/no-hardcoded-colors -- display labels, not CSS color values
 export const THEME_LABELS: Record<ThemeMode, string> = {
   'dark-purple': 'Dark Purple',
   'dark-blue': 'Dark Blue',
@@ -28,8 +27,17 @@ export const THEME_LABELS: Record<ThemeMode, string> = {
  * Each value selects a token override set in tokens.css (e.g. `[data-accent='cyan']`).
  * Values are data-attribute identifiers, not CSS color values.
  */
-// eslint-disable-next-line animation-rules/no-hardcoded-colors -- data-attribute identifiers, not CSS color values
-export const ACCENT_COLORS = ['cyan', 'green', 'magenta', 'orange', 'blue', 'violet', 'red'] as const
+/* eslint-disable animation-rules/no-hardcoded-colors -- data-attribute identifiers mapped to CSS token sets, not color values applied to DOM */
+export const ACCENT_COLORS = [
+  'cyan',
+  'green',
+  'magenta',
+  'orange',
+  'blue',
+  'violet',
+  'red',
+] as const
+/* eslint-enable animation-rules/no-hardcoded-colors */
 /** Union of available accent color identifiers. */
 export type AccentColor = (typeof ACCENT_COLORS)[number]
 
@@ -53,6 +61,9 @@ const DEFAULT_ACCENT = ACCENT_COLORS[0]
 
 /** Set of valid theme mode values for migration validation. */
 const VALID_THEMES = new Set<string>(THEME_MODES)
+
+/** Set of valid accent color values for migration validation. */
+const VALID_ACCENTS = new Set<string>(ACCENT_COLORS)
 
 export const useLayoutStore = create<LayoutStore>()(
   persist(
@@ -88,8 +99,12 @@ export const useLayoutStore = create<LayoutStore>()(
         if (!VALID_THEMES.has(merged.theme)) {
           merged.theme = THEME_MODES[0]
         }
+        // Migrate invalid accent values to default
+        if (!VALID_ACCENTS.has(merged.accent)) {
+          merged.accent = DEFAULT_ACCENT
+        }
         return merged
       },
-    },
-  ),
+    }
+  )
 )
