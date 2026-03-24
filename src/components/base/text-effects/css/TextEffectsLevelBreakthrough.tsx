@@ -1,60 +1,19 @@
 import { memo } from 'react'
 import './TextEffectsLevelBreakthrough.css'
 
-/**
- * @param props.startText - Initial text before breakthrough
- * @param props.endText - Final text after breakthrough
- * @param props.className - Optional additional CSS class names
- */
 interface TextEffectsLevelBreakthroughProps {
+  /** Text shown before breakthrough. @default 'LEVEL 1' */
   startText?: string
+  /** Text shown after breakthrough. @default 'LEVEL 2' */
   endText?: string
+  /** Additional CSS class for the container. */
   className?: string
 }
 
 /**
- * Level breakthrough text effect with expanding surge rings and text transition.
- *
- * @param props - Component props
- * @param props.startText - Initial text shown before breakthrough (defaults to "LEVEL 1")
- * @param props.endText - Final text shown after breakthrough (defaults to "LEVEL 2")
- * @param props.className - Optional CSS class to merge with base styles
- *
- * @returns Animated breakthrough effect container with text transition
- *
- * @example
- * Basic usage with default text:
- * ```tsx
- * <TextEffectsLevelBreakthrough />
- * ```
- *
- * @example
- * Custom level transition:
- * ```tsx
- * <TextEffectsLevelBreakthrough
- *   startText="LEVEL 5"
- *   endText="LEVEL 6"
- * />
- * ```
- *
- * @example
- * Custom text with whitespace:
- * ```tsx
- * <TextEffectsLevelBreakthrough
- *   startText="STAGE 1"
- *   endText="STAGE 2"
- * />
- * ```
- *
- * @example
- * With custom styling:
- * ```tsx
- * <TextEffectsLevelBreakthrough
- *   startText="BRONZE"
- *   endText="SILVER"
- *   className="custom-size"
- * />
- * ```
+ * Standalone: Copy this file + TextEffectsLevelBreakthrough.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsLevelBreakthroughComponent({
   startText = 'LEVEL 1',

@@ -40,7 +40,4 @@ function TextEffectsVerbFloatComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
   )
 }
 
-/**
- * Memoized TextEffectsVerbFloat to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbFloat = memo(TextEffectsVerbFloatComponent)

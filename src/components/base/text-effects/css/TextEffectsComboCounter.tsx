@@ -47,12 +47,9 @@ function calculateMilestones(range: number, maxParticles: number): Milestone[] {
 }
 
 /**
- * Combo counter with milestone particles and celebration text.
- *
- * @example
- * <TextEffectsComboCounter />
- * <TextEffectsComboCounter to={100} label="STREAK" bonusText="ON FIRE!" />
- * <TextEffectsComboCounter from={0} to={50} label="KILLS" bonusText="RAMPAGE!" maxParticles={6} />
+ * Standalone: Copy this file + TextEffectsComboCounter.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsComboCounterComponent({
   from = 0,
@@ -84,7 +81,6 @@ function TextEffectsComboCounterComponent({
         frameId = requestAnimationFrame(animateCount)
         return
       }
-
       const progress = Math.min(elapsed / duration, 1)
       const eased =
         progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2

@@ -11,33 +11,9 @@ interface TextEffectsWaveTextProps {
 }
 
 /**
- * Animates text with a continuous wave motion effect where each character
- * oscillates vertically with scale and rotation, creating a flowing wave.
- *
- * Uses GPU-accelerated transforms (translateY, scale, rotate) for smooth 60fps animation.
- * Creates one DOM span per character for independent wave timing.
- *
- * @param props - Component configuration
- * @param props.text - Text to animate (default: 'WAVE MOTION')
- * @param props.charDelay - Stagger delay between characters (default: 0.05s)
- * @param props.showHighlight - Enable traveling highlight effect (default: true)
- *
- * @returns Animated wave text component
- *
- * @example
- * ```tsx
- * <TextEffectsWaveText
- *   text="HELLO WORLD"
- *   charDelay={0.08}
- *   showHighlight={true}
- * />
- * ```
- *
- * @remarks
- * - Animation loops infinitely with 2s cycle per character
- * - DOM nodes scale linearly with character count
- * - Whitespace preserved with non-breaking spaces
- * - Highlight uses pseudo-element for minimal DOM overhead
+ * Standalone: Copy this file + TextEffectsWaveText.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsWaveTextComponent({
   text = 'WAVE MOTION',

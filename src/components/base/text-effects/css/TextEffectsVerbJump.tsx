@@ -44,7 +44,4 @@ function TextEffectsVerbJumpComponent({
   )
 }
 
-/**
- * Memoized TextEffectsVerbJump to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbJump = memo(TextEffectsVerbJumpComponent)

@@ -1,39 +1,19 @@
 import { memo } from 'react'
 import './TextEffectsTypewriter.css'
 
-/**
- * Props for the TextEffectsTypewriter component.
- */
 interface TextEffectsTypewriterProps {
-  /**
-   * The text content to display with typewriter effect.
-   * Supports any length and preserves whitespace.
-   * @default 'LOADING SYSTEM...'
-   */
+  /** @default 'LOADING SYSTEM...' */
   text?: string
-  /**
-   * Delay between each character appearance in seconds.
-   * Controls the typing speed.
-   * @default 0.08
-   */
+  /** Delay between each character appearance in seconds. @default 0.08 */
   charDelay?: number
-  /**
-   * The cursor character to display after typing completes.
-   * @default '|'
-   */
+  /** Cursor character shown after typing completes. @default '|' */
   cursor?: string
 }
 
 /**
- * Typewriter text effect component.
- *
- * Displays text character-by-character with a typing animation,
- * followed by a blinking cursor.
- *
- * @example
- * ```tsx
- * <TextEffectsTypewriter text="Hello World!" charDelay={0.1} />
- * ```
+ * Standalone: Copy this file + TextEffectsTypewriter.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsTypewriterComponent({
   text = 'LOADING SYSTEM...',
@@ -44,11 +24,6 @@ function TextEffectsTypewriterComponent({
     <div
       className="text-effects-typewriter-container"
       data-animation-id="text-effects__typewriter"
-      style={
-        {
-          '--text-effects-typewriter-char-delay': `${charDelay}s`,
-        } as React.CSSProperties
-      }
     >
       <div className="text-effects-typewriter-text">
         {text.split('').map((char, index) => (
@@ -71,8 +46,4 @@ function TextEffectsTypewriterComponent({
   )
 }
 
-/**
- * Memoized typewriter component to prevent unnecessary re-renders.
- * Ideal for use in grid layouts or lists where parent re-renders are frequent.
- */
 export const TextEffectsTypewriter = memo(TextEffectsTypewriterComponent)

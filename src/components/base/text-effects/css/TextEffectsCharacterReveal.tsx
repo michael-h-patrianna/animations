@@ -9,13 +9,9 @@ interface TextEffectsCharacterRevealProps {
 }
 
 /**
- * Pure CSS character reveal effect. Shadow text fades in, then main characters
- * pop in sequentially with scale/translate, followed by subtitle.
- * Dynamic delays set via inline styles.
- *
- * @example
- * <TextEffectsCharacterReveal />
- * <TextEffectsCharacterReveal text="VICTORY" subtitle="ROYALE" />
+ * Standalone: Copy this file + TextEffectsCharacterReveal.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsCharacterRevealComponent({
   text = 'ACHIEVEMENT',
@@ -56,5 +52,4 @@ function TextEffectsCharacterRevealComponent({
   )
 }
 
-/** Memoized to prevent re-renders in grid layouts. */
 export const TextEffectsCharacterReveal = memo(TextEffectsCharacterRevealComponent)

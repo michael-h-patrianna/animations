@@ -37,7 +37,4 @@ function TextEffectsVerbTwirlComponent({ text = 'LOREM IPSUM DOLOR' }: TextEffec
   )
 }
 
-/**
- * Memoized TextEffectsVerbTwirl to prevent unnecessary re-renders in grid layouts.
- */
 export const TextEffectsVerbTwirl = memo(TextEffectsVerbTwirlComponent)

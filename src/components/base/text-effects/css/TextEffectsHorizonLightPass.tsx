@@ -1,45 +1,15 @@
-import React, { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useMemo, useRef } from 'react'
 import './TextEffectsHorizonLightPass.css'
 
-/**
- * Props for TextEffectsHorizonLightPass component.
- */
 interface TextEffectsHorizonLightPassProps {
-  /** Text content to animate. Supports any length including whitespace. */
+  /** @default 'LOREM IPSUM DOLOR' */
   text?: string
 }
 
 /**
- * Animated text effect with horizontal light pass and right-to-left cascade.
- *
- * Uses Web Animations API for GPU-accelerated transforms and opacity changes.
- * Each letter scales and changes color in sequence from right to left, creating
- * a sweeping highlight effect. Container fades in and scales simultaneously.
- *
- * @param props - Component props
- * @param props.text - Text to animate (default: 'LOREM IPSUM DOLOR')
- *
- * @returns Animated text element with individual letter animations
- *
- * @example
- * ```tsx
- * <TextEffectsHorizonLightPass text="HELLO WORLD" />
- * ```
- *
- * @example
- * With default text:
- * ```tsx
- * <TextEffectsHorizonLightPass />
- * ```
- *
- * @remarks
- * - Animations start automatically on mount
- * - Uses 30ms delay between letters for cascade effect
- * - GPU-accelerated with will-change hints
- * - Customize colors via CSS custom properties: --tfx-hlp-base-color, --tfx-hlp-highlight-color
- * - Animations are cancelled on unmount to prevent memory leaks
- *
- * @see TextEffectsHorizonLightPass.css for styling and performance optimizations
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.css into your app.
+ * Runtime deps: react (uses Web Animations API for per-letter cascade).
+ * RN: Not applicable. Use framer variant for RN portability.
  */
 function TextEffectsHorizonLightPassComponent({
   text = 'LOREM IPSUM DOLOR',
@@ -47,11 +17,14 @@ function TextEffectsHorizonLightPassComponent({
   const containerRef = useRef<HTMLDivElement>(null)
   const lettersRef = useRef<HTMLSpanElement[]>([])
 
-  const letters = React.useMemo(() => Array.from(text), [text])
+  const letters = useMemo(() => Array.from(text), [text])
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
+
+    // Reset refs for new text length
+    lettersRef.current = lettersRef.current.slice(0, letters.length)
 
     // Container animation
     const containerAnimation = container.animate(
@@ -111,7 +84,7 @@ function TextEffectsHorizonLightPassComponent({
       containerAnimation.cancel()
       letterAnimations.forEach((anim) => anim?.cancel())
     }
-  }, [letters.length])
+  }, [text, letters.length])
 
   return (
     <div
@@ -137,8 +110,4 @@ function TextEffectsHorizonLightPassComponent({
   )
 }
 
-/**
- * Memoized version to prevent unnecessary re-renders in grid layouts.
- * Component only re-renders when text prop changes.
- */
 export const TextEffectsHorizonLightPass = memo(TextEffectsHorizonLightPassComponent)

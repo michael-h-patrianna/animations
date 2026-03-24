@@ -4,7 +4,7 @@
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import './TextEffectsCounterIncrement.css'
 
 interface Particle {
@@ -95,12 +95,9 @@ function calculateIncrementSteps(
 }
 
 /**
- * Counter increment with floating particles. Continuous loop (default) or finite count-up.
- *
- * @example
- * <TextEffectsCounterIncrement />
- * <TextEffectsCounterIncrement from={0} to={1000} suffix=" pts" />
- * <TextEffectsCounterIncrement from={0} to={9999} prefix="$" suffix="" durationMs={4000} />
+ * Standalone: Copy this file + TextEffectsCounterIncrement.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsCounterIncrementComponent({
   from = 0,
@@ -116,7 +113,7 @@ function TextEffectsCounterIncrementComponent({
   const [count, setCount] = useState(from)
   const [particles, setParticles] = useState<Particle[]>([])
   const nextParticleIdRef = useRef(0)
-  const popAnimationKeyRef = useRef(0)
+  const [popKey, setPopKey] = useState(0)
   const formatRef = useRef(formatValue)
   formatRef.current = formatValue
 
@@ -140,13 +137,13 @@ function TextEffectsCounterIncrementComponent({
     setCount(from)
     setParticles([])
     nextParticleIdRef.current = 0
-    popAnimationKeyRef.current = 0
+    setPopKey(0)
 
     const timeouts: ReturnType<typeof setTimeout>[] = []
     steps.forEach((step: IncrementStep) => {
       const timeoutId = setTimeout(() => {
         setCount(from + step.value)
-        popAnimationKeyRef.current++
+        setPopKey((k) => k + 1)
         const particleId = nextParticleIdRef.current++
         const newParticle = { id: particleId, value: step.incrementAmount }
         setParticles((prev) => {
@@ -166,7 +163,7 @@ function TextEffectsCounterIncrementComponent({
     if (!isContinuousMode) return
     const performIncrement = () => {
       setCount((prev) => prev + continuousIncrement)
-      popAnimationKeyRef.current++
+      setPopKey((k) => k + 1)
       const particleId = nextParticleIdRef.current++
       setParticles((prev) => {
         const newParticles = [...prev, { id: particleId, value: continuousIncrement }]
@@ -184,7 +181,7 @@ function TextEffectsCounterIncrementComponent({
   return (
     <div className="tfx-cinc-container" data-animation-id="text-effects__counter-increment">
       <div className="tfx-cinc-value-wrapper">
-        <span key={popAnimationKeyRef.current} className="tfx-cinc-value tfx-cinc-value--popping">
+        <span key={popKey} className="tfx-cinc-value tfx-cinc-value--popping">
           {prefix !== undefined && <span className="tfx-cinc-label">{prefix}</span>}
           {formatRef.current(count)}
           {suffix !== undefined && <span className="tfx-cinc-label">{suffix}</span>}
@@ -204,8 +201,4 @@ function TextEffectsCounterIncrementComponent({
   )
 }
 
-export const TextEffectsCounterIncrement = TextEffectsCounterIncrementComponent
-
-export function TextEffectsCounterIncrement9999() {
-  return <TextEffectsCounterIncrementComponent to={9999} durationMs={4000} maxParticles={25} />
-}
+export const TextEffectsCounterIncrement = memo(TextEffectsCounterIncrementComponent)

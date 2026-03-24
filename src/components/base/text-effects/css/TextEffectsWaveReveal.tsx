@@ -18,36 +18,9 @@ interface TextEffectsWaveRevealProps {
 }
 
 /**
- * Animates multi-line text with a staggered character-by-character reveal effect.
- * Each character translates up from below while fading in, creating a wave reveal.
- *
- * Uses GPU-accelerated transforms (translateY) and opacity for optimal performance.
- * Creates one DOM span per character for independent animation timing.
- *
- * @param props - Component configuration
- * @param props.lines - Text lines with colors to animate
- * @param props.charDelay - Time between each character reveal (default: 0.05s)
- * @param props.lineDelay - Time between each line starting (default: 0.4s)
- * @param props.initialDelay - Time before animation begins (default: 0.2s)
- *
- * @returns Animated text reveal component
- *
- * @example
- * ```tsx
- * <TextEffectsWaveReveal
- *   lines={[
- *     { text: 'Hello', color: 'var(--pf-anim-blue)' },
- *     { text: 'World', color: 'var(--pf-anim-gold)' }
- *   ]}
- *   charDelay={0.03}
- *   lineDelay={0.5}
- * />
- * ```
- *
- * @remarks
- * - DOM nodes scale linearly with character count (whitespace preserved)
- * - Animation delays computed per-character in JS (unavoidable for effect)
- * - CSS handles actual animation via GPU-accelerated keyframes
+ * Standalone: Copy this file + TextEffectsWaveReveal.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsWaveRevealComponent({
   lines = [

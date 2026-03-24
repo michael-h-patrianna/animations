@@ -69,14 +69,9 @@ function calculateParticles(range: number, maxParticles: number): Particle[] {
 }
 
 /**
- * Animated number count-up with floating increment particles.
- * Counts from `from` to `to` with configurable label and formatting.
- *
- * @example
- * <TextEffectsXpNumberPop />
- * <TextEffectsXpNumberPop from={99} to={1000000} suffix=" pts" />
- * <TextEffectsXpNumberPop from={0} to={9999} prefix="$" suffix="" />
- * <TextEffectsXpNumberPop from={500} to={2500} suffix=" €" formatValue={n => n.toFixed(2).replace('.', ',')} />
+ * Standalone: Copy this file + TextEffectsXpNumberPop.css into your app.
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsXpNumberPopComponent({
   from = 0,
@@ -103,11 +98,6 @@ function TextEffectsXpNumberPopComponent({
       if (!isActive) return
 
       const elapsed = currentTime - startTime
-      if (elapsed < 0) {
-        frameId = requestAnimationFrame(animateCount)
-        return
-      }
-
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
 
