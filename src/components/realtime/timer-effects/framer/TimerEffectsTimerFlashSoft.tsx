@@ -95,8 +95,7 @@ function TimerEffectsTimerFlashSoftComponent({
             : seconds <= warningThreshold
               ? 'warning'
               : 'normal'
-        ] ??
-        computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
+        ] ?? computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
       : computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
 
   const timeStyle: React.CSSProperties = {

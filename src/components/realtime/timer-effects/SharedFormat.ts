@@ -41,8 +41,7 @@ export function computeUrgencyColor(
   normalColor: RgbColor,
   criticalColor: RgbColor
 ): string {
-  const urgency =
-    seconds <= warningThreshold ? (warningThreshold - seconds) / warningThreshold : 0
+  const urgency = seconds <= warningThreshold ? (warningThreshold - seconds) / warningThreshold : 0
   const eased = easeInOutFn(urgency)
   const r = Math.round(normalColor.r + (criticalColor.r - normalColor.r) * eased)
   const g = Math.round(normalColor.g + (criticalColor.g - normalColor.g) * eased)

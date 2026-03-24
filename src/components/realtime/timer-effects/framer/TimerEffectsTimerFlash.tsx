@@ -61,8 +61,7 @@ function TimerEffectsTimerFlashComponent({
       : computeUrgencyColor(seconds, warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
 
   // Single urgency value drives pulse speed, glow intensity, and scale
-  const urgency =
-    seconds <= warningThreshold ? (warningThreshold - seconds) / warningThreshold : 0
+  const urgency = seconds <= warningThreshold ? (warningThreshold - seconds) / warningThreshold : 0
   const pulseSpeed = Math.max(300, 1000 - urgency * 700) / 1000
 
   const glowAnimation =

@@ -100,8 +100,7 @@ function RealtimeDataStackedRealtimeComponent({
             <m.span
               className="pf-realtime-data__stack-value"
               animate={{
-                color:
-                  isVisible && item.active !== true ? inactiveColor : activeColor,
+                color: isVisible && item.active !== true ? inactiveColor : activeColor,
               }}
               transition={{ duration: 0.4, delay: index * staggerS + 0.2 }}
               style={{ animation: 'none' }}
