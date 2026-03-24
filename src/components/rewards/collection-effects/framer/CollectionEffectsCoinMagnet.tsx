@@ -104,14 +104,14 @@ function sampleBezierPath(
   return { xPath, yPath }
 }
 
-function ArrivalFlash({ target, durationS }: { target: ResolvedPoint; durationS: number }) {
+function ArrivalFlash({ target }: { target: ResolvedPoint }) {
   return (
     <m.div
       className="pf-coin-magnet__arrival-flash"
       style={{ left: target.x, top: target.y, animation: 'none' }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 1.8], opacity: [0, 0.7, 0] }}
-      transition={{ duration: 0.5, delay: durationS * 0.8, times: [0, 0.4, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.5, delay: 1.05, times: [0, 0.4, 1], ease: 'easeOut' }}
     />
   )
 }
@@ -310,7 +310,7 @@ function CollectionEffectsCoinMagnetComponent({
     >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-magnet__stage" aria-hidden="true">
-          {!isBurst && <ArrivalFlash target={toPt} durationS={durationS} />}
+          {!isBurst && <ArrivalFlash target={toPt} />}
           {particles.map((particle) => (
             <ParticleElement
               key={particle.id}
