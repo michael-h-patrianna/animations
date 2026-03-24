@@ -67,31 +67,35 @@ export function ProgressBarsChargeSurge({
     }
 
     const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
-    let stateChanged = false
-    const newStates = [...milestoneStates]
 
-    milestones.forEach((ms, i) => {
-      const hasReached = displayProgress >= ms.position
-      const isNear = displayProgress >= ms.position - ANTICIPATION_THRESHOLD
+    setMilestoneStates((prev) => {
+      let changed = false
+      const next = prev.map((state, i) => {
+        const ms = milestones[i]!
+        const hasReached = displayProgress >= ms.position
+        const isNear = displayProgress >= ms.position - ANTICIPATION_THRESHOLD
 
-      if (hasReached && newStates[i] !== 'charged') {
-        newStates[i] = 'charged'
-        stateChanged = true
-        const wave: SurgeWave = { id: waveIdRef.current++, milestoneIndex: i }
-        setSurgeWaves((p) => [...p, wave])
-        setGlowFlash(true)
-        const t1 = setTimeout(() => setGlowFlash(false), 200)
-        const t2 = setTimeout(() => setSurgeWaves((p) => p.filter((w) => w.id !== wave.id)), 700)
-        pendingTimeouts.push(t1, t2)
-      } else if (isNear && !hasReached && newStates[i] === 'inactive') {
-        newStates[i] = 'anticipating'
-        stateChanged = true
-      }
+        if (hasReached && state !== 'charged') {
+          changed = true
+          const wave: SurgeWave = { id: waveIdRef.current++, milestoneIndex: i }
+          setSurgeWaves((p) => [...p, wave])
+          setGlowFlash(true)
+          const t1 = setTimeout(() => setGlowFlash(false), 200)
+          const t2 = setTimeout(() => setSurgeWaves((p) => p.filter((w) => w.id !== wave.id)), 700)
+          pendingTimeouts.push(t1, t2)
+          return 'charged' as const
+        }
+        if (isNear && !hasReached && state === 'inactive') {
+          changed = true
+          return 'anticipating' as const
+        }
+        return state
+      })
+      return changed ? next : prev
     })
 
-    if (stateChanged) setMilestoneStates(newStates)
     return () => pendingTimeouts.forEach(clearTimeout)
-  }, [displayProgress, milestones, milestoneStates])
+  }, [displayProgress, milestones])
 
   const markerVariants = (state: MilestoneState) => {
     if (state === 'anticipating') {

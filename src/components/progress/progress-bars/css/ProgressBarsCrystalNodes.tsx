@@ -24,7 +24,7 @@ export function ProgressBarsCrystalNodes({
   const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 1200 })
 
   const activatedSet = useMemo(
-    () => new Set(milestones.filter((ms) => displayProgress >= ms.position).map((_, i) => i)),
+    () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
     [displayProgress, milestones]
   )
 

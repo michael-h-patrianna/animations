@@ -78,7 +78,7 @@ export function ProgressBarsFlagPlant({
   const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1500 })
 
   const activatedSet = useMemo(
-    () => new Set(milestones.filter((ms) => displayProgress >= ms.position).map((_, i) => i)),
+    () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
     [displayProgress, milestones]
   )
 

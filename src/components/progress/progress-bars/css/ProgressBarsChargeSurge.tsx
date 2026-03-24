@@ -25,7 +25,7 @@ export function ProgressBarsChargeSurge({
   const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 1500 })
 
   const activatedSet = useMemo(
-    () => new Set(milestones.filter((m) => displayProgress >= m.position).map((_, i) => i)),
+    () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
     [displayProgress, milestones]
   )
 

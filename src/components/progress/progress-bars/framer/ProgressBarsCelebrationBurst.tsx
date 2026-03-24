@@ -46,7 +46,7 @@ export function ProgressBarsCelebrationBurst({
   const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 2000 })
 
   const activatedSet = useMemo(
-    () => new Set(milestones.filter((ms) => displayProgress >= ms.position).map((_, i) => i)),
+    () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
     [displayProgress, milestones]
   )
 

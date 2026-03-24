@@ -70,7 +70,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
     }
   }, [isControlled])
 
-  const getTrackPosition = () => 25 - 40 * (level - 1)
+  const trackPosition = 25 - 40 * (level - 1)
   const progress1Width = (levelPoints[0]! / 3) * 100
   const progress2Width = (levelPoints[1]! / 6) * 100
 
@@ -80,17 +80,17 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       style={style}
       data-animation-id="progress-bars__zoomed-progress"
     >
-      <div className="pf-zoomed-progress__track" style={{ left: `${getTrackPosition()}%` }}>
+      <div className="pf-zoomed-progress__track" style={{ left: `${trackPosition}%` }}>
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
           <div className="pf-zoomed-progress__fill" style={{ width: `${progress1Width}%` }} />
         </div>
         <div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] === true ? ' reached' : ''}`}
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] ? ' reached' : ''}`}
         >
           <span>1</span>
         </div>
         <div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] === true ? ' reached' : ''}`}
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] ? ' reached' : ''}`}
         >
           <span>2</span>
         </div>
@@ -98,7 +98,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
           <div className="pf-zoomed-progress__fill" style={{ width: `${progress2Width}%` }} />
         </div>
         <div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] === true ? ' reached' : ''}`}
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] ? ' reached' : ''}`}
         >
           <span>3</span>
         </div>

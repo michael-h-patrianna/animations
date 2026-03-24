@@ -89,7 +89,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
     }
   }, [isControlled])
 
-  const getTrackPosition = () => 25 - 40 * (level - 1)
+  const trackPosition = 25 - 40 * (level - 1)
   const progress1Width = (levelPoints[0]! / 3) * 100
   const progress2Width = (levelPoints[1]! / 6) * 100
 
@@ -107,26 +107,26 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       style={style}
       data-animation-id="progress-bars__zoomed-progress"
     >
-      <div className="pf-zoomed-progress__track" style={{ left: `${getTrackPosition()}%` }}>
+      <div className="pf-zoomed-progress__track" style={{ left: `${trackPosition}%` }}>
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
           <div className="pf-zoomed-progress__fill" style={{ width: `${progress1Width}%` }} />
         </div>
 
         <m.div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] === true ? ' reached' : ''}`}
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] ? ' reached' : ''}`}
           variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[0] === true ? 'animate' : undefined}
+          animate={levelReached[0] ? 'animate' : undefined}
           style={{ translateY: '-50%', animation: 'none' }}
         >
           <span>1</span>
         </m.div>
 
         <m.div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] === true ? ' reached' : ''}`}
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] ? ' reached' : ''}`}
           variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[1] === true ? 'animate' : undefined}
+          animate={levelReached[1] ? 'animate' : undefined}
           style={{ translateX: '-50%', translateY: '-50%', animation: 'none' }}
         >
           <span>2</span>
@@ -137,10 +137,10 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
         </div>
 
         <m.div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] === true ? ' reached' : ''}`}
+          className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] ? ' reached' : ''}`}
           variants={levelBounceVariants}
           initial="initial"
-          animate={levelReached[2] === true ? 'animate' : undefined}
+          animate={levelReached[2] ? 'animate' : undefined}
           style={{ translateY: '-50%', animation: 'none' }}
         >
           <span>3</span>

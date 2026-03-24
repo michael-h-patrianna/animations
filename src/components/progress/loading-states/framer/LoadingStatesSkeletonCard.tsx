@@ -77,7 +77,6 @@ function LoadingStatesSkeletonCardComponent({
         shimmerColor={shimmerColor}
         speed={speed}
         className="pf-skeleton-card__line"
-        delay={0}
       />
       <div style={{ height: titleMargin - gap }} />
       {Array.from({ length: lines }, (_, i) => (

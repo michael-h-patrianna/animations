@@ -52,11 +52,11 @@ export function ProgressBarsProgressMilestones({
   const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1500 })
 
   const activatedSet = useMemo(
-    () => new Set(milestones.filter((m) => displayProgress >= m.position).map((_, i) => i)),
+    () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
     [displayProgress, milestones]
   )
 
-  const markerVariants = () => ({
+  const markerVariants = {
     inactive: {
       scale: 0.5,
       opacity: 0.6,
@@ -71,7 +71,7 @@ export function ProgressBarsProgressMilestones({
       ],
       transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as const },
     },
-  })
+  }
 
   const ringVariants = {
     inactive: { scale: 0.8, opacity: 0 },
@@ -127,7 +127,7 @@ export function ProgressBarsProgressMilestones({
           >
             <m.div
               className="milestone-marker"
-              variants={markerVariants()}
+              variants={markerVariants}
               initial="inactive"
               animate={activatedSet.has(i) ? 'active' : 'inactive'}
               style={{

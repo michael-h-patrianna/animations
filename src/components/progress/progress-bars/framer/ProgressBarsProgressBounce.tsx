@@ -23,13 +23,19 @@
  */
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ProgressBarProps } from '../SharedTypes'
 
 export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {
   const isDemo = progress === undefined
   const target = progress ?? 1
   const [showParticles, setShowParticles] = useState(false)
+
+  // Stable particle distances — computed once, not on every render
+  const particleDistances = useMemo(
+    () => Array.from({ length: 5 }, (_, i) => 30 + ((i * 7 + 3) % 20)),
+    []
+  )
 
   useEffect(() => {
     if (!isDemo) return
@@ -162,7 +168,7 @@ export function ProgressBarsProgressBounce({ progress, className, style }: Progr
             {showParticles &&
               Array.from({ length: 5 }).map((_, i) => {
                 const angle = (i / 5) * Math.PI * 2
-                const distance = 30 + Math.random() * 20
+                const distance = particleDistances[i]!
                 return (
                   <m.div
                     key={`particle-${i}`}

@@ -41,9 +41,7 @@ function LoadingStatesSpinnerOrbitalComponent({
   const ringColor = `color-mix(in srgb, ${color} 40%, transparent)`
   const glowShadow = `0 0 ${Math.round(satelliteSize * 0.83)}px color-mix(in srgb, ${color} 80%, transparent)`
 
-  // Transform origin: satellite rotates around the center of the container.
-  // Satellite sits at the top center, so origin is offset by half the container height.
-  const originY = size / 2 - satelliteSize / 2 + satelliteSize / 2
+  const originY = size / 2
 
   return (
     <div

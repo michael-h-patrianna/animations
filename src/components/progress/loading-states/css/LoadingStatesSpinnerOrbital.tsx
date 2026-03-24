@@ -32,7 +32,7 @@ function LoadingStatesSpinnerOrbitalComponent({
 }: LoadingStatesSpinnerOrbitalProps) {
   const safeSpeed = speed <= 0 ? DEFAULT_SPEED : speed
   const satelliteSize = Math.max(6, Math.round(size * 0.25))
-  const originY = size / 2 - satelliteSize / 2 + satelliteSize / 2
+  const originY = size / 2
 
   return (
     <div

@@ -38,7 +38,7 @@ export function ProgressBarsNeonPulse({
   const isDemo = progress === undefined
   const demoDuration = 6000
   const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 800 })
-  const percent = isDemo ? undefined : displayProgress * 100
+  const percent = displayProgress * 100
 
   return (
     <div

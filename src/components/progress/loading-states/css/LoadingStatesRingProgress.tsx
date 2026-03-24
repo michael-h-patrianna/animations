@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { memo, useMemo } from 'react'
+import { memo } from 'react'
 
 import { RING_PROGRESS_COLOR } from '../SharedDefaults'
 import './LoadingStatesRingProgress.css'
@@ -40,7 +40,7 @@ function LoadingStatesRingProgressComponent({
   const safeSpeed = speed <= 0 ? DEFAULT_SPEED : speed
   const radius = (size - thickness) / 2
   const center = size / 2
-  const circumference = useMemo(() => 2 * Math.PI * radius, [radius])
+  const circumference = 2 * Math.PI * radius
   const resolvedTrackColor = trackColor ?? `color-mix(in srgb, ${color} 20%, transparent)`
 
   return (
