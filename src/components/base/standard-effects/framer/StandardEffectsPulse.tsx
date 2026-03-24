@@ -29,14 +29,12 @@ function StandardEffectsPulseComponent({
 }: StandardEffectsPulseProps) {
   const resolvedGlowColor = glowColor ?? PULSE_GLOW_COLOR
   const durationS = duration / 1000
-  const keyframeTimes: number[] = [0, 0.5, 1]
 
   return (
     <m.div
       className="pf-pulse"
       data-animation-id="standard-effects__pulse"
       style={{ animation: 'none', position: 'relative' }}
-      initial={{ scale: 1, opacity: 1 }}
       animate={{
         scale: [1, 1.25, 1],
         opacity: [1, 0.8, 1],
@@ -44,7 +42,7 @@ function StandardEffectsPulseComponent({
       transition={{
         duration: durationS,
         ease: [0.4, 0, 0.6, 1] as const,
-        times: keyframeTimes,
+        times: [0, 0.5, 1],
         repeat: Infinity,
       }}
     >
@@ -59,7 +57,6 @@ function StandardEffectsPulseComponent({
           zIndex: -1,
           animation: 'none',
         }}
-        initial={{ scale: 0.8, opacity: 0 }}
         animate={{
           scale: [0.8, 1.5, 2],
           opacity: [0, 0.6, 0],
@@ -67,7 +64,7 @@ function StandardEffectsPulseComponent({
         transition={{
           duration: durationS,
           ease: [0.4, 0, 0.6, 1] as const,
-          times: keyframeTimes,
+          times: [0, 0.5, 1],
           repeat: Infinity,
         }}
       />

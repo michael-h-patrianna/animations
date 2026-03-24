@@ -22,7 +22,6 @@ function StandardEffectsScaleComponent({ children, duration = 600 }: StandardEff
     <m.div
       data-animation-id="standard-effects__scale"
       style={{ animation: 'none' }}
-      initial={{ scale: 0, rotate: 0, skewY: 0, opacity: 0 }}
       animate={{
         scale: [0, 0.2, 0.4, 0.6, 0.75, 0.9, 1.05, 1.08, 1.05, 1.02, 1],
         rotate: [0, -6, -10, -8, -4, 2, 4, 2, -1, -0.5, 0],

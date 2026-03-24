@@ -31,9 +31,9 @@ function StandardEffectsPulseWaveComponent({
   duration = 2000,
 }: StandardEffectsPulseWaveProps) {
   const durationS = duration / 1000
-  const ringTimes: number[] = [0, 0.7, 1]
   const resolvedColor = color ?? INDICATOR_COLOR
   const resolvedRingColor = ringColor ?? INDICATOR_RING_COLOR
+  const ringTimes: number[] = [0, 0.7, 1]
 
   return (
     <div
@@ -58,7 +58,6 @@ function StandardEffectsPulseWaveComponent({
           position: 'relative',
           animation: 'none',
         }}
-        initial={{ scale: 1 }}
         animate={{ scale: [1, 1.08, 1] }}
         transition={{
           duration: durationS,
@@ -76,7 +75,6 @@ function StandardEffectsPulseWaveComponent({
             border: `2px solid ${resolvedRingColor}`,
             animation: 'none',
           }}
-          initial={{ scale: 1, opacity: 0.6 }}
           animate={{ scale: [1, 2.8, 2.8], opacity: [0.6, 0, 0] }}
           transition={{
             duration: durationS,
@@ -94,7 +92,6 @@ function StandardEffectsPulseWaveComponent({
             border: `2px solid ${resolvedRingColor}`,
             animation: 'none',
           }}
-          initial={{ scale: 1, opacity: 0.4 }}
           animate={{ scale: [1, 2.8, 2.8], opacity: [0.4, 0, 0] }}
           transition={{
             duration: durationS,

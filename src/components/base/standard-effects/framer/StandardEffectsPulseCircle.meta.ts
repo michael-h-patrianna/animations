@@ -1,6 +1,6 @@
 import type { AnimationMetadata } from '@/types/animation'
 
-export const metadata = {
+export const metadata: AnimationMetadata = {
   id: 'standard-effects__pulse-circle',
   urlSlugFramer: '/standard-effects-framer?animation=standard-effects__pulse-circle',
   urlSlugCss: '/standard-effects-css?animation=standard-effects__pulse-circle',
@@ -8,4 +8,4 @@ export const metadata = {
   description:
     'Self-contained pulsing circle with expanding ring indicators. Configurable size, color, and duration.',
   tier: 1,
-} satisfies AnimationMetadata
+}

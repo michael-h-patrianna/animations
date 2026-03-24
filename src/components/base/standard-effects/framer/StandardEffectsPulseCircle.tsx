@@ -31,9 +31,9 @@ function StandardEffectsPulseCircleComponent({
   duration = 2200,
 }: StandardEffectsPulseCircleProps) {
   const durationS = duration / 1000
-  const ringTimes: number[] = [0, 0.7, 1]
   const resolvedColor = color ?? INDICATOR_COLOR
   const resolvedRingColor = ringColor ?? INDICATOR_RING_COLOR
+  const ringTimes: number[] = [0, 0.7, 1]
 
   return (
     <div
@@ -57,7 +57,6 @@ function StandardEffectsPulseCircleComponent({
           position: 'relative',
           animation: 'none',
         }}
-        initial={{ scale: 1 }}
         animate={{ scale: [1, 1.06, 1] }}
         transition={{ duration: durationS, ease: [0.4, 0, 0.6, 1] as const, times: [0, 0.5, 1] }}
       >
@@ -70,7 +69,6 @@ function StandardEffectsPulseCircleComponent({
             border: `2px solid ${resolvedRingColor}`,
             animation: 'none',
           }}
-          initial={{ scale: 1, opacity: 0.7 }}
           animate={{ scale: [1, 2.6, 2.6], opacity: [0.7, 0.12, 0] }}
           transition={{ duration: durationS, ease: [0.4, 0, 0.6, 1] as const, times: ringTimes }}
         />
@@ -83,7 +81,6 @@ function StandardEffectsPulseCircleComponent({
             border: `2px solid ${resolvedRingColor}`,
             animation: 'none',
           }}
-          initial={{ scale: 1, opacity: 0.6 }}
           animate={{ scale: [1, 2.6, 2.6], opacity: [0.6, 0.1, 0] }}
           transition={{
             duration: durationS,
