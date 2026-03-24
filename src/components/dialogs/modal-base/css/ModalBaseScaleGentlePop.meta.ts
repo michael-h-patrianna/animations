@@ -6,6 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-base-css?animation=modal-base__scale-gentle-pop',
   title: 'Gentle Scale Pop',
   description:
-    'Wrap your modal content — scales from 85% with fade-in overlay. Props: children, duration, overlayOpacity.',
+    'Wrap your modal content — scales from 85% with fade-in overlay. Props: children, duration.',
   tier: 2,
 }

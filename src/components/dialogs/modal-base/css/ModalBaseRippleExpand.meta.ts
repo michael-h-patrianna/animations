@@ -6,6 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-base-css?animation=modal-base__ripple-expand',
   title: 'Material Ripple',
   description:
-    'Wrap your modal — ripple expand from zero with scale overshoot settle. Props: children, duration, overlayOpacity.',
+    'Wrap your modal — ripple expand from zero with scale overshoot settle. Props: children, duration.',
   tier: 2,
 }

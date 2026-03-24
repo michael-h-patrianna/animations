@@ -25,13 +25,11 @@ function ModalBaseFlip3dComponent({
   className,
   style,
 }: ModalBaseFlip3dProps) {
-  const cssVars = {
-    '--pf-entrance-duration': `${duration}ms`,
-    '--pf-perspective': `${perspective}px`,
-  } as React.CSSProperties
-
   return (
-    <div data-animation-id="modal-base__flip-3d" style={{ ...cssVars, perspective }}>
+    <div
+      data-animation-id="modal-base__flip-3d"
+      style={{ '--pf-entrance-duration': `${duration}ms`, perspective } as React.CSSProperties}
+    >
       <div className={`pf-modal-flip-3d${className ? ` ${className}` : ''}`} style={style}>
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

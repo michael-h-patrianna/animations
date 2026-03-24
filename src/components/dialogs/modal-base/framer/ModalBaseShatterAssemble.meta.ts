@@ -6,6 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-base-css?animation=modal-base__shatter-assemble',
   title: 'Shatter Assembly',
   description:
-    'Wrap your modal — jittery rotation and position shifts assembling into place. Props: children, duration, overlayOpacity.',
+    'Wrap your modal — jittery rotation and position shifts assembling into place. Props: children, duration.',
   tier: 2,
 }

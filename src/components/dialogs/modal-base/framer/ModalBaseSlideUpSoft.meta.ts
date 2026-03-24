@@ -6,6 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-base-css?animation=modal-base__slide-up-soft',
   title: 'Slide Up Soft',
   description:
-    'Wrap your modal — slides up from below with subtle scale. Props: children, duration, distance, overlayOpacity.',
+    'Wrap your modal — slides up from below with subtle scale. Props: children, duration, distance.',
   tier: 2,
 }

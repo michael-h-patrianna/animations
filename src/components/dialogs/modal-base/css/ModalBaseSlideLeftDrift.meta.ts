@@ -6,6 +6,6 @@ export const metadata: AnimationMetadata = {
   urlSlugCss: '/modal-base-css?animation=modal-base__slide-left-drift',
   title: 'Slide Left Drift',
   description:
-    'Wrap your modal — drifts in from the right with subtle scale. Props: children, duration, distance, overlayOpacity.',
+    'Wrap your modal — drifts in from the right with subtle scale. Props: children, duration, distance.',
   tier: 2,
 }

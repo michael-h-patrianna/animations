@@ -28,7 +28,7 @@ function ModalBaseShatterAssembleComponent({
     <div data-animation-id="modal-base__shatter-assemble">
       <m.div
         className={className}
-        initial={prefersReducedMotion ? { opacity: 0 } : { rotate: 0, x: 0, y: 0, opacity: 0 }}
+        initial={{ opacity: 0 }}
         animate={
           prefersReducedMotion
             ? { opacity: 1 }

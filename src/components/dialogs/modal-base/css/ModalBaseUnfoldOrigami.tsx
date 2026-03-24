@@ -25,13 +25,11 @@ function ModalBaseUnfoldOrigamiComponent({
   className,
   style,
 }: ModalBaseUnfoldOrigamiProps) {
-  const cssVars = {
-    '--pf-entrance-duration': `${duration}ms`,
-    '--pf-perspective': `${perspective}px`,
-  } as React.CSSProperties
-
   return (
-    <div data-animation-id="modal-base__unfold-origami" style={{ ...cssVars, perspective }}>
+    <div
+      data-animation-id="modal-base__unfold-origami"
+      style={{ '--pf-entrance-duration': `${duration}ms`, perspective } as React.CSSProperties}
+    >
       <div className={`pf-modal-origami${className ? ` ${className}` : ''}`} style={style}>
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
