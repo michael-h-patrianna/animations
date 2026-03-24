@@ -1,14 +1,8 @@
 import { CodeViewerModal } from '@/components/ui/CodeViewerModal'
-import { FloatingSettingsPanel } from '@/components/ui/FloatingSettingsPanel'
 import { PreviewModal } from '@/components/ui/PreviewModal'
 import { useToast } from '@/components/ui/useToast'
 import { logger } from '@/services/logger'
-import type {
-  AnimationControlType,
-  PreviewPosition,
-  PropConfig,
-  SourceTab,
-} from '@/types/animation'
+import type { AnimationControlType, PreviewPosition, SourceTab } from '@/types/animation'
 import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useLocation, useSearchParams } from 'react-router-dom'
@@ -18,13 +12,12 @@ import { useCardControls } from './useCardControls'
 import { useCodeViewer } from './useCodeViewer'
 import { useCardPlayback } from './useCardPlayback'
 import { usePreviewModal, type PreviewMode } from './usePreviewModal'
-import { useSettingsPanel } from './useSettingsPanel'
 
 type AnimationRenderProps = {
   bulbCount: number
   onColor: string
   prizeCount: number
-  /** Prop overrides from the interactive settings panel. */
+  /** Prop overrides from the shared inspector panel. */
   propOverrides: Record<string, unknown>
 }
 
@@ -46,11 +39,21 @@ interface AnimationCardProps {
   children: AnimationChild
   /** Lazy loader that resolves source tabs for the code viewer */
   sourceLoader?: () => Promise<SourceTab[]>
-  /** Props configuration for the interactive settings panel. When set, shows gear icon. */
-  propsConfig?: PropConfig[]
+  /** Shared prop overrides driven by the inspector panel. */
+  propOverrides?: Record<string, unknown>
+  /** True when the card is the active inspector target. */
+  selected?: boolean
+  /** Select this card for editing in the inspector. */
+  onSelect?: () => void
+  /** External replay signal driven by the inspector. */
+  externalReplayVersion?: number
+  /** When true, inspector props replace footer control groups. */
+  hasInspectorProps?: boolean
 }
 
 const EMPTY_OVERRIDES: Record<string, unknown> = {}
+const INTERACTIVE_SELECTOR =
+  'button, a, input, select, textarea, label, [role="switch"], [role="radio"], [data-ignore-card-select]'
 
 const renderAnimationChild = (
   child: AnimationChild,
@@ -166,7 +169,7 @@ function useCopyLink(animationId: string) {
 
 /** Orchestrates all card-level hooks into a single state bundle. */
 function useAnimationCard(props: AnimationCardProps) {
-  const { animationId, infiniteAnimation = false, onReplay, sourceLoader, propsConfig } = props
+  const { animationId, infiniteAnimation = false, onReplay, sourceLoader } = props
   const playback = useCardPlayback(infiniteAnimation, onReplay)
   const [isExpanded, setIsExpanded] = useState(false)
   const cardControls = useCardControls(playback.setReplayKey)
@@ -174,7 +177,6 @@ function useAnimationCard(props: AnimationCardProps) {
   const preview = usePreviewModal()
   const { opaque } = useAutoPreview(animationId, preview)
   const { handleCopyLink, toastPortal } = useCopyLink(animationId)
-  const settings = useSettingsPanel(propsConfig)
 
   return {
     playback,
@@ -186,35 +188,7 @@ function useAnimationCard(props: AnimationCardProps) {
     opaque,
     handleCopyLink,
     toastPortal,
-    settings,
   }
-}
-
-/** Settings panel portal — rendered when propsConfig is present and panel is open. */
-function CardSettingsPortal({
-  title,
-  propsConfig,
-  settings,
-  onApply,
-}: {
-  title: string
-  propsConfig: PropConfig[]
-  settings: ReturnType<typeof useSettingsPanel>
-  onApply: () => void
-}) {
-  if (!settings.isOpen) return null
-  return (
-    <FloatingSettingsPanel
-      title={title}
-      propsConfig={propsConfig}
-      propOverrides={settings.propOverrides}
-      isDirty={settings.isDirty}
-      onPropChange={settings.setProp}
-      onReset={settings.resetDefaults}
-      onApply={onApply}
-      onClose={settings.close}
-    />
-  )
 }
 
 /** Demo canvas with replay key — remounts children on replay. */
@@ -247,23 +221,75 @@ function CardCanvas({
 }
 
 function AnimationCardComponent(props: AnimationCardProps) {
-  const { title, description, animationId, children, tier, previewMaxWidth, sourceLoader } = props
+  const {
+    title,
+    description,
+    animationId,
+    children,
+    tier,
+    previewMaxWidth,
+    sourceLoader,
+    propOverrides = EMPTY_OVERRIDES,
+    selected = false,
+    onSelect,
+    externalReplayVersion = 0,
+    hasInspectorProps = false,
+  } = props
   const {
     infiniteAnimation = false,
     disableReplay = false,
     controls: controlType,
     prizeCountMax,
     previewPosition,
-    propsConfig,
   } = props
   const card = useAnimationCard(props)
-  const effectiveControlType = propsConfig != null ? undefined : controlType
+  const effectiveControlType = hasInspectorProps ? undefined : controlType
+  const previousReplayVersionRef = useRef(externalReplayVersion)
+
+  useEffect(() => {
+    if (externalReplayVersion === previousReplayVersionRef.current) return
+    previousReplayVersionRef.current = externalReplayVersion
+    card.playback.triggerReplay()
+  }, [externalReplayVersion, card.playback.triggerReplay])
+
+  const handleSelect = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (onSelect == null) return
+
+      const target = event.target
+      if (target instanceof HTMLElement && target.closest(INTERACTIVE_SELECTOR)) {
+        return
+      }
+
+      onSelect()
+    },
+    [onSelect]
+  )
+
+  const handleCardKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (onSelect == null) return
+      if (event.currentTarget !== event.target) return
+
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        onSelect()
+      }
+    },
+    [onSelect]
+  )
 
   return (
     <div
-      className="pf-card glass-panel"
+      className={`pf-card glass-panel outline-none ${onSelect != null ? 'pf-card--selectable' : ''} ${
+        selected ? 'pf-card--selected' : ''
+      }`}
       data-animation-id={animationId}
+      data-selected={selected || undefined}
       ref={card.playback.cardRef}
+      onClick={handleSelect}
+      onKeyDown={handleCardKeyDown}
+      tabIndex={onSelect != null ? 0 : undefined}
     >
       <span className="pf-card__overlay" aria-hidden="true" />
       <CardHeaderBar
@@ -273,10 +299,6 @@ function AnimationCardComponent(props: AnimationCardProps) {
         onToggle={() => card.setIsExpanded((v) => !v)}
         onCopyLink={card.handleCopyLink}
         onOpenCode={sourceLoader ? card.codeViewer.open : undefined}
-        onOpenSettings={
-          propsConfig != null && import.meta.env.DEV ? card.settings.toggle : undefined
-        }
-        settingsOpen={card.settings.isOpen}
         onOpenDesktopPreview={card.preview.openDesktop}
         onOpenMobilePreview={card.preview.openMobile}
       />
@@ -288,7 +310,7 @@ function AnimationCardComponent(props: AnimationCardProps) {
           card.cardControls.bulbCount,
           card.cardControls.onColor,
           card.cardControls.prizeCount,
-          card.settings.propOverrides
+          propOverrides
         )}
       </CardCanvas>
       <FooterControls
@@ -307,18 +329,10 @@ function AnimationCardComponent(props: AnimationCardProps) {
         opaque={card.opaque}
         previewMaxWidth={previewMaxWidth}
         controlProps={card.cardControls}
-        propOverrides={card.settings.propOverrides}
+        propOverrides={propOverrides}
       >
         {children}
       </CardModals>
-      {propsConfig != null && import.meta.env.DEV && (
-        <CardSettingsPortal
-          title={title}
-          propsConfig={propsConfig}
-          settings={card.settings}
-          onApply={card.playback.triggerReplay}
-        />
-      )}
       {card.toastPortal}
     </div>
   )

@@ -2,6 +2,9 @@ import { homeIcon1 } from '@/assets'
 import { getGroupAnimations } from '@/components/animationRegistry'
 import { DemoAnchors } from '@/components/rewards/collection-effects/MockDemoAnchors'
 import { AnimationCard } from '@/components/ui/AnimationCard'
+import { useAnimationInspector } from '@/contexts/AnimationInspectorContext'
+import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'
+import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { resolveAnimationSource } from '@/lib/groupBuilder'
 import type { AnimationExport, Group } from '@/types/animation'
 import React, { Suspense, useCallback, useMemo, useRef } from 'react'
@@ -18,13 +21,21 @@ interface GroupSectionProps {
   error?: Error
 }
 
+const groupSectionClassName = 'flex w-full flex-col gap-4 px-2 pb-2'
+
+const groupSectionStateClassName = `${groupSectionClassName} min-h-[240px] items-center justify-center`
+
 /** Renders loading state for group section. */
 function LoadingState({ elementId }: { elementId: string }) {
   return (
-    <article id={elementId} className="pf-group pf-group--loading" data-testid={`group-section-${elementId}`}>
-      <div className="pf-group-loading">
-        <div className="pf-group-loading__spinner" />
-        <span className="pf-group-loading__text">Loading animations...</span>
+    <article
+      id={elementId}
+      className={groupSectionStateClassName}
+      data-testid={`group-section-${elementId}`}
+    >
+      <div className="glass-panel flex w-full max-w-md items-center justify-center gap-3 rounded-2xl border border-border-subtle bg-(--bg-surface)/35 px-5 py-6 text-text-secondary">
+        <LoadingSpinner size={18} />
+        <span className="text-sm font-medium">Loading animations...</span>
       </div>
     </article>
   )
@@ -33,10 +44,14 @@ function LoadingState({ elementId }: { elementId: string }) {
 /** Renders error state for group section. */
 function ErrorState({ elementId, error }: { elementId: string; error: Error }) {
   return (
-    <article id={elementId} className="pf-group pf-group--error" data-testid={`group-section-${elementId}`}>
-      <div className="pf-group-error">
-        <h3 className="pf-group-error__title">Failed to load animations</h3>
-        <p className="pf-group-error__message">{error.message}</p>
+    <article
+      id={elementId}
+      className={groupSectionStateClassName}
+      data-testid={`group-section-${elementId}`}
+    >
+      <div className="w-full max-w-xl rounded-2xl border border-danger-border bg-(--bg-danger)/40 px-5 py-4 text-center">
+        <h3 className="text-sm font-semibold text-text-danger">Failed to load animations</h3>
+        <p className="mt-2 text-sm leading-relaxed text-text-secondary">{error.message}</p>
       </div>
     </article>
   )
@@ -98,9 +113,19 @@ function GroupContent({
 
   const isFilterActive = Boolean(animationFilter)
   const isFilterInvalid = isFilterActive && filteredAnimations.length === 0
+  const { selectAnimation, isSelected, getPropOverrides, getReplayVersion } = useAnimationInspector()
+  const setRightPanel = useLayoutStore((state) => state.setRightPanel)
+
+  const handleSelectAnimation = useCallback(
+    (animation: Group['animations'][number]) => {
+      selectAnimation(animation)
+      setRightPanel(true)
+    },
+    [selectAnimation, setRightPanel]
+  )
 
   return (
-    <article id={elementId} className="pf-group" data-testid={`group-section-${elementId}`}>
+    <article id={elementId} className={groupSectionClassName} data-testid={`group-section-${elementId}`}>
       {isFilterActive && (
         <div className="pf-filter-banner" data-testid="filter-banner">
           <span>
@@ -133,12 +158,19 @@ function GroupContent({
                 framerEntry={framerRegistry[animation.id]}
                 cssEntry={cssRegistry[animation.id]}
                 isCssGroup={isCssGroup}
+                selected={isSelected(animation.id)}
+                propOverrides={getPropOverrides(animation.id, animation.props)}
+                replayVersion={getReplayVersion(animation.id)}
+                onSelect={() => handleSelectAnimation(animation)}
               />
             )
           })}
         </div>
       ) : (
-        <div className="pf-group__empty" data-testid="group-empty">
+        <div
+          className="rounded-2xl border border-dashed border-border-subtle bg-(--bg-surface)/20 px-4 py-10 text-center text-sm italic text-text-tertiary"
+          data-testid="group-empty"
+        >
           Animations coming soon
         </div>
       )}
@@ -153,6 +185,10 @@ interface AnimationCardWithSourceProps {
   framerEntry: AnimationExport | undefined
   cssEntry: AnimationExport | undefined
   isCssGroup: boolean
+  selected: boolean
+  propOverrides: Record<string, unknown>
+  replayVersion: number
+  onSelect: () => void
 }
 
 function AnimationCardWithSource({
@@ -162,6 +198,10 @@ function AnimationCardWithSource({
   framerEntry,
   cssEntry,
   isCssGroup,
+  selected,
+  propOverrides,
+  replayVersion,
+  onSelect,
 }: AnimationCardWithSourceProps) {
   const hasAnyEntry = Boolean(framerEntry ?? cssEntry)
   const sourceLoader = useCallback(
@@ -186,7 +226,11 @@ function AnimationCardWithSource({
       tier={animation.tier}
       previewMaxWidth={animation.previewMaxWidth}
       sourceLoader={hasAnyEntry ? sourceLoader : undefined}
-      propsConfig={animation.props}
+      propOverrides={propOverrides}
+      selected={selected}
+      onSelect={onSelect}
+      externalReplayVersion={replayVersion}
+      hasInspectorProps={animation.props != null}
     >
       {({ bulbCount, onColor, prizeCount, propOverrides }) => {
         if (!(animation.id in animationRegistry) || AnimationComponent === undefined) {

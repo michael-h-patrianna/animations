@@ -58,7 +58,11 @@ function ColorPickerHeader({
   onCopy: () => void
 }) {
   return (
-    <div className="flex items-center justify-between">
+    <div
+      data-popover-drag-handle="true"
+      className="flex items-center justify-between gap-2 cursor-grab active:cursor-grabbing touch-none"
+      title="Drag to reposition"
+    >
       <div className="flex items-center gap-2 bg-[var(--bg-hover)] rounded-full p-0.5 border border-border-subtle">
         <div
           className="relative w-12 h-6 rounded-full overflow-hidden flex cursor-help"
@@ -440,6 +444,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
         open={isOpen}
         onOpenChange={handleOpenChange}
         offset={8}
+        draggable
         trigger={
           <div
             className={`flex items-center gap-2 group p-1 rounded-md hover:bg-[var(--bg-hover)] transition-colors ${disabled ? 'opacity-50 pointer-events-none' : ''}`}

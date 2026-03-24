@@ -1,5 +1,6 @@
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { DEFAULT_ACCENT, DEFAULT_THEME, useLayoutStore } from '@/demo-ui/stores/layoutStore'
+import appStyles from '@/App.css?raw'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -391,5 +392,47 @@ describe('AnimationCard', () => {
     )
 
     expect(screen.getByTestId('static-child')).toBeVisible()
+  })
+
+  it('marks the card shell as selected instead of rendering a badge', () => {
+    renderCard({ selected: true })
+
+    const card = screen.getByTestId('card-title').closest('[data-animation-id="test__animation"]')
+
+    expect(card).toHaveAttribute('data-selected', 'true')
+    expect(card).toHaveClass('pf-card--selected')
+    expect(screen.queryByTestId('card-selected-badge')).toBeNull()
+  })
+
+  it('does not clear the selected-card overlay on hover', () => {
+    expect(appStyles).not.toContain('.pf-card:hover .pf-card__overlay')
+    expect(appStyles).toContain('.pf-card--selected .pf-card__overlay')
+  })
+
+  it('calls onSelect when the card surface is clicked', () => {
+    const onSelect = vi.fn()
+    renderCard({ onSelect })
+
+    fireEvent.click(screen.getByTestId('card-title'))
+    expect(onSelect).toHaveBeenCalledOnce()
+  })
+
+  it('does not call onSelect when a header action button is clicked', async () => {
+    const onSelect = vi.fn()
+    vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined)
+    renderCard({ onSelect })
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Copy animation URL' }))
+      await Promise.resolve()
+    })
+
+    expect(onSelect).not.toHaveBeenCalled()
+  })
+
+  it('does not render a settings gear button', () => {
+    renderCard()
+
+    expect(screen.queryByTestId('settings-btn')).toBeNull()
   })
 })

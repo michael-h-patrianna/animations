@@ -1,11 +1,18 @@
 import { GroupSection } from '@/components/ui/GroupSection'
+import { AnimationInspectorProvider } from '@/contexts/AnimationInspectorContext'
 import type { Group } from '@/types/animation'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 
-function renderWithRouter(ui: React.ReactElement) {
-  return render(<MemoryRouter>{ui}</MemoryRouter>)
+function renderWithRouter(ui: React.ReactElement, initialEntries?: string[]) {
+  const currentGroup = 'group' in ui.props ? (ui.props.group as Group | undefined) : undefined
+
+  return render(
+    <AnimationInspectorProvider currentGroup={currentGroup}>
+      <MemoryRouter initialEntries={initialEntries}>{ui}</MemoryRouter>
+    </AnimationInspectorProvider>
+  )
 }
 
 function makeGroup(overrides?: Partial<Group>): Group {
@@ -42,6 +49,13 @@ describe('GroupSection', () => {
     expect(article).toHaveAttribute('id', 'section-42')
   })
 
+  it('does not use the legacy pf-group wrapper class for group content', () => {
+    const group = makeGroup()
+    renderWithRouter(<GroupSection group={group} elementId="section-42" />)
+
+    expect(screen.getByRole('article')).not.toHaveClass('pf-group')
+  })
+
   it('renders AnimationCard for each animation in the group', () => {
     const group = makeGroup()
     renderWithRouter(<GroupSection group={group} elementId="test-section" />)
@@ -57,7 +71,27 @@ describe('GroupSection', () => {
     renderWithRouter(<GroupSection group={group} elementId="test-section" />)
 
     expect(screen.getByTestId('group-empty')).toHaveTextContent('Animations coming soon')
+    expect(screen.getByTestId('group-empty')).not.toHaveClass('pf-group__empty')
     expect(screen.queryByTestId('card-grid')).not.toBeInTheDocument()
+  })
+
+  it('does not use the legacy pf-group wrapper class for loading and error states', () => {
+    const group = makeGroup()
+    const { rerender } = renderWithRouter(
+      <GroupSection group={group} elementId="state-section" isLoading />
+    )
+
+    expect(screen.getByRole('article')).not.toHaveClass('pf-group')
+
+    rerender(
+      <AnimationInspectorProvider currentGroup={group}>
+        <MemoryRouter>
+        <GroupSection group={group} elementId="state-section" error={new Error('Boom')} />
+        </MemoryRouter>
+      </AnimationInspectorProvider>
+    )
+
+    expect(screen.getByRole('article')).not.toHaveClass('pf-group')
   })
 
   it('renders placeholder when animation component is not found in registry', () => {
@@ -281,16 +315,13 @@ describe('GroupSection', () => {
 
     it('clicking "Show all animations" navigates to the group without filter', () => {
       const group = makeGroup()
-      render(
-        <MemoryRouter
-          initialEntries={['/standard-effects-framer?animation=standard-effects__bounce']}
-        >
-          <GroupSection
-            group={group}
-            elementId="filter-section"
-            animationFilter="standard-effects__bounce"
-          />
-        </MemoryRouter>
+      renderWithRouter(
+        <GroupSection
+          group={group}
+          elementId="filter-section"
+          animationFilter="standard-effects__bounce"
+        />,
+        ['/standard-effects-framer?animation=standard-effects__bounce']
       )
 
       // Click the remove-filter button — this calls navigate(`/${group.id}`, { replace: true })

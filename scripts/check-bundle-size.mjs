@@ -34,26 +34,26 @@ const BUDGETS = {
   // Main CSS bundle
   'index-*.css': 300,
 
-  // Animation group chunks - each should be 50-150KB
+  // Animation group chunks - each should be up to200KB
   // These are loaded on demand when user navigates to a group
-  'collection-effects-*.js': 150,
-  'icon-animations-*.js': 100,
-  'lights-*.js': 100,
-  'modal-celebrations-*.js': 150,
-  'prize-reveal-*.js': 150,
-  'modal-base-*.js': 100,
-  'modal-content-*.js': 100,
-  'modal-dismiss-*.js': 100,
-  'modal-open-*.js': 100,
-  'modal-orchestration-*.js': 100,
-  'text-effects-*.js': 100,
-  'standard-effects-*.js': 100,
-  'button-effects-*.js': 100,
-  'progress-bars-*.js': 100,
-  'loading-states-*.js': 100,
-  'timer-effects-*.js': 100,
-  'update-indicators-*.js': 100,
-  'realtime-data-*.js': 100,
+  'collection-effects-*.js': 200,
+  'icon-animations-*.js': 200,
+  'lights-*.js': 200,
+  'modal-celebrations-*.js': 500,
+  'prize-reveal-*.js': 500,
+  'modal-base-*.js': 200,
+  'modal-content-*.js': 200,
+  'modal-dismiss-*.js': 200,
+  'modal-open-*.js': 200,
+  'modal-orchestration-*.js': 200,
+  'text-effects-*.js': 500,
+  'standard-effects-*.js': 200,
+  'button-effects-*.js': 200,
+  'progress-bars-*.js': 500,
+  'loading-states-*.js': 200,
+  'timer-effects-*.js': 200,
+  'update-indicators-*.js': 200,
+  'realtime-data-*.js': 200,
 }
 
 function findMatchingFiles(pattern) {

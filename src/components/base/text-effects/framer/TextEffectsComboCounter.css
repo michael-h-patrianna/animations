@@ -37,13 +37,16 @@
 }
 
 .pf-combo__number-container {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 2px);
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 60px;
+  justify-content: flex-end;
+  width: max-content;
   height: 50px;
   perspective: 200px;
+  transform: translateY(-50%);
 }
 
 .pf-combo__current-number {
@@ -51,11 +54,12 @@
   font-size: 36px;
   font-weight: 900;
   display: flex;
+  align-items: center;
   z-index: 2;
 }
 
 .pf-combo__digit {
-  display: inline-block;
+  display: block;
   position: relative;
   font-size: 36px;
   font-weight: 900;
@@ -69,8 +73,9 @@
   background-clip: text;
   text-shadow: 0 2px 4px var(--pf-combo-shadow);
   transform-origin: center bottom;
-  min-width: 50px;
-  text-align: center;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .pf-combo__digit-pulse {
@@ -96,13 +101,16 @@
   display: flex;
   align-items: center;
   position: relative;
+  width: max-content;
 }
 
 .pf-combo__hit-marker {
+  position: relative;
+  z-index: 1;
   font-size: 24px;
   color: var(--pf-combo-amber);
   font-weight: 700;
-  margin-left: 2px;
+  margin-left: 0;
   text-shadow: 0 0 8px var(--pf-combo-amber-shadow);
 }
 

@@ -1,10 +1,20 @@
 import { App } from '@/App'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
+import { DEFAULT_ACCENT, DEFAULT_THEME, useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import demoUiStyles from '@/demo-ui/styles/index.css?raw'
 import { _resetScrollLockState } from '@/hooks/useScrollLock'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+
+beforeEach(() => {
+  useLayoutStore.setState({
+    showLeftPanel: true,
+    showRightPanel: false,
+    theme: DEFAULT_THEME,
+    accent: DEFAULT_ACCENT,
+  })
+})
 
 afterEach(() => {
   cleanup()
@@ -66,11 +76,8 @@ describe('App', () => {
     expect(screen.getByTestId('editor-center-pane')).toHaveClass('pt-16')
   })
 
-  it('renders code mode switch in drawer after opening', () => {
+  it('renders code mode switch in the left panel', () => {
     renderApp()
-
-    // Open drawer via panel toggle (test env is mobile)
-    fireEvent.click(screen.getByTestId('toggle-left-panel'))
 
     const switches = screen.getAllByTestId('code-mode-switch')
     expect(switches.length).toBeGreaterThanOrEqual(1)
@@ -99,6 +106,25 @@ describe('App', () => {
 
     const cardTitles = await screen.findAllByTestId('card-title')
     expect(cardTitles.length).toBeGreaterThanOrEqual(5)
+  })
+
+  it('shows the empty inspector message when the right panel is opened without a selection', async () => {
+    renderApp('/collection-effects-framer')
+
+    fireEvent.click(screen.getByTestId('toggle-right-panel'))
+
+    expect(await screen.findByText('Select an animation')).toBeInTheDocument()
+  })
+
+  it('opens and populates the inspector when an animation card is selected', async () => {
+    renderApp('/collection-effects-framer')
+
+    const cardTitle = await screen.findByText('Coin Trail')
+    fireEvent.click(cardTitle)
+
+    expect(await screen.findByTestId('right-panel')).toBeInTheDocument()
+    expect(await screen.findByText('Selected Animation')).toBeInTheDocument()
+    expect(screen.getByTestId('prop-field-count')).toBeInTheDocument()
   })
 
   it('renders with a specific group route parameter', () => {

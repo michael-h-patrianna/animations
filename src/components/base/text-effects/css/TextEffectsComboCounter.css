@@ -102,13 +102,16 @@
 
 /* Number Container */
 .tfx-combo-number-container {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 2px);
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 60px;
+  justify-content: flex-end;
+  width: max-content;
   height: 50px;
   perspective: 200px;
+  transform: translateY(-50%);
 }
 
 .tfx-combo-current-number {
@@ -116,12 +119,13 @@
   font-size: 36px;
   font-weight: 900;
   display: flex;
+  align-items: center;
   z-index: 2;
 }
 
 /* Number Digit - GPU Optimized */
 .tfx-combo-digit {
-  display: inline-block;
+  display: block;
   position: relative;
   font-size: 36px;
   font-weight: 900;
@@ -135,8 +139,9 @@
   background-clip: text;
   text-shadow: 0 2px 4px var(--text-effects-combo-counter-text-shadow-1);
   transform-origin: center bottom;
-  min-width: 50px;
-  text-align: center;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 
   /* GPU acceleration */
   will-change: opacity;
@@ -152,6 +157,7 @@
   display: flex;
   align-items: center;
   position: relative;
+  width: max-content;
 
   /* GPU acceleration */
   will-change: transform, opacity;
@@ -164,10 +170,12 @@
 
 /* Hit Marker */
 .tfx-combo-hit-marker {
+  position: relative;
+  z-index: 1;
   font-size: 24px;
   color: var(--text-effects-combo-counter-color-1);
   font-weight: 700;
-  margin-left: 2px;
+  margin-left: 0;
   text-shadow: 0 0 8px var(--text-effects-combo-counter-text-shadow-2);
 
   /* GPU acceleration */

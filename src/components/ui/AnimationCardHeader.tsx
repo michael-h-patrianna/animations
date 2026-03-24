@@ -1,5 +1,4 @@
 import { CodeIcon } from '@/components/ui/icons/CodeIcon'
-import { GearIcon } from '@/components/ui/icons/GearIcon'
 import { LinkIcon } from '@/components/ui/icons/LinkIcon'
 import { MonitorIcon } from '@/components/ui/icons/MonitorIcon'
 import { SmartphoneIcon } from '@/components/ui/icons/SmartphoneIcon'
@@ -31,7 +30,7 @@ export const Description = ({ description, isExpanded, onToggle }: DescriptionPr
       data-testid="description-toggle"
     >
       <ChevronDown
-        className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} text-[var(--text-secondary)]/60`}
+        className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} text-(--text-secondary)/60`}
       />
     </button>
   </div>
@@ -42,20 +41,16 @@ export const Description = ({ description, isExpanded, onToggle }: DescriptionPr
 type HeaderActionsProps = {
   onCopyLink: () => void
   onOpenCode?: () => void
-  onOpenSettings?: () => void
   onOpenDesktopPreview: () => void
   onOpenMobilePreview: () => void
-  settingsOpen?: boolean
 }
 
-/** Row of icon buttons: preview, code, link, settings. */
+/** Row of icon buttons: preview, code, link. */
 const HeaderActions = ({
   onCopyLink,
   onOpenCode,
-  onOpenSettings,
   onOpenDesktopPreview,
   onOpenMobilePreview,
-  settingsOpen,
 }: HeaderActionsProps) => (
   <div className="flex items-center gap-1">
     <button
@@ -100,19 +95,6 @@ const HeaderActions = ({
     >
       <LinkIcon />
     </button>
-    {onOpenSettings != null && (
-      <button
-        type="button"
-        className={`pf-card__code-btn ${settingsOpen === true ? 'pf-card__code-btn--active' : ''}`}
-        onClick={onOpenSettings}
-        aria-label={settingsOpen === true ? 'Close settings' : 'Open settings'}
-        title="Configure props"
-        data-testid="settings-btn"
-        aria-pressed={settingsOpen}
-      >
-        <GearIcon />
-      </button>
-    )}
   </div>
 )
 

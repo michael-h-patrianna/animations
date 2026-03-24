@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useId } from 'react'
-import { m, AnimatePresence } from 'motion/react'
+import { AnimatePresence, m, useDragControls, useMotionValue } from 'motion/react'
 import { soundManager } from '@/demo-ui/lib/audio/SoundManager'
 import { sx } from '@/demo-ui/lib/sx'
+
+const VIEWPORT_PADDING = 8
+const DRAG_HANDLE_SELECTOR = '[data-popover-drag-handle="true"]'
+const DRAG_IGNORE_SELECTOR = 'button, input, select, textarea, a, [role="button"], [role="link"]'
 
 /** Props for the Popover component */
 export interface PopoverProps {
@@ -21,6 +25,38 @@ export interface PopoverProps {
   onOpenChange?: (open: boolean) => void
   /** Pixel offset from the trigger element */
   offset?: number
+  /** Allow the popover to be repositioned via a drag handle inside the content */
+  draggable?: boolean
+}
+
+interface ViewportRect {
+  width: number
+  height: number
+}
+
+interface PositionRect {
+  top: number
+  left: number
+  width: number
+  height: number
+}
+
+function getViewportRect(): ViewportRect {
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }
+}
+
+function clampPopoverPosition(position: Pick<PositionRect, 'top' | 'left'>, popoverRect: Pick<PositionRect, 'width' | 'height'>) {
+  const viewport = getViewportRect()
+  const maxLeft = Math.max(VIEWPORT_PADDING, viewport.width - popoverRect.width - VIEWPORT_PADDING)
+  const maxTop = Math.max(VIEWPORT_PADDING, viewport.height - popoverRect.height - VIEWPORT_PADDING)
+
+  return {
+    left: Math.min(Math.max(position.left, VIEWPORT_PADDING), maxLeft),
+    top: Math.min(Math.max(position.top, VIEWPORT_PADDING), maxTop),
+  }
 }
 
 /**
@@ -35,9 +71,25 @@ function computePopoverPosition(
 ): { top: number; left: number } {
   const triggerRect = triggerEl.getBoundingClientRect()
   const popoverRect = popoverEl?.getBoundingClientRect() || { width: 0, height: 0 }
+  const spaceAbove = triggerRect.top - offset - VIEWPORT_PADDING
+  const spaceBelow = window.innerHeight - triggerRect.bottom - offset - VIEWPORT_PADDING
+  const preferredTop =
+    side === 'bottom' ? triggerRect.bottom + offset : triggerRect.top - popoverRect.height - offset
+  const fallbackTop =
+    side === 'bottom' ? triggerRect.top - popoverRect.height - offset : triggerRect.bottom + offset
+  const preferredFits =
+    side === 'bottom'
+      ? triggerRect.bottom + offset + popoverRect.height <= window.innerHeight - VIEWPORT_PADDING
+      : preferredTop >= VIEWPORT_PADDING
+  const fallbackFits =
+    side === 'bottom'
+      ? fallbackTop >= VIEWPORT_PADDING
+      : triggerRect.bottom + offset + popoverRect.height <= window.innerHeight - VIEWPORT_PADDING
 
   let top =
-    side === 'bottom' ? triggerRect.bottom + offset : triggerRect.top - popoverRect.height - offset
+    preferredFits || (!fallbackFits && spaceBelow >= spaceAbove)
+      ? preferredTop
+      : fallbackTop
   let left =
     align === 'start'
       ? triggerRect.left
@@ -45,13 +97,7 @@ function computePopoverPosition(
         ? triggerRect.right - popoverRect.width
         : triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2
 
-  // Flip to top if bottom overflows
-  if (side === 'bottom' && top + popoverRect.height > window.innerHeight) {
-    top = triggerRect.top - popoverRect.height - offset
-  }
-
-  left = Math.max(8, Math.min(left, window.innerWidth - popoverRect.width - 8))
-  return { top, left }
+  return clampPopoverPosition({ top, left }, popoverRect)
 }
 
 /**
@@ -69,12 +115,21 @@ export const Popover: React.FC<PopoverProps> = ({
   open: controlledOpen,
   onOpenChange,
   offset = 4,
+  draggable = false,
 }) => {
   const popoverRef = useRef<HTMLDivElement>(null)
+  const surfaceRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
   const popoverId = useId()
+  const manualPositionRef = useRef<{ top: number; left: number } | null>(null)
+  const isDraggingRef = useRef(false)
+  const dragControls = useDragControls()
+  const dragX = useMotionValue(0)
+  const dragY = useMotionValue(0)
 
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen
 
@@ -118,27 +173,133 @@ export const Popover: React.FC<PopoverProps> = ({
     }
   }, [handleOpenChange])
 
+  const applyPopoverPosition = useCallback(
+    (position: { top: number; left: number }) => {
+      const popover = popoverRef.current
+      const surface = surfaceRef.current
+      if (!popover || !surface) return
+
+      popover.style.top = `${String(position.top)}px`
+      popover.style.left = `${String(position.left)}px`
+
+      const surfaceRect = surface.getBoundingClientRect()
+      const maxLeft = Math.max(VIEWPORT_PADDING, window.innerWidth - surfaceRect.width - VIEWPORT_PADDING)
+      const maxTop = Math.max(VIEWPORT_PADDING, window.innerHeight - surfaceRect.height - VIEWPORT_PADDING)
+
+      setDragConstraints({
+        left: VIEWPORT_PADDING - position.left,
+        right: maxLeft - position.left,
+        top: VIEWPORT_PADDING - position.top,
+        bottom: maxTop - position.top,
+      })
+    },
+    []
+  )
+
   const updatePosition = useCallback(() => {
+    if (isDraggingRef.current) return
+
     const trigger = triggerRef.current
     const popover = popoverRef.current
-    if (!trigger || !popover || !isOpen) return
+    const surface = surfaceRef.current
+    if (!trigger || !popover || !surface || !isOpen) return
 
-    const { top, left } = computePopoverPosition(trigger, popover, side, align, offset)
-    popover.style.top = `${String(top)}px`
-    popover.style.left = `${String(left)}px`
-  }, [isOpen, side, align, offset])
+    if (manualPositionRef.current) {
+      const nextPosition = clampPopoverPosition(manualPositionRef.current, surface.getBoundingClientRect())
+      manualPositionRef.current = nextPosition
+      dragX.set(0)
+      dragY.set(0)
+      applyPopoverPosition(nextPosition)
+      return
+    }
+
+    const nextPosition = computePopoverPosition(trigger, surface, side, align, offset)
+    dragX.set(0)
+    dragY.set(0)
+    applyPopoverPosition(nextPosition)
+  }, [applyPopoverPosition, dragX, dragY, isOpen, side, align, offset])
 
   useLayoutEffect(() => {
-    if (isOpen) {
-      updatePosition()
-      window.addEventListener('resize', updatePosition)
-      window.addEventListener('scroll', updatePosition, true)
+    if (!isOpen) return
+
+    let rafId: number | null = null
+    const schedulePositionUpdate = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        updatePosition()
+        rafId = null
+      })
     }
+    const syncPositionUpdate = () => {
+      updatePosition()
+      schedulePositionUpdate()
+    }
+
+    const surfaceEl = surfaceRef.current
+    const resizeObserver = surfaceEl == null ? null : new ResizeObserver(() => syncPositionUpdate())
+
+    syncPositionUpdate()
+    window.addEventListener('resize', syncPositionUpdate)
+    window.addEventListener('scroll', syncPositionUpdate, true)
+    if (surfaceEl != null) {
+      resizeObserver?.observe(surfaceEl)
+    }
+
     return () => {
-      window.removeEventListener('resize', updatePosition)
-      window.removeEventListener('scroll', updatePosition, true)
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', syncPositionUpdate)
+      window.removeEventListener('scroll', syncPositionUpdate, true)
     }
   }, [isOpen, updatePosition])
+
+  useEffect(() => {
+    if (isOpen) return
+    manualPositionRef.current = null
+    dragX.set(0)
+    dragY.set(0)
+    setIsDragging(false)
+  }, [dragX, dragY, isOpen])
+
+  const handleDragEnd = useCallback(() => {
+    const popover = popoverRef.current
+    const surface = surfaceRef.current
+    if (!popover || !surface) return
+
+    const basePosition = {
+      left: Number.parseFloat(popover.style.left || '0'),
+      top: Number.parseFloat(popover.style.top || '0'),
+    }
+    const nextPosition = clampPopoverPosition(
+      {
+        left: basePosition.left + dragX.get(),
+        top: basePosition.top + dragY.get(),
+      },
+      surface.getBoundingClientRect()
+    )
+
+    manualPositionRef.current = nextPosition
+    dragX.jump(0)
+    dragY.jump(0)
+    applyPopoverPosition(nextPosition)
+    isDraggingRef.current = false
+    setIsDragging(false)
+  }, [applyPopoverPosition, dragX, dragY])
+
+  const handlePointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (!draggable || event.button !== 0) return
+
+      const target = event.target as HTMLElement | null
+      if (target == null) return
+      if (target.closest(DRAG_IGNORE_SELECTOR)) return
+      if (target.closest(DRAG_HANDLE_SELECTOR) == null) return
+
+      dragControls.start(event, { snapToCursor: false })
+      event.preventDefault()
+    },
+    [dragControls, draggable]
+  )
 
   return (
     <>
@@ -170,12 +331,33 @@ export const Popover: React.FC<PopoverProps> = ({
         <AnimatePresence>
           {isOpen && (
             <m.div
+              ref={surfaceRef}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
+              drag={draggable}
+              dragControls={dragControls}
+              dragListener={false}
+              dragMomentum={false}
+              dragElastic={0}
+              dragConstraints={dragConstraints}
+              onDragStart={() => {
+                isDraggingRef.current = true
+                setIsDragging(true)
+              }}
+              onDragEnd={handleDragEnd}
               transition={{ duration: 0.1, ease: 'easeOut' }}
               className="glass-panel rounded-lg shadow-2xl border border-border-default"
-              style={sx({ backdropFilter: 'blur(24px)' })}
+              onPointerDown={handlePointerDown}
+              style={{
+                backdropFilter: 'blur(24px)',
+                maxWidth: 'calc(100dvw - 16px)',
+                maxHeight: 'calc(100dvh - 16px)',
+                overflow: 'auto',
+                x: dragX,
+                y: dragY,
+                cursor: draggable && isDragging ? 'grabbing' : undefined,
+              }}
             >
               {content}
             </m.div>
