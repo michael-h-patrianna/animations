@@ -1,9 +1,9 @@
 import { EditorLayout } from '@/demo-ui/components/layout/EditorLayout'
 import { GroupSection } from '@/components/ui/GroupSection'
-import { useAnimations } from '@/hooks/useAnimations'
-import { useAppNavigation } from '@/hooks/useAppNavigation'
+import { useLazyAppNavigation } from '@/hooks/useLazyAppNavigation'
 import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
+import { Suspense } from 'react'
 import './App.css'
 
 const slideVariants = {
@@ -12,10 +12,20 @@ const slideVariants = {
   exit: (direction: number) => ({ zIndex: 0, x: direction < 0 ? 1000 : -1000, opacity: 0 }),
 }
 
-/** Root application component. */
+/** Fallback UI while a group chunk is loading */
+function GroupLoadingFallback() {
+  return (
+    <div className="pf-group-loading">
+      <div className="pf-group-loading__spinner" />
+      <span className="pf-group-loading__text">Loading animations...</span>
+    </div>
+  )
+}
+
+/** Root application component with lazy-loaded groups. */
 function App() {
-  const { categories } = useAnimations()
-  const { currentGroupId, currentGroup, animationFilter } = useAppNavigation(categories)
+  const { currentGroupId, currentGroup, animationFilter, isLoading, error } =
+    useLazyAppNavigation()
   const direction = 0
 
   return (
@@ -35,14 +45,35 @@ function App() {
             }}
             style={{ width: '100%' }}
           >
-            <GroupSection
-              group={currentGroup}
-              elementId={`group-${currentGroup.id}`}
-              animationFilter={animationFilter}
-            />
+            <Suspense fallback={<GroupLoadingFallback />}>
+              <GroupSection
+                group={currentGroup}
+                elementId={`group-${currentGroup.id}`}
+                animationFilter={animationFilter}
+                isLoading={isLoading}
+                error={error}
+              />
+            </Suspense>
           </m.div>
         )}
       </AnimatePresence>
+
+      {/* Show loading state when no group loaded yet */}
+      {!currentGroup && isLoading && (
+        <div className="pf-app-loading">
+          <GroupLoadingFallback />
+        </div>
+      )}
+
+      {/* Show error state */}
+      {error && !currentGroup && (
+        <div className="pf-app-error">
+          <div className="pf-app-error__content">
+            <h2>Failed to load animations</h2>
+            <p>{error.message}</p>
+          </div>
+        </div>
+      )}
     </EditorLayout>
   )
 }

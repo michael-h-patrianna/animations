@@ -12,6 +12,34 @@ interface GroupSectionProps {
   elementId: string
   /** When set, only the animation with this ID is shown. Invalid IDs produce an error banner. */
   animationFilter?: string
+  /** Whether the group is currently loading */
+  isLoading?: boolean
+  /** Error if loading failed */
+  error?: Error
+}
+
+/** Renders loading state for group section. */
+function LoadingState({ elementId }: { elementId: string }) {
+  return (
+    <article id={elementId} className="pf-group pf-group--loading" data-testid={`group-section-${elementId}`}>
+      <div className="pf-group-loading">
+        <div className="pf-group-loading__spinner" />
+        <span className="pf-group-loading__text">Loading animations...</span>
+      </div>
+    </article>
+  )
+}
+
+/** Renders error state for group section. */
+function ErrorState({ elementId, error }: { elementId: string; error: Error }) {
+  return (
+    <article id={elementId} className="pf-group pf-group--error" data-testid={`group-section-${elementId}`}>
+      <div className="pf-group-error">
+        <h3 className="pf-group-error__title">Failed to load animations</h3>
+        <p className="pf-group-error__message">{error.message}</p>
+      </div>
+    </article>
+  )
 }
 
 /**
@@ -21,7 +49,30 @@ interface GroupSectionProps {
  * automatically detecting whether to render Framer Motion or CSS implementations.
  * Supports infinite animations, lights controls, and lazy loading with Suspense.
  */
-export function GroupSection({ group, elementId, animationFilter }: GroupSectionProps) {
+export function GroupSection({
+  group,
+  elementId,
+  animationFilter,
+  isLoading,
+  error,
+}: GroupSectionProps) {
+  if (isLoading) {
+    return <LoadingState elementId={elementId} />
+  }
+
+  if (error) {
+    return <ErrorState elementId={elementId} error={error} />
+  }
+
+  return <GroupContent group={group} elementId={elementId} animationFilter={animationFilter} />
+}
+
+/** Renders the main group content with animation cards. */
+function GroupContent({
+  group,
+  elementId,
+  animationFilter,
+}: Omit<GroupSectionProps, 'isLoading' | 'error'>) {
   const isCssGroup = group.id.endsWith('-css')
   const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
   const currentTech = isCssGroup ? 'css' : 'framer'
@@ -42,7 +93,6 @@ export function GroupSection({ group, elementId, animationFilter }: GroupSection
   }, [group.animations, animationFilter])
 
   const handleRemoveFilter = useCallback(() => {
-    // Navigate to the same group without the query param
     navigate(`/${group.id}`, { replace: true })
   }, [navigate, group.id])
 

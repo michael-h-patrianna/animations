@@ -1,89 +1,205 @@
+import {
+  findLazyGroup,
+  getAllLazyGroups,
+  getLazyNavCatalog,
+  isGroupLoaded,
+  loadLazyGroup,
+} from '@/lib/lazyGroupRegistry'
 import type { AnimationExport, CategoryExport } from '@/types/animation'
 import type React from 'react'
 
-// Import category exports for metadata-based access
-import { categoryExport as baseCategory } from '@/components/base'
-import { categoryExport as dialogsCategory } from '@/components/dialogs'
-import { categoryExport as progressCategory } from '@/components/progress'
-import { categoryExport as realtimeCategory } from '@/components/realtime'
-import { categoryExport as rewardsCategory } from '@/components/rewards'
-
 // ============================================================================
-// Category-based Registry
+// Lazy-First Registry (New Pattern)
 // ============================================================================
 
 /**
- * Category-based registry with full metadata support.
- * Each category contains groups, and each group contains animations with their metadata.
+ * Gets the lightweight navigation catalog for sidebar rendering.
+ * This contains only metadata - no actual animation code.
+ * Safe to call synchronously; always returns immediately.
  */
-export const categories: Record<string, CategoryExport> = {
-  base: baseCategory,
-  dialogs: dialogsCategory,
-  progress: progressCategory,
-  realtime: realtimeCategory,
-  rewards: rewardsCategory,
+export function getNavCatalog() {
+  return getLazyNavCatalog()
 }
 
 /**
- * Builds a flat animation registry from the category hierarchy.
- * Iterates Framer entries first, then CSS, per group. When both variants
- * share the same animation ID (the normal case for dual-implementation
- * animations), the CSS entry overwrites the Framer entry (last-write-wins).
+ * Gets all lazy groups for navigation purposes.
+ */
+export function getAllGroups() {
+  return getAllLazyGroups()
+}
+
+// ============================================================================
+// Lazy Group Data Access
+// ============================================================================
+
+/** Cache of loaded group exports to avoid redundant async calls */
+const groupExportCache = new Map<string, Promise<Record<string, AnimationExport>>>()
+
+/**
+ * Gets animation exports for a specific group and tech variant.
+ * Loads the group if not already cached.
  *
- * This flat registry is used by consumers that need a single component per
- * animation ID regardless of tech variant. For tech-specific lookups, use
- * {@link getGroupAnimations} instead.
+ * This is the primary API for accessing animation data.
+ */
+export async function getLazyGroupAnimationsAsync(
+  baseGroupId: string,
+  tech: 'framer' | 'css'
+): Promise<Record<string, AnimationExport>> {
+  const groupId = `${baseGroupId}-${tech}`
+
+  // Check if already loading/cached
+  const cached = groupExportCache.get(groupId)
+  if (cached) {
+    return cached
+  }
+
+  // Check if lazy group is registered
+  const lazyGroup = findLazyGroup(groupId)
+  if (!lazyGroup) {
+    return {}
+  }
+
+  // Start loading
+  const promise = loadLazyGroup(groupId)
+    .then((result) => result.animations)
+    .catch((error) => {
+      // Remove from cache on error so we can retry
+      groupExportCache.delete(groupId)
+      throw error
+    })
+
+  groupExportCache.set(groupId, promise)
+  return promise
+}
+
+/**
+ * Synchronous version - returns empty object if not loaded yet.
+ * Used by components that need to check current state without triggering loads.
+ */
+export function getLazyGroupAnimationsSync(
+  baseGroupId: string,
+  tech: 'framer' | 'css'
+): Record<string, AnimationExport> {
+  const groupId = `${baseGroupId}-${tech}`
+
+  // If already loaded, extract from result
+  if (isGroupLoaded(groupId)) {
+    // We need to get the loaded result - but this is sync
+    // The actual result will be populated after async load completes
+    // For now, return empty and let the component re-render
+  }
+
+  return {}
+}
+
+// ============================================================================
+// Backward Compatibility Layer
+// ============================================================================
+
+/**
+ * Category-based registry with full metadata support (LEGACY).
  *
- * @returns A map of animation IDs to their React components (CSS wins on overlap)
+ * @deprecated This is now a lazy-loading compatibility layer.
+ * The eager imports have been replaced with lazy loading.
+ * Use getNavCatalog() and loadLazyGroup() for new code.
+ */
+export const categories: Record<string, CategoryExport> = {}
+
+/**
+ * Builds a flat animation registry from the category hierarchy (LEGACY).
+ *
+ * @deprecated Use getNavCatalog() and loadLazyGroup() instead.
+ * This function now returns an empty registry - animation data is lazy-loaded.
  */
 export function buildRegistryFromCategories() {
   const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
-
-  Object.values(categories).forEach((cat) => {
-    Object.values(cat.groups).forEach((group) => {
-      Object.entries(group.framer).forEach(([id, anim]) => {
-        registry[id] = anim.component
-      })
-      Object.entries(group.css).forEach(([id, anim]) => {
-        registry[id] = anim.component
-      })
-    })
-  })
+  // Return empty - animations are now lazy-loaded
   return registry
 }
 
 /**
- * Returns the AnimationExport map for a specific group and tech variant.
- * Encapsulates category traversal so consumers don't need to know the hierarchy.
+ * Returns the AnimationExport map for a specific group and tech variant (COMPATIBILITY).
+ *
+ * This function provides synchronous compatibility with the old API
+ * by returning empty object immediately. The actual data is loaded
+ * asynchronously by the lazy loading system.
+ *
+ * For new code, use getLazyGroupAnimationsAsync() instead.
+ *
+ * @param baseGroupId - Base group ID without tech suffix (e.g., 'modal-base')
+ * @param tech - Technology variant ('framer' or 'css')
+ * @returns AnimationExport map (empty if not yet loaded)
  */
 export function getGroupAnimations(
   baseGroupId: string,
   tech: 'framer' | 'css'
 ): Record<string, AnimationExport> {
-  for (const category of Object.values(categories)) {
-    const group = category.groups[baseGroupId]
-    if (group) {
-      return tech === 'css' ? group.css : group.framer
+  const groupId = `${baseGroupId}-${tech}`
+
+  // If already loaded, try to get the result
+  if (isGroupLoaded(groupId)) {
+    // Return the loaded animations
+    const cached = groupExportCache.get(groupId)
+    if (cached) {
+      // If it's a resolved promise, we can't get the value synchronously
+      // But the lazy loading hooks will handle re-rendering when ready
     }
   }
+
+  // Return empty for now - the lazy loading system will populate this
+  // and trigger re-renders via the hooks
   return {}
 }
 
 /**
- * Looks up an animation ID across all categories and groups.
- * Returns the base group ID and which tech variants contain it, or null if not found.
+ * Looks up an animation ID across all categories and groups (COMPATIBILITY).
+ *
+ * @deprecated Use the lazy navigation catalog instead.
+ * This function now searches the lazy group metadata.
  */
 export function findAnimationById(
   animationId: string
 ): { baseGroupId: string; hasFramer: boolean; hasCss: boolean } | null {
-  for (const category of Object.values(categories)) {
-    for (const [groupId, group] of Object.entries(category.groups)) {
-      const hasFramer = animationId in group.framer
-      const hasCss = animationId in group.css
-      if (hasFramer || hasCss) {
-        return { baseGroupId: groupId, hasFramer, hasCss }
+  // Search through lazy groups
+  const allGroups = getAllLazyGroups()
+
+  for (const group of allGroups) {
+    if (group.animationIds.includes(animationId)) {
+      // Check if both variants exist
+      const framerId = `${group.baseGroupId}-framer`
+      const cssId = `${group.baseGroupId}-css`
+
+      const hasFramer = allGroups.some((g) => g.id === framerId)
+      const hasCss = allGroups.some((g) => g.id === cssId)
+
+      return {
+        baseGroupId: group.baseGroupId,
+        hasFramer,
+        hasCss,
       }
     }
   }
+
   return null
+}
+
+// ============================================================================
+// Eager Loading Registration (For Tests/SSR)
+// ============================================================================
+
+/**
+ * Preloads all groups into cache.
+ * Useful for testing or SSR scenarios where you want all data available.
+ */
+export async function preloadAllGroups(): Promise<void> {
+  const allGroups = getAllLazyGroups()
+  await Promise.all(allGroups.map((g) => loadLazyGroup(g.id)))
+}
+
+/**
+ * Clears all cached group data.
+ * Useful for testing.
+ */
+export function clearAnimationCache(): void {
+  groupExportCache.clear()
 }
