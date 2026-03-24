@@ -32,11 +32,11 @@ function ModalContentButtonsStagger3Component({
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
       key={i}
-      className="pf-button-stagger-3-item"
+      className="pf-button-stagger-item"
       style={
         {
-          '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
-          '--pf-stagger-duration': `${String(duration)}ms`,
+          '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
+          '--pf-stagger-duration': `${duration}ms`,
         } as React.CSSProperties
       }
     >

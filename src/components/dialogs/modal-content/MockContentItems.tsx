@@ -1,35 +1,12 @@
 import type { ReactNode } from 'react'
 
-import { DemoButton, DemoFormField, DemoListItem, DemoModalHeader } from '@/components/demo-blocks'
+import { DemoFormField, DemoListItem } from '@/components/demo-blocks'
 
 /**
  * Placeholder content for zero-props catalog rendering.
- * Thin wrappers around demo-blocks building blocks, re-exported under
- * the names animation components already import.
+ * Thin wrappers around demo-blocks building blocks.
  * NOT copied by consumers — exists only for catalog demos.
  */
-
-// ---------------------------------------------------------------------------
-// Modal header (shared across all demo modes)
-// ---------------------------------------------------------------------------
-
-export function MockModalHeader({ title = 'Sequence Control' }: { title?: string }) {
-  return <DemoModalHeader title={title} badge="Modal" />
-}
-
-// ---------------------------------------------------------------------------
-// Mock buttons
-// ---------------------------------------------------------------------------
-
-export function MockButton({
-  label,
-  variant = 'primary',
-}: {
-  label: string
-  variant?: 'primary' | 'secondary'
-}) {
-  return <DemoButton label={label} variant={variant} />
-}
 
 // ---------------------------------------------------------------------------
 // Mock list items

@@ -15,7 +15,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      var(--pf-gradient-sweep-10) 50%,
+      var(--pf-mc-gradient-10) 50%,
       transparent 100%
     );
   }
@@ -26,7 +26,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      var(--pf-gradient-sweep-20) 50%,
+      var(--pf-mc-gradient-20) 50%,
       transparent 100%
     );
   }

@@ -40,9 +40,9 @@ function ModalContentFormFieldLeftRevealComponent({
       className="pf-form-left-reveal-item"
       style={
         {
-          '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
-          '--pf-stagger-duration': `${String(duration)}ms`,
-          '--pf-reveal-distance': `${String(distance)}px`,
+          '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
+          '--pf-stagger-duration': `${duration}ms`,
+          '--pf-reveal-distance': `${distance}px`,
         } as React.CSSProperties
       }
     >

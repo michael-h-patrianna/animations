@@ -5,21 +5,6 @@
  * Color tokens defined in src/components/demo-tokens.css (--pf-mc-* aliases).
  */
 
-/* ── Modal box (animation target — keeps visual styling for consumer copy-paste) ── */
-.pf-mc-box {
-  max-height: 90%;
-  overflow: hidden;
-  width: clamp(280px, 80%, 400px);
-  transform-origin: center;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--pf-mc-bg);
-  border: 1px solid var(--pf-mc-border);
-  color: var(--pf-mc-color);
-  --pf-mc-shadow: 0 18px 40px rgb(0 0 0 / 45%), inset 0 0 0 1px var(--pf-mc-border);
-  box-shadow: var(--pf-mc-shadow);
-}
-
 /* CSS-only entrance (CSS variants use this class) */
 .pf-mc-box--entrance {
   animation: pf-mc-entrance 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;

@@ -38,8 +38,8 @@ function ModalContentListVerticalWipeComponent({
         className="pf-list-vertical-wipe-item"
         style={
           {
-            '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
-            '--pf-stagger-duration': `${String(duration)}ms`,
+            '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
+            '--pf-stagger-duration': `${duration}ms`,
           } as React.CSSProperties
         }
       >

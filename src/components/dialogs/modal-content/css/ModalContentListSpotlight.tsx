@@ -38,8 +38,8 @@ function ModalContentListSpotlightComponent({
       className="pf-list-spotlight-item"
       style={
         {
-          '--pf-stagger-delay': `${String(delayBase + stagger * i)}ms`,
-          '--pf-stagger-duration': `${String(duration)}ms`,
+          '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
+          '--pf-stagger-duration': `${duration}ms`,
         } as React.CSSProperties
       }
     >
