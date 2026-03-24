@@ -150,7 +150,9 @@ function LightsCircleStatic8({
           <div
             key={i}
             className={`lights-circle-static-8__bulb-wrapper ${isFirstHalf ? 'first-half' : 'second-half'}`}
-            style={{ transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)` }}
+            style={{
+              transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
+            }}
           >
             <m.div className="lights-circle-static-8__glow" variants={addDelay(glowBase, delay)} />
             <m.div className="lights-circle-static-8__bulb" variants={addDelay(bulbBase, delay)} />

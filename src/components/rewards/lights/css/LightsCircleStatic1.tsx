@@ -25,7 +25,9 @@ function LightsCircleStatic1({
           <div
             key={i}
             className={`lights-circle-static-1__bulb-wrapper ${isEven ? 'even' : 'odd'}`}
-            style={{ transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)` }}
+            style={{
+              transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
+            }}
           >
             <div className="lights-circle-static-1__glow-outer" />
             <div className="lights-circle-static-1__glow-inner" />

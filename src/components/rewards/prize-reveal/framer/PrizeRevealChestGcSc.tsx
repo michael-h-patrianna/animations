@@ -13,7 +13,14 @@ import {
 } from '@/assets'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
-type SparkleData = { id: number; tx: number; ty: number; size: number; delay: number; duration: number }
+type SparkleData = {
+  id: number
+  tx: number
+  ty: number
+  size: number
+  delay: number
+  duration: number
+}
 type PrizeConfig = {
   id: string
   label: string | null

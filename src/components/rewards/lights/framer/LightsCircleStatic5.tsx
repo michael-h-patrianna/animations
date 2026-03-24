@@ -82,7 +82,9 @@ function LightsCircleStatic5({
           <div
             key={i}
             className="lights-circle-static-5__bulb-wrapper"
-            style={{ transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)` }}
+            style={{
+              transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
+            }}
           >
             <m.div className="lights-circle-static-5__glow" variants={glowVariants} />
             <m.div className="lights-circle-static-5__bulb" variants={bulbVariants} />

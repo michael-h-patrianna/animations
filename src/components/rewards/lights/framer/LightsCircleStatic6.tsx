@@ -146,10 +146,18 @@ function LightsCircleStatic6({
           <div
             key={i}
             className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
-            style={{ transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)` }}
+            style={{
+              transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
+            }}
           >
-            <m.div className="lights-circle-static-6__glow" variants={addDelay(glowBase, totalDelay)} />
-            <m.div className="lights-circle-static-6__bulb" variants={addDelay(bulbBase, totalDelay)} />
+            <m.div
+              className="lights-circle-static-6__glow"
+              variants={addDelay(glowBase, totalDelay)}
+            />
+            <m.div
+              className="lights-circle-static-6__bulb"
+              variants={addDelay(bulbBase, totalDelay)}
+            />
           </div>
         )
       }),
