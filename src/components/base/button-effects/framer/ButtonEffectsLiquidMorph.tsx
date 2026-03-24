@@ -10,7 +10,7 @@
 
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import { useEffect, useState, memo, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, memo, type ReactNode } from 'react'
 
 interface ButtonEffectsLiquidMorphProps {
   children?: ReactNode
@@ -24,8 +24,6 @@ function ButtonEffectsLiquidMorphComponent({
 }: ButtonEffectsLiquidMorphProps) {
   const [isAnimating, setIsAnimating] = useState(false)
 
-  const durationS = duration / 1000
-
   useEffect(() => {
     if (!isAnimating) return
     const timer = setTimeout(() => setIsAnimating(false), duration)
@@ -36,29 +34,32 @@ function ButtonEffectsLiquidMorphComponent({
     setIsAnimating(true)
   }
 
-  const liquidMorphVariants = {
-    initial: {
-      scale: 1,
-      rotate: 0,
-      borderRadius: '50px',
-    },
-    animate: {
-      scale: [1, 0.95, 1.08, 0.96, 1],
-      rotate: [0, -2, 3, -1, 0],
-      borderRadius: [
-        '50px',
-        '50px 40px 50px 60px',
-        '60px 50px 40px 50px',
-        '45px 55px 50px 45px',
-        '50px',
-      ],
-      transition: {
-        duration: durationS,
-        ease: easeOut,
-        times: [0, 0.25, 0.5, 0.75, 1],
+  const liquidMorphVariants = useMemo(
+    () => ({
+      initial: {
+        scale: 1,
+        rotate: 0,
+        borderRadius: '50px',
       },
-    },
-  }
+      animate: {
+        scale: [1, 0.95, 1.08, 0.96, 1],
+        rotate: [0, -2, 3, -1, 0],
+        borderRadius: [
+          '50px',
+          '50px 40px 50px 60px',
+          '60px 50px 40px 50px',
+          '45px 55px 50px 45px',
+          '50px',
+        ],
+        transition: {
+          duration: duration / 1000,
+          ease: easeOut,
+          times: [0, 0.25, 0.5, 0.75, 1],
+        },
+      },
+    }),
+    [duration]
+  )
 
   return (
     <m.button

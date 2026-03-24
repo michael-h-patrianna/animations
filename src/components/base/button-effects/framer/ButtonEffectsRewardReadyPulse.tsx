@@ -10,7 +10,7 @@
 
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { memo, useState, type ReactNode } from 'react'
+import { memo, useMemo, useState, type ReactNode } from 'react'
 
 interface ButtonEffectsRewardReadyPulseProps {
   children?: ReactNode
@@ -31,49 +31,49 @@ function ButtonEffectsRewardReadyPulseComponent({
   const [isHovered, setIsHovered] = useState(false)
   const prefersReducedMotion = useReducedMotion()
 
-  const durationS = duration / 1000
-
-  const pulseVariants = {
-    animate: {
-      scale: [1, pulseScale, 1],
-      y: [0, -bobDistance, 0],
-      transition: {
-        duration: durationS,
-        ease: [0.4, 0.0, 0.6, 1.0] as const,
-        repeat: Infinity,
+  const { pulseVariants, reducedMotionVariants, hoverVariants } = useMemo(() => {
+    const durationS = duration / 1000
+    return {
+      pulseVariants: {
+        animate: {
+          scale: [1, pulseScale, 1],
+          y: [0, -bobDistance, 0],
+          transition: {
+            duration: durationS,
+            ease: [0.4, 0.0, 0.6, 1.0] as const,
+            repeat: Infinity,
+          },
+        },
       },
-    },
-  }
-
-  const reducedMotionVariants = {
-    animate: {
-      scale: [1, 1.02, 1],
-      y: [0, 0, 0],
-      transition: {
-        duration: durationS * 1.5,
-        ease: 'easeInOut' as const,
-        repeat: Infinity,
+      reducedMotionVariants: {
+        animate: {
+          scale: [1, 1.02, 1],
+          transition: {
+            duration: durationS * 1.5,
+            ease: 'easeInOut' as const,
+            repeat: Infinity,
+          },
+        },
       },
-    },
-  }
-
-  const hoverVariants = {
-    animate: {
-      scale: pulseScale + 0.04,
-      y: 0,
-      transition: {
-        duration: 0.2,
-        ease: 'easeOut' as const,
+      hoverVariants: {
+        animate: {
+          scale: pulseScale + 0.04,
+          y: 0,
+          transition: {
+            duration: 0.2,
+            ease: 'easeOut' as const,
+          },
+        },
       },
-    },
-  }
+    }
+  }, [duration, pulseScale, bobDistance])
 
   return (
     <m.button
       type="button"
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__reward-ready-pulse"
-      style={{ willChange: 'transform', animation: 'none' }}
+      style={{ animation: 'none' }}
       variants={
         isHovered ? hoverVariants : prefersReducedMotion ? reducedMotionVariants : pulseVariants
       }

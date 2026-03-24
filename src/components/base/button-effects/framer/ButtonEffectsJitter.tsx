@@ -9,7 +9,18 @@
  */
 
 import * as m from 'motion/react-m'
-import { useState, memo, type ReactNode } from 'react'
+import { useMemo, useState, memo, type ReactNode } from 'react'
+
+const HEARTBEAT_VARIANTS = {
+  animate: {
+    scale: [1, 1.05, 1],
+    transition: {
+      duration: 0.2,
+      ease: 'linear' as const,
+      repeat: Infinity,
+    },
+  },
+}
 
 interface ButtonEffectsJitterProps {
   children?: ReactNode
@@ -20,31 +31,21 @@ interface ButtonEffectsJitterProps {
 function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffectsJitterProps) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const durationS = duration / 1000
-
-  const jitterVariants = {
-    animate: {
-      scale: [1, 0.9, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1],
-      rotate: [0, 0, 0, -5, 5, -3, 2, 0, 0, 0],
-      transition: {
-        duration: durationS,
-        ease: 'linear' as const,
-        repeat: Infinity,
-        times: [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 1],
+  const jitterVariants = useMemo(
+    () => ({
+      animate: {
+        scale: [1, 0.9, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1],
+        rotate: [0, 0, 0, -5, 5, -3, 2, 0, 0, 0],
+        transition: {
+          duration: duration / 1000,
+          ease: 'linear' as const,
+          repeat: Infinity,
+          times: [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 1],
+        },
       },
-    },
-  }
-
-  const heartbeatVariants = {
-    animate: {
-      scale: [1, 1.05, 1],
-      transition: {
-        duration: 0.2,
-        ease: 'linear' as const,
-        repeat: Infinity,
-      },
-    },
-  }
+    }),
+    [duration]
+  )
 
   return (
     <m.button
@@ -52,7 +53,7 @@ function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffec
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__jitter"
       style={{ animation: 'none' }}
-      variants={isHovered ? heartbeatVariants : jitterVariants}
+      variants={isHovered ? HEARTBEAT_VARIANTS : jitterVariants}
       animate="animate"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}

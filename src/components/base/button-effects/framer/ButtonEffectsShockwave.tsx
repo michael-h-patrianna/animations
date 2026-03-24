@@ -13,7 +13,7 @@
 
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import React, { useRef, useState, memo, useEffect, type ReactNode } from 'react'
+import { Fragment, useRef, useState, memo, useEffect, type MouseEvent, type ReactNode } from 'react'
 import './ButtonEffectsShockwave.css'
 import { DemoButton } from '@/components/demo-blocks'
 
@@ -55,7 +55,7 @@ function ButtonEffectsShockwaveComponent({
     }
   }, [])
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
     const x = e.clientX - rect.left
@@ -94,7 +94,7 @@ function ButtonEffectsShockwaveComponent({
             height: wave.size,
           }
           return (
-            <React.Fragment key={wave.id}>
+            <Fragment key={wave.id}>
               {Array.from({ length: ringCount }, (_, i) => (
                 <m.span
                   key={i}
@@ -105,7 +105,7 @@ function ButtonEffectsShockwaveComponent({
                   transition={{ duration: durationS, ease: easeOut, delay: i * 0.1 }}
                 />
               ))}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </span>
