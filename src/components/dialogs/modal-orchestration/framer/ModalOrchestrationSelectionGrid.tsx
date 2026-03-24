@@ -18,7 +18,6 @@ import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
-const DEFAULT_DISTANCE = 16
 
 interface ModalOrchestrationSelectionGridProps {
   /** Items to cascade in. When omitted, renders placeholder tiles. */
@@ -45,7 +44,7 @@ function ModalOrchestrationSelectionGridComponent({
   children,
   stagger = 260,
   duration = 210,
-  distance = DEFAULT_DISTANCE,
+  distance = 16,
   columns = 3,
 }: ModalOrchestrationSelectionGridProps) {
   const prefersReducedMotion = useReducedMotion()

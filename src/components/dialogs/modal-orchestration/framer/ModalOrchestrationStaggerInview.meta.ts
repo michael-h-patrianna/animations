@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/modal-orchestration-css?animation=modal-orchestration__stagger-inview',
   title: 'Stagger In-View',
   description:
-    'Wrap child elements to stagger-reveal them as the user scrolls into view. Configurable stagger delay, duration, distance, columns, and viewport threshold.',
+    'Wrap child elements to stagger-reveal them on mount. Configurable stagger delay, duration, distance, and columns.',
   tier: 3,
   previewMaxWidth: 414,
 } satisfies AnimationMetadata
