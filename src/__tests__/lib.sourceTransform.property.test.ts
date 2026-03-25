@@ -12,15 +12,22 @@ const safeJsxLine = fc
   .filter((s) => !s.includes('data-animation-id') && !s.includes('MockModalContent'))
 
 /** Arbitrary for multi-line JSX source without transformable patterns */
-const safeSource = fc.array(safeJsxLine, { minLength: 1, maxLength: 20 }).map((lines) => lines.join('\n'))
+const safeSource = fc
+  .array(safeJsxLine, { minLength: 1, maxLength: 20 })
+  .map((lines) => lines.join('\n'))
 
 /** Arbitrary for kebab-case identifier segments */
 const kebabSegment = fc
-  .array(fc.constantFrom(...'abcdefghijklmnopqrstuvwxyz-'.split('')), { minLength: 2, maxLength: 15 })
+  .array(fc.constantFrom(...'abcdefghijklmnopqrstuvwxyz-'.split('')), {
+    minLength: 2,
+    maxLength: 15,
+  })
   .map((chars) => chars.join(''))
 
 /** Arbitrary animation IDs matching the group__variant pattern */
-const animationId = fc.tuple(kebabSegment, kebabSegment).map(([group, variant]) => `${group}__${variant}`)
+const animationId = fc
+  .tuple(kebabSegment, kebabSegment)
+  .map(([group, variant]) => `${group}__${variant}`)
 
 describe('cleanSourceForDisplay — property-based', () => {
   it('never increases line count', () => {

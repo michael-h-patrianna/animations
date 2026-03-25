@@ -4,8 +4,15 @@ import { addTransparency, blendColors, shiftColorTemperature, toHex } from '@/ut
 
 /** Arbitrary for valid 6-digit hex colors */
 const hexColor = fc
-  .tuple(fc.integer({ min: 0, max: 255 }), fc.integer({ min: 0, max: 255 }), fc.integer({ min: 0, max: 255 }))
-  .map(([r, g, b]) => `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`)
+  .tuple(
+    fc.integer({ min: 0, max: 255 }),
+    fc.integer({ min: 0, max: 255 }),
+    fc.integer({ min: 0, max: 255 })
+  )
+  .map(
+    ([r, g, b]) =>
+      `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+  )
 
 /** Arbitrary for percentage values 0-100 */
 const percentage = fc.integer({ min: 0, max: 100 })
