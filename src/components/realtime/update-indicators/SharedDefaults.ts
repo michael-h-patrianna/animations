@@ -8,6 +8,7 @@ export const DOT_SWEEP_HALO = 'rgb(255 73 103 / 55%)'
 
 // ── Badge indicators ──
 export const BADGE_COLOR = '#c47ae5'
+export const BADGE_TEXT_COLOR = '#ffffff'
 export const BADGE_GLOW = 'rgb(236 195 255 / 40%)'
 
 // ── Live ping ──

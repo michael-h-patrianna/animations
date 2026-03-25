@@ -6,18 +6,24 @@
  * Copy-paste files: this file + UpdateIndicatorsBadgePulse.css
  * Runtime deps: react, motion
  *
- * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>
+ * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" textColor="#fff" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>
  */
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo, type ReactNode } from 'react'
-import { BADGE_COLOR, BADGE_GLOW } from '@/components/realtime/update-indicators/SharedDefaults'
+import {
+  BADGE_COLOR,
+  BADGE_GLOW,
+  BADGE_TEXT_COLOR,
+} from '@/components/realtime/update-indicators/SharedDefaults'
 
 interface BadgePulseProps {
   /** Badge content. Default: 'New' */
   children?: ReactNode
   /** Badge background color. Default: '#c47ae5' */
   color?: string
+  /** Badge text color. Default: '#ffffff' */
+  textColor?: string
   /** Glow color. Default: 'rgb(236 195 255 / 40%)' */
   glowColor?: string
   /** Pulse cycle duration in ms. Default: 1000 */
@@ -27,6 +33,7 @@ interface BadgePulseProps {
 function UpdateIndicatorsBadgePulseComponent({
   children = 'New',
   color = BADGE_COLOR,
+  textColor = BADGE_TEXT_COLOR,
   glowColor = BADGE_GLOW,
   duration = 1000,
 }: BadgePulseProps) {
@@ -34,7 +41,7 @@ function UpdateIndicatorsBadgePulseComponent({
 
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
-      <div className="pf-update-indicator__badge" style={{ background: color }}>
+      <div className="pf-update-indicator__badge" style={{ background: color, color: textColor }}>
         <m.div
           className="pf-update-indicator__badge-glow"
           style={{ ['--pf-badge-glow' as string]: `0 0 18px ${glowColor}`, animation: 'none' }}

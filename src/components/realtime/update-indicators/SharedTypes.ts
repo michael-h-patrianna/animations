@@ -28,6 +28,8 @@ export interface BadgeIndicatorProps {
   children?: ReactNode
   /** Badge background color. Default: '#c47ae5' */
   color?: string
+  /** Badge text color. Default: '#ffffff' */
+  textColor?: string
   /** Animation duration in ms. Each variant has its own default. */
   duration?: number
 }

@@ -4,16 +4,20 @@
  * Copy-paste files: this file + UpdateIndicatorsBadgePop.css + ../shared.css
  * Runtime deps: react
  *
- * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b">3</UpdateIndicatorsBadgePop>
+ * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b" textColor="#fff">3</UpdateIndicatorsBadgePop>
  */
 import { memo } from 'react'
-import { BADGE_COLOR } from '@/components/realtime/update-indicators/SharedDefaults'
+import {
+  BADGE_COLOR,
+  BADGE_TEXT_COLOR,
+} from '@/components/realtime/update-indicators/SharedDefaults'
 import type { BadgeIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
 import './UpdateIndicatorsBadgePop.css'
 
 function UpdateIndicatorsBadgePopComponent({
   children = 'New',
   color = BADGE_COLOR,
+  textColor = BADGE_TEXT_COLOR,
   duration = 400,
 }: BadgeIndicatorProps) {
   return (
@@ -23,6 +27,7 @@ function UpdateIndicatorsBadgePopComponent({
         style={{
           ['--pf-badge-pop-dur' as string]: `${duration}ms`,
           background: color,
+          color: textColor,
         }}
       >
         {children}
