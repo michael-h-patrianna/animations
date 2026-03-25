@@ -1,62 +1,73 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Prize Reveal Controls', () => {
-  test('prize count buttons change the displayed count', async ({ catalogPage }) => {
+  test('inspector exposes the card-count prop for Card Pack Open', async ({
+    catalogPage,
+    page,
+  }) => {
     await catalogPage.gotoGroup('prize-reveal-framer')
+    await page.locator('[data-testid="toggle-right-panel"]').click()
 
-    // Card pack open has prizeCount controls
     const card = catalogPage.card('prize-reveal__card-pack-open')
     await expect(card).toBeVisible()
+    await card.click()
 
-    const controls = card.locator('[data-testid="prize-controls"]')
-    await expect(controls).toBeVisible()
-
-    // ToggleGroup uses role="radio" buttons with aria-checked
-    const btn2 = controls.locator('[data-testid="prize-controls-2"]')
-    await btn2.click()
-    await expect(btn2).toHaveAttribute('aria-checked', 'true')
-
-    // Click button "3" and verify it becomes selected, button 2 deselected
-    const btn3 = controls.locator('[data-testid="prize-controls-3"]')
-    await btn3.click()
-    await expect(btn3).toHaveAttribute('aria-checked', 'true')
-    await expect(btn2).toHaveAttribute('aria-checked', 'false')
+    const countInput = page.locator('[data-testid="prop-field-prizeCount"] input[type="number"]').first()
+    await expect(countInput).toBeVisible()
+    await expect(countInput).toHaveValue('5')
+    await expect(page.locator('[data-testid="right-panel"]')).toContainText('Card Pack Open')
   })
 
-  test('prize count controls trigger animation replay', async ({ catalogPage }) => {
+  test('changing prize count through the inspector updates the rendered animation props', async ({
+    catalogPage,
+    page,
+  }) => {
     await catalogPage.gotoGroup('prize-reveal-framer')
+    await page.locator('[data-testid="toggle-right-panel"]').click()
 
     const card = catalogPage.card('prize-reveal__chest-gc-sc')
     await expect(card).toBeVisible()
+    await card.click()
 
-    const stage = await catalogPage.cardStage(card)
-    const controls = card.locator('[data-testid="prize-controls"]')
-    await expect(controls).toBeVisible()
+    const countInput = page.locator('[data-testid="prop-field-prizeCount"] input[type="number"]').first()
+    const animationRoot = card.locator('[data-prize-count]')
 
-    // Change prize count — should trigger replay (remount)
-    const btn1 = controls.locator('[data-testid="prize-controls-1"]')
-    await btn1.click()
+    await expect(countInput).toHaveValue('3')
+    await expect(animationRoot).toHaveAttribute('data-prize-count', '3')
 
-    // Stage should still have content after control change
-    await expect(stage).toBeVisible()
-    await expect.poll(async () => stage.locator(':scope > *').count()).toBeGreaterThan(0)
+    await countInput.fill('1')
+    await countInput.blur()
+    await expect(countInput).toHaveValue('1')
+    await expect(animationRoot).toHaveAttribute('data-prize-count', '1')
+
+    await countInput.fill('4')
+    await countInput.blur()
+    await expect(countInput).toHaveValue('4')
+    await expect(animationRoot).toHaveAttribute('data-prize-count', '4')
+    await expect(await catalogPage.cardStage(card)).toBeVisible()
   })
 
-  test('prize count controls use accessible radiogroup', async ({ catalogPage }) => {
+  test('Arcane Portal prize count stays editable through the inspector', async ({
+    catalogPage,
+    page,
+  }) => {
     await catalogPage.gotoGroup('prize-reveal-framer')
+    await page.locator('[data-testid="toggle-right-panel"]').click()
 
     const card = catalogPage.card('prize-reveal__arcane-portal')
-    const controls = card.locator('[data-testid="prize-controls"]')
-    await expect(controls).toBeVisible()
+    await expect(card).toBeVisible()
+    await card.click()
 
-    // ToggleGroup has role="radiogroup" with an aria-label
-    await expect(controls).toHaveAttribute('role', 'radiogroup')
-    const ariaLabel = await controls.getAttribute('aria-label')
-    expect(ariaLabel).toBe('Prize count')
+    const countInput = page.locator('[data-testid="prop-field-prizeCount"] input[type="number"]').first()
+    const animationRoot = card.locator('[data-prize-count]')
 
-    // Each button should have role="radio"
-    const buttons = controls.locator('button[role="radio"]')
-    const count = await buttons.count()
-    expect(count).toBeGreaterThanOrEqual(3)
+    await expect(countInput).toBeVisible()
+    await expect(countInput).toHaveAttribute('aria-label', 'Prize Count value')
+    await expect(animationRoot).toHaveAttribute('data-prize-count', '3')
+
+    await countInput.fill('2')
+    await countInput.blur()
+    await expect(countInput).toHaveValue('2')
+    await expect(animationRoot).toHaveAttribute('data-prize-count', '2')
   })
 })

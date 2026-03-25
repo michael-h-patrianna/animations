@@ -5,7 +5,7 @@ import { test, expect } from './fixtures/catalog.fixture'
  * CodeModeSwitch instance — mode changes there must propagate to URL and card content.
  */
 test.describe('Mobile Code Mode Switching', () => {
-  test('switching to CSS mode in drawer updates URL and cards', async ({
+  test('switching to CSS mode in mobile nav updates URL and cards', async ({
     catalogPage,
     mobilePage,
     page,
@@ -32,7 +32,7 @@ test.describe('Mobile Code Mode Switching', () => {
     expect(new URL(page.url()).pathname).toMatch(/-css$/)
   })
 
-  test('mode persists when navigating via drawer group links', async ({ mobilePage, page }) => {
+  test('mode persists when navigating via mobile nav group links', async ({ mobilePage, page }) => {
     await mobilePage.gotoMobile('text-effects-framer')
 
     // Switch to CSS mode
@@ -40,20 +40,19 @@ test.describe('Mobile Code Mode Switching', () => {
     await mobilePage.selectCssMode()
     await expect.poll(() => new URL(page.url()).pathname, { timeout: 5_000 }).toMatch(/-css$/)
 
-    // Close drawer, then reopen to navigate to a different group
-    await mobilePage.closeDrawer()
-    await mobilePage.expectDrawerClosed()
-
-    await mobilePage.openDrawer()
+    // Navigate to a different group while the mobile nav is open
     await mobilePage.clickDrawerGroup(1)
-    await mobilePage.expectDrawerClosed()
+    await mobilePage.expectDrawerOpen()
 
     // New group should also be in CSS mode
     const pathname = new URL(page.url()).pathname
     expect(pathname).toMatch(/-css$/)
+
+    await mobilePage.closeDrawer()
+    await mobilePage.expectDrawerClosed()
   })
 
-  test('switching back to Framer mode in drawer restores framer URL', async ({
+  test('switching back to Framer mode in mobile nav restores framer URL', async ({
     catalogPage,
     mobilePage,
     page,
@@ -102,50 +101,44 @@ test.describe('Mobile Code Mode Switching', () => {
     await expect(card).toBeVisible()
   })
 
-  test('mobile mode switch renders different implementation for same animation', async ({
+  test('mobile mode switch updates the code artifact for the same animation', async ({
     catalogPage,
     mobilePage,
     page,
   }) => {
-    // Start in Framer mode
-    await mobilePage.gotoMobile('standard-effects-framer')
+    const animationId = 'standard-effects__bounce'
 
-    // Wait for cards and get the first card's animation ID
-    const firstCard = catalogPage.allCards().first()
-    await expect(firstCard).toBeVisible({ timeout: 10_000 })
-    const animId = await firstCard.getAttribute('data-animation-id')
-    expect(animId).toBeTruthy()
+    await mobilePage.gotoMobile(`standard-effects-framer?animation=${animationId}`)
 
-    // Wait for stage to render content
-    const framerStage = firstCard.locator('[data-testid="demo-stage"]')
-    await expect(framerStage).toBeVisible({ timeout: 5_000 })
-    await expect
-      .poll(async () => framerStage.locator(':scope > *').count(), { timeout: 5_000 })
-      .toBeGreaterThan(0)
-    const framerHtml = await framerStage.innerHTML()
+    const framerCard = catalogPage.card(animationId)
+    await expect(framerCard).toBeVisible({ timeout: 10_000 })
 
-    // Switch to CSS mode via drawer
+    await catalogPage.codeViewerButton(framerCard).click()
+    await expect(catalogPage.codeViewerModal()).toBeVisible()
+    await expect(catalogPage.codeHighlighted()).toBeVisible()
+
+    const framerCode = await catalogPage.codeBody().innerText()
+    expect(framerCode).toContain("from 'motion/react-m'")
+    expect(framerCode).not.toContain("import './StandardEffectsBounce.css'")
+
+    await catalogPage.codeCloseButton().click()
+    await expect(catalogPage.codeViewerModal()).not.toBeVisible()
+
     await mobilePage.openDrawer()
     await mobilePage.selectCssMode()
     await expect.poll(() => new URL(page.url()).pathname, { timeout: 5_000 }).toMatch(/-css$/)
     await mobilePage.closeDrawer()
 
-    // Find the same animation in CSS mode
-    const cssCard = catalogPage.card(animId!)
+    const cssCard = catalogPage.card(animationId)
     await expect(cssCard).toBeVisible({ timeout: 10_000 })
-    const cssStage = cssCard.locator('[data-testid="demo-stage"]')
-    await expect(cssStage).toBeVisible({ timeout: 5_000 })
-    await expect
-      .poll(async () => cssStage.locator(':scope > *').count(), { timeout: 5_000 })
-      .toBeGreaterThan(0)
-    const cssHtml = await cssStage.innerHTML()
 
-    // Both must have rendered content
-    expect(framerHtml.length).toBeGreaterThan(10)
-    expect(cssHtml.length).toBeGreaterThan(10)
+    await catalogPage.codeViewerButton(cssCard).click()
+    await expect(catalogPage.codeViewerModal()).toBeVisible()
+    await expect(catalogPage.codeHighlighted()).toBeVisible()
 
-    // The two implementations produce different DOM
-    expect(cssHtml).not.toBe(framerHtml)
+    const cssCode = await catalogPage.codeBody().innerText()
+    expect(cssCode).toContain("import './StandardEffectsBounce.css'")
+    expect(cssCode).not.toContain("from 'motion/react-m'")
   })
 
   test('code viewer copy works on mobile viewport', async ({

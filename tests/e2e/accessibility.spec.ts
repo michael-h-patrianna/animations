@@ -49,19 +49,18 @@ test.describe('Accessibility: ARIA Attributes', () => {
     await expect(cssBtn).toHaveAttribute('aria-checked', 'true')
   })
 
-  test('mobile drawer has correct dialog role and aria-modal', async ({ mobilePage }) => {
+  test('mobile nav toggle exposes an accessible navigation panel', async ({ mobilePage, page }) => {
     await mobilePage.gotoMobile('text-effects-framer')
 
-    const drawer = mobilePage.drawer
-    await expect(drawer).toHaveAttribute('role', 'dialog')
-    await expect(drawer).toHaveAttribute('aria-modal', 'true')
+    const panelToggle = page.locator('[data-testid="toggle-left-panel"]')
+    await expect(panelToggle).toHaveAttribute('aria-label', /toggle navigation/i)
 
-    // When closed, drawer is hidden
-    await expect(drawer).toBeHidden()
-
-    // When open, drawer is visible
+    await mobilePage.expectDrawerClosed()
     await mobilePage.openDrawer()
-    await expect(drawer).not.toBeHidden()
+    await mobilePage.expectDrawerOpen()
+
+    await expect(mobilePage.drawerCodeModeSwitch()).toBeVisible()
+    expect(await mobilePage.drawerGroupLinks().count()).toBeGreaterThan(1)
   })
 
   test('replay buttons have correct disabled/aria-disabled states', async ({ catalogPage }) => {
@@ -147,20 +146,19 @@ test.describe('Accessibility: Keyboard Navigation', () => {
     const panelToggle = page.locator('[data-testid="toggle-left-panel"]')
     await panelToggle.focus()
 
-    // Activate with Enter — should open drawer
+    // Activate with Enter — should open the navigation panel
     await page.keyboard.press('Enter')
     await mobilePage.expectDrawerOpen()
 
-    // Close button inside drawer
-    const closeBtn = page.locator('[data-testid="drawer-close"]')
-    await closeBtn.focus()
+    // Activate the same toggle again to close it
+    await panelToggle.focus()
     await page.keyboard.press('Enter')
     await mobilePage.expectDrawerClosed()
   })
 })
 
 test.describe('Accessibility: Code Mode Switch Keyboard', () => {
-  test('code mode switch buttons are activatable via keyboard', async ({ catalogPage, page }) => {
+  test('code mode switch buttons are activatable via keyboard', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
     await catalogPage.ensureSidebarOpen()
 
@@ -170,7 +168,7 @@ test.describe('Accessibility: Code Mode Switch Keyboard', () => {
     // Focus the CSS button and activate via Space (radio button convention)
     await cssBtn.focus()
     await expect(cssBtn).toBeFocused()
-    await page.keyboard.press('Space')
+    await cssBtn.press('Space')
 
     // Should switch to CSS mode
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
@@ -179,7 +177,7 @@ test.describe('Accessibility: Code Mode Switch Keyboard', () => {
     // Focus Framer button and activate via Enter
     const framerBtn = sidebarSwitch.locator('[data-testid="code-mode-switch-Framer"]')
     await framerBtn.focus()
-    await page.keyboard.press('Enter')
+    await framerBtn.press('Enter')
 
     // Should switch back to Framer mode
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-framer$/)

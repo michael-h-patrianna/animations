@@ -1,77 +1,66 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Lights Animation Controls', () => {
-  test('bulb count controls increment and decrement correctly', async ({ catalogPage }) => {
+  test('lights inspector exposes configurable bulb props', async ({ catalogPage, page }) => {
     await catalogPage.gotoGroup('lights-framer')
+    await page.locator('[data-testid="toggle-right-panel"]').click()
 
     const card = catalogPage.card('lights__circle-static-1')
     await expect(card).toBeVisible()
+    await card.click()
 
-    const bulbInput = card.locator('input[type="number"][aria-label="Number of bulbs"]')
-    const increaseBtn = card.locator('button[aria-label="Increase bulb count"]')
-    const decreaseBtn = card.locator('button[aria-label="Decrease bulb count"]')
-
-    const initialValue = Number.parseInt(await bulbInput.inputValue(), 10)
-    expect(initialValue).toBeGreaterThan(0)
-
-    await increaseBtn.click()
-    const afterIncrease = Number.parseInt(await bulbInput.inputValue(), 10)
-    expect(afterIncrease).toBe(initialValue + 1)
-
-    await decreaseBtn.click()
-    const afterDecrease = Number.parseInt(await bulbInput.inputValue(), 10)
-    expect(afterDecrease).toBe(initialValue)
-
-    const stage = await catalogPage.cardStage(card)
-    await expect(stage).toBeVisible()
+    const rightPanel = page.locator('[data-testid="right-panel"]')
+    await expect(rightPanel).toBeVisible()
+    await expect(rightPanel).toContainText('Alternating Carnival')
+    await expect(page.locator('[data-testid="prop-field-numBulbs"]')).toBeVisible()
+    await expect(page.locator('[data-testid="prop-field-onColor"]')).toBeVisible()
   })
 
-  test('color picker is present with valid default color', async ({ catalogPage }) => {
+  test('inspector color picker shows a valid default light color', async ({ catalogPage, page }) => {
     await catalogPage.gotoGroup('lights-framer')
+    await page.locator('[data-testid="toggle-right-panel"]').click()
 
     const card = catalogPage.card('lights__circle-static-1')
-    const colorPicker = card.locator('input[type="color"][aria-label="Bulb color"]')
+    await expect(card).toBeVisible()
+    await card.click()
 
-    await expect(colorPicker).toBeVisible()
-    const value = await colorPicker.inputValue()
-    expect(value).toMatch(/^#[0-9a-f]{6}$/i)
+    const colorField = page.locator('[data-testid="prop-field-onColor"]')
+    await expect(colorField).toBeVisible()
+    const valueText = (await colorField.textContent()) ?? ''
+    expect(valueText).toMatch(/#[0-9a-f]{6}/i)
   })
 
-  test('boundary buttons disable at min and max bulb count', async ({ catalogPage }) => {
+  test('Number of Bulbs inspector updates and clamps the rendered light count', async ({
+    catalogPage,
+    page,
+  }) => {
     await catalogPage.gotoGroup('lights-framer')
+    await page.locator('[data-testid="toggle-right-panel"]').click()
 
     const card = catalogPage.card('lights__circle-static-1')
-    const bulbInput = card.locator('input[type="number"][aria-label="Number of bulbs"]')
-    const increaseBtn = card.locator('button[aria-label="Increase bulb count"]')
-    const decreaseBtn = card.locator('button[aria-label="Decrease bulb count"]')
+    await expect(card).toBeVisible()
+    await card.click()
 
-    // Default is 16, min is 4, max is 22
-    const initialValue = Number.parseInt(await bulbInput.inputValue(), 10)
-    expect(initialValue).toBe(16)
+    const bulbInput = page.locator('[data-testid="prop-field-numBulbs"] input[type="number"]').first()
+    const bulbs = card.locator('.lights-circle-static-1__bulb-wrapper')
 
-    // Both buttons should be enabled at default value (4 < 16 < 22)
-    await expect(increaseBtn).toBeEnabled()
-    await expect(decreaseBtn).toBeEnabled()
+    await expect(bulbInput).toHaveValue('16')
+    await expect.poll(async () => bulbs.count(), { timeout: 5_000 }).toBe(16)
 
-    // Increase to max (22) — increase button should disable
-    for (let v = initialValue; v < 22; v++) {
-      await increaseBtn.click()
-    }
-    await expect
-      .poll(async () => Number.parseInt(await bulbInput.inputValue(), 10), { timeout: 3_000 })
-      .toBe(22)
-    await expect(increaseBtn).toBeDisabled()
-    await expect(decreaseBtn).toBeEnabled()
+    await bulbInput.fill('18')
+    await bulbInput.blur()
+    await expect(bulbInput).toHaveValue('18')
+    await expect.poll(async () => bulbs.count(), { timeout: 5_000 }).toBe(18)
 
-    // Decrease back to min (4) — decrease button should disable
-    for (let v = 22; v > 4; v--) {
-      await decreaseBtn.click()
-    }
-    await expect
-      .poll(async () => Number.parseInt(await bulbInput.inputValue(), 10), { timeout: 3_000 })
-      .toBe(4)
-    await expect(decreaseBtn).toBeDisabled()
-    await expect(increaseBtn).toBeEnabled()
+    await bulbInput.fill('100')
+    await bulbInput.blur()
+    await expect(bulbInput).toHaveValue('40')
+    await expect.poll(async () => bulbs.count(), { timeout: 5_000 }).toBe(40)
+
+    await bulbInput.fill('1')
+    await bulbInput.blur()
+    await expect(bulbInput).toHaveValue('4')
+    await expect.poll(async () => bulbs.count(), { timeout: 5_000 }).toBe(4)
   })
 
   test('lights-framer route loads without ErrorBoundary', async ({ catalogPage }) => {

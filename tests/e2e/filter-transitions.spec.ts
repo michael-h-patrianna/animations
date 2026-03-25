@@ -100,9 +100,6 @@ test.describe('Filter State Transitions', () => {
     catalogPage,
     page,
   }) => {
-    // Production bug: removing a filter after mode switch navigates back to framer
-    // instead of staying in CSS mode. Same root cause as adversarial-state compound test.
-    test.fail(true, 'Production bug: filter removal after mode switch reverts to framer mode')
     const targetId = 'standard-effects__bounce'
 
     // Apply filter in Framer mode
@@ -115,6 +112,8 @@ test.describe('Filter State Transitions', () => {
     await expect.poll(() => new URL(page.url()).pathname, { timeout: 5_000 }).toMatch(/-css$/)
     expect(new URL(page.url()).searchParams.get('animation')).toBe(targetId)
     await expect(catalogPage.filterBanner()).toBeVisible()
+    await catalogPage.waitForCards()
+    await catalogPage.waitForTransitionSettle()
 
     // Remove filter in CSS mode
     await catalogPage.removeFilterButton().click()

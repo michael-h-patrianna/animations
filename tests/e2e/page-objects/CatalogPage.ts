@@ -1,8 +1,8 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
 /**
- * Page object encapsulating the animation catalog UI.
- * Provides navigation, sidebar, card, and code-mode interactions.
+ * Page object encapsulating the current animation catalog shell.
+ * Provides navigation, left-panel navigation, card, and code-mode interactions.
  *
  * Selector strategy:
  * - data-testid for interactive elements and key containers
@@ -18,12 +18,11 @@ export class CatalogPage {
   }
 
   /**
-   * The desktop sidebar panel (inside EditorLayout).
-   * Two sidebar elements exist: one in MobileDrawer (hidden when closed)
-   * and one in the EditorLeftPanel. This targets the visible desktop panel.
+   * The current app renders navigation inside the responsive left panel.
+   * Older tests used an AppSidebar wrapper that no longer exists.
    */
   get sidebar(): Locator {
-    return this.page.locator('[data-testid="sidebar"]:visible')
+    return this.page.locator('[data-testid="left-panel"]')
   }
 
   /** The top bar (always visible regardless of sidebar state). */
@@ -51,7 +50,7 @@ export class CatalogPage {
     await this.waitForCards()
   }
 
-  /** Wait for the app shell to be ready with sidebar visible. */
+  /** Wait for the app shell to be ready with navigation available. */
   async waitForShell() {
     await expect(this.topBar()).toBeVisible({ timeout: 10_000 })
     await this.ensureSidebarOpen()
@@ -63,16 +62,14 @@ export class CatalogPage {
    */
   async ensureSidebarOpen() {
     const visible = await this.page
-      .locator('[data-testid="sidebar"]:visible')
+      .locator('[data-testid="left-panel"]')
       .count()
       .then((c) => c > 0)
       .catch(() => false)
 
     if (!visible) {
       await this.panelToggle().click()
-      await expect(this.page.locator('[data-testid="sidebar"]:visible')).toBeVisible({
-        timeout: 5_000,
-      })
+      await expect(this.page.locator('[data-testid="left-panel"]')).toBeVisible({ timeout: 5_000 })
     }
   }
 
@@ -95,17 +92,21 @@ export class CatalogPage {
 
   /**
    * Wait for the AnimatePresence group transition to settle.
-   * Under load, the exit animation keeps departing group cards in the DOM
-   * briefly alongside the new group's cards. This waits until all
-   * data-animation-id values are unique.
+   * Scope to the visible group's direct card-grid children so internal
+   * animation roots with duplicate `data-animation-id` values do not
+   * masquerade as a still-transitioning page.
    */
   async waitForTransitionSettle() {
     await expect
       .poll(
         async () => {
-          const ids = await this.allCards().evaluateAll((els) =>
+          const ids = await this.page
+            .locator(
+              '[data-testid^="group-section-group-"]:visible [data-testid="card-grid"] > [data-animation-id]'
+            )
+            .evaluateAll((els) =>
             els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
-          )
+            )
           if (ids.length === 0) return -1
           return ids.length - new Set(ids).size
         },
@@ -117,19 +118,18 @@ export class CatalogPage {
   // ── Sidebar ────────────────────────────────────────────────────────
 
   /**
-   * All category toggle buttons in the sidebar.
-   * After ui-refactor: categories use ControlGroup with `data-testid="control-group-toggle"`.
-   * Scoped to sidebar sections to avoid matching non-category control groups.
+   * All category toggle buttons in the left navigation panel.
+   * Categories use ControlGroup with `data-testid="control-group-toggle"`.
    */
   categoryButtons(): Locator {
-    return this.sidebar.locator(
-      '[data-testid^="sidebar-section-"] > [data-testid="control-group-toggle"]'
+    return this.page.locator(
+      '[data-testid="left-panel"] [data-testid^="sidebar-section-"] > [data-testid="control-group-toggle"]'
     )
   }
 
   /** All sidebar sections. */
   sidebarSections(): Locator {
-    return this.sidebar.locator('[data-testid^="sidebar-section-"]')
+    return this.page.locator('[data-testid="left-panel"] [data-testid^="sidebar-section-"]')
   }
 
   /** Group links within a specific sidebar section. */
@@ -139,12 +139,12 @@ export class CatalogPage {
 
   /** All visible group links in the sidebar. */
   allGroupLinks(): Locator {
-    return this.sidebar.locator('[data-testid^="sidebar-group-"]')
+    return this.page.locator('[data-testid="left-panel"] [data-testid^="sidebar-group-"]')
   }
 
   /** The active group link in the sidebar. */
   activeGroupLink(): Locator {
-    return this.sidebar.locator('[data-testid^="sidebar-group-"][data-active]')
+    return this.page.locator('[data-testid="left-panel"] [data-testid^="sidebar-group-"][data-active]')
   }
 
   /** Click a category button by index. */
@@ -183,21 +183,32 @@ export class CatalogPage {
 
   // ── Code Mode ──────────────────────────────────────────────────────
 
-  /** The code mode switch scoped to the desktop sidebar (not the mobile drawer). */
+  /** The code mode switch scoped to the left navigation panel. */
   private codeModeSwitch(): Locator {
-    return this.sidebar.locator('[data-testid="code-mode-switch"]')
+    return this.page.locator('[data-testid="left-panel"] [data-testid="code-mode-switch"]')
+  }
+
+  private async waitForCodeMode(label: 'Framer' | 'CSS', suffix: '-framer' | '-css') {
+    await expect
+      .poll(async () => (await this.activeCodeMode()).trim(), { timeout: 5_000 })
+      .toBe(label)
+    await expect.poll(() => this.currentPathname(), { timeout: 5_000 }).toMatch(new RegExp(`${suffix}$`))
+    await this.waitForCards()
+    await this.waitForTransitionSettle()
   }
 
   /** Click the Framer mode button in the desktop sidebar. */
   async selectFramerMode() {
     await this.ensureSidebarOpen()
     await this.codeModeSwitch().locator('[data-testid="code-mode-switch-Framer"]').click()
+    await this.waitForCodeMode('Framer', '-framer')
   }
 
   /** Click the CSS mode button in the desktop sidebar. */
   async selectCssMode() {
     await this.ensureSidebarOpen()
     await this.codeModeSwitch().locator('[data-testid="code-mode-switch-CSS"]').click()
+    await this.waitForCodeMode('CSS', '-css')
   }
 
   /** Get the currently active code mode label from the desktop sidebar. */
@@ -365,14 +376,13 @@ export class CatalogPage {
 
   /** Extract all data-animation-id values from visible cards on the current page. */
   async getAllAnimationIds(): Promise<string[]> {
-    const cards = this.allCards()
-    const count = await cards.count()
-    const ids: string[] = []
-    for (let i = 0; i < count; i++) {
-      const id = await cards.nth(i).getAttribute('data-animation-id')
-      if (id) ids.push(id)
-    }
-    return ids
+    return this.page
+      .locator(
+        '[data-testid^="group-section-group-"]:visible [data-testid="card-grid"] > [data-animation-id]'
+      )
+      .evaluateAll((els) =>
+        els.map((el) => el.getAttribute('data-animation-id')).filter((id): id is string => id != null)
+      )
   }
 
   /**
@@ -457,8 +467,9 @@ export class CatalogPage {
 
   /** Open desktop preview for a card and wait for overlay. */
   async openDesktopPreview(card: Locator) {
-    await card.scrollIntoViewIfNeeded()
-    await this.previewDesktopButton(card).click()
+    const previewButton = this.previewDesktopButton(card)
+    await expect(previewButton).toBeVisible({ timeout: 5_000 })
+    await previewButton.click()
     await expect(this.page.locator('[data-testid="preview-desktop"]')).toBeVisible({
       timeout: 3_000,
     })
@@ -466,8 +477,9 @@ export class CatalogPage {
 
   /** Open mobile preview for a card and wait for overlay. */
   async openMobilePreview(card: Locator) {
-    await card.scrollIntoViewIfNeeded()
-    await this.previewMobileButton(card).click()
+    const previewButton = this.previewMobileButton(card)
+    await expect(previewButton).toBeVisible({ timeout: 5_000 })
+    await previewButton.click()
     await expect(this.page.locator('[data-testid="preview-mobile"]')).toBeVisible({
       timeout: 3_000,
     })
@@ -551,7 +563,7 @@ export class CatalogPage {
   /** Check if the sidebar is currently visible (any viewport). */
   async isSidebarVisible(): Promise<boolean> {
     return this.page
-      .locator('[data-testid="sidebar"]:visible')
+      .locator('[data-testid="left-panel"]:visible')
       .count()
       .then((c) => c > 0)
       .catch(() => false)

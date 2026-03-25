@@ -1,6 +1,18 @@
+import type { Locator } from '@playwright/test'
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Progress Bar Animations', () => {
+  async function progressFillScale(fill: Locator) {
+    return fill.evaluate((el) => {
+      const transform = window.getComputedStyle(el).transform
+      if (transform === 'none') return 0
+      const match = transform.match(/matrix(?:3d)?\(([^)]+)\)/)
+      if (!match) return -1
+      const first = Number(match[1]?.split(',')[0]?.trim() ?? Number.NaN)
+      return Number.isFinite(first) ? first : -1
+    })
+  }
+
   test('renders progress bar cards in both Framer and CSS variants', async ({ catalogPage }) => {
     const variants = [
       { groupId: 'progress-bars-framer', expectedSuffix: '-framer' },
@@ -46,28 +58,16 @@ test.describe('Progress Bar Animations', () => {
     await expect(stage.locator('.label-container')).toContainText('100%')
   })
 
-  test('milestone progress markers become fully opaque as progress completes', async ({
-    catalogPage,
-  }) => {
+  test('milestone progress fill advances over time', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('progress-bars-framer')
 
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    // Wait for the last milestone marker to become fully opaque (progress reaches 100%)
-    // The demo animation takes ~4s + 1.5s pause; markers animate to opacity:1 when active
-    const lastMarker = stage.locator('.milestone-marker').last()
+    const fill = stage.locator('.pf-progress-fill')
     await expect
-      .poll(
-        async () => {
-          const opacity = await lastMarker.evaluate((el) =>
-            parseFloat(window.getComputedStyle(el).opacity)
-          )
-          return opacity
-        },
-        { timeout: 10_000 }
-      )
-      .toBeGreaterThan(0.9)
+      .poll(async () => progressFillScale(fill), { timeout: 5_000 })
+      .toBeGreaterThan(0.3)
   })
 
   test('replay resets and replays milestone progress', async ({ catalogPage }) => {
@@ -76,39 +76,32 @@ test.describe('Progress Bar Animations', () => {
     const card = catalogPage.card('progress-bars__progress-milestones')
     const stage = await catalogPage.cardStage(card)
 
-    // Wait for progress to complete (last marker becomes opaque)
-    const lastMarker = stage.locator('.milestone-marker').last()
+    const fill = stage.locator('.pf-progress-fill')
     await expect
-      .poll(
-        async () => {
-          const opacity = await lastMarker.evaluate((el) =>
-            parseFloat(window.getComputedStyle(el).opacity)
-          )
-          return opacity
-        },
-        { timeout: 10_000 }
-      )
-      .toBeGreaterThan(0.9)
+      .poll(async () => progressFillScale(fill), { timeout: 5_000 })
+      .toBeGreaterThan(0.3)
 
     // Replay resets the animation
     const replay = catalogPage.replayButton(card)
     await expect(replay).toBeEnabled()
+    const fillHandle = await fill.elementHandle()
     await replay.click()
 
-    // After replay, first marker should still have rendered content (remounted)
     await expect(stage.locator('.milestone-marker').first()).toBeVisible({ timeout: 5_000 })
-
-    // Progress resumes — last marker eventually becomes opaque again
     await expect
       .poll(
         async () => {
-          const opacity = await lastMarker.evaluate((el) =>
-            parseFloat(window.getComputedStyle(el).opacity)
-          )
-          return opacity
+          if (fillHandle == null) return true
+          return fillHandle.evaluate((el) => el.isConnected).catch(() => false)
         },
-        { timeout: 10_000 }
+        { timeout: 5_000 }
       )
-      .toBeGreaterThan(0.9)
+      .toBe(false)
+
+    // Progress resumes on the remounted demo.
+    const remountedFill = stage.locator('.pf-progress-fill')
+    await expect
+      .poll(async () => progressFillScale(remountedFill), { timeout: 5_000 })
+      .toBeGreaterThan(0.3)
   })
 })

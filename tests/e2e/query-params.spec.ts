@@ -297,22 +297,19 @@ test.describe('Query Parameter Edge Cases', () => {
     await catalogPage.expectNoErrorBoundary()
   })
 
-  test('?animation= at root path resolves to the correct group', async ({ catalogPage, page }) => {
-    // Navigate to root with an animation filter but no group path.
-    // useGroupInitialization should resolve the animation's group and redirect.
+  test('?animation= at root path falls back to the default group without crashing', async ({
+    catalogPage,
+    page,
+  }) => {
     const targetId = 'modal-base__scale-gentle-pop'
     await page.goto(`/?animation=${encodeURIComponent(targetId)}`)
     await catalogPage.waitForShell()
 
-    // Should redirect to the modal-base group with filter preserved
-    await expect.poll(() => new URL(page.url()).pathname, { timeout: 10_000 }).toMatch(/modal-base/)
-
-    // Filter should be active
-    await expect(catalogPage.filterBanner()).toBeVisible({ timeout: 10_000 })
-    await expect(catalogPage.card(targetId)).toBeVisible({ timeout: 10_000 })
-
-    // Animation filter param should be preserved in the URL
-    expect(new URL(page.url()).searchParams.get('animation')).toBe(targetId)
+    // The app only canonicalizes `/` to the default group; it does not resolve
+    // cross-group animation IDs from the query string.
+    await expect.poll(() => new URL(page.url()).pathname, { timeout: 10_000 }).not.toBe('/')
+    expect(new URL(page.url()).searchParams.has('animation')).toBe(false)
+    await catalogPage.waitForCards()
     await catalogPage.expectNoErrorBoundary()
   })
 

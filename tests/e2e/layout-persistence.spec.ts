@@ -27,6 +27,22 @@ async function waitForTopBarOnly(catalogPage: { page: import('@playwright/test')
 
 test.describe('Layout Persistence: Panel Toggle', () => {
   test('sidebar panel state persists across page reload', async ({ catalogPage, page }) => {
+    await page.addInitScript(() => {
+      if (localStorage.getItem('animation-catalog-layout') == null) {
+        localStorage.setItem(
+          'animation-catalog-layout',
+          JSON.stringify({
+            state: {
+              showLeftPanel: true,
+              theme: 'dark-blue',
+              accent: 'blue',
+            },
+            version: 0,
+          })
+        )
+      }
+    })
+
     await catalogPage.goto()
     await catalogPage.waitForCards()
 
@@ -57,6 +73,22 @@ test.describe('Layout Persistence: Panel Toggle', () => {
     catalogPage,
     page,
   }) => {
+    await page.addInitScript(() => {
+      if (localStorage.getItem('animation-catalog-layout') == null) {
+        localStorage.setItem(
+          'animation-catalog-layout',
+          JSON.stringify({
+            state: {
+              showLeftPanel: true,
+              theme: 'dark-blue',
+              accent: 'blue',
+            },
+            version: 0,
+          })
+        )
+      }
+    })
+
     await catalogPage.goto()
     await catalogPage.waitForCards()
 

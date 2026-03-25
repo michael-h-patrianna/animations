@@ -244,9 +244,6 @@ test.describe('Adversarial: Filter + Mode Switch + Navigation Compound', () => {
     errorCollector,
     page,
   }) => {
-    // Production bug: removing a filter after mode switch navigates back to framer
-    // instead of staying in CSS mode. The app's filter removal resets the mode.
-    test.fail(true, 'Production bug: filter removal after mode switch reverts to framer mode')
     // Step 1: Apply filter
     const targetId = 'text-effects__character-reveal'
     await page.goto(`/text-effects-framer?animation=${encodeURIComponent(targetId)}`)

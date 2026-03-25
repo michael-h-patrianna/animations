@@ -1,5 +1,24 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
+async function suppressExpectedBoundaryConsole(page: import('@playwright/test').Page, marker: string) {
+  await page.addInitScript((expectedMarker) => {
+    // eslint-disable-next-line no-console -- intentionally intercepting console.error to suppress expected React ErrorBoundary noise
+    const originalError = console.error.bind(console)
+    // eslint-disable-next-line no-console -- replacing console.error to filter expected ErrorBoundary messages
+    console.error = (...args: unknown[]) => {
+      const text = args.map((value) => String(value)).join(' ')
+      if (
+        text.includes(expectedMarker) ||
+        text.includes('ErrorBoundary caught an error:') ||
+        text.includes('The above error occurred in the <AnimationCardComponent> component.')
+      ) {
+        return
+      }
+      originalError(...args)
+    }
+  }, marker)
+}
+
 test.describe('ErrorBoundary', () => {
   test('does not show fallback UI during healthy app render', async ({ catalogPage }) => {
     await catalogPage.goto()
@@ -10,6 +29,10 @@ test.describe('ErrorBoundary', () => {
   })
 
   test('shows fallback UI when a child lifecycle error is thrown', async ({ catalogPage }) => {
+    await suppressExpectedBoundaryConsole(
+      catalogPage.page,
+      'Forced IntersectionObserver failure for ErrorBoundary test'
+    )
     await catalogPage.page.addInitScript(() => {
       const OriginalObserver = window.IntersectionObserver
       ;(window as Window & { __ioThrowOnce?: boolean }).__ioThrowOnce = true
@@ -35,6 +58,10 @@ test.describe('ErrorBoundary', () => {
   test('recovers after clicking Try Again when injected failure is one-time', async ({
     catalogPage,
   }) => {
+    await suppressExpectedBoundaryConsole(
+      catalogPage.page,
+      'Forced one-time failure for ErrorBoundary recovery test'
+    )
     await catalogPage.page.addInitScript(() => {
       const OriginalObserver = window.IntersectionObserver
       ;(window as Window & { __ioThrowOnce?: boolean }).__ioThrowOnce = true

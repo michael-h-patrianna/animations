@@ -21,6 +21,28 @@ const SKIP_SIZE_CHECK = new Set([
   'modal-content__form-field-gradient', // Framer renders taller (511px vs 240px)
 ])
 
+// Keep in sync with route-coverage.spec.ts.
+const ALL_GROUP_BASE_IDS = [
+  'button-effects',
+  'text-effects',
+  'standard-effects',
+  'modal-base',
+  'modal-content',
+  'modal-dismiss',
+  'modal-open',
+  'modal-orchestration',
+  'modal-celebrations',
+  'prize-reveal',
+  'icon-animations',
+  'collection-effects',
+  'lights',
+  'progress-bars',
+  'loading-states',
+  'update-indicators',
+  'timer-effects',
+  'realtime-data',
+] as const
+
 type StageMetrics = {
   width: number
   height: number
@@ -53,78 +75,49 @@ async function measureStage(cp: CatalogPage, animId: string): Promise<StageMetri
   }
 }
 
-/** Discover all base group IDs by clicking sidebar links in framer mode. */
-async function discoverBaseGroupIds(cp: CatalogPage): Promise<string[]> {
-  await cp.goto()
-  await cp.selectFramerMode()
-  await cp.waitForCards()
+async function collectGroupAnimationIds(cp: CatalogPage, groupId: string): Promise<string[]> {
+  await cp.gotoGroup(groupId)
+  await cp.waitForTransitionSettle()
 
-  const ids: string[] = []
-  const count = await cp.allGroupLinks().count()
-
-  for (let i = 0; i < count; i++) {
-    await cp.allGroupLinks().nth(i).click()
-    await expect.poll(() => cp.currentPathname(), { timeout: 5_000 }).toMatch(/-framer$/)
-    const m = cp.currentPathname().match(/^\/(.*)-framer$/)
-    if (m && !ids.includes(m[1])) ids.push(m[1])
-  }
-
-  return ids
+  return (
+    await cp
+      .scopedCards(groupId)
+      .evaluateAll((els) => els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean))
+  ).sort() as string[]
 }
 
 test.describe('CSS/Framer Structural Parity', () => {
-  test.setTimeout(300_000)
+  for (const baseId of ALL_GROUP_BASE_IDS) {
+    test(`${baseId} variants have matching IDs and similar dimensions`, async ({
+      catalogPage,
+    }) => {
+      test.setTimeout(90_000)
 
-  test('both variants have matching IDs and similar dimensions per group', async ({
-    catalogPage,
-  }) => {
-    const baseIds = await discoverBaseGroupIds(catalogPage)
-    expect(baseIds.length).toBeGreaterThan(0)
+      const framerGroupId = `${baseId}-framer`
+      const cssGroupId = `${baseId}-css`
+      const framerIds = await collectGroupAnimationIds(catalogPage, framerGroupId)
+      const cssIds = await collectGroupAnimationIds(catalogPage, cssGroupId)
 
-    const idMismatches: string[] = []
-    const sizeFailures: string[] = []
-    let comparedCount = 0
+      expect(
+        framerIds,
+        `${baseId}: framer/css animation IDs must match.\nframer=${framerIds.join(', ')}\ncss=${cssIds.join(', ')}`
+      ).toEqual(cssIds)
 
-    for (const baseId of baseIds) {
-      // Framer: collect IDs and metrics using scoped cards (avoids AnimatePresence duplicates)
-      await catalogPage.gotoGroup(`${baseId}-framer`)
+      await catalogPage.gotoGroup(framerGroupId)
       await catalogPage.waitForTransitionSettle()
-      const framerCards = catalogPage.scopedCards(`${baseId}-framer`)
-      const framerIds = (
-        await framerCards.evaluateAll((els) =>
-          els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
-        )
-      ).sort() as string[]
-
       const framerMetrics = new Map<string, StageMetrics>()
       for (const id of framerIds) {
         const metrics = await measureStage(catalogPage, id)
         if (metrics) framerMetrics.set(id, metrics)
       }
 
-      // CSS: collect IDs and compare using scoped cards
-      await catalogPage.gotoGroup(`${baseId}-css`)
+      await catalogPage.gotoGroup(cssGroupId)
       await catalogPage.waitForTransitionSettle()
-      const cssCards = catalogPage.scopedCards(`${baseId}-css`)
-      const cssIds = (
-        await cssCards.evaluateAll((els) =>
-          els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
-        )
-      ).sort() as string[]
+      const sizeFailures: string[] = []
+      let comparedCount = 0
 
-      // Check ID parity
-      if (JSON.stringify(framerIds) !== JSON.stringify(cssIds)) {
-        const framerOnly = framerIds.filter((id) => !cssIds.includes(id))
-        const cssOnly = cssIds.filter((id) => !framerIds.includes(id))
-        const parts: string[] = [`${baseId}: ID mismatch`]
-        if (framerOnly.length > 0) parts.push(`  framer-only: ${framerOnly.join(', ')}`)
-        if (cssOnly.length > 0) parts.push(`  css-only: ${cssOnly.join(', ')}`)
-        idMismatches.push(parts.join('\n'))
-      }
-
-      // Check size parity for shared animations
       for (const id of framerIds) {
-        if (!cssIds.includes(id) || !framerMetrics.has(id) || SKIP_SIZE_CHECK.has(id)) continue
+        if (!framerMetrics.has(id) || SKIP_SIZE_CHECK.has(id)) continue
         const cssMetrics = await measureStage(catalogPage, id)
         if (!cssMetrics) continue
 
@@ -156,15 +149,14 @@ test.describe('CSS/Framer Structural Parity', () => {
           sizeFailures.push(`${id}: css variant has zero stage children`)
         }
       }
-    }
 
-    expect(comparedCount, 'Must compare at least some animations').toBeGreaterThan(0)
+      expect(comparedCount, `${baseId}: must compare at least one shared animation`).toBeGreaterThan(0)
 
-    const allFailures = [...idMismatches, ...sizeFailures]
-    if (allFailures.length > 0) {
-      throw new Error(
-        `Structural parity failures (${allFailures.length} issues, ${comparedCount} compared):\n${allFailures.map((f) => `  - ${f}`).join('\n')}`
-      )
-    }
-  })
+      if (sizeFailures.length > 0) {
+        throw new Error(
+          `${baseId}: structural parity failures (${sizeFailures.length} issues, ${comparedCount} compared):\n${sizeFailures.map((f) => `  - ${f}`).join('\n')}`
+        )
+      }
+    })
+  }
 })

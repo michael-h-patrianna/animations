@@ -74,18 +74,15 @@ test.describe('Preview Advanced Interactions', () => {
     // Navigate to a different group via drawer
     await mobilePage.openDrawer()
     await mobilePage.clickDrawerGroup(1)
-    await mobilePage.expectDrawerClosed()
+    await mobilePage.expectDrawerOpen()
+    await mobilePage.closeDrawer()
 
     // Wait for cards to load in the new group
     await expect(catalogPage.allCards().first()).toBeVisible({ timeout: 10_000 })
 
     // Open desktop preview on a card in the new group
     const card = catalogPage.allCards().first()
-    await card.scrollIntoViewIfNeeded()
-    await catalogPage.previewDesktopButton(card).click()
-    await expect(catalogPage.page.locator('[data-testid="preview-desktop"]')).toBeVisible({
-      timeout: 3_000,
-    })
+    await catalogPage.openDesktopPreview(card)
     await expect(catalogPage.previewAnimation()).toBeVisible()
 
     // Close and verify no stale state
@@ -106,8 +103,6 @@ test.describe('Preview Advanced Interactions', () => {
     // Get a fresh card reference after transition settles
     const card = catalogPage.allCards().first()
     await expect(card).toBeVisible({ timeout: 5_000 })
-    // Wait for card to be stable in the DOM (AnimatePresence exit completed)
-    await card.scrollIntoViewIfNeeded()
     await catalogPage.openDesktopPreview(card)
 
     const animation = catalogPage.previewAnimation()

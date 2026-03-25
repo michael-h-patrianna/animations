@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Code Mode Switching (Framer ↔ CSS)', () => {
-  test('switching to CSS mode updates URL and card tags', async ({ catalogPage }) => {
+  test('switching to CSS mode updates URL and active mode', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-framer')
 
     // Verify starting in Framer mode
@@ -24,7 +24,7 @@ test.describe('Code Mode Switching (Framer ↔ CSS)', () => {
       .toBe('CSS')
   })
 
-  test('switching to Framer mode updates URL and card tags', async ({ catalogPage }) => {
+  test('switching to Framer mode updates URL and active mode', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('text-effects-css')
 
     expect(catalogPage.currentPathname()).toBe('/text-effects-css')
@@ -130,15 +130,11 @@ test.describe('Code Mode Switching (Framer ↔ CSS)', () => {
     // Switch to CSS mode first
     await catalogPage.selectCssMode()
     await expect.poll(() => catalogPage.currentPathname(), { timeout: 5_000 }).toMatch(/-css$/)
+    await expect.poll(() => catalogPage.activeCodeMode(), { timeout: 5_000 }).toContain('CSS')
 
-    // Now click a group link — it should navigate to the CSS variant
-    const groupLinks = catalogPage.allGroupLinks()
-    const count = await groupLinks.count()
-    expect(count).toBeGreaterThan(1)
-
-    const before = catalogPage.currentPathname()
-    await groupLinks.nth(1).click()
-    await catalogPage.waitForPathnameChange(before)
+    // Navigate via a different sidebar group and ensure mode is preserved.
+    const nextPath = await catalogPage.clickNonActiveGroup()
+    expect(nextPath).not.toBeNull()
 
     // URL should end with -css
     expect(catalogPage.currentPathname()).toMatch(/-css$/)

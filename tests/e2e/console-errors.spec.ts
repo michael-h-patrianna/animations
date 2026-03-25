@@ -135,7 +135,8 @@ test.describe('Console Error Monitoring', () => {
     // Open drawer and navigate
     await mobilePage.openDrawer()
     await mobilePage.clickDrawerGroup(1)
-    await mobilePage.expectDrawerClosed()
+    await mobilePage.expectDrawerOpen()
+    await mobilePage.closeDrawer()
 
     // Open drawer again, switch mode, navigate
     await mobilePage.openDrawer()
