@@ -135,6 +135,7 @@
 .preview-animation[data-position='center'] {
   align-items: center;
   justify-content: center;
+  padding-inline: 1rem;
 }
 
 .preview-animation[data-position='top-left'] {

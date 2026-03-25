@@ -17,7 +17,7 @@
   width: 100%;
   min-height: 48px;
   justify-content: center;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .pf-progress-segmented .pf-progress-track {
