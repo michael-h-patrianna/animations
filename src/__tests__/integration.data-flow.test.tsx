@@ -21,7 +21,7 @@ describe('integration: full data flow pipeline', () => {
   beforeAll(async () => {
     resetLazyTestState()
     catalog = await loadLazyCatalog()
-  })
+  }, 30_000)
 
   afterAll(() => {
     resetLazyTestState()

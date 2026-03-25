@@ -179,34 +179,38 @@ describe('animation portability fixes', () => {
     }
   })
 
-  it('uses structured style controls for all progress-bar metadata instead of a disabled style placeholder', async () => {
-    const catalog = await loadLazyCatalog()
-    const progressBarGroups = catalog
-      .flatMap((category) => category.groups)
-      .filter((group) => group.id === 'progress-bars-framer' || group.id === 'progress-bars-css')
+  it(
+    'uses structured style controls for all progress-bar metadata instead of a disabled style placeholder',
+    async () => {
+      const catalog = await loadLazyCatalog()
+      const progressBarGroups = catalog
+        .flatMap((category) => category.groups)
+        .filter((group) => group.id === 'progress-bars-framer' || group.id === 'progress-bars-css')
 
-    expect(progressBarGroups).toHaveLength(2)
+      expect(progressBarGroups).toHaveLength(2)
 
-    for (const group of progressBarGroups) {
-      for (const animation of group.animations) {
-        const styleProp = animation.props?.find((prop) => prop.name === 'style') as
-          | { type?: string; disabled?: boolean; fields?: unknown[] }
-          | undefined
+      for (const group of progressBarGroups) {
+        for (const animation of group.animations) {
+          const styleProp = animation.props?.find((prop) => prop.name === 'style') as
+            | { type?: string; disabled?: boolean; fields?: unknown[] }
+            | undefined
 
-        expect(styleProp?.type, `${animation.id} should expose structured style controls`).toBe(
-          'style-object'
-        )
-        expect(
-          styleProp?.disabled,
-          `${animation.id} should not keep the disabled style placeholder`
-        ).not.toBe(true)
-        expect(
-          styleProp?.fields?.length ?? 0,
-          `${animation.id} should expose at least one theme field`
-        ).toBeGreaterThan(0)
+          expect(styleProp?.type, `${animation.id} should expose structured style controls`).toBe(
+            'style-object'
+          )
+          expect(
+            styleProp?.disabled,
+            `${animation.id} should not keep the disabled style placeholder`
+          ).not.toBe(true)
+          expect(
+            styleProp?.fields?.length ?? 0,
+            `${animation.id} should expose at least one theme field`
+          ).toBeGreaterThan(0)
+        }
       }
-    }
-  })
+    },
+    30_000
+  )
 
   it('makes CSS spring-physics metadata truthful about the controls it actually supports', () => {
     const propNames = springPhysicsCssMetadata.props?.map((prop) => prop.name) ?? []

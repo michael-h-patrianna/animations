@@ -1,11 +1,31 @@
 import { App } from '@/App'
+import { resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { DEFAULT_ACCENT, DEFAULT_THEME, useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import demoUiStyles from '@/demo-ui/styles/index.css?raw'
 import { _resetScrollLockState } from '@/hooks/useScrollLock'
+import { loadLazyGroup } from '@/lib/lazyGroupRegistry'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+
+// Pre-warm only the groups that tests in this file actually navigate to,
+// so individual tests don't race with dynamic imports under heavy parallel load.
+beforeAll(async () => {
+  resetLazyTestState()
+  await Promise.all([
+    loadLazyGroup('text-effects-framer'),
+    loadLazyGroup('standard-effects-framer'),
+    loadLazyGroup('standard-effects-css'),
+    loadLazyGroup('modal-base-framer'),
+    loadLazyGroup('modal-orchestration-framer'),
+    loadLazyGroup('collection-effects-framer'),
+  ])
+}, 30_000)
+
+afterAll(() => {
+  resetLazyTestState()
+})
 
 beforeEach(() => {
   useLayoutStore.setState({

@@ -34,14 +34,18 @@ describe('animationRegistry', () => {
       resetLazyTestState()
     })
 
-    it('loads a group asynchronously and exposes it via sync cache reads afterwards', async () => {
-      const loaded = await getLazyGroupAnimationsAsync('standard-effects', 'framer')
-      const cached = getGroupAnimations('standard-effects', 'framer')
+    it(
+      'loads a group asynchronously and exposes it via sync cache reads afterwards',
+      async () => {
+        const loaded = await getLazyGroupAnimationsAsync('standard-effects', 'framer')
+        const cached = getGroupAnimations('standard-effects', 'framer')
 
-      expect(Object.keys(loaded).length).toBeGreaterThanOrEqual(1)
-      expect(Object.keys(cached).sort()).toEqual(Object.keys(loaded).sort())
-      expect(Object.keys(cached).every((id) => id.startsWith('standard-effects__'))).toBe(true)
-    })
+        expect(Object.keys(loaded).length).toBeGreaterThanOrEqual(1)
+        expect(Object.keys(cached).sort()).toEqual(Object.keys(loaded).sort())
+        expect(Object.keys(cached).every((id) => id.startsWith('standard-effects__'))).toBe(true)
+      },
+      30_000
+    )
 
     it('returns empty object for unknown groups', () => {
       expect(getGroupAnimations('nonexistent-group', 'framer')).toEqual({})
@@ -52,7 +56,7 @@ describe('animationRegistry', () => {
     beforeAll(async () => {
       resetLazyTestState()
       await loadLazyCatalog()
-    })
+    }, 30_000)
 
     afterAll(() => {
       resetLazyTestState()
