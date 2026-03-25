@@ -106,16 +106,8 @@ export const EditorTopBar: React.FC = () => {
         </Button>
         <div className="flex items-center gap-2 text-xs text-text-secondary">
           <DropdownMenu
-            trigger={
-              <Button
-                variant="ghost"
-                size="sm"
-                data-testid="menu-view"
-                className="px-2 py-1 font-medium tracking-wide"
-              >
-                VIEW
-              </Button>
-            }
+            trigger={<span data-testid="menu-view">VIEW</span>}
+            className="btn btn-ghost btn-sm px-2 py-1 font-medium tracking-wide"
             items={viewItems}
           />
         </div>

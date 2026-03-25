@@ -32,7 +32,7 @@ export interface DropdownMenuProps {
 function useDropdownPosition(
   isOpen: boolean,
   align: 'left' | 'right',
-  triggerRef: React.RefObject<HTMLDivElement | null>,
+  triggerRef: React.RefObject<HTMLElement | null>,
   popoverRef: React.RefObject<HTMLDivElement | null>
 ) {
   const [coords, setCoords] = useState({ top: 0, left: 0 })
@@ -86,7 +86,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   const autoId = useId()
   const dropdownId = providedId ?? `dropdown-${autoId}`
   const popoverRef = useRef<HTMLDivElement>(null)
-  const triggerRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   const { isOpen, toggleDropdown, closeDropdown, openDropdown } = useDropdownStore(
     useShallow((state) => ({
@@ -139,7 +139,8 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
 
   return (
     <>
-      <div
+      <button
+        type="button"
         data-testid="dropdown-menu-toggle"
         ref={triggerRef}
         data-dropdown-trigger={dropdownId}
@@ -152,13 +153,12 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
           toggleDropdown(dropdownId)
           e.stopPropagation()
         }}
-        role="button"
         className={`cursor-pointer ${className}`}
         aria-haspopup="menu"
         aria-expanded={isOpen}
       >
         {trigger}
-      </div>
+      </button>
       <div
         ref={popoverRef}
         popover="auto"

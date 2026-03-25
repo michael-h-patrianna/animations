@@ -92,6 +92,7 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
           <div
             className="flex-1 flex flex-col min-w-0 relative z-0 pointer-events-auto overflow-auto pt-16"
             data-testid="editor-center-pane"
+            tabIndex={0}
           >
             {children}
           </div>
