@@ -271,8 +271,19 @@ function getActiveAnimatableProps(
   })
 }
 
-/** Manages the Fixed/Animate toggle state and a timer that drives animated prop values. */
-function useAnimatePreview(selectedAnimation: Animation | undefined) {
+/** Finds the first animatable number prop config across all animations in a group. */
+function findGroupAnimatableProp(animations: Animation[] | undefined): NumberPropConfig | undefined {
+  if (!animations) return undefined
+  for (const anim of animations) {
+    for (const p of anim.props ?? []) {
+      if (p.type === 'number' && p.animatable) return p
+    }
+  }
+  return undefined
+}
+
+/** Manages the Fixed/Animate toggle state and a shared timer for all cards in the group. */
+function useAnimatePreview(animations: Animation[] | undefined) {
   const [animateToggles, setAnimateToggles] = useState<AnimateToggles>({})
   const [animatedValues, setAnimatedValues] = useState<Record<string, number>>({})
   const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
@@ -293,52 +304,42 @@ function useAnimatePreview(selectedAnimation: Animation | undefined) {
     []
   )
 
-  // Timer: drives animatable props from min→max for the selected animation.
+  // Shared timer: drives a single animated value for all animatable props in the group.
+  const animatableProp = useMemo(() => findGroupAnimatableProp(animations), [animations])
+
   useEffect(() => {
-    if (!selectedAnimation) {
+    if (!animatableProp) {
       setAnimatedValues({})
       return
     }
 
-    const active = getActiveAnimatableProps(
-      selectedAnimation.props,
-      animateToggles,
-      selectedAnimation.id
-    )
-    if (active.length === 0) {
-      setAnimatedValues({})
-      return
-    }
-
-    const prop = active[0]!
-    const duration = prop.animateDuration ?? 4000
-    const pause = prop.animatePause ?? 1200
-    const min = prop.min ?? 0
-    const max = prop.max ?? 1
-    const step = prop.step ?? 0.01
+    const duration = animatableProp.animateDuration ?? 4000
+    const pause = animatableProp.animatePause ?? 1200
+    const min = animatableProp.min ?? 0
+    const max = animatableProp.max ?? 1
+    const step = animatableProp.step ?? 0.01
     const totalSteps = Math.round((max - min) / step)
     const stepInterval = duration / totalSteps
-
     let currentStep = 0
     let pausing = false
 
-    setAnimatedValues({ [prop.name]: min })
+    setAnimatedValues({ [animatableProp.name]: min })
 
     const timer = setInterval(() => {
       if (pausing) return
       currentStep++
       if (currentStep >= totalSteps) {
-        setAnimatedValues({ [prop.name]: max })
+        setAnimatedValues({ [animatableProp.name]: max })
         pausing = true
         pauseTimerRef.current = setTimeout(() => {
           currentStep = 0
-          setAnimatedValues({ [prop.name]: min })
+          setAnimatedValues({ [animatableProp.name]: min })
           pausing = false
         }, pause)
       } else {
         const raw = min + (currentStep / totalSteps) * (max - min)
         const rounded = Math.round(raw / step) * step
-        setAnimatedValues({ [prop.name]: Math.min(rounded, max) })
+        setAnimatedValues({ [animatableProp.name]: Math.min(rounded, max) })
       }
     }, stepInterval)
 
@@ -349,26 +350,23 @@ function useAnimatePreview(selectedAnimation: Animation | undefined) {
         pauseTimerRef.current = undefined
       }
     }
-  }, [selectedAnimation, animateToggles])
+  }, [animatableProp])
 
   return { animateToggles, animatedValues, getAnimateMode, setAnimateMode }
 }
 
-/** Injects animated values into base overrides for the selected animation's animate-mode props. */
+/** Injects animated values for any animation whose animatable props are in animate mode. */
 function mergeAnimatedOverrides(
   animationId: string,
-  selectedId: string | undefined,
   baseOverrides: Record<string, unknown>,
   toggles: AnimateToggles,
   values: Record<string, number>,
   propsConfig?: PropConfig[]
 ): Record<string, unknown> {
-  if (animationId !== selectedId) return baseOverrides
   const active = getActiveAnimatableProps(propsConfig, toggles, animationId)
   if (active.length === 0) return baseOverrides
   const merged = { ...baseOverrides }
   for (const prop of active) {
-    // Use the current animated value, or min as the starting point before the timer fires.
     merged[prop.name] = prop.name in values ? values[prop.name] : (prop.min ?? 0)
   }
   return merged
@@ -421,21 +419,14 @@ export function AnimationInspectorProvider({
   )
 
   const { animateToggles, animatedValues, getAnimateMode, setAnimateMode } =
-    useAnimatePreview(selectedAnimation)
+    useAnimatePreview(currentGroup?.animations)
 
   const getPropOverrides = useCallback(
     (animationId: string, propsConfig?: PropConfig[]) => {
       const base = getBaseOverrides(animationId, propsConfig)
-      return mergeAnimatedOverrides(
-        animationId,
-        selectedAnimationId,
-        base,
-        animateToggles,
-        animatedValues,
-        propsConfig
-      )
+      return mergeAnimatedOverrides(animationId, base, animateToggles, animatedValues, propsConfig)
     },
-    [getBaseOverrides, selectedAnimationId, animateToggles, animatedValues]
+    [getBaseOverrides, animateToggles, animatedValues]
   )
 
   const value = useMemo<AnimationInspectorContextValue>(
