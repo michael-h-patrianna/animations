@@ -8,4 +8,35 @@ export const metadata: AnimationMetadata = {
   description:
     'A closed chest rises, shakes with anticipation, then opens into a coin fountain burst.',
   tier: 4,
+  props: [
+    {
+      type: 'number',
+      name: 'shakeDelayMs',
+      label: 'Shake Delay',
+      default: 900,
+      min: 0,
+      max: 3000,
+      step: 50,
+      unit: 'ms',
+    },
+    {
+      type: 'number',
+      name: 'revealDelayMs',
+      label: 'Reveal Delay',
+      default: 1500,
+      min: 0,
+      max: 4000,
+      step: 50,
+      unit: 'ms',
+    },
+    {
+      type: 'number',
+      name: 'coinCount',
+      label: 'Coin Count',
+      default: 12,
+      min: 1,
+      max: 24,
+      step: 1,
+    },
+  ],
 }

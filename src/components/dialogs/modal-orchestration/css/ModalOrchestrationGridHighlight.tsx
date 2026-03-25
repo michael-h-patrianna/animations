@@ -12,7 +12,7 @@
  */
 
 import { memo } from 'react'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import './ModalOrchestrationGridHighlight.css'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -25,6 +25,8 @@ interface ModalOrchestrationGridHighlightProps {
   stagger?: number
   /** Duration of each item's entrance animation in ms. Default 210. */
   duration?: number
+  /** Vertical entrance distance in px. Default 16. */
+  distance?: number
   /** Number of grid columns. Default 2. */
   columns?: number
 }
@@ -39,6 +41,7 @@ function ModalOrchestrationGridHighlightComponent({
   children,
   stagger = 260,
   duration = 210,
+  distance = 16,
   columns = 2,
 }: ModalOrchestrationGridHighlightProps) {
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
@@ -48,7 +51,12 @@ function ModalOrchestrationGridHighlightComponent({
     <div
       className="pf-grid-highlight"
       data-animation-id="modal-orchestration__grid-highlight"
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+      style={
+        {
+          gridTemplateColumns: `repeat(${columns}, 1fr)`,
+          ['--pf-grid-highlight-distance' as string]: `${distance}px`,
+        } as CSSProperties
+      }
     >
       {renderItems.map((child, i) => (
         <div

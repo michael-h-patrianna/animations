@@ -1,4 +1,4 @@
-import { toHex } from '@/utils/colors'
+import { resolveColorInputDefault } from '@/utils/colors'
 import type React from 'react'
 import { useLayoutEffect, useState } from 'react'
 
@@ -12,39 +12,7 @@ export const clampBulbCount = (value: number) =>
 
 // ── Color resolution ──────────────────────────────────────────────────────
 
-/**
- * Resolves a CSS token color (e.g. `var(--pf-anim-gold)`) to a hex string
- * suitable for an `<input type="color">` element.
- *
- * Uses getComputedStyle to resolve CSS custom properties, then falls back
- * to a DOM probe via `toHex()`. Returns empty string if resolution fails
- * (e.g. in test environments without CSS variables).
- */
-export const resolveColorInputDefault = (tokenColor: string): string => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return ''
-
-  const tokenMatch = tokenColor.match(/^var\((--[\w-]+)\)$/)
-  if (tokenMatch) {
-    const cssTokenValue = window
-      .getComputedStyle(document.documentElement)
-      .getPropertyValue(tokenMatch[1]!)
-      .trim()
-    if (cssTokenValue !== '') {
-      try {
-        return toHex(cssTokenValue)
-      } catch {
-        // CSS variable resolved to an unparseable value — fall through to DOM probe
-      }
-    }
-  }
-
-  try {
-    return toHex(tokenColor)
-  } catch {
-    // Color could not be parsed (e.g., CSS variable not available in test env)
-    return ''
-  }
-}
+export { resolveColorInputDefault } from '@/utils/colors'
 
 // ── Hook ──────────────────────────────────────────────────────────────────
 

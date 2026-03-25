@@ -21,11 +21,34 @@ export const metadata = {
     },
     { type: 'number', name: 'segments', label: 'Segments', default: 12, min: 2, max: 24, step: 1 },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        { type: 'color', key: '--circular-dash-active', label: 'Active Segments', default: '#2dd4bf' },
+        {
+          type: 'color',
+          key: '--circular-dash-inactive',
+          label: 'Inactive Segments',
+          default: 'rgb(255 255 255 / 10%)',
+        },
+        {
+          type: 'color',
+          key: '--circular-dash-text',
+          label: 'Center Text',
+          default: 'rgb(255 255 255 / 95%)',
+        },
+        {
+          type: 'number',
+          key: '--circular-dash-size',
+          label: 'Ring Size',
+          default: 120,
+          min: 64,
+          max: 220,
+          step: 2,
+          unit: 'px',
+        },
+      ],
     },
   ],
 } satisfies AnimationMetadata

@@ -20,11 +20,41 @@ export const metadata: AnimationMetadata = {
       step: 0.01,
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--progress-bars-zoomed-progress-bg-1',
+          label: 'Track',
+          default: 'rgb(78 24 124 / 15%)',
+        },
+        {
+          type: 'color',
+          key: '--progress-bars-zoomed-progress-border-1',
+          label: 'Ring Border',
+          default: 'rgb(255 255 255 / 90%)',
+        },
+        {
+          type: 'color',
+          key: '--progress-bars-zoomed-progress-bg-2',
+          label: 'Level One Active',
+          default: '#c6ff77',
+        },
+        {
+          type: 'color',
+          key: '--progress-bars-zoomed-progress-bg-3',
+          label: 'Level Two Active',
+          default: '#d4ff9f',
+        },
+        {
+          type: 'color',
+          key: '--progress-bars-zoomed-progress-color-1',
+          label: 'Level Text',
+          default: 'rgb(78 24 124 / 50%)',
+        },
+      ],
     },
   ],
 }

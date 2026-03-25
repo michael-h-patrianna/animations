@@ -12,7 +12,7 @@
  */
 
 import { memo } from 'react'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import './ModalOrchestrationMagneticHover.css'
 import { DemoCard } from '@/components/demo-blocks'
 
@@ -25,6 +25,8 @@ interface ModalOrchestrationMagneticHoverProps {
   stagger?: number
   /** Duration of each item's entrance animation in ms. Default 600. */
   duration?: number
+  /** Hover tilt intensity in degrees. Default 5. */
+  tiltIntensity?: number
   /** Number of grid columns. Default 4. */
   columns?: number
 }
@@ -41,6 +43,7 @@ function ModalOrchestrationMagneticHoverComponent({
   children,
   stagger = 100,
   duration = 600,
+  tiltIntensity = 5,
   columns = 4,
 }: ModalOrchestrationMagneticHoverProps) {
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
@@ -50,7 +53,12 @@ function ModalOrchestrationMagneticHoverComponent({
     <div
       className="pf-magnetic-hover"
       data-animation-id="modal-orchestration__magnetic-hover"
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+      style={
+        {
+          gridTemplateColumns: `repeat(${columns}, 1fr)`,
+          ['--pf-magnetic-hover-tilt' as string]: `${tiltIntensity}deg`,
+        } as CSSProperties
+      }
     >
       {renderItems.map((child, i) => (
         <div

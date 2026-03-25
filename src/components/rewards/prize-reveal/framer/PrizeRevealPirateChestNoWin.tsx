@@ -5,21 +5,29 @@ import { pirateChestClosedImage, pirateChestEmptyImage } from '@/assets'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 
-const SHAKE_DELAY_MS = 900
-const REVEAL_DELAY_MS = 1500
+const DEFAULT_SHAKE_DELAY_MS = 900
+const DEFAULT_REVEAL_DELAY_MS = 1500
 
-function PrizeRevealPirateChestNoWinComponent() {
+interface PrizeRevealPirateChestNoWinProps {
+  shakeDelayMs?: number
+  revealDelayMs?: number
+}
+
+function PrizeRevealPirateChestNoWinComponent({
+  shakeDelayMs = DEFAULT_SHAKE_DELAY_MS,
+  revealDelayMs = DEFAULT_REVEAL_DELAY_MS,
+}: PrizeRevealPirateChestNoWinProps) {
   const [phase, setPhase] = useState<RevealPhase>('rise')
 
   useEffect(() => {
-    const shakeTimer = window.setTimeout(() => setPhase('shake'), SHAKE_DELAY_MS)
-    const revealTimer = window.setTimeout(() => setPhase('reveal'), REVEAL_DELAY_MS)
+    const shakeTimer = window.setTimeout(() => setPhase('shake'), shakeDelayMs)
+    const revealTimer = window.setTimeout(() => setPhase('reveal'), revealDelayMs)
 
     return () => {
       window.clearTimeout(shakeTimer)
       window.clearTimeout(revealTimer)
     }
-  }, [])
+  }, [revealDelayMs, shakeDelayMs])
 
   return (
     <div

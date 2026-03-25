@@ -27,11 +27,30 @@ export const metadata: AnimationMetadata = {
       disabledReason: 'MilestoneConfig[] — set via code',
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--progress-bars-celebration-burst-bg-1',
+          label: 'Track',
+          default: 'rgb(78 24 124 / 12%)',
+        },
+        {
+          type: 'color',
+          key: '--progress-bars-celebration-burst-bg-2',
+          label: 'Fill Start',
+          default: 'rgb(147 51 234 / 90%)',
+        },
+        {
+          type: 'color',
+          key: '--progress-bars-celebration-burst-bg-3',
+          label: 'Fill End',
+          default: 'rgb(168 85 247 / 100%)',
+        },
+        { type: 'color', key: '--burst-marker-color', label: 'Marker', default: '#a855f7' },
+      ],
     },
   ],
 }

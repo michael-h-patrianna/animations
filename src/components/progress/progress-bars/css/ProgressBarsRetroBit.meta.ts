@@ -22,11 +22,20 @@ export const metadata = {
     { type: 'number', name: 'segments', label: 'Segments', default: 10, min: 2, max: 20, step: 1 },
     { type: 'string', name: 'label', label: 'Label', default: 'LOADING...' },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        { type: 'color', key: '--retro-bit-bg', label: 'Background', default: '#050505' },
+        { type: 'color', key: '--retro-bit-active', label: 'Active Segment', default: '#4ade80' },
+        {
+          type: 'color',
+          key: '--retro-bit-inactive',
+          label: 'Inactive Segment',
+          default: 'rgb(22 101 52 / 20%)',
+        },
+        { type: 'color', key: '--retro-bit-label-color', label: 'Label Text', default: '#4ade80' },
+      ],
     },
   ],
 } satisfies AnimationMetadata

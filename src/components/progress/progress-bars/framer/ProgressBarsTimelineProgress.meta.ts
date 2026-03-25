@@ -21,11 +21,29 @@ export const metadata: AnimationMetadata = {
     },
     { type: 'number', name: 'steps', label: 'Steps', default: 4, min: 2, max: 10, step: 1 },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--timeline-step-bg',
+          label: 'Step Background',
+          default: 'rgb(30 144 255 / 10%)',
+        },
+        {
+          type: 'color',
+          key: '--timeline-step-border',
+          label: 'Step Border',
+          default: 'rgb(30 144 255 / 16%)',
+        },
+        {
+          type: 'color',
+          key: '--timeline-step-text',
+          label: 'Step Text',
+          default: 'rgb(255 255 255 / 76%)',
+        },
+      ],
     },
   ],
 }

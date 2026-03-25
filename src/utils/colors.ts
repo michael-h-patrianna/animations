@@ -147,6 +147,35 @@ export function toHex(color: string): string {
 }
 
 /**
+ * Resolves a token/default color into a hex string suitable for inspector color inputs.
+ * Returns an empty string when the token cannot be resolved in the current environment.
+ */
+export function resolveColorInputDefault(tokenColor: string): string {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return ''
+
+  const tokenMatch = tokenColor.match(/^var\((--[\w-]+)\)$/)
+  if (tokenMatch) {
+    const cssTokenValue = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue(tokenMatch[1]!)
+      .trim()
+    if (cssTokenValue !== '') {
+      try {
+        return toHex(cssTokenValue)
+      } catch {
+        // Fall through to DOM-probe resolution below.
+      }
+    }
+  }
+
+  try {
+    return toHex(tokenColor)
+  } catch {
+    return ''
+  }
+}
+
+/**
  * Blends two colors together at a given percentage
  * Works in both web and React Native environments
  * Supports hex, rgba/rgb, named colors, and CSS variable formats

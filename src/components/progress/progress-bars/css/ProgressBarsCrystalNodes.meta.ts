@@ -27,11 +27,26 @@ export const metadata = {
       disabledReason: 'MilestoneConfig[] — set via code',
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        { type: 'color', key: '--crystal-bg', label: 'Background', default: '#0c1220' },
+        {
+          type: 'color',
+          key: '--crystal-track-bg',
+          label: 'Track',
+          default: 'rgb(34 211 238 / 10%)',
+        },
+        { type: 'color', key: '--crystal-fill', label: 'Fill', default: '#22d3ee' },
+        { type: 'color', key: '--crystal-active', label: 'Active Crystal', default: '#22d3ee' },
+        {
+          type: 'color',
+          key: '--crystal-inactive',
+          label: 'Inactive Crystal',
+          default: 'rgb(34 211 238 / 12%)',
+        },
+      ],
     },
   ],
 } satisfies AnimationMetadata

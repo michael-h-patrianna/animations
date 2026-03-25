@@ -21,11 +21,22 @@ export const metadata: AnimationMetadata = {
     },
     { type: 'string', name: 'label', label: 'Label', default: 'Level progress' },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--thin-label-color',
+          label: 'Label Text',
+          default: 'rgb(255 255 255 / 55%)',
+        },
+        { type: 'color', key: '--thin-track-bg', label: 'Track', default: 'rgb(255 255 255 / 6%)' },
+        { type: 'color', key: '--thin-fill-from', label: 'Fill Start', default: '#38bdf8' },
+        { type: 'color', key: '--thin-fill-via', label: 'Fill Middle', default: '#7dd3fc' },
+        { type: 'color', key: '--thin-fill-to', label: 'Fill End', default: '#bae6fd' },
+        { type: 'color', key: '--thin-accent', label: 'Accent', default: '#38bdf8' },
+      ],
     },
   ],
 }

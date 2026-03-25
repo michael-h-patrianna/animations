@@ -10,7 +10,7 @@
  *   </ButtonEffectsShockwave>
  */
 
-import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
+import { memo, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import './ButtonEffectsShockwave.css'
 import { DemoButton } from '@/components/demo-blocks'
 
@@ -25,6 +25,8 @@ interface ButtonEffectsShockwaveProps {
   children?: ReactNode
   /** Number of concentric rings per click. Default: 3 */
   ringCount?: number
+  /** Ring border color. Default: 'rgb(255 255 255 / 50%)' */
+  color?: string
   /** Ring expansion duration in ms. Default: 1000 */
   duration?: number
 }
@@ -32,6 +34,7 @@ interface ButtonEffectsShockwaveProps {
 function ButtonEffectsShockwaveComponent({
   children,
   ringCount = 3,
+  color = 'rgb(255 255 255 / 50%)',
   duration = 1000,
 }: ButtonEffectsShockwaveProps) {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
@@ -46,6 +49,11 @@ function ButtonEffectsShockwaveComponent({
       timeoutIds.clear()
     }
   }, [])
+
+  const style = {
+    ['--pf-shockwave-color' as string]: color,
+    ['--pf-shockwave-duration' as string]: `${duration}ms`,
+  } as CSSProperties
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = containerRef.current?.getBoundingClientRect()
@@ -73,6 +81,7 @@ function ButtonEffectsShockwaveComponent({
       className="pf-shockwave"
       data-animation-id="button-effects__shockwave"
       onClick={handleClick}
+      style={style}
     >
       {children ?? <DemoButton label="Click Me!" />}
       <span className="pf-shockwave__overlay" aria-hidden>

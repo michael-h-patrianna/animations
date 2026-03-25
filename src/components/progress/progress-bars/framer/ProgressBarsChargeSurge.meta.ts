@@ -27,11 +27,31 @@ export const metadata: AnimationMetadata = {
       disabledReason: 'MilestoneConfig[] — set via code',
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--charge-track-bg',
+          label: 'Track',
+          default: 'rgb(255 255 255 / 8%)',
+        },
+        { type: 'color', key: '--charge-fill-from', label: 'Fill Start', default: '#3b82f6' },
+        { type: 'color', key: '--charge-fill-to', label: 'Fill End', default: '#60a5fa' },
+        {
+          type: 'color',
+          key: '--charge-marker-color',
+          label: 'Marker',
+          default: 'rgb(96 165 250 / 40%)',
+        },
+        {
+          type: 'color',
+          key: '--charge-wave-color',
+          label: 'Wave',
+          default: 'rgb(96 165 250 / 50%)',
+        },
+      ],
     },
   ],
 }

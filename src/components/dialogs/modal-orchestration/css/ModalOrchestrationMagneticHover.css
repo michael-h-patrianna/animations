@@ -36,7 +36,8 @@
 }
 
 .pf-magnetic-hover__item:hover {
-  transform: scale(1.1) translateY(-12px) rotateY(5deg) rotateX(5deg);
+  transform: scale(1.1) translateY(-12px) rotateY(var(--pf-magnetic-hover-tilt, 5deg))
+    rotateX(var(--pf-magnetic-hover-tilt, 5deg));
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

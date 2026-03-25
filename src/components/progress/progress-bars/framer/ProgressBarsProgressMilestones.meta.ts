@@ -27,11 +27,31 @@ export const metadata: AnimationMetadata = {
       disabledReason: 'MilestoneConfig[] — set via code',
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--milestone-track-bg',
+          label: 'Track',
+          default: 'rgb(255 255 255 / 8%)',
+        },
+        { type: 'color', key: '--milestone-fill-from', label: 'Fill Start', default: '#38bdf8' },
+        { type: 'color', key: '--milestone-fill-to', label: 'Fill End', default: '#7dd3fc' },
+        {
+          type: 'color',
+          key: '--milestone-marker-color',
+          label: 'Inactive Marker',
+          default: 'rgb(56 189 248 / 40%)',
+        },
+        {
+          type: 'color',
+          key: '--milestone-active-color',
+          label: 'Active Marker',
+          default: '#7dd3fc',
+        },
+      ],
     },
   ],
 }

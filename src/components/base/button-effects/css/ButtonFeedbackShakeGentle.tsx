@@ -2,27 +2,86 @@
  * Catalog display for the Shake Gentle CSS effect.
  * Consumer product: ButtonFeedbackShakeGentle.css — apply .pf-shake-gentle + toggle --active.
  */
-import { memo, useEffect, useState } from 'react'
+import {
+  cloneElement,
+  isValidElement,
+  memo,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEventHandler,
+  type ReactElement,
+  type ReactNode,
+} from 'react'
 import './ButtonFeedbackShakeGentle.css'
 import { DemoButton } from '@/components/demo-blocks'
 
-function ButtonFeedbackShakeGentleComponent() {
-  const [isAnimating, setIsAnimating] = useState(true)
+interface ButtonFeedbackShakeGentleProps {
+  children?: ReactNode
+  duration?: number
+  trigger?: boolean
+}
+
+type InteractiveChildProps = {
+  className?: string
+  style?: CSSProperties
+  onClick?: MouseEventHandler<HTMLElement>
+  'data-animation-id'?: string
+  'aria-label'?: string
+  'aria-live'?: string
+}
+
+function ButtonFeedbackShakeGentleComponent({
+  children,
+  duration = 400,
+  trigger,
+}: ButtonFeedbackShakeGentleProps) {
+  const [isAnimating, setIsAnimating] = useState(trigger === undefined)
+  const prevTriggerRef = useRef(trigger)
 
   useEffect(() => {
     if (!isAnimating) return
-    const timer = setTimeout(() => setIsAnimating(false), 400)
+    const timer = setTimeout(() => setIsAnimating(false), duration)
     return () => clearTimeout(timer)
-  }, [isAnimating])
+  }, [duration, isAnimating])
+
+  useEffect(() => {
+    if (trigger === undefined) return
+    if (trigger && !prevTriggerRef.current) {
+      setIsAnimating(true)
+    }
+    prevTriggerRef.current = trigger
+  }, [trigger])
+
+  const sharedClassName = `pf-shake-gentle${isAnimating ? ' pf-shake-gentle--active' : ''}`
+  const sharedStyle = { ['--pf-shake-gentle-duration' as string]: `${duration}ms` } as CSSProperties
+
+  if (isValidElement(children)) {
+    const child = children as ReactElement<InteractiveChildProps>
+
+    return cloneElement(child, {
+      className: [child.props.className, sharedClassName].filter(Boolean).join(' '),
+      style: { ...sharedStyle, ...child.props.style },
+      onClick: (event) => {
+        child.props.onClick?.(event)
+        setIsAnimating(true)
+      },
+      'data-animation-id': 'button-effects__shake-gentle',
+      'aria-label': child.props['aria-label'],
+      'aria-live': child.props['aria-live'],
+    })
+  }
 
   return (
     <DemoButton
       data-animation-id="button-effects__shake-gentle"
-      className={`pf-shake-gentle ${isAnimating ? 'pf-shake-gentle--active' : ''}`}
+      className={sharedClassName}
+      style={sharedStyle}
       onClick={() => setIsAnimating(true)}
       aria-label="Insufficient funds"
       aria-live="polite"
-      label="Click Me"
+      label={typeof children === 'string' ? children : 'Click Me'}
     />
   )
 }

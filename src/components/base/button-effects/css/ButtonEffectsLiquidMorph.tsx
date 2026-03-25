@@ -2,25 +2,70 @@
  * Catalog display for the Liquid Morph CSS effect.
  * Consumer product: ButtonEffectsLiquidMorph.css — apply .pf-liquid-morph + toggle --active.
  */
-import { memo, useEffect, useState } from 'react'
+import {
+  cloneElement,
+  isValidElement,
+  memo,
+  useEffect,
+  useState,
+  type CSSProperties,
+  type MouseEventHandler,
+  type ReactElement,
+  type ReactNode,
+} from 'react'
 import './ButtonEffectsLiquidMorph.css'
 import { DemoButton } from '@/components/demo-blocks'
 
-function ButtonEffectsLiquidMorphComponent() {
+interface ButtonEffectsLiquidMorphProps {
+  children?: ReactNode
+  duration?: number
+}
+
+type InteractiveChildProps = {
+  className?: string
+  style?: CSSProperties
+  onClick?: MouseEventHandler<HTMLElement>
+  'data-animation-id'?: string
+}
+
+function ButtonEffectsLiquidMorphComponent({
+  children,
+  duration = 600,
+}: ButtonEffectsLiquidMorphProps) {
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
     if (!isAnimating) return
-    const timer = setTimeout(() => setIsAnimating(false), 600)
+    const timer = setTimeout(() => setIsAnimating(false), duration)
     return () => clearTimeout(timer)
-  }, [isAnimating])
+  }, [duration, isAnimating])
+
+  const sharedClassName = `pf-liquid-morph${isAnimating ? ' pf-liquid-morph--active' : ''}`
+  const sharedStyle = {
+    ['--pf-liquid-morph-duration' as string]: `${duration}ms`,
+  } as CSSProperties
+
+  if (isValidElement(children)) {
+    const child = children as ReactElement<InteractiveChildProps>
+
+    return cloneElement(child, {
+      className: [child.props.className, sharedClassName].filter(Boolean).join(' '),
+      style: { ...sharedStyle, ...child.props.style },
+      onClick: (event) => {
+        child.props.onClick?.(event)
+        setIsAnimating(true)
+      },
+      'data-animation-id': 'button-effects__liquid-morph',
+    })
+  }
 
   return (
     <DemoButton
       data-animation-id="button-effects__liquid-morph"
-      className={`pf-liquid-morph ${isAnimating ? 'pf-liquid-morph--active' : ''}`}
+      className={sharedClassName}
+      style={sharedStyle}
       onClick={() => setIsAnimating(true)}
-      label="Click Me!"
+      label={typeof children === 'string' ? children : 'Click Me!'}
     />
   )
 }

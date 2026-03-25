@@ -32,11 +32,37 @@ export const metadata = {
     { type: 'image', name: 'travelerIcon', label: 'Traveler Icon' },
     { type: 'image', name: 'destinationIcon', label: 'Destination Icon' },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--journey-track-bg',
+          label: 'Track',
+          default: 'rgb(255 255 255 / 10%)',
+        },
+        { type: 'color', key: '--journey-fill-from', label: 'Fill Start', default: '#22c55e' },
+        { type: 'color', key: '--journey-fill-to', label: 'Fill End', default: '#4ade80' },
+        {
+          type: 'color',
+          key: '--journey-text-muted',
+          label: 'Label Text',
+          default: 'rgb(255 255 255 / 55%)',
+        },
+        {
+          type: 'color',
+          key: '--journey-text-strong',
+          label: 'Value Text',
+          default: 'rgb(255 255 255 / 95%)',
+        },
+        {
+          type: 'color',
+          key: '--journey-traveller-glow',
+          label: 'Traveler Glow',
+          default: 'rgb(74 222 128 / 45%)',
+        },
+      ],
     },
   ],
 } satisfies AnimationMetadata

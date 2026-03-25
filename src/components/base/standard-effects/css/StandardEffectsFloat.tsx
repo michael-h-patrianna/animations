@@ -2,12 +2,29 @@
  * Catalog display for the Float CSS effect.
  * Consumer product: StandardEffectsFloat.css — apply .pf-float to any element.
  */
-import { memo } from 'react'
+import { memo, type CSSProperties, type ReactNode } from 'react'
 import './StandardEffectsFloat.css'
 import { DemoBox } from '@/components/demo-blocks'
 
-function StandardEffectsFloatComponent() {
-  return <DemoBox className="pf-float" label="Float" data-animation-id="standard-effects__float" />
+interface StandardEffectsFloatProps {
+  children?: ReactNode
+  duration?: number
+}
+
+function StandardEffectsFloatComponent({
+  children,
+  duration = 6000,
+}: StandardEffectsFloatProps) {
+  const style = {
+    display: 'inline-flex',
+    ['--pf-float-duration' as string]: `${duration}ms`,
+  } as CSSProperties
+
+  return (
+    <div className="pf-float" data-animation-id="standard-effects__float" style={style}>
+      {children ?? <DemoBox label="Float" />}
+    </div>
+  )
 }
 
 export const StandardEffectsFloat = memo(StandardEffectsFloatComponent)

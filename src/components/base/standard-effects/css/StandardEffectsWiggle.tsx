@@ -2,13 +2,28 @@
  * Catalog display for the Wiggle CSS effect.
  * Consumer product: StandardEffectsWiggle.css — apply .pf-wiggle to any element.
  */
-import { memo } from 'react'
+import { memo, type CSSProperties, type ReactNode } from 'react'
 import './StandardEffectsWiggle.css'
 import { DemoBox } from '@/components/demo-blocks'
 
-function StandardEffectsWiggleComponent() {
+interface StandardEffectsWiggleProps {
+  children?: ReactNode
+  duration?: number
+}
+
+function StandardEffectsWiggleComponent({
+  children,
+  duration = 1000,
+}: StandardEffectsWiggleProps) {
+  const style = {
+    display: 'inline-flex',
+    ['--pf-wiggle-duration' as string]: `${duration}ms`,
+  } as CSSProperties
+
   return (
-    <DemoBox className="pf-wiggle" label="Wiggle" data-animation-id="standard-effects__wiggle" />
+    <div className="pf-wiggle" data-animation-id="standard-effects__wiggle" style={style}>
+      {children ?? <DemoBox label="Wiggle" />}
+    </div>
   )
 }
 

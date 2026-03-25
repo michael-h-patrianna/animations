@@ -20,11 +20,30 @@ export const metadata = {
       step: 0.01,
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--liquid-tube-glass-bg',
+          label: 'Glass Background',
+          default: 'rgb(255 255 255 / 4%)',
+        },
+        {
+          type: 'color',
+          key: '--liquid-tube-glass-border',
+          label: 'Glass Border',
+          default: 'rgb(255 255 255 / 12%)',
+        },
+        { type: 'color', key: '--liquid-tube-fill', label: 'Liquid Fill', default: '#60a5fa' },
+        {
+          type: 'color',
+          key: '--liquid-tube-bubble',
+          label: 'Bubble Color',
+          default: 'rgb(255 255 255 / 25%)',
+        },
+      ],
     },
   ],
 } satisfies AnimationMetadata

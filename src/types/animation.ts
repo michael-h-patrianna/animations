@@ -143,6 +143,50 @@ export interface ColorsPropConfig extends PropConfigBase {
   maxItems?: number
 }
 
+/** A single editable CSS custom-property entry within a structured style prop. */
+interface StyleObjectFieldBase {
+  /** CSS custom property key, e.g. `--timeline-step-bg`. */
+  key: string
+  /** Human-readable label shown in the nested inspector UI. */
+  label: string
+  /** Optional helper text shown beneath the nested field. */
+  description?: string
+}
+
+/** Number-backed CSS custom property, stored with its unit when serialized. */
+export interface StyleObjectNumberFieldConfig extends StyleObjectFieldBase {
+  type: 'number'
+  default?: number
+  min?: number
+  max?: number
+  step?: number
+  unit?: string
+}
+
+/** String-backed CSS custom property. */
+export interface StyleObjectStringFieldConfig extends StyleObjectFieldBase {
+  type: 'string'
+  default?: string
+}
+
+/** Color-backed CSS custom property. */
+export interface StyleObjectColorFieldConfig extends StyleObjectFieldBase {
+  type: 'color'
+  default?: string
+}
+
+/** Nested controls for the component's existing `style` prop. */
+export type StyleObjectFieldConfig =
+  | StyleObjectNumberFieldConfig
+  | StyleObjectStringFieldConfig
+  | StyleObjectColorFieldConfig
+
+/** Structured editor for an existing `style` prop made of CSS custom properties. */
+export interface StyleObjectPropConfig extends PropConfigBase {
+  type: 'style-object'
+  fields: StyleObjectFieldConfig[]
+}
+
 /** Discriminated union of all prop configuration types. */
 export type PropConfig =
   | NumberPropConfig
@@ -153,6 +197,7 @@ export type PropConfig =
   | ImagePropConfig
   | ImagesPropConfig
   | ColorsPropConfig
+  | StyleObjectPropConfig
 
 // ============================================================================
 // Component Metadata Types

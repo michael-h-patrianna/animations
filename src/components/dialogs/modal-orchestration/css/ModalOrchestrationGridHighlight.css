@@ -9,14 +9,14 @@
 .pf-grid-highlight__item {
   /* Animation wrapper only — visual card styling comes from children */
   opacity: 0;
-  transform: translateY(16px) scale(0.9);
+  transform: translateY(var(--pf-grid-highlight-distance, 16px)) scale(0.9);
   will-change: transform, opacity;
 }
 
 @keyframes pf-grid-highlight-sweep {
   0% {
     opacity: 0;
-    transform: translateY(16px) scale(0.9);
+    transform: translateY(var(--pf-grid-highlight-distance, 16px)) scale(0.9);
   }
   60% {
     opacity: 1;

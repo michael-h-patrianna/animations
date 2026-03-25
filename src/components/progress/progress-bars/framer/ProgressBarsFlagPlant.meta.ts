@@ -28,11 +28,32 @@ export const metadata = {
       disabledReason: 'MilestoneConfig[] — set via code',
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--flag-track-bg',
+          label: 'Track',
+          default: 'rgb(255 255 255 / 8%)',
+        },
+        { type: 'color', key: '--flag-fill-from', label: 'Fill Start', default: '#f97316' },
+        { type: 'color', key: '--flag-fill-to', label: 'Fill End', default: '#fb923c' },
+        {
+          type: 'color',
+          key: '--flag-text-muted',
+          label: 'Label Text',
+          default: 'rgb(255 255 255 / 55%)',
+        },
+        {
+          type: 'color',
+          key: '--flag-text-strong',
+          label: 'Value Text',
+          default: 'rgb(255 255 255 / 95%)',
+        },
+        { type: 'color', key: '--flag-pulse', label: 'Flag Pulse', default: 'rgb(251 146 60 / 40%)' },
+      ],
     },
   ],
 } satisfies AnimationMetadata

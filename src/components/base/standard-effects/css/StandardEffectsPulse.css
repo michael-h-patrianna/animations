@@ -13,6 +13,7 @@
   animation: pf-pulse var(--pf-pulse-duration, 1.5s) cubic-bezier(0.4, 0, 0.6, 1) infinite;
   transform-origin: center center;
   position: relative;
+  border-radius: var(--pf-pulse-border-radius, 16px);
   will-change: transform, opacity;
 }
 

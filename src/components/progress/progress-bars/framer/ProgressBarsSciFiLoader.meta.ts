@@ -21,11 +21,16 @@ export const metadata = {
     },
     { type: 'string', name: 'label', label: 'Label', default: 'SYSTEM.INIT:' },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        { type: 'color', key: '--scifi-bg', label: 'Background', default: '#0f172a' },
+        { type: 'color', key: '--scifi-track', label: 'Track', default: 'rgb(56 189 248 / 6%)' },
+        { type: 'color', key: '--scifi-fill', label: 'Fill', default: '#0ea5e9' },
+        { type: 'color', key: '--scifi-accent', label: 'Accent', default: '#38bdf8' },
+        { type: 'color', key: '--scifi-text', label: 'Text', default: '#38bdf8' },
+      ],
     },
   ],
 } satisfies AnimationMetadata

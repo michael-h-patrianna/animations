@@ -1,13 +1,18 @@
 import { findAnimationById, getGroupAnimations } from '@/components/animationRegistry'
 import { loadLazyCatalog, preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { GroupSection } from '@/components/ui/GroupSection'
+import { AnimationInspectorProvider } from '@/contexts/AnimationInspectorContext'
 import type { Category } from '@/types/animation'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 function renderWithRouter(ui: React.ReactElement) {
-  return render(<MemoryRouter>{ui}</MemoryRouter>)
+  return render(
+    <MemoryRouter>
+      <AnimationInspectorProvider>{ui}</AnimationInspectorProvider>
+    </MemoryRouter>
+  )
 }
 
 describe('integration: full data flow pipeline', () => {

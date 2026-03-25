@@ -10,7 +10,7 @@
  *   </ButtonEffectsRipple>
  */
 
-import { memo, useEffect, useRef, useState, type ReactNode } from 'react'
+import { memo, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
 
@@ -23,15 +23,24 @@ interface Ripple {
 
 interface ButtonEffectsRippleProps {
   children?: ReactNode
+  color?: string
   /** Ripple animation duration in ms. Default: 520 */
   duration?: number
 }
 
-function ButtonEffectsRippleComponent({ children, duration = 520 }: ButtonEffectsRippleProps) {
+function ButtonEffectsRippleComponent({
+  children,
+  color = 'rgb(255 255 255 / 40%)',
+  duration = 520,
+}: ButtonEffectsRippleProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextIdRef = useRef(0)
   const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+  const style = {
+    ['--pf-ripple-color' as string]: color,
+    ['--pf-ripple-duration' as string]: `${duration}ms`,
+  } as CSSProperties
 
   useEffect(() => {
     const timeoutIds = timeoutIdsRef.current
@@ -64,6 +73,7 @@ function ButtonEffectsRippleComponent({ children, duration = 520 }: ButtonEffect
       className="pf-ripple"
       data-animation-id="button-effects__ripple"
       onClick={handleClick}
+      style={style}
     >
       {children ?? <DemoButton label="Click Me!" />}
       <span className="pf-ripple__overlay" aria-hidden>

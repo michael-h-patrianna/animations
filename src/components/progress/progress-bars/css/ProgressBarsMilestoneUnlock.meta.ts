@@ -29,11 +29,37 @@ export const metadata = {
       disabledReason: 'MilestoneConfig[] — set via code',
     },
     {
-      type: 'string',
+      type: 'style-object',
       name: 'style',
-      label: 'Style',
-      disabled: true,
-      disabledReason: 'CSSProperties object — set via code',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--unlock-track-bg',
+          label: 'Track',
+          default: 'rgb(255 255 255 / 8%)',
+        },
+        { type: 'color', key: '--unlock-fill-from', label: 'Fill Start', default: '#f59e0b' },
+        { type: 'color', key: '--unlock-fill-to', label: 'Fill End', default: '#fbbf24' },
+        {
+          type: 'color',
+          key: '--unlock-text-muted',
+          label: 'Label Text',
+          default: 'rgb(255 255 255 / 55%)',
+        },
+        {
+          type: 'color',
+          key: '--unlock-text-strong',
+          label: 'Value Text',
+          default: 'rgb(255 255 255 / 95%)',
+        },
+        {
+          type: 'color',
+          key: '--unlock-ring-active',
+          label: 'Unlocked Ring',
+          default: '#fbbf24',
+        },
+      ],
     },
   ],
 } satisfies AnimationMetadata

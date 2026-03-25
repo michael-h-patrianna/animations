@@ -4,8 +4,63 @@ import { Input } from '@/demo-ui/components/ui/Input'
 import { Select } from '@/demo-ui/components/ui/Select'
 import { Slider } from '@/demo-ui/components/ui/Slider'
 import { Switch } from '@/demo-ui/components/ui/Switch'
-import type { PropConfig } from '@/types/animation'
+import type { PropConfig, StyleObjectFieldConfig } from '@/types/animation'
+import { resolveColorInputDefault } from '@/utils/colors'
 import { memo, useCallback } from 'react'
+
+function isStyleValueRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function normalizeColorDefault(value?: string): string {
+  if (value == null) return ''
+  return resolveColorInputDefault(value) || value
+}
+
+function parseStyleNumberValue(value: unknown): number | undefined {
+  if (typeof value === 'number' && !Number.isNaN(value)) {
+    return value
+  }
+
+  if (typeof value === 'string') {
+    const match = value.match(/[+-]?\d*\.?\d+/)
+    if (match) {
+      const parsed = Number(match[0])
+      if (!Number.isNaN(parsed)) {
+        return parsed
+      }
+    }
+  }
+
+  return undefined
+}
+
+function serializeStyleFieldValue(field: StyleObjectFieldConfig, value: unknown): string {
+  switch (field.type) {
+    case 'number':
+      return typeof value === 'number' ? `${value}${field.unit ?? ''}` : ''
+    case 'color':
+    case 'string':
+      return typeof value === 'string' ? value : ''
+  }
+}
+
+function buildStyleObjectDefaultRecord(fields: StyleObjectFieldConfig[]): Record<string, unknown> {
+  return Object.fromEntries(
+    fields
+      .map((field) => {
+        switch (field.type) {
+          case 'number':
+            return [field.key, field.default != null ? `${field.default}${field.unit ?? ''}` : ''] as const
+          case 'color':
+            return [field.key, normalizeColorDefault(field.default)] as const
+          case 'string':
+            return [field.key, field.default ?? ''] as const
+        }
+      })
+      .filter(([, value]) => value !== '')
+  )
+}
 
 // ── Disabled field ───────────────────────────────────────────────────────
 
@@ -305,6 +360,77 @@ function ColorsField({
   )
 }
 
+// ── Structured style object field ───────────────────────────────────────────
+
+function StyleObjectField({
+  config,
+  value,
+  onChange,
+}: {
+  config: PropConfig & { type: 'style-object' }
+  value: Record<string, unknown>
+  onChange: (v: Record<string, unknown>) => void
+}) {
+  const styleValue =
+    isStyleValueRecord(value) && Object.keys(value).length > 0
+      ? value
+      : buildStyleObjectDefaultRecord(config.fields)
+
+  const handleStyleFieldChange = useCallback(
+    (field: StyleObjectFieldConfig, nextValue: unknown) => {
+      onChange({
+        ...styleValue,
+        [field.key]: serializeStyleFieldValue(field, nextValue),
+      })
+    },
+    [onChange, styleValue]
+  )
+
+  return (
+    <div className="flex flex-col gap-3" data-testid={`prop-field-${config.name}`}>
+      <span className="text-xs font-medium text-text-secondary">{config.label}</span>
+      <div className="space-y-3">
+        {config.fields.map((field) => {
+          return (
+            <div key={field.key} className="space-y-2" data-testid={`prop-field-style-${field.key}`}>
+              {field.type === 'number' ? (
+                <NumberField
+                  config={{ ...field, name: field.key }}
+                  value={parseStyleNumberValue(styleValue[field.key]) ?? field.default ?? 0}
+                  onChange={(nextValue) => handleStyleFieldChange(field, nextValue)}
+                />
+              ) : field.type === 'color' ? (
+                <ColorField
+                  config={{ ...field, name: field.key }}
+                  value={
+                    typeof styleValue[field.key] === 'string'
+                      ? (styleValue[field.key] as string)
+                      : normalizeColorDefault(field.default)
+                  }
+                  onChange={(nextValue) => handleStyleFieldChange(field, nextValue)}
+                />
+              ) : (
+                <StringField
+                  config={{ ...field, name: field.key }}
+                  value={
+                    typeof styleValue[field.key] === 'string'
+                      ? (styleValue[field.key] as string)
+                      : (field.default ?? '')
+                  }
+                  onChange={(nextValue) => handleStyleFieldChange(field, nextValue)}
+                />
+              )}
+              {field.description != null && field.description !== '' && (
+                <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">{field.description}</p>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 // ── Main PropField ───────────────────────────────────────────────────────
 
 interface PropFieldProps {
@@ -385,6 +511,14 @@ function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
           config={config}
           value={Array.isArray(value) ? (value as string[]) : (config.default ?? [])}
           onChange={handleChange as (v: string[]) => void}
+        />
+      )
+    case 'style-object':
+      return (
+        <StyleObjectField
+          config={config}
+          value={isStyleValueRecord(value) ? value : buildStyleObjectDefaultRecord(config.fields)}
+          onChange={handleChange as (v: Record<string, unknown>) => void}
         />
       )
   }

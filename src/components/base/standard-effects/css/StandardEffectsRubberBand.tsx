@@ -2,17 +2,28 @@
  * Catalog display for the Rubber Band CSS effect.
  * Consumer product: StandardEffectsRubberBand.css — apply .pf-rubber-band to any element.
  */
-import { memo } from 'react'
+import { memo, type CSSProperties, type ReactNode } from 'react'
 import './StandardEffectsRubberBand.css'
 import { DemoBox } from '@/components/demo-blocks'
 
-function StandardEffectsRubberBandComponent() {
+interface StandardEffectsRubberBandProps {
+  children?: ReactNode
+  duration?: number
+}
+
+function StandardEffectsRubberBandComponent({
+  children,
+  duration = 1000,
+}: StandardEffectsRubberBandProps) {
+  const style = {
+    display: 'inline-flex',
+    ['--pf-rubber-band-duration' as string]: `${duration}ms`,
+  } as CSSProperties
+
   return (
-    <DemoBox
-      className="pf-rubber-band"
-      label="RubberBand"
-      data-animation-id="standard-effects__rubber-band"
-    />
+    <div className="pf-rubber-band" data-animation-id="standard-effects__rubber-band" style={style}>
+      {children ?? <DemoBox label="Rubber Band" />}
+    </div>
   )
 }
 

@@ -6,9 +6,9 @@ import './PrizeRevealPirateChestWin.css'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 
-const SHAKE_DELAY_MS = 900
-const REVEAL_DELAY_MS = 1500
-const COIN_COUNT = 12
+const DEFAULT_SHAKE_DELAY_MS = 900
+const DEFAULT_REVEAL_DELAY_MS = 1500
+const DEFAULT_COIN_COUNT = 12
 const RAY_COUNT = 18
 const RAY_INDICES = Array.from({ length: RAY_COUNT }, (_, index) => index)
 
@@ -23,25 +23,25 @@ type CoinSparkle = {
   rotationEnd: number
 }
 
-function useRevealPhase() {
+function useRevealPhase(shakeDelayMs: number, revealDelayMs: number) {
   const [phase, setPhase] = useState<RevealPhase>('rise')
 
   useEffect(() => {
-    const shakeTimer = window.setTimeout(() => setPhase('shake'), SHAKE_DELAY_MS)
-    const revealTimer = window.setTimeout(() => setPhase('reveal'), REVEAL_DELAY_MS)
+    const shakeTimer = window.setTimeout(() => setPhase('shake'), shakeDelayMs)
+    const revealTimer = window.setTimeout(() => setPhase('reveal'), revealDelayMs)
 
     return () => {
       window.clearTimeout(shakeTimer)
       window.clearTimeout(revealTimer)
     }
-  }, [])
+  }, [revealDelayMs, shakeDelayMs])
 
   return phase
 }
 
-function createCoinSparkles(): CoinSparkle[] {
-  return Array.from({ length: COIN_COUNT }, (_, index) => {
-    const angle = ((index / COIN_COUNT) * 130 - 65) * (Math.PI / 180)
+function createCoinSparkles(coinCount: number): CoinSparkle[] {
+  return Array.from({ length: coinCount }, (_, index) => {
+    const angle = ((index / coinCount) * 130 - 65) * (Math.PI / 180)
     const distance = 82 + Math.random() * 70
     const tx = Math.sin(angle) * distance
     const rotation = 80 + Math.random() * 280
@@ -102,9 +102,19 @@ function PirateChestWinCoins({ coinSparkles }: { coinSparkles: CoinSparkle[] }) 
   ))
 }
 
-function PrizeRevealPirateChestWinComponent() {
-  const phase = useRevealPhase()
-  const coinSparkles = useMemo(() => createCoinSparkles(), [])
+interface PrizeRevealPirateChestWinProps {
+  shakeDelayMs?: number
+  revealDelayMs?: number
+  coinCount?: number
+}
+
+function PrizeRevealPirateChestWinComponent({
+  shakeDelayMs = DEFAULT_SHAKE_DELAY_MS,
+  revealDelayMs = DEFAULT_REVEAL_DELAY_MS,
+  coinCount = DEFAULT_COIN_COUNT,
+}: PrizeRevealPirateChestWinProps) {
+  const phase = useRevealPhase(shakeDelayMs, revealDelayMs)
+  const coinSparkles = useMemo(() => createCoinSparkles(coinCount), [coinCount])
 
   return (
     <div

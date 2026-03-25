@@ -2,12 +2,35 @@
  * Catalog display for the Pulse Circle CSS effect.
  * Consumer product: StandardEffectsPulseCircle.css — use documented HTML structure.
  */
-import { memo } from 'react'
+import { memo, type CSSProperties } from 'react'
 import './StandardEffectsPulseCircle.css'
 
-function StandardEffectsPulseCircleComponent() {
+interface StandardEffectsPulseCircleProps {
+  size?: number
+  color?: string
+  ringColor?: string
+  duration?: number
+}
+
+function StandardEffectsPulseCircleComponent({
+  size = 76,
+  color = '#7a468e',
+  ringColor = 'rgb(236 195 255 / 60%)',
+  duration = 2200,
+}: StandardEffectsPulseCircleProps) {
+  const style = {
+    ['--pf-pulse-circle-size' as string]: `${size}px`,
+    ['--pf-pulse-circle-color' as string]: color,
+    ['--pf-pulse-circle-ring-color' as string]: ringColor,
+    ['--pf-pulse-circle-duration' as string]: `${duration}ms`,
+  } as CSSProperties
+
   return (
-    <div className="pf-pulse-circle-wrapper" data-animation-id="standard-effects__pulse-circle">
+    <div
+      className="pf-pulse-circle-wrapper"
+      data-animation-id="standard-effects__pulse-circle"
+      style={style}
+    >
       <div className="pf-pulse-circle" role="img" aria-label="Pulse circle" />
     </div>
   )

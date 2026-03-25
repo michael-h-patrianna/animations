@@ -2,13 +2,28 @@
  * Catalog display for the Bounce CSS effect.
  * Consumer product: StandardEffectsBounce.css — apply .pf-bounce to any element.
  */
-import { memo } from 'react'
+import { memo, type CSSProperties, type ReactNode } from 'react'
 import './StandardEffectsBounce.css'
 import { DemoBox } from '@/components/demo-blocks'
 
-function StandardEffectsBounceComponent() {
+interface StandardEffectsBounceProps {
+  children?: ReactNode
+  duration?: number
+}
+
+function StandardEffectsBounceComponent({
+  children,
+  duration = 800,
+}: StandardEffectsBounceProps) {
+  const style = {
+    display: 'inline-flex',
+    ['--pf-bounce-duration' as string]: `${duration}ms`,
+  } as CSSProperties
+
   return (
-    <DemoBox className="pf-bounce" label="Bounce" data-animation-id="standard-effects__bounce" />
+    <div className="pf-bounce" data-animation-id="standard-effects__bounce" style={style}>
+      {children ?? <DemoBox label="Bounce" />}
+    </div>
   )
 }
 

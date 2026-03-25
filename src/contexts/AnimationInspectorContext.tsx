@@ -1,4 +1,5 @@
-import type { Animation, Group, PropConfig } from '@/types/animation'
+import type { Animation, Group, PropConfig, StyleObjectFieldConfig } from '@/types/animation'
+import { resolveColorInputDefault } from '@/utils/colors'
 import { createContext, use, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 
 type PropOverridesByAnimationId = Record<string, Record<string, unknown>>
@@ -19,12 +20,50 @@ interface AnimationInspectorContextValue {
 
 const AnimationInspectorContext = createContext<AnimationInspectorContextValue | undefined>(undefined)
 
+function normalizeColorDefault(color: string): string {
+  return resolveColorInputDefault(color) || color
+}
+
+function buildStyleFieldDefault(field: StyleObjectFieldConfig): string {
+  switch (field.type) {
+    case 'color':
+      return field.default != null ? normalizeColorDefault(field.default) : ''
+    case 'number':
+      return field.default != null ? `${field.default}${field.unit ?? ''}` : ''
+    case 'string':
+      return field.default ?? ''
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
 /** Builds the inspector's default override record from editable prop metadata. */
 export function buildPropDefaults(propsConfig?: PropConfig[]): Record<string, unknown> {
   const defaults: Record<string, unknown> = {}
 
   for (const prop of propsConfig ?? []) {
     if (prop.disabled) continue
+    if (prop.type === 'style-object') {
+      const styleDefaults = Object.fromEntries(
+        prop.fields
+          .map((field) => [field.key, buildStyleFieldDefault(field)] as const)
+          .filter(([, value]) => value !== '')
+      )
+      if (Object.keys(styleDefaults).length > 0) {
+        defaults[prop.name] = styleDefaults
+      }
+      continue
+    }
+    if (prop.type === 'color' && prop.default !== undefined) {
+      defaults[prop.name] = normalizeColorDefault(prop.default)
+      continue
+    }
+    if (prop.type === 'colors' && prop.default !== undefined) {
+      defaults[prop.name] = prop.default.map(normalizeColorDefault)
+      continue
+    }
     if (prop.default !== undefined) {
       defaults[prop.name] = prop.default
     }
@@ -43,6 +82,16 @@ export function hasDirtyPropOverrides(
   for (const key of Object.keys(overrides)) {
     const current = overrides[key]
     const def = defaults[key]
+
+    if (isRecord(current) && isRecord(def)) {
+      const nestedKeys = new Set([...Object.keys(current), ...Object.keys(def)])
+      for (const nestedKey of nestedKeys) {
+        if (current[nestedKey] !== def[nestedKey]) {
+          return true
+        }
+      }
+      continue
+    }
 
     if (Array.isArray(current) && Array.isArray(def)) {
       if (current.length !== def.length || current.some((value, index) => value !== def[index])) {
