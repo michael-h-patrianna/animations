@@ -93,8 +93,9 @@ function TimerEffectsPillCountdownStrongComponent(props: TimerEffectProps) {
     ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
   }
 
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {
-    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(resolvedTextColor !== undefined ? { color: resolvedTextColor } : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

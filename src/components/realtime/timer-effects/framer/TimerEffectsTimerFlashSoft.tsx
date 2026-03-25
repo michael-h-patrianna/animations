@@ -61,7 +61,7 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
 
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   
-  const { seconds, progress, isHidden } = useCountdown({
+  const { seconds, phase, progress, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
@@ -98,8 +98,9 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
         ] ?? computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
       : computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
 
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {
-    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(resolvedTextColor !== undefined ? { color: resolvedTextColor } : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

@@ -51,9 +51,10 @@ function TimerEffectsUrgentPulseComponent(props: TimerEffectProps) {
   const duration = prefersReducedMotion ? 1 : 0.5
 
   const phaseColor = resolved.colors?.[phase]
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
 
   const valueStyle: React.CSSProperties = {
-    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(resolvedTextColor !== undefined ? { color: resolvedTextColor } : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

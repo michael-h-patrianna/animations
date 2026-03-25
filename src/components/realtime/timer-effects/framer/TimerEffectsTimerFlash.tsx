@@ -36,7 +36,7 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
 
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
 
-  const { seconds, isHidden } = useCountdown({
+  const { seconds, phase, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
@@ -72,8 +72,9 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
           opacity: [0, 0.4 + urgency * 0.4, 0],
         }
 
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {
-    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(resolvedTextColor !== undefined ? { color: resolvedTextColor } : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

@@ -75,8 +75,9 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
     '--pf-pill-soft-pulse-scale': String(1 + Math.max(0, pulseIntensity)),
   } as React.CSSProperties
 
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {
-    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(resolvedTextColor !== undefined ? { color: resolvedTextColor } : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

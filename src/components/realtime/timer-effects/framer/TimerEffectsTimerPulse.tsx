@@ -60,11 +60,12 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
   if (isHidden) return null
 
   const phaseColor = resolved.colors?.[phase]
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
 
   const valueStyle: React.CSSProperties = {
     animation: 'none',
-    ...(textColor !== undefined
-      ? { color: textColor }
+    ...(resolvedTextColor !== undefined
+      ? { color: resolvedTextColor }
       : phaseColor !== undefined
         ? { color: phaseColor }
         : {}),

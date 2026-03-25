@@ -84,8 +84,9 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
     '--timer-effects-timer-flash-glow-opacity': glowOpacity.toString(),
   } as React.CSSProperties
 
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {
-    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(resolvedTextColor !== undefined ? { color: resolvedTextColor } : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

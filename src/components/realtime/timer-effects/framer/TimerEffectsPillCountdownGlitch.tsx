@@ -126,8 +126,9 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
   const phaseColor = resolved.colors?.[phase]
   const pillThemeStyle = phaseColor !== undefined ? buildGlitchPillTheme(phaseColor) : undefined
 
+  const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {
-    ...(textColor !== undefined ? { color: textColor } : {}),
+    ...(resolvedTextColor !== undefined ? { color: resolvedTextColor } : {}),
     ...(fontSize !== undefined ? { fontSize: `${fontSize}px` } : {}),
   }
 

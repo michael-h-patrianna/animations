@@ -64,8 +64,11 @@ export interface TimerEffectProps {
    */
   mode?: TimerMode
 
-  /** Colors for each urgency phase. Overrides variant defaults. Takes precedence over flat color props. */
+  /** Background colors for each urgency phase. Overrides variant defaults. Takes precedence over flat color props. */
   colors?: TimerPhaseColors
+
+  /** Text colors for each urgency phase. Takes precedence over flat text-color props and the single `textColor` fallback. */
+  textColors?: TimerPhaseColors
 
   /** Seconds-remaining thresholds for phase transitions. Overrides variant defaults. Takes precedence over flat threshold props. */
   thresholds?: TimerPhaseThresholds
@@ -79,6 +82,15 @@ export interface TimerEffectProps {
   /** Background color for the critical (final seconds) phase. Ignored when `colors` is provided. */
   criticalColor?: string
 
+  /** Text color for the normal phase. Ignored when `textColors` is provided. */
+  normalTextColor?: string
+
+  /** Text color for the warning phase. Ignored when `textColors` is provided. */
+  warningTextColor?: string
+
+  /** Text color for the critical phase. Ignored when `textColors` is provided. */
+  criticalTextColor?: string
+
   /** Seconds remaining to enter warning phase. Default varies by variant. Ignored when `thresholds` is provided. */
   warningThreshold?: number
 
@@ -91,7 +103,7 @@ export interface TimerEffectProps {
   /** Whether to fade out (`'hide'`) or remain visible (`'stay'`) at zero. Default: `'stay'`. */
   onEndBehavior?: TimerEndBehavior
 
-  /** Override text color for the time display. */
+  /** Fallback text color for all phases. Overridden by per-phase text colors when provided. */
   textColor?: string
 
   /** Override font size (px) for the time display. */
@@ -103,10 +115,10 @@ export interface TimerEffectProps {
  * The `colors`/`thresholds` object props take precedence over flat props for backward compatibility.
  */
 export function resolveTimerProps(
-  props: Pick<TimerEffectProps, 'colors' | 'thresholds' | 'normalColor' | 'warningColor' | 'criticalColor' | 'warningThreshold' | 'criticalThreshold'>,
+  props: Pick<TimerEffectProps, 'colors' | 'textColors' | 'thresholds' | 'normalColor' | 'warningColor' | 'criticalColor' | 'normalTextColor' | 'warningTextColor' | 'criticalTextColor' | 'warningThreshold' | 'criticalThreshold'>,
   defaultWarning: number,
   defaultCritical: number
-): { colors: TimerPhaseColors | undefined; warningThreshold: number; criticalThreshold: number } {
+): { colors: TimerPhaseColors | undefined; textColors: TimerPhaseColors | undefined; warningThreshold: number; criticalThreshold: number } {
   const hasFlat = props.normalColor !== undefined || props.warningColor !== undefined || props.criticalColor !== undefined
   const colors = props.colors ?? (hasFlat ? {
     normal: props.normalColor,
@@ -114,8 +126,16 @@ export function resolveTimerProps(
     critical: props.criticalColor,
   } : undefined)
 
+  const hasFlatText = props.normalTextColor !== undefined || props.warningTextColor !== undefined || props.criticalTextColor !== undefined
+  const textColors = props.textColors ?? (hasFlatText ? {
+    normal: props.normalTextColor,
+    warning: props.warningTextColor,
+    critical: props.criticalTextColor,
+  } : undefined)
+
   return {
     colors,
+    textColors,
     warningThreshold: props.thresholds?.warning ?? props.warningThreshold ?? defaultWarning,
     criticalThreshold: props.thresholds?.critical ?? props.criticalThreshold ?? defaultCritical,
   }
