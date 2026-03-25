@@ -105,9 +105,9 @@ describe('animation portability fixes', () => {
     ] satisfies import('@/types/animation').PropConfig[])
 
     expect(defaults).toEqual({
-      accentColor: '#336699',
+      accentColor: 'var(--test-token-color)',
       style: {
-        '--test-bg': '#336699',
+        '--test-bg': 'var(--test-token-color)',
         '--test-height': '14px',
       },
     })

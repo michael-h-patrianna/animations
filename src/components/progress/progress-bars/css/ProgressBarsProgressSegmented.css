@@ -5,10 +5,13 @@
   --segmented-fill-from: #a78bfa;
   --segmented-fill-to: #c4b5fd;
   --segmented-fill-glow: rgb(167 139 250 / 30%);
+  --segmented-fill-glow-off: rgb(167 139 250 / 0%);
+  --segmented-fill-glow-on: rgb(167 139 250 / 55%);
   --segmented-fill-highlight: rgb(255 255 255 / 22%);
   --segmented-gap-color: rgb(15 5 25);
-  --segmented-segment-border: rgb(167 139 250 / 15%);
-  --segmented-segment-bg: rgb(167 139 250 / 6%);
+  --segmented-segment-border: rgb(255 255 255 / 8%);
+  --segmented-segment-border-active: rgb(167 139 250 / 25%);
+  --segmented-segment-bg: rgb(167 139 250 / 8%);
   --segmented-height: 14px;
 
   display: flex;
@@ -49,4 +52,52 @@
   border-radius: inherit;
   background: linear-gradient(180deg, var(--segmented-fill-highlight) 0%, transparent 55%);
   pointer-events: none;
+}
+
+/* ── Segment glow pulse ── */
+
+.pf-segment--glowing {
+  animation: pf-segment-glow 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.pf-segment__flash {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--segmented-fill-from, #a78bfa) 0%, var(--segmented-fill-to, #c4b5fd) 100%);
+  pointer-events: none;
+  opacity: 0;
+  animation: pf-segment-flash 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-fill-mode: both;
+}
+
+@keyframes pf-segment-glow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--segmented-fill-glow-off);
+  }
+
+  25% {
+    transform: scale(1.08);
+    box-shadow: 0 0 24px 8px var(--segmented-fill-glow-on);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--segmented-fill-glow-off);
+  }
+}
+
+@keyframes pf-segment-flash {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }

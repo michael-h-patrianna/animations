@@ -99,12 +99,9 @@ export function ProgressBarsProgressMilestones({
     >
       <div className="track-container" style={{ position: 'relative' }}>
         <div className="pf-progress-track">
-          <m.div
+          <div
             className="pf-progress-fill"
-            initial={false}
-            animate={{ scaleX: progress ?? 0 }}
-            transition={{ duration: 0.3, ease: 'linear' }}
-            style={{ transformOrigin: 'left center', animation: 'none' }}
+            style={{ transformOrigin: 'left center', transform: `scaleX(${displayProgress})` }}
           />
         </div>
 

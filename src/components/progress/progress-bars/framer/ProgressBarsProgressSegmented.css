@@ -5,10 +5,13 @@
   --segmented-fill-from: #a78bfa;
   --segmented-fill-to: #c4b5fd;
   --segmented-fill-glow: rgb(167 139 250 / 30%);
+  --segmented-fill-glow-off: rgb(167 139 250 / 0%);
+  --segmented-fill-glow-on: rgb(167 139 250 / 55%);
   --segmented-fill-highlight: rgb(255 255 255 / 22%);
   --segmented-gap-color: rgb(15 5 25);
-  --segmented-segment-border: rgb(167 139 250 / 15%);
-  --segmented-segment-bg: rgb(167 139 250 / 6%);
+  --segmented-segment-border: rgb(255 255 255 / 8%);
+  --segmented-segment-border-active: rgb(167 139 250 / 25%);
+  --segmented-segment-bg: rgb(167 139 250 / 8%);
   --segmented-height: 14px;
 
   display: flex;

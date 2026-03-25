@@ -6,14 +6,12 @@ import type {
   StyleObjectFieldConfig,
 } from '@/types/animation'
 import { getInspectorStarterDefaults } from '@/contexts/inspectorStarterDefaults'
-import { resolveColorInputDefault } from '@/utils/colors'
 import {
   createContext,
   use,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type Context,
   type ReactNode,
@@ -60,15 +58,10 @@ if (hmrData) {
   hmrData.inspectorContext = AnimationInspectorContext
 }
 
-function normalizeColorDefault(color: string): string {
-  const resolved = resolveColorInputDefault(color)
-  return resolved !== '' ? resolved : color
-}
-
 function buildStyleFieldDefault(field: StyleObjectFieldConfig): string {
   switch (field.type) {
     case 'color':
-      return field.default != null ? normalizeColorDefault(field.default) : ''
+      return field.default ?? ''
     case 'number':
       return field.default != null ? `${field.default}${field.unit ?? ''}` : ''
     case 'string':
@@ -114,11 +107,11 @@ export function buildPropDefaults(
       continue
     }
     if (prop.type === 'color' && prop.default !== undefined) {
-      defaults[prop.name] = normalizeColorDefault(prop.default)
+      defaults[prop.name] = prop.default
       continue
     }
     if (prop.type === 'colors' && prop.default !== undefined) {
-      defaults[prop.name] = prop.default.map(normalizeColorDefault)
+      defaults[prop.name] = [...prop.default]
       continue
     }
     if (prop.default !== undefined) {
@@ -288,7 +281,6 @@ function findGroupAnimatableProp(
 function useAnimatePreview(animations: Animation[] | undefined) {
   const [animateToggles, setAnimateToggles] = useState<AnimateToggles>({})
   const [animatedValues, setAnimatedValues] = useState<Record<string, number>>({})
-  const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const getAnimateMode = useCallback(
     (animationId: string, propName: string, defaultMode?: 'fixed' | 'animate') =>
@@ -307,6 +299,7 @@ function useAnimatePreview(animations: Animation[] | undefined) {
   )
 
   // Shared timer: drives a single animated value for all animatable props in the group.
+  // Uses random stepped increments so spring/bounce physics are visible at each transition.
   const animatableProp = useMemo(() => findGroupAnimatableProp(animations), [animations])
 
   useEffect(() => {
@@ -315,42 +308,52 @@ function useAnimatePreview(animations: Animation[] | undefined) {
       return
     }
 
-    const duration = animatableProp.animateDuration ?? 4000
     const pause = animatableProp.animatePause ?? 1200
     const min = animatableProp.min ?? 0
     const max = animatableProp.max ?? 1
     const step = animatableProp.step ?? 0.01
-    const totalSteps = Math.round((max - min) / step)
-    const stepInterval = duration / totalSteps
-    let currentStep = 0
-    let pausing = false
+    const range = max - min
+    const propName = animatableProp.name
+    let timer: ReturnType<typeof setTimeout> | undefined
+    let cancelled = false
 
-    setAnimatedValues({ [animatableProp.name]: min })
-
-    const timer = setInterval(() => {
-      if (pausing) return
-      currentStep++
-      if (currentStep >= totalSteps) {
-        setAnimatedValues({ [animatableProp.name]: max })
-        pausing = true
-        pauseTimerRef.current = setTimeout(() => {
-          currentStep = 0
-          setAnimatedValues({ [animatableProp.name]: min })
-          pausing = false
-        }, pause)
-      } else {
-        const raw = min + (currentStep / totalSteps) * (max - min)
-        const rounded = Math.round(raw / step) * step
-        setAnimatedValues({ [animatableProp.name]: Math.min(rounded, max) })
+    function generateSteps(): number[] {
+      const steps: number[] = []
+      let current = min
+      while (current < max - step) {
+        const increment = range * (0.08 + Math.random() * 0.25)
+        current = Math.min(current + increment, max)
+        const rounded = Math.round(current / step) * step
+        steps.push(Math.min(rounded, max))
       }
-    }, stepInterval)
+      if (steps[steps.length - 1] !== max) steps.push(max)
+      return steps
+    }
+
+    function advanceStep(steps: number[], index: number) {
+      if (cancelled) return
+      if (index < steps.length) {
+        setAnimatedValues({ [propName]: steps[index]! })
+        timer = setTimeout(() => advanceStep(steps, index + 1), 500 + Math.random() * 400)
+        return
+      }
+      // All steps done — pause at max then restart
+      timer = setTimeout(() => {
+        if (cancelled) return
+        setAnimatedValues({ [propName]: min })
+        timer = setTimeout(() => {
+          const newSteps = generateSteps()
+          advanceStep(newSteps, 0)
+        }, 600)
+      }, pause)
+    }
+
+    setAnimatedValues({ [propName]: min })
+    timer = setTimeout(() => advanceStep(generateSteps(), 0), 300)
 
     return () => {
-      clearInterval(timer)
-      if (pauseTimerRef.current) {
-        clearTimeout(pauseTimerRef.current)
-        pauseTimerRef.current = undefined
-      }
+      cancelled = true
+      clearTimeout(timer)
     }
   }, [animatableProp])
 

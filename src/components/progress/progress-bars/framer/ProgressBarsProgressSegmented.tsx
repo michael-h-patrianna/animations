@@ -2,8 +2,9 @@
  * Segmented Progress Bar
  *
  * Progress bar divided into segments with glow effects on segment completion.
- * In demo mode plays a one-shot fill from 0 to 100%. In controlled mode
- * fills proportional to the given progress value.
+ * When progress crosses a segment boundary, that segment pulses with a radiant
+ * glow in the fill color — outer box-shadow, inner brightness flash, and subtle
+ * scale pop.
  *
  * @example
  * ```tsx
@@ -22,7 +23,7 @@
  * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface SegmentedProps extends ProgressBarProps {
@@ -31,6 +32,7 @@ interface SegmentedProps extends ProgressBarProps {
 }
 
 const SEGMENT_GAP = 4
+const GLOW_DURATION = 0.7
 
 export function ProgressBarsProgressSegmented({
   progress,
@@ -40,13 +42,40 @@ export function ProgressBarsProgressSegmented({
 }: SegmentedProps) {
   const displayProgress = progress ?? 0
 
-  const fillVariants = {
-    initial: { scaleX: 0 },
-    animate: {
-      scaleX: displayProgress,
-      transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-  }
+  // Track which segments have been activated to detect new crossings
+  const prevActiveRef = useRef<Set<number>>(new Set<number>())
+  const [glowIndex, setGlowIndex] = useState<number | null>(null)
+  const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const activeSet = useMemo(() => {
+    const set = new Set<number>()
+    for (let i = 0; i < segments; i++) {
+      const threshold = (i + 1) / segments
+      if (displayProgress >= threshold - 0.01) set.add(i)
+    }
+    return set
+  }, [displayProgress, segments])
+
+  useEffect(() => {
+    const prev = prevActiveRef.current
+    const newlyActive = [...activeSet].filter((i) => !prev.has(i))
+    prevActiveRef.current = new Set(activeSet)
+
+    if (newlyActive.length === 0) return
+
+    // Glow only the frontmost (highest-index) newly-crossed segment
+    const target = Math.max(...newlyActive)
+    setGlowIndex(target)
+
+    if (glowTimerRef.current) clearTimeout(glowTimerRef.current)
+    glowTimerRef.current = setTimeout(() => {
+      setGlowIndex(null)
+    }, GLOW_DURATION * 1000)
+
+    return () => {
+      if (glowTimerRef.current) clearTimeout(glowTimerRef.current)
+    }
+  }, [activeSet])
 
   return (
     <div
@@ -64,9 +93,9 @@ export function ProgressBarsProgressSegmented({
               overflow: 'hidden',
               animation: 'none',
             }}
-            variants={fillVariants}
-            initial="initial"
-            animate="animate"
+            initial={false}
+            animate={{ scaleX: displayProgress }}
+            transition={{ duration: 0.15, ease: 'linear' }}
           />
         </div>
 
@@ -104,6 +133,7 @@ export function ProgressBarsProgressSegmented({
             const isActive = displayProgress >= segmentThreshold - 0.01
             const isFirst = i === 0
             const isLast = i === segments - 1
+            const isGlowing = glowIndex === i
             return (
               <m.div
                 key={`segment-${i}`}
@@ -111,33 +141,48 @@ export function ProgressBarsProgressSegmented({
                   flex: 1,
                   position: 'relative',
                   borderRadius: isFirst ? '8px 2px 2px 8px' : isLast ? '2px 8px 8px 2px' : '2px',
-                  border: '1px solid var(--segmented-segment-border)',
-                  background: 'var(--segmented-segment-bg)',
+                  border: `1px solid ${isActive ? 'var(--segmented-segment-border-active)' : 'var(--segmented-segment-border)'}`,
+                  background: isActive ? 'var(--segmented-segment-bg)' : 'transparent',
                   overflow: 'hidden',
                 }}
                 animate={
-                  isActive
+                  isGlowing
                     ? {
-                        scale: [1, 1.1, 1],
+                        scale: [1, 1.08, 1],
+                        boxShadow: [
+                          '0 0 0px 0px var(--segmented-fill-glow-off)',
+                          '0 0 24px 8px var(--segmented-fill-glow-on)',
+                          '0 0 0px 0px var(--segmented-fill-glow-off)',
+                        ],
                         transition: {
-                          duration: 0.4,
-                          times: [0, 0.3, 1],
-                          ease: [0.68, -0.55, 0.265, 1.55] as const,
+                          duration: GLOW_DURATION,
+                          ease: [0.22, 1, 0.36, 1],
                         },
                       }
-                    : {}
+                    : {
+                        scale: 1,
+                        boxShadow: '0 0 0px 0px var(--segmented-fill-glow-off)',
+                      }
                 }
               >
-                {isActive && (
+                {/* Inner brightness flash on glow */}
+                {isGlowing && (
                   <m.div
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'var(--segmented-fill-from)',
+                      borderRadius: 'inherit',
+                      background:
+                        'linear-gradient(180deg, var(--segmented-fill-from, #a78bfa) 0%, var(--segmented-fill-to, #c4b5fd) 100%)',
+                      pointerEvents: 'none',
                     }}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 0.4, times: [0, 0.3, 1], ease: easeOut }}
+                    animate={{ opacity: [0, 0.55, 0] }}
+                    transition={{
+                      duration: GLOW_DURATION,
+                      times: [0, 0.25, 1],
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
                   />
                 )}
               </m.div>

@@ -58,21 +58,37 @@ function parseRgbChannel(channel: string): number {
 }
 
 function parseRgbColor(color: string): RGB | null {
-  const match = color
+  // Legacy comma-separated: rgb(236, 195, 255) / rgba(236, 195, 255, 0.5)
+  const commaMatch = color
     .trim()
     .match(
       /^rgba?\(\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)(?:\s*,\s*[+-]?\d*\.?\d+%?)?\s*\)$/i
     )
 
-  if (!match) {
-    return null
+  if (commaMatch) {
+    return {
+      r: parseRgbChannel(commaMatch[1]!),
+      g: parseRgbChannel(commaMatch[2]!),
+      b: parseRgbChannel(commaMatch[3]!),
+    }
   }
 
-  return {
-    r: parseRgbChannel(match[1]!),
-    g: parseRgbChannel(match[2]!),
-    b: parseRgbChannel(match[3]!),
+  // Modern space-separated: rgb(236 195 255) / rgb(236 195 255 / 5%)
+  const spaceMatch = color
+    .trim()
+    .match(
+      /^rgba?\(\s*([+-]?\d*\.?\d+%?)\s+([+-]?\d*\.?\d+%?)\s+([+-]?\d*\.?\d+%?)(?:\s*\/\s*[+-]?\d*\.?\d+%?)?\s*\)$/i
+    )
+
+  if (spaceMatch) {
+    return {
+      r: parseRgbChannel(spaceMatch[1]!),
+      g: parseRgbChannel(spaceMatch[2]!),
+      b: parseRgbChannel(spaceMatch[3]!),
+    }
   }
+
+  return null
 }
 
 /**
