@@ -11,10 +11,7 @@ interface StandardEffectsJelloProps {
   duration?: number
 }
 
-function StandardEffectsJelloComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsJelloProps) {
+function StandardEffectsJelloComponent({ children, duration = 1000 }: StandardEffectsJelloProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-jello-duration' as string]: `${duration}ms`,

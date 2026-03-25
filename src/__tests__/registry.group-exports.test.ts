@@ -16,7 +16,13 @@ describe('group export completeness', () => {
 
   it('registers all 18 expected base groups in navigation metadata', () => {
     const navCatalog = getNavCatalog()
-    const baseGroupIds = [...new Set(navCatalog.categories.flatMap((category) => category.groups.map((group) => group.baseGroupId)))].sort()
+    const baseGroupIds = [
+      ...new Set(
+        navCatalog.categories.flatMap((category) =>
+          category.groups.map((group) => group.baseGroupId)
+        )
+      ),
+    ].sort()
 
     expect(baseGroupIds).toEqual([
       'button-effects',
@@ -42,7 +48,9 @@ describe('group export completeness', () => {
 
   it('loads both framer and css variants for every base group', () => {
     for (const category of catalog) {
-      const baseIds = new Set(category.groups.map((group) => group.id.replace(/-(?:framer|css)$/, '')))
+      const baseIds = new Set(
+        category.groups.map((group) => group.id.replace(/-(?:framer|css)$/, ''))
+      )
 
       for (const baseId of baseIds) {
         expect(category.groups.some((group) => group.id === `${baseId}-framer`)).toBe(true)
@@ -53,7 +61,9 @@ describe('group export completeness', () => {
 
   it('keeps animation IDs aligned across loaded framer and css variants', () => {
     for (const category of catalog) {
-      const baseIds = new Set(category.groups.map((group) => group.id.replace(/-(?:framer|css)$/, '')))
+      const baseIds = new Set(
+        category.groups.map((group) => group.id.replace(/-(?:framer|css)$/, ''))
+      )
 
       for (const baseId of baseIds) {
         const framerGroup = category.groups.find((group) => group.id === `${baseId}-framer`)

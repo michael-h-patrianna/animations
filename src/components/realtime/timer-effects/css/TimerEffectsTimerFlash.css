@@ -44,7 +44,8 @@
   pointer-events: none;
   z-index: -1;
   will-change: transform, opacity;
-  animation: timer-flash-glow-pulse var(--timer-effects-timer-flash-pulse-duration) ease-in-out infinite;
+  animation: timer-flash-glow-pulse var(--timer-effects-timer-flash-pulse-duration) ease-in-out
+    infinite;
 }
 
 .pf-timer-flash__time {

@@ -11,7 +11,12 @@ import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'rea
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
-import { CONFETTI_SHAPES, pickRandom, randBetween, type ConfettiShape } from '@/components/rewards/modal-celebrations/utils'
+import {
+  CONFETTI_SHAPES,
+  pickRandom,
+  randBetween,
+  type ConfettiShape,
+} from '@/components/rewards/modal-celebrations/utils'
 import './ModalCelebrationsConfettiRain.css'
 
 /* ─── Props ─── */

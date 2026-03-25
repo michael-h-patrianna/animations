@@ -11,10 +11,7 @@ interface StandardEffectsWiggleProps {
   duration?: number
 }
 
-function StandardEffectsWiggleComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsWiggleProps) {
+function StandardEffectsWiggleComponent({ children, duration = 1000 }: StandardEffectsWiggleProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-wiggle-duration' as string]: `${duration}ms`,

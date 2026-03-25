@@ -12,7 +12,11 @@ import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'rea
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { GOLDEN_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
-import { GOLDEN_COLORS, pickRandom, randBetween } from '@/components/rewards/modal-celebrations/utils'
+import {
+  GOLDEN_COLORS,
+  pickRandom,
+  randBetween,
+} from '@/components/rewards/modal-celebrations/utils'
 import './ModalCelebrationsCoinCascade.css'
 
 /* ─── Props ─── */

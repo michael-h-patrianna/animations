@@ -15,7 +15,10 @@ import {
   DemoModalHeader,
 } from '@/components/demo-blocks'
 import { generateMockFormFields } from '@/components/dialogs/modal-content/MockContentItems'
-import { toItemArray, type DirectionalRevealProps } from '@/components/dialogs/modal-content/SharedTypes'
+import {
+  toItemArray,
+  type DirectionalRevealProps,
+} from '@/components/dialogs/modal-content/SharedTypes'
 
 import './ModalContentFormFieldRightReveal.css'
 

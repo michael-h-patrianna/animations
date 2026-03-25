@@ -1,9 +1,5 @@
 import '@/components/lazyBootstrap'
-import {
-  getLazyNavCatalog,
-  isGroupCached,
-  loadLazyGroup,
-} from '@/lib/lazyGroupRegistry'
+import { getLazyNavCatalog, isGroupCached, loadLazyGroup } from '@/lib/lazyGroupRegistry'
 import type { Group } from '@/types/animation'
 import type { LazyAnimationsResult, LazyNavCatalog } from '@/types/lazy'
 import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from 'react'

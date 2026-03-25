@@ -88,7 +88,9 @@ function GroupNavLink({
       data-testid={`sidebar-group-${group.baseId}`}
       data-active={isActive || undefined}
     >
-      <span className="pf-sidebar__nav-link-label">{getCompactGroupTitle(selectedGroup.title)}</span>
+      <span className="pf-sidebar__nav-link-label">
+        {getCompactGroupTitle(selectedGroup.title)}
+      </span>
     </button>
   )
 }

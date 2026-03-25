@@ -99,7 +99,9 @@ describe('integration: code viewer pipeline', () => {
   })
 
   it('getGroupAnimations returns entries whose IDs are consistent across framer and css', () => {
-    for (const group of catalog.flatMap((category) => category.groups.filter((item) => item.tech === 'framer'))) {
+    for (const group of catalog.flatMap((category) =>
+      category.groups.filter((item) => item.tech === 'framer')
+    )) {
       const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
       const framerAnims = getGroupAnimations(baseGroupId, 'framer')
       const cssAnims = getGroupAnimations(baseGroupId, 'css')
@@ -113,15 +115,18 @@ describe('integration: code viewer pipeline', () => {
         )
       }
       for (const id of cssIds) {
-        expect(framerIds.has(id), `Group "${baseGroupId}": css has "${id}" but framer doesn't`).toBe(
-          true
-        )
+        expect(
+          framerIds.has(id),
+          `Group "${baseGroupId}": css has "${id}" but framer doesn't`
+        ).toBe(true)
       }
     }
   })
 
   it('metadata consistency: registry titles match across framer and css variants', () => {
-    for (const group of catalog.flatMap((category) => category.groups.filter((item) => item.tech === 'framer'))) {
+    for (const group of catalog.flatMap((category) =>
+      category.groups.filter((item) => item.tech === 'framer')
+    )) {
       const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
       const framerAnimations = getGroupAnimations(baseGroupId, 'framer')
       const cssAnimations = getGroupAnimations(baseGroupId, 'css')
@@ -141,7 +146,9 @@ describe('integration: code viewer pipeline', () => {
   })
 
   it('metadata consistency: descriptions match across framer and css variants', () => {
-    for (const group of catalog.flatMap((category) => category.groups.filter((item) => item.tech === 'framer'))) {
+    for (const group of catalog.flatMap((category) =>
+      category.groups.filter((item) => item.tech === 'framer')
+    )) {
       const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
       const framerAnimations = getGroupAnimations(baseGroupId, 'framer')
       const cssAnimations = getGroupAnimations(baseGroupId, 'css')
@@ -163,12 +170,14 @@ describe('integration: code viewer pipeline', () => {
     // (e.g., [data-animation-id="..."] { ... }), which is intentional and should not be stripped.
     const errors: string[] = []
 
-    for (const group of catalog.flatMap((category) => category.groups.filter((item) => item.tech === 'framer'))) {
+    for (const group of catalog.flatMap((category) =>
+      category.groups.filter((item) => item.tech === 'framer')
+    )) {
       const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
       const framerAnimations = getGroupAnimations(baseGroupId, 'framer')
       const cssAnimations = getGroupAnimations(baseGroupId, 'css')
       const firstId = Object.keys(framerAnimations)[0]
-        if (!firstId) continue
+      if (!firstId) continue
 
       const framerEntry = framerAnimations[firstId]!
       const cssEntry = cssAnimations[firstId]

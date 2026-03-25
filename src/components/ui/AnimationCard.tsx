@@ -220,7 +220,41 @@ function CardCanvas({
   )
 }
 
-function AnimationCardComponent(props: AnimationCardProps) {
+function useCardSelection(onSelect: (() => void) | undefined) {
+  const handleSelect = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (onSelect == null) return
+      const target = event.target
+      if (target instanceof HTMLElement && target.closest(INTERACTIVE_SELECTOR)) return
+      onSelect()
+    },
+    [onSelect]
+  )
+
+  const handleCardKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (onSelect == null) return
+      if (event.currentTarget !== event.target) return
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        onSelect()
+      }
+    },
+    [onSelect]
+  )
+
+  return { handleSelect, handleCardKeyDown }
+}
+
+function CardBody({
+  card,
+  props,
+  effectiveControlType,
+}: {
+  card: ReturnType<typeof useAnimationCard>
+  props: AnimationCardProps
+  effectiveControlType: AnimationControlType | undefined
+}) {
   const {
     title,
     description,
@@ -232,52 +266,12 @@ function AnimationCardComponent(props: AnimationCardProps) {
     propOverrides = EMPTY_OVERRIDES,
     selected = false,
     onSelect,
-    externalReplayVersion = 0,
-    hasInspectorProps = false,
-  } = props
-  const {
     infiniteAnimation = false,
     disableReplay = false,
-    controls: controlType,
     prizeCountMax,
     previewPosition,
   } = props
-  const card = useAnimationCard(props)
-  const effectiveControlType = hasInspectorProps ? undefined : controlType
-  const previousReplayVersionRef = useRef(externalReplayVersion)
-
-  useEffect(() => {
-    if (externalReplayVersion === previousReplayVersionRef.current) return
-    previousReplayVersionRef.current = externalReplayVersion
-    card.playback.triggerReplay()
-  }, [externalReplayVersion, card.playback.triggerReplay])
-
-  const handleSelect = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      if (onSelect == null) return
-
-      const target = event.target
-      if (target instanceof HTMLElement && target.closest(INTERACTIVE_SELECTOR)) {
-        return
-      }
-
-      onSelect()
-    },
-    [onSelect]
-  )
-
-  const handleCardKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (onSelect == null) return
-      if (event.currentTarget !== event.target) return
-
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault()
-        onSelect()
-      }
-    },
-    [onSelect]
-  )
+  const { handleSelect, handleCardKeyDown } = useCardSelection(onSelect)
 
   return (
     <div
@@ -336,6 +330,22 @@ function AnimationCardComponent(props: AnimationCardProps) {
       {card.toastPortal}
     </div>
   )
+}
+
+function AnimationCardComponent(props: AnimationCardProps) {
+  const { externalReplayVersion = 0, hasInspectorProps = false, controls: controlType } = props
+  const card = useAnimationCard(props)
+  const effectiveControlType = hasInspectorProps ? undefined : controlType
+  const { triggerReplay } = card.playback
+  const previousReplayVersionRef = useRef(externalReplayVersion)
+
+  useEffect(() => {
+    if (externalReplayVersion === previousReplayVersionRef.current) return
+    previousReplayVersionRef.current = externalReplayVersion
+    triggerReplay()
+  }, [externalReplayVersion, triggerReplay])
+
+  return <CardBody card={card} props={props} effectiveControlType={effectiveControlType} />
 }
 
 export const AnimationCard = memo(AnimationCardComponent)

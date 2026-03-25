@@ -123,10 +123,7 @@ const DemoAnchorPill = memo(function DemoAnchorPill({
       data-testid={`demo-anchor-${variant}`}
     >
       <span className="pf-demo-anchor__dot" />
-      <span
-        className="pf-demo-anchor__label"
-        data-testid={`demo-anchor-${variant}-label`}
-      >
+      <span className="pf-demo-anchor__label" data-testid={`demo-anchor-${variant}-label`}>
         {label}
       </span>
     </div>

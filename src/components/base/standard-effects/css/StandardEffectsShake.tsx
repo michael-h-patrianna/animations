@@ -11,10 +11,7 @@ interface StandardEffectsShakeProps {
   duration?: number
 }
 
-function StandardEffectsShakeComponent({
-  children,
-  duration = 500,
-}: StandardEffectsShakeProps) {
+function StandardEffectsShakeComponent({ children, duration = 500 }: StandardEffectsShakeProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-shake-duration' as string]: `${duration}ms`,

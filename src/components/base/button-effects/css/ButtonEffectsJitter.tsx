@@ -24,10 +24,7 @@ type InteractiveChildProps = {
   'data-animation-id'?: string
 }
 
-function ButtonEffectsJitterComponent({
-  children,
-  duration = 4000,
-}: ButtonEffectsJitterProps) {
+function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffectsJitterProps) {
   const sharedClassName = 'pf-jitter'
   const sharedStyle = {
     ['--pf-jitter-duration' as string]: `${duration}ms`,

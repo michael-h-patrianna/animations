@@ -28,7 +28,12 @@ const loadingStatesMeta: GroupMetadata = {
 // Progress Bars
 registerLazyGroup('progress-bars-framer', async () => {
   const { groupExport } = await import('./progress-bars')
-  const group = buildGroupFromExports(groupExport.metadata, 'framer', groupExport.framer, 'progress')
+  const group = buildGroupFromExports(
+    groupExport.metadata,
+    'framer',
+    groupExport.framer,
+    'progress'
+  )
   return { metadata: groupExport.metadata, animations: groupExport.framer, group }
 })
 
@@ -41,7 +46,12 @@ registerLazyGroup('progress-bars-css', async () => {
 // Loading States
 registerLazyGroup('loading-states-framer', async () => {
   const { groupExport } = await import('./loading-states')
-  const group = buildGroupFromExports(groupExport.metadata, 'framer', groupExport.framer, 'progress')
+  const group = buildGroupFromExports(
+    groupExport.metadata,
+    'framer',
+    groupExport.framer,
+    'progress'
+  )
   return { metadata: groupExport.metadata, animations: groupExport.framer, group }
 })
 
@@ -56,10 +66,38 @@ registerLazyGroup('loading-states-css', async () => {
 // ============================================================================
 
 registerLazyCategory('progress', 'Progress & Loading Animations', [
-  { id: 'progress-bars-framer', title: 'Progress Bars (Framer)', tech: 'framer', baseGroupId: 'progress-bars', animationIds: [], metadata: progressBarsMeta },
-  { id: 'progress-bars-css', title: 'Progress Bars (CSS)', tech: 'css', baseGroupId: 'progress-bars', animationIds: [], metadata: progressBarsMeta },
-  { id: 'loading-states-framer', title: 'Loading States (Framer)', tech: 'framer', baseGroupId: 'loading-states', animationIds: [], metadata: loadingStatesMeta },
-  { id: 'loading-states-css', title: 'Loading States (CSS)', tech: 'css', baseGroupId: 'loading-states', animationIds: [], metadata: loadingStatesMeta },
+  {
+    id: 'progress-bars-framer',
+    title: 'Progress Bars (Framer)',
+    tech: 'framer',
+    baseGroupId: 'progress-bars',
+    animationIds: [],
+    metadata: progressBarsMeta,
+  },
+  {
+    id: 'progress-bars-css',
+    title: 'Progress Bars (CSS)',
+    tech: 'css',
+    baseGroupId: 'progress-bars',
+    animationIds: [],
+    metadata: progressBarsMeta,
+  },
+  {
+    id: 'loading-states-framer',
+    title: 'Loading States (Framer)',
+    tech: 'framer',
+    baseGroupId: 'loading-states',
+    animationIds: [],
+    metadata: loadingStatesMeta,
+  },
+  {
+    id: 'loading-states-css',
+    title: 'Loading States (CSS)',
+    tech: 'css',
+    baseGroupId: 'loading-states',
+    animationIds: [],
+    metadata: loadingStatesMeta,
+  },
 ])
 
 // ============================================================================

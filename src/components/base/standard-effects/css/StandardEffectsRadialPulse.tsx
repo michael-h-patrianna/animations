@@ -4,6 +4,10 @@
  */
 import { memo, type CSSProperties } from 'react'
 import './StandardEffectsRadialPulse.css'
+import {
+  INDICATOR_DOT_COLOR,
+  INDICATOR_RADIAL_RING_COLOR,
+} from '@/components/base/standard-effects/SharedDefaults'
 
 interface StandardEffectsRadialPulseProps {
   ringCount?: number
@@ -14,8 +18,8 @@ interface StandardEffectsRadialPulseProps {
 
 function StandardEffectsRadialPulseComponent({
   ringCount = 3,
-  color = 'rgb(236 195 255 / 32%)',
-  dotColor = '#efd7fa',
+  color = INDICATOR_RADIAL_RING_COLOR,
+  dotColor = INDICATOR_DOT_COLOR,
   duration = 2400,
 }: StandardEffectsRadialPulseProps) {
   const style = {

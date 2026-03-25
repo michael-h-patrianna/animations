@@ -27,7 +27,7 @@ function buildTimerProps(startSeconds: number) {
 
 function getPill(container: HTMLElement, selector: string): HTMLElement {
   const pill = container.querySelector(selector)
-  expect(pill).not.toBeNull()
+  if (pill == null) throw new Error(`Pill element not found: ${selector}`)
   return pill as HTMLElement
 }
 

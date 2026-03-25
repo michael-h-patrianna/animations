@@ -21,7 +21,10 @@
  */
 import * as m from 'motion/react-m'
 import { useRef, useState, useEffect } from 'react'
-import type { MilestoneProgressBarProps, MilestoneConfig } from '@/components/progress/progress-bars/SharedTypes'
+import type {
+  MilestoneProgressBarProps,
+  MilestoneConfig,
+} from '@/components/progress/progress-bars/SharedTypes'
 import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 type MilestoneState = 'inactive' | 'anticipating' | 'charged'

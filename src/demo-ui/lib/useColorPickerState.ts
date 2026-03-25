@@ -125,7 +125,10 @@ export function useColorPickerState(opts: UseColorPickerStateOptions): ColorPick
   )
 
   useEffect(() => {
-    dispatch({ type: 'syncExternal', next: buildColorDraft(opts.value, opts.alpha, opts.disableAlpha) })
+    dispatch({
+      type: 'syncExternal',
+      next: buildColorDraft(opts.value, opts.alpha, opts.disableAlpha),
+    })
   }, [opts.value, opts.alpha, opts.disableAlpha])
 
   const {

@@ -11,10 +11,7 @@ interface StandardEffectsBounceProps {
   duration?: number
 }
 
-function StandardEffectsBounceComponent({
-  children,
-  duration = 800,
-}: StandardEffectsBounceProps) {
+function StandardEffectsBounceComponent({ children, duration = 800 }: StandardEffectsBounceProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-bounce-duration' as string]: `${duration}ms`,

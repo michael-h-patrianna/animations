@@ -11,10 +11,7 @@ interface StandardEffectsSlideProps {
   duration?: number
 }
 
-function StandardEffectsSlideComponent({
-  children,
-  duration = 700,
-}: StandardEffectsSlideProps) {
+function StandardEffectsSlideComponent({ children, duration = 700 }: StandardEffectsSlideProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-slide-duration' as string]: `${duration}ms`,

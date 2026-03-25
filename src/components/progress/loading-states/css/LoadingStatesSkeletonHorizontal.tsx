@@ -10,7 +10,10 @@
 
 import { memo } from 'react'
 
-import { SKELETON_BASE_COLOR, SKELETON_SHIMMER_COLOR } from '@/components/progress/loading-states/SharedDefaults'
+import {
+  SKELETON_BASE_COLOR,
+  SKELETON_SHIMMER_COLOR,
+} from '@/components/progress/loading-states/SharedDefaults'
 import './LoadingStatesSkeletonHorizontal.css'
 
 interface LoadingStatesSkeletonHorizontalProps {

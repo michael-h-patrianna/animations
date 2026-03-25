@@ -86,7 +86,7 @@ describe('GroupSection', () => {
     rerender(
       <AnimationInspectorProvider currentGroup={group}>
         <MemoryRouter>
-        <GroupSection group={group} elementId="state-section" error={new Error('Boom')} />
+          <GroupSection group={group} elementId="state-section" error={new Error('Boom')} />
         </MemoryRouter>
       </AnimationInspectorProvider>
     )

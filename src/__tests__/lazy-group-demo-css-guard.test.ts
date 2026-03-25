@@ -76,7 +76,10 @@ function extractJsxClassNames(tsxContent: string): string[] {
 
   const staticPattern = /className="([^"]+)"/g
   while ((match = staticPattern.exec(codeOnly)) !== null) {
-    match[1].split(/\s+/).filter(Boolean).forEach((name) => classes.add(name))
+    match[1]
+      .split(/\s+/)
+      .filter(Boolean)
+      .forEach((name) => classes.add(name))
   }
 
   const templatePattern = /className=\{`([^`]+)`\}/g
@@ -102,7 +105,8 @@ function usesRawDemoBlockClasses(filePath: string): boolean {
 function hasLocalDemoBlockStyleDependency(filePath: string): boolean {
   return extractImports(filePath).some(
     (source) =>
-      source.startsWith('@/components/demo-blocks') || source.includes('/demo-blocks/demo-blocks.css')
+      source.startsWith('@/components/demo-blocks') ||
+      source.includes('/demo-blocks/demo-blocks.css')
   )
 }
 

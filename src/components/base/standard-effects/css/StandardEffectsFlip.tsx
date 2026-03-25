@@ -11,10 +11,7 @@ interface StandardEffectsFlipProps {
   duration?: number
 }
 
-function StandardEffectsFlipComponent({
-  children,
-  duration = 800,
-}: StandardEffectsFlipProps) {
+function StandardEffectsFlipComponent({ children, duration = 800 }: StandardEffectsFlipProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-flip-duration' as string]: `${duration}ms`,

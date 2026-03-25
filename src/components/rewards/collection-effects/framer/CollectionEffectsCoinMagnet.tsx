@@ -17,7 +17,10 @@ import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
-import { generateFallbackParticle, type ConfettiShape } from '@/components/rewards/collection-effects/SharedParticleUtils'
+import {
+  generateFallbackParticle,
+  type ConfettiShape,
+} from '@/components/rewards/collection-effects/SharedParticleUtils'
 import { useImagePreloader } from '@/components/rewards/collection-effects/SharedImagePreloader'
 import {
   clampImages,
@@ -348,7 +351,9 @@ function CollectionEffectsCoinMagnetComponent({
     >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-magnet__stage" aria-hidden="true">
-          {!isBurst && <ArrivalFlash target={toPt} delayS={durationS * ARRIVAL_FLASH_DELAY_RATIO} />}
+          {!isBurst && (
+            <ArrivalFlash target={toPt} delayS={durationS * ARRIVAL_FLASH_DELAY_RATIO} />
+          )}
           {particles.map((particle) => (
             <ParticleElement
               key={particle.id}

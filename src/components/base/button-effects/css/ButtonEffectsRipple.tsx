@@ -13,6 +13,7 @@
 import { memo, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
+import { RIPPLE_COLOR } from '@/components/base/button-effects/SharedDefaults'
 
 interface Ripple {
   id: number
@@ -30,7 +31,7 @@ interface ButtonEffectsRippleProps {
 
 function ButtonEffectsRippleComponent({
   children,
-  color = 'rgb(255 255 255 / 40%)',
+  color = RIPPLE_COLOR,
   duration = 520,
 }: ButtonEffectsRippleProps) {
   const containerRef = useRef<HTMLDivElement>(null)

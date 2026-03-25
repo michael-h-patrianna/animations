@@ -107,13 +107,14 @@ describe('Popover', () => {
         onOpenChange={vi.fn()}
         offset={8}
         trigger={<span>Open</span>}
-        content={<div>Panel</div>}
+        content={<div data-testid="panel-content">Panel</div>}
       />
     )
 
     const trigger = screen.getByTestId('popover-open-change')
     const popover = document.querySelector('[popover]') as HTMLDivElement
-    const surface = screen.getByText('Panel').closest('.glass-panel') as HTMLDivElement
+    const panelContent = screen.getByTestId('panel-content')
+    const surface = panelContent.closest('.glass-panel') as HTMLDivElement
 
     trigger.getBoundingClientRect = () => makeRect({ left: 260, top: 20, width: 40, height: 20 })
     surface.getBoundingClientRect = () => {
@@ -140,11 +141,15 @@ describe('Popover', () => {
         offset={8}
         draggable
         trigger={<span>Open</span>}
-        content={<div data-popover-drag-handle="true">Drag handle</div>}
+        content={
+          <div data-popover-drag-handle="true" data-testid="drag-handle">
+            Drag handle
+          </div>
+        }
       />
     )
 
-    const handle = screen.getByText('Drag handle')
+    const handle = screen.getByTestId('drag-handle')
 
     fireEvent.pointerDown(handle, { button: 0, clientX: 120, clientY: 120 })
 

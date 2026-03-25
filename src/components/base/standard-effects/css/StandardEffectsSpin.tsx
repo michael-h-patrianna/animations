@@ -11,10 +11,7 @@ interface StandardEffectsSpinProps {
   duration?: number
 }
 
-function StandardEffectsSpinComponent({
-  children,
-  duration = 800,
-}: StandardEffectsSpinProps) {
+function StandardEffectsSpinComponent({ children, duration = 800 }: StandardEffectsSpinProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-spin-duration' as string]: `${duration}ms`,

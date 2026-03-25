@@ -13,6 +13,7 @@
 import { memo, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import './ButtonEffectsShockwave.css'
 import { DemoButton } from '@/components/demo-blocks'
+import { SHOCKWAVE_COLOR } from '@/components/base/button-effects/SharedDefaults'
 
 interface Shockwave {
   id: number
@@ -34,7 +35,7 @@ interface ButtonEffectsShockwaveProps {
 function ButtonEffectsShockwaveComponent({
   children,
   ringCount = 3,
-  color = 'rgb(255 255 255 / 50%)',
+  color = SHOCKWAVE_COLOR,
   duration = 1000,
 }: ButtonEffectsShockwaveProps) {
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])

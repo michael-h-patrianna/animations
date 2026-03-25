@@ -75,12 +75,54 @@ registerLazyGroup('button-effects-css', async () => {
 // ============================================================================
 
 registerLazyCategory('base', 'Base Effects', [
-  { id: 'text-effects-framer', title: 'Text Effects (Framer)', tech: 'framer', baseGroupId: 'text-effects', animationIds: [], metadata: textEffectsMeta },
-  { id: 'text-effects-css', title: 'Text Effects (CSS)', tech: 'css', baseGroupId: 'text-effects', animationIds: [], metadata: textEffectsMeta },
-  { id: 'standard-effects-framer', title: 'Standard Effects (Framer)', tech: 'framer', baseGroupId: 'standard-effects', animationIds: [], metadata: standardEffectsMeta },
-  { id: 'standard-effects-css', title: 'Standard Effects (CSS)', tech: 'css', baseGroupId: 'standard-effects', animationIds: [], metadata: standardEffectsMeta },
-  { id: 'button-effects-framer', title: 'Button Effects (Framer)', tech: 'framer', baseGroupId: 'button-effects', animationIds: [], metadata: buttonEffectsMeta },
-  { id: 'button-effects-css', title: 'Button Effects (CSS)', tech: 'css', baseGroupId: 'button-effects', animationIds: [], metadata: buttonEffectsMeta },
+  {
+    id: 'text-effects-framer',
+    title: 'Text Effects (Framer)',
+    tech: 'framer',
+    baseGroupId: 'text-effects',
+    animationIds: [],
+    metadata: textEffectsMeta,
+  },
+  {
+    id: 'text-effects-css',
+    title: 'Text Effects (CSS)',
+    tech: 'css',
+    baseGroupId: 'text-effects',
+    animationIds: [],
+    metadata: textEffectsMeta,
+  },
+  {
+    id: 'standard-effects-framer',
+    title: 'Standard Effects (Framer)',
+    tech: 'framer',
+    baseGroupId: 'standard-effects',
+    animationIds: [],
+    metadata: standardEffectsMeta,
+  },
+  {
+    id: 'standard-effects-css',
+    title: 'Standard Effects (CSS)',
+    tech: 'css',
+    baseGroupId: 'standard-effects',
+    animationIds: [],
+    metadata: standardEffectsMeta,
+  },
+  {
+    id: 'button-effects-framer',
+    title: 'Button Effects (Framer)',
+    tech: 'framer',
+    baseGroupId: 'button-effects',
+    animationIds: [],
+    metadata: buttonEffectsMeta,
+  },
+  {
+    id: 'button-effects-css',
+    title: 'Button Effects (CSS)',
+    tech: 'css',
+    baseGroupId: 'button-effects',
+    animationIds: [],
+    metadata: buttonEffectsMeta,
+  },
 ])
 
 // ============================================================================

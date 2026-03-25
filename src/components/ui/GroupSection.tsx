@@ -83,11 +83,8 @@ export function GroupSection({
 }
 
 /** Renders the main group content with animation cards. */
-function GroupContent({
-  group,
-  elementId,
-  animationFilter,
-}: Omit<GroupSectionProps, 'isLoading' | 'error'>) {
+/** Resolves animation registries and filter state for a group. */
+function useGroupContentState(group: Group, animationFilter?: string) {
   const isCssGroup = group.id.endsWith('-css')
   const baseGroupId = group.id.replace(/-(?:framer|css)$/, '')
   const currentTech = isCssGroup ? 'css' : 'framer'
@@ -97,9 +94,7 @@ function GroupContent({
     () => getGroupAnimations(baseGroupId, currentTech),
     [baseGroupId, currentTech]
   )
-
   const framerRegistry = useMemo(() => getGroupAnimations(baseGroupId, 'framer'), [baseGroupId])
-
   const cssRegistry = useMemo(() => getGroupAnimations(baseGroupId, 'css'), [baseGroupId])
 
   const filteredAnimations = useMemo(() => {
@@ -111,9 +106,8 @@ function GroupContent({
     navigate(`/${group.id}`, { replace: true })
   }, [navigate, group.id])
 
-  const isFilterActive = Boolean(animationFilter)
-  const isFilterInvalid = isFilterActive && filteredAnimations.length === 0
-  const { selectAnimation, isSelected, getPropOverrides, getReplayVersion } = useAnimationInspector()
+  const { selectAnimation, isSelected, getPropOverrides, getReplayVersion } =
+    useAnimationInspector()
   const setRightPanel = useLayoutStore((state) => state.setRightPanel)
 
   const handleSelectAnimation = useCallback(
@@ -124,19 +118,46 @@ function GroupContent({
     [selectAnimation, setRightPanel]
   )
 
+  return {
+    isCssGroup,
+    animationRegistry,
+    framerRegistry,
+    cssRegistry,
+    filteredAnimations,
+    handleRemoveFilter,
+    isSelected,
+    getPropOverrides,
+    getReplayVersion,
+    handleSelectAnimation,
+    isFilterActive: Boolean(animationFilter),
+    isFilterInvalid: Boolean(animationFilter) && filteredAnimations.length === 0,
+  }
+}
+
+function GroupContent({
+  group,
+  elementId,
+  animationFilter,
+}: Omit<GroupSectionProps, 'isLoading' | 'error'>) {
+  const state = useGroupContentState(group, animationFilter)
+
   return (
-    <article id={elementId} className={groupSectionClassName} data-testid={`group-section-${elementId}`}>
-      {isFilterActive && (
+    <article
+      id={elementId}
+      className={groupSectionClassName}
+      data-testid={`group-section-${elementId}`}
+    >
+      {state.isFilterActive && (
         <div className="pf-filter-banner" data-testid="filter-banner">
           <span>
-            {isFilterInvalid
+            {state.isFilterInvalid
               ? `Animation "${animationFilter}" not found`
               : `Showing: ${animationFilter}`}
           </span>
           <button
             type="button"
             className="pf-filter-banner__remove"
-            onClick={handleRemoveFilter}
+            onClick={state.handleRemoveFilter}
             data-testid="remove-filter-btn"
           >
             Show all animations
@@ -144,24 +165,24 @@ function GroupContent({
         </div>
       )}
 
-      {isFilterInvalid ? null : filteredAnimations.length > 0 ? (
+      {state.isFilterInvalid ? null : state.filteredAnimations.length > 0 ? (
         <div className="pf-card-grid" data-testid="card-grid">
-          {filteredAnimations.map((animation) => {
-            const AnimationComponent = animationRegistry[animation.id]?.component
+          {state.filteredAnimations.map((animation) => {
+            const AnimationComponent = state.animationRegistry[animation.id]?.component
 
             return (
               <AnimationCardWithSource
                 key={animation.id}
                 animation={animation}
                 AnimationComponent={AnimationComponent}
-                animationRegistry={animationRegistry}
-                framerEntry={framerRegistry[animation.id]}
-                cssEntry={cssRegistry[animation.id]}
-                isCssGroup={isCssGroup}
-                selected={isSelected(animation.id)}
-                propOverrides={getPropOverrides(animation.id, animation.props)}
-                replayVersion={getReplayVersion(animation.id)}
-                onSelect={() => handleSelectAnimation(animation)}
+                animationRegistry={state.animationRegistry}
+                framerEntry={state.framerRegistry[animation.id]}
+                cssEntry={state.cssRegistry[animation.id]}
+                isCssGroup={state.isCssGroup}
+                selected={state.isSelected(animation.id)}
+                propOverrides={state.getPropOverrides(animation.id, animation.props)}
+                replayVersion={state.getReplayVersion(animation.id)}
+                onSelect={() => state.handleSelectAnimation(animation)}
               />
             )
           })}

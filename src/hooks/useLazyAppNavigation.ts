@@ -104,10 +104,7 @@ export function useLazyAppNavigation(): LazyAppNavigationResult {
 
   const error = initError || loadError
 
-  const allGroups = useMemo(
-    () => navCatalog.categories.flatMap((cat) => cat.groups),
-    [navCatalog]
-  )
+  const allGroups = useMemo(() => navCatalog.categories.flatMap((cat) => cat.groups), [navCatalog])
 
   const navigateRef = useRef(navigate)
   navigateRef.current = navigate

@@ -11,10 +11,7 @@ interface StandardEffectsTadaProps {
   duration?: number
 }
 
-function StandardEffectsTadaComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsTadaProps) {
+function StandardEffectsTadaComponent({ children, duration = 1000 }: StandardEffectsTadaProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-tada-duration' as string]: `${duration}ms`,

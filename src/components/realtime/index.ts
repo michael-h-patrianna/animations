@@ -34,7 +34,12 @@ const realtimeDataMeta: GroupMetadata = {
 // Timer Effects
 registerLazyGroup('timer-effects-framer', async () => {
   const { groupExport } = await import('./timer-effects')
-  const group = buildGroupFromExports(groupExport.metadata, 'framer', groupExport.framer, 'realtime')
+  const group = buildGroupFromExports(
+    groupExport.metadata,
+    'framer',
+    groupExport.framer,
+    'realtime'
+  )
   return { metadata: groupExport.metadata, animations: groupExport.framer, group }
 })
 
@@ -47,7 +52,12 @@ registerLazyGroup('timer-effects-css', async () => {
 // Update Indicators
 registerLazyGroup('update-indicators-framer', async () => {
   const { groupExport } = await import('./update-indicators')
-  const group = buildGroupFromExports(groupExport.metadata, 'framer', groupExport.framer, 'realtime')
+  const group = buildGroupFromExports(
+    groupExport.metadata,
+    'framer',
+    groupExport.framer,
+    'realtime'
+  )
   return { metadata: groupExport.metadata, animations: groupExport.framer, group }
 })
 
@@ -60,7 +70,12 @@ registerLazyGroup('update-indicators-css', async () => {
 // Real-time Data
 registerLazyGroup('realtime-data-framer', async () => {
   const { groupExport } = await import('./realtime-data')
-  const group = buildGroupFromExports(groupExport.metadata, 'framer', groupExport.framer, 'realtime')
+  const group = buildGroupFromExports(
+    groupExport.metadata,
+    'framer',
+    groupExport.framer,
+    'realtime'
+  )
   return { metadata: groupExport.metadata, animations: groupExport.framer, group }
 })
 
@@ -75,12 +90,54 @@ registerLazyGroup('realtime-data-css', async () => {
 // ============================================================================
 
 registerLazyCategory('realtime', 'Real-time Updates & Timers', [
-  { id: 'timer-effects-framer', title: 'Timer Effects (Framer)', tech: 'framer', baseGroupId: 'timer-effects', animationIds: [], metadata: timerEffectsMeta },
-  { id: 'timer-effects-css', title: 'Timer Effects (CSS)', tech: 'css', baseGroupId: 'timer-effects', animationIds: [], metadata: timerEffectsMeta },
-  { id: 'update-indicators-framer', title: 'Update Indicators (Framer)', tech: 'framer', baseGroupId: 'update-indicators', animationIds: [], metadata: updateIndicatorsMeta },
-  { id: 'update-indicators-css', title: 'Update Indicators (CSS)', tech: 'css', baseGroupId: 'update-indicators', animationIds: [], metadata: updateIndicatorsMeta },
-  { id: 'realtime-data-framer', title: 'Real-time Data (Framer)', tech: 'framer', baseGroupId: 'realtime-data', animationIds: [], metadata: realtimeDataMeta },
-  { id: 'realtime-data-css', title: 'Real-time Data (CSS)', tech: 'css', baseGroupId: 'realtime-data', animationIds: [], metadata: realtimeDataMeta },
+  {
+    id: 'timer-effects-framer',
+    title: 'Timer Effects (Framer)',
+    tech: 'framer',
+    baseGroupId: 'timer-effects',
+    animationIds: [],
+    metadata: timerEffectsMeta,
+  },
+  {
+    id: 'timer-effects-css',
+    title: 'Timer Effects (CSS)',
+    tech: 'css',
+    baseGroupId: 'timer-effects',
+    animationIds: [],
+    metadata: timerEffectsMeta,
+  },
+  {
+    id: 'update-indicators-framer',
+    title: 'Update Indicators (Framer)',
+    tech: 'framer',
+    baseGroupId: 'update-indicators',
+    animationIds: [],
+    metadata: updateIndicatorsMeta,
+  },
+  {
+    id: 'update-indicators-css',
+    title: 'Update Indicators (CSS)',
+    tech: 'css',
+    baseGroupId: 'update-indicators',
+    animationIds: [],
+    metadata: updateIndicatorsMeta,
+  },
+  {
+    id: 'realtime-data-framer',
+    title: 'Real-time Data (Framer)',
+    tech: 'framer',
+    baseGroupId: 'realtime-data',
+    animationIds: [],
+    metadata: realtimeDataMeta,
+  },
+  {
+    id: 'realtime-data-css',
+    title: 'Real-time Data (CSS)',
+    tech: 'css',
+    baseGroupId: 'realtime-data',
+    animationIds: [],
+    metadata: realtimeDataMeta,
+  },
 ])
 
 // ============================================================================

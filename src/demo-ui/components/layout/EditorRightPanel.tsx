@@ -9,7 +9,7 @@ import { Button } from '@/demo-ui/components/ui/Button'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import type { PropConfig } from '@/types/animation'
 import type React from 'react'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 function CountBadge({ count }: { count: number }) {
   return (
@@ -94,7 +94,7 @@ function InspectorGroup({
   )
 }
 
-export const EditorRightPanel: React.FC = () => {
+function useInspectorPanel() {
   const {
     selectedAnimation,
     getPropOverrides,
@@ -126,22 +126,49 @@ export const EditorRightPanel: React.FC = () => {
       ? hasDirtyPropOverrides(propOverrides, selectedAnimation.props, selectedAnimation.id)
       : false
 
-  const handlePropChange = (name: string, value: unknown) => {
-    if (selectedAnimation == null) return
-    setPropOverride(selectedAnimation.id, selectedAnimation.props, name, value)
-    replayAnimation(selectedAnimation.id)
-  }
+  const handlePropChange = useCallback(
+    (name: string, value: unknown) => {
+      if (selectedAnimation == null) return
+      setPropOverride(selectedAnimation.id, selectedAnimation.props, name, value)
+      replayAnimation(selectedAnimation.id)
+    },
+    [selectedAnimation, setPropOverride, replayAnimation]
+  )
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (selectedAnimation == null) return
     resetPropOverrides(selectedAnimation.id, selectedAnimation.props)
     replayAnimation(selectedAnimation.id)
-  }
+  }, [selectedAnimation, resetPropOverrides, replayAnimation])
 
-  const handleReplay = () => {
+  const handleReplay = useCallback(() => {
     if (selectedAnimation == null) return
     replayAnimation(selectedAnimation.id)
+  }, [selectedAnimation, replayAnimation])
+
+  return {
+    selectedAnimation,
+    propOverrides,
+    editableProps,
+    codeOnlyProps,
+    isDirty,
+    handlePropChange,
+    handleReset,
+    handleReplay,
   }
+}
+
+export const EditorRightPanel: React.FC = () => {
+  const {
+    selectedAnimation,
+    propOverrides,
+    editableProps,
+    codeOnlyProps,
+    isDirty,
+    handlePropChange,
+    handleReset,
+    handleReplay,
+  } = useInspectorPanel()
 
   return (
     <div className="h-full flex flex-col w-full shrink-0 overflow-hidden">

@@ -16,7 +16,10 @@ import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'rea
 import './CollectionEffectsCoinMagnet.css'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
-import { generateFallbackParticle, type ConfettiShape } from '@/components/rewards/collection-effects/SharedParticleUtils'
+import {
+  generateFallbackParticle,
+  type ConfettiShape,
+} from '@/components/rewards/collection-effects/SharedParticleUtils'
 import { useImagePreloader } from '@/components/rewards/collection-effects/SharedImagePreloader'
 import {
   clampImages,

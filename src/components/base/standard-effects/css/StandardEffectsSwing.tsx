@@ -11,10 +11,7 @@ interface StandardEffectsSwingProps {
   duration?: number
 }
 
-function StandardEffectsSwingComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsSwingProps) {
+function StandardEffectsSwingComponent({ children, duration = 1000 }: StandardEffectsSwingProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-swing-duration' as string]: `${duration}ms`,

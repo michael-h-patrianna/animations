@@ -11,10 +11,7 @@ interface StandardEffectsPopProps {
   duration?: number
 }
 
-function StandardEffectsPopComponent({
-  children,
-  duration = 500,
-}: StandardEffectsPopProps) {
+function StandardEffectsPopComponent({ children, duration = 500 }: StandardEffectsPopProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-pop-duration' as string]: `${duration}ms`,

@@ -14,7 +14,8 @@ function isStyleValueRecord(value: unknown): value is Record<string, unknown> {
 
 function normalizeColorDefault(value?: string): string {
   if (value == null) return ''
-  return resolveColorInputDefault(value) || value
+  const resolved = resolveColorInputDefault(value)
+  return resolved !== '' ? resolved : value
 }
 
 function parseStyleNumberValue(value: unknown): number | undefined {
@@ -51,7 +52,10 @@ function buildStyleObjectDefaultRecord(fields: StyleObjectFieldConfig[]): Record
       .map((field) => {
         switch (field.type) {
           case 'number':
-            return [field.key, field.default != null ? `${field.default}${field.unit ?? ''}` : ''] as const
+            return [
+              field.key,
+              field.default != null ? `${field.default}${field.unit ?? ''}` : '',
+            ] as const
           case 'color':
             return [field.key, normalizeColorDefault(field.default)] as const
           case 'string':
@@ -392,7 +396,11 @@ function StyleObjectField({
       <div className="space-y-3">
         {config.fields.map((field) => {
           return (
-            <div key={field.key} className="space-y-2" data-testid={`prop-field-style-${field.key}`}>
+            <div
+              key={field.key}
+              className="space-y-2"
+              data-testid={`prop-field-style-${field.key}`}
+            >
               {field.type === 'number' ? (
                 <NumberField
                   config={{ ...field, name: field.key }}
@@ -421,7 +429,9 @@ function StyleObjectField({
                 />
               )}
               {field.description != null && field.description !== '' && (
-                <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">{field.description}</p>
+                <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">
+                  {field.description}
+                </p>
               )}
             </div>
           )

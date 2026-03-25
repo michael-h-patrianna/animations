@@ -34,7 +34,12 @@ export const metadata = {
         },
         { type: 'color', key: '--neon-pulse-fill', label: 'Fill Start', default: '#ec4899' },
         { type: 'color', key: '--neon-pulse-fill-to', label: 'Fill End', default: '#f472b6' },
-        { type: 'color', key: '--neon-pulse-glow', label: 'Glow', default: 'rgb(236 72 153 / 25%)' },
+        {
+          type: 'color',
+          key: '--neon-pulse-glow',
+          label: 'Glow',
+          default: 'rgb(236 72 153 / 25%)',
+        },
         {
           type: 'number',
           key: '--neon-pulse-height',

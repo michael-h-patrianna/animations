@@ -16,10 +16,12 @@ describe('ToggleGroup', () => {
       />
     )
 
-    expect(screen.getByRole('radiogroup', { name: 'Code mode' })).toBeInTheDocument()
+    expect(screen.getByRole('radiogroup', { name: 'Code mode' })).toHaveAttribute(
+      'aria-label',
+      'Code mode'
+    )
 
     const selectedIndicator = container.querySelector('.pointer-events-none')
-    expect(selectedIndicator).not.toBeNull()
     const indicatorStyle = selectedIndicator?.getAttribute('style') ?? ''
     expect(indicatorStyle).toContain('var(--accent-subtle)')
     expect(indicatorStyle).toContain('border-color')

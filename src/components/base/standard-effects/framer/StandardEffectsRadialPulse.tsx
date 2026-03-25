@@ -10,6 +10,11 @@
  */
 import * as m from 'motion/react-m'
 import { memo } from 'react'
+import {
+  INDICATOR_DOT_BORDER_COLOR,
+  INDICATOR_DOT_COLOR,
+  INDICATOR_RADIAL_RING_COLOR,
+} from '@/components/base/standard-effects/SharedDefaults'
 
 interface StandardEffectsRadialPulseProps {
   /** Number of expanding rings. Default: 3 */
@@ -26,9 +31,9 @@ interface StandardEffectsRadialPulseProps {
 
 function StandardEffectsRadialPulseComponent({
   ringCount = 3,
-  color = 'rgb(236 195 255 / 32%)',
-  dotColor = '#efd7fa',
-  dotBorderColor = 'rgb(236 195 255 / 15%)',
+  color = INDICATOR_RADIAL_RING_COLOR,
+  dotColor = INDICATOR_DOT_COLOR,
+  dotBorderColor = INDICATOR_DOT_BORDER_COLOR,
   duration = 2400,
 }: StandardEffectsRadialPulseProps) {
   const durationS = duration / 1000
@@ -81,7 +86,7 @@ function StandardEffectsRadialPulseComponent({
           background: resolvedDotColor,
           borderWidth: 2,
           borderStyle: 'solid',
-              borderColor: dotBorderColor,
+          borderColor: dotBorderColor,
         }}
       />
     </div>

@@ -102,7 +102,7 @@ describe('animation portability fixes', () => {
           },
         ],
       },
-    ] as any)
+    ] satisfies import('@/types/animation').PropConfig[])
 
     expect(defaults).toEqual({
       accentColor: '#336699',
@@ -206,9 +206,9 @@ describe('animation portability fixes', () => {
           `${animation.id} should not keep the disabled style placeholder`
         ).not.toBe(true)
         expect(
-          styleProp?.fields?.length ?? 0,
+          styleProp?.fields?.map((f) => f.key) ?? [],
           `${animation.id} should expose at least one theme field`
-        ).toBeGreaterThan(0)
+        ).toEqual(expect.arrayContaining([expect.stringMatching(/^--/)]))
       }
     }
   }, 30_000)
@@ -242,8 +242,8 @@ describe('animation portability fixes', () => {
       </>
     )
 
-    expect(screen.getByText('Blink Child')).toBeVisible()
-    expect(screen.getByText('Pulse Child')).toBeVisible()
+    expect(container.querySelector('[data-animation-id="standard-effects__blink"]')).toBeVisible()
+    expect(container.querySelector('[data-animation-id="standard-effects__pulse"]')).toBeVisible()
     expect(screen.getByRole('button', { name: 'Retry' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Claim' })).toBeVisible()
 
@@ -282,12 +282,18 @@ describe('animation portability fixes', () => {
       <>
         {
           <ModalOrchestrationGridHighlight
-            {...({ distance: 28, stagger: 120, duration: 300, columns: 3 } as any)}
+            {...({ distance: 28, stagger: 120, duration: 300, columns: 3 } as Record<
+              string,
+              unknown
+            >)}
           />
         }
         {
           <ModalOrchestrationMagneticHover
-            {...({ tiltIntensity: 9, stagger: 90, duration: 420, columns: 2 } as any)}
+            {...({ tiltIntensity: 9, stagger: 90, duration: 420, columns: 2 } as Record<
+              string,
+              unknown
+            >)}
           />
         }
       </>
@@ -333,7 +339,7 @@ describe('animation portability fixes', () => {
 
     const { container } = render(
       <PrizeRevealPirateChestWin
-        {...({ shakeDelayMs: 0, revealDelayMs: 0, coinCount: 3 } as any)}
+        {...({ shakeDelayMs: 0, revealDelayMs: 0, coinCount: 3 } as Record<string, unknown>)}
       />
     )
 

@@ -10,7 +10,12 @@ import { memo, useEffect, useMemo } from 'react'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { GOLDEN_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
-import { GOLDEN_COLORS, deg2rad, pickRandom, randBetween } from '@/components/rewards/modal-celebrations/utils'
+import {
+  GOLDEN_COLORS,
+  deg2rad,
+  pickRandom,
+  randBetween,
+} from '@/components/rewards/modal-celebrations/utils'
 import './ModalCelebrationsCoinsSwirl.css'
 
 /* ─── Props ─── */

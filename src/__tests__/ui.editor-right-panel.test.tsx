@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 import { presentBox } from '@/assets'
-import { AnimationInspectorProvider, useAnimationInspector } from '@/contexts/AnimationInspectorContext'
+import {
+  AnimationInspectorProvider,
+  useAnimationInspector,
+} from '@/contexts/AnimationInspectorContext'
 import { EditorRightPanel } from '@/demo-ui/components/layout/EditorRightPanel'
 import type { Group } from '@/types/animation'
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -77,11 +80,13 @@ describe('EditorRightPanel', () => {
     const input = await screen.findByTestId('prop-field-labelText')
     const fieldContainer = input.closest('[data-testid="input-container"]')
 
-    expect(fieldContainer).not.toBeNull()
-    expect(fieldContainer?.parentElement).toHaveClass('rounded-2xl')
-    expect(fieldContainer?.parentElement).toHaveClass('border')
-    expect(fieldContainer?.parentElement).toHaveClass('p-3')
-    expect(screen.getByText('Shown beneath the field without extra card chrome.')).toBeVisible()
+    const groupPanel = fieldContainer?.parentElement
+    expect(groupPanel).toHaveClass('rounded-2xl')
+    expect(groupPanel).toHaveClass('border')
+    expect(groupPanel).toHaveClass('p-3')
+    expect(groupPanel?.querySelector('p')?.textContent).toBe(
+      'Shown beneath the field without extra card chrome.'
+    )
   })
 
   it('keeps starter image defaults clean while still allowing custom overrides', async () => {

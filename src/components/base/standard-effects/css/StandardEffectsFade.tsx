@@ -11,10 +11,7 @@ interface StandardEffectsFadeProps {
   duration?: number
 }
 
-function StandardEffectsFadeComponent({
-  children,
-  duration = 800,
-}: StandardEffectsFadeProps) {
+function StandardEffectsFadeComponent({ children, duration = 800 }: StandardEffectsFadeProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-fade-duration' as string]: `${duration}ms`,

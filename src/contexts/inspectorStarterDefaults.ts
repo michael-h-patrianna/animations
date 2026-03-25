@@ -41,6 +41,7 @@ function cloneStarterValue(value: unknown): unknown {
   return value
 }
 
+/** Returns pre-configured prop defaults (images, alt text) for specific animation IDs. */
 export function getInspectorStarterDefaults(animationId?: string): Record<string, unknown> {
   if (animationId == null) return {}
 

@@ -25,7 +25,12 @@ export const metadata = {
       name: 'style',
       label: 'Theme',
       fields: [
-        { type: 'color', key: '--circular-dash-active', label: 'Active Segments', default: '#2dd4bf' },
+        {
+          type: 'color',
+          key: '--circular-dash-active',
+          label: 'Active Segments',
+          default: '#2dd4bf',
+        },
         {
           type: 'color',
           key: '--circular-dash-inactive',

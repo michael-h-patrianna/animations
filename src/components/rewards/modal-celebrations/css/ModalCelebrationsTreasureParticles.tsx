@@ -9,7 +9,13 @@ import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
-import { deg2rad, GEM_TYPES, GOLDEN_COLORS, pickRandom, randBetween } from '@/components/rewards/modal-celebrations/utils'
+import {
+  deg2rad,
+  GEM_TYPES,
+  GOLDEN_COLORS,
+  pickRandom,
+  randBetween,
+} from '@/components/rewards/modal-celebrations/utils'
 import './ModalCelebrationsTreasureParticles.css'
 
 /* ─── Props ─── */

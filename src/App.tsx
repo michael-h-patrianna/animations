@@ -28,8 +28,7 @@ function GroupLoadingFallback() {
 
 /** App content that consumes navigation state from context. */
 function AppContent() {
-  const { currentGroupId, currentGroup, animationFilter, isLoading, error } =
-    useAppNavigation()
+  const { currentGroupId, currentGroup, animationFilter, isLoading, error } = useAppNavigation()
   const direction = 0
 
   return (

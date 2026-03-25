@@ -11,10 +11,19 @@ import { memo, useMemo } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/MockOpenModalContent'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import { useModalOpenLogic, type DemoPreset } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import {
+  useModalOpenLogic,
+  type DemoPreset,
+} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
-import { computeBubblePopCloseTrajectory, computeBubblePopTrajectory } from '@/components/dialogs/modal-open/BubblePopTrajectory'
-import { type ExtendedTrajectoryArrays, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
+import {
+  computeBubblePopCloseTrajectory,
+  computeBubblePopTrajectory,
+} from '@/components/dialogs/modal-open/BubblePopTrajectory'
+import {
+  type ExtendedTrajectoryArrays,
+  type ModalOpenProps,
+} from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1200, reveal: 35 },

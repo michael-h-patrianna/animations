@@ -30,14 +30,16 @@ async function measureMagneticHoverLayout(stage: Locator) {
 
     const root = node as HTMLElement
     const rootRect = root.getBoundingClientRect()
-    const items = Array.from(root.querySelectorAll<HTMLElement>('.pf-magnetic-hover__item')).map((item) => {
-      const rect = item.getBoundingClientRect()
-      return {
-        left: Math.round(rect.left - rootRect.left),
-        top: Math.round(rect.top - rootRect.top),
-        right: Math.round(rect.right - rootRect.left),
+    const items = Array.from(root.querySelectorAll<HTMLElement>('.pf-magnetic-hover__item')).map(
+      (item) => {
+        const rect = item.getBoundingClientRect()
+        return {
+          left: Math.round(rect.left - rootRect.left),
+          top: Math.round(rect.top - rootRect.top),
+          right: Math.round(rect.right - rootRect.left),
+        }
       }
-    })
+    )
 
     return {
       itemCount: items.length,
@@ -67,9 +69,11 @@ test.describe('Modal Orchestration Magnetic Hover Tiles', () => {
       await expect
         .poll(
           async () =>
-            stage.locator('.pf-magnetic-hover__item').evaluateAll((nodes) =>
-              nodes.every((node) => Number.parseFloat(getComputedStyle(node).opacity) >= 0.99)
-            ),
+            stage
+              .locator('.pf-magnetic-hover__item')
+              .evaluateAll((nodes) =>
+                nodes.every((node) => Number.parseFloat(getComputedStyle(node).opacity) >= 0.99)
+              ),
           { timeout: 3_000 }
         )
         .toBe(true)

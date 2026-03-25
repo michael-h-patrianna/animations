@@ -195,16 +195,13 @@ describe('AnimationCard', () => {
 
     renderCard()
 
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Copy animation URL' }))
-      await Promise.resolve()
-    })
+    fireEvent.click(screen.getByRole('button', { name: 'Copy animation URL' }))
+    await vi.waitFor(() => screen.getByTestId('app-toast'))
 
     const toast = screen.getByTestId('app-toast')
     const themedRoot = toast.closest('[data-demo-ui]')
 
     expect(toast).toHaveClass('glass-panel')
-    expect(themedRoot).not.toBeNull()
     expect(themedRoot).toHaveAttribute('data-mode', 'dark-brown')
     expect(themedRoot).toHaveAttribute('data-accent', 'orange')
   })
@@ -422,12 +419,8 @@ describe('AnimationCard', () => {
     vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined)
     renderCard({ onSelect })
 
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Copy animation URL' }))
-      await Promise.resolve()
-    })
-
-    expect(onSelect).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'Copy animation URL' }))
+    await vi.waitFor(() => expect(onSelect).not.toHaveBeenCalled())
   })
 
   it('does not render a settings gear button', () => {

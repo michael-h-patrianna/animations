@@ -7,7 +7,10 @@ import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'rea
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/MockOpenModalContent'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import { useModalOpenLogic, type DemoPreset } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import {
+  useModalOpenLogic,
+  type DemoPreset,
+} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import './shared-css-animations.css'
 import { type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'

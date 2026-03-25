@@ -10,10 +10,16 @@ import { memo, useEffect, useMemo, useRef } from 'react'
 
 import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/MockOpenModalContent'
 import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
-import { useModalOpenLogic, type DemoPreset } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import {
+  useModalOpenLogic,
+  type DemoPreset,
+} from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import '@/components/dialogs/modal-open/css/shared-css-animations.css'
-import { computeBubblePopCloseTrajectory, computeBubblePopTrajectory } from '@/components/dialogs/modal-open/BubblePopTrajectory'
+import {
+  computeBubblePopCloseTrajectory,
+  computeBubblePopTrajectory,
+} from '@/components/dialogs/modal-open/BubblePopTrajectory'
 import { type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [

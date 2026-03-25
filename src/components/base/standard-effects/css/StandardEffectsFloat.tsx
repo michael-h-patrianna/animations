@@ -11,10 +11,7 @@ interface StandardEffectsFloatProps {
   duration?: number
 }
 
-function StandardEffectsFloatComponent({
-  children,
-  duration = 6000,
-}: StandardEffectsFloatProps) {
+function StandardEffectsFloatComponent({ children, duration = 6000 }: StandardEffectsFloatProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-float-duration' as string]: `${duration}ms`,

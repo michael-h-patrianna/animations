@@ -8,6 +8,7 @@ function buildGlowColor(color: string): string {
   return `color-mix(in srgb, ${color} 55%, transparent)`
 }
 
+/** Builds a CSS custom-property theme for the heartbeat pill countdown variant. */
 export function buildHeartbeatPillTheme(color: string): CSSProperties {
   return {
     background: buildSurfaceGradient(color),
@@ -15,6 +16,7 @@ export function buildHeartbeatPillTheme(color: string): CSSProperties {
   } as CSSProperties
 }
 
+/** Builds a CSS custom-property theme for the glitch pill countdown variant. */
 export function buildGlitchPillTheme(color: string): CSSProperties {
   return {
     background: buildSurfaceGradient(color),

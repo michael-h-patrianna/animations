@@ -11,6 +11,7 @@
 import * as m from 'motion/react-m'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
+import { PULSE_GLOW_COLOR } from '@/components/base/standard-effects/SharedDefaults'
 
 interface StandardEffectsPulseProps {
   children?: ReactNode
@@ -25,7 +26,7 @@ interface StandardEffectsPulseProps {
 function StandardEffectsPulseComponent({
   children,
   duration = 1500,
-  glowColor = 'rgb(198 255 119 / 30%)',
+  glowColor = PULSE_GLOW_COLOR,
   borderRadius = 16,
 }: StandardEffectsPulseProps) {
   const resolvedGlowColor = glowColor

@@ -19,7 +19,11 @@ import {
   FIREWORK_GRAVITY_DISTANCE_PX,
   generateFireworkBursts,
 } from '@/components/rewards/modal-celebrations/fireworkModel'
-import { CONFETTI_SHAPES, pickRandom, type ConfettiShape } from '@/components/rewards/modal-celebrations/utils'
+import {
+  CONFETTI_SHAPES,
+  pickRandom,
+  type ConfettiShape,
+} from '@/components/rewards/modal-celebrations/utils'
 
 /* ─── Defaults ─── */
 

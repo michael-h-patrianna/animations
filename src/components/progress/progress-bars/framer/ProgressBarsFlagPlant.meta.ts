@@ -52,7 +52,12 @@ export const metadata = {
           label: 'Value Text',
           default: 'rgb(255 255 255 / 95%)',
         },
-        { type: 'color', key: '--flag-pulse', label: 'Flag Pulse', default: 'rgb(251 146 60 / 40%)' },
+        {
+          type: 'color',
+          key: '--flag-pulse',
+          label: 'Flag Pulse',
+          default: 'rgb(251 146 60 / 40%)',
+        },
       ],
     },
   ],

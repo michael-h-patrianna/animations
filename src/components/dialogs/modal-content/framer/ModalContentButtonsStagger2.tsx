@@ -22,7 +22,12 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { MODAL_ENTRANCE, REDUCED_FADE, toItemArray, type ContentStaggerProps } from '@/components/dialogs/modal-content/SharedTypes'
+import {
+  MODAL_ENTRANCE,
+  REDUCED_FADE,
+  toItemArray,
+  type ContentStaggerProps,
+} from '@/components/dialogs/modal-content/SharedTypes'
 
 const DEFAULT_DURATION = 300
 const DEFAULT_STAGGER = 70

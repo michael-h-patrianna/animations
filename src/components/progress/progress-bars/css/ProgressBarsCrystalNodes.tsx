@@ -4,7 +4,10 @@
  * Files to copy: this file + ProgressBarsCrystalNodes.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
 import { useMemo } from 'react'
-import type { MilestoneProgressBarProps, MilestoneConfig } from '@/components/progress/progress-bars/SharedTypes'
+import type {
+  MilestoneProgressBarProps,
+  MilestoneConfig,
+} from '@/components/progress/progress-bars/SharedTypes'
 import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsCrystalNodes.css'
 

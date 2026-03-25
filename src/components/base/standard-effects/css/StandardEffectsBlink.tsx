@@ -11,10 +11,7 @@ interface StandardEffectsBlinkProps {
   duration?: number
 }
 
-function StandardEffectsBlinkComponent({
-  children,
-  duration = 1000,
-}: StandardEffectsBlinkProps) {
+function StandardEffectsBlinkComponent({ children, duration = 1000 }: StandardEffectsBlinkProps) {
   const style =
     duration !== 1000
       ? ({

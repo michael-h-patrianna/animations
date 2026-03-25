@@ -7,7 +7,10 @@
 
 import { memo } from 'react'
 
-import { SPINNER_GALAXY_COLOR, SPINNER_GALAXY_STARS } from '@/components/progress/loading-states/SharedDefaults'
+import {
+  SPINNER_GALAXY_COLOR,
+  SPINNER_GALAXY_STARS,
+} from '@/components/progress/loading-states/SharedDefaults'
 import './LoadingStatesSpinnerGalaxy.css'
 
 interface LoadingStatesSpinnerGalaxyProps {

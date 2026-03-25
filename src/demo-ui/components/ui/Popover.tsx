@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useId } from 'react'
-import { AnimatePresence, m, useDragControls, useMotionValue } from 'motion/react'
+import { AnimatePresence, m, useDragControls, useMotionValue, type MotionValue } from 'motion/react'
 import { soundManager } from '@/demo-ui/lib/audio/SoundManager'
 import { sx } from '@/demo-ui/lib/sx'
 
@@ -48,7 +48,10 @@ function getViewportRect(): ViewportRect {
   }
 }
 
-function clampPopoverPosition(position: Pick<PositionRect, 'top' | 'left'>, popoverRect: Pick<PositionRect, 'width' | 'height'>) {
+function clampPopoverPosition(
+  position: Pick<PositionRect, 'top' | 'left'>,
+  popoverRect: Pick<PositionRect, 'width' | 'height'>
+) {
   const viewport = getViewportRect()
   const maxLeft = Math.max(VIEWPORT_PADDING, viewport.width - popoverRect.width - VIEWPORT_PADDING)
   const maxTop = Math.max(VIEWPORT_PADDING, viewport.height - popoverRect.height - VIEWPORT_PADDING)
@@ -86,11 +89,9 @@ function computePopoverPosition(
       ? fallbackTop >= VIEWPORT_PADDING
       : triggerRect.bottom + offset + popoverRect.height <= window.innerHeight - VIEWPORT_PADDING
 
-  let top =
-    preferredFits || (!fallbackFits && spaceBelow >= spaceAbove)
-      ? preferredTop
-      : fallbackTop
-  let left =
+  const top =
+    preferredFits || (!fallbackFits && spaceBelow >= spaceAbove) ? preferredTop : fallbackTop
+  const left =
     align === 'start'
       ? triggerRect.left
       : align === 'end'
@@ -98,6 +99,234 @@ function computePopoverPosition(
         : triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2
 
   return clampPopoverPosition({ top, left }, popoverRect)
+}
+
+interface PopoverDragState {
+  manualPositionRef: React.RefObject<{ top: number; left: number } | null>
+  isDraggingRef: React.RefObject<boolean>
+  dragControls: ReturnType<typeof useDragControls>
+  dragX: MotionValue<number>
+  dragY: MotionValue<number>
+  isDragging: boolean
+  dragConstraints: { left: number; right: number; top: number; bottom: number }
+  setDragConstraints: React.Dispatch<
+    React.SetStateAction<{ left: number; right: number; top: number; bottom: number }>
+  >
+  applyPositionRef: React.RefObject<((position: { top: number; left: number }) => void) | null>
+  handleDragEnd: () => void
+  handlePointerDown: (event: React.PointerEvent<HTMLDivElement>) => void
+  onDragStart: () => void
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+function usePopoverDrag(
+  draggable: boolean,
+  popoverRef: React.RefObject<HTMLDivElement | null>,
+  surfaceRef: React.RefObject<HTMLDivElement | null>
+): PopoverDragState {
+  const manualPositionRef = useRef<{ top: number; left: number } | null>(null)
+  const isDraggingRef = useRef(false)
+  const dragControls = useDragControls()
+  const dragX = useMotionValue(0)
+  const dragY = useMotionValue(0)
+  const applyPositionRef = useRef<((position: { top: number; left: number }) => void) | null>(null)
+
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
+
+  const handleDragEnd = useCallback(() => {
+    const popover = popoverRef.current
+    const surface = surfaceRef.current
+    if (!popover || !surface) return
+
+    const basePosition = {
+      left: Number.parseFloat(popover.style.left !== '' ? popover.style.left : '0'),
+      top: Number.parseFloat(popover.style.top !== '' ? popover.style.top : '0'),
+    }
+    const nextPosition = clampPopoverPosition(
+      {
+        left: basePosition.left + dragX.get(),
+        top: basePosition.top + dragY.get(),
+      },
+      surface.getBoundingClientRect()
+    )
+
+    manualPositionRef.current = nextPosition
+    dragX.jump(0)
+    dragY.jump(0)
+    applyPositionRef.current?.(nextPosition)
+    isDraggingRef.current = false
+    setIsDragging(false)
+  }, [dragX, dragY, popoverRef, surfaceRef])
+
+  const handlePointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (!draggable || event.button !== 0) return
+
+      const target = event.target as HTMLElement | null
+      if (target == null) return
+      if (target.closest(DRAG_IGNORE_SELECTOR)) return
+      if (target.closest(DRAG_HANDLE_SELECTOR) == null) return
+
+      dragControls.start(event, { snapToCursor: false })
+      event.preventDefault()
+    },
+    [dragControls, draggable]
+  )
+
+  const onDragStart = useCallback(() => {
+    isDraggingRef.current = true
+    setIsDragging(true)
+  }, [])
+
+  return {
+    manualPositionRef,
+    isDraggingRef,
+    dragControls,
+    dragX,
+    dragY,
+    isDragging,
+    dragConstraints,
+    setDragConstraints,
+    applyPositionRef,
+    handleDragEnd,
+    handlePointerDown,
+    onDragStart,
+    setIsDragging,
+  }
+}
+
+function usePopoverPositioning(
+  isOpen: boolean,
+  side: 'top' | 'bottom',
+  align: 'start' | 'end' | 'center',
+  offset: number,
+  popoverRef: React.RefObject<HTMLDivElement | null>,
+  surfaceRef: React.RefObject<HTMLDivElement | null>,
+  triggerRef: React.RefObject<HTMLDivElement | null>,
+  drag: PopoverDragState
+) {
+  const {
+    manualPositionRef,
+    isDraggingRef,
+    dragX,
+    dragY,
+    setDragConstraints,
+    setIsDragging,
+    applyPositionRef,
+  } = drag
+
+  const applyPopoverPosition = useCallback(
+    (position: { top: number; left: number }) => {
+      const popover = popoverRef.current
+      const surface = surfaceRef.current
+      if (!popover || !surface) return
+
+      popover.style.top = `${String(position.top)}px`
+      popover.style.left = `${String(position.left)}px`
+
+      const surfaceRect = surface.getBoundingClientRect()
+      const maxLeft = Math.max(
+        VIEWPORT_PADDING,
+        window.innerWidth - surfaceRect.width - VIEWPORT_PADDING
+      )
+      const maxTop = Math.max(
+        VIEWPORT_PADDING,
+        window.innerHeight - surfaceRect.height - VIEWPORT_PADDING
+      )
+
+      setDragConstraints({
+        left: VIEWPORT_PADDING - position.left,
+        right: maxLeft - position.left,
+        top: VIEWPORT_PADDING - position.top,
+        bottom: maxTop - position.top,
+      })
+    },
+    [popoverRef, surfaceRef, setDragConstraints]
+  )
+
+  applyPositionRef.current = applyPopoverPosition
+
+  const updatePosition = useCallback(() => {
+    if (isDraggingRef.current) return
+
+    const trigger = triggerRef.current
+    const popover = popoverRef.current
+    const surface = surfaceRef.current
+    if (!trigger || !popover || !surface || !isOpen) return
+
+    if (manualPositionRef.current) {
+      const nextPosition = clampPopoverPosition(
+        manualPositionRef.current,
+        surface.getBoundingClientRect()
+      )
+      manualPositionRef.current = nextPosition
+      dragX.set(0)
+      dragY.set(0)
+      applyPopoverPosition(nextPosition)
+      return
+    }
+
+    const nextPosition = computePopoverPosition(trigger, surface, side, align, offset)
+    dragX.set(0)
+    dragY.set(0)
+    applyPopoverPosition(nextPosition)
+  }, [
+    applyPopoverPosition,
+    dragX,
+    dragY,
+    isOpen,
+    side,
+    align,
+    offset,
+    isDraggingRef,
+    triggerRef,
+    popoverRef,
+    surfaceRef,
+    manualPositionRef,
+  ])
+
+  useLayoutEffect(() => {
+    if (!isOpen) return
+
+    let rafId: number | null = null
+    const schedulePositionUpdate = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        updatePosition()
+        rafId = null
+      })
+    }
+    const syncPositionUpdate = () => {
+      updatePosition()
+      schedulePositionUpdate()
+    }
+
+    const surfaceEl = surfaceRef.current
+    const resizeObserver = surfaceEl == null ? null : new ResizeObserver(() => syncPositionUpdate())
+
+    syncPositionUpdate()
+    window.addEventListener('resize', syncPositionUpdate)
+    window.addEventListener('scroll', syncPositionUpdate, true)
+    if (surfaceEl != null) {
+      resizeObserver?.observe(surfaceEl)
+    }
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', syncPositionUpdate)
+      window.removeEventListener('scroll', syncPositionUpdate, true)
+    }
+  }, [isOpen, updatePosition, surfaceRef])
+
+  useEffect(() => {
+    if (isOpen) return
+    manualPositionRef.current = null
+    dragX.set(0)
+    dragY.set(0)
+    setIsDragging(false)
+  }, [dragX, dragY, isOpen, manualPositionRef, setIsDragging])
 }
 
 /**
@@ -121,17 +350,13 @@ export const Popover: React.FC<PopoverProps> = ({
   const surfaceRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
   const popoverId = useId()
-  const manualPositionRef = useRef<{ top: number; left: number } | null>(null)
-  const isDraggingRef = useRef(false)
-  const dragControls = useDragControls()
-  const dragX = useMotionValue(0)
-  const dragY = useMotionValue(0)
 
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 })
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen
+
+  const drag = usePopoverDrag(draggable, popoverRef, surfaceRef)
+  usePopoverPositioning(isOpen, side, align, offset, popoverRef, surfaceRef, triggerRef, drag)
 
   const prevIsOpenRef = useRef(isOpen)
   useEffect(() => {
@@ -173,134 +398,6 @@ export const Popover: React.FC<PopoverProps> = ({
     }
   }, [handleOpenChange])
 
-  const applyPopoverPosition = useCallback(
-    (position: { top: number; left: number }) => {
-      const popover = popoverRef.current
-      const surface = surfaceRef.current
-      if (!popover || !surface) return
-
-      popover.style.top = `${String(position.top)}px`
-      popover.style.left = `${String(position.left)}px`
-
-      const surfaceRect = surface.getBoundingClientRect()
-      const maxLeft = Math.max(VIEWPORT_PADDING, window.innerWidth - surfaceRect.width - VIEWPORT_PADDING)
-      const maxTop = Math.max(VIEWPORT_PADDING, window.innerHeight - surfaceRect.height - VIEWPORT_PADDING)
-
-      setDragConstraints({
-        left: VIEWPORT_PADDING - position.left,
-        right: maxLeft - position.left,
-        top: VIEWPORT_PADDING - position.top,
-        bottom: maxTop - position.top,
-      })
-    },
-    []
-  )
-
-  const updatePosition = useCallback(() => {
-    if (isDraggingRef.current) return
-
-    const trigger = triggerRef.current
-    const popover = popoverRef.current
-    const surface = surfaceRef.current
-    if (!trigger || !popover || !surface || !isOpen) return
-
-    if (manualPositionRef.current) {
-      const nextPosition = clampPopoverPosition(manualPositionRef.current, surface.getBoundingClientRect())
-      manualPositionRef.current = nextPosition
-      dragX.set(0)
-      dragY.set(0)
-      applyPopoverPosition(nextPosition)
-      return
-    }
-
-    const nextPosition = computePopoverPosition(trigger, surface, side, align, offset)
-    dragX.set(0)
-    dragY.set(0)
-    applyPopoverPosition(nextPosition)
-  }, [applyPopoverPosition, dragX, dragY, isOpen, side, align, offset])
-
-  useLayoutEffect(() => {
-    if (!isOpen) return
-
-    let rafId: number | null = null
-    const schedulePositionUpdate = () => {
-      if (rafId !== null) cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(() => {
-        updatePosition()
-        rafId = null
-      })
-    }
-    const syncPositionUpdate = () => {
-      updatePosition()
-      schedulePositionUpdate()
-    }
-
-    const surfaceEl = surfaceRef.current
-    const resizeObserver = surfaceEl == null ? null : new ResizeObserver(() => syncPositionUpdate())
-
-    syncPositionUpdate()
-    window.addEventListener('resize', syncPositionUpdate)
-    window.addEventListener('scroll', syncPositionUpdate, true)
-    if (surfaceEl != null) {
-      resizeObserver?.observe(surfaceEl)
-    }
-
-    return () => {
-      if (rafId !== null) cancelAnimationFrame(rafId)
-      resizeObserver?.disconnect()
-      window.removeEventListener('resize', syncPositionUpdate)
-      window.removeEventListener('scroll', syncPositionUpdate, true)
-    }
-  }, [isOpen, updatePosition])
-
-  useEffect(() => {
-    if (isOpen) return
-    manualPositionRef.current = null
-    dragX.set(0)
-    dragY.set(0)
-    setIsDragging(false)
-  }, [dragX, dragY, isOpen])
-
-  const handleDragEnd = useCallback(() => {
-    const popover = popoverRef.current
-    const surface = surfaceRef.current
-    if (!popover || !surface) return
-
-    const basePosition = {
-      left: Number.parseFloat(popover.style.left || '0'),
-      top: Number.parseFloat(popover.style.top || '0'),
-    }
-    const nextPosition = clampPopoverPosition(
-      {
-        left: basePosition.left + dragX.get(),
-        top: basePosition.top + dragY.get(),
-      },
-      surface.getBoundingClientRect()
-    )
-
-    manualPositionRef.current = nextPosition
-    dragX.jump(0)
-    dragY.jump(0)
-    applyPopoverPosition(nextPosition)
-    isDraggingRef.current = false
-    setIsDragging(false)
-  }, [applyPopoverPosition, dragX, dragY])
-
-  const handlePointerDown = useCallback(
-    (event: React.PointerEvent<HTMLDivElement>) => {
-      if (!draggable || event.button !== 0) return
-
-      const target = event.target as HTMLElement | null
-      if (target == null) return
-      if (target.closest(DRAG_IGNORE_SELECTOR)) return
-      if (target.closest(DRAG_HANDLE_SELECTOR) == null) return
-
-      dragControls.start(event, { snapToCursor: false })
-      event.preventDefault()
-    },
-    [dragControls, draggable]
-  )
-
   return (
     <>
       <div
@@ -336,27 +433,24 @@ export const Popover: React.FC<PopoverProps> = ({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               drag={draggable}
-              dragControls={dragControls}
+              dragControls={drag.dragControls}
               dragListener={false}
               dragMomentum={false}
               dragElastic={0}
-              dragConstraints={dragConstraints}
-              onDragStart={() => {
-                isDraggingRef.current = true
-                setIsDragging(true)
-              }}
-              onDragEnd={handleDragEnd}
+              dragConstraints={drag.dragConstraints}
+              onDragStart={drag.onDragStart}
+              onDragEnd={drag.handleDragEnd}
               transition={{ duration: 0.1, ease: 'easeOut' }}
               className="glass-panel rounded-lg shadow-2xl border border-border-default"
-              onPointerDown={handlePointerDown}
+              onPointerDown={drag.handlePointerDown}
               style={{
                 backdropFilter: 'blur(24px)',
                 maxWidth: 'calc(100dvw - 16px)',
                 maxHeight: 'calc(100dvh - 16px)',
                 overflow: 'auto',
-                x: dragX,
-                y: dragY,
-                cursor: draggable && isDragging ? 'grabbing' : undefined,
+                x: drag.dragX,
+                y: drag.dragY,
+                cursor: draggable && drag.isDragging ? 'grabbing' : undefined,
               }}
             >
               {content}

@@ -4,6 +4,10 @@
  */
 import { memo, type CSSProperties } from 'react'
 import './StandardEffectsPulseCircle.css'
+import {
+  INDICATOR_COLOR,
+  INDICATOR_RING_COLOR,
+} from '@/components/base/standard-effects/SharedDefaults'
 
 interface StandardEffectsPulseCircleProps {
   size?: number
@@ -14,8 +18,8 @@ interface StandardEffectsPulseCircleProps {
 
 function StandardEffectsPulseCircleComponent({
   size = 76,
-  color = '#7a468e',
-  ringColor = 'rgb(236 195 255 / 60%)',
+  color = INDICATOR_COLOR,
+  ringColor = INDICATOR_RING_COLOR,
   duration = 2200,
 }: StandardEffectsPulseCircleProps) {
   const style = {

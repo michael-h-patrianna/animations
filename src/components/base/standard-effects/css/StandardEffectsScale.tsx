@@ -11,10 +11,7 @@ interface StandardEffectsScaleProps {
   duration?: number
 }
 
-function StandardEffectsScaleComponent({
-  children,
-  duration = 600,
-}: StandardEffectsScaleProps) {
+function StandardEffectsScaleComponent({ children, duration = 600 }: StandardEffectsScaleProps) {
   const style = {
     display: 'inline-flex',
     ['--pf-scale-duration' as string]: `${duration}ms`,

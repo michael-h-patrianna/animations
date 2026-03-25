@@ -68,8 +68,7 @@ function pickGroupId(variants: GroupVariants, mode: CodeMode): string {
 
 export const EditorLeftPanel: React.FC = () => {
   const { codeMode, setCodeMode } = useCodeMode()
-  const { navCategories, currentGroupId, handleGroupSelect, handleModeSelect } =
-    useAppNavigation()
+  const { navCategories, currentGroupId, handleGroupSelect, handleModeSelect } = useAppNavigation()
   const currentBaseGroupId = currentGroupId.replace(GROUP_MODE_SUFFIX, '')
 
   const categoryGroups = useMemo(

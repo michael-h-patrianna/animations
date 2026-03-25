@@ -362,6 +362,15 @@ function PaletteHistory({
   )
 }
 
+// ── Helpers ──────────────────────────────────────────────────────────────
+
+function computeSV(el: HTMLDivElement, clientX: number, clientY: number) {
+  const rect = el.getBoundingClientRect()
+  const s = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
+  const v = 1 - Math.max(0, Math.min(1, (clientY - rect.top) / rect.height))
+  return { s, v }
+}
+
 // ── Main Component ──────────────────────────────────────────────────────
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -391,10 +400,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   const updateSV = useCallback(
     (clientX: number, clientY: number) => {
       if (!svRef.current) return
-      const rect = svRef.current.getBoundingClientRect()
-      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
-      const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height))
-      handleHsvChange({ ...hsv, s: x, v: 1 - y })
+      const { s, v } = computeSV(svRef.current, clientX, clientY)
+      handleHsvChange({ ...hsv, s, v })
     },
     [hsv, handleHsvChange]
   )

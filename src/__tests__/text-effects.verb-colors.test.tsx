@@ -101,14 +101,10 @@ const CASES: VerbColorCase[] = [
   },
 ]
 
-function expectAllCharacterColors(
-  container: HTMLElement,
-  selector: string,
-  expectedColor: string
-) {
+function expectAllCharacterColors(container: HTMLElement, selector: string, expectedColor: string) {
   const chars = Array.from(container.querySelectorAll(selector))
 
-  expect(chars.length).toBeGreaterThan(0)
+  expect(chars.length).toBeGreaterThanOrEqual(2)
 
   for (const char of chars) {
     expect(toHex(getComputedStyle(char).color)).toBe(expectedColor)
