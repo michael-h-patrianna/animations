@@ -22,7 +22,7 @@ import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
   const percent = displayProgress * 100
 
   return (

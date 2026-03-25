@@ -35,7 +35,7 @@ export function ProgressBarsRetroBit({
   className,
   style,
 }: RetroBitProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
   const activeCount = Math.floor(displayProgress * segments)
 
   return (

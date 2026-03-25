@@ -17,7 +17,7 @@ export function ProgressBarsSciFiLoader({
   className,
   style,
 }: SciFiLoaderProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
   const percent = Math.round(displayProgress * 100)
 
   return (

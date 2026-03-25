@@ -237,14 +237,10 @@ function PropRunField({
   }
 
   if (run.length === 1) {
-    return (
-      <InspectorField config={first} value={propOverrides?.[first.name]} onChange={onChange} />
-    )
+    return <InspectorField config={first} value={propOverrides?.[first.name]} onChange={onChange} />
   }
 
-  return (
-    <InspectorGroup configs={run} propOverrides={propOverrides} onChange={onChange} />
-  )
+  return <InspectorGroup configs={run} propOverrides={propOverrides} onChange={onChange} />
 }
 
 export const EditorRightPanel: React.FC = () => {

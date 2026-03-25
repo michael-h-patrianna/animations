@@ -17,7 +17,7 @@ export function ProgressBarsCircularDash({
   className,
   style,
 }: CircularDashProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
   const activeSegments = Math.floor(displayProgress * segments)
   const percent = Math.round(displayProgress * 100)
 

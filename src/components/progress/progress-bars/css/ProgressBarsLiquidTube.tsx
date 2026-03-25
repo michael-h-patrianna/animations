@@ -9,7 +9,7 @@ import type { ProgressBarProps } from '@/components/progress/progress-bars/Share
 import './ProgressBarsLiquidTube.css'
 
 export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
   const percent = displayProgress * 100
 
   return (

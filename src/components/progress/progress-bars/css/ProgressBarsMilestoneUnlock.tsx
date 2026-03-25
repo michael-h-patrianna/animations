@@ -51,7 +51,7 @@ export function ProgressBarsMilestoneUnlock({
   className,
   style,
 }: MilestoneUnlockProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
 
   const activatedSet = useMemo(
     () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),

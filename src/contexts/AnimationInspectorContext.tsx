@@ -426,7 +426,12 @@ export function AnimationInspectorProvider({
     (animationId: string, propsConfig?: PropConfig[]) => {
       const base = getBaseOverrides(animationId, propsConfig)
       return mergeAnimatedOverrides(
-        animationId, selectedAnimationId, base, animateToggles, animatedValues, propsConfig
+        animationId,
+        selectedAnimationId,
+        base,
+        animateToggles,
+        animatedValues,
+        propsConfig
       )
     },
     [getBaseOverrides, selectedAnimationId, animateToggles, animatedValues]

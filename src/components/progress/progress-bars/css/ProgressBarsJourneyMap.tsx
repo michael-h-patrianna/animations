@@ -49,7 +49,7 @@ export function ProgressBarsJourneyMap({
   className,
   style,
 }: JourneyMapProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
   const percent = displayProgress * 100
   const covered = Math.round(displayProgress * totalDistance)
   const remaining = Math.max(0, totalDistance - covered)

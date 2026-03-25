@@ -19,7 +19,7 @@ export function ProgressBarsProgressSegmented({
   className,
   style,
 }: SegmentedProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
 
   return (
     <div

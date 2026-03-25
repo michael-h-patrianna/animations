@@ -27,7 +27,7 @@ export function ProgressBarsNeonPulse({
   className,
   style,
 }: NeonPulseProps) {
-  const displayProgress = (progress ?? 0)
+  const displayProgress = progress ?? 0
   const percent = displayProgress * 100
 
   return (

@@ -37,15 +37,11 @@ export function ProgressBarsTimelineProgress({
                 flex: index === steps - 1 ? 'none' : '1',
               }}
             >
-              <div
-                className={`pf-timeline-progress__step${isActive ? ' is-active' : ''}`}
-              >
+              <div className={`pf-timeline-progress__step${isActive ? ' is-active' : ''}`}>
                 {index + 1}
               </div>
               {index < steps - 1 && (
-                <div
-                  className={`pf-timeline-progress__connector${isActive ? ' is-active' : ''}`}
-                />
+                <div className={`pf-timeline-progress__connector${isActive ? ' is-active' : ''}`} />
               )}
             </div>
           )
