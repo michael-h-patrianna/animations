@@ -150,7 +150,10 @@ export const EditorTopBar: React.FC = () => {
           <PanelRightIcon />
         </Button>
         <a
-          href={import.meta.env.VITE_GITHUB_URL ?? 'https://github.com/michael-haufschild-gib/animations'}
+          href={
+            import.meta.env.VITE_GITHUB_URL ??
+            'https://github.com/michael-haufschild-gib/animations'
+          }
           target="_blank"
           rel="noopener noreferrer"
           className="pf-github-link"
