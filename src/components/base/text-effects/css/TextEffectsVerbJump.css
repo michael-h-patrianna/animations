@@ -1,5 +1,5 @@
 .tfx-jump-container {
-  --lsd-baseColor: #e8e4da;
+  --pf-verb-color: #e8e4da;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@
 .tfx-jump-char {
   --lsd-highlightColor: #fff;
   display: inline-block;
-  color: var(--lsd-baseColor);
+  color: var(--pf-verb-color);
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center bottom;

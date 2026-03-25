@@ -31,7 +31,7 @@ function TextEffectsVerbTwirlComponent({
       data-animation-id="text-effects__verb-twirling"
       aria-label={text}
       style={
-        color !== undefined ? ({ '--lsd-baseColor': color } as React.CSSProperties) : undefined
+        color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
       <div className="tfx-twirl-line" aria-hidden="true">

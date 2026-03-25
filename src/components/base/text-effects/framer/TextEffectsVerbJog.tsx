@@ -45,6 +45,7 @@ function TextEffectsVerbJogComponent({
               delay: i % 2 === 0 ? 0.15 : 0,
               ease: easeInOut,
               times: [0, 0.2, 0.4, 0.6, 1],
+              repeat: Infinity,
             }}
           >
             {ch === ' ' ? '\u00A0' : ch}
