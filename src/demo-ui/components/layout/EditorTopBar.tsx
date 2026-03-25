@@ -156,11 +156,11 @@ export const EditorTopBar: React.FC = () => {
           }
           target="_blank"
           rel="noopener noreferrer"
-          className="pf-github-link"
+          className="btn btn-ghost btn-icon text-text-secondary hover:text-text-primary"
           aria-label="View source on GitHub"
           data-testid="github-link"
         >
-          <img src={githubIcon} alt="GitHub" className="pf-github-icon" />
+          <img src={githubIcon} alt="GitHub" className="w-[22px] h-[22px] invert" />
         </a>
       </div>
     </div>

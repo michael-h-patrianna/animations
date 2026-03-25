@@ -3,9 +3,6 @@
 
 /* App-level styles — split by concern for maintainability */
 @import './styles/app-variables.css';
-@import './styles/sidebar.css';
-@import './styles/catalog.css';
 @import './styles/card.css';
 @import './styles/demo-canvas.css';
-@import './styles/mobile.css';
-@import './styles/shadcn-theme.css';
+@import './styles/tailwind-theme.css';

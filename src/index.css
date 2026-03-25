@@ -128,7 +128,6 @@
   --index-bg-102: oklch(5% 0.04 300deg / 65%);
 }
 
-/* (removed empty html ruleset) */
 @layer base {
   *,
   *::before,

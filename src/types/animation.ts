@@ -338,26 +338,6 @@ export interface GroupMetadata {
   demo?: string
 }
 
-/**
- * Metadata exported by category index files.
- * Represents a top-level category of animation groups.
- *
- * @example
- * ```typescript
- * export const metadata: CategoryMetadata = {
- *   id: 'dialogs',
- *   title: 'Dialog & Modal Animations',
- * };
- * ```
- */
-export interface CategoryMetadata {
-  /** Unique identifier for the category (e.g., 'dialogs') */
-  id: string
-
-  /** Human-readable display name */
-  title: string
-}
-
 // ============================================================================
 // Aggregated Export Types (for co-located metadata system)
 // ============================================================================
@@ -418,29 +398,6 @@ export interface GroupExport {
   css: Record<string, AnimationExport>
 }
 
-/**
- * Represents a complete category export from a category index file.
- * Combines category metadata with all groups in the category.
- *
- * @example
- * ```typescript
- * // In src/components/dialogs/index.ts
- * export const categoryExport: CategoryExport = {
- *   metadata: { id: 'dialogs', title: 'Dialog & Modal Animations', ... },
- *   groups: {
- *     'modal-base': { metadata: ..., animations: ... },
- *     'drawer': { metadata: ..., animations: ... }
- *   }
- * };
- * ```
- */
-export interface CategoryExport {
-  /** Metadata describing the category */
-  metadata: CategoryMetadata
-
-  /** Map of group IDs to their complete exports */
-  groups: Record<string, GroupExport>
-}
 
 // ============================================================================
 // Code Viewer Types
