@@ -31,9 +31,12 @@ import {
 
 const DEFAULT_COUNT = 10
 const DEFAULT_SPREAD = 60
-const DEFAULT_DURATION_S = 2.0
+const DEFAULT_DURATION_S = 1.333
 const CLEANUP_BUFFER_MS = 500
 const WAYPOINTS = 20
+const HOVER_END = 0.25
+const IMPACT_START = 0.95
+const ARRIVAL_FLASH_DELAY_RATIO = 0.8
 
 interface Particle {
   id: number
@@ -91,7 +94,7 @@ function sampleBezierPath(
 
   for (let i = 0; i <= WAYPOINTS; i++) {
     const linear = i / WAYPOINTS
-    const t = Math.pow(linear, 1.5) // ease-in: gentler than t² to match CSS feel
+    const t = linear * linear // Match the CSS variant's quadratic pull acceleration.
     const mt = 1 - t
     xPath.push(
       mt * mt * mt * start.x + 3 * mt * mt * t * cp1x + 3 * mt * t * t * cp2x + t * t * t * end.x
@@ -104,14 +107,14 @@ function sampleBezierPath(
   return { xPath, yPath }
 }
 
-function ArrivalFlash({ target }: { target: ResolvedPoint }) {
+function ArrivalFlash({ target, delayS }: { target: ResolvedPoint; delayS: number }) {
   return (
     <m.div
       className="pf-coin-magnet__arrival-flash"
       style={{ left: target.x, top: target.y, animation: 'none' }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 1.8], opacity: [0, 0.7, 0] }}
-      transition={{ duration: 0.5, delay: 1.05, times: [0, 0.4, 1], ease: 'easeOut' }}
+      transition={{ duration: 0.5, delay: delayS, times: [0, 0.4, 1], ease: 'easeOut' }}
     />
   )
 }
@@ -183,18 +186,36 @@ function ParticleElement({
         style={{ left: 0, top: 0, animation: 'none' }}
         initial={{ x: fromPt.x, y: fromPt.y, scale: 0, opacity: 0 }}
         animate={{
-          x: [fromPt.x, targetPt.x],
-          y: [fromPt.y, targetPt.y],
+          x: [fromPt.x, fromPt.x, targetPt.x],
+          y: [fromPt.y, fromPt.y, targetPt.y],
           scale: [0, 1, 0.3],
-          opacity: [0, 1, 0],
+          opacity: [0, 1, 1, 0],
         }}
         transition={{
-          duration: durationS * 0.5,
-          delay: particle.delay,
-          ease: 'easeOut' as const,
-          times: [0, 1],
-          scale: { times: [0, 0.3, 1] },
-          opacity: { times: [0, 0.3, 1] },
+          x: {
+            duration: durationS,
+            delay: particle.delay,
+            ease: 'linear' as const,
+            times: [0, 0.3, 1],
+          },
+          y: {
+            duration: durationS,
+            delay: particle.delay,
+            ease: 'linear' as const,
+            times: [0, 0.3, 1],
+          },
+          scale: {
+            duration: durationS,
+            delay: particle.delay,
+            ease: 'linear' as const,
+            times: [0, 0.3, 1],
+          },
+          opacity: {
+            duration: durationS,
+            delay: particle.delay,
+            ease: 'linear' as const,
+            times: [0, 0.3, 0.7, 1],
+          },
         }}
         onAnimationComplete={onFinish}
         aria-hidden="true"
@@ -208,20 +229,19 @@ function ParticleElement({
   const scatter = { x: scatterX, y: scatterY }
   const { xPath, yPath } = sampleBezierPath(scatter, targetPt, particle.curvature)
 
-  // Build full path: source → scattered → bezier waypoints to target
-  // Phases: emit (0→0.12), hover (0.12→0.40), pull (0.40→1.0)
-  const fullX = [fromPt.x, fromPt.x, scatterX, scatterX, ...xPath]
-  const fullY = [fromPt.y, fromPt.y, scatterY, scatterY, ...yPath]
-
-  // Times: 4 fixed points + 21 waypoints evenly spread across pullStart→1.0
-  const pullStart = 0.4
-  const pullRange = 1.0 - pullStart
+  // Build full path: source → scattered → pull curve → hold at target for impact.
+  // Phases match CSS: emit (0→0.12), hover (0.12→0.25), pull (0.25→0.95), impact (0.95→1).
+  const fullX = [fromPt.x, fromPt.x, fromPt.x, scatterX, scatterX, ...xPath, targetPt.x]
+  const fullY = [fromPt.y, fromPt.y, fromPt.y, scatterY, scatterY, ...yPath, targetPt.y]
+  const pullRange = IMPACT_START - HOVER_END
   const fullTimes = [
     0,
     0.03,
+    0.05,
     0.12,
-    pullStart,
-    ...Array.from({ length: WAYPOINTS + 1 }, (_, i) => pullStart + (i / WAYPOINTS) * pullRange),
+    HOVER_END,
+    ...Array.from({ length: WAYPOINTS + 1 }, (_, i) => HOVER_END + (i / WAYPOINTS) * pullRange),
+    1,
   ]
 
   return (
@@ -232,16 +252,34 @@ function ParticleElement({
       animate={{
         x: fullX,
         y: fullY,
-        scale: [0, 1, 1, 1, 0.3, 0],
-        opacity: [0, 1, 1, 1, 1, 0],
+        scale: [0, 0, 1, 0.3, 0],
+        opacity: [0, 0, 1, 1, 0],
       }}
       transition={{
-        duration: durationS,
-        delay: particle.delay,
-        x: { times: fullTimes, ease: 'linear' },
-        y: { times: fullTimes, ease: 'linear' },
-        scale: { times: [0, 0.05, 0.12, 0.85, 0.95, 1] },
-        opacity: { times: [0, 0.05, 0.12, 0.85, 0.97, 1] },
+        x: {
+          duration: durationS,
+          delay: particle.delay,
+          times: fullTimes,
+          ease: 'linear',
+        },
+        y: {
+          duration: durationS,
+          delay: particle.delay,
+          times: fullTimes,
+          ease: 'linear',
+        },
+        scale: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.03, 0.05, IMPACT_START, 1],
+          ease: 'linear',
+        },
+        opacity: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.03, 0.05, IMPACT_START, 1],
+          ease: 'linear',
+        },
       }}
       onAnimationComplete={onFinish}
       aria-hidden="true"
@@ -310,7 +348,7 @@ function CollectionEffectsCoinMagnetComponent({
     >
       {alive && fromPt !== null && toPt !== null && (
         <div className="pf-coin-magnet__stage" aria-hidden="true">
-          {!isBurst && <ArrivalFlash target={toPt} />}
+          {!isBurst && <ArrivalFlash target={toPt} delayS={durationS * ARRIVAL_FLASH_DELAY_RATIO} />}
           {particles.map((particle) => (
             <ParticleElement
               key={particle.id}

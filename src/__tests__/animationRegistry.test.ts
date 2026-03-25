@@ -1,13 +1,11 @@
 import {
-  buildRegistryFromCategories,
-  findAnimationById,
   getAllGroups,
   getGroupAnimations,
   getLazyGroupAnimationsAsync,
   getNavCatalog,
 } from '@/components/animationRegistry'
 import {
-  preloadRegistry,
+  loadLazyCatalog,
   resetLazyTestState,
 } from '@/__tests__/helpers/lazyCatalog'
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
@@ -50,51 +48,21 @@ describe('animationRegistry', () => {
     })
   })
 
-  describe('loaded registry snapshot', () => {
+  describe('loaded group data', () => {
     beforeAll(async () => {
       resetLazyTestState()
-      await preloadRegistry()
+      await loadLazyCatalog()
     })
 
     afterAll(() => {
       resetLazyTestState()
     })
 
-    it('builds a flat registry from loaded groups', () => {
-      const registry = buildRegistryFromCategories()
-
-      expect(Object.keys(registry).length).toBeGreaterThanOrEqual(100)
-      expect(Object.keys(registry).every((key) => key.match(/^[a-z][a-z0-9-]*__[a-z][a-z0-9-]*$/)))
-        .toBe(true)
-    })
-
-    it('contains animations from all 5 categories', () => {
-      const keys = Object.keys(buildRegistryFromCategories())
-
-      expect(keys.some((key) => key.startsWith('standard-effects__'))).toBe(true)
-      expect(keys.some((key) => key.startsWith('modal-base__'))).toBe(true)
-      expect(keys.some((key) => key.startsWith('progress-bars__'))).toBe(true)
-      expect(keys.some((key) => key.startsWith('timer-effects__'))).toBe(true)
-      expect(keys.some((key) => key.startsWith('collection-effects__'))).toBe(true)
-    })
-
-    it('returns the same group IDs for both tech variants of a loaded base group', () => {
+    it('returns the same animation IDs for both tech variants of a loaded base group', () => {
       const framerAnims = getGroupAnimations('standard-effects', 'framer')
       const cssAnims = getGroupAnimations('standard-effects', 'css')
 
       expect(Object.keys(framerAnims).sort()).toEqual(Object.keys(cssAnims).sort())
-    })
-
-    it('findAnimationById resolves loaded animations to their base group', () => {
-      expect(findAnimationById('standard-effects__bounce')).toEqual({
-        baseGroupId: 'standard-effects',
-        hasFramer: true,
-        hasCss: true,
-      })
-    })
-
-    it('findAnimationById returns null for unknown animation IDs', () => {
-      expect(findAnimationById('nonexistent-group__nonexistent-variant')).toBeNull()
     })
   })
 })

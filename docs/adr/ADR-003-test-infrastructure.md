@@ -37,7 +37,7 @@ We chose a **two-tier testing strategy**:
 
 - **Vitest** as the test runner (instead of Jest)
 - **React Testing Library** for component testing
-- **Deterministic test environment** with controlled randomness
+- **`happy-dom` + shared setup shims** for stable browser-like tests
 
 **Why Vitest over Jest:**
 
@@ -50,15 +50,15 @@ We chose a **two-tier testing strategy**:
 ### Tier 2: E2E Tests with Playwright
 
 - **Playwright** for end-to-end browser testing
-- Visual validation for animations
-- Cross-browser testing (Chromium, Firefox, WebKit)
-- Accessibility audits
+- Structural, layout, and accessibility validation for interactive flows
+- Chromium-only execution in the current config
+- HTML reports and retry traces for debugging failures
 
 **Why Playwright over Cypress:**
 
-- Multi-browser support (Cypress only Chrome-based)
+- Optional multi-browser support if future coverage justifies the CI cost
 - Better API for async operations
-- Built-in test artifacts (screenshots, videos, traces)
+- Built-in test artifacts (reports, traces, screenshots when explicitly captured)
 - Faster execution
 - Better debugging with Playwright Inspector
 
@@ -78,37 +78,35 @@ tests/
     *.spec.ts
 
 scripts/
-  run-vitest.mjs           # Vitest wrapper with deterministic env
-  run-playwright.mjs       # Playwright wrapper
-  cleanup-vitest.mjs       # Kill stray Vitest workers
+  run-vitest.mjs           # Thin Vitest CLI wrapper
+  run-playwright.mjs       # Thin Playwright CLI wrapper
+  cleanup-vitest.mjs       # Kill stray Vitest workers before single-run commands
 ```
 
 ### Test Commands
 
 ```bash
-npm test              # Run all Vitest tests (deterministic wrapper)
-npm run test:e2e      # Run Playwright tests (headless)
-npm run test:headed   # Run Playwright with UI
-npm run typecheck     # TypeScript validation
+npm test                  # Run all Vitest tests (single run; cleanup runs first)
+npm run test:e2e          # Run Playwright tests (headless Chromium)
+npm run test:e2e:headed   # Run Playwright with visible Chromium
+npm run type-check        # TypeScript validation
 ```
 
-### Deterministic Testing
+### Test Stability
 
-To prevent flaky tests, we enforce determinism:
+The current tooling does **not** inject special deterministic environment variables from the wrapper scripts. Stability comes from a smaller set of explicit controls:
 
-```javascript
-// scripts/run-vitest.mjs
-process.env.DETERMINISTIC_TEST_ENV = '1'
-process.env.TZ = 'UTC'
-// Seeds for random number generators if needed
-```
+- `cleanup-vitest.mjs` runs before `npm test`, `npm run test:watch`, and `npm run test:coverage` to remove lingering Vitest workers.
+- `vitest.config.ts` uses `happy-dom` and `src/setupTests.ts` to install consistent DOM API shims such as `IntersectionObserver`, `ResizeObserver`, and Web Animations fallbacks.
+- Timing-sensitive unit tests opt into `vi.useFakeTimers()` rather than relying on global clock overrides.
+- Playwright uses stable DOM/layout assertions, CI-only retries, and first-retry traces instead of a multi-browser matrix or screenshot diffs by default.
 
 **Benefits:**
 
-- Tests produce same results every run
-- No timing-dependent failures
-- Easier to reproduce issues
-- CI/CD reliability
+- More stable local runs
+- Shared browser shims reduce environment drift across component tests
+- Timing-sensitive tests stay explicit about the clocks and mocks they control
+- CI retries capture traces for easier failure analysis
 
 ### Key Configurations
 
@@ -117,13 +115,15 @@ process.env.TZ = 'UTC'
 ```typescript
 export default defineConfig({
   test: {
-    environment: 'jsdom',
     globals: true,
-    setupFiles: ['./src/test/setup.ts'],
+    environment: 'happy-dom',
+    setupFiles: './src/setupTests.ts',
+    typecheck: {
+      tsconfig: './tsconfig.test.json',
+    },
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      exclude: ['**/*.test.{ts,tsx}', '**/node_modules/**'],
+      reporter: ['text', 'lcov', 'html'],
     },
   },
 })
@@ -134,18 +134,18 @@ export default defineConfig({
 ```typescript
 export default defineConfig({
   testDir: './tests/e2e',
-  timeout: 30000,
-  retries: 2,
+  fullyParallel: true,
+  retries: process.env.CI ? 2 : 0,
   use: {
-    baseURL: 'http://localhost:5173',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    baseURL: 'http://127.0.0.1:5173',
+    trace: 'on-first-retry',
   },
-  projects: [
-    { name: 'chromium', use: devices['Desktop Chrome'] },
-    { name: 'firefox', use: devices['Desktop Firefox'] },
-    { name: 'webkit', use: devices['Desktop Safari'] },
-  ],
+  projects: [{ name: 'chromium', use: devices['Desktop Chrome'] }],
+  webServer: {
+    command: 'npm run dev -- --host 127.0.0.1 --port 5173',
+    url: 'http://127.0.0.1:5173',
+    reuseExistingServer: !process.env.CI,
+  },
 })
 ```
 
@@ -156,14 +156,16 @@ export default defineConfig({
 - **Fast Feedback**: Vitest is 2-3x faster than Jest for our test suite
 - **Vite Native**: No config duplication, same build pipeline
 - **Better DX**: Hot reload for tests, watch mode with UI
-- **Deterministic**: Controlled environment prevents flakiness
-- **Multi-Browser**: Playwright ensures cross-browser compatibility
-- **Visual Validation**: Screenshot comparison catches visual regressions
+- **Stable Component Tests**: `happy-dom` + shared setup mocks cover the browser APIs our components rely on
+- **Lower CI Cost**: Chromium-only Playwright keeps browser coverage focused and faster
+- **Debuggable Failures**: Playwright HTML reports and retry traces aid investigation
 - **CI Integration**: Both tools have excellent GitHub Actions support
 
 ### Negative
 
 - **Learning Curve**: Team needs to learn Playwright (different from Cypress)
+- **No Global Determinism Switch**: Tests that depend on time or randomness must control those inputs themselves
+- **Single-Browser E2E Coverage**: Firefox/WebKit regressions are not caught by default
 - **Test Maintenance**: E2E tests can be brittle with DOM changes
 - **Performance Overhead**: Full browser tests are slower than unit tests
 - **Vitest Memory Leaks**: Historical issue requiring cleanup script
@@ -171,10 +173,10 @@ export default defineConfig({
 ### Mitigation Strategies
 
 1. **Cleanup Script**: `cleanup-vitest.mjs` kills stray workers
-2. **Test Wrappers**: `run-vitest.mjs` and `run-playwright.mjs` set deterministic env
-3. **Retry Logic**: Playwright configured with 2 retries for flaky tests
-4. **Selective E2E**: Only critical user flows in E2E, rest in integration tests
-5. **CI Optimization**: Run unit tests first, E2E in parallel jobs
+2. **Thin Wrappers**: `run-vitest.mjs` and `run-playwright.mjs` keep npm entrypoints consistent while forwarding CLI args unchanged
+3. **Test-Level Control**: Use fake timers and targeted mocks for timing-sensitive cases
+4. **Retry Logic**: Playwright retries only on CI and captures first-retry traces
+5. **Selective Browser Scope**: Revisit Firefox/WebKit only when a real bug class justifies the extra CI cost
 
 ## Testing Strategy
 
@@ -189,16 +191,17 @@ export default defineConfig({
 ### What to E2E Test
 
 - ✅ Full navigation flows (group switching, URL sync)
-- ✅ Visual animations (screenshot comparison)
+- ✅ Structural parity, layout, and containment checks for animations
 - ✅ Drawer interactions
 - ✅ Error boundary fallback
 - ✅ Responsive layouts
+- ✅ Accessibility behaviors in preview and navigation flows
 
 ### What NOT to Test
 
 - ❌ Third-party library internals (Framer Motion)
-- ❌ Styling details (use visual regression instead)
-- ❌ Browser-specific quirks (leave to Playwright)
+- ❌ Pixel-perfect screenshot diffs for animated content by default
+- ❌ Browser-specific quirks outside the configured Chromium target unless we intentionally expand the project matrix
 
 ## Alternatives Not Chosen
 
@@ -229,7 +232,7 @@ export default defineConfig({
 
 - `vitest.config.ts` - Vitest configuration
 - `playwright.config.ts` - Playwright configuration
-- `scripts/run-vitest.mjs` - Test wrapper
-- `scripts/run-playwright.mjs` - E2E wrapper
+- `scripts/run-vitest.mjs` - Thin Vitest CLI wrapper
+- `scripts/run-playwright.mjs` - Thin Playwright CLI wrapper
 - [Vitest Documentation](https://vitest.dev/)
 - [Playwright Documentation](https://playwright.dev/)

@@ -43,7 +43,7 @@ export const metadata = {
       type: 'number',
       name: 'duration',
       label: 'Duration',
-      default: 2000,
+      default: 1333,
       min: 300,
       max: 5000,
       step: 100,

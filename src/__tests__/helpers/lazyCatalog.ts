@@ -1,6 +1,7 @@
 import '@/components/lazyBootstrap'
-import { buildRegistryFromCategories, clearAnimationCache } from '@/components/animationRegistry'
-import { loadLazyGroup, getLazyNavCatalog } from '@/lib/lazyGroupRegistry'
+import { clearAnimationCache, getGroupAnimations } from '@/components/animationRegistry'
+import { loadLazyGroup, getLazyNavCatalog, getAllLazyGroups } from '@/lib/lazyGroupRegistry'
+import type { AnimationExport } from '@/types/animation'
 import type { Category } from '@/types/animation'
 import type React from 'react'
 
@@ -26,7 +27,17 @@ export async function loadLazyCatalog(): Promise<Category[]> {
 /** Preloads every lazy group and returns a flat registry of loaded components. */
 export async function preloadRegistry(): Promise<Record<string, React.ComponentType<Record<string, unknown>>>> {
   await loadLazyCatalog()
-  return buildRegistryFromCategories()
+  const registry: Record<string, React.ComponentType<Record<string, unknown>>> = {}
+  for (const group of getAllLazyGroups()) {
+    const loaded = getGroupAnimations(
+      group.baseGroupId,
+      group.id.endsWith('-css') ? 'css' : 'framer'
+    )
+    for (const [id, anim] of Object.entries(loaded)) {
+      registry[id] = anim.component
+    }
+  }
+  return registry
 }
 
 /** Clears lazy group caches so tests can start from a cold state. */

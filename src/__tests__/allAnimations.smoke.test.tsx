@@ -11,7 +11,7 @@ type AnimationComponent = React.ComponentType<Record<string, unknown>>
  * These components are React.lazy() wrappers rendered WITHOUT a Suspense boundary.
  * In happy-dom, this doesn't throw — it renders the lazy wrapper's pending state
  * (effectively nothing). This test verifies that:
- *   1. buildRegistryFromCategories() produces a valid map
+ *   1. preloadRegistry() produces a valid component map
  *   2. The React.lazy() wrappers don't crash during creation or mounting
  *   3. Mount/unmount cycle completes without errors
  *

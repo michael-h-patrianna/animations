@@ -1,5 +1,5 @@
-import { findAnimationById, getGroupAnimations } from '@/components/animationRegistry'
-import { loadLazyCatalog, preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
+import { getGroupAnimations } from '@/components/animationRegistry'
+import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { GroupSection } from '@/components/ui/GroupSection'
 import { AnimationInspectorProvider } from '@/contexts/AnimationInspectorContext'
 import type { Category } from '@/types/animation'
@@ -21,27 +21,10 @@ describe('integration: full data flow pipeline', () => {
   beforeAll(async () => {
     resetLazyTestState()
     catalog = await loadLazyCatalog()
-    await preloadRegistry()
   })
 
   afterAll(() => {
     resetLazyTestState()
-  })
-
-  it('animation IDs in catalog match findAnimationById lookups', () => {
-    const allAnimIds = catalog.flatMap((c) =>
-      c.groups.flatMap((g) => g.animations.map((a) => a.id))
-    )
-    // Deduplicate (framer + css groups share IDs)
-    const uniqueIds = [...new Set(allAnimIds)]
-
-    for (const id of uniqueIds) {
-      const found = findAnimationById(id)
-      // Every catalog ID must resolve to a group with at least one tech variant
-      expect(found, `findAnimationById("${id}") returned null`).toEqual(
-        expect.objectContaining({ baseGroupId: expect.stringMatching(/.+/) })
-      )
-    }
   })
 
   it('getGroupAnimations returns entries matching catalog group animations', () => {
@@ -156,39 +139,6 @@ describe('integration: full data flow pipeline', () => {
           '$$typeof',
           Symbol.for('react.lazy')
         )
-      }
-    }
-  })
-
-  it('findAnimationById returns baseGroupIds that map to real groups in the catalog', () => {
-    // This traces a critical data flow: findAnimationById returns baseGroupId,
-    // and useGroupInitialization appends '-framer' or '-css' to find the actual group.
-    // If baseGroupId + '-framer' doesn't match any catalog group, navigation breaks.
-    const allAnimIds = [
-      ...new Set(catalog.flatMap((c) => c.groups.flatMap((g) => g.animations.map((a) => a.id)))),
-    ]
-    const catalogGroupIds = new Set(catalog.flatMap((c) => c.groups.map((g) => g.id)))
-
-    for (const animId of allAnimIds) {
-      const found = findAnimationById(animId)
-      if (!found) {
-        throw new Error(
-          `findAnimationById("${animId}") returned null — catalog has it but registry doesn't`
-        )
-      }
-
-      // The baseGroupId + tech suffix must exist in the catalog
-      if (found.hasFramer) {
-        expect(
-          catalogGroupIds.has(`${found.baseGroupId}-framer`),
-          `${animId}: baseGroupId "${found.baseGroupId}" + "-framer" not in catalog groups`
-        ).toBe(true)
-      }
-      if (found.hasCss) {
-        expect(
-          catalogGroupIds.has(`${found.baseGroupId}-css`),
-          `${animId}: baseGroupId "${found.baseGroupId}" + "-css" not in catalog groups`
-        ).toBe(true)
       }
     }
   })

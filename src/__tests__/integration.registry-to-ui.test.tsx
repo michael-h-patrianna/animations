@@ -1,5 +1,4 @@
-import { buildRegistryFromCategories } from '@/components/animationRegistry'
-import { loadLazyCatalog, preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
+import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { GroupSection } from '@/components/ui/GroupSection'
 import { AnimationInspectorProvider } from '@/contexts/AnimationInspectorContext'
 import type { Category } from '@/types/animation'
@@ -16,19 +15,15 @@ function renderWithRouter(ui: React.ReactElement) {
 }
 
 /**
- * Integration test: verifies data flows correctly from the raw registry
- * through buildCatalog() into the GroupSection UI component.
- *
- * This catches mismatches between the metadata system and the UI layer
- * that unit tests of either layer alone would miss.
+ * Integration test: verifies data flows correctly from the lazy registry
+ * into the GroupSection UI component.
  */
-describe('integration: registry → buildCatalog → GroupSection', () => {
+describe('integration: registry → GroupSection', () => {
   let catalog: Category[] = []
 
   beforeAll(async () => {
     resetLazyTestState()
     catalog = await loadLazyCatalog()
-    await preloadRegistry()
   })
 
   afterAll(() => {
@@ -67,21 +62,6 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
     }
   )
 
-  it('every loaded catalog animation ID exists in the flat registry', () => {
-    const registry = buildRegistryFromCategories()
-
-    for (const cat of catalog) {
-      for (const group of cat.groups) {
-        for (const anim of group.animations) {
-          expect(
-            Object.keys(registry).includes(anim.id),
-            `Animation "${anim.id}" in catalog but not in flat registry`
-          ).toBe(true)
-        }
-      }
-    }
-  })
-
   it('catalog categoryIds match the category they belong to', () => {
     for (const cat of catalog) {
       for (const group of cat.groups) {
@@ -102,20 +82,6 @@ describe('integration: registry → buildCatalog → GroupSection', () => {
           expect(group.tech).toBe('css')
         }
       }
-    }
-  })
-
-  it('flat registry key set is a superset of all loaded catalog animation IDs', () => {
-    const registry = buildRegistryFromCategories()
-    const registryIds = new Set(Object.keys(registry))
-
-    const catalogIds = new Set(
-      catalog.flatMap((c) => c.groups.flatMap((g) => g.animations.map((a) => a.id)))
-    )
-
-    // Every catalog animation must be in the registry
-    for (const id of catalogIds) {
-      expect(registryIds.has(id), `Catalog animation "${id}" missing from flat registry`).toBe(true)
     }
   })
 

@@ -43,7 +43,7 @@ npm run test:e2e:report     # View HTML report
 **Template** (`src/__tests__/<group>.smoke.test.tsx`):
 
 ```typescript
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { Suspense } from 'react'
 import { describe, it, expect } from 'vitest'
 import { groupExport } from '@/components/<category>/<group>'
@@ -57,14 +57,18 @@ describe('<GroupName> Smoke Tests', () => {
         </Suspense>
       )
 
-      // Wait for lazy component
-      await new Promise((r) => setTimeout(r, 100))
-
-      expect(container.querySelector(`[data-animation-id="${id}"]`)).toBeInTheDocument()
+      await waitFor(
+        () => {
+          expect(container.querySelector(`[data-animation-id="${id}"]`)).toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
     })
   })
 })
 ```
+
+Do not use `setTimeout()` sleeps for lazy components. Wait for the rendered condition you actually need with `waitFor(...)` or a `findBy*` query instead.
 
 ---
 

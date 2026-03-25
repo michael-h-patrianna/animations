@@ -6,7 +6,7 @@
  * from real animation registry entries.
  */
 import { getGroupAnimations } from '@/components/animationRegistry'
-import { loadLazyCatalog, preloadRegistry, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
+import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { resolveAnimationSource } from '@/lib/groupBuilder'
 import { cleanSourceForDisplay } from '@/lib/sourceTransform'
 import type { Category } from '@/types/animation'
@@ -18,7 +18,6 @@ describe('integration: code viewer pipeline', () => {
   beforeAll(async () => {
     resetLazyTestState()
     catalog = await loadLazyCatalog()
-    await preloadRegistry()
   })
 
   afterAll(() => {
