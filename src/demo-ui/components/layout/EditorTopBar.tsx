@@ -6,7 +6,7 @@
 import type React from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { githubIcon } from '@/assets'
-import { useLazyAppNavigation } from '@/hooks/useLazyAppNavigation'
+import { useAppNavigation } from '@/contexts/AppNavigationContext'
 import { useLayoutStore, type LayoutStore } from '@/demo-ui/stores/layoutStore'
 import { useIsMobile } from '@/demo-ui/hooks/useMediaQuery'
 import { Button } from '@/demo-ui/components/ui/Button'
@@ -75,7 +75,7 @@ export const EditorTopBar: React.FC = () => {
     }))
   )
 
-  const { currentGroup } = useLazyAppNavigation()
+  const { currentGroup } = useAppNavigation()
   const viewItems = useViewMenuItems(theme, setTheme, accent, setAccent)
   const isMobile = useIsMobile()
 

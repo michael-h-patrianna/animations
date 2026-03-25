@@ -1,4 +1,14 @@
 import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
+import {
+  coinImage,
+  modalCelebrationsFireworkParticle1Image,
+  modalCelebrationsFireworkParticle2Image,
+  modalCelebrationsFireworkParticle3Image,
+  presentBox,
+  presentBoxBalloon,
+  pulseScroll,
+  shakeIcon,
+} from '@/assets'
 import { StandardEffectsBlink } from '@/components/base/standard-effects/css/StandardEffectsBlink'
 import { StandardEffectsPulse } from '@/components/base/standard-effects/css/StandardEffectsPulse'
 import { StandardEffectsPulseCircle } from '@/components/base/standard-effects/css/StandardEffectsPulseCircle'
@@ -8,14 +18,43 @@ import { ButtonEffectsRipple } from '@/components/base/button-effects/css/Button
 import { ModalOrchestrationGridHighlight } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationGridHighlight'
 import { ModalOrchestrationMagneticHover } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationMagneticHover'
 import { metadata as springPhysicsCssMetadata } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationSpringPhysics.meta'
+import { TimerEffectsPillCountdownSoft } from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownSoft'
+import { metadata as collectionCoinBurstMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst.meta'
+import { metadata as collectionCoinMagnetMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinMagnet.meta'
+import { metadata as collectionCoinTrailMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinTrail.meta'
+import { metadata as collectionCoinsFountainMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinsFountain.meta'
+import { metadata as iconBounceMetadata } from '@/components/rewards/icon-animations/framer/IconAnimationsBounce.meta'
+import { metadata as iconFloatMetadata } from '@/components/rewards/icon-animations/framer/IconAnimationsFloat.meta'
+import { metadata as iconPulseMetadata } from '@/components/rewards/icon-animations/framer/IconAnimationsPulse.meta'
+import { metadata as iconShakeMetadata } from '@/components/rewards/icon-animations/framer/IconAnimationsShake.meta'
+import { ModalCelebrationsFireworksRing as CssModalCelebrationsFireworksRing } from '@/components/rewards/modal-celebrations/css/ModalCelebrationsFireworksRing'
+import { metadata as coinCascadeMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinCascade.meta'
+import { metadata as coinsArcMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinsArc.meta'
+import { metadata as coinsSwirlMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsCoinsSwirl.meta'
+import { ModalCelebrationsFireworksRing as FramerModalCelebrationsFireworksRing } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFireworksRing'
+import { metadata as fireworkMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFirework.meta'
+import { metadata as treasureParticlesMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsTreasureParticles.meta'
 import { PrizeRevealPirateChestWin } from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestWin'
 import { metadata as pirateChestNoWinCssMetadata } from '@/components/rewards/prize-reveal/css/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinCssMetadata } from '@/components/rewards/prize-reveal/css/PrizeRevealPirateChestWin.meta'
 import { metadata as pirateChestNoWinFramerMetadata } from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinFramerMetadata } from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestWin.meta'
-import { buildPropDefaults } from '@/contexts/AnimationInspectorContext'
+import { buildPropDefaults, hasDirtyPropOverrides } from '@/contexts/AnimationInspectorContext'
 import { act, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+function countFramerFireworksRingEmbers(container: HTMLElement) {
+  return Array.from(container.querySelectorAll('span')).filter((node) => {
+    const el = node as HTMLElement
+    return el.className === '' && el.style.left === '50%' && el.style.top === '50%' && el.style.marginLeft === ''
+  }).length
+}
+
+function countCssFireworksRingEmbers(container: HTMLElement) {
+  return Array.from(container.querySelectorAll('span')).filter(
+    (node) => (node as HTMLElement).style.getPropertyValue('--sx') !== ''
+  ).length
+}
 
 describe('animation portability fixes', () => {
   beforeEach(() => {
@@ -67,6 +106,77 @@ describe('animation portability fixes', () => {
         '--test-height': '14px',
       },
     })
+  })
+
+  it('seeds starter image defaults for previewable reward animations without marking them dirty', () => {
+    const buildDefaults = buildPropDefaults as (
+      propsConfig?: unknown,
+      animationId?: string
+    ) => Record<string, unknown>
+    const isDirty = hasDirtyPropOverrides as (
+      overrides: Record<string, unknown>,
+      propsConfig?: unknown,
+      animationId?: string
+    ) => boolean
+
+    const iconCases = [
+      [iconBounceMetadata, { src: presentBox, alt: 'Bouncing gift box' }],
+      [iconFloatMetadata, { src: presentBoxBalloon, alt: 'Floating balloon' }],
+      [iconPulseMetadata, { src: pulseScroll, alt: 'Pulsing scroll' }],
+      [iconShakeMetadata, { src: shakeIcon, alt: 'Shake animation' }],
+    ] as const
+
+    for (const [metadata, expectedDefaults] of iconCases) {
+      const defaults = buildDefaults(metadata.props, metadata.id)
+      expect(defaults).toEqual(expect.objectContaining(expectedDefaults))
+      expect(isDirty(defaults, metadata.props, metadata.id)).toBe(false)
+    }
+
+    const collectionCases = [
+      collectionCoinBurstMetadata,
+      collectionCoinMagnetMetadata,
+      collectionCoinTrailMetadata,
+      collectionCoinsFountainMetadata,
+    ] as const
+
+    for (const metadata of collectionCases) {
+      const defaults = buildDefaults(metadata.props, metadata.id)
+      expect(defaults).toEqual(
+        expect.objectContaining({
+          particleImages: [coinImage],
+        })
+      )
+      expect(isDirty(defaults, metadata.props, metadata.id)).toBe(false)
+    }
+
+    const fireworkDefaults = buildDefaults(fireworkMetadata.props, fireworkMetadata.id)
+    expect(fireworkDefaults).toEqual(
+      expect.objectContaining({
+        particleImages: [
+          modalCelebrationsFireworkParticle1Image,
+          modalCelebrationsFireworkParticle2Image,
+          modalCelebrationsFireworkParticle3Image,
+        ],
+      })
+    )
+    expect(isDirty(fireworkDefaults, fireworkMetadata.props, fireworkMetadata.id)).toBe(false)
+
+    const coinCelebrationCases = [
+      coinsArcMetadata,
+      coinsSwirlMetadata,
+      coinCascadeMetadata,
+      treasureParticlesMetadata,
+    ] as const
+
+    for (const metadata of coinCelebrationCases) {
+      const defaults = buildDefaults(metadata.props, metadata.id)
+      expect(defaults).toEqual(
+        expect.objectContaining({
+          coinImage,
+        })
+      )
+      expect(isDirty(defaults, metadata.props, metadata.id)).toBe(false)
+    }
   })
 
   it('uses structured style controls for all progress-bar metadata instead of a disabled style placeholder', async () => {
@@ -179,6 +289,14 @@ describe('animation portability fixes', () => {
     expect(magneticRoot.style.getPropertyValue('--pf-magnetic-hover-tilt')).toBe('9deg')
   })
 
+  it('wires the soft pill pulseIntensity prop into the rendered CSS variable', () => {
+    const { container } = render(<TimerEffectsPillCountdownSoft pulseIntensity={0.18} />)
+
+    const pillRoot = container.querySelector('.pf-pill-timer__pill--soft') as HTMLElement
+
+    expect(pillRoot.style.getPropertyValue('--pf-pill-soft-pulse-scale')).toBe('1.18')
+  })
+
   it('adds configurable timing and count props to pirate chest reveal variants', () => {
     const winPropNames = pirateChestWinFramerMetadata.props?.map((prop) => prop.name) ?? []
     const noWinPropNames = pirateChestNoWinFramerMetadata.props?.map((prop) => prop.name) ?? []
@@ -203,5 +321,13 @@ describe('animation portability fixes', () => {
     })
 
     expect(container.querySelectorAll('.pf-pirate-chest-win__coin')).toHaveLength(3)
+  })
+
+  it('uses particleCount to control fireworks ring ember density in both variants', () => {
+    const css = render(<CssModalCelebrationsFireworksRing particleCount={9} />)
+    const framer = render(<FramerModalCelebrationsFireworksRing particleCount={9} />)
+
+    expect(countCssFireworksRingEmbers(css.container)).toBe(18)
+    expect(countFramerFireworksRingEmbers(framer.container)).toBe(18)
   })
 })

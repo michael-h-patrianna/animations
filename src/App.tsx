@@ -2,7 +2,7 @@ import { EditorLayout } from '@/demo-ui/components/layout/EditorLayout'
 import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'
 import { GroupSection } from '@/components/ui/GroupSection'
 import { AnimationInspectorProvider } from '@/contexts/AnimationInspectorContext'
-import { useLazyAppNavigation } from '@/hooks/useLazyAppNavigation'
+import { AppNavigationProvider, useAppNavigation } from '@/contexts/AppNavigationContext'
 import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { Suspense } from 'react'
@@ -26,10 +26,10 @@ function GroupLoadingFallback() {
   )
 }
 
-/** Root application component with lazy-loaded groups. */
-function App() {
+/** App content that consumes navigation state from context. */
+function AppContent() {
   const { currentGroupId, currentGroup, animationFilter, isLoading, error } =
-    useLazyAppNavigation()
+    useAppNavigation()
   const direction = 0
 
   return (
@@ -77,6 +77,15 @@ function App() {
         )}
       </EditorLayout>
     </AnimationInspectorProvider>
+  )
+}
+
+/** Root application component with lazy-loaded groups. */
+function App() {
+  return (
+    <AppNavigationProvider>
+      <AppContent />
+    </AppNavigationProvider>
   )
 }
 

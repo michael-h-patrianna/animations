@@ -7,7 +7,7 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { type CodeMode, useCodeMode } from '@/contexts/CodeModeContext'
-import { useLazyAppNavigation } from '@/hooks/useLazyAppNavigation'
+import { useAppNavigation } from '@/contexts/AppNavigationContext'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import { ToggleGroup, type ToggleOption } from '@/demo-ui/components/ui/ToggleGroup'
 import type { LazyCategory, LazyGroup } from '@/types/lazy'
@@ -68,7 +68,7 @@ function pickGroupId(variants: GroupVariants, mode: CodeMode): string {
 export const EditorLeftPanel: React.FC = () => {
   const { codeMode, setCodeMode } = useCodeMode()
   const { navCategories, currentGroupId, handleGroupSelect, handleModeSelect } =
-    useLazyAppNavigation()
+    useAppNavigation()
   const currentBaseGroupId = currentGroupId.replace(GROUP_MODE_SUFFIX, '')
 
   const categoryGroups = useMemo(

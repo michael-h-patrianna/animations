@@ -231,12 +231,13 @@ function CenterGlow() {
  * explodes outward with burst confetti and sparkle aftermath.
  */
 function ModalCelebrationsFireworksRingComponent({
+  particleCount = 22,
   particleImages = [],
   particleMaxWidth = 24,
   particleMaxHeight = 24,
   onComplete,
 }: ModalCelebrationsFireworksRingProps) {
-  const embers = useMemo(makeEmbers, [])
+  const embers = useMemo(() => makeEmbers(particleCount), [particleCount])
   const shimmers = useMemo(makeShimmers, [])
   const bursts = useMemo(() => makeBursts(particleImages), [particleImages])
   const sparkles = useMemo(makeSparkles, [])

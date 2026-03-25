@@ -87,6 +87,11 @@ export const BURST_TIMES = Array.from(
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
+function resolveCount(count: number | undefined, fallback: number): number {
+  if (count === undefined || !Number.isFinite(count)) return fallback
+  return Math.max(1, Math.round(count))
+}
+
 function burstScaleAt(t: number, peak: number): number {
   if (t < 0.1) return peak * 0.5 * (t / 0.1)
   if (t < 0.25) return peak * (0.5 + 0.5 * ((t - 0.1) / 0.15))
@@ -110,11 +115,12 @@ function burstOpacityAt(t: number, peak: number): number {
  * the ring circle, holds with a pulse, then bursts outward with gravity.
  * Pre-computes both primary and tail opacity arrays.
  */
-export function makeEmbers(): Ember[] {
+export function makeEmbers(count = EMBER_COUNT): Ember[] {
+  const emberCount = resolveCount(count, EMBER_COUNT)
   const embers: Ember[] = []
 
-  for (let i = 0; i < EMBER_COUNT; i++) {
-    const baseAngle = (i / EMBER_COUNT) * Math.PI * 2
+  for (let i = 0; i < emberCount; i++) {
+    const baseAngle = (i / emberCount) * Math.PI * 2
     const ringAngle = baseAngle + deg2rad(randBetween(-4, 4))
     const layer: 'bg' | 'fg' = i % 3 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
@@ -150,7 +156,7 @@ export function makeEmbers(): Ember[] {
       opacities,
       tailOpacities: opacities.map((o) => o * 0.4),
       color: pickRandom(CELEBRATION_COLORS),
-      delay: (i / EMBER_COUNT) * 0.22,
+      delay: (i / emberCount) * 0.22,
       size,
       tailSize: Math.round(size * 0.55),
       layer,

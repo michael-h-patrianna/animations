@@ -79,13 +79,24 @@ const BURST_COUNT = 18
 const SPARKLE_COUNT = 16
 const DURATION = 2000
 
+interface ModalCelebrationsFireworksRingProps extends CelebrationBaseProps {
+  /** Total ember particles converging to the ring. Default 22. */
+  particleCount?: number
+}
+
 /* ─── Generators ─── */
 
-function makeEmbers(): Ember[] {
+function resolveCount(count: number | undefined, fallback: number): number {
+  if (count === undefined || !Number.isFinite(count)) return fallback
+  return Math.max(1, Math.round(count))
+}
+
+function makeEmbers(count = EMBER_COUNT): Ember[] {
+  const emberCount = resolveCount(count, EMBER_COUNT)
   const embers: Ember[] = []
 
-  for (let i = 0; i < EMBER_COUNT; i++) {
-    const baseAngle = (i / EMBER_COUNT) * Math.PI * 2
+  for (let i = 0; i < emberCount; i++) {
+    const baseAngle = (i / emberCount) * Math.PI * 2
     const ringAngle = baseAngle + deg2rad(randBetween(-4, 4))
     const layer: 'bg' | 'fg' = i % 3 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
@@ -112,7 +123,7 @@ function makeEmbers(): Ember[] {
       ex: endX - ringX,
       ey: endY - ringY,
       color: pickRandom(CELEBRATION_COLORS),
-      delay: (i / EMBER_COUNT) * 220,
+      delay: (i / emberCount) * 220,
       size: isBg ? randBetween(4, 6) : randBetween(5, 8),
       tailSize: isBg ? randBetween(2, 3) : randBetween(3, 4),
       layer,
@@ -343,12 +354,13 @@ function SparkleLayer({ sparkles }: { sparkles: Sparkle[] }) {
 /* ─── Main ─── */
 
 function ModalCelebrationsFireworksRingComponent({
+  particleCount = EMBER_COUNT,
   particleImages = [],
   particleMaxWidth = 24,
   particleMaxHeight = 24,
   onComplete,
-}: CelebrationBaseProps) {
-  const embers = useMemo(makeEmbers, [])
+}: ModalCelebrationsFireworksRingProps) {
+  const embers = useMemo(() => makeEmbers(particleCount), [particleCount])
   const shimmers = useMemo(makeShimmers, [])
   const bursts = useMemo(() => makeBursts(particleImages), [particleImages])
   const sparkles = useMemo(makeSparkles, [])

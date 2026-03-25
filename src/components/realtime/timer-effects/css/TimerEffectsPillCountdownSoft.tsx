@@ -38,6 +38,7 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
     onEndBehavior = 'stay',
     textColor,
     fontSize,
+    pulseIntensity = 0.05,
   } = props
 
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
@@ -69,9 +70,10 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
   if (isHidden) return null
 
   const phaseColor = resolved.colors?.[phase]
-  const pillStyle: React.CSSProperties = {
+  const pillStyle = {
     ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
-  }
+    '--pf-pill-soft-pulse-scale': String(1 + Math.max(0, pulseIntensity)),
+  } as React.CSSProperties
 
   const timeStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),

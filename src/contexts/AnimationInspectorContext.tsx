@@ -1,6 +1,7 @@
 import type { Animation, Group, PropConfig, StyleObjectFieldConfig } from '@/types/animation'
+import { getInspectorStarterDefaults } from '@/contexts/inspectorStarterDefaults'
 import { resolveColorInputDefault } from '@/utils/colors'
-import { createContext, use, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, use, useCallback, useEffect, useMemo, useState, type Context, type ReactNode } from 'react'
 
 type PropOverridesByAnimationId = Record<string, Record<string, unknown>>
 type ReplayVersionsByAnimationId = Record<string, number>
@@ -18,7 +19,18 @@ interface AnimationInspectorContextValue {
   replayAnimation: (animationId: string) => void
 }
 
-const AnimationInspectorContext = createContext<AnimationInspectorContextValue | undefined>(undefined)
+// Preserve context identity across Vite HMR to prevent provider/consumer mismatch.
+// When Vite re-evaluates this module during HMR, createContext() would produce a new
+// object, breaking the provider↔consumer link until both re-render. Stashing the
+// original context in import.meta.hot.data keeps the identity stable.
+const hmrData = import.meta.hot?.data as Record<string, unknown> | undefined
+const AnimationInspectorContext: Context<AnimationInspectorContextValue | undefined> =
+  (hmrData?.inspectorContext as Context<AnimationInspectorContextValue | undefined>) ??
+  createContext<AnimationInspectorContextValue | undefined>(undefined)
+
+if (hmrData) {
+  hmrData.inspectorContext = AnimationInspectorContext
+}
 
 function normalizeColorDefault(color: string): string {
   return resolveColorInputDefault(color) || color
@@ -39,9 +51,22 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+function cloneDefaultValue(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return [...value]
+  }
+
+  if (isRecord(value)) {
+    return { ...value }
+  }
+
+  return value
+}
+
 /** Builds the inspector's default override record from editable prop metadata. */
-export function buildPropDefaults(propsConfig?: PropConfig[]): Record<string, unknown> {
+export function buildPropDefaults(propsConfig?: PropConfig[], animationId?: string): Record<string, unknown> {
   const defaults: Record<string, unknown> = {}
+  const starterDefaults = getInspectorStarterDefaults(animationId)
 
   for (const prop of propsConfig ?? []) {
     if (prop.disabled) continue
@@ -65,7 +90,16 @@ export function buildPropDefaults(propsConfig?: PropConfig[]): Record<string, un
       continue
     }
     if (prop.default !== undefined) {
-      defaults[prop.name] = prop.default
+      defaults[prop.name] = cloneDefaultValue(prop.default)
+    }
+  }
+
+  for (const prop of propsConfig ?? []) {
+    if (prop.disabled || !(prop.name in starterDefaults)) continue
+
+    const starterValue = starterDefaults[prop.name]
+    if (starterValue !== undefined) {
+      defaults[prop.name] = cloneDefaultValue(starterValue)
     }
   }
 
@@ -75,9 +109,10 @@ export function buildPropDefaults(propsConfig?: PropConfig[]): Record<string, un
 /** Returns true when any interactive prop differs from its default value. */
 export function hasDirtyPropOverrides(
   overrides: Record<string, unknown>,
-  propsConfig?: PropConfig[]
+  propsConfig?: PropConfig[],
+  animationId?: string
 ): boolean {
-  const defaults = buildPropDefaults(propsConfig)
+  const defaults = buildPropDefaults(propsConfig, animationId)
 
   for (const key of Object.keys(overrides)) {
     const current = overrides[key]
@@ -139,7 +174,7 @@ export function AnimationInspectorProvider({
   )
 
   const ensureOverrides = useCallback((animationId: string, propsConfig?: PropConfig[]) => {
-    const defaults = buildPropDefaults(propsConfig)
+    const defaults = buildPropDefaults(propsConfig, animationId)
     setOverridesByAnimationId((prev) => (prev[animationId] != null ? prev : { ...prev, [animationId]: defaults }))
     return defaults
   }, [])
@@ -163,7 +198,7 @@ export function AnimationInspectorProvider({
 
   const getPropOverrides = useCallback(
     (animationId: string, propsConfig?: PropConfig[]) =>
-      overridesByAnimationId[animationId] ?? buildPropDefaults(propsConfig),
+      overridesByAnimationId[animationId] ?? buildPropDefaults(propsConfig, animationId),
     [overridesByAnimationId]
   )
 
@@ -172,7 +207,7 @@ export function AnimationInspectorProvider({
       setOverridesByAnimationId((prev) => ({
         ...prev,
         [animationId]: {
-          ...(prev[animationId] ?? buildPropDefaults(propsConfig)),
+          ...(prev[animationId] ?? buildPropDefaults(propsConfig, animationId)),
           [name]: value,
         },
       }))
@@ -183,7 +218,7 @@ export function AnimationInspectorProvider({
   const resetPropOverrides = useCallback((animationId: string, propsConfig?: PropConfig[]) => {
     setOverridesByAnimationId((prev) => ({
       ...prev,
-      [animationId]: buildPropDefaults(propsConfig),
+      [animationId]: buildPropDefaults(propsConfig, animationId),
     }))
   }, [])
 

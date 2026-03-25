@@ -80,7 +80,7 @@ export const EditorRightPanel: React.FC = () => {
 
   const isDirty =
     selectedAnimation != null && propOverrides != null
-      ? hasDirtyPropOverrides(propOverrides, selectedAnimation.props)
+      ? hasDirtyPropOverrides(propOverrides, selectedAnimation.props, selectedAnimation.id)
       : false
 
   const handlePropChange = (name: string, value: unknown) => {
