@@ -14,8 +14,8 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { generateMockListItems } from '../MockContentItems'
-import { toItemArray, type ContentStaggerProps } from '../SharedTypes'
+import { generateMockListItems } from '@/components/dialogs/modal-content/MockContentItems'
+import { toItemArray, type ContentStaggerProps } from '@/components/dialogs/modal-content/SharedTypes'
 
 import './ModalContentListVerticalWipe.css'
 

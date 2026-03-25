@@ -23,7 +23,7 @@
  */
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface ProgressThinProps extends ProgressBarProps {
   /** Label text above the bar. Default: "Level progress". */
@@ -139,6 +139,10 @@ export function ProgressBarsProgressThin({
           <div className="pf-progress-track" style={{ height: '2px' }}>
             <m.div
               className="pf-progress-fill"
+              role="progressbar"
+              aria-valuenow={100}
+              aria-valuemin={0}
+              aria-valuemax={100}
               variants={fillVariants}
               style={{
                 transformOrigin: 'left center',
@@ -197,6 +201,10 @@ export function ProgressBarsProgressThin({
           <div className="pf-progress-track" style={{ height: '2px' }}>
             <m.div
               className="pf-progress-fill"
+              role="progressbar"
+              aria-valuenow={Math.round(target * 100)}
+              aria-valuemin={0}
+              aria-valuemax={100}
               animate={{ scaleX: target }}
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               style={{

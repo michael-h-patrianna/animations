@@ -9,7 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { SPINNER_ORBITAL_COLOR } from '../SharedDefaults'
+import { SPINNER_ORBITAL_COLOR } from '@/components/progress/loading-states/SharedDefaults'
 
 interface LoadingStatesSpinnerOrbitalProps {
   /** Diameter of the orbital path in px. */

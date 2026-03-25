@@ -2,14 +2,12 @@ import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
-import {
-  arcanePortalFreeSpinsImage,
-  arcanePortalGcImage,
-  arcanePortalRandomRewardImage,
-  arcanePortalRingImage,
-  arcanePortalRunicSigilImage,
-  arcanePortalScImage,
-} from '@/assets'
+import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.png'
+import arcanePortalGcImage from '@/assets/arcane-portal/gc.png'
+import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.png'
+import arcanePortalRingImage from '@/assets/arcane-portal/portal-ring.png'
+import arcanePortalRunicSigilImage from '@/assets/arcane-portal/runic-sigil.png'
+import arcanePortalScImage from '@/assets/arcane-portal/sc.png'
 
 import './PrizeRevealArcanePortal.css'
 

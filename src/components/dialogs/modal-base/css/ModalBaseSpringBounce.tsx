@@ -7,8 +7,8 @@
 
 import { memo } from 'react'
 
-import { ModalPlaceholder } from '../MockModalContent'
-import type { ModalEntranceProps } from '../SharedTypes'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 import './ModalBaseSpringBounce.css'
 
 function ModalBaseSpringBounceComponent({ children, className, style }: ModalEntranceProps) {

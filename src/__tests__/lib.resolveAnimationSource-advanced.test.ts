@@ -20,7 +20,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     // Bare CSS imports (without `from`) are side-effect-only imports used for styling.
     // The extractRelativeImports regex only matches `from '...'` patterns.
     // This documents the current behavior: shared.css is not included as a tab.
-    const tsxSource = `import '../shared.css'\nimport { helper } from '../Config'\nexport function MyAnim() { return <div /> }`
+    const tsxSource = `import '../shared.css'\nimport { helper } from '@/Config'\nexport function MyAnim() { return <div /> }`
     const componentCss = `.pf-my-anim { opacity: 1; }`
     const configCode = `export const helper = true`
 
@@ -52,8 +52,8 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   })
 
   it('handles both variants importing the same shared file without duplication', async () => {
-    const framerTsx = `import { Config } from '../Config'\nexport function A() {}`
-    const cssTsx = `import { Config } from '../Config'\nexport function A() {}`
+    const framerTsx = `import { Config } from '@/Config'\nexport function A() {}`
+    const cssTsx = `import { Config } from '@/Config'\nexport function A() {}`
     const configCode = `export const Config = { speed: 1 }`
 
     const result = buildGroupExport(
@@ -76,9 +76,9 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   })
 
   it('handles re-export syntax (export { X } from) without false positive shared tab inclusion', async () => {
-    // Re-exports like `export { Config } from '../Config'` use 'from' syntax
+    // Re-exports like `export { Config } from '@/Config'` use 'from' syntax
     // and should be parsed by extractRelativeImports. This verifies the regex handles them.
-    const tsxSource = `export { Config } from '../Config'\nexport function A() { return <div /> }`
+    const tsxSource = `export { Config } from '@/Config'\nexport function A() { return <div /> }`
     const configCode = `export const Config = {}`
 
     const result = buildGroupExport(
@@ -208,7 +208,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   })
 
   it('propagates shared file loader rejection', async () => {
-    const tsxSource = `import { helper } from '../utils'\nexport function A() {}`
+    const tsxSource = `import { helper } from '@/utils'\nexport function A() {}`
     const tsxLoader = vi.fn().mockResolvedValue(tsxSource)
     const sharedLoader = vi.fn().mockRejectedValue(new Error('shared file missing'))
 
@@ -272,7 +272,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
         framerTsx: {
           './framer/A.tsx': vi
             .fn()
-            .mockResolvedValue(`import { u } from '../utils'\nexport function A() {}`),
+            .mockResolvedValue(`import { u } from '@/utils'\nexport function A() {}`),
         },
         framerCss: { './framer/A.css': vi.fn().mockResolvedValue('.framer-css {}') },
         cssTsx: { './css/A.tsx': vi.fn().mockResolvedValue('export function A() {}') },
@@ -291,7 +291,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   it('ignores absolute/bare module imports (non-relative) and does not create shared tabs for them', async () => {
     // Imports like '@/utils/foo' or 'lodash' are not relative — they don't start with ./ or ../
     // resolveImportToGroupRoot returns them unchanged, and they won't match any shared pool key
-    const tsxSource = `import { cn } from '@/lib/utils'\nimport * as m from 'motion/react-m'\nimport { helper } from '../Config'\nexport function A() { return <div /> }`
+    const tsxSource = `import { cn } from '@/lib/utils'\nimport * as m from 'motion/react-m'\nimport { helper } from '@/Config'\nexport function A() { return <div /> }`
     const configCode = `export const helper = true`
 
     const result = buildGroupExport(
@@ -315,7 +315,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   })
 
   it('resolves .css extension shared files with language "css"', async () => {
-    const tsxSource = `import { helper } from '../shared'\nexport function A() { return <div /> }`
+    const tsxSource = `import { helper } from '@/shared'\nexport function A() { return <div /> }`
     const sharedCss = `.pf-shared { display: flex; }`
 
     const result = buildGroupExport(
@@ -359,9 +359,9 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     expect(tabs[0]!.label).toBe('Component')
   })
 
-  it('parses type-only imports — import type { X } from "../types"', async () => {
+  it('parses type-only imports — import type { X } from "@/types"', async () => {
     // type-only imports still use `from '...'` syntax, so RELATIVE_IMPORT_RE matches them
-    const tsxSource = `import type { Config } from '../types'\nexport function A() { return <div /> }`
+    const tsxSource = `import type { Config } from '@/types'\nexport function A() { return <div /> }`
     const typesCode = `export type Config = { speed: number }`
 
     const result = buildGroupExport(
@@ -385,7 +385,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   it('does NOT parse imports inside comments', async () => {
     // The regex matches ANY line with `from '...'` — it cannot distinguish commented-out imports.
     // This documents the known limitation: commented imports are still parsed.
-    const tsxSource = `// import { helper } from '../commented'\nimport { real } from '../real'\nexport function A() { return <div /> }`
+    const tsxSource = `// import { helper } from '@/commented'\nimport { real } from '@/real'\nexport function A() { return <div /> }`
     const commentedCode = `export const helper = 1`
     const realCode = `export const real = 2`
 
@@ -413,7 +413,7 @@ describe('resolveAnimationSource — advanced scenarios', () => {
   })
 
   it('handles component that imports multiple shared files — all appear sorted alphabetically', async () => {
-    const tsxSource = `import { z } from '../zebra'\nimport { a } from '../alpha'\nimport { m } from '../middle'\nexport function A() { return <div /> }`
+    const tsxSource = `import { z } from '../zebra'\nimport { a } from '@/alpha'\nimport { m } from '@/middle'\nexport function A() { return <div /> }`
 
     const result = buildGroupExport(
       groupMeta,

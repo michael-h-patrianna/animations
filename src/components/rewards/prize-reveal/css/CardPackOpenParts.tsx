@@ -1,8 +1,9 @@
 import { type CSSProperties } from 'react'
 
-import { crystalShatterDustImage, crystalShatterSparkleImage } from '@/assets'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 
-import type { ConfettiData } from '../CardPackParts'
+import type { ConfettiData } from '@/components/rewards/prize-reveal/CardPackParts'
 
 /* ─── Tear edge — jagged rip shared between flap and body ─── */
 

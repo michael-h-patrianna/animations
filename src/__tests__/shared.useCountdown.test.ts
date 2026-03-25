@@ -454,6 +454,95 @@ describe('useCountdown', () => {
     })
   })
 
+  describe('prop-driven restarts', () => {
+    it('resets visible state immediately when startSeconds changes mid-countdown', () => {
+      const { result, rerender } = renderHook(
+        ({ startSeconds }) =>
+          useCountdown({
+            startSeconds,
+            mode: 'visual',
+            thresholds: DEFAULT_THRESHOLDS,
+            onEndBehavior: 'stay',
+          }),
+        { initialProps: { startSeconds: 10 } }
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(3500)
+      })
+
+      expect(result.current.seconds).toBe(7)
+      expect(result.current.progress).toBeCloseTo(0.35, 1)
+
+      rerender({ startSeconds: 20 })
+
+      expect(result.current.seconds).toBe(20)
+      expect(result.current.progress).toBe(0)
+      expect(result.current.isExpired).toBe(false)
+      expect(result.current.isHidden).toBe(false)
+    })
+
+    it('resets visible state immediately when mode changes mid-countdown', () => {
+      const { result, rerender } = renderHook(
+        ({ mode }) =>
+          useCountdown({
+            startSeconds: 10,
+            mode,
+            thresholds: DEFAULT_THRESHOLDS,
+            onEndBehavior: 'stay',
+          }),
+        { initialProps: { mode: 'visual' as const } }
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(2500)
+      })
+
+      expect(result.current.seconds).toBe(8)
+      expect(result.current.progress).toBeCloseTo(0.25, 1)
+
+      rerender({ mode: 'exact' as const })
+
+      expect(result.current.seconds).toBe(10)
+      expect(result.current.progress).toBe(0)
+      expect(result.current.isExpired).toBe(false)
+      expect(result.current.isHidden).toBe(false)
+    })
+
+    it('reveals a hidden timer immediately when a new countdown starts', () => {
+      const { result, rerender } = renderHook(
+        ({ startSeconds }) =>
+          useCountdown({
+            startSeconds,
+            mode: 'visual',
+            thresholds: DEFAULT_THRESHOLDS,
+            onEndBehavior: 'hide',
+          }),
+        { initialProps: { startSeconds: 1 } }
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(1800)
+      })
+
+      expect(result.current.isExpired).toBe(true)
+      expect(result.current.isHidden).toBe(false)
+
+      act(() => {
+        vi.advanceTimersByTime(700)
+      })
+
+      expect(result.current.isHidden).toBe(true)
+
+      rerender({ startSeconds: 5 })
+
+      expect(result.current.seconds).toBe(5)
+      expect(result.current.progress).toBe(0)
+      expect(result.current.isExpired).toBe(false)
+      expect(result.current.isHidden).toBe(false)
+    })
+  })
+
   describe('progress calculation accuracy', () => {
     it('progress reaches exactly 1 when timer expires', () => {
       const { result } = renderCountdown({ startSeconds: 5 })

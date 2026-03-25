@@ -11,13 +11,13 @@ import type { GroupMetadata } from '@/types/animation'
 
 const progressBarsMeta: GroupMetadata = {
   id: 'progress-bars',
-  title: 'Progress Bars',
+  title: 'Progress bars',
   demo: 'progressBars',
 }
 
 const loadingStatesMeta: GroupMetadata = {
   id: 'loading-states',
-  title: 'Loading States',
+  title: 'Loading states',
   demo: 'loadingStates',
 }
 

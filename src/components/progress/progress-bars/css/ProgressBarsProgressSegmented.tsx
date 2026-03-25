@@ -3,8 +3,8 @@
  *
  * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
-import type { ProgressBarProps } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsProgressSegmented.css'
 
 interface SegmentedProps extends ProgressBarProps {

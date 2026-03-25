@@ -7,7 +7,7 @@
 
 import { memo } from 'react'
 
-import { DOTS_COLOR } from '../SharedDefaults'
+import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
 import './LoadingStatesDotsRise.css'
 
 interface LoadingStatesDotsRiseProps {

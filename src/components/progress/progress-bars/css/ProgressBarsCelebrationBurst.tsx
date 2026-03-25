@@ -4,8 +4,8 @@
  * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
 import { useMemo } from 'react'
-import type { MilestoneProgressBarProps, MilestoneConfig } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { MilestoneProgressBarProps, MilestoneConfig } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsCelebrationBurst.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [

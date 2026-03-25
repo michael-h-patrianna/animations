@@ -14,8 +14,8 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { generateMockFormFields } from '../MockContentItems'
-import { toItemArray, type ContentStaggerProps } from '../SharedTypes'
+import { generateMockFormFields } from '@/components/dialogs/modal-content/MockContentItems'
+import { toItemArray, type ContentStaggerProps } from '@/components/dialogs/modal-content/SharedTypes'
 
 import './ModalContentFormFieldGradient.css'
 

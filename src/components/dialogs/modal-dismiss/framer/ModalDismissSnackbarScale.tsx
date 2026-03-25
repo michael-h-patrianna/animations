@@ -11,8 +11,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
 
-import { ToastPlaceholder } from '../MockToastContent'
-import type { AutoDismissProps } from '../SharedTypes'
+import { ToastPlaceholder } from '@/components/dialogs/modal-dismiss/MockToastContent'
+import type { AutoDismissProps } from '@/components/dialogs/modal-dismiss/SharedTypes'
 
 const DEFAULT_DURATION = 4000
 

@@ -10,7 +10,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo } from 'react'
-import { PING_COLOR } from '../SharedDefaults'
+import { PING_COLOR } from '@/components/realtime/update-indicators/SharedDefaults'
 
 interface LivePingProps {
   /** Dot color. Default: '#c6ff77' */

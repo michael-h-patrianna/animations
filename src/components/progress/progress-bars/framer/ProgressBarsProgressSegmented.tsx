@@ -23,8 +23,8 @@
  */
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
-import type { ProgressBarProps } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface SegmentedProps extends ProgressBarProps {
   /** Number of segments. Default: 4. */

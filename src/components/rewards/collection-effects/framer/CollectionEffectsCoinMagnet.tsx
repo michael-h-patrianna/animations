@@ -16,9 +16,9 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-import { FallbackParticle } from '../SharedFallbackParticle'
-import { generateFallbackParticle, type ConfettiShape } from '../SharedParticleUtils'
-import { useImagePreloader } from '../SharedImagePreloader'
+import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
+import { generateFallbackParticle, type ConfettiShape } from '@/components/rewards/collection-effects/SharedParticleUtils'
+import { useImagePreloader } from '@/components/rewards/collection-effects/SharedImagePreloader'
 import {
   clampImages,
   containerCenter,
@@ -27,7 +27,7 @@ import {
   resolvePointRelative,
   type CollectionEffectProps,
   type ResolvedPoint,
-} from '../SharedTypes'
+} from '@/components/rewards/collection-effects/SharedTypes'
 
 const DEFAULT_COUNT = 10
 const DEFAULT_SPREAD = 60

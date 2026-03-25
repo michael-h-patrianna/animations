@@ -7,7 +7,7 @@
  * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>
  */
 import { memo, type ReactNode } from 'react'
-import { BADGE_COLOR, BADGE_GLOW } from '../SharedDefaults'
+import { BADGE_COLOR, BADGE_GLOW } from '@/components/realtime/update-indicators/SharedDefaults'
 import './UpdateIndicatorsBadgePulse.css'
 
 interface BadgePulseProps {

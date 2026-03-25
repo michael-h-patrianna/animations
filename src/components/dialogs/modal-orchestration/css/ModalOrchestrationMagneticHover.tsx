@@ -27,8 +27,10 @@ interface ModalOrchestrationMagneticHoverProps {
   duration?: number
   /** Hover tilt intensity in degrees. Default 5. */
   tiltIntensity?: number
-  /** Number of grid columns. Default 4. */
+  /** Maximum number of grid columns before tiles wrap. Default 4. */
   columns?: number
+  /** Minimum width for each tile before the grid wraps to fewer columns. Default 96. */
+  minTileWidth?: number
 }
 
 function generatePlaceholders(count: number): ReactNode[] {
@@ -45,6 +47,7 @@ function ModalOrchestrationMagneticHoverComponent({
   duration = 600,
   tiltIntensity = 5,
   columns = 4,
+  minTileWidth = 96,
 }: ModalOrchestrationMagneticHoverProps) {
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
@@ -55,7 +58,8 @@ function ModalOrchestrationMagneticHoverComponent({
       data-animation-id="modal-orchestration__magnetic-hover"
       style={
         {
-          gridTemplateColumns: `repeat(${columns}, 1fr)`,
+          ['--pf-magnetic-hover-columns' as string]: `${columns}`,
+          ['--pf-magnetic-hover-min-tile-width' as string]: `${minTileWidth}px`,
           ['--pf-magnetic-hover-tilt' as string]: `${tiltIntensity}deg`,
         } as CSSProperties
       }

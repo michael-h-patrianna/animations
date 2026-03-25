@@ -8,9 +8,9 @@
 
 import { memo } from 'react'
 
-import { formatTime } from '../SharedFormat'
-import { useCountdown } from '../SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
+import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
+import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
+import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './TimerEffectsUrgentPulse.css'
 

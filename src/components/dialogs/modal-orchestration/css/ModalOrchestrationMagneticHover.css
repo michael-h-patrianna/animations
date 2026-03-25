@@ -1,15 +1,33 @@
 /* Styles for ModalOrchestrationMagneticHover (CSS variant) */
 .pf-magnetic-hover {
+  --pf-magnetic-hover-gap: 12px;
   width: 100%;
   display: grid;
-  gap: 12px;
+  gap: var(--pf-magnetic-hover-gap);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(
+      min(
+        100%,
+        max(
+          var(--pf-magnetic-hover-min-tile-width, 96px),
+          calc(
+            (100% - ((var(--pf-magnetic-hover-columns, 4) - 1) * var(--pf-magnetic-hover-gap))) /
+              var(--pf-magnetic-hover-columns, 4)
+          )
+        )
+      ),
+      1fr
+    )
+  );
 }
 
 .pf-magnetic-hover__item {
   /* Animation wrapper only — visual card styling comes from children */
   cursor: pointer;
+  min-width: 0;
   opacity: 0;
   transform: scale(0) rotateX(-90deg);
   will-change: transform, opacity;

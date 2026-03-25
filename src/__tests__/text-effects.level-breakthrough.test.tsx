@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { TextEffectsLevelBreakthrough } from '../components/base/text-effects/css/TextEffectsLevelBreakthrough'
+import { TextEffectsLevelBreakthrough } from '@/components/base/text-effects/css/TextEffectsLevelBreakthrough'
 
 describe('TextEffectsLevelBreakthrough', () => {
   it('renders default LEVEL 1 → LEVEL 2 transition text', () => {

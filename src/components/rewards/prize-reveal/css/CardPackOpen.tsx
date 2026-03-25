@@ -1,18 +1,16 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { DemoButton } from '@/components/demo-blocks'
 
-import {
-  cardPackBackImage,
-  cardPackBasicImage,
-  cardPackDiamondImage,
-  cardPackGoldImage,
-  crystalShatterDustImage,
-  crystalShatterPrismaticRingImage,
-  crystalShatterSparkleImage,
-} from '@/assets'
+import cardPackBackImage from '@/assets/card-pack/card-back.png'
+import cardPackBasicImage from '@/assets/card-pack/card-pack-basic.png'
+import cardPackDiamondImage from '@/assets/card-pack/card-pack-diamond.png'
+import cardPackGoldImage from '@/assets/card-pack/card-pack-gold.png'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 
-import type { CardRarity, ConfettiData, FanPosition, PackPhase } from '../CardPackParts'
-import { ALL_CARD_IMAGES, drawCards } from '../cardSets'
+import type { CardRarity, ConfettiData, FanPosition, PackPhase } from '@/components/rewards/prize-reveal/CardPackParts'
+import { ALL_CARD_IMAGES, drawCards } from '@/components/rewards/prize-reveal/cardSets'
 
 import {
   ArrivalDust,

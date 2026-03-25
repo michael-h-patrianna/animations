@@ -16,9 +16,9 @@ import {
   FLASH_CRITICAL_RGB,
   FLASH_NORMAL_RGB,
   formatTime,
-} from '../SharedFormat'
-import { useCountdown } from '../SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
+} from '@/components/realtime/timer-effects/SharedFormat'
+import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
+import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30

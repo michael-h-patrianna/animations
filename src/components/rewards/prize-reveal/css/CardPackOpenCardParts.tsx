@@ -1,14 +1,12 @@
 import { useMemo, type CSSProperties } from 'react'
 
-import {
-  cardPackBackImage,
-  crystalShatterDustImage,
-  crystalShatterPrismaticRingImage,
-  crystalShatterSparkleImage,
-} from '@/assets'
+import cardPackBackImage from '@/assets/card-pack/card-back.png'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 
-import type { CardData, CardRarity, FanPosition } from '../CardPackParts'
-import { getCardSet } from '../cardSets'
+import type { CardData, CardRarity, FanPosition } from '@/components/rewards/prize-reveal/CardPackParts'
+import { getCardSet } from '@/components/rewards/prize-reveal/cardSets'
 
 /* ─── Starburst clip-path for NEW badge ─── */
 

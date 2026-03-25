@@ -2,24 +2,22 @@ import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
-import {
-  arcanePortalFreeSpinsImage,
-  arcanePortalGcImage,
-  arcanePortalRandomRewardImage,
-  arcanePortalScImage,
-  crystalShatterBodyImage,
-  crystalShatterDustImage,
-  crystalShatterEnergyMoteImage,
-  crystalShatterFrameImage,
-  crystalShatterPrismaticRingImage,
-  crystalShatterShard1Image,
-  crystalShatterShard2Image,
-  crystalShatterShard3Image,
-  crystalShatterShard4Image,
-  crystalShatterSparkleImage,
-} from '@/assets'
+import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.png'
+import arcanePortalGcImage from '@/assets/arcane-portal/gc.png'
+import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.png'
+import arcanePortalScImage from '@/assets/arcane-portal/sc.png'
+import crystalShatterBodyImage from '@/assets/crystal-shatter/crystal-body.png'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterEnergyMoteImage from '@/assets/crystal-shatter/energy-mote.png'
+import crystalShatterFrameImage from '@/assets/crystal-shatter/crystal-frame.png'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
+import crystalShatterShard1Image from '@/assets/crystal-shatter/crystal-shard-1.png'
+import crystalShatterShard2Image from '@/assets/crystal-shatter/crystal-shard-2.png'
+import crystalShatterShard3Image from '@/assets/crystal-shatter/crystal-shard-3.png'
+import crystalShatterShard4Image from '@/assets/crystal-shatter/crystal-shard-4.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 
-import '../shared.css'
+import '@/components/rewards/prize-reveal/shared.css'
 import './PrizeRevealCrystalShatter.css'
 
 /* ─── Types ─── */

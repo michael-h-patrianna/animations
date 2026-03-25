@@ -11,8 +11,6 @@
 import * as m from 'motion/react-m'
 import { memo } from 'react'
 
-import { INDICATOR_COLOR, INDICATOR_RING_COLOR } from '../SharedDefaults'
-
 interface StandardEffectsPulseWaveProps {
   /** Core diameter in px. Default: 56 */
   size?: number
@@ -26,13 +24,13 @@ interface StandardEffectsPulseWaveProps {
 
 function StandardEffectsPulseWaveComponent({
   size = 56,
-  color,
-  ringColor,
+  color = '#7a468e',
+  ringColor = 'rgb(236 195 255 / 60%)',
   duration = 2000,
 }: StandardEffectsPulseWaveProps) {
   const durationS = duration / 1000
-  const resolvedColor = color ?? INDICATOR_COLOR
-  const resolvedRingColor = ringColor ?? INDICATOR_RING_COLOR
+  const resolvedColor = color
+  const resolvedRingColor = ringColor
   const ringTimes: number[] = [0, 0.7, 1]
 
   return (

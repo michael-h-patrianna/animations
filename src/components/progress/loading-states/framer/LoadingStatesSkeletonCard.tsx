@@ -10,8 +10,8 @@
 
 import { memo } from 'react'
 
-import { Skeleton } from '../SharedSkeleton'
-import type { SkeletonProps } from '../SharedSkeleton'
+import { Skeleton } from '@/components/progress/loading-states/SharedSkeleton'
+import type { SkeletonProps } from '@/components/progress/loading-states/SharedSkeleton'
 
 interface LoadingStatesSkeletonCardProps {
   /** Overall width in px. */

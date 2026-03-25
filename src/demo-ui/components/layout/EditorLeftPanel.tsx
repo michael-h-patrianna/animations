@@ -18,11 +18,9 @@ const CODE_MODE_OPTIONS: ToggleOption<CodeMode>[] = [
 ]
 
 const GROUP_MODE_SUFFIX = /-(?:framer|css)$/
-const GROUP_TITLE_SUFFIX = /\s+\((?:Framer|CSS)\)$/
 
 interface GroupVariants {
   baseId: string
-  label: string
   framer?: LazyGroup
   css?: LazyGroup
   fallback: LazyGroup
@@ -38,7 +36,6 @@ function buildGroupVariants(groups: LazyGroup[]): GroupVariants[] {
     if (!entry) {
       entry = {
         baseId,
-        label: group.title.replace(GROUP_TITLE_SUFFIX, ''),
         fallback: group,
       }
       map.set(baseId, entry)
@@ -58,11 +55,15 @@ function buildGroupVariants(groups: LazyGroup[]): GroupVariants[] {
   return [...map.values()]
 }
 
-function pickGroupId(variants: GroupVariants, mode: CodeMode): string {
+function pickGroup(variants: GroupVariants, mode: CodeMode): LazyGroup {
   if (mode === 'CSS') {
-    return variants.css?.id ?? variants.framer?.id ?? variants.fallback.id
+    return variants.css ?? variants.framer ?? variants.fallback
   }
-  return variants.framer?.id ?? variants.css?.id ?? variants.fallback.id
+  return variants.framer ?? variants.css ?? variants.fallback
+}
+
+function pickGroupId(variants: GroupVariants, mode: CodeMode): string {
+  return pickGroup(variants, mode).id
 }
 
 export const EditorLeftPanel: React.FC = () => {
@@ -89,7 +90,7 @@ export const EditorLeftPanel: React.FC = () => {
     <div className="h-full flex flex-col w-full shrink-0 overflow-hidden">
       {/* Panel header */}
       <div className="p-4 border-b border-panel-border bg-panel-header/50 z-10 shrink-0">
-        <h2 className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest">
+        <h2 className="text-xs font-bold text-(--text-secondary) uppercase tracking-widest">
           Categories
         </h2>
       </div>
@@ -118,6 +119,7 @@ export const EditorLeftPanel: React.FC = () => {
             <nav className="flex flex-col gap-0.5" data-testid={`sidebar-subnav-${category.id}`}>
               {variants.map((group) => {
                 const isActive = group.baseId === currentBaseGroupId
+                const selectedGroup = pickGroup(group, codeMode)
                 return (
                   <button
                     key={group.baseId}
@@ -126,12 +128,12 @@ export const EditorLeftPanel: React.FC = () => {
                     className={`text-left w-full px-2 py-1.5 text-xs rounded-md cursor-pointer transition-colors duration-150 ${
                       isActive
                         ? 'bg-accent/15 text-accent font-medium'
-                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]'
+                        : 'text-(--text-secondary) hover:bg-(--bg-hover) hover:text-(--text-primary)'
                     }`}
                     data-testid={`sidebar-group-${group.baseId}`}
                     data-active={isActive || undefined}
                   >
-                    {group.label}
+                    {selectedGroup.metadata.title}
                   </button>
                 )
               })}

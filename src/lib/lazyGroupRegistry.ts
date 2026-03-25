@@ -98,7 +98,7 @@ export function registerLazyCategory(
   categoryTitle: string,
   groups: Array<{
     id: string
-    title: string
+    title?: string
     tech: 'framer' | 'css'
     baseGroupId: string
     animationIds: string[]
@@ -118,8 +118,13 @@ export function registerLazyCategory(
 
   for (const groupDef of groups) {
     const lazyGroup: LazyGroup = {
-      ...groupDef,
+      id: groupDef.id,
+      title: formatGroupDisplayTitle(groupDef.metadata.title, groupDef.tech),
+      tech: groupDef.tech,
+      baseGroupId: groupDef.baseGroupId,
       categoryId,
+      animationIds: groupDef.animationIds,
+      metadata: groupDef.metadata,
     }
     navMetadataRegistry.set(groupDef.id, lazyGroup)
 
@@ -278,6 +283,10 @@ function getCategoryTitle(categoryId: string): string {
   return titles[categoryId] || categoryId
 }
 
+function formatGroupDisplayTitle(baseTitle: string, tech: 'framer' | 'css'): string {
+  return `${baseTitle} (${tech === 'framer' ? 'Framer' : 'CSS'})`
+}
+
 // ============================================================================
 // Builder Helpers
 // ============================================================================
@@ -331,7 +340,7 @@ export function buildGroupFromExports(
 
   return {
     id: groupId,
-    title: `${metadata.title} (${tech === 'framer' ? 'Framer' : 'CSS'})`,
+    title: formatGroupDisplayTitle(metadata.title, tech),
     tech,
     demo: metadata.demo,
     animations,

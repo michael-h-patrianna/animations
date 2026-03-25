@@ -8,8 +8,8 @@
 
 import { memo } from 'react'
 
-import { useCountdown } from '../SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
+import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
+import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './TimerEffectsTimerPulse.css'
 

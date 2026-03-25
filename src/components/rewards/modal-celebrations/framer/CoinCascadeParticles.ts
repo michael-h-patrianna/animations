@@ -3,7 +3,7 @@
  * No React dependency — physics math only.
  */
 
-import { pickRandom, randBetween } from '../utils'
+import { pickRandom, randBetween } from '@/components/rewards/modal-celebrations/utils'
 
 /* ─── Types ─── */
 

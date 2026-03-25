@@ -2,7 +2,7 @@ import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-import { arcanePortalRunicSigilImage } from '@/assets'
+import arcanePortalRunicSigilImage from '@/assets/arcane-portal/runic-sigil.png'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import { DemoButton } from '@/components/demo-blocks'
@@ -16,7 +16,7 @@ import {
   OrbitingRunes,
   PortalRing,
   Shockwave,
-} from '../ArcanePortalParts'
+} from '@/components/rewards/prize-reveal/ArcanePortalParts'
 
 import {
   CLAIM_APPEAR_DELAY_MS,

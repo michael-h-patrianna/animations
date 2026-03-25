@@ -2,7 +2,7 @@
  * Pill countdown with digital glitch/corruption effect.
  * Glitch intensity increases at fixed-second thresholds with chromatic aberration text copies.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsPillCountdownGlitch.css + ../shared.css (glitch section)
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + TimerEffectsPillCountdownGlitch.css + ../shared.css (glitch section)
  * Runtime deps: react, motion
  */
 
@@ -10,9 +10,10 @@ import { easeInOut } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo } from 'react'
 
-import { formatTime } from '../SharedFormat'
-import { useCountdown } from '../SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
+import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
+import { buildGlitchPillTheme } from '@/components/realtime/timer-effects/SharedPillPhaseTheme'
+import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
+import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -123,6 +124,7 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
 
   const glitchLevel = resolveGlitchLevel(seconds, startSeconds, isExpired)
   const phaseColor = resolved.colors?.[phase]
+  const pillThemeStyle = phaseColor !== undefined ? buildGlitchPillTheme(phaseColor) : undefined
 
   const timeStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),
@@ -136,11 +138,7 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
     >
       <m.div
         className={`pf-pill-countdown-glitch ${glitchLevel}`}
-        style={
-          phaseColor !== undefined
-            ? { backgroundColor: phaseColor, animation: 'none' }
-            : { animation: 'none' }
-        }
+        style={{ animation: 'none', ...pillThemeStyle }}
       >
         <m.span
           className="pf-pill-countdown-glitch__glow"

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { TextEffectsGlitchText } from '../components/base/text-effects/css/TextEffectsGlitchText'
+import { TextEffectsGlitchText } from '@/components/base/text-effects/css/TextEffectsGlitchText'
 
 /** Counts elements containing the given text within the container's text layers. */
 function countTextInLayers(container: HTMLElement, text: string): number {

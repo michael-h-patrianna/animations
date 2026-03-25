@@ -11,8 +11,8 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo } from 'react'
-import { DOT_COLOR, DOT_SWEEP_ACCENT, DOT_SWEEP_HALO, ringTint } from '../SharedDefaults'
-import type { DotIndicatorProps } from '../SharedTypes'
+import { DOT_COLOR, DOT_SWEEP_ACCENT, DOT_SWEEP_HALO, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
+import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
 
 interface DotSweepProps extends DotIndicatorProps {
   /** Flash accent color during the sweep. Default: '#ff0a4d' */

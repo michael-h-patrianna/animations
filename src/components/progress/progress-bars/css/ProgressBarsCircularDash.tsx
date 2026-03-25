@@ -3,8 +3,8 @@
  *
  * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
-import type { ProgressBarProps } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsCircularDash.css'
 
 interface CircularDashProps extends ProgressBarProps {

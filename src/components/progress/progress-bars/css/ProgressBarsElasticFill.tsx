@@ -17,7 +17,7 @@
  *
  * Files to copy: this file + ProgressBarsElasticFill.css
  */
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import './ProgressBarsElasticFill.css'
 
 const DEMO_TARGET = 0.7

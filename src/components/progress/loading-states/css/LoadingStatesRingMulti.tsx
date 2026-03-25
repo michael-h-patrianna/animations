@@ -7,7 +7,7 @@
 
 import { memo } from 'react'
 
-import { RING_MULTI_COLORS } from '../SharedDefaults'
+import { RING_MULTI_COLORS } from '@/components/progress/loading-states/SharedDefaults'
 import './LoadingStatesRingMulti.css'
 
 interface LoadingStatesRingMultiProps {

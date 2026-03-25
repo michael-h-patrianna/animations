@@ -3,8 +3,8 @@
  *
  * Files to copy: this file + ProgressBarsJourneyMap.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
-import type { ProgressBarProps } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsJourneyMap.css'
 
 interface JourneyMapProps extends ProgressBarProps {

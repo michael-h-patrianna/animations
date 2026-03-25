@@ -19,12 +19,12 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
-import { ModalOpenPlaceholder } from '../MockOpenModalContent'
-import { SharedDemoTriggers } from '../SharedDemoTriggers'
-import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
-import '../shared.css'
-import { computeArcCloseTrajectory, computeArcTrajectory } from '../FlyInTrajectory'
-import { type ModalOpenProps, type TrajectoryArrays } from '../SharedTypes'
+import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/MockOpenModalContent'
+import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
+import { useModalOpenLogic, type DemoPreset } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import '@/components/dialogs/modal-open/shared.css'
+import { computeArcCloseTrajectory, computeArcTrajectory } from '@/components/dialogs/modal-open/FlyInTrajectory'
+import { type ModalOpenProps, type TrajectoryArrays } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1200, reveal: 40 },

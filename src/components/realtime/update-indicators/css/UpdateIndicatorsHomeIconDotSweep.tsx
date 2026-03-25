@@ -7,8 +7,8 @@
  * Usage: <UpdateIndicatorsHomeIconDotSweep accentColor="#ff0a4d"><MyIcon /></UpdateIndicatorsHomeIconDotSweep>
  */
 import { memo } from 'react'
-import { DOT_COLOR, DOT_SWEEP_ACCENT, DOT_SWEEP_HALO, ringTint } from '../SharedDefaults'
-import type { DotIndicatorProps } from '../SharedTypes'
+import { DOT_COLOR, DOT_SWEEP_ACCENT, DOT_SWEEP_HALO, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
+import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
 import './UpdateIndicatorsHomeIconDotSweep.css'
 
 interface DotSweepProps extends DotIndicatorProps {

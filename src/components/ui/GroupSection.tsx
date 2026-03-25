@@ -1,6 +1,6 @@
 import { homeIcon1 } from '@/assets'
 import { getGroupAnimations } from '@/components/animationRegistry'
-import { DemoAnchors } from '@/components/rewards/collection-effects/MockDemoAnchors'
+import { DemoAnchors } from '@/components/ui/DemoAnchors'
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { useAnimationInspector } from '@/contexts/AnimationInspectorContext'
 import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'

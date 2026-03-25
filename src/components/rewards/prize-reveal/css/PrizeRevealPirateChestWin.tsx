@@ -1,6 +1,8 @@
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-import { pirateChestClosedImage, pirateChestOpenImage, pirateCoinImage } from '@/assets'
+import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
+import pirateChestOpenImage from '@/assets/puzzled-pirate/chest-open.webp'
+import pirateCoinImage from '@/assets/puzzled-pirate/coin.webp'
 
 import './PrizeRevealPirateChestWin.css'
 

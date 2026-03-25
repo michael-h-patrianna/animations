@@ -3,7 +3,7 @@
  *
  * Files to copy: this file + ProgressBarsTimelineProgress.css + ../SharedTypes.ts
  */
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import './ProgressBarsTimelineProgress.css'
 
 interface TimelineProps extends ProgressBarProps {

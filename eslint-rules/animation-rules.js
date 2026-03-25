@@ -499,6 +499,41 @@ const rules = {
     },
   },
 
+  /**
+   * Ban relative parent imports (`../`) in src/ files.
+   * All cross-directory imports must use the `@/` path alias so that
+   * components remain copy-pasteable and the import graph stays grep-able.
+   */
+  'no-relative-parent-imports': {
+    meta: {
+      type: 'problem',
+      fixable: 'code',
+      docs: {
+        description:
+          'Disallow relative parent imports (`../`). Use `@/` path alias instead.',
+      },
+      schema: [],
+      messages: {
+        noRelativeParent:
+          "Relative parent import '{{source}}' is not allowed. Use the '@/' path alias instead.",
+      },
+    },
+    create(context) {
+      return {
+        ImportDeclaration(node) {
+          const source = node.source.value
+          if (typeof source === 'string' && source.startsWith('../')) {
+            context.report({
+              node: node.source,
+              messageId: 'noRelativeParent',
+              data: { source },
+            })
+          }
+        },
+      }
+    },
+  },
+
   ...extraRules,
   ...testingRules,
   ...portabilityRules,

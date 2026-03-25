@@ -13,7 +13,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { toItemArray, type ContentStaggerProps } from '../SharedTypes'
+import { toItemArray, type ContentStaggerProps } from '@/components/dialogs/modal-content/SharedTypes'
 
 import './ModalContentButtonsStagger2.css'
 

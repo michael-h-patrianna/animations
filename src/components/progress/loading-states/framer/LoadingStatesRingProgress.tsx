@@ -9,7 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { RING_PROGRESS_COLOR } from '../SharedDefaults'
+import { RING_PROGRESS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
 
 interface LoadingStatesRingProgressProps {
   /** Ring diameter in px. */

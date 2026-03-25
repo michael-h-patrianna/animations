@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import type {
   CountdownState,
@@ -27,6 +27,16 @@ interface UseCountdownOptions {
   thresholds: Required<TimerPhaseThresholds>
   onEnd?: () => void
   onEndBehavior: TimerEndBehavior
+}
+
+function resolveCountdownSnapshot(startSeconds: number) {
+  const alreadyExpired = startSeconds <= 0
+
+  return {
+    seconds: alreadyExpired ? 0 : startSeconds,
+    progress: alreadyExpired ? 1 : 0,
+    isExpired: alreadyExpired,
+  }
 }
 
 function resolvePhase(
@@ -55,10 +65,10 @@ export function useCountdown({
   onEnd,
   onEndBehavior,
 }: UseCountdownOptions): CountdownState {
-  const alreadyExpired = startSeconds <= 0
-  const [seconds, setSeconds] = useState(alreadyExpired ? 0 : startSeconds)
-  const [progress, setProgress] = useState(alreadyExpired ? 1 : 0)
-  const [isExpired, setIsExpired] = useState(alreadyExpired)
+  const initialSnapshot = resolveCountdownSnapshot(startSeconds)
+  const [seconds, setSeconds] = useState(initialSnapshot.seconds)
+  const [progress, setProgress] = useState(initialSnapshot.progress)
+  const [isExpired, setIsExpired] = useState(initialSnapshot.isExpired)
   const [isHidden, setIsHidden] = useState(false)
 
   // Stable reference for onEnd to avoid re-subscribing the interval
@@ -74,22 +84,27 @@ export function useCountdown({
     }
   }, [])
 
-  // Fire onEnd immediately for already-expired timers
-  useEffect(() => {
-    if (alreadyExpired) {
-      fireOnEnd()
-    }
-  }, [alreadyExpired, fireOnEnd])
-
-  useEffect(() => {
-    // Reset fired flag on remount (replay via key toggle)
+  useLayoutEffect(() => {
+    // Every startSeconds/mode change is a new countdown run.
     onEndFiredRef.current = false
+    const nextSnapshot = resolveCountdownSnapshot(startSeconds)
 
-    if (startSeconds <= 0) return
+    // Prop-driven restarts must synchronously rebase the visible snapshot before paint.
+    /* eslint-disable @eslint-react/set-state-in-effect */
+    setSeconds(nextSnapshot.seconds)
+    setProgress(nextSnapshot.progress)
+    setIsExpired(nextSnapshot.isExpired)
+    setIsHidden(false)
+    /* eslint-enable @eslint-react/set-state-in-effect */
+
+    if (nextSnapshot.isExpired) {
+      fireOnEnd()
+      return
+    }
 
     const startTime = Date.now()
     let visualAccumulator = 0
-    let lastDisplay = startSeconds
+    let lastDisplay = nextSnapshot.seconds
 
     const intervalId = setInterval(() => {
       let elapsedSeconds: number

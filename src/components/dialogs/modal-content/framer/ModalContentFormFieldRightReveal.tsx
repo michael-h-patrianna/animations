@@ -23,14 +23,14 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { generateMockFormFields } from '../MockContentItems'
+import { generateMockFormFields } from '@/components/dialogs/modal-content/MockContentItems'
 import {
   MODAL_ENTRANCE,
   REDUCED_FADE,
   buttonBounceProps,
   toItemArray,
   type DirectionalRevealProps,
-} from '../SharedTypes'
+} from '@/components/dialogs/modal-content/SharedTypes'
 
 const DEFAULT_DURATION = 500
 const DEFAULT_STAGGER = 90

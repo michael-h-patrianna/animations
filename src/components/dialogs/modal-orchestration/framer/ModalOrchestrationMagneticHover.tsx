@@ -14,7 +14,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
@@ -28,8 +28,10 @@ interface ModalOrchestrationMagneticHoverProps {
   duration?: number
   /** Hover tilt intensity in degrees. Default 5. */
   tiltIntensity?: number
-  /** Number of grid columns. Default 4. */
+  /** Maximum number of grid columns before tiles wrap. Default 4. */
   columns?: number
+  /** Minimum width for each tile before the grid wraps to fewer columns. Default 96. */
+  minTileWidth?: number
 }
 
 function generatePlaceholders(count: number): ReactNode[] {
@@ -46,6 +48,7 @@ function ModalOrchestrationMagneticHoverComponent({
   duration = 600,
   tiltIntensity = 5,
   columns = 4,
+  minTileWidth = 96,
 }: ModalOrchestrationMagneticHoverProps) {
   const prefersReducedMotion = useReducedMotion()
 
@@ -103,7 +106,13 @@ function ModalOrchestrationMagneticHoverComponent({
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__magnetic-hover"
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, animation: 'none' }}
+      style={
+        {
+          animation: 'none',
+          ['--pf-magnetic-hover-columns' as string]: `${columns}`,
+          ['--pf-magnetic-hover-min-tile-width' as string]: `${minTileWidth}px`,
+        } as CSSProperties
+      }
     >
       {renderItems.map((child, i) => (
         <m.div

@@ -21,8 +21,8 @@
  * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
 import * as m from 'motion/react-m'
-import type { ProgressBarProps } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface SciFiLoaderProps extends ProgressBarProps {
   /** Label prefix text. Default: "SYSTEM.INIT:". */

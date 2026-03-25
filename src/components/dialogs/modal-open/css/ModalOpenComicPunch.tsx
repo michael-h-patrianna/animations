@@ -5,16 +5,16 @@
 
 import { memo, useEffect, useMemo, useRef } from 'react'
 
-import { ModalOpenPlaceholder } from '../MockOpenModalContent'
-import { SharedDemoTriggers } from '../SharedDemoTriggers'
-import { useModalOpenLogic, type DemoPreset } from '../SharedModalOpenLogic'
-import '../shared.css'
+import { ModalOpenPlaceholder } from '@/components/dialogs/modal-open/MockOpenModalContent'
+import { SharedDemoTriggers } from '@/components/dialogs/modal-open/SharedDemoTriggers'
+import { useModalOpenLogic, type DemoPreset } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
+import '@/components/dialogs/modal-open/shared.css'
 import './shared-css-animations.css'
 import {
   computeComicPunchCloseTrajectory,
   computeComicPunchTrajectory,
-} from '../ComicPunchTrajectory'
-import { type ModalOpenProps } from '../SharedTypes'
+} from '@/components/dialogs/modal-open/ComicPunchTrajectory'
+import { type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1000, reveal: 45 },

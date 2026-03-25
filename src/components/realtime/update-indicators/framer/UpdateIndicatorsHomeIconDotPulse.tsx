@@ -11,8 +11,8 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo } from 'react'
-import { DOT_COLOR, ringTint } from '../SharedDefaults'
-import type { DotIndicatorProps } from '../SharedTypes'
+import { DOT_COLOR, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
+import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
 
 function UpdateIndicatorsHomeIconDotPulseComponent({
   children,

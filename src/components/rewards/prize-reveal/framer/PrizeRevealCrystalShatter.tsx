@@ -1,11 +1,9 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-import {
-  crystalShatterBodyImage,
-  crystalShatterDustImage,
-  crystalShatterFrameImage,
-} from '@/assets'
+import crystalShatterBodyImage from '@/assets/crystal-shatter/crystal-body.png'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterFrameImage from '@/assets/crystal-shatter/crystal-frame.png'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import { DemoButton } from '@/components/demo-blocks'
@@ -21,7 +19,7 @@ import {
   ShatterFlash,
   type OrbitDustData,
   type ShatterPhase,
-} from '../CrystalShatterParts'
+} from '@/components/rewards/prize-reveal/CrystalShatterParts'
 
 import {
   CLAIM_APPEAR_DELAY_MS,

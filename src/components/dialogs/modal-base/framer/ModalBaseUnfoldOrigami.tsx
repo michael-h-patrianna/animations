@@ -9,8 +9,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { ModalPlaceholder } from '../MockModalContent'
-import type { ModalEntranceProps } from '../SharedTypes'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 
 const DEFAULT_DURATION = 900
 const DEFAULT_PERSPECTIVE = 1200

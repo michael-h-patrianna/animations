@@ -7,7 +7,7 @@
 
 import { memo } from 'react'
 
-import { SPINNER_ORBITAL_COLOR } from '../SharedDefaults'
+import { SPINNER_ORBITAL_COLOR } from '@/components/progress/loading-states/SharedDefaults'
 import './LoadingStatesSpinnerOrbital.css'
 
 interface LoadingStatesSpinnerOrbitalProps {

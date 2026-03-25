@@ -19,8 +19,8 @@
  * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
 import * as m from 'motion/react-m'
-import type { ProgressBarProps } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface RetroBitProps extends ProgressBarProps {
   /** Number of discrete segments. Default: 10. */

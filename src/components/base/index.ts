@@ -11,19 +11,19 @@ import type { GroupMetadata } from '@/types/animation'
 
 const textEffectsMeta: GroupMetadata = {
   id: 'text-effects',
-  title: 'Text Effects',
+  title: 'Text effects',
   demo: 'textEffects',
 }
 
 const standardEffectsMeta: GroupMetadata = {
   id: 'standard-effects',
-  title: 'Standard Effects',
+  title: 'Standard effects',
   demo: 'standardEffects',
 }
 
 const buttonEffectsMeta: GroupMetadata = {
   id: 'button-effects',
-  title: 'Button Effects',
+  title: 'Button effects',
   demo: 'buttonEffects',
 }
 

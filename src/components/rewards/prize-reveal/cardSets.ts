@@ -1,41 +1,39 @@
-import {
-  cardPackHamsterImage,
-  cardPackKittenImage,
-  cardPackPuppyImage,
-  cardPackDragonPetImage,
-  cardPackUnicornImage,
-  cardPackGoldfishImage,
-  cardPackTurtleImage,
-  cardPackBunnyImage,
-  cardPackParrotImage,
-  cardPackFerretImage,
-  cardPackSugarGliderImage,
-  cardPackChickImage,
-  cardPackDucklingImage,
-  cardPackPigletImage,
-  cardPackLambImage,
-  cardPackCalfImage,
-  cardPackFoalImage,
-  cardPackGoatKidImage,
-  cardPackAlpacaImage,
-  cardPackPeacockImage,
-  cardPackSquirrelImage,
-  cardPackHedgehogImage,
-  cardPackRaccoonImage,
-  cardPackFoxCubImage,
-  cardPackOwlImage,
-  cardPackBearCubImage,
-  cardPackDeerFawnImage,
-  cardPackRedPandaImage,
-  cardPackSnowLeopardImage,
-  cardPackFairyBunnyImage,
-  cardPackSlimePetImage,
-  cardPackCrystalSnailImage,
-  cardPackMoonCatImage,
-  cardPackEmberFoxImage,
-  cardPackGriffinChickImage,
-  cardPackKitsuneImage,
-} from '@/assets'
+import cardPackHamsterImage from '@/assets/card-pack/card-hamster.png'
+import cardPackKittenImage from '@/assets/card-pack/card-kitten.png'
+import cardPackPuppyImage from '@/assets/card-pack/card-puppy.png'
+import cardPackDragonPetImage from '@/assets/card-pack/card-dragon-pet.png'
+import cardPackUnicornImage from '@/assets/card-pack/card-unicorn.png'
+import cardPackGoldfishImage from '@/assets/card-pack/card-goldfish.png'
+import cardPackTurtleImage from '@/assets/card-pack/card-turtle.png'
+import cardPackBunnyImage from '@/assets/card-pack/card-bunny.png'
+import cardPackParrotImage from '@/assets/card-pack/card-parrot.png'
+import cardPackFerretImage from '@/assets/card-pack/card-ferret.png'
+import cardPackSugarGliderImage from '@/assets/card-pack/card-sugar-glider.png'
+import cardPackChickImage from '@/assets/card-pack/card-chick.png'
+import cardPackDucklingImage from '@/assets/card-pack/card-duckling.png'
+import cardPackPigletImage from '@/assets/card-pack/card-piglet.png'
+import cardPackLambImage from '@/assets/card-pack/card-lamb.png'
+import cardPackCalfImage from '@/assets/card-pack/card-calf.png'
+import cardPackFoalImage from '@/assets/card-pack/card-foal.png'
+import cardPackGoatKidImage from '@/assets/card-pack/card-goat-kid.png'
+import cardPackAlpacaImage from '@/assets/card-pack/card-alpaca.png'
+import cardPackPeacockImage from '@/assets/card-pack/card-peacock.png'
+import cardPackSquirrelImage from '@/assets/card-pack/card-squirrel.png'
+import cardPackHedgehogImage from '@/assets/card-pack/card-hedgehog.png'
+import cardPackRaccoonImage from '@/assets/card-pack/card-raccoon.png'
+import cardPackFoxCubImage from '@/assets/card-pack/card-fox-cub.png'
+import cardPackOwlImage from '@/assets/card-pack/card-owl.png'
+import cardPackBearCubImage from '@/assets/card-pack/card-bear-cub.png'
+import cardPackDeerFawnImage from '@/assets/card-pack/card-deer-fawn.png'
+import cardPackRedPandaImage from '@/assets/card-pack/card-red-panda.png'
+import cardPackSnowLeopardImage from '@/assets/card-pack/card-snow-leopard.png'
+import cardPackFairyBunnyImage from '@/assets/card-pack/card-fairy-bunny.png'
+import cardPackSlimePetImage from '@/assets/card-pack/card-slime-pet.png'
+import cardPackCrystalSnailImage from '@/assets/card-pack/card-crystal-snail.png'
+import cardPackMoonCatImage from '@/assets/card-pack/card-moon-cat.png'
+import cardPackEmberFoxImage from '@/assets/card-pack/card-ember-fox.png'
+import cardPackGriffinChickImage from '@/assets/card-pack/card-griffin-chick.png'
+import cardPackKitsuneImage from '@/assets/card-pack/card-kitsune.png'
 
 import type { CardData } from './CardPackParts'
 

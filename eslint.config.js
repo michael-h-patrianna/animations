@@ -100,6 +100,8 @@ export default defineConfig([
           allowAny: false,
         },
       ],
+      // Path alias enforcement: all src/ imports must use @/ not ../
+      'animation-rules/no-relative-parent-imports': 'error',
       // Existing animation portability rules
       'animation-rules/no-hardcoded-colors': 'error',
       'animation-rules/no-direct-image-imports': 'error',
@@ -409,6 +411,9 @@ export default defineConfig([
   {
     files: ['tests/e2e/**/*.ts'],
     rules: {
+      // e2e files live outside src/ and have no @/ alias in their tsconfig —
+      // cross-fixture relative imports (e.g. ../page-objects/Foo) are legitimate here.
+      'animation-rules/no-relative-parent-imports': 'off',
       '@eslint-react/rules-of-hooks': 'off',
       'jsdoc/require-jsdoc': 'off',
       // E2E describe blocks are inherently long — tests are sequential user flows

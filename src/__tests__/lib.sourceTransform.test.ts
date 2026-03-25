@@ -37,14 +37,14 @@ describe('cleanSourceForDisplay', () => {
   })
 
   it('replaces MockModalContent named import with guidance comment', () => {
-    const source = `import { MockModalContent } from '../MockModalContent'`
+    const source = `import { MockModalContent } from '@/MockModalContent'`
     const result = cleanSourceForDisplay(source)
-    expect(result).not.toContain("from '../MockModalContent'")
+    expect(result).not.toContain("from '@/MockModalContent'")
     expect(result).toContain('Replace <MockModalContent /> below with your own content')
   })
 
   it('replaces MockModalContent default import with guidance comment', () => {
-    const source = `import MockModalContent from '../MockModalContent'`
+    const source = `import MockModalContent from '@/MockModalContent'`
     const result = cleanSourceForDisplay(source)
     expect(result).toContain('Replace <MockModalContent /> below with your own content')
   })
@@ -64,7 +64,7 @@ describe('cleanSourceForDisplay', () => {
 
   it('handles multi-line source with mixed transformations', () => {
     const source = [
-      `import { MockModalContent } from '../MockModalContent'`,
+      `import { MockModalContent } from '@/MockModalContent'`,
       `import * as m from 'motion/react-m'`,
       ``,
       `export function Demo() {`,
@@ -192,10 +192,10 @@ describe('cleanSourceForDisplay', () => {
     // The regex expects `MockModalContent` directly before optional `}`, so
     // `MockModalContent as Content` does not match. In practice the codebase
     // never uses aliased imports for MockModalContent.
-    const source = `import { MockModalContent as Content } from '../MockModalContent'`
+    const source = `import { MockModalContent as Content } from '@/MockModalContent'`
     const result = cleanSourceForDisplay(source)
     // NOT transformed because the regex doesn't match the alias syntax
-    expect(result).toContain("import { MockModalContent as Content } from '../MockModalContent'")
+    expect(result).toContain("import { MockModalContent as Content } from '@/MockModalContent'")
   })
 
   it('handles unclosed data-animation-id quote (malformed HTML)', () => {

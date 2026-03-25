@@ -1,11 +1,9 @@
 import * as m from 'motion/react-m'
 import { useMemo, type CSSProperties } from 'react'
 
-import {
-  crystalShatterDustImage,
-  crystalShatterPrismaticRingImage,
-  crystalShatterSparkleImage,
-} from '@/assets'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 
 /* ─── Shared types ─── */
 

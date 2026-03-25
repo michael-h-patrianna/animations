@@ -17,25 +17,25 @@ const modalBaseMeta: GroupMetadata = {
 
 const modalContentMeta: GroupMetadata = {
   id: 'modal-content',
-  title: 'Modal content animations',
+  title: 'Content choreography',
   demo: 'modalContentFramer',
 }
 
 const modalDismissMeta: GroupMetadata = {
   id: 'modal-dismiss',
-  title: 'Modal dismiss animations',
+  title: 'Auto-dismiss patterns',
   demo: 'modalDismissFramer',
 }
 
 const modalOpenMeta: GroupMetadata = {
   id: 'modal-open',
-  title: 'Modal open animations',
+  title: 'Modal open',
   demo: 'modalOpenFramer',
 }
 
 const modalOrchestrationMeta: GroupMetadata = {
   id: 'modal-orchestration',
-  title: 'Modal orchestration animations',
+  title: 'Tile animations',
   demo: 'modalOrchestrationFramer',
 }
 

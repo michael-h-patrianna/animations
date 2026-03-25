@@ -2,14 +2,12 @@ import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
-import {
-  dailyRewardFreeSpinsImage,
-  dailyRewardGcImage,
-  dailyRewardRandomRewardImage,
-  dailyRewardScImage,
-  pirateChestClosedImage,
-  pirateChestOpenImage,
-} from '@/assets'
+import dailyRewardFreeSpinsImage from '@/assets/daily-reward/free-spins.webp'
+import dailyRewardGcImage from '@/assets/daily-reward/gc.png'
+import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.png'
+import dailyRewardScImage from '@/assets/daily-reward/sc.png'
+import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
+import pirateChestOpenImage from '@/assets/puzzled-pirate/chest-open.webp'
 
 import './PrizeRevealChestGcSc.css'
 

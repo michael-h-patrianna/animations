@@ -1,7 +1,8 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useState } from 'react'
 
-import { pirateChestClosedImage, pirateChestEmptyImage } from '@/assets'
+import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
+import pirateChestEmptyImage from '@/assets/puzzled-pirate/chest-empty.webp'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 

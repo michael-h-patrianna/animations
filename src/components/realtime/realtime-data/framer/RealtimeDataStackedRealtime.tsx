@@ -10,7 +10,7 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useState } from 'react'
 
-import type { StatEntry } from '../SharedTypes'
+import type { StatEntry } from '@/components/realtime/realtime-data/SharedTypes'
 
 const DEFAULT_ITEMS: StatEntry[] = [
   { label: 'Active Players', value: '1,247', active: true },

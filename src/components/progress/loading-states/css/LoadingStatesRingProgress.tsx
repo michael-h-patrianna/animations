@@ -7,7 +7,7 @@
 
 import { memo } from 'react'
 
-import { RING_PROGRESS_COLOR } from '../SharedDefaults'
+import { RING_PROGRESS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
 import './LoadingStatesRingProgress.css'
 
 interface LoadingStatesRingProgressProps {

@@ -9,7 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { DOTS_COLOR } from '../SharedDefaults'
+import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
 
 interface LoadingStatesDotsPortalProps {
   /** Dot color. */

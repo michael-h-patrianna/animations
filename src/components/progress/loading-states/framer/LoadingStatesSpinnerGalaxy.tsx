@@ -9,7 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion, easeInOut } from 'motion/react'
 import { memo } from 'react'
 
-import { SPINNER_GALAXY_COLOR, SPINNER_GALAXY_STARS } from '../SharedDefaults'
+import { SPINNER_GALAXY_COLOR, SPINNER_GALAXY_STARS } from '@/components/progress/loading-states/SharedDefaults'
 
 interface LoadingStatesSpinnerGalaxyProps {
   /** Overall diameter in px. */

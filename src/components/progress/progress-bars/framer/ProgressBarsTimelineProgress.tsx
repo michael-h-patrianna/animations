@@ -20,7 +20,7 @@
  * Files to copy: this file + ProgressBarsTimelineProgress.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface TimelineProps extends ProgressBarProps {
   /** Number of timeline steps. Default: 4. */

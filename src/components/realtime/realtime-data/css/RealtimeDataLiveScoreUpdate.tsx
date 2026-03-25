@@ -10,7 +10,7 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import './RealtimeDataLiveScoreUpdate.css'
 
-import type { RankedEntry } from '../SharedTypes'
+import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
 
 const DEFAULT_ITEMS: RankedEntry[] = [
   { id: 'phoenix', label: 'Phoenix', score: 1450 },

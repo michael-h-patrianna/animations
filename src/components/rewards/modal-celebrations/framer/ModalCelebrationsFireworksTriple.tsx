@@ -8,7 +8,7 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo } from 'react'
 
-import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
+import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
   CELEBRATION_COLORS,
   CONFETTI_SHAPES,
@@ -16,7 +16,7 @@ import {
   pickRandom,
   randBetween,
   type ConfettiShape,
-} from '../utils'
+} from '@/components/rewards/modal-celebrations/utils'
 
 /* ─── Props ─── */
 

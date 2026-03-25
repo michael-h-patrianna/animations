@@ -7,9 +7,9 @@
 
 import { memo, useEffect, useMemo } from 'react'
 
-import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
-import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
-import { CONFETTI_SHAPES, deg2rad, pickRandom, randBetween, type ConfettiShape } from '../utils'
+import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
+import { CELEBRATION_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
+import { CONFETTI_SHAPES, deg2rad, pickRandom, randBetween, type ConfettiShape } from '@/components/rewards/modal-celebrations/utils'
 import './ModalCelebrationsConfettiSpiral.css'
 
 /* ─── Props ─── */

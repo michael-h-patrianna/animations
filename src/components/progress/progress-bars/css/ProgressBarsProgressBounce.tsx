@@ -16,7 +16,7 @@
  *
  * Files to copy: this file + ProgressBarsProgressBounce.css + ../SharedTypes.ts
  */
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import './ProgressBarsProgressBounce.css'
 
 export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {

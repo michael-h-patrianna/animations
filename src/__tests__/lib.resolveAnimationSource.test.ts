@@ -159,7 +159,7 @@ describe('resolveAnimationSource', () => {
   })
 
   it('includes shared group-root files imported by the component', async () => {
-    const tsxSource = `import { randBetween } from '../utils'\nexport function Firework() { return <div /> }`
+    const tsxSource = `import { randBetween } from '@/utils'\nexport function Firework() { return <div /> }`
     const utilsSource = `export function randBetween(a: number, b: number) { return a + Math.random() * (b - a) }`
 
     const result = buildGroupExport(
@@ -211,8 +211,8 @@ describe('resolveAnimationSource', () => {
   })
 
   it('deduplicates shared files imported by both variants', async () => {
-    const framerSource = `import { utils } from '../utils'\nexport function A() {}`
-    const cssSource = `import { utils } from '../utils'\nexport function A() {}`
+    const framerSource = `import { utils } from '@/utils'\nexport function A() {}`
+    const cssSource = `import { utils } from '@/utils'\nexport function A() {}`
     const utilsCode = `export const utils = {}`
 
     const result = buildGroupExport(
@@ -235,7 +235,7 @@ describe('resolveAnimationSource', () => {
   })
 
   it('excludes Mock imports from shared tabs', async () => {
-    const tsxSource = `import { MockModalContent } from '../MockModalContent'\nexport function A() {}`
+    const tsxSource = `import { MockModalContent } from '@/MockModalContent'\nexport function A() {}`
 
     const result = buildGroupExport(
       groupMeta,
@@ -303,7 +303,7 @@ describe('resolveAnimationSource', () => {
 
   it('correctly resolves parent-directory imports to group root', async () => {
     // Import '../types' from framer/Component.tsx should resolve to ./types at group root
-    const tsxSource = `import { MyType } from '../types'\nexport function A() {}`
+    const tsxSource = `import { MyType } from '@/types'\nexport function A() {}`
     const typesSource = `export type MyType = string`
 
     const result = buildGroupExport(
@@ -400,7 +400,7 @@ describe('resolveAnimationSource', () => {
   })
 
   it('propagates shared loader rejection during parallel loading', async () => {
-    const tsxSource = `import { helper } from '../SharedUtil'\nexport function A() {}`
+    const tsxSource = `import { helper } from '@/SharedUtil'\nexport function A() {}`
 
     const result = buildGroupExport(
       groupMeta,

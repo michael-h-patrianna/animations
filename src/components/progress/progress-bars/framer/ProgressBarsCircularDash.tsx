@@ -19,8 +19,8 @@
  * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
  */
 import * as m from 'motion/react-m'
-import type { ProgressBarProps } from '../SharedTypes'
-import { useDemoProgress } from '../SharedDemoLoop'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface CircularDashProps extends ProgressBarProps {
   /** Number of dash segments in the ring. Default: 12. */

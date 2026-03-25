@@ -7,8 +7,8 @@
  * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b">3</UpdateIndicatorsBadgePop>
  */
 import { memo } from 'react'
-import { BADGE_COLOR } from '../SharedDefaults'
-import type { BadgeIndicatorProps } from '../SharedTypes'
+import { BADGE_COLOR } from '@/components/realtime/update-indicators/SharedDefaults'
+import type { BadgeIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
 import './UpdateIndicatorsBadgePop.css'
 
 function UpdateIndicatorsBadgePopComponent({

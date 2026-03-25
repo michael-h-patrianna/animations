@@ -90,19 +90,33 @@ function extractImports(filePath: string): string[] {
 // Imports that are invisible to portability checks (demo harness, not consumer code)
 const IGNORED_IMPORTS = ['@/components/demo-blocks']
 
-/** Determine the minimum tier required by the file's actual imports. */
-function computeMinimumTier(imports: string[]): number {
+/**
+ * Determine the minimum tier required by the file's actual imports.
+ * Same-group imports (Shared*, Mock*, *Parts, *Config files at group root) are co-located
+ * dependencies that ship with the animation — they don't escalate tier.
+ */
+function computeMinimumTier(imports: string[], filePath: string): number {
+  // Compute group root from file path: css/Foo.tsx or framer/Foo.tsx → parent is group dir
+  // e.g. src/components/dialogs/modal-base/css/Foo.tsx → group = @/components/dialogs/modal-base
+  const groupDir = resolve(dirname(filePath), '..')
+  const groupPrefix = '@/components' + groupDir.split('/components')[1]
+
   const projectImports = imports.filter(
     (s) => s.startsWith('@/') && !IGNORED_IMPORTS.some((prefix) => s.startsWith(prefix))
   )
   if (projectImports.length === 0) return 1
 
-  const hasAssets = projectImports.some((s) => s.startsWith('@/assets'))
+  // Filter out same-group co-located imports (shared files, parts, configs at group root)
+  const externalImports = projectImports.filter((s) => !s.startsWith(groupPrefix + '/'))
+
+  if (externalImports.length === 0) return 1
+
+  const hasAssets = externalImports.some((s) => s.startsWith('@/assets'))
   if (hasAssets) return 4
 
   // Has project imports but only from extractable utility paths
   const extractable = ['@/motion/', '@/utils/', '@/types/']
-  const allExtractable = projectImports.every((s) =>
+  const allExtractable = externalImports.every((s) =>
     extractable.some((prefix) => s.startsWith(prefix))
   )
   if (allExtractable) return 2
@@ -169,7 +183,7 @@ describe('Portability: Tier Accuracy', () => {
       if (tier === undefined) continue // No tier declared yet — require-portability-tier lint handles this
 
       const imports = extractImports(file)
-      const minimumTier = computeMinimumTier(imports)
+      const minimumTier = computeMinimumTier(imports, file)
 
       if (tier < minimumTier) {
         const rel = file.replace(ANIM_ROOT, '')
@@ -323,7 +337,7 @@ describe('Portability: CSS Class Coverage', () => {
 describe('Portability: Import Isolation', () => {
   const files = getAnimationFiles()
 
-  it('Tier 1 animations have zero @/ imports', () => {
+  it('Tier 1 animations have zero external @/ imports', () => {
     const violations: string[] = []
 
     for (const file of files) {
@@ -331,8 +345,15 @@ describe('Portability: Import Isolation', () => {
       if (tier !== 1) continue
 
       const imports = extractImports(file)
+      // Compute same-group prefix to exclude co-located files
+      const groupDir = resolve(dirname(file), '..')
+      const groupPrefix = '@/components' + groupDir.split('/components')[1]
+
       const projectImports = imports.filter(
-        (s) => s.startsWith('@/') && !IGNORED_IMPORTS.some((p) => s.startsWith(p))
+        (s) =>
+          s.startsWith('@/') &&
+          !IGNORED_IMPORTS.some((p) => s.startsWith(p)) &&
+          !s.startsWith(groupPrefix + '/')
       )
 
       if (projectImports.length > 0) {

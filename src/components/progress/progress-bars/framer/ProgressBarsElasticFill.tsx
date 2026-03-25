@@ -24,7 +24,7 @@
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 const DEMO_TARGET = 0.7
 

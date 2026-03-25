@@ -69,6 +69,25 @@ describe('AppSidebar', () => {
     expect(groupButtons).toHaveLength(1)
   })
 
+  it('shows compact group titles without code mode suffixes', () => {
+    const { rerender } = renderSidebar(mockCategories, 'group-1-framer', 'Framer')
+
+    expect(screen.getByTestId('sidebar-group-group-1')).toHaveTextContent('Group 1')
+
+    rerender(
+      <CodeModeProvider>
+        <AppSidebar
+          categories={mockCategories}
+          codeMode="CSS"
+          currentGroupId="group-1-css"
+          onGroupSelect={mockOnGroupSelect}
+        />
+      </CodeModeProvider>
+    )
+
+    expect(screen.getByTestId('sidebar-group-group-1')).toHaveTextContent('Group 1')
+  })
+
   it('applies active styling to current group', () => {
     renderSidebar(mockCategories, 'group-1-framer')
 

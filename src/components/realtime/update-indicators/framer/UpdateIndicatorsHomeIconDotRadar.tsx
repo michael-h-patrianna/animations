@@ -11,8 +11,8 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { memo } from 'react'
-import { DOT_COLOR, DOT_RADAR_RING } from '../SharedDefaults'
-import type { DotIndicatorProps } from '../SharedTypes'
+import { DOT_COLOR, DOT_RADAR_RING } from '@/components/realtime/update-indicators/SharedDefaults'
+import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
 
 interface DotRadarProps extends DotIndicatorProps {
   /** Ring border color. Default: 'rgb(255 73 103 / 50%)' */

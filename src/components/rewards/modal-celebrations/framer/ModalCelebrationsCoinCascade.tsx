@@ -10,10 +10,10 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-import type { CelebrationBaseProps } from '../SharedCelebrationTypes'
-import { GOLDEN_COLORS_HEX } from '../SharedCelebrationTypes'
-import { FallbackCoin } from '../SharedFallbackCoin'
-import { GOLDEN_COLORS } from '../utils'
+import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
+import { GOLDEN_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
+import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
+import { GOLDEN_COLORS } from '@/components/rewards/modal-celebrations/utils'
 import type { Coin, Mote } from './CoinCascadeParticles'
 import {
   makeCoins,

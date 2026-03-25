@@ -29,7 +29,7 @@ const lightsMeta: GroupMetadata = {
 
 const modalCelebrationsMeta: GroupMetadata = {
   id: 'modal-celebrations',
-  title: 'Modal Celebrations',
+  title: 'Celebration effects',
   demo: 'modalCelebrations',
 }
 

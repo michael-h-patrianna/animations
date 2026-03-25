@@ -11,7 +11,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo, type ReactNode } from 'react'
-import { BADGE_COLOR, BADGE_GLOW } from '../SharedDefaults'
+import { BADGE_COLOR, BADGE_GLOW } from '@/components/realtime/update-indicators/SharedDefaults'
 
 interface BadgePulseProps {
   /** Badge content. Default: 'New' */

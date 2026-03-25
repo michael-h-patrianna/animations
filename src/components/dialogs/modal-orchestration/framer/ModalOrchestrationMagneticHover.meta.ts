@@ -6,7 +6,7 @@ export const metadata = {
   urlSlugCss: '/modal-orchestration-css?animation=modal-orchestration__magnetic-hover',
   title: 'Magnetic Hover Tiles',
   description:
-    'Wrap child elements for 3D-tilt stagger entrance with CSS hover and tap transitions. Configurable stagger, duration, tilt intensity, and columns.',
+    'Wrap child elements for 3D-tilt stagger entrance with CSS hover and tap transitions. Configurable stagger, duration, tilt intensity, max columns, and minimum tile width.',
   tier: 3,
   previewMaxWidth: 414,
   props: [
@@ -41,6 +41,16 @@ export const metadata = {
       unit: 'deg',
     },
     { type: 'number', name: 'columns', label: 'Columns', default: 4, min: 1, max: 6, step: 1 },
+    {
+      type: 'number',
+      name: 'minTileWidth',
+      label: 'Min Tile Width',
+      default: 96,
+      min: 72,
+      max: 180,
+      step: 4,
+      unit: 'px',
+    },
     {
       type: 'string',
       name: 'children',

@@ -133,6 +133,19 @@ describe('App', () => {
     expect(screen.getByTestId('top-bar')).toHaveAttribute('data-app-shell', 'bar')
   })
 
+  it('uses the topbar base group title in the sidebar', async () => {
+    renderApp('/modal-orchestration-framer')
+
+    const topbarTitle = await screen.findByTestId('topbar-title')
+    const sidebarGroup = await screen.findByTestId('sidebar-group-modal-orchestration')
+    const currentGroupTitle = topbarTitle.textContent
+      ?.replace(/\s+\(\d+\)$/, '')
+      .replace(/\s+\((?:Framer|CSS)\)$/, '')
+
+    expect(currentGroupTitle).toBeTruthy()
+    expect(sidebarGroup).toHaveTextContent(currentGroupTitle!)
+  })
+
   it('renders GitHub link with security attributes', () => {
     renderApp()
 

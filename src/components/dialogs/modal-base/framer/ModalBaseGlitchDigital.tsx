@@ -11,8 +11,8 @@ import { useReducedMotion } from 'motion/react'
 import type { CSSProperties } from 'react'
 import { memo } from 'react'
 
-import { ModalPlaceholder } from '../MockModalContent'
-import type { ModalEntranceProps } from '../SharedTypes'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 
 const DEFAULT_DURATION = 600
 

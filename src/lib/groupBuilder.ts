@@ -152,19 +152,23 @@ function buildAnimationMap(
 
 // ── Import parsing & shared file resolution ─────────────────────────────
 
-/** Matches `from './...'` or `from '../...'` in import/export statements. */
-const RELATIVE_IMPORT_RE = /\bfrom\s+['"](\.\.\/?[^'"]+|\.\/[^'"]+)['"]/g
+/**
+ * Matches import paths from `from '...'` statements.
+ * Captures relative paths (`../Foo`, `./Foo`) and `@/` alias paths.
+ */
+const IMPORT_PATH_RE = /\bfrom\s+['"](\.\.\/?[^'"]+|\.\/[^'"]+|@\/[^'"]+)['"]/g
 
 /** Files that should not appear as shared tabs (demo scaffolding). */
 const MOCK_IMPORT_RE = /Mock/
 
 /**
- * Extracts relative import paths from raw TypeScript source.
- * Returns deduplicated paths like `'../utils'`, `'./XpAccumulationHelpers'`.
+ * Extracts import paths from raw TypeScript source that may point to
+ * group-level shared files. Returns deduplicated paths including both
+ * legacy relative paths (`../utils`) and `@/` alias paths.
  */
-function extractRelativeImports(source: string): string[] {
+function extractGroupImports(source: string): string[] {
   const paths = new Set<string>()
-  for (const match of source.matchAll(RELATIVE_IMPORT_RE)) {
+  for (const match of source.matchAll(IMPORT_PATH_RE)) {
     const importPath = match[1]!
     if (!MOCK_IMPORT_RE.test(importPath)) {
       paths.add(importPath)
@@ -180,6 +184,7 @@ function extractRelativeImports(source: string): string[] {
  * From `framer/Component.tsx` importing `'../utils'` → `'./utils'`
  * From `framer/Component.tsx` importing `'./Config'`  → `'./framer/Config'`
  * From `css/Component.tsx`    importing `'../utils'` → `'./utils'`
+ * `@/` paths are returned as-is for basename matching in findSharedLoader.
  */
 function resolveImportToGroupRoot(importPath: string, subdir: string): string {
   if (importPath.startsWith('../')) {
@@ -190,17 +195,33 @@ function resolveImportToGroupRoot(importPath: string, subdir: string): string {
     // Same directory as the component → stays in the subdir
     return './' + subdir + '/' + importPath.slice(2)
   }
+  // @/ alias paths: returned as-is, resolved by basename in findSharedLoader
   return importPath
 }
 
 /**
  * Finds the loader in the shared map that matches a resolved import path.
- * Tries common extensions: .ts, .tsx, .css
+ * For relative paths tries common extensions: .ts, .tsx, .css.
+ * For `@/` alias paths matches by basename (last path segment) since the
+ * shared map is group-scoped and basenames are unique within a group.
  */
 function findSharedLoader(
   shared: Record<string, RawSourceLoader>,
   resolvedPath: string
 ): { path: string; loader: RawSourceLoader } | undefined {
+  if (resolvedPath.startsWith('@/')) {
+    // Extract basename (e.g. '@/components/foo/bar/SharedUtils' → 'SharedUtils')
+    const base = resolvedPath.replace(/^.*\//, '')
+    for (const ext of ['.ts', '.tsx', '.css']) {
+      const key = Object.keys(shared).find(
+        (k) => k === `./${base}${ext}` || k.endsWith(`/${base}${ext}`)
+      )
+      if (key !== undefined) {
+        return { path: key, loader: shared[key]! }
+      }
+    }
+    return undefined
+  }
   for (const ext of ['.ts', '.tsx', '.css']) {
     const candidate = resolvedPath + ext
     if (shared[candidate]) {
@@ -247,7 +268,7 @@ export async function resolveAnimationSource(
   const sharedToLoad = new Map<string, RawSourceLoader>() // glob path → loader (deduplicated)
 
   if (framerTsx !== undefined && framerLoaders?.shared) {
-    for (const importPath of extractRelativeImports(framerTsx)) {
+    for (const importPath of extractGroupImports(framerTsx)) {
       const resolved = resolveImportToGroupRoot(importPath, framerLoaders.subdir)
       const match = findSharedLoader(framerLoaders.shared, resolved)
       if (match && !sharedToLoad.has(match.path)) {
@@ -257,7 +278,7 @@ export async function resolveAnimationSource(
   }
 
   if (cssTsx !== undefined && cssLoaders?.shared) {
-    for (const importPath of extractRelativeImports(cssTsx)) {
+    for (const importPath of extractGroupImports(cssTsx)) {
       const resolved = resolveImportToGroupRoot(importPath, cssLoaders.subdir)
       const match = findSharedLoader(cssLoaders.shared, resolved)
       if (match && !sharedToLoad.has(match.path)) {

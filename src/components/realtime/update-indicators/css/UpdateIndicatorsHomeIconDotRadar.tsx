@@ -7,8 +7,8 @@
  * Usage: <UpdateIndicatorsHomeIconDotRadar ringColor="rgba(255,0,0,0.5)"><MyIcon /></UpdateIndicatorsHomeIconDotRadar>
  */
 import { memo } from 'react'
-import { DOT_COLOR, DOT_RADAR_RING } from '../SharedDefaults'
-import type { DotIndicatorProps } from '../SharedTypes'
+import { DOT_COLOR, DOT_RADAR_RING } from '@/components/realtime/update-indicators/SharedDefaults'
+import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
 import './UpdateIndicatorsHomeIconDotRadar.css'
 
 interface DotRadarProps extends DotIndicatorProps {

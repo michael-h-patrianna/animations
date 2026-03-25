@@ -9,7 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { RING_MULTI_COLORS } from '../SharedDefaults'
+import { RING_MULTI_COLORS } from '@/components/progress/loading-states/SharedDefaults'
 
 interface LoadingStatesRingMultiProps {
   /** Outermost ring diameter in px. */

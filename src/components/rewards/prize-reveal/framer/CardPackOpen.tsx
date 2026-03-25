@@ -2,15 +2,13 @@ import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
-import {
-  cardPackBackImage,
-  cardPackBasicImage,
-  cardPackDiamondImage,
-  cardPackGoldImage,
-  crystalShatterDustImage,
-  crystalShatterPrismaticRingImage,
-  crystalShatterSparkleImage,
-} from '@/assets'
+import cardPackBackImage from '@/assets/card-pack/card-back.png'
+import cardPackBasicImage from '@/assets/card-pack/card-pack-basic.png'
+import cardPackDiamondImage from '@/assets/card-pack/card-pack-diamond.png'
+import cardPackGoldImage from '@/assets/card-pack/card-pack-gold.png'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 
 import { DemoButton } from '@/components/demo-blocks'
 
@@ -30,10 +28,10 @@ import {
   type ConfettiData,
   type FanPosition,
   type PackPhase,
-} from '../CardPackParts'
-import { CardLandShimmer, FlipCard } from '../FlipCardComponents'
+} from '@/components/rewards/prize-reveal/CardPackParts'
+import { CardLandShimmer, FlipCard } from '@/components/rewards/prize-reveal/FlipCardComponents'
 
-import { ALL_CARD_IMAGES, drawCards, getCardSet } from '../cardSets'
+import { ALL_CARD_IMAGES, drawCards, getCardSet } from '@/components/rewards/prize-reveal/cardSets'
 
 /* ─── Pack types ─── */
 

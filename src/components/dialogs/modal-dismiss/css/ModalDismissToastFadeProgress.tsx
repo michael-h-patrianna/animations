@@ -9,8 +9,8 @@
 
 import { memo, useEffect, useRef } from 'react'
 
-import { ToastPlaceholder } from '../MockToastContent'
-import type { AutoDismissProps } from '../SharedTypes'
+import { ToastPlaceholder } from '@/components/dialogs/modal-dismiss/MockToastContent'
+import type { AutoDismissProps } from '@/components/dialogs/modal-dismiss/SharedTypes'
 
 const DEFAULT_DURATION = 4600
 

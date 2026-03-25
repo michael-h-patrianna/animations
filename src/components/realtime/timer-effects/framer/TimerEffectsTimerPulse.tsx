@@ -10,8 +10,8 @@ import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo } from 'react'
 
-import { useCountdown } from '../SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
+import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
+import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
 
 const DEFAULT_START = 10
 const DEFAULT_WARNING = 6

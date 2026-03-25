@@ -9,7 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
-import { SPINNER_DUAL_RING_COLOR, SPINNER_DUAL_RING_SECONDARY } from '../SharedDefaults'
+import { SPINNER_DUAL_RING_COLOR, SPINNER_DUAL_RING_SECONDARY } from '@/components/progress/loading-states/SharedDefaults'
 
 interface LoadingStatesSpinnerDualRingProps {
   /** Overall diameter in px. */

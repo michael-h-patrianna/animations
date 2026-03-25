@@ -1,11 +1,9 @@
-import {
-  arcanePortalFreeSpinsImage,
-  arcanePortalGcImage,
-  arcanePortalRandomRewardImage,
-  arcanePortalScImage,
-} from '@/assets'
+import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.png'
+import arcanePortalGcImage from '@/assets/arcane-portal/gc.png'
+import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.png'
+import arcanePortalScImage from '@/assets/arcane-portal/sc.png'
 
-import type { ParticleData, RevealPhase } from '../ArcanePortalParts'
+import type { ParticleData, RevealPhase } from '@/components/rewards/prize-reveal/ArcanePortalParts'
 
 import { useEffect, useState } from 'react'
 

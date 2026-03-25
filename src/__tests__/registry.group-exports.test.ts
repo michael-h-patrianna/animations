@@ -1,4 +1,4 @@
-import { getNavCatalog } from '../components/animationRegistry'
+import { getNavCatalog } from '@/components/animationRegistry'
 import { loadLazyCatalog, resetLazyTestState } from './helpers/lazyCatalog'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 

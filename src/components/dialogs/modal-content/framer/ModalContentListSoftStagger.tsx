@@ -23,14 +23,14 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
-import { generateMockListItems } from '../MockContentItems'
+import { generateMockListItems } from '@/components/dialogs/modal-content/MockContentItems'
 import {
   MODAL_ENTRANCE,
   REDUCED_FADE,
   buttonBounceProps,
   toItemArray,
   type ContentStaggerProps,
-} from '../SharedTypes'
+} from '@/components/dialogs/modal-content/SharedTypes'
 
 const DEFAULT_DURATION = 400
 const DEFAULT_STAGGER = 60

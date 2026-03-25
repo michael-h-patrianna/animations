@@ -15,7 +15,6 @@ interface AppSidebarProps {
 
 interface GroupVariants {
   baseId: string
-  label: string
   framer?: Group
   css?: Group
   fallback: Group
@@ -25,7 +24,7 @@ const GROUP_MODE_SUFFIX_PATTERN = /-(?:framer|css)$/
 const GROUP_MODE_TITLE_SUFFIX_PATTERN = /\s+\((?:Framer|CSS)\)$/
 
 const getBaseGroupId = (groupId: string) => groupId.replace(GROUP_MODE_SUFFIX_PATTERN, '')
-const toDisplayGroupTitle = (title: string) => title.replace(GROUP_MODE_TITLE_SUFFIX_PATTERN, '')
+const getCompactGroupTitle = (title: string) => title.replace(GROUP_MODE_TITLE_SUFFIX_PATTERN, '')
 
 const inferGroupTech = (group: Group): 'framer' | 'css' | undefined => {
   if (group.tech === 'framer' || group.id.endsWith('-framer')) return 'framer'
@@ -43,7 +42,6 @@ const buildGroupVariants = (groups: Group[]): GroupVariants[] => {
     if (!entry) {
       entry = {
         baseId,
-        label: toDisplayGroupTitle(group.title),
         fallback: group,
       }
       variantsByBaseId.set(baseId, entry)
@@ -57,11 +55,15 @@ const buildGroupVariants = (groups: Group[]): GroupVariants[] => {
   return [...variantsByBaseId.values()]
 }
 
-const pickGroupIdForMode = (variants: GroupVariants, codeMode: CodeMode): string => {
+const pickGroupVariantForMode = (variants: GroupVariants, codeMode: CodeMode): Group => {
   if (codeMode === 'CSS') {
-    return variants.css?.id ?? variants.framer?.id ?? variants.fallback.id
+    return variants.css ?? variants.framer ?? variants.fallback
   }
-  return variants.framer?.id ?? variants.css?.id ?? variants.fallback.id
+  return variants.framer ?? variants.css ?? variants.fallback
+}
+
+const pickGroupIdForMode = (variants: GroupVariants, codeMode: CodeMode): string => {
+  return pickGroupVariantForMode(variants, codeMode).id
 }
 
 /** Single navigation link for a group within a category. */
@@ -76,6 +78,8 @@ function GroupNavLink({
   codeMode: CodeMode
   onSelect: (groupId: string) => void
 }) {
+  const selectedGroup = pickGroupVariantForMode(group, codeMode)
+
   return (
     <button
       type="button"
@@ -84,7 +88,7 @@ function GroupNavLink({
       data-testid={`sidebar-group-${group.baseId}`}
       data-active={isActive || undefined}
     >
-      <span className="pf-sidebar__nav-link-label">{group.label}</span>
+      <span className="pf-sidebar__nav-link-label">{getCompactGroupTitle(selectedGroup.title)}</span>
     </button>
   )
 }

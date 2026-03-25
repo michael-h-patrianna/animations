@@ -11,7 +11,7 @@ import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
-import type { RankedEntry } from '../SharedTypes'
+import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
 
 const INSTANT_TRANSITION = { duration: 0 }
 

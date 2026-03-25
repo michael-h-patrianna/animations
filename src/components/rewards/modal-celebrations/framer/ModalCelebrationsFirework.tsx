@@ -8,20 +8,18 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
-import {
-  modalCelebrationsFireworkParticle1Image,
-  modalCelebrationsFireworkParticle2Image,
-  modalCelebrationsFireworkParticle3Image,
-} from '@/assets'
-import { CELEBRATION_COLORS_HEX } from '../SharedCelebrationTypes'
+import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
+import modalCelebrationsFireworkParticle2Image from '@/assets/modal-celebrations/firework-particle-2.webp'
+import modalCelebrationsFireworkParticle3Image from '@/assets/modal-celebrations/firework-particle-3.webp'
+import { CELEBRATION_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
   FIREWORK_DEFAULT_BURST_COUNT,
   FIREWORK_DEFAULT_DURATION_MS,
   FIREWORK_DEFAULT_PARTICLES_PER_BURST,
   FIREWORK_GRAVITY_DISTANCE_PX,
   generateFireworkBursts,
-} from '../fireworkModel'
-import { CONFETTI_SHAPES, pickRandom, type ConfettiShape } from '../utils'
+} from '@/components/rewards/modal-celebrations/fireworkModel'
+import { CONFETTI_SHAPES, pickRandom, type ConfettiShape } from '@/components/rewards/modal-celebrations/utils'
 
 /* ─── Defaults ─── */
 

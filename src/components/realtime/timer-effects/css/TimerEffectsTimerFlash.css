@@ -16,6 +16,10 @@
 }
 
 .pf-timer-flash__pill {
+  --timer-effects-timer-flash-pulse-duration: 1s;
+  --timer-effects-timer-flash-pulse-scale: 1;
+  --timer-effects-timer-flash-glow-scale: 0.95;
+  --timer-effects-timer-flash-glow-opacity: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,9 +31,7 @@
   min-height: 30px;
   position: relative;
   will-change: transform;
-  animation:
-    timer-flash-pill 32s linear forwards,
-    timer-flash-pulse 1s ease-in-out infinite;
+  animation: timer-flash-pulse var(--timer-effects-timer-flash-pulse-duration) ease-in-out infinite;
 }
 
 .pf-timer-flash__glow {
@@ -41,9 +43,8 @@
   transform: scale(0.95);
   pointer-events: none;
   z-index: -1;
-  animation:
-    timer-flash-glow 32s linear forwards,
-    timer-flash-glow-pulse 1s ease-in-out infinite;
+  will-change: transform, opacity;
+  animation: timer-flash-glow-pulse var(--timer-effects-timer-flash-pulse-duration) ease-in-out infinite;
 }
 
 .pf-timer-flash__time {
@@ -54,79 +55,29 @@
   text-shadow: 0 1px 2px var(--timer-effects-timer-flash-text-shadow);
 }
 
-/* Background color transition from yellow to red */
-@keyframes timer-flash-pill {
-  0% {
-    background-color: var(--timer-effects-timer-flash-bg-1);
-  }
-  6.25% {
-    background-color: var(--timer-effects-timer-flash-bg-1);
-  }
-  100% {
-    background-color: var(--timer-effects-timer-flash-bg-3);
-  }
-}
-
-/* Pulse animation that intensifies over time */
 @keyframes timer-flash-pulse {
   0% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(var(--timer-effects-timer-flash-pulse-scale));
   }
   100% {
     transform: scale(1);
   }
 }
 
-/* Glow opacity increase over time */
-@keyframes timer-flash-glow {
-  0% {
-    opacity: 0;
-  }
-  6.25% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.8;
-  }
-}
-
-/* Glow pulse animation */
 @keyframes timer-flash-glow-pulse {
   0% {
     transform: scale(0.95);
+    opacity: 0;
   }
   50% {
-    transform: scale(1.45);
+    transform: scale(var(--timer-effects-timer-flash-glow-scale));
+    opacity: var(--timer-effects-timer-flash-glow-opacity);
   }
   100% {
     transform: scale(0.95);
-  }
-}
-
-/* Accelerate pulse animation over time using animation-duration change simulation
-   Note: overridden by the @media block below when motion is allowed */
-
-/* After 30% of the timeline, speed up the pulse (approximation via CSS) */
-@media (prefers-reduced-motion: no-preference) {
-  .pf-timer-flash__pill {
-    animation-duration: 32s, 1s, 0.3s;
-    animation-name: timer-flash-pill, timer-flash-pulse, timer-flash-pulse-fast;
-    animation-delay: 0s, 0s, 2s;
-    animation-iteration-count: 1, infinite, infinite;
-  }
-}
-
-@keyframes timer-flash-pulse-fast {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
+    opacity: 0;
   }
 }

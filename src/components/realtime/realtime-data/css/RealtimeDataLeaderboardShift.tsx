@@ -10,7 +10,7 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
-import type { RankedEntry } from '../SharedTypes'
+import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
 
 const DEFAULT_ITEMS: RankedEntry[] = [
   { id: 'phoenix', label: 'Phoenix', score: 2450 },

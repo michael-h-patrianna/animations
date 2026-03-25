@@ -4,7 +4,7 @@
  * Files to copy: this file + ProgressBarsZoomedProgress.css + ../SharedTypes.ts
  */
 import { useEffect, useRef, useState } from 'react'
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import './ProgressBarsZoomedProgress.css'
 
 export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {

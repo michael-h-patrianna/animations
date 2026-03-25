@@ -11,19 +11,19 @@ import type { GroupMetadata } from '@/types/animation'
 
 const timerEffectsMeta: GroupMetadata = {
   id: 'timer-effects',
-  title: 'Timer Effects',
+  title: 'Timer effects',
   demo: 'timerEffects',
 }
 
 const updateIndicatorsMeta: GroupMetadata = {
   id: 'update-indicators',
-  title: 'Update Indicators',
+  title: 'Update indicators',
   demo: 'updateIndicators',
 }
 
 const realtimeDataMeta: GroupMetadata = {
   id: 'realtime-data',
-  title: 'Real-time Data',
+  title: 'Realtime data',
   demo: 'realtimeData',
 }
 

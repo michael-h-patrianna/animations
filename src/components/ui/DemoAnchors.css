@@ -1,6 +1,6 @@
-/* ── Collection Effects — Shared Demo Anchors ────────────────────────── */
+/* ── Demo Anchors — Source/Target pills for from/to ref animations ──── */
 
-.pf-collection-demo-anchors {
+.pf-demo-anchors {
   --demo-anchor-bg: rgb(255 255 255 / 12%);
   --demo-anchor-border: rgb(255 255 255 / 18%);
   --demo-anchor-text: rgb(255 255 255 / 70%);
@@ -14,7 +14,7 @@
 
 /* ── Anchor pill ─────────────────────────────────────────────────────── */
 
-.pf-collection-demo-anchor {
+.pf-demo-anchor {
   position: absolute;
   display: flex;
   align-items: center;
@@ -35,23 +35,23 @@
   translate: -50% -50%;
 }
 
-.pf-collection-demo-anchor__dot {
+.pf-demo-anchor__dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.pf-collection-demo-anchor--from .pf-collection-demo-anchor__dot {
+.pf-demo-anchor--from .pf-demo-anchor__dot {
   background: var(--demo-anchor-source);
   box-shadow: 0 0 6px var(--demo-anchor-source);
 }
 
-.pf-collection-demo-anchor--to .pf-collection-demo-anchor__dot {
+.pf-demo-anchor--to .pf-demo-anchor__dot {
   background: var(--demo-anchor-target);
   box-shadow: 0 0 6px var(--demo-anchor-target);
 }
 
-.pf-collection-demo-anchor__label {
+.pf-demo-anchor__label {
   line-height: 1;
 }

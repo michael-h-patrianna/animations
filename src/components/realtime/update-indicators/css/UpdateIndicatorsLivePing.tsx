@@ -7,7 +7,7 @@
  * Usage: <UpdateIndicatorsLivePing color="#00ff00" size={10} />
  */
 import { memo } from 'react'
-import { PING_COLOR } from '../SharedDefaults'
+import { PING_COLOR } from '@/components/realtime/update-indicators/SharedDefaults'
 import './UpdateIndicatorsLivePing.css'
 
 interface LivePingProps {

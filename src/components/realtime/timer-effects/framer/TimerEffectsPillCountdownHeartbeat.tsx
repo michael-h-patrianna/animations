@@ -2,7 +2,7 @@
  * Pill countdown with organic heartbeat pulse effect.
  * Heartbeat rate and glow intensity increase at fixed-second thresholds.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsPillCountdownHeartbeat.css + ../shared.css (heartbeat section)
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + TimerEffectsPillCountdownHeartbeat.css + ../shared.css (heartbeat section)
  * Runtime deps: react, motion
  */
 
@@ -10,9 +10,10 @@ import { easeInOut } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo } from 'react'
 
-import { formatTime } from '../SharedFormat'
-import { useCountdown } from '../SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
+import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
+import { buildHeartbeatPillTheme } from '@/components/realtime/timer-effects/SharedPillPhaseTheme'
+import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
+import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -121,6 +122,7 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
 
   const heartbeatLevel = resolveHeartbeatLevel(seconds, startSeconds, isExpired)
   const phaseColor = resolved.colors?.[phase]
+  const pillThemeStyle = phaseColor !== undefined ? buildHeartbeatPillTheme(phaseColor) : undefined
 
   const timeStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),
@@ -134,11 +136,7 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
     >
       <m.div
         className={`pf-pill-countdown-heartbeat ${heartbeatLevel}`}
-        style={
-          phaseColor !== undefined
-            ? { backgroundColor: phaseColor, animation: 'none' }
-            : { animation: 'none' }
-        }
+        style={{ animation: 'none', ...pillThemeStyle }}
       >
         <m.span
           className="pf-pill-countdown-heartbeat__glow"

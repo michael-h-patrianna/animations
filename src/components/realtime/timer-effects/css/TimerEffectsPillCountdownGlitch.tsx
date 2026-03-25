@@ -2,15 +2,16 @@
  * Pill countdown with digital glitch/corruption effect — CSS variant.
  * Glitch intensity increases as time runs out, with chromatic aberration text copies.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css (glitch section) + TimerEffectsPillCountdownGlitch.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + shared.css (glitch section) + TimerEffectsPillCountdownGlitch.css
  * Runtime deps: react
  */
 
 import { memo } from 'react'
 
-import { formatTime } from '../SharedFormat'
-import { useCountdown } from '../SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '../SharedTypes'
+import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
+import { buildGlitchPillTheme } from '@/components/realtime/timer-effects/SharedPillPhaseTheme'
+import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
+import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
 import './TimerEffectsPillCountdownGlitch.css'
@@ -71,9 +72,7 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
   const glitchLevel = resolveGlitchLevel(seconds, startSeconds, isExpired)
   const phaseColor = resolved.colors?.[phase]
 
-  const pillStyle: React.CSSProperties = {
-    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
-  }
+  const pillStyle = phaseColor !== undefined ? buildGlitchPillTheme(phaseColor) : undefined
 
   const timeStyle: React.CSSProperties = {
     ...(textColor !== undefined ? { color: textColor } : {}),

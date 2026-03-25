@@ -1,16 +1,14 @@
 import * as m from 'motion/react-m'
 import type { CSSProperties } from 'react'
 
-import {
-  crystalShatterDustImage,
-  crystalShatterEnergyMoteImage,
-  crystalShatterPrismaticRingImage,
-  crystalShatterShard1Image,
-  crystalShatterShard2Image,
-  crystalShatterShard3Image,
-  crystalShatterShard4Image,
-  crystalShatterSparkleImage,
-} from '@/assets'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
+import crystalShatterEnergyMoteImage from '@/assets/crystal-shatter/energy-mote.png'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
+import crystalShatterShard1Image from '@/assets/crystal-shatter/crystal-shard-1.png'
+import crystalShatterShard2Image from '@/assets/crystal-shatter/crystal-shard-2.png'
+import crystalShatterShard3Image from '@/assets/crystal-shatter/crystal-shard-3.png'
+import crystalShatterShard4Image from '@/assets/crystal-shatter/crystal-shard-4.png'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
 
 /* ─── Shared types ─── */
 

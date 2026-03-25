@@ -1,5 +1,5 @@
 import { memo, useMemo, type CSSProperties, type Ref, type RefObject } from 'react'
-import './shared.css'
+import './DemoAnchors.css'
 
 type AnchorMode = 'burst' | 'magnet' | 'trail' | 'fountain'
 
@@ -94,7 +94,7 @@ function DemoAnchorsComponent({ fromRef, toRef, mode }: DemoAnchorsProps) {
   const positions = useMemo(() => generatePositions(mode), [mode])
 
   return (
-    <div className="pf-collection-demo-anchors" data-mode={mode} data-testid="demo-anchors">
+    <div className="pf-demo-anchors" data-mode={mode} data-testid="demo-anchors">
       <DemoAnchorPill ref={fromRef} label="Source" variant="from" style={positions.from} />
       {showTo && <DemoAnchorPill ref={toRef} label="Target" variant="to" style={positions.to} />}
     </div>
@@ -117,14 +117,14 @@ const DemoAnchorPill = memo(function DemoAnchorPill({
   return (
     <div
       ref={ref}
-      className={`pf-collection-demo-anchor pf-collection-demo-anchor--${variant}`}
+      className={`pf-demo-anchor pf-demo-anchor--${variant}`}
       style={style}
       aria-hidden="true"
       data-testid={`demo-anchor-${variant}`}
     >
-      <span className="pf-collection-demo-anchor__dot" />
+      <span className="pf-demo-anchor__dot" />
       <span
-        className="pf-collection-demo-anchor__label"
+        className="pf-demo-anchor__label"
         data-testid={`demo-anchor-${variant}-label`}
       >
         {label}

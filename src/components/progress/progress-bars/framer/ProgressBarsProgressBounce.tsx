@@ -24,7 +24,7 @@
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import { useEffect, useMemo, useState } from 'react'
-import type { ProgressBarProps } from '../SharedTypes'
+import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {
   const isDemo = progress === undefined

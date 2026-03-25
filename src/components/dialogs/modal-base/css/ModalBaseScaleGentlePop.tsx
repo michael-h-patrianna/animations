@@ -7,8 +7,8 @@
 
 import { memo } from 'react'
 
-import { ModalPlaceholder } from '../MockModalContent'
-import type { ModalEntranceProps } from '../SharedTypes'
+import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 import './ModalBaseScaleGentlePop.css'
 
 const DEFAULT_DURATION = 420
@@ -18,11 +18,19 @@ function ModalBaseScaleGentlePopComponent({
   duration = DEFAULT_DURATION,
   className,
   style,
+  onAnimationComplete,
 }: ModalEntranceProps) {
   return (
     <div data-animation-id="modal-base__scale-gentle-pop">
       <div
         className={`pf-modal-scale-pop${className ? ` ${className}` : ''}`}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) {
+            return
+          }
+
+          onAnimationComplete?.()
+        }}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
