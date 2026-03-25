@@ -53,7 +53,7 @@ test.describe('Toast Notification Lifecycle', () => {
     await copyBtn.click()
     await copyBtn.click()
 
-    // At most one toast should be visible at any time (useToast replaces, not stacks)
+    // At most one toast should be visible at any time (global store replaces, not stacks)
     const toastCount = await catalogPage.toast().count()
     expect(toastCount).toBeLessThanOrEqual(1)
 
@@ -71,13 +71,12 @@ test.describe('Toast Notification Lifecycle', () => {
 
     await expect(catalogPage.toast()).toBeVisible({ timeout: 3_000 })
 
-    // Navigate to a different group — toast is portaled to body, should unmount
-    // with the card component that owns it
+    // Navigate to a different group — toast is global and auto-dismisses on its own timer
     await catalogPage.clickNonActiveGroup()
     await catalogPage.waitForCards()
 
-    // Toast should be gone (component unmounted)
-    await expect(catalogPage.toast()).toHaveCount(0, { timeout: 3_000 })
+    // Toast auto-dismisses after visible + exit cycle (~3.5s)
+    await expect(catalogPage.toast()).toHaveCount(0, { timeout: 8_000 })
     await catalogPage.expectNoErrorBoundary()
   })
 

@@ -63,9 +63,17 @@ const parseNamedColor = (name: string): { r: number; g: number; b: number } | nu
   }
 }
 
+/** Parses an alpha value that may be a percentage ('5%') or a decimal ('0.05'). */
+const parseAlphaValue = (raw: string): number => {
+  if (raw.endsWith('%')) {
+    return parseFloat(raw) / 100
+  }
+  return parseFloat(raw)
+}
+
 /**
  * Parses any valid color string into HSVA.
- * Supports: Hex, Hex8, RGB, RGBA, named colors.
+ * Supports: Hex, Hex8, RGB, RGBA (comma and modern space-separated), named colors.
  * Falls back to black if invalid.
  */
 export const parseColorToHsv = (input: string): HSVA => {
@@ -80,17 +88,29 @@ export const parseColorToHsv = (input: string): HSVA => {
     }
   }
 
-  // 2. Try RGB/RGBA regex (basic)
-  const rgbaMatch = input.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
+  // 2. Try comma-separated RGB/RGBA: rgb(236, 195, 255) / rgba(236, 195, 255, 0.5)
+  const rgbaMatch = input.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+%?))?\)/)
   if (rgbaMatch) {
     const r = parseInt(rgbaMatch[1]!, 10)
     const g = parseInt(rgbaMatch[2]!, 10)
     const b = parseInt(rgbaMatch[3]!, 10)
-    const a = rgbaMatch[4] !== undefined ? parseFloat(rgbaMatch[4]) : 1
+    const a = rgbaMatch[4] !== undefined ? parseAlphaValue(rgbaMatch[4]) : 1
     return rgbToHsv(r, g, b, a)
   }
 
-  // 3. Try named color via canvas
+  // 3. Try modern space-separated: rgb(236 195 255) / rgb(236 195 255 / 5%) / rgb(236 195 255 / 0.05)
+  const modernMatch = input.match(
+    /rgba?\(\s*(\d+)\s+(\d+)\s+(\d+)(?:\s*\/\s*([\d.]+%?))\s*\)/
+  )
+  if (modernMatch) {
+    const r = parseInt(modernMatch[1]!, 10)
+    const g = parseInt(modernMatch[2]!, 10)
+    const b = parseInt(modernMatch[3]!, 10)
+    const a = modernMatch[4] !== undefined ? parseAlphaValue(modernMatch[4]) : 1
+    return rgbToHsv(r, g, b, a)
+  }
+
+  // 4. Try named color via canvas
   const namedRgb = parseNamedColor(input)
   if (namedRgb) {
     const { h, s, v } = rgbToHsvStruct(namedRgb.r, namedRgb.g, namedRgb.b)

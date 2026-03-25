@@ -4,11 +4,11 @@ import {
   isValidHex,
   parseColorToHsv,
   rgbToHex,
-  hsvToHex,
   type HSVA,
   type RGBA,
 } from '@/demo-ui/lib/colors/colorUtils'
 import { useColorPickerState, type ColorPickerState } from '@/demo-ui/lib/useColorPickerState'
+import { showToast } from '@/demo-ui/stores/toastStore'
 import { m as MotionEl } from 'motion/react'
 import { sx } from '@/demo-ui/lib/sx'
 
@@ -180,7 +180,7 @@ function ColorSliders({
           <div
             className="absolute inset-0 z-1"
             style={sx({
-              background: `linear-gradient(to right, transparent, ${hsvToHex(hsv.h, hsv.s, hsv.v)})`,
+              background: 'linear-gradient(to right, #ffffff, #000000)',
             })}
           />
           <MotionEl.input
@@ -306,6 +306,19 @@ function ColorInputs({
               />
             </div>
           ))}
+          {!disableAlpha && (
+            <div className="w-12 bg-[var(--bg-hover)] border border-border-default rounded px-1 py-1 flex items-center gap-1">
+              <span className="text-[9px] text-text-tertiary uppercase font-bold">a</span>
+              <MotionEl.input
+                type="number"
+                min={0}
+                max={100}
+                value={Math.round(hsv.a * 100)}
+                onChange={handleAlphaInput}
+                className="w-full bg-transparent text-xs font-mono text-text-primary outline-none text-right [&::-webkit-inner-spin-button]:appearance-none"
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -371,6 +384,24 @@ function computeSV(el: HTMLDivElement, clientX: number, clientY: number) {
   return { s, v }
 }
 
+function pickEyedropper(onColor: (hsv: HSVA) => void) {
+  if (!('EyeDropper' in window)) return
+  const dropper = new (
+    window as unknown as { EyeDropper: new () => { open: () => Promise<{ sRGBHex: string }> } }
+  ).EyeDropper()
+  void dropper
+    .open()
+    .then((result) => onColor(parseColorToHsv(result.sRGBHex)))
+    .catch(() => {})
+}
+
+function copyColor(value: string) {
+  void navigator.clipboard.writeText(value).then(
+    () => showToast('Color copied to clipboard'),
+    () => {}
+  )
+}
+
 // ── Main Component ──────────────────────────────────────────────────────
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -427,20 +458,9 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
     return () => window.removeEventListener('keydown', handleKey)
   }, [isOpen])
 
-  const handleEyedropper = () => {
-    if (!('EyeDropper' in window)) return
-    const dropper = new (
-      window as unknown as { EyeDropper: new () => { open: () => Promise<{ sRGBHex: string }> } }
-    ).EyeDropper()
-    void dropper
-      .open()
-      .then((result) => handleHsvChange(parseColorToHsv(result.sRGBHex)))
-      .catch(() => {})
-  }
+  const handleEyedropper = () => pickEyedropper(handleHsvChange)
+  const handleCopy = () => copyColor(value)
 
-  const handleCopy = () => {
-    void navigator.clipboard.writeText(value).catch(() => {})
-  }
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>

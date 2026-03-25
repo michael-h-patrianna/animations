@@ -17,6 +17,15 @@ function formatHexColor({ r, g, b }: RGB): string {
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
 }
 
+function formatHexColor8({ r, g, b }: RGB, alpha: number): string {
+  const a = Math.round(Math.max(0, Math.min(1, alpha)) * 255)
+  return `${formatHexColor({ r, g, b })}${a.toString(16).padStart(2, '0')}`
+}
+
+interface RGBA extends RGB {
+  a: number
+}
+
 function parseHexColor(color: string): RGB | null {
   const hex = color.trim().replace(/^#/, '')
   const validHex = /^[\da-f]+$/i
@@ -49,6 +58,18 @@ function parseHexColor(color: string): RGB | null {
   return null
 }
 
+function parseHexAlpha(color: string): number {
+  const hex = color.trim().replace(/^#/, '')
+  if (hex.length === 4) {
+    const c = hex[3]!
+    return parseInt(c + c, 16) / 255
+  }
+  if (hex.length === 8) {
+    return parseInt(hex.slice(6, 8), 16) / 255
+  }
+  return 1
+}
+
 function parseRgbChannel(channel: string): number {
   const value = channel.trim()
   if (value.endsWith('%')) {
@@ -57,12 +78,24 @@ function parseRgbChannel(channel: string): number {
   return clampChannel(parseFloat(value))
 }
 
+function parseAlphaChannel(raw: string): number {
+  if (raw.endsWith('%')) {
+    return Math.max(0, Math.min(1, parseFloat(raw) / 100))
+  }
+  return Math.max(0, Math.min(1, parseFloat(raw)))
+}
+
 function parseRgbColor(color: string): RGB | null {
+  const result = parseRgbaColor(color)
+  return result ? { r: result.r, g: result.g, b: result.b } : null
+}
+
+function parseRgbaColor(color: string): RGBA | null {
   // Legacy comma-separated: rgb(236, 195, 255) / rgba(236, 195, 255, 0.5)
   const commaMatch = color
     .trim()
     .match(
-      /^rgba?\(\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)(?:\s*,\s*[+-]?\d*\.?\d+%?)?\s*\)$/i
+      /^rgba?\(\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)\s*,\s*([+-]?\d*\.?\d+%?)(?:\s*,\s*([+-]?\d*\.?\d+%?))?\s*\)$/i
     )
 
   if (commaMatch) {
@@ -70,6 +103,7 @@ function parseRgbColor(color: string): RGB | null {
       r: parseRgbChannel(commaMatch[1]!),
       g: parseRgbChannel(commaMatch[2]!),
       b: parseRgbChannel(commaMatch[3]!),
+      a: commaMatch[4] !== undefined ? parseAlphaChannel(commaMatch[4]) : 1,
     }
   }
 
@@ -77,7 +111,7 @@ function parseRgbColor(color: string): RGB | null {
   const spaceMatch = color
     .trim()
     .match(
-      /^rgba?\(\s*([+-]?\d*\.?\d+%?)\s+([+-]?\d*\.?\d+%?)\s+([+-]?\d*\.?\d+%?)(?:\s*\/\s*[+-]?\d*\.?\d+%?)?\s*\)$/i
+      /^rgba?\(\s*([+-]?\d*\.?\d+%?)\s+([+-]?\d*\.?\d+%?)\s+([+-]?\d*\.?\d+%?)(?:\s*\/\s*([+-]?\d*\.?\d+%?))?\s*\)$/i
     )
 
   if (spaceMatch) {
@@ -85,6 +119,7 @@ function parseRgbColor(color: string): RGB | null {
       r: parseRgbChannel(spaceMatch[1]!),
       g: parseRgbChannel(spaceMatch[2]!),
       b: parseRgbChannel(spaceMatch[3]!),
+      a: spaceMatch[4] !== undefined ? parseAlphaChannel(spaceMatch[4]) : 1,
     }
   }
 
@@ -163,8 +198,9 @@ export function toHex(color: string): string {
 }
 
 /**
- * Resolves a token/default color into a hex string suitable for inspector color inputs.
- * Returns an empty string when the token cannot be resolved in the current environment.
+ * Resolves a color string to a hex (6 or 8 digit) string suitable for inspector color inputs.
+ * Outputs hex8 when alpha < 1, hex6 otherwise. Preserves alpha from all supported formats.
+ * Returns an empty string when the color cannot be resolved in the current environment.
  */
 export function resolveColorInputDefault(tokenColor: string): string {
   if (typeof window === 'undefined' || typeof document === 'undefined') return ''
@@ -177,7 +213,7 @@ export function resolveColorInputDefault(tokenColor: string): string {
       .trim()
     if (cssTokenValue !== '') {
       try {
-        return toHex(cssTokenValue)
+        return toHexWithAlpha(cssTokenValue)
       } catch {
         // Fall through to DOM-probe resolution below.
       }
@@ -185,10 +221,50 @@ export function resolveColorInputDefault(tokenColor: string): string {
   }
 
   try {
-    return toHex(tokenColor)
+    return toHexWithAlpha(tokenColor)
   } catch {
     return ''
   }
+}
+
+/**
+ * Converts a color string to hex, preserving alpha as hex8 when alpha < 1.
+ * Throws in dev mode for unparseable colors.
+ */
+function toHexWithAlpha(color: string): string {
+  const trimmed = color.trim()
+
+  // Try hex with potential alpha channel
+  const hexParsed = parseHexColor(trimmed)
+  if (hexParsed) {
+    const alpha = parseHexAlpha(trimmed)
+    if (alpha < 1) {
+      return formatHexColor8(hexParsed, alpha)
+    }
+    return formatHexColor(hexParsed)
+  }
+
+  // Try rgb/rgba with alpha extraction
+  const rgbaParsed = parseRgbaColor(trimmed)
+  if (rgbaParsed) {
+    if (rgbaParsed.a < 1) {
+      return formatHexColor8(rgbaParsed, rgbaParsed.a)
+    }
+    return formatHexColor(rgbaParsed)
+  }
+
+  // Fall through to DOM-probe resolution (named colors, etc.)
+  const resolved = resolveCssColor(trimmed)
+  if (resolved) {
+    return formatHexColor(resolved)
+  }
+
+  if (import.meta.env.DEV) {
+    throw new Error(
+      `toHexWithAlpha: unparseable color "${color}" — falling back to #ffd700. Fix the caller.`
+    )
+  }
+  return formatHexColor(FALLBACK_COLOR)
 }
 
 /**

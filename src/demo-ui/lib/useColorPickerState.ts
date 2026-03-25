@@ -60,7 +60,7 @@ function buildColorDraft(value: string, alpha: number | undefined, disableAlpha:
 
   return {
     hsv,
-    hexInput: hsv.a === 1 ? hsvToHex(hsv.h, hsv.s, hsv.v) : hsvToHex8(hsv.h, hsv.s, hsv.v, hsv.a),
+    hexInput: hsvToHex(hsv.h, hsv.s, hsv.v),
     rgbInput: hsvToRgb(hsv.h, hsv.s, hsv.v, hsv.a),
   }
 }
@@ -79,10 +79,7 @@ function colorDraftReducer(state: ColorDraftState, action: ColorDraftAction): Co
       return {
         ...state,
         hsv: action.hsv,
-        hexInput:
-          action.hsv.a === 1
-            ? hsvToHex(action.hsv.h, action.hsv.s, action.hsv.v)
-            : hsvToHex8(action.hsv.h, action.hsv.s, action.hsv.v, action.hsv.a),
+        hexInput: hsvToHex(action.hsv.h, action.hsv.s, action.hsv.v),
         rgbInput: hsvToRgb(action.hsv.h, action.hsv.s, action.hsv.v, action.hsv.a),
       }
     default:

@@ -180,7 +180,6 @@ function ColorField({
         label={config.label}
         value={value !== '' ? value : '#000000'}
         onChange={onChange}
-        disableAlpha
       />
     </div>
   )
@@ -338,7 +337,7 @@ function ColorsField({
       <div className="flex flex-wrap gap-1.5">
         {value.map((color, i) => (
           <div key={`color-${String(i)}`} className="flex items-center gap-1">
-            <ColorPicker value={color} onChange={(v) => updateItem(i, v)} disableAlpha />
+            <ColorPicker value={color} onChange={(v) => updateItem(i, v)} />
             <Button
               variant="ghost"
               size="icon"

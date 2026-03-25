@@ -1,6 +1,6 @@
 import { CodeViewerModal } from '@/components/ui/CodeViewerModal'
 import { PreviewModal } from '@/components/ui/PreviewModal'
-import { useToast } from '@/components/ui/useToast'
+import { useToastStore } from '@/demo-ui/stores/toastStore'
 import { logger } from '@/services/logger'
 import type { AnimationControlType, PreviewPosition, SourceTab } from '@/types/animation'
 import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
@@ -153,7 +153,7 @@ function useAutoPreview(animationId: string, preview: ReturnType<typeof usePrevi
 }
 
 function useCopyLink(animationId: string) {
-  const { showToast, toastPortal } = useToast()
+  const showToast = useToastStore((s) => s.showToast)
   const location = useLocation()
 
   const handleCopyLink = useCallback(() => {
@@ -164,7 +164,7 @@ function useCopyLink(animationId: string) {
     )
   }, [animationId, showToast, location.pathname])
 
-  return { handleCopyLink, toastPortal }
+  return { handleCopyLink }
 }
 
 /** Orchestrates all card-level hooks into a single state bundle. */
@@ -176,8 +176,8 @@ function useAnimationCard(props: AnimationCardProps) {
   const codeViewer = useCodeViewer(sourceLoader)
   const preview = usePreviewModal()
   const { opaque } = useAutoPreview(animationId, preview)
-  const { handleCopyLink, toastPortal } = useCopyLink(animationId)
-  const { showToast } = useToast()
+  const { handleCopyLink } = useCopyLink(animationId)
+  const showToast = useToastStore((s) => s.showToast)
 
   // Surface code-viewer load errors as a toast
   useEffect(() => {
@@ -193,7 +193,6 @@ function useAnimationCard(props: AnimationCardProps) {
     preview,
     opaque,
     handleCopyLink,
-    toastPortal,
   }
 }
 
@@ -333,7 +332,6 @@ function CardBody({
       >
         {children}
       </CardModals>
-      {card.toastPortal}
     </div>
   )
 }

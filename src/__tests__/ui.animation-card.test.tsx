@@ -1,5 +1,7 @@
 import { AnimationCard } from '@/components/ui/AnimationCard'
+import { GlobalToast } from '@/components/ui/GlobalToast'
 import { DEFAULT_ACCENT, DEFAULT_THEME, useLayoutStore } from '@/demo-ui/stores/layoutStore'
+import { useToastStore } from '@/demo-ui/stores/toastStore'
 import appStyles from '@/App.css?raw'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -8,6 +10,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 beforeEach(() => {
   vi.useFakeTimers()
   useLayoutStore.setState({ theme: DEFAULT_THEME, accent: DEFAULT_ACCENT })
+  useToastStore.setState({ message: null })
 })
 
 afterEach(() => {
@@ -27,6 +30,7 @@ const renderCard = (overrides?: Partial<Parameters<typeof AnimationCard>[0]>) =>
       >
         {() => <div data-testid="animation-content">Animated</div>}
       </AnimationCard>
+      <GlobalToast />
     </MemoryRouter>
   )
 

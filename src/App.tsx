@@ -1,5 +1,6 @@
 import { EditorLayout } from '@/demo-ui/components/layout/EditorLayout'
 import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'
+import { GlobalToast } from '@/components/ui/GlobalToast'
 import { GroupSection } from '@/components/ui/GroupSection'
 import { AnimationInspectorProvider } from '@/contexts/AnimationInspectorContext'
 import { AppNavigationProvider, useAppNavigation } from '@/contexts/AppNavigationContext'
@@ -78,6 +79,7 @@ function App() {
   return (
     <AppNavigationProvider>
       <AppContent />
+      <GlobalToast />
     </AppNavigationProvider>
   )
 }
