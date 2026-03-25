@@ -53,7 +53,7 @@ const filamentVariantsEven = {
 const bulbVariantsEven = {
   hidden: {
     background: `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
-    filter: `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
+    boxShadow: `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
     transform: `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
     borderColor: `var(--pf-anim-white-35)`,
   },
@@ -66,13 +66,13 @@ const bulbVariantsEven = {
       `var(--bulb-blend70)`,
       `radial-gradient(circle at 40% 40%, var(--bulb-on), var(--bulb-on-gradient))`,
     ],
-    filter: [
-      `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
-      `drop-shadow(0 0 2px var(--bulb-on-glow50))`,
-      `none`,
-      `none`,
-      `drop-shadow(0 0 2px var(--bulb-on-glow50))`,
-      `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
+    boxShadow: [
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `0 0 0px transparent`,
+      `0 0 0px transparent`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
     ],
     transform: [
       `translate(-50%, -50%) scale(1.12) rotate(1.5deg)`,
@@ -139,7 +139,7 @@ const filamentVariantsOdd = {
 const bulbVariantsOdd = {
   hidden: {
     background: `var(--bulb-off)`,
-    filter: `none`,
+    boxShadow: `0 0 0px transparent`,
     transform: `translate(-50%, -50%) scale(1) rotate(0deg)`,
     borderColor: `var(--pf-anim-white-10)`,
   },
@@ -152,13 +152,13 @@ const bulbVariantsOdd = {
       `var(--bulb-blend70)`,
       `var(--bulb-off)`,
     ],
-    filter: [
-      `none`,
-      `drop-shadow(0 0 2px var(--bulb-on-glow50))`,
-      `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
-      `drop-shadow(0 0 4px var(--bulb-on-glow70)) drop-shadow(0 0 6px var(--bulb-on-glow50))`,
-      `drop-shadow(0 0 2px var(--bulb-on-glow50))`,
-      `none`,
+    boxShadow: [
+      `0 0 0px transparent`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+      `0 0 4px var(--bulb-on-glow70), 0 0 6px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-on-glow50)`,
+      `0 0 0px transparent`,
     ],
     transform: [
       `translate(-50%, -50%) scale(1) rotate(0deg)`,

@@ -26,15 +26,15 @@ const glowVariantsWinner = {
 const bulbVariantsWinner = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [`var(--bulb-off)`, `var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 15px var(--bulb-on-glow100)) drop-shadow(0 0 25px var(--bulb-on-glow80))`,
-      `drop-shadow(0 0 15px var(--bulb-on-glow100)) drop-shadow(0 0 25px var(--bulb-on-glow80))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 15px var(--bulb-on-glow100), 0 0 25px var(--bulb-on-glow80)`,
+      `0 0 15px var(--bulb-on-glow100), 0 0 25px var(--bulb-on-glow80)`,
     ],
     transition: {
       duration: animationDuration,
@@ -64,7 +64,7 @@ const glowVariantsRegular = {
 const bulbVariantsRegular = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [
@@ -78,16 +78,16 @@ const bulbVariantsRegular = {
       `var(--bulb-blend70)`,
       `var(--bulb-off)`,
     ],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 8px var(--bulb-on-glow80)) drop-shadow(0 0 12px var(--bulb-on-glow60))`,
-      `drop-shadow(0 0 8px var(--bulb-on-glow80)) drop-shadow(0 0 12px var(--bulb-on-glow60))`,
-      `drop-shadow(0 0 4px var(--bulb-on-glow50))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 12px var(--bulb-on-glow100)) drop-shadow(0 0 18px var(--bulb-on-glow80))`,
-      `drop-shadow(0 0 8px var(--bulb-on-glow80)) drop-shadow(0 0 12px var(--bulb-on-glow60))`,
-      `drop-shadow(0 0 4px var(--bulb-on-glow50))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+      `0 0 4px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
+      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
+      `0 0 4px var(--bulb-on-glow50)`,
+      `0 0 2px var(--bulb-off-glow30)`,
     ],
     transition: {
       duration: animationDuration,
@@ -132,10 +132,12 @@ function LightsCircleStatic3({
             <m.div
               className="lights-circle-static-3__glow"
               variants={isWinner ? glowVariantsWinner : glowVariantsRegular}
+              style={{ animation: 'none' }}
             />
             <m.div
               className="lights-circle-static-3__bulb"
               variants={isWinner ? bulbVariantsWinner : bulbVariantsRegular}
+              style={{ animation: 'none' }}
             />
           </div>
         )

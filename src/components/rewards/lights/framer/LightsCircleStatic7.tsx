@@ -26,7 +26,7 @@ const glowVariants = {
 const bulbVariants = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [
@@ -41,17 +41,17 @@ const bulbVariants = {
       `var(--bulb-off)`,
       `var(--bulb-off)`,
     ],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 12px var(--bulb-on-glow100)) drop-shadow(0 0 18px var(--bulb-on-glow80))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 15px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 8px var(--bulb-on-glow75)) drop-shadow(0 0 12px var(--bulb-on-glow55))`,
-      `drop-shadow(0 0 6px var(--bulb-on-glow60)) drop-shadow(0 0 9px var(--bulb-on-glow40))`,
-      `drop-shadow(0 0 4px var(--bulb-on-glow45))`,
-      `drop-shadow(0 0 3px var(--bulb-on-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow35))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 15px var(--bulb-on-glow70)`,
+      `0 0 8px var(--bulb-on-glow75), 0 0 12px var(--bulb-on-glow55)`,
+      `0 0 6px var(--bulb-on-glow60), 0 0 9px var(--bulb-on-glow40)`,
+      `0 0 4px var(--bulb-on-glow45)`,
+      `0 0 3px var(--bulb-on-glow30)`,
+      `0 0 2px var(--bulb-off-glow35)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
     ],
     transition: {
       duration: animationDuration,
@@ -92,8 +92,8 @@ function LightsCircleStatic7({
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
-            <m.div className="lights-circle-static-7__glow" variants={glowVariants} />
-            <m.div className="lights-circle-static-7__bulb" variants={bulbVariants} />
+            <m.div className="lights-circle-static-7__glow" variants={glowVariants} style={{ animation: 'none' }} />
+            <m.div className="lights-circle-static-7__bulb" variants={bulbVariants} style={{ animation: 'none' }} />
           </div>
         )
       }),

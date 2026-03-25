@@ -26,7 +26,7 @@ const glowVariants = {
 const bulbVariants = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [
@@ -38,14 +38,14 @@ const bulbVariants = {
       `var(--bulb-off)`,
       `var(--bulb-off)`,
     ],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
-      `drop-shadow(0 0 12px var(--bulb-on-glow100)) drop-shadow(0 0 18px var(--bulb-on-glow80))`,
-      `drop-shadow(0 0 8px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 4px var(--bulb-off-glow40)`,
+      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
+      `0 0 8px var(--bulb-on-glow70)`,
+      `0 0 4px var(--bulb-off-glow40)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
     ],
     transition: {
       duration: animationDuration,
@@ -86,8 +86,8 @@ function LightsCircleStatic5({
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
-            <m.div className="lights-circle-static-5__glow" variants={glowVariants} />
-            <m.div className="lights-circle-static-5__bulb" variants={bulbVariants} />
+            <m.div className="lights-circle-static-5__glow" variants={glowVariants} style={{ animation: 'none' }} />
+            <m.div className="lights-circle-static-5__bulb" variants={bulbVariants} style={{ animation: 'none' }} />
           </div>
         )
       }),

@@ -32,7 +32,7 @@ const glowVariantsRegular = {
 const bulbVariantsRegular = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [
@@ -45,15 +45,15 @@ const bulbVariantsRegular = {
       `var(--bulb-off)`,
       `var(--bulb-off)`,
     ],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 15px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 15px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 7px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 4px var(--bulb-off-glow40)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 15px var(--bulb-on-glow70)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 15px var(--bulb-on-glow70)`,
+      `0 0 7px var(--bulb-on-glow70)`,
+      `0 0 4px var(--bulb-off-glow40)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
     ],
     transition: {
       duration: animationDuration,
@@ -82,7 +82,7 @@ const glowVariantsCollision = {
 const bulbVariantsCollision = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [
@@ -96,16 +96,16 @@ const bulbVariantsCollision = {
       `var(--bulb-off)`,
       `var(--bulb-off)`,
     ],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
-      `drop-shadow(0 0 15px var(--bulb-on-glow100)) drop-shadow(0 0 22px var(--bulb-on-glow90))`,
-      `drop-shadow(0 0 20px var(--bulb-white-glow100)) drop-shadow(0 0 30px var(--bulb-on-glow100))`,
-      `drop-shadow(0 0 15px var(--bulb-on-glow100)) drop-shadow(0 0 22px var(--bulb-on-glow90))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow80))`,
-      `drop-shadow(0 0 4px var(--bulb-off-glow40))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 4px var(--bulb-off-glow40)`,
+      `0 0 15px var(--bulb-on-glow100), 0 0 22px var(--bulb-on-glow90)`,
+      `0 0 20px var(--bulb-white-glow100), 0 0 30px var(--bulb-on-glow100)`,
+      `0 0 15px var(--bulb-on-glow100), 0 0 22px var(--bulb-on-glow90)`,
+      `0 0 10px var(--bulb-on-glow80)`,
+      `0 0 4px var(--bulb-off-glow40)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
     ],
     transition: {
       duration: animationDuration,
@@ -154,8 +154,8 @@ function LightsCircleStatic8({
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
-            <m.div className="lights-circle-static-8__glow" variants={addDelay(glowBase, delay)} />
-            <m.div className="lights-circle-static-8__bulb" variants={addDelay(bulbBase, delay)} />
+            <m.div className="lights-circle-static-8__glow" variants={addDelay(glowBase, delay)} style={{ animation: 'none' }} />
+            <m.div className="lights-circle-static-8__bulb" variants={addDelay(bulbBase, delay)} style={{ animation: 'none' }} />
           </div>
         )
       }),

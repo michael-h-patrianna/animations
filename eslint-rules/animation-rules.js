@@ -365,8 +365,13 @@ const rules = {
    * Ban CSS style properties that have no React Native equivalent.
    * Applies to framer/ variants only (which must be Moti/Reanimated-portable).
    *
-   * Banned: clipPath, boxShadow, textShadow, mixBlendMode, backdropFilter.
+   * Banned: clipPath, textShadow, mixBlendMode, backdropFilter.
    * perspective: only the CSS string form is banned (numeric is fine in RN).
+   *
+   * Note: boxShadow is NOT banned. It requires RN adaptation (elevation/shadow*
+   * props) but so does filter: drop-shadow(), which is already used across framer
+   * components. Both shadow approaches need manual RN conversion — banning one
+   * but not the other pushes toward drop-shadow which produces blurrier visuals.
    */
   'no-non-portable-styles': {
     meta: {
@@ -384,10 +389,6 @@ const rules = {
         [
           'clipPath',
           'clipPath is not supported in React Native. Restructure the animation or use opacity/transform alternatives.',
-        ],
-        [
-          'boxShadow',
-          'boxShadow is not supported in React Native. Use elevation (Android) or shadow* props (iOS) instead.',
         ],
         [
           'textShadow',

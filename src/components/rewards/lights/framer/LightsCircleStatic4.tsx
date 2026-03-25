@@ -26,15 +26,15 @@ const glowVariantsWinner = {
 const bulbVariantsWinner = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [`var(--bulb-off)`, `var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 20px var(--bulb-on-glow100)) drop-shadow(0 0 30px var(--bulb-on-glow95))`,
-      `drop-shadow(0 0 20px var(--bulb-on-glow100)) drop-shadow(0 0 30px var(--bulb-on-glow95))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 20px var(--bulb-on-glow100), 0 0 30px var(--bulb-on-glow95)`,
+      `0 0 20px var(--bulb-on-glow100), 0 0 30px var(--bulb-on-glow95)`,
     ],
     transition: {
       duration: animationDuration,
@@ -89,7 +89,7 @@ const glowVariantsRegular = {
 const bulbVariantsRegular = {
   hidden: {
     backgroundColor: `var(--bulb-off)`,
-    filter: `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
   },
   show: {
     backgroundColor: [
@@ -115,28 +115,28 @@ const bulbVariantsRegular = {
       `var(--bulb-on)`,
       `var(--bulb-off)`, // Phase 3
     ],
-    filter: [
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
-      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
-      `drop-shadow(0 0 5px var(--bulb-on-glow55))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
-      `drop-shadow(0 0 9px var(--bulb-on-gradient)) drop-shadow(0 0 14px var(--bulb-on-glow65))`,
-      `drop-shadow(0 0 5px var(--bulb-on-glow55))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 10px var(--bulb-on-glow90)) drop-shadow(0 0 16px var(--bulb-on-glow70))`,
-      `drop-shadow(0 0 2px var(--bulb-off-glow30))`,
+    boxShadow: [
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
+      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
+      `0 0 5px var(--bulb-on-glow55)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
+      `0 0 9px var(--bulb-on-gradient), 0 0 14px var(--bulb-on-glow65)`,
+      `0 0 5px var(--bulb-on-glow55)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
+      `0 0 2px var(--bulb-off-glow30)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
+      `0 0 10px var(--bulb-on-glow90), 0 0 16px var(--bulb-on-glow70)`,
+      `0 0 2px var(--bulb-off-glow30)`,
     ],
     transition: {
       duration: animationDuration,
@@ -184,10 +184,12 @@ function LightsCircleStatic4({
             <m.div
               className="lights-circle-static-4__glow"
               variants={isWinner ? glowVariantsWinner : glowVariantsRegular}
+              style={{ animation: 'none' }}
             />
             <m.div
               className="lights-circle-static-4__bulb"
               variants={isWinner ? bulbVariantsWinner : bulbVariantsRegular}
+              style={{ animation: 'none' }}
             />
           </div>
         )
