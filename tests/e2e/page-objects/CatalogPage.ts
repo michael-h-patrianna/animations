@@ -105,7 +105,7 @@ export class CatalogPage {
               '[data-testid^="group-section-group-"]:visible [data-testid="card-grid"] > [data-animation-id]'
             )
             .evaluateAll((els) =>
-            els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
+              els.map((el) => el.getAttribute('data-animation-id')).filter(Boolean)
             )
           if (ids.length === 0) return -1
           return ids.length - new Set(ids).size
@@ -144,7 +144,9 @@ export class CatalogPage {
 
   /** The active group link in the sidebar. */
   activeGroupLink(): Locator {
-    return this.page.locator('[data-testid="left-panel"] [data-testid^="sidebar-group-"][data-active]')
+    return this.page.locator(
+      '[data-testid="left-panel"] [data-testid^="sidebar-group-"][data-active]'
+    )
   }
 
   /** Click a category button by index. */
@@ -192,7 +194,9 @@ export class CatalogPage {
     await expect
       .poll(async () => (await this.activeCodeMode()).trim(), { timeout: 5_000 })
       .toBe(label)
-    await expect.poll(() => this.currentPathname(), { timeout: 5_000 }).toMatch(new RegExp(`${suffix}$`))
+    await expect
+      .poll(() => this.currentPathname(), { timeout: 5_000 })
+      .toMatch(new RegExp(`${suffix}$`))
     await this.waitForCards()
     await this.waitForTransitionSettle()
   }
@@ -381,7 +385,9 @@ export class CatalogPage {
         '[data-testid^="group-section-group-"]:visible [data-testid="card-grid"] > [data-animation-id]'
       )
       .evaluateAll((els) =>
-        els.map((el) => el.getAttribute('data-animation-id')).filter((id): id is string => id != null)
+        els
+          .map((el) => el.getAttribute('data-animation-id'))
+          .filter((id): id is string => id != null)
       )
   }
 

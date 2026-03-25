@@ -5,7 +5,10 @@ test.describe('Mobile Navigation', () => {
     await mobilePage.gotoMobile('text-effects-framer')
   })
 
-  test('shows top bar with panel toggle button at mobile viewport', async ({ mobilePage, page }) => {
+  test('shows top bar with panel toggle button at mobile viewport', async ({
+    mobilePage,
+    page,
+  }) => {
     await expect(mobilePage.topBar).toBeVisible()
     await expect(page.locator('[data-testid="toggle-left-panel"]')).toBeVisible()
     await mobilePage.expectDrawerClosed()
@@ -55,7 +58,9 @@ test.describe('Mobile Navigation', () => {
     await mobilePage.expectDrawerClosed()
   })
 
-  test('mobile navigation panel contains group links and code mode switch', async ({ mobilePage }) => {
+  test('mobile navigation panel contains group links and code mode switch', async ({
+    mobilePage,
+  }) => {
     await mobilePage.openDrawer()
     await mobilePage.expectDrawerOpen()
 

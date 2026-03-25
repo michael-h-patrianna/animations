@@ -1,6 +1,9 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
-async function suppressExpectedBoundaryConsole(page: import('@playwright/test').Page, marker: string) {
+async function suppressExpectedBoundaryConsole(
+  page: import('@playwright/test').Page,
+  marker: string
+) {
   await page.addInitScript((expectedMarker) => {
     // eslint-disable-next-line no-console -- intentionally intercepting console.error to suppress expected React ErrorBoundary noise
     const originalError = console.error.bind(console)

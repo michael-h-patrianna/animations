@@ -65,9 +65,7 @@ test.describe('Progress Bar Animations', () => {
     const stage = await catalogPage.cardStage(card)
 
     const fill = stage.locator('.pf-progress-fill')
-    await expect
-      .poll(async () => progressFillScale(fill), { timeout: 5_000 })
-      .toBeGreaterThan(0.3)
+    await expect.poll(async () => progressFillScale(fill), { timeout: 5_000 }).toBeGreaterThan(0.3)
   })
 
   test('replay resets and replays milestone progress', async ({ catalogPage }) => {
@@ -77,9 +75,7 @@ test.describe('Progress Bar Animations', () => {
     const stage = await catalogPage.cardStage(card)
 
     const fill = stage.locator('.pf-progress-fill')
-    await expect
-      .poll(async () => progressFillScale(fill), { timeout: 5_000 })
-      .toBeGreaterThan(0.3)
+    await expect.poll(async () => progressFillScale(fill), { timeout: 5_000 }).toBeGreaterThan(0.3)
 
     // Replay resets the animation
     const replay = catalogPage.replayButton(card)

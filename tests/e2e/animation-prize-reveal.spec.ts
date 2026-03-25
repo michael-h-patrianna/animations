@@ -12,7 +12,9 @@ test.describe('Prize Reveal Controls', () => {
     await expect(card).toBeVisible()
     await card.click()
 
-    const countInput = page.locator('[data-testid="prop-field-prizeCount"] input[type="number"]').first()
+    const countInput = page
+      .locator('[data-testid="prop-field-prizeCount"] input[type="number"]')
+      .first()
     await expect(countInput).toBeVisible()
     await expect(countInput).toHaveValue('5')
     await expect(page.locator('[data-testid="right-panel"]')).toContainText('Card Pack Open')
@@ -29,7 +31,9 @@ test.describe('Prize Reveal Controls', () => {
     await expect(card).toBeVisible()
     await card.click()
 
-    const countInput = page.locator('[data-testid="prop-field-prizeCount"] input[type="number"]').first()
+    const countInput = page
+      .locator('[data-testid="prop-field-prizeCount"] input[type="number"]')
+      .first()
     const animationRoot = card.locator('[data-prize-count]')
 
     await expect(countInput).toHaveValue('3')
@@ -58,7 +62,9 @@ test.describe('Prize Reveal Controls', () => {
     await expect(card).toBeVisible()
     await card.click()
 
-    const countInput = page.locator('[data-testid="prop-field-prizeCount"] input[type="number"]').first()
+    const countInput = page
+      .locator('[data-testid="prop-field-prizeCount"] input[type="number"]')
+      .first()
     const animationRoot = card.locator('[data-prize-count]')
 
     await expect(countInput).toBeVisible()

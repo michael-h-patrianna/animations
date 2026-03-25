@@ -167,9 +167,7 @@ test.describe('Layout Persistence: Theme and Accent', () => {
 
     // Clean up: restore default theme
     await selectFromViewSubmenu(catalogPage, page, 'Theme', 'theme-dark-blue')
-    await expect
-      .poll(async () => catalogPage.currentTheme(), { timeout: 3_000 })
-      .toBe('dark-blue')
+    await expect.poll(async () => catalogPage.currentTheme(), { timeout: 3_000 }).toBe('dark-blue')
   })
 
   test('accent color selection applies data-accent attribute and persists across reload', async ({

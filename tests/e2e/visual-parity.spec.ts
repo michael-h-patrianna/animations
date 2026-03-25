@@ -88,9 +88,7 @@ async function collectGroupAnimationIds(cp: CatalogPage, groupId: string): Promi
 
 test.describe('CSS/Framer Structural Parity', () => {
   for (const baseId of ALL_GROUP_BASE_IDS) {
-    test(`${baseId} variants have matching IDs and similar dimensions`, async ({
-      catalogPage,
-    }) => {
+    test(`${baseId} variants have matching IDs and similar dimensions`, async ({ catalogPage }) => {
       test.setTimeout(90_000)
 
       const framerGroupId = `${baseId}-framer`
@@ -150,7 +148,10 @@ test.describe('CSS/Framer Structural Parity', () => {
         }
       }
 
-      expect(comparedCount, `${baseId}: must compare at least one shared animation`).toBeGreaterThan(0)
+      expect(
+        comparedCount,
+        `${baseId}: must compare at least one shared animation`
+      ).toBeGreaterThan(0)
 
       if (sizeFailures.length > 0) {
         throw new Error(

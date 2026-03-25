@@ -16,7 +16,10 @@ test.describe('Lights Animation Controls', () => {
     await expect(page.locator('[data-testid="prop-field-onColor"]')).toBeVisible()
   })
 
-  test('inspector color picker shows a valid default light color', async ({ catalogPage, page }) => {
+  test('inspector color picker shows a valid default light color', async ({
+    catalogPage,
+    page,
+  }) => {
     await catalogPage.gotoGroup('lights-framer')
     await page.locator('[data-testid="toggle-right-panel"]').click()
 
@@ -41,7 +44,9 @@ test.describe('Lights Animation Controls', () => {
     await expect(card).toBeVisible()
     await card.click()
 
-    const bulbInput = page.locator('[data-testid="prop-field-numBulbs"] input[type="number"]').first()
+    const bulbInput = page
+      .locator('[data-testid="prop-field-numBulbs"] input[type="number"]')
+      .first()
     const bulbs = card.locator('.lights-circle-static-1__bulb-wrapper')
 
     await expect(bulbInput).toHaveValue('16')

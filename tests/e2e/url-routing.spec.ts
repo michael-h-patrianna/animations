@@ -21,7 +21,9 @@ test.describe('URL Routing', () => {
 
     await catalogPage.waitForShell()
     await expect
-      .poll(() => catalogPage.page.locator('text=Failed to load animations').count(), { timeout: 10_000 })
+      .poll(() => catalogPage.page.locator('text=Failed to load animations').count(), {
+        timeout: 10_000,
+      })
       .toBeGreaterThan(0)
     expect(catalogPage.currentPathname()).toBe('/nonexistent-group-does-not-exist')
   })
@@ -34,7 +36,9 @@ test.describe('URL Routing', () => {
     await catalogPage.waitForShell()
 
     await expect
-      .poll(() => catalogPage.page.locator('text=Failed to load animations').count(), { timeout: 10_000 })
+      .poll(() => catalogPage.page.locator('text=Failed to load animations').count(), {
+        timeout: 10_000,
+      })
       .toBeGreaterThan(0)
     expect(catalogPage.currentPathname()).toBe('/text-effects')
   })
@@ -105,7 +109,10 @@ test.describe('URL Routing', () => {
     expect(catalogPage.currentPathname()).toMatch(/-css$/)
   })
 
-  test('browser back from invalid route returns to previous valid state', async ({ catalogPage, page }) => {
+  test('browser back from invalid route returns to previous valid state', async ({
+    catalogPage,
+    page,
+  }) => {
     // Navigate to a valid group first
     await catalogPage.gotoGroup('text-effects-framer')
     const validPath = catalogPage.currentPathname()
@@ -114,7 +121,9 @@ test.describe('URL Routing', () => {
     await page.goto('/this-route-does-not-exist-at-all')
     await catalogPage.waitForShell()
     await expect
-      .poll(() => catalogPage.page.locator('text=Failed to load animations').count(), { timeout: 10_000 })
+      .poll(() => catalogPage.page.locator('text=Failed to load animations').count(), {
+        timeout: 10_000,
+      })
       .toBeGreaterThan(0)
 
     // Go back — should return to the valid route
