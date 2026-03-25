@@ -272,7 +272,9 @@ function getActiveAnimatableProps(
 }
 
 /** Finds the first animatable number prop config across all animations in a group. */
-function findGroupAnimatableProp(animations: Animation[] | undefined): NumberPropConfig | undefined {
+function findGroupAnimatableProp(
+  animations: Animation[] | undefined
+): NumberPropConfig | undefined {
   if (!animations) return undefined
   for (const anim of animations) {
     for (const p of anim.props ?? []) {
@@ -418,8 +420,9 @@ export function AnimationInspectorProvider({
     [selectedAnimationId]
   )
 
-  const { animateToggles, animatedValues, getAnimateMode, setAnimateMode } =
-    useAnimatePreview(currentGroup?.animations)
+  const { animateToggles, animatedValues, getAnimateMode, setAnimateMode } = useAnimatePreview(
+    currentGroup?.animations
+  )
 
   const getPropOverrides = useCallback(
     (animationId: string, propsConfig?: PropConfig[]) => {
