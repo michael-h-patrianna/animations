@@ -27,11 +27,13 @@ export default defineConfig({
           }
 
           // Category index files → main bundle (lightweight registration code)
-          if (id.includes('/src/components/rewards/index') ||
-              id.includes('/src/components/dialogs/index') ||
-              id.includes('/src/components/base/index') ||
-              id.includes('/src/components/progress/index') ||
-              id.includes('/src/components/realtime/index')) {
+          if (
+            id.includes('/src/components/rewards/index') ||
+            id.includes('/src/components/dialogs/index') ||
+            id.includes('/src/components/base/index') ||
+            id.includes('/src/components/progress/index') ||
+            id.includes('/src/components/realtime/index')
+          ) {
             return 'index'
           }
 

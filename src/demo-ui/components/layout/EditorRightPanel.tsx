@@ -4,10 +4,7 @@
  */
 
 import { PropField } from '@/components/ui/PropField'
-import {
-  hasDirtyPropOverrides,
-  useAnimationInspector,
-} from '@/contexts/AnimationInspectorContext'
+import { hasDirtyPropOverrides, useAnimationInspector } from '@/contexts/AnimationInspectorContext'
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import type { PropConfig } from '@/types/animation'
@@ -45,7 +42,9 @@ function InspectorField({
     <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 p-3">
       <PropField config={config} value={value} onChange={onChange} />
       {config.description != null && config.description !== '' && (
-        <p className="mt-2 px-1 text-[11px] leading-relaxed text-text-tertiary">{config.description}</p>
+        <p className="mt-2 px-1 text-[11px] leading-relaxed text-text-tertiary">
+          {config.description}
+        </p>
       )}
     </div>
   )
@@ -75,11 +74,18 @@ function InspectorGroup({
   propOverrides: Record<string, unknown> | undefined
   onChange: (name: string, value: unknown) => void
 }) {
-  const description = [...configs].reverse().find((c: PropConfig) => c.description != null && c.description !== '')?.description
+  const description = [...configs]
+    .reverse()
+    .find((c: PropConfig) => c.description != null && c.description !== '')?.description
   return (
     <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 p-3 space-y-2">
       {configs.map((config) => (
-        <PropField key={config.name} config={config} value={propOverrides?.[config.name]} onChange={onChange} />
+        <PropField
+          key={config.name}
+          config={config}
+          value={propOverrides?.[config.name]}
+          onChange={onChange}
+        />
       ))}
       {description != null && (
         <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">{description}</p>
@@ -217,7 +223,12 @@ export const EditorRightPanel: React.FC = () => {
             >
               <div className="space-y-3">
                 {codeOnlyProps.map((config) => (
-                  <InspectorField key={config.name} config={config} value={undefined} onChange={handlePropChange} />
+                  <InspectorField
+                    key={config.name}
+                    config={config}
+                    value={undefined}
+                    onChange={handlePropChange}
+                  />
                 ))}
               </div>
             </ControlGroup>

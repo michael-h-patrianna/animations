@@ -73,10 +73,12 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
       {showUnderline && (
         <div
           className="pf-timer-pulse__underline"
-          style={{
-            '--progress': progress,
-            ...(barColor !== undefined ? { background: barColor } : {}),
-          } as React.CSSProperties}
+          style={
+            {
+              '--progress': progress,
+              ...(barColor !== undefined ? { background: barColor } : {}),
+            } as React.CSSProperties
+          }
         />
       )}
     </div>

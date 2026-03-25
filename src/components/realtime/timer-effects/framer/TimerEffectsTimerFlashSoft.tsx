@@ -123,11 +123,13 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
       <m.div
         key={shakeKey}
         className="pf-timer-flash__pill pf-timer-flash__pill--soft"
-        style={{
-          backgroundColor: bgColor,
-          '--pill-glow-color': `color-mix(in srgb, ${bgColor} 45%, transparent)`,
-          animation: 'none',
-        } as React.CSSProperties}
+        style={
+          {
+            backgroundColor: bgColor,
+            '--pill-glow-color': `color-mix(in srgb, ${bgColor} 45%, transparent)`,
+            animation: 'none',
+          } as React.CSSProperties
+        }
         variants={shakeVariants}
         initial="idle"
         animate="shake"

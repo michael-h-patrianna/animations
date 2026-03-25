@@ -294,8 +294,8 @@ export interface AnimationMetadata {
   order?: number
 
   /**
- * Configurable props exposed in the right-side inspector panel.
- * When present, the selected animation can be edited from the shared inspector UI.
+   * Configurable props exposed in the right-side inspector panel.
+   * When present, the selected animation can be edited from the shared inspector UI.
    * Each entry describes one component prop — its type, default, and constraints.
    * Props with `disabled: true` are shown but not editable (refs, callbacks, ReactNode).
    */

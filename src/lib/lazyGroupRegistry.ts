@@ -1,9 +1,4 @@
-import type {
-  Animation,
-  AnimationExport,
-  Group,
-  GroupMetadata,
-} from '@/types/animation'
+import type { Animation, AnimationExport, Group, GroupMetadata } from '@/types/animation'
 import type {
   GroupCacheEntry,
   LazyCategory,
@@ -47,10 +42,7 @@ const categoriesList: LazyCategory[] = []
  * )
  * ```
  */
-export function registerLazyGroup(
-  groupId: string,
-  loader: LazyGroupLoader
-): void {
+export function registerLazyGroup(groupId: string, loader: LazyGroupLoader): void {
   if (loaderRegistry.has(groupId)) {
     // Silently ignore duplicate registrations in production
     // In dev, this might indicate a configuration issue
