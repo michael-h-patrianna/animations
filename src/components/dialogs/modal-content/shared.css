@@ -68,3 +68,17 @@
     opacity: 1;
   }
 }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .pf-mc-box--entrance {
+    animation: none;
+    opacity: 1;
+  }
+
+  .pf-button-stagger-item {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

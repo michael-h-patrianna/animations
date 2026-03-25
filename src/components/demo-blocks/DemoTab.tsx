@@ -12,12 +12,13 @@ interface DemoTabProps {
 /** Single tab button with active state visual. */
 export function DemoTab({ label, active = false, onClick, className = '', style }: DemoTabProps) {
   return (
-    <div
+    <button
+      type="button"
       className={`pf-demo-tab${active ? ' pf-demo-tab--active' : ''} ${className}`}
       onClick={onClick}
       style={style}
     >
       {label}
-    </div>
+    </button>
   )
 }

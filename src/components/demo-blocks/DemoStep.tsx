@@ -12,12 +12,13 @@ interface DemoStepProps {
 /** Single wizard step pill with active state. */
 export function DemoStep({ label, active = false, onClick, className = '', style }: DemoStepProps) {
   return (
-    <div
+    <button
+      type="button"
       className={`pf-demo-step${active ? ' pf-demo-step--active' : ''} ${className}`}
       onClick={onClick}
       style={style}
     >
       {label}
-    </div>
+    </button>
   )
 }

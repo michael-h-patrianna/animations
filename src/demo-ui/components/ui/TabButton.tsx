@@ -33,9 +33,9 @@ export const TabButton: React.FC<TabButtonProps> = ({
     ref={buttonRef}
     type="button"
     role="tab"
-    id={`tab-${tab.id}`}
+    id={`${instanceId}-tab-${tab.id}`}
     aria-selected={isActive}
-    aria-controls={`panel-${tab.id}`}
+    aria-controls={`${instanceId}-panel-${tab.id}`}
     tabIndex={isActive ? 0 : -1}
     onClick={() => {
       if (!isActive) soundManager.playClick()

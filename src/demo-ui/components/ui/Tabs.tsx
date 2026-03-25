@@ -168,9 +168,10 @@ export const Tabs: React.FC<TabsProps> = ({
           mountedTabs.has(tab.id) ? (
             <div
               key={tab.id}
+              id={`${instanceId}-panel-${tab.id}`}
               className={`w-full h-full ${tab.id === value ? 'block animate-fade-in' : 'hidden'}`}
               role="tabpanel"
-              aria-labelledby={`tab-${tab.id}`}
+              aria-labelledby={`${instanceId}-tab-${tab.id}`}
               data-testid={testId ? `${testId}-panel-${tab.id}` : undefined}
             >
               {tab.content}

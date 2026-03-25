@@ -6,3 +6,12 @@
 .pf-perspective {
   perspective: 1000px;
 }
+
+/* ── Reduced motion: disable entrance animations across all modal-base CSS variants ── */
+@media (prefers-reduced-motion: reduce) {
+  [class^='pf-modal-'][class^='pf-modal-'] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
