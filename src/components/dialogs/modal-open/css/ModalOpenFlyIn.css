@@ -9,22 +9,7 @@
  *   --pf-mo-overlay-opacity: 0.5
  */
 
-/* ── Overlay ── */
-.pf-mo-overlay--css {
-  opacity: 0;
-  animation: pf-mo-overlay-fade calc(var(--pf-mo-duration, 600ms) * 0.6) cubic-bezier(0, 0, 0.2, 1)
-    calc(var(--pf-mo-duration, 600ms) * 0.1) forwards;
-  will-change: opacity;
-}
-
-@keyframes pf-mo-overlay-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: var(--pf-mo-overlay-opacity, 0.5);
-  }
-}
+/* Overlay open/close provided by shared-css-animations.css */
 
 /* ── Arc flight: scale + opacity (trajectory via Web Animations API) ── */
 .pf-mo-modal--arc {
@@ -131,21 +116,6 @@
   }
 }
 
-/* ── Overlay close ── */
-.pf-mo-overlay--closing {
-  opacity: var(--pf-mo-overlay-opacity, 0.5);
-  animation: pf-mo-overlay-fade-out var(--pf-mo-duration, 420ms) ease-in forwards;
-}
-
-@keyframes pf-mo-overlay-fade-out {
-  from {
-    opacity: var(--pf-mo-overlay-opacity, 0.5);
-  }
-  to {
-    opacity: 0;
-  }
-}
-
 /* ── Impact glow ── */
 .pf-mo-impact-glow--css {
   animation: pf-mo-impact-glow-pulse var(--pf-mo-duration, 600ms) ease-out forwards;
@@ -170,22 +140,12 @@
   }
 }
 
-/* ── Reduced motion ── */
+/* ── Reduced motion (overlay handled by shared-css-animations.css) ── */
 @media (prefers-reduced-motion: reduce) {
-  .pf-mo-overlay--css {
-    animation: none;
-    opacity: 1;
-  }
-
   .pf-mo-modal--arc,
   .pf-mo-modal--pop,
   .pf-mo-modal--arc-close {
     animation: pf-mo-reduced-fade 10ms ease-out forwards;
-  }
-
-  .pf-mo-overlay--closing {
-    animation: none;
-    opacity: 0;
   }
 
   .pf-mo-impact-glow--css {

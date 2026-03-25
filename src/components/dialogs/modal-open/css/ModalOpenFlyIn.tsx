@@ -16,6 +16,7 @@ import {
   type DemoPreset,
 } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
+import './shared-css-animations.css'
 import './ModalOpenFlyIn.css'
 import {
   computeArcCloseTrajectory,
@@ -24,10 +25,10 @@ import {
 import { MIN_ARC_DISTANCE, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1200, reveal: 40 },
+  { label: 'Gentle', force: 0.02, duration: 1200, reveal: 40 },
   { label: 'Soft', force: 0.1, duration: 900, reveal: 50 },
   { label: 'Harder', force: 0.6, duration: 520, reveal: 65 },
-  { label: 'Daddy', force: 1.0, duration: 400, reveal: 72 },
+  { label: 'Strong', force: 1.0, duration: 400, reveal: 72 },
 ]
 
 function ModalOpenFlyInComponent(props: ModalOpenProps) {

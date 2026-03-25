@@ -160,6 +160,9 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonListRef = useRef<(HTMLButtonElement | null)[]>([])
 
+  // TODO: Demo detection via `from === undefined` embeds demo logic in the component.
+  // The project's demo separation architecture (demoMode metadata + DemoModeWrapper) should
+  // replace this pattern — see CLAUDE.md "Demo Separation" section.
   const isDemoMode = from === undefined
   const [demoConfig, setDemoConfig] = useState<DemoConfig | null>(null)
   const [phase, setPhase] = useState<Phase>(isDemoMode ? 'idle' : 'opening')

@@ -26,10 +26,10 @@ import {
 } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1200, reveal: 35 },
+  { label: 'Gentle', force: 0.02, duration: 1200, reveal: 35 },
   { label: 'Soft', force: 0.1, duration: 900, reveal: 45 },
   { label: 'Harder', force: 0.6, duration: 550, reveal: 60 },
-  { label: 'Daddy', force: 1.0, duration: 380, reveal: 70 },
+  { label: 'Strong', force: 1.0, duration: 380, reveal: 70 },
 ]
 
 function ModalOpenBubblePopComponent(props: ModalOpenProps) {

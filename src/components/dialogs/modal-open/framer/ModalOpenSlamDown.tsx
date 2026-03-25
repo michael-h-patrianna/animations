@@ -26,10 +26,10 @@ import {
 } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
-  { label: 'Soy', force: 0.02, duration: 1100, reveal: 45 },
+  { label: 'Gentle', force: 0.02, duration: 1100, reveal: 45 },
   { label: 'Soft', force: 0.1, duration: 850, reveal: 55 },
   { label: 'Harder', force: 0.6, duration: 550, reveal: 65 },
-  { label: 'Daddy', force: 1.0, duration: 450, reveal: 72 },
+  { label: 'Strong', force: 1.0, duration: 450, reveal: 72 },
 ]
 
 function ModalOpenSlamDownComponent(props: ModalOpenProps) {
