@@ -8,10 +8,10 @@ import * as m from 'motion/react-m'
 import { Suspense } from 'react'
 import './App.css'
 
-const slideVariants = {
-  enter: (direction: number) => ({ x: direction > 0 ? 1000 : -1000, opacity: 0 }),
-  center: { zIndex: 1, x: 0, opacity: 1 },
-  exit: (direction: number) => ({ zIndex: 0, x: direction < 0 ? 1000 : -1000, opacity: 0 }),
+const fadeVariants = {
+  enter: { opacity: 0 },
+  center: { zIndex: 1, opacity: 1 },
+  exit: { zIndex: 0, opacity: 0 },
 }
 
 /** Fallback UI while a group chunk is loading */
@@ -29,24 +29,18 @@ function GroupLoadingFallback() {
 /** App content that consumes navigation state from context. */
 function AppContent() {
   const { currentGroupId, currentGroup, animationFilter, isLoading, error } = useAppNavigation()
-  const direction = 0
-
   return (
     <AnimationInspectorProvider currentGroup={currentGroup}>
       <EditorLayout>
-        <AnimatePresence initial={false} custom={direction} mode="wait">
+        <AnimatePresence initial={false} mode="wait">
           {currentGroup && (
             <m.div
               key={currentGroupId}
-              custom={direction}
-              variants={slideVariants}
+              variants={fadeVariants}
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{
-                x: { type: 'spring' as const, stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
+              transition={{ opacity: { duration: 0.2 } }}
               style={{ width: '100%' }}
             >
               <Suspense fallback={<GroupLoadingFallback />}>
