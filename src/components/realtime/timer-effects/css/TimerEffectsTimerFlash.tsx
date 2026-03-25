@@ -15,7 +15,10 @@ import {
   formatTime,
 } from '@/components/realtime/timer-effects/SharedFormat'
 import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
+import {
+  resolveTimerProps,
+  type TimerEffectProps,
+} from '@/components/realtime/timer-effects/SharedTypes'
 
 import './TimerEffectsTimerFlash.css'
 
@@ -70,9 +73,7 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
 
   const pulseDuration = Math.max(300, 1000 - urgency * 700) / 1000
   const pulseScale =
-    seconds <= resolved.warningThreshold
-      ? 1 + (resolved.warningThreshold - seconds) / 200
-      : 1
+    seconds <= resolved.warningThreshold ? 1 + (resolved.warningThreshold - seconds) / 200 : 1
   const glowScale = seconds <= resolved.warningThreshold ? 0.95 + urgency * 0.5 : 0.95
   const glowOpacity = seconds <= resolved.warningThreshold ? 0.4 + urgency * 0.4 : 0
 

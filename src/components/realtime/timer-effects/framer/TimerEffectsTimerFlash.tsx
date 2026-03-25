@@ -18,7 +18,10 @@ import {
   formatTime,
 } from '@/components/realtime/timer-effects/SharedFormat'
 import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
+import {
+  resolveTimerProps,
+  type TimerEffectProps,
+} from '@/components/realtime/timer-effects/SharedTypes'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
@@ -57,11 +60,25 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
             : seconds <= resolved.warningThreshold
               ? 'warning'
               : 'normal'
-        ] ?? computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
-      : computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
+        ] ??
+        computeUrgencyColor(
+          seconds,
+          resolved.warningThreshold,
+          FLASH_NORMAL_RGB,
+          FLASH_CRITICAL_RGB
+        ))
+      : computeUrgencyColor(
+          seconds,
+          resolved.warningThreshold,
+          FLASH_NORMAL_RGB,
+          FLASH_CRITICAL_RGB
+        )
 
   // Single urgency value drives pulse speed, glow intensity, and scale
-  const urgency = seconds <= resolved.warningThreshold ? (resolved.warningThreshold - seconds) / resolved.warningThreshold : 0
+  const urgency =
+    seconds <= resolved.warningThreshold
+      ? (resolved.warningThreshold - seconds) / resolved.warningThreshold
+      : 0
   const pulseSpeed = Math.max(300, 1000 - urgency * 700) / 1000
 
   const glowAnimation =

@@ -11,7 +11,10 @@ import { memo } from 'react'
 import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
 import { buildGlitchPillTheme } from '@/components/realtime/timer-effects/SharedPillPhaseTheme'
 import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
+import {
+  resolveTimerProps,
+  type TimerEffectProps,
+} from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
 import './TimerEffectsPillCountdownGlitch.css'

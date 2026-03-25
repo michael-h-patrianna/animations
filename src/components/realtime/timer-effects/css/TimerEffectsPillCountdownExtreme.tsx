@@ -10,7 +10,10 @@ import { memo, useEffect, useRef, useState } from 'react'
 
 import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
 import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
+import {
+  resolveTimerProps,
+  type TimerEffectProps,
+} from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
 import './TimerEffectsPillCountdownExtreme.css'

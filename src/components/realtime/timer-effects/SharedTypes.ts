@@ -115,23 +115,55 @@ export interface TimerEffectProps {
  * The `colors`/`thresholds` object props take precedence over flat props for backward compatibility.
  */
 export function resolveTimerProps(
-  props: Pick<TimerEffectProps, 'colors' | 'textColors' | 'thresholds' | 'normalColor' | 'warningColor' | 'criticalColor' | 'normalTextColor' | 'warningTextColor' | 'criticalTextColor' | 'warningThreshold' | 'criticalThreshold'>,
+  props: Pick<
+    TimerEffectProps,
+    | 'colors'
+    | 'textColors'
+    | 'thresholds'
+    | 'normalColor'
+    | 'warningColor'
+    | 'criticalColor'
+    | 'normalTextColor'
+    | 'warningTextColor'
+    | 'criticalTextColor'
+    | 'warningThreshold'
+    | 'criticalThreshold'
+  >,
   defaultWarning: number,
   defaultCritical: number
-): { colors: TimerPhaseColors | undefined; textColors: TimerPhaseColors | undefined; warningThreshold: number; criticalThreshold: number } {
-  const hasFlat = props.normalColor !== undefined || props.warningColor !== undefined || props.criticalColor !== undefined
-  const colors = props.colors ?? (hasFlat ? {
-    normal: props.normalColor,
-    warning: props.warningColor,
-    critical: props.criticalColor,
-  } : undefined)
+): {
+  colors: TimerPhaseColors | undefined
+  textColors: TimerPhaseColors | undefined
+  warningThreshold: number
+  criticalThreshold: number
+} {
+  const hasFlat =
+    props.normalColor !== undefined ||
+    props.warningColor !== undefined ||
+    props.criticalColor !== undefined
+  const colors =
+    props.colors ??
+    (hasFlat
+      ? {
+          normal: props.normalColor,
+          warning: props.warningColor,
+          critical: props.criticalColor,
+        }
+      : undefined)
 
-  const hasFlatText = props.normalTextColor !== undefined || props.warningTextColor !== undefined || props.criticalTextColor !== undefined
-  const textColors = props.textColors ?? (hasFlatText ? {
-    normal: props.normalTextColor,
-    warning: props.warningTextColor,
-    critical: props.criticalTextColor,
-  } : undefined)
+  const hasFlatText =
+    props.normalTextColor !== undefined ||
+    props.warningTextColor !== undefined ||
+    props.criticalTextColor !== undefined
+  const textColors =
+    props.textColors ??
+    (hasFlatText
+      ? {
+          normal: props.normalTextColor,
+          warning: props.warningTextColor,
+          critical: props.criticalTextColor,
+        }
+      : undefined)
 
   return {
     colors,

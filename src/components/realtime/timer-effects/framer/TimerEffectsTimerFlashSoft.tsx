@@ -18,7 +18,10 @@ import {
   formatTime,
 } from '@/components/realtime/timer-effects/SharedFormat'
 import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
-import { resolveTimerProps, type TimerEffectProps } from '@/components/realtime/timer-effects/SharedTypes'
+import {
+  resolveTimerProps,
+  type TimerEffectProps,
+} from '@/components/realtime/timer-effects/SharedTypes'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
@@ -60,7 +63,7 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
   } = props
 
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
-  
+
   const { seconds, phase, progress, isHidden } = useCountdown({
     startSeconds,
     mode,
@@ -95,8 +98,19 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
             : seconds <= resolved.warningThreshold
               ? 'warning'
               : 'normal'
-        ] ?? computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB))
-      : computeUrgencyColor(seconds, resolved.warningThreshold, FLASH_NORMAL_RGB, FLASH_CRITICAL_RGB)
+        ] ??
+        computeUrgencyColor(
+          seconds,
+          resolved.warningThreshold,
+          FLASH_NORMAL_RGB,
+          FLASH_CRITICAL_RGB
+        ))
+      : computeUrgencyColor(
+          seconds,
+          resolved.warningThreshold,
+          FLASH_NORMAL_RGB,
+          FLASH_CRITICAL_RGB
+        )
 
   const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {
