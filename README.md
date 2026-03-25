@@ -77,7 +77,7 @@ No manual index editing required. The `import.meta.glob` in the group's `index.t
 
 ## Custom lint rules
 
-The project enforces animation portability through 21 custom ESLint rules in `eslint-rules/` and 6 custom Stylelint rules in `stylelint.config.js`:
+The project enforces animation portability through 30 custom ESLint rules in `eslint-rules/` and 6 custom Stylelint rules in `stylelint.config.js`:
 
 - **No hardcoded colors** — use CSS custom properties
 - **Dual implementation required** — every animation must exist in both `css/` and `framer/`

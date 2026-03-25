@@ -44,8 +44,10 @@ const categoriesList: LazyCategory[] = []
  */
 export function registerLazyGroup(groupId: string, loader: LazyGroupLoader): void {
   if (loaderRegistry.has(groupId)) {
-    // Silently ignore duplicate registrations in production
-    // In dev, this might indicate a configuration issue
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console -- intentional dev-only diagnostic
+      console.warn(`[lazyGroupRegistry] Duplicate registration for group "${groupId}" — ignored`)
+    }
     return
   }
   loaderRegistry.set(groupId, loader)
@@ -267,7 +269,8 @@ export function findLazyGroup(groupId: string): LazyGroup | undefined {
 // Helper Functions
 // ============================================================================
 
-/** Maps category IDs to their default titles */
+/** Fallback titles for registerLazyNavMetadata (all current callers use registerLazyCategory
+ *  which passes titles explicitly — keep in sync with category index.ts files if adding new categories). */
 function getCategoryTitle(categoryId: string): string {
   const titles: Record<string, string> = {
     base: 'Base Effects',
@@ -289,7 +292,6 @@ function formatGroupDisplayTitle(baseTitle: string, tech: 'framer' | 'css'): str
 
 /**
  * Converts AnimationExport map to Animation array for Group construction.
- * Mirrors the logic in animationData.ts.
  */
 export function exportsToAnimations(
   exports: Record<string, AnimationExport>,

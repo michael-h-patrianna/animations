@@ -77,7 +77,8 @@ for (const [pattern, budgetKB] of Object.entries(BUDGETS)) {
   const files = findMatchingFiles(pattern)
 
   if (files.length === 0) {
-    console.log(`  ⚠  ${pattern.padEnd(25)} — not found (skipped)`)
+    console.log(`  ✗  ${pattern.padEnd(25)} — not found (FAIL: expected output missing)`)
+    hasFailure = true
     continue
   }
 

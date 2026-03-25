@@ -96,7 +96,7 @@ This is a **React web project** with future React Native portability as a requir
 **❌ FORBIDDEN** (web-only, breaks React Native):
 
 - Blur animations or CSS filters
-- Radial/conic gradients
+- Radial/conic gradients (exception: static radial gradients in JS inline styles are permitted per ADR-005)
 - Box shadows, text shadows
 - backdrop-filter, clip-path
 - CSS pseudo-elements (:before, :after)

@@ -72,11 +72,7 @@ For complex effects with multiple concerns:
 - [x] Create comprehensive test plans
 - [x] Write implementation guides
 
-**Artifacts:**
-
-- `docs/state-machines/animationcard-state-machine.md`
-- `docs/state-machines/app-state-machine.md`
-- `docs/state-machines/timer-hooks-design.md`
+**Artifacts:** Not implemented — Phase 1 produced analysis only; Phase 2 was deferred indefinitely.
 
 ### Phase 2: Implementation (DEFERRED)
 

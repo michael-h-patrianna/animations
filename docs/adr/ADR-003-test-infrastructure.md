@@ -51,7 +51,7 @@ We chose a **two-tier testing strategy**:
 
 - **Playwright** for end-to-end browser testing
 - Structural, layout, and accessibility validation for interactive flows
-- Chromium-only execution in the current config
+- Chromium and WebKit execution in the current config
 - HTML reports and retry traces for debugging failures
 
 **Why Playwright over Cypress:**

@@ -1,6 +1,10 @@
 /**
  * Apply manually reviewed tier classifications to all .meta.ts files.
  * Both CSS and framer variants get the same tier.
+ *
+ * This hardcoded map is the AUTHORITATIVE source for tier assignments.
+ * `classify-tiers.mjs` is an analytical tool that heuristically computes
+ * minimum tiers from import analysis — use it for discovery, not enforcement.
  */
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs'
 import { basename, dirname, join, resolve } from 'node:path'

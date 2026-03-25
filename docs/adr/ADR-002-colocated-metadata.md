@@ -23,28 +23,31 @@ Traditional approaches considered:
 
 ## Decision
 
-We implemented a **co-located metadata system** where each animation component file exports its own metadata object:
+We implemented a **co-located metadata system** where each animation has a separate `.meta.ts` file alongside its component:
 
 ```typescript
-// Example: ButtonBounce.tsx
+// Example: ButtonBounce.meta.ts
+import type { AnimationMetadata } from '@/types/animation'
+
 export const metadata: AnimationMetadata = {
-  id: 'button-bounce',
+  id: 'button-effects__bounce',
   title: 'Button Bounce',
   description: 'Bouncy button effect on click',
-  tags: ['button', 'bounce', 'click'],
-  category: 'button-effects',
-  group: 'button-effects-framer',
+  tier: 1,
 }
+```
 
-export default function ButtonBounce() {
+```typescript
+// Example: ButtonBounce.tsx (named export, no default)
+export function ButtonBounce() {
   // Component implementation
 }
 ```
 
-A registration system (`animationRegistry.ts`) then:
+Group `index.ts` files use `buildGroupExport` with `import.meta.glob` for **automatic discovery** — adding a `.tsx` and `.meta.ts` file to `framer/` or `css/` is sufficient. The system then:
 
-1. Dynamically imports all animation components
-2. Extracts metadata from each component
+1. Auto-discovers all component and metadata files via glob
+2. Extracts metadata from each `.meta.ts` file
 3. Builds a hierarchical catalog (categories → groups → animations)
 4. Provides type-safe access to the catalog
 

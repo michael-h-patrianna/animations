@@ -20,7 +20,7 @@ npm install
 npm run dev
 ```
 
-Access at `http://localhost:3000` (configured in `vite.config.ts`).
+Access at `http://localhost:3000` (configured in `vite.config.ts`). E2E tests run on port 5173 via `playwright.config.ts` webServer override for test isolation.
 
 ---
 

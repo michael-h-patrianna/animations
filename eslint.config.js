@@ -474,6 +474,24 @@ export default defineConfig([
       'animation-rules/no-default-export-in-animation': 'error',
     },
   },
+  // AnimationInspectorContext uses setState-in-effect to synchronize animated preview
+  // values and clear stale selections when the active group changes. These are standard
+  // React "sync state with props" patterns, not unnecessary re-renders.
+  {
+    files: ['src/contexts/AnimationInspectorContext.tsx'],
+    rules: {
+      '@eslint-react/set-state-in-effect': 'off',
+    },
+  },
+  // CSS button-effects use cloneElement to inject animation classes directly onto
+  // the consumer's element — a wrapper div would break the "apply this class to your
+  // element" consumer model. cloneElement is the correct pattern here.
+  {
+    files: ['src/components/base/button-effects/css/*.tsx'],
+    rules: {
+      '@eslint-react/no-clone-element': 'off',
+    },
+  },
   // Demo-ui components: self-contained UI kit with dense JSX layouts
   // (dropdown positioning, input styling, tooltip logic). max-lines-per-function
   // at 75 is too restrictive for properly-formatted React component JSX.
