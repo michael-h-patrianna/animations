@@ -18,6 +18,7 @@ export const metadata: AnimationMetadata = {
       min: 0,
       max: 1,
       step: 0.01,
+      animatable: true,
     },
     {
       type: 'style-object',

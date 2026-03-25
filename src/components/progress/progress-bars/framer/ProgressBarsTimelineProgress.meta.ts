@@ -18,6 +18,7 @@ export const metadata: AnimationMetadata = {
       min: 0,
       max: 1,
       step: 0.01,
+      animatable: true,
     },
     { type: 'number', name: 'steps', label: 'Steps', default: 4, min: 2, max: 10, step: 1 },
     {

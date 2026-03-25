@@ -1,4 +1,10 @@
-import type { Animation, Group, PropConfig, StyleObjectFieldConfig } from '@/types/animation'
+import type {
+  Animation,
+  Group,
+  NumberPropConfig,
+  PropConfig,
+  StyleObjectFieldConfig,
+} from '@/types/animation'
 import { getInspectorStarterDefaults } from '@/contexts/inspectorStarterDefaults'
 import { resolveColorInputDefault } from '@/utils/colors'
 import {
@@ -7,6 +13,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type Context,
   type ReactNode,
@@ -14,6 +21,7 @@ import {
 
 type PropOverridesByAnimationId = Record<string, Record<string, unknown>>
 type ReplayVersionsByAnimationId = Record<string, number>
+type AnimateToggles = Record<string, Record<string, 'fixed' | 'animate'>>
 
 interface AnimationInspectorContextValue {
   selectedAnimationId?: string
@@ -31,6 +39,12 @@ interface AnimationInspectorContextValue {
   resetPropOverrides: (animationId: string, propsConfig?: PropConfig[]) => void
   getReplayVersion: (animationId: string) => number
   replayAnimation: (animationId: string) => void
+  getAnimateMode: (
+    animationId: string,
+    propName: string,
+    defaultMode?: 'fixed' | 'animate'
+  ) => 'fixed' | 'animate'
+  setAnimateMode: (animationId: string, propName: string, mode: 'fixed' | 'animate') => void
 }
 
 // Preserve context identity across Vite HMR to prevent provider/consumer mismatch.
@@ -234,6 +248,135 @@ function useOverridesAndReplay() {
  * Provides animation inspector state (selection, prop overrides, replay) to the component tree.
  * Manages per-animation prop overrides and coordinates replay signals from the inspector panel.
  */
+/** Resolves the effective animate mode for a prop, falling back to the prop's default or 'animate'. */
+function resolveAnimateMode(
+  toggles: AnimateToggles,
+  animationId: string,
+  propName: string,
+  defaultMode?: 'fixed' | 'animate'
+): 'fixed' | 'animate' {
+  return toggles[animationId]?.[propName] ?? defaultMode ?? 'animate'
+}
+
+/** Finds animatable number props that are currently in 'animate' mode. */
+function getActiveAnimatableProps(
+  props: PropConfig[] | undefined,
+  toggles: AnimateToggles,
+  animationId: string
+): NumberPropConfig[] {
+  if (!props) return []
+  return props.filter((p): p is NumberPropConfig => {
+    if (p.type !== 'number' || !p.animatable) return false
+    return resolveAnimateMode(toggles, animationId, p.name, p.animateDefault) === 'animate'
+  })
+}
+
+/** Manages the Fixed/Animate toggle state and a timer that drives animated prop values. */
+function useAnimatePreview(selectedAnimation: Animation | undefined) {
+  const [animateToggles, setAnimateToggles] = useState<AnimateToggles>({})
+  const [animatedValues, setAnimatedValues] = useState<Record<string, number>>({})
+  const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  const getAnimateMode = useCallback(
+    (animationId: string, propName: string, defaultMode?: 'fixed' | 'animate') =>
+      resolveAnimateMode(animateToggles, animationId, propName, defaultMode),
+    [animateToggles]
+  )
+
+  const setAnimateMode = useCallback(
+    (animationId: string, propName: string, mode: 'fixed' | 'animate') => {
+      setAnimateToggles((prev) => ({
+        ...prev,
+        [animationId]: { ...(prev[animationId] ?? {}), [propName]: mode },
+      }))
+    },
+    []
+  )
+
+  // Timer: drives animatable props from min→max for the selected animation.
+  useEffect(() => {
+    if (!selectedAnimation) {
+      setAnimatedValues({})
+      return
+    }
+
+    const active = getActiveAnimatableProps(
+      selectedAnimation.props,
+      animateToggles,
+      selectedAnimation.id
+    )
+    if (active.length === 0) {
+      setAnimatedValues({})
+      return
+    }
+
+    const prop = active[0]!
+    const duration = prop.animateDuration ?? 4000
+    const pause = prop.animatePause ?? 1200
+    const min = prop.min ?? 0
+    const max = prop.max ?? 1
+    const step = prop.step ?? 0.01
+    const totalSteps = Math.round((max - min) / step)
+    const stepInterval = duration / totalSteps
+
+    let currentStep = 0
+    let pausing = false
+
+    setAnimatedValues({ [prop.name]: min })
+
+    const timer = setInterval(() => {
+      if (pausing) return
+      currentStep++
+      if (currentStep >= totalSteps) {
+        setAnimatedValues({ [prop.name]: max })
+        pausing = true
+        pauseTimerRef.current = setTimeout(() => {
+          currentStep = 0
+          setAnimatedValues({ [prop.name]: min })
+          pausing = false
+        }, pause)
+      } else {
+        const raw = min + (currentStep / totalSteps) * (max - min)
+        const rounded = Math.round(raw / step) * step
+        setAnimatedValues({ [prop.name]: Math.min(rounded, max) })
+      }
+    }, stepInterval)
+
+    return () => {
+      clearInterval(timer)
+      if (pauseTimerRef.current) {
+        clearTimeout(pauseTimerRef.current)
+        pauseTimerRef.current = undefined
+      }
+    }
+  }, [selectedAnimation, animateToggles])
+
+  return { animateToggles, animatedValues, getAnimateMode, setAnimateMode }
+}
+
+/** Injects animated values into base overrides for the selected animation's animate-mode props. */
+function mergeAnimatedOverrides(
+  animationId: string,
+  selectedId: string | undefined,
+  baseOverrides: Record<string, unknown>,
+  toggles: AnimateToggles,
+  values: Record<string, number>,
+  propsConfig?: PropConfig[]
+): Record<string, unknown> {
+  if (animationId !== selectedId) return baseOverrides
+  const active = getActiveAnimatableProps(propsConfig, toggles, animationId)
+  if (active.length === 0) return baseOverrides
+  const merged = { ...baseOverrides }
+  for (const prop of active) {
+    if (prop.name in values) merged[prop.name] = values[prop.name]
+  }
+  return merged
+}
+
+/**
+ * Provides animation inspector state (selection, prop overrides, replay, animate preview)
+ * to the component tree.
+ */
 export function AnimationInspectorProvider({
   currentGroup,
   children,
@@ -241,7 +384,7 @@ export function AnimationInspectorProvider({
   const [selectedAnimationId, setSelectedAnimationId] = useState<string | undefined>(undefined)
   const {
     ensureOverrides,
-    getPropOverrides,
+    getPropOverrides: getBaseOverrides,
     setPropOverride,
     resetPropOverrides,
     getReplayVersion,
@@ -270,12 +413,23 @@ export function AnimationInspectorProvider({
     [ensureOverrides]
   )
 
-  const clearSelection = useCallback(() => {
-    setSelectedAnimationId(undefined)
-  }, [])
+  const clearSelection = useCallback(() => setSelectedAnimationId(undefined), [])
   const isSelected = useCallback(
     (animationId: string) => selectedAnimationId === animationId,
     [selectedAnimationId]
+  )
+
+  const { animateToggles, animatedValues, getAnimateMode, setAnimateMode } =
+    useAnimatePreview(selectedAnimation)
+
+  const getPropOverrides = useCallback(
+    (animationId: string, propsConfig?: PropConfig[]) => {
+      const base = getBaseOverrides(animationId, propsConfig)
+      return mergeAnimatedOverrides(
+        animationId, selectedAnimationId, base, animateToggles, animatedValues, propsConfig
+      )
+    },
+    [getBaseOverrides, selectedAnimationId, animateToggles, animatedValues]
   )
 
   const value = useMemo<AnimationInspectorContextValue>(
@@ -290,6 +444,8 @@ export function AnimationInspectorProvider({
       resetPropOverrides,
       getReplayVersion,
       replayAnimation,
+      getAnimateMode,
+      setAnimateMode,
     }),
     [
       selectedAnimationId,
@@ -302,6 +458,8 @@ export function AnimationInspectorProvider({
       resetPropOverrides,
       getReplayVersion,
       replayAnimation,
+      getAnimateMode,
+      setAnimateMode,
     ]
   )
 

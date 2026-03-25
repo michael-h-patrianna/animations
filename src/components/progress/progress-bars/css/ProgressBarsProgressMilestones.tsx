@@ -1,14 +1,13 @@
 /**
  * Milestone Markers Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsProgressMilestones.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsProgressMilestones.css + ../SharedTypes.ts
  */
 import { useMemo } from 'react'
 import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsProgressMilestones.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
@@ -25,7 +24,7 @@ export function ProgressBarsProgressMilestones({
   className,
   style,
 }: MilestoneProgressBarProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 1500 })
+  const displayProgress = (progress ?? 0)
 
   const activatedSet = useMemo(
     () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),

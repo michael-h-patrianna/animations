@@ -16,14 +16,13 @@
  * - `--liquid-tube-fill`    — liquid color
  * - `--liquid-tube-bubble`  — bubble color
  *
- * Files to copy: this file + ProgressBarsLiquidTube.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsLiquidTube.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 4000, pause: 600 })
+  const displayProgress = (progress ?? 0)
   const percent = displayProgress * 100
 
   return (

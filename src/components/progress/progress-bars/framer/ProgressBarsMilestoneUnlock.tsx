@@ -21,7 +21,7 @@
  * - `--unlock-value-color`   — counter value color
  * - `--unlock-ring-color`    — milestone ring color
  *
- * Files to copy: this file + ProgressBarsMilestoneUnlock.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsMilestoneUnlock.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
@@ -29,7 +29,6 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface MilestoneUnlockProps extends MilestoneProgressBarProps {
   /** Label text in header. Default: "Milestone Locks". */
@@ -75,9 +74,7 @@ export function ProgressBarsMilestoneUnlock({
   className,
   style,
 }: MilestoneUnlockProps) {
-  const isDemo = progress === undefined
-  const demoDuration = 5500
-  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1500 })
+  const displayProgress = progress ?? 0
 
   const activatedSet = useMemo(
     () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
@@ -103,21 +100,9 @@ export function ProgressBarsMilestoneUnlock({
         <div className="milestone-unlock-rail-base" />
         <m.div
           className="milestone-unlock-rail-fill"
-          initial={isDemo ? { width: '0%' } : false}
-          animate={
-            isDemo
-              ? {
-                  width: '100%',
-                  transition: {
-                    duration: demoDuration / 1000,
-                    ease: 'linear',
-                    repeat: Infinity,
-                    repeatDelay: 1.5,
-                  },
-                }
-              : { width: `${displayProgress * 100}%` }
-          }
-          transition={isDemo ? undefined : { duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
+          initial={false}
+          animate={{ width: `${displayProgress * 100}%` }}
+          transition={{ duration: 0.18, ease: [0.24, 0.78, 0.28, 0.98] }}
           style={{ animation: 'none' }}
         />
 

@@ -17,7 +17,7 @@
  * - `--charge-fill-color`     — fill color
  * - `--charge-marker-color`   — marker color
  *
- * Files to copy: this file + ProgressBarsChargeSurge.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsChargeSurge.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useRef, useState, useEffect } from 'react'
@@ -25,7 +25,6 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 type MilestoneState = 'inactive' | 'anticipating' | 'charged'
 interface SurgeWave {
@@ -48,9 +47,7 @@ export function ProgressBarsChargeSurge({
   className,
   style,
 }: MilestoneProgressBarProps) {
-  const isDemo = progress === undefined
-  const demoDuration = 4000
-  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 1500 })
+  const displayProgress = progress ?? 0
   const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>(() =>
     milestones.map(() => 'inactive')
   )
@@ -128,24 +125,16 @@ export function ProgressBarsChargeSurge({
         <div className="pf-progress-track">
           <m.div
             className="pf-progress-fill pf-progress-fill--base"
-            initial={isDemo ? { scaleX: 0 } : false}
-            animate={
-              isDemo
-                ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
-                : { scaleX: progress ?? 0 }
-            }
-            transition={isDemo ? undefined : { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
+            initial={false}
+            animate={{ scaleX: progress ?? 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
           <m.div
             className="pf-progress-fill pf-progress-fill--glow"
-            initial={isDemo ? { scaleX: 0 } : false}
-            animate={
-              isDemo
-                ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
-                : { scaleX: progress ?? 0 }
-            }
-            transition={isDemo ? undefined : { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
+            initial={false}
+            animate={{ scaleX: progress ?? 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           >
             <m.div

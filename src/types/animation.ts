@@ -98,6 +98,14 @@ export interface NumberPropConfig extends PropConfigBase {
   step?: number
   /** Display unit label (e.g. 'ms', 'px', 'deg'). Does not affect the value. */
   unit?: string
+  /** When true, the inspector shows a Fixed/Animate toggle. In Animate mode the harness drives the value from min→max automatically. */
+  animatable?: boolean
+  /** Default preview mode for animatable props. Default: 'animate'. */
+  animateDefault?: 'fixed' | 'animate'
+  /** Duration of one min→max sweep in ms. Default 4000. */
+  animateDuration?: number
+  /** Pause at max before resetting, in ms. Default 1200. */
+  animatePause?: number
 }
 
 /** Free-text string prop — rendered as text input. */

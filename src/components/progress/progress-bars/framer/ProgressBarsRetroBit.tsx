@@ -16,11 +16,10 @@
  * - `--retro-bit-inactive`     — inactive segment color
  * - `--retro-bit-label-color`  — label text color
  *
- * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface RetroBitProps extends ProgressBarProps {
   /** Number of discrete segments. Default: 10. */
@@ -36,7 +35,7 @@ export function ProgressBarsRetroBit({
   className,
   style,
 }: RetroBitProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 1000 })
+  const displayProgress = (progress ?? 0)
   const activeCount = Math.floor(displayProgress * segments)
 
   return (

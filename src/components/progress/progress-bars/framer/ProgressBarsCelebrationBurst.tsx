@@ -14,7 +14,7 @@
  * - `--burst-fill-color`     — fill color
  * - `--burst-marker-color`   — marker/particle color
  *
- * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useMemo, useRef, useState, useEffect } from 'react'
@@ -22,7 +22,6 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface Particle {
   id: number
@@ -44,9 +43,7 @@ export function ProgressBarsCelebrationBurst({
   className,
   style,
 }: MilestoneProgressBarProps) {
-  const isDemo = progress === undefined
-  const demoDuration = 4000
-  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 2000 })
+  const displayProgress = progress ?? 0
 
   const activatedSet = useMemo(
     () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
@@ -103,13 +100,9 @@ export function ProgressBarsCelebrationBurst({
         <div className="pf-progress-track">
           <m.div
             className="pf-progress-fill"
-            initial={isDemo ? { scaleX: 0 } : false}
-            animate={
-              isDemo
-                ? { scaleX: 1, transition: { duration: demoDuration / 1000, ease: 'linear' } }
-                : { scaleX: progress ?? 0 }
-            }
-            transition={isDemo ? undefined : { duration: 0.3, ease: 'linear' }}
+            initial={false}
+            animate={{ scaleX: progress ?? 0 }}
+            transition={{ duration: 0.3, ease: 'linear' }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
         </div>

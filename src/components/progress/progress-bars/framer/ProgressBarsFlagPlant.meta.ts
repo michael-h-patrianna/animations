@@ -17,6 +17,7 @@ export const metadata = {
       min: 0,
       max: 1,
       step: 0.01,
+      animatable: true,
     },
     { type: 'string', name: 'label', label: 'Label', default: 'Checkpoint Planting' },
     { type: 'image', name: 'markerIcon', label: 'Marker Icon' },

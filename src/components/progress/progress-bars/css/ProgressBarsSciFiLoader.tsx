@@ -1,10 +1,9 @@
 /**
  * Sci-Fi Loader Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsSciFiLoader.css'
 
 interface SciFiLoaderProps extends ProgressBarProps {
@@ -18,7 +17,7 @@ export function ProgressBarsSciFiLoader({
   className,
   style,
 }: SciFiLoaderProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 800 })
+  const displayProgress = (progress ?? 0)
   const percent = Math.round(displayProgress * 100)
 
   return (

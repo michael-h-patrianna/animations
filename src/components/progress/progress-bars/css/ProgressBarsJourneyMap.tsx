@@ -1,10 +1,9 @@
 /**
  * Journey Map Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsJourneyMap.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsJourneyMap.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsJourneyMap.css'
 
 interface JourneyMapProps extends ProgressBarProps {
@@ -50,7 +49,7 @@ export function ProgressBarsJourneyMap({
   className,
   style,
 }: JourneyMapProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 8000, pause: 1200 })
+  const displayProgress = (progress ?? 0)
   const percent = displayProgress * 100
   const covered = Math.round(displayProgress * totalDistance)
   const remaining = Math.max(0, totalDistance - covered)

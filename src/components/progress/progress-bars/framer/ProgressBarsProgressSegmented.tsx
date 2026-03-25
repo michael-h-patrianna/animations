@@ -19,12 +19,11 @@
  * - `--segmented-gap-color`      — gap divider color
  * - `--segmented-height`         — track height (default: 12px)
  *
- * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { easeOut } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface SegmentedProps extends ProgressBarProps {
   /** Number of segments. Default: 4. */
@@ -39,16 +38,13 @@ export function ProgressBarsProgressSegmented({
   className,
   style,
 }: SegmentedProps) {
-  const isDemo = progress === undefined
-  const displayProgress = useDemoProgress(progress, { duration: 3000, pause: 1500 })
+  const displayProgress = progress ?? 0
 
   const fillVariants = {
     initial: { scaleX: 0 },
     animate: {
       scaleX: displayProgress,
-      transition: isDemo
-        ? { duration: 3, ease: 'linear' as const }
-        : { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const },
+      transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
   }
 

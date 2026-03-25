@@ -18,11 +18,10 @@
  * - `--neon-pulse-glow`       — glow layer (default: rgb(236 72 153 / 25%))
  * - `--neon-pulse-height`     — track height (default: 8px)
  *
- * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface NeonPulseProps extends ProgressBarProps {
   /** Status label below the bar. Default: "SYNCING...". */
@@ -35,9 +34,7 @@ export function ProgressBarsNeonPulse({
   className,
   style,
 }: NeonPulseProps) {
-  const isDemo = progress === undefined
-  const demoDuration = 6000
-  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 800 })
+  const displayProgress = progress ?? 0
   const percent = displayProgress * 100
 
   return (
@@ -49,21 +46,9 @@ export function ProgressBarsNeonPulse({
       <div className="neon-pulse-track">
         <m.div
           className="neon-pulse-fill"
-          initial={isDemo ? { width: '0%' } : false}
-          animate={
-            isDemo
-              ? {
-                  width: '100%',
-                  transition: {
-                    duration: demoDuration / 1000,
-                    ease: 'linear',
-                    repeat: Infinity,
-                    repeatDelay: 0.8,
-                  },
-                }
-              : { width: `${percent}%` }
-          }
-          transition={isDemo ? undefined : { ease: 'linear', duration: 0.1 }}
+          initial={false}
+          animate={{ width: `${percent}%` }}
+          transition={{ ease: 'linear', duration: 0.1 }}
           style={{ animation: 'none' }}
         >
           <m.div
@@ -76,21 +61,9 @@ export function ProgressBarsNeonPulse({
 
         <m.div
           className="neon-pulse-glow"
-          initial={isDemo ? { width: '0%' } : false}
-          animate={
-            isDemo
-              ? {
-                  width: '100%',
-                  transition: {
-                    duration: demoDuration / 1000,
-                    ease: 'linear',
-                    repeat: Infinity,
-                    repeatDelay: 0.8,
-                  },
-                }
-              : { width: `${percent}%` }
-          }
-          transition={isDemo ? undefined : { ease: 'linear', duration: 0.1 }}
+          initial={false}
+          animate={{ width: `${percent}%` }}
+          transition={{ ease: 'linear', duration: 0.1 }}
         />
       </div>
       {label !== undefined && label !== '' && <div className="neon-pulse-label">{label}</div>}

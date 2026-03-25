@@ -3,12 +3,11 @@ import type { CSSProperties } from 'react'
 /**
  * Base props for all progress bar components.
  *
- * Every prop is optional. When `progress` is omitted the component runs its
- * built-in demo animation — this is how the catalog renders it.
- * When `progress` is provided (0-1) the bar becomes a controlled component.
+ * Every prop is optional. Pass `progress` (0-1) to control the fill level.
+ * When omitted the bar renders at 0%.
  */
 export interface ProgressBarProps {
-  /** Current progress, 0 to 1. Omit for built-in demo loop. */
+  /** Current progress, 0 to 1. Default: 0. */
   progress?: number
 
   /** Additional CSS class applied to the root element. */

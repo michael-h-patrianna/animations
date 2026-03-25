@@ -1,10 +1,9 @@
 /**
  * Retro Bit Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsRetroBit.css'
 
 interface RetroBitProps extends ProgressBarProps {
@@ -21,7 +20,7 @@ export function ProgressBarsRetroBit({
   className,
   style,
 }: RetroBitProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 1000 })
+  const displayProgress = (progress ?? 0)
   const activeCount = Math.floor(displayProgress * segments)
 
   return (

@@ -1,9 +1,8 @@
 /**
  * Elastic Fill Progress Bar
  *
- * A progress bar that fills with playful elastic overshoot and squash physics.
- * In demo mode (no `progress` prop) it plays a one-shot fill to 70%.
- * In controlled mode it animates to the given value with elastic easing.
+ * A progress bar that fills with elastic spring physics.
+ * Pass `progress` (0-1) to control the fill level.
  *
  * @example
  * ```tsx
@@ -26,15 +25,10 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
-const DEMO_TARGET = 0.7
-
 export function ProgressBarsElasticFill({ progress, className, style }: ProgressBarProps) {
   const shouldReduceMotion = useReducedMotion()
-  const isDemo = progress === undefined
-  const target = progress ?? DEMO_TARGET
+  const target = progress ?? 0
   const percent = Math.round(target * 100)
-
-  const overshoot = Math.min(target * 1.1, 1)
 
   const animation = shouldReduceMotion
     ? {
@@ -42,26 +36,15 @@ export function ProgressBarsElasticFill({ progress, className, style }: Progress
         scaleY: 1,
         transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] as const },
       }
-    : isDemo
-      ? {
-          scaleX: [0, overshoot, target],
-          scaleY: [1, 0.9, 1],
-          transition: {
-            duration: 1.4,
-            delay: 0.08,
-            ease: [0.34, 1.56, 0.64, 1] as const,
-            times: [0, 0.43, 1],
-          },
-        }
-      : {
-          scaleX: target,
-          scaleY: 1,
-          transition: {
-            type: 'spring' as const,
-            stiffness: 180,
-            damping: 14,
-          },
-        }
+    : {
+        scaleX: target,
+        scaleY: 1,
+        transition: {
+          type: 'spring' as const,
+          stiffness: 180,
+          damping: 14,
+        },
+      }
 
   return (
     <div
@@ -77,7 +60,7 @@ export function ProgressBarsElasticFill({ progress, className, style }: Progress
             aria-valuenow={percent}
             aria-valuemin={0}
             aria-valuemax={100}
-            initial={isDemo ? { scaleX: 0, scaleY: 1 } : false}
+            initial={false}
             animate={animation}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />

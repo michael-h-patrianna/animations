@@ -18,11 +18,10 @@
  * - `--scifi-text`    — label text color
  * - `--scifi-decor`   — decorative frame color
  *
- * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface SciFiLoaderProps extends ProgressBarProps {
   /** Label prefix text. Default: "SYSTEM.INIT:". */
@@ -35,9 +34,7 @@ export function ProgressBarsSciFiLoader({
   className,
   style,
 }: SciFiLoaderProps) {
-  const isDemo = progress === undefined
-  const demoDuration = 5000
-  const displayProgress = useDemoProgress(progress, { duration: demoDuration, pause: 800 })
+  const displayProgress = progress ?? 0
   const percent = Math.round(displayProgress * 100)
 
   return (
@@ -49,21 +46,9 @@ export function ProgressBarsSciFiLoader({
       <div className="scifi-loader-track">
         <m.div
           className="scifi-loader-fill"
-          initial={isDemo ? { width: '0%' } : false}
-          animate={
-            isDemo
-              ? {
-                  width: '100%',
-                  transition: {
-                    duration: demoDuration / 1000,
-                    ease: 'linear',
-                    repeat: Infinity,
-                    repeatDelay: 0.8,
-                  },
-                }
-              : { width: `${percent}%` }
-          }
-          transition={isDemo ? undefined : { type: 'tween', ease: 'linear', duration: 0.05 }}
+          initial={false}
+          animate={{ width: `${percent}%` }}
+          transition={{ type: 'tween', ease: 'linear', duration: 0.05 }}
           style={{ animation: 'none' }}
         />
         <m.div

@@ -17,18 +17,17 @@ export function ProgressBarsTimelineProgress({
   className,
   style,
 }: TimelineProps) {
-  const isDemo = progress === undefined
-  const activeSteps = isDemo ? steps : Math.ceil(progress * steps)
+  const activeSteps = Math.ceil((progress ?? 0) * steps)
 
   return (
     <div
-      className={`pf-timeline-progress${isDemo ? ' is-demo' : ''}${className ? ` ${className}` : ''}`}
+      className={`pf-timeline-progress${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__timeline-progress"
     >
       <div className="pf-timeline-progress__track">
         {Array.from({ length: steps }, (_, index) => {
-          const isActive = isDemo || index < activeSteps
+          const isActive = index < activeSteps
           return (
             <div
               key={index}
@@ -40,18 +39,12 @@ export function ProgressBarsTimelineProgress({
             >
               <div
                 className={`pf-timeline-progress__step${isActive ? ' is-active' : ''}`}
-                style={{
-                  animationDelay: isDemo ? `${index * 260}ms` : undefined,
-                }}
               >
                 {index + 1}
               </div>
               {index < steps - 1 && (
                 <div
                   className={`pf-timeline-progress__connector${isActive ? ' is-active' : ''}`}
-                  style={{
-                    animationDelay: isDemo ? `${index * 260}ms` : undefined,
-                  }}
                 />
               )}
             </div>

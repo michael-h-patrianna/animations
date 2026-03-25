@@ -7,9 +7,15 @@ import { PropField } from '@/components/ui/PropField'
 import { hasDirtyPropOverrides, useAnimationInspector } from '@/contexts/AnimationInspectorContext'
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
-import type { PropConfig } from '@/types/animation'
+import { ToggleGroup } from '@/demo-ui/components/ui/ToggleGroup'
+import type { NumberPropConfig, PropConfig } from '@/types/animation'
 import type React from 'react'
 import { useCallback, useMemo } from 'react'
+
+const ANIMATE_TOGGLE_OPTIONS = [
+  { value: 'fixed' as const, label: 'Fixed' },
+  { value: 'animate' as const, label: 'Animate' },
+]
 
 function CountBadge({ count }: { count: number }) {
   return (
@@ -25,6 +31,43 @@ function EmptyState() {
       <div className="w-full rounded-2xl border border-dashed border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 px-4 py-10 text-center">
         <p className="text-sm font-medium text-text-secondary">Select an animation</p>
       </div>
+    </div>
+  )
+}
+
+function AnimatableField({
+  config,
+  value,
+  animateMode,
+  onToggle,
+  onChange,
+}: {
+  config: NumberPropConfig
+  value: unknown
+  animateMode: 'fixed' | 'animate'
+  onToggle: (mode: 'fixed' | 'animate') => void
+  onChange: (name: string, value: unknown) => void
+}) {
+  const isAnimating = animateMode === 'animate'
+  return (
+    <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 p-3 space-y-2">
+      <ToggleGroup
+        options={ANIMATE_TOGGLE_OPTIONS}
+        value={animateMode}
+        onChange={onToggle}
+        ariaLabel={`${config.label} preview mode`}
+        data-testid={`animate-toggle-${config.name}`}
+      />
+      <PropField
+        config={{ ...config, disabled: isAnimating ? true : config.disabled }}
+        value={value}
+        onChange={onChange}
+      />
+      {config.description != null && config.description !== '' && (
+        <p className="mt-2 px-1 text-[11px] leading-relaxed text-text-tertiary">
+          {config.description}
+        </p>
+      )}
     </div>
   )
 }
@@ -101,6 +144,8 @@ function useInspectorPanel() {
     setPropOverride,
     resetPropOverrides,
     replayAnimation,
+    getAnimateMode,
+    setAnimateMode,
   } = useAnimationInspector()
 
   const propOverrides = useMemo(
@@ -155,7 +200,51 @@ function useInspectorPanel() {
     handlePropChange,
     handleReset,
     handleReplay,
+    getAnimateMode,
+    setAnimateMode,
   }
+}
+
+function PropRunField({
+  run,
+  animationId,
+  propOverrides,
+  getAnimateMode,
+  onAnimateToggle,
+  onChange,
+}: {
+  run: PropConfig[]
+  animationId: string
+  propOverrides: Record<string, unknown> | undefined
+  getAnimateMode: (id: string, name: string, def?: 'fixed' | 'animate') => 'fixed' | 'animate'
+  onAnimateToggle: (propName: string) => (mode: 'fixed' | 'animate') => void
+  onChange: (name: string, value: unknown) => void
+}) {
+  const first = run[0]
+  if (first == null) return null
+
+  if (run.length === 1 && first.type === 'number' && first.animatable === true) {
+    const mode = getAnimateMode(animationId, first.name, first.animateDefault)
+    return (
+      <AnimatableField
+        config={first}
+        value={propOverrides?.[first.name]}
+        animateMode={mode}
+        onToggle={onAnimateToggle(first.name)}
+        onChange={onChange}
+      />
+    )
+  }
+
+  if (run.length === 1) {
+    return (
+      <InspectorField config={first} value={propOverrides?.[first.name]} onChange={onChange} />
+    )
+  }
+
+  return (
+    <InspectorGroup configs={run} propOverrides={propOverrides} onChange={onChange} />
+  )
 }
 
 export const EditorRightPanel: React.FC = () => {
@@ -168,7 +257,17 @@ export const EditorRightPanel: React.FC = () => {
     handlePropChange,
     handleReset,
     handleReplay,
+    getAnimateMode,
+    setAnimateMode,
   } = useInspectorPanel()
+
+  const handleAnimateToggle = useCallback(
+    (propName: string) => (mode: 'fixed' | 'animate') => {
+      if (selectedAnimation == null) return
+      setAnimateMode(selectedAnimation.id, propName, mode)
+    },
+    [selectedAnimation, setAnimateMode]
+  )
 
   return (
     <div className="h-full flex flex-col w-full shrink-0 overflow-hidden">
@@ -211,25 +310,17 @@ export const EditorRightPanel: React.FC = () => {
           >
             {editableProps.length > 0 ? (
               <div className="space-y-3">
-                {groupAdjacentProps(editableProps).map((run) => {
-                  const first = run[0]
-                  if (first == null) return null
-                  return run.length === 1 ? (
-                    <InspectorField
-                      key={first.name}
-                      config={first}
-                      value={propOverrides?.[first.name]}
-                      onChange={handlePropChange}
-                    />
-                  ) : (
-                    <InspectorGroup
-                      key={first.group ?? first.name}
-                      configs={run}
-                      propOverrides={propOverrides}
-                      onChange={handlePropChange}
-                    />
-                  )
-                })}
+                {groupAdjacentProps(editableProps).map((run) => (
+                  <PropRunField
+                    key={run[0]?.group ?? run[0]?.name ?? ''}
+                    run={run}
+                    animationId={selectedAnimation.id}
+                    propOverrides={propOverrides}
+                    getAnimateMode={getAnimateMode}
+                    onAnimateToggle={handleAnimateToggle}
+                    onChange={handlePropChange}
+                  />
+                ))}
               </div>
             ) : (
               <div className="rounded-2xl border border-dashed border-[var(--border-subtle)] bg-[var(--bg-surface)]/20 px-3 py-4">

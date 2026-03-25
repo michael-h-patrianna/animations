@@ -1,14 +1,13 @@
 /**
  * Milestone Unlock Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsMilestoneUnlock.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsMilestoneUnlock.css + ../SharedTypes.ts
  */
 import { useMemo } from 'react'
 import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsMilestoneUnlock.css'
 
 interface MilestoneUnlockProps extends MilestoneProgressBarProps {
@@ -52,7 +51,7 @@ export function ProgressBarsMilestoneUnlock({
   className,
   style,
 }: MilestoneUnlockProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 5500, pause: 1500 })
+  const displayProgress = (progress ?? 0)
 
   const activatedSet = useMemo(
     () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),

@@ -16,11 +16,10 @@
  * - `--circular-dash-text`      — center text color
  * - `--circular-dash-size`      — ring diameter (default: 120px)
  *
- * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 
 interface CircularDashProps extends ProgressBarProps {
   /** Number of dash segments in the ring. Default: 12. */
@@ -33,7 +32,7 @@ export function ProgressBarsCircularDash({
   className,
   style,
 }: CircularDashProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 5000, pause: 800 })
+  const displayProgress = (progress ?? 0)
   const activeSegments = Math.floor(displayProgress * segments)
   const percent = Math.round(displayProgress * 100)
 

@@ -11,10 +11,9 @@
  *
  * Styleable CSS custom properties — same as framer variant.
  *
- * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts + ../SharedDemoLoop.ts
+ * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import { useDemoProgress } from '@/components/progress/progress-bars/SharedDemoLoop'
 import './ProgressBarsNeonPulse.css'
 
 interface NeonPulseProps extends ProgressBarProps {
@@ -28,7 +27,7 @@ export function ProgressBarsNeonPulse({
   className,
   style,
 }: NeonPulseProps) {
-  const displayProgress = useDemoProgress(progress, { duration: 6000, pause: 800 })
+  const displayProgress = (progress ?? 0)
   const percent = displayProgress * 100
 
   return (

@@ -18,6 +18,7 @@ export const metadata = {
       min: 0,
       max: 1,
       step: 0.01,
+      animatable: true,
     },
     { type: 'number', name: 'segments', label: 'Segments', default: 10, min: 2, max: 20, step: 1 },
     { type: 'string', name: 'label', label: 'Label', default: 'LOADING...' },
