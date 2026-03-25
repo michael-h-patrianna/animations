@@ -368,7 +368,8 @@ function mergeAnimatedOverrides(
   if (active.length === 0) return baseOverrides
   const merged = { ...baseOverrides }
   for (const prop of active) {
-    if (prop.name in values) merged[prop.name] = values[prop.name]
+    // Use the current animated value, or min as the starting point before the timer fires.
+    merged[prop.name] = prop.name in values ? values[prop.name] : (prop.min ?? 0)
   }
   return merged
 }
