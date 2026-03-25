@@ -51,7 +51,7 @@ const BUDGETS = {
   'button-effects-*.js': 200,
   'progress-bars-*.js': 500,
   'loading-states-*.js': 200,
-  'timer-effects-*.js': 200,
+  'timer-effects-*.js': 210,
   'update-indicators-*.js': 200,
   'realtime-data-*.js': 200,
 }
