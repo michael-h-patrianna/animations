@@ -286,6 +286,11 @@ export default defineConfig([
       // Copy-paste portability: Tier 1-2 CSS must have var() fallbacks.
       // Warn until existing CSS files are fixed with fallback values or reclassified to tier 2+.
       'animation-rules/require-css-var-fallback': 'warn',
+      // Image import portability is enforced by tier-dependency-budget (tier 2-3
+      // bans @/assets, tier 4 unrestricted). The generic no-direct-image-imports
+      // rule creates false positives for tier 4 animations that legitimately
+      // require project-specific imagery (prize reveals, celebrations, etc.).
+      'animation-rules/no-direct-image-imports': 'off',
     },
   },
   // Animation helper files (shared parts, mock content, models) at group root
@@ -297,6 +302,8 @@ export default defineConfig([
       'src/components/**/fireworkModel.ts',
       'src/components/**/utils.ts',
       'src/components/**/cardSets.ts',
+      'src/components/**/*Config.ts',
+      'src/components/**/FlipCard*.tsx',
     ],
     rules: {
       'jsdoc/require-jsdoc': 'off',
@@ -304,6 +311,10 @@ export default defineConfig([
       'animation-rules/no-hardcoded-colors': 'error',
       // Mock files mix component and function exports — react-refresh false positive
       'react-refresh/only-export-components': 'off',
+      // Group helper files are the group-level asset management layer — they import
+      // from @/assets/ (the centralized system) and re-export to animation components.
+      // Banning direct image imports here would force an unmanageable index.ts with 100+ exports.
+      'animation-rules/no-direct-image-imports': 'off',
     },
   },
   // Shared computation files at group root: trajectory generators, physics models,
@@ -364,6 +375,17 @@ export default defineConfig([
       'src/__tests__/hooks.useModalAccessibility.test.tsx',
       // Modal lifecycle integration test: focus trap assertions require document.activeElement
       'src/__tests__/integration.modal-lifecycle.test.tsx',
+      // Portability tests: inspect CSS custom property values on animation root elements
+      'src/__tests__/animation-portability-fixes.test.tsx',
+      'src/__tests__/dialogs.modal-base-scale-gentle-pop-parity.test.tsx',
+      // Timer pill color tests: inspect CSS custom properties for urgency phase colors
+      'src/__tests__/timer-effects.pill-countdown-color-props.test.tsx',
+      // UI card/panel tests: inspect rendered DOM structure and CSS variable wiring
+      'src/__tests__/ui.animation-card.test.tsx',
+      'src/__tests__/ui.editor-right-panel.test.tsx',
+      // Demo-UI tests: inspect popover positioning, toggle group indicator styling
+      'src/__tests__/demo-ui.popover.test.tsx',
+      'src/__tests__/demo-ui.toggle-group.test.tsx',
     ],
     rules: {
       'testing-library/no-node-access': 'off',

@@ -120,6 +120,14 @@ const portabilityRules = {
       // @/components/demo-blocks is included because demo-blocks are portable demo primitives.
       const extractableImports = ['@/motion/', '@/utils/', '@/types/', '@/components/demo-blocks']
 
+      // Same-group imports: files in the same group directory travel with the
+      // component when copy-pasted. Derive the group's @/ prefix from the file path.
+      // e.g. src/components/dialogs/modal-base/framer/Foo.tsx → @/components/dialogs/modal-base/
+      const groupMatch = filename.match(
+        /src\/components\/((?:base|dialogs|progress|realtime|rewards)\/[^/]+)\//
+      )
+      const sameGroupPrefix = groupMatch ? `@/components/${groupMatch[1]}/` : undefined
+
       return {
         ImportDeclaration(node) {
           const source = node.source.value
@@ -128,15 +136,19 @@ const portabilityRules = {
 
           if (tier === 4) return // Tier 4 is unrestricted
 
+          // Same-group imports are allowed at all tiers — these files are
+          // co-located in the group directory and travel with the component.
+          if (sameGroupPrefix && source.startsWith(sameGroupPrefix)) return
+
           // Demo-blocks are portable demo primitives — allowed at all tiers
           const isExtractable = extractableImports.some((prefix) => source.startsWith(prefix))
           if (isExtractable) return
 
           if (tier === 1) {
-            // Tier 1: no @/ imports except extractable
+            // Tier 1: no @/ imports except extractable and same-group
             context.report({
               node,
-              message: `Tier 1 (Effect) animations must not use project imports. Found: "${source}". Tier 1 components use only npm packages, local files, and @/components/demo-blocks. Raise the tier to 2+ or remove this import.`,
+              message: `Tier 1 (Effect) animations must not use project imports. Found: "${source}". Tier 1 components use only npm packages, local files, same-group files, and @/components/demo-blocks. Raise the tier to 2+ or remove this import.`,
             })
             return
           }

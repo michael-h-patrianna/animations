@@ -24,7 +24,8 @@ function importsLoadDemoBlockStyles(imports) {
   return imports.some(
     (source) =>
       typeof source === 'string' &&
-      (source.startsWith('@/components/demo-blocks') || source.includes('/demo-blocks/demo-blocks.css'))
+      (source.startsWith('@/components/demo-blocks') ||
+        source.includes('/demo-blocks/demo-blocks.css'))
   )
 }
 

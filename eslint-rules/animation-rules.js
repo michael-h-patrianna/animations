@@ -509,8 +509,7 @@ const rules = {
       type: 'problem',
       fixable: 'code',
       docs: {
-        description:
-          'Disallow relative parent imports (`../`). Use `@/` path alias instead.',
+        description: 'Disallow relative parent imports (`../`). Use `@/` path alias instead.',
       },
       schema: [],
       messages: {
