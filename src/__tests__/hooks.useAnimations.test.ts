@@ -20,55 +20,43 @@ describe('useLazyAnimations', () => {
     ])
   })
 
-  it(
-    'loads a group on demand and caches it',
-    async () => {
-      const { result } = renderHook(() => useLazyAnimations())
+  it('loads a group on demand and caches it', async () => {
+    const { result } = renderHook(() => useLazyAnimations())
 
-      await act(async () => {
-        await result.current.loadGroup('standard-effects-framer')
-      })
+    await act(async () => {
+      await result.current.loadGroup('standard-effects-framer')
+    })
 
-      await waitFor(() => {
-        expect(result.current.currentGroup?.id).toBe('standard-effects-framer')
-      })
+    await waitFor(() => {
+      expect(result.current.currentGroup?.id).toBe('standard-effects-framer')
+    })
 
-      expect(result.current.currentGroup?.animations.length).toBeGreaterThanOrEqual(1)
-      expect(result.current.isGroupCached('standard-effects-framer')).toBe(true)
-    },
-    30_000
-  )
+    expect(result.current.currentGroup?.animations.length).toBeGreaterThanOrEqual(1)
+    expect(result.current.isGroupCached('standard-effects-framer')).toBe(true)
+  }, 30_000)
 
-  it(
-    'propagates metadata fields after a group loads',
-    async () => {
-      const { result } = renderHook(() => useLazyAnimations())
+  it('propagates metadata fields after a group loads', async () => {
+    const { result } = renderHook(() => useLazyAnimations())
 
-      await act(async () => {
-        await result.current.loadGroup('lights-framer')
-      })
+    await act(async () => {
+      await result.current.loadGroup('lights-framer')
+    })
 
-      const animations = result.current.currentGroup?.animations ?? []
+    const animations = result.current.currentGroup?.animations ?? []
 
-      expect(animations.length).toBeGreaterThanOrEqual(1)
-      expect(animations.some((animation) => animation.controls === 'lights')).toBe(true)
-    },
-    30_000
-  )
+    expect(animations.length).toBeGreaterThanOrEqual(1)
+    expect(animations.some((animation) => animation.controls === 'lights')).toBe(true)
+  }, 30_000)
 
-  it(
-    'surfaces loader errors for unknown groups',
-    async () => {
-      const { result } = renderHook(() => useLazyAnimations())
+  it('surfaces loader errors for unknown groups', async () => {
+    const { result } = renderHook(() => useLazyAnimations())
 
-      await act(async () => {
-        await result.current.loadGroup('does-not-exist-framer')
-      })
+    await act(async () => {
+      await result.current.loadGroup('does-not-exist-framer')
+    })
 
-      await waitFor(() => {
-        expect(result.current.error?.message).toContain('does-not-exist-framer')
-      })
-    },
-    30_000
-  )
+    await waitFor(() => {
+      expect(result.current.error?.message).toContain('does-not-exist-framer')
+    })
+  }, 30_000)
 })

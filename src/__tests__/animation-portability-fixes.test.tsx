@@ -46,7 +46,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 function countFramerFireworksRingEmbers(container: HTMLElement) {
   return Array.from(container.querySelectorAll('span')).filter((node) => {
     const el = node as HTMLElement
-    return el.className === '' && el.style.left === '50%' && el.style.top === '50%' && el.style.marginLeft === ''
+    return (
+      el.className === '' &&
+      el.style.left === '50%' &&
+      el.style.top === '50%' &&
+      el.style.marginLeft === ''
+    )
   }).length
 }
 
@@ -179,38 +184,34 @@ describe('animation portability fixes', () => {
     }
   })
 
-  it(
-    'uses structured style controls for all progress-bar metadata instead of a disabled style placeholder',
-    async () => {
-      const catalog = await loadLazyCatalog()
-      const progressBarGroups = catalog
-        .flatMap((category) => category.groups)
-        .filter((group) => group.id === 'progress-bars-framer' || group.id === 'progress-bars-css')
+  it('uses structured style controls for all progress-bar metadata instead of a disabled style placeholder', async () => {
+    const catalog = await loadLazyCatalog()
+    const progressBarGroups = catalog
+      .flatMap((category) => category.groups)
+      .filter((group) => group.id === 'progress-bars-framer' || group.id === 'progress-bars-css')
 
-      expect(progressBarGroups).toHaveLength(2)
+    expect(progressBarGroups).toHaveLength(2)
 
-      for (const group of progressBarGroups) {
-        for (const animation of group.animations) {
-          const styleProp = animation.props?.find((prop) => prop.name === 'style') as
-            | { type?: string; disabled?: boolean; fields?: unknown[] }
-            | undefined
+    for (const group of progressBarGroups) {
+      for (const animation of group.animations) {
+        const styleProp = animation.props?.find((prop) => prop.name === 'style') as
+          | { type?: string; disabled?: boolean; fields?: unknown[] }
+          | undefined
 
-          expect(styleProp?.type, `${animation.id} should expose structured style controls`).toBe(
-            'style-object'
-          )
-          expect(
-            styleProp?.disabled,
-            `${animation.id} should not keep the disabled style placeholder`
-          ).not.toBe(true)
-          expect(
-            styleProp?.fields?.length ?? 0,
-            `${animation.id} should expose at least one theme field`
-          ).toBeGreaterThan(0)
-        }
+        expect(styleProp?.type, `${animation.id} should expose structured style controls`).toBe(
+          'style-object'
+        )
+        expect(
+          styleProp?.disabled,
+          `${animation.id} should not keep the disabled style placeholder`
+        ).not.toBe(true)
+        expect(
+          styleProp?.fields?.length ?? 0,
+          `${animation.id} should expose at least one theme field`
+        ).toBeGreaterThan(0)
       }
-    },
-    30_000
-  )
+    }
+  }, 30_000)
 
   it('makes CSS spring-physics metadata truthful about the controls it actually supports', () => {
     const propNames = springPhysicsCssMetadata.props?.map((prop) => prop.name) ?? []
@@ -246,14 +247,20 @@ describe('animation portability fixes', () => {
     expect(screen.getByRole('button', { name: 'Retry' })).toBeVisible()
     expect(screen.getByRole('button', { name: 'Claim' })).toBeVisible()
 
-    const blinkRoot = container.querySelector('[data-animation-id="standard-effects__blink"]') as HTMLElement
-    const pulseRoot = container.querySelector('[data-animation-id="standard-effects__pulse"]') as HTMLElement
+    const blinkRoot = container.querySelector(
+      '[data-animation-id="standard-effects__blink"]'
+    ) as HTMLElement
+    const pulseRoot = container.querySelector(
+      '[data-animation-id="standard-effects__pulse"]'
+    ) as HTMLElement
     const pulseCircleRoot = container.querySelector(
       '[data-animation-id="standard-effects__pulse-circle"]'
     ) as HTMLElement
     const shakeButton = screen.getByRole('button', { name: 'Retry' }) as HTMLElement
     const rewardButton = screen.getByRole('button', { name: 'Claim' }) as HTMLElement
-    const rippleRoot = container.querySelector('[data-animation-id="button-effects__ripple"]') as HTMLElement
+    const rippleRoot = container.querySelector(
+      '[data-animation-id="button-effects__ripple"]'
+    ) as HTMLElement
 
     expect(blinkRoot.style.getPropertyValue('--pf-blink-duration')).toBe('1750ms')
     expect(pulseRoot.style.getPropertyValue('--pf-pulse-duration')).toBe('2300ms')
@@ -273,21 +280,25 @@ describe('animation portability fixes', () => {
   it('passes the missing CSS orchestration props through to the rendered styles', () => {
     const { container } = render(
       <>
-        {(
+        {
           <ModalOrchestrationGridHighlight
             {...({ distance: 28, stagger: 120, duration: 300, columns: 3 } as any)}
           />
-        )}
-        {(
+        }
+        {
           <ModalOrchestrationMagneticHover
             {...({ tiltIntensity: 9, stagger: 90, duration: 420, columns: 2 } as any)}
           />
-        )}
+        }
       </>
     )
 
-    const gridRoot = container.querySelector('[data-animation-id="modal-orchestration__grid-highlight"]') as HTMLElement
-    const magneticRoot = container.querySelector('[data-animation-id="modal-orchestration__magnetic-hover"]') as HTMLElement
+    const gridRoot = container.querySelector(
+      '[data-animation-id="modal-orchestration__grid-highlight"]'
+    ) as HTMLElement
+    const magneticRoot = container.querySelector(
+      '[data-animation-id="modal-orchestration__magnetic-hover"]'
+    ) as HTMLElement
 
     expect(gridRoot.style.getPropertyValue('--pf-grid-highlight-distance')).toBe('28px')
     expect(magneticRoot.style.getPropertyValue('--pf-magnetic-hover-tilt')).toBe('9deg')
@@ -307,9 +318,13 @@ describe('animation portability fixes', () => {
     const cssWinPropNames = pirateChestWinCssMetadata.props?.map((prop) => prop.name) ?? []
     const cssNoWinPropNames = pirateChestNoWinCssMetadata.props?.map((prop) => prop.name) ?? []
 
-    expect(winPropNames).toEqual(expect.arrayContaining(['shakeDelayMs', 'revealDelayMs', 'coinCount']))
+    expect(winPropNames).toEqual(
+      expect.arrayContaining(['shakeDelayMs', 'revealDelayMs', 'coinCount'])
+    )
     expect(noWinPropNames).toEqual(expect.arrayContaining(['shakeDelayMs', 'revealDelayMs']))
-    expect(cssWinPropNames).toEqual(expect.arrayContaining(['shakeDelayMs', 'revealDelayMs', 'coinCount']))
+    expect(cssWinPropNames).toEqual(
+      expect.arrayContaining(['shakeDelayMs', 'revealDelayMs', 'coinCount'])
+    )
     expect(cssNoWinPropNames).toEqual(expect.arrayContaining(['shakeDelayMs', 'revealDelayMs']))
   })
 
@@ -317,7 +332,9 @@ describe('animation portability fixes', () => {
     vi.useFakeTimers()
 
     const { container } = render(
-      <PrizeRevealPirateChestWin {...({ shakeDelayMs: 0, revealDelayMs: 0, coinCount: 3 } as any)} />
+      <PrizeRevealPirateChestWin
+        {...({ shakeDelayMs: 0, revealDelayMs: 0, coinCount: 3 } as any)}
+      />
     )
 
     act(() => {

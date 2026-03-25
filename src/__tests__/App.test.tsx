@@ -183,13 +183,17 @@ describe('App', () => {
   it('renders different animation titles for different route groups', async () => {
     // Render at specific group route
     const { unmount } = renderApp('/standard-effects-framer')
-    const firstGroupTitles = (await screen.findAllByTestId('card-title')).map((el) => el.textContent)
+    const firstGroupTitles = (await screen.findAllByTestId('card-title')).map(
+      (el) => el.textContent
+    )
 
     unmount()
 
     // Render at a different group
     renderApp('/modal-base-framer')
-    const secondGroupTitles = (await screen.findAllByTestId('card-title')).map((el) => el.textContent)
+    const secondGroupTitles = (await screen.findAllByTestId('card-title')).map(
+      (el) => el.textContent
+    )
 
     // Both groups should have multiple cards with different content
     expect(firstGroupTitles.length).toBeGreaterThanOrEqual(2)

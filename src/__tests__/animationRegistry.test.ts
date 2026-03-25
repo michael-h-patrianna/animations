@@ -4,10 +4,7 @@ import {
   getLazyGroupAnimationsAsync,
   getNavCatalog,
 } from '@/components/animationRegistry'
-import {
-  loadLazyCatalog,
-  resetLazyTestState,
-} from '@/__tests__/helpers/lazyCatalog'
+import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
 
 describe('animationRegistry', () => {
@@ -34,18 +31,14 @@ describe('animationRegistry', () => {
       resetLazyTestState()
     })
 
-    it(
-      'loads a group asynchronously and exposes it via sync cache reads afterwards',
-      async () => {
-        const loaded = await getLazyGroupAnimationsAsync('standard-effects', 'framer')
-        const cached = getGroupAnimations('standard-effects', 'framer')
+    it('loads a group asynchronously and exposes it via sync cache reads afterwards', async () => {
+      const loaded = await getLazyGroupAnimationsAsync('standard-effects', 'framer')
+      const cached = getGroupAnimations('standard-effects', 'framer')
 
-        expect(Object.keys(loaded).length).toBeGreaterThanOrEqual(1)
-        expect(Object.keys(cached).sort()).toEqual(Object.keys(loaded).sort())
-        expect(Object.keys(cached).every((id) => id.startsWith('standard-effects__'))).toBe(true)
-      },
-      30_000
-    )
+      expect(Object.keys(loaded).length).toBeGreaterThanOrEqual(1)
+      expect(Object.keys(cached).sort()).toEqual(Object.keys(loaded).sort())
+      expect(Object.keys(cached).every((id) => id.startsWith('standard-effects__'))).toBe(true)
+    }, 30_000)
 
     it('returns empty object for unknown groups', () => {
       expect(getGroupAnimations('nonexistent-group', 'framer')).toEqual({})
