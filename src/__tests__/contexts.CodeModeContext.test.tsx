@@ -1,6 +1,6 @@
 import { CodeModeProvider, useCodeMode } from '@/contexts/CodeModeContext'
 import { fireEvent, render, renderHook, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 describe('CodeModeContext', () => {
   it('throws when useCodeMode is called outside CodeModeProvider', () => {

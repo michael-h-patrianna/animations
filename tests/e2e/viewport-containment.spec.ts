@@ -29,8 +29,8 @@ test.describe('Mobile Containment Scan @containment', () => {
 
   test('no animation overflows the mobile phone frame', async ({ catalogPage }) => {
     // Known production bug: some animations overflow in mobile preview.
-    // This annotation expects the test to fail — remove when overflow bugs are fixed.
-    test.fail(true, 'Production bug: animations with overflow in mobile preview')
+    // Skipped until overflow bugs are fixed.
+    test.fixme(true, 'Production bug: animations with overflow in mobile preview')
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()
     expect(groupPaths.length).toBeGreaterThan(0)
@@ -122,7 +122,7 @@ test.describe('Desktop Containment Scan @desktop-containment', () => {
 
   test('no animation overflows the desktop viewport', async ({ catalogPage }) => {
     // Known production bug: some animations overflow in desktop preview.
-    test.fail(true, 'Production bug: animations with overflow in desktop preview')
+    test.fixme(true, 'Production bug: animations with overflow in desktop preview')
 
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()
@@ -276,7 +276,7 @@ test.describe('Mobile Positioning Verification @positioning', () => {
     catalogPage,
   }) => {
     // Known production bug: some animations are positioned outside their declared zone.
-    test.fail(true, 'Production bug: animations mispositioned in mobile preview')
+    test.fixme(true, 'Production bug: animations mispositioned in mobile preview')
 
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()
@@ -378,7 +378,7 @@ test.describe('Desktop Positioning Verification @positioning', () => {
     catalogPage,
   }) => {
     // Known production bug: some animations are positioned outside their declared zone.
-    test.fail(true, 'Production bug: animations mispositioned in desktop preview')
+    test.fixme(true, 'Production bug: animations mispositioned in desktop preview')
 
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()

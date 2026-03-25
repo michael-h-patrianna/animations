@@ -1,9 +1,14 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 /**
- * Performance smoke tests using browser Performance API.
+ * Performance smoke tests using wall-clock timing and browser Performance API.
  * These catch major regressions in initial load and rendering,
  * not micro-optimizations. Budgets are generous to avoid flakes.
+ *
+ * NOTE: Wall-clock timing (Date.now()) is inherently environment-dependent.
+ * Under CI load or slow hardware, these tests may be flaky. Budgets are set
+ * generously to account for this. If flaking in CI, increase budgets rather
+ * than disabling tests.
  */
 test.describe('Performance Budgets', () => {
   test('initial page load completes within 5 seconds', async ({ catalogPage }) => {

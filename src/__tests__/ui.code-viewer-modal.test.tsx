@@ -169,7 +169,8 @@ describe('CodeViewerModal', () => {
       render(<CodeViewerModal {...defaultProps} />)
 
       const panel = screen.getByRole('tabpanel')
-      expect(panel).toHaveAttribute('aria-labelledby', 'tab-Component')
+      const labelledBy = panel.getAttribute('aria-labelledby')
+      expect(labelledBy).toMatch(/-tab-Component$/)
     })
 
     it('renders highlighted code after loading', async () => {

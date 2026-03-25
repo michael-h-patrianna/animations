@@ -13,8 +13,8 @@ import { test, expect } from './fixtures/catalog.fixture'
  * causes focus trap conflicts, Escape closes the wrong modal, or both modals
  * stack visually with broken z-index.
  */
-test.describe('Code Viewer + Preview Modal Coexistence', () => {
-  test('opening preview while code viewer is open renders both modals', async ({
+test.describe('Code Viewer + Preview Modal Sequential Usage', () => {
+  test('code viewer can be closed then preview opened on same card', async ({
     catalogPage,
     page,
   }) => {

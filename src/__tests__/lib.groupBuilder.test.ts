@@ -1,6 +1,6 @@
 import { buildGroupExport } from '@/lib/groupBuilder'
 import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 const groupMeta: GroupMetadata = { id: 'test-group', title: 'Test Group' }
 

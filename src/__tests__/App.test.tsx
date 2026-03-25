@@ -10,7 +10,8 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
 // Pre-warm only the groups that tests in this file actually navigate to,
-// so individual tests don't race with dynamic imports under heavy parallel load.
+// Pre-warm all groups that tests navigate to or that sidebar rendering triggers.
+// Missing entries cause dynamic imports to race with worker shutdown → RPC errors.
 beforeAll(async () => {
   resetLazyTestState()
   await Promise.all([
@@ -20,6 +21,7 @@ beforeAll(async () => {
     loadLazyGroup('modal-base-framer'),
     loadLazyGroup('modal-orchestration-framer'),
     loadLazyGroup('collection-effects-framer'),
+    loadLazyGroup('button-effects-framer'),
   ])
 }, 30_000)
 
