@@ -9,6 +9,7 @@ import {
 } from '@/demo-ui/lib/colors/colorUtils'
 import { useColorPickerState, type ColorPickerState } from '@/demo-ui/lib/useColorPickerState'
 import { showToast } from '@/demo-ui/stores/toastStore'
+import { logger } from '@/services/logger'
 import { m as MotionEl } from 'motion/react'
 import { sx } from '@/demo-ui/lib/sx'
 
@@ -398,7 +399,7 @@ function pickEyedropper(onColor: (hsv: HSVA) => void) {
 function copyColor(value: string) {
   void navigator.clipboard.writeText(value).then(
     () => showToast('Color copied to clipboard'),
-    () => {}
+    (err) => logger.warn('Clipboard write failed — browser may have denied access', err)
   )
 }
 

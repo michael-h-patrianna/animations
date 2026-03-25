@@ -1,4 +1,4 @@
-import { getNavCatalog } from '@/components/animationRegistry'
+import { getLazyNavCatalog } from '@/lib/lazyGroupRegistry'
 import { loadLazyCatalog, resetLazyTestState } from './helpers/lazyCatalog'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
@@ -15,7 +15,7 @@ describe('group export completeness', () => {
   })
 
   it('registers all 18 expected base groups in navigation metadata', () => {
-    const navCatalog = getNavCatalog()
+    const navCatalog = getLazyNavCatalog()
     const baseGroupIds = [
       ...new Set(
         navCatalog.categories.flatMap((category) =>

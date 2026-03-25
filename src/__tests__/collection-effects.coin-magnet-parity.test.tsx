@@ -35,18 +35,16 @@ vi.mock('motion/react-m', async () => {
     onAnimationComplete?: () => void
   }
 
-  const MockMotionDiv = React.forwardRef<HTMLDivElement, MockMotionDivProps>(function MockMotionDiv(
-    {
-      children,
-      className,
-      initial: _initial,
-      animate: _animate,
-      transition,
-      onAnimationComplete: _onAnimationComplete,
-      ...rest
-    },
-    ref
-  ) {
+  function MockMotionDiv({
+    children,
+    className,
+    initial: _initial,
+    animate: _animate,
+    transition,
+    onAnimationComplete: _onAnimationComplete,
+    ref,
+    ...rest
+  }: MockMotionDivProps & { ref?: React.Ref<HTMLDivElement> }) {
     recordedMotionDivs.push({
       className: typeof className === 'string' ? className : undefined,
       transition,
@@ -57,7 +55,7 @@ vi.mock('motion/react-m', async () => {
         {children}
       </div>
     )
-  })
+  }
 
   return { div: MockMotionDiv }
 })

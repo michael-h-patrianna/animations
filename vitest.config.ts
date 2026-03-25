@@ -87,6 +87,15 @@ export default defineConfig({
           functions: 90,
           lines: 90,
         },
+        // Context providers contain complex state management
+        // (AnimationInspectorContext animated preview, prop overrides).
+        // Thresholds set to current levels as a regression ratchet.
+        'src/contexts/**': {
+          statements: 75,
+          branches: 64,
+          functions: 78,
+          lines: 76,
+        },
         // UI shell components (AnimationCard, GroupSection, Sidebar, etc.)
         // Statements threshold is 88% (not 90%) because GroupSection's demo
         // wrappers (DemoModeWrapper, IconDotDemo, StatusRowDemo) and AnimationCard's

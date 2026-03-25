@@ -1,23 +1,23 @@
+import { getGroupAnimations } from '@/components/animationRegistry'
 import {
-  getAllGroups,
-  getGroupAnimations,
-  getLazyGroupAnimationsAsync,
-  getNavCatalog,
-} from '@/components/animationRegistry'
+  getAllLazyGroups,
+  getLazyNavCatalog,
+  loadLazyGroup,
+} from '@/lib/lazyGroupRegistry'
 import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
 
 describe('animationRegistry', () => {
   describe('navigation metadata', () => {
     it('exposes exactly 5 categories in the nav catalog', () => {
-      const navCatalog = getNavCatalog()
+      const navCatalog = getLazyNavCatalog()
       const ids = navCatalog.categories.map((category) => category.id)
 
       expect(ids).toEqual(['base', 'dialogs', 'progress', 'realtime', 'rewards'])
     })
 
     it('registers framer and css group variants in the nav catalog', () => {
-      const allGroups = getAllGroups()
+      const allGroups = getAllLazyGroups()
 
       expect(allGroups.length).toBeGreaterThanOrEqual(36)
       expect(allGroups.every((group) => group.id.match(/-(?:framer|css)$/))).toBe(true)
@@ -32,11 +32,10 @@ describe('animationRegistry', () => {
     })
 
     it('loads a group asynchronously and exposes it via sync cache reads afterwards', async () => {
-      const loaded = await getLazyGroupAnimationsAsync('standard-effects', 'framer')
+      await loadLazyGroup('standard-effects-framer')
       const cached = getGroupAnimations('standard-effects', 'framer')
 
-      expect(Object.keys(loaded).length).toBeGreaterThanOrEqual(1)
-      expect(Object.keys(cached).sort()).toEqual(Object.keys(loaded).sort())
+      expect(Object.keys(cached).length).toBeGreaterThanOrEqual(1)
       expect(Object.keys(cached).every((id) => id.startsWith('standard-effects__'))).toBe(true)
     }, 30_000)
 

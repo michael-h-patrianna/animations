@@ -27,7 +27,6 @@ export const THEME_LABELS: Record<ThemeMode, string> = {
  * Each value selects a token override set in tokens.css (e.g. `[data-accent='cyan']`).
  * Values are data-attribute identifiers, not CSS color values.
  */
-/* eslint-disable animation-rules/no-hardcoded-colors -- data-attribute identifiers mapped to CSS token sets, not color values applied to DOM */
 export const ACCENT_COLORS = [
   'cyan',
   'green',
@@ -37,7 +36,6 @@ export const ACCENT_COLORS = [
   'violet',
   'red',
 ] as const
-/* eslint-enable animation-rules/no-hardcoded-colors */
 /** Union of available accent color identifiers. */
 export type AccentColor = (typeof ACCENT_COLORS)[number]
 
@@ -62,10 +60,8 @@ const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 12
 /** Default theme used for initial state and persisted-state migration. */
 export const DEFAULT_THEME: ThemeMode = 'dark-blue'
 
-/* eslint-disable animation-rules/no-hardcoded-colors -- accent identifiers map to token sets, not direct DOM color values */
 /** Default accent used for initial state and persisted-state migration. */
 export const DEFAULT_ACCENT: AccentColor = 'blue'
-/* eslint-enable animation-rules/no-hardcoded-colors */
 
 /** Set of valid theme mode values for migration validation. */
 const VALID_THEMES = new Set<string>(THEME_MODES)

@@ -386,6 +386,8 @@ export default defineConfig([
       // Demo-UI tests: inspect popover positioning, toggle group indicator styling
       'src/__tests__/demo-ui.popover.test.tsx',
       'src/__tests__/demo-ui.toggle-group.test.tsx',
+      // Component behavioral tests: particle count, label presence, CSS custom properties
+      'src/__tests__/component-behavior.test.tsx',
     ],
     rules: {
       'testing-library/no-node-access': 'off',
@@ -510,6 +512,26 @@ export default defineConfig([
     files: ['src/demo-ui/components/ui/DropdownMenuItems.tsx'],
     rules: {
       '@eslint-react/set-state-in-effect': 'off',
+    },
+  },
+  // SharedTimer: useLayoutEffect synchronously rebases countdown state on prop change
+  // to prevent a flash of stale values before paint. useCardControls: mount-only DOM
+  // probe resolves a CSS variable to hex via getComputedStyle.
+  {
+    files: [
+      'src/components/realtime/timer-effects/SharedTimer.ts',
+      'src/components/ui/useCardControls.ts',
+    ],
+    rules: {
+      '@eslint-react/set-state-in-effect': 'off',
+    },
+  },
+  // Layout store: theme/accent identifiers (e.g. 'dark-purple', 'cyan') are
+  // data-attribute values mapped to CSS token sets, not color values applied to DOM.
+  {
+    files: ['src/demo-ui/stores/layoutStore.ts'],
+    rules: {
+      'animation-rules/no-hardcoded-colors': 'off',
     },
   },
   // Context providers export both Provider and hook — react-refresh false positive

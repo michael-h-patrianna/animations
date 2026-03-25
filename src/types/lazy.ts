@@ -24,9 +24,6 @@ export interface LazyGroup {
   /** Parent category ID */
   categoryId: string
 
-  /** Animation IDs in this group (for nav/catalog purposes) */
-  animationIds: string[]
-
   /** Group metadata */
   metadata: GroupMetadata
 }

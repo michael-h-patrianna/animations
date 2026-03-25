@@ -32,8 +32,12 @@ export function preloadImages(urls: string[]) {
     // Mark as added to prevent duplicates within the same call
     added.add(url)
 
-    // Also kick off an Image() request to warm cache in browsers that don’t strictly use <link> for images
-    // This is safe and won’t double-download because the URL will be cached.
+    // Defense-in-depth: <link rel="preload" as="image"> is the primary mechanism,
+    // but some browsers (notably older WebKit) don't honor preload for images.
+    // The Image() constructor triggers a separate fetch that the browser cache
+    // satisfies from the preload response, so no double-download occurs when
+    // preload is supported. When preload is NOT supported, this ensures the
+    // image is still in cache before first paint.
     const img = new Image()
     img.decoding = 'async'
     img.src = url

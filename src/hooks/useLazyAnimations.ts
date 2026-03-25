@@ -1,37 +1,15 @@
 import '@/components/lazyBootstrap'
 import { getLazyNavCatalog, isGroupCached, loadLazyGroup } from '@/lib/lazyGroupRegistry'
 import type { Group } from '@/types/animation'
-import type { LazyAnimationsResult, LazyNavCatalog } from '@/types/lazy'
-import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import type { LazyAnimationsResult } from '@/types/lazy'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
-// ============================================================================
-// Subscription Store for Nav Catalog
-// ============================================================================
-
-/** Simple store for nav catalog subscription */
-const navStore = {
-  catalog: getLazyNavCatalog(),
-  listeners: new Set<() => void>(),
-
-  subscribe(listener: () => void): () => void {
-    this.listeners.add(listener)
-    return () => this.listeners.delete(listener)
-  },
-
-  notify(): void {
-    for (const listener of this.listeners) {
-      listener()
-    }
-  },
-
-  getSnapshot(): LazyNavCatalog {
-    return this.catalog
-  },
-}
-
-// ============================================================================
-// Hook
-// ============================================================================
+/**
+ * Navigation catalog — computed once at module initialization.
+ * Category registrations happen synchronously via lazyBootstrap side-effect
+ * imports, so the catalog is fully populated before the first render.
+ */
+const navCatalog = getLazyNavCatalog()
 
 /**
  * Hook for lazy-loading animation groups.
@@ -49,18 +27,18 @@ const navStore = {
  * ```
  */
 export function useLazyAnimations(): LazyAnimationsResult {
-  // Get nav catalog via sync external store (reacts to registration changes)
-  const navCatalog = useSyncExternalStore(
-    navStore.subscribe.bind(navStore),
-    navStore.getSnapshot.bind(navStore),
-    navStore.getSnapshot.bind(navStore)
-  )
-
   // Current loaded group state
   const [currentGroupId, setCurrentGroupId] = useState<string>('')
   const [currentGroup, setCurrentGroup] = useState<Group | undefined>()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | undefined>()
+
+  // Refs for stable loadGroup identity — avoids re-creating the callback
+  // (and re-running downstream effects) on every group navigation.
+  const currentGroupIdRef = useRef(currentGroupId)
+  currentGroupIdRef.current = currentGroupId
+  const currentGroupRef = useRef(currentGroup)
+  currentGroupRef.current = currentGroup
 
   // Ref for deduplicating concurrent load requests
   const loadingRef = useRef<string | null>(null)
@@ -70,55 +48,45 @@ export function useLazyAnimations(): LazyAnimationsResult {
    * If already cached, returns immediately from cache.
    * If already loading the same group, waits for existing request.
    */
-  const loadGroup = useCallback(
-    async (groupId: string): Promise<void> => {
-      // Skip if already loaded this group
-      if (currentGroupId === groupId && currentGroup) {
-        return
-      }
+  const loadGroup = useCallback(async (groupId: string): Promise<void> => {
+    // Skip if already loaded this group
+    if (currentGroupIdRef.current === groupId && currentGroupRef.current) {
+      return
+    }
 
-      // Check if already cached
-      if (isGroupCached(groupId)) {
-        try {
-          const result = await loadLazyGroup(groupId)
-          setCurrentGroupId(groupId)
-          setCurrentGroup(result.group)
-          setError(undefined)
-          return
-        } catch (err) {
-          setError(err instanceof Error ? err : new Error(String(err)))
-          return
-        }
-      }
-
-      // Prevent duplicate requests for same group
-      if (loadingRef.current === groupId) {
-        return
-      }
-      loadingRef.current = groupId
-
-      setIsLoading(true)
-      setError(undefined)
-
+    // Check if already cached
+    if (isGroupCached(groupId)) {
       try {
         const result = await loadLazyGroup(groupId)
         setCurrentGroupId(groupId)
         setCurrentGroup(result.group)
+        setError(undefined)
+        return
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)))
-      } finally {
-        setIsLoading(false)
-        loadingRef.current = null
+        return
       }
-    },
-    [currentGroupId, currentGroup]
-  )
+    }
 
-  /**
-   * Checks if a group is already cached.
-   */
-  const checkIsCached = useCallback((groupId: string): boolean => {
-    return isGroupCached(groupId)
+    // Prevent duplicate requests for same group
+    if (loadingRef.current === groupId) {
+      return
+    }
+    loadingRef.current = groupId
+
+    setIsLoading(true)
+    setError(undefined)
+
+    try {
+      const result = await loadLazyGroup(groupId)
+      setCurrentGroupId(groupId)
+      setCurrentGroup(result.group)
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)))
+    } finally {
+      setIsLoading(false)
+      loadingRef.current = null
+    }
   }, [])
 
   return useMemo(
@@ -128,8 +96,8 @@ export function useLazyAnimations(): LazyAnimationsResult {
       isLoading,
       error,
       loadGroup,
-      isGroupCached: checkIsCached,
+      isGroupCached,
     }),
-    [navCatalog, currentGroup, isLoading, error, loadGroup, checkIsCached]
+    [currentGroup, isLoading, error, loadGroup]
   )
 }

@@ -1,6 +1,11 @@
 import '@/components/lazyBootstrap'
-import { clearAnimationCache, getGroupAnimations } from '@/components/animationRegistry'
-import { loadLazyGroup, getLazyNavCatalog, getAllLazyGroups } from '@/lib/lazyGroupRegistry'
+import { getGroupAnimations } from '@/components/animationRegistry'
+import {
+  clearGroupCache,
+  loadLazyGroup,
+  getLazyNavCatalog,
+  getAllLazyGroups,
+} from '@/lib/lazyGroupRegistry'
 import type { Category } from '@/types/animation'
 import type React from 'react'
 
@@ -43,5 +48,5 @@ export async function preloadRegistry(): Promise<
 
 /** Clears lazy group caches so tests can start from a cold state. */
 export function resetLazyTestState(): void {
-  clearAnimationCache()
+  clearGroupCache()
 }

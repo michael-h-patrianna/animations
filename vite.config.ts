@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   server: {
+    // Dev server on 3000; E2E tests (playwright.config.ts) start a separate
+    // server on 5173 so tests never conflict with a running dev instance.
     port: 3000,
     strictPort: false,
     open: true,

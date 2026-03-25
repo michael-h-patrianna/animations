@@ -1,0 +1,20 @@
+/*
+ * App-level variables bridged to the demo-ui theme system.
+ * Canvas variables stay hardcoded — the animation canvas is always dark.
+ * All other UI chrome inherits from [data-demo-ui] semantic tokens.
+ */
+
+/* stylelint-disable-next-line selector-max-id -- #root scopes canvas-only variables to the React mount point */
+#root {
+  /* Canvas (demo area) — dark purple gradient */
+  --app-canvas-bg: oklch(12% 0.075 300deg / 76%);
+  --app-canvas-gradient-start: oklch(85% 0.08 310deg / 25%);
+  --app-canvas-gradient-end: oklch(12% 0.075 300deg / 92%);
+  --app-shadow-canvas: oklch(100% 0 0deg / 4%);
+
+  /* Card overlay gradient — subtle warm/cool blend */
+  --app-overlay-warm: oklch(50% 0.16 15deg / 15%);
+  --app-overlay-cool: oklch(92% 0.15 130deg / 12%);
+
+  min-height: 100vh;
+}

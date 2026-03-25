@@ -26,9 +26,9 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  /* Chromium is the primary target. WebKit covers Safari-specific CSS animation
-   * behavior (animation-fill-mode, transform-style: preserve-3d, GPU compositing)
-   * which matters for a copy-pasteable animation library. */
+  /* All three major engines: Chromium (primary), WebKit (Safari CSS animation
+   * quirks), Firefox (compositor scheduling, animation-fill-mode differences).
+   * Full engine coverage matters for a copy-pasteable animation library. */
   projects: [
     {
       name: 'chromium',
@@ -37,6 +37,10 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
     },
   ],
 

@@ -45,156 +45,73 @@
   --pf-transition-slow: 440ms;
   --pf-demo-height: 240px;
 
-  /* Animation palette */
+  /* Animation palette — base colors */
+  --pf-anim-gold: #ffd700;
   --pf-anim-blue: #60a5fa;
   --pf-anim-blue-dark: #3b82f6;
   --pf-anim-green: #c6ff77;
   --pf-anim-green-dark: #a8e65c;
-  --pf-anim-green-bright: #a8ff3e;
-  --pf-anim-gold: #ffd700;
   --pf-anim-purple: rgb(168 85 247);
   --pf-anim-purple-dark: rgb(147 51 234);
   --pf-anim-red: #ef4444;
   --pf-anim-red-dark: #dc2626;
-  --pf-anim-slate: #94a3b8;
-  --pf-anim-amber: #f59e0b;
-  --pf-anim-emerald: #10b981;
-  --pf-anim-teal: #14b8a6;
-  --pf-anim-orange: #f97316;
-  --pf-anim-sky: #38bdf8;
-  --pf-anim-coin-gold: #fbbf24;
-  --pf-anim-coin-dark: #d97706;
-  --pf-anim-coin-light: #fde68a;
-  --pf-anim-surface-light: #f8f9fa;
-  --pf-anim-surface-hover: #e2e8f0;
-  --pf-anim-error: #dc3545;
-  --pf-anim-muted: #6c757d;
-  --pf-anim-link: #007bff;
-  --pf-anim-link-hover: #0056b3;
-  --pf-anim-highlight: rgb(236 195 255 / 8%);
-  --pf-anim-highlight-border: rgb(236 195 255 / 16%);
-  --pf-anim-highlight-accent: rgb(200 53 88 / 12%);
-  --pf-anim-overlay-light: rgb(0 0 0 / 15%);
-  --pf-anim-glare: rgb(255 255 255 / 40%);
-  --pf-anim-white-20: rgb(255 255 255 / 20%);
-  --pf-anim-white-60: rgb(255 255 255 / 60%);
-  --pf-anim-white-80: rgb(255 255 255 / 80%);
-  --pf-anim-white-35: rgb(255 255 255 / 35%);
-  --pf-anim-white-22: rgb(255 255 255 / 22%);
-  --pf-anim-white-10: rgb(255 255 255 / 10%);
-  --pf-anim-white-08: rgb(255 255 255 / 8%);
-  --pf-anim-white-45: rgb(255 255 255 / 45%);
-  --pf-anim-black-15: rgb(0 0 0 / 15%);
   --pf-anim-cyan: #06b6d4;
   --pf-anim-cyan-light: #0ff;
   --pf-anim-cyan-muted: rgb(0 200 180 / 60%);
   --pf-anim-cyan-soft: rgb(0 180 160 / 30%);
-  --pf-anim-gray-400: #9ca3af;
-  --pf-anim-gray-700: #374151;
-  --pf-anim-green-400: #4ade80;
-  --pf-anim-green-900: #14532d;
-  --pf-anim-violet: #8b5cf6;
-  --pf-anim-violet-dark: rgb(78 24 124 / 10%);
-  --pf-anim-gray-200: #e5e7eb;
-  --pf-anim-deep-purple: #2a1040;
-  --pf-anim-dodger-blue: rgb(30 144 255);
-  --pf-anim-dodger-blue-20: rgb(30 144 255 / 20%);
-  --pf-anim-dodger-blue-40: rgb(30 144 255 / 40%);
-  --pf-anim-rose: #ff4967;
-  --pf-anim-rose-dark: #ff0a4d;
+  --pf-anim-emerald: #10b981;
+  --pf-anim-sky: #38bdf8;
   --pf-anim-yellow-warm: #ffc107;
+  --pf-anim-dodger-blue: rgb(30 144 255);
+  --pf-anim-gray-400: #9ca3af;
+  --pf-anim-confetti-red: #ff6b6b;
+  --pf-anim-coin-gold: #fbbf24;
+  --pf-anim-coin-dark: #d97706;
+  --pf-anim-coin-light: #fde68a;
+  --pf-anim-surface-light: #f8f9fa;
+  --pf-anim-error: #dc3545;
+  --pf-anim-muted: #6c757d;
+  --pf-anim-link: #007bff;
+  --pf-anim-link-hover: #0056b3;
   --pf-anim-firework-gold: #ffce1a;
   --pf-anim-firework-pink: #ff5981;
   --pf-anim-firework-cyan: #47fff4;
-  --pf-anim-confetti-red: #ff6b6b;
-  --pf-anim-confetti-yellow: #ffd93d;
-  --pf-anim-confetti-green: #6bcb77;
-  --pf-anim-confetti-purple: #4d96ff;
-  --pf-anim-confetti-pink: #ff85a1;
 
-  /* White / black alpha scale */
+  /* White alpha scale */
   --pf-anim-white: #fff;
   --pf-anim-white-95: rgb(255 255 255 / 95%);
-  --pf-anim-black-30: rgb(0 0 0 / 30%);
-  --pf-anim-black-35: rgb(0 0 0 / 35%);
-  --pf-anim-black-40: rgb(0 0 0 / 40%);
-  --pf-anim-black-45: rgb(0 0 0 / 45%);
+  --pf-anim-white-90: rgb(255 255 255 / 90%);
+  --pf-anim-white-80: rgb(255 255 255 / 80%);
+  --pf-anim-white-60: rgb(255 255 255 / 60%);
+  --pf-anim-white-35: rgb(255 255 255 / 35%);
+  --pf-anim-white-22: rgb(255 255 255 / 22%);
+  --pf-anim-white-10: rgb(255 255 255 / 10%);
+
+  /* Black alpha scale */
   --pf-anim-black-60: rgb(0 0 0 / 60%);
-
-  /* Firework palette alpha variants */
-  --pf-anim-firework-gold-40: rgb(255 206 26 / 40%);
-  --pf-anim-firework-gold-60: rgb(255 206 26 / 60%);
-  --pf-anim-firework-pink-15: rgb(255 89 129 / 15%);
-
-  /* Highlight (lavender) alpha scale */
-  --pf-anim-highlight-12: rgb(236 195 255 / 12%);
-  --pf-anim-highlight-18: rgb(236 195 255 / 18%);
-  --pf-anim-highlight-40: rgb(236 195 255 / 40%);
-
-  /* Modal background tokens */
-  --pf-anim-deep-purple-bg: rgb(29 9 47 / 92%);
-  --pf-anim-lavender-10: rgb(200 160 255 / 10%);
-  --pf-anim-lavender-16: rgb(200 160 255 / 16%);
-  --pf-anim-spiral-bg: rgb(24 8 42 / 92%);
-  --pf-anim-treasure-bg: rgb(60 20 10 / 90%);
-
-  /* Gold (pure) alpha variants */
-  --pf-anim-gold-10: rgb(255 215 0 / 10%);
-  --pf-anim-gold-12: rgb(255 215 0 / 12%);
-
-  /* Red / rose alpha variants */
-  --pf-anim-red-40: rgb(239 68 68 / 40%);
-  --pf-anim-rose-18: rgb(255 73 103 / 18%);
-  --pf-anim-rose-22: rgb(255 73 103 / 22%);
-  --pf-anim-rose-25: rgb(255 73 103 / 25%);
-  --pf-anim-rose-55: rgb(255 73 103 / 55%);
-
-  /* Orchid */
-  --pf-anim-orchid-30: rgb(196 122 229 / 30%);
-
-  /* Green light (gradient endpoint) */
-  --pf-anim-green-light: #d4ff9f;
-  --pf-anim-green-20: rgb(198 255 119 / 20%);
-  --pf-anim-green-30: rgb(198 255 119 / 30%);
-  --pf-anim-green-40: rgb(198 255 119 / 40%);
-  --pf-anim-green-50: rgb(198 255 119 / 50%);
-  --pf-anim-green-60: rgb(198 255 119 / 60%);
+  --pf-anim-black-55: rgb(0 0 0 / 55%);
+  --pf-anim-black-45: rgb(0 0 0 / 45%);
+  --pf-anim-black-40: rgb(0 0 0 / 40%);
+  --pf-anim-black-30: rgb(0 0 0 / 30%);
+  --pf-anim-black-15: rgb(0 0 0 / 15%);
 
   /* Purple alpha variants */
-  --pf-anim-purple-60: rgb(168 85 247 / 60%);
   --pf-anim-purple-80: rgb(168 85 247 / 80%);
+  --pf-anim-purple-60: rgb(168 85 247 / 60%);
 
-  /* Blue-dark alpha variants */
-  --pf-anim-blue-dark-10: rgb(59 130 246 / 10%);
-  --pf-anim-blue-dark-20: rgb(59 130 246 / 20%);
-  --pf-anim-blue-dark-80: rgb(59 130 246 / 80%);
-
-  /* Cyan-light alpha variants */
-  --pf-anim-cyan-light-20: rgb(0 255 255 / 20%);
-  --pf-anim-cyan-light-30: rgb(0 255 255 / 30%);
+  /* Cyan alpha variants */
   --pf-anim-cyan-light-80: rgb(0 255 255 / 80%);
-
-  /* Cyan-muted alpha variant */
+  --pf-anim-cyan-light-20: rgb(0 255 255 / 20%);
   --pf-anim-cyan-muted-50: rgb(0 200 180 / 50%);
 
-  /* Violet-base alpha variant */
-  --pf-anim-violet-base-20: rgb(78 24 124 / 20%);
+  /* Dodger blue alpha variants */
+  --pf-anim-dodger-blue-40: rgb(30 144 255 / 40%);
+  --pf-anim-dodger-blue-20: rgb(30 144 255 / 20%);
 
-  /* Dodger blue alpha variant */
-  --pf-anim-dodger-blue-30: rgb(30 144 255 / 30%);
-
-  /* Firework gold alpha variants */
-  --pf-anim-firework-gold-35: rgb(255 206 26 / 35%);
-  --pf-anim-firework-gold-80: rgb(255 206 26 / 80%);
-
-  /* Highlight (lavender) alpha scale additions */
-  --pf-anim-highlight-15: rgb(236 195 255 / 15%);
-
-  /* White alpha scale additions */
-  --pf-anim-white-90: rgb(255 255 255 / 90%);
-
-  /* Black alpha scale additions */
-  --pf-anim-black-55: rgb(0 0 0 / 55%);
+  /* Firework alpha variants */
+  --pf-anim-firework-gold-60: rgb(255 206 26 / 60%);
+  --pf-anim-firework-gold-40: rgb(255 206 26 / 40%);
+  --pf-anim-firework-pink-15: rgb(255 89 129 / 15%);
 
   /* Card frame iridescent palette */
   --pf-anim-card-pink-45: rgb(255 80 170 / 45%);
@@ -203,8 +120,6 @@
   --pf-anim-card-blue-50: rgb(100 160 255 / 50%);
   --pf-anim-card-gold-45: rgb(255 215 50 / 45%);
   --pf-anim-card-gold-50: rgb(255 215 50 / 50%);
-
-  /* Card stars glow palette */
   --pf-anim-card-star-pink-50: rgb(255 80 180 / 50%);
   --pf-anim-card-star-gold-60: rgb(255 220 50 / 60%);
 

@@ -1,0 +1,138 @@
+/* Legacy grid layout — kept for MobileDrawer sidebar rendering */
+.pf-main {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* Editor layout — catalog content sits under the overlay */
+.pf-catalog--editor {
+  padding-top: 64px;
+  padding-left: 340px;
+  padding-right: 16px;
+  transition: padding-left 0.3s ease;
+}
+
+@media (width <= 1219px) {
+  .pf-catalog--editor {
+    padding-left: 16px;
+  }
+}
+
+.pf-sidebar {
+  position: sticky;
+  top: 32px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border-radius: var(--pf-radius-xs);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-soft);
+  max-height: calc(100vh - 64px);
+  overflow: hidden;
+}
+
+/* Inside a glass panel: strip standalone chrome, fill the panel fully */
+.pf-sidebar.pf-sidebar--panel {
+  position: static;
+  padding: 16px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  max-height: none;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.pf-sidebar__intro {
+  display: grid;
+  gap: 6px;
+}
+
+.pf-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+.pf-sidebar__nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pf-sidebar__nav::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 999px;
+}
+
+/* ── Sidebar navigation links ──────────────────────────────────────── */
+
+.pf-sidebar__group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.pf-sidebar__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: var(--pf-radius-sm, 6px);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--pf-transition-fast) ease,
+    color var(--pf-transition-fast) ease;
+}
+
+.pf-sidebar__nav-link:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.pf-sidebar__nav-link--active {
+  background: var(--bg-active);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.pf-sidebar__nav-link--active .pf-sidebar__nav-link-label {
+  text-shadow: 0 0 12px var(--theme-accent-glow);
+}
+
+@media (width <= 1220px) {
+  .pf-main {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-sidebar {
+    position: relative;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .pf-sidebar__nav {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* Hide inline sidebar inside grid below 1220px; drawer will be used */
+@media (width <= 1219px) {
+  .pf-main > .pf-sidebar {
+    display: none;
+  }
+}

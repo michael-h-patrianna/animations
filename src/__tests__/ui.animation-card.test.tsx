@@ -2,7 +2,7 @@ import { AnimationCard } from '@/components/ui/AnimationCard'
 import { GlobalToast } from '@/components/ui/GlobalToast'
 import { DEFAULT_ACCENT, DEFAULT_THEME, useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { useToastStore } from '@/demo-ui/stores/toastStore'
-import appStyles from '@/App.css?raw'
+import cardStyles from '@/styles/card.css?raw'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -406,8 +406,8 @@ describe('AnimationCard', () => {
   })
 
   it('does not clear the selected-card overlay on hover', () => {
-    expect(appStyles).not.toContain('.pf-card:hover .pf-card__overlay')
-    expect(appStyles).toContain('.pf-card--selected .pf-card__overlay')
+    expect(cardStyles).not.toContain('.pf-card:hover .pf-card__overlay')
+    expect(cardStyles).toContain('.pf-card--selected .pf-card__overlay')
   })
 
   it('calls onSelect when the card surface is clicked', () => {

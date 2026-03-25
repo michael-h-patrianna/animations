@@ -26,6 +26,7 @@ Each ADR follows this structure:
 - [ADR-006: Self-Contained Animation Components](./ADR-006-self-contained-animations.md)
 - [ADR-007: Auto-Discovery via import.meta.glob](./ADR-007-auto-discovery-glob.md)
 - [ADR-008: Lint Config Integrity Enforcement](./ADR-008-lint-integrity-enforcement.md)
+- [ADR-009: Modal-Open Demo Separation](./ADR-009-modal-open-demo-separation.md)
 
 ## Creating New ADRs
 

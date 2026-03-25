@@ -90,12 +90,10 @@ export function useCountdown({
     const nextSnapshot = resolveCountdownSnapshot(startSeconds)
 
     // Prop-driven restarts must synchronously rebase the visible snapshot before paint.
-    /* eslint-disable @eslint-react/set-state-in-effect */
     setSeconds(nextSnapshot.seconds)
     setProgress(nextSnapshot.progress)
     setIsExpired(nextSnapshot.isExpired)
     setIsHidden(false)
-    /* eslint-enable @eslint-react/set-state-in-effect */
 
     if (nextSnapshot.isExpired) {
       fireOnEnd()

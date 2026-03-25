@@ -321,7 +321,6 @@ export interface AnimationMetadata {
  *   title: 'Modal Animations',
  *   tech: 'framer',
  *   demo: 'A collection of modal entrance/exit animations',
- *   icon: 'window'
  * };
  * ```
  */
@@ -337,9 +336,6 @@ export interface GroupMetadata {
 
   /** Demo description or usage notes */
   demo?: string
-
-  /** Optional icon identifier for UI display */
-  icon?: string
 }
 
 /**
@@ -351,7 +347,6 @@ export interface GroupMetadata {
  * export const metadata: CategoryMetadata = {
  *   id: 'dialogs',
  *   title: 'Dialog & Modal Animations',
- *   icon: 'window-maximize'
  * };
  * ```
  */
@@ -361,9 +356,6 @@ export interface CategoryMetadata {
 
   /** Human-readable display name */
   title: string
-
-  /** Optional icon identifier for UI display */
-  icon?: string
 }
 
 // ============================================================================

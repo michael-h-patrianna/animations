@@ -1,4 +1,4 @@
-import type { Animation, AnimationExport, Group, GroupMetadata } from '@/types/animation'
+import type { Animation, AnimationExport, Group, GroupExport, GroupMetadata } from '@/types/animation'
 import type {
   GroupCacheEntry,
   LazyCategory,
@@ -7,6 +7,7 @@ import type {
   LazyGroupResult,
   LazyNavCatalog,
 } from '@/types/lazy'
+import { logger } from '@/services/logger'
 
 // ============================================================================
 // Registry Storage
@@ -45,8 +46,7 @@ const categoriesList: LazyCategory[] = []
 export function registerLazyGroup(groupId: string, loader: LazyGroupLoader): void {
   if (loaderRegistry.has(groupId)) {
     if (import.meta.env.DEV) {
-      // eslint-disable-next-line no-console -- intentional dev-only diagnostic
-      console.warn(`[lazyGroupRegistry] Duplicate registration for group "${groupId}" — ignored`)
+      logger.warn(`[lazyGroupRegistry] Duplicate registration for group "${groupId}" — ignored`)
     }
     return
   }
@@ -95,7 +95,6 @@ export function registerLazyCategory(
     title?: string
     tech: 'framer' | 'css'
     baseGroupId: string
-    animationIds: string[]
     metadata: GroupMetadata
   }>
 ): void {
@@ -117,7 +116,6 @@ export function registerLazyCategory(
       tech: groupDef.tech,
       baseGroupId: groupDef.baseGroupId,
       categoryId,
-      animationIds: groupDef.animationIds,
       metadata: groupDef.metadata,
     }
     navMetadataRegistry.set(groupDef.id, lazyGroup)
@@ -343,6 +341,78 @@ export function buildGroupFromExports(
     demo: metadata.demo,
     animations,
   }
+}
+
+// ============================================================================
+// Declarative Registration
+// ============================================================================
+
+/** Group definition for declareCategoryGroups. */
+interface GroupDefinition {
+  /** Group metadata (id, title, demo). */
+  metadata: GroupMetadata
+  /**
+   * Thunk returning the dynamic import of the group's index module.
+   * Must be a literal `() => import('./group-name')` for Vite static analysis.
+   */
+  load: () => Promise<{ groupExport: GroupExport }>
+}
+
+/**
+ * Registers all groups in a category with a single declarative call.
+ * Creates both framer and css lazy loaders, plus the nav metadata.
+ *
+ * @param categoryId - Category identifier (e.g., 'rewards')
+ * @param categoryTitle - Human-readable category title
+ * @param groups - Group definitions with metadata and import thunks
+ *
+ * @example
+ * ```typescript
+ * declareCategoryGroups('rewards', 'Game Elements & Rewards', [
+ *   { metadata: collectionEffectsMeta, load: () => import('./collection-effects') },
+ *   { metadata: lightsMeta, load: () => import('./lights') },
+ * ])
+ * ```
+ */
+export function declareCategoryGroups(
+  categoryId: string,
+  categoryTitle: string,
+  groups: GroupDefinition[]
+): void {
+  for (const { metadata, load } of groups) {
+    const baseId = metadata.id
+
+    for (const tech of ['framer', 'css'] as const) {
+      const groupId = `${baseId}-${tech}`
+      registerLazyGroup(groupId, async () => {
+        const { groupExport } = await load()
+        const animations = tech === 'framer' ? groupExport.framer : groupExport.css
+        const group = buildGroupFromExports(groupExport.metadata, tech, animations, categoryId)
+        return { metadata: groupExport.metadata, animations, group }
+      })
+    }
+  }
+
+  registerLazyCategory(
+    categoryId,
+    categoryTitle,
+    groups.flatMap(({ metadata }) => [
+      {
+        id: `${metadata.id}-framer`,
+        title: `${metadata.title} (Framer)`,
+        tech: 'framer' as const,
+        baseGroupId: metadata.id,
+        metadata,
+      },
+      {
+        id: `${metadata.id}-css`,
+        title: `${metadata.title} (CSS)`,
+        tech: 'css' as const,
+        baseGroupId: metadata.id,
+        metadata,
+      },
+    ])
+  )
 }
 
 // ============================================================================

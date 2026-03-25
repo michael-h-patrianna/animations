@@ -43,7 +43,7 @@ export const useCardControls = (
   // rather than a state initializer to avoid side effects during render. The setState
   // here fires exactly once on mount to resolve var(--pf-anim-gold) through the DOM.
   useLayoutEffect(() => {
-    setOnColor(resolveColorInputDefault('var(--pf-anim-gold)')) // eslint-disable-line @eslint-react/set-state-in-effect -- intentional mount-only DOM probe
+    setOnColor(resolveColorInputDefault('var(--pf-anim-gold)'))
   }, [])
 
   return { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey }
