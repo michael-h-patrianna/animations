@@ -168,14 +168,18 @@ export async function loadLazyGroup(groupId: string): Promise<LazyGroupResult> {
   // Start loading
   const promise = loader()
     .then((result) => {
-      const entry = groupCache.get(groupId)!
-      entry.result = result
-      entry.loadedAt = Date.now()
+      const entry = groupCache.get(groupId)
+      if (entry) {
+        entry.result = result
+        entry.loadedAt = Date.now()
+      }
       return result
     })
     .catch((error) => {
-      const entry = groupCache.get(groupId)!
-      entry.error = error instanceof Error ? error : new Error(String(error))
+      const entry = groupCache.get(groupId)
+      if (entry) {
+        entry.error = error instanceof Error ? error : new Error(String(error))
+      }
       throw error
     })
 

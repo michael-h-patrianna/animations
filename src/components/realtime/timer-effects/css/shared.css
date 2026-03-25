@@ -19,8 +19,8 @@
   --pill-bg: #ffb300;
   --pill-flash: #ffd447;
   min-width: 96px;
-  height: 30px;
-  padding: 0 12px;
+  min-height: 30px;
+  padding: 4px 12px;
   border-radius: 999px;
   background-color: var(--pill-bg);
   display: inline-flex;
@@ -71,10 +71,10 @@
   position: relative;
   background: linear-gradient(135deg, var(--css-bg-1) 0%, var(--css-bg-2) 100%);
   color: white;
-  padding: 1px 16px;
-  height: 20px;
-  line-height: 18px;
-  border-radius: 10px;
+  padding: 3px 16px;
+  min-height: 20px;
+  line-height: 1.5;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
   font-family: Lato, sans-serif;
@@ -108,11 +108,10 @@
 
 .pf-pill-countdown-glitch__copy {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  line-height: 20px;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   pointer-events: none;
   z-index: -1;
@@ -124,10 +123,10 @@
   position: relative;
   background: linear-gradient(135deg, var(--css-bg-1) 0%, var(--css-bg-2) 100%);
   color: white;
-  padding: 1px 16px;
-  height: 20px;
-  line-height: 18px;
-  border-radius: 10px;
+  padding: 3px 16px;
+  min-height: 20px;
+  line-height: 1.5;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
   font-family: Lato, sans-serif;

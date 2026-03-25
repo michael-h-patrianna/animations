@@ -21,6 +21,8 @@ const DEFAULT_WARNING = 6
 const DEFAULT_CRITICAL = 3
 
 interface TimerEffectsTimerPulseProps extends TimerEffectProps {
+  /** Override color of the progress underline bar. */
+  barColor?: string
   /** Whether to show the depleting underline bar. Default: true */
   showUnderline?: boolean
 }
@@ -33,6 +35,7 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
     onEndBehavior = 'stay',
     textColor,
     fontSize,
+    barColor,
     showUnderline = true,
   } = props
 
@@ -70,7 +73,10 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
       {showUnderline && (
         <div
           className="pf-timer-pulse__underline"
-          style={{ '--progress': progress } as React.CSSProperties}
+          style={{
+            '--progress': progress,
+            ...(barColor !== undefined ? { background: barColor } : {}),
+          } as React.CSSProperties}
         />
       )}
     </div>

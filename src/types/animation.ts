@@ -85,6 +85,8 @@ interface PropConfigBase {
   disabled?: boolean
   /** Explanation shown when disabled (e.g. "Requires element ref"). */
   disabledReason?: string
+  /** Groups adjacent props with the same key into one bordered panel. Description is taken from the last prop in the group. */
+  group?: string
 }
 
 /** Numeric prop — rendered as slider (when min/max provided) or number input. */

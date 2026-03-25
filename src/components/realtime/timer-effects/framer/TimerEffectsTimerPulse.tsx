@@ -21,6 +21,8 @@ const DEFAULT_WARNING = 6
 const DEFAULT_CRITICAL = 3
 
 interface TimerEffectsTimerPulseProps extends TimerEffectProps {
+  /** Override color of the progress underline bar. */
+  barColor?: string
   /** Whether to show the depleting underline bar. Default: true */
   showUnderline?: boolean
 }
@@ -45,6 +47,7 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
     onEndBehavior = 'stay',
     textColor,
     fontSize,
+    barColor,
     showUnderline = true,
   } = props
 
@@ -90,7 +93,11 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
           className="pf-timer__underline"
           animate={{ scaleX: 1 - progress }}
           transition={{ duration: 0.1, ease: 'linear' }}
-          style={{ transformOrigin: 'left center', animation: 'none' }}
+          style={{
+            transformOrigin: 'left center',
+            animation: 'none',
+            ...(barColor !== undefined ? { background: barColor } : {}),
+          }}
         />
       )}
     </div>

@@ -65,8 +65,13 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
 
   const phaseColor = resolved.colors?.[phase]
   const pillStyle: React.CSSProperties = {
-    ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
-  }
+    ...(phaseColor !== undefined
+      ? {
+          backgroundColor: phaseColor,
+          '--timer-effects-timer-flash-soft-bg-2': `color-mix(in srgb, ${phaseColor} 45%, transparent)`,
+        }
+      : {}),
+  } as React.CSSProperties
 
   const resolvedTextColor = resolved.textColors?.[phase] ?? textColor
   const timeStyle: React.CSSProperties = {

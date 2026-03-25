@@ -1,14 +1,19 @@
 import { memo } from 'react'
 import './TextEffectsWaveReveal.css'
 
-interface TextLine {
-  text: string
-  color: string
-}
-
 interface TextEffectsWaveRevealProps {
-  /** Array of text lines with colors. Each line animates sequentially. */
-  lines?: TextLine[]
+  /** Text for the first line. @default 'Look at' */
+  line1Text?: string
+  /** Color for the first line (also tints its glow). @default 'var(--pf-anim-blue)' */
+  line1Color?: string
+  /** Text for the second line. @default 'these' */
+  line2Text?: string
+  /** Color for the second line (also tints its glow). @default 'var(--pf-anim-green)' */
+  line2Color?: string
+  /** Text for the third line. @default 'colors' */
+  line3Text?: string
+  /** Color for the third line (also tints its glow). @default 'var(--pf-anim-gold)' */
+  line3Color?: string
   /** Delay between character reveals in seconds. */
   charDelay?: number
   /** Delay between line animations in seconds. */
@@ -23,15 +28,21 @@ interface TextEffectsWaveRevealProps {
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 function TextEffectsWaveRevealComponent({
-  lines = [
-    { text: 'Look at', color: 'var(--pf-anim-blue)' },
-    { text: 'these', color: 'var(--pf-anim-green)' },
-    { text: 'colors', color: 'var(--pf-anim-gold)' },
-  ],
+  line1Text = 'Look at',
+  line1Color = 'var(--pf-anim-blue)',
+  line2Text = 'these',
+  line2Color = 'var(--pf-anim-green)',
+  line3Text = 'colors',
+  line3Color = 'var(--pf-anim-gold)',
   charDelay = 0.05,
   lineDelay = 0.4,
   initialDelay = 0.2,
 }: TextEffectsWaveRevealProps) {
+  const lines = [
+    { text: line1Text, color: line1Color },
+    { text: line2Text, color: line2Color },
+    { text: line3Text, color: line3Color },
+  ]
   return (
     <div className="tfx-wave-reveal-container" data-animation-id="text-effects__wave-reveal">
       <div className="tfx-wave-reveal-wrapper">

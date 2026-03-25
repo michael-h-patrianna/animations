@@ -99,7 +99,11 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
     <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash">
       <m.div
         className="pf-timer-flash__pill"
-        style={{ backgroundColor: bgColor, animation: 'none' }}
+        style={{
+          backgroundColor: bgColor,
+          '--pill-glow-color': `color-mix(in srgb, ${bgColor} 45%, transparent)`,
+          animation: 'none',
+        } as React.CSSProperties}
         animate={
           seconds <= resolved.warningThreshold
             ? { scale: [1, 1 + (resolved.warningThreshold - seconds) / 200, 1] }

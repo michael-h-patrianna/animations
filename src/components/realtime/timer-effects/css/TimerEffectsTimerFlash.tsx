@@ -83,6 +83,7 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
     '--timer-effects-timer-flash-pulse-scale': pulseScale.toString(),
     '--timer-effects-timer-flash-glow-scale': glowScale.toString(),
     '--timer-effects-timer-flash-glow-opacity': glowOpacity.toString(),
+    '--timer-effects-timer-flash-bg-2': `color-mix(in srgb, ${bgColor} 45%, transparent)`,
   } as React.CSSProperties
 
   const resolvedTextColor = resolved.textColors?.[phase] ?? textColor

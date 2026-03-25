@@ -51,6 +51,43 @@ function InspectorField({
   )
 }
 
+/** Groups adjacent props sharing the same `group` key into runs. Ungrouped props become solo runs. */
+function groupAdjacentProps(props: PropConfig[]): PropConfig[][] {
+  const runs: PropConfig[][] = []
+  for (const prop of props) {
+    const prev = runs[runs.length - 1]
+    const prevFirst = prev?.[0]
+    if (prev != null && prevFirst != null && prop.group != null && prevFirst.group === prop.group) {
+      prev.push(prop)
+    } else {
+      runs.push([prop])
+    }
+  }
+  return runs
+}
+
+function InspectorGroup({
+  configs,
+  propOverrides,
+  onChange,
+}: {
+  configs: PropConfig[]
+  propOverrides: Record<string, unknown> | undefined
+  onChange: (name: string, value: unknown) => void
+}) {
+  const description = [...configs].reverse().find((c: PropConfig) => c.description != null && c.description !== '')?.description
+  return (
+    <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 p-3 space-y-2">
+      {configs.map((config) => (
+        <PropField key={config.name} config={config} value={propOverrides?.[config.name]} onChange={onChange} />
+      ))}
+      {description != null && (
+        <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">{description}</p>
+      )}
+    </div>
+  )
+}
+
 export const EditorRightPanel: React.FC = () => {
   const {
     selectedAnimation,
@@ -141,14 +178,25 @@ export const EditorRightPanel: React.FC = () => {
           >
             {editableProps.length > 0 ? (
               <div className="space-y-3">
-                {editableProps.map((config) => (
-                  <InspectorField
-                    key={config.name}
-                    config={config}
-                    value={propOverrides?.[config.name]}
-                    onChange={handlePropChange}
-                  />
-                ))}
+                {groupAdjacentProps(editableProps).map((run) => {
+                  const first = run[0]
+                  if (first == null) return null
+                  return run.length === 1 ? (
+                    <InspectorField
+                      key={first.name}
+                      config={first}
+                      value={propOverrides?.[first.name]}
+                      onChange={handlePropChange}
+                    />
+                  ) : (
+                    <InspectorGroup
+                      key={first.group ?? first.name}
+                      configs={run}
+                      propOverrides={propOverrides}
+                      onChange={handlePropChange}
+                    />
+                  )
+                })}
               </div>
             ) : (
               <div className="rounded-2xl border border-dashed border-[var(--border-subtle)] bg-[var(--bg-surface)]/20 px-3 py-4">

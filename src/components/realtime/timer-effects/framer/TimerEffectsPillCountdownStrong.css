@@ -16,8 +16,8 @@
   --pill-glow-scale: 0.92;
   --pill-glow-color: rgb(255 209 102 / 45%);
   min-width: 100px;
-  height: 32px;
-  padding: 0 12px;
+  min-height: 32px;
+  padding: 4px 12px;
   border-radius: 999px;
   background-color: var(--pill-bg);
   display: inline-flex;

@@ -11,10 +11,39 @@ export const metadata: AnimationMetadata = {
   props: [
     {
       type: 'string',
-      name: 'lines',
-      label: 'Lines',
-      disabled: true,
-      disabledReason: 'Array of {text, color} objects — pass via JSX props',
+      name: 'line1Text',
+      label: 'Line 1 Text',
+      default: 'Look at',
+    },
+    {
+      type: 'color',
+      name: 'line1Color',
+      label: 'Line 1 Color',
+      default: 'var(--pf-anim-blue)',
+    },
+    {
+      type: 'string',
+      name: 'line2Text',
+      label: 'Line 2 Text',
+      default: 'these',
+    },
+    {
+      type: 'color',
+      name: 'line2Color',
+      label: 'Line 2 Color',
+      default: 'var(--pf-anim-green)',
+    },
+    {
+      type: 'string',
+      name: 'line3Text',
+      label: 'Line 3 Text',
+      default: 'colors',
+    },
+    {
+      type: 'color',
+      name: 'line3Color',
+      label: 'Line 3 Color',
+      default: 'var(--pf-anim-gold)',
     },
     {
       type: 'number',
