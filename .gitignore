@@ -59,6 +59,7 @@ Thumbs.db
 .parcel-cache
 .turbo
 *.tsbuildinfo
+.lighthouseci
 
 # Misc
 docs/reports
