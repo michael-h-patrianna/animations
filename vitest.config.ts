@@ -55,9 +55,14 @@ export default defineConfig({
         'dist/**',
       ],
       thresholds: {
-        // Per-subsystem thresholds. No global aggregate because animation
-        // components (~20% coverage from smoke tests) would drag down the
-        // average and make a 90% global threshold unachievable.
+        // Global floor: a low aggregate threshold that catches catastrophic
+        // regressions (e.g. an entire subsystem losing test coverage) without
+        // being dragged down by animation components (~20% from smoke tests).
+        statements: 35,
+        branches: 25,
+        functions: 30,
+        lines: 35,
+        // Per-subsystem thresholds enforce higher bars where they apply.
         'src/hooks/**': {
           statements: 90,
           branches: 75,

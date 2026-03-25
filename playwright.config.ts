@@ -26,13 +26,17 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  /* Chromium-only for an animation showcase — cross-browser testing adds CI cost
-   * without meaningful coverage for CSS animations and DOM structure assertions.
-   * Mobile viewport tests use setViewportSize within the test itself. */
+  /* Chromium is the primary target. WebKit covers Safari-specific CSS animation
+   * behavior (animation-fill-mode, transform-style: preserve-3d, GPU compositing)
+   * which matters for a copy-pasteable animation library. */
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
     },
   ],
 
