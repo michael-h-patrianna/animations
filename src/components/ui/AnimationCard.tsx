@@ -177,6 +177,12 @@ function useAnimationCard(props: AnimationCardProps) {
   const preview = usePreviewModal()
   const { opaque } = useAutoPreview(animationId, preview)
   const { handleCopyLink, toastPortal } = useCopyLink(animationId)
+  const { showToast } = useToast()
+
+  // Surface code-viewer load errors as a toast
+  useEffect(() => {
+    if (codeViewer.error) showToast(`Failed to load source: ${codeViewer.error}`)
+  }, [codeViewer.error, showToast])
 
   return {
     playback,

@@ -77,7 +77,8 @@ const TEAR_BODY_CLIP = `polygon(${TEAR_EDGE.map(([x, y]) => `${x}% ${y}%`).join(
 /** Escalating shake — amplitude ramps from gentle tremor to violent judder.
     scaleX oscillates alongside to simulate internal pressure bulging the pack. */
 const SHAKE_STEPS = 30
-const SHAKE_KEYFRAMES = (() => {
+
+function generateShakeKeyframes() {
   const x: number[] = []
   const y: number[] = []
   const rot: number[] = []
@@ -91,7 +92,6 @@ const SHAKE_KEYFRAMES = (() => {
     x.push(sign * amp * jitter * (0.8 + Math.random() * 0.4))
     y.push(-sign * amp * jitter * 0.5)
     rot.push(sign * rotAmp * jitter)
-    // Bulge: oscillates between 1.0 and up to 1.04, growing with t
     sx.push(1 + (i % 2 === 0 ? t * 0.04 : 0))
   }
   x[SHAKE_STEPS] = 0
@@ -99,7 +99,13 @@ const SHAKE_KEYFRAMES = (() => {
   rot[SHAKE_STEPS] = 0
   sx[SHAKE_STEPS] = 1
   return { x, y, rot, sx }
-})()
+}
+
+let _shakeKeyframes: ReturnType<typeof generateShakeKeyframes> | null = null
+function getShakeKeyframes() {
+  if (!_shakeKeyframes) _shakeKeyframes = generateShakeKeyframes()
+  return _shakeKeyframes
+}
 
 export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: string }) {
   const isShaking = phase === 'anticipation'
@@ -128,10 +134,10 @@ export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: st
         animate={
           isShaking
             ? {
-                x: SHAKE_KEYFRAMES.x,
-                y: SHAKE_KEYFRAMES.y,
-                rotate: SHAKE_KEYFRAMES.rot,
-                scaleX: SHAKE_KEYFRAMES.sx,
+                x: getShakeKeyframes().x,
+                y: getShakeKeyframes().y,
+                rotate: getShakeKeyframes().rot,
+                scaleX: getShakeKeyframes().sx,
               }
             : {}
         }

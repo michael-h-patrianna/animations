@@ -1,7 +1,7 @@
 /**
  * Modal entrance — spring-physics bounce with overshoot settle.
  *
- * Copy-paste files: this file + SharedTypes.ts
+ * Copy-paste files: this file + MockModalContent.tsx + SharedTypes.ts
  * Runtime deps: react, motion
  */
 

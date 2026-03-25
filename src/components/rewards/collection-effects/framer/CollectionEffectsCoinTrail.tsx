@@ -184,15 +184,7 @@ function ParticleElement({
       onAnimationComplete={onFinish}
       aria-hidden="true"
     >
-      {particle.imageSrc ? (
-        <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
-      ) : (
-        <FallbackParticle
-          shape={particle.fallback.shape}
-          color={particle.fallback.color}
-          size={particleSize}
-        />
-      )}
+      {particleContent}
     </m.div>
   )
 }

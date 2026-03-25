@@ -26,7 +26,7 @@ export function useImagePreloader(
 
     cancelledRef.current = false
 
-    const timeout = window.setTimeout(() => {
+    const timeout = globalThis.setTimeout(() => {
       if (!cancelledRef.current) {
         setTimedOut(true)
         setReady(true)
@@ -45,14 +45,14 @@ export function useImagePreloader(
       )
     ).then(() => {
       if (!cancelledRef.current) {
-        window.clearTimeout(timeout)
+        globalThis.clearTimeout(timeout)
         setReady(true)
       }
     })
 
     return () => {
       cancelledRef.current = true
-      window.clearTimeout(timeout)
+      globalThis.clearTimeout(timeout)
     }
   }, [images, timeoutMs])
 

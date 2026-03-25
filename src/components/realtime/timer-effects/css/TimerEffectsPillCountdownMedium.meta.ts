@@ -113,7 +113,7 @@ export const metadata: AnimationMetadata = {
       type: 'number',
       name: 'fontSize',
       label: 'Font Size',
-      default: 13,
+      default: 14,
       min: 8,
       max: 48,
       step: 1,

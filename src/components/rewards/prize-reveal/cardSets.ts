@@ -37,7 +37,11 @@ import cardPackKitsuneImage from '@/assets/card-pack/card-kitsune.png'
 
 import type { CardData } from './CardPackParts'
 
-/* ─── Card Set Definition ─── */
+/* ─── Card Set Definition ───
+ * Tier 4 dependency: image imports from @/assets require bundler resolution.
+ * Consumers must provide their own card images via the `cards` prop or
+ * adapt this file to use URL strings instead of static imports.
+ */
 
 export type CardSet = {
   id: string

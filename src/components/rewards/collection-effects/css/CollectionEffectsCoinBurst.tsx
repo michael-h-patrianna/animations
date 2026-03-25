@@ -102,6 +102,8 @@ function CollectionEffectsCoinBurstComponent({
     return () => clearTimeout(cleanup)
   }, [duration])
 
+  // CSS variant uses setTimeout for onComplete (Framer variant uses onAnimationComplete callback).
+  // Timing is approximate — includes a 50ms buffer for animation settle.
   useEffect(() => {
     if (onComplete === undefined) return
     const maxDelay = particles.reduce((max, p) => Math.max(max, p.delay), 0)

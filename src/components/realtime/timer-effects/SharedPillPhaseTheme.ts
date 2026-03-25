@@ -1,5 +1,9 @@
 import type { CSSProperties } from 'react'
 
+// NOTE: `color-mix(in srgb, ...)` has no React Native equivalent.
+// Moti adaptation requires pre-computed color values (e.g. via a JS color library)
+// instead of CSS color functions.
+
 function buildSurfaceGradient(color: string): string {
   return `linear-gradient(135deg, ${color} 0%, color-mix(in srgb, ${color} 72%, black) 100%)`
 }

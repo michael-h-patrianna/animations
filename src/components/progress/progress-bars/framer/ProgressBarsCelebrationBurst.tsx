@@ -10,9 +10,10 @@
  * ```
  *
  * Styleable CSS custom properties:
- * - `--burst-track-color`    — track background
- * - `--burst-fill-color`     — fill color
- * - `--burst-marker-color`   — marker/particle color
+ * - `--progress-bars-celebration-burst-bg-1` — track background
+ * - `--progress-bars-celebration-burst-bg-2` — fill gradient start
+ * - `--progress-bars-celebration-burst-bg-3` — fill gradient end
+ * - `--burst-marker-color`                   — marker/particle color
  *
  * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
  */

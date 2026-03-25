@@ -1,5 +1,7 @@
 import type { AnimationMetadata } from '@/types/animation'
 
+// CSS variant exposes `duration` instead of spring params (stiffness/damping/mass)
+// because CSS cannot simulate true spring physics. The Framer variant uses spring params.
 export const metadata = {
   id: 'modal-orchestration__spring-physics',
   urlSlugFramer: '/modal-orchestration-framer?animation=modal-orchestration__spring-physics',
