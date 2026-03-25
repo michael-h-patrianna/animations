@@ -92,8 +92,16 @@ function LightsCircleStatic7({
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
-            <m.div className="lights-circle-static-7__glow" variants={glowVariants} style={{ animation: 'none' }} />
-            <m.div className="lights-circle-static-7__bulb" variants={bulbVariants} style={{ animation: 'none' }} />
+            <m.div
+              className="lights-circle-static-7__glow"
+              variants={glowVariants}
+              style={{ animation: 'none' }}
+            />
+            <m.div
+              className="lights-circle-static-7__bulb"
+              variants={bulbVariants}
+              style={{ animation: 'none' }}
+            />
           </div>
         )
       }),
