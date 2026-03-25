@@ -119,8 +119,8 @@ describe('addTransparency — property-based', () => {
         const result = addTransparency(color, alpha)
         const match = result.match(/,\s*([\d.]+)\)$/)
         const parsedAlpha = parseFloat(match![1]!)
-        expect(parsedAlpha).toBeGreaterThanOrEqual(0)
-        expect(parsedAlpha).toBeLessThanOrEqual(1)
+        const expectedAlpha = Math.max(0, Math.min(1, alpha / 100))
+        expect(parsedAlpha).toBe(expectedAlpha)
       })
     )
   })
@@ -165,12 +165,10 @@ describe('shiftColorTemperature — property-based', () => {
     fc.assert(
       fc.property(hexColor, fc.integer({ min: -500, max: 500 }), (color, shift) => {
         const result = shiftColorTemperature(color, shift)
-        for (let i = 0; i < 3; i++) {
-          const offset = 1 + i * 2
-          const ch = parseInt(result.slice(offset, offset + 2), 16)
-          expect(ch).toBeGreaterThanOrEqual(0)
-          expect(ch).toBeLessThanOrEqual(255)
-        }
+        // Valid hex6 format guarantees channels are in 00-ff (0-255)
+        expect(result).toMatch(HEX6_PATTERN)
+        // Verify the output is a valid re-parseable color (roundtrip)
+        expect(toHex(result)).toBe(result)
       })
     )
   })
