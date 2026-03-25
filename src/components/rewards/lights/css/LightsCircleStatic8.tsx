@@ -16,15 +16,16 @@ function LightsCircleStatic8({
   onColor = 'var(--pf-anim-gold)',
 }: LightsCircleStatic8Props) {
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
-  const halfBulbs = Math.floor(numBulbs / 2)
+  const safeNumBulbs = Math.max(2, numBulbs)
+  const halfBulbs = Math.floor(safeNumBulbs / 2)
   const delayPerBulb = ANIMATION_DURATION / halfBulbs
 
   const bulbs = useMemo(
     () =>
-      Array.from({ length: numBulbs }, (_, i) => {
-        const rad = ((i * 360) / numBulbs - 90) * (Math.PI / 180)
+      Array.from({ length: safeNumBulbs }, (_, i) => {
+        const rad = ((i * 360) / safeNumBulbs - 90) * (Math.PI / 180)
         const isFirstHalf = i < halfBulbs
-        const chaseIndex = isFirstHalf ? i : numBulbs - i - 1
+        const chaseIndex = isFirstHalf ? i : safeNumBulbs - i - 1
         return (
           <div
             key={i}
@@ -42,7 +43,7 @@ function LightsCircleStatic8({
           </div>
         )
       }),
-    [numBulbs, halfBulbs, delayPerBulb]
+    [safeNumBulbs, halfBulbs, delayPerBulb]
   )
 
   return (

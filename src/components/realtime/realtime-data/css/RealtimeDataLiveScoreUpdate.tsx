@@ -111,7 +111,7 @@ function RealtimeDataLiveScoreUpdateComponent({
         if (!mounted) return
         setScores([...initialScores])
         schedule(cycle, 1000)
-      }, pauseDuration)
+      }, duration + pauseDuration)
     }
 
     cycle()

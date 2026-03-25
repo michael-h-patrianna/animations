@@ -16,8 +16,11 @@ export const polarToXY = (angle: number, radius: number) => ({
 /** Degrees to radians. */
 export const deg2rad = (deg: number): number => (deg * Math.PI) / 180
 
-/** Pick a random item from an array. */
-export const pickRandom = <T>(arr: readonly T[]): T => arr[Math.floor(Math.random() * arr.length)]!
+/** Pick a random item from a non-empty array. Throws if array is empty. */
+export const pickRandom = <T>(arr: readonly T[]): T => {
+  if (arr.length === 0) throw new Error('pickRandom: array must not be empty')
+  return arr[Math.floor(Math.random() * arr.length)]!
+}
 
 /**
  * Confetti particle shapes.

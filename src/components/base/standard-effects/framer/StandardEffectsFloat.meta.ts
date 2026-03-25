@@ -14,7 +14,7 @@ export const metadata: AnimationMetadata = {
       type: 'number',
       name: 'duration',
       label: 'Duration',
-      default: 6000,
+      default: 5000,
       min: 100,
       max: 5000,
       step: 50,

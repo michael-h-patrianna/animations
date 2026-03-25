@@ -8,7 +8,7 @@ import.meta.glob('./framer/*.css', { eager: true })
 const metadata: GroupMetadata = {
   id: 'progress-bars',
   title: 'Progress bars',
-  demo: 'progressBar',
+  demo: 'progressBars',
 }
 
 export const groupExport = buildGroupExport(

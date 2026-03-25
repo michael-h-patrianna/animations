@@ -56,6 +56,9 @@ export function ProgressBarsChargeSurge({
   const waveIdRef = useRef(0)
   const prevProgressRef = useRef(0)
 
+  // Track which milestones just became charged so effects can fire outside the updater
+  const newlyChargedRef = useRef<number[]>([])
+
   useEffect(() => {
     const prev = prevProgressRef.current
     prevProgressRef.current = displayProgress
@@ -66,7 +69,7 @@ export function ProgressBarsChargeSurge({
       return
     }
 
-    const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
+    newlyChargedRef.current = []
 
     setMilestoneStates((prev) => {
       let changed = false
@@ -77,12 +80,7 @@ export function ProgressBarsChargeSurge({
 
         if (hasReached && state !== 'charged') {
           changed = true
-          const wave: SurgeWave = { id: waveIdRef.current++, milestoneIndex: i }
-          setSurgeWaves((p) => [...p, wave])
-          setGlowFlash(true)
-          const t1 = setTimeout(() => setGlowFlash(false), 200)
-          const t2 = setTimeout(() => setSurgeWaves((p) => p.filter((w) => w.id !== wave.id)), 700)
-          pendingTimeouts.push(t1, t2)
+          newlyChargedRef.current.push(i)
           return 'charged' as const
         }
         if (isNear && !hasReached && state === 'inactive') {
@@ -93,6 +91,17 @@ export function ProgressBarsChargeSurge({
       })
       return changed ? next : prev
     })
+
+    // Fire side effects for newly charged milestones outside the state updater
+    const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
+    for (const milestoneIndex of newlyChargedRef.current) {
+      const wave: SurgeWave = { id: waveIdRef.current++, milestoneIndex }
+      setSurgeWaves((p) => [...p, wave])
+      setGlowFlash(true)
+      const t1 = setTimeout(() => setGlowFlash(false), 200)
+      const t2 = setTimeout(() => setSurgeWaves((p) => p.filter((w) => w.id !== wave.id)), 700)
+      pendingTimeouts.push(t1, t2)
+    }
 
     return () => pendingTimeouts.forEach(clearTimeout)
   }, [displayProgress, milestones])

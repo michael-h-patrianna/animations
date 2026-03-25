@@ -66,7 +66,7 @@ function makeCoins(count: number, timeScale: number): Coin[] {
     const layer: 'bg' | 'fg' = i % 3 === 0 ? 'bg' : 'fg'
     const isBg = layer === 'bg'
 
-    const angleDeg = -55 + (i / (count - 1)) * 110 + randBetween(-4, 4)
+    const angleDeg = count <= 1 ? 0 : -55 + (i / (count - 1)) * 110 + randBetween(-4, 4)
     const angle = deg2rad(angleDeg)
     const speed = isBg ? randBetween(280, 360) : randBetween(350, 450)
     const gravity = randBetween(750, 950)
