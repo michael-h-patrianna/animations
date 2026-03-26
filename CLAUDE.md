@@ -52,7 +52,7 @@ Refactoring playbook: `docs/reports/animation-refactoring-playbook.md`
 
 ## Data Flow
 
-Component → Group `index.ts` (buildGroupExport) → Category `index.ts` → `animationRegistry.ts` → `animationData.ts` (buildCatalog) → `useAnimations` hook → `GroupSection` → `AnimationCard`
+Component → Group `index.ts` (buildGroupExport) → Category `index.ts` (declareCategoryGroups) → `lazyGroupRegistry.ts` → `useLazyAnimations` hook → `AppNavigationContext` → `GroupSection` → `AnimationCard`
 
 ## Demo Separation
 

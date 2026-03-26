@@ -12,7 +12,7 @@
 src/
 ├── components/
 │   ├── <category-id>/           # Animation categories (e.g., dialogs, progress, rewards)
-│   │   ├── index.ts             # Category aggregation (exports categoryExport)
+│   │   ├── index.ts             # Category registration (declareCategoryGroups)
 │   │   └── <group-id>/          # Animation groups (e.g., modal-base, loading-states)
 │   │       ├── index.ts         # Group aggregation (exports groupExport via buildGroupExport)
 │   │       ├── framer/          # Framer Motion animations
@@ -25,11 +25,13 @@ src/
 │   │       ├── shared.css       # Shared group styles
 │   │       └── MockContent.tsx  # Demo content components
 │   ├── ui/                      # Catalog UI components
-│   └── animationRegistry.ts     # Central registry (imports all categories)
-├── services/                    # Data logic
-├── hooks/                       # React hooks
+│   ├── lazyBootstrap.ts         # Side-effect imports all category registrations
+│   └── animationRegistry.ts     # Thin wrapper: getGroupAnimations() for loaded groups
+├── services/                    # Logging, error tracking, performance
+├── hooks/                       # React hooks (useLazyAnimations, useLazyAppNavigation, etc.)
+├── contexts/                    # React contexts (AppNavigation, CodeMode, AnimationInspector)
 ├── types/                       # TypeScript types (see animation.ts for core types)
-├── lib/                         # Build helpers (groupBuilder, sourceTransform, etc.)
+├── lib/                         # Build helpers (groupBuilder, lazyGroupRegistry, sourceTransform, etc.)
 ├── motion/                      # Shared motion primitives
 └── __tests__/                   # Unit tests
 ```

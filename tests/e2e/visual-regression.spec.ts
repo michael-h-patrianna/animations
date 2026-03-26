@@ -53,19 +53,20 @@ test.describe('CSS vs Framer visual parity', () => {
     test(`${group.category}: ${group.base} Framer and CSS variants have similar layout`, async ({
       catalogPage,
     }) => {
-      // Capture Framer variant
+      // Capture Framer variant — use scopedCards to avoid counting internal
+      // animation roots (e.g., some components nest data-animation-id)
       await catalogPage.gotoGroup(`${group.base}-framer`)
       const contentPane = catalogPage.page.locator('[data-testid="editor-center-pane"]')
       await expect(contentPane).toBeVisible()
-      await expect(catalogPage.page.locator('[data-animation-id]').last()).toBeVisible({ timeout: 10_000 })
+      await catalogPage.waitForCards()
 
-      const framerCards = await catalogPage.page.locator('[data-animation-id]').count()
+      const framerCards = await catalogPage.scopedCards(`${group.base}-framer`).count()
 
       // Switch to CSS variant
       await catalogPage.gotoGroup(`${group.base}-css`)
-      await expect(catalogPage.page.locator('[data-animation-id]').last()).toBeVisible({ timeout: 10_000 })
+      await catalogPage.waitForCards()
 
-      const cssCards = await catalogPage.page.locator('[data-animation-id]').count()
+      const cssCards = await catalogPage.scopedCards(`${group.base}-css`).count()
 
       // Both variants should render the same number of animation cards
       expect(cssCards).toBe(framerCards)

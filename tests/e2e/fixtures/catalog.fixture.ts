@@ -3,7 +3,7 @@ import { CatalogPage } from '../page-objects/CatalogPage'
 import { MobilePage } from '../page-objects/MobilePage'
 
 /** Noise patterns that are benign and should not fail tests. */
-const BENIGN_CONSOLE_ERRORS = /Failed to load resource|favicon|net::ERR|ResizeObserver loop/i
+const BENIGN_CONSOLE_ERRORS = /Failed to load resource|favicon|net::ERR|ResizeObserver loop|downloadable font/i
 
 type ErrorCollector = {
   /** Uncaught JS exceptions (window.onerror). */

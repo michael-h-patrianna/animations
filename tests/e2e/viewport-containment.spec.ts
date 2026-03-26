@@ -30,7 +30,6 @@ test.describe('Mobile Containment Scan @containment', () => {
   test('no animation overflows the mobile phone frame', async ({ catalogPage }) => {
     // Known production bug: some animations overflow in mobile preview.
     // Skipped until overflow bugs are fixed.
-    test.fixme(true, 'Production bug: animations with overflow in mobile preview')
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()
     expect(groupPaths.length).toBeGreaterThan(0)
@@ -122,8 +121,6 @@ test.describe('Desktop Containment Scan @desktop-containment', () => {
 
   test('no animation overflows the desktop viewport', async ({ catalogPage }) => {
     // Known production bug: some animations overflow in desktop preview.
-    test.fixme(true, 'Production bug: animations with overflow in desktop preview')
-
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()
     expect(groupPaths.length).toBeGreaterThan(0)
@@ -165,6 +162,40 @@ test.describe('Desktop Containment Scan @desktop-containment', () => {
               }> = []
 
               const vpRect = { x: 0, y: 0, width: vp.width, height: vp.height }
+
+              // Compute visible rect after overflow clipping by ancestors
+              const CLIP_VALUES = new Set(['hidden', 'clip', 'auto', 'scroll'])
+              function visibleRect(
+                el: Element,
+                animRoot: Element
+              ): { x: number; y: number; width: number; height: number } | null {
+                const r = el.getBoundingClientRect()
+                let left = r.x
+                let top = r.y
+                let right = r.x + r.width
+                let bottom = r.y + r.height
+
+                let ancestor = el.parentElement
+                while (ancestor && ancestor !== animRoot) {
+                  const s = window.getComputedStyle(ancestor)
+                  if (CLIP_VALUES.has(s.overflowX) || CLIP_VALUES.has(s.overflowY)) {
+                    const ar = ancestor.getBoundingClientRect()
+                    if (CLIP_VALUES.has(s.overflowX)) {
+                      left = Math.max(left, ar.x)
+                      right = Math.min(right, ar.x + ar.width)
+                    }
+                    if (CLIP_VALUES.has(s.overflowY)) {
+                      top = Math.max(top, ar.y)
+                      bottom = Math.min(bottom, ar.y + ar.height)
+                    }
+                  }
+                  ancestor = ancestor.parentElement
+                }
+
+                if (left >= right || top >= bottom) return null
+                return { x: left, y: top, width: right - left, height: bottom - top }
+              }
+
               const descendants = animation.querySelectorAll('*')
 
               for (const el of descendants) {
@@ -174,10 +205,13 @@ test.describe('Desktop Containment Scan @desktop-containment', () => {
                 const r = el.getBoundingClientRect()
                 if (r.width === 0 && r.height === 0) continue
 
-                const overLeft = -r.x
-                const overTop = -r.y
-                const overRight = r.x + r.width - vp.width
-                const overBottom = r.y + r.height - vp.height
+                const vr = visibleRect(el, animation)
+                if (vr === null) continue
+
+                const overLeft = -vr.x
+                const overTop = -vr.y
+                const overRight = vr.x + vr.width - vp.width
+                const overBottom = vr.y + vr.height - vp.height
 
                 if (overLeft > tol || overTop > tol || overRight > tol || overBottom > tol) {
                   violations.push({
@@ -187,10 +221,10 @@ test.describe('Desktop Containment Scan @desktop-containment', () => {
                         ? el.className.split(' ').slice(0, 3).join(' ')
                         : '',
                     childRect: {
-                      x: Math.round(r.x),
-                      y: Math.round(r.y),
-                      width: Math.round(r.width),
-                      height: Math.round(r.height),
+                      x: Math.round(vr.x),
+                      y: Math.round(vr.y),
+                      width: Math.round(vr.width),
+                      height: Math.round(vr.height),
                     },
                     containerRect: {
                       x: vpRect.x,
@@ -276,8 +310,6 @@ test.describe('Mobile Positioning Verification @positioning', () => {
     catalogPage,
   }) => {
     // Known production bug: some animations are positioned outside their declared zone.
-    test.fixme(true, 'Production bug: animations mispositioned in mobile preview')
-
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()
     expect(groupPaths.length).toBeGreaterThan(0)
@@ -378,8 +410,6 @@ test.describe('Desktop Positioning Verification @positioning', () => {
     catalogPage,
   }) => {
     // Known production bug: some animations are positioned outside their declared zone.
-    test.fixme(true, 'Production bug: animations mispositioned in desktop preview')
-
     const info = test.info()
     const groupPaths = await catalogPage.discoverAllGroupPaths()
     expect(groupPaths.length).toBeGreaterThan(0)

@@ -32,7 +32,9 @@ GEMINI.md
 .playwright-mcp
 playwright-report
 test-results
-tests/e2e/__screenshots__
+# Visual regression baselines are platform-specific (e.g., chromium-darwin.png).
+# CI on a different OS will need to generate its own baselines once:
+#   npx playwright test visual-regression --update-snapshots
 ddd.md
 dd.md
 task_*.md

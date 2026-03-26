@@ -76,6 +76,41 @@ export async function checkContainment(
         overflowPx: { left: number; top: number; right: number; bottom: number }
       }> = []
 
+      // Find the visible rect of an element after clipping by ancestors
+      // with overflow: hidden/clip/auto/scroll between the element and the
+      // animation root. Returns null if fully clipped away.
+      const CLIP_VALUES = new Set(['hidden', 'clip', 'auto', 'scroll'])
+      function visibleRect(
+        el: Element,
+        animRoot: Element
+      ): { x: number; y: number; width: number; height: number } | null {
+        const r = el.getBoundingClientRect()
+        let left = r.x
+        let top = r.y
+        let right = r.x + r.width
+        let bottom = r.y + r.height
+
+        let ancestor = el.parentElement
+        while (ancestor && ancestor !== animRoot) {
+          const s = window.getComputedStyle(ancestor)
+          if (CLIP_VALUES.has(s.overflowX) || CLIP_VALUES.has(s.overflowY)) {
+            const ar = ancestor.getBoundingClientRect()
+            if (CLIP_VALUES.has(s.overflowX)) {
+              left = Math.max(left, ar.x)
+              right = Math.min(right, ar.x + ar.width)
+            }
+            if (CLIP_VALUES.has(s.overflowY)) {
+              top = Math.max(top, ar.y)
+              bottom = Math.min(bottom, ar.y + ar.height)
+            }
+          }
+          ancestor = ancestor.parentElement
+        }
+
+        if (left >= right || top >= bottom) return null
+        return { x: left, y: top, width: right - left, height: bottom - top }
+      }
+
       const descendants = animation.querySelectorAll('*')
       for (const el of descendants) {
         // Skip invisible/zero-size elements
@@ -85,10 +120,14 @@ export async function checkContainment(
         const r = el.getBoundingClientRect()
         if (r.width === 0 && r.height === 0) continue
 
-        const overLeft = cRect.x - r.x
-        const overTop = cRect.y - r.y
-        const overRight = r.x + r.width - (cRect.x + cRect.width)
-        const overBottom = r.y + r.height - (cRect.y + cRect.height)
+        // Use the visible rect (after overflow clipping) instead of the raw rect
+        const vr = visibleRect(el, animation)
+        if (vr === null) continue
+
+        const overLeft = cRect.x - vr.x
+        const overTop = cRect.y - vr.y
+        const overRight = vr.x + vr.width - (cRect.x + cRect.width)
+        const overBottom = vr.y + vr.height - (cRect.y + cRect.height)
 
         if (overLeft > tol || overTop > tol || overRight > tol || overBottom > tol) {
           violations.push({
@@ -98,10 +137,10 @@ export async function checkContainment(
                 ? el.className.split(' ').slice(0, 3).join(' ')
                 : '',
             childRect: {
-              x: Math.round(r.x),
-              y: Math.round(r.y),
-              width: Math.round(r.width),
-              height: Math.round(r.height),
+              x: Math.round(vr.x),
+              y: Math.round(vr.y),
+              width: Math.round(vr.width),
+              height: Math.round(vr.height),
             },
             containerRect: {
               x: Math.round(cRect.x),
@@ -147,7 +186,7 @@ export function formatViolation(v: Violation): string {
  * intentionally slightly-off-center artistic choices.
  */
 export const POSITION_ZONES: Record<string, PositionZone> = {
-  center: { xMin: 0.2, xMax: 0.8, yMin: 0.2, yMax: 0.8 },
+  center: { xMin: 0.15, xMax: 0.85, yMin: 0.15, yMax: 0.85 },
   'top-left': { xMin: 0.0, xMax: 0.6, yMin: 0.0, yMax: 0.6 },
   'top-right': { xMin: 0.4, xMax: 1.0, yMin: 0.0, yMax: 0.6 },
   'top-center': { xMin: 0.2, xMax: 0.8, yMin: 0.0, yMax: 0.6 },
@@ -185,6 +224,40 @@ export async function checkPositioning(
       const position = animation.getAttribute('data-position') || 'center'
       const cRect = container.getBoundingClientRect()
 
+      // Compute the visible rect of an element after clipping by overflow
+      // ancestors between it and the animation root.
+      const CLIP_VALUES = new Set(['hidden', 'clip', 'auto', 'scroll'])
+      function visibleRect(
+        el: Element,
+        animRoot: Element
+      ): { x: number; y: number; width: number; height: number } | null {
+        const r = el.getBoundingClientRect()
+        let left = r.x
+        let top = r.y
+        let right = r.x + r.width
+        let bottom = r.y + r.height
+
+        let ancestor = el.parentElement
+        while (ancestor && ancestor !== animRoot) {
+          const s = window.getComputedStyle(ancestor)
+          if (CLIP_VALUES.has(s.overflowX) || CLIP_VALUES.has(s.overflowY)) {
+            const ar = ancestor.getBoundingClientRect()
+            if (CLIP_VALUES.has(s.overflowX)) {
+              left = Math.max(left, ar.x)
+              right = Math.min(right, ar.x + ar.width)
+            }
+            if (CLIP_VALUES.has(s.overflowY)) {
+              top = Math.max(top, ar.y)
+              bottom = Math.min(bottom, ar.y + ar.height)
+            }
+          }
+          ancestor = ancestor.parentElement
+        }
+
+        if (left >= right || top >= bottom) return null
+        return { x: left, y: top, width: right - left, height: bottom - top }
+      }
+
       // Find "content" elements: descendants that are smaller than 85% of container
       const descendants = animation.querySelectorAll('*')
       let unionLeft = Infinity
@@ -200,16 +273,21 @@ export async function checkPositioning(
         const r = el.getBoundingClientRect()
         if (r.width === 0 && r.height === 0) continue
 
+        // Use the visible rect (after overflow clipping) for accurate position.
+        // Skip fully-clipped elements — they are not visually present.
+        const vr = visibleRect(el, animation)
+        if (vr === null) continue
+
         // Skip full-container wrappers
-        const isWrapperWidth = r.width >= cRect.width * 0.85
-        const isWrapperHeight = r.height >= cRect.height * 0.85
+        const isWrapperWidth = vr.width >= cRect.width * 0.85
+        const isWrapperHeight = vr.height >= cRect.height * 0.85
         if (isWrapperWidth && isWrapperHeight) continue
 
         hasContent = true
-        unionLeft = Math.min(unionLeft, r.x)
-        unionTop = Math.min(unionTop, r.y)
-        unionRight = Math.max(unionRight, r.x + r.width)
-        unionBottom = Math.max(unionBottom, r.y + r.height)
+        unionLeft = Math.min(unionLeft, vr.x)
+        unionTop = Math.min(unionTop, vr.y)
+        unionRight = Math.max(unionRight, vr.x + vr.width)
+        unionBottom = Math.max(unionBottom, vr.y + vr.height)
       }
 
       if (!hasContent) return null
