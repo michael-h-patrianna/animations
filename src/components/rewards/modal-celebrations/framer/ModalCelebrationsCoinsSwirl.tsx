@@ -236,7 +236,7 @@ function TrailDot({ t, timeScale }: { t: Mote; timeScale: number }) {
         height: `${t.size}px`,
         borderRadius: '50%',
         background: t.color,
-        filter: `drop-shadow(0 0 ${Math.round(t.size * 1.5) + 2}px ${t.color})`,
+        boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -264,7 +264,7 @@ function SparkleDot({ s, timeScale }: { s: Mote; timeScale: number }) {
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
-        filter: `drop-shadow(0 0 5px ${s.color})`,
+        boxShadow: `0 0 4px 1px ${s.color}`,
         animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
@@ -292,7 +292,7 @@ function VortexCore({ timeScale }: { timeScale: number }) {
         height: '8px',
         borderRadius: '50%',
         background: 'var(--pf-anim-gold, #ffd700)',
-        filter: 'drop-shadow(0 0 24px var(--pf-anim-gold, #ffd700))',
+        boxShadow: '0 0 24px 16px var(--pf-anim-gold, #ffd700)',
         pointerEvents: 'none',
         willChange: 'opacity',
       }}

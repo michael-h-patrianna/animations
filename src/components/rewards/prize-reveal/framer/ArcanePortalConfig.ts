@@ -1,7 +1,7 @@
-import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.png'
-import arcanePortalGcImage from '@/assets/arcane-portal/gc.png'
-import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.png'
-import arcanePortalScImage from '@/assets/arcane-portal/sc.png'
+import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.webp'
+import arcanePortalGcImage from '@/assets/arcane-portal/gc.webp'
+import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.webp'
+import arcanePortalScImage from '@/assets/arcane-portal/sc.webp'
 
 import type { ParticleData, RevealPhase } from '@/components/rewards/prize-reveal/ArcanePortalParts'
 

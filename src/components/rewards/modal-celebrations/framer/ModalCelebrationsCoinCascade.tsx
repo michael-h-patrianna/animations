@@ -120,7 +120,7 @@ function TrailDot({ t, timeScale, emitYPct }: { t: Mote; timeScale: number; emit
         height: `${t.size}px`,
         borderRadius: '50%',
         background: t.color,
-        filter: `drop-shadow(0 0 ${Math.round(t.size * 1.5) + 2}px ${t.color})`,
+        boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -157,7 +157,7 @@ function ImpactBurst({
         height: `${imp.size}px`,
         borderRadius: '50%',
         background: imp.color,
-        filter: `drop-shadow(0 0 ${Math.round(imp.size * 1.8) + 4}px ${imp.color})`,
+        boxShadow: `0 0 ${imp.size + 4}px ${Math.round(imp.size * 0.8)}px ${imp.color}`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -185,7 +185,7 @@ function ShimmerDot({ s, timeScale, emitYPct }: { s: Mote; timeScale: number; em
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
-        filter: `drop-shadow(0 0 5px ${s.color})`,
+        boxShadow: `0 0 4px 1px ${s.color}`,
         animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
@@ -222,7 +222,7 @@ function SourceGlow({
         height: '6px',
         borderRadius: '50%',
         background: 'var(--pf-anim-gold, #ffd700)',
-        filter: 'drop-shadow(0 0 18px var(--pf-anim-gold, #ffd700))',
+        boxShadow: '0 0 18px 12px var(--pf-anim-gold, #ffd700)',
         pointerEvents: 'none',
         willChange: 'opacity',
       }}

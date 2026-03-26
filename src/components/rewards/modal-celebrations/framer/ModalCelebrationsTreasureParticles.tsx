@@ -329,7 +329,7 @@ function TrailLayer({ trails }: { trails: Mote[] }) {
             height: t.size,
             borderRadius: '50%',
             background: t.color,
-            filter: `drop-shadow(0 0 ${Math.round(t.size * 1.5) + 2}px ${t.color})`,
+            boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
             pointerEvents: 'none',
             willChange: 'transform, opacity',
           }}
@@ -362,7 +362,7 @@ function SparkleLayer({ sparkles }: { sparkles: Mote[] }) {
             width: s.size,
             height: s.size,
             background: s.color,
-            filter: `drop-shadow(0 0 5px ${s.color})`,
+            boxShadow: `0 0 4px 1px ${s.color}`,
           }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: [0, 1.2, 0.4, 0.9, 0], opacity: [0, 0.8, 0.2, 0.5, 0] }}

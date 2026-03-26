@@ -1,7 +1,7 @@
 import * as m from 'motion/react-m'
 import type { CSSProperties } from 'react'
 
-import arcanePortalRingImage from '@/assets/arcane-portal/portal-ring.png'
+import arcanePortalRingImage from '@/assets/arcane-portal/portal-ring.webp'
 
 /* ─── Shared types (re-exported for main file) ─── */
 

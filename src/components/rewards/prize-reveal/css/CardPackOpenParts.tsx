@@ -1,7 +1,7 @@
 import { type CSSProperties } from 'react'
 
-import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
-import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'
 
 import type { ConfettiData } from '@/components/rewards/prize-reveal/CardPackParts'
 

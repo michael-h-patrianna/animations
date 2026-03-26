@@ -5,9 +5,9 @@ import { DemoButton } from '@/components/demo-blocks'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import dailyRewardFreeSpinsImage from '@/assets/daily-reward/free-spins.webp'
-import dailyRewardGcImage from '@/assets/daily-reward/gc.png'
-import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.png'
-import dailyRewardScImage from '@/assets/daily-reward/sc.png'
+import dailyRewardGcImage from '@/assets/daily-reward/gc.webp'
+import dailyRewardRandomRewardImage from '@/assets/daily-reward/random-reward.webp'
+import dailyRewardScImage from '@/assets/daily-reward/sc.webp'
 import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
 import pirateChestOpenImage from '@/assets/puzzled-pirate/chest-open.webp'
 

@@ -1,11 +1,11 @@
-import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.png'
-import arcanePortalGcImage from '@/assets/arcane-portal/gc.png'
-import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.png'
-import arcanePortalScImage from '@/assets/arcane-portal/sc.png'
-import crystalShatterShard1Image from '@/assets/crystal-shatter/crystal-shard-1.png'
-import crystalShatterShard2Image from '@/assets/crystal-shatter/crystal-shard-2.png'
-import crystalShatterShard3Image from '@/assets/crystal-shatter/crystal-shard-3.png'
-import crystalShatterShard4Image from '@/assets/crystal-shatter/crystal-shard-4.png'
+import arcanePortalFreeSpinsImage from '@/assets/arcane-portal/free-spins.webp'
+import arcanePortalGcImage from '@/assets/arcane-portal/gc.webp'
+import arcanePortalRandomRewardImage from '@/assets/arcane-portal/random-reward.webp'
+import arcanePortalScImage from '@/assets/arcane-portal/sc.webp'
+import crystalShatterShard1Image from '@/assets/crystal-shatter/crystal-shard-1.webp'
+import crystalShatterShard2Image from '@/assets/crystal-shatter/crystal-shard-2.webp'
+import crystalShatterShard3Image from '@/assets/crystal-shatter/crystal-shard-3.webp'
+import crystalShatterShard4Image from '@/assets/crystal-shatter/crystal-shard-4.webp'
 
 import type {
   DustData,

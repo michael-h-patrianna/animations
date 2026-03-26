@@ -55,7 +55,6 @@
   );
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
-  will-change: transform, opacity;
   pointer-events: none;
   z-index: 3;
 }
@@ -71,7 +70,6 @@
   border: 2px solid var(--pf-anim-white-60, rgb(255 255 255 / 60%));
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
-  will-change: transform, opacity;
   pointer-events: none;
   z-index: 3;
 }
@@ -92,7 +90,6 @@
   );
   transform: translate(-50%, -50%);
   opacity: 0;
-  will-change: opacity;
   pointer-events: none;
   z-index: 0;
 }
@@ -106,7 +103,6 @@
   background: var(--pf-anim-white, #fff);
   box-shadow: 0 0 6px 2px var(--pf-anim-white-80, rgb(255 255 255 / 80%));
   opacity: 0;
-  will-change: transform, opacity;
   pointer-events: none;
 }
 
@@ -114,7 +110,6 @@
 .pf-celebration__confetti {
   position: absolute;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
 .pf-celebration__confetti--rect {
@@ -162,7 +157,6 @@
   border-radius: 50%;
   border: 2px solid;
   transform: translate(-50%, -50%);
-  will-change: transform, opacity;
   pointer-events: none;
 }
 
@@ -175,7 +169,6 @@
   height: 20px;
   border-radius: 1px;
   transform-origin: center bottom;
-  will-change: transform, opacity;
   pointer-events: none;
 }
 
@@ -189,16 +182,14 @@
   border-radius: 50%;
   border: 2px solid;
   transform: translate(-50%, -50%);
-  will-change: transform, opacity;
   pointer-events: none;
 }
 
-/* ─── GPU acceleration hint for particle containers ─── */
+/* ─── Layout containment for particle containers ─── */
 .pf-celebration__layer,
 .pf-celebration__depth-bg,
 .pf-celebration__depth-fg,
 .pf-celebration__effects {
-  will-change: contents;
   contain: layout style;
 }
 

@@ -2,7 +2,7 @@ import { AnimatePresence, MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-import arcanePortalRunicSigilImage from '@/assets/arcane-portal/runic-sigil.png'
+import arcanePortalRunicSigilImage from '@/assets/arcane-portal/runic-sigil.webp'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import { DemoButton } from '@/components/demo-blocks'

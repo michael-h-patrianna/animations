@@ -2,9 +2,9 @@ import { MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
-import crystalShatterBodyImage from '@/assets/crystal-shatter/crystal-body.png'
-import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
-import crystalShatterFrameImage from '@/assets/crystal-shatter/crystal-frame.png'
+import crystalShatterBodyImage from '@/assets/crystal-shatter/crystal-body.webp'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
+import crystalShatterFrameImage from '@/assets/crystal-shatter/crystal-frame.webp'
 import { useCountUp } from '@/hooks/useCountUp'
 
 import { DemoButton } from '@/components/demo-blocks'

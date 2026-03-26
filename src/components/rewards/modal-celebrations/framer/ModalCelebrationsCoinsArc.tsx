@@ -236,7 +236,7 @@ function GlintDot({ g, timeScale }: { g: Mote; timeScale: number }) {
         height: `${g.size}px`,
         borderRadius: '50%',
         background: g.color,
-        filter: `drop-shadow(0 0 ${Math.round(g.size * 1.6) + 3}px ${g.color})`,
+        boxShadow: `0 0 ${g.size + 3}px ${Math.round(g.size * 0.6)}px ${g.color}`,
         pointerEvents: 'none',
         willChange: 'transform, opacity',
       }}
@@ -264,7 +264,7 @@ function SparkleDot({ s, timeScale }: { s: Mote; timeScale: number }) {
         width: `${s.size}px`,
         height: `${s.size}px`,
         background: s.color,
-        filter: `drop-shadow(0 0 5px ${s.color})`,
+        boxShadow: `0 0 4px 1px ${s.color}`,
         animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}

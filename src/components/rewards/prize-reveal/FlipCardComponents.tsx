@@ -1,7 +1,7 @@
 import * as m from 'motion/react-m'
 import { useState, type CSSProperties } from 'react'
 
-import cardPackBackImage from '@/assets/card-pack/card-back.png'
+import cardPackBackImage from '@/assets/card-pack/card-back.webp'
 
 import { type CardData, type CardRarity, type FanPosition } from './CardPackParts'
 

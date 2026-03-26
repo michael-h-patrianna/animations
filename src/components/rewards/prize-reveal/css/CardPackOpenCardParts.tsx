@@ -1,9 +1,9 @@
 import { useMemo, type CSSProperties } from 'react'
 
-import cardPackBackImage from '@/assets/card-pack/card-back.png'
-import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.png'
-import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.png'
-import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.png'
+import cardPackBackImage from '@/assets/card-pack/card-back.webp'
+import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
+import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.webp'
+import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'
 
 import type {
   CardData,
