@@ -1,3 +1,11 @@
+/**
+ * Typewriter text reveal with blinking cursor — CSS variant.
+ *
+ * Copy-paste files: this file + TextEffectsTypewriter.css
+ * Runtime deps: react
+ * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
+ */
+
 import { memo } from 'react'
 import './TextEffectsTypewriter.css'
 
@@ -12,40 +20,40 @@ interface TextEffectsTypewriterProps {
   color?: string
 }
 
-/**
- * Standalone: Copy this file + TextEffectsTypewriter.css into your app.
- * Runtime deps: react
- * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
- */
 function TextEffectsTypewriterComponent({
   text = 'LOADING SYSTEM...',
   charDelay = 0.08,
   cursor = '|',
   color,
 }: TextEffectsTypewriterProps) {
+  const charCount = text.length
+
   return (
     <div
-      className="text-effects-typewriter-container"
+      className="pf-typewriter"
       data-animation-id="text-effects__typewriter"
       style={
         color !== undefined
-          ? ({ '--text-effects-typewriter-color-1': color } as React.CSSProperties)
+          ? ({ '--pf-typewriter-color': color } as React.CSSProperties)
           : undefined
       }
     >
-      <div className="text-effects-typewriter-text">
-        {text.split('').map((char, index) => (
-          <span
-            key={index}
-            className="text-effects-typewriter-char"
-            style={{ animationDelay: `${index * charDelay}s` }}
-          >
-            {char}
-          </span>
-        ))}
+      <div className="pf-typewriter__line">
         <span
-          className="text-effects-typewriter-cursor"
-          style={{ animationDelay: `${text.length * charDelay}s` }}
+          className="pf-typewriter__text"
+          style={
+            {
+              '--pf-chars': charCount,
+              animationDuration: `${charCount * charDelay}s`,
+              animationTimingFunction: `steps(${charCount}, start)`,
+            } as React.CSSProperties
+          }
+        >
+          {text}
+        </span>
+        <span
+          className="pf-typewriter__cursor"
+          style={{ animationDelay: `${charCount * charDelay}s` }}
         >
           {cursor}
         </span>

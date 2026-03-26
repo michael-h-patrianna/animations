@@ -1,10 +1,11 @@
 /**
- * Typewriter Text Effect
+ * Typewriter Text Effect — CSS variant
+ * Container-width animation with steps() for character-by-character reveal.
+ * Cursor tracks the expanding text edge, matching the framer variant behavior.
  */
 
-/* Container - Centers content and provides spacing */
-.text-effects-typewriter-container {
-  --text-effects-typewriter-color-1: #10b981;
+.pf-typewriter {
+  --pf-typewriter-color: #10b981;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,58 +13,45 @@
   padding: 20px;
 }
 
-/* Text wrapper - Monospace font with tracking for typewriter aesthetic */
-.text-effects-typewriter-text {
+.pf-typewriter__line {
+  display: inline-flex;
+  align-items: baseline;
   font-family: 'Courier New', Courier, monospace;
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: var(--text-effects-typewriter-color-1);
-  white-space: pre; /* Preserves whitespace naturally */
+  color: var(--pf-typewriter-color);
 }
 
-/**
- * Individual character spans
- * Starts invisible and fades in via animation.
- * Uses inline-block to prevent layout shifts during reveal.
- * Animation delay is set via inline style for each character.
- */
-.text-effects-typewriter-char {
+/* Text container — overflow-hidden with animated width reveals characters */
+.pf-typewriter__text {
   display: inline-block;
-  opacity: 0;
-  animation: text-effects-typewriter-reveal 0s forwards;
+  overflow: hidden;
+  white-space: pre;
+  width: 0;
+  animation-name: pf-typewriter-typing;
+  animation-fill-mode: forwards;
+  /* animation-duration and animation-timing-function set via inline style */
 }
 
-/**
- * Blinking cursor
- * Appears after all text is typed and blinks continuously.
- * Uses step-based opacity animation for crisp on/off effect.
- */
-.text-effects-typewriter-cursor {
+/* Cursor — visible during typing, blinks after typing completes */
+.pf-typewriter__cursor {
   display: inline-block;
   font-weight: 300;
-  color: var(--text-effects-typewriter-color-1);
-  animation: text-effects-typewriter-cursor-blink 1s step-end infinite;
-  will-change: opacity; /* Hint for continuous animation optimization */
+  animation: pf-typewriter-blink 1s step-end infinite;
+  will-change: opacity;
+  /* animation-delay set via inline style */
 }
 
-/**
- * Character reveal animation
- * Instantly sets opacity to 1 at the end of the delay.
- * Delay is controlled per-character via inline styles.
- */
-@keyframes text-effects-typewriter-reveal {
+/* Target width uses --pf-chars from the element's inline style.
+   Each step() interval reveals exactly one monospace character (1ch + 1px letter-spacing). */
+@keyframes pf-typewriter-typing {
   to {
-    opacity: 1;
+    width: calc(var(--pf-chars) * (1ch + 1px));
   }
 }
 
-/**
- * Cursor blink animation
- * Creates a 50/50 on/off cycle using step-end timing.
- * This produces a sharp blink rather than a fade.
- */
-@keyframes text-effects-typewriter-cursor-blink {
+@keyframes pf-typewriter-blink {
   0%,
   49.99% {
     opacity: 1;
@@ -75,8 +63,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .text-effects-typewriter-char {
-    opacity: 1;
+  .pf-typewriter__text {
+    width: auto;
+    overflow: visible;
     animation: none;
   }
 }
