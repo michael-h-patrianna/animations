@@ -33,21 +33,20 @@
   border: 2px solid var(--pf-shockwave-color, rgb(255 255 255 / 50%));
   border-radius: 50%;
   pointer-events: none;
+  opacity: 0;
   will-change: transform, opacity;
 }
 
 .pf-shockwave__ring--1 {
-  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out forwards;
+  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out both;
 }
 
 .pf-shockwave__ring--2 {
-  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out 0.1s forwards;
-  opacity: 0.85;
+  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out 0.1s both;
 }
 
 .pf-shockwave__ring--3 {
-  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out 0.2s forwards;
-  opacity: 0.7;
+  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out 0.2s both;
 }
 
 @keyframes pf-shockwave {
