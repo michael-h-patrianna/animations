@@ -65,7 +65,7 @@ function ModalOrchestrationComparisonMorphComponent({
       scale: 1,
       opacity: 1,
       transition: {
-        duration: noMotion ? 0 : durationS,
+        duration: noMotion ? 0.15 : durationS,
         ease: [0.68, -0.55, 0.265, 1.55] as const,
       },
     },

@@ -1,4 +1,4 @@
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
@@ -300,6 +300,7 @@ function PrizeRevealArcanePortalComponent({
   prizeCount?: number
 }) {
   return (
+    <MotionConfig reducedMotion="user">
     <div
       className="pf-modal-celebration pf-arcane-portal"
       data-animation-id="prize-reveal__arcane-portal"
@@ -307,6 +308,7 @@ function PrizeRevealArcanePortalComponent({
     >
       <PortalAnimation prizeCount={prizeCount} />
     </div>
+    </MotionConfig>
   )
 }
 

@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, type Variants } from 'motion/react'
+import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsLightSweepDrawProps {
@@ -19,6 +19,7 @@ function TextEffectsLightSweepDrawComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsLightSweepDrawProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
@@ -65,16 +66,20 @@ function TextEffectsLightSweepDrawComponent({
       className="pf-light-sweep-draw"
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
-      variants={containerVariants}
+      variants={
+        prefersReducedMotion
+          ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3 } } }
+          : containerVariants
+      }
       initial="hidden"
-      animate={['show', 'settle']}
+      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
       style={
         color !== undefined ? ({ '--pf-lsd-base-color': color } as React.CSSProperties) : undefined
       }
     >
       <div className="pf-light-sweep-draw__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span key={i} className="pf-light-sweep-draw__letter" variants={letterVariants}>
+          <m.span key={i} className="pf-light-sweep-draw__letter" variants={prefersReducedMotion ? { hidden: { opacity: 1 }, show: { opacity: 1 } } : letterVariants}>
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

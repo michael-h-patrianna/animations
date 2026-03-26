@@ -102,7 +102,7 @@ function ModalOrchestrationFlipRevealComponent({
       opacity: 1,
       y: 0,
       transition: {
-        duration: noMotion ? 0 : 0.5,
+        duration: noMotion ? 0.15 : 0.5,
         ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
     },
@@ -140,7 +140,7 @@ function ModalOrchestrationFlipRevealComponent({
               className="pf-flip-reveal__inner"
               animate={{ rotateY: isFlipped ? 180 : 0 }}
               transition={{
-                duration: noMotion ? 0 : flipS,
+                duration: noMotion ? 0.15 : flipS,
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
               }}
               style={{ transformStyle: 'preserve-3d', animation: 'none' }}

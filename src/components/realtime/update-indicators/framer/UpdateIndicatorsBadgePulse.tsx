@@ -9,7 +9,7 @@
  * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" textColor="#fff" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>
  */
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import {
   BADGE_COLOR,
@@ -37,6 +37,7 @@ function UpdateIndicatorsBadgePulseComponent({
   glowColor = BADGE_GLOW,
   duration = 1000,
 }: BadgePulseProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durS = duration / 1000
 
   return (
@@ -45,13 +46,17 @@ function UpdateIndicatorsBadgePulseComponent({
         <m.div
           className="pf-update-indicator__badge-glow"
           style={{ ['--pf-badge-glow' as string]: `0 0 18px ${glowColor}`, animation: 'none' }}
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{
-            duration: durS,
-            ease: easeInOut,
-            repeat: Infinity,
-            repeatType: 'loop',
-          }}
+          animate={prefersReducedMotion ? { opacity: 0.5 } : { opacity: [0, 1, 0] }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0.3 }
+              : {
+                  duration: durS,
+                  ease: easeInOut,
+                  repeat: Infinity,
+                  repeatType: 'loop',
+                }
+          }
         />
         {children}
       </div>

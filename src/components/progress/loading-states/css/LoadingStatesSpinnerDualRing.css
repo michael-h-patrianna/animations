@@ -61,3 +61,24 @@
     transform: rotate(-360deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-spinner-dual-ring__outer,
+  .pf-spinner-dual-ring__inner {
+    animation: pf-loading-breathe 1.5s ease-in-out infinite;
+  }
+
+  .pf-spinner-dual-ring__inner {
+    animation-delay: 0.75s;
+  }
+
+  @keyframes pf-loading-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}

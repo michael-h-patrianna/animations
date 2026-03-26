@@ -5,6 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 
 const numberPopVariants = {
@@ -108,6 +109,7 @@ function TextEffectsCounterIncrementComponent({
   durationMs = 3000,
   color,
 }: TextEffectsCounterIncrementProps) {
+  const prefersReducedMotion = useReducedMotion()
   const [isValueAnimating, setIsValueAnimating] = useState(false)
   const [count, setCount] = useState(from)
   const [particles, setParticles] = useState<{ id: number; value: number }[]>([])
@@ -208,9 +210,18 @@ function TextEffectsCounterIncrementComponent({
       <div className="pf-counter-showcase__target">
         <m.span
           className="pf-counter-showcase__value"
-          variants={numberPopVariants}
+          variants={prefersReducedMotion ? undefined : numberPopVariants}
           initial="idle"
-          animate={isValueAnimating ? 'pop' : 'idle'}
+          animate={
+            prefersReducedMotion
+              ? isValueAnimating
+                ? { scale: [1, 1.05, 1], opacity: [1, 0.85, 1] }
+                : { scale: 1, opacity: 1 }
+              : isValueAnimating
+                ? 'pop'
+                : 'idle'
+          }
+          transition={prefersReducedMotion ? { duration: 0.3, ease: 'easeInOut' } : undefined}
         >
           <span className="pf-counter-showcase__value-glow" aria-hidden="true" />
           <span className="pf-counter-showcase__value-text">
@@ -220,7 +231,7 @@ function TextEffectsCounterIncrementComponent({
           </span>
         </m.span>
 
-        {particles.map((particle) => (
+        {!prefersReducedMotion && particles.map((particle) => (
           <m.span
             key={particle.id}
             className="pf-update-indicator__counter"

@@ -39,7 +39,7 @@ function ModalBaseUnfoldOrigamiComponent({
         initial={prefersReducedMotion ? { opacity: 0 } : { rotateX: -180, scale: 0, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { rotateX: 0, scale: 1, opacity: 1 }}
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.25, 0.46, 0.45, 0.94],
         }}
         onAnimationComplete={onAnimationComplete}

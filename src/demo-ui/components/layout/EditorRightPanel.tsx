@@ -8,6 +8,11 @@ import { hasDirtyPropOverrides, useAnimationInspector } from '@/contexts/Animati
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import { ToggleGroup } from '@/demo-ui/components/ui/ToggleGroup'
+import {
+  REDUCED_MOTION_LABELS,
+  REDUCED_MOTION_OPTIONS,
+  useLayoutStore,
+} from '@/demo-ui/stores/layoutStore'
 import type { NumberPropConfig, PropConfig } from '@/types/animation'
 import type React from 'react'
 import { useCallback, useMemo } from 'react'
@@ -16,6 +21,11 @@ const ANIMATE_TOGGLE_OPTIONS = [
   { value: 'fixed' as const, label: 'Fixed' },
   { value: 'animate' as const, label: 'Animate' },
 ]
+
+const MOTION_TOGGLE_OPTIONS = REDUCED_MOTION_OPTIONS.map((value) => ({
+  value,
+  label: REDUCED_MOTION_LABELS[value],
+}))
 
 function CountBadge({ count }: { count: number }) {
   return (
@@ -243,6 +253,32 @@ function PropRunField({
   return <InspectorGroup configs={run} propOverrides={propOverrides} onChange={onChange} />
 }
 
+function MotionPreferenceSection() {
+  const reducedMotion = useLayoutStore((s) => s.reducedMotion)
+  const setReducedMotion = useLayoutStore((s) => s.setReducedMotion)
+
+  return (
+    <ControlGroup title="Motion" data-testid="inspector-motion-pref">
+      <div className="space-y-2">
+        <ToggleGroup
+          options={MOTION_TOGGLE_OPTIONS}
+          value={reducedMotion}
+          onChange={setReducedMotion as (value: string) => void}
+          ariaLabel="Motion preference"
+          data-testid="motion-pref-toggle"
+        />
+        <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">
+          {reducedMotion === 'system'
+            ? 'Respects your OS prefers-reduced-motion setting.'
+            : reducedMotion === 'reduce'
+              ? 'All animations reduced — preview what motion-sensitive users see.'
+              : 'Full animations regardless of OS setting.'}
+        </p>
+      </div>
+    </ControlGroup>
+  )
+}
+
 export const EditorRightPanel: React.FC = () => {
   const {
     selectedAnimation,
@@ -271,6 +307,10 @@ export const EditorRightPanel: React.FC = () => {
         <h2 className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest">
           Inspector
         </h2>
+      </div>
+
+      <div className="px-4 pt-4 shrink-0">
+        <MotionPreferenceSection />
       </div>
 
       {selectedAnimation == null ? (

@@ -35,7 +35,7 @@ function ModalBaseRippleExpandComponent({
             : { scale: [0, 1.05, 0.98, 1], opacity: [0, 0.8, 1, 1] }
         }
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.25, 0.46, 0.45, 0.94],
         }}
         onAnimationComplete={onAnimationComplete}

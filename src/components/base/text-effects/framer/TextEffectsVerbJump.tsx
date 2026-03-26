@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsVerbJumpProps {
@@ -22,6 +22,7 @@ function TextEffectsVerbJumpComponent({
   stepDelay = 0.06,
   color,
 }: TextEffectsVerbJumpProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -38,17 +39,25 @@ function TextEffectsVerbJumpComponent({
           <m.span
             key={i}
             className="pf-verb-jump__char"
-            initial={{ y: 0, scaleY: 1 }}
-            animate={{
-              y: [0, -10, 0, -4, 0],
-              scaleY: [1, 0.96, 1.02, 0.98, 1],
-            }}
-            transition={{
-              duration: 1.6,
-              delay: i * stepDelay,
-              ease: easeInOut,
-              times: [0, 0.2, 0.4, 0.6, 1],
-            }}
+            initial={prefersReducedMotion ? undefined : { y: 0, scaleY: 1 }}
+            animate={
+              prefersReducedMotion
+                ? { scaleY: [1, 0.97, 1.02, 1] }
+                : {
+                    y: [0, -10, 0, -4, 0],
+                    scaleY: [1, 0.96, 1.02, 0.98, 1],
+                  }
+            }
+            transition={
+              prefersReducedMotion
+                ? { duration: 0.5, ease: 'easeInOut' }
+                : {
+                    duration: 1.6,
+                    delay: i * stepDelay,
+                    ease: easeInOut,
+                    times: [0, 0.2, 0.4, 0.6, 1],
+                  }
+            }
           >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>

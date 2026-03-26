@@ -65,10 +65,10 @@ function LoadingStatesSpinnerGalaxyComponent({
         ['--pf-sg-glow' as string]: shadow,
         animation: 'none',
       }}
-      animate={prefersReducedMotion ? undefined : { rotate: 360 }}
+      animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : { rotate: 360 }}
       transition={
         prefersReducedMotion
-          ? undefined
+          ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' as const }
           : { duration: rotateDuration, repeat: Infinity, ease: 'linear' as const }
       }
       role="status"

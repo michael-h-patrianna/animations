@@ -455,3 +455,40 @@
     transform: scale3d(1, 1, 1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-combo-number-wrapper {
+    animation: tfx-combo-reduced-fade 300ms ease-out forwards;
+  }
+
+  .tfx-combo-digit {
+    animation: none;
+    opacity: 1;
+  }
+
+  .tfx-combo-hit-marker {
+    animation: tfx-combo-reduced-fade 300ms 100ms ease-out forwards;
+  }
+
+  .tfx-combo-letter {
+    animation: tfx-combo-reduced-fade 300ms 150ms ease-out forwards;
+  }
+
+  .tfx-combo-particle {
+    animation: none;
+    opacity: 0;
+  }
+
+  .tfx-combo-bonus {
+    animation: tfx-combo-reduced-fade 300ms 600ms ease-out forwards;
+  }
+
+  @keyframes tfx-combo-reduced-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

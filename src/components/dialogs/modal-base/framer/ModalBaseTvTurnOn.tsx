@@ -31,7 +31,7 @@ function ModalBaseTvTurnOnComponent({
         initial={prefersReducedMotion ? { opacity: 0 } : { scaleX: 2, scaleY: 0, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { scaleX: 1, scaleY: 1, opacity: 1 }}
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.34, 1.56, 0.64, 1],
         }}
         onAnimationComplete={onAnimationComplete}

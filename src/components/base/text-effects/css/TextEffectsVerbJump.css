@@ -41,3 +41,24 @@
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-jump-char {
+    animation: tfx-jump-reduced 500ms ease-in-out;
+  }
+
+  @keyframes tfx-jump-reduced {
+    0% {
+      transform: scaleY(1);
+    }
+    35% {
+      transform: scaleY(0.97);
+    }
+    65% {
+      transform: scaleY(1.02);
+    }
+    100% {
+      transform: scaleY(1);
+    }
+  }
+}

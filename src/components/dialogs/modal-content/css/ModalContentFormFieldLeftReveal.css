@@ -16,3 +16,18 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-form-left-reveal-item {
+    animation: pf-form-left-reveal-reduced 250ms ease-out both;
+  }
+
+  @keyframes pf-form-left-reveal-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

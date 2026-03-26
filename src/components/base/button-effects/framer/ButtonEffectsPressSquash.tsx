@@ -44,12 +44,14 @@ function ButtonEffectsPressSquashComponent({
       onClick={handleClick}
       initial={{ scaleX: 1, scaleY: 1, y: 0 }}
       animate={
-        isAnimating && !prefersReducedMotion
-          ? {
-              scaleX: [1, 1.15, 0.95, 1],
-              scaleY: [1, 0.85, 1.05, 1],
-              y: ['0%', '7.5%', '-2.5%', '0%'],
-            }
+        isAnimating
+          ? prefersReducedMotion
+            ? { scaleX: [1, 1.02, 1], scaleY: [1, 0.98, 1], y: 0 }
+            : {
+                scaleX: [1, 1.15, 0.95, 1],
+                scaleY: [1, 0.85, 1.05, 1],
+                y: ['0%', '7.5%', '-2.5%', '0%'],
+              }
           : { scaleX: 1, scaleY: 1, y: 0 }
       }
       transition={{

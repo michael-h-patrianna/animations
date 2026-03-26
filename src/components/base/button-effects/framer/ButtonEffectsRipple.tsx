@@ -13,7 +13,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState, memo, type ReactNode } from 'react'
 import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
@@ -38,6 +38,7 @@ function ButtonEffectsRippleComponent({
   color,
   duration = 520,
 }: ButtonEffectsRippleProps) {
+  const prefersReducedMotion = useReducedMotion()
   const containerRef = useRef<HTMLDivElement>(null)
   const [ripples, setRipples] = useState<Ripple[]>([])
   const nextIdRef = useRef(0)
@@ -70,14 +71,22 @@ function ButtonEffectsRippleComponent({
     timeoutIdsRef.current.add(timeoutId)
   }
 
-  const rippleVariants = {
-    initial: { scale: 0.2, opacity: 0.6 },
-    animate: {
-      scale: 1,
-      opacity: [0.6, 0.45, 0],
-      transition: { duration: durationS, ease: easeOut, times: [0, 0.6, 1] },
-    },
-  }
+  const rippleVariants = prefersReducedMotion
+    ? {
+        initial: { opacity: 0.4 },
+        animate: {
+          opacity: [0.4, 0],
+          transition: { duration: 0.15 },
+        },
+      }
+    : {
+        initial: { scale: 0.2, opacity: 0.6 },
+        animate: {
+          scale: 1,
+          opacity: [0.6, 0.45, 0],
+          transition: { duration: durationS, ease: easeOut, times: [0, 0.6, 1] },
+        },
+      }
 
   return (
     <div

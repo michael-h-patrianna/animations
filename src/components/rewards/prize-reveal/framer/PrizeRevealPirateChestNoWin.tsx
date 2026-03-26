@@ -1,3 +1,4 @@
+import { MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useState } from 'react'
 
@@ -31,6 +32,7 @@ function PrizeRevealPirateChestNoWinComponent({
   }, [revealDelayMs, shakeDelayMs])
 
   return (
+    <MotionConfig reducedMotion="user">
     <div
       className="pf-modal-celebration pf-pirate-chest-no-win"
       data-animation-id="prize-reveal__pirate-chest-no-win"
@@ -69,6 +71,7 @@ function PrizeRevealPirateChestNoWinComponent({
         </m.div>
       </div>
     </div>
+    </MotionConfig>
   )
 }
 

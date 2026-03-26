@@ -39,12 +39,28 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .pf-mo-overlay--css {
-    animation: none;
-    opacity: 1;
+    animation: pf-mo-overlay-reduced 200ms ease-out forwards;
   }
 
   .pf-mo-overlay--closing {
-    animation: none;
-    opacity: 0;
+    animation: pf-mo-overlay-reduced-out 150ms ease-out forwards;
+  }
+
+  @keyframes pf-mo-overlay-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: var(--pf-mo-overlay-opacity, 0.5);
+    }
+  }
+
+  @keyframes pf-mo-overlay-reduced-out {
+    from {
+      opacity: var(--pf-mo-overlay-opacity, 0.5);
+    }
+    to {
+      opacity: 0;
+    }
   }
 }

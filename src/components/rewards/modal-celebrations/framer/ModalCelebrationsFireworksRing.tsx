@@ -6,6 +6,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -237,6 +238,7 @@ function ModalCelebrationsFireworksRingComponent({
   particleMaxHeight = 24,
   onComplete,
 }: ModalCelebrationsFireworksRingProps) {
+  const prefersReducedMotion = useReducedMotion()
   const embers = useMemo(() => makeEmbers(particleCount), [particleCount])
   const shimmers = useMemo(makeShimmers, [])
   const bursts = useMemo(() => makeBursts(particleImages), [particleImages])
@@ -254,6 +256,9 @@ function ModalCelebrationsFireworksRingComponent({
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
   }, [bursts, sparkles, onComplete])
+
+  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">

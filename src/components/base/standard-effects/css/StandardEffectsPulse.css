@@ -65,3 +65,26 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pulse {
+    animation: pf-pulse-reduced var(--pf-pulse-duration, 1.5s) ease-in-out infinite;
+  }
+
+  .pf-pulse::before {
+    animation: none;
+    opacity: 0;
+  }
+
+  @keyframes pf-pulse-reduced {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.03);
+      opacity: 0.8;
+    }
+  }
+}

@@ -89,7 +89,7 @@ function ModalOrchestrationTabMorphComponent({
       scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
-        duration: noMotion ? 0 : 0.46,
+        duration: noMotion ? 0.15 : 0.46,
         ease: [0.34, 1.56, 0.64, 1] as const,
       },
     },
@@ -101,7 +101,7 @@ function ModalOrchestrationTabMorphComponent({
       x: 0,
       opacity: 1,
       transition: {
-        duration: noMotion ? 0 : 0.3,
+        duration: noMotion ? 0.15 : 0.3,
         ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
     },
@@ -109,7 +109,7 @@ function ModalOrchestrationTabMorphComponent({
       x: -slideDistance,
       opacity: 0,
       transition: {
-        duration: noMotion ? 0 : 0.2,
+        duration: noMotion ? 0.12 : 0.2,
         ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
     },

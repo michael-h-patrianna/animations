@@ -8,6 +8,7 @@
  * Usage: <IconAnimationsFloat src="/balloon.png" alt="balloon" duration={8000} />
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 interface IconAnimationsFloatProps {
@@ -27,11 +28,13 @@ function IconAnimationsFloatComponent({
   width = 120,
   duration = 6000,
 }: IconAnimationsFloatProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <div data-animation-id="icon-animations__float">
       <m.div
         style={{ transformOrigin: 'center 20%', animation: 'none' }}
-        animate={{
+        animate={prefersReducedMotion ? undefined : {
           y: [
             0, -1.5, -3, -4.5, -6, -7.5, -9, -10.5, -12, -13, -14, -13, -12, -10.5, -9, -7.5, -6,
             -4.5, -3, -1.5, 0,
@@ -46,11 +49,15 @@ function IconAnimationsFloatComponent({
             1.014, 1.012, 1.01, 1.008, 1.006, 1.004, 1.002, 1,
           ],
         }}
-        transition={{
-          duration: duration / 1000,
-          ease: [0.4, 0, 0.6, 1] as const,
-          repeat: Infinity,
-        }}
+        transition={
+          prefersReducedMotion
+            ? undefined
+            : {
+                duration: duration / 1000,
+                ease: [0.4, 0, 0.6, 1] as const,
+                repeat: Infinity,
+              }
+        }
       >
         {src !== undefined ? (
           <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />

@@ -60,11 +60,11 @@ export const MODAL_ENTRANCE = {
   transition: { duration: 0.4, ease: EASE_STANDARD, times: [0, 0.5, 1] },
 }
 
-/** Reduced-motion fallback: instant fade-in. */
+/** Reduced-motion fallback: gentle fade-in. */
 export const REDUCED_FADE = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
-  transition: { duration: 0.01 },
+  transition: { duration: 0.2, ease: 'easeOut' as const },
 }
 
 /** Button bounce-up preset (for demo footer buttons). */

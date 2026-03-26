@@ -6,6 +6,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -314,6 +315,7 @@ function ModalCelebrationsCoinsSwirlComponent({
   duration,
   onComplete,
 }: ModalCelebrationsCoinsSwirlProps) {
+  const prefersReducedMotion = useReducedMotion()
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
   const effectiveColors = colors.length > 0 ? colors : GOLDEN_COLORS
   const hasParticleImages = particleImages.length > 0
@@ -338,6 +340,9 @@ function ModalCelebrationsCoinsSwirlComponent({
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
   }, [coins, sparkles, timeScale, onComplete])
+
+  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl">

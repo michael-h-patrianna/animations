@@ -36,3 +36,27 @@
     transform: skewX(0deg) skewY(0deg) scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-jello {
+    animation: pf-jello-reduced 500ms ease-in-out;
+  }
+
+  @keyframes pf-jello-reduced {
+    0% {
+      transform: skewX(0deg) skewY(0deg);
+    }
+    25% {
+      transform: skewX(-1.5deg) skewY(-1.5deg);
+    }
+    55% {
+      transform: skewX(1deg) skewY(1deg);
+    }
+    80% {
+      transform: skewX(-0.5deg) skewY(-0.5deg);
+    }
+    100% {
+      transform: skewX(0deg) skewY(0deg);
+    }
+  }
+}

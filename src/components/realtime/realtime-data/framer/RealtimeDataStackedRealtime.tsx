@@ -8,6 +8,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useState } from 'react'
 
 import type { StatEntry } from '@/components/realtime/realtime-data/SharedTypes'
@@ -40,6 +41,7 @@ function RealtimeDataStackedRealtimeComponent({
   activeColor = 'var(--pf-anim-cyan)',
   inactiveColor = 'var(--pf-anim-gray-400)',
 }: RealtimeDataStackedRealtimeProps) {
+  const prefersReducedMotion = useReducedMotion()
   const [isVisible, setIsVisible] = useState(false)
 
   const durationS = duration / 1000
@@ -84,14 +86,18 @@ function RealtimeDataStackedRealtimeComponent({
           <m.div
             key={item.label}
             className={`pf-realtime-data__stack-row ${item.active === true ? 'active' : ''}`}
-            initial={{ x: index % 2 === 0 ? -16 : 16, opacity: 0 }}
-            animate={{
-              x: isVisible ? 0 : index % 2 === 0 ? -16 : 16,
-              opacity: isVisible ? 1 : 0,
-            }}
+            initial={prefersReducedMotion ? { opacity: 0 } : { x: index % 2 === 0 ? -16 : 16, opacity: 0 }}
+            animate={
+              prefersReducedMotion
+                ? { opacity: isVisible ? 1 : 0 }
+                : {
+                    x: isVisible ? 0 : index % 2 === 0 ? -16 : 16,
+                    opacity: isVisible ? 1 : 0,
+                  }
+            }
             transition={{
-              duration: durationS,
-              delay: index * staggerS,
+              duration: prefersReducedMotion ? 0.1 : durationS,
+              delay: prefersReducedMotion ? 0 : index * staggerS,
               ease: [0.25, 0.46, 0.45, 0.94] as const,
             }}
             style={{ animation: 'none' }}

@@ -83,3 +83,23 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-spinner-galaxy {
+    animation: pf-loading-galaxy-breathe 1.5s ease-in-out infinite;
+  }
+
+  .pf-spinner-galaxy__star {
+    animation: none;
+  }
+
+  @keyframes pf-loading-galaxy-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}

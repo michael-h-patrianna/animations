@@ -9,6 +9,7 @@
  * Usage: <StandardEffectsPulseCircle size={76} color="#7a468e" duration={2200} />
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import {
   INDICATOR_COLOR,
@@ -32,6 +33,7 @@ function StandardEffectsPulseCircleComponent({
   ringColor = INDICATOR_RING_COLOR,
   duration = 2200,
 }: StandardEffectsPulseCircleProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durationS = duration / 1000
   const resolvedColor = color
   const resolvedRingColor = ringColor
@@ -59,8 +61,8 @@ function StandardEffectsPulseCircleComponent({
           position: 'relative',
           animation: 'none',
         }}
-        animate={{ scale: [1, 1.06, 1] }}
-        transition={{ duration: durationS, ease: [0.4, 0, 0.6, 1] as const, times: [0, 0.5, 1] }}
+        animate={prefersReducedMotion ? { opacity: [1, 0.6, 1] } : { scale: [1, 1.06, 1] }}
+        transition={{ duration: durationS, ease: [0.4, 0, 0.6, 1] as const, times: [0, 0.5, 1], repeat: Infinity }}
       >
         <m.span
           aria-hidden="true"
@@ -71,8 +73,8 @@ function StandardEffectsPulseCircleComponent({
             border: `2px solid ${resolvedRingColor}`,
             animation: 'none',
           }}
-          animate={{ scale: [1, 2.6, 2.6], opacity: [0.7, 0.12, 0] }}
-          transition={{ duration: durationS, ease: [0.4, 0, 0.6, 1] as const, times: ringTimes }}
+          animate={prefersReducedMotion ? { opacity: 0 } : { scale: [1, 2.6, 2.6], opacity: [0.7, 0.12, 0] }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: durationS, ease: [0.4, 0, 0.6, 1] as const, times: ringTimes }}
         />
         <m.span
           aria-hidden="true"
@@ -83,13 +85,17 @@ function StandardEffectsPulseCircleComponent({
             border: `2px solid ${resolvedRingColor}`,
             animation: 'none',
           }}
-          animate={{ scale: [1, 2.6, 2.6], opacity: [0.6, 0.1, 0] }}
-          transition={{
-            duration: durationS,
-            delay: durationS / 2,
-            ease: [0.4, 0, 0.6, 1] as const,
-            times: ringTimes,
-          }}
+          animate={prefersReducedMotion ? { opacity: 0 } : { scale: [1, 2.6, 2.6], opacity: [0.6, 0.1, 0] }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : {
+                  duration: durationS,
+                  delay: durationS / 2,
+                  ease: [0.4, 0, 0.6, 1] as const,
+                  times: ringTimes,
+                }
+          }
         />
       </m.div>
     </div>

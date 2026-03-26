@@ -37,3 +37,24 @@
     transform: translateY(0) scaleY(1) scaleX(1) rotate(0deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-bounce {
+    animation: pf-bounce-reduced 400ms ease-in-out;
+  }
+
+  @keyframes pf-bounce-reduced {
+    0% {
+      transform: scaleY(1) scaleX(1);
+    }
+    35% {
+      transform: scaleY(0.97) scaleX(1.02);
+    }
+    65% {
+      transform: scaleY(1.03) scaleX(0.99);
+    }
+    100% {
+      transform: scaleY(1) scaleX(1);
+    }
+  }
+}

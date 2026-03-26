@@ -206,3 +206,19 @@
 [data-animation-id='modal-celebrations__confetti-rain'] {
   overflow: visible;
 }
+
+/* ─── Reduced motion: disable all celebration particle effects ─── */
+/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
+@media (prefers-reduced-motion: reduce) {
+  .pf-celebration__confetti,
+  .pf-celebration__sparkle,
+  .pf-celebration__flash,
+  .pf-celebration__shockwave,
+  .pf-celebration__glow,
+  .pf-celebration__ring,
+  .pf-celebration__ray,
+  .pf-celebration__pulse {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

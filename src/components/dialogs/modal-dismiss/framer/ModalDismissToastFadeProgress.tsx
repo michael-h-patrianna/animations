@@ -33,8 +33,8 @@ function ModalDismissToastFadeProgressComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.01 : 0.42
-  const exitS = prefersReducedMotion ? 0.01 : 0.32
+  const entryS = prefersReducedMotion ? 0.15 : 0.42
+  const exitS = prefersReducedMotion ? 0.12 : 0.32
 
   const variants = {
     hidden: { y: 18, scale: 0.94, opacity: 0 },

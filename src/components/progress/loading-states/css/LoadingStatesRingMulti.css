@@ -76,3 +76,19 @@
     transform: translate(-50%, -50%) rotate(0deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-ring-multi__segment {
+    animation: pf-loading-ring-breathe 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pf-loading-ring-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}

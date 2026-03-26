@@ -8,6 +8,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
@@ -42,6 +43,7 @@ function RealtimeDataLiveScoreUpdateComponent({
   highlightColor = 'var(--pf-anim-green)',
   pauseDuration = 2000,
 }: RealtimeDataLiveScoreUpdateProps) {
+  const prefersReducedMotion = useReducedMotion()
   const initialScores = useMemo(() => items.map((e) => e.score), [items])
   const [scores, setScores] = useState<number[]>(() => [...initialScores])
   const [isPulsing, setIsPulsing] = useState(false)
@@ -121,17 +123,21 @@ function RealtimeDataLiveScoreUpdateComponent({
             <m.div
               className="pf-realtime-data__score"
               animate={
-                isPulsing
-                  ? {
-                      scale: [1, 1.2, 1],
-                      color: ['var(--pf-base-50)', highlightColor, 'var(--pf-base-50)'],
-                    }
-                  : { scale: 1, color: 'var(--pf-base-50)' }
+                prefersReducedMotion
+                  ? isPulsing
+                    ? { opacity: [1, 0.7, 1], color: ['var(--pf-base-50)', highlightColor, 'var(--pf-base-50)'] }
+                    : { opacity: 1, color: 'var(--pf-base-50)' }
+                  : isPulsing
+                    ? {
+                        scale: [1, 1.2, 1],
+                        color: ['var(--pf-base-50)', highlightColor, 'var(--pf-base-50)'],
+                      }
+                    : { scale: 1, color: 'var(--pf-base-50)' }
               }
               transition={{
-                duration: durationS,
+                duration: prefersReducedMotion ? 0.15 : durationS,
                 ease: [0.25, 0.46, 0.45, 0.94] as const,
-                delay: index * 0.1,
+                delay: prefersReducedMotion ? 0 : index * 0.1,
               }}
               style={{ animation: 'none' }}
             >

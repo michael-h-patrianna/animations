@@ -75,7 +75,7 @@ function ModalOrchestrationSpringPhysicsComponent({
       y: 0,
       opacity: 1,
       transition: noMotion
-        ? { duration: 0 }
+        ? { duration: 0.15 }
         : { type: 'spring' as const, stiffness, damping, mass },
     },
   }

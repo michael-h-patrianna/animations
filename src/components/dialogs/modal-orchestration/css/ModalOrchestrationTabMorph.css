@@ -117,3 +117,50 @@
 .pf-tab-morph__panel--exit-right {
   animation: pf-tab-morph-panel-exit-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-tab-morph__tab {
+    transform: none;
+    transition-duration: 150ms;
+  }
+
+  .pf-tab-morph__tab--animated {
+    animation: pf-tab-morph-reduced 150ms ease-out both;
+  }
+
+  .pf-tab-morph__panel--enter {
+    animation: pf-tab-morph-panel-reduced-enter 100ms ease-out forwards;
+  }
+
+  .pf-tab-morph__panel--exit-left,
+  .pf-tab-morph__panel--exit-right {
+    animation: pf-tab-morph-panel-reduced-exit 100ms ease-out forwards;
+  }
+
+  @keyframes pf-tab-morph-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pf-tab-morph-panel-reduced-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pf-tab-morph-panel-reduced-exit {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}

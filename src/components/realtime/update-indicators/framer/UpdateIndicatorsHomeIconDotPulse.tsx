@@ -9,7 +9,7 @@
  * Usage: <UpdateIndicatorsHomeIconDotPulse dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotPulse>
  */
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import { DOT_COLOR, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
@@ -20,6 +20,7 @@ function UpdateIndicatorsHomeIconDotPulseComponent({
   dotSize = 14,
   duration = 1400,
 }: DotIndicatorProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durS = duration / 1000
   const ringBorder = `${Math.round(dotSize * 0.57)}px solid ${ringTint(dotColor, 25)}`
 
@@ -32,22 +33,21 @@ function UpdateIndicatorsHomeIconDotPulseComponent({
         background: dotColor,
         animation: 'none',
       }}
-      animate={{ scale: [1, 1.1, 1] }}
-      transition={{
-        duration: durS,
-        ease: easeInOut,
-      }}
+      animate={prefersReducedMotion ? undefined : { scale: [1, 1.1, 1] }}
+      transition={prefersReducedMotion ? undefined : { duration: durS, ease: easeInOut }}
     >
-      <m.span
-        className="pf-update-indicator__dot-ring"
-        style={{
-          inset: `${-Math.round(dotSize * 0.57)}px`,
-          border: ringBorder,
-          animation: 'none',
-        }}
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ duration: durS, ease: easeInOut }}
-      />
+      {!prefersReducedMotion && (
+        <m.span
+          className="pf-update-indicator__dot-ring"
+          style={{
+            inset: `${-Math.round(dotSize * 0.57)}px`,
+            border: ringBorder,
+            animation: 'none',
+          }}
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: durS, ease: easeInOut }}
+        />
+      )}
     </m.span>
   )
 

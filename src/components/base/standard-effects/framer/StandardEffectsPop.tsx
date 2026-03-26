@@ -8,6 +8,7 @@
  * Usage: <StandardEffectsPop duration={500}><YourContent /></StandardEffectsPop>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 
@@ -18,20 +19,30 @@ interface StandardEffectsPopProps {
 }
 
 function StandardEffectsPopComponent({ children, duration = 500 }: StandardEffectsPopProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <m.div
       data-animation-id="standard-effects__pop"
       style={{ animation: 'none' }}
-      animate={{
-        scale: [0, 1.2, 1],
-        rotate: [0, 5, 0],
-        opacity: [0, 0.8, 1],
-      }}
-      transition={{
-        duration: duration / 1000,
-        ease: [0.68, -0.55, 0.265, 1.55] as const,
-        times: [0, 0.5, 1],
-      }}
+      animate={
+        prefersReducedMotion
+          ? { opacity: [0, 1] }
+          : {
+              scale: [0, 1.2, 1],
+              rotate: [0, 5, 0],
+              opacity: [0, 0.8, 1],
+            }
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.15 }
+          : {
+              duration: duration / 1000,
+              ease: [0.68, -0.55, 0.265, 1.55] as const,
+              times: [0, 0.5, 1],
+            }
+      }
     >
       {children ?? <DemoBox label="Pop" />}
     </m.div>

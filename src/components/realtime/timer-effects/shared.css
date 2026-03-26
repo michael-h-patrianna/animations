@@ -1,1 +1,15 @@
 /* Shared styles for this group */
+
+/* ─── Reduced motion: stop urgency pulse/shake effects, keep timer visible ─── */
+/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
+@media (prefers-reduced-motion: reduce) {
+  [data-animation-id^='timer-effects__'] [class*='__pill'],
+  [data-animation-id^='timer-effects__'] [class*='__value'] {
+    animation: none !important;
+  }
+
+  [data-animation-id^='timer-effects__'] [class*='__glow'] {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

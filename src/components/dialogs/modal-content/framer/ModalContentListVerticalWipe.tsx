@@ -57,7 +57,7 @@ function ModalContentListVerticalWipeComponent({
         animate={reduced ? { opacity: 1 } : { x: '0%', opacity: 1 }}
         transition={
           reduced
-            ? { duration: 0.01 }
+            ? { duration: 0.2 }
             : {
                 duration: durationS,
                 delay: delayBase + staggerS * i,

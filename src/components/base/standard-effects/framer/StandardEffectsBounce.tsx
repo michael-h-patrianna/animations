@@ -8,6 +8,7 @@
  * Usage: <StandardEffectsBounce duration={800}><YourContent /></StandardEffectsBounce>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 
@@ -18,21 +19,31 @@ interface StandardEffectsBounceProps {
 }
 
 function StandardEffectsBounceComponent({ children, duration = 800 }: StandardEffectsBounceProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <m.div
       data-animation-id="standard-effects__bounce"
       style={{ transformOrigin: 'center bottom', animation: 'none' }}
-      animate={{
-        y: [0, 0, -30, -35, -30, 0, 0],
-        scaleY: [1, 0.8, 1.1, 1.05, 1.02, 0.95, 1],
-        scaleX: [1, 1.1, 0.95, 0.98, 0.99, 1.02, 1],
-        rotate: [0, 0, 2, 1, -1, 0, 0],
-      }}
-      transition={{
-        duration: duration / 1000,
-        ease: [0.4, 0, 0.2, 1] as const,
-        times: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1],
-      }}
+      animate={
+        prefersReducedMotion
+          ? { scaleY: [1, 0.97, 1.03, 1], scaleX: [1, 1.02, 0.99, 1] }
+          : {
+              y: [0, 0, -30, -35, -30, 0, 0],
+              scaleY: [1, 0.8, 1.1, 1.05, 1.02, 0.95, 1],
+              scaleX: [1, 1.1, 0.95, 0.98, 0.99, 1.02, 1],
+              rotate: [0, 0, 2, 1, -1, 0, 0],
+            }
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.4, ease: 'easeInOut' }
+          : {
+              duration: duration / 1000,
+              ease: [0.4, 0, 0.2, 1] as const,
+              times: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1],
+            }
+      }
     >
       {children ?? <DemoBox label="Bounce" />}
     </m.div>

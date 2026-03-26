@@ -34,3 +34,27 @@
     transform: translateX(0) rotate(0deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-swing {
+    animation: pf-swing-reduced 500ms ease-in-out;
+  }
+
+  @keyframes pf-swing-reduced {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(2deg);
+    }
+    55% {
+      transform: rotate(-1.5deg);
+    }
+    80% {
+      transform: rotate(0.5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}

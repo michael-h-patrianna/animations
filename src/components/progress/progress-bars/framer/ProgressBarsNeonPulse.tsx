@@ -21,6 +21,7 @@
  * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface NeonPulseProps extends ProgressBarProps {
@@ -34,6 +35,7 @@ export function ProgressBarsNeonPulse({
   className,
   style,
 }: NeonPulseProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
   const percent = displayProgress * 100
 
@@ -48,13 +50,13 @@ export function ProgressBarsNeonPulse({
           className="neon-pulse-fill"
           initial={false}
           animate={{ width: `${percent}%` }}
-          transition={{ ease: 'linear', duration: 0.1 }}
+          transition={{ ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.1 }}
           style={{ animation: 'none' }}
         >
           <m.div
             className="neon-pulse-flicker"
-            animate={{ opacity: [1, 0.8, 1, 0.4, 1, 0.9, 1] }}
-            transition={{ duration: 0.2, repeat: Infinity, repeatType: 'reverse' }}
+            animate={prefersReducedMotion ? undefined : { opacity: [1, 0.8, 1, 0.4, 1, 0.9, 1] }}
+            transition={prefersReducedMotion ? undefined : { duration: 0.2, repeat: Infinity, repeatType: 'reverse' }}
             style={{ animation: 'none' }}
           />
         </m.div>
@@ -63,7 +65,7 @@ export function ProgressBarsNeonPulse({
           className="neon-pulse-glow"
           initial={false}
           animate={{ width: `${percent}%` }}
-          transition={{ ease: 'linear', duration: 0.1 }}
+          transition={{ ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.1 }}
         />
       </div>
       {label !== undefined && label !== '' && <div className="neon-pulse-label">{label}</div>}

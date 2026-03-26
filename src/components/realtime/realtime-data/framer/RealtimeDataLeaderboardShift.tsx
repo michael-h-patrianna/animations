@@ -7,13 +7,13 @@
  * Runtime deps: react, motion
  */
 
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
 
-const INSTANT_TRANSITION = { duration: 0 }
+const INSTANT_TRANSITION = { duration: 0.15 }
 
 const DEFAULT_ITEMS: RankedEntry[] = [
   { id: 'phoenix', label: 'Phoenix', score: 2450 },
@@ -38,6 +38,7 @@ function RealtimeDataLeaderboardShiftComponent({
 }: RealtimeDataLeaderboardShiftProps) {
   const initialItemsRef = useRef(items)
   const [leaderboard, setLeaderboard] = useState<RankedEntry[]>(() => [...items])
+  const prefersReducedMotion = useReducedMotion()
   const leaderboardRef = useRef(leaderboard)
   const hasMountedRef = useRef(false)
   const skipLayoutRef = useRef(false)
@@ -53,8 +54,11 @@ function RealtimeDataLeaderboardShiftComponent({
   const durationS = duration / 1000
 
   const animTransition = useMemo(
-    () => ({ duration: durationS, ease: [0.25, 0.46, 0.45, 0.94] as const }),
-    [durationS]
+    () =>
+      prefersReducedMotion
+        ? INSTANT_TRANSITION
+        : { duration: durationS, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    [durationS, prefersReducedMotion]
   )
 
   useEffect(() => {

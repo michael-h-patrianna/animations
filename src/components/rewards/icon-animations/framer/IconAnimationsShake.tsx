@@ -8,6 +8,7 @@
  * Usage: <IconAnimationsShake src="/bell.png" alt="notification" width={80} />
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 interface IconAnimationsShakeProps {
@@ -27,19 +28,29 @@ function IconAnimationsShakeComponent({
   width = 120,
   duration = 500,
 }: IconAnimationsShakeProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <div data-animation-id="icon-animations__shake">
       <m.div
         style={{ animation: 'none' }}
-        animate={{
-          x: [0, -10, 10, -8, 8, -6, 6, -4, 4, -2, 0],
-          rotate: [0, -1, 1, -0.8, 0.8, -0.6, 0.6, -0.4, 0.4, -0.2, 0],
-          scaleX: [1, 0.98, 0.98, 0.99, 0.99, 0.995, 0.995, 1, 1, 1, 1],
-        }}
-        transition={{
-          duration: duration / 1000,
-          ease: [0.4, 0, 0.6, 1] as const,
-        }}
+        animate={
+          prefersReducedMotion
+            ? { x: [0, -2, 2, -1, 0] }
+            : {
+                x: [0, -10, 10, -8, 8, -6, 6, -4, 4, -2, 0],
+                rotate: [0, -1, 1, -0.8, 0.8, -0.6, 0.6, -0.4, 0.4, -0.2, 0],
+                scaleX: [1, 0.98, 0.98, 0.99, 0.99, 0.995, 0.995, 1, 1, 1, 1],
+              }
+        }
+        transition={
+          prefersReducedMotion
+            ? { duration: 0.3, ease: 'easeInOut' }
+            : {
+                duration: duration / 1000,
+                ease: [0.4, 0, 0.6, 1] as const,
+              }
+        }
       >
         {src !== undefined ? (
           <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />

@@ -42,6 +42,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   .pf-press-squash--active {
-    animation: none;
+    animation: pf-press-squash-reduced 200ms ease-in-out;
+  }
+
+  @keyframes pf-press-squash-reduced {
+    0% {
+      transform: scaleX(1) scaleY(1);
+    }
+    50% {
+      transform: scaleX(1.02) scaleY(0.98);
+    }
+    100% {
+      transform: scaleX(1) scaleY(1);
+    }
   }
 }

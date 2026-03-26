@@ -12,7 +12,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { Fragment, useRef, useState, memo, useEffect, type MouseEvent, type ReactNode } from 'react'
 import './ButtonEffectsShockwave.css'
 import { DemoButton } from '@/components/demo-blocks'
@@ -40,6 +40,7 @@ function ButtonEffectsShockwaveComponent({
   color,
   duration = 1000,
 }: ButtonEffectsShockwaveProps) {
+  const prefersReducedMotion = useReducedMotion()
   const [shockwaves, setShockwaves] = useState<Shockwave[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
   const nextIdRef = useRef(0)
@@ -100,9 +101,13 @@ function ButtonEffectsShockwaveComponent({
                   key={i}
                   className="pf-shockwave__ring"
                   style={{ ...pos, opacity: 1 - i * 0.15, animation: 'none' }}
-                  initial={{ scale: 0, opacity: 1 - i * 0.15 }}
-                  animate={{ scale: 1, opacity: 0 }}
-                  transition={{ duration: durationS, ease: easeOut, delay: i * 0.1 }}
+                  initial={prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 - i * 0.15 }}
+                  animate={prefersReducedMotion ? { opacity: 0 } : { scale: 1, opacity: 0 }}
+                  transition={
+                    prefersReducedMotion
+                      ? { duration: 0.15 }
+                      : { duration: durationS, ease: easeOut, delay: i * 0.1 }
+                  }
                 />
               ))}
             </Fragment>

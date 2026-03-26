@@ -38,7 +38,7 @@ function ModalBaseSlideDownSoftComponent({
         initial={prefersReducedMotion ? { opacity: 0 } : { y: -distance, scale: 0.92, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { y: 0, scale: 1, opacity: 1 }}
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.12, 0.75, 0.4, 1],
         }}
         onAnimationComplete={onAnimationComplete}

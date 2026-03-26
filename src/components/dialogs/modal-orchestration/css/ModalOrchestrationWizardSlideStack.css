@@ -36,3 +36,22 @@
   animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   animation-fill-mode: both;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-wizard-slide__panel {
+    transform: none;
+  }
+
+  .pf-wizard-slide__panel--visible {
+    animation: pf-wizard-slide-reduced 150ms ease-out both;
+  }
+
+  @keyframes pf-wizard-slide-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

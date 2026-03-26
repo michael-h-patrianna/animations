@@ -45,3 +45,11 @@
 .pf-split-reveal--active .pf-split-reveal__content {
   transform: translate(-50%, -50%) scale(1.2);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-split-reveal__top,
+  .pf-split-reveal__bottom,
+  .pf-split-reveal__content {
+    transition-duration: 200ms;
+  }
+}

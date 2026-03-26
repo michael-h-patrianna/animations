@@ -21,3 +21,18 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-list-vertical-wipe-item {
+    animation: pf-list-vertical-wipe-reduced 250ms ease-out both;
+  }
+
+  @keyframes pf-list-vertical-wipe-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

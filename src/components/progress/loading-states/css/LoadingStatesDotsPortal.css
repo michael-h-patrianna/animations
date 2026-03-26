@@ -69,3 +69,19 @@
     opacity: 0.5;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-dots-portal__dot {
+    animation: pf-dots-portal-breathe 1.2s ease-in-out infinite;
+  }
+
+  @keyframes pf-dots-portal-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}

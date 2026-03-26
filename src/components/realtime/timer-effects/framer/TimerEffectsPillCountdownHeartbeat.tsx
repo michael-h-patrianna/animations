@@ -6,7 +6,7 @@
  * Runtime deps: react, motion
  */
 
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo } from 'react'
 
@@ -109,6 +109,7 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
     fontSize,
   } = props
 
+  const prefersReducedMotion = useReducedMotion()
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const { seconds, phase, isExpired, isHidden } = useCountdown({
     startSeconds,
@@ -145,7 +146,7 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
         <m.span
           className="pf-pill-countdown-heartbeat__glow"
           aria-hidden="true"
-          animate={getGlowAnimation(seconds, startSeconds, isExpired)}
+          animate={prefersReducedMotion ? undefined : getGlowAnimation(seconds, startSeconds, isExpired)}
           style={{ animation: 'none' }}
         />
         <span className="pf-pill-countdown-heartbeat__text" style={timeStyle}>

@@ -8,6 +8,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -279,6 +280,7 @@ function ModalCelebrationsConfettiRainComponent({
   boundary,
   onComplete,
 }: ModalCelebrationsConfettiRainProps) {
+  const prefersReducedMotion = useReducedMotion()
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
   const containerRef = useRef<HTMLDivElement>(null)
   const [fallDistance, setFallDistance] = useState(FALLBACK_DISTANCE)
@@ -305,6 +307,14 @@ function ModalCelebrationsConfettiRainComponent({
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
   }, [particles, sparkles, timeScale, onComplete])
+
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+
+  if (prefersReducedMotion) {
+    return <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-rain" />
+  }
 
   return (
     <div

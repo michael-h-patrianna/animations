@@ -29,3 +29,22 @@
   animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   animation-fill-mode: both;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-selection-grid__item {
+    transform: none;
+  }
+
+  .pf-selection-grid__item--visible {
+    animation: pf-selection-grid-reduced 150ms ease-out both;
+  }
+
+  @keyframes pf-selection-grid-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

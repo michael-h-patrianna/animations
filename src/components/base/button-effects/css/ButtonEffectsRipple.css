@@ -48,3 +48,19 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-ripple__wave {
+    animation: pf-ripple-reduced 150ms ease-out forwards;
+    transform: scale(1);
+  }
+
+  @keyframes pf-ripple-reduced {
+    0% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}

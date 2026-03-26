@@ -11,6 +11,7 @@ import {
   easeOut,
   useAnimation,
   useMotionValue,
+  useReducedMotion,
   useTransform,
 } from 'motion/react'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
@@ -82,6 +83,7 @@ function TextEffectsXpNumberPopComponent({
   maxParticles = 10,
   color,
 }: TextEffectsXpNumberPopProps) {
+  const prefersReducedMotion = useReducedMotion()
   const glowControls = useAnimation()
   const numberControls = useAnimation()
   const [showParticles, setShowParticles] = useState(false)
@@ -98,36 +100,44 @@ function TextEffectsXpNumberPopComponent({
     count.set(from)
     const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
 
-    glowControls.start({
-      opacity: [0, 0.8, 0.4, 0],
-      scale: [0.5, 1.2, 1, 0.8],
-      transition: { duration: 2.8, ease: easeOut, times: [0, 0.3, 0.6, 1] },
-    })
+    if (prefersReducedMotion) {
+      numberControls.start({
+        opacity: [0, 1],
+        scale: [0.95, 1],
+        transition: { duration: 0.3, ease: 'easeOut' },
+      })
+    } else {
+      glowControls.start({
+        opacity: [0, 0.8, 0.4, 0],
+        scale: [0.5, 1.2, 1, 0.8],
+        transition: { duration: 2.8, ease: easeOut, times: [0, 0.3, 0.6, 1] },
+      })
 
-    numberControls.start({
-      scale: [0.3, 1.15, 1],
-      y: [20, -5, 0],
-      opacity: [0, 1, 1],
-      transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] as const, times: [0, 0.6, 1] },
-    })
+      numberControls.start({
+        scale: [0.3, 1.15, 1],
+        y: [20, -5, 0],
+        opacity: [0, 1, 1],
+        transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] as const, times: [0, 0.6, 1] },
+      })
+
+      const showTimer = setTimeout(() => {
+        setShowParticles(true)
+        const hideTimer = setTimeout(() => setShowParticles(false), 3000)
+        pendingTimeouts.push(hideTimer)
+      }, 400)
+      pendingTimeouts.push(showTimer)
+    }
 
     const countControls = animate(count, to, {
-      duration: 2.5,
+      duration: prefersReducedMotion ? 0.5 : 2.5,
       ease: [0, 0.65, 0.35, 1] as const,
     })
-
-    const showTimer = setTimeout(() => {
-      setShowParticles(true)
-      const hideTimer = setTimeout(() => setShowParticles(false), 3000)
-      pendingTimeouts.push(hideTimer)
-    }, 400)
-    pendingTimeouts.push(showTimer)
 
     return () => {
       pendingTimeouts.forEach(clearTimeout)
       countControls.stop()
     }
-  }, [glowControls, numberControls, count, from, to])
+  }, [glowControls, numberControls, count, from, to, prefersReducedMotion])
 
   return (
     <div

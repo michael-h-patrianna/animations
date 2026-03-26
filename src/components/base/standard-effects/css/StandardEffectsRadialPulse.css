@@ -63,3 +63,24 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-radial-pulse__ring {
+    animation: none;
+    opacity: 0;
+  }
+
+  .pf-radial-pulse__dot {
+    animation: pf-radial-pulse-reduced 2s ease-in-out infinite;
+  }
+
+  @keyframes pf-radial-pulse-reduced {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}

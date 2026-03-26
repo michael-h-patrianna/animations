@@ -156,3 +156,40 @@
     transform: scale(2);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-breakthrough-text-wrapper {
+    animation: none;
+  }
+
+  .tfx-breakthrough-text-start {
+    animation: tfx-breakthrough-crossfade-out 300ms ease-out forwards;
+  }
+
+  .tfx-breakthrough-text-end {
+    animation: tfx-breakthrough-crossfade-in 300ms ease-out forwards;
+  }
+
+  .tfx-breakthrough-surge {
+    animation: none;
+    opacity: 0;
+  }
+
+  @keyframes tfx-breakthrough-crossfade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes tfx-breakthrough-crossfade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}

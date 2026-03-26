@@ -27,7 +27,7 @@
  *
  * Files to copy: this file + ProgressBarsProgressMilestones.css + ../SharedTypes.ts
  */
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
 import type {
@@ -49,6 +49,7 @@ export function ProgressBarsProgressMilestones({
   className,
   style,
 }: MilestoneProgressBarProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
 
   const activatedSet = useMemo(
@@ -56,30 +57,41 @@ export function ProgressBarsProgressMilestones({
     [displayProgress, milestones]
   )
 
-  const markerVariants = {
-    inactive: {
-      scale: 0.5,
-      opacity: 0.6,
-      background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))',
-    },
-    active: {
-      scale: 1,
-      opacity: 1,
-      background: [
-        'var(--milestone-marker-color, var(--pf-anim-cyan-soft))',
-        'var(--milestone-active-color, var(--pf-anim-cyan-light))',
-      ],
-      transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as const },
-    },
-  }
+  const markerVariants = prefersReducedMotion
+    ? {
+        inactive: { opacity: 0.6, background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))' },
+        active: {
+          opacity: 1,
+          background: 'var(--milestone-active-color, var(--pf-anim-cyan-light))',
+          transition: { duration: 0.15 },
+        },
+      }
+    : {
+        inactive: {
+          scale: 0.5,
+          opacity: 0.6,
+          background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))',
+        },
+        active: {
+          scale: 1,
+          opacity: 1,
+          background: [
+            'var(--milestone-marker-color, var(--pf-anim-cyan-soft))',
+            'var(--milestone-active-color, var(--pf-anim-cyan-light))',
+          ],
+          transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as const },
+        },
+      }
 
   const ringVariants = {
     inactive: { scale: 0.8, opacity: 0 },
-    active: {
-      scale: [0.8, 1.5, 2],
-      opacity: [0, 1, 0],
-      transition: { duration: 0.6, times: [0, 0.3, 1], ease: easeOut },
-    },
+    active: prefersReducedMotion
+      ? { opacity: 0, transition: { duration: 0.1 } }
+      : {
+          scale: [0.8, 1.5, 2],
+          opacity: [0, 1, 0],
+          transition: { duration: 0.6, times: [0, 0.3, 1], ease: easeOut },
+        },
   }
 
   const labelVariants = {
@@ -87,7 +99,7 @@ export function ProgressBarsProgressMilestones({
     active: {
       opacity: 1,
       color: 'var(--milestone-active-color, var(--pf-anim-cyan-light))',
-      transition: { duration: 0.3, ease: easeOut },
+      transition: { duration: prefersReducedMotion ? 0.15 : 0.3, ease: easeOut },
     },
   }
 

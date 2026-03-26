@@ -7,7 +7,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
 
 import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
@@ -55,6 +55,7 @@ function TimerEffectsPillCountdownMediumComponent(props: TimerEffectProps) {
     fontSize,
   } = props
 
+  const prefersReducedMotion = useReducedMotion()
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const { seconds, phase, isHidden } = useCountdown({
     startSeconds,
@@ -100,19 +101,22 @@ function TimerEffectsPillCountdownMediumComponent(props: TimerEffectProps) {
       <m.div
         key={blipKey}
         className={`pf-pill-timer__pill pf-pill-timer__pill--medium pf-pill-timer--${phase}`}
-        variants={blipVariants}
+        variants={prefersReducedMotion ? undefined : blipVariants}
         initial="idle"
-        animate="blip"
+        animate={prefersReducedMotion ? { opacity: [1, 0.7, 1] } : 'blip'}
+        transition={prefersReducedMotion ? { duration: 0.15 } : undefined}
         style={pillStyle}
       >
-        <m.span
-          className="pf-pill-timer__glow"
-          aria-hidden="true"
-          variants={glowVariants}
-          initial="idle"
-          animate="blip"
-          style={{ animation: 'none' }}
-        />
+        {!prefersReducedMotion && (
+          <m.span
+            className="pf-pill-timer__glow"
+            aria-hidden="true"
+            variants={glowVariants}
+            initial="idle"
+            animate="blip"
+            style={{ animation: 'none' }}
+          />
+        )}
         <div className="pf-pill-timer__time" style={timeStyle}>
           {formatTime(seconds)}
         </div>

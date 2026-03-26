@@ -85,3 +85,14 @@
     transform: scaleY(0.8) translateZ(0);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-wave-char {
+    animation: none;
+  }
+
+  .tfx-wave-char--highlight::before {
+    animation: none;
+    opacity: 0;
+  }
+}

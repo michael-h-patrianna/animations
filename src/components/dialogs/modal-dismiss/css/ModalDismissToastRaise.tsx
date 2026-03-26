@@ -30,8 +30,8 @@ function ModalDismissToastRaiseComponent({
     if (el === null) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const entryDuration = reducedMotion ? 10 : 420
-    const exitDuration = reducedMotion ? 10 : 320
+    const entryDuration = reducedMotion ? 150 : 420
+    const exitDuration = reducedMotion ? 120 : 320
     const easing = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
 
     el.animate(

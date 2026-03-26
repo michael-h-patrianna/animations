@@ -8,6 +8,7 @@
  * Usage: <StandardEffectsScale duration={600}><YourContent /></StandardEffectsScale>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 
@@ -18,21 +19,31 @@ interface StandardEffectsScaleProps {
 }
 
 function StandardEffectsScaleComponent({ children, duration = 600 }: StandardEffectsScaleProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <m.div
       data-animation-id="standard-effects__scale"
       style={{ animation: 'none' }}
-      animate={{
-        scale: [0, 0.2, 0.4, 0.6, 0.75, 0.9, 1.05, 1.08, 1.05, 1.02, 1],
-        rotate: [0, -6, -10, -8, -4, 2, 4, 2, -1, -0.5, 0],
-        skewY: [0, 0.8, 1.4, 1, 0.5, -0.5, -0.8, -0.4, 0.2, 0.1, 0],
-        opacity: [0, 0.15, 0.3, 0.5, 0.65, 0.8, 0.9, 0.95, 0.98, 1, 1],
-      }}
-      transition={{
-        duration: duration / 1000,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-        times: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-      }}
+      animate={
+        prefersReducedMotion
+          ? { opacity: [0, 1] }
+          : {
+              scale: [0, 0.2, 0.4, 0.6, 0.75, 0.9, 1.05, 1.08, 1.05, 1.02, 1],
+              rotate: [0, -6, -10, -8, -4, 2, 4, 2, -1, -0.5, 0],
+              skewY: [0, 0.8, 1.4, 1, 0.5, -0.5, -0.8, -0.4, 0.2, 0.1, 0],
+              opacity: [0, 0.15, 0.3, 0.5, 0.65, 0.8, 0.9, 0.95, 0.98, 1, 1],
+            }
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.15 }
+          : {
+              duration: duration / 1000,
+              ease: [0.25, 0.46, 0.45, 0.94] as const,
+              times: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+            }
+      }
     >
       {children ?? <DemoBox label="Scale" />}
     </m.div>

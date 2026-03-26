@@ -214,3 +214,20 @@
     transform: scaleY(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-glitchtext__base {
+    animation: none;
+  }
+
+  .tfx-glitchtext__layer--cyan,
+  .tfx-glitchtext__layer--magenta {
+    animation: none;
+    opacity: 0;
+  }
+
+  .tfx-glitchtext__bars {
+    animation: none;
+    opacity: 0;
+  }
+}

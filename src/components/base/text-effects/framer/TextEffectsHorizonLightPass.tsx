@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, type Variants } from 'motion/react'
+import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsHorizonLightPassProps {
@@ -19,6 +19,7 @@ function TextEffectsHorizonLightPassComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsHorizonLightPassProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
@@ -36,6 +37,14 @@ function TextEffectsHorizonLightPassComponent({
     settle: {
       scale: [1, 1.008, 1],
       transition: { duration: 0.28, ease: [0.2, 0, 0, 1] as const, delay: 0.85 },
+    },
+  }
+
+  const reducedContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 0.3 },
     },
   }
 
@@ -67,21 +76,26 @@ function TextEffectsHorizonLightPassComponent({
     },
   }
 
+  const reducedLetterVariants: Variants = {
+    hidden: { opacity: 1 },
+    show: { opacity: 1 },
+  }
+
   return (
     <m.div
       className="pf-horizon-light"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
-      variants={containerVariants}
+      variants={prefersReducedMotion ? reducedContainerVariants : containerVariants}
       initial="hidden"
-      animate={['show', 'settle']}
+      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
       style={
         color !== undefined ? ({ '--pf-hlp-base-color': color } as React.CSSProperties) : undefined
       }
     >
       <div className="pf-horizon-light__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span key={i} className="pf-horizon-light__letter" variants={letterVariants} custom={i}>
+          <m.span key={i} className="pf-horizon-light__letter" variants={prefersReducedMotion ? reducedLetterVariants : letterVariants} custom={i}>
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

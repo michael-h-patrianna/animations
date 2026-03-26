@@ -18,6 +18,7 @@
  * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { useMemo, useRef, useState, useEffect } from 'react'
 import type {
   MilestoneProgressBarProps,
@@ -44,6 +45,7 @@ export function ProgressBarsCelebrationBurst({
   className,
   style,
 }: MilestoneProgressBarProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
 
   const activatedSet = useMemo(
@@ -103,7 +105,7 @@ export function ProgressBarsCelebrationBurst({
             className="pf-progress-fill"
             initial={false}
             animate={{ scaleX: progress ?? 0 }}
-            transition={{ duration: 0.3, ease: 'linear' }}
+            transition={{ duration: prefersReducedMotion ? 0.1 : 0.3, ease: 'linear' }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
         </div>
@@ -133,7 +135,7 @@ export function ProgressBarsCelebrationBurst({
                     ? 'var(--burst-marker-color, var(--pf-anim-purple))'
                     : 'var(--burst-marker-color, var(--pf-anim-purple-dark))',
                 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                transition={{ duration: prefersReducedMotion ? 0.1 : 0.25, ease: 'easeOut' }}
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -142,7 +144,7 @@ export function ProgressBarsCelebrationBurst({
                 }}
               />
 
-              {hasBurst && (
+              {hasBurst && !prefersReducedMotion && (
                 <>
                   <m.div
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -171,7 +173,7 @@ export function ProgressBarsCelebrationBurst({
                 </>
               )}
 
-              {particles
+              {!prefersReducedMotion && particles
                 .filter((p) => p.milestoneIndex === i)
                 .map((particle) => {
                   const radians = (particle.angle * Math.PI) / 180

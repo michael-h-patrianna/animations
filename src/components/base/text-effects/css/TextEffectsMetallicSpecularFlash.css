@@ -65,3 +65,24 @@
     transform: skewX(0deg) scaleX(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-metallic-specular-flash {
+    animation: none;
+    opacity: 1;
+  }
+
+  .tfx-metallic-specular-flash__letter {
+    animation: tfx-metallic-reduced 300ms ease-out both;
+    transform: none;
+  }
+
+  @keyframes tfx-metallic-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

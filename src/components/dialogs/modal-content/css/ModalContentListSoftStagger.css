@@ -22,3 +22,18 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-list-soft-stagger-item {
+    animation: pf-list-soft-stagger-reduced 250ms ease-out both;
+  }
+
+  @keyframes pf-list-soft-stagger-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

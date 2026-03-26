@@ -57,7 +57,7 @@ function ModalContentListSpotlightComponent({
       animate={reduced ? { opacity: 1 } : { scale: [0.95, 1.02, 1], opacity: [0, 0.7, 1] }}
       transition={
         reduced
-          ? { duration: 0.01 }
+          ? { duration: 0.2 }
           : {
               duration: durationS,
               delay: delayBase + staggerS * i,

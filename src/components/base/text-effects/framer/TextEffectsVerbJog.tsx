@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsVerbJogProps {
@@ -19,6 +19,7 @@ function TextEffectsVerbJogComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsVerbJogProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -35,18 +36,26 @@ function TextEffectsVerbJogComponent({
           <m.span
             key={i}
             className="pf-verb-jog__char"
-            initial={{ y: 0, rotate: 0 }}
-            animate={{
-              y: [0, -6, 0, -2, 0],
-              rotate: [0, -4, 2, -2, 0],
-            }}
-            transition={{
-              duration: 1.2,
-              delay: i % 2 === 0 ? 0.15 : 0,
-              ease: easeInOut,
-              times: [0, 0.2, 0.4, 0.6, 1],
-              repeat: Infinity,
-            }}
+            initial={prefersReducedMotion ? undefined : { y: 0, rotate: 0 }}
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    y: [0, -6, 0, -2, 0],
+                    rotate: [0, -4, 2, -2, 0],
+                  }
+            }
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    duration: 1.2,
+                    delay: i % 2 === 0 ? 0.15 : 0,
+                    ease: easeInOut,
+                    times: [0, 0.2, 0.4, 0.6, 1],
+                    repeat: Infinity,
+                  }
+            }
           >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>

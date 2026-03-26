@@ -39,7 +39,7 @@ function ModalBasePortalSwirlComponent({
             : { rotate: 0, scale: 1, opacity: 1, borderRadius: '12px' }
         }
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.25, 0.46, 0.45, 0.94],
         }}
         onAnimationComplete={onAnimationComplete}

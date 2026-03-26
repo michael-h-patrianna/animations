@@ -20,6 +20,7 @@
  * Files to copy: this file + ProgressBarsProgressThin.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface ProgressThinProps extends ProgressBarProps {
@@ -33,6 +34,7 @@ export function ProgressBarsProgressThin({
   className,
   style,
 }: ProgressThinProps) {
+  const prefersReducedMotion = useReducedMotion()
   const target = progress ?? 0
 
   return (
@@ -54,7 +56,7 @@ export function ProgressBarsProgressThin({
             aria-valuemin={0}
             aria-valuemax={100}
             animate={{ scaleX: target }}
-            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: prefersReducedMotion ? 0.1 : 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{
               transformOrigin: 'left center',
               position: 'relative',

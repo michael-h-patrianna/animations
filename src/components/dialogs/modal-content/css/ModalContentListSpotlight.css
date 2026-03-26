@@ -21,3 +21,18 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-list-spotlight-item {
+    animation: pf-list-spotlight-reduced 250ms ease-out both;
+  }
+
+  @keyframes pf-list-spotlight-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

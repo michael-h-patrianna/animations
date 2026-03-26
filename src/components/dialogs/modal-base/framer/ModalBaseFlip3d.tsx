@@ -39,7 +39,7 @@ function ModalBaseFlip3dComponent({
         initial={prefersReducedMotion ? { opacity: 0 } : { rotateY: 180, scale: 0.65, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { rotateY: 0, scale: 1, opacity: 1 }}
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.175, 0.885, 0.32, 1],
         }}
         onAnimationComplete={onAnimationComplete}

@@ -18,6 +18,7 @@
  * Files to copy: this file + ProgressBarsTimelineProgress.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface TimelineProps extends ProgressBarProps {
@@ -31,6 +32,7 @@ export function ProgressBarsTimelineProgress({
   className,
   style,
 }: TimelineProps) {
+  const prefersReducedMotion = useReducedMotion()
   const activeSteps = Math.ceil((progress ?? 0) * steps)
 
   return (
@@ -55,7 +57,7 @@ export function ProgressBarsTimelineProgress({
               <m.div
                 className="pf-timeline-progress__step"
                 animate={{ scale: isActive ? 1 : 0.9, opacity: isActive ? 1 : 0.3 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: prefersReducedMotion ? 0.1 : 0.3 }}
                 style={{
                   background: 'var(--timeline-step-bg, var(--pf-anim-dodger-blue-20))',
                   borderColor: 'var(--timeline-step-border, var(--pf-anim-dodger-blue-40))',
@@ -68,7 +70,7 @@ export function ProgressBarsTimelineProgress({
                 <m.div
                   className="pf-timeline-progress__connector"
                   animate={{ scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0.3 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: prefersReducedMotion ? 0.1 : 0.3 }}
                   style={{
                     background:
                       'linear-gradient(90deg, var(--timeline-step-border, var(--pf-anim-dodger-blue-40)), var(--timeline-step-bg, var(--pf-anim-cyan-light-20)))',

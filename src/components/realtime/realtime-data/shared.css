@@ -127,3 +127,12 @@
   white-space: nowrap;
   position: absolute;
 }
+
+/* ─── Reduced motion: stop scrolling, show static text ─── */
+/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
+@media (prefers-reduced-motion: reduce) {
+  .pf-realtime-data__ticker-text {
+    animation: none !important;
+    position: relative;
+  }
+}

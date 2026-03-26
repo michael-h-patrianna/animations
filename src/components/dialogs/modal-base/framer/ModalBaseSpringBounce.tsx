@@ -43,7 +43,7 @@ function ModalBaseSpringBounceComponent({
         initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0.7, opacity: 0, y: -30 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { scale: 1, opacity: 1, y: 0 }}
         transition={
-          prefersReducedMotion ? { duration: 0.01 } : { type: 'spring', stiffness, damping, mass }
+          prefersReducedMotion ? { duration: 0.2 } : { type: 'spring', stiffness, damping, mass }
         }
         onAnimationComplete={onAnimationComplete}
         style={{ ...style, animation: 'none' }}

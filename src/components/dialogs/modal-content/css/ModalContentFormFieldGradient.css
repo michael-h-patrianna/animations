@@ -34,3 +34,18 @@
     background: transparent;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-form-gradient-item {
+    animation: pf-form-gradient-reduced 250ms ease-out both;
+  }
+
+  @keyframes pf-form-gradient-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

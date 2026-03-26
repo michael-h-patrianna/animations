@@ -20,9 +20,11 @@
  * Files to copy: this file + ProgressBarsProgressBounce.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 export function ProgressBarsProgressBounce({ progress, className, style }: ProgressBarProps) {
+  const prefersReducedMotion = useReducedMotion()
   const target = progress ?? 0
 
   return (
@@ -36,7 +38,7 @@ export function ProgressBarsProgressBounce({ progress, className, style }: Progr
           <m.div
             className="pf-progress-fill"
             animate={{ scaleX: target }}
-            transition={{ type: 'spring', stiffness: 180, damping: 14 }}
+            transition={prefersReducedMotion ? { duration: 0.1 } : { type: 'spring', stiffness: 180, damping: 14 }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
         </div>

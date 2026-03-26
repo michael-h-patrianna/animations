@@ -33,9 +33,9 @@ function ModalDismissSnackbarScaleComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.01 : 0.32
-  const pulseS = prefersReducedMotion ? 0.01 : duration / 1000
-  const exitS = prefersReducedMotion ? 0.01 : 0.24
+  const entryS = prefersReducedMotion ? 0.15 : 0.32
+  const pulseS = prefersReducedMotion ? 0.15 : duration / 1000
+  const exitS = prefersReducedMotion ? 0.12 : 0.24
 
   const variants = {
     hidden: { y: 16, scale: 0.84, opacity: 0 },

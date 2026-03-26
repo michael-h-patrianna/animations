@@ -79,7 +79,7 @@ function ModalBaseGlitchDigitalComponent({
                   opacity: [0, 0.5, 0.8, 0.95, 1],
                 }
           }
-          transition={{ duration: prefersReducedMotion ? 0.01 : durationS, ease: 'easeInOut' }}
+          transition={{ duration: prefersReducedMotion ? 0.2 : durationS, ease: 'easeInOut' }}
           onAnimationComplete={onAnimationComplete}
           style={{ ...style, position: 'relative', zIndex: 1, animation: 'none' }}
         >

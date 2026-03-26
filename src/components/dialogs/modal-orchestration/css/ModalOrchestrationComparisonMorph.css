@@ -30,3 +30,22 @@
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   animation-fill-mode: both;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-comparison-morph__pane {
+    transform: none;
+  }
+
+  .pf-comparison-morph__pane--visible {
+    animation: pf-comparison-morph-reduced 150ms ease-out both;
+  }
+
+  @keyframes pf-comparison-morph-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

@@ -195,3 +195,29 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-cinc-value--popping {
+    animation: tfx-cinc-reduced-flash 300ms ease-in-out;
+  }
+
+  .tfx-cinc-particle {
+    animation: none;
+    opacity: 0;
+  }
+
+  @keyframes tfx-cinc-reduced-flash {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.85;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}

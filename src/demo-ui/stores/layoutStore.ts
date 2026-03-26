@@ -39,12 +39,30 @@ export const ACCENT_COLORS = [
 /** Union of available accent color identifiers. */
 export type AccentColor = (typeof ACCENT_COLORS)[number]
 
-/** Manages panel visibility, theme mode, and accent color selection. */
+/**
+ * Reduced motion preference override for catalog preview.
+ * - `'system'`: respect OS `prefers-reduced-motion` setting
+ * - `'reduce'`: force reduced motion (preview what reduced-motion users see)
+ * - `'no-preference'`: force full animations (override OS setting)
+ */
+export const REDUCED_MOTION_OPTIONS = ['system', 'reduce', 'no-preference'] as const
+/** Union of reduced motion preference values. */
+export type ReducedMotionPreference = (typeof REDUCED_MOTION_OPTIONS)[number]
+
+/** Human-readable display labels for motion preferences. */
+export const REDUCED_MOTION_LABELS: Record<ReducedMotionPreference, string> = {
+  system: 'System',
+  reduce: 'Reduced',
+  'no-preference': 'Full',
+}
+
+/** Manages panel visibility, theme mode, accent color, and motion preference. */
 export interface LayoutStore {
   showLeftPanel: boolean
   showRightPanel: boolean
   theme: ThemeMode
   accent: AccentColor
+  reducedMotion: ReducedMotionPreference
 
   toggleLeftPanel: () => void
   setLeftPanel: (show: boolean) => void
@@ -52,6 +70,7 @@ export interface LayoutStore {
   setRightPanel: (show: boolean) => void
   setTheme: (theme: ThemeMode) => void
   setAccent: (accent: AccentColor) => void
+  setReducedMotion: (pref: ReducedMotionPreference) => void
 }
 
 /** Collapse side panel by default on mobile viewports */
@@ -69,6 +88,9 @@ const VALID_THEMES = new Set<string>(THEME_MODES)
 /** Set of valid accent color values for migration validation. */
 const VALID_ACCENTS = new Set<string>(ACCENT_COLORS)
 
+/** Set of valid reduced motion preference values for migration validation. */
+const VALID_REDUCED_MOTION = new Set<string>(REDUCED_MOTION_OPTIONS)
+
 export const useLayoutStore = create<LayoutStore>()(
   persist(
     (set) => ({
@@ -76,6 +98,7 @@ export const useLayoutStore = create<LayoutStore>()(
       showRightPanel: false,
       theme: DEFAULT_THEME,
       accent: DEFAULT_ACCENT,
+      reducedMotion: 'system' as ReducedMotionPreference,
 
       toggleLeftPanel: () => {
         set((state) => ({ showLeftPanel: !state.showLeftPanel }))
@@ -95,6 +118,9 @@ export const useLayoutStore = create<LayoutStore>()(
       setAccent: (accent) => {
         set({ accent })
       },
+      setReducedMotion: (reducedMotion) => {
+        set({ reducedMotion })
+      },
     }),
     {
       name: 'animation-catalog-layout',
@@ -113,6 +139,10 @@ export const useLayoutStore = create<LayoutStore>()(
         // Migrate invalid accent values to default
         if (!VALID_ACCENTS.has(merged.accent)) {
           merged.accent = DEFAULT_ACCENT
+        }
+        // Migrate invalid reduced motion values to default
+        if (!VALID_REDUCED_MOTION.has(merged.reducedMotion)) {
+          merged.reducedMotion = 'system' as ReducedMotionPreference
         }
         return merged
       },

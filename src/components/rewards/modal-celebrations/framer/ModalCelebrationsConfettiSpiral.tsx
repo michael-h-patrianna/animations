@@ -6,6 +6,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -257,6 +258,7 @@ function ModalCelebrationsConfettiSpiralComponent({
   duration,
   onComplete,
 }: ModalCelebrationsConfettiSpiralProps) {
+  const prefersReducedMotion = useReducedMotion()
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
 
   const particles = useMemo(
@@ -276,6 +278,9 @@ function ModalCelebrationsConfettiSpiralComponent({
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
   }, [particles, sparkles, timeScale, onComplete])
+
+  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">

@@ -6,6 +6,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -353,6 +354,7 @@ function ModalCelebrationsConfettiPulseComponent({
   duration,
   onComplete,
 }: ModalCelebrationsConfettiPulseProps) {
+  const prefersReducedMotion = useReducedMotion()
   const timeScale = (duration ?? DEFAULT_DURATION_MS) / DEFAULT_DURATION_MS
   const waves = useMemo(() => buildWaves(colors), [colors])
 
@@ -373,6 +375,9 @@ function ModalCelebrationsConfettiPulseComponent({
     const timer = setTimeout(onComplete, maxTime * 1000 + 50)
     return () => clearTimeout(timer)
   }, [particles, sparkles, timeScale, onComplete])
+
+  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">

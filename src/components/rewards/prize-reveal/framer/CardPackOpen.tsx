@@ -1,4 +1,4 @@
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -409,12 +409,14 @@ function CardPackOpenComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCount
   const ready = useImagePreloader(ALL_IMAGES)
 
   return (
+    <MotionConfig reducedMotion="user">
     <div
       className="pf-modal-celebration pf-card-pack"
       data-animation-id="prize-reveal__card-pack-open"
     >
       {ready && <CardPackAnimation cardCount={prizeCount} />}
     </div>
+    </MotionConfig>
   )
 }
 

@@ -33,8 +33,8 @@ function ModalDismissToastSlideRightComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.01 : 0.32
-  const exitS = prefersReducedMotion ? 0.01 : 0.24
+  const entryS = prefersReducedMotion ? 0.15 : 0.32
+  const exitS = prefersReducedMotion ? 0.12 : 0.24
 
   const variants = {
     hidden: { x: '140%', scale: 0.96, opacity: 0 },

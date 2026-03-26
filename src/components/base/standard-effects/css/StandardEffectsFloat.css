@@ -31,3 +31,10 @@
     transform: translateY(0) translateX(0) rotate(0deg) scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-float {
+    animation: none;
+  }
+}
+/* Float is a decorative ambient effect — static display is appropriate in reduced motion. */

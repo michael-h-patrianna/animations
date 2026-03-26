@@ -35,7 +35,7 @@ function ModalBaseZoomElasticComponent({
             : { scale: [0, 1.15, 0.95, 1.05, 1], opacity: [0, 1, 1, 1, 1] }
         }
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.68, -0.55, 0.265, 1.55],
         }}
         onAnimationComplete={onAnimationComplete}

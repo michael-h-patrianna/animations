@@ -8,6 +8,7 @@
  * Usage: <IconAnimationsBounce src="/icon.png" alt="reward" width={80} />
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 interface IconAnimationsBounceProps {
@@ -27,21 +28,31 @@ function IconAnimationsBounceComponent({
   width = 120,
   duration = 800,
 }: IconAnimationsBounceProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <div data-animation-id="icon-animations__bounce">
       <m.div
         style={{ transformOrigin: 'center bottom', animation: 'none' }}
-        animate={{
-          y: [0, 0, -30, -40, -30, 0, 0, 0],
-          scaleY: [1, 0.8, 1.1, 1, 0.95, 0.9, 0.95, 1],
-          scaleX: [1, 1.1, 0.9, 1, 1.02, 1.05, 1.02, 1],
-          rotate: [0, 0, -2, -1, 1, 0, 0, 0],
-        }}
-        transition={{
-          duration: duration / 1000,
-          ease: [0.4, 0, 0.6, 1] as const,
-          times: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 0.9, 1],
-        }}
+        animate={
+          prefersReducedMotion
+            ? { scaleY: [1, 0.97, 1.03, 1], scaleX: [1, 1.02, 0.99, 1] }
+            : {
+                y: [0, 0, -30, -40, -30, 0, 0, 0],
+                scaleY: [1, 0.8, 1.1, 1, 0.95, 0.9, 0.95, 1],
+                scaleX: [1, 1.1, 0.9, 1, 1.02, 1.05, 1.02, 1],
+                rotate: [0, 0, -2, -1, 1, 0, 0, 0],
+              }
+        }
+        transition={
+          prefersReducedMotion
+            ? { duration: 0.4, ease: 'easeInOut' }
+            : {
+                duration: duration / 1000,
+                ease: [0.4, 0, 0.6, 1] as const,
+                times: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 0.9, 1],
+              }
+        }
       >
         {src !== undefined ? (
           <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />

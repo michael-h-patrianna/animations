@@ -5,6 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsVerbFlipProps {
@@ -18,6 +19,7 @@ function TextEffectsVerbFlipComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsVerbFlipProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -35,16 +37,22 @@ function TextEffectsVerbFlipComponent({
             key={i}
             className="pf-verb-flip__char"
             style={{ perspective: 600 }}
-            initial={{ rotateY: 0 }}
-            animate={{
-              rotateY: [0, 180, 360],
-            }}
-            transition={{
-              duration: 1.8,
-              delay: i % 2 === 1 ? 0.1 : 0,
-              ease: [0.2, 0.6, 0.2, 1] as const,
-              times: [0, 0.3, 1],
-            }}
+            initial={prefersReducedMotion ? undefined : { rotateY: 0 }}
+            animate={
+              prefersReducedMotion
+                ? { opacity: [1, 0, 1], scale: [1, 0.98, 1] }
+                : { rotateY: [0, 180, 360] }
+            }
+            transition={
+              prefersReducedMotion
+                ? { duration: 0.5, ease: 'easeInOut', times: [0, 0.4, 1] }
+                : {
+                    duration: 1.8,
+                    delay: i % 2 === 1 ? 0.1 : 0,
+                    ease: [0.2, 0.6, 0.2, 1] as const,
+                    times: [0, 0.3, 1],
+                  }
+            }
           >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>

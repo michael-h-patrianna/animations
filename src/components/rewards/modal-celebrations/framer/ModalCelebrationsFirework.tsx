@@ -6,6 +6,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 
 import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
@@ -100,6 +101,7 @@ function ModalCelebrationsFireworkComponent({
   particlesPerBurst = FIREWORK_DEFAULT_PARTICLES_PER_BURST,
   duration = FIREWORK_DEFAULT_DURATION_MS,
 }: ModalCelebrationsFireworkProps) {
+  const prefersReducedMotion = useReducedMotion()
   const hasImages = particleImages.length > 0
   const variantCount = hasImages ? particleImages.length : colors.length
   const cycleDurationS = duration / 1000
@@ -135,6 +137,8 @@ function ModalCelebrationsFireworkComponent({
 
     return () => clearInterval(interval)
   }, [config, duration, hasImages, colors, waveLifetimeMs])
+
+  if (prefersReducedMotion) return <div className="mc-firework" data-animation-id="modal-celebrations__firework" />
 
   return (
     <div className="mc-firework" data-animation-id="modal-celebrations__firework">

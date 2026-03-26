@@ -45,3 +45,9 @@
     transform: scale(1.15) rotate(0);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-jitter {
+    animation: none;
+  }
+}

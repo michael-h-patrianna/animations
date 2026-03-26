@@ -61,3 +61,28 @@
     transform: rotate(-180deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-spinner-orbital {
+    animation: none;
+  }
+
+  .pf-spinner-orbital__satellite {
+    animation: pf-loading-orbital-breathe 1.5s ease-in-out infinite;
+  }
+
+  .pf-spinner-orbital__ring {
+    animation: pf-loading-orbital-breathe 1.5s ease-in-out infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes pf-loading-orbital-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}

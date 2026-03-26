@@ -9,6 +9,7 @@
  * Usage: <StandardEffectsRadialPulse ringCount={3} color="rgb(236 195 255 / 32%)" duration={2400} />
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import {
   INDICATOR_DOT_BORDER_COLOR,
@@ -36,6 +37,7 @@ function StandardEffectsRadialPulseComponent({
   dotBorderColor = INDICATOR_DOT_BORDER_COLOR,
   duration = 2400,
 }: StandardEffectsRadialPulseProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durationS = duration / 1000
   const staggerS = 0.6
   const resolvedColor = color
@@ -62,19 +64,20 @@ function StandardEffectsRadialPulseComponent({
             border: `2px solid ${resolvedColor}`,
             animation: 'none',
           }}
-          animate={{
-            scale: [0.1, 7.5],
-            opacity: [0.8, 0.12, 0],
-          }}
-          transition={{
-            duration: durationS,
-            ease: [0.25, 0.46, 0.45, 0.94] as const,
-            times: [0, 0.7, 1],
-            delay: i * staggerS,
-          }}
+          animate={prefersReducedMotion ? { opacity: 0 } : { scale: [0.1, 7.5], opacity: [0.8, 0.12, 0] }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : {
+                  duration: durationS,
+                  ease: [0.25, 0.46, 0.45, 0.94] as const,
+                  times: [0, 0.7, 1],
+                  delay: i * staggerS,
+                }
+          }
         />
       ))}
-      <span
+      <m.span
         style={{
           position: 'absolute',
           left: '50%',
@@ -87,7 +90,10 @@ function StandardEffectsRadialPulseComponent({
           borderWidth: 2,
           borderStyle: 'solid',
           borderColor: dotBorderColor,
+          animation: 'none',
         }}
+        animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : undefined}
+        transition={prefersReducedMotion ? { duration: durationS, repeat: Infinity } : undefined}
       />
     </div>
   )

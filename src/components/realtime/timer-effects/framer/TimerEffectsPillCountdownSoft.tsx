@@ -7,7 +7,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
 
 import { formatTime } from '@/components/realtime/timer-effects/SharedFormat'
@@ -52,6 +52,7 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
     pulseIntensity = 0.05,
   } = props
 
+  const prefersReducedMotion = useReducedMotion()
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const { seconds, phase, isHidden } = useCountdown({
     startSeconds,
@@ -99,10 +100,11 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
       <m.div
         key={pulseKey}
         className={`pf-pill-timer__pill pf-pill-timer__pill--soft pf-pill-timer--${phase}`}
-        variants={pulseVariants}
+        variants={prefersReducedMotion ? undefined : pulseVariants}
         custom={pulseIntensity}
         initial="idle"
-        animate="pulse"
+        animate={prefersReducedMotion ? { opacity: [1, 0.7, 1] } : 'pulse'}
+        transition={prefersReducedMotion ? { duration: 0.15 } : undefined}
         style={pillStyle}
       >
         <div className="pf-pill-timer__time" style={timeStyle}>

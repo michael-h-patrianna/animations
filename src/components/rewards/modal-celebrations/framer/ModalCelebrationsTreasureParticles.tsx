@@ -6,6 +6,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -390,6 +391,7 @@ function ModalCelebrationsTreasureParticlesComponent({
   particleMaxHeight = 24,
   onComplete,
 }: ModalCelebrationsTreasureParticlesProps) {
+  const prefersReducedMotion = useReducedMotion()
   const hasParticleImages = particleImages.length > 0
   const resolveCoinImg = (id: number): string | undefined =>
     hasParticleImages ? particleImages[id % particleImages.length] : coinImage
@@ -414,6 +416,9 @@ function ModalCelebrationsTreasureParticlesComponent({
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
   const bgGems = useMemo(() => gems.filter((g) => g.layer === 'bg'), [gems])
   const fgGems = useMemo(() => gems.filter((g) => g.layer === 'fg'), [gems])
+
+  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles">

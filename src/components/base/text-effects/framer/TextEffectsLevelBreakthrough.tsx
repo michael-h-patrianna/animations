@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut, useAnimation } from 'motion/react'
+import { easeOut, useAnimation, useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
 
 interface TextEffectsLevelBreakthroughProps {
@@ -22,6 +22,7 @@ function TextEffectsLevelBreakthroughComponent({
   endText = 'LEVEL 2',
   color,
 }: TextEffectsLevelBreakthroughProps) {
+  const prefersReducedMotion = useReducedMotion()
   const levelControls = useAnimation()
   const surge1Controls = useAnimation()
   const surge2Controls = useAnimation()
@@ -43,37 +44,50 @@ function TextEffectsLevelBreakthroughComponent({
 
     setShowEnd(false)
     setShowGlow(false)
-    surge1Controls.set({ opacity: 0, scale: 0.5 })
-    surge2Controls.set({ opacity: 0, scale: 0.5 })
 
-    levelControls.start({
-      scale: [1, 0.9, 0.9, 0.9, 1.5, 1],
-      rotate: [0, -2, 2, -2, 0, 0],
-      transition: {
-        duration: 1,
-        ease: [0.68, -0.55, 0.265, 1.55] as const,
-        times: [0, 0.1, 0.2, 0.3, 0.5, 1],
-      },
-    })
+    if (prefersReducedMotion) {
+      levelControls.start({
+        opacity: [1, 0.4, 1],
+        scale: [1, 0.98, 1.02, 1],
+        transition: { duration: 0.4, ease: 'easeInOut' },
+      })
 
-    surge1Controls.start({
-      opacity: [0, 1, 0],
-      scale: [0.5, 1.5, 2],
-      transition: { duration: 0.8, ease: easeOut, times: [0, 0.5, 1] },
-    })
+      scheduleTimeout(() => {
+        setShowEnd(true)
+      }, 300)
+    } else {
+      surge1Controls.set({ opacity: 0, scale: 0.5 })
+      surge2Controls.set({ opacity: 0, scale: 0.5 })
 
-    scheduleTimeout(() => {
-      surge2Controls.start({
+      levelControls.start({
+        scale: [1, 0.9, 0.9, 0.9, 1.5, 1],
+        rotate: [0, -2, 2, -2, 0, 0],
+        transition: {
+          duration: 1,
+          ease: [0.68, -0.55, 0.265, 1.55] as const,
+          times: [0, 0.1, 0.2, 0.3, 0.5, 1],
+        },
+      })
+
+      surge1Controls.start({
         opacity: [0, 1, 0],
         scale: [0.5, 1.5, 2],
         transition: { duration: 0.8, ease: easeOut, times: [0, 0.5, 1] },
       })
-    }, 100)
 
-    scheduleTimeout(() => {
-      setShowEnd(true)
-      setShowGlow(true)
-    }, 600)
+      scheduleTimeout(() => {
+        surge2Controls.start({
+          opacity: [0, 1, 0],
+          scale: [0.5, 1.5, 2],
+          transition: { duration: 0.8, ease: easeOut, times: [0, 0.5, 1] },
+        })
+      }, 100)
+
+      scheduleTimeout(() => {
+        setShowEnd(true)
+        setShowGlow(true)
+      }, 600)
+    }
 
     return () => {
       mountedRef.current = false
@@ -83,7 +97,7 @@ function TextEffectsLevelBreakthroughComponent({
       surge1Controls.stop()
       surge2Controls.stop()
     }
-  }, [levelControls, surge1Controls, surge2Controls])
+  }, [levelControls, surge1Controls, surge2Controls, prefersReducedMotion])
 
   return (
     <div

@@ -76,10 +76,10 @@ function LoadingStatesSpinnerDualRingComponent({
           borderTopColor: color,
           animation: 'none',
         }}
-        animate={prefersReducedMotion ? undefined : { rotate: 360 }}
+        animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : { rotate: 360 }}
         transition={
           prefersReducedMotion
-            ? undefined
+            ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' as const }
             : { duration: outerDuration, repeat: Infinity, ease: 'linear' as const }
         }
       />
@@ -94,10 +94,10 @@ function LoadingStatesSpinnerDualRingComponent({
           borderBottomColor: secondaryColor,
           animation: 'none',
         }}
-        animate={prefersReducedMotion ? undefined : { rotate: -360 }}
+        animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : { rotate: -360 }}
         transition={
           prefersReducedMotion
-            ? undefined
+            ? { duration: 1.5, delay: 0.75, repeat: Infinity, ease: 'easeInOut' as const }
             : { duration: innerDuration, repeat: Infinity, ease: 'linear' as const }
         }
       />

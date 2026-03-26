@@ -19,6 +19,7 @@
  * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface CircularDashProps extends ProgressBarProps {
@@ -32,6 +33,7 @@ export function ProgressBarsCircularDash({
   className,
   style,
 }: CircularDashProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
   const activeSegments = Math.floor(displayProgress * segments)
   const percent = Math.round(displayProgress * 100)
@@ -58,6 +60,7 @@ export function ProgressBarsCircularDash({
                     ? 'var(--circular-dash-active)'
                     : 'var(--circular-dash-inactive)',
               }}
+              transition={prefersReducedMotion ? { duration: 0.1 } : undefined}
               style={{ animation: 'none' }}
             />
           </div>

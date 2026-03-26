@@ -59,3 +59,24 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-tada {
+    animation: pf-tada-reduced 400ms ease-in-out;
+  }
+
+  @keyframes pf-tada-reduced {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    30% {
+      transform: scale(0.97) rotate(-1deg);
+    }
+    65% {
+      transform: scale(1.04) rotate(1deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+  }
+}

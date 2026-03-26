@@ -81,3 +81,20 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
+
+/* ─── Reduced motion: stop pulse/bounce/sweep, keep dots visible ─── */
+/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
+@media (prefers-reduced-motion: reduce) {
+  .pf-update-indicator__dot,
+  .pf-update-indicator__badge-glow,
+  .pf-update-indicator__ping {
+    animation: none !important;
+  }
+
+  .pf-update-indicator__dot-ring,
+  .pf-update-indicator__ring,
+  .pf-update-indicator__halo {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

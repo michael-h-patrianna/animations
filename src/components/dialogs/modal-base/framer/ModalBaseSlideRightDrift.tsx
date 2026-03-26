@@ -38,7 +38,7 @@ function ModalBaseSlideRightDriftComponent({
         initial={prefersReducedMotion ? { opacity: 0 } : { x: -distance, scale: 0.93, opacity: 0 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { x: 0, scale: 1, opacity: 1 }}
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.22, 0.61, 0.36, 1],
         }}
         onAnimationComplete={onAnimationComplete}

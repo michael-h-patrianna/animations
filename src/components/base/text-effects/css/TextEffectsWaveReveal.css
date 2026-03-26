@@ -44,3 +44,19 @@
     transform: translateY(0) translateZ(0);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-wave-reveal-char {
+    animation: tfx-wave-reveal-reduced 300ms ease-out forwards;
+    transform: translateY(0);
+  }
+
+  @keyframes tfx-wave-reveal-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

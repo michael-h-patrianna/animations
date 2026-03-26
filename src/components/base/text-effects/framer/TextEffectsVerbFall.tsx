@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsVerbFallProps {
@@ -22,6 +22,7 @@ function TextEffectsVerbFallComponent({
   stepDelay = 0.05,
   color,
 }: TextEffectsVerbFallProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -38,18 +39,26 @@ function TextEffectsVerbFallComponent({
           <m.span
             key={i}
             className="pf-verb-fall__char"
-            initial={{ y: -12, scaleY: 0.96, opacity: 0.9 }}
-            animate={{
-              y: [-12, 0, 4, 0],
-              scaleY: [0.96, 1.02, 0.98, 1],
-              opacity: [0.9, 1, 1, 1],
-            }}
-            transition={{
-              duration: 1.6,
-              delay: i * stepDelay,
-              ease: easeInOut,
-              times: [0, 0.3, 0.6, 1],
-            }}
+            initial={prefersReducedMotion ? { opacity: 0 } : { y: -12, scaleY: 0.96, opacity: 0.9 }}
+            animate={
+              prefersReducedMotion
+                ? { opacity: 1 }
+                : {
+                    y: [-12, 0, 4, 0],
+                    scaleY: [0.96, 1.02, 0.98, 1],
+                    opacity: [0.9, 1, 1, 1],
+                  }
+            }
+            transition={
+              prefersReducedMotion
+                ? { duration: 0.3 }
+                : {
+                    duration: 1.6,
+                    delay: i * stepDelay,
+                    ease: easeInOut,
+                    times: [0, 0.3, 0.6, 1],
+                  }
+            }
           >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>

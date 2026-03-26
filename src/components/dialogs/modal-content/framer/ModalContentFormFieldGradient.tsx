@@ -69,7 +69,7 @@ function ModalContentFormFieldGradientComponent({
       }
       transition={
         reduced
-          ? { duration: 0.01 }
+          ? { duration: 0.2 }
           : {
               duration: durationS,
               delay: delayBase + staggerS * i,

@@ -8,6 +8,7 @@
  * Usage: <StandardEffectsRubberBand duration={1000}><YourContent /></StandardEffectsRubberBand>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 
@@ -21,19 +22,29 @@ function StandardEffectsRubberBandComponent({
   children,
   duration = 1000,
 }: StandardEffectsRubberBandProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <m.div
       data-animation-id="standard-effects__rubber-band"
       style={{ animation: 'none' }}
-      animate={{
-        scaleX: [1, 1.25, 0.75, 1.15, 0.95, 1.05, 1],
-        scaleY: [1, 0.75, 1.25, 0.85, 1.05, 0.95, 1],
-      }}
-      transition={{
-        duration: duration / 1000,
-        ease: [0.4, 0, 0.2, 1] as const,
-        times: [0, 0.3, 0.4, 0.5, 0.65, 0.75, 1],
-      }}
+      animate={
+        prefersReducedMotion
+          ? { scaleX: [1, 1.03, 0.98, 1], scaleY: [1, 0.98, 1.02, 1] }
+          : {
+              scaleX: [1, 1.25, 0.75, 1.15, 0.95, 1.05, 1],
+              scaleY: [1, 0.75, 1.25, 0.85, 1.05, 0.95, 1],
+            }
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.4, ease: 'easeInOut' }
+          : {
+              duration: duration / 1000,
+              ease: [0.4, 0, 0.2, 1] as const,
+              times: [0, 0.3, 0.4, 0.5, 0.65, 0.75, 1],
+            }
+      }
     >
       {children ?? <DemoBox label="RubberBand" />}
     </m.div>

@@ -1,3 +1,4 @@
+import { MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
@@ -347,6 +348,7 @@ function PrizeRevealCrystalShatterComponent({
   prizeCount?: number
 }) {
   return (
+    <MotionConfig reducedMotion="user">
     <div
       className="pf-modal-celebration pf-crystal-shatter"
       data-animation-id="prize-reveal__crystal-shatter"
@@ -354,6 +356,7 @@ function PrizeRevealCrystalShatterComponent({
     >
       <CrystalShatterAnimation prizeCount={prizeCount} />
     </div>
+    </MotionConfig>
   )
 }
 

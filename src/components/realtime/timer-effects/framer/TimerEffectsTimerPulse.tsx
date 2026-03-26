@@ -7,7 +7,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { useCountdown } from '@/components/realtime/timer-effects/SharedTimer'
@@ -51,6 +51,7 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
     showUnderline = true,
   } = props
 
+  const prefersReducedMotion = useReducedMotion()
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
   const { seconds, phase, progress, isHidden } = useCountdown({
     startSeconds,
@@ -82,8 +83,8 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
     <div className="pf-timer" data-animation-id="timer-effects__timer-pulse">
       <m.div
         className={`pf-timer__value pf-timer--${phase}`}
-        variants={pulseVariants}
-        animate="pulse"
+        variants={prefersReducedMotion ? undefined : pulseVariants}
+        animate={prefersReducedMotion ? undefined : 'pulse'}
         style={valueStyle}
       >
         {seconds}
@@ -92,7 +93,7 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
         <m.div
           className="pf-timer__underline"
           animate={{ scaleX: 1 - progress }}
-          transition={{ duration: 0.1, ease: 'linear' }}
+          transition={{ duration: prefersReducedMotion ? 0.05 : 0.1, ease: 'linear' }}
           style={{
             transformOrigin: 'left center',
             animation: 'none',

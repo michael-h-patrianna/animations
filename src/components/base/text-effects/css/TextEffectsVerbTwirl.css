@@ -41,3 +41,24 @@
     transform: rotate3d(0, 0, 1, 360deg) scale3d(1, 1, 1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-twirl-char {
+    animation: tfx-twirl-reduced 500ms ease-in-out;
+  }
+
+  @keyframes tfx-twirl-reduced {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.04);
+      opacity: 0.85;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}

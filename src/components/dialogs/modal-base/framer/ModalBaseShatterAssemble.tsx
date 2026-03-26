@@ -40,7 +40,7 @@ function ModalBaseShatterAssembleComponent({
               }
         }
         transition={{
-          duration: prefersReducedMotion ? 0.01 : durationS,
+          duration: prefersReducedMotion ? 0.2 : durationS,
           ease: [0.68, -0.55, 0.265, 1.55],
         }}
         onAnimationComplete={onAnimationComplete}

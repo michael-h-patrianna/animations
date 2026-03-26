@@ -17,6 +17,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { useEffect, useState, memo, type ReactNode } from 'react'
 import './ButtonEffectsSplitReveal.css'
 
@@ -60,6 +61,7 @@ function ButtonEffectsSplitRevealComponent({
   className,
   onClick,
 }: ButtonEffectsSplitRevealProps) {
+  const prefersReducedMotion = useReducedMotion()
   const [isRevealing, setIsRevealing] = useState(false)
 
   useEffect(() => {
@@ -75,7 +77,9 @@ function ButtonEffectsSplitRevealComponent({
 
   const state = isRevealing ? 'open' : 'closed'
   const durationS = duration / 1000
-  const transition = { ...SPLIT_TRANSITION, duration: durationS }
+  const transition = prefersReducedMotion
+    ? { duration: 0.2, ease: 'easeInOut' as const }
+    : { ...SPLIT_TRANSITION, duration: durationS }
 
   return (
     <button

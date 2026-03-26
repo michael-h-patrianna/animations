@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import { calculateBulbColors } from '@/utils/colors'
+import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
 interface LightsCircleStatic7Props {
@@ -67,6 +68,7 @@ function LightsCircleStatic7({
   numBulbs = 16,
   onColor = 'var(--pf-anim-gold)',
 }: LightsCircleStatic7Props) {
+  const prefersReducedMotion = useReducedMotion()
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
   const containerVariants = useMemo(
     () => ({
@@ -138,7 +140,7 @@ function LightsCircleStatic7({
         className="lights-circle-static-7__container"
         variants={containerVariants}
         initial="hidden"
-        animate="show"
+        animate={prefersReducedMotion ? 'hidden' : 'show'}
       >
         {bulbs}
       </m.div>

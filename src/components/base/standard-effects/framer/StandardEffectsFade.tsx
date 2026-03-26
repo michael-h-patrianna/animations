@@ -8,6 +8,7 @@
  * Usage: <StandardEffectsFade duration={800}><YourContent /></StandardEffectsFade>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 
@@ -18,14 +19,16 @@ interface StandardEffectsFadeProps {
 }
 
 function StandardEffectsFadeComponent({ children, duration = 800 }: StandardEffectsFadeProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <m.div
       data-animation-id="standard-effects__fade"
       style={{ animation: 'none' }}
-      initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
-      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+      initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95, rotate: -1 }}
+      animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, rotate: 0 }}
       transition={{
-        duration: duration / 1000,
+        duration: prefersReducedMotion ? 0.15 : duration / 1000,
         ease: [0.25, 0.46, 0.45, 0.94] as const,
       }}
     >

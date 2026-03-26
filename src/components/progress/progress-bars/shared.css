@@ -4,3 +4,20 @@
 .track-container {
   position: relative;
 }
+
+/* ─── Reduced motion: disable decorative animations, keep fill position ─── */
+/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
+@media (prefers-reduced-motion: reduce) {
+  [data-animation-id^='progress-bars__'] [class*='__glint'],
+  [data-animation-id^='progress-bars__'] [class*='__particle'],
+  [data-animation-id^='progress-bars__'] [class*='__bubble'],
+  [data-animation-id^='progress-bars__'] [class*='__wave'],
+  [data-animation-id^='progress-bars__'] [class*='__flicker'] {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  [data-animation-id^='progress-bars__'] [class*='__fill'] {
+    transition-duration: 100ms !important;
+  }
+}

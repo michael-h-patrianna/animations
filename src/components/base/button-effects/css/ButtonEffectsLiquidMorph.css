@@ -45,3 +45,28 @@
     border-radius: 50px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-liquid-morph--active {
+    animation: pf-liquid-morph-reduced 300ms ease-in-out;
+  }
+
+  @keyframes pf-liquid-morph-reduced {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    35% {
+      transform: scale(0.97);
+      opacity: 0.85;
+    }
+    70% {
+      transform: scale(1.02);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}

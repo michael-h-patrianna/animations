@@ -30,8 +30,8 @@ function ModalDismissToastSlideRightComponent({
     if (el === null) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const entryDuration = reducedMotion ? 10 : 320
-    const exitDuration = reducedMotion ? 10 : 240
+    const entryDuration = reducedMotion ? 150 : 320
+    const exitDuration = reducedMotion ? 120 : 240
     const easing = 'cubic-bezier(0.4, 0.0, 0.2, 1)'
 
     el.animate(

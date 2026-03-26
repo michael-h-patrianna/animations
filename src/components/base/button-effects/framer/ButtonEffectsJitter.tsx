@@ -9,6 +9,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { useMemo, useState, memo, type ReactNode } from 'react'
 
 const HEARTBEAT_VARIANTS = {
@@ -30,6 +31,7 @@ interface ButtonEffectsJitterProps {
 
 function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffectsJitterProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
 
   const jitterVariants = useMemo(
     () => ({
@@ -53,8 +55,8 @@ function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffec
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__jitter"
       style={{ animation: 'none' }}
-      variants={isHovered ? HEARTBEAT_VARIANTS : jitterVariants}
-      animate="animate"
+      variants={prefersReducedMotion ? undefined : (isHovered ? HEARTBEAT_VARIANTS : jitterVariants)}
+      animate={prefersReducedMotion ? undefined : 'animate'}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >

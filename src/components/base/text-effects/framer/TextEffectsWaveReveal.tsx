@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut, type Variants } from 'motion/react'
+import { easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo } from 'react'
 
 interface TextEffectsWaveRevealProps {
@@ -40,6 +40,7 @@ function TextEffectsWaveRevealComponent({
   lineDelay = 0.4,
   initialDelay = 0.2,
 }: TextEffectsWaveRevealProps) {
+  const prefersReducedMotion = useReducedMotion()
   const lines = [
     { text: line1Text, color: line1Color },
     { text: line2Text, color: line2Color },
@@ -64,14 +65,22 @@ function TextEffectsWaveRevealComponent({
     },
   }
 
-  const letterVariants: Variants = {
-    hidden: { opacity: 0, y: 80 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'tween', ease: easeOut, duration: 0.5 },
-    },
-  }
+  const letterVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { duration: 0.3 },
+        },
+      }
+    : {
+        hidden: { opacity: 0, y: 80 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { type: 'tween', ease: easeOut, duration: 0.5 },
+        },
+      }
 
   return (
     <div className="pf-wave-reveal" data-animation-id="text-effects__wave-reveal">

@@ -31,3 +31,19 @@
     stroke-dashoffset: calc(-1 * var(--pf-rp-circumference));
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-ring-progress__stroke {
+    animation: pf-loading-ring-progress-breathe 2s ease-in-out infinite;
+  }
+
+  @keyframes pf-loading-ring-progress-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}

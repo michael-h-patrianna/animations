@@ -1,3 +1,4 @@
+import { MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
@@ -149,6 +150,7 @@ function PrizeRevealPirateChestWinComponent({
   const coinSparkles = useMemo(() => createCoinSparkles(coinCount), [coinCount])
 
   return (
+    <MotionConfig reducedMotion="user">
     <div
       className="pf-modal-celebration pf-pirate-chest-win"
       data-animation-id="prize-reveal__pirate-chest-win"
@@ -190,6 +192,7 @@ function PrizeRevealPirateChestWinComponent({
         {phase === 'reveal' && <PirateChestWinCoins coinSparkles={coinSparkles} />}
       </div>
     </div>
+    </MotionConfig>
   )
 }
 

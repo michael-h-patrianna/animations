@@ -9,7 +9,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { useEffect, useMemo, useState, memo, type ReactNode } from 'react'
 
 interface ButtonEffectsLiquidMorphProps {
@@ -22,6 +22,7 @@ function ButtonEffectsLiquidMorphComponent({
   children,
   duration = 600,
 }: ButtonEffectsLiquidMorphProps) {
+  const prefersReducedMotion = useReducedMotion()
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
@@ -68,9 +69,18 @@ function ButtonEffectsLiquidMorphComponent({
       data-animation-id="button-effects__liquid-morph"
       style={{ animation: 'none' }}
       onClick={handleClick}
-      variants={liquidMorphVariants}
+      variants={prefersReducedMotion ? undefined : liquidMorphVariants}
       initial="initial"
-      animate={isAnimating ? 'animate' : 'initial'}
+      animate={
+        prefersReducedMotion
+          ? isAnimating
+            ? { scale: [1, 0.97, 1.02, 1], opacity: [1, 0.85, 1, 1] }
+            : { scale: 1, opacity: 1 }
+          : isAnimating
+            ? 'animate'
+            : 'initial'
+      }
+      transition={prefersReducedMotion ? { duration: 0.3, ease: 'easeInOut' } : undefined}
     >
       {children ?? 'Click Me!'}
     </m.button>

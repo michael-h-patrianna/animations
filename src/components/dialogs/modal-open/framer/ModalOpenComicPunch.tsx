@@ -72,7 +72,7 @@ function ModalOpenComicPunchComponent(props: ModalOpenProps) {
             initial={{ opacity: s.isClosing ? s.overlayOpacity : 0 }}
             animate={{ opacity: s.isClosing ? 0 : s.overlayOpacity }}
             transition={{
-              duration: reduced ? 0.01 : s.activeDurationS * 0.5,
+              duration: reduced ? 0.2 : s.activeDurationS * 0.5,
               ease: [0, 0, 0.2, 1],
             }}
             style={{ animation: 'none' }}

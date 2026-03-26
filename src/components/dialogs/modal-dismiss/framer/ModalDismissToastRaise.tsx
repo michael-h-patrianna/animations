@@ -33,8 +33,8 @@ function ModalDismissToastRaiseComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.01 : 0.42
-  const exitS = prefersReducedMotion ? 0.01 : 0.32
+  const entryS = prefersReducedMotion ? 0.15 : 0.42
+  const exitS = prefersReducedMotion ? 0.12 : 0.32
 
   const variants = {
     hidden: { y: '120%', scale: 0.96, opacity: 0 },

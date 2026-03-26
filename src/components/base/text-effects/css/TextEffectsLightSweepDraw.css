@@ -59,3 +59,24 @@
     color: var(--tfx-lsd-base-color);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-light-sweep-draw {
+    animation: none;
+    opacity: 1;
+  }
+
+  .tfx-light-sweep-draw__letter {
+    animation: tfx-light-sweep-reduced 300ms ease-out both;
+    transform: none;
+  }
+
+  @keyframes tfx-light-sweep-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

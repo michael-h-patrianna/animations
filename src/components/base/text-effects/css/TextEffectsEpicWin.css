@@ -199,3 +199,29 @@
   /* Stagger delay: 500ms base + (index * 40ms) */
   animation-delay: calc(500ms + (var(--char-index) * 40ms));
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfe-epic-win--animate .tfe-epic-win__shadow-far,
+  .tfe-epic-win--animate .tfe-epic-win__shadow-mid {
+    animation: none;
+    opacity: 0.25;
+  }
+
+  .tfe-epic-win--animate .tfe-epic-win__char {
+    animation: tfe-epic-win-reduced 300ms ease-out both;
+  }
+
+  .tfe-epic-win--animate .tfe-epic-win__char-glow {
+    animation: none;
+    opacity: 0;
+  }
+
+  @keyframes tfe-epic-win-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

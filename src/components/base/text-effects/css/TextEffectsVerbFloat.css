@@ -50,3 +50,9 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-float-char {
+    animation: none;
+  }
+}

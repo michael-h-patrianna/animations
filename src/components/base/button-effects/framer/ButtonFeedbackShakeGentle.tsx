@@ -57,7 +57,7 @@ function ButtonFeedbackShakeGentleComponent({
       animate={
         isAnimating
           ? prefersReducedMotion
-            ? { opacity: [1, 0.85, 1] }
+            ? { x: [0, -3, 2, -1, 0], opacity: [1, 0.85, 0.9, 0.95, 1] }
             : {
                 x: [0, -20, 16, -8, 0],
                 scale: [1, 0.98, 0.92, 0.98, 1],

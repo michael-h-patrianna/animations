@@ -73,7 +73,7 @@ function ModalOrchestrationWizardScaleRotateComponent({
       scale: [0.9, 1.06, 1],
       opacity: [0.3, 1, 1],
       transition: {
-        duration: noMotion ? 0 : 0.46,
+        duration: noMotion ? 0.15 : 0.46,
         ease: [0.34, 1.56, 0.64, 1] as const,
       },
     },
@@ -86,7 +86,7 @@ function ModalOrchestrationWizardScaleRotateComponent({
       scale: 1,
       opacity: 1,
       transition: {
-        duration: noMotion ? 0 : durationS,
+        duration: noMotion ? 0.15 : durationS,
         ease: [0.68, -0.55, 0.265, 1.55] as const,
       },
     },

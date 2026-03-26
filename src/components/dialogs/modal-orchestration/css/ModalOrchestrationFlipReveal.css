@@ -60,3 +60,26 @@
 .pf-flip-reveal__back {
   transform: rotateY(180deg);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-flip-reveal__card {
+    transform: none;
+  }
+
+  .pf-flip-reveal__card--visible {
+    animation: pf-flip-reveal-reduced 150ms ease-out both;
+  }
+
+  .pf-flip-reveal__inner {
+    transition-duration: 0.01ms;
+  }
+
+  @keyframes pf-flip-reveal-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

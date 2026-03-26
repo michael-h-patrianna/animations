@@ -72,13 +72,20 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .pf-mc-box--entrance {
-    animation: none;
-    opacity: 1;
+    animation: pf-mc-reduced-fade 200ms ease-out both;
   }
 
   .pf-button-stagger-item {
-    animation: none;
-    opacity: 1;
+    animation: pf-mc-reduced-fade 200ms ease-out both;
     transform: none;
+  }
+
+  @keyframes pf-mc-reduced-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }

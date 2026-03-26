@@ -9,7 +9,7 @@
  * Usage: <UpdateIndicatorsHomeIconDotSweep accentColor="#ff0a4d"><MyIcon /></UpdateIndicatorsHomeIconDotSweep>
  */
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import {
   DOT_COLOR,
@@ -34,6 +34,7 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
   accentColor = DOT_SWEEP_ACCENT,
   haloColor = DOT_SWEEP_HALO,
 }: DotSweepProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durS = duration / 1000
   const ringInset = Math.round(dotSize * 0.71)
   const ringBorder = `${Math.round(dotSize * 0.71)}px solid ${ringTint(dotColor, 22)}`
@@ -51,49 +52,57 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
           background: dotColor,
           animation: 'none',
         }}
-        animate={{
-          background: [dotColor, accentColor, dotColor],
-          scale: [1, 1.16, 1],
-        }}
+        animate={
+          prefersReducedMotion
+            ? { background: [dotColor, accentColor, dotColor] }
+            : {
+                background: [dotColor, accentColor, dotColor],
+                scale: [1, 1.16, 1],
+              }
+        }
         transition={{
-          duration: durS,
+          duration: prefersReducedMotion ? 0.15 : durS,
           ease: easeInOut,
           times: [0, 0.3, 1],
         }}
       >
+        {!prefersReducedMotion && (
+          <m.span
+            className="pf-update-indicator__dot-ring"
+            style={{
+              inset: -ringInset,
+              border: ringBorder,
+              animation: 'none',
+            }}
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ duration: durS, ease: easeInOut, times: [0, 0.3, 1] }}
+          />
+        )}
+      </m.span>
+      {!prefersReducedMotion && (
         <m.span
-          className="pf-update-indicator__dot-ring"
+          className="pf-update-indicator__halo"
           style={{
-            inset: -ringInset,
-            border: ringBorder,
+            top: -haloEdgeOffset,
+            right: -haloEdgeOffset,
+            width: haloSize,
+            height: haloSize,
+            border: `2px solid ${haloColor}`,
             animation: 'none',
           }}
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ duration: durS, ease: easeInOut, times: [0, 0.3, 1] }}
+          initial={{ scale: 0.75, opacity: 0 }}
+          animate={{
+            scale: [0.75, 1.8],
+            opacity: [0, 0.8, 0],
+          }}
+          transition={{
+            duration: durS,
+            ease: easeInOut,
+            scale: { times: [0, 1] },
+            opacity: { times: [0, 0.35, 1] },
+          }}
         />
-      </m.span>
-      <m.span
-        className="pf-update-indicator__halo"
-        style={{
-          top: -haloEdgeOffset,
-          right: -haloEdgeOffset,
-          width: haloSize,
-          height: haloSize,
-          border: `2px solid ${haloColor}`,
-          animation: 'none',
-        }}
-        initial={{ scale: 0.75, opacity: 0 }}
-        animate={{
-          scale: [0.75, 1.8],
-          opacity: [0, 0.8, 0],
-        }}
-        transition={{
-          duration: durS,
-          ease: easeInOut,
-          scale: { times: [0, 1] },
-          opacity: { times: [0, 0.35, 1] },
-        }}
-      />
+      )}
     </>
   )
 

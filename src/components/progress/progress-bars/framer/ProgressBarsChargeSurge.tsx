@@ -20,6 +20,7 @@
  * Files to copy: this file + ProgressBarsChargeSurge.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { useRef, useState, useEffect } from 'react'
 import type {
   MilestoneProgressBarProps,
@@ -47,6 +48,7 @@ export function ProgressBarsChargeSurge({
   className,
   style,
 }: MilestoneProgressBarProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
   const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>(() =>
     milestones.map(() => 'inactive')
@@ -107,6 +109,13 @@ export function ProgressBarsChargeSurge({
   }, [displayProgress, milestones])
 
   const markerVariants = (state: MilestoneState) => {
+    if (prefersReducedMotion) {
+      return {
+        opacity: state === 'charged' ? 1 : state === 'anticipating' ? 0.7 : 0.5,
+        backgroundColor: 'var(--charge-marker-color)',
+        transition: { duration: 0.1 },
+      }
+    }
     if (state === 'anticipating') {
       return {
         scale: [1, 1.1, 1],
@@ -136,14 +145,14 @@ export function ProgressBarsChargeSurge({
             className="pf-progress-fill pf-progress-fill--base"
             initial={false}
             animate={{ scaleX: progress ?? 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
+            transition={{ duration: prefersReducedMotion ? 0.1 : 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
           <m.div
             className="pf-progress-fill pf-progress-fill--glow"
             initial={false}
             animate={{ scaleX: progress ?? 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
+            transition={{ duration: prefersReducedMotion ? 0.1 : 0.3, ease: [0.4, 0, 0.2, 1] as const }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           >
             <m.div
@@ -177,7 +186,7 @@ export function ProgressBarsChargeSurge({
                 borderRadius: '50%',
               }}
             />
-            {surgeWaves
+            {!prefersReducedMotion && surgeWaves
               .filter((w) => w.milestoneIndex === i)
               .map((wave) => (
                 <m.div

@@ -60,3 +60,20 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-shockwave__ring--1,
+  .pf-shockwave__ring--2,
+  .pf-shockwave__ring--3 {
+    animation: pf-shockwave-reduced 150ms ease-out forwards;
+  }
+
+  @keyframes pf-shockwave-reduced {
+    0% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}

@@ -7,11 +7,19 @@
   perspective: 1000px;
 }
 
-/* ── Reduced motion: disable entrance animations across all modal-base CSS variants ── */
+/* ── Reduced motion: replace entrance animations with a clean fade-in ── */
 @media (prefers-reduced-motion: reduce) {
   [class^='pf-modal-'][class^='pf-modal-'] {
-    animation: none;
-    opacity: 1;
+    animation: pf-modal-reduced-fade 200ms ease-out both;
     transform: none;
+  }
+
+  @keyframes pf-modal-reduced-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }

@@ -145,7 +145,7 @@
   .pf-mo-modal--arc,
   .pf-mo-modal--pop,
   .pf-mo-modal--arc-close {
-    animation: pf-mo-reduced-fade 10ms ease-out forwards;
+    animation: pf-mo-reduced-fade 200ms ease-out forwards;
   }
 
   .pf-mo-impact-glow--css {

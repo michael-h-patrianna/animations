@@ -5,7 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsEpicWinProps {
@@ -16,6 +16,7 @@ interface TextEffectsEpicWinProps {
 }
 
 function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEpicWinProps) {
+  const prefersReducedMotion = useReducedMotion()
   const chars = useMemo(() => text.split(''), [text])
 
   return (
@@ -30,9 +31,9 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
         {/* Far shadow */}
         <m.div
           className="pf-epic-win__shadow-far"
-          initial={{ opacity: 0, scale: 1.2, y: 10 }}
-          animate={{ opacity: 0.2, scale: 1, y: 6 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          initial={prefersReducedMotion ? { opacity: 0.2, y: 6 } : { opacity: 0, scale: 1.2, y: 10 }}
+          animate={prefersReducedMotion ? { opacity: 0.2, y: 6 } : { opacity: 0.2, scale: 1, y: 6 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
           {text}
         </m.div>
@@ -40,9 +41,9 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
         {/* Mid shadow */}
         <m.div
           className="pf-epic-win__shadow-mid"
-          initial={{ opacity: 0, scale: 1.1, y: 5 }}
-          animate={{ opacity: 0.3, scale: 1, y: 3 }}
-          transition={{ duration: 0.45, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          initial={prefersReducedMotion ? { opacity: 0.3, y: 3 } : { opacity: 0, scale: 1.1, y: 5 }}
+          animate={prefersReducedMotion ? { opacity: 0.3, y: 3 } : { opacity: 0.3, scale: 1, y: 3 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.45, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
           {text}
         </m.div>
@@ -52,19 +53,23 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
           className="pf-epic-win__main-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: prefersReducedMotion ? 0.3 : 0.2 }}
         >
           {chars.map((char, index) => (
             <m.span
               key={index}
               className="pf-epic-win__char"
-              initial={{ opacity: 0, y: 30, scale: 0.5, rotateY: -90 }}
-              animate={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: 0.1 + index * 0.04,
-                ease: [0.25, 0.46, 0.45, 0.94] as const,
-              }}
+              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 30, scale: 0.5, rotateY: -90 }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1, rotateY: 0 }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0.3, delay: 0.1 }
+                  : {
+                      duration: 0.6,
+                      delay: 0.1 + index * 0.04,
+                      ease: [0.25, 0.46, 0.45, 0.94] as const,
+                    }
+              }
             >
               <m.span className="pf-epic-win__char-inner">
                 <span className="pf-epic-win__char-text">{char === ' ' ? '\xA0' : char}</span>
@@ -75,17 +80,19 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
                   {char === ' ' ? '\xA0' : char}
                 </span>
 
-                <m.span
-                  className="pf-epic-win__char-glow"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: [0, 1, 0], scale: [0.8, 1.4, 1] }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.5 + index * 0.04,
-                    times: [0, 0.3, 1],
-                    ease: easeOut,
-                  }}
-                />
+                {!prefersReducedMotion && (
+                  <m.span
+                    className="pf-epic-win__char-glow"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: [0, 1, 0], scale: [0.8, 1.4, 1] }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.5 + index * 0.04,
+                      times: [0, 0.3, 1],
+                      ease: easeOut,
+                    }}
+                  />
+                )}
               </m.span>
             </m.span>
           ))}

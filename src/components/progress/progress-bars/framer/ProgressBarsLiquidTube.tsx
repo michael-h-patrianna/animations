@@ -19,9 +19,11 @@
  * Files to copy: this file + ProgressBarsLiquidTube.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
   const percent = displayProgress * 100
 
@@ -35,18 +37,18 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
         <m.div
           className="liquid-tube-fill"
           animate={{ height: `${percent}%` }}
-          transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
+          transition={prefersReducedMotion ? { duration: 0.1 } : { type: 'spring', bounce: 0, duration: 0.5 }}
           style={{ animation: 'none' }}
         >
           <div className="liquid-tube-surface">
             <m.div
               className="liquid-wave"
-              animate={{ x: ['-50%', '0%'] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              animate={prefersReducedMotion ? undefined : { x: ['-50%', '0%'] }}
+              transition={prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity, ease: 'linear' }}
               style={{ animation: 'none' }}
             />
           </div>
-          {[1, 2, 3].map((i) => (
+          {!prefersReducedMotion && [1, 2, 3].map((i) => (
             <m.div
               key={i}
               className="liquid-bubble"

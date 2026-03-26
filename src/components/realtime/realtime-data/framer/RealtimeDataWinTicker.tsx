@@ -7,6 +7,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 const DEFAULT_ITEMS = ['Mega Win! +5,000 credits', 'Daily streak unlocked', 'Bonus wheel ready']
@@ -28,6 +29,7 @@ function RealtimeDataWinTickerComponent({
   duration = 8000,
   textColor,
 }: RealtimeDataWinTickerProps) {
+  const prefersReducedMotion = useReducedMotion()
   const text = useMemo(() => {
     const single = items.join(separator) + separator
     return single.repeat(3)
@@ -40,14 +42,18 @@ function RealtimeDataWinTickerComponent({
       <div className="pf-realtime-data__ticker">
         <m.div
           className="pf-realtime-data__ticker-text"
-          initial={{ x: '100%' }}
-          animate={{ x: '-100%' }}
-          transition={{
-            duration: durationS,
-            ease: 'linear',
-            repeat: Infinity,
-            repeatType: 'loop',
-          }}
+          initial={prefersReducedMotion ? undefined : { x: '100%' }}
+          animate={prefersReducedMotion ? undefined : { x: '-100%' }}
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  duration: durationS,
+                  ease: 'linear',
+                  repeat: Infinity,
+                  repeatType: 'loop',
+                }
+          }
           style={{ animation: 'none', color: textColor }}
         >
           {text}

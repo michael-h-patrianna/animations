@@ -99,3 +99,25 @@
     transform: translateX(0) scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-blink {
+    animation: pf-blink-reduced calc(var(--pf-blink-duration, 1s) * 1.5) ease-in-out;
+  }
+
+  @keyframes pf-blink-reduced {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    20% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.5;
+    }
+  }
+}

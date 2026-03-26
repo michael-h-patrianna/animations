@@ -251,3 +251,29 @@
       scale3d(0.7, 0.7, 1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-xp-number-wrapper {
+    animation: tfx-xp-reduced-fade 300ms ease-out forwards;
+    transform: none;
+    opacity: 0;
+  }
+
+  .tfx-xp-label {
+    animation: tfx-xp-reduced-fade 300ms 200ms ease-out forwards;
+  }
+
+  .tfx-xp-particle {
+    animation: none;
+    opacity: 0;
+  }
+
+  @keyframes tfx-xp-reduced-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

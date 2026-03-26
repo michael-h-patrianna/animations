@@ -5,6 +5,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 const waveKeyframes = {
@@ -38,11 +39,13 @@ function WaveCharacter({
   index,
   charDelay,
   showHighlight,
+  reducedMotion,
 }: {
   char: string
   index: number
   charDelay: number
   showHighlight: boolean
+  reducedMotion: boolean
 }) {
   const isSpace = char === ' '
   const waveDelay = -(index * charDelay)
@@ -51,20 +54,24 @@ function WaveCharacter({
     <m.span
       className="pf-wave-text__char"
       data-char={char}
-      animate={waveKeyframes}
-      transition={{
-        duration: waveDuration,
-        ease: waveEase,
-        times: waveTimes,
-        repeat: Infinity,
-        repeatType: 'loop',
-        delay: waveDelay,
-      }}
+      animate={reducedMotion ? undefined : waveKeyframes}
+      transition={
+        reducedMotion
+          ? undefined
+          : {
+              duration: waveDuration,
+              ease: waveEase,
+              times: waveTimes,
+              repeat: Infinity,
+              repeatType: 'loop',
+              delay: waveDelay,
+            }
+      }
     >
       <span className="pf-wave-text__char-inner">
         {isSpace ? '\u00A0' : char}
 
-        {showHighlight && !isSpace && (
+        {showHighlight && !isSpace && !reducedMotion && (
           <m.span
             className="pf-wave-text__highlight"
             animate={highlightKeyframes}
@@ -89,6 +96,7 @@ function TextEffectsWaveTextComponent({
   showHighlight = true,
   color,
 }: TextEffectsWaveTextProps) {
+  const prefersReducedMotion = useReducedMotion()
   const chars = useMemo(() => text.split(''), [text])
 
   return (
@@ -107,6 +115,7 @@ function TextEffectsWaveTextComponent({
             index={index}
             charDelay={charDelay}
             showHighlight={showHighlight}
+            reducedMotion={Boolean(prefersReducedMotion)}
           />
         ))}
       </div>

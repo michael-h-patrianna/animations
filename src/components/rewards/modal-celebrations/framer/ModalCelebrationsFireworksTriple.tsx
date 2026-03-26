@@ -6,6 +6,7 @@
  */
 
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -397,6 +398,7 @@ function ModalCelebrationsFireworksTripleComponent({
   particleMaxHeight = 24,
   onComplete,
 }: ModalCelebrationsFireworksTripleProps) {
+  const prefersReducedMotion = useReducedMotion()
   const rays = useMemo(makeRays, [])
   const trails = useMemo(() => makeTrails(particleImages), [particleImages])
   const sparkles = useMemo(makeSparkles, [])
@@ -414,6 +416,9 @@ function ModalCelebrationsFireworksTripleComponent({
   const fgRays = useMemo(() => rays.filter((r) => r.layer === 'fg'), [rays])
   const bgTrails = useMemo(() => trails.filter((t) => t.layer === 'bg'), [trails])
   const fgTrails = useMemo(() => trails.filter((t) => t.layer === 'fg'), [trails])
+
+  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple">

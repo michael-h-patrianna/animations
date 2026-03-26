@@ -81,3 +81,30 @@
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   animation-fill-mode: both;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-wizard-scale__step {
+    transform: none;
+  }
+
+  .pf-wizard-scale__step--visible {
+    animation: pf-wizard-scale-reduced 150ms ease-out both;
+  }
+
+  .pf-wizard-scale__panel {
+    transform: none;
+  }
+
+  .pf-wizard-scale__panel--visible {
+    animation: pf-wizard-scale-reduced 150ms ease-out both;
+  }
+
+  @keyframes pf-wizard-scale-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

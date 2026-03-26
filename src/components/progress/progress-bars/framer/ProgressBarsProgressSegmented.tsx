@@ -23,6 +23,7 @@
  * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
@@ -40,6 +41,7 @@ export function ProgressBarsProgressSegmented({
   className,
   style,
 }: SegmentedProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
 
   // Track which segments have been activated to detect new crossings
@@ -95,7 +97,7 @@ export function ProgressBarsProgressSegmented({
             }}
             initial={false}
             animate={{ scaleX: displayProgress }}
-            transition={{ duration: 0.15, ease: 'linear' }}
+            transition={{ duration: prefersReducedMotion ? 0.1 : 0.15, ease: 'linear' }}
           />
         </div>
 
@@ -146,27 +148,29 @@ export function ProgressBarsProgressSegmented({
                   overflow: 'hidden',
                 }}
                 animate={
-                  isGlowing
-                    ? {
-                        scale: [1, 1.08, 1],
-                        boxShadow: [
-                          '0 0 0px 0px var(--segmented-fill-glow-off)',
-                          '0 0 24px 8px var(--segmented-fill-glow-on)',
-                          '0 0 0px 0px var(--segmented-fill-glow-off)',
-                        ],
-                        transition: {
-                          duration: GLOW_DURATION,
-                          ease: [0.22, 1, 0.36, 1],
-                        },
-                      }
-                    : {
-                        scale: 1,
-                        boxShadow: '0 0 0px 0px var(--segmented-fill-glow-off)',
-                      }
+                  prefersReducedMotion
+                    ? { scale: 1, boxShadow: '0 0 0px 0px var(--segmented-fill-glow-off)' }
+                    : isGlowing
+                      ? {
+                          scale: [1, 1.08, 1],
+                          boxShadow: [
+                            '0 0 0px 0px var(--segmented-fill-glow-off)',
+                            '0 0 24px 8px var(--segmented-fill-glow-on)',
+                            '0 0 0px 0px var(--segmented-fill-glow-off)',
+                          ],
+                          transition: {
+                            duration: GLOW_DURATION,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                        }
+                      : {
+                          scale: 1,
+                          boxShadow: '0 0 0px 0px var(--segmented-fill-glow-off)',
+                        }
                 }
               >
-                {/* Inner brightness flash on glow */}
-                {isGlowing && (
+                {/* Inner brightness flash on glow — disabled in reduced motion */}
+                {isGlowing && !prefersReducedMotion && (
                   <m.div
                     style={{
                       position: 'absolute',

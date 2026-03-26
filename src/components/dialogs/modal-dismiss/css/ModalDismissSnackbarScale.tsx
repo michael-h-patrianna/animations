@@ -30,8 +30,8 @@ function ModalDismissSnackbarScaleComponent({
     if (el === null) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const entryDuration = reducedMotion ? 10 : 320
-    const exitDuration = reducedMotion ? 10 : 240
+    const entryDuration = reducedMotion ? 150 : 320
+    const exitDuration = reducedMotion ? 120 : 240
     const entryEasing = 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
     const pulseEasing = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
 

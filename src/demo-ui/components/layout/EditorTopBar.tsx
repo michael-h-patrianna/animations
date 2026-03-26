@@ -62,6 +62,8 @@ export const EditorTopBar: React.FC = () => {
     setTheme,
     accent,
     setAccent,
+    reducedMotion,
+    setReducedMotion,
   } = useLayoutStore(
     useShallow((state: LayoutStore) => ({
       leftPanelVisible: state.showLeftPanel,
@@ -72,11 +74,13 @@ export const EditorTopBar: React.FC = () => {
       setTheme: state.setTheme,
       accent: state.accent,
       setAccent: state.setAccent,
+      reducedMotion: state.reducedMotion,
+      setReducedMotion: state.setReducedMotion,
     }))
   )
 
   const { currentGroup } = useAppNavigation()
-  const viewItems = useViewMenuItems(theme, setTheme, accent, setAccent)
+  const viewItems = useViewMenuItems(theme, setTheme, accent, setAccent, reducedMotion, setReducedMotion)
   const isMobile = useIsMobile()
 
   const leftToggleClass = leftPanelVisible

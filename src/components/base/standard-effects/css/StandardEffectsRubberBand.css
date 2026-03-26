@@ -36,3 +36,24 @@
     transform: scaleX(1) scaleY(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-rubber-band {
+    animation: pf-rubber-band-reduced 400ms ease-in-out;
+  }
+
+  @keyframes pf-rubber-band-reduced {
+    0% {
+      transform: scaleX(1) scaleY(1);
+    }
+    30% {
+      transform: scaleX(1.03) scaleY(0.98);
+    }
+    60% {
+      transform: scaleX(0.98) scaleY(1.02);
+    }
+    100% {
+      transform: scaleX(1) scaleY(1);
+    }
+  }
+}

@@ -67,10 +67,10 @@ function LoadingStatesSpinnerOrbitalComponent({
           transformOrigin: `${satelliteSize / 2}px ${originY}px`,
           animation: 'none',
         }}
-        animate={prefersReducedMotion ? undefined : { rotate: 360 }}
+        animate={prefersReducedMotion ? { opacity: [1, 0.4, 1] } : { rotate: 360 }}
         transition={
           prefersReducedMotion
-            ? undefined
+            ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' as const }
             : { duration: orbitDuration, repeat: Infinity, ease: 'linear' as const }
         }
       />
@@ -81,10 +81,10 @@ function LoadingStatesSpinnerOrbitalComponent({
           border: `2px dashed ${ringColor}`,
           animation: 'none',
         }}
-        animate={prefersReducedMotion ? undefined : { rotate: -360, opacity: [0.3, 0.8, 0.3] }}
+        animate={prefersReducedMotion ? { opacity: [0.3, 0.6, 0.3] } : { rotate: -360, opacity: [0.3, 0.8, 0.3] }}
         transition={
           prefersReducedMotion
-            ? undefined
+            ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' as const }
             : { duration: ringFadeDuration, repeat: Infinity, ease: 'linear' as const }
         }
       />

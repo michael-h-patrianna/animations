@@ -51,3 +51,30 @@
     transform: translateX(0) rotate(0deg) scale(1);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-wiggle {
+    animation: pf-wiggle-reduced 500ms ease-in-out;
+  }
+
+  @keyframes pf-wiggle-reduced {
+    0% {
+      transform: translateX(0) rotate(0deg);
+    }
+    20% {
+      transform: translateX(-1px) rotate(-1deg);
+    }
+    40% {
+      transform: translateX(1px) rotate(1deg);
+    }
+    60% {
+      transform: translateX(-0.5px) rotate(-0.5deg);
+    }
+    80% {
+      transform: translateX(0.5px) rotate(0.5deg);
+    }
+    100% {
+      transform: translateX(0) rotate(0deg);
+    }
+  }
+}

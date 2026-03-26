@@ -142,3 +142,37 @@
   animation: tfx-char-reveal-subtitle-up 500ms ease-out 1200ms both;
   will-change: opacity, transform; /* Pre-composite for smooth slide-up */
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-char-reveal-shadow-text {
+    animation: none;
+    opacity: 1;
+  }
+
+  .tfx-char-reveal-shadow-char {
+    animation: none;
+    opacity: 0.5;
+  }
+
+  .tfx-char-reveal-main-text {
+    animation: none;
+    opacity: 1;
+  }
+
+  .tfx-char-reveal-main-char {
+    animation: tfx-char-reveal-reduced 300ms ease-out both;
+  }
+
+  .tfx-char-reveal-subtitle {
+    animation: tfx-char-reveal-reduced 300ms ease-out 300ms both;
+  }
+
+  @keyframes tfx-char-reveal-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

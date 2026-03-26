@@ -23,3 +23,18 @@
     transform: scale(1) rotate(0deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-fade {
+    animation: pf-fade-reduced 150ms ease-out forwards;
+  }
+
+  @keyframes pf-fade-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

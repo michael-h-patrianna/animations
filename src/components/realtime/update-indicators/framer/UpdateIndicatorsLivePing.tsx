@@ -8,7 +8,7 @@
  * Usage: <UpdateIndicatorsLivePing color="#00ff00" size={10} />
  */
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import { PING_COLOR } from '@/components/realtime/update-indicators/SharedDefaults'
 
@@ -26,6 +26,7 @@ function UpdateIndicatorsLivePingComponent({
   size = 12,
   duration = 1200,
 }: LivePingProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durS = duration / 1000
 
   return (
@@ -38,10 +39,14 @@ function UpdateIndicatorsLivePingComponent({
           background: color,
           animation: 'none',
         }}
-        animate={{
-          scale: [1, 1.6, 1],
-          opacity: [1, 0, 1],
-        }}
+        animate={
+          prefersReducedMotion
+            ? { opacity: [1, 0.5, 1] }
+            : {
+                scale: [1, 1.6, 1],
+                opacity: [1, 0, 1],
+              }
+        }
         transition={{
           duration: durS,
           ease: easeInOut,

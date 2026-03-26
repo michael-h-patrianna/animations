@@ -9,7 +9,7 @@
  * Usage: <UpdateIndicatorsHomeIconDotRadar ringColor="rgba(255,0,0,0.5)"><MyIcon /></UpdateIndicatorsHomeIconDotRadar>
  */
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import { DOT_COLOR, DOT_RADAR_RING } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
@@ -29,13 +29,14 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
   ringColor = DOT_RADAR_RING,
   ringCount = 2,
 }: DotRadarProps) {
+  const prefersReducedMotion = useReducedMotion()
   const durS = duration / 1000
   const dotEdgeOffset = 3 // matches shared.css .pf-update-indicator__dot top/right
   const ringSize = Math.round(dotSize * 1.43)
   const ringEdgeOffset = dotEdgeOffset + (ringSize - dotSize) / 2
   const staggerDelay = durS / 2
 
-  const rings = Array.from({ length: ringCount }, (_, i) => (
+  const rings = prefersReducedMotion ? [] : Array.from({ length: ringCount }, (_, i) => (
     <m.span
       key={i}
       className="pf-update-indicator__ring"

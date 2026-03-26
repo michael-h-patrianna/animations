@@ -42,3 +42,18 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .tfx-fall-char {
+    animation: tfx-fall-reduced 300ms ease-out both;
+  }
+
+  @keyframes tfx-fall-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

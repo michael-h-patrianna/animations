@@ -9,6 +9,7 @@
  * Usage: <StandardEffectsPulse duration={1500}><YourContent /></StandardEffectsPulse>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 import { PULSE_GLOW_COLOR } from '@/components/base/standard-effects/SharedDefaults'
@@ -29,6 +30,7 @@ function StandardEffectsPulseComponent({
   glowColor = PULSE_GLOW_COLOR,
   borderRadius = 16,
 }: StandardEffectsPulseProps) {
+  const prefersReducedMotion = useReducedMotion()
   const resolvedGlowColor = glowColor
   const durationS = duration / 1000
 
@@ -37,16 +39,24 @@ function StandardEffectsPulseComponent({
       className="pf-pulse"
       data-animation-id="standard-effects__pulse"
       style={{ animation: 'none', position: 'relative', borderRadius }}
-      animate={{
-        scale: [1, 1.25, 1],
-        opacity: [1, 0.8, 1],
-      }}
-      transition={{
-        duration: durationS,
-        ease: [0.4, 0, 0.6, 1] as const,
-        times: [0, 0.5, 1],
-        repeat: Infinity,
-      }}
+      animate={
+        prefersReducedMotion
+          ? { scale: [1, 1.03, 1], opacity: [1, 0.8, 1] }
+          : {
+              scale: [1, 1.25, 1],
+              opacity: [1, 0.8, 1],
+            }
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: durationS, times: [0, 0.5, 1], repeat: Infinity }
+          : {
+              duration: durationS,
+              ease: [0.4, 0, 0.6, 1] as const,
+              times: [0, 0.5, 1],
+              repeat: Infinity,
+            }
+      }
     >
       <m.span
         aria-hidden="true"
@@ -59,16 +69,24 @@ function StandardEffectsPulseComponent({
           zIndex: -1,
           animation: 'none',
         }}
-        animate={{
-          scale: [0.8, 1.5, 2],
-          opacity: [0, 0.6, 0],
-        }}
-        transition={{
-          duration: durationS,
-          ease: [0.4, 0, 0.6, 1] as const,
-          times: [0, 0.5, 1],
-          repeat: Infinity,
-        }}
+        animate={
+          prefersReducedMotion
+            ? undefined
+            : {
+                scale: [0.8, 1.5, 2],
+                opacity: [0, 0.6, 0],
+              }
+        }
+        transition={
+          prefersReducedMotion
+            ? undefined
+            : {
+                duration: durationS,
+                ease: [0.4, 0, 0.6, 1] as const,
+                times: [0, 0.5, 1],
+                repeat: Infinity,
+              }
+        }
       />
       {children ?? <DemoBox label="Pulse" />}
     </m.div>

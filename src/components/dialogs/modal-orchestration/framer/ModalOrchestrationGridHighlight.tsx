@@ -68,7 +68,7 @@ function ModalOrchestrationGridHighlightComponent({
       opacity: 1,
       scale: [0.9, 1.05, 1],
       transition: {
-        duration: noMotion ? 0 : durationS,
+        duration: noMotion ? 0.15 : durationS,
         ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
     },

@@ -73,3 +73,10 @@
     opacity: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .text-effects-typewriter-char {
+    opacity: 1;
+    animation: none;
+  }
+}

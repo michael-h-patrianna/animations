@@ -1,1 +1,11 @@
 /* Shared styles for this group */
+
+/* ─── Reduced motion: stop all bulb flashing ─── */
+/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
+@media (prefers-reduced-motion: reduce) {
+  [class*='lights-circle-static-'] [class*='__bulb'],
+  [class*='lights-circle-static-'] [class*='__glow'],
+  [class*='lights-circle-static-'] [class*='__filament'] {
+    animation: none !important;
+  }
+}

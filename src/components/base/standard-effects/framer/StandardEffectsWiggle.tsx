@@ -8,6 +8,7 @@
  * Usage: <StandardEffectsWiggle duration={1000}><YourContent /></StandardEffectsWiggle>
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
 
@@ -18,19 +19,29 @@ interface StandardEffectsWiggleProps {
 }
 
 function StandardEffectsWiggleComponent({ children, duration = 1000 }: StandardEffectsWiggleProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <m.div
       data-animation-id="standard-effects__wiggle"
       style={{ animation: 'none' }}
-      animate={{
-        rotate: [0, -3, 3, -3, 3, -3, 3, -3, 3, -3, 3, 0],
-        scale: [1, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1],
-        x: [0, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, 0],
-      }}
-      transition={{
-        duration: duration / 1000,
-        ease: [0.4, 0, 0.2, 1] as const,
-      }}
+      animate={
+        prefersReducedMotion
+          ? { rotate: [0, -1, 1, -0.5, 0.5, 0], x: [0, -1, 1, -0.5, 0.5, 0] }
+          : {
+              rotate: [0, -3, 3, -3, 3, -3, 3, -3, 3, -3, 3, 0],
+              scale: [1, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1.02, 0.98, 1],
+              x: [0, -2, 2, -2, 2, -2, 2, -2, 2, -2, 2, 0],
+            }
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.5, ease: 'easeInOut' }
+          : {
+              duration: duration / 1000,
+              ease: [0.4, 0, 0.2, 1] as const,
+            }
+      }
     >
       {children ?? <DemoBox label="Wiggle" />}
     </m.div>

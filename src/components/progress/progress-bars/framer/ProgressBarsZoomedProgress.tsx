@@ -15,10 +15,12 @@
  * Files to copy: this file + ProgressBarsZoomedProgress.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {
+  const prefersReducedMotion = useReducedMotion()
   const isControlled = progress !== undefined
   const [level, setLevel] = useState(1)
   const [levelPoints, setLevelPoints] = useState([0, 0, 0])
@@ -93,13 +95,18 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
   const progress1Width = (levelPoints[0]! / 3) * 100
   const progress2Width = (levelPoints[1]! / 6) * 100
 
-  const levelBounceVariants = {
-    initial: { scale: 1 },
-    animate: {
-      scale: [1.3, 1.5, 1.3],
-      transition: { duration: 0.7, ease: [0.68, -0.55, 0.265, 1.55] as const, times: [0, 0.5, 1] },
-    },
-  }
+  const levelBounceVariants = prefersReducedMotion
+    ? {
+        initial: { opacity: 0.5 },
+        animate: { opacity: 1, transition: { duration: 0 } },
+      }
+    : {
+        initial: { scale: 1 },
+        animate: {
+          scale: [1.3, 1.5, 1.3],
+          transition: { duration: 0.7, ease: [0.68, -0.55, 0.265, 1.55] as const, times: [0, 0.5, 1] },
+        },
+      }
 
   return (
     <div

@@ -8,7 +8,7 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useEffect, useRef, useState } from 'react'
 
 import {
@@ -62,6 +62,7 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
     shakeInterval = DEFAULT_SHAKE_INTERVAL,
   } = props
 
+  const prefersReducedMotion = useReducedMotion()
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
 
   const { seconds, phase, progress, isHidden } = useCountdown({
@@ -130,18 +131,21 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
             animation: 'none',
           } as React.CSSProperties
         }
-        variants={shakeVariants}
+        variants={prefersReducedMotion ? undefined : shakeVariants}
         initial="idle"
-        animate="shake"
+        animate={prefersReducedMotion ? { opacity: [1, 0.7, 1] } : 'shake'}
+        transition={prefersReducedMotion ? { duration: 0.15 } : undefined}
       >
-        <m.span
-          className="pf-timer-flash__glow"
-          aria-hidden="true"
-          variants={glowVariants}
-          initial="idle"
-          animate="shake"
-          style={{ animation: 'none' }}
-        />
+        {!prefersReducedMotion && (
+          <m.span
+            className="pf-timer-flash__glow"
+            aria-hidden="true"
+            variants={glowVariants}
+            initial="idle"
+            animate="shake"
+            style={{ animation: 'none' }}
+          />
+        )}
         <div className="pf-timer-flash__time" style={timeStyle}>
           {formatTime(seconds)}
         </div>

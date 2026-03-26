@@ -21,6 +21,7 @@
  * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface SciFiLoaderProps extends ProgressBarProps {
@@ -34,6 +35,7 @@ export function ProgressBarsSciFiLoader({
   className,
   style,
 }: SciFiLoaderProps) {
+  const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
   const percent = Math.round(displayProgress * 100)
 
@@ -48,15 +50,17 @@ export function ProgressBarsSciFiLoader({
           className="scifi-loader-fill"
           initial={false}
           animate={{ width: `${percent}%` }}
-          transition={{ type: 'tween', ease: 'linear', duration: 0.05 }}
+          transition={{ type: 'tween', ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.05 }}
           style={{ animation: 'none' }}
         />
-        <m.div
-          className="scifi-loader-glint"
-          animate={{ left: ['-20%', '120%'] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-          style={{ animation: 'none' }}
-        />
+        {!prefersReducedMotion && (
+          <m.div
+            className="scifi-loader-glint"
+            animate={{ left: ['-20%', '120%'] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+            style={{ animation: 'none' }}
+          />
+        )}
       </div>
       <div className="scifi-loader-decor-top" />
       <div className="scifi-loader-decor-bottom" />

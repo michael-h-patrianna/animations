@@ -71,10 +71,10 @@ function LoadingStatesRingMultiComponent({
               y: '-50%',
               animation: 'none',
             }}
-            animate={prefersReducedMotion ? undefined : { rotate: ring.dir * 360 }}
+            animate={prefersReducedMotion ? { opacity: [1, 0.4, 1] } : { rotate: ring.dir * 360 }}
             transition={
               prefersReducedMotion
-                ? undefined
+                ? { duration: 1.5, delay: ring.baseDuration * 0.1, repeat: Infinity, ease: 'easeInOut' as const }
                 : {
                     duration: ring.baseDuration / safeSpeed,
                     repeat: Infinity,
