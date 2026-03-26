@@ -1,5 +1,6 @@
 @keyframes pf-selection-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow:
       0 0 0 1px color-mix(in oklch, var(--theme-accent) 28%, transparent),
       0 0 18px 0 color-mix(in oklch, var(--theme-accent) 14%, transparent),

@@ -207,9 +207,8 @@ interface AnimationInspectorProviderProps {
 
 /** Manages per-animation prop overrides and replay version counters. Persists overrides to localStorage. */
 function useOverridesAndReplay() {
-  const [overridesByAnimationId, setOverridesByAnimationId] = useState<PropOverridesByAnimationId>(
-    loadPersistedOverrides
-  )
+  const [overridesByAnimationId, setOverridesByAnimationId] =
+    useState<PropOverridesByAnimationId>(loadPersistedOverrides)
   const [replayVersionsByAnimationId, setReplayVersionsByAnimationId] =
     useState<ReplayVersionsByAnimationId>({})
 
