@@ -49,6 +49,14 @@ jobs:
           path: coverage/
           retention-days: 14
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        if: ${{ !cancelled() }}
+        with:
+          directory: coverage/
+          flags: unittests
+          fail_ci_if_error: false
+
       - name: Build
         run: npm run build
 
