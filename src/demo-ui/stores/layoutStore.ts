@@ -56,13 +56,14 @@ export const REDUCED_MOTION_LABELS: Record<ReducedMotionPreference, string> = {
   'no-preference': 'Full',
 }
 
-/** Manages panel visibility, theme mode, accent color, and motion preference. */
+/** Manages panel visibility, theme mode, accent color, motion preference, and profiler. */
 export interface LayoutStore {
   showLeftPanel: boolean
   showRightPanel: boolean
   theme: ThemeMode
   accent: AccentColor
   reducedMotion: ReducedMotionPreference
+  showProfiler: boolean
 
   toggleLeftPanel: () => void
   setLeftPanel: (show: boolean) => void
@@ -71,6 +72,7 @@ export interface LayoutStore {
   setTheme: (theme: ThemeMode) => void
   setAccent: (accent: AccentColor) => void
   setReducedMotion: (pref: ReducedMotionPreference) => void
+  toggleProfiler: () => void
 }
 
 /** Collapse side panel by default on mobile viewports */
@@ -99,6 +101,7 @@ export const useLayoutStore = create<LayoutStore>()(
       theme: DEFAULT_THEME,
       accent: DEFAULT_ACCENT,
       reducedMotion: 'system' as ReducedMotionPreference,
+      showProfiler: false,
 
       toggleLeftPanel: () => {
         set((state) => ({ showLeftPanel: !state.showLeftPanel }))
@@ -120,6 +123,9 @@ export const useLayoutStore = create<LayoutStore>()(
       },
       setReducedMotion: (reducedMotion) => {
         set({ reducedMotion })
+      },
+      toggleProfiler: () => {
+        set((state) => ({ showProfiler: !state.showProfiler }))
       },
     }),
     {

@@ -8,6 +8,7 @@ import { hasDirtyPropOverrides, useAnimationInspector } from '@/contexts/Animati
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import { ToggleGroup } from '@/demo-ui/components/ui/ToggleGroup'
+import { ToggleButton } from '@/demo-ui/components/ui/ToggleButton'
 import {
   REDUCED_MOTION_LABELS,
   REDUCED_MOTION_OPTIONS,
@@ -26,6 +27,23 @@ const MOTION_TOGGLE_OPTIONS = REDUCED_MOTION_OPTIONS.map((value) => ({
   value,
   label: REDUCED_MOTION_LABELS[value],
 }))
+
+function ProfilerToggle() {
+  const showProfiler = useLayoutStore((s) => s.showProfiler)
+  const toggleProfiler = useLayoutStore((s) => s.toggleProfiler)
+
+  return (
+    <ToggleButton
+      pressed={showProfiler}
+      onToggle={toggleProfiler}
+      ariaLabel="Toggle render profiler"
+      data-testid="toggle-profiler"
+      className="text-[10px] px-2 py-1"
+    >
+      Profiler
+    </ToggleButton>
+  )
+}
 
 function CountBadge({ count }: { count: number }) {
   return (
@@ -303,10 +321,11 @@ export const EditorRightPanel: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col w-full shrink-0 overflow-hidden">
-      <div className="p-4 border-b border-panel-border bg-panel-header/50 z-10 shrink-0 flex items-center gap-2">
+      <div className="p-4 border-b border-panel-border bg-panel-header/50 z-10 shrink-0 flex items-center justify-between gap-2">
         <h2 className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest">
           Inspector
         </h2>
+        <ProfilerToggle />
       </div>
 
       <div className="px-4 pt-4 shrink-0">

@@ -1,12 +1,14 @@
 /**
  * Hook that captures React Profiler render timing for a component.
  *
- * In dev mode, returns the most recent `actualDuration` and `baseDuration`
- * from `<React.Profiler>`. In production, returns `null` — no Profiler overhead.
+ * Returns the most recent `actualDuration` and `baseDuration` from
+ * `<React.Profiler>` when profiling is enabled via the layout store toggle.
+ * Returns `null` when profiling is off — callers should skip rendering Profiler.
  *
  * Use with `ProfilerWrapper` to add profiling around any component tree.
  */
 
+import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { useCallback, useRef, useState } from 'react'
 
 /** Render timing data from React's Profiler API. */
@@ -17,9 +19,11 @@ export interface RenderProfile {
   baseDuration: number
 }
 
+const NOOP_ON_RENDER = () => {}
+
 /**
  * Captures render profiling data from React.Profiler callbacks.
- * Returns `null` in production — callers should skip rendering Profiler.
+ * Returns `null` when profiling is disabled — callers should skip rendering Profiler.
  */
 export function useRenderProfile(): {
   profile: RenderProfile | null
@@ -30,6 +34,7 @@ export function useRenderProfile(): {
     baseDuration: number
   ) => void
 } {
+  const showProfiler = useLayoutStore((s) => s.showProfiler)
   const [profile, setProfile] = useState<RenderProfile | null>(null)
   const lastUpdateRef = useRef(0)
 
@@ -40,6 +45,11 @@ export function useRenderProfile(): {
       actualDuration: number,
       baseDuration: number
     ) => {
+      // Skip empty renders (e.g. null children before IntersectionObserver fires).
+      // Without this, the first onRender records 0ms and the subsequent real render
+      // is blocked by the throttle, leaving the badge stuck at "0.0ms".
+      if (actualDuration < 0.01 && baseDuration < 0.01) return
+
       // Throttle state updates to avoid re-render cascades from profiling itself.
       // Update at most once per 500ms.
       const now = Date.now()
@@ -50,8 +60,8 @@ export function useRenderProfile(): {
     []
   )
 
-  if (!import.meta.env.DEV) {
-    return { profile: null, onRender: () => {} }
+  if (!showProfiler) {
+    return { profile: null, onRender: NOOP_ON_RENDER }
   }
 
   return { profile, onRender }

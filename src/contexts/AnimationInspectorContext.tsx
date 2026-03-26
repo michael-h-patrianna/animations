@@ -13,6 +13,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type Context,
   type ReactNode,
@@ -21,6 +22,34 @@ import {
 type PropOverridesByAnimationId = Record<string, Record<string, unknown>>
 type ReplayVersionsByAnimationId = Record<string, number>
 type AnimateToggles = Record<string, Record<string, 'fixed' | 'animate'>>
+
+const OVERRIDES_STORAGE_KEY = 'animation-catalog-inspector'
+const PERSIST_DEBOUNCE_MS = 300
+
+function loadPersistedOverrides(): PropOverridesByAnimationId {
+  try {
+    const raw = localStorage.getItem(OVERRIDES_STORAGE_KEY)
+    if (raw == null) return {}
+    const parsed: unknown = JSON.parse(raw)
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return {}
+    return parsed as PropOverridesByAnimationId
+  } catch {
+    return {}
+  }
+}
+
+function persistOverrides(overrides: PropOverridesByAnimationId): void {
+  try {
+    const toStore = Object.keys(overrides).length > 0 ? JSON.stringify(overrides) : null
+    if (toStore != null) {
+      localStorage.setItem(OVERRIDES_STORAGE_KEY, toStore)
+    } else {
+      localStorage.removeItem(OVERRIDES_STORAGE_KEY)
+    }
+  } catch {
+    // Quota exceeded or unavailable — silently degrade
+  }
+}
 
 interface AnimationInspectorContextValue {
   selectedAnimationId?: string
@@ -176,13 +205,30 @@ interface AnimationInspectorProviderProps {
   children: ReactNode
 }
 
-/** Manages per-animation prop overrides and replay version counters. */
+/** Manages per-animation prop overrides and replay version counters. Persists overrides to localStorage. */
 function useOverridesAndReplay() {
   const [overridesByAnimationId, setOverridesByAnimationId] = useState<PropOverridesByAnimationId>(
-    {}
+    loadPersistedOverrides
   )
   const [replayVersionsByAnimationId, setReplayVersionsByAnimationId] =
     useState<ReplayVersionsByAnimationId>({})
+
+  // Debounced persistence — ref-based timer survives re-renders
+  const persistTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const isInitialMountRef = useRef(true)
+
+  useEffect(() => {
+    // Skip writing back the value we just loaded on mount
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false
+      return
+    }
+    clearTimeout(persistTimerRef.current)
+    persistTimerRef.current = setTimeout(() => {
+      persistOverrides(overridesByAnimationId)
+    }, PERSIST_DEBOUNCE_MS)
+    return () => clearTimeout(persistTimerRef.current)
+  }, [overridesByAnimationId])
 
   const ensureOverrides = useCallback((animationId: string, propsConfig?: PropConfig[]) => {
     const defaults = buildPropDefaults(propsConfig, animationId)
@@ -211,11 +257,12 @@ function useOverridesAndReplay() {
     []
   )
 
-  const resetPropOverrides = useCallback((animationId: string, propsConfig?: PropConfig[]) => {
-    setOverridesByAnimationId((prev) => ({
-      ...prev,
-      [animationId]: buildPropDefaults(propsConfig, animationId),
-    }))
+  const resetPropOverrides = useCallback((animationId: string, _propsConfig?: PropConfig[]) => {
+    setOverridesByAnimationId((prev) => {
+      const next = { ...prev }
+      delete next[animationId]
+      return next
+    })
   }, [])
 
   const getReplayVersion = useCallback(

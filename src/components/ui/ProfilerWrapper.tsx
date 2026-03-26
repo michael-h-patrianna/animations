@@ -1,12 +1,13 @@
 /**
- * Conditional React.Profiler wrapper for dev-mode render timing.
+ * Conditional React.Profiler wrapper controlled by the profiler toggle.
  *
- * In dev mode: wraps children with `<Profiler>` and forwards timing data
+ * When enabled: wraps children with `<Profiler>` and forwards timing data
  * via the `onRender` callback from `useRenderProfile`.
  *
- * In production: renders children directly with zero overhead (no Profiler in tree).
+ * When disabled: renders children directly with zero overhead (no Profiler in tree).
  */
 
+import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { Profiler, type ReactNode } from 'react'
 
 interface ProfilerWrapperProps {
@@ -22,9 +23,11 @@ interface ProfilerWrapperProps {
   children: ReactNode
 }
 
-/** Wraps children in React.Profiler during development, passes through in production. */
+/** Wraps children in React.Profiler when profiling is enabled, passes through otherwise. */
 export function ProfilerWrapper({ id, onRender, children }: ProfilerWrapperProps) {
-  if (!import.meta.env.DEV) {
+  const showProfiler = useLayoutStore((s) => s.showProfiler)
+
+  if (!showProfiler) {
     return <>{children}</>
   }
 

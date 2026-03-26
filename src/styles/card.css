@@ -1,3 +1,20 @@
+@keyframes pf-selection-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--theme-accent) 28%, transparent),
+      0 0 18px 0 color-mix(in oklch, var(--theme-accent) 14%, transparent),
+      inset 0 1px 0 0 oklch(100% 0 0deg / 10%),
+      inset 0 0 0 1px oklch(100% 0 0deg / 4%);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--theme-accent) 40%, transparent),
+      0 0 26px 2px color-mix(in oklch, var(--theme-accent) 22%, transparent),
+      inset 0 1px 0 0 oklch(100% 0 0deg / 10%),
+      inset 0 0 0 1px oklch(100% 0 0deg / 4%);
+  }
+}
+
 .pf-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -46,14 +63,14 @@
 
 .pf-card--selected {
   background-color: color-mix(in oklch, var(--bg-glass) 90%, white 10%);
-  border-color: color-mix(in oklch, var(--theme-accent) 28%, var(--border-subtle));
+  border-color: color-mix(in oklch, var(--theme-accent) 35%, var(--border-subtle));
   box-shadow:
-    var(--shadow-soft),
-    0 18px 42px color-mix(in oklch, var(--theme-accent) 12%, transparent),
-    0 0 0 1px color-mix(in oklch, var(--theme-accent) 22%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--theme-accent) 28%, transparent),
+    0 0 18px 0 color-mix(in oklch, var(--theme-accent) 14%, transparent),
     inset 0 1px 0 0 oklch(100% 0 0deg / 10%),
     inset 0 0 0 1px oklch(100% 0 0deg / 4%);
   transform: translateY(-1px);
+  animation: pf-selection-glow 4s ease-in-out infinite;
 }
 
 .pf-card__overlay {

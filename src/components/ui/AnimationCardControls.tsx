@@ -157,7 +157,7 @@ type FooterControlsProps = {
   tier?: 1 | 2 | 3 | 4
   disableReplay: boolean
   onReplay: () => void
-  /** Dev-mode render timing from React.Profiler. Null in production. */
+  /** Render timing from React.Profiler. Null when profiler is toggled off. */
   renderProfile?: RenderProfile | null
 }
 

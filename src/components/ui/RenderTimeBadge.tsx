@@ -1,5 +1,5 @@
 /**
- * Dev-mode badge showing render timing for the selected animation.
+ * Badge showing render timing for the selected animation.
  *
  * Color-coded by frame budget:
  * - Green: <4ms (well within 16.67ms frame budget)
@@ -7,6 +7,7 @@
  * - Red: >16ms (exceeds frame budget, will cause dropped frames)
  *
  * Displays inline next to the tier badge in the card footer.
+ * Visible when the profiler toggle is enabled in the inspector panel.
  */
 
 import { Tooltip } from '@/demo-ui/components/ui/Tooltip'
@@ -16,7 +17,7 @@ interface RenderTimeBadgeProps {
   profile: RenderProfile | null
 }
 
-/** Dev-mode render time badge with tooltip — hidden in production (profile is null). */
+/** Render time badge with tooltip — hidden when profiler is off (profile is null). */
 export function RenderTimeBadge({ profile }: RenderTimeBadgeProps) {
   if (!profile) return null
 
