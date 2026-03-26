@@ -32,6 +32,7 @@ GEMINI.md
 .playwright-mcp
 playwright-report
 test-results
+tests/e2e/__screenshots__
 ddd.md
 dd.md
 task_*.md

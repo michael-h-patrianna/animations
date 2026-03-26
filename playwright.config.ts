@@ -18,6 +18,15 @@ export default defineConfig({
   // Use 'list' in console and still generate HTML without opening a server.
   reporter: [['list'], ['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  /* Snapshot settings for visual regression tests */
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.02,
+      animations: 'disabled',
+    },
+  },
+  /* Store visual regression snapshots alongside test files */
+  snapshotDir: './tests/e2e/__screenshots__',
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://127.0.0.1:5173',
