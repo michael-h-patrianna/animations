@@ -223,7 +223,6 @@ function TextEffectsCounterIncrementComponent({
           }
           transition={prefersReducedMotion ? { duration: 0.3, ease: 'easeInOut' } : undefined}
         >
-          <span className="pf-counter-showcase__value-glow" aria-hidden="true" />
           <span className="pf-counter-showcase__value-text">
             {prefix !== undefined && <span className="pf-counter-showcase__label">{prefix}</span>}
             {formatRef.current(count)}
