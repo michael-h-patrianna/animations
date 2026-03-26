@@ -5,12 +5,6 @@
   pointer-events: none;
 }
 
-.mc-firework .mc-firework__wave {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
 .mc-firework .mc-firework__burst {
   position: absolute;
   pointer-events: none;

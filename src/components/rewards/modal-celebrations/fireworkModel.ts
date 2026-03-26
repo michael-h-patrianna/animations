@@ -10,6 +10,8 @@ export const FIREWORK_DEFAULT_DURATION_MS = 2500
 export const FIREWORK_SPREAD_WIDTH = 250
 export const FIREWORK_SPREAD_HEIGHT = 200
 export const FIREWORK_GRAVITY_DISTANCE_PX = 100
+/** Upper bound of per-particle stagger delay (seconds). Used for burst completion detection. */
+export const FIREWORK_PARTICLE_MAX_DELAY_S = 0.3
 
 /** Single particle instance within one burst. */
 export type FireworkParticle = {

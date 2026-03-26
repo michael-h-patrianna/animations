@@ -6,8 +6,7 @@ export const metadata = {
   urlSlugCss: '/modal-celebrations-css?animation=modal-celebrations__firework',
   title: 'Firework',
   description:
-    'Infinite firework overlay with burst waves. Configurable particleImages (or colored circle fallbacks) and colors palette.',
-  infinite: true,
+    'Staggered firework bursts with configurable particleImages (or colored confetti fallbacks) and colors palette.',
   tier: 4,
   props: [
     {
@@ -31,7 +30,7 @@ export const metadata = {
     {
       type: 'number',
       name: 'duration',
-      label: 'Cycle Duration',
+      label: 'Duration',
       default: 2500,
       min: 800,
       max: 6000,
