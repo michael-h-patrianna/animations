@@ -230,18 +230,19 @@ function TextEffectsCounterIncrementComponent({
           </span>
         </m.span>
 
-        {!prefersReducedMotion && particles.map((particle) => (
-          <m.span
-            key={particle.id}
-            className="pf-update-indicator__counter"
-            variants={counterFloatVariants}
-            initial="hidden"
-            animate="float"
-            onAnimationComplete={() => removeParticle(particle.id)}
-          >
-            +{formatRef.current(particle.value)}
-          </m.span>
-        ))}
+        {!prefersReducedMotion &&
+          particles.map((particle) => (
+            <m.span
+              key={particle.id}
+              className="pf-update-indicator__counter"
+              variants={counterFloatVariants}
+              initial="hidden"
+              animate="float"
+              onAnimationComplete={() => removeParticle(particle.id)}
+            >
+              +{formatRef.current(particle.value)}
+            </m.span>
+          ))}
       </div>
     </div>
   )
