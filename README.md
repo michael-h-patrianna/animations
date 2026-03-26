@@ -1,6 +1,15 @@
 # Animation Showcase
 
-A living catalog of reusable UI animations for React applications. Every animation is implemented twice — **CSS+React** and **Framer Motion+React** — for cross-platform portability (web today, React Native via Moti later).
+[![CI](https://github.com/michael-haufschild-gib/animations/actions/workflows/ci.yml/badge.svg)](https://github.com/michael-haufschild-gib/animations/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/michael-haufschild-gib/animations/graph/badge.svg)](https://codecov.io/gh/michael-haufschild-gib/animations)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-blueviolet)](https://claude.ai/claude-code)
+
+**[Live Demo](https://animations-nine-sandy.vercel.app/)**
+
+A catalog of 170+ reusable UI animations for React, each implemented twice: **CSS+React** and **Motion (Framer Motion)+React**. Every animation is standalone and copy-pasteable — grab the component file, drop it in your project, and it works.
+
+This entire project was vibecoded with [Claude Code](https://claude.ai/claude-code).
 
 ## Quick start
 
@@ -11,20 +20,22 @@ npm run dev        # http://localhost:3000
 
 ## Commands
 
-| Command                    | Purpose                   |
-| -------------------------- | ------------------------- |
-| `npm run dev`              | Dev server (port 3000)    |
-| `npm run build`            | Production build          |
-| `npm run lint`             | ESLint + Stylelint        |
-| `npm run type-check`       | TypeScript strict check   |
-| `npm test`                 | Vitest unit tests         |
-| `npm run test:e2e`         | Playwright E2E (Chromium) |
-| `npm run format:check`     | Prettier format check     |
-| `npm run build:check-size` | Bundle size budget check  |
+| Command                    | Purpose                         |
+| -------------------------- | ------------------------------- |
+| `npm run dev`              | Dev server (port 3000)          |
+| `npm run build`            | Production build (`tsc` + Vite) |
+| `npm run lint`             | ESLint + Stylelint              |
+| `npm run type-check`       | TypeScript strict check         |
+| `npm test`                 | Vitest unit tests               |
+| `npm run test:coverage`    | Unit tests with coverage        |
+| `npm run test:e2e`         | Playwright E2E (3 browsers)     |
+| `npm run format:check`     | Prettier format check           |
+| `npm run build:check-size` | Bundle size budget check        |
+| `npm run lighthouse`       | Lighthouse CI (perf + a11y)     |
 
 ## Architecture
 
-**Stack**: React 19, TypeScript 5.9, Vite 7, Tailwind CSS v4, Motion (Framer Motion v12), Radix UI.
+**Stack**: React 19, TypeScript 5.9, Vite 7, Tailwind CSS v4, Motion (Framer Motion v12).
 
 ```
 src/
@@ -39,14 +50,32 @@ src/
 │   └── animationRegistry.ts  # Central registry
 ├── services/                 # Data layer (synchronous catalog builder)
 ├── hooks/                    # React hooks
-├── types/                    # TypeScript types
+├── types/                    # TypeScript types (branded IDs, discriminated unions)
 ├── motion/                   # Shared motion tokens and primitives
-└── lib/                      # Utilities (groupBuilder, preload)
+└── lib/                      # Utilities (groupBuilder, preload, sourceTransform)
 ```
 
-Each animation component has a co-located `.meta.ts` file with its metadata (id, title, description, tags, and optional behavioral flags like `infinite` or `controls`). Group `index.ts` files use `import.meta.glob` for auto-discovery — adding a new animation requires only two files: the component and its metadata.
+Each animation component has a co-located `.meta.ts` file with its metadata (id, title, description, tier, and optional behavioral flags like `infinite` or `controls`). Group `index.ts` files use `import.meta.glob` for auto-discovery — adding a new animation requires only two files: the component and its metadata. No index editing.
 
 See [docs/architecture.md](docs/architecture.md) for full placement rules and component templates.
+
+## How to use an animation
+
+Every animation is designed to be copied out of this repo and into your project:
+
+1. Browse the [live catalog](https://animations-nine-sandy.vercel.app/)
+2. Find an animation you like, click the code viewer to see the source
+3. Copy the component `.tsx` (and `.css` for CSS variants) into your project
+4. Write `<ComponentName />` — all props are optional with sensible defaults
+
+Animations are classified by **portability tier** (1-4) indicating what you need to copy:
+
+| Tier               | What you copy                          | Example                    |
+| ------------------ | -------------------------------------- | -------------------------- |
+| 1 — Effect         | Just the CSS keyframes or Motion props | Fade, bounce, slide        |
+| 2 — Decorated      | Component + CSS file                   | Glow pulse, shimmer        |
+| 3 — Orchestration  | Component + CSS + HTML structure       | Staggered list, tab morph  |
+| 4 — Full Component | Entire group directory                 | Prize reveal, celebrations |
 
 ## How to add an animation
 
@@ -56,35 +85,54 @@ See [docs/architecture.md](docs/architecture.md) for full placement rules and co
    ```typescript
    import type { AnimationMetadata } from '@/types/animation'
 
-   export const metadata: AnimationMetadata = {
+   export const metadata = {
      id: 'group-id__variant-name',
-     urlSlugFramer: '/group-id-framer?animation=group-id__variant-name',
-     urlSlugCss: '/group-id-css?animation=group-id__variant-name',
      title: 'Variant Name',
      description: 'What it does',
      tier: 2,
-   }
+   } satisfies AnimationMetadata
    ```
 
-3. Run `npm test` — the smoke test and lint rules verify registration automatically.
+3. Run `npm test` — smoke tests and lint rules verify registration automatically.
 
-No manual index editing required. The `import.meta.glob` in the group's `index.ts` discovers new files automatically.
+## Quality gates
 
-## How to remove an animation
+The CI pipeline enforces:
 
-1. Delete the component `.tsx`, `.meta.ts`, and `.css` files
-2. Run `npm test` to verify the catalog renders correctly
+- **TypeScript** strict mode with `noUncheckedIndexedAccess` and branded ID types
+- **30+ custom ESLint rules** enforcing animation portability (no hardcoded colors, dual implementation required, no CSS animations in Motion variants, no non-portable styles in `framer/`)
+- **6 custom Stylelint rules** (no blur, no conic gradients, no z-index magic numbers, no hardcoded colors in CSS)
+- **1250+ unit tests** (Vitest) with per-subsystem coverage thresholds (90% for hooks/lib/services)
+- **Property-based tests** (fast-check) for color utilities, metadata validation, source transforms
+- **60+ E2E test specs** across Chromium, WebKit, and Firefox (Playwright)
+- **Bundle size budgets** per chunk — lazy-loaded animation groups stay within defined limits
+- **Lighthouse CI** — performance >= 0.8, accessibility >= 0.9
+- **Pre-commit**: lint-staged + type-check. **Pre-push**: build + bundle size check.
 
 ## Custom lint rules
 
-The project enforces animation portability through 30 custom ESLint rules in `eslint-rules/` and 6 custom Stylelint rules in `stylelint.config.js`:
-
 - **No hardcoded colors** — use CSS custom properties
 - **Dual implementation required** — every animation must exist in both `css/` and `framer/`
-- **No CSS animations in Motion variants** — Motion files must drive animation through the Motion API
+- **No CSS animations in Motion variants** — Motion files drive animation through the Motion API
 - **No non-portable styles** — `clipPath`, `boxShadow`, `grid` banned in `framer/` (not available in React Native)
-- **No shallow test assertions** — `toBeDefined()`, `toBeTruthy()`, tautological `getBy*.toBeInTheDocument()` are errors
+- **No shallow test assertions** — `toBeDefined()`, `toBeTruthy()` are errors
+- **No CSS class selectors in E2E** — use `data-testid` or `aria-*` attributes
+- **Tier dependency budgets** — imports must respect the declared portability tier
 
 ## Portability
 
 Animations use transform/opacity-driven patterns so they can be translated to React Native using Reanimated and Moti with minimal rework. The catalog serves as a reference for motion behaviors that teams can adopt on web and migrate to native without redesigning the animation logic.
+
+## Architecture decisions
+
+Key design decisions are documented as ADRs in [docs/adr/](docs/adr/):
+
+- [ADR-001](docs/adr/ADR-001-framer-motion.md) — Framer Motion as primary animation driver
+- [ADR-002](docs/adr/ADR-002-colocated-metadata.md) — Co-located component metadata system
+- [ADR-006](docs/adr/ADR-006-self-contained-animations.md) — Self-contained animation components
+- [ADR-007](docs/adr/ADR-007-auto-discovery-glob.md) — Auto-discovery via import.meta.glob
+- [ADR-008](docs/adr/ADR-008-lint-integrity-enforcement.md) — Lint config integrity enforcement
+
+## License
+
+[MIT](LICENSE)

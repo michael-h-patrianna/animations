@@ -2,6 +2,23 @@
   "name": "animations",
   "private": true,
   "version": "0.2.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michael-haufschild-gib/animations.git"
+  },
+  "homepage": "https://animations-nine-sandy.vercel.app",
+  "keywords": [
+    "animation",
+    "react",
+    "css",
+    "framer-motion",
+    "motion",
+    "catalog",
+    "showcase",
+    "typescript",
+    "tailwindcss"
+  ],
   "engines": {
     "node": ">=20"
   },
