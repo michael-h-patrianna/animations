@@ -80,7 +80,14 @@ export const EditorTopBar: React.FC = () => {
   )
 
   const { currentGroup } = useAppNavigation()
-  const viewItems = useViewMenuItems(theme, setTheme, accent, setAccent, reducedMotion, setReducedMotion)
+  const viewItems = useViewMenuItems(
+    theme,
+    setTheme,
+    accent,
+    setAccent,
+    reducedMotion,
+    setReducedMotion
+  )
   const isMobile = useIsMobile()
 
   const leftToggleClass = leftPanelVisible
@@ -113,7 +120,16 @@ export const EditorTopBar: React.FC = () => {
             trigger={
               <span className="flex items-center gap-1" data-testid="menu-view">
                 VIEW
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M6 9l6 6 6-6" />
                 </svg>
               </span>
