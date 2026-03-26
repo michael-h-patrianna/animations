@@ -93,7 +93,6 @@ function ButtonEffectsSplitRevealComponent({
         variants={topVariants}
         animate={state}
         transition={transition}
-        style={{ animation: 'none' }}
       >
         {topLabel}
       </m.span>
@@ -102,16 +101,15 @@ function ButtonEffectsSplitRevealComponent({
         variants={bottomVariants}
         animate={state}
         transition={transition}
-        style={{ animation: 'none' }}
       >
         {bottomLabel}
       </m.span>
       <m.span
         className="pf-split-reveal__content"
         variants={revealVariants}
+        initial="closed"
         animate={state}
         transition={transition}
-        style={{ animation: 'none' }}
       >
         {revealContent}
       </m.span>
