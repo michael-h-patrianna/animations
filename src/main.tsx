@@ -1,4 +1,5 @@
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { NotFound } from '@/components/NotFound'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { preloadImages } from '@/lib/preload'
 import { CRITICAL_ICON_IMAGES } from '@/lib/preload-manifest'
@@ -29,6 +30,7 @@ createRoot(rootElement).render(
             <Routes>
               <Route path="/" element={<App />} />
               <Route path="/:groupId" element={<App />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </CodeModeProvider>

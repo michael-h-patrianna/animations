@@ -8,45 +8,30 @@
 
 ## Data Service Architecture
 
-### buildCatalog()
+### Lazy Group Registry (`src/lib/lazyGroupRegistry.ts`)
 
-**Location**: `src/services/animationData.ts`
-**Role**: Transforms the hierarchical registry (`animationRegistry.ts`) into a flat `Category[]` array for the UI.
-
-This is a **pure, synchronous function** — the catalog is derived entirely from static imports. No async data fetching, no loading states.
-
-```typescript
-import { buildCatalog } from '@/services/animationData'
-
-const categories: Category[] = buildCatalog()
-```
-
-The `useAnimations` hook wraps this in `useMemo` for stable references:
-
-```typescript
-import { useAnimations } from '@/hooks/useAnimations'
-
-function App() {
-  const { categories } = useAnimations()
-  // categories: Category[] — stable across re-renders
-}
-```
-
----
-
-## Registry API (`src/components/animationRegistry.ts`)
-
-**Role**: Central import point for all category exports.
+**Role**: Central registry for lazy-loadable animation groups. Categories register lightweight navigation metadata at module init; actual animation code is loaded on demand.
 
 **Key Exports**:
 
-- `categories`: `Record<string, CategoryExport>` — hierarchical registry of all animations.
-- `buildRegistryFromCategories()`: Returns flattened `Record<string, ComponentType>` mapping animation IDs to their React components.
+- `declareCategoryGroups(categoryId, title, groups)` — Registers all groups in a category with a single call. Creates framer/css lazy loaders and nav metadata.
+- `loadLazyGroup(groupId)` — Loads a group by ID with caching. Returns `LazyGroupResult`.
+- `getLazyNavCatalog()` — Returns the lightweight navigation catalog (no animation code, just IDs and titles).
+- `getLoadedGroupAnimations(groupId)` — Returns the `AnimationExport` map for an already-loaded group.
 
-**How the UI uses it**:
+### Animation Registry (`src/components/animationRegistry.ts`)
 
-1. `buildCatalog()` transforms `categories` into `Category[]` with separate Framer/CSS groups.
-2. `GroupSection` calls `getGroupAnimations(baseGroupId, tech)` to look up components for the active group and tech variant.
+**Role**: Thin wrapper over the lazy group registry. Provides `getGroupAnimations(baseGroupId, tech)` for synchronous component lookup after a group has been loaded.
+
+### Data Flow
+
+```
+Category index.ts → declareCategoryGroups() → lazyGroupRegistry
+                                                    ↓
+useLazyAnimations hook → loadLazyGroup() → GroupExport → Group
+                                                    ↓
+AppNavigationContext → EditorLayout → GroupSection → AnimationCard
+```
 
 ---
 
@@ -64,7 +49,7 @@ export const metadata: AnimationMetadata = {
   id: 'group-name__variant-name',
   title: 'Variant Name',
   description: 'What it does',
-  tags: ['framer'],
+  tier: 2,
   controls: 'lights', // optional: 'lights' | 'prizeCount'
   infinite: true, // optional: loops continuously
   disableReplay: false, // optional: disable replay button

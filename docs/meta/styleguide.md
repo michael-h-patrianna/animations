@@ -42,7 +42,8 @@
 - Strict mode — no `any`, no `@ts-ignore`
 - Use discriminated unions for state machines
 - Animation metadata type: `AnimationMetadata` from `@/types/animation`
-- Group/category types: `GroupExport`, `CategoryExport` from `@/types/animation`
+- Group type: `GroupExport` from `@/types/animation`
+- Category registration: `declareCategoryGroups()` from `@/lib/lazyGroupRegistry`
 
 ## Naming
 

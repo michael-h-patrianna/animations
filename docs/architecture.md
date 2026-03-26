@@ -207,36 +207,29 @@ export const groupExport = buildGroupExport(
 1. Create folder: `src/components/<new-category>/`
 2. Create group subfolders with animations
 3. Create `index.ts` with template below
-4. Import and add to `src/components/animationRegistry.ts`
+4. Add a side-effect import to `src/components/lazyBootstrap.ts`
 
 **Category Index Template** (`src/components/<new-category>/index.ts`):
 
 ```typescript
-import type { CategoryExport, CategoryMetadata } from '@/types/animation'
-import { groupExport as exampleGroup } from './example-group'
+import { declareCategoryGroups } from '@/lib/lazyGroupRegistry'
+import type { GroupMetadata } from '@/types/animation'
 
-export const categoryMetadata: CategoryMetadata = {
-  id: 'new-category',
-  title: 'New Category Title',
+const exampleGroupMeta: GroupMetadata = {
+  id: 'example-group',
+  title: 'Example Group',
+  demo: 'Description of group purpose',
 }
 
-export const categoryExport: CategoryExport = {
-  metadata: categoryMetadata,
-  groups: {
-    'example-group': exampleGroup,
-  },
-}
+declareCategoryGroups('new-category', 'New Category Title', [
+  { metadata: exampleGroupMeta, load: () => import('./example-group') },
+])
 ```
 
-**Add to Registry** (`src/components/animationRegistry.ts`):
+**Add to Bootstrap** (`src/components/lazyBootstrap.ts`):
 
 ```typescript
-import { categoryExport as newCategory } from '@/components/new-category'
-
-export const categories: Record<string, CategoryExport> = {
-  // ... existing categories
-  'new-category': newCategory,
-}
+import '@/components/new-category'
 ```
 
 ---

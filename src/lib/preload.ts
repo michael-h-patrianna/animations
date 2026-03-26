@@ -1,3 +1,8 @@
+// Retained references prevent premature GC of Image objects while their
+// network requests are in-flight. Modern engines handle this correctly,
+// but explicit retention is belt-and-suspenders defense.
+const retainedImages = new Set<HTMLImageElement>()
+
 /**
  * Inject <link rel="preload" as="image"> tags into the document head for provided image URLs.
  * - Idempotent: avoids duplicating links if already present
@@ -41,5 +46,7 @@ export function preloadImages(urls: string[]) {
     const img = new Image()
     img.decoding = 'async'
     img.src = url
+    retainedImages.add(img)
+    img.onload = img.onerror = () => retainedImages.delete(img)
   })
 }
