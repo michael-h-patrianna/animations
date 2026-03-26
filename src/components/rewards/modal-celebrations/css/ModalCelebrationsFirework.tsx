@@ -95,10 +95,7 @@ function ModalCelebrationsFireworkComponent({
   }, [bursts, cycleDurationS, onComplete])
 
   return (
-    <div
-      className="mc-firework mc-firework--css"
-      data-animation-id="modal-celebrations__firework"
-    >
+    <div className="mc-firework mc-firework--css" data-animation-id="modal-celebrations__firework">
       {bursts.map((burst, bi) => (
         <div
           key={burst.id}
