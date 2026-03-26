@@ -1,4 +1,6 @@
 import type { Animation, AnimationExport, Group, GroupExport, GroupMetadata } from '@/types/animation'
+import { asAnimationId, asCategoryId, asGroupVariantId } from '@/types/animation'
+import type { CategoryId, GroupVariantId } from '@/types/animation'
 import type {
   GroupCacheEntry,
   LazyCategory,
@@ -293,8 +295,8 @@ function formatGroupDisplayTitle(baseTitle: string, tech: 'framer' | 'css'): str
  */
 export function exportsToAnimations(
   exports: Record<string, AnimationExport>,
-  categoryId: string,
-  groupId: string,
+  categoryId: CategoryId,
+  groupId: GroupVariantId,
   baseGroupId: string
 ): Animation[] {
   return Object.values(exports)
@@ -302,7 +304,7 @@ export function exportsToAnimations(
     .map((anim) => {
       const encodedId = encodeURIComponent(anim.metadata.id)
       return {
-        id: anim.metadata.id,
+        id: asAnimationId(anim.metadata.id),
         title: anim.metadata.title,
         description: anim.metadata.description,
         categoryId,
@@ -329,9 +331,9 @@ export function buildGroupFromExports(
   metadata: GroupMetadata,
   tech: 'framer' | 'css',
   exports: Record<string, AnimationExport>,
-  categoryId: string
+  categoryId: CategoryId
 ): Group {
-  const groupId = `${metadata.id}-${tech}`
+  const groupId = asGroupVariantId(`${metadata.id}-${tech}`)
   const animations = exportsToAnimations(exports, categoryId, groupId, metadata.id)
 
   return {
@@ -379,6 +381,8 @@ export function declareCategoryGroups(
   categoryTitle: string,
   groups: GroupDefinition[]
 ): void {
+  const brandedCategoryId = asCategoryId(categoryId)
+
   for (const { metadata, load } of groups) {
     const baseId = metadata.id
 
@@ -387,7 +391,7 @@ export function declareCategoryGroups(
       registerLazyGroup(groupId, async () => {
         const { groupExport } = await load()
         const animations = tech === 'framer' ? groupExport.framer : groupExport.css
-        const group = buildGroupFromExports(groupExport.metadata, tech, animations, categoryId)
+        const group = buildGroupFromExports(groupExport.metadata, tech, animations, brandedCategoryId)
         return { metadata: groupExport.metadata, animations, group }
       })
     }

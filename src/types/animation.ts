@@ -1,6 +1,46 @@
 import type { ComponentType } from 'react'
 
 // ============================================================================
+// Branded ID Types
+// ============================================================================
+
+/**
+ * Compile-time brand for nominal typing.
+ * Prevents passing a CategoryId where a GroupId is expected, etc.
+ * Zero runtime cost — brands are erased during compilation.
+ */
+declare const __brand: unique symbol
+
+/** A string tagged with a nominal brand. Not assignable from plain `string`. */
+type Brand<T, B extends string> = T & { readonly [__brand]: B }
+
+/**
+ * Unique identifier for an animation (e.g., `'modal-base__scale-gentle-pop'`).
+ * The double-underscore separates the group name from the variant name.
+ */
+export type AnimationId = Brand<string, 'AnimationId'>
+
+/**
+ * Unique identifier for a group variant (e.g., `'modal-base-framer'`).
+ * Combines the base group ID with a tech suffix (`-framer` or `-css`).
+ */
+export type GroupVariantId = Brand<string, 'GroupVariantId'>
+
+/**
+ * Unique identifier for a category (e.g., `'dialogs'`, `'rewards'`).
+ */
+export type CategoryId = Brand<string, 'CategoryId'>
+
+/** Cast a string to AnimationId at a trust boundary (URL params, metadata). */
+export const asAnimationId = (s: string) => s as AnimationId
+
+/** Cast a string to GroupVariantId at a trust boundary. */
+export const asGroupVariantId = (s: string) => s as GroupVariantId
+
+/** Cast a string to CategoryId at a trust boundary. */
+export const asCategoryId = (s: string) => s as CategoryId
+
+// ============================================================================
 // Shared Enums / Unions
 // ============================================================================
 
@@ -26,11 +66,11 @@ export type PreviewPosition =
  * Contains all metadata including category and group associations.
  */
 export interface Animation {
-  id: string
+  id: AnimationId
   title: string
   description: string
-  categoryId: string
-  groupId: string
+  categoryId: CategoryId
+  groupId: GroupVariantId
   /** Pre-computed URL path for the Framer variant, e.g. "/text-effects-framer?animation=text-effects__character-reveal" */
   urlSlugFramer: string
   /** Pre-computed URL path for the CSS variant, e.g. "/text-effects-css?animation=text-effects__character-reveal" */
@@ -52,7 +92,7 @@ export interface Animation {
  * Contains group metadata and all animations belonging to this group.
  */
 export interface Group {
-  id: string
+  id: GroupVariantId
   title: string
   tech?: GroupMetadata['tech']
   demo?: string
@@ -64,7 +104,7 @@ export interface Group {
  * Contains category metadata and all groups belonging to this category.
  */
 export interface Category {
-  id: string
+  id: CategoryId
   title: string
   groups: Group[]
 }
