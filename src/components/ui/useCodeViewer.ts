@@ -1,4 +1,4 @@
-import { logger } from '@/services/logger'
+import { reportAppError } from '@/services/errorTracking'
 import type { SourceTab } from '@/types/animation'
 import { useCallback, useRef, useState } from 'react'
 
@@ -30,9 +30,9 @@ export const useCodeViewer = (sourceLoader?: () => Promise<SourceTab[]>) => {
         const loaded = await sourceLoader()
         setSources(loaded)
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Unknown error loading source code'
-        logger.error('Failed to load animation source code', err)
-        setError(message)
+        const cause = err instanceof Error ? err : new Error('Unknown error loading source code')
+        reportAppError({ type: 'SOURCE_LOAD_FAILURE', animationId: 'unknown', cause, timestamp: Date.now() })
+        setError(cause.message)
         return
       }
     }

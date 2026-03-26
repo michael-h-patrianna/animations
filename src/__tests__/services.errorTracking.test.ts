@@ -1,4 +1,5 @@
 import type { ErrorInfo } from 'react'
+import type { AppError } from '@/services/errorTracking'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 // We need to test with import.meta.env.PROD toggled.
@@ -100,5 +101,129 @@ describe('reportRuntimeError', () => {
       'not a function' as unknown as (error: Error, errorInfo: ErrorInfo) => void
 
     expect(() => reportRuntimeError(testError, testErrorInfo)).not.toThrow()
+  })
+})
+
+describe('reportAppError', () => {
+  let reportAppError: typeof import('@/services/errorTracking').reportAppError
+
+  beforeEach(async () => {
+    vi.resetModules()
+    const mod = await import('@/services/errorTracking')
+    reportAppError = mod.reportAppError
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
+    delete (window as WindowWithReporter).__PF_ANIM_RUNTIME_ERROR_REPORTER__
+  })
+
+  it('logs GROUP_LOAD_FAILURE with group ID in message', async () => {
+    const loggerMod = await import('@/services/logger')
+    const logCalls: { level: string; message: string }[] = []
+    loggerMod.logger.setSink((level, message) => {
+      logCalls.push({ level, message })
+    })
+
+    const error: AppError = {
+      type: 'GROUP_LOAD_FAILURE',
+      groupId: 'modal-base-framer',
+      cause: new Error('Failed to fetch'),
+      timestamp: 1000,
+    }
+
+    reportAppError(error)
+
+    expect(logCalls).toHaveLength(1)
+    expect(logCalls[0]!.message).toContain('GROUP_LOAD_FAILURE')
+    expect(logCalls[0]!.message).toContain('modal-base-framer')
+    expect(logCalls[0]!.message).toContain('Failed to fetch')
+
+    loggerMod.logger.resetSink()
+  })
+
+  it('logs ANIMATION_RENDER_CRASH with animation ID in message', async () => {
+    const loggerMod = await import('@/services/logger')
+    const logCalls: { level: string; message: string }[] = []
+    loggerMod.logger.setSink((level, message) => {
+      logCalls.push({ level, message })
+    })
+
+    const error: AppError = {
+      type: 'ANIMATION_RENDER_CRASH',
+      animationId: 'modal-base__scale-gentle-pop',
+      cause: new Error('Cannot read properties'),
+      componentStack: '\n    at Foo',
+      timestamp: 2000,
+    }
+
+    reportAppError(error)
+
+    expect(logCalls[0]!.message).toContain('ANIMATION_RENDER_CRASH')
+    expect(logCalls[0]!.message).toContain('modal-base__scale-gentle-pop')
+
+    loggerMod.logger.resetSink()
+  })
+
+  it('logs SOURCE_LOAD_FAILURE with animation ID in message', async () => {
+    const loggerMod = await import('@/services/logger')
+    const logCalls: { level: string; message: string }[] = []
+    loggerMod.logger.setSink((level, message) => {
+      logCalls.push({ level, message })
+    })
+
+    reportAppError({
+      type: 'SOURCE_LOAD_FAILURE',
+      animationId: 'lights__circle-static-1',
+      cause: new Error('404'),
+      timestamp: 3000,
+    })
+
+    expect(logCalls[0]!.message).toContain('SOURCE_LOAD_FAILURE')
+    expect(logCalls[0]!.message).toContain('lights__circle-static-1')
+
+    loggerMod.logger.resetSink()
+  })
+
+  it('logs METADATA_VALIDATION_ERROR with violations joined', async () => {
+    const loggerMod = await import('@/services/logger')
+    const logCalls: { level: string; message: string }[] = []
+    loggerMod.logger.setSink((level, message) => {
+      logCalls.push({ level, message })
+    })
+
+    reportAppError({
+      type: 'METADATA_VALIDATION_ERROR',
+      filePath: './framer/Bad.meta.ts',
+      violations: ['tier must be 1-4', 'id must contain "__"'],
+      timestamp: 4000,
+    })
+
+    expect(logCalls[0]!.message).toContain('METADATA_VALIDATION_ERROR')
+    expect(logCalls[0]!.message).toContain('tier must be 1-4')
+    expect(logCalls[0]!.message).toContain('id must contain "__"')
+
+    loggerMod.logger.resetSink()
+  })
+
+  it('passes structured event data as second argument', async () => {
+    const loggerMod = await import('@/services/logger')
+    const logArgs: unknown[][] = []
+    loggerMod.logger.setSink((_level, _message, ...args) => {
+      logArgs.push(args)
+    })
+
+    const error: AppError = {
+      type: 'GROUP_LOAD_FAILURE',
+      groupId: 'test',
+      cause: new Error('x'),
+      timestamp: 5000,
+    }
+
+    reportAppError(error)
+
+    expect(logArgs[0]![0]).toEqual({ event: error })
+
+    loggerMod.logger.resetSink()
   })
 })

@@ -1,7 +1,6 @@
 import type { ErrorInfo, ReactNode } from 'react'
 import { Component } from 'react'
-import { reportRuntimeError } from '@/services/errorTracking'
-import { logger } from '@/services/logger'
+import { reportAppError, reportRuntimeError } from '@/services/errorTracking'
 
 /**
  * Props for ErrorBoundary component
@@ -160,15 +159,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     // to help identify which animation or UI component caused the error.
     const componentName = errorInfo.componentStack?.match(/\n\s+at (\w+)/)?.[1] ?? 'unknown'
 
-    logger.error('ErrorBoundary caught an error:', {
-      message: error.message,
-      name: error.name,
-      failedComponent: componentName,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack,
-      url: typeof window !== 'undefined' ? window.location.href : 'unknown',
-      timestamp: new Date().toISOString(),
+    reportAppError({
+      type: 'ANIMATION_RENDER_CRASH',
+      animationId: componentName,
+      cause: error,
+      componentStack: errorInfo.componentStack ?? undefined,
+      timestamp: Date.now(),
     })
+    // Legacy reporter for backward compatibility with host apps
     reportRuntimeError(error, errorInfo)
   }
 

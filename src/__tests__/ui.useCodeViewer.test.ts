@@ -210,7 +210,7 @@ describe('useCodeViewer', () => {
   })
 
   describe('error handling', () => {
-    it('catches sourceLoader errors, logs them via logger.error, and does not open the modal', async () => {
+    it('catches sourceLoader errors, reports them via reportAppError, and does not open the modal', async () => {
       const { logger } = await import('@/services/logger')
       const logSpy = vi.spyOn(logger, 'error').mockImplementation(() => {})
 
@@ -228,9 +228,12 @@ describe('useCodeViewer', () => {
       expect(result.current.sources).toBeNull()
       // Error state exposes the failure message for UI display
       expect(result.current.error).toBe('network failure')
-      // logger.error must have been called with the error — catches silent error swallowing
+      // reportAppError logs a structured SOURCE_LOAD_FAILURE event via logger.error
       expect(logSpy).toHaveBeenCalledOnce()
-      expect(logSpy).toHaveBeenCalledWith('Failed to load animation source code', networkError)
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringContaining('SOURCE_LOAD_FAILURE'),
+        expect.objectContaining({ event: expect.objectContaining({ type: 'SOURCE_LOAD_FAILURE' }) })
+      )
 
       logSpy.mockRestore()
     })

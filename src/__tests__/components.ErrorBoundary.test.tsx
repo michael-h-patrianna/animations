@@ -71,7 +71,7 @@ describe('ErrorBoundary', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('logs error via logger when child throws', () => {
+  it('logs error via reportAppError when child throws', () => {
     // In test (non-PROD) mode the logger delegates to console, so spy still works
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
@@ -81,12 +81,12 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    // React itself logs, plus our componentDidCatch logs via logger
+    // reportAppError logs via logger.error with [ANIMATION_RENDER_CRASH] prefix
     const errorCalls = consoleSpy.mock.calls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('ErrorBoundary caught')
+      (call) => typeof call[0] === 'string' && call[0].includes('ANIMATION_RENDER_CRASH')
     )
     expect(errorCalls.length).toBe(1)
-    expect(errorCalls[0]![1].message).toBe('Test error from child')
+    expect(errorCalls[0]![0]).toContain('Test error from child')
 
     consoleSpy.mockRestore()
   })
@@ -237,7 +237,7 @@ describe('ErrorBoundary', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('logs error with extracted component name from componentStack', () => {
+  it('logs structured error event with component name from componentStack', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     function SpecificComponent() {
@@ -250,19 +250,17 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     )
 
-    // Find the ErrorBoundary log call and verify it includes structured metadata
+    // reportAppError logs with [ANIMATION_RENDER_CRASH] prefix and structured event data
     const errorCalls = consoleSpy.mock.calls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('ErrorBoundary caught')
+      (call) => typeof call[0] === 'string' && call[0].includes('ANIMATION_RENDER_CRASH')
     )
     expect(errorCalls.length).toBe(1)
-    const metadata = errorCalls[0]![1] as Record<string, unknown>
-    expect(metadata.message).toBe('Named component error')
-    expect(metadata.name).toBe('Error')
-    // ErrorBoundary extracts component name from the React component stack
-    expect(metadata.failedComponent).toEqual(expect.stringMatching(/\w+/))
-    // timestamp should be a valid ISO date string from the error handler
-    const parsedTimestamp = new Date(metadata.timestamp as string)
-    expect(parsedTimestamp.getFullYear()).toBeGreaterThanOrEqual(2025)
+    expect(errorCalls[0]![0]).toContain('Named component error')
+    // Second arg is { event: AppError } — verify structure
+    const eventArg = (errorCalls[0]![1] as Record<string, unknown>).event as Record<string, unknown>
+    expect(eventArg.type).toBe('ANIMATION_RENDER_CRASH')
+    expect(eventArg.timestamp).toEqual(expect.any(Number))
+    expect((eventArg.cause as Error).message).toBe('Named component error')
 
     consoleSpy.mockRestore()
   })
@@ -296,7 +294,7 @@ describe('ErrorBoundary', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('includes url and timestamp in componentDidCatch structured log', () => {
+  it('includes timestamp and component stack in structured error event', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     render(
@@ -306,16 +304,14 @@ describe('ErrorBoundary', () => {
     )
 
     const errorCalls = consoleSpy.mock.calls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('ErrorBoundary caught')
+      (call) => typeof call[0] === 'string' && call[0].includes('ANIMATION_RENDER_CRASH')
     )
-    const metadata = errorCalls[0]![1] as Record<string, unknown>
+    const eventArg = (errorCalls[0]![1] as Record<string, unknown>).event as Record<string, unknown>
 
-    // URL should be captured from window.location
-    expect(metadata.url).toEqual(expect.stringMatching(/\w+/))
-    // Timestamp should be a valid ISO string
-    expect(metadata.timestamp).toEqual(expect.stringMatching(/^\d{4}-\d{2}-\d{2}T/))
+    // Timestamp should be a recent numeric epoch value (within last 10 seconds)
+    expect(eventArg.timestamp as number).toBeGreaterThan(Date.now() - 10_000)
     // componentStack should be present (React provides it)
-    expect(metadata.componentStack).toEqual(expect.stringContaining('ThrowingChild'))
+    expect(eventArg.componentStack).toEqual(expect.stringContaining('ThrowingChild'))
 
     consoleSpy.mockRestore()
   })
