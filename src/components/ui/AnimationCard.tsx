@@ -3,9 +3,11 @@ import { PreviewModal } from '@/components/ui/PreviewModal'
 import { useToastStore } from '@/demo-ui/stores/toastStore'
 import { logger } from '@/services/logger'
 import type { AnimationControlType, PreviewPosition, SourceTab } from '@/types/animation'
+import { useRenderProfile } from '@/hooks/useRenderProfile'
 import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useLocation, useSearchParams } from 'react-router-dom'
+import { ProfilerWrapper } from './ProfilerWrapper'
 import { FooterControls } from './AnimationCardControls'
 import { CardHeaderBar } from './AnimationCardHeader'
 import { useCardControls } from './useCardControls'
@@ -178,6 +180,7 @@ function useAnimationCard(props: AnimationCardProps) {
   const { opaque } = useAutoPreview(animationId, preview)
   const { handleCopyLink } = useCopyLink(animationId)
   const showToast = useToastStore((s) => s.showToast)
+  const { profile: renderProfile, onRender: onProfilerRender } = useRenderProfile()
 
   // Surface code-viewer load errors as a toast
   useEffect(() => {
@@ -193,6 +196,8 @@ function useAnimationCard(props: AnimationCardProps) {
     preview,
     opaque,
     handleCopyLink,
+    renderProfile,
+    onProfilerRender,
   }
 }
 
@@ -280,9 +285,7 @@ function CardBody({
 
   return (
     <div
-      className={`pf-card glass-panel outline-none ${onSelect != null ? 'pf-card--selectable' : ''} ${
-        selected ? 'pf-card--selected' : ''
-      }`}
+      className={`pf-card glass-panel outline-none ${onSelect != null ? 'pf-card--selectable' : ''} ${selected ? 'pf-card--selected' : ''}`}
       data-animation-id={animationId}
       data-selected={selected || undefined}
       ref={card.playback.cardRef}
@@ -302,15 +305,17 @@ function CardBody({
         onOpenMobilePreview={card.preview.openMobile}
       />
       <CardCanvas previewMaxWidth={previewMaxWidth} replayKey={card.playback.replayKey}>
-        {renderAnimationChild(
-          children,
-          card.playback.isVisible,
-          infiniteAnimation,
-          card.cardControls.bulbCount,
-          card.cardControls.onColor,
-          card.cardControls.prizeCount,
-          propOverrides
-        )}
+        <ProfilerWrapper id={animationId} onRender={card.onProfilerRender}>
+          {renderAnimationChild(
+            children,
+            card.playback.isVisible,
+            infiniteAnimation,
+            card.cardControls.bulbCount,
+            card.cardControls.onColor,
+            card.cardControls.prizeCount,
+            propOverrides
+          )}
+        </ProfilerWrapper>
       </CardCanvas>
       <FooterControls
         cardControls={card.cardControls}
@@ -319,6 +324,7 @@ function CardBody({
         tier={tier}
         disableReplay={disableReplay}
         onReplay={card.playback.triggerReplay}
+        renderProfile={card.renderProfile}
       />
       <CardModals
         title={title}

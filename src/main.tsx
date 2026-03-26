@@ -13,8 +13,13 @@ import './demo-ui/styles/index.css'
 
 const loadFeatures = () => import('./features').then((res) => res.features)
 
+import { reportWebVitals } from '@/services/performance'
+
 // Preload critical icon animation images ASAP at startup
 preloadImages(CRITICAL_ICON_IMAGES)
+
+// Report Core Web Vitals (FCP, LCP, CLS, INP, TTFB) to the logger
+void reportWebVitals()
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {

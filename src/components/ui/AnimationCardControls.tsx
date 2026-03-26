@@ -1,8 +1,10 @@
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ToggleGroup, type ToggleOption } from '@/demo-ui/components/ui/ToggleGroup'
 import { Tooltip } from '@/demo-ui/components/ui/Tooltip'
+import type { RenderProfile } from '@/hooks/useRenderProfile'
 import type { AnimationControlType } from '@/types/animation'
 import { useMemo } from 'react'
+import { RenderTimeBadge } from './RenderTimeBadge'
 import {
   clampBulbCount,
   MAX_BULB_COUNT,
@@ -155,6 +157,8 @@ type FooterControlsProps = {
   tier?: 1 | 2 | 3 | 4
   disableReplay: boolean
   onReplay: () => void
+  /** Dev-mode render timing from React.Profiler. Null in production. */
+  renderProfile?: RenderProfile | null
 }
 
 /** Card footer with tier badge, interactive controls (lights/prize), and replay button. */
@@ -165,6 +169,7 @@ export const FooterControls = ({
   tier,
   disableReplay,
   onReplay,
+  renderProfile,
 }: FooterControlsProps) => {
   const { bulbCount, onColor, prizeCount, setBulbCount, setOnColor, setPrizeCount, setReplayKey } =
     cardControls
@@ -186,6 +191,7 @@ export const FooterControls = ({
     <div className="pf-card__actions pt-3">
       <div className="pf-card__meta" data-testid="card-meta">
         {tier !== undefined && <TierBadge tier={tier} />}
+        <RenderTimeBadge profile={renderProfile ?? null} />
       </div>
       {controlType === 'lights' && (
         <LightsControls

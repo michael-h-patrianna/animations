@@ -5,10 +5,11 @@
  */
 
 import type React from 'react'
-import { useMemo } from 'react'
+import { useDeferredValue, useMemo, useState } from 'react'
 import { type CodeMode, useCodeMode } from '@/contexts/CodeModeContext'
 import { useAppNavigation } from '@/contexts/AppNavigationContext'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
+import { Input } from '@/demo-ui/components/ui/Input'
 import { ToggleGroup, type ToggleOption } from '@/demo-ui/components/ui/ToggleGroup'
 import type { LazyCategory, LazyGroup } from '@/types/lazy'
 
@@ -66,10 +67,31 @@ function pickGroupId(variants: GroupVariants, mode: CodeMode): string {
   return pickGroup(variants, mode).id
 }
 
+/** Filters category groups by a case-insensitive search query against group titles. */
+function filterCategoryGroups(
+  categoryGroups: Array<{ category: LazyCategory; variants: GroupVariants[] }>,
+  query: string
+): Array<{ category: LazyCategory; variants: GroupVariants[] }> {
+  if (query === '') return categoryGroups
+  const lower = query.toLowerCase()
+  return categoryGroups
+    .map(({ category, variants }) => ({
+      category,
+      variants: variants.filter((v) => v.fallback.metadata.title.toLowerCase().includes(lower)),
+    }))
+    .filter(({ variants }) => variants.length > 0)
+}
+
 export const EditorLeftPanel: React.FC = () => {
   const { codeMode, setCodeMode } = useCodeMode()
   const { navCategories, currentGroupId, handleGroupSelect, handleModeSelect } = useAppNavigation()
   const currentBaseGroupId = currentGroupId.replace(GROUP_MODE_SUFFIX, '')
+
+  // Search state: input value is immediate, deferred value drives the filtered list.
+  // This keeps the input responsive while React batches the list re-render.
+  const [searchQuery, setSearchQuery] = useState('')
+  const deferredQuery = useDeferredValue(searchQuery)
+  const isStale = searchQuery !== deferredQuery
 
   const categoryGroups = useMemo(
     () =>
@@ -78,6 +100,11 @@ export const EditorLeftPanel: React.FC = () => {
         variants: buildGroupVariants(cat.groups),
       })),
     [navCategories]
+  )
+
+  const filteredGroups = useMemo(
+    () => filterCategoryGroups(categoryGroups, deferredQuery),
+    [categoryGroups, deferredQuery]
   )
 
   const handleCodeModeChange = (mode: CodeMode) => {
@@ -105,9 +132,30 @@ export const EditorLeftPanel: React.FC = () => {
         />
       </div>
 
+      {/* Search */}
+      <div className="px-4 pt-1 pb-2 shrink-0">
+        <Input
+          placeholder="Search animations..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          clearable={searchQuery.length > 0}
+          onClear={() => setSearchQuery('')}
+          data-testid="sidebar-search"
+          aria-label="Search animations"
+        />
+      </div>
+
       {/* Scrollable category/group navigation */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--border-default)] hover:scrollbar-thumb-[var(--border-highlight)] px-4 pb-4">
-        {categoryGroups.map(({ category, variants }) => (
+      <div
+        className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[var(--border-default)] hover:scrollbar-thumb-[var(--border-highlight)] px-4 pb-4 transition-opacity duration-150"
+        style={{ opacity: isStale ? 0.6 : 1 }}
+      >
+        {filteredGroups.length === 0 && deferredQuery !== '' && (
+          <p className="text-xs text-(--text-secondary) text-center py-6">
+            No animations matching &ldquo;{deferredQuery}&rdquo;
+          </p>
+        )}
+        {filteredGroups.map(({ category, variants }) => (
           <ControlGroup
             key={category.id}
             title={category.title}

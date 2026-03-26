@@ -494,6 +494,14 @@ export default defineConfig([
       '@eslint-react/no-clone-element': 'off',
     },
   },
+  // ProfilerWrapper: React.Profiler is a diagnostic wrapper, not a visible UI
+  // element — it renders no DOM. data-testid does not apply.
+  {
+    files: ['src/components/ui/ProfilerWrapper.tsx'],
+    rules: {
+      'animation-rules/require-data-testid': 'off',
+    },
+  },
   // Demo-ui components: self-contained UI kit with dense JSX layouts
   // (dropdown positioning, input styling, tooltip logic). max-lines-per-function
   // at 75 is too restrictive for properly-formatted React component JSX.
@@ -521,6 +529,9 @@ export default defineConfig([
     files: [
       'src/components/realtime/timer-effects/SharedTimer.ts',
       'src/components/ui/useCardControls.ts',
+      // useFrameMonitor: rAF loop calls setState once per second to surface
+      // FPS metrics — standard pattern for animation performance hooks.
+      'src/hooks/useFrameMonitor.ts',
     ],
     rules: {
       '@eslint-react/set-state-in-effect': 'off',
