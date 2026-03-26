@@ -489,7 +489,7 @@ function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
       return (
         <ColorField
           config={config}
-          value={typeof value === 'string' ? value : (config.default ?? '')}
+          value={normalizeColorDefault(typeof value === 'string' ? value : config.default)}
           onChange={handleChange as (v: string) => void}
         />
       )
@@ -519,14 +519,16 @@ function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
           onChange={handleChange as (v: string[]) => void}
         />
       )
-    case 'colors':
+    case 'colors': {
+      const rawColors = Array.isArray(value) ? (value as string[]) : (config.default ?? [])
       return (
         <ColorsField
           config={config}
-          value={Array.isArray(value) ? (value as string[]) : (config.default ?? [])}
+          value={rawColors.map((c) => normalizeColorDefault(c) || c)}
           onChange={handleChange as (v: string[]) => void}
         />
       )
+    }
     case 'style-object':
       return (
         <StyleObjectField
