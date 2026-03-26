@@ -59,7 +59,10 @@ export function ProgressBarsProgressMilestones({
 
   const markerVariants = prefersReducedMotion
     ? {
-        inactive: { opacity: 0.6, background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))' },
+        inactive: {
+          opacity: 0.6,
+          background: 'var(--milestone-marker-color, var(--pf-anim-cyan-soft))',
+        },
         active: {
           opacity: 1,
           background: 'var(--milestone-active-color, var(--pf-anim-cyan-light))',

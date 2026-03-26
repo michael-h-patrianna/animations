@@ -249,8 +249,7 @@ test.describe('Accessibility: Reduced Motion', () => {
     // WebKit/Firefox may report intermediate values if checked too early.
     await expect
       .poll(
-        async () =>
-          innerDiv.evaluate((el) => parseFloat(window.getComputedStyle(el).opacity)),
+        async () => innerDiv.evaluate((el) => parseFloat(window.getComputedStyle(el).opacity)),
         { timeout: 3_000 }
       )
       .toBeGreaterThanOrEqual(0.99)

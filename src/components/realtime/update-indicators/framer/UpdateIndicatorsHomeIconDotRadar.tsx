@@ -36,32 +36,34 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
   const ringEdgeOffset = dotEdgeOffset + (ringSize - dotSize) / 2
   const staggerDelay = durS / 2
 
-  const rings = prefersReducedMotion ? [] : Array.from({ length: ringCount }, (_, i) => (
-    <m.span
-      key={i}
-      className="pf-update-indicator__ring"
-      style={{
-        top: -ringEdgeOffset,
-        right: -ringEdgeOffset,
-        width: ringSize,
-        height: ringSize,
-        border: `2px solid ${ringColor}`,
-        animation: 'none',
-      }}
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{
-        scale: [0.9, 1.9],
-        opacity: [0.9, 0.6, 0],
-      }}
-      transition={{
-        duration: durS,
-        ease: easeOut,
-        delay: i * staggerDelay,
-        scale: { times: [0, 1] },
-        opacity: { times: [0, 0.5, 1] },
-      }}
-    />
-  ))
+  const rings = prefersReducedMotion
+    ? []
+    : Array.from({ length: ringCount }, (_, i) => (
+        <m.span
+          key={i}
+          className="pf-update-indicator__ring"
+          style={{
+            top: -ringEdgeOffset,
+            right: -ringEdgeOffset,
+            width: ringSize,
+            height: ringSize,
+            border: `2px solid ${ringColor}`,
+            animation: 'none',
+          }}
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{
+            scale: [0.9, 1.9],
+            opacity: [0.9, 0.6, 0],
+          }}
+          transition={{
+            duration: durS,
+            ease: easeOut,
+            delay: i * staggerDelay,
+            scale: { times: [0, 1] },
+            opacity: { times: [0, 0.5, 1] },
+          }}
+        />
+      ))
 
   const dot = (
     <>

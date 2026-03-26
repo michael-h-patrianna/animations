@@ -25,7 +25,9 @@ function StandardEffectsSlideComponent({ children, duration = 700 }: StandardEff
     <m.div
       data-animation-id="standard-effects__slide"
       style={{ transformOrigin: 'center left', animation: 'none' }}
-      initial={prefersReducedMotion ? { opacity: 0 } : { x: '-100%', scale: 0.8, rotate: -5, opacity: 0 }}
+      initial={
+        prefersReducedMotion ? { opacity: 0 } : { x: '-100%', scale: 0.8, rotate: -5, opacity: 0 }
+      }
       animate={prefersReducedMotion ? { opacity: 1 } : { x: 0, scale: 1, rotate: 0, opacity: 1 }}
       transition={{
         duration: prefersReducedMotion ? 0.15 : duration / 1000,

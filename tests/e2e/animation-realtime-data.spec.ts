@@ -9,9 +9,7 @@ test.describe('Realtime Data', () => {
 
     // Leaderboard should render row elements
     const rows = stage.locator('.pf-realtime-data__row')
-    await expect
-      .poll(async () => rows.count(), { timeout: 5_000 })
-      .toBeGreaterThanOrEqual(3)
+    await expect.poll(async () => rows.count(), { timeout: 5_000 }).toBeGreaterThanOrEqual(3)
 
     // Each row has rank, player label, and score
     const firstRow = rows.first()

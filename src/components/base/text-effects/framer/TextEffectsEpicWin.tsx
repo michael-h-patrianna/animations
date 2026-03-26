@@ -31,9 +31,15 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
         {/* Far shadow */}
         <m.div
           className="pf-epic-win__shadow-far"
-          initial={prefersReducedMotion ? { opacity: 0.2, y: 6 } : { opacity: 0, scale: 1.2, y: 10 }}
+          initial={
+            prefersReducedMotion ? { opacity: 0.2, y: 6 } : { opacity: 0, scale: 1.2, y: 10 }
+          }
           animate={prefersReducedMotion ? { opacity: 0.2, y: 6 } : { opacity: 0.2, scale: 1, y: 6 }}
-          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }
+          }
         >
           {text}
         </m.div>
@@ -43,7 +49,11 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
           className="pf-epic-win__shadow-mid"
           initial={prefersReducedMotion ? { opacity: 0.3, y: 3 } : { opacity: 0, scale: 1.1, y: 5 }}
           animate={prefersReducedMotion ? { opacity: 0.3, y: 3 } : { opacity: 0.3, scale: 1, y: 3 }}
-          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.45, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.45, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] as const }
+          }
         >
           {text}
         </m.div>
@@ -59,8 +69,14 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
             <m.span
               key={index}
               className="pf-epic-win__char"
-              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 30, scale: 0.5, rotateY: -90 }}
-              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1, rotateY: 0 }}
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: 30, scale: 0.5, rotateY: -90 }
+              }
+              animate={
+                prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1, rotateY: 0 }
+              }
               transition={
                 prefersReducedMotion
                   ? { duration: 0.3, delay: 0.1 }

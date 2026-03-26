@@ -15,9 +15,7 @@ describe('inspectorStarterDefaults', () => {
   })
 
   it('every key in INSPECTOR_STARTER_DEFAULTS maps to a registered animation ID', async () => {
-    const { getInspectorStarterDefaults } = await import(
-      '@/contexts/inspectorStarterDefaults'
-    )
+    const { getInspectorStarterDefaults } = await import('@/contexts/inspectorStarterDefaults')
 
     // Collect all animation IDs from the fully loaded catalog
     const allAnimationIds = new Set<string>()

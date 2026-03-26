@@ -383,13 +383,13 @@ function PrizeRevealChestGcScComponent({
 }) {
   return (
     <MotionConfig reducedMotion="user">
-    <div
-      className="pf-modal-celebration pf-chest-gc-sc"
-      data-animation-id="prize-reveal__chest-gc-sc"
-      data-prize-count={prizeCount}
-    >
-      <ChestAnimation prizeCount={prizeCount} />
-    </div>
+      <div
+        className="pf-modal-celebration pf-chest-gc-sc"
+        data-animation-id="prize-reveal__chest-gc-sc"
+        data-prize-count={prizeCount}
+      >
+        <ChestAnimation prizeCount={prizeCount} />
+      </div>
     </MotionConfig>
   )
 }

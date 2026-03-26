@@ -151,47 +151,47 @@ function PrizeRevealPirateChestWinComponent({
 
   return (
     <MotionConfig reducedMotion="user">
-    <div
-      className="pf-modal-celebration pf-pirate-chest-win"
-      data-animation-id="prize-reveal__pirate-chest-win"
-    >
-      <div className="pf-pirate-chest-win__stage">
-        <m.div
-          className="pf-pirate-chest-win__chest"
-          initial={{ y: 64, opacity: 0, scale: 0.82 }}
-          animate={{
-            y: 0,
-            opacity: 1,
-            scale: phase === 'reveal' ? [1, 1.18, 1] : 1,
-            x: phase === 'shake' ? [0, -7, 7, -5, 5, 0] : 0,
-          }}
-          transition={
-            phase === 'shake'
-              ? {
-                  x: { duration: 0.6, ease: 'easeInOut' },
-                  default: { type: 'spring', stiffness: 210, damping: 18 },
-                }
-              : phase === 'reveal'
+      <div
+        className="pf-modal-celebration pf-pirate-chest-win"
+        data-animation-id="prize-reveal__pirate-chest-win"
+      >
+        <div className="pf-pirate-chest-win__stage">
+          <m.div
+            className="pf-pirate-chest-win__chest"
+            initial={{ y: 64, opacity: 0, scale: 0.82 }}
+            animate={{
+              y: 0,
+              opacity: 1,
+              scale: phase === 'reveal' ? [1, 1.18, 1] : 1,
+              x: phase === 'shake' ? [0, -7, 7, -5, 5, 0] : 0,
+            }}
+            transition={
+              phase === 'shake'
                 ? {
-                    duration: 0.42,
-                    times: [0, 0.58, 1] as const,
-                    ease: [0.68, -0.55, 0.265, 1.55] as const,
+                    x: { duration: 0.6, ease: 'easeInOut' },
+                    default: { type: 'spring', stiffness: 210, damping: 18 },
                   }
-                : { type: 'spring', stiffness: 210, damping: 18 }
-          }
-        >
-          {phase === 'reveal' && <PirateChestWinRays />}
-          <img
-            src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage}
-            alt=""
-            aria-hidden="true"
-            className="pf-pirate-chest-win__image"
-          />
-        </m.div>
+                : phase === 'reveal'
+                  ? {
+                      duration: 0.42,
+                      times: [0, 0.58, 1] as const,
+                      ease: [0.68, -0.55, 0.265, 1.55] as const,
+                    }
+                  : { type: 'spring', stiffness: 210, damping: 18 }
+            }
+          >
+            {phase === 'reveal' && <PirateChestWinRays />}
+            <img
+              src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage}
+              alt=""
+              aria-hidden="true"
+              className="pf-pirate-chest-win__image"
+            />
+          </m.div>
 
-        {phase === 'reveal' && <PirateChestWinCoins coinSparkles={coinSparkles} />}
+          {phase === 'reveal' && <PirateChestWinCoins coinSparkles={coinSparkles} />}
+        </div>
       </div>
-    </div>
     </MotionConfig>
   )
 }

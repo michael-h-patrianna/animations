@@ -34,27 +34,18 @@ describe('validateAnimationMetadata', () => {
   })
 
   it('rejects tier values outside 1-4 range', () => {
-    const violations = validateAnimationMetadata(
-      { ...validMeta, tier: 5 },
-      'test.meta.ts'
-    )
+    const violations = validateAnimationMetadata({ ...validMeta, tier: 5 }, 'test.meta.ts')
     expect(violations.join('\n')).toContain('.meta.ts')
     expect(violations[0]).toContain('tier')
   })
 
   it('rejects tier value of 0', () => {
-    const violations = validateAnimationMetadata(
-      { ...validMeta, tier: 0 },
-      'test.meta.ts'
-    )
+    const violations = validateAnimationMetadata({ ...validMeta, tier: 0 }, 'test.meta.ts')
     expect(violations.join('\n')).toContain('.meta.ts')
   })
 
   it('rejects non-integer tier values', () => {
-    const violations = validateAnimationMetadata(
-      { ...validMeta, tier: 1.5 },
-      'test.meta.ts'
-    )
+    const violations = validateAnimationMetadata({ ...validMeta, tier: 1.5 }, 'test.meta.ts')
     expect(violations.join('\n')).toContain('.meta.ts')
   })
 
@@ -68,19 +59,13 @@ describe('validateAnimationMetadata', () => {
   })
 
   it('rejects empty id', () => {
-    const violations = validateAnimationMetadata(
-      { ...validMeta, id: '' },
-      'test.meta.ts'
-    )
+    const violations = validateAnimationMetadata({ ...validMeta, id: '' }, 'test.meta.ts')
     expect(violations.join('\n')).toContain('.meta.ts')
     expect(violations[0]).toContain('id')
   })
 
   it('rejects empty title', () => {
-    const violations = validateAnimationMetadata(
-      { ...validMeta, title: '' },
-      'test.meta.ts'
-    )
+    const violations = validateAnimationMetadata({ ...validMeta, title: '' }, 'test.meta.ts')
     expect(violations.join('\n')).toContain('.meta.ts')
   })
 
@@ -103,16 +88,21 @@ describe('validateAnimationMetadata', () => {
   it('accepts all valid demoMode values', () => {
     const modes = ['burst', 'magnet', 'trail', 'fountain', 'icon-dot', 'status-row']
     for (const mode of modes) {
-      const violations = validateAnimationMetadata(
-        { ...validMeta, demoMode: mode },
-        'test.meta.ts'
-      )
+      const violations = validateAnimationMetadata({ ...validMeta, demoMode: mode }, 'test.meta.ts')
       expect(violations).toEqual([])
     }
   })
 
   it('accepts all valid previewPosition values', () => {
-    const positions = ['center', 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center']
+    const positions = [
+      'center',
+      'top-left',
+      'top-right',
+      'bottom-left',
+      'bottom-right',
+      'top-center',
+      'bottom-center',
+    ]
     for (const pos of positions) {
       const violations = validateAnimationMetadata(
         { ...validMeta, previewPosition: pos },

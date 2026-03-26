@@ -31,7 +31,12 @@ export const useCodeViewer = (sourceLoader?: () => Promise<SourceTab[]>) => {
         setSources(loaded)
       } catch (err) {
         const cause = err instanceof Error ? err : new Error('Unknown error loading source code')
-        reportAppError({ type: 'SOURCE_LOAD_FAILURE', animationId: 'unknown', cause, timestamp: Date.now() })
+        reportAppError({
+          type: 'SOURCE_LOAD_FAILURE',
+          animationId: 'unknown',
+          cause,
+          timestamp: Date.now(),
+        })
         setError(cause.message)
         return
       }

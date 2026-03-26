@@ -301,13 +301,13 @@ function PrizeRevealArcanePortalComponent({
 }) {
   return (
     <MotionConfig reducedMotion="user">
-    <div
-      className="pf-modal-celebration pf-arcane-portal"
-      data-animation-id="prize-reveal__arcane-portal"
-      data-prize-count={prizeCount}
-    >
-      <PortalAnimation prizeCount={prizeCount} />
-    </div>
+      <div
+        className="pf-modal-celebration pf-arcane-portal"
+        data-animation-id="prize-reveal__arcane-portal"
+        data-prize-count={prizeCount}
+      >
+        <PortalAnimation prizeCount={prizeCount} />
+      </div>
     </MotionConfig>
   )
 }

@@ -56,7 +56,10 @@ export function ProgressBarsProgressThin({
             aria-valuemin={0}
             aria-valuemax={100}
             animate={{ scaleX: target }}
-            transition={{ duration: prefersReducedMotion ? 0.1 : 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{
+              duration: prefersReducedMotion ? 0.1 : 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
             style={{
               transformOrigin: 'left center',
               position: 'relative',

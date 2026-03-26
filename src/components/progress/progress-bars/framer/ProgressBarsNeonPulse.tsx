@@ -56,7 +56,11 @@ export function ProgressBarsNeonPulse({
           <m.div
             className="neon-pulse-flicker"
             animate={prefersReducedMotion ? undefined : { opacity: [1, 0.8, 1, 0.4, 1, 0.9, 1] }}
-            transition={prefersReducedMotion ? undefined : { duration: 0.2, repeat: Infinity, repeatType: 'reverse' }}
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : { duration: 0.2, repeat: Infinity, repeatType: 'reverse' }
+            }
             style={{ animation: 'none' }}
           />
         </m.div>

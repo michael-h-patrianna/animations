@@ -114,7 +114,11 @@ function TimerEffectsTimerFlashComponent(props: TimerEffectProps) {
               ? { scale: [1, 1 + (resolved.warningThreshold - seconds) / 200, 1] }
               : {}
         }
-        transition={prefersReducedMotion ? undefined : { duration: pulseSpeed, repeat: Infinity, ease: easeInOut }}
+        transition={
+          prefersReducedMotion
+            ? undefined
+            : { duration: pulseSpeed, repeat: Infinity, ease: easeInOut }
+        }
       >
         {!prefersReducedMotion && (
           <m.span

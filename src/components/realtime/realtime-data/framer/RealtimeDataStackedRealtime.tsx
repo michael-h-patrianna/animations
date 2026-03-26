@@ -86,7 +86,9 @@ function RealtimeDataStackedRealtimeComponent({
           <m.div
             key={item.label}
             className={`pf-realtime-data__stack-row ${item.active === true ? 'active' : ''}`}
-            initial={prefersReducedMotion ? { opacity: 0 } : { x: index % 2 === 0 ? -16 : 16, opacity: 0 }}
+            initial={
+              prefersReducedMotion ? { opacity: 0 } : { x: index % 2 === 0 ? -16 : 16, opacity: 0 }
+            }
             animate={
               prefersReducedMotion
                 ? { opacity: isVisible ? 1 : 0 }

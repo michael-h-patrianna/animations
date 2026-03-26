@@ -1,9 +1,5 @@
 import { getGroupAnimations } from '@/components/animationRegistry'
-import {
-  getAllLazyGroups,
-  getLazyNavCatalog,
-  loadLazyGroup,
-} from '@/lib/lazyGroupRegistry'
+import { getAllLazyGroups, getLazyNavCatalog, loadLazyGroup } from '@/lib/lazyGroupRegistry'
 import { loadLazyCatalog, resetLazyTestState } from '@/__tests__/helpers/lazyCatalog'
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
 

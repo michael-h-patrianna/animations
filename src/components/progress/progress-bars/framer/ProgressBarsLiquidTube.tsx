@@ -37,31 +37,36 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
         <m.div
           className="liquid-tube-fill"
           animate={{ height: `${percent}%` }}
-          transition={prefersReducedMotion ? { duration: 0.1 } : { type: 'spring', bounce: 0, duration: 0.5 }}
+          transition={
+            prefersReducedMotion ? { duration: 0.1 } : { type: 'spring', bounce: 0, duration: 0.5 }
+          }
           style={{ animation: 'none' }}
         >
           <div className="liquid-tube-surface">
             <m.div
               className="liquid-wave"
               animate={prefersReducedMotion ? undefined : { x: ['-50%', '0%'] }}
-              transition={prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={
+                prefersReducedMotion ? undefined : { duration: 2, repeat: Infinity, ease: 'linear' }
+              }
               style={{ animation: 'none' }}
             />
           </div>
-          {!prefersReducedMotion && [1, 2, 3].map((i) => (
-            <m.div
-              key={i}
-              className="liquid-bubble"
-              style={{ left: `${20 + i * 20}%`, animation: 'none' }}
-              animate={{ y: [0, -100], opacity: [0, 1, 0] }}
-              transition={{
-                duration: 2 + i,
-                repeat: Infinity,
-                delay: i * 0.5,
-                ease: 'easeIn',
-              }}
-            />
-          ))}
+          {!prefersReducedMotion &&
+            [1, 2, 3].map((i) => (
+              <m.div
+                key={i}
+                className="liquid-bubble"
+                style={{ left: `${20 + i * 20}%`, animation: 'none' }}
+                animate={{ y: [0, -100], opacity: [0, 1, 0] }}
+                transition={{
+                  duration: 2 + i,
+                  repeat: Infinity,
+                  delay: i * 0.5,
+                  ease: 'easeIn',
+                }}
+              />
+            ))}
         </m.div>
       </div>
     </div>

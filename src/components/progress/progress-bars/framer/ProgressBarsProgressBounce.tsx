@@ -38,7 +38,11 @@ export function ProgressBarsProgressBounce({ progress, className, style }: Progr
           <m.div
             className="pf-progress-fill"
             animate={{ scaleX: target }}
-            transition={prefersReducedMotion ? { duration: 0.1 } : { type: 'spring', stiffness: 180, damping: 14 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0.1 }
+                : { type: 'spring', stiffness: 180, damping: 14 }
+            }
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
         </div>

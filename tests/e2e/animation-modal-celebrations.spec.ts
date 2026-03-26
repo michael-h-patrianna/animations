@@ -13,10 +13,7 @@ test.describe('Modal Celebrations', () => {
 
     // Confetti particles should spawn in depth layers
     await expect
-      .poll(
-        async () => stage.locator('.pf-celebration__confetti').count(),
-        { timeout: 5_000 }
-      )
+      .poll(async () => stage.locator('.pf-celebration__confetti').count(), { timeout: 5_000 })
       .toBeGreaterThan(0)
   })
 

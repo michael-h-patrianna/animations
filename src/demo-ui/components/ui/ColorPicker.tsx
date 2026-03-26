@@ -462,7 +462,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   const handleEyedropper = () => pickEyedropper(handleHsvChange)
   const handleCopy = () => copyColor(value)
 
-
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       {label && (

@@ -349,13 +349,13 @@ function PrizeRevealCrystalShatterComponent({
 }) {
   return (
     <MotionConfig reducedMotion="user">
-    <div
-      className="pf-modal-celebration pf-crystal-shatter"
-      data-animation-id="prize-reveal__crystal-shatter"
-      data-prize-count={prizeCount}
-    >
-      <CrystalShatterAnimation prizeCount={prizeCount} />
-    </div>
+      <div
+        className="pf-modal-celebration pf-crystal-shatter"
+        data-animation-id="prize-reveal__crystal-shatter"
+        data-prize-count={prizeCount}
+      >
+        <CrystalShatterAnimation prizeCount={prizeCount} />
+      </div>
     </MotionConfig>
   )
 }

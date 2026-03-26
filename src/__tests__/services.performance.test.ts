@@ -23,9 +23,7 @@ describe('Animation performance marks', () => {
   it('creates a start mark with the animation ID', () => {
     markAnimationStart('modal-base__scale-gentle-pop')
 
-    expect(performance.mark).toHaveBeenCalledWith(
-      'animation-start:modal-base__scale-gentle-pop'
-    )
+    expect(performance.mark).toHaveBeenCalledWith('animation-start:modal-base__scale-gentle-pop')
   })
 
   it('measures duration between start and end marks', () => {

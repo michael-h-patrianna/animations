@@ -148,7 +148,9 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
         <m.span
           className="pf-pill-countdown-glitch__glow"
           aria-hidden="true"
-          animate={prefersReducedMotion ? undefined : getGlowAnimation(seconds, startSeconds, isExpired)}
+          animate={
+            prefersReducedMotion ? undefined : getGlowAnimation(seconds, startSeconds, isExpired)
+          }
           style={{ animation: 'none' }}
         />
         <span className="pf-pill-countdown-glitch__text" style={timeStyle}>

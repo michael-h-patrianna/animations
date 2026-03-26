@@ -45,28 +45,31 @@ export function useLazyAnimations(): LazyAnimationsResult {
    * and `isPending` never flickers. Uncached groups trigger an async load
    * where `isPending` stays true until the new group renders.
    */
-  const loadGroup = useCallback(async (groupId: string): Promise<void> => {
-    // Skip if already showing this group
-    if (currentGroupIdRef.current === groupId && currentGroupRef.current) {
-      return
-    }
-    currentGroupIdRef.current = groupId
+  const loadGroup = useCallback(
+    async (groupId: string): Promise<void> => {
+      // Skip if already showing this group
+      if (currentGroupIdRef.current === groupId && currentGroupRef.current) {
+        return
+      }
+      currentGroupIdRef.current = groupId
 
-    try {
-      const result = await loadLazyGroup(groupId)
+      try {
+        const result = await loadLazyGroup(groupId)
 
-      // Wrap state updates in a transition so React keeps showing the
-      // previous group while the new one prepares to render.
-      startTransition(() => {
-        setCurrentGroup(result.group)
-        setError(undefined)
-      })
-    } catch (err) {
-      const cause = err instanceof Error ? err : new Error(String(err))
-      reportAppError({ type: 'GROUP_LOAD_FAILURE', groupId, cause, timestamp: Date.now() })
-      setError(cause)
-    }
-  }, [startTransition])
+        // Wrap state updates in a transition so React keeps showing the
+        // previous group while the new one prepares to render.
+        startTransition(() => {
+          setCurrentGroup(result.group)
+          setError(undefined)
+        })
+      } catch (err) {
+        const cause = err instanceof Error ? err : new Error(String(err))
+        reportAppError({ type: 'GROUP_LOAD_FAILURE', groupId, cause, timestamp: Date.now() })
+        setError(cause)
+      }
+    },
+    [startTransition]
+  )
 
   return useMemo(
     () => ({

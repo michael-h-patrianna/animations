@@ -146,7 +146,9 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
         <m.span
           className="pf-pill-countdown-heartbeat__glow"
           aria-hidden="true"
-          animate={prefersReducedMotion ? undefined : getGlowAnimation(seconds, startSeconds, isExpired)}
+          animate={
+            prefersReducedMotion ? undefined : getGlowAnimation(seconds, startSeconds, isExpired)
+          }
           style={{ animation: 'none' }}
         />
         <span className="pf-pill-countdown-heartbeat__text" style={timeStyle}>

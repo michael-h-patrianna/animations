@@ -341,8 +341,11 @@ function ModalCelebrationsCoinsSwirlComponent({
     return () => clearTimeout(timer)
   }, [coins, sparkles, timeScale, onComplete])
 
-  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
-  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl" />
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion)
+    return <div className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl">

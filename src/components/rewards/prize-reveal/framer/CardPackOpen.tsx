@@ -410,12 +410,12 @@ function CardPackOpenComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCount
 
   return (
     <MotionConfig reducedMotion="user">
-    <div
-      className="pf-modal-celebration pf-card-pack"
-      data-animation-id="prize-reveal__card-pack-open"
-    >
-      {ready && <CardPackAnimation cardCount={prizeCount} />}
-    </div>
+      <div
+        className="pf-modal-celebration pf-card-pack"
+        data-animation-id="prize-reveal__card-pack-open"
+      >
+        {ready && <CardPackAnimation cardCount={prizeCount} />}
+      </div>
     </MotionConfig>
   )
 }

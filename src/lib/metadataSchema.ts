@@ -62,10 +62,7 @@ export const AnimationMetadataSchema = v.object({
  * Validates animation metadata at runtime (dev-mode only).
  * Returns an array of human-readable violation messages, or an empty array if valid.
  */
-export function validateAnimationMetadata(
-  meta: unknown,
-  sourcePath: string
-): string[] {
+export function validateAnimationMetadata(meta: unknown, sourcePath: string): string[] {
   const result = v.safeParse(AnimationMetadataSchema, meta)
   if (result.success) return []
 

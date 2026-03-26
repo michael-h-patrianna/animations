@@ -78,8 +78,27 @@ const ALLOWED_IMPORTS: Record<string, Set<string>> = {
   motion: new Set(['types', 'motion']),
   hooks: new Set(['types', 'utils', 'services', 'lib', 'hooks', 'contexts', 'other']),
   contexts: new Set(['types', 'utils', 'services', 'lib', 'hooks', 'contexts']),
-  'demo-ui': new Set(['types', 'utils', 'services', 'hooks', 'contexts', 'demo-ui', 'components-ui', 'demo-blocks']),
-  'components-ui': new Set(['types', 'utils', 'services', 'hooks', 'contexts', 'lib', 'demo-ui', 'components-ui', 'demo-blocks']),
+  'demo-ui': new Set([
+    'types',
+    'utils',
+    'services',
+    'hooks',
+    'contexts',
+    'demo-ui',
+    'components-ui',
+    'demo-blocks',
+  ]),
+  'components-ui': new Set([
+    'types',
+    'utils',
+    'services',
+    'hooks',
+    'contexts',
+    'lib',
+    'demo-ui',
+    'components-ui',
+    'demo-blocks',
+  ]),
   animation: new Set(['types', 'utils', 'motion', 'lib', 'demo-blocks', 'animation']),
   'demo-blocks': new Set(['types', 'utils', 'demo-blocks']),
 }
@@ -131,7 +150,9 @@ describe('Architecture import boundaries', () => {
       const reactImports = content.match(/^\s*import\s+(?!type\s)[^'"]*from\s+['"]react['"]/gm)
       if (reactImports) {
         const rel = relative(SRC_DIR, file)
-        violations.push(`${rel} imports runtime values from 'react' — services must be framework-agnostic`)
+        violations.push(
+          `${rel} imports runtime values from 'react' — services must be framework-agnostic`
+        )
       }
     }
 

@@ -43,9 +43,15 @@ function TextEffectsTypewriterComponent({
           <m.span
             key={index}
             className="pf-typewriter__char"
-            initial={prefersReducedMotion ? { opacity: 1, display: 'inline-block' } : { opacity: 0, display: 'none' }}
+            initial={
+              prefersReducedMotion
+                ? { opacity: 1, display: 'inline-block' }
+                : { opacity: 0, display: 'none' }
+            }
             animate={{ opacity: 1, display: 'inline-block' }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0, delay: index * charDelay }}
+            transition={
+              prefersReducedMotion ? { duration: 0 } : { duration: 0, delay: index * charDelay }
+            }
           >
             {char === ' ' ? '\u00A0' : char}
           </m.span>

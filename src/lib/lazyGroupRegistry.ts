@@ -1,4 +1,10 @@
-import type { Animation, AnimationExport, Group, GroupExport, GroupMetadata } from '@/types/animation'
+import type {
+  Animation,
+  AnimationExport,
+  Group,
+  GroupExport,
+  GroupMetadata,
+} from '@/types/animation'
 import { asAnimationId, asCategoryId, asGroupVariantId } from '@/types/animation'
 import type { CategoryId, GroupVariantId } from '@/types/animation'
 import type {
@@ -391,7 +397,12 @@ export function declareCategoryGroups(
       registerLazyGroup(groupId, async () => {
         const { groupExport } = await load()
         const animations = tech === 'framer' ? groupExport.framer : groupExport.css
-        const group = buildGroupFromExports(groupExport.metadata, tech, animations, brandedCategoryId)
+        const group = buildGroupFromExports(
+          groupExport.metadata,
+          tech,
+          animations,
+          brandedCategoryId
+        )
         return { metadata: groupExport.metadata, animations, group }
       })
     }

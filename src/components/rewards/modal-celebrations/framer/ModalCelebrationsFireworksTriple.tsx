@@ -417,8 +417,13 @@ function ModalCelebrationsFireworksTripleComponent({
   const bgTrails = useMemo(() => trails.filter((t) => t.layer === 'bg'), [trails])
   const fgTrails = useMemo(() => trails.filter((t) => t.layer === 'fg'), [trails])
 
-  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
-  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple" />
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion)
+    return (
+      <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple" />
+    )
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple">

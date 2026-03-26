@@ -376,8 +376,11 @@ function ModalCelebrationsConfettiPulseComponent({
     return () => clearTimeout(timer)
   }, [particles, sparkles, timeScale, onComplete])
 
-  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
-  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse" />
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion)
+    return <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">

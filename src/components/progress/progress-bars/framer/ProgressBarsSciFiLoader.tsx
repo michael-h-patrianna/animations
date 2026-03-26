@@ -50,7 +50,11 @@ export function ProgressBarsSciFiLoader({
           className="scifi-loader-fill"
           initial={false}
           animate={{ width: `${percent}%` }}
-          transition={{ type: 'tween', ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.05 }}
+          transition={{
+            type: 'tween',
+            ease: 'linear',
+            duration: prefersReducedMotion ? 0.05 : 0.05,
+          }}
           style={{ animation: 'none' }}
         />
         {!prefersReducedMotion && (

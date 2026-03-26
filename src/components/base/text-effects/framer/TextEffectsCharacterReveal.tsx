@@ -47,7 +47,9 @@ function TextEffectsCharacterRevealComponent({
           className="pf-char-reveal__shadow-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={prefersReducedMotion ? { duration: 0.3 } : { delay: 0.2, duration: 0.6, ease: easeOut }}
+          transition={
+            prefersReducedMotion ? { duration: 0.3 } : { delay: 0.2, duration: 0.6, ease: easeOut }
+          }
         >
           {chars.map((char, index) => (
             <m.span
@@ -55,7 +57,11 @@ function TextEffectsCharacterRevealComponent({
               className="pf-char-reveal__shadow-char"
               initial={prefersReducedMotion ? { opacity: 0.5 } : { opacity: 0, scale: 0.8 }}
               animate={prefersReducedMotion ? { opacity: 0.5 } : { opacity: 0.5, scale: 1 }}
-              transition={prefersReducedMotion ? { duration: 0.1 } : { duration: 0.3, delay: 0.3 + index * 0.03, ease: easeOut }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0.1 }
+                  : { duration: 0.3, delay: 0.3 + index * 0.03, ease: easeOut }
+              }
             >
               {char}
             </m.span>
@@ -67,14 +73,18 @@ function TextEffectsCharacterRevealComponent({
           className="pf-char-reveal__main-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={prefersReducedMotion ? { duration: 0.3, delay: 0.1 } : { delay: 0.5, duration: 0.3 }}
+          transition={
+            prefersReducedMotion ? { duration: 0.3, delay: 0.1 } : { delay: 0.5, duration: 0.3 }
+          }
         >
           {chars.map((char, index) => (
             <m.span
               key={index}
               className="pf-char-reveal__main-char"
               initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0 }}
-              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: [0, 1.2, 1] }}
+              animate={
+                prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: [0, 1.2, 1] }
+              }
               transition={
                 prefersReducedMotion
                   ? { duration: 0.3, delay: 0.2 }
@@ -99,7 +109,11 @@ function TextEffectsCharacterRevealComponent({
         className="pf-char-reveal__subtitle"
         initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { opacity: [0, 1], y: [10, 0] }}
-        transition={prefersReducedMotion ? { duration: 0.3, delay: 0.4 } : { duration: 0.5, delay: 1.2, ease: easeOut }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0.3, delay: 0.4 }
+            : { duration: 0.5, delay: 1.2, ease: easeOut }
+        }
       >
         <span className="pf-char-reveal__subtitle-main">{subtitle}</span>
         <span aria-hidden="true" className="pf-char-reveal__subtitle-shadow">

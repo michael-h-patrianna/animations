@@ -125,7 +125,10 @@ function RealtimeDataLiveScoreUpdateComponent({
               animate={
                 prefersReducedMotion
                   ? isPulsing
-                    ? { opacity: [1, 0.7, 1], color: ['var(--pf-base-50)', highlightColor, 'var(--pf-base-50)'] }
+                    ? {
+                        opacity: [1, 0.7, 1],
+                        color: ['var(--pf-base-50)', highlightColor, 'var(--pf-base-50)'],
+                      }
                     : { opacity: 1, color: 'var(--pf-base-50)' }
                   : isPulsing
                     ? {

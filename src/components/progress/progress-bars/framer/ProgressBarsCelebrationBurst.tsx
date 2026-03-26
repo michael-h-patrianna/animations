@@ -173,37 +173,38 @@ export function ProgressBarsCelebrationBurst({
                 </>
               )}
 
-              {!prefersReducedMotion && particles
-                .filter((p) => p.milestoneIndex === i)
-                .map((particle) => {
-                  const radians = (particle.angle * Math.PI) / 180
-                  const distance = 30
-                  return (
-                    <m.div
-                      key={particle.id}
-                      initial={{ scale: 0.5, opacity: 0, x: 0, y: 0 }}
-                      animate={{
-                        scale: [0.5, 1, 0],
-                        opacity: [0, 1, 0],
-                        x: Math.cos(radians) * distance,
-                        y: Math.sin(radians) * distance,
-                      }}
-                      transition={{ duration: 0.4, times: [0, 0.3, 1], ease: 'easeOut' }}
-                      style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        width: '6px',
-                        height: '6px',
-                        marginLeft: '-3px',
-                        marginTop: '-3px',
-                        borderRadius: '50%',
-                        backgroundColor: 'var(--burst-marker-color, var(--pf-anim-purple))',
-                        pointerEvents: 'none',
-                      }}
-                    />
-                  )
-                })}
+              {!prefersReducedMotion &&
+                particles
+                  .filter((p) => p.milestoneIndex === i)
+                  .map((particle) => {
+                    const radians = (particle.angle * Math.PI) / 180
+                    const distance = 30
+                    return (
+                      <m.div
+                        key={particle.id}
+                        initial={{ scale: 0.5, opacity: 0, x: 0, y: 0 }}
+                        animate={{
+                          scale: [0.5, 1, 0],
+                          opacity: [0, 1, 0],
+                          x: Math.cos(radians) * distance,
+                          y: Math.sin(radians) * distance,
+                        }}
+                        transition={{ duration: 0.4, times: [0, 0.3, 1], ease: 'easeOut' }}
+                        style={{
+                          position: 'absolute',
+                          left: '50%',
+                          top: '50%',
+                          width: '6px',
+                          height: '6px',
+                          marginLeft: '-3px',
+                          marginTop: '-3px',
+                          borderRadius: '50%',
+                          backgroundColor: 'var(--burst-marker-color, var(--pf-anim-purple))',
+                          pointerEvents: 'none',
+                        }}
+                      />
+                    )
+                  })}
             </div>
           )
         })}

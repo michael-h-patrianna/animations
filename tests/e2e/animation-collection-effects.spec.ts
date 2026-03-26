@@ -13,10 +13,7 @@ test.describe('Collection Effects', () => {
 
     // Particles spawn inside pf-coin-burst__stage
     await expect
-      .poll(
-        async () => stage.locator('.pf-coin-burst__particle').count(),
-        { timeout: 5_000 }
-      )
+      .poll(async () => stage.locator('.pf-coin-burst__particle').count(), { timeout: 5_000 })
       .toBeGreaterThan(0)
   })
 
@@ -40,10 +37,7 @@ test.describe('Collection Effects', () => {
 
     // Wait for initial burst
     await expect
-      .poll(
-        async () => stage.locator('.pf-coin-burst__particle').count(),
-        { timeout: 5_000 }
-      )
+      .poll(async () => stage.locator('.pf-coin-burst__particle').count(), { timeout: 5_000 })
       .toBeGreaterThan(0)
 
     // Replay
@@ -52,10 +46,7 @@ test.describe('Collection Effects', () => {
 
     // After replay, particles should reappear (component remounted)
     await expect
-      .poll(
-        async () => stage.locator('.pf-coin-burst__particle').count(),
-        { timeout: 5_000 }
-      )
+      .poll(async () => stage.locator('.pf-coin-burst__particle').count(), { timeout: 5_000 })
       .toBeGreaterThan(0)
   })
 

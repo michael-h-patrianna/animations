@@ -279,8 +279,13 @@ function ModalCelebrationsConfettiSpiralComponent({
     return () => clearTimeout(timer)
   }, [particles, sparkles, timeScale, onComplete])
 
-  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
-  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral" />
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion)
+    return (
+      <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral" />
+    )
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">

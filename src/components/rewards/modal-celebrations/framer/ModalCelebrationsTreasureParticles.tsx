@@ -417,8 +417,13 @@ function ModalCelebrationsTreasureParticlesComponent({
   const bgGems = useMemo(() => gems.filter((g) => g.layer === 'bg'), [gems])
   const fgGems = useMemo(() => gems.filter((g) => g.layer === 'fg'), [gems])
 
-  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
-  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles" />
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion)
+    return (
+      <div className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles" />
+    )
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles">

@@ -79,7 +79,15 @@ function TextEffectsMetallicSpecularFlashComponent({
     >
       <div className="pf-metallic-flash__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span key={i} className="pf-metallic-flash__letter" variants={prefersReducedMotion ? { hidden: { opacity: 1 }, show: { opacity: 1 } } : letterVariants}>
+          <m.span
+            key={i}
+            className="pf-metallic-flash__letter"
+            variants={
+              prefersReducedMotion
+                ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+                : letterVariants
+            }
+          >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

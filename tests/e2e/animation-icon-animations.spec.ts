@@ -8,9 +8,7 @@ test.describe('Icon Animations', () => {
     const stage = await catalogPage.cardStage(card)
 
     // Icon animation renders either an <img> or a placeholder div
-    const imageOrPlaceholder = stage.locator(
-      'img, .pf-icon-anim__placeholder'
-    )
+    const imageOrPlaceholder = stage.locator('img, .pf-icon-anim__placeholder')
     await expect(imageOrPlaceholder.first()).toBeVisible({ timeout: 5_000 })
   })
 

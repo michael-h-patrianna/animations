@@ -257,8 +257,11 @@ function ModalCelebrationsFireworksRingComponent({
     return () => clearTimeout(timer)
   }, [bursts, sparkles, onComplete])
 
-  useEffect(() => { if (prefersReducedMotion && onComplete) onComplete() }, [prefersReducedMotion, onComplete])
-  if (prefersReducedMotion) return <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring" />
+  useEffect(() => {
+    if (prefersReducedMotion && onComplete) onComplete()
+  }, [prefersReducedMotion, onComplete])
+  if (prefersReducedMotion)
+    return <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring" />
 
   return (
     <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">

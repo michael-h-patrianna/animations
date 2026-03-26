@@ -81,7 +81,11 @@ function LoadingStatesSpinnerOrbitalComponent({
           border: `2px dashed ${ringColor}`,
           animation: 'none',
         }}
-        animate={prefersReducedMotion ? { opacity: [0.3, 0.6, 0.3] } : { rotate: -360, opacity: [0.3, 0.8, 0.3] }}
+        animate={
+          prefersReducedMotion
+            ? { opacity: [0.3, 0.6, 0.3] }
+            : { rotate: -360, opacity: [0.3, 0.8, 0.3] }
+        }
         transition={
           prefersReducedMotion
             ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' as const }

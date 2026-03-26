@@ -104,7 +104,11 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
         initial: { scale: 1 },
         animate: {
           scale: [1.3, 1.5, 1.3],
-          transition: { duration: 0.7, ease: [0.68, -0.55, 0.265, 1.55] as const, times: [0, 0.5, 1] },
+          transition: {
+            duration: 0.7,
+            ease: [0.68, -0.55, 0.265, 1.55] as const,
+            times: [0, 0.5, 1],
+          },
         },
       }
 

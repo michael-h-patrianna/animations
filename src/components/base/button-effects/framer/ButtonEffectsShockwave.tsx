@@ -101,7 +101,9 @@ function ButtonEffectsShockwaveComponent({
                   key={i}
                   className="pf-shockwave__ring"
                   style={{ ...pos, opacity: 1 - i * 0.15, animation: 'none' }}
-                  initial={prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 - i * 0.15 }}
+                  initial={
+                    prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 - i * 0.15 }
+                  }
                   animate={prefersReducedMotion ? { opacity: 0 } : { scale: 1, opacity: 0 }}
                   transition={
                     prefersReducedMotion

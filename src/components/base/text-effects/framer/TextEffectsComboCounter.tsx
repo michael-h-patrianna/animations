@@ -5,7 +5,14 @@
  */
 
 import * as m from 'motion/react-m'
-import { animate, easeInOut, easeOut, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
+import {
+  animate,
+  easeInOut,
+  easeOut,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from 'motion/react'
 import { memo, useEffect, useMemo, useRef } from 'react'
 
 interface Milestone {
@@ -101,7 +108,11 @@ function TextEffectsComboCounterComponent({
         <m.div
           className="pf-combo__number-wrapper"
           initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0, rotate: -180 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { scale: [0, 1.2, 0.95, 1], rotate: [180, 10, -5, 0] }}
+          animate={
+            prefersReducedMotion
+              ? { opacity: 1 }
+              : { scale: [0, 1.2, 0.95, 1], rotate: [180, 10, -5, 0] }
+          }
           transition={
             prefersReducedMotion
               ? { duration: 0.3 }
@@ -124,7 +135,11 @@ function TextEffectsComboCounterComponent({
                 <m.span
                   className="pf-combo__digit-pulse"
                   animate={prefersReducedMotion ? undefined : { scale: [1, 1.05, 1] }}
-                  transition={prefersReducedMotion ? undefined : { duration: 1.2, delay: 0.35, ease: easeInOut }}
+                  transition={
+                    prefersReducedMotion
+                      ? undefined
+                      : { duration: 1.2, delay: 0.35, ease: easeInOut }
+                  }
                 >
                   {displayCount}
                 </m.span>
@@ -132,45 +147,54 @@ function TextEffectsComboCounterComponent({
             </div>
 
             {/* Milestone particles — hidden in reduced motion */}
-            {!prefersReducedMotion && milestones.map((milestone, i) => {
-              const angle = -90 + i * 30 - 45
-              const distance = 70 + i * 12
-              const xOffset = Math.cos((angle * Math.PI) / 180) * distance
-              const yOffset = Math.sin((angle * Math.PI) / 180) * distance
-              const triggerProgress = milestone.trigger / Math.abs(range)
-              const adjustedDelay = triggerProgress * 0.8
+            {!prefersReducedMotion &&
+              milestones.map((milestone, i) => {
+                const angle = -90 + i * 30 - 45
+                const distance = 70 + i * 12
+                const xOffset = Math.cos((angle * Math.PI) / 180) * distance
+                const yOffset = Math.sin((angle * Math.PI) / 180) * distance
+                const triggerProgress = milestone.trigger / Math.abs(range)
+                const adjustedDelay = triggerProgress * 0.8
 
-              return (
-                <m.div
-                  key={i}
-                  className="pf-combo__milestone-particle"
-                  data-value={milestone.value}
-                  initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
-                  animate={{
-                    opacity: [0, 1, 1, 0],
-                    x: xOffset,
-                    y: yOffset,
-                    scale: [0, 1.4, 1, 0.5],
-                  }}
-                  transition={{ duration: 1, delay: 0.35 + adjustedDelay, ease: easeOut }}
-                >
-                  <span className="pf-combo__milestone-text">+{formatValue(milestone.value)}</span>
-                  {milestone.value >= 10 && (
-                    <span aria-hidden="true" className="pf-combo__milestone-glow">
+                return (
+                  <m.div
+                    key={i}
+                    className="pf-combo__milestone-particle"
+                    data-value={milestone.value}
+                    initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
+                    animate={{
+                      opacity: [0, 1, 1, 0],
+                      x: xOffset,
+                      y: yOffset,
+                      scale: [0, 1.4, 1, 0.5],
+                    }}
+                    transition={{ duration: 1, delay: 0.35 + adjustedDelay, ease: easeOut }}
+                  >
+                    <span className="pf-combo__milestone-text">
                       +{formatValue(milestone.value)}
                     </span>
-                  )}
-                </m.div>
-              )
-            })}
+                    {milestone.value >= 10 && (
+                      <span aria-hidden="true" className="pf-combo__milestone-glow">
+                        +{formatValue(milestone.value)}
+                      </span>
+                    )}
+                  </m.div>
+                )
+              })}
           </div>
 
           {/* Hit multiplier */}
           <m.div
             className="pf-combo__hit-marker"
             initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0, opacity: 0 }}
-            animate={prefersReducedMotion ? { opacity: 0.9 } : { scale: [0, 1.3, 1], opacity: [0, 1, 0.9] }}
-            transition={prefersReducedMotion ? { duration: 0.3, delay: 0.1 } : { duration: 0.3, delay: 0.15, ease: easeOut }}
+            animate={
+              prefersReducedMotion ? { opacity: 0.9 } : { scale: [0, 1.3, 1], opacity: [0, 1, 0.9] }
+            }
+            transition={
+              prefersReducedMotion
+                ? { duration: 0.3, delay: 0.1 }
+                : { duration: 0.3, delay: 0.15, ease: easeOut }
+            }
           >
             ×
           </m.div>
@@ -187,8 +211,14 @@ function TextEffectsComboCounterComponent({
             <m.span
               key={index}
               className="pf-combo__text-char"
-              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0, rotate: -180 }}
-              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: [0, 1.2, 1], rotate: [180, -10, 0] }}
+              initial={
+                prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0, rotate: -180 }
+              }
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1 }
+                  : { opacity: 1, scale: [0, 1.2, 1], rotate: [180, -10, 0] }
+              }
               transition={
                 prefersReducedMotion
                   ? { duration: 0.3, delay: 0.15 }
@@ -210,8 +240,14 @@ function TextEffectsComboCounterComponent({
         <m.div
           className="pf-combo__bonus"
           initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: [0, 1, 1], scale: [0.5, 1.1, 1] }}
-          transition={prefersReducedMotion ? { duration: 0.3, delay: 0.6 } : { duration: 0.4, delay: 1.6, times: [0, 0.6, 1], ease: easeOut }}
+          animate={
+            prefersReducedMotion ? { opacity: 1 } : { opacity: [0, 1, 1], scale: [0.5, 1.1, 1] }
+          }
+          transition={
+            prefersReducedMotion
+              ? { duration: 0.3, delay: 0.6 }
+              : { duration: 0.4, delay: 1.6, times: [0, 0.6, 1], ease: easeOut }
+          }
         >
           {bonusText}
         </m.div>

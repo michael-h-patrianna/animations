@@ -58,9 +58,8 @@ afterEach(() => {
 
 describe('CollectionEffectsCoinBurst', () => {
   it('renders the correct number of particle elements matching count prop', async () => {
-    const { CollectionEffectsCoinBurst } = await import(
-      '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst'
-    )
+    const { CollectionEffectsCoinBurst } =
+      await import('@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst')
 
     const { container } = render(
       <Suspense fallback={<div>Loading</div>}>
@@ -74,7 +73,7 @@ describe('CollectionEffectsCoinBurst', () => {
       () => {
         // Animation DOM structure tests: BEM class queries are the only way to assert
         // on particle count — these elements have no ARIA or data-testid equivalent.
-         
+
         const particles = container.querySelectorAll('.pf-coin-burst__particle')
         expect(particles).toHaveLength(8)
       },
@@ -83,9 +82,8 @@ describe('CollectionEffectsCoinBurst', () => {
   })
 
   it('renders default 14 particles when count is omitted', async () => {
-    const { CollectionEffectsCoinBurst } = await import(
-      '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst'
-    )
+    const { CollectionEffectsCoinBurst } =
+      await import('@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst')
 
     const { container } = render(
       <Suspense fallback={<div>Loading</div>}>
@@ -95,7 +93,6 @@ describe('CollectionEffectsCoinBurst', () => {
 
     await waitFor(
       () => {
-         
         const particles = container.querySelectorAll('.pf-coin-burst__particle')
         expect(particles).toHaveLength(14)
       },
@@ -104,9 +101,8 @@ describe('CollectionEffectsCoinBurst', () => {
   })
 
   it('applies particleSize as CSS custom property on the root element', async () => {
-    const { CollectionEffectsCoinBurst } = await import(
-      '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst'
-    )
+    const { CollectionEffectsCoinBurst } =
+      await import('@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst')
 
     const { container } = render(
       <Suspense fallback={<div>Loading</div>}>
@@ -114,7 +110,6 @@ describe('CollectionEffectsCoinBurst', () => {
       </Suspense>
     )
 
-     
     const animRoot = container.querySelector(
       '[data-animation-id="collection-effects__coin-burst"]'
     ) as HTMLElement
@@ -122,9 +117,8 @@ describe('CollectionEffectsCoinBurst', () => {
   })
 
   it('sets aria-hidden on the animation stage', async () => {
-    const { CollectionEffectsCoinBurst } = await import(
-      '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst'
-    )
+    const { CollectionEffectsCoinBurst } =
+      await import('@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst')
 
     const { container } = render(
       <Suspense fallback={<div>Loading</div>}>
@@ -134,7 +128,6 @@ describe('CollectionEffectsCoinBurst', () => {
 
     await waitFor(
       () => {
-         
         const stage = container.querySelector('.pf-coin-burst__stage')
         expect(stage).toHaveAttribute('aria-hidden', 'true')
       },
@@ -147,9 +140,8 @@ describe('CollectionEffectsCoinBurst', () => {
 
 describe('ProgressBarsProgressThin', () => {
   it('sets aria-valuenow to the progress percentage', async () => {
-    const { ProgressBarsProgressThin } = await import(
-      '@/components/progress/progress-bars/framer/ProgressBarsProgressThin'
-    )
+    const { ProgressBarsProgressThin } =
+      await import('@/components/progress/progress-bars/framer/ProgressBarsProgressThin')
 
     render(
       <Suspense fallback={<div>Loading</div>}>
@@ -164,9 +156,8 @@ describe('ProgressBarsProgressThin', () => {
   })
 
   it('defaults to 0% when progress is omitted', async () => {
-    const { ProgressBarsProgressThin } = await import(
-      '@/components/progress/progress-bars/framer/ProgressBarsProgressThin'
-    )
+    const { ProgressBarsProgressThin } =
+      await import('@/components/progress/progress-bars/framer/ProgressBarsProgressThin')
 
     render(
       <Suspense fallback={<div>Loading</div>}>
@@ -179,9 +170,8 @@ describe('ProgressBarsProgressThin', () => {
   })
 
   it('renders the label text when provided', async () => {
-    const { ProgressBarsProgressThin } = await import(
-      '@/components/progress/progress-bars/framer/ProgressBarsProgressThin'
-    )
+    const { ProgressBarsProgressThin } =
+      await import('@/components/progress/progress-bars/framer/ProgressBarsProgressThin')
 
     const { container } = render(
       <Suspense fallback={<div>Loading</div>}>
@@ -189,15 +179,13 @@ describe('ProgressBarsProgressThin', () => {
       </Suspense>
     )
 
-     
     const label = container.querySelector('.pf-progress-thin__label')
     expect(label).toHaveTextContent('XP')
   })
 
   it('omits label element when label is empty string', async () => {
-    const { ProgressBarsProgressThin } = await import(
-      '@/components/progress/progress-bars/framer/ProgressBarsProgressThin'
-    )
+    const { ProgressBarsProgressThin } =
+      await import('@/components/progress/progress-bars/framer/ProgressBarsProgressThin')
 
     const { container } = render(
       <Suspense fallback={<div>Loading</div>}>
@@ -205,15 +193,13 @@ describe('ProgressBarsProgressThin', () => {
       </Suspense>
     )
 
-     
     const labels = container.querySelectorAll('.pf-progress-thin__label')
     expect(labels).toHaveLength(0)
   })
 
   it('renders data-animation-id attribute on root', async () => {
-    const { ProgressBarsProgressThin } = await import(
-      '@/components/progress/progress-bars/framer/ProgressBarsProgressThin'
-    )
+    const { ProgressBarsProgressThin } =
+      await import('@/components/progress/progress-bars/framer/ProgressBarsProgressThin')
 
     render(
       <Suspense fallback={<div>Loading</div>}>
@@ -222,9 +208,7 @@ describe('ProgressBarsProgressThin', () => {
     )
 
     // The animation root must have data-animation-id for the catalog to find it
-    const roots = document.querySelectorAll(
-      '[data-animation-id="progress-bars__progress-thin"]'
-    )
+    const roots = document.querySelectorAll('[data-animation-id="progress-bars__progress-thin"]')
     expect(roots).toHaveLength(1)
   })
 })
@@ -233,9 +217,8 @@ describe('ProgressBarsProgressThin', () => {
 
 describe('StandardEffectsBounce', () => {
   it('renders children when provided', async () => {
-    const { StandardEffectsBounce } = await import(
-      '@/components/base/standard-effects/framer/StandardEffectsBounce'
-    )
+    const { StandardEffectsBounce } =
+      await import('@/components/base/standard-effects/framer/StandardEffectsBounce')
 
     render(
       <Suspense fallback={<div>Loading</div>}>
@@ -249,9 +232,8 @@ describe('StandardEffectsBounce', () => {
   })
 
   it('renders default DemoBox when no children provided', async () => {
-    const { StandardEffectsBounce } = await import(
-      '@/components/base/standard-effects/framer/StandardEffectsBounce'
-    )
+    const { StandardEffectsBounce } =
+      await import('@/components/base/standard-effects/framer/StandardEffectsBounce')
 
     const { container } = render(
       <Suspense fallback={<div>Loading</div>}>
@@ -260,15 +242,14 @@ describe('StandardEffectsBounce', () => {
     )
 
     // DemoBox renders with pf-demo-box class — verifying fallback content appears
-     
+
     const demoBoxes = container.querySelectorAll('.pf-demo-box')
     expect(demoBoxes).toHaveLength(1)
   })
 
   it('renders data-animation-id attribute on root', async () => {
-    const { StandardEffectsBounce } = await import(
-      '@/components/base/standard-effects/framer/StandardEffectsBounce'
-    )
+    const { StandardEffectsBounce } =
+      await import('@/components/base/standard-effects/framer/StandardEffectsBounce')
 
     render(
       <Suspense fallback={<div>Loading</div>}>
@@ -276,9 +257,7 @@ describe('StandardEffectsBounce', () => {
       </Suspense>
     )
 
-    const roots = document.querySelectorAll(
-      '[data-animation-id="standard-effects__bounce"]'
-    )
+    const roots = document.querySelectorAll('[data-animation-id="standard-effects__bounce"]')
     expect(roots).toHaveLength(1)
   })
 })

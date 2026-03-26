@@ -145,14 +145,20 @@ export function ProgressBarsChargeSurge({
             className="pf-progress-fill pf-progress-fill--base"
             initial={false}
             animate={{ scaleX: progress ?? 0 }}
-            transition={{ duration: prefersReducedMotion ? 0.1 : 0.3, ease: [0.4, 0, 0.2, 1] as const }}
+            transition={{
+              duration: prefersReducedMotion ? 0.1 : 0.3,
+              ease: [0.4, 0, 0.2, 1] as const,
+            }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           />
           <m.div
             className="pf-progress-fill pf-progress-fill--glow"
             initial={false}
             animate={{ scaleX: progress ?? 0 }}
-            transition={{ duration: prefersReducedMotion ? 0.1 : 0.3, ease: [0.4, 0, 0.2, 1] as const }}
+            transition={{
+              duration: prefersReducedMotion ? 0.1 : 0.3,
+              ease: [0.4, 0, 0.2, 1] as const,
+            }}
             style={{ transformOrigin: 'left center', animation: 'none' }}
           >
             <m.div
@@ -186,23 +192,24 @@ export function ProgressBarsChargeSurge({
                 borderRadius: '50%',
               }}
             />
-            {!prefersReducedMotion && surgeWaves
-              .filter((w) => w.milestoneIndex === i)
-              .map((wave) => (
-                <m.div
-                  key={wave.id}
-                  initial={{ scale: 0.5, opacity: 0.8 }}
-                  animate={{ scale: 2.5, opacity: 0 }}
-                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] as const }}
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    border: '2px solid var(--charge-marker-border)',
-                    borderRadius: '50%',
-                    pointerEvents: 'none',
-                  }}
-                />
-              ))}
+            {!prefersReducedMotion &&
+              surgeWaves
+                .filter((w) => w.milestoneIndex === i)
+                .map((wave) => (
+                  <m.div
+                    key={wave.id}
+                    initial={{ scale: 0.5, opacity: 0.8 }}
+                    animate={{ scale: 2.5, opacity: 0 }}
+                    transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] as const }}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      border: '2px solid var(--charge-marker-border)',
+                      borderRadius: '50%',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                ))}
           </div>
         ))}
       </div>
