@@ -103,8 +103,6 @@ function ModalCelebrationsFireworkComponent({
   const hasImages = particleImages.length > 0
   const variantCount = hasImages ? particleImages.length : colors.length
   const cycleDurationS = duration / 1000
-  // Single-burst visual duration is ~60% of the cycle (matches keyframe at 60%)
-  const burstDurationS = cycleDurationS * 0.6
 
   const config = useMemo(
     () => ({ burstCount, particlesPerBurst, durationMs: duration, variantCount }),
@@ -160,7 +158,6 @@ function ModalCelebrationsFireworkComponent({
                       '--fw-y': `${particle.y}px`,
                       '--fw-rotation': `${particle.rotation}deg`,
                       '--fw-scale': String(particle.scale),
-                      '--fw-duration': `${burstDurationS}s`,
                       '--fw-cycle-duration': `${cycleDurationS}s`,
                       '--fw-gravity-distance': `${FIREWORK_GRAVITY_DISTANCE_PX}px`,
                       '--fw-delay': `${burst.delay + particle.delay}s`,

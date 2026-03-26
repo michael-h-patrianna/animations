@@ -40,16 +40,20 @@
   0% {
     transform: translate(0, 0) rotate(0deg) scale(0);
     opacity: 0;
+    animation-timing-function: ease-out;
   }
 
   8% {
+    transform: translate(0, 0) rotate(0deg) scale(0);
     opacity: 1;
+    animation-timing-function: ease-out;
   }
 
   60% {
     transform: translate(var(--fw-x, 0), var(--fw-y, 0)) rotate(var(--fw-rotation, 0deg))
       scale(var(--fw-scale, 1));
     opacity: 1;
+    animation-timing-function: ease-in;
   }
 
   84% {
@@ -59,6 +63,7 @@
       )
       rotate(calc(var(--fw-rotation, 0deg) + 180deg)) scale(calc(var(--fw-scale, 1) * 0.5));
     opacity: 0;
+    animation-timing-function: linear;
   }
 
   100% {
