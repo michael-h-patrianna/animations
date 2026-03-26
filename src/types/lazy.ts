@@ -106,13 +106,13 @@ export interface LazyAnimationsResult {
   /** Currently loaded group (undefined if not loaded yet) */
   currentGroup?: Group
 
-  /** Loading state */
-  isLoading: boolean
+  /** True while a group transition is in progress (React 19 useTransition). Previous group stays visible. */
+  isPending: boolean
 
   /** Error if loading failed */
   error?: Error
 
-  /** Load a group by ID */
+  /** Load a group by ID (wraps in a React transition) */
   loadGroup: (groupId: string) => Promise<void>
 
   /** Check if a group is already cached */

@@ -29,7 +29,7 @@ function GroupLoadingFallback() {
 
 /** App content that consumes navigation state from context. */
 function AppContent() {
-  const { currentGroupId, currentGroup, animationFilter, isLoading, error } = useAppNavigation()
+  const { currentGroupId, currentGroup, animationFilter, isPending, error } = useAppNavigation()
   return (
     <AnimationInspectorProvider currentGroup={currentGroup}>
       <EditorLayout>
@@ -49,7 +49,7 @@ function AppContent() {
                   group={currentGroup}
                   elementId={`group-${currentGroup.id}`}
                   animationFilter={animationFilter}
-                  isLoading={isLoading}
+                  isPending={isPending}
                   error={error}
                 />
               </Suspense>
@@ -58,7 +58,7 @@ function AppContent() {
         </AnimatePresence>
 
         {/* Show loading state when no group loaded yet */}
-        {!currentGroup && isLoading && <GroupLoadingFallback />}
+        {!currentGroup && isPending && <GroupLoadingFallback />}
 
         {/* Show error state */}
         {error && !currentGroup && (

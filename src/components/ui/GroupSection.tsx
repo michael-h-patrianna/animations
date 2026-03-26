@@ -15,8 +15,8 @@ interface GroupSectionProps {
   elementId: string
   /** When set, only the animation with this ID is shown. Invalid IDs produce an error banner. */
   animationFilter?: string
-  /** Whether the group is currently loading */
-  isLoading?: boolean
+  /** True while a group transition is pending (React 19 useTransition) */
+  isPending?: boolean
   /** Error if loading failed */
   error?: Error
 }
@@ -68,10 +68,10 @@ export function GroupSection({
   group,
   elementId,
   animationFilter,
-  isLoading,
+  isPending,
   error,
 }: GroupSectionProps) {
-  if (isLoading) {
+  if (isPending) {
     return <LoadingState elementId={elementId} />
   }
 
@@ -138,7 +138,7 @@ function GroupContent({
   group,
   elementId,
   animationFilter,
-}: Omit<GroupSectionProps, 'isLoading' | 'error'>) {
+}: Omit<GroupSectionProps, 'isPending' | 'error'>) {
   const state = useGroupContentState(group, animationFilter)
 
   return (

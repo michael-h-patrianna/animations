@@ -18,7 +18,7 @@ export interface LazyAppNavigationResult {
   allGroups: LazyGroup[]
   currentGroupId: string
   currentGroup?: import('@/types/animation').Group
-  isLoading: boolean
+  isPending: boolean
   error?: Error
   animationFilter?: string
   handleModeSelect: (mode: CodeMode) => void
@@ -100,7 +100,7 @@ export function useLazyAppNavigation(): LazyAppNavigationResult {
   const [initError, setInitError] = useState<Error | undefined>()
 
   const animationFilter = searchParams.get('animation') ?? undefined
-  const { navCatalog, currentGroup, isLoading, error: loadError, loadGroup } = useLazyAnimations()
+  const { navCatalog, currentGroup, isPending, error: loadError, loadGroup } = useLazyAnimations()
 
   const error = initError || loadError
 
@@ -154,7 +154,7 @@ export function useLazyAppNavigation(): LazyAppNavigationResult {
       allGroups,
       currentGroupId,
       currentGroup,
-      isLoading,
+      isPending,
       error,
       animationFilter,
       handleModeSelect,
@@ -165,7 +165,7 @@ export function useLazyAppNavigation(): LazyAppNavigationResult {
       allGroups,
       currentGroupId,
       currentGroup,
-      isLoading,
+      isPending,
       error,
       animationFilter,
       handleModeSelect,
