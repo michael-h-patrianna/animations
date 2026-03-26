@@ -5,6 +5,7 @@ import type {
   GroupMetadata,
   SourceTab,
 } from '@/types/animation'
+import { validateAnimationMetadata } from '@/lib/metadataSchema'
 import { lazy, type ComponentType } from 'react'
 
 /** Shape of an eagerly-imported `.meta.ts` module. */
@@ -107,6 +108,17 @@ function buildAnimationMap(
     if (SKIP_PATTERN.test(baseName)) continue
 
     const meta = metaModule.metadata
+
+    // Dev-mode runtime validation catches metadata typos that `satisfies` cannot
+    if (import.meta.env.DEV) {
+      const violations = validateAnimationMetadata(meta, `${subdir}/${baseName}.meta.ts`)
+      if (violations.length > 0) {
+        throw new Error(
+          `[groupBuilder] Invalid metadata in ${subdir}/${baseName}.meta.ts:\n` +
+            violations.map((msg) => `  - ${msg}`).join('\n')
+        )
+      }
+    }
 
     // Find the corresponding component loader by matching base filename
     const componentPath = Object.keys(componentLoaders).find(
