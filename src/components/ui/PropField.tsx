@@ -19,6 +19,13 @@ function normalizeColorDefault(value?: string): string {
   return resolved !== '' ? resolved : value
 }
 
+function resolveColorArray(colors: string[]): string[] {
+  return colors.map((c) => {
+    const n = normalizeColorDefault(c)
+    return n !== '' ? n : c
+  })
+}
+
 function parseStyleNumberValue(value: unknown): number | undefined {
   if (typeof value === 'number' && !Number.isNaN(value)) {
     return value
@@ -454,9 +461,7 @@ interface PropFieldProps {
 }
 
 function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
-  if (config.disabled) {
-    return <DisabledField config={config} />
-  }
+  if (config.disabled) return <DisabledField config={config} />
 
   const handleChange = (v: unknown) => onChange(config.name, v)
 
@@ -519,20 +524,16 @@ function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
           onChange={handleChange as (v: string[]) => void}
         />
       )
-    case 'colors': {
-      const rawColors = Array.isArray(value) ? (value as string[]) : (config.default ?? [])
-      const resolved = rawColors.map((c) => {
-        const n = normalizeColorDefault(c)
-        return n !== '' ? n : c
-      })
+    case 'colors':
       return (
         <ColorsField
           config={config}
-          value={resolved}
+          value={resolveColorArray(
+            Array.isArray(value) ? (value as string[]) : (config.default ?? [])
+          )}
           onChange={handleChange as (v: string[]) => void}
         />
       )
-    }
     case 'style-object':
       return (
         <StyleObjectField
