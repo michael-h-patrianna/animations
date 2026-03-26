@@ -1,3 +1,4 @@
+import { assertNever } from '@/utils/assertNever'
 import React, { useEffect, useReducer, useRef } from 'react'
 import { Input, type InputProps } from './Input'
 import { m as MotionEl } from 'motion/react'
@@ -197,7 +198,7 @@ function numberInputReducer(state: NumberInputState, action: NumberInputAction):
     case 'showError':
       return { ...state, error: action.error, isFocused: false }
     default:
-      return state
+      return assertNever(action)
   }
 }
 

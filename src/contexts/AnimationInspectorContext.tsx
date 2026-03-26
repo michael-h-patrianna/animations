@@ -6,6 +6,7 @@ import type {
   StyleObjectFieldConfig,
 } from '@/types/animation'
 import { getInspectorStarterDefaults } from '@/contexts/inspectorStarterDefaults'
+import { assertNever } from '@/utils/assertNever'
 import {
   createContext,
   use,
@@ -66,6 +67,8 @@ function buildStyleFieldDefault(field: StyleObjectFieldConfig): string {
       return field.default != null ? `${field.default}${field.unit ?? ''}` : ''
     case 'string':
       return field.default ?? ''
+    default:
+      return assertNever(field)
   }
 }
 

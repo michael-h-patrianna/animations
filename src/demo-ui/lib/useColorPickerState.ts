@@ -1,3 +1,4 @@
+import { assertNever } from '@/utils/assertNever'
 import { useState, useEffect, useCallback, useReducer } from 'react'
 import {
   parseColorToHsv,
@@ -83,7 +84,7 @@ function colorDraftReducer(state: ColorDraftState, action: ColorDraftAction): Co
         rgbInput: hsvToRgb(action.hsv.h, action.hsv.s, action.hsv.v, action.hsv.a),
       }
     default:
-      return state
+      return assertNever(action)
   }
 }
 

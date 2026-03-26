@@ -1,3 +1,4 @@
+import { assertNever } from '@/utils/assertNever'
 import { memo, useMemo, type CSSProperties, type Ref, type RefObject } from 'react'
 import './DemoAnchors.css'
 
@@ -81,6 +82,8 @@ function generatePositions(mode: AnchorMode): AnchorPositions {
         to: { left: `${toX}%`, top: `${toY}%` },
       }
     }
+    default:
+      return assertNever(mode)
   }
 }
 

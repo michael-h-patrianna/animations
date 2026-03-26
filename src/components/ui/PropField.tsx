@@ -5,6 +5,7 @@ import { Select } from '@/demo-ui/components/ui/Select'
 import { Slider } from '@/demo-ui/components/ui/Slider'
 import { Switch } from '@/demo-ui/components/ui/Switch'
 import type { PropConfig, StyleObjectFieldConfig } from '@/types/animation'
+import { assertNever } from '@/utils/assertNever'
 import { resolveColorInputDefault } from '@/utils/colors'
 import { memo, useCallback } from 'react'
 
@@ -43,6 +44,8 @@ function serializeStyleFieldValue(field: StyleObjectFieldConfig, value: unknown)
     case 'color':
     case 'string':
       return typeof value === 'string' ? value : ''
+    default:
+      return assertNever(field)
   }
 }
 
@@ -60,6 +63,8 @@ function buildStyleObjectDefaultRecord(fields: StyleObjectFieldConfig[]): Record
             return [field.key, normalizeColorDefault(field.default)] as const
           case 'string':
             return [field.key, field.default ?? ''] as const
+          default:
+            return assertNever(field)
         }
       })
       .filter(([, value]) => value !== '')
@@ -530,6 +535,8 @@ function PropFieldComponent({ config, value, onChange }: PropFieldProps) {
           onChange={handleChange as (v: Record<string, unknown>) => void}
         />
       )
+    default:
+      return assertNever(config)
   }
 }
 
