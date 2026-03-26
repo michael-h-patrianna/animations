@@ -14,7 +14,6 @@
     transparent 20%
   );
   position: relative;
-  display: inline-block;
 }
 
 /* Text wrapper - holds both start and end text layers */
