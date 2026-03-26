@@ -601,4 +601,15 @@ export default defineConfig([
       'animation-rules/no-direct-image-imports': 'off',
     },
   },
+  // Property-based tests: toBeGreaterThanOrEqual(0) and toBeLessThanOrEqual(255) are
+  // meaningful bounds assertions in fast-check properties verifying clamping invariants —
+  // not the shallow existence checks the rule targets. Color string construction (rgb())
+  // is test input, not hardcoded UI styling.
+  {
+    files: ['src/__tests__/property.*.test.ts'],
+    rules: {
+      'animation-rules/no-shallow-assertions': 'off',
+      'animation-rules/no-hardcoded-colors': 'off',
+    },
+  },
 ])
