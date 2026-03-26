@@ -4,13 +4,20 @@
   border-radius: var(--pf-radius-xs);
   border: 1px solid var(--border-subtle);
   min-height: var(--pf-demo-height, 240px);
-  background: var(--app-canvas-bg);
-  background: linear-gradient(
-    160deg,
-    var(--app-canvas-gradient-start),
-    var(--app-canvas-gradient-end)
-  );
-  box-shadow: inset 0 0 0 1px var(--app-shadow-canvas);
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 45%,
+      transparent 0%,
+      oklch(0% 0 0deg / 12%) 100%
+    ),
+    linear-gradient(
+      160deg,
+      var(--app-canvas-gradient-start),
+      var(--app-canvas-gradient-end)
+    );
+  box-shadow:
+    inset 0 0 0 1px var(--app-shadow-canvas),
+    inset 0 1px 0 0 oklch(100% 0 0deg / 4%);
   padding: 0 1rem;
   display: flex;
   align-items: center;

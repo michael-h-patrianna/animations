@@ -68,7 +68,7 @@ function GroupHeader({
           </m.div>
         )}
         <span
-          className={`text-xs font-semibold uppercase tracking-wider ${collapsible ? 'text-text-secondary' : 'text-text-secondary'}`}
+          className={`text-xs font-bold uppercase tracking-wider ${collapsible ? 'text-text-primary' : 'text-text-primary'}`}
         >
           {title}
         </span>
@@ -105,7 +105,7 @@ export const ControlGroup: React.FC<ControlGroupProps> = ({
 
   return (
     <div
-      className={`border-b border-[var(--border-subtle)] pb-2 last:border-0 ${className}`}
+      className={`border-b border-[var(--border-subtle)] pb-2 pt-3 first:pt-0 last:border-0 ${className}`}
       data-testid={testId}
     >
       {showTitle && (

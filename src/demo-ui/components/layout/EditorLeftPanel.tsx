@@ -115,7 +115,7 @@ export const EditorLeftPanel: React.FC = () => {
   return (
     <div className="h-full flex flex-col w-full shrink-0 overflow-hidden">
       {/* Panel header */}
-      <div className="p-4 border-b border-panel-border bg-panel-header/50 z-10 shrink-0">
+      <div className="p-4 border-b border-panel-border bg-panel-header/30 z-10 shrink-0">
         <h2 className="text-xs font-bold text-(--text-secondary) uppercase tracking-widest">
           Categories
         </h2>
@@ -172,9 +172,9 @@ export const EditorLeftPanel: React.FC = () => {
                     key={group.baseId}
                     type="button"
                     onClick={() => handleGroupSelect(pickGroupId(group, codeMode))}
-                    className={`text-left w-full px-2 py-1.5 text-xs rounded-md cursor-pointer transition-colors duration-150 ${
+                    className={`pf-nav-item text-left w-full py-1.5 text-sm rounded-md cursor-pointer transition-all duration-200 ${
                       isActive
-                        ? 'bg-accent/15 text-accent font-medium'
+                        ? 'pf-nav-item--active bg-accent/10 text-accent font-semibold'
                         : 'text-(--text-secondary) hover:bg-(--bg-hover) hover:text-(--text-primary)'
                     }`}
                     data-testid={`sidebar-group-${group.baseId}`}

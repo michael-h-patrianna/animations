@@ -92,7 +92,7 @@ export const EditorTopBar: React.FC = () => {
 
   return (
     <div
-      className="glass-panel h-12 flex items-center px-4 z-40 shrink-0 select-none relative mb-2 rounded-xl mx-2 mt-2"
+      className="glass-panel h-12 flex items-center px-4 z-40 shrink-0 select-none relative mb-2 rounded-xl mx-2 mt-2 pf-topbar"
       data-testid="top-bar"
       data-app-shell="bar"
     >
@@ -110,7 +110,14 @@ export const EditorTopBar: React.FC = () => {
         </Button>
         <div className="flex items-center gap-2 text-xs text-text-secondary">
           <DropdownMenu
-            trigger={<span data-testid="menu-view">VIEW</span>}
+            trigger={
+              <span className="flex items-center gap-1" data-testid="menu-view">
+                VIEW
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </span>
+            }
             className="btn btn-ghost btn-sm px-2 py-1 font-medium tracking-wide"
             items={viewItems}
           />
@@ -121,10 +128,13 @@ export const EditorTopBar: React.FC = () => {
       <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
         {currentGroup != null ? (
           <span
-            className="text-sm font-semibold text-[var(--text-primary)]"
+            className="text-sm font-semibold text-[var(--text-primary)] tracking-tight"
             data-testid="topbar-title"
           >
-            {currentGroup.title} ({currentGroup.animations.length})
+            {currentGroup.title}
+            <span className="ml-1.5 text-xs font-normal text-text-tertiary">
+              {currentGroup.animations.length}
+            </span>
           </span>
         ) : (
           <span className="text-xs font-bold text-text-secondary uppercase tracking-widest">

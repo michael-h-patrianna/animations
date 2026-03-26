@@ -321,7 +321,7 @@ export const EditorRightPanel: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col w-full shrink-0 overflow-hidden">
-      <div className="p-4 border-b border-panel-border bg-panel-header/50 z-10 shrink-0 flex items-center justify-between gap-2">
+      <div className="p-4 border-b border-panel-border bg-panel-header/30 z-10 shrink-0 flex items-center justify-between gap-2">
         <h2 className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest">
           Inspector
         </h2>

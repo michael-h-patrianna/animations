@@ -49,7 +49,13 @@
 }
 
 .pf-card--selectable:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  border-color: color-mix(in oklch, var(--theme-accent) 18%, var(--border-subtle));
+  box-shadow:
+    var(--shadow-soft),
+    0 8px 24px -4px color-mix(in oklch, var(--theme-accent) 8%, transparent),
+    inset 0 1px 0 0 oklch(100% 0 0deg / 8%),
+    inset 0 0 0 1px oklch(100% 0 0deg / 3%);
 }
 
 .pf-card--selectable:focus-visible {
@@ -198,19 +204,24 @@
 
 .pf-card__replay {
   color: var(--theme-accent);
-  border: 2px solid var(--theme-accent);
-  background: transparent;
+  border: 1.5px solid color-mix(in oklch, var(--theme-accent) 60%, transparent);
+  background: color-mix(in oklch, var(--theme-accent) 6%, transparent);
   border-radius: 50px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   transition:
-    background var(--pf-transition-fast) ease,
-    color var(--pf-transition-fast) ease,
-    border-color var(--pf-transition-fast) ease;
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .pf-card__replay:hover {
-  background: var(--accent-subtle);
+  background: color-mix(in oklch, var(--theme-accent) 15%, transparent);
+  border-color: var(--theme-accent);
+  box-shadow: 0 0 12px color-mix(in oklch, var(--theme-accent) 20%, transparent);
 }
 
 .pf-card__placeholder {

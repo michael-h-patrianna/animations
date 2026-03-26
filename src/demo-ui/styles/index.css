@@ -15,12 +15,13 @@
 /* GLASSMORPHISM UTILITIES */
 [data-demo-ui] .glass-panel {
   background-color: var(--bg-glass);
-  backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid var(--border-subtle);
   box-shadow:
     var(--shadow-soft),
-    inset 0 1px 0 0 oklch(100% 0 0deg / 5%),
-    inset 0 0 0 1px oklch(100% 0 0deg / 2%);
+    inset 0 1px 0 0 oklch(100% 0 0deg / 6%),
+    inset 0 0 0 1px oklch(100% 0 0deg / 2%),
+    0 0 0 0.5px oklch(0% 0 0deg / 15%);
   transition:
     background-color 0.3s ease,
     border-color 0.3s ease,
@@ -29,23 +30,21 @@
 
 [data-demo-ui].pf-shell-backdrop {
   background:
-    linear-gradient(
-      135deg,
-      color-mix(in oklch, var(--theme-accent) 22%, transparent) 0%,
-      transparent 42%
+    radial-gradient(
+      ellipse 80% 50% at 20% 10%,
+      color-mix(in oklch, var(--theme-accent) 10%, transparent) 0%,
+      transparent 60%
     ),
-    linear-gradient(
-      90deg,
-      color-mix(in oklch, var(--text-primary) 8%, transparent) 0%,
-      transparent 34%,
-      color-mix(in oklch, var(--theme-accent) 10%, transparent) 100%
+    radial-gradient(
+      ellipse 60% 40% at 80% 90%,
+      color-mix(in oklch, var(--theme-accent) 6%, transparent) 0%,
+      transparent 60%
     ),
     linear-gradient(
       180deg,
-      color-mix(in oklch, var(--bg-app), white 7%) 0%,
-      color-mix(in oklch, var(--bg-app), white 2%) 20%,
-      var(--bg-app) 32%,
-      color-mix(in oklch, var(--bg-app), black 8%) 100%
+      color-mix(in oklch, var(--bg-app), white 5%) 0%,
+      var(--bg-app) 25%,
+      color-mix(in oklch, var(--bg-app), black 6%) 100%
     );
 }
 
@@ -410,10 +409,60 @@
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
-    Roboto,
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Override base Lato heading rule so demo-ui headings inherit Inter */
+[data-demo-ui] h1,
+[data-demo-ui] h2,
+[data-demo-ui] h3,
+[data-demo-ui] h4 {
+  font-family: inherit;
+}
+
+/* SIDEBAR NAVIGATION ITEMS */
+[data-demo-ui] .pf-nav-item {
+  position: relative;
+  padding-left: 12px;
+}
+
+[data-demo-ui] .pf-nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  border-radius: 1px;
+  background: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-demo-ui] .pf-nav-item--active::before {
+  background: var(--theme-accent);
+  box-shadow: 0 0 6px color-mix(in oklch, var(--theme-accent) 40%, transparent);
+}
+
+/* TOP BAR ACCENT LINE */
+[data-demo-ui] .pf-topbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--theme-accent) 50%, transparent) 30%,
+    var(--theme-accent) 50%,
+    color-mix(in oklch, var(--theme-accent) 50%, transparent) 70%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  border-radius: 1px;
 }
 
 /* SECTION LABEL */
