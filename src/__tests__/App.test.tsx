@@ -160,7 +160,7 @@ describe('App', () => {
     const topbarTitle = await screen.findByTestId('topbar-title')
     const sidebarGroup = await screen.findByTestId('sidebar-group-modal-orchestration')
     const currentGroupTitle = topbarTitle.textContent
-      ?.replace(/\s+\(?\d+\)?$/, '')
+      ?.replace(/\s*\(?\d+\)?$/, '')
       .replace(/\s+\((?:Framer|CSS)\)$/, '')
 
     expect(sidebarGroup).toHaveTextContent(currentGroupTitle!)

@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Button Effects', () => {
-  test('jitter animation renders a button element', async ({ catalogPage, page }) => {
+  test('jitter animation renders a button element', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('button-effects-framer')
 
     const card = catalogPage.card('button-effects__jitter')
@@ -12,10 +12,13 @@ test.describe('Button Effects', () => {
 
     // Button should have the standard demo button class
     await expect
-      .poll(async () => {
-        const cls = await button.getAttribute('class')
-        return cls?.includes('pf-demo-btn') ?? false
-      }, { timeout: 3_000 })
+      .poll(
+        async () => {
+          const cls = await button.getAttribute('class')
+          return cls?.includes('pf-demo-btn') ?? false
+        },
+        { timeout: 3_000 }
+      )
       .toBe(true)
   })
 

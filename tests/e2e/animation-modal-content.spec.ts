@@ -1,10 +1,7 @@
 import { test, expect } from './fixtures/catalog.fixture'
 
 test.describe('Modal Content', () => {
-  test('list-soft-stagger renders a modal with staggered list items', async ({
-    catalogPage,
-    page,
-  }) => {
+  test('list-soft-stagger renders a modal with staggered list items', async ({ catalogPage }) => {
     await catalogPage.gotoGroup('modal-content-framer')
 
     const card = catalogPage.card('modal-content__list-soft-stagger')
