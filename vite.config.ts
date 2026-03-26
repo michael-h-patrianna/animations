@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import { animationTitleIndexPlugin } from './vite/plugins/animationTitleIndexPlugin'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,7 +11,7 @@ export default defineConfig({
     strictPort: false,
     open: true,
   },
-  plugins: [react()],
+  plugins: [animationTitleIndexPlugin(), react()],
   resolve: {
     alias: {
       '@': '/src',

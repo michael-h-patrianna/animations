@@ -2,12 +2,13 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitest/config'
+import { animationTitleIndexPlugin } from './vite/plugins/animationTitleIndexPlugin'
 
 const rootDir = fileURLToPath(new URL('./', import.meta.url))
 const resolveFromRoot = (relativePath: string) => resolve(rootDir, relativePath)
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [animationTitleIndexPlugin(), react()],
   resolve: {
     alias: {
       '@': resolveFromRoot('src'),

@@ -12,6 +12,7 @@ import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import { Input } from '@/demo-ui/components/ui/Input'
 import { ToggleGroup, type ToggleOption } from '@/demo-ui/components/ui/ToggleGroup'
 import type { LazyCategory, LazyGroup } from '@/types/lazy'
+import { countMatchingAnimations } from '@/lib/animationTitleIndex'
 
 const CODE_MODE_OPTIONS: ToggleOption<CodeMode>[] = [
   { value: 'Framer', label: 'Framer' },
@@ -67,19 +68,37 @@ function pickGroupId(variants: GroupVariants, mode: CodeMode): string {
   return pickGroup(variants, mode).id
 }
 
-/** Filters category groups by a case-insensitive search query against group titles. */
+interface FilteredVariant {
+  group: GroupVariants
+  /** Count of animations whose title matches the query (0 = group matched by name only). */
+  matchingAnimationCount: number
+}
+
+/** Filters category groups by a case-insensitive search query against group titles AND animation titles. */
 function filterCategoryGroups(
   categoryGroups: Array<{ category: LazyCategory; variants: GroupVariants[] }>,
   query: string
-): Array<{ category: LazyCategory; variants: GroupVariants[] }> {
-  if (query === '') return categoryGroups
+): Array<{ category: LazyCategory; filtered: FilteredVariant[] }> {
+  if (query === '')
+    return categoryGroups.map(({ category, variants }) => ({
+      category,
+      filtered: variants.map((group) => ({ group, matchingAnimationCount: 0 })),
+    }))
+
   const lower = query.toLowerCase()
   return categoryGroups
     .map(({ category, variants }) => ({
       category,
-      variants: variants.filter((v) => v.fallback.metadata.title.toLowerCase().includes(lower)),
+      filtered: variants
+        .map((v) => {
+          const groupNameMatches = v.fallback.metadata.title.toLowerCase().includes(lower)
+          const animationMatchCount = countMatchingAnimations(v.baseId, query)
+          if (!groupNameMatches && animationMatchCount === 0) return null
+          return { group: v, matchingAnimationCount: animationMatchCount } as FilteredVariant
+        })
+        .filter((v): v is FilteredVariant => v !== null),
     }))
-    .filter(({ variants }) => variants.length > 0)
+    .filter(({ filtered }) => filtered.length > 0)
 }
 
 export const EditorLeftPanel: React.FC = () => {
@@ -155,7 +174,7 @@ export const EditorLeftPanel: React.FC = () => {
             No animations matching &ldquo;{deferredQuery}&rdquo;
           </p>
         )}
-        {filteredGroups.map(({ category, variants }) => (
+        {filteredGroups.map(({ category, filtered }) => (
           <ControlGroup
             key={category.id}
             title={category.title}
@@ -164,15 +183,16 @@ export const EditorLeftPanel: React.FC = () => {
             data-testid={`sidebar-section-${category.id}`}
           >
             <nav className="flex flex-col gap-0.5" data-testid={`sidebar-subnav-${category.id}`}>
-              {variants.map((group) => {
+              {filtered.map(({ group, matchingAnimationCount }) => {
                 const isActive = group.baseId === currentBaseGroupId
                 const selectedGroup = pickGroup(group, codeMode)
+                const showBadge = deferredQuery !== '' && matchingAnimationCount > 0
                 return (
                   <button
                     key={group.baseId}
                     type="button"
                     onClick={() => handleGroupSelect(pickGroupId(group, codeMode))}
-                    className={`pf-nav-item text-left w-full py-1.5 text-sm rounded-md cursor-pointer transition-all duration-200 ${
+                    className={`pf-nav-item text-left w-full py-1.5 text-sm rounded-md cursor-pointer transition-all duration-200 flex items-center justify-between gap-1 ${
                       isActive
                         ? 'pf-nav-item--active bg-accent/10 text-accent font-semibold'
                         : 'text-(--text-secondary) hover:bg-(--bg-hover) hover:text-(--text-primary)'
@@ -180,7 +200,12 @@ export const EditorLeftPanel: React.FC = () => {
                     data-testid={`sidebar-group-${group.baseId}`}
                     data-active={isActive || undefined}
                   >
-                    {selectedGroup.metadata.title}
+                    <span className="truncate">{selectedGroup.metadata.title}</span>
+                    {showBadge && (
+                      <span className="shrink-0 min-w-5 h-5 flex items-center justify-center rounded-full bg-accent/15 text-accent text-xs font-medium">
+                        {matchingAnimationCount}
+                      </span>
+                    )}
                   </button>
                 )
               })}
