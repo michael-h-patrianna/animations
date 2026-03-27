@@ -6,7 +6,7 @@
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import './TextEffectsTypewriter.css'
 
 interface TextEffectsTypewriterProps {
@@ -26,7 +26,7 @@ function TextEffectsTypewriterComponent({
   cursor = '|',
   color,
 }: TextEffectsTypewriterProps) {
-  const charCount = text.length
+  const chars = useMemo(() => text.split(''), [text])
 
   return (
     <div
@@ -38,22 +38,20 @@ function TextEffectsTypewriterComponent({
           : undefined
       }
     >
-      <div className="pf-typewriter__line">
-        <span
-          className="pf-typewriter__text"
-          style={
-            {
-              '--pf-chars': charCount,
-              animationDuration: `${charCount * charDelay}s`,
-              animationTimingFunction: `steps(${charCount}, start)`,
-            } as React.CSSProperties
-          }
-        >
-          {text}
-        </span>
+      <div className="pf-typewriter__text">
+        {chars.map((char, index) => (
+          <span
+            key={index}
+            className="pf-typewriter__char"
+            style={{ animationDelay: `${index * charDelay}s` }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        ))}
+
         <span
           className="pf-typewriter__cursor"
-          style={{ animationDelay: `${charCount * charDelay}s` }}
+          style={{ animationDelay: `${chars.length * charDelay}s` }}
         >
           {cursor}
         </span>

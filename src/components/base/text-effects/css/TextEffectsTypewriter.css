@@ -1,7 +1,7 @@
 /**
  * Typewriter Text Effect — CSS variant
- * Container-width animation with steps() for character-by-character reveal.
- * Cursor tracks the expanding text edge, matching the framer variant behavior.
+ * Per-character opacity animation with staggered delays.
+ * Cursor blinks after all characters have appeared.
  */
 
 .pf-typewriter {
@@ -13,41 +13,34 @@
   padding: 20px;
 }
 
-.pf-typewriter__line {
-  display: inline-flex;
-  align-items: baseline;
-  font-family: 'Courier New', Courier, monospace;
+.pf-typewriter__text {
   font-size: 20px;
   font-weight: 600;
+  font-family: 'Courier New', Courier, monospace;
   letter-spacing: 1px;
   color: var(--pf-typewriter-color);
 }
 
-/* Text container — overflow-hidden with animated width reveals characters */
-.pf-typewriter__text {
+.pf-typewriter__char {
   display: inline-block;
-  overflow: hidden;
-  white-space: pre;
-  width: 0;
-  animation-name: pf-typewriter-typing;
-  animation-fill-mode: forwards;
-  /* animation-duration and animation-timing-function set via inline style */
-}
-
-/* Cursor — visible during typing, blinks after typing completes */
-.pf-typewriter__cursor {
-  display: inline-block;
-  font-weight: 300;
-  animation: pf-typewriter-blink 1s step-end infinite;
-  will-change: opacity;
+  opacity: 0;
+  animation: pf-typewriter-reveal 0s forwards;
   /* animation-delay set via inline style */
 }
 
-/* Target width uses --pf-chars from the element's inline style.
-   Each step() interval reveals exactly one monospace character (1ch + 1px letter-spacing). */
-@keyframes pf-typewriter-typing {
+.pf-typewriter__cursor {
+  display: inline-block;
+  font-weight: 300;
+  opacity: 0;
+  animation:
+    pf-typewriter-reveal 0s forwards,
+    pf-typewriter-blink 1s step-end infinite;
+  /* animation-delay set via inline style — blink starts after reveal */
+}
+
+@keyframes pf-typewriter-reveal {
   to {
-    width: calc(var(--pf-chars) * (1ch + 1px));
+    opacity: 1;
   }
 }
 
@@ -63,9 +56,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pf-typewriter__text {
-    width: auto;
-    overflow: visible;
+  .pf-typewriter__char {
+    opacity: 1;
     animation: none;
+  }
+
+  .pf-typewriter__cursor {
+    opacity: 1;
+    animation: pf-typewriter-blink 1s step-end infinite;
   }
 }
