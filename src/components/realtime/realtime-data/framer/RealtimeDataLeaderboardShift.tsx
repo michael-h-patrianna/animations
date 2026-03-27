@@ -151,9 +151,7 @@ function RealtimeDataLeaderboardShiftComponent({
                   : false
             }
             animate={
-              entry.phase === 'exiting'
-                ? { y: [0, 100], opacity: [1, 0] }
-                : { y: 0, opacity: 1 }
+              entry.phase === 'exiting' ? { y: [0, 100], opacity: [1, 0] } : { y: 0, opacity: 1 }
             }
             transition={
               entry.phase === 'exiting'

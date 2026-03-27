@@ -156,9 +156,7 @@ function ScorePulseDemoComponent({
       if (!mounted) return
 
       // Increment all scores
-      setItems((prev) =>
-        prev.map((item) => ({ ...item, score: item.score + SCORE_INCREMENT }))
-      )
+      setItems((prev) => prev.map((item) => ({ ...item, score: item.score + SCORE_INCREMENT })))
 
       schedule(() => {
         if (!mounted) return

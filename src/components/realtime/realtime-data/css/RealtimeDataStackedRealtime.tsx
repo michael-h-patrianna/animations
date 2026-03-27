@@ -105,7 +105,15 @@ function RealtimeDataStackedRealtimeComponent({
 
   useEffect(() => {
     if (visible && prevVisibleRef.current !== visible) {
-      animateRowsIn(items, rowRef.current, valueRef.current, duration, staggerDelay, activeColor, inactiveColor)
+      animateRowsIn(
+        items,
+        rowRef.current,
+        valueRef.current,
+        duration,
+        staggerDelay,
+        activeColor,
+        inactiveColor
+      )
     } else if (!visible && prevVisibleRef.current !== null && prevVisibleRef.current !== visible) {
       animateRowsOut(rowRef.current)
     }
