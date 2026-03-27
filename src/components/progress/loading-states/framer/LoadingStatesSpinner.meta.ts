@@ -5,8 +5,7 @@ export const metadata = {
   urlSlugFramer: '/loading-states-framer?animation=loading-states__spinner',
   urlSlugCss: '/loading-states-css?animation=loading-states__spinner',
   title: 'Spinner',
-  description:
-    'Colored arc spinning continuously. Configure size, color, thickness, and speed.',
+  description: 'Colored arc spinning continuously. Configure size, color, thickness, and speed.',
   infinite: true,
   tier: 4,
   props: [
