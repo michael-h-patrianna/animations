@@ -502,6 +502,15 @@ export default defineConfig([
       'animation-rules/require-data-testid': 'off',
     },
   },
+  // DataCycleDemoWrappers: transparent wrappers that drive animation props
+  // over time for the catalog. They render no DOM of their own — only the
+  // wrapped Component. data-testid does not apply.
+  {
+    files: ['src/components/ui/DataCycleDemoWrappers.tsx'],
+    rules: {
+      'animation-rules/require-data-testid': 'off',
+    },
+  },
   // Demo-ui components: self-contained UI kit with dense JSX layouts
   // (dropdown positioning, input styling, tooltip logic). max-lines-per-function
   // at 75 is too restrictive for properly-formatted React component JSX.

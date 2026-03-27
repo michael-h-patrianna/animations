@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { RealtimeDataLeaderboardShift as CssRealtimeDataLeaderboardShift } from '@/components/realtime/realtime-data/css/RealtimeDataLeaderboardShift'
 import { RealtimeDataLeaderboardShift as FramerRealtimeDataLeaderboardShift } from '@/components/realtime/realtime-data/framer/RealtimeDataLeaderboardShift'
+import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
 
 beforeEach(() => {
   vi.useFakeTimers()
@@ -13,71 +14,68 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
+const INITIAL_ITEMS: RankedEntry[] = [
+  { id: 'phoenix', label: 'Phoenix', score: 2450 },
+  { id: 'shadow', label: 'Shadow', score: 2380 },
+  { id: 'nova', label: 'Nova', score: 2320 },
+  { id: 'apex', label: 'Apex', score: 2290 },
+]
+
+const SHIFTED_ITEMS: RankedEntry[] = [
+  { id: 'shadow', label: 'Shadow', score: 2380 },
+  { id: 'nova', label: 'Nova', score: 2320 },
+  { id: 'apex', label: 'Apex', score: 2290 },
+  { id: 'phoenix', label: 'Phoenix', score: 2400 },
+]
+
 function getTopPlayer(container: HTMLElement) {
   return container.querySelector('.pf-realtime-data__row .pf-realtime-data__player')?.textContent
 }
 
-describe('realtime-data leaderboard-shift timing parity', () => {
-  it('reorders leaderboard by 800ms in CSS and Framer variants', () => {
-    const css = render(<CssRealtimeDataLeaderboardShift />)
-    const framer = render(<FramerRealtimeDataLeaderboardShift />)
+function getPlayerNames(container: HTMLElement): string[] {
+  return Array.from(container.querySelectorAll('.pf-realtime-data__player')).map(
+    (el) => el.textContent ?? ''
+  )
+}
 
+describe('realtime-data leaderboard-shift reactive behavior', () => {
+  it('CSS variant renders initial items and updates when items prop changes', () => {
+    const { container, rerender } = render(
+      <CssRealtimeDataLeaderboardShift items={INITIAL_ITEMS} />
+    )
+
+    expect(getTopPlayer(container)).toBe('Phoenix')
+    expect(getPlayerNames(container)).toEqual(['Phoenix', 'Shadow', 'Nova', 'Apex'])
+
+    // Rerender with shifted items — CSS variant defers removal via setTimeout
+    rerender(<CssRealtimeDataLeaderboardShift items={SHIFTED_ITEMS} />)
+
+    // After the exit timeout fires, renderList updates to match new items
     act(() => {
       vi.advanceTimersByTime(800)
     })
 
-    expect(getTopPlayer(css.container)).toBe('Shadow')
-    expect(getTopPlayer(framer.container)).toBe('Shadow')
+    expect(getTopPlayer(container)).toBe('Shadow')
   })
-})
 
-describe('realtime-data leaderboard-shift behavioral verification', () => {
-  it('CSS variant renders initial player list before any timer fires', () => {
-    const { container } = render(<CssRealtimeDataLeaderboardShift />)
-
-    const players = Array.from(container.querySelectorAll('.pf-realtime-data__player')).map(
-      (el) => el.textContent
+  it('Framer variant renders initial items and updates when items prop changes', () => {
+    const { container, rerender } = render(
+      <FramerRealtimeDataLeaderboardShift items={INITIAL_ITEMS} />
     )
-    // Should have at least 3 players in the initial state
-    expect(players.length).toBeGreaterThanOrEqual(3)
-    // All player names should be non-empty strings
-    for (const name of players) {
-      expect(name).toMatch(/\w+/)
-    }
+
+    expect(getTopPlayer(container)).toBe('Phoenix')
+
+    rerender(<FramerRealtimeDataLeaderboardShift items={SHIFTED_ITEMS} />)
+    expect(getTopPlayer(container)).toBe('Shadow')
   })
 
   it('CSS and Framer variants start with identical player data', () => {
     const css = render(<CssRealtimeDataLeaderboardShift />)
     const framer = render(<FramerRealtimeDataLeaderboardShift />)
 
-    const cssPlayers = Array.from(css.container.querySelectorAll('.pf-realtime-data__player')).map(
-      (el) => el.textContent
-    )
-    const framerPlayers = Array.from(
-      framer.container.querySelectorAll('.pf-realtime-data__player')
-    ).map((el) => el.textContent)
+    const cssPlayers = getPlayerNames(css.container)
+    const framerPlayers = getPlayerNames(framer.container)
 
     expect(cssPlayers).toEqual(framerPlayers)
-  })
-
-  it('leaderboard order changes after the reorder timer fires', () => {
-    const { container } = render(<CssRealtimeDataLeaderboardShift />)
-
-    const playersBefore = Array.from(container.querySelectorAll('.pf-realtime-data__player')).map(
-      (el) => el.textContent
-    )
-
-    act(() => {
-      vi.advanceTimersByTime(800)
-    })
-
-    const playersAfter = Array.from(container.querySelectorAll('.pf-realtime-data__player')).map(
-      (el) => el.textContent
-    )
-
-    // The order should have changed (same players, different positions)
-    expect(playersAfter).not.toEqual(playersBefore)
-    // Same set of players (sorted should match)
-    expect([...playersAfter].sort()).toEqual([...playersBefore].sort())
   })
 })

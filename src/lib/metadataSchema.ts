@@ -17,7 +17,17 @@ const TierSchema = v.optional(v.pipe(v.number(), v.minValue(1), v.maxValue(4), v
 
 /** Schema for the `demoMode` field: must be one of the known demo modes. */
 const DemoModeSchema = v.optional(
-  v.picklist(['burst', 'magnet', 'trail', 'fountain', 'icon-dot', 'status-row'])
+  v.picklist([
+    'burst',
+    'magnet',
+    'trail',
+    'fountain',
+    'icon-dot',
+    'status-row',
+    'list-rotate',
+    'score-pulse',
+    'visibility-cycle',
+  ])
 )
 
 /** Schema for the `controls` field. */

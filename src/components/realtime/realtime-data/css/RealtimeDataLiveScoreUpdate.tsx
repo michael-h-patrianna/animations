@@ -1,6 +1,6 @@
 /**
- * Animated score display that counts up with a scale+color pulse on each update
- * — CSS variant using Web Animations API.
+ * Reactive score display that animates count-up with a scale+color pulse
+ * when item scores change — CSS variant using Web Animations API.
  *
  * Copy-paste files: this file + RealtimeDataLiveScoreUpdate.css +
  * ../SharedTypes.ts + ../shared.css
@@ -25,26 +25,20 @@ const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 interface RealtimeDataLiveScoreUpdateProps {
   /** Score rows to display. Default: 2 demo players. */
   items?: RankedEntry[]
-  /** Score increment per update cycle. Default: 120 */
-  increment?: number
   /** Pulse animation duration in ms. Default: 800 */
   duration?: number
   /** Highlight color during score change. Default: 'var(--pf-anim-green)' */
   highlightColor?: string
-  /** Pause between update cycles in ms. Default: 2000 */
-  pauseDuration?: number
 }
 
 function RealtimeDataLiveScoreUpdateComponent({
   items = DEFAULT_ITEMS,
-  increment = 120,
   duration = 800,
   highlightColor = 'var(--pf-anim-green)',
-  pauseDuration = 2000,
 }: RealtimeDataLiveScoreUpdateProps) {
-  const initialScores = useMemo(() => items.map((e) => e.score), [items])
-  const [scores, setScores] = useState<number[]>(() => [...initialScores])
-  const scoresRef = useRef(scores)
+  const [displayedScores, setDisplayedScores] = useState<number[]>(() => items.map((e) => e.score))
+  const displayedScoresRef = useRef(displayedScores)
+  const prevScoreKeyRef = useRef(items.map((e) => e.score).join(','))
   const scoreElRef = useRef<Map<string, HTMLDivElement>>(new Map())
 
   const keyframes = useMemo(
@@ -57,73 +51,48 @@ function RealtimeDataLiveScoreUpdateComponent({
   )
 
   useEffect(() => {
-    scoresRef.current = scores
-  }, [scores])
+    displayedScoresRef.current = displayedScores
+  }, [displayedScores])
 
+  // Detect score changes and animate count-up + pulse
   useEffect(() => {
-    const timeouts = new Set<ReturnType<typeof setTimeout>>()
-    const intervals = new Set<ReturnType<typeof setInterval>>()
-    let mounted = true
+    const newScoreKey = items.map((e) => e.score).join(',')
+    if (newScoreKey === prevScoreKeyRef.current) return
+    prevScoreKeyRef.current = newScoreKey
 
-    const schedule = (fn: () => void, ms: number) => {
-      const id = setTimeout(() => {
-        timeouts.delete(id)
-        fn()
-      }, ms)
-      timeouts.add(id)
-    }
+    const startScores = [...displayedScoresRef.current]
+    const targetScores = items.map((e) => e.score)
 
-    const cycle = () => {
-      if (!mounted) return
+    // Pulse each score element with staggered delay
+    items.forEach((entry, index) => {
+      const el = scoreElRef.current.get(entry.id)
+      if (el) {
+        el.animate(keyframes, {
+          duration,
+          delay: index * 100,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        })
+      }
+    })
 
-      // Pulse each score element with staggered delay
-      items.forEach((entry, index) => {
-        const el = scoreElRef.current.get(entry.id)
-        if (el) {
-          el.animate(keyframes, {
-            duration,
-            delay: index * 100,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          })
-        }
-      })
-
-      // Count up scores
-      const current = [...scoresRef.current]
-      let step = 0
-      const intervalId = setInterval(() => {
-        if (!mounted) {
-          clearInterval(intervalId)
-          intervals.delete(intervalId)
-          return
-        }
-        step += 1
-        const progress = easeOutCubic(step / SCORE_STEPS)
-        setScores(current.map((base) => Math.round(base + increment * progress)))
-        if (step >= SCORE_STEPS) {
-          clearInterval(intervalId)
-          intervals.delete(intervalId)
-        }
-      }, SCORE_STEP_INTERVAL_MS)
-      intervals.add(intervalId)
-
-      schedule(() => {
-        if (!mounted) return
-        setScores([...initialScores])
-        schedule(cycle, 1000)
-      }, duration + pauseDuration)
-    }
-
-    cycle()
+    // Count up scores with easing
+    let step = 0
+    const intervalId = setInterval(() => {
+      step += 1
+      const progress = easeOutCubic(step / SCORE_STEPS)
+      setDisplayedScores(
+        startScores.map((start, i) => Math.round(start + (targetScores[i]! - start) * progress))
+      )
+      if (step >= SCORE_STEPS) {
+        clearInterval(intervalId)
+        setDisplayedScores([...targetScores])
+      }
+    }, SCORE_STEP_INTERVAL_MS)
 
     return () => {
-      mounted = false
-      timeouts.forEach(clearTimeout)
-      timeouts.clear()
-      intervals.forEach(clearInterval)
-      intervals.clear()
+      clearInterval(intervalId)
     }
-  }, [duration, increment, initialScores, items, keyframes, pauseDuration])
+  }, [items, duration, keyframes])
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__live-score-update">
@@ -139,7 +108,7 @@ function RealtimeDataLiveScoreUpdateComponent({
               }}
               className="pf-realtime-data__score"
             >
-              {(scores[index] ?? entry.score).toLocaleString()}
+              {(displayedScores[index] ?? entry.score).toLocaleString()}
             </div>
           </div>
         ))}

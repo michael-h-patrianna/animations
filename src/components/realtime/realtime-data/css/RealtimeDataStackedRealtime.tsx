@@ -1,6 +1,7 @@
 /**
- * Stacked key-value rows that animate in with alternating slide directions
+ * Stacked key-value rows that animate in/out with alternating slide directions
  * and staggered timing — CSS variant using Web Animations API.
+ * Toggle the `visible` prop to trigger entrance/exit.
  *
  * Copy-paste files: this file + RealtimeDataStackedRealtime.css +
  * ../SharedTypes.ts + ../shared.css
@@ -23,6 +24,8 @@ const DEFAULT_ITEMS: StatEntry[] = [
 interface RealtimeDataStackedRealtimeProps {
   /** Stat rows to display. Default: 5 demo stats. */
   items?: StatEntry[]
+  /** Whether rows are visible (animates in when true, out when false). Default: true */
+  visible?: boolean
   /** Delay between each row's entrance in ms. Default: 80 */
   staggerDelay?: number
   /** Row slide-in duration in ms. Default: 600 */
@@ -90,6 +93,7 @@ const animateRowsOut = (rowEls: Array<HTMLDivElement | null>) => {
 
 function RealtimeDataStackedRealtimeComponent({
   items = DEFAULT_ITEMS,
+  visible = true,
   staggerDelay = 80,
   duration = 600,
   activeColor = 'var(--pf-anim-cyan)',
@@ -97,46 +101,16 @@ function RealtimeDataStackedRealtimeComponent({
 }: RealtimeDataStackedRealtimeProps) {
   const rowRef = useRef<Array<HTMLDivElement | null>>([])
   const valueRef = useRef<Array<HTMLSpanElement | null>>([])
+  const prevVisibleRef = useRef<boolean | null>(null)
 
   useEffect(() => {
-    const timeouts = new Set<ReturnType<typeof setTimeout>>()
-    let mounted = true
-
-    const schedule = (fn: () => void, ms: number) => {
-      const id = setTimeout(() => {
-        timeouts.delete(id)
-        fn()
-      }, ms)
-      timeouts.add(id)
+    if (visible && prevVisibleRef.current !== visible) {
+      animateRowsIn(items, rowRef.current, valueRef.current, duration, staggerDelay, activeColor, inactiveColor)
+    } else if (!visible && prevVisibleRef.current !== null && prevVisibleRef.current !== visible) {
+      animateRowsOut(rowRef.current)
     }
-
-    const cycle = () => {
-      if (!mounted) return
-      animateRowsIn(
-        items,
-        rowRef.current,
-        valueRef.current,
-        duration,
-        staggerDelay,
-        activeColor,
-        inactiveColor
-      )
-
-      schedule(() => {
-        if (!mounted) return
-        animateRowsOut(rowRef.current)
-        schedule(cycle, 2000)
-      }, 1500)
-    }
-
-    cycle()
-
-    return () => {
-      mounted = false
-      timeouts.forEach(clearTimeout)
-      timeouts.clear()
-    }
-  }, [activeColor, duration, inactiveColor, items, staggerDelay])
+    prevVisibleRef.current = visible
+  }, [visible, items, duration, staggerDelay, activeColor, inactiveColor])
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__stacked-realtime">

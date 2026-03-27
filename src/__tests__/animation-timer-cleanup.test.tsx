@@ -107,13 +107,13 @@ const TIMER_COMPONENTS: TimerComponentEntry[] = [
   { name: 'Framer progress-segmented', component: FramerProgressSegmented },
   { name: 'Framer progress-thin', component: FramerProgressThin },
 
-  // Realtime data
-  { name: 'CSS leaderboard-shift', component: CssLeaderboardShift, advanceMs: 800 },
-  { name: 'Framer leaderboard-shift', component: FramerLeaderboardShift, advanceMs: 800 },
-  { name: 'CSS live-score-update', component: CssLiveScoreUpdate, advanceMs: 2100 },
-  { name: 'Framer live-score-update', component: FramerLiveScoreUpdate, advanceMs: 2100 },
-  { name: 'CSS stacked-realtime', component: CssStackedRealtime, advanceMs: 2100 },
-  { name: 'Framer stacked-realtime', component: FramerStackedRealtime, advanceMs: 2100 },
+  // Realtime data — reactive components (no internal cycling timers)
+  { name: 'CSS leaderboard-shift', component: CssLeaderboardShift },
+  { name: 'Framer leaderboard-shift', component: FramerLeaderboardShift },
+  { name: 'CSS live-score-update', component: CssLiveScoreUpdate },
+  { name: 'Framer live-score-update', component: FramerLiveScoreUpdate },
+  { name: 'CSS stacked-realtime', component: CssStackedRealtime },
+  { name: 'Framer stacked-realtime', component: FramerStackedRealtime },
 
   // Timer effects — pill countdown
   { name: 'CSS pill-soft', component: CssPillSoft, advanceMs: 2000 },

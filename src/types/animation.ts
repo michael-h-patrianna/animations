@@ -81,7 +81,16 @@ export interface Animation {
   prizeCountMax?: number
   previewPosition?: PreviewPosition
   tier?: 1 | 2 | 3 | 4
-  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
+  demoMode?:
+    | 'burst'
+    | 'magnet'
+    | 'trail'
+    | 'fountain'
+    | 'icon-dot'
+    | 'status-row'
+    | 'list-rotate'
+    | 'score-pulse'
+    | 'visibility-cycle'
   previewMaxWidth?: number
   /** Freeform tags displayed as pills in the card footer (e.g. 'raf', 'lrc'). */
   tags?: string[]
@@ -334,8 +343,20 @@ export interface AnimationMetadata {
    * - `fountain`: single Source anchor in bottom region
    * - `icon-dot`: renders a demo icon and passes it as children (for dot indicators)
    * - `status-row`: renders a status row (dot + text) around the component (for badges/pings)
+   * - `list-rotate`: cycles a ranked list by moving the top entry to the bottom
+   * - `score-pulse`: periodically increments scores to trigger count-up animation
+   * - `visibility-cycle`: toggles a `visible` prop on and off to demo entrance/exit
    */
-  demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
+  demoMode?:
+    | 'burst'
+    | 'magnet'
+    | 'trail'
+    | 'fountain'
+    | 'icon-dot'
+    | 'status-row'
+    | 'list-rotate'
+    | 'score-pulse'
+    | 'visibility-cycle'
 
   /** Max width (px) for demo canvas and preview containers. Prevents wide animations from stretching full viewport. */
   previewMaxWidth?: number

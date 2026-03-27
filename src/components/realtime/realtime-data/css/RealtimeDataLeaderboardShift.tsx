@@ -1,13 +1,17 @@
 /**
- * Animated leaderboard that cycles the top entry to the bottom with smooth
- * rank-shift transitions — CSS variant using Web Animations API.
+ * Reactive leaderboard that animates position transitions when items change
+ * — CSS variant using Web Animations API.
+ *
+ * When items change, the component diffs previous vs current entries and runs
+ * WAAPI FLIP-style animations for exits, shifts, and entries. Removed entries
+ * are kept in the DOM during their exit animation, then removed.
  *
  * Copy-paste files: this file + RealtimeDataLeaderboardShift.css +
  * ../SharedTypes.ts + ../shared.css
  * Runtime deps: react
  */
 
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import './RealtimeDataLeaderboardShift.css'
 
 import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
@@ -26,15 +30,9 @@ interface RealtimeDataLeaderboardShiftProps {
   items?: RankedEntry[]
   /** Shift animation duration in ms. Default: 800 */
   duration?: number
-  /** Pause between animation cycles in ms. Default: 2000 */
-  pauseDuration?: number
 }
 
-const buildShiftedList = (current: RankedEntry[]): RankedEntry[] => {
-  if (current.length < 2) return current
-  const [first, ...rest] = current
-  return [...rest, { ...first!, score: first!.score - 50 }]
-}
+const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
 
 const animateExit = (el: HTMLDivElement | undefined, durationMs: number) => {
   if (!el) return
@@ -43,7 +41,7 @@ const animateExit = (el: HTMLDivElement | undefined, durationMs: number) => {
       { transform: 'translateY(0)', opacity: 1 },
       { transform: 'translateY(100px)', opacity: 0 },
     ],
-    { duration: durationMs, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', fill: 'forwards' }
+    { duration: durationMs, easing: EASING, fill: 'forwards' }
   )
 }
 
@@ -57,7 +55,7 @@ const animateShift = (
   scheduleFrame(() => {
     el.animate([{ transform: `translateY(${ROW_HEIGHT}px)` }, { transform: 'translateY(0)' }], {
       duration: durationMs,
-      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      easing: EASING,
       fill: 'forwards',
     }).onfinish = () => {
       el.style.transform = ''
@@ -81,7 +79,7 @@ const animateEntry = (
       ],
       {
         duration: durationMs * 0.75,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        easing: EASING,
         fill: 'forwards',
       }
     ).onfinish = () => {
@@ -94,85 +92,111 @@ const animateEntry = (
 function RealtimeDataLeaderboardShiftComponent({
   items = DEFAULT_ITEMS,
   duration = 800,
-  pauseDuration = 2000,
 }: RealtimeDataLeaderboardShiftProps) {
-  const initialItemsRef = useRef(items)
-  const [leaderboard, setLeaderboard] = useState<RankedEntry[]>(() => [...items])
-  const leaderboardRef = useRef(leaderboard)
+  // renderList may temporarily include exiting entries that are still animating out
+  const [renderList, setRenderList] = useState<RankedEntry[]>(() => [...items])
+  const prevIdsRef = useRef<string[]>(items.map((e) => e.id))
   const rowRef = useRef<Map<string, HTMLDivElement>>(new Map())
+  const framesRef = useRef<Set<number>>(new Set())
+  const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isFirstRenderRef = useRef(true)
 
+  // Pending animations to run after the next renderList state update
+  const pendingAnimRef = useRef<{ shifted: string[]; added: string[] } | null>(null)
+
+  // Clean up rAFs and exit timeout on unmount
   useEffect(() => {
-    leaderboardRef.current = leaderboard
-  }, [leaderboard])
-
-  useEffect(() => {
-    const timeouts = new Set<ReturnType<typeof setTimeout>>()
-    const frames = new Set<number>()
-    let mounted = true
-
-    const schedule = (fn: () => void, ms: number) => {
-      const id = setTimeout(() => {
-        timeouts.delete(id)
-        fn()
-      }, ms)
-      timeouts.add(id)
+    const frames = framesRef.current
+    return () => {
+      frames.forEach(cancelAnimationFrame)
+      frames.clear()
+      if (exitTimeoutRef.current !== null) clearTimeout(exitTimeoutRef.current)
     }
+  }, [])
+
+  // Detect items changes: handle exits (animate on current DOM), then schedule
+  // renderList update for shift/entry animations.
+  useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false
+      return
+    }
+
+    // Cancel any pending exit timeout from a previous update
+    if (exitTimeoutRef.current !== null) {
+      clearTimeout(exitTimeoutRef.current)
+      exitTimeoutRef.current = null
+    }
+
+    const prevIds = prevIdsRef.current
+    const nextIds = items.map((e) => e.id)
+    prevIdsRef.current = nextIds
+
+    // No change in item composition — just update values
+    if (prevIds.join(',') === nextIds.join(',')) {
+      setRenderList([...items])
+      return
+    }
+
+    const nextIdSet = new Set(nextIds)
+    const prevIdSet = new Set(prevIds)
+    const removed = prevIds.filter((id) => !nextIdSet.has(id))
+    const shifted = nextIds.filter(
+      (id) => prevIdSet.has(id) && prevIds.indexOf(id) !== nextIds.indexOf(id)
+    )
+    const added = nextIds.filter((id) => !prevIdSet.has(id))
+
+    if (removed.length > 0) {
+      // Phase 1: Animate exit on current DOM (renderList still has old entries)
+      for (const id of removed) {
+        animateExit(rowRef.current.get(id), duration)
+      }
+
+      // Phase 2: After exit animation, update renderList → triggers shift/entry
+      exitTimeoutRef.current = setTimeout(() => {
+        exitTimeoutRef.current = null
+        pendingAnimRef.current = { shifted, added }
+        setRenderList([...items])
+      }, duration)
+    } else {
+      // No exits — update renderList immediately
+      pendingAnimRef.current = { shifted, added }
+      setRenderList([...items])
+    }
+  }, [items, duration])
+
+  // After renderList commits to DOM, run shift/entry animations
+  useLayoutEffect(() => {
+    const pending = pendingAnimRef.current
+    if (!pending) return
+    pendingAnimRef.current = null
+
+    const { shifted, added } = pending
+    if (shifted.length === 0 && added.length === 0) return
 
     const scheduleFrame = (cb: FrameRequestCallback) => {
       const id = requestAnimationFrame((t) => {
-        frames.delete(id)
+        framesRef.current.delete(id)
         cb(t)
       })
-      frames.add(id)
+      framesRef.current.add(id)
       return id
     }
 
-    const cycle = () => {
-      if (!mounted) return
-      const current = leaderboardRef.current
-      if (current.length < 2) return
-
-      animateExit(rowRef.current.get(current[0]!.id), duration)
-
-      schedule(() => {
-        if (!mounted) return
-        const shifted = buildShiftedList(leaderboardRef.current)
-        setLeaderboard(shifted)
-
-        scheduleFrame(() => {
-          // Animate non-first items shifting up, last item entering
-          shifted.slice(0, -1).forEach((entry) => {
-            animateShift(rowRef.current.get(entry.id), duration, scheduleFrame)
-          })
-          const lastEntry = shifted[shifted.length - 1]
-          if (lastEntry) {
-            animateEntry(rowRef.current.get(lastEntry.id), duration, scheduleFrame)
-          }
-        })
-
-        schedule(() => {
-          if (!mounted) return
-          setLeaderboard([...initialItemsRef.current])
-          schedule(cycle, 1000)
-        }, pauseDuration)
-      }, duration)
-    }
-
-    cycle()
-
-    return () => {
-      mounted = false
-      timeouts.forEach(clearTimeout)
-      timeouts.clear()
-      frames.forEach(cancelAnimationFrame)
-      frames.clear()
-    }
-  }, [duration, pauseDuration])
+    scheduleFrame(() => {
+      for (const id of shifted) {
+        animateShift(rowRef.current.get(id), duration, scheduleFrame)
+      }
+      for (const id of added) {
+        animateEntry(rowRef.current.get(id), duration, scheduleFrame)
+      }
+    })
+  }) // Fires on every render; pendingAnimRef guards against unnecessary work
 
   return (
     <div className="pf-realtime-data" data-animation-id="realtime-data__leaderboard-shift">
       <div className="pf-realtime-data__leaderboard">
-        {leaderboard.map((entry, index) => (
+        {renderList.map((entry, index) => (
           <div
             key={entry.id}
             ref={(el) => {

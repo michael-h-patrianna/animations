@@ -6,8 +6,9 @@ export const metadata = {
   urlSlugCss: '/realtime-data-css?animation=realtime-data__stacked-realtime',
   title: 'Stacked Pulse',
   description:
-    'Key-value rows that slide in with alternating directions and staggered timing. Configure items, stagger delay, duration, and active/inactive colors.',
+    'Key-value rows that animate in/out with alternating slide directions and staggered timing. Toggle visible prop to trigger entrance/exit.',
   tier: 3,
+  demoMode: 'visibility-cycle',
   props: [
     {
       type: 'string',

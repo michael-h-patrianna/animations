@@ -1,5 +1,10 @@
 import { homeIcon1 } from '@/assets'
 import { getGroupAnimations } from '@/components/animationRegistry'
+import {
+  ListRotateDemo,
+  ScorePulseDemo,
+  VisibilityCycleDemo,
+} from '@/components/ui/DataCycleDemoWrappers'
 import { DemoAnchors } from '@/components/ui/DemoAnchors'
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { useAnimationInspector } from '@/contexts/AnimationInspectorContext'
@@ -297,7 +302,7 @@ function DemoModeWrapper({
   Component,
   controlProps,
 }: {
-  mode: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
+  mode: NonNullable<import('@/types/animation').AnimationMetadata['demoMode']>
   Component: React.ComponentType<Record<string, unknown>>
   controlProps: Record<string, unknown>
 }) {
@@ -310,6 +315,18 @@ function DemoModeWrapper({
 
   if (mode === 'status-row') {
     return <StatusRowDemo Component={Component} controlProps={controlProps} />
+  }
+
+  if (mode === 'list-rotate') {
+    return <ListRotateDemo Component={Component} controlProps={controlProps} />
+  }
+
+  if (mode === 'score-pulse') {
+    return <ScorePulseDemo Component={Component} controlProps={controlProps} />
+  }
+
+  if (mode === 'visibility-cycle') {
+    return <VisibilityCycleDemo Component={Component} controlProps={controlProps} />
   }
 
   return (

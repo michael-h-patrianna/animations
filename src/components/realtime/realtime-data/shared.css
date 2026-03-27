@@ -12,9 +12,6 @@
   flex-direction: column;
   gap: 12px;
   padding: 24px;
-  background: var(--pf-realtime-bg);
-  border-radius: 12px;
-  border: 1px solid var(--pf-realtime-border);
   width: 100%;
   box-sizing: border-box;
 }
