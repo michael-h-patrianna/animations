@@ -3,7 +3,8 @@ import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'
 import { GlobalToast } from '@/components/ui/GlobalToast'
 import { GroupSection } from '@/components/ui/GroupSection'
 import { AnimationInspectorProvider } from '@/contexts/AnimationInspectorContext'
-import { AppNavigationProvider, useAppNavigation } from '@/contexts/AppNavigationContext'
+import { AppNavigationContext, useAppNavigation } from '@/contexts/AppNavigationContext'
+import { useLazyAppNavigation } from '@/hooks/useLazyAppNavigation'
 import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { Suspense } from 'react'
@@ -76,11 +77,12 @@ function AppContent() {
 
 /** Root application component with lazy-loaded groups. */
 function App() {
+  const navigation = useLazyAppNavigation()
   return (
-    <AppNavigationProvider>
+    <AppNavigationContext value={navigation}>
       <AppContent />
       <GlobalToast />
-    </AppNavigationProvider>
+    </AppNavigationContext>
   )
 }
 
