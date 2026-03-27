@@ -37,7 +37,6 @@ export function ProgressBarsNeonPulse({
 }: NeonPulseProps) {
   const prefersReducedMotion = useReducedMotion()
   const displayProgress = progress ?? 0
-  const percent = displayProgress * 100
 
   return (
     <div
@@ -49,9 +48,9 @@ export function ProgressBarsNeonPulse({
         <m.div
           className="neon-pulse-fill"
           initial={false}
-          animate={{ width: `${percent}%` }}
+          animate={{ scaleX: displayProgress }}
           transition={{ ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.1 }}
-          style={{ animation: 'none' }}
+          style={{ transformOrigin: 'left center', animation: 'none' }}
         >
           <m.div
             className="neon-pulse-flicker"
@@ -68,8 +67,9 @@ export function ProgressBarsNeonPulse({
         <m.div
           className="neon-pulse-glow"
           initial={false}
-          animate={{ width: `${percent}%` }}
+          animate={{ scaleX: displayProgress }}
           transition={{ ease: 'linear', duration: prefersReducedMotion ? 0.05 : 0.1 }}
+          style={{ transformOrigin: 'left center' }}
         />
       </div>
       {label !== undefined && label !== '' && <div className="neon-pulse-label">{label}</div>}

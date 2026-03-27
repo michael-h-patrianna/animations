@@ -49,13 +49,13 @@ export function ProgressBarsSciFiLoader({
         <m.div
           className="scifi-loader-fill"
           initial={false}
-          animate={{ width: `${percent}%` }}
+          animate={{ scaleX: displayProgress }}
           transition={{
             type: 'tween',
             ease: 'linear',
             duration: prefersReducedMotion ? 0.05 : 0.05,
           }}
-          style={{ animation: 'none' }}
+          style={{ transformOrigin: 'left center', animation: 'none' }}
         />
         {!prefersReducedMotion && (
           <m.div

@@ -28,7 +28,6 @@ export function ProgressBarsNeonPulse({
   style,
 }: NeonPulseProps) {
   const displayProgress = progress ?? 0
-  const percent = displayProgress * 100
 
   return (
     <div
@@ -37,10 +36,10 @@ export function ProgressBarsNeonPulse({
       data-animation-id="progress-bars__neon-pulse"
     >
       <div className="neon-pulse-track-css">
-        <div className="neon-pulse-fill-css" style={{ width: `${percent}%` }}>
+        <div className="neon-pulse-fill-css" style={{ transform: `scaleX(${displayProgress})` }}>
           <div className="neon-pulse-flicker-css" />
         </div>
-        <div className="neon-pulse-glow-css" style={{ width: `${percent}%` }} />
+        <div className="neon-pulse-glow-css" style={{ transform: `scaleX(${displayProgress})` }} />
       </div>
       {label !== undefined && label !== '' && <div className="neon-pulse-label-css">{label}</div>}
     </div>

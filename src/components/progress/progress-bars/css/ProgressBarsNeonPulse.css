@@ -38,11 +38,13 @@
 
 .neon-pulse-fill-css {
   height: 100%;
+  width: 100%;
   background: linear-gradient(90deg, var(--neon-pulse-fill) 0%, var(--neon-pulse-fill-to) 100%);
   border-radius: 5px;
   position: relative;
   z-index: 2;
-  transition: width 0.03s linear;
+  transform-origin: left center;
+  transition: transform 0.03s linear;
   box-shadow:
     0 0 16px var(--neon-pulse-glow),
     0 0 4px var(--neon-pulse-glow-tight);
@@ -84,11 +86,13 @@
   position: absolute;
   top: -2px;
   left: 0;
+  width: 100%;
   height: calc(var(--neon-pulse-height) + 4px);
   background: var(--neon-pulse-glow);
   border-radius: 10px;
   z-index: 1;
-  transition: width 0.03s linear;
+  transform-origin: left center;
+  transition: transform 0.03s linear;
 }
 
 .neon-pulse-label-css {

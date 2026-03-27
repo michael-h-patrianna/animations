@@ -37,7 +37,8 @@
 .scifi-loader-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--scifi-fill) 0%, var(--scifi-accent) 100%);
-  width: 0%;
+  width: 100%;
+  transform-origin: left center;
   box-shadow: 0 0 14px var(--scifi-fill-glow);
 }
 

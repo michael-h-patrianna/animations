@@ -27,7 +27,7 @@ export function ProgressBarsSciFiLoader({
       data-animation-id="progress-bars__sci-fi-loader"
     >
       <div className="scifi-loader-track-css">
-        <div className="scifi-loader-fill-css" style={{ width: `${percent}%` }} />
+        <div className="scifi-loader-fill-css" style={{ transform: `scaleX(${displayProgress})` }} />
         <div className="scifi-loader-glint-css" />
       </div>
       <div className="scifi-loader-decor-top-css" />

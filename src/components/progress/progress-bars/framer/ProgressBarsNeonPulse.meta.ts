@@ -8,7 +8,7 @@ export const metadata = {
   description:
     'Cyberpunk neon progress bar with flicker and glow. Pass `progress` (0-1) for controlled mode. Optional `label` prop. Style via --neon-pulse-bg, --neon-pulse-track, --neon-pulse-fill, --neon-pulse-flicker, --neon-pulse-glow, --neon-pulse-height.',
   tier: 4,
-  tags: ['lrc'],
+  tags: [],
   previewMaxWidth: 414,
   props: [
     {
