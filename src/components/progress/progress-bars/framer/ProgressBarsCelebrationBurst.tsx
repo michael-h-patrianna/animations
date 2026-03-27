@@ -18,8 +18,8 @@
  * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
-import { useMemo, useRef, useState, useEffect } from 'react'
+import { useReducedMotion, useMotionValue, animate } from 'motion/react'
+import { useRef, useState, useEffect } from 'react'
 import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
@@ -46,52 +46,80 @@ export function ProgressBarsCelebrationBurst({
   style,
 }: MilestoneProgressBarProps) {
   const prefersReducedMotion = useReducedMotion()
-  const displayProgress = progress ?? 0
+  const targetProgress = progress ?? 0
+  const fillMV = useMotionValue(targetProgress)
 
-  const activatedSet = useMemo(
-    () => new Set(milestones.flatMap((ms, i) => (displayProgress >= ms.position ? [i] : []))),
-    [displayProgress, milestones]
-  )
-
+  const [activatedSet, setActivatedSet] = useState<Set<number>>(() => new Set())
   const [particles, setParticles] = useState<Particle[]>([])
   const [burstIndices, setBurstIndices] = useState<Set<number>>(() => new Set())
   const particleIdRef = useRef(0)
-  const prevActivatedRef = useRef<Set<number>>(new Set())
+  const activatedRef = useRef<Set<number>>(new Set())
+  const cleanupTimersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
+  // Animate fill to target — milestones derive from the animated value
   useEffect(() => {
-    const prev = prevActivatedRef.current
-    const newActivations = [...activatedSet].filter((i) => !prev.has(i))
-    prevActivatedRef.current = new Set(activatedSet)
-
-    if (newActivations.length === 0) return
-
-    const newParticles: Particle[] = []
-
-    for (const idx of newActivations) {
-      for (const angle of [0, 90, 180, 270]) {
-        newParticles.push({ id: particleIdRef.current++, milestoneIndex: idx, angle })
-      }
+    if (prefersReducedMotion) {
+      fillMV.set(targetProgress)
+      return
     }
-
-    setParticles((p) => [...p, ...newParticles])
-    setBurstIndices((prev) => {
-      const next = new Set(prev)
-      for (const idx of newActivations) next.add(idx)
-      return next
+    const controls = animate(fillMV, targetProgress, {
+      duration: 0.3,
+      ease: 'linear',
     })
+    return () => controls.stop()
+  }, [targetProgress, fillMV, prefersReducedMotion])
 
-    const timeout = setTimeout(() => {
-      const ids = new Set(newParticles.map((p) => p.id))
-      setParticles((p) => p.filter((x) => !ids.has(x.id)))
-      setBurstIndices((b) => {
-        const next = new Set(b)
-        for (const idx of newActivations) next.delete(idx)
+  // Milestone logic driven by animated fill position
+  useEffect(() => {
+    function checkMilestones(current: number) {
+      const newSet = new Set(
+        milestones.flatMap((ms, i) => (current >= ms.position ? [i] : []))
+      )
+      const prev = activatedRef.current
+      const newActivations = [...newSet].filter((i) => !prev.has(i))
+
+      if (newActivations.length === 0 && newSet.size === prev.size) return
+
+      activatedRef.current = newSet
+      setActivatedSet(newSet)
+
+      if (newActivations.length === 0) return
+
+      const newParticles: Particle[] = []
+      for (const idx of newActivations) {
+        for (const angle of [0, 90, 180, 270]) {
+          newParticles.push({ id: particleIdRef.current++, milestoneIndex: idx, angle })
+        }
+      }
+
+      setParticles((p) => [...p, ...newParticles])
+      setBurstIndices((prev) => {
+        const next = new Set(prev)
+        for (const idx of newActivations) next.add(idx)
         return next
       })
-    }, 500)
 
-    return () => clearTimeout(timeout)
-  }, [activatedSet])
+      const ids = new Set(newParticles.map((p) => p.id))
+      const timer = setTimeout(() => {
+        setParticles((p) => p.filter((x) => !ids.has(x.id)))
+        setBurstIndices((b) => {
+          const next = new Set(b)
+          for (const idx of newActivations) next.delete(idx)
+          return next
+        })
+        cleanupTimersRef.current.delete(timer)
+      }, 500)
+      cleanupTimersRef.current.add(timer)
+    }
+
+    checkMilestones(fillMV.get())
+    const unsub = fillMV.on('change', checkMilestones)
+    return () => {
+      unsub()
+      for (const t of cleanupTimersRef.current) clearTimeout(t)
+      cleanupTimersRef.current.clear()
+    }
+  }, [fillMV, milestones])
 
   return (
     <div
@@ -103,10 +131,7 @@ export function ProgressBarsCelebrationBurst({
         <div className="pf-progress-track">
           <m.div
             className="pf-progress-fill"
-            initial={false}
-            animate={{ scaleX: progress ?? 0 }}
-            transition={{ duration: prefersReducedMotion ? 0.1 : 0.3, ease: 'linear' }}
-            style={{ transformOrigin: 'left center', animation: 'none' }}
+            style={{ scaleX: fillMV, transformOrigin: 'left center', animation: 'none' }}
           />
         </div>
 

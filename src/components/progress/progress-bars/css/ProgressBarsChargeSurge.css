@@ -34,7 +34,6 @@
   background: linear-gradient(90deg, var(--charge-fill-from), var(--charge-fill-to));
   border-radius: 999px;
   transform-origin: left center;
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
   box-shadow: 0 0 12px var(--charge-fill-glow);
 }

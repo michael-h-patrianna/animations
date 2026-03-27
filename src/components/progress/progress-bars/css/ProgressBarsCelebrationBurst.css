@@ -28,7 +28,6 @@
   transform-origin: left center;
   position: relative;
   will-change: transform;
-  transition: transform 0.05s linear;
 }
 
 .pf-celebration-burst .milestone-marker {
