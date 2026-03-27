@@ -8,6 +8,7 @@ export const metadata = {
   description:
     'Particles erupt upward with parabolic physics and gravity falloff. Depth layers with background/foreground separation. Configurable from, particle images or colors, count, spread (eruption height), duration, and onComplete.',
   tier: 3,
+  tags: ['lrc'],
   demoMode: 'fountain',
   props: [
     {

@@ -8,6 +8,7 @@ export const metadata = {
   description:
     'Radial particle burst from a configurable origin point. Supports custom particle images with preloading, SVG confetti fallback, and onComplete callback. Accepts from/count/particleImages/onComplete props.',
   tier: 3,
+  tags: ['lrc'],
   demoMode: 'burst',
   props: [
     {

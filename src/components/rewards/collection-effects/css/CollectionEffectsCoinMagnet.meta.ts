@@ -8,6 +8,7 @@ export const metadata = {
   description:
     'Particles fly along parabolic arcs from a source area to a target point with overshoot settle. Configurable from/to, particle images or color palette, count, spread, duration, and onComplete callback.',
   tier: 3,
+  tags: ['lrc'],
   demoMode: 'magnet',
   props: [
     {

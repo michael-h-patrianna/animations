@@ -8,6 +8,7 @@ export const metadata = {
   description:
     'Coins pour from 3 streams with gravity, wobble, and bounce. Configurable coinCount, coinImage, colors, duration, and onComplete callback.',
   tier: 4,
+  tags: ['lrc'],
   props: [
     {
       type: 'number',

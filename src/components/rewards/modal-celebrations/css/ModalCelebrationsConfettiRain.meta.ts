@@ -8,6 +8,7 @@ export const metadata = {
   description:
     'Windswept confetti shower with 3D tumble, depth layers, and top-edge flash. Configurable particleCount, colors, duration, and onComplete callback.',
   tier: 3,
+  tags: ['lrc'],
   props: [
     {
       type: 'number',
