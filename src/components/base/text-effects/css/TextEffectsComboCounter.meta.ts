@@ -8,6 +8,7 @@ export const metadata: AnimationMetadata = {
   description: 'Dynamic counting animation with milestone particles and perfect combo celebration.',
   disableReplay: false,
   tier: 4,
+  tags: ['raf'],
   props: [
     { type: 'number', name: 'from', label: 'From', default: 0, min: 0, max: 1000, step: 1 },
     { type: 'number', name: 'to', label: 'To', default: 25, min: 1, max: 1000, step: 1 },

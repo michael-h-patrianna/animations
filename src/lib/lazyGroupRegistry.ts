@@ -265,6 +265,7 @@ function exportsToAnimations(
         prizeCountMax: anim.metadata.prizeCountMax,
         previewPosition: anim.metadata.previewPosition,
         tier: anim.metadata.tier,
+        tags: anim.metadata.tags,
         demoMode: anim.metadata.demoMode,
         previewMaxWidth: anim.metadata.previewMaxWidth,
         props: anim.metadata.props,

@@ -36,6 +36,8 @@ interface AnimationCardProps {
   prizeCountMax?: number
   previewPosition?: PreviewPosition
   tier?: 1 | 2 | 3 | 4
+  /** Freeform tags displayed as pills in the card footer. */
+  tags?: string[]
   /** Max width (px) for demo canvas and preview. Prevents wide animations from stretching. */
   previewMaxWidth?: number
   children: AnimationChild
@@ -322,6 +324,7 @@ function CardBody({
         controlType={effectiveControlType}
         prizeCountMax={prizeCountMax}
         tier={tier}
+        tags={props.tags}
         disableReplay={disableReplay}
         onReplay={card.playback.triggerReplay}
         renderProfile={card.renderProfile}

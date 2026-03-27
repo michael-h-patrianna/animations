@@ -83,6 +83,8 @@ export interface Animation {
   tier?: 1 | 2 | 3 | 4
   demoMode?: 'burst' | 'magnet' | 'trail' | 'fountain' | 'icon-dot' | 'status-row'
   previewMaxWidth?: number
+  /** Freeform tags displayed as pills in the card footer (e.g. 'raf', 'lrc'). */
+  tags?: string[]
   /** Configurable props surfaced in the right-side inspector panel. */
   props?: PropConfig[]
 }
@@ -337,6 +339,9 @@ export interface AnimationMetadata {
 
   /** Max width (px) for demo canvas and preview containers. Prevents wide animations from stretching full viewport. */
   previewMaxWidth?: number
+
+  /** Freeform tags displayed as pills in the card footer (e.g. 'raf', 'lrc'). */
+  tags?: string[]
 
   /** Sort priority within the group. Lower values appear first. Defaults to 0. */
   order?: number

@@ -8,6 +8,7 @@ export const metadata: AnimationMetadata = {
   description: 'Classic terminal-style text typing with blinking cursor for system messages.',
   disableReplay: false,
   tier: 3,
+  tags: ['lrc'],
   props: [
     { type: 'string', name: 'text', label: 'Text', default: 'LOADING SYSTEM...' },
     {

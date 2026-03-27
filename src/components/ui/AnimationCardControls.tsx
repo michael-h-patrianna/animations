@@ -150,11 +150,43 @@ export const PrizeCountControls = ({
 
 // ── Footer Controls ───────────────────────────────────────────────────────
 
+// ── Tag Pills ─────────────────────────────────────────────────────────────
+
+const TAG_TOOLTIPS: Record<string, string> = {
+  raf: 'Uses requestAnimationFrame for JS-driven animation (number counting, FLIP transitions)',
+  lrc: 'Animates layout properties (width, height, left) \u2014 causes browser layout recalculations',
+}
+
+function TagPills({ tags }: { tags: string[] }) {
+  return (
+    <>
+      {tags.map((tag) => {
+        const tooltip = TAG_TOOLTIPS[tag]
+        const pill = (
+          <span key={tag} className="pf-tag-pill" data-testid={`tag-${tag}`}>
+            {tag}
+          </span>
+        )
+        return tooltip ? (
+          <Tooltip key={tag} content={tooltip} position="top">
+            {pill}
+          </Tooltip>
+        ) : (
+          pill
+        )
+      })}
+    </>
+  )
+}
+
+// ── Footer Controls ───────────────────────────────────────────────────────
+
 type FooterControlsProps = {
   cardControls: CardControlsState
   controlType?: AnimationControlType
   prizeCountMax?: number
   tier?: 1 | 2 | 3 | 4
+  tags?: string[]
   disableReplay: boolean
   onReplay: () => void
   /** Render timing from React.Profiler. Null when profiler is toggled off. */
@@ -167,6 +199,7 @@ export const FooterControls = ({
   controlType,
   prizeCountMax,
   tier,
+  tags,
   disableReplay,
   onReplay,
   renderProfile,
@@ -191,6 +224,7 @@ export const FooterControls = ({
     <div className="pf-card__actions pt-3">
       <div className="pf-card__meta" data-testid="card-meta">
         {tier !== undefined && <TierBadge tier={tier} />}
+        {tags != null && tags.length > 0 && <TagPills tags={tags} />}
         <RenderTimeBadge profile={renderProfile ?? null} />
       </div>
       {controlType === 'lights' && (

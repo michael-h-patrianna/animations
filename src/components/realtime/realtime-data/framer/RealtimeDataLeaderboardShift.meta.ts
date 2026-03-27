@@ -8,6 +8,7 @@ export const metadata = {
   description:
     'Animated ranked list that cycles the top entry to the bottom with smooth position transitions. Configure items, duration, and pause timing.',
   tier: 3,
+  tags: ['raf'],
   props: [
     {
       type: 'string',

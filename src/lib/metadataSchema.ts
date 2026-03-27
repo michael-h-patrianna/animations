@@ -54,6 +54,7 @@ const AnimationMetadataSchema = v.object({
   tier: TierSchema,
   demoMode: DemoModeSchema,
   previewMaxWidth: v.optional(v.number()),
+  tags: v.optional(v.array(v.string())),
   order: v.optional(v.number()),
   props: v.optional(v.array(v.any())),
 })

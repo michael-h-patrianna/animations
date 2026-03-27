@@ -245,6 +245,7 @@ function AnimationCardWithSource({
       prizeCountMax={animation.prizeCountMax}
       previewPosition={animation.previewPosition}
       tier={animation.tier}
+      tags={animation.tags}
       previewMaxWidth={animation.previewMaxWidth}
       sourceLoader={hasAnyEntry ? sourceLoader : undefined}
       propOverrides={propOverrides}

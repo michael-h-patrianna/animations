@@ -8,6 +8,7 @@ export const metadata: AnimationMetadata = {
   description: 'XP gain count-up with pop easing, glow orb, and particle effects.',
   disableReplay: false,
   tier: 4,
+  tags: ['raf'],
   props: [
     { type: 'number', name: 'from', label: 'From', default: 0, min: 0, max: 10000, step: 1 },
     { type: 'number', name: 'to', label: 'To', default: 240, min: 1, max: 10000, step: 1 },
