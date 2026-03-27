@@ -63,7 +63,7 @@ test.describe('Visual regression', () => {
       // Screenshot the main content area (excludes sidebar/topbar for stability)
       const contentPane = catalogPage.page.locator('[data-testid="editor-center-pane"]')
       await expect(contentPane).toHaveScreenshot(`${group.id}.png`, {
-        maxDiffPixelRatio: NONDETERMINISTIC_GROUPS.has(group.id) ? 0.10 : 0.02,
+        maxDiffPixelRatio: NONDETERMINISTIC_GROUPS.has(group.id) ? 0.1 : 0.02,
         animations: 'disabled',
       })
     })
@@ -123,7 +123,7 @@ test.describe('CSS vs Framer visual parity', () => {
       // Screenshot the CSS variant for its own baseline
       const isNondeterministic = NONDETERMINISTIC_GROUPS.has(`${group.base}-framer`)
       await expect(contentPane).toHaveScreenshot(`${group.base}-css-parity.png`, {
-        maxDiffPixelRatio: isNondeterministic ? 0.10 : 0.02,
+        maxDiffPixelRatio: isNondeterministic ? 0.1 : 0.02,
         animations: 'disabled',
       })
     })
