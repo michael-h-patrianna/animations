@@ -61,7 +61,6 @@ function registerLazyGroup(groupId: string, loader: LazyGroupLoader): void {
   loaderRegistry.set(groupId, loader)
 }
 
-
 /**
  * Registers a category with its groups in one call.
  * Convenience method for category index files.
@@ -186,7 +185,6 @@ export function preloadLazyGroup(groupId: string): void {
 export function isGroupCached(groupId: string): boolean {
   return groupCache.has(groupId)
 }
-
 
 /**
  * Gets the loaded animation exports for a group if available.
@@ -384,4 +382,3 @@ export function declareCategoryGroups(
 export function clearGroupCache(): void {
   groupCache.clear()
 }
-

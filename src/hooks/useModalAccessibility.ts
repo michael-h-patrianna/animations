@@ -88,4 +88,3 @@ export function useEscapeClose(onClose: () => void, enabled = true) {
     return () => document.removeEventListener('keydown', handler)
   }, [enabled])
 }
-

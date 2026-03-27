@@ -41,4 +41,3 @@ export async function reportWebVitals(): Promise<void> {
   onLCP(report)
   onTTFB(report)
 }
-

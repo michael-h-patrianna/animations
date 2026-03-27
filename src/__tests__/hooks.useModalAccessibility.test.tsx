@@ -385,4 +385,3 @@ describe('useEscapeClose', () => {
     expect(onClose).toHaveBeenCalledOnce()
   })
 })
-
