@@ -199,8 +199,6 @@ function syncFontToRoot(font: PreviewFont) {
   document.documentElement.style.setProperty('--pf-preview-font', font)
 }
 syncFontToRoot(useLayoutStore.getState().previewFont)
-useLayoutStore.subscribe(
-  (state, prev) => {
-    if (state.previewFont !== prev.previewFont) syncFontToRoot(state.previewFont)
-  }
-)
+useLayoutStore.subscribe((state, prev) => {
+  if (state.previewFont !== prev.previewFont) syncFontToRoot(state.previewFont)
+})
