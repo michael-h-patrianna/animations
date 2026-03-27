@@ -3,6 +3,7 @@
  *
  * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
  */
+import type { CSSProperties } from 'react'
 import { useMemo } from 'react'
 import type {
   MilestoneProgressBarProps,
@@ -58,7 +59,29 @@ export function ProgressBarsCelebrationBurst({
               }}
             >
               <div className="milestone-marker" />
-              {isActive && <div className="burst-ring" />}
+              {isActive && (
+                <>
+                  <div className="burst-ring" />
+                  <div className="burst-ring burst-ring--delayed" />
+                  {[
+                    { dx: 30, dy: 0 },
+                    { dx: 0, dy: 30 },
+                    { dx: -30, dy: 0 },
+                    { dx: 0, dy: -30 },
+                  ].map(({ dx, dy }, j) => (
+                    <div
+                      key={j}
+                      className="burst-particle"
+                      style={
+                        {
+                          '--particle-dx': `${dx}px`,
+                          '--particle-dy': `${dy}px`,
+                        } as CSSProperties
+                      }
+                    />
+                  ))}
+                </>
+              )}
             </div>
           )
         })}
