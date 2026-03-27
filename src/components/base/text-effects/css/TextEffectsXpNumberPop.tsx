@@ -4,7 +4,7 @@
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 
-import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef } from 'react'
 import './TextEffectsXpNumberPop.css'
 
 interface Particle {
@@ -84,7 +84,7 @@ function TextEffectsXpNumberPopComponent({
   maxParticles = 10,
   color,
 }: TextEffectsXpNumberPopProps) {
-  const [count, setCount] = useState(from)
+  const numberRef = useRef<HTMLSpanElement>(null)
   const formatRef = useRef(formatValue)
   formatRef.current = formatValue
 
@@ -104,7 +104,9 @@ function TextEffectsXpNumberPopComponent({
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
 
-      setCount(from + eased * range)
+      if (numberRef.current) {
+        numberRef.current.textContent = formatRef.current(from + eased * range)
+      }
 
       if (progress < 1) {
         frameId = requestAnimationFrame(animateCount)
@@ -151,7 +153,9 @@ function TextEffectsXpNumberPopComponent({
         {prefix !== undefined && (
           <span className="tfx-xp-label tfx-xp-label--prefix">{prefix}</span>
         )}
-        <span className="tfx-xp-number-value">{formatRef.current(count)}</span>
+        <span ref={numberRef} className="tfx-xp-number-value">
+          {formatRef.current(from)}
+        </span>
         {suffix !== undefined && <span className="tfx-xp-label">{suffix}</span>}
       </div>
     </div>

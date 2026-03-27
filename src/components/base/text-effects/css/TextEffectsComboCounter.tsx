@@ -4,7 +4,7 @@
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
 
-import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef } from 'react'
 import './TextEffectsComboCounter.css'
 
 interface Milestone {
@@ -68,7 +68,7 @@ function TextEffectsComboCounterComponent({
   labelColor,
   bonusColor,
 }: TextEffectsComboCounterProps = {}) {
-  const [count, setCount] = useState(from)
+  const numberRef = useRef<HTMLSpanElement>(null)
   const formatRef = useRef(formatValue)
   formatRef.current = formatValue
 
@@ -94,7 +94,9 @@ function TextEffectsComboCounterComponent({
       const eased =
         progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2
 
-      setCount(from + eased * range)
+      if (numberRef.current) {
+        numberRef.current.textContent = formatRef.current(from + eased * range)
+      }
 
       if (progress < 1) {
         frameId = requestAnimationFrame(animateCount)
@@ -137,7 +139,7 @@ function TextEffectsComboCounterComponent({
           <div className="tfx-combo-number-container">
             <div className="tfx-combo-current-number">
               <span className="tfx-combo-digit">
-                <span>{formatRef.current(count)}</span>
+                <span ref={numberRef}>{formatRef.current(from)}</span>
               </span>
             </div>
 
