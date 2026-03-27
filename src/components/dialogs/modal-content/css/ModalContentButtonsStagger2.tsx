@@ -72,8 +72,8 @@ function ModalContentButtonsStagger2Component({
           <p>Keep focus with 70ms cadence.</p>
         </DemoModalBody>
         <DemoModalFooter>
-          {wrapItem(<DemoButton label="Primary" />, 0, 300)}
-          {wrapItem(<DemoButton label="Secondary" variant="secondary" />, 1, 300)}
+          {wrapItem(<DemoButton label="OK" />, 0, 300)}
+          {wrapItem(<DemoButton label="Cancel" variant="secondary" />, 1, 300)}
         </DemoModalFooter>
       </div>
     </div>
