@@ -1,124 +1,60 @@
 /**
- * Ripple — wraps any element with Material Design-style click ripple expansion.
- * Click spawns a radial gradient circle at the click position that expands
- * to cover the element.
+ * Ripple — expanding light circle on click via background-size transition.
+ * An overlay span uses the background-size technique; transitions are applied
+ * via inline style (framer variants must not use CSS transitions).
  *
  * Copy-paste files: this file + ButtonEffectsRipple.css
  * Runtime deps: react, motion
  *
  * Usage:
- *   <ButtonEffectsRipple color="rgba(255,255,255,0.4)">
- *     <button className="my-btn">Buy Now</button>
- *   </ButtonEffectsRipple>
+ *   <ButtonEffectsRipple color="rgba(255,255,255,0.4)" />
  */
 
 import * as m from 'motion/react-m'
-import { easeOut, useReducedMotion } from 'motion/react'
-import { useEffect, useRef, useState, memo, type ReactNode } from 'react'
+import { useReducedMotion } from 'motion/react'
+import { memo, useRef } from 'react'
 import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
 
-interface Ripple {
-  id: number
-  x: number
-  y: number
-  size: number
-}
-
 interface ButtonEffectsRippleProps {
-  children?: ReactNode
-  /** Ripple color. Default: 'rgba(255,255,255,0.4)' */
+  /** Ripple circle color. Default: 'rgb(255 255 255 / 30%)' */
   color?: string
-  /** Ripple animation duration in ms. Default: 520 */
+  /** Ripple expansion duration in ms. Default: 600 */
   duration?: number
 }
 
-function ButtonEffectsRippleComponent({
-  children,
-  color,
-  duration = 520,
-}: ButtonEffectsRippleProps) {
+function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRippleProps) {
   const prefersReducedMotion = useReducedMotion()
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [ripples, setRipples] = useState<Ripple[]>([])
-  const nextIdRef = useRef(0)
-  const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+  const overlayRef = useRef<HTMLSpanElement>(null)
+  const dur = prefersReducedMotion ? '0.15s' : `${duration}ms`
+  const animated = `background-size ${dur} ease-out, opacity 0.3s ease-out 0.4s`
 
-  const durationS = duration / 1000
-
-  useEffect(() => {
-    const timeoutIds = timeoutIdsRef.current
-    return () => {
-      timeoutIds.forEach(clearTimeout)
-      timeoutIds.clear()
-    }
-  }, [])
-
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect) return
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const dx = Math.max(x, rect.width - x)
-    const dy = Math.max(y, rect.height - y)
-    const size = Math.sqrt(dx * dx + dy * dy) * 2
-    const id = nextIdRef.current++
-    setRipples((prev) => [...prev, { id, x, y, size }])
-    const timeoutId = setTimeout(() => {
-      timeoutIdsRef.current.delete(timeoutId)
-      setRipples((prev) => prev.filter((r) => r.id !== id))
-    }, duration + 20)
-    timeoutIdsRef.current.add(timeoutId)
+  const setInstant = () => {
+    if (overlayRef.current) overlayRef.current.style.transition = 'background-size 0s, opacity 0s'
+  }
+  const setAnimated = () => {
+    if (overlayRef.current) overlayRef.current.style.transition = animated
   }
 
-  const rippleVariants = prefersReducedMotion
-    ? {
-        initial: { opacity: 0.4 },
-        animate: {
-          opacity: [0.4, 0],
-          transition: { duration: 0.15 },
-        },
-      }
-    : {
-        initial: { scale: 0.2, opacity: 0.6 },
-        animate: {
-          scale: 1,
-          opacity: [0.6, 0.45, 0],
-          transition: { duration: durationS, ease: easeOut, times: [0, 0.6, 1] },
-        },
-      }
-
   return (
-    <div
-      ref={containerRef}
+    <m.div
       className="pf-ripple"
       data-animation-id="button-effects__ripple"
-      onClick={handleClick}
-      style={color !== undefined ? { ['--pf-ripple-color' as string]: color } : undefined}
+      onPointerDown={setInstant}
+      onPointerUp={setAnimated}
+      onPointerLeave={setAnimated}
+      style={{
+        ...(color != null && { ['--pf-ripple-color' as string]: color }),
+      }}
     >
-      {children ?? <DemoButton label="Click Me!" />}
-      <span className="pf-ripple__overlay" aria-hidden>
-        {ripples.map((r) => {
-          const half = r.size / 2
-          return (
-            <m.span
-              key={r.id}
-              className="pf-ripple__wave"
-              style={{
-                left: r.x - half,
-                top: r.y - half,
-                width: r.size,
-                height: r.size,
-                animation: 'none',
-              }}
-              variants={rippleVariants}
-              initial="initial"
-              animate="animate"
-            />
-          )
-        })}
-      </span>
-    </div>
+      <DemoButton label="Click Me!" />
+      <span
+        ref={overlayRef}
+        className="pf-ripple__overlay"
+        aria-hidden
+        style={{ transition: animated }}
+      />
+    </m.div>
   )
 }
 

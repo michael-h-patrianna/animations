@@ -1,101 +1,41 @@
 /**
- * Ripple — wraps any element with Material Design-style click ripple expansion.
+ * Ripple — expanding light circle on click via CSS background-size transition.
+ * Adds .pf-ripple to a DemoButton; a ::after pseudo-element handles the effect.
  *
  * Copy-paste files: this file + ButtonEffectsRipple.css
  * Runtime deps: react
  *
  * Usage:
- *   <ButtonEffectsRipple>
- *     <button className="my-btn">Buy Now</button>
- *   </ButtonEffectsRipple>
+ *   <ButtonEffectsRipple color="rgba(255,255,255,0.4)" />
  */
 
-import { memo, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { memo, type CSSProperties } from 'react'
 import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
-import { RIPPLE_COLOR } from '@/components/base/button-effects/SharedDefaults'
-
-interface Ripple {
-  id: number
-  x: number
-  y: number
-  size: number
-}
 
 interface ButtonEffectsRippleProps {
-  children?: ReactNode
+  /** Ripple circle color. Default: 'rgb(255 255 255 / 30%)' */
   color?: string
-  /** Ripple animation duration in ms. Default: 520 */
+  /** Ripple expansion duration in ms. Default: 600 */
   duration?: number
 }
 
-function ButtonEffectsRippleComponent({
-  children,
-  color = RIPPLE_COLOR,
-  duration = 520,
-}: ButtonEffectsRippleProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [ripples, setRipples] = useState<Ripple[]>([])
-  const nextIdRef = useRef(0)
-  const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
-  const style = {
-    ['--pf-ripple-color' as string]: color,
-    ['--pf-ripple-duration' as string]: `${duration}ms`,
-  } as CSSProperties
-
-  useEffect(() => {
-    const timeoutIds = timeoutIdsRef.current
-    return () => {
-      timeoutIds.forEach(clearTimeout)
-      timeoutIds.clear()
-    }
-  }, [])
-
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect) return
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const dx = Math.max(x, rect.width - x)
-    const dy = Math.max(y, rect.height - y)
-    const size = Math.sqrt(dx * dx + dy * dy) * 2
-    const id = nextIdRef.current++
-    setRipples((prev) => [...prev, { id, x, y, size }])
-    const timeoutId = setTimeout(() => {
-      timeoutIdsRef.current.delete(timeoutId)
-      setRipples((prev) => prev.filter((r) => r.id !== id))
-    }, duration + 20)
-    timeoutIdsRef.current.add(timeoutId)
-  }
+function ButtonEffectsRippleComponent({ color, duration }: ButtonEffectsRippleProps) {
+  const hasOverrides = color != null || duration != null
+  const style = hasOverrides
+    ? ({
+        ...(color != null && { ['--pf-ripple-color' as string]: color }),
+        ...(duration != null && { ['--pf-ripple-duration' as string]: `${duration}ms` }),
+      } as CSSProperties)
+    : undefined
 
   return (
-    <div
-      ref={containerRef}
+    <DemoButton
+      label="Click Me!"
       className="pf-ripple"
       data-animation-id="button-effects__ripple"
-      onClick={handleClick}
       style={style}
-    >
-      {children ?? <DemoButton label="Click Me!" />}
-      <span className="pf-ripple__overlay" aria-hidden>
-        {ripples.map((r) => {
-          const half = r.size / 2
-          return (
-            <span
-              key={r.id}
-              className="pf-ripple__wave"
-              style={{
-                left: r.x - half,
-                top: r.y - half,
-                width: r.size,
-                height: r.size,
-                animationDuration: `${duration}ms`,
-              }}
-            />
-          )
-        })}
-      </span>
-    </div>
+    />
   )
 }
 

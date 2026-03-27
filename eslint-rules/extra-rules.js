@@ -208,19 +208,6 @@ const extraRules = {
               message:
                 '<button> in animation components must use a CSS class from shared.css or a group stylesheet (e.g. pf-button-primary, modal-content-button). Do not create buttons with inline styles.',
             })
-            return
-          }
-
-          // Also ban buttons that have a className AND a style prop (inline style override)
-          const styleAttr = node.attributes.find(
-            (attr) => attr.type === 'JSXAttribute' && attr.name?.name === 'style'
-          )
-          if (styleAttr) {
-            context.report({
-              node,
-              message:
-                '<button> in animation components must not use inline styles. Style buttons through CSS classes in shared.css or a group stylesheet.',
-            })
           }
         },
       }

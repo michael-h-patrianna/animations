@@ -1,66 +1,51 @@
 /**
- * Ripple — Material Design-style click ripple expansion.
- *
- * Copy-paste files: this file + ButtonEffectsRipple.tsx
- * Runtime deps: react
- *
- * The TSX component manages click → spawn ripple → cleanup lifecycle.
- * This CSS defines the expansion keyframes and overlay layout.
+ * Ripple — expanding light circle on click via background-size transition.
+ * Apply .pf-ripple to any element. ::after overlay handles the effect.
+ * Click shows a small bright circle at center; release expands it outward.
  *
  * Custom properties:
- *   --pf-ripple-color: rgba(255,255,255,0.4)  (ripple fill)
- *   --pf-ripple-duration: 520ms               (expansion time)
+ *   --pf-ripple-color:    rgb(255 255 255 / 30%)  (circle fill)
+ *   --pf-ripple-duration: 0.6s                    (expansion time)
  */
 
 .pf-ripple {
   position: relative;
-  display: inline-flex;
+  overflow: hidden;
 }
 
-.pf-ripple__overlay {
+.pf-ripple::after {
+  content: '';
   position: absolute;
   inset: 0;
-  overflow: hidden;
   pointer-events: none;
   border-radius: inherit;
+  z-index: 1;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle,
+      var(--pf-ripple-color, rgb(255 255 255 / 30%)) 10%,
+      transparent 10.5%
+    )
+    center / 1000%;
+  transition:
+    background-size var(--pf-ripple-duration, 0.6s) ease-out,
+    opacity 0.3s ease-out 0.4s;
 }
 
-.pf-ripple__wave {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    var(--pf-ripple-color, rgb(255 255 255 / 40%)) 0%,
-    transparent 70%
-  );
-  transform: scale(0.2);
-  opacity: 0.6;
-  animation: pf-ripple var(--pf-ripple-duration, 520ms) ease-out forwards;
-  will-change: transform, opacity;
-}
-
-@keyframes pf-ripple {
-  60% {
-    opacity: 0.45;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
+.pf-ripple:active::after {
+  opacity: 1;
+  background-size: 100%;
+  transition: background-size 0s, opacity 0s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pf-ripple__wave {
-    animation: pf-ripple-reduced 150ms ease-out forwards;
-    transform: scale(1);
+  .pf-ripple::after {
+    background: var(--pf-ripple-color, rgb(255 255 255 / 30%));
+    transition: opacity 0.15s;
   }
 
-  @keyframes pf-ripple-reduced {
-    0% {
-      opacity: 0.4;
-    }
-    100% {
-      opacity: 0;
-    }
+  .pf-ripple:active::after {
+    transition: opacity 0s;
   }
 }
