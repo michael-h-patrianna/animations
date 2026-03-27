@@ -21,7 +21,7 @@
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
@@ -40,7 +40,7 @@ const DEFAULT_MILESTONES: MilestoneConfig[] = [
   { position: 0.75 },
   { position: 1 },
 ]
-const ANTICIPATION_THRESHOLD = 0.05
+const ANTICIPATION_THRESHOLD = 0.12
 
 export function ProgressBarsChargeSurge({
   progress,
@@ -57,56 +57,58 @@ export function ProgressBarsChargeSurge({
   const [glowFlash, setGlowFlash] = useState(false)
   const waveIdRef = useRef(0)
   const prevProgressRef = useRef(0)
-
-  // Track which milestones just became charged so effects can fire outside the updater
-  const newlyChargedRef = useRef<number[]>([])
+  const chargedSetRef = useRef<Set<number>>(new Set())
 
   useEffect(() => {
     const prev = prevProgressRef.current
     prevProgressRef.current = displayProgress
 
+    // Reset on significant backward movement
     if (displayProgress < prev - 0.02) {
       setMilestoneStates(milestones.map(() => 'inactive'))
       setSurgeWaves([])
+      chargedSetRef.current.clear()
       return
     }
 
-    newlyChargedRef.current = []
+    // Compute new states and detect crossings directly (no ref-inside-updater)
+    const newlyCharged: number[] = []
+    const nextStates: MilestoneState[] = milestones.map((ms, i) => {
+      const hasReached = displayProgress >= ms.position
+      const isNear = displayProgress >= ms.position - ANTICIPATION_THRESHOLD
 
-    setMilestoneStates((prev) => {
-      let changed = false
-      const next = prev.map((state, i) => {
-        const ms = milestones[i]!
-        const hasReached = displayProgress >= ms.position
-        const isNear = displayProgress >= ms.position - ANTICIPATION_THRESHOLD
-
-        if (hasReached && state !== 'charged') {
-          changed = true
-          newlyChargedRef.current.push(i)
-          return 'charged' as const
-        }
-        if (isNear && !hasReached && state === 'inactive') {
-          changed = true
-          return 'anticipating' as const
-        }
-        return state
-      })
-      return changed ? next : prev
+      if (hasReached && !chargedSetRef.current.has(i)) {
+        chargedSetRef.current.add(i)
+        newlyCharged.push(i)
+        return 'charged'
+      }
+      if (hasReached && chargedSetRef.current.has(i)) {
+        return 'charged'
+      }
+      if (isNear && !hasReached) {
+        return 'anticipating'
+      }
+      return 'inactive'
     })
 
-    // Fire side effects for newly charged milestones outside the state updater
-    const pendingTimeouts: ReturnType<typeof setTimeout>[] = []
-    for (const milestoneIndex of newlyChargedRef.current) {
-      const wave: SurgeWave = { id: waveIdRef.current++, milestoneIndex }
-      setSurgeWaves((p) => [...p, wave])
-      setGlowFlash(true)
-      const t1 = setTimeout(() => setGlowFlash(false), 200)
-      const t2 = setTimeout(() => setSurgeWaves((p) => p.filter((w) => w.id !== wave.id)), 700)
-      pendingTimeouts.push(t1, t2)
-    }
+    setMilestoneStates(nextStates)
 
-    return () => pendingTimeouts.forEach(clearTimeout)
+    // Fire surge effects for milestones that just crossed
+    if (newlyCharged.length > 0) {
+      const newWaves = newlyCharged.map((milestoneIndex) => ({
+        id: waveIdRef.current++,
+        milestoneIndex,
+      }))
+      setSurgeWaves((p) => [...p, ...newWaves])
+      setGlowFlash(true)
+      const t = setTimeout(() => setGlowFlash(false), 200)
+      return () => clearTimeout(t)
+    }
   }, [displayProgress, milestones])
+
+  const handleWaveComplete = useCallback((waveId: number) => {
+    setSurgeWaves((p) => p.filter((w) => w.id !== waveId))
+  }, [])
 
   const markerVariants = (state: MilestoneState) => {
     if (prefersReducedMotion) {
@@ -118,16 +120,16 @@ export function ProgressBarsChargeSurge({
     }
     if (state === 'anticipating') {
       return {
-        scale: [1, 1.1, 1],
+        scale: [1, 1.15, 1],
         backgroundColor: 'var(--charge-marker-color)',
-        transition: { scale: { duration: 0.8, repeat: Infinity, ease: 'easeInOut' as const } },
+        transition: { scale: { duration: 0.6, repeat: Infinity, ease: 'easeInOut' as const } },
       }
     }
     if (state === 'charged') {
       return {
-        scale: 1,
-        backgroundColor: 'var(--charge-marker-color)',
-        transition: { backgroundColor: { duration: 0.2 } },
+        scale: [1.3, 1],
+        backgroundColor: 'var(--charge-marker-active, var(--charge-marker-color))',
+        transition: { scale: { duration: 0.25, ease: 'easeOut' as const } },
       }
     }
     return { scale: 1, backgroundColor: 'var(--charge-marker-color)' }
@@ -201,6 +203,7 @@ export function ProgressBarsChargeSurge({
                     initial={{ scale: 0.5, opacity: 0.8 }}
                     animate={{ scale: 2.5, opacity: 0 }}
                     transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] as const }}
+                    onAnimationComplete={() => handleWaveComplete(wave.id)}
                     style={{
                       position: 'absolute',
                       inset: 0,
