@@ -115,6 +115,8 @@
   pointer-events: none;
   /* Override card-sized demo height so animations fill the preview container */
   --pf-demo-height: 100%;
+  /* Inherit preview font from the global selector */
+  font-family: var(--pf-preview-font, Lato), sans-serif;
 }
 
 /* Desktop: constrain to 960px centered, no overflow clip */

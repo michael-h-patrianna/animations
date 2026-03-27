@@ -103,8 +103,8 @@ export default {
       },
       // Font families
       fontFamily: {
-        display: ['Inter', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        display: ['Lato', 'sans-serif'],
+        body: ['Lato', 'sans-serif'],
       },
     },
   },

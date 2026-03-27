@@ -7,9 +7,11 @@ import { PropField } from '@/components/ui/PropField'
 import { hasDirtyPropOverrides, useAnimationInspector } from '@/contexts/AnimationInspectorContext'
 import { Button } from '@/demo-ui/components/ui/Button'
 import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
+import { Select } from '@/demo-ui/components/ui/Select'
 import { ToggleGroup } from '@/demo-ui/components/ui/ToggleGroup'
 import { ToggleButton } from '@/demo-ui/components/ui/ToggleButton'
 import {
+  PREVIEW_FONTS,
   REDUCED_MOTION_LABELS,
   REDUCED_MOTION_OPTIONS,
   useLayoutStore,
@@ -271,27 +273,54 @@ function PropRunField({
   return <InspectorGroup configs={run} propOverrides={propOverrides} onChange={onChange} />
 }
 
-function MotionPreferenceSection() {
+const FONT_OPTIONS = PREVIEW_FONTS.map((font) => ({ value: font, label: font }))
+
+function GeneralSection() {
+  const previewFont = useLayoutStore((s) => s.previewFont)
+  const setPreviewFont = useLayoutStore((s) => s.setPreviewFont)
   const reducedMotion = useLayoutStore((s) => s.reducedMotion)
   const setReducedMotion = useLayoutStore((s) => s.setReducedMotion)
 
   return (
-    <ControlGroup title="Motion" data-testid="inspector-motion-pref">
-      <div className="space-y-2">
-        <ToggleGroup
-          options={MOTION_TOGGLE_OPTIONS}
-          value={reducedMotion}
-          onChange={setReducedMotion as (value: string) => void}
-          ariaLabel="Motion preference"
-          data-testid="motion-pref-toggle"
-        />
-        <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">
-          {reducedMotion === 'system'
-            ? 'Respects your OS prefers-reduced-motion setting.'
-            : reducedMotion === 'reduce'
-              ? 'All animations reduced — preview what motion-sensitive users see.'
-              : 'Full animations regardless of OS setting.'}
-        </p>
+    <ControlGroup title="General" collapsible data-testid="inspector-general">
+      <div className="space-y-4">
+        <div className="space-y-2" data-testid="inspector-font">
+          <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-text-tertiary">
+            Font
+          </label>
+          <Select
+            options={FONT_OPTIONS}
+            value={previewFont}
+            onChange={setPreviewFont as (value: string) => void}
+            data-testid="preview-font-select"
+          />
+          <p
+            className="px-1 text-[11px] leading-relaxed text-text-tertiary"
+            style={{ fontFamily: `${previewFont}, sans-serif` }}
+          >
+            Preview how animations look with {previewFont}.
+          </p>
+        </div>
+
+        <div className="space-y-2" data-testid="inspector-motion-pref">
+          <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-text-tertiary">
+            Motion
+          </label>
+          <ToggleGroup
+            options={MOTION_TOGGLE_OPTIONS}
+            value={reducedMotion}
+            onChange={setReducedMotion as (value: string) => void}
+            ariaLabel="Motion preference"
+            data-testid="motion-pref-toggle"
+          />
+          <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">
+            {reducedMotion === 'system'
+              ? 'Respects your OS prefers-reduced-motion setting.'
+              : reducedMotion === 'reduce'
+                ? 'All animations reduced — preview what motion-sensitive users see.'
+                : 'Full animations regardless of OS setting.'}
+          </p>
+        </div>
       </div>
     </ControlGroup>
   )
@@ -328,14 +357,14 @@ export const EditorRightPanel: React.FC = () => {
         <ProfilerToggle />
       </div>
 
-      <div className="px-4 pt-4 shrink-0">
-        <MotionPreferenceSection />
-      </div>
-
       {selectedAnimation == null ? (
-        <EmptyState />
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin scrollbar-thumb-[var(--border-default)] hover:scrollbar-thumb-[var(--border-highlight)]">
+          <GeneralSection />
+          <EmptyState />
+        </div>
       ) : (
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin scrollbar-thumb-[var(--border-default)] hover:scrollbar-thumb-[var(--border-highlight)]">
+          <GeneralSection />
           <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/35 p-4 space-y-3">
             <div className="space-y-1">
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-text-tertiary">

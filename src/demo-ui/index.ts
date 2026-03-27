@@ -25,4 +25,4 @@ export { Tooltip, type TooltipProps } from './components/ui/Tooltip'
 // Stores
 export { useLayoutStore } from './stores/layoutStore'
 export { useDropdownStore } from './stores/dropdownStore'
-export type { LayoutStore, ThemeMode, AccentColor } from './stores/layoutStore'
+export type { LayoutStore, ThemeMode, AccentColor, PreviewFont } from './stores/layoutStore'

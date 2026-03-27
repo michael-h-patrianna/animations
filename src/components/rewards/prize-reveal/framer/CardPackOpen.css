@@ -592,7 +592,6 @@
   font-weight: 900;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  font-family: system-ui, sans-serif;
   text-shadow: 0 1px 1px var(--pf-anim-black-30);
   line-height: 1;
 }

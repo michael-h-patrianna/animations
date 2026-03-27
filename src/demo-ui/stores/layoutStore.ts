@@ -40,6 +40,28 @@ export const ACCENT_COLORS = [
 export type AccentColor = (typeof ACCENT_COLORS)[number]
 
 /**
+ * Available preview fonts for demonstrating animations in different typographic contexts.
+ * All fonts are self-hosted as woff2 in public/fonts/.
+ */
+export const PREVIEW_FONTS = [
+  'Lato',
+  'Inter',
+  'Roboto',
+  'Poppins',
+  'Ubuntu',
+  'Noto Sans',
+  'DM Sans',
+  'Outfit',
+  'Space Grotesk',
+  'Plus Jakarta Sans',
+  'Baloo 2',
+  'IBM Plex Sans',
+  'Comic Sans MS',
+] as const
+/** Union of available preview font names. */
+export type PreviewFont = (typeof PREVIEW_FONTS)[number]
+
+/**
  * Reduced motion preference override for catalog preview.
  * - `'system'`: respect OS `prefers-reduced-motion` setting
  * - `'reduce'`: force reduced motion (preview what reduced-motion users see)
@@ -56,12 +78,13 @@ export const REDUCED_MOTION_LABELS: Record<ReducedMotionPreference, string> = {
   'no-preference': 'Full',
 }
 
-/** Manages panel visibility, theme mode, accent color, motion preference, and profiler. */
+/** Manages panel visibility, theme mode, accent color, font, motion preference, and profiler. */
 export interface LayoutStore {
   showLeftPanel: boolean
   showRightPanel: boolean
   theme: ThemeMode
   accent: AccentColor
+  previewFont: PreviewFont
   reducedMotion: ReducedMotionPreference
   showProfiler: boolean
 
@@ -71,6 +94,7 @@ export interface LayoutStore {
   setRightPanel: (show: boolean) => void
   setTheme: (theme: ThemeMode) => void
   setAccent: (accent: AccentColor) => void
+  setPreviewFont: (font: PreviewFont) => void
   setReducedMotion: (pref: ReducedMotionPreference) => void
   toggleProfiler: () => void
 }
@@ -84,11 +108,17 @@ export const DEFAULT_THEME: ThemeMode = 'dark-blue'
 /** Default accent used for initial state and persisted-state migration. */
 export const DEFAULT_ACCENT: AccentColor = 'blue'
 
+/** Default preview font used for initial state and persisted-state migration. */
+export const DEFAULT_PREVIEW_FONT: PreviewFont = 'Lato'
+
 /** Set of valid theme mode values for migration validation. */
 const VALID_THEMES = new Set<string>(THEME_MODES)
 
 /** Set of valid accent color values for migration validation. */
 const VALID_ACCENTS = new Set<string>(ACCENT_COLORS)
+
+/** Set of valid preview font values for migration validation. */
+const VALID_PREVIEW_FONTS = new Set<string>(PREVIEW_FONTS)
 
 /** Set of valid reduced motion preference values for migration validation. */
 const VALID_REDUCED_MOTION = new Set<string>(REDUCED_MOTION_OPTIONS)
@@ -100,6 +130,7 @@ export const useLayoutStore = create<LayoutStore>()(
       showRightPanel: false,
       theme: DEFAULT_THEME,
       accent: DEFAULT_ACCENT,
+      previewFont: DEFAULT_PREVIEW_FONT,
       reducedMotion: 'system' as ReducedMotionPreference,
       showProfiler: false,
 
@@ -120,6 +151,9 @@ export const useLayoutStore = create<LayoutStore>()(
       },
       setAccent: (accent) => {
         set({ accent })
+      },
+      setPreviewFont: (previewFont) => {
+        set({ previewFont })
       },
       setReducedMotion: (reducedMotion) => {
         set({ reducedMotion })
@@ -146,6 +180,10 @@ export const useLayoutStore = create<LayoutStore>()(
         if (!VALID_ACCENTS.has(merged.accent)) {
           merged.accent = DEFAULT_ACCENT
         }
+        // Migrate missing or invalid preview font to default
+        if (!VALID_PREVIEW_FONTS.has(merged.previewFont)) {
+          merged.previewFont = DEFAULT_PREVIEW_FONT
+        }
         // Migrate invalid reduced motion values to default
         if (!VALID_REDUCED_MOTION.has(merged.reducedMotion)) {
           merged.reducedMotion = 'system' as ReducedMotionPreference
@@ -154,4 +192,15 @@ export const useLayoutStore = create<LayoutStore>()(
       },
     }
   )
+)
+
+/** Sync preview font to :root CSS variable so all elements (including portals) inherit it. */
+function syncFontToRoot(font: PreviewFont) {
+  document.documentElement.style.setProperty('--pf-preview-font', font)
+}
+syncFontToRoot(useLayoutStore.getState().previewFont)
+useLayoutStore.subscribe(
+  (state, prev) => {
+    if (state.previewFont !== prev.previewFont) syncFontToRoot(state.previewFont)
+  }
 )
