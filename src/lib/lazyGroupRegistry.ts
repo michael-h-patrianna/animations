@@ -51,7 +51,7 @@ const categoriesList: LazyCategory[] = []
  * )
  * ```
  */
-export function registerLazyGroup(groupId: string, loader: LazyGroupLoader): void {
+function registerLazyGroup(groupId: string, loader: LazyGroupLoader): void {
   if (loaderRegistry.has(groupId)) {
     if (import.meta.env.DEV) {
       logger.warn(`[lazyGroupRegistry] Duplicate registration for group "${groupId}" — ignored`)
@@ -61,31 +61,6 @@ export function registerLazyGroup(groupId: string, loader: LazyGroupLoader): voi
   loaderRegistry.set(groupId, loader)
 }
 
-/**
- * Registers navigation metadata for a lazy group.
- * This lightweight data is included in the main bundle for nav rendering.
- *
- * @param group - Lazy group metadata
- */
-export function registerLazyNavMetadata(group: LazyGroup): void {
-  navMetadataRegistry.set(group.id, group)
-
-  // Add to categories list
-  let category = categoriesList.find((c) => c.id === group.categoryId)
-  if (!category) {
-    category = {
-      id: group.categoryId,
-      title: getCategoryTitle(group.categoryId),
-      groups: [],
-    }
-    categoriesList.push(category)
-  }
-
-  // Avoid duplicates
-  if (!category.groups.find((g) => g.id === group.id)) {
-    category.groups.push(group)
-  }
-}
 
 /**
  * Registers a category with its groups in one call.
@@ -95,7 +70,7 @@ export function registerLazyNavMetadata(group: LazyGroup): void {
  * @param categoryTitle - Display title
  * @param groups - Array of lazy group definitions
  */
-export function registerLazyCategory(
+function registerLazyCategory(
   categoryId: string,
   categoryTitle: string,
   groups: Array<{
@@ -212,24 +187,6 @@ export function isGroupCached(groupId: string): boolean {
   return groupCache.has(groupId)
 }
 
-/**
- * Checks if a group has been fully loaded (not just loading).
- *
- * @param groupId - Full group ID with tech suffix
- */
-export function isGroupLoaded(groupId: string): boolean {
-  const cached = groupCache.get(groupId)
-  return cached?.result !== undefined
-}
-
-/**
- * Gets the loading error for a group if one occurred.
- *
- * @param groupId - Full group ID with tech suffix
- */
-export function getGroupError(groupId: string): Error | undefined {
-  return groupCache.get(groupId)?.error
-}
 
 /**
  * Gets the loaded animation exports for a group if available.
@@ -275,19 +232,6 @@ export function findLazyGroup(groupId: string): LazyGroup | undefined {
 // Helper Functions
 // ============================================================================
 
-/** Fallback titles for registerLazyNavMetadata (all current callers use registerLazyCategory
- *  which passes titles explicitly — keep in sync with category index.ts files if adding new categories). */
-function getCategoryTitle(categoryId: string): string {
-  const titles: Record<string, string> = {
-    base: 'Base Effects',
-    dialogs: 'Dialog & Modal Animations',
-    progress: 'Progress & Loading Animations',
-    realtime: 'Real-time Updates & Timers',
-    rewards: 'Game Elements & Rewards',
-  }
-  return titles[categoryId] || categoryId
-}
-
 function formatGroupDisplayTitle(baseTitle: string, tech: 'framer' | 'css'): string {
   return `${baseTitle} (${tech === 'framer' ? 'Framer' : 'CSS'})`
 }
@@ -299,7 +243,7 @@ function formatGroupDisplayTitle(baseTitle: string, tech: 'framer' | 'css'): str
 /**
  * Converts AnimationExport map to Animation array for Group construction.
  */
-export function exportsToAnimations(
+function exportsToAnimations(
   exports: Record<string, AnimationExport>,
   categoryId: CategoryId,
   groupId: GroupVariantId,
@@ -333,7 +277,7 @@ export function exportsToAnimations(
 /**
  * Builds a Group object from metadata and animation exports.
  */
-export function buildGroupFromExports(
+function buildGroupFromExports(
   metadata: GroupMetadata,
   tech: 'framer' | 'css',
   exports: Record<string, AnimationExport>,
@@ -441,29 +385,3 @@ export function clearGroupCache(): void {
   groupCache.clear()
 }
 
-/**
- * Gets cache statistics for debugging.
- */
-export function getCacheStats(): {
-  total: number
-  loaded: number
-  loading: number
-  errors: number
-} {
-  let loaded = 0
-  let loading = 0
-  let errors = 0
-
-  for (const entry of groupCache.values()) {
-    if (entry.error) errors++
-    else if (entry.result) loaded++
-    else loading++
-  }
-
-  return {
-    total: groupCache.size,
-    loaded,
-    loading,
-    errors,
-  }
-}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 const FOCUSABLE_SELECTOR =
   'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -89,21 +89,3 @@ export function useEscapeClose(onClose: () => void, enabled = true) {
   }, [enabled])
 }
 
-/**
- * Closes a modal when clicking the overlay background (outside the modal content).
- *
- * @param overlayRef - Ref to the overlay element (the backdrop)
- * @param onClose - Callback to invoke on overlay click
- * @returns Click handler to attach to the overlay element
- */
-export function useOverlayDismiss(
-  overlayRef: React.RefObject<HTMLElement | null>,
-  onClose: () => void
-) {
-  return useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === overlayRef.current) onClose()
-    },
-    [overlayRef, onClose]
-  )
-}

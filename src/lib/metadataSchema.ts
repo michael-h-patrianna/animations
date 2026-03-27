@@ -40,7 +40,7 @@ const PreviewPositionSchema = v.optional(
  * Runtime validation schema for AnimationMetadata.
  * Validates the structure and value constraints of metadata exported by `.meta.ts` files.
  */
-export const AnimationMetadataSchema = v.object({
+const AnimationMetadataSchema = v.object({
   id: v.pipe(v.string(), v.minLength(1)),
   title: v.pipe(v.string(), v.minLength(1)),
   description: v.pipe(v.string(), v.minLength(1)),
