@@ -1,0 +1,52 @@
+/* Styles for LoadingStatesDotsPulse (CSS variant) */
+
+.pf-dots-pulse {
+  --pf-dp-dot-size: 12px;
+  --pf-dp-color: #c47ae5;
+  --pf-dp-gap: 8px;
+  --pf-dp-duration: 1.2s;
+
+  display: inline-flex;
+  gap: var(--pf-dp-gap);
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-dots-pulse__dot {
+  width: var(--pf-dp-dot-size);
+  height: var(--pf-dp-dot-size);
+  border-radius: 50%;
+  background: var(--pf-dp-color);
+  opacity: 0.5;
+  display: inline-block;
+  animation: pf-dp-pulse var(--pf-dp-duration) ease-in-out infinite;
+}
+
+@keyframes pf-dp-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-dots-pulse__dot {
+    animation: pf-dp-breathe 1.2s ease-in-out infinite;
+    transform: none;
+  }
+
+  @keyframes pf-dp-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+}

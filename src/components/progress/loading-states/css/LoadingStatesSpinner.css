@@ -1,0 +1,38 @@
+/* Styles for LoadingStatesSpinner (CSS variant) */
+
+.pf-spinner {
+  --pf-spinner-size: 40px;
+  --pf-spinner-color: #c47ae5;
+  --pf-spinner-thickness: 4px;
+  --pf-spinner-duration: 0.9s;
+
+  display: inline-block;
+  width: var(--pf-spinner-size);
+  height: var(--pf-spinner-size);
+  border-radius: 50%;
+  border: var(--pf-spinner-thickness) solid transparent;
+  border-top-color: var(--pf-spinner-color);
+  animation: pf-spinner-spin var(--pf-spinner-duration) linear infinite;
+}
+
+@keyframes pf-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-spinner {
+    animation: pf-spinner-breathe 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pf-spinner-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}

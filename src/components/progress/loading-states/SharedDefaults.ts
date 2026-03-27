@@ -22,6 +22,12 @@ export const RING_MULTI_COLORS: [string, string, string] = ['#c47ae5', '#c6ff77'
 
 export const RING_PROGRESS_COLOR = '#c47ae5'
 
+// --- Pulsating ---
+export const PULSATING_COLOR = '#c47ae5'
+
+// --- Spinner ---
+export const SPINNER_COLOR = '#c47ae5'
+
 // --- Skeletons ---
 export const SKELETON_BASE_COLOR = 'rgb(236 195 255 / 5%)'
 export const SKELETON_SHIMMER_COLOR = 'rgb(236 195 255 / 18%)'

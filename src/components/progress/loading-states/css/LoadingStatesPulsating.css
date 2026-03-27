@@ -1,0 +1,64 @@
+/* Styles for LoadingStatesPulsating (CSS variant) */
+
+.pf-pulsating {
+  --pf-pulsating-size: 48px;
+  --pf-pulsating-color: #c47ae5;
+  --pf-pulsating-ring-width: 3px;
+  --pf-pulsating-duration: 1.8s;
+  --pf-pulsating-delay: 0.45s;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pf-pulsating-size);
+  height: var(--pf-pulsating-size);
+}
+
+.pf-pulsating::before,
+.pf-pulsating::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: var(--pf-pulsating-ring-width) solid var(--pf-pulsating-color);
+  opacity: 0;
+  animation: pf-pulsating-ring var(--pf-pulsating-duration) ease-out infinite;
+}
+
+.pf-pulsating::after {
+  animation-delay: var(--pf-pulsating-delay);
+}
+
+@keyframes pf-pulsating-ring {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pulsating::before,
+  .pf-pulsating::after {
+    animation: pf-pulsating-breathe 1.5s ease-in-out infinite;
+    transform: scale(1);
+  }
+
+  .pf-pulsating::after {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes pf-pulsating-breathe {
+    0%,
+    100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 0.2;
+    }
+  }
+}
