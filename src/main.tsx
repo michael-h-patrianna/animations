@@ -3,6 +3,7 @@ import { NotFound } from '@/components/NotFound'
 import { CodeModeProvider } from '@/contexts/CodeModeContext'
 import { preloadImages } from '@/lib/preload'
 import { CRITICAL_ICON_IMAGES } from '@/lib/preload-manifest'
+import { clearStaleChunkFlag, importWithReload } from '@/lib/staleChunkReload'
 import { LazyMotion } from 'motion/react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -11,9 +12,12 @@ import { App } from './App.tsx'
 import './index.css'
 import './demo-ui/styles/index.css'
 
-const loadFeatures = () => import('./features').then((res) => res.features)
+const loadFeatures = () => importWithReload(() => import('./features')).then((res) => res.features)
 
 import { reportWebVitals } from '@/services/performance'
+
+// Clear the stale-chunk reload flag — page loaded successfully
+clearStaleChunkFlag()
 
 // Preload critical icon animation images ASAP at startup
 preloadImages(CRITICAL_ICON_IMAGES)

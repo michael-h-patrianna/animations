@@ -15,6 +15,7 @@ import type {
   LazyGroupResult,
   LazyNavCatalog,
 } from '@/types/lazy'
+import { importWithReload } from '@/lib/staleChunkReload'
 import { logger } from '@/services/logger'
 
 // ============================================================================
@@ -338,7 +339,7 @@ export function declareCategoryGroups(
     for (const tech of ['framer', 'css'] as const) {
       const groupId = `${baseId}-${tech}`
       registerLazyGroup(groupId, async () => {
-        const { groupExport } = await load()
+        const { groupExport } = await importWithReload(load)
         const animations = tech === 'framer' ? groupExport.framer : groupExport.css
         const group = buildGroupFromExports(
           groupExport.metadata,
