@@ -18,6 +18,7 @@
   font-display: swap;
   src: url('/fonts/lato-latin-300.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Lato;
   font-style: normal;
@@ -25,6 +26,7 @@
   font-display: swap;
   src: url('/fonts/lato-latin-400.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Lato;
   font-style: normal;
@@ -50,6 +52,7 @@
   font-display: swap;
   src: url('/fonts/ubuntu-latin-300.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Ubuntu;
   font-style: normal;
@@ -57,6 +60,7 @@
   font-display: swap;
   src: url('/fonts/ubuntu-latin-400.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Ubuntu;
   font-style: normal;
@@ -64,6 +68,7 @@
   font-display: swap;
   src: url('/fonts/ubuntu-latin-500.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Ubuntu;
   font-style: normal;
@@ -80,6 +85,7 @@
   font-display: swap;
   src: url('/fonts/poppins-latin-300.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Poppins;
   font-style: normal;
@@ -87,6 +93,7 @@
   font-display: swap;
   src: url('/fonts/poppins-latin-400.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Poppins;
   font-style: normal;
@@ -94,6 +101,7 @@
   font-display: swap;
   src: url('/fonts/poppins-latin-500.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Poppins;
   font-style: normal;
@@ -101,6 +109,7 @@
   font-display: swap;
   src: url('/fonts/poppins-latin-600.woff2') format('woff2');
 }
+
 @font-face {
   font-family: Poppins;
   font-style: normal;
