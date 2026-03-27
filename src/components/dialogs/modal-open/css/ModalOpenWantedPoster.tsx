@@ -16,10 +16,10 @@ import './shared-css-animations.css'
 import { type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
-  { label: 'Gentle', force: 0.02, duration: 1200, reveal: 30 },
+  { label: 'Soy', force: 0.02, duration: 1200, reveal: 30 },
   { label: 'Soft', force: 0.1, duration: 900, reveal: 40 },
   { label: 'Harder', force: 0.6, duration: 550, reveal: 55 },
-  { label: 'Strong', force: 1.0, duration: 380, reveal: 68 },
+  { label: 'Daddy', force: 1.0, duration: 380, reveal: 68 },
 ]
 
 const SAMPLES = 24
