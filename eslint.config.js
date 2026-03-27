@@ -283,6 +283,8 @@ export default defineConfig([
       'jsdoc/require-jsdoc': 'off',
       // Copy-paste portability: imports must respect declared tier budget
       'animation-rules/tier-dependency-budget': 'error',
+      // Performance tags: auto-detect rAF/LRC patterns and require matching metadata tags
+      'animation-rules/require-perf-tags': 'error',
       // Copy-paste portability: Tier 1-2 CSS must have var() fallbacks.
       // Warn until existing CSS files are fixed with fallback values or reclassified to tier 2+.
       'animation-rules/require-css-var-fallback': 'warn',

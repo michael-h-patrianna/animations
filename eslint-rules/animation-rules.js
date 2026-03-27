@@ -3,6 +3,7 @@ import { basename, dirname, join, resolve } from 'node:path'
 
 import { isColorString } from './color-helpers.js'
 import { extraRules } from './extra-rules.js'
+import { perfRules } from './perf-rules.js'
 import { portabilityRules } from './portability-rules.js'
 import { checkCssForAnimations, getFilename, isAnimationFile, isInFramer } from './rule-helpers.js'
 import { testingRules } from './testing-rules.js'
@@ -537,6 +538,7 @@ const rules = {
   ...extraRules,
   ...testingRules,
   ...portabilityRules,
+  ...perfRules,
 }
 
 export { rules }
