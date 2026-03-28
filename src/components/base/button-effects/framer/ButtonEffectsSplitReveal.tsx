@@ -3,7 +3,7 @@
  * The top and bottom labels split apart with rotation while the reveal
  * content scales up from center.
  *
- * Copy-paste files: this file
+ * Copy-paste files: this file + ButtonEffectsSplitReveal.css
  * Runtime deps: react, motion
  *
  * Usage:
@@ -19,6 +19,8 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { useEffect, useState, memo, type ReactNode } from 'react'
+import './ButtonEffectsSplitReveal.css'
+
 const SPLIT_TRANSITION = { duration: 0.8, ease: [0.68, -0.55, 0.265, 1.55] as const }
 
 const topVariants = {
@@ -82,13 +84,12 @@ function ButtonEffectsSplitRevealComponent({
   return (
     <button
       type="button"
-      className={className ?? 'pf-demo-btn pf-demo-btn--primary'}
+      className={`pf-split-reveal-fm ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
       data-animation-id="button-effects__split-reveal"
       onClick={handleClick}
-      style={{ position: 'relative', overflow: 'visible' }}
     >
       <m.span
-        style={{ display: 'inline-block', willChange: 'transform' }}
+        className="pf-split-reveal-fm__top"
         variants={topVariants}
         animate={state}
         transition={transition}
@@ -96,7 +97,7 @@ function ButtonEffectsSplitRevealComponent({
         {topLabel}
       </m.span>
       <m.span
-        style={{ display: 'inline-block', willChange: 'transform' }}
+        className="pf-split-reveal-fm__bottom"
         variants={bottomVariants}
         animate={state}
         transition={transition}
@@ -104,16 +105,7 @@ function ButtonEffectsSplitRevealComponent({
         {bottomLabel}
       </m.span>
       <m.span
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 24,
-          pointerEvents: 'none',
-          willChange: 'transform',
-        }}
+        className="pf-split-reveal-fm__content"
         variants={revealVariants}
         initial="closed"
         animate={state}
