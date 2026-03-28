@@ -72,9 +72,7 @@ export function ProgressBarsCelebrationBurst({
   // Milestone logic driven by animated fill position
   useEffect(() => {
     function checkMilestones(current: number) {
-      const newSet = new Set(
-        milestones.flatMap((ms, i) => (current >= ms.position ? [i] : []))
-      )
+      const newSet = new Set(milestones.flatMap((ms, i) => (current >= ms.position ? [i] : [])))
       const prev = activatedRef.current
       const newActivations = [...newSet].filter((i) => !prev.has(i))
 
