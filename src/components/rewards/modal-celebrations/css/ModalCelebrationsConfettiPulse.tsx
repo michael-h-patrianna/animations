@@ -287,11 +287,21 @@ function ModalCelebrationsConfettiPulseComponent({
   }, [skip, onComplete])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__confetti-pulse"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-pulse">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__confetti-pulse"
+    >
       <div
         className="pf-celebration__glow"
         style={{ animation: `cp-glow ${2000 * timeScale}ms ease-out both` }}

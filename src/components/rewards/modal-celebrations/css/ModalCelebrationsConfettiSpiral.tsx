@@ -235,11 +235,21 @@ function ModalCelebrationsConfettiSpiralComponent({
   }, [skip, onComplete])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__confetti-spiral"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__confetti-spiral"
+    >
       <div
         className="pf-celebration__flash"
         style={{ animation: `cs-flash ${250 * timeScale}ms ease-out both` }}

@@ -224,11 +224,21 @@ function ModalCelebrationsConfettiBurstComponent({
   }, [skip, onComplete])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__confetti-burst"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-burst">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__confetti-burst"
+    >
       <div
         className="pf-celebration__glow"
         style={{ animation: `cb-glow ${2800 * timeScale}ms ease-out both` }}

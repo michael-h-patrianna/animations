@@ -5,7 +5,15 @@
  * Runtime deps: react
  */
 
-import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import {
+  memo,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react'
 import './ModalCelebrationsFirework.css'
 
 import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
@@ -106,11 +114,21 @@ function ModalCelebrationsFireworkComponent({
   }, [skip, onComplete])
 
   if (skip) {
-    return <div ref={containerRef} className="mc-firework mc-firework--css" data-animation-id="modal-celebrations__firework" />
+    return (
+      <div
+        ref={containerRef}
+        className="mc-firework mc-firework--css"
+        data-animation-id="modal-celebrations__firework"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="mc-firework mc-firework--css" data-animation-id="modal-celebrations__firework">
+    <div
+      ref={containerRef}
+      className="mc-firework mc-firework--css"
+      data-animation-id="modal-celebrations__firework"
+    >
       {bursts.map((burst, bi) => (
         <div
           key={burst.id}

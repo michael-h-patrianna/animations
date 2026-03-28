@@ -391,11 +391,21 @@ function ModalCelebrationsFireworksRingComponent({
   const fgEmbers = useMemo(() => embers.filter((e) => e.layer === 'fg'), [embers])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__fireworks-ring"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__fireworks-ring"
+    >
       <div
         className="pf-celebration__glow"
         style={{ left: '50%', top: '50%', animation: `fr-glow ${DURATION}ms linear both` }}

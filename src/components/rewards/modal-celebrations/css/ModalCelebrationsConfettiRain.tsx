@@ -280,7 +280,13 @@ function ModalCelebrationsConfettiRainComponent({
   }, [skip, onComplete])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-rain" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__confetti-rain"
+      />
+    )
   }
 
   return (

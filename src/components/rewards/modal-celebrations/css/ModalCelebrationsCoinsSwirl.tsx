@@ -287,11 +287,21 @@ function ModalCelebrationsCoinsSwirlComponent({
   }, [skip, onComplete])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__coins-swirl"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__coins-swirl">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__coins-swirl"
+    >
       <span
         style={{
           position: 'absolute',

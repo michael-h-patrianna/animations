@@ -402,7 +402,13 @@ function ModalCelebrationsCoinCascadeComponent({
   }, [skip, onComplete])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__coin-cascade" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__coin-cascade"
+      />
+    )
   }
 
   return (

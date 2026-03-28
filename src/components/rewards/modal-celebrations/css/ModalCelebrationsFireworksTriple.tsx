@@ -307,11 +307,21 @@ function ModalCelebrationsFireworksTripleComponent({
   const fgTrails = useMemo(() => trails.filter((t) => t.layer === 'fg'), [trails])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__fireworks-triple"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__fireworks-triple"
+    >
       {BURSTS.map((b, i) => (
         <div
           key={`flash-${i}`}

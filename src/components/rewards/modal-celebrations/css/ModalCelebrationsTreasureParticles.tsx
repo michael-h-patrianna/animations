@@ -371,11 +371,21 @@ function ModalCelebrationsTreasureParticlesComponent({
   const fgGems = useMemo(() => gems.filter((g) => g.layer === 'fg'), [gems])
 
   if (skip) {
-    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles" />
+    return (
+      <div
+        ref={containerRef}
+        className="pf-celebration"
+        data-animation-id="modal-celebrations__treasure-particles"
+      />
+    )
   }
 
   return (
-    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles">
+    <div
+      ref={containerRef}
+      className="pf-celebration"
+      data-animation-id="modal-celebrations__treasure-particles"
+    >
       {/* Center flash */}
       <span
         className="pf-celebration__flash"

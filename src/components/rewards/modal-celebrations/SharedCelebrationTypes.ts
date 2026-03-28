@@ -65,4 +65,3 @@ export const CELEBRATION_COLORS_HEX = [
 
 /** Golden palette for coin/treasure effects — hex values for standalone use. */
 export const GOLDEN_COLORS_HEX = ['#ffd700', '#d97706', '#fde68a', '#fbbf24', '#ffc107'] as const
-
