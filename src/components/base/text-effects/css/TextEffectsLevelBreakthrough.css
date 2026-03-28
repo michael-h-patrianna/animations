@@ -14,6 +14,7 @@
     transparent 20%
   );
   position: relative;
+  contain: layout style;
 }
 
 /* Text wrapper - holds both start and end text layers */
@@ -44,6 +45,7 @@
   position: absolute;
   inset: 0;
   opacity: 0;
+  text-shadow: 0 0 30px var(--text-effects-level-breakthrough-text-shadow-1);
   animation: tfx-breakthrough-fade-in 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 
@@ -104,19 +106,15 @@
 @keyframes tfx-breakthrough-fade-out {
   0% {
     opacity: 1;
-    text-shadow: none;
   }
   55% {
     opacity: 1;
-    text-shadow: none;
   }
   65% {
     opacity: 0;
-    text-shadow: none;
   }
   100% {
     opacity: 0;
-    text-shadow: none;
   }
 }
 
@@ -124,19 +122,15 @@
 @keyframes tfx-breakthrough-fade-in {
   0% {
     opacity: 0;
-    text-shadow: none;
   }
   55% {
     opacity: 0;
-    text-shadow: none;
   }
   65% {
     opacity: 1;
-    text-shadow: 0 0 30px var(--text-effects-level-breakthrough-text-shadow-1);
   }
   100% {
     opacity: 1;
-    text-shadow: 0 0 30px var(--text-effects-level-breakthrough-text-shadow-1);
   }
 }
 
@@ -167,6 +161,7 @@
 
   .tfx-breakthrough-text-end {
     animation: tfx-breakthrough-crossfade-in 300ms ease-out forwards;
+    text-shadow: none;
   }
 
   .tfx-breakthrough-surge {

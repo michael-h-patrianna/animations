@@ -6,6 +6,7 @@
   min-height: 80px;
   padding: 20px;
   perspective: 600px;
+  contain: layout style;
 }
 
 .tfx-flip-line {

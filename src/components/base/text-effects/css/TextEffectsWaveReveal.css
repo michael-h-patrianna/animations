@@ -9,7 +9,7 @@
   padding: 40px;
   font-weight: 700;
   transform: rotate(-5deg) translateZ(0);
-  will-change: contents;
+  contain: layout style;
 }
 
 .tfx-wave-reveal-wrapper {

@@ -4,47 +4,48 @@
  * Cursor blinks after all characters have appeared.
  */
 
-.pf-typewriter {
-  --pf-typewriter-color: #10b981;
+.tfx-typewriter {
+  --tfx-typewriter-color: #10b981;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
   padding: 20px;
+  contain: layout style;
 }
 
-.pf-typewriter__text {
+.tfx-typewriter__text {
   font-size: 20px;
   font-weight: 600;
   font-family: 'Courier New', Courier, monospace;
   letter-spacing: 1px;
-  color: var(--pf-typewriter-color);
+  color: var(--tfx-typewriter-color);
 }
 
-.pf-typewriter__char {
+.tfx-typewriter__char {
   display: inline-block;
   opacity: 0;
-  animation: pf-typewriter-reveal 0s forwards;
+  animation: tfx-typewriter-reveal 0s forwards;
   /* animation-delay set via inline style */
 }
 
-.pf-typewriter__cursor {
+.tfx-typewriter__cursor {
   display: inline-block;
   font-weight: 300;
   opacity: 0;
   animation:
-    pf-typewriter-reveal 0s forwards,
-    pf-typewriter-blink 1s step-end infinite;
+    tfx-typewriter-reveal 0s forwards,
+    tfx-typewriter-blink 1s step-end infinite;
   /* animation-delay set via inline style — blink starts after reveal */
 }
 
-@keyframes pf-typewriter-reveal {
+@keyframes tfx-typewriter-reveal {
   to {
     opacity: 1;
   }
 }
 
-@keyframes pf-typewriter-blink {
+@keyframes tfx-typewriter-blink {
   0%,
   49.99% {
     opacity: 1;

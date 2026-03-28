@@ -29,6 +29,7 @@
   min-height: 80px;
   padding: 20px;
   position: relative;
+  contain: layout style;
 }
 
 .tfe-epic-win__text-container {

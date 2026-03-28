@@ -5,6 +5,7 @@
   justify-content: center;
   min-height: 80px;
   padding: 20px;
+  contain: layout style;
 }
 
 .tfx-jump-line {

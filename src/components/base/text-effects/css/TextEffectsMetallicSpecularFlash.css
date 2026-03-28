@@ -21,7 +21,9 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   transform-origin: center;
-  animation: tfx-metallic-letter 0.42s ease-in-out both;
+  animation:
+    tfx-metallic-letter-motion 0.42s ease-in-out both,
+    tfx-metallic-letter-color 0.42s ease-in-out both;
 }
 
 @keyframes tfx-metallic-container {
@@ -44,25 +46,37 @@
   }
 }
 
-@keyframes tfx-metallic-letter {
+/* Split into two animations: transform+opacity on compositor, color on main-thread */
+@keyframes tfx-metallic-letter-motion {
   0% {
     opacity: 0;
-    color: var(--tfx-msf-base-color);
     transform: skewX(0deg) scaleX(1);
   }
   25% {
     opacity: 1;
-    color: var(--tfx-msf-highlight-color);
     transform: skewX(4deg) scaleX(1.08);
   }
   55% {
-    color: var(--tfx-msf-shadow-color);
     transform: skewX(-1deg) scaleX(0.995);
   }
   100% {
     opacity: 1;
-    color: var(--tfx-msf-base-color);
     transform: skewX(0deg) scaleX(1);
+  }
+}
+
+@keyframes tfx-metallic-letter-color {
+  0% {
+    color: var(--tfx-msf-base-color);
+  }
+  25% {
+    color: var(--tfx-msf-highlight-color);
+  }
+  55% {
+    color: var(--tfx-msf-shadow-color);
+  }
+  100% {
+    color: var(--tfx-msf-base-color);
   }
 }
 

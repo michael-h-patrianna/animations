@@ -9,7 +9,7 @@
   min-height: 80px;
   padding: 20px;
   transform: translateZ(0);
-  will-change: contents;
+  contain: layout style;
 }
 
 .tfx-wave-text-wrapper {
