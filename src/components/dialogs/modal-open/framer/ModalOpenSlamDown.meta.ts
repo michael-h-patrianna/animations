@@ -8,7 +8,7 @@ export const metadata: AnimationMetadata = {
   description:
     'Modal launches upward from trigger, pauses at apex, then slams down to center with aftershock bounces. Props: from, duration, impactForce, contentRevealAt, children.',
   tier: 3,
-  tags: ['lrc'],
+  tags: [],
   props: [
     {
       type: 'string',

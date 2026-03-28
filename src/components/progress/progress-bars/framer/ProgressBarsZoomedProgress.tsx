@@ -92,8 +92,8 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
   }, [isControlled])
 
   const trackPosition = 25 - 40 * (level - 1)
-  const progress1Width = (levelPoints[0]! / 3) * 100
-  const progress2Width = (levelPoints[1]! / 6) * 100
+  const progress1Scale = levelPoints[0]! / 3
+  const progress2Scale = levelPoints[1]! / 6
 
   const levelBounceVariants = prefersReducedMotion
     ? {
@@ -120,7 +120,10 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
     >
       <div className="pf-zoomed-progress__track" style={{ left: `${trackPosition}%` }}>
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
-          <div className="pf-zoomed-progress__fill" style={{ width: `${progress1Width}%` }} />
+          <div
+            className="pf-zoomed-progress__fill"
+            style={{ transform: `skew(-30deg) scaleX(${progress1Scale})` }}
+          />
         </div>
 
         <m.div
@@ -144,7 +147,10 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
         </m.div>
 
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--two">
-          <div className="pf-zoomed-progress__fill" style={{ width: `${progress2Width}%` }} />
+          <div
+            className="pf-zoomed-progress__fill"
+            style={{ transform: `skew(-30deg) scaleX(${progress2Scale})` }}
+          />
         </div>
 
         <m.div

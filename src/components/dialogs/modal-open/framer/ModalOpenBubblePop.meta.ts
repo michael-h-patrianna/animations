@@ -8,7 +8,7 @@ export const metadata: AnimationMetadata = {
   description:
     'Modal inflates from trigger with elastic wobble and jello settle. Props: from, duration, impactForce, contentRevealAt, children.',
   tier: 3,
-  tags: ['lrc'],
+  tags: [],
   props: [
     {
       type: 'string',

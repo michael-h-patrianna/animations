@@ -55,14 +55,15 @@
 
 .pf-zoomed-progress__fill {
   height: 100%;
+  width: 100%;
   background: linear-gradient(
     90deg,
     var(--progress-bars-zoomed-progress-bg-2) 0%,
     var(--progress-bars-zoomed-progress-bg-3) 100%
   );
-  transform: skew(-30deg);
+  transform: skew(-30deg) scaleX(0);
   transform-origin: left center;
-  width: 0%;
+  will-change: transform;
 }
 
 .pf-zoomed-progress__level {

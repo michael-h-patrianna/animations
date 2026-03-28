@@ -56,15 +56,16 @@
 
 .pf-zoomed-progress__fill {
   height: 100%;
+  width: 100%;
   background: linear-gradient(
     90deg,
     var(--progress-bars-zoomed-progress-bg-2) 0%,
     var(--progress-bars-zoomed-progress-bg-3) 100%
   );
-  transform: skew(-30deg);
+  transform: skew(-30deg) scaleX(0);
   transform-origin: left center;
-  transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  width: 0%;
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .pf-zoomed-progress__level {

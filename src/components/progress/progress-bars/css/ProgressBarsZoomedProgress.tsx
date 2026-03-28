@@ -71,8 +71,8 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
   }, [isControlled])
 
   const trackTranslateX = ((-40 * (level - 1)) / 75) * 100
-  const progress1Width = (levelPoints[0]! / 3) * 100
-  const progress2Width = (levelPoints[1]! / 6) * 100
+  const progress1Scale = levelPoints[0]! / 3
+  const progress2Scale = levelPoints[1]! / 6
 
   return (
     <div
@@ -85,7 +85,10 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
         style={{ transform: `translateX(${trackTranslateX}%) translateY(-50%) scale(1.2)` }}
       >
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
-          <div className="pf-zoomed-progress__fill" style={{ width: `${progress1Width}%` }} />
+          <div
+            className="pf-zoomed-progress__fill"
+            style={{ transform: `skew(-30deg) scaleX(${progress1Scale})` }}
+          />
         </div>
         <div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] ? ' reached' : ''}`}
@@ -98,7 +101,10 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
           <span>2</span>
         </div>
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--two">
-          <div className="pf-zoomed-progress__fill" style={{ width: `${progress2Width}%` }} />
+          <div
+            className="pf-zoomed-progress__fill"
+            style={{ transform: `skew(-30deg) scaleX(${progress2Scale})` }}
+          />
         </div>
         <div
           className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] ? ' reached' : ''}`}

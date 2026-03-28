@@ -8,7 +8,7 @@ export const metadata: AnimationMetadata = {
   description:
     'Modal punches in from trigger with cartoon squash-stretch impact and bounce cycles. Props: from, duration, impactForce, contentRevealAt, children.',
   tier: 3,
-  tags: ['lrc', 'raf'],
+  tags: ['raf'],
   props: [
     {
       type: 'string',
