@@ -17,7 +17,10 @@ import {
   computeComicPunchCloseTrajectory,
   computeComicPunchTrajectory,
 } from '@/components/dialogs/modal-open/ComicPunchTrajectory'
-import { shouldReduceMotion, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
+import {
+  shouldReduceMotion,
+  type ModalOpenProps,
+} from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1000, reveal: 45 },
@@ -50,7 +53,9 @@ function ModalOpenComicPunchComponent(props: ModalOpenProps) {
     if (!el || !traj || !isVisible) return
 
     if (shouldReduceMotion(el)) {
-      const id = requestAnimationFrame(() => (isClosing ? handleCloseComplete() : handleOpenComplete()))
+      const id = requestAnimationFrame(() =>
+        isClosing ? handleCloseComplete() : handleOpenComplete()
+      )
       return () => cancelAnimationFrame(id)
     }
 

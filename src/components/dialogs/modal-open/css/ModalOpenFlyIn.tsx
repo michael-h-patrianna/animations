@@ -66,7 +66,9 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
 
     if (shouldReduceMotion(el)) {
       animRef.current?.cancel()
-      const id = requestAnimationFrame(() => (isClosing ? handleCloseComplete() : handleOpenComplete()))
+      const id = requestAnimationFrame(() =>
+        isClosing ? handleCloseComplete() : handleOpenComplete()
+      )
       return () => cancelAnimationFrame(id)
     }
 

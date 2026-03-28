@@ -13,7 +13,10 @@ import {
 } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import './shared-css-animations.css'
-import { shouldReduceMotion, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
+import {
+  shouldReduceMotion,
+  type ModalOpenProps,
+} from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1200, reveal: 30 },
@@ -85,7 +88,9 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
     if (!el || !kfData || !isVisible) return
 
     if (shouldReduceMotion(el)) {
-      const id = requestAnimationFrame(() => (isClosing ? handleCloseComplete() : handleOpenComplete()))
+      const id = requestAnimationFrame(() =>
+        isClosing ? handleCloseComplete() : handleOpenComplete()
+      )
       return () => cancelAnimationFrame(id)
     }
 

@@ -17,7 +17,10 @@ import {
   computeSlamDownCloseTrajectory,
   computeSlamDownTrajectory,
 } from '@/components/dialogs/modal-open/SlamDownTrajectory'
-import { shouldReduceMotion, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
+import {
+  shouldReduceMotion,
+  type ModalOpenProps,
+} from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1100, reveal: 45 },
@@ -50,7 +53,9 @@ function ModalOpenSlamDownComponent(props: ModalOpenProps) {
     if (!el || !traj || !isVisible) return
 
     if (shouldReduceMotion(el)) {
-      const id = requestAnimationFrame(() => (isClosing ? handleCloseComplete() : handleOpenComplete()))
+      const id = requestAnimationFrame(() =>
+        isClosing ? handleCloseComplete() : handleOpenComplete()
+      )
       return () => cancelAnimationFrame(id)
     }
 
