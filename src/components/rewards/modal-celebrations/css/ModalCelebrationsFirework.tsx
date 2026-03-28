@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { memo, useEffect, useMemo, type CSSProperties } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import './ModalCelebrationsFirework.css'
 
 import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
@@ -94,8 +94,23 @@ function ModalCelebrationsFireworkComponent({
     return () => clearTimeout(timer)
   }, [bursts, cycleDurationS, onComplete])
 
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [skip, setSkip] = useState(
+    () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
+  useLayoutEffect(() => {
+    if (!skip && containerRef.current?.closest("[data-reduced-motion='reduce']")) setSkip(true)
+  }, [skip])
+  useEffect(() => {
+    if (skip && onComplete) onComplete()
+  }, [skip, onComplete])
+
+  if (skip) {
+    return <div ref={containerRef} className="mc-firework mc-firework--css" data-animation-id="modal-celebrations__firework" />
+  }
+
   return (
-    <div className="mc-firework mc-firework--css" data-animation-id="modal-celebrations__firework">
+    <div ref={containerRef} className="mc-firework mc-firework--css" data-animation-id="modal-celebrations__firework">
       {bursts.map((burst, bi) => (
         <div
           key={burst.id}

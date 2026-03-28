@@ -391,6 +391,20 @@ function ModalCelebrationsCoinCascadeComponent({
     return () => clearTimeout(timer)
   }, [coins, shimmers, timeScale, onComplete])
 
+  const [skip, setSkip] = useState(
+    () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
+  useLayoutEffect(() => {
+    if (!skip && containerRef.current?.closest("[data-reduced-motion='reduce']")) setSkip(true)
+  }, [skip])
+  useEffect(() => {
+    if (skip && onComplete) onComplete()
+  }, [skip, onComplete])
+
+  if (skip) {
+    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__coin-cascade" />
+  }
+
   return (
     <div
       ref={containerRef}

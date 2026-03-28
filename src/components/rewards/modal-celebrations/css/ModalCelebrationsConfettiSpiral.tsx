@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { memo, useEffect, useMemo } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
@@ -223,8 +223,23 @@ function ModalCelebrationsConfettiSpiralComponent({
     return () => clearTimeout(timer)
   }, [particles, sparkles, timeScale, onComplete])
 
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [skip, setSkip] = useState(
+    () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
+  useLayoutEffect(() => {
+    if (!skip && containerRef.current?.closest("[data-reduced-motion='reduce']")) setSkip(true)
+  }, [skip])
+  useEffect(() => {
+    if (skip && onComplete) onComplete()
+  }, [skip, onComplete])
+
+  if (skip) {
+    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral" />
+  }
+
   return (
-    <div className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">
+    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__confetti-spiral">
       <div
         className="pf-celebration__flash"
         style={{ animation: `cs-flash ${250 * timeScale}ms ease-out both` }}

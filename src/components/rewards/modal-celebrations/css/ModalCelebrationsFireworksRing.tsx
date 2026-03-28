@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { memo, useEffect, useMemo } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
@@ -375,11 +375,27 @@ function ModalCelebrationsFireworksRingComponent({
     const timer = setTimeout(onComplete, maxTime + 50)
     return () => clearTimeout(timer)
   }, [bursts, sparkles, onComplete])
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [skip, setSkip] = useState(
+    () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
+  useLayoutEffect(() => {
+    if (!skip && containerRef.current?.closest("[data-reduced-motion='reduce']")) setSkip(true)
+  }, [skip])
+  useEffect(() => {
+    if (skip && onComplete) onComplete()
+  }, [skip, onComplete])
+
   const bgEmbers = useMemo(() => embers.filter((e) => e.layer === 'bg'), [embers])
   const fgEmbers = useMemo(() => embers.filter((e) => e.layer === 'fg'), [embers])
 
+  if (skip) {
+    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring" />
+  }
+
   return (
-    <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">
+    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-ring">
       <div
         className="pf-celebration__glow"
         style={{ left: '50%', top: '50%', animation: `fr-glow ${DURATION}ms linear both` }}

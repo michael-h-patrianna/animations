@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { memo, useEffect, useMemo } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
@@ -289,13 +289,29 @@ function ModalCelebrationsFireworksTripleComponent({
     const timer = setTimeout(onComplete, maxTime + 50)
     return () => clearTimeout(timer)
   }, [trails, sparkles, onComplete])
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [skip, setSkip] = useState(
+    () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
+  useLayoutEffect(() => {
+    if (!skip && containerRef.current?.closest("[data-reduced-motion='reduce']")) setSkip(true)
+  }, [skip])
+  useEffect(() => {
+    if (skip && onComplete) onComplete()
+  }, [skip, onComplete])
+
   const bgRays = useMemo(() => rays.filter((r) => r.layer === 'bg'), [rays])
   const fgRays = useMemo(() => rays.filter((r) => r.layer === 'fg'), [rays])
   const bgTrails = useMemo(() => trails.filter((t) => t.layer === 'bg'), [trails])
   const fgTrails = useMemo(() => trails.filter((t) => t.layer === 'fg'), [trails])
 
+  if (skip) {
+    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple" />
+  }
+
   return (
-    <div className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple">
+    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__fireworks-triple">
       {BURSTS.map((b, i) => (
         <div
           key={`flash-${i}`}

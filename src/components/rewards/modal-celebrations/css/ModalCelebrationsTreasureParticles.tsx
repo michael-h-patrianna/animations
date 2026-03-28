@@ -5,7 +5,7 @@
  * Runtime deps: react
  */
 
-import { memo, useEffect, useMemo } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
@@ -353,13 +353,29 @@ function ModalCelebrationsTreasureParticlesComponent({
     const timer = setTimeout(onComplete, maxTime + 50)
     return () => clearTimeout(timer)
   }, [coins, gems, sparkles, onComplete])
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [skip, setSkip] = useState(
+    () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
+  useLayoutEffect(() => {
+    if (!skip && containerRef.current?.closest("[data-reduced-motion='reduce']")) setSkip(true)
+  }, [skip])
+  useEffect(() => {
+    if (skip && onComplete) onComplete()
+  }, [skip, onComplete])
+
   const bgCoins = useMemo(() => coins.filter((c) => c.layer === 'bg'), [coins])
   const fgCoins = useMemo(() => coins.filter((c) => c.layer === 'fg'), [coins])
   const bgGems = useMemo(() => gems.filter((g) => g.layer === 'bg'), [gems])
   const fgGems = useMemo(() => gems.filter((g) => g.layer === 'fg'), [gems])
 
+  if (skip) {
+    return <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles" />
+  }
+
   return (
-    <div className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles">
+    <div ref={containerRef} className="pf-celebration" data-animation-id="modal-celebrations__treasure-particles">
       {/* Center flash */}
       <span
         className="pf-celebration__flash"
