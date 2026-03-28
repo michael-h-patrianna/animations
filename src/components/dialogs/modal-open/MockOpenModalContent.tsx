@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 
+import { useReducedMotion } from 'motion/react'
+
 import {
   DemoButton,
   DemoCloseButton,
@@ -41,6 +43,7 @@ export function MockOpenModalContent({
   onClose?: () => void
 }) {
   const show = revealed === true
+  const reduced = useReducedMotion() === true
   const buttonDelay = STAGGER_DELAY_MS * (CONTENT_ITEMS.length + 1)
 
   return (
@@ -49,7 +52,7 @@ export function MockOpenModalContent({
         onClick={onClose}
         style={{
           opacity: show ? 1 : 0,
-          transition: 'opacity 200ms ease',
+          transition: reduced ? 'none' : 'opacity 200ms ease',
         }}
       />
       <DemoModalHeader
@@ -57,8 +60,10 @@ export function MockOpenModalContent({
         badge="New"
         style={{
           opacity: show ? 1 : 0,
-          transform: show ? 'translateY(0)' : 'translateY(8px)',
-          transition: `opacity 300ms ${STAGGER_EASE}, transform 300ms ${STAGGER_EASE}`,
+          transform: show ? 'translateY(0)' : reduced ? 'none' : 'translateY(8px)',
+          transition: reduced
+            ? 'none'
+            : `opacity 300ms ${STAGGER_EASE}, transform 300ms ${STAGGER_EASE}`,
         }}
       />
       <DemoModalBody>
@@ -68,8 +73,10 @@ export function MockOpenModalContent({
               key={text}
               style={{
                 opacity: show ? 1 : 0,
-                transform: show ? 'translateY(0)' : 'translateY(12px)',
-                transition: `opacity 300ms ${STAGGER_EASE} ${STAGGER_DELAY_MS * (i + 1)}ms, transform 300ms ${STAGGER_EASE} ${STAGGER_DELAY_MS * (i + 1)}ms`,
+                transform: show ? 'translateY(0)' : reduced ? 'none' : 'translateY(12px)',
+                transition: reduced
+                  ? 'none'
+                  : `opacity 300ms ${STAGGER_EASE} ${STAGGER_DELAY_MS * (i + 1)}ms, transform 300ms ${STAGGER_EASE} ${STAGGER_DELAY_MS * (i + 1)}ms`,
               }}
             >
               {text}
@@ -83,8 +90,10 @@ export function MockOpenModalContent({
           onClick={onClose}
           style={{
             opacity: show ? 1 : 0,
-            transform: show ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.94)',
-            transition: `opacity 250ms ${STAGGER_EASE} ${buttonDelay}ms, transform 250ms cubic-bezier(0.4, 0, 0.2, 1) ${buttonDelay}ms`,
+            transform: show ? 'translateY(0) scale(1)' : reduced ? 'none' : 'translateY(12px) scale(0.94)',
+            transition: reduced
+              ? 'none'
+              : `opacity 250ms ${STAGGER_EASE} ${buttonDelay}ms, transform 250ms cubic-bezier(0.4, 0, 0.2, 1) ${buttonDelay}ms`,
           }}
         />
       </DemoModalFooter>

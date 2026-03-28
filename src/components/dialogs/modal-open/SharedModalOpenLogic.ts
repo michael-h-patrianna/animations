@@ -101,9 +101,10 @@ function usePhaseLogic(
   }, [phase, fromPoint, revealDelayMs, setContentRevealed])
 
   const handleOpenComplete = useCallback(() => {
+    setContentRevealed(true)
     setPhase('open')
     onAnimationComplete?.()
-  }, [onAnimationComplete, setPhase])
+  }, [onAnimationComplete, setPhase, setContentRevealed])
 
   const handleClose = useCallback(() => {
     if (phase !== 'open' && phase !== 'opening') return
