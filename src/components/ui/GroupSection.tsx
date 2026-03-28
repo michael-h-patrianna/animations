@@ -1,18 +1,12 @@
-import { homeIcon1 } from '@/assets'
 import { getGroupAnimations } from '@/components/animationRegistry'
-import {
-  ListRotateDemo,
-  ScorePulseDemo,
-  VisibilityCycleDemo,
-} from '@/components/ui/DataCycleDemoWrappers'
-import { DemoAnchors } from '@/components/ui/DemoAnchors'
+import { DemoModeWrapper } from '@/components/ui/DemoModeWrappers'
 import { AnimationCard } from '@/components/ui/AnimationCard'
 import { useAnimationInspector } from '@/contexts/AnimationInspectorContext'
 import { LoadingSpinner } from '@/demo-ui/components/ui/LoadingSpinner'
 import { useLayoutStore } from '@/demo-ui/stores/layoutStore'
 import { resolveAnimationSource } from '@/lib/groupBuilder'
 import type { AnimationExport, Group } from '@/types/animation'
-import React, { Suspense, useCallback, useMemo, useRef } from 'react'
+import React, { Suspense, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface GroupSectionProps {
@@ -289,86 +283,5 @@ function AnimationCardWithSource({
         )
       }}
     </AnimationCard>
-  )
-}
-
-/**
- * Wraps an animation component with demo anchor UI for the catalog.
- * Renders Source/Target pills at random positions and passes their refs
- * as `from`/`to` props to the animation component.
- */
-function DemoModeWrapper({
-  mode,
-  Component,
-  controlProps,
-}: {
-  mode: NonNullable<import('@/types/animation').AnimationMetadata['demoMode']>
-  Component: React.ComponentType<Record<string, unknown>>
-  controlProps: Record<string, unknown>
-}) {
-  const fromRef = useRef<HTMLDivElement>(null)
-  const toRef = useRef<HTMLDivElement>(null)
-
-  if (mode === 'icon-dot') {
-    return <IconDotDemo Component={Component} controlProps={controlProps} />
-  }
-
-  if (mode === 'status-row') {
-    return <StatusRowDemo Component={Component} controlProps={controlProps} />
-  }
-
-  if (mode === 'list-rotate') {
-    return <ListRotateDemo Component={Component} controlProps={controlProps} />
-  }
-
-  if (mode === 'score-pulse') {
-    return <ScorePulseDemo Component={Component} controlProps={controlProps} />
-  }
-
-  if (mode === 'visibility-cycle') {
-    return <VisibilityCycleDemo Component={Component} controlProps={controlProps} />
-  }
-
-  return (
-    <>
-      <DemoAnchors fromRef={fromRef} toRef={toRef} mode={mode} />
-      <Component {...controlProps} from={fromRef} to={toRef} />
-    </>
-  )
-}
-
-/** Renders a demo icon with the dot-indicator component overlaid. */
-function IconDotDemo({
-  Component,
-  controlProps,
-}: {
-  Component: React.ComponentType<Record<string, unknown>>
-  controlProps: Record<string, unknown>
-}) {
-  return (
-    <div className="pf-demo-icon-dot" data-testid="demo-icon-dot">
-      <Component {...controlProps}>
-        <img src={homeIcon1} alt="Home" className="pf-demo-icon-dot__icon" />
-      </Component>
-    </div>
-  )
-}
-
-/** Renders a status row (dot + text) with the badge/ping component at the end. */
-function StatusRowDemo({
-  Component,
-  controlProps,
-}: {
-  Component: React.ComponentType<Record<string, unknown>>
-  controlProps: Record<string, unknown>
-}) {
-  return (
-    <div className="pf-demo-status-row" data-testid="demo-status-row">
-      <span className="pf-demo-status-row__dot" data-testid="demo-status-row-dot" />
-      <span className="pf-demo-status-row__text" data-testid="demo-status-row-text">
-        Content update arrived
-      </span>
-      <Component {...controlProps} />
-    </div>
   )
 }

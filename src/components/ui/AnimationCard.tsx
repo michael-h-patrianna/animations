@@ -1,29 +1,18 @@
-import { CodeViewerModal } from '@/components/ui/CodeViewerModal'
-import { PreviewModal } from '@/components/ui/PreviewModal'
-import { useToastStore } from '@/demo-ui/stores/toastStore'
-import { logger } from '@/services/logger'
+import { CardModals } from '@/components/ui/CardModals'
+import {
+  renderAnimationChild,
+  useCardModalState,
+  type AnimationChild,
+} from '@/components/ui/useCardModalState'
 import type { AnimationControlType, PreviewPosition, SourceTab } from '@/types/animation'
 import { useRenderProfile } from '@/hooks/useRenderProfile'
 import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
-import { createPortal } from 'react-dom'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import React from 'react'
 import { ProfilerWrapper } from './ProfilerWrapper'
 import { FooterControls } from './AnimationCardControls'
 import { CardHeaderBar } from './AnimationCardHeader'
 import { useCardControls } from './useCardControls'
-import { useCodeViewer } from './useCodeViewer'
 import { useCardPlayback } from './useCardPlayback'
-import { usePreviewModal, type PreviewMode } from './usePreviewModal'
-
-type AnimationRenderProps = {
-  bulbCount: number
-  onColor: string
-  prizeCount: number
-  /** Prop overrides from the shared inspector panel. */
-  propOverrides: Record<string, unknown>
-}
-
-type AnimationChild = ReactNode | ((props: AnimationRenderProps) => ReactNode)
 
 interface AnimationCardProps {
   title: string
@@ -59,135 +48,17 @@ const EMPTY_OVERRIDES: Record<string, unknown> = {}
 const INTERACTIVE_SELECTOR =
   'button, a, input, select, textarea, label, [role="switch"], [role="radio"], [data-ignore-card-select]'
 
-const renderAnimationChild = (
-  child: AnimationChild,
-  isVisible: boolean,
-  infiniteAnimation: boolean,
-  bulbCount: number,
-  onColor: string,
-  prizeCount: number,
-  propOverrides: Record<string, unknown> = EMPTY_OVERRIDES
-) => {
-  if (!isVisible && !infiniteAnimation) return null
-  if (typeof child === 'function') return child({ bulbCount, onColor, prizeCount, propOverrides })
-  return child
-}
-
-/** Portaled modals rendered outside the card DOM (code viewer + viewport preview). */
-function CardModals({
-  title,
-  codeViewer,
-  preview,
-  previewPosition,
-  opaque,
-  previewMaxWidth,
-  children,
-  controlProps,
-  propOverrides,
-}: {
-  title: string
-  codeViewer: ReturnType<typeof useCodeViewer>
-  preview: ReturnType<typeof usePreviewModal>
-  previewPosition: PreviewPosition
-  opaque: boolean
-  previewMaxWidth?: number
-  children: AnimationChild
-  controlProps: { bulbCount: number; onColor: string; prizeCount: number }
-  propOverrides: Record<string, unknown>
-}) {
-  const handleSwitchMode = (mode: PreviewMode) => {
-    if (mode === 'desktop') preview.openDesktop()
-    else preview.openMobile()
-  }
-
-  return (
-    <>
-      {codeViewer.isOpen &&
-        codeViewer.sources &&
-        codeViewer.sources.length > 0 &&
-        createPortal(
-          <CodeViewerModal sources={codeViewer.sources} title={title} onClose={codeViewer.close} />,
-          document.body
-        )}
-      {preview.isOpen &&
-        createPortal(
-          <PreviewModal
-            mode={preview.mode}
-            replayKey={preview.replayKey}
-            previewPosition={previewPosition}
-            opaque={opaque}
-            previewMaxWidth={previewMaxWidth}
-            onClose={preview.close}
-            onReplay={preview.replay}
-            onSwitchMode={handleSwitchMode}
-          >
-            {renderAnimationChild(
-              children,
-              true,
-              true,
-              controlProps.bulbCount,
-              controlProps.onColor,
-              controlProps.prizeCount,
-              propOverrides
-            )}
-          </PreviewModal>,
-          document.body
-        )}
-    </>
-  )
-}
-
-/** Auto-open preview when URL contains ?animation=X&preview=desktop|mobile&opaque=1 */
-function useAutoPreview(animationId: string, preview: ReturnType<typeof usePreviewModal>) {
-  const [searchParams] = useSearchParams()
-  const previewParam = searchParams.get('preview')
-  const opaque = searchParams.get('opaque') === '1'
-  const autoOpenedRef = useRef(false)
-
-  useEffect(() => {
-    if (autoOpenedRef.current) return
-    const animParam = searchParams.get('animation')
-    if (animParam !== animationId || !previewParam) return
-    autoOpenedRef.current = true
-    if (previewParam === 'mobile') preview.openMobile()
-    else preview.openDesktop()
-  }, [searchParams, animationId, previewParam, preview])
-
-  return { opaque }
-}
-
-function useCopyLink(animationId: string) {
-  const showToast = useToastStore((s) => s.showToast)
-  const location = useLocation()
-
-  const handleCopyLink = useCallback(() => {
-    const url = `${window.location.origin}${location.pathname}?animation=${encodeURIComponent(animationId)}`
-    navigator.clipboard.writeText(url).then(
-      () => showToast('Animation URL copied to clipboard'),
-      (err) => logger.warn('Clipboard write failed — browser may have denied access', err)
-    )
-  }, [animationId, showToast, location.pathname])
-
-  return { handleCopyLink }
-}
-
 /** Orchestrates all card-level hooks into a single state bundle. */
 function useAnimationCard(props: AnimationCardProps) {
   const { animationId, infiniteAnimation = false, onReplay, sourceLoader } = props
   const playback = useCardPlayback(infiniteAnimation, onReplay)
   const [isExpanded, setIsExpanded] = useState(false)
   const cardControls = useCardControls(playback.setReplayKey)
-  const codeViewer = useCodeViewer(sourceLoader)
-  const preview = usePreviewModal()
-  const { opaque } = useAutoPreview(animationId, preview)
-  const { handleCopyLink } = useCopyLink(animationId)
-  const showToast = useToastStore((s) => s.showToast)
+  const { codeViewer, preview, opaque, handleCopyLink } = useCardModalState(
+    animationId,
+    sourceLoader
+  )
   const { profile: renderProfile, onRender: onProfilerRender } = useRenderProfile()
-
-  // Surface code-viewer load errors as a toast
-  useEffect(() => {
-    if (codeViewer.error) showToast(`Failed to load source: ${codeViewer.error}`)
-  }, [codeViewer.error, showToast])
 
   return {
     playback,

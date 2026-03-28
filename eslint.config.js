@@ -507,8 +507,10 @@ export default defineConfig([
   // DataCycleDemoWrappers: transparent wrappers that drive animation props
   // over time for the catalog. They render no DOM of their own — only the
   // wrapped Component. data-testid does not apply.
+  // CardModals: renders via createPortal to document.body — the portaled
+  // children (CodeViewerModal, PreviewModal) have their own data-testid.
   {
-    files: ['src/components/ui/DataCycleDemoWrappers.tsx'],
+    files: ['src/components/ui/DataCycleDemoWrappers.tsx', 'src/components/ui/CardModals.tsx'],
     rules: {
       'animation-rules/require-data-testid': 'off',
     },
@@ -540,9 +542,6 @@ export default defineConfig([
     files: [
       'src/components/realtime/timer-effects/SharedTimer.ts',
       'src/components/ui/useCardControls.ts',
-      // useFrameMonitor: rAF loop calls setState once per second to surface
-      // FPS metrics — standard pattern for animation performance hooks.
-      'src/hooks/useFrameMonitor.ts',
     ],
     rules: {
       '@eslint-react/set-state-in-effect': 'off',
