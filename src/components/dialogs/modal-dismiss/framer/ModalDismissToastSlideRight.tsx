@@ -33,24 +33,27 @@ function ModalDismissToastSlideRightComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.15 : 0.32
-  const exitS = prefersReducedMotion ? 0.12 : 0.24
-
-  const variants = {
-    hidden: { x: '140%', scale: 0.96, opacity: 0 },
-    visible: {
-      x: ['140%', '-6%', '0%'],
-      scale: [0.96, 1.02, 1],
-      opacity: [0, 1, 1],
-      transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.4, 0, 0.2, 1] as const },
-    },
-    exit: {
-      x: ['0%', '6%', '160%'],
-      scale: [1, 1.0, 0.94],
-      opacity: [1, 0.92, 0],
-      transition: { duration: exitS, times: [0, 0.35, 1], ease: [0.4, 0, 0.2, 1] as const },
-    },
-  }
+  const variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.3, ease: 'easeOut' as const } },
+        exit: { opacity: 0, transition: { duration: 0.25, ease: 'easeIn' as const } },
+      }
+    : {
+        hidden: { x: '140%', scale: 0.96, opacity: 0 },
+        visible: {
+          x: ['140%', '-6%', '0%'],
+          scale: [0.96, 1.02, 1],
+          opacity: [0, 1, 1],
+          transition: { duration: 0.32, times: [0, 0.7, 1], ease: [0.4, 0, 0.2, 1] as const },
+        },
+        exit: {
+          x: ['0%', '6%', '160%'],
+          scale: [1, 1.0, 0.94],
+          opacity: [1, 0.92, 0],
+          transition: { duration: 0.24, times: [0, 0.35, 1], ease: [0.4, 0, 0.2, 1] as const },
+        },
+      }
 
   return (
     <div

@@ -33,24 +33,27 @@ function ModalDismissToastFadeProgressComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.15 : 0.42
-  const exitS = prefersReducedMotion ? 0.12 : 0.32
-
-  const variants = {
-    hidden: { y: 18, scale: 0.94, opacity: 0 },
-    visible: {
-      y: 0,
-      scale: 1,
-      opacity: 1,
-      transition: { duration: entryS, ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-    exit: {
-      y: [0, 12, 24],
-      scale: [1, 0.92, 0.88],
-      opacity: [1, 0.4, 0],
-      transition: { duration: exitS, times: [0, 0.6, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-  }
+  const variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.3, ease: 'easeOut' as const } },
+        exit: { opacity: 0, transition: { duration: 0.25, ease: 'easeIn' as const } },
+      }
+    : {
+        hidden: { y: 18, scale: 0.94, opacity: 0 },
+        visible: {
+          y: 0,
+          scale: 1,
+          opacity: 1,
+          transition: { duration: 0.42, ease: [0.25, 0.46, 0.45, 0.94] as const },
+        },
+        exit: {
+          y: [0, 12, 24],
+          scale: [1, 0.92, 0.88],
+          opacity: [1, 0.4, 0],
+          transition: { duration: 0.32, times: [0, 0.6, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+        },
+      }
 
   return (
     <div

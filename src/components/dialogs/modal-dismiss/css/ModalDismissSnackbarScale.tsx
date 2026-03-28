@@ -29,9 +29,29 @@ function ModalDismissSnackbarScaleComponent({
     const el = wrapperRef.current
     if (el === null) return
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const entryDuration = reducedMotion ? 150 : 320
-    const exitDuration = reducedMotion ? 120 : 240
+    const reducedMotion =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      el.closest("[data-reduced-motion='reduce']") !== null
+
+    if (reducedMotion) {
+      el.animate([{ opacity: '0', transform: 'none' }, { opacity: '1', transform: 'none' }], {
+        duration: 300,
+        easing: 'ease-out',
+        fill: 'forwards',
+      })
+      const exitTimer = setTimeout(() => {
+        const exitAnim = el.animate(
+          [{ opacity: '1', transform: 'none' }, { opacity: '0', transform: 'none' }],
+          { duration: 250, easing: 'ease-in', fill: 'forwards' }
+        )
+        exitAnim.onfinish = () => onDismissRef.current?.()
+      }, duration)
+      return () => {
+        clearTimeout(exitTimer)
+        el.getAnimations().forEach((a) => a.cancel())
+      }
+    }
+
     const entryEasing = 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
     const pulseEasing = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
 
@@ -42,7 +62,7 @@ function ModalDismissSnackbarScaleComponent({
         { transform: 'translate3d(0, -6px, 0) scale(1.08)', opacity: '1', offset: 0.6 },
         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
       ],
-      { duration: entryDuration, easing: entryEasing, fill: 'forwards' }
+      { duration: 320, easing: entryEasing, fill: 'forwards' }
     )
 
     // Pulse: slow drift during visible phase
@@ -67,7 +87,7 @@ function ModalDismissSnackbarScaleComponent({
           opacity: '0.85',
         },
       ],
-      { duration: reducedMotion ? 10 : duration, easing: pulseEasing, fill: 'forwards' }
+      { duration, easing: pulseEasing, fill: 'forwards' }
     )
 
     // Exit after timeout
@@ -78,7 +98,7 @@ function ModalDismissSnackbarScaleComponent({
           { transform: 'translate3d(0, 6px, 0) scale(0.92)', opacity: '0.4', offset: 0.6 },
           { transform: 'translate3d(0, 16px, 0) scale(0.8)', opacity: '0' },
         ],
-        { duration: exitDuration, easing: entryEasing, fill: 'forwards' }
+        { duration: 240, easing: entryEasing, fill: 'forwards' }
       )
       exitAnim.onfinish = () => onDismissRef.current?.()
     }, duration)

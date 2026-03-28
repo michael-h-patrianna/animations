@@ -33,36 +33,45 @@ function ModalDismissSnackbarWipeComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.15 : 0.42
-  const exitS = prefersReducedMotion ? 0.12 : 0.32
+  const outerVariants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 1 },
+        visible: { opacity: 1 },
+        exit: { opacity: 1 },
+      }
+    : {
+        hidden: { x: '100%' },
+        visible: {
+          x: ['100%', '0%', '0%'],
+          transition: { duration: 0.42, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+        },
+        exit: {
+          x: ['0%', '0%', '100%'],
+          transition: { duration: 0.32, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+        },
+      }
 
-  const outerVariants = {
-    hidden: { x: '100%' },
-    visible: {
-      x: ['100%', '0%', '0%'],
-      transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-    exit: {
-      x: ['0%', '0%', '100%'],
-      transition: { duration: exitS, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-  }
-
-  const innerVariants = {
-    hidden: { y: 24, scale: 0.96, opacity: 0 },
-    visible: {
-      y: [24, -4, 0],
-      scale: [0.96, 1.02, 1],
-      opacity: [0, 1, 1],
-      transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-    exit: {
-      y: [0, 6, 0],
-      scale: [1, 0.96, 0.96],
-      opacity: [1, 0.6, 0],
-      transition: { duration: exitS, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-  }
+  const innerVariants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.3, ease: 'easeOut' as const } },
+        exit: { opacity: 0, transition: { duration: 0.25, ease: 'easeIn' as const } },
+      }
+    : {
+        hidden: { y: 24, scale: 0.96, opacity: 0 },
+        visible: {
+          y: [24, -4, 0],
+          scale: [0.96, 1.02, 1],
+          opacity: [0, 1, 1],
+          transition: { duration: 0.42, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+        },
+        exit: {
+          y: [0, 6, 0],
+          scale: [1, 0.96, 0.96],
+          opacity: [1, 0.6, 0],
+          transition: { duration: 0.32, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+        },
+      }
 
   const animatePhase = phase === 'enter' ? 'visible' : 'exit'
 

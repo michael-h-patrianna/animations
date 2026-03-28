@@ -33,24 +33,27 @@ function ModalDismissToastDropComponent({
     return () => clearTimeout(timer)
   }, [duration])
 
-  const entryS = prefersReducedMotion ? 0.15 : 0.42
-  const exitS = prefersReducedMotion ? 0.12 : 0.32
-
-  const variants = {
-    hidden: { y: '-120%', scale: 0.96, opacity: 0 },
-    visible: {
-      y: ['-120%', '10%', '0%'],
-      scale: [0.96, 1.02, 1],
-      opacity: [0, 1, 1],
-      transition: { duration: entryS, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
-    },
-    exit: {
-      y: ['0%', '-5%', '120%'],
-      scale: [1, 0.97, 0.82],
-      opacity: [1, 0.65, 0],
-      transition: { duration: exitS, times: [0, 0.2, 1], ease: [0.45, 0, 0.85, 0.25] as const },
-    },
-  }
+  const variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.3, ease: 'easeOut' as const } },
+        exit: { opacity: 0, transition: { duration: 0.25, ease: 'easeIn' as const } },
+      }
+    : {
+        hidden: { y: '-120%', scale: 0.96, opacity: 0 },
+        visible: {
+          y: ['-120%', '10%', '0%'],
+          scale: [0.96, 1.02, 1],
+          opacity: [0, 1, 1],
+          transition: { duration: 0.42, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+        },
+        exit: {
+          y: ['0%', '-5%', '120%'],
+          scale: [1, 0.97, 0.82],
+          opacity: [1, 0.65, 0],
+          transition: { duration: 0.32, times: [0, 0.2, 1], ease: [0.45, 0, 0.85, 0.25] as const },
+        },
+      }
 
   return (
     <div

@@ -29,10 +29,29 @@ function ModalDismissToastSlideRightComponent({
     const el = wrapperRef.current
     if (el === null) return
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const entryDuration = reducedMotion ? 150 : 320
-    const exitDuration = reducedMotion ? 120 : 240
+    const reducedMotion =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      el.closest("[data-reduced-motion='reduce']") !== null
     const easing = 'cubic-bezier(0.4, 0.0, 0.2, 1)'
+
+    if (reducedMotion) {
+      el.animate([{ opacity: '0', transform: 'none' }, { opacity: '1', transform: 'none' }], {
+        duration: 300,
+        easing: 'ease-out',
+        fill: 'forwards',
+      })
+      const exitTimer = setTimeout(() => {
+        const exitAnim = el.animate(
+          [{ opacity: '1', transform: 'none' }, { opacity: '0', transform: 'none' }],
+          { duration: 250, easing: 'ease-in', fill: 'forwards' }
+        )
+        exitAnim.onfinish = () => onDismissRef.current?.()
+      }, duration)
+      return () => {
+        clearTimeout(exitTimer)
+        el.getAnimations().forEach((a) => a.cancel())
+      }
+    }
 
     el.animate(
       [
@@ -40,7 +59,7 @@ function ModalDismissToastSlideRightComponent({
         { transform: 'translate3d(-6%, 0, 0) scale(1.02)', opacity: '1', offset: 0.7 },
         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: '1' },
       ],
-      { duration: entryDuration, easing, fill: 'forwards' }
+      { duration: 320, easing, fill: 'forwards' }
     )
 
     const exitTimer = setTimeout(() => {
@@ -50,7 +69,7 @@ function ModalDismissToastSlideRightComponent({
           { transform: 'translate3d(6%, 0, 0) scale(1.0)', opacity: '0.92', offset: 0.35 },
           { transform: 'translate3d(160%, 0, 0) scale(0.94)', opacity: '0' },
         ],
-        { duration: exitDuration, easing, fill: 'forwards' }
+        { duration: 240, easing, fill: 'forwards' }
       )
       exitAnim.onfinish = () => onDismissRef.current?.()
     }, duration)
