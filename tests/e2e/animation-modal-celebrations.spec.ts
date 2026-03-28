@@ -8,12 +8,14 @@ test.describe('Modal Celebrations', () => {
     const stage = await catalogPage.cardStage(card)
 
     // The celebration container renders depth layers with confetti pieces
-    const celebration = stage.locator('.pf-celebration')
+    const celebration = stage.locator('[class*="pf-celebration"]')
     await expect(celebration).toBeVisible({ timeout: 5_000 })
 
     // Confetti particles should spawn in depth layers
     await expect
-      .poll(async () => stage.locator('.pf-celebration__confetti').count(), { timeout: 5_000 })
+      .poll(async () => stage.locator('[class*="pf-celebration__confetti"]').count(), {
+        timeout: 5_000,
+      })
       .toBeGreaterThan(0)
   })
 

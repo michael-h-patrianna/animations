@@ -16,11 +16,11 @@ test.describe('Counter Increment Animations', () => {
 
     // Structure verification
     const container = stage.locator(
-      '.tfx-cinc-container[data-animation-id="text-effects__counter-increment"]'
+      '[class*="tfx-cinc-container"][data-animation-id="text-effects__counter-increment"]'
     )
     await expect(container).toBeVisible()
 
-    const value = stage.locator('.tfx-cinc-value')
+    const value = stage.locator('[class*="tfx-cinc-value"]')
     await expect(value).toBeVisible()
 
     // Verify the counter actually increments (tests continuous mode behavior)
@@ -39,7 +39,7 @@ test.describe('Counter Increment Animations', () => {
   test('replay resets counter to zero and restarts animation', async ({ catalogPage }) => {
     const card = catalogPage.card('text-effects__counter-increment')
     const stage = await catalogPage.cardStage(card)
-    const value = stage.locator('.tfx-cinc-value')
+    const value = stage.locator('[class*="tfx-cinc-value"]')
 
     // Wait for counter to increment above 0
     await expect
