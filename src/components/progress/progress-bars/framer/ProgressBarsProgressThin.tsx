@@ -75,9 +75,7 @@ export function ProgressBarsProgressThin({
             aria-valuemax={100}
             initial={isControlled ? { scaleX: 0 } : { scaleX: 0, opacity: 0.3 }}
             animate={
-              isControlled
-                ? { scaleX: progress }
-                : { scaleX: 1, opacity: [0.3, 0.6, 0.8, 1] }
+              isControlled ? { scaleX: progress } : { scaleX: 1, opacity: [0.3, 0.6, 0.8, 1] }
             }
             transition={
               isControlled
