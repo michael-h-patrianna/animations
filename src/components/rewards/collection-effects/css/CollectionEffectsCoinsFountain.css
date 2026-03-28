@@ -28,6 +28,7 @@
 
 .pf-coins-fountain__particle--bg {
   z-index: 0;
+  animation-name: pf-coins-fountain-erupt-bg;
 }
 
 .pf-coins-fountain__particle-image {
@@ -69,34 +70,74 @@
   }
 }
 
-/* Eruption: launch up to apex, then fall with gravity */
+/* ── Foreground particles: full-size, full opacity, 3D spin ────────── */
+
 @keyframes pf-coins-fountain-erupt {
   0% {
-    transform: translate(0, 0) scale(0.15);
+    transform: translate(0, 0) scale(0.15) rotateY(0deg) rotateZ(0deg);
     opacity: 0;
   }
   8% {
-    transform: translate(0, 0) scale(1.1);
+    transform: translate(0, 0) scale(1.1) rotateY(0deg) rotateZ(0deg);
     opacity: 1;
   }
   40% {
-    transform: translate(var(--fountain-tx), var(--fountain-ty-apex)) scale(1);
+    transform: translate(var(--fountain-tx), var(--fountain-ty-apex))
+      scale(1) rotateY(var(--fountain-spin-y)) rotateZ(var(--fountain-tumble));
     opacity: 1;
+    animation-timing-function: cubic-bezier(0.33, 0, 0.85, 1);
   }
   65% {
     transform: translate(
         calc(var(--fountain-tx) + var(--fountain-tx-fall) * 0.4),
         calc(var(--fountain-ty-apex) * 0.3)
       )
-      scale(0.75);
+      scale(0.75) rotateY(var(--fountain-spin-y)) rotateZ(var(--fountain-tumble));
     opacity: 0.8;
+    animation-timing-function: cubic-bezier(0.33, 0, 0.85, 1);
   }
   100% {
     transform: translate(
         calc(var(--fountain-tx) + var(--fountain-tx-fall)),
         var(--fountain-ty-fall)
       )
-      scale(0.7);
+      scale(0.4) rotateY(var(--fountain-spin-y)) rotateZ(var(--fountain-tumble));
+    opacity: 0;
+  }
+}
+
+/* ── Background particles: smaller, dimmer, less spin ──────────────── */
+
+@keyframes pf-coins-fountain-erupt-bg {
+  0% {
+    transform: translate(0, 0) scale(0.15) rotateY(0deg) rotateZ(0deg);
+    opacity: 0;
+  }
+  8% {
+    transform: translate(0, 0) scale(0.8) rotateY(0deg) rotateZ(0deg);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(var(--fountain-tx), var(--fountain-ty-apex))
+      scale(0.75) rotateY(var(--fountain-spin-y)) rotateZ(var(--fountain-tumble));
+    opacity: 0.6;
+    animation-timing-function: cubic-bezier(0.33, 0, 0.85, 1);
+  }
+  65% {
+    transform: translate(
+        calc(var(--fountain-tx) + var(--fountain-tx-fall) * 0.4),
+        calc(var(--fountain-ty-apex) * 0.3)
+      )
+      scale(0.55) rotateY(var(--fountain-spin-y)) rotateZ(var(--fountain-tumble));
+    opacity: 0.3;
+    animation-timing-function: cubic-bezier(0.33, 0, 0.85, 1);
+  }
+  100% {
+    transform: translate(
+        calc(var(--fountain-tx) + var(--fountain-tx-fall)),
+        var(--fountain-ty-fall)
+      )
+      scale(0.3) rotateY(var(--fountain-spin-y)) rotateZ(var(--fountain-tumble));
     opacity: 0;
   }
 }
