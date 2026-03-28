@@ -112,3 +112,117 @@ describe('validateAnimationMetadata', () => {
     }
   })
 })
+
+describe('validateAnimationMetadata — props field', () => {
+  const base = {
+    id: 'group__variant',
+    title: 'Test',
+    description: 'Desc',
+    tier: 1,
+  }
+
+  it('accepts all 9 PropConfig variant types', () => {
+    const props = [
+      { type: 'number', name: 'duration', label: 'Duration', default: 400 },
+      { type: 'string', name: 'text', label: 'Text', default: 'hello' },
+      { type: 'boolean', name: 'visible', label: 'Visible', default: true },
+      { type: 'color', name: 'color', label: 'Color', default: '#ff0000' },
+      {
+        type: 'select',
+        name: 'ease',
+        label: 'Ease',
+        options: [{ label: 'Linear', value: 'linear' }],
+      },
+      { type: 'image', name: 'src', label: 'Image', default: '/img.png' },
+      { type: 'images', name: 'imgs', label: 'Images', default: ['/a.png'], maxItems: 5 },
+      { type: 'colors', name: 'palette', label: 'Palette', default: ['#ff0000'], maxItems: 3 },
+      {
+        type: 'style-object',
+        name: 'style',
+        label: 'Style',
+        fields: [
+          { type: 'number', key: '--gap', label: 'Gap', default: 8, unit: 'px' },
+          { type: 'string', key: '--font', label: 'Font', default: 'sans-serif' },
+          { type: 'color', key: '--bg', label: 'BG', default: '#000' },
+        ],
+      },
+    ]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations).toEqual([])
+  })
+
+  it('accepts number prop with animatable fields', () => {
+    const props = [
+      {
+        type: 'number',
+        name: 'progress',
+        label: 'Progress',
+        min: 0,
+        max: 100,
+        step: 1,
+        unit: '%',
+        animatable: true,
+        animateDefault: 'animate',
+        animateDuration: 4000,
+        animatePause: 1200,
+        animateStyle: 'linear',
+      },
+    ]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations).toEqual([])
+  })
+
+  it('accepts props with disabled and group fields', () => {
+    const props = [
+      {
+        type: 'string',
+        name: 'children',
+        label: 'Children',
+        disabled: true,
+        disabledReason: 'Pass via JSX',
+        group: 'content',
+      },
+    ]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations).toEqual([])
+  })
+
+  it('rejects prop with invalid type discriminant', () => {
+    const props = [{ type: 'invalid', name: 'x', label: 'X' }]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations.join('\n')).toContain('props')
+  })
+
+  it('rejects prop missing required name field', () => {
+    const props = [{ type: 'number', label: 'Duration' }]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations.join('\n')).toContain('name')
+  })
+
+  it('rejects select prop missing options array', () => {
+    const props = [{ type: 'select', name: 'ease', label: 'Ease' }]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations.join('\n')).toContain('options')
+  })
+
+  it('rejects style-object prop with invalid field type', () => {
+    const props = [
+      {
+        type: 'style-object',
+        name: 'style',
+        label: 'Style',
+        fields: [{ type: 'invalid', key: '--x', label: 'X' }],
+      },
+    ]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations.join('\n')).toContain('fields')
+  })
+
+  it('rejects number prop with invalid animateStyle value', () => {
+    const props = [
+      { type: 'number', name: 'x', label: 'X', animatable: true, animateStyle: 'bounce' },
+    ]
+    const violations = validateAnimationMetadata({ ...base, props }, 'test.meta.ts')
+    expect(violations.join('\n')).toContain('animateStyle')
+  })
+})

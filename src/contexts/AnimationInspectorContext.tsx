@@ -13,6 +13,7 @@ import {
 } from '@/contexts/animateSweep'
 import { getInspectorStarterDefaults } from '@/contexts/inspectorStarterDefaults'
 import { assertNever } from '@/utils/assertNever'
+import * as v from 'valibot'
 import {
   createContext,
   use,
@@ -32,14 +33,22 @@ type AnimateToggles = Record<string, Record<string, 'fixed' | 'animate'>>
 const OVERRIDES_STORAGE_KEY = 'animation-catalog-inspector'
 const PERSIST_DEBOUNCE_MS = 300
 
+/**
+ * Schema for persisted inspector overrides.
+ * Validates nested Record<string, Record<string, unknown>> structure
+ * so corrupted localStorage data is rejected rather than trusted.
+ */
+const PersistedOverridesSchema = v.record(v.string(), v.record(v.string(), v.unknown()))
+
 function loadPersistedOverrides(): PropOverridesByAnimationId {
   try {
     const raw = localStorage.getItem(OVERRIDES_STORAGE_KEY)
     if (raw == null) return {}
     const parsed: unknown = JSON.parse(raw)
-    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return {}
-    return parsed as PropOverridesByAnimationId
+    return v.parse(PersistedOverridesSchema, parsed)
   } catch {
+    // JSON parse error, Valibot validation failure, or localStorage unavailable.
+    // Return empty — the next debounced persist will overwrite with valid data.
     return {}
   }
 }

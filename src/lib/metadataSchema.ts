@@ -46,6 +46,131 @@ const PreviewPositionSchema = v.optional(
   ])
 )
 
+// ============================================================================
+// PropConfig Schema — mirrors the discriminated union in types/animation.ts
+// ============================================================================
+
+/** Shared base fields present on all PropConfig variants. */
+const PropConfigBaseSchema = {
+  name: v.pipe(v.string(), v.minLength(1)),
+  label: v.pipe(v.string(), v.minLength(1)),
+  description: v.optional(v.string()),
+  disabled: v.optional(v.boolean()),
+  disabledReason: v.optional(v.string()),
+  group: v.optional(v.string()),
+}
+
+const NumberPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('number'),
+  default: v.optional(v.number()),
+  min: v.optional(v.number()),
+  max: v.optional(v.number()),
+  step: v.optional(v.number()),
+  unit: v.optional(v.string()),
+  animatable: v.optional(v.boolean()),
+  animateDefault: v.optional(v.picklist(['fixed', 'animate'])),
+  animateDuration: v.optional(v.number()),
+  animatePause: v.optional(v.number()),
+  animateStyle: v.optional(v.picklist(['steps', 'linear'])),
+})
+
+const StringPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('string'),
+  default: v.optional(v.string()),
+})
+
+const BooleanPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('boolean'),
+  default: v.optional(v.boolean()),
+})
+
+const ColorPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('color'),
+  default: v.optional(v.string()),
+})
+
+const SelectPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('select'),
+  default: v.optional(v.string()),
+  options: v.array(v.object({ label: v.string(), value: v.string() })),
+})
+
+const ImagePropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('image'),
+  default: v.optional(v.string()),
+})
+
+const ImagesPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('images'),
+  default: v.optional(v.array(v.string())),
+  maxItems: v.optional(v.number()),
+})
+
+const ColorsPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('colors'),
+  default: v.optional(v.array(v.string())),
+  maxItems: v.optional(v.number()),
+})
+
+const StyleObjectFieldSchema = v.variant('type', [
+  v.object({
+    type: v.literal('number'),
+    key: v.string(),
+    label: v.string(),
+    description: v.optional(v.string()),
+    default: v.optional(v.number()),
+    min: v.optional(v.number()),
+    max: v.optional(v.number()),
+    step: v.optional(v.number()),
+    unit: v.optional(v.string()),
+  }),
+  v.object({
+    type: v.literal('string'),
+    key: v.string(),
+    label: v.string(),
+    description: v.optional(v.string()),
+    default: v.optional(v.string()),
+  }),
+  v.object({
+    type: v.literal('color'),
+    key: v.string(),
+    label: v.string(),
+    description: v.optional(v.string()),
+    default: v.optional(v.string()),
+  }),
+])
+
+const StyleObjectPropSchema = v.object({
+  ...PropConfigBaseSchema,
+  type: v.literal('style-object'),
+  fields: v.array(StyleObjectFieldSchema),
+})
+
+/** Discriminated union schema for PropConfig — validates the `type` field and variant-specific shape. */
+const PropConfigSchema = v.variant('type', [
+  NumberPropSchema,
+  StringPropSchema,
+  BooleanPropSchema,
+  ColorPropSchema,
+  SelectPropSchema,
+  ImagePropSchema,
+  ImagesPropSchema,
+  ColorsPropSchema,
+  StyleObjectPropSchema,
+])
+
+// ============================================================================
+// AnimationMetadata Schema
+// ============================================================================
+
 /**
  * Runtime validation schema for AnimationMetadata.
  * Validates the structure and value constraints of metadata exported by `.meta.ts` files.
@@ -66,7 +191,7 @@ const AnimationMetadataSchema = v.object({
   previewMaxWidth: v.optional(v.number()),
   tags: v.optional(v.array(v.string())),
   order: v.optional(v.number()),
-  props: v.optional(v.array(v.any())),
+  props: v.optional(v.array(PropConfigSchema)),
 })
 
 /**
