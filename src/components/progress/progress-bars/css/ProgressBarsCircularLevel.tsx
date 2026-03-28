@@ -7,7 +7,15 @@
  * Copy-paste files: this file + ProgressBarsCircularLevel.css
  * Runtime deps: react
  */
-import { memo, useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react'
 import './ProgressBarsCircularLevel.css'
 
 interface ProgressBarsCircularLevelProps {
@@ -53,7 +61,7 @@ function ProgressBarsCircularLevelCssComponent({
   const [circleStyle, setCircleStyle] = useState<CSSProperties>(() => ({
     strokeDashoffset: `${circumference * (1 - fillRef.current)}`,
   }))
-  const [displayText, setDisplayText] = useState(() => formatProgress(fillRef.current * 100))
+  const textRef = useRef<HTMLSpanElement>(null)
   const [bursts, setBursts] = useState<number[]>([])
   const burstIdRef = useRef(0)
   const [syncTrigger, setSyncTrigger] = useState(0)
@@ -63,6 +71,13 @@ function ProgressBarsCircularLevelCssComponent({
     return () => {
       mountedRef.current = false
       cancelAnimationFrame(rafRef.current)
+    }
+  }, [])
+
+  // Set initial text before paint
+  useLayoutEffect(() => {
+    if (textRef.current) {
+      textRef.current.textContent = formatProgress(fillRef.current * 100)
     }
   }, [])
 
@@ -77,7 +92,7 @@ function ProgressBarsCircularLevelCssComponent({
       const eased = linear ? t : easeOutQuad(t)
       const value = from + (to - from) * eased
       fillRef.current = value
-      setDisplayText(formatProgress(value * 100))
+      if (textRef.current) textRef.current.textContent = formatProgress(value * 100)
       if (t < 1 && mountedRef.current) {
         rafRef.current = requestAnimationFrame(tick)
       }
@@ -103,7 +118,7 @@ function ProgressBarsCircularLevelCssComponent({
       if (prefersReduced) {
         fillRef.current = finalFill
         setCircleStyle({ strokeDashoffset: `${circumference * (1 - finalFill)}` })
-        setDisplayText(formatProgress(finalFill * 100))
+        if (textRef.current) textRef.current.textContent = formatProgress(finalFill * 100)
         animatingRef.current = false
         setSyncTrigger((n) => n + 1)
         return
@@ -129,7 +144,7 @@ function ProgressBarsCircularLevelCssComponent({
         // Reset to 0
         cancelAnimationFrame(rafRef.current)
         fillRef.current = 0
-        setDisplayText(formatProgress(0))
+        if (textRef.current) textRef.current.textContent = formatProgress(0)
         setCircleStyle({ strokeDashoffset: `${circumference}`, transition: 'none' })
         await waitMs(RESET_GAP_MS)
 
@@ -178,7 +193,7 @@ function ProgressBarsCircularLevelCssComponent({
       prevFloorRef.current = currentFloor
       cancelAnimationFrame(rafRef.current)
       fillRef.current = fill
-      setDisplayText(formatProgress(fill * 100))
+      if (textRef.current) textRef.current.textContent = formatProgress(fill * 100)
 
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       setCircleStyle({
@@ -223,7 +238,7 @@ function ProgressBarsCircularLevelCssComponent({
           />
         </svg>
 
-        <span className="pf-circular-level-css__text">{displayText}</span>
+        <span ref={textRef} className="pf-circular-level-css__text" />
       </div>
     </div>
   )

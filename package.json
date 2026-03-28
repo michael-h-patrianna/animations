@@ -74,7 +74,7 @@
   "lint-staged": {
     "*.{ts,tsx}": "eslint",
     "*.css": "stylelint",
-    "*.{ts,tsx,js,mjs,json,css,md}": "prettier --check"
+    "*.{ts,tsx,js,mjs,json,css,md}": "prettier --write"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
