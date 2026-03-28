@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsLightSweepDraw.css into your app.
+ * Standalone: Copy this file into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */
@@ -63,7 +63,6 @@ function TextEffectsLightSweepDrawComponent({
 
   return (
     <m.div
-      className="pf-light-sweep-draw"
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
       variants={
@@ -73,15 +72,24 @@ function TextEffectsLightSweepDrawComponent({
       }
       initial="hidden"
       animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
-      style={
-        color !== undefined ? ({ '--pf-lsd-base-color': color } as React.CSSProperties) : undefined
-      }
+      style={{
+        display: 'inline-flex',
+        alignItems: 'baseline',
+        ['--pf-lsd-base-color' as string]: color ?? 'var(--pf-lsd-base-color, #e8e4da)',
+        ['--pf-lsd-highlight-color' as string]: 'var(--pf-lsd-highlight-color, #fff)',
+      }}
     >
-      <div className="pf-light-sweep-draw__line" aria-hidden="true">
+      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-light-sweep-draw__letter"
+            style={{
+              display: 'inline-block',
+              willChange: 'transform',
+              color: 'var(--pf-lsd-base-color)',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+            }}
             variants={
               prefersReducedMotion
                 ? { hidden: { opacity: 1 }, show: { opacity: 1 } }

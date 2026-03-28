@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.css into your app.
+ * Standalone: Copy this file into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */
@@ -63,7 +63,6 @@ function TextEffectsMetallicSpecularFlashComponent({
 
   return (
     <m.div
-      className="pf-metallic-flash"
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
       variants={
@@ -73,15 +72,25 @@ function TextEffectsMetallicSpecularFlashComponent({
       }
       initial="hidden"
       animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
-      style={
-        color !== undefined ? ({ '--pf-msf-base-color': color } as React.CSSProperties) : undefined
-      }
+      style={{
+        display: 'inline-flex',
+        alignItems: 'baseline',
+        ['--pf-msf-base-color' as string]: color ?? 'var(--pf-msf-base-color, #e8e4da)',
+        ['--pf-msf-highlight-color' as string]: 'var(--pf-msf-highlight-color, #fff)',
+      }}
     >
-      <div className="pf-metallic-flash__line" aria-hidden="true">
+      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-metallic-flash__letter"
+            style={{
+              display: 'inline-block',
+              willChange: 'transform',
+              color: 'var(--pf-msf-base-color)',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+              transformOrigin: 'center',
+            }}
             variants={
               prefersReducedMotion
                 ? { hidden: { opacity: 1 }, show: { opacity: 1 } }

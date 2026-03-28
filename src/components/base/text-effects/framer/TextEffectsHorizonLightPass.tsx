@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsHorizonLightPass.css into your app.
+ * Standalone: Copy this file into your app.
  * Runtime deps: react, motion
  * RN: Port with Reanimated/Moti — transforms/opacity/color, custom delay per index.
  */
@@ -83,21 +83,30 @@ function TextEffectsHorizonLightPassComponent({
 
   return (
     <m.div
-      className="pf-horizon-light"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
       variants={prefersReducedMotion ? reducedContainerVariants : containerVariants}
       initial="hidden"
       animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
-      style={
-        color !== undefined ? ({ '--pf-hlp-base-color': color } as React.CSSProperties) : undefined
-      }
+      style={{
+        display: 'inline-flex',
+        alignItems: 'baseline',
+        ['--pf-hlp-base-color' as string]: color ?? 'var(--pf-hlp-base-color, #e8e4da)',
+        ['--pf-hlp-highlight-color' as string]: 'var(--pf-hlp-highlight-color, #fff)',
+      }}
     >
-      <div className="pf-horizon-light__line" aria-hidden="true">
+      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-horizon-light__letter"
+            style={{
+              display: 'inline-block',
+              willChange: 'transform',
+              color: 'var(--pf-hlp-base-color)',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+              transformOrigin: 'center',
+            }}
             variants={prefersReducedMotion ? reducedLetterVariants : letterVariants}
             custom={i}
           >
