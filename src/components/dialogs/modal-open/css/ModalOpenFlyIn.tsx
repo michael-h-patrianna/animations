@@ -22,7 +22,11 @@ import {
   computeArcCloseTrajectory,
   computeArcTrajectory,
 } from '@/components/dialogs/modal-open/FlyInTrajectory'
-import { MIN_ARC_DISTANCE, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
+import {
+  MIN_ARC_DISTANCE,
+  shouldReduceMotion,
+  type ModalOpenProps,
+} from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1200, reveal: 40 },
@@ -55,10 +59,16 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
       : 0
   const isArc = distance >= MIN_ARC_DISTANCE
 
-  // Web Animations API for trajectory
+  // Web Animations API for trajectory — skip when reduced motion is active so CSS fallback applies
   useEffect(() => {
     const el = modalRef.current
     if (!el || !activeTrajectory || !isVisible || !isArc) return
+
+    if (shouldReduceMotion(el)) {
+      animRef.current?.cancel()
+      const id = requestAnimationFrame(() => (isClosing ? handleCloseComplete() : handleOpenComplete()))
+      return () => cancelAnimationFrame(id)
+    }
 
     animRef.current?.cancel()
 

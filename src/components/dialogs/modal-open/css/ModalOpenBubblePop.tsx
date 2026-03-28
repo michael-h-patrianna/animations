@@ -20,7 +20,7 @@ import {
   computeBubblePopCloseTrajectory,
   computeBubblePopTrajectory,
 } from '@/components/dialogs/modal-open/BubblePopTrajectory'
-import { type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
+import { shouldReduceMotion, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1200, reveal: 35 },
@@ -49,10 +49,15 @@ function ModalOpenBubblePopComponent(props: ModalOpenProps) {
   const { isVisible, isClosing, activeDurationMs, handleCloseComplete, handleOpenComplete } = s
   const traj = isClosing ? closeTraj : openTraj
 
-  // WAAPI for all transforms
+  // WAAPI for all transforms — skip when reduced motion is active so CSS fallback applies
   useEffect(() => {
     const el = modalRef.current
     if (!el || !traj || !isVisible) return
+
+    if (shouldReduceMotion(el)) {
+      const id = requestAnimationFrame(() => (isClosing ? handleCloseComplete() : handleOpenComplete()))
+      return () => cancelAnimationFrame(id)
+    }
 
     const keyframes: Keyframe[] = traj.times.map((t, i) => ({
       offset: t,

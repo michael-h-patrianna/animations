@@ -8,7 +8,7 @@ export const metadata: AnimationMetadata = {
   description:
     'Modal unrolls like a scroll from trigger — vertical expand with paper-settle bounce. Props: from, duration, impactForce, contentRevealAt, children.',
   tier: 3,
-  tags: ['lrc'],
+  tags: ['lrc', 'raf'],
   props: [
     {
       type: 'string',

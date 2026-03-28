@@ -127,6 +127,19 @@ export interface TrajectoryArrays {
 export const DEFAULT_IMPACT_FORCE = 0.5
 
 /**
+ * Returns true when reduced motion is preferred.
+ * Checks OS media query (works in consumer apps) and the catalog's
+ * data-reduced-motion attribute (works in the demo harness).
+ * Pass the animation's container element for the attribute check.
+ */
+export function shouldReduceMotion(el?: Element | null): boolean {
+  if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+    return true
+  }
+  return el?.closest("[data-reduced-motion='reduce']") !== null
+}
+
+/**
  * Reverses a trajectory: values play backwards, times remapped to 0→1.
  */
 export function reverseTrajectory(t: TrajectoryArrays): TrajectoryArrays {

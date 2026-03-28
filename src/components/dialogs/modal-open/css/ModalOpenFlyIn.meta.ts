@@ -8,7 +8,7 @@ export const metadata: AnimationMetadata = {
   description:
     'Modal launches from a trigger element with arced trajectory, impact settle, and staggered content reveal. Props: from, duration, overlayOpacity, contentRevealAt, children.',
   tier: 3,
-  tags: ['lrc'],
+  tags: ['lrc', 'raf'],
   props: [
     {
       type: 'string',

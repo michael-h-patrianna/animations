@@ -138,8 +138,8 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
               className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
               style={{
                 ...props.style,
-                width: '100%',
-                maxWidth: 420,
+                width: 420,
+                maxWidth: '100%',
                 overflow: 'hidden',
                 animation: 'none',
               }}

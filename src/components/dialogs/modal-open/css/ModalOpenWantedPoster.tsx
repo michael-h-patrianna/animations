@@ -13,7 +13,7 @@ import {
 } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
 import './shared-css-animations.css'
-import { type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
+import { shouldReduceMotion, type ModalOpenProps } from '@/components/dialogs/modal-open/SharedTypes'
 
 const PRESETS: DemoPreset[] = [
   { label: 'Soy', force: 0.02, duration: 1200, reveal: 30 },
@@ -84,6 +84,11 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
     const el = modalRef.current
     if (!el || !kfData || !isVisible) return
 
+    if (shouldReduceMotion(el)) {
+      const id = requestAnimationFrame(() => (isClosing ? handleCloseComplete() : handleOpenComplete()))
+      return () => cancelAnimationFrame(id)
+    }
+
     const frames = isClosing ? kfData.reverseKeyframes : kfData.keyframes
     const anim = el.animate(frames, {
       duration: activeDurationMs,
@@ -125,7 +130,7 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
             <div
               ref={modalRef}
               className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
-              style={{ ...props.style, width: '100%', maxWidth: 420, overflow: 'hidden' }}
+              style={{ ...props.style, width: 420, maxWidth: '100%', overflow: 'hidden' }}
             >
               <div ref={contentRef} style={{ position: 'relative' }}>
                 <ModalOpenPlaceholder
