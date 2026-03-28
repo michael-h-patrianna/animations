@@ -70,7 +70,7 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
     }
   }, [isControlled])
 
-  const trackPosition = 25 - 40 * (level - 1)
+  const trackTranslateX = ((-40 * (level - 1)) / 75) * 100
   const progress1Width = (levelPoints[0]! / 3) * 100
   const progress2Width = (levelPoints[1]! / 6) * 100
 
@@ -80,7 +80,10 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
       style={style}
       data-animation-id="progress-bars__zoomed-progress"
     >
-      <div className="pf-zoomed-progress__track" style={{ left: `${trackPosition}%` }}>
+      <div
+        className="pf-zoomed-progress__track"
+        style={{ transform: `translateX(${trackTranslateX}%) translateY(-50%) scale(1.2)` }}
+      >
         <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
           <div className="pf-zoomed-progress__fill" style={{ width: `${progress1Width}%` }} />
         </div>

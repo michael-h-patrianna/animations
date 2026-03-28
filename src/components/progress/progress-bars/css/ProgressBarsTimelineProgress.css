@@ -35,7 +35,9 @@
   flex-shrink: 0;
   opacity: 0.3;
   transform: scale(0.9);
-  transition: all 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .pf-timeline-progress__step.is-active {
@@ -56,7 +58,9 @@
   transform-origin: left;
   transform: scaleX(0);
   opacity: 0.3;
-  transition: all 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .pf-timeline-progress__connector.is-active {

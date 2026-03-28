@@ -32,9 +32,7 @@
   display: flex;
   align-items: center;
   transform: translateY(-50%) scale(1.2);
-  transition:
-    left 1s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .pf-zoomed-progress__bar {
@@ -85,7 +83,10 @@
   font-size: 16px;
   top: 50%;
   transform: translateY(-50%) scale(1);
-  transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition:
+    transform 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    color 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    box-shadow 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   z-index: 2;
 }
 
@@ -179,5 +180,29 @@
   }
   50% {
     transform: translateX(-50%) translateY(-50%) scale(1.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-zoomed-progress__track {
+    transition-duration: 0.1s;
+  }
+
+  .pf-zoomed-progress__fill {
+    transition-duration: 0.1s;
+  }
+
+  .pf-zoomed-progress__level {
+    transition-duration: 0.1s;
+  }
+
+  .pf-zoomed-progress__level--one.reached,
+  .pf-zoomed-progress__level--two.reached,
+  .pf-zoomed-progress__level--three.reached {
+    animation: none;
+  }
+
+  .pf-zoomed-progress__mask {
+    transition-duration: 0.1s;
   }
 }

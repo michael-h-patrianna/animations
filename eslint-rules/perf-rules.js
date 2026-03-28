@@ -86,9 +86,7 @@ const LAYOUT_MOTION_PROPS = ['width', 'height', 'top', 'left', 'right', 'bottom'
 function stripJsComments(source) {
   // Remove multi-line comments, then single-line comments.
   // Preserves string literals by skipping quoted content.
-  return source
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\/\/.*$/gm, '')
+  return source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '')
 }
 
 /**
@@ -155,10 +153,7 @@ function detectLrcInJs(source) {
  */
 function detectLrcInCss(cssSource) {
   // Build a regex that matches any layout property as a CSS declaration
-  const layoutPropPattern = new RegExp(
-    `(?:^|[{;\\s])(${LAYOUT_CSS_PROPS.join('|')})\\s*:`,
-    'm'
-  )
+  const layoutPropPattern = new RegExp(`(?:^|[{;\\s])(${LAYOUT_CSS_PROPS.join('|')})\\s*:`, 'm')
 
   // Extract @keyframes blocks and check for layout properties inside them
   const keyframeBlockRe = /@keyframes\s+[\w-]+\s*\{/g
