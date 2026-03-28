@@ -112,12 +112,13 @@ export function ProgressBarsCelebrationBurst({
       cleanupTimersRef.current.add(timer)
     }
 
+    const timers = cleanupTimersRef.current
     checkMilestones(fillMV.get())
     const unsub = fillMV.on('change', checkMilestones)
     return () => {
       unsub()
-      for (const t of cleanupTimersRef.current) clearTimeout(t)
-      cleanupTimersRef.current.clear()
+      for (const t of timers) clearTimeout(t)
+      timers.clear()
     }
   }, [fillMV, milestones])
 

@@ -51,7 +51,7 @@ function ProgressBarsCircularLevelCssComponent({
 
   // Visual state
   const [circleStyle, setCircleStyle] = useState<CSSProperties>(() => ({
-    strokeDashoffset: circumference * (1 - fillRef.current),
+    strokeDashoffset: `${circumference * (1 - fillRef.current)}`,
   }))
   const [displayText, setDisplayText] = useState(() => formatProgress(fillRef.current * 100))
   const [bursts, setBursts] = useState<number[]>([])
@@ -102,7 +102,7 @@ function ProgressBarsCircularLevelCssComponent({
 
       if (prefersReduced) {
         fillRef.current = finalFill
-        setCircleStyle({ strokeDashoffset: circumference * (1 - finalFill) })
+        setCircleStyle({ strokeDashoffset: `${circumference * (1 - finalFill)}` })
         setDisplayText(formatProgress(finalFill * 100))
         animatingRef.current = false
         setSyncTrigger((n) => n + 1)
@@ -113,7 +113,7 @@ function ProgressBarsCircularLevelCssComponent({
       const cur = fillRef.current
       const fillDur = Math.max(150, FILL_BASE_MS * (1 - cur))
       setCircleStyle({
-        strokeDashoffset: 0,
+        strokeDashoffset: '0',
         transition: `stroke-dashoffset ${fillDur}ms ease-out`,
       })
       tweenText(cur, 1, fillDur)
@@ -130,13 +130,13 @@ function ProgressBarsCircularLevelCssComponent({
         cancelAnimationFrame(rafRef.current)
         fillRef.current = 0
         setDisplayText(formatProgress(0))
-        setCircleStyle({ strokeDashoffset: circumference, transition: 'none' })
+        setCircleStyle({ strokeDashoffset: `${circumference}`, transition: 'none' })
         await waitMs(RESET_GAP_MS)
 
         // Intermediate full fill for multi-level jumps
         if (i < levels - 1) {
           setCircleStyle({
-            strokeDashoffset: 0,
+            strokeDashoffset: '0',
             transition: `stroke-dashoffset ${INTERMEDIATE_MS}ms linear`,
           })
           tweenText(0, 1, INTERMEDIATE_MS, true)
@@ -149,7 +149,7 @@ function ProgressBarsCircularLevelCssComponent({
       if (finalFill > 0.005) {
         const dur = Math.max(100, FILL_BASE_MS * finalFill)
         setCircleStyle({
-          strokeDashoffset: circumference * (1 - finalFill),
+          strokeDashoffset: `${circumference * (1 - finalFill)}`,
           transition: `stroke-dashoffset ${dur}ms ease-out`,
         })
         tweenText(0, finalFill, dur)
@@ -182,7 +182,7 @@ function ProgressBarsCircularLevelCssComponent({
 
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       setCircleStyle({
-        strokeDashoffset: circumference * (1 - fill),
+        strokeDashoffset: `${circumference * (1 - fill)}`,
         transition: prefersReduced
           ? 'none'
           : 'stroke-dashoffset 250ms cubic-bezier(0.4, 0, 0.2, 1)',

@@ -155,7 +155,7 @@ describe('ProgressBarsProgressThin', () => {
     expect(progressbar).toHaveAttribute('aria-valuemax', '100')
   })
 
-  it('defaults to 0% when progress is omitted', async () => {
+  it('defaults to 100% demo sweep when progress is omitted', async () => {
     const { ProgressBarsProgressThin } =
       await import('@/components/progress/progress-bars/framer/ProgressBarsProgressThin')
 
@@ -166,7 +166,7 @@ describe('ProgressBarsProgressThin', () => {
     )
 
     const progressbar = screen.getByRole('progressbar')
-    expect(progressbar).toHaveAttribute('aria-valuenow', '0')
+    expect(progressbar).toHaveAttribute('aria-valuenow', '100')
   })
 
   it('renders the label text when provided', async () => {
