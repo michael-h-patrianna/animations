@@ -75,8 +75,8 @@
 
 .pf-progress-thin__photon {
   position: absolute;
-  right: -20px;
   top: 50%;
+  left: 0;
   transform: translateY(-50%);
   width: 60px;
   height: 1px;
@@ -88,7 +88,7 @@
   );
   pointer-events: none;
   opacity: 0;
-  animation: thin-photon 1200ms ease-out both;
+  animation: thin-photon 1200ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .pf-progress-thin__dot {
@@ -149,22 +149,19 @@
 }
 
 @keyframes thin-photon {
-  0%,
-  20% {
+  0% {
+    left: -5%;
     opacity: 0;
-    transform: translateY(-50%) translateX(20px);
   }
-  50% {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
+  15% {
+    opacity: 0.8;
   }
-  90% {
-    opacity: 0.5;
-    transform: translateY(-50%) translateX(-10px);
+  85% {
+    opacity: 0.6;
   }
   100% {
+    left: 100%;
     opacity: 0;
-    transform: translateY(-50%) translateX(-20px);
   }
 }
 

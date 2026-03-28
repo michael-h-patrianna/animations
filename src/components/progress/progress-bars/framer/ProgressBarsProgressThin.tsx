@@ -1,7 +1,9 @@
 /**
  * Thin Progress Line
  *
- * Ultra-thin progress line that transitions to the given progress value.
+ * Ultra-thin progress line with photon trail, pulse dots, halo glow,
+ * and completion flash. When no `progress` prop is given, plays a
+ * one-shot demo sweep. Pass `progress` (0-1) for controlled mode.
  *
  * @example
  * ```tsx
@@ -9,24 +11,24 @@
  * ```
  *
  * Styleable CSS custom properties:
- * - `--thin-label-color`   — label text color (default: rgb(255 255 255 / 55%))
- * - `--thin-track-bg`      — track background (default: rgb(255 255 255 / 6%))
- * - `--thin-fill-from`     — fill gradient start (default: #38bdf8)
- * - `--thin-fill-via`      — fill gradient middle (default: #7dd3fc)
- * - `--thin-fill-to`       — fill gradient end (default: #bae6fd)
- * - `--thin-fill-glow`     — fill glow shadow (default: rgb(56 189 248 / 40%))
- * - `--thin-accent`        — accent for photon/dots/halo (default: #38bdf8)
+ * - `--thin-label-color`, `--thin-track-bg`
+ * - `--thin-fill-from`, `--thin-fill-via`, `--thin-fill-to`
+ * - `--thin-fill-glow`, `--thin-accent`, `--thin-accent-dim`, `--thin-accent-faint`
  *
  * Files to copy: this file + ProgressBarsProgressThin.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import './ProgressBarsProgressThin.css'
 
 interface ProgressThinProps extends ProgressBarProps {
   /** Label text above the bar. Default: "Level progress". */
   label?: string
 }
+
+const SWEEP_S = 1.2
+const SWEEP_EASE: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94]
 
 export function ProgressBarsProgressThin({
   progress,
@@ -34,8 +36,9 @@ export function ProgressBarsProgressThin({
   className,
   style,
 }: ProgressThinProps) {
-  const prefersReducedMotion = useReducedMotion()
-  const target = progress ?? 0
+  const isControlled = progress !== undefined
+  const prefersReduced = useReducedMotion()
+  const showEffects = !isControlled && !prefersReduced
 
   return (
     <div
@@ -48,26 +51,98 @@ export function ProgressBarsProgressThin({
       )}
 
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track" style={{ height: '2px' }}>
+        {/* Halo glow (demo only) */}
+        {showEffects && (
+          <m.div
+            className="pf-progress-thin__halo"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0, 0.5, 0.3, 0] }}
+            transition={{
+              duration: SWEEP_S,
+              ease: 'easeOut',
+              times: [0, 0.3, 0.6, 0.9, 1],
+            }}
+            style={{ scale: 1.3, animation: 'none' }}
+          />
+        )}
+
+        <div className="pf-progress-track">
           <m.div
             className="pf-progress-fill"
             role="progressbar"
-            aria-valuenow={Math.round(target * 100)}
+            aria-valuenow={Math.round((progress ?? 1) * 100)}
             aria-valuemin={0}
             aria-valuemax={100}
-            animate={{ scaleX: target }}
-            transition={{
-              duration: prefersReducedMotion ? 0.1 : 0.5,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-            style={{
-              transformOrigin: 'left center',
-              position: 'relative',
-              overflow: 'visible',
-              animation: 'none',
-            }}
+            initial={isControlled ? { scaleX: 0 } : { scaleX: 0, opacity: 0.3 }}
+            animate={
+              isControlled
+                ? { scaleX: progress }
+                : { scaleX: 1, opacity: [0.3, 0.6, 0.8, 1] }
+            }
+            transition={
+              isControlled
+                ? { duration: 0.5, ease: SWEEP_EASE }
+                : {
+                    scaleX: { duration: SWEEP_S, ease: SWEEP_EASE },
+                    opacity: { duration: SWEEP_S, times: [0, 0.3, 0.7, 1] },
+                  }
+            }
+            style={{ animation: 'none' }}
           />
         </div>
+
+        {/* Photon trail (demo only) */}
+        {showEffects && (
+          <m.div
+            className="pf-progress-thin__photon"
+            initial={{ left: '-5%', opacity: 0 }}
+            animate={{ left: '100%', opacity: [0, 0.8, 0.6, 0] }}
+            transition={{
+              left: { duration: SWEEP_S, ease: SWEEP_EASE },
+              opacity: { duration: SWEEP_S, times: [0, 0.15, 0.85, 1] },
+            }}
+            style={{ y: '-50%', animation: 'none' }}
+          />
+        )}
+
+        {/* Pulse dots (demo only) */}
+        {showEffects &&
+          [0, 1, 2].map((i) => (
+            <m.div
+              key={i}
+              className="pf-progress-thin__dot"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
+              transition={{
+                duration: 0.4,
+                ease: 'easeOut',
+                delay: 0.36 + i * 0.1,
+                times: [0, 0.3, 1],
+              }}
+              style={{
+                left: `${30 + i * 25}%`,
+                x: '-50%',
+                y: '-50%',
+                animation: 'none',
+              }}
+            />
+          ))}
+
+        {/* Completion flash (demo only) */}
+        {showEffects && (
+          <m.div
+            className="pf-progress-thin__flash"
+            initial={{ opacity: 0, scaleX: 0.8 }}
+            animate={{ opacity: [0, 1, 0], scaleX: [0.8, 1, 1] }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeOut',
+              delay: SWEEP_S,
+              times: [0, 0.3, 1],
+            }}
+            style={{ animation: 'none' }}
+          />
+        )}
       </div>
     </div>
   )

@@ -54,11 +54,11 @@ export function ProgressBarsProgressThin({
             aria-valuemin={0}
             aria-valuemax={100}
             style={isControlled ? { transform: `scaleX(${progress})` } : undefined}
-          >
-            {/* Photon trail (demo only) */}
-            {!isControlled && <div className="pf-progress-thin__photon" />}
-          </div>
+          />
         </div>
+
+        {/* Photon trail (demo only) — must be outside fill to avoid scaleX distortion */}
+        {!isControlled && <div className="pf-progress-thin__photon" />}
 
         {/* Pulse dots (demo only) */}
         {!isControlled &&

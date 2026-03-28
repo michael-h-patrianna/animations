@@ -48,3 +48,47 @@
   will-change: transform;
   box-shadow: 0 0 8px var(--thin-fill-glow);
 }
+
+/* Decorative elements — Motion handles animation, CSS handles visual styling */
+
+.pf-progress-thin__halo {
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(
+    ellipse at right center,
+    var(--thin-accent-faint) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.pf-progress-thin__photon {
+  position: absolute;
+  top: 50%;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--thin-accent-dim) 50%,
+    var(--thin-accent) 100%
+  );
+  pointer-events: none;
+}
+
+.pf-progress-thin__dot {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--thin-accent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pf-progress-thin__flash {
+  position: absolute;
+  inset: -4px;
+  background: linear-gradient(90deg, transparent 0%, var(--thin-flash) 100%);
+  pointer-events: none;
+}
