@@ -3,7 +3,7 @@
  * Two-layer gradient (amber base + red overlay) with scale pulse and opacity crossfade.
  * Pulse parameters match the original fixed values — intensity does not change with time.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.module.css
  * Runtime deps: react, motion
  */
 

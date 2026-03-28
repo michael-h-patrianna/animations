@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsXpNumberPop.css into your app.
+ * Standalone: Copy this file + TextEffectsXpNumberPop.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti — useMotionValue → useSharedValue, AnimatePresence → exitTransition.
  */

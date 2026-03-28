@@ -3,7 +3,7 @@
  * and staggered timing — CSS variant using Web Animations API.
  * Toggle the `visible` prop to trigger entrance/exit.
  *
- * Copy-paste files: this file + RealtimeDataStackedRealtime.css +
+ * Copy-paste files: this file + RealtimeDataStackedRealtime.module.css +
  * ../SharedTypes.ts + ../shared.css
  * Runtime deps: react
  */

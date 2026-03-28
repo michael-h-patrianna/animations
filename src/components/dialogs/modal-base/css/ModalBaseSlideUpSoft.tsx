@@ -1,7 +1,7 @@
 /**
  * Modal entrance — slides up from below with subtle scale and fade. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseSlideUpSoft.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseSlideUpSoft.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 

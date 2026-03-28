@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsCounterIncrement.css into your app.
+ * Standalone: Copy this file + TextEffectsCounterIncrement.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port pop variants + float variants to Moti useAnimatedStyle.
  */
@@ -226,11 +226,11 @@ function TextEffectsCounterIncrementComponent({
         >
           <span className={styles['pf-counter-showcase-fm__value-text']}>
             {prefix !== undefined && (
-              <span className="pf-counter-showcase-fm__label">{prefix}</span>
+              <span className={styles['pf-counter-showcase-fm__label']}>{prefix}</span>
             )}
             {formatRef.current(count)}
             {suffix !== undefined && (
-              <span className="pf-counter-showcase-fm__label">{suffix}</span>
+              <span className={styles['pf-counter-showcase-fm__label']}>{suffix}</span>
             )}
           </span>
         </m.span>

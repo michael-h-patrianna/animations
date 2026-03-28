@@ -1,7 +1,7 @@
 /**
  * Particle fountain erupting upward — CSS variant.
  *
- * Copy-paste files: this file + CollectionEffectsCoinsFountain.css + SharedTypes.ts +
+ * Copy-paste files: this file + CollectionEffectsCoinsFountain.module.css + SharedTypes.ts +
  * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
  * Runtime deps: react
  */

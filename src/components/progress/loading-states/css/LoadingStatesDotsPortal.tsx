@@ -1,7 +1,7 @@
 /**
  * Three dots that converge to a center point and scale down, then return — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesDotsPortal.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsPortal.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

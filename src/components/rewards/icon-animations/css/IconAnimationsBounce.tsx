@@ -1,7 +1,7 @@
 /**
  * Animated image — bounce with squash-stretch deformation and tilt. CSS variant.
  *
- * Copy-paste files: this file + IconAnimationsBounce.css + shared.css
+ * Copy-paste files: this file + IconAnimationsBounce.module.css + shared.css
  * Runtime deps: react
  *
  * Usage: <IconAnimationsBounce src="/icon.png" alt="reward" width={80} />

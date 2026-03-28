@@ -3,7 +3,7 @@
  * Background shifts from yellow to red with easeInOut curve.
  * Shakes at configurable intervals as a gentle urgency reminder.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlashSoft.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlashSoft.module.css
  * Runtime deps: react, motion
  */
 

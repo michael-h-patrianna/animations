@@ -1,7 +1,7 @@
 /**
  * Modal entrance — 3D card flip from 180deg with scale-up. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseFlip3d.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseFlip3d.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 

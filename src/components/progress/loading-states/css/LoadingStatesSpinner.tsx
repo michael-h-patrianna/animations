@@ -1,7 +1,7 @@
 /**
  * A colored border-top arc spinning continuously — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesSpinner.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSpinner.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

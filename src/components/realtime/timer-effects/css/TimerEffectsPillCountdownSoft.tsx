@@ -2,7 +2,7 @@
  * Pill countdown with quiet, breathing-style pulse at key thresholds — CSS variant.
  * Pulses at every 10s mark and each of the last 5 seconds.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownSoft.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownSoft.module.css
  * Runtime deps: react
  */
 

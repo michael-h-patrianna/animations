@@ -2,7 +2,7 @@
  * Large countdown number with continuous pulse and depleting underline bar.
  * The number pulses rhythmically while the underline shrinks to zero.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerPulse.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerPulse.module.css
  * Runtime deps: react, motion
  */
 

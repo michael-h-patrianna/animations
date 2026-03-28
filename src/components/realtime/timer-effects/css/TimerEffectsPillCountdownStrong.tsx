@@ -2,7 +2,7 @@
  * Pill countdown with aggressive snap emphasis and double-tap at critical seconds — CSS variant.
  * Color transitions through normal → caution → danger phases.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownStrong.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + shared.css + TimerEffectsPillCountdownStrong.module.css
  * Runtime deps: react
  */
 

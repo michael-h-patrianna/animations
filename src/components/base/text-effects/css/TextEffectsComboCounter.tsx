@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsComboCounter.css into your app.
+ * Standalone: Copy this file + TextEffectsComboCounter.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -53,7 +53,7 @@ function calculateMilestones(range: number, maxParticles: number): Milestone[] {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsComboCounter.css into your app.
+ * Standalone: Copy this file + TextEffectsComboCounter.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

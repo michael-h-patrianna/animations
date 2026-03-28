@@ -1,7 +1,7 @@
 /**
  * Rotate-scale morph entrance for side-by-side comparison panes.
  *
- * Copy-paste files: this file + ModalOrchestrationComparisonMorph.css
+ * Copy-paste files: this file + ModalOrchestrationComparisonMorph.module.css
  * Runtime deps: react, motion
  *
  * @example

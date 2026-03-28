@@ -13,7 +13,7 @@ interface TextEffectsLevelBreakthroughProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsLevelBreakthrough.css into your app.
+ * Standalone: Copy this file + TextEffectsLevelBreakthrough.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

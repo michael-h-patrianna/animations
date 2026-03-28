@@ -2,7 +2,7 @@
  * Continuously scrolling marquee/ticker for announcements, wins, or status
  * messages. Fully customizable: pass your own items, separator, speed, and color.
  *
- * Copy-paste files: this file + ../shared.css + RealtimeDataWinTicker.css
+ * Copy-paste files: this file + ../shared.css + RealtimeDataWinTicker.module.css
  * Runtime deps: react, motion
  */
 

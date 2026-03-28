@@ -4,7 +4,7 @@
  * Uses the .pf-skeleton class from shared.css. For custom layouts, just add
  * .pf-skeleton to any element with explicit width/height — no React needed.
  *
- * Copy-paste files: this file + LoadingStatesSkeletonCard.css + ../shared.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSkeletonCard.module.css + ../shared.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

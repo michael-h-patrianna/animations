@@ -3,7 +3,7 @@
  * Uses Web Animations API for trajectory, CSS @keyframes for scale/opacity/glow.
  * Supports reverse fly-out on close.
  *
- * Copy-paste files: this file + ModalOpenFlyIn.css + ../SharedTypes.ts + ../shared.css
+ * Copy-paste files: this file + ModalOpenFlyIn.module.css + ../SharedTypes.ts + ../shared.css
  * Runtime deps: react
  */
 

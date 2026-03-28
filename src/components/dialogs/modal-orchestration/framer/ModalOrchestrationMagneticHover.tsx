@@ -1,7 +1,7 @@
 /**
  * 3D-tilt stagger entrance with perspective hover and tap gestures.
  *
- * Copy-paste files: this file + ModalOrchestrationMagneticHover.css
+ * Copy-paste files: this file + ModalOrchestrationMagneticHover.module.css
  * Runtime deps: react, motion
  *
  * @example

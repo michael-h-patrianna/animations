@@ -3,7 +3,7 @@
  * Background shifts from yellow to red with easeInOut curve.
  * Glow and pulse intensify as time runs out.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.module.css
  * Runtime deps: react, motion
  */
 

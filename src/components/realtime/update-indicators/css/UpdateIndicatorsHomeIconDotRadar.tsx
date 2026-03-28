@@ -1,7 +1,7 @@
 /**
  * Notification dot — staggered radar rings emanating outward. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotRadar.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotRadar.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsHomeIconDotRadar ringColor="rgba(255,0,0,0.5)"><MyIcon /></UpdateIndicatorsHomeIconDotRadar>

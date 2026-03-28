@@ -1,7 +1,7 @@
 /**
  * Stagger-reveals child elements one by one on mount.
  *
- * Copy-paste files: this file + ModalOrchestrationStaggerInview.css
+ * Copy-paste files: this file + ModalOrchestrationStaggerInview.module.css
  * Runtime deps: react, motion
  *
  * @example

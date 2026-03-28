@@ -1,7 +1,7 @@
 /**
  * Spinning disc with two orbiting stars that pulse — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesSpinnerGalaxy.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSpinnerGalaxy.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

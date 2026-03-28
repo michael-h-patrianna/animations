@@ -1,7 +1,7 @@
 /**
  * Notification dot — elastic bounce entrance with idle bob. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsHomeIconDotBounce dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotBounce>

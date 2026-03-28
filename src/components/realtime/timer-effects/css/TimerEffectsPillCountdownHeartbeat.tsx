@@ -2,7 +2,7 @@
  * Pill countdown with organic heartbeat pulse effect — CSS variant.
  * Heartbeat rate and glow intensity increase as time runs out via CSS classes.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + shared.css (heartbeat section) + TimerEffectsPillCountdownHeartbeat.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + SharedPillPhaseTheme.ts + shared.css (heartbeat section) + TimerEffectsPillCountdownHeartbeat.module.css
  * Runtime deps: react
  */
 

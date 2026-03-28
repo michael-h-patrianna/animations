@@ -1,7 +1,7 @@
 /**
  * SVG ring that continuously fills and empties — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesRingProgress.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesRingProgress.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

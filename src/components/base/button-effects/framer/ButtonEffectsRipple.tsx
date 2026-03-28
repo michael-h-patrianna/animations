@@ -3,7 +3,7 @@
  * An overlay span uses the background-size technique; transitions are applied
  * via inline style (framer variants must not use CSS transitions).
  *
- * Copy-paste files: this file + ButtonEffectsRipple.css
+ * Copy-paste files: this file + ButtonEffectsRipple.module.css
  * Runtime deps: react, motion
  *
  * Usage:

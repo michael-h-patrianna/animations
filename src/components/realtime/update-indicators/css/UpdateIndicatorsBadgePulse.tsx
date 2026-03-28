@@ -1,7 +1,7 @@
 /**
  * Animated badge — continuous glowing pulse to signal unseen content. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsBadgePulse.css + ../shared.css
+ * Copy-paste files: this file + UpdateIndicatorsBadgePulse.module.css + ../shared.css
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" textColor="#fff" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>

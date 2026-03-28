@@ -1,7 +1,7 @@
 /**
  * Three dots scaling up with a staggered opacity pulse — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesDotsPulse.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsPulse.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

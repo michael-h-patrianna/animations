@@ -1,7 +1,7 @@
 /**
  * Cascading stagger entrance for a grid of child elements on mount.
  *
- * Copy-paste files: this file + ModalOrchestrationSelectionGrid.css
+ * Copy-paste files: this file + ModalOrchestrationSelectionGrid.module.css
  * Runtime deps: react, motion
  *
  * @example

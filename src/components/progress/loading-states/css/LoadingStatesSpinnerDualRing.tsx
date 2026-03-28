@@ -1,7 +1,7 @@
 /**
  * Two concentric rings spinning in opposite directions — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesSpinnerDualRing.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSpinnerDualRing.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

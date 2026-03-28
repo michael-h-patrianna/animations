@@ -1,7 +1,7 @@
 /**
  * Animated badge — pops in with elastic overshoot. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsBadgePop.css + ../shared.css
+ * Copy-paste files: this file + UpdateIndicatorsBadgePop.module.css + ../shared.css
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsBadgePop color="#ff6b6b" textColor="#fff">3</UpdateIndicatorsBadgePop>

@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsComboCounter.css into your app.
+ * Standalone: Copy this file + TextEffectsComboCounter.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti — useMotionValue → useSharedValue, per-char stagger via delay.
  */

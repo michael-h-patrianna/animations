@@ -1,7 +1,7 @@
 /**
  * Notification dot — gentle breathing pulse with soft glow ring. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotPulse.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotPulse.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsHomeIconDotPulse dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotPulse>

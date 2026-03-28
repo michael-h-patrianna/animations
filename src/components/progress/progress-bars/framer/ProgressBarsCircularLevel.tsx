@@ -22,7 +22,7 @@
  * - `--circular-level-text`     — center text color
  * - `--circular-level-size`     — ring diameter
  *
- * Copy-paste files: this file + ProgressBarsCircularLevel.css
+ * Copy-paste files: this file + ProgressBarsCircularLevel.module.css
  * Runtime deps: react, motion
  */
 import * as m from 'motion/react-m'

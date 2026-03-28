@@ -3,7 +3,7 @@
  * Overlays an animated dot on any element passed as children.
  * Port to React Native: translate animate/transition to Moti MotiView props.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotBounce.module.css + ../SharedTypes.ts
  * Runtime deps: react, motion
  *
  * Usage: <UpdateIndicatorsHomeIconDotBounce dotColor="#ff0000"><MyIcon /></UpdateIndicatorsHomeIconDotBounce>

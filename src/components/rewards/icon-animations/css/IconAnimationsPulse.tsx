@@ -1,7 +1,7 @@
 /**
  * Animated image — scale pulse with rotation wobble and opacity breathing. CSS variant.
  *
- * Copy-paste files: this file + IconAnimationsPulse.css + shared.css
+ * Copy-paste files: this file + IconAnimationsPulse.module.css + shared.css
  * Runtime deps: react
  *
  * Usage: <IconAnimationsPulse src="/scroll.png" alt="scroll" width={100} />

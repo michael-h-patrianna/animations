@@ -1,7 +1,7 @@
 /**
  * Modal with left-slide form field reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentFormFieldLeftReveal.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentFormFieldLeftReveal.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 

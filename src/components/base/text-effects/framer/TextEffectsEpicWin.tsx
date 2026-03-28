@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsEpicWin.css into your app.
+ * Standalone: Copy this file + TextEffectsEpicWin.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port shadow layers + per-char entrance with Moti MotiView stacking.
  */

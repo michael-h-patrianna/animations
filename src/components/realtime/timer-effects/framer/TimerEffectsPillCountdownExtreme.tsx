@@ -2,7 +2,7 @@
  * Pill countdown with intense buzz-shake effect and aggressive color transitions.
  * Buzzes at landmark seconds and every second in the final 10.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownExtreme.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownExtreme.module.css
  * Runtime deps: react, motion
  */
 

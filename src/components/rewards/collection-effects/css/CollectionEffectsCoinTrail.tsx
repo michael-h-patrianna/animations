@@ -1,7 +1,7 @@
 /**
  * "Claim reward" particle trail — CSS variant.
  *
- * Copy-paste files: this file + CollectionEffectsCoinTrail.css + SharedTypes.ts +
+ * Copy-paste files: this file + CollectionEffectsCoinTrail.module.css + SharedTypes.ts +
  * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
  * Runtime deps: react
  */

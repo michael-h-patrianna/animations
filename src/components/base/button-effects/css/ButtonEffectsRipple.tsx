@@ -2,7 +2,7 @@
  * Ripple — expanding light circle on click via CSS background-size transition.
  * Adds .pf-ripple to a DemoButton; a ::after pseudo-element handles the effect.
  *
- * Copy-paste files: this file + ButtonEffectsRipple.css
+ * Copy-paste files: this file + ButtonEffectsRipple.module.css
  * Runtime deps: react
  *
  * Usage:

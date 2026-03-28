@@ -1,7 +1,7 @@
 /**
  * Modal with staggered button reveal (3-button default) — CSS variant.
  *
- * Copy-paste files: this file + ModalContentButtonsStagger3.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentButtonsStagger3.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 

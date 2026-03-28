@@ -2,7 +2,7 @@
  * Modal entrance — digital glitch with RGB channel separation ghost layers.
  * The ghost layers create a chromatic aberration effect behind the content.
  *
- * Copy-paste files: this file + ModalBaseGlitchDigital.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseGlitchDigital.module.css + SharedTypes.ts
  * Runtime deps: react, motion
  */
 

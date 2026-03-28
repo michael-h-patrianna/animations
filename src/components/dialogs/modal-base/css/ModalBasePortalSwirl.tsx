@@ -1,7 +1,7 @@
 /**
  * Modal entrance — portal swirl with 720deg rotation. CSS variant.
  *
- * Copy-paste files: this file + ModalBasePortalSwirl.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBasePortalSwirl.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 

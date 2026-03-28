@@ -2,7 +2,7 @@
  * Timer pill with color transition and increasing pulse urgency — CSS variant.
  * Background shifts through phase colors via CSS custom properties.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlash.module.css
  * Runtime deps: react
  */
 

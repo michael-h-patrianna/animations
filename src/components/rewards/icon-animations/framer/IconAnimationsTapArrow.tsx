@@ -3,7 +3,7 @@
  * Common mobile-game "tap here!" pattern. Position the arrow on any side.
  * Absolutely positioned — does not affect the target element's layout.
  *
- * Copy-paste files: this file + IconAnimationsTapArrow.css
+ * Copy-paste files: this file + IconAnimationsTapArrow.module.css
  * Runtime deps: react, motion
  *
  * Usage: <IconAnimationsTapArrow position="left"><YourButton /></IconAnimationsTapArrow>

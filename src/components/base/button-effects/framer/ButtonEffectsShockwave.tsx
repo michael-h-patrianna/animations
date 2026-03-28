@@ -2,7 +2,7 @@
  * Shockwave — wraps any element with concentric rings expanding from click point.
  * Multiple staggered rings with different colors create a depth effect.
  *
- * Copy-paste files: this file + ButtonEffectsShockwave.css
+ * Copy-paste files: this file + ButtonEffectsShockwave.module.css
  * Runtime deps: react, motion
  *
  * Usage:

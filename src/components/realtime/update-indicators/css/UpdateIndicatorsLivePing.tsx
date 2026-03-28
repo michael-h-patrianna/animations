@@ -1,7 +1,7 @@
 /**
  * Live status dot — continuously pulsing indicator for real-time/active state. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsLivePing.css + ../shared.css
+ * Copy-paste files: this file + UpdateIndicatorsLivePing.module.css + ../shared.css
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsLivePing color="#00ff00" size={10} />

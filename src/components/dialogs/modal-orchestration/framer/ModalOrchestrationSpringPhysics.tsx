@@ -1,7 +1,7 @@
 /**
  * Spring-physics stagger entrance with interactive hover-lift and tap-press gestures.
  *
- * Copy-paste files: this file + ModalOrchestrationSpringPhysics.css
+ * Copy-paste files: this file + ModalOrchestrationSpringPhysics.module.css
  * Runtime deps: react, motion
  *
  * @example

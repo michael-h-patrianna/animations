@@ -1,7 +1,7 @@
 /**
  * Modal entrance — elastic zoom with multi-bounce overshoot. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseZoomElastic.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseZoomElastic.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 

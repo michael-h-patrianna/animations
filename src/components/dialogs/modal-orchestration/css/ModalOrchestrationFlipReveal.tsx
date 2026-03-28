@@ -1,7 +1,7 @@
 /**
  * Click-to-flip cards with 3D perspective reveal, staggered entrance — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationFlipReveal.css
+ * Copy-paste files: this file + ModalOrchestrationFlipReveal.module.css
  * Runtime deps: react
  *
  * @example

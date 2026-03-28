@@ -1,7 +1,7 @@
 /**
  * Modal with spotlight-sweep list reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentListSpotlight.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentListSpotlight.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 

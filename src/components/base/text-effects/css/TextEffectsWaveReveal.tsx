@@ -23,7 +23,7 @@ interface TextEffectsWaveRevealProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsWaveReveal.css into your app.
+ * Standalone: Copy this file + TextEffectsWaveReveal.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

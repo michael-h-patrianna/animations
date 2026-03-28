@@ -13,7 +13,7 @@ interface TextEffectsWaveTextProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsWaveText.css into your app.
+ * Standalone: Copy this file + TextEffectsWaveText.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

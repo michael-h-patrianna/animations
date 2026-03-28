@@ -1,7 +1,7 @@
 /**
  * Shockwave — wraps any element with concentric rings expanding from click point.
  *
- * Copy-paste files: this file + ButtonEffectsShockwave.css
+ * Copy-paste files: this file + ButtonEffectsShockwave.module.css
  * Runtime deps: react
  *
  * Usage:
@@ -99,7 +99,7 @@ function ButtonEffectsShockwaveComponent({
               {Array.from({ length: ringCount }, (_, i) => (
                 <span
                   key={i}
-                  className={`${styles['pf-shockwave__ring']} ${styles[`pf-shockwave__ring--${i + 1}`]}`}
+                  className={styles['pf-shockwave__ring']}
                   style={{
                     ...pos,
                     animationDuration: `${duration}ms`,

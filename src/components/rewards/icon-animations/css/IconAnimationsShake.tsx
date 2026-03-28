@@ -1,7 +1,7 @@
 /**
  * Animated image — horizontal shake with rotation wobble and compression. CSS variant.
  *
- * Copy-paste files: this file + IconAnimationsShake.css + shared.css
+ * Copy-paste files: this file + IconAnimationsShake.module.css + shared.css
  * Runtime deps: react
  *
  * Usage: <IconAnimationsShake src="/bell.png" alt="notification" width={80} />

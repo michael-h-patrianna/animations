@@ -1,7 +1,7 @@
 /**
  * Modal with soft-stagger list reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentListSoftStagger.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentListSoftStagger.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 

@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsWaveReveal.css into your app.
+ * Standalone: Copy this file + TextEffectsWaveReveal.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti MotiView stagger + entering animation.
  */

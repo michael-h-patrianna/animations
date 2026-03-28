@@ -4,7 +4,7 @@
  * SVG ring progress with level-up detection, CSS transition-driven fill,
  * and CSS keyframe aura burst. Center text interpolated via rAF.
  *
- * Copy-paste files: this file + ProgressBarsCircularLevel.css
+ * Copy-paste files: this file + ProgressBarsCircularLevel.module.css
  * Runtime deps: react
  */
 import {

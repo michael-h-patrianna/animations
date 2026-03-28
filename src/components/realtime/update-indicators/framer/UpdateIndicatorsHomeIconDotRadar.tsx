@@ -3,7 +3,7 @@
  * Overlays an animated dot + expanding rings on any element passed as children.
  * Port to React Native: translate animate/transition to Moti MotiView props.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotRadar.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotRadar.module.css + ../SharedTypes.ts
  * Runtime deps: react, motion
  *
  * Usage: <UpdateIndicatorsHomeIconDotRadar ringColor="rgba(255,0,0,0.5)"><MyIcon /></UpdateIndicatorsHomeIconDotRadar>

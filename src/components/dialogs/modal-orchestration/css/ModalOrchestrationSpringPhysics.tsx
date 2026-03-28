@@ -1,7 +1,7 @@
 /**
  * Spring-physics stagger entrance with CSS hover-lift and tap-press transitions — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationSpringPhysics.css
+ * Copy-paste files: this file + ModalOrchestrationSpringPhysics.module.css
  * Runtime deps: react
  *
  * @example

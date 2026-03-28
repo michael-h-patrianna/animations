@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFlip.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFlip.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti — apply perspective inline on the animated element.
  */

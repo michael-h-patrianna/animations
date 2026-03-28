@@ -26,7 +26,7 @@ interface TextEffectsGlitchTextProps {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsGlitchText.css into your app.
+ * Standalone: Copy this file + TextEffectsGlitchText.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

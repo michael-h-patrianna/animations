@@ -1,7 +1,7 @@
 /**
  * Stagger entrance with scale bounce for a grid of children.
  *
- * Copy-paste files: this file + ModalOrchestrationGridHighlight.css
+ * Copy-paste files: this file + ModalOrchestrationGridHighlight.module.css
  * Runtime deps: react, motion
  *
  * @example

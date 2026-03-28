@@ -2,7 +2,7 @@
  * Pill countdown with periodic LED-style blip at interval thresholds.
  * Blips every 6s normally, every 3s under 12 seconds.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownMedium.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + ../shared.css + TimerEffectsPillCountdownMedium.module.css
  * Runtime deps: react, motion
  */
 

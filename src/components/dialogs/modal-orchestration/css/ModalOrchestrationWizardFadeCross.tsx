@@ -1,7 +1,7 @@
 /**
  * Sequential fade-up stagger entrance for a list of panels — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardFadeCross.css
+ * Copy-paste files: this file + ModalOrchestrationWizardFadeCross.module.css
  * Runtime deps: react
  *
  * @example

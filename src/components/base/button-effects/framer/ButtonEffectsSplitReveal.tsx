@@ -3,7 +3,7 @@
  * The top and bottom labels split apart with rotation while the reveal
  * content scales up from center.
  *
- * Copy-paste files: this file + ButtonEffectsSplitReveal.css
+ * Copy-paste files: this file + ButtonEffectsSplitReveal.module.css
  * Runtime deps: react, motion
  *
  * Usage:

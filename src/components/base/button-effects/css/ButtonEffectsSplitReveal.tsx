@@ -1,7 +1,7 @@
 /**
  * Split Reveal — button text separates to reveal hidden content on click.
  *
- * Copy-paste files: this file + ButtonEffectsSplitReveal.css
+ * Copy-paste files: this file + ButtonEffectsSplitReveal.module.css
  * Runtime deps: react
  *
  * Usage:

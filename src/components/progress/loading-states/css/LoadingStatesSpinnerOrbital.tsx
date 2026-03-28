@@ -1,7 +1,7 @@
 /**
  * A glowing satellite dot orbiting a dashed ring — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesSpinnerOrbital.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSpinnerOrbital.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

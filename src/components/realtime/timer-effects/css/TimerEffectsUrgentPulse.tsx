@@ -2,7 +2,7 @@
  * Urgent pulsing countdown pill with gradient color shift — CSS variant.
  * Uses CSS keyframe animation with phase-driven classes.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsUrgentPulse.module.css
  * Runtime deps: react
  */
 

@@ -1,7 +1,7 @@
 /**
  * Modal with horizontal wipe-in list reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentListVerticalWipe.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentListVerticalWipe.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 

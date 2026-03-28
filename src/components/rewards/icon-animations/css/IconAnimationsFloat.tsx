@@ -1,7 +1,7 @@
 /**
  * Animated image — gentle floating with sway and subtle scale breathing. CSS variant.
  *
- * Copy-paste files: this file + IconAnimationsFloat.css + shared.css
+ * Copy-paste files: this file + IconAnimationsFloat.module.css + shared.css
  * Runtime deps: react
  *
  * Usage: <IconAnimationsFloat src="/balloon.png" alt="balloon" duration={8000} />

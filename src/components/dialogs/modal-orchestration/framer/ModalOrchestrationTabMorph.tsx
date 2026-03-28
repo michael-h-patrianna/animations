@@ -2,7 +2,7 @@
  * Tab panel container with pop-scale tab entrance and sliding content transitions.
  * Supports controlled (activeIndex + onTabChange) or uncontrolled (internal state) usage.
  *
- * Copy-paste files: this file + ModalOrchestrationTabMorph.css
+ * Copy-paste files: this file + ModalOrchestrationTabMorph.module.css
  * Runtime deps: react, motion
  *
  * @example

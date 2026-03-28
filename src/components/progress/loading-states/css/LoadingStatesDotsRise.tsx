@@ -1,7 +1,7 @@
 /**
  * Three dots bouncing upward in sequence — CSS variant.
  *
- * Copy-paste files: this file + LoadingStatesDotsRise.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesDotsRise.module.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

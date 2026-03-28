@@ -1,7 +1,7 @@
 /**
  * Modal with right-slide form field reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentFormFieldRightReveal.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentFormFieldRightReveal.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 

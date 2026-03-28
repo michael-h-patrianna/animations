@@ -1,7 +1,7 @@
 /**
  * Notification dot — color flash with scale bounce and expanding halo ring. CSS variant.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotSweep.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotSweep.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  *
  * Usage: <UpdateIndicatorsHomeIconDotSweep accentColor="#ff0a4d"><MyIcon /></UpdateIndicatorsHomeIconDotSweep>

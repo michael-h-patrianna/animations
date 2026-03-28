@@ -87,6 +87,11 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.pf-counter-showcase-fm__label {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
 .pf-counter-showcase-fm__value--popping {
   /* Animation handled by Framer Motion */
 }

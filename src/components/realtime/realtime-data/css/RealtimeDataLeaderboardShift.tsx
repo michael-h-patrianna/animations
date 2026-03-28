@@ -6,7 +6,7 @@
  * WAAPI FLIP-style animations for exits, shifts, and entries. Removed entries
  * are kept in the DOM during their exit animation, then removed.
  *
- * Copy-paste files: this file + RealtimeDataLeaderboardShift.css +
+ * Copy-paste files: this file + RealtimeDataLeaderboardShift.module.css +
  * ../SharedTypes.ts + ../shared.css
  * Runtime deps: react
  */

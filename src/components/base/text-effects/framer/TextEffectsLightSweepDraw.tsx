@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsLightSweepDraw.css into your app.
+ * Standalone: Copy this file + TextEffectsLightSweepDraw.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */

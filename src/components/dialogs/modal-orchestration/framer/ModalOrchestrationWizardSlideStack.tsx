@@ -1,7 +1,7 @@
 /**
  * Sequential slide-from-right stagger entrance for a list of panels.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardSlideStack.css
+ * Copy-paste files: this file + ModalOrchestrationWizardSlideStack.module.css
  * Runtime deps: react, motion
  *
  * @example

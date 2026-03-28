@@ -2,7 +2,7 @@
  * Continuously scrolling marquee/ticker for announcements, wins, or status
  * messages — CSS variant using keyframe animation.
  *
- * Copy-paste files: this file + RealtimeDataWinTicker.css + ../shared.css
+ * Copy-paste files: this file + RealtimeDataWinTicker.module.css + ../shared.css
  * Runtime deps: react
  */
 

@@ -1,7 +1,7 @@
 /**
  * Three concentric rings spinning at different speeds and directions.
  *
- * Copy-paste files: this file + LoadingStatesRingMulti.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesRingMulti.module.css + ../SharedDefaults.ts
  * Runtime deps: react, motion
  */
 

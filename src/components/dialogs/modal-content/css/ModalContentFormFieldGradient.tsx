@@ -1,7 +1,7 @@
 /**
  * Modal with gradient-sweep form field reveal — CSS variant.
  *
- * Copy-paste files: this file + ModalContentFormFieldGradient.css + ../shared.css + ../SharedTypes.ts
+ * Copy-paste files: this file + ModalContentFormFieldGradient.module.css + ../shared.css + ../SharedTypes.ts
  * Runtime deps: react
  */
 

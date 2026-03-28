@@ -7,7 +7,7 @@
  * 3. Pull (25-92%): particles accelerate along curves toward target
  * 4. Impact (92-100%): particles shrink to zero and disappear at the target
  *
- * Copy-paste files: this file + CollectionEffectsCoinMagnet.css + SharedTypes.ts +
+ * Copy-paste files: this file + CollectionEffectsCoinMagnet.module.css + SharedTypes.ts +
  * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
  * Runtime deps: react
  */

@@ -1,11 +1,11 @@
 /**
- * Standalone: Copy this file + TextEffectsHorizonLightPass.css into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.module.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Reanimated/Moti — transforms/opacity/color, custom delay per index.
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, type Variants } from 'motion/react'
+import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsHorizonLightPass.module.css'
 
@@ -20,7 +20,21 @@ function TextEffectsHorizonLightPassComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsHorizonLightPassProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
+
+  const reducedContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { duration: 0.3 },
+    },
+  }
+
+  const reducedLetterVariants: Variants = {
+    hidden: { opacity: 1 },
+    show: { opacity: 1 },
+  }
 
   const containerVariants: Variants = {
     hidden: { opacity: 0, scaleY: 0.995 },
@@ -73,9 +87,9 @@ function TextEffectsHorizonLightPassComponent({
       className={styles['pf-horizon-light-fm']}
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
-      variants={containerVariants}
+      variants={prefersReducedMotion ? reducedContainerVariants : containerVariants}
       initial="hidden"
-      animate={['show', 'settle']}
+      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
       style={
         color !== undefined ? ({ '--pf-hlp-base-color': color } as React.CSSProperties) : undefined
       }
@@ -85,7 +99,7 @@ function TextEffectsHorizonLightPassComponent({
           <m.span
             key={i}
             className={styles['pf-horizon-light-fm__letter']}
-            variants={letterVariants}
+            variants={prefersReducedMotion ? reducedLetterVariants : letterVariants}
             custom={i}
           >
             {ch === ' ' ? '\u00A0' : ch}

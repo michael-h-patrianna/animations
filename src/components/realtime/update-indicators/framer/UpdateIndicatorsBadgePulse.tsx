@@ -3,7 +3,7 @@
  * Place next to any element to draw attention.
  * Port to React Native: translate animate/transition to Moti MotiView props.
  *
- * Copy-paste files: this file + UpdateIndicatorsBadgePulse.css
+ * Copy-paste files: this file + UpdateIndicatorsBadgePulse.module.css
  * Runtime deps: react, motion
  *
  * Usage: <UpdateIndicatorsBadgePulse color="#ff6b6b" textColor="#fff" glowColor="rgba(255,100,100,0.4)">5</UpdateIndicatorsBadgePulse>

@@ -35,18 +35,7 @@
   pointer-events: none;
   opacity: 0;
   will-change: transform, opacity;
-}
-
-.pf-shockwave__ring--1 {
   animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out both;
-}
-
-.pf-shockwave__ring--2 {
-  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out 0.1s both;
-}
-
-.pf-shockwave__ring--3 {
-  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out 0.2s both;
 }
 
 @keyframes pf-shockwave {
@@ -61,9 +50,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pf-shockwave__ring--1,
-  .pf-shockwave__ring--2,
-  .pf-shockwave__ring--3 {
+  .pf-shockwave__ring {
     animation: pf-shockwave-reduced 150ms ease-out forwards;
   }
 

@@ -2,7 +2,7 @@
  * Reactive score display that animates count-up with a scale+color pulse
  * when item scores change — CSS variant using Web Animations API.
  *
- * Copy-paste files: this file + RealtimeDataLiveScoreUpdate.css +
+ * Copy-paste files: this file + RealtimeDataLiveScoreUpdate.module.css +
  * ../SharedTypes.ts + ../shared.css
  * Runtime deps: react
  */

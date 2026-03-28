@@ -4,7 +4,7 @@
  * Uses the .pf-skeleton class from shared.css. For custom layouts, just add
  * .pf-skeleton to any element with explicit width/height.
  *
- * Copy-paste files: this file + LoadingStatesSkeletonTile.css + ../shared.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesSkeletonTile.module.css + ../shared.css + ../SharedDefaults.ts
  * Runtime deps: react
  */
 

@@ -1,7 +1,7 @@
 /**
  * 3D-tilt stagger entrance with CSS hover and tap transitions — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationMagneticHover.css
+ * Copy-paste files: this file + ModalOrchestrationMagneticHover.module.css
  * Runtime deps: react
  *
  * @example

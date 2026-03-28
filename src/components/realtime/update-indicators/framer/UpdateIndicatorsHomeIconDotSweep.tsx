@@ -3,7 +3,7 @@
  * Overlays an animated dot + halo on any element passed as children.
  * Port to React Native: translate animate/transition to Moti MotiView props.
  *
- * Copy-paste files: this file + UpdateIndicatorsHomeIconDotSweep.css + ../SharedTypes.ts
+ * Copy-paste files: this file + UpdateIndicatorsHomeIconDotSweep.module.css + ../SharedTypes.ts
  * Runtime deps: react, motion
  *
  * Usage: <UpdateIndicatorsHomeIconDotSweep accentColor="#ff0a4d"><MyIcon /></UpdateIndicatorsHomeIconDotSweep>

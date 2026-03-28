@@ -1,7 +1,7 @@
 /**
  * Modal entrance — drifts in from the right with subtle scale and fade. CSS variant.
  *
- * Copy-paste files: this file + ModalBaseSlideLeftDrift.css + SharedTypes.ts
+ * Copy-paste files: this file + ModalBaseSlideLeftDrift.module.css + SharedTypes.ts
  * Runtime deps: react
  */
 

@@ -2,7 +2,7 @@ import { memo } from 'react'
 import styles from './TextEffectsEpicWin.module.css'
 
 /**
- * Standalone: Copy this file + TextEffectsEpicWin.css into your app.
+ * Standalone: Copy this file + TextEffectsEpicWin.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

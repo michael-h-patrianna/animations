@@ -1,7 +1,7 @@
 /**
  * Two concentric rings expanding outward from center and fading — a pulsating radar effect.
  *
- * Copy-paste files: this file + LoadingStatesPulsating.css + ../SharedDefaults.ts
+ * Copy-paste files: this file + LoadingStatesPulsating.module.css + ../SharedDefaults.ts
  * Runtime deps: react, motion
  */
 

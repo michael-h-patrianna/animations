@@ -1,7 +1,7 @@
 /**
  * Two-layer stagger entrance: pop-scale step indicators + rotate-morph content panels — CSS variant.
  *
- * Copy-paste files: this file + ModalOrchestrationWizardScaleRotate.css
+ * Copy-paste files: this file + ModalOrchestrationWizardScaleRotate.module.css
  * Runtime deps: react
  *
  * @example

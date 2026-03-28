@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsCounterIncrement.css into your app.
+ * Standalone: Copy this file + TextEffectsCounterIncrement.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -97,7 +97,7 @@ function calculateIncrementSteps(
 }
 
 /**
- * Standalone: Copy this file + TextEffectsCounterIncrement.css into your app.
+ * Standalone: Copy this file + TextEffectsCounterIncrement.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

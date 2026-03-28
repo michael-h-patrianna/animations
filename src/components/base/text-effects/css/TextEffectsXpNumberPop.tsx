@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsXpNumberPop.css into your app.
+ * Standalone: Copy this file + TextEffectsXpNumberPop.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */
@@ -71,7 +71,7 @@ function calculateParticles(range: number, maxParticles: number): Particle[] {
 }
 
 /**
- * Standalone: Copy this file + TextEffectsXpNumberPop.css into your app.
+ * Standalone: Copy this file + TextEffectsXpNumberPop.module.css into your app.
  * Runtime deps: react
  * RN: Not applicable (CSS keyframes). Use framer variant for RN portability.
  */

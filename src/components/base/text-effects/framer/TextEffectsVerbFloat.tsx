@@ -1,11 +1,11 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFloat.css into your app.
+ * Standalone: Copy this file + TextEffectsVerbFloat.module.css into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut } from 'motion/react'
+import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 import styles from './TextEffectsVerbFloat.module.css'
 
@@ -20,6 +20,7 @@ function TextEffectsVerbFloatComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsVerbFloatProps) {
+  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
@@ -38,17 +39,26 @@ function TextEffectsVerbFloatComponent({
           <m.span
             key={i}
             className={styles['pf-verb-float-fm__char']}
-            initial={{ y: 0, opacity: 1 }}
-            animate={{
-              y: [0, -6, 0, 4, 0],
-              opacity: [1, 1, 0.95, 1, 1],
-            }}
-            transition={{
-              duration: 3,
-              delay: i % 2 === 1 ? 0.15 : 0,
-              ease: easeInOut,
-              times: [0, 0.25, 0.5, 0.75, 1],
-            }}
+            initial={prefersReducedMotion ? undefined : { y: 0, opacity: 1 }}
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    y: [0, -6, 0, 4, 0],
+                    opacity: [1, 1, 0.95, 1, 1],
+                  }
+            }
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    duration: 3,
+                    delay: i % 2 === 1 ? 0.15 : 0,
+                    ease: easeInOut,
+                    times: [0, 0.25, 0.5, 0.75, 1],
+                    repeat: Infinity,
+                  }
+            }
           >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>

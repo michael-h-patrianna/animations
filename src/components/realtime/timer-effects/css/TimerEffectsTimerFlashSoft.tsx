@@ -2,7 +2,7 @@
  * Timer pill with color transition and periodic shake reminders — CSS variant.
  * Background shifts through phase colors. Shakes at configurable intervals via CSS animation replay.
  *
- * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlashSoft.css
+ * Copy-paste files: this file + SharedTypes.ts + SharedTimer.ts + SharedFormat.ts + TimerEffectsTimerFlashSoft.module.css
  * Runtime deps: react
  */
 

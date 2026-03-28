@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsLevelBreakthrough.css (from css/ dir) into your app.
+ * Standalone: Copy this file + TextEffectsLevelBreakthrough.module.css (from css/ dir) into your app.
  * Runtime deps: react, motion
  * RN: Port useAnimation → Moti useAnimatedStyle with shared values.
  */

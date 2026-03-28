@@ -1,7 +1,7 @@
 /**
  * Radial particle burst from a configurable origin — CSS variant.
  *
- * Copy-paste files: this file + CollectionEffectsCoinBurst.css + SharedTypes.ts +
+ * Copy-paste files: this file + CollectionEffectsCoinBurst.module.css + SharedTypes.ts +
  * SharedParticleUtils.ts + SharedFallbackParticle.tsx + SharedImagePreloader.ts
  * Runtime deps: react
  */

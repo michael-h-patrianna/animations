@@ -1,7 +1,7 @@
 /**
  * Staggered firework bursts with particle images or confetti fallbacks — CSS variant.
  *
- * Copy-paste files: this file + ModalCelebrationsFirework.css + ../fireworkModel.ts + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css + firework-particle-1.webp + firework-particle-2.webp + firework-particle-3.webp
+ * Copy-paste files: this file + ModalCelebrationsFirework.module.css + ../fireworkModel.ts + ../SharedCelebrationTypes.ts + ../utils.ts + ../shared.css + firework-particle-1.webp + firework-particle-2.webp + firework-particle-3.webp
  * Runtime deps: react
  */
 
