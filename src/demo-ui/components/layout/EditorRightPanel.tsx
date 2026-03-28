@@ -325,8 +325,8 @@ function GeneralSection() {
               className="rounded-lg bg-amber-500/10 px-2.5 py-2 text-[11px] leading-relaxed text-amber-400"
               data-testid="os-reduced-motion-warning"
             >
-              Your OS has reduced motion enabled. Full animation preview requires
-              turning this off in your system accessibility settings.
+              Your OS has reduced motion enabled. Full animation preview requires turning this off
+              in your system accessibility settings.
             </p>
           )}
         </div>
