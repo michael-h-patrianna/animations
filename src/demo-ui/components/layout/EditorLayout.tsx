@@ -4,15 +4,11 @@
  * Glassmorphic UI with theme scoping via data attributes.
  */
 
-import React, { Suspense, useMemo } from 'react'
-import { AnimatePresence, MotionConfig } from 'motion/react'
+import React, { Suspense } from 'react'
+import { AnimatePresence } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useShallow } from 'zustand/react/shallow'
-import {
-  useLayoutStore,
-  type LayoutStore,
-  type ReducedMotionPreference,
-} from '@/demo-ui/stores/layoutStore'
+import { useLayoutStore, type LayoutStore } from '@/demo-ui/stores/layoutStore'
 import { EditorTopBar } from '@/demo-ui/components/layout/EditorTopBar'
 import { EditorLeftPanel } from '@/demo-ui/components/layout/EditorLeftPanel'
 
@@ -44,33 +40,22 @@ const sidePanelOffsetStyle: React.CSSProperties = {
   height: `calc(100% - ${TOP_BAR_OFFSET_PX}px)`,
 }
 
-/** Map store preference to Motion's reducedMotion prop value. */
-const MOTION_CONFIG_MAP: Record<ReducedMotionPreference, 'user' | 'always' | 'never'> = {
-  system: 'user',
-  reduce: 'always',
-  'no-preference': 'never',
-}
-
 export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
-  const { leftPanelVisible, rightPanelVisible, theme, accent, reducedMotion } = useLayoutStore(
+  const { leftPanelVisible, rightPanelVisible, theme, accent } = useLayoutStore(
     useShallow((state: LayoutStore) => ({
       leftPanelVisible: state.showLeftPanel,
       rightPanelVisible: state.showRightPanel,
       theme: state.theme,
       accent: state.accent,
-      reducedMotion: state.reducedMotion,
     }))
   )
 
-  const motionConfigValue = useMemo(() => MOTION_CONFIG_MAP[reducedMotion], [reducedMotion])
-
   return (
-    <MotionConfig reducedMotion={motionConfigValue}>
+    <>
       <div
         data-demo-ui
         data-mode={theme}
         data-accent={accent}
-        data-reduced-motion={reducedMotion}
         className="pf-shell-backdrop relative h-screen supports-[height:100dvh]:h-dvh w-screen overflow-hidden"
       >
         <m.div
@@ -136,6 +121,6 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
           </div>
         </m.div>
       </div>
-    </MotionConfig>
+    </>
   )
 }

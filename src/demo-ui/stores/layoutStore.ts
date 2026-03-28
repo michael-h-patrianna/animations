@@ -63,17 +63,15 @@ export type PreviewFont = (typeof PREVIEW_FONTS)[number]
 
 /**
  * Reduced motion preference override for catalog preview.
- * - `'system'`: respect OS `prefers-reduced-motion` setting
- * - `'reduce'`: force reduced motion (preview what reduced-motion users see)
- * - `'no-preference'`: force full animations (override OS setting)
+ * - `'no-preference'`: full animations (default)
+ * - `'reduce'`: force reduced motion (preview what motion-sensitive users see)
  */
-export const REDUCED_MOTION_OPTIONS = ['system', 'reduce', 'no-preference'] as const
+export const REDUCED_MOTION_OPTIONS = ['no-preference', 'reduce'] as const
 /** Union of reduced motion preference values. */
 export type ReducedMotionPreference = (typeof REDUCED_MOTION_OPTIONS)[number]
 
 /** Human-readable display labels for motion preferences. */
 export const REDUCED_MOTION_LABELS: Record<ReducedMotionPreference, string> = {
-  system: 'System',
   reduce: 'Reduced',
   'no-preference': 'Full',
 }
@@ -131,7 +129,7 @@ export const useLayoutStore = create<LayoutStore>()(
       theme: DEFAULT_THEME,
       accent: DEFAULT_ACCENT,
       previewFont: DEFAULT_PREVIEW_FONT,
-      reducedMotion: 'system' as ReducedMotionPreference,
+      reducedMotion: 'no-preference' as ReducedMotionPreference,
       showProfiler: false,
 
       toggleLeftPanel: () => {
@@ -186,7 +184,7 @@ export const useLayoutStore = create<LayoutStore>()(
         }
         // Migrate invalid reduced motion values to default
         if (!VALID_REDUCED_MOTION.has(merged.reducedMotion)) {
-          merged.reducedMotion = 'system' as ReducedMotionPreference
+          merged.reducedMotion = 'no-preference' as ReducedMotionPreference
         }
         return merged
       },

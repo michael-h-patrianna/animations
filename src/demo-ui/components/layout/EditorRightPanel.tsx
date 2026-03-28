@@ -314,11 +314,9 @@ function GeneralSection() {
             data-testid="motion-pref-toggle"
           />
           <p className="px-1 text-[11px] leading-relaxed text-text-tertiary">
-            {reducedMotion === 'system'
-              ? 'Respects your OS prefers-reduced-motion setting.'
-              : reducedMotion === 'reduce'
-                ? 'All animations reduced — preview what motion-sensitive users see.'
-                : 'Full animations regardless of OS setting.'}
+            {reducedMotion === 'reduce'
+              ? 'Preview what motion-sensitive users see.'
+              : 'Full animations — standard experience.'}
           </p>
         </div>
       </div>
