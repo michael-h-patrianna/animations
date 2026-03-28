@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbTwirl.css into your app.
+ * Standalone: Copy this file into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -24,7 +24,6 @@ function TextEffectsVerbTwirlComponent({
 
   return (
     <div
-      className="pf-verb-twirl"
       data-animation-id="text-effects__verb-twirling"
       aria-label={text}
       style={
@@ -33,11 +32,17 @@ function TextEffectsVerbTwirlComponent({
           : undefined
       }
     >
-      <div className="pf-verb-twirl__line" aria-hidden="true">
+      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-twirl__char"
+            style={{
+              display: 'inline-block',
+              color: color ?? 'var(--pf-verb-twirl-color, #e8e4da)',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+              transformOrigin: 'center',
+            }}
             initial={prefersReducedMotion ? undefined : { rotate: 0, scale: 1 }}
             animate={
               prefersReducedMotion

@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbJog.css into your app.
+ * Standalone: Copy this file into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -23,19 +23,18 @@ function TextEffectsVerbJogComponent({
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div
-      className="pf-verb-jog"
-      data-animation-id="text-effects__verb-jogging"
-      aria-label={text}
-      style={
-        color !== undefined ? ({ '--pf-verb-jog-color': color } as React.CSSProperties) : undefined
-      }
-    >
-      <div className="pf-verb-jog__line" aria-hidden="true">
+    <div data-animation-id="text-effects__verb-jogging" aria-label={text}>
+      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-jog__char"
+            style={{
+              display: 'inline-block',
+              color: color ?? 'var(--pf-verb-jog-color, #e8e4da)',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+              transformOrigin: 'center bottom',
+            }}
             initial={prefersReducedMotion ? undefined : { y: 0, rotate: 0 }}
             animate={
               prefersReducedMotion

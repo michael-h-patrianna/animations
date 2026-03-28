@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFlip.css into your app.
+ * Standalone: Copy this file into your app.
  * Runtime deps: react, motion
  * RN: Port with Moti — apply perspective inline on the animated element.
  */
@@ -23,20 +23,20 @@ function TextEffectsVerbFlipComponent({
   const letters = useMemo(() => Array.from(text), [text])
 
   return (
-    <div
-      className="pf-verb-flip"
-      data-animation-id="text-effects__verb-flipping"
-      aria-label={text}
-      style={
-        color !== undefined ? ({ '--pf-verb-flip-color': color } as React.CSSProperties) : undefined
-      }
-    >
-      <div className="pf-verb-flip__line" aria-hidden="true">
+    <div data-animation-id="text-effects__verb-flipping" aria-label={text}>
+      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-flip__char"
-            style={{ perspective: 600 }}
+            style={{
+              display: 'inline-block',
+              color: color ?? 'var(--pf-verb-flip-color, #e8e4da)',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+              transformOrigin: 'center',
+              backfaceVisibility: 'hidden' as const,
+              perspective: 600,
+            }}
             initial={prefersReducedMotion ? undefined : { rotateY: 0 }}
             animate={
               prefersReducedMotion

@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file + TextEffectsVerbFloat.css into your app.
+ * Standalone: Copy this file into your app.
  * Runtime deps: react, motion
  * RN: Translates to Moti with MotiText — same animate/transition props.
  */
@@ -24,7 +24,6 @@ function TextEffectsVerbFloatComponent({
 
   return (
     <div
-      className="pf-verb-float"
       data-animation-id="text-effects__verb-floating"
       aria-label={text}
       style={
@@ -33,11 +32,17 @@ function TextEffectsVerbFloatComponent({
           : undefined
       }
     >
-      <div className="pf-verb-float__line" aria-hidden="true">
+      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-float__char"
+            style={{
+              display: 'inline-block',
+              color: color ?? 'var(--pf-verb-float-color, #e8e4da)',
+              fontWeight: 700,
+              letterSpacing: '0.02em',
+              transformOrigin: 'center',
+            }}
             initial={prefersReducedMotion ? undefined : { y: 0, opacity: 1 }}
             animate={
               prefersReducedMotion
