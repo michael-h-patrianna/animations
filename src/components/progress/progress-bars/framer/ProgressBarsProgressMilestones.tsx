@@ -108,14 +108,14 @@ export function ProgressBarsProgressMilestones({
 
   return (
     <div
-      className={`pf-progress-milestones${className ? ` ${className}` : ''}`}
+      className={`pf-progress-milestones-fm${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-milestones"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
+        <div className="pf-progress-track-fm">
           <div
-            className="pf-progress-fill"
+            className="pf-progress-fill-fm"
             style={{ transformOrigin: 'left center', transform: `scaleX(${displayProgress})` }}
           />
         </div>

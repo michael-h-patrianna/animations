@@ -37,11 +37,11 @@ export function ProgressBarsTimelineProgress({
 
   return (
     <m.div
-      className={`pf-timeline-progress${className ? ` ${className}` : ''}`}
+      className={`pf-timeline-progress-fm${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__timeline-progress"
     >
-      <div className="pf-timeline-progress__track">
+      <div className="pf-timeline-progress-fm__track">
         {Array.from({ length: steps }, (_, index) => {
           const isActive = index < activeSteps
 
@@ -55,7 +55,7 @@ export function ProgressBarsTimelineProgress({
               }}
             >
               <m.div
-                className="pf-timeline-progress__step"
+                className="pf-timeline-progress-fm__step"
                 animate={{ scale: isActive ? 1 : 0.9, opacity: isActive ? 1 : 0.3 }}
                 transition={{ duration: prefersReducedMotion ? 0.1 : 0.3 }}
                 style={{
@@ -68,7 +68,7 @@ export function ProgressBarsTimelineProgress({
               </m.div>
               {index < steps - 1 && (
                 <m.div
-                  className="pf-timeline-progress__connector"
+                  className="pf-timeline-progress-fm__connector"
                   animate={{ scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0.3 }}
                   transition={{ duration: prefersReducedMotion ? 0.1 : 0.3 }}
                   style={{

@@ -84,12 +84,12 @@ function ButtonEffectsSplitRevealComponent({
   return (
     <button
       type="button"
-      className={`pf-split-reveal ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
+      className={`pf-split-reveal-fm ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
       data-animation-id="button-effects__split-reveal"
       onClick={handleClick}
     >
       <m.span
-        className="pf-split-reveal__top"
+        className="pf-split-reveal-fm__top"
         variants={topVariants}
         animate={state}
         transition={transition}
@@ -97,7 +97,7 @@ function ButtonEffectsSplitRevealComponent({
         {topLabel}
       </m.span>
       <m.span
-        className="pf-split-reveal__bottom"
+        className="pf-split-reveal-fm__bottom"
         variants={bottomVariants}
         animate={state}
         transition={transition}
@@ -105,7 +105,7 @@ function ButtonEffectsSplitRevealComponent({
         {bottomLabel}
       </m.span>
       <m.span
-        className="pf-split-reveal__content"
+        className="pf-split-reveal-fm__content"
         variants={revealVariants}
         initial="closed"
         animate={state}

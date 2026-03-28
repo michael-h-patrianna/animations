@@ -3,18 +3,18 @@
  * Positions the reveal content centered behind the split labels.
  */
 
-.pf-split-reveal {
+.pf-split-reveal-fm {
   position: relative;
   overflow: visible;
 }
 
-.pf-split-reveal__top,
-.pf-split-reveal__bottom {
+.pf-split-reveal-fm__top,
+.pf-split-reveal-fm__bottom {
   display: inline-block;
   will-change: transform;
 }
 
-.pf-split-reveal__content {
+.pf-split-reveal-fm__content {
   position: absolute;
   inset: 0;
   display: flex;

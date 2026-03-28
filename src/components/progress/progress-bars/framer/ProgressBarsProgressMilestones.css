@@ -1,4 +1,4 @@
-.pf-progress-milestones {
+.pf-progress-milestones-fm {
   --milestone-track-bg: rgb(255 255 255 / 8%);
   --milestone-track-border: rgb(255 255 255 / 5%);
   --milestone-track-shadow: rgb(0 0 0 / 25%);
@@ -16,7 +16,7 @@
   padding: 1rem 0;
 }
 
-.pf-progress-milestones .pf-progress-track {
+.pf-progress-milestones-fm .pf-progress-track-fm {
   width: 100%;
   height: 10px;
   border-radius: 999px;
@@ -27,7 +27,7 @@
   position: relative;
 }
 
-.pf-progress-milestones .pf-progress-fill {
+.pf-progress-milestones-fm .pf-progress-fill-fm {
   height: 100%;
   background: linear-gradient(90deg, var(--milestone-fill-from) 0%, var(--milestone-fill-to) 100%);
   border-radius: inherit;
@@ -37,7 +37,7 @@
   box-shadow: 0 0 12px var(--milestone-fill-glow);
 }
 
-.pf-progress-milestones .pf-progress-fill::after {
+.pf-progress-milestones-fm .pf-progress-fill-fm::after {
   content: '';
   position: absolute;
   inset: 0;

@@ -1,5 +1,5 @@
 /* Styles specific to Timeline Progress */
-.pf-timeline-progress {
+.pf-timeline-progress-fm {
   --progress-bars-timeline-progress-bg-1: rgb(30 144 255 / 10%);
   --progress-bars-timeline-progress-border: rgb(30 144 255 / 16%);
   --progress-bars-timeline-progress-color: rgb(255 255 255 / 76%);
@@ -12,7 +12,7 @@
   position: relative;
 }
 
-.pf-timeline-progress__track {
+.pf-timeline-progress-fm__track {
   display: flex;
   align-items: center;
   gap: 0;
@@ -20,7 +20,7 @@
   max-width: 300px;
 }
 
-.pf-timeline-progress__step {
+.pf-timeline-progress-fm__step {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -35,7 +35,7 @@
   flex-shrink: 0;
 }
 
-.pf-timeline-progress__connector {
+.pf-timeline-progress-fm__connector {
   flex: 1;
   height: 2px;
   background: var(--progress-bars-timeline-progress-border);
