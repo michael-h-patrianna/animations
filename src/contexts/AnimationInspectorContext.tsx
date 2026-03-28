@@ -5,6 +5,12 @@ import type {
   PropConfig,
   StyleObjectFieldConfig,
 } from '@/types/animation'
+import {
+  collectSweepGroups,
+  runLinearSweep,
+  runSteppedSweep,
+  type PerAnimationValues,
+} from '@/contexts/animateSweep'
 import { getInspectorStarterDefaults } from '@/contexts/inspectorStarterDefaults'
 import { assertNever } from '@/utils/assertNever'
 import {
@@ -313,23 +319,10 @@ function getActiveAnimatableProps(
   })
 }
 
-/** Finds the first animatable number prop config across all animations in a group. */
-function findGroupAnimatableProp(
-  animations: Animation[] | undefined
-): NumberPropConfig | undefined {
-  if (!animations) return undefined
-  for (const anim of animations) {
-    for (const p of anim.props ?? []) {
-      if (p.type === 'number' && p.animatable) return p
-    }
-  }
-  return undefined
-}
-
-/** Manages the Fixed/Animate toggle state and a shared timer for all cards in the group. */
+/** Manages the Fixed/Animate toggle state and per-config sweep timers for all cards in the group. */
 function useAnimatePreview(animations: Animation[] | undefined) {
   const [animateToggles, setAnimateToggles] = useState<AnimateToggles>({})
-  const [animatedValues, setAnimatedValues] = useState<Record<string, number>>({})
+  const [animatedValues, setAnimatedValues] = useState<PerAnimationValues>({})
 
   const getAnimateMode = useCallback(
     (animationId: string, propName: string, defaultMode?: 'fixed' | 'animate') =>
@@ -347,64 +340,28 @@ function useAnimatePreview(animations: Animation[] | undefined) {
     []
   )
 
-  // Shared timer: drives a single animated value for all animatable props in the group.
-  // Uses random stepped increments so spring/bounce physics are visible at each transition.
-  const animatableProp = useMemo(() => findGroupAnimatableProp(animations), [animations])
+  // Group animations by sweep config; one timer per unique config.
+  const sweepGroups = useMemo(() => collectSweepGroups(animations), [animations])
 
   useEffect(() => {
-    if (!animatableProp) {
+    if (sweepGroups.size === 0) {
       setAnimatedValues({})
       return
     }
 
-    const pause = animatableProp.animatePause ?? 1200
-    const min = animatableProp.min ?? 0
-    const max = animatableProp.max ?? 1
-    const step = animatableProp.step ?? 0.01
-    const range = max - min
-    const propName = animatableProp.name
-    let timer: ReturnType<typeof setTimeout> | undefined
-    let cancelled = false
-
-    function generateSteps(): number[] {
-      const steps: number[] = []
-      let current = min
-      while (current < max - step) {
-        const increment = range * (0.08 + Math.random() * 0.25)
-        current = Math.min(current + increment, max)
-        const rounded = Math.round(current / step) * step
-        steps.push(Math.min(rounded, max))
-      }
-      if (steps[steps.length - 1] !== max) steps.push(max)
-      return steps
+    const emit = (update: PerAnimationValues) => {
+      setAnimatedValues((prev) => ({ ...prev, ...update }))
     }
 
-    function advanceStep(steps: number[], index: number) {
-      if (cancelled) return
-      if (index < steps.length) {
-        setAnimatedValues({ [propName]: steps[index]! })
-        timer = setTimeout(() => advanceStep(steps, index + 1), 500 + Math.random() * 400)
-        return
-      }
-      // All steps done — pause at max then restart
-      timer = setTimeout(() => {
-        if (cancelled) return
-        setAnimatedValues({ [propName]: min })
-        timer = setTimeout(() => {
-          const newSteps = generateSteps()
-          advanceStep(newSteps, 0)
-        }, 600)
-      }, pause)
+    const cleanups: (() => void)[] = []
+
+    for (const { config, animationIds } of sweepGroups.values()) {
+      const runner = config.style === 'linear' ? runLinearSweep : runSteppedSweep
+      cleanups.push(runner(config, animationIds, emit))
     }
 
-    setAnimatedValues({ [propName]: min })
-    timer = setTimeout(() => advanceStep(generateSteps(), 0), 300)
-
-    return () => {
-      cancelled = true
-      clearTimeout(timer)
-    }
-  }, [animatableProp])
+    return () => cleanups.forEach((fn) => fn())
+  }, [sweepGroups])
 
   return { animateToggles, animatedValues, getAnimateMode, setAnimateMode }
 }
@@ -414,14 +371,16 @@ function mergeAnimatedOverrides(
   animationId: string,
   baseOverrides: Record<string, unknown>,
   toggles: AnimateToggles,
-  values: Record<string, number>,
+  values: PerAnimationValues,
   propsConfig?: PropConfig[]
 ): Record<string, unknown> {
   const active = getActiveAnimatableProps(propsConfig, toggles, animationId)
   if (active.length === 0) return baseOverrides
+  const animValues = values[animationId]
+  if (!animValues) return baseOverrides
   const merged = { ...baseOverrides }
   for (const prop of active) {
-    merged[prop.name] = prop.name in values ? values[prop.name] : (prop.min ?? 0)
+    merged[prop.name] = prop.name in animValues ? animValues[prop.name] : (prop.min ?? 0)
   }
   return merged
 }

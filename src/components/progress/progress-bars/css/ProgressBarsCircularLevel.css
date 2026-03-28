@@ -1,0 +1,120 @@
+/* Layout + animation styles for Circular Level Progress (CSS variant) */
+
+.pf-circular-level-css {
+  --circular-level-track: #7a468e;
+  --circular-level-fill: #c5fd78;
+  --circular-level-aura: #c5fd78;
+  --circular-level-aura-alt: #8b5cf6;
+  --circular-level-text: rgb(255 255 255 / 95%);
+  --circular-level-size: 120px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0;
+  width: 100%;
+}
+
+.pf-circular-level-css__wrapper {
+  position: relative;
+  width: var(--circular-level-size);
+  height: var(--circular-level-size);
+}
+
+.pf-circular-level-css__ring {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.pf-circular-level-css__track {
+  fill: none;
+  stroke: var(--circular-level-track);
+  stroke-linecap: round;
+}
+
+.pf-circular-level-css__fill {
+  fill: none;
+  stroke: var(--circular-level-fill);
+  stroke-linecap: round;
+}
+
+.pf-circular-level-css__text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--circular-level-text);
+  pointer-events: none;
+  user-select: none;
+}
+
+.pf-circular-level-css__aura-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pf-circular-level-css__aura {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  animation-fill-mode: both;
+}
+
+.pf-circular-level-css__aura--primary {
+  box-shadow:
+    0 0 20px 12px var(--circular-level-aura),
+    0 0 8px 4px var(--circular-level-aura) inset;
+  animation: pf-circular-level-glow-primary 500ms ease-out;
+}
+
+.pf-circular-level-css__aura--secondary {
+  box-shadow: 0 0 15px 8px var(--circular-level-aura-alt);
+  animation: pf-circular-level-glow-secondary 450ms ease-out 40ms;
+}
+
+@keyframes pf-circular-level-glow-primary {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  40% {
+    opacity: 0.7;
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes pf-circular-level-glow-secondary {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+
+/* stylelint-disable declaration-no-important -- must override animation for a11y */
+/* stylelint-enable declaration-no-important */

@@ -157,6 +157,8 @@ export interface NumberPropConfig extends PropConfigBase {
   animateDuration?: number
   /** Pause at max before resetting, in ms. Default 1200. */
   animatePause?: number
+  /** How the value changes during animate mode. 'steps' (default) uses random discrete jumps. 'linear' sweeps smoothly using rAF. */
+  animateStyle?: 'steps' | 'linear'
 }
 
 /** Free-text string prop — rendered as text input. */

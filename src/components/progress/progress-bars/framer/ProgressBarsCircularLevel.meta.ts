@@ -1,0 +1,84 @@
+import type { AnimationMetadata } from '@/types/animation'
+
+export const metadata = {
+  id: 'progress-bars__circular-level',
+  urlSlugFramer: '/progress-bars-framer?animation=progress-bars__circular-level',
+  urlSlugCss: '/progress-bars-css?animation=progress-bars__circular-level',
+  title: 'Circular Level Progress',
+  description:
+    'SVG ring progress with level-up detection. Crossing integer boundaries triggers fill → aura-burst → reset. Handles multi-level jumps. Style via --circular-level-track, --circular-level-fill, --circular-level-aura, --circular-level-size.',
+  tier: 4,
+  previewMaxWidth: 414,
+  props: [
+    {
+      type: 'number',
+      name: 'progress',
+      label: 'Total Progress',
+      default: 0,
+      min: 0,
+      max: 2.44,
+      step: 0.01,
+      animatable: true,
+      animateDuration: 6000,
+      animatePause: 2000,
+      animateStyle: 'linear',
+    },
+    {
+      type: 'number',
+      name: 'strokeWidth',
+      label: 'Stroke Width',
+      default: 8,
+      min: 2,
+      max: 16,
+      step: 1,
+      unit: 'px',
+    },
+    {
+      type: 'style-object',
+      name: 'style',
+      label: 'Theme',
+      fields: [
+        {
+          type: 'color',
+          key: '--circular-level-track',
+          label: 'Track',
+          default: '#7a468e',
+        },
+        {
+          type: 'color',
+          key: '--circular-level-fill',
+          label: 'Fill',
+          default: '#c5fd78',
+        },
+        {
+          type: 'color',
+          key: '--circular-level-aura',
+          label: 'Aura Primary',
+          default: '#c5fd78',
+        },
+        {
+          type: 'color',
+          key: '--circular-level-aura-alt',
+          label: 'Aura Secondary',
+          default: '#8b5cf6',
+        },
+        {
+          type: 'color',
+          key: '--circular-level-text',
+          label: 'Text',
+          default: 'rgb(255 255 255 / 95%)',
+        },
+        {
+          type: 'number',
+          key: '--circular-level-size',
+          label: 'Ring Size',
+          default: 120,
+          min: 64,
+          max: 220,
+          step: 2,
+          unit: 'px',
+        },
+      ],
+    },
+  ],
+} satisfies AnimationMetadata
