@@ -50,20 +50,21 @@
     opacity: 1;
   }
   32% {
-    transform: translate(var(--apex-x), var(--apex-y)) scale(0.95);
+    transform: translate(var(--apex-x), var(--apex-y)) scale(1);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+  /* Arrive at target — absorb */
+  92% {
+    transform: translate(var(--to-x), var(--to-y)) scale(1);
     opacity: 1;
   }
-  /* Approaching target (accelerating) */
-  85% {
-    opacity: 0.8;
-  }
-  /* Arrive at target — shrink */
-  92% {
-    transform: translate(var(--to-x), var(--to-y)) scale(0.4);
-    opacity: 0.6;
+  96% {
+    transform: translate(var(--to-x), var(--to-y)) scale(1);
+    opacity: 1;
   }
   100% {
-    transform: translate(var(--to-x), var(--to-y)) scale(0.2);
+    transform: translate(var(--to-x), var(--to-y)) scale(0);
     opacity: 0;
   }
 }
