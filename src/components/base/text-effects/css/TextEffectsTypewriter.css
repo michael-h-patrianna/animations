@@ -54,15 +54,3 @@
     opacity: 0;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .pf-typewriter__char {
-    opacity: 1;
-    animation: none;
-  }
-
-  .pf-typewriter__cursor {
-    opacity: 1;
-    animation: pf-typewriter-blink 1s step-end infinite;
-  }
-}

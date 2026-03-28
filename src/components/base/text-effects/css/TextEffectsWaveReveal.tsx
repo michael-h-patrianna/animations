@@ -49,7 +49,11 @@ function TextEffectsWaveRevealComponent({
         {lines.map((line, lineIndex) => {
           const lineStart = initialDelay + lineIndex * lineDelay
           return (
-            <div key={lineIndex} className="tfx-wave-reveal-line" style={{ color: line.color }}>
+            <div
+              key={lineIndex}
+              className="tfx-wave-reveal-line"
+              style={{ color: line.color, '--line-index': lineIndex } as React.CSSProperties}
+            >
               {line.text.split('').map((char, charIndex) => (
                 <span
                   key={charIndex}

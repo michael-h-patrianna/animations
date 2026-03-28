@@ -201,27 +201,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tfe-epic-win--animate .tfe-epic-win__shadow-far,
+  .tfe-epic-win--animate .tfe-epic-win__shadow-far {
+    animation: none;
+    opacity: 0.2;
+    transform: translate3d(0, 6px, 0) scale(1);
+  }
+
   .tfe-epic-win--animate .tfe-epic-win__shadow-mid {
     animation: none;
-    opacity: 0.25;
+    opacity: 0.3;
+    transform: translate3d(0, 3px, 0) scale(1);
   }
 
   .tfe-epic-win--animate .tfe-epic-win__char {
-    animation: tfe-epic-win-reduced 300ms ease-out both;
+    animation: none;
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
   }
 
   .tfe-epic-win--animate .tfe-epic-win__char-glow {
     animation: none;
     opacity: 0;
-  }
-
-  @keyframes tfe-epic-win-reduced {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
   }
 }

@@ -47,11 +47,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   .tfx-wave-reveal-char {
-    animation: tfx-wave-reveal-reduced 300ms ease-out forwards;
+    animation: none;
+    opacity: 1;
     transform: translateY(0);
   }
 
-  @keyframes tfx-wave-reveal-reduced {
+  .tfx-wave-reveal-line {
+    opacity: 0;
+    animation: tfx-wave-reveal-line-fade 400ms ease-out forwards;
+    animation-delay: calc(var(--line-index, 0) * 400ms + 200ms);
+  }
+
+  @keyframes tfx-wave-reveal-line-fade {
     from {
       opacity: 0;
     }

@@ -5,7 +5,8 @@
  */
 
 import * as m from 'motion/react-m'
-import { easeOut, useReducedMotion, type Variants } from 'motion/react'
+import { easeOut, useReducedMotion } from 'motion/react'
+import type { Variants } from 'motion/react'
 import { memo } from 'react'
 
 interface TextEffectsWaveRevealProps {
@@ -57,21 +58,26 @@ function TextEffectsWaveRevealComponent({
     },
   }
 
-  const lineVariants: Variants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: charDelay },
-    },
-  }
-
-  const letterVariants: Variants = prefersReducedMotion
+  const lineVariants: Variants = prefersReducedMotion
     ? {
         hidden: { opacity: 0 },
         visible: {
           opacity: 1,
-          transition: { duration: 0.3 },
+          transition: { duration: 0.4, ease: easeOut },
         },
+      }
+    : {
+        hidden: { opacity: 1 },
+        visible: {
+          opacity: 1,
+          transition: { staggerChildren: charDelay },
+        },
+      }
+
+  const letterVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 1 },
+        visible: { opacity: 1 },
       }
     : {
         hidden: { opacity: 0, y: 80 },

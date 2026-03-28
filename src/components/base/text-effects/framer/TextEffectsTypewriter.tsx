@@ -5,7 +5,6 @@
  */
 
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsTypewriterProps {
@@ -25,7 +24,6 @@ function TextEffectsTypewriterComponent({
   cursor = '|',
   color,
 }: TextEffectsTypewriterProps) {
-  const prefersReducedMotion = useReducedMotion()
   const chars = useMemo(() => text.split(''), [text])
 
   return (
@@ -43,15 +41,9 @@ function TextEffectsTypewriterComponent({
           <m.span
             key={index}
             className="pf-typewriter__char"
-            initial={
-              prefersReducedMotion
-                ? { opacity: 1, display: 'inline-block' }
-                : { opacity: 0, display: 'none' }
-            }
+            initial={{ opacity: 0, display: 'none' }}
             animate={{ opacity: 1, display: 'inline-block' }}
-            transition={
-              prefersReducedMotion ? { duration: 0 } : { duration: 0, delay: index * charDelay }
-            }
+            transition={{ duration: 0, delay: index * charDelay }}
           >
             {char === ' ' ? '\u00A0' : char}
           </m.span>
@@ -66,7 +58,7 @@ function TextEffectsTypewriterComponent({
             repeat: Infinity,
             times: [0, 0.5, 0.5, 1],
             ease: 'linear' as const,
-            delay: prefersReducedMotion ? 0 : chars.length * charDelay,
+            delay: chars.length * charDelay,
           }}
         >
           {cursor}
