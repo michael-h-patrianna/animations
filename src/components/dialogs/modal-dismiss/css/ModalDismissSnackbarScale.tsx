@@ -96,7 +96,7 @@ function ModalDismissSnackbarScaleComponent({
           opacity: '0.85',
         },
       ],
-      { duration, easing: pulseEasing, fill: 'forwards' }
+      { duration, delay: 320, easing: pulseEasing, fill: 'forwards' }
     )
 
     // Exit after timeout
