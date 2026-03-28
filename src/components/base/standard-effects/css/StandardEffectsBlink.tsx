@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Blink CSS effect.
- * Consumer product: StandardEffectsBlink.css — apply .pf-blink to any element.
+ * Consumer product: StandardEffectsBlink.module.css — import styles and apply styles['pf-blink'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsBlink.module.css'

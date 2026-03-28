@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Liquid Morph CSS effect.
- * Consumer product: ButtonEffectsLiquidMorph.css — apply .pf-liquid-morph + toggle --active.
+ * Consumer product: ButtonEffectsLiquidMorph.module.css — import styles and apply styles['pf-liquid-morph'], toggle --active.
  */
 import {
   cloneElement,

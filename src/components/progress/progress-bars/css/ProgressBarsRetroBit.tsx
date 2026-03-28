@@ -1,7 +1,7 @@
 /**
  * Retro Bit Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsRetroBit.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsRetroBit.module.css'

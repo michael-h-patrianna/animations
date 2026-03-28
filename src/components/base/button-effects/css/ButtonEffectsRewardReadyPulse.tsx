@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Reward Ready Pulse CSS effect.
- * Consumer product: ButtonEffectsRewardReadyPulse.css — apply .pf-reward-pulse to any element.
+ * Consumer product: ButtonEffectsRewardReadyPulse.module.css — import styles and apply styles['pf-reward-pulse'].
  */
 import {
   cloneElement,

@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Bounce CSS effect.
- * Consumer product: StandardEffectsBounce.css — apply .pf-bounce to any element.
+ * Consumer product: StandardEffectsBounce.module.css — import styles and apply styles['pf-bounce'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsBounce.module.css'

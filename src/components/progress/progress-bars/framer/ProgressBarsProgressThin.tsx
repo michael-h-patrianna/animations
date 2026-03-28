@@ -15,7 +15,7 @@
  * - `--thin-fill-from`, `--thin-fill-via`, `--thin-fill-to`
  * - `--thin-fill-glow`, `--thin-accent`, `--thin-accent-dim`, `--thin-accent-faint`
  *
- * Files to copy: this file + ProgressBarsProgressThin.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressThin.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

@@ -14,7 +14,7 @@
  * - `--bounce-track-color`, `--bounce-fill-from`, `--bounce-fill-to`
  * - `--bounce-height`
  *
- * Files to copy: this file + ProgressBarsProgressBounce.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressBounce.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsProgressBounce.module.css'

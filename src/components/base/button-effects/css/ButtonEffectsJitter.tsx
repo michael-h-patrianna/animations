@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Jitter CSS effect.
- * Consumer product: ButtonEffectsJitter.css — apply .pf-jitter to any element.
+ * Consumer product: ButtonEffectsJitter.module.css — import styles and apply styles['pf-jitter'].
  */
 import {
   cloneElement,

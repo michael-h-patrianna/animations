@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Squeeze CSS effect.
- * Consumer product: StandardEffectsSqueeze.css — apply .pf-squeeze to any element.
+ * Consumer product: StandardEffectsSqueeze.module.css — import styles and apply styles['pf-squeeze'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsSqueeze.module.css'

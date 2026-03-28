@@ -11,7 +11,7 @@
  *
  * Styleable CSS custom properties — same as framer variant.
  *
- * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsNeonPulse.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsNeonPulse.module.css'

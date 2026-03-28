@@ -15,7 +15,7 @@
  * - `--timeline-step-text`    — step number color
  * - `--timeline-connector`    — connector gradient
  *
- * Files to copy: this file + ProgressBarsTimelineProgress.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsTimelineProgress.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

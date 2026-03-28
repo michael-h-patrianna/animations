@@ -15,7 +15,7 @@
  * - `--progress-bars-celebration-burst-bg-3` — fill gradient end
  * - `--burst-marker-color`                   — marker/particle color
  *
- * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsCelebrationBurst.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion, useMotionValue, animate } from 'motion/react'

@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Rubber Band CSS effect.
- * Consumer product: StandardEffectsRubberBand.css — apply .pf-rubber-band to any element.
+ * Consumer product: StandardEffectsRubberBand.module.css — import styles and apply styles['pf-rubber-band'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsRubberBand.module.css'

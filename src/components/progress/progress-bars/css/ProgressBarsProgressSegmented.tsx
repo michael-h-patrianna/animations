@@ -1,7 +1,7 @@
 /**
  * Segmented Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressSegmented.module.css + ../SharedTypes.ts
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'

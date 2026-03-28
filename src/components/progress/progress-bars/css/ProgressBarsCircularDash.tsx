@@ -1,7 +1,7 @@
 /**
  * Circular Dash Progress (CSS variant)
  *
- * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsCircularDash.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsCircularDash.module.css'

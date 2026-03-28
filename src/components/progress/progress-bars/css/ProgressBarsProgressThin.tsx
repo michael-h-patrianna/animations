@@ -14,7 +14,7 @@
  * - `--thin-label-color`, `--thin-track-color`
  * - `--thin-fill-from`, `--thin-fill-via`, `--thin-fill-to`, `--thin-accent`
  *
- * Files to copy: this file + ProgressBarsProgressThin.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressThin.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsProgressThin.module.css'

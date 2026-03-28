@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Press Squash CSS effect.
- * Consumer product: ButtonEffectsPressSquash.css — apply .pf-press-squash + toggle --active.
+ * Consumer product: ButtonEffectsPressSquash.module.css — import styles and apply styles['pf-press-squash'], toggle --active.
  */
 import {
   cloneElement,

@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Spin CSS effect.
- * Consumer product: StandardEffectsSpin.css — apply .pf-spin to any element.
+ * Consumer product: StandardEffectsSpin.module.css — import styles and apply styles['pf-spin'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsSpin.module.css'

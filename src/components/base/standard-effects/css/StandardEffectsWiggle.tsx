@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Wiggle CSS effect.
- * Consumer product: StandardEffectsWiggle.css — apply .pf-wiggle to any element.
+ * Consumer product: StandardEffectsWiggle.module.css — import styles and apply styles['pf-wiggle'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsWiggle.module.css'

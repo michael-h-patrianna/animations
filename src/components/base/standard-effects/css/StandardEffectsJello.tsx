@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Jello CSS effect.
- * Consumer product: StandardEffectsJello.css — apply .pf-jello to any element.
+ * Consumer product: StandardEffectsJello.module.css — import styles and apply styles['pf-jello'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsJello.module.css'

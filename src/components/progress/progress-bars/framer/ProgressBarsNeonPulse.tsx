@@ -18,7 +18,7 @@
  * - `--pf-neon-pulse-fm__glow`       — glow layer (default: rgb(236 72 153 / 25%))
  * - `--neon-pulse-height`     — track height (default: 8px)
  *
- * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsNeonPulse.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

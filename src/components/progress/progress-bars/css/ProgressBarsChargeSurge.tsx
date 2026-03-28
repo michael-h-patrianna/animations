@@ -1,7 +1,7 @@
 /**
  * Charge Surge Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsChargeSurge.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsChargeSurge.module.css + ../SharedTypes.ts
  */
 import { useRef, useState, useEffect } from 'react'
 import type {

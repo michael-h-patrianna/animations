@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Slide CSS effect.
- * Consumer product: StandardEffectsSlide.css — apply .pf-slide to any element.
+ * Consumer product: StandardEffectsSlide.module.css — import styles and apply styles['pf-slide'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsSlide.module.css'

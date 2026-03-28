@@ -1,7 +1,7 @@
 /**
  * Milestone Markers Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsProgressMilestones.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressMilestones.module.css + ../SharedTypes.ts
  */
 import { useMemo } from 'react'
 import type {

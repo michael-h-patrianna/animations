@@ -16,7 +16,7 @@
  * - `--pf-liquid-tube-fm__fill`    — liquid color
  * - `--liquid-tube-bubble`  — bubble color
  *
- * Files to copy: this file + ProgressBarsLiquidTube.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsLiquidTube.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

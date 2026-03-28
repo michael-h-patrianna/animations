@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Scale CSS effect.
- * Consumer product: StandardEffectsScale.css — apply .pf-scale to any element.
+ * Consumer product: StandardEffectsScale.module.css — import styles and apply styles['pf-scale'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsScale.module.css'

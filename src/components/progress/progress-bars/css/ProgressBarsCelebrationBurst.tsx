@@ -1,7 +1,7 @@
 /**
  * Celebration Burst Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsCelebrationBurst.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsCelebrationBurst.module.css + ../SharedTypes.ts
  */
 import type { CSSProperties } from 'react'
 import { useMemo } from 'react'

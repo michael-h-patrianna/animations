@@ -17,7 +17,7 @@
  * - `--bounce-accent-dark`    — darker accent for alt particles (default: #059669)
  * - `--bounce-height`         — track height (default: 14px)
  *
- * Files to copy: this file + ProgressBarsProgressBounce.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressBounce.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

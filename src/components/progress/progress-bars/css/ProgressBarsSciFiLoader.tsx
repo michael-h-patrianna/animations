@@ -1,7 +1,7 @@
 /**
  * Sci-Fi Loader Progress Bar (CSS variant)
  *
- * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsSciFiLoader.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsSciFiLoader.module.css'

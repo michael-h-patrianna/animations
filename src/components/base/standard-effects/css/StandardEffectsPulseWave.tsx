@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Pulse Wave CSS effect.
- * Consumer product: StandardEffectsPulseWave.css — use documented HTML structure.
+ * Consumer product: StandardEffectsPulseWave.module.css — use documented HTML structure.
  */
 import { memo, type CSSProperties } from 'react'
 import styles from './StandardEffectsPulseWave.module.css'

@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Shake Gentle CSS effect.
- * Consumer product: ButtonFeedbackShakeGentle.css — apply .pf-shake-gentle + toggle --active.
+ * Consumer product: ButtonFeedbackShakeGentle.module.css — import styles and apply styles['pf-shake-gentle'], toggle --active.
  */
 import {
   cloneElement,

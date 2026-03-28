@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Shake CSS effect.
- * Consumer product: StandardEffectsShake.css — apply .pf-shake to any element.
+ * Consumer product: StandardEffectsShake.module.css — import styles and apply styles['pf-shake'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsShake.module.css'

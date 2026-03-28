@@ -10,9 +10,9 @@
  * <ProgressBarsZoomedProgress progress={0.5} />
  * ```
  *
- * Styleable CSS custom properties: inherits from ProgressBarsZoomedProgress.css
+ * Styleable CSS custom properties: inherits from ProgressBarsZoomedProgress.module.css
  *
- * Files to copy: this file + ProgressBarsZoomedProgress.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsZoomedProgress.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Float CSS effect.
- * Consumer product: StandardEffectsFloat.css — apply .pf-float to any element.
+ * Consumer product: StandardEffectsFloat.module.css — import styles and apply styles['pf-float'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsFloat.module.css'

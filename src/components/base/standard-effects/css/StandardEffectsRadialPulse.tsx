@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Radial Pulse CSS effect.
- * Consumer product: StandardEffectsRadialPulse.css — use documented HTML structure.
+ * Consumer product: StandardEffectsRadialPulse.module.css — use documented HTML structure.
  */
 import { memo, type CSSProperties } from 'react'
 import styles from './StandardEffectsRadialPulse.module.css'

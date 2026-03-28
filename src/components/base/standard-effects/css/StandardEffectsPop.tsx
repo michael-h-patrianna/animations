@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Pop CSS effect.
- * Consumer product: StandardEffectsPop.css — apply .pf-pop to any element.
+ * Consumer product: StandardEffectsPop.module.css — import styles and apply styles['pf-pop'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsPop.module.css'

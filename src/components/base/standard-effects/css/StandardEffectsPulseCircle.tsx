@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Pulse Circle CSS effect.
- * Consumer product: StandardEffectsPulseCircle.css — use documented HTML structure.
+ * Consumer product: StandardEffectsPulseCircle.module.css — use documented HTML structure.
  */
 import { memo, type CSSProperties } from 'react'
 import styles from './StandardEffectsPulseCircle.module.css'

@@ -18,7 +18,7 @@
  * - `--scifi-text`    — label text color
  * - `--scifi-decor`   — decorative frame color
  *
- * Files to copy: this file + ProgressBarsSciFiLoader.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsSciFiLoader.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

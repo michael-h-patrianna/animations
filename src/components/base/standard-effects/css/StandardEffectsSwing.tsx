@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Swing CSS effect.
- * Consumer product: StandardEffectsSwing.css — apply .pf-swing to any element.
+ * Consumer product: StandardEffectsSwing.module.css — import styles and apply styles['pf-swing'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsSwing.module.css'

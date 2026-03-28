@@ -20,7 +20,7 @@
  * - `--segmented-gap-color`      — gap divider color
  * - `--segmented-height`         — track height (default: 12px)
  *
- * Files to copy: this file + ProgressBarsProgressSegmented.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressSegmented.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

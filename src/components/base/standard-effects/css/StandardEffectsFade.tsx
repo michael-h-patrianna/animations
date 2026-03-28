@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Fade CSS effect.
- * Consumer product: StandardEffectsFade.css — apply .pf-fade to any element.
+ * Consumer product: StandardEffectsFade.module.css — import styles and apply styles['pf-fade'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsFade.module.css'

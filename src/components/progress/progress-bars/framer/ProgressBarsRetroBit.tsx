@@ -16,7 +16,7 @@
  * - `--retro-bit-inactive`     — inactive segment color
  * - `--pf-retro-bit-fm__label-color`  — label text color
  *
- * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsRetroBit.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'

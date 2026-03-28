@@ -16,7 +16,7 @@
  * - `--circular-dash-text`      — center text color
  * - `--circular-dash-size`      — ring diameter (default: 120px)
  *
- * Files to copy: this file + ProgressBarsCircularDash.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsCircularDash.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'

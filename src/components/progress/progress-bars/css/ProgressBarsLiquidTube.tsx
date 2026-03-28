@@ -3,7 +3,7 @@
  *
  * CSS keyframe version with wave and bubble animations.
  *
- * Files to copy: this file + ProgressBarsLiquidTube.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsLiquidTube.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsLiquidTube.module.css'

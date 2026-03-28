@@ -17,7 +17,7 @@
  * - `--charge-fill-color`     — fill color
  * - `--charge-marker-color`   — marker color
  *
- * Files to copy: this file + ProgressBarsChargeSurge.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsChargeSurge.module.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion, useMotionValue, animate } from 'motion/react'

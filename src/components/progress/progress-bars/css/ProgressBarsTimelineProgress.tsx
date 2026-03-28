@@ -1,7 +1,7 @@
 /**
  * Timeline Progress (CSS variant)
  *
- * Files to copy: this file + ProgressBarsTimelineProgress.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsTimelineProgress.module.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import styles from './ProgressBarsTimelineProgress.module.css'

@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Flip CSS effect.
- * Consumer product: StandardEffectsFlip.css — apply .pf-flip to any element.
+ * Consumer product: StandardEffectsFlip.module.css — import styles and apply styles['pf-flip'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsFlip.module.css'

@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Tada CSS effect.
- * Consumer product: StandardEffectsTada.css — apply .pf-tada to any element.
+ * Consumer product: StandardEffectsTada.module.css — import styles and apply styles['pf-tada'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsTada.module.css'

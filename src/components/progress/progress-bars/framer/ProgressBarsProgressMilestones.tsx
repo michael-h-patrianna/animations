@@ -25,7 +25,7 @@
  * - `--milestone-active-color`   — active marker color
  * - `--milestone-label-color`    — label text color
  *
- * Files to copy: this file + ProgressBarsProgressMilestones.css + ../SharedTypes.ts
+ * Files to copy: this file + ProgressBarsProgressMilestones.module.css + ../SharedTypes.ts
  */
 import { easeOut, useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'

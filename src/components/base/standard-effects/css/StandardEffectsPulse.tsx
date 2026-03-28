@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Pulse CSS effect.
- * Consumer product: StandardEffectsPulse.css — apply .pf-pulse to any element.
+ * Consumer product: StandardEffectsPulse.module.css — import styles and apply styles['pf-pulse'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsPulse.module.css'

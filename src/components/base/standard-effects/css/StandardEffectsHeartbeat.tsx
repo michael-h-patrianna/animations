@@ -1,6 +1,6 @@
 /**
  * Catalog display for the Heartbeat CSS effect.
- * Consumer product: StandardEffectsHeartbeat.css — apply .pf-heartbeat to any element.
+ * Consumer product: StandardEffectsHeartbeat.module.css — import styles and apply styles['pf-heartbeat'].
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import styles from './StandardEffectsHeartbeat.module.css'
