@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import './TextEffectsVerbFall.css'
+import styles from './TextEffectsVerbFall.module.css'
 
 interface TextEffectsVerbFallProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -32,16 +32,20 @@ function TextEffectsVerbFallComponent({
 
   return (
     <div
-      className="tfx-fall-container"
+      className={styles['tfx-fall-container']}
       data-animation-id="text-effects__verb-falling"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-fall-line" aria-hidden="true">
+      <div className={styles['tfx-fall-line']} aria-hidden="true">
         {letters.map((ch, i) => (
-          <span key={i} className="tfx-fall-char" style={{ animationDelay: `${i * stepDelay}s` }}>
+          <span
+            key={i}
+            className={styles['tfx-fall-char']}
+            style={{ animationDelay: `${i * stepDelay}s` }}
+          >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}

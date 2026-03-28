@@ -12,7 +12,7 @@
  */
 
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import './RealtimeDataLeaderboardShift.css'
+import './RealtimeDataLeaderboardShift.module.css'
 
 import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
 

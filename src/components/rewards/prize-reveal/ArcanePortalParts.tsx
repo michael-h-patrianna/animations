@@ -3,6 +3,8 @@ import type { CSSProperties } from 'react'
 
 import arcanePortalRingImage from '@/assets/arcane-portal/portal-ring.webp'
 
+import styles from './framer/PrizeRevealArcanePortal.module.css'
+
 /* ─── Shared types (re-exported for main file) ─── */
 
 export type RevealPhase = 'materialize' | 'charge' | 'erupt'
@@ -26,7 +28,7 @@ const RUNE_COUNT = 8
 export function AmbientGlow() {
   return (
     <m.div
-      className="pf-arcane-portal__ambient"
+      className={styles['pf-arcane-portal-fm__ambient']}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.7, 1] }}
       transition={{ duration: 0.6, times: [0, 0.5, 1] as const }}
@@ -36,11 +38,11 @@ export function AmbientGlow() {
 
 export function ConvergeParticles({ particles }: { particles: ParticleData[] }) {
   return (
-    <div className="pf-arcane-portal__particles">
+    <div className={styles['pf-arcane-portal-fm__particles']}>
       {particles.map((p) => (
         <m.div
           key={p.id}
-          className="pf-arcane-portal__particle"
+          className={styles['pf-arcane-portal-fm__particle']}
           style={{ '--size': `${p.size}px` } as CSSProperties}
           initial={{ x: p.startX, y: p.startY, opacity: 0, scale: 0 }}
           animate={{ x: 0, y: 0, opacity: [0, 0.9, 1, 0], scale: [0, 1.3, 1, 0] }}
@@ -54,7 +56,7 @@ export function ConvergeParticles({ particles }: { particles: ParticleData[] }) 
 export function InnerVortex({ phase }: { phase: RevealPhase }) {
   return (
     <m.div
-      className="pf-arcane-portal__vortex"
+      className={styles['pf-arcane-portal-fm__vortex']}
       animate={{
         opacity: phase === 'erupt' ? 0 : phase === 'charge' ? 0.95 : 0.75,
         scale: phase === 'erupt' ? 2.5 : phase === 'charge' ? 1.15 : 1,
@@ -70,7 +72,7 @@ export function InnerVortex({ phase }: { phase: RevealPhase }) {
 export function PortalRing({ phase }: { phase: RevealPhase }) {
   return (
     <m.div
-      className="pf-arcane-portal__ring-wrap"
+      className={styles['pf-arcane-portal-fm__ring-wrap']}
       initial={{ scale: 0, opacity: 0, rotate: -30 }}
       animate={{
         scale: phase === 'erupt' ? 0.4 : phase === 'charge' ? 1.08 : 1,
@@ -83,7 +85,7 @@ export function PortalRing({ phase }: { phase: RevealPhase }) {
       }}
     >
       <m.div
-        className="pf-arcane-portal__ring-glow"
+        className={styles['pf-arcane-portal-fm__ring-glow']}
         animate={{
           opacity: phase === 'erupt' ? 0 : phase === 'charge' ? 1 : 0.7,
         }}
@@ -93,7 +95,7 @@ export function PortalRing({ phase }: { phase: RevealPhase }) {
         src={arcanePortalRingImage}
         alt=""
         aria-hidden="true"
-        className="pf-arcane-portal__ring-image"
+        className={styles['pf-arcane-portal-fm__ring-image']}
         animate={{ rotate: 360 }}
         transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
       />
@@ -110,7 +112,7 @@ export function OrbitingRunes() {
         return (
           <m.span
             key={i}
-            className="pf-arcane-portal__rune"
+            className={styles['pf-arcane-portal-fm__rune']}
             initial={{ opacity: 0, scale: 0 }}
             animate={{
               opacity: [0, 0.95, 0.95, 0],
@@ -151,7 +153,7 @@ export function OrbitingRunes() {
 export function Shockwave() {
   return (
     <m.div
-      className="pf-arcane-portal__shockwave"
+      className={styles['pf-arcane-portal-fm__shockwave']}
       initial={{ scale: 0.3, opacity: 1 }}
       animate={{ scale: 5, opacity: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 0.84, 0.32, 1] as const }}
@@ -162,7 +164,7 @@ export function Shockwave() {
 export function BurstFlash() {
   return (
     <m.div
-      className="pf-arcane-portal__burst"
+      className={styles['pf-arcane-portal-fm__burst']}
       initial={{ opacity: 0, scale: 0.1 }}
       animate={{ opacity: [0, 1, 0], scale: [0.1, 1.2, 2] }}
       transition={{ duration: 0.55, times: [0, 0.12, 1] as const, ease: 'easeOut' }}
@@ -177,7 +179,7 @@ export function BurstFlash() {
 export function ClaimBurst() {
   return (
     <m.div
-      className="pf-arcane-portal__claim-burst"
+      className={styles['pf-arcane-portal-fm__claim-burst']}
       initial={{ opacity: 0, scale: 0.2 }}
       animate={{ opacity: [0, 0.8, 0], scale: [0.2, 1.5, 2.5] }}
       transition={{ duration: 0.5, times: [0, 0.2, 1] as const, ease: 'easeOut' }}

@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationMagneticHover.module.css'
 
 const DEFAULT_COUNT = 6
 
@@ -101,14 +102,13 @@ function ModalOrchestrationMagneticHoverComponent({
 
   return (
     <m.div
-      className="pf-magnetic-hover"
+      className={styles['pf-magnetic-hover-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__magnetic-hover"
       style={
         {
-          animation: 'none',
           ['--pf-magnetic-hover-columns' as string]: `${columns}`,
           ['--pf-magnetic-hover-min-tile-width' as string]: `${minTileWidth}px`,
         } as CSSProperties
@@ -117,11 +117,10 @@ function ModalOrchestrationMagneticHoverComponent({
       {renderItems.map((child, i) => (
         <m.div
           key={i}
-          className="pf-magnetic-hover__item"
+          className={styles['pf-magnetic-hover-fm__item']}
           variants={itemVariants}
           whileHover={hoverAnimation}
           whileTap={tapAnimation}
-          style={{ animation: 'none' }}
         >
           {child}
         </m.div>

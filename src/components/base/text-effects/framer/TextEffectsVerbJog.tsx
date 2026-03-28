@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbJog.module.css'
 
 interface TextEffectsVerbJogProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -23,18 +24,18 @@ function TextEffectsVerbJogComponent({
 
   return (
     <div
-      className="pf-verb-jog-fm"
+      className={styles['pf-verb-jog-fm']}
       data-animation-id="text-effects__verb-jogging"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-jog-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-verb-jog-fm__line" aria-hidden="true">
+      <div className={styles['pf-verb-jog-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-jog-fm__char"
+            className={styles['pf-verb-jog-fm__char']}
             initial={{ y: 0, rotate: 0 }}
             animate={{
               y: [0, -6, 0, -2, 0],

@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseSlideDownSoft.css'
+import styles from './ModalBaseSlideDownSoft.module.css'
 
 const DEFAULT_DURATION = 420
 const DEFAULT_DISTANCE = 60
@@ -34,7 +34,7 @@ function ModalBaseSlideDownSoftComponent({
   return (
     <div data-animation-id="modal-base__slide-down-soft">
       <div
-        className={`pf-modal-slide-down${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-slide-down']}${className ? ` ${className}` : ''}`}
         style={{ ...style, ...cssVars }}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
+import './ModalCelebrationsCoinsArc.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { GOLDEN_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
@@ -265,7 +266,6 @@ function SparkleDot({ s, timeScale }: { s: Mote; timeScale: number }) {
         height: `${s.size}px`,
         background: s.color,
         boxShadow: `0 0 4px 1px ${s.color}`,
-        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.4, 1.0, 0], opacity: [0, 0.9, 0.25, 0.6, 0] }}
@@ -283,7 +283,7 @@ function EruptionFlash({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ left: '50%', top: '65%', animation: 'none' }}
+      style={{ left: '50%', top: '65%' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 1.4, 0.6, 0], opacity: [0, 0.9, 0.3, 0] }}
       transition={{ duration: 0.4 * timeScale, times: [0, 0.3, 0.65, 1], ease: 'easeOut' }}
@@ -295,7 +295,7 @@ function EruptionGlow({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__glow"
-      style={{ left: '50%', top: '65%', animation: 'none' }}
+      style={{ left: '50%', top: '65%' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.5, 0.4, 0.15, 0] }}
       transition={{ duration: 1.6 * timeScale, times: [0, 0.1, 0.3, 0.65, 1], ease: 'easeOut' }}

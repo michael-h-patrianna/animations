@@ -129,6 +129,16 @@ export default enforceNoWarnings({
     'defensive-css/no-unsafe-will-change': true,
 
     // =====================================================================
+    // CSS MODULES COMPATIBILITY
+    // =====================================================================
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        ignorePseudoClasses: ['global', 'local'],
+      },
+    ],
+
+    // =====================================================================
     // TAILWIND / AT-RULE COMPATIBILITY
     // =====================================================================
     'at-rule-no-unknown': [
@@ -171,19 +181,105 @@ export default enforceNoWarnings({
     'import-notation': null,
   },
   overrides: [
-    // Enforce -fm class suffix in migrated framer groups.
-    // Enable per-group as CSS-free migration completes.
-    // Enforce -fm suffix on framer CSS files that have been migrated.
-    // Add group globs here as each group completes CSS-free migration.
+    // ── Layer 1: Framer CSS — layout-only ──
+    // Enforce -fm class suffix to prevent CSS variant bleed.
+    // Ban animation/transition/keyframes — Motion handles animation.
     {
-      files: [
-        'src/components/base/button-effects/framer/*.css',
-        'src/components/base/standard-effects/framer/*.css',
-        'src/components/progress/progress-bars/framer/ProgressBarsProgressMilestones.css',
-        'src/components/progress/progress-bars/framer/ProgressBarsTimelineProgress.css',
-      ],
+      files: ['src/components/**/framer/*.css'],
       rules: {
         'animation-rules/require-framer-class-suffix': true,
+        'at-rule-disallowed-list': ['keyframes'],
+        'property-disallowed-list': [
+          [
+            'animation',
+            'animation-name',
+            'animation-duration',
+            'animation-delay',
+            'animation-timing-function',
+            'animation-iteration-count',
+            'animation-direction',
+            'animation-fill-mode',
+            'animation-play-state',
+            'animation-composition',
+            'transition',
+            'transition-property',
+            'transition-duration',
+            'transition-delay',
+            'transition-timing-function',
+            'transition-behavior',
+          ],
+          {
+            message: (prop) =>
+              `"${prop}" is banned in framer CSS — framer variants use Motion for animation. CSS files in framer/ are layout-only.`,
+          },
+        ],
+      },
+    },
+    // ── All shared.css files — structural/visual foundation only ──
+    // No animation code in any shared.css, including css/shared.css.
+    // Animation code belongs in each component's own CSS file.
+    {
+      files: ['src/components/**/shared.css'],
+      rules: {
+        'at-rule-disallowed-list': ['keyframes'],
+        'property-disallowed-list': [
+          [
+            'animation',
+            'animation-name',
+            'animation-duration',
+            'animation-delay',
+            'animation-timing-function',
+            'animation-iteration-count',
+            'animation-direction',
+            'animation-fill-mode',
+            'animation-play-state',
+            'animation-composition',
+            'transition',
+            'transition-property',
+            'transition-duration',
+            'transition-delay',
+            'transition-timing-function',
+            'transition-behavior',
+          ],
+          {
+            message: (prop) =>
+              `"${prop}" is banned in group-level shared.css — these files are layout/structure only. Animation code belongs in component CSS files.`,
+          },
+        ],
+      },
+    },
+    // ── Layer 3: Demo-blocks shared CSS — no animations ──
+    // Demo-blocks are portable content primitives. Functional component
+    // animations (e.g. toast countdown) live in component-specific CSS
+    // files like DemoToast.css, not in the shared demo-blocks.css.
+    {
+      files: ['src/components/demo-blocks/demo-blocks.css'],
+      rules: {
+        'at-rule-disallowed-list': ['keyframes'],
+        'property-disallowed-list': [
+          [
+            'animation',
+            'animation-name',
+            'animation-duration',
+            'animation-delay',
+            'animation-timing-function',
+            'animation-iteration-count',
+            'animation-direction',
+            'animation-fill-mode',
+            'animation-play-state',
+            'animation-composition',
+            'transition',
+            'transition-property',
+            'transition-duration',
+            'transition-delay',
+            'transition-timing-function',
+            'transition-behavior',
+          ],
+          {
+            message: (prop) =>
+              `"${prop}" is banned in demo-blocks.css — demo-blocks are content primitives with no animations. Functional animations belong in component-specific CSS files (e.g. DemoToast.css).`,
+          },
+        ],
       },
     },
   ],

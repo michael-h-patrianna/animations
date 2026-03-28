@@ -24,7 +24,6 @@ function StandardEffectsJelloComponent({ children, duration = 1000 }: StandardEf
   return (
     <m.div
       data-animation-id="standard-effects__jello"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { skewX: [0, -1.5, 1, -0.5, 0], skewY: [0, -1.5, 1, -0.5, 0] }

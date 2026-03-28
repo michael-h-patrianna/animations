@@ -3,7 +3,7 @@ import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
 import { buildGroupExport } from '@/lib/groupBuilder'
 
 // Side-effect: load framer-variant CSS (layout only — animation CSS banned by lint)
-import.meta.glob('./framer/*.css', { eager: true })
+import.meta.glob(['./framer/*.css', '!./framer/*.module.css'], { eager: true })
 
 const metadata: GroupMetadata = {
   id: 'modal-orchestration',
@@ -19,7 +19,10 @@ export const groupExport = buildGroupExport(
   import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),
   {
     framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),
-    framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),
+    framerCss: import.meta.glob<string>('./framer/*.{css,module.css}', {
+      query: '?raw',
+      import: 'default',
+    }),
     cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
     cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
     shared: import.meta.glob<string>('./*.{ts,tsx}', { query: '?raw', import: 'default' }),

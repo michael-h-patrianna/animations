@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsHeartbeat.css — apply .pf-heartbeat to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsHeartbeat.css'
+import styles from './StandardEffectsHeartbeat.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsHeartbeatProps {
@@ -21,7 +21,11 @@ function StandardEffectsHeartbeatComponent({
   } as CSSProperties
 
   return (
-    <div className="pf-heartbeat" data-animation-id="standard-effects__heartbeat" style={style}>
+    <div
+      className={styles['pf-heartbeat']}
+      data-animation-id="standard-effects__heartbeat"
+      style={style}
+    >
       {children ?? <DemoBox label="Heartbeat" />}
     </div>
   )

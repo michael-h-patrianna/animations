@@ -1,0 +1,4 @@
+/* Layout-only styles for framer DotPulse — animation driven by Motion */
+.pf-update-indicator-fm__dot--pulse {
+  will-change: transform, opacity;
+}

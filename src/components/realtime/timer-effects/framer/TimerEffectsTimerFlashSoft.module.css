@@ -1,0 +1,51 @@
+/* Styles specific to TimerEffectsTimerFlashSoft */
+
+.pf-timer-flash-fm {
+  --timer-effects-timer-flash-soft-bg-1: #ffc107;
+  --timer-effects-timer-flash-soft-border: rgb(255 255 255 / 20%);
+  --timer-effects-timer-flash-soft-color-1: rgb(0 0 0 / 80%);
+  --timer-effects-timer-flash-soft-text-shadow: rgb(255 255 255 / 30%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+}
+
+.pf-timer-flash-fm__pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 50px;
+  background-color: var(--timer-effects-timer-flash-soft-bg-1);
+  border: 2px solid var(--timer-effects-timer-flash-soft-border);
+  min-width: 60px;
+  min-height: 30px;
+  position: relative;
+  --pill-glow-opacity: 0.28;
+  --pill-glow-scale: 1;
+  --pill-glow-color: rgb(255 193 7 / 35%);
+}
+.pf-timer-flash-fm__glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background-color: var(--pill-glow-color);
+  opacity: var(--pill-glow-opacity);
+  transform: scale(var(--pill-glow-scale, 1));
+  pointer-events: none;
+  z-index: -1;
+}
+
+.pf-timer-flash-fm__pill--soft {
+  background-color: var(--timer-effects-timer-flash-soft-bg-1);
+}
+
+.pf-timer-flash-fm__time {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--timer-effects-timer-flash-soft-color-1);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px var(--timer-effects-timer-flash-soft-text-shadow);
+}

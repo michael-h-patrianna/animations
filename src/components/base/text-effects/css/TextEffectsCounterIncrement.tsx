@@ -5,7 +5,7 @@
  */
 
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import './TextEffectsCounterIncrement.css'
+import styles from './TextEffectsCounterIncrement.module.css'
 
 interface Particle {
   id: number
@@ -183,7 +183,7 @@ function TextEffectsCounterIncrementComponent({
 
   return (
     <div
-      className="tfx-cinc-container"
+      className={styles['tfx-cinc-container']}
       data-animation-id="text-effects__counter-increment"
       style={
         color !== undefined
@@ -191,17 +191,20 @@ function TextEffectsCounterIncrementComponent({
           : undefined
       }
     >
-      <div className="tfx-cinc-value-wrapper">
-        <span key={popKey} className="tfx-cinc-value tfx-cinc-value--popping">
-          {prefix !== undefined && <span className="tfx-cinc-label">{prefix}</span>}
+      <div className={styles['tfx-cinc-value-wrapper']}>
+        <span
+          key={popKey}
+          className={`${styles['tfx-cinc-value']} ${styles['tfx-cinc-value--popping']}`}
+        >
+          {prefix !== undefined && <span className={styles['tfx-cinc-label']}>{prefix}</span>}
           {formatRef.current(count)}
-          {suffix !== undefined && <span className="tfx-cinc-label">{suffix}</span>}
+          {suffix !== undefined && <span className={styles['tfx-cinc-label']}>{suffix}</span>}
         </span>
 
         {particles.map((particle) => (
           <span
             key={particle.id}
-            className="tfx-cinc-particle"
+            className={styles['tfx-cinc-particle']}
             onAnimationEnd={() => handleParticleAnimationEnd(particle.id)}
           >
             +{formatRef.current(particle.value)}

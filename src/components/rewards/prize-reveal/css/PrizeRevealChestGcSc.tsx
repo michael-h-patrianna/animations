@@ -9,7 +9,7 @@ import dailyRewardScImage from '@/assets/daily-reward/sc.webp'
 import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
 import pirateChestOpenImage from '@/assets/puzzled-pirate/chest-open.webp'
 
-import './PrizeRevealChestGcSc.css'
+import styles from './PrizeRevealChestGcSc.module.css'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 type SparkleData = { id: number; tx: number; ty: number; size: number; delay: number }
@@ -39,7 +39,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardGcImage,
     value: 1500,
     decimals: 0,
-    modifier: 'pf-chest-gc-sc-css__prize--gc',
+    modifier: styles['pf-chest-gc-sc-css__prize--gc'] ?? '',
   },
   {
     id: 'sc',
@@ -47,7 +47,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardScImage,
     value: 2.5,
     decimals: 2,
-    modifier: 'pf-chest-gc-sc-css__prize--sc',
+    modifier: styles['pf-chest-gc-sc-css__prize--sc'] ?? '',
   },
   {
     id: 'fs',
@@ -55,7 +55,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardFreeSpinsImage,
     value: 50,
     decimals: 0,
-    modifier: 'pf-chest-gc-sc-css__prize--fs',
+    modifier: styles['pf-chest-gc-sc-css__prize--fs'] ?? '',
   },
   {
     id: 'rr',
@@ -63,7 +63,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: dailyRewardRandomRewardImage,
     value: null,
     decimals: 0,
-    modifier: 'pf-chest-gc-sc-css__prize--rr',
+    modifier: styles['pf-chest-gc-sc-css__prize--rr'] ?? '',
   },
 ]
 
@@ -118,11 +118,11 @@ function createBurstSparkles(): SparkleData[] {
 
 function BurstSparkles({ sparkles }: { sparkles: SparkleData[] }) {
   return (
-    <div className="pf-chest-gc-sc-css__sparkles">
+    <div className={styles['pf-chest-gc-sc-css__sparkles']}>
       {sparkles.map((s) => (
         <div
           key={s.id}
-          className="pf-chest-gc-sc-css__sparkle"
+          className={styles['pf-chest-gc-sc-css__sparkle']}
           style={
             {
               '--size': `${s.size}px`,
@@ -139,13 +139,13 @@ function BurstSparkles({ sparkles }: { sparkles: SparkleData[] }) {
 
 function PrizeRays() {
   return (
-    <div className="pf-chest-gc-sc-css__prize-rays-wrap">
-      <div className="pf-chest-gc-sc-css__prize-rays-spin">
-        <div className="pf-chest-gc-sc-css__prize-rays">
+    <div className={styles['pf-chest-gc-sc-css__prize-rays-wrap']}>
+      <div className={styles['pf-chest-gc-sc-css__prize-rays-spin']}>
+        <div className={styles['pf-chest-gc-sc-css__prize-rays']}>
           {RAY_INDICES.map((i) => (
             <span
               key={i}
-              className="pf-chest-gc-sc-css__prize-ray"
+              className={styles['pf-chest-gc-sc-css__prize-ray']}
               style={{ '--ray-rotation': `${i * (360 / RAY_COUNT)}deg` } as CSSProperties}
             />
           ))}
@@ -171,7 +171,7 @@ function Prize({
 
   return (
     <div
-      className={`pf-chest-gc-sc-css__prize ${config.modifier}${claimed ? ' is-claiming' : ''}`}
+      className={`${styles['pf-chest-gc-sc-css__prize']} ${config.modifier}${claimed ? ` ${styles['is-claiming']}` : ''}`}
       style={
         {
           '--fly-x': `${position.flyX}px`,
@@ -186,20 +186,20 @@ function Prize({
         } as CSSProperties
       }
     >
-      <div className="pf-chest-gc-sc-css__prize-icon-wrap">
-        <div className="pf-chest-gc-sc-css__prize-glow" />
+      <div className={styles['pf-chest-gc-sc-css__prize-icon-wrap']}>
+        <div className={styles['pf-chest-gc-sc-css__prize-glow']} />
         <PrizeRays />
         <img
           src={config.src}
           alt=""
           aria-hidden="true"
-          className="pf-chest-gc-sc-css__prize-icon"
+          className={styles['pf-chest-gc-sc-css__prize-icon']}
         />
       </div>
       {hasText && (
-        <div className="pf-chest-gc-sc-css__prize-text">
-          <span className="pf-chest-gc-sc-css__prize-label">{config.label}</span>
-          <span className="pf-chest-gc-sc-css__prize-amount">{amount}</span>
+        <div className={styles['pf-chest-gc-sc-css__prize-text']}>
+          <span className={styles['pf-chest-gc-sc-css__prize-label']}>{config.label}</span>
+          <span className={styles['pf-chest-gc-sc-css__prize-amount']}>{amount}</span>
         </div>
       )}
     </div>
@@ -227,23 +227,23 @@ function ChestAnimation({ prizeCount }: { prizeCount: number }) {
   }
 
   return (
-    <div className="pf-chest-gc-sc-css__stage">
+    <div className={styles['pf-chest-gc-sc-css__stage']}>
       <div
-        className={`pf-chest-gc-sc-css__chest${phase === 'shake' ? ' is-shaking' : ''}${phase === 'reveal' ? ' is-reveal' : ''}`}
+        className={`${styles['pf-chest-gc-sc-css__chest']}${phase === 'shake' ? ` ${styles['is-shaking']}` : ''}${phase === 'reveal' ? ` ${styles['is-reveal']}` : ''}`}
       >
         <img
           src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage}
           alt=""
           aria-hidden="true"
-          className="pf-chest-gc-sc-css__chest-image"
+          className={styles['pf-chest-gc-sc-css__chest-image']}
         />
       </div>
       {phase === 'reveal' && (
         <>
-          <div className="pf-chest-gc-sc-css__burst" />
+          <div className={styles['pf-chest-gc-sc-css__burst']} />
           <BurstSparkles sparkles={sparkles} />
-          {claimed && <div className="pf-chest-gc-sc-css__claim-burst" />}
-          <div className="pf-chest-gc-sc-css__prizes">
+          {claimed && <div className={styles['pf-chest-gc-sc-css__claim-burst']} />}
+          <div className={styles['pf-chest-gc-sc-css__prizes']}>
             {prizes.map((prize, i) => (
               <Prize
                 key={prize.id}
@@ -274,7 +274,7 @@ function PrizeRevealChestGcScComponent({
 }) {
   return (
     <div
-      className="pf-modal-celebration pf-chest-gc-sc-css"
+      className={`pf-modal-celebration ${styles['pf-chest-gc-sc-css']}`}
       data-animation-id="prize-reveal__chest-gc-sc"
       data-prize-count={prizeCount}
     >

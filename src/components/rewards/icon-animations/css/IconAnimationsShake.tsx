@@ -7,7 +7,7 @@
  * Usage: <IconAnimationsShake src="/bell.png" alt="notification" width={80} />
  */
 import { memo } from 'react'
-import './IconAnimationsShake.css'
+import styles from './IconAnimationsShake.module.css'
 
 interface IconAnimationsShakeProps {
   /** Image source URL. Renders a placeholder when omitted. */
@@ -29,7 +29,7 @@ function IconAnimationsShakeComponent({
   return (
     <div data-animation-id="icon-animations__shake">
       <div
-        className="pf-icon-shake"
+        className={styles['pf-icon-shake']}
         style={{ ['--pf-icon-shake-duration' as string]: `${duration}ms` }}
       >
         {src !== undefined ? (

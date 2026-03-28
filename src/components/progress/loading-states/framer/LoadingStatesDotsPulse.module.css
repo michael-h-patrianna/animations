@@ -1,0 +1,12 @@
+/* Layout for LoadingStatesDotsPulse (framer variant) */
+
+.pf-dots-pulse-fm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-dots-pulse-fm__dot {
+  border-radius: 50%;
+  display: inline-block;
+}

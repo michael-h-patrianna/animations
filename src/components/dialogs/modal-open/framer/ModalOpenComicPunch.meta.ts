@@ -29,15 +29,6 @@ export const metadata: AnimationMetadata = {
     },
     {
       type: 'number',
-      name: 'overlayOpacity',
-      label: 'Overlay Opacity',
-      default: 0.5,
-      min: 0,
-      max: 1,
-      step: 0.05,
-    },
-    {
-      type: 'number',
       name: 'impactForce',
       label: 'Impact Force',
       default: 0.5,

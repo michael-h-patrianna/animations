@@ -1,0 +1,20 @@
+/* Layout for LoadingStatesSpinnerDualRing (framer variant) */
+
+.pf-spinner-dual-ring-fm {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-spinner-dual-ring-fm__outer {
+  position: absolute;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.pf-spinner-dual-ring-fm__inner {
+  position: absolute;
+  border-radius: 50%;
+  box-sizing: border-box;
+}

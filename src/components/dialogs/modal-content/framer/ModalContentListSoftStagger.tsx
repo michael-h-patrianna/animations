@@ -23,6 +23,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
+import './ModalContentListSoftStagger.module.css'
 import { generateMockListItems } from '@/components/dialogs/modal-content/MockContentItems'
 import {
   MODAL_ENTRANCE,
@@ -64,7 +65,6 @@ function ModalContentListSoftStaggerComponent({
               ease: [0.25, 0.46, 0.45, 0.94] as const,
             }
       }
-      style={{ animation: 'none' }}
     >
       {child}
     </m.div>
@@ -87,22 +87,14 @@ function ModalContentListSoftStaggerComponent({
   const mockItems = generateMockListItems(DEFAULT_COUNT)
 
   return (
-    <div className="pf-demo-overlay" data-animation-id="modal-content__list-soft-stagger">
-      <m.div
-        className="pf-demo-modal"
-        {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}
-        style={{ animation: 'none' }}
-      >
+    <div className="pf-demo-overlay-fm" data-animation-id="modal-content__list-soft-stagger">
+      <m.div className="pf-demo-modal" {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}>
         <DemoModalHeader title="Recent Changes" />
         <DemoModalBody>
           <DemoList>{mockItems.map((item, i) => animateListItem(item, i, 0.3))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
-          <m.div
-            {...buttonBounceProps(0.6, reduced)}
-            onAnimationComplete={onAnimationComplete}
-            style={{ animation: 'none' }}
-          >
+          <m.div {...buttonBounceProps(0.6, reduced)} onAnimationComplete={onAnimationComplete}>
             <DemoButton label="Got it" />
           </m.div>
         </DemoModalFooter>

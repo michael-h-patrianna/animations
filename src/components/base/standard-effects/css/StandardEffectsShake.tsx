@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsShake.css — apply .pf-shake to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsShake.css'
+import styles from './StandardEffectsShake.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsShakeProps {
@@ -18,7 +18,7 @@ function StandardEffectsShakeComponent({ children, duration = 500 }: StandardEff
   } as CSSProperties
 
   return (
-    <div className="pf-shake" data-animation-id="standard-effects__shake" style={style}>
+    <div className={styles['pf-shake']} data-animation-id="standard-effects__shake" style={style}>
       {children ?? <DemoBox label="Shake" />}
     </div>
   )

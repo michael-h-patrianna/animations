@@ -10,6 +10,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { RING_PROGRESS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesRingProgress.module.css'
 
 interface LoadingStatesRingProgressProps {
   /** Ring diameter in px. */
@@ -50,8 +51,12 @@ function LoadingStatesRingProgressComponent({
   return (
     <div
       data-animation-id="loading-states__ring-progress"
-      className={className !== undefined ? `pf-ring-progress ${className}` : 'pf-ring-progress'}
-      style={{ width: size, height: size, animation: 'none' }}
+      className={
+        className !== undefined
+          ? `${styles['pf-ring-progress-fm']} ${className}`
+          : styles['pf-ring-progress-fm']
+      }
+      style={{ width: size, height: size }}
       role="status"
       aria-label="Loading"
     >
@@ -71,7 +76,7 @@ function LoadingStatesRingProgressComponent({
           strokeWidth={thickness}
         />
         <m.circle
-          className="pf-ring-progress__stroke"
+          className={styles['pf-ring-progress-fm__stroke']}
           cx={center}
           cy={center}
           r={radius}
@@ -80,7 +85,6 @@ function LoadingStatesRingProgressComponent({
           strokeWidth={thickness}
           strokeLinecap="round"
           strokeDasharray={`${circumference}`}
-          style={{ animation: 'none' }}
           animate={
             prefersReducedMotion
               ? { strokeDashoffset: [circumference, circumference * 0.25] }

@@ -1,4 +1,4 @@
-.pf-demo-canvas {
+[data-demo-ui] .pf-demo-canvas {
   position: relative;
   overflow: visible;
   border-radius: var(--pf-radius-xs);
@@ -16,12 +16,12 @@
   justify-content: center;
 }
 
-.pf-demo-canvas .pf-demo-stage {
+[data-demo-ui] .pf-demo-canvas .pf-demo-stage {
   max-width: var(--pf-preview-max-width);
   margin-inline: auto;
 }
 
-.pf-demo-stage {
+[data-demo-ui] .pf-demo-stage {
   position: relative;
   width: 100%;
   min-height: var(--pf-demo-height, 240px);
@@ -31,25 +31,25 @@
   font-family: var(--pf-preview-font, Lato), sans-serif;
 }
 
-.pf-demo-stage--top {
+[data-demo-ui] .pf-demo-stage--top {
   display: flex;
 }
 
-.pf-demo-icon-dot {
+[data-demo-ui] .pf-demo-icon-dot {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
 }
 
-.pf-demo-icon-dot__icon {
+[data-demo-ui] .pf-demo-icon-dot__icon {
   width: 84px;
   height: auto;
   display: block;
   object-fit: contain;
 }
 
-.pf-demo-status-row {
+[data-demo-ui] .pf-demo-status-row {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -57,7 +57,7 @@
   max-width: 300px;
 }
 
-.pf-demo-status-row__dot {
+[data-demo-ui] .pf-demo-status-row__dot {
   width: 12px;
   height: 12px;
   background: var(--theme-accent);
@@ -65,7 +65,7 @@
   flex-shrink: 0;
 }
 
-.pf-demo-status-row__text {
+[data-demo-ui] .pf-demo-status-row__text {
   color: var(--text-secondary);
   font-size: 0.875rem;
   line-height: 1.4;

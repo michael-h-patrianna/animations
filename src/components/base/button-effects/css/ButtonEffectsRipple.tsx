@@ -10,7 +10,7 @@
  */
 
 import { memo, type CSSProperties } from 'react'
-import './ButtonEffectsRipple.css'
+import styles from './ButtonEffectsRipple.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface ButtonEffectsRippleProps {
@@ -32,7 +32,7 @@ function ButtonEffectsRippleComponent({ color, duration }: ButtonEffectsRipplePr
   return (
     <DemoButton
       label="Click Me!"
-      className="pf-ripple"
+      className={styles['pf-ripple']}
       data-animation-id="button-effects__ripple"
       style={style}
     />

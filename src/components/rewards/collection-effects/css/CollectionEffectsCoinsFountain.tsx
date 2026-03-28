@@ -7,7 +7,7 @@
  */
 
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import './CollectionEffectsCoinsFountain.css'
+import styles from './CollectionEffectsCoinsFountain.module.css'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
 import {
@@ -119,19 +119,22 @@ function CollectionEffectsCoinsFountainComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-coins-fountain"
+      className={styles['pf-coins-fountain']}
       data-animation-id="collection-effects__coins-fountain"
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && origin !== null && (
-        <div className="pf-coins-fountain__stage" aria-hidden="true">
-          <div className="pf-coins-fountain__flash" style={{ left: origin.x, top: origin.y }} />
+        <div className={styles['pf-coins-fountain__stage']} aria-hidden="true">
+          <div
+            className={styles['pf-coins-fountain__flash']}
+            style={{ left: origin.x, top: origin.y }}
+          />
           {particles.map((particle) => {
             const isBg = particle.layer === 'bg'
             return (
               <div
                 key={particle.id}
-                className={`pf-coins-fountain__particle${isBg ? ' pf-coins-fountain__particle--bg' : ''}`}
+                className={`${styles['pf-coins-fountain__particle']}${isBg ? ` ${styles['pf-coins-fountain__particle--bg']}` : ''}`}
                 style={
                   {
                     left: origin.x,
@@ -149,7 +152,7 @@ function CollectionEffectsCoinsFountainComponent({
                   <img
                     src={particle.imageSrc}
                     alt=""
-                    className="pf-coins-fountain__particle-image"
+                    className={styles['pf-coins-fountain__particle-image']}
                   />
                 ) : (
                   <FallbackParticle

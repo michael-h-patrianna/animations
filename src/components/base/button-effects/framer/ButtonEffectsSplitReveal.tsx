@@ -19,7 +19,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { useEffect, useState, memo, type ReactNode } from 'react'
-import './ButtonEffectsSplitReveal.css'
+import styles from './ButtonEffectsSplitReveal.module.css'
 
 const SPLIT_TRANSITION = { duration: 0.8, ease: [0.68, -0.55, 0.265, 1.55] as const }
 
@@ -84,12 +84,12 @@ function ButtonEffectsSplitRevealComponent({
   return (
     <button
       type="button"
-      className={`pf-split-reveal-fm ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
+      className={`${styles['pf-split-reveal-fm']} ${className ?? 'pf-demo-btn pf-demo-btn--primary'}`}
       data-animation-id="button-effects__split-reveal"
       onClick={handleClick}
     >
       <m.span
-        className="pf-split-reveal-fm__top"
+        className={styles['pf-split-reveal-fm__top']}
         variants={topVariants}
         animate={state}
         transition={transition}
@@ -97,7 +97,7 @@ function ButtonEffectsSplitRevealComponent({
         {topLabel}
       </m.span>
       <m.span
-        className="pf-split-reveal-fm__bottom"
+        className={styles['pf-split-reveal-fm__bottom']}
         variants={bottomVariants}
         animate={state}
         transition={transition}
@@ -105,7 +105,7 @@ function ButtonEffectsSplitRevealComponent({
         {bottomLabel}
       </m.span>
       <m.span
-        className="pf-split-reveal-fm__content"
+        className={styles['pf-split-reveal-fm__content']}
         variants={revealVariants}
         initial="closed"
         animate={state}

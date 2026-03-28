@@ -20,7 +20,7 @@ import {
   type DirectionalRevealProps,
 } from '@/components/dialogs/modal-content/SharedTypes'
 
-import './ModalContentFormFieldLeftReveal.css'
+import styles from './ModalContentFormFieldLeftReveal.module.css'
 
 const DEFAULT_DURATION = 500
 const DEFAULT_STAGGER = 90
@@ -40,7 +40,7 @@ function ModalContentFormFieldLeftRevealComponent({
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
       key={i}
-      className="pf-form-left-reveal-item"
+      className={styles['pf-form-left-reveal-item']}
       style={
         {
           '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
@@ -73,7 +73,7 @@ function ModalContentFormFieldLeftRevealComponent({
 
   return (
     <div className="pf-demo-overlay" data-animation-id="modal-content__form-field-left-reveal">
-      <div className="pf-demo-modal pf-mc-box--entrance">
+      <div className={`pf-demo-modal ${styles['pf-mc-box--entrance']}`}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
@@ -82,7 +82,7 @@ function ModalContentFormFieldLeftRevealComponent({
         </DemoModalBody>
         <DemoModalFooter>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '750ms',
@@ -93,7 +93,7 @@ function ModalContentFormFieldLeftRevealComponent({
             <DemoButton label="Accept" />
           </div>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '820ms',

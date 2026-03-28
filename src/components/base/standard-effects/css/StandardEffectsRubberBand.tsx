@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsRubberBand.css — apply .pf-rubber-band to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsRubberBand.css'
+import styles from './StandardEffectsRubberBand.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsRubberBandProps {
@@ -21,7 +21,11 @@ function StandardEffectsRubberBandComponent({
   } as CSSProperties
 
   return (
-    <div className="pf-rubber-band" data-animation-id="standard-effects__rubber-band" style={style}>
+    <div
+      className={styles['pf-rubber-band']}
+      data-animation-id="standard-effects__rubber-band"
+      style={style}
+    >
       {children ?? <DemoBox label="Rubber Band" />}
     </div>
   )

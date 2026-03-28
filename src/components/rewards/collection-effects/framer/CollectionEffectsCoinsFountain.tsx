@@ -9,6 +9,7 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
+import styles from './CollectionEffectsCoinsFountain.module.css'
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
 import {
   generateFallbackParticle,
@@ -78,8 +79,8 @@ function generateParticles(
 function LaunchFlash({ origin }: { origin: ResolvedPoint }) {
   return (
     <m.div
-      className="pf-coins-fountain__flash"
-      style={{ left: origin.x, top: origin.y, animation: 'none' }}
+      className={styles['pf-coins-fountain-fm__flash']}
+      style={{ left: origin.x, top: origin.y }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 0], opacity: [0, 0.9, 0.3, 0] }}
       transition={{ duration: 0.4, times: [0, 0.3, 0.65, 1], ease: 'easeOut' }}
@@ -105,12 +106,11 @@ function ParticleElement({
 
   return (
     <m.div
-      className="pf-coins-fountain__particle"
+      className={styles['pf-coins-fountain-fm__particle']}
       style={{
         left: origin.x,
         top: origin.y,
         zIndex: isBg ? 0 : 1,
-        animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0.15, rotateY: 0, rotateZ: 0, opacity: 0 }}
       animate={{
@@ -156,7 +156,11 @@ function ParticleElement({
       aria-hidden="true"
     >
       {particle.imageSrc ? (
-        <img src={particle.imageSrc} alt="" className="pf-coins-fountain__particle-image" />
+        <img
+          src={particle.imageSrc}
+          alt=""
+          className={styles['pf-coins-fountain-fm__particle-image']}
+        />
       ) : (
         <FallbackParticle
           shape={particle.fallback.shape}
@@ -216,12 +220,16 @@ function CollectionEffectsCoinsFountainComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-coins-fountain"
+      className={styles['pf-coins-fountain-fm']}
       data-animation-id="collection-effects__coins-fountain"
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && origin !== null && (
-        <div className="pf-coins-fountain__stage" aria-hidden="true" style={{ perspective: 300 }}>
+        <div
+          className={styles['pf-coins-fountain-fm__stage']}
+          aria-hidden="true"
+          style={{ perspective: 300 }}
+        >
           <LaunchFlash origin={origin} />
           {particles.map((particle) => (
             <ParticleElement

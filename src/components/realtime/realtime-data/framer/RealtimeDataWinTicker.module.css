@@ -1,0 +1,23 @@
+/* Structural: ticker / marquee (moved from shared.css — single-consumer) */
+
+:global(.pf-realtime-data-fm__ticker) {
+  --pf-realtime-ticker-bg: rgb(31 41 55 / 80%);
+  background: var(--pf-realtime-ticker-bg);
+  border-radius: 8px;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.pf-realtime-data-fm__ticker-text) {
+  --pf-realtime-ticker-color: #f59e0b;
+  color: var(--pf-realtime-ticker-color);
+  font-weight: 600;
+  white-space: nowrap;
+  position: absolute;
+}

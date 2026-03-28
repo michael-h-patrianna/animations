@@ -4,14 +4,37 @@
 
 ---
 
+## CSS Layers
+
+Four CSS layers with strict boundaries enforced by stylelint.
+
+| Layer                | Directory                                       | Prefix                  | Animation CSS                                                           | Enforcement                                                      |
+| -------------------- | ----------------------------------------------- | ----------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Framer animation CSS | `framer/*.css`                                  | `pf-*-fm`               | Banned (`@keyframes`, `animation`, `transition`)                        | Stylelint: `at-rule-disallowed-list`, `property-disallowed-list` |
+| CSS animation CSS    | `css/*.css` (per component)                     | `pf-*`                  | Allowed                                                                 | —                                                                |
+| Demo-blocks          | `demo-blocks/demo-blocks.css`                   | `pf-demo-*`             | Banned in shared file; component-specific CSS (e.g. `DemoToast.css`) OK | Stylelint override                                               |
+| Demo-UI              | `demo-ui/`, `src/styles/`, `src/components/ui/` | `[data-demo-ui]` scoped | Allowed (catalog transitions, selection glow)                           | Attribute scoping                                                |
+
+**shared.css** (group-level): structural/visual foundation only — layout, sizing, colors. Zero `@keyframes`, `animation`, or `transition` properties. Enforced by stylelint.
+
+### What a consumer copies per animation
+
+1. `ComponentName.tsx` — the component
+2. `ComponentName.css` — its own animation styles (can have keyframes/transitions)
+3. Group `shared.css` — structural/visual foundation (no animation code)
+4. Shared `.ts`/`.tsx` — helpers, types, hooks
+
+Demo-blocks are not consumer-facing — they exist only to make the showcase work.
+
 ## CSS Rules
 
-| Rule                  | Required                                             | Forbidden                                         |
-| --------------------- | ---------------------------------------------------- | ------------------------------------------------- |
-| Class prefix          | `pf-` (e.g., `pf-modal`, `pf-modal--variant`)        | Unprefixed classes in animation components        |
-| CSS scope             | Group-scoped `shared.css` or component-scoped `.css` | Global CSS in `App.css` or `index.css`            |
-| Animation CSS         | CSS files in `css/` subdirectory only                | Animation keyframes in framer/ components         |
-| Layout CSS in framer/ | Allowed for layout-only concerns                     | Animation properties (`@keyframes`, `transition`) |
+| Rule                  | Required                                             | Forbidden                                                            |
+| --------------------- | ---------------------------------------------------- | -------------------------------------------------------------------- |
+| Class prefix          | `pf-` (e.g., `pf-modal`, `pf-modal--variant`)        | Unprefixed classes in animation components                           |
+| Framer class suffix   | `-fm` (e.g., `pf-ripple-fm`)                         | `pf-*` without `-fm` in `framer/*.css`                               |
+| CSS scope             | Group-scoped `shared.css` or component-scoped `.css` | Global CSS in `App.css` or `index.css`                               |
+| Animation CSS         | Component's own CSS file in `css/` only              | Animation keyframes in `framer/`, `shared.css`, or `demo-blocks.css` |
+| Layout CSS in framer/ | Allowed for layout-only concerns                     | Animation properties (`@keyframes`, `transition`)                    |
 
 ## Import Rules
 

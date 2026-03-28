@@ -1,0 +1,14 @@
+/* Structural: expanding halo for sweep effect (moved from shared.css — single-consumer) */
+:global(.pf-update-indicator-fm__halo) {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Layout-only styles for framer DotSweep — animation driven by Motion */
+.pf-update-indicator-fm__dot--fill {
+  will-change: transform;
+}

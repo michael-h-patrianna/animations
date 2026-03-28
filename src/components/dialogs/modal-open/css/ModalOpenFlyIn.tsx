@@ -16,8 +16,7 @@ import {
   type DemoPreset,
 } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
-import './shared-css-animations.css'
-import './ModalOpenFlyIn.css'
+import styles from './ModalOpenFlyIn.module.css'
 import {
   computeArcCloseTrajectory,
   computeArcTrajectory,
@@ -122,43 +121,31 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
       )}
 
       {isVisible && activeTrajectory !== null && (
-        <>
+        <div className="pf-mo-stage">
           <div
-            className={`pf-mo-overlay ${isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`}
+            ref={modalRef}
+            className={`pf-mo-modal ${isArc ? (isClosing ? styles['pf-mo-modal--arc-close'] : styles['pf-mo-modal--arc']) : styles['pf-mo-modal--pop']}${props.className ? ` ${props.className}` : ''}`}
             style={
               {
-                '--pf-mo-overlay-opacity': s.overlayOpacity,
+                ...props.style,
                 '--pf-mo-duration': `${activeDurationMs}ms`,
               } as React.CSSProperties
             }
-          />
-
-          <div className="pf-mo-stage">
-            <div
-              ref={modalRef}
-              className={`pf-mo-modal ${isArc ? (isClosing ? 'pf-mo-modal--arc-close' : 'pf-mo-modal--arc') : 'pf-mo-modal--pop'}${props.className ? ` ${props.className}` : ''}`}
-              style={
-                {
-                  ...props.style,
-                  '--pf-mo-duration': `${activeDurationMs}ms`,
-                } as React.CSSProperties
-              }
+          >
+            {!isClosing && (
+              <div
+                className={`pf-mo-impact-glow ${styles['pf-mo-impact-glow--css']}`}
+                style={{ '--pf-mo-duration': `${activeDurationMs}ms` } as React.CSSProperties}
+              />
+            )}
+            <ModalOpenPlaceholder
+              revealed={s.contentRevealed}
+              onClose={s.isDemoMode ? s.handleClose : undefined}
             >
-              {!isClosing && (
-                <div
-                  className="pf-mo-impact-glow pf-mo-impact-glow--css"
-                  style={{ '--pf-mo-duration': `${activeDurationMs}ms` } as React.CSSProperties}
-                />
-              )}
-              <ModalOpenPlaceholder
-                revealed={s.contentRevealed}
-                onClose={s.isDemoMode ? s.handleClose : undefined}
-              >
-                {props.children}
-              </ModalOpenPlaceholder>
-            </div>
+              {props.children}
+            </ModalOpenPlaceholder>
           </div>
-        </>
+        </div>
       )}
     </div>
   )

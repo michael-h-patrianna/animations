@@ -14,7 +14,7 @@ import {
   SKELETON_BASE_COLOR,
   SKELETON_SHIMMER_COLOR,
 } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSkeletonCard.css'
+import styles from './LoadingStatesSkeletonCard.module.css'
 
 interface LoadingStatesSkeletonCardProps {
   /** Overall width in px. */
@@ -77,13 +77,17 @@ function LoadingStatesSkeletonCardComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-card"
-      className={className !== undefined ? `pf-skeleton-card ${className}` : 'pf-skeleton-card'}
+      className={
+        className !== undefined
+          ? `${styles['pf-skeleton-card']} ${className}`
+          : styles['pf-skeleton-card']
+      }
       style={{ ...vars, width, gap }}
       role="status"
       aria-label="Loading"
     >
       <div
-        className="pf-skeleton"
+        className={styles['pf-skeleton']}
         style={{
           width: `${TITLE_WIDTH_PERCENT}%`,
           height: titleHeight,
@@ -93,7 +97,7 @@ function LoadingStatesSkeletonCardComponent({
       {Array.from({ length: lines }, (_, i) => (
         <div
           key={i}
-          className="pf-skeleton"
+          className={styles['pf-skeleton']}
           style={{
             width: `${BODY_WIDTHS[i % BODY_WIDTHS.length]}%`,
             height: lineHeight,

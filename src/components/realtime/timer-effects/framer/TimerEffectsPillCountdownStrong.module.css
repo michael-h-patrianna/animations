@@ -1,0 +1,58 @@
+/* Strong intensity: stronger heartbeat, shake bursts, glow */
+.pf-pill-timer-fm {
+  --timer-effects-pill-countdown-strong-border: rgb(255 255 255 / 22%);
+  --timer-effects-pill-countdown-strong-color-1: rgb(0 0 0 / 90%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+}
+
+.pf-pill-timer-fm__pill {
+  --pill-bg: #ffb300;
+  --pill-glow-opacity: 0;
+  --pill-glow-scale: 0.92;
+  --pill-glow-color: rgb(255 209 102 / 45%);
+  min-width: 100px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background-color: var(--pill-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px solid var(--timer-effects-pill-countdown-strong-border);
+}
+
+.pf-pill-timer-fm__pill .pf-pill-timer-fm__glow {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.pf-pill-timer-fm__pill--strong .pf-pill-timer-fm__glow {
+  inset: -5px;
+  border: 2px solid var(--pill-glow-color);
+  opacity: var(--pill-glow-opacity);
+  transform: scale(var(--pill-glow-scale, 0.92));
+}
+
+.pf-pill-timer-fm__pill--strong.pf-pill-timer-fm--warning {
+  --pill-bg: #ff7a00;
+  --pill-glow-color: rgb(255 179 71 / 50%);
+}
+
+.pf-pill-timer-fm__pill--strong.pf-pill-timer-fm--critical {
+  --pill-bg: #dc3545;
+  --pill-glow-color: rgb(255 107 125 / 50%);
+}
+
+.pf-pill-timer-fm__time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  font-size: 13px;
+  color: var(--timer-effects-pill-countdown-strong-color-1);
+  text-shadow: 0 1px 1px var(--timer-effects-pill-countdown-strong-border);
+}

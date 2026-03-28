@@ -6,6 +6,7 @@
 
 import * as m from 'motion/react-m'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbFlip.module.css'
 
 interface TextEffectsVerbFlipProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -22,18 +23,18 @@ function TextEffectsVerbFlipComponent({
 
   return (
     <div
-      className="pf-verb-flip-fm"
+      className={styles['pf-verb-flip-fm']}
       data-animation-id="text-effects__verb-flipping"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-flip-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-verb-flip-fm__line" aria-hidden="true">
+      <div className={styles['pf-verb-flip-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-flip-fm__char"
+            className={styles['pf-verb-flip-fm__char']}
             style={{ perspective: 600 }}
             initial={{ rotateY: 0 }}
             animate={{

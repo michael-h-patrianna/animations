@@ -1,34 +1,12 @@
 /*
- * Shared structural + animation CSS for modal-content choreography animations.
+ * Shared layout CSS for modal-content choreography animations.
+ * Animation CSS (entrance, stagger, reduced-motion) lives in css/shared.css.
  * Visual styling for inner elements (header, buttons, list items, form fields)
  * is provided by demo-blocks.css via --pf-demo-* tokens.
  * Color tokens defined in src/components/demo-tokens.css (--pf-mc-* aliases).
  */
 
-/* CSS-only entrance (CSS variants use this class) */
-.pf-mc-box--entrance {
-  animation: pf-mc-entrance 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: transform, opacity;
-}
-
-@keyframes pf-mc-entrance {
-  0% {
-    transform: scale(0.88) translateY(-16px);
-    opacity: 0;
-  }
-
-  50% {
-    transform: scale(1.02) translateY(-4px);
-    opacity: 0.6;
-  }
-
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
-
-/* ── Stagger containers (used by consumer path) ── */
+/* ── Stagger containers (used by both variants for flexbox layout) ── */
 .pf-content-stagger {
   display: flex;
   flex-direction: column;
@@ -44,48 +22,4 @@
 
 .pf-content-stagger--form {
   gap: 16px;
-}
-
-/* ── Button stagger item (shared across multiple content choreographies) ── */
-.pf-button-stagger-item {
-  animation: pf-button-bounce-up var(--pf-stagger-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1) both;
-  animation-delay: var(--pf-stagger-delay, 0ms);
-}
-
-@keyframes pf-button-bounce-up {
-  0% {
-    transform: translateY(16px) scale(0.94);
-    opacity: 0;
-  }
-
-  60% {
-    transform: translateY(-6px) scale(1.06);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .pf-mc-box--entrance {
-    animation: pf-mc-reduced-fade 200ms ease-out both;
-  }
-
-  .pf-button-stagger-item {
-    animation: pf-mc-reduced-fade 200ms ease-out both;
-    transform: none;
-  }
-
-  @keyframes pf-mc-reduced-fade {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 }

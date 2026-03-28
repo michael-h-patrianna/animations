@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsSqueeze.css — apply .pf-squeeze to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsSqueeze.css'
+import styles from './StandardEffectsSqueeze.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSqueezeProps {
@@ -21,7 +21,11 @@ function StandardEffectsSqueezeComponent({
   } as CSSProperties
 
   return (
-    <div className="pf-squeeze" data-animation-id="standard-effects__squeeze" style={style}>
+    <div
+      className={styles['pf-squeeze']}
+      data-animation-id="standard-effects__squeeze"
+      style={style}
+    >
       {children ?? <DemoBox label="Squeeze" />}
     </div>
   )

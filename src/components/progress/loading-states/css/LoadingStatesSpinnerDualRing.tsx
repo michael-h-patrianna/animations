@@ -11,7 +11,7 @@ import {
   SPINNER_DUAL_RING_COLOR,
   SPINNER_DUAL_RING_SECONDARY,
 } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSpinnerDualRing.css'
+import styles from './LoadingStatesSpinnerDualRing.module.css'
 
 interface LoadingStatesSpinnerDualRingProps {
   /** Overall diameter in px. */
@@ -46,7 +46,9 @@ function LoadingStatesSpinnerDualRingComponent({
     <div
       data-animation-id="loading-states__spinner-dual-ring"
       className={
-        className !== undefined ? `pf-spinner-dual-ring ${className}` : 'pf-spinner-dual-ring'
+        className !== undefined
+          ? `${styles['pf-spinner-dual-ring']} ${className}`
+          : styles['pf-spinner-dual-ring']
       }
       style={
         {
@@ -65,8 +67,8 @@ function LoadingStatesSpinnerDualRingComponent({
       role="status"
       aria-label="Loading"
     >
-      <div className="pf-spinner-dual-ring__outer" />
-      <div className="pf-spinner-dual-ring__inner" />
+      <div className={styles['pf-spinner-dual-ring__outer']} />
+      <div className={styles['pf-spinner-dual-ring__inner']} />
     </div>
   )
 }

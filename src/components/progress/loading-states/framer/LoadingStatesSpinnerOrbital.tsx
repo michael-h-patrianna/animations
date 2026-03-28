@@ -10,6 +10,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { SPINNER_ORBITAL_COLOR } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesSpinnerOrbital.module.css'
 
 interface LoadingStatesSpinnerOrbitalProps {
   /** Diameter of the orbital path in px. */
@@ -46,17 +47,20 @@ function LoadingStatesSpinnerOrbitalComponent({
   return (
     <div
       data-animation-id="loading-states__spinner-orbital"
-      className={className !== undefined ? `pf-spinner-orbital ${className}` : 'pf-spinner-orbital'}
+      className={
+        className !== undefined
+          ? `${styles['pf-spinner-orbital-fm']} ${className}`
+          : styles['pf-spinner-orbital-fm']
+      }
       style={{
         width: size,
         height: size,
-        animation: 'none',
       }}
       role="status"
       aria-label="Loading"
     >
       <m.span
-        className="pf-spinner-orbital__satellite"
+        className={styles['pf-spinner-orbital-fm__satellite']}
         style={{
           width: satelliteSize,
           height: satelliteSize,
@@ -65,7 +69,6 @@ function LoadingStatesSpinnerOrbitalComponent({
           left: (size - satelliteSize) / 2,
           ['--pf-so-glow' as string]: glowShadow,
           transformOrigin: `${satelliteSize / 2}px ${originY}px`,
-          animation: 'none',
         }}
         animate={prefersReducedMotion ? { opacity: [1, 0.4, 1] } : { rotate: 360 }}
         transition={
@@ -75,11 +78,10 @@ function LoadingStatesSpinnerOrbitalComponent({
         }
       />
       <m.span
-        className="pf-spinner-orbital__ring"
+        className={styles['pf-spinner-orbital-fm__ring']}
         style={{
           inset: ringInset,
           border: `2px dashed ${ringColor}`,
-          animation: 'none',
         }}
         animate={
           prefersReducedMotion

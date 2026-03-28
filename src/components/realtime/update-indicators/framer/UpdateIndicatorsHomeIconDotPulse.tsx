@@ -13,6 +13,7 @@ import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import { DOT_COLOR, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
+import styles from './UpdateIndicatorsHomeIconDotPulse.module.css'
 
 function UpdateIndicatorsHomeIconDotPulseComponent({
   children,
@@ -26,7 +27,7 @@ function UpdateIndicatorsHomeIconDotPulseComponent({
 
   const dot = (
     <m.span
-      className="pf-update-indicator__dot pf-update-indicator__dot--pulse"
+      className={`pf-update-indicator-fm__dot ${styles['pf-update-indicator-fm__dot--pulse']}`}
       style={{
         width: dotSize,
         height: dotSize,
@@ -38,7 +39,7 @@ function UpdateIndicatorsHomeIconDotPulseComponent({
     >
       {!prefersReducedMotion && (
         <m.span
-          className="pf-update-indicator__dot-ring"
+          className="pf-update-indicator-fm__dot-ring"
           style={{
             inset: `${-Math.round(dotSize * 0.57)}px`,
             border: ringBorder,
@@ -52,9 +53,12 @@ function UpdateIndicatorsHomeIconDotPulseComponent({
   )
 
   return (
-    <div className="pf-update-indicator" data-animation-id="update-indicators__home-icon-dot-pulse">
+    <div
+      className="pf-update-indicator-fm"
+      data-animation-id="update-indicators__home-icon-dot-pulse"
+    >
       {children !== undefined ? (
-        <div className="pf-update-indicator__anchor">
+        <div className="pf-update-indicator-fm__anchor">
           {children}
           {dot}
         </div>

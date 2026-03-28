@@ -1,4 +1,5 @@
 import './demo-blocks.css'
+import './DemoToast.css'
 
 interface DemoToastProps {
   title?: string

@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationGridHighlight.module.css'
 
 const DEFAULT_COUNT = 5
 
@@ -76,20 +77,15 @@ function ModalOrchestrationGridHighlightComponent({
 
   return (
     <m.div
-      className="pf-grid-highlight"
+      className={styles['pf-grid-highlight-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__grid-highlight"
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, animation: 'none' }}
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
       {renderItems.map((child, i) => (
-        <m.div
-          key={i}
-          className="pf-grid-highlight__item"
-          variants={itemVariants}
-          style={{ animation: 'none' }}
-        >
+        <m.div key={i} className={styles['pf-grid-highlight-fm__item']} variants={itemVariants}>
           {child}
         </m.div>
       ))}

@@ -16,6 +16,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import type { ReactNode } from 'react'
 import { DemoCard } from '@/components/demo-blocks'
+import styles from './ModalOrchestrationSpringPhysics.module.css'
 
 const DEFAULT_COUNT = 6
 
@@ -101,21 +102,20 @@ function ModalOrchestrationSpringPhysicsComponent({
 
   return (
     <m.div
-      className="pf-spring-physics"
+      className={styles['pf-spring-physics-fm']}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       data-animation-id="modal-orchestration__spring-physics"
-      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, animation: 'none' }}
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
       {renderItems.map((child, i) => (
         <m.div
           key={i}
-          className="pf-spring-physics__item"
+          className={styles['pf-spring-physics-fm__item']}
           variants={itemVariants}
           whileHover={hoverAnimation}
           whileTap={tapAnimation}
-          style={{ animation: 'none' }}
         >
           {child}
         </m.div>

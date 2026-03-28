@@ -2,6 +2,7 @@ import { AnimatePresence, MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
+import styles from './PrizeRevealArcanePortal.module.css'
 import arcanePortalRunicSigilImage from '@/assets/arcane-portal/runic-sigil.webp'
 import { useCountUp } from '@/hooks/useCountUp'
 
@@ -39,7 +40,7 @@ import {
 
 function OrbitingMotes({ motes, delay }: { motes: MoteData[]; delay: number }) {
   return (
-    <div className="pf-arcane-portal__motes">
+    <div className={styles['pf-arcane-portal-fm__motes']}>
       {motes.map((mote) => {
         const r = mote.radius
         const a = mote.angle
@@ -55,7 +56,7 @@ function OrbitingMotes({ motes, delay }: { motes: MoteData[]; delay: number }) {
         return (
           <m.div
             key={mote.id}
-            className="pf-arcane-portal__mote"
+            className={styles['pf-arcane-portal-fm__mote']}
             style={{ '--mote-size': `${mote.size}px` } as CSSProperties}
             initial={{ opacity: 0 }}
             animate={{
@@ -78,7 +79,7 @@ function OrbitingMotes({ motes, delay }: { motes: MoteData[]; delay: number }) {
 function PrizeAura({ delay }: { delay: number }) {
   return (
     <m.div
-      className="pf-arcane-portal__prize-aura"
+      className={styles['pf-arcane-portal-fm__prize-aura']}
       initial={{ opacity: 0, scale: 0.3 }}
       animate={{ opacity: [0, 0.8, 0.6], scale: [0.3, 1.1, 1] }}
       transition={{
@@ -94,7 +95,7 @@ function PrizeAura({ delay }: { delay: number }) {
 function RunicSigil({ delay }: { delay: number }) {
   return (
     <m.div
-      className="pf-arcane-portal__sigil-wrap"
+      className={styles['pf-arcane-portal-fm__sigil-wrap']}
       initial={{ opacity: 0, scale: 0, rotate: -60 }}
       animate={{ opacity: 0.75, scale: 1, rotate: 0 }}
       transition={{
@@ -107,7 +108,7 @@ function RunicSigil({ delay }: { delay: number }) {
         src={arcanePortalRunicSigilImage}
         alt=""
         aria-hidden="true"
-        className="pf-arcane-portal__sigil-image"
+        className={styles['pf-arcane-portal-fm__sigil-image']}
         animate={{ rotate: 360, opacity: [0.55, 0.85, 0.55] }}
         transition={{
           rotate: { duration: 10, repeat: Infinity, ease: 'linear' },
@@ -121,7 +122,7 @@ function RunicSigil({ delay }: { delay: number }) {
 function MaterializeFlash({ delay }: { delay: number }) {
   return (
     <m.div
-      className="pf-arcane-portal__materialize-ring"
+      className={styles['pf-arcane-portal-fm__materialize-ring']}
       initial={{ opacity: 0, scale: 0.2 }}
       animate={{ opacity: [0, 1, 0], scale: [0.2, 1.4, 2] }}
       transition={{
@@ -137,7 +138,7 @@ function MaterializeFlash({ delay }: { delay: number }) {
 function PrizeText({ label, amount, delay }: { label: string; amount: string; delay: number }) {
   return (
     <m.div
-      className="pf-arcane-portal__prize-text"
+      className={styles['pf-arcane-portal-fm__prize-text']}
       initial={{ opacity: 0, scale: 0.3, y: 8 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{
@@ -146,8 +147,8 @@ function PrizeText({ label, amount, delay }: { label: string; amount: string; de
         ease: [0.34, 1.56, 0.64, 1] as const,
       }}
     >
-      <span className="pf-arcane-portal__prize-label">{label}</span>
-      <span className="pf-arcane-portal__prize-amount">{amount}</span>
+      <span className={styles['pf-arcane-portal-fm__prize-label']}>{label}</span>
+      <span className={styles['pf-arcane-portal-fm__prize-amount']}>{amount}</span>
     </m.div>
   )
 }
@@ -172,7 +173,7 @@ function Prize({
 
   return (
     <m.div
-      className={`pf-arcane-portal__prize ${config.modifier}`}
+      className={`${styles['pf-arcane-portal-fm__prize']} ${styles[config.modifier]}`}
       initial={{ x: 0, y: -90, scale: 0, opacity: 0 }}
       animate={
         claimed
@@ -206,7 +207,7 @@ function Prize({
       }
     >
       <PrizeAura delay={slot.delay} />
-      <div className="pf-arcane-portal__prize-icon-wrap">
+      <div className={styles['pf-arcane-portal-fm__prize-icon-wrap']}>
         <MaterializeFlash delay={slot.delay} />
         <RunicSigil delay={slot.delay} />
         <OrbitingMotes motes={motes} delay={slot.delay} />
@@ -214,7 +215,7 @@ function Prize({
           src={config.src}
           alt=""
           aria-hidden="true"
-          className="pf-arcane-portal__prize-icon"
+          className={styles['pf-arcane-portal-fm__prize-icon']}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: [0, 1.2, 0.93, 1], opacity: [0, 1, 1, 1] }}
           transition={{
@@ -254,14 +255,14 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
   const handleClaim = () => setClaimed(true)
 
   return (
-    <div className="pf-arcane-portal__stage">
+    <div className={styles['pf-arcane-portal-fm__stage']}>
       <AmbientGlow />
       <ConvergeParticles particles={particles} />
       <InnerVortex phase={phase} />
       <PortalRing phase={phase} />
 
       {/* Runes wrap — AnimatePresence enables smooth exit */}
-      <div className="pf-arcane-portal__runes">
+      <div className={styles['pf-arcane-portal-fm__runes']}>
         <AnimatePresence>{showRunes && <OrbitingRunes />}</AnimatePresence>
       </div>
 
@@ -270,7 +271,7 @@ function PortalAnimation({ prizeCount }: { prizeCount: number }) {
           <Shockwave />
           <BurstFlash />
           {claimed && <ClaimBurst />}
-          <div className="pf-arcane-portal__prizes">
+          <div className={styles['pf-arcane-portal-fm__prizes']}>
             {prizes.map((prize, i) => (
               <Prize
                 key={prize.id}
@@ -302,7 +303,7 @@ function PrizeRevealArcanePortalComponent({
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className="pf-modal-celebration pf-arcane-portal"
+        className={`pf-modal-celebration ${styles['pf-arcane-portal-fm']}`}
         data-animation-id="prize-reveal__arcane-portal"
         data-prize-count={prizeCount}
       >

@@ -27,9 +27,9 @@ function UpdateIndicatorsBadgePopComponent({
   const durS = duration / 1000
 
   return (
-    <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pop">
+    <div className="pf-update-indicator-fm" data-animation-id="update-indicators__badge-pop">
       <m.div
-        className="pf-update-indicator__badge"
+        className="pf-update-indicator-fm__badge"
         style={{ background: color, color: textColor, animation: 'none' }}
         initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0.6 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { scale: [0.6, 1.1, 1] }}

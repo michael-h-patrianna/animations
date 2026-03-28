@@ -9,7 +9,7 @@
 import { memo } from 'react'
 import { DOT_COLOR, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
-import './UpdateIndicatorsHomeIconDotBounce.css'
+import styles from './UpdateIndicatorsHomeIconDotBounce.module.css'
 
 function UpdateIndicatorsHomeIconDotBounceComponent({
   children,
@@ -29,7 +29,7 @@ function UpdateIndicatorsHomeIconDotBounceComponent({
 
   const dot = (
     <span
-      className="pf-update-indicator__dot pf-update-indicator__dot--bounce pf-dot-bounce-enter"
+      className={`pf-update-indicator__dot pf-update-indicator__dot--bounce ${styles['pf-dot-bounce-enter']}`}
       style={dotStyle}
     />
   )

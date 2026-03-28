@@ -8,7 +8,7 @@
  */
 
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
-import './RealtimeDataLiveScoreUpdate.css'
+import './RealtimeDataLiveScoreUpdate.module.css'
 
 import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
 

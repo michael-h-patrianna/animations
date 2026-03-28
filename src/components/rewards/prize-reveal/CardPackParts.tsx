@@ -5,6 +5,8 @@ import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
 import crystalShatterPrismaticRingImage from '@/assets/crystal-shatter/prismatic-ring.webp'
 import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'
 
+import styles from './framer/CardPackOpen.module.css'
+
 /* ─── Shared types ─── */
 
 export type PackPhase = 'arrival' | 'anticipation' | 'burst' | 'fan' | 'flip' | 'idle'
@@ -115,7 +117,7 @@ export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: st
 
   return (
     <m.div
-      className="pf-card-pack__pack-body"
+      className={styles['pf-card-pack-fm__pack-body']}
       initial={{ y: -180, scaleX: 0.5, scaleY: 0.5, opacity: 0 }}
       animate={{
         y: 0,
@@ -143,7 +145,12 @@ export function PackBody({ phase, packImage }: { phase: PackPhase; packImage: st
         }
         transition={isShaking ? { duration: 1.0, ease: 'linear' } : {}}
       >
-        <img src={packImage} alt="" aria-hidden="true" className="pf-card-pack__pack-image" />
+        <img
+          src={packImage}
+          alt=""
+          aria-hidden="true"
+          className={styles['pf-card-pack-fm__pack-image']}
+        />
       </m.div>
     </m.div>
   )
@@ -159,7 +166,7 @@ export function SeamLight({ phase }: { phase: PackPhase }) {
 
   return (
     <m.div
-      className="pf-card-pack__seam"
+      className={styles['pf-card-pack-fm__seam']}
       initial={{ opacity: 0, scaleX: 0.2 }}
       animate={{ opacity: [0, 0.4, 0.7, 1], scaleX: [0.2, 0.5, 0.8, 1.2] }}
       transition={{ duration: 1.0, times: [0, 0.3, 0.7, 1] as const, ease: 'easeIn' }}
@@ -187,14 +194,14 @@ const ARRIVAL_DUST = Array.from({ length: ARRIVAL_DUST_COUNT }, (_, i) => {
 
 export function ArrivalDust() {
   return (
-    <div className="pf-card-pack__arrival-dust-container">
+    <div className={styles['pf-card-pack-fm__arrival-dust-container']}>
       {ARRIVAL_DUST.map((p) => (
         <m.img
           key={p.id}
           src={crystalShatterDustImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack__arrival-dust"
+          className={styles['pf-card-pack-fm__arrival-dust']}
           style={{ '--dust-size': `${p.size}px` } as CSSProperties}
           initial={{ x: 0, y: 0, opacity: 0.7, scale: 1 }}
           animate={{
@@ -240,14 +247,14 @@ const EDGE_SPARKS = (() => {
 
 export function EdgeSparks() {
   return (
-    <div className="pf-card-pack__edge-spark-container">
+    <div className={styles['pf-card-pack-fm__edge-spark-container']}>
       {EDGE_SPARKS.map((s) => (
         <m.img
           key={s.id}
           src={crystalShatterSparkleImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack__edge-spark"
+          className={styles['pf-card-pack-fm__edge-spark']}
           style={{ '--spark-size': `${s.size}px` } as CSSProperties}
           initial={{ x: s.startX, y: s.startY, opacity: 0, scale: 0 }}
           animate={{
@@ -281,11 +288,11 @@ export function SeamCracks() {
   ]
 
   return (
-    <div className="pf-card-pack__seam-crack-container">
+    <div className={styles['pf-card-pack-fm__seam-crack-container']}>
       {cracks.map((c) => (
         <m.div
           key={c.id}
-          className="pf-card-pack__seam-crack"
+          className={styles['pf-card-pack-fm__seam-crack']}
           style={
             {
               insetInlineStart: c.x,
@@ -333,7 +340,7 @@ function TearDebris() {
           src={p.src}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack__tear-debris"
+          className={styles['pf-card-pack-fm__tear-debris']}
           style={{ '--debris-size': `${p.size}px` } as CSSProperties}
           initial={{ x: p.x, y: 0, opacity: 1, scale: 1, rotate: 0 }}
           animate={{
@@ -357,13 +364,13 @@ function TearDebris() {
 
 export function PackTearOpen({ packImage }: { packImage: string }) {
   return (
-    <div className="pf-card-pack__tear-container">
+    <div className={styles['pf-card-pack-fm__tear-container']}>
       {/* Flap — blasts upward, tumbles, shrinks into distance */}
       <m.img
         src={packImage}
         alt=""
         aria-hidden="true"
-        className="pf-card-pack__tear-flap"
+        className={styles['pf-card-pack-fm__tear-flap']}
         style={{ clipPath: TEAR_FLAP_CLIP }}
         initial={{ x: 0, y: 0, rotate: 0, opacity: 1, scale: 1 }}
         animate={{
@@ -386,7 +393,7 @@ export function PackTearOpen({ packImage }: { packImage: string }) {
         src={packImage}
         alt=""
         aria-hidden="true"
-        className="pf-card-pack__tear-body"
+        className={styles['pf-card-pack-fm__tear-body']}
         style={{ clipPath: TEAR_BODY_CLIP }}
         initial={{ y: 0, rotateZ: 0, opacity: 1, scale: 1 }}
         animate={{ y: 80, rotateZ: 3, opacity: [1, 0.8, 0], scale: [1, 0.95, 0.8] }}
@@ -409,7 +416,7 @@ export function PackTearOpen({ packImage }: { packImage: string }) {
 export function TearLineFlash() {
   return (
     <m.div
-      className="pf-card-pack__tear-flash"
+      className={styles['pf-card-pack-fm__tear-flash']}
       initial={{ scaleX: 0.2, scaleY: 1, opacity: 1 }}
       animate={{ scaleX: [0.2, 1.3, 1.6], scaleY: [1, 1.5, 0.3], opacity: [1, 0.85, 0] }}
       transition={{ duration: 0.35, times: [0, 0.3, 1] as const, ease: 'easeOut' }}
@@ -425,7 +432,7 @@ export function TearLineFlash() {
 export function LightSpill() {
   return (
     <m.div
-      className="pf-card-pack__light-spill"
+      className={styles['pf-card-pack-fm__light-spill']}
       initial={{ scaleY: 0, opacity: 0.9 }}
       animate={{ scaleY: [0, 1, 1], opacity: [0.9, 0.5, 0] }}
       transition={{ duration: 0.55, delay: 0.04, times: [0, 0.3, 1] as const, ease: 'easeOut' }}
@@ -439,7 +446,7 @@ export function LightSpill() {
 
 export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
   return (
-    <div className="pf-card-pack__confetti-container">
+    <div className={styles['pf-card-pack-fm__confetti-container']}>
       {confetti.map((c) => {
         const endX = Math.cos(c.angle) * c.distance
         const endY = Math.sin(c.angle) * c.distance + 25
@@ -449,7 +456,7 @@ export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
             src={crystalShatterDustImage}
             alt=""
             aria-hidden="true"
-            className="pf-card-pack__confetti-piece"
+            className={styles['pf-card-pack-fm__confetti-piece']}
             style={{ '--confetti-size': `${c.size}px` } as CSSProperties}
             initial={{ x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 }}
             animate={{
@@ -492,11 +499,11 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
 
   return (
     <div
-      className="pf-card-pack__rarity-burst-wrap"
+      className={styles['pf-card-pack-fm__rarity-burst-wrap']}
       style={{ '--burst-x': `${position.x}px`, '--burst-y': `${position.y}px` } as CSSProperties}
     >
       <m.div
-        className="pf-card-pack__rarity-glow"
+        className={styles['pf-card-pack-fm__rarity-glow']}
         style={{ '--burst-color': color.glow } as CSSProperties}
         initial={{ scale: 0.3, opacity: 0.8 }}
         animate={{ scale: [0.3, burstScale * 1.5, burstScale * 2], opacity: [0.8, 0.3, 0] }}
@@ -507,7 +514,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
         src={crystalShatterSparkleImage}
         alt=""
         aria-hidden="true"
-        className="pf-card-pack__rarity-flash"
+        className={styles['pf-card-pack-fm__rarity-flash']}
         initial={{ scale: 0, opacity: 0.9 }}
         animate={{ scale: [0, burstScale, burstScale * 1.3], opacity: [0.9, 0.4, 0] }}
         transition={{ duration: 0.35, times: [0, 0.35, 1] as const, ease: 'easeOut' }}
@@ -518,7 +525,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
           src={crystalShatterPrismaticRingImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack__rarity-ring"
+          className={styles['pf-card-pack-fm__rarity-ring']}
           initial={{ scale: 0.05, opacity: 0.7 }}
           animate={{ scale: burstScale * 1.2, opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -531,7 +538,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
           src={crystalShatterDustImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack__rarity-spark"
+          className={styles['pf-card-pack-fm__rarity-spark']}
           style={{ '--spark-size': `${p.size}px` } as CSSProperties}
           initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
           animate={{
@@ -555,7 +562,7 @@ export function ScreenFlash({ rarity }: { rarity: CardRarity }) {
   if (rarity < 4) return null
   return (
     <m.div
-      className={`pf-card-pack__screen-flash pf-card-pack__screen-flash--rarity-${rarity}`}
+      className={`${styles['pf-card-pack-fm__screen-flash']} ${styles[`pf-card-pack-fm__screen-flash--rarity-${rarity}`]}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, rarity === 5 ? 0.4 : 0.22, 0] }}
       transition={{ duration: 0.45, ease: 'easeOut' }}
@@ -566,7 +573,7 @@ export function ScreenFlash({ rarity }: { rarity: CardRarity }) {
 export function CollectBurst() {
   return (
     <m.div
-      className="pf-card-pack__collect-burst"
+      className={styles['pf-card-pack-fm__collect-burst']}
       initial={{ opacity: 0, scale: 0.3 }}
       animate={{ opacity: [0, 0.6, 0], scale: [0.3, 2, 2.8] }}
       transition={{ duration: 0.5, times: [0, 0.2, 1] as const, ease: 'easeOut' }}

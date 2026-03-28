@@ -10,6 +10,9 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { Suspense } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+import fmCoinBurstStyles from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst.module.css'
+import fmProgressThinStyles from '@/components/progress/progress-bars/framer/ProgressBarsProgressThin.module.css'
+
 // ── Motion mock — renders as plain divs with all props passed through ───
 
 vi.mock('motion/react', () => ({
@@ -74,7 +77,9 @@ describe('CollectionEffectsCoinBurst', () => {
         // Animation DOM structure tests: BEM class queries are the only way to assert
         // on particle count — these elements have no ARIA or data-testid equivalent.
 
-        const particles = container.querySelectorAll('.pf-coin-burst__particle')
+        const particles = container.querySelectorAll(
+          `.${fmCoinBurstStyles['pf-coin-burst-fm__particle']}`
+        )
         expect(particles).toHaveLength(8)
       },
       { timeout: 2000 }
@@ -93,7 +98,9 @@ describe('CollectionEffectsCoinBurst', () => {
 
     await waitFor(
       () => {
-        const particles = container.querySelectorAll('.pf-coin-burst__particle')
+        const particles = container.querySelectorAll(
+          `.${fmCoinBurstStyles['pf-coin-burst-fm__particle']}`
+        )
         expect(particles).toHaveLength(14)
       },
       { timeout: 2000 }
@@ -128,7 +135,7 @@ describe('CollectionEffectsCoinBurst', () => {
 
     await waitFor(
       () => {
-        const stage = container.querySelector('.pf-coin-burst__stage')
+        const stage = container.querySelector(`.${fmCoinBurstStyles['pf-coin-burst-fm__stage']}`)
         expect(stage).toHaveAttribute('aria-hidden', 'true')
       },
       { timeout: 2000 }
@@ -179,7 +186,7 @@ describe('ProgressBarsProgressThin', () => {
       </Suspense>
     )
 
-    const label = container.querySelector('.pf-progress-thin__label')
+    const label = container.querySelector(`.${fmProgressThinStyles['pf-progress-thin-fm__label']}`)
     expect(label).toHaveTextContent('XP')
   })
 
@@ -193,7 +200,9 @@ describe('ProgressBarsProgressThin', () => {
       </Suspense>
     )
 
-    const labels = container.querySelectorAll('.pf-progress-thin__label')
+    const labels = container.querySelectorAll(
+      `.${fmProgressThinStyles['pf-progress-thin-fm__label']}`
+    )
     expect(labels).toHaveLength(0)
   })
 

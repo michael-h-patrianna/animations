@@ -13,7 +13,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useRef } from 'react'
-import './ButtonEffectsRipple.css'
+import styles from './ButtonEffectsRipple.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface ButtonEffectsRippleProps {
@@ -38,7 +38,7 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
 
   return (
     <m.div
-      className="pf-ripple-fm"
+      className={styles['pf-ripple-fm']}
       data-animation-id="button-effects__ripple"
       onPointerDown={setInstant}
       onPointerUp={setAnimated}
@@ -50,7 +50,7 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
       <DemoButton label="Click Me!" />
       <span
         ref={overlayRef}
-        className="pf-ripple-fm__overlay"
+        className={styles['pf-ripple-fm__overlay']}
         aria-hidden
         style={{ transition: animated }}
       />

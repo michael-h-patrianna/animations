@@ -19,9 +19,7 @@ export const metadata = {
       max: 2.44,
       step: 0.01,
       animatable: true,
-      animateDuration: 6000,
       animatePause: 2000,
-      animateStyle: 'linear',
     },
     {
       type: 'number',

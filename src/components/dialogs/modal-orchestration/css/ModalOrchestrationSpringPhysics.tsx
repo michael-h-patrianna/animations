@@ -13,7 +13,7 @@
 
 import { memo, useCallback } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationSpringPhysics.css'
+import styles from './ModalOrchestrationSpringPhysics.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
@@ -47,23 +47,24 @@ function ModalOrchestrationSpringPhysicsComponent({
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   const handleAnimationEnd = useCallback((e: React.AnimationEvent<HTMLDivElement>) => {
-    if (e.animationName === 'pf-spring-bounce') {
-      const el = e.currentTarget
-      el.classList.remove('pf-spring-physics__item--visible')
-      el.classList.add('pf-spring-physics__item--landed')
+    const el = e.currentTarget
+    const visibleClass = styles['pf-spring-physics__item--visible']
+    if (visibleClass && el.classList.contains(visibleClass)) {
+      el.classList.remove(visibleClass)
+      el.classList.add(styles['pf-spring-physics__item--landed'] ?? '')
     }
   }, [])
 
   return (
     <div
-      className="pf-spring-physics"
+      className={styles['pf-spring-physics']}
       data-animation-id="modal-orchestration__spring-physics"
       style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
       {renderItems.map((child, i) => (
         <div
           key={i}
-          className="pf-spring-physics__item pf-spring-physics__item--visible"
+          className={`${styles['pf-spring-physics__item']} ${styles['pf-spring-physics__item--visible']}`}
           style={{
             animationDelay: `${(200 + i * stagger) / 1000}s`,
             animationDuration: `${duration / 1000}s`,

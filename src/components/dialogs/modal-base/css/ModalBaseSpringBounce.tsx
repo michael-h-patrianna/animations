@@ -9,7 +9,7 @@ import { memo, type CSSProperties } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseSpringBounce.css'
+import styles from './ModalBaseSpringBounce.module.css'
 
 interface SpringBounceProps extends ModalEntranceProps {
   /** Animation duration in ms. Default: 820 */
@@ -31,7 +31,7 @@ function ModalBaseSpringBounceComponent({
   return (
     <div data-animation-id="modal-base__spring-bounce">
       <div
-        className={`pf-modal-spring${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-spring']}${className ? ` ${className}` : ''}`}
         style={mergedStyle}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

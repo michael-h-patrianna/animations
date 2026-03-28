@@ -17,7 +17,7 @@
 
 import { memo, useCallback, useState } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationFlipReveal.css'
+import styles from './ModalOrchestrationFlipReveal.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 6
@@ -81,7 +81,7 @@ function ModalOrchestrationFlipRevealComponent({
 
   return (
     <div
-      className="pf-flip-reveal"
+      className={styles['pf-flip-reveal']}
       data-animation-id="modal-orchestration__flip-reveal"
       style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
@@ -90,16 +90,24 @@ function ModalOrchestrationFlipRevealComponent({
         return (
           <div
             key={i}
-            className="pf-flip-reveal__card pf-flip-reveal__card--visible"
+            className={`${styles['pf-flip-reveal__card']} ${styles['pf-flip-reveal__card--visible']}`}
             style={{ minHeight: cardHeight, animationDelay: `${(200 + i * stagger) / 1000}s` }}
             onClick={() => toggleFlip(i)}
           >
             <div
-              className={`pf-flip-reveal__inner${isFlipped ? ' pf-flip-reveal__inner--flipped' : ''}`}
+              className={`${styles['pf-flip-reveal__inner']}${isFlipped ? ` ${styles['pf-flip-reveal__inner--flipped']}` : ''}`}
               style={{ transitionDuration: `${flipDuration}ms` }}
             >
-              <div className="pf-flip-reveal__face pf-flip-reveal__front">{item.front}</div>
-              <div className="pf-flip-reveal__face pf-flip-reveal__back">{item.back}</div>
+              <div
+                className={`${styles['pf-flip-reveal__face']} ${styles['pf-flip-reveal__front']}`}
+              >
+                {item.front}
+              </div>
+              <div
+                className={`${styles['pf-flip-reveal__face']} ${styles['pf-flip-reveal__back']}`}
+              >
+                {item.back}
+              </div>
             </div>
           </div>
         )

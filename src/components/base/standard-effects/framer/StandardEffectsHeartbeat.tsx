@@ -27,7 +27,6 @@ function StandardEffectsHeartbeatComponent({
   return (
     <m.div
       data-animation-id="standard-effects__heartbeat"
-      style={{ animation: 'none' }}
       animate={
         prefersReducedMotion
           ? { scale: [1, 1.04, 1, 1.04, 1], opacity: [1, 0.85, 0.95, 0.85, 1] }

@@ -16,7 +16,7 @@ import {
 } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
-import './TimerEffectsPillCountdownSoft.css'
+import styles from './TimerEffectsPillCountdownSoft.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -88,7 +88,7 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
     <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-soft">
       <div
         key={animationKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--soft pf-pill-timer--${phase}`}
+        className={`pf-pill-timer__pill ${styles['pf-pill-timer__pill--soft']} pf-pill-timer--${phase}`}
         style={pillStyle}
       >
         <div className="pf-pill-timer__time" style={timeStyle}>

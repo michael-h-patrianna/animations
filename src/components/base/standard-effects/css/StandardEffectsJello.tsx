@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsJello.css — apply .pf-jello to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsJello.css'
+import styles from './StandardEffectsJello.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsJelloProps {
@@ -18,7 +18,7 @@ function StandardEffectsJelloComponent({ children, duration = 1000 }: StandardEf
   } as CSSProperties
 
   return (
-    <div className="pf-jello" data-animation-id="standard-effects__jello" style={style}>
+    <div className={styles['pf-jello']} data-animation-id="standard-effects__jello" style={style}>
       {children ?? <DemoBox label="Jello" />}
     </div>
   )

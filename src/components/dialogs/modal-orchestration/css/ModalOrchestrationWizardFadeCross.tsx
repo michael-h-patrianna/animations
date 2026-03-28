@@ -13,7 +13,7 @@
 
 import { memo } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationWizardFadeCross.css'
+import styles from './ModalOrchestrationWizardFadeCross.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 3
@@ -45,12 +45,15 @@ function ModalOrchestrationWizardFadeCrossComponent({
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   return (
-    <div className="pf-wizard-fade" data-animation-id="modal-orchestration__wizard-fade-cross">
-      <div className="pf-wizard-fade__panels">
+    <div
+      className={styles['pf-wizard-fade']}
+      data-animation-id="modal-orchestration__wizard-fade-cross"
+    >
+      <div className={styles['pf-wizard-fade__panels']}>
         {renderItems.map((child, i) => (
           <div
             key={i}
-            className="pf-wizard-fade__panel pf-wizard-fade__panel--visible"
+            className={`${styles['pf-wizard-fade__panel']} ${styles['pf-wizard-fade__panel--visible']}`}
             style={
               {
                 animationDelay: `${(i * stagger) / 1000}s`,

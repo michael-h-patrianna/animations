@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsLightSweepDraw.module.css'
 
 interface TextEffectsLightSweepDrawProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -62,7 +63,7 @@ function TextEffectsLightSweepDrawComponent({
 
   return (
     <m.div
-      className="pf-light-sweep-draw-fm"
+      className={styles['pf-light-sweep-draw-fm']}
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
       variants={containerVariants}
@@ -72,9 +73,13 @@ function TextEffectsLightSweepDrawComponent({
         color !== undefined ? ({ '--pf-lsd-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-light-sweep-draw-fm__line" aria-hidden="true">
+      <div className={styles['pf-light-sweep-draw-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span key={i} className="pf-light-sweep-draw-fm__letter" variants={letterVariants}>
+          <m.span
+            key={i}
+            className={styles['pf-light-sweep-draw-fm__letter']}
+            variants={letterVariants}
+          >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

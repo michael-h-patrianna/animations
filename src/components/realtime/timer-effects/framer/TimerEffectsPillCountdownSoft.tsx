@@ -16,6 +16,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsPillCountdownSoft.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -85,7 +86,6 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
 
   const phaseColor = resolved.colors?.[phase]
   const pillStyle: React.CSSProperties = {
-    animation: 'none',
     ...(phaseColor !== undefined ? { backgroundColor: phaseColor } : {}),
   }
 
@@ -96,10 +96,13 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
   }
 
   return (
-    <div className="pf-pill-timer" data-animation-id="timer-effects__pill-countdown-soft">
+    <div
+      className={styles['pf-pill-timer-fm']}
+      data-animation-id="timer-effects__pill-countdown-soft"
+    >
       <m.div
         key={pulseKey}
-        className={`pf-pill-timer__pill pf-pill-timer__pill--soft pf-pill-timer--${phase}`}
+        className={`${styles['pf-pill-timer-fm__pill']} ${styles['pf-pill-timer-fm__pill--soft'] ?? ''} ${styles[`pf-pill-timer-fm--${phase}`] ?? ''}`}
         variants={prefersReducedMotion ? undefined : pulseVariants}
         custom={pulseIntensity}
         initial="idle"
@@ -107,7 +110,7 @@ function TimerEffectsPillCountdownSoftComponent(props: TimerEffectsPillCountdown
         transition={prefersReducedMotion ? { duration: 0.15 } : undefined}
         style={pillStyle}
       >
-        <div className="pf-pill-timer__time" style={timeStyle}>
+        <div className={styles['pf-pill-timer-fm__time']} style={timeStyle}>
           {formatTime(seconds)}
         </div>
       </m.div>

@@ -1,0 +1,14 @@
+/* Layout for LoadingStatesRingMulti (framer variant) */
+
+.pf-ring-multi-fm {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-ring-multi-fm__segment {
+  position: absolute;
+  border-radius: 50%;
+  box-sizing: border-box;
+}

@@ -1,0 +1,55 @@
+/* Structural: expanding halo for sweep effect (moved from shared.css — single-consumer) */
+:global(.pf-update-indicator__halo) {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border-radius: 9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Dot sweep: color flash + scale bounce + expanding halo */
+
+.pf-dot-sweep-dot {
+  animation: pf-ui-dot-fill var(--pf-dot-sweep-dur, 900ms) ease;
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+.pf-dot-sweep-halo {
+  border: 2px solid var(--pf-dot-sweep-halo-color, rgb(255 73 103 / 55%));
+  animation: pf-ui-dot-halo var(--pf-dot-sweep-dur, 900ms) ease;
+  animation-fill-mode: both;
+}
+
+@keyframes pf-ui-dot-fill {
+  0% {
+    background: var(--pf-dot-sweep-color, #ff4967);
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  30% {
+    background: var(--pf-dot-sweep-accent, #ff0a4d);
+    transform: scale(1.16);
+    box-shadow: 0 0 0 10px var(--pf-dot-sweep-ring, rgb(255 73 103 / 22%));
+  }
+  100% {
+    background: var(--pf-dot-sweep-color, #ff4967);
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@keyframes pf-ui-dot-halo {
+  0% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}

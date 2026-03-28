@@ -5,7 +5,7 @@
  */
 import { useEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsZoomedProgress.css'
+import styles from './ProgressBarsZoomedProgress.module.css'
 
 export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {
   const isControlled = progress !== undefined
@@ -76,43 +76,49 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
 
   return (
     <div
-      className={`pf-zoomed-progress${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-zoomed-progress']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__zoomed-progress"
     >
       <div
-        className="pf-zoomed-progress__track"
+        className={styles['pf-zoomed-progress__track']}
         style={{ transform: `translateX(${trackTranslateX}%) translateY(-50%) scale(1.2)` }}
       >
-        <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
+        <div
+          className={`${styles['pf-zoomed-progress__bar']} ${styles['pf-zoomed-progress__bar--one']}`}
+        >
           <div
-            className="pf-zoomed-progress__fill"
+            className={styles['pf-zoomed-progress__fill']}
             style={{ transform: `skew(-30deg) scaleX(${progress1Scale})` }}
           />
         </div>
         <div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] ? ' reached' : ''}`}
+          className={`${styles['pf-zoomed-progress__level']} ${styles['pf-zoomed-progress__level--one']}${levelReached[0] ? ` ${styles['reached']}` : ''}`}
         >
           <span>1</span>
         </div>
         <div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] ? ' reached' : ''}`}
+          className={`${styles['pf-zoomed-progress__level']} ${styles['pf-zoomed-progress__level--two']}${levelReached[1] ? ` ${styles['reached']}` : ''}`}
         >
           <span>2</span>
         </div>
-        <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--two">
+        <div
+          className={`${styles['pf-zoomed-progress__bar']} ${styles['pf-zoomed-progress__bar--two']}`}
+        >
           <div
-            className="pf-zoomed-progress__fill"
+            className={styles['pf-zoomed-progress__fill']}
             style={{ transform: `skew(-30deg) scaleX(${progress2Scale})` }}
           />
         </div>
         <div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] ? ' reached' : ''}`}
+          className={`${styles['pf-zoomed-progress__level']} ${styles['pf-zoomed-progress__level--three']}${levelReached[2] ? ` ${styles['reached']}` : ''}`}
         >
           <span>3</span>
         </div>
       </div>
-      <div className={`pf-zoomed-progress__mask pf-zoomed-progress__mask--level-${level}`} />
+      <div
+        className={`${styles['pf-zoomed-progress__mask']} ${styles[`pf-zoomed-progress__mask--level-${level}`]}`}
+      />
     </div>
   )
 }

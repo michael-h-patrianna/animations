@@ -14,12 +14,13 @@
  * - `--retro-bit-bg`           — container background
  * - `--retro-bit-active`       — active segment color
  * - `--retro-bit-inactive`     — inactive segment color
- * - `--retro-bit-label-color`  — label text color
+ * - `--pf-retro-bit-fm__label-color`  — label text color
  *
  * Files to copy: this file + ProgressBarsRetroBit.css + ../SharedTypes.ts
  */
 import * as m from 'motion/react-m'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsRetroBit.module.css'
 
 interface RetroBitProps extends ProgressBarProps {
   /** Number of discrete segments. Default: 10. */
@@ -40,15 +41,15 @@ export function ProgressBarsRetroBit({
 
   return (
     <div
-      className={`retro-bit-container${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-retro-bit-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__retro-bit"
     >
-      <div className="retro-bit-frame">
+      <div className={styles['pf-retro-bit-fm__frame']}>
         {Array.from({ length: segments }, (_, i) => (
           <m.div
             key={i}
-            className="retro-bit-segment"
+            className={styles['pf-retro-bit-fm__segment']}
             initial={{ opacity: 0.1 }}
             animate={{
               opacity: i < activeCount ? 1 : 0.1,
@@ -56,11 +57,12 @@ export function ProgressBarsRetroBit({
                 i < activeCount ? 'var(--retro-bit-active)' : 'var(--retro-bit-inactive)',
             }}
             transition={{ duration: 0 }}
-            style={{ animation: 'none' }}
           />
         ))}
       </div>
-      {label !== undefined && label !== '' && <div className="retro-bit-label">{label}</div>}
+      {label !== undefined && label !== '' && (
+        <div className={styles['pf-retro-bit-fm__label']}>{label}</div>
+      )}
     </div>
   )
 }

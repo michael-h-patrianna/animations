@@ -24,6 +24,7 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsCelebrationBurst.module.css'
 
 interface Particle {
   id: number
@@ -122,15 +123,15 @@ export function ProgressBarsCelebrationBurst({
 
   return (
     <div
-      className={`pf-celebration-burst${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-celebration-burst-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__celebration-burst"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track-fm']}>
           <m.div
-            className="pf-progress-fill"
-            style={{ scaleX: fillMV, transformOrigin: 'left center', animation: 'none' }}
+            className={styles['pf-progress-fill-fm']}
+            style={{ scaleX: fillMV, transformOrigin: 'left center' }}
           />
         </div>
 
@@ -151,7 +152,7 @@ export function ProgressBarsCelebrationBurst({
               }}
             >
               <m.div
-                className="milestone-marker"
+                className={styles['milestone-marker']}
                 animate={{
                   scale: isActive ? 1 : 0.6,
                   opacity: isActive ? 1 : 0.6,

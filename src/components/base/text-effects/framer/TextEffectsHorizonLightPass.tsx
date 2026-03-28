@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsHorizonLightPass.module.css'
 
 interface TextEffectsHorizonLightPassProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -69,7 +70,7 @@ function TextEffectsHorizonLightPassComponent({
 
   return (
     <m.div
-      className="pf-horizon-light-fm"
+      className={styles['pf-horizon-light-fm']}
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
       variants={containerVariants}
@@ -79,11 +80,11 @@ function TextEffectsHorizonLightPassComponent({
         color !== undefined ? ({ '--pf-hlp-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-horizon-light-fm__line" aria-hidden="true">
+      <div className={styles['pf-horizon-light-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-horizon-light-fm__letter"
+            className={styles['pf-horizon-light-fm__letter']}
             variants={letterVariants}
             custom={i}
           >

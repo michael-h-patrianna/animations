@@ -1,0 +1,38 @@
+/* Layout styles for ModalOrchestrationFlipReveal (framer variant) */
+.pf-flip-reveal-fm {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+
+.pf-flip-reveal-fm__card {
+  cursor: pointer;
+  min-height: 120px;
+  perspective: 600px;
+}
+
+.pf-flip-reveal-fm__inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.pf-flip-reveal-fm__front {
+  /* Semantic marker — no additional styles needed beyond __face */
+}
+
+.pf-flip-reveal-fm__face {
+  /* Animation wrapper only — visual card styling comes from children */
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.pf-flip-reveal-fm__back {
+  transform: rotateY(180deg);
+}

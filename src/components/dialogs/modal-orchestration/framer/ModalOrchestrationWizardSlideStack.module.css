@@ -1,0 +1,18 @@
+/* Layout styles for ModalOrchestrationWizardSlideStack (framer variant) */
+.pf-wizard-slide-fm {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+  position: relative;
+}
+
+.pf-wizard-slide-fm__panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pf-wizard-slide-fm__panel {
+  /* Animation wrapper only — visual card styling comes from children */
+  position: relative;
+}

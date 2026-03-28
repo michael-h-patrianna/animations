@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsPulseWave.css — use documented HTML structure.
  */
 import { memo, type CSSProperties } from 'react'
-import './StandardEffectsPulseWave.css'
+import styles from './StandardEffectsPulseWave.module.css'
 import {
   INDICATOR_COLOR,
   INDICATOR_RING_COLOR,
@@ -31,13 +31,13 @@ function StandardEffectsPulseWaveComponent({
 
   return (
     <div
-      className="pf-pulse-wave"
+      className={styles['pf-pulse-wave']}
       data-animation-id="standard-effects__pulse-wave"
       style={style}
       role="img"
       aria-label="Pulse wave"
     >
-      <div className="pf-pulse-wave__core" />
+      <div className={styles['pf-pulse-wave__core']} />
     </div>
   )
 }

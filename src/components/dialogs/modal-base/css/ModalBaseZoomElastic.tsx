@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseZoomElastic.css'
+import styles from './ModalBaseZoomElastic.module.css'
 
 const DEFAULT_DURATION = 720
 
@@ -23,7 +23,7 @@ function ModalBaseZoomElasticComponent({
   return (
     <div data-animation-id="modal-base__zoom-elastic">
       <div
-        className={`pf-modal-zoom-elastic${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-zoom-elastic']}${className ? ` ${className}` : ''}`}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

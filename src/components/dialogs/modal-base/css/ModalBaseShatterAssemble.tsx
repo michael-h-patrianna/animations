@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseShatterAssemble.css'
+import styles from './ModalBaseShatterAssemble.module.css'
 
 const DEFAULT_DURATION = 850
 
@@ -23,7 +23,7 @@ function ModalBaseShatterAssembleComponent({
   return (
     <div data-animation-id="modal-base__shatter-assemble">
       <div
-        className={`pf-modal-shatter${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-shatter']}${className ? ` ${className}` : ''}`}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import './TextEffectsVerbJog.css'
+import styles from './TextEffectsVerbJog.module.css'
 
 interface TextEffectsVerbJogProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -27,16 +27,19 @@ function TextEffectsVerbJogComponent({
 
   return (
     <div
-      className="tfx-jog-container"
+      className={styles['tfx-jog-container']}
       data-animation-id="text-effects__verb-jogging"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-jog-line" aria-hidden="true">
+      <div className={styles['tfx-jog-line']} aria-hidden="true">
         {letters.map((ch, i) => (
-          <span key={i} className={`tfx-jog-char ${i % 2 === 0 ? 'tfx-jog-char--delayed' : ''}`}>
+          <span
+            key={i}
+            className={`${styles['tfx-jog-char']} ${i % 2 === 0 ? styles['tfx-jog-char--delayed'] : ''}`}
+          >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}

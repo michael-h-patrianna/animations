@@ -58,7 +58,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalGcImage,
     value: 1500,
     decimals: 0,
-    modifier: 'pf-crystal-shatter__prize--gc',
+    modifier: 'pf-crystal-shatter-fm__prize--gc',
   },
   {
     id: 'sc',
@@ -66,7 +66,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalScImage,
     value: 2.5,
     decimals: 2,
-    modifier: 'pf-crystal-shatter__prize--sc',
+    modifier: 'pf-crystal-shatter-fm__prize--sc',
   },
   {
     id: 'fs',
@@ -74,7 +74,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalFreeSpinsImage,
     value: 50,
     decimals: 0,
-    modifier: 'pf-crystal-shatter__prize--fs',
+    modifier: 'pf-crystal-shatter-fm__prize--fs',
   },
   {
     id: 'rr',
@@ -82,7 +82,7 @@ export const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalRandomRewardImage,
     value: null,
     decimals: 0,
-    modifier: 'pf-crystal-shatter__prize--rr',
+    modifier: 'pf-crystal-shatter-fm__prize--rr',
   },
 ]
 

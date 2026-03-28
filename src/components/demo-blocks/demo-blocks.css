@@ -174,7 +174,6 @@
   font-size: 14px;
   background: var(--pf-demo-field-input-bg);
   color: var(--pf-demo-field-input-color);
-  transition: border-color 0.2s ease;
 }
 
 .pf-demo-form-field__input:focus {
@@ -228,19 +227,6 @@
   );
   transform-origin: left center;
   border-radius: inherit;
-  animation-name: pf-demo-toast-progress;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-}
-
-@keyframes pf-demo-toast-progress {
-  from {
-    transform: scaleX(1);
-  }
-
-  to {
-    transform: scaleX(0);
-  }
 }
 
 /* ── Overlay: centering container ── */

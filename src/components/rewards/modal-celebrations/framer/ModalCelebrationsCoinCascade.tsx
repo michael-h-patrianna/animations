@@ -11,6 +11,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
+import './ModalCelebrationsCoinCascade.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { GOLDEN_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
@@ -184,7 +185,6 @@ function ShimmerDot({ s, timeScale, emitYPct }: { s: Mote; timeScale: number; em
         height: `${s.size}px`,
         background: s.color,
         boxShadow: `0 0 4px 1px ${s.color}`,
-        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 0.4, 0.9, 0], opacity: [0, 0.8, 0.2, 0.5, 0] }}

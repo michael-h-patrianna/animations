@@ -16,7 +16,7 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 
-import './ModalOrchestrationTabMorph.css'
+import styles from './ModalOrchestrationTabMorph.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_TAB_COUNT = 4
@@ -74,38 +74,36 @@ function ModalOrchestrationTabMorphComponent({
   }
 
   // Handle panel slide transitions
+  const enterClass = styles['pf-tab-morph__panel--enter'] ?? ''
+  const exitLeftClass = styles['pf-tab-morph__panel--exit-left'] ?? ''
+  const exitRightClass = styles['pf-tab-morph__panel--exit-right'] ?? ''
+
   useEffect(() => {
     const panel = panelRef.current
     if (panel === null) return
 
     const isForward = safeIndex > prevIndexRef.current
 
-    panel.classList.remove(
-      'pf-tab-morph__panel--enter',
-      'pf-tab-morph__panel--exit-left',
-      'pf-tab-morph__panel--exit-right'
-    )
-    panel.classList.add(
-      isForward ? 'pf-tab-morph__panel--exit-left' : 'pf-tab-morph__panel--exit-right'
-    )
+    panel.classList.remove(enterClass, exitLeftClass, exitRightClass)
+    panel.classList.add(isForward ? exitLeftClass : exitRightClass)
 
     const exitTimeout = setTimeout(() => {
-      panel.classList.remove('pf-tab-morph__panel--exit-left', 'pf-tab-morph__panel--exit-right')
-      panel.classList.add('pf-tab-morph__panel--enter')
+      panel.classList.remove(exitLeftClass, exitRightClass)
+      panel.classList.add(enterClass)
     }, 200)
 
     prevIndexRef.current = safeIndex
 
     return () => clearTimeout(exitTimeout)
-  }, [safeIndex])
+  }, [safeIndex, enterClass, exitLeftClass, exitRightClass])
 
   return (
-    <div className="pf-tab-morph" data-animation-id="modal-orchestration__tab-morph">
-      <div className="pf-tab-morph__nav">
+    <div className={styles['pf-tab-morph']} data-animation-id="modal-orchestration__tab-morph">
+      <div className={styles['pf-tab-morph__nav']}>
         {tabLabels.map((label, i) => (
           <div
             key={i}
-            className={`pf-tab-morph__tab pf-tab-morph__tab--animated${i === safeIndex ? ' pf-tab-morph__tab--active' : ''}`}
+            className={`${styles['pf-tab-morph__tab']} ${styles['pf-tab-morph__tab--animated']}${i === safeIndex ? ` ${styles['pf-tab-morph__tab--active']}` : ''}`}
             style={{ animationDelay: `${(i * stagger) / 1000}s` }}
             onClick={() => handleTabClick(i)}
             data-testid={`tab-morph-tab-${i}`}
@@ -115,8 +113,11 @@ function ModalOrchestrationTabMorphComponent({
         ))}
       </div>
 
-      <div className="pf-tab-morph__content">
-        <div ref={panelRef} className="pf-tab-morph__panel pf-tab-morph__panel--enter">
+      <div className={styles['pf-tab-morph__content']}>
+        <div
+          ref={panelRef}
+          className={`${styles['pf-tab-morph__panel']} ${styles['pf-tab-morph__panel--enter']}`}
+        >
           {renderItems[safeIndex]}
         </div>
       </div>

@@ -20,6 +20,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsTimelineProgress.module.css'
 
 interface TimelineProps extends ProgressBarProps {
   /** Number of timeline steps. Default: 4. */
@@ -37,11 +38,11 @@ export function ProgressBarsTimelineProgress({
 
   return (
     <m.div
-      className={`pf-timeline-progress-fm${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-timeline-progress-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__timeline-progress"
     >
-      <div className="pf-timeline-progress-fm__track">
+      <div className={styles['pf-timeline-progress-fm__track']}>
         {Array.from({ length: steps }, (_, index) => {
           const isActive = index < activeSteps
 
@@ -55,7 +56,7 @@ export function ProgressBarsTimelineProgress({
               }}
             >
               <m.div
-                className="pf-timeline-progress-fm__step"
+                className={styles['pf-timeline-progress-fm__step']}
                 animate={{ scale: isActive ? 1 : 0.9, opacity: isActive ? 1 : 0.3 }}
                 transition={{ duration: prefersReducedMotion ? 0.1 : 0.3 }}
                 style={{
@@ -68,7 +69,7 @@ export function ProgressBarsTimelineProgress({
               </m.div>
               {index < steps - 1 && (
                 <m.div
-                  className="pf-timeline-progress-fm__connector"
+                  className={styles['pf-timeline-progress-fm__connector']}
                   animate={{ scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0.3 }}
                   transition={{ duration: prefersReducedMotion ? 0.1 : 0.3 }}
                   style={{

@@ -1,0 +1,238 @@
+/* Structural: heartbeat pill layout (moved from css/shared.css — single-consumer) */
+
+:global(.pf-pill-countdown-heartbeat) {
+  position: relative;
+  background: linear-gradient(135deg, var(--css-bg-1) 0%, var(--css-bg-2) 100%);
+  color: white;
+  padding: 3px 16px;
+  min-height: 20px;
+  line-height: 1.5;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+  --glow-opacity: 0.35;
+  --glow-scale: 1;
+  --glow-color: rgb(102 126 234 / 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+}
+
+:global(.pf-pill-countdown-heartbeat__text) {
+  position: relative;
+  z-index: 1;
+}
+
+:global(.pf-pill-countdown-heartbeat__glow) {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background: var(--glow-color);
+  opacity: var(--glow-opacity);
+  transform: scale(var(--glow-scale, 1));
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+/* TimerEffectsPillCountdownHeartbeat - CSS animations */
+
+.pf-pill-countdown-heartbeat-container {
+  --timer-effects-pill-countdown-heartbeat-bg-1-00: #667e00;
+  --timer-effects-pill-countdown-heartbeat-bg-1-ea: #667eea;
+  --timer-effects-pill-countdown-heartbeat-bg-2-00: #764b00;
+  --timer-effects-pill-countdown-heartbeat-bg-2-a2: #764ba2;
+  --timer-effects-pill-countdown-heartbeat-bg-3-4d: #ffa94d;
+  --timer-effects-pill-countdown-heartbeat-bg-3-ea: #ffa9ea;
+  --timer-effects-pill-countdown-heartbeat-bg-4-14: #fd7e14;
+  --timer-effects-pill-countdown-heartbeat-bg-4-a2: #fd7ea2;
+  --timer-effects-pill-countdown-heartbeat-bg-5-4d: #ff6b4d;
+  --timer-effects-pill-countdown-heartbeat-bg-5-6b: #ff6b6b;
+  --timer-effects-pill-countdown-heartbeat-bg-6-14: #c92a14;
+  --timer-effects-pill-countdown-heartbeat-bg-6-2a: #c92a2a;
+  --timer-effects-pill-countdown-heartbeat-bg-7-00: #f00;
+  --timer-effects-pill-countdown-heartbeat-bg-7-6b: #ff006b;
+  --timer-effects-pill-countdown-heartbeat-bg-8-00: #8b0000;
+  --timer-effects-pill-countdown-heartbeat-bg-8-2a: #8b002a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+/* Glow animation keyframes for different heartbeat intensities */
+@keyframes pf-heartbeat-glow-normal {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.35;
+  }
+}
+
+@keyframes pf-heartbeat-glow-calm {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.4;
+  }
+}
+
+@keyframes pf-heartbeat-glow-mild {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.45;
+  }
+}
+
+@keyframes pf-heartbeat-glow-elevated {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.55;
+  }
+}
+
+@keyframes pf-heartbeat-glow-rapid {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.65;
+  }
+}
+
+@keyframes pf-heartbeat-glow-critical {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.75;
+  }
+}
+
+@keyframes pf-heartbeat-glow-expired {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.8;
+  }
+}
+
+/* Normal state */
+.pf-heartbeat-normal {
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-1-ea) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-2-a2) 100%
+  );
+}
+
+.pf-heartbeat-normal :global(.pf-pill-countdown-heartbeat__glow) {
+  animation: pf-heartbeat-glow-normal 2000ms ease-in-out infinite;
+}
+
+/* Calm heartbeat */
+.pf-heartbeat-calm {
+  --glow-color: rgb(102 126 234 / 40%);
+}
+
+.pf-heartbeat-calm :global(.pf-pill-countdown-heartbeat__glow) {
+  animation: pf-heartbeat-glow-calm 1500ms ease-in-out infinite;
+}
+
+/* Mild heartbeat */
+.pf-heartbeat-mild {
+  --glow-color: rgb(102 126 234 / 45%);
+}
+
+.pf-heartbeat-mild :global(.pf-pill-countdown-heartbeat__glow) {
+  animation: pf-heartbeat-glow-mild 1200ms ease-in-out infinite;
+}
+
+/* Elevated heartbeat */
+.pf-heartbeat-elevated {
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-3-4d) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-4-14) 100%
+  );
+  --glow-color: rgb(255 169 77 / 45%);
+}
+
+.pf-heartbeat-elevated :global(.pf-pill-countdown-heartbeat__glow) {
+  animation: pf-heartbeat-glow-elevated 900ms ease-in-out infinite;
+}
+
+/* Rapid heartbeat */
+.pf-heartbeat-rapid {
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-5-6b) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-6-2a) 100%
+  );
+  --glow-color: rgb(255 107 107 / 55%);
+}
+
+.pf-heartbeat-rapid :global(.pf-pill-countdown-heartbeat__glow) {
+  animation: pf-heartbeat-glow-rapid 700ms ease-in-out infinite;
+}
+
+/* Critical heartbeat */
+.pf-heartbeat-critical {
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%
+  );
+  --glow-color: rgb(255 0 0 / 60%);
+}
+
+.pf-heartbeat-critical :global(.pf-pill-countdown-heartbeat__glow) {
+  animation: pf-heartbeat-glow-critical 500ms ease-in-out infinite;
+}
+
+/* Timer expired state */
+.pf-timer-expired {
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-pill-countdown-heartbeat-bg-7-00) 0%,
+    var(--timer-effects-pill-countdown-heartbeat-bg-8-00) 100%
+  );
+  --glow-color: rgb(255 0 0 / 55%);
+  --glow-opacity: 0.45;
+  --glow-scale: 1;
+}
+
+.pf-timer-expired :global(.pf-pill-countdown-heartbeat__glow) {
+  animation: pf-heartbeat-glow-expired 600ms ease-in-out infinite;
+}

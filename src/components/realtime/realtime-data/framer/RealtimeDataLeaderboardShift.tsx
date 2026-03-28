@@ -19,6 +19,7 @@ import * as m from 'motion/react-m'
 import { memo, useEffect, useRef, useState } from 'react'
 
 import type { RankedEntry } from '@/components/realtime/realtime-data/SharedTypes'
+import './RealtimeDataLeaderboardShift.module.css'
 
 const DEFAULT_ITEMS: RankedEntry[] = [
   { id: 'phoenix', label: 'Phoenix', score: 2450 },
@@ -137,12 +138,12 @@ function RealtimeDataLeaderboardShiftComponent({
   }, [items, duration, prefersReducedMotion])
 
   return (
-    <div className="pf-realtime-data" data-animation-id="realtime-data__leaderboard-shift">
-      <div className="pf-realtime-data__leaderboard">
+    <div className="pf-realtime-data-fm" data-animation-id="realtime-data__leaderboard-shift">
+      <div className="pf-realtime-data-fm__leaderboard">
         {renderList.map((entry, index) => (
           <m.div
             key={entry.phase === 'shifting' ? `${entry.id}-s${shiftVersion}` : entry.id}
-            className="pf-realtime-data__row"
+            className="pf-realtime-data-fm__row"
             initial={
               entry.phase === 'shifting'
                 ? { y: ROW_HEIGHT }
@@ -162,11 +163,10 @@ function RealtimeDataLeaderboardShiftComponent({
                     ? { duration: durationS * 0.75, ease: EASING }
                     : { duration: 0 }
             }
-            style={{ animation: 'none' }}
           >
-            <div className="pf-realtime-data__rank">#{index + 1}</div>
-            <div className="pf-realtime-data__player">{entry.label}</div>
-            <div className="pf-realtime-data__score">{entry.score.toLocaleString()}</div>
+            <div className="pf-realtime-data-fm__rank">#{index + 1}</div>
+            <div className="pf-realtime-data-fm__player">{entry.label}</div>
+            <div className="pf-realtime-data-fm__score">{entry.score.toLocaleString()}</div>
           </m.div>
         ))}
       </div>

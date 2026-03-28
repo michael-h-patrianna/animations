@@ -17,7 +17,7 @@ import {
 } from '@/components/realtime/timer-effects/SharedTypes'
 
 import './shared.css'
-import './TimerEffectsPillCountdownHeartbeat.css'
+import styles from './TimerEffectsPillCountdownHeartbeat.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -46,6 +46,10 @@ function resolveHeartbeatLevel(
   if (seconds <= Math.round(40 * ratio)) return 'pf-heartbeat-mild'
   if (seconds <= Math.round(50 * ratio)) return 'pf-heartbeat-calm'
   return 'pf-heartbeat-normal'
+}
+
+function heartbeatClassName(level: HeartbeatLevel): string {
+  return styles[level] ?? ''
 }
 
 function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
@@ -85,10 +89,13 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
 
   return (
     <div
-      className="pf-pill-countdown-heartbeat-container"
+      className={styles['pf-pill-countdown-heartbeat-container']}
       data-animation-id="timer-effects__pill-countdown-heartbeat"
     >
-      <div className={`pf-pill-countdown-heartbeat ${heartbeatLevel}`} style={pillStyle}>
+      <div
+        className={`pf-pill-countdown-heartbeat ${heartbeatClassName(heartbeatLevel)}`}
+        style={pillStyle}
+      >
         <span className="pf-pill-countdown-heartbeat__glow" aria-hidden="true" />
         <span className="pf-pill-countdown-heartbeat__text" style={timeStyle}>
           {formatTime(seconds)}

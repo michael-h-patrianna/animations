@@ -14,7 +14,7 @@ import {
   ringTint,
 } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
-import './UpdateIndicatorsHomeIconDotSweep.css'
+import styles from './UpdateIndicatorsHomeIconDotSweep.module.css'
 
 interface DotSweepProps extends DotIndicatorProps {
   /** Flash accent color during the sweep. Default: '#ff0a4d' */
@@ -48,11 +48,11 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
   const dot = (
     <>
       <span
-        className="pf-update-indicator__dot pf-update-indicator__dot--fill pf-dot-sweep-dot"
+        className={`pf-update-indicator__dot pf-update-indicator__dot--fill ${styles['pf-dot-sweep-dot']}`}
         style={dotStyle}
       />
       <span
-        className="pf-update-indicator__halo pf-dot-sweep-halo"
+        className={`pf-update-indicator__halo ${styles['pf-dot-sweep-halo']}`}
         style={{
           ['--pf-dot-sweep-halo-color' as string]: haloColor,
           ['--pf-dot-sweep-dur' as string]: `${duration}ms`,

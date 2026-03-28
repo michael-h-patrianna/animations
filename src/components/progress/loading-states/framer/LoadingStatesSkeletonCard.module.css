@@ -1,0 +1,6 @@
+/* Layout for LoadingStatesSkeletonCard (framer variant) — shimmer from SharedSkeleton */
+
+.pf-skeleton-card-fm {
+  display: flex;
+  flex-direction: column;
+}

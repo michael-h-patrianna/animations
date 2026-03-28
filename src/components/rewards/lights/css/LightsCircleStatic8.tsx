@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { useMemo } from 'react'
-import './LightsCircleStatic8.css'
+import styles from './LightsCircleStatic8.module.css'
 import { calculateBulbColors } from '@/utils/colors'
 
 interface LightsCircleStatic8Props {
@@ -29,7 +29,7 @@ function LightsCircleStatic8({
         return (
           <div
             key={i}
-            className={`lights-circle-static-8__bulb-wrapper ${isFirstHalf ? 'first-half' : 'second-half'}`}
+            className={`${styles['lights-circle-static-8__bulb-wrapper']} ${isFirstHalf ? styles['first-half'] : styles['second-half']}`}
             style={
               {
                 transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
@@ -38,8 +38,8 @@ function LightsCircleStatic8({
               } as CSSProperties
             }
           >
-            <div className="lights-circle-static-8__glow" />
-            <div className="lights-circle-static-8__bulb" />
+            <div className={styles['lights-circle-static-8__glow']} />
+            <div className={styles['lights-circle-static-8__bulb']} />
           </div>
         )
       }),
@@ -48,7 +48,7 @@ function LightsCircleStatic8({
 
   return (
     <div
-      className="lights-circle-static-8"
+      className={styles['lights-circle-static-8']}
       data-animation-id="lights__circle-static-8"
       style={
         {
@@ -62,7 +62,7 @@ function LightsCircleStatic8({
         } as CSSProperties
       }
     >
-      <div className="lights-circle-static-8__container">{bulbs}</div>
+      <div className={styles['lights-circle-static-8__container']}>{bulbs}</div>
     </div>
   )
 }

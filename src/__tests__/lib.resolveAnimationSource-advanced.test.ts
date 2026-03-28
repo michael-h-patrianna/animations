@@ -284,8 +284,8 @@ describe('resolveAnimationSource — advanced scenarios', () => {
     const tabs = await resolveAnimationSource(result.framer['g__a']!, result.css['g__a']!)
     const labels = tabs.map((t) => t.label)
 
-    // Expected order: framer tsx, css tsx, css css, then shared files (framer CSS excluded)
-    expect(labels).toEqual(['Component', 'Component', 'CSS', 'utils.ts'])
+    // Expected order: framer tsx, framer css, css tsx, css css, then shared files
+    expect(labels).toEqual(['Component', 'CSS', 'Component', 'CSS', 'utils.ts'])
   })
 
   it('ignores absolute/bare module imports (non-relative) and does not create shared tabs for them', async () => {

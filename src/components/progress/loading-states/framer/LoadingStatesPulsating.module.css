@@ -1,0 +1,14 @@
+/* Layout for LoadingStatesPulsating (framer variant) */
+
+.pf-pulsating-fm {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-pulsating-fm__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}

@@ -46,7 +46,7 @@ function ModalBaseSpringBounceComponent({
           prefersReducedMotion ? { duration: 0.2 } : { type: 'spring', stiffness, damping, mass }
         }
         onAnimationComplete={onAnimationComplete}
-        style={{ ...style, animation: 'none' }}
+        style={style}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </m.div>

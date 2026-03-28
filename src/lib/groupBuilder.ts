@@ -39,7 +39,7 @@ const SKIP_PATTERN =
  * `'./framer/StandardEffectsBounce.tsx'`      → `'StandardEffectsBounce'`
  */
 function baseNameFromPath(path: string): string {
-  return path.replace(/^.*\//, '').replace(/\.meta\.ts$|\.css$|\.tsx?$/, '')
+  return path.replace(/^.*\//, '').replace(/\.meta\.ts$|\.module\.css$|\.css$|\.tsx?$/, '')
 }
 
 /** Extracts the filename with extension from a glob path. `'./framer/Foo.tsx'` → `'Foo.tsx'` */
@@ -57,7 +57,12 @@ function findRawLoader(
   extension: string
 ): RawSourceLoader | undefined {
   if (!rawLoaders) return undefined
-  const path = Object.keys(rawLoaders).find((p) => p.endsWith(`/${baseName}.${extension}`))
+  // Try exact match first, then .module variant for CSS modules
+  const path =
+    Object.keys(rawLoaders).find((p) => p.endsWith(`/${baseName}.${extension}`)) ??
+    (extension === 'css'
+      ? Object.keys(rawLoaders).find((p) => p.endsWith(`/${baseName}.module.css`))
+      : undefined)
   return path ? rawLoaders[path] : undefined
 }
 
@@ -263,16 +268,16 @@ export async function resolveAnimationSource(
   const cssLoaders = cssEntry ? sourceLoaderRegistry.get(cssEntry) : undefined
 
   // Phase 1: Load the main component sources
-  // Framer CSS files are catalog layout styles loaded as side-effects by group index —
-  // not consumer dependencies, so they are excluded from the code viewer.
-  const [framerTsx, cssTsx, cssCss] = await Promise.all([
+  const [framerTsx, framerCss, cssTsx, cssCss] = await Promise.all([
     framerLoaders?.tsx?.() ?? Promise.resolve(undefined),
+    framerLoaders?.css?.() ?? Promise.resolve(undefined),
     cssLoaders?.tsx?.() ?? Promise.resolve(undefined),
     cssLoaders?.css?.() ?? Promise.resolve(undefined),
   ])
 
   const tabs: SourceTab[] = []
   if (framerTsx !== undefined) tabs.push({ label: 'Component', code: framerTsx, language: 'tsx' })
+  if (framerCss !== undefined) tabs.push({ label: 'CSS', code: framerCss, language: 'css' })
   if (cssTsx !== undefined) tabs.push({ label: 'Component', code: cssTsx, language: 'tsx' })
   if (cssCss !== undefined) tabs.push({ label: 'CSS', code: cssCss, language: 'css' })
 

@@ -1,0 +1,67 @@
+/* TimerEffectsUrgentPulse - Framer Motion styles */
+
+/* Container for urgent pulse demo */
+.timer-urgent-pulse-demo-fm {
+  --timer-effects-urgent-pulse-border: rgb(255 255 255 / 30%);
+  --timer-effects-urgent-pulse-bg-1: #ffa500;
+  --timer-effects-urgent-pulse-bg-2: #ff8c00;
+  --timer-effects-urgent-pulse-bg-3: #ff6b35;
+  --timer-effects-urgent-pulse-bg-4: #f44;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+/* Urgent pulse timer pill container */
+.timer-urgent-pulse-fm {
+  position: relative;
+  min-width: 80px;
+  min-height: 36px;
+  padding: 4px 16px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--timer-effects-urgent-pulse-border);
+  will-change: transform;
+}
+
+/* Base amber gradient layer - always visible */
+.timer-urgent-pulse-fm__gradient-base {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-urgent-pulse-bg-1) 0%,
+    var(--timer-effects-urgent-pulse-bg-2) 100%
+  );
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* Top red gradient layer - opacity animated by Framer */
+.timer-urgent-pulse-fm__gradient-top {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--timer-effects-urgent-pulse-bg-3) 0%,
+    var(--timer-effects-urgent-pulse-bg-4) 100%
+  );
+  border-radius: inherit;
+  z-index: 2;
+  will-change: opacity;
+}
+
+/* Timer value text */
+.timer-urgent-pulse-fm__value {
+  position: relative;
+  z-index: 3;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+}

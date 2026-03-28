@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsMetallicSpecularFlash.module.css'
 
 interface TextEffectsMetallicSpecularFlashProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -62,7 +63,7 @@ function TextEffectsMetallicSpecularFlashComponent({
 
   return (
     <m.div
-      className="pf-metallic-flash-fm"
+      className={styles['pf-metallic-flash-fm']}
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
       variants={containerVariants}
@@ -72,9 +73,13 @@ function TextEffectsMetallicSpecularFlashComponent({
         color !== undefined ? ({ '--pf-msf-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-metallic-flash-fm__line" aria-hidden="true">
+      <div className={styles['pf-metallic-flash-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span key={i} className="pf-metallic-flash-fm__letter" variants={letterVariants}>
+          <m.span
+            key={i}
+            className={styles['pf-metallic-flash-fm__letter']}
+            variants={letterVariants}
+          >
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

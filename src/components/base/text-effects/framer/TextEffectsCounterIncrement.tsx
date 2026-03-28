@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import styles from './TextEffectsCounterIncrement.module.css'
 
 const numberPopVariants = {
   idle: { scale: 1, rotate: 0, opacity: 1 },
@@ -199,7 +200,7 @@ function TextEffectsCounterIncrementComponent({
 
   return (
     <div
-      className="pf-counter-showcase-fm"
+      className={styles['pf-counter-showcase-fm']}
       data-animation-id="text-effects__counter-increment"
       style={
         color !== undefined
@@ -207,9 +208,9 @@ function TextEffectsCounterIncrementComponent({
           : undefined
       }
     >
-      <div className="pf-counter-showcase-fm__target">
+      <div className={styles['pf-counter-showcase-fm__target']}>
         <m.span
-          className="pf-counter-showcase-fm__value"
+          className={styles['pf-counter-showcase-fm__value']}
           variants={prefersReducedMotion ? undefined : numberPopVariants}
           initial="idle"
           animate={
@@ -223,7 +224,7 @@ function TextEffectsCounterIncrementComponent({
           }
           transition={prefersReducedMotion ? { duration: 0.3, ease: 'easeInOut' } : undefined}
         >
-          <span className="pf-counter-showcase-fm__value-text">
+          <span className={styles['pf-counter-showcase-fm__value-text']}>
             {prefix !== undefined && (
               <span className="pf-counter-showcase-fm__label">{prefix}</span>
             )}
@@ -238,7 +239,7 @@ function TextEffectsCounterIncrementComponent({
           particles.map((particle) => (
             <m.span
               key={particle.id}
-              className="pf-update-indicator-fm__counter"
+              className={styles['pf-update-indicator-fm__counter']}
               variants={counterFloatVariants}
               initial="hidden"
               animate="float"

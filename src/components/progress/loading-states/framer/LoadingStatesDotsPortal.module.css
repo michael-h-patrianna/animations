@@ -1,0 +1,12 @@
+/* Layout for LoadingStatesDotsPortal (framer variant) */
+
+.pf-dots-portal-fm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-dots-portal-fm__dot {
+  border-radius: 50%;
+  display: inline-block;
+}

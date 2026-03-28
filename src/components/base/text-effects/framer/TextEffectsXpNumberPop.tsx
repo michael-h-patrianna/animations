@@ -15,6 +15,7 @@ import {
   useTransform,
 } from 'motion/react'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import styles from './TextEffectsXpNumberPop.module.css'
 
 interface CountUpParticle {
   id: number
@@ -141,7 +142,7 @@ function TextEffectsXpNumberPopComponent({
 
   return (
     <div
-      className="pf-xp-pop-fm"
+      className={styles['pf-xp-pop-fm']}
       data-animation-id="text-effects__xp-number-pop"
       style={
         color !== undefined ? ({ '--pf-xp-pop-color': color } as React.CSSProperties) : undefined
@@ -166,7 +167,7 @@ function TextEffectsXpNumberPopComponent({
                 ease: easeOut,
                 times: [0, 0.4, 1],
               }}
-              className="pf-xp-pop-fm__particle"
+              className={styles['pf-xp-pop-fm__particle']}
               style={{
                 position: 'absolute',
                 left: '50%',
@@ -184,10 +185,10 @@ function TextEffectsXpNumberPopComponent({
           ))}
       </AnimatePresence>
 
-      <m.div className="pf-xp-pop-fm__number-wrapper" animate={numberControls}>
-        {prefix !== undefined && <span className="pf-xp-pop-fm__label">{prefix}</span>}
-        <m.span className="pf-xp-pop-fm__number-value">{displayValue}</m.span>
-        {suffix !== undefined && <span className="pf-xp-pop-fm__label">{suffix}</span>}
+      <m.div className={styles['pf-xp-pop-fm__number-wrapper']} animate={numberControls}>
+        {prefix !== undefined && <span className={styles['pf-xp-pop-fm__label']}>{prefix}</span>}
+        <m.span className={styles['pf-xp-pop-fm__number-value']}>{displayValue}</m.span>
+        {suffix !== undefined && <span className={styles['pf-xp-pop-fm__label']}>{suffix}</span>}
       </m.div>
     </div>
   )

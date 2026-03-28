@@ -13,6 +13,7 @@ import {
   SPINNER_DUAL_RING_COLOR,
   SPINNER_DUAL_RING_SECONDARY,
 } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesSpinnerDualRing.module.css'
 
 interface LoadingStatesSpinnerDualRingProps {
   /** Overall diameter in px. */
@@ -57,24 +58,24 @@ function LoadingStatesSpinnerDualRingComponent({
     <div
       data-animation-id="loading-states__spinner-dual-ring"
       className={
-        className !== undefined ? `pf-spinner-dual-ring ${className}` : 'pf-spinner-dual-ring'
+        className !== undefined
+          ? `${styles['pf-spinner-dual-ring-fm']} ${className}`
+          : styles['pf-spinner-dual-ring-fm']
       }
       style={{
         width: size,
         height: size,
-        animation: 'none',
       }}
       role="status"
       aria-label="Loading"
     >
       <m.span
-        className="pf-spinner-dual-ring__outer"
+        className={styles['pf-spinner-dual-ring-fm__outer']}
         style={{
           width: size,
           height: size,
           border: `${thickness}px solid ${colorFaded}`,
           borderTopColor: color,
-          animation: 'none',
         }}
         animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : { rotate: 360 }}
         transition={
@@ -84,7 +85,7 @@ function LoadingStatesSpinnerDualRingComponent({
         }
       />
       <m.span
-        className="pf-spinner-dual-ring__inner"
+        className={styles['pf-spinner-dual-ring-fm__inner']}
         style={{
           width: innerSize,
           height: innerSize,
@@ -92,7 +93,6 @@ function LoadingStatesSpinnerDualRingComponent({
           left: innerInset,
           border: `${innerThickness}px solid ${secondaryFaded}`,
           borderBottomColor: secondaryColor,
-          animation: 'none',
         }}
         animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : { rotate: -360 }}
         transition={

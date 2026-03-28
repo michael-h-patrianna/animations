@@ -13,6 +13,7 @@ import {
   SPINNER_GALAXY_COLOR,
   SPINNER_GALAXY_STARS,
 } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesSpinnerGalaxy.module.css'
 
 interface LoadingStatesSpinnerGalaxyProps {
   /** Overall diameter in px. */
@@ -55,7 +56,11 @@ function LoadingStatesSpinnerGalaxyComponent({
   return (
     <m.div
       data-animation-id="loading-states__spinner-galaxy"
-      className={className !== undefined ? `pf-spinner-galaxy ${className}` : 'pf-spinner-galaxy'}
+      className={
+        className !== undefined
+          ? `${styles['pf-spinner-galaxy-fm']} ${className}`
+          : styles['pf-spinner-galaxy-fm']
+      }
       style={{
         width: size,
         height: size,
@@ -63,7 +68,6 @@ function LoadingStatesSpinnerGalaxyComponent({
         border: `2px solid ${borderFaded}`,
         borderTopColor: color,
         ['--pf-sg-glow' as string]: shadow,
-        animation: 'none',
       }}
       animate={prefersReducedMotion ? { opacity: [1, 0.5, 1] } : { rotate: 360 }}
       transition={
@@ -75,14 +79,13 @@ function LoadingStatesSpinnerGalaxyComponent({
       aria-label="Loading"
     >
       <m.span
-        className="pf-spinner-galaxy__star"
+        className={styles['pf-spinner-galaxy-fm__star']}
         style={{
           width: primaryStarSize,
           height: primaryStarSize,
           background: starColors[0],
           top: primaryOffset,
           left: primaryOffset,
-          animation: 'none',
         }}
         animate={prefersReducedMotion ? undefined : { scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
         transition={
@@ -92,14 +95,13 @@ function LoadingStatesSpinnerGalaxyComponent({
         }
       />
       <m.span
-        className="pf-spinner-galaxy__star"
+        className={styles['pf-spinner-galaxy-fm__star']}
         style={{
           width: secondaryStarSize,
           height: secondaryStarSize,
           background: starColors[1],
           bottom: secondaryOffset,
           right: secondaryOffset,
-          animation: 'none',
         }}
         animate={prefersReducedMotion ? undefined : { scale: [1, 1.3, 1], opacity: [0.4, 1, 0.4] }}
         transition={

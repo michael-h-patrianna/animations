@@ -1,0 +1,9 @@
+/* Overrides for LiveScoreUpdate — CSS variant */
+
+[data-animation-id='realtime-data__live-score-update'] {
+  min-height: 140px;
+}
+
+[data-animation-id='realtime-data__live-score-update'] :global(.pf-realtime-data__score) {
+  will-change: transform;
+}

@@ -20,7 +20,7 @@ import {
   type ContentStaggerProps,
 } from '@/components/dialogs/modal-content/SharedTypes'
 
-import './ModalContentListSoftStagger.css'
+import styles from './ModalContentListSoftStagger.module.css'
 
 const DEFAULT_DURATION = 400
 const DEFAULT_STAGGER = 60
@@ -38,7 +38,7 @@ function ModalContentListSoftStaggerComponent({
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
       key={i}
-      className="pf-list-soft-stagger-item"
+      className={styles['pf-list-soft-stagger-item']}
       style={
         {
           '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
@@ -68,14 +68,14 @@ function ModalContentListSoftStaggerComponent({
 
   return (
     <div className="pf-demo-overlay" data-animation-id="modal-content__list-soft-stagger">
-      <div className="pf-demo-modal pf-mc-box--entrance">
+      <div className={`pf-demo-modal ${styles['pf-mc-box--entrance']}`}>
         <DemoModalHeader title="Recent Changes" />
         <DemoModalBody>
           <DemoList>{mockItems.map((item, i) => wrapItem(item, i, 300))}</DemoList>
         </DemoModalBody>
         <DemoModalFooter>
           <div
-            className="pf-button-stagger-item"
+            className={styles['pf-button-stagger-item']}
             style={
               {
                 '--pf-stagger-delay': '600ms',

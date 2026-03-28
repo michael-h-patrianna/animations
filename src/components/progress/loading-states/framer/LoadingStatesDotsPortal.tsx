@@ -10,6 +10,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { DOTS_COLOR } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesDotsPortal.module.css'
 
 interface LoadingStatesDotsPortalProps {
   /** Dot color. */
@@ -47,14 +48,18 @@ function LoadingStatesDotsPortalComponent({
   return (
     <div
       data-animation-id="loading-states__dots-portal"
-      className={className !== undefined ? `pf-dots-portal ${className}` : 'pf-dots-portal'}
-      style={{ gap, animation: 'none' }}
+      className={
+        className !== undefined
+          ? `${styles['pf-dots-portal-fm']} ${className}`
+          : styles['pf-dots-portal-fm']
+      }
+      style={{ gap }}
       role="status"
       aria-label="Loading"
     >
       <m.span
-        className="pf-dots-portal__dot"
-        style={{ width: dotSize, height: dotSize, background: color, animation: 'none' }}
+        className={styles['pf-dots-portal-fm__dot']}
+        style={{ width: dotSize, height: dotSize, background: color }}
         animate={
           prefersReducedMotion
             ? { opacity: [1, 0.5, 1] }
@@ -63,8 +68,8 @@ function LoadingStatesDotsPortalComponent({
         transition={{ duration, ease, repeat: Infinity }}
       />
       <m.span
-        className="pf-dots-portal__dot"
-        style={{ width: dotSize, height: dotSize, background: color, animation: 'none' }}
+        className={styles['pf-dots-portal-fm__dot']}
+        style={{ width: dotSize, height: dotSize, background: color }}
         animate={
           prefersReducedMotion
             ? { opacity: [1, 0.5, 1] }
@@ -73,8 +78,8 @@ function LoadingStatesDotsPortalComponent({
         transition={{ duration, ease, repeat: Infinity }}
       />
       <m.span
-        className="pf-dots-portal__dot"
-        style={{ width: dotSize, height: dotSize, background: color, animation: 'none' }}
+        className={styles['pf-dots-portal-fm__dot']}
+        style={{ width: dotSize, height: dotSize, background: color }}
         animate={
           prefersReducedMotion
             ? { opacity: [1, 0.5, 1] }

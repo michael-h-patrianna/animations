@@ -14,7 +14,7 @@ import {
   SKELETON_BASE_COLOR,
   SKELETON_SHIMMER_COLOR,
 } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSkeletonTile.css'
+import styles from './LoadingStatesSkeletonTile.module.css'
 
 interface LoadingStatesSkeletonTileProps {
   /** Overall width in px. */
@@ -76,7 +76,11 @@ function LoadingStatesSkeletonTileComponent({
   return (
     <div
       data-animation-id="loading-states__skeleton-tile"
-      className={className !== undefined ? `pf-skeleton-tile ${className}` : 'pf-skeleton-tile'}
+      className={
+        className !== undefined
+          ? `${styles['pf-skeleton-tile']} ${className}`
+          : styles['pf-skeleton-tile']
+      }
       style={{ ...vars, width, gap, gridTemplateColumns: `repeat(${columns}, 1fr)` }}
       role="status"
       aria-label="Loading"
@@ -84,7 +88,7 @@ function LoadingStatesSkeletonTileComponent({
       {Array.from({ length: totalTiles }, (_, i) => (
         <div
           key={i}
-          className="pf-skeleton"
+          className={styles['pf-skeleton']}
           style={{
             width: '100%',
             height: tileHeight,

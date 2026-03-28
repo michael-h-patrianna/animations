@@ -16,6 +16,7 @@ import {
   BADGE_GLOW,
   BADGE_TEXT_COLOR,
 } from '@/components/realtime/update-indicators/SharedDefaults'
+import styles from './UpdateIndicatorsBadgePulse.module.css'
 
 interface BadgePulseProps {
   /** Badge content. Default: 'New' */
@@ -41,10 +42,13 @@ function UpdateIndicatorsBadgePulseComponent({
   const durS = duration / 1000
 
   return (
-    <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
-      <div className="pf-update-indicator__badge" style={{ background: color, color: textColor }}>
+    <div className="pf-update-indicator-fm" data-animation-id="update-indicators__badge-pulse">
+      <div
+        className="pf-update-indicator-fm__badge"
+        style={{ background: color, color: textColor }}
+      >
         <m.div
-          className="pf-update-indicator__badge-glow"
+          className={`pf-update-indicator-fm__badge-glow ${styles['pf-update-indicator-fm__badge-glow']}`}
           style={{ ['--pf-badge-glow' as string]: `0 0 18px ${glowColor}`, animation: 'none' }}
           animate={prefersReducedMotion ? { opacity: 0.5 } : { opacity: [0, 1, 0] }}
           transition={

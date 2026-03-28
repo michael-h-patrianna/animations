@@ -1,0 +1,39 @@
+/**
+ * Tap Arrow — layout-only styles for framer variant.
+ * Arrow is absolutely positioned and does not affect the target element's layout.
+ *
+ * Copy this file alongside IconAnimationsTapArrow.tsx.
+ */
+.pf-tap-arrow-fm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-tap-arrow-fm__target {
+  position: relative;
+  display: inline-flex;
+}
+
+.pf-tap-arrow-fm__anchor {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pf-tap-arrow-fm__rotator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-tap-arrow-fm__animator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-tap-arrow-fm__image {
+  display: block;
+  height: auto;
+}

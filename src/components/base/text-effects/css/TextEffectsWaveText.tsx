@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import './TextEffectsWaveText.css'
+import styles from './TextEffectsWaveText.module.css'
 
 interface TextEffectsWaveTextProps {
   /** Text content to animate with wave motion. */
@@ -25,7 +25,7 @@ function TextEffectsWaveTextComponent({
 }: TextEffectsWaveTextProps) {
   return (
     <div
-      className="tfx-wave-text-container"
+      className={styles['tfx-wave-text-container']}
       data-animation-id="text-effects__wave-text"
       style={
         color !== undefined
@@ -33,7 +33,7 @@ function TextEffectsWaveTextComponent({
           : undefined
       }
     >
-      <div className="tfx-wave-text-wrapper">
+      <div className={styles['tfx-wave-text-wrapper']}>
         {text.split('').map((char, index) => {
           const delay = index * charDelay
           const isSpace = char === ' '
@@ -41,7 +41,7 @@ function TextEffectsWaveTextComponent({
           return (
             <span
               key={index}
-              className={`tfx-wave-char ${showHighlight && !isSpace ? 'tfx-wave-char--highlight' : ''}`}
+              className={`${styles['tfx-wave-char']} ${showHighlight && !isSpace ? styles['tfx-wave-char--highlight'] : ''}`}
               style={{
                 animationDelay: `${delay}s`,
               }}

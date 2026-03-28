@@ -3,11 +3,14 @@ import { calculateBulbColors } from '@/utils/colors'
 import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
+
+import styles from './LightsCircleStatic5.module.css'
 interface LightsCircleStatic5Props {
   numBulbs?: number
   onColor?: string
 }
 const animationDuration = 4
+const easeInOut: [number, number, number, number] = [0.42, 0, 0.58, 1]
 
 // Glow variant for sparkle effect
 const glowVariants = {
@@ -18,45 +21,32 @@ const glowVariants = {
       duration: animationDuration,
       times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1],
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
+      ease: easeInOut,
     },
   },
 }
 
-// Bulb variant for quick flash sparkle
-const bulbVariants = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [
-      `var(--bulb-off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on-blend-5off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-off)`,
-      `var(--bulb-off)`,
-    ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
-      `0 0 8px var(--bulb-on-glow70)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1],
-      repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
-    },
-  },
-}
+const sparkleTimes: number[] = [0, 0.02, 0.04, 0.06, 0.08, 0.1, 1]
+
 const RADIUS = 80
+
+// No staggerChildren — per-bulb delay is applied directly in each child's
+// variant transition so that both glow and bulb of the same physical bulb
+// share an identical delay (matching CSS animation-delay behavior).
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
+}
+
+function addDelay<
+  H extends Record<string, string | number>,
+  S extends Record<string, unknown> & { transition: Record<string, unknown> },
+>(base: { hidden: H; show: S }, delay: number) {
+  return {
+    hidden: base.hidden,
+    show: { ...base.show, transition: { ...base.show.transition, delay } },
+  }
+}
 
 function LightsCircleStatic5({
   numBulbs = 16,
@@ -64,48 +54,75 @@ function LightsCircleStatic5({
 }: LightsCircleStatic5Props) {
   const prefersReducedMotion = useReducedMotion()
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
-  const containerVariants = useMemo(
+  const delayPerBulb = (animationDuration * 0.37) / numBulbs
+
+  // Bulb variants use resolved rgba values instead of CSS var() references
+  // because Motion cannot interpolate CSS custom property strings in keyframe arrays.
+  const bulbVariants = useMemo(
     () => ({
-      hidden: { opacity: 1 },
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
       show: {
-        opacity: 1,
+        backgroundColor: [
+          colors.off,
+          colors.offTint30,
+          colors.on,
+          colors.onBlend5Off,
+          colors.offTint30,
+          colors.off,
+          colors.off,
+        ],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 12px ${colors.onGlow100}, 0 0 18px ${colors.onGlow80}`,
+          `0 0 8px ${colors.onGlow70}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+        ],
         transition: {
-          staggerChildren: (animationDuration * 0.37) / Math.max(1, numBulbs),
+          duration: animationDuration,
+          times: sparkleTimes,
+          repeat: Infinity,
+          ease: easeInOut,
         },
       },
     }),
-    [numBulbs]
+    [colors]
   )
+
   const bulbs = useMemo(
     () =>
       Array.from({ length: numBulbs }, (_, i) => {
         const rad = ((i * 360) / numBulbs - 90) * (Math.PI / 180)
+        const bulbDelay = i * delayPerBulb
         return (
           <div
             key={i}
-            className="lights-circle-static-5__bulb-wrapper"
+            className={styles['pf-lights-static-5-fm__bulb-wrapper']}
             style={{
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
             <m.div
-              className="lights-circle-static-5__glow"
-              variants={glowVariants}
-              style={{ animation: 'none' }}
+              className={styles['pf-lights-static-5-fm__glow']}
+              variants={addDelay(glowVariants, bulbDelay)}
             />
             <m.div
-              className="lights-circle-static-5__bulb"
-              variants={bulbVariants}
-              style={{ animation: 'none' }}
+              className={styles['pf-lights-static-5-fm__bulb']}
+              variants={addDelay(bulbVariants, bulbDelay)}
             />
           </div>
         )
       }),
-    [numBulbs]
+    [numBulbs, delayPerBulb, bulbVariants]
   )
   return (
     <div
-      className="lights-circle-static-5"
+      className={styles['pf-lights-static-5-fm']}
       data-animation-id="lights__circle-static-5"
       style={
         {
@@ -116,13 +133,14 @@ function LightsCircleStatic5({
           '--bulb-on-glow100': colors.onGlow100,
           '--bulb-on-glow80': colors.onGlow80,
           '--bulb-on-glow70': colors.onGlow70,
+          '--bulb-on-glow60': colors.onGlow60,
           '--bulb-off-glow40': colors.offGlow40,
           '--bulb-off-glow30': colors.offGlow30,
         } as CSSProperties
       }
     >
       <m.div
-        className="lights-circle-static-5__container"
+        className={styles['pf-lights-static-5-fm__container']}
         variants={containerVariants}
         initial="hidden"
         animate={prefersReducedMotion ? 'hidden' : 'show'}

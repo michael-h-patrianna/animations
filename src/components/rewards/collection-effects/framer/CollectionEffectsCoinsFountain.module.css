@@ -1,0 +1,44 @@
+/* Coins Fountain — Framer Motion Variant (layout only) */
+
+.pf-coins-fountain-fm {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-coins-fountain-fm__stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pf-coins-fountain-fm__particle {
+  position: absolute;
+  width: var(--pf-particle-size, 24px);
+  height: var(--pf-particle-size, 24px);
+  translate: -50% -50%;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.pf-coins-fountain-fm__particle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.pf-coins-fountain-fm__flash {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  --flash-color: rgb(255 215 0 / 70%);
+  --flash-edge: rgb(255 165 0 / 0%);
+  background: radial-gradient(circle, var(--flash-color) 0%, var(--flash-edge) 70%);
+  pointer-events: none;
+}

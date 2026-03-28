@@ -1,4 +1,0 @@
-/* Layout-only styles for framer DotSweep — animation driven by Motion */
-.pf-update-indicator__dot--fill {
-  will-change: transform;
-}

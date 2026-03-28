@@ -54,7 +54,6 @@ function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffec
       type="button"
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__jitter"
-      style={{ animation: 'none' }}
       variants={prefersReducedMotion ? undefined : isHovered ? HEARTBEAT_VARIANTS : jitterVariants}
       animate={prefersReducedMotion ? undefined : 'animate'}
       onHoverStart={() => setIsHovered(true)}

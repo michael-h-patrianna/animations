@@ -7,7 +7,7 @@
  * Usage: <IconAnimationsBounce src="/icon.png" alt="reward" width={80} />
  */
 import { memo } from 'react'
-import './IconAnimationsBounce.css'
+import styles from './IconAnimationsBounce.module.css'
 
 interface IconAnimationsBounceProps {
   /** Image source URL. Renders a placeholder when omitted. */
@@ -29,7 +29,7 @@ function IconAnimationsBounceComponent({
   return (
     <div data-animation-id="icon-animations__bounce">
       <div
-        className="pf-icon-bounce"
+        className={styles['pf-icon-bounce']}
         style={{ ['--pf-icon-bounce-duration' as string]: `${duration}ms` }}
       >
         {src !== undefined ? (

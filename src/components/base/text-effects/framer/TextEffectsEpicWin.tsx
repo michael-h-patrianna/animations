@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsEpicWin.module.css'
 
 interface TextEffectsEpicWinProps {
   /** @default 'EPIC WIN' */
@@ -21,16 +22,16 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
 
   return (
     <div
-      className="pf-epic-win-fm"
+      className={styles['pf-epic-win-fm']}
       data-animation-id="text-effects__epic-win"
       style={
         color !== undefined ? ({ '--pf-epic-win-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-epic-win-fm__text-container">
+      <div className={styles['pf-epic-win-fm__text-container']}>
         {/* Far shadow */}
         <m.div
-          className="pf-epic-win-fm__shadow-far"
+          className={styles['pf-epic-win-fm__shadow-far']}
           initial={
             prefersReducedMotion ? { opacity: 0.2, y: 6 } : { opacity: 0, scale: 1.2, y: 10 }
           }
@@ -46,7 +47,7 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
 
         {/* Mid shadow */}
         <m.div
-          className="pf-epic-win-fm__shadow-mid"
+          className={styles['pf-epic-win-fm__shadow-mid']}
           initial={prefersReducedMotion ? { opacity: 0.3, y: 3 } : { opacity: 0, scale: 1.1, y: 5 }}
           animate={prefersReducedMotion ? { opacity: 0.3, y: 3 } : { opacity: 0.3, scale: 1, y: 3 }}
           transition={
@@ -60,7 +61,7 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
 
         {/* Main metallic text */}
         <m.div
-          className="pf-epic-win-fm__main-text"
+          className={styles['pf-epic-win-fm__main-text']}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: prefersReducedMotion ? 0.3 : 0.2 }}
@@ -68,7 +69,7 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
           {chars.map((char, index) => (
             <m.span
               key={index}
-              className="pf-epic-win-fm__char"
+              className={styles['pf-epic-win-fm__char']}
               initial={
                 prefersReducedMotion
                   ? { opacity: 0 }
@@ -87,18 +88,20 @@ function TextEffectsEpicWinComponent({ text = 'EPIC WIN', color }: TextEffectsEp
                     }
               }
             >
-              <m.span className="pf-epic-win-fm__char-inner">
-                <span className="pf-epic-win-fm__char-text">{char === ' ' ? '\xA0' : char}</span>
-                <span aria-hidden="true" className="pf-epic-win-fm__char-highlight">
+              <m.span className={styles['pf-epic-win-fm__char-inner']}>
+                <span className={styles['pf-epic-win-fm__char-text']}>
                   {char === ' ' ? '\xA0' : char}
                 </span>
-                <span aria-hidden="true" className="pf-epic-win-fm__char-shadow">
+                <span aria-hidden="true" className={styles['pf-epic-win-fm__char-highlight']}>
+                  {char === ' ' ? '\xA0' : char}
+                </span>
+                <span aria-hidden="true" className={styles['pf-epic-win-fm__char-shadow']}>
                   {char === ' ' ? '\xA0' : char}
                 </span>
 
                 {!prefersReducedMotion && (
                   <m.span
-                    className="pf-epic-win-fm__char-glow"
+                    className={styles['pf-epic-win-fm__char-glow']}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: [0, 1, 0], scale: [0.8, 1.4, 1] }}
                     transition={{

@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import './TextEffectsVerbJump.css'
+import styles from './TextEffectsVerbJump.module.css'
 
 interface TextEffectsVerbJumpProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -32,16 +32,20 @@ function TextEffectsVerbJumpComponent({
 
   return (
     <div
-      className="tfx-jump-container"
+      className={styles['tfx-jump-container']}
       data-animation-id="text-effects__verb-jumping"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-jump-line" aria-hidden="true">
+      <div className={styles['tfx-jump-line']} aria-hidden="true">
         {letters.map((ch, i) => (
-          <span key={i} className="tfx-jump-char" style={{ animationDelay: `${i * stepDelay}s` }}>
+          <span
+            key={i}
+            className={styles['tfx-jump-char']}
+            style={{ animationDelay: `${i * stepDelay}s` }}
+          >
             {ch === ' ' ? '\u00A0' : ch}
           </span>
         ))}

@@ -8,7 +8,7 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsChargeSurge.css'
+import styles from './ProgressBarsChargeSurge.module.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
   { position: 0 },
@@ -36,6 +36,7 @@ export function ProgressBarsChargeSurge({
   const prevProgressRef = useRef(0)
   const chargedSetRef = useRef<Set<number>>(new Set())
   const waveIdRef = useRef(0)
+  const waveTimersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
 
   const [milestoneStates, setMilestoneStates] = useState<MilestoneState[]>(() =>
     milestones.map(() => 'inactive')
@@ -46,7 +47,7 @@ export function ProgressBarsChargeSurge({
     const prev = prevProgressRef.current
     prevProgressRef.current = displayProgress
 
-    // Reset on significant backward movement
+    // Reset on significant backward movement (sweep cycle restart)
     if (displayProgress < prev - 0.02) {
       setMilestoneStates(milestones.map(() => 'inactive'))
       setSurgeWaves([])
@@ -82,24 +83,39 @@ export function ProgressBarsChargeSurge({
       }))
       setSurgeWaves((p) => [...p, ...newWaves])
 
-      // Remove waves after animation duration (0.6s)
-      const ids = newWaves.map((w) => w.id)
-      const t = setTimeout(() => {
-        setSurgeWaves((p) => p.filter((w) => !ids.includes(w.id)))
+      // Remove waves after animation completes (0.6s animation + 100ms margin).
+      // Timers are independent of the effect lifecycle — stored in a ref so they
+      // are not canceled when displayProgress changes and the effect re-runs.
+      const ids = new Set(newWaves.map((w) => w.id))
+      const timer = setTimeout(() => {
+        setSurgeWaves((p) => p.filter((w) => !ids.has(w.id)))
+        waveTimersRef.current.delete(timer)
       }, 700)
-      return () => clearTimeout(t)
+      waveTimersRef.current.add(timer)
     }
   }, [displayProgress, milestones])
 
+  // Clean up wave timers on unmount
+  useEffect(() => {
+    const timers = waveTimersRef.current
+    return () => {
+      for (const t of timers) clearTimeout(t)
+      timers.clear()
+    }
+  }, [])
+
   return (
     <div
-      className={`pf-charge-surge${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-charge-surge']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__charge-surge"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track">
-          <div className="pf-progress-fill" style={{ transform: `scaleX(${displayProgress})` }} />
+        <div className={styles['pf-progress-track']}>
+          <div
+            className={styles['pf-progress-fill']}
+            style={{ transform: `scaleX(${displayProgress})` }}
+          />
         </div>
 
         {milestones.map((ms, i) => {
@@ -107,7 +123,7 @@ export function ProgressBarsChargeSurge({
           return (
             <div
               key={i}
-              className={`milestone-container${state === 'charged' ? ' is-active' : ''}${state === 'anticipating' ? ' is-anticipating' : ''}`}
+              className={`${styles['milestone-container']}${state === 'charged' ? ` ${styles['is-active']}` : ''}${state === 'anticipating' ? ` ${styles['is-anticipating']}` : ''}`}
               style={{
                 position: 'absolute',
                 left: `${ms.position * 100}%`,
@@ -117,11 +133,11 @@ export function ProgressBarsChargeSurge({
                 height: '24px',
               }}
             >
-              <div className="milestone-marker" />
+              <div className={styles['milestone-marker']} />
               {surgeWaves
                 .filter((w) => w.milestoneIndex === i)
                 .map((wave) => (
-                  <div key={wave.id} className="surge-wave" />
+                  <div key={wave.id} className={styles['surge-wave']} />
                 ))}
             </div>
           )

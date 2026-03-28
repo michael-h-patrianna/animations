@@ -1,12 +1,12 @@
 /* ── Code body ──────────────────────────────────────────────────────── */
 
-.code-modal__content,
-.code-modal__body,
-.code-modal__loading {
+[data-demo-ui] .code-modal__content,
+[data-demo-ui] .code-modal__body,
+[data-demo-ui] .code-modal__loading {
   background: transparent;
 }
 
-.code-modal__body pre {
+[data-demo-ui] .code-modal__body pre {
   margin: 0;
   padding: 16px;
   font-size: 13px;
@@ -16,11 +16,11 @@
 }
 
 /* Shiki HTML is normalized in JS so the glass surface can show through */
-.code-modal__body .shiki {
+[data-demo-ui] .code-modal__body .shiki {
   background: transparent;
 }
 
-.code-modal__loading {
+[data-demo-ui] .code-modal__loading {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +31,7 @@
 
 /* ── Code icon button in animation card ─────────────────────────────── */
 
-.pf-card__code-btn {
+[data-demo-ui] .pf-card__code-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,14 +51,14 @@
   flex-shrink: 0;
 }
 
-.pf-card__code-btn:hover {
+[data-demo-ui] .pf-card__code-btn:hover {
   color: var(--text-primary);
   background: var(--bg-hover);
   border-color: var(--border-subtle);
   transform: translateY(-1px);
 }
 
-.pf-card__code-btn--active {
+[data-demo-ui] .pf-card__code-btn--active {
   color: var(--theme-accent, var(--text-primary));
   background: var(--bg-active, var(--bg-hover));
   border-color: var(--theme-accent, var(--border-default));

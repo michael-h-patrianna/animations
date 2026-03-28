@@ -13,7 +13,7 @@
 
 import { memo } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationComparisonMorph.css'
+import styles from './ModalOrchestrationComparisonMorph.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 2
@@ -45,11 +45,14 @@ function ModalOrchestrationComparisonMorphComponent({
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   return (
-    <div className="pf-comparison-morph" data-animation-id="modal-orchestration__comparison-morph">
+    <div
+      className={styles['pf-comparison-morph']}
+      data-animation-id="modal-orchestration__comparison-morph"
+    >
       {renderItems.map((child, i) => (
         <div
           key={i}
-          className="pf-comparison-morph__pane pf-comparison-morph__pane--visible"
+          className={`${styles['pf-comparison-morph__pane']} ${styles['pf-comparison-morph__pane--visible']}`}
           style={{
             animationDelay: `${(i * stagger) / 1000}s`,
             animationDuration: `${duration / 1000}s`,

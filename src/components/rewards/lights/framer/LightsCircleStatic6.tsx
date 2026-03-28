@@ -3,12 +3,15 @@ import { calculateBulbColors } from '@/utils/colors'
 import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
+
+import styles from './LightsCircleStatic6.module.css'
 interface LightsCircleStatic6Props {
   numBulbs?: number
   onColor?: string
 }
 const animationDuration = 4.8
 const groupSize = 3
+const easeInOut: [number, number, number, number] = [0.42, 0, 0.58, 1]
 
 // No stagger at container level -- timing handled via per-bulb delays.
 const containerVariants = {
@@ -25,46 +28,12 @@ const glowVariantsStrong = {
       duration: animationDuration,
       times: [0, 0.01, 0.03, 0.08, 0.1, 0.12, 0.14, 1],
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
+      ease: easeInOut,
     },
   },
 }
 
-// Strong beat bulb variant (1st in group)
-const bulbVariantsStrong = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [
-      `var(--bulb-off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on-blend-5off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-off)`,
-      `var(--bulb-off)`,
-    ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
-      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
-      `0 0 8px var(--bulb-on-glow70)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.01, 0.03, 0.08, 0.1, 0.12, 0.14, 1],
-      repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
-    },
-  },
-}
+const strongTimes: number[] = [0, 0.01, 0.03, 0.08, 0.1, 0.12, 0.14, 1]
 
 // Weak beat glow variant (2nd and 3rd in group) - dimmer and shorter
 const glowVariantsWeak = {
@@ -75,46 +44,13 @@ const glowVariantsWeak = {
       duration: animationDuration,
       times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
+      ease: easeInOut,
     },
   },
 }
 
-// Weak beat bulb variant (2nd and 3rd in group)
-const bulbVariantsWeak = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [
-      `var(--bulb-off)`,
-      `var(--bulb-off-tint20)`,
-      `var(--bulb-blend70)`,
-      `var(--bulb-blend70)`,
-      `var(--bulb-blend40)`,
-      `var(--bulb-off-tint20)`,
-      `var(--bulb-off)`,
-      `var(--bulb-off)`,
-    ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 3px var(--bulb-off-glow35)`,
-      `0 0 7px var(--bulb-on-glow70), 0 0 10px var(--bulb-on-glow50)`,
-      `0 0 7px var(--bulb-on-glow70), 0 0 10px var(--bulb-on-glow50)`,
-      `0 0 5px var(--bulb-on-glow50)`,
-      `0 0 3px var(--bulb-off-glow35)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1],
-      repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
-    },
-  },
-}
+const weakTimes: number[] = [0, 0.01, 0.02, 0.05, 0.07, 0.09, 0.11, 1]
+
 const RADIUS = 80
 
 function addDelay<
@@ -135,6 +71,85 @@ function LightsCircleStatic6({
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
   const numGroups = Math.ceil(numBulbs / groupSize)
   const delayPerGroup = animationDuration / numGroups
+
+  // Bulb variants use resolved rgba values instead of CSS var() references
+  // because Motion cannot interpolate CSS custom property strings in keyframe arrays.
+  const bulbVariantsStrong = useMemo(
+    () => ({
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
+      show: {
+        backgroundColor: [
+          colors.off,
+          colors.offTint30,
+          colors.on,
+          colors.on,
+          colors.onBlend5Off,
+          colors.offTint30,
+          colors.off,
+          colors.off,
+        ],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 12px ${colors.onGlow100}, 0 0 18px ${colors.onGlow80}`,
+          `0 0 12px ${colors.onGlow100}, 0 0 18px ${colors.onGlow80}`,
+          `0 0 8px ${colors.onGlow70}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+        ],
+        transition: {
+          duration: animationDuration,
+          times: strongTimes,
+          repeat: Infinity,
+          ease: easeInOut,
+        },
+      },
+    }),
+    [colors]
+  )
+
+  const bulbVariantsWeak = useMemo(
+    () => ({
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
+      show: {
+        backgroundColor: [
+          colors.off,
+          colors.offTint20,
+          colors.blend70,
+          colors.blend70,
+          colors.blend40,
+          colors.offTint20,
+          colors.off,
+          colors.off,
+        ],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 3px ${colors.offGlow35}`,
+          `0 0 7px ${colors.onGlow70}, 0 0 10px ${colors.onGlow50}`,
+          `0 0 7px ${colors.onGlow70}, 0 0 10px ${colors.onGlow50}`,
+          `0 0 5px ${colors.onGlow50}`,
+          `0 0 3px ${colors.offGlow35}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+        ],
+        transition: {
+          duration: animationDuration,
+          times: weakTimes,
+          repeat: Infinity,
+          ease: easeInOut,
+        },
+      },
+    }),
+    [colors]
+  )
+
   const bulbs = useMemo(
     () =>
       Array.from({ length: numBulbs }, (_, i) => {
@@ -147,29 +162,27 @@ function LightsCircleStatic6({
         return (
           <div
             key={i}
-            className={`lights-circle-static-6__bulb-wrapper beat-${positionInGroup + 1}`}
+            className={`${styles['pf-lights-static-6-fm__bulb-wrapper']} beat-${positionInGroup + 1}`}
             style={{
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
             <m.div
-              className="lights-circle-static-6__glow"
+              className={styles['pf-lights-static-6-fm__glow']}
               variants={addDelay(glowBase, totalDelay)}
-              style={{ animation: 'none' }}
             />
             <m.div
-              className="lights-circle-static-6__bulb"
+              className={styles['pf-lights-static-6-fm__bulb']}
               variants={addDelay(bulbBase, totalDelay)}
-              style={{ animation: 'none' }}
             />
           </div>
         )
       }),
-    [numBulbs, delayPerGroup]
+    [numBulbs, delayPerGroup, bulbVariantsStrong, bulbVariantsWeak]
   )
   return (
     <div
-      className="lights-circle-static-6"
+      className={styles['pf-lights-static-6-fm']}
       data-animation-id="lights__circle-static-6"
       style={
         {
@@ -183,6 +196,7 @@ function LightsCircleStatic6({
           '--bulb-on-glow100': colors.onGlow100,
           '--bulb-on-glow80': colors.onGlow80,
           '--bulb-on-glow70': colors.onGlow70,
+          '--bulb-on-glow60': colors.onGlow60,
           '--bulb-on-glow50': colors.onGlow50,
           '--bulb-off-glow40': colors.offGlow40,
           '--bulb-off-glow35': colors.offGlow35,
@@ -191,7 +205,7 @@ function LightsCircleStatic6({
       }
     >
       <m.div
-        className="lights-circle-static-6__container"
+        className={styles['pf-lights-static-6-fm__container']}
         variants={containerVariants}
         initial="hidden"
         animate={prefersReducedMotion ? 'hidden' : 'show'}

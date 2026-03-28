@@ -2,7 +2,9 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import { ModalOrchestrationTabMorph as CssTabMorph } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationTabMorph'
+import cssTabMorphStyles from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationTabMorph.module.css'
 import { ModalOrchestrationTabMorph as FramerTabMorph } from '@/components/dialogs/modal-orchestration/framer/ModalOrchestrationTabMorph'
+import fmTabMorphStyles from '@/components/dialogs/modal-orchestration/framer/ModalOrchestrationTabMorph.module.css'
 
 describe('modal-orchestration tab-morph direction', () => {
   describe('CSS variant', () => {
@@ -11,9 +13,9 @@ describe('modal-orchestration tab-morph direction', () => {
 
       fireEvent.click(screen.getByTestId('tab-morph-tab-1'))
 
-      const panel = container.querySelector('.pf-tab-morph__panel')
-      expect(panel).toHaveClass('pf-tab-morph__panel--exit-left')
-      expect(panel).not.toHaveClass('pf-tab-morph__panel--exit-right')
+      const panel = container.querySelector(`.${cssTabMorphStyles['pf-tab-morph__panel']}`)
+      expect(panel).toHaveClass(cssTabMorphStyles['pf-tab-morph__panel--exit-left'])
+      expect(panel).not.toHaveClass(cssTabMorphStyles['pf-tab-morph__panel--exit-right'])
     })
 
     it('uses right-exit animation when moving to a lower tab index', () => {
@@ -22,9 +24,9 @@ describe('modal-orchestration tab-morph direction', () => {
       fireEvent.click(screen.getByTestId('tab-morph-tab-2'))
       fireEvent.click(screen.getByTestId('tab-morph-tab-0'))
 
-      const panel = container.querySelector('.pf-tab-morph__panel')
-      expect(panel).toHaveClass('pf-tab-morph__panel--exit-right')
-      expect(panel).not.toHaveClass('pf-tab-morph__panel--exit-left')
+      const panel = container.querySelector(`.${cssTabMorphStyles['pf-tab-morph__panel']}`)
+      expect(panel).toHaveClass(cssTabMorphStyles['pf-tab-morph__panel--exit-right'])
+      expect(panel).not.toHaveClass(cssTabMorphStyles['pf-tab-morph__panel--exit-left'])
     })
 
     it('sets data-animation-id', () => {
@@ -55,7 +57,9 @@ describe('modal-orchestration tab-morph direction', () => {
       // Clicking tab 2 should not throw
       fireEvent.click(tab1)
       // Tab 2 should now be active
-      expect(screen.getByTestId('tab-morph-tab-1')).toHaveClass('pf-tab-morph__tab--active')
+      expect(screen.getByTestId('tab-morph-tab-1')).toHaveClass(
+        fmTabMorphStyles['pf-tab-morph-fm__tab--active']
+      )
     })
   })
 })

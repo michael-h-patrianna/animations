@@ -1,0 +1,15 @@
+/* Structural: expanding ring for radar effect (moved from shared.css — single-consumer) */
+:global(.pf-update-indicator-fm__ring) {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border-radius: 9999px;
+  transform-origin: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Layout-only styles for framer DotRadar — animation driven by Motion */
+.pf-update-indicator-fm__dot--radar {
+  z-index: 1;
+}

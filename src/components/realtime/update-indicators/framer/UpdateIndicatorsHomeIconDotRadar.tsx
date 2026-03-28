@@ -13,6 +13,7 @@ import { easeOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import { DOT_COLOR, DOT_RADAR_RING } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
+import styles from './UpdateIndicatorsHomeIconDotRadar.module.css'
 
 interface DotRadarProps extends DotIndicatorProps {
   /** Ring border color. Default: 'rgb(255 73 103 / 50%)' */
@@ -41,7 +42,7 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
     : Array.from({ length: ringCount }, (_, i) => (
         <m.span
           key={i}
-          className="pf-update-indicator__ring"
+          className="pf-update-indicator-fm__ring"
           style={{
             top: -ringEdgeOffset,
             right: -ringEdgeOffset,
@@ -68,7 +69,7 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
   const dot = (
     <>
       <span
-        className="pf-update-indicator__dot pf-update-indicator__dot--radar"
+        className={`pf-update-indicator-fm__dot ${styles['pf-update-indicator-fm__dot--radar']}`}
         style={{
           width: dotSize,
           height: dotSize,
@@ -80,14 +81,17 @@ function UpdateIndicatorsHomeIconDotRadarComponent({
   )
 
   return (
-    <div className="pf-update-indicator" data-animation-id="update-indicators__home-icon-dot-radar">
+    <div
+      className="pf-update-indicator-fm"
+      data-animation-id="update-indicators__home-icon-dot-radar"
+    >
       {children !== undefined ? (
-        <div className="pf-update-indicator__anchor">
+        <div className="pf-update-indicator-fm__anchor">
           {children}
           {dot}
         </div>
       ) : (
-        <div className="pf-update-indicator__anchor" style={{ width: dotSize, height: dotSize }}>
+        <div className="pf-update-indicator-fm__anchor" style={{ width: dotSize, height: dotSize }}>
           {dot}
         </div>
       )}

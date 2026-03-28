@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsPulse.css — apply .pf-pulse to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsPulse.css'
+import styles from './StandardEffectsPulse.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 import { PULSE_GLOW_COLOR } from '@/components/base/standard-effects/SharedDefaults'
 
@@ -28,7 +28,7 @@ function StandardEffectsPulseComponent({
   } as CSSProperties
 
   return (
-    <div className="pf-pulse" data-animation-id="standard-effects__pulse" style={style}>
+    <div className={styles['pf-pulse']} data-animation-id="standard-effects__pulse" style={style}>
       {children ?? <DemoBox label="Pulse" />}
     </div>
   )

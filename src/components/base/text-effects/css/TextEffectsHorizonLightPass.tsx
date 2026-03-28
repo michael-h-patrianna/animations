@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useRef } from 'react'
-import './TextEffectsHorizonLightPass.css'
+import styles from './TextEffectsHorizonLightPass.module.css'
 
 interface TextEffectsHorizonLightPassProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -92,21 +92,21 @@ function TextEffectsHorizonLightPassComponent({
   return (
     <div
       ref={containerRef}
-      className="tfx-horizon-light-pass"
+      className={styles['tfx-horizon-light-pass']}
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
       style={
         color !== undefined ? ({ '--tfx-hlp-base-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-horizon-light-pass__line" aria-hidden="true">
+      <div className={styles['tfx-horizon-light-pass__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
             ref={(el) => {
               if (el) lettersRef.current[i] = el
             }}
-            className="tfx-horizon-light-pass__letter"
+            className={styles['tfx-horizon-light-pass__letter']}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>

@@ -1,4 +1,5 @@
 import { useMemo, type CSSProperties } from 'react'
+import styles from './CardPackOpen.module.css'
 
 import cardPackBackImage from '@/assets/card-pack/card-back.webp'
 import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
@@ -56,13 +57,13 @@ function CardNameRibbon({
 
   return (
     <div
-      className={`pf-card-pack-css__card-ribbon ${ribbonColor ? '' : `pf-card-pack-css__card-ribbon--rarity-${rarity}`}`}
+      className={`${styles['pf-card-pack-css__card-ribbon']} ${ribbonColor ? '' : styles[`pf-card-pack-css__card-ribbon--rarity-${rarity}`]}`}
       style={ribbonColor ? ({ '--ribbon-bg': ribbonColor } as CSSProperties) : undefined}
     >
       <svg
         viewBox={`0 0 100 ${svgH}`}
         preserveAspectRatio="xMidYMid meet"
-        className="pf-card-pack-css__card-ribbon-svg"
+        className={styles['pf-card-pack-css__card-ribbon-svg']}
         role="img"
         aria-label={name}
       >
@@ -114,14 +115,14 @@ function CardNameRibbon({
 
 function CardStars({ card }: { card: CardData }) {
   return (
-    <div className="pf-card-pack-css__card-stars">
+    <div className={styles['pf-card-pack-css__card-stars']}>
       {Array.from({ length: card.rarity }, (_, i) => {
         const mid = (card.rarity - 1) / 2
         const arcY = Math.abs(i - mid) * 2
         return (
           <svg
             key={i}
-            className="pf-card-pack-css__card-star"
+            className={styles['pf-card-pack-css__card-star']}
             viewBox="0 0 24 24"
             aria-hidden="true"
             style={{ transform: `translateY(${arcY}px)` }}
@@ -151,10 +152,14 @@ function CardStars({ card }: { card: CardData }) {
 function CardFrame({ card }: { card: CardData }) {
   return (
     <div
-      className={`pf-card-pack-css__card-frame pf-card-pack-css__card-frame--rarity-${card.rarity}`}
+      className={`${styles['pf-card-pack-css__card-frame']} ${styles[`pf-card-pack-css__card-frame--rarity-${card.rarity}`]}`}
     >
-      <div className="pf-card-pack-css__card-img-area">
-        <img src={card.frontImage} alt={card.name} className="pf-card-pack-css__card-img" />
+      <div className={styles['pf-card-pack-css__card-img-area']}>
+        <img
+          src={card.frontImage}
+          alt={card.name}
+          className={styles['pf-card-pack-css__card-img']}
+        />
       </div>
     </div>
   )
@@ -162,9 +167,12 @@ function CardFrame({ card }: { card: CardData }) {
 
 function NewBadge() {
   return (
-    <div className="pf-card-pack-css__new-badge">
-      <div className="pf-card-pack-css__new-badge-star" style={{ clipPath: STARBURST_CLIP }}>
-        <span className="pf-card-pack-css__new-badge-text">NEW</span>
+    <div className={styles['pf-card-pack-css__new-badge']}>
+      <div
+        className={styles['pf-card-pack-css__new-badge-star']}
+        style={{ clipPath: STARBURST_CLIP }}
+      >
+        <span className={styles['pf-card-pack-css__new-badge-text']}>NEW</span>
       </div>
     </div>
   )
@@ -191,11 +199,11 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
 
   return (
     <div
-      className="pf-card-pack-css__rarity-burst-wrap"
+      className={styles['pf-card-pack-css__rarity-burst-wrap']}
       style={{ left: position.x, top: position.y } as CSSProperties}
     >
       <div
-        className="pf-card-pack-css__rarity-glow"
+        className={styles['pf-card-pack-css__rarity-glow']}
         style={
           {
             '--burst-color': RARITY_GLOW[rarity],
@@ -209,7 +217,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
         src={crystalShatterSparkleImage}
         alt=""
         aria-hidden="true"
-        className="pf-card-pack-css__rarity-flash"
+        className={styles['pf-card-pack-css__rarity-flash']}
         style={
           {
             '--burst-scale-mid': `${burstScale}`,
@@ -222,7 +230,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
           src={crystalShatterPrismaticRingImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack-css__rarity-ring"
+          className={styles['pf-card-pack-css__rarity-ring']}
           style={{ '--burst-ring-scale': `${burstScale * 1.2}` } as CSSProperties}
         />
       )}
@@ -232,7 +240,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
           src={crystalShatterDustImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack-css__rarity-spark"
+          className={styles['pf-card-pack-css__rarity-spark']}
           style={
             {
               '--spark-size': `${p.size}px`,
@@ -250,7 +258,7 @@ export function RarityBurst({ rarity, position }: { rarity: CardRarity; position
 export function CardLandShimmer({ position, delay }: { position: FanPosition; delay: number }) {
   return (
     <div
-      className="pf-card-pack-css__land-shimmer"
+      className={styles['pf-card-pack-css__land-shimmer']}
       style={{ left: position.x, top: position.y, '--shimmer-delay': `${delay}s` } as CSSProperties}
     />
   )
@@ -261,7 +269,7 @@ export function ScreenFlash({ rarity }: { rarity: CardRarity }) {
   if (rarity < 4) return null
   return (
     <div
-      className={`pf-card-pack-css__screen-flash pf-card-pack-css__screen-flash--rarity-${rarity}`}
+      className={`${styles['pf-card-pack-css__screen-flash']} ${styles[`pf-card-pack-css__screen-flash--rarity-${rarity}`]}`}
       style={{ '--flash-peak': rarity === 5 ? '0.4' : '0.22' } as CSSProperties}
     />
   )
@@ -269,7 +277,7 @@ export function ScreenFlash({ rarity }: { rarity: CardRarity }) {
 
 /** Burst effect when all cards are collected. */
 export function CollectBurst() {
-  return <div className="pf-card-pack-css__collect-burst" />
+  return <div className={styles['pf-card-pack-css__collect-burst']} />
 }
 
 /* ═══════════════════════════════════════════════════
@@ -307,22 +315,22 @@ export function FlipCard({
   const canTap = idle && flipped && !collected
   const floatDelay = (collectIndex / 5) * 3.5
 
-  let slotClass = 'pf-card-pack-css__card-slot'
+  let slotClass = styles['pf-card-pack-css__card-slot']
   if (collected) {
-    slotClass += ' pf-card-pack-css__card-slot--collected'
+    slotClass += ` ${styles['pf-card-pack-css__card-slot--collected']}`
   } else if (selected) {
-    slotClass += ' pf-card-pack-css__card-slot--selected'
+    slotClass += ` ${styles['pf-card-pack-css__card-slot--selected']}`
   } else if (anySelected) {
-    slotClass += ' pf-card-pack-css__card-slot--dimmed'
+    slotClass += ` ${styles['pf-card-pack-css__card-slot--dimmed']}`
   } else if (idle && fanDone) {
-    slotClass += ' pf-card-pack-css__card-slot--float'
+    slotClass += ` ${styles['pf-card-pack-css__card-slot--float']}`
   } else if (fanDone) {
-    slotClass += ' pf-card-pack-css__card-slot--landed'
+    slotClass += ` ${styles['pf-card-pack-css__card-slot--landed']}`
   }
 
   return (
     <div
-      className={`${slotClass} pf-card-pack-css__card--rarity-${card.rarity}`}
+      className={`${slotClass} ${styles[`pf-card-pack-css__card--rarity-${card.rarity}`]}`}
       style={
         {
           '--card-x': `${position.x}px`,
@@ -336,21 +344,25 @@ export function FlipCard({
       }
       onClick={canTap ? onSelect : undefined}
     >
-      <div className="pf-card-pack-css__card-perspective">
+      <div className={styles['pf-card-pack-css__card-perspective']}>
         <div
-          className={`pf-card-pack-css__card-flipper${flipped ? ' pf-card-pack-css__card-flipper--flipped' : ''}`}
+          className={`${styles['pf-card-pack-css__card-flipper']}${flipped ? ` ${styles['pf-card-pack-css__card-flipper--flipped']}` : ''}`}
         >
-          <div className="pf-card-pack-css__card-face pf-card-pack-css__card-back">
-            <div className="pf-card-pack-css__card-frame">
+          <div
+            className={`${styles['pf-card-pack-css__card-face']} ${styles['pf-card-pack-css__card-back']}`}
+          >
+            <div className={styles['pf-card-pack-css__card-frame']}>
               <img
                 src={cardPackBackImage}
                 alt=""
                 aria-hidden="true"
-                className="pf-card-pack-css__card-img"
+                className={styles['pf-card-pack-css__card-img']}
               />
             </div>
           </div>
-          <div className="pf-card-pack-css__card-face pf-card-pack-css__card-front">
+          <div
+            className={`${styles['pf-card-pack-css__card-face']} ${styles['pf-card-pack-css__card-front']}`}
+          >
             <CardStars card={card} />
             <CardFrame card={card} />
             <CardNameRibbon name={card.name} rarity={card.rarity} ribbonColor={ribbonColor} />
@@ -387,7 +399,7 @@ export function CardFanContainer({
   fanDone: boolean[]
 }) {
   return (
-    <div className="pf-card-pack-css__cards-container">
+    <div className={styles['pf-card-pack-css__cards-container']}>
       {cards.map((card, i) => (
         <FlipCard
           key={`${card.id}-${i}`}

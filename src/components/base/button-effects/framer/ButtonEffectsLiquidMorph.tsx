@@ -67,7 +67,6 @@ function ButtonEffectsLiquidMorphComponent({
       type="button"
       className="pf-demo-btn pf-demo-btn--primary"
       data-animation-id="button-effects__liquid-morph"
-      style={{ animation: 'none' }}
       onClick={handleClick}
       variants={prefersReducedMotion ? undefined : liquidMorphVariants}
       initial="initial"

@@ -6,6 +6,7 @@
 
 import * as m from 'motion/react-m'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsTypewriter.module.css'
 
 interface TextEffectsTypewriterProps {
   /** @default 'LOADING SYSTEM...' */
@@ -28,7 +29,7 @@ function TextEffectsTypewriterComponent({
 
   return (
     <div
-      className="pf-typewriter-fm"
+      className={styles['pf-typewriter-fm']}
       data-animation-id="text-effects__typewriter"
       style={
         color !== undefined
@@ -36,11 +37,11 @@ function TextEffectsTypewriterComponent({
           : undefined
       }
     >
-      <div className="pf-typewriter-fm__text">
+      <div className={styles['pf-typewriter-fm__text']}>
         {chars.map((char, index) => (
           <m.span
             key={index}
-            className="pf-typewriter-fm__char"
+            className={styles['pf-typewriter-fm__char']}
             initial={{ opacity: 0, display: 'none' }}
             animate={{ opacity: 1, display: 'inline-block' }}
             transition={{ duration: 0, delay: index * charDelay }}
@@ -50,7 +51,7 @@ function TextEffectsTypewriterComponent({
         ))}
 
         <m.span
-          className="pf-typewriter-fm__cursor"
+          className={styles['pf-typewriter-fm__cursor']}
           initial={{ opacity: 1 }}
           animate={{ opacity: [1, 1, 0, 0] }}
           transition={{

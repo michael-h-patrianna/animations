@@ -12,6 +12,7 @@ import type { CSSProperties } from 'react'
 import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
+import './ModalBaseGlitchDigital.module.css'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
 
 const DEFAULT_DURATION = 600
@@ -26,7 +27,6 @@ const ghostBase: CSSProperties = {
   inset: 0,
   borderRadius: 'inherit',
   pointerEvents: 'none',
-  animation: 'none',
 }
 
 function ModalBaseGlitchDigitalComponent({
@@ -81,7 +81,7 @@ function ModalBaseGlitchDigitalComponent({
           }
           transition={{ duration: prefersReducedMotion ? 0.2 : durationS, ease: 'easeInOut' }}
           onAnimationComplete={onAnimationComplete}
-          style={{ ...style, position: 'relative', zIndex: 1, animation: 'none' }}
+          style={{ ...style, position: 'relative', zIndex: 1 }}
         >
           <ModalPlaceholder>{children}</ModalPlaceholder>
         </m.div>

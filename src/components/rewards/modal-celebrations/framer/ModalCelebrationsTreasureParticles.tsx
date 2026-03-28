@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
+import './ModalCelebrationsTreasureParticles.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { FallbackCoin } from '@/components/rewards/modal-celebrations/SharedFallbackCoin'
 import {

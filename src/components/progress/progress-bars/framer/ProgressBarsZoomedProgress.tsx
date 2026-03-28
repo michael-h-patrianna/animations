@@ -18,6 +18,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsZoomedProgress.module.css'
 
 export function ProgressBarsZoomedProgress({ progress, className, style }: ProgressBarProps) {
   const prefersReducedMotion = useReducedMotion()
@@ -114,57 +115,63 @@ export function ProgressBarsZoomedProgress({ progress, className, style }: Progr
 
   return (
     <div
-      className={`pf-zoomed-progress${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-zoomed-progress-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__zoomed-progress"
     >
-      <div className="pf-zoomed-progress__track" style={{ left: `${trackPosition}%` }}>
-        <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--one">
+      <div className={styles['pf-zoomed-progress-fm__track']} style={{ left: `${trackPosition}%` }}>
+        <div
+          className={`${styles['pf-zoomed-progress-fm__bar']} ${styles['pf-zoomed-progress-fm__bar--one']}`}
+        >
           <div
-            className="pf-zoomed-progress__fill"
+            className={styles['pf-zoomed-progress-fm__fill']}
             style={{ transform: `skew(-30deg) scaleX(${progress1Scale})` }}
           />
         </div>
 
         <m.div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--one${levelReached[0] ? ' reached' : ''}`}
+          className={`${styles['pf-zoomed-progress-fm__level']} ${styles['pf-zoomed-progress-fm__level--one']}${levelReached[0] ? ` ${styles['reached']}` : ''}`}
           variants={levelBounceVariants}
           initial="initial"
           animate={levelReached[0] ? 'animate' : undefined}
-          style={{ translateY: '-50%', animation: 'none' }}
+          style={{ translateY: '-50%' }}
         >
           <span>1</span>
         </m.div>
 
         <m.div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--two${levelReached[1] ? ' reached' : ''}`}
+          className={`${styles['pf-zoomed-progress-fm__level']} ${styles['pf-zoomed-progress-fm__level--two']}${levelReached[1] ? ` ${styles['reached']}` : ''}`}
           variants={levelBounceVariants}
           initial="initial"
           animate={levelReached[1] ? 'animate' : undefined}
-          style={{ translateX: '-50%', translateY: '-50%', animation: 'none' }}
+          style={{ translateX: '-50%', translateY: '-50%' }}
         >
           <span>2</span>
         </m.div>
 
-        <div className="pf-zoomed-progress__bar pf-zoomed-progress__bar--two">
+        <div
+          className={`${styles['pf-zoomed-progress-fm__bar']} ${styles['pf-zoomed-progress-fm__bar--two']}`}
+        >
           <div
-            className="pf-zoomed-progress__fill"
+            className={styles['pf-zoomed-progress-fm__fill']}
             style={{ transform: `skew(-30deg) scaleX(${progress2Scale})` }}
           />
         </div>
 
         <m.div
-          className={`pf-zoomed-progress__level pf-zoomed-progress__level--three${levelReached[2] ? ' reached' : ''}`}
+          className={`${styles['pf-zoomed-progress-fm__level']} ${styles['pf-zoomed-progress-fm__level--three']}${levelReached[2] ? ` ${styles['reached']}` : ''}`}
           variants={levelBounceVariants}
           initial="initial"
           animate={levelReached[2] ? 'animate' : undefined}
-          style={{ translateY: '-50%', animation: 'none' }}
+          style={{ translateY: '-50%' }}
         >
           <span>3</span>
         </m.div>
       </div>
 
-      <div className={`pf-zoomed-progress__mask pf-zoomed-progress__mask--level-${level}`} />
+      <div
+        className={`${styles['pf-zoomed-progress-fm__mask']} ${styles[`pf-zoomed-progress-fm__mask--level-${level}`]}`}
+      />
     </div>
   )
 }

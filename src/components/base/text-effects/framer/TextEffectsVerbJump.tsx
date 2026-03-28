@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbJump.module.css'
 
 interface TextEffectsVerbJumpProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -26,18 +27,18 @@ function TextEffectsVerbJumpComponent({
 
   return (
     <div
-      className="pf-verb-jump-fm"
+      className={styles['pf-verb-jump-fm']}
       data-animation-id="text-effects__verb-jumping"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-jump-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-verb-jump-fm__line" aria-hidden="true">
+      <div className={styles['pf-verb-jump-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-jump-fm__char"
+            className={styles['pf-verb-jump-fm__char']}
             initial={{ y: 0, scaleY: 1 }}
             animate={{
               y: [0, -10, 0, -4, 0],

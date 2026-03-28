@@ -18,6 +18,7 @@ import {
   ringTint,
 } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
+import styles from './UpdateIndicatorsHomeIconDotSweep.module.css'
 
 interface DotSweepProps extends DotIndicatorProps {
   /** Flash accent color during the sweep. Default: '#ff0a4d' */
@@ -45,7 +46,7 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
   const dot = (
     <>
       <m.span
-        className="pf-update-indicator__dot pf-update-indicator__dot--fill"
+        className={`pf-update-indicator-fm__dot ${styles['pf-update-indicator-fm__dot--fill']}`}
         style={{
           width: dotSize,
           height: dotSize,
@@ -68,7 +69,7 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
       >
         {!prefersReducedMotion && (
           <m.span
-            className="pf-update-indicator__dot-ring"
+            className="pf-update-indicator-fm__dot-ring"
             style={{
               inset: -ringInset,
               border: ringBorder,
@@ -81,7 +82,7 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
       </m.span>
       {!prefersReducedMotion && (
         <m.span
-          className="pf-update-indicator__halo"
+          className="pf-update-indicator-fm__halo"
           style={{
             top: -haloEdgeOffset,
             right: -haloEdgeOffset,
@@ -107,14 +108,17 @@ function UpdateIndicatorsHomeIconDotSweepComponent({
   )
 
   return (
-    <div className="pf-update-indicator" data-animation-id="update-indicators__home-icon-dot-sweep">
+    <div
+      className="pf-update-indicator-fm"
+      data-animation-id="update-indicators__home-icon-dot-sweep"
+    >
       {children !== undefined ? (
-        <div className="pf-update-indicator__anchor">
+        <div className="pf-update-indicator-fm__anchor">
           {children}
           {dot}
         </div>
       ) : (
-        <div className="pf-update-indicator__anchor" style={{ width: dotSize, height: dotSize }}>
+        <div className="pf-update-indicator-fm__anchor" style={{ width: dotSize, height: dotSize }}>
           {dot}
         </div>
       )}

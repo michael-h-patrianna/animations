@@ -1,0 +1,49 @@
+/* Layout styles for ModalOrchestrationTabMorph (framer variant) */
+.pf-tab-morph-fm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.pf-tab-morph-fm__nav {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  padding-bottom: 8px;
+}
+
+.pf-tab-morph-fm__tab {
+  flex: 1;
+  padding: 6px 12px;
+  border-radius: 8px 8px 0 0;
+  background: var(--pf-orch-item-bg, rgb(236 195 255 / 5%));
+  border: 1px solid var(--pf-orch-item-border, rgb(236 195 255 / 12%));
+  border-bottom: none;
+  text-align: center;
+  font-size: 13px;
+  color: var(--pf-orch-item-color, rgb(255 255 255 / 76%));
+  cursor: pointer;
+}
+
+.pf-tab-morph-fm__tab--active {
+  background: var(--pf-orch-active-bg, rgb(236 195 255 / 20%));
+  border-color: var(--pf-orch-active-border, rgb(196 122 229 / 60%));
+  color: var(--pf-orch-active-color, rgb(255 255 255 / 95%));
+  box-shadow: 0 0 0 1px var(--pf-orch-active-glow, rgb(196 122 229 / 30%));
+  transform: scale(1.05);
+}
+
+.pf-tab-morph-fm__content {
+  position: relative;
+  min-height: 200px;
+}
+
+.pf-tab-morph-fm__panel {
+  /* Animation wrapper only — visual card styling comes from children */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}

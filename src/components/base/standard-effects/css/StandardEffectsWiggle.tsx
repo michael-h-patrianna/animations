@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsWiggle.css — apply .pf-wiggle to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsWiggle.css'
+import styles from './StandardEffectsWiggle.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsWiggleProps {
@@ -18,7 +18,7 @@ function StandardEffectsWiggleComponent({ children, duration = 1000 }: StandardE
   } as CSSProperties
 
   return (
-    <div className="pf-wiggle" data-animation-id="standard-effects__wiggle" style={style}>
+    <div className={styles['pf-wiggle']} data-animation-id="standard-effects__wiggle" style={style}>
       {children ?? <DemoBox label="Wiggle" />}
     </div>
   )

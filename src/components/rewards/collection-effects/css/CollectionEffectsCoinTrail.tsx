@@ -7,7 +7,7 @@
  */
 
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import './CollectionEffectsCoinTrail.css'
+import styles from './CollectionEffectsCoinTrail.module.css'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
 import {
@@ -103,12 +103,12 @@ function CollectionEffectsCoinTrailComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-coin-trail"
+      className={styles['pf-coin-trail']}
       data-animation-id="collection-effects__coin-trail"
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && fromPt !== null && toPt !== null && (
-        <div className="pf-coin-trail__stage" aria-hidden="true">
+        <div className={styles['pf-coin-trail__stage']} aria-hidden="true">
           {particles.map((particle) => {
             if (isSwirl) {
               const swirlAngle = (particle.id / count) * Math.PI * 2
@@ -117,7 +117,7 @@ function CollectionEffectsCoinTrailComponent({
               return (
                 <div
                   key={particle.id}
-                  className="pf-coin-trail__particle pf-coin-trail__particle--swirl"
+                  className={`${styles['pf-coin-trail__particle']} ${styles['pf-coin-trail__particle--swirl']}`}
                   style={
                     {
                       left: fromPt.x,
@@ -130,7 +130,11 @@ function CollectionEffectsCoinTrailComponent({
                   }
                 >
                   {particle.imageSrc ? (
-                    <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
+                    <img
+                      src={particle.imageSrc}
+                      alt=""
+                      className={styles['pf-coin-trail__particle-image']}
+                    />
                   ) : (
                     <FallbackParticle
                       shape={particle.fallback.shape}
@@ -148,7 +152,7 @@ function CollectionEffectsCoinTrailComponent({
             return (
               <div
                 key={particle.id}
-                className="pf-coin-trail__particle pf-coin-trail__particle--claim"
+                className={`${styles['pf-coin-trail__particle']} ${styles['pf-coin-trail__particle--claim']}`}
                 style={
                   {
                     left: 0,
@@ -165,7 +169,11 @@ function CollectionEffectsCoinTrailComponent({
                 }
               >
                 {particle.imageSrc ? (
-                  <img src={particle.imageSrc} alt="" className="pf-coin-trail__particle-image" />
+                  <img
+                    src={particle.imageSrc}
+                    alt=""
+                    className={styles['pf-coin-trail__particle-image']}
+                  />
                 ) : (
                   <FallbackParticle
                     shape={particle.fallback.shape}

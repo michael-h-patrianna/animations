@@ -2,6 +2,7 @@ import { MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useEffect, useMemo, useState, type CSSProperties } from 'react'
 
+import styles from './PrizeRevealCrystalShatter.module.css'
 import crystalShatterBodyImage from '@/assets/crystal-shatter/crystal-body.webp'
 import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
 import crystalShatterFrameImage from '@/assets/crystal-shatter/crystal-frame.webp'
@@ -48,7 +49,7 @@ function CrystalBody({ phase }: { phase: ShatterPhase }) {
 
   return (
     <m.div
-      className="pf-crystal-shatter__crystal-wrap"
+      className={styles['pf-crystal-shatter-fm__crystal-wrap']}
       initial={{ y: -150, rotate: -8, opacity: 0 }}
       animate={
         isGone
@@ -83,9 +84,9 @@ function CrystalBody({ phase }: { phase: ShatterPhase }) {
         src={crystalShatterBodyImage}
         alt=""
         aria-hidden="true"
-        className={`pf-crystal-shatter__crystal-image ${isCharging ? 'pf-crystal-shatter__crystal-image--charging' : ''}`}
+        className={`${styles['pf-crystal-shatter-fm__crystal-image']} ${isCharging ? styles['pf-crystal-shatter-fm__crystal-image--charging'] : ''}`}
       />
-      <div className="pf-crystal-shatter__crystal-glow" />
+      <div className={styles['pf-crystal-shatter-fm__crystal-glow']} />
     </m.div>
   )
 }
@@ -96,7 +97,7 @@ function CrystalBody({ phase }: { phase: ShatterPhase }) {
 
 function OrbitingDustMotes({ motes, delay }: { motes: OrbitDustData[]; delay: number }) {
   return (
-    <div className="pf-crystal-shatter__orbit-dust">
+    <div className={styles['pf-crystal-shatter-fm__orbit-dust']}>
       {motes.map((mote) => {
         const steps = 48
         const xPath = Array.from({ length: steps }, (_, k) => {
@@ -113,7 +114,7 @@ function OrbitingDustMotes({ motes, delay }: { motes: OrbitDustData[]; delay: nu
             src={crystalShatterDustImage}
             alt=""
             aria-hidden="true"
-            className="pf-crystal-shatter__orbit-mote"
+            className={styles['pf-crystal-shatter-fm__orbit-mote']}
             style={{ '--mote-size': `${mote.size}px` } as CSSProperties}
             initial={{ opacity: 0 }}
             animate={{
@@ -140,7 +141,7 @@ function OrbitingDustMotes({ motes, delay }: { motes: OrbitDustData[]; delay: nu
 function PrizeAura({ delay }: { delay: number }) {
   return (
     <m.div
-      className="pf-crystal-shatter__prize-aura"
+      className={styles['pf-crystal-shatter-fm__prize-aura']}
       initial={{ opacity: 0, scale: 0.3 }}
       animate={{ opacity: [0, 0.4, 0.35], scale: [0.3, 1.1, 1] }}
       transition={{
@@ -159,7 +160,7 @@ function CrystalFrameOverlay({ delay }: { delay: number }) {
       src={crystalShatterFrameImage}
       alt=""
       aria-hidden="true"
-      className="pf-crystal-shatter__frame-image"
+      className={styles['pf-crystal-shatter-fm__frame-image']}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 0.7, scale: 1 }}
       transition={{ duration: 0.3, delay: delay + 0.5, ease: 'easeOut' }}
@@ -170,7 +171,7 @@ function CrystalFrameOverlay({ delay }: { delay: number }) {
 function PrizeText({ label, amount, delay }: { label: string; amount: string; delay: number }) {
   return (
     <m.div
-      className="pf-crystal-shatter__prize-text"
+      className={styles['pf-crystal-shatter-fm__prize-text']}
       initial={{ opacity: 0, scale: 0.3, y: 8 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{
@@ -179,8 +180,8 @@ function PrizeText({ label, amount, delay }: { label: string; amount: string; de
         ease: [0.34, 1.56, 0.64, 1] as const,
       }}
     >
-      <span className="pf-crystal-shatter__prize-label">{label}</span>
-      <span className="pf-crystal-shatter__prize-amount">{amount}</span>
+      <span className={styles['pf-crystal-shatter-fm__prize-label']}>{label}</span>
+      <span className={styles['pf-crystal-shatter-fm__prize-amount']}>{amount}</span>
     </m.div>
   )
 }
@@ -205,7 +206,7 @@ function Prize({
 
   return (
     <m.div
-      className={`pf-crystal-shatter__prize ${config.modifier}`}
+      className={`${styles['pf-crystal-shatter-fm__prize']} ${styles[config.modifier]}`}
       initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
       animate={
         claimed
@@ -239,14 +240,14 @@ function Prize({
       }
     >
       <PrizeAura delay={slot.delay} />
-      <div className="pf-crystal-shatter__prize-icon-wrap">
+      <div className={styles['pf-crystal-shatter-fm__prize-icon-wrap']}>
         <CrystalFrameOverlay delay={slot.delay} />
         <OrbitingDustMotes motes={motes} delay={slot.delay} />
         <m.img
           src={config.src}
           alt=""
           aria-hidden="true"
-          className="pf-crystal-shatter__prize-icon"
+          className={styles['pf-crystal-shatter-fm__prize-icon']}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: [0, 1.2, 0.95, 1], opacity: [0, 1, 1, 1] }}
           transition={{
@@ -298,7 +299,7 @@ function CrystalShatterAnimation({ prizeCount }: { prizeCount: number }) {
   const handleClaim = () => setClaimed(true)
 
   return (
-    <div className="pf-crystal-shatter__stage">
+    <div className={styles['pf-crystal-shatter-fm__stage']}>
       <AmbientDust />
       <LandingRing />
 
@@ -318,7 +319,7 @@ function CrystalShatterAnimation({ prizeCount }: { prizeCount: number }) {
       {showPrizes && (
         <>
           {claimed && <ClaimBurst />}
-          <div className="pf-crystal-shatter__prizes">
+          <div className={styles['pf-crystal-shatter-fm__prizes']}>
             {prizes.map((prize, i) => (
               <Prize
                 key={prize.id}
@@ -350,7 +351,7 @@ function PrizeRevealCrystalShatterComponent({
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className="pf-modal-celebration pf-crystal-shatter"
+        className={`pf-modal-celebration ${styles['pf-crystal-shatter-fm']}`}
         data-animation-id="prize-reveal__crystal-shatter"
         data-prize-count={prizeCount}
       >

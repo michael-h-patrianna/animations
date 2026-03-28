@@ -15,6 +15,7 @@
 import * as m from 'motion/react-m'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
+import styles from './CollectionEffectsCoinMagnet.module.css'
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
 import {
   generateFallbackParticle,
@@ -112,8 +113,8 @@ function sampleBezierPath(
 function ArrivalFlash({ target, delayS }: { target: ResolvedPoint; delayS: number }) {
   return (
     <m.div
-      className="pf-coin-magnet__arrival-flash"
-      style={{ left: target.x, top: target.y, animation: 'none' }}
+      className={styles['pf-coin-magnet-fm__arrival-flash']}
+      style={{ left: target.x, top: target.y }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.2, 1.8], opacity: [0, 0.7, 0] }}
       transition={{ duration: 0.5, delay: delayS, times: [0, 0.4, 1], ease: 'easeOut' }}
@@ -143,7 +144,7 @@ function ParticleElement({
   const scatterY = fromPt.y + Math.sin(particle.emitAngle) * particle.emitDist
 
   const particleContent = particle.imageSrc ? (
-    <img src={particle.imageSrc} alt="" className="pf-coin-magnet__particle-image" />
+    <img src={particle.imageSrc} alt="" className={styles['pf-coin-magnet-fm__particle-image']} />
   ) : (
     <FallbackParticle
       shape={particle.fallback.shape}
@@ -156,8 +157,8 @@ function ParticleElement({
     // No target — just emit outward and fade
     return (
       <m.div
-        className="pf-coin-magnet__particle"
-        style={{ left: fromPt.x, top: fromPt.y, animation: 'none' }}
+        className={styles['pf-coin-magnet-fm__particle']}
+        style={{ left: fromPt.x, top: fromPt.y }}
         initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
         animate={{
           x: [0, 0, Math.cos(particle.emitAngle) * particle.emitDist],
@@ -200,8 +201,8 @@ function ParticleElement({
 
   return (
     <m.div
-      className="pf-coin-magnet__particle"
-      style={{ left: 0, top: 0, animation: 'none' }}
+      className={styles['pf-coin-magnet-fm__particle']}
+      style={{ left: 0, top: 0 }}
       initial={{ x: fromPt.x, y: fromPt.y, scale: 0, opacity: 0 }}
       animate={{
         x: fullX,
@@ -295,12 +296,12 @@ function CollectionEffectsCoinMagnetComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-coin-magnet"
+      className={styles['pf-coin-magnet-fm']}
       data-animation-id="collection-effects__coin-magnet"
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && fromPt !== null && toPt !== null && (
-        <div className="pf-coin-magnet__stage" aria-hidden="true">
+        <div className={styles['pf-coin-magnet-fm__stage']} aria-hidden="true">
           {!isBurst && (
             <ArrivalFlash target={toPt} delayS={durationS * ARRIVAL_FLASH_DELAY_RATIO} />
           )}

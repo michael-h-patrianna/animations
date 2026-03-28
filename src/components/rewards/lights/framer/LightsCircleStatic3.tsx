@@ -3,102 +3,66 @@ import { calculateBulbColors } from '@/utils/colors'
 import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
+
+import styles from './LightsCircleStatic3.module.css'
 interface LightsCircleStatic3Props {
   numBulbs?: number
   onColor?: string
 }
 const animationDuration = 5
+const easeInOut: [number, number, number, number] = [0.42, 0, 0.58, 1]
 
 // Winner bulb glow variant (first bulb - celebration)
+// CSS: 0%/79% → 0, 80% → 1, 86%/100% → 0.95
 const glowVariantsWinner = {
   hidden: { opacity: 0 },
   show: {
-    opacity: [0, 0, 1, 0.95],
+    opacity: [0, 0, 1, 0.95, 0.95],
     transition: {
       duration: animationDuration,
-      times: [0, 0.79, 0.8, 1],
+      times: [0, 0.79, 0.8, 0.86, 1],
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
-    },
-  },
-}
-
-// Winner bulb variant with big celebration glow
-const bulbVariantsWinner = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [`var(--bulb-off)`, `var(--bulb-off)`, `var(--bulb-on)`, `var(--bulb-on)`],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 15px var(--bulb-on-glow100), 0 0 25px var(--bulb-on-glow80)`,
-      `0 0 15px var(--bulb-on-glow100), 0 0 25px var(--bulb-on-glow80)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.79, 0.8, 1],
-      repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
+      ease: easeInOut,
     },
   },
 }
 
 // Regular bulb glow variant (all other bulbs)
+// CSS: 0%/92% → 0, 1% → 0.8, 4% → 0.8, 6% → 0.4, 8% → 0, 30%/45% → 1, 55% → 0.8, 57% → 0.4, 59%/100% → 0
+const regularTimes: number[] = [0, 0.01, 0.04, 0.06, 0.08, 0.3, 0.45, 0.55, 0.57, 0.59, 1.0]
+
 const glowVariantsRegular = {
   hidden: { opacity: 0 },
   show: {
-    opacity: [0, 0.8, 0.8, 0.4, 0, 1, 0.8, 0.4, 0],
+    opacity: [0, 0.8, 0.8, 0.4, 0, 1, 1, 0.8, 0.4, 0, 0],
     transition: {
       duration: animationDuration,
-      times: [0, 0.01, 0.04, 0.06, 0.08, 0.3, 0.55, 0.57, 0.59],
+      times: regularTimes,
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
+      ease: easeInOut,
     },
   },
 }
 
-// Regular bulb variant with multi-phase animation
-// Phase 1: Sequential chase -> Phase 2: All bulbs ON (blur) -> Phase 3: Sequential again
-const bulbVariantsRegular = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [
-      `var(--bulb-off)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on)`,
-      `var(--bulb-blend70)`,
-      `var(--bulb-off)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on)`,
-      `var(--bulb-blend70)`,
-      `var(--bulb-off)`,
-    ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
-      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
-      `0 0 4px var(--bulb-on-glow50)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
-      `0 0 8px var(--bulb-on-glow80), 0 0 12px var(--bulb-on-glow60)`,
-      `0 0 4px var(--bulb-on-glow50)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.01, 0.04, 0.06, 0.08, 0.3, 0.55, 0.57, 0.59],
-      repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
-    },
-  },
-}
 const RADIUS = 80
+
+// No staggerChildren — per-bulb delay is applied directly in each child's
+// variant transition so that both glow and bulb of the same physical bulb
+// share an identical delay (matching CSS animation-delay behavior).
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
+}
+
+function addDelay<
+  H extends Record<string, string | number>,
+  S extends Record<string, unknown> & { transition: Record<string, unknown> },
+>(base: { hidden: H; show: S }, delay: number) {
+  return {
+    hidden: base.hidden,
+    show: { ...base.show, transition: { ...base.show.transition, delay } },
+  }
+}
 
 function LightsCircleStatic3({
   numBulbs = 16,
@@ -106,49 +70,111 @@ function LightsCircleStatic3({
 }: LightsCircleStatic3Props) {
   const prefersReducedMotion = useReducedMotion()
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
-  const containerVariants = useMemo(
+  const delayPerBulb = (animationDuration / numBulbs) * 0.08
+
+  // Bulb variants use resolved rgba values instead of CSS var() references
+  // because Motion cannot interpolate CSS custom property strings in keyframe arrays.
+  const bulbVariantsWinner = useMemo(
     () => ({
-      hidden: { opacity: 1 },
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
       show: {
-        opacity: 1,
+        backgroundColor: [colors.off, colors.off, colors.on, colors.on],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 15px ${colors.onGlow100}, 0 0 25px ${colors.onGlow80}`,
+          `0 0 15px ${colors.onGlow100}, 0 0 25px ${colors.onGlow80}`,
+        ],
         transition: {
-          staggerChildren: (animationDuration / Math.max(1, numBulbs)) * 0.08,
+          duration: animationDuration,
+          times: [0, 0.79, 0.8, 1],
+          repeat: Infinity,
+          ease: easeInOut,
         },
       },
     }),
-    [numBulbs]
+    [colors]
   )
+
+  const bulbVariantsRegular = useMemo(
+    () => ({
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
+      show: {
+        backgroundColor: [
+          colors.off,
+          colors.on,
+          colors.on,
+          colors.blend70,
+          colors.off,
+          colors.on,
+          colors.on,
+          colors.on,
+          colors.blend70,
+          colors.off,
+          colors.off,
+        ],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 8px ${colors.onGlow80}, 0 0 12px ${colors.onGlow60}`,
+          `0 0 8px ${colors.onGlow80}, 0 0 12px ${colors.onGlow60}`,
+          `0 0 4px ${colors.onGlow50}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 12px ${colors.onGlow100}, 0 0 18px ${colors.onGlow80}`,
+          `0 0 12px ${colors.onGlow100}, 0 0 18px ${colors.onGlow80}`,
+          `0 0 8px ${colors.onGlow80}, 0 0 12px ${colors.onGlow60}`,
+          `0 0 4px ${colors.onGlow50}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+        ],
+        transition: {
+          duration: animationDuration,
+          times: regularTimes,
+          repeat: Infinity,
+          ease: easeInOut,
+        },
+      },
+    }),
+    [colors]
+  )
+
   const bulbs = useMemo(
     () =>
       Array.from({ length: numBulbs }, (_, i) => {
         const rad = ((i * 360) / numBulbs - 90) * (Math.PI / 180)
         const isWinner = i === 0
+        const bulbDelay = i * delayPerBulb
+        const glowBase = isWinner ? glowVariantsWinner : glowVariantsRegular
+        const bulbBase = isWinner ? bulbVariantsWinner : bulbVariantsRegular
         return (
           <div
             key={i}
-            className="lights-circle-static-3__bulb-wrapper"
+            className={styles['pf-lights-static-3-fm__bulb-wrapper']}
             style={{
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
             <m.div
-              className="lights-circle-static-3__glow"
-              variants={isWinner ? glowVariantsWinner : glowVariantsRegular}
-              style={{ animation: 'none' }}
+              className={styles['pf-lights-static-3-fm__glow']}
+              variants={addDelay(glowBase, bulbDelay)}
             />
             <m.div
-              className="lights-circle-static-3__bulb"
-              variants={isWinner ? bulbVariantsWinner : bulbVariantsRegular}
-              style={{ animation: 'none' }}
+              className={styles['pf-lights-static-3-fm__bulb']}
+              variants={addDelay(bulbBase, bulbDelay)}
             />
           </div>
         )
       }),
-    [numBulbs]
+    [numBulbs, delayPerBulb, bulbVariantsWinner, bulbVariantsRegular]
   )
   return (
     <div
-      className="lights-circle-static-3"
+      className={styles['pf-lights-static-3-fm']}
       data-animation-id="lights__circle-static-3"
       style={
         {
@@ -164,7 +190,7 @@ function LightsCircleStatic3({
       }
     >
       <m.div
-        className="lights-circle-static-3__container"
+        className={styles['pf-lights-static-3-fm__container']}
         variants={containerVariants}
         initial="hidden"
         animate={prefersReducedMotion ? 'hidden' : 'show'}

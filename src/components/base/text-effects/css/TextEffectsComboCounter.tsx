@@ -5,7 +5,7 @@
  */
 
 import { memo, useEffect, useMemo, useRef } from 'react'
-import './TextEffectsComboCounter.css'
+import styles from './TextEffectsComboCounter.module.css'
 
 interface Milestone {
   trigger: number
@@ -118,7 +118,7 @@ function TextEffectsComboCounterComponent({
 
   return (
     <div
-      className="tfx-combo-container"
+      className={styles['tfx-combo-container']}
       data-animation-id="text-effects__combo-counter"
       style={
         {
@@ -134,11 +134,11 @@ function TextEffectsComboCounterComponent({
         } as React.CSSProperties
       }
     >
-      <div className="tfx-combo-main">
-        <div className="tfx-combo-number-wrapper">
-          <div className="tfx-combo-number-container">
-            <div className="tfx-combo-current-number">
-              <span className="tfx-combo-digit">
+      <div className={styles['tfx-combo-main']}>
+        <div className={styles['tfx-combo-number-wrapper']}>
+          <div className={styles['tfx-combo-number-container']}>
+            <div className={styles['tfx-combo-current-number']}>
+              <span className={styles['tfx-combo-digit']}>
                 <span ref={numberRef}>{formatRef.current(from)}</span>
               </span>
             </div>
@@ -146,7 +146,7 @@ function TextEffectsComboCounterComponent({
             {milestones.map((milestone, i) => (
               <div
                 key={i}
-                className="tfx-combo-particle"
+                className={styles['tfx-combo-particle']}
                 style={{
                   animationDelay: `${getParticleDelay(milestone.trigger)}ms`,
                 }}
@@ -156,19 +156,19 @@ function TextEffectsComboCounterComponent({
             ))}
           </div>
 
-          <div className="tfx-combo-hit-marker">×</div>
+          <div className={styles['tfx-combo-hit-marker']}>×</div>
         </div>
 
-        <div className="tfx-combo-text-wrapper">
+        <div className={styles['tfx-combo-text-wrapper']}>
           {label.split('').map((char, index) => (
-            <span key={index} className="tfx-combo-letter">
+            <span key={index} className={styles['tfx-combo-letter']}>
               {char}
             </span>
           ))}
         </div>
       </div>
 
-      {bonusText !== undefined && <div className="tfx-combo-bonus">{bonusText}</div>}
+      {bonusText !== undefined && <div className={styles['tfx-combo-bonus']}>{bonusText}</div>}
     </div>
   )
 }

@@ -9,7 +9,7 @@
  */
 
 import { memo, useEffect, useRef } from 'react'
-import './RealtimeDataStackedRealtime.css'
+import './RealtimeDataStackedRealtime.module.css'
 
 import type { StatEntry } from '@/components/realtime/realtime-data/SharedTypes'
 

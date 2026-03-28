@@ -1,6 +1,0 @@
-/* Layout for LoadingStatesSkeletonVertical (CSS variant) — shimmer from shared.css */
-
-.pf-skeleton-vertical {
-  display: flex;
-  flex-direction: column;
-}

@@ -3,11 +3,14 @@ import { calculateBulbColors } from '@/utils/colors'
 import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
+
+import styles from './LightsCircleStatic7.module.css'
 interface LightsCircleStatic7Props {
   numBulbs?: number
   onColor?: string
 }
 const animationDuration = 3
+const linearEase = 'linear' as const
 
 // Glow variant for comet trail - long gradual fadeout
 const glowVariants = {
@@ -18,51 +21,22 @@ const glowVariants = {
       duration: animationDuration,
       times: [0, 0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 1],
       repeat: Infinity,
-      ease: 'linear' as const,
+      ease: linearEase,
     },
   },
 }
 
-// Bulb variant for comet - bright flash followed by long trailing fadeout (35% of duration)
-const bulbVariants = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [
-      `var(--bulb-off)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on-blend-5off)`,
-      `var(--bulb-blend70)`,
-      `var(--bulb-blend40)`,
-      `var(--bulb-blend30)`,
-      `var(--bulb-off-blend-10on)`,
-      `var(--bulb-off)`,
-      `var(--bulb-off)`,
-    ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 12px var(--bulb-on-glow100), 0 0 18px var(--bulb-on-glow80)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 15px var(--bulb-on-glow70)`,
-      `0 0 8px var(--bulb-on-glow75), 0 0 12px var(--bulb-on-glow55)`,
-      `0 0 6px var(--bulb-on-glow60), 0 0 9px var(--bulb-on-glow40)`,
-      `0 0 4px var(--bulb-on-glow45)`,
-      `0 0 3px var(--bulb-on-glow30)`,
-      `0 0 2px var(--bulb-off-glow35)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 1],
-      repeat: Infinity,
-      ease: 'linear' as const,
-    },
-  },
-}
+const cometTimes: number[] = [0, 0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 1]
+
 const RADIUS = 80
+
+// No staggerChildren — per-bulb delay is applied directly in each child's
+// variant transition so that both glow and bulb of the same physical bulb
+// share an identical delay (matching CSS animation-delay behavior).
+const containerVariants = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
+}
 
 function LightsCircleStatic7({
   numBulbs = 16,
@@ -70,48 +44,95 @@ function LightsCircleStatic7({
 }: LightsCircleStatic7Props) {
   const prefersReducedMotion = useReducedMotion()
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
-  const containerVariants = useMemo(
+  const delayPerBulb = animationDuration / numBulbs
+
+  // Bulb variants use resolved rgba values instead of CSS var() references
+  // because Motion cannot interpolate CSS custom property strings in keyframe arrays.
+  const bulbVariants = useMemo(
     () => ({
-      hidden: { opacity: 1 },
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
       show: {
-        opacity: 1,
+        backgroundColor: [
+          colors.off,
+          colors.on,
+          colors.on,
+          colors.onBlend5Off,
+          colors.blend70,
+          colors.blend40,
+          colors.blend30,
+          colors.offBlend10On,
+          colors.off,
+          colors.off,
+        ],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 12px ${colors.onGlow100}, 0 0 18px ${colors.onGlow80}`,
+          `0 0 10px ${colors.onGlow90}, 0 0 15px ${colors.onGlow70}`,
+          `0 0 8px ${colors.onGlow75}, 0 0 12px ${colors.onGlow55}`,
+          `0 0 6px ${colors.onGlow60}, 0 0 9px ${colors.onGlow40}`,
+          `0 0 4px ${colors.onGlow45}`,
+          `0 0 3px ${colors.onGlow30}`,
+          `0 0 2px ${colors.offGlow35}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+        ],
         transition: {
-          staggerChildren: animationDuration / Math.max(1, numBulbs),
+          duration: animationDuration,
+          times: cometTimes,
+          repeat: Infinity,
+          ease: linearEase,
         },
       },
     }),
-    [numBulbs]
+    [colors]
   )
+
   const bulbs = useMemo(
     () =>
       Array.from({ length: numBulbs }, (_, i) => {
         const rad = ((i * 360) / numBulbs - 90) * (Math.PI / 180)
+        const bulbDelay = i * delayPerBulb
+        const perBulbGlowVariants = {
+          hidden: glowVariants.hidden,
+          show: {
+            ...glowVariants.show,
+            transition: { ...glowVariants.show.transition, delay: bulbDelay },
+          },
+        }
+        const perBulbBulbVariants = {
+          hidden: bulbVariants.hidden,
+          show: {
+            ...bulbVariants.show,
+            transition: { ...bulbVariants.show.transition, delay: bulbDelay },
+          },
+        }
         return (
           <div
             key={i}
-            className="lights-circle-static-7__bulb-wrapper"
+            className={styles['pf-lights-static-7-fm__bulb-wrapper']}
             style={{
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
             <m.div
-              className="lights-circle-static-7__glow"
-              variants={glowVariants}
-              style={{ animation: 'none' }}
+              className={styles['pf-lights-static-7-fm__glow']}
+              variants={perBulbGlowVariants}
             />
             <m.div
-              className="lights-circle-static-7__bulb"
-              variants={bulbVariants}
-              style={{ animation: 'none' }}
+              className={styles['pf-lights-static-7-fm__bulb']}
+              variants={perBulbBulbVariants}
             />
           </div>
         )
       }),
-    [numBulbs]
+    [numBulbs, delayPerBulb, bulbVariants]
   )
   return (
     <div
-      className="lights-circle-static-7"
+      className={styles['pf-lights-static-7-fm']}
       data-animation-id="lights__circle-static-7"
       style={
         {
@@ -126,6 +147,7 @@ function LightsCircleStatic7({
           '--bulb-on-glow90': colors.onGlow90,
           '--bulb-on-glow80': colors.onGlow80,
           '--bulb-on-glow75': colors.onGlow75,
+          '--bulb-on-glow70': colors.onGlow70,
           '--bulb-on-glow60': colors.onGlow60,
           '--bulb-on-glow55': colors.onGlow55,
           '--bulb-on-glow45': colors.onGlow45,
@@ -137,7 +159,7 @@ function LightsCircleStatic7({
       }
     >
       <m.div
-        className="lights-circle-static-7__container"
+        className={styles['pf-lights-static-7-fm__container']}
         variants={containerVariants}
         initial="hidden"
         animate={prefersReducedMotion ? 'hidden' : 'show'}

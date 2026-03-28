@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsCharacterReveal.module.css'
 
 interface TextEffectsCharacterRevealProps {
   /** Main text to reveal. @default 'ACHIEVEMENT' */
@@ -30,7 +31,7 @@ function TextEffectsCharacterRevealComponent({
 
   return (
     <div
-      className="pf-char-reveal-fm"
+      className={styles['pf-char-reveal-fm']}
       data-animation-id="text-effects__character-reveal"
       style={
         {
@@ -41,10 +42,10 @@ function TextEffectsCharacterRevealComponent({
         } as React.CSSProperties
       }
     >
-      <div className="pf-char-reveal-fm__text-container">
+      <div className={styles['pf-char-reveal-fm__text-container']}>
         {/* Shadow text layer */}
         <m.div
-          className="pf-char-reveal-fm__shadow-text"
+          className={styles['pf-char-reveal-fm__shadow-text']}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={
@@ -54,7 +55,7 @@ function TextEffectsCharacterRevealComponent({
           {chars.map((char, index) => (
             <m.span
               key={`shadow-${index}`}
-              className="pf-char-reveal-fm__shadow-char"
+              className={styles['pf-char-reveal-fm__shadow-char']}
               initial={prefersReducedMotion ? { opacity: 0.5 } : { opacity: 0, scale: 0.8 }}
               animate={prefersReducedMotion ? { opacity: 0.5 } : { opacity: 0.5, scale: 1 }}
               transition={
@@ -70,7 +71,7 @@ function TextEffectsCharacterRevealComponent({
 
         {/* Main golden text */}
         <m.div
-          className="pf-char-reveal-fm__main-text"
+          className={styles['pf-char-reveal-fm__main-text']}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={
@@ -80,7 +81,7 @@ function TextEffectsCharacterRevealComponent({
           {chars.map((char, index) => (
             <m.span
               key={index}
-              className="pf-char-reveal-fm__main-char"
+              className={styles['pf-char-reveal-fm__main-char']}
               initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0 }}
               animate={
                 prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: [0, 1.2, 1] }
@@ -95,8 +96,8 @@ function TextEffectsCharacterRevealComponent({
                     }
               }
             >
-              <span className="pf-char-reveal-fm__main-char-text">{char}</span>
-              <span aria-hidden="true" className="pf-char-reveal-fm__main-char-glow">
+              <span className={styles['pf-char-reveal-fm__main-char-text']}>{char}</span>
+              <span aria-hidden="true" className={styles['pf-char-reveal-fm__main-char-glow']}>
                 {char}
               </span>
             </m.span>
@@ -106,7 +107,7 @@ function TextEffectsCharacterRevealComponent({
 
       {/* Subtitle */}
       <m.div
-        className="pf-char-reveal-fm__subtitle"
+        className={styles['pf-char-reveal-fm__subtitle']}
         initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
         animate={prefersReducedMotion ? { opacity: 1 } : { opacity: [0, 1], y: [10, 0] }}
         transition={
@@ -115,8 +116,8 @@ function TextEffectsCharacterRevealComponent({
             : { duration: 0.5, delay: 1.2, ease: easeOut }
         }
       >
-        <span className="pf-char-reveal-fm__subtitle-main">{subtitle}</span>
-        <span aria-hidden="true" className="pf-char-reveal-fm__subtitle-shadow">
+        <span className={styles['pf-char-reveal-fm__subtitle-main']}>{subtitle}</span>
+        <span aria-hidden="true" className={styles['pf-char-reveal-fm__subtitle-shadow']}>
           {subtitle}
         </span>
       </m.div>

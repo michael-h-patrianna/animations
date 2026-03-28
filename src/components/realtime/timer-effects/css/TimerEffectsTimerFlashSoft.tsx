@@ -15,7 +15,8 @@ import {
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
 
-import './TimerEffectsTimerFlashSoft.css'
+import './shared.css'
+import styles from './TimerEffectsTimerFlashSoft.module.css'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
@@ -80,14 +81,17 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
   }
 
   return (
-    <div className="pf-timer-flash-soft" data-animation-id="timer-effects__timer-flash-soft">
+    <div
+      className={styles['pf-timer-flash-soft']}
+      data-animation-id="timer-effects__timer-flash-soft"
+    >
       <div
         key={shakeKey}
-        className={`pf-timer-flash-soft__pill pf-timer-flash-soft--${phase}`}
+        className={`${styles['pf-timer-flash-soft__pill']} pf-timer-flash-soft--${phase}`}
         style={pillStyle}
       >
-        <span className="pf-timer-flash-soft__glow" aria-hidden="true" />
-        <div className="pf-timer-flash-soft__time" style={timeStyle}>
+        <span className={styles['pf-timer-flash-soft__glow']} aria-hidden="true" />
+        <div className={styles['pf-timer-flash-soft__time']} style={timeStyle}>
           {formatTime(seconds)}
         </div>
       </div>

@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsWaveText.module.css'
 
 const waveKeyframes = {
   y: [0, -20, 0, 5, 0, 0],
@@ -52,7 +53,7 @@ function WaveCharacter({
 
   return (
     <m.span
-      className="pf-wave-text-fm__char"
+      className={styles['pf-wave-text-fm__char']}
       data-char={char}
       animate={reducedMotion ? undefined : waveKeyframes}
       transition={
@@ -68,12 +69,12 @@ function WaveCharacter({
             }
       }
     >
-      <span className="pf-wave-text-fm__char-inner">
+      <span className={styles['pf-wave-text-fm__char-inner']}>
         {isSpace ? '\u00A0' : char}
 
         {showHighlight && !isSpace && !reducedMotion && (
           <m.span
-            className="pf-wave-text-fm__highlight"
+            className={styles['pf-wave-text-fm__highlight']}
             animate={highlightKeyframes}
             transition={{
               duration: waveDuration,
@@ -101,13 +102,13 @@ function TextEffectsWaveTextComponent({
 
   return (
     <div
-      className="pf-wave-text-fm"
+      className={styles['pf-wave-text-fm']}
       data-animation-id="text-effects__wave-text"
       style={
         color !== undefined ? ({ '--pf-wave-text-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-wave-text-fm__wrapper">
+      <div className={styles['pf-wave-text-fm__wrapper']}>
         {chars.map((char, index) => (
           <WaveCharacter
             key={index}

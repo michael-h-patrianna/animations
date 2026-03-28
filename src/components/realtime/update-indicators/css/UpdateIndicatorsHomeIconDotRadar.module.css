@@ -1,0 +1,37 @@
+/* Structural: expanding ring for radar effect (moved from shared.css — single-consumer) */
+:global(.pf-update-indicator__ring) {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border-radius: 9999px;
+  transform-origin: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Dot radar: staggered expanding rings from notification dot */
+
+.pf-update-indicator__dot--radar {
+  z-index: 1;
+}
+
+.pf-dot-radar-ring {
+  border: 2px solid var(--pf-dot-radar-ring-color, rgb(255 73 103 / 50%));
+  opacity: 0;
+  animation: pf-ui-ring-expand var(--pf-dot-radar-dur, 1600ms) ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes pf-ui-ring-expand {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}

@@ -34,6 +34,7 @@ import type {
   MilestoneProgressBarProps,
   MilestoneConfig,
 } from '@/components/progress/progress-bars/SharedTypes'
+import styles from './ProgressBarsProgressMilestones.module.css'
 
 const DEFAULT_MILESTONES: MilestoneConfig[] = [
   { position: 0, label: 'Start' },
@@ -108,14 +109,14 @@ export function ProgressBarsProgressMilestones({
 
   return (
     <div
-      className={`pf-progress-milestones-fm${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-progress-milestones-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-milestones"
     >
       <div className="track-container" style={{ position: 'relative' }}>
-        <div className="pf-progress-track-fm">
+        <div className={styles['pf-progress-track-fm']}>
           <div
-            className="pf-progress-fill-fm"
+            className={styles['pf-progress-fill-fm']}
             style={{ transformOrigin: 'left center', transform: `scaleX(${displayProgress})` }}
           />
         </div>

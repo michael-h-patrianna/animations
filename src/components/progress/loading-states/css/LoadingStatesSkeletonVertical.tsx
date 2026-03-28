@@ -14,7 +14,7 @@ import {
   SKELETON_BASE_COLOR,
   SKELETON_SHIMMER_COLOR,
 } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesSkeletonVertical.css'
+import styles from './LoadingStatesSkeletonVertical.module.css'
 
 interface LoadingStatesSkeletonVerticalProps {
   /** Overall width in px. */
@@ -73,7 +73,9 @@ function LoadingStatesSkeletonVerticalComponent({
     <div
       data-animation-id="loading-states__skeleton-vertical"
       className={
-        className !== undefined ? `pf-skeleton-vertical ${className}` : 'pf-skeleton-vertical'
+        className !== undefined
+          ? `${styles['pf-skeleton-vertical']} ${className}`
+          : styles['pf-skeleton-vertical']
       }
       style={{ ...vars, width, gap }}
       role="status"
@@ -82,7 +84,7 @@ function LoadingStatesSkeletonVerticalComponent({
       {Array.from({ length: lines }, (_, i) => (
         <div
           key={i}
-          className="pf-skeleton"
+          className={styles['pf-skeleton']}
           style={{
             width: `${LINE_WIDTHS[i % LINE_WIDTHS.length]}%`,
             height: lineHeight,

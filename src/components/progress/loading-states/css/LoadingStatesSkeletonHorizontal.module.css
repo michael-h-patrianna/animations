@@ -1,0 +1,31 @@
+/* Layout for LoadingStatesSkeletonHorizontal (CSS variant) */
+
+.pf-skeleton-horizontal {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Skeleton shimmer primitive ── */
+
+.pf-skeleton {
+  display: block;
+  border-radius: var(--pf-skeleton-radius, 4px);
+  background: linear-gradient(
+    90deg,
+    var(--pf-skeleton-base, rgb(236 195 255 / 5%)) 0%,
+    var(--pf-skeleton-shimmer, rgb(236 195 255 / 18%)) 40%,
+    var(--pf-skeleton-base, rgb(236 195 255 / 5%)) 100%
+  );
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  animation: pf-skeleton-shimmer var(--pf-skeleton-duration, 1.4s) ease-in-out infinite;
+}
+
+@keyframes pf-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

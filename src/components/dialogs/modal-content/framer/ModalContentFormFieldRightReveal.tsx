@@ -23,6 +23,7 @@ import {
   DemoModalFooter,
   DemoModalHeader,
 } from '@/components/demo-blocks'
+import './ModalContentFormFieldRightReveal.module.css'
 import { generateMockFormFields } from '@/components/dialogs/modal-content/MockContentItems'
 import {
   MODAL_ENTRANCE,
@@ -66,7 +67,6 @@ function ModalContentFormFieldRightRevealComponent({
               ease: [0.4, 0, 0.2, 1] as const,
             }
       }
-      style={{ animation: 'none' }}
     >
       {child}
     </m.div>
@@ -91,12 +91,8 @@ function ModalContentFormFieldRightRevealComponent({
   const mockFields = generateMockFormFields(DEFAULT_COUNT)
 
   return (
-    <div className="pf-demo-overlay" data-animation-id="modal-content__form-field-right-reveal">
-      <m.div
-        className="pf-demo-modal"
-        {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}
-        style={{ animation: 'none' }}
-      >
+    <div className="pf-demo-overlay-fm" data-animation-id="modal-content__form-field-right-reveal">
+      <m.div className="pf-demo-modal" {...(reduced ? REDUCED_FADE : MODAL_ENTRANCE)}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>
@@ -104,14 +100,10 @@ function ModalContentFormFieldRightRevealComponent({
           <DemoForm>{mockFields.map((field, i) => animateField(field, i, 0.3))}</DemoForm>
         </DemoModalBody>
         <DemoModalFooter>
-          <m.div {...buttonBounceProps(0.75, reduced)} style={{ animation: 'none' }}>
+          <m.div {...buttonBounceProps(0.75, reduced)}>
             <DemoButton label="Accept" />
           </m.div>
-          <m.div
-            {...buttonBounceProps(0.82, reduced)}
-            onAnimationComplete={onAnimationComplete}
-            style={{ animation: 'none' }}
-          >
+          <m.div {...buttonBounceProps(0.82, reduced)} onAnimationComplete={onAnimationComplete}>
             <DemoButton label="Later" variant="secondary" />
           </m.div>
         </DemoModalFooter>

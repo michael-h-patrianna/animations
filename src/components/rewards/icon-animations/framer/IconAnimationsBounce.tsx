@@ -11,6 +11,8 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
+import './IconAnimationsBounce.module.css'
+
 interface IconAnimationsBounceProps {
   /** Image source URL. Renders a placeholder when omitted. */
   src?: string
@@ -33,7 +35,7 @@ function IconAnimationsBounceComponent({
   return (
     <div data-animation-id="icon-animations__bounce">
       <m.div
-        style={{ transformOrigin: 'center bottom', animation: 'none' }}
+        style={{ transformOrigin: 'center bottom' }}
         animate={
           prefersReducedMotion
             ? { scaleY: [1, 0.97, 1.03, 1], scaleX: [1, 1.02, 0.99, 1] }
@@ -55,9 +57,9 @@ function IconAnimationsBounceComponent({
         }
       >
         {src !== undefined ? (
-          <img src={src} alt={alt} className="pf-icon-anim__image" style={{ width }} />
+          <img src={src} alt={alt} className="pf-icon-anim-fm__image" style={{ width }} />
         ) : (
-          <div className="pf-icon-anim__placeholder" style={{ width, height: width }} />
+          <div className="pf-icon-anim-fm__placeholder" style={{ width, height: width }} />
         )}
       </m.div>
     </div>

@@ -17,6 +17,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsPillCountdownHeartbeat.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -136,22 +137,21 @@ function TimerEffectsPillCountdownHeartbeatComponent(props: TimerEffectProps) {
 
   return (
     <div
-      className="pf-pill-countdown-heartbeat-container"
+      className={styles['pf-pill-countdown-heartbeat-container-fm']}
       data-animation-id="timer-effects__pill-countdown-heartbeat"
     >
       <m.div
-        className={`pf-pill-countdown-heartbeat ${heartbeatLevel}`}
-        style={{ animation: 'none', ...pillThemeStyle }}
+        className={`${styles['pf-pill-countdown-heartbeat-fm']} ${heartbeatLevel}`}
+        style={{ ...pillThemeStyle }}
       >
         <m.span
-          className="pf-pill-countdown-heartbeat__glow"
+          className={styles['pf-pill-countdown-heartbeat-fm__glow']}
           aria-hidden="true"
           animate={
             prefersReducedMotion ? undefined : getGlowAnimation(seconds, startSeconds, isExpired)
           }
-          style={{ animation: 'none' }}
         />
-        <span className="pf-pill-countdown-heartbeat__text" style={timeStyle}>
+        <span className={styles['pf-pill-countdown-heartbeat-fm__text']} style={timeStyle}>
           {formatTime(seconds)}
         </span>
       </m.div>

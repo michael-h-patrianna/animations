@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
+import './ModalCelebrationsConfettiPulse.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
@@ -214,7 +215,6 @@ function PulseFlash({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{
         x: '-50%',
@@ -235,7 +235,6 @@ function PulseGlow({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__glow"
-      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', opacity: 0 }}
       animate={{
         x: '-50%',
@@ -255,7 +254,7 @@ function WaveRing({ wave, timeScale }: { wave: WaveConfig; timeScale: number }) 
   return (
     <m.div
       className="pf-celebration__pulse"
-      style={{ borderColor: wave.color, borderWidth: '3px', animation: 'none' }}
+      style={{ borderColor: wave.color, borderWidth: '3px' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{
         x: '-50%',
@@ -285,7 +284,6 @@ function PulsePiece({ p, maxW, maxH }: { p: WaveParticle; maxW: number; maxH: nu
         left: '50%',
         top: '50%',
         ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
-        animation: 'none',
       }}
       initial={{ x: p.xs[0], y: p.ys[0], scale: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -328,7 +326,6 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
-        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.5, 1.0, 0], opacity: [0, 0.9, 0.3, 0.65, 0] }}

@@ -12,6 +12,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
+import styles from './StandardEffectsPulse.module.css'
 import { PULSE_GLOW_COLOR } from '@/components/base/standard-effects/SharedDefaults'
 
 interface StandardEffectsPulseProps {
@@ -36,9 +37,9 @@ function StandardEffectsPulseComponent({
 
   return (
     <m.div
-      className="pf-pulse-fm"
+      className={styles['pf-pulse-fm']}
       data-animation-id="standard-effects__pulse"
-      style={{ animation: 'none', borderRadius }}
+      style={{ borderRadius }}
       animate={
         prefersReducedMotion
           ? { scale: [1, 1.03, 1], opacity: [1, 0.8, 1] }
@@ -67,7 +68,6 @@ function StandardEffectsPulseComponent({
           background: `linear-gradient(180deg, ${resolvedGlowColor} 0%, transparent 70%)`,
           pointerEvents: 'none',
           zIndex: -1,
-          animation: 'none',
         }}
         animate={
           prefersReducedMotion

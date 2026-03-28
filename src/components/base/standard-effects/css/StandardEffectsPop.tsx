@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsPop.css — apply .pf-pop to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsPop.css'
+import styles from './StandardEffectsPop.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsPopProps {
@@ -18,7 +18,7 @@ function StandardEffectsPopComponent({ children, duration = 500 }: StandardEffec
   } as CSSProperties
 
   return (
-    <div className="pf-pop" data-animation-id="standard-effects__pop" style={style}>
+    <div className={styles['pf-pop']} data-animation-id="standard-effects__pop" style={style}>
       {children ?? <DemoBox label="Pop" />}
     </div>
   )

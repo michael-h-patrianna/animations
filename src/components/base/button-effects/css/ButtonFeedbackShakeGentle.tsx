@@ -14,7 +14,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
-import './ButtonFeedbackShakeGentle.css'
+import styles from './ButtonFeedbackShakeGentle.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface ButtonFeedbackShakeGentleProps {
@@ -54,7 +54,7 @@ function ButtonFeedbackShakeGentleComponent({
     prevTriggerRef.current = trigger
   }, [trigger])
 
-  const sharedClassName = `pf-shake-gentle${isAnimating ? ' pf-shake-gentle--active' : ''}`
+  const sharedClassName = `${styles['pf-shake-gentle']}${isAnimating ? ` ${styles['pf-shake-gentle--active']}` : ''}`
   const sharedStyle = { ['--pf-shake-gentle-duration' as string]: `${duration}ms` } as CSSProperties
 
   if (isValidElement(children)) {

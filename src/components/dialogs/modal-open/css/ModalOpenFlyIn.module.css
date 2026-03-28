@@ -1,0 +1,159 @@
+/*
+ * Modal open: fly-in — CSS variant.
+ *
+ * Trajectory is driven by Web Animations API (dynamic keyframes from dense
+ * Bezier sampling). This CSS file handles scale, opacity, and glow.
+ *
+ * Custom properties set inline:
+ *   --pf-mo-duration: 600ms
+ */
+
+/* ── Arc flight: scale + opacity (trajectory via Web Animations API) ── */
+.pf-mo-modal--arc {
+  opacity: 0;
+  animation:
+    pf-mo-arc-scale var(--pf-mo-duration, 600ms) ease-out forwards,
+    pf-mo-arc-opacity calc(var(--pf-mo-duration, 600ms) * 0.25) ease-out forwards;
+}
+
+@keyframes pf-mo-arc-scale {
+  0% {
+    scale: 0.02;
+  }
+  15% {
+    scale: 0.3;
+  }
+  40% {
+    scale: 0.7;
+  }
+  72% {
+    scale: 1;
+  }
+  80% {
+    scale: 1.06;
+  }
+  90% {
+    scale: 0.97;
+  }
+  95% {
+    scale: 1.01;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes pf-mo-arc-opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Scale-pop fallback (from near center) ── */
+.pf-mo-modal--pop {
+  opacity: 0;
+  animation:
+    pf-mo-pop-scale calc(var(--pf-mo-duration, 600ms) * 0.7) cubic-bezier(0.12, 0.75, 0.4, 1)
+      forwards,
+    pf-mo-arc-opacity calc(var(--pf-mo-duration, 600ms) * 0.2) ease-out forwards;
+}
+
+@keyframes pf-mo-pop-scale {
+  0% {
+    scale: 0.02;
+  }
+  30% {
+    scale: 0.6;
+  }
+  65% {
+    scale: 1.06;
+  }
+  85% {
+    scale: 0.97;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+/* ── Arc close: reverse scale + fade out (trajectory via Web Animations API) ── */
+.pf-mo-modal--arc-close {
+  animation:
+    pf-mo-arc-scale-close var(--pf-mo-duration, 420ms) ease-in forwards,
+    pf-mo-arc-opacity-close var(--pf-mo-duration, 420ms) ease-in forwards;
+}
+
+@keyframes pf-mo-arc-scale-close {
+  0% {
+    scale: 1;
+  }
+  40% {
+    scale: 0.7;
+  }
+  100% {
+    scale: 0.02;
+  }
+}
+
+@keyframes pf-mo-arc-opacity-close {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Impact glow ── */
+.pf-mo-impact-glow--css {
+  animation: pf-mo-impact-glow-pulse var(--pf-mo-duration, 600ms) ease-out forwards;
+}
+
+@keyframes pf-mo-impact-glow-pulse {
+  0%,
+  68% {
+    opacity: 0;
+  }
+  78% {
+    opacity: 0.8;
+  }
+  88% {
+    opacity: 0.35;
+  }
+  95% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .pf-mo-modal--arc,
+  .pf-mo-modal--pop,
+  .pf-mo-modal--arc-close {
+    animation: pf-mo-reduced-fade 200ms ease-out forwards;
+  }
+
+  .pf-mo-impact-glow--css {
+    animation: none;
+  }
+
+  @keyframes pf-mo-reduced-fade {
+    from {
+      opacity: 0;
+      scale: 0.85;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+}

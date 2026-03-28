@@ -14,7 +14,7 @@
  * Files to copy: this file + ProgressBarsNeonPulse.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsNeonPulse.css'
+import styles from './ProgressBarsNeonPulse.module.css'
 
 interface NeonPulseProps extends ProgressBarProps {
   /** Status label below the bar. Default: "SYNCING...". */
@@ -31,17 +31,25 @@ export function ProgressBarsNeonPulse({
 
   return (
     <div
-      className={`neon-pulse-container-css${className ? ` ${className}` : ''}`}
+      className={`${styles['neon-pulse-container-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__neon-pulse"
     >
-      <div className="neon-pulse-track-css">
-        <div className="neon-pulse-fill-css" style={{ transform: `scaleX(${displayProgress})` }}>
-          <div className="neon-pulse-flicker-css" />
+      <div className={styles['neon-pulse-track-css']}>
+        <div
+          className={styles['neon-pulse-fill-css']}
+          style={{ transform: `scaleX(${displayProgress})` }}
+        >
+          <div className={styles['neon-pulse-flicker-css']} />
         </div>
-        <div className="neon-pulse-glow-css" style={{ transform: `scaleX(${displayProgress})` }} />
+        <div
+          className={styles['neon-pulse-glow-css']}
+          style={{ transform: `scaleX(${displayProgress})` }}
+        />
       </div>
-      {label !== undefined && label !== '' && <div className="neon-pulse-label-css">{label}</div>}
+      {label !== undefined && label !== '' && (
+        <div className={styles['neon-pulse-label-css']}>{label}</div>
+      )}
     </div>
   )
 }

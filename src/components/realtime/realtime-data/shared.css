@@ -1,6 +1,7 @@
 /* Shared styles for the realtime-data animation group */
 
-.pf-realtime-data {
+.pf-realtime-data,
+.pf-realtime-data-fm {
   --pf-realtime-bg: rgb(17 24 39 / 80%);
   --pf-realtime-border: rgb(75 85 99 / 30%);
   --pf-realtime-row-bg: rgb(55 65 81 / 40%);
@@ -18,14 +19,16 @@
 
 /* Ranked list layout — shared by leaderboard-shift and live-score-update */
 
-.pf-realtime-data__leaderboard {
+.pf-realtime-data__leaderboard,
+.pf-realtime-data-fm__leaderboard {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
 }
 
-.pf-realtime-data__row {
+.pf-realtime-data__row,
+.pf-realtime-data-fm__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,98 +40,27 @@
   box-sizing: border-box;
 }
 
-.pf-realtime-data__rank {
+.pf-realtime-data__rank,
+.pf-realtime-data-fm__rank {
   color: var(--pf-realtime-rank-color);
   font-weight: 600;
   font-size: 0.875rem;
   width: 24px;
 }
 
-.pf-realtime-data__player {
+.pf-realtime-data__player,
+.pf-realtime-data-fm__player {
   color: var(--pf-realtime-label-color);
   font-weight: 500;
   flex: 1;
   margin-left: 8px;
 }
 
-.pf-realtime-data__score {
+.pf-realtime-data__score,
+.pf-realtime-data-fm__score {
   color: var(--pf-realtime-value-color);
   font-weight: 600;
   font-size: 0.875rem;
 }
 
-/* Stacked stat rows */
-
-.pf-realtime-data__stack {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
-
-.pf-realtime-data__stack-row {
-  --pf-realtime-stack-bg: rgb(55 65 81 / 30%);
-  --pf-realtime-stack-active-border: #06b6d4;
-  --pf-realtime-stack-active-bg: rgb(6 182 212 / 10%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 12px;
-  background: var(--pf-realtime-stack-bg);
-  border-radius: 4px;
-  border-left: 2px solid transparent;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.pf-realtime-data__stack-row.active {
-  border-left-color: var(--pf-realtime-stack-active-border);
-  background: var(--pf-realtime-stack-active-bg);
-}
-
-.pf-realtime-data__stack-label {
-  --pf-realtime-stack-label-color: #d1d5db;
-  color: var(--pf-realtime-stack-label-color);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.pf-realtime-data__stack-value {
-  --pf-realtime-stack-value-color: #06b6d4;
-  color: var(--pf-realtime-stack-value-color);
-  font-weight: 600;
-  font-size: 0.875rem;
-}
-
-/* Ticker / marquee */
-
-.pf-realtime-data__ticker {
-  --pf-realtime-ticker-bg: rgb(31 41 55 / 80%);
-  background: var(--pf-realtime-ticker-bg);
-  border-radius: 8px;
-  padding: 12px;
-  overflow: hidden;
-  position: relative;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.pf-realtime-data__ticker-text {
-  --pf-realtime-ticker-color: #f59e0b;
-  color: var(--pf-realtime-ticker-color);
-  font-weight: 600;
-  white-space: nowrap;
-  position: absolute;
-}
-
-/* ─── Reduced motion: stop scrolling, show static text ─── */
-/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
-@media (prefers-reduced-motion: reduce) {
-  .pf-realtime-data__ticker-text {
-    animation: none !important;
-    position: relative;
-  }
-}
+/* Reduced-motion is handled per-animation in each component's own CSS. */

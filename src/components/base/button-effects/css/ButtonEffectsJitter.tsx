@@ -10,7 +10,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
-import './ButtonEffectsJitter.css'
+import styles from './ButtonEffectsJitter.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface ButtonEffectsJitterProps {
@@ -25,7 +25,7 @@ type InteractiveChildProps = {
 }
 
 function ButtonEffectsJitterComponent({ children, duration = 4000 }: ButtonEffectsJitterProps) {
-  const sharedClassName = 'pf-jitter'
+  const sharedClassName = styles['pf-jitter']
   const sharedStyle = {
     ['--pf-jitter-duration' as string]: `${duration}ms`,
   } as CSSProperties

@@ -1,0 +1,12 @@
+/* Layout styles for ModalOrchestrationComparisonMorph (framer variant) */
+.pf-comparison-morph-fm {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  position: relative;
+}
+
+.pf-comparison-morph-fm__pane {
+  /* Animation wrapper only — visual card styling comes from children */
+}

@@ -1,0 +1,12 @@
+/* Layout for LoadingStatesDotsRise (framer variant) */
+
+.pf-dots-rise-fm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-dots-rise-fm__dot {
+  border-radius: 50%;
+  display: inline-block;
+}

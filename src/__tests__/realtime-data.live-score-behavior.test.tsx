@@ -24,12 +24,17 @@ const UPDATED_ITEMS: RankedEntry[] = [
   { id: 'shadow', label: 'Shadow', score: 1440 },
 ]
 
-/** Extracts displayed scores from .pf-realtime-data__score elements */
-function getDisplayedScores(container: HTMLElement): number[] {
-  return Array.from(container.querySelectorAll('.pf-realtime-data__score')).map((el) =>
+/** Extracts displayed scores from score elements */
+function getDisplayedScores(
+  container: HTMLElement,
+  selector = '.pf-realtime-data__score'
+): number[] {
+  return Array.from(container.querySelectorAll(selector)).map((el) =>
     parseInt(el.textContent?.replace(/,/g, '') ?? '0', 10)
   )
 }
+
+const FM_SCORE = '.pf-realtime-data-fm__score'
 
 describe('realtime-data live-score-update behavior', () => {
   it('CSS and Framer variants start with identical initial scores', () => {
@@ -38,7 +43,7 @@ describe('realtime-data live-score-update behavior', () => {
     unmount()
 
     const { container: framerContainer } = render(<FramerLiveScore />)
-    const framerScores = getDisplayedScores(framerContainer)
+    const framerScores = getDisplayedScores(framerContainer, FM_SCORE)
 
     expect(cssScores).toEqual(framerScores)
   })
@@ -71,7 +76,7 @@ describe('realtime-data live-score-update behavior', () => {
 
   it('Framer variant counts up when items prop changes to higher scores', () => {
     const { container, rerender } = render(<FramerLiveScore items={INITIAL_ITEMS} />)
-    const initialScores = getDisplayedScores(container)
+    const initialScores = getDisplayedScores(container, FM_SCORE)
 
     rerender(<FramerLiveScore items={UPDATED_ITEMS} />)
 
@@ -79,7 +84,7 @@ describe('realtime-data live-score-update behavior', () => {
       vi.advanceTimersByTime(900)
     })
 
-    const updatedScores = getDisplayedScores(container)
+    const updatedScores = getDisplayedScores(container, FM_SCORE)
     for (let i = 0; i < initialScores.length; i++) {
       expect(updatedScores[i]).toBeGreaterThan(initialScores[i]!)
     }

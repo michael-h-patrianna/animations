@@ -24,7 +24,6 @@ function StandardEffectsFadeComponent({ children, duration = 800 }: StandardEffe
   return (
     <m.div
       data-animation-id="standard-effects__fade"
-      style={{ animation: 'none' }}
       initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95, rotate: -1 }}
       animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, rotate: 0 }}
       transition={{

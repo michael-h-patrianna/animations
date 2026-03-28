@@ -2,7 +2,9 @@ import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import { TimerEffectsUrgentPulse as CssUrgentPulse } from '@/components/realtime/timer-effects/css/TimerEffectsUrgentPulse'
+import cssUrgentPulseStyles from '@/components/realtime/timer-effects/css/TimerEffectsUrgentPulse.module.css'
 import { TimerEffectsUrgentPulse as FramerUrgentPulse } from '@/components/realtime/timer-effects/framer/TimerEffectsUrgentPulse'
+import fmUrgentPulseStyles from '@/components/realtime/timer-effects/framer/TimerEffectsUrgentPulse.module.css'
 
 describe('timer-effects urgent-pulse DOM structure', () => {
   it('CSS variant renders with correct data-animation-id', () => {
@@ -24,7 +26,11 @@ describe('timer-effects urgent-pulse DOM structure', () => {
     const framer = render(<FramerUrgentPulse />)
 
     // Both should have the timer container class
-    expect(css.container.querySelector('.timer-urgent-pulse')).toBeInTheDocument()
-    expect(framer.container.querySelector('.timer-urgent-pulse')).toBeInTheDocument()
+    expect(
+      css.container.querySelector(`.${cssUrgentPulseStyles['timer-urgent-pulse']}`)
+    ).toBeInTheDocument()
+    expect(
+      framer.container.querySelector(`.${fmUrgentPulseStyles['timer-urgent-pulse-fm']}`)
+    ).toBeInTheDocument()
   })
 })

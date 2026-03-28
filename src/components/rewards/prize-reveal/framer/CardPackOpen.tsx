@@ -2,6 +2,7 @@ import { AnimatePresence, MotionConfig } from 'motion/react'
 import * as m from 'motion/react-m'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 
+import styles from './CardPackOpen.module.css'
 import cardPackBackImage from '@/assets/card-pack/card-back.webp'
 import cardPackBasicImage from '@/assets/card-pack/card-pack-basic.webp'
 import cardPackDiamondImage from '@/assets/card-pack/card-pack-diamond.webp'
@@ -288,7 +289,7 @@ function CardFanContainer({
   burstedCards: boolean[]
 }) {
   return (
-    <div className="pf-card-pack__cards-container">
+    <div className={styles['pf-card-pack-fm__cards-container']}>
       {cards.map((card, i) => (
         <FlipCard
           key={`${card.id}-${i}`}
@@ -346,7 +347,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
 
   return (
     <m.div
-      className="pf-card-pack__stage"
+      className={styles['pf-card-pack-fm__stage']}
       animate={showBurst ? { x: [0, -2, 2, -1, 1, 0], y: [0, 1, -1, 0] } : { x: 0, y: 0 }}
       transition={showBurst ? { duration: 0.2, ease: 'linear' } : { duration: 0 }}
     >
@@ -383,7 +384,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
         {focusedCard !== null && (
           <m.div
             key="inspect-overlay"
-            className="pf-card-pack__inspect-overlay"
+            className={styles['pf-card-pack-fm__inspect-overlay']}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -411,7 +412,7 @@ function CardPackOpenComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCount
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className="pf-modal-celebration pf-card-pack"
+        className={`pf-modal-celebration ${styles['pf-card-pack-fm']}`}
         data-animation-id="prize-reveal__card-pack-open"
       >
         {ready && <CardPackAnimation cardCount={prizeCount} />}

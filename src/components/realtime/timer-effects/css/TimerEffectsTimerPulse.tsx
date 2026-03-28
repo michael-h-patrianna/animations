@@ -14,7 +14,8 @@ import {
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
 
-import './TimerEffectsTimerPulse.css'
+import './shared.css'
+import styles from './TimerEffectsTimerPulse.module.css'
 
 const DEFAULT_START = 10
 const DEFAULT_WARNING = 6
@@ -66,13 +67,16 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
   }
 
   return (
-    <div className="pf-timer-pulse" data-animation-id="timer-effects__timer-pulse">
-      <div className={`pf-timer-pulse__value pf-timer-pulse--${phase}`} style={valueStyle}>
+    <div className={styles['pf-timer-pulse']} data-animation-id="timer-effects__timer-pulse">
+      <div
+        className={`${styles['pf-timer-pulse__value']} pf-timer-pulse--${phase}`}
+        style={valueStyle}
+      >
         {seconds}
       </div>
       {showUnderline && (
         <div
-          className="pf-timer-pulse__underline"
+          className={styles['pf-timer-pulse__underline']}
           style={
             {
               '--progress': progress,

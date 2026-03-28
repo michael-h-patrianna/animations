@@ -18,7 +18,6 @@ import {
   resolvePointRelative,
   DEFAULT_DURATION,
   DEFAULT_IMPACT_FORCE,
-  DEFAULT_OVERLAY_OPACITY,
   type ModalOpenProps,
   type ResolvedPoint,
 } from './SharedTypes'
@@ -53,7 +52,6 @@ function resolveEffectiveValues(
 ) {
   const {
     duration = DEFAULT_DURATION,
-    overlayOpacity = DEFAULT_OVERLAY_OPACITY,
     contentRevealAt = DEFAULT_CONTENT_REVEAL_AT,
     impactForce = DEFAULT_IMPACT_FORCE,
   } = props
@@ -73,7 +71,6 @@ function resolveEffectiveValues(
     durationS,
     closeDurationS,
     closeDurationMs,
-    overlayOpacity,
     effectiveReveal,
   }
 }
@@ -206,8 +203,7 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
   const isVisible = phase !== 'idle'
   const isClosing = phase === 'closing'
 
-  const { force, overlayOpacity, durationS, closeDurationS, effectiveDuration, closeDurationMs } =
-    vals
+  const { force, durationS, closeDurationS, effectiveDuration, closeDurationMs } = vals
   const activeDurationS = isClosing ? closeDurationS : durationS
   const activeDurationMs = isClosing ? closeDurationMs : effectiveDuration
   const { handleOpenComplete, handleClose, handleCloseComplete } = phases
@@ -221,7 +217,6 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
       isVisible,
       isClosing,
       force,
-      overlayOpacity,
       activeDurationS,
       activeDurationMs,
       fromPoint,
@@ -238,7 +233,6 @@ export function useModalOpenLogic(props: ModalOpenProps, presets: readonly DemoP
       isVisible,
       isClosing,
       force,
-      overlayOpacity,
       activeDurationS,
       activeDurationMs,
       fromPoint,

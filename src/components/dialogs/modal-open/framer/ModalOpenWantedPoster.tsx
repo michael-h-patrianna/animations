@@ -121,63 +121,50 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
       )}
 
       {s.isVisible && (
-        <>
+        <div className="pf-mo-stage">
           <m.div
-            className="pf-mo-overlay"
-            initial={{ opacity: s.isClosing ? s.overlayOpacity : 0 }}
-            animate={{ opacity: s.isClosing ? 0 : s.overlayOpacity }}
-            transition={{
-              duration: reduced ? 0.2 : s.activeDurationS * 0.5,
-              ease: [0, 0, 0.2, 1],
+            key={s.isClosing ? 'close' : 'open'}
+            className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
+            style={{
+              ...props.style,
+              width: 420,
+              maxWidth: '100%',
+              overflow: 'hidden',
             }}
-            style={{ animation: 'none' }}
-          />
-          <div className="pf-mo-stage">
-            <m.div
-              key={s.isClosing ? 'close' : 'open'}
-              className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
-              style={{
-                ...props.style,
-                width: 420,
-                maxWidth: '100%',
-                overflow: 'hidden',
-                animation: 'none',
-              }}
-              initial={
-                reduced
-                  ? { height: s.isClosing ? 'auto' : 0, opacity: s.isClosing ? 1 : 0 }
-                  : data
-                    ? { height: data.h[0], opacity: data.opacity[0] }
-                    : { height: 0, opacity: 0 }
-              }
-              animate={
-                reduced
-                  ? { height: s.isClosing ? 0 : 'auto', opacity: s.isClosing ? 0 : 1 }
-                  : data
-                    ? { height: data.h, opacity: data.opacity }
-                    : { height: modalHeight, opacity: 1 }
-              }
-              transition={
-                reduced
-                  ? { duration: 0.01 }
-                  : data
-                    ? { duration: s.activeDurationS, times: data.times, ease: 'linear' }
-                    : { duration: s.activeDurationS }
-              }
-              onAnimationComplete={s.isClosing ? s.handleCloseComplete : s.handleOpenComplete}
-            >
-              <div ref={contentRef} style={{ position: 'relative' }}>
-                <ModalOpenPlaceholder
-                  revealed={s.contentRevealed}
-                  onClose={s.isDemoMode ? s.handleClose : undefined}
-                >
-                  {props.children}
-                </ModalOpenPlaceholder>
-              </div>
-              <div className="pf-mo-paper-curl" />
-            </m.div>
-          </div>
-        </>
+            initial={
+              reduced
+                ? { height: s.isClosing ? 'auto' : 0, opacity: s.isClosing ? 1 : 0 }
+                : data
+                  ? { height: data.h[0], opacity: data.opacity[0] }
+                  : { height: 0, opacity: 0 }
+            }
+            animate={
+              reduced
+                ? { height: s.isClosing ? 0 : 'auto', opacity: s.isClosing ? 0 : 1 }
+                : data
+                  ? { height: data.h, opacity: data.opacity }
+                  : { height: modalHeight, opacity: 1 }
+            }
+            transition={
+              reduced
+                ? { duration: 0.01 }
+                : data
+                  ? { duration: s.activeDurationS, times: data.times, ease: 'linear' }
+                  : { duration: s.activeDurationS }
+            }
+            onAnimationComplete={s.isClosing ? s.handleCloseComplete : s.handleOpenComplete}
+          >
+            <div ref={contentRef} style={{ position: 'relative' }}>
+              <ModalOpenPlaceholder
+                revealed={s.contentRevealed}
+                onClose={s.isDemoMode ? s.handleClose : undefined}
+              >
+                {props.children}
+              </ModalOpenPlaceholder>
+            </div>
+            <div className="pf-mo-paper-curl" />
+          </m.div>
+        </div>
       )}
     </div>
   )

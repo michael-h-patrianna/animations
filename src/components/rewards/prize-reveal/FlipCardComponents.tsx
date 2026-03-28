@@ -5,6 +5,8 @@ import cardPackBackImage from '@/assets/card-pack/card-back.webp'
 
 import { type CardData, type CardRarity, type FanPosition } from './CardPackParts'
 
+import styles from './framer/CardPackOpen.module.css'
+
 /* ═══════════════════════════════════════════════════
    CARD NAME RIBBON — SVG text auto-scales to fit, wraps to 2 lines
    ═══════════════════════════════════════════════════ */
@@ -26,13 +28,13 @@ function CardNameRibbon({
 
   return (
     <div
-      className={`pf-card-pack__card-ribbon ${ribbonColor ? '' : `pf-card-pack__card-ribbon--rarity-${rarity}`}`}
+      className={`${styles['pf-card-pack-fm__card-ribbon']} ${ribbonColor ? '' : (styles[`pf-card-pack-fm__card-ribbon--rarity-${rarity}`] ?? '')}`}
       style={ribbonColor ? ({ '--ribbon-bg': ribbonColor } as CSSProperties) : undefined}
     >
       <svg
         viewBox={`0 0 100 ${svgH}`}
         preserveAspectRatio="xMidYMid meet"
-        className="pf-card-pack__card-ribbon-svg"
+        className={styles['pf-card-pack-fm__card-ribbon-svg']}
         role="img"
         aria-label={name}
       >
@@ -104,13 +106,16 @@ const STARBURST_CLIP = (() => {
 function NewBadge() {
   return (
     <m.div
-      className="pf-card-pack__new-badge"
+      className={styles['pf-card-pack-fm__new-badge']}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 1], opacity: 1 }}
       transition={{ duration: 0.4, delay: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
     >
-      <div className="pf-card-pack__new-badge-star" style={{ clipPath: STARBURST_CLIP }}>
-        <span className="pf-card-pack__new-badge-text">NEW</span>
+      <div
+        className={styles['pf-card-pack-fm__new-badge-star']}
+        style={{ clipPath: STARBURST_CLIP }}
+      >
+        <span className={styles['pf-card-pack-fm__new-badge-text']}>NEW</span>
       </div>
     </m.div>
   )
@@ -124,7 +129,7 @@ function NewBadge() {
 export function CardLandShimmer({ position, delay }: { position: FanPosition; delay: number }) {
   return (
     <m.div
-      className="pf-card-pack__land-shimmer"
+      className={styles['pf-card-pack-fm__land-shimmer']}
       style={
         { '--shimmer-x': `${position.x}px`, '--shimmer-y': `${position.y}px` } as CSSProperties
       }
@@ -166,7 +171,7 @@ const FLOAT_KEYFRAMES = generateFloatKeyframes()
 function CardStars({ card }: { card: CardData }) {
   return (
     <m.div
-      className={`pf-card-pack__card-stars pf-card-pack__card-stars--rarity-${card.rarity}`}
+      className={`${styles['pf-card-pack-fm__card-stars']} ${styles[`pf-card-pack-fm__card-stars--rarity-${card.rarity}`] ?? ''}`}
       {...(card.rarity === 5
         ? {
             animate: {
@@ -186,7 +191,7 @@ function CardStars({ card }: { card: CardData }) {
         return (
           <svg
             key={i}
-            className="pf-card-pack__card-star"
+            className={styles['pf-card-pack-fm__card-star']}
             viewBox="0 0 24 24"
             aria-hidden="true"
             style={{ transform: `translateY(${arcY}px)` }}
@@ -216,7 +221,7 @@ function CardStars({ card }: { card: CardData }) {
 function CardFrame({ card }: { card: CardData }) {
   return (
     <m.div
-      className={`pf-card-pack__card-frame pf-card-pack__card-frame--rarity-${card.rarity}`}
+      className={`${styles['pf-card-pack-fm__card-frame']} ${styles[`pf-card-pack-fm__card-frame--rarity-${card.rarity}`] ?? ''}`}
       {...(card.rarity === 5
         ? {
             animate: {
@@ -231,8 +236,12 @@ function CardFrame({ card }: { card: CardData }) {
           }
         : {})}
     >
-      <div className="pf-card-pack__card-img-area">
-        <img src={card.frontImage} alt={card.name} className="pf-card-pack__card-img" />
+      <div className={styles['pf-card-pack-fm__card-img-area']}>
+        <img
+          src={card.frontImage}
+          alt={card.name}
+          className={styles['pf-card-pack-fm__card-img']}
+        />
       </div>
     </m.div>
   )
@@ -249,23 +258,27 @@ function CardFlipper({
 }) {
   return (
     <m.div
-      className="pf-card-pack__card-flipper"
+      className={styles['pf-card-pack-fm__card-flipper']}
       initial={{ rotateY: 0 }}
       animate={{ rotateY: flipped ? 180 : 0 }}
       transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] as const }}
       style={{ transformStyle: 'preserve-3d' } as CSSProperties}
     >
-      <div className="pf-card-pack__card-face pf-card-pack__card-back">
-        <div className="pf-card-pack__card-frame">
+      <div
+        className={`${styles['pf-card-pack-fm__card-face']} ${styles['pf-card-pack-fm__card-back']}`}
+      >
+        <div className={styles['pf-card-pack-fm__card-frame']}>
           <img
             src={cardPackBackImage}
             alt=""
             aria-hidden="true"
-            className="pf-card-pack__card-img"
+            className={styles['pf-card-pack-fm__card-img']}
           />
         </div>
       </div>
-      <div className="pf-card-pack__card-face pf-card-pack__card-front">
+      <div
+        className={`${styles['pf-card-pack-fm__card-face']} ${styles['pf-card-pack-fm__card-front']}`}
+      >
         <CardStars card={card} />
         <CardFrame card={card} />
         <CardNameRibbon name={card.name} rarity={card.rarity} ribbonColor={ribbonColor} />
@@ -348,7 +361,7 @@ export function FlipCard({
 
   return (
     <m.div
-      className={`pf-card-pack__card-slot pf-card-pack__card--rarity-${card.rarity}`}
+      className={`${styles['pf-card-pack-fm__card-slot']} ${styles[`pf-card-pack-fm__card--rarity-${card.rarity}`] ?? ''}`}
       style={{
         zIndex: selected ? 20 : undefined,
         cursor: canTap && !anySelected ? 'pointer' : selected ? 'pointer' : undefined,
@@ -363,7 +376,7 @@ export function FlipCard({
       }}
     >
       <m.div
-        className="pf-card-pack__card-perspective"
+        className={styles['pf-card-pack-fm__card-perspective']}
         animate={floatActive ? { y: FLOAT_KEYFRAMES.yKeys, rotate: FLOAT_KEYFRAMES.rotKeys } : {}}
         transition={
           floatActive

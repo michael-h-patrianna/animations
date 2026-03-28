@@ -22,6 +22,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsTimerFlashSoft.module.css'
 
 const DEFAULT_START = 32
 const DEFAULT_WARNING = 30
@@ -120,15 +121,17 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
   }
 
   return (
-    <div className="pf-timer-flash" data-animation-id="timer-effects__timer-flash-soft">
+    <div
+      className={styles['pf-timer-flash-fm']}
+      data-animation-id="timer-effects__timer-flash-soft"
+    >
       <m.div
         key={shakeKey}
-        className="pf-timer-flash__pill pf-timer-flash__pill--soft"
+        className={`${styles['pf-timer-flash-fm__pill']} ${styles['pf-timer-flash-fm__pill--soft']}`}
         style={
           {
             backgroundColor: bgColor,
             '--pill-glow-color': `color-mix(in srgb, ${bgColor} 45%, transparent)`,
-            animation: 'none',
           } as React.CSSProperties
         }
         variants={prefersReducedMotion ? undefined : shakeVariants}
@@ -138,15 +141,14 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
       >
         {!prefersReducedMotion && (
           <m.span
-            className="pf-timer-flash__glow"
+            className={styles['pf-timer-flash-fm__glow']}
             aria-hidden="true"
             variants={glowVariants}
             initial="idle"
             animate="shake"
-            style={{ animation: 'none' }}
           />
         )}
-        <div className="pf-timer-flash__time" style={timeStyle}>
+        <div className={styles['pf-timer-flash-fm__time']} style={timeStyle}>
           {formatTime(seconds)}
         </div>
       </m.div>

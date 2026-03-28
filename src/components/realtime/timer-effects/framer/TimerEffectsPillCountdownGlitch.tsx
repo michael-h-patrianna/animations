@@ -17,6 +17,7 @@ import {
   resolveTimerProps,
   type TimerEffectProps,
 } from '@/components/realtime/timer-effects/SharedTypes'
+import styles from './TimerEffectsPillCountdownGlitch.module.css'
 
 const DEFAULT_START = 60
 const DEFAULT_WARNING = 30
@@ -138,33 +139,32 @@ function TimerEffectsPillCountdownGlitchComponent(props: TimerEffectProps) {
 
   return (
     <div
-      className="pf-pill-countdown-glitch-container"
+      className={styles['pf-pill-countdown-glitch-container-fm']}
       data-animation-id="timer-effects__pill-countdown-glitch"
     >
       <m.div
-        className={`pf-pill-countdown-glitch ${glitchLevel}`}
-        style={{ animation: 'none', ...pillThemeStyle }}
+        className={`${styles['pf-pill-countdown-glitch-fm']} ${glitchLevel}`}
+        style={{ ...pillThemeStyle }}
       >
         <m.span
-          className="pf-pill-countdown-glitch__glow"
+          className={styles['pf-pill-countdown-glitch-fm__glow']}
           aria-hidden="true"
           animate={
             prefersReducedMotion ? undefined : getGlowAnimation(seconds, startSeconds, isExpired)
           }
-          style={{ animation: 'none' }}
         />
-        <span className="pf-pill-countdown-glitch__text" style={timeStyle}>
+        <span className={styles['pf-pill-countdown-glitch-fm__text']} style={timeStyle}>
           {formatTime(seconds)}
         </span>
         <span
           aria-hidden="true"
-          className="pf-pill-countdown-glitch__copy pf-pill-countdown-glitch__copy--before"
+          className={`${styles['pf-pill-countdown-glitch-fm__copy']} ${styles['pf-pill-countdown-glitch-fm__copy--before']}`}
         >
           {formatTime(seconds)}
         </span>
         <span
           aria-hidden="true"
-          className="pf-pill-countdown-glitch__copy pf-pill-countdown-glitch__copy--after"
+          className={`${styles['pf-pill-countdown-glitch-fm__copy']} ${styles['pf-pill-countdown-glitch-fm__copy--after']}`}
         >
           {formatTime(seconds)}
         </span>

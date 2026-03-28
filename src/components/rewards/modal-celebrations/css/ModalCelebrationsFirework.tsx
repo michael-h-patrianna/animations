@@ -14,7 +14,7 @@ import {
   useState,
   type CSSProperties,
 } from 'react'
-import './ModalCelebrationsFirework.css'
+import styles from './ModalCelebrationsFirework.module.css'
 
 import modalCelebrationsFireworkParticle1Image from '@/assets/modal-celebrations/firework-particle-1.webp'
 import modalCelebrationsFireworkParticle2Image from '@/assets/modal-celebrations/firework-particle-2.webp'
@@ -117,7 +117,7 @@ function ModalCelebrationsFireworkComponent({
     return (
       <div
         ref={containerRef}
-        className="mc-firework mc-firework--css"
+        className={`${styles['mc-firework']} ${styles['mc-firework--css']}`}
         data-animation-id="modal-celebrations__firework"
       />
     )
@@ -126,13 +126,13 @@ function ModalCelebrationsFireworkComponent({
   return (
     <div
       ref={containerRef}
-      className="mc-firework mc-firework--css"
+      className={`${styles['mc-firework']} ${styles['mc-firework--css']}`}
       data-animation-id="modal-celebrations__firework"
     >
       {bursts.map((burst, bi) => (
         <div
           key={burst.id}
-          className="mc-firework__burst"
+          className={styles['mc-firework__burst']}
           style={{
             left: `${burst.posX}%`,
             top: `${burst.posY}%`,
@@ -141,7 +141,7 @@ function ModalCelebrationsFireworkComponent({
           {burst.particles.map((particle, pi) => (
             <span
               key={particle.id}
-              className="mc-firework__particle"
+              className={styles['mc-firework__particle']}
               style={
                 {
                   '--fw-x': `${particle.x}px`,
@@ -158,7 +158,7 @@ function ModalCelebrationsFireworkComponent({
             >
               {hasImages ? (
                 <img
-                  className="mc-firework__particle-image"
+                  className={styles['mc-firework__particle-image']}
                   src={particleImages[particle.imageIndex % particleImages.length]}
                   alt=""
                 />

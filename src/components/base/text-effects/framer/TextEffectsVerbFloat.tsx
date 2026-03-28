@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbFloat.module.css'
 
 interface TextEffectsVerbFloatProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -23,7 +24,7 @@ function TextEffectsVerbFloatComponent({
 
   return (
     <div
-      className="pf-verb-float-fm"
+      className={styles['pf-verb-float-fm']}
       data-animation-id="text-effects__verb-floating"
       aria-label={text}
       style={
@@ -32,11 +33,11 @@ function TextEffectsVerbFloatComponent({
           : undefined
       }
     >
-      <div className="pf-verb-float-fm__line" aria-hidden="true">
+      <div className={styles['pf-verb-float-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-float-fm__char"
+            className={styles['pf-verb-float-fm__char']}
             initial={{ y: 0, opacity: 1 }}
             animate={{
               y: [0, -6, 0, 4, 0],

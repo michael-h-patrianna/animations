@@ -18,7 +18,7 @@ import crystalShatterShard4Image from '@/assets/crystal-shatter/crystal-shard-4.
 import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'
 
 import '@/components/rewards/prize-reveal/shared.css'
-import './PrizeRevealCrystalShatter.css'
+import styles from './PrizeRevealCrystalShatter.module.css'
 
 /* ─── Types ─── */
 
@@ -54,7 +54,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalGcImage,
     value: 1500,
     decimals: 0,
-    modifier: 'pf-cs-css__prize--gc',
+    modifier: styles['pf-cs-css__prize--gc'] ?? '',
   },
   {
     id: 'sc',
@@ -62,7 +62,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalScImage,
     value: 2.5,
     decimals: 2,
-    modifier: 'pf-cs-css__prize--sc',
+    modifier: styles['pf-cs-css__prize--sc'] ?? '',
   },
   {
     id: 'fs',
@@ -70,7 +70,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalFreeSpinsImage,
     value: 50,
     decimals: 0,
-    modifier: 'pf-cs-css__prize--fs',
+    modifier: styles['pf-cs-css__prize--fs'] ?? '',
   },
   {
     id: 'rr',
@@ -78,7 +78,7 @@ const PRIZE_POOL: PrizeConfig[] = [
     src: arcanePortalRandomRewardImage,
     value: null,
     decimals: 0,
-    modifier: 'pf-cs-css__prize--rr',
+    modifier: styles['pf-cs-css__prize--rr'] ?? '',
   },
 ]
 
@@ -183,7 +183,7 @@ function CssPrize({
 
   return (
     <div
-      className={`pf-cs-css__prize ${config.modifier} ${claimed ? 'pf-cs-css__prize--claimed' : ''}`}
+      className={`${styles['pf-cs-css__prize']} ${config.modifier} ${claimed ? styles['pf-cs-css__prize--claimed'] : ''}`}
       style={
         {
           '--slot-x': `${slot.x}px`,
@@ -194,21 +194,26 @@ function CssPrize({
         } as CSSProperties
       }
     >
-      <div className="pf-cs-css__prize-aura" />
-      <div className="pf-cs-css__prize-icon-wrap">
+      <div className={styles['pf-cs-css__prize-aura']} />
+      <div className={styles['pf-cs-css__prize-icon-wrap']}>
         <img
           src={crystalShatterFrameImage}
           alt=""
           aria-hidden="true"
-          className="pf-cs-css__frame-image"
+          className={styles['pf-cs-css__frame-image']}
           style={{ '--frame-delay': `${REVEAL_START_S + slot.delay + 0.5}s` } as CSSProperties}
         />
-        <img src={config.src} alt="" aria-hidden="true" className="pf-cs-css__prize-icon" />
+        <img
+          src={config.src}
+          alt=""
+          aria-hidden="true"
+          className={styles['pf-cs-css__prize-icon']}
+        />
       </div>
       {hasText && (
-        <div className="pf-cs-css__prize-text">
-          <span className="pf-cs-css__prize-label">{config.label}</span>
-          <span className="pf-cs-css__prize-amount">{amount}</span>
+        <div className={styles['pf-cs-css__prize-text']}>
+          <span className={styles['pf-cs-css__prize-label']}>{config.label}</span>
+          <span className={styles['pf-cs-css__prize-amount']}>{amount}</span>
         </div>
       )}
     </div>
@@ -228,24 +233,24 @@ function ShatterEffects({
 }) {
   return (
     <>
-      <div className="pf-cs-css__crystal-wrap">
+      <div className={styles['pf-cs-css__crystal-wrap']}>
         <img
           src={crystalShatterBodyImage}
           alt=""
           aria-hidden="true"
-          className="pf-cs-css__crystal-image"
+          className={styles['pf-cs-css__crystal-image']}
         />
-        <div className="pf-cs-css__crystal-glow" />
+        <div className={styles['pf-cs-css__crystal-glow']} />
       </div>
 
-      <div className="pf-cs-css__motes-container">
+      <div className={styles['pf-cs-css__motes-container']}>
         {convergeMotes.map((mote) => (
           <img
             key={mote.id}
             src={crystalShatterEnergyMoteImage}
             alt=""
             aria-hidden="true"
-            className="pf-cs-css__energy-mote"
+            className={styles['pf-cs-css__energy-mote']}
             style={
               {
                 '--mote-start-x': `${mote.startX}px`,
@@ -262,23 +267,23 @@ function ShatterEffects({
         src={crystalShatterSparkleImage}
         alt=""
         aria-hidden="true"
-        className="pf-cs-css__flash"
+        className={styles['pf-cs-css__flash']}
       />
       <img
         src={crystalShatterPrismaticRingImage}
         alt=""
         aria-hidden="true"
-        className="pf-cs-css__prismatic-ring"
+        className={styles['pf-cs-css__prismatic-ring']}
       />
 
-      <div className="pf-cs-css__fragments">
+      <div className={styles['pf-cs-css__fragments']}>
         {fragments.map((f) => (
           <img
             key={f.id}
             src={SHARD_IMAGES[f.shardIndex]}
             alt=""
             aria-hidden="true"
-            className="pf-cs-css__shard"
+            className={styles['pf-cs-css__shard']}
             style={
               {
                 '--shard-end-x': `${f.endX}px`,
@@ -290,14 +295,14 @@ function ShatterEffects({
         ))}
       </div>
 
-      <div className="pf-cs-css__dust-spray">
+      <div className={styles['pf-cs-css__dust-spray']}>
         {dustSpray.map((p) => (
           <img
             key={p.id}
             src={crystalShatterDustImage}
             alt=""
             aria-hidden="true"
-            className="pf-cs-css__dust-particle"
+            className={styles['pf-cs-css__dust-particle']}
             style={
               {
                 '--dust-end-x': `${p.endX}px`,
@@ -349,14 +354,14 @@ function PrizeRevealCrystalShatterComponent({
 
   return (
     <div
-      className="pf-modal-celebration pf-cs-css"
+      className={`pf-modal-celebration ${styles['pf-cs-css']}`}
       data-animation-id="prize-reveal__crystal-shatter"
       data-prize-count={prizeCount}
     >
-      <div className="pf-cs-css__stage">
+      <div className={styles['pf-cs-css__stage']}>
         <ShatterEffects fragments={fragments} convergeMotes={convergeMotes} dustSpray={dustSpray} />
 
-        <div className="pf-cs-css__prizes">
+        <div className={styles['pf-cs-css__prizes']}>
           {prizes.map((prize, i) => (
             <CssPrize
               key={prize.id}

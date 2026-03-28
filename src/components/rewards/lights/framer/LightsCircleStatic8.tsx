@@ -3,11 +3,14 @@ import { calculateBulbColors } from '@/utils/colors'
 import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
+
+import styles from './LightsCircleStatic8.module.css'
 interface LightsCircleStatic8Props {
   numBulbs?: number
   onColor?: string
 }
 const animationDuration = 4
+const easeInOut: [number, number, number, number] = [0.42, 0, 0.58, 1]
 
 // No stagger at container level -- first/second half need different chase directions.
 const containerVariants = {
@@ -24,46 +27,12 @@ const glowVariantsRegular = {
       duration: animationDuration,
       times: [0, 0.02, 0.04, 0.08, 0.1, 0.12, 0.14, 1],
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
+      ease: easeInOut,
     },
   },
 }
 
-// Regular bulb variant
-const bulbVariantsRegular = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [
-      `var(--bulb-off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on-blend-5off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-off)`,
-      `var(--bulb-off)`,
-    ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 15px var(--bulb-on-glow70)`,
-      `0 0 10px var(--bulb-on-glow90), 0 0 15px var(--bulb-on-glow70)`,
-      `0 0 7px var(--bulb-on-glow70)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.02, 0.04, 0.08, 0.1, 0.12, 0.14, 1],
-      repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
-    },
-  },
-}
+const regularTimes: number[] = [0, 0.02, 0.04, 0.08, 0.1, 0.12, 0.14, 1]
 
 // Collision bulb glow variant (where they meet with white flash)
 const glowVariantsCollision = {
@@ -74,48 +43,18 @@ const glowVariantsCollision = {
       duration: animationDuration,
       times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 1],
       repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
+      ease: easeInOut,
     },
   },
 }
 
-// Collision bulb variant with white flash at collision point
-const bulbVariantsCollision = {
-  hidden: {
-    backgroundColor: `var(--bulb-off)`,
-    boxShadow: `0 0 2px var(--bulb-off-glow30)`,
-  },
-  show: {
-    backgroundColor: [
-      `var(--bulb-off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-on)`,
-      `var(--pf-white)`,
-      `var(--bulb-on)`,
-      `var(--bulb-on-blend-5off)`,
-      `var(--bulb-off-tint30)`,
-      `var(--bulb-off)`,
-      `var(--bulb-off)`,
-    ],
-    boxShadow: [
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 15px var(--bulb-on-glow100), 0 0 22px var(--bulb-on-glow90)`,
-      `0 0 20px var(--bulb-white-glow100), 0 0 30px var(--bulb-on-glow100)`,
-      `0 0 15px var(--bulb-on-glow100), 0 0 22px var(--bulb-on-glow90)`,
-      `0 0 10px var(--bulb-on-glow80)`,
-      `0 0 4px var(--bulb-off-glow40)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-      `0 0 2px var(--bulb-off-glow30)`,
-    ],
-    transition: {
-      duration: animationDuration,
-      times: [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 1],
-      repeat: Infinity,
-      ease: [0.42, 0, 0.58, 1] as const,
-    },
-  },
-}
+const collisionTimes: number[] = [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 1]
+
+// Motion keyframe arrays require interpolatable string values — CSS custom properties
+// cannot be interpolated. White flash is constant (independent of onColor).
+// eslint-disable-next-line animation-rules/no-hardcoded-colors -- Motion keyframe interpolation requires resolved color value
+const COLLISION_WHITE = '#ffffff'
+
 const RADIUS = 80
 
 function addDelay<
@@ -136,6 +75,87 @@ function LightsCircleStatic8({
   const colors = useMemo(() => calculateBulbColors(onColor), [onColor])
   const halfBulbs = Math.floor(numBulbs / 2)
   const delayPerBulb = animationDuration / halfBulbs
+
+  // Bulb variants use resolved rgba values instead of CSS var() references
+  // because Motion cannot interpolate CSS custom property strings in keyframe arrays.
+  const bulbVariantsRegular = useMemo(
+    () => ({
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
+      show: {
+        backgroundColor: [
+          colors.off,
+          colors.offTint30,
+          colors.on,
+          colors.on,
+          colors.onBlend5Off,
+          colors.offTint30,
+          colors.off,
+          colors.off,
+        ],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 10px ${colors.onGlow90}, 0 0 15px ${colors.onGlow70}`,
+          `0 0 10px ${colors.onGlow90}, 0 0 15px ${colors.onGlow70}`,
+          `0 0 7px ${colors.onGlow70}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+        ],
+        transition: {
+          duration: animationDuration,
+          times: regularTimes,
+          repeat: Infinity,
+          ease: easeInOut,
+        },
+      },
+    }),
+    [colors]
+  )
+
+  const bulbVariantsCollision = useMemo(
+    () => ({
+      hidden: {
+        backgroundColor: colors.off,
+        boxShadow: `0 0 2px ${colors.offGlow30}`,
+      },
+      show: {
+        backgroundColor: [
+          colors.off,
+          colors.offTint30,
+          colors.on,
+          COLLISION_WHITE,
+          colors.on,
+          colors.onBlend5Off,
+          colors.offTint30,
+          colors.off,
+          colors.off,
+        ],
+        boxShadow: [
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 15px ${colors.onGlow100}, 0 0 22px ${colors.onGlow90}`,
+          `0 0 20px ${colors.whiteGlow100}, 0 0 30px ${colors.onGlow100}`,
+          `0 0 15px ${colors.onGlow100}, 0 0 22px ${colors.onGlow90}`,
+          `0 0 10px ${colors.onGlow80}`,
+          `0 0 4px ${colors.offGlow40}`,
+          `0 0 2px ${colors.offGlow30}`,
+          `0 0 2px ${colors.offGlow30}`,
+        ],
+        transition: {
+          duration: animationDuration,
+          times: collisionTimes,
+          repeat: Infinity,
+          ease: easeInOut,
+        },
+      },
+    }),
+    [colors]
+  )
+
   const bulbs = useMemo(
     () =>
       Array.from({ length: numBulbs }, (_, i) => {
@@ -151,29 +171,27 @@ function LightsCircleStatic8({
         return (
           <div
             key={i}
-            className={`lights-circle-static-8__bulb-wrapper ${isFirstHalf ? 'first-half' : 'second-half'}`}
+            className={`${styles['pf-lights-static-8-fm__bulb-wrapper']} ${isFirstHalf ? 'first-half' : 'second-half'}`}
             style={{
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
             <m.div
-              className="lights-circle-static-8__glow"
+              className={styles['pf-lights-static-8-fm__glow']}
               variants={addDelay(glowBase, delay)}
-              style={{ animation: 'none' }}
             />
             <m.div
-              className="lights-circle-static-8__bulb"
+              className={styles['pf-lights-static-8-fm__bulb']}
               variants={addDelay(bulbBase, delay)}
-              style={{ animation: 'none' }}
             />
           </div>
         )
       }),
-    [numBulbs, halfBulbs, delayPerBulb]
+    [numBulbs, halfBulbs, delayPerBulb, bulbVariantsRegular, bulbVariantsCollision]
   )
   return (
     <div
-      className="lights-circle-static-8"
+      className={styles['pf-lights-static-8-fm']}
       data-animation-id="lights__circle-static-8"
       style={
         {
@@ -185,6 +203,7 @@ function LightsCircleStatic8({
           '--bulb-on-glow90': colors.onGlow90,
           '--bulb-on-glow80': colors.onGlow80,
           '--bulb-on-glow70': colors.onGlow70,
+          '--bulb-on-glow60': colors.onGlow60,
           '--bulb-white-glow100': colors.whiteGlow100,
           '--bulb-off-glow40': colors.offGlow40,
           '--bulb-off-glow30': colors.offGlow30,
@@ -192,7 +211,7 @@ function LightsCircleStatic8({
       }
     >
       <m.div
-        className="lights-circle-static-8__container"
+        className={styles['pf-lights-static-8-fm__container']}
         variants={containerVariants}
         initial="hidden"
         animate={prefersReducedMotion ? 'hidden' : 'show'}

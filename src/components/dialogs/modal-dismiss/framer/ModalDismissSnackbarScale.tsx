@@ -81,7 +81,7 @@ function ModalDismissSnackbarScaleComponent({
     >
       <m.div
         className={className}
-        style={{ ...style, animation: 'none' }}
+        style={style}
         variants={variants}
         initial="hidden"
         animate={dismissed ? 'exit' : ['visible', 'pulse']}

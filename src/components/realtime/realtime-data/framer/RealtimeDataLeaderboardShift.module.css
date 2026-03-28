@@ -1,0 +1,9 @@
+/* Layout overrides for LeaderboardShift — framer variant */
+
+[data-animation-id='realtime-data__leaderboard-shift'] {
+  min-height: 180px;
+}
+
+[data-animation-id='realtime-data__leaderboard-shift'] :global(.pf-realtime-data-fm__row) {
+  will-change: transform, opacity;
+}

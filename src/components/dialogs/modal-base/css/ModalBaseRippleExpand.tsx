@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseRippleExpand.css'
+import styles from './ModalBaseRippleExpand.module.css'
 
 const DEFAULT_DURATION = 550
 
@@ -23,7 +23,7 @@ function ModalBaseRippleExpandComponent({
   return (
     <div data-animation-id="modal-base__ripple-expand">
       <div
-        className={`pf-modal-ripple${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-ripple']}${className ? ` ${className}` : ''}`}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

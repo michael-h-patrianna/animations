@@ -13,6 +13,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import { DOT_COLOR, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
+import styles from './UpdateIndicatorsHomeIconDotBounce.module.css'
 
 function UpdateIndicatorsHomeIconDotBounceComponent({
   children,
@@ -26,7 +27,7 @@ function UpdateIndicatorsHomeIconDotBounceComponent({
 
   const dot = (
     <m.span
-      className="pf-update-indicator__dot pf-update-indicator__dot--bounce"
+      className={`pf-update-indicator-fm__dot ${styles['pf-update-indicator-fm__dot--bounce']}`}
       style={{
         width: dotSize,
         height: dotSize,
@@ -56,7 +57,7 @@ function UpdateIndicatorsHomeIconDotBounceComponent({
     >
       {!prefersReducedMotion && (
         <m.span
-          className="pf-update-indicator__dot-ring"
+          className="pf-update-indicator-fm__dot-ring"
           style={{
             inset: `${-Math.round(dotSize * 0.43)}px`,
             border: ringBorder,
@@ -76,11 +77,11 @@ function UpdateIndicatorsHomeIconDotBounceComponent({
 
   return (
     <div
-      className="pf-update-indicator"
+      className="pf-update-indicator-fm"
       data-animation-id="update-indicators__home-icon-dot-bounce"
     >
       {children !== undefined ? (
-        <div className="pf-update-indicator__anchor">
+        <div className="pf-update-indicator-fm__anchor">
           {children}
           {dot}
         </div>

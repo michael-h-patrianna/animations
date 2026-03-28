@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { useMemo } from 'react'
-import './LightsCircleStatic1.css'
+import styles from './LightsCircleStatic1.module.css'
 import { calculateBulbColors } from '@/utils/colors'
 
 interface LightsCircleStatic1Props {
@@ -24,16 +24,16 @@ function LightsCircleStatic1({
         return (
           <div
             key={i}
-            className={`lights-circle-static-1__bulb-wrapper ${isEven ? 'even' : 'odd'}`}
+            className={`${styles['lights-circle-static-1__bulb-wrapper']} ${isEven ? styles['even'] : styles['odd']}`}
             style={{
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}
           >
-            <div className="lights-circle-static-1__glow-outer" />
-            <div className="lights-circle-static-1__glow-inner" />
-            <div className="lights-circle-static-1__bulb">
-              <div className="lights-circle-static-1__filament" />
-              <div className="lights-circle-static-1__glass-shine" />
+            <div className={styles['lights-circle-static-1__glow-outer']} />
+            <div className={styles['lights-circle-static-1__glow-inner']} />
+            <div className={styles['lights-circle-static-1__bulb']}>
+              <div className={styles['lights-circle-static-1__filament']} />
+              <div className={styles['lights-circle-static-1__glass-shine']} />
             </div>
           </div>
         )
@@ -43,7 +43,7 @@ function LightsCircleStatic1({
 
   return (
     <div
-      className="lights-circle-static-1"
+      className={styles['lights-circle-static-1']}
       data-animation-id="lights__circle-static-1"
       style={
         {
@@ -55,7 +55,7 @@ function LightsCircleStatic1({
         } as CSSProperties
       }
     >
-      <div className="lights-circle-static-1__container">{bulbs}</div>
+      <div className={styles['lights-circle-static-1__container']}>{bulbs}</div>
     </div>
   )
 }

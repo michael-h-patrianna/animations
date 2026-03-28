@@ -14,7 +14,7 @@
 import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import { Fragment, useRef, useState, memo, useEffect, type MouseEvent, type ReactNode } from 'react'
-import './ButtonEffectsShockwave.css'
+import styles from './ButtonEffectsShockwave.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface Shockwave {
@@ -79,13 +79,13 @@ function ButtonEffectsShockwaveComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-shockwave-fm"
+      className={styles['pf-shockwave-fm']}
       data-animation-id="button-effects__shockwave"
       onClick={handleClick}
       style={color !== undefined ? { ['--pf-shockwave-color' as string]: color } : undefined}
     >
       {children ?? <DemoButton label="Click Me!" />}
-      <span className="pf-shockwave-fm__overlay" aria-hidden>
+      <span className={styles['pf-shockwave-fm__overlay']} aria-hidden>
         {shockwaves.map((wave) => {
           const half = wave.size / 2
           const pos = {
@@ -99,8 +99,8 @@ function ButtonEffectsShockwaveComponent({
               {Array.from({ length: ringCount }, (_, i) => (
                 <m.span
                   key={i}
-                  className="pf-shockwave-fm__ring"
-                  style={{ ...pos, opacity: 1 - i * 0.15, animation: 'none' }}
+                  className={styles['pf-shockwave-fm__ring']}
+                  style={{ ...pos, opacity: 1 - i * 0.15 }}
                   initial={
                     prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 - i * 0.15 }
                   }

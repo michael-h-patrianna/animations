@@ -21,7 +21,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsProgressThin.css'
+import styles from './ProgressBarsProgressThin.module.css'
 
 interface ProgressThinProps extends ProgressBarProps {
   /** Label text above the bar. Default: "Level progress". */
@@ -48,19 +48,19 @@ export function ProgressBarsProgressThin({
 
   return (
     <div
-      className={`pf-progress-thin${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-progress-thin-fm']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-thin"
     >
       {label !== undefined && label !== '' && (
-        <div className="pf-progress-thin__label">{label}</div>
+        <div className={styles['pf-progress-thin-fm__label']}>{label}</div>
       )}
 
       <div ref={trackContainerRef} className="track-container" style={{ position: 'relative' }}>
         {/* Halo glow (demo only) */}
         {showEffects && (
           <m.div
-            className="pf-progress-thin__halo"
+            className={styles['pf-progress-thin-fm__halo']}
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0, 0.5, 0.3, 0] }}
             transition={{
@@ -68,13 +68,13 @@ export function ProgressBarsProgressThin({
               ease: 'easeOut',
               times: [0, 0.3, 0.6, 0.9, 1],
             }}
-            style={{ scale: 1.3, animation: 'none' }}
+            style={{ scale: 1.3 }}
           />
         )}
 
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track-fm']}>
           <m.div
-            className="pf-progress-fill"
+            className={styles['pf-progress-fill-fm']}
             role="progressbar"
             aria-valuenow={Math.round((progress ?? 1) * 100)}
             aria-valuemin={0}
@@ -91,21 +91,20 @@ export function ProgressBarsProgressThin({
                     opacity: { duration: SWEEP_S, times: [0, 0.3, 0.7, 1] },
                   }
             }
-            style={{ animation: 'none' }}
           />
         </div>
 
         {/* Photon trail (demo only) */}
         {showEffects && (
           <m.div
-            className="pf-progress-thin__photon"
+            className={styles['pf-progress-thin-fm__photon']}
             initial={{ x: trackW * -0.05, opacity: 0 }}
             animate={{ x: trackW, opacity: [0, 0.8, 0.6, 0] }}
             transition={{
               x: { duration: SWEEP_S, ease: SWEEP_EASE },
               opacity: { duration: SWEEP_S, times: [0, 0.15, 0.85, 1] },
             }}
-            style={{ left: 0, y: '-50%', animation: 'none' }}
+            style={{ left: 0, y: '-50%' }}
           />
         )}
 
@@ -114,7 +113,7 @@ export function ProgressBarsProgressThin({
           [0, 1, 2].map((i) => (
             <m.div
               key={i}
-              className="pf-progress-thin__dot"
+              className={styles['pf-progress-thin-fm__dot']}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
               transition={{
@@ -127,7 +126,6 @@ export function ProgressBarsProgressThin({
                 left: `${30 + i * 25}%`,
                 x: '-50%',
                 y: '-50%',
-                animation: 'none',
               }}
             />
           ))}
@@ -135,7 +133,7 @@ export function ProgressBarsProgressThin({
         {/* Completion flash (demo only) */}
         {showEffects && (
           <m.div
-            className="pf-progress-thin__flash"
+            className={styles['pf-progress-thin-fm__flash']}
             initial={{ opacity: 0, scaleX: 0.8 }}
             animate={{ opacity: [0, 1, 0], scaleX: [0.8, 1, 1] }}
             transition={{
@@ -144,7 +142,6 @@ export function ProgressBarsProgressThin({
               delay: SWEEP_S,
               times: [0, 0.3, 1],
             }}
-            style={{ animation: 'none' }}
           />
         )}
       </div>

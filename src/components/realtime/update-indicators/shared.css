@@ -25,34 +25,6 @@
   z-index: 1;
 }
 
-/* Ring element for radar/pulse secondary effects */
-.pf-update-indicator__dot-ring {
-  position: absolute;
-  border-radius: 9999px;
-  pointer-events: none;
-}
-
-/* Expanding ring for radar effect */
-.pf-update-indicator__ring {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  border-radius: 9999px;
-  transform-origin: center;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Expanding halo for sweep effect */
-.pf-update-indicator__halo {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  border-radius: 9999px;
-  opacity: 0;
-  pointer-events: none;
-}
-
 /* ── Badge-indicator layout ── */
 
 .pf-update-indicator__badge {
@@ -67,34 +39,44 @@
   flex-shrink: 0;
 }
 
-/* Glow overlay for badge-pulse */
-.pf-update-indicator__badge-glow {
+/* ── Framer-variant mirrors (layout only, no animation) ── */
+
+.pf-update-indicator-fm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-update-indicator-fm__anchor {
+  position: relative;
+  display: inline-block;
+}
+
+.pf-update-indicator-fm__dot {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
+  top: -3px;
+  right: -3px;
+  border-radius: 9999px;
+  transform-origin: center;
+  z-index: 1;
+}
+
+.pf-update-indicator-fm__dot-ring {
+  position: absolute;
+  border-radius: 9999px;
   pointer-events: none;
 }
 
-/* ── Live-ping dot ── */
-
-.pf-update-indicator__ping {
-  border-radius: 50%;
+.pf-update-indicator-fm__badge {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  position: relative;
   flex-shrink: 0;
 }
 
-/* ─── Reduced motion: stop pulse/bounce/sweep, keep dots visible ─── */
-/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y */
-@media (prefers-reduced-motion: reduce) {
-  .pf-update-indicator__dot,
-  .pf-update-indicator__badge-glow,
-  .pf-update-indicator__ping {
-    animation: none !important;
-  }
-
-  .pf-update-indicator__dot-ring,
-  .pf-update-indicator__ring,
-  .pf-update-indicator__halo {
-    animation: none !important;
-    opacity: 0 !important;
-  }
-}
+/* Reduced-motion is handled per-animation in each component's own CSS. */

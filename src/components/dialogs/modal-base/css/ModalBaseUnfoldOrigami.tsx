@@ -9,7 +9,7 @@ import { memo } from 'react'
 
 import { ModalPlaceholder } from '@/components/dialogs/modal-base/MockModalContent'
 import type { ModalEntranceProps } from '@/components/dialogs/modal-base/SharedTypes'
-import './ModalBaseUnfoldOrigami.css'
+import styles from './ModalBaseUnfoldOrigami.module.css'
 
 const DEFAULT_DURATION = 900
 const DEFAULT_PERSPECTIVE = 1200
@@ -32,7 +32,7 @@ function ModalBaseUnfoldOrigamiComponent({
       style={{ '--pf-entrance-duration': `${duration}ms`, perspective } as React.CSSProperties}
     >
       <div
-        className={`pf-modal-origami${className ? ` ${className}` : ''}`}
+        className={`${styles['pf-modal-origami']}${className ? ` ${className}` : ''}`}
         style={style}
         onAnimationEnd={(event) => {
           if (event.target !== event.currentTarget) return

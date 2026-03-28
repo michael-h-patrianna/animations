@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import './TextEffectsLevelBreakthrough.css'
+import styles from './TextEffectsLevelBreakthrough.module.css'
 
 interface TextEffectsLevelBreakthroughProps {
   /** Text shown before breakthrough. @default 'LEVEL 1' */
@@ -25,7 +25,7 @@ function TextEffectsLevelBreakthroughComponent({
 }: TextEffectsLevelBreakthroughProps) {
   return (
     <div
-      className={`tfx-breakthrough-container ${className}`.trim()}
+      className={`${styles['tfx-breakthrough-container']} ${className}`.trim()}
       data-animation-id="text-effects__level-breakthrough"
       style={
         color !== undefined
@@ -33,11 +33,23 @@ function TextEffectsLevelBreakthroughComponent({
           : undefined
       }
     >
-      <div className="tfx-breakthrough-surge tfx-breakthrough-surge-outer" />
-      <div className="tfx-breakthrough-surge tfx-breakthrough-surge-inner" />
-      <div className="tfx-breakthrough-text-wrapper">
-        <div className="tfx-breakthrough-text tfx-breakthrough-text-start">{startText}</div>
-        <div className="tfx-breakthrough-text tfx-breakthrough-text-end">{endText}</div>
+      <div
+        className={`${styles['tfx-breakthrough-surge']} ${styles['tfx-breakthrough-surge-outer']}`}
+      />
+      <div
+        className={`${styles['tfx-breakthrough-surge']} ${styles['tfx-breakthrough-surge-inner']}`}
+      />
+      <div className={styles['tfx-breakthrough-text-wrapper']}>
+        <div
+          className={`${styles['tfx-breakthrough-text']} ${styles['tfx-breakthrough-text-start']}`}
+        >
+          {startText}
+        </div>
+        <div
+          className={`${styles['tfx-breakthrough-text']} ${styles['tfx-breakthrough-text-end']}`}
+        >
+          {endText}
+        </div>
       </div>
     </div>
   )

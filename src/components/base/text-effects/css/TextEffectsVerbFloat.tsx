@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import './TextEffectsVerbFloat.css'
+import styles from './TextEffectsVerbFloat.module.css'
 
 interface TextEffectsVerbFloatProps {
   /** The text to animate. Supports any length and whitespace characters.
@@ -27,18 +27,18 @@ function TextEffectsVerbFloatComponent({
 
   return (
     <div
-      className="tfx-float-container"
+      className={styles['tfx-float-container']}
       data-animation-id="text-effects__verb-floating"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="tfx-float-line" aria-hidden="true">
+      <div className={styles['tfx-float-line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`tfx-float-char ${i % 2 === 1 ? 'tfx-float-char--delayed' : ''}`}
+            className={`${styles['tfx-float-char']} ${i % 2 === 1 ? styles['tfx-float-char--delayed'] : ''}`}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>

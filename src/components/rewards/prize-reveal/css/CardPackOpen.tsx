@@ -32,7 +32,7 @@ import {
 } from './CardPackOpenParts'
 import { CardFanContainer, CollectBurst, ScreenFlash } from './CardPackOpenCardParts'
 
-import './CardPackOpen.css'
+import styles from './CardPackOpen.module.css'
 
 /* ─── Pack types ─── */
 
@@ -367,22 +367,22 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
   const showBurst = phase === 'burst'
   const showCards = phase === 'fan' || phase === 'flip' || phase === 'idle'
 
-  const stageClass = `pf-card-pack-css__stage${showBurst ? ' pf-card-pack-css__stage--burst' : ''}`
+  const stageClass = `${styles['pf-card-pack-css__stage']}${showBurst ? ` ${styles['pf-card-pack-css__stage--burst']}` : ''}`
 
   return (
     <div className={stageClass}>
       <ArrivalDust particles={arrivalDust} />
 
       {showPack && (
-        <div className="pf-card-pack-css__pack-body">
+        <div className={styles['pf-card-pack-css__pack-body']}>
           <div
-            className={`pf-card-pack-css__pack-shaker${showAnticipation ? ' pf-card-pack-css__pack-shaker--shaking' : ''}`}
+            className={`${styles['pf-card-pack-css__pack-shaker']}${showAnticipation ? ` ${styles['pf-card-pack-css__pack-shaker--shaking']}` : ''}`}
           >
             <img
               src={packImage}
               alt=""
               aria-hidden="true"
-              className="pf-card-pack-css__pack-image"
+              className={styles['pf-card-pack-css__pack-image']}
             />
           </div>
         </div>
@@ -413,7 +413,7 @@ function CardPackAnimation({ cardCount }: { cardCount: number }) {
       {showConfetti && <GoldenConfetti confetti={confetti} />}
 
       {focusedCard !== null && (
-        <div className="pf-card-pack-css__inspect-overlay" onClick={handleDismiss} />
+        <div className={styles['pf-card-pack-css__inspect-overlay']} onClick={handleDismiss} />
       )}
 
       {activeFlash != null && <ScreenFlash rarity={activeFlash as CardRarity} />}
@@ -439,7 +439,7 @@ function CardPackOpenCssComponent({ prizeCount = DEFAULT_CARD_COUNT }: { prizeCo
 
   return (
     <div
-      className="pf-modal-celebration pf-card-pack-css"
+      className={`pf-modal-celebration ${styles['pf-card-pack-css']}`}
       data-animation-id="prize-reveal__card-pack-open"
     >
       {ready && <CardPackAnimation cardCount={prizeCount} />}

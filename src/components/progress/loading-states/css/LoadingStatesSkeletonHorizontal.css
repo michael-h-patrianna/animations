@@ -1,6 +1,0 @@
-/* Layout for LoadingStatesSkeletonHorizontal (CSS variant) — shimmer from shared.css */
-
-.pf-skeleton-horizontal {
-  display: flex;
-  flex-direction: column;
-}

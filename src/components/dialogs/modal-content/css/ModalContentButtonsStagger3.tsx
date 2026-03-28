@@ -18,7 +18,7 @@ import {
   type ContentStaggerProps,
 } from '@/components/dialogs/modal-content/SharedTypes'
 
-import './ModalContentButtonsStagger3.css'
+import styles from './ModalContentButtonsStagger3.module.css'
 
 const DEFAULT_DURATION = 320
 const DEFAULT_STAGGER = 70
@@ -35,7 +35,7 @@ function ModalContentButtonsStagger3Component({
   const wrapItem = (child: React.ReactNode, i: number, delayBase: number) => (
     <div
       key={i}
-      className="pf-button-stagger-item"
+      className={styles['pf-button-stagger-item']}
       style={
         {
           '--pf-stagger-delay': `${delayBase + stagger * i}ms`,
@@ -65,7 +65,7 @@ function ModalContentButtonsStagger3Component({
 
   return (
     <div className="pf-demo-overlay" data-animation-id="modal-content__buttons-stagger-3">
-      <div className="pf-demo-modal pf-mc-box--entrance">
+      <div className={`pf-demo-modal ${styles['pf-mc-box--entrance']}`}>
         <DemoModalHeader />
         <DemoModalBody>
           <p>Build trust by sequencing content reveals.</p>

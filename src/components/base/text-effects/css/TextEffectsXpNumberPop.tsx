@@ -5,7 +5,7 @@
  */
 
 import { memo, useEffect, useMemo, useRef } from 'react'
-import './TextEffectsXpNumberPop.css'
+import styles from './TextEffectsXpNumberPop.module.css'
 
 interface Particle {
   trigger: number
@@ -123,7 +123,7 @@ function TextEffectsXpNumberPopComponent({
 
   return (
     <div
-      className="tfx-xp-container"
+      className={styles['tfx-xp-container']}
       data-animation-id="text-effects__xp-number-pop"
       style={
         color !== undefined
@@ -135,7 +135,7 @@ function TextEffectsXpNumberPopComponent({
       {particles.map((particle, i) => (
         <div
           key={i}
-          className="tfx-xp-particle"
+          className={styles['tfx-xp-particle']}
           style={
             {
               '--particle-x': `${particle.x}px`,
@@ -149,14 +149,16 @@ function TextEffectsXpNumberPopComponent({
       ))}
 
       {/* Main number with labels */}
-      <div className="tfx-xp-number-wrapper">
+      <div className={styles['tfx-xp-number-wrapper']}>
         {prefix !== undefined && (
-          <span className="tfx-xp-label tfx-xp-label--prefix">{prefix}</span>
+          <span className={`${styles['tfx-xp-label']} ${styles['tfx-xp-label--prefix']}`}>
+            {prefix}
+          </span>
         )}
-        <span ref={numberRef} className="tfx-xp-number-value">
+        <span ref={numberRef} className={styles['tfx-xp-number-value']}>
           {formatRef.current(from)}
         </span>
-        {suffix !== undefined && <span className="tfx-xp-label">{suffix}</span>}
+        {suffix !== undefined && <span className={styles['tfx-xp-label']}>{suffix}</span>}
       </div>
     </div>
   )

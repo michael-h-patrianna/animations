@@ -33,12 +33,12 @@ describe('update-indicators CSS/Framer DOM parity', () => {
     const css = render(<CssBadgePop />)
     const framer = render(<FramerBadgePop />)
 
-    // Both should have the container + badge elements
+    // CSS uses pf-update-indicator, framer uses pf-update-indicator-fm
     expect(css.container.querySelector('.pf-update-indicator')).toBeInTheDocument()
-    expect(framer.container.querySelector('.pf-update-indicator')).toBeInTheDocument()
+    expect(framer.container.querySelector('.pf-update-indicator-fm')).toBeInTheDocument()
 
     expect(css.container.querySelector('.pf-update-indicator__badge')).toBeInTheDocument()
-    expect(framer.container.querySelector('.pf-update-indicator__badge')).toBeInTheDocument()
+    expect(framer.container.querySelector('.pf-update-indicator-fm__badge')).toBeInTheDocument()
   })
 
   it('badge-pop variants render the same default text content', () => {
@@ -47,7 +47,7 @@ describe('update-indicators CSS/Framer DOM parity', () => {
 
     const cssBadgeText = css.container.querySelector('.pf-update-indicator__badge')?.textContent
     const framerBadgeText = framer.container.querySelector(
-      '.pf-update-indicator__badge'
+      '.pf-update-indicator-fm__badge'
     )?.textContent
 
     expect(cssBadgeText).toBe('New')
@@ -91,15 +91,15 @@ describe('update-indicators CSS/Framer DOM parity', () => {
       </FramerDotBounce>
     )
 
-    expect(container.querySelector('.pf-update-indicator__anchor')).toBeInTheDocument()
+    expect(container.querySelector('.pf-update-indicator-fm__anchor')).toBeInTheDocument()
     expect(container.querySelector('[data-testid="child"]')).toBeInTheDocument()
-    expect(container.querySelector('.pf-update-indicator__dot')).toBeInTheDocument()
+    expect(container.querySelector('.pf-update-indicator-fm__dot')).toBeInTheDocument()
   })
 
   it('dot-bounce renders only dot when no children', () => {
     const { container } = render(<FramerDotBounce />)
 
-    expect(container.querySelector('.pf-update-indicator__anchor')).not.toBeInTheDocument()
-    expect(container.querySelector('.pf-update-indicator__dot')).toBeInTheDocument()
+    expect(container.querySelector('.pf-update-indicator-fm__anchor')).not.toBeInTheDocument()
+    expect(container.querySelector('.pf-update-indicator-fm__dot')).toBeInTheDocument()
   })
 })

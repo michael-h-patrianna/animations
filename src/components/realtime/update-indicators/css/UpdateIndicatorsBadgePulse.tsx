@@ -12,7 +12,7 @@ import {
   BADGE_GLOW,
   BADGE_TEXT_COLOR,
 } from '@/components/realtime/update-indicators/SharedDefaults'
-import './UpdateIndicatorsBadgePulse.css'
+import styles from './UpdateIndicatorsBadgePulse.module.css'
 
 interface BadgePulseProps {
   /** Badge content. Default: 'New' */
@@ -37,7 +37,7 @@ function UpdateIndicatorsBadgePulseComponent({
   return (
     <div className="pf-update-indicator" data-animation-id="update-indicators__badge-pulse">
       <div
-        className="pf-update-indicator__badge pf-badge-pulse"
+        className={`pf-update-indicator__badge ${styles['pf-badge-pulse']}`}
         style={{
           ['--pf-badge-pulse-glow' as string]: glowColor,
           ['--pf-badge-pulse-dur' as string]: `${duration}ms`,

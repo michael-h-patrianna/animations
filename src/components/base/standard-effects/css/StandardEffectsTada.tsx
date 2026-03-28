@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsTada.css — apply .pf-tada to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsTada.css'
+import styles from './StandardEffectsTada.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsTadaProps {
@@ -18,7 +18,7 @@ function StandardEffectsTadaComponent({ children, duration = 1000 }: StandardEff
   } as CSSProperties
 
   return (
-    <div className="pf-tada" data-animation-id="standard-effects__tada" style={style}>
+    <div className={styles['pf-tada']} data-animation-id="standard-effects__tada" style={style}>
       {children ?? <DemoBox label="Tada" />}
     </div>
   )

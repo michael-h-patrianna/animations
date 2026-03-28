@@ -13,7 +13,7 @@
 
 import { memo } from 'react'
 import type { ReactNode } from 'react'
-import './ModalOrchestrationStaggerInview.css'
+import styles from './ModalOrchestrationStaggerInview.module.css'
 import { DemoCard } from '@/components/demo-blocks'
 
 const DEFAULT_COUNT = 12
@@ -48,15 +48,18 @@ function ModalOrchestrationStaggerInviewComponent({
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
   return (
-    <div className="pf-stagger-inview" data-animation-id="modal-orchestration__stagger-inview">
+    <div
+      className={styles['pf-stagger-inview']}
+      data-animation-id="modal-orchestration__stagger-inview"
+    >
       <div
-        className="pf-stagger-inview__grid"
+        className={styles['pf-stagger-inview__grid']}
         style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
       >
         {renderItems.map((child, i) => (
           <div
             key={i}
-            className="pf-stagger-inview__item pf-stagger-inview__item--visible"
+            className={`${styles['pf-stagger-inview__item']} ${styles['pf-stagger-inview__item--visible']}`}
             style={
               {
                 animationDelay: `${(i * stagger) / 1000}s`,

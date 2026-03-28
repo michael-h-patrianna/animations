@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbTwirl.module.css'
 
 interface TextEffectsVerbTwirlProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -23,7 +24,7 @@ function TextEffectsVerbTwirlComponent({
 
   return (
     <div
-      className="pf-verb-twirl-fm"
+      className={styles['pf-verb-twirl-fm']}
       data-animation-id="text-effects__verb-twirling"
       aria-label={text}
       style={
@@ -32,11 +33,11 @@ function TextEffectsVerbTwirlComponent({
           : undefined
       }
     >
-      <div className="pf-verb-twirl-fm__line" aria-hidden="true">
+      <div className={styles['pf-verb-twirl-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-twirl-fm__char"
+            className={styles['pf-verb-twirl-fm__char']}
             initial={{ rotate: 0, scale: 1 }}
             animate={{
               rotate: [0, 90, 180, 270, 360],

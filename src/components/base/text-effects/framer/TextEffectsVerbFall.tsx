@@ -7,6 +7,7 @@
 import * as m from 'motion/react-m'
 import { easeInOut } from 'motion/react'
 import { memo, useMemo } from 'react'
+import styles from './TextEffectsVerbFall.module.css'
 
 interface TextEffectsVerbFallProps {
   /** @default 'LOREM IPSUM DOLOR' */
@@ -26,18 +27,18 @@ function TextEffectsVerbFallComponent({
 
   return (
     <div
-      className="pf-verb-fall-fm"
+      className={styles['pf-verb-fall-fm']}
       data-animation-id="text-effects__verb-falling"
       aria-label={text}
       style={
         color !== undefined ? ({ '--pf-verb-fall-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-verb-fall-fm__line" aria-hidden="true">
+      <div className={styles['pf-verb-fall-fm__line']} aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            className="pf-verb-fall-fm__char"
+            className={styles['pf-verb-fall-fm__char']}
             initial={{ y: -12, scaleY: 0.96, opacity: 0.9 }}
             animate={{
               y: [-12, 0, 4, 0],

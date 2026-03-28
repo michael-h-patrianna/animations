@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
+import './ModalCelebrationsConfettiBurst.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import { CELEBRATION_COLORS_HEX } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
@@ -111,7 +112,6 @@ function SubtleFlash({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 1.2, 1.6], opacity: [0, 0.7, 0] }}
       transition={{ duration: 0.25 * timeScale, times: [0, 0.4, 1], ease: 'easeOut' }}
@@ -123,7 +123,6 @@ function AmbientGlow({ timeScale }: { timeScale: number }) {
   return (
     <m.div
       className="pf-celebration__glow"
-      style={{ animation: 'none' }}
       initial={{ x: '-50%', y: '-50%', opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', opacity: [0, 0.4, 0.25, 0.08] }}
       transition={{ duration: 2.8 * timeScale, times: [0, 0.08, 0.35, 1], ease: 'easeOut' }}
@@ -148,7 +147,6 @@ function ConfettiPiece({ p, maxW, maxH }: { p: Particle; maxW: number; maxH: num
         marginLeft: p.originX,
         top: '55%',
         ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
-        animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotateX: 0, rotateY: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -214,7 +212,6 @@ function SparkleDot({ s, timeScale }: { s: Sparkle; timeScale: number }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
-        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 1.1, 0], opacity: [0, 0.9, 0.3, 0.7, 0] }}

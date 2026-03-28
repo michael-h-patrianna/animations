@@ -59,7 +59,6 @@ function StandardEffectsPulseCircleComponent({
           borderRadius: '50%',
           background: resolvedColor,
           position: 'relative',
-          animation: 'none',
         }}
         animate={prefersReducedMotion ? { opacity: [1, 0.6, 1] } : { scale: [1, 1.06, 1] }}
         transition={{
@@ -76,7 +75,6 @@ function StandardEffectsPulseCircleComponent({
             inset: 0,
             borderRadius: '50%',
             border: `2px solid ${resolvedRingColor}`,
-            animation: 'none',
           }}
           animate={
             prefersReducedMotion
@@ -96,7 +94,6 @@ function StandardEffectsPulseCircleComponent({
             inset: 0,
             borderRadius: '50%',
             border: `2px solid ${resolvedRingColor}`,
-            animation: 'none',
           }}
           animate={
             prefersReducedMotion ? { opacity: 0 } : { scale: [1, 2.6, 2.6], opacity: [0.6, 0.1, 0] }

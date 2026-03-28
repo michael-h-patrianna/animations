@@ -4,7 +4,7 @@ import pirateChestClosedImage from '@/assets/puzzled-pirate/chest-closed.webp'
 import pirateChestOpenImage from '@/assets/puzzled-pirate/chest-open.webp'
 import pirateCoinImage from '@/assets/puzzled-pirate/coin.webp'
 
-import './PrizeRevealPirateChestWin.css'
+import styles from './PrizeRevealPirateChestWin.module.css'
 
 type RevealPhase = 'rise' | 'shake' | 'reveal'
 
@@ -63,14 +63,14 @@ function createCoinSparkles(coinCount: number): CoinSparkle[] {
 
 function PirateChestWinRays() {
   return (
-    <div className="pf-pirate-chest-win-css__rays-wrap">
-      <div className="pf-pirate-chest-win-css__rays-enter">
-        <div className="pf-pirate-chest-win-css__rays-spin">
-          <div className="pf-pirate-chest-win-css__rays">
+    <div className={styles['pf-pirate-chest-win-css__rays-wrap']}>
+      <div className={styles['pf-pirate-chest-win-css__rays-enter']}>
+        <div className={styles['pf-pirate-chest-win-css__rays-spin']}>
+          <div className={styles['pf-pirate-chest-win-css__rays']}>
             {RAY_INDICES.map((index) => (
               <span
                 key={index}
-                className="pf-pirate-chest-win-css__ray"
+                className={styles['pf-pirate-chest-win-css__ray']}
                 style={{ '--ray-rotation': `${index * (360 / RAY_COUNT)}deg` } as CSSProperties}
               />
             ))}
@@ -88,7 +88,7 @@ function PirateChestWinCoins({ coinSparkles }: { coinSparkles: CoinSparkle[] }) 
       src={pirateCoinImage}
       alt=""
       aria-hidden="true"
-      className="pf-pirate-chest-win-css__coin"
+      className={styles['pf-pirate-chest-win-css__coin']}
       style={
         {
           '--tx': `${sparkle.tx}px`,
@@ -120,19 +120,19 @@ function PrizeRevealPirateChestWinComponent({
 
   return (
     <div
-      className="pf-modal-celebration pf-pirate-chest-win-css"
+      className={`pf-modal-celebration ${styles['pf-pirate-chest-win-css']}`}
       data-animation-id="prize-reveal__pirate-chest-win"
     >
-      <div className="pf-pirate-chest-win-css__stage">
+      <div className={styles['pf-pirate-chest-win-css__stage']}>
         <div
-          className={`pf-pirate-chest-win-css__chest${phase === 'shake' ? ' is-shaking' : ''}${phase === 'reveal' ? ' is-reveal' : ''}`}
+          className={`${styles['pf-pirate-chest-win-css__chest']}${phase === 'shake' ? ` ${styles['is-shaking']}` : ''}${phase === 'reveal' ? ` ${styles['is-reveal']}` : ''}`}
         >
           {phase === 'reveal' && <PirateChestWinRays />}
           <img
             src={phase === 'reveal' ? pirateChestOpenImage : pirateChestClosedImage}
             alt=""
             aria-hidden="true"
-            className="pf-pirate-chest-win-css__image"
+            className={styles['pf-pirate-chest-win-css__image']}
           />
         </div>
 

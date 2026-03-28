@@ -9,7 +9,7 @@
 import { memo } from 'react'
 import { DOT_COLOR, ringTint } from '@/components/realtime/update-indicators/SharedDefaults'
 import type { DotIndicatorProps } from '@/components/realtime/update-indicators/SharedTypes'
-import './UpdateIndicatorsHomeIconDotPulse.css'
+import styles from './UpdateIndicatorsHomeIconDotPulse.module.css'
 
 function UpdateIndicatorsHomeIconDotPulseComponent({
   children,
@@ -27,7 +27,7 @@ function UpdateIndicatorsHomeIconDotPulseComponent({
 
   const dot = (
     <span
-      className="pf-update-indicator__dot pf-update-indicator__dot--pulse pf-dot-pulse-anim"
+      className={`pf-update-indicator__dot pf-update-indicator__dot--pulse ${styles['pf-dot-pulse-anim']}`}
       style={dotStyle}
     />
   )

@@ -17,7 +17,7 @@
  * Files to copy: this file + ProgressBarsProgressThin.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsProgressThin.css'
+import styles from './ProgressBarsProgressThin.module.css'
 
 interface ProgressThinProps extends ProgressBarProps {
   /** Label text above the bar. Default: "Level progress". */
@@ -34,21 +34,21 @@ export function ProgressBarsProgressThin({
 
   return (
     <div
-      className={`pf-progress-thin${isControlled ? ' is-controlled' : ''}${className ? ` ${className}` : ''}`}
+      className={`${styles['pf-progress-thin']}${isControlled ? ` ${styles['is-controlled']}` : ''}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__progress-thin"
     >
       {label !== undefined && label !== '' && (
-        <div className="pf-progress-thin__label">{label}</div>
+        <div className={styles['pf-progress-thin__label']}>{label}</div>
       )}
 
       <div className="track-container" style={{ position: 'relative' }}>
         {/* Halo glow (demo only) */}
-        {!isControlled && <div className="pf-progress-thin__halo" />}
+        {!isControlled && <div className={styles['pf-progress-thin__halo']} />}
 
-        <div className="pf-progress-track">
+        <div className={styles['pf-progress-track']}>
           <div
-            className="pf-progress-fill"
+            className={styles['pf-progress-fill']}
             role="progressbar"
             aria-valuenow={Math.round((progress ?? 1) * 100)}
             aria-valuemin={0}
@@ -58,14 +58,14 @@ export function ProgressBarsProgressThin({
         </div>
 
         {/* Photon trail (demo only) — must be outside fill to avoid scaleX distortion */}
-        {!isControlled && <div className="pf-progress-thin__photon" />}
+        {!isControlled && <div className={styles['pf-progress-thin__photon']} />}
 
         {/* Pulse dots (demo only) */}
         {!isControlled &&
           [0, 1, 2].map((i) => (
             <div
               key={i}
-              className="pf-progress-thin__dot"
+              className={styles['pf-progress-thin__dot']}
               style={{
                 left: `${30 + i * 25}%`,
                 animationDelay: `${360 + i * 100}ms`,
@@ -74,7 +74,7 @@ export function ProgressBarsProgressThin({
           ))}
 
         {/* Completion flash (demo only) */}
-        {!isControlled && <div className="pf-progress-thin__flash" />}
+        {!isControlled && <div className={styles['pf-progress-thin__flash']} />}
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import { type CSSProperties } from 'react'
+import styles from './CardPackOpen.module.css'
 
 import crystalShatterDustImage from '@/assets/crystal-shatter/crystal-dust.webp'
 import crystalShatterSparkleImage from '@/assets/crystal-shatter/crystal-sparkle.webp'
@@ -72,14 +73,14 @@ export type TearDebrisData = {
 /** Dust particles that scatter on pack arrival. */
 export function ArrivalDust({ particles }: { particles: ArrivalDustData[] }) {
   return (
-    <div className="pf-card-pack-css__arrival-dust-container">
+    <div className={styles['pf-card-pack-css__arrival-dust-container']}>
       {particles.map((p) => (
         <img
           key={p.id}
           src={crystalShatterDustImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack-css__arrival-dust"
+          className={styles['pf-card-pack-css__arrival-dust']}
           style={
             {
               '--dust-size': `${p.size}px`,
@@ -96,20 +97,20 @@ export function ArrivalDust({ particles }: { particles: ArrivalDustData[] }) {
 
 /** Glowing seam line during anticipation phase. */
 export function SeamLight() {
-  return <div className="pf-card-pack-css__seam" />
+  return <div className={styles['pf-card-pack-css__seam']} />
 }
 
 /** Sparkle particles along the pack edges during anticipation. */
 export function EdgeSparks({ sparks }: { sparks: EdgeSparkData[] }) {
   return (
-    <div className="pf-card-pack-css__edge-spark-container">
+    <div className={styles['pf-card-pack-css__edge-spark-container']}>
       {sparks.map((s) => (
         <img
           key={s.id}
           src={crystalShatterSparkleImage}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack-css__edge-spark"
+          className={styles['pf-card-pack-css__edge-spark']}
           style={
             {
               '--spark-size': `${s.size}px`,
@@ -134,11 +135,11 @@ export function SeamCracks() {
     { id: 2, x: '45%', rotate: -40, len: 18, delay: 0.8 },
   ]
   return (
-    <div className="pf-card-pack-css__seam-crack-container">
+    <div className={styles['pf-card-pack-css__seam-crack-container']}>
       {cracks.map((c) => (
         <div
           key={c.id}
-          className="pf-card-pack-css__seam-crack"
+          className={styles['pf-card-pack-css__seam-crack']}
           style={
             {
               insetInlineStart: c.x,
@@ -162,12 +163,12 @@ export function PackTearOpen({
   debris: TearDebrisData[]
 }) {
   return (
-    <div className="pf-card-pack-css__tear-container">
+    <div className={styles['pf-card-pack-css__tear-container']}>
       <img
         src={packImage}
         alt=""
         aria-hidden="true"
-        className="pf-card-pack-css__tear-flap"
+        className={styles['pf-card-pack-css__tear-flap']}
         style={{ clipPath: TEAR_FLAP_CLIP }}
       />
       {debris.map((p) => (
@@ -176,7 +177,7 @@ export function PackTearOpen({
           src={p.src}
           alt=""
           aria-hidden="true"
-          className="pf-card-pack-css__tear-debris"
+          className={styles['pf-card-pack-css__tear-debris']}
           style={
             {
               '--debris-size': `${p.size}px`,
@@ -193,7 +194,7 @@ export function PackTearOpen({
         src={packImage}
         alt=""
         aria-hidden="true"
-        className="pf-card-pack-css__tear-body"
+        className={styles['pf-card-pack-css__tear-body']}
         style={{ clipPath: TEAR_BODY_CLIP }}
       />
     </div>
@@ -202,18 +203,18 @@ export function PackTearOpen({
 
 /** Horizontal flash along the tear line during burst. */
 export function TearLineFlash() {
-  return <div className="pf-card-pack-css__tear-flash" />
+  return <div className={styles['pf-card-pack-css__tear-flash']} />
 }
 
 /** Light spill effect radiating from the opened pack. */
 export function LightSpill() {
-  return <div className="pf-card-pack-css__light-spill" />
+  return <div className={styles['pf-card-pack-css__light-spill']} />
 }
 
 /** Golden confetti particles during the fan phase. */
 export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
   return (
-    <div className="pf-card-pack-css__confetti-container">
+    <div className={styles['pf-card-pack-css__confetti-container']}>
       {confetti.map((c) => {
         const endX = Math.cos(c.angle) * c.distance
         const endY = Math.sin(c.angle) * c.distance + 25
@@ -223,7 +224,7 @@ export function GoldenConfetti({ confetti }: { confetti: ConfettiData[] }) {
             src={crystalShatterDustImage}
             alt=""
             aria-hidden="true"
-            className="pf-card-pack-css__confetti-piece"
+            className={styles['pf-card-pack-css__confetti-piece']}
             style={
               {
                 '--confetti-size': `${c.size}px`,

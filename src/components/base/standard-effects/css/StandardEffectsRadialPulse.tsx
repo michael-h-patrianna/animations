@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsRadialPulse.css — use documented HTML structure.
  */
 import { memo, type CSSProperties } from 'react'
-import './StandardEffectsRadialPulse.css'
+import styles from './StandardEffectsRadialPulse.module.css'
 import {
   INDICATOR_DOT_COLOR,
   INDICATOR_DOT_BORDER_COLOR,
@@ -34,7 +34,7 @@ function StandardEffectsRadialPulseComponent({
 
   return (
     <div
-      className="pf-radial-pulse"
+      className={styles['pf-radial-pulse']}
       data-animation-id="standard-effects__radial-pulse"
       style={style}
       role="img"
@@ -43,11 +43,11 @@ function StandardEffectsRadialPulseComponent({
       {Array.from({ length: ringCount }, (_, index) => (
         <span
           key={index}
-          className="pf-radial-pulse__ring"
+          className={styles['pf-radial-pulse__ring']}
           style={{ animationDelay: `${index * 0.6}s` }}
         />
       ))}
-      <span className="pf-radial-pulse__dot" />
+      <span className={styles['pf-radial-pulse__dot']} />
     </div>
   )
 }

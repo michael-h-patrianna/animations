@@ -6,7 +6,7 @@
  * Files to copy: this file + ProgressBarsLiquidTube.css + ../SharedTypes.ts
  */
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
-import './ProgressBarsLiquidTube.css'
+import styles from './ProgressBarsLiquidTube.module.css'
 
 export function ProgressBarsLiquidTube({ progress, className, style }: ProgressBarProps) {
   const displayProgress = progress ?? 0
@@ -14,21 +14,21 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
 
   return (
     <div
-      className={`liquid-tube-container-css${className ? ` ${className}` : ''}`}
+      className={`${styles['liquid-tube-container-css']}${className ? ` ${className}` : ''}`}
       style={style}
       data-animation-id="progress-bars__liquid-tube"
     >
-      <div className="liquid-tube-glass-css">
+      <div className={styles['liquid-tube-glass-css']}>
         <div
-          className="liquid-tube-fill-css"
+          className={styles['liquid-tube-fill-css']}
           style={{ transform: `translateY(${100 - percent}%)` }}
         >
-          <div className="liquid-tube-surface-css">
-            <div className="liquid-wave-css" />
+          <div className={styles['liquid-tube-surface-css']}>
+            <div className={styles['liquid-wave-css']} />
           </div>
-          <div className="liquid-bubble-css bubble-1" />
-          <div className="liquid-bubble-css bubble-2" />
-          <div className="liquid-bubble-css bubble-3" />
+          <div className={`${styles['liquid-bubble-css']} ${styles['bubble-1']}`} />
+          <div className={`${styles['liquid-bubble-css']} ${styles['bubble-2']}`} />
+          <div className={`${styles['liquid-bubble-css']} ${styles['bubble-3']}`} />
         </div>
       </div>
     </div>

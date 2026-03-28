@@ -1,0 +1,14 @@
+/* Layout styles for ModalOrchestrationStaggerInview (framer variant) */
+.pf-stagger-inview-fm {
+  width: 100%;
+  position: relative;
+}
+
+.pf-stagger-inview-fm__grid {
+  display: grid;
+  gap: 12px;
+}
+
+.pf-stagger-inview-fm__item {
+  /* Animation wrapper only — visual card styling comes from children (e.g. DemoCard) */
+}

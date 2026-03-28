@@ -1,0 +1,13 @@
+/* Layout for LoadingStatesSpinnerGalaxy (framer variant) */
+
+.pf-spinner-galaxy-fm {
+  position: relative;
+  display: inline-flex;
+  border-radius: 50%;
+  box-shadow: var(--pf-sg-glow, none);
+}
+
+.pf-spinner-galaxy-fm__star {
+  position: absolute;
+  border-radius: 50%;
+}

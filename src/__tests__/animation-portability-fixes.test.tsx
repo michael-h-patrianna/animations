@@ -19,6 +19,7 @@ import { ModalOrchestrationGridHighlight } from '@/components/dialogs/modal-orch
 import { ModalOrchestrationMagneticHover } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationMagneticHover'
 import { metadata as springPhysicsCssMetadata } from '@/components/dialogs/modal-orchestration/css/ModalOrchestrationSpringPhysics.meta'
 import { TimerEffectsPillCountdownSoft } from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownSoft'
+import cssPillSoftStyles from '@/components/realtime/timer-effects/css/TimerEffectsPillCountdownSoft.module.css'
 import { metadata as collectionCoinBurstMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinBurst.meta'
 import { metadata as collectionCoinMagnetMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinMagnet.meta'
 import { metadata as collectionCoinTrailMetadata } from '@/components/rewards/collection-effects/framer/CollectionEffectsCoinTrail.meta'
@@ -35,6 +36,7 @@ import { ModalCelebrationsFireworksRing as FramerModalCelebrationsFireworksRing 
 import { metadata as fireworkMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsFirework.meta'
 import { metadata as treasureParticlesMetadata } from '@/components/rewards/modal-celebrations/framer/ModalCelebrationsTreasureParticles.meta'
 import { PrizeRevealPirateChestWin } from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestWin'
+import fmPirateChestWinStyles from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestWin.module.css'
 import { metadata as pirateChestNoWinCssMetadata } from '@/components/rewards/prize-reveal/css/PrizeRevealPirateChestNoWin.meta'
 import { metadata as pirateChestWinCssMetadata } from '@/components/rewards/prize-reveal/css/PrizeRevealPirateChestWin.meta'
 import { metadata as pirateChestNoWinFramerMetadata } from '@/components/rewards/prize-reveal/framer/PrizeRevealPirateChestNoWin.meta'
@@ -313,7 +315,9 @@ describe('animation portability fixes', () => {
   it('wires the soft pill pulseIntensity prop into the rendered CSS variable', () => {
     const { container } = render(<TimerEffectsPillCountdownSoft pulseIntensity={0.18} />)
 
-    const pillRoot = container.querySelector('.pf-pill-timer__pill--soft') as HTMLElement
+    const pillRoot = container.querySelector(
+      `.${cssPillSoftStyles['pf-pill-timer__pill--soft']}`
+    ) as HTMLElement
 
     expect(pillRoot.style.getPropertyValue('--pf-pill-soft-pulse-scale')).toBe('1.18')
   })
@@ -347,7 +351,9 @@ describe('animation portability fixes', () => {
       vi.advanceTimersByTime(1)
     })
 
-    expect(container.querySelectorAll('.pf-pirate-chest-win__coin')).toHaveLength(3)
+    expect(
+      container.querySelectorAll(`.${fmPirateChestWinStyles['pf-pirate-chest-win-fm__coin']}`)
+    ).toHaveLength(3)
   })
 
   it('uses particleCount to control fireworks ring ember density in both variants', () => {

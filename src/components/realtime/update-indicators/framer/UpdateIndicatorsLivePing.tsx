@@ -11,6 +11,7 @@ import * as m from 'motion/react-m'
 import { easeInOut, useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 import { PING_COLOR } from '@/components/realtime/update-indicators/SharedDefaults'
+import './UpdateIndicatorsLivePing.module.css'
 
 interface LivePingProps {
   /** Dot color. Default: '#c6ff77' */
@@ -30,9 +31,9 @@ function UpdateIndicatorsLivePingComponent({
   const durS = duration / 1000
 
   return (
-    <div className="pf-update-indicator" data-animation-id="update-indicators__live-ping">
+    <div className="pf-update-indicator-fm" data-animation-id="update-indicators__live-ping">
       <m.div
-        className="pf-update-indicator__ping"
+        className="pf-update-indicator-fm__ping"
         style={{
           width: size,
           height: size,

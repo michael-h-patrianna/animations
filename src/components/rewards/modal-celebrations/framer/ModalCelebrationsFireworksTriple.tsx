@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useMemo } from 'react'
 
+import './ModalCelebrationsFireworksTriple.module.css'
 import type { CelebrationBaseProps } from '@/components/rewards/modal-celebrations/SharedCelebrationTypes'
 import {
   CELEBRATION_COLORS,
@@ -239,7 +240,7 @@ function BurstFlash({ cx, cy, delay }: { cx: number; cy: number; delay: number }
   return (
     <m.div
       className="pf-celebration__flash"
-      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy, animation: 'none' }}
+      style={{ left: '50%', marginLeft: cx, top: '50%', marginTop: cy }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 1.2, 1.6], opacity: [0, 0.8, 0] }}
       transition={{ duration: 0.22, delay, times: [0, 0.35, 1], ease: 'easeOut' }}
@@ -268,7 +269,6 @@ function BurstRing({
         top: '50%',
         marginTop: cy,
         borderColor: color,
-        animation: 'none',
       }}
       initial={{ x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
       animate={{ x: '-50%', y: '-50%', scale: [0, 3.5, 5], opacity: [0, 0.6, 0] }}
@@ -336,7 +336,6 @@ function TrailPiece({ t, maxW, maxH }: { t: Trail; maxW: number; maxH: number })
         left: '50%',
         top: '50%',
         ...(t.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: t.color }),
-        animation: 'none',
       }}
       initial={{ x: t.xs[0], y: t.ys[0], scale: 0, rotate: 0, opacity: 0 }}
       animate={{
@@ -380,7 +379,6 @@ function SparkleDot({ s }: { s: Sparkle }) {
         marginTop: s.y,
         width: `${s.size}px`,
         height: `${s.size}px`,
-        animation: 'none',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.3, 0.4, 1.0, 0], opacity: [0, 0.9, 0.25, 0.6, 0] }}

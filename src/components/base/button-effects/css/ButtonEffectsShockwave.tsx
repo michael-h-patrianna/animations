@@ -11,7 +11,7 @@
  */
 
 import { memo, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import './ButtonEffectsShockwave.css'
+import styles from './ButtonEffectsShockwave.module.css'
 import { DemoButton } from '@/components/demo-blocks'
 import { SHOCKWAVE_COLOR } from '@/components/base/button-effects/SharedDefaults'
 
@@ -79,13 +79,13 @@ function ButtonEffectsShockwaveComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-shockwave"
+      className={styles['pf-shockwave']}
       data-animation-id="button-effects__shockwave"
       onClick={handleClick}
       style={style}
     >
       {children ?? <DemoButton label="Click Me!" />}
-      <span className="pf-shockwave__overlay" aria-hidden>
+      <span className={styles['pf-shockwave__overlay']} aria-hidden>
         {shockwaves.map((wave) => {
           const half = wave.size / 2
           const pos = {
@@ -95,11 +95,11 @@ function ButtonEffectsShockwaveComponent({
             height: wave.size,
           }
           return (
-            <span key={wave.id} className="pf-shockwave__group">
+            <span key={wave.id} className={styles['pf-shockwave__group']}>
               {Array.from({ length: ringCount }, (_, i) => (
                 <span
                   key={i}
-                  className={`pf-shockwave__ring pf-shockwave__ring--${i + 1}`}
+                  className={`${styles['pf-shockwave__ring']} ${styles[`pf-shockwave__ring--${i + 1}`]}`}
                   style={{
                     ...pos,
                     animationDuration: `${duration}ms`,

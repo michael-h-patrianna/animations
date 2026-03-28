@@ -1,0 +1,40 @@
+/* Structural: ticker / marquee (moved from shared.css — single-consumer) */
+
+:global(.pf-realtime-data__ticker) {
+  --pf-realtime-ticker-bg: rgb(31 41 55 / 80%);
+  background: var(--pf-realtime-ticker-bg);
+  border-radius: 8px;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.pf-realtime-data__ticker-text) {
+  --pf-realtime-ticker-color: #f59e0b;
+  color: var(--pf-realtime-ticker-color);
+  font-weight: 600;
+  white-space: nowrap;
+  position: absolute;
+}
+
+/* Animation for WinTicker — CSS variant */
+
+[data-animation-id='realtime-data__win-ticker'] :global(.pf-realtime-data__ticker-text) {
+  will-change: transform;
+  animation: pf-realtime-ticker-scroll var(--pf-realtime-ticker-duration, 8s) linear infinite;
+}
+
+@keyframes pf-realtime-ticker-scroll {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}

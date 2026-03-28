@@ -10,6 +10,7 @@ import { useReducedMotion } from 'motion/react'
 import { memo } from 'react'
 
 import { PULSATING_COLOR } from '@/components/progress/loading-states/SharedDefaults'
+import styles from './LoadingStatesPulsating.module.css'
 
 interface LoadingStatesPulsatingProps {
   /** Overall diameter in px. */
@@ -44,23 +45,27 @@ function LoadingStatesPulsatingComponent({
   return (
     <div
       data-animation-id="loading-states__pulsating"
-      className={className !== undefined ? `pf-pulsating ${className}` : 'pf-pulsating'}
-      style={{ width: size, height: size, animation: 'none' }}
+      className={
+        className !== undefined
+          ? `${styles['pf-pulsating-fm']} ${className}`
+          : styles['pf-pulsating-fm']
+      }
+      style={{ width: size, height: size }}
       role="status"
       aria-label="Loading"
     >
       {Array.from({ length: RING_COUNT }, (_, i) => (
         <m.span
           key={i}
-          className="pf-pulsating__ring"
+          className={styles['pf-pulsating-fm__ring']}
           style={{
             border: `${ringWidth}px solid ${color}`,
-            animation: 'none',
           }}
+          initial={{ opacity: 0, scale: 0.2 }}
           animate={
             prefersReducedMotion
-              ? { opacity: [0.7 - i * 0.3, 0.2, 0.7 - i * 0.3] }
-              : { scale: [0.2, 1], opacity: [0.85 - i * 0.45, 0] }
+              ? { scale: 1, opacity: [0.7, 0.2, 0.7] }
+              : { scale: [0.2, 1], opacity: [0.85, 0] }
           }
           transition={{
             duration: cycleDuration,

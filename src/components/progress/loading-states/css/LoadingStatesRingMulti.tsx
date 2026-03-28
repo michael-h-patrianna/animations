@@ -8,7 +8,7 @@
 import { memo } from 'react'
 
 import { RING_MULTI_COLORS } from '@/components/progress/loading-states/SharedDefaults'
-import './LoadingStatesRingMulti.css'
+import styles from './LoadingStatesRingMulti.module.css'
 
 interface LoadingStatesRingMultiProps {
   /** Outermost ring diameter in px. */
@@ -41,7 +41,11 @@ function LoadingStatesRingMultiComponent({
   return (
     <div
       data-animation-id="loading-states__ring-multi"
-      className={className !== undefined ? `pf-ring-multi ${className}` : 'pf-ring-multi'}
+      className={
+        className !== undefined
+          ? `${styles['pf-ring-multi']} ${className}`
+          : styles['pf-ring-multi']
+      }
       style={
         {
           '--pf-rm-size': `${size}px`,
@@ -59,9 +63,15 @@ function LoadingStatesRingMultiComponent({
       role="status"
       aria-label="Loading"
     >
-      <span className="pf-ring-multi__segment pf-ring-multi__segment--inner" />
-      <span className="pf-ring-multi__segment pf-ring-multi__segment--middle" />
-      <span className="pf-ring-multi__segment pf-ring-multi__segment--outer" />
+      <span
+        className={`${styles['pf-ring-multi__segment']} ${styles['pf-ring-multi__segment--inner']}`}
+      />
+      <span
+        className={`${styles['pf-ring-multi__segment']} ${styles['pf-ring-multi__segment--middle']}`}
+      />
+      <span
+        className={`${styles['pf-ring-multi__segment']} ${styles['pf-ring-multi__segment--outer']}`}
+      />
     </div>
   )
 }

@@ -3,7 +3,7 @@
  * Consumer product: StandardEffectsSpin.css — apply .pf-spin to any element.
  */
 import { memo, type CSSProperties, type ReactNode } from 'react'
-import './StandardEffectsSpin.css'
+import styles from './StandardEffectsSpin.module.css'
 import { DemoBox } from '@/components/demo-blocks'
 
 interface StandardEffectsSpinProps {
@@ -18,7 +18,7 @@ function StandardEffectsSpinComponent({ children, duration = 800 }: StandardEffe
   } as CSSProperties
 
   return (
-    <div className="pf-spin" data-animation-id="standard-effects__spin" style={style}>
+    <div className={styles['pf-spin']} data-animation-id="standard-effects__spin" style={style}>
       {children ?? <DemoBox label="Spin" />}
     </div>
   )

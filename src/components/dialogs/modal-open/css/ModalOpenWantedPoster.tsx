@@ -12,7 +12,6 @@ import {
   type DemoPreset,
 } from '@/components/dialogs/modal-open/SharedModalOpenLogic'
 import '@/components/dialogs/modal-open/shared.css'
-import './shared-css-animations.css'
 import {
   shouldReduceMotion,
   type ModalOpenProps,
@@ -130,34 +129,23 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
         />
       )}
       {s.isVisible && (
-        <>
+        <div className="pf-mo-stage">
           <div
-            className={`pf-mo-overlay ${s.isClosing ? 'pf-mo-overlay--closing' : 'pf-mo-overlay--css'}`}
-            style={
-              {
-                '--pf-mo-overlay-opacity': s.overlayOpacity,
-                '--pf-mo-duration': `${s.activeDurationMs}ms`,
-              } as React.CSSProperties
-            }
-          />
-          <div className="pf-mo-stage">
-            <div
-              ref={modalRef}
-              className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
-              style={{ ...props.style, width: 420, maxWidth: '100%', overflow: 'hidden' }}
-            >
-              <div ref={contentRef} style={{ position: 'relative' }}>
-                <ModalOpenPlaceholder
-                  revealed={s.contentRevealed}
-                  onClose={s.isDemoMode ? s.handleClose : undefined}
-                >
-                  {props.children}
-                </ModalOpenPlaceholder>
-              </div>
-              <div className="pf-mo-paper-curl" />
+            ref={modalRef}
+            className={`pf-mo-modal pf-mo-modal--unroll${props.className ? ` ${props.className}` : ''}`}
+            style={{ ...props.style, width: 420, maxWidth: '100%', overflow: 'hidden' }}
+          >
+            <div ref={contentRef} style={{ position: 'relative' }}>
+              <ModalOpenPlaceholder
+                revealed={s.contentRevealed}
+                onClose={s.isDemoMode ? s.handleClose : undefined}
+              >
+                {props.children}
+              </ModalOpenPlaceholder>
             </div>
+            <div className="pf-mo-paper-curl" />
           </div>
-        </>
+        </div>
       )}
     </div>
   )
