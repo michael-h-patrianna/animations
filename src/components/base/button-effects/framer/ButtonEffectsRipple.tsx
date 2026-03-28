@@ -11,7 +11,7 @@
 
 import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
-import { Fragment, memo, useEffect, useRef, useState, type MouseEvent } from 'react'
+import { memo, useEffect, useRef, useState, type MouseEvent } from 'react'
 import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
 
@@ -79,28 +79,27 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
         {ripples.map((ripple) => {
           const half = ripple.size / 2
           return (
-            <Fragment key={ripple.id}>
-              <m.span
-                className="pf-ripple__circle"
-                style={{
-                  left: ripple.x - half,
-                  top: ripple.y - half,
-                  width: ripple.size,
-                  height: ripple.size,
-                  animation: 'none',
-                }}
-                initial={prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 }}
-                animate={prefersReducedMotion ? { opacity: 0 } : { scale: 1, opacity: 0 }}
-                transition={
-                  prefersReducedMotion
-                    ? { duration: 0.15 }
-                    : {
-                        scale: { duration: durationS, ease: easeOut },
-                        opacity: { duration: 0.3, ease: easeOut, delay: durationS * 0.65 },
-                      }
-                }
-              />
-            </Fragment>
+            <m.span
+              key={ripple.id}
+              className="pf-ripple__circle"
+              style={{
+                left: ripple.x - half,
+                top: ripple.y - half,
+                width: ripple.size,
+                height: ripple.size,
+                animation: 'none',
+              }}
+              initial={prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 }}
+              animate={prefersReducedMotion ? { opacity: 0 } : { scale: 1, opacity: 0 }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0.15 }
+                  : {
+                      scale: { duration: durationS, ease: easeOut },
+                      opacity: { duration: 0.3, ease: easeOut, delay: durationS * 0.65 },
+                    }
+              }
+            />
           )
         })}
       </span>
