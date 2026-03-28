@@ -77,8 +77,17 @@ function ModalOpenBubblePopComponent(props: ModalOpenProps) {
     })
 
     anim.onfinish = () => {
-      if (isClosing) handleCloseComplete()
-      else handleOpenComplete()
+      if (isClosing) {
+        handleCloseComplete()
+      } else {
+        try {
+          anim.commitStyles()
+        } catch {
+          /* commitStyles unsupported */
+        }
+        anim.cancel()
+        handleOpenComplete()
+      }
     }
 
     return () => anim.cancel()

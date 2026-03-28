@@ -17,7 +17,6 @@
   animation:
     pf-mo-arc-scale var(--pf-mo-duration, 600ms) ease-out forwards,
     pf-mo-arc-opacity calc(var(--pf-mo-duration, 600ms) * 0.25) ease-out forwards;
-  will-change: transform, opacity;
 }
 
 @keyframes pf-mo-arc-scale {
@@ -63,7 +62,6 @@
     pf-mo-pop-scale calc(var(--pf-mo-duration, 600ms) * 0.7) cubic-bezier(0.12, 0.75, 0.4, 1)
       forwards,
     pf-mo-arc-opacity calc(var(--pf-mo-duration, 600ms) * 0.2) ease-out forwards;
-  will-change: transform, opacity;
 }
 
 @keyframes pf-mo-pop-scale {
@@ -89,7 +87,6 @@
   animation:
     pf-mo-arc-scale-close var(--pf-mo-duration, 420ms) ease-in forwards,
     pf-mo-arc-opacity-close var(--pf-mo-duration, 420ms) ease-in forwards;
-  will-change: transform, opacity;
 }
 
 @keyframes pf-mo-arc-scale-close {

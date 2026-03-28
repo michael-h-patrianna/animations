@@ -87,8 +87,17 @@ function ModalOpenFlyInComponent(props: ModalOpenProps) {
     animRef.current = anim
 
     anim.onfinish = () => {
-      if (isClosing) handleCloseComplete()
-      else handleOpenComplete()
+      if (isClosing) {
+        handleCloseComplete()
+      } else {
+        try {
+          anim.commitStyles()
+        } catch {
+          /* commitStyles unsupported */
+        }
+        anim.cancel()
+        handleOpenComplete()
+      }
     }
 
     return () => anim.cancel()
