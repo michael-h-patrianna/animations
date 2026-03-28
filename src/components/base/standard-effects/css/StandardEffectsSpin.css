@@ -10,7 +10,6 @@
  */
 .pf-spin {
   animation: pf-spin var(--pf-spin-duration, 800ms) ease-out;
-  will-change: transform;
 }
 
 @keyframes pf-spin {

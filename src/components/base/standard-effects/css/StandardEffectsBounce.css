@@ -11,7 +11,6 @@
 .pf-bounce {
   animation: pf-bounce var(--pf-bounce-duration, 800ms) ease-in-out;
   transform-origin: center bottom;
-  will-change: transform;
 }
 
 @keyframes pf-bounce {

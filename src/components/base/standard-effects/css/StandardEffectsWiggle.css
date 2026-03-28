@@ -10,7 +10,6 @@
  */
 .pf-wiggle {
   animation: pf-wiggle var(--pf-wiggle-duration, 1s) ease-in-out;
-  will-change: transform;
 }
 
 @keyframes pf-wiggle {
