@@ -22,6 +22,7 @@
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 
 interface SciFiLoaderProps extends ProgressBarProps {
@@ -36,6 +37,11 @@ export function ProgressBarsSciFiLoader({
   style,
 }: SciFiLoaderProps) {
   const prefersReducedMotion = useReducedMotion()
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [trackWidth, setTrackWidth] = useState(300)
+  useLayoutEffect(() => {
+    if (trackRef.current) setTrackWidth(trackRef.current.offsetWidth)
+  }, [])
   const displayProgress = progress ?? 0
   const percent = Math.round(displayProgress * 100)
 
@@ -45,7 +51,7 @@ export function ProgressBarsSciFiLoader({
       style={style}
       data-animation-id="progress-bars__sci-fi-loader"
     >
-      <div className="scifi-loader-track">
+      <div ref={trackRef} className="scifi-loader-track">
         <m.div
           className="scifi-loader-fill"
           initial={false}
@@ -60,9 +66,9 @@ export function ProgressBarsSciFiLoader({
         {!prefersReducedMotion && (
           <m.div
             className="scifi-loader-glint"
-            animate={{ left: ['-20%', '120%'] }}
+            animate={{ x: [-40, trackWidth + 40] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            style={{ animation: 'none' }}
+            style={{ left: 0, animation: 'none' }}
           />
         )}
       </div>
