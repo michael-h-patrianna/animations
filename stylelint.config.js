@@ -177,8 +177,8 @@ export default enforceNoWarnings({
     // Add group globs here as each group completes CSS-free migration.
     {
       files: [
-        'src/components/base/button-effects/framer/ButtonEffectsRipple.css',
-        'src/components/base/button-effects/framer/ButtonEffectsSplitReveal.css',
+        'src/components/base/button-effects/framer/*.css',
+        'src/components/base/standard-effects/framer/*.css',
         'src/components/progress/progress-bars/framer/ProgressBarsProgressMilestones.css',
         'src/components/progress/progress-bars/framer/ProgressBarsTimelineProgress.css',
       ],

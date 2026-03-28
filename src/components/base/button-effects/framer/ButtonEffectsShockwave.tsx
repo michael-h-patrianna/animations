@@ -2,7 +2,7 @@
  * Shockwave — wraps any element with concentric rings expanding from click point.
  * Multiple staggered rings with different colors create a depth effect.
  *
- * Copy-paste files: this file + ButtonEffectsShockwave.css
+ * Copy-paste files: this file
  * Runtime deps: react, motion
  *
  * Usage:
@@ -14,7 +14,6 @@
 import * as m from 'motion/react-m'
 import { easeOut, useReducedMotion } from 'motion/react'
 import { Fragment, useRef, useState, memo, useEffect, type MouseEvent, type ReactNode } from 'react'
-import './ButtonEffectsShockwave.css'
 import { DemoButton } from '@/components/demo-blocks'
 
 interface Shockwave {
@@ -79,13 +78,15 @@ function ButtonEffectsShockwaveComponent({
   return (
     <div
       ref={containerRef}
-      className="pf-shockwave"
       data-animation-id="button-effects__shockwave"
       onClick={handleClick}
-      style={color !== undefined ? { ['--pf-shockwave-color' as string]: color } : undefined}
+      style={{ position: 'relative', display: 'inline-flex' }}
     >
       {children ?? <DemoButton label="Click Me!" />}
-      <span className="pf-shockwave__overlay" aria-hidden>
+      <span
+        aria-hidden
+        style={{ position: 'absolute', inset: 0, overflow: 'visible', pointerEvents: 'none' }}
+      >
         {shockwaves.map((wave) => {
           const half = wave.size / 2
           const pos = {
@@ -99,8 +100,14 @@ function ButtonEffectsShockwaveComponent({
               {Array.from({ length: ringCount }, (_, i) => (
                 <m.span
                   key={i}
-                  className="pf-shockwave__ring"
-                  style={{ ...pos, opacity: 1 - i * 0.15, animation: 'none' }}
+                  style={{
+                    ...pos,
+                    position: 'absolute',
+                    border: `2px solid ${color ?? 'var(--pf-shockwave-color, rgb(255 255 255 / 50%))'}`,
+                    borderRadius: '50%',
+                    pointerEvents: 'none',
+                    opacity: 1 - i * 0.15,
+                  }}
                   initial={
                     prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 - i * 0.15 }
                   }

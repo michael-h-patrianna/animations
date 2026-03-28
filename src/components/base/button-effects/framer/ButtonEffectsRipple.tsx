@@ -3,7 +3,7 @@
  * An overlay span uses the background-size technique; transitions are applied
  * via inline style (framer variants must not use CSS transitions).
  *
- * Copy-paste files: this file + ButtonEffectsRipple.css
+ * Copy-paste files: this file
  * Runtime deps: react, motion
  *
  * Usage:
@@ -13,8 +13,10 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { memo, useRef } from 'react'
-import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
+
+/** @internal Default kept as token reference — consumer overrides via `color` prop. */
+const DEFAULT_RIPPLE_COLOR = 'var(--pf-ripple-color, rgb(255 255 255 / 30%))'
 
 interface ButtonEffectsRippleProps {
   /** Ripple circle color. Default: 'rgb(255 255 255 / 30%)' */
@@ -29,30 +31,50 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
   const dur = prefersReducedMotion ? '0.15s' : `${duration}ms`
   const animated = `background-size ${dur} ease-out, opacity 0.3s ease-out 0.4s`
 
+  const rippleColor = color ?? DEFAULT_RIPPLE_COLOR
+
   const setInstant = () => {
-    if (overlayRef.current) overlayRef.current.style.transition = 'background-size 0s, opacity 0s'
+    const el = overlayRef.current
+    if (!el) return
+    el.style.transition = 'background-size 0s, opacity 0s'
+    el.style.opacity = '1'
+    el.style.backgroundSize = '100%'
   }
   const setAnimated = () => {
-    if (overlayRef.current) overlayRef.current.style.transition = animated
+    const el = overlayRef.current
+    if (!el) return
+    el.style.transition = animated
+    el.style.opacity = '0'
+    el.style.backgroundSize = '1000%'
   }
 
   return (
     <m.div
-      className="pf-ripple-fm"
       data-animation-id="button-effects__ripple"
       onPointerDown={setInstant}
       onPointerUp={setAnimated}
       onPointerLeave={setAnimated}
       style={{
-        ...(color != null && { ['--pf-ripple-color' as string]: color }),
+        position: 'relative',
+        display: 'inline-flex',
+        overflow: 'hidden',
+        borderRadius: 50,
       }}
     >
       <DemoButton label="Click Me!" />
       <span
         ref={overlayRef}
-        className="pf-ripple-fm__overlay"
         aria-hidden
-        style={{ transition: animated }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          borderRadius: 'inherit',
+          zIndex: 1,
+          opacity: 0,
+          background: `radial-gradient(circle, ${rippleColor} 10%, transparent 10.5%) center / 1000%`,
+          transition: animated,
+        }}
       />
     </m.div>
   )
