@@ -38,20 +38,23 @@
 }
 .pf-counter-showcase__target {
   position: relative;
-  width: 40px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 60px;
+  min-height: 50px;
 }
 .pf-update-indicator__counter {
   position: absolute;
-  right: -8px;
-  top: -8px;
+  left: 100%;
+  top: -10px;
+  margin-left: 4px;
   color: var(--text-effects-counter-increment-color);
   font-weight: 600;
   font-size: 0.875rem;
   pointer-events: none;
+  white-space: nowrap;
+  transform-origin: left center;
 }
 .pf-update-indicator__counter--animating {
   /* Animation handled by Framer Motion */

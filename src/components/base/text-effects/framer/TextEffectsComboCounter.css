@@ -130,6 +130,14 @@
   font-weight: 700;
   pointer-events: none;
   transform-origin: center;
+  color: var(--pf-combo-number-color);
+  text-shadow:
+    0 0 10px var(--pf-combo-red-100),
+    0 1px 3px var(--pf-combo-shadow);
+}
+
+.pf-combo__milestone-particle:nth-child(odd) {
+  color: color-mix(in srgb, var(--pf-combo-number-color), white 20%);
 }
 
 .pf-combo__milestone-text {
