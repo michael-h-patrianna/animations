@@ -5,7 +5,12 @@
  */
 
 import React, { Suspense } from 'react'
-import { AnimatePresence } from 'motion/react'
+import {
+  AnimatePresence,
+  hasReducedMotionListener,
+  initPrefersReducedMotion,
+  prefersReducedMotion,
+} from 'motion/react'
 import * as m from 'motion/react-m'
 import { useShallow } from 'zustand/react/shallow'
 import { useLayoutStore, type LayoutStore } from '@/demo-ui/stores/layoutStore'
@@ -41,14 +46,23 @@ const sidePanelOffsetStyle: React.CSSProperties = {
 }
 
 export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
-  const { leftPanelVisible, rightPanelVisible, theme, accent } = useLayoutStore(
+  const { leftPanelVisible, rightPanelVisible, theme, accent, reducedMotion } = useLayoutStore(
     useShallow((state: LayoutStore) => ({
       leftPanelVisible: state.showLeftPanel,
       rightPanelVisible: state.showRightPanel,
       theme: state.theme,
       accent: state.accent,
+      reducedMotion: state.reducedMotion,
     }))
   )
+
+  // Override motion's global reduced-motion ref so useReducedMotion() returns
+  // the catalog toggle value. Must be synchronous (not useEffect) so that
+  // children remounting via CardCanvas key change read the correct value.
+  // Call initPrefersReducedMotion first to prevent it from overwriting our
+  // value when the first useReducedMotion() call triggers lazy init.
+  if (!hasReducedMotionListener.current) initPrefersReducedMotion()
+  prefersReducedMotion.current = reducedMotion === 'reduce'
 
   return (
     <>
