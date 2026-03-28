@@ -101,8 +101,17 @@ function ModalOpenWantedPosterComponent(props: ModalOpenProps) {
       easing: 'linear',
     })
     anim.onfinish = () => {
-      if (isClosing) handleCloseComplete()
-      else handleOpenComplete()
+      if (isClosing) {
+        handleCloseComplete()
+      } else {
+        try {
+          anim.commitStyles()
+        } catch {
+          /* commitStyles unsupported */
+        }
+        anim.cancel()
+        handleOpenComplete()
+      }
     }
     return () => anim.cancel()
   }, [kfData, activeDurationMs, isVisible, isClosing, handleCloseComplete, handleOpenComplete])
