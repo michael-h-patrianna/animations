@@ -19,6 +19,7 @@
  */
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import type { ProgressBarProps } from '@/components/progress/progress-bars/SharedTypes'
 import './ProgressBarsProgressThin.css'
 
@@ -39,6 +40,11 @@ export function ProgressBarsProgressThin({
   const isControlled = progress !== undefined
   const prefersReduced = useReducedMotion()
   const showEffects = !isControlled && !prefersReduced
+  const trackContainerRef = useRef<HTMLDivElement>(null)
+  const [trackW, setTrackW] = useState(300)
+  useLayoutEffect(() => {
+    if (trackContainerRef.current) setTrackW(trackContainerRef.current.offsetWidth)
+  }, [])
 
   return (
     <div
@@ -50,7 +56,7 @@ export function ProgressBarsProgressThin({
         <div className="pf-progress-thin__label">{label}</div>
       )}
 
-      <div className="track-container" style={{ position: 'relative' }}>
+      <div ref={trackContainerRef} className="track-container" style={{ position: 'relative' }}>
         {/* Halo glow (demo only) */}
         {showEffects && (
           <m.div
@@ -93,13 +99,13 @@ export function ProgressBarsProgressThin({
         {showEffects && (
           <m.div
             className="pf-progress-thin__photon"
-            initial={{ left: '-5%', opacity: 0 }}
-            animate={{ left: '100%', opacity: [0, 0.8, 0.6, 0] }}
+            initial={{ x: trackW * -0.05, opacity: 0 }}
+            animate={{ x: trackW, opacity: [0, 0.8, 0.6, 0] }}
             transition={{
-              left: { duration: SWEEP_S, ease: SWEEP_EASE },
+              x: { duration: SWEEP_S, ease: SWEEP_EASE },
               opacity: { duration: SWEEP_S, times: [0, 0.15, 0.85, 1] },
             }}
-            style={{ y: '-50%', animation: 'none' }}
+            style={{ left: 0, y: '-50%', animation: 'none' }}
           />
         )}
 
