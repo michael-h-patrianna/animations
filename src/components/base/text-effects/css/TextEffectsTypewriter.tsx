@@ -30,19 +30,19 @@ function TextEffectsTypewriterComponent({
 
   return (
     <div
-      className="pf-typewriter"
+      className="tfx-typewriter"
       data-animation-id="text-effects__typewriter"
       style={
         color !== undefined
-          ? ({ '--pf-typewriter-color': color } as React.CSSProperties)
+          ? ({ '--tfx-typewriter-color': color } as React.CSSProperties)
           : undefined
       }
     >
-      <div className="pf-typewriter__text">
+      <div className="tfx-typewriter__text">
         {chars.map((char, index) => (
           <span
             key={index}
-            className="pf-typewriter__char"
+            className="tfx-typewriter__char"
             style={{ animationDelay: `${index * charDelay}s` }}
           >
             {char === ' ' ? '\u00A0' : char}
@@ -50,7 +50,7 @@ function TextEffectsTypewriterComponent({
         ))}
 
         <span
-          className="pf-typewriter__cursor"
+          className="tfx-typewriter__cursor"
           style={{ animationDelay: `${chars.length * charDelay}s` }}
         >
           {cursor}

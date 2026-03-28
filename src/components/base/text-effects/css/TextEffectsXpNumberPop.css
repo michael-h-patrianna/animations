@@ -64,6 +64,7 @@
   align-items: center;
   justify-content: center;
   overflow: visible;
+  contain: layout style;
 }
 
 /* Number Wrapper - GPU Optimized */

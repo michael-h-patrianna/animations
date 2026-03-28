@@ -30,6 +30,7 @@
   min-height: 80px;
   padding: 20px;
   position: relative;
+  contain: layout style;
 }
 
 /* Base text layer - primary white text with horizontal glitches */
