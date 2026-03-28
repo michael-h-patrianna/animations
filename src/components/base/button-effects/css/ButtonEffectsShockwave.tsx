@@ -99,7 +99,7 @@ function ButtonEffectsShockwaveComponent({
               {Array.from({ length: ringCount }, (_, i) => (
                 <span
                   key={i}
-                  className={`pf-shockwave__ring pf-shockwave__ring--${i + 1}`}
+                  className="pf-shockwave__ring"
                   style={{
                     ...pos,
                     animationDuration: `${duration}ms`,
