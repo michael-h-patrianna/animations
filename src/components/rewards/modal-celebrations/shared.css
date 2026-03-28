@@ -110,6 +110,7 @@
 .pf-celebration__confetti {
   position: absolute;
   pointer-events: none;
+  opacity: 0;
 }
 
 .pf-celebration__confetti--rect {

@@ -212,8 +212,6 @@ function RainPiece({
         left: `${p.left}%`,
         top: `${emitYPct}%`,
         ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
-        opacity: isBg ? 0.45 : undefined,
-        transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
       initial={{ y: 0, x: 0, scale: 0, rotateX: 0, rotateY: 0, rotate: 0, opacity: 0 }}
