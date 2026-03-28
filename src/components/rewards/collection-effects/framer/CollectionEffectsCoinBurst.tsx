@@ -7,7 +7,6 @@
  */
 
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
@@ -80,14 +79,12 @@ function ParticleElement({
   origin,
   particleSize,
   durationS,
-  prefersReducedMotion,
   onFinish,
 }: {
   particle: Particle
   origin: ResolvedPoint
   particleSize: number
   durationS: number
-  prefersReducedMotion: boolean | null
   onFinish?: () => void
 }) {
   return (
@@ -95,27 +92,14 @@ function ParticleElement({
       className="pf-coin-burst__particle"
       style={{ left: origin.x, top: origin.y, animation: 'none' }}
       initial={{ x: 0, y: 0, scale: 0.15, rotate: 0, opacity: 0 }}
-      animate={
-        prefersReducedMotion
-          ? { x: 0, y: 0, scale: [0.15, 1, 1, 0], rotate: 0, opacity: [0, 1, 1, 0] }
-          : {
-              x: [0, 0, 0, particle.tx, particle.tx],
-              y: [0, 0, 0, particle.ty, particle.ty],
-              scale: [0.15, 1.15, 1, 0.8, 0.35],
-              rotate: [0, 0, 0, particle.rotation, particle.rotation],
-              opacity: [0, 1, 1, 0.7, 0],
-            }
-      }
-      transition={
-        prefersReducedMotion
-          ? {
-              duration: 0.3,
-              delay: particle.delay,
-              ease: 'easeOut' as const,
-              times: [0, 0.33, 0.67, 1],
-            }
-          : { duration: durationS, delay: particle.delay, times: [0, 0.06, 0.14, 0.7, 1] }
-      }
+      animate={{
+        x: [0, 0, 0, particle.tx, particle.tx],
+        y: [0, 0, 0, particle.ty, particle.ty],
+        scale: [0.15, 1.15, 1, 0.8, 0.35],
+        rotate: [0, 0, 0, particle.rotation, particle.rotation],
+        opacity: [0, 1, 1, 0.7, 0],
+      }}
+      transition={{ duration: durationS, delay: particle.delay, times: [0, 0.06, 0.14, 0.7, 1] }}
       onAnimationComplete={onFinish}
       aria-hidden="true"
     >
@@ -156,7 +140,6 @@ function CollectionEffectsCoinBurstComponent({
 
   const [origin, setOrigin] = useState<ResolvedPoint | null>(null)
   const [alive, setAlive] = useState(true)
-  const prefersReducedMotion = useReducedMotion()
 
   useLayoutEffect(() => {
     if (!ready) return
@@ -188,7 +171,7 @@ function CollectionEffectsCoinBurstComponent({
         <m.div
           className="pf-coin-burst__stage"
           initial={{ scale: 1 }}
-          animate={prefersReducedMotion ? { scale: 1 } : { scale: [1, 0.85, 1] }}
+          animate={{ scale: [1, 0.85, 1] }}
           transition={{ duration: 0.15, ease: [0.4, 0, 0.6, 1] as const }}
           aria-hidden="true"
         >
@@ -200,7 +183,6 @@ function CollectionEffectsCoinBurstComponent({
               origin={origin}
               particleSize={particleSize}
               durationS={durationS}
-              prefersReducedMotion={prefersReducedMotion}
               onFinish={particle.id === lastParticleId ? onComplete : undefined}
             />
           ))}

@@ -103,32 +103,3 @@
     opacity: 0;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .pf-coin-burst__stage--anticipation {
-    animation: none;
-  }
-
-  .pf-coin-burst__particle {
-    animation: pf-coin-burst-reduced 300ms ease-out forwards;
-  }
-
-  @keyframes pf-coin-burst-reduced {
-    0% {
-      opacity: 0;
-      transform: scale(0);
-    }
-    33% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    67% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0);
-    }
-  }
-}

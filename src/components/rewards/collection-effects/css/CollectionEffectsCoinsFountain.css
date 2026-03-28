@@ -100,29 +100,3 @@
     opacity: 0;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .pf-coins-fountain__particle {
-    animation-name: pf-coins-fountain-reduced;
-  }
-
-  @keyframes pf-coins-fountain-reduced {
-    0% {
-      opacity: 0;
-      transform: translate(0, 0) scale(0.8);
-    }
-    30% {
-      opacity: 1;
-      transform: translate(calc(var(--fountain-tx) * 0.3), calc(var(--fountain-ty-apex) * 0.3))
-        scale(1);
-    }
-    70% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-      transform: translate(calc(var(--fountain-tx) * 0.3), calc(var(--fountain-ty-apex) * 0.3))
-        scale(0.7);
-    }
-  }
-}

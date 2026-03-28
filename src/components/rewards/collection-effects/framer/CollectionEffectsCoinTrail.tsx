@@ -7,7 +7,6 @@
  */
 
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
@@ -59,7 +58,6 @@ function ParticleElement({
   particleSize,
   isSwirl,
   durationS,
-  prefersReducedMotion,
   onFinish,
 }: {
   particle: Particle
@@ -69,7 +67,6 @@ function ParticleElement({
   particleSize: number
   isSwirl: boolean
   durationS: number
-  prefersReducedMotion: boolean | null
   onFinish?: () => void
 }) {
   const particleContent = particle.imageSrc ? (
@@ -128,59 +125,40 @@ function ParticleElement({
       className="pf-coin-trail__particle"
       style={{ left: 0, top: 0 }}
       initial={{ x: fromPt.x, y: fromPt.y, scale: 0.15, opacity: 0 }}
-      animate={
-        prefersReducedMotion
-          ? {
-              x: [fromPt.x, toPt.x],
-              y: [fromPt.y, toPt.y],
-              scale: [0.15, 1, 0.3],
-              opacity: [0, 1, 0],
-            }
-          : {
-              // Phase 1: pop in (0→0.08), Phase 2: pop up (0.08→0.22), Phase 3: hang (0.22→0.32), Phase 4: fly to target (0.32→0.92), Phase 5: absorb (0.92→1)
-              x: [fromPt.x, fromPt.x, apexX, apexX, toPt.x, toPt.x],
-              y: [fromPt.y, fromPt.y, apexY, apexY, toPt.y, toPt.y],
-              scale: [0.15, 1.1, 1.0, 1.0, 1.0, 0],
-              opacity: [0, 1, 1, 1, 1, 0],
-            }
-      }
-      transition={
-        prefersReducedMotion
-          ? {
-              duration: durationS,
-              delay: particle.delay,
-              ease: 'easeInOut' as const,
-              scale: { times: [0, 0.5, 1] },
-              opacity: { times: [0, 0.3, 1] },
-            }
-          : {
-              duration: durationS,
-              delay: particle.delay,
-              times: [0, 0.08, 0.22, 0.32, 0.92, 1],
-              x: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.92, 1],
-                ease: ['easeOut', 'easeOut', 'linear', [0.5, 0, 1, 0.5], 'easeOut'],
-              },
-              y: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.92, 1],
-                ease: ['easeOut', 'easeOut', 'linear', [0.5, 0, 1, 0.5], 'easeOut'],
-              },
-              scale: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.92, 1],
-              },
-              opacity: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.08, 0.22, 0.32, 0.96, 1],
-              },
-            }
-      }
+      animate={{
+        // Phase 1: pop in (0→0.08), Phase 2: pop up (0.08→0.22), Phase 3: hang (0.22→0.32), Phase 4: fly to target (0.32→0.92), Phase 5: absorb (0.92→1)
+        x: [fromPt.x, fromPt.x, apexX, apexX, toPt.x, toPt.x],
+        y: [fromPt.y, fromPt.y, apexY, apexY, toPt.y, toPt.y],
+        scale: [0.15, 1.1, 1.0, 1.0, 1.0, 0],
+        opacity: [0, 1, 1, 1, 1, 0],
+      }}
+      transition={{
+        duration: durationS,
+        delay: particle.delay,
+        times: [0, 0.08, 0.22, 0.32, 0.92, 1],
+        x: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.08, 0.22, 0.32, 0.92, 1],
+          ease: ['easeOut', 'easeOut', 'linear', [0.5, 0, 1, 0.5], 'easeOut'],
+        },
+        y: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.08, 0.22, 0.32, 0.92, 1],
+          ease: ['easeOut', 'easeOut', 'linear', [0.5, 0, 1, 0.5], 'easeOut'],
+        },
+        scale: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.08, 0.22, 0.32, 0.92, 1],
+        },
+        opacity: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.08, 0.22, 0.32, 0.96, 1],
+        },
+      }}
       onAnimationComplete={onFinish}
       aria-hidden="true"
     >
@@ -226,7 +204,6 @@ function CollectionEffectsCoinTrailComponent({
     const resolvedTo = to !== undefined ? resolvePointRelative(to, container) : resolvedFrom
     setToPt(resolvedTo)
   }, [from, to, ready])
-  const prefersReducedMotion = useReducedMotion()
 
   const isSwirl = pointsAreEqual(fromPt, toPt)
 
@@ -257,7 +234,6 @@ function CollectionEffectsCoinTrailComponent({
               particleSize={particleSize}
               isSwirl={isSwirl}
               durationS={durationS}
-              prefersReducedMotion={prefersReducedMotion}
               onFinish={particle.id === lastParticleId ? onComplete : undefined}
             />
           ))}

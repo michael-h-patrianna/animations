@@ -7,7 +7,6 @@
  */
 
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
@@ -93,14 +92,12 @@ function ParticleElement({
   origin,
   particleSize,
   durationS,
-  prefersReducedMotion,
   onFinish,
 }: {
   particle: Particle
   origin: ResolvedPoint
   particleSize: number
   durationS: number
-  prefersReducedMotion: boolean | null
   onFinish?: () => void
 }) {
   const isBg = particle.layer === 'bg'
@@ -116,64 +113,45 @@ function ParticleElement({
         animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0.15, rotateY: 0, rotateZ: 0, opacity: 0 }}
-      animate={
-        prefersReducedMotion
-          ? {
-              x: [0, particle.tx * 0.3],
-              y: [0, particle.tyApex * 0.3],
-              scale: [0.15, 1, 0.4],
-              opacity: [0, peakOpacity, 0],
-            }
-          : {
-              x: [0, 0, particle.tx, particle.tx + particle.txFall],
-              y: [0, 0, particle.tyApex, particle.tyFall],
-              scale: [0.15, isBg ? 0.8 : 1.1, isBg ? 0.75 : 1.0, isBg ? 0.3 : 0.4],
-              rotateY: [0, 0, particle.spinY, particle.spinY],
-              rotateZ: [0, 0, particle.tumble, particle.tumble],
-              opacity: [0, 1, peakOpacity, 0],
-            }
-      }
-      transition={
-        prefersReducedMotion
-          ? {
-              duration: durationS * 0.6,
-              delay: particle.delay,
-              ease: 'easeOut' as const,
-              scale: { times: [0, 0.4, 1] },
-              opacity: { times: [0, 0.3, 1] },
-            }
-          : {
-              duration: durationS,
-              delay: particle.delay,
-              times: [0, 0.07, 0.45, 1],
-              y: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.07, 0.45, 1],
-                ease: ['easeOut', 'easeOut', [0.33, 0, 0.85, 1]],
-              },
-              x: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.07, 0.45, 1],
-                ease: ['easeOut', 'easeOut', [0.25, 0.1, 0.25, 1]],
-              },
-              scale: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.07, 0.4, 1],
-                ease: ['easeOut', 'easeOut', 'linear'],
-              },
-              opacity: {
-                duration: durationS,
-                delay: particle.delay,
-                times: [0, 0.07, 0.35, 1],
-                ease: ['easeOut', 'easeOut', [0.5, 0, 1, 1]],
-              },
-              rotateY: { duration: durationS, delay: particle.delay, ease: 'linear' },
-              rotateZ: { duration: durationS, delay: particle.delay, ease: 'linear' },
-            }
-      }
+      animate={{
+        x: [0, 0, particle.tx, particle.tx + particle.txFall],
+        y: [0, 0, particle.tyApex, particle.tyFall],
+        scale: [0.15, isBg ? 0.8 : 1.1, isBg ? 0.75 : 1.0, isBg ? 0.3 : 0.4],
+        rotateY: [0, 0, particle.spinY, particle.spinY],
+        rotateZ: [0, 0, particle.tumble, particle.tumble],
+        opacity: [0, 1, peakOpacity, 0],
+      }}
+      transition={{
+        duration: durationS,
+        delay: particle.delay,
+        times: [0, 0.07, 0.45, 1],
+        y: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.07, 0.45, 1],
+          ease: ['easeOut', 'easeOut', [0.33, 0, 0.85, 1]],
+        },
+        x: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.07, 0.45, 1],
+          ease: ['easeOut', 'easeOut', [0.25, 0.1, 0.25, 1]],
+        },
+        scale: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.07, 0.4, 1],
+          ease: ['easeOut', 'easeOut', 'linear'],
+        },
+        opacity: {
+          duration: durationS,
+          delay: particle.delay,
+          times: [0, 0.07, 0.35, 1],
+          ease: ['easeOut', 'easeOut', [0.5, 0, 1, 1]],
+        },
+        rotateY: { duration: durationS, delay: particle.delay, ease: 'linear' },
+        rotateZ: { duration: durationS, delay: particle.delay, ease: 'linear' },
+      }}
       onAnimationComplete={onFinish}
       aria-hidden="true"
     >
@@ -226,7 +204,6 @@ function CollectionEffectsCoinsFountainComponent({
       setOrigin(containerCenter(container))
     }
   }, [from, ready])
-  const prefersReducedMotion = useReducedMotion()
 
   const cleanupMs = durationS * 1000 + CLEANUP_BUFFER_MS + count * 40
   useEffect(() => {
@@ -253,7 +230,6 @@ function CollectionEffectsCoinsFountainComponent({
               origin={origin}
               particleSize={particleSize}
               durationS={durationS}
-              prefersReducedMotion={prefersReducedMotion}
               onFinish={particle.id === lastParticleId ? onComplete : undefined}
             />
           ))}

@@ -13,7 +13,6 @@
  */
 
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { FallbackParticle } from '@/components/rewards/collection-effects/SharedFallbackParticle'
@@ -129,7 +128,6 @@ function ParticleElement({
   particleSize,
   isBurst,
   durationS,
-  prefersReducedMotion,
   onFinish,
 }: {
   particle: Particle
@@ -138,7 +136,6 @@ function ParticleElement({
   particleSize: number
   isBurst: boolean
   durationS: number
-  prefersReducedMotion: boolean | null
   onFinish?: () => void
 }) {
   // Scattered position after emission burst
@@ -173,52 +170,6 @@ function ParticleElement({
           delay: particle.delay,
           times: [0, 0.15, 1],
           ease: [0.2, 0.8, 0.3, 1] as const,
-        }}
-        onAnimationComplete={onFinish}
-        aria-hidden="true"
-      >
-        {particleContent}
-      </m.div>
-    )
-  }
-
-  if (prefersReducedMotion) {
-    return (
-      <m.div
-        className="pf-coin-magnet__particle"
-        style={{ left: 0, top: 0, animation: 'none' }}
-        initial={{ x: fromPt.x, y: fromPt.y, scale: 0, opacity: 0 }}
-        animate={{
-          x: [fromPt.x, fromPt.x, targetPt.x],
-          y: [fromPt.y, fromPt.y, targetPt.y],
-          scale: [0, 1, 0.3],
-          opacity: [0, 1, 1, 0],
-        }}
-        transition={{
-          x: {
-            duration: durationS,
-            delay: particle.delay,
-            ease: 'linear' as const,
-            times: [0, 0.3, 1],
-          },
-          y: {
-            duration: durationS,
-            delay: particle.delay,
-            ease: 'linear' as const,
-            times: [0, 0.3, 1],
-          },
-          scale: {
-            duration: durationS,
-            delay: particle.delay,
-            ease: 'linear' as const,
-            times: [0, 0.3, 1],
-          },
-          opacity: {
-            duration: durationS,
-            delay: particle.delay,
-            ease: 'linear' as const,
-            times: [0, 0.3, 0.7, 1],
-          },
         }}
         onAnimationComplete={onFinish}
         aria-hidden="true"
@@ -318,7 +269,6 @@ function CollectionEffectsCoinMagnetComponent({
   const [fromPt, setFromPt] = useState<ResolvedPoint | null>(null)
   const [toPt, setToPt] = useState<ResolvedPoint | null>(null)
   const [alive, setAlive] = useState(true)
-  const prefersReducedMotion = useReducedMotion()
 
   useLayoutEffect(() => {
     if (!ready) return
@@ -363,7 +313,6 @@ function CollectionEffectsCoinMagnetComponent({
               particleSize={particleSize}
               isBurst={isBurst}
               durationS={durationS}
-              prefersReducedMotion={prefersReducedMotion}
               onFinish={particle.id === lastParticleId ? onComplete : undefined}
             />
           ))}
