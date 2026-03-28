@@ -24,6 +24,7 @@ function ModalBaseSlideLeftDriftComponent({
   distance = DEFAULT_DISTANCE,
   className,
   style,
+  onAnimationComplete,
 }: ModalBaseSlideLeftDriftProps) {
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
@@ -35,6 +36,10 @@ function ModalBaseSlideLeftDriftComponent({
       <div
         className={`pf-modal-slide-left${className ? ` ${className}` : ''}`}
         style={{ ...style, ...cssVars }}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) return
+          onAnimationComplete?.()
+        }}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

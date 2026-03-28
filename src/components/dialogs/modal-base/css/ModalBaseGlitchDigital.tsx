@@ -24,6 +24,7 @@ function ModalBaseGlitchDigitalComponent({
   intensity = 1,
   className,
   style,
+  onAnimationComplete,
 }: ModalBaseGlitchDigitalProps) {
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
@@ -38,6 +39,10 @@ function ModalBaseGlitchDigitalComponent({
         <div
           className={`pf-modal-glitch__content${className ? ` ${className}` : ''}`}
           style={style}
+          onAnimationEnd={(event) => {
+            if (event.target !== event.currentTarget) return
+            onAnimationComplete?.()
+          }}
         >
           <ModalPlaceholder>{children}</ModalPlaceholder>
         </div>

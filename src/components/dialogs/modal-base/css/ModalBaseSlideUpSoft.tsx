@@ -24,6 +24,7 @@ function ModalBaseSlideUpSoftComponent({
   distance = DEFAULT_DISTANCE,
   className,
   style,
+  onAnimationComplete,
 }: ModalBaseSlideUpSoftProps) {
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
@@ -35,6 +36,10 @@ function ModalBaseSlideUpSoftComponent({
       <div
         className={`pf-modal-slide-up${className ? ` ${className}` : ''}`}
         style={{ ...style, ...cssVars }}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) return
+          onAnimationComplete?.()
+        }}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

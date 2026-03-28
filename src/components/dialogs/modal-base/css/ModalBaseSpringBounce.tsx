@@ -21,6 +21,7 @@ function ModalBaseSpringBounceComponent({
   className,
   style,
   duration = 820,
+  onAnimationComplete,
 }: SpringBounceProps) {
   const mergedStyle = {
     ...style,
@@ -29,7 +30,14 @@ function ModalBaseSpringBounceComponent({
 
   return (
     <div data-animation-id="modal-base__spring-bounce">
-      <div className={`pf-modal-spring${className ? ` ${className}` : ''}`} style={mergedStyle}>
+      <div
+        className={`pf-modal-spring${className ? ` ${className}` : ''}`}
+        style={mergedStyle}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) return
+          onAnimationComplete?.()
+        }}
+      >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>
