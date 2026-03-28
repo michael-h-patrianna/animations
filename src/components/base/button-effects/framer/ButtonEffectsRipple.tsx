@@ -1,7 +1,6 @@
 /**
- * Ripple — expanding light circle on click via background-size transition.
- * An overlay span uses the background-size technique; transitions are applied
- * via inline style (framer variants must not use CSS transitions).
+ * Ripple — expanding circle on click via Motion scale + opacity.
+ * A circular overlay scales from 0 to cover the button, then fades out.
  *
  * Copy-paste files: this file + ButtonEffectsRipple.css
  * Runtime deps: react, motion
@@ -11,10 +10,17 @@
  */
 
 import * as m from 'motion/react-m'
-import { useReducedMotion } from 'motion/react'
-import { memo, useRef } from 'react'
+import { easeOut, useReducedMotion } from 'motion/react'
+import { Fragment, memo, useEffect, useRef, useState, type MouseEvent } from 'react'
 import './ButtonEffectsRipple.css'
 import { DemoButton } from '@/components/demo-blocks'
+
+interface RippleData {
+  id: number
+  x: number
+  y: number
+  size: number
+}
 
 interface ButtonEffectsRippleProps {
   /** Ripple circle color. Default: 'rgb(255 255 255 / 30%)' */
@@ -25,36 +31,80 @@ interface ButtonEffectsRippleProps {
 
 function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRippleProps) {
   const prefersReducedMotion = useReducedMotion()
-  const overlayRef = useRef<HTMLSpanElement>(null)
-  const dur = prefersReducedMotion ? '0.15s' : `${duration}ms`
-  const animated = `background-size ${dur} ease-out, opacity 0.3s ease-out 0.4s`
+  const containerRef = useRef<HTMLDivElement>(null)
+  const nextIdRef = useRef(0)
+  const timeoutIdsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+  const [ripples, setRipples] = useState<RippleData[]>([])
 
-  const setInstant = () => {
-    if (overlayRef.current) overlayRef.current.style.transition = 'background-size 0s, opacity 0s'
-  }
-  const setAnimated = () => {
-    if (overlayRef.current) overlayRef.current.style.transition = animated
+  const durationS = duration / 1000
+
+  useEffect(() => {
+    const ids = timeoutIdsRef.current
+    return () => {
+      ids.forEach(clearTimeout)
+      ids.clear()
+    }
+  }, [])
+
+  const handlePointerDown = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = containerRef.current?.getBoundingClientRect()
+    if (!rect) return
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const dx = Math.max(x, rect.width - x)
+    const dy = Math.max(y, rect.height - y)
+    const size = Math.sqrt(dx * dx + dy * dy) * 2
+    const id = nextIdRef.current++
+
+    setRipples((prev) => [...prev, { id, x, y, size }])
+
+    const cleanupMs = duration + 500
+    const timeoutId = setTimeout(() => {
+      timeoutIdsRef.current.delete(timeoutId)
+      setRipples((prev) => prev.filter((r) => r.id !== id))
+    }, cleanupMs)
+    timeoutIdsRef.current.add(timeoutId)
   }
 
   return (
-    <m.div
+    <div
+      ref={containerRef}
       className="pf-ripple"
       data-animation-id="button-effects__ripple"
-      onPointerDown={setInstant}
-      onPointerUp={setAnimated}
-      onPointerLeave={setAnimated}
-      style={{
-        ...(color != null && { ['--pf-ripple-color' as string]: color }),
-      }}
+      onPointerDown={handlePointerDown}
+      style={color != null ? { ['--pf-ripple-color' as string]: color } : undefined}
     >
       <DemoButton label="Click Me!" />
-      <span
-        ref={overlayRef}
-        className="pf-ripple__overlay"
-        aria-hidden
-        style={{ transition: animated }}
-      />
-    </m.div>
+      <span className="pf-ripple__overlay" aria-hidden>
+        {ripples.map((ripple) => {
+          const half = ripple.size / 2
+          return (
+            <Fragment key={ripple.id}>
+              <m.span
+                className="pf-ripple__circle"
+                style={{
+                  left: ripple.x - half,
+                  top: ripple.y - half,
+                  width: ripple.size,
+                  height: ripple.size,
+                  animation: 'none',
+                }}
+                initial={prefersReducedMotion ? { opacity: 0.5 } : { scale: 0, opacity: 1 }}
+                animate={prefersReducedMotion ? { opacity: 0 } : { scale: 1, opacity: 0 }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0.15 }
+                    : {
+                        scale: { duration: durationS, ease: easeOut },
+                        opacity: { duration: 0.3, ease: easeOut, delay: durationS * 0.65 },
+                      }
+                }
+              />
+            </Fragment>
+          )
+        })}
+      </span>
+    </div>
   )
 }
 
