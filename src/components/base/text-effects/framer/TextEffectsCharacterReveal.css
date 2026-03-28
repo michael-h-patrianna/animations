@@ -1,5 +1,5 @@
 /* Character Reveal — Framer Motion layout (no keyframes) */
-.pf-char-reveal {
+.pf-char-reveal-fm {
   --pf-char-reveal-color: #ffd700;
   --pf-char-reveal-subtitle-color: color-mix(in srgb, var(--pf-char-reveal-color), transparent 20%);
   --pf-char-reveal-shadow: rgb(0 0 0 / 40%);
@@ -19,7 +19,7 @@
   padding: 20px;
 }
 
-.pf-char-reveal__text-container {
+.pf-char-reveal-fm__text-container {
   position: relative;
   height: 30px;
   display: flex;
@@ -27,7 +27,7 @@
   justify-content: center;
 }
 
-.pf-char-reveal__shadow-text {
+.pf-char-reveal-fm__shadow-text {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -36,14 +36,14 @@
   letter-spacing: 3px;
 }
 
-.pf-char-reveal__shadow-char {
+.pf-char-reveal-fm__shadow-char {
   display: inline-block;
   text-transform: uppercase;
   color: var(--pf-char-reveal-shadow);
   text-shadow: 0 2px 8px var(--pf-char-reveal-shadow-blur);
 }
 
-.pf-char-reveal__main-text {
+.pf-char-reveal-fm__main-text {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -52,14 +52,14 @@
   letter-spacing: 3px;
 }
 
-.pf-char-reveal__main-char {
+.pf-char-reveal-fm__main-char {
   display: inline-block;
   text-transform: uppercase;
   transform-origin: center bottom;
   position: relative;
 }
 
-.pf-char-reveal__main-char-text {
+.pf-char-reveal-fm__main-char-text {
   display: inline-block;
   background: linear-gradient(
     135deg,
@@ -73,7 +73,7 @@
   background-clip: text;
 }
 
-.pf-char-reveal__main-char-glow {
+.pf-char-reveal-fm__main-char-glow {
   position: absolute;
   top: 2px;
   left: 0;
@@ -82,7 +82,7 @@
   pointer-events: none;
 }
 
-.pf-char-reveal__subtitle {
+.pf-char-reveal-fm__subtitle {
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -92,12 +92,12 @@
   position: relative;
 }
 
-.pf-char-reveal__subtitle-main {
+.pf-char-reveal-fm__subtitle-main {
   position: relative;
   display: inline-block;
 }
 
-.pf-char-reveal__subtitle-shadow {
+.pf-char-reveal-fm__subtitle-shadow {
   position: absolute;
   top: 1px;
   left: 0;

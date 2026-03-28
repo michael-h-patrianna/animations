@@ -1,5 +1,5 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsTypewriter.css into your app.
  * Runtime deps: react, motion
  * RN: Port cursor blink with Moti useAnimatedStyle infinite loop.
  */
@@ -28,29 +28,19 @@ function TextEffectsTypewriterComponent({
 
   return (
     <div
+      className="pf-typewriter-fm"
       data-animation-id="text-effects__typewriter"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: 80,
-        padding: 20,
-        ['--pf-typewriter-color' as string]: color ?? 'var(--pf-typewriter-color, #10b981)',
-      }}
+      style={
+        color !== undefined
+          ? ({ '--pf-typewriter-color': color } as React.CSSProperties)
+          : undefined
+      }
     >
-      <div
-        style={{
-          fontSize: 20,
-          fontWeight: 600,
-          fontFamily: "'Courier New', monospace",
-          letterSpacing: 1,
-          color: 'var(--pf-typewriter-color)',
-        }}
-      >
+      <div className="pf-typewriter-fm__text">
         {chars.map((char, index) => (
           <m.span
             key={index}
-            style={{ display: 'inline-block' }}
+            className="pf-typewriter-fm__char"
             initial={{ opacity: 0, display: 'none' }}
             animate={{ opacity: 1, display: 'inline-block' }}
             transition={{ duration: 0, delay: index * charDelay }}
@@ -60,7 +50,7 @@ function TextEffectsTypewriterComponent({
         ))}
 
         <m.span
-          style={{ display: 'inline-block', fontWeight: 300, color: 'var(--pf-typewriter-color)' }}
+          className="pf-typewriter-fm__cursor"
           initial={{ opacity: 1 }}
           animate={{ opacity: [1, 1, 0, 0] }}
           transition={{

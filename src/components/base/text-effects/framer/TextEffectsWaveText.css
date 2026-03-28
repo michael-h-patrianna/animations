@@ -1,5 +1,5 @@
 /* Wave Text — Framer Motion layout (no keyframes) */
-.pf-wave-text {
+.pf-wave-text-fm {
   --pf-wave-text-color: #3b82f6;
   --pf-wave-text-shadow: rgb(0 0 0 / 15%);
   --pf-wave-text-highlight-bg: rgb(147 197 253 / 40%);
@@ -13,7 +13,7 @@
   will-change: contents;
 }
 
-.pf-wave-text__wrapper {
+.pf-wave-text-fm__wrapper {
   font-size: 24px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -22,7 +22,7 @@
   z-index: 2;
 }
 
-.pf-wave-text__char {
+.pf-wave-text-fm__char {
   display: inline-block;
   transform-origin: center bottom;
   position: relative;
@@ -32,12 +32,12 @@
   text-shadow: 0 2px 4px var(--pf-wave-text-shadow);
 }
 
-.pf-wave-text__char-inner {
+.pf-wave-text-fm__char-inner {
   display: inline-block;
   position: relative;
 }
 
-.pf-wave-text__highlight {
+.pf-wave-text-fm__highlight {
   position: absolute;
   inset: -20% -10%;
   background: linear-gradient(180deg, var(--pf-wave-text-highlight-bg), transparent);

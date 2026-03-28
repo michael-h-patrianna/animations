@@ -1,11 +1,11 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsHorizonLightPass.css into your app.
  * Runtime deps: react, motion
  * RN: Port with Reanimated/Moti — transforms/opacity/color, custom delay per index.
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsHorizonLightPassProps {
@@ -19,7 +19,6 @@ function TextEffectsHorizonLightPassComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsHorizonLightPassProps) {
-  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
@@ -37,14 +36,6 @@ function TextEffectsHorizonLightPassComponent({
     settle: {
       scale: [1, 1.008, 1],
       transition: { duration: 0.28, ease: [0.2, 0, 0, 1] as const, delay: 0.85 },
-    },
-  }
-
-  const reducedContainerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { duration: 0.3 },
     },
   }
 
@@ -76,38 +67,24 @@ function TextEffectsHorizonLightPassComponent({
     },
   }
 
-  const reducedLetterVariants: Variants = {
-    hidden: { opacity: 1 },
-    show: { opacity: 1 },
-  }
-
   return (
     <m.div
+      className="pf-horizon-light-fm"
       data-animation-id="text-effects__horizon-light-pass"
       aria-label={text}
-      variants={prefersReducedMotion ? reducedContainerVariants : containerVariants}
+      variants={containerVariants}
       initial="hidden"
-      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'baseline',
-        ['--pf-hlp-base-color' as string]: color ?? 'var(--pf-hlp-base-color, #e8e4da)',
-        ['--pf-hlp-highlight-color' as string]: 'var(--pf-hlp-highlight-color, #fff)',
-      }}
+      animate={['show', 'settle']}
+      style={
+        color !== undefined ? ({ '--pf-hlp-base-color': color } as React.CSSProperties) : undefined
+      }
     >
-      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
+      <div className="pf-horizon-light-fm__line" aria-hidden="true">
         {letters.map((ch, i) => (
           <m.span
             key={i}
-            style={{
-              display: 'inline-block',
-              willChange: 'transform',
-              color: 'var(--pf-hlp-base-color)',
-              fontWeight: 700,
-              letterSpacing: '0.02em',
-              transformOrigin: 'center',
-            }}
-            variants={prefersReducedMotion ? reducedLetterVariants : letterVariants}
+            className="pf-horizon-light-fm__letter"
+            variants={letterVariants}
             custom={i}
           >
             {ch === ' ' ? '\u00A0' : ch}

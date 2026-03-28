@@ -1,5 +1,5 @@
 /* XP Number Pop — Framer Motion layout (no keyframes) */
-.pf-xp-pop {
+.pf-xp-pop-fm {
   --pf-xp-pop-color: #c6ff77;
   --pf-xp-pop-color-1: var(--pf-xp-pop-color);
   --pf-xp-pop-color-2: color-mix(in srgb, var(--pf-xp-pop-color), black 15%);
@@ -14,14 +14,14 @@
   overflow: visible;
 }
 
-.pf-xp-pop__number-wrapper {
+.pf-xp-pop-fm__number-wrapper {
   display: flex;
   align-items: baseline;
   position: relative;
   z-index: 2;
 }
 
-.pf-xp-pop__number-value {
+.pf-xp-pop-fm__number-value {
   font-size: 56px;
   font-weight: 900;
   background: linear-gradient(135deg, var(--pf-xp-pop-color-1), var(--pf-xp-pop-color-2));
@@ -34,11 +34,11 @@
   letter-spacing: 2px;
 }
 
-.pf-xp-pop__particle {
+.pf-xp-pop-fm__particle {
   text-shadow: 0 0 10px currentcolor;
 }
 
-.pf-xp-pop__label {
+.pf-xp-pop-fm__label {
   font-size: 24px;
   margin-left: 8px;
   font-weight: 700;
@@ -46,7 +46,7 @@
   color: var(--pf-xp-pop-color-2);
 }
 
-.pf-xp-pop__label:first-child {
+.pf-xp-pop-fm__label:first-child {
   margin-left: 0;
   margin-right: 4px;
 }

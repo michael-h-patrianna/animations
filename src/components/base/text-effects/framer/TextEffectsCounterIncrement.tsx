@@ -199,7 +199,7 @@ function TextEffectsCounterIncrementComponent({
 
   return (
     <div
-      className="pf-counter-showcase"
+      className="pf-counter-showcase-fm"
       data-animation-id="text-effects__counter-increment"
       style={
         color !== undefined
@@ -207,9 +207,9 @@ function TextEffectsCounterIncrementComponent({
           : undefined
       }
     >
-      <div className="pf-counter-showcase__target">
+      <div className="pf-counter-showcase-fm__target">
         <m.span
-          className="pf-counter-showcase__value"
+          className="pf-counter-showcase-fm__value"
           variants={prefersReducedMotion ? undefined : numberPopVariants}
           initial="idle"
           animate={
@@ -223,10 +223,14 @@ function TextEffectsCounterIncrementComponent({
           }
           transition={prefersReducedMotion ? { duration: 0.3, ease: 'easeInOut' } : undefined}
         >
-          <span className="pf-counter-showcase__value-text">
-            {prefix !== undefined && <span className="pf-counter-showcase__label">{prefix}</span>}
+          <span className="pf-counter-showcase-fm__value-text">
+            {prefix !== undefined && (
+              <span className="pf-counter-showcase-fm__label">{prefix}</span>
+            )}
             {formatRef.current(count)}
-            {suffix !== undefined && <span className="pf-counter-showcase__label">{suffix}</span>}
+            {suffix !== undefined && (
+              <span className="pf-counter-showcase-fm__label">{suffix}</span>
+            )}
           </span>
         </m.span>
 
@@ -234,7 +238,7 @@ function TextEffectsCounterIncrementComponent({
           particles.map((particle) => (
             <m.span
               key={particle.id}
-              className="pf-update-indicator__counter"
+              className="pf-update-indicator-fm__counter"
               variants={counterFloatVariants}
               initial="hidden"
               animate="float"

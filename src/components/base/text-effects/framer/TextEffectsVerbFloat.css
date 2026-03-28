@@ -1,0 +1,20 @@
+/* Floating text — Framer Motion layout (no keyframes) */
+.pf-verb-float-fm {
+  --pf-verb-float-color: #e8e4da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 20px;
+}
+.pf-verb-float-fm__line {
+  display: inline-flex;
+  gap: 0.02em;
+}
+.pf-verb-float-fm__char {
+  display: inline-block;
+  color: var(--pf-verb-float-color);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transform-origin: center;
+}

@@ -1,11 +1,11 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsLightSweepDraw.css into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsLightSweepDrawProps {
@@ -19,7 +19,6 @@ function TextEffectsLightSweepDrawComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsLightSweepDrawProps) {
-  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
@@ -63,39 +62,19 @@ function TextEffectsLightSweepDrawComponent({
 
   return (
     <m.div
+      className="pf-light-sweep-draw-fm"
       data-animation-id="text-effects__light-sweep-draw"
       aria-label={text}
-      variants={
-        prefersReducedMotion
-          ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3 } } }
-          : containerVariants
-      }
+      variants={containerVariants}
       initial="hidden"
-      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'baseline',
-        ['--pf-lsd-base-color' as string]: color ?? 'var(--pf-lsd-base-color, #e8e4da)',
-        ['--pf-lsd-highlight-color' as string]: 'var(--pf-lsd-highlight-color, #fff)',
-      }}
+      animate={['show', 'settle']}
+      style={
+        color !== undefined ? ({ '--pf-lsd-base-color': color } as React.CSSProperties) : undefined
+      }
     >
-      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
+      <div className="pf-light-sweep-draw-fm__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span
-            key={i}
-            style={{
-              display: 'inline-block',
-              willChange: 'transform',
-              color: 'var(--pf-lsd-base-color)',
-              fontWeight: 700,
-              letterSpacing: '0.02em',
-            }}
-            variants={
-              prefersReducedMotion
-                ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-                : letterVariants
-            }
-          >
+          <m.span key={i} className="pf-light-sweep-draw-fm__letter" variants={letterVariants}>
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

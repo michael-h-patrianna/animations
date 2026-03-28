@@ -141,7 +141,7 @@ function TextEffectsXpNumberPopComponent({
 
   return (
     <div
-      className="pf-xp-pop"
+      className="pf-xp-pop-fm"
       data-animation-id="text-effects__xp-number-pop"
       style={
         color !== undefined ? ({ '--pf-xp-pop-color': color } as React.CSSProperties) : undefined
@@ -166,7 +166,7 @@ function TextEffectsXpNumberPopComponent({
                 ease: easeOut,
                 times: [0, 0.4, 1],
               }}
-              className="pf-xp-pop__particle"
+              className="pf-xp-pop-fm__particle"
               style={{
                 position: 'absolute',
                 left: '50%',
@@ -184,10 +184,10 @@ function TextEffectsXpNumberPopComponent({
           ))}
       </AnimatePresence>
 
-      <m.div className="pf-xp-pop__number-wrapper" animate={numberControls}>
-        {prefix !== undefined && <span className="pf-xp-pop__label">{prefix}</span>}
-        <m.span className="pf-xp-pop__number-value">{displayValue}</m.span>
-        {suffix !== undefined && <span className="pf-xp-pop__label">{suffix}</span>}
+      <m.div className="pf-xp-pop-fm__number-wrapper" animate={numberControls}>
+        {prefix !== undefined && <span className="pf-xp-pop-fm__label">{prefix}</span>}
+        <m.span className="pf-xp-pop-fm__number-value">{displayValue}</m.span>
+        {suffix !== undefined && <span className="pf-xp-pop-fm__label">{suffix}</span>}
       </m.div>
     </div>
   )

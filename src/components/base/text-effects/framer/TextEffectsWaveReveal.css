@@ -1,5 +1,5 @@
 /* Wave Reveal — Framer Motion layout (no keyframes) */
-.pf-wave-reveal {
+.pf-wave-reveal-fm {
   --pf-wave-reveal-shadow-100: rgb(0 0 0 / 15%);
   --pf-wave-reveal-shadow-101: rgb(0 0 0 / 8%);
   display: flex;
@@ -11,14 +11,14 @@
   transform: rotate(-5deg);
 }
 
-.pf-wave-reveal__wrapper {
+.pf-wave-reveal-fm__wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
 }
 
-.pf-wave-reveal__line {
+.pf-wave-reveal-fm__line {
   display: flex;
   font-size: 2rem;
   line-height: 1.2;
@@ -29,7 +29,7 @@
     0 4px 8px var(--pf-wave-reveal-shadow-101);
 }
 
-.pf-wave-reveal__char {
+.pf-wave-reveal-fm__char {
   display: inline-block;
   will-change: transform, opacity;
 }

@@ -52,7 +52,7 @@ function WaveCharacter({
 
   return (
     <m.span
-      className="pf-wave-text__char"
+      className="pf-wave-text-fm__char"
       data-char={char}
       animate={reducedMotion ? undefined : waveKeyframes}
       transition={
@@ -68,12 +68,12 @@ function WaveCharacter({
             }
       }
     >
-      <span className="pf-wave-text__char-inner">
+      <span className="pf-wave-text-fm__char-inner">
         {isSpace ? '\u00A0' : char}
 
         {showHighlight && !isSpace && !reducedMotion && (
           <m.span
-            className="pf-wave-text__highlight"
+            className="pf-wave-text-fm__highlight"
             animate={highlightKeyframes}
             transition={{
               duration: waveDuration,
@@ -101,13 +101,13 @@ function TextEffectsWaveTextComponent({
 
   return (
     <div
-      className="pf-wave-text"
+      className="pf-wave-text-fm"
       data-animation-id="text-effects__wave-text"
       style={
         color !== undefined ? ({ '--pf-wave-text-color': color } as React.CSSProperties) : undefined
       }
     >
-      <div className="pf-wave-text__wrapper">
+      <div className="pf-wave-text-fm__wrapper">
         {chars.map((char, index) => (
           <WaveCharacter
             key={index}

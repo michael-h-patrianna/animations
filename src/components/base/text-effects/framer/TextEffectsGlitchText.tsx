@@ -30,7 +30,7 @@ function TextEffectsGlitchTextComponent({
 
   return (
     <div
-      className={`pf-glitch ${className}`.trim()}
+      className={`pf-glitch-fm ${className}`.trim()}
       data-animation-id="text-effects__tfx-glitchtext"
       style={
         color !== undefined
@@ -40,7 +40,7 @@ function TextEffectsGlitchTextComponent({
     >
       {/* Main text */}
       <m.div
-        className="pf-glitch__base"
+        className="pf-glitch-fm__base"
         animate={
           prefersReducedMotion
             ? undefined
@@ -107,7 +107,7 @@ function TextEffectsGlitchTextComponent({
 
       {/* Distortion bars — hidden in reduced motion */}
       <m.div
-        className="pf-glitch__bars"
+        className="pf-glitch-fm__bars"
         aria-hidden="true"
         animate={
           prefersReducedMotion

@@ -1,11 +1,11 @@
 /**
- * Standalone: Copy this file into your app.
+ * Standalone: Copy this file + TextEffectsMetallicSpecularFlash.css into your app.
  * Runtime deps: react, motion
  * RN: Port variants/timing to Reanimated/Moti — transforms/opacity/color only.
  */
 
 import * as m from 'motion/react-m'
-import { easeInOut, easeOut, useReducedMotion, type Variants } from 'motion/react'
+import { easeInOut, easeOut, type Variants } from 'motion/react'
 import { memo, useMemo } from 'react'
 
 interface TextEffectsMetallicSpecularFlashProps {
@@ -19,7 +19,6 @@ function TextEffectsMetallicSpecularFlashComponent({
   text = 'LOREM IPSUM DOLOR',
   color,
 }: TextEffectsMetallicSpecularFlashProps) {
-  const prefersReducedMotion = useReducedMotion()
   const letters = useMemo(() => Array.from(text), [text])
 
   const containerVariants: Variants = {
@@ -63,40 +62,19 @@ function TextEffectsMetallicSpecularFlashComponent({
 
   return (
     <m.div
+      className="pf-metallic-flash-fm"
       data-animation-id="text-effects__metallic-specular-flash"
       aria-label={text}
-      variants={
-        prefersReducedMotion
-          ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3 } } }
-          : containerVariants
-      }
+      variants={containerVariants}
       initial="hidden"
-      animate={prefersReducedMotion ? 'show' : ['show', 'settle']}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'baseline',
-        ['--pf-msf-base-color' as string]: color ?? 'var(--pf-msf-base-color, #e8e4da)',
-        ['--pf-msf-highlight-color' as string]: 'var(--pf-msf-highlight-color, #fff)',
-      }}
+      animate={['show', 'settle']}
+      style={
+        color !== undefined ? ({ '--pf-msf-base-color': color } as React.CSSProperties) : undefined
+      }
     >
-      <div style={{ display: 'inline-flex', gap: '0.02em' }} aria-hidden="true">
+      <div className="pf-metallic-flash-fm__line" aria-hidden="true">
         {letters.map((ch, i) => (
-          <m.span
-            key={i}
-            style={{
-              display: 'inline-block',
-              willChange: 'transform',
-              color: 'var(--pf-msf-base-color)',
-              fontWeight: 700,
-              letterSpacing: '0.02em',
-              transformOrigin: 'center',
-            }}
-            variants={
-              prefersReducedMotion
-                ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-                : letterVariants
-            }
-          >
+          <m.span key={i} className="pf-metallic-flash-fm__letter" variants={letterVariants}>
             {ch === ' ' ? '\u00A0' : ch}
           </m.span>
         ))}

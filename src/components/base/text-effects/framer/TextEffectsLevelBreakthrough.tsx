@@ -101,7 +101,7 @@ function TextEffectsLevelBreakthroughComponent({
 
   return (
     <div
-      className="pf-breakthrough-container"
+      className="pf-breakthrough-container-fm"
       data-animation-id="text-effects__level-breakthrough"
       style={
         color !== undefined
@@ -110,7 +110,7 @@ function TextEffectsLevelBreakthroughComponent({
       }
     >
       <m.div
-        className="pf-surge-lines"
+        className="pf-surge-lines-fm"
         animate={surge1Controls}
         style={{
           position: 'absolute',
@@ -122,7 +122,7 @@ function TextEffectsLevelBreakthroughComponent({
       />
 
       <m.div
-        className="pf-surge-lines"
+        className="pf-surge-lines-fm"
         animate={surge2Controls}
         style={{
           position: 'absolute',

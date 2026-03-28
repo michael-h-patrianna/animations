@@ -89,9 +89,9 @@ function TextEffectsWaveRevealComponent({
       }
 
   return (
-    <div className="pf-wave-reveal" data-animation-id="text-effects__wave-reveal">
+    <div className="pf-wave-reveal-fm" data-animation-id="text-effects__wave-reveal">
       <m.div
-        className="pf-wave-reveal__wrapper"
+        className="pf-wave-reveal-fm__wrapper"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -99,14 +99,14 @@ function TextEffectsWaveRevealComponent({
         {lines.map((line, lineIndex) => (
           <m.div
             key={lineIndex}
-            className="pf-wave-reveal__line"
+            className="pf-wave-reveal-fm__line"
             style={{ color: line.color }}
             variants={lineVariants}
           >
             {line.text.split('').map((char, charIndex) => (
               <m.span
                 key={`${lineIndex}-${charIndex}`}
-                className="pf-wave-reveal__char"
+                className="pf-wave-reveal-fm__char"
                 variants={letterVariants}
               >
                 {char === ' ' ? '\u00A0' : char}
