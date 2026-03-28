@@ -36,9 +36,9 @@ function StandardEffectsPulseComponent({
 
   return (
     <m.div
-      className="pf-pulse"
+      className="pf-pulse-fm"
       data-animation-id="standard-effects__pulse"
-      style={{ animation: 'none', position: 'relative', borderRadius }}
+      style={{ animation: 'none', borderRadius }}
       animate={
         prefersReducedMotion
           ? { scale: [1, 1.03, 1], opacity: [1, 0.8, 1] }

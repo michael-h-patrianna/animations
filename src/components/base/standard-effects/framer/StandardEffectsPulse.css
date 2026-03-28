@@ -1,0 +1,5 @@
+/* Pulse framer variant — layout only, no keyframes */
+.pf-pulse-fm {
+  position: relative;
+  will-change: transform, opacity;
+}
