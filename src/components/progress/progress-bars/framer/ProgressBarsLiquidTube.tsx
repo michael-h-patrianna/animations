@@ -36,11 +36,11 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
       <div className="liquid-tube-glass">
         <m.div
           className="liquid-tube-fill"
-          animate={{ height: `${percent}%` }}
+          animate={{ y: `${100 - percent}%` }}
           transition={
             prefersReducedMotion ? { duration: 0.1 } : { type: 'spring', bounce: 0, duration: 0.5 }
           }
-          style={{ animation: 'none' }}
+          style={{ height: '100%', animation: 'none' }}
         >
           <div className="liquid-tube-surface">
             <m.div

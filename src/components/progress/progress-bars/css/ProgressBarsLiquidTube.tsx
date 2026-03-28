@@ -19,7 +19,10 @@ export function ProgressBarsLiquidTube({ progress, className, style }: ProgressB
       data-animation-id="progress-bars__liquid-tube"
     >
       <div className="liquid-tube-glass-css">
-        <div className="liquid-tube-fill-css" style={{ height: `${percent}%` }}>
+        <div
+          className="liquid-tube-fill-css"
+          style={{ transform: `translateY(${100 - percent}%)` }}
+        >
           <div className="liquid-tube-surface-css">
             <div className="liquid-wave-css" />
           </div>
