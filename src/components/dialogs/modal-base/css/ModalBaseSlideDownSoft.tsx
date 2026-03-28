@@ -24,6 +24,7 @@ function ModalBaseSlideDownSoftComponent({
   distance = DEFAULT_DISTANCE,
   className,
   style,
+  onAnimationComplete,
 }: ModalBaseSlideDownSoftProps) {
   const cssVars = {
     '--pf-entrance-duration': `${duration}ms`,
@@ -35,6 +36,10 @@ function ModalBaseSlideDownSoftComponent({
       <div
         className={`pf-modal-slide-down${className ? ` ${className}` : ''}`}
         style={{ ...style, ...cssVars }}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) return
+          onAnimationComplete?.()
+        }}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

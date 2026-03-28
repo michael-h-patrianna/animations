@@ -24,13 +24,21 @@ function ModalBaseFlip3dComponent({
   perspective = DEFAULT_PERSPECTIVE,
   className,
   style,
+  onAnimationComplete,
 }: ModalBaseFlip3dProps) {
   return (
     <div
       data-animation-id="modal-base__flip-3d"
       style={{ '--pf-entrance-duration': `${duration}ms`, perspective } as React.CSSProperties}
     >
-      <div className={`pf-modal-flip-3d${className ? ` ${className}` : ''}`} style={style}>
+      <div
+        className={`pf-modal-flip-3d${className ? ` ${className}` : ''}`}
+        style={style}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) return
+          onAnimationComplete?.()
+        }}
+      >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
     </div>

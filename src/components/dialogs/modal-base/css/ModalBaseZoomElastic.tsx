@@ -18,12 +18,17 @@ function ModalBaseZoomElasticComponent({
   duration = DEFAULT_DURATION,
   className,
   style,
+  onAnimationComplete,
 }: ModalEntranceProps) {
   return (
     <div data-animation-id="modal-base__zoom-elastic">
       <div
         className={`pf-modal-zoom-elastic${className ? ` ${className}` : ''}`}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) return
+          onAnimationComplete?.()
+        }}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>

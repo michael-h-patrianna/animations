@@ -18,12 +18,17 @@ function ModalBaseTvTurnOnComponent({
   duration = DEFAULT_DURATION,
   className,
   style,
+  onAnimationComplete,
 }: ModalEntranceProps) {
   return (
     <div data-animation-id="modal-base__tv-turn-on">
       <div
         className={`pf-modal-tv-on${className ? ` ${className}` : ''}`}
         style={{ ...style, '--pf-entrance-duration': `${duration}ms` } as React.CSSProperties}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget) return
+          onAnimationComplete?.()
+        }}
       >
         <ModalPlaceholder>{children}</ModalPlaceholder>
       </div>
