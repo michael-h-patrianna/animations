@@ -45,7 +45,11 @@ function ModalDismissToastDropComponent({
           y: ['-120%', '10%', '0%'],
           scale: [0.96, 1.02, 1],
           opacity: [0, 1, 1],
-          transition: { duration: 0.42, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+          transition: {
+            duration: 0.42,
+            times: [0, 0.7, 1],
+            ease: [0.25, 0.46, 0.45, 0.94] as const,
+          },
         },
         exit: {
           y: ['0%', '-5%', '120%'],

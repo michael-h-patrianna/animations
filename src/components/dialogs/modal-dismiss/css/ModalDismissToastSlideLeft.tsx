@@ -35,14 +35,23 @@ function ModalDismissToastSlideLeftComponent({
     const easing = 'cubic-bezier(0.4, 0.0, 0.2, 1)'
 
     if (reducedMotion) {
-      el.animate([{ opacity: '0', transform: 'none' }, { opacity: '1', transform: 'none' }], {
-        duration: 300,
-        easing: 'ease-out',
-        fill: 'forwards',
-      })
+      el.animate(
+        [
+          { opacity: '0', transform: 'none' },
+          { opacity: '1', transform: 'none' },
+        ],
+        {
+          duration: 300,
+          easing: 'ease-out',
+          fill: 'forwards',
+        }
+      )
       const exitTimer = setTimeout(() => {
         const exitAnim = el.animate(
-          [{ opacity: '1', transform: 'none' }, { opacity: '0', transform: 'none' }],
+          [
+            { opacity: '1', transform: 'none' },
+            { opacity: '0', transform: 'none' },
+          ],
           { duration: 250, easing: 'ease-in', fill: 'forwards' }
         )
         exitAnim.onfinish = () => onDismissRef.current?.()

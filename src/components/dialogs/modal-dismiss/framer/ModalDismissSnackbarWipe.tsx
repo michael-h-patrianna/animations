@@ -43,11 +43,19 @@ function ModalDismissSnackbarWipeComponent({
         hidden: { x: '100%' },
         visible: {
           x: ['100%', '0%', '0%'],
-          transition: { duration: 0.42, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+          transition: {
+            duration: 0.42,
+            times: [0, 0.7, 1],
+            ease: [0.25, 0.46, 0.45, 0.94] as const,
+          },
         },
         exit: {
           x: ['0%', '0%', '100%'],
-          transition: { duration: 0.32, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+          transition: {
+            duration: 0.32,
+            times: [0, 0.55, 1],
+            ease: [0.25, 0.46, 0.45, 0.94] as const,
+          },
         },
       }
 
@@ -63,13 +71,21 @@ function ModalDismissSnackbarWipeComponent({
           y: [24, -4, 0],
           scale: [0.96, 1.02, 1],
           opacity: [0, 1, 1],
-          transition: { duration: 0.42, times: [0, 0.7, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+          transition: {
+            duration: 0.42,
+            times: [0, 0.7, 1],
+            ease: [0.25, 0.46, 0.45, 0.94] as const,
+          },
         },
         exit: {
           y: [0, 6, 0],
           scale: [1, 0.96, 0.96],
           opacity: [1, 0.6, 0],
-          transition: { duration: 0.32, times: [0, 0.55, 1], ease: [0.25, 0.46, 0.45, 0.94] as const },
+          transition: {
+            duration: 0.32,
+            times: [0, 0.55, 1],
+            ease: [0.25, 0.46, 0.45, 0.94] as const,
+          },
         },
       }
 
