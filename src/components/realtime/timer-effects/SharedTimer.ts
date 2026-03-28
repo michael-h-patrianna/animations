@@ -27,6 +27,16 @@ interface UseCountdownOptions {
   thresholds: Required<TimerPhaseThresholds>
   onEnd?: () => void
   onEndBehavior: TimerEndBehavior
+  /**
+   * Controls how frequently `progress` triggers re-renders.
+   * - `'discrete'`: progress state updates only when `seconds` changes (~1/sec). Default.
+   * - `'smooth'`: progress state updates every tick (~10/sec) for continuous visual interpolation.
+   *
+   * Components that don't render progress (e.g., countdown pills) should use `'discrete'`
+   * to avoid unnecessary re-renders. Components with progress bars or depleting indicators
+   * should use `'smooth'`.
+   */
+  progressMode?: 'smooth' | 'discrete'
 }
 
 function resolveCountdownSnapshot(startSeconds: number) {
@@ -64,6 +74,7 @@ export function useCountdown({
   thresholds,
   onEnd,
   onEndBehavior,
+  progressMode = 'discrete',
 }: UseCountdownOptions): CountdownState {
   const initialSnapshot = resolveCountdownSnapshot(startSeconds)
   const [seconds, setSeconds] = useState(initialSnapshot.seconds)
@@ -116,13 +127,20 @@ export function useCountdown({
 
       const remaining = Math.max(0, startSeconds - elapsedSeconds)
       const displaySeconds = Math.ceil(remaining)
+      const newProgress = Math.min(1, elapsedSeconds / startSeconds)
 
-      // Smooth progress updated every tick (100ms) for continuous visual interpolation
-      setProgress(Math.min(1, elapsedSeconds / startSeconds))
+      if (progressMode === 'smooth') {
+        // Continuous visual interpolation — every tick (~10/sec)
+        setProgress(newProgress)
+      }
 
       if (displaySeconds !== lastDisplay) {
         setSeconds(displaySeconds)
         lastDisplay = displaySeconds
+        if (progressMode === 'discrete') {
+          // Update progress only when seconds changes (~1/sec)
+          setProgress(newProgress)
+        }
       }
 
       if (remaining <= 0) {
@@ -135,7 +153,7 @@ export function useCountdown({
     }, TICK_MS)
 
     return () => clearInterval(intervalId)
-  }, [startSeconds, mode, fireOnEnd])
+  }, [startSeconds, mode, progressMode, fireOnEnd])
 
   // Hide delay after expiry
   useEffect(() => {

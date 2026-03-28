@@ -11,6 +11,7 @@ function renderCountdown(overrides?: {
   thresholds?: Required<TimerPhaseThresholds>
   onEnd?: () => void
   onEndBehavior?: 'hide' | 'stay'
+  progressMode?: 'smooth' | 'discrete'
 }) {
   return renderHook(() =>
     useCountdown({
@@ -19,6 +20,7 @@ function renderCountdown(overrides?: {
       thresholds: overrides?.thresholds ?? DEFAULT_THRESHOLDS,
       onEnd: overrides?.onEnd,
       onEndBehavior: overrides?.onEndBehavior ?? 'stay',
+      progressMode: overrides?.progressMode,
     })
   )
 }
@@ -141,7 +143,11 @@ describe('useCountdown', () => {
     })
 
     it('progress increases smoothly with each tick', () => {
-      const { result } = renderCountdown({ startSeconds: 10, mode: 'visual' })
+      const { result } = renderCountdown({
+        startSeconds: 10,
+        mode: 'visual',
+        progressMode: 'smooth',
+      })
 
       act(() => {
         vi.advanceTimersByTime(100) // 1 tick = 0.1s elapsed
@@ -463,6 +469,7 @@ describe('useCountdown', () => {
             mode: 'visual',
             thresholds: DEFAULT_THRESHOLDS,
             onEndBehavior: 'stay',
+            progressMode: 'smooth',
           }),
         { initialProps: { startSeconds: 10 } }
       )
@@ -490,6 +497,7 @@ describe('useCountdown', () => {
             mode,
             thresholds: DEFAULT_THRESHOLDS,
             onEndBehavior: 'stay',
+            progressMode: 'smooth',
           }),
         { initialProps: { mode: 'visual' as const } }
       )
@@ -565,7 +573,11 @@ describe('useCountdown', () => {
     })
 
     it('progress at halfway point is approximately 0.5 in visual mode', () => {
-      const { result } = renderCountdown({ startSeconds: 20, mode: 'visual' })
+      const { result } = renderCountdown({
+        startSeconds: 20,
+        mode: 'visual',
+        progressMode: 'smooth',
+      })
 
       act(() => {
         vi.advanceTimersByTime(10000)

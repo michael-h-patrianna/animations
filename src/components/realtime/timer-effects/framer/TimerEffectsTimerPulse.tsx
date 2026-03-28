@@ -62,6 +62,7 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
     },
     onEnd,
     onEndBehavior,
+    progressMode: 'smooth',
   })
 
   if (isHidden) return null
