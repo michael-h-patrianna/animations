@@ -148,7 +148,6 @@ function ConfettiPiece({ p, maxW, maxH }: { p: Particle; maxW: number; maxH: num
         marginLeft: p.originX,
         top: '55%',
         ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
-        transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotateX: 0, rotateY: 0, rotate: 0, opacity: 0 }}

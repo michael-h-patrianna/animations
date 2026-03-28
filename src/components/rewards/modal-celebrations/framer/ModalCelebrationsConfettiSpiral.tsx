@@ -185,7 +185,6 @@ function TornadoPiece({ p, maxW, maxH }: { p: SpiralParticle; maxW: number; maxH
         left: '50%',
         top: '50%',
         ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
-        transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
       initial={{ x: 0, y: 0, scale: 0, rotateX: 0, rotateY: 0, rotate: 0, opacity: 0 }}

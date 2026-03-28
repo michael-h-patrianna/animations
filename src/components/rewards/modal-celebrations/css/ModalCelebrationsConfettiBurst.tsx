@@ -134,7 +134,6 @@ function ConfettiLayer({
               width: p.imageUrl !== undefined ? maxW : undefined,
               height: p.imageUrl !== undefined ? maxH : undefined,
               position: p.imageUrl !== undefined ? 'absolute' : undefined,
-              transformStyle: 'preserve-3d',
               '--tx': `${p.tx}px`,
               '--ty-peak': `${p.tyPeak}px`,
               '--ty-fall': `${p.tyFall}px`,

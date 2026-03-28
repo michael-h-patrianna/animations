@@ -146,7 +146,6 @@ function SpiralLayer({
               width: p.imageUrl !== undefined ? maxW : undefined,
               height: p.imageUrl !== undefined ? maxH : undefined,
               position: p.imageUrl !== undefined ? 'absolute' : undefined,
-              transformStyle: 'preserve-3d',
               '--sa': `${p.startAngle}deg`,
               '--to': `${p.totalOrbit}deg`,
               '--mr': `${p.maxRadius}px`,
