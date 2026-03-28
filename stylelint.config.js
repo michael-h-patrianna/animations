@@ -1,3 +1,4 @@
+import { requireFramerClassSuffixRule } from './stylelint-rules/require-framer-class-suffix.js'
 import { noBlurRule } from './stylelint-rules/no-blur.js'
 import { noConicGradientRule } from './stylelint-rules/no-conic-gradient.js'
 import { noHardcodedColorsRule } from './stylelint-rules/no-hardcoded-colors.js'
@@ -39,6 +40,7 @@ export default enforceNoWarnings({
   extends: ['stylelint-config-standard'],
   plugins: [
     // Project-specific rules
+    requireFramerClassSuffixRule,
     noBlurRule,
     noConicGradientRule,
     noHardcodedColorsRule,
@@ -53,6 +55,9 @@ export default enforceNoWarnings({
     // =====================================================================
     // PROJECT-SPECIFIC RULES
     // =====================================================================
+    // Framer CSS class naming: -fm suffix required to prevent CSS variant bleed.
+    // Disabled globally — enabled per-group via overrides as groups are migrated.
+    'animation-rules/require-framer-class-suffix': null,
     'animation-rules/no-blur': true,
     'animation-rules/no-radial-angular-gradient': true,
     'animation-rules/no-hardcoded-colors': true,
@@ -165,4 +170,21 @@ export default enforceNoWarnings({
     'custom-property-pattern': null,
     'import-notation': null,
   },
+  overrides: [
+    // Enforce -fm class suffix in migrated framer groups.
+    // Enable per-group as CSS-free migration completes.
+    // Enforce -fm suffix on framer CSS files that have been migrated.
+    // Add group globs here as each group completes CSS-free migration.
+    {
+      files: [
+        'src/components/base/button-effects/framer/ButtonEffectsRipple.css',
+        'src/components/base/button-effects/framer/ButtonEffectsSplitReveal.css',
+        'src/components/progress/progress-bars/framer/ProgressBarsProgressMilestones.css',
+        'src/components/progress/progress-bars/framer/ProgressBarsTimelineProgress.css',
+      ],
+      rules: {
+        'animation-rules/require-framer-class-suffix': true,
+      },
+    },
+  ],
 })
