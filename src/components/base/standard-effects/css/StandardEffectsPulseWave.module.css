@@ -31,7 +31,6 @@
   background: var(--pf-pulse-wave-color, #7a468e);
   position: relative;
   animation: pf-pulse-wave-breathe var(--pf-pulse-wave-duration, 2s) ease-in-out infinite;
-  will-change: transform;
 }
 
 .pf-pulse-wave__core::before,
@@ -44,10 +43,10 @@
   opacity: 0.6;
   transform: scale(1);
   animation: pf-pulse-wave-ring var(--pf-pulse-wave-duration, 2s) ease-out infinite;
-  will-change: transform, opacity;
 }
 
 .pf-pulse-wave__core::after {
+  animation-name: pf-pulse-wave-ring-b;
   animation-delay: calc(var(--pf-pulse-wave-duration, 2s) / 2);
   opacity: 0.4;
 }
@@ -58,7 +57,22 @@
     opacity: 0.6;
   }
   70% {
-    transform: scale(2.6);
+    transform: scale(2.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+@keyframes pf-pulse-wave-ring-b {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  70% {
+    transform: scale(2.8);
     opacity: 0;
   }
   100% {

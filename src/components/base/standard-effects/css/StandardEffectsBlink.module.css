@@ -10,7 +10,6 @@
  */
 .pf-blink {
   animation: pf-blink var(--pf-blink-duration, 1s) ease-in-out;
-  will-change: transform, opacity;
 }
 
 @keyframes pf-blink {

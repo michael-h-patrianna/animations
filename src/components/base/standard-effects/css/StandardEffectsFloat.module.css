@@ -11,7 +11,6 @@
 .pf-float {
   animation: pf-float var(--pf-float-duration, 6s) ease-in-out infinite;
   transform-origin: center 20%;
-  will-change: transform;
 }
 
 @keyframes pf-float {

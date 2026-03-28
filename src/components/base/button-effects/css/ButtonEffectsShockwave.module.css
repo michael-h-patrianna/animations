@@ -35,7 +35,9 @@
   pointer-events: none;
   opacity: 0;
   will-change: transform, opacity;
-  animation: pf-shockwave var(--pf-shockwave-duration, 1000ms) ease-out both;
+  animation-name: pf-shockwave;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
 }
 
 @keyframes pf-shockwave {
@@ -51,7 +53,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .pf-shockwave__ring {
-    animation: pf-shockwave-reduced 150ms ease-out forwards;
+    animation-name: pf-shockwave-reduced;
+    animation-duration: 150ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
   }
 
   @keyframes pf-shockwave-reduced {

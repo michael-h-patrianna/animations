@@ -66,7 +66,7 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
   const prefersReducedMotion = useReducedMotion()
   const resolved = resolveTimerProps(props, DEFAULT_WARNING, DEFAULT_CRITICAL)
 
-  const { seconds, phase, progress, isHidden } = useCountdown({
+  const { seconds, phase, isHidden } = useCountdown({
     startSeconds,
     mode,
     thresholds: {
@@ -79,16 +79,21 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
 
   const [shakeKey, setShakeKey] = useState(0)
 
-  // Shake at elapsed-time intervals (original: every 10s of elapsed time)
-  const lastShakeProgressRef = useRef(0)
-  const shakeIntervalFraction = startSeconds > 0 ? shakeInterval / startSeconds : 1
+  // Shake at elapsed-time intervals (every shakeInterval seconds of elapsed time)
+  const lastShakeAtRef = useRef(0)
+
+  // Reset shake scheduling when the countdown restarts
+  useEffect(() => {
+    lastShakeAtRef.current = 0
+  }, [startSeconds, mode])
 
   useEffect(() => {
-    if (progress - lastShakeProgressRef.current >= shakeIntervalFraction) {
-      lastShakeProgressRef.current = progress
+    const elapsed = startSeconds - seconds
+    if (elapsed - lastShakeAtRef.current >= shakeInterval) {
+      lastShakeAtRef.current = elapsed
       setShakeKey((k) => k + 1)
     }
-  }, [progress, shakeIntervalFraction])
+  }, [seconds, startSeconds, shakeInterval])
 
   if (isHidden) return null
 

@@ -30,7 +30,7 @@
 }
 
 .pf-reward-pulse:hover {
-  animation-play-state: paused;
+  animation: none;
   transform: scale(calc(var(--pf-reward-pulse-scale, 1.08) + 0.04)) translateY(0);
 }
 

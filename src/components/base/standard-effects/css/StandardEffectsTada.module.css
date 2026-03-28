@@ -10,7 +10,6 @@
  */
 .pf-tada {
   animation: pf-tada var(--pf-tada-duration, 1s) cubic-bezier(0.4, 0, 0.6, 1);
-  will-change: transform, opacity;
 }
 
 @keyframes pf-tada {

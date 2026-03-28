@@ -1,7 +1,7 @@
 /**
- * Layout + active-state styles for the Ripple framer variant.
- * Transitions are applied via inline style on the overlay span
- * (framer/ CSS must not contain transition/animation properties).
+ * Layout styles for the Ripple framer variant.
+ * The overlay sits on top of children and clips expanding circles.
+ * Animation is driven by Motion JS — no transition/animation properties here.
  */
 
 .pf-ripple-fm {
@@ -17,16 +17,11 @@
   pointer-events: none;
   border-radius: inherit;
   z-index: 1;
-  opacity: 0;
-  background: radial-gradient(
-      circle,
-      var(--pf-ripple-color, rgb(255 255 255 / 30%)) 10%,
-      transparent 10.5%
-    )
-    center / 1000%;
 }
 
-.pf-ripple-fm:active .pf-ripple-fm__overlay {
-  opacity: 1;
-  background-size: 100%;
+.pf-ripple-fm__circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: var(--pf-ripple-color, rgb(255 255 255 / 30%));
 }

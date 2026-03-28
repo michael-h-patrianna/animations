@@ -39,6 +39,10 @@ interface Particle {
   tyFall: number
   txFall: number
   delay: number
+  /** 3D coin-flip rotation (degrees) */
+  spinY: number
+  /** Slight tumble rotation (degrees) */
+  tumble: number
   layer: 'bg' | 'fg'
   imageSrc: string | undefined
   fallback: { shape: ConfettiShape; color: string }
@@ -60,6 +64,8 @@ function generateParticles(
       tyFall: randBetween(10, 40),
       txFall: randBetween(-20, 20),
       delay: i * 40,
+      spinY: randBetween(2, 4) * 360 * (isBg ? 0.7 : 1),
+      tumble: randBetween(-25, 25),
       layer: isBg ? 'bg' : 'fg',
       imageSrc: randomImage(images),
       fallback: generateFallbackParticle(colors),
@@ -124,7 +130,11 @@ function CollectionEffectsCoinsFountainComponent({
       style={{ '--pf-particle-size': `${particleSize}px` } as React.CSSProperties}
     >
       {alive && origin !== null && (
-        <div className={styles['pf-coins-fountain__stage']} aria-hidden="true">
+        <div
+          className={styles['pf-coins-fountain__stage']}
+          aria-hidden="true"
+          style={{ perspective: 300 }}
+        >
           <div
             className={styles['pf-coins-fountain__flash']}
             style={{ left: origin.x, top: origin.y }}
@@ -145,6 +155,8 @@ function CollectionEffectsCoinsFountainComponent({
                     '--fountain-ty-apex': `${particle.tyApex}px`,
                     '--fountain-ty-fall': `${particle.tyFall}px`,
                     '--fountain-tx-fall': `${particle.txFall}px`,
+                    '--fountain-spin-y': `${particle.spinY}deg`,
+                    '--fountain-tumble': `${particle.tumble}deg`,
                   } as React.CSSProperties
                 }
               >

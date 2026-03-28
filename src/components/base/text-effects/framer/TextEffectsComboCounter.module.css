@@ -128,9 +128,9 @@
   position: absolute;
   font-size: 14px;
   font-weight: 700;
+  color: var(--pf-combo-number-color);
   pointer-events: none;
   transform-origin: center;
-  color: var(--pf-combo-number-color);
   text-shadow:
     0 0 10px var(--pf-combo-red-100),
     0 1px 3px var(--pf-combo-shadow);
