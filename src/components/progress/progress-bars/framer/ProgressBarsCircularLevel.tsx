@@ -27,7 +27,15 @@
  */
 import * as m from 'motion/react-m'
 import { animate, useMotionValue } from 'motion/react'
-import { memo, useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react'
 
 interface ProgressBarsCircularLevelProps {
   /**
@@ -78,10 +86,8 @@ function ProgressBarsCircularLevelComponent({
   const animatingRef = useRef(false)
   const mountedRef = useRef(true)
 
-  // Display text derived from fill value
-  const [displayText, setDisplayText] = useState(() =>
-    formatProgress((Math.max(0, progress) % 1) * 100)
-  )
+  // Display text driven by ref to avoid per-frame React re-renders during animation
+  const textRef = useRef<HTMLSpanElement>(null)
 
   // Aura burst instances (key-mounted)
   const [bursts, setBursts] = useState<number[]>([])
@@ -97,13 +103,22 @@ function ProgressBarsCircularLevelComponent({
     }
   }, [])
 
+  // Set initial text before paint
+  useLayoutEffect(() => {
+    if (textRef.current) {
+      textRef.current.textContent = formatProgress(fillMV.get() * 100)
+    }
+  }, [fillMV])
+
   // Drive SVG circle + text from fill motion value (avoids m.circle for RN compat)
   useEffect(() => {
     return fillMV.on('change', (v) => {
       if (circleRef.current) {
         circleRef.current.style.strokeDashoffset = String(circumference * (1 - v))
       }
-      setDisplayText(formatProgress(v * 100))
+      if (textRef.current) {
+        textRef.current.textContent = formatProgress(v * 100)
+      }
     })
   }, [fillMV, circumference])
 
@@ -224,8 +239,8 @@ function ProgressBarsCircularLevelComponent({
           />
         </svg>
 
-        {/* Center percentage text */}
-        <span className="pf-circular-level__text">{displayText}</span>
+        {/* Center percentage text — content driven by fillMV.on('change') ref updates */}
+        <span ref={textRef} className="pf-circular-level__text" />
       </div>
     </div>
   )
