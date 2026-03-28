@@ -1,0 +1,64 @@
+/**
+ * Tap Arrow — layout + animation styles for CSS variant.
+ * Arrow is absolutely positioned and does not affect the target element's layout.
+ * Custom properties:
+ *   --pf-tap-arrow-duration: 1200ms
+ *   --pf-tap-arrow-nudge: 12px
+ *
+ * Copy this file alongside IconAnimationsTapArrow.tsx. No other dependencies.
+ */
+.pf-tap-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-tap-arrow__target {
+  position: relative;
+  display: inline-flex;
+}
+
+.pf-tap-arrow__anchor {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pf-tap-arrow__rotator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-tap-arrow__animator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: left center;
+  animation: pf-tap-arrow-poke var(--pf-tap-arrow-duration, 1200ms) ease-in-out infinite;
+  will-change: transform;
+}
+
+.pf-tap-arrow__image {
+  display: block;
+  height: auto;
+}
+
+@keyframes pf-tap-arrow-poke {
+  0%,
+  100% {
+    transform: translateX(0) scaleX(1) scaleY(1);
+  }
+
+  25% {
+    transform: translateX(calc(var(--pf-tap-arrow-nudge, 12px) * 0.5)) scaleX(0.88) scaleY(1.06);
+  }
+
+  50% {
+    transform: translateX(var(--pf-tap-arrow-nudge, 12px)) scaleX(1.12) scaleY(0.94);
+  }
+
+  75% {
+    transform: translateX(calc(var(--pf-tap-arrow-nudge, 12px) * 0.5)) scaleX(0.94) scaleY(1.03);
+  }
+}
