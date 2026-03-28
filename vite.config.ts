@@ -29,6 +29,9 @@ export default defineConfig({
               return 'react-vendor'
             }
             if (id.includes('framer-motion') || id.includes('motion')) return 'motion'
+            // Shiki (syntax highlighter) is dynamically imported only when the code viewer opens.
+            // Routing it to its own chunk prevents ~150KB from landing in the eager vendor bundle.
+            if (id.includes('shiki') || id.includes('@shikijs')) return 'syntax-highlight'
             return 'vendor'
           }
 
