@@ -90,7 +90,9 @@
 
 /**
  * Base text animation - horizontal shifts and scale distortions
- * Creates the primary "digital corruption" effect with subtle movements
+ * Creates the primary "digital corruption" effect with subtle movements.
+ * Active in first 50% (2s of 4s cycle), matching framer's duration:2 + repeatDelay:2.
+ * Glitch burst spans 0–17.5% (framer times [0…0.35] × 50%).
  */
 @keyframes tfx-glitchtext-base-anim {
   0%,
@@ -98,32 +100,33 @@
   100% {
     transform: translateX(0) scaleX(1);
   }
-  1.25% {
+  2.5% {
     transform: translateX(-2px) scaleX(1);
   }
-  2.5% {
+  5% {
     transform: translateX(0) scaleX(1.02);
   }
-  3.75% {
+  7.5% {
     transform: translateX(2px) scaleX(1);
   }
-  5% {
+  10% {
     transform: translateX(0) scaleX(0.98);
   }
-  6.25% {
+  12.5% {
     transform: translateX(-1px) scaleX(1);
   }
-  7.5% {
+  15% {
     transform: translateX(0) scaleX(1.01);
   }
-  8.75% {
+  17.5% {
     transform: translateX(1px) scaleX(1);
   }
 }
 
 /**
  * Cyan layer animation - offset positioning with skew distortion
- * Creates chromatic aberration effect on one RGB channel
+ * Creates chromatic aberration effect on one RGB channel.
+ * 5 evenly spaced values over first 50% (framer's 2s active phase).
  */
 @keyframes tfx-glitchtext-layer1-anim {
   0%,
@@ -132,27 +135,24 @@
     transform: translate(-50%, -50%) skewX(0deg);
     opacity: 0.6;
   }
-  1.25% {
-    transform: translate(calc(-50% - 1px), -50%) skewX(0deg);
+  12.5% {
+    transform: translate(calc(-50% - 1px), -50%) skewX(3deg);
     opacity: 0.8;
   }
-  2.5% {
-    transform: translate(-50%, -50%) skewX(3deg);
+  25% {
+    transform: translate(-50%, -50%) skewX(0deg);
     opacity: 0.4;
   }
-  3.75% {
-    transform: translate(calc(-50% + 1px), -50%) skewX(0deg);
+  37.5% {
+    transform: translate(calc(-50% + 1px), -50%) skewX(-2deg);
     opacity: 0.7;
-  }
-  5% {
-    transform: translate(-50%, -50%) skewX(-2deg);
-    opacity: 0.6;
   }
 }
 
 /**
  * Magenta layer animation - opposite offset pattern from cyan layer
- * Creates the second RGB channel for full chromatic aberration
+ * Creates the second RGB channel for full chromatic aberration.
+ * 5 evenly spaced values over first 50% (framer's 2s active phase).
  */
 @keyframes tfx-glitchtext-layer2-anim {
   0%,
@@ -161,27 +161,24 @@
     transform: translate(-50%, -50%) skewX(0deg);
     opacity: 0.6;
   }
-  1.25% {
-    transform: translate(calc(-50% + 1px), -50%) skewX(0deg);
+  12.5% {
+    transform: translate(calc(-50% + 1px), -50%) skewX(-2deg);
     opacity: 0.7;
   }
-  2.5% {
-    transform: translate(-50%, -50%) skewX(-2deg);
+  25% {
+    transform: translate(-50%, -50%) skewX(0deg);
     opacity: 0.5;
   }
-  3.75% {
-    transform: translate(calc(-50% - 1px), -50%) skewX(0deg);
+  37.5% {
+    transform: translate(calc(-50% - 1px), -50%) skewX(3deg);
     opacity: 0.8;
-  }
-  5% {
-    transform: translate(-50%, -50%) skewX(3deg);
-    opacity: 0.6;
   }
 }
 
 /**
  * Distortion bars animation - scan line effect
- * Creates horizontal interference lines that pulse and scale
+ * Creates horizontal interference lines that pulse and scale.
+ * 7 evenly spaced values over first 50% (framer's 2s active phase).
  */
 @keyframes tfx-glitchtext-bars-anim {
   0%,
@@ -190,29 +187,25 @@
     opacity: 0;
     transform: scaleY(1);
   }
-  1.25% {
+  8.33% {
     opacity: 0.8;
     transform: scaleY(1.5);
   }
-  2.5% {
+  16.67% {
     opacity: 0;
     transform: scaleY(1);
   }
-  3.75% {
+  25% {
     opacity: 0.9;
     transform: scaleY(2);
   }
-  5% {
+  33.33% {
     opacity: 0;
     transform: scaleY(1);
   }
-  6.25% {
+  41.67% {
     opacity: 0.6;
     transform: scaleY(1.2);
-  }
-  7.5% {
-    opacity: 0;
-    transform: scaleY(1);
   }
 }
 
