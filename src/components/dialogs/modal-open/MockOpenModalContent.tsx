@@ -90,7 +90,11 @@ export function MockOpenModalContent({
           onClick={onClose}
           style={{
             opacity: show ? 1 : 0,
-            transform: show ? 'translateY(0) scale(1)' : reduced ? 'none' : 'translateY(12px) scale(0.94)',
+            transform: show
+              ? 'translateY(0) scale(1)'
+              : reduced
+                ? 'none'
+                : 'translateY(12px) scale(0.94)',
             transition: reduced
               ? 'none'
               : `opacity 250ms ${STAGGER_EASE} ${buttonDelay}ms, transform 250ms cubic-bezier(0.4, 0, 0.2, 1) ${buttonDelay}ms`,
