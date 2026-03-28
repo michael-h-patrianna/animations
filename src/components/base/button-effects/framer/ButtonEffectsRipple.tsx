@@ -38,7 +38,7 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
 
   return (
     <m.div
-      className="pf-ripple"
+      className="pf-ripple-fm"
       data-animation-id="button-effects__ripple"
       onPointerDown={setInstant}
       onPointerUp={setAnimated}
@@ -50,7 +50,7 @@ function ButtonEffectsRippleComponent({ color, duration = 600 }: ButtonEffectsRi
       <DemoButton label="Click Me!" />
       <span
         ref={overlayRef}
-        className="pf-ripple__overlay"
+        className="pf-ripple-fm__overlay"
         aria-hidden
         style={{ transition: animated }}
       />

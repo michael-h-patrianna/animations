@@ -11,7 +11,7 @@
  * </ModalOrchestrationMagneticHover>
  */
 
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import './ModalOrchestrationMagneticHover.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -52,6 +52,14 @@ function ModalOrchestrationMagneticHoverComponent({
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
+  const handleAnimationEnd = useCallback((e: React.AnimationEvent<HTMLDivElement>) => {
+    if (e.animationName === 'pf-magnetic-entrance') {
+      const el = e.currentTarget
+      el.classList.remove('pf-magnetic-hover__item--visible')
+      el.classList.add('pf-magnetic-hover__item--landed')
+    }
+  }, [])
+
   return (
     <div
       className="pf-magnetic-hover"
@@ -72,6 +80,7 @@ function ModalOrchestrationMagneticHoverComponent({
             animationDelay: `${(200 + i * stagger) / 1000}s`,
             animationDuration: `${duration / 1000}s`,
           }}
+          onAnimationEnd={handleAnimationEnd}
         >
           {child}
         </div>

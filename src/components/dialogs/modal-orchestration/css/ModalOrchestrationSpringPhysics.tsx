@@ -11,7 +11,7 @@
  * </ModalOrchestrationSpringPhysics>
  */
 
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import type { ReactNode } from 'react'
 import './ModalOrchestrationSpringPhysics.css'
 import { DemoCard } from '@/components/demo-blocks'
@@ -46,6 +46,14 @@ function ModalOrchestrationSpringPhysicsComponent({
   const items = children !== undefined ? (Array.isArray(children) ? children : [children]) : []
   const renderItems = items.length > 0 ? items : generatePlaceholders(DEFAULT_COUNT)
 
+  const handleAnimationEnd = useCallback((e: React.AnimationEvent<HTMLDivElement>) => {
+    if (e.animationName === 'pf-spring-bounce') {
+      const el = e.currentTarget
+      el.classList.remove('pf-spring-physics__item--visible')
+      el.classList.add('pf-spring-physics__item--landed')
+    }
+  }, [])
+
   return (
     <div
       className="pf-spring-physics"
@@ -60,6 +68,7 @@ function ModalOrchestrationSpringPhysicsComponent({
             animationDelay: `${(200 + i * stagger) / 1000}s`,
             animationDuration: `${duration / 1000}s`,
           }}
+          onAnimationEnd={handleAnimationEnd}
         >
           {child}
         </div>

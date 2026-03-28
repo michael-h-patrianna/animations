@@ -5,7 +5,7 @@
  * Runtime deps: react, motion
  *
  * @example
- * <ModalOrchestrationSpringPhysics stagger={100} stiffness={200} damping={15}>
+ * <ModalOrchestrationSpringPhysics stagger={100} stiffness={300} damping={10}>
  *   <ProductCard>...</ProductCard>
  *   <ProductCard>...</ProductCard>
  * </ModalOrchestrationSpringPhysics>
@@ -24,11 +24,11 @@ interface ModalOrchestrationSpringPhysicsProps {
   children?: ReactNode
   /** Delay between each item's entrance in ms. Default 100. */
   stagger?: number
-  /** Spring stiffness. Higher = snappier. Default 200. */
+  /** Spring stiffness. Higher = snappier. Default 300. */
   stiffness?: number
-  /** Spring damping. Lower = more oscillation. Default 15. */
+  /** Spring damping. Lower = more oscillation. Default 10. */
   damping?: number
-  /** Spring mass. Higher = more inertia. Default 1.2. */
+  /** Spring mass. Higher = more inertia. Default 1. */
   mass?: number
   /** Number of grid columns. Default 3. */
   columns?: number
@@ -45,9 +45,9 @@ function generatePlaceholders(count: number): ReactNode[] {
 function ModalOrchestrationSpringPhysicsComponent({
   children,
   stagger = 100,
-  stiffness = 200,
-  damping = 15,
-  mass = 1.2,
+  stiffness = 300,
+  damping = 10,
+  mass = 1,
   columns = 3,
 }: ModalOrchestrationSpringPhysicsProps) {
   const prefersReducedMotion = useReducedMotion()
@@ -76,7 +76,11 @@ function ModalOrchestrationSpringPhysicsComponent({
       opacity: 1,
       transition: noMotion
         ? { duration: 0.15 }
-        : { type: 'spring' as const, stiffness, damping, mass },
+        : {
+            scale: { type: 'spring' as const, stiffness, damping, mass, restDelta: 0.005 },
+            y: { type: 'spring' as const, stiffness, damping, mass, restDelta: 0.5 },
+            opacity: { duration: 0.2 },
+          },
     },
   }
 
@@ -85,14 +89,14 @@ function ModalOrchestrationSpringPhysicsComponent({
     : {
         scale: 1.05,
         y: -8,
-        transition: { type: 'spring' as const, stiffness: 400, damping: 20, mass: 0.8 },
+        transition: { type: 'spring' as const, stiffness: 300, damping: 12, mass: 0.8 },
       }
 
   const tapAnimation = noMotion
     ? undefined
     : {
         scale: 0.95,
-        transition: { type: 'spring' as const, stiffness: 600, damping: 25 },
+        transition: { type: 'spring' as const, stiffness: 400, damping: 15 },
       }
 
   return (

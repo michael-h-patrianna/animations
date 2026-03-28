@@ -4,14 +4,14 @@
  * (framer/ CSS must not contain transition/animation properties).
  */
 
-.pf-ripple {
+.pf-ripple-fm {
   position: relative;
   display: inline-flex;
   overflow: hidden;
   border-radius: 50px;
 }
 
-.pf-ripple__overlay {
+.pf-ripple-fm__overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -26,7 +26,7 @@
     center / 1000%;
 }
 
-.pf-ripple:active .pf-ripple__overlay {
+.pf-ripple-fm:active .pf-ripple-fm__overlay {
   opacity: 1;
   background-size: 100%;
 }
