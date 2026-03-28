@@ -10,7 +10,6 @@
  */
 .pf-jello {
   animation: pf-jello var(--pf-jello-duration, 1s) ease-in-out;
-  will-change: transform;
 }
 
 @keyframes pf-jello {

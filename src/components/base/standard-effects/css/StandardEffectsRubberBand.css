@@ -10,7 +10,6 @@
  */
 .pf-rubber-band {
   animation: pf-rubber-band var(--pf-rubber-band-duration, 1s) ease-in-out;
-  will-change: transform;
 }
 
 @keyframes pf-rubber-band {

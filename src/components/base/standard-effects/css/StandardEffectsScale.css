@@ -10,7 +10,6 @@
  */
 .pf-scale {
   animation: pf-scale var(--pf-scale-duration, 600ms) ease-out;
-  will-change: transform, opacity;
 }
 
 @keyframes pf-scale {
