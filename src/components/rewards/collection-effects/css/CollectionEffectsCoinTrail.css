@@ -60,6 +60,7 @@
     opacity: 1;
   }
   96% {
+    transform: translate(var(--to-x), var(--to-y)) scale(1);
     opacity: 1;
   }
   100% {
