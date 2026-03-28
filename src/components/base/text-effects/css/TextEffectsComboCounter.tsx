@@ -111,9 +111,14 @@ function TextEffectsComboCounterComponent({
     }
   }, [from, to, range])
 
-  const getParticleDelay = (triggerValue: number): number => {
-    const triggerProgress = triggerValue / Math.abs(range)
-    return 350 + triggerProgress * 1200
+  const getParticleData = (milestone: Milestone, i: number) => {
+    const angle = -90 + i * 30 - 45
+    const distance = 70 + i * 12
+    const x = Math.cos((angle * Math.PI) / 180) * distance
+    const y = Math.sin((angle * Math.PI) / 180) * distance
+    const triggerProgress = milestone.trigger / Math.abs(range)
+    const delay = 350 + triggerProgress * 800
+    return { x, y, delay }
   }
 
   return (
@@ -143,17 +148,26 @@ function TextEffectsComboCounterComponent({
               </span>
             </div>
 
-            {milestones.map((milestone, i) => (
-              <div
-                key={i}
-                className="tfx-combo-particle"
-                style={{
-                  animationDelay: `${getParticleDelay(milestone.trigger)}ms`,
-                }}
-              >
-                +{formatRef.current(milestone.value)}
-              </div>
-            ))}
+            {milestones.map((milestone, i) => {
+              const { x, y, delay } = getParticleData(milestone, i)
+              return (
+                <div
+                  key={i}
+                  className="tfx-combo-particle-track"
+                  style={
+                    {
+                      '--particle-x': `${x}px`,
+                      '--particle-y': `${y}px`,
+                      animationDelay: `${delay}ms`,
+                    } as React.CSSProperties
+                  }
+                >
+                  <span className="tfx-combo-particle" style={{ animationDelay: `${delay}ms` }}>
+                    +{formatRef.current(milestone.value)}
+                  </span>
+                </div>
+              )
+            })}
           </div>
 
           <div className="tfx-combo-hit-marker">×</div>

@@ -128,6 +128,7 @@
   position: absolute;
   font-size: 14px;
   font-weight: 700;
+  color: var(--pf-combo-number-color);
   pointer-events: none;
   transform-origin: center;
 }

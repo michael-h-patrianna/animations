@@ -4,6 +4,7 @@
   --tfx-hlp-highlight-color: #fff;
   display: inline-flex;
   align-items: baseline;
+  opacity: 0;
   contain: layout style;
 }
 
@@ -15,6 +16,7 @@
 .tfx-horizon-light-pass__letter {
   display: inline-block;
   will-change: opacity, transform;
+  opacity: 0;
   color: var(--tfx-hlp-base-color);
   font-weight: 700;
   letter-spacing: 0.02em;

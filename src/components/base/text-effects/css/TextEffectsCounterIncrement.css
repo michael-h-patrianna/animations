@@ -60,10 +60,9 @@
 /* Value Wrapper - Contains number and particles */
 .tfx-cinc-value-wrapper {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 60px;
   min-height: 50px;
 }
 

@@ -21,68 +21,12 @@
     var(--text-effects-combo-counter-label-color),
     transparent 20%
   );
-  --text-effects-combo-counter-color-2-0b: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-bonus-color),
-    green 40%
-  );
   --text-effects-combo-counter-color-2-81: var(--text-effects-combo-counter-bonus-color);
-  --text-effects-combo-counter-color-3-81: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-number-color),
-    teal 40%
-  );
-  --text-effects-combo-counter-color-3-fa: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-number-color),
-    blue 40%
-  );
-  --text-effects-combo-counter-color-4-24: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-label-color),
-    black 20%
-  );
-  --text-effects-combo-counter-color-4-fa: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-number-color),
-    purple 40%
-  );
-  --text-effects-combo-counter-color-5-24: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-label-color),
-    white 20%
-  );
-  --text-effects-combo-counter-color-5-fa: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-label-color),
-    pink 30%
-  );
-  --text-effects-combo-counter-bg-4: var(--text-effects-combo-counter-bonus-color);
-  --text-effects-combo-counter-bg-5: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-bonus-color),
-    black 20%
-  );
   --text-effects-combo-counter-text-shadow-100: rgb(0 0 0 / 40%);
   --text-effects-combo-counter-text-shadow-101: color-mix(
     in srgb,
     var(--text-effects-combo-counter-label-color),
     transparent 50%
-  );
-  --text-effects-combo-counter-text-shadow-102: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-number-color),
-    transparent 20%
-  );
-  --text-effects-combo-counter-text-shadow-103: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-number-color),
-    transparent 20%
-  );
-  --text-effects-combo-counter-text-shadow-104: color-mix(
-    in srgb,
-    var(--text-effects-combo-counter-label-color),
-    transparent 20%
   );
   display: flex;
   flex-direction: column;
@@ -257,89 +201,32 @@
 }
 
 /* ============================================================================
-   Milestone Particles
+   Milestone Particles — two-layer split:
+   Outer (track): smooth easeOut position from center → target
+   Inner (particle): opacity [0,1,1,0] + scale [0,1.4,1,0.5] at even keyframes
+   This matches Motion's independent per-property interpolation.
    ========================================================================== */
 
-.tfx-combo-particle {
+.tfx-combo-particle-track {
   position: absolute;
-  left: 50%;
+  right: 0;
   top: 50%;
+  pointer-events: none;
+  will-change: transform;
+  animation: tfx-combo-track-move 1000ms ease-out both;
+  transform: translateY(-50%);
+}
+
+.tfx-combo-particle {
+  display: block;
   font-size: 14px;
   font-weight: 700;
-  pointer-events: none;
+  color: var(--text-effects-combo-counter-number-color);
+  white-space: nowrap;
   transform-origin: center;
-
-  /* GPU acceleration */
   will-change: transform, opacity;
-  backface-visibility: hidden;
-
-  /* Animation - delay set via inline style for timing sync */
-  animation: tfx-combo-particle-burst 1000ms ease-out forwards;
+  animation: tfx-combo-particle-appear 1000ms linear both;
   opacity: 0;
-
-  /* Initial position */
-  transform: translate3d(-50%, -50%, 0);
-}
-
-/* Particle Positions & Colors - Pre-calculated for GPU optimization */
-.tfx-combo-particle:nth-child(1) {
-  --particle-x: -18px;
-  --particle-y: -68px;
-  color: var(--text-effects-combo-counter-color-3-fa);
-  text-shadow:
-    0 0 10px var(--text-effects-combo-counter-text-shadow-102),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
-}
-
-.tfx-combo-particle:nth-child(2) {
-  --particle-x: 21px;
-  --particle-y: -79px;
-  color: var(--text-effects-combo-counter-color-4-fa);
-  text-shadow:
-    0 0 10px var(--text-effects-combo-counter-text-shadow-103),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
-}
-
-.tfx-combo-particle:nth-child(3) {
-  --particle-x: 66px;
-  --particle-y: -66px;
-  color: var(--text-effects-combo-counter-color-5-24);
-  text-shadow:
-    0 0 10px var(--text-effects-combo-counter-text-shadow-104),
-    0 1px 3px var(--text-effects-combo-counter-text-shadow-100);
-}
-
-.tfx-combo-particle:nth-child(4) {
-  --particle-x: 102px;
-  --particle-y: -27px;
-}
-
-.tfx-combo-particle:nth-child(5) {
-  --particle-x: 114px;
-  --particle-y: 31px;
-}
-
-.tfx-combo-particle:nth-child(6) {
-  --particle-x: 92px;
-  --particle-y: 92px;
-}
-
-.tfx-combo-particle:nth-child(4),
-.tfx-combo-particle:nth-child(5),
-.tfx-combo-particle:nth-child(6) {
-  background: linear-gradient(
-    135deg,
-    var(--text-effects-combo-counter-bg-4) 0%,
-    var(--text-effects-combo-counter-bg-5) 50%,
-    var(--text-effects-combo-counter-bg-4) 100%
-  );
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 15px;
-  font-weight: 800;
-  --text-shadow-lint-token-2:
-    0 0 15px rgb(255 215 0 / 90%), 0 1px 3px var(--text-effects-combo-counter-text-shadow-1);
-  text-shadow: var(--text-shadow-lint-token-2);
 }
 
 /* ============================================================================
@@ -418,26 +305,33 @@
   }
 }
 
-/* Particle burst - Uses CSS variables for dynamic positioning */
-@keyframes tfx-combo-particle-burst {
+/* Track: smooth position from right-edge anchor to target — single interpolation, easeOut */
+@keyframes tfx-combo-track-move {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translate(var(--particle-x), calc(-50% + var(--particle-y)));
+  }
+}
+
+/* Particle: opacity [0,1,1,0] + scale [0,1.4,1,0.5] at evenly-spaced keyframes */
+@keyframes tfx-combo-particle-appear {
   0% {
     opacity: 0;
-    transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1);
+    transform: scale(0);
   }
-  30% {
+  33% {
     opacity: 1;
-    transform: translate3d(calc(-50% + var(--particle-x)), calc(-50% + var(--particle-y)), 0)
-      scale3d(1.4, 1.4, 1);
+    transform: scale(1.4);
   }
-  50% {
+  67% {
     opacity: 1;
-    transform: translate3d(calc(-50% + var(--particle-x)), calc(-50% + var(--particle-y)), 0)
-      scale3d(1, 1, 1);
+    transform: scale(1);
   }
   100% {
     opacity: 0;
-    transform: translate3d(calc(-50% + var(--particle-x)), calc(-50% + var(--particle-y)), 0)
-      scale3d(0.5, 0.5, 1);
+    transform: scale(0.5);
   }
 }
 
@@ -473,6 +367,10 @@
 
   .tfx-combo-letter {
     animation: tfx-combo-reduced-fade 300ms 150ms ease-out forwards;
+  }
+
+  .tfx-combo-particle-track {
+    animation: none;
   }
 
   .tfx-combo-particle {
