@@ -62,7 +62,7 @@ function TimerEffectsTimerPulseComponent(props: TimerEffectsTimerPulseProps) {
     },
     onEnd,
     onEndBehavior,
-    progressMode: 'smooth',
+    progressMode: showUnderline ? 'smooth' : 'discrete',
   })
 
   if (isHidden) return null

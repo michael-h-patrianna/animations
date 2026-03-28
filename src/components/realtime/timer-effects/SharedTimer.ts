@@ -82,9 +82,12 @@ export function useCountdown({
   const [isExpired, setIsExpired] = useState(initialSnapshot.isExpired)
   const [isHidden, setIsHidden] = useState(false)
 
-  // Stable reference for onEnd to avoid re-subscribing the interval
+  // Stable references to avoid re-subscribing the interval
   const onEndRef = useRef(onEnd)
   onEndRef.current = onEnd
+
+  const progressModeRef = useRef(progressMode)
+  progressModeRef.current = progressMode
 
   const onEndFiredRef = useRef(false)
 
@@ -129,7 +132,7 @@ export function useCountdown({
       const displaySeconds = Math.ceil(remaining)
       const newProgress = Math.min(1, elapsedSeconds / startSeconds)
 
-      if (progressMode === 'smooth') {
+      if (progressModeRef.current === 'smooth') {
         // Continuous visual interpolation — every tick (~10/sec)
         setProgress(newProgress)
       }
@@ -137,7 +140,7 @@ export function useCountdown({
       if (displaySeconds !== lastDisplay) {
         setSeconds(displaySeconds)
         lastDisplay = displaySeconds
-        if (progressMode === 'discrete') {
+        if (progressModeRef.current === 'discrete') {
           // Update progress only when seconds changes (~1/sec)
           setProgress(newProgress)
         }
@@ -153,7 +156,7 @@ export function useCountdown({
     }, TICK_MS)
 
     return () => clearInterval(intervalId)
-  }, [startSeconds, mode, progressMode, fireOnEnd])
+  }, [startSeconds, mode, fireOnEnd])
 
   // Hide delay after expiry
   useEffect(() => {

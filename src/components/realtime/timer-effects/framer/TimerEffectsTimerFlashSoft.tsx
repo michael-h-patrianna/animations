@@ -81,6 +81,11 @@ function TimerEffectsTimerFlashSoftComponent(props: TimerEffectsTimerFlashSoftPr
   // Shake at elapsed-time intervals (every shakeInterval seconds of elapsed time)
   const lastShakeAtRef = useRef(0)
 
+  // Reset shake scheduling when the countdown restarts
+  useEffect(() => {
+    lastShakeAtRef.current = 0
+  }, [startSeconds, mode])
+
   useEffect(() => {
     const elapsed = startSeconds - seconds
     if (elapsed - lastShakeAtRef.current >= shakeInterval) {
