@@ -10,6 +10,7 @@ import { ControlGroup } from '@/demo-ui/components/ui/ControlGroup'
 import { Select } from '@/demo-ui/components/ui/Select'
 import { ToggleGroup } from '@/demo-ui/components/ui/ToggleGroup'
 import { ToggleButton } from '@/demo-ui/components/ui/ToggleButton'
+import { useMediaQuery } from '@/demo-ui/hooks/useMediaQuery'
 import {
   PREVIEW_FONTS,
   REDUCED_MOTION_LABELS,
@@ -280,6 +281,7 @@ function GeneralSection() {
   const setPreviewFont = useLayoutStore((s) => s.setPreviewFont)
   const reducedMotion = useLayoutStore((s) => s.reducedMotion)
   const setReducedMotion = useLayoutStore((s) => s.setReducedMotion)
+  const osReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 
   return (
     <ControlGroup title="General" collapsible data-testid="inspector-general">
@@ -318,6 +320,15 @@ function GeneralSection() {
               ? 'Preview what motion-sensitive users see.'
               : 'Full animations — standard experience.'}
           </p>
+          {osReducedMotion && (
+            <p
+              className="rounded-lg bg-amber-500/10 px-2.5 py-2 text-[11px] leading-relaxed text-amber-400"
+              data-testid="os-reduced-motion-warning"
+            >
+              Your OS has reduced motion enabled. Full animation preview requires
+              turning this off in your system accessibility settings.
+            </p>
+          )}
         </div>
       </div>
     </ControlGroup>

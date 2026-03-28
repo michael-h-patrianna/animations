@@ -4,7 +4,7 @@
  * Glassmorphic UI with theme scoping via data attributes.
  */
 
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import {
   AnimatePresence,
   hasReducedMotionListener,
@@ -14,6 +14,7 @@ import {
 import * as m from 'motion/react-m'
 import { useShallow } from 'zustand/react/shallow'
 import { useLayoutStore, type LayoutStore } from '@/demo-ui/stores/layoutStore'
+import { syncReducedMotionStyles } from '@/demo-ui/syncReducedMotionStyles'
 import { EditorTopBar } from '@/demo-ui/components/layout/EditorTopBar'
 import { EditorLeftPanel } from '@/demo-ui/components/layout/EditorLeftPanel'
 
@@ -64,12 +65,47 @@ export const EditorLayout: React.FC<EditorLayoutProps> = ({ children }) => {
   if (!hasReducedMotionListener.current) initPrefersReducedMotion()
   prefersReducedMotion.current = reducedMotion === 'reduce'
 
+  // Mirror @media (prefers-reduced-motion: reduce) CSS rules under
+  // [data-reduced-motion='reduce'] so CSS animations respect the toggle.
+  // Re-sync when lazy groups inject new stylesheets.
+  useEffect(() => {
+    syncReducedMotionStyles()
+
+    const linkLoadHandlers: Array<[HTMLLinkElement, () => void]> = []
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          const tag = (node as Element).tagName
+          if (tag === 'STYLE') {
+            syncReducedMotionStyles()
+            return
+          }
+          if (tag === 'LINK') {
+            const link = node as HTMLLinkElement
+            const handler = () => syncReducedMotionStyles()
+            link.addEventListener('load', handler, { once: true })
+            linkLoadHandlers.push([link, handler])
+          }
+        }
+      }
+    })
+    observer.observe(document.head, { childList: true })
+
+    return () => {
+      observer.disconnect()
+      for (const [link, handler] of linkLoadHandlers) {
+        link.removeEventListener('load', handler)
+      }
+    }
+  }, [])
+
   return (
     <>
       <div
         data-demo-ui
         data-mode={theme}
         data-accent={accent}
+        data-reduced-motion={reducedMotion === 'reduce' ? 'reduce' : undefined}
         className="pf-shell-backdrop relative h-screen supports-[height:100dvh]:h-dvh w-screen overflow-hidden"
       >
         <m.div

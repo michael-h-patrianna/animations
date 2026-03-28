@@ -117,6 +117,7 @@ function PreviewModalComponent({
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const theme = useLayoutStore((s) => s.theme)
   const accent = useLayoutStore((s) => s.accent)
+  const reducedMotion = useLayoutStore((s) => s.reducedMotion)
 
   useFocusTrap(overlayRef, closeButtonRef)
   useEscapeClose(onClose)
@@ -152,6 +153,7 @@ function PreviewModalComponent({
       data-demo-ui
       data-mode={theme}
       data-accent={accent}
+      data-reduced-motion={reducedMotion === 'reduce' ? 'reduce' : undefined}
     >
       <ModeSwitch mode={mode} onSwitchMode={onSwitchMode} />
       <Toolbar onReplay={onReplay} onClose={onClose} closeButtonRef={closeButtonRef} />

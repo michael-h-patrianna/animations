@@ -104,13 +104,3 @@
 [data-demo-ui][data-accent='red'] {
   --theme-accent-glow: oklch(65% 0.2 25deg);
 }
-
-/* ─── Reduced motion: forced via catalog toggle ─── */
-/* stylelint-disable declaration-no-important -- must override inline style={{ animation }} for a11y toggle */
-[data-demo-ui][data-reduced-motion='reduce'] [data-animation-id] *,
-[data-demo-ui][data-reduced-motion='reduce'] [data-animation-id] {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-}
-/* stylelint-enable declaration-no-important */
