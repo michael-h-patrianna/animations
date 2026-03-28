@@ -35,8 +35,8 @@ jobs:
       - name: Lint (ESLint + Stylelint)
         run: npm run lint
 
-      - name: Format check (Prettier)
-        run: npm run format:check
+      - name: Format (Prettier)
+        run: npm run format
 
       - name: Unit tests with coverage
         run: npm run test:coverage
