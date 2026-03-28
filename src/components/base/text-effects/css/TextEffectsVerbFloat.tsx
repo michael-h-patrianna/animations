@@ -38,7 +38,12 @@ function TextEffectsVerbFloatComponent({
         {letters.map((ch, i) => (
           <span
             key={i}
-            className={`${styles['tfx-float-char']} ${i % 2 === 1 ? styles['tfx-float-char--delayed'] : ''}`}
+            className={[
+              styles['tfx-float-char'],
+              i % 2 === 1 ? styles['tfx-float-char--delayed'] : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
           >
             {ch === ' ' ? '\u00A0' : ch}
           </span>

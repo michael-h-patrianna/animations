@@ -40,6 +40,15 @@
     animation: pf-form-gradient-reduced 250ms ease-out both;
   }
 
+  .pf-mc-box--entrance {
+    animation: pf-form-gradient-reduced 200ms ease-out forwards;
+  }
+
+  .pf-button-stagger-item {
+    animation: pf-form-gradient-reduced 200ms ease-out both;
+    animation-delay: var(--pf-stagger-delay, 0ms);
+  }
+
   @keyframes pf-form-gradient-reduced {
     from {
       opacity: 0;

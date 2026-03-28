@@ -27,6 +27,15 @@
     animation: pf-list-vertical-wipe-reduced 250ms ease-out both;
   }
 
+  .pf-mc-box--entrance {
+    animation: pf-list-vertical-wipe-reduced 200ms ease-out forwards;
+  }
+
+  .pf-button-stagger-item {
+    animation: pf-list-vertical-wipe-reduced 200ms ease-out both;
+    animation-delay: var(--pf-stagger-delay, 0ms);
+  }
+
   @keyframes pf-list-vertical-wipe-reduced {
     from {
       opacity: 0;

@@ -43,3 +43,23 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-mc-box--entrance {
+    animation: pf-mc-entrance-reduced 200ms ease-out forwards;
+  }
+
+  .pf-button-stagger-item {
+    animation: pf-mc-entrance-reduced 200ms ease-out both;
+    animation-delay: var(--pf-stagger-delay, 0ms);
+  }
+
+  @keyframes pf-mc-entrance-reduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
