@@ -336,7 +336,6 @@ function TrailPiece({ t, maxW, maxH }: { t: Trail; maxW: number; maxH: number })
         left: '50%',
         top: '50%',
         ...(t.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: t.color }),
-        transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
       initial={{ x: t.xs[0], y: t.ys[0], scale: 0, rotate: 0, opacity: 0 }}

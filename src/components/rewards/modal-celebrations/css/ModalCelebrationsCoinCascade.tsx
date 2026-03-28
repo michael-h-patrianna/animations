@@ -262,7 +262,6 @@ function TrailLayer({
             background: t.color,
             boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
             pointerEvents: 'none',
-            willChange: 'transform, opacity',
             animation: `cc-trail ${400 * timeScale}ms ease-out ${t.delay}ms both`,
           }}
         />
@@ -295,7 +294,6 @@ function ImpactLayer({
             background: imp.color,
             boxShadow: `0 0 ${imp.size + 4}px ${Math.round(imp.size * 0.8)}px ${imp.color}`,
             pointerEvents: 'none',
-            willChange: 'transform, opacity',
             animation: `cc-impact ${350 * timeScale}ms ease-out ${imp.delay}ms both`,
           }}
         />

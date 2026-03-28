@@ -122,7 +122,6 @@ function TrailDot({ t, timeScale, emitYPct }: { t: Mote; timeScale: number; emit
         background: t.color,
         boxShadow: `0 0 ${t.size + 2}px ${Math.round(t.size * 0.5)}px ${t.color}`,
         pointerEvents: 'none',
-        willChange: 'transform, opacity',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 1.4, 0.6, 0], opacity: [0, 0.8, 0.3, 0] }}
@@ -159,7 +158,6 @@ function ImpactBurst({
         background: imp.color,
         boxShadow: `0 0 ${imp.size + 4}px ${Math.round(imp.size * 0.8)}px ${imp.color}`,
         pointerEvents: 'none',
-        willChange: 'transform, opacity',
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: [0, 2, 0.8, 0], opacity: [0, 1, 0.4, 0] }}
@@ -224,7 +222,6 @@ function SourceGlow({
         background: 'var(--pf-anim-gold, #ffd700)',
         boxShadow: '0 0 18px 12px var(--pf-anim-gold, #ffd700)',
         pointerEvents: 'none',
-        willChange: 'opacity',
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 0.5, 0.35, 0.12, 0] }}

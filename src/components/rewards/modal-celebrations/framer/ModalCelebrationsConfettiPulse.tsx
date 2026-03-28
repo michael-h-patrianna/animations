@@ -285,7 +285,6 @@ function PulsePiece({ p, maxW, maxH }: { p: WaveParticle; maxW: number; maxH: nu
         left: '50%',
         top: '50%',
         ...(p.imageUrl !== undefined ? { width: maxW, height: maxH } : { background: p.color }),
-        transformStyle: 'preserve-3d' as const,
         animation: 'none',
       }}
       initial={{ x: p.xs[0], y: p.ys[0], scale: 0, rotate: 0, opacity: 0 }}
