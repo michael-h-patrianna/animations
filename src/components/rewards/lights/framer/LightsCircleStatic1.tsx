@@ -249,6 +249,7 @@ function LightsCircleStatic1({
           <div
             key={i}
             className={styles['pf-lights-static-1-fm__bulb-wrapper']}
+            data-testid="bulb-wrapper"
             style={{
               transform: `translate(${RADIUS * Math.cos(rad)}px, ${RADIUS * Math.sin(rad)}px)`,
             }}

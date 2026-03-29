@@ -126,7 +126,7 @@ test.describe('Filter State Transitions', () => {
     expect(await catalogPage.allCards().count()).toBeGreaterThan(1)
 
     // URL should still be in CSS mode after filter removal
-    expect(new URL(page.url()).pathname).toMatch(/-css$/)
+    await expect.poll(() => new URL(page.url()).pathname, { timeout: 5_000 }).toMatch(/-css$/)
     await catalogPage.expectNoErrorBoundary()
   })
 

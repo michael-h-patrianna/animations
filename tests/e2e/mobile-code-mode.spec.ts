@@ -137,7 +137,7 @@ test.describe('Mobile Code Mode Switching', () => {
     await expect(catalogPage.codeHighlighted()).toBeVisible()
 
     const cssCode = await catalogPage.codeBody().innerText()
-    expect(cssCode).toContain("import './StandardEffectsBounce.css'")
+    expect(cssCode).toContain("import styles from './StandardEffectsBounce.module.css'")
     expect(cssCode).not.toContain("from 'motion/react-m'")
   })
 

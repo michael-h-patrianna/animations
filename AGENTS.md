@@ -20,13 +20,13 @@ Refactoring playbook: `docs/reports/animation-refactoring-playbook.md`
 | Dual implementation   | Every animation has both `framer/` and `css/` variants                                                                                                                                |
 | Standalone components | No catalog-specific demo imports (`MockContent`, `DemoAnchors`, `isDemo`). `@/components/demo-blocks` OK — portable UI primitives that ship with the animation                        |
 | Auto-discovery        | Adding `.tsx` + `.meta.ts` to `framer/` or `css/` is sufficient — no index edits                                                                                                      |
-| No global CSS         | Styles scoped to group (`shared.css`) or component (`.css` file)                                                                                                                      |
+| No global CSS         | Styles scoped to group (`shared.css`) or component (`.module.css` file)                                                                                                               |
 | Motion import         | `import * as m from 'motion/react-m'` (never `framer-motion`)                                                                                                                         |
 | Path aliases          | Always use `@/` imports, never relative `../` chains                                                                                                                                  |
 | Metadata co-location  | `.meta.ts` next to component — no external config files                                                                                                                               |
 | Component purity      | Animation components render only animation DOM — no cards, titles, replay, or demo anchors. Demo-blocks (`DemoButton`, `DemoModal`, etc.) are animation content, not demo scaffolding |
 | All props optional    | Components typed `ComponentType<Record<string, unknown>>` — must work with zero props                                                                                                 |
-| CSS/framer conflict   | Framer `m.*` elements need `style={{ animation: 'none' }}` when sharing class names with CSS-animated elements                                                                        |
+| CSS/framer conflict   | Resolved by CSS Modules — class names are locally scoped, eliminating cross-variant animation bleed                                                                                   |
 
 ## Required Reading
 
@@ -52,7 +52,7 @@ Refactoring playbook: `docs/reports/animation-refactoring-playbook.md`
 
 ## Data Flow
 
-Component → Group `index.ts` (buildGroupExport) → Category `index.ts` → `animationRegistry.ts` → `animationData.ts` (buildCatalog) → `useAnimations` hook → `GroupSection` → `AnimationCard`
+Component → Group `index.ts` (buildGroupExport) → Category `index.ts` (declareCategoryGroups) → `lazyGroupRegistry.ts` → `useLazyAnimations` hook → `AppNavigationContext` → `GroupSection` → `AnimationCard`
 
 ## Demo Separation
 
