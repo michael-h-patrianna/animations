@@ -1,3 +1,23 @@
+/**
+ * Catalog-specific prop overrides for the animation inspector.
+ *
+ * These defaults provide Vite-resolved asset URLs (images, icons) that
+ * replace the generic placeholder paths in `.meta.ts` files. They are
+ * intentionally centralized here rather than in `.meta.ts` because:
+ *
+ * 1. `.meta.ts` defaults are portable — they work in any consumer project.
+ *    Starter defaults inject catalog-specific assets that only exist in
+ *    this repository's `@/assets` directory.
+ *
+ * 2. Tier 1-2 animations cannot import `@/assets` per the
+ *    `tier-dependency-budget` lint rule. Centralizing asset coupling here
+ *    keeps animation metadata tier-compliant.
+ *
+ * When adding a new animation that needs catalog-specific image defaults,
+ * add an entry to `INSPECTOR_STARTER_DEFAULTS` below.
+ */
+
+import { shallowClone } from '@/utils/clone'
 import {
   coinImage,
   modalCelebrationsFireworkParticle1Image,
@@ -33,14 +53,6 @@ const INSPECTOR_STARTER_DEFAULTS: Record<string, Record<string, unknown>> = {
   'modal-celebrations__treasure-particles': { coinImage },
 }
 
-function cloneStarterValue(value: unknown): unknown {
-  if (Array.isArray(value)) return [...value]
-  if (typeof value === 'object' && value !== null) {
-    return { ...(value as Record<string, unknown>) }
-  }
-  return value
-}
-
 /** Returns pre-configured prop defaults (images, alt text) for specific animation IDs. */
 export function getInspectorStarterDefaults(animationId?: string): Record<string, unknown> {
   if (animationId == null) return {}
@@ -49,6 +61,6 @@ export function getInspectorStarterDefaults(animationId?: string): Record<string
   if (defaults == null) return {}
 
   return Object.fromEntries(
-    Object.entries(defaults).map(([key, value]) => [key, cloneStarterValue(value)])
+    Object.entries(defaults).map(([key, value]) => [key, shallowClone(value)])
   )
 }

@@ -1,19 +1,16 @@
-import type {
-  Animation,
-  Group,
-  NumberPropConfig,
-  PropConfig,
-  StyleObjectFieldConfig,
-} from '@/types/animation'
+import type { Animation, Group, NumberPropConfig, PropConfig } from '@/types/animation'
 import {
   collectSweepGroups,
   runLinearSweep,
   runSteppedSweep,
   type PerAnimationValues,
 } from '@/contexts/animateSweep'
-import { getInspectorStarterDefaults } from '@/contexts/inspectorStarterDefaults'
-import { assertNever } from '@/utils/assertNever'
-import * as v from 'valibot'
+import {
+  loadPersistedOverrides,
+  persistOverrides,
+  PERSIST_DEBOUNCE_MS,
+} from '@/contexts/inspectorPersistence'
+import { buildPropDefaults } from '@/contexts/inspectorPropDefaults'
 import {
   createContext,
   use,
@@ -29,42 +26,6 @@ import {
 type PropOverridesByAnimationId = Record<string, Record<string, unknown>>
 type ReplayVersionsByAnimationId = Record<string, number>
 type AnimateToggles = Record<string, Record<string, 'fixed' | 'animate'>>
-
-const OVERRIDES_STORAGE_KEY = 'animation-catalog-inspector'
-const PERSIST_DEBOUNCE_MS = 300
-
-/**
- * Schema for persisted inspector overrides.
- * Validates nested Record<string, Record<string, unknown>> structure
- * so corrupted localStorage data is rejected rather than trusted.
- */
-const PersistedOverridesSchema = v.record(v.string(), v.record(v.string(), v.unknown()))
-
-function loadPersistedOverrides(): PropOverridesByAnimationId {
-  try {
-    const raw = localStorage.getItem(OVERRIDES_STORAGE_KEY)
-    if (raw == null) return {}
-    const parsed: unknown = JSON.parse(raw)
-    return v.parse(PersistedOverridesSchema, parsed)
-  } catch {
-    // JSON parse error, Valibot validation failure, or localStorage unavailable.
-    // Return empty — the next debounced persist will overwrite with valid data.
-    return {}
-  }
-}
-
-function persistOverrides(overrides: PropOverridesByAnimationId): void {
-  try {
-    const toStore = Object.keys(overrides).length > 0 ? JSON.stringify(overrides) : null
-    if (toStore != null) {
-      localStorage.setItem(OVERRIDES_STORAGE_KEY, toStore)
-    } else {
-      localStorage.removeItem(OVERRIDES_STORAGE_KEY)
-    }
-  } catch {
-    // Quota exceeded or unavailable — silently degrade
-  }
-}
 
 interface AnimationInspectorContextValue {
   selectedAnimationId?: string
@@ -103,122 +64,10 @@ if (hmrData) {
   hmrData.inspectorContext = AnimationInspectorContext
 }
 
-function buildStyleFieldDefault(field: StyleObjectFieldConfig): string {
-  switch (field.type) {
-    case 'color':
-      return field.default ?? ''
-    case 'number':
-      return field.default != null ? `${field.default}${field.unit ?? ''}` : ''
-    case 'string':
-      return field.default ?? ''
-    default:
-      return assertNever(field)
-  }
-}
+// ── Re-exports for external consumers ──────────────────────────────────────
+export { buildPropDefaults, hasDirtyPropOverrides } from '@/contexts/inspectorPropDefaults'
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
-
-function cloneDefaultValue(value: unknown): unknown {
-  if (Array.isArray(value)) {
-    return [...value]
-  }
-
-  if (isRecord(value)) {
-    return { ...value }
-  }
-
-  return value
-}
-
-/** Builds the inspector's default override record from editable prop metadata. */
-export function buildPropDefaults(
-  propsConfig?: PropConfig[],
-  animationId?: string
-): Record<string, unknown> {
-  const defaults: Record<string, unknown> = {}
-  const starterDefaults = getInspectorStarterDefaults(animationId)
-
-  for (const prop of propsConfig ?? []) {
-    if (prop.disabled) continue
-    if (prop.type === 'style-object') {
-      const styleDefaults = Object.fromEntries(
-        prop.fields
-          .map((field) => [field.key, buildStyleFieldDefault(field)] as const)
-          .filter(([, value]) => value !== '')
-      )
-      if (Object.keys(styleDefaults).length > 0) {
-        defaults[prop.name] = styleDefaults
-      }
-      continue
-    }
-    if (prop.type === 'color' && prop.default !== undefined) {
-      defaults[prop.name] = prop.default
-      continue
-    }
-    if (prop.type === 'colors' && prop.default !== undefined) {
-      defaults[prop.name] = [...prop.default]
-      continue
-    }
-    if (prop.default !== undefined) {
-      defaults[prop.name] = cloneDefaultValue(prop.default)
-    }
-  }
-
-  for (const prop of propsConfig ?? []) {
-    if (prop.disabled || !(prop.name in starterDefaults)) continue
-
-    const starterValue = starterDefaults[prop.name]
-    if (starterValue !== undefined) {
-      defaults[prop.name] = cloneDefaultValue(starterValue)
-    }
-  }
-
-  return defaults
-}
-
-/** Returns true when any interactive prop differs from its default value. */
-export function hasDirtyPropOverrides(
-  overrides: Record<string, unknown>,
-  propsConfig?: PropConfig[],
-  animationId?: string
-): boolean {
-  const defaults = buildPropDefaults(propsConfig, animationId)
-
-  for (const key of Object.keys(overrides)) {
-    const current = overrides[key]
-    const def = defaults[key]
-
-    if (isRecord(current) && isRecord(def)) {
-      const nestedKeys = new Set([...Object.keys(current), ...Object.keys(def)])
-      for (const nestedKey of nestedKeys) {
-        if (current[nestedKey] !== def[nestedKey]) {
-          return true
-        }
-      }
-      continue
-    }
-
-    if (Array.isArray(current) && Array.isArray(def)) {
-      if (current.length !== def.length || current.some((value, index) => value !== def[index])) {
-        return true
-      }
-      continue
-    }
-
-    if (current !== def) {
-      return true
-    }
-  }
-
-  return false
-}
-
-interface AnimationInspectorProviderProps {
-  currentGroup?: Group
-  children: ReactNode
-}
+// ── Overrides & Replay ─────────────────────────────────────────────────────
 
 /** Manages per-animation prop overrides and replay version counters. Persists overrides to localStorage. */
 function useOverridesAndReplay() {
@@ -301,10 +150,8 @@ function useOverridesAndReplay() {
   }
 }
 
-/**
- * Provides animation inspector state (selection, prop overrides, replay) to the component tree.
- * Manages per-animation prop overrides and coordinates replay signals from the inspector panel.
- */
+// ── Animate Preview ────────────────────────────────────────────────────────
+
 /** Resolves the effective animate mode for a prop, falling back to the prop's default or 'animate'. */
 function resolveAnimateMode(
   toggles: AnimateToggles,
@@ -392,6 +239,13 @@ function mergeAnimatedOverrides(
     merged[prop.name] = prop.name in animValues ? animValues[prop.name] : (prop.min ?? 0)
   }
   return merged
+}
+
+// ── Provider ───────────────────────────────────────────────────────────────
+
+interface AnimationInspectorProviderProps {
+  currentGroup?: Group
+  children: ReactNode
 }
 
 /**
