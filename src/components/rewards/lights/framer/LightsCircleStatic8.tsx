@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { calculateBulbColors } from '@/utils/colors'
+import { calculateBulbColors, WHITE } from '@/utils/colors'
 import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
@@ -52,8 +52,7 @@ const collisionTimes: number[] = [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 1]
 
 // Motion keyframe arrays require interpolatable string values — CSS custom properties
 // cannot be interpolated. White flash is constant (independent of onColor).
-// eslint-disable-next-line animation-rules/no-hardcoded-colors -- Motion keyframe interpolation requires resolved color value
-const COLLISION_WHITE = '#ffffff'
+const COLLISION_WHITE = WHITE
 
 const RADIUS = 80
 

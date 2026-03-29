@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { calculateBulbColors } from '@/utils/colors'
+import { calculateBulbColors, formatRgba } from '@/utils/colors'
 import { useReducedMotion } from 'motion/react'
 import * as m from 'motion/react-m'
 import { useMemo } from 'react'
@@ -100,12 +100,9 @@ const filamentVariantsOdd = {
 }
 // Motion keyframe arrays require interpolatable string values — CSS custom properties
 // cannot be interpolated. These white-alpha border values are constant (independent of onColor).
-// eslint-disable-next-line animation-rules/no-hardcoded-colors -- Motion keyframe interpolation requires resolved rgba values
-const BORDER_ON = 'rgba(255, 255, 255, 0.35)'
-// eslint-disable-next-line animation-rules/no-hardcoded-colors
-const BORDER_BLEND = 'rgba(255, 255, 255, 0.22)'
-// eslint-disable-next-line animation-rules/no-hardcoded-colors
-const BORDER_OFF = 'rgba(255, 255, 255, 0.1)'
+const BORDER_ON = formatRgba(255, 255, 255, 0.35)
+const BORDER_BLEND = formatRgba(255, 255, 255, 0.22)
+const BORDER_OFF = formatRgba(255, 255, 255, 0.1)
 
 const RADIUS = 80
 

@@ -5,7 +5,14 @@
 
 import { describe, it, expect } from 'vitest'
 import * as fc from 'fast-check'
-import { toHex, blendColors, addTransparency, shiftColorTemperature } from '@/utils/colors'
+import {
+  toHex,
+  blendColors,
+  addTransparency,
+  shiftColorTemperature,
+  formatRgb,
+  formatRgba,
+} from '@/utils/colors'
 
 /** Arbitrary for valid 6-digit hex color strings. */
 const hexColor = fc
@@ -205,6 +212,50 @@ describe('shiftColorTemperature — property-based', () => {
           expect(ch).toBeGreaterThanOrEqual(0)
           expect(ch).toBeLessThanOrEqual(255)
         }
+      })
+    )
+  })
+})
+
+/** Arbitrary for RGB channel values. */
+const channel = fc.integer({ min: 0, max: 255 })
+
+/** Arbitrary for alpha values 0-1. */
+const alpha = fc.double({ min: 0, max: 1, noNaN: true })
+
+describe('formatRgb — property-based', () => {
+  it('always returns a valid rgb() string', () => {
+    fc.assert(
+      fc.property(channel, channel, channel, (r, g, b) => {
+        const result = formatRgb(r, g, b)
+        expect(result).toMatch(/^rgb\(\d+, \d+, \d+\)$/)
+      })
+    )
+  })
+
+  it('preserves input channel values exactly', () => {
+    fc.assert(
+      fc.property(channel, channel, channel, (r, g, b) => {
+        expect(formatRgb(r, g, b)).toBe(`rgb(${r}, ${g}, ${b})`)
+      })
+    )
+  })
+})
+
+describe('formatRgba — property-based', () => {
+  it('always returns a valid rgba() string', () => {
+    fc.assert(
+      fc.property(channel, channel, channel, alpha, (r, g, b, a) => {
+        const result = formatRgba(r, g, b, a)
+        expect(result).toMatch(/^rgba\(\d+, \d+, \d+, [\d.e+-]+\)$/)
+      })
+    )
+  })
+
+  it('preserves input values exactly', () => {
+    fc.assert(
+      fc.property(channel, channel, channel, alpha, (r, g, b, a) => {
+        expect(formatRgba(r, g, b, a)).toBe(`rgba(${r}, ${g}, ${b}, ${a})`)
       })
     )
   })

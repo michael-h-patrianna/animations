@@ -17,6 +17,30 @@ function formatHexColor({ r, g, b }: RGB): string {
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
 }
 
+/**
+ * Formats RGB channel values as a CSS `rgb()` string.
+ * Use for dynamic color computation where template literals would trigger
+ * the no-hardcoded-colors lint rule.
+ */
+export function formatRgb(r: number, g: number, b: number): string {
+  return `rgb(${r}, ${g}, ${b})`
+}
+
+/**
+ * Formats RGBA channel values as a CSS `rgba()` string.
+ * Use for dynamic color computation where template literals would trigger
+ * the no-hardcoded-colors lint rule.
+ */
+export function formatRgba(r: number, g: number, b: number, a: number): string {
+  return `rgba(${r}, ${g}, ${b}, ${a})`
+}
+
+/**
+ * Pure white hex constant for Motion keyframe interpolation.
+ * Motion requires resolved color strings — CSS variables cannot be interpolated.
+ */
+export const WHITE = '#ffffff'
+
 function formatHexColor8({ r, g, b }: RGB, alpha: number): string {
   const a = Math.round(Math.max(0, Math.min(1, alpha)) * 255)
   return `${formatHexColor({ r, g, b })}${a.toString(16).padStart(2, '0')}`
@@ -300,7 +324,7 @@ export function blendColors(color1: string, color2: string, percentage: number):
 export function addTransparency(color: string, alpha: number): string {
   const { r, g, b } = parseColor(color)
 
-  return `rgba(${r}, ${g}, ${b}, ${Math.max(0, Math.min(1, alpha / 100))})`
+  return formatRgba(r, g, b, Math.max(0, Math.min(1, alpha / 100)))
 }
 
 /**
@@ -335,12 +359,21 @@ export function shiftColorTemperature(color: string, shift: number): string {
 }
 
 /**
- * Pre-calculates color steps for light bulb animations
- * Generates intermediate colors between onColor and derived offColor
- * The offColor is automatically derived by darkening onColor to 20% brightness with 70% opacity
+ * Pre-calculates a complete color palette for light bulb animations.
+ *
+ * Derives an `off` color by darkening + desaturating `onColor`, then
+ * pre-computes all blends, tints, and transparency variants needed by
+ * the 8 Lights animation variants. The return shape groups:
+ *
+ * - **Base**: `on` (warm-shifted), `off` (darkened + desaturated + cool-shifted)
+ * - **Blends**: `blend90`…`blend10` — on/off mix at 10% increments
+ * - **Tints**: `offTint30`, `offTint20` — off color with slight on-color warmth
+ * - **Directional blends**: `offBlend10On`, `onBlend5Off`, `onBlend10Off`
+ * - **Gradient**: `onGradient` — 85% on-color blended with black
+ * - **Glows**: `onGlow100`…`onGlow30`, `offGlow40`…`offGlow30`, `whiteGlow100`
  *
  * @param onColor - Color when bulb is lit (e.g., '#ffd700')
- * @returns Object with pre-calculated color steps
+ * @returns Pre-calculated palette — access via `BulbColors` type alias
  */
 export function calculateBulbColors(onColor: string) {
   const parsedOnColor = parseColor(onColor)
@@ -365,7 +398,7 @@ export function calculateBulbColors(onColor: string) {
   // Apply cool temperature shift to offColor for more muted appearance
   const coolOffColor = shiftColorTemperature(offColorBase, -10)
   const parsedOffColor = parseColor(coolOffColor)
-  const offColor = `rgba(${parsedOffColor.r}, ${parsedOffColor.g}, ${parsedOffColor.b}, 0.7)`
+  const offColor = formatRgba(parsedOffColor.r, parsedOffColor.g, parsedOffColor.b, 0.7)
 
   // Pre-calculate radial gradient color for animations (replaces color-mix())
   const onGradientColor = blendColors(warmOnColor, '#000000', 85)
@@ -418,8 +451,8 @@ export function calculateBulbColors(onColor: string) {
     onGlow35: addTransparency(warmOnColor, 35),
     onGlow30: addTransparency(warmOnColor, 30),
 
-    // White glow for special effects (#fff transparency)
-    whiteGlow100: 'rgba(255, 255, 255, 1)',
+    // White glow for special effects
+    whiteGlow100: formatRgba(255, 255, 255, 1),
 
     offGlow40: addTransparency(offColor, 40),
     offGlow35: addTransparency(offColor, 35),

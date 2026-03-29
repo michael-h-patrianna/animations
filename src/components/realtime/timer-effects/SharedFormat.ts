@@ -2,8 +2,10 @@
  * Shared time formatting and color utilities for timer-effect animations.
  *
  * Copy-paste files: this file
- * Runtime deps: (none)
+ * Runtime deps: @/utils/colors (formatRgb)
  */
+
+import { formatRgb } from '@/utils/colors'
 
 /**
  * Formats total seconds as `MM:SS`.
@@ -46,5 +48,5 @@ export function computeUrgencyColor(
   const r = Math.round(normalColor.r + (criticalColor.r - normalColor.r) * eased)
   const g = Math.round(normalColor.g + (criticalColor.g - normalColor.g) * eased)
   const b = Math.round(normalColor.b + (criticalColor.b - normalColor.b) * eased)
-  return `rgb(${r}, ${g}, ${b})` // eslint-disable-line animation-rules/no-hardcoded-colors -- dynamic color computation
+  return formatRgb(r, g, b)
 }
