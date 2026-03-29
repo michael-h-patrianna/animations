@@ -1,21 +1,21 @@
 /**
- * Floating pointer arrow — smooth bob toward a center element.
- * Classic mobile-game "tap here!" indicator. Position the arrow on any side.
+ * Japanese attention arrow — looping squish + nudge pointing at a center element.
+ * Common mobile-game "tap here!" pattern. Position the arrow on any side.
  * Absolutely positioned — does not affect the target element's layout.
  *
- * Copy-paste files: this file + IconAnimationsTapArrow.module.css
+ * Copy-paste files: this file + IconAnimationsJapaneseTapArrow.module.css
  * Runtime deps: react, motion
  *
- * Usage: <IconAnimationsTapArrow position="left"><YourButton /></IconAnimationsTapArrow>
+ * Usage: <IconAnimationsJapaneseTapArrow position="left"><YourButton /></IconAnimationsJapaneseTapArrow>
  */
 import * as m from 'motion/react-m'
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
-import styles from './IconAnimationsTapArrow.module.css'
+import styles from './IconAnimationsJapaneseTapArrow.module.css'
 
 type ArrowPosition = 'left' | 'right' | 'top' | 'bottom'
 
-interface IconAnimationsTapArrowProps {
+interface IconAnimationsJapaneseTapArrowProps {
   /** Element the arrow points at. Default: DemoBox with "Tap me" label. */
   children?: ReactNode
   /** Which side the arrow appears on. Default: 'left' */
@@ -80,7 +80,7 @@ function DefaultArrow({
   )
 }
 
-function IconAnimationsTapArrowComponent({
+function IconAnimationsJapaneseTapArrowComponent({
   children,
   position = 'left',
   arrowSrc,
@@ -90,28 +90,33 @@ function IconAnimationsTapArrowComponent({
   duration = 1200,
   nudgeDistance = 12,
   arrowSize = 48,
-}: IconAnimationsTapArrowProps) {
+}: IconAnimationsJapaneseTapArrowProps) {
   const sec = duration / 1000
   const resolvedFill = fill ?? 'var(--pf-brand-accent-primary, #c83558)'
 
   return (
-    <div data-animation-id="icon-animations__tap-arrow" className={styles['pf-tap-arrow-fm']}>
-      <div className={styles['pf-tap-arrow-fm__target']}>
+    <div
+      data-animation-id="icon-animations__japanese-tap-arrow"
+      className={styles['pf-japanese-tap-arrow-fm']}
+    >
+      <div className={styles['pf-japanese-tap-arrow-fm__target']}>
         {children ?? <DemoBox label="Tap me" />}
-        <div className={styles['pf-tap-arrow-fm__anchor']} style={ANCHOR_STYLE[position]}>
+        <div className={styles['pf-japanese-tap-arrow-fm__anchor']} style={ANCHOR_STYLE[position]}>
           <div
-            className={styles['pf-tap-arrow-fm__rotator']}
+            className={styles['pf-japanese-tap-arrow-fm__rotator']}
             style={{ transform: `rotate(${ROTATION[position]}deg)` }}
           >
             <m.div
-              className={styles['pf-tap-arrow-fm__animator']}
+              className={styles['pf-japanese-tap-arrow-fm__animator']}
+              style={{ transformOrigin: 'left center' }}
               animate={{
-                x: [0, nudgeDistance, 0],
-                scale: [1, 1.06, 1],
+                x: [0, nudgeDistance * 0.5, nudgeDistance, nudgeDistance * 0.5, 0],
+                scaleX: [1, 0.88, 1.12, 0.94, 1],
+                scaleY: [1, 1.06, 0.94, 1.03, 1],
               }}
               transition={{
                 duration: sec,
-                ease: 'easeInOut',
+                ease: [0.4, 0, 0.6, 1] as const,
                 repeat: Infinity,
                 repeatType: 'loop' as const,
               }}
@@ -120,7 +125,7 @@ function IconAnimationsTapArrowComponent({
                 <img
                   src={arrowSrc}
                   alt=""
-                  className={styles['pf-tap-arrow-fm__image']}
+                  className={styles['pf-japanese-tap-arrow-fm__image']}
                   style={{ width: arrowSize }}
                 />
               ) : (
@@ -139,4 +144,4 @@ function IconAnimationsTapArrowComponent({
   )
 }
 
-export const IconAnimationsTapArrow = memo(IconAnimationsTapArrowComponent)
+export const IconAnimationsJapaneseTapArrow = memo(IconAnimationsJapaneseTapArrowComponent)

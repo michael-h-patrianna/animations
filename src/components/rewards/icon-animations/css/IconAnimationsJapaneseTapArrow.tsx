@@ -1,21 +1,19 @@
 /**
- * Floating pointer arrow — smooth bob toward a center element.
- * Classic mobile-game "tap here!" indicator. Position the arrow on any side.
+ * Japanese attention arrow — looping squish + nudge pointing at a center element. CSS variant.
  * Absolutely positioned — does not affect the target element's layout.
  *
- * Copy-paste files: this file + IconAnimationsTapArrow.module.css
- * Runtime deps: react, motion
+ * Copy-paste files: this file + IconAnimationsJapaneseTapArrow.module.css
+ * Runtime deps: react
  *
- * Usage: <IconAnimationsTapArrow position="left"><YourButton /></IconAnimationsTapArrow>
+ * Usage: <IconAnimationsJapaneseTapArrow position="left"><YourButton /></IconAnimationsJapaneseTapArrow>
  */
-import * as m from 'motion/react-m'
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import { DemoBox } from '@/components/demo-blocks'
-import styles from './IconAnimationsTapArrow.module.css'
+import styles from './IconAnimationsJapaneseTapArrow.module.css'
 
 type ArrowPosition = 'left' | 'right' | 'top' | 'bottom'
 
-interface IconAnimationsTapArrowProps {
+interface IconAnimationsJapaneseTapArrowProps {
   /** Element the arrow points at. Default: DemoBox with "Tap me" label. */
   children?: ReactNode
   /** Which side the arrow appears on. Default: 'left' */
@@ -43,12 +41,11 @@ const ROTATION: Record<ArrowPosition, number> = {
   bottom: -90,
 }
 
-const GAP_PX = 6
 const ANCHOR_STYLE: Record<ArrowPosition, CSSProperties> = {
-  left: { right: '100%', marginRight: GAP_PX, top: '50%', transform: 'translateY(-50%)' },
-  right: { left: '100%', marginLeft: GAP_PX, top: '50%', transform: 'translateY(-50%)' },
-  top: { bottom: '100%', marginBottom: GAP_PX, left: '50%', transform: 'translateX(-50%)' },
-  bottom: { top: '100%', marginTop: GAP_PX, left: '50%', transform: 'translateX(-50%)' },
+  left: { right: 'calc(100% + 6px)', top: '50%', transform: 'translateY(-50%)' },
+  right: { left: 'calc(100% + 6px)', top: '50%', transform: 'translateY(-50%)' },
+  top: { bottom: 'calc(100% + 6px)', left: '50%', transform: 'translateX(-50%)' },
+  bottom: { top: 'calc(100% + 6px)', left: '50%', transform: 'translateX(-50%)' },
 }
 
 function DefaultArrow({
@@ -80,7 +77,7 @@ function DefaultArrow({
   )
 }
 
-function IconAnimationsTapArrowComponent({
+function IconAnimationsJapaneseTapArrowComponent({
   children,
   position = 'left',
   arrowSrc,
@@ -90,37 +87,35 @@ function IconAnimationsTapArrowComponent({
   duration = 1200,
   nudgeDistance = 12,
   arrowSize = 48,
-}: IconAnimationsTapArrowProps) {
-  const sec = duration / 1000
+}: IconAnimationsJapaneseTapArrowProps) {
   const resolvedFill = fill ?? 'var(--pf-brand-accent-primary, #c83558)'
 
   return (
-    <div data-animation-id="icon-animations__tap-arrow" className={styles['pf-tap-arrow-fm']}>
-      <div className={styles['pf-tap-arrow-fm__target']}>
+    <div
+      data-animation-id="icon-animations__japanese-tap-arrow"
+      className={styles['pf-japanese-tap-arrow']}
+    >
+      <div className={styles['pf-japanese-tap-arrow__target']}>
         {children ?? <DemoBox label="Tap me" />}
-        <div className={styles['pf-tap-arrow-fm__anchor']} style={ANCHOR_STYLE[position]}>
+        <div className={styles['pf-japanese-tap-arrow__anchor']} style={ANCHOR_STYLE[position]}>
           <div
-            className={styles['pf-tap-arrow-fm__rotator']}
+            className={styles['pf-japanese-tap-arrow__rotator']}
             style={{ transform: `rotate(${ROTATION[position]}deg)` }}
           >
-            <m.div
-              className={styles['pf-tap-arrow-fm__animator']}
-              animate={{
-                x: [0, nudgeDistance, 0],
-                scale: [1, 1.06, 1],
-              }}
-              transition={{
-                duration: sec,
-                ease: 'easeInOut',
-                repeat: Infinity,
-                repeatType: 'loop' as const,
-              }}
+            <div
+              className={styles['pf-japanese-tap-arrow__animator']}
+              style={
+                {
+                  '--pf-japanese-tap-arrow-duration': `${duration}ms`,
+                  '--pf-japanese-tap-arrow-nudge': `${nudgeDistance}px`,
+                } as CSSProperties
+              }
             >
               {arrowSrc !== undefined ? (
                 <img
                   src={arrowSrc}
                   alt=""
-                  className={styles['pf-tap-arrow-fm__image']}
+                  className={styles['pf-japanese-tap-arrow__image']}
                   style={{ width: arrowSize }}
                 />
               ) : (
@@ -131,7 +126,7 @@ function IconAnimationsTapArrowComponent({
                   size={arrowSize}
                 />
               )}
-            </m.div>
+            </div>
           </div>
         </div>
       </div>
@@ -139,4 +134,4 @@ function IconAnimationsTapArrowComponent({
   )
 }
 
-export const IconAnimationsTapArrow = memo(IconAnimationsTapArrowComponent)
+export const IconAnimationsJapaneseTapArrow = memo(IconAnimationsJapaneseTapArrowComponent)
