@@ -21,7 +21,7 @@ src/
 │   │       ├── css/             # CSS animations
 │   │       │   ├── ComponentName.tsx      # Animation component
 │   │       │   ├── ComponentName.meta.ts  # Metadata export
-│   │       │   └── ComponentName.css      # Animation styles
+│   │       │   └── ComponentName.module.css # Animation styles (CSS Modules)
 │   │       ├── shared.css       # Shared group styles
 │   │       └── MockContent.tsx  # Demo content components
 │   ├── ui/                      # Catalog UI components
@@ -89,7 +89,6 @@ function GroupNameVariantNameComponent({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: duration / 1000, ease: [0.12, 0.75, 0.4, 1] }}
       data-animation-id="group-name__variant-name"
-      style={{ animation: 'none' }}  // Prevent CSS variant override
     >
       {/* Animation DOM — demo-blocks imports OK, no catalog scaffolding */}
     </m.div>
@@ -105,12 +104,12 @@ export const GroupNameVariantName = memo(GroupNameVariantNameComponent)
 /**
  * [One-line description] — CSS variant.
  *
- * Copy-paste files: this file + GroupNameVariantName.css + [shared deps]
+ * Copy-paste files: this file + GroupNameVariantName.module.css + [shared deps]
  * Runtime deps: react
  */
 
 import { memo } from 'react'
-import './GroupNameVariantName.css'
+import styles from './GroupNameVariantName.module.css'
 
 interface GroupNameVariantNameProps {
   duration?: number
@@ -121,7 +120,7 @@ function GroupNameVariantNameComponent({
 }: GroupNameVariantNameProps) {
   return (
     <div
-      className="pf-[element-type]"
+      className={styles['pf-element-type']}
       data-animation-id="group-name__variant-name"
       style={{ animationDuration: `${duration}ms` }}
     >
@@ -175,8 +174,8 @@ import './shared.css'
 import type { AnimationMetadata, GroupMetadata } from '@/types/animation'
 import { buildGroupExport } from '@/lib/groupBuilder'
 
-// Side-effect: load framer-variant CSS (layout only — animation CSS banned by lint)
-import.meta.glob('./framer/*.css', { eager: true })
+// Side-effect: load framer-variant non-module CSS (layout only — animation CSS banned by lint)
+import.meta.glob(['./framer/*.css', '!./framer/*.module.css'], { eager: true })
 
 const metadata: GroupMetadata = {
   id: 'new-group',
@@ -192,7 +191,10 @@ export const groupExport = buildGroupExport(
   import.meta.glob<{ metadata: AnimationMetadata }>('./css/*.meta.ts', { eager: true }),
   {
     framerTsx: import.meta.glob<string>('./framer/*.tsx', { query: '?raw', import: 'default' }),
-    framerCss: import.meta.glob<string>('./framer/*.css', { query: '?raw', import: 'default' }),
+    framerCss: import.meta.glob<string>('./framer/*.{css,module.css}', {
+      query: '?raw',
+      import: 'default',
+    }),
     cssTsx: import.meta.glob<string>('./css/*.tsx', { query: '?raw', import: 'default' }),
     cssCss: import.meta.glob<string>('./css/*.css', { query: '?raw', import: 'default' }),
     shared: import.meta.glob<string>('./*.{ts,tsx}', { query: '?raw', import: 'default' }),

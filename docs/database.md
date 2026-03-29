@@ -55,7 +55,7 @@ The "Schema" is defined by the TypeScript interfaces in `src/types/animation.ts`
 
 ### Delete
 
-1. Delete the `.tsx`, `.meta.ts`, and `.css` files.
+1. Delete the `.tsx`, `.meta.ts`, and `.module.css` files.
 2. **No manual de-registration required.** Auto-discovery handles removal.
 3. Run `npm test` to verify the catalog renders correctly.
 
